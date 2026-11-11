@@ -19,10 +19,9 @@ Tag 06JV (2), and the latter is the group `Inf_{x₀}(𝓕)` of infinitesimal au
 dual-number pushforward of `x₀`, by the pinning equivalence of Tag 06JV (1). Tensoring both
 with `I` therefore gives the same space, so the two spellings in the source statement agree.
 
-The free and transitive action itself is
-`Deformation.exists_freeTransitiveAction_tangentTensor_relativeInfinitesimalAutomorphisms` of
-`StacksFrontier.Deformation.InfinitesimalAutomorphism.TangentTensorSplit`, which proves it with
-no hypothesis beyond those of the source.
+The canonical action itself is `Deformation.tangentTensorAction` of
+`StacksFrontier.Deformation.InfinitesimalAutomorphism.TangentTensorSplit`, free and transitive by
+`Deformation.tangentTensorAction_bijective`, with no hypothesis beyond those of the source.
 
 ## Main results
 

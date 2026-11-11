@@ -88,8 +88,9 @@ consumes is the following.
   that consumes it reads it: `Stacks.Weil.cycleClass_fundamentalClass_eq_one` for Tag 0FHE
   (`trace`, `cycleClass`, `fundamentalClass` and `trace_fundamental`),
   `Stacks.WeilCohomology.integration_one_eq_finrank` for Tag 0FVR (`lam` and `normalization`),
-  `Stacks.WeilCohomology.traceMap_unique` for Tag 0FIK (`lam` and the equation
-  `diagonalDuality V W 0 lam = one`), and
+  `IsCohomologicalChernCharacter.perfectDuality_diagonalClass_and_existsUnique_trace` (namespace
+  `Stacks.WeilCohomology.FirstChernClassData`) for Tag 0FIK (`lam` and the equation
+  `traceContract hA5 X d lam γ([Δ]) = 1`), and
   `Stacks.WeilCohomology.one_ne_zero_of_nonempty` for Tag 0FHF (`pushforward`,
   `cycleClass_pushforward` and the base-point datum `cycleClassPoint`). The two bundles the
   repository does have,

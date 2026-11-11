@@ -18,7 +18,10 @@ object, the decidability of `x ∈ U` taken classically) and both cases of the s
 phrased with specialization rather than closure: `skyscraperPresheafStalkOfSpecializes` and
 `skyscraperPresheafStalkOfNotSpecializes`. The two phrasings agree by Mathlib's
 `specializes_iff_mem_closure`, and for sets the terminal object is `PUnit` by
-`CategoryTheory.Limits.Types.terminalIso`.
+`CategoryTheory.Limits.Types.terminalIso`. Both Mathlib isomorphisms hold for any target category
+with colimits and a terminal object, which gives the cases of abelian groups and algebraic
+structures. The case of sheaves of modules is
+`StacksFrontier.Topology.Sheaves.Skyscraper.ModulesStalk`.
 -/
 
 @[expose] public section
@@ -26,11 +29,13 @@ phrased with specialization rather than closure: `skyscraperPresheafStalkOfSpeci
 -- The former @[stacks 009B] definitions instantiated Mathlib's skyscraper sheaf at `Type u` and
 -- restated these two Mathlib isomorphisms using closure instead of specialization.
 add_to_stacks 009B "the skyscraper sheaf `i_{x,*}A`" skyscraperSheaf
-add_to_stacks 009B "stalk at a point of the closure of `{x}`, i.e. a specialization of `x`: it
-  is `A`" skyscraperPresheafStalkOfSpecializes
+add_to_stacks 009B "sets, abelian groups and algebraic structures (any target category with
+  colimits and a terminal object), stalk at a point of the closure of `{x}`, i.e. a specialization
+  of `x`: it is `A`" skyscraperPresheafStalkOfSpecializes
 add_to_ega "IV 21.9.1" "stalk on closure"
   skyscraperPresheafStalkOfSpecializes
-add_to_stacks 009B "stalk at a point outside the closure of `{x}`: it is terminal, a singleton
-  for sheaves of sets" skyscraperPresheafStalkOfNotSpecializes
+add_to_stacks 009B "sets, abelian groups and algebraic structures (any target category with
+  colimits and a terminal object), stalk at a point outside the closure of `{x}`: it is terminal,
+  a singleton for sheaves of sets" skyscraperPresheafStalkOfNotSpecializes
 add_to_ega "IV 21.9.1" "stalk off closure"
   skyscraperPresheafStalkOfNotSpecializes

@@ -25,6 +25,9 @@ Let `X` be a topological space, `Z ⊆ X` a subset and `i : Z → X` the inclusi
 * `pushforward_faithful`, `pushforward_full`: `i_*` is fully faithful.
 * `pushforward_stalkIsSingleton_of_notMem`: for `Z` closed and `x ∉ Z`, the stalk `(i_* F)_x` is
   a singleton.
+
+The converse description of the essential image, and the full statement of Stacks 00AF, are in
+`StacksFrontier.Topology.Sheaves.ClosedImmersion.SetsEssImage`.
 -/
 
 @[expose] public section
@@ -76,21 +79,22 @@ noncomputable def pushforwardFullyFaithful (X : TopCat.{u}) (Z : Set X) :
   ClosedImmersionSheaves.sheafPushforwardFullyFaithful (C := Type u)
     (Stacks.subsetInclusion_isInducing X Z)
 
-/-- The pushforward of sheaves of sets along the inclusion of a subset is faithful. -/
-@[stacks 00AF]
+/-- The pushforward of sheaves of sets along the inclusion of a subset is faithful. Part of
+Stacks 00AF, which is registered in full on `pushforward00AF_fullyFaithful_and_essImage_iff`. -/
 lemma pushforward_faithful (X : TopCat.{u}) (Z : Set X) : (pushforward00AF X Z).Faithful :=
   (pushforwardFullyFaithful X Z).faithful
 
 /-- The pushforward of sheaves of sets along the inclusion of a subset is full: every morphism
-`i_* F ⟶ i_* G` is `i_*` of a morphism `F ⟶ G`. -/
-@[stacks 00AF]
+`i_* F ⟶ i_* G` is `i_*` of a morphism `F ⟶ G`. Part of Stacks 00AF, which is registered in
+full on `pushforward00AF_fullyFaithful_and_essImage_iff`. -/
 lemma pushforward_full (X : TopCat.{u}) (Z : Set X) : (pushforward00AF X Z).Full :=
   (pushforwardFullyFaithful X Z).full
 
 /-! ### Stalks of the pushforward outside `Z` -/
 
-/-- For `Z` closed and `x ∉ Z`, the stalk `(i_* F)_x` is a singleton. -/
-@[stacks 00AF, ega "IV 21.9.1" "special case"]
+/-- For `Z` closed and `x ∉ Z`, the stalk `(i_* F)_x` is a singleton: the forward inclusion of
+the essential image in Stacks 00AF, whose converse is `essImage_pushforward00AF_iff`. -/
+@[ega "IV 21.9.1" "special case"]
 theorem pushforward_stalkIsSingleton_of_notMem
     (X : TopCat.{u}) {Z : Set X} (hZ : IsClosed Z)
     (F : TopCat.Sheaf (Type u) (TopCat.of Z))

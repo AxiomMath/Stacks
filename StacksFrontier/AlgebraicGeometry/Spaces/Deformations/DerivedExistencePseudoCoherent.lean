@@ -16,14 +16,23 @@ In Situation [Stacks, Tag 0DIK] let `K = R lim_{D_QCoh(𝒪_X)}(Kₙ)` be the ob
 
 ## Main results
 
+* `DerivedExistenceSystem.isPseudoCoherentOnLimit_quasicoherentDerivedLimit`: [Stacks, Tag 0DIN]
+  in full: a coherator and a derived limit exist, `K = DQ_X(L)` is a derived limit of the tower in
+  `D_QCoh(𝒪_X)` and is pseudo-coherent on `X`, and so is every derived limit in `D_QCoh(𝒪_X)`.
 * `DerivedExistenceSystem.isPseudoCoherentOnLimit_coheratorObj`: `K = DQ_X(L)` is
   pseudo-coherent on `X`, at every coherator `DQ_X` and every derived limit `L` in `D(𝒪_X)`.
-* `DerivedExistenceSystem.isPseudoCoherentOnLimit_of_isPseudoCoherent_tensorSections`: a derived
+* `SeparatedDerivedExistenceSystem.isPseudoCoherentOnLimit_of_isPseudoCoherent_tensorSections`: a
+  derived
   limit `K` of the tower `(Rjₙ,* Kₙ)` in `D_QCoh(𝒪_X)` is pseudo-coherent on `X` once
   `RΓ(X, E ⊗^𝐋 K)` is pseudo-coherent over `A` for every perfect `E`.
-* `DerivedExistenceSystem.isPseudoCoherentOnLimit_of_forall_isDerivedLimit`: every derived limit
+* `SeparatedDerivedExistenceSystem.isPseudoCoherentOnLimit_of_forall_isDerivedLimit`: every derived
+  limit
   of the tower in `D_QCoh(𝒪_X)` is pseudo-coherent on `X`, given that `RΓ(X, E ⊗^𝐋 K)` is
-  pseudo-coherent for every such derived limit `K` and every perfect `E`.
+  pseudo-coherent for every such derived limit `K` and every perfect `E`; that hypothesis is the
+  first half of [Stacks, Tag 0DIM], proved as
+  `DerivedExistenceSystem.isPseudoCoherent_limitTensorSections_of_isDerivedLimit`.
+* `DerivedExistenceSystem.isPseudoCoherentOnLimit_of_isDerivedLimit`: every derived limit of the
+  tower in `D_QCoh(𝒪_X)` is pseudo-coherent on `X`, unconditionally.
 * `DerivedExistenceSystem.isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit`: the
   same for `K = DQ_X(L)`, at every coherator `DQ_X` and every derived limit `L` in `D(𝒪_X)`.
 
@@ -48,9 +57,9 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.ModulesOnACategory.ChaoticComparison.sheafOfModules_hasDerivedCategory
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 attribute [local instance] HasDerivedCategory.standard
 
@@ -78,7 +87,7 @@ theorem isPseudoCoherentOnLimit_of_isPseudoCoherent_tensorSections
       ((isTerminal_yoneda_obj_base D.B (limitBase D.system) D.containsLimitBase).hom_ext _ _)
   have hsep : IsSeparated D.B (limitBase D.system) D.containsLimitBase
       (DerivedChow.toBase D.B (limitBase D.system) D.containsLimitBase D.X.left).hom :=
-    hX ▸ D.proper.1
+    hX ▸ D.separated
   have hfp : IsFinitePresentation D.B (limitBase D.system) D.containsLimitBase
       (DerivedChow.toBase D.B (limitBase D.system) D.containsLimitBase D.X.left).hom :=
     hX ▸ D.finitePresentation
@@ -135,7 +144,10 @@ theorem isPseudoCoherentOnLimit_of_isPseudoCoherent_tensorSections
 
 /-- In Situation 0DIK every derived limit `K` of the tower `(Rjₙ,* Kₙ)` in `D_QCoh(𝒪_X)` is
 pseudo-coherent on `X`, provided that for every such derived limit `RΓ(X, E ⊗^𝐋 K)` is
-pseudo-coherent in `D(A)` for every perfect `E`. -/
+pseudo-coherent in `D(A)` for every perfect `E`. That hypothesis is the first half of
+[Stacks, Tag 0DIM], proved as `isPseudoCoherent_limitTensorSections_of_isDerivedLimit` (the full
+0DIM is `isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`); the unconditional form is
+`isPseudoCoherentOnLimit_of_isDerivedLimit`. -/
 theorem isPseudoCoherentOnLimit_of_forall_isDerivedLimit
     (h0DIM : ∀ (_ : HasProduct fun n : ℕ => D.quasicoherentTower.obj ⟨n⟩)
       (K : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
@@ -158,7 +170,9 @@ theorem isPseudoCoherentOnLimit_of_forall_isDerivedLimit
 /-- In Situation 0DIK, for every coherator `adj : ι ⊣ DQ_X` and every derived limit
 `L = R lim_{D(𝒪_X)} Kₙ` of the tower `(Rjₙ,* Kₙ)`, the object `K = DQ_X(L)` is pseudo-coherent on
 `X`, provided that `RΓ(X, E ⊗^𝐋 K')` is pseudo-coherent in `D(A)` for every perfect `E` and every
-derived limit `K'` of the tower `(Rjₙ,* Kₙ)` in `D_QCoh(𝒪_X)`. -/
+derived limit `K'` of the tower `(Rjₙ,* Kₙ)` in `D_QCoh(𝒪_X)`. That hypothesis is the first half
+of [Stacks, Tag 0DIM], proved as `isPseudoCoherent_limitTensorSections_of_isDerivedLimit`; the
+unconditional form is `isPseudoCoherentOnLimit_coheratorObj` ([Stacks, Tag 0DIN]). -/
 theorem isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit
     (h0DIM : ∀ (_ : HasProduct fun n : ℕ => D.quasicoherentTower.obj ⟨n⟩)
       (K : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
@@ -182,12 +196,11 @@ theorem isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit
   obtain ⟨hp, hK⟩ := (D.derivedLimit_isBoundedAbove.2.2.1 DQ adj L hL).1
   exact D.isPseudoCoherentOnLimit_of_forall_isDerivedLimit h0DIM hp _ hK
 
-/-- In Situation 0DIK let `K = R lim_{D_QCoh(𝒪_X)}(Kₙ) = DQ_X(L)` be the object of
+/-- In the situation of `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem`, given the
+pseudo-coherence of the `Mₙ`, let `K = R lim_{D_QCoh(𝒪_X)}(Kₙ) = DQ_X(L)` be the object of
 [Stacks, Tag 0DIL], for a coherator `adj : ι ⊣ DQ_X` and a derived limit `L = R lim_{D(𝒪_X)} Kₙ`
 of the tower `(Rjₙ,* Kₙ)`. Then `K` is pseudo-coherent on `X`. -/
-@[stacks 0DIN "K = R lim_{D_QCoh} K_n = DQ_X(R lim_{D(O_X)} K_n) is pseudo-coherent on X, for \
-  every choice of coherator and of derived limit; nothing is granted or assumed"]
-theorem isPseudoCoherentOnLimit_coheratorObj
+theorem isPseudoCoherentOnLimit_coheratorObj (hpc : D.StageSectionsPseudoCoherent)
     (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
       (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
         D.X.left).FullSubcategory)
@@ -198,7 +211,77 @@ theorem isPseudoCoherentOnLimit_coheratorObj
       ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.obj
         (DQ.obj L)) :=
   D.isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit
-    D.isPseudoCoherent_limitTensorSections_of_isDerivedLimit DQ adj L hL
+    (D.isPseudoCoherent_limitTensorSections_of_isDerivedLimit hpc) DQ adj L hL
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+/-- In Situation 0DIK let `K = R lim_{D_QCoh(𝒪_X)}(Kₙ) = DQ_X(L)` be the object of
+[Stacks, Tag 0DIL], for a coherator `adj : ι ⊣ DQ_X` and a derived limit `L = R lim_{D(𝒪_X)} Kₙ`
+of the tower `(Rjₙ,* Kₙ)`. Then `K` is pseudo-coherent on `X`. -/
+theorem isPseudoCoherentOnLimit_coheratorObj (D : DerivedExistenceSystem.{u})
+    (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
+      (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+        D.X.left).FullSubcategory)
+    (adj : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι ⊣ DQ)
+    (L : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)
+    (hL : IsDerivedLimit D.toSeparated.spaceTower L) :
+    D.toSeparated.IsPseudoCoherentOnLimit
+      ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.obj
+        (DQ.obj L)) :=
+  D.toSeparated.isPseudoCoherentOnLimit_coheratorObj D.stageSectionsPseudoCoherent DQ adj L hL
+
+/-- **[Stacks, Tag 0DIN].** In Situation 0DIK the inclusion `ι : D_QCoh(𝒪_X) ⥤ D(𝒪_X)` has a right
+adjoint `DQ_X` and the tower `(Rjₙ,* Kₙ)` has a derived limit `L = R lim_{D(𝒪_X)} Kₙ`. For every
+coherator `adj : ι ⊣ DQ_X` and every such `L`, the object `K = DQ_X(L)` is a derived limit
+`R lim_{D_QCoh(𝒪_X)} Kₙ` of the tower in `D_QCoh(𝒪_X)` and is pseudo-coherent on `X`. Moreover every
+derived limit of the tower in `D_QCoh(𝒪_X)` is pseudo-coherent on `X`. -/
+@[stacks 0DIN "the full statement: a coherator DQ_X and a derived limit R lim_{D(O_X)} K_n exist, \
+  and for every such choice K = DQ_X(R lim_{D(O_X)} K_n) is a derived limit R lim_{D_QCoh} K_n and \
+  is pseudo-coherent on X; every derived limit of the tower in D_QCoh(O_X) is pseudo-coherent on X"]
+theorem isPseudoCoherentOnLimit_quasicoherentDerivedLimit (D : DerivedExistenceSystem.{u}) :
+    (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.IsLeftAdjoint ∧
+    (∃ L, IsDerivedLimit D.toSeparated.spaceTower L) ∧
+    (∀ (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
+        (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+          D.X.left).FullSubcategory)
+      (_ : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι ⊣ DQ)
+      (L : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left),
+      IsDerivedLimit D.toSeparated.spaceTower L →
+        (∃ _ : HasProduct fun n : ℕ => D.toSeparated.quasicoherentTower.obj ⟨n⟩,
+          IsDerivedLimit D.toSeparated.quasicoherentTower (DQ.obj L)) ∧
+        D.IsPseudoCoherentOnLimit
+          ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.obj
+            (DQ.obj L))) ∧
+    ∀ (_ : HasProduct fun n : ℕ => D.toSeparated.quasicoherentTower.obj ⟨n⟩)
+      (K : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+        D.X.left).FullSubcategory),
+      IsDerivedLimit D.toSeparated.quasicoherentTower K →
+        D.IsPseudoCoherentOnLimit
+          ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.obj
+            K) :=
+  ⟨D.toSeparated.derivedLimit_isBoundedAbove.1, D.toSeparated.derivedLimit_isBoundedAbove.2.1,
+    fun DQ adj L hL ↦ ⟨(D.toSeparated.derivedLimit_isBoundedAbove.2.2.1 DQ adj L hL).1,
+      D.isPseudoCoherentOnLimit_coheratorObj DQ adj L hL⟩,
+    fun hp K hK ↦ D.toSeparated.isPseudoCoherentOnLimit_of_forall_isDerivedLimit
+      (D.toSeparated.isPseudoCoherent_limitTensorSections_of_isDerivedLimit
+        D.stageSectionsPseudoCoherent) hp K hK⟩
+
+/-- In Situation 0DIK every derived limit `K` of the tower `(Rjₙ,* Kₙ)` in `D_QCoh(𝒪_X)` is
+pseudo-coherent on `X`: `isPseudoCoherentOnLimit_of_forall_isDerivedLimit` with its hypothesis
+discharged by the first half of [Stacks, Tag 0DIM]
+(`isPseudoCoherent_limitTensorSections_of_isDerivedLimit`). -/
+theorem isPseudoCoherentOnLimit_of_isDerivedLimit (D : DerivedExistenceSystem.{u})
+    (hp : HasProduct fun n : ℕ => D.toSeparated.quasicoherentTower.obj ⟨n⟩)
+    (K : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+      D.X.left).FullSubcategory)
+    (hK : IsDerivedLimit D.toSeparated.quasicoherentTower K) :
+    D.IsPseudoCoherentOnLimit
+      ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.obj K) :=
+  D.toSeparated.isPseudoCoherentOnLimit_of_forall_isDerivedLimit
+    (D.toSeparated.isPseudoCoherent_limitTensorSections_of_isDerivedLimit
+      D.stageSectionsPseudoCoherent) hp K hK
 
 end DerivedExistenceSystem
 

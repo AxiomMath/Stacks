@@ -34,8 +34,16 @@ which is possible because a nonempty closed subset of `Spec A` meets the closed 
 * `AlgebraicGeometry.exists_isClopen_preimage_eq_of_isProper_of_henselianPair`: the same for a
   proper morphism whose Stein first factor has geometrically connected fibres.
 * `AlgebraicGeometry.exists_isClopen_isProper_of_henselianPair_of_compactification`: the
-  conclusion of [Stacks, Tag 0CT9], from a compactification of `f` and clause (1) of
-  [Stacks, Tag 03H2].
+  conclusion of [Stacks, Tag 0CT9] for a morphism given with a compactification, the
+  connectedness of the Stein factorization being an explicit argument.
+
+[Stacks, Tag 0CT9] itself is `AlgebraicGeometry.exists_isClopen_isProper_of_henselianPair` in
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair.Chow`, which follows the
+source: Chow's lemma ([Stacks, Tag 0202],
+`AlgebraicGeometry.hasChowModification_of_compactSpace_quasiSeparatedSpace`) reduces to a morphism
+with an immersion into projective space, whose scheme theoretic image is a compactification, and
+the connectedness input is clause (1) of [Stacks, Tag 03H2],
+`Stacks.SteinFactorization.geometricallyConnected_toNormalization_of_isProper`.
 
 ## Implementation notes
 
@@ -44,29 +52,10 @@ Finite type is expressed by `AlgebraicGeometry.LocallyOfFiniteType` together wit
 the equality `W ×_{Spec A} Spec (A ⧸ I) = Y` is expressed by an isomorphism whose composite with
 the canonical base-change immersion is the given immersion of `Y` into the closed fibre.
 
-The main theorem carries the tag, with a part string naming the two hypotheses it carries.
-Neither is the tag's own conclusion:  each is the conclusion of a *different* tag that the source
-quotes as an input and that no declaration in either Lean tree supplies.
-
-* `hcpt` is the conclusion of **[Stacks, Tag 0F41]**, Nagata's compactification theorem: a
-  separated morphism of finite type to a quasi-compact quasi-separated scheme factors as a
-  quasi-compact open immersion followed by a proper morphism.  Nothing in the repository proves
-  it; `AlgebraicGeometry.CategoryOfCompactifications` in
-  `StacksFrontier/AlgebraicGeometry/Flatness/Flattening/Compactifications.lean` takes exactly this
-  existence statement as a *field* of its standing data, and the Chow's lemma of
-  `StacksFrontier/AlgebraicGeometry/ChowFiniteType/Basic.lean` — the route the source takes instead
-  of Nagata — is itself conditional on
-  `AlgebraicGeometry.Scheme.FiniteTypeApproximation.IsOneAffineOpenStep`.
-* `hconn` is the connectedness assertion of clause (1) of **[Stacks, Tag 03H2]**, Zariski's
-  connectedness theorem for the Stein factorization.  In this repository it is available only
-  conditionally on [Stacks, Tag 0G7X], as
-  `Stacks.SteinFactorization.geometricallyConnected_toNormalization_of_etaleNeighborhood`, or
-  unconditionally only over the points at which the local ring of `f.normalization` is its own
-  residue field (`Stacks.SteinFactorization`
-  `.geometricallyConnected_fiberToSpecResidueField_toNormalization_of_flat`).
-
-With both inputs the main theorem is the tag with its two hypotheses deleted and nothing else
-changed.
+The compactification is the argument `hcpt` and the connectedness of the first Stein factor of
+every proper morphism to `Spec A` is the argument `hconn`.  The latter holds unconditionally
+(`Stacks.SteinFactorization.geometricallyConnected_toNormalization_of_isProper`), and is
+discharged by it in `StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair.Chow`.
 
 ## References
 
@@ -352,32 +341,23 @@ theorem exists_isClopen_preimage_eq_of_isProper_of_henselianPair (A : Type u) [C
 
 /-! ### The proper part of the closed fibre -/
 
-/-- **[Stacks, Tag 0CT9] with [Stacks, Tag 0F41] carried as `hcpt` and clause (1) of
-[Stacks, Tag 03H2] carried as `hconn`.**
+/-- **The proper part of the closed fibre, given a compactification.**
 
-Let `(A, I)` be a henselian pair and let `f : X ⟶ Spec A` be separated and of finite type.  An
-open and closed subscheme `i : Y ⟶ X ×_{Spec A} Spec (A ⧸ I)` of the closed fibre which is proper
-over `Spec (A ⧸ I)` is the closed fibre of an open and closed subscheme `w : W ⟶ X` which is
-proper over `Spec A`.
+Let `(A, I)` be a henselian pair and let `f : X ⟶ Spec A` be separated and of finite type, given
+with a factorization `hcpt` as an open immersion followed by a proper morphism, and let `hconn`
+say that the first Stein factor of every proper morphism to `Spec A` has geometrically connected
+fibres.  An open and closed subscheme `i : Y ⟶ X ×_{Spec A} Spec (A ⧸ I)` of the closed fibre
+which is proper over `Spec (A ⧸ I)` is the closed fibre of an open and closed subscheme
+`w : W ⟶ X` which is proper over `Spec A`.
 
 Choosing a compactification `X ⟶ P ⟶ Spec A` of `f`, the image of `Y` in the closed fibre of `P`
 is open and closed and lifts to an open and closed subset `V` of `P`.  Since the points of `V`
 over the closed fibre lie in `X`, all of `V` does, and `V` cuts out the required subscheme of
 `X`.
 
-The tag's hypotheses and its full conclusion are exactly those below.  The two extra arguments
-are the conclusions of other tags, quoted by the source and unavailable here:  `hcpt` is
-Nagata's compactification theorem, Tag 0F41, and `hconn` is the connectedness conjunct of clause
-(1) of Tag 03H2, which rests on Tag 0G7X and hence on Tags 02OC and 02OB.  The quantifier on
-`hconn` is forced by `hcpt` being an existential:  the connectedness input is applied to the
-compactification `P`, which is produced rather than given.  The source reaches the same
-reduction through Chow's lemma (Tag 0202) and Tag 01RG instead of through Tag 0F41; that route
-is equally unavailable, Tag 0202 being conditional here on
-`Scheme.FiniteTypeApproximation.IsOneAffineOpenStep`. -/
-@[stacks 0CT9 "the whole statement, with two inputs the source quotes carried as named
-hypotheses: `hcpt`, Nagata compactification (Stacks 0F41), and `hconn`, the connectedness
-conjunct of clause (1) of Stacks 03H2 (through Stacks 0G7X, 02OC and 02OB); neither is proved in
-this repository, and neither is any part of this tag's own conclusion"]
+This is the second and third paragraphs of the proof of [Stacks, Tag 0CT9].  The statement of
+the tag, with no compactification given, is
+`AlgebraicGeometry.exists_isClopen_isProper_of_henselianPair`. -/
 theorem exists_isClopen_isProper_of_henselianPair_of_compactification (A : Type u) [CommRing A]
     (I : Ideal A) (hI : HenselianPair A I) {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
     [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]

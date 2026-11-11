@@ -937,7 +937,7 @@ sheaf.
 cohomology through `hypercoverAbutmentNatIso`;
 `Stacks.Cohomology.Leray.FunctorialFirstQuadrantAbutsTo.ofIsoAbutment` touches no other field --
 the structure mentions the asserted abutment in `abutmentIso` alone. -/
-@[stacks 01GY "spectral_sequence", sga "4 V 7.4.0" "(7.4.0.3) abutment"]
+@[sga "4 V 7.4.0" "(7.4.0.3) abutment"]
 def hypercoveringCohomologyAbutment :
     _root_.Stacks.Cohomology.Leray.FunctorialFirstQuadrantAbutsTo
       (hypercoveringSpectralSequence X J)

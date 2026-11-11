@@ -9,13 +9,21 @@ public import StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingT
 import all StacksFrontier.AlgebraicGeometry.Duality.UpperShriekFibreDimensionFlat
 
 /-!
-# The bounds of Tag 0BV6 for the relative dualizing complex of a flat morphism, unconditionally
+# Tag 0BV6: the relative dualizing complex of a flat morphism
 
-`Stacks.Duality.fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat` proves the
-bounds `-dim_x(X_y) ≤ i ≤ 0` on the nonzero stalks of `H^i(f^!𝒪_Y)`, `f` flat, granted the
-affine-chart description of `f^!𝒪_Y` at a chart through `x`. That description is
-`Stacks.Duality.upperShriekStructureSheafCharts`, and this file discharges it; it also proves the
-Tor amplitude statement of [Stacks, Tag 0BV6].
+Let `S` be Noetherian and `f : X ⟶ Y` a flat morphism of `FTS S` (Situation 48.16.1). This file
+proves both assertions of [Stacks, Tag 0BV6] (Lemma 48.21.4) for `f^!𝒪_Y`, for every
+compactification defining `f^!`:
+
+1. `H^i(f^!𝒪_Y)_x ≠ 0 ⟹ -dim_x(X_y) ≤ i ≤ 0` for every `x ∈ X` with image `y`;
+2. if every fibre of `f` has dimension at most `d`, then `f^!𝒪_Y` has Tor amplitude in `[-d, 0]`
+   as an object of `D(X, f^{-1}𝒪_Y)`.
+
+As in the source, both are reduced to affine charts, on which `f^!𝒪_Y` is the relative dualizing
+complex of the chart ring map (Remark [Stacks, Tag 0BV2], proved as
+`Stacks.Duality.upperShriekStructureSheafCharts`), and there they are the ring-level
+[Stacks, Tag 0E9Q]. The chart-wise form of (1) is
+`Stacks.Duality.fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat`.
 
 ## Main results
 

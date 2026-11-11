@@ -37,7 +37,7 @@ only one of the two can be assembled from what this library has.
   of completion follows from `colim_𝒱 Γ(V, L^{⊗ m}) ⟶ lim Γ(Y_n, L^{⊗ m}|_{Y_n})` being an
   isomorphism for all `m`, by Lemma [Stacks, Tag 0EK2], and that this is Lemma
   [Stacks, Tag 0EL2]. That chain runs through [Stacks, Tag 0EK0],
-  `Stacks.FundamentalGroup.fullyFaithful_restrictionFunctor_of_neighbourhoodSectionsComplete`,
+  `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_neighbourhoodSectionsComplete`,
   whose condition (2) is exactly that isomorphism. So the depth hypothesis does real work here:
   it produces condition (2) through the named
   `Stacks.FundamentalGroup.NeighbourhoodAmplePowerSectionsCompleteFromDepth`, which is Tag 0EL2
@@ -75,8 +75,9 @@ This is checked in both directions and reported rather than hidden.
 
 The honest summary: along this route the essential-surjectivity half of [Stacks, Tag 0ELD] is
 **not proved**; it is the carried hypothesis, up to the colimit plumbing just described. The
-full-faithfulness half follows from the depth hypothesis, modulo the two general statements that
-Tag 0EK0 already carries. Both halves are proved outright by
+full-faithfulness half follows from the depth hypothesis through Tag 0EK0, which is proved
+unconditionally in the hom-set form `Stacks.FundamentalGroup.FiniteEtaleColimitFullyFaithful`.
+Both halves are proved outright by
 `Stacks.FundamentalGroup.finiteEtaleColimitEquivalence_zeroScheme_of_depth`.
 
 ## Main definitions
@@ -110,17 +111,14 @@ Tag 0EK0 already carries. Both halves are proved outright by
   same source lemma in the single-scheme vocabulary
   `Stacks.Algebraization.IsInfinitesimalSectionsComplete`; neither implies the other in this
   library, because the colimit clauses quantify over shrinking neighbourhoods.
-* `AmplePowersImpliesFiniteLocallyFree` and `FullyFaithfulRestrictionOfSectionsComplete` are the
-  carries of [Stacks, Tag 0EK0] and are passed through unchanged; they are the
-  implications `(2) ⇒ (3)` of [Stacks, Tag 0EK2] and `(3) ⇒ (4)` of Tag 0EK2 followed by
-  [Stacks, Tag 0ELA]. The library's `@[stacks 0ELA]`
-  `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme` does
-  **not** discharge the second: its conclusion is
-  `Stacks.FundamentalGroup.FiniteEtaleColimitFullyFaithful`, the fullness-and-faithfulness pair
-  written out without the colimit category, and no lemma in this library turns that into
-  `Nonempty P.restrictionFunctor.FullyFaithful` for a presentation `P`. Such a bridge would
-  discharge it, together with the shrinking form of [Stacks, Tag 0EL8] which that theorem
-  assumes.
+* [Stacks, Tag 0EK0] carries nothing: it is
+  `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_neighbourhoodSectionsComplete`,
+  proved in all three cases under the tag's own hypotheses through [Stacks, Tag 0EK2] and the
+  library's `@[stacks 0ELA]`
+  `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_completionFullyFaithfulComplete`.
+  Its conclusion is `Stacks.FundamentalGroup.FiniteEtaleColimitFullyFaithful`, the
+  fullness-and-faithfulness pair written out without the colimit category; no lemma in this
+  library turns that into `Nonempty P.restrictionFunctor.FullyFaithful` for a presentation `P`.
 * `FiniteEtaleAlgebraizationFromDepth` is discharged by [Stacks, Tag 0EL7] together with the
   construction in the proof of [Stacks, Tag 0EK1]; the inputs with no carrier here are
   [Stacks, Tag 0EL5], [Stacks, Tag 0EHW], the finite locally free objects of `Coh(X, I)`, and the

@@ -159,8 +159,11 @@ abbrev pullbackTensorComparison : PullbackTensorComparison f :=
 /-- **The derived projection-formula morphism**
 `Rf_*E ⊗^L_{𝒪_Y} K ⟶ Rf_*(E ⊗^L_{𝒪_X} Lf^*K)`: the adjoint transpose of the derived
 pullback-tensor comparison of Stacks 079U followed by the counit of `Lf^* ⊣ Rf_*` in the left
-tensor factor.  It is defined for arbitrary `E ∈ D(𝒪_X)` and `K ∈ D(𝒪_Y)`. -/
-@[stacks 0B53 "the map"]
+tensor factor.  It is defined for an arbitrary morphism of ringed spaces and arbitrary
+`E ∈ D(𝒪_X)` and `K ∈ D(𝒪_Y)`, with no finiteness or flatness hypothesis, as in the source.
+Its counterpart on the quasi-coherent derived categories of a morphism of schemes, with the
+tensor factors in the order of Stacks 08EU, is `Stacks.Duality.projectionFormulaMap`. -/
+@[stacks 0B53 "the map, for an arbitrary morphism of ringed spaces"]
 def projectionFormulaMap
     (E : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing Y))) :

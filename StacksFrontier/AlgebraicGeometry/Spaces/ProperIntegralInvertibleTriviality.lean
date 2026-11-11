@@ -20,10 +20,10 @@ invertible `𝒪_X`-module.  If `H⁰(X, L)` and `H⁰(X, L^{⊗ -1})` are both 
 
 ## Implementation notes
 
-The source uses properness only through Tag 0DMY, to know that `H⁰(X, 𝒪_X)` is a field;
+The source uses properness through Tag 0DMY, to know that `H⁰(X, 𝒪_X)` is a field;
 `AlgebraicGeometry.Space.isTrivial_of_nontrivial_sections` proves the conclusion under that
 hypothesis over an arbitrary base.  Here the field property is obtained without the finiteness
-of Tag 0DMY part (1), which rests on Tag 08AS:  every global function of a proper reduced space
+of Tag 0DMY part (1):  every global function of a proper reduced space
 over `k` is integral over `k` (Stacks 0A0Q read at the terminal chart,
 `AlgebraicGeometry.Space.isIntegralElem_globalFunctions_of_isProper`), the global functions of
 an integral space form a domain, and a domain integral over a field is a field.

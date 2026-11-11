@@ -51,8 +51,8 @@ parts `X_i` are the *strata* of the stratification.
 /-- A *stratification* of a topological space `X`, indexed by a partially ordered type `I`, is an
 indexed family `strata : I → Set X` whose members are pairwise disjoint and cover `X` (a partition
 `X = ∐_{i} X_i`), and such that the closure of each stratum is contained in the union of the
-strata at lower or equal indices. -/
-@[stacks_fixed 09Y1]
+strata at lower or equal indices. Unlike Stacks 09Y1 (registered on `IsStratification`), the
+strata are not required to be locally closed. -/
 structure Stratification (X : Type*) [TopologicalSpace X]
     (I : Type*) [PartialOrder I] where
   /-- The stratum indexed by `i`. -/

@@ -67,14 +67,15 @@ presented on the thickened topos `Sh(D)` as modules over the direct image `i_*O`
 `Deformation.ToposThickening.FlatLift`, and its isomorphism classes are
 `Deformation.ToposThickening.FlatLiftClass`.
 
-Part (2) is part (2) of the source, which is Stacks 08MU read in Situation 08VV. Stacks 08MU is
-`Deformation.ToposThickening.flatLiftClass_torsor` and gives the principal homogeneous structure
-under `Ext¹_O(ℱ, I ⊗_O ℱ)`; what Situation 08VV adds is the identification `I = f^*J`, which is
-recorded here as the first two parts of the conclusion: in the ideals themselves, as
-invertibility of `Deformation.ToposThickening.MorphismOfThickenings.idealMap`, and in the
-tensored form `Deformation.ToposThickening.idealTensorComparison` that the development uses
-throughout. So the coefficient group is written for `I ⊗_O ℱ` and the conclusion says in the
-same breath that this module is `f^*J ⊗_O ℱ`; this is the reading of part (1) in
+Part (2) is part (2) of the source, which is Stacks 08MU read in Situation 08VV. Stacks 08MU,
+`Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass`, gives the principal homogeneous
+structure under `Ext¹_O(ℱ, I ⊗_O ℱ)`; what Situation 08VV adds is the identification
+`I = f^*J`, which is recorded here as the first two parts of the conclusion: in the ideals
+themselves, as invertibility of `Deformation.ToposThickening.MorphismOfThickenings.idealMap`, and
+in the tensored form
+`Deformation.ToposThickening.idealTensorComparison` that the development uses throughout. So the
+coefficient group is written for `I ⊗_O ℱ` and the conclusion says in the same breath that this
+module is `f^*J ⊗_O ℱ`; this is the reading of part (1) in
 `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero'`, whose obstruction class is
 written for `I ⊗_O ℱ` for the same reason.
 
@@ -115,8 +116,8 @@ supplied here rather than assumed.
 
 * The class-level flat-lift dictionary that part (2) consumes,
   `Deformation.ToposThickening.IsFlatLiftClassCorrespondence`, is proved by
-  `Deformation.ToposThickening.isFlatLiftClassCorrespondence`, and is supplied at Stacks 08MU
-  itself, `Deformation.ToposThickening.flatLiftClass_torsor`, which therefore carries no 08MQ
+  `Deformation.ToposThickening.isFlatLiftClassCorrespondence`, which
+  `Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass` uses, so part (2) carries no 08MQ
   hypothesis either.
 * The identification `I = f^*J` of Situation 08VV, also consumed by part (2), is proved by
   `Deformation.ToposThickening.MorphismOfThickenings.isIso_idealMap` in the ideals and by
@@ -184,8 +185,9 @@ principal homogeneous structure, whose coefficient group is written for `I ⊗_O
 convention of part (1) in
 `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero'`, and the first two parts are
 what license the source's substitution of `f^*J ⊗_O ℱ` for it. The principal homogeneous
-structure itself is Stacks 08MU, `Deformation.ToposThickening.flatLiftClass_torsor`, which is
-what the source's proof of part (2) quotes. -/
+structure itself is Stacks 08MU,
+`Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass`, which is what the source's proof
+of part (2) quotes. -/
 theorem flatLiftClass_torsor_of_isFlat (i : RingedToposHom X X') (t : RingedToposHom S S')
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)
@@ -206,9 +208,7 @@ theorem flatLiftClass_torsor_of_isFlat (i : RingedToposHom X X') (t : RingedTopo
           (FlatLiftClass i f' hi F)) :=
   ⟨(MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).isIso_idealMap hf' hstrict,
     isIdealComparisonIsoOfFlat i t f f' hi ht comm F hf' hstrict,
-    flatLiftClass_torsor i t f f' hi ht comm F hstrict hflat
-      (isFlatLiftClassCorrespondence.{_, _, _, _, _, _, _, _, _, _, _, e}
-        i t f f' hi ht comm F) hne⟩
+    nonempty_addTorsor_flatLiftClass i t f f' hi ht comm F hstrict hflat hne⟩
 
 end FlatLiftClassTorsor
 

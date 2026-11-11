@@ -58,10 +58,10 @@ attribute [local instance] HasDerivedCategory.standard sheafSections_obj_additiv
 
 section Engine
 
-variable {C : Type u} [Category.{w} C] {J : GrothendieckTopology C}
-  {R : Sheaf J RingCat.{r}} (sq : Square C)
-
-open Stacks.MayerVietoris.CanonicalMapOfComplexes
+variable {ι : Type*} [Category* ι]
+  {A : Type*} [Category* A] [Preadditive A]
+  {B : Type*} [Category* B] [Preadditive B] [HasBinaryBiproducts B]
+  (S : ιᵒᵖ ⥤ (A ⥤ B)) [∀ X : ιᵒᵖ, (S.obj X).Additive] (sq : Square ι)
 
 /-- The map of homotopy cofibres induced by a morphism of arrows is additive in that
 morphism. -/
@@ -84,21 +84,21 @@ private theorem homotopyCofiber_mapArrowHom_add
 
 /-- The mapping cocone of the signed restriction map is an additive functor of the complex. -/
 private theorem coconeComplexFunctor_additive :
-    (coconeComplexFunctor.{u, v} (R := R) sq).Additive := by
+    (General.coconeComplexFunctor S sq).Additive := by
   constructor
   intro I I' f g
-  change (shiftFunctor (CochainComplex AddCommGrpCat.{v} ℤ) (-1 : ℤ)).map
-      (HomologicalComplex.homotopyCofiber.mapArrowHom _ _ _ (secondMapArrowMap sq (f + g))) = _
-  rw [show secondMapArrowMap sq (f + g) =
-      secondMapArrowMap sq f + secondMapArrowMap sq g by
+  change (shiftFunctor (CochainComplex B ℤ) (-1 : ℤ)).map
+      (HomologicalComplex.homotopyCofiber.mapArrowHom _ _ _
+        (General.secondMapArrowMap S sq (f + g))) = _
+  rw [show General.secondMapArrowMap S sq (f + g) =
+      General.secondMapArrowMap S sq f + General.secondMapArrowMap S sq g by
     apply Arrow.hom_ext
-    · simp only [secondMapArrowMap, Arrow.homMk'_left, Arrow.Hom.add_left]
+    · simp only [General.secondMapArrowMap, Arrow.homMk'_left, Arrow.Hom.add_left]
       apply biprod.hom_ext <;> simp
-    · simp only [secondMapArrowMap, Arrow.homMk'_right, Arrow.Hom.add_right]
+    · simp only [General.secondMapArrowMap, Arrow.homMk'_right, Arrow.Hom.add_right]
       exact Functor.map_add _]
   rw [homotopyCofiber_mapArrowHom_add]
-  ext n x
-  rfl
+  exact (shiftFunctor (CochainComplex B ℤ) (-1 : ℤ)).map_add
 
 attribute [local instance] coconeComplexFunctor_additive
 
@@ -126,21 +126,20 @@ private theorem mapArrowHom_XIsoBiprod
 
 /-- The mapping cocone is degreewise the biproduct of the sections over the two middle corners
 and the shifted sections over the first corner. -/
-private noncomputable def coconeXIso (I : CochainComplex (SheafOfModules.{v} R) ℤ) (n : ℤ) :
-    ((coconeComplexFunctor sq).obj I).X n ≅
-      (((sectionsComplex R sq.X₃).obj I ⊞ (sectionsComplex R sq.X₂).obj I).X n ⊞
-        ((sectionsComplex R sq.X₁).obj I).X (n - 1)) :=
-  HomologicalComplex.homotopyCofiber.XIsoBiprod (secondMap sq I) (n - 1) n (by simp)
+private noncomputable def coconeXIso (I : CochainComplex A ℤ) (n : ℤ) :
+    ((General.coconeComplexFunctor S sq).obj I).X n ≅
+      (((General.complexFunctor S sq.X₃).obj I ⊞ (General.complexFunctor S sq.X₂).obj I).X n ⊞
+        ((General.complexFunctor S sq.X₁).obj I).X (n - 1)) :=
+  HomologicalComplex.homotopyCofiber.XIsoBiprod (General.secondMap S sq I) (n - 1) n (by simp)
 
 /-- The degreewise biproduct decomposition of the mapping cocone is natural in the complex. -/
-private theorem coconeXIso_naturality
-    {I I' : CochainComplex (SheafOfModules.{v} R) ℤ} (f : I ⟶ I') (n : ℤ) :
-    ((coconeComplexFunctor sq).map f).f n ≫ (coconeXIso sq I' n).hom =
-      (coconeXIso sq I n).hom ≫ biprod.map
-        ((biprod.map ((sectionsComplex R sq.X₃).map f)
-          ((sectionsComplex R sq.X₂).map f)).f n)
-        (((sectionsComplex R sq.X₁).map f).f (n - 1)) :=
-  mapArrowHom_XIsoBiprod _ _ (secondMapArrowMap sq f) (n - 1) n (by simp)
+private theorem coconeXIso_naturality {I I' : CochainComplex A ℤ} (f : I ⟶ I') (n : ℤ) :
+    ((General.coconeComplexFunctor S sq).map f).f n ≫ (coconeXIso S sq I' n).hom =
+      (coconeXIso S sq I n).hom ≫ biprod.map
+        ((biprod.map ((General.complexFunctor S sq.X₃).map f)
+          ((General.complexFunctor S sq.X₂).map f)).f n)
+        (((General.complexFunctor S sq.X₁).map f).f (n - 1)) :=
+  mapArrowHom_XIsoBiprod _ _ (General.secondMapArrowMap S sq f) (n - 1) n (by simp)
 
 end Engine
 
@@ -200,71 +199,69 @@ end Biprod
 
 section ShortExact
 
-variable {C : Type u} [Category.{w} C] {J : GrothendieckTopology C}
-  {R : Sheaf J RingCat.{r}} (sq : Square C)
-
-open Stacks.MayerVietoris.CanonicalMapOfComplexes
+variable {ι : Type*} [Category* ι]
+  {A : Type*} [Category* A] [Preadditive A]
+  {B : Type*} [Category* B] [Abelian B]
+  (S : ιᵒᵖ ⥤ (A ⥤ B)) [∀ X : ιᵒᵖ, (S.obj X).Additive] (sq : Square ι)
 
 attribute [local instance] coconeComplexFunctor_additive
 
 /-- In each degree the mapping cocone of a short complex of complexes is the biproduct of the
 two middle sections and the shifted first sections. -/
-private noncomputable def coconeShortComplexIso
-    (L : ShortComplex (CochainComplex (SheafOfModules.{v} R) ℤ)) (n : ℤ) :
-    (L.map (coconeComplexFunctor sq)).map (HomologicalComplex.eval _ _ n) ≅
+private noncomputable def coconeShortComplexIso (L : ShortComplex (CochainComplex A ℤ)) (n : ℤ) :
+    (L.map (General.coconeComplexFunctor S sq)).map (HomologicalComplex.eval _ _ n) ≅
       biprodShortComplex
-        ((biprodShortComplex (L.map (sectionsComplex R sq.X₃))
-          (L.map (sectionsComplex R sq.X₂))).map (HomologicalComplex.eval _ _ n))
-        ((L.map (sectionsComplex R sq.X₁)).map (HomologicalComplex.eval _ _ (n - 1))) :=
-  ShortComplex.isoMk (coconeXIso sq L.X₁ n) (coconeXIso sq L.X₂ n) (coconeXIso sq L.X₃ n)
-    (coconeXIso_naturality sq L.f n).symm (coconeXIso_naturality sq L.g n).symm
+        ((biprodShortComplex (L.map (General.complexFunctor S sq.X₃))
+          (L.map (General.complexFunctor S sq.X₂))).map (HomologicalComplex.eval _ _ n))
+        ((L.map (General.complexFunctor S sq.X₁)).map (HomologicalComplex.eval _ _ (n - 1))) :=
+  ShortComplex.isoMk (coconeXIso S sq L.X₁ n) (coconeXIso S sq L.X₂ n) (coconeXIso S sq L.X₃ n)
+    (coconeXIso_naturality S sq L.f n).symm (coconeXIso_naturality S sq L.g n).symm
 
 /-- The mapping cocone carries a degreewise split short complex of complexes to a short exact
 sequence. -/
-private theorem cocone_shortExact
-    (L : ShortComplex (CochainComplex (SheafOfModules.{v} R) ℤ))
+private theorem cocone_shortExact (L : ShortComplex (CochainComplex A ℤ))
     (σ : ∀ n, (L.map (HomologicalComplex.eval _ _ n)).Splitting) :
-    (L.map (coconeComplexFunctor sq)).ShortExact :=
+    (L.map (General.coconeComplexFunctor S sq)).ShortExact :=
   HomologicalComplex.shortExact_of_degreewise_shortExact _ fun n =>
-    ((biprodSplitting ((biprodSplitting ((σ n).map (sections R sq.X₃))
-        ((σ n).map (sections R sq.X₂))).ofIso
-      (biprodShortComplexEvalIso (L.map (sectionsComplex R sq.X₃))
-        (L.map (sectionsComplex R sq.X₂)) n).symm)
-      ((σ (n - 1)).map (sections R sq.X₁))).ofIso
-      (coconeShortComplexIso sq L n).symm).shortExact
+    ((biprodSplitting ((biprodSplitting ((σ n).map (S.obj (op sq.X₃)))
+        ((σ n).map (S.obj (op sq.X₂)))).ofIso
+      (biprodShortComplexEvalIso (L.map (General.complexFunctor S sq.X₃))
+        (L.map (General.complexFunctor S sq.X₂)) n).symm)
+      ((σ (n - 1)).map (S.obj (op sq.X₁)))).ofIso
+      (coconeShortComplexIso S sq L n).symm).shortExact
 
 /-- Degreewise sections carry a degreewise split short complex of complexes to a short exact
 sequence. -/
-private theorem sections_shortExact
-    (L : ShortComplex (CochainComplex (SheafOfModules.{v} R) ℤ))
-    (σ : ∀ n, (L.map (HomologicalComplex.eval _ _ n)).Splitting) (U : C) :
-    (L.map (sectionsComplex R U)).ShortExact :=
+private theorem sections_shortExact (L : ShortComplex (CochainComplex A ℤ))
+    (σ : ∀ n, (L.map (HomologicalComplex.eval _ _ n)).Splitting) (U : ι) :
+    (L.map (General.complexFunctor S U)).ShortExact :=
   HomologicalComplex.shortExact_of_degreewise_shortExact _
-    (fun n => ((σ n).map (sections R U)).shortExact)
+    (fun n => ((σ n).map (S.obj (op U))).shortExact)
 
 /-- The canonical map, as a morphism of short complexes. -/
-private noncomputable def cSquareShortComplexMap
-    (L : ShortComplex (CochainComplex (SheafOfModules.{v} R) ℤ)) :
-    L.map (sectionsComplex R sq.X₄) ⟶ L.map (coconeComplexFunctor sq) where
-  τ₁ := cSquare sq L.X₁
-  τ₂ := cSquare sq L.X₂
-  τ₃ := cSquare sq L.X₃
-  comm₁₂ := (cSquare_natural sq L.f).symm
-  comm₂₃ := (cSquare_natural sq L.g).symm
+private noncomputable def cSquareShortComplexMap (L : ShortComplex (CochainComplex A ℤ)) :
+    L.map (General.complexFunctor S sq.X₄) ⟶ L.map (General.coconeComplexFunctor S sq) where
+  τ₁ := General.cSquare S sq L.X₁
+  τ₂ := General.cSquare S sq L.X₂
+  τ₃ := General.cSquare S sq L.X₃
+  comm₁₂ := (General.cSquare_natural S sq L.f).symm
+  comm₂₃ := (General.cSquare_natural S sq L.g).symm
 
 /-- Two out of three for the chain-level canonical map along a degreewise split short complex
 of complexes. -/
-private theorem cSquare_two_out_of_three
-    (L : ShortComplex (CochainComplex (SheafOfModules.{v} R) ℤ))
+private theorem cSquare_two_out_of_three (L : ShortComplex (CochainComplex A ℤ))
     (σ : ∀ n, (L.map (HomologicalComplex.eval _ _ n)).Splitting) :
-    (QuasiIso (cSquare sq L.X₁) → QuasiIso (cSquare sq L.X₂) → QuasiIso (cSquare sq L.X₃)) ∧
-    (QuasiIso (cSquare sq L.X₂) → QuasiIso (cSquare sq L.X₃) → QuasiIso (cSquare sq L.X₁)) ∧
-    (QuasiIso (cSquare sq L.X₁) → QuasiIso (cSquare sq L.X₃) → QuasiIso (cSquare sq L.X₂)) := by
-  have h₁ := sections_shortExact L σ sq.X₄
-  have h₂ := cocone_shortExact sq L σ
+    (QuasiIso (General.cSquare S sq L.X₁) → QuasiIso (General.cSquare S sq L.X₂) →
+        QuasiIso (General.cSquare S sq L.X₃)) ∧
+    (QuasiIso (General.cSquare S sq L.X₂) → QuasiIso (General.cSquare S sq L.X₃) →
+        QuasiIso (General.cSquare S sq L.X₁)) ∧
+    (QuasiIso (General.cSquare S sq L.X₁) → QuasiIso (General.cSquare S sq L.X₃) →
+        QuasiIso (General.cSquare S sq L.X₂)) := by
+  have h₁ := sections_shortExact S L σ sq.X₄
+  have h₂ := cocone_shortExact S sq L σ
   have d₁ := DerivedCategory.triangleOfSES_distinguished h₁
   have d₂ := DerivedCategory.triangleOfSES_distinguished h₂
-  let φ := DerivedCategory.triangleOfSES.map h₁ h₂ (cSquareShortComplexMap sq L)
+  let φ := DerivedCategory.triangleOfSES.map h₁ h₂ (cSquareShortComplexMap S sq L)
   simp only [← DerivedCategory.isIso_Q_map_iff_quasiIso]
   exact ⟨isIso₃_of_isIso₁₂ φ d₁ d₂, isIso₁_of_isIso₂₃ φ d₁ d₂, isIso₂_of_isIso₁₃ φ d₁ d₂⟩
 
@@ -319,7 +316,7 @@ private theorem exists_degreewiseSplit_kInjective_representatives
     Arrow.isoMk (asIso (DerivedCategory.Q.map (q.app K)))
       (asIso (DerivedCategory.Q.map (q.app M))) (by
         symm
-        change DerivedCategory.Q.map f ≫ DerivedCategory.Q.map (q.app M) =
+        show DerivedCategory.Q.map f ≫ DerivedCategory.Q.map (q.app M) =
           DerivedCategory.Q.map (q.app K) ≫ DerivedCategory.Q.map g
         rw [← Functor.map_comp, ← Functor.map_comp]
         exact congrArg DerivedCategory.Q.map (q.naturality f))
@@ -339,6 +336,30 @@ private theorem exists_degreewiseSplit_kInjective_representatives
     ⟨derivedIsoOfHomotopyIso (Triangle.π₃.mapIso eL.symm) ≪≫ (Triangle.π₃.mapIso eT).symm⟩⟩
 
 end Representatives
+
+section GeneralMain
+
+variable {ι : Type*} [Category* ι]
+  {A : Type*} [Category* A] [Abelian A]
+  {B : Type*} [Category* B] [Abelian B]
+  {S : ιᵒᵖ ⥤ (A ⥤ B)} [∀ X : ιᵒᵖ, (S.obj X).Additive] {sq : Square ι}
+  (D : General.DerivedCSquareData S sq)
+
+/-- **Stacks 0EWP for an arbitrary system of section functors.** For a distinguished triangle of
+the derived category of a Grothendieck abelian category, the canonical comparison map of a
+square is an isomorphism at one vertex as soon as it is one at the other two. -/
+theorem General.DerivedCSquareData.isCSquareIso_two_out_of_three [IsGrothendieckAbelian.{v} A]
+    (T : Triangle (DerivedCategory A)) (hT : T ∈ distTriang (DerivedCategory A)) :
+    (D.IsCSquareIso T.obj₁ → D.IsCSquareIso T.obj₂ → D.IsCSquareIso T.obj₃) ∧
+    (D.IsCSquareIso T.obj₂ → D.IsCSquareIso T.obj₃ → D.IsCSquareIso T.obj₁) ∧
+    (D.IsCSquareIso T.obj₁ → D.IsCSquareIso T.obj₃ → D.IsCSquareIso T.obj₂) := by
+  obtain ⟨L, σ, _, _, _, ⟨e₁⟩, ⟨e₂⟩, ⟨e₃⟩⟩ :=
+    exists_degreewiseSplit_kInjective_representatives T hT
+  rw [D.isCSquareIso_iff_quasiIso T.obj₁ L.X₁ e₁, D.isCSquareIso_iff_quasiIso T.obj₂ L.X₂ e₂,
+    D.isCSquareIso_iff_quasiIso T.obj₃ L.X₃ e₃]
+  exact cSquare_two_out_of_three S sq L σ
+
+end GeneralMain
 
 section Main
 
@@ -377,12 +398,8 @@ private theorem isCSquareIso_two_out_of_three
   have : IsGrothendieckAbelian.{v}
       (SheafOfModules.{v} (Stacks.SheafOfModules.Tensor.ringSheaf S.O)) :=
     SheafOfModules.isGrothendieckAbelian_of_univLE (Stacks.SheafOfModules.Tensor.ringSheaf S.O)
-  obtain ⟨L, σ, _, _, _, ⟨e₁⟩, ⟨e₂⟩, ⟨e₃⟩⟩ :=
-    exists_degreewiseSplit_kInjective_representatives T hT
-  rw [DerivedCSquareData.isCSquareIso_iff_quasiIso _ T.obj₁ L.X₁ e₁,
-    DerivedCSquareData.isCSquareIso_iff_quasiIso _ T.obj₂ L.X₂ e₂,
-    DerivedCSquareData.isCSquareIso_iff_quasiIso _ T.obj₃ L.X₃ e₃]
-  exact cSquare_two_out_of_three sq L σ
+  exact General.DerivedCSquareData.isCSquareIso_two_out_of_three
+    (derivedCSquareData.{u, v} (R := (Stacks.SheafOfModules.Tensor.ringSheaf S.O)) sq) T hT
 
 /-- **Stacks Project, Tag 0EWP.** The comparison for the third vertex is an isomorphism if it is
 so for the first two vertices of a distinguished triangle. -/

@@ -19,8 +19,18 @@ of an object `M` be the cardinality of its set of subobjects, and let `c(κ) = |
 For every epimorphism `π : M ⟶ N` there is a subobject `M' ⊆ M` such that the composite
 `M' ⟶ M ⟶ N` is an epimorphism and `|M'| ≤ c(|N|)`.
 
-Sizes are cardinals in `Cardinal.{max u v}`, and `C` is assumed Grothendieck abelian for
-`max u v`-small index categories, so that coproducts indexed by sets of such cardinality exist.
+The statement is `exists_subobject_epi_smallSize_le`, for `C : Type u` with `[Category.{v} C]`
+and `[IsGrothendieckAbelian.{v} C]` (Mathlib's standard setting) and for an arbitrary generator
+`U`. Sizes are cardinals in `Cardinal.{v}`: a Grothendieck abelian category is well-powered, so
+`Subobject M` is `v`-small and `smallSize M` is the cardinality of `Shrink.{v} (Subobject M)`,
+equal to `#(Subobject M)` after lifting (`lift_smallSize`). The coproduct `⨁_{α ∈ κ} U` is
+indexed by `κ.out : Type v`, so it exists.
+
+The older statement `exists_subobject_epi_size_le` assumes `IsGrothendieckAbelian.{max u v} C`.
+That hypothesis gives coproducts indexed by the type `Σ (X Y : C), X ⟶ Y` of all morphisms of
+`C`, and Freyd's cardinality argument (the dual of `Mathlib.CategoryTheory.Limits.SmallComplete`)
+then shows that every hom-set has at most one element, so every object of such an abelian
+category is zero. That statement is therefore vacuous, and it does not formalize Tag 079J.
 
 ## Main definitions
 
@@ -31,7 +41,12 @@ Sizes are cardinals in `Cardinal.{max u v}`, and `C` is assumed Grothendieck abe
 
 ## Main results
 
-* `Stacks.Injectives.SmallSubobjectEpi.exists_subobject_epi_size_le`: the statement above.
+* `Stacks.Injectives.SmallSubobjectEpi.exists_subobject_epi_smallSize_le`: the statement above.
+* `Stacks.Injectives.SmallSubobjectEpi.exists_subobject_epi_size_le`: the same conclusion under
+  the hypothesis `IsGrothendieckAbelian.{max u v} C`, which only zero categories satisfy.
+* `Stacks.Injectives.SmallSubobjectEpi.exists_subset_injective_epi`: an epimorphism from a
+  coproduct of copies of `U` onto `N` restricts to an epimorphism from a sub-coproduct indexed by
+  a set that injects into the subobjects of `N`.
 * `Stacks.Injectives.SmallSubobjectEpi.size_le_of_epi`: an epimorphism `X ⟶ Y` gives
   `|Y| ≤ |X|`.
 * `Stacks.Injectives.SmallSubobjectEpi.exists_small_subfamily_epi`: an epimorphism from a
@@ -49,6 +64,8 @@ namespace Stacks.Injectives.SmallSubobjectEpi
 open CategoryTheory CategoryTheory.Limits
 
 universe v u w w'
+
+section MaxUniverse
 
 variable {C : Type u} [Category.{v} C] [Abelian C] [IsGrothendieckAbelian.{max u v} C]
 
@@ -195,9 +212,17 @@ private theorem epi_iff_image_eq_top {X N : C} (h : X ⟶ N) :
     rw [← imageSubobject_arrow_comp h]
     exact epi_comp _ _
 
+end MaxUniverse
+
+section General
+
+variable {C : Type u} [Category.{v} C] [Abelian C]
+
 /-- The image of a morphism out of a coproduct is the supremum of the images of its
 components. -/
-private theorem image_sigma_eq_iSup {ι : Type w} {U N : C} [HasCoproduct (fun (_ : ι) => U)]
+private theorem image_sigma_eq_iSup [LocallySmall.{w'} C] [WellPowered.{w'} C]
+    [HasCoproducts.{w'} C] [HasWidePullbacks.{w'} C] {ι : Type w} {U N : C}
+    [HasCoproduct (fun (_ : ι) => U)]
     (g : (∐ fun (_ : ι) => U) ⟶ N) :
     imageSubobject g = ⨆ i, imageSubobject (Sigma.ι (fun (_ : ι) => U) i ≫ g) := by
   refine le_antisymm ?_ (iSup_le fun i => imageSubobject_comp_le _ _)
@@ -210,14 +235,14 @@ private theorem image_sigma_eq_iSup {ι : Type w} {U N : C} [HasCoproduct (fun (
     (Sigma.hom_ext _ _ fun i => by simp)
 
 /-- Given an epimorphism `g` from a coproduct of copies of `U` onto `N`, there is a subset `S` of
-the index set with `#S ≤ size N` (after lifting universes) such that the restriction of `g` to
-the coproduct over `S` is still an epimorphism. -/
-theorem exists_small_subfamily_epi {ι : Type w} (U N : C)
+the index set and an injection `S → Subobject N` such that the restriction of `g` to the
+coproduct over `S`, whenever that coproduct exists, is still an epimorphism. -/
+theorem exists_subset_injective_epi [LocallySmall.{w'} C] [WellPowered.{w'} C]
+    [HasCoproducts.{w'} C] [HasWidePullbacks.{w'} C] {ι : Type w} (U N : C)
     [HasCoproduct (fun (_ : ι) => U)]
     (g : (∐ fun (_ : ι) => U) ⟶ N) [Epi g] :
-    ∃ (S : Set ι) (_ : HasCoproduct (fun (_ : S) => U)),
-      Cardinal.lift.{max u v} (Cardinal.mk S) ≤ Cardinal.lift.{w} (size N) ∧
-      Epi (subCoproductιMap U S ≫ g) := by
+    ∃ (S : Set ι) (f : S → Subobject N), Function.Injective f ∧
+      ∀ [HasCoproduct (fun (_ : S) => U)], Epi (subCoproductιMap U S ≫ g) := by
   set φ : ι → Subobject N := fun i => imageSubobject (Sigma.ι (fun (_ : ι) => U) i ≫ g) with hφ
   set T : Set (Subobject N) := Set.range φ
   have hpre : ∀ t : T, ∃ i : ι, φ i = t.val := fun t => t.2
@@ -231,14 +256,7 @@ theorem exists_small_subfamily_epi {ι : Type w} (U N : C)
   choose ts hts using hsec
   have hinj : Function.Injective (fun s : S => (ts s).val) := fun s s' hss =>
     Subtype.ext (by rw [← hts s, ← hts s', Subtype.ext hss])
-  have hcard : Cardinal.lift.{max u v} (Cardinal.mk S) ≤ Cardinal.lift.{w} (size N) := by
-    rw [size, Cardinal.lift_mk_le']
-    exact ⟨⟨fun s => (ts s).val, hinj⟩⟩
-  have hsmall : Small.{max u v} (S : Type w) := by
-    obtain ⟨f⟩ := Cardinal.lift_mk_le'.mp hcard
-    exact small_of_injective f.injective
-  have hSc : HasCoproduct (fun (_ : S) => U) := hasCoproduct_of_small U S
-  refine ⟨S, hSc, hcard, ?_⟩
+  refine ⟨S, fun s => (ts s).val, hinj, fun {_} => ?_⟩
   rw [epi_iff_image_eq_top, image_sigma_eq_iSup (subCoproductιMap U S ≫ g)]
   have hcomp : ∀ s : S, imageSubobject (Sigma.ι (fun (_ : S) => U) s ≫ (subCoproductιMap U S ≫ g))
       = φ s.val := by
@@ -252,10 +270,40 @@ theorem exists_small_subfamily_epi {ι : Type w} (U N : C)
   calc φ i = φ (j ⟨φ i, i, rfl⟩) := (hj ⟨φ i, i, rfl⟩).symm
     _ ≤ ⨆ s : S, φ s.val := le_iSup (fun s : S => φ s.val) ⟨j ⟨φ i, i, rfl⟩, _, rfl⟩
 
-/-- Let `C` be a Grothendieck abelian category with generator `separator C`. For every
-epimorphism `π : M ⟶ N` there is a subobject `M' ⊆ M` such that `M'.arrow ≫ π` is an
-epimorphism and `size M' ≤ cardFn (separator C) (size N)`. -/
-@[stacks 079J]
+end General
+
+section MaxUniverse
+
+variable {C : Type u} [Category.{v} C] [Abelian C] [IsGrothendieckAbelian.{max u v} C]
+
+/-- Given an epimorphism `g` from a coproduct of copies of `U` onto `N`, there is a subset `S` of
+the index set with `#S ≤ size N` (after lifting universes) such that the restriction of `g` to
+the coproduct over `S` is still an epimorphism. -/
+theorem exists_small_subfamily_epi {ι : Type w} (U N : C)
+    [HasCoproduct (fun (_ : ι) => U)]
+    (g : (∐ fun (_ : ι) => U) ⟶ N) [Epi g] :
+    ∃ (S : Set ι) (_ : HasCoproduct (fun (_ : S) => U)),
+      Cardinal.lift.{max u v} (Cardinal.mk S) ≤ Cardinal.lift.{w} (size N) ∧
+      Epi (subCoproductιMap U S ≫ g) := by
+  obtain ⟨S, f, hf, hS⟩ := exists_subset_injective_epi U N g
+  have hcard : Cardinal.lift.{max u v} (Cardinal.mk S) ≤ Cardinal.lift.{w} (size N) := by
+    rw [size, Cardinal.lift_mk_le']
+    exact ⟨⟨f, hf⟩⟩
+  have hsmall : Small.{max u v} (S : Type w) := by
+    obtain ⟨f⟩ := Cardinal.lift_mk_le'.mp hcard
+    exact small_of_injective f.injective
+  have hSc : HasCoproduct (fun (_ : S) => U) := hasCoproduct_of_small U S
+  exact ⟨S, hSc, hcard, hS⟩
+
+/-- Let `C` be an abelian category satisfying `IsGrothendieckAbelian.{max u v} C`, with
+generator `separator C`. For every epimorphism `π : M ⟶ N` there is a subobject `M' ⊆ M` such
+that `M'.arrow ≫ π` is an epimorphism and `size M' ≤ cardFn (separator C) (size N)`.
+
+This is not Stacks Tag 079J: the hypothesis `IsGrothendieckAbelian.{max u v} C` provides
+coproducts indexed by the type of all morphisms of `C`, and Freyd's cardinality argument then
+forces every hom-set to have at most one element, so every object of `C` is zero. Categories
+such as `ModuleCat.{v} R` are `IsGrothendieckAbelian.{v}` but not of this kind. Tag 079J is
+`exists_subobject_epi_smallSize_le`. -/
 theorem exists_subobject_epi_size_le
     (M N : C) (π : M ⟶ N) [Epi π] :
     ∃ M' : Subobject M,
@@ -273,5 +321,77 @@ theorem exists_subobject_epi_size_le
     exact epi_of_epi (factorThruImageSubobject q) _
   · exact (size_le_of_epi (factorThruImageSubobject q)).trans
       (size_coproduct_le_cardFn U N S hScard)
+
+end MaxUniverse
+
+section
+
+variable {C : Type u} [Category.{v} C] [Abelian C] [IsGrothendieckAbelian.{v} C]
+
+/-- The *size* `|M|` of an object `M` of a Grothendieck abelian category (Stacks Tag 079C), as a
+cardinal in `Cardinal.{v}`: the cardinality of `Shrink.{v} (Subobject M)`. The category is
+well-powered, so `Subobject M` is `v`-small; `lift_smallSize` identifies this cardinal with
+`#(Subobject M)`. -/
+noncomputable def smallSize (M : C) : Cardinal.{v} :=
+  Cardinal.mk (Shrink.{v} (Subobject M))
+
+/-- `smallSize M` is the cardinality `#(Subobject M)` of the set of subobjects of `M`, the size
+of Tag 079C (`Stacks.Injectives.Size.size`), up to lifting universes. -/
+theorem lift_smallSize (M : C) :
+    Cardinal.lift.{max u v} (smallSize M) = Cardinal.lift.{v} (Cardinal.mk (Subobject M)) :=
+  Cardinal.lift_mk_eq'.2 ⟨(equivShrink _).symm⟩
+
+/-- The cardinal function `c` of Stacks Tag 079J attached to an object `U`: `c κ` is the size of
+the coproduct of `κ` copies of `U`, the cardinal `κ : Cardinal.{v}` being viewed as the index
+type `κ.out : Type v`, for which the coproduct exists. -/
+noncomputable def smallCardFn (U : C) (κ : Cardinal.{v}) : Cardinal.{v} :=
+  smallSize (∐ fun (_ : κ.out) => U)
+
+/-- An injection of subobject sets gives an inequality of sizes. -/
+private theorem smallSize_le_of_injective {X Y : C} (f : Subobject X → Subobject Y)
+    (hf : Function.Injective f) : smallSize X ≤ smallSize Y :=
+  Cardinal.mk_le_of_injective (f := equivShrink _ ∘ f ∘ (equivShrink _).symm)
+    ((equivShrink _).injective.comp (hf.comp (equivShrink _).symm.injective))
+
+/-- If `i : A ⟶ B` is a monomorphism, then `smallSize A ≤ smallSize B`. -/
+theorem smallSize_le_of_mono {A B : C} (i : A ⟶ B) [Mono i] : smallSize A ≤ smallSize B :=
+  smallSize_le_of_injective _ (Subobject.map_obj_injective i)
+
+/-- If `f : X ⟶ Y` is an epimorphism, then `smallSize Y ≤ smallSize X`. -/
+theorem smallSize_le_of_epi {X Y : C} (f : X ⟶ Y) [Epi f] : smallSize Y ≤ smallSize X :=
+  smallSize_le_of_injective (Subobject.pullback f).obj fun b₁ b₂ h => by
+    rw [← pullback_recover f b₁, h, pullback_recover]
+
+/-- **Stacks 079J.** Let `C` be a Grothendieck abelian category with a generator `U`, and let
+`c(κ) = |⨁_{α ∈ κ} U|` (`smallCardFn U κ`). For every epimorphism `π : M ⟶ N` there is a
+subobject `M' ⊆ M` such that `M' ⟶ M ⟶ N` is an epimorphism and `|M'| ≤ c(|N|)`, sizes being
+cardinalities of sets of subobjects (`smallSize`, see `lift_smallSize`). -/
+@[stacks 079J "Mathlib's setting `IsGrothendieckAbelian.{v} C` for `Category.{v} C`; sizes in
+`Cardinal.{v}`, the generator `U` arbitrary"]
+theorem exists_subobject_epi_smallSize_le {U : C} (hU : IsSeparator U) {M N : C} (π : M ⟶ N)
+    [Epi π] :
+    ∃ M' : Subobject M, Epi (M'.arrow ≫ π) ∧
+      smallSize (M' : C) ≤ smallCardFn U (smallSize N) := by
+  set e : (∐ fun (_ : (U ⟶ M)) => U) ⟶ M := Sigma.desc (fun f => f)
+  have : Epi e := epi_sigmaDesc_of_isSeparator hU M
+  obtain ⟨S, f, hf, hS⟩ := exists_subset_injective_epi U N (e ≫ π)
+  have : Epi (subCoproductιMap U S ≫ e ≫ π) := hS
+  set q : (∐ fun (_ : S) => U) ⟶ M := subCoproductιMap U S ≫ e with hq
+  refine ⟨imageSubobject q, ?_, ?_⟩
+  · have : Epi (factorThruImageSubobject q ≫ (imageSubobject q).arrow ≫ π) := by
+      rwa [← Category.assoc, imageSubobject_arrow_comp, hq, Category.assoc]
+    exact epi_of_epi (factorThruImageSubobject q) _
+  · refine (smallSize_le_of_epi (factorThruImageSubobject q)).trans ?_
+    have hcard : Cardinal.mk S ≤ Cardinal.mk (smallSize N).out := by
+      rw [Cardinal.mk_out, smallSize]
+      exact Cardinal.mk_le_of_injective (f := equivShrink _ ∘ f)
+        ((equivShrink _).injective.comp hf)
+    obtain ⟨g⟩ := hcard
+    have : Mono (Sigma.desc (fun a => Sigma.ι (fun (_ : (smallSize N).out) => U) (g a))) :=
+      mono_sigmaDesc_ι (U := U) g g.injective
+    exact smallSize_le_of_mono
+      (Sigma.desc (fun a => Sigma.ι (fun (_ : (smallSize N).out) => U) (g a)))
+
+end
 
 end Stacks.Injectives.SmallSubobjectEpi

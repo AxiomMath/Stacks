@@ -28,8 +28,9 @@ Fourier-Mukai kernel of a relative equivalence from `X_i` to `Y_i` over `S_i`. T
 
 ## Main results
 
-* `AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_descentSituation` —
-  **[Stacks, Tag 0G0L]**.
+* `AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_descentSituation` — the assembly of
+  [Stacks, Tag 0G0L] from its four inputs; the tag itself is
+  `AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_limit`.
 
 ## Implementation notes
 
@@ -49,43 +50,28 @@ this is the side at which
 `StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceBaseChange.lean`
 states [Stacks, Tag 0G0K], whose base change `X ×_S S₁` the stages below are instances of.
 
-*What is proved here and what is granted.* The source's proof of [Stacks, Tag 0G0L] cites
-exactly five inputs, and this tree has none of them in a form that can be applied; each is
-therefore carried as an explicit hypothesis, and what is proved below is the assembly that the
-source's proof performs with them. Nothing about relative equivalences is assumed: every carried
-hypothesis is a statement about perfect objects, diagonal kernels and convolution kernels alone,
-so the theorem is not vacuous — see the attribute string on the main theorem for the one-by-one
-account.
+*The four inputs.* The source's proof of [Stacks, Tag 0G0L] cites five results, which enter the
+theorem below as four propositions about perfect objects, diagonal kernels and convolution
+kernels alone; nothing about relative equivalences is assumed. What is proved here is the
+assembly that the source's proof performs with them. All four propositions are proved in
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceLimitDescent.lean`,
+which imports this module, and the theorem with the four discharged is
+`AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_limit`, [Stacks, Tag 0G0L].
 
 * `h09RFobj` and `h09RFiso` are the two halves of [Stacks, Tag 09RF], essential surjectivity and
-  the descent of an isomorphism, read along the tower of fibre products. The tower *is* a
-  situation of [Stacks, Tag 09RD]: its transitions are affine and its stages quasi-compact and
-  quasi-separated, both by base change, and its limit is `X ×_S Y`, which is
-  `AlgebraicGeometry.Scheme.isLimitBaseChangeCone`
-  (`StacksFrontier/AlgebraicGeometry/Limits/FinitePresentationDescent.lean:243`), packaged as
-  `AlgebraicGeometry.directedBaseChangeDescentSituation`
-  (`StacksFrontier/AlgebraicGeometry/Flatness/PureModules/PurityLimitStageDirected.lean:191`). What
-  is missing is the colimit property itself: the module
-  `StacksFrontier/AlgebraicGeometry/Perfect/LimitPerfectObjects.lean` proves only that the
-  comparison functors `D_perf(𝒪_{S_i}) ⥤ D_perf(𝒪_S)` exist and cohere, and its own clause
-  labels (lines 142, 154, 246, 286) record that neither full faithfulness nor essential
-  surjectivity is included.
+  the descent of an isomorphism, read along the tower of fibre products `X_i ×_{S_i} Y_i`. The
+  tower is a situation of [Stacks, Tag 09RD] (`AlgebraicGeometry.towerSituation`), and the two
+  halves are `AlgebraicGeometry.perfectDescendsAlongBaseChangedTower` and
+  `AlgebraicGeometry.perfectIsoDescendsAlongBaseChangedTower`, for index sets in the universe of
+  the schemes.
 * `hbc` is the pair of base-change isomorphisms that the source's proof of [Stacks, Tag 0G0K]
-  establishes: that the diagonal kernel of [Stacks, Tag 0FYV] and the convolution kernel of
-  [Stacks, Tag 0FYS] both commute with base change. They are proved in
-`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceBaseChange.lean`
-  as `diagonalKernelBaseChangeIso` (line 404) and `convolutionBaseChangeIso` (line 427), but both
-  are `private` there, and only their combination
-  `AlgebraicGeometry.isRelativeEquivalenceKernel_derivedPullback` (line 518, the public
-  [Stacks, Tag 0G0K]) is exported; that combination transports the kernel property from a base to
-  a base change, which is the direction opposite to the one the proof below needs.
-* `hperf` is the perfectness of those same two objects: for the diagonal kernel this is
-  [Stacks, Tag 0FDP] together with [Stacks, Tag 0B6G], and for the convolution kernel it is
-  [Stacks, Tag 0B91]. This tree's [Stacks, Tag 0B6G]
-  (`StacksFrontier/AlgebraicGeometry/MoreMorphisms/PerfectMorphism/ProperDirectImage.lean:190`)
-  grants the finite-Tor-dimension half of its own input, and its [Stacks, Tag 0B91]
-  (`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean:263`) proves only
-  the base-change half of that lemma's conclusion, in tensor form, and not the perfectness half.
+  establishes: the diagonal kernel of [Stacks, Tag 0FYV] and the convolution kernel of
+  [Stacks, Tag 0FYS] both commute with base change. It is
+  `AlgebraicGeometry.diagonalKernelAndConvolutionBaseChange`.
+* `hperf` is the perfectness of those same two objects, which the source takes from
+  [Stacks, Tag 0FDP] with [Stacks, Tag 0B6G] for the diagonal kernel and from
+  [Stacks, Tag 0B91] for the convolution kernel. It is
+  `AlgebraicGeometry.diagonalKernelAndConvolutionPerfect`.
 
 *Why the conclusion is an existential over the index.* The source asserts the existence of
 *some* `i ≥ 0` carrying a kernel; the index produced below is obtained twice from the descent of
@@ -135,12 +121,12 @@ def baseChangeStage (x : X₀ ⟶ S₀) (hu : u ≫ s = s') : pullback x s' ⟶ 
 @[reassoc (attr := simp)]
 lemma baseChangeStage_fst (x : X₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeStage x hu ≫ pullback.fst x s = pullback.fst x s' := by
-  simp [baseChangeStage, pullback.map]
+  simp [baseChangeStage, pullback.map, pullback.lift_fst]
 
 @[reassoc (attr := simp)]
 lemma baseChangeStage_snd (x : X₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeStage x hu ≫ pullback.snd x s = pullback.snd x s' ≫ u := by
-  simp [baseChangeStage, pullback.map]
+  simp [baseChangeStage, pullback.map, pullback.lift_snd]
 
 /-- The comparison morphisms of a tower of base changes compose. -/
 lemma baseChangeStage_comp (x : X₀ ⟶ S₀) (hu : u ≫ s = s') (hv : v ≫ s' = s'')
@@ -160,13 +146,13 @@ def baseChangeProduct (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s'
 lemma baseChangeProduct_fst (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeProduct x y hu ≫ pullback.fst (pullback.snd x s) (pullback.snd y s) =
       pullback.fst (pullback.snd x s') (pullback.snd y s') ≫ baseChangeStage x hu := by
-  simp [baseChangeProduct, pullback.map]
+  simp [baseChangeProduct, pullback.map, pullback.lift_fst]
 
 @[reassoc (attr := simp)]
 lemma baseChangeProduct_snd (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeProduct x y hu ≫ pullback.snd (pullback.snd x s) (pullback.snd y s) =
       pullback.snd (pullback.snd x s') (pullback.snd y s') ≫ baseChangeStage y hu := by
-  simp [baseChangeProduct, pullback.map]
+  simp [baseChangeProduct, pullback.map, pullback.lift_snd]
 
 /-- **The cocycle identity of the tower of fibre products.** -/
 lemma baseChangeProduct_comp (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') (hv : v ≫ s' = s'')
@@ -520,8 +506,7 @@ lemma exists_isRelativeEquivalenceKernel_of_stage
     ⟨(derivedPullback (baseChangeProduct x x
       (D.transition_comp_transition (hi.trans hij) hjk)).toLRSHom.toShHom).mapIso g₁⟩
 
-/-- **[Stacks, Tag 0G0L]: a relative equivalence over a limit of schemes comes from a finite
-stage.** Let `S = lim S_i` be the limit of a directed inverse system of quasi-compact and
+/-- **The assembly of [Stacks, Tag 0G0L] from its four inputs.** Let `S = lim S_i` be the limit of a directed inverse system of quasi-compact and
 quasi-separated schemes with affine transition morphisms, with a chosen index `0`, let
 `X_0 ⟶ S_0` and `Y_0 ⟶ S_0` be smooth and proper, and put `X_i = X_0 ×_{S_0} S_i`,
 `X = X_0 ×_{S_0} S` and likewise for `Y_0`. If `K` is the Fourier-Mukai kernel of a relative
@@ -534,23 +519,13 @@ and `K'_i` at a common stage `i` by [Stacks, Tag 09RF]; both displayed isomorphi
 the diagonal kernel and the convolution kernel commute with base change, so by
 [Stacks, Tag 09RF] again the first of them already holds at some stage `j ≥ i`, and, after
 transporting `K_i` and `K'_i` to `j`, the second at some stage `k ≥ j`. Transporting the first
-isomorphism from `j` to `k` puts both at the stage `k`. -/
-@[stacks 0G0L "the existence of a relative-equivalence kernel at SOME stage i >= 0 of a directed \
-inverse system of qcqs schemes with affine transitions, given one over the limit. GRANTED, each \
-an input the source's own proof cites and this tree lacks in applicable form: h09RFobj and \
-h09RFiso, the two halves of Tag 09RF read along the tower of fibre products (the tree has only \
-the coherent cocone); hbc, the two \
-base-change isomorphisms established inside the proof of Tag 0G0K but private there \
-(RelativeEquivalenceBaseChange.lean:404 and :427, exported only in the opposite direction as \
-:518); hperf, perfectness of the diagonal kernel (Tag 0FDP with Tag 0B6G, whose tree form \
-the proper direct image theorem grants its own Tor-dimension input) and of the convolution kernel \
-(Tag 0B91, whose tree form \
-StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean:263 proves \
-only the base-change \
-half in tensor form). No hypothesis mentions relative equivalences, so nothing of the conclusion \
-is assumed; the affineness of the transitions and the qcqs hypothesis on every stage enter \
-through DescentSituation, and smoothness and properness of X_0 -> S_0 and Y_0 -> S_0 are \
-instance hypotheses"]
+isomorphism from `j` to `k` puts both at the stage `k`.
+
+The two halves of [Stacks, Tag 09RF] along the tower, the base change of the diagonal and
+convolution kernels, and their perfectness enter as the hypotheses `h09RFobj`, `h09RFiso`, `hbc`
+and `hperf`. All four are proved, and the theorem with them discharged is
+`AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_limit`, which carries
+[Stacks, Tag 0G0L]. -/
 theorem exists_isRelativeEquivalenceKernel_of_descentSituation
     (h09RFobj : PerfectDescendsAlongBaseChangedTower.{v, u})
     (h09RFiso : PerfectIsoDescendsAlongBaseChangedTower.{v, u})

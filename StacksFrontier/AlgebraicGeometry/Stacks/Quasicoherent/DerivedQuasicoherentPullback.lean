@@ -1,7 +1,11 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ULiftFiniteColimits
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.DerivedQuasicoherentCohomology
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.DerivedQuasicoherentCohomologyPrimed
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChangeFppfPullback
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.HigherDirectImageFppfWeakSerre
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.ParasiticColocalizationTriangle
 public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.QuasicoherentPullbackExactness
 public import StacksFrontier.CategoryTheory.Functor.Derived.InitialResolution
@@ -33,28 +37,35 @@ assertions about the inverse image `f^* = f^{-1}` of modules on the fppf sites.
 3. *Adjointness.*  For `f` quasi-compact and quasi-separated, `Lf^*_QCoh` is left adjoint to
    `Rf_{QCoh, *}` on `D^+_QCoh(𝒪_𝒳)`.
 
-Assertions 1 and 2 are what is proved here.  Assertion 3 is not: it needs `Rf_{QCoh, *}`, the
-derived pushforward of **Stacks 07BC**, which this library does not have.
+This file proves assertion 1, the functor and the commutative square, at the module universe `u`
+of `AlgebraicGeometry.Stack.fppfModules`, and develops assertion 2 there over the hypotheses
+spelled out below.  The complete statement of **Stacks 07BE**, all three assertions, is
+`AlgebraicGeometry.Stack.FlatFppf.derivedSheafFlatBaseChangePullbackSucc`,
+`AlgebraicGeometry.Stack.FlatFppf.derivedSheafFlatBaseChangePullbackSucc_comp_ι`,
+`AlgebraicGeometry.Stack.FlatFppf.isLeftDerivable_derivedSheafFlatBaseChangePullbackSucc`,
+`AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentPullbackSucc` and
+`AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentPullbackSuccHomEquiv`, at module universe
+`u + 1` with the class `LQCoh^fbc` of **Stacks 0762**.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Stack.fppfModulesPullback`: the inverse image `f^* : Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`
   of **Stacks 06WE** at the module universe of
-  `AlgebraicGeometry.Stack.fppfModules`, together with its additivity and left exactness.
+  `AlgebraicGeometry.Stack.fppfModules`, together with its additivity and exactness.
 * `AlgebraicGeometry.Stack.derivedFppfModulePullback`: the exact functor
   `f^* : D(𝒪_𝒴) ⥤ D(𝒪_𝒳)` it induces on the unbounded derived categories.
-* `AlgebraicGeometry.Stack.derivedLocallyQuasicoherentPullback`: **Stacks 07BE**, assertion 1 —
+* `AlgebraicGeometry.Stack.derivedLocallyQuasicoherentPullback`: assertion 1 —
   the induced functor `D_{LQCoh^fbc}(𝒪_𝒴) ⥤ D_{LQCoh^fbc}(𝒪_𝒳)`.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.derivedLocallyQuasicoherentFlatBaseChange_derivedFppfModulePullback`:
-  **Stacks 07BE**, assertion 1 at the level of objects — `f^*K` has locally quasi-coherent
+  assertion 1 at the level of objects — `f^*K` has locally quasi-coherent
   cohomology with flat base change when `K` does.
-* `AlgebraicGeometry.Stack.derivedLocallyQuasicoherentPullback_comp_ι`: **Stacks 07BE**,
+* `AlgebraicGeometry.Stack.derivedLocallyQuasicoherentPullback_comp_ι`:
   the commutativity of the square.
 * `AlgebraicGeometry.Stack.isLeftDerivable_toDerivedCategoryQuasicoherent_comp_pullback`:
-  **Stacks 07BE**, assertion 2 — `q_𝒳 ∘ f^*` is left derivable with respect to the class of
+  assertion 2 — `q_𝒳 ∘ f^*` is left derivable with respect to the class of
   morphisms the Verdier quotient of **Stacks 07B6** inverts.
 * `AlgebraicGeometry.Stack.FlatFppf.isLeftDerivable_of_parasiticFreePart`: the same conclusion
   with the colocalization hypothesis discharged from **Stacks 07BA**.
@@ -81,24 +92,18 @@ for every other functor out of `D_{LQCoh^fbc}(𝒪_𝒴)` at once; the statement
 at `q_𝒳 ∘ f^*`, which is the composite the source names and the one whose left derived functor is
 `Lf^*_QCoh`.
 
-### The hypotheses carried, and why
+### The inputs of assertion 1
 
-*Exactness of `f^*`.*  Left exactness is unconditional and is proved here from
-`AlgebraicGeometry.Stack.preservesFiniteLimits_modulePullback`, which holds at every module
-universe; additivity likewise.  Right exactness is
-`AlgebraicGeometry.Stack.preservesFiniteColimits_modulePullback`, which comes from the adjunction
-of **Stacks 06WE** and is therefore available only at a module universe large enough for the two
-sites — that is at `u + 1`, whereas `AlgebraicGeometry.Stack.fppfModules`, the category in which
-**Stacks 07B6** and **Stacks 07BA** are stated in this library, is seated at the module universe
-`u`.  It is carried as the instance hypothesis `[PreservesFiniteColimits …]`.
+*Exactness of `f^*`.*  Left exactness is
+`AlgebraicGeometry.Stack.fppfModulesPullback_preservesFiniteLimits`, and right exactness is
+`AlgebraicGeometry.Stack.fppfModulesPullback_preservesFiniteColimits`, obtained by raising the
+universe of the sections to `u + 1`, where `f^*` is a left adjoint (**Stacks 06WE**).
 
 *`f^*` on modules preserves `LQCoh^fbc`.*  This is **Stacks 0771** part (3), which the source
-cites as Cohomology of Stacks, Proposition 103.8.1.  The library has it for the inverse image of
-*presheaves* of modules on the associated étale site, as
-`AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_stackModulePresheafPullback`,
-and even there with the flat base change half (**Stacks 0764** part (1)) assumed; matching that
-functor with the inverse image of fppf *sheaves* of modules used here is a further identification
-the library does not have.  It is therefore carried as the hypothesis `hpres`.
+cites as Cohomology of Stacks, Proposition 103.8.1, and is
+`AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_fppfModulesPullback`.
+
+### The hypotheses of assertion 2
 
 *The colocalization triangle.*
 `AlgebraicGeometry.Stack.FlatFppf.isLeftDerivable_of_parasiticFreePart`
@@ -110,17 +115,27 @@ result's own hypotheses: the derived module-level `Lg_!` of **Stacks 07AS** part
 *Triangulated structure.*  `D_{LQCoh^fbc}(𝒪_𝒴)` has to be a triangulated subcategory of
 `D(𝒪_𝒴)` for the full subcategory to be pretriangulated at all, and
 `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒴)` has to be one for the inverted class to be the class attached to
-it.  These are **Stacks 0771** and **Stacks 0774**, which the library does not have; as in
+it.  These are **Stacks 0771** and **Stacks 0774**, read at the module universe `u`; as in
 `AlgebraicGeometry.Stack.derivedQuasicoherentW_eq_trW` they are carried as instance hypotheses on
 the two object properties.
 
-### What is not proved
+The class `LQCoh^fbc(𝒪_𝒴)` of this file is
+`AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeFppfModules`, whose flat base change
+condition is `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, read with the pullback of
+presheaves of modules.  The colocalization of **Stacks 07BA** at the module universe `u` is
+proved for the class `AlgebraicGeometry.Stack.lqcohSheafFbcFppfModules` read with the pullback of
+sheaves (`FlatFppf.hasColocalizations_locallyQuasicoherentSheafFlatBaseChangeFppfModules`), and
+not for the class of this file, so the two declarations of assertion 2 here keep these hypotheses
+and carry no tag; assertion 2 is registered at module universe `u + 1`, as
+`AlgebraicGeometry.Stack.FlatFppf.isLeftDerivable_derivedSheafFlatBaseChangePullbackSucc`.
 
-The adjointness of assertion 3 is absent, and so is the resulting functor `Lf^*_QCoh` on
-`D_QCoh(𝒪_𝒴)`: passing from everywhere-definedness to a functor on the Verdier quotient is
-**Stacks 05SW**, a separate statement.  What is delivered is the commutative square and the
-left derivability, which is precisely the condition under which the source *defines*
-`Lf^*_QCoh`.
+### Assertion 3
+
+The functor `Lf^*_QCoh` and its adjointness with `Rf_{QCoh,*}` are not developed here at the
+module universe `u`; they are
+`AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentPullbackSucc` and
+`AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentPullbackSuccHomEquiv` at module universe
+`u + 1`.
 
 ## References
 
@@ -184,78 +199,100 @@ instance fppfModulesPullback_preservesFiniteLimits :
     PreservesFiniteLimits (fppfModulesPullback B S hS f) :=
   preservesFiniteLimits_modulePullback.{u, u + 1, u, u, u + 1, u} B S hS _ _ _ _ _ _ _ _
 
+/-- The inverse image of modules along a 1-morphism of algebraic stacks is right exact.  Raising
+the universe of the sections, `Stacks.SheafOfModules.moduleULift`, carries it to the inverse image
+at module universe `u + 1`, which is right exact as a left adjoint
+(`AlgebraicGeometry.Stack.preservesFiniteColimits_modulePullback`, **Stacks 06WE**); the lift
+preserves finite colimits and, being fully faithful, reflects them. -/
+instance fppfModulesPullback_preservesFiniteColimits :
+    PreservesFiniteColimits (fppfModulesPullback B S hS f) := by
+  have := AlgebraicStacks.hasSheafify_fppfAssociatedTopology B S hS 𝒳
+  have := AlgebraicStacks.wEqualsLocallyBijective_fppfAssociatedTopology B S hS 𝒳
+  have := AlgebraicStacks.hasSheafify_fppfAssociatedTopology B S hS 𝒴
+  have := AlgebraicStacks.wEqualsLocallyBijective_fppfAssociatedTopology B S hS 𝒴
+  let L𝒳 := Stacks.SheafOfModules.moduleULift.{u + 1, u}
+    (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf)
+  let L𝒴 := Stacks.SheafOfModules.moduleULift.{u + 1, u}
+    (FibredSite.ringStructureSheafCore B S hS 𝒴.val.val.p 𝒴.val.isFiberedInGroupoids .fppf)
+  have h₁ : PreservesFiniteColimits L𝒴 :=
+    Stacks.SheafOfModules.preservesFiniteColimits_moduleULift.{u + 1, u} _
+  have h₂ : PreservesFiniteColimits (AlgebraicStacks.fppfModulePullback B S hS f) :=
+    preservesFiniteColimits_modulePullback.{u, u + 1, u, u, u + 1, u} B S hS _ _ _ _ _ _ _ _
+  have h₃ : PreservesFiniteColimits (L𝒴 ⋙ AlgebraicStacks.fppfModulePullback B S hS f) :=
+    @comp_preservesFiniteColimits _ _ _ _ _ _ L𝒴 _ h₁ h₂
+  have e : fppfModulesPullback B S hS f ⋙ L𝒳 ≅
+      L𝒴 ⋙ AlgebraicStacks.fppfModulePullback B S hS f :=
+    NatIso.ofComponents (fun _ ↦ (SheafOfModules.fullyFaithfulForget _).preimageIso
+      (PresheafOfModules.isoMk (fun _ ↦ Iso.refl _) (fun _ _ _ ↦ rfl))) (fun _ ↦ rfl)
+  have : PreservesFiniteColimits (fppfModulesPullback B S hS f ⋙ L𝒳) :=
+    @preservesFiniteColimits_of_natIso _ _ _ _ _ _ e.symm h₃
+  have := (Stacks.SheafOfModules.moduleULiftFullyFaithful.{u + 1, u}
+    (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+      .fppf)).full
+  have := (Stacks.SheafOfModules.moduleULiftFullyFaithful.{u + 1, u}
+    (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+      .fppf)).faithful
+  exact preservesFiniteColimits_of_reflects_of_preserves _ L𝒳
+
 section Derived
 
 variable [HasDerivedCategory.{t} (fppfModules B S hS 𝒳)]
   [HasDerivedCategory.{t} (fppfModules B S hS 𝒴)]
-  [PreservesFiniteColimits (fppfModulesPullback B S hS f)]
 
 /-- **The exact functor `f^* : D(𝒪_𝒴) ⥤ D(𝒪_𝒳)`** induced on the unbounded derived categories by
 the inverse image of modules along a 1-morphism of algebraic stacks.  Since `f^* = f^{-1}` is
-exact it needs no derivation: it acts on complexes degreewise. -/
-abbrev derivedFppfModulePullback :
+exact it needs no derivation: it acts on complexes degreewise.  The right exactness argument is
+supplied by the instance `AlgebraicGeometry.Stack.fppfModulesPullback_preservesFiniteColimits`. -/
+abbrev derivedFppfModulePullback [PreservesFiniteColimits (fppfModulesPullback B S hS f)] :
     DerivedCategory (fppfModules B S hS 𝒴) ⥤ DerivedCategory (fppfModules B S hS 𝒳) :=
   (fppfModulesPullback B S hS f).mapDerivedCategory
 
-variable [(locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳).IsClosedUnderIsomorphisms]
-
-/-- **Stacks 07BE, the first assertion, on objects.**  Let `f : 𝒳 ⟶ 𝒴` be a 1-morphism of
-algebraic stacks and let `K` be an object of `D_{LQCoh^fbc}(𝒪_𝒴)`.  Then `f^*K` is an object of
-`D_{LQCoh^fbc}(𝒪_𝒳)`.
+/-- **The first assertion of Stacks 07BE, on objects, at module universe `u`.**  Let
+`f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks and let `K` be an object of
+`D_{LQCoh^fbc}(𝒪_𝒴)`.  Then `f^*K` is an object of `D_{LQCoh^fbc}(𝒪_𝒳)`.
 
 Since `f^*` is exact its cohomology modules are the inverse images of those of `K`, so the
 statement reduces degree by degree to the module-level **Stacks 0771** part (3) — that `f^*`
-maps `LQCoh^fbc(𝒪_𝒴)` into `LQCoh^fbc(𝒪_𝒳)` — which is the hypothesis `hpres`. -/
-@[stacks 07BE "the first assertion, that f^* carries D_LQCoh^fbc(𝒪_𝒴) into D_LQCoh^fbc(𝒪_𝒳), \
-on objects; conditional on the module-level statement that f^* maps LQCoh^fbc(𝒪_𝒴) into \
-LQCoh^fbc(𝒪_𝒳) (Stacks 0771 part (3), the source's Cohomology of Stacks, Proposition 103.8.1), \
-carried as the hypothesis hpres"]
+maps `LQCoh^fbc(𝒪_𝒴)` into `LQCoh^fbc(𝒪_𝒳)` —, which is
+`AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_fppfModulesPullback`. -/
+@[stacks 07BE "the first assertion, on objects: for a 1-morphism f of algebraic stacks the exact \
+functor f^* : D(𝒪_𝒴) ⥤ D(𝒪_𝒳) carries D_LQCoh^fbc(𝒪_𝒴) into D_LQCoh^fbc(𝒪_𝒳), at module \
+universe u, for any models of the derived categories"]
 theorem derivedLocallyQuasicoherentFlatBaseChange_derivedFppfModulePullback
-    (hpres : ∀ F : fppfModules B S hS 𝒴,
-      locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒴 F →
-        locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳
-          ((fppfModulesPullback B S hS f).obj F))
     (K : DerivedCategory (fppfModules B S hS 𝒴))
     (hK : derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴 K) :
     derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒳
       ((derivedFppfModulePullback B S hS f).obj K) := fun n =>
   (locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳).prop_of_iso
     (((fppfModulesPullback B S hS f).mapDerivedCategoryHomologyIso n).app K).symm
-    (hpres _ (hK n))
+    (isLocallyQuasicoherentWithFlatBaseChange_fppfModulesPullback B E hE S hS f
+      (CatFiberedInGroupoids.homFunctor_comp_p f.hom) 𝒳.val.isFiberedInGroupoids _ (hK n))
 
-/-- **Stacks 07BE, the first assertion.**  The induced functor
+/-- **The first assertion of Stacks 07BE at module universe `u`.**  The induced functor
 `f^* : D_{LQCoh^fbc}(𝒪_𝒴) ⥤ D_{LQCoh^fbc}(𝒪_𝒳)`, the left vertical arrow of the square of the
 source.  Its composite with the inclusion of `D_{LQCoh^fbc}(𝒪_𝒳)` into `D(𝒪_𝒳)` is the
 composite of the inclusion of `D_{LQCoh^fbc}(𝒪_𝒴)` with `f^* : D(𝒪_𝒴) ⥤ D(𝒪_𝒳)`, which is the
 commutativity of the square; see
 `AlgebraicGeometry.Stack.derivedLocallyQuasicoherentPullback_comp_ι`. -/
-@[stacks 07BE "the first assertion, the induced functor D_LQCoh^fbc(𝒪_𝒴) ⥤ D_LQCoh^fbc(𝒪_𝒳); \
-conditional on the module-level Stacks 0771 part (3), carried as the hypothesis hpres"]
-def derivedLocallyQuasicoherentPullback
-    (hpres : ∀ F : fppfModules B S hS 𝒴,
-      locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒴 F →
-        locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳
-          ((fppfModulesPullback B S hS f).obj F)) :
+@[stacks 07BE "the first assertion: the functor D_LQCoh^fbc(𝒪_𝒴) ⥤ D_LQCoh^fbc(𝒪_𝒳) induced \
+by the exact functor f^*, at module universe u, for any models of the derived categories"]
+def derivedLocallyQuasicoherentPullback :
     (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).FullSubcategory ⥤
       (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒳).FullSubcategory :=
   (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒳).lift
     ((derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).ι ⋙
       derivedFppfModulePullback B S hS f)
     fun K => derivedLocallyQuasicoherentFlatBaseChange_derivedFppfModulePullback B E hE S hS f
-      hpres K.obj K.property
+      K.obj K.property
 
-/-- **Stacks 07BE, the commutativity of the square.**  Restricting `f^*` to the subcategories of
+/-- **The square of Stacks 07BE at module universe `u`.**  Restricting `f^*` to the subcategories of
 complexes with locally quasi-coherent cohomology and flat base change and then including into
 `D(𝒪_𝒳)` is the same as including into `D(𝒪_𝒴)` and applying `f^*`. -/
-@[stacks 07BE "the commutativity of the square: the induced functor on D_LQCoh^fbc, followed by \
-the inclusion into D(𝒪_𝒳), is the inclusion into D(𝒪_𝒴) followed by f^*; conditional on the \
-module-level Stacks 0771 part (3), carried as the hypothesis hpres"]
-theorem derivedLocallyQuasicoherentPullback_comp_ι
-    (hpres : ∀ F : fppfModules B S hS 𝒴,
-      locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒴 F →
-        locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳
-          ((fppfModulesPullback B S hS f).obj F)) :
-    derivedLocallyQuasicoherentPullback B E hE S hS f hpres ⋙
+@[stacks 07BE "the commutative square of the first assertion: the induced functor on \
+D_LQCoh^fbc followed by the inclusion into D(𝒪_𝒳) is the inclusion into D(𝒪_𝒴) followed by \
+f^*, at module universe u, for any models of the derived categories"]
+theorem derivedLocallyQuasicoherentPullback_comp_ι :
+    derivedLocallyQuasicoherentPullback B E hE S hS f ⋙
         (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒳).ι =
       (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).ι ⋙
         derivedFppfModulePullback B S hS f :=
@@ -299,13 +336,12 @@ theorem exists_derivedQuasicoherentW_leftOrthogonal_of_extensionProduct
 
 variable [(derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).IsTriangulated]
   [(derivedParasiticLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).IsTriangulated]
-  [(derivedParasiticLocallyQuasicoherentFlatBaseChange B E hE S hS
-    𝒴).IsClosedUnderIsomorphisms]
 
-/-- **Stacks 07BE, the second assertion.**  Let `f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks.
-If every object of `D_{LQCoh^fbc}(𝒪_𝒴)` receives a morphism of the inverted class from an object
-left orthogonal to `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒴)` — the Bousfield colocalization of
-**Stacks 07BA** — then every functor out of `D_{LQCoh^fbc}(𝒪_𝒴)`, in particular the composite
+/-- **The second assertion of Stacks 07BE at module universe `u`.**  Let `f : 𝒳 ⟶ 𝒴` be a
+1-morphism of algebraic stacks.  If every object of `D_{LQCoh^fbc}(𝒪_𝒴)` receives a morphism of
+the inverted class from an object left orthogonal to `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒴)` — the
+Bousfield colocalization of **Stacks 07BA** — then every functor out of `D_{LQCoh^fbc}(𝒪_𝒴)`,
+in particular the composite
 
 `D_{LQCoh^fbc}(𝒪_𝒴) --f^*--> D_{LQCoh^fbc}(𝒪_𝒳) --q_𝒳--> D_QCoh(𝒪_𝒳)`
 
@@ -316,24 +352,13 @@ quotient `D_{LQCoh^fbc}(𝒪_𝒴) ⟶ D_QCoh(𝒪_𝒴)` of **Stacks 07B6** inv
 The resolution is an initial object of the index category `S/E` of **Stacks 05S9**, which is the
 source's assertion that `E' ⟶ E` is cofinal in `S/E`; see
 `CategoryTheory.ObjectProperty.isLeftDerivable_trW_of_leftOrthogonal_resolutions`. -/
-@[stacks 07BE "the second assertion, that q_𝒳 ∘ f^* is left derivable with respect to the \
-localization D_LQCoh^fbc(𝒪_𝒴) → D_QCoh(𝒪_𝒴) of 07B6, i.e. that LF is defined at every object; \
-conditional on the Bousfield colocalization of 07BA, carried as the hypothesis hres, and on \
-0771 and 0774, carried as the triangulated-subcategory instances. The adjointness of \
-Lf^*_QCoh with Rf_QCoh,* is NOT proved"]
 theorem isLeftDerivable_toDerivedCategoryQuasicoherent_comp_pullback
     [HasDerivedCategory.{t} (fppfModules B S hS 𝒳)]
-    [PreservesFiniteColimits (fppfModulesPullback B S hS f)]
-    [(locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳).IsClosedUnderIsomorphisms]
-    (hpres : ∀ F : fppfModules B S hS 𝒴,
-      locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒴 F →
-        locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳
-          ((fppfModulesPullback B S hS f).obj F))
     (hres : ∀ K : (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).FullSubcategory,
       ∃ (K' : (derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).FullSubcategory)
         (s : K' ⟶ K), derivedQuasicoherentW B E hE S hS 𝒴 s ∧
           (derivedParasiticInLocallyQuasicoherent B E hE S hS (𝒴 := 𝒴)).leftOrthogonal K') :
-    (derivedLocallyQuasicoherentPullback B E hE S hS f hpres ⋙
+    (derivedLocallyQuasicoherentPullback B E hE S hS f ⋙
         toDerivedCategoryQuasicoherent B E hE S hS 𝒳).IsLeftDerivable
       (derivedQuasicoherentW B E hE S hS 𝒴) := by
   have hW : derivedQuasicoherentW B E hE S hS 𝒴 =
@@ -348,10 +373,11 @@ theorem isLeftDerivable_toDerivedCategoryQuasicoherent_comp_pullback
 
 namespace FlatFppf
 
-/-- **Stacks 07BE, the second assertion, over Stacks 07BA.**  Let `f : 𝒳 ⟶ 𝒴` be a
-1-morphism of algebraic stacks and let `g : Sh(𝒴_{flat,fppf}) ⟶ Sh(𝒴_{fppf})` be the morphism of
-ringed topoi of **Stacks 0788** (2).  Given the derived lower shriek `Lg_!` of **Stacks 07AS**
-part (4) — carried, as in **Stacks 07BA**, as a functor `Lsh`, an adjunction `Lsh ⊣ g^*` and the
+/-- **The second assertion of Stacks 07BE at module universe `u`, over Stacks 07BA.**  Let
+`f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks and let
+`g : Sh(𝒴_{flat,fppf}) ⟶ Sh(𝒴_{fppf})` be the morphism of ringed topoi of **Stacks 0788** (2).
+Given the derived lower shriek `Lg_!` of **Stacks 07AS** part (4) — carried, as in
+**Stacks 07BA**, as a functor `Lsh`, an adjunction `Lsh ⊣ g^*` and the
 invertibility of its unit — and given that the parasitic-free part `Lg_! g^* K` of an object `K`
 of `D_{LQCoh^fbc}(𝒪_𝒴)` is again in `D_{LQCoh^fbc}(𝒪_𝒴)` (**Stacks 07B9** (2)(a), (2)(c),
 carried as `hK'`), the composite
@@ -365,32 +391,20 @@ The resolution hypothesis of
 discharged from **Stacks 07BA**,
 `AlgebraicGeometry.Stack.FlatFppf.extensionProduct_parasiticFreePart`, through
 `AlgebraicGeometry.Stack.exists_derivedQuasicoherentW_leftOrthogonal_of_extensionProduct`. -/
-@[stacks 07BE "the second assertion, that q_𝒳 ∘ f^* is left derivable with respect to the \
-localization D_LQCoh^fbc(𝒪_𝒴) → D_QCoh(𝒪_𝒴) of 07B6, with the colocalization input supplied by \
-07BA; conditional on the derived module-level Lg_! of 07AS (4) and on 07B9 (2)(a), \
-(2)(c), carried as Lsh, adj, hunit and hK', on the module-level 0771 (3), carried as hpres, and \
-on 0771 and 0774, carried as the triangulated-subcategory instances. The adjointness of \
-Lf^*_QCoh with Rf_QCoh,* is NOT proved"]
 theorem isLeftDerivable_of_parasiticFreePart
     [HasDerivedCategory.{t} (fppfModules B S hS 𝒳)]
     [HasDerivedCategory.{t'} (flatFppfModules B S hS 𝒴)]
-    [PreservesFiniteColimits (fppfModulesPullback B S hS f)]
-    [(locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳).IsClosedUnderIsomorphisms]
     [(derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴).IsClosedUnderIsomorphisms]
     (Lsh : DerivedCategory (flatFppfModules B S hS 𝒴) ⥤ DerivedCategory (fppfModules B S hS 𝒴))
     (adj : Lsh ⊣ derivedModuleRestriction B S hS 𝒴) (hunit : IsIso adj.unit)
-    (hpres : ∀ F : fppfModules B S hS 𝒴,
-      locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒴 F →
-        locallyQuasicoherentFlatBaseChangeFppfModules B E hE S hS 𝒳
-          ((fppfModulesPullback B S hS f).obj F))
     (hK' : ∀ K : DerivedCategory (fppfModules B S hS 𝒴),
       derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴 K →
         derivedLocallyQuasicoherentFlatBaseChange B E hE S hS 𝒴
           (parasiticFreePart B S hS 𝒴 Lsh K)) :
-    (derivedLocallyQuasicoherentPullback B E hE S hS f hpres ⋙
+    (derivedLocallyQuasicoherentPullback B E hE S hS f ⋙
         toDerivedCategoryQuasicoherent B E hE S hS 𝒳).IsLeftDerivable
       (derivedQuasicoherentW B E hE S hS 𝒴) :=
-  isLeftDerivable_toDerivedCategoryQuasicoherent_comp_pullback B E hE S hS f hpres
+  isLeftDerivable_toDerivedCategoryQuasicoherent_comp_pullback B E hE S hS f
     fun K => exists_derivedQuasicoherentW_leftOrthogonal_of_extensionProduct B E hE S hS K
       (extensionProduct_parasiticFreePart B S hS 𝒴 Lsh adj E hE hunit K.obj K.property
         (hK' K.obj K.property))

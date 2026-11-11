@@ -12,7 +12,10 @@ Let `S` be a locally Noetherian scheme and let `τ` be one of the five topologie
 smooth, syntomic and fppf. Stacks 0GE1 sets up the full subcategory `(Noetherian/S)` of
 `(Sch/S)` on the objects whose underlying scheme is locally Noetherian, and records the facts
 that make it a site for the coverings of `(Sch/S)_τ` whose objects are all locally Noetherian.
-This file proves parts (1), (2) and (3) of that list, uniformly in `τ`.
+This file proves the facts on locally Noetherian sources and fibre products underlying parts
+(1), (2) and (3) of that list, uniformly in `τ`; the complete statement, all five parts, is
+`AlgebraicGeometry.BigSite.NoetherianOver.closure_isSite_isContinuous_isCocontinuous` in
+`StacksFrontier.AlgebraicGeometry.Topologies.LocallyNoetherianSite`.
 
 ## Main results
 
@@ -80,7 +83,6 @@ public theorem coveringMorphismProperty_of_isCovering (B : BigSite.{u} τ)
   | zariski => exact h𝒰.1.2 ⟨i⟩
 
 /-- A member of a `τ`-covering family of a locally Noetherian scheme is locally Noetherian. -/
-@[stacks 0GE1 "part (3): the members of a covering family of a locally Noetherian scheme"]
 public theorem isLocallyNoetherian_of_mem_precoverage (τ : CoveringTopology) {X : Scheme.{u}}
     (hX : IsLocallyNoetherian X) {R : Presieve X}
     (hR : R ∈ Scheme.precoverage (coveringMorphismProperty.{u} τ) X)
@@ -89,7 +91,6 @@ public theorem isLocallyNoetherian_of_mem_precoverage (τ : CoveringTopology) {X
 
 /-- If a chosen covering family of a big site has locally Noetherian target, then each of its
 sources is locally Noetherian. -/
-@[stacks 0GE1 "part (3): the sources of a covering of a locally Noetherian object"]
 public theorem isLocallyNoetherian_of_isCovering (B : BigSite.{u} τ)
     {𝒰 : Covering (siteCategory B)} (h𝒰 : isCovering τ B 𝒰)
     (hX : IsLocallyNoetherian ((schemeBelowInclusion (cutoff τ B)).obj 𝒰.1)) (i : 𝒰.2.I₀) :
@@ -99,7 +100,6 @@ public theorem isLocallyNoetherian_of_isCovering (B : BigSite.{u} τ)
 
 /-- If a covering family of the big fppf category over `S` has locally Noetherian target, then
 each of its sources is locally Noetherian. -/
-@[stacks 0GE1 "part (3) for the big fppf site over a base scheme"]
 public theorem isLocallyNoetherian_of_isCovering_bigFppfOver (B : BigFppfSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S) {E : Covering (BigFppfOver B S hS)}
     (hE : BigFppfOver.IsCovering B S hS E)
@@ -110,8 +110,7 @@ public theorem isLocallyNoetherian_of_isCovering_bigFppfOver (B : BigFppfSite.{u
 /-- If `f : X ⟶ Y` is a morphism of the big site over `S` whose underlying morphism of schemes
 is locally of finite type and whose target is locally Noetherian, then its source is locally
 Noetherian. -/
-@[stacks 0GE1 "part (1): a morphism locally of finite type has locally Noetherian source",
-  ega "IV 1.3.3" "special case"]
+@[ega "IV 1.3.3" "special case"]
 public theorem isLocallyNoetherian_of_locallyOfFiniteType_over (B : BigSite.{u} τ)
     (S : Scheme.{u}) (hS : S.size < cutoff τ B) {X Y : Over (base B S hS)} (f : X ⟶ Y)
     (hY : IsLocallyNoetherian ((schemeBelowInclusion (cutoff τ B)).obj Y.left))
@@ -137,7 +136,6 @@ private theorem preservesCospans_forget_comp_schemeBelowInclusion (B : BigSite.{
 /-- Let `f : X ⟶ Y` and `g : Z ⟶ Y` be morphisms of the big site over `S` with `f` locally of
 finite type on underlying schemes and `Z` locally Noetherian. Then the vertex of a fibre product
 square on `f` and `g` is locally Noetherian. -/
-@[stacks 0GE1 "part (2): the fibre product along a morphism locally of finite type"]
 public theorem isLocallyNoetherian_of_isPullback_over (B : BigSite.{u} τ) (S : Scheme.{u})
     (hS : S.size < cutoff τ B) {W X Y Z : Over (base B S hS)}
     {p : W ⟶ X} {q : W ⟶ Z} {f : X ⟶ Y} {g : Z ⟶ Y} (h : IsPullback p q f g)

@@ -28,12 +28,18 @@ only such morphism.
 
 * `CategoryTheory.Limits.colimMap` is the induced morphism of glued schemes, and
   `CategoryTheory.Limits.ι_colimMap` says that it restricts to the given morphism on each member
-  of the cover. Both are Mathlib declarations, recorded here for Tag 01LK.
+  of the cover. Both are Mathlib declarations.
 * `AlgebraicGeometry.CompatibleRelativeGluingData.colimMap_localHom_toBase`: the induced
   morphism is a morphism over the base.
-* `AlgebraicGeometry.Scheme.BasisGluingData.existsUnique_hom_of_compatible`: **the functoriality
-  of Tag 01LK for the gluing data of Tag 01LH**, which are indexed by a basis of the topology of
-  the base.
+* `AlgebraicGeometry.Scheme.BasisGluingData.existsUnique_hom_of_compatible`: the functoriality
+  of the first paragraph of Tag 01LK for the gluing data of Tag 01LH, which are indexed by a basis
+  of the topology of the base.
+
+Tag 01LK as a whole — both its paragraphs, for schemes and for quasi-coherent sheaves — is
+`Stacks.AlgebraicGeometry.RelativeSheafGluing.existsUnique_glueHom_and_pullbackHom` (over a
+locally directed open cover) and
+`Stacks.AlgebraicGeometry.RelativeSheafGluing.existsUnique_glueHom_and_pullbackHom_basis` (over a
+basis), in `StacksFrontier.AlgebraicGeometry.Constructions.RelativeSheafGluingMorphism`.
 
 ## Implementation notes
 
@@ -95,9 +101,6 @@ public structure CompatibleRelativeGluingData where
 
 namespace CompatibleRelativeGluingData
 
-add_to_stacks 01LK "scheme_morphism" CategoryTheory.Limits.colimMap
-add_to_stacks 01LK "scheme_morphism" CategoryTheory.Limits.ι_colimMap
-
 variable (D : CompatibleRelativeGluingData.{u})
 
 /-- The category structure on the index set of the cover. -/
@@ -110,7 +113,6 @@ local instance : Small.{u} D.cover.I₀ := D.small
 local instance : Quiver.IsThin D.cover.I₀ := D.thin
 
 /-- The morphism induced on the glued schemes is a morphism over the common base. -/
-@[stacks 01LK "scheme_morphism"]
 public lemma colimMap_localHom_toBase :
     colimMap D.localHom ≫ D.target.toBase = D.source.toBase := by
   refine colimit.hom_ext fun i ↦ ?_
@@ -130,14 +132,16 @@ namespace Scheme.BasisGluingData
 
 variable {S : Scheme.{u}} {B : Set S.Opens}
 
-/-- **Stacks Project, Tag 01LK: functoriality for the data of Lemma 01LH.** Let `S` be a scheme
+/-- *Functoriality for the data of Lemma 01LH (first paragraph of Tag 01LK).* Let `S` be a scheme
 and `B` a basis for its topology, and let `D` and `D'` be gluing data over `B` as in Tag 01LH,
 with local schemes `D.obj U ⟶ U` and `D'.obj U ⟶ U` and restriction morphisms `D.res` and
 `D'.res`. Let `f : X ⟶ S` be a scheme glued from `D`, with charts `i U`, and `g : Y ⟶ S` one
 glued from `D'`, with charts `j U`. A family of morphisms `h U : D.obj U ⟶ D'.obj U` over `U`
 compatible with the restriction morphisms gives rise to a morphism `k : X ⟶ Y` over `S` which
-restricts back to the `h U`, and `k` is the only such morphism. -/
-@[stacks 01LK "scheme_morphism, for the gluing data over a basis of Tag 01LH"]
+restricts back to the `h U`, and `k` is the only such morphism.
+
+Both paragraphs of Tag 01LK together are
+`Stacks.AlgebraicGeometry.RelativeSheafGluing.existsUnique_glueHom_and_pullbackHom_basis`. -/
 public theorem existsUnique_hom_of_compatible (hB : Opens.IsBasis B) (D D' : BasisGluingData S B)
     {X Y : Scheme.{u}} {f : X ⟶ S} {g : Y ⟶ S}
     {i : ∀ U : B, D.obj U ⟶ X} {j : ∀ U : B, D'.obj U ⟶ Y}

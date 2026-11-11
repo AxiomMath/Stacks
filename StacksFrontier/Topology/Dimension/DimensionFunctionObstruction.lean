@@ -5,7 +5,7 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.Cech.AlternatingCochain
 public import StacksFrontier.Topology.Dimension.DimensionFunctionDifference
 
 /-!
-# The obstruction to a global dimension function is a Čech class (Stacks 02ID)
+# The obstruction to a global dimension function as a Čech class
 
 Let `X` be a locally Noetherian sober topological space. Tag 02IC produces, around every point, an
 open neighbourhood carrying a dimension function; tag 02IB says two dimension functions on such a
@@ -13,8 +13,9 @@ space differ by a locally constant function. So for a cover `U : I → Opens X` 
 dimension functions `δ i` on the members, the differences `δ i - δ j` are locally constant on
 `U i ∩ U j`, i.e. they form a Čech `1`-cocycle valued in the constant sheaf `ℤ`. This file proves
 that a *global* dimension function on `X` exists precisely when the class of that cocycle vanishes
-in `Ȟ¹`, and that on a catenary space such a cover always exists — which is the content of the
-remark 02ID.
+in `Ȟ¹`, and that on a catenary space such a cover always exists. These are the Čech half of the
+remark 02ID; `StacksFrontier.Topology.Dimension.DimensionFunctionObstructionCohomology` carries the
+class into sheaf cohomology `H¹(X, ℤ)` and states the remark itself.
 
 The Čech complex is the one of tag 01FJ (`CechCochains.Cochain`, `CechCochains.cechD`), which is
 defined for an arbitrary abelian presheaf on a space. Its first cohomology group
@@ -29,24 +30,21 @@ only provides the proposition `CechH1IsZero` asserting `ker d¹ ⊆ im d⁰`.
 * `TopologicalSpace.DimensionFunction.discrepancy`: the Čech `1`-cocycle `δ i - δ j`, its local
   constancy being exactly tag 02IB.
 * `TopologicalSpace.DimensionFunction.obstruction`: its class in `Ȟ¹(𝒰, ℤ)`.
-* `TopologicalSpace.DimensionFunction.exists_dimensionFunction_iff_obstruction_eq_zero`
-  (**02ID**): a global dimension function exists if and only if the obstruction class vanishes.
-* `TopologicalSpace.DimensionFunction.exists_cover_dimensionFunction_iff_obstruction_eq_zero`
-  (**02ID**): the same statement on a catenary space, where tag 02IC supplies the cover.
+* `TopologicalSpace.DimensionFunction.exists_dimensionFunction_iff_obstruction_eq_zero`: a global
+  dimension function exists if and only if the obstruction class vanishes.
+* `TopologicalSpace.DimensionFunction.exists_cover_dimensionFunction_iff_obstruction_eq_zero`: the
+  same statement on a catenary space, where tag 02IC supplies the cover.
 * `TopologicalSpace.DimensionFunction.obstruction_eq_zero_congr`: vanishing does not depend on the
   chosen cover, so the obstruction is intrinsic to `X`.
 
 ## Implementation notes
 
-Two points where this is weaker than the literal phrase "an element of `H¹(X, ℤ)`".
-
-1. The group is *Čech* cohomology of a chosen cover, not the derived-functor `H¹(X, ℤ)`
-   (`CategoryTheory.Sheaf.H`), since the comparison `Ȟ¹(𝒰, ℱ) → H¹(X, ℱ)` is not in Mathlib.
-   `obstruction_eq_zero_congr` recovers the part of the intended meaning that matters — the
-   obstruction does not depend on the cover.
-2. The coefficients are `locallyConstantIntPresheaf`, the presheaf of locally constant `ℤ`-valued
-   functions, which is the constant sheaf `ℤ` presented so that its sections are computable. It is
-   *not* identified with `constantSheafOnSpace`; that identification is a stalkwise comparison.
+The group here is *Čech* cohomology of a chosen cover, with coefficients
+`locallyConstantIntPresheaf`, the presheaf of locally constant `ℤ`-valued functions. The passage to
+sheaf cohomology `H¹(X, ℤ)` of the constant sheaf is in
+`StacksFrontier.Topology.Dimension.DimensionFunctionObstructionCohomology`: the comparison
+`Ȟ¹(𝒰, ℱ) → H¹(X, ℱ)` is injective, and `TopCat.constantSheafIsoLocallyConstantInt` identifies the
+coefficients with the constant sheaf `ℤ`.
 -/
 
 @[expose] public section
@@ -334,7 +332,7 @@ noncomputable def obstruction [QuasiSober X] [T0Space X] (hX : IsLocallyNoetheri
     CechCochains.CechH1 U (locallyConstantIntPresheaf X) :=
   CechCochains.cls U _ ⟨discrepancy hX U δ, discrepancy_mem_cocycles1 hX U δ⟩
 
-/-- **Stacks 02ID.** For a cover of a locally Noetherian sober space by opens carrying dimension
+/-- For a cover of a locally Noetherian sober space by opens carrying dimension
 functions `δ i`, a global dimension function on `X` exists if and only if the class of the
 discrepancy cocycle `δ i - δ j` vanishes in `Ȟ¹(𝒰, ℤ)`.
 
@@ -344,7 +342,6 @@ Both directions use tag 02IB. Forward: if `d` is global then `d - δ i` is local
 function; it is a dimension function because an open set is stable under generization (so both
 ends of a specialization lie in a common member of the cover) and because a locally constant
 function is constant along specializations. -/
-@[stacks 02ID]
 theorem exists_dimensionFunction_iff_obstruction_eq_zero [QuasiSober X] [T0Space X]
     (hX : IsLocallyNoetherianSpace X) (U : I → Opens X) (hcov : ∀ x : X, ∃ i, x ∈ U i)
     (δ : ∀ i, DimensionFunction (U i : Set X)) :
@@ -459,11 +456,11 @@ theorem exists_cover_dimensionFunction [QuasiSober X] [T0Space X]
     fun x => exists_open_nhd_with_dimension_function (X : Type _) hLN hCat x
   exact ⟨fun x => ⟨V x, hVopen x⟩, fun x => (hVdim x).some, hxV⟩
 
-/-- **Stacks 02ID.** On a catenary, locally Noetherian, sober topological space there is a cover by
-opens carrying dimension functions (tag 02IC), and a global dimension function exists exactly when
-the obstruction class of that cover vanishes in `Ȟ¹(𝒰, ℤ)`. By `obstruction_eq_zero_congr` the
-vanishing is independent of the cover, so this single class is *the* obstruction. -/
-@[stacks 02ID]
+/-- On a catenary, locally Noetherian, sober topological space there is a cover by opens carrying
+dimension functions (tag 02IC), and a global dimension function exists exactly when the obstruction
+class of that cover vanishes in `Ȟ¹(𝒰, ℤ)`. By `obstruction_eq_zero_congr` the vanishing is
+independent of the cover. The remark 02ID itself, with the obstruction an element of `H¹(X, ℤ)`,
+is `nonempty_dimensionFunction_iff_dimensionObstruction_eq_zero`. -/
 theorem exists_cover_dimensionFunction_iff_obstruction_eq_zero [QuasiSober X] [T0Space X]
     (hLN : IsLocallyNoetherianSpace X) (hCat : IsTopologicallyCatenary X) :
     ∃ (U : X → Opens X) (δ : ∀ x, DimensionFunction (U x : Set X)),

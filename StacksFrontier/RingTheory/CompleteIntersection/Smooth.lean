@@ -129,7 +129,8 @@ theorem isCompleteIntersection_of_isRegularLocalRing (k : Type u) [Field k] (S :
 of elements of `S` generating the unit ideal — equivalently, whose standard opens cover
 `Spec S` — each of whose localizations `S_g` admits a presentation `k[x₁, …, xₙ]/(f₁, …, f_c)`
 with `dim S_g = n - c`. -/
-@[stacks 00T5 "The source's `smooth` (Definition 00T2) is `Algebra.Smooth`, by Proposition 00TN;
+@[stacks 00T5 "The source's `smooth` (Definition 00T2) is `Algebra.Smooth`, whose
+`FormallySmooth` is the cotangent condition of 00T2;
 its finite type hypothesis on `S` is not repeated, being `Algebra.Smooth.finitePresentation`.
 A local complete intersection over `k` (Definition 00S9 (2)) is `IsLocalCompleteIntersection`.
 See the module docstring."]

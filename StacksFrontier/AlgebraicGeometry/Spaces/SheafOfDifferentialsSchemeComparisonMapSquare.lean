@@ -566,7 +566,8 @@ The first map is a monomorphism étale locally: on compatible étale charts `U �
 spaces by Stacks 04CU and 04CS
 (`AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`); exactness at the other
 two terms is Stacks 05Z8. -/
-@[stacks 06BI]
+@[stacks 06BI "for f formally smooth, 0 → f^*Ω_{Y/Z} → Ω_{X/Z} → Ω_{X/Y} → 0 is short exact; \
+unconditional"]
 theorem triangleDifferentials_shortExact_of_formallySmooth (f : X ⟶ Y) (g : Y ⟶ Z)
     (hf : FormallySmooth f.hom) :
     ∃ h : pullbackDifferentialsMap B S hS f g ≫ toRelativeDifferentials B S hS f g = 0,

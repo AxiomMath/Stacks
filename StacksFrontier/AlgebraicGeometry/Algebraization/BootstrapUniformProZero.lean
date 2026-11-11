@@ -318,8 +318,6 @@ theorem isProZeroIdealPowerCohomology (S : BootstrapSituation.{u, u, u}) (i : �
 This is `Stacks.LocalCohomology.exists_forall_injective_localCohomologyAdicProjection_of_proZero`
 with its hypothesis discharged by
 `Stacks.Algebraization.isProZeroIdealPowerCohomology`. -/
-@[stacks 0EFY "part (1) at a general specialization-stable T in Situation 0EFU: one m₀ beyond \
-which Hⁱ_T(M) ⟶ Hⁱ_T(M/IⁿM) is injective for every i ≤ s"]
 theorem exists_forall_injective_localCohomologyAdicProjection
     (S : BootstrapSituation.{u, u, u}) :
     ∃ m₀ : ℕ, ∀ i ≤ S.s, ∀ n : ℕ, m₀ ≤ n →
@@ -335,8 +333,6 @@ for `i < s`.
 This is `Stacks.LocalCohomology.isMittagLefflerCategorical_localCohomologyAdicTower_of_proZero`
 with its hypothesis — pro-zero-ness in degree `i + 1`, which is `≤ s` exactly when `i < s` —
 discharged by `Stacks.Algebraization.isProZeroIdealPowerCohomology`. -/
-@[stacks 0EFY "part (2) at a general specialization-stable T in Situation 0EFU: the \
-Mittag-Leffler condition for {Hⁱ_T(M/IⁿM)} in every degree i < s"]
 theorem isMittagLefflerCategorical_localCohomologyAdicTower
     (S : BootstrapSituation.{u, u, u}) (i : ℤ) (hi : i + 1 ≤ S.s) :
     IsMittagLefflerCategorical (localCohomologyAdicTower.{u, u} S.A S.T S.I i
@@ -351,8 +347,6 @@ theorem isMittagLefflerCategorical_localCohomologyAdicTower
 This is `Stacks.LocalCohomology.isIso_limitLift_localCohomologyAdicCone_of_proZero` with both of
 its hypotheses — pro-zero-ness in degrees `i` and `i + 1`, both `≤ s` exactly when `i < s` —
 discharged by `Stacks.Algebraization.isProZeroIdealPowerCohomology`. -/
-@[stacks 0EFY "part (4) at a general specialization-stable T in Situation 0EFU: \
-Hⁱ_T(M) ⟶ lim Hⁱ_T(M/IⁿM) is an isomorphism in every degree i < s"]
 theorem isIso_limitLift_localCohomologyAdicCone
     (S : BootstrapSituation.{u, u, u}) (i : ℤ) (hi : i + 1 ≤ S.s) :
     IsIso (limit.lift (localCohomologyAdicTower.{u, u} S.A S.T S.I i (ModuleCat.of S.A S.M))

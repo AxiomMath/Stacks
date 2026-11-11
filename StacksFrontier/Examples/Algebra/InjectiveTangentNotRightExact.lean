@@ -70,6 +70,8 @@ refutes the conclusion itself.
   the injective functor coinduced from `ℚ[ε]` is not right exact in the module variable.
 * `AdequateFunctor.not_forall_hasRightExactTangentFunctor_of_injective`: **Tag 06ZA is false
   as stated**, the negation of the source's assertion.
+* `AdequateFunctor.not_forall_exact_map_tangentFunctorAt_of_injective`: the negation of the
+  middle exactness asserted by Tag 06ZA.
 * `AdequateFunctor.epi_tangentFunctorAt_map_coinducedDualNum`: the counterexample does
   satisfy the corrected form of Tag 06ZA.
 
@@ -417,6 +419,32 @@ theorem not_forall_hasRightExactTangentFunctor_of_injective :
         Injective I → HasRightExactTangentFunctor A I := fun h =>
   not_hasRightExactTangentFunctor_coinducedDualNum
     (h ℚ coinducedDualNum (injective_coinduced ℚ dualNum))
+
+/-- **Exactness at `TI(B, N)` in Tag 06ZA is false.  Stacks erratum.**
+The source asserts that for every ring `A`, every injective object `I` of the category of
+module-valued functors on `Alg_A`, every `A`-algebra `B` and every short exact sequence
+`0 → N₁ → N → N₂ → 0` of `B`-modules, the sequence `TI(B, N₁) → TI(B, N) → TI(B, N₂) → 0` is
+exact.  This is the negation of its exactness at the middle term `TI(B, N)`.
+
+The witness is the one of
+`AdequateFunctor.not_forall_hasRightExactTangentFunctor_of_injective`: the injective functor
+`AdequateFunctor.coinducedDualNum` and `0 → ℚ → ℚ² → ℚ → 0`.  Since the other conjunct,
+exactness at `TI(B, N₂)`, does hold for every injective functor
+(`AdequateFunctor.epi_tangentFunctorAt_map_of_injective`), middle exactness is exactly the
+part that fails.  The corrected statement is
+`AdequateFunctor.map_comp_eq_zero_and_epi_tangentFunctorAt_map_of_injective`. -/
+@[stacks 06ZA "Stacks erratum: the negation of the exactness at `TI(B,N)` asserted by the \
+source, witnessed by the injective functor coinduced from `ℚ[ε]` and the sequence \
+`0 → ℚ → ℚ² → ℚ → 0`.  The corrected statement is \
+`AdequateFunctor.map_comp_eq_zero_and_epi_tangentFunctorAt_map_of_injective`."]
+theorem not_forall_exact_map_tangentFunctorAt_of_injective :
+    ¬ ∀ (A : Type) [CommRing A]
+        (I : PresheafOfModules.{0} (algebraStructurePresheaf.{0} A)), Injective I →
+        ∀ (B : Type) [CommRing B] [Algebra A B] (S : ShortComplex (ModuleCat.{0} B)),
+          S.ShortExact → (S.map (tangentFunctorAt A I B)).Exact := fun h =>
+  not_forall_hasRightExactTangentFunctor_of_injective fun A _ I hI B _ _ S hS =>
+    have : Injective I := hI
+    ⟨h A I hI B S hS, epi_tangentFunctorAt_map_of_injective A I B S hS⟩
 
 /-- The counterexample satisfies the corrected form of Tag 06ZA: for the injective functor
 coinduced from `ℚ[ε]`, every short exact sequence of modules does give a surjection onto the

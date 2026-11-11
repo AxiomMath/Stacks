@@ -39,11 +39,11 @@ henselisation is a filtered colimit of étale `A`-algebras. Stacks 03RG then kil
 * `h03Q9`, the stalk computation: for every point `t` of `X` and every `q ≥ 1`, if
   `H^q_étale(Spec L, 𝐆_m) = 0` for every algebraic extension `L` of `K` then the stalk of
   `R^q j_* 𝐆_{m,K}` vanishes at the geometric point of `X` over `t` whose residue field is an
-  algebraic closure of the residue field at `t`. This bundles the three steps of the source's
-  proof that this library cannot run: the unrestricted form of **Stacks 03Q9**, which computes
+  algebraic closure of the residue field at `t`. This bundles three steps of the source's
+  proof that are not run here: the unrestricted form of **Stacks 03Q9**, which computes
   the stalk of a higher direct image as the cohomology of the base change to the strict
-  henselisation — the library has that tag only over a strictly henselian base, as
-  `Stacks.EtaleCohomology.higherDirectImageEtaleStalkIso`; the identification of
+  henselisation — the library has that tag as `AlgebraicGeometry.stalkHigherDirectImageIso`, but
+  the specialisation of it needed here is not derived from it; the identification of
   `𝒪^{sh}_{X,x̄} ⊗_A K` with the fraction field of `𝒪^{sh}_{X,x̄}`, which uses that the local
   rings of a smooth curve are discrete valuation rings; and the fact that this fraction field is
   algebraic over `K`. It is stated as an implication from the vanishing over *all* algebraic
@@ -97,7 +97,8 @@ resolutions that `CategoryTheory.Functor.rightDerived` needs come from
 * [Stacks Project, Tag 03RJ](https://stacks.math.columbia.edu/tag/03RJ): the theorem, proved
   here over `h03Q9` and `h03RG`.
 * [Stacks Project, Tag 03Q9](https://stacks.math.columbia.edu/tag/03Q9): carried inside
-  `h03Q9`; the library has it only over a strictly henselian base.
+  `h03Q9`; the library has it as `AlgebraicGeometry.stalkHigherDirectImageIso`, from which
+  `h03Q9` is not derived here.
 * [Stacks Project, Tag 03RG](https://stacks.math.columbia.edu/tag/03RG): the vanishing it
   provides is carried as `h03RG`, together with Tag 03R8 and Tag 03QU, which is what Stacks 03RG
   itself rests on in this library.

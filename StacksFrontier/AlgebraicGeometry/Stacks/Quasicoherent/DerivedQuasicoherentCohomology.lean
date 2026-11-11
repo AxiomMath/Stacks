@@ -33,10 +33,13 @@ compatible with it.
   restricted to the associated étale site.
 * `AlgebraicGeometry.Stack.cohomologyQuasicoherent`: its composite with the coherator, the
   functor `D_{LQCoh^fbc}(𝒪_𝒳) ⟶ QCoh(𝒪_𝒳)` which the quotient descends.
-* `AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherent`: **Stacks 07B7**, the functor
-  `H^i : D_QCoh(𝒪_𝒳) ⟶ QCoh(𝒪_𝒳)`, together with
+* `AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherent`: the functor
+  `H^i : D_QCoh(𝒪_𝒳) ⟶ QCoh(𝒪_𝒳)` of **Stacks 07B7** in this file's setting, together with
   `AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherentFac`, the isomorphism
-  identifying its composite with the quotient functor with `Q ∘ H^i`.
+  identifying its composite with the quotient functor with `Q ∘ H^i`.  **Stacks 07B7** itself is
+  registered on `AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherentSheaf` and its
+  companions in
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherentCohomologySheaf.lean`.
 * `AlgebraicGeometry.Stack.fppfToEtaleModules`: restriction of a module on the fppf site of `𝒳`
   to the associated étale site, and
   `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeEtaleModules`, the subcategory
@@ -58,18 +61,22 @@ compatible with it.
 
 ## Implementation notes
 
-Five inputs are left as hypotheses, each a result of the source this library does not yet have.
+The declarations of this file take five inputs as explicit arguments.  For the source's
+`LQCoh^fbc(𝒪_𝒳)` read on sheaves of modules, all of them are proved in this library, and
+**Stacks 07B7** is registered there, in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherentCohomologySheaf.lean`
+(`AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherentSheaf`, its `…Fac`,
+`AlgebraicGeometry.Stack.isHomological_cohomologyDerivedCategoryQuasicoherentSheaf` and
+`AlgebraicGeometry.Stack.isZero_iff_forall_isZero_cohomologyDerivedCategoryQuasicoherentSheaf`).
 
 *`D_{LQCoh^fbc}(𝒪_𝒳)` is a triangulated subcategory of `D(𝒪_𝒳)`* and *`LQCoh^fbc(𝒪_𝒳)` is
 closed under isomorphism* are the derived-category consequences (**Stacks 06UQ**) of
 `LQCoh^fbc(𝒪_𝒳)` being a weak Serre subcategory of `Mod(𝒪_𝒳)`, which is **Stacks 0771**.  They
 are what gives the ambient category of the quotient its triangulated structure.
 
-*The parasitic modules form a weak Serre class* is **Stacks 0774** (2).  Its closure conditions
-under subobjects and extensions are proved in this library, in
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/ParasiticSerreSubcategory.lean`; closure
-under quotients, clause (2)(a) of the source, is not, which is why the class is assumed here
-rather than constructed.
+*The parasitic modules form a weak Serre class* is **Stacks 0774** (2), proved in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/ParasiticSerreSubcategory.lean`; here it is
+an instance argument.
 
 *`H^i : D_{LQCoh^fbc}(𝒪_𝒳) ⟶ LQCoh^fbc(𝒪_𝒳)` composed with the coherator is homological*
 (`hhom`) is again a consequence of **Stacks 0771**: the inclusion of a weak Serre subcategory is
@@ -86,7 +93,7 @@ unchanged.
 
 Restriction from the fppf site to the étale site leaves the underlying presheaf of modules
 untouched, and the presheaf of rings underlying the structure sheaf is the same for all five
-topologies of **Stacks 06TP**; so `AlgebraicGeometry.Stack.fppfToEtaleModules` only replaces the
+topologies of **Stacks 06TP**; so `AlgebraicGeometry.Stack.fppfToEtaleModules` merely replaces the
 sheaf condition by the weaker one for the coarser topology, and the two readings of
 `LQCoh^fbc(𝒪_𝒳)` — as a property of fppf modules and as a property of étale modules — agree on
 the nose.
@@ -175,7 +182,7 @@ variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 
 /-- **Restriction of a module on the fppf site of an algebraic stack to the associated étale
 site.**  The underlying presheaf of modules and the presheaf of rings it is a module over are
-unchanged; only the sheaf condition is weakened to the one for the coarser étale topology. -/
+unchanged; the sheaf condition alone is weakened to the one for the coarser étale topology. -/
 def fppfToEtaleModules :
     fppfModules B S hS 𝒳 ⥤
       SheafOfModules.{u} (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p
@@ -315,15 +322,19 @@ theorem isInvertedBy_cohomologyQuasicoherent (i : ℤ)
       inverseImage_derivedParasiticLocallyQuasicoherentFlatBaseChange]]
   exact hinv
 
-/-- **Stacks 07B7.** The cohomology functor
+/-- The cohomology functor of **Stacks 07B7**
 
 `H^i : D_QCoh(𝒪_𝒳) ⟶ QCoh(𝒪_𝒳)`
 
 on the derived category of `𝒪_𝒳`-modules with quasi-coherent cohomology sheaves of an algebraic
 stack `𝒳`.  It is the descent through the Verdier quotient of **Stacks 07B6** of the functor
 `Q ∘ H^i` on `D_{LQCoh^fbc}(𝒪_𝒳)`, which is possible because that functor inverts the morphisms
-the quotient inverts. -/
-@[stacks 07B7 "the cohomology functor H^i : D_QCoh(𝒪_𝒳) ⟶ QCoh(𝒪_𝒳)"]
+the quotient inverts.
+
+**Stacks 07B7** is registered on
+`AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherentSheaf`, in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherentCohomologySheaf.lean`,
+where the coherator's inputs `hhom` and `hQker` are proved. -/
 def cohomologyDerivedCategoryQuasicoherent (i : ℤ)
     (hhom : (cohomologyQuasicoherent B E h S hS 𝒳 hinc hclosed hpres hls hlsD hwp hsep
       i).IsHomological)
@@ -339,10 +350,13 @@ def cohomologyDerivedCategoryQuasicoherent (i : ℤ)
       hhom hQker)
     (derivedQuasicoherentW B E h S hS 𝒳).Q
 
-/-- **Stacks 07B7**, the identity defining the cohomology functor: composed with the quotient
-functor `D_{LQCoh^fbc}(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳)`, the functor `H^i` of **Stacks 07B7** is the functor
-`Q ∘ H^i` it descends. -/
-@[stacks 07B7 "the identity H^i ∘ (quotient functor) = Q ∘ H^i defining the cohomology functor"]
+/-- The identity defining the cohomology functor of **Stacks 07B7**: composed with the quotient
+functor `D_{LQCoh^fbc}(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳)`, the functor `H^i` is the functor `Q ∘ H^i` it
+descends.
+
+**Stacks 07B7** is registered on
+`AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherentSheafFac`, in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherentCohomologySheaf.lean`. -/
 def cohomologyDerivedCategoryQuasicoherentFac (i : ℤ)
     (hhom : (cohomologyQuasicoherent B E h S hS 𝒳 hinc hclosed hpres hls hlsD hwp hsep
       i).IsHomological)

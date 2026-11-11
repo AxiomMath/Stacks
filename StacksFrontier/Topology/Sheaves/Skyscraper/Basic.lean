@@ -21,7 +21,8 @@ category, covering clauses (5)–(7).
 
 Clauses (4) and (8) of the tag — the case of a ringed space `(X, 𝒪_X)`, where `i_x` is read as
 a morphism of ringed spaces `({x}, 𝒪_{X,x}) → (X, 𝒪_X)` and `A` is an `𝒪_{X,x}`-module, so
-that `i_{x,*} A` is a sheaf of `𝒪_X`-modules — are **not** treated here.
+that `i_{x,*} A` is a sheaf of `𝒪_X`-modules — are `Stacks.Modules.skyscraper` and
+`Stacks.Modules.IsSkyscraperSheaf` in `StacksFrontier.Topology.Sheaves.Skyscraper.Modules`.
 -/
 
 @[expose] public section
@@ -41,8 +42,8 @@ an arbitrary type of algebraic structure (3). -/
 add_to_stacks 009A "The skyscraper sheaf at a point with a given value: the sheaf whose
   sections over `U` are the given object if `x ∈ U` and a terminal object otherwise. Mathlib's
   construction is uniform in the target category, so one declaration covers the tag's set,
-  abelian-group and algebraic-structure cases; the ringed-space case, clause (4), is not
-  covered." skyscraperSheaf
+  abelian-group and algebraic-structure cases (1)–(3). The ringed-space case (4) is
+  `Stacks.Modules.skyscraper`." skyscraperSheaf
 
 /- That the skyscraper sheaf really is `i_{x,*} A`, the pushforward of `A` — viewed as a sheaf
 on the one-point space — along the inclusion of `x`. This is what clause (1) of the tag takes
@@ -66,8 +67,8 @@ point `x` of `X` and an object `A` of the target category with `F ≅ i_{x,*} A`
 
 The target category is arbitrary, so this single predicate is the tag's clause (5) for sheaves
 of sets, its clause (6) for sheaves of abelian groups and its clause (7) for sheaves of
-algebraic structures. Clause (8), for sheaves of modules on a ringed space, is not covered
-here. -/
+algebraic structures. Clause (8), for sheaves of modules on a ringed space, is
+`Stacks.Modules.IsSkyscraperSheaf`. -/
 @[stacks 009A "(5), (6), (7)"]
 def IsSkyscraperSheaf (F : TopCat.Sheaf C X) : Prop :=
   ∃ (x : X) (A : C), Nonempty (F ≅ skyscraper x A)

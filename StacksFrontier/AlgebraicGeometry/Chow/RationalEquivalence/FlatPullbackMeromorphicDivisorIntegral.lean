@@ -138,7 +138,10 @@ relative dimension `r`. For an invertible module `L` on `Y`,
   `f^*(c₁(L) ∩ [Y]) = c₁(f^*L) ∩ [X]`
 
 in `A_{n + r - 1}(X)`, where either side is the class of the divisor of a nonzero meromorphic
-section, read on `Y` and pulled back on the left and read on `X` on the right. -/
+section, read on `Y` and pulled back on the left and read on `X` on the right.
+
+The integrality of `X` is a hypothesis of the source, which assumes both `X` and `Y` integral;
+the case of a general `X` is subsumed by Stacks 02SS. -/
 @[stacks 02SM "the flat pullback read on the divisor of a nonzero meromorphic section"]
 theorem mk_flatPullback_meromorphicDivisorCycle (hs : s ≠ 0) :
     (QuotientAddGroup.mk ((show (n : ℤ) - 1 + (r : ℤ) = n + (r : ℤ) - 1 by ring) ▸

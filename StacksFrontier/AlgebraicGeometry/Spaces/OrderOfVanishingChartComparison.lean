@@ -68,11 +68,11 @@ too, as `AlgebraicGeometry.Space.PrimeDivisor.isNoetherianRing_genericHenselianL
 The rational function is presented through the comparison map rather than through the embedding
 `R(X) → Q(𝒪^h_{X, ξ})` of Stacks 0ENK, which is
 `AlgebraicGeometry.Space.PrimeDivisor.rationalFunctionsToGenericTotalFractionRing`. The two are
-identified in
-`StacksFrontier/AlgebraicGeometry/Spaces/OrderOfVanishingSchematicLocus.lean`, which assembles the
-full statement of Stacks 0ENM from this comparison; what that needs is the independence of the
-embedding of the affine elementary étale neighbourhood it is computed on, which is
-`AlgebraicGeometry.Space.PrimeDivisor.neighborhoodTotalFractionRingToGeneric_pullback_eq`.
+identified in `StacksFrontier/AlgebraicGeometry/Spaces/OrderOfVanishingSchematicLocus.lean`, on the way
+to the full statement of Stacks 0ENM,
+`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`; what that needs is the
+independence of the embedding of the affine elementary étale neighbourhood it is computed on, which
+is `AlgebraicGeometry.Space.PrimeDivisor.neighborhoodTotalFractionRingToGeneric_pullback_eq`.
 
 The scheme-level order of vanishing is `AlgebraicGeometry.Scheme.ord` of the ambient library,
 which is Divisors, Definition 02RJ; no declaration in this repository carries `@[stacks 02RJ]`.
@@ -175,20 +175,18 @@ variable [IsNoetherianRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     [Ring.KrullDimLE 1 ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     [IsLocallyNoetherian U.scheme.left.1]
 
-/-- **Stacks 0ENM.** The order of vanishing along a prime divisor `Z` of the image of a nonzero
+/-- **The comparison step of the proof of Stacks 0ENM, on a given neighbourhood.** The order
+of vanishing along a prime divisor `Z` of the image of a nonzero
 rational function `f` of an elementary étale neighbourhood `U` of the generic point of `Z` is
 the order of vanishing of `f` at the marked point of `U` in the sense of Divisors, Definition
 02RJ.
 
 Both sides are a difference of lengths, and the canonical map from the stalk of `U` into the
 henselian local ring is the structure map of a henselization, so it leaves those lengths
-unchanged. -/
-@[stacks 0ENM "with the shrinking step of the proof carried: in place of the hypothesis that `Z`
-  meets the schematic locus of `X`, an elementary étale neighbourhood `U` of the generic point of
-  `Z` whose scheme is integral and locally Noetherian and whose marked point has codimension one
-  is given, the rational function is one of `U`, and it is compared along the induced map on
-  total rings of fractions; Noetherianness and the dimension bound for the henselian local ring
-  are hypotheses"]
+unchanged.
+
+Stacks 0ENM itself, on the scheme representing the schematic locus, is
+`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`. -/
 theorem PrimeDivisor.ord_functionFieldToTotalFractionRing
     (hcoh : coheight U.point = 1) (f : ↥U.scheme.left.1.functionField) (hf : f ≠ 0) :
     Z.ord B S hS hX hdec (Z.functionFieldToTotalFractionRing B S hS hX hdec U f)

@@ -15,18 +15,27 @@ cohomology theory is the same thing as a `ℚ`-linear functor `G : M_k ⥤ grade
 symmetric monoidal categories with an isomorphism `F[2] ≅ G(𝟏(1))` such that `G(h(X))` lives in
 nonnegative degrees and `dim_F G⁰(h(X)) = 1` for every smooth projective variety `X`
 (`Stacks.WeilCohomology.ClassicalMotiveRealization`), the two being related by `H^*(X) = G(h(X))`
-(`Stacks.WeilCohomology.PoincarePairingSetup.MotiveComparison`).
+with all its structure (`Stacks.WeilCohomology.ClassicalWeilCohomologyTheory.Corresponds`).
 
 ## Main results
 
-* `Stacks.WeilCohomology.ClassicalWeilCohomologyTheory.exists_classicalMotiveRealization`: a
-  classical Weil cohomology theory comes from such a realization (the second paragraph of the
-  proof of Stacks 0FH3, through Stacks 0FH2).
+* `Stacks.WeilCohomology.ClassicalWeilCohomologyTheory.exists_isoClassEquiv` (in
+  `StacksFrontier.AlgebraicGeometry.WeilCohomology.ClassicalCorrespondence.IsoClassEquiv`):
+  **Stacks 0FH3**. Isomorphism classes of classical Weil cohomology theories
+  (`ClassicalWeilCohomologyTheory.isoSetoid`) and of realizations `(G, F[2] ≅ G(𝟏(1)))`
+  (`ClassicalMotiveRealization.isoSetoid`) are in bijection, a theory corresponding to a
+  realization exactly when `H^*(X) = G(h(X))` with all its structure, and the inverse bijection
+  sends `(G, F[2] ≅ G(𝟏(1)))` to the theory `H^*(X) = G(h(X))` of the first paragraph of the
+  proof (`ClassicalMotiveRealization.toClassicalWeilCohomologyTheory`).
+* `Stacks.WeilCohomology.ClassicalWeilCohomologyTheory.exists_classicalMotiveRealization`: the
+  functor of Stacks 0FH2 with some isomorphism `F[2] ≅ G(𝟏(1))` satisfies conditions (1) and (2),
+  with `H^*(X) = G(h(X))` as graded vector spaces naturally in `X`.
 * `Stacks.WeilCohomology.ClassicalMotiveRealization.exists_classicalWeilCohomologyTheory`:
-  conversely, such a realization comes from a classical Weil cohomology theory (the first
-  paragraph of the proof, through Stacks 0FHK).
+  conversely, the functor of such a realization is that of some classical Weil cohomology theory,
+  with `H^*(X) = G(h(X))` as graded vector spaces naturally in `X` (through Stacks 0FHK).
 
-Together these are Stacks 0FH3; the comparison `H^*(X) = G(h(X))` is natural in `X`.
+The last two record the two constructions of the proof on their own; the isomorphisms
+`F[2] ≅ G(𝟏(1))` and the cycle class and trace maps enter only in the first.
 -/
 
 @[expose] public noncomputable section
@@ -39,17 +48,15 @@ namespace Stacks.WeilCohomology
 
 variable {k : Type u} [Field k] [IsAlgClosed k] {F : Type v} [Field F] [CharZero F]
 
-/-- **Stacks Project, Tag 0FH3, from cohomology to a realization.** A classical Weil cohomology
-theory `H^*` (Stacks 0FGV, over the Chow groups of Chapter 42) comes from a realization of Chow
-motives: there is a `ℚ`-linear functor `G : M_k ⥤ graded F-vector spaces` of symmetric monoidal
-categories with an isomorphism `F[2] ≅ G(𝟏(1))`, `G(h(X))` in nonnegative degrees and
-`dim_F G⁰(h(X)) = 1` for every smooth projective variety `X`, and `H^*(X) = G(h(X))` naturally in
-`X`. The functor is that of Stacks 0FH2 (`ClassicalWeilCohomologyTheory.motiveFunctor`);
-`G(𝟏(1))` is a line in degree `-2`, and conditions (1), (2) are axioms (A)(c), (A)(d) and
-Poincaré duality transported along `H^*(X) = G(h(X))`. -/
-@[stacks 0FH3 "a classical Weil cohomology theory comes from a Q-linear symmetric monoidal \
-G : M_k → graded F-vector spaces with F[2] ≅ G(1(1)), G(h(X)) in nonnegative degrees and \
-dim G⁰(h(X)) = 1, with H^*(X) = G(h(X)) naturally in X"]
+/-- **The functor of Stacks 0FH2 is a realization as in Stacks 0FH3.** For a classical Weil
+cohomology theory `H^*` (Stacks 0FGV, over the Chow groups of Chapter 42), the functor
+`G : M_k ⥤ graded F-vector spaces` of Stacks 0FH2 (`ClassicalWeilCohomologyTheory.motiveFunctor`),
+with some isomorphism `F[2] ≅ G(𝟏(1))`, is a `ℚ`-linear functor of symmetric monoidal categories
+with `G(h(X))` in nonnegative degrees and `dim_F G⁰(h(X)) = 1` for every smooth projective variety
+`X`, and `H^*(X) = G(h(X))` as graded vector spaces, naturally in `X`. The isomorphism
+`F[2] ≅ G(𝟏(1))` here is an arbitrary one (`G(𝟏(1))` is a line in degree `-2`); the one matching
+the trace maps of `H^*`, and the correspondence of Stacks 0FH3 itself, are
+`ClassicalWeilCohomologyTheory.exists_isoClassEquiv`. -/
 theorem ClassicalWeilCohomologyTheory.exists_classicalMotiveRealization
     (T : ClassicalWeilCohomologyTheory.{u, v, v, u} k F (chowCycleData k)) :
     ∃ R : ClassicalMotiveRealization k F,
@@ -95,17 +102,17 @@ theorem ClassicalMotiveRealization.exists_classicalWeilCohomologyTheory_of_axiom
   exact R.exists_classicalWeilCohomologyTheory_of_iso ⟨R.toWeilRealization.toWeilData, hA, hB, hC⟩
     e.iso.symm
 
-/-- **Stacks Project, Tag 0FH3, from a realization to cohomology.** Conversely, a `ℚ`-linear
-functor `G : M_k ⥤ graded F-vector spaces` of symmetric monoidal categories with an isomorphism
-`F[2] ≅ G(𝟏(1))` such that `G(h(X))` lives in nonnegative degrees and `dim_F G⁰(h(X)) = 1` for
-every smooth projective variety `X` comes from a classical Weil cohomology theory (Stacks 0FGV,
-over the Chow groups of Chapter 42): there is one with `H^*(X) = G(h(X))` naturally in `X`. By
-Stacks 0FHK, `H^*(X) = G(h(X))` gives data (D0)–(D3) satisfying (A), (B), (C)
-(`WeilRealization.toWeilDataAxioms`); conditions (1) and (2) give axioms (A)(c) and (A)(d) on
-their restriction to varieties. -/
-@[stacks 0FH3 "a Q-linear symmetric monoidal G : M_k → graded F-vector spaces with \
-F[2] ≅ G(1(1)), G(h(X)) in nonnegative degrees and dim G⁰(h(X)) = 1 comes from a classical Weil \
-cohomology theory, with H^*(X) = G(h(X)) naturally in X"]
+/-- **The functor of a realization as in Stacks 0FH3 comes from a classical Weil cohomology
+theory.** A `ℚ`-linear functor `G : M_k ⥤ graded F-vector spaces` of symmetric monoidal categories
+with an isomorphism `F[2] ≅ G(𝟏(1))` such that `G(h(X))` lives in nonnegative degrees and
+`dim_F G⁰(h(X)) = 1` for every smooth projective variety `X` gives a classical Weil cohomology
+theory (Stacks 0FGV, over the Chow groups of Chapter 42) with `H^*(X) = G(h(X))` as graded vector
+spaces, naturally in `X`. By Stacks 0FHK, `H^*(X) = G(h(X))` gives data (D0)–(D3) satisfying (A),
+(B), (C) (`WeilRealization.toWeilDataAxioms`); conditions (1) and (2) give axioms (A)(c) and (A)(d)
+on their restriction to varieties. The theory whose cycle classes and traces are those given by
+`F[2] ≅ G(𝟏(1))`, and the correspondence of Stacks 0FH3 itself, are
+`ClassicalMotiveRealization.toClassicalWeilCohomologyTheory` and
+`ClassicalWeilCohomologyTheory.exists_isoClassEquiv`. -/
 theorem ClassicalMotiveRealization.exists_classicalWeilCohomologyTheory
     (R : ClassicalMotiveRealization k F) :
     ∃ T : ClassicalWeilCohomologyTheory.{u, v, v, u} k F (chowCycleData k),

@@ -27,7 +27,7 @@ sheaf `F` is the filtered colimit of constructible subsheaves
 each of which inherits the torsion conditions of statements (3) and (6); statements (1), (2),
 (3), (6), (7), (8) pass to the colimit because étale cohomology and the restriction maps commute
 with filtered colimits on quasi-compact quasi-separated schemes (Tag 03Q5, module
-`CurveStatementsFilteredColimit` of `StacksFrontier.AlgebraicGeometry.EtaleCohomology`, in
+`CurveStatementsFilteredColimit` of `StacksDraft.AlgebraicGeometry.EtaleCohomology`, in
 `TorsionSheavesCurves`), and statements (4) and (5) assume `F` constructible, so they are the
 constructible case.
 

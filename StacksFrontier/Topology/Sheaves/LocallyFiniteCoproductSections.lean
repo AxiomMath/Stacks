@@ -42,9 +42,16 @@ presheaves is locally bijective, hence becomes an isomorphism after sheafificati
   formula: for every open `V` the canonical comparison from `Γ (V, ∐ i, (j i)_* (F i))` to
   `∏ i, (F i) (V ∩ U i)` is an isomorphism.
 * `Stacks.locallyFinite_iInter`: the family of the intersections of the tuples of a locally
-  finite family of sets is again locally finite. This is what makes the third displayed
-  formula of the remark, about the terms of the covering resolution of Tag 02FU, an instance
-  of the second one.
+  finite family of sets is again locally finite. This is the input that makes the third
+  displayed formula of the remark, about the terms of the covering resolution of Tag 02FU,
+  follow from the same argument as the second one.
+
+The third displayed formula of the remark, that the degree-`p` term of the covering resolution
+of Tag 02FU is the direct sum `⨁ (j_{i₀ … i_p})_* F_{i₀ … i_p}`, is
+`Stacks.CechTotalComplex.CoveringResolution.isColimitCoveringTermCofan` in
+`StacksFrontier/Topology/Sheaves/Cohomology/CechTotalComplex/CoveringResolutionLocallyFinite.lean`.
+It is stated there for sheaves of modules over a ringed space, as the source's Lemma 02FU is,
+and proved through `Stacks.SheafOfModules.LocallyFiniteProduct.isColimitCofanDeltaInj`.
 
 ## Implementation notes
 
@@ -52,13 +59,6 @@ The covering hypothesis `TopologicalSpace.IsOpenCover U` is carried by the tagge
 because the source states the remark for a covering of `X`, but it is not used: local
 finiteness of the family alone gives the conclusions, and the untagged lemmas below are
 stated without it.
-
-The remark also records a third formula, namely that the degree-`p` term of the covering
-resolution of Tag 02FU is the direct sum, and not merely the product, of the pushforwards
-from the `(p+1)`-fold intersections `U i₀ ∩ ⋯ ∩ U i_p`. That resolution is not available in
-this repository, so the formula is not stated here; `Stacks.locallyFinite_iInter` supplies
-the one input it needs beyond `isIso_coproductToProduct`, namely that the family of those
-intersections is again locally finite.
 
 Everything is for sheaves of abelian groups on a space `X : TopCat.{u}`, with the index type
 and the values of the sheaves in the same universe `u` as the space; this is the universe

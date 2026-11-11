@@ -75,7 +75,9 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperSmoothCurve
 Let `Y` be an affine scheme, `f : 𝔸¹_Y ⟶ Y` the structure morphism and `ℱ` a constructible sheaf of
 `Λ`-modules on `𝔸¹_Y` killed by an integer `n > 0` invertible on `Y`. Granted Tags 095T, 0GKV and
 095U as hypotheses (Tag 0GKV only at primes invertible on the base), `Rf_! ℱ` has constructible
-cohomology sheaves (Tag 0GKZ).
+cohomology sheaves: the case of Tag 0GKZ where the torsion order is invertible on `Y`. The full
+Tag 0GKZ, with no such condition and no hypotheses, is
+`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine`.
 
 ## Main results
 
@@ -84,7 +86,8 @@ cohomology sheaves (Tag 0GKZ).
 * `exists_isConstructibleEtaleModule_etaleModuleInverseImage_affineLine_iso_of_isUnit`: a
   constructible sheaf on `𝔸¹_Y` is the inverse image of one on `𝔸¹_{Y₀}` for a Noetherian affine
   `Y₀` on which `n` is still invertible.
-* `isConstructibleEtaleComplex_derivedLowerShriekUnbounded_affineLine_of_isUnit`: Tag 0GKZ.
+* `isConstructibleEtaleComplex_derivedLowerShriekUnbounded_affineLine_of_isUnit`: Tag 0GKZ when
+  the torsion order is invertible on `Y`.
 
 ## References
 
@@ -189,12 +192,15 @@ theorem exists_isConstructibleEtaleModule_etaleModuleInverseImage_affineLine_iso
     rw [← map_natCast D.topIso.inv.hom n]
     exact h1.map _
 
-/-- **Stacks Project, Tag 0GKZ**, granted Tags 095T, 0GKV and 095U. Let `Y` be an affine scheme,
+/-- **The case of Stacks Project, Tag 0GKZ where the torsion order is invertible on `Y`**, granted
+Tags 095T, 0GKV and 095U. Let `Y` be an affine scheme,
 `Λ` a Noetherian ring and `ℱ` a constructible sheaf of `Λ`-modules on `𝔸¹_Y` killed by an integer
 `n > 0` invertible on `Y`. Then `Rf_! ℱ` has constructible cohomology sheaves, where `f : 𝔸¹_Y ⟶ Y`
 is the structure morphism and `Rf_!` is computed through any compactification `j` of `f`.
 
-The hypotheses `h095T`, `h0GKV` and `h095U` are Stacks Tags 095T, 0GKV and 095U. -/
+The hypotheses `h095T`, `h0GKV` and `h095U` are Stacks Tags 095T, 0GKV and 095U. The full Tag 0GKZ,
+with no invertibility condition and no hypotheses, is
+`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine`. -/
 theorem isConstructibleEtaleComplex_derivedLowerShriekUnbounded_affineLine_of_isUnit
     (h095T : ∀ ⦃S T : Scheme.{u}⦄ (p : S ⟶ T) [IsProper p],
       CohomologyCommutesWithBaseChange.{u, u + 1} p)

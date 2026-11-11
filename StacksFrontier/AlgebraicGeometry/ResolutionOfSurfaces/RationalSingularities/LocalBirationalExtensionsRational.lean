@@ -86,7 +86,9 @@ theorem ofIdealTop_ne_bot {A : Type u} [CommRing A] {J : Ideal A} (hJ : J ≠ �
 defining a rational singularity, and let `A ⟶ B` be a local extension of normal local domains
 with the same fraction field `K`, essentially of finite type, with `dim B = 2`. Then `B` defines
 a rational singularity. -/
-@[stacks 0BG0]
+@[stacks 0BG0 "a local extension A ⊂ B of domains with the same fraction field, essentially of \
+finite type, A a 2-dimensional local normal Nagata domain defining a rational singularity, \
+B normal of dimension 2: B defines a rational singularity"]
 theorem definesRationalSingularity_of_essFiniteType (A B : Type u) [CommRing A] [IsLocalRing A]
     [IsNormalDomain A] [CommRing B] [IsLocalRing B] [IsNormalDomain B] [Algebra A B]
     [IsLocalHom (algebraMap A B)] (K : Type u) [Field K] [Algebra A K] [Algebra B K]

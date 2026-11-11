@@ -74,9 +74,9 @@ quotient `U/R` and appealing to Stacks 02WW. In this library Stacks 02WW itself 
 same effective-descent hypothesis, so that route would prove no more than the direct argument
 above; the direct argument is taken instead because it needs neither the étale
 equivalence-relation structure on `R` nor the universal property of the quotient sheaf. The
-source's other route, through Stacks 046K, is unavailable: the library's Stacks 046K carries
-Stacks 0AMP as a hypothesis, and in the source Stacks 0AMP is a corollary of the bootstrap
-theorem Stacks 04S6, which is downstream of the theorem proved here.
+source's other route, through Stacks 046K, is not taken: it ends in the bootstrap theorem
+Stacks 04S6 (or its corollary Stacks 0AMP), which in the source is downstream of the theorem
+proved here.
 
 ## References
 

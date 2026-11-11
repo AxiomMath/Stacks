@@ -11,7 +11,9 @@ Let `(𝒞, J)` be a site, let `p : 𝒳 ⥤ 𝒞` be a functor and let `u : �
 cartesian morphisms for `p`. Endow `𝒳` and `𝒳'` with the topologies they inherit from `(𝒞, J)`
 (Stacks 06NV). Then `u` is continuous and cocontinuous for those two topologies.
 
-This is Stacks 06NW, but with **no fibre products assumed in the base**.
+This is the first assertion of Stacks 06NW, with no fibre products assumed in the base, as in
+Stacks; the morphism of topoi it induces is in
+`StacksFrontier/CategoryTheory/Sites/InheritedTopology/OneMorphismTopoi.lean`.
 `CategoryTheory.Functor.IsFibredOneMorphism.isContinuous_and_isCocontinuous_inheritedTopology`
 proves the same two conjuncts under `[HasPullbacks 𝒞]`, which it uses to transfer the sheaf
 condition through the pairwise fibre products of a covering family (Stacks 06N5). A ringed site in
@@ -286,6 +288,7 @@ theorem IsFibredOneMorphism.map_isStronglyCartesian_of_mem_map
 1-morphism `u` of fibred categories over a site `(𝒞, J)` is a continuous functor from the topology
 `𝒳'` inherits from `(𝒞, J)` to the one `𝒳` inherits from it: restriction along `u.op` carries
 sheaves on `𝒳` to sheaves on `𝒳'`. No fibre products of the base are assumed. -/
+@[stacks 06NW "continuity of `u` for the inherited topologies; no fibre products in the base"]
 theorem IsFibredOneMorphism.isContinuous_inheritedTopology (J : GrothendieckTopology 𝒞)
     [p'.IsFibered] (hu : p'.IsFibredOneMorphism p u) :
     u.IsContinuous (p'.inheritedTopology J) (p.inheritedTopology J) := by
@@ -335,6 +338,7 @@ theorem IsFibredOneMorphism.isContinuous_inheritedTopology (J : GrothendieckTopo
 topology `𝒳'` inherits from `(𝒞, J)` to the one `𝒳` inherits from it: a covering sieve of
 `u.obj X'` pulls back to a covering sieve of `X'`. No fibre products of the base are
 assumed. -/
+@[stacks 06NW "cocontinuity of `u` for the inherited topologies; no fibre products in the base"]
 theorem IsFibredOneMorphism.isCocontinuous_inheritedTopology (J : GrothendieckTopology 𝒞)
     [p'.IsFibered] (hu : p'.IsFibredOneMorphism p u) :
     u.IsCocontinuous (p'.inheritedTopology J) (p.inheritedTopology J) := by

@@ -17,7 +17,9 @@ Let `R` be an absolutely integrally closed ring and let `M` be a finite abelian 
   degree-zero gluing condition for a finite constant sheaf on the pairs of basic opens
   `D(f(f + g))`, `D(g(f + g))`.
 * `Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.subsingleton_H_constantSheaf_of_finite` —
-  **Stacks 0GY7**.
+  Stacks 0GY7 on the one-universe model of the small étale site.
+* `Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.subsingleton_H_constantSheaf_smallEtale` —
+  **Stacks 0GY7**, on Mathlib's small étale site of `Spec R`.
 
 ## Implementation notes
 

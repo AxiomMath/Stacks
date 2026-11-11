@@ -890,19 +890,18 @@ private theorem isSplitEpi_invariantReachFactor {S : Scheme.{u}} (G : GroupoidSc
   refine (cancel_mono i).mp ?_
   rw [Category.assoc, invariantReachFactor_fac G i hi, he, Category.id_comp]
 
-/-- **Stacks 02WU.** Let `(U, R, s, t, c)` be a groupoid scheme over `S` and let `i : V ⟶ U`
-be an open immersion of schemes over `S` whose range is invariant under the arrows of the
-groupoid.  Then the map of fppf quotient sheaves `V/R|_V ⟶ U/R` induced by the restriction of
-the groupoid along `i` is representable, and is an open immersion; so `V/R|_V` is an open
-subspace of `U/R`.
+/-- **The invariant-open case of Stacks 02WU.** Let `(U, R, s, t, c)` be a groupoid scheme
+over `S` and let `i : V ⟶ U` be an open immersion of schemes over `S` whose range is invariant
+under the arrows of the groupoid.  Then the map of fppf quotient sheaves `V/R|_V ⟶ U/R` induced
+by the restriction of the groupoid along `i` is representable, and is an open immersion; so
+`V/R|_V` is an open subspace of `U/R`.
 
-The Stacks Project states this for a pre-relation `j = (s, t) : R → U ×_S U` which is an
-equivalence relation with `s, t` surjective, flat and locally of finite presentation, and an
-arbitrary flat, locally finitely presented `g : U' → U`.  Those hypotheses enter only to make
-the saturation `t(s^{-1}(g(U')))` an open subscheme of `U` over which `g` is an fppf covering.
-Here the saturation is the given invariant open itself and the covering is split by the
-identity arrow of the groupoid, so no flatness is needed of anything. -/
-@[stacks 02WU]
+This is only the special case of Stacks 02WU in which `g : U' → U` is already an open immersion
+onto an invariant open: the saturation is then the given open itself and the covering of it by
+the reach map is split by the identity arrow of the groupoid, so no flatness is needed of
+anything.  The lemma as stated in the source, for an equivalence relation with `s, t`
+surjective, flat and locally of finite presentation and an arbitrary flat, locally finitely
+presented `g`, is `AlgebraicGeometry.Space.isOpenImmersion_restrictedQuotientMap`. -/
 theorem isOpenImmersion_restrictionQuotientMap_of_isInvariantSet
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     [HasSheafify (BigFppfOver.topology B S hS) (Type u)]

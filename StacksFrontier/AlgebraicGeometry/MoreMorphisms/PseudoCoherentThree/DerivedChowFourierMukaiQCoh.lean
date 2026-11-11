@@ -252,6 +252,9 @@ because `U ⟶ X` is an open immersion.
 No quasi-compactness of `U` or `V` is asked for: the source's "`U` and `V` are of finite
 presentation over `A`" is used only through local finite presentation, the two global conditions
 coming from the closed immersion itself. -/
+@[stacks 0CSK "the morphism U ⟶ V of the statement is of finite presentation, for X locally of \
+finite presentation over the base and P locally of finite type over it, which covers X of finite \
+presentation over A and P = P^n_A; the whole statement is chowDatum_fourierMukai"]
 theorem finitePresentation_chowDatumMorphism_of_locallyOfFinitePresentation {S : Scheme.{u}}
     (f : X ⟶ S) (g : P ⟶ S) [LocallyOfFinitePresentation f] [LocallyOfFiniteType g]
     (hpq : p ≫ f = q ≫ g) (hb : IsIso ((iZ ≫ p) ∣_ U))

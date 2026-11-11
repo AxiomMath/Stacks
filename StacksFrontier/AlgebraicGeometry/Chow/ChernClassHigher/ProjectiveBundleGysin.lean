@@ -91,7 +91,8 @@ they carry is the vanishing of Stacks 02TO for the first Chern class component r
 invertible module in question. No component rule is threaded, and
 `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_iff_exists` says that carrying
 the vanishing loses nothing: it is equivalent to the existence of the descended Gysin map, which
-is the content of Stacks 02TO.
+is the content of Stacks 02TO. The vanishing itself is proved, as
+`Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`.
 
 ## References
 

@@ -20,9 +20,11 @@ morphisms of inverse systems from `(M / 𝓘 ^ n M)` to `(N / 𝓘 ^ n N)`:
 
 The right-hand side is the set of morphisms of `Coh(F, 𝓘)`, that category being a full
 subcategory of the inverse systems of `𝒪_F`-modules, whenever the two completions are objects of
-it.  The identity is checked étale locally and the chartwise statement is the case of schemes;
-what is proved here is the étale-descent globalisation, the chartwise input being carried as a
-hypothesis.
+it.  The identity is checked étale locally and the chartwise statement is the case of schemes.
+This file proves the étale-descent globalisation from the chartwise bijectivity; the chartwise
+bijectivity under the source's hypotheses, and with it Stacks 08B6 itself, is
+`AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquivOfNoetherian` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleInternalHomAdicNoetherian.lean`.
 
 ## Main definitions
 
@@ -52,7 +54,8 @@ hypothesis.
 * `AlgebraicGeometry.Space.bijective_smallEtaleInternalHomAdicSection` — morphisms of the
   inverse systems of ideal-power quotients are the compatible families of global sections of
   the internal homs.
-* `AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquiv` — **Stacks 08B6**, as a bijection.
+* `AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquiv` — the identity of Stacks 08B6 from
+  its chartwise bijectivity.
 
 ## Implementation notes
 
@@ -577,33 +580,29 @@ theorem bijective_smallEtaleInternalHomAdicSection :
       exact (smallEtaleInternalHomSectionsEquiv B S hS F hF M
         (smallEtaleAdicQuotient B S hS F hF 𝓘 (n + 1) N)).symm_apply_apply (s.1 n)
 
-/-- **Stacks 08B6.**  Let `F` be an algebraic space over a scheme `S`, let `𝓘 ⊆ 𝒪_F` be a sheaf
-of ideals and let `M`, `N` be `𝒪_F`-modules.  Put `𝓗 = 𝓗om_{𝒪_F}(M, N)`.  Then
+/-- **The identity of Stacks 08B6 from its chartwise bijectivity.**  Let `F` be an algebraic
+space over a scheme `S`, let `𝓘 ⊆ 𝒪_F` be a sheaf of ideals and let `M`, `N` be `𝒪_F`-modules.
+Put `𝓗 = 𝓗om_{𝒪_F}(M, N)`.  If the comparison between the inverse systems `𝓗 / 𝓘 ^ n 𝓗` and
+`𝓗om(M, N / 𝓘 ^ n N)` is bijective on the inverse limits of the sections over every étale chart
+(the hypothesis `h0882`), then
 
 `lim_n H⁰(F, 𝓗 / 𝓘 ^ n 𝓗) = Mor((M / 𝓘 ^ n M), (N / 𝓘 ^ n N))`,
 
-the inverse limit of the global sections of the ideal-power quotients of `𝓗` being the
-morphisms of inverse systems of `𝒪_F`-modules from the completion of `M` to the completion of
-`N`.  Since `Coh(F, 𝓘)` is a full subcategory of the inverse systems of `𝒪_F`-modules, the
-right-hand side is `Mor_{Coh(F, 𝓘)}(M^∧, N^∧)` whenever the two completions are objects of
-it.
+the right-hand side being the morphisms of inverse systems of `𝒪_F`-modules from the completion
+of `M` to the completion of `N`.
 
-The source argues that both sides are sheaves on `F_étale` and so the identity may be checked
-étale locally, where it is the case of schemes.  That reduction is the hypothesis `h0882`: it
-asks, for every étale chart `U`, that the comparison be bijective on the inverse limits of the
-sections over `U`, which on a chart is Stacks 0882 for the scheme `U`.  What is proved here is
-the globalisation, in three steps: the comparison is a morphism of inverse systems of sheaves
-(`smallEtaleInternalHomAdicComparison_compat`), so a chartwise bijection is a bijection on
-global sections (`bijective_adicSectionsMap_of_bijective_adicSectionsMapAt`); the global
-sections of `𝓗om(M, N / 𝓘 ^ n N)` are the morphisms `M ⟶ N / 𝓘 ^ n N`
+This is the étale-descent globalisation of the source's proof, in three steps: the comparison is
+a morphism of inverse systems of sheaves (`smallEtaleInternalHomAdicComparison_compat`), so a
+chartwise bijection is a bijection on global sections
+(`bijective_adicSectionsMap_of_bijective_adicSectionsMapAt`); the global sections of
+`𝓗om(M, N / 𝓘 ^ n N)` are the morphisms `M ⟶ N / 𝓘 ^ n N`
 (`smallEtaleInternalHomSectionsEquiv`); and such a morphism is the same as a morphism
-`M / 𝓘 ^ n M ⟶ N / 𝓘 ^ n N`, compatibly in `n`
-(`bijective_smallEtaleInternalHomAdicSection`).
+`M / 𝓘 ^ n M ⟶ N / 𝓘 ^ n N`, compatibly in `n` (`bijective_smallEtaleInternalHomAdicSection`).
 
-The Noetherian hypothesis on `F` and the coherence of `M` and `N` are not used: they enter only
-through `h0882`, whose chartwise content is the Noetherian scheme case. -/
-@[stacks 08B6 "granted Stacks 0882, the case of schemes, on each étale chart as the hypothesis
-h0882; the étale-descent globalisation is proved"]
+Under the hypotheses of Stacks 08B6 (`F` Noetherian, `𝓘` quasi-coherent, `M` and `N` coherent)
+the hypothesis `h0882` is proved, by
+`AlgebraicGeometry.Space.bijective_adicSectionsMapAt_smallEtaleInternalHomAdic_of_isNoetherian`,
+and the tag itself is `AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquivOfNoetherian`. -/
 def smallEtaleInternalHomAdicEquiv
     (h0882 : ∀ U, Function.Bijective (adicSectionsMapAt B S hS F hF
       (fun n => smallEtaleAdicQuotient B S hS F hF 𝓘 (n + 1)

@@ -90,7 +90,10 @@ Several transparency hazards arise here and are worth recording.
 ## Not done here
 
 The comparison isomorphisms `θ` on the twisting sheaves `𝒪(n)` of Tags 01NO and 01NP are not
-constructed, so the relative `𝒪(n)` is not built and `Proj_S(𝒜)` carries no twists here. Nothing
+used here, so `Proj_S(𝒜)` carries no twists in this file. Over Situation 01NN they are
+`Stacks.ProjTwistComparison.twistMap`, invertible by
+`Stacks.RelativeProj.Situation.isIso_twistMap_gradedSectionRestriction`, and Tag 01NP with both of
+its assertions is `Stacks.RelativeProj.Situation.projInclusionMap_and_twistMap_trans`. Nothing
 is said about quasi-compactness, separatedness or properness of `relativeProjToBase`, nor about
 the case of a graded algebra generated in degree one. No stacks attribute for 01NO, 01NP or 01NQ
 is attached to anything in this file.

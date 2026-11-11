@@ -7,7 +7,10 @@ public import Mathlib.CategoryTheory.Sites.Sheaf
 /-!
 # Sheaves on a pretopology only depend on its coverings up to refinement
 
-Stacks tag 00VX: if every covering of a pretopology `K₁` is tautologically equivalent to some
+The `Pretopology` form of Stacks tag 00VX, in a category with pullbacks (Mathlib's
+`Pretopology` requires them; Stacks 00VX does not, and is stated for arbitrary sites in
+`StacksFrontier.CategoryTheory.Sites.Pretopology.SiteSheavesUpToRefinement`): if every covering of
+a pretopology `K₁` is tautologically equivalent to some
 covering of `K₂` — or merely refined by one — then `K₁` generates a coarser topology than `K₂`,
 so every `K₂`-sheaf is a `K₁`-sheaf. Consequently mutual tautological equivalence, and likewise
 mutual refinement, makes the two notions of sheaf coincide.
@@ -84,9 +87,10 @@ lemma toGrothendieck_le_of_tautEquiv (K₁ K₂ : Pretopology C)
     let ⟨V, hV, hUV⟩ := h X U hU
     ⟨V, hV, by simpa using hUV.factorsThru_presieve₀⟩
 
-/-- **Stacks 00VX (1)**, one inclusion: if every covering of `K₁` is tautologically equivalent
-to some covering of `K₂`, then every `K₂`-sheaf is a `K₁`-sheaf. -/
-@[stacks 00VX "(1)"]
+/-- The `Pretopology` form of Stacks 00VX (1), one inclusion, in a category with pullbacks: if
+every covering of `K₁` is tautologically equivalent to some covering of `K₂`, then every
+`K₂`-sheaf is a `K₁`-sheaf. Stacks 00VX itself, for arbitrary sites, is
+`Covering.isSheaf_of_tautologicallyEquivalent`. -/
 theorem isSheaf_of_tautEquiv_subset (K₁ K₂ : Pretopology C)
     (h : ∀ X (U : Presieve X), U ∈ K₁.coverings X → ∃ V ∈ K₂.coverings X,
         PreZeroHypercover.TautologicallyEquivalent U.preZeroHypercover V.preZeroHypercover)
@@ -94,9 +98,9 @@ theorem isSheaf_of_tautEquiv_subset (K₁ K₂ : Pretopology C)
     Presheaf.IsSheaf K₁.toGrothendieck P := fun E =>
   Presieve.isSheaf_of_le _ (toGrothendieck_le_of_tautEquiv K₁ K₂ h) (hP E)
 
-/-- **Stacks 00VX (1)**, the equality: if tautological equivalence holds in both directions then
-the categories of sheaves coincide. -/
-@[stacks 00VX "(1)"]
+/-- The `Pretopology` form of Stacks 00VX (1), the equality, in a category with pullbacks: if
+tautological equivalence holds in both directions then the categories of sheaves coincide.
+Stacks 00VX itself is `Covering.isSheaf_iff_of_tautologicallyEquivalent`. -/
 theorem isSheaf_iff_of_tautEquiv (K₁ K₂ : Pretopology C)
     (h₁ : ∀ X (U : Presieve X), U ∈ K₁.coverings X → ∃ V ∈ K₂.coverings X,
         PreZeroHypercover.TautologicallyEquivalent U.preZeroHypercover V.preZeroHypercover)
@@ -106,9 +110,9 @@ theorem isSheaf_iff_of_tautEquiv (K₁ K₂ : Pretopology C)
     Presheaf.IsSheaf K₁.toGrothendieck P ↔ Presheaf.IsSheaf K₂.toGrothendieck P :=
   ⟨isSheaf_of_tautEquiv_subset K₂ K₁ h₂ P, isSheaf_of_tautEquiv_subset K₁ K₂ h₁ P⟩
 
-/-- **Stacks 00VX (2)**, one inclusion: if every covering of `K₁` is refined by some covering of
-`K₂`, then every `K₂`-sheaf is a `K₁`-sheaf. -/
-@[stacks 00VX "(2)"]
+/-- The `Pretopology` form of Stacks 00VX (2), one inclusion, in a category with pullbacks: if
+every covering of `K₁` is refined by some covering of `K₂`, then every `K₂`-sheaf is a
+`K₁`-sheaf. Stacks 00VX itself is `Covering.isSheaf_of_factorsThru`. -/
 theorem isSheaf_of_refines_subset (K₁ K₂ : Pretopology C)
     (h : ∀ X (U : Presieve X), U ∈ K₁.coverings X →
         ∃ V ∈ K₂.coverings X, Presieve.FactorsThru V U)
@@ -116,9 +120,9 @@ theorem isSheaf_of_refines_subset (K₁ K₂ : Pretopology C)
     Presheaf.IsSheaf K₁.toGrothendieck P := fun E =>
   Presieve.isSheaf_of_le _ (toGrothendieck_le_of_refines K₁ K₂ h) (hP E)
 
-/-- **Stacks 00VX (2)**, the equality: if mutual refinement holds in both directions then the
-categories of sheaves coincide. -/
-@[stacks 00VX "(2)"]
+/-- The `Pretopology` form of Stacks 00VX (2), the equality, in a category with pullbacks: if
+mutual refinement holds in both directions then the categories of sheaves coincide. Stacks 00VX
+itself is `Covering.isSheaf_iff_of_factorsThru`. -/
 theorem isSheaf_iff_of_refines (K₁ K₂ : Pretopology C)
     (h₁ : ∀ X (U : Presieve X), U ∈ K₁.coverings X →
         ∃ V ∈ K₂.coverings X, Presieve.FactorsThru V U)

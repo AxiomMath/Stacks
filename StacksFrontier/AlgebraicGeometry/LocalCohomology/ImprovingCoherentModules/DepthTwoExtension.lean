@@ -459,8 +459,6 @@ public def IsDepthTwoExtension {X : Scheme.{u}} (T : Set X)
 
 /-- Two depth-two extensions of a module along a subset are isomorphic by a unique isomorphism
 compatible with the two maps. -/
-@[stacks 0EI3 "uniqueness, unconditionally: the subset is arbitrary and no dualizing complex is \
-needed"]
 public theorem depthTwoExtension_unique
     (X : Scheme.{u}) [IsNoetherian X]
     (T : Set X)

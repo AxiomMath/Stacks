@@ -6,15 +6,15 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.AffineChartsHaveEnoughObje
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentDerivedLimits
 
 /-!
-# Convergence of the truncation tower on an algebraic space, with no hypothesis
+# Convergence of the truncation tower on an algebraic space, with its inputs supplied
 
 Let `S` be a scheme of a big fppf site, let `X` be an algebraic space over `S` and let `E` be an
 object of `D_QCoh(𝒪_X)`.  [Stacks, Tag 08F6] asserts that the canonical map from `E` to a derived
 limit of the tower `n ↦ τ_{≥ -n} E` of canonical truncations from below is an isomorphism.
 
-`AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower` proves this with the source's two
-citations carried as named hypotheses.  **Both are now theorems**, so this file states the tag
-with no hypothesis beyond the membership of `E` in `D_QCoh(𝒪_X)`:
+`AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower` proves this at a free module
+universe from two inputs taken as arguments.  **Both are theorems of this library**, so this file
+states it at the module universe of the structure rings with neither of them assumed:
 
 * `hcover`, that the affine étale charts cover the small étale site, is
   `AlgebraicGeometry.Space.hasEnoughObjects_isAffineChart`;
@@ -23,8 +23,15 @@ with no hypothesis beyond the membership of `E` in `D_QCoh(𝒪_X)`:
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_unconditional`:
-  **[Stacks, Tag 08F6]**, with both of the source's citations discharged.
+* `AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_unconditional`: the same with
+  both of those inputs supplied, still taking the countable product of the tower as an instance
+  argument.
+
+The tag itself is registered on
+`AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_ringUniverse` in
+`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentDerivedLimitsCohomology.lean`, which supplies
+the countable product as well, by
+`AlgebraicGeometry.Space.hasProductsOfShape_nat_derivedCategory_modules`.
 
 ## Implementation notes
 
@@ -33,7 +40,13 @@ discharged inputs live: `AlgebraicGeometry.Space.isZero_rightDerived_evaluation_
 rests on Descent, Proposition [Stacks, Tag 03DX] (2) for the small étale site of an algebraic
 space, which this library has for `AlgebraicGeometry.Space.Modules.{u, u}`.  The conditional form
 is stated at a free module universe `m` and is not superseded: this file instantiates it at
-`m = u` and discharges the two hypotheses there.
+`m = u` and supplies the two inputs there.
+
+The product of the tower, which the derived limit is stated through, exists with no hypothesis:
+`D(𝒪_X)` has countable products at this module universe,
+`AlgebraicGeometry.Space.hasProductsOfShape_nat_derivedCategory_modules`, proved in
+`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentDerivedLimitsCohomology.lean` (which imports
+this file), where the registered form of the tag is stated.
 
 Enough injectives of the `𝒪_X`-modules, which the conditional form takes as an instance
 argument, is `AlgebraicGeometry.Space.enoughInjectives_modules` at this module universe.
@@ -61,10 +74,10 @@ attribute [local instance] HasDerivedCategory.standard
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hF : IsAlgebraicSpace B S hS F)
 
-/-- **Stacks Project, Tag 08F6, with no hypothesis.**  Let `S` be a scheme, let `X` be an
-algebraic space over `S` and let `E` be an object of `D_QCoh(𝒪_X)`.  Then the canonical map from
-`E` to a derived limit `L` of the tower `n ↦ τ_{≥ -n} E` of canonical truncations from below is
-an isomorphism.
+/-- **Stacks Project, Tag 08F6, given the product of the tower.**  Let `S` be a scheme, let `X` be
+an algebraic space over `S` and let `E` be an object of `D_QCoh(𝒪_X)`. Then the canonical map from
+`E` to a derived limit `L` of the tower `n ↦ τ_{≥ -n} E` of canonical truncations from below is an
+isomorphism.
 
 This is `AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower` with its two named
 hypotheses discharged: `hcover` by
@@ -72,12 +85,11 @@ hypotheses discharged: `hcover` by
 `AlgebraicGeometry.Space.isZero_rightDerived_evaluation_of_isAffineChart`.  As there, the derived
 limit is presented by its structural morphism `p` to the product of the tower together with the
 distinguished triangle `hL` characterising it, and the map `c` out of `E` is the canonical one
-because its composites with the product projections are required to be the truncation maps. -/
-@[stacks 08F6 "the source's statement, with both of its citations discharged: the affine étale \
-charts cover the small étale site (04JS, at the index universe HasEnoughObjects asks for) and a \
-quasi-coherent module has no higher cohomology on an affine étale chart (the étale-site analogue \
-of 01XB that the source cites 03DW for).  The module universe is the universe of the structure \
-rings"]
+because its composites with the product projections are required to be the truncation maps.
+
+The product of the tower is an instance argument here; it always exists, and
+`AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_ringUniverse` is the statement with
+it supplied. -/
 theorem isIso_of_isDerivedLimit_truncGETower_unconditional
     (E : DerivedCategory (Modules.{u, u} B S hS F hF))
     (hE : ∀ q : ℤ, ((DerivedCategory.homologyFunctor

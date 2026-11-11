@@ -83,8 +83,8 @@ stage composes with a chain over that stage by
 being complete exactly because of the reduction this file performs — and the local resolutions
 assemble by `AlgebraicGeometry.hasResolutionByNormalizedBlowUps_of_local`. Besides Tags 0BBV and
 0BGE, what is left is the rationality of the singular local rings of the dominating stage, which
-is Tag 0B4Q together with Tag 0BG0 in the local-ring form of
-`AlgebraicGeometry.definesRationalSingularity_stalk`, itself over three named hypotheses.
+is Tag 0B4Q together with Tag 0BG0 in its local-ring form,
+`AlgebraicGeometry.definesRationalSingularity_stalk_of_isModification`.
 
 ## References
 

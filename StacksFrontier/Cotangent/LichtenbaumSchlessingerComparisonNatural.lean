@@ -419,6 +419,7 @@ theorem canonicalCotangentToLichtenbaumSchlessinger_naturality :
       canonicalCotangentToLichtenbaumSchlessinger.{u, max u' v, w} P ≫
         DerivedCategory.Q.map f.complexMap := by
   rw [canonicalCotangentToLichtenbaumSchlessinger, canonicalCotangentToLichtenbaumSchlessinger,
+    cotangentToLichtenbaumSchlessinger, cotangentToLichtenbaumSchlessinger,
     Functor.mapDerivedCategoryFactors_hom_naturality, Iso.inv_hom_id_app_assoc,
     ← Functor.map_comp, ← Functor.map_comp]
   have h := f.Q_map_outerComposite

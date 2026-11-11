@@ -280,7 +280,10 @@ commutative rings on a site and a sheaf of `ℬ`-modules `ℱ`,
 `L_{ℬ/𝒜} ⊗^𝐋_ℬ ℱ ⟶ Lπ_!(P¹_{𝒫/π^{-1}𝒜}(ℱ)) ⟶ ℱ ⟶ (L_{ℬ/𝒜} ⊗^𝐋_ℬ ℱ)[1]`
 
 is a distinguished triangle in `D(ℬ)`. -/
-@[stacks 09DH]
+@[stacks 09DH "the distinguished triangle `L_{ℬ/𝒜} ⊗^𝐋_ℬ ℱ ⟶ Lπ_!(P¹_{𝒫/𝒜}(ℱ)) ⟶ ℱ ⟶ \
+(L_{ℬ/𝒜} ⊗^𝐋_ℬ ℱ)[1]` in `D(ℬ)`, for any homomorphism of sheaves of commutative rings on a site \
+and any sheaf of `ℬ`-modules, with the outer terms identified by the constructed isomorphisms \
+`atiyahTriangleFirstTermIso` and `atiyahTriangleThirdTermIso`"]
 theorem sheafAtiyahTriangle_distinguished (F : SheafOfModules.{u} (targetRing J (B := B))) :
     sheafAtiyahTriangle J f F ∈ distinguishedTriangles :=
   resolutionAtiyahClass_mem_distinguished J f F _ _

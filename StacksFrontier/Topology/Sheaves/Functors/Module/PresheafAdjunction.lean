@@ -40,14 +40,16 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 Let `f : X ⟶ Y` be a continuous map of topological spaces, let `O` be a presheaf of
 rings on `Y`, and let `R` be a presheaf of rings on `X` together with a morphism
-`φ : O ⟶ (Opens.map f).op ⋙ R` (the morphism `i_O : O ⟶ f_*f_pO` in the Stacks
-notation). The Stacks lemma asserts that for `G` a presheaf of `O`-modules on `Y`
-and `F` a presheaf of `R`-modules on `X`, there is a natural bijection
-`Hom_R(f_p G, F) ≃ Hom_O(G, f_* F)`, i.e. `f_p ⊣ f_*` on presheaves of modules.
+`φ : O ⟶ (Opens.map f).op ⋙ R`. Mathlib's `PresheafOfModules.pullbackPushforwardAdjunction`,
+applied with `F := Opens.map f`, is an adjunction `pullback φ ⊣ pushforward φ` whose left
+adjoint `PresheafOfModules.pullback φ` is the abstract left adjoint of the pushforward;
+`canonicalAdjunction` is that adjunction at `R := f_p O`, `φ := i_O`.
 
-In Mathlib this is `PresheafOfModules.pullbackPushforwardAdjunction`, applied with
-`F := Opens.map f`; `canonicalAdjunction` is that application at the lemma's own
-data `R := f_p O`, `φ := i_O`, and carries the tag. We expose the underlying
+Stacks 008U is the same adjunction for the explicit pullback `f_p G` with the
+`f_p O`-module structure of Stacks 008T; it is
+`Stacks.PresheafOfModules.Pullback.pullbackModuleAdjunction`, which carries the tag, and the
+two left adjoints are identified by
+`Stacks.PresheafOfModules.Pullback.pullbackIsoPullbackModuleFunctor`. We expose the underlying
 TopCat-level adjunction `TopCat.Presheaf.pullbackPushforwardAdjunction` separately,
 as it is the presheaves-of-abelian-groups adjunction (Sheaves, Section
 `section-abelian-presheaves-functorial`) on which the Stacks proof relies.
@@ -110,11 +112,11 @@ end ModuleAdjunction
 
 section CanonicalCase
 
-/-! The canonical Stacks 008U setup: take `R := f_p O := ((Opens.map f).op).lan.obj O`,
-the left Kan extension of `O` along `(Opens.map f).op`, and `φ := i_O`, the unit of
-the rings-level adjunction at `O`. With these choices the adjunction
-`pullbackModules f O R φ ⊣ pushforwardModules f O R φ` is exactly the adjunction
-of Stacks 008U as stated. -/
+/-! The canonical case: take `R := f_p O`, the pullback of `O` as a presheaf of rings, and
+`φ := i_O`, the unit of the rings-level adjunction at `O`. The left adjoint is then Mathlib's
+abstract `PresheafOfModules.pullback i_O`, not the explicit `f_p G` of Stacks 008T; the
+adjunction for the latter (Stacks 008U) is
+`Stacks.PresheafOfModules.Pullback.pullbackModuleAdjunction`. -/
 
 variable {X Y : TopCat.{u}} (f : X ⟶ Y) (O : Y.Presheaf RingCat.{u})
 
@@ -128,17 +130,15 @@ unit of the pullback/pushforward adjunction on presheaves of rings, evaluated at
 noncomputable def iRings : O ⟶ (Opens.map f).op ⋙ f_pRings f O :=
   (TopCat.Presheaf.pullbackPushforwardAdjunction RingCat.{u} f).unit.app O
 
-/-- **Stacks 008U.** Let `f : X ⟶ Y` be a continuous map of topological spaces and let
-`O` be a presheaf of rings on `Y`. Then the pullback `f_p` of presheaves of modules,
-from presheaves of `O`-modules on `Y` to presheaves of `f_p O`-modules on `X`, is left
-adjoint to the pushforward `f_*`; in particular the hom-sets
-`Hom_{f_p O}(f_p G, F)` and `Hom_O(G, f_* F)` are naturally bijective, which is the
-bijection the lemma states.
+/-- Let `f : X ⟶ Y` be a continuous map of topological spaces and let `O` be a presheaf of
+rings on `Y`. Mathlib's abstract pullback of presheaves of modules along `i_O : O ⟶ f_* f_p O`
+is left adjoint to the pushforward `f_*`.
 
-This is Mathlib's `PresheafOfModules.pullbackPushforwardAdjunction` at `F := Opens.map f`
-and at the lemma's own data `R := f_p O`, `φ := i_O` (the unit of the rings-level
-pullback/pushforward adjunction). -/
-@[stacks 008U, sga "4 IV 13.4" "special case"]
+This is Mathlib's `PresheafOfModules.pullbackPushforwardAdjunction` at `F := Opens.map f`,
+`R := f_p O` and `φ := i_O`. Its left adjoint is the abstract left adjoint of the pushforward,
+not the explicit pullback `f_p G` of Stacks 008T; the adjunction of Stacks 008U, for the
+explicit `f_p G`, is `Stacks.PresheafOfModules.Pullback.pullbackModuleAdjunction`. -/
+@[sga "4 IV 13.4" "special case"]
 noncomputable def canonicalAdjunction :
     pullbackModules f O (f_pRings f O) (iRings f O) ⊣
       pushforwardModules f O (f_pRings f O) (iRings f O) :=

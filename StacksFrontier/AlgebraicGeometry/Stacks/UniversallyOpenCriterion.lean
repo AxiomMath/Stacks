@@ -83,19 +83,19 @@ about.
 instead of instantiating `AlgebraicGeometry.Stack.HasRelativeProperty` (**Stacks 03YK**), for the
 reason recorded in the file of `AlgebraicGeometry.Stack.UniversallyClosed`: the general notion
 carries the instance arguments `IsStableUnderBaseChange` and locality at the target for the fppf
-precoverage, and the latter for universal openness is Stacks 0421, which this library does not
-have. Writing the quantifier out gives the same proposition with no hypothesis on the property.
-The route below reaches `AlgebraicGeometry.Stack.prop_algebraicSpaceMap_iff`, which needs only
-`RespectsIso`, so Stacks 0421 is not needed for Stacks 06U1 either; the `RespectsIso` witness is
+precoverage, the latter for universal openness being Stacks 041P
+(`AlgebraicGeometry.Space.universallyOpen_isLocalAtTarget_fpqc`, moved to the fppf precoverage
+along Stacks 0DFQ). Writing the quantifier out gives the same proposition with no hypothesis on
+the property. The route below reaches `AlgebraicGeometry.Stack.prop_algebraicSpaceMap_iff`, which
+needs only `RespectsIso`, so no locality is used for Stacks 06U1; the `RespectsIso` witness is
 `AlgebraicGeometry.Stack.universallyOpenMorphismProperty_respectsIso`, which reads universal
 openness as `CategoryTheory.MorphismProperty.universally` of being an open morphism.
 
-The `@[stacks 04XB]` attribute sits on that definition and its clause is restricted: Section 04XB
-introduces its relative property for every one of a list of properties of morphisms of algebraic
-spaces and then proves six lemmas about it (Stacks 04ZP, 04XC, 04XD, 06TY, 06M2, 04Y6), and what
-is delivered here is the section's relative property at the single entry *universally open*, which
-is the notion Stacks 06U1 part (1) refers to. The general relative property is
-`AlgebraicGeometry.Stack.HasRelativeProperty` and carries its own Stacks 03YK attribute.
+That definition is the section's relative property at the single entry *universally open*,
+which is the notion Stacks 06U1 part (1) refers to; it carries no `@[stacks]` attribute. The
+general relative property is `AlgebraicGeometry.Stack.HasRelativeProperty` (Stacks 03YK), and the
+assertions of Section 04XB about it, for every property the section lists, are
+`AlgebraicGeometry.Stack.representableMorphismProperties`, which is the Stacks 04XB registration.
 
 The `@[stacks 06U1]` attribute sits on the equivalence alone, which is that tag's whole covering
 set: both directions are proved, and neither side of it is definitionally the other.
@@ -139,7 +139,6 @@ morphism, read as a morphism of algebraic spaces over `S`. This is the notion of
 It is *not* `AlgebraicGeometry.Stack.AlgebraicStacks.UniversallyOpen`, which is Stacks 06U2
 part (2) and tests openness of base changes on the topological spaces of points; the equivalence
 of the two is Stacks 06U1. -/
-@[stacks 04XB "RESTRICTED: the section's relative property at universal openness"]
 abbrev UniversallyOpen {𝒳 𝒴 : CatFiberedInGroupoids.{u, v, u + 1, w} (BigFppfOver B S hS)}
     (f : 𝒳 ⟶ 𝒴) : Prop :=
   ∀ (U : BigFppfOver B S hS)

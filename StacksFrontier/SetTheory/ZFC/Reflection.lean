@@ -319,12 +319,12 @@ lemma exists_reflects_family (n m : ℕ) (φ : Fin m → SetFormula n) (β : Ord
   exact ⟨α, hβα, hlim, fun i => reflects_of_closedUnder (φ i)
     (closedUnder_of_subset (fun s hs => List.mem_flatMap.mpr ⟨i, List.mem_finRange i, hs⟩) hcl)⟩
 
-/-- **Stacks 000G — Reflection principle.** Given a finite family of set-theory
+/-- **Reflection principle, formula by formula.** Given a finite family of set-theory
 formulas `φᵢ` with `n` free variables and any set `M₀`, there is a limit
 ordinal `α` such that `M₀ ⊆ V_α` and for every parameter tuple in `V_α` and
 every `i`, the relativization `φᵢ^{V_α}` agrees with `φᵢ` on the full universe.
 Here `V_ α = ZFSet.vonNeumann α` is the von Neumann hierarchy from Mathlib. -/
-@[stacks_fixed 000G]
+@[stacks 000G "each formula separately, with `M = V_α`"]
 theorem reflection_principle
     (n m : ℕ) (φ : Fin m → SetFormula n) (M₀ : ZFSet.{u}) :
     ∃ α : Ordinal.{u}, Order.IsSuccLimit α ∧ M₀ ⊆ V_ α ∧
@@ -335,3 +335,18 @@ theorem reflection_principle
   obtain ⟨β, hβ⟩ := exists_subset_vonNeumann M₀
   obtain ⟨α, hαβ, hLim, hRefl⟩ := exists_reflects_family n m φ β
   exact ⟨α, hLim, hβ.trans (vonNeumann_subset_of_le hαβ), fun x hx i => hRefl i x hx⟩
+
+/-- **Stacks 000G — Reflection principle.** Given a finite family `φ₁, …, φₘ` of formulas of
+set theory in the free variables `x₁, …, xₙ` and a set `M₀`, there is a set `M` with
+`M₀ ⊆ M` such that for all `x₁, …, xₙ ∈ M`, the conjunction of the relativizations `φᵢ^M`
+holds if and only if the conjunction of the `φᵢ` holds in the universe of sets; moreover
+`M = V_α` for a limit ordinal `α`. -/
+@[stacks 000G]
+theorem exists_superset_forall_realizeIn_iff_forall_realize
+    (n m : ℕ) (φ : Fin m → SetFormula n) (M₀ : ZFSet.{u}) :
+    ∃ M : ZFSet.{u}, M₀ ⊆ M ∧
+      (∀ x : Fin n → ZFSet.{u}, (∀ j, x j ∈ M) →
+        ((∀ i : Fin m, (φ i).realizeIn M x) ↔ ∀ i : Fin m, (φ i).realize x)) ∧
+      ∃ α : Ordinal.{u}, Order.IsSuccLimit α ∧ M = V_ α := by
+  obtain ⟨α, hLim, hM₀, hRefl⟩ := reflection_principle n m φ M₀
+  exact ⟨V_ α, hM₀, fun x hx => forall_congr' fun i => hRefl x hx i, α, hLim, rfl⟩

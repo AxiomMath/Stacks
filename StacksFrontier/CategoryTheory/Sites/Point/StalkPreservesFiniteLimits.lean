@@ -38,6 +38,16 @@ colimits.
 
 ## Implementation notes
 
+A point here is Mathlib's `CategoryTheory.GrothendieckTopology.Point`, a fibre functor in the
+sense of SGA 4 IV 6.3 whose category of elements is cofiltered, so the stalks are filtered
+colimits. Stacks 04EN is stated for the points of Stacks 00Y5, whose stalk colimits need not be
+filtered; it is proved for those in
+`StacksFrontier/CategoryTheory/Sites/Point/PrecoveragePoint.lean`
+(`CategoryTheory.Precoverage.Point.isIso_stalkSheafificationComparison`,
+`CategoryTheory.Precoverage.Point.sheafStalk_exact_preservesColimits` and
+`CategoryTheory.Precoverage.Point.presheafStalk_exact_preservesColimits`), and the results of
+this file are the corresponding statements for Mathlib's points.
+
 The stalk functors are taken at the value category `Type w`, where `Point.{w, v, u}` has
 `fiber : C ⥤ Type w` for `C : Type u` with `[Category.{v} C]`. Mathlib's instances saying that the
 stalk functors preserve finite limits assume `LocallySmall.{w} C`; the finite-limit statements here
@@ -45,7 +55,8 @@ do not, and go through `ColimFiniteLimits.colim_preservesFiniteLimits` instead.
 
 ## References
 
-* [Stacks Project, Tag 04EN](https://stacks.math.columbia.edu/tag/04EN)
+* [Stacks Project, Tag 04EN](https://stacks.math.columbia.edu/tag/04EN), for the points of
+  Stacks 00Y5 rather than Mathlib's points; see the implementation notes.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -301,7 +312,7 @@ theorem stalkSheafificationComparison_app_surjective [HasWeakSheafify J (Type w)
 
 /-- The comparison natural transformation `stalkSheafificationComparison p`, from the stalk at
 `p` of a presheaf of sets to the stalk at `p` of its sheafification, is an isomorphism. -/
-@[stacks 04EN "(1)", sga "4 IV 6.8.2" "formula (6.8.4)"]
+@[sga "4 IV 6.8.2" "formula (6.8.4)"]
 theorem stalkSheafificationComparison_isIso [HasWeakSheafify J (Type w)] :
     IsIso (stalkSheafificationComparison.{w} p) := by
   have : ∀ F, IsIso ((stalkSheafificationComparison.{w} p).app F) := by
@@ -319,7 +330,7 @@ private theorem presheafFiber_preservesFiniteLimits :
   comp_preservesFiniteLimits _ _
 
 /-- The sheaf stalk functor at `p` preserves finite limits. -/
-@[stacks 04EN "(2)", sga "4 VIII 3.5" "more general"]
+@[sga "4 VIII 3.5" "more general"]
 theorem sheafStalk_preservesFiniteLimits [HasWeakSheafify J (Type w)] :
     PreservesFiniteLimits (p.sheafFiber (A := Type w)) := by
   -- Mathlib's instance for `p.sheafFiber` assumes `LocallySmall.{w} C`, which is not assumed here.
@@ -329,20 +340,19 @@ theorem sheafStalk_preservesFiniteLimits [HasWeakSheafify J (Type w)] :
   exact comp_preservesFiniteLimits _ _
 
 /-- The sheaf stalk functor at `p` preserves all small colimits. -/
-@[stacks 04EN "(2)", sga "4 VIII 3.5" "more general"]
+@[sga "4 VIII 3.5" "more general"]
 theorem sheafStalk_preservesColimits [HasWeakSheafify J (Type w)] :
     PreservesColimits (p.sheafFiber (A := Type w)) := inferInstance
 
 /-- The sheaf stalk functor at `p` preserves finite colimits. -/
-@[stacks 04EN "(2)", sga "4 VIII 3.5" "Clause a)"]
+@[sga "4 VIII 3.5" "Clause a)"]
 theorem sheafStalk_preservesFiniteColimits [HasWeakSheafify J (Type w)] :
     PreservesFiniteColimits (p.sheafFiber (A := Type w)) := by
   have := sheafStalk_preservesColimits.{w} p
   exact PreservesColimitsOfSize.preservesFiniteColimits (p.sheafFiber (A := Type w))
 
 /-- The presheaf stalk functor at `p` preserves finite limits. -/
-@[stacks 04EN "(3)",
-  sga "4 VIII 3.5" "a) finite limits",
+@[sga "4 VIII 3.5" "a) finite limits",
   sga "4 IV 6.8.6" "left-exactness clause of",
   sga "4 IV 6.8.7" "(iii)⇒(i), special case"]
 theorem presheafStalk_preservesFiniteLimits :
@@ -350,12 +360,11 @@ theorem presheafStalk_preservesFiniteLimits :
   exact presheafFiber_preservesFiniteLimits.{w} p
 
 /-- The presheaf stalk functor at `p` preserves all small colimits. -/
-@[stacks 04EN "(3)", sga "4 VIII 3.5" "a) colimits", sga "4 IV 6.8.6" "partial"]
+@[sga "4 VIII 3.5" "a) colimits", sga "4 IV 6.8.6" "partial"]
 theorem presheafStalk_preservesColimits :
     PreservesColimits (p.presheafFiber (A := Type w)) := inferInstance
 
 /-- The presheaf stalk functor at `p` preserves finite colimits. -/
-@[stacks 04EN "(3)"]
 theorem presheafStalk_preservesFiniteColimits :
     PreservesFiniteColimits (p.presheafFiber (A := Type w)) := by
   have := presheafStalk_preservesColimits.{w} p

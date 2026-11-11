@@ -34,6 +34,11 @@ Definition 0GCC, `AlgebraicGeometry.FormalSpace.IsFlat`, and `Spf A` is the form
 `A` with its `𝔪`-adic topology, for a quotient system `D` presenting it over `S`. As in the
 source, only the existence of a factorization is asserted, not its uniqueness.
 
+The assembly `AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian`
+of `StacksFrontier.AlgebraicGeometry.FormalSpace.FlatPartOverCdvr` takes the inputs as hypotheses,
+one of which, `AlgebraicGeometry.FormalSpace.FlatnessLocalityInputs`, cannot hold when `Spf A`
+is affine; the theorem here takes none of them.
+
 ## References
 
 * [Stacks Project, Tag 0ANI](https://stacks.math.columbia.edu/tag/0ANI)
@@ -65,7 +70,12 @@ spectra of the quotients by the `A`-torsion of their presenting rings; these glu
 `Zᵢ` forming an atlas of `X'`, on which flatness of `X'` over `A` is read off by Remark 0ANI.
 A test object `Y` is covered by Noetherian affine charts flat over `A` mapping to the `Uᵢ`;
 each factors through the corresponding `Zᵢ`, and the factorizations descend along the
-covering because `ι` is a monomorphism. -/
+covering because `ι` is a monomorphism.
+
+The hypotheses are the source's: `hA` and `hAc` say that `A` carries its `𝔪`-adic topology
+and is complete for it, which is what "complete discrete valuation ring" means and what makes
+`formalSpectrum D` the formal spectrum `Spf A`. The conclusion contains both halves of the
+source's, and records in addition that `X'` is locally Noetherian. -/
 @[stacks 0GD8]
 theorem exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete
     [IsDomain A] [IsDiscreteValuationRing A]

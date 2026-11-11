@@ -39,13 +39,13 @@ assertions of Tag 03V8 proved in
 `htrivial` is not one of Lemma 64.23.1's hypotheses: the source assumes only that `X` is a
 smooth, projective, geometrically irreducible curve over a finite field, and the triviality of
 the Galois module `ℱ_x̄ = ℚ_ℓ` is the opening *computation* of §23 for the constant sheaf.  The
-library has no constant `ℓ`-adic sheaf to run that computation on — an object of `LAdicSheaf`
-needs a constructible sheaf of `ℤ/ℓⁿ⁺¹ℤ`-modules at every level with the scalar-reduction maps
-isomorphisms, and the identification of its geometric stalk together with the triviality of the
-action of `π_x^*` there.  So `F` below is an arbitrary `ℚ_ℓ`-sheaf and `htrivial` restricts it;
-Tag 03V8's part (1) is instead registered, in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.ConstantSheafCurve`, on
-`isRational_constantLFunction`, whose subject is the defined Euler product `constantLFunction`.
+library has the constant `ℓ`-adic sheaf, `Stacks.EtaleCohomology.LAdicSheaf.constantSystem`, but
+not that computation for it: the identification of its rational geometric stalk with `ℚ_ℓ`
+together with the triviality of the action of `π_x^*` there.  So `F` below is an arbitrary
+`ℚ_ℓ`-sheaf and `htrivial` restricts it; Tag 03V8's part (1) is instead registered, in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.ConstantSheafCurveCohomological`, on
+`LAdicSheaf.isRational_constantLFunction_of_smoothProjectiveCurve`, whose subject is the defined
+Euler product `constantLFunction`.
 
 ## References
 
@@ -110,10 +110,11 @@ public theorem LAdicSheaf.rationalLFunction_eq_constantLFunction (F : LAdicSheaf
     localFactor_constantFrobeniusMatrices, localEulerFactor, localCharSeries_one_fin_one]
 
 /-- **Part (1) of Tag 03V8 for `L(X, ℚ_ℓ)` as Tag 03UX defines it.**  The L-function of a
-`ℚ_ℓ`-sheaf whose local factors are those of the constant sheaf, on a smooth, projective,
-geometrically irreducible curve over a finite field, is a rational function: its product with the
-polynomial `(1 - T)(1 - qT)`, whose value at `0` is `1`, is the polynomial
-`det(1 - π_X^* T |_{H^1})`.
+`ℚ_ℓ`-sheaf whose local factors are those of the constant sheaf is a rational function: its
+product with the polynomial `(1 - T)(1 - qT)`, whose value at `0` is `1`, is the polynomial
+`det(1 - A T)`. Nothing here assumes that `X` is a smooth, projective, geometrically irreducible
+curve: what the source deduces from that is supplied as the point count `hcount` and the trace
+identity `hpoint`, in which `A` stands for `π_X^*` on `H^1`.
 
 This carries no Stacks registration: `htrivial` restricts `F` rather than transcribing a
 hypothesis of Lemma 64.23.1, as the module docstring explains. -/

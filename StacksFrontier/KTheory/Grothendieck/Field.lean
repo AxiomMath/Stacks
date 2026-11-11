@@ -33,6 +33,7 @@ public import Mathlib.Tactic.NormNum.Parity
 public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
+public import StacksFrontier.KTheory.Grothendieck.PID
 import StacksCore.Tactic.EgaSgaAttribute
 @[expose] public section
 
@@ -46,12 +47,11 @@ exact sequences of `k`-vector spaces in `ModuleCat.{u} k`: if
 `0 → X₁ → X₂ → X₃ → 0` is short exact and `X₂` is finite-dimensional, then
 `finrank k X₂ = finrank k X₁ + finrank k X₃`.
 
-This is the core computation underlying the informal Stacks remark that
-`K₀(k) = K'₀(k) ≅ ℤ` for a field `k`, with the isomorphism given by the
-dimension/length function. Indeed, this additivity is exactly the condition
-that makes `finrank` descend to a well-defined homomorphism from the
-Grothendieck group of finitely generated `k`-modules to `ℤ`. -/
-@[stacks 00JE, sga "6 I 6.0" "(ii), special case"]
+This additivity is what makes `finrank` descend to a homomorphism from the
+Grothendieck group of finite `k`-modules to `ℤ`; the full statement of Stacks
+Example 00JE (`K₀(k) = K'₀(k) ≅ ℤ` via dimension, which equals length) is
+`K0toK0'_field_bijective_and_isoZ`. -/
+@[sga "6 I 6.0" "(ii), special case"]
 theorem finrank_additive_of_shortExact {k : Type u} [Field k]
     (S : ShortComplex (ModuleCat.{u} k))
     (hfin : Module.Finite k S.X₂)
@@ -75,3 +75,42 @@ theorem finrank_additive_of_shortExact {k : Type u} [Field k]
     LinearMap.finrank_range_of_inj hf_inj
   linarith [h_rn, h_range_g, h_ker, h_range_f]
 
+/-- **Stacks Example 00JE.** Let `k` be a field. Then `K₀(k) = K'₀(k) ≅ ℤ`, the
+isomorphism being given by the dimension function, which is also the length function.
+Precisely:
+* the canonical map `K0toK0' k : K₀(k) → K'₀(k)` is bijective;
+* there is an isomorphism `K'₀(k) ≃+ ℤ` sending the class `[M]` of every finite
+  `k`-module `M` to `dim_k M`;
+* there is an isomorphism `K₀(k) ≃+ ℤ` sending the class `[M]` of every finite
+  (projective) `k`-module `M` to `dim_k M`;
+* for every finite `k`-module `M`, `length_k M = dim_k M`.
+
+Here `K'₀(k) = K0PrimeOfFinPres k` and `K₀(k) = K0OfProjGen k` are the Grothendieck
+groups of finite, resp. finite projective, `k`-modules modulo short exact sequences,
+built as in Stacks Section 00JC. -/
+@[stacks 00JE "K0(k) → K'0(k) bijective, K'0(k) ≅ ℤ and K0(k) ≅ ℤ via dimension, \
+dimension equals length"]
+theorem K0toK0'_field_bijective_and_isoZ (k : Type u) [Field k] :
+    Function.Bijective (K0toK0' k) ∧
+    (∃ e : K0PrimeOfFinPres k ≃+ ℤ, ∀ (M : Type u) [AddCommGroup M] [Module k M]
+        [Module.Finite k M], e (K0PrimeOfFinPres.mkM k M) = Module.finrank k M) ∧
+    (∃ e : K0OfProjGen k ≃+ ℤ, ∀ (M : Type u) [AddCommGroup M] [Module k M]
+        [Module.Finite k M], e (K0OfProjGen.mkM k M) = Module.finrank k M) ∧
+    ∀ (M : Type u) [AddCommGroup M] [Module k M] [Module.Finite k M],
+      Module.length k M = Module.finrank k M := by
+  refine ⟨⟨fun _ _ h => (rankHomK0_bijective k).injective (congrArg (rankHom k) h),
+    fun w => ?_⟩, ⟨K0PrimeOfFinPres.rankEquiv, fun M _ _ _ => ?_⟩,
+    ⟨K0OfProjGen.rankEquiv k, fun M _ _ _ => ?_⟩,
+    fun M _ _ _ => Module.length_eq_finrank k M⟩
+  · obtain ⟨y, hy⟩ := (rankHomK0_bijective k).surjective (rankHom k w)
+    exact ⟨y, (rankHom_bijective (R := k)).injective hy⟩
+  · obtain ⟨p, ⟨ep⟩⟩ := exists_generator_iso (R := k) M
+    rw [K0PrimeOfFinPres.mkM_eq_mk_of_iso M ep, K0PrimeOfFinPres.rankEquiv,
+      AddEquiv.ofBijective_apply, rankHom_mk, K0'Gen.rankZ, ← ep.finrank_eq]
+    rfl
+  · obtain ⟨p, ⟨ep⟩⟩ := K0OfProjGen.exists_gen_of_iso (R := k) M
+    rw [K0OfProjGen.mkM_eq_mk_of_iso M ep, K0OfProjGen.rankEquiv,
+      AddEquiv.ofBijective_apply, rankHomK0, AddMonoidHom.comp_apply]
+    change rankHom k (K0PrimeOfFinPres.mk k p.1) = _
+    rw [rankHom_mk, K0'Gen.rankZ, ← ep.finrank_eq]
+    rfl

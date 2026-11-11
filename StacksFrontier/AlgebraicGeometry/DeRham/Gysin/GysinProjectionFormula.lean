@@ -22,10 +22,14 @@ the same edge (`gysinHodgeFormsMap_one`), and Cohomology, Tags 0G77 and 0G76 ide
 with the cup product of `α` with the second (`cup_of_edgeTensorMatching`, along the edge
 matching `edgeTensorMatching_conormalWedge`).
 
-The sign `(-1)^{qc}` comes from the identification `H^q(X, A) ≅ H^{q+c}(RΓ(X, A[-c]))` used by
-the bridge `hgroupModuleShiftIso`, which is sign-free, where the source uses the Koszul-signed
-one. It appears at `Stacks.Cohomology.DerivedGlobalCupProduct.totalCupPairing_shift₂`; under the
-Koszul-signed identification the formula is the source's `γ^{p,q}(α|_Z) = α ∪ γ^{0,0}(1)`.
+The source states the formula without the sign, and as printed it fails in general when `qc` is odd
+(see `errata.md`). Remark 0G8A identifies `H^q(Z, ℋ^c_Z(-))` with `H^{q+c}(Z, Rℋ_Z(-))` without a
+sign, as the bridge `hgroupModuleShiftIso` here does. Item (2) of the source's proof matches the
+cup product of `i⁻¹α ∈ H^q` with `γ^0(1)` in degree `0` against the cup product of `α` with
+`γ^0(1)` read in degree `c`. These differ by the sign of More on Algebra, Tag 0FNH: the
+isomorphism `Tot(A ⊗ B)[-c] ≅ Tot(A ⊗ B[-c])` is `(-1)^{qc}` on `A^q ⊗ B^•`. In this library the
+sign appears at `Stacks.Cohomology.DerivedGlobalCupProduct.totalCupPairing_shift₂`, which is that
+convention of 0FNH. The statement proved here is the corrected one.
 -/
 
 @[expose] public noncomputable section
@@ -371,18 +375,19 @@ Tag 0G7P), `1 ∈ H^0(Z, Ω^0_{Z/S})` is `oneFormCohomologyClass`, and `∪` is 
 `H^m(RΓ(X, -))`, so both sides are read through the bridge `hgroupModuleShiftIso`, an
 isomorphism.
 
-The sign `(-1)^{qc}` comes from the identification `H^q(X, A) ≅ H^{q+c}(RΓ(X, A[-c]))` of the
-bridge, which is sign-free, where the source uses the Koszul-signed identification; it appears
-at `Stacks.Cohomology.DerivedGlobalCupProduct.totalCupPairing_shift₂`. Under the Koszul-signed
-identification this is the source's formula `γ^{p,q}(α|_Z) = α ∪ γ^{0,0}(1)`. -/
-@[stacks 0G8C "the full statement, at the source's hypotheses (pi smooth, i a Koszul regular \
+This is the corrected form of the source's statement. The source prints
+`γ^{p,q}(α|_Z) = α ∪ γ^{0,0}(1)` without the sign, which fails in general when `qc` is odd
+(see `errata.md`). With the source's own sign-free identifications of Remark 0G8A, the shift of
+the second factor of the cup product by `-c` carries the sign `(-1)^{qc}` of More on Algebra,
+Tag 0FNH. This is the step the source's proof (item (2)) passes over. In the proof the sign
+appears at `Stacks.Cohomology.DerivedGlobalCupProduct.totalCupPairing_shift₂`. -/
+@[stacks 0G8C "corrected form, at the source's hypotheses (pi smooth, i a Koszul regular \
 closed immersion of finite presentation with conormal sheaf locally free of rank c), with the \
-cup product of Cohomology Section 0FKU constructed and nothing assumed; stated with the sign: \
-gamma^{p,q}(alpha|_Z) = (-1)^{qc} alpha cup gamma^{0,0}(1). The sign comes from this library's \
-sign-free identification H^q(X, A) = H^{q+c}(R Gamma(X, A[-c])) of the bridge \
-hgroupModuleShiftIso, where the source uses the Koszul-signed identification; it appears at \
-totalCupPairing_shift₂. Under the Koszul-signed identification the formula is the source's \
-gamma^{p,q}(alpha|_Z) = alpha cup gamma^{0,0}(1)"]
+cup product of Cohomology Section 0FKU and nothing assumed: \
+gamma^{p,q}(alpha|_Z) = (-1)^{qc} alpha cup gamma^{0,0}(1). The source omits the sign, which is \
+false in general when qc is odd (erratum recorded in errata.md): with the sign-free \
+identifications of Remark 0G8A, shifting the second factor of the cup product by -c carries \
+the sign (-1)^{qc} of More on Algebra Tag 0FNH"]
 theorem gysinHodgeFormsMapOfConormalRank_hodgeRestriction (i : Z ⟶ X) [IsClosedImmersion i]
     [LocallyOfFinitePresentation i] (π : X ⟶ S) [Smooth π] {c : ℕ} (hE : ConormalRank i c)
     (hK : IsKoszulRegularImmersion i) (p q : ℕ)

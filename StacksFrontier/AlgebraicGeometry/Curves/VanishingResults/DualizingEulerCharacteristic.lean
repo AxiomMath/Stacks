@@ -67,9 +67,9 @@ and is not available here.
 `AlgebraicGeometry.eulerCharacteristic_eq_finsum`, but its signature demands
 `SheafOfModules.IsCoherent ℱ`. For `ω_X` that is the coherence assertion of clause (2) of
 [Stacks, Tag 0BS2]; `Stacks.Duality.isCoherent_homology_of_isDualizingComplex` gives it only
-once `f^×(𝒪_{Spec k})` is known to be a dualizing complex, which is [Stacks, Tag 0AU3] and is
-absent from this repository — see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/CoherentCohomology.lean`. The
+once `f^×(𝒪_{Spec k})` is known to be a dualizing complex, which is clause (4)(a) of
+[Stacks, Section 0AU3] (`Stacks.Duality.isDualizingComplex_upperShriek_obj`, read at `f^× = f^!`
+for the proper `f`); that reading is not carried out here. The
 conclusion below is therefore stated with both Euler characteristics written out as the sums
 that define them, so that only the quasi-coherence of `ω_X`
 (`Stacks.Duality.isQuasicoherent_dualizingSheafOverField`) is needed. A consumer that does have

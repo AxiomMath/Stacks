@@ -7,8 +7,12 @@ public import StacksFrontier.AlgebraicGeometry.Artin.ContractionEtaleDescentTran
 
 **Stacks 0GHG** says that in the situation of Stacks 0GH8 the functor `F` of Stacks 0GHA —
 `AlgebraicGeometry.Artin.contractionFunctor` — satisfies the sheaf property for all étale
-coverings of locally Noetherian schemes over `S`. This file proves it, modulo the two inputs
-named in the attribute and discussed below. The statement itself, and the vocabulary it is
+coverings of locally Noetherian schemes over `S`. This file proves it modulo two locality
+statements over the big fppf site, discussed below; the unconditional proof, which replaces them
+by their étale forms, is
+`AlgebraicGeometry.Artin.ContractionSituation.contractionFunctor_satisfiesEtaleSheafProperty` in
+`StacksFrontier.AlgebraicGeometry.Artin.ContractionEtaleSheafPropertyUnconditional`, and carries the
+Stacks 0GHG registration. The statement itself, and the vocabulary it is
 phrased in, are
 `AlgebraicGeometry.Artin.ContractionSituation.SatisfiesEtaleSheafProperty` and its unfolding
 `AlgebraicGeometry.Artin.ContractionSituation.satisfiesEtaleSheafProperty_iff`.
@@ -29,7 +33,7 @@ component by component.
    completion subfunctor of `V` along `Z`, and the `x̂_i` glue there; the universal property of
    fppf sheafification then carries the glued morphism to one out of `V_{/Z}` itself.
 4. *The two conditions.* That the glued `x̂` is adic, and that the glued pair `(u', x̂)` is
-   compatible, are the two carried inputs.
+   compatible, are supplied here by the two fppf locality statements.
 
 In each of (2) and (3) the compatibility datum has to be fed a pair of morphisms out of an
 *arbitrary* object of the big fppf site, whereas it is given only over locally Noetherian
@@ -39,24 +43,24 @@ inside the big fppf site they are the fibre products, so every such pair factors
 of them.
 
 Uniqueness, `AlgebraicGeometry.Artin.ContractionSituation.eq_of_mapTriple_eq`, needs neither
-carried input and no compatibility hypothesis at all.
+locality statement and no compatibility hypothesis at all.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Artin.ContractionSituation.CompatibilityIsLocalOnBase` and
-  `AlgebraicGeometry.Artin.ContractionSituation.AdicIsLocalOnBase`: the two carried inputs.
+  `AlgebraicGeometry.Artin.ContractionSituation.AdicIsLocalOnBase`: the two fppf locality statements.
 
 ## Main results
 
 * `AlgebraicGeometry.Artin.ContractionSituation.eq_of_mapTriple_eq`: the uniqueness half of
   Stacks 0GHG, proved outright.
 * `AlgebraicGeometry.Artin.ContractionSituation.exists_mapTriple_eq`: the existence half.
-* `AlgebraicGeometry.Artin.ContractionSituation.satisfiesEtaleSheafProperty`: **Stacks
-  0GHG**.
+* `AlgebraicGeometry.Artin.ContractionSituation.satisfiesEtaleSheafProperty`: Stacks 0GHG
+  from the two fppf locality statements.
 
 ## What is assumed
 
-Two things, both named in the attribute on
+Two things, both hypotheses of
 `AlgebraicGeometry.Artin.ContractionSituation.satisfiesEtaleSheafProperty` and both stated
 for an arbitrary situation of Stacks 0GH8, an arbitrary covering family of the big fppf site
 over `S` and an arbitrary candidate datum.
@@ -67,20 +71,26 @@ over `S` and an arbitrary candidate datum.
   enters the source's argument: a witness over `V` is obtained by glueing the algebraic spaces
   `V'_i` and the morphisms `p_i`, `j_i`, `x̂'_i`, `x'_i` of the witnesses over the `V_i` out of
   a descent datum, whose comparison isomorphisms over the overlaps come from the uniqueness
-  part of the main theorem on dilatations. This library has neither Stacks 0ADV — it has
-  `@[stacks 04TR]` for sheaves on an abstract site and nothing for algebraic spaces — nor that
-  uniqueness statement.
+  part of the main theorem on dilatations. The library proves the étale form of this
+  statement, over étale coverings of the locally Noetherian site
+  (`AlgebraicGeometry.Artin.ContractionSituation.nonempty_compatibilityWitness_of_isEtaleCovering`,
+  from the uniqueness half of Stacks 0GDU and Stacks 0GI1); the form here, over arbitrary
+  coverings of the big fppf site, is stronger.
 * `AlgebraicGeometry.Artin.ContractionSituation.AdicIsLocalOnBase`, that adicness may be
   checked after pulling back along a covering family. Stacks 0APY and Stacks 0APV, the two
   facts about adicness that the construction of `F` uses, yield adicness of a *composite*
-  and never of a factor, so this does not follow from them.
+  and never of a factor, so this does not follow from them alone. The library proves the étale
+  form
+  (`AlgebraicGeometry.Space.isRepresentableByAlgebraicSpacesULift_of_etale_completionSheafRestrict`);
+  the form here, over arbitrary coverings of the big fppf site, is stronger.
 
 Neither mentions the étale site of locally Noetherian schemes, the family of triples, or the
 existence of an amalgamation: each is a statement about one already-given datum over the base
 of an arbitrary covering family. The source's proof of Stacks 0GHG is omitted — the hint is
 only that "morphisms may be defined étale locally" — so neither is a named citation of it.
 
-Nothing else is assumed: the functor `F` of Stacks 0GHA is itself unconditional.
+Nothing else is assumed: the functor `F` of Stacks 0GHA is itself unconditional. The étale forms
+suffice for Stacks 0GHG, which is how the unconditional file proves it.
 
 ## References
 
@@ -110,9 +120,9 @@ namespace ContractionSituation
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-! ### The two carried inputs -/
+/-! ### Two fppf locality statements -/
 
-/-- **Stacks 0ADV, carried: the compatibility condition is local on the base.** Let `c` be any
+/-- **The compatibility condition is local on the fppf base.** Let `c` be any
 situation of Stacks 0GH8, let `{V_i ⟶ V}` be any family of morphisms of the big fppf site over
 `S` generating a covering sieve, and let `Z`, `u' : V ∖ Z ⟶ U'` and `x̂ : V_{/Z} ⟶ W` be any
 candidate second and third components of a triple over `V`. If the restriction of `(u', x̂)` to
@@ -128,9 +138,10 @@ It is the form in which **Stacks 0ADV**, étale descent for algebraic spaces, is
 proof of Stacks 0GHG: a witness over `V` is obtained by glueing the algebraic spaces `V'_i` and
 the morphisms `p_i`, `j_i`, `x̂'_i`, `x'_i` of the witnesses over the `V_i` out of a descent
 datum, the comparison isomorphisms over the overlaps being supplied by the uniqueness part of
-the main theorem on dilatations. Neither Stacks 0ADV nor that uniqueness statement is available
-in this library, and the source's proof of Stacks 0GHG is omitted, so neither is a named
-citation of it. -/
+the main theorem on dilatations. The library proves the étale form, over étale coverings of
+the locally Noetherian site
+(`AlgebraicGeometry.Artin.ContractionSituation.nonempty_compatibilityWitness_of_isEtaleCovering`);
+this fppf form is stronger and is not proved here. -/
 def CompatibilityIsLocalOnBase : Prop :=
   ∀ (c : ContractionSituation B S hS) {V : BigFppfOver B S hS} {I : Type (u + 1)}
     (Vi : I → BigFppfOver B S hS) (f : ∀ i, Vi i ⟶ V),
@@ -146,15 +157,17 @@ def CompatibilityIsLocalOnBase : Prop :=
           (fun _ hz => hz) ≫ xhat))) →
       Nonempty (CompatibilityWitness c V Z u xhat)
 
-/-- **Carried: adicness is local on the base.** Let `{V_i ⟶ V}` be any family of morphisms of
+/-- **Adicness is local on the fppf base.** Let `{V_i ⟶ V}` be any family of morphisms of
 the big fppf site over `S` generating a covering sieve, let `Z` be any set of points of `V`,
 let `W` be any fppf sheaf of `Type (u + 1)` over `S` and let `x̂ : V_{/Z} ⟶ W` be any morphism.
 If the restriction of `x̂` to each completion `V_{i,/Z_i}` is adic, then `x̂` is adic.
 
 The library supplies only that a composition of morphisms representable by algebraic spaces
 is one (Stacks 0APY) and that a completion morphism along an inverse image is one (Stacks
-0APV); from those two one can conclude that a composite is adic, never that a *factor* is, so
-this is a genuinely new assumption. It is the standard fact that adicness of a
+0APV); from those two alone one can conclude that a composite is adic, never that a *factor*
+is. The library proves the étale form
+(`AlgebraicGeometry.Space.isRepresentableByAlgebraicSpacesULift_of_etale_completionSheafRestrict`);
+this fppf form is stronger and is not proved here. It is the standard fact that adicness of a
 morphism of formal algebraic spaces may be checked locally on the base, and it is a statement
 about *one given* morphism `x̂`: it mentions no particular family, no triple and no situation of
 Stacks 0GH8 at all. The source's proof of Stacks 0GHG is omitted, so it is not a named citation
@@ -186,7 +199,7 @@ private theorem ofArrows_mem_topology_of_isEtaleCovering
 /-- **A section of `F` is determined étale locally.** Two triples over the base of an étale
 covering family of the locally Noetherian site whose pullbacks to the members agree are equal.
 
-This is the uniqueness half of Stacks 0GHG, and it needs none of the carried inputs: the first
+This is the uniqueness half of Stacks 0GHG, and it needs none of the fppf locality statements: the first
 components agree by joint surjectivity
 (`AlgebraicGeometry.Artin.ContractionSituation.Z_eq_of_mapTriple_eq`), and then the second and
 third agree because a morphism out of an open subspace, resp. out of a completion, into an fppf
@@ -232,7 +245,7 @@ theorem eq_of_mapTriple_eq {c : ContractionSituation B S hS}
 /-- **The existence half of Stacks 0GHG.** A compatible family of triples on an étale covering
 family of the locally Noetherian site over `S` has an amalgamation: the closed subset is the
 descended one of `AlgebraicGeometry.Artin.ContractionSituation.descendZ`, and the second and
-third components are glued from the given ones. The two carried inputs supply the adicness of
+third components are glued from the given ones. The two fppf locality statements supply the adicness of
 the glued third component and the compatibility of the glued pair; everything else is
 proved. -/
 theorem exists_mapTriple_eq (c : ContractionSituation B S hS)
@@ -362,37 +375,18 @@ theorem exists_mapTriple_eq (c : ContractionSituation B S hS)
 
 /-! ### Stacks 0GHG -/
 
-/-- **Stacks 0GHG.** In the situation of Stacks 0GH8 the functor `F` of Stacks 0GHA satisfies
-the sheaf property for every étale covering of locally Noetherian schemes over `S`: a
-compatible family of triples on such a covering has a unique amalgamation.
+/-- Stacks 0GHG from two fppf locality statements: in the situation of Stacks 0GH8, if the
+compatibility condition of Stacks 0GHA and the adicness condition may both be checked after
+pulling back along a covering family of the big fppf site over `S`, then the functor `F` of
+Stacks 0GHA satisfies the sheaf property for every étale covering of locally Noetherian schemes
+over `S`.
 
-Existence is `AlgebraicGeometry.Artin.ContractionSituation.exists_mapTriple_eq` and uses the
-two carried inputs; uniqueness is
-`AlgebraicGeometry.Artin.ContractionSituation.eq_of_mapTriple_eq` and uses neither.
-**The two carried inputs, and why neither is equivalent to the conclusion.**
-
-`h0ADV` is the locality on the base of the compatibility condition of [Stacks, Tag 0GHA].  It is
-the form in which [Stacks, Tag 0ADV], étale descent for algebraic spaces, enters the source's
-argument: a witness over `V` is glued from the algebraic spaces `V'_i` and the morphisms
-`p_i, j_i, x̂'_i, x'_i` of the witnesses over the `V_i`, out of a descent datum whose comparison
-isomorphisms come from the uniqueness part of the main theorem on dilatations.  This library has
-neither Tag 0ADV for algebraic spaces nor that uniqueness statement.
-
-`hadic` is the locality on the base of the adicness condition of [Stacks, Tag 0AQ2].  It does not
-follow from [Stacks, Tag 0APY] and [Stacks, Tag 0APV], the two facts about adicness the functor
-`F` is built from: both are closure rules, so every derivation from them concludes adicness of a
-composite built from restrictions, never of a factor.
-
-Each is stated for an arbitrary situation of [Stacks, Tag 0GH8], an arbitrary covering family of
-the big fppf site over `S`, and an arbitrary candidate datum over its base; each constrains one
-already-given datum.  Neither mentions the étale site of locally Noetherian schemes, the family of
-triples, or the existence of an amalgamation, so neither contains the conclusion.  The source's
-proof of this lemma is omitted — the hint is only that morphisms may be defined étale locally — so
-neither is a named citation of it.
+Existence is `AlgebraicGeometry.Artin.ContractionSituation.exists_mapTriple_eq` and uses the two
+locality statements; uniqueness is
+`AlgebraicGeometry.Artin.ContractionSituation.eq_of_mapTriple_eq` and uses neither. The library
+proves the étale forms of both locality statements, and with them Stacks 0GHG outright:
+`AlgebraicGeometry.Artin.ContractionSituation.contractionFunctor_satisfiesEtaleSheafProperty`.
 -/
-@[stacks 0GHG "both the existence and the uniqueness of the amalgamation, granting the \
-locality on the base of the compatibility condition of Stacks 0GHA as h0ADV (the form in which \
-Stacks 0ADV enters the source's argument) and of the adicness condition of Stacks 0AQ2 as hadic"]
 theorem satisfiesEtaleSheafProperty (c : ContractionSituation B S hS)
     (h0ADV : CompatibilityIsLocalOnBase B S hS)
     (hadic : AdicIsLocalOnBase B S hS) :

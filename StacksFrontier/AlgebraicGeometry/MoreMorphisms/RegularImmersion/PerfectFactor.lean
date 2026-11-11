@@ -44,7 +44,8 @@ Stacks tag 063I, so `i` is regular everywhere and `j` is regular at each point o
 * `Stacks.AlgebraicGeometry.RegularIdealSheaf.isRegularImmersion_of_perfect`: **Stacks tag 09RK**
   for `i`.
 * `Stacks.AlgebraicGeometry.RegularIdealSheaf.exists_opens_isRegularImmersion_comp_of_perfect`:
-  **Stacks tag 09RK** for `j`, in the neighbourhood form.
+  **Stacks tag 09RK** for `j`, corrected (a Stacks erratum): `j` is a regular immersion on an
+  open neighbourhood of the image of `i`.
 
 ## Implementation notes
 
@@ -326,8 +327,8 @@ theorem isRegularImmersion_of_exists_isRegular_ker_stalkMap {Z X : Scheme.{u}} (
       IsRegular (X.presheaf.stalk (f.base z)) rs ∧
         Ideal.ofList rs = RingHom.ker (f.stalkMap z).hom) :
     IsRegularImmersion f := by
-  change IsRegularIdealSheaf _ (_root_.Stacks.AlgebraicGeometry.RegularIdealSheaf.definingIdealOfHom
-  f.liftCoborder)
+  change IsRegularIdealSheaf _
+    (_root_.Stacks.AlgebraicGeometry.RegularIdealSheaf.definingIdealOfHom f.liftCoborder)
   refine isRegularIdealSheaf_definingIdealOfHom_of_exists_isRegular_ker_stalkMap
     f.liftCoborder fun z => ?_
   exact (exists_isRegular_ker_stalkMap_liftCoborder_iff f z).mp (h z)
@@ -488,10 +489,9 @@ theorem isRegularImmersion_of_perfect (hji : IsRegularImmersion (i ≫ j)) :
   exact isRegularImmersion_of_exists_isRegular_ker_stalkMap i fun z =>
     (exists_isRegular_ker_stalkMap_factors_of_perfect i j hji z).2
 
-/-- **Stacks tag 09RK for the outer factor, in its neighbourhood form — the corrected statement
-of a Stacks erratum.**  Under the same hypotheses there is an open
-`V ⊆ Y` containing the image of `i` such that the immersion `V.ι ≫ j` of that open subscheme
-into `X` is regular.
+/-- **Stacks tag 09RK for the outer factor, corrected statement (a Stacks erratum).**  Under the
+same hypotheses there is an open `V ⊆ Y` containing the image of `i` such that the immersion
+`V.ι ≫ j` of that open subscheme into `X` is regular.
 
 The source concludes instead that `j` itself is a regular immersion, and that is false.  Over a
 field `k`, take `Z = Spec k`, `Y = Spec k ⊔ Spec k`, `X = Spec k ⊔ Spec k[ε]/(ε²)`, let `i` be
@@ -503,10 +503,12 @@ regular immersion: on the second component its ideal is `(ε) ⊆ k[ε]/(ε²)`,
 sequence generates it, since every element of `(ε)` kills `ε ≠ 0`.  This is
 `Stacks.Examples.not_forall_isRegularImmersion_of_perfect_of_isRegularImmersion_comp`.
 
-The hypotheses control `j` only at the points of `i(Z)` — in the example the first component,
-where `j` is an isomorphism — and the neighbourhood form below is exactly what the source's own
-local-ring argument supplies.  See also the implementation notes of this file. -/
-@[stacks 09RK "j is a regular immersion near the image of i"]
+The hypotheses control `j` at the points of `i(Z)` and nowhere else — in the example `i(Z)` is
+the first component, where `j` is an isomorphism — and the neighbourhood statement below is
+exactly what the source's own local-ring argument supplies.  See also the implementation notes
+of this file. -/
+@[stacks 09RK "corrected statement (erratum): j is a regular immersion on an open neighbourhood \
+of i(Z); the source's claim that j itself is a regular immersion is false"]
 theorem exists_opens_isRegularImmersion_comp_of_perfect (hji : IsRegularImmersion (i ≫ j)) :
     ∃ V : Y.Opens, (∀ z : Z, i.base z ∈ V) ∧ IsRegularImmersion (V.ι ≫ j) := by
   refine ⟨⟨regularStalkLocus j, isOpen_regularStalkLocus j⟩,

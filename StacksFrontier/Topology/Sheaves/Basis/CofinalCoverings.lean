@@ -40,8 +40,16 @@ import StacksCore.Tactic.EgaSgaAttribute
 Stacks 009K states that a presheaf `F` on a basis `B` for the topology of `X` is a sheaf on `B`
 as soon as the sheaf condition `(**)` holds for a *cofinal* system of coverings: a rule assigning
 to each `U ∈ B` a set `C U` of coverings of `U` by basis elements such that every covering of `U`
-by basis elements is refined by a member of `C U`. This is proved here as `main_theorem009K`, in
-the form of an iff; the forward direction is restriction along `C U ⊆ {all coverings}`.
+by basis elements is refined by a member of `C U`. This is proved in
+`StacksFrontier.Topology.Sheaves.Basis.CofinalCoveringsSheaf` as
+`isSheafOnBasis_iff_forall_mem_cofinalSystem`: for any choice `ch` of basis coverings of the
+intersections `Uᵢ ⊓ Uⱼ`, given for the coverings in `C`, `F` is a sheaf on `B` in the sense of
+Stacks 009J (`IsSheafOnBasis`, which quantifies over every covering and every choice of coverings
+of the intersections) iff `(**)` holds for every covering in `C` with the choices `ch`.
+
+The variant `main_theorem009K` keeps one fixed choice `all` of intersection coverings on both
+sides of the iff; the stronger fact that `(**)` on `C` gives `(**)` for every choice of
+intersection coverings is `sheafConditionStarStar_of_cofinal`, in the same module.
 
 The supporting vocabulary is defined here as well: `BasisCovering` (a family of basis elements
 whose union is `U`), `CofinalSystem`, `BasisPresheaf` (a presheaf of sets on `B`),
@@ -381,10 +389,11 @@ lemma sheafCondition_cofinal_implies_basis
   intro i
   rw [ht' i, ht_orig i]
 
-/-- **Stacks Tag 009K (lemma-cofinal-systems-coverings).** A presheaf on a
-basis is a sheaf iff the sheaf condition holds on a cofinal system of
-coverings. -/
-@[stacks 009K]
+/-- **Fixed-choice form of the cofinality criterion.** For one fixed choice `all` of
+intersection coverings, `(**)` holds for every basis covering with the choices `all` iff it holds
+for every covering in the cofinal system `C` with the same choices. The Stacks statement, where
+the sheaf condition ranges over every choice of intersection coverings, is
+`isSheafOnBasis_iff_forall_mem_cofinalSystem`. -/
 theorem main_theorem009K
     {B : Set (Opens X)} (hB : Opens.IsBasis B)
     (C : CofinalSystem B)

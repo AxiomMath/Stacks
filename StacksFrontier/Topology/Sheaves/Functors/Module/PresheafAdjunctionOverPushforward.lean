@@ -44,10 +44,17 @@ presheaf of rings on `Y`. Tag 008V says that the pullback functor
 `PMod(f_*O) ⥤ PMod(O)` is left adjoint to the pushforward `PMod(O) ⥤ PMod(f_*O)`, i.e. that
 `Mor(f^*G, F) ≃ Mor(G, f_*F)` naturally.
 
-Both functors are Mathlib's `PresheafOfModules.pullback` and `PresheafOfModules.pushforward`
-along the identity ring morphism `𝟙 (f_*O)` over `Opens.map f`, and the adjunction is
-`PresheafOfModules.pullbackPushforwardAdjunction` specialised to it; the tag is carried by
-the hom-set bijection `main_hom_equiv` extracted from it.
+The first part of the file records Mathlib's abstract adjunction
+`PresheafOfModules.pullback ⊣ PresheafOfModules.pushforward` along the identity ring morphism
+`𝟙 (f_*O)` over `Opens.map f` (`main_adjunction`, `main_hom_equiv`). Mathlib defines that
+pullback as the left adjoint of the pushforward, so these say nothing about which presheaf
+the left adjoint is.
+
+The Stacks lemma is about the explicit left-hand side `O ⊗_{p, f_p f_*O} f_p G`. It is built in
+`StacksFrontier.Topology.Sheaves.Functors.Module.TensorPullbackAdjunction`
+(`Stacks.PresheafOfModules.TensorPullback.tensorPullback`), where the natural bijection
+`Mor(O ⊗_{p, f_p f_*O} f_p G, F) ≃ Mor(G, f_*F)`
+(`Stacks.PresheafOfModules.TensorPullback.tensorPullbackAdjunction`) carries the tag.
 -/
 
 @[expose] public section
@@ -91,9 +98,12 @@ noncomputable def main_adjunction {X Y : TopCat.{u}} (f : X ⟶ Y)
     pullbackModules008V f O ⊣ pushforwardModules008V f O :=
   PresheafOfModules.pullbackPushforwardAdjunction _
 
-/-- **Stacks 008V.** The natural bijection `Mor_{PMod(O)}(f^*G, F) ≃ Mor_{PMod(f_*O)}(G, f_*F)`
-witnessing that `f^*` is left adjoint to `f_*` on presheaves of modules. -/
-@[stacks 008V, sga "4 IV 13.4" "special case"]
+/-- The hom-set bijection `Mor_{PMod(O)}(f^*G, F) ≃ Mor_{PMod(f_*O)}(G, f_*F)` of Mathlib's
+adjunction `f^* ⊣ f_*`, where `f^*` is `PresheafOfModules.pullback`, defined as *some* left
+adjoint of `f_*`. This does not identify `f^*G` with the explicit `O ⊗_{p, f_p f_*O} f_p G` of
+Stacks 008V; that statement is `Stacks.PresheafOfModules.TensorPullback.tensorPullbackAdjunction`
+in `StacksFrontier.Topology.Sheaves.Functors.Module.TensorPullbackAdjunction`. -/
+@[sga "4 IV 13.4" "special case"]
 noncomputable def main_hom_equiv {X Y : TopCat.{u}} (f : X ⟶ Y)
     (O : (TopologicalSpace.Opens X)ᵒᵖ ⥤ RingCat.{u})
     (F : PresheafOfModules.{u} O)

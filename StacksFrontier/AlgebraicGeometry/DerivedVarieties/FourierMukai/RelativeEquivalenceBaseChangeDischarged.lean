@@ -16,9 +16,9 @@ of a relative equivalence from `X` to `Y` over `S` ([Stacks, Tag 0G0I]). For any
 `AlgebraicGeometry.isRelativeEquivalenceKernel_derivedPullback` proves this from the
 proposition `AlgebraicGeometry.DerivedBaseChangeIsIsoOnQuasicoherent`, which is
 [Stacks, Tag 08IB]. That proposition is proved by
-`AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`; this module composes the two. It
-cannot be done in the file of the former without changing its imports and its registration,
-which stay as they are.
+`AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`; this module composes the two, and
+carries the registration of [Stacks, Tag 0G0K]. The composite lives in its own module because
+the file of the former does not import the proof of the latter.
 
 ## Main results
 
@@ -65,9 +65,9 @@ is the Fourier-Mukai kernel of a relative equivalence from `X₁` to `Y₁` over
 
 This is `AlgebraicGeometry.isRelativeEquivalenceKernel_derivedPullback` at
 `AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`, which is [Stacks, Tag 08IB]. -/
-@[stacks 0G0K "the whole lemma, for an arbitrary base change S1 -> S; f and g need only be \
-flat, separated and qcqs, all implied by the source's smooth proper hypotheses. Tag 08IB enters \
-through AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent, which proves it"]
+@[stacks 0G0K "the whole lemma, for an arbitrary base change S1 -> S, with f and g flat, \
+separated and qcqs, which the source's smooth proper f and g are; Tag 08IB is proved by \
+AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent"]
 theorem isRelativeEquivalenceKernel_baseChange
     {S X Y S₁ : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) (s : S₁ ⟶ S)
     [IsSeparated f] [IsSeparated g] [Flat f] [Flat g]

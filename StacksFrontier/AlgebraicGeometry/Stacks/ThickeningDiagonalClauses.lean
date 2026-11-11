@@ -91,7 +91,6 @@ variable {𝒳 𝒳' 𝒴 𝒴' : AlgebraicStacks.{u, w} B S hS}
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`,
 the relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is surjective (**Stacks 04ZS**) if and only if
 `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (c) of seventeen: surjective"]
 theorem isSurjective_relativeDiagonal_inner_iff_outer :
     IsSurjective B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner) ↔
       IsSurjective B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer) :=
@@ -101,7 +100,6 @@ theorem isSurjective_relativeDiagonal_inner_iff_outer :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`,
 the relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is universally injective (**Stacks 0CI2**) if and only
 if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (i) of seventeen: universally injective"]
 theorem universallyInjective_relativeDiagonal_inner_iff_outer :
     UniversallyInjective B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner) ↔
       UniversallyInjective B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer) :=

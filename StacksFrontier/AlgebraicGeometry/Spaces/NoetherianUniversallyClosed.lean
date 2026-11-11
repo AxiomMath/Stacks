@@ -39,8 +39,10 @@ locally Noetherian. Stacks 0H1Y compares five conditions on `f`:
 * `AlgebraicGeometry.Space.universallyClosed_of_discreteExistence`: (5) implies (1).
 * `AlgebraicGeometry.Space.discreteFiniteSeparableExistence_of_valuativeCriterion_existence`:
   (2) implies (4).
-* `AlgebraicGeometry.Space.universallyClosed_tfae_of_isLocallyNoetherian`: **Stacks 0H1Y**, the
-  five conditions are equivalent for `f` decent, for instance quasi-separated.
+* `AlgebraicGeometry.Space.universallyClosed_tfae_of_isLocallyNoetherian`: the five conditions
+  of Stacks 0H1Y are equivalent for `f` decent, for instance quasi-separated. The complete
+  corrected Stacks 0H1Y, which also states the implications that need no decency, is
+  `AlgebraicGeometry.Space.universallyClosed_implications_and_tfae_of_isLocallyNoetherian`.
 
 ## Implementation notes
 
@@ -411,9 +413,12 @@ The witness is the structure morphism `𝔸¹_ℚ/ℤ ⟶ Spec ℚ` of the quoti
 the integer translations: it is of finite type over the Noetherian scheme `Spec ℚ` and
 universally closed (Stacks 03IV), but the `ℚ((t))`-point `1/t` extends to no valuation ring
 dominating `ℚ[[t]]`, so (1) holds and (2) fails. With decency, (1) implies (2) by Stacks 03M6,
-`f` being quasi-compact as it is of finite type. -/
-@[stacks 0H1Y "for f decent (e.g. quasi-separated); without decency the statement is false, \
-  see not_forall_universallyClosed_tfae_of_isLocallyNoetherian"]
+`f` being quasi-compact as it is of finite type.
+
+The tag Stacks 0H1Y is registered on the complete corrected statement,
+`universallyClosed_implications_and_tfae_of_isLocallyNoetherian` (in
+`StacksFrontier.AlgebraicGeometry.Spaces.NoetherianUniversallyClosedImplications`), which gives the
+implications that hold without decency together with this equivalence for `f` decent. -/
 theorem universallyClosed_tfae_of_isLocallyNoetherian {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (X_alg : IsAlgebraicSpace B S hS X) (Y_alg : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y)
     (decent : IsDecent B S hS f) (ft : IsFiniteType B S hS f)

@@ -5,24 +5,25 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.TautFormalSpectrumRep
 import all StacksFrontier.AlgebraicGeometry.FormalSpace.RigSurjectiveFaithfullyFlat
 
 /-!
-# Stacks 0AQY without a representability hypothesis
+# Rig-surjectivity of a flat affine formal morphism is faithful flatness of its closed fibre
 
-`AlgebraicGeometry.FormalSpace.isRigSurjective_formalSpectrumMap_iff_faithfullyFlat` proves
-Stacks 0AQY carrying `hAdicRepresentable`, the representability of the adic points of `Spf A`.
-That hypothesis is an instance of the implication (3) ⟹ (1) of **Stacks 0AN5**, which the
-library proves as
-`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut`.
-This file discharges it and states the criterion with no such hypothesis.
+Let `A` be a Noetherian ring complete with respect to an ideal `I` whose `I`-torsion vanishes,
+and let `C` be an `I`-adically complete `A`-algebra with `A/Iⁿ → C/IⁿC` flat and of finite type
+for every `n`. Then `Spf C → Spf A` is rig-surjective if and only if `A/I → C/IC` is faithfully
+flat (Stacks 0AQY).
 
 `AlgebraicGeometry.FormalSpace.IsRigSurjective` renders adicness of its quantified point as
 representability by algebraic spaces, so the adic point `Spf R → Spf A` that the source proof
 constructs — produced as a `RingHom.IsAdic` — has to be turned into a representable morphism
 before rig-surjectivity can be applied to it. An adic homomorphism is taut
-(`RingHom.isTaut_of_isAdic`, Stacks 0GBS part (1)), and 0AN5 identifies tautness with
-representability. Its hypotheses are all available where it is used: weak admissibility of `R`
-is `TopologicalRing.isWeaklyAdmissible_of_isAdic`, `R` being adic and adically complete; and its
-site condition `DR.HasLargeSite` of Stacks 0AIF is `hasLargeSite_of_mk_lt_cutoff` applied to the
-bound `#R < B.cutoff` which the construction of `R` already establishes.
+(`RingHom.isTaut_of_isAdic`, Stacks 0GBS part (1)), and the implication (3) ⟹ (1) of
+Stacks 0AN5,
+`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut`,
+makes a taut homomorphism representable. Its hypotheses are all available where it is used:
+weak admissibility of `R` is `TopologicalRing.isWeaklyAdmissible_of_isAdic`, `R` being adic and
+adically complete; and its site condition `DR.HasLargeSite` of Stacks 0AIF is
+`hasLargeSite_of_mk_lt_cutoff` applied to the bound `#R < B.cutoff` which the construction of
+`R` already establishes.
 
 ## Main results
 

@@ -581,7 +581,8 @@ representable thickening `X₀ ⟶ X`; the stages of a transported chart over th
 by the thickening case of Stacks 07VT
 (`AlgebraicGeometry.Space.isAffineSpace_of_isClosedSubspace_of_isSurjective_terminal`), so each
 transported chart is an affine formal algebraic space, and the charts cover `X`. -/
-@[stacks 0AJH]
+@[stacks 0AJH "the full statement, with no hypothesis beyond the source's: the set-theoretic \
+condition of Stacks 0AIS on the source is proved, not assumed"]
 theorem isFormalAlgebraicSpace_of_representable_over_isAffineFormal
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y) (hY : IsAffineFormalAlgebraicSpace B S hS Y)
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom) :

@@ -13,7 +13,6 @@ public import StacksFrontier.Topology.Sheaves.Modules.Colimits
 public import StacksFrontier.Topology.Sheaves.OpenImmersion.ModuleExtensionByZero
 public import StacksFrontier.Topology.Sheaves.RingedSpace.ModulePullbackStalk
 public import StacksFrontier.Topology.Sheaves.RingedSpace.ModulePullbackStalkAdjunction
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Pullback of internal Hom
@@ -31,9 +30,10 @@ commutes with the internal Hom from `F` to `G`.
 
 ## Main results
 
-* `Stacks.SheafHomPullback.pullbackSheafHomComparison_isIso` says that this comparison is an
-  isomorphism when its first argument is finitely presented and the morphism
-  of ringed spaces is flat.
+* `Stacks.SheafHomPullback.pullbackSheafHomComparison_isIso` says that a comparison with this
+  characterization is an isomorphism when its first argument is finitely presented and the
+  morphism of ringed spaces is flat. The canonical comparison and Stacks Tag 0C6I are in
+  `StacksFrontier.Topology.Sheaves.Modules.Recovery17.PullbackInternalHomCanonical`.
 
 ## Implementation notes
 
@@ -804,11 +804,13 @@ private theorem pullbackSheafHomComparison_stalk_bijective
   rw [hcomp, EquivLike.comp_bijective] at hbij
   exact (EquivLike.bijective_comp _ _).1 hbij
 
-/-- **Stacks Project, Tag 0C6I.** Let `f : X ⟶ Y` be a flat morphism of
-ringed spaces. If `F` is a finitely presented `𝒪_Y`-module, then the canonical
-map
-`f^* SheafHom(F, G) ⟶ SheafHom(f^*F, f^*G)` is an isomorphism. -/
-@[stacks 0C6I]
+/-- Let `f : X ⟶ Y` be a flat morphism of ringed spaces and let `F` be a finitely presented
+`𝒪_Y`-module. Then every morphism `f^* SheafHom(F, G) ⟶ SheafHom(f^*F, f^*G)` carrying the
+sectionwise characterization `PullbackSheafHomComparison` is an isomorphism.
+
+The canonical morphism with this characterization is constructed in
+`StacksFrontier.Topology.Sheaves.Modules.Recovery17.PullbackInternalHomCanonical`, where
+Stacks Tag 0C6I is `Stacks.SheafHomPullback.isIso_pullbackSheafHomMap`. -/
 theorem pullbackSheafHomComparison_isIso
     {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
     (hf : AlgebraicGeometry.IsFlat f)

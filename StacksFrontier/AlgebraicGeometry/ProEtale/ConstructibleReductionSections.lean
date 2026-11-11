@@ -336,8 +336,16 @@ conclusion is `AlgebraicGeometry.ProEtale.derivedReductionSectionsSystem`: degre
 and sections over `X` of the derived tensor products of `K` with the constant sheaves
 `\underline{Λ/Iⁿ}`, whose transition maps are induced by the reductions `Λ/Iⁿ⁺¹ → Λ/Iⁿ`; here `K`
 is read in the derived category of sheaves of `Λ`-modules, where the derived tensor product is
-constructed, through the constant coefficients equivalence. -/
-@[stacks 09C5]
+constructed, through the constant coefficients equivalence.
+
+"A complex of constant sheaves" is read, with the first sentence of the source's proof, as the
+constant complex of a complex of `Λ/Iⁿ`-modules; with constant terms and arbitrary differentials
+(`AlgebraicGeometry.ProEtale.IsConstantSheafComplexModel`) the statement fails, see
+`StacksFrontier/AlgebraicGeometry/ProEtale/LocallyConstantAdicModel.lean`. -/
+@[stacks 09C5 "the Mittag-Leffler condition for the inverse system n ↦ H^0(X, K ⊗_Λ^L Λ/I^n) \
+with its canonical transition maps induced by Λ/I^(n+1) → Λ/I^n; a complex of constant sheaves \
+is read, as in the first sentence of the source's proof, as the constant complex of a complex \
+of Λ/I^n-modules"]
 theorem isMittagLefflerCategorical_derivedReductionSectionsSystem [IsAffine X]
     (hX : ProetaleWContractible.IsWeaklyContractibleObj X)
     (T : DerivedReduction.{u, max (u + 1) w, w} X Λ I)

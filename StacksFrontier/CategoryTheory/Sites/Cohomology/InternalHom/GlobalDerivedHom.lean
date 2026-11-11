@@ -72,13 +72,12 @@ augmentation of the target into its K-injective resolution, Stacks 0A97). The un
 Stacks 0A8Z carries is undone by `AddEquiv.ulift`, which loses nothing.
 
 The functoriality of the global derived hom along a morphism of ringed topoi, which the source
-obtains from Remark 21.35.11, is not here: the internal half is the canonical map
-`Lh^* RSheafHom(K, L) ⟶ RSheafHom(Lh^* K, Lh^* L)` of Stacks 08JF
-(`AlgebraicGeometry.RingedToposSiteHom.derivedPullbackSheafHomMap`), and taking global sections
-of it needs `RΓ(C, M) ⟶ RΓ(C', Lh^* M)`, hence the identification `RΓ(C, Rh_* N) = RΓ(C', N)` of
-Stacks 08J6 on the *unbounded* derived category and with its scalars kept;
-`Stacks.Cohomology.Leray.derivedGlobalSectionsPushforwardIso` is that identification on `D⁺` and
-read in abelian groups.
+obtains from Remark 21.35.11, is in `GlobalDerivedHomPullback.lean`
+(`AlgebraicGeometry.RingedToposHom.globalDerivedHomPullbackMap`): it is the global sections of
+the canonical map `Lh^* RSheafHom(K, L) ⟶ RSheafHom(Lh^* K, Lh^* L)` of Stacks 08JF
+(`AlgebraicGeometry.RingedToposHom.derivedPullbackSheafHomMap`), read through the identification
+`RΓ(C, Rh_* N) = RΓ(C', N)` of Stacks 0D6H on the unbounded derived category with its scalars
+kept (`Stacks.Cohomology.LerayOfToposHom.derivedGlobalSectionsPushforwardIso`).
 
 ## References
 

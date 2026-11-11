@@ -24,12 +24,12 @@ inverse image of `C` in the base change `X_K` is a finite disjoint union of rati
 `X_K`.
 
 [Stacks, Tag 0E65] asserts this without the geometric integrality, and in that form the tag is
-false: see the implementation notes below. The unconditional statement at the tag's own
-hypotheses, with the disjointness dropped from the conclusion, is
+false: see the implementation notes below. The tag is registered on its corrected form,
 `AlgebraicGeometry.exists_finset_isRationalBridge_baseChange` of
-`ContractingRationalBridges/BaseChangeUnion.lean`. **Both registrations of the tag in this file
-are therefore CONDITIONAL**, carrying the binder `hgeom` which the tag does not have; each
-attribute string says so, and neither should be read as a proof of the tag.
+`ContractingRationalBridges/BaseChangeUnion.lean`, which proves at the tag's own hypotheses that
+the inverse image of `C` is a finite union, not necessarily disjoint, of rational bridges. The
+statements of this file are the disjoint form of the tag under the extra assumption of geometric
+integrality, and are not registered for the tag.
 
 The field `k'` of global functions on `C` is a finite separable extension of `k`, so `K ⊗_k k'`
 is a finite product of finite separable extensions `K'_i/K`; the corresponding decomposition of
@@ -599,18 +599,10 @@ and the disjointness of the decomposition is false without it: the module docstr
 the plane curve `X = V(T₂(T₀² + T₁²)) ⊂ P²_ℝ` whose component `C = V(T₀² + T₁²)` is a rational
 bridge with `C_ℂ` connected and reducible, and
 `Stacks.Curves.DegenerateConic.not_exists_iso_sigma_isRationalBridge_degenerateConic` proves that
-the conclusion below fails for it. So the tag itself is registered on
-`AlgebraicGeometry.exists_finset_isRationalBridge_baseChange`, which reaches the
-scheme-theoretic-union form of the conclusion from the tag's own hypotheses. -/
-@[stacks 0E65 "CONDITIONALLY -- this is not an unconditional proof of 0E65: the binder `hgeom`,
-geometric integrality of the bridge over its field of global functions, is not a hypothesis of the
-tag. It cannot be discharged, because the tag's conclusion as stated -- a DISJOINT union -- is
-false without it, refuted by
-`Stacks.Curves.DegenerateConic.not_exists_iso_sigma_isRationalBridge_degenerateConic` for the
-rational bridge `V(T₀² + T₁²)` of `V(T₂(T₀² + T₁²)) ⊂ P²_ℝ`. The tag at its own hypotheses, with
-the disjointness dropped from the conclusion, is proved unconditionally as
-`AlgebraicGeometry.exists_finset_isRationalBridge_baseChange` in
-`ContractingRationalBridges/BaseChangeUnion.lean`"]
+the conclusion below fails for it. The tag is therefore registered on its corrected form,
+`AlgebraicGeometry.exists_finset_isRationalBridge_baseChange`, which proves from the tag's own
+hypotheses that the inverse image of `C` is a finite union, not necessarily disjoint, of rational
+bridges; this statement is not registered for the tag. -/
 public theorem exists_iso_sigma_isRationalBridge_baseChange
     (k K : Type u) [Field k] [Field K] [Algebra k K]
     (X : Scheme.{u}) [X.Over (Spec (.of k))]
@@ -942,15 +934,7 @@ discharge — geometric reducedness of `X` over `k` and separability over `k` of
 functions of the bridge are now derived from nodality for an arbitrary ground field, see the
 implementation notes above — so nothing beyond perfectness of `k` separates the two, and the
 proof is an application. It is kept because it is the form in which the perfect-field case is
-cited elsewhere. -/
-@[stacks 0E65 "CONDITIONALLY -- this is not an unconditional proof of 0E65: the binder `hgeom`,
-geometric integrality of the bridge over its field of global functions, is not a hypothesis of the
-tag, and `[PerfectField k]` is not either. Both are inherited from
-`AlgebraicGeometry.exists_iso_sigma_isRationalBridge_baseChange`, which this specialises; see the
-disclosure there. The tag at its own hypotheses, with the disjointness dropped from the
-conclusion, is proved unconditionally as
-`AlgebraicGeometry.exists_finset_isRationalBridge_baseChange` in
-`ContractingRationalBridges/BaseChangeUnion.lean`"]
+cited elsewhere. Like the general statement it is not registered for [Stacks, Tag 0E65]. -/
 public theorem exists_iso_sigma_isRationalBridge_baseChange_of_perfectField
     (k K : Type u) [Field k] [PerfectField k] [Field K] [Algebra k K]
     (X : Scheme.{u}) [X.Over (Spec (.of k))]

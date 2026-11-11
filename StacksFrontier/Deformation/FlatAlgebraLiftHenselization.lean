@@ -12,7 +12,10 @@ public import StacksFrontier.RingTheory.Rig.HenselizationDescent
 Let `A' → A` be a surjection of Noetherian rings with nilpotent kernel, let `B` be a finite
 type flat `A`-algebra and let `𝔟 ⊆ B` be an ideal such that `A → B_h` is syntomic for every
 `h ∈ 𝔟`. Stacks 0DZB says that `B` has a flat lift to `A'` if and only if the henselization
-`Bʰ` of the pair `(B, 𝔟)` does. This file proves that equivalence.
+`Bʰ` of the pair `(B, 𝔟)` does. This file derives that equivalence from Stacks 0DZ2, which is
+false, so the derivation is vacuous; Stacks 0DZB is proved without it as
+`Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization` in
+`StacksFrontier.Deformation.FlatAlgebraLiftHenselizationNilpotent`.
 
 The proof is the source's, and runs along the proof of the completion analogue Stacks 0DZ3.
 Choose a surjection `P = A[x_1, …, x_n] → B`, let `P'` be the polynomial algebra over `A'` and
@@ -29,8 +32,8 @@ supplied by Stacks 07M8 exactly as in Stacks 0DZ3.
   `B` to its henselization, assuming Stacks 0DZ2.
 * `Deformation.hasFlatAlgebraLift_of_hasFlatAlgebraLift_henselization`: the implication from
   the henselization back to `B`, assuming Stacks 0DZ2.
-* `Deformation.hasFlatAlgebraLift_henselization_iff`: **Stacks 0DZB**, the equivalence,
-  assuming Stacks 0DZ2.
+* `Deformation.hasFlatAlgebraLift_henselization_iff`: the equivalence of Stacks 0DZB, assuming
+  Stacks 0DZ2 (vacuous; see below).
 
 ## Implementation notes
 
@@ -39,12 +42,10 @@ supplied by Stacks 07M8 exactly as in Stacks 0DZ3.
 restricted to a finite module — is refuted by
 `StacksFrontier.Deformation.Examples.Linear.NodalArtinSchreierLift`, whose counterexample module is
 finite and cyclic, so the finiteness restriction does not save it. Everything below that takes
-`h0DZ2` as a hypothesis is therefore vacuously true and establishes nothing; the registrations
-say so. The `_of_sqZero` variants are not the repair, because Stacks 0DZB (Lemma 93.14.1) says
-`nilpotent kernel`. What is left open is the route through the consumers: there `M` comes from a
-syntomic `B_h`, where the higher `Ext` carrying the obstruction vanishes, so the obstruction
-cannot arise — extra vanishing that 0DZ2's own hypotheses do not supply. Settling those three
-tags by that route is not done here.
+`h0DZ2` as a hypothesis is therefore vacuously true and establishes nothing, and none of it
+carries a Stacks registration. Stacks 0DZB at a nilpotent kernel is proved without `h0DZ2` in
+`StacksFrontier.Deformation.FlatAlgebraLiftHenselizationNilpotent`, using that `M` comes from a
+syntomic `B_h`, where the obstruction is power torsion along `𝔟`.
 
 **The hypothesis `h0DZ2`.** `Deformation.FlatModuleLiftBaseChangeStatement` is Stacks 0DZ2
 written out and restricted to a finite module, which is all the proof uses; it is the same
@@ -356,28 +357,17 @@ private theorem hasFlatAlgebraLift_henselization_iff_of_presentation
   exact exists_algHom_henselization_of_algebraLift A' A P' Q' C C' hsurjA hnilA J' hunivQ
     c hc hJcC eCa
 
-/-! ### Stacks 0DZB -/
+/-! ### The equivalence from Stacks 0DZ2 -/
 
-/-- **Stacks 0DZB.** For a surjection `A' → A` of Noetherian rings with nilpotent kernel and a
-finite type flat `A`-algebra `B` with `A → B_h` syntomic for every `h` in an ideal `𝔟`, flat
-lifts of `B` to `A'` exist exactly when flat lifts of the henselization `Bʰ` of the pair
-`(B, 𝔟)` do. -/
-@[stacks 0DZB "VACUOUS: `h0DZ2` cannot be satisfied, so nothing below is evidence for the tag. \
-That hypothesis is `Deformation.FlatModuleLiftBaseChangeStatement` - Stacks 0DZ2 with the \
-source's hypotheses and `M` restricted to be finite over `P` - and it is refuted outright, at \
-universe zero by `Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatement` of \
-`StacksFrontier.Deformation.Examples.Linear.NodalCubicRefutation` and at an arbitrary universe by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatement_ulift` of \
-`StacksFrontier.Deformation.Examples.Linear.NodalCubicRefutationUniverse`; the second covers the \
-universe parameter `u` appearing below, so the vacuity here is unconditional. Read the module \
-documentation of `NodalCubicRefutation` for the counterexample; it is stated there and nowhere \
-else. A square-zero variant would not rescue 0DZB, whose hypothesis on `A' -> A` is nilpotence \
-of the kernel. The open route for 0DZB is its own: Stacks 0DZD's henselization functor, which \
-consumes this lemma, and where the module being lifted comes from a syntomic `B_h` whose higher \
-`Ext` kills the obstruction - vanishing that 0DZ2 never assumes. Independently of all that, the \
-henselization of the pair `(B, b)` is described here by the henselian-pair condition `hhens` \
-together with its universal property `huniv`, as in Stacks 0DZC, rather than by a chosen model, \
-and the syntomic hypothesis is the affine reading. See the implementation notes"]
+/-- **Stacks 0DZB from Stacks 0DZ2 (vacuous).** For a surjection `A' → A` of Noetherian rings
+with nilpotent kernel and a finite type flat `A`-algebra `B` with `A → B_h` syntomic for every
+`h` in an ideal `𝔟`, flat lifts of `B` to `A'` exist exactly when flat lifts of the
+henselization `Bʰ` of the pair `(B, 𝔟)` do, *provided* `h0DZ2` holds. That hypothesis,
+`Deformation.FlatModuleLiftBaseChangeStatement`, is refuted
+(`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatement` and its `_ulift`
+form at every universe), so this theorem is vacuous. Stacks 0DZB itself is
+`Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization`, proved without `h0DZ2`
+in `StacksFrontier.Deformation.FlatAlgebraLiftHenselizationNilpotent`. -/
 public theorem hasFlatAlgebraLift_henselization_iff
     (h0DZ2 : FlatModuleLiftBaseChangeStatement.{u})
     (A' A B : Type u) [CommRing A'] [CommRing A] [CommRing B]

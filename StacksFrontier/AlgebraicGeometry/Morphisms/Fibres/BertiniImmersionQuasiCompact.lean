@@ -31,8 +31,8 @@ is quasi-compact (`AlgebraicGeometry.quasiCompact_of_noetherianSpace_source`).
 * `Stacks.Bertini.FamilyDivisors.quasiCompact_of_isImmersive`: hypothesis (3) makes `X`
   quasi-compact over `k`.
 * `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_generates_pointwise_`
-  `of_basis'`: [Stacks, Tag 0FD6] with quasi-compactness of `X` no longer assumed, leaving
-  `[IsAlgClosed D.k]` as the only hypothesis of the statement that the source does not make.
+  `of_basis'`: the conclusion of [Stacks, Tag 0FD6] over an algebraically closed field, with
+  quasi-compactness of `X` no longer assumed.
 
 ## Implementation notes
 
@@ -118,32 +118,16 @@ dropped, from the immersion hypothesis itself: see
 `Stacks.Bertini.FamilyDivisors.quasiCompact_of_isImmersive`.
 
 `[IsAlgClosed D.k]` is then the only hypothesis of this statement that the source does not make.
-It is the case the source reduces to by [Stacks, Tag 02FY]; that reduction is a development of
-its own rather than a loose end. Its first half is done: the base change of the whole standing
-situation along `k → k̄` is `Stacks.Bertini.FamilyDivisors.baseChangeAlgebraicClosure`, all three
-hypotheses transfer to it — the third by
-`Stacks.Bertini.FamilyDivisors.isImmersive_baseChangeFamily` — and
+It is the case the source reduces to by [Stacks, Tag 02FY]. That reduction is carried out by
 `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_baseChangeAlgebraicClosure`
-draws the conclusion of this statement over `k̄` from the source's three hypotheses over `k`.
-What is still owed is the descent of that conclusion: a nonempty open of `𝔸^r_k` whose points
-lift into the nonempty open of `𝔸^r_{k̄}` the conclusion over `k̄` provides, and the
-identification of `H_v` on `X_{k'}` with its own base change along an extension of `k'`.
-Hypothesis (3) is also still spelled at a basis of `V` rather than on the intrinsic
-morphism `φ_{L,ψ}` — but that is now only a spelling, the two agreeing by
-`Stacks.Bertini.FamilyDivisors.isImmersive_congr_basis`, so hypothesis (3) does not depend on
-which basis it is read at. What is not yet proved is its agreement with the source's canonical
-`φ_{L,ψ}` as characterised by an isomorphism `θ : φ^*𝒪(1) ≅ ℒ` through which `ψ` factors — the
-same input [Stacks, Tag 01ND] is registered without. -/
-@[stacks 0FD6 "the conclusion from hypotheses (2) and (3) with no proof obligation and no \
-dimension data assumed, with (3) at an arbitrary basis of the linear system, and with \
-quasi-compactness of X no longer assumed -- it is derived from hypothesis (3), P(V) having a \
-Noetherian space. ONE hypothesis here is not the source's: that k is algebraically closed, the \
-case Tag 02FY reduces to. (3) is also still spelled at a basis rather than on the intrinsic \
-morphism phi_(L, psi), but that is now only a spelling: they agree by \
-Stacks.Bertini.FamilyDivisors.isImmersive_congr_basis, so the hypothesis is independent of the \
-basis it is read at; what is still unproved is its agreement with the source's canonical \
-phi_(L, psi) as characterised by theta : phi^*O(1) = L, the same input Tag 01ND is registered \
-without"]
+and `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_forGeneral_`
+`baseChangeAlgebraicClosure`, and [Stacks, Tag 0FD6] over an arbitrary field, with hypothesis (3)
+on the canonical morphism `φ_{L,ψ}` of [Stacks, Tag 0FCY], is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`. Hypothesis (3) here is
+spelled at a basis of `V`; by
+`Stacks.Bertini.FamilyDivisors.isImmersive_iff_isImmersion_canonicalMorphism` that is the same
+as the immersion property of the canonical morphism. -/
 theorem forGeneral_smooth_specializedDivisor_of_generates_pointwise_of_basis' [IsAlgClosed D.k]
     [Smooth D.toBase] (hgen : D.Generates) {m : ℕ}
     (b : Module.Basis (Fin (m + 1)) D.k D.V)

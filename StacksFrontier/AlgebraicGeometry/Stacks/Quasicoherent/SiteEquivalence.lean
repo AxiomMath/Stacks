@@ -29,8 +29,9 @@ proves every implication between them.
   `AlgebraicGeometry.SiteKind` — the sheaf condition for the inherited topology together with
   quasi-coherence of the resulting sheaf of modules in the sense of Stacks 03DL(6).
 * `AlgebraicGeometry.FibredSite.IsSheafFppfOfQuasicoherentOnSite` and
-  `AlgebraicGeometry.FibredSite.QuasicoherentOnSiteOfLeFppf`: the two inputs of Stacks 0EM8 that
-  the library does not have, stated at the level of sheaves of modules.
+  `AlgebraicGeometry.FibredSite.QuasicoherentOnSiteOfLeFppf`: the two inputs of Stacks 0EM8,
+  stated at the level of sheaves of modules; both are proved at every topology in
+  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`.
 
 ## Main results
 
@@ -44,32 +45,34 @@ proves every implication between them.
   `AlgebraicGeometry.FibredSite.QuasicoherentOnSiteOfLeFppf`.
 * `AlgebraicGeometry.FibredSite.isQuasicoherentClause_of_isQuasicoherentClause`: clauses (1) and
   (2) imply one another, as the composites through clause (3).
-* `AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause`: **the three-way equivalence of
-  Stacks 0EM8** over the two inputs.
+* `AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause`: the three-way equivalence of
+  Stacks 0EM8 over the two inputs; the unconditional form, which carries the `stacks` attribute,
+  is `AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause'` in
+  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`.
 * `AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_of_imp` and
   `AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_of_imp`: each of the two inputs is
   *implied by* the implication of Stacks 0EM8 it buys, so neither is stronger than what the
   source statement asserts.
 
-## The form in which Stacks 0EM8 is carried
+## The two inputs
 
-`AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause` carries Stacks 0EM8 with the two
-inputs above as explicit named hypotheses, one of each at the Zariski and at the étale topology:
-`h₁z`/`h₁e` and `h₂z`/`h₂e`.  The `stacks` attribute on it records exactly that.  At `τ = .fppf`
-both inputs are theorems here, `AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_fppf`
-and `AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_fppf`, so what the equivalence
-carries is precisely the Zariski and the étale instance of each and nothing more.  The two
-inputs are stated as `abbrev`s, in the shapes the proofs below consume, so that each can be
-struck from the signature with no change to any proof here as soon as it is discharged.
-
-Both come from one place in the source, and neither is a weakness of the formalization.
+`AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause` proves Stacks 0EM8 from the two
+inputs above, one of each at the Zariski and at the étale topology: `h₁z`/`h₁e` and
+`h₂z`/`h₂e`.  At `τ = .fppf` both inputs are proved here,
+`AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_fppf` and
+`AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_fppf`.  At every topology both are
+proved in `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`
+(`AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_siteKind` and
+`AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_siteKind`), through the affine
+subcategory of Stacks 0H0A–0H0E, and that file states Stacks 0EM8 with no hypothesis as
+`AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause'`, which carries the `stacks`
+attribute.  The inputs are stated as `abbrev`s, in the shapes the proofs below consume.
 
 `AlgebraicGeometry.FibredSite.IsSheafFppfOfQuasicoherentOnSite` is the passage from the sheaf
 assertion of clause (1) or (2) to the one of clause (3).  The source gets it by restricting `𝓕`
 to an object `x` of `𝒳` over a scheme `U`, where `𝒳_τ/x = (Sch/U)_τ`, identifying the
-restriction with `𝓗^a` for a quasi-coherent `𝒪_U`-module `𝓗` — the essential-surjectivity half
-of Descent, Proposition 03DX — and then invoking Descent, Lemma 03DT, which says `𝓗^a` is a
-sheaf for the fppf topology as well.
+restriction with `𝓗^a` for a quasi-coherent `𝒪_U`-module `𝓗` (Descent, Proposition 03DX), and
+then invoking Descent, Lemma 03DT, which says `𝓗^a` is a sheaf for the fppf topology as well.
 
 `AlgebraicGeometry.FibredSite.QuasicoherentOnSiteOfLeFppf` is the converse of
 `Stacks.SheafOfModules.isQuasicoherentOnSite_of_le`: quasi-coherence passing from the inherited
@@ -77,37 +80,9 @@ fppf topology to a coarser one.  A global presentation is a cokernel of a map be
 of copies of the structure sheaf taken in the category of *sheaves* of modules, so it depends on
 the topology; what carries a presentation from a coarser topology to a finer one is
 sheafification, a left adjoint, and the inclusion in the other direction is a right adjoint and
-carries no colimit.  The source again supplies this direction through Descent,
-Proposition 03DX and Descent, Lemma 03DV.
-
-So both inputs funnel into the essential-surjectivity half of Descent, Proposition 03DX, which
-in turn rests on the effectivity half of Descent, Proposition 023T; the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Descent.QuasiCoherent.Effective` and of
-`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.GlobalPresentationObstruction` record
-that gap, the latter with the reason a global presentation cannot be produced over the base
-itself.
-
-That half is not available in this library, and the two `stacks` attributes for 03DX do
-not supply it: they sit on
-`AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite` and
-`AlgebraicGeometry.Space.isQuasicoherentOnSite_iff_isCartesianOnAffineCharts`, which state the
-different criterion that quasi-coherence on the small étale site of an algebraic space is
-equivalent to being cartesian on affine charts.  Essential surjectivity is carried instead as
-`AlgebraicGeometry.BigFppfOver.QuasicoherentIsEssImageAssociatedModule`, at the big fppf site,
-and as `AlgebraicGeometry.SmallEtale.QuasicoherentIsEssImageAssociatedModule`; every reduction
-of it in this library terminates at
-`AlgebraicGeometry.BigFppfOver.AssociatedModuleGlueDescentDatum`, which is the one open
-assumption left.  What is unconditional is only the local step, that a module with a
-presentation by free modules is an `𝓗^a`, together with full faithfulness.
-
-Discharging the two inputs therefore needs more than that one assumption.  The source checks
-quasi-coherence on `𝒳` after restricting to `𝒳/x` and reads `𝒳/x ≌ (Sch/U)_fppf`; the
-implementation notes of
-`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Descent.QuasicoherentAssembly` record that
-the localization of Stacks 06WI and the invariance of quasi-coherence under an equivalence of
-ringed sites are both present, while the identification of the *restricted structure sheaf* —
-what turns them into a statement about `QCoh((Sch/U)_fppf, 𝒪)` — is not.  So each input is two
-steps from unconditional, not one.
+carries no colimit.  The source supplies this direction through Descent, Proposition 03DX and
+Descent, Lemma 03DV; the library's proof goes through the cartesian condition on the affine
+subcategory instead.
 
 The two inputs are not over-assumptions:
 `AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_of_imp` and
@@ -191,26 +166,28 @@ public theorem isSheaf_of_isQuasicoherentClause_fppf (τ : SiteKind)
   (isSheaf_of_isQuasicoherentClause B S hS p hp .fppf h).of_le
     (BigFppfOver.associatedTopology_le_fppf B S hS p τ)
 
-/-- **The first input of Stacks 0EM8 the library does not have.**  A sheaf of modules on the
+/-- **The first input of Stacks 0EM8.**  A sheaf of modules on the
 associated `τ`-site of a category fibred in groupoids which is quasi-coherent on
 `(𝒳_τ, 𝒪_𝒳)` in the sense of Stacks 03DL(6) is a sheaf for the inherited fppf topology.
 
 This is the passage from the sheaf assertion of clause (1) or (2) of Stacks 0EM8 to the one of
 clause (3); in the source it is the essential-surjectivity half of Descent,
-Proposition 03DX followed by Descent, Lemma 03DT. -/
+Proposition 03DX followed by Descent, Lemma 03DT.  It is proved at every topology as
+`AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_siteKind`. -/
 public abbrev IsSheafFppfOfQuasicoherentOnSite (τ : SiteKind) : Prop :=
   ∀ M : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp τ),
     M.IsQuasicoherentOnSite →
       Presheaf.IsSheaf (BigFppfOver.associatedTopology B S hS p .fppf) M.val.presheaf
 
-/-- **The second input of Stacks 0EM8 the library does not have.**  A sheaf of modules on the
+/-- **The second input of Stacks 0EM8.**  A sheaf of modules on the
 inherited fppf site of a category fibred in groupoids which is quasi-coherent there in the sense
 of Stacks 03DL(6) stays quasi-coherent when read for a coarser associated topology.
 
 This is the converse of `Stacks.SheafOfModules.isQuasicoherentOnSite_of_le`, and the direction
 the comparison of topoi does not supply: a global presentation is carried from a coarser
 topology to a finer one by sheafification, a left adjoint, while the inclusion in the other
-direction is a right adjoint. -/
+direction is a right adjoint.  It is proved at every topology as
+`AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_siteKind`. -/
 public abbrev QuasicoherentOnSiteOfLeFppf (τ : SiteKind) : Prop :=
   ∀ M : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp .fppf),
     M.IsQuasicoherentOnSite →
@@ -263,22 +240,20 @@ public theorem isQuasicoherentClause_of_isQuasicoherentClause (τ σ : SiteKind)
   isQuasicoherentClause_of_isQuasicoherentClause_fppf B S hS p hp σ h₂
     (isQuasicoherentClause_fppf_of_isQuasicoherentClause B S hS p hp τ h₁ h)
 
-/-- **The three-way equivalence of Stacks 0EM8**, over its two inputs at the Zariski and the
-étale topology: for a presheaf of modules on a category fibred in groupoids over the big fppf
+/-- **The three-way equivalence of Stacks 0EM8 over its two inputs at the Zariski and the
+étale topology**: for a presheaf of modules on a category fibred in groupoids over the big fppf
 category of schemes over `S`, being a quasi-coherent Zariski module, being a quasi-coherent
 étale module, and being a quasi-coherent module on `𝒳` in the sense of Stacks 06WG are
-equivalent. -/
-@[stacks 0EM8 "the three-way equivalence, with the two inputs at each of the Zariski and the \
-étale topology carried as explicit hypotheses: `h₁z`/`h₁e`, a `τ`-sheaf of modules that is \
-quasi-coherent on `(𝒳_τ, 𝒪_𝒳)` is a sheaf for the inherited fppf topology, and `h₂z`/`h₂e`, \
-quasi-coherence passes from the inherited fppf topology to a coarser one. At `τ = .fppf` both \
-are discharged here. Neither is discharged at `τ = .zariski` or `τ = .etale`: both funnel into \
-the essential-surjectivity half of Descent, Proposition 03DX, which this repository does not \
-prove and carries as the hypothesis \
-`AlgebraicGeometry.BigFppfOver.QuasicoherentIsEssImageAssociatedModule`, its only open \
-reduction being `AlgebraicGeometry.BigFppfOver.AssociatedModuleGlueDescentDatum`; the two \
-existing 03DX declarations state the different criterion that quasi-coherence on the small étale \
-site of an algebraic space is equivalent to being cartesian on affine charts"]
+equivalent, given `h₁z`/`h₁e` and `h₂z`/`h₂e`.
+
+All four hypotheses are theorems of the library
+(`AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_zariski`,
+`AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_etale`,
+`AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_zariski`,
+`AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_etale`, in
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`), and Stacks 0EM8
+itself, with no hypothesis, is `AlgebraicGeometry.FibredSite.tfae_isQuasicoherentClause'`
+there. -/
 public theorem tfae_isQuasicoherentClause
     (h₁z : IsSheafFppfOfQuasicoherentOnSite B S hS p hp .zariski)
     (h₁e : IsSheafFppfOfQuasicoherentOnSite B S hS p hp .etale)

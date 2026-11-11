@@ -43,7 +43,8 @@ attribute [local instance 10000] HasDerivedCategory.standard
 /-- **Stacks Project, Tag 0FUG.** For a line bundle `ℒ` on `X` over `S`, the boundary map
 `δ : Ω^•_{X/S} ⟶ Ω^•_{X/S}[2]` in `D(f^{-1}𝒪_S)` of the shifted residue sequence of Tag 0FUF is the
 morphism `ξ'` of Tag 0FU7 attached to the de Rham first Chern class `ξ = c₁^{dR}(ℒ)`. -/
-@[stacks 0FUG]
+@[stacks 0FUG "the boundary map of the shifted residue sequence of 0FUF for the complement of the
+  zero section of a line bundle is the map of 0FU7 for its de Rham first Chern class"]
 theorem Situation.residueShiftedSequence_boundary_eq_deRhamClassMorphism (D : Situation.{u}) :
     D.residueShiftedSequence.boundary =
       AlgebraicGeometry.SheafOfModules.deRhamClassMorphism (Scheme.Hom.deRhamAlgebras D.f)

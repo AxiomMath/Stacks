@@ -44,7 +44,8 @@ over `X`.
 ## Main results
 
 * `exists_extremallyDisconnected_cover` (Stacks 090D): every quasi-compact Hausdorff space has an
-  extremally disconnected cover.
+  extremally disconnected cover. The minimal cover is constructed in
+  `StacksFrontier.Topology.ExtremallyDisconnected.MinimalCover`.
 * `minimal_cover_unique` (Stacks 090D): two minimal extremally disconnected covers of the same
   quasi-compact Hausdorff space are homeomorphic over it.
 -/
@@ -81,9 +82,13 @@ private theorem ultrafilter_extremallyDisconnected (X : Type u) :
     ExtremallyDisconnected (Ultrafilter X) :=
   CompactT2.Projective.extremallyDisconnected (ultrafilter_projective X)
 
-/-- **Stacks 090D, existence half.** Every compact Hausdorff space `X` admits a
-continuous surjection from a compact Hausdorff extremally disconnected space. -/
-@[stacks 090D]
+/-- **Stacks 090D, first statement.** Every compact Hausdorff space `X` admits a
+continuous surjection from a compact Hausdorff extremally disconnected space, namely
+`β(X_disc) = Ultrafilter X → X`. This cover is in general not minimal; the minimal cover of
+090D, which `minimal_cover_unique` shows is unique, is
+`exists_minimal_extremallyDisconnected_cover`. -/
+@[stacks 090D "first statement: some extremally disconnected cover, β(X_disc) → X; not the \
+  minimal one"]
 theorem exists_extremallyDisconnected_cover
     (X : Type u) [TopologicalSpace X] [CompactSpace X] [T2Space X] :
     ∃ (X' : Type u) (_ : TopologicalSpace X') (_ : CompactSpace X')

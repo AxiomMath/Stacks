@@ -10,8 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.Picard.HilbertFunctorOpenCoverRep
 Let `X ⟶ S` be a separated morphism of schemes and let `d` be a natural number such that any
 `d` points of a fibre of `X ⟶ S` lie in an affine open of `X`. Then the degree-`d` Hilbert functor
 of `X` over `S` is representable by a scheme. The same holds without separatedness if any `d + 1`
-points of a fibre lie in an affine open. These are the two true forms of Stacks Proposition 0B9A,
-and this file assembles their proof:
+points of a fibre lie in an affine open. Both strengthen the hypothesis of Stacks Proposition
+0B9A, which is false as printed, and this file assembles their proof:
 
 * over an affine base, the gluing criterion of Stacks 01JJ is applied to the subfunctors
   `Stacks.Hilbert.supportedIn X d U` of families supported in an affine open `U ⊆ X`, which are
@@ -30,11 +30,11 @@ particular over a field, exists.
   of an affine base.
 * `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_forall_affineOpens` — the reduction to
   an affine base.
-* `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_affineFibres` — **Stacks 0B9A** for
-  separated `X ⟶ S`.
-* `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_affineFibres_succ` — **Stacks 0B9A**
-  without separatedness, for `d + 1` points of a fibre, as in the footnote to the source's
-  proof.
+* `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_affineFibres` — representability for
+  separated `X ⟶ S` and every `d`.
+* `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_affineFibres_succ` — representability
+  without separatedness, when any `d + 1` points of a fibre lie in an affine open, as in the
+  footnote to the source's proof.
 * `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_isProjectiveMorphism` — the Hilbert
   scheme of points of a projective scheme over an affine base.
 
@@ -53,6 +53,13 @@ points of a fibre. The identification `Stacks.Hilbert.supportedInIso` holds when
 in `U` are closed in `X_T` (`Stacks.Hilbert.ClosedInAmbient`): for separated `X ⟶ S`, and, by the
 footnote's argument `Stacks.Hilbert.isClosed_range_of_affineFibres_succ`, when any `d + 1` points
 of a fibre lie in an affine open. Every application listed in Stacks 0B9B is separated.
+
+Neither theorem here carries the `@[stacks 0B9A]` attribute, since each assumes more than the
+corrected statement of the tag: the tag is registered on
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
+in `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`, which assumes
+the source's `d`-tuple hypothesis for every `d` and separatedness at `d = 1` alone, as recorded in
+`errata.md`.
 
 ## References
 
@@ -124,27 +131,25 @@ theorem exists_representsHilbertFunctorOfRank_of_affineFibres_of_isAffine [IsAff
   exists_representsHilbertFunctorOfRank_of_affineFibres_of_closedInAmbient X d
     (fun _ => inferInstance) hX
 
-/-- **Stacks Project, Tag 0B9A.** Let `X ⟶ S` be a separated morphism of schemes and let `d` be
-a natural number such that for every `s ∈ S` and all points `x₁, …, x_d` of the fibre `X_s` there
-is an affine open of `X` containing them. Then the degree-`d` Hilbert functor of `X` over `S` is
-representable by a scheme.
+/-- **The Hilbert functor of points of a separated morphism is representable.** Let `X ⟶ S` be
+a separated morphism of schemes and let `d` be a natural number such that for every `s ∈ S` and
+all points `x₁, …, x_d` of the fibre `X_s` there is an affine open of `X` containing them. Then
+the degree-`d` Hilbert functor of `X` over `S` is representable by a scheme.
 
 The subfunctors of families over bases mapping into an affine open `V ⊆ S` are open, cover the
 field-valued points, and are represented by the Hilbert scheme of `X ×_S V` over `V`, which
 exists by the affine case since the hypothesis passes to `X ×_S V ⟶ V`.
 
-Separatedness of `X ⟶ S` is not in the source's statement, which is false without it. Let `X` be
-the affine line with a doubled origin over `𝔸¹` and `d = 1`; the hypothesis holds. Over each
+Stacks Tag 0B9A states this without separatedness, and is false so stated. Let `X` be the
+affine line with a doubled origin over `𝔸¹` and `d = 1`; the hypothesis holds. Over each
 `Spec k[t]/(t^n)` the inclusion into one copy of `𝔸¹` is a point of the Hilbert functor, these
 are compatible, and compatible maps from all `Spec k[t]/(t^n)` to a scheme come from a map from
 `Spec k[[t]]`; but the only candidate section of `X_{k[[t]]} ⟶ Spec k[[t]]` has non-closed
 image, so the functor is not representable. The source's footnote, which proves `F_U = Hilb^d_U`
 without separatedness, uses an affine open containing `d + 1` points of a fibre: the `d` points of
-`Z_t` and one more point of the closure of `Z`. -/
-@[stacks 0B9A "for separated `X ⟶ S`.  Separatedness is added to the source's statement, which \
-is false without it: for the affine line with a doubled origin over the affine line and `d = 1` \
-the hypothesis holds but the Hilbert functor is not representable.  Every case of Stacks 0B9B \
-is separated"]
+`Z_t` and one more point of the closure of `Z`. The corrected statement of the tag, which needs
+separatedness at `d = 1` alone, is
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`. -/
 theorem exists_representsHilbertFunctorOfRank_of_affineFibres (X : Over S) [IsSeparated X.hom]
     (d : ℕ)
     (hX : ∀ (s : S) (x : Fin d → X.left), (∀ i, X.hom (x i) = s) →
@@ -157,20 +162,17 @@ theorem exists_representsHilbertFunctorOfRank_of_affineFibres (X : Over S) [IsSe
   exact exists_representsHilbertFunctorOfRank_of_affineFibres_of_isAffine
     (baseRestrict X V.1) d (baseRestrict_affineFibres X d hX V.1)
 
-/-- **Stacks Project, Tag 0B9A, in the form of the footnote to its proof.** Let `X ⟶ S` be a
-morphism of schemes and let `d` be a natural number such that for every `s ∈ S` and all points
-`x₀, …, x_d` of the fibre `X_s` there is an affine open of `X` containing them. Then the
-degree-`d` Hilbert functor of `X` over `S` is representable by a scheme.
+/-- **Representability of the Hilbert functor of points, in the form of the footnote to the
+proof of Stacks Tag 0B9A.** Let `X ⟶ S` be a morphism of schemes and let `d` be a natural
+number such that for every `s ∈ S` and all points `x₀, …, x_d` of the fibre `X_s` there is an
+affine open of `X` containing them. Then the degree-`d` Hilbert functor of `X` over `S` is
+representable by a scheme.
 
-No separatedness is assumed; the price is one more point than in the source's hypothesis, which
-is what the source's footnote uses to show that a family in an open `U ⊆ X` is closed in `X_T`
+No separatedness is assumed; the hypothesis asks for `d + 1` points of a fibre, which is what
+the source's footnote uses to show that a family in an open `U ⊆ X` is closed in `X_T`
 (`Stacks.Hilbert.isClosed_range_of_affineFibres_succ`). With `d` points instead of `d + 1` the
 statement is false, by the affine line with a doubled origin over `𝔸¹` and `d = 1`, as recorded
 on `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_affineFibres`. -/
-@[stacks 0B9A "without separatedness, for `X ⟶ S` such that any `d + 1` points of a fibre lie \
-in an affine open: one point more than the source's hypothesis, which is what the footnote to \
-the source's proof uses.  With `d` points the source's statement is false, by the affine line \
-with a doubled origin over the affine line and `d = 1`"]
 theorem exists_representsHilbertFunctorOfRank_of_affineFibres_succ (X : Over S) (d : ℕ)
     (hX : ∀ (s : S) (x : Fin (d + 1) → X.left), (∀ i, X.hom (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U) :
@@ -185,8 +187,10 @@ theorem exists_representsHilbertFunctorOfRank_of_affineFibres_succ (X : Over S) 
 /-- **The Hilbert scheme of points of a projective scheme over an affine base exists**, in
 particular over a field: for `X` projective over an affine scheme `S` and any `d`, the degree-`d`
 Hilbert functor of `X` is representable. Any finitely many points of `X` lie in an affine open,
-and a projective morphism is separated, so Stacks 0B9A applies. For `X` over a field `k` the
-representing scheme is the scheme `S^d(X) = Hilb^d_{X/k}` of the source's Section 0FH9 hint. -/
+and a projective morphism is separated, so
+`Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_affineFibres` applies. For `X` over a
+field `k` the representing scheme is the scheme `S^d(X) = Hilb^d_{X/k}` of the source's Section
+0FH9 hint. -/
 theorem exists_representsHilbertFunctorOfRank_of_isProjectiveMorphism [IsAffine S] (X : Over S)
     (hX : IsProjectiveMorphism X.hom) (d : ℕ) :
     Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) := by

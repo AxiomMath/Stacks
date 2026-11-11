@@ -58,9 +58,11 @@ identifications `A_{≥ d} ≃ B_d`.
 * `Stacks.Truncation.truncationAlgebra_unique` says that any two truncation algebras are
   isomorphic by a unique ring isomorphism compatible with the identifications
   `A_{≥ d} ≃+ B_d`.
-* `Stacks.Truncation.span_degreeOne_pow_eq_truncationIdeal` says that if `A` is generated over
-  `A_0` by its degree-one part then `(A_+)^m = A_{≥ m}` for every `m ≥ 0`, so that `B` is the
-  Rees algebra of `A_+`.
+* `Stacks.Truncation.span_degreeOne_pow_eq_truncationIdeal` says that if `A_{d+1} ⊆ A_1 · A_d`
+  for every `d` then `(A_1)^m = A_{≥ m}` for every `m ≥ 0`. The statement of Stacks, Section 0EKF,
+  for `A` generated over `A_0` by `f_1, …, f_r ∈ A_1`, together with the identification of `B`
+  with the Rees algebra of `A_+`, is in
+  `StacksFrontier/RingTheory/GradedAlgebra/TruncationDegreeOne.lean`.
 
 ## References
 
@@ -716,14 +718,7 @@ theorem truncationIdeal_le_span_degreeOne_pow
 
 /-- If `A` is generated over `A_0` by its degree-one part, in the form `A_{d+1} ⊆ A_1 · A_d`
 for every `d`, then `(A_+)^m = A_{≥ m}` for every `m ≥ 0`. -/
-@[stacks 0EKF "the clause that makes the section's cone a blowup: if A is generated over A₀ by \
-elements of degree one then (A₊)^m = A_{≥ m} for every m ≥ 0, so that B = ⨁_{d ≥ 0} A_{≥ d} is \
-the Rees algebra of A₊ and L = Proj(B) ⟶ X = Spec(A) is the blowing up of Z = V(A₊). Nothing \
-else of Section 37.51 is claimed here: the graded ring B with its maps σ, ψ, τ is Tag 0EKG, \
-already in this file; the five localization facts about σ(f), σ(A_d) and ker(τ) on D₊(ψ(f)), \
-the identification B_{σ(f)} ≅ A_f[T] that makes L ⟶ X an isomorphism over U = X ∖ Z, and the \
-description of L over the largest open of P on which 𝒪_P(1) is invertible, are not proved",
-  ega "II 8.2.10" "(iii), special case"]
+@[ega "II 8.2.10" "(iii), special case"]
 theorem span_degreeOne_pow_eq_truncationIdeal
     (hgen : ∀ d : ℕ, ∀ a ∈ 𝒜 (d + 1),
       a ∈ Ideal.span (𝒜 1 : Set A) * Ideal.span (𝒜 d : Set A))

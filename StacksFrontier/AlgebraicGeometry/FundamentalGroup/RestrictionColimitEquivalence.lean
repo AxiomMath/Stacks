@@ -16,6 +16,17 @@ Let `X` be a Noetherian scheme, let `Y ⊆ X` be a closed subscheme with ideal s
 [Stacks, Tag 0EK1] asserts that it is an equivalence as soon as the completion functor
 `colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` is an equivalence on the finite locally free objects.
 
+Both tags are formalized elsewhere, with full faithfulness written through the directed-colimit
+description of the hom sets of `colim_𝒱 FÉt_V` ([Stacks, Tag 04AX]),
+`Stacks.FundamentalGroup.FiniteEtaleColimitFullyFaithful`:
+[Stacks, Tag 0EK0] is
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_neighbourhoodSectionsComplete` and
+[Stacks, Tag 0EK1] is `Stacks.FundamentalGroup.restriction_isEquivalence_of_completionEquivalence`.
+Both are proved there under the source's own hypotheses. This file is about the functor
+`P.restrictionFunctor` out of a colimit in `Cat` of a chosen strict presentation `P`: it proves
+that this functor is essentially surjective as soon as every cover of `Y` extends to a
+neighbourhood, and an equivalence when moreover it is fully faithful.
+
 ## Main definitions
 
 * `Stacks.FundamentalGroup.FiniteEtaleColimitPresentation.restrictionFunctor` — the functor
@@ -25,10 +36,6 @@ Let `X` be a Noetherian scheme, let `Y ⊆ X` be a closed subscheme with ideal s
   `Stacks.FundamentalGroup.NeighbourhoodSectionsCompleteFiniteLocallyFree` — the three conditions
   of [Stacks, Tag 0EK0], spelled with the colimit-over-`𝒱` vocabulary
   `Stacks.Algebraization.IsNeighbourhoodSectionsComplete` of [Stacks, Tag 0EK2].
-* `Stacks.FundamentalGroup.AmplePowersImpliesFiniteLocallyFree` and
-  `Stacks.FundamentalGroup.FullyFaithfulRestrictionOfSectionsComplete` — the two general
-  statements that [Stacks, Tag 0EK0] quotes and that this library does not carry, named so that
-  they can be stated once and passed as hypotheses.
 
 ## Main results
 
@@ -37,10 +44,9 @@ Let `X` be a Noetherian scheme, let `Y ⊆ X` be a closed subscheme with ideal s
 * `Stacks.FundamentalGroup.essSurj_restrictionFunctor_of_essentialImage` — the restriction functor
   out of the colimit is essentially surjective as soon as every finite étale cover of `Y` is the
   restriction of a cover of some neighbourhood. This is unconditional.
-* `Stacks.FundamentalGroup.fullyFaithful_restrictionFunctor_of_neighbourhoodSectionsComplete` —
-  [Stacks, Tag 0EK0], all three cases, granted the two general statements named above.
 * `Stacks.FundamentalGroup.isEquivalence_restrictionFunctor_of_fullyFaithful_of_essentialImage` —
-  [Stacks, Tag 0EK1], granted full faithfulness ([Stacks, Tag 0ELA]) and the essential image.
+  `P.restrictionFunctor` is an equivalence when it is fully faithful and every finite étale cover
+  of `Y` extends to a neighbourhood.
 
 ## Implementation notes
 
@@ -48,7 +54,7 @@ The colimit `colim_𝒱 FÉt_V` is taken through
 `Stacks.FundamentalGroup.FiniteEtaleColimitPresentation`: the assignment `V ↦ FÉt_V` is only a
 pseudofunctor into `Cat`, because restriction is base change and iterated base changes agree only
 up to canonical isomorphism, so a strict diagram presenting it has to be chosen before a colimit
-can be formed. Both theorems below are stated for an arbitrary such presentation and an arbitrary
+can be formed. The theorems below are stated for an arbitrary such presentation and an arbitrary
 colimit of its diagram, so neither depends on the choice.
 
 Conditions (1) and (2) of [Stacks, Tag 0EK0] are conditions (1) and (2) of [Stacks, Tag 0EK2],
@@ -59,33 +65,28 @@ those are exactly the open neighbourhoods of `Y` inside `V`, so (3) is
 `Stacks.Algebraization.IsNeighbourhoodSectionsComplete` for the closed immersion `Y ⟶ V`, which
 is `Stacks.FundamentalGroup.isClosedImmersion_neighborhoodToSchemeHom`.
 
-What is granted, and why it cannot be discharged here, is this. Condition (4) of
-[Stacks, Tag 0EK2] — full faithfulness of `colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` on the finite locally
-free objects — cannot even be written down in this library: it needs the comparison of
-`Coh(X, I)` with `Coh(V, I|_V)` for a neighbourhood `V`, and the notion of a finite locally free
-object of `Coh(X, I)`, neither of which is available (the reasons are catalogued in the module
-documentation of
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFullyFaithful.Neighbourhoods`). The two
-implications `(2) ⇒ (3)` and `(3) ⇒ (4)` of [Stacks, Tag 0EK2] have no carrier, and neither does
-[Stacks, Tag 0ELA], which turns (4) into full faithfulness of the restriction functor. So the
-step `(2) ⇒ (3)` is carried as `AmplePowersImpliesFiniteLocallyFree`, and the composite
-`(3) ⇒ (4) ⇒ full faithfulness` is carried as one hypothesis,
-`FullyFaithfulRestrictionOfSectionsComplete`, since the intermediate condition (4) has no
-statement. Both are general statements about general objects, quantified over them. The step
-`(1) ⇒ (2)` is not granted: it is
-`Stacks.Algebraization.quasiAffine_neighbourhoodSectionsComplete_implies_amplePower`.
+**Relation to the hom-set form.** [Stacks, Tag 0EK0] is proved unconditionally, in all three
+cases and under the tag's own hypotheses, as
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_neighbourhoodSectionsComplete`:
+conditions (1) and (2) are converted to condition (3) by the implications `(1) ⇒ (2)` and
+`(2) ⇒ (3)` of [Stacks, Tag 0EK2]
+(`Stacks.Algebraization.NeighbourhoodCompletion.hasAmpleComplete_of_isQuasiAffineComplete`,
+`Stacks.Algebraization.NeighbourhoodCompletion.finiteLocallyFreeComplete_of_hasAmpleComplete`),
+condition (3) gives condition (4) by
+`NeighbourhoodCompletion.completionFullyFaithfulComplete_of_finiteLocallyFreeComplete`, and
+[Stacks, Tag 0ELA] is
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_completionFullyFaithfulComplete`.
+Its conclusion is the hom-set form `FiniteEtaleColimitFullyFaithful`; passing from it to full
+faithfulness of `P.restrictionFunctor` for a presentation `P` needs the hom sets of a filtered
+colimit in `Cat`, which are not computed in this library, so the full-faithfulness input of
+`isEquivalence_restrictionFunctor_of_fullyFaithful_of_essentialImage` is a hypothesis.
 
-For [Stacks, Tag 0EK1] the same obstruction blocks the hypothesis itself: the source assumes that
-`colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` is an *equivalence* on the finite locally free objects, which is a
-statement about `Coh(X, I)`-objects that cannot be formed. The two consequences the source draws
-from it are therefore the hypotheses: full faithfulness of the restriction functor, which is the
-conclusion of [Stacks, Tag 0ELA], and the essential image statement, which is the source's
-construction of a cover of a neighbourhood out of the tower of covers of the infinitesimal
-neighbourhoods `Y_n` (the tower is a finite locally free object of `Coh(X, I)`, its algebraization
-acquires a multiplication by faithfulness of completion, and the relative spectrum of the
-resulting algebra is étale near `Y` by More on Morphisms, Tag 0A43). The passage from the
-essential image statement to essential surjectivity of the functor out of the colimit is proved
-here, in `essSurj_restrictionFunctor_of_essentialImage`.
+Likewise, the essential-image hypothesis of
+`isEquivalence_restrictionFunctor_of_fullyFaithful_of_essentialImage` is the second conjunct of
+`restriction_isEquivalence_of_completionEquivalence`, proved there from the completion
+equivalence by the source's algebraization of the tower `π_{n, *}𝒪_{U_n}`. The passage from it to
+essential surjectivity of the functor out of the colimit is proved here, in
+`essSurj_restrictionFunctor_of_essentialImage`.
 
 ## References
 
@@ -194,108 +195,33 @@ public def NeighbourhoodSectionsCompleteFiniteLocallyFree {X : Scheme.{u}}
     Stacks.Algebraization.IsNeighbourhoodSectionsComplete
       (Neighborhood.toSchemeHom X Y W) E
 
-/-! ### The two general statements granted to Tag 0EK0 -/
+/-! ### Equivalence of the functor out of a presented colimit -/
 
-/-- The implication `(2) ⇒ (3)` of [Stacks, Tag 0EK2], as a statement about general objects.
+/-- **`P.restrictionFunctor` is an equivalence when it is fully faithful and every cover
+extends.** Let `X` be a Noetherian scheme, `Y ⊆ X` a closed subscheme, and `P` a strict
+presentation of the diagram `V ↦ FÉt_V` over the open neighbourhoods of `Y`. If the functor
+`P.restrictionFunctor` out of the colimit is fully faithful and every finite étale cover of `Y` is
+the restriction of a finite étale cover of some neighbourhood, then it is an equivalence.
 
-The source deduces condition (3) from condition (2) by presenting a finite locally free module on
-a neighbourhood as the kernel of a map between finite direct sums of powers of the ample module,
-using clause (8) of [Stacks, Tag 01Q3], and then using stability of the colimit-to-limit
-comparison under finite biproducts and kernels. Neither stability statement is available for
-`Stacks.Algebraization.IsNeighbourhoodSectionsComplete`, which is phrased by the universal
-property of the limit rather than as an isomorphism of modules. -/
-public def AmplePowersImpliesFiniteLocallyFree : Prop :=
-  ∀ {X : Scheme.{u}} [IsNoetherian X] (Y : X.IdealSheafData),
-    NeighbourhoodSectionsCompleteAmplePowers Y →
-      NeighbourhoodSectionsCompleteFiniteLocallyFree Y
-
-/-- The implication `(3) ⇒ (4)` of [Stacks, Tag 0EK2] followed by [Stacks, Tag 0ELA], as a
-statement about general objects.
-
-Condition (4) of [Stacks, Tag 0EK2] is full faithfulness of the completion functor
-`colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` on the finite locally free objects, and [Stacks, Tag 0ELA]
-deduces from it that the restriction functor `colim_𝒱 FÉt_V ⟶ FÉt_Y` is fully faithful. The two
-steps are carried as a single hypothesis because condition (4) itself has no statement in this
-library: it needs the comparison of `Coh(X, I)` with `Coh(V, I|_V)` for a neighbourhood `V`, and
-the notion of a finite locally free object of `Coh(X, I)`, neither of which is available. -/
-public def FullyFaithfulRestrictionOfSectionsComplete : Prop :=
-  ∀ {X : Scheme.{u}} [IsNoetherian X] (Y : X.IdealSheafData)
-    (P : FiniteEtaleColimitPresentation X Y) [HasColimit P.diagram],
-    NeighbourhoodSectionsCompleteFiniteLocallyFree Y →
-      Nonempty P.restrictionFunctor.FullyFaithful
-
-/-! ### Tag 0EK0 -/
-
-/-- **[Stacks, Tag 0EK0].** Let `X` be a Noetherian scheme, `Y ⊆ X` a closed subscheme with
-infinitesimal neighbourhoods `Y_n ⊆ X`, and `𝒱` the open subschemes of `X` containing `Y`,
-ordered by reverse inclusion. If one of
-
-1. `X` is quasi-affine and `colim_𝒱 Γ(V, 𝒪_V) → lim Γ(Y_n, 𝒪_{Y_n})` is an isomorphism,
-2. `X` has an ample invertible module `L` and
-   `colim_𝒱 Γ(V, L^{⊗ m}) → lim Γ(Y_n, L^{⊗ m}|_{Y_n})` is an isomorphism for all `m ≫ 0`,
-3. `colim_{V' ≥ V} Γ(V', ℰ|_{V'}) → lim Γ(Y_n, ℰ|_{Y_n})` is an isomorphism for every `V ∈ 𝒱` and
-   every finite locally free `𝒪_V`-module `ℰ`,
-
-holds, then the restriction functor `colim_𝒱 FÉt_V ⟶ FÉt_Y` is fully faithful.
-
-The source's proof is to combine [Stacks, Tag 0ELA] with [Stacks, Tag 0EK2]. Of that chain this
-library carries the implication `(1) ⇒ (2)` of Tag 0EK2 and no more, so condition (1) is
-converted to condition (2) here by the library's proof of that implication and the remaining steps
-are the two
-hypotheses `h0EK2` and `h0ELA`; see
-`Stacks.FundamentalGroup.AmplePowersImpliesFiniteLocallyFree` and
-`Stacks.FundamentalGroup.FullyFaithfulRestrictionOfSectionsComplete`. -/
-@[stacks 0EK0 "granted Stacks 0EK2 (2)⇒(3), and Stacks 0EK2 (3)⇒(4) together with Stacks 0ELA"]
-public theorem fullyFaithful_restrictionFunctor_of_neighbourhoodSectionsComplete
-    {X : Scheme.{u}} [IsNoetherian X] (Y : X.IdealSheafData)
-    (P : FiniteEtaleColimitPresentation X Y) [HasColimit P.diagram]
-    (h : NeighbourhoodSectionsCompleteQuasiAffine Y ∨
-      NeighbourhoodSectionsCompleteAmplePowers Y ∨
-      NeighbourhoodSectionsCompleteFiniteLocallyFree Y)
-    (h0EK2 : AmplePowersImpliesFiniteLocallyFree.{u})
-    (h0ELA : FullyFaithfulRestrictionOfSectionsComplete.{u}) :
-    Nonempty P.restrictionFunctor.FullyFaithful := by
-  have hflf : NeighbourhoodSectionsCompleteFiniteLocallyFree Y := by
-    rcases h with h1 | h2 | h3
-    · obtain ⟨hqa, hsc⟩ := h1
-      exact h0EK2 Y
-        (Stacks.Algebraization.quasiAffine_neighbourhoodSectionsComplete_implies_amplePower
-          Y.subschemeι hqa hsc)
-    · exact h0EK2 Y h2
-    · exact h3
-  exact h0ELA Y P hflf
-
-/-! ### Tag 0EK1 -/
-
-/-- **[Stacks, Tag 0EK1].** Let `X` be a Noetherian scheme, `Y ⊆ X` a closed subscheme with ideal
-sheaf `I`, and `𝒱` the open subschemes of `X` containing `Y`, ordered by reverse inclusion. If the
-completion functor `colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)`, `ℱ ↦ ℱ^∧`, is an equivalence of the full
-subcategories of finite locally free objects, then the restriction functor
-`colim_𝒱 FÉt_V ⟶ FÉt_Y` is an equivalence.
-
-The hypothesis is carried through the two consequences the source draws from it, because it
-cannot be stated here: the finite locally free objects of `Coh(X, I)` and the comparison of
-`Coh(X, I)` with `Coh(V, I|_V)` for a neighbourhood `V` are both absent from this library. The
-first consequence, `h0ELA`, is full faithfulness of the restriction functor, which the source
-obtains from the fully faithful half of the hypothesis by [Stacks, Tag 0ELA]. The second,
-`hessImage`, is that every finite étale cover of `Y` is the restriction of a finite étale cover of
-some neighbourhood; the source obtains it by algebraizing the tower `π_{n, *}𝒪_{U_n}` of pushed
-forward structure sheaves of the covers of the infinitesimal neighbourhoods, which is a finite
-locally free object of `Coh(X, I)`, transporting the algebra structure along the equivalence, and
-taking the relative spectrum, which is étale near `Y` by More on Morphisms, Tag 0A43. What is
-proved here is that the second consequence gives essential surjectivity of the functor out of the
-colimit. -/
-@[stacks 0EK1 "granted Stacks 0ELA for full faithfulness and the essential image of restriction"]
+This is packaging, not [Stacks, Tag 0EK1]: its two hypotheses are the two halves of the
+conclusion of that tag (`h0ELA` is the conclusion of [Stacks, Tag 0ELA] for this `P`, not the
+implication that tag proves), and the hypothesis of the tag does not appear. [Stacks, Tag 0EK1]
+itself, under its actual hypothesis
+`Stacks.FundamentalGroup.CompletionEquivalenceFiniteLocallyFree` (completion
+`colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` is an equivalence on finite locally free objects) and with the
+conclusion in the hom-set form, is
+`Stacks.FundamentalGroup.restriction_isEquivalence_of_completionEquivalence`; its second conjunct
+is the hypothesis `hessImage` here. -/
 public theorem isEquivalence_restrictionFunctor_of_fullyFaithful_of_essentialImage
     {X : Scheme.{u}} [IsNoetherian X] (Y : X.IdealSheafData)
     (P : FiniteEtaleColimitPresentation X Y) [HasColimit P.diagram]
-    (h0ELA : Nonempty P.restrictionFunctor.FullyFaithful)
+    (hff : Nonempty P.restrictionFunctor.FullyFaithful)
     (hessImage : ∀ A : FiniteEtaleOver Y.subscheme, ∃ (W : Neighborhood X Y)
       (U : FiniteEtaleOver (Neighborhood.open X Y W).toScheme),
       Nonempty ((finiteEtaleBaseChange (Neighborhood.toSchemeHom X Y W)).obj U ≅ A)) :
     P.restrictionFunctor.IsEquivalence where
-  faithful := h0ELA.some.faithful
-  full := h0ELA.some.full
+  faithful := hff.some.faithful
+  full := hff.some.full
   essSurj := essSurj_restrictionFunctor_of_essentialImage P hessImage
 
 end Stacks.FundamentalGroup

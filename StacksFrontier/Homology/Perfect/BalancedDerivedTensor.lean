@@ -40,6 +40,9 @@ comparison exhibiting it as that total left derived functor, is a term of
 * `StacksDraft.Perfect.preservesColimits_balancedTensorFunctor_obj` ([stacks 09LL]): tensoring
   with a fixed right `Λ`-module commutes with arbitrary colimits, in particular it is right
   exact.
+* `StacksDraft.Perfect.preservesColimits_balancedTensorFunctor_flip_obj` ([stacks 09LL]):
+  tensoring with a fixed left `Λ`-module commutes with arbitrary colimits, in particular it is
+  right exact.
 * `StacksDraft.Perfect.nonempty_balancedDerivedTensoring`: the hypothesis structure of
   `StacksDraft.Perfect.isPerfect_iff_hasFiniteTorDimension_and_finite_homology` ([stacks 03TO])
   is inhabited.
@@ -427,10 +430,144 @@ attribute [local instance] balancedTensorFunctor_isLeftAdjoint
 
 /-- Balanced tensoring with a fixed right `Λ`-module commutes with arbitrary colimits; in
 particular it is right exact. This is because it is a left adjoint, its right adjoint being
-`Q ↦ Hom_ℤ(N, Q)`. -/
-@[stacks 09LL "right exactness and commutation with colimits"]
+`Q ↦ Hom_ℤ(N, Q)`. Colimits of `R`-modules are computed on the underlying abelian groups, so
+this is also the statement for the `R`-module `N ⊗_Λ M` when `Λ` is an `R`-algebra. -/
+@[stacks 09LL "right exactness and commutation with colimits in the left-module variable"]
 theorem preservesColimits_balancedTensorFunctor_obj (N : ModuleCat.{v} (MulOpposite Λ)) :
     PreservesColimits ((balancedTensorFunctor Λ).obj N) :=
+  inferInstance
+
+/-! ### The tensor–hom adjunction in the right-module variable -/
+
+/-- The right `Λ`-module structure on the additive maps `M → Q` out of a left `Λ`-module,
+given by `(f · a)(m) = f(a m)`. -/
+abbrev balancedTensorFlipHomModule (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ) :
+    Module (MulOpposite Λ) (M →+ Q) where
+  smul a f :=
+    { toFun := fun m => f (a.unop • m)
+      map_zero' := by simp
+      map_add' := by intros; simp }
+  one_smul f := by ext m; change f ((1 : Λᵐᵒᵖ).unop • m) = f m; simp
+  mul_smul a b f := by
+    ext m
+    change f ((a * b).unop • m) = f (b.unop • (a.unop • m))
+    simp [MulOpposite.unop_mul, mul_smul]
+  smul_zero a := by ext m; rfl
+  smul_add a f g := by ext m; rfl
+  add_smul a b f := by
+    ext m
+    change f ((a + b).unop • m) = f (a.unop • m) + f (b.unop • m)
+    simp [add_smul]
+  zero_smul f := by ext m; change f ((0 : Λᵐᵒᵖ).unop • m) = 0; simp
+
+/-- The right `Λ`-module `Hom_ℤ(M, Q)`, the value of the right adjoint of balanced tensoring
+with a fixed left module `M`. -/
+abbrev balancedTensorFlipHomObject (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ) :
+    ModuleCat.{v} (MulOpposite Λ) :=
+  letI := balancedTensorFlipHomModule Λ M Q
+  ModuleCat.of (MulOpposite Λ) (M →+ Q)
+
+/-- Currying a morphism out of `N ⊗_Λ M` in the right-module variable. -/
+def balancedTensorFlipHomCurry
+    (N : ModuleCat.{v} (MulOpposite Λ)) (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ)
+    (g : balancedTensorObject Λ N M ⟶ Q) : N ⟶ balancedTensorFlipHomObject Λ M Q := by
+  letI := balancedTensorFlipHomModule Λ M Q
+  apply ModuleCat.ofHom
+  refine
+    { toFun := fun n =>
+        { toFun := fun m => g (balancedTensorPure Λ N M n m)
+          map_zero' := by simp
+          map_add' := by intros; simp }
+      map_add' := ?_
+      map_smul' := ?_ }
+  · intro n n'
+    ext m
+    change g (balancedTensorPure Λ N M (n + n') m) = _
+    simp only [map_add, LinearMap.add_apply]
+    rfl
+  · intro a n
+    ext m
+    change g (balancedTensorPure Λ N M (a • n) m) =
+      g (balancedTensorPure Λ N M n (a.unop • m))
+    rw [← balancedTensorPure_balanced]
+    rfl
+
+/-- The balanced bilinear map underlying an uncurried morphism into `Hom_ℤ(M, Q)`. -/
+def balancedTensorFlipHomUncurryPure
+    (N : ModuleCat.{v} (MulOpposite Λ)) (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ)
+    (g : N ⟶ balancedTensorFlipHomObject Λ M Q) : N →ₗ[ℤ] M →ₗ[ℤ] Q := by
+  apply intLinearMapOfAddHom
+  refine
+    { toFun := fun n => @intLinearMapOfAddHom _ _ _ _ _ _ (g.hom n)
+      map_zero' := ?_
+      map_add' := ?_ }
+  · ext m; exact DFunLike.congr_fun (map_zero g.hom) m
+  · intro n n'; ext m; exact DFunLike.congr_fun (map_add g.hom n n') m
+
+/-- The uncurried map is balanced, which is the `Λ`-linearity of the curried one. -/
+theorem balancedTensorFlipHomUncurryPure_balanced
+    (N : ModuleCat.{v} (MulOpposite Λ)) (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ)
+    (g : N ⟶ balancedTensorFlipHomObject Λ M Q) (n : N) (a : Λ) (m : M) :
+    balancedTensorFlipHomUncurryPure Λ N M Q g (MulOpposite.op a • n) m =
+      balancedTensorFlipHomUncurryPure Λ N M Q g n (a • m) := by
+  let := balancedTensorFlipHomModule Λ M Q
+  exact DFunLike.congr_fun (g.hom.map_smul (MulOpposite.op a) n) m
+
+/-- Uncurrying a morphism into `Hom_ℤ(M, Q)`. -/
+def balancedTensorFlipHomUncurry
+    (N : ModuleCat.{v} (MulOpposite Λ)) (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ)
+    (g : N ⟶ balancedTensorFlipHomObject Λ M Q) : balancedTensorObject Λ N M ⟶ Q :=
+  balancedTensorLift Λ N M Q (balancedTensorFlipHomUncurryPure Λ N M Q g)
+    (balancedTensorFlipHomUncurryPure_balanced Λ N M Q g)
+
+/-- Uncurrying is computed on pure tensors by `n ⊗ m ↦ g n m`. -/
+theorem balancedTensorFlipHomUncurry_pure
+    (N : ModuleCat.{v} (MulOpposite Λ)) (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ)
+    (g : N ⟶ balancedTensorFlipHomObject Λ M Q) (n : N) (m : M) :
+    balancedTensorFlipHomUncurry Λ N M Q g (balancedTensorPure Λ N M n m) = g n m :=
+  balancedTensorLift_pure Λ N M Q (balancedTensorFlipHomUncurryPure Λ N M Q g)
+    (balancedTensorFlipHomUncurryPure_balanced Λ N M Q g) n m
+
+/-- The currying bijection of the tensor–hom adjunction in the right-module variable. -/
+def balancedTensorFlipHomEquiv
+    (N : ModuleCat.{v} (MulOpposite Λ)) (M : ModuleCat.{v} Λ) (Q : ModuleCat.{v} ℤ) :
+    (balancedTensorObject Λ N M ⟶ Q) ≃ (N ⟶ balancedTensorFlipHomObject Λ M Q) where
+  toFun := balancedTensorFlipHomCurry Λ N M Q
+  invFun := balancedTensorFlipHomUncurry Λ N M Q
+  left_inv g := balancedTensor_hom_ext Λ N M Q _ _ fun n m =>
+    balancedTensorFlipHomUncurry_pure Λ N M Q (balancedTensorFlipHomCurry Λ N M Q g) n m
+  right_inv g := by
+    let := balancedTensorFlipHomModule Λ M Q
+    ext n m
+    exact balancedTensorFlipHomUncurry_pure Λ N M Q g n m
+
+/-- Balanced tensoring with a fixed left `Λ`-module is a left adjoint, its right adjoint being
+`Q ↦ Hom_ℤ(M, Q)`. -/
+theorem balancedTensorFunctor_flip_isLeftAdjoint (M : ModuleCat.{v} Λ) :
+    ((balancedTensorFunctor Λ).flip.obj M).IsLeftAdjoint := by
+  let e : ∀ (N : ModuleCat.{v} (MulOpposite Λ)) (Q : ModuleCat.{v} ℤ),
+      (((balancedTensorFunctor Λ).flip.obj M).obj N ⟶ Q) ≃
+        (N ⟶ balancedTensorFlipHomObject Λ M Q) :=
+    fun N Q => balancedTensorFlipHomEquiv Λ N M Q
+  have he : ∀ N' N Q f g, e N' Q (((balancedTensorFunctor Λ).flip.obj M).map f ≫ g) =
+      f ≫ e N Q g := by
+    intro N' N Q f g
+    let := balancedTensorFlipHomModule Λ M Q
+    ext n m
+    change g (balancedTensorMap Λ f (𝟙 M) (balancedTensorPure Λ N' M n m)) =
+      g (balancedTensorPure Λ N M (f n) m)
+    rw [balancedTensorMap_pure]
+    rfl
+  exact ⟨Adjunction.rightAdjointOfEquiv e he, ⟨Adjunction.adjunctionOfEquivRight e he⟩⟩
+
+/-- Balanced tensoring with a fixed left `Λ`-module commutes with arbitrary colimits; in
+particular it is right exact. This is because it is a left adjoint, its right adjoint being
+`Q ↦ Hom_ℤ(M, Q)`. Together with `preservesColimits_balancedTensorFunctor_obj` this is the
+statement in each variable. -/
+@[stacks 09LL "right exactness and commutation with colimits in the right-module variable"]
+theorem preservesColimits_balancedTensorFunctor_flip_obj (M : ModuleCat.{v} Λ) :
+    PreservesColimits ((balancedTensorFunctor Λ).flip.obj M) :=
+  have := balancedTensorFunctor_flip_isLeftAdjoint Λ M
   inferInstance
 
 /-! ### The derived bifunctor -/

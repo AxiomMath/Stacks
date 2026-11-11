@@ -47,11 +47,13 @@ factorization lemma Stacks 06N7; a mere equivalence of the underlying categories
 suffice, since the inclusion of a one-object skeleton of an indiscrete groupoid `𝒞` into `𝒞`
 is an equivalence over `𝒞` in that weaker sense while failing to be fibred in groupoids.
 
-Everything here is proved for `CategoryTheory.IsGerbeOver J q F`, i.e. relatively to an
-arbitrary base `q : 𝒴 ⥤ 𝒞`, and the source statement is the case `𝒴 = 𝒞`, `q = 𝟭 𝒞`: as
-`isGerbeOver_id_iff` records, `IsGerbeOver J (𝟭 𝒞) p` unfolds to the three conditions of
-Stacks 06NZ defining a gerbe over the site `(𝒞, J)` — with "stack in groupoids" weakened to
-"fibred in groupoids", exactly as in `IsGerbeOver` itself.
+This file proves the invariance of the weaker notion `CategoryTheory.IsGerbeOver J q F`,
+relatively to an arbitrary base `q : 𝒴 ⥤ 𝒞`. As `isGerbeOver_id_iff` records,
+`IsGerbeOver J (𝟭 𝒞) p` unfolds to the three conditions of Stacks 06NZ with "stack in groupoids"
+weakened to "fibred in groupoids", so that invariance alone does not give Stacks 06P0. Stacks 06P0
+itself, for `CategoryTheory.Functor.IsGerbe`, is
+`CategoryTheory.Functor.isGerbe_iff_of_isEquivalenceOver` in
+`StacksFrontier/CategoryTheory/Sites/Gerbe/EquivalenceStack.lean`, which adds the stack clause.
 
 ## Main results
 
@@ -62,7 +64,8 @@ Stacks 06NZ defining a gerbe over the site `(𝒞, J)` — with "stack in groupo
   of a gerbe over the site `(𝒞, J)`, clause by clause, and
   `CategoryTheory.Functor.IsGerbe.isGerbeOver_id`: a gerbe over `(𝒞, J)` is one of these.
 * `CategoryTheory.IsGerbeOver.of_isEquivalenceOver` and
-  `CategoryTheory.isGerbeOver_iff_of_isEquivalenceOver`: **Stacks 06P0**.
+  `CategoryTheory.isGerbeOver_iff_of_isEquivalenceOver`: invariance of `IsGerbeOver`, the
+  relative notion in which "stack in groupoids" is weakened to "fibred in groupoids".
 -/
 
 @[expose] public section
@@ -236,9 +239,10 @@ namespace IsGerbeOver
 
 variable {J : GrothendieckTopology 𝒞} {q : 𝒴 ⥤ 𝒞} {F : 𝒳 ⥤ 𝒴} {F' : 𝒳' ⥤ 𝒴} {a : 𝒳 ⥤ 𝒳'}
 
-/-- **Stacks 06P0**, one direction and in the relative form: if `a : 𝒳 ⥤ 𝒳'` is a 1-morphism
-over `𝒴` (so `a ⋙ F' = F`) which is an equivalence over `𝒴`, then `F` makes `𝒳` a gerbe over
-`𝒴` only if `F'` makes `𝒳'` one.
+/-- Invariance of `IsGerbeOver`, one direction and in the relative form: if `a : 𝒳 ⥤ 𝒳'` is a
+1-morphism over `𝒴` (so `a ⋙ F' = F`) which is an equivalence over `𝒴`, then `F` makes `𝒳` a
+gerbe over `𝒴` in the sense of `IsGerbeOver` (with "stack in groupoids" weakened to "fibred in
+groupoids") only if `F'` makes `𝒳'` one.
 
 Both local conditions transport along `a`: an object of `𝒳` over a covering member has the
 same `F'`-image as its `a`-image, and a morphism between `F'`-images is carried to a morphism
@@ -287,12 +291,12 @@ theorem of_isEquivalenceOver (ha : a ⋙ F' = F) (e : Functor.IsEquivalenceOver 
 
 end IsGerbeOver
 
-/-- **Stacks 06P0**, in the relative form: a 1-morphism over `𝒴` that is an equivalence over
-`𝒴` makes `𝒳` a gerbe over `𝒴` exactly when its target is one. The source statement is the
-case `𝒴 = 𝒞`, `q = 𝟭 𝒞`, where `IsGerbeOver J (𝟭 𝒞) ·` is being a gerbe over the site
-`(𝒞, J)` by `isGerbeOver_id_iff` and being an equivalence over `𝒴` is being an equivalence
-over `𝒞`. -/
-@[stacks 06P0]
+/-- Invariance of `IsGerbeOver` under equivalence, in the relative form: a 1-morphism over `𝒴`
+that is an equivalence over `𝒴` makes `𝒳` a gerbe over `𝒴` in the sense of `IsGerbeOver`
+exactly when its target is one. For `𝒴 = 𝒞`, `q = 𝟭 𝒞` this is, by `isGerbeOver_id_iff`, the
+invariance of being fibred in groupoids, locally nonempty and locally connected; it is weaker than
+Stacks 06P0, whose gerbes are stacks in groupoids. Stacks 06P0 itself is
+`CategoryTheory.Functor.isGerbe_iff_of_isEquivalenceOver`. -/
 theorem isGerbeOver_iff_of_isEquivalenceOver {J : GrothendieckTopology 𝒞} {q : 𝒴 ⥤ 𝒞}
     {F : 𝒳 ⥤ 𝒴} {F' : 𝒳' ⥤ 𝒴} {a : 𝒳 ⥤ 𝒳'} (ha : a ⋙ F' = F)
     (e : Functor.IsEquivalenceOver F F' a) :

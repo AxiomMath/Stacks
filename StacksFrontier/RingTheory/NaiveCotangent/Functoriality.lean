@@ -60,8 +60,9 @@ of the diagram commutes, which is `IsScalarTower S S' S''`.
 
 ## Main results
 
-* `Stacks.NaiveCotangent.Functoriality.solution`: the statement of Stacks 06RQ, namely
-  `Algebra.Generators.defaultHom_comp_defaultHom`.
+* `Stacks.NaiveCotangent.Functoriality.solution`: the compatibility with composition asserted in
+  the paragraph of Stacks 06RQ, namely `Algebra.Generators.defaultHom_comp_defaultHom`. The
+  full statement of the paragraph is `Algebra.Generators.naiveCotangentComplex_functorial`.
 
 ## Implementation notes
 
@@ -124,8 +125,10 @@ S --φ--> S' --φ'--> S''
 R -----> R' ------> R''
 ```
 the composite `NL_{S/R} → NL_{S'/R'} → NL_{S''/R''}` is the canonical map of the outer square.
-That is what is stated here, and it is stated one level up, as an equality of morphisms of
-presentations, from which the equality of the induced maps of complexes follows.
+That is what is stated in this section (the other parts of the paragraph are in
+`Algebra.Generators.naiveCotangentComplex_functorial` below), and it is stated one level up,
+as an equality of morphisms of presentations, from which the equality of the induced maps of
+complexes follows.
 
 ## Main results
 
@@ -202,7 +205,8 @@ variable {R S R' S' R'' S'' ι ι'' : Type*}
   [Algebra R' R''] [Algebra R' S''] [Algebra S S'] [Algebra S' S''] [Algebra S S'']
   [IsScalarTower R' R'' S''] [IsScalarTower R' S' S''] [IsScalarTower S S' S'']
 
-/-- **Functoriality of the naive cotangent complex in a square of rings** (Stacks 06RQ): given
+/-- **Compatibility of the canonical maps of `NL` with composition** (part of the paragraph of
+Stacks 06RQ, whose full statement is `Algebra.Generators.naiveCotangentComplex_functorial`): given
 two commutative squares of rings side by side,
 ```
 S --φ--> S' --φ'--> S''
@@ -215,12 +219,169 @@ comparison morphisms of presentations `P → R'[S']` and `R'[S'] → P''` is the
 comparison morphism `P → P''` of the outer square. Hence the canonical maps of naive cotangent
 complexes `NL_{S/R} → NL_{S'/R'} → NL_{S''/R''}` compose to the canonical map
 `NL_{S/R} → NL_{S''/R''}`. -/
-@[stacks 06RQ "The display is the datum for functoriality of `NL`; what is stated is the
-compatibility with composition of the canonical maps it produces, at the level of morphisms of
-presentations. See the module docstring."]
 public theorem defaultHom_comp_defaultHom (P : Generators R S ι) (P'' : Generators R'' S'' ι'') :
     (defaultHom (self R' S') P'').comp (defaultHom P (self R' S')) = defaultHom P P'' :=
     by apply Stacks.NaiveCotangent.Functoriality.solution
+
+end Algebra.Generators
+
+end
+
+/-!
+# The commutative square of rings and the functoriality of `NL`
+
+The display of Stacks 06RQ is a commutative square of rings
+```
+S --φ--> S'
+↑        ↑
+R -----> R'
+```
+which is recorded here as `Stacks.NaiveCotangent.RingSquare`. The paragraph it heads asserts
+the functoriality of the naive cotangent complex in such a square, and that is
+`Algebra.Generators.naiveCotangentComplex_functorial`. In it the square is the instance data
+`[Algebra R S]`, `[Algebra R' S']`, `[Algebra R R']`, `[Algebra S S']`, `[Algebra R S']` together
+with `IsScalarTower R S S'` and `IsScalarTower R R' S'`, which say that both composites
+`R → S'` are `algebraMap R S'`. This is the same datum as a `RingSquare`:
+`Stacks.NaiveCotangent.RingSquare.ofIsScalarTower` turns the instance data into a square, and
+`Stacks.NaiveCotangent.RingSquare.isScalarTower` shows that every square, with its four maps as
+algebra structures, satisfies the two scalar tower conditions.
+
+The parts of the paragraph, with the Mathlib declarations used for them, are:
+* a morphism of presentations `φ̃ : P → P'` (`Algebra.Generators.Hom`, with
+  `Algebra.Generators.Hom.toAlgHom`) maps `I = ker α` into `I' = ker α'`;
+* the induced maps `I/I² → I'/(I')²` (`Algebra.Extension.Cotangent.map`) and
+  `Ω_{P/R} ⊗_P S → Ω_{P'/R'} ⊗_{P'} S'` (`Algebra.Extension.CotangentSpace.map`) commute with the
+  differentials (`Algebra.Extension.CotangentSpace.map_comp_cotangentComplex`), so they form a map
+  of complexes `NL(α) → NL(α')`;
+* the induced maps `S' ⊗_S I/I² → I'/(I')²` and `S' ⊗_S (Ω_{P/R} ⊗_P S) → Ω_{P'/R'} ⊗_{P'} S'`
+  (`LinearMap.liftBaseChange`) commute with the differentials of `NL(α) ⊗_S S'` and `NL(α')`, a
+  map of complexes `NL(α) ⊗_S S' → NL(α')`;
+* for the canonical presentations `R[S] → S` and `R'[S'] → S'`
+  (`Algebra.Generators.self`) the canonical morphism is `[s] ↦ [φ(s)]`, namely
+  `Algebra.Generators.defaultHom (self R S) (self R' S')`;
+* the construction is compatible with composition of squares
+  (`Algebra.Generators.defaultHom_comp_defaultHom`).
+
+## References
+
+* [StacksProject 06RQ](https://stacks.math.columbia.edu/tag/06RQ)
+-/
+
+@[expose] public section
+
+namespace Stacks.NaiveCotangent
+
+/-- **A commutative square of rings** (Stacks 06RQ): ring maps `R → S`, `R → R'`, `R' → S'` and
+`φ : S → S'` such that the two composites `R → S'` agree. It is the datum for which the naive
+cotangent complex is functorial, see `Algebra.Generators.naiveCotangentComplex_functorial`. -/
+@[stacks 06RQ "The commutative square of rings; the functoriality of the naive cotangent complex
+in it is `Algebra.Generators.naiveCotangentComplex_functorial`."]
+structure RingSquare (R S R' S' : Type*) [CommRing R] [CommRing S] [CommRing R'] [CommRing S']
+    where
+  /-- The left vertical map `R → S`. -/
+  left : R →+* S
+  /-- The bottom horizontal map `R → R'`. -/
+  bottom : R →+* R'
+  /-- The right vertical map `R' → S'`. -/
+  right : R' →+* S'
+  /-- The top horizontal map `φ : S → S'`. -/
+  top : S →+* S'
+  /-- The square commutes. -/
+  comm : top.comp left = right.comp bottom
+
+namespace RingSquare
+
+variable {R S R' S' : Type*} [CommRing R] [CommRing S] [CommRing R'] [CommRing S']
+
+/-- The commutative square given by algebra structures `R → S`, `R → R'`, `R' → S'`, `S → S'`
+and `R → S'` with `IsScalarTower R S S'` and `IsScalarTower R R' S'`. -/
+@[simps]
+def ofIsScalarTower [Algebra R S] [Algebra R' S'] [Algebra R R'] [Algebra S S'] [Algebra R S']
+    [IsScalarTower R S S'] [IsScalarTower R R' S'] : RingSquare R S R' S' where
+  left := algebraMap R S
+  bottom := algebraMap R R'
+  right := algebraMap R' S'
+  top := algebraMap S S'
+  comm := by rw [← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
+
+/-- Every commutative square of rings is of the form `ofIsScalarTower`: with its four maps as
+algebra structures and `R → S'` the composite, both scalar tower conditions hold. -/
+theorem isScalarTower (sq : RingSquare R S R' S') :
+    letI := sq.left.toAlgebra
+    letI := sq.bottom.toAlgebra
+    letI := sq.right.toAlgebra
+    letI := sq.top.toAlgebra
+    letI : Algebra R S' := (sq.top.comp sq.left).toAlgebra
+    IsScalarTower R S S' ∧ IsScalarTower R R' S' :=
+  letI := sq.left.toAlgebra
+  letI := sq.bottom.toAlgebra
+  letI := sq.right.toAlgebra
+  letI := sq.top.toAlgebra
+  letI : Algebra R S' := (sq.top.comp sq.left).toAlgebra
+  ⟨IsScalarTower.of_algebraMap_eq' rfl, IsScalarTower.of_algebraMap_eq' sq.comm⟩
+
+end RingSquare
+
+end Stacks.NaiveCotangent
+
+namespace Algebra.Generators
+
+variable {R S R' S' ι ι' : Type*}
+  [CommRing R] [CommRing S] [Algebra R S] [CommRing R'] [CommRing S'] [Algebra R' S']
+  [Algebra R R'] [Algebra S S'] [Algebra R S'] [IsScalarTower R R' S'] [IsScalarTower R S S']
+
+/-- **Functoriality of the naive cotangent complex in a commutative square of rings**
+(Stacks 06RQ). Let `R → S`, `R' → S'`, `R → R'`, `φ : S → S'` be a commutative square of rings
+(as algebra structures with `IsScalarTower R S S'` and `IsScalarTower R R' S'`, see
+`Stacks.NaiveCotangent.RingSquare`), and let `α : P → S`, `α' : P' → S'` be presentations of `S`
+over `R` and of `S'` over `R'`. Then for every morphism of presentations `f : P → P'`:
+1. `f` maps `I = ker α` into `I' = ker α'`;
+2. the induced maps `I/I² → I'/(I')²` and `Ω_{P/R} ⊗_P S → Ω_{P'/R'} ⊗_{P'} S'` commute with the
+   differentials, so they form a map of complexes `NL(α) → NL(α')`;
+3. the induced maps on `NL(α) ⊗_S S'` commute with the differentials, so they form a map of
+   complexes `NL(α) ⊗_S S' → NL(α')`.
+Moreover:
+4. for the canonical presentations `R[S] → S` and `R'[S'] → S'`, the canonical morphism
+   `defaultHom (self R S) (self R' S')` is the ring map `[s] ↦ [φ(s)]`;
+5. the construction is compatible with composition: for a second square
+   `R' → R''`, `S' → S''`, the composite of the canonical morphisms `R[S] → R'[S'] → R''[S'']` is
+   the canonical morphism `R[S] → R''[S'']` of the outer square, hence the canonical maps
+   `NL_{S/R} → NL_{S'/R'} → NL_{S''/R''}` compose to the map of the outer square. -/
+@[stacks 06RQ "The functoriality of the naive cotangent complex in the square: kernels, the
+maps of complexes `NL(α) → NL(α')` and `NL(α) ⊗_S S' → NL(α')`, the canonical map of the
+canonical presentations, and its compatibility with composition."]
+theorem naiveCotangentComplex_functorial (P : Generators R S ι) (P' : Generators R' S' ι') :
+    (∀ f : P.Hom P', P.ker.map f.toAlgHom ≤ P'.ker) ∧
+    (∀ f : P.Hom P',
+      Extension.CotangentSpace.map f.toExtensionHom ∘ₗ P.toExtension.cotangentComplex =
+        P'.toExtension.cotangentComplex.restrictScalars S ∘ₗ
+          Extension.Cotangent.map f.toExtensionHom) ∧
+    (∀ f : P.Hom P',
+      P'.toExtension.cotangentComplex ∘ₗ
+          (Extension.Cotangent.map f.toExtensionHom).liftBaseChange S' =
+        (Extension.CotangentSpace.map f.toExtensionHom).liftBaseChange S' ∘ₗ
+          P.toExtension.cotangentComplex.baseChange S') ∧
+    (∀ s : S, (defaultHom (self R S) (self R' S')).toAlgHom (.X s) = .X (algebraMap S S' s)) ∧
+    (∀ (R'' S'' : Type _) [CommRing R''] [CommRing S''] [Algebra R'' S''] [Algebra R' R'']
+      [Algebra R' S''] [Algebra S' S''] [Algebra S S''] [IsScalarTower R' R'' S'']
+      [IsScalarTower R' S' S''] [IsScalarTower S S' S''],
+      (defaultHom (self R' S') (self R'' S'')).comp (defaultHom (self R S) (self R' S')) =
+        defaultHom (self R S) (self R'' S'')) := by
+  refine ⟨fun f ↦ ?_, fun f ↦ Extension.CotangentSpace.map_comp_cotangentComplex _, fun f ↦ ?_,
+    fun s ↦ by simp, fun R'' S'' _ _ _ _ _ _ _ _ _ _ ↦ defaultHom_comp_defaultHom _ _⟩
+  · rw [Ideal.map_le_iff_le_comap]
+    intro x hx
+    rw [ker_eq_ker_aeval_val, RingHom.mem_ker] at hx
+    rw [Ideal.mem_comap, ker_eq_ker_aeval_val, RingHom.mem_ker]
+    simp [hx]
+  · apply LinearMap.restrictScalars_injective S
+    apply TensorProduct.AlgebraTensorModule.curry_injective
+    ext s x
+    simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.restrictScalars_apply,
+      TensorProduct.AlgebraTensorModule.curry_apply, TensorProduct.curry_apply,
+      LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul, map_smul]
+    congr 1
+    exact (Extension.CotangentSpace.map_cotangentComplex _ x).symm
 
 end Algebra.Generators
 

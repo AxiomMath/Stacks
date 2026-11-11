@@ -33,8 +33,12 @@ The proof is the one of the source: by Remark 0GBK it follows from Lemma 0GGV.
   `AlgebraicGeometry.FormalSpace.isRigFlat_iff_hasPropertyOnEveryAffineEtaleDiagram`.
 
 `AlgebraicGeometry.FormalSpace.isRigFlat_comp` states the same composition for arbitrary fppf
-sheaves, granted the uniform transfer `TransfersCompositionOnAffineEtaleDiagrams`; the statement
-here needs no such hypothesis.
+sheaves, from the uniform transfer `TransfersCompositionOnAffineEtaleDiagrams`; it is not a
+registration of Stacks 0GH0, whose statement is the one here and needs no such transfer.
+
+Definition 0GGX, `AlgebraicGeometry.FormalSpace.IsRigFlat`, quantifies over every presentation
+of the chart morphism `U ⟶ V` by a continuous homomorphism of adic Noetherian topological rings
+and asks each one to be rig-flat in the sense of Stacks 0GGP.
 
 The locally Noetherian hypotheses of the source on `X`, `Y` and `Z` are the hypotheses `hX`,
 `hY` and `hZ`; they are what the covering of the proof of Stacks 0GBI is built from.

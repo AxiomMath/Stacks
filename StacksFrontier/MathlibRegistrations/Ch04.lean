@@ -53,8 +53,6 @@ add_to_stacks 002W "finite products, fibre products, equalizers"
 -- Mathlib's `CategoryTheory.ExactPairing X Y` is the Stacks statement "`Y` is a left dual of `X`"
 -- (equivalently, "`X` is a right dual of `Y`"). Mathlib's names for left and right duals are the
 -- reverse of the Stacks ones: Mathlib's `HasRightDual X` provides a Stacks left dual of `X`.
-add_to_stacks 0FFL CategoryTheory.Functor.Monoidal
-
 add_to_stacks 0FFP CategoryTheory.ExactPairing
 
 add_to_stacks 0FFY CategoryTheory.Functor.Braided

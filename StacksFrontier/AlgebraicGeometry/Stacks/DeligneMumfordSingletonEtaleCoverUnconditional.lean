@@ -16,8 +16,7 @@ a singleton. **Stacks 06N0** says there are a field `k` and a surjective étale 
 
 `StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordSingletonEtaleCover` defines the hypothesis
 `AlgebraicGeometry.Stack.IsReducedLocallyNoetherianSingletonDM` and the conclusion
-`AlgebraicGeometry.Stack.HasSurjectiveEtaleFieldSpectrumCover` and states the tag with its
-conclusion taken as an argument. This module proves it,
+`AlgebraicGeometry.Stack.HasSurjectiveEtaleFieldSpectrumCover`. This module proves the tag,
 as `AlgebraicGeometry.Stack.hasSurjectiveEtaleFieldSpectrumCover_unconditional`.
 
 ## The route
@@ -143,7 +142,7 @@ in exists_division; it is run at the de-realization of the self-intersection gro
 object and arrow spaces are representable by isRepresentable_objects_pointGroupoid_fieldSpectrum \
 and isRepresentable_arrows_pointGroupoid_fieldSpectrum, the latter being condition (2) of \
 Stacks 06LZ read on the base site at the dimension bound \
-dimension_relation_le_zero_fieldSpectrum, i.e. Stacks 06FF against the quasi-DM hypothesis \
+dimension_relation_le_zero_fieldSpectrum, i.e. Stacks 06FF against quasi-DM-ness \
 through Stacks 050H part (5). Etaleness of U_bar -> Z follows the source's steps 6 and 8 rather \
 than its Stacks 04XD reading: the divided groupoid is the restriction of the descended groupoid \
 (U_bar, R_bar, s_bar, t_bar, c_bar) along the finite locally free surjection U -> U_bar, so \
@@ -156,11 +155,11 @@ Division.etale_descended_source, which is Stacks 047W at unramifiedness through 
 etale_source_of_flat_of_isOpenImmersion_identity rather than the computation of \
 Omega_{R_bar/U_bar} that Stacks 04R9 gives the source. Stacks 04M9 then makes the projection \
 S_{U_bar} -> [U_bar/R_bar] of Stacks 044R etale \
-(isRelativelyEtale_quotientStackProjection_realization), and two instances of Stacks 0457 carry \
+(isRelativelyEtale_quotientStackProjection_realization), and two instances of Stacks 0457 move \
 that verdict across the equivalence with Z and down the universe lift of the source, giving \
 quotientProjectionSchemeStackMap, which is etale in the sense of Stacks 0CIL by \
-isEtale_of_isRelativelyEtale. The DM hypothesis enters only at the division, in the absolute \
-form of Stacks 050D part (5), turned into DM-ness over S by Stacks 050N part (1)"]
+isEtale_of_isRelativelyEtale. DM-ness enters at the division, in the absolute form \
+of Stacks 050D part (5), turned into DM-ness over S by Stacks 050N part (1)"]
 theorem hasSurjectiveEtaleFieldSpectrumCover_unconditional
     (𝒵 : AlgebraicStacks.{u, w} B S hS)
     (h𝒵 : IsReducedLocallyNoetherianSingletonDM.{u, w} B S hS hZ 𝒵) :

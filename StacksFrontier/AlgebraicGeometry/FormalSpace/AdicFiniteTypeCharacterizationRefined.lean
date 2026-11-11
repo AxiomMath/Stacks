@@ -44,18 +44,14 @@ arrow of `WAdm^{adic*}`, the existence of an affine étale covering of `Y` toget
 étale coverings of the fibre products of its members with `X` on which that condition holds, the
 existence of an affine étale covering of `X` whose members factor through affine representable
 étale charts of `Y` by such arrows, and `f` being locally of finite type, are all equivalent,
-provided chart presentations are adic\*. -/
-@[stacks 0GC0 "all four conditions, with all six equivalences proved, from one named \
-hypothesis this library does not have: Stacks 0AKX in the adic* form of Stacks 0AKT together \
-with Stacks 0AIC as `hchart`. The library's Stacks 0ANW is unconditional, so nothing is \
-forwarded from it; the covering refinement of Stacks 0AJ2 and the implication (2) implies (1) \
-of Stacks 0AKX, which used to be forwarded as `href` and `h0AKX`, are theorems. \
-Stacks 0AJ3, the implication (4) \
-implies (1) of Stacks 0ANL and Stacks 0ANV on countably indexed charts are no longer among \
-them: Stacks 0AJ3 is proved for a base which is a formal algebraic space, (4) implies (1) \
-is obtained as (4) implies (5) implies (1), and Stacks 0ANV on countably indexed charts is \
-proved. Neither are the locality axioms of Situation 0CBA \
-for tautness with topological finite type: they follow from the locality of Stacks 0ANU"]
+given `hchart : ChartPresentationIsAdicStar`, which asks that every ring presenting an affine
+chart, weakly admissible or not, be adic\*.
+
+Stacks 0GC0 itself, at the source's hypotheses, is
+`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteType_tfae_of_isLocallyAdicStar`: the input it
+needs is the weakly admissible form of `hchart`,
+`AlgebraicGeometry.FormalSpace.chartPresentationIsAdicStarOfWeaklyAdmissible`, which the library
+proves from Stacks 0AKX for the adic\* property and Stacks 0AIC. -/
 theorem isLocallyOfFiniteType_adicStar_tfae' {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyAdicStar B S hS X) (hY : IsLocallyAdicStar B S hS Y)
     (hchart : ChartPresentationIsAdicStar B S hS) :

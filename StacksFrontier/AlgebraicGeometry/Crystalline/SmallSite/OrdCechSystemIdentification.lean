@@ -86,7 +86,7 @@ cohomology is the Čech cohomology of the covering family.  Three things stand b
   (item 4 of the "What is and is not proved" section of `CechCoverComplex.lean`);
 * the remark's other inputs [Stacks, Tag 07JH] and [Stacks, Tag 07LG], which are proved elsewhere
   (`...SmallSite.crystalPairFunctor_isEquivalence`,
-  `...SmallSite.crystalPairDeRhamComplex_computesCohomology`) and not used here.  The vanishing
+  `...SmallSite.crystalPairDeRhamDerivedPlusIso`) and not used here.  The vanishing
   clause of [Stacks, Tag 07LM] is `...SmallSite.vanishing07LM` of
   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Vanishing07LMProof.lean`, proved for every
   sheaf of `𝒪_{X/S}`-modules satisfying conditions (1) and (2) of [Stacks, Tag 07JN].  What the

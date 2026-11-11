@@ -29,8 +29,12 @@ and the admissible blowup of Stacks 0ESR, exactly as in
 
 ## Main results
 
-* `Stacks.Chow.powerSumComplex_eq_of_iso` — **Stacks 0ESZ for `P_p`**.
-* `Stacks.Chow.chernCharacterComplex_eq_of_iso` — **Stacks 0ESZ for `ch_p`**.
+* `Stacks.Chow.powerSumComplex_eq_of_iso` — **Stacks 0ESZ for `P_p`**: two locally bounded
+  complexes of finite locally free modules, of arbitrary ranks, isomorphic in `D(𝒪_Y)`, have equal
+  classes `P_p(ℰ^•) = ∑_n (-1)^n P_p(ℰ^n)`, the power sums of Stacks 0F9B being constructed, not
+  carried.
+* `Stacks.Chow.chernCharacterComplex_eq_of_iso` — **Stacks 0ESZ for `ch`**, in every degree `p`,
+  that is, for the family `ch(ℰ^•) ∈ ∏_{p ≥ 0} A^p(Y) ⊗ 𝐐` read componentwise.
 
 ## References
 

@@ -39,9 +39,10 @@ site containing the scheme, which is how it is available here.
 Global sections downstairs agreeing with global sections of the inverse image upstairs is Tag
 0A3H, whose hypotheses are flatness, quasi-compactness and geometric connectedness of the
 fibres. Quasi-compactness is automatic, since a base change of a morphism of affine schemes;
-geometric connectedness of the morphism of strict henselizations is the hypothesis of Tag
-0F00; flatness of it is an input Tag 0F00 leaves implicit and is carried here as the declared
-hypothesis `hflat`.
+flatness of the morphism of strict henselizations follows from flatness of `f` by
+`AlgebraicGeometry.flat_strictHenselizationSquareMap`, and its geometric connectedness is the
+condition of Tag 0F00. Tag 0F00 itself is
+`isIso_smallEtaleSetBaseChange_of_geometricallyConnected_strictHenselization`.
 
 ## References
 
@@ -117,17 +118,10 @@ lemma strictHenselizationPullbackMap_comp_snd (sq : IsPullback h e f g) :
       pullback.snd (strictHenselizationToBase B X hX x) h ≫ e :=
   pullback.lift_snd _ _ _
 
-/-- **Stacks Project, Tag 0F00**, the base change step of its proof. In a cartesian square with
+/-- The base change step of the proof of Stacks Tag 0F00. In a cartesian square with
 `h : Y ⟶ X`, `e : Y ⟶ T` and `g : T ⟶ S`, the canonical morphism
 `Spec(O^sh_{X,x̄}) ×_X Y ⟶ Spec(O^sh_{S,f(x̄)}) ×_S T` is a base change of the morphism of
 strict henselizations `Spec(O^sh_{X,x̄}) ⟶ Spec(O^sh_{S,f(x̄)})`. -/
-@[stacks 0F00 "the identity `Spec(O^sh_{X,x̄}) ×_X Y = Spec(O^sh_{S,f(x̄)}) ×_S T`-base-change of
-`Spec(O^sh_{X,x̄}) ⟶ Spec(O^sh_{S,f(x̄)})` of the source's last sentence, and nothing else. The
-tag's conclusion `f⁻¹ g_* F = h_* e⁻¹ F` is NOT asserted here or in
-`globalSectionsIso_strictHenselizationPullback` below: the source obtains it from this
-identification together with Tag 03PU and Tag 03Q9, and Tag 03Q9 for sheaves of sets is not
-available in the library (the only form of it present is restricted to a base which is already
-the spectrum of a strictly henselian local ring)."]
 theorem isPullback_strictHenselizationPullbackMap (sq : IsPullback h e f g) :
     IsPullback (pullback.fst (strictHenselizationToBase B X hX x) h)
       (strictHenselizationPullbackMap B hX hS f x sq)
@@ -147,18 +141,11 @@ instance quasiCompact_strictHenselizationPullbackMap (sq : IsPullback h e f g) :
     (isPullback_strictHenselizationPullbackMap B hX hS f x sq)
     (inferInstanceAs (QuasiCompact (strictHenselizationSquareMap B hX hS f x)))
 
-/-- **Stacks Project, Tag 0F00**, the application of Tag 0A3H in its proof. If the morphism of
+/-- The application of Tag 0A3H in the proof of Stacks Tag 0F00. If the morphism of
 strict henselizations at a geometric point `x̄` of `X` is flat with geometrically connected
 fibres, then in a cartesian square the global sections of a sheaf of sets on the small étale
 site of `Spec(O^sh_{S,f(x̄)}) ×_S T` are the global sections of its inverse image on the small
 étale site of `Spec(O^sh_{X,x̄}) ×_X Y`, naturally in the sheaf. -/
-@[stacks 0F00 "the application of Tag 0A3H to the morphism
-`Spec(O^sh_{X,x̄}) ×_X Y ⟶ Spec(O^sh_{S,f(x̄)}) ×_S T` with which the source's proof concludes,
-and nothing else. The tag's conclusion `f⁻¹ g_* F = h_* e⁻¹ F` is NOT asserted: the source
-reads the two sides of this identification as the stalks at `x̄` of `f⁻¹ g_* F` and of
-`h_* e⁻¹ F` by Tag 03Q9 and concludes by Tag 03PU, and Tag 03Q9 for sheaves of sets is absent
-from the library. Flatness of the morphism of strict henselizations, which Tag 0A3H needs and
-the source leaves implicit in the flatness of `f`, is the declared hypothesis `hflat`."]
 def globalSectionsIso_strictHenselizationPullback (sq : IsPullback h e f g)
     (hflat : Flat (strictHenselizationSquareMap B hX hS f x))
     (hconn : GeometricallyConnected (strictHenselizationSquareMap B hX hS f x)) :

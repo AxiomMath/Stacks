@@ -519,7 +519,8 @@ which the source gets by transporting the vanishing to the finite Ext modules
 the per-prime input of that argument at a single prime, since
 `Stacks.Algebraization.BootstrapSituation.localize` and
 `Stacks.Algebraization.BootstrapSituation.shrink` turn a situation and a `𝔮 ∈ T` into a situation
-over `A_𝔮` with locus the closed point. -/
+over `A_𝔮` with locus the closed point. The general case is
+`Stacks.Algebraization.isProZeroIdealPowerCohomology`. -/
 @[stacks 0EFX "the pro-zero assertion for i ≤ s at T = {𝔪} over a Noetherian local ring in \
 Situation 0EFU"]
 theorem exists_map_idealPowerTower_eq_zero_closedPoint [IsLocalRing S.A]
@@ -550,7 +551,8 @@ Artinianness of the terms turns it into the containment of the stable images in 
 
 As with the pro-zero assertion, the general specialization-stable `T` needs the uniformity in
 `𝔮 ∈ T` of the source's last paragraph; see
-`exists_map_idealPowerTower_eq_zero_closedPoint`. -/
+`exists_map_idealPowerTower_eq_zero_closedPoint`. The general case is
+`Stacks.Algebraization.exists_hasStableImageIdealPowerCohomology`. -/
 @[stacks 0EFX "the stable-image assertion in degree s + 1 at T = {𝔪} over a Noetherian local \
 ring in Situation 0EFU"]
 theorem hasStableImageIdealPowerCohomology_closedPoint [IsLocalRing S.A]

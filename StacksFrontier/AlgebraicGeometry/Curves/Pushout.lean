@@ -96,7 +96,8 @@ everything derived from it apply.
 The content is the verification of the two assumptions of [Stacks Project, Tag 0ECI] that are not
 hypotheses here: that `j` is integral, and that every fibre of `j` maps under `i` into a single
 affine open of `X`.  The latter is [Stacks Project, Tag 09NN]. -/
-@[stacks 0E35 "the assumptions of More on Morphisms, Proposition 0E25 are satisfied"]
+@[stacks 0E35 "the verification that the assumptions of More on Morphisms, Proposition 0E25 \
+are satisfied; the conclusions (1)-(7) are `AlgebraicGeometry.exists_pushout_of_curve`"]
 def curvePushoutSituation
     (k : Type u) [Field k] {X Y Z : Scheme.{u}}
     (pX : X ⟶ Spec (.of k)) (pY : Y ⟶ Spec (.of k)) (pZ : Z ⟶ Spec (.of k))

@@ -32,8 +32,8 @@ that is, Stacks 0EAX is equivalent to Stacks 0EAW. This is the content of the pr
 relation for `f, g ∈ K^*` to the relation for elements of `A`. It is stated as an `iff`, so it is
 a reformulation of Stacks 0EAX and not a weakening of it.
 
-The vanishing sum itself is *not* proved here, and no `@[stacks 0EAX]` attribute is attached: the
-reduction above turns Stacks 0EAX into Stacks 0EAW, which is open — see the implementation notes.
+The vanishing sum itself is not proved here; for the tame symbol of Stacks 0EAQ it is
+`Stacks.Chow.finsum_heightOneOrd_formulaTameSymbol_eq_zero` (Stacks 0EAX).
 
 As in `Stacks.Chow.finite_tameSymbolOrderAt_support`, none of this needs `A` to be local; the
 source states Stacks 0EAX for a local domain.

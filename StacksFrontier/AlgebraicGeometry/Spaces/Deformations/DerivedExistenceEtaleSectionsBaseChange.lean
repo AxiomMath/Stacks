@@ -53,29 +53,32 @@ theorem _root_.CategoryTheory.Functor.isIso_map_mor₁_of_isZero_map_obj₃
     IsIso (F.map T.mor₁) :=
   (Triangle.isZero₃_iff_isIso₁ _ (F.map_distinguished T hT)).1 h
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- `Xₙ ⟶ X` is quasi-compact, being a closed immersion. -/
 theorem isQuasiCompact_spaceProjection (n : ℕ) :
     IsQuasiCompact D.B (limitBase D.system) D.containsLimitBase
       (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom :=
   isQuasiCompact_of_isClosedImmersion D.B (limitBase D.system) D.containsLimitBase _
-    (D.stage n).2 D.X.left.2 (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    (D.stage n).2 D.X.left.2
+    (isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n)
 
 /-- `Xₙ ⟶ X` is quasi-separated, being a closed immersion. -/
 theorem isQuasiSeparated_spaceProjection (n : ℕ) :
     IsQuasiSeparated D.B (limitBase D.system) D.containsLimitBase
       (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom :=
   isQuasiSeparated_of_isClosedImmersion D.B (limitBase D.system) D.containsLimitBase
-    (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
   (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
     (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).FullSubcategory)
   (adj : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι ⊣ DQ)
@@ -115,6 +118,6 @@ theorem isQuasicoherent_cone_coheratorLimitPullbackMap (n : ℕ)
   · rw [h₂]
     exact fun q => D.isQuasicoherentOnSite_homology_K n q
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space

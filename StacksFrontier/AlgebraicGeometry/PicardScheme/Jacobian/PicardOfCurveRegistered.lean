@@ -12,7 +12,13 @@ with the smoothness of the Abel morphisms of degree `d ≥ 2g - 1`
 
 ## Main results
 
-* `Stacks.RigidifiedPicard.exists_picardScheme` — **[Stacks, Tag 0BA0]**.
+* `Stacks.RigidifiedPicard.exists_picardScheme` — **[Stacks, Tag 0BA0]**, all six clauses. This
+  is the complete registration of the tag. The clause-wise registrations of
+  `StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurve.lean` and
+  `StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurvePoints.lean` state the clauses on the big
+  fppf site; there clause (2) is `Stacks.AbelMap.picardScheme_clause_two_bijOn`, the natural map
+  on `k`-points being a bijection, which supersedes the equipotence
+  `Stacks.AbelMap.picardScheme_clause_two`.
 -/
 
 @[expose] public noncomputable section
@@ -27,7 +33,9 @@ namespace Stacks.RigidifiedPicard
 of genus `g` over `k`. Choosing a rational point `σ`, the Picard functor is represented by a group
 scheme `P` (`Pic_{X/k} ≅ Pic_{X/k,σ}`, [Stacks, Tag 0B9Z]), and:
 1. `P` is the disjoint union of the open and closed `P^d`, `g`-dimensional smooth proper varieties;
-2. the `k`-points of `P^d` are the invertible `𝒪_X`-modules of degree `d`;
+2. the `k`-points of `P^d` are the invertible `𝒪_X`-modules of degree `d`: the natural map
+   `pointClassOf`, sending a rational point to the class it classifies, is a bijection from the
+   rational points landing in `P^d` onto the classes of degree `d`;
 3. `P^0` is an open and closed subgroup scheme;
 4. for `d ≥ 0` there is the canonical Abel morphism `γ_d : Hilb^d_{X/k} ⟶ P^d`, classifying the
    rigidified class of `𝒪(D_univ)`;

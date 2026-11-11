@@ -25,7 +25,10 @@ because the `Tor` sheaves vanish above the dimension of `X`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.TorFormula.intersectionProductCycle` — **Tag 0AZR**, the alternating sum.
+* `AlgebraicGeometry.TorFormula.intersectionProductCycle` — the alternating sum, given the
+  support bounds. The intersection product of Tag 0AZR, with the bounds proved from proper
+  intersection, is `AlgebraicGeometry.TorFormula.subvarietyIntersectionProduct` in
+  `StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.SubvarietyIntersectionProduct`.
 
 ## Main results
 
@@ -43,9 +46,10 @@ The alternating sum is a `finsum` over `ℕ`. That is total whatever the summand
 the source rather than an artefact of the convention: on a regular scheme of dimension at most
 `d` every summand with `i > d` is zero, by the vanishing clause of Tag 0AZT.
 
-The delta-dimension bounds on the supports are taken as a hypothesis `hFk`, one for each `i`,
-in the same style as `Stacks.Chow.cycleAssociatedToCoherentSheaf`, which likewise takes the
-bound for the single sheaf it forms the cycle of rather than deriving it.
+The delta-dimension bounds on the supports are a parameter `hFk`, one for each `i`, in the same
+style as `Stacks.Chow.cycleAssociatedToCoherentSheaf`, since for two arbitrary coherent modules
+they need not hold. For the structure sheaves of two properly intersecting closed subvarieties
+they are proved by `schemeDeltaDimension_torSheaf_subvariety_le_sub`.
 
 ## References
 
@@ -81,19 +85,12 @@ theorem coherentSheafCycle_eq_zero_of_isZero (C : Stacks.Chow.ChowSituation.{u})
   change Stacks.Chow.sheafCycleCoeff C f F k x = 0
   simp [Stacks.Chow.sheafCycleCoeff, hx]
 
-/-- **Stacks 0AZR: the intersection product.** For coherent `𝒪_X`-modules `ℱ` and `𝒢` on a
-regular scheme, the alternating sum `∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(ℱ, 𝒢)]_k` of the cycles of the `Tor`
-sheaves. For `ℱ = 𝒪_W` and `𝒢 = 𝒪_V` the structure sheaves of two closed subvarieties of
-dimensions `s` and `r` which intersect properly, and `k = r + s - dim X`, this is the
-intersection product `W · V`. -/
-@[stacks 0AZR "the intersection product `W · V = ∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(𝒪_W, 𝒪_V)]_{r+s-dim X}` \
-of Section 43.14, as a cycle. It is formed here for two arbitrary coherent modules on a regular \
-scheme and an arbitrary dimension index `k`, of which the source's `W · V` is the case of the \
-structure sheaves of two properly intersecting closed subvarieties with `k = r + s - dim X`. \
-The source's hypothesis that `V` and `W` intersect properly — which it says is what makes the \
-definition legitimate — enters as the hypothesis `hFk` bounding the delta-dimension of the \
-support of each `Tor` sheaf by `k`, the bound that `Stacks.Chow.coherentSheafCycle` needs. That \
-the alternating sum is finite is `finite_support_torSheafCycle`."]
+/-- **The Tor-formula alternating sum.** For coherent `𝒪_X`-modules `ℱ` and `𝒢` on a regular
+scheme, the alternating sum `∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(ℱ, 𝒢)]_k` of the cycles of the `Tor` sheaves,
+for a given bound `hFk` on the supports. For `ℱ = 𝒪_W` and `𝒢 = 𝒪_V` the structure sheaves of two
+closed subvarieties of dimensions `s` and `r` which intersect properly, and `k = r + s - dim X`,
+the bound is proved and this is the intersection product `W · V` of Tag 0AZR,
+`AlgebraicGeometry.TorFormula.subvarietyIntersectionProduct`. -/
 def intersectionProductCycle (C : Stacks.Chow.ChowSituation.{u}) {X : Scheme.{u}} (f : X ⟶ C.S)
     [LocallyOfFiniteType f] (hX : IsRegular X) (F G : X.Modules)
     (hF : SheafOfModules.IsCoherent F) (hG : SheafOfModules.IsCoherent G) (k : ℤ)

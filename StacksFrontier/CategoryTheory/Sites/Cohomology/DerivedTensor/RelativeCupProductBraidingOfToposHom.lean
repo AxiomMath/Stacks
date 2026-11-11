@@ -28,14 +28,16 @@ commutes in `D(𝒪')`, where `ψ` is the commutativity constraint of [Stacks, T
 
 ## Implementation notes
 
-*Which morphisms of ringed topoi.* The registration in
+*Which morphisms of ringed topoi.* The theorem
+`Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_braiding_unconditional` in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/RelativeCupProductBraiding.lean`
 covers a morphism presented by a continuous functor of the underlying sites that is a morphism
 of sites (`AlgebraicGeometry.RingedToposSiteHom` with `hmos`). Not every morphism of topoi
 `Sh(C) ⟶ Sh(C')` is induced by a functor `C' ⥤ C`; the source only gets one after replacing the
 sites. So that statement is narrower than the source. The statement here is about the
 two-field `AlgebraicGeometry.RingedToposHom` of Tag 01D3, part (2). Its geometric datum is a
-morphism of the underlying topoi, and nothing is asked of the sites.
+morphism of the underlying topoi, and nothing is asked of the sites. This is the declaration
+that carries the tag.
 
 *No hypothesis, and no instance is a binder.* The theorem is stated with no class argument
 of its own. Every instance its statement mentions comes from instance search, at

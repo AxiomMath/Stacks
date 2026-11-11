@@ -840,10 +840,14 @@ lemma comap_span_ne_mRPoint (ha0 : a ≠ 0) (ha1 : a ≠ 1) {p : Polynomial ℚ}
 
 end Spec
 
-/-- **Headline.** The image of `θ : Spec R_a → Spec R` is **not** the basic
-open `D(f)` of any element `f ∈ R`. Hence `Spec R_a ⊂ Spec R` is an affine
-open which is not standard / principal. -/
-@[stacks 00F1]
+/-- The image of `θ : Spec R_a → Spec R` is **not** the basic open `D(f)` of any
+element `f ∈ R`. Hence `Spec R_a ⊂ Spec R` is an affine open which is not standard /
+principal.
+
+This is an extra observation, not a claim of the Stacks example: it is used below
+to show that `R_a` is not a localization of `R`, where the source argues with units
+instead. -/
+@[stacks 00F1 "extra observation: the image of `θ` is not a basic open of `Spec R`"]
 theorem range_comap_inclRToRa_ne_basicOpen (a : ℚ)
     (ha0 : a ≠ 0) (ha1 : a ≠ 1) (ha12 : a ≠ 1 / 2) (f : R) :
     Set.range (PrimeSpectrum.comap (inclRToRa a ha0 ha1).toRingHom) ≠
@@ -907,6 +911,197 @@ theorem not_exists_isLocalization (a : ℚ)
   rw [SetLike.mem_coe, PrimeSpectrum.mem_basicOpen, Set.mem_ofPred_eq]
   refine ⟨fun h hs => Set.disjoint_left.mp ((key p).mp h) hsS hs, fun h hp => h ?_⟩
   simpa [hp] using hsm
+
+/-! ## Generators of `R_a` -/
+
+section Generators
+
+variable {a : ℚ}
+
+/-- The element `1/(z - a)` of `L a = ℚ[z, 1/(z-a)]`. -/
+abbrev invXSubC (a : ℚ) : L a := IsLocalization.Away.invSelf (X - C a : Polynomial ℚ)
+
+/-- The element `(a² - a)/(z - a) + z` of `L a = ℚ[z, 1/(z-a)]`. -/
+def wElem (a : ℚ) : L a :=
+  algebraMap ℚ (L a) (a ^ 2 - a) * invXSubC a + algebraMap (Polynomial ℚ) (L a) X
+
+/-- `(z - a) · ((a² - a)/(z - a) + z) = (a² - a) + (z - a) z`. -/
+lemma algebraMap_X_sub_C_mul_wElem :
+    algebraMap (Polynomial ℚ) (L a) (X - C a) * wElem a =
+      algebraMap (Polynomial ℚ) (L a) (C (a ^ 2 - a) + (X - C a) * X) := by
+  have h := IsLocalization.Away.mul_invSelf (S := L a) (X - C a : Polynomial ℚ)
+  rw [wElem, IsScalarTower.algebraMap_apply ℚ (Polynomial ℚ) (L a), Polynomial.algebraMap_eq,
+    map_add, map_mul]
+  linear_combination (algebraMap (Polynomial ℚ) (L a) (C (a ^ 2 - a))) * h
+
+/-- The value of `(a² - a)/(z - a) + z` at `z = 0` and at `z = 1` is `1 - a`. -/
+lemma evalLift_wElem {r : ℚ} (hr : r = 0 ∨ r = 1) (h : r ≠ a) :
+    evalLift a r h (wElem a) = 1 - a := by
+  have hra : r - a ≠ 0 := sub_ne_zero.mpr h
+  have key := congrArg (evalLift a r h) (algebraMap_X_sub_C_mul_wElem (a := a))
+  rw [map_mul, evalLift_algebraMap, evalLift_algebraMap] at key
+  simp only [eval_sub, eval_X, eval_C, eval_add, eval_mul] at key
+  refine mul_left_cancel₀ hra ?_
+  rw [key]
+  rcases hr with rfl | rfl <;> ring
+
+/-- The generator `z² - z` of `R_a`. -/
+def genA (a : ℚ) (ha0 : a ≠ 0) (ha1 : a ≠ 1) : Ra a ha0 ha1 :=
+  ⟨algebraMap (Polynomial ℚ) (L a) (X ^ 2 - X), by
+    rw [mem_Ra, evalLift_algebraMap, evalLift_algebraMap]; simp⟩
+
+/-- The generator `z³ - z` of `R_a`. -/
+def genB (a : ℚ) (ha0 : a ≠ 0) (ha1 : a ≠ 1) : Ra a ha0 ha1 :=
+  ⟨algebraMap (Polynomial ℚ) (L a) (X ^ 3 - X), by
+    rw [mem_Ra, evalLift_algebraMap, evalLift_algebraMap]; simp⟩
+
+/-- The generator `(a² - a)/(z - a) + z` of `R_a`. -/
+def genW (a : ℚ) (ha0 : a ≠ 0) (ha1 : a ≠ 1) : Ra a ha0 ha1 :=
+  ⟨wElem a, by rw [mem_Ra, evalLift_wElem (.inl rfl), evalLift_wElem (.inr rfl)]⟩
+
+/-- The `ℚ`-submodule `ℚ[z] + ℚ[w]` of `L a`, where `w = (a² - a)/(z - a) + z`. -/
+def polySupAeval (a : ℚ) : Submodule ℚ (L a) :=
+  LinearMap.range (IsScalarTower.toAlgHom ℚ (Polynomial ℚ) (L a)).toLinearMap ⊔
+    LinearMap.range (Polynomial.aeval (wElem a)).toLinearMap
+
+lemma algebraMap_mem_polySupAeval (g : Polynomial ℚ) :
+    algebraMap (Polynomial ℚ) (L a) g ∈ polySupAeval a :=
+  Submodule.mem_sup_left ⟨g, rfl⟩
+
+lemma aeval_mem_polySupAeval (P : Polynomial ℚ) : Polynomial.aeval (wElem a) P ∈ polySupAeval a :=
+  Submodule.mem_sup_right ⟨P, rfl⟩
+
+/-- `g(z) · wⁿ ∈ ℚ[z] + ℚ[w]` for every polynomial `g` and every `n`. -/
+lemma algebraMap_mul_wElem_pow_mem (n : ℕ) (g : Polynomial ℚ) :
+    algebraMap (Polynomial ℚ) (L a) g * wElem a ^ n ∈ polySupAeval a := by
+  induction n generalizing g with
+  | zero => simpa using algebraMap_mem_polySupAeval g
+  | succ n ih =>
+    have hg : g = (X - C a) * (g /ₘ (X - C a)) + C (g.eval a) := by
+      rw [← modByMonic_X_sub_C_eq_C_eval, add_comm, modByMonic_add_div]
+    have hC : algebraMap (Polynomial ℚ) (L a) (C (g.eval a)) * wElem a ^ (n + 1) =
+        Polynomial.aeval (wElem a) (C (g.eval a) * X ^ (n + 1)) := by
+      rw [map_mul, Polynomial.aeval_C, map_pow, Polynomial.aeval_X,
+        IsScalarTower.algebraMap_apply ℚ (Polynomial ℚ) (L a), Polynomial.algebraMap_eq]
+    have hsplit : algebraMap (Polynomial ℚ) (L a) g * wElem a ^ (n + 1) =
+        algebraMap (Polynomial ℚ) (L a) (g /ₘ (X - C a) * (C (a ^ 2 - a) + (X - C a) * X)) *
+          wElem a ^ n + Polynomial.aeval (wElem a) (C (g.eval a) * X ^ (n + 1)) := by
+      rw [← hC, map_mul, ← algebraMap_X_sub_C_mul_wElem]
+      conv_lhs => rw [hg]
+      rw [map_add, map_mul]
+      ring
+    rw [hsplit]
+    exact add_mem (ih _) (aeval_mem_polySupAeval _)
+
+/-- Multiplication by `g(z)` preserves `ℚ[z] + ℚ[w]`. -/
+lemma algebraMap_mul_mem {g : Polynomial ℚ} {q : L a} (hq : q ∈ polySupAeval a) :
+    algebraMap (Polynomial ℚ) (L a) g * q ∈ polySupAeval a := by
+  obtain ⟨_, ⟨g', rfl⟩, _, ⟨P, rfl⟩, rfl⟩ := Submodule.mem_sup.mp hq
+  rw [mul_add]
+  refine add_mem ?_ ?_
+  · simpa [← map_mul] using algebraMap_mem_polySupAeval (g * g')
+  · simp only [AlgHom.toLinearMap_apply]
+    clear hq
+    induction P using Polynomial.induction_on' with
+    | add P Q hP hQ => rw [map_add, mul_add]; exact add_mem hP hQ
+    | monomial n c =>
+      rw [Polynomial.aeval_monomial, ← mul_assoc,
+        IsScalarTower.algebraMap_apply ℚ (Polynomial ℚ) (L a), Polynomial.algebraMap_eq,
+        ← map_mul]
+      exact algebraMap_mul_wElem_pow_mem n _
+
+/-- Multiplication by `w` preserves `ℚ[z] + ℚ[w]`. -/
+lemma wElem_mul_mem {q : L a} (hq : q ∈ polySupAeval a) :
+    wElem a * q ∈ polySupAeval a := by
+  obtain ⟨_, ⟨g', rfl⟩, _, ⟨P, rfl⟩, rfl⟩ := Submodule.mem_sup.mp hq
+  rw [mul_add]
+  refine add_mem ?_ ?_
+  · simpa [mul_comm] using algebraMap_mul_wElem_pow_mem 1 g'
+  · simp only [AlgHom.toLinearMap_apply]
+    have h : Polynomial.aeval (wElem a) (X * P) = wElem a * Polynomial.aeval (wElem a) P := by
+      rw [map_mul, Polynomial.aeval_X]
+    exact h ▸ aeval_mem_polySupAeval _
+
+/-- Every element of `L a` lies in `ℚ[z] + ℚ[w]`. -/
+lemma mem_polySupAeval (ha0 : a ≠ 0) (ha1 : a ≠ 1) (f : L a) : f ∈ polySupAeval a := by
+  have hc : a ^ 2 - a ≠ 0 := by
+    rw [sq, ← mul_sub_one]; exact mul_ne_zero ha0 (sub_ne_zero.mpr ha1)
+  have hinv : invXSubC a = algebraMap ℚ (L a) (a ^ 2 - a)⁻¹ *
+      (wElem a - algebraMap (Polynomial ℚ) (L a) X) := by
+    rw [wElem, add_sub_cancel_right, ← mul_assoc, ← map_mul, inv_mul_cancel₀ hc, map_one,
+      one_mul]
+  have ht : ∀ q ∈ polySupAeval a, invXSubC a * q ∈ polySupAeval a := fun q hq => by
+    rw [hinv, mul_assoc, ← Algebra.smul_def, sub_mul]
+    exact Submodule.smul_mem _ _ (sub_mem (wElem_mul_mem hq) (algebraMap_mul_mem hq))
+  have htn : ∀ n : ℕ, invXSubC a ^ n ∈ polySupAeval a := fun n => by
+    induction n with
+    | zero => simpa using algebraMap_mem_polySupAeval (a := a) 1
+    | succ n ih => rw [pow_succ', ← mul_one (_ * _), mul_assoc, mul_one]; exact ht _ ih
+  obtain ⟨n, p, hp⟩ := IsLocalization.Away.surj (X - C a : Polynomial ℚ) f
+  have hf : f = algebraMap (Polynomial ℚ) (L a) p * invXSubC a ^ n := by
+    rw [← hp, mul_assoc, ← mul_pow, IsLocalization.Away.mul_invSelf, one_pow, mul_one]
+  rw [hf]
+  exact algebraMap_mul_mem (htn n)
+
+/-- The image of every element of `R` under `R → R_a` lies in `ℚ[z² - z, z³ - z]`. -/
+lemma inclRToRa_mem_adjoin (ha0 : a ≠ 0) (ha1 : a ≠ 1) (f : R) :
+    inclRToRa a ha0 ha1 f ∈
+      Algebra.adjoin ℚ {genA a ha0 ha1, genB a ha0 ha1, genW a ha0 ha1} := by
+  obtain ⟨m, rfl⟩ := φ_surjective f
+  induction m using MvPolynomial.induction_on with
+  | C c => simp
+  | add p q hp hq => simpa using add_mem hp hq
+  | mul_X p i hp =>
+    rw [map_mul, map_mul]
+    refine mul_mem hp ?_
+    have hA : genA a ha0 ha1 ∈ Algebra.adjoin ℚ {genA a ha0 ha1, genB a ha0 ha1, genW a ha0 ha1} :=
+      Algebra.subset_adjoin (by simp)
+    have hB : genB a ha0 ha1 ∈ Algebra.adjoin ℚ {genA a ha0 ha1, genB a ha0 ha1, genW a ha0 ha1} :=
+      Algebra.subset_adjoin (by simp)
+    fin_cases i
+    · convert hA using 1
+      apply Subtype.ext
+      simp [coe_inclRToRa, coe_φ_X_zero, genA]
+    · convert sub_mem hB hA using 1
+      apply Subtype.ext
+      simp only [Fin.mk_one, Fin.isValue, coe_inclRToRa, coe_φ_X_one, genA, genB,
+        Subalgebra.coe_sub]
+      rw [← map_sub]
+      congr 1
+      ring
+
+/-- The functions `z² - z`, `z³ - z` and `(a² - a)/(z - a) + z` generate `R_a` as a
+`ℚ`-algebra. The source assumes `a ∉ {0, ½, 1}`; only `a ≠ 0, 1` is needed. -/
+@[stacks 00F1 "`z² - z`, `z³ - z` and `(a² - a)/(z - a) + z` generate `R_a` as a
+`ℚ`-algebra"]
+theorem adjoin_genA_genB_genW_eq_top (a : ℚ) (ha0 : a ≠ 0) (ha1 : a ≠ 1) :
+    Algebra.adjoin ℚ {genA a ha0 ha1, genB a ha0 ha1, genW a ha0 ha1} = ⊤ := by
+  refine eq_top_iff.mpr fun f _ => ?_
+  set S := Algebra.adjoin ℚ {genA a ha0 ha1, genB a ha0 ha1, genW a ha0 ha1}
+  obtain ⟨_, ⟨g, rfl⟩, _, ⟨P, rfl⟩, hgP⟩ := Submodule.mem_sup.mp (mem_polySupAeval ha0 ha1 f.1)
+  simp only [AlgHom.toLinearMap_apply, IsScalarTower.coe_toAlgHom'] at hgP
+  have hPw : ((Polynomial.aeval (genW a ha0 ha1) P : Ra a ha0 ha1) : L a) =
+      Polynomial.aeval (wElem a) P :=
+    (Polynomial.aeval_algHom_apply (Ra a ha0 ha1).val (genW a ha0 ha1) P).symm
+  have hPS : Polynomial.aeval (genW a ha0 ha1) P ∈ S :=
+    Algebra.adjoin_mono (by simp) (Polynomial.aeval_mem_adjoin_singleton ℚ _)
+  have hgRa : algebraMap (Polynomial ℚ) (L a) g ∈ Ra a ha0 ha1 := by
+    have := sub_mem f.2 (Polynomial.aeval (genW a ha0 ha1) P).2
+    rwa [hPw, ← hgP, add_sub_cancel_right] at this
+  have hfe : f = inclRToRa a ha0 ha1 ⟨g, mem_R_of_algebraMap_mem_Ra hgRa⟩ +
+      Polynomial.aeval (genW a ha0 ha1) P := by
+    apply Subtype.ext
+    rw [Subalgebra.coe_add, hPw, coe_inclRToRa, ← hgP]
+  rw [hfe]
+  exact add_mem (inclRToRa_mem_adjoin ha0 ha1 _) hPS
+
+/-- `R_a` is a finitely generated `ℚ`-algebra. -/
+@[stacks 00F1 "`R_a` is a finitely generated `ℚ`-algebra"]
+theorem finiteType_Ra (a : ℚ) (ha0 : a ≠ 0) (ha1 : a ≠ 1) :
+    Algebra.FiniteType ℚ (Ra a ha0 ha1) :=
+  ⟨Subalgebra.fg_def.mpr ⟨_, Set.toFinite _, adjoin_genA_genB_genW_eq_top a ha0 ha1⟩⟩
+
+end Generators
 
 end
 

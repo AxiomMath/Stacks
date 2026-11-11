@@ -23,9 +23,11 @@ hypothesis, making the isomorphism unconditional.
 
 ## Main definitions
 
-* `reductionComparisonQIsoOfRegular`: **the canonical isomorphism of Tag 0GT9 in `D(O_X)`, in
-  Situation 0GT4, with no hypothesis beyond the situation.**  Its forward map is the canonical
-  arrow `reductionComparisonQ` by `rfl` (`reductionComparisonQIsoOfRegular_hom`).
+* `reductionComparisonQIsoOfRegular`: **the chain-level isomorphism of the proof of Tag 0GT9 in
+  `D(O_X)`, in Situation 0GT4, with no hypothesis beyond the situation.**  Its forward map is the
+  canonical arrow `reductionComparisonQ` by `rfl` (`reductionComparisonQIsoOfRegular_hom`).  The
+  tag itself, for the objects `Lη_I M ⊗^L O_X/I` and `H^•(M/I)`, is
+  `ReductionDerived.reductionDerivedTensorIso`.
 
 ## Main results
 
@@ -41,8 +43,8 @@ hypothesis, making the isomorphism unconditional.
   These are the first inhabitants of that predicate.
 * `quasiIso_reductionComparisonChainMap_of_isLocallyGeneratedByRegular` and
   `acyclic_reductionComparisonKernel_of_isLocallyGeneratedByRegular`: the chain-level forms.
-* `isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular`: **the canonical arrow of Tag 0GT9
-  is invertible in `D(O_X)`**, in Situation 0GT4.
+* `isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular`: **the chain-level arrow of the
+  proof of Tag 0GT9 is invertible in `D(O_X)`**, in Situation 0GT4.
 
 ## Implementation notes
 
@@ -65,11 +67,12 @@ mention it.  Condition (1) implies it
 
 ### Which declarations carry the tag
 
-The tag's own words are "there is a canonical isomorphism".  Two declarations state that and
-both carry `@[stacks 0GT9]`: `reductionComparisonQIsoOfRegular`, which is the isomorphism as
-*data* with its forward map pinned to the canonical arrow, and
-`isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular`, which is the same fact as a
-proposition about that arrow.  Neither has a hypothesis outside Situation 0GT4.
+None of the declarations here carries `@[stacks 0GT9]`.  They are about the chain-level
+complexes `etaModIdealComplex` and `bocksteinChainComplex` of a termwise `I`-torsion-free
+complex, the ingredient of the source's proof; the tag itself, an isomorphism
+`Lη_I M ⊗^L O_X/I ≅ H^•(M/I)` for every `M` in `D(O_X)` between the objects named in the source,
+is `ReductionDerived.reductionDerivedTensorIso`
+(`EtaSheafReductionDerivedTensor.lean`), which uses `reductionComparisonQIsoOfRegular`.
 
 The derived category is taken at the standard localization model, as in
 `EtaSheafReductionDerivedIso.lean`, so an importer wanting to compose with other
@@ -207,17 +210,16 @@ public theorem acyclic_reductionComparisonKernel_of_isLocallyGeneratedByRegular
   acyclic_reductionComparisonKernel_of_hasStalkBocksteinSquare X I ι F hF
     (hasStalkBocksteinSquare_of_isLocallyGeneratedByRegular X I ι hregl F hF)
 
-/-! ### The tag's conclusion in `D(O_X)` -/
+/-! ### The chain-level comparison in `D(O_X)` -/
 
-/-- **Stacks Project, Tag 0GT9.**  In Situation 0GT4, on a complex `F` of `I`-torsion-free
-`O_X`-modules, the canonical arrow
+/-- **The chain-level comparison of Tag 0GT9 is invertible in `D(O_X)`.**  In Situation 0GT4,
+on a complex `F` of `I`-torsion-free `O_X`-modules, the canonical arrow
 
 `η_I F ⊗ O_X/I ⟶ H^•(F/I)`
 
 of `D(O_X)` is invertible.  The inputs are those of the situation: the ideal is locally generated
 by a nonzerodivisor and `F` is termwise `I`-torsion-free, which is what Lemma 20.55.6 provides for
 an arbitrary object of `D(O_X)`. -/
-@[stacks 0GT9 "in Situation 0GT4: the canonical arrow of D(O_X) is invertible"]
 public theorem isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj (Oₓ).property I]
@@ -228,16 +230,16 @@ public theorem isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular
   (isIso_reductionComparisonQ_iff_quasiIso X I ι F hF).2
     (quasiIso_reductionComparisonChainMap_of_isLocallyGeneratedByRegular X I ι hregl F hF)
 
-/-- **Stacks Project, Tag 0GT9.**  The canonical isomorphism
+/-- **The chain-level isomorphism of the proof of Tag 0GT9.**  The canonical isomorphism
 
 `η_I F ⊗ O_X/I ≅ H^•(F/I)` in `D(O_X)`,
 
-in Situation 0GT4, as an explicit isomorphism.  This is the tag's own
-conclusion: "there is a canonical isomorphism".
+in Situation 0GT4, as an explicit isomorphism between the chain-level complexes of the proof.
+`ReductionDerived.reductionDerivedTensorIso` identifies its two ends with the objects
+`Lη_I M ⊗^L O_X/I` and `H^•(M/I)` of the tag.
 
 The forward map is `DerivedCategory.Q.map` of the named chain map `reductionComparisonChainMap`,
 and `reductionComparisonQIsoOfRegular_hom` says so by `rfl`. -/
-@[stacks 0GT9 "in Situation 0GT4: the canonical isomorphism in D(O_X)"]
 public noncomputable def reductionComparisonQIsoOfRegular
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj (Oₓ).property I]
@@ -284,19 +286,17 @@ public theorem exists_torsionFree_isIso_reductionComparisonQ_of_isLocallyGenerat
   exact ⟨F, p, hF, hq,
     isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular X I ι hregl F hF⟩
 
-/-- **Stacks Project, Tag 0GT9, at the tag's own quantifier.**  In Situation 0GT4, for an
-arbitrary object `M` of `D(O_X)` there is a complex `F` of `I`-torsion-free `O_X`-modules with
+/-- **The chain-level comparison of Tag 0GT9 on a representative of an object.**  In
+Situation 0GT4, for an arbitrary object `M` of `D(O_X)` there is a complex `F` of
+`I`-torsion-free `O_X`-modules with
 `Q F ≅ M` on which the canonical arrow
 
 `η_I F ⊗ O_X/I ⟶ H^•(F/I)`
 
-is invertible.  This is the tag read with its own "let `M` be an object of `D(O_X)`": the
-representative is produced by the proof.  Its existence is
+is invertible.  The representative is produced by the proof.  Its existence is
 `Eta.torsionFreeResolutions_of_isLocallyGeneratedByRegular` composed with the essential
 surjectivity of `DerivedCategory.Q`, and the invertibility is
 `isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular`. -/
-@[stacks 0GT9 "in Situation 0GT4, for an arbitrary object of D(O_X): a termwise \
-I-torsion-free representative exists and the canonical arrow is invertible on it"]
 public theorem exists_isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj (Oₓ).property I]

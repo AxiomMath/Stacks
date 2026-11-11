@@ -42,16 +42,16 @@ at it directly, with no module-level comparison left to construct.
 
 ## What this does and does not settle
 
-The abelian-sheaf vanishing is *not* proved here: it is the composite of the four cited results,
-and the module documentation of
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedLimitOfTruncations.lean` records that
-none of them is available in the form needed.  What is settled is that at the hom universe of
-the site of schemes the gap is entirely at the abelian-sheaf level: no comparison between
+The abelian-sheaf vanishing is not proved in this file.  For an essentially small category
+fibred in groupoids it is proved, by the Čech argument of
+`AlgebraicGeometry.Stack.isZero_sheafCohomology_of_isLocallyQuasicoherent`, and the
+module-valued vanishing follows as `AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules`; the
+resulting statement of Stacks 08IY is
+`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc_algebraicStack`.
+What this file records is that at the hom universe of the site of schemes no comparison between
 module-valued and abelian-sheaf cohomology over an object remains to be built, because
 `Stacks.Cohomology.ModuleDirectImageOnACover.isZero_rightDerived_evaluation_of_isZero_H'`
-already provides it at a site whose objects may live above its morphisms.  At the hom universe
-`u + 1` of an object of `AlgebraicGeometry.Stack.AlgebraicStacks` that comparison is not
-available, and the implementation notes below say exactly where it fails.
+already provides it at a site whose objects may live above its morphisms.
 
 ## Implementation notes
 
@@ -62,11 +62,9 @@ sections over an object by an object of `Mod(𝒪_𝒳)` whose `Ext`-groups are 
 module sections must both sit in the hom universe of the site for that corepresentation to
 typecheck.  The configuration is the one of
 `AlgebraicGeometry.BigFppfOver`, whose objects lie in `Type (u + 1)` and whose morphisms lie in
-`Type u`; it is *not* the configuration of an object of
-`AlgebraicGeometry.Stack.AlgebraicStacks`, whose morphisms lie in `Type (u + 1)` while its
-modules still lie in `Type u`.  So this reduction does not apply to
-`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc'`, and the hom universe is
-the one place where the two differ.
+`Type u`, which is also that of an object of `AlgebraicGeometry.Stack.AlgebraicStacks`.  It is not
+the configuration of `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc'`,
+whose site has its morphisms in `Type (u + 1)`, so this reduction does not apply there.
 
 The `Ext` universe is `max v u`, the morphism universe of the sheaf category on a site with
 objects in `Type v` and coefficients in `AddCommGrpCat.{u}`.  That is the universe at which
@@ -163,9 +161,8 @@ schemes.
 
 This is `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc` with `hvan`
 supplied by `hasAffineAcyclicLqcFbcModules_of_isZero_sheafCohomology`.  The covering class is
-still carried as `hB`; on a site whose morphisms lie in `Type (u + 1)` it is discharged by
-`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver`, which is a different hom universe from
-the one here. -/
+still carried as `hB`; on an essentially small site it is discharged by
+`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver_of_essentiallySmall`. -/
 theorem exists_isDerivedLimit_truncGETower_of_isZero_sheafCohomology
     (K : DerivedCategory (fppfSiteModules B S hS p hp))
     (hK : ∀ i : ℤ, IsLocallyQuasicoherentWithFlatBaseChange B E h S hS p hp

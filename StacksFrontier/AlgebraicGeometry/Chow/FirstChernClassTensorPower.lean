@@ -40,8 +40,8 @@ the ampleness theory's tensor product is a sheafification that does not reduce t
 
 Everything is stated at the cycle level, against `Stacks.Chow.firstChernClassCapOfInvertible`
 rather than the descended operation `Stacks.Chow.firstChernClassCapOnChow` of
-[Stacks, Tag 02TI]: the descended operation carries the factorisation hypothesis of that tag,
-which is not proved in this repository, and the identity needs none of it.
+[Stacks, Tag 02TI]: the identity holds already on cycles and needs no factorisation through
+rational equivalence.
 
 No `@[stacks 02SP]` attribute is carried here. The tag's two assertions are the additivity and
 the vanishing, both proved in

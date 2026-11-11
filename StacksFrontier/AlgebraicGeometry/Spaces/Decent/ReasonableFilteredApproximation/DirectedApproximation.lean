@@ -277,9 +277,13 @@ By `AlgebraicGeometry.Space.isAbsolutelyQuasiSeparated_of_directedApproximation`
 quasi-separatedness hypothesis is also *necessary* when `X` is a scheme, so the statement of
 Stacks 03K0 is not available for a general quasi-compact reasonable `X`; the hypothesis is
 the correction, and an approximation of a non-quasi-separated `X` exists only after clause
-(1) is restricted to quasi-compact quasi-separated test schemes. -/
-@[stacks 03K0 "correction: clause (1) as literally stated holds only for quasi-separated X,\
-  and is proved here under that hypothesis"]
+(1) is restricted to quasi-compact quasi-separated test schemes.
+
+This special case does not carry the Stacks 03K0 registration: the tag is carried by
+`AlgebraicGeometry.Space.exists_correctedDirectedApproximation` (the corrected statement, for
+every quasi-compact reasonable `X`) together with the two refutations of the literal clause
+(1), `AlgebraicGeometry.Space.isAbsolutelyQuasiSeparated_of_directedApproximation` and
+`AlgebraicGeometry.Space.exists_quasiCompact_reasonable_isEmpty_directedApproximation`. -/
 theorem exists_directedApproximation_of_isAbsolutelyQuasiSeparated
     (X : Sheaf (BigFppfOver.topology B S hS) (Type u))
     (hX : IsAlgebraicSpace B S hS X.obj)

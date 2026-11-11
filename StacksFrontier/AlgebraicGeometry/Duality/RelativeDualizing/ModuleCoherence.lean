@@ -26,9 +26,12 @@ This file records that reduction at the relative dualizing module of
 ## Implementation notes
 
 Neither properness of `f`, nor the normalization of the base complex, nor local Noetherianity of
-the base appears: they are exactly the hypotheses of the *unproved* half of the example, which
-is the hypothesis `h` here. The quasi-coherence-preservation datum `hpush` and the adjointness of
-the restricted derived pushforward are explicit arguments, as everywhere in this directory, since
+the base appears: the reduction holds for any base. Under the hypotheses of the example the
+dualizing property is proved, and with it coherence, in
+`Stacks.Duality.isDualizingModuleOf_relativeDualizingModule` of
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingModuleProperCharts.lean`.
+The quasi-coherence-preservation datum `hpush` and the adjointness of the restricted derived
+pushforward are explicit arguments, as everywhere in this directory, since
 [Stacks, Tag 0A9E] is not available unconditionally. For a proper `f` over a Noetherian ring,
 `IsLocallyNoetherian X` comes from `AlgebraicGeometry.LocallyOfFiniteType.isLocallyNoetherian f`.
 
@@ -46,12 +49,9 @@ speaks about the standard one, so that the two sides of a `rfl` differ in exactl
 Raising the priority instantiates everything at the standard model and the statement closes by
 definitional unfolding.
 
-Tag 0AWI has a covering set of five clauses: the definition of `ω_X`, which is
-`Stacks.Duality.relativeDualizingModule`, and four assertions about it. The tag attribute
-below therefore carries a clause label recording exactly what is discharged — the
-coherence clause, and only relative to the hypothesis `h` that `f^! ω_S^•` is dualizing, i.e.
-modulo [Stacks, Tag 0AU3], which is absent from this repository. The dualizing clause itself, the
-vanishing of `H^i(ω_X^•)` below `-dim X` and the nonvanishing of `ω_X` have no proof here.
+The tag attribute for [Stacks, Tag 0AWI] is on
+`Stacks.Duality.isDualizingModuleOf_relativeDualizingModule`, which proves the whole example; the
+reduction here carries none.
 
 ## References
 
@@ -69,10 +69,9 @@ universe u
 
 namespace Stacks.Duality
 
-/-- **The "coherence" half of [Stacks, Tag 0AWI], reduced to its "dualizing complex" half.**
+/-- **Coherence of the relative dualizing module from the dualizing property.**
 The relative dualizing module `ω_X = H^{-dim X}(f^! ω_Y)` is coherent as soon as the relative
 dualizing complex `f^! ω_Y` is a dualizing complex on `X`. -/
-@[stacks 0AWI "coherence, given the dualizing-complex clause as hypothesis"]
 theorem isCoherent_relativeDualizingModule {X Y : Scheme.{u}} [IsLocallyNoetherian X] (f : X ⟶ Y)
     (hpush : ∀ (K : quasiCoherentDerivedCategory X) (i : ℤ),
       ((DerivedCategory.homologyFunctor Y.Modules i).obj

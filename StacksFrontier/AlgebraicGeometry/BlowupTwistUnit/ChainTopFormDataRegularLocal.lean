@@ -46,9 +46,11 @@ The elided prefix is `Stacks.BlowupTwistUnit`.
   shift of the model.
 * `isTildeModelOnAnyModel_topFormDualizingComplex`: `A[0]⟦2⟧` models `ω_S^•` on `⊤`.
 * `baseIsoOfTopForms`: **`ω_A = Ω^r_{S/S₀}`**, the field `baseIso` derived.
-* `exists_extendsIdentification_hullForms_chainDualizingOfTopForms`:
-  **[Stacks, Tag 0B4T]** with the family of dualizing modules constructed and the two
-  identifications proved, so that only the hypotheses of the tag are assumed.
+* `exists_extendsIdentification_hullForms_chainDualizingOfTopForms`: the induction of
+  [Stacks, Tag 0B4T] in the form `ChainTopFormData.ExtendsIdentification`, with the family of
+  dualizing modules constructed and the two identifications proved. Its conclusion restates the
+  construction; the tag itself is
+  `Stacks.BlowupTwistUnit.exists_topFormsTrace_eq_baseIsoOfTopForms_inv`.
 
 ## Implementation notes
 
@@ -264,14 +266,15 @@ def ChainTopFormData.ofTopForms (hS : IsIntegralRegularSurface S) (T : Set S) (p
 
 /-! ### The existence of the map -/
 
-/-- **Stacks Project, Tag 0B4T.** Let `A` be a regular local ring of dimension two and `A₀ ⊆ A` a
+/-- **The `ExtendsIdentification` form of the induction of [Stacks, Tag 0B4T]** over a regular
+local base of dimension two. Let `A` be a regular local ring of dimension two and `A₀ ⊆ A` a
 subring with `Ω_{A/A₀}` free of rank `r`, and set `ω_A = Ω^r_{A/A₀}`. If `X → Spec A` is the
 result of a sequence of blowups in closed points then there is a map
 
 `φ_X : (Ω^r_{X/Spec A₀})^{**} ⟶ ω_X`
 
-extending the given identification in the generic point, where `ω_X` is the dualizing module of
-`X` normalized relative to `ω_A`.
+satisfying `ChainTopFormData.ExtendsIdentification`, where `ω_X` is the dualizing module of `X`
+normalized relative to `ω_A`.
 
 Everything the symbol `ω_X` denotes is *constructed* here, not assumed. The family is
 `Stacks.BlowupTwistUnit.chainDualizingModuleOfTopForms`, that is `H^{-2}(f^!ω_S^•)` for the
@@ -286,9 +289,9 @@ ring of dimension two and `Ω_{S/S₀}` is coherent and free of rank `r`. That t
 two-dimensional local rings is *derived*, by
 `Stacks.BlowupTwistUnit.ringKrullDim_stalk_eq_two_of_pointBlowupChain`.
 
-The extension clause is `Stacks.BlowupTwistUnit.ChainTopFormData.ExtendsIdentification`, pinned
-rigidly by `Stacks.BlowupTwistUnit.ChainTopFormData.eq_baseHom_of_toReflexiveHull_comp` and
-`Stacks.BlowupTwistUnit.ChainTopFormData.eq_step_of_stepDualityEquiv`, and the direct-image
+The clause `Stacks.BlowupTwistUnit.ChainTopFormData.ExtendsIdentification` determines `φ_X` from
+the construction, by `Stacks.BlowupTwistUnit.ChainTopFormData.eq_baseHom_of_toReflexiveHull_comp`
+and `Stacks.BlowupTwistUnit.ChainTopFormData.eq_step_of_stepDualityEquiv`, and the direct-image
 comparison the induction consumes is the *morphism*
 `Stacks.BlowupTwistUnit.ChainTopFormData.pushforwardHom`, derived rather than assumed — the
 isomorphism the source's proof asserts there is false, an erratum to the Stacks Project.
@@ -321,20 +324,18 @@ lemma it reaches, `CochainComplex.DerivedExtensionScalars.isLeftDerivedFunctor_o
 eighteen `private` declarations of that module; and
 `StacksFrontier/AlgebraicGeometry/Perfect/RelativeDescentStandardModel.lean` carries the same
 `import all`, names the same lemma in the same proof shape, and is clean. The two files differ in
-which derived-category model they read, which is where a fix should be looked for. -/
-@[stacks 0B4T "the map phi_X from the reflexive hull of the top relative differential forms to \
-the dualizing module omega_X normalized relative to omega_A, extending the given identification \
-at the generic point, for every sequence of blowups in closed points of a regular local base of \
-dimension two. The family omega_X is constructed, not a parameter: it is H^{-2} of the twisted \
-inverse image of the explicit complex Omega^r in degree -2, so the identification \
-omega_A = Omega^r_{A/A_0} of the tag's definition of omega_A is proved (baseIsoOfTopForms) from \
-the invertibility of the top forms of a free module of rank r and the triviality of an \
-invertible module on the spectrum of a local ring, and the normalization \
-omega_{X'} = b^! omega_X of Section 0AU3 is proved from the Gorenstein property of Tag 0AWX. \
-The two-dimensionality of the local rings at the centres is derived too, from properness of the \
-sequence over the local base. The direct-image computation of Tags 0AGS, 0B4L and 0B3T is \
-derived, and as a morphism rather than the isomorphism the source's proof asserts, which is \
-false"]
+which derived-category model they read, which is where a fix should be looked for.
+
+*What the conclusion says.* The clause `ChainTopFormData.ExtendsIdentification` restates the
+construction rather than the extension property of the tag: its blowup clause is the duality
+correspondence with `Stacks.BlowupTwistUnit.ChainTopFormData.pushforwardHom`, and that morphism is
+built from an isomorphism chosen by `Stacks.BlowupTwistUnit.nonempty_hullFormsPullbackBranch`
+(`Nonempty.some`). Two choices differ by an automorphism of `(Ω^r_{X/A₀})^{**}`, that is by a unit,
+so the clause pins `φ_X` up to that unit and does not compare `φ_X` with the identification
+`ω_A = Ω^r_{A/A₀}` at the generic point. The tag is registered at
+`Stacks.BlowupTwistUnit.exists_topFormsTrace_eq_baseIsoOfTopForms_inv`, whose conclusion is the
+identification itself: the pullback of top forms, then `φ_X`, then the trace, is
+`(baseIsoOfTopForms hS T p r).inv`. -/
 theorem exists_extendsIdentification_hullForms_chainDualizingOfTopForms
     (hS : IsIntegralRegularSurface S) (T : Set S) (p : S ⟶ S₀) (r : ℕ)
     [(Scheme.Hom.relativeDifferentials p).IsCoherent]

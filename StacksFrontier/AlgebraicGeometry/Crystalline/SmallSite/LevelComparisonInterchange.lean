@@ -80,7 +80,7 @@ passes it through unchanged.
 **No `@[stacks]` attribute is placed in this module.**  [Stacks, Tag 07JG],
 [Stacks, Proposition 60.17.4, Tag 07JH] and [Stacks, Proposition 60.21.3, Tag 07LG] are
 `...SmallSite.crystalPairFunctor`, `...SmallSite.crystalPairFunctor_isEquivalence` and
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology`, built directly from the whole-space
+`...SmallSite.crystalPairDeRhamDerivedPlusIso`, built directly from the whole-space
 system and not through the level datum of this module.
 What is settled is that `comparison` and `comparison_naturality` are no longer statements about
 the limit: they follow from the comparison datum of a crystal at the single objects `T_e`,

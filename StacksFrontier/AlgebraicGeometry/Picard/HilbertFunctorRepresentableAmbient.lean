@@ -6,33 +6,34 @@ public import StacksFrontier.AlgebraicGeometry.Picard.HilbertSchemeSmoothness
 /-!
 # The Hilbert functor of points of a scheme whose fibres have enough affine opens
 
-Let `X ⟶ S` be a morphism of schemes and let `d` be a natural number with `d ≠ 1`. If every
-tuple of `d` points of a single fibre of `X ⟶ S` lies in an affine open of `X`, then the
-degree-`d` Hilbert functor of points `Hilb^d_{X/S}` is representable by a scheme over `S`. That
-is the proposition of Stacks Tag 0B9A verbatim, hypothesis for hypothesis, on every `d` but one:
-in the namespace `Stacks.Hilbert`,
+Let `X ⟶ S` be a morphism of schemes and let `d` be a natural number. If every tuple of `d`
+points of a single fibre of `X ⟶ S` lies in an affine open of `X`, and `X ⟶ S` is separated in
+case `d = 1`, then the degree-`d` Hilbert functor of points `Hilb^d_{X/S}` is representable by a
+scheme over `S`. That is the proposition of Stacks Tag 0B9A with the correction recorded for it in
+`errata.md`, and it carries the tag:
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`.
+For `d ≠ 1` it is the source's proposition verbatim, hypothesis for hypothesis:
 `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
-
-The value `d = 1` is where the tag is false. For `d ≤ 1` the source's `d`-tuple hypothesis is
-vacuous for every morphism of schemes; at `d = 0` the conclusion holds anyway, `Hilb^0_{X/S}`
-being `S`, but at `d = 1` it is **false** — that is a refutation, formalized here, not a gap.
-The generalisation
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem`
-reaches every `d`, the excluded value included, by asking instead for an affine open around
-every `max d 2`-tuple of points of one fibre: for `2 ≤ d` that is the source's own hypothesis,
-`max d 2 = d`, and below it the extra two-point demand is the weakest repair of the `d = 1`
-case. The last section of this docstring is about that.
+ The value `d = 1` is where the source's proposition is false as printed. For `d ≤ 1` the source's
+`d`-tuple hypothesis is vacuous for every morphism of schemes; at `d = 0` the conclusion holds
+anyway, `Hilb^0_{X/S}` being `S`, but at `d = 1` it is **false** — that is a refutation, formalized
+here, not a gap. The generalisation
+`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem` reaches
+every `d`, the excluded value included, by asking instead for an affine open around every `max d
+2`-tuple of points of one fibre: for `2 ≤ d` that is the source's own hypothesis, `max d 2 = d`, and
+below it the extra two-point demand repairs the `d = 1` case. It implies separatedness of `X ⟶ S`,
+which is the repair made in the registered statement. The last section
+of this docstring is about that.
 
 ## Main results
 
 * `AlgebraicGeometry.isSeparated_of_exists_isAffineOpen_pair` — if every *two* points of a single
   fibre of `f : X ⟶ S` lie in an affine open of `X`, then `f` is separated.
-
-The remaining results are in the namespace `Stacks.Hilbert`.
-
+* `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
+  — **Stacks Tag 0B9A**, corrected: representability of `Hilb^d_{X/S}` by a scheme, under the
+  `d`-tuple affine-open hypothesis the source states and, at `d = 1`, separatedness of `X ⟶ S`.
 * `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
-  — **Stacks Tag 0B9A**: representability of `Hilb^d_{X/S}` by a scheme, under the `d`-tuple
-  affine-open hypothesis the source states, for every `d ≠ 1`.
+  — the same for every `d ≠ 1`, where no separatedness is assumed.
 * `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`
   — the same on the range `2 ≤ d`, where the argument of the source runs.
 * `…_of_exists_isAffineOpen_forall_mem` — its generalisation to every `d`, under the affine-open
@@ -73,8 +74,10 @@ and `d` are the same demand and the two theorems below are the same theorem. For
 source's form is vacuous — every point of a scheme lies in an affine open — and at `d = 0` the
 proposition is true anyway, `Hilb^0_{X/S}` being `S` itself by
 `Stacks.Hilbert.representsHilbertFunctorOfRankZero`. At `d = 1` the proposition as literally
-stated is **false**, so the generalisation to every `d` has to strengthen the hypothesis there,
-and asking for the two-point case is the weakest strengthening that works.
+stated is **false**, so the generalisation to every `d` has to strengthen the hypothesis there.
+Asking for the two-point case works, and implies separatedness of `X ⟶ S`
+(`AlgebraicGeometry.isSeparated_of_exists_isAffineOpen_pair`), which by itself also works; whether
+separatedness is necessary at `d = 1` is not known.
 
 That is not a gap in this development but a refutation, and it is formalized:
 `Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`, in
@@ -115,10 +118,12 @@ supported in a chart is `(𝔸¹ ∖ {0})` together with the functor of nilpoten
 representable either, and condition (2)(a) of the criterion cannot be discharged for it
 directly.)
 
-So the tag's statement here takes every `d ≠ 1`, under the source's hypothesis unchanged: for
-`2 ≤ d` by the argument above, and at `d = 0` because `Hilb^0_{X/S} = S` needs no hypothesis at
-all (`Stacks.Hilbert.representsHilbertFunctorOfRankZero`). The `max d 2` theorem stands beside it
-as the generalisation covering `d = 1` too, and at `d = 1` the tag's own statement is refuted.
+So the tag's statement here takes every `d`, under the source's hypothesis unchanged for
+`d ≠ 1`: for `2 ≤ d` by the argument above, and at `d = 0` because `Hilb^0_{X/S} = S` needs no
+hypothesis at all (`Stacks.Hilbert.representsHilbertFunctorOfRankZero`). At `d = 1` it assumes in
+addition that `X ⟶ S` is separated, which is the correction recorded in `errata.md`; the source's
+proof then runs with the first sentence of its footnote. The `max d 2` theorem stands beside it as
+another repair of the `d = 1` case, by two points of a fibre instead of separatedness.
 
 ## References
 
@@ -151,9 +156,9 @@ theorem isSeparated_of_exists_isAffineOpen_pair {X S : Scheme.{u}} (f : X ⟶ S)
     (h : ∀ (s : S) (x y : X), f.base x = s → f.base y = s →
       ∃ U : X.Opens, IsAffineOpen U ∧ x ∈ U ∧ y ∈ U) :
     IsSeparated f := by
-  have : IsFinite (pullback.diagonal f ≫
+  haveI : IsFinite (pullback.diagonal f ≫
       ((Over.pullback (Over.mk f).hom).obj (Over.mk f)).hom) := by
-    change IsFinite (pullback.diagonal f ≫ pullback.snd f f)
+    show IsFinite (pullback.diagonal f ≫ pullback.snd f f)
     rw [pullback.diagonal_snd]
     infer_instance
   refine ⟨IsClosedImmersion.of_isPreimmersion _
@@ -187,17 +192,16 @@ that for every `s ∈ S` and every tuple of points `x₁, …, x_{max d 2}` of t
 an affine open `U ⊆ X` with `x₁, …, x_{max d 2} ∈ U`. Then the degree-`d` Hilbert functor of
 points `Hilb^d_{X/S}` is representable by a scheme over `S`.
 
-This is the generalisation of Stacks Tag 0B9A to every `d`, and the `@[stacks 0B9A]` attribute
-sits not here but on
-`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`,
-which is the tag's statement for every `d ≠ 1`, where the tag holds. On the range `2 ≤ d` the two
-statements agree, `max d 2 = d`; below it the hypothesis here is strictly the stronger of the
-two, which is what buys the extra reach. That extra reach is real content: at `d = 0` and `d = 1`
-the source's `d`-tuple hypothesis is vacuous for every morphism of schemes, so the conclusion
-cannot follow from it at `d = 1`, where it is **false**
-(`Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`), while the two-point demand
-made here does yield it. The module docstring explains why that demand is the weakest one that
-does.
+This is a generalisation of Stacks Tag 0B9A to every `d`, and the `@[stacks 0B9A]` attribute sits
+not here but on
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`,
+the tag's corrected statement, which agrees with the source for every `d ≠ 1`, where the source's
+statement holds. On the range `2 ≤ d` the two statements agree, `max d 2 = d`; below it the
+hypothesis here is strictly the stronger of the two, which is what buys the extra reach. That extra
+reach is real content: at `d = 0` and `d = 1` the source's `d`-tuple hypothesis is vacuous for every
+morphism of schemes, so the conclusion cannot follow from it at `d = 1`, where it is **false**
+(`Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`), while the two-point demand made
+here does yield it, through separatedness of `X ⟶ S`.
 
 The proof is the source's, with the reduction to an affine base replaced by indexing the charts
 of the criterion of Stacks 01JJ by pairs of an affine open `V ⊆ S` and an affine open `U ⊆ X`
@@ -212,7 +216,7 @@ theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_me
     (hX : ∀ (s : S) (x : Fin (max d 2) → X.left), (∀ i, X.hom.base (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U) :
     Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) := by
-  have : IsSeparated X.hom := by
+  haveI : IsSeparated X.hom := by
     refine isSeparated_of_exists_isAffineOpen_pair X.hom fun s x y hx hy => ?_
     obtain ⟨U, hU, hmem⟩ := hX s (fun i => if (i : ℕ) = 0 then x else y) (by
       intro i
@@ -251,7 +255,9 @@ side by side in
 `2 ≤ d` is not a restriction of convenience: outside it there is nothing true to state, except
 at `d = 0`, where `Hilb^0_{X/S} = S` holds with no hypothesis whatever
 (`Stacks.Hilbert.representsHilbertFunctorOfRankZero`); the two together are
-`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`,
+and with separatedness at `d = 1` they give the corrected statement of the tag,
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`.
 
 The proof is the generalisation
 `Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem`,
@@ -266,10 +272,10 @@ theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_me
   nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem X d
     (by rwa [max_eq_left hd])
 
-/-- **Stacks Project, Tag 0B9A, for every `d ≠ 1`.** Let `X ⟶ S` be a morphism of schemes and
-let `d ≥ 0` with `d ≠ 1`. Assume that for every `s ∈ S` and every tuple of points `x₁, …, x_d` of
-the fibre `X_s` there is an affine open `U ⊆ X` with `x₁, …, x_d ∈ U`. Then the degree-`d`
-Hilbert functor of points `Hilb^d_{X/S}` is representable by a scheme over `S`.
+/-- **Representability of `Hilb^d_{X/S}` for `d ≠ 1`, as in Stacks Tag 0B9A.** Let `X ⟶ S` be a
+morphism of schemes and let `d ≥ 0` with `d ≠ 1`. Assume that for every `s ∈ S` and every tuple of
+points `x₁, …, x_d` of the fibre `X_s` there is an affine open `U ⊆ X` with `x₁, …, x_d ∈ U`. Then
+the degree-`d` Hilbert functor of points `Hilb^d_{X/S}` is representable by a scheme over `S`.
 
 The hypothesis is the source's own, point for point, and the conclusion is the source's. The
 one value of `d` left out is the one at which the proposition is false: at `d = 1` the
@@ -281,10 +287,10 @@ degree-`1` Hilbert functor of the affine line with the origin doubled over affin
 For `2 ≤ d` this is
 `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`;
 for `d = 0` the base `S` itself represents `Hilb^0_{X/S}`, with no hypothesis needed
-(`Stacks.Hilbert.representsHilbertFunctorOfRankZero`). -/
-@[stacks 0B9A "the source's own hypothesis, an affine open around every `d`-tuple of points of \
-  one fibre, for every `d ≠ 1`; at `d = 1` that hypothesis is vacuous and the tag's conclusion \
-  fails, refuted by `Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`"]
+(`Stacks.Hilbert.representsHilbertFunctorOfRankZero`). The tag is registered on the corrected
+statement for every `d`,
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`.
+-/
 theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one
     (X : Over S) {d : ℕ} (hd : d ≠ 1)
     (hX : ∀ (s : S) (x : Fin d → X.left), (∀ i, X.hom.base (x i) = s) →
@@ -295,6 +301,40 @@ theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_me
     exact ⟨⟨Over.mk (𝟙 S), representsHilbertFunctorOfRankZero X⟩⟩
   · exact
       nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le X h hX
+
+/-- **Stacks Project, Tag 0B9A, corrected at `d = 1`.** Let `X ⟶ S` be a morphism of schemes and
+let `d ≥ 0`. Assume that for every `s ∈ S` and every tuple of points `x₁, …, x_d` of the fibre
+`X_s` there is an affine open `U ⊆ X` with `x₁, …, x_d ∈ U`, and assume moreover that `X ⟶ S` is
+separated if `d = 1`. Then the degree-`d` Hilbert functor of points `Hilb^d_{X/S}` is
+representable by a scheme over `S`.
+
+This is the source's proposition with the correction recorded for Tag 0B9A in `errata.md`: as
+printed, the proposition is false at `d = 1`. There the `d`-tuple hypothesis holds for every
+morphism of schemes (`Stacks.Hilbert.exists_isAffineOpen_forall_mem_of_le_one`), while no scheme
+represents the degree-`1` Hilbert functor of the affine line with the origin doubled over affine
+`1`-space (`Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`). For every `d ≠ 1`
+the hypothesis is the source's, point for point, and separatedness is not assumed.
+
+For `d ≠ 1` this is
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
+At `d = 1` the source's proof runs with the first sentence of its footnote: since `X ⟶ S` is
+separated, a degree-`1` family in an open of `X` is closed in `X ×_S T`
+(`Stacks.Hilbert.familiesClosedInAmbient_of_isSeparated`), and the gluing assembly
+`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_familiesClosedInAmbient` applies. -/
+@[stacks 0B9A "corrected statement, recorded in `errata.md`: as printed the proposition is \
+  false at `d = 1` (`Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`), so \
+  `X ⟶ S` is assumed separated when `d = 1`; for `d ≠ 1` the hypothesis is the source's"]
+theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated
+    (X : Over S) (d : ℕ) (hsep : d = 1 → IsSeparated X.hom)
+    (hX : ∀ (s : S) (x : Fin d → X.left), (∀ i, X.hom.base (x i) = s) →
+      ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U) :
+    Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) := by
+  by_cases hd : d = 1
+  · have := hsep hd
+    exact nonempty_representsHilbertFunctorOfRank_of_familiesClosedInAmbient
+      (familiesClosedInAmbient_of_isSeparated X) d hX
+  · exact
+      nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one X hd hX
 
 end Stacks.Hilbert
 

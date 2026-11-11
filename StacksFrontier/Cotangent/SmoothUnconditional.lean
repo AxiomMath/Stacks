@@ -5,31 +5,33 @@ public import StacksFrontier.Cotangent.SmoothRingMap
 public import StacksFrontier.Cotangent.SmoothVanishing
 
 /-!
-# Lemma 08R5 with the fundamental triangles supplied
+# Lemma 08R5 for a smooth ring map
 
-`StacksFrontier.Cotangent.SmoothRingMap` and `StacksFrontier.Cotangent.SmoothVanishing` prove
-[Stacks, Tag 08R5] (and cover the section tag 08R4) for distinguished triangles on the vertices
-of the display 92.7.0.1 taken as parameters: two named ones for a chart `A → P → B`, and the
-whole of Proposition 08QX, as `CommAlgCat.HasFundamentalTriangles` and
-`CommAlgCat.HasFundamentalTriangle`, where the towers are built inside the proof. Those files
-are upstream of Proposition 08QX. This file proves both predicates from Proposition 08QX,
+`StacksFrontier.Cotangent.SmoothRingMap` and `StacksFrontier.Cotangent.SmoothVanishing` prove the
+statement of [Stacks, Tag 08R5] for distinguished triangles on the vertices of the display
+92.7.0.1 taken as parameters: two named ones for a chart `A → P → B`, and the quantified forms
+`CommAlgCat.HasFundamentalTriangles` and `CommAlgCat.HasFundamentalTriangle`, where the towers
+are built inside the proof. Those files are upstream of Proposition 08QX,
 `CommAlgCat.productFundamentalTriangle_distinguished` of
-`StacksFrontier.Cotangent.Triangle.ProductDescent`, and states the lemma under exactly the source's
-hypotheses.
+`StacksFrontier.Cotangent.Triangle.ProductDescent`. This file proves both predicates from
+Proposition 08QX and states the lemma under exactly the source's hypotheses.
 
 ## Main results
 
 * `CommAlgCat.hasFundamentalTriangles` and `CommAlgCat.hasFundamentalTriangle`: Proposition 08QX
   in the two quantified shapes the files above take it in.
-* `CommAlgCat.nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_etale_unconditional`:
-  **[Stacks, Tag 08R5]** for a chart `A → P → B`.
-* `nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_isStandardSmooth_unconditional`
-  in `CommAlgCat`: **[Stacks, Tag 08R5]** for a standard smooth ring map, covering the section tag
-  **[Stacks, Tag 08R4]**.
-* `CommAlgCat.isZero_homology_cotangentComplex_of_smooth_unconditional` and
-  `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`:
-  **[Stacks, Tag 08R5]** for a smooth ring map, as the vanishing of the cohomology outside
-  degree `0` and as the isomorphism `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)`.
+* `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`:
+  **[Stacks, Tag 08R5]**: for a smooth ring map `A → B`, the isomorphism
+  `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)`, with
+  `CommAlgCat.nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_smooth_unconditional`
+  its existence form, the covering declaration of the section **[Stacks, Tag 08R4]**.
+* `CommAlgCat.isZero_homology_cotangentComplex_of_smooth_unconditional`: the vanishing of the
+  cohomology of `L_{B/A}` outside degree `0` for a smooth ring map.
+* `CommAlgCat.nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_etale_unconditional`
+  and
+  `nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_isStandardSmooth_unconditional`
+  in `CommAlgCat`:
+  the same isomorphism for a chart `A → P → B` and for a standard smooth ring map.
 
 ## References
 
@@ -71,19 +73,13 @@ section Chart
 variable (A : Type u) [CommRing A] (P : Type u) [CommRing P] [Algebra A P]
   (B : Type u) [CommRing B] [Algebra A B] [Algebra P B] [IsScalarTower A P B]
 
-/-- **Stacks Project, Tag 08R5**, for a chart. Let `A → P → B` be ring maps with `P` a
-polynomial algebra over `A` and `P → B` étale. Then `L_{B/A} = Ω[B⁄A][0]` in `D(B)`.
+/-- **The cotangent complex of a chart.** Let `A → P → B` be ring maps with `P` a polynomial
+algebra over `A` and `P → B` étale. Then `L_{B/A} = Ω[B⁄A][0]` in `D(B)`.
 
 This is `CommAlgCat.nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_etale` at the
 fundamental triangles of the towers `A → P → B` and `B → B ⊗_P B → B` that Proposition 08QX
-provides. -/
-@[stacks 08R5 "the lemma for a ring map `A → B` presented by a CHART: a factorization \
-`A → P → B` with `P` a polynomial algebra over `A` and `P → B` étale. NOTHING is carried: the \
-fundamental triangles of `A → P → B` and of `B → B ⊗_P B → B` are both Proposition 08QX, \
-`CommAlgCat.productFundamentalTriangle_distinguished`. The conclusion is the source's, \
-`L_{B/A} = Ω_{B/A}[0]`, read as an isomorphism in `D(B)` in the same spelling as Tag 08QH; \
-the full smooth case is \
-`CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`"]
+provides. The smooth case, [Stacks, Tag 08R5], is
+`CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`. -/
 theorem nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_etale_unconditional
     (hP : Algebra.IsPolynomialAlgebra A P) [Algebra.Etale P B] :
     Nonempty
@@ -101,24 +97,12 @@ section StandardSmooth
 
 variable (A : Type u) [CommRing A] (B : Type u) [CommRing B] [Algebra A B]
 
-/-- **Stacks Project, Tag 08R5** for a standard smooth ring map, and the covering declaration
-for the section tag **08R4**. This is
+/-- **The cotangent complex of a standard smooth ring map.** For `A → B` standard smooth,
+`L_{B/A} = Ω[B⁄A][0]` in `D(B)`. This is
 `CommAlgCat.nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_isStandardSmooth` with
-Proposition 08QX supplied by `CommAlgCat.hasFundamentalTriangles`. -/
-@[stacks 08R4 "the SECTION tag `\\section{Smooth ring maps}`; its lemma is 08R5", stacks 08R5 "\
-the lemma for a STANDARD SMOOTH ring map, `Algebra.IsStandardSmooth A B`. The chart \
-`A → A[x_1, …, x_n] → B` with étale second map is BUILT, not assumed — it is Mathlib's \
-`RingHom.IsStandardSmooth.exists_etale_mvPolynomial`, which is the content of the source's \
-appeal to Algebra, Lemma 00TA. NOTHING is carried: the towers the fundamental triangle is \
-needed for are built inside the proof and Proposition 08QX, \
-`CommAlgCat.productFundamentalTriangle_distinguished`, holds at each of them. The full smooth \
-case is `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`. The \
-conclusion is the source's, `L_{B/A} = Ω_{B/A}[0]`, read as an isomorphism in `D(B)` in the \
-same spelling as Tag 08QH. As for 08R4: the section's only mathematical content is Lemma 08R5, \
-so this declaration covers it; the definitional remark opening the section introduces `weakly \
-quasi-regular` ring maps only to say what a generalization of Lemma 08R2 would look at, and the \
-source then says `For the moment we just stick to smooth ring maps`, so it states no result and \
-nothing is defined for it"]
+Proposition 08QX supplied by `CommAlgCat.hasFundamentalTriangles`. The smooth case,
+[Stacks, Tag 08R5], is
+`CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`. -/
 theorem nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_isStandardSmooth_unconditional
     [Algebra.IsStandardSmooth A B] :
     Nonempty
@@ -132,13 +116,11 @@ end StandardSmooth
 
 section Smooth
 
-/-- **[Stacks, Tag 08R5], the vanishing.** For a smooth ring map `A → B`, `Hⁱ(L_{B/A}) = 0` for
-`i ≠ 0`. This is `CommAlgCat.isZero_homology_cotangentComplex_of_smooth` with Proposition 08QX
-supplied by `CommAlgCat.hasFundamentalTriangle`. -/
-@[stacks 08R5 "the vanishing: `Hⁱ(L_{B/A}) = 0` for every `i ≠ 0`, which together with Tag \
-08QF in degree 0 is the lemma. NOTHING is carried: the fundamental triangle is Tag 08QX, \
-`CommAlgCat.productFundamentalTriangle_distinguished`, applied at each of the towers the proof \
-produces"]
+/-- **The cohomology of `L_{B/A}` for a smooth ring map.** For a smooth ring map `A → B`,
+`Hⁱ(L_{B/A}) = 0` for `i ≠ 0`. This is `CommAlgCat.isZero_homology_cotangentComplex_of_smooth`
+with Proposition 08QX supplied by `CommAlgCat.hasFundamentalTriangle`; together with Tag 08QF it
+gives [Stacks, Tag 08R5], which is
+`CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`. -/
 theorem isZero_homology_cotangentComplex_of_smooth_unconditional
     (A : Type u) [CommRing A] (B : Type u) [CommRing B] [Algebra A B] [Algebra.Smooth A B]
     (i : ℤ) (hi : i ≠ 0) :
@@ -150,10 +132,13 @@ theorem isZero_homology_cotangentComplex_of_smooth_unconditional
 differentials placed in cohomological degree `0`. This is
 `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth` with Proposition 08QX
 supplied by `CommAlgCat.hasFundamentalTriangle`. -/
-@[stacks 08R5 "the lemma in full and as data: the isomorphism `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)`, \
-for a SMOOTH ring map and with NOTHING carried — the fundamental triangle is Tag 08QX, \
-`CommAlgCat.productFundamentalTriangle_distinguished`. Nothing beyond smoothness is assumed, \
-and the conclusion is the source's whole equality rather than only its degree 0 part"]
+@[stacks 08R5 "the lemma in full and as data: for a SMOOTH ring map `A → B` \
+(`Algebra.Smooth A B`, formally smooth and of finite presentation, as in Stacks), \
+the isomorphism `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)`. No hypothesis beyond smoothness: \
+the fundamental triangle used along the proof is Tag 08QX, \
+`CommAlgCat.productFundamentalTriangle_distinguished`, and the reduction to the standard smooth \
+case is Lemma 00TA through `Algebra.Smooth.exists_span_eq_top_isStandardSmooth` with the \
+localization step of Lemma 08R3, as in the source's proof"]
 noncomputable def cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional
     (A : Type u) [CommRing A] (B : Type u) [CommRing B] [Algebra A B] [Algebra.Smooth A B] :
     cotangentComplexDerived.{u, u} A (CommAlgCat.of A B) ≅
@@ -162,7 +147,14 @@ noncomputable def cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditi
   cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth hasFundamentalTriangle A B
 
 /-- **[Stacks, Tag 08R5]**, in existence form: for a smooth ring map `A → B`,
-`L_{B/A} = Ω[B⁄A][0]` in `D(B)`. -/
+`L_{B/A} = Ω[B⁄A][0]` in `D(B)`. This is also the covering declaration of the section
+**[Stacks, Tag 08R4]**, whose one result is Lemma 08R5. -/
+@[stacks 08R4 "the SECTION tag `\\section{Smooth ring maps}`, covered by its lemma 08R5, stated \
+here in full. The remark opening the section introduces `weakly quasi-regular` surjections \
+`C → B` (kernel `I` with `I/I²` flat over `B` and `Tor_*^C(B, B)` the exterior algebra on \
+`I/I²`) to say what a generalization of Lemma 08R2 from étale to smooth maps would look at; \
+the source then says `For the moment we just stick to smooth ring maps`, so that remark states \
+no result and introduces nothing the section uses"]
 theorem nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_smooth_unconditional
     (A : Type u) [CommRing A] (B : Type u) [CommRing B] [Algebra A B] [Algebra.Smooth A B] :
     Nonempty (cotangentComplexDerived.{u, u} A (CommAlgCat.of A B) ≅

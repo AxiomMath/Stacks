@@ -490,10 +490,17 @@ theorem baseSheafMap_horizontal [HasWeakSheafify (topology Λ B hS X hX) CommRin
 
 /-! ### The diagram -/
 
-/-- The diagram of ringed topoi
-`(Sh(C_{X/Λ}), π⁻¹𝒪_X) ⟶ (Sh(C_{X/Λ}), 𝒪)` over `(Sh(X_étale), 𝒪_X)`, together with the
-canonical characterizations of all of its data: the geometric morphisms, the two comparison
-isomorphisms and both structure maps. -/
+/-- The diagram of ringed topoi of the polynomial charts: the morphism of ringed topoi
+`i : (Sh(C_{X/Λ}), π⁻¹𝒪_X) ⟶ (Sh(C_{X/Λ}), 𝒪)` and the morphism of ringed topoi
+`π : (Sh(C_{X/Λ}), π⁻¹𝒪_X) ⟶ (Sh(X_étale), 𝒪_X)`, both out of `(Sh(C_{X/Λ}), π⁻¹𝒪_X)`. The
+diagram has only these two arrows: there is no morphism of ringed topoi from `(Sh(C_{X/Λ}), 𝒪)`
+to `(Sh(X_étale), 𝒪_X)` in it, and no commutativity is asserted. The structure also records the
+canonical characterizations of all of its data: `i` is the identity on underlying topoi with
+`i♯ : 𝒪 ⟶ π⁻¹𝒪_X` the sheafification of evaluation, `π` is induced by the forgetful functor with
+`π♯` the unit of `π⁻¹ ⊣ π_*`, the two comparison isomorphisms, and the structure map `Λ ⟶ 𝒪`.
+
+Here `𝒪` is the sheafification of the presheaf `(U ⟶ A) ↦ Γ(A, 𝒪_A)`; that presheaf is not
+itself a sheaf when `Λ ≠ 0`, since the empty family covers a chart with `U = ∅`. -/
 structure PiSpacesDiagram [HasWeakSheafify (topology Λ B hS X hX) CommRingCat.{u}] where
   /-- The structure map from the constant sheaf `Λ` to the affine functions. -/
   baseStructureMap : constantBaseSheaf Λ B hS X hX ⟶ affineSheaf Λ B hS X hX
@@ -614,9 +621,12 @@ theorem horizontalHom_fSharpInverseImage
     ((commRingImageAdjunction (identityTopos Λ B hS X hX)).homEquiv _ _)
     (horizontalMapInverse Λ B hS X hX)
 
-/-- The diagram of ringed topoi of the polynomial charts of an algebraic space over a ring, with
-all of its arrows pinned to the canonical ones. -/
-@[stacks 08VK]
+/-- The diagram of ringed topoi of the polynomial charts of an algebraic space over a ring: the
+morphisms of ringed topoi `i : (Sh(C_{X/Λ}), π⁻¹𝒪_X) ⟶ (Sh(C_{X/Λ}), 𝒪)` and
+`π : (Sh(C_{X/Λ}), π⁻¹𝒪_X) ⟶ (Sh(X_étale), 𝒪_X)`, with all of their data pinned to the
+canonical ones. -/
+@[stacks 08VK "the morphisms of ringed topoi i and π out of (Sh(C_{X/Λ}), π⁻¹𝒪_X); 𝒪 is taken \
+as the sheafification of (U ⟶ A) ↦ Γ(A, 𝒪_A), which is not a sheaf at charts with U = ∅"]
 def piSpacesDiagram [HasWeakSheafify (topology Λ B hS X hX) CommRingCat.{u}] :
     PiSpacesDiagram Λ B hS X hX where
   baseStructureMap := baseSheafMap Λ B hS X hX

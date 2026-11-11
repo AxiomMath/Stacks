@@ -302,11 +302,12 @@ affine morphism of algebraic spaces over `S`, let `𝓕` be a quasi-coherent `�
 in positive degrees over every affine étale chart of every algebraic space, then
 `R^n f_* 𝓕 = 0`.
 
-This is `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom` — the
-qualified form of Stacks 073H — with its hypothesis `h03DW` supplied by
-`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isZero_H'`.  It carries no tag: the
-vanishing it assumes is an unproved result, and Stacks 073H without any qualifier is this
-statement with `hab` discharged. -/
+This is the chartwise reduction
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom` with its
+hypothesis `h03DW` supplied by
+`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isZero_H'`.  It carries no tag:
+Stacks 073H, with no hypothesis beyond the source's, is
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_isAffineHom`. -/
 theorem isZero_rightDerived_modulePushforward_of_isZero_H' (f : X ⟶ Y)
     (haff : IsAffineHom B S hS f.hom) (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : F.IsQuasicoherentOnSite) (n : ℕ) (hn : 0 < n)

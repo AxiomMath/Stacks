@@ -10,6 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.RelativeTorAmplitudeAffine
 public import StacksFrontier.Homology.TorAmplitude.Local
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingFiniteTorDimension
 import all StacksFrontier.Homology.TorAmplitude.Local
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
 
 /-!
 # Finite Tor dimension of the relative dualizing complex
@@ -38,7 +39,7 @@ assertion of [Stacks, Tag 0E9T] read on the chart description.
 ## Implementation notes
 
 The ring-level input is [Stacks, Tag 0BZW] (1)(b), in the namespace `Dualizing`,
-`PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap`,
+`PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_perfect`,
 applied to each chart ring map `f.appLE V U`. At a point `y` of a chart the derived stalk of `ω` is
 the localization of the chart model
 (`Stacks.Duality.nonempty_derivedStalkOfComplex_iso_extendScalars_anyModel`), the Tor bound
@@ -286,12 +287,10 @@ theorem exists_hasTorAmplitudeCanonical_stalk_of_chart [Perfect f.left]
   let φ := (f.left.appLE V U hUV).hom
   let : Algebra Γ(Y.left, V) Γ(X.left, U) := φ.toAlgebra
   let ω := p.upperShriekFunctor.{u, u}.obj (structureModel (Y := Y) V)
-  let D : CertifiedDerivedTensoring.{u, u} Γ(Y.left, V) :=
-    canonicalCertifiedDerivedTensoring Γ(Y.left, V)
-  have htor :=
-    p.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap
-      (R := Γ(Y.left, V)) (A := Γ(X.left, U)) D.tensor D.comparison D.isLeftDerived
-      (AlgebraicGeometry.Perfect.perfect_appLE f.left U hU V hV hUV D)
+  have : Algebra.Perfect Γ(Y.left, V) Γ(X.left, U) := RingHom.perfect_algebraMap.mp
+    (HasRingHomProperty.appLE @Perfect f.left ‹_› ⟨V, hV⟩ ⟨U, hU⟩ hUV)
+  have htor := p.relativeDualizingComplex_hasFiniteTorDimension_of_perfect
+    (R := Γ(Y.left, V)) (A := Γ(X.left, U))
   let M := DerivedCategory.Q.objPreimage ω
   obtain ⟨a, b, hab⟩ : ∃ a b : ℤ, FaithfullyFlat.HasTorAmplitude
       ((CochainComplex.restrictScalars φ).obj M) a b := by

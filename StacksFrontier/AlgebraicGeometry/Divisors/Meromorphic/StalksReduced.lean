@@ -50,9 +50,11 @@ universe u
 
 namespace AlgebraicGeometry
 
-/-- On an affine open of any scheme, the meromorphic functions form the total quotient ring of
-the ring of regular functions: the localization at all nonzerodivisors. -/
-@[stacks 02OW "part (5)"]
+/-- On an affine open of any scheme, the sections of the *presheaf* of meromorphic functions
+form the total quotient ring of the ring of regular functions: the localization at all
+nonzerodivisors. This is not part (5) of [Stacks, Tag 02OW], which is about the sections of the
+sheafification `K_X`; that statement is
+`AlgebraicGeometry.isLocalization_totalQuotientSheaf_obj_of_isReduced`. -/
 theorem IsAffineOpen.isLocalization_totalQuotientPresheaf_obj
     {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOpen U) :
     letI : Algebra Γ(X, U)

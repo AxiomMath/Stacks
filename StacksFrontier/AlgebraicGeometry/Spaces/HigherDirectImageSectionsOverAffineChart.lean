@@ -85,10 +85,14 @@ algebraic spaces over `S`, let `F` be a quasi-coherent `𝒪_X`-module and let `
 sections over `V` of the degree-`q` higher direct image `R^q f_*F`, in every degree:
 
 `H^q(V ×_Y X, F) = H^0(V, R^q f_*F)`. -/
-@[stacks 08EX "the source's statement and both steps of its proof at the source's own data: f
-quasi-compact and quasi-separated, F quasi-coherent, V an affine object of Y_etale. The
-cohomology over V times_Y X is read as the right derived functor of the composite
-Gamma(V, f'_* -), as in the library's form of Stacks 0D2U"]
+@[stacks 08EX "the complete statement at the source's own data, with no extra hypothesis: f
+quasi-compact and quasi-separated, F quasi-coherent, V an affine object of Y_etale. The three
+inputs of the source's proof (03F3(1) for the etale inclusion, 072Z via 0731(3), and 0720 with
+01XB on the small etale site) are theorems of the library, applied here. The cohomology over
+V times_Y X is read as the right derived functor of the composite Gamma(V, f'_* -), as in the
+library's form of Stacks 0D2U. The degree q ranges over the natural numbers, which loses
+nothing: in the right-derived-functor convention both sides vanish in negative degrees. This is
+the sole registration of 08EX"]
 def cohomologyAffineChartIsoSectionsHigherDirectImage (f : X ⟶ Y)
     (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) (hF : F.IsQuasicoherentOnSite)

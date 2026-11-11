@@ -607,12 +607,11 @@ site is an fpqc covering of schemes.  Assume that the fibre products of the site
 arrows are fibre products of schemes.  Then the presheaf `𝒪` is a sheaf, and every quasi-coherent
 `𝒪`-module `M` is isomorphic to `Fᵃ` for a quasi-coherent `𝒪_S`-module `F`. -/
 @[stacks 03OJ "both assertions: O is a sheaf and every quasi-coherent O-module is F^a for a \
-quasi-coherent F on S. Corrected form: the source's statement is false when the fibre products \
-of the site along coverings are not fibre products of schemes \
-(not_isSheaf_structurePresheaf_counterexample), so that is assumed \
-(PreservesCoveringFibreProducts), \
-as the source's sites of schemes form fibre products in Sch/S. Condition (1) is fullness, \
-faithfulness and essential smallness; the site axioms are Stacks 00VH"]
+quasi-coherent F on S. Corrected form, recorded in errata.md: the printed statement is false \
+when the fibre products of the site along coverings are not fibre products of schemes \
+(not_isSheaf_structurePresheaf_counterexample); PreservesCoveringFibreProducts says they are, \
+as on every site of schemes Stacks uses, all of which form fibre products in Sch/S. Condition \
+(1) is fullness, faithfulness and essential smallness; the site axioms are Stacks 00VH"]
 public theorem isSheaf_structurePresheaf_and_exists_iso_siteAssociatedModule
     (hTerminal : ∃ T : C, Nonempty (toOver.obj T ≅ Over.mk (𝟙 S))) :
     ∃ hR : Presheaf.IsSheaf K.toGrothendieck (structurePresheaf S toOver),

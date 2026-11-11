@@ -30,7 +30,12 @@ The universal `S`-derivation gives rise to the de Rham complex
 
 `𝒪_{X/S} → Ω¹_{X/S} → Ω²_{X/S} → ⋯`
 
-on the site, which is built here as well.  Its differential is only additive and linear over the
+on the site, which is built here as well, at the level of presheaves.  Everything in this file
+is a presheaf on the crystalline site, whose sections over an object `(U, T, δ)` are built from
+the ring `Γ(T, 𝒪_T)`; the sheaves `Ω^i_{X/S}` of [Stacks, Tag 07J4] are their sheafifications
+`...SmallSite.crysFormsSheaf`, and the de Rham complex of sheaves of the tag is
+`...SmallSite.crysDeRhamNatSheafComplex` of `SmallSite/DeRhamComplexSheaf.lean`.  Its
+differential is only additive and linear over the
 global sections of the divided power base, not `𝒪_{X/S}`-linear — already the Leibniz rule in
 degree zero forbids that — so it is not a morphism of presheaves of modules, and the complex is
 recorded as data on additive maps instead.  Over an object `(U, T, δ)` the sections of `Ω_{X/S}`
@@ -398,11 +403,16 @@ object. -/
 abbrev crysFormRing (A : Thickening S) : Type u :=
   ((structureRingCatPresheaf S).obj (op A) : Type u)
 
-/-- **The presheaf `Ω^i_{X/S}` of crystalline differential forms of degree `i` on the big
-crystalline category.**  Its sections over an object `(U, T, δ)` are the `i`-th exterior power
-over `Γ(T, 𝒪_T)` of the sections of `Ω_{X/S}` there, and its transition maps are the exterior
-powers of those of `Ω_{X/S}`. -/
-@[stacks 07J4 "Ω^i_{X/S} = ∧^i Ω_{X/S}, on the big crystalline category CRIS(X/S)"]
+/-- **The presheaf of crystalline differential forms of degree `i` on the big crystalline
+category.**  Its sections over an object `(U, T, δ)` are the `i`-th exterior power over
+`Γ(T, 𝒪_T)` of the sections of the presheaf of crystalline differentials there, and its
+transition maps are the exterior powers of those of that presheaf.
+
+This is a presheaf, not the sheaf `Ω^i_{X/S}` of [Stacks, Tag 07J4]: over a non-affine object its
+sections need not be the sections of the sheaf.  The sheaf of `𝒪_{X/S}`-modules `Ω^i_{X/S}` on
+the small site is its sheafification `...SmallSite.crysFormsSheaf`, and the de Rham complex of
+sheaves of the tag is `...SmallSite.crysDeRhamNatSheafComplex` of
+`SmallSite/DeRhamComplexSheaf.lean`. -/
 abbrev crysDifferentialForms (i : ℕ) : PresheafOfModules.{u} (structureRingCatPresheaf S) :=
   PresheafOfModules.extPow i (crysDifferentials S)
 
@@ -733,9 +743,11 @@ theorem exists_crysDeRhamComplex : Nonempty (CrysDeRhamComplex S) := by
     rw [hc, hsmul A' i c x, crysFormMap_smul, crysFormMap_smul, crysRingMap_crysBase,
       hsmul A i c (crysFormMap S k x), ih]
 
-/-- **The canonical de Rham complex on the crystalline site**, the complex
-`𝒪_{X/S} → Ω¹_{X/S} → Ω²_{X/S} → ⋯` that the universal `S`-derivation `d_{X/S}` gives rise to. -/
-@[stacks 07J4 "the de Rham complex 𝒪_{X/S} → Ω¹ → Ω² → ⋯, on CRIS(X/S)"]
+/-- **The canonical de Rham complex of presheaves on the big crystalline category**, the complex
+of presheaves of local forms that the universal `S`-derivation gives rise to.  It is a complex of
+presheaves, whose sections over an object are built from `Γ(T, 𝒪_T)`; the de Rham complex of
+sheaves of [Stacks, Tag 07J4] is its sheafification on the small site,
+`...SmallSite.crysDeRhamNatSheafComplex` of `SmallSite/DeRhamComplexSheaf.lean`. -/
 def crysDeRhamComplex : CrysDeRhamComplex S := Classical.choice (exists_crysDeRhamComplex S)
 
 /-- **The formula on the standard generators determines the de Rham complex on the crystalline
@@ -779,9 +791,13 @@ theorem crysDifferentials_obj (A : CrystallineThickening S) :
     (crysDifferentials S).obj (op A) =
       GlobalCrystallineSituation.crysDifferentialsObj S A.obj := rfl
 
-/-- **The presheaf `Ω^i_{X/S}` of crystalline differential forms of degree `i` on the small
-crystalline site `Cris(X/S)`**, the `i`-th exterior power of `Ω_{X/S}` over `𝒪_{X/S}`. -/
-@[stacks 07J4 "Ω^i_{X/S} = ∧^i_{𝒪_{X/S}} Ω_{X/S} on the small crystalline site Cris(X/S)"]
+/-- **The presheaf of crystalline differential forms of degree `i` on the small crystalline site
+`Cris(X/S)`**, the sectionwise `i`-th exterior power of the presheaf of crystalline differentials
+over `𝒪_{X/S}`.
+
+This is a presheaf, not the sheaf `Ω^i_{X/S}` of [Stacks, Tag 07J4]; that sheaf is its
+sheafification `...SmallSite.crysFormsSheaf` ([Stacks, Tag 01CG] computes the exterior power of a
+sheaf of modules as the sheafification of the sectionwise one). -/
 abbrev crysDifferentialForms (i : ℕ) :
     PresheafOfModules.{u} (structurePresheaf S ⋙ forget₂ CommRingCat RingCat) :=
   PresheafOfModules.extPow i (crysDifferentials S)
@@ -869,10 +885,11 @@ def crysD (A : CrystallineThickening S) (b : crysFormRing S A) :
     (crysDifferentials S).obj (op A) :=
   GlobalCrystallineSituation.crysD S A.obj b
 
-/-- **The de Rham complex `𝒪_{X/S} → Ω¹_{X/S} → Ω²_{X/S} → ⋯` on the small crystalline site
-`Cris(X/S)`**: the differential of the canonical complex on `CRIS(X/S)` at an object of the full
-subcategory `Cris(X/S)`. -/
-@[stacks 07J4 "the de Rham complex 𝒪_{X/S} → Ω¹ → Ω² → ⋯ on Cris(X/S)"]
+/-- **The de Rham differential of local forms over an object of the small crystalline site
+`Cris(X/S)`**: the differential of the canonical complex of presheaves on `CRIS(X/S)` at an object
+of the full subcategory `Cris(X/S)`.  It acts on sections of the presheaf of forms; the de Rham
+complex of sheaves of [Stacks, Tag 07J4] is `...SmallSite.crysDeRhamNatSheafComplex` of
+`SmallSite/DeRhamComplexSheaf.lean`, whose differential extends this one. -/
 def crysDeRhamDifferential (i : ℕ) (A : CrystallineThickening S) :
     ⋀[crysFormRing S A]^i ((crysDifferentials S).obj (op A)) →+
       ⋀[crysFormRing S A]^(i + 1) ((crysDifferentials S).obj (op A)) :=

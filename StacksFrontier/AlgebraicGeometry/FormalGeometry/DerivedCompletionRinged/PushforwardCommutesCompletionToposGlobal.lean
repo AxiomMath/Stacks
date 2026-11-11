@@ -228,12 +228,7 @@ agree where the applications meet, by \
 `AlgebraicGeometry.RingedToposHom.inverseImageIdealSheaf_denseSquare`, and the square's \
 2-isomorphism costs no coherence because \
 `AlgebraicGeometry.RingedToposHom.isIso_derivedCompletionPushforwardComparison_of_nonempty_iso` \
-reduces invertibility of the canonical map to a display of objects quantified over all objects",
-  stacks 0A0I "Equation 52.7.0.1 for a morphism of ringed topoi, as an invertibility of the \
-**canonical** comparison map `(Rf_*ℱ)^∧ ⟶ Rf_*(ℱ^∧)`, for an **arbitrary** object of `D(𝒪')`, at \
-a sheaf of ideals of finite type and the ideal sheaf `f^{-1}ℐ · 𝒪_X` that Section 52.7 builds out \
-of it. The two sides of the equation are therefore identified by the map [Stacks, Tag 0A0G] \
-names, and are isomorphic through it rather than merely abstractly"]
+reduces invertibility of the canonical map to a display of objects quantified over all objects"]
 theorem isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType
     (K : DerivedCategory
       (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSite.O)))) :

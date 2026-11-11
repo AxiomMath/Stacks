@@ -32,14 +32,18 @@ bounded above complex `P` of finite free modules term by term: that Hom complex 
 `Stacks.Examples.SheafHomCounterexample`, in
 `StacksFrontier/Examples/BaseChange/SheafHomPseudoCoherentCounterexample.lean`.
 
-This file proves the statement for base change along a **flat** `g`, which is what survives with
-no change to the hypotheses on `E` and `𝒢^•`; there the flatness of the terms of `𝒢^•` over
-`S` and its boundedness above are not needed, and only boundedness below of `𝒢^•` is used.
+The correction recorded in `errata.md` (entry **08IE(2)**) asks `g` to have finite Tor dimension;
+the corrected case (2) is
+`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`
+in `StacksFrontier.AlgebraicGeometry.BaseChange.SheafHomPseudoCoherentFiniteTorDimensionBaseChange`.
+This file proves the special case of a **flat** `g` by a shorter argument, in which the flatness of
+the terms of `𝒢^•` over `S` and its boundedness above are not needed and only boundedness below of
+`𝒢^•` is used.
 
 ## Main results
 
-* `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_flat`: the corrected
-  case (2).
+* `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_flat`: the
+  statement of case (2) for a flat `g`, for any complex of quasi-coherent modules bounded below.
 
 ## The proof
 
@@ -80,7 +84,7 @@ attribute [local instance 10000] HasDerivedCategory.standard
 attribute [local implicit_reducible] structureSheafRing
   StacksDraft.KFlat.modulePullback
 
-/-- **Stacks 08IE, case (2), corrected to base change along a flat morphism.** Let
+/-- **The statement of Stacks 08IE, case (2), for base change along a flat morphism.** Let
 `f : X ⟶ S` be a quasi-compact and quasi-separated morphism of schemes, let `E` be a
 pseudo-coherent object of `D(𝒪_X)` and let `𝒢^•` be a complex of quasi-coherent `𝒪_X`-modules
 vanishing in degrees below some `a`. For every cartesian square
@@ -99,13 +103,8 @@ with `g` **flat**, the canonical map
 
 of `AlgebraicGeometry.sheafHomFlatBaseChangeMap` is an isomorphism. The source's case (2), for a
 bounded `𝒢^•` with terms flat over `S` and an *arbitrary* `g`, is false: see the module
-documentation. -/
-@[stacks 08IE "case (2), CORRECTED: as stated (E pseudo-coherent, 𝒢^• bounded with terms flat \
-over S, arbitrary base change) it is false -- for S = X = Spec ℤ/4, f = id, E = (ℤ/2)~, \
-𝒢^• = 𝒪_X and g : Spec ℤ/2 ⟶ Spec ℤ/4 the source has H^{-1} = Tor_1^{ℤ/4}(ℤ/2, ℤ/2) ≠ 0 \
-while the target lies in D^{≥0}; the gap is in the proof of Tag 0DJA (3). Proved here for base \
-change along a FLAT g, with E pseudo-coherent and 𝒢^• any complex of quasi-coherent modules \
-bounded below (so in particular for 𝒢^• bounded with terms flat over S)"]
+documentation; its correction, for `g` of finite Tor dimension, is
+`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`. -/
 public theorem isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_flat
     {X X' S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
     (hsq : IsPullback g' f' f g) (hqc : QuasiCompact f) (hqs : QuasiSeparated f) [Flat g]

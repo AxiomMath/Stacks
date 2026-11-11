@@ -18,9 +18,25 @@ ringed topoi of **Stacks 0788** (2).  Pullback of sheaves of modules along `g` i
 the flat objects (**Stacks 0788**, `flat_ringed`) and is exact, so it needs no derivation: it acts
 on the unbounded derived categories degreewise.
 
-**Stacks 07B9** (2)(b) says that for a complex `K` of `𝒪_𝒳`-modules lying in
+The main result is the kernel of `g^*` on the whole unbounded derived category: `g^*K = 0`
+exactly when every cohomology module of `K` is parasitic.  This is the content of
+**Stacks 07B9** (2)(b), which says that for a complex `K` of `𝒪_𝒳`-modules lying in
 `D_{LQCoh^fbc}(𝒪_𝒳)`, the pullback `g^*K` vanishes exactly when `K` lies in
-`D_{𝒫_𝒳}(𝒪_𝒳)`, where `𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)`.  That is what is proved here.
+`D_{𝒫_𝒳}(𝒪_𝒳)`, where `𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)`.
+
+The statements below that mention `LQCoh^fbc` read the flat base change property in its
+*presheaf* form `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty` (through
+`AlgebraicGeometry.Stack.derivedLocallyQuasicoherentFlatBaseChange` and
+`AlgebraicGeometry.Stack.derivedCategoryQuasicoherent`).  That form is strictly stronger than
+**Stacks 0762** and fails for quasi-coherent modules (see the module docstring of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SheafFlatBaseChangeProperty.lean`), so the
+class `D_{LQCoh^fbc}(𝒪_𝒳)` and the quotient `D_QCoh(𝒪_𝒳)` used here are not those of the source.
+**Stacks 07B9** (2)(b) and (2)(d) with the source's `LQCoh^fbc`, the class with the flat base
+change property of **Stacks 0762** read with the pullback of sheaves, are
+`AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff_derivedParasitic`
+(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatFppfDerivedQuasicoherentRestriction.lean`)
+and `AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentEquivalence`
+(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatFppfDerivedQuasicoherentLowerShriek.lean`).
 
 ## Main definitions
 
@@ -39,9 +55,10 @@ on the unbounded derived categories degreewise.
 * `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff_forall_isParasitic`: the
   kernel of `g^*` on the unbounded derived category, with no hypothesis on `K` at all: `g^*K = 0`
   exactly when every cohomology module of `K` is parasitic.
-* `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff`: **Stacks 07B9** (2)(b)
-  in the form the source states it, over `D_{LQCoh^fbc}(𝒪_𝒳)` and with
-  `𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)` on the right-hand side.
+* `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff`: the shape of
+  **Stacks 07B9** (2)(b), over `D_{LQCoh^fbc}(𝒪_𝒳)` and with
+  `𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)` on the right-hand side, but for the presheaf form of
+  the flat base change property, which is stronger than Stacks 0762.
 
 ## Implementation notes
 
@@ -59,7 +76,8 @@ degree.
 
 The source states (2)(b) with `ℱ^•` ranging over `D_{LQCoh^fbc}(𝒪_𝒳)` and concludes membership in
 `D_{𝒫_𝒳}(𝒪_𝒳)` for the *intersection* `𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)`.  Both halves are
-kept: `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff` takes the membership
+kept, with the presheaf form of the flat base change property:
+`AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff` takes the membership
 of `K` in `D_{LQCoh^fbc}(𝒪_𝒳)` as a hypothesis and concludes membership in the derived category of
 the intersection, which is
 `AlgebraicGeometry.Stack.derivedParasiticLocallyQuasicoherentFlatBaseChange`,
@@ -269,10 +287,17 @@ theorem isZero_derivedModuleRestriction_iff_forall_isParasitic
   rw [isParasitic_iff_isZero_moduleRestriction]
   exact (((moduleRestriction B S hS 𝒳).mapDerivedCategoryHomologyIso n).app K).isZero_iff
 
-/-- **Stacks 07B9** (2)(b).  Let `𝒳` be an algebraic stack and set
-`𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)`.  For a complex `K` of `𝒪_𝒳`-modules lying in
-`D_{LQCoh^fbc}(𝒪_𝒳)`, the restriction `g^*K` to the flat-fppf site of **Stacks 0787** vanishes
+/-- The shape of **Stacks 07B9** (2)(b) for the presheaf form of the flat base change property.
+Let `𝒳` be an algebraic stack and set `𝒫_𝒳 = Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)`, where here
+`LQCoh^fbc(𝒪_𝒳)` is read with `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, the comparison
+map being required to be an isomorphism of presheaves.  For a complex `K` of `𝒪_𝒳`-modules lying
+in `D_{LQCoh^fbc}(𝒪_𝒳)`, the restriction `g^*K` to the flat-fppf site of **Stacks 0787** vanishes
 exactly when `K` lies in `D_{𝒫_𝒳}(𝒪_𝒳)`.
+
+The presheaf form is strictly stronger than **Stacks 0762** and fails for quasi-coherent modules,
+so the hypothesis on `K` is stronger than the source's and this is not Stacks 07B9 (2)(b).  That
+statement, with `LQCoh^fbc` read with the pullback of sheaves as in Stacks 0762, is
+`AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff_derivedParasitic`.
 
 Here `g^*` is restriction along the inclusion of the flat objects, which is pullback along the
 morphism of ringed topoi of **Stacks 0788** (2) by **Stacks 0788**, `flat_ringed`, and which needs
@@ -283,8 +308,6 @@ Verdier quotient of **Stacks 07B6** divides by.
 The local quasi-coherence and flat base change half of the right-hand side is free given the
 hypothesis on `K`; the content is the parasitic half, which is
 `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff_forall_isParasitic`. -/
-@[stacks 07B9 "part (2)(b), the kernel of g^* on D_LQCoh^fbc(𝒪_𝒳): g^*K = 0 exactly when K lies \
-in D_(Parasitic ∩ LQCoh^fbc)(𝒪_𝒳), with g^* restriction to the flat-fppf site"]
 theorem isZero_derivedModuleRestriction_iff {E : BigEtaleSite.{u}} {h : E.cutoff = B.cutoff}
     (K : DerivedCategory (fppfModules B S hS 𝒳))
     (hK : derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳 K) :
@@ -295,8 +318,9 @@ theorem isZero_derivedModuleRestriction_iff {E : BigEtaleSite.{u}} {h : E.cutoff
 
 variable (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 
-/-- **Stacks 07B9** (2)(d), the first step of its proof: `g^*` inverts the class of morphisms that
-the Verdier quotient of **Stacks 07B6** inverts.
+/-- The first step of the proof of **Stacks 07B9** (2)(d), for the presheaf form of the flat base
+change property (stronger than Stacks 0762): `g^*` inverts the class of morphisms that the
+Verdier quotient `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent` inverts.
 
 A morphism `f` of `D_{LQCoh^fbc}(𝒪_𝒳)` is inverted by that quotient exactly when its cone lies in
 `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.  Restriction to the flat-fppf site is exact, hence triangulated,
@@ -315,8 +339,9 @@ theorem isInvertedBy_derivedQuasicoherentW :
   exact (Pretriangulated.Triangle.isZero₃_iff_isIso₁ _
     (Functor.map_distinguished (moduleRestriction B S hS 𝒳).mapDerivedCategory _ hT)).1 hZ0
 
-/-- **Stacks 07B9** (2)(d), the functor `c`.  Restriction to the flat-fppf site descends along the
-Verdier quotient of **Stacks 07B6** to a functor
+/-- The functor `c` of the proof of **Stacks 07B9** (2)(d), for the presheaf form of the flat base
+change property (stronger than Stacks 0762).  Restriction to the flat-fppf site descends along the
+Verdier quotient `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent` to a functor
 
 `c : D_QCoh(𝒪_𝒳) ⥤ D(𝒪_{𝒳_{flat,fppf}})`,
 
@@ -327,13 +352,17 @@ def derivedQuasicoherentModuleRestriction :
   Localization.lift _ (isInvertedBy_derivedQuasicoherentW B S hS 𝒳 E h)
     (toDerivedCategoryQuasicoherent B E h S hS 𝒳)
 
-/-- **Stacks 07B9** (2)(d), the commutativity the functor `c` is characterized by: composing the
-quotient functor `D_{LQCoh^fbc}(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳)` of **Stacks 07B6** with `c` gives back
-restriction to the flat-fppf site.  This is what pins `c` down; it is the "inner triangle
-commutes" of the source's proof. -/
-@[stacks 07B9 "part (2)(d), the functor c : D_QCoh(𝒪_𝒳) ⥤ D(𝒪_{𝒳_flat,fppf}) that g^* induces on \
-the Verdier quotient of 07B6, together with its factorization through the quotient functor; the \
-mutual inverseness of c with Lg_! is not covered"]
+/-- The commutativity the functor `c` of the proof of **Stacks 07B9** (2)(d) is characterized
+by, for the presheaf form of the flat base change property: composing the quotient functor
+`D_{LQCoh^fbc}(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳)` of `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent` with
+`c` gives back restriction to the flat-fppf site.  This is the "inner triangle commutes" of the
+source's proof.
+
+Here `LQCoh^fbc(𝒪_𝒳)` is read with `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, which is
+strictly stronger than **Stacks 0762** and fails for quasi-coherent modules, so the quotient is not
+the `D_QCoh(𝒪_𝒳)` of Stacks 07B6 and this is not Stacks 07B9 (2)(d).  That statement, with
+`LQCoh^fbc` read with the pullback of sheaves as in Stacks 0762, is
+`AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentEquivalence`. -/
 def toDerivedCategoryQuasicoherentCompRestriction :
     toDerivedCategoryQuasicoherent B E h S hS 𝒳 ⋙
         derivedQuasicoherentModuleRestriction B S hS 𝒳 E h ≅

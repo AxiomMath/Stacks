@@ -516,7 +516,8 @@ theorem finitePresentation_sheafHom_sections
 
 /-- Let `𝒳` be a locally Noetherian algebraic stack and `ℱ`, `𝒢` coherent `𝒪_𝒳`-modules. Then the
 internal hom `hom(ℱ, 𝒢) = Q(𝓗om_{𝒪_𝒳}(ℱ, 𝒢))` is a coherent `𝒪_𝒳`-module. -/
-@[stacks 0GRD]
+@[stacks 0GRD "for a locally Noetherian algebraic stack and coherent F, G, the module \
+hom(F, G) = Q(Hom(F, G)) of Stacks 0GQN is coherent"]
 theorem isCoherent_coheratorInternalHom
     (h𝒳 : HasPropertyOnSomeSchemeAtlas B S hS (fun T : Scheme.{u} ↦ IsLocallyNoetherian T) 𝒳)
     {F G : _root_.SheafOfModules.{u} (ambientRingStructureSheaf B S hS 𝒳)}

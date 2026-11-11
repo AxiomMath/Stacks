@@ -2,6 +2,8 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.Duals
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.PseudoCoherenceAndTorAmplitude
+public import
+  StacksFrontier.CategoryTheory.Sites.Cohomology.Recovery21.IntersectionsFromPairwisePullbacks
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.TorAmplitude.IntervalDescent
 public import StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectDualReduction
 import StacksCore.Tactic.StacksAttribute
@@ -25,8 +27,8 @@ Let `K` be a perfect object of `D(O)`. Then
   `H^i(X₀, F) = 0` for `i > d` and every `O`-module `F`, then `K` is a compact object of `D(O)`.
 
 Both clauses are asserted by the single theorem
-`Stacks.Cohomology.QuasiCompactSite.hom_coproduct_bijective_and_isCompactObject_of_isPerfect`,
-which carries the tag.
+`hom_coproduct_bijective_and_isCompactObject_of_isPerfect_of_isQuasiCompactObject`, which carries
+the tag.
 
 ## Main results
 
@@ -37,19 +39,31 @@ which carries the tag.
 * `Stacks.Cohomology.QuasiCompactSite.preservesCoproducts_rightDerived_evaluation_of_covers`:
   the cohomology functors over `X₀` commute with direct sums, from hypotheses (2) and (3).
 * `Stacks.Cohomology.QuasiCompactSite.hom_coproduct_bijective_and_isCompactObject_of_isPerfect`:
-  **Stacks 09JC**, both clauses, under exactly the three hypotheses of the tag.
+  both clauses of Stacks 09JC, with hypotheses (2) and (3) in the form of the covering data of
+  Stacks 0G22.
+* **Stacks 09JC**, both clauses, under exactly the three hypotheses of the tag:
+  `Stacks.Cohomology.QuasiCompactSite.`
+  `hom_coproduct_bijective_and_isCompactObject_of_isPerfect_of_isQuasiCompactObject`.
 
 ## How the hypotheses of the tag are read
 
-Hypothesis (1) is `X₀` together with `hterm : IsTerminal X₀`, `hqc : X.J.IsQuasiCompactObject X₀`
-— quasi-compactness of an object of a site in the sense of Stacks 090H — and `hX₀ : B X₀`.
-Hypotheses (2) and (3) are the covering data `B`, `Cov`, `hCov`, `hcofinal` and `hfinite` of
-Stacks 0G22: `B` is the collection of quasi-compact objects, `Cov U` the finite coverings of `U`
-by quasi-compact objects, `hcofinal` their cofinality, and `Stacks.Cohomology.HasIntersectionsIn`
-asks at once that a member of `Cov U` be finite, that `U` and its members lie in `B`, and that
-its iterated fibre products lie in `B` — the finiteness clause of (2) and the whole of (3).
-Leaving `B` and `Cov` as parameters only generalizes: the tag is the instance at the
-quasi-compact objects and their finite quasi-compact coverings.
+Hypothesis (1) is `X₀` together with `hterm : IsTerminal X₀` and
+`hqc : X.J.IsQuasiCompactObject X₀`, quasi-compactness of an object of a site in the sense of
+Stacks 090H. Hypothesis (2) says that every covering sieve of a quasi-compact object is refined
+by a covering by finitely many quasi-compact objects. Hypothesis (3) says that for such a finite
+covering `{U_i → U}` of a quasi-compact `U` each fibre product `U_i ×_U U_j` exists and is
+quasi-compact: a Grothendieck topology, unlike a site in the sense of Stacks 00VH, does not
+provide those fibre products.
+
+Stacks 0G22 and 0739 are stated with covering data `B`, `Cov`: `B` a collection of objects,
+`Cov U` covering families of `U` cofinal among the coverings of members of `B`, each finite with
+its target, its members and all its iterated fibre products in `B`
+(`Stacks.Cohomology.HasIntersectionsIn`). The theorem
+`hom_coproduct_bijective_and_isCompactObject_of_isPerfect` takes that data;
+the tagged theorem instantiates it at the quasi-compact objects and their finite coverings by
+quasi-compact objects, the iterated fibre products being quasi-compact by
+`Stacks.Cohomology.hasIntersectionsIn_of_exists_pullback`, which derives them from (3) by base
+change.
 
 ## The argument
 
@@ -200,30 +214,29 @@ theorem preservesCoproducts_rightDerived_evaluation_of_covers
     hCov hfinite hcofinal X₀ hX₀ p I
 
 omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
-/-- **Stacks 09JC.** Let `(C, O)` be a ringed site and assume `C` has the three properties of the
-tag: a quasi-compact final object `X₀`, a cofinal system of finite coverings by quasi-compact
-objects for every quasi-compact object, and quasi-compact fibre products inside such a covering.
-Let `K` be a perfect object of `D(O)`. Then
+/-- **Compactness of a perfect object, for arbitrary covering data.** Let `B` be a collection of
+objects of the site and `Cov` a choice of covering families as in Stacks 0G22: every covering of
+an object of `B` is refined by one in `Cov`, and every member of `Cov` is finite with its target,
+its members and all its iterated fibre products in `B`. Let `X₀ ∈ B` be a quasi-compact final
+object and `K` a perfect object of `D(O)`. Then
 
-* **(a)** `K` is a compact object of `D⁺(O)` in the sense of the tag: if `M : I → D(O)` is a
-  family whose coproduct `⨁ M_i` is bounded below, then the canonical map
-  `⨁ Hom(K, M_i) → Hom(K, ⨁ M_i)` is bijective; and
-* **(b)** if `(C, O)` has finite cohomological dimension, that is if there is a `d` with
-  `H^p(X₀, F) = 0` for `p > d` and every `O`-module `F`, then `K` is a compact object of `D(O)`.
+* **(a)** if `M : I → D(O)` is a family whose coproduct `⨁ M_i` is bounded below, the canonical
+  map `⨁ Hom(K, M_i) → Hom(K, ⨁ M_i)` is bijective; and
+* **(b)** if `H^p(X₀, F) = 0` for `p > d` and every `O`-module `F`, then `K` is a compact object
+  of `D(O)`.
 
-Hypothesis (1) of the tag is `hterm`, `hqc` and `hX₀`; hypotheses (2) and (3) are the covering
-data `B`, `Cov`, `hCov`, `hcofinal` and `hfinite`, `Stacks.Cohomology.HasIntersectionsIn`
-carrying the finiteness clause of (2) together with the whole of (3). See "How the hypotheses of
-the tag are read" in the module documentation.
+This is the form of Stacks 09JC in which the covering hypotheses are those of Stacks 0G22 and
+0739; `hom_coproduct_bijective_and_isCompactObject_of_isPerfect_of_isQuasiCompactObject`, which
+carries the tag, is the instance at the quasi-compact objects and their finite coverings by
+quasi-compact objects, with hypotheses (2) and (3) of the tag as stated.
 
 Both clauses rest on the source's reduction to `j_{X₀!}O_{X₀}`, which is
 `AlgebraicGeometry.RingedSite.derivedDualHomEquivOfIsoStructureSheaf` together with
 `AlgebraicGeometry.RingedSite.preservesColimitsOfShape_derivedTensorFlip`. Clause (a) then needs
 the global Tor amplitude of `K^∨`, which is
-`hasFiniteTorDimension_derivedDual_of_isPerfect` from (1); clause (b) needs the commutation of
-the cohomology functors over `X₀` with direct sums, which is
-`preservesCoproducts_rightDerived_evaluation_of_covers` from (2) and (3). -/
-@[stacks 09JC]
+`hasFiniteTorDimension_derivedDual_of_isPerfect`; clause (b) needs the commutation of the
+cohomology functors over `X₀` with direct sums, which is
+`preservesCoproducts_rightDerived_evaluation_of_covers`. -/
 theorem hom_coproduct_bijective_and_isCompactObject_of_isPerfect
     (B : Set X.C) (Cov : ∀ U : X.C, Set (PreZeroHypercover.{c} U))
     (hCov : ∀ (U : X.C) (F : PreZeroHypercover.{c} U), Cov U F → F.sieve₀ ∈ X.J U)
@@ -254,6 +267,72 @@ theorem hom_coproduct_bijective_and_isCompactObject_of_isPerfect
   · exact RingedSite.isCompactObject_of_isPerfect_of_isTerminal X X₀ hterm K hK hcd
       fun p I => preservesCoproducts_rightDerived_evaluation_of_covers X B Cov hCov hfinite
         hcofinal X₀ hX₀ p I
+
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
+/-- **Stacks 09JC.** Let `(C, O)` be a ringed site such that
+
+1. `C` has a quasi-compact final object `X₀`,
+2. every quasi-compact object of `C` has a cofinal system of coverings which are finite and
+   consist of quasi-compact objects,
+3. for a finite covering `{U_i → U}` with `U` and the `U_i` quasi-compact the fibre products
+   `U_i ×_U U_j` are quasi-compact.
+
+Let `K` be a perfect object of `D(O)`. Then
+
+* **(a)** `K` is a compact object of `D⁺(O)` in the following sense: if `M : I → D(O)` is a
+  family whose coproduct `M = ⨁ M_i` is bounded below, then the canonical map
+  `⨁ Hom(K, M_i) → Hom(K, M)` is bijective;
+* **(b)** if `(C, O)` has finite cohomological dimension, that is if there is a `d` with
+  `H^p(X₀, F) = 0` for `p > d` and every `O`-module `F`, then `K` is a compact object of `D(O)`.
+
+Quasi-compactness is that of Stacks 090H,
+`CategoryTheory.GrothendieckTopology.IsQuasiCompactObject`. Hypothesis (1) is `hterm` and
+`hqc`. Hypothesis (2) is `hcofinal`: every covering sieve of a quasi-compact object is refined by
+a covering by finitely many quasi-compact objects. Hypothesis (3) is `hfibre`; since a
+Grothendieck topology, unlike a site in the sense of Stacks 00VH, does not provide the fibre
+products of a covering, (3) asserts that `U_i ×_U U_j` exists, as a limiting
+pullback cone, and is quasi-compact.
+
+The source's proof calls on Stacks 0739 and 0G22 with the quasi-compact objects as `B`; those
+need every iterated fibre product `U_{i₀} ×_U ⋯ ×_U U_{iₙ}` of such a covering to be quasi-compact,
+which follows from (3) by base change, `Stacks.Cohomology.hasIntersectionsIn_of_exists_pullback`.
+The statement is then `hom_coproduct_bijective_and_isCompactObject_of_isPerfect`. -/
+@[stacks 09JC "both clauses, under hypotheses (1)-(3) of the tag; the 08JJ reduction, the Tor \
+  amplitude of the dual and the 0739 sums are all proved, none assumed"]
+theorem hom_coproduct_bijective_and_isCompactObject_of_isPerfect_of_isQuasiCompactObject
+    (X₀ : X.C) (hterm : IsTerminal X₀) (hqc : X.J.IsQuasiCompactObject X₀)
+    (hcofinal : ∀ U : X.C, X.J.IsQuasiCompactObject U → ∀ S ∈ X.J U,
+      ∃ F : PreZeroHypercover.{u} U, F.sieve₀ ∈ X.J U ∧ F.sieve₀ ≤ S ∧ Finite F.I₀ ∧
+        ∀ i, X.J.IsQuasiCompactObject (F.X i))
+    (hfibre : ∀ (U : X.C) (F : PreZeroHypercover.{u} U), F.sieve₀ ∈ X.J U → Finite F.I₀ →
+      X.J.IsQuasiCompactObject U → (∀ i, X.J.IsQuasiCompactObject (F.X i)) →
+      ∀ i j, ∃ t : PullbackCone (F.f i) (F.f j), Nonempty (IsLimit t) ∧
+        X.J.IsQuasiCompactObject t.pt)
+    (K : DerivedCategory (_root_.SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) (hK : X.IsPerfect K) :
+    (∀ {I : Type u} [DecidableEq I]
+        (M : I → DerivedCategory (_root_.SheafOfModules.{u}
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) [HasCoproduct M],
+        DerivedCategoryB.IsBoundedBelow (∐ M) →
+        Function.Bijective
+          (DirectSum.toAddMonoid fun j => Preadditive.rightComp K (Limits.Sigma.ι M j))) ∧
+      ((∃ d : ℤ, ∀ (p : ℕ) (G : _root_.SheafOfModules.{u}
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O)), d < (p : ℤ) →
+          IsZero (((_root_.SheafOfModules.evaluation.{u}
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op X₀)).rightDerived p).obj G)) →
+        IsCompactObject.{u} K) :=
+  hom_coproduct_bijective_and_isCompactObject_of_isPerfect X
+    {U | X.J.IsQuasiCompactObject U}
+    (fun U F => F.sieve₀ ∈ X.J U ∧ Finite F.I₀ ∧ X.J.IsQuasiCompactObject U ∧
+      ∀ i, X.J.IsQuasiCompactObject (F.X i))
+    (fun _ _ h => h.1)
+    (fun _ F h => Stacks.Cohomology.hasIntersectionsIn_of_exists_pullback X.J
+      {U | X.J.IsQuasiCompactObject U}
+      (fun U F hfin hU hX hF => hfibre U F hF hfin hU hX) F h.2.1 h.2.2.1 h.2.2.2 h.1)
+    (fun U hU S hS => by
+      obtain ⟨F, hF, hle, hfin, hX⟩ := hcofinal U hU S hS
+      exact ⟨F, ⟨hF, hfin, hU, hX⟩, hle⟩)
+    X₀ hterm hqc hqc K hK
 
 end Stacks.Cohomology.QuasiCompactSite
 

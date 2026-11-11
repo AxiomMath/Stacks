@@ -19,11 +19,12 @@ Let `f : 𝒳 ⟶ 𝒴` be a quasi-compact and quasi-separated 1-morphism of alg
 `ℱ = colim_i ℱ_i` be a filtered colimit of abelian sheaves on `𝒳`. **Stacks 0GQW** asserts that
 `Rᵖf_*ℱ = colim_i Rᵖf_*ℱ_i` for every `p ≥ 0`, in the fppf topology and in the étale topology.
 
-`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfHigherDirectImages.lean` proves the
-sheafification step of that assertion and takes the local statement — that the cohomology of the
-2-fibres of `f` commutes with the colimit — as a hypothesis. This file derives it from
-quasi-compactness and quasi-separatedness of `f`, as the source does, and states the tag at the
-source's hypotheses.
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfHigherDirectImages.lean` proves the sheafification
+step of that assertion and takes the local statement — that the cohomology of the 2-fibres of `f`
+commutes with the colimit — as a hypothesis; its declarations are reduction lemmas and do not
+carry the tag. This file derives the local statement from quasi-compactness and
+quasi-separatedness of `f`, as the source does, with no further hypothesis, and registers Stacks
+0GQW, both assertions, at the source's hypotheses.
 
 ## Main results
 
@@ -246,7 +247,7 @@ theorem exists_affine_ofArrows_etale {𝒳 : Type*} [Category* 𝒳] (p : 𝒳 �
   obtain ⟨V, hV, hVU⟩ := exists_isCovering_tautologicallyEquivalent_openCover B
     (p.obj W).left (B.inclusion.obj (p.obj W).left).affineOpenCover.openCover
   have hEt : IsEtaleCovering (⟨(p.obj W).left, V⟩ : Covering B.Schemes) := by
-    change (V.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
+    show (V.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
     have hU :
         (B.inclusion.obj (p.obj W).left).affineOpenCover.openCover.toPreZeroHypercover.presieve₀
         ∈ Scheme.etalePrecoverage _ :=
@@ -278,7 +279,7 @@ theorem exists_affine_ofArrows_etale {𝒳 : Type*} [Category* 𝒳] (p : 𝒳 �
     obtain ⟨e, -⟩ := hβ j
     have : IsAffine
         ((B.inclusion.obj (p.obj W).left).affineOpenCover.openCover.X (β j)) := by
-      change IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
+      show IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
       exact isAffine_Spec _
     have hIso : IsIso e.hom := e.isIso_hom
     exact @IsAffine.of_isIso _ _ e.hom hIso inferInstance
@@ -286,9 +287,9 @@ theorem exists_affine_ofArrows_etale {𝒳 : Type*} [Category* 𝒳] (p : 𝒳 �
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .etale (p.obj W) := by
-    change Sieve.ofArrows Vobj vmap ∈ ((etaleTopology B).over (B.obj hS)) (p.obj W)
+    show Sieve.ofArrows Vobj vmap ∈ ((etaleTopology B).over (B.obj hS)) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    change Sieve.ofArrows V.X V.f ∈ etaleTopology B (p.obj W).left
+    show Sieve.ofArrows V.X V.f ∈ etaleTopology B (p.obj W).left
     have hpre : V.presieve₀ ∈ etalePrecoverage B (p.obj W).left := ⟨V, rfl, hV, hEt⟩
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   choose y φ hφ using fun j => hp.exists_lift (vmap j) W rfl
@@ -304,7 +305,7 @@ theorem exists_affine_ofArrows_etale {𝒳 : Type*} [Category* 𝒳] (p : 𝒳 �
     simpa using hfac
   have hfib : p.IsFibered := hp.isFibered
   refine ⟨V.I₀, y, φ, fun j => ?_, ?_⟩
-  · change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
+  · show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
     rw [hdom j]
     exact hVaff j
   · refine (Functor.isInheritedTopology_inheritedTopology p

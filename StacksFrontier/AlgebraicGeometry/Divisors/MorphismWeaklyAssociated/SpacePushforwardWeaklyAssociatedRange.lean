@@ -49,7 +49,7 @@ Stacks 0CU2 hypothesis discharged by
 `AlgebraicGeometry.Space.weaklyAssociatedPoints_modulePushforward_subset_image_of_isAffineHom`.
 Quasi-separatedness of `f`, which the source assumes, is not needed; see the implementation notes
 of `StacksFrontier/AlgebraicGeometry/Spaces/WeaklyAssociatedPushforward.lean`. -/
-@[stacks 0CUQ]
+@[stacks 0CUQ "pointwise; f need not be quasi-separated"]
 theorem not_isWeaklyAssociatedPoint_modulePushforward
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) (hF : F.IsQuasicoherentOnSite)
@@ -66,7 +66,7 @@ weakly associated point of `f_*F` lies in the image of `|f|`.
 
 This is the pointwise statement
 `AlgebraicGeometry.Space.not_isWeaklyAssociatedPoint_modulePushforward` contraposed. -/
-@[stacks 0CUQ "as an inclusion of sets of points"]
+@[stacks 0CUQ "as an inclusion of sets of points; f need not be quasi-separated"]
 theorem weaklyAssociatedPoints_modulePushforward_subset_range
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) (hF : F.IsQuasicoherentOnSite) :

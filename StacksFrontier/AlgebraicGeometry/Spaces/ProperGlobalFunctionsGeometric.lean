@@ -26,7 +26,7 @@ All in the namespace `AlgebraicGeometry.Space`:
   **Tag 0DMY, part (5)**.
 * `irreducibleSpace_primeSpectrum_globalFunctions_tensorProduct_of_isGeometricallyIrreducible`:
   **Tag 0DMY, part (6)**.
-* `bijective_baseToGlobalFunctions_of_isGeometricallyConnected`: **Tag 0DMY, part (7)**.
+* `bijective_baseToGlobalFunctions_of_isGeometricallyConnected`: **Tag 0DMY, part (7)**, in its corrected form.
 * `bijective_baseToGlobalFunctions_of_isGeometricallyIntegral`: **Tag 0DMY, part (8)**.
 
 ## Implementation notes
@@ -134,10 +134,17 @@ theorem irreducibleSpace_primeSpectrum_globalFunctions_tensorProduct_of_isGeomet
   rw [← specMapOfExtension_eq_fieldExtensionMap B k hS K hK]
   exact (hirr K hK).connectedSpace
 
-/-- **Stacks 0DMY, part (7).**  For a proper geometrically reduced and geometrically connected
-algebraic space `X` over a field `k`, the canonical homomorphism `k ⟶ H⁰(X, 𝒪_X)` is bijective:
-`A = k`. -/
-@[stacks 0DMY "part (7): if X is geometrically reduced and (geometrically) connected, A = k"]
+/-- **Stacks 0DMY, part (7), in its corrected form.**  For a proper geometrically reduced and
+geometrically connected algebraic space `X` over a field `k`, the canonical homomorphism
+`k ⟶ H⁰(X, 𝒪_X)` is bijective: `A = k`.
+
+The source prints "geometrically reduced and connected".  With mere connectedness the clause is
+false: `X = Spec ℚ(i)` over `k = ℚ` is proper, geometrically reduced and connected, yet
+`A = ℚ(i) ≠ ℚ`.  The source's proof uses geometric irreducibility of `A`, which it obtains from
+part (5), whose hypothesis is geometric connectedness; this is the hypothesis stated here, and
+the wording of the scheme version, Tag 0BUG (7).  Recorded in `errata.md`. -/
+@[stacks 0DMY "part (7), corrected form: if X is geometrically reduced and geometrically \
+connected, A = k (the printed 'connected' is false: Spec Q(i) over Q)"]
 theorem bijective_baseToGlobalFunctions_of_isGeometricallyConnected
     (hf : IsProper B (Spec (.of k)) hS f) (hgr : IsGeometricallyReduced k B hS X hX)
     (hconn : IsGeometricallyConnected B k hS X) :

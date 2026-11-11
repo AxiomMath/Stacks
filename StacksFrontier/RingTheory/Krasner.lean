@@ -68,10 +68,13 @@ We use the following standard notions.
 8. Root: `α` is a root of `P` iff `P.eval α = 0`; it is a root of `P'` iff
    `(derivative P).eval α = 0`.
 
-Note on Noetherianity: the Stacks project uses these hypotheses in contexts where
-Noetherianity is implicit; we make it explicit via `IsNoetherianRing A` since the
-proof relies on it (e.g. `m = √(π)` for any nonzero `π ∈ m`, used in the
-Newton-type approximation argument).
+Note on Noetherianity: Stacks' definition of a complete local ring (Tag 0324) does not
+include Noetherianity. The one step of Stacks' proof that uses more than completeness and
+dimension `1` is the choice of `n` with `m ^ n ⊆ (π ^ (c + m))`, which follows from
+`√(π) = m` when `m` is finitely generated; `krasner_lemma` assumes `IsNoetherianRing A` for it.
+Without Noetherianity, `krasner_iff_forall_exists_maximalIdeal_pow_le_span_singleton` shows
+that Krasner's conclusion (for all `P` and `α`) is equivalent to every nonzero `u ∈ m` having
+`m ^ n ⊆ (u)` for some `n`, so that step is exactly what the statement needs.
 -/
 
 open Polynomial IsLocalRing
@@ -286,16 +289,15 @@ theorem exists_root_sub_mem_span_singleton_pow [IsAdicComplete (maximalIdeal A) 
 
 end IsLocalRing
 
-/-- **Krasner's lemma (Stacks Tag 09EI).** Let `A` be a complete local Noetherian
-domain of Krull dimension `1` with maximal ideal `m`. If `α` is a root of `P` that
-is not a root of `P'`, then for every `c` there is an `n` such that any polynomial
-`Q` whose coefficients all lie in `m ^ n` makes `P + Q` have a root `β` with
-`β - α ∈ m ^ c`. -/
-@[stacks 09EI]
-theorem krasner_lemma
-    (A : Type*) [CommRing A] [IsDomain A] [IsLocalRing A] [IsNoetherianRing A]
+/-- Krasner's lemma for a complete local domain `A` of Krull dimension `1` in which every
+nonzero `u ∈ m` satisfies `m ^ n ⊆ (u)` for some `n`: if `α` is a root of `P` that is not a
+root of `P'`, then for every `c` there is an `n` such that any polynomial `Q` whose
+coefficients all lie in `m ^ n` makes `P + Q` have a root `β` with `β - α ∈ m ^ c`. -/
+theorem krasner_lemma_of_forall_exists_maximalIdeal_pow_le
+    (A : Type*) [CommRing A] [IsDomain A] [IsLocalRing A]
     (hdim : ringKrullDim A = 1)
     [IsAdicComplete (maximalIdeal A) A]
+    (hpow : ∀ u ∈ maximalIdeal A, u ≠ 0 → ∃ n : ℕ, maximalIdeal A ^ n ≤ Ideal.span {u})
     (P : A[X]) (α : A)
     (hroot : P.eval α = 0)
     (hderiv : (derivative P).eval α ≠ 0) :
@@ -315,8 +317,8 @@ theorem krasner_lemma
   -- allowed here, so `L = c` would be illegal at `c = 0`.
   -- This is fine because `(π ^ (c+1)) ⊆ m ^ (c+1) ⊆ m ^ c`.
   -- STEP 4: choose `n` with `m ^ n ⊆ (π ^ (2*mm + (c+1)))` (L2 with `j = 2*mm + c + 1`).
-  obtain ⟨n, hn⟩ :=
-    exists_maximalIdeal_pow_le_span_singleton_pow hdim.le hπne hπmem (2 * mm + (c + 1))
+  obtain ⟨n, hn⟩ := hpow (π ^ (2 * mm + (c + 1)))
+    (Ideal.pow_mem_of_mem _ hπmem _ (by omega)) (pow_ne_zero _ hπne)
   refine ⟨n, fun Q hQ => ?_⟩
   have eval_mem : ∀ (R : A[X]) (I : Ideal A), (∀ i, R.coeff i ∈ I) → R.eval α ∈ I := by
     intro R I hcoeff
@@ -345,6 +347,66 @@ theorem krasner_lemma
   -- STEP 6: transfer `β - α ∈ (π ^ (c+1))` to `β - α ∈ m ^ c` using `π ∈ m`.
   exact ⟨β, hβroot, (Ideal.span_singleton_le_iff_mem _).mpr
     (Ideal.pow_le_pow_right (by omega) (Ideal.pow_mem_pow hπmem (c + 1))) hβclose⟩
+
+/-- **Krasner's lemma (Stacks Tag 09EI).** Let `A` be a complete local Noetherian
+domain of Krull dimension `1` with maximal ideal `m`. If `α` is a root of `P` that
+is not a root of `P'`, then for every `c` there is an `n` such that any polynomial
+`Q` whose coefficients all lie in `m ^ n` makes `P + Q` have a root `β` with
+`β - α ∈ m ^ c`.
+
+Stacks states this for a complete local domain of dimension `1` (Tag 0324 does not ask for
+Noetherianity). The Noetherian hypothesis supplies the step `m ^ n ⊆ (π ^ (c + m))` of
+Stacks' proof; by `krasner_iff_forall_exists_maximalIdeal_pow_le_span_singleton`, that
+property of the principal ideals of `A` is equivalent to the statement, and Stacks' proof
+does not establish it for non-Noetherian `A`. -/
+@[stacks 09EI]
+theorem krasner_lemma
+    (A : Type*) [CommRing A] [IsDomain A] [IsLocalRing A] [IsNoetherianRing A]
+    (hdim : ringKrullDim A = 1)
+    [IsAdicComplete (maximalIdeal A) A]
+    (P : A[X]) (α : A)
+    (hroot : P.eval α = 0)
+    (hderiv : (derivative P).eval α ≠ 0) :
+    ∀ c : ℕ, ∃ n : ℕ, ∀ Q : A[X], (∀ i, Q.coeff i ∈ (maximalIdeal A) ^ n) →
+      ∃ β : A, (P + Q).eval β = 0 ∧ β - α ∈ (maximalIdeal A) ^ c :=
+  krasner_lemma_of_forall_exists_maximalIdeal_pow_le A hdim
+    (fun u hu hu0 => by
+      simpa using exists_maximalIdeal_pow_le_span_singleton_pow hdim.le hu0 hu 1)
+    P α hroot hderiv
+
+/-- If a local ring satisfies the conclusion of Krasner's lemma for every polynomial and every
+simple root, then every nonzero `u` satisfies `m ^ n ⊆ (u)` for some `n`: apply it to
+`P = u * X`, `α = 0`, `c = 0` and constant `Q = -x` with `x ∈ m ^ n`. -/
+theorem exists_maximalIdeal_pow_le_span_singleton_of_krasner
+    {A : Type*} [CommRing A] [IsLocalRing A]
+    (hK : ∀ (P : A[X]) (α : A), P.eval α = 0 → (derivative P).eval α ≠ 0 →
+      ∀ c : ℕ, ∃ n : ℕ, ∀ Q : A[X], (∀ i, Q.coeff i ∈ (maximalIdeal A) ^ n) →
+        ∃ β : A, (P + Q).eval β = 0 ∧ β - α ∈ (maximalIdeal A) ^ c)
+    {u : A} (hu : u ≠ 0) : ∃ n : ℕ, maximalIdeal A ^ n ≤ Ideal.span {u} := by
+  obtain ⟨n, hn⟩ := hK (C u * X) 0 (by simp) (by simpa using hu) 0
+  refine ⟨n, fun x hx => ?_⟩
+  obtain ⟨β, hβ, -⟩ := hn (C (-x)) fun i => by
+    rw [coeff_C]
+    split_ifs
+    · exact neg_mem hx
+    · exact zero_mem _
+  rw [Ideal.mem_span_singleton]
+  simp only [eval_add, eval_mul, eval_C, eval_X] at hβ
+  exact ⟨β, by linear_combination -hβ⟩
+
+/-- For a complete local domain of Krull dimension `1` (Stacks' hypotheses of Tag 09EI, without
+Noetherianity), the conclusion of Krasner's lemma holds for every polynomial and every simple
+root if and only if every nonzero `u` in the maximal ideal satisfies `m ^ n ⊆ (u)` for some
+`n`. -/
+theorem krasner_iff_forall_exists_maximalIdeal_pow_le_span_singleton
+    (A : Type*) [CommRing A] [IsDomain A] [IsLocalRing A]
+    (hdim : ringKrullDim A = 1) [IsAdicComplete (maximalIdeal A) A] :
+    (∀ (P : A[X]) (α : A), P.eval α = 0 → (derivative P).eval α ≠ 0 →
+      ∀ c : ℕ, ∃ n : ℕ, ∀ Q : A[X], (∀ i, Q.coeff i ∈ (maximalIdeal A) ^ n) →
+        ∃ β : A, (P + Q).eval β = 0 ∧ β - α ∈ (maximalIdeal A) ^ c) ↔
+      ∀ u ∈ maximalIdeal A, u ≠ 0 → ∃ n : ℕ, maximalIdeal A ^ n ≤ Ideal.span {u} :=
+  ⟨fun hK _ _ hu => exists_maximalIdeal_pow_le_span_singleton_of_krasner hK hu,
+    fun hpow => krasner_lemma_of_forall_exists_maximalIdeal_pow_le A hdim hpow⟩
 
 /-!
 ## Descent of finite separable extensions along completion

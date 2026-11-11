@@ -19,8 +19,10 @@ quasi-coherent module on `𝒳` in the sense of **Stacks 06WG** if and only if
 This file writes both sides of that biconditional in the vocabulary of the library — clause (b)
 is `AlgebraicGeometry.Stack.HasSmallEtaleBaseChangeProperty`, the left-hand side is
 `AlgebraicGeometry.Stack.IsQuasicoherentFppf` — and proves the implications between them that
-are available. **The biconditional itself is not proved and no `stacks` attribute is placed**;
-see "What is missing" below, which locates each of the two remaining steps.
+are available. The biconditional itself is proved downstream, in
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.QuasicoherentIffComparisonIso`, as
+`Stack.isQuasicoherentFppf_iff_isLocallyQuasicoherent_and_isIso_sheafifiedRestrictComparison`,
+which carries the tag; see "Where the biconditional is proved" below.
 
 The notions used are the ones of this development's 06WJ/06WC chain and no other:
 `AlgebraicGeometry.Stack.IsLocallyQuasicoherent` for local quasi-coherence, and the restriction
@@ -61,51 +63,18 @@ side is the object part of `AlgebraicGeometry.FibredSite.quasicoherentModules` o
   sheaf condition from (a) and (b)**, which is the sheaf half of the converse implication of
   Stacks 06WK.
 
-## What is missing
+## Where the biconditional is proved
 
-Both halves of the biconditional are blocked on the *same* input, the essential-surjectivity
-half of Descent, **Stacks 03DX**, on the *big* fppf site of a scheme, which this repository
-carries as the hypothesis
-`AlgebraicGeometry.BigFppfOver.QuasicoherentIsEssImageAssociatedModule` and which nothing
-discharges. On the small étale site that same half is proved, with no hypothesis, as
-`AlgebraicGeometry.SmallEtale.quasicoherentIsEssImageAssociatedModule`; it is the big-site
-statement, and not that one, that the two implications below need. The source's own proof of
-06WK uses Descent,
-Proposition 03DX twice, once in each direction, to replace a module quasi-coherent *on a site*
-by an honest quasi-coherent module `F_V` on the scheme `V`.
-
-For the implication from the left-hand side to (a), the second clause of local quasi-coherence
-asks that `x^*F|_{U_ét}` be quasi-coherent on the small étale site of `U`. The one statement in
-the library which carries quasi-coherence along a restriction of sites,
-`Stacks.SheafOfModules.isQuasicoherentOnSite_restriction`, needs the functor of sites to be
-continuous *and cocontinuous*; and the inclusion of the small étale site of `U` into `𝒳` can at
-best be cocontinuous for the inherited **étale** topology, never for the inherited fppf one,
-since an fppf covering of an étale `U`-scheme does not refine to an étale covering. For the
-inherited étale topology it *is* both, by
-`AlgebraicGeometry.Stack.isContinuous_and_isCocontinuous_restrictToSmallEtale`, and
-`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.LocallyQuasicoherentFromEtaleSite` carries
-quasi-coherence along it — at `𝒳 : Type (u + 1)` with `Category.{u} 𝒳`, since the transport
-statement is for two sites in one pair of universes. So all that is left of this implication is
-to read the left-hand side for the étale topology, and that passage — quasi-coherence from a
-finer topology to a coarser one — is what the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Topologies.QuasicoherentOnSiteOfLe` record as unavailable and
-identify with Descent, Proposition 03DX at the big site of a scheme;
-`Stacks.SheafOfModules.isQuasicoherentOnSite_of_le` is the other direction, which is available.
-The implementation notes of
-`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteComparison` record the same gap for
-Stacks 0EM8, of which this is one implication, and
-`AlgebraicGeometry.FibredSite.isQuasicoherentOnSite_of_siteRestriction` is again the available
-direction.
-
-For the implication from (a) and (b) to the left-hand side, the sheaf condition is Stacks 076T
-and is proved here over the step that file carries; what remains is quasi-coherence on the
-inherited fppf site. Stacks 06WI,
-`AlgebraicGeometry.FibredSite.isQuasicoherentOnSite_iff_forall_objectInverseImage`, reduces it to
-quasi-coherence of `x^*F` on the big fppf site of the scheme below each object, and for that one
-has to know that `x^*F` is the module associated with a quasi-coherent module on that scheme —
-the essential surjectivity again. The implementation notes of
-`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FppfSheafFromFlatBaseChange` record the same
-two inputs for the step it carries.
+Stacks 06WK, both directions, is
+`Stack.isQuasicoherentFppf_iff_isLocallyQuasicoherent_and_isIso_sheafifiedRestrictComparison`.
+Its clause (2) is stated there with the comparison map
+`AlgebraicGeometry.Stack.sheafifiedRestrictComparison` of sheaves of modules, the adjunct under
+sheafification of the comparison of Stacks 06WC. Both sides are read on the affine subcategory
+of Stacks 0H0A: quasi-coherence on `𝒳` is, for an étale sheaf, the condition that the
+base-change maps of the restriction maps between objects lying over affine schemes be bijective
+(Stacks 0H0C and 0H0E, with Stacks 0EM8 for the passage from the inherited étale site to the
+inherited fppf one), and between affine objects that condition is the invertibility of `c_φ`.
+No hypothesis is carried there beyond those of the source.
 
 Clause (b) is used in full by what is proved here, and nothing below weakens it: the arrows it
 quantifies over are all the arrows of `𝒳`, as in the source.

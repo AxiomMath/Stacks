@@ -160,7 +160,16 @@ variable (S)
 /-- **The sheaf of `𝒪_{X/S}`-modules `Ω^j_{X/S}` on the small crystalline site**, the sheaf
 associated with the presheaf `Ω^j_{X/S} = ⋀^j Ω_{X/S}` (`toCrysFormsSheaf`), with its sections in
 `Type u`.  It is the shrinking of the sheafification `crysFormsSheafULift` taken at the module
-universe `u + 1`, whose sections are `u`-small (`small_crysFormsSheafULift_obj`). -/
+universe `u + 1`, whose sections are `u`-small (`small_crysFormsSheafULift_obj`).
+
+This is the sheaf `Ω^j_{X/S} = ∧^j_{𝒪_{X/S}} Ω_{X/S}` of [Stacks, Tag 07J4]: by [Stacks, Tag 01CG]
+the exterior power of a sheaf of modules is the sheafification of the sectionwise exterior power,
+and the sheaf `Ω_{X/S}` is the sheafification of the presheaf of crystalline differentials, whose
+sectionwise exterior power has the same sheafification.  The de Rham complex of sheaves built on
+it is `crysDeRhamNatSheafComplex` of `SmallSite/DeRhamComplexSheaf.lean`. -/
+@[stacks 07J4 "Ω^j_{X/S} = ∧^j_{𝒪_{X/S}} Ω_{X/S}, the sheaf of 𝒪_{X/S}-modules on Cris(X/S): \
+the sheafification of the sectionwise exterior power (Tag 01CG); toCrysFormsSheaf is the \
+canonical map from the presheaf of forms, locally injective and locally surjective"]
 def crysFormsSheaf (j : ℕ) : SheafOfModules.{u} (structureSheaf S) :=
   Stacks.SheafOfModules.sheafShrink.{u, u + 1} (structureSheaf S) (crysFormsSheafULift S j)
 

@@ -482,9 +482,11 @@ public theorem hasFiniteTorDimensionRingHom_of_forall_localizationAtPrime {A B :
     exact ⟨E, hE, ⟨eE ≪≫ ((ModuleCat.restrictScalars.{u}
       α.toRingHom).mapDerivedCategorySingleFunctor 0).app (ModuleCat.of B B)⟩⟩
   have hperf := isPerfectModule_mvPolynomial_of_forall_localizationAtPrime n hs hpcP h
+  have : Algebra.Perfect A B :=
+    Algebra.perfect_iff_pseudoCoherent_and_exists_finite_projective_resolution.mpr ⟨hpcm, n, α, hα,
+      (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution B).mp hperf⟩
   exact (AlgebraicGeometry.hasFiniteTorDimensionRingHom_iff_forall φ).mpr fun D =>
-    ((isPerfectRingMap_iff_exists_perfect_polynomialPresentation A B D.tensor D.comparison
-      D.isLeftDerived).mpr ⟨n, α, hα, hperf⟩).2
+    Algebra.Perfect.moduleHasFiniteTorDimension D.comparison D.isLeftDerived
 
 end Base
 

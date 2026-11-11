@@ -63,15 +63,14 @@ and such that `L_{B/(B ⊗_A B)} = 0`. Then `L_{B/A} = 0` in `D(B)`.
 This is `CommAlgCat.isZero_cotangentComplexDerived_of_torIndependent` at the distinguished
 triangle of the tower `B → B ⊗_A B → B` that Proposition 08QX,
 `CommAlgCat.productFundamentalTriangle_distinguished`, provides. -/
-@[stacks 08R1 "the lemma in full, with NOTHING carried: the distinguished triangle of the tower \
-`B → B ⊗_A B → B` is Proposition 08QX, \
+@[stacks 08R1 "the lemma in full: `Tor^A_i(B, B) = 0` for `i > 0` (`hTor`) and \
+`L_{B/(B ⊗_A B)} = 0` (`hCot`) give `L_{B/A} = 0` in `D(B)`. The distinguished triangle of the \
+tower `B → B ⊗_A B → B` is Proposition 08QX, \
 `CommAlgCat.productFundamentalTriangle_distinguished`, which holds for arbitrary ring maps and \
-so covers the multiplication `B ⊗_A B → B` even though it is surjective rather than injective. \
-BOTH hypotheses of the source are used: the vanishing of the higher `Tor^A_i(B, B)` is `hTor`, \
-consumed by Stacks 08QQ (`CommAlgCat.derivedCotangentComplexBaseChangeIso`) in identifying the \
-first vertex of the triangle with `L_{B/A}`, and `L_{B/(B ⊗_A B)} = 0` is `hCot`, the vanishing \
-of the third vertex. The `B ⊗_A B`-algebra structure on `B` is the multiplication map, \
-`CommAlgCat.diagonalAlgebra`"]
+so covers the surjective multiplication `B ⊗_A B → B`. `hTor` is consumed by Stacks 08QQ \
+(`CommAlgCat.derivedCotangentComplexBaseChangeIso`) in identifying the first vertex of the \
+triangle with `L_{B/A}`, and `hCot` is the vanishing of its third vertex. The \
+`B ⊗_A B`-algebra structure on `B` is the multiplication map, `CommAlgCat.diagonalAlgebra`"]
 theorem isZero_cotangentComplexDerived_of_torIndependent_unconditional
     (hTor : RingTheory.TorIndependence.TorIndependent A B (B : Type u))
     (hCot : IsZero (fundamentalVertex₃.{u, u} (B ⊗[A] B) B)) :

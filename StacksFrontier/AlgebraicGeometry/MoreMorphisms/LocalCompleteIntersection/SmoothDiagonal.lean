@@ -47,12 +47,9 @@ on `X ×_Y X` that realizes the tensor product is the range of
 restricts to `pullback.diagonal (f.resLE U V _)`; the sections there are identified with
 `Γ(X, V) ⊗_{Γ(Y, U)} Γ(X, V)` by comparing two pushout squares of rings, and under that
 identification the map on sections of the diagonal is the multiplication map. Perfectness of
-the latter is then transported from `AlgebraicGeometry.Perfect.perfect_appLE` along that ring
-equivalence, using that an isomorphism is a flat base change
-(`RingHom.isPerfectRingMap_of_isPushout_of_flat`).
-
-The derived categories of modules come from `HasDerivedCategory.standard`, which is only ever a
-local instance, so it is re-declared here.
+the latter is then the chart property of the perfect diagonal (Mathlib's
+`AlgebraicGeometry.HasRingHomProperty.appLE`) transported along that ring equivalence, since
+perfectness of ring maps respects isomorphisms (`RingHom.Perfect.propertyIsLocal`).
 
 ## References
 
@@ -70,46 +67,11 @@ local instance, so it is re-declared here.
 open CategoryTheory CategoryTheory.Limits StacksDraft.TorAmplitude
 open scoped TensorProduct
 
-attribute [local instance] HasDerivedCategory.standard
-
 universe u
 
 open Stacks.AlgebraicGeometry.RegularIdealSheaf
 
 namespace AlgebraicGeometry
-
-/-- Perfectness of a ring map is read off the source only up to isomorphism: if `g : A' →+* B`
-becomes `f : A →+* B` after precomposition with a ring isomorphism `e : A ≃+* A'` and `f` is
-perfect, then so is `g`.
-
-An isomorphism is flat and makes `B` the pushout of `A → B` along `A → A'`, so this is the
-base-change statement `RingHom.isPerfectRingMap_of_isPushout_of_flat`, the algebra content of
-Stacks 0688. -/
-private theorem isPerfectRingMap_of_ringEquiv_source {A A' B : Type u} [CommRing A]
-    [CommRing A'] [CommRing B] (f : A →+* B) (g : A' →+* B) (e : A ≃+* A')
-    (hcomp : g.comp e.toRingHom = f)
-    (h : ∀ D : CertifiedDerivedTensoring.{u, u} A,
-      letI := f.toAlgebra
-      RingHom.IsPerfectRingMap A B D.tensor D.comparison D.isLeftDerived) :
-    letI := g.toAlgebra
-    ∀ D : CertifiedDerivedTensoring.{u, u} A',
-      RingHom.IsPerfectRingMap A' B D.tensor D.comparison D.isLeftDerived := by
-  let : Algebra A A' := e.toRingHom.toAlgebra
-  let : Algebra A B := f.toAlgebra
-  let : Algebra A' B := g.toAlgebra
-  have : IsScalarTower A A' B := IsScalarTower.of_algebraMap_eq' hcomp.symm
-  have : IsScalarTower A B B := IsScalarTower.of_algebraMap_eq' (by simp)
-  have hcat : IsPushout (CommRingCat.ofHom e.toRingHom) (CommRingCat.ofHom f)
-      (CommRingCat.ofHom g) (𝟙 (CommRingCat.of B)) := by
-    have : IsIso (CommRingCat.ofHom e.toRingHom) :=
-      (ConcreteCategory.isIso_iff_bijective _).2 e.bijective
-    refine IsPushout.of_horiz_isIso ⟨?_⟩
-    ext x
-    exact congrArg (fun φ : A →+* B => φ x) hcomp
-  have : Algebra.IsPushout A A' B B := CommRingCat.isPushout_iff_isPushout.mp hcat
-  have : Module.Flat A A' :=
-    RingHom.flat_algebraMap_iff.mp (RingHom.Flat.of_bijective e.bijective)
-  exact RingHom.isPerfectRingMap_of_isPushout_of_flat h
 
 /-- The affine-chart form of the interesting implication of Stacks 0FDP: for `f` flat with
 perfect diagonal, the map on sections over a compatible pair of affine opens is smooth.
@@ -283,24 +245,19 @@ private theorem smooth_appLE_of_flat_of_perfect_diagonal {X Y : Scheme.{u}} (f :
           congr 1
       _ = ((pullback.diagonal f).appLE W V hdelta).hom :=
         congrArg CommRingCat.Hom.hom hdiagOpen
-  have hperfect : ∀ D : CertifiedDerivedTensoring.{u, u} Γ(Q, W),
-      let := ((pullback.diagonal f).appLE W V hdelta).hom.toAlgebra
-      RingHom.IsPerfectRingMap Γ(Q, W) B D.tensor D.comparison D.isLeftDerived := by
-    intro D
-    let : Algebra Γ(Q, W) B := ((pullback.diagonal f).appLE W V hdelta).hom.toAlgebra
-    exact hperf.perfect_appLE V hV W hW hdelta D
   have : IsNoetherianRing A := IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
   have : IsNoetherianRing B := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
   have : Algebra.FiniteType A B :=
     RingHom.finiteType_algebraMap.mp (f.finiteType_appLE hU hV hVU)
   let : Module.Flat A B :=
     RingHom.flat_algebraMap_iff.mp (hflat.flat_appLE hU hV hVU)
-  have hperfμ := isPerfectRingMap_of_ringEquiv_source
-    ((pullback.diagonal f).appLE W V hdelta).hom μ e hdiag hperfect
-  have hs : Algebra.Smooth A B :=
-    StacksDraft.Smooth.smooth_of_flat_of_isPerfect_diagonal A B
-      (canonicalCertifiedDerivedTensoring _) (hperfμ _)
-  exact RingHom.smooth_algebraMap.mpr hs
+  have hperfμ : μ.Perfect := by
+    have := RingHom.Perfect.propertyIsLocal.respectsIso.2 _ e.symm
+      (HasRingHomProperty.appLE @Perfect (pullback.diagonal f) hperf ⟨W, hW⟩ ⟨V, hV⟩ hdelta)
+    rwa [← hdiag, RingHom.comp_assoc, RingEquiv.toRingHom_comp_symm_toRingHom,
+      RingHom.comp_id] at this
+  exact RingHom.smooth_algebraMap.mpr
+    (StacksDraft.Smooth.smooth_of_flat_of_isPerfect_diagonal A B hperfμ)
 
 /-- **Stacks 0FDP, the implication (4) ⇒ (1).** A morphism of finite type between locally
 Noetherian schemes which is flat and whose diagonal is perfect is smooth.

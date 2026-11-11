@@ -19,9 +19,13 @@ for the endomorphism differential graded algebra of `P`, the functor
 
 `- ⊗_E^𝐋 P : D(E) ⟶ D(𝒪_X)`
 
-of Tag 09LX is a triangulated equivalence sending the regular module to `P`. This is Beilinson's
-equivalence, [Stacks, Tag 0BQU], read with the endomorphism differential graded algebra of `P` in
-place of the upper triangular matrix algebra `R` of Tag 0CS9.
+of Tag 09LX is a triangulated equivalence sending the regular module to `P`, provided the inputs
+of Tag 09LZ and Tag 0A9V listed below are supplied. This is the general-site form of the argument
+for Beilinson's equivalence. The full statement of [Stacks, Tag 0BQU], with no input carried,
+`A`-linear and with `R = Hom_{𝒪_X}(P, P)` identified with the upper triangular matrix algebra of
+Tag 0CS9, is `Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence_matrixAlgebra` in
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/ExampleGenerator/BeilinsonMatrixAlgebra.lean`,
+proved on the ringed site `Stacks.AlgebraicGeometry.Beilinson.site`.
 
 The argument is the source's. Full faithfulness is Tag 09LZ, the adjunction with derived Hom is
 Tag 09LY, and the equivalence follows from Tag 09J1 once the right adjoint `RHom(P, -)` is shown
@@ -59,19 +63,14 @@ to kill no nonzero object — which is what it means for `P` to generate `D(𝒪
 
 ## Implementation notes
 
-*What is proved and what is carried.* The equivalence and its exactness are proved; the image of
-the regular module is identified with `P`. Two things of the source's statement are not here.
-
-* The source's source category is `D(R)` for the upper triangular matrix algebra `R` of
-  Tag 0CS9, identified with `D(E)` through `E = R`, an identification the sibling module
-  `StacksFrontier/AlgebraicGeometry/Perfect/ProjectiveGeneratorAlgebra.lean` explicitly does not
-  establish. The category here is therefore `D(E)` for the endomorphism differential graded
-  algebra `E = Hom^{dg}(P, P)` of `P`, which is the same functor of the same object but written
-  over the algebra the construction of Tag 09LX produces.
-* `A`-linearity is not stated. The differential graded category of complexes on a ringed site
-  has `ℤ` as its ground ring (Tag 09L9), so the only `Linear` structures this library supplies
-  on `D(E)` are over `ℤ`; an `A`-linear structure coming from the central action of `A` on `E`
-  is not available, and inventing one here would be stating a different notion.
+*What is proved here.* The equivalence and its exactness, from the inputs listed below; the
+image of the regular module is identified with `P`. The category is `D(E)` for the endomorphism
+differential graded algebra `E = Hom^{dg}(P, P)` of `P` on the site `projectiveSpaceSite`, and no
+`A`-linear structure is stated. Both the identification of the ring of `E` with the matrix
+algebra of Tag 0CS9 and `A`-linearity are proved for the ringed site
+`Stacks.AlgebraicGeometry.Beilinson.site` in
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/ExampleGenerator/BeilinsonMatrixAlgebra.lean` and
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/ExampleGenerator/BeilinsonEquivalenceLinear.lean`.
 
 *Which inputs of Tag 09LZ are discharged.* Four of them, here. The adjunction of Tag 09LY is
 `AlgebraicGeometry.RingedSite.tensorWithComplexDerived_adj_derivedHomWithComplex`, so the right
@@ -332,70 +331,17 @@ def twistSumComplex : CochainComplex (ModO.{u, u, u, u} (projectiveSpaceSite A n
   (CochainComplex.singleFunctor (ModO.{u, u, u, u} (projectiveSpaceSite A n)) 0).obj
     (twistSum A n)
 
-/-- **Stacks 0BQU**, with the matrix description of the endomorphism algebra and `A`-linearity
-omitted and the inputs of Tag 09LZ and Tag 0A9V carried. *"Let `A` be a ring. Let
-`X = ℙⁿ_A = Proj(S)` where `S = A[X₀, …, Xₙ]`. With `P` as in Tag 0CS8 and `R` as in Tag 0CS9
-the functor `- ⊗_R^𝐋 P : D(R) ⟶ D_QCoh(𝒪_X)` is an `A`-linear equivalence of triangulated
-categories sending `R` to `P`."*
-
-What is proved: for `P` the twist sum of Tag 0CS8 on `ℙⁿ_A`, placed in degree zero, and
-`E = Hom^{dg}(P, P)` its endomorphism differential graded algebra, the functor `- ⊗_E^𝐋 P` of
-Tag 09LX is an equivalence of categories and is exact. The image of the regular module is `P`,
-which is
+/-- **Beilinson's argument on `projectiveSpaceSite`, from the inputs of Tag 09LZ and Tag 0A9V.**
+For `P` the twist sum of Tag 0CS8 on `ℙⁿ_A`, placed in degree zero, and `E = Hom^{dg}(P, P)` its
+endomorphism differential graded algebra, the functor `- ⊗_E^𝐋 P` of Tag 09LX is an equivalence
+of categories and is exact, given the exactness of `RHom(P, -)`, its commutation with direct
+sums, `hExt` (hypothesis (2) of Tag 09LZ) and `hKgen` (the weak generation of `D(𝒪_X)` by `P`,
+the conclusion of Tag 0A9V). The image of the regular module is `P` by
 `Stacks.AlgebraicGeometry.ProjectiveGenerator.twistSumTensorDerivedObjRegularIso`.
 
-What is not: the identification `E = R` with the upper triangular matrix algebra of Tag 0CS9,
-which this library does not have, so the source category is `D(E)` rather than `D(R)`; and
-`A`-linearity, for which the library supplies no `A`-linear structure on `D(E)`. The carried
-hypotheses are the three inputs of Tag 09LZ this library does not discharge — the exactness of
-`RHom(P, -)`, its commutation with direct sums and `hExt` — together with `hKgen`, the weak
-generation of `D(𝒪_X)` by `P`, which is the conclusion of Tag 0A9V; see the module's
-implementation notes for why Tag 0A9V is carried rather than applied. The adjunction of
-Tag 09LY, the dévissage of Tag 0FQE, the direct sums of `D(E)` and the weak generation of `D(E)`
-by the regular module are *not* carried: each is supplied by a carrier of this library. -/
-@[stacks 0BQU "RESTRICTED. UNCONDITIONAL HERE is the assembly of Beilinson's argument at \
-X = ℙⁿ_A with P the twist sum of Tag 0CS8 placed in degree zero: the adjunction \
-- ⊗_E^𝐋 P ⊣ RHom(P, -) of Tag 09LY, supplied by its carrier \
-AlgebraicGeometry.RingedSite.tensorWithComplexDerived_adj_derivedHomWithComplex, together with \
-the commutation of RHom(P, -) with the translation that the adjunction induces \
-(derivedHomWithComplexCommShift); the dévissage of Tag 0FQE, supplied by its carrier \
-DifferentialGradedModule.General.property_of_coproducts_of_two_out_of_three_of_shifts; the \
-direct sums of D(E), supplied by \
-DifferentialGradedModule.General.hasCoproducts_derivedCategory; the weak generation of D(E) by \
-the regular module, proved here as isWeakTriangulatedGenerator_q_regularModule, the \
-independent-universe cone-triangle form of \
-DifferentialGradedModule.isWeakTriangulatedGenerator_q_regularModule; full faithfulness by \
-Tag 09LZ; the conversion of the weak-generator property of P into the kernel condition hker of \
-Tag 09J1 (isZero_of_isZero_derivedHom); and the conclusion by Tag 09J1 \
-that the functor - ⊗_E^𝐋 P of Tag 09LX is an equivalence of categories and is exact. The \
-clause 'sending R to P' is twistSumTensorDerivedObjRegularIso. NOT PROVED: the identification \
-of E = Hom^dg(P, P) with the upper triangular matrix algebra R of Tag 0CS9, so the source \
-category is D(E) and not D(R); and A-linearity, the library supplying no A-linear structure on \
-D(E), the ground ring of the differential graded category of complexes on a ringed site being ℤ \
-by Tag 09L9. CARRIED HYPOTHESES. (i) hKgen, that P weakly generates D(O_X). This is exactly the \
-conclusion of Tag 0A9V, which this library has as \
-Stacks.AlgebraicGeometry.ExampleGenerator.isWeakTriangulatedGenerator_twistSum_of_twists and \
-which is itself conditional: it carries hvanish, the vanishing criterion the source obtains \
-from Tag 0BQR applied to the ample invertible sheaf O_X(1) of Tag 01Q2. Tag 0BQR has no carrier \
-in this library, so it is carried as a \
-declared hypothesis here and is neither proved nor duplicated. Tag 0A9V is moreover stated for \
-the locally small model of the derived category of SheafOfModules (projRingSheaf (polyGrading A \
-n)) and for the whole of D(O_X), whereas the functor of Tag 09LX is formed in the standard \
-derived category of the ambient module category of the ringed site and the source's statement \
-is about D_QCoh(O_X), which is also the scope on which hvanish is available from Tag 0BQR; \
-neither identification is made here, so no transport of Tag 0A9V is claimed and hKgen is taken \
-in the model in which the functor lives. (ii) The three inputs of Tag 09LZ this library does \
-not discharge. The exactness of RHom(P, -): Mathlib's \
-CategoryTheory.Adjunction.isTriangulated_rightAdjoint would give it from the exactness of \
-- ⊗_E^𝐋 P, but that is the second conjunct of the conclusion here, and the independent route \
-AlgebraicGeometry.RingedSite.tensorWithComplexDerived_isTriangulated needs the exactness of \
-- ⊗_E P on K(Mod_E), which Tag 09LW supplies only against the pretriangulated structure whose \
-distinguished triangles come from admissible short exact sequences, whereas D(E) and the \
-dévissage of Tag 0FQE are read in the structure whose distinguished triangles are the cone \
-triangles, the two classes agreeing by Tag 09KH, which this library does not formalize. The \
-commutation of RHom(P, -) with direct sums, which is the only use the source's proof makes of \
-its hypothesis (1) that P represents a compact object of D(O_X). And hExt, hypothesis (2) of \
-Tag 09LZ that E computes the ext groups of P"]
+[Stacks, Tag 0BQU] itself, with none of these inputs, `A`-linear and over the matrix algebra of
+Tag 0CS9, is `Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence_matrixAlgebra`, proved on
+the ringed site `Stacks.AlgebraicGeometry.Beilinson.site`. -/
 theorem twistSum_tensorDerived_isEquivalence
     [(derivedHomWithComplex.{u, u, u, u, u} (projectiveSpaceSite A n)
       (twistSumComplex A n)).IsTriangulated]
@@ -419,16 +365,13 @@ theorem twistSum_tensorDerived_isEquivalence
   tensorWithComplexDerived_isEquivalence.{u, u, u, u, u} (projectiveSpaceSite A n)
     (twistSumComplex A n) hExt hKgen
 
-/-- **Stacks 0BQU**, the clause *"sending `R` to `P`"*: the derived tensor product with the twist
-sum sends the regular module of its endomorphism differential graded algebra to the twist sum
-itself.
+/-- The derived tensor product with the twist sum sends the regular module of its endomorphism
+differential graded algebra `E = Hom^{dg}(P, P)` to the twist sum itself.
 
 This is `AlgebraicGeometry.RingedSite.tensorWithComplexDerivedObjRegularIso` at `X = ℙⁿ_A` and
-`K = P`. The source writes the regular module as `R`, which this library does not identify with
-the matrix algebra of Tag 0CS9; it is here the regular module over `E = Hom^{dg}(P, P)`. -/
-@[stacks 0BQU "the clause 'sending R to P', with the regular module read over E = Hom^dg(P, P) \
-rather than over the upper triangular matrix algebra R of Tag 0CS9, the identification E = R \
-not being available in this library"]
+`K = P`. The clause *"sending `R` to `P`"* of [Stacks, Tag 0BQU], with `R` identified with the
+matrix algebra of Tag 0CS9, is part of
+`Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence_matrixAlgebra`. -/
 def twistSumTensorDerivedObjRegularIso :
     (tensorWithComplexDerived.{u, u, u, u, u, 0} (projectiveSpaceSite A n) ℤ
         (twistSumComplex A n)).obj

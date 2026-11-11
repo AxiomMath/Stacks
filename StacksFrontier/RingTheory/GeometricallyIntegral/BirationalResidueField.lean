@@ -13,17 +13,22 @@ generic points `x` and `y`, the following are equivalent: (1) `X` and `Y` are `S
 (2) some nonempty opens of `X` and `Y` are `S`-isomorphic, and (3) `x` and `y` have the same
 image `s` in `S` and `κ(x) ≅ κ(y)` as `κ(s)`-extensions.
 
-Parts (1) and (2) are already equivalent without any finiteness hypothesis, by
-`AlgebraicGeometry.birationalOver_iff_exists_nonempty_open_iso`. This file proves the
-equivalence of (1) and (3), which is the content that the first proof of Stacks 0559 applies:
-there one has a presentation `B' = A[x_1, …, x_{r+1}]/(P)` whose fraction field is `κ(x)` as a
-`κ(η)`-extension, and one needs a `Y`-isomorphism between nonempty opens of `X` and of
-`Spec B'`.
+Here `S`-birational is Stacks' notion (Stacks 0A20 (2)): isomorphic in the category of
+irreducible schemes over `S` and dominant `S`-rational maps,
+`AlgebraicGeometry.Scheme.DominantBirationalOver`. By
+`AlgebraicGeometry.Scheme.dominantBirationalOver_iff_birationalOver` it agrees with Mathlib's
+`AlgebraicGeometry.Scheme.BirationalOver`, which is equivalent to (2) without any finiteness
+hypothesis by `AlgebraicGeometry.birationalOver_iff_exists_nonempty_open_iso`. This file proves
+the equivalence of `BirationalOver` with (3); the statement of Stacks 0552 itself is
+`AlgebraicGeometry.tfae_dominantBirationalOver_residueField_genericPoint`. This equivalence is
+the content that the first proof of Stacks 0559 applies: there one has a presentation
+`B' = A[x_1, …, x_{r+1}]/(P)` whose fraction field is `κ(x)` as a `κ(η)`-extension, and one
+needs a `Y`-isomorphism between nonempty opens of `X` and of `Spec B'`.
 
 ## Main results
 
-* `AlgebraicGeometry.birationalOver_iff_generic_residueField_iso` is the equivalence of parts
-  (1) and (3) of Stacks 0552.
+* `AlgebraicGeometry.birationalOver_iff_generic_residueField_iso` is the equivalence of
+  `AlgebraicGeometry.Scheme.BirationalOver` with (3).
 
 ## Implementation notes
 
@@ -67,11 +72,10 @@ universe u
 
 namespace AlgebraicGeometry
 
-/-- **Stacks 0552, parts (1) and (3).** Birationality over a base of two integral schemes
-locally of finite type over it is equivalent to their generic points having the same image in
-the base together with an isomorphism of their residue fields at those generic points over the
-residue field of that common image. -/
-@[stacks 0552 "parts (1) and (3)"]
+/-- Birationality over a base (an isomorphism of dense open subschemes over the base) of two
+integral schemes locally of finite type over it is equivalent to their generic points having the
+same image in the base together with an isomorphism of their residue fields at those generic
+points over the residue field of that common image. -/
 theorem birationalOver_iff_generic_residueField_iso
     {S X Y : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
     [IsIntegral X] [IsIntegral Y]
@@ -159,9 +163,6 @@ theorem birationalOver_iff_generic_residueField_iso
     exact (g.domain.birationalOver_of_dense sX g.dense_domain).symm.trans
       (birationalOver_of_isBirational (g.domain.ι ≫ sX) sY g.hom hBirational hOver
         (Or.inl ⟨hgLFT, inferInstance⟩))
-
-add_to_stacks 0552 "parts (1) and (2)"
-  AlgebraicGeometry.birationalOver_iff_exists_nonempty_open_iso
 
 end AlgebraicGeometry
 

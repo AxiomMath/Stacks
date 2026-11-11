@@ -54,9 +54,10 @@ and that direct image is `(Ω^r_{X/Spec A₀})^{**}` again.
   `Stacks.ResolutionOfSurfaces.BlowupDualizingData.eq_step_of_dualityEquiv`: each clause of
   `ExtendsIdentification` determines the map it constrains, so the property pins a map rigidly
   rather than merely asking for one.
-* `Stacks.ResolutionOfSurfaces.exists_extendsIdentification_hom_reflexiveHull_dualizing`:
-  [Stacks, Tag 0B4T], the existence of `φ_X` extending the identification at the generic point,
-  for every sequence of blowups in closed points.
+* `Stacks.ResolutionOfSurfaces.exists_extendsIdentification_hom_reflexiveHull_dualizing`: the
+  induction of [Stacks, Tag 0B4T] over the inputs of a `BlowupDualizingData`, whose fields carry
+  the content of the tag; the tag itself is
+  `Stacks.BlowupTwistUnit.exists_topFormsTrace_eq_baseIsoOfTopForms_inv`.
 * `Stacks.ResolutionOfSurfaces.nonempty_hom_reflexiveHull_relativeDifferentialForms_dualizing`:
   the weakening of the above that forgets the extension property.
 * `Stacks.ResolutionOfSurfaces.isReflexive_relativeDifferentialForms_of_isFiniteLocallyFreeOfRank`:
@@ -292,29 +293,33 @@ public theorem BlowupDualizingData.eq_step_of_dualityEquiv {S₀ S : Scheme.{u}}
   rw [hψ] at hsymm
   exact hsymm.symm
 
-/-- **Stacks Project, Tag 0B4T.** Let `A` be a regular local ring of dimension two and `A₀ ⊆ A` a
-subring with `Ω_{A/A₀}` free of rank `r`, so that `ω_A = Ω^r_{A/A₀}` is invertible and, `A` being
-Gorenstein, dualizing. If `X → Spec A` is the result of a sequence of blowups in closed points
-then there is a map
+/-- **The induction of [Stacks, Tag 0B4T] for a `BlowupDualizingData`.** Given the inputs `D`,
+for every sequence `X → S` of blowups in closed points there is a map
 
 `φ_X : (Ω^r_{X/Spec A₀})^{**} ⟶ ω_X`
 
-extending the given identification in the generic point. The extension clause is
-`BlowupDualizingData.ExtendsIdentification`: `φ_X` descends along the sequence, by the duality
-isomorphism of each blowup and the direct-image identification of the top forms, to the map on
-`Spec A` restricting to `baseIso.inv` along `Ω^r_{A/A₀} ⟶ (Ω^r_{A/A₀})^{**}`. By
-`eq_baseHom_of_toReflexiveHull_comp` and `eq_step_of_dualityEquiv` that pins `φ_X` uniquely at
-every stage, so the conclusion is not inhabited by an arbitrary morphism.
+satisfying `BlowupDualizingData.ExtendsIdentification`: `φ_X` descends along the sequence, by the
+duality isomorphism of each blowup and the direct-image identification of the top forms, to the
+map on `S` restricting to `baseIso.inv` along `Ω^r_{S/S₀} ⟶ (Ω^r_{S/S₀})^{**}`. By
+`eq_baseHom_of_toReflexiveHull_comp` and `eq_step_of_dualityEquiv` that pins `φ_X` at every
+stage.
+
+**The structure hypotheses carry the content.** Everything the tag proves enters here through the
+fields of `BlowupDualizingData`: the family `ω` and its identification `baseIso` with the top forms,
+the duality isomorphism `dualityEquiv` of each blowup, and above all the field `pushforwardIso`,
+the isomorphism `b_*((Ω^r_{X'/S₀})^{**}) ≅ (Ω^r_{X/S₀})^{**}` that the source's proof asserts.
+That isomorphism fails at a blowup of a regular surface in a closed point — the two sides differ
+by a twist along the exceptional curve, see the module docstring of
+`StacksFrontier/AlgebraicGeometry/BlowupTwistUnit/PointBlowupHullPushforwardHom.lean` — so the
+structure is not inhabited in the situation of the tag, and the theorem below is the formal
+induction over those inputs. The tag is registered at
+`Stacks.BlowupTwistUnit.exists_topFormsTrace_eq_baseIsoOfTopForms_inv`, where `ω_X`, the
+identification and the normalization are constructed and the direct image is compared with a
+morphism whose discrepancy is proved invertible.
 
 The proof is the induction of the source: the bottom stage is `baseHom`, anchored by
 `toReflexiveHull_comp_baseHom`, and one blowup is `step`, whose correspondence to the previous
 stage is `dualityEquiv_step`. -/
-@[stacks 0B4T "the map extending the given identification at the generic point, by induction
-along the sequence of blowups; the invertible dualizing modules of Tags 0B4R and 0AGR and the
-Gorenstein property of Tag 0AWX enter as the parameter `ω` together with the field `baseIso`, the
-duality isomorphism `ω_{X'} = b^!ω_X` of Section 0AU3 as the field `dualityEquiv`, and the
-computation `b_*(Ω^r_{X'})^{**} = (Ω^r_X)^{**}` of Tags 0AGS, 0B4L and 0B3T as the field
-`pushforwardIso`, all of `BlowupDualizingData`"]
 public theorem exists_extendsIdentification_hom_reflexiveHull_dualizing {S₀ S : Scheme.{u}}
     {p : S ⟶ S₀} {n : ℤ} {ω : (W : Scheme.{u}) → (W ⟶ S) → W.Modules}
     (D : BlowupDualizingData p n ω)
@@ -335,8 +340,9 @@ This is NOT Stacks 0B4T and carries no `@[stacks]` attribute. 0B4T asserts a map
 identification of `ω_A` with `(Ω^r_{A/A₀})^{**}` at the generic point*, and that extension
 property is the content of the tag. The conclusion below states only `Nonempty (_ ⟶ _)`, which
 the zero morphism inhabits for any pair of modules — verified by elaborating `⟨0⟩` against this
-exact statement. It survives only as the forgetful consequence of the tagged statement, and is
-proved from it by discarding the witness's property. -/
+exact statement. It survives as the forgetful consequence of
+`exists_extendsIdentification_hom_reflexiveHull_dualizing`, and is proved from it by discarding
+the witness's property. -/
 public theorem nonempty_hom_reflexiveHull_relativeDifferentialForms_dualizing
     {S₀ S : Scheme.{u}} {p : S ⟶ S₀} {n : ℤ}
     {ω : (W : Scheme.{u}) → (W ⟶ S) → W.Modules} (D : BlowupDualizingData p n ω)
@@ -411,9 +417,10 @@ public def BlowupDualizingData.ofIsFiniteLocallyFreeOfRank {S₀ S : Scheme.{u}}
 `Ω^r_{S/S₀}` replaced by the hypothesis the source actually makes, that `Ω_{S/S₀}` is finite
 locally free of rank `r`.
 
-This carries no `@[stacks]` attribute: it is the same assertion as the tagged statement with one
-of the four inputs discharged, not a closer formalization of [Stacks, Tag 0B4T]. The tag's own
-statement remains `exists_extendsIdentification_hom_reflexiveHull_dualizing`, and three inputs —
+This carries no `@[stacks]` attribute: it is the same assertion as
+`exists_extendsIdentification_hom_reflexiveHull_dualizing` with one of the four inputs discharged,
+not a closer formalization of [Stacks, Tag 0B4T], which is
+`Stacks.BlowupTwistUnit.exists_topFormsTrace_eq_baseIsoOfTopForms_inv`. Three inputs —
 the normalization `baseIso`, the direct-image computation `pushforwardIso` and the duality
 isomorphism `dualityEquiv` — are still hypotheses here. -/
 public theorem exists_extendsIdentification_of_isFiniteLocallyFreeOfRank {S₀ S : Scheme.{u}}

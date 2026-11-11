@@ -23,10 +23,10 @@ section with the projection gives the factorization.
 
 * `AlgebraicGeometry.Space.idAffineOver` is `Y` itself, as an algebraic space affine over `Y`,
   and `AlgebraicGeometry.Space.unitAlgebra` is `𝒪_Y` as an `𝒪_Y`-algebra.
-* `AlgebraicGeometry.Space.relativeSpec` is the relative spectrum `\underline{Spec}_X(A)` of a
-  quasi-coherent `𝒪_X`-algebra `A` on an algebraic space `X`, together with its structure
-  morphism, as an algebraic space affine over `X`: the algebraic space affine over `X`
-  corresponding to `A` under the anti-equivalence `E`.
+* `AlgebraicGeometry.Space.relativeSpec` is the algebraic space affine over `X` corresponding
+  to a quasi-coherent `𝒪_X`-algebra `A` under the given anti-equivalence `E` (a parameter whose
+  type is empty on any site with a space having a nonzero affine chart; Stacks 081W itself is
+  `AlgebraicGeometry.Space.relativeSpectrum`).
 * `AlgebraicGeometry.Space.directImageAlgebra` is `f_* 𝒪_Y` as a quasi-coherent algebra and
   `AlgebraicGeometry.Space.relativeSpecDirectImage` is its relative spectrum.
 * `AlgebraicGeometry.Space.qcAlgebraPullback` is base change of quasi-coherent algebras.
@@ -95,10 +95,16 @@ def unitQuasicoherentAlgebra (Y : AlgebraicSpaces B S hS) : QuasicoherentAlgebra
 
 variable (E : AffineAlgebraAntiEquivalence B S hS)
 
-/-- The relative spectrum `\underline{Spec}_X(A)` of a quasi-coherent `𝒪_X`-algebra on an
-algebraic space `X`, as an algebraic space affine over `X`: the value on `A` of the inverse of
-the anti-equivalence `E`. -/
-@[stacks 081W "the relative spectrum, for a given anti-equivalence of Stacks 081V"]
+/-- The value on a quasi-coherent `𝒪_X`-algebra `A` of the inverse of a *given* anti-equivalence
+`E : AffineAlgebraAntiEquivalence B S hS`, as an algebraic space affine over `X`.
+
+This is not the relative spectrum of Stacks 081W: it is relative to the parameter `E`, and that
+parameter type is empty as soon as some algebraic space of the site has an affine étale chart
+with a nonzero ring of functions
+(`AlgebraicGeometry.Space.not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart`),
+since an algebra with at least `B.cutoff` sections over a chart is the direct image of no space
+affine over `X` in the same site. The relative spectrum of an arbitrary quasi-coherent algebra,
+registered as Stacks 081W, is `AlgebraicGeometry.Space.relativeSpectrum`. -/
 def relativeSpec {X : AlgebraicSpaces B S hS} (A : QuasicoherentAlgebra B S hS X) :
     AffineOver B S hS X :=
   ((E.equivalence X).inverse.obj A).unop

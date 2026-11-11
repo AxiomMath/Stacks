@@ -18,13 +18,16 @@ pushout
 `X' = T ⨿_{X_T} X`
 
 exists as a scheme by [Stacks Project, Tag 0E25].  This file assembles that pushout into the
-factorization `X ⟶ X' ⟶ Y` of `f` which [Stacks Project, Tag 0EDM] constructs, and proves the
-three properties the source asserts of it, together with the final finiteness statement.
+factorization `X ⟶ X' ⟶ Y` of `f` which [Stacks Project, Tag 0EDM] constructs, in the case
+where `X` and `Y` are schemes, and proves the three properties the source asserts of it, together
+with the final finiteness statement.
 
-[Stacks Project, Tag 0EDM] is the case `T = Spec k` for a field `k`, where `y` represents a
-point of `Y` with residue field `k`; the construction is carried out for a general closed
-immersion because the lift of the tag to an algebraic-space target applies it over an étale
-chart `U ⟶ Y`, where the point `y` pulls back to the closed subscheme `T = Spec k ×_Y U` of
+Tag 0EDM itself is a statement about algebraic spaces; it is
+`AlgebraicGeometry.Space.exists_glueingSpace_factorization`, which carries the tag and is built
+from the results of this file over an étale chart.  The scheme case of the tag is `T = Spec k`
+for a field `k`, where `y` represents a point of `Y` with residue field `k`; the construction is
+carried out for a general closed immersion because the algebraic-space version applies it over an
+étale chart `U ⟶ Y`, where the point `y` pulls back to the closed subscheme `T = Spec k ×_Y U` of
 `U`, which is étale over `k` and so has in general several points.  Nothing in the argument
 uses that `T` is the spectrum of a field except the statement that the fibre is a *single*
 point, which is `subsingleton_fibre_glueingToBase` and asks `Subsingleton T`.
@@ -114,16 +117,18 @@ abbrev glueingSituation : PushoutAlongClosedImmersionAndIntegralSituation.{u} wh
     rw [hfy, hz]
     exact hmemV
 
-/-- The scheme `X'` of [Stacks Project, Tag 0EDM]: the pushout `Spec k ⨿_{X_y} X`. -/
+/-- The scheme `X'` of the scheme case of [Stacks Project, Tag 0EDM]: the pushout
+`Spec k ⨿_{X_y} X`. -/
 abbrev glueingScheme : Scheme.{u} := pushoutScheme (glueingSituation f y)
 
-/-- The morphism `X ⟶ X'` of [Stacks Project, Tag 0EDM]. -/
+/-- The morphism `X ⟶ X'` of the scheme case of [Stacks Project, Tag 0EDM]. -/
 abbrev glueingToSource : X ⟶ glueingScheme f y := pushoutInl (glueingSituation f y)
 
-/-- The morphism `X' ⟶ Y` of [Stacks Project, Tag 0EDM]. -/
+/-- The morphism `X' ⟶ Y` of the scheme case of [Stacks Project, Tag 0EDM]. -/
 abbrev glueingToBase : glueingScheme f y ⟶ Y := pushoutToBase (glueingSituation f y)
 
-/-- The distinguished closed immersion `x' : T ⟶ X'` of [Stacks Project, Tag 0EDM], whose
+/-- The distinguished closed immersion `x' : T ⟶ X'` of the scheme case of
+[Stacks Project, Tag 0EDM], whose
 source is the spectrum of the residue field `k` in the case of the source. -/
 abbrev glueingPoint : T ⟶ glueingScheme f y := pushoutInr (glueingSituation f y)
 
@@ -141,9 +146,9 @@ theorem glueingPoint_comp_glueingToBase :
 def glueingAwayOpen : Y.Opens :=
   ⟨(Set.range y)ᶜ, y.isClosedEmbedding.isClosed_range.isOpen_compl⟩
 
-/-- **Clause (2) of [Stacks Project, Tag 0EDM].** The morphism `X ⟶ X'` is an isomorphism over
-the open complement of the fibre `X'_y`, which is the preimage under `X' ⟶ Y` of the open
-complement of the point represented by `y`. -/
+/-- **Clause (2) of the scheme case of [Stacks Project, Tag 0EDM].** The morphism `X ⟶ X'` is an
+isomorphism over the open complement of the fibre `X'_y`, which is the preimage under `X' ⟶ Y`
+of the open complement of the point represented by `y`. -/
 theorem isIso_glueingToSource_restrict :
     IsIso (glueingToSource f y ∣_ (glueingToBase f y ⁻¹ᵁ glueingAwayOpen y)) := by
   refine pushoutInl_isIso_morphismRestrict (glueingSituation f y) _ ?_
@@ -156,8 +161,8 @@ theorem isIso_glueingToSource_restrict :
   rw [glueingPoint_comp_glueingToBase] at hpt'
   exact hpt' ⟨pt, rfl⟩
 
-/-- **Clause (3) of [Stacks Project, Tag 0EDM].** The fibre of `X' ⟶ Y` over the point
-represented by `y` is exactly the image of the distinguished closed immersion
+/-- **Clause (3) of the scheme case of [Stacks Project, Tag 0EDM].** The fibre of `X' ⟶ Y` over the
+point represented by `y` is exactly the image of the distinguished closed immersion
 `Spec k ⟶ X'`. -/
 theorem range_glueingPoint :
     Set.range (glueingPoint f y) =
@@ -183,7 +188,7 @@ theorem range_glueingPoint :
     · exact h
 
 /-- The fibre of `X' ⟶ Y` over the image of `y` has at most one element as soon as the source
-of `y` does -- in particular when it is the spectrum of a field, which is the case of
+of `y` does -- in particular when it is the spectrum of a field, which is the scheme case of
 [Stacks Project, Tag 0EDM]. -/
 theorem subsingleton_fibre_glueingToBase [Subsingleton T] :
     ((glueingToBase f y) ⁻¹' Set.range y).Subsingleton := by
@@ -547,12 +552,13 @@ end BaseChange
 
 end PushoutBase
 
-/-- **Clause (1) of [Stacks Project, Tag 0EDM].** The morphism `X' ⟶ Y` is integral. -/
+/-- **Clause (1) of the scheme case of [Stacks Project, Tag 0EDM].** The morphism `X' ⟶ Y` is
+integral. -/
 theorem isIntegralHom_glueingToBase : IsIntegralHom (glueingToBase f y) :=
   pushoutToBase_isIntegralHom (glueingSituation f y)
 
-/-- **The final statement of [Stacks Project, Tag 0EDM].** If `f` is finite and `Y` is locally
-Noetherian, then `X' ⟶ Y` is finite.
+/-- **The final statement of the scheme case of [Stacks Project, Tag 0EDM].** If `f` is finite
+and `Y` is locally Noetherian, then `X' ⟶ Y` is finite.
 
 A finite morphism is an integral morphism which is locally of finite type, so this is clause
 (1) together with Tag 0E27, `AlgebraicGeometry.pushoutToBase_locallyOfFiniteType`: the three

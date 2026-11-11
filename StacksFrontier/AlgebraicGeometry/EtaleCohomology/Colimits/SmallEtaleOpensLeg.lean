@@ -153,7 +153,7 @@ sheaves of sets.
 **That step is also available at abelian coefficients.**
 `Stacks.WeakSites.ColimitGlobalSections.sectionOver_colimit_of_oneHypercoverOf_ab` of the file
 `AbelianSectionsOverAnObjectOfColimitOfFiniteSites` in the folder
-`StacksFrontier.CategoryTheory.Sites.InverseSystem` is the same statement with `Type w` replaced
+`StacksDraft.CategoryTheory.Sites.InverseSystem` is the same statement with `Type w` replaced
 by `Ab.{w}`. Nothing in the one-hypercover step is a
 colimit — its two object-level inputs, joint surjectivity and separatedness of the legs on
 sections over the objects of a level, are hypotheses — so it is its own set-valued instance along

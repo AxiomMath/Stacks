@@ -32,8 +32,12 @@ corresponds to a single coherent `𝒪_{X'}`-module `F'` with `π_* F' = F`
 for `f'`.
 
 **This file carries the vocabulary of both parts and the implication that reads off part (2)
-from that base change, and takes the base change itself as named hypotheses**, so `X'`, `f'`,
-`F'` and `L'` are binders and the comparison with the cohomology upstairs is a hypothesis.
+from that base change, with the base change itself as named binders**, so `X'`, `f'`, `F'` and
+`L'` are binders and the comparison with the cohomology upstairs is an argument. The whole tag,
+both parts at exactly the source's hypotheses, is
+`moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology` in
+`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.FiniteGradedCohomology`, which constructs
+the base change and carries the registration of Tag 0897.
 
 *Do not read that as a claim that the ingredients are absent from the library* — an earlier
 version of this note said that none of [Stacks, Tag 01LX], [Stacks, Tag 01SB] or
@@ -56,17 +60,15 @@ version of this note said that none of [Stacks, Tag 01LX], [Stacks, Tag 01SB] or
   `AlgebraicGeometry.IsProper.isStableUnderBaseChange`, with the two pullback legs available as
   instances.
 
-What is genuinely missing, and is why the base change is still a binder here, is the *ungraded*
-realization of a `SheafOfModules.GradedModule` as a module over the ungraded realization of its
-graded algebra: without it the graded module `F` cannot be turned into the single module `F'` on
-`X'` that [Stacks, Tag 01SB] would transport. The companion gap list is in the implementation
-notes of `StacksFrontier.AlgebraicGeometry.FormalFunctions.CohomologyGradedReesBaseChange`.
+The single module `F'` on `X' = Spec_X(𝓑)` attached to the graded module `F`, and the
+comparison of its cohomology with that of the pieces of `F`, are constructed in this tree
+(`GradedQcohAlgebra.baseChangeModule` and
+`GradedQcohAlgebra.isZero_pieceTwist_of_isZero_baseChangeTwist`); they are used by
+`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.FiniteGradedCohomology`, not here.
 
-Part (1)
-is `moduleFinite_gradedCohomologySum` in
-`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.ProperCohomologyFiniteness`, which is
-where it can be stated with [Stacks, Tag 02O6] *proved* rather than assumed. What is *not*
-assumed is the cohomological content:
+The base-change form of part (1) is `moduleFinite_gradedCohomologySum` in
+`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.ProperCohomologyFiniteness`. Neither
+form takes the cohomological content as an argument:
 
 * part (1) uses [Stacks, Tag 02O6] — the finiteness of `H^i(X, F)` over a Noetherian ring for
   a proper morphism — which is stated here as the proposition `Tag02O6`, exactly as the source
@@ -75,13 +77,14 @@ assumed is the cohomological content:
 * part (2) uses [Stacks, Tag 02O1], which *is* carried, as
   `exists_isZero_rightDerivedPlus_pushforward_tensorPowModule` in the namespace
   `Stacks.AlgebraicGeometry.RelativeAmpleTwistVanishing`,
-  itself granted its single hypothesis `VanishingOverAffineBase`; and it uses
+  whose single hypothesis `VanishingOverAffineBase` is the theorem
+  `Stacks.AlgebraicGeometry.AmpleTwistAcyclicity.vanishingOverAffineBase`; and it uses
   [Stacks, Tag 01XK], which is carried unconditionally, to turn the vanishing of
   `R^p f'_* (F' ⊗ L'^{⊗d})` into the vanishing of `H^p(X', F' ⊗ L'^{⊗d})`. Ampleness of
   `L' = π^* L` is not assumed either: it is derived from the source's own ampleness of `L` by
   [Stacks, Tag 0892] part (2) for the affine `π` and [Stacks, Tag 01VK] for the affine base.
-  So the only hypothesis part (2) adds beyond the base change is `VanishingOverAffineBase`,
-  which is [Stacks, Tag 02O1]'s own.
+  So the only argument part (2) adds beyond the base change is `VanishingOverAffineBase`,
+  which is [Stacks, Tag 02O1]'s own and is proved.
 
 The vocabulary is the library's throughout and nothing is defined in parallel: graded
 algebras and graded modules on a scheme are `SheafOfModules.GradedAlgebra` and
@@ -103,8 +106,9 @@ twists are `Stacks.RelativeVeryAmple.tensorModules` of `Stacks.Ample.tensorPowMo
 
 ## Main results
 
-* `exists_isZero_pieceTwistCohomology` — **[Stacks, Tag 0897] part (2)**, granted the base
-  change and [Stacks, Tag 02O1]'s hypothesis `VanishingOverAffineBase`.
+* `exists_isZero_pieceTwistCohomology` — part (2) of [Stacks, Tag 0897] read off a given base
+  change, with [Stacks, Tag 02O1]'s `VanishingOverAffineBase` as an argument (it is the theorem
+  `Stacks.AlgebraicGeometry.AmpleTwistAcyclicity.vanishingOverAffineBase`).
 
 ## Implementation notes
 
@@ -163,7 +167,7 @@ abbrev specAlgebraRingHom (R : Type u) [CommRing R] {Y : Scheme.{u}}
 morphism `g : Y ⟶ Spec R` with `R` Noetherian and a coherent `𝒪_Y`-module `G`, the
 cohomology `H^i(Y, G)` is a finite `R`-module in every degree.
 
-No declaration in this library carries this, so it appears as a hypothesis. The equivalent
+It is proved as `Stacks.AlgebraicGeometry.GradedProperCohomology.tag02O6`. The equivalent
 scheme-indexed shape is the hypothesis `h02O6` of
 `Stacks.AlgebraicGeometry.TopDegreeFiniteType.isFiniteType_rightDerived_of_moduleFinite_cohomology`;
 the ring-indexed shape is used here because the conclusion of [Stacks, Tag 0897] part (1) is
@@ -197,14 +201,17 @@ abbrev gradedCohomologySum (F : _root_.SheafOfModules.GradedModule 𝓑) (p : �
 
 /-! ### Part (2): vanishing of the higher cohomology of the twists -/
 
-/-- **[Stacks, Tag 0897] part (2), granted the base change and [Stacks, Tag 02O1]'s own
-hypothesis.** Let `A` be a Noetherian ring, `B` a finitely generated graded `A`-algebra,
-`f : X ⟶ Spec A` proper, `F` a quasi-coherent graded `𝓑`-module of finite type and `L` an
+/-- **Part (2) of [Stacks, Tag 0897], read off a given base change.** Let `A` be a Noetherian
+ring, `B` a finitely generated graded `A`-algebra, `f : X ⟶ Spec A` proper, `F` a quasi-coherent graded `𝓑`-module of finite type and `L` an
 invertible `𝒪_X`-module. Then there is a `d₀` such that
 
 `H^p(X, Fₙ ⊗ L^{⊗d}) = 0` for every `p > 0`, every `d ≥ d₀` and **every** graded degree `n`,
 
 the uniformity in `n` being the whole point: it is what [Stacks, Tag 0884] consumes.
+
+This is the form with the base change supplied by the caller. The tag itself, with the base
+change constructed and nothing beyond the source's hypotheses, is
+`moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology`.
 
 The hypotheses beyond the source's are the base change of the source's proof —
 `f' : X' ⟶ Spec B` proper, the affine projection `π : X' ⟶ X`, a coherent `F'` on `X'`, and
@@ -225,10 +232,6 @@ What is proved here is that the bound `d₀` exists at all: [Stacks, Tag 02O1] a
 every `p > 0`, [Stacks, Tag 01XK] turns that into the vanishing of
 `H^p(X', F' ⊗ (π^* L)^{⊗d})` — `Spec B` is affine and `f'`, being proper, is quasi-compact
 and quasi-separated — and `hcmp` transports it to `X`. -/
-@[stacks 0897 "part (2), with the base change X' = Spec(B) ×_Spec(A) X and the comparison of \
-the vanishing of H^p(X', F' tensor (pi^* L)^d) with that of the H^p(X, F_n tensor L^d) \
-(089W, 01E8) as hypotheses; 02O1 enters through its own hypothesis VanishingOverAffineBase, \
-and ampleness of pi^* L is derived from that of L by 0892 and 01VK"]
 theorem exists_isZero_pieceTwistCohomology
     (A : Type u) [CommRing A] [IsNoetherianRing A] {B : Type u} [CommRing B] [Algebra A B]
     (𝒜 : ℕ → Submodule A B) [GradedAlgebra 𝒜] [Algebra.FiniteType A B]

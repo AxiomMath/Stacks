@@ -25,7 +25,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SupportedSectionsUnion
 public import StacksFrontier.AlgebraicGeometry.Stacks.EtaleOpenImmersion
 
 /-!
-# Enlarging the centre of a blowup by an effective Cartier divisor, with nothing assumed
+# Enlarging the centre of a blowup by an effective Cartier divisor, from a presentation
 
 Let `S` be a scheme, let `𝔅` be an algebraic space over `S`, let `Z ⊆ 𝔅` be a closed subspace
 and let `D ⊆ 𝔅` be an effective Cartier divisor.  Let `Z' = Z + D` be the closed subspace cut
@@ -40,16 +40,21 @@ This file discharges both and proves part (2).
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_of_presentation` is **Stacks 0867,
-  part (1)**, with no assumed inputs: a morphism which is the blowup of `𝔅` in `Z` is also the
-  blowup of `𝔅` in `Z + D`, for an algebraic space presented so that the blowup of Stacks 085Q is
-  available for it.  `AlgebraicGeometry.Space.exists_iso_blowup_sumClosedSubspaces_of_presentation`
-  is the source's phrasing of it: every blowup of `𝔅` in `Z + D` is isomorphic over `𝔅` to the
-  blowup of `𝔅` in `Z`.
-* `AlgebraicGeometry.Space.strictTransformSheaf_preimage_sumClosedSubspaces` is **Stacks 0867,
-  part (2)**, and `AlgebraicGeometry.Space.exceptionalPreimageSet_preimage_sumClosedSubspaces`
-  is the point-set identity it rests on: the exceptional preimage of the enlarged centre is the
-  exceptional preimage of `Z` together with the inverse image of `|D|`.
+* `AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_of_presentation` is part (1): a
+  morphism which is the blowup of `𝔅` in `Z` is also the blowup of `𝔅` in `Z + D`, stated with
+  the construction data of Stacks 085Q for `𝔅`.
+  `AlgebraicGeometry.Space.exists_iso_blowup_sumClosedSubspaces_of_presentation` is the source's
+  phrasing of it: every blowup of `𝔅` in `Z + D` is isomorphic over `𝔅` to the blowup of `𝔅` in
+  `Z`.
+* `AlgebraicGeometry.Space.strictTransformSheaf_preimage_sumClosedSubspaces` is part (2), and
+  `AlgebraicGeometry.Space.exceptionalPreimageSet_preimage_sumClosedSubspaces` is the point-set
+  identity it rests on: the exceptional preimage of the enlarged centre is the exceptional
+  preimage of `Z` together with the inverse image of `|D|`.
+
+Stacks 0867 itself, both parts with no construction data, is
+`AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_and_strictTransformSheaf_eq` in
+`StacksFrontier/AlgebraicGeometry/Spaces/BlowupCentreEnlargedByDivisorUnconditional.lean`, where the
+construction data is supplied for every algebraic space and every centre.
 
 ## Implementation notes
 
@@ -108,29 +113,25 @@ universe u
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-! ### Part (1) with nothing assumed -/
+/-! ### Part (1) from the construction data of Stacks 085Q -/
 
 section Constructed
 
 variable [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
-/-- **Stacks 0867, part (1).** Let `Z ⊆ 𝔅` and `D ⊆ 𝔅` be closed subspaces of an algebraic
-space over `S` with `D` an effective Cartier divisor, and let `Z + D` be the closed subspace cut
-out by the product of their defining ideals.  A morphism `b : B' ⟶ 𝔅` which is the blowup of
-`𝔅` in `Z` is also the blowup of `𝔅` in `Z + D`.
+/-- **Stacks 0867, part (1), from a presentation.** Let `Z ⊆ 𝔅` and `D ⊆ 𝔅` be closed
+subspaces of an algebraic space over `S` with `D` an effective Cartier divisor, and let `Z + D`
+be the closed subspace cut out by the product of their defining ideals.  A morphism
+`b : B' ⟶ 𝔅` which is the blowup of `𝔅` in `Z` is also the blowup of `𝔅` in `Z + D`.
 
-Nothing is granted: the input `h0809` of
+The input `h0809` of
 `AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces` — that the inverse image of `D` along
 `b` is an effective Cartier divisor — is Stacks 085X, the algebraic-space counterpart of Stacks
 0809, `AlgebraicGeometry.Space.isPullbackDefined_of_isBlowupAlong`.  Its
 proof goes through the blowup constructed in Stacks 085Q, so the construction data of that
 tag — an étale presentation `P` of `𝔅` and the three size conditions on the relative `Proj`s —
-is carried here; it does not appear in the conclusion. -/
-@[stacks 0867 "part (1): the blowup of the space in Z is the blowup of the space in Z + D, \
-with no assumed inputs beyond the Stacks 085Q construction data — the étale presentation P of \
-the base, the HasSheafify universe choice for the quotient presheaf, and the three B.Contains \
-size conditions on the relative Projs of the chart, relation and double situations — none of \
-which occurs in the conclusion"]
+is carried here; it does not appear in the conclusion.  The same statement without it is
+`AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_of_isEffectiveCartierDivisor`. -/
 theorem isBlowupAlong_sumClosedSubspaces_of_presentation {𝔅 B' : AlgebraicSpaces B S hS}
     (Z D : ClosedSubspaces B S hS 𝔅.obj)
     (hD : IsEffectiveCartierDivisor B S hS 𝔅 D)
@@ -147,7 +148,7 @@ theorem isBlowupAlong_sumClosedSubspaces_of_presentation {𝔅 B' : AlgebraicSpa
     (isPullbackDefined_of_isBlowupAlong Z P hcU hcR hcRR hb D hD)
     (fun g => isPullbackDefined_sumClosedSubspaces_iff g Z D)
 
-/-- **Stacks 0867, part (1), in the source's phrasing, with nothing assumed.**  Every blowup of
+/-- **Stacks 0867, part (1), in the source's phrasing, from a presentation.**  Every blowup of
 `𝔅` in `Z + D` is isomorphic over `𝔅` to a blowup `b : B' ⟶ 𝔅` of `𝔅` in `Z`.
 
 This is `AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_of_presentation` together with
@@ -228,7 +229,8 @@ preimage.  Those two sets of points differ by the inverse image of `|D|`
 supported set by it changes the supported sections not at all,
 `AlgebraicGeometry.Space.supportedSectionsSubmodule_union_eq`.
 
-Nothing is granted: the source's hypothesis `hW`, that `pr_X^*F` has no nonzero sections
+The hypothesis `hW` of `AlgebraicGeometry.Space.supportedSectionsSubmodule_union_eq`, that
+`pr_X^*F` has no nonzero sections
 supported on the inverse image of `|f^{-1}D|` over étale charts of `X ×_𝔅 B'` avoiding the
 exceptional preimage, is derived here from the hypothesis on `F` rather than assumed.  Away from
 the exceptional preimage the projection `pr_X : X ×_𝔅 B' ⟶ X` restricts to an isomorphism onto an
@@ -240,9 +242,9 @@ is étale.  A chart of `X ×_𝔅 B'` whose points avoid the exceptional preimag
 `P`, and `AlgebraicGeometry.Space.sectionSupportedIn_etaleModulePullback_iff`, applied once to the
 inclusion of `P` and once to its composite with `pr_X`, transports the vanishing of sections of
 `F` supported on `|f^{-1}D|` to that chart. -/
-@[stacks 0867 "part (2), with no assumed inputs"]
 theorem strictTransformSheaf_preimage_sumClosedSubspaces
     (Z D : ClosedSubspaces B S hS 𝔅.1)
+    (_hD : IsEffectiveCartierDivisor B S hS 𝔅 D)
     {b : B' ⟶ 𝔅} (hb : IsBlowupAlong B S hS Z b) (f : X ⟶ 𝔅)
     (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : HasNoSectionsSupportedIn B S hS X

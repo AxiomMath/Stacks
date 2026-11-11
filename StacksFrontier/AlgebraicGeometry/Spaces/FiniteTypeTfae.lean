@@ -16,7 +16,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.QuasiFiniteBaseChange
 # Local finite type of a morphism of algebraic spaces is étale local
 
 Tag 040Y is a nine-way equivalence for a morphism `f : X ⟶ Y` of algebraic spaces over a
-scheme `S`. Five of the nine conditions are reached here: `f` is locally of finite type (1);
+scheme `S`. Six of the nine conditions are compared here with the first: `f` is locally of finite type (1);
 the base change of `f` to every scheme over `Y` is locally of finite type (3); the base
 change of `f` to *one* surjective étale scheme over `Y` is locally of finite type (5); the
 composite of `f` with *one* surjective étale chart of `X` is locally of finite type (6); the
@@ -79,12 +79,11 @@ appears in front of the morphism of the site. Algebraicity of `X` and `Y` re-ent
 the forward implication (1) ⇒ (6), which uses an atlas of `X` together with Stacks 06LT and
 the composition of Stacks 03XG.
 
-Condition (4) — the same as (3) for affine schemes over `Y` — and condition (9), the Zariski
-form, are not treated. The missing step for (4) is that an algebraic space has no affine
-surjective étale chart in general, only one which is a disjoint union of affines (Stacks
-03FX), so (4) ⇒ (8) needs local finite type to be glued over the summands rather than read
-off one chart. Condition (2) is reached only in the direction (1) ⇒ (2): the converse needs
-local finite type to be glued from open subspaces covering the source.
+Condition (4) — the same as (3) for affine schemes over `Y` — condition (9), the Zariski
+form, and the converse (2) ⇒ (1) are not treated in this file. They are proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.FiniteType`, where the complete nine-way
+equivalence of Stacks 040Y is `AlgebraicGeometry.Space.isLocallyOfFiniteType_tfae`; the
+equivalences here are partial forms of it, several with weaker algebraicity hypotheses.
 
 ## References
 
@@ -157,7 +156,6 @@ private theorem property_map_fst'_of_presheaf {P : MorphismProperty Scheme.{u}}
 locally of finite type exactly when the scheme morphism induced in every commuting square of
 étale charts of it is locally of finite type. This is
 `AlgebraicGeometry.Space.IsLocallyOfFiniteType` unfolded. -/
-@[stacks 040Y "conditions (1) and (7)"]
 theorem isLocallyOfFiniteType_iff_holdsOnEveryEtaleChart (f : X ⟶ Y) :
     IsLocallyOfFiniteType B S hS f ↔
       HoldsOnEveryEtaleChart B S hS
@@ -224,7 +222,6 @@ theorem holdsOnSurjectiveEtaleChart_of_isLocallyOfFiniteType
 /-- **Stacks 040Y, conditions (1) and (8).** A morphism of algebraic spaces over `S` is
 locally of finite type exactly when it is locally of finite type on one commuting square of
 étale charts whose chart of the source is surjective. -/
-@[stacks 040Y "conditions (1) and (8)"]
 theorem isLocallyOfFiniteType_iff_holdsOnSurjectiveEtaleChart
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsLocallyOfFiniteType B S hS f ↔
@@ -238,7 +235,6 @@ theorem isLocallyOfFiniteType_iff_holdsOnSurjectiveEtaleChart
 /-- **Stacks 040Y, condition (1) implies condition (3).** The base change of a morphism of
 algebraic spaces over `S` which is locally of finite type to any scheme over its target is
 locally of finite type. This is Stacks 03XH for the cartesian square of the base change. -/
-@[stacks 040Y "condition (1) implies condition (3)"]
 theorem isLocallyOfFiniteType_pullback_fst
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) {f : X ⟶ Y}
     (hf : IsLocallyOfFiniteType B S hS f) (V : BigFppfOver B S hS)
@@ -295,7 +291,6 @@ theorem holdsOnSurjectiveEtaleChart_of_exists_etale_atlas_pullback
 /-- **Stacks 040Y, conditions (1) and (5).** A morphism of algebraic spaces over `S` is
 locally of finite type exactly when its base change to some surjective étale scheme over its
 target is locally of finite type. -/
-@[stacks 040Y "conditions (1) and (5)"]
 theorem isLocallyOfFiniteType_iff_exists_etale_atlas_pullback
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsLocallyOfFiniteType B S hS f ↔
@@ -315,7 +310,6 @@ theorem isLocallyOfFiniteType_iff_exists_etale_atlas_pullback
 /-- **Stacks 040Y, conditions (1) and (3).** A morphism of algebraic spaces over `S` is
 locally of finite type exactly when its base change to every scheme over its target is
 locally of finite type. -/
-@[stacks 040Y "conditions (1) and (3)"]
 theorem isLocallyOfFiniteType_iff_forall_pullback_fst
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsLocallyOfFiniteType B S hS f ↔
@@ -370,7 +364,6 @@ source is locally of finite type.
 
 For the forward direction an atlas of the source is étale, hence locally of finite type by
 Stacks 06LT, and local finite type is stable under composition by Stacks 03XG. -/
-@[stacks 040Y "conditions (1) and (6)"]
 theorem isLocallyOfFiniteType_iff_exists_surjective_etale_source_chart
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsLocallyOfFiniteType B S hS f ↔

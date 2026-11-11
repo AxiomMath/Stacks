@@ -68,7 +68,7 @@ public theorem toRingCat_commRingStructureSheaf :
 
 /-- **The tensor product clause of Stacks 0GNB.**  The tensor product of two quasi-coherent
 `𝒪`-modules on the small étale site of a scheme is quasi-coherent. -/
-@[stacks 0GNB "tensor_products"]
+@[stacks 0GNB "clause (5): the tensor product of two quasi-coherent modules is quasi-coherent"]
 public theorem tensorSheaf_isQuasicoherentOnSite
     (F G : SheafOfModules.{u} (structureSheaf B S hS))
     [F.IsQuasicoherentOnSite] [G.IsQuasicoherentOnSite] :

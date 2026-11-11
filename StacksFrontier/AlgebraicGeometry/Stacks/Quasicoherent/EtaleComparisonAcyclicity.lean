@@ -7,7 +7,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.A
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.LocallyQuasiCompact.HigherDirectImageLocalVanishing
 
 /-!
-# The change of topology from fppf to étale is acyclic on `LQCoh^fbc` (Stacks 075R)
+# The reduction of Stacks 075R (1) to the affine-object vanishing
 
 Let `𝒳` be a category fibred in groupoids over the big fppf site of `S` and let
 `ε : 𝒳_fppf ⟶ 𝒳_étale` be the comparison morphism of **Stacks 06TU** — the morphism of ringed
@@ -17,7 +17,7 @@ quasi-coherent (**Stacks 06WJ**) and has the flat base change property (**Stacks
 
 `Rε_*ℱ = ε_*ℱ`,
 
-that is, the higher direct images `R^iε_*ℱ` vanish for `i > 0`.  That is what this file proves.
+that is, the higher direct images `R^iε_*ℱ` vanish for `i > 0`.
 
 ## The source's argument, and what of it is here
 
@@ -27,26 +27,28 @@ says: to prove (1) it suffices to show `H^i_{fppf}(x, ℱ) = 0` for `i > 0` when
 an affine scheme, and obtains that vanishing by combining **Stacks 075F** with Descent
 **Stacks 0756** and Cohomology of Schemes **Stacks 01XB**.
 
-The *suffices* is the content of this file: the reduction of 075R (1) to the affine vanishing.
-The affine vanishing itself is carried, as the hypothesis `hvan`, and it is carried as *exactly*
-the predicate `AlgebraicGeometry.Stack.HasAffineAcyclicLqcFbcModules` that
-**Stacks 08IY** (`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc'`) and
-**Stacks 08IZ** (`AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedLqcFbc`) already carry,
-for the same reason they carry it: none of 075F for *modules over the structure sheaf*, of 0756
-beyond its step from 0755, or of 01XB on a big site in this spelling is available here.  Whoever
-discharges that predicate discharges it for 08IY, for 08IZ and for this statement at once.
+This file proves the *suffices* step, at any hom universe of `𝒳`: the reduction of 075R (1) to
+the affine vanishing, stated with the affine vanishing as the hypothesis `hvan` — exactly the
+predicate `AlgebraicGeometry.Stack.HasAffineAcyclicLqcFbcModules` that
+`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc'` and
+`AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedLqcFbc` use — and with the étale
+covering class of the objects over affine schemes as the hypothesis `hB`.
 
-The covering class is carried too, as `hB`: the source's "`x` lies over an affine scheme" is a
-covering condition for the *étale* topology, since it is an affine open cover of the scheme below
-`x` that is used, and `AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver` records that class
-only for the fppf topology.  This is the same division of labour as in
-`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc`, which carries its covering
-class as `hB` as well.
+The full statement of **Stacks 075R** is proved, with neither hypothesis, for an essentially small
+category fibred in groupoids whose morphisms lie in the universe of the schemes:
 
-Clauses (2) and (3) of 075R — the agreement of the fppf and étale cohomology groups, and the
-description of `R^if_*ℱ` as an fppf sheafification — are *not* proved here; they are deduced in
-the source from clause (1) by the Leray spectral sequence (**Stacks 0733**) and by
-**Stacks 075G**.  The attribute below says so.
+* the first assertion and clause (1) in
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FppfEtaleComparisonLqcFbc.lean`
+  (`AlgebraicGeometry.Stack.isSheaf_fppf_of_lqc_flatLfp`,
+  `AlgebraicGeometry.Stack.isZero_rightDerived_etaleComparisonPushforward_lqcFbcModule`), where
+  the affine vanishing is `AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules` and the étale
+  covering is `AlgebraicGeometry.Stack.exists_affine_ofArrows_etale`;
+* clause (2) in
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcFbcModuleFppfEtaleCohomology.lean`
+  (`AlgebraicGeometry.Stack.nonempty_fppfCohomologyIso_etaleCohomology_lqcFbcModule`);
+* clause (3) in
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcFbcModuleFppfEtaleHigherDirectImage.lean`
+  (`AlgebraicGeometry.Stack.nonempty_higherDirectImageIso_sheafify_etale_lqcFbcModule`).
 
 ## Main definitions
 
@@ -62,8 +64,8 @@ the source from clause (1) by the Leray spectral sequence (**Stacks 0733**) and 
   modules each of whose sections dies on a covering sieve has zero sheafification.
 * `AlgebraicGeometry.Stack.etaleComparisonPushforward_eq_comparisonPushforward`: `ε_*` is the
   comparison pushforward `Stacks.SheafOfModules.comparisonPushforward` the library already has.
-* `AlgebraicGeometry.Stack.isZero_rightDerived_etaleComparisonPushforward_of_lqcFbc`:
-  **Stacks 075R (1)** over the carried affine vanishing and the carried covering class.
+* `AlgebraicGeometry.Stack.isZero_rightDerived_etaleComparisonPushforward_of_lqcFbc`: the
+  reduction of **Stacks 075R (1)** to the affine-object vanishing, at any hom universe.
 
 ## References
 
@@ -173,10 +175,12 @@ variable [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrp
   [(BigFppfOver.associatedTopology B S hS p .fppf).WEqualsLocallyBijective AddCommGrpCat.{u}]
   [EnoughInjectives (fppfSiteModules B S hS p hp)]
 
-/-- **Stacks 075R, clause (1).**  Let `𝒳` be a category fibred in groupoids over the big fppf
-site of `S`, let `ε : 𝒳_fppf ⟶ 𝒳_étale` be the comparison morphism, and let `ℱ` be a sheaf of
-`𝒪_𝒳`-modules on the fppf site which is locally quasi-coherent (**Stacks 06WJ**) and has the flat
-base change property (**Stacks 0762**).  Then
+/-- **The reduction of Stacks 075R (1) to the affine-object vanishing.**  Let `𝒳` be a category
+fibred in groupoids over the big fppf site of `S`, let `ε : 𝒳_fppf ⟶ 𝒳_étale` be the comparison
+morphism, and let `ℱ` be a sheaf of `𝒪_𝒳`-modules on the fppf site which is locally
+quasi-coherent (**Stacks 06WJ**) and has the flat base change property (**Stacks 0762**).  If
+the higher fppf cohomology of such modules vanishes over the objects lying over an affine scheme
+(`hvan`), and those objects cover every object étale-locally (`hB`), then
 
 `R^iε_*ℱ = 0` for `i > 0`,
 
@@ -186,14 +190,12 @@ This is the source's reduction: by **Stacks 072W** the sheaf `R^iε_*ℱ` is the
 sheafification of the presheaf `x ↦ H^i_{fppf}(x, ℱ)`, and that presheaf vanishes on the objects
 lying over an affine scheme, which cover étale-locally.
 
-The affine vanishing `hvan` and the covering class `hB` are carried; see this file's module
-documentation. -/
-@[stacks 075R "clause (1), `Rε_*ℱ = ε_*ℱ` for the comparison ε : 𝒳_fppf ⟶ 𝒳_étale and a \
-module which is locally quasi-coherent with flat base change: the vanishing of the higher \
-direct images, reduced through Stacks 072W to the affine-object vanishing Stacks \
-08IY and 08IZ carry, which is carried here as that same predicate `hvan`, together with the \
-étale covering class of the affine objects as `hB`. Clauses (2) and (3), which the source \
-deduces from (1) by the Leray spectral sequence and by Stacks 075G, are not covered"]
+This form keeps the affine vanishing `hvan` and the étale covering class `hB` as hypotheses so
+that it applies at any hom universe; see this file's module documentation.  On an essentially
+small category fibred in groupoids whose morphisms lie in the universe of the schemes both are
+proved (`AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules`,
+`AlgebraicGeometry.Stack.exists_affine_ofArrows_etale`), and Stacks 075R (1) is
+`AlgebraicGeometry.Stack.isZero_rightDerived_etaleComparisonPushforward_lqcFbcModule`. -/
 theorem isZero_rightDerived_etaleComparisonPushforward_of_lqcFbc
     [HasSheafify (BigFppfOver.associatedTopology B S hS p .etale) AddCommGrpCat.{u}]
     [(BigFppfOver.associatedTopology B S hS p .etale).WEqualsLocallyBijective AddCommGrpCat.{u}]

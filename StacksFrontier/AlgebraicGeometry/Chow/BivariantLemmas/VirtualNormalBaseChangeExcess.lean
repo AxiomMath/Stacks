@@ -59,10 +59,14 @@ square above is the factorization hypothesis of Stacks 0FBL for `g^*𝒩`.
 * `Stacks.Chow.dualMap_comp_surjection_eq_baseChange_surjection` — the commuting square of
   Stacks 0FV7 is the factorization hypothesis of Stacks 0FBL for the pulled-back virtual normal
   sheaf.
-* `Stacks.Chow.virtualNormalGysinRestrictionCap_eq_topChernCap_comp` — **Stacks 0FV7**, on cap
-  operations.
-* `Stacks.Chow.virtualNormalGysinRestriction_eq_of_isTopChernComposition` — **Stacks 0FV7**, as
-  an equality of bivariant classes.
+* `Stacks.Chow.virtualNormalGysinRestrictionCap_eq_topChernCap_comp` — Stacks 0FV7 at constant
+  ranks under the carried hypotheses below, on cap operations.
+* `Stacks.Chow.virtualNormalGysinRestriction_eq_of_isTopChernComposition` — the same, as an
+  equality of bivariant classes.
+
+The complete Stacks 0FV7, unconditional and of arbitrary ranks, is
+`Stacks.Chow.completedVirtualNormalGysinRestriction_eq_of_isTopChernComposition` in
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.CompletedVirtualNormalRestrictionExcess`.
 
 ## Implementation notes
 
@@ -86,7 +90,10 @@ the deformation space of Stacks 0FBH and the class of Stacks 0F9J are all absent
 `Stacks.Chow.IsVirtualNormalGysinClass` characterizes the class rather than constructing it, and
 why the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.VirtualNormalBundleClass` record the
-Stacks 0FBJ base change of Stacks 0FBK as not proved. Everything else the tag needs is proved or
+Stacks 0FBJ base change of Stacks 0FBK as not proved for that characterization. For the
+completed class `Stacks.Chow.completedVirtualNormalGysinClass` the clause is proved
+(`Stacks.Chow.completedBivariantRestriction_completedVirtualNormalGysinClass`), and that is how
+the complete Stacks 0FV7 is proved. Everything else the tag needs is proved or
 applied: `hsigma` is derived from the tag's commuting square, and the conclusion is Stacks 0FBL.
 
 The remaining hypotheses are those of Stacks 0FBL, unchanged and for the same reasons; see the
@@ -250,7 +257,8 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {Z X X' Nbig Nsub : Scheme.
   (pr : (modulePullback (pullback.fst i f).toLRSHom.toShHom).obj N.bundle ⟶ Eb)
   (hgys : G.IsNaturalUnderBaseChangeIso)
 
-/-- **Stacks 0FV7**, on cap operations. Let `(S, δ)` be the base situation of chapter 42, let
+/-- **Stacks 0FV7 under carried hypotheses**, on cap operations. Let `(S, δ)` be the base
+situation of chapter 42, let
 
 ```
 Z' --i'--→ X'
@@ -276,21 +284,10 @@ such that the square of `hcomm` commutes. Then, for `c = c(Z ⟶ X, 𝒩)` and
 on every test scheme `g₀ : T ⟶ X'`, in every degree and for every `α ∈ A_k(T)`.
 
 The identification of `res(c)` with `c(Z' ⟶ X', g^*𝒩)` by Stacks 0FBK is the hypothesis
-`hbase`. -/
-@[stacks 0FV7 "res(c(Z -> X, N)) = c_top(E) composed with c(Z' -> X', N') for a cartesian \
-square of closed immersions and a short exact sequence 0 -> N' -> g^*N -> E -> 0 of finite \
-locally free O_{Z'}-modules of constant ranks m', m, e whose dual square against the conormal \
-sheaves commutes. The square is the CHOSEN fibre product, which is where Stacks 0F9Z lives in \
-this repository (`bivariantRestriction`), every cartesian square being canonically isomorphic \
-to it. The commuting square IS consumed: it yields the factorization hypothesis of Stacks 0FBL \
-for g^*N, which is `dualMap_comp_surjection_eq_baseChange_surjection`. The pulled-back sheaf is \
-the virtual normal sheaf of Stacks 0FBJ, and its constant rank is PROVED, not assumed. CARRIED: \
-the Stacks 0FBJ base-change clause of Stacks 0FBK as `hbase` -- that res(c) satisfies the \
-characterizing relation for g^*N, the source's first proof step, which is recorded as not \
-proved in this repository (Stacks 0637, 0FBH, 0F9J absent); and the hypotheses of \
-Stacks 0FBL, unchanged (Stacks 0FAA at the base-changed bundle projections as `hstep`, the \
-geometric consequence of the factorization as `hfactor`, Stacks 02TY injectivity as `hinj`, \
-Stacks 0B7G as this directory's cap-rule parameter)"]
+`hbase`, and the hypotheses of Stacks 0FBL are carried as `hinj`, `hfactor` and `hstep`, so this
+is a conditional constant-rank variant. The complete Stacks 0FV7, with none of these hypotheses
+and arbitrary ranks, is
+`Stacks.Chow.completedVirtualNormalGysinRestriction_eq_of_isTopChernComposition`. -/
 theorem virtualNormalGysinRestrictionCap_eq_topChernCap_comp
     (w : inc ≫ pr = 0) (hseq : (ShortComplex.mk inc pr w).ShortExact)
     (hcomm : pullbackDualMap (pullback.fst i f) N.bundle ≫
@@ -339,26 +336,16 @@ theorem virtualNormalGysinRestrictionCap_eq_topChernCap_comp
       (isPullback_pullbackSnd i f) N P'.normalBundle inc hcomm)
     x hinj hfactor hstep hbase hbase' g₀ k α
 
-/-- **Stacks 0FV7**, as an equality in `A^m(Z' ⟶ X')`. If `d` is a bivariant class of degree `m`
+/-- **Stacks 0FV7 under carried hypotheses**, as an equality in `A^m(Z' ⟶ X')`. If `d` is a
+bivariant class of degree `m`
 for `Z' ⟶ X'` whose cap operation is cap with `c(Z' ⟶ X', 𝒩')` followed by `c_top(ℰ)`, that is
 if `d` is the composite `c_top(ℰ) ∘ c(Z' ⟶ X', 𝒩')`, then `d = res(c(Z ⟶ X, 𝒩))`.
 
 The composite is described by its cap operation, in the idiom of
-`Stacks.Chow.IsBivariantClassComposition`. -/
-@[stacks 0FV7 "res(c(Z -> X, N)) = c_top(E) composed with c(Z' -> X', N'), read as an equality \
-of classes in A^m(Z' -> X') via `BivariantClass.ext`, for a cartesian square of closed \
-immersions and a short exact sequence 0 -> N' -> g^*N -> E -> 0 of finite locally free \
-O_{Z'}-modules of constant ranks m', m, e whose dual square against the conormal sheaves \
-commutes. The square is the CHOSEN fibre product, which is where Stacks 0F9Z lives in this \
-repository (`bivariantRestriction`), every cartesian square being canonically isomorphic to it. \
-The commuting square IS consumed: it yields the factorization hypothesis of Stacks 0FBL for \
-g^*N. The pulled-back sheaf is the virtual normal sheaf of Stacks 0FBJ, and its constant rank \
-is PROVED, not assumed. CARRIED: the Stacks 0FBJ base-change clause of Stacks 0FBK as `hbase`, \
-the source's first proof step, recorded as not proved in this repository (Stacks 0637, 0FBH, \
-0F9J absent); and the hypotheses of Stacks 0FBL, unchanged (Stacks 0FAA at the \
-base-changed bundle projections as `hstep`, the geometric consequence of the factorization as \
-`hfactor`, Stacks 02TY injectivity as `hinj`, Stacks 0B7G as this directory's cap-rule \
-parameter)"]
+`Stacks.Chow.IsBivariantClassComposition`. This is a conditional constant-rank variant: it
+carries the hypotheses `hbase`, `hinj`, `hfactor` and `hstep` of
+`Stacks.Chow.virtualNormalGysinRestrictionCap_eq_topChernCap_comp`. The complete Stacks 0FV7 is
+`Stacks.Chow.completedVirtualNormalGysinRestriction_eq_of_isTopChernComposition`. -/
 theorem virtualNormalGysinRestriction_eq_of_isTopChernComposition
     (w : inc ≫ pr = 0) (hseq : (ShortComplex.mk inc pr w).ShortExact)
     (hcomm : pullbackDualMap (pullback.fst i f) N.bundle ≫

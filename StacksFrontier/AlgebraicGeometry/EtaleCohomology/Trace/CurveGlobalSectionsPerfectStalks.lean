@@ -56,7 +56,11 @@ instance sheafFiber_preservesHomology (Φ : GrothendieckTopology.Point.{w} J) :
   Functor.preservesHomology_of_preservesEpis_and_kernels _
 
 /-- **Stacks 05PP at every coefficient universe.** A short complex of abelian sheaves is exact if
-and only if its stalks at a conservative family of points are exact. -/
+and only if its stalks at a conservative family of points are exact.
+
+The points are Mathlib's `GrothendieckTopology.Point`s (cofiltered, initially small category of
+elements). This is also registered at Stacks 05V3; the form of 05V3 for the points of Stacks 00Y5
+is `Stacks.StalkExact.exact_iff_forall_abelianStalk_exact`. -/
 theorem exact_iff_forall_sheafFiber_exact
     {P : ObjectProperty (GrothendieckTopology.Point.{w} J)}
     (hP : P.IsConservativeFamilyOfPoints)

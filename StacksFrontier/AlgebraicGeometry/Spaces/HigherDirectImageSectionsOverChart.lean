@@ -3,7 +3,6 @@ module
 public import StacksFrontier.AlgebraicGeometry.Spaces.AffineMorphismCohomologyCollapse
 public import StacksFrontier.AlgebraicGeometry.Spaces.HigherPushforwardQuasicoherentReduction
 public import StacksFrontier.Algebra.Homology.DerivedFunctorOfAnAcyclicComplex
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Cohomology over an étale chart of the target and sections of the higher direct image
@@ -40,8 +39,10 @@ cartesian square of `AlgebraicGeometry.Space.isPullback_chartBaseChangeInclusion
 
 * `AlgebraicGeometry.Space.globalSectionsRightDerivedIso`: **the degeneration**,
   `R^n (Γ(Y, f_*−))(F) ≅ Γ(Y, R^n f_*F)`, granted `hcoh` and the acyclicity of Stacks 072Z.
-* `AlgebraicGeometry.Space.cohomologyChartIsoSectionsHigherDirectImage`: **Stacks 08EX**, the
-  identification of the cohomology over `V ×_Y X` with the sections over `V` of `R^q f_*F`.
+* `AlgebraicGeometry.Space.cohomologyChartIsoSectionsHigherDirectImage`: the two steps of the
+  proof of Stacks 08EX, the identification of the cohomology over `V ×_Y X` with the sections
+  over `V` of `R^q f_*F` from the three hypotheses below.  Stacks 08EX itself, with all three
+  proved, is `AlgebraicGeometry.Space.cohomologyAffineChartIsoSectionsHigherDirectImage`.
 * `AlgebraicGeometry.Space.cohomologyChartIsoSectionsHigherDirectImage_of_representable`: the
   same for a representable morphism, with the injective-preservation hypothesis discharged by
   Stacks 071Z.
@@ -190,8 +191,9 @@ def globalSectionsRightDerivedIso (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X
 
 /-! ### Stacks 08EX -/
 
-/-- **Stacks 08EX.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S`, let `F` be an
-`𝒪_X`-module and let `V` be an étale scheme chart of `Y`.  Then the cohomology of `F` over
+/-- **The two steps of the proof of Stacks 08EX, at an arbitrary chart.** Let `f : X ⟶ Y` be a
+morphism of algebraic spaces over `S`, let `F` be an `𝒪_X`-module and let `V` be an étale scheme
+chart of `Y`.  Then the cohomology of `F` over
 `U = V ×_Y X` agrees with the module of sections over `V` of the degree-`q` higher direct image
 `R^q f_*F`, in every degree:
 
@@ -207,12 +209,10 @@ Three hypotheses are carried, none of them part of this tag's own content: `h072
 Stacks 072Z through part (3) of Stacks 0731, `hcoh` is where the source invokes Stacks 0720 and
 Stacks 01XB — for an affine `V` and a quasi-coherent `F` along a quasi-compact and
 quasi-separated `f` it is exactly their conjunction — and `h03F3` is the injective-preservation
-half of Stacks 03F3, part (1), which is discharged for a representable `f` by Stacks 071Z. -/
-@[stacks 08EX "both steps of the source's proof, with its three citations carried as named
-hypotheses -- `h072Z` is Stacks 072Z via Stacks 0731(3), `hcoh` is Stacks 0720 together with
-Stacks 01XB read on the small etale site (Stacks 03DW), and `h03F3` is Stacks 03F3(1) for the
-etale morphism V times_Y X -> X; the cohomology over V times_Y X is read as the right derived
-functor of the composite Gamma(V, f'_* -)"]
+half of Stacks 03F3, part (1), which is discharged for a representable `f` by Stacks 071Z.
+
+At the source's own data all three are proved in the library, and Stacks 08EX itself is
+`AlgebraicGeometry.Space.cohomologyAffineChartIsoSectionsHigherDirectImage`. -/
 def cohomologyChartIsoSectionsHigherDirectImage (f : X ⟶ Y)
     (F : Modules.{u, u} B S hS X.1 X.2) (V : SmallEtale B S hS Y.1) (q : ℕ)
     (h03F3 : (chartBaseChangeModulePullback B S hS f V).PreservesInjectiveObjects)

@@ -30,8 +30,9 @@ commutative square
   ↓    ↓
   S ← S'
 ```
-whose upper arrow `g : X' ⟶ X` is étale, with `X'` and `S'` affine, with `X_s ⊆ g(X')`, and with
-`Γ(X', g^*F)` a projective `Γ(S', 𝒪_{S'})`-module.
+whose upper arrow `g : X' ⟶ X` is étale, such that the image of `X' ⟶ X ×_S S'` contains the
+fibre `(X ×_S S')_{s'}`, with `X'` and `S'` affine, and with `Γ(X', g^*F)` a projective
+`Γ(S', 𝒪_{S'})`-module.
 
 The source deduces this from Tag 05ID, which gives such a square one point of the fibre at a time:
 the image of each chart meets the fibre in an open neighbourhood of its point, the fibre is
@@ -55,15 +56,17 @@ stages of the deduction can be stated relative to it.
 
 ## Main results
 
-* `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_along_fibre` is
-  Tag 05KW, from Tag 05ID.
+* `AlgebraicGeometry.exists_elementary_pointed_projective_cover`: Tag 05KW from Tag 05ID as a
+  proposition, with every point of `X_s` hit by a point of `X'` lying over `s'`.
+* `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_along_fibre`: the form
+  whose covering clause is only `X_s ⊆ g(X')`.
+
+The full statement of Tag 05KW, with the image of `X' ⟶ X ×_S S'` containing the fibre
+`(X ×_S S')_{s'}`, is
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_image_contains_fibre`
+in the module `ProjectiveSectionsImageContainsFibre` beside this one.
 
 ## Implementation notes
-
-The inclusion `X_s ⊆ g(X')` is stated as `f ⁻¹' {s} ⊆ Set.range g`. The construction produces
-more, namely that each point of `X_s` is hit by a point of `X'` lying over the distinguished point
-`s'`; that sharper form is
-`AlgebraicGeometry.exists_elementary_pointed_projective_cover`.
 
 The `Γ(S', 𝒪_{S'})`-module structure on `Γ(X', g^*F)` is restriction of scalars along the map on
 global sections induced by the vertical morphism `X' ⟶ S'`, as in Tag 05ID.
@@ -600,22 +603,22 @@ theorem exists_elementary_pointed_projective_cover
     z A.point (hpz.trans (hpa i).symm)
   refine ⟨Sigma.ι Y₁ i w, ?_, ?_⟩
   · change (Sigma.ι Y₁ i ≫ g) w = f.fiberι s x
-    rw [Sigma.ι_comp_desc]
+    rw [Sigma.ι_desc]
     exact (congrArg (g₀ i) hwz).trans hgz
   · change (Sigma.ι Y₁ i ≫ h) w = A.point
-    rw [Sigma.ι_comp_desc]
+    rw [Sigma.ι_desc]
     exact hwA
 
-/-- **Stacks Project, Tag 05KW.** Let `f : X ⟶ S` be of finite presentation, let `F` be a
-quasi-coherent `𝒪_X`-module of finite presentation and let `s ∈ S` be such that `F` is flat over
-`S` at every point of the fibre `X_s`. Then there is an elementary étale neighbourhood
-`(S', s') ⟶ (S, s)` and a commutative square whose upper arrow `g : X' ⟶ X` is étale, with `X'`
-and `S'` affine, with `X_s ⊆ g(X')`, and with `Γ(X', g^*F)` a projective
-`Γ(S', 𝒪_{S'})`-module.
+/-- A form of Tag 05KW whose covering clause is the inclusion `X_s ⊆ g(X')` only. Let
+`f : X ⟶ S` be of finite presentation, let `F` be a quasi-coherent `𝒪_X`-module of finite
+presentation and let `s ∈ S` be such that `F` is flat over `S` at every point of the fibre `X_s`.
+Then there is an elementary étale neighbourhood `(S', s') ⟶ (S, s)` and a commutative square whose
+upper arrow `g : X' ⟶ X` is étale, with `X'` and `S'` affine, with `X_s ⊆ g(X')`, and with
+`Γ(X', g^*F)` a projective `Γ(S', 𝒪_{S'})`-module.
 
-Tag 05ID enters as
-`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`. -/
-@[stacks 05KW]
+Tag 05KW asserts more: the image of `X' ⟶ X ×_S S'` contains the fibre `(X ×_S S')_{s'}`. The
+statement with that conclusion is
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_image_contains_fibre`. -/
 theorem exists_elementaryEtaleNeighborhood_projective_sections_along_fibre
     {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modules) (s : S)
     (hf : FinitePresentation f)

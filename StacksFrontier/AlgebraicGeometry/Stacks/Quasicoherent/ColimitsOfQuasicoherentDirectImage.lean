@@ -58,12 +58,16 @@ which this library does not have.
   `LQCoh^fbc(𝒪_𝒳)` with those of the ambient modules, **Stacks 07AQ** part (2); only part (1) of
   that tag is proved.
 
-Direct image on `LQCoh^fbc` is data rather than a functor built here for two reasons. It is
-**Stacks 077A**, which is absent from the library; and it cannot be assembled from what is
-available, because the higher direct images of modules on the sites of a stack,
-`AlgebraicGeometry.Stack.moduleSheafHigherDirectImage`, produce modules with sections in
-`u + 1`, while `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules` pins them to
-`u` — the universe gap which the docstring of
+Direct image on `LQCoh^fbc` is data rather than a functor built here. **Stacks 077A** is proved
+on the fppf sites at module universe `u` — the functors through `LQCoh^fbc` are
+`AlgebraicGeometry.Stack.AlgebraicStacks.lqcohSheafFbcDirectImage` and
+`AlgebraicGeometry.Stack.AlgebraicStacks.lqcohSheafFbcHigherDirectImage` — but this file is
+stated over the étale-site category
+`AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules`, and there the composite
+cannot be assembled from what is available, because the higher direct images of modules on the
+sites of a stack, `AlgebraicGeometry.Stack.moduleSheafHigherDirectImage`, produce modules with
+sections in `u + 1`, while `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules`
+pins them to `u` — the universe gap which the docstring of
 `AlgebraicGeometry.Stack.isLocallyQuasicoherent_moduleSheafHigherDirectImage` records as a
 generalization of **Stacks 03DN**. No `@[stacks 077A]` attribute is recorded below: the
 composite *takes* the direct image as data, so an attribute on it would assert nothing.

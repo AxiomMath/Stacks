@@ -35,7 +35,9 @@ graded `R`-module; this is the action of `A ⊂ center(R)` on `D(R)`
 ## Main results
 
 * `Stacks.AlgebraicGeometry.Beilinson.tensorWithGenerator_linear`: `- ⊗_R^𝐋 P` is `A`-linear.
-* `Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence`: [Stacks, Tag 0BQU].
+* `Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence`: [Stacks, Tag 0BQU], registered with
+  the matrix description of `R` as
+  `Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence_matrixAlgebra`.
 
 ## References
 
@@ -311,12 +313,12 @@ theorem tensorWithGenerator_linear :
   rw [CategoryTheory.signTwist_map, map_smul_id]
   exact map_smul_id A _ _ _
 
-/-- **[Stacks, Tag 0BQU] (Beilinson).** Let `A` be a ring, `X = P^n_A = Proj A[T₀, …, Tₙ]`,
+/-- **Beilinson's equivalence.** Let `A` be a ring, `X = P^n_A = Proj A[T₀, …, Tₙ]`,
 `P = 𝒪_X ⊕ 𝒪_X(-1) ⊕ ⋯ ⊕ 𝒪_X(-n)` and `R = Hom_{𝒪_X}(P, P)`, read as in the source as the
 differential graded algebra `Hom_{Comp^dg(𝒪_X)}(P, P)` with zero differential. Then
 `- ⊗_R^𝐋 P : D(R) ⥤ D_QCoh(𝒪_X)` is an `A`-linear equivalence of triangulated categories sending
-`R` to `P`. -/
-@[stacks 0BQU]
+`R` to `P`. The identification of the ring of `R` with the upper triangular matrix algebra of
+Tag 0CS9 is added in `Stacks.AlgebraicGeometry.Beilinson.beilinson_equivalence_matrixAlgebra`. -/
 theorem beilinson_equivalence :
     (tensorWithGenerator A n).IsEquivalence ∧ (tensorWithGenerator A n).IsTriangulated ∧
       Nonempty ((tensorWithGenerator A n).obj (regular A n) ≅ twistSumQCoh A n) ∧

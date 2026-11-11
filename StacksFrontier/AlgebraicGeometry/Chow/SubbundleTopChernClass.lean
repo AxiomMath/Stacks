@@ -28,7 +28,11 @@ morphism `i : N' ⟶ N` over `X`, which is a closed embedding. [Stacks, Tag 0FAA
 
   `i_*(p')^*α = p^*(c_top(ℰ) ∩ α)`.
 
-This file constructs `i`, `p`, `p'` and states that equality.
+This file constructs `i`, `p`, `p'` and states that equality in constant ranks, from two
+named inputs. The tag itself, for arbitrary ranks and with no inputs assumed, is
+`Stacks.Chow.subbundleEmbedding_pushforward_canonicalDualBundleFlatPullback` in
+`StacksFrontier.AlgebraicGeometry.Chow.SubbundleTopChern.CanonicalFlatPullback`, and the closed
+embedding is proved outright as `Stacks.Chow.isClosedImmersion_subbundleEmbedding_of_shortExact`.
 
 ## Main definitions
 
@@ -53,13 +57,16 @@ This file constructs `i`, `p`, `p'` and states that equality.
   `Stacks.Chow.subbundleEmbedding_comp_base` — `i` is a morphism over `X`, so `i ≫ p = p'`.
 * `Stacks.Chow.epi_dualMap_of_subbundleShortExact` — the dual `𝒩^∨ ⟶ (𝒩')^∨` of the inclusion
   is surjective. This is where the short exact sequence enters the construction of `i`.
-* `Stacks.Chow.isClosedImmersion_subbundleEmbedding` — **`i` is a closed embedding**, from that
-  surjectivity.
+* `Stacks.Chow.isClosedImmersion_subbundleEmbedding` — `i` is a closed embedding, from that
+  surjectivity and `Stacks.Chow.VectorBundleEpiClosedImmersion`; the closed embedding is proved
+  without that input as `Stacks.Chow.isClosedImmersion_subbundleEmbedding_of_shortExact`.
 * `Stacks.Chow.subbundleRank_add` and `Stacks.Chow.subbundleDegree_eq` — the rank of `𝒩` is the
   sum of the ranks of `𝒩'` and `ℰ`, and the two sides of the tag's equality therefore sit in the
   same Chow degree.
-* `Stacks.Chow.subbundleEmbedding_pushforward_flatPullback_eq_topChernCap` —
-  **[Stacks, Tag 0FAA]**: the equality `i_*(p')^*α = p^*(c_top(ℰ) ∩ α)` in `CH_{k+r'}(N)`.
+* `Stacks.Chow.subbundleEmbedding_pushforward_flatPullback_eq_topChernCap` — the equality
+  `i_*(p')^*α = p^*(c_top(ℰ) ∩ α)` in `CH_{k+r'}(N)` in constant ranks, from the two steps
+  `hstep` and `hflat`. The tag is proved in general as
+  `Stacks.Chow.subbundleEmbedding_pushforward_canonicalDualBundleFlatPullback`.
 
 ## Implementation notes
 
@@ -88,17 +95,17 @@ hypothesis under which the equality is a statement at all.
 
 The ranks of `𝒩'`, `𝒩` and `ℰ` are assumed constant, which is the case the source reduces to in
 the first line of its proof: `c_top(ℰ)` is by definition (Stacks 0FA4,
-`Stacks.Chow.topChernClass`) assembled from the `r`-th Chern classes of the restrictions of `ℰ` to
-the loci where its rank is `r`, so a module of non-constant rank is handled by that decomposition
-and on each piece the rank is constant. For non-constant ranks the displayed equality has no
-single Chow degree, which is why `Stacks.Chow.topChernClass` is valued in the *completed*
-bivariant group of Stacks 0FE0.
+`Stacks.Chow.topChernClassOfInvertible`) assembled from the `r`-th Chern classes of the
+restrictions of `ℰ` to the loci where its rank is `r`, so a module of non-constant rank is handled
+by that decomposition and on each piece the rank is constant. For non-constant ranks the displayed
+equality has no single Chow degree, which is why `Stacks.Chow.topChernClassOfInvertible` is
+valued in the *completed* bivariant group of Stacks 0FE0.
 
 ### The cap product with `c_top(ℰ)`
 
 For a module of constant rank `e` the top Chern class is `c_e(ℰ)`, and the cap product with it is
 `Stacks.Chow.HigherChernCapRule` evaluated at the top index `Fin.last e`, exactly as in the
-carriers of [Stacks, Tag 0FA9]
+statement of [Stacks, Tag 0FA9] for a cap product rule
 (`Stacks.Chow.TopChernCapEqZeroScheme` of
 `StacksFrontier.AlgebraicGeometry.Chow.ChernClassOfSection`). That rule is the standing parameter of
 this directory for `chernClassCapOnChow`. The cap products with the higher Chern classes are
@@ -258,31 +265,23 @@ theorem epi_dualMap_of_subbundleShortExact (inc : N' ⟶ N) (pr : N ⟶ E) (w : 
 
 /-- **A surjection of quasi-coherent modules induces a closed immersion of the associated vector
 bundles.** This is the general statement that a surjection of quasi-coherent algebra sheaves
-gives a closed immersion of relative spectra, specialised to `Sym`; it is not available in this
-repository — nothing relates `AlgebraicGeometry.Scheme.Modules.vectorBundleMap` to
-`AlgebraicGeometry.IsClosedImmersion` — so it is carried as a hypothesis wherever the closed
-embedding of [Stacks, Tag 0FAA] is needed. -/
+gives a closed immersion of relative spectra, specialised to `Sym`. The closed embedding of
+[Stacks, Tag 0FAA] does not need it: it is
+`Stacks.Chow.isClosedImmersion_subbundleEmbedding_of_shortExact`, a base change of a zero
+section. -/
 def VectorBundleEpiClosedImmersion : Prop :=
   ∀ {Y : Scheme.{u}} (F G : Y.Modules) [F.IsQuasicoherent] [G.IsQuasicoherent] (f : F ⟶ G),
     Epi f → IsClosedImmersion (Scheme.Modules.vectorBundleMap Y f).left
 
-/-- **[Stacks, Tag 0FAA], the closed embedding of the tag's setup.** Given a short exact sequence
+/-- **The closed embedding of the setup of [Stacks, Tag 0FAA], from
+`Stacks.Chow.VectorBundleEpiClosedImmersion`.** Given a short exact sequence
 `0 ⟶ 𝒩' ⟶ 𝒩 ⟶ ℰ ⟶ 0` of finite locally free `𝒪_X`-modules, the canonical morphism
 `i : N' = Spec_X(Sym((𝒩')^∨)) ⟶ N = Spec_X(Sym(𝒩^∨))` is a closed immersion.
 
 The sequence is used through `Stacks.Chow.epi_dualMap_of_subbundleShortExact`: it makes the dual
 `𝒩^∨ ⟶ (𝒩')^∨` surjective, and a surjection of modules gives a closed immersion of vector
-bundles, which is the hypothesis `hci`. -/
-@[stacks 0FAA "the closed embedding i : N' = Spec_X(Sym((N')^dual)) -> N = Spec_X(Sym(N^dual)) \
-of the tag's setup. The morphism is the canonical one -- `Stacks.Chow.subbundleEmbedding`, the \
-relative spectrum of Sym applied to the dual of the given inclusion -- and the short exact \
-sequence is consumed, not carried: it is what makes the dual N^dual -> (N')^dual surjective, by \
-Tag 0FV8 (`Stacks.AlgebraicGeometry.ReflexiveModules.epi_dualMap_of_shortExact`). What is \
-assumed is the general lemma `Stacks.Chow.VectorBundleEpiClosedImmersion`, that a surjection of \
-quasi-coherent modules induces a closed immersion of the associated vector bundles; nothing in \
-this repository relates `AlgebraicGeometry.Scheme.Modules.vectorBundleMap` to \
-`AlgebraicGeometry.IsClosedImmersion`, so that general statement is carried as a named \
-hypothesis rather than proved."]
+bundles, which is the hypothesis `hci`. The same conclusion without `hci` is
+`Stacks.Chow.isClosedImmersion_subbundleEmbedding_of_shortExact`. -/
 theorem isClosedImmersion_subbundleEmbedding (hci : VectorBundleEpiClosedImmersion.{u})
     (inc : N' ⟶ N) (pr : N ⟶ E) (w : inc ≫ pr = 0)
     (hseq : (ShortComplex.mk inc pr w).ShortExact) :
@@ -397,7 +396,10 @@ def SubbundleChernCapStep (inc : N' ⟶ N)
         (flatPullbackChow C (dualVectorBundleToBase N ≫ sX) sX (dualVectorBundleToBase N) rfl r
           hp k hfac α))
 
-/-- **[Stacks, Tag 0FAA].** Let `(S, δ)` be the base situation of chapter 42, let `X` be locally
+/-- **[Stacks, Tag 0FAA] in constant ranks, from the source's two steps.** The tag itself, for
+arbitrary ranks and with nothing assumed, is
+`Stacks.Chow.subbundleEmbedding_pushforward_canonicalDualBundleFlatPullback`.
+Let `(S, δ)` be the base situation of chapter 42, let `X` be locally
 of finite type over `S` and let `0 ⟶ 𝒩' ⟶ 𝒩 ⟶ ℰ ⟶ 0` be a short exact sequence of finite locally
 free `𝒪_X`-modules, of constant ranks `r'`, `r` and `e`. Let
 `i : N' = Spec_X(Sym((𝒩')^∨)) ⟶ N = Spec_X(Sym(𝒩^∨))` be the canonical closed embedding and
@@ -419,30 +421,6 @@ The two named hypotheses are the source's own two steps: `hstep` is the equality
 on `N` for the canonical section of `p^*ℰ`, and `hflat` is the flat-pullback compatibility of the
 Chern classes, Tag 02U8. See the implementation notes of this file for what each of them needs
 and why it is not available here. -/
-@[stacks 0FAA "the tag's equality i_*(p')^*alpha = p^*(c_top(E) cap alpha) in CH_{k+r'}(N), for \
-a short exact sequence of finite locally free modules of CONSTANT ranks r', r, e -- the case the \
-source reduces to in the first line of its proof, c_top being by definition (Tag 0FA4) \
-assembled from the Chern classes of the restrictions to the constant-rank loci. The morphisms i, \
-p, p' are the canonical constructed ones, not quantified: p and p' are \
-`Stacks.Chow.dualVectorBundleToBase`, the projections of the relative spectra of the symmetric \
-algebras on the duals, and i is `Stacks.Chow.subbundleEmbedding`, the relative spectrum of Sym \
-of the dual of the given inclusion. The short exact sequence is CONSUMED twice: through Tag 0FV8 \
-it makes the dual N^dual -> (N')^dual surjective and hence i a closed immersion (so that i_* \
-exists at all), and through rank additivity it gives r = r' + e, which is what puts the two \
-sides of the equality in the same Chow group. Three things are assumed, each named. `hstep` is \
-the equality i_*(p')^*alpha = c_top(p^*E) cap p^*alpha in CH_*(N) that the source derives from \
-Tag 0FA9 applied to the canonical global section of p^*E, whose vanishing scheme is N'; that \
-section is not constructed in this repository, the flat-pullback formula for the cycle of a \
-prime cycle is not available, and Tag 0FA9 itself is formalized only with its reduced case assumed \
-and only at rank one. `hflat` is Tag 02U8, the compatibility of the cap product with flat \
-pullback along p, which is the step from `hstep` to the tag's own equality. The general lemma \
-that a surjection of quasi-coherent modules gives a closed immersion of vector bundles is \
-assumed as `Stacks.Chow.VectorBundleEpiClosedImmersion`. Flatness, local finite type and the \
-relative dimension of the two bundle projections are carried as hypotheses, Tag 02TY being \
-absent, and the two instances of Tag 02S1 for flat pullback are quantified over. The cap \
-product with the higher Chern classes is the standing parameter \
-`Stacks.Chow.HigherChernCapRule` of this directory for Tag 0B7G, as in the \
-carriers of Tag 0FA9."]
 theorem subbundleEmbedding_pushforward_flatPullback_eq_topChernCap
     (inc : N' ⟶ N) (pr : N ⟶ E) (w : inc ≫ pr = 0)
     (hseq : (ShortComplex.mk inc pr w).ShortExact)

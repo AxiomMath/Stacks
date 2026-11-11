@@ -26,8 +26,9 @@ function `f ∈ R(X)^*` gives the integral case of Stacks 02TI: then the chosen 
 `div_𝒪(f) = div_X(f)`. So `c₁(L) ∩ div_X(f) = c₁(𝒪_X) ∩ div_L(s)`, and the right hand side is zero
 by the second half of Stacks 02SP. This is
 `Stacks.Chow.firstChernClassCap_eq_zero_of_keyFormula`; it is the case to which the proof of
-Stacks 02TI reduces the general statement, and the reduction itself is the one step still
-missing (see the implementation notes).
+Stacks 02TI reduces the general statement. The reduction is
+`Stacks.Chow.firstChernCapFactorsEverywhere_iff_killsPrincipalDivisor`, and Stacks 02TI itself is
+`Stacks.Chow.firstChernCapFactorsEverywhere` (see the implementation notes).
 
 ## Main results
 
@@ -43,23 +44,21 @@ missing (see the implementation notes).
 
 ### The parameters threaded, and why
 
-Three inputs of the source are absent from this repository and are carried as explicit
-parameters, in the way established by
+Three inputs of the source are carried here as explicit parameters, in the way established by
 `StacksFrontier.AlgebraicGeometry.Chow.FirstChernClass` and
 `StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalence`:
 
-* the component rules `chernL` and `chernN` of the cap product, standing in for Stacks 02SO —
-  whose component input is the divisor cycle of Stacks 02SJ, resting on the absent Stacks 02SF
-  and 0BE6;
-* the key formula `Stacks.Chow.KeyFormulaData.KeyFormula` of Stacks 0AYC, which is a statement
-  rather than a theorem here, since its proof bottoms out in Stacks 0EAX;
+* the component rules `chernL` and `chernN` of the cap product, standing in for Stacks 02SO;
+* the key formula `Stacks.Chow.KeyFormulaData.KeyFormula` of Stacks 0AYC, as a statement about
+  the data `D`;
 * the cycles `divL` and `divN` together with their presentations `∑_i ord_{B_i}(f_i) [Z_i]` and
   `∑_i ord_{B_i}(g_i) [Z_i]`, standing in for `div_L(s)` and `div_N(t)` of Stacks 02SJ; and the
   hypotheses `hchernL`, `hchernN` identifying the component rules on the `Z_i` with the restricted
   divisors of the key formula data.
 
-Each of these is a quantity the source constructs and names; substituting the constructions, once
-they land, recovers the statement of Stacks 02TH verbatim, so the statements below are
+Each of these is a quantity the source constructs and names; substituting the constructions, as
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.ChernCapDischarge` does, recovers the statement
+of Stacks 02TH verbatim, so the statements below are
 generalizations of it rather than weakenings. The hypotheses are also indispensable: for an
 arbitrary pair of component rules the two sides of Stacks 02TH have no reason to agree, since
 the cap product is built from the rule and nothing else.
@@ -73,7 +72,7 @@ The source states Stacks 02TH for `dim_δ(X) = n` with the conclusion in `A_{n-2
 hypothesis reads `dim_δ(X) = k + 2` and the conclusion lands in `A_k(X)`, which is the same
 statement with `k = n - 2` and avoids transporting the cap product along `(n - 2) + 1 = n - 1`.
 
-### The form of the `@[stacks 02TI]` attribute, and where `@[stacks 02TH]` sits
+### Where `@[stacks 02TH]` and `@[stacks 02TI]` sit
 
 No declaration in this file carries Stacks 02TH. Every parameter listed above is discharged in
 `StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.ChernCapDischarge`: the key formula of Stacks
@@ -85,12 +84,15 @@ divisors of the sections themselves. So the attribute sits on
 beyond the hypotheses of the source, and
 `Stacks.Chow.firstChernClassCap_comm_of_keyFormula` below is the one step of its proof.
 
-`Stacks.Chow.firstChernClassCap_eq_zero_of_keyFormula` carries Stacks 02TI restricted to the
-integral case `α = div_X(f)`, which is the case the source's proof reduces the general statement
-to. The reduction itself, by proper pushforward along `⨿ W_j ⟶ X`, needs Stacks 02SU and through
-it Stacks 0GU8 and 02S2, so the general vanishing remains a hypothesis in
-`StacksFrontier.AlgebraicGeometry.Chow.IntersectionCommutativity.ChernCapDescent`, where the
-descended operation carries the tag.
+No declaration in this file carries Stacks 02TI.
+`Stacks.Chow.firstChernClassCap_eq_zero_of_keyFormula` is the integral case `α = div_X(f)` the
+source's proof reduces the general statement to, granting the key formula. Stacks 02TI itself is
+`Stacks.Chow.firstChernCapFactorsEverywhere`, with the descended operation
+`Stacks.Chow.firstChernClassCapChow`, in
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.ChernCapFactors`:
+the reduction by proper pushforward along `⨿ W_j ⟶ X` is
+`Stacks.Chow.firstChernCapFactorsEverywhere_iff_killsPrincipalDivisor`, and the integral case with
+the key formula discharged is `Stacks.Chow.firstChernCapKillsPrincipalDivisor`.
 
 ## References
 
@@ -140,7 +142,6 @@ modules, the key formula itself and the two divisor cycles with their presentati
 The `@[stacks 02TH]` attribute sits on
 `Stacks.Chow.firstChernClassCapOfInvertible_divisorCycle_comm`, where every one of those
 parameters is discharged; this is the step its proof is made of. -/
-@[stacks 02TH "granting the key formula 0AYC and the divisor cycles of 02SJ"]
 theorem firstChernClassCap_comm_of_keyFormula (hKey : D.KeyFormula C p)
     (chernL chernN : FirstChernComponentCycleRule C p k)
     (hchernL : ∀ (i : D.Index) (hW : IsIntegral (D.component i).subscheme)
@@ -184,11 +185,9 @@ not. The resulting class `c₁(𝒪_X) ∩ div_L(s)` vanishes by
 `Stacks.Chow.firstChernClassCap_trivialChernComponentCycleRule`, the second half of Stacks 02SP.
 
 The proof of Stacks 02TI reduces its general statement to this case by proper pushforward along
-`⨿ W_j ⟶ X`, which needs Stacks 02SU and through it the proper pushforward of Chow classes of
-Stacks 0GU8 and 02S2. That reduction is the one step not available here, which is why the
-general vanishing is a hypothesis in
-`StacksFrontier.AlgebraicGeometry.Chow.IntersectionCommutativity.ChernCapDescent`. -/
-@[stacks 02TI "the integral case α = div_X(f), granting the key formula 0AYC"]
+`⨿ W_j ⟶ X`; that reduction is
+`Stacks.Chow.firstChernCapFactorsEverywhere_iff_killsPrincipalDivisor`, and Stacks 02TI itself,
+with no hypothesis, is `Stacks.Chow.firstChernCapFactorsEverywhere`. -/
 theorem firstChernClassCap_eq_zero_of_keyFormula (hKey : D.KeyFormula C p)
     (hzeroN : ∀ i : D.Index, D.restrictedDivisorN i = 0)
     (chernL : FirstChernComponentCycleRule C p k)

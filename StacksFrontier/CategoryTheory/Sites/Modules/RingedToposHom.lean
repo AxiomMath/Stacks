@@ -12,10 +12,12 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPushforwardMo
 
 A morphism of ringed topoi `(f, f^♯) : (Sh(C), O_C) ⟶ (Sh(D), O_D)` is a morphism of topoi
 `f` together with a map of sheaves of rings `f^♯ : O_D ⟶ f_* O_C` (equivalently, by
-adjunction, `f⁻¹ O_D ⟶ O_C`). `AlgebraicGeometry.RingedToposSiteHom` below presents the
-geometric morphism by a continuous functor `u : D.C ⥤ C.C` between the underlying sites,
-which is the `Stacks 01D3`-morphism of the associated *ringed sites*; `toToposHom` produces
-the underlying morphism of topoi once `u` is a morphism of sites.
+adjunction, `f⁻¹ O_D ⟶ O_C`); that notion is `AlgebraicGeometry.RingedToposHom`
+(Stacks 01D3). `AlgebraicGeometry.RingedToposSiteHom` below is a site-level variant: its
+geometric datum is only a continuous functor `u : D.C ⥤ C.C` between the underlying sites,
+with no exactness condition on `u_s`, so on its own it is neither a morphism of ringed topoi nor
+a morphism of ringed sites. `toToposHom` produces the underlying morphism of topoi only under
+the additional hypothesis that `u` is a morphism of sites (Stacks 00XC).
 
 For such a morphism the pushforward and the pullback of sheaves of modules
 (`Stacks 03D6`) are Mathlib's `SheafOfModules.pushforward` and `SheafOfModules.pullback`
@@ -26,10 +28,12 @@ with the sheafification of the presheaf-level extension of scalars
 
 ## Main definitions
 
-* `AlgebraicGeometry.RingedToposSiteHom`: a morphism of ringed topoi, presented by a continuous
-  functor between the underlying sites together with the structure map `O_D ⟶ f_* O_C`.
-* `AlgebraicGeometry.RingedToposSiteHom.comp`: composition of morphisms of ringed topoi.
-* `AlgebraicGeometry.RingedToposSiteHom.toToposHom`: the underlying morphism of topoi.
+* `AlgebraicGeometry.RingedToposSiteHom`: a site-level variant of a morphism of ringed topoi:
+  a continuous functor between the underlying sites together with the structure map
+  `O_D ⟶ f_* O_C`.
+* `AlgebraicGeometry.RingedToposSiteHom.comp`: composition of such site-level morphisms.
+* `AlgebraicGeometry.RingedToposSiteHom.toToposHom`: the underlying morphism of topoi, given
+  that the continuous functor is a morphism of sites.
 * `AlgebraicGeometry.RingedToposSiteHom.pushforwardTopos`: pushforward of sheaves of modules.
 * `AlgebraicGeometry.RingedToposSiteHom.pullbackTopos`: pullback of sheaves of modules.
 
@@ -67,19 +71,17 @@ universe v u v' u' v'' u'' w
 
 namespace AlgebraicGeometry
 
-/-- **Stacks 01D3, part (2).** A morphism of ringed topoi `X ⟶ Y`: a morphism of topoi
-between the underlying topoi together with a map of sheaves of commutative rings
-`O_Y ⟶ f_* O_X`.
+/-- A site-level variant of a morphism of ringed topoi `X ⟶ Y`: a continuous functor
+`u : Y.C ⥤ X.C` between the underlying sites, in the opposite direction as in the source's
+convention for a morphism of sites, together with a map of sheaves of commutative rings
+`O_Y ⟶ u_* O_X`.
 
-The geometric morphism is presented by a continuous functor `u : Y.C ⥤ X.C` between the
-underlying sites in the opposite direction, as in the source's convention for a morphism of
-sites; `RingedToposSiteHom.toToposHom` produces the morphism of topoi itself as soon as `u` is a
-morphism of sites. This is the generality in which the pullback of sheaves of modules of
-Stacks 03D6 is available. -/
-@[stacks 01D3 "part (2): morphisms of ringed topoi, with the geometric morphism presented by
-a continuous functor between the underlying sites rather than by an arbitrary adjoint pair;
-`RingedToposHom.toToposHom` produces the underlying morphism of topoi once that functor is a
-morphism of sites"]
+Continuity of `u` alone does not make `(u_s, u^s)` a morphism of topoi (the inverse image need
+not be left exact), so this structure is a morphism of ringed topoi in the sense of Stacks 01D3
+only under the additional hypothesis `u.IsMorphismOfSites Y.J X.J`, in which case
+`RingedToposSiteHom.toToposHom` gives the underlying morphism of topoi (Stacks 00XC). The
+notion of Stacks 01D3 itself is `AlgebraicGeometry.RingedToposHom`. This is the generality in
+which Mathlib's pullback of sheaves of modules, used for Stacks 03D6, is available. -/
 structure RingedToposSiteHom (X : RingedTopos.{v, u, w}) (Y : RingedTopos.{v', u', w}) where
   /-- The continuous functor between the underlying sites, in the opposite direction. -/
   u : Y.C ⥤ X.C
@@ -95,11 +97,11 @@ namespace RingedToposSiteHom
 variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w}}
   {Z : RingedTopos.{v'', u'', w}}
 
-/-- **Stacks 01D3, part (3).** Composition of morphisms of ringed topoi: the underlying
-continuous functors compose, and the structure map is
+/-- Composition of site-level morphisms of ringed topoi, following the rule of Stacks 01D3 (3):
+the underlying continuous functors compose, and the structure map is
 `O_Z ⟶ g_* O_Y ⟶ g_* f_* O_X = (g ∘ f)_* O_X`, the last identification being the canonical
-one of `CategoryTheory.Functor.sheafPushforwardContinuousComp`. -/
-@[stacks 01D3 "part (3): composition of morphisms of ringed topoi"]
+one of `CategoryTheory.Functor.sheafPushforwardContinuousComp`. The composition of morphisms
+of ringed topoi of Stacks 01D3 (3) is `AlgebraicGeometry.RingedToposHom.comp`. -/
 def comp (g : RingedToposSiteHom Y Z) (f : RingedToposSiteHom X Y) : RingedToposSiteHom X Z where
   u := g.u ⋙ f.u
   isContinuous := Functor.isContinuous_comp g.u f.u Z.J Y.J X.J
@@ -211,8 +213,9 @@ def pullbackToposIso (f : RingedToposSiteHom X Y) :
     (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
     (S := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) f.fSharpRing
 
-/-- The morphism of topoi underlying a morphism of ringed topoi, given that the underlying
-continuous functor is a morphism of sites (Stacks 00XC). -/
+/-- The morphism of topoi underlying a site-level morphism of ringed topoi, under the
+additional hypothesis that the underlying continuous functor is a morphism of sites
+(Stacks 00XC); without it no morphism of topoi is produced. -/
 def toToposHom (f : RingedToposSiteHom X Y) (h : f.u.IsMorphismOfSites Y.J X.J) :
     MorphismOfTopoi X.Topos Y.Topos :=
   h.morphismOfTopoi

@@ -87,7 +87,17 @@ theorem gluingComparisonSmooth (Λ k : Type u) [CommRing Λ] [Field k] [Algebra 
 /-- **[Stacks, Tag 0DZQ].** Let `X` be a scheme over a field `k` which is separated and of finite
 type over `k`, of dimension at most one, a local complete intersection over `k`, and smooth over
 `k` outside a finite set of points. Then the deformation category `Def_X` of Example 0DY7 is
-unobstructed: its structure morphism over `𝒞_Λ` is smooth. -/
+unobstructed: its structure morphism over `𝒞_Λ` is smooth.
+
+The proof is the source's: a cover of `X` by two affine opens, the first inside the smooth locus
+(Tags 0A25 and 01ZY, through Tag 09NZ), then Tag 0DZN for `Def_X ⟶ Def_{U₂}`, Tag 0DYX for
+`Def_{U₂} = Def_{P₂}` and Tag 0DZH for `Def_{P₂} ⟶ 𝒞_Λ`. It is
+`Deformation.Examples.isSmooth_baseProjection_schemeDeformationCategoryProjection` applied to the
+four inputs proved in this file and `Deformation.isDeformationCategory_id`.
+
+The base ring `Λ` is any commutative ring of which `k` is an algebra; the source's
+standing assumption that `Λ` is a Noetherian complete local ring with residue field `k` is not
+needed. -/
 @[stacks 0DZQ, sga "7 VI 4.10" "(a)", sga "7 VI 4.13" "(b), special case"]
 theorem isSmooth_baseProjection_schemeDeformationCategoryProjection_of_lci {Λ k : Type u}
     [CommRing Λ] [Field k] [Algebra Λ k]

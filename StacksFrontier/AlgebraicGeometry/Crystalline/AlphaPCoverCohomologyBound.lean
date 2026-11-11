@@ -126,8 +126,8 @@ are carried to `f^*` by
 
 The mathematical content of [Stacks, Tag 07Q9] is [Stacks, Proposition 07LG], the computation of
 the cohomology of a crystal in quasi-coherent modules by the de Rham complex of the divided power
-envelope — `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`, resting on [Stacks, Tag 07JN],
+envelope — `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`, resting on [Stacks, Tag 07JN],
 `...SmallSite.computesCohomology_wholeSpaceSystem_of_isSurjectiveComparison` of
 `SmallSite/WholeSpaceSystemCohomology.lean` — together with [Stacks, Tag 07Q7] at `a = p` for the
 extension `B ⟶ B[z]⟨ξ⟩/(ξ - (z ^ p - λ))` of [Stacks, Tag 07N1]

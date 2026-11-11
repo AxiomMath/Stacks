@@ -34,7 +34,8 @@ arbitrary.
   phrased on the `Type u` model of the presheaf of isomorphism classes;
 * `AlgebraicGeometry.Stack.isoClassMap_holdsOnEverySchemePoint_iff_of_equiv` and
   `AlgebraicGeometry.Stack.isoClassMap_holdsOnEverySchemePoint_iff_model`: `a` has a property
-  `P` exactly when `f` has `P` in the relative sense, in the same two forms;
+  `P` exactly when `f` has `P` in the relative sense, in the same two forms; the second is
+  **Stacks 04TC**;
 * `AlgebraicGeometry.Stack.small_sieve_of_isFiberedInGroupoids`: for an object `x` of a category
   fibred in groupoids `p`, the base objects admitting a morphism to `p x` form a type small in
   the universe of the total objects.
@@ -43,6 +44,7 @@ arbitrary.
 
 * [Stacks Project, Tag 04SY](https://stacks.math.columbia.edu/tag/04SY)
 * [Stacks Project, Tag 02ZX](https://stacks.math.columbia.edu/tag/02ZX)
+* [Stacks Project, Tag 04TC](https://stacks.math.columbia.edu/tag/04TC)
 -/
 
 @[expose] public section
@@ -322,9 +324,18 @@ public theorem isoClassMap_isRepresentableByAlgebraicSpaces_iff_model
       CategoryTheory.Functor.isoClassPresheafModelEquiv_naturality.{u} 𝒴.val.p)
     a ha
 
-/-- For a 1-morphism `f` of categories fibred in setoids with `u`-small presheaves of isomorphism
-classes, and a compatible map `a` of their `Type u` models that is representable by algebraic
-spaces, `a` has a property `P` exactly when `f` has `P` in the relative sense. -/
+/-- **Stacks 04TC.** Let `P` be a property of morphisms of algebraic spaces over `S` as in
+Stacks 03YK (stable under base change and fppf local on the target), and let `f : 𝒳 ⟶ 𝒴` be a
+1-morphism of categories fibred in setoids over the big fppf site of `S`, with total objects in
+an arbitrary universe. Let `F`, resp. `G`, be the presheaf of isomorphism classes of `𝒳`,
+resp. `𝒴`, taken through its `Type u` model, and let `a : F ⟶ G` be the map corresponding to
+`f`. Then `a` has `P` exactly when `f` has `P` in the relative sense.
+
+The `u`-smallness instances on the presheaves of isomorphism classes say that `F` and `G` are
+presheaves of sets on the site, which the source presupposes when it calls them presheaves. As
+in the source ("the lemma makes sense by Stacks 04SY"), representability of `a` is not assumed
+but derived from representability of `f` by Stacks 04SY. -/
+@[stacks 04TC]
 public theorem isoClassMap_holdsOnEverySchemePoint_iff_model
     (P : MorphismProperty (AlgebraicSpaces B S hS))
     [P.IsStableUnderBaseChange]

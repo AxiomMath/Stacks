@@ -8,6 +8,7 @@ public import Mathlib.RingTheory.Spectrum.Prime.Topology
 public import Mathlib.RingTheory.Support
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Monotonicity.Lemmas
+public import StacksFrontier.RingTheory.Ideal.AssociatedPrime.Defs
 import StacksFrontier.RingTheory.Ideal.AssociatedPrime.Support
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -891,11 +892,15 @@ Then the ring `R ⧸ I`, viewed as a module over itself, has no embedded prime.
 
 @[expose] public section
 
-/-- Definition 1 (Embedded associated prime). A prime `𝔭` is an *embedded
-associated prime of `M`* if it is an associated prime of `M` that is not minimal
-among the associated primes of `M`, i.e. there is an associated prime `𝔮` of `M`
-with `𝔮 ⊊ 𝔭`. -/
-@[stacks 02M5]
+/-- A prime `𝔭` is an *embedded associated prime of `M`* in the sense of Mathlib's
+`associatedPrimes` if it lies in `associatedPrimes R M` and is not minimal there, i.e. there is
+some `𝔮 ∈ associatedPrimes R M` with `𝔮 ⊊ 𝔭`.
+
+Mathlib's `associatedPrimes` asks that a prime be the *radical* of the annihilator of an
+element, whereas Stacks 00LA asks that it be *exactly* the annihilator of an element. The two
+agree over a Noetherian ring, and so do the two notions of embedded associated prime
+(`isEmbeddedAssociatedPrimeStacks_iff_isEmbeddedAssociatedPrime`); over a general ring they
+differ. Stacks 02M5 itself is `IsEmbeddedAssociatedPrimeStacks`. -/
 def IsEmbeddedAssociatedPrime
     (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] (𝔭 : Ideal R) : Prop :=
   𝔭 ∈ associatedPrimes R M ∧ ∃ 𝔮 ∈ associatedPrimes R M, 𝔮 < 𝔭
@@ -917,6 +922,48 @@ theorem hasNoEmbeddedAssociatedPrimes_iff
   refine ⟨fun h 𝔭 ⟨hp, 𝔮, hq, hlt⟩ ↦ hlt.ne (h hp hq hlt.le), fun h 𝔭 hp 𝔮 hq hle ↦ ?_⟩
   by_contra hne
   exact h 𝔭 ⟨hp, 𝔮, hq, lt_of_le_of_ne hle hne⟩
+
+/-- **Stacks 02M5 (1).** Let `R` be a ring and `M` an `R`-module. A prime `𝔭` is an
+*embedded associated prime of `M`* if it is an associated prime of `M` (Stacks 00LA: `𝔭` is
+exactly the annihilator of some element of `M`) which is not minimal among the associated
+primes of `M`. -/
+@[stacks 02M5 "(1) embedded associated primes of a module"]
+def IsEmbeddedAssociatedPrimeStacks
+    (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] (𝔭 : Ideal R) : Prop :=
+  𝔭 ∈ assStacks R M ∧ ¬ Minimal (· ∈ assStacks R M) 𝔭
+
+/-- **Stacks 02M5 (2).** The *embedded primes of a ring* `R` are the embedded associated
+primes of `R` regarded as a module over itself. -/
+@[stacks 02M5 "(2) embedded primes of a ring"]
+def IsEmbeddedPrimeStacks (R : Type*) [CommRing R] (𝔭 : Ideal R) : Prop :=
+  IsEmbeddedAssociatedPrimeStacks R R 𝔭
+
+/-- An associated prime is embedded exactly when some associated prime lies strictly
+below it. -/
+theorem isEmbeddedAssociatedPrimeStacks_iff
+    (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] (𝔭 : Ideal R) :
+    IsEmbeddedAssociatedPrimeStacks R M 𝔭 ↔
+      𝔭 ∈ assStacks R M ∧ ∃ 𝔮 ∈ assStacks R M, 𝔮 < 𝔭 := by
+  refine and_congr_right fun hp => ?_
+  simp only [Minimal, hp, true_and, not_forall, exists_prop]
+  exact ⟨fun ⟨𝔮, hq, hle, hne⟩ => ⟨𝔮, hq, lt_of_le_not_ge hle hne⟩,
+    fun ⟨𝔮, hq, hlt⟩ => ⟨𝔮, hq, hlt.le, hlt.not_ge⟩⟩
+
+/-- Over a Noetherian ring the Stacks notion of embedded associated prime agrees with the
+one built on Mathlib's `associatedPrimes`, because the two notions of associated prime
+agree there. -/
+theorem isEmbeddedAssociatedPrimeStacks_iff_isEmbeddedAssociatedPrime
+    (R M : Type*) [CommRing R] [IsNoetherianRing R] [AddCommGroup M] [Module R M]
+    (𝔭 : Ideal R) :
+    IsEmbeddedAssociatedPrimeStacks R M 𝔭 ↔ IsEmbeddedAssociatedPrime R M 𝔭 := by
+  have key : assStacks R M = associatedPrimes R M := by
+    ext q
+    change IsAssociatedPrimeStacks R M q ↔ IsAssociatedPrime q M
+    rw [isAssociatedPrime_iff]
+    refine and_congr_right fun _ => exists_congr fun m => ?_
+    rw [Submodule.colon_span, eq_comm]
+  rw [isEmbeddedAssociatedPrimeStacks_iff, key]
+  rfl
 
 /-- The colon of `⊥` against the singleton `{f}`, for a tuple `f : ι → M`, is the infimum
 over `i` of the colons of `⊥` against `{f i}`. -/

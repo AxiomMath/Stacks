@@ -139,14 +139,15 @@ theorem exists_injective_tower_representative
     inferInstanceAs (IsIso (e' n.unop).hom)
   exact ⟨T, hI, hKI, ⟨asIso α⟩⟩
 
-/-- **A countable product of K-injective complexes computes the product in `D(C)`.** The
-canonical comparison `Q(∏ Xₙ) ⟶ ∏ Q(Xₙ)` is an isomorphism as soon as every `Xₙ` is
-K-injective — no exactness of products in `C` is needed.
+/-- **A product of K-injective complexes computes the product in `D(C)`.** The canonical
+comparison `Q(∏ Xₙ) ⟶ ∏ Q(Xₙ)` is an isomorphism as soon as every `Xₙ` is K-injective — no
+exactness of products in `C` is needed. The index type `T` is arbitrary; Stacks 0D6T uses the
+countable case `T = ℕ`.
 
 This is Stacks 0BK6 in the form Stacks 0D6T uses it. -/
 theorem isIso_piComparison_Q_of_isKInjective
-    {C : Type*} [Category C] [Abelian C] [HasDerivedCategory C]
-    (X : ℕ → CochainComplex C ℤ) [HasProduct X]
+    {C : Type*} [Category C] [Abelian C] [HasDerivedCategory C] {T : Type}
+    (X : T → CochainComplex C ℤ) [HasProduct X]
     [∀ q : ℤ, HasProduct (fun n => (X n).X q)]
     [HasProduct (fun n => DerivedCategory.Q.obj (X n))]
     (hX : ∀ n, (X n).IsKInjective) : IsIso (piComparison DerivedCategory.Q X) := by

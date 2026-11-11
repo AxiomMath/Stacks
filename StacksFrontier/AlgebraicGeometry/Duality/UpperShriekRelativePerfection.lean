@@ -3,16 +3,19 @@ module
 public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekBounded
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectObject
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectOverField
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
 
 /-!
 # Pseudo-coherence of the relative dualizing complex
 
 Let `S` be a Noetherian scheme and let `f : X ⟶ Y` be a flat morphism of finite presentation in
 `AlgebraicGeometry.FTS S`, the category of [Stacks, Tag 0F42]. The relative dualizing complex
-`ω^•_{X/Y} = f^!𝒪_Y` is a pseudo-coherent object of `D(𝒪_X)`. Pseudo-coherence is the first of
-the two conditions for an object to be perfect relative to `Y` ([Stacks, Tag 0DI0]), so the
-`Y`-perfectness asserted by [Stacks, Tag 0E9T] holds exactly when `f^!𝒪_Y` has locally finite
-Tor dimension over `f^{-1}𝒪_Y`.
+`ω^•_{X/Y} = f^!𝒪_Y`, given through its affine-chart description, is a pseudo-coherent object
+of `D(𝒪_X)`. Pseudo-coherence is the first of the two conditions for an object to be perfect
+relative to `Y` ([Stacks, Tag 0DI0]); the full statement of [Stacks, Tag 0E9T], both
+`Y`-perfectness and the homothety isomorphism, is
+`Stacks.Duality.upperShriek_structureSheaf_isPerfectRelativeTo_and_isIso_homothety` in
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekFlatDualizing`.
 
 ## Main definitions
 
@@ -23,50 +26,35 @@ Tor dimension over `f^{-1}𝒪_Y`.
 
 ## Main results
 
-* `Stacks.Duality.isPseudoCoherent_of_isShriekOfStructureSheafOnCharts` — **[Stacks, Tag 0E9T]**,
-  the pseudo-coherence half of the first assertion: `f^!𝒪_Y` is pseudo-coherent.
+* `Stacks.Duality.isPseudoCoherent_of_isShriekOfStructureSheafOnCharts` — an object with the
+  chart description of `f^!𝒪_Y` is pseudo-coherent.
 * `Stacks.Duality.isPerfectRelativeTo_iff_locallyHasFiniteTorDimension` — `Y`-perfectness of
   `f^!𝒪_Y` is equivalent to the Tor-dimension condition alone.
 
 ## Implementation notes
 
-*What is carried.* One hypothesis is carried, the affine-chart description
-`Stacks.Duality.IsShriekOfStructureSheafOnCharts`, which is the content of [Stacks, Tag 0AA1]
-together with the affine comparison of [Stacks, Tag 0BV2]; the part of Tag 0BV2 in the library,
-`Stacks.Duality.restrictedUpperShriekIsoOfOpenSquare`, is its clause (a) only, and the affine
-formula of clause (b) is unavailable. Writing the chart ring map as `f.appLE V U` and the model
-of `𝒪_Y` over `V` as `Γ(Y, V)` itself is what ties the hypothesis to `f` and to `𝒪_Y`. It is the
-same hypothesis carried by
-`Stacks.Duality.derivedCategoryBBounded_upperShriek_derivedStructureSheaf` and by
-`Stacks.Duality.isDualizingComplex_upperShriek_of_fts`, and it asserts only an isomorphism:
-nothing in it says that any complex is bounded, coherent or pseudo-coherent.
+*The chart description.* The results here take an object with the affine-chart description
+`Stacks.Duality.IsShriekOfStructureSheafOnCharts`. For `f^!𝒪_Y` itself that description is
+proved, from [Stacks, Tag 0BV2], by
+`Stacks.Duality.isShriekOfStructureSheafOnCharts_of_upperShriekStructureSheafCharts`. Writing the
+chart ring map as `f.appLE V U` and the model of `𝒪_Y` over `V` as `Γ(Y, V)` itself is what ties
+the description to `f` and to `𝒪_Y`; it asserts only an isomorphism: nothing in it says that any
+complex is bounded, coherent or pseudo-coherent.
 
-What is proved is the rest: the chart models are bounded with finite cohomology by
-[Stacks, Tag 0BZK] (2), `Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap`,
+*The proof.* The chart models are bounded with finite cohomology by
+[Stacks, Tag 0BZK] (2), `Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect`,
 whose perfect-ring-map hypothesis is discharged from `Flat f` and `LocallyOfFinitePresentation f`
-through [Stacks, Tag 068A] and `AlgebraicGeometry.Perfect.perfect_appLE` at the
-canonical derived tensoring; the chart bounds are glued by
+through [Stacks, Tag 068A] and the chart property of [Stacks, Tag 0687]
+(`AlgebraicGeometry.HasRingHomProperty.appLE`); the chart bounds are glued by
 `Stacks.Duality.isBounded_of_tildeModels` and `Stacks.Duality.isCoherent_homology_of_tildeModels`;
 and `D^b_Coh(𝒪_X)` is turned into pseudo-coherence by [Stacks, Tag 08E8],
 `AlgebraicGeometry.isBounded_and_isPseudoCoherent_iff_boundedCoherent`.
 
-*What is not claimed, and why.* The Tor-dimension condition is the second conjunct of
-[Stacks, Tag 0DI0] and the source obtains it from [Stacks, Tag 0BZW] (1)(b), that `ω_{A/R}` has
-finite Tor dimension over `R`. That ring-level statement *is* in this library, with nothing
-carried:
-`relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap` (in the namespace
-`Dualizing.PolynomialPresentation`) of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingFiniteTorDimension`. What is
-absent is the affine-locality assembly which would carry it from a chart to
-`AlgebraicGeometry.RingedSpace.LocallyHasFiniteTorDimension`; the absence of that assembly is
-recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Perfect/RelativelyPerfectDerivedSections.lean`, and it is the only
-thing standing between the ring-level statement and the Tor-dimension conjunct here. The second
-assertion of Tag 0E9T, that `𝒪_X ⟶ R SheafHom_{𝒪_X}(f^!𝒪_Y, f^!𝒪_Y)` is an isomorphism, rests on
-Tag 0BZW (1)(c), which is proved as
-`Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectModule`, but there is no map
-`𝒪_X ⟶ R SheafHom(K, K)` on a scheme in this library to state the sheaf-level assertion with.
-Neither is carried as a hypothesis here, since either would be the assertion itself.
+The Tor-dimension conjunct of [Stacks, Tag 0DI0] and the homothety isomorphism of
+[Stacks, Tag 0E9T] are proved, from [Stacks, Tag 0BZW] chart by chart, in
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekRelativeTorDimension`,
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekHomothety` and
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekFlatDualizing`.
 
 *The model of the derived category.* Tag 08E8 is proved at
 `CategoryTheory.HasDerivedCategory.standard`, and
@@ -103,7 +91,6 @@ attribute [local instance] AlgebraicGeometry.Scheme.Modules.hasDerivedCategory
 @[expose] public noncomputable section
 
 open AlgebraicGeometry CategoryTheory TopologicalSpace
-open StacksDraft.TorAmplitude
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
@@ -156,42 +143,21 @@ theorem derivedCategoryBBounded_upperShriekFunctor_structureModel
     IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
   have hUn : IsNoetherianRing Γ(X.left, U) :=
     IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
-  let D : CertifiedDerivedTensoring.{u, u} Γ(Y.left, V) :=
-    canonicalCertifiedDerivedTensoring Γ(Y.left, V)
-  exact Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap.{u, u} p
-    D.tensor D.comparison D.isLeftDerived
-    (AlgebraicGeometry.Perfect.perfect_appLE f.left U hU V hV hUV D)
+  exact Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect.{u, u} p
+    (HasRingHomProperty.appLE @Perfect f.left inferInstance ⟨V, hV⟩ ⟨U, hU⟩ hUV)
     (derivedCategoryBBounded_structureModel (Y := Y) V)
 
-/-- **Stacks Project, Tag 0E9T, the pseudo-coherence half of the first assertion.** In
-Situation 48.16.1, let `f : X ⟶ Y` be a flat morphism of finite presentation of `FTS S`. Then the
-relative dualizing complex `ω^•_{X/Y} = f^!𝒪_Y` is a pseudo-coherent object of `D(𝒪_X)`.
+/-- **Pseudo-coherence from the chart description.** In Situation 48.16.1, let `f : X ⟶ Y` be a
+flat morphism of finite presentation of `FTS S`. An object `ω` of `D_QCoh(𝒪_X)` with the
+affine-chart description of `f^!𝒪_Y` (`Stacks.Duality.IsShriekOfStructureSheafOnCharts`) is a
+pseudo-coherent object of `D(𝒪_X)`.
 
 Over each chart the model of `f^!𝒪_Y` lies in `D^b_Coh` of the chart ring by
 Tag 0BZK (2); the chart bounds glue, and on a Noetherian scheme a bounded object with coherent
-cohomology is pseudo-coherent by Tag 08E8. -/
-@[stacks 0E9T "the pseudo-coherence half of the first assertion: f^! O_Y is a pseudo-coherent \
-  object of D(O_X), which is the first of the two conjuncts of Y-perfectness (Tag 0DI0). NOT \
-  claimed: the Tor-dimension conjunct of the first assertion, and the whole of the second \
-  assertion that O_X -> R SheafHom(f^! O_Y, f^! O_Y) is an isomorphism. Both rest on Stacks \
-  0BZW, whose parts (1)(a), (1)(b) and (1)(c) are all proved in this repository at the level of \
-  rings -- (1)(b) as \
-  relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap (in the namespace \
-  Dualizing.PolynomialPresentation) \
-  and (1)(c) as Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectModule -- \
-  but what is absent is the affine-locality assembly for Tor dimension that Stacks 0DI2 would \
-  need, and there is no map O_X -> R SheafHom(K, K) on a scheme in this repository at all, so \
-  the sheaf-level second assertion cannot even be stated. Neither is carried as a \
-  hypothesis, since either would be the assertion itself. One hypothesis IS carried, hw: the \
-  affine-chart description of f^! O_Y, which is Stacks 0AA1 together with clause (b) of Stacks \
-  0BV2; it asserts only an isomorphism, and it is the same hypothesis carried by \
-  Tag 0B6U part (a) and Tag 0AA3. Everything asserted about pseudo-coherence is proved, from \
-  Tag 0BZK (2) chart by chart -- whose perfect-ring-map hypothesis is discharged, \
-  not carried, from Flat and LocallyOfFinitePresentation through Tag 068A -- and \
-  Tag 08E8. f^! O_Y enters as an object of D+_QCoh(O_X) at \
-  CategoryTheory.HasDerivedCategory.standard characterised by hw, the idiom of Tag 0AA3, rather \
-  than as a value of Stacks.Duality.upperShriek, which is defined at the locally small model \
-  that Tag 08E8 is not available at"]
+cohomology is pseudo-coherent by Tag 08E8. The chart description holds for `f^!𝒪_Y` itself by
+`Stacks.Duality.isShriekOfStructureSheafOnCharts_of_upperShriekStructureSheafCharts`, and the
+full statement of [Stacks, Tag 0E9T] is
+`Stacks.Duality.upperShriek_structureSheaf_isPerfectRelativeTo_and_isIso_homothety`. -/
 theorem isPseudoCoherent_of_isShriekOfStructureSheafOnCharts
     [Flat f.left] [LocallyOfFinitePresentation f.left]
     (ω : quasiCoherentDerivedCategory.{u + 1, u} X.left)
@@ -219,8 +185,8 @@ presentation, the relative dualizing complex `ω^•_{X/Y} = f^!𝒪_Y` is perfe
 the sense of [Stacks, Tag 0DI0] exactly when it has locally finite Tor dimension over
 `f^{-1}𝒪_Y`: the pseudo-coherence conjunct holds unconditionally.
 
-This is the first assertion of [Stacks, Tag 0E9T] reduced to what is not available here; see the
-implementation notes of this file. -/
+The first assertion of [Stacks, Tag 0E9T] itself is proved in
+`Stacks.Duality.upperShriek_structureSheaf_isPerfectRelativeTo_and_isIso_homothety`. -/
 theorem isPerfectRelativeTo_iff_locallyHasFiniteTorDimension
     [Flat f.left] [LocallyOfFinitePresentation f.left]
     (D : ∀ U : Opens

@@ -27,10 +27,12 @@ of `ε` to respectively `u⁻¹ [ε, 1]` and `v⁻¹ [ε, 1]`.
 ## Implementation notes
 
 The endomorphisms are restricted from the dual-number ring to its coefficient field before
-taking determinants. The canonical admissible sequence in each range has every entry equal to
-`ε`. Exactness and finite length are passed as witnesses to
-`AlgebraicGeometry.periodicGamma`. The two declarations state the two equations of the source
-separately.
+taking determinants, so these are `k`-linear variants of the maps in Stacks Tag 02PP. The
+source's statements, over the dual-number ring, are
+`DualNumber.periodicGamma_unitMulT_dualRangeSequence_first` and `_second`. The canonical
+admissible sequence in each range has every entry equal to `ε`. Exactness and finite length
+are passed as witnesses to `AlgebraicGeometry.periodicGamma`. The two declarations treat the two
+equations separately.
 
 ## References
 
@@ -225,9 +227,10 @@ private lemma periodicGamma_unitMulT_formula
       heq.trans (congrArg symbol hconcat)
     _ = IsLocalRing.residue k a⁻¹ • symbol (dualGenerator k) := hchange
 
-/-- **Stacks Project, Tag 02PP.** The determinant map for multiplication by `u ε` sends the
-tensor of the two classes of `ε` to `u⁻¹ [ε, 1]`. -/
-@[stacks 02PP "dual_gamma_values"]
+/-- The `k`-linear determinant map for multiplication by `u ε`, with the endomorphisms restricted
+to the coefficient field, sends the tensor of the two classes of `ε` to `u⁻¹ [ε, 1]`. This is the
+`k`-linear variant of the computation in Stacks Tag 02PP; the statement over the dual numbers is
+`DualNumber.periodicGamma_unitMulT_dualRangeSequence_first`. -/
 theorem periodicGamma_unitMulT_first
     (k : Type u) [Field k] (u v : kˣ)
     (hvu : Function.Exact ((unitMulT k v).restrictScalars k)
@@ -240,9 +243,10 @@ theorem periodicGamma_unitMulT_first
       IsLocalRing.residue k u⁻¹ • symbol (dualGenerator k) :=
   periodicGamma_unitMulT_formula k u v hvu hM
 
-/-- **Stacks Project, Tag 02PP.** The determinant map for multiplication by `v ε` sends the
-tensor of the two classes of `ε` to `v⁻¹ [ε, 1]`. -/
-@[stacks 02PP "dual_gamma_values"]
+/-- The `k`-linear determinant map for multiplication by `v ε`, with the endomorphisms restricted
+to the coefficient field, sends the tensor of the two classes of `ε` to `v⁻¹ [ε, 1]`. This is the
+`k`-linear variant of the computation in Stacks Tag 02PP; the statement over the dual numbers is
+`DualNumber.periodicGamma_unitMulT_dualRangeSequence_second`. -/
 theorem periodicGamma_unitMulT_second
     (k : Type u) [Field k] (u v : kˣ)
     (huv : Function.Exact ((unitMulT k u).restrictScalars k)

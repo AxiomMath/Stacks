@@ -36,42 +36,30 @@ public import Mathlib.Topology.Sheaves.Init
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Stacks tag 006R (Lemma 6.6.2)
+# The abstract change of rings adjunction for presheaves of modules
 
-Let `X` be a topological space, let `α : 𝒪₁ ⟶ 𝒪₂` be a morphism of presheaves of
-commutative rings on `X`, let `ℱ` be a presheaf of `𝒪₂`-modules, and let `𝒢` be a
-presheaf of `𝒪₁`-modules. Then there is a canonical bijection
-$$
-  \mathrm{Hom}_{𝒪₁}(𝒢, ℱ_{𝒪₁})
-  \;\xrightarrow{\sim}\;
-  \mathrm{Hom}_{𝒪₂}(𝒪₂ ⊗_{p,𝒪₁} 𝒢, ℱ),
-$$
-natural in `ℱ ∈ PModuleStruct(𝒪₂)` and in `𝒢 ∈ PModuleStruct(𝒪₁)`.
+Let `α : 𝒪₁ ⟶ 𝒪₂` be a morphism of presheaves of commutative rings on a small category `C`.
+This file packages Mathlib's adjunction
+`PresheafOfModules.pullbackPushforwardAdjunction` (specialised to `F = 𝟭 C`) between
+Mathlib's pullback `PresheafOfModules.pullback`, an abstract left adjoint of restriction of
+scalars obtained from `Functor.leftAdjoint`, and restriction of scalars.
 
-Equivalently, the change-of-rings (tensor product) functor
-`𝒪₂ ⊗_{p,𝒪₁} (-) : PModuleStruct(𝒪₁) → PModuleStruct(𝒪₂)`
-is left adjoint to the restriction-of-scalars functor
-`(-)_{𝒪₁} : PModuleStruct(𝒪₂) → PModuleStruct(𝒪₁)`.
+Stacks 006R (Lemma 6.6.2) asserts the universal property of the *explicit* sectionwise tensor
+product presheaf `U ↦ 𝒪₂(U) ⊗_{𝒪₁(U)} 𝒢(U)`; that statement is
+`Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafAdjunction` and
+`Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafHomEquiv`, which carry the tag. The
+adjunction of this file holds by construction of `PresheafOfModules.pullback`, so it does not by
+itself state 006R. On the site of opens of a topological space, Mathlib's pullback is identified
+with the sectionwise tensor product presheaf by `tensorPresheafIsoTensorPresheafFunctor`
+(`StacksFrontier/Topology/Sheaves/Presheaf/ModuleChangeOfRingsComparison.lean`).
 
 ## Formalization strategy
 
-We work at the level of generality of Mathlib's `PresheafOfModules`: the index
-category `C` is an arbitrary small category, so the classical Stacks setting
-`C = TopologicalSpace.Opens X` is a special case.
-
-A presheaf of commutative rings is a functor `Cᵒᵖ ⥤ CommRingCat`; we pass to
-`Cᵒᵖ ⥤ RingCat` (the underlying presheaf of rings) via `forget₂` whenever the
-Mathlib API for `PresheafOfModules` is invoked.
-
-The change-of-rings adjunction is already available in Mathlib as
-`PresheafOfModules.pullbackPushforwardAdjunction`: for a functor `F : C ⥤ D`
-and a morphism `φ : S ⟶ F.op ⋙ R` of presheaves of rings, the `pullback φ` is
-left adjoint to the `pushforward φ`. Specialising to `F = 𝟭 C`, the
-`pushforward φ` is naturally identified with `restrictScalars φ`, and the
-`pullback φ` is the sectionwise tensor-product/change-of-rings functor.
-
-This file therefore packages the Stacks 006R statement as a thin wrapper around
-this Mathlib adjunction. -/
+The index category `C` is an arbitrary small category. A presheaf of commutative rings is a
+functor `Cᵒᵖ ⥤ CommRingCat`; we pass to `Cᵒᵖ ⥤ RingCat` (the underlying presheaf of rings) via
+`forget₂` whenever the Mathlib API for `PresheafOfModules` is invoked. For `F = 𝟭 C`, the
+`pushforward φ` is restriction of scalars along `φ`.
+-/
 
 @[expose] public section
 
@@ -119,49 +107,40 @@ noncomputable abbrev restrictionFunctor
 `α : 𝒪₁ ⟶ 𝒪₂` of presheaves of commutative rings, the change-of-rings functor
 `𝒪₂ ⊗_{p, 𝒪₁} (-) : PModuleStruct 𝒪₁ ⥤ PModuleStruct 𝒪₂`.
 
-Sectionwise: `(𝒪₂ ⊗_{p,𝒪₁} 𝒢)(U) = 𝒪₂(U) ⊗_{𝒪₁(U)} 𝒢(U)`. The restriction maps
-are induced by the universal property of the tensor product.
-
-Constructed as the left adjoint of the restriction functor, via Mathlib's
-`PresheafOfModules.pullback`. -/
+Constructed as Mathlib's `PresheafOfModules.pullback`, an abstract left adjoint of the
+restriction functor; nothing in this definition computes its sections. On the site of opens of a
+topological space it is isomorphic to the explicit sectionwise tensor product presheaf
+`U ↦ 𝒪₂(U) ⊗_{𝒪₁(U)} 𝒢(U)`, by `tensorPresheafIsoTensorPresheafFunctor`. -/
 noncomputable abbrev tensorPresheaf
     {𝒪₁ 𝒪₂ : Cᵒᵖ ⥤ CommRingCat.{u}} (α : 𝒪₁ ⟶ 𝒪₂) :
     PModuleStruct 𝒪₁ ⥤ PModuleStruct 𝒪₂ :=
   PresheafOfModules.pullback.{u} (F := 𝟭 C) (toRingCatMap α)
 
-/-- **Stacks Project, tag 006R (Lemma 6.6.2), adjunction form.**
+/-- The abstract change of rings adjunction: given a morphism `α : 𝒪₁ ⟶ 𝒪₂` of presheaves of
+commutative rings on a small category `C`, Mathlib's pullback `tensorPresheaf α` is left adjoint
+to the restriction-of-scalars functor `restrictionFunctor α = (-)_{𝒪₁}`.
 
-Given a morphism `α : 𝒪₁ ⟶ 𝒪₂` of presheaves of commutative rings on a small
-category `C`, the change-of-rings functor `tensorPresheaf α = 𝒪₂ ⊗_{p, 𝒪₁} (-)`
-is left adjoint to the restriction-of-scalars functor
-`restrictionFunctor α = (-)_{𝒪₁}`.
-
-This is the *canonical adjunction* asserted by Lemma 6.6.2. It is provided by
-Mathlib's `PresheafOfModules.pullbackPushforwardAdjunction`, specialised to
-`F = 𝟭 C`. -/
-@[stacks 006R]
+This is Mathlib's `PresheafOfModules.pullbackPushforwardAdjunction`, specialised to `F = 𝟭 C`,
+and holds by construction of the pullback. Stacks 006R, about the explicit sectionwise tensor
+product presheaf, is `Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafAdjunction`. -/
 noncomputable def tensorPresheafAdj
     {𝒪₁ 𝒪₂ : Cᵒᵖ ⥤ CommRingCat.{u}} (α : 𝒪₁ ⟶ 𝒪₂) :
     PresheafOfModules.pullback.{u} (F := 𝟭 C) (toRingCatMap α) ⊣
       PresheafOfModules.pushforward.{u} (F := 𝟭 C) (toRingCatMap α) :=
   PresheafOfModules.pullbackPushforwardAdjunction.{u} (F := 𝟭 C) (toRingCatMap α)
 
-/-- **Stacks Project, tag 006R, hom-set bijection form.**
-
-The canonical bijection
-`Hom_{𝒪₂}(𝒪₂ ⊗_{p, 𝒪₁} 𝒢, ℱ) ≃ Hom_{𝒪₁}(𝒢, ℱ_{𝒪₁})`,
-which is the hom-set bijection of the adjunction `tensorPresheafAdj`. By
-construction, this bijection is natural in both variables `𝒢` and `ℱ`. -/
-@[stacks 006R]
+/-- The hom-set bijection `Hom(tensorPresheaf α 𝒢, ℱ) ≃ Hom_{𝒪₁}(𝒢, ℱ_{𝒪₁})` of the abstract
+adjunction `tensorPresheafAdj`, natural in both variables `𝒢` and `ℱ`. Stacks 006R, about the
+explicit sectionwise tensor product presheaf, is
+`Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafHomEquiv`. -/
 noncomputable def tensorHomEquiv
     {𝒪₁ 𝒪₂ : Cᵒᵖ ⥤ CommRingCat.{u}} (α : 𝒪₁ ⟶ 𝒪₂)
     (𝒢 : PModuleStruct 𝒪₁) (ℱ : PModuleStruct 𝒪₂) :
     ((tensorPresheaf α).obj 𝒢 ⟶ ℱ) ≃ (𝒢 ⟶ (restrictionFunctor α).obj ℱ) :=
   (tensorPresheafAdj α).homEquiv 𝒢 ℱ
 
-/-- **Stacks Project, tag 006R: change-of-rings is a left adjoint.**
-
-A direct consequence of `tensorPresheafAdj`. -/
+/-- Mathlib's pullback `tensorPresheaf α` is a left adjoint; a direct consequence of
+`tensorPresheafAdj`. -/
 theorem tensorPresheaf_isLeftAdjoint
     {𝒪₁ 𝒪₂ : Cᵒᵖ ⥤ CommRingCat.{u}} (α : 𝒪₁ ⟶ 𝒪₂) :
     (tensorPresheaf α).IsLeftAdjoint :=

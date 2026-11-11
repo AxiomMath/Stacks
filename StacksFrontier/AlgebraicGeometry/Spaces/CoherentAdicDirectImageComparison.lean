@@ -56,7 +56,8 @@ the isomorphism `f_*β_n`; annihilation by a fixed power of a sheaf of ideals is
 
 What is **not** here is the map `α : (𝓖_n) ⟶ (f_*𝓕)^∧` of Stacks 08BD.  Forming its target
 needs coherence of the direct image along a representable proper morphism
-([Stacks, Tag 08AR]), which this library does not prove, and the source produces `α` by étale
+([Stacks, Tag 08AR], `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`), and
+the source produces `α` by étale
 descent from the scheme case ([Stacks, Tag 088B]), whose proof rests on the theorem on formal
 functions ([Stacks, Tag 02OC]) and on the full faithfulness of completion over a complete base
 ([Stacks, Tag 0883]), both of which rest in turn on the uniform Artin-Rees bounds of

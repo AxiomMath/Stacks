@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.VanishingAboveTheDimension
 /-!
 # Uniform vanishing of the cohomology of a quasi-compact quasi-separated algebraic space
 
-Stacks 072C says that on a quasi-compact and quasi-separated algebraic space `X` there is a
-single degree beyond which the cohomology of every quasi-coherent `𝒪_X`-module vanishes.
+A consequence of Stacks 072C: on a quasi-compact and quasi-separated algebraic space `X` there
+is a single degree beyond which the cohomology of every quasi-coherent `𝒪_X`-module vanishes.
 
 ## Main results
 
@@ -17,8 +17,8 @@ All names are in the namespace `AlgebraicGeometry.Space`.
 * `exists_forall_isZero_rightDerived_globalSectionsAb_of_isQuasiCompactSpace`: the uniform
   vanishing for the cohomology as abelian groups.
 * `exists_forall_isZero_rightDerived_globalSectionsFunctor_of_isQuasiCompactSpace`:
-  **Stacks 072C**, a single degree beyond which the cohomology of every quasi-coherent
-  `𝒪_X`-module vanishes.
+  a single degree beyond which the cohomology of every quasi-coherent `𝒪_X`-module vanishes,
+  a consequence of Stacks 072C with the degree only asserted to exist.
 * `exists_forall_isZero_rightDerived_globalSectionsFunctor_of_isCoherent`: the same bound for
   coherent modules.
 
@@ -31,8 +31,9 @@ modules in the universe of the schemes.  The quasi-coherence of a module is
 is `AlgebraicGeometry.Space.IsCoherent` of [Stacks, Tag 07UA], whose parent projection supplies
 quasi-coherence.
 
-**The degree.** The statement asserts that some degree exists; it does not assert that the
-source's explicit degree `max (d_p + p)` works.
+**The degree.** The statements here assert that some degree exists.  The source's explicit
+degree `max (d_p + p)`, for any choices (1)–(5), is
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`.
 
 ## References
 
@@ -100,11 +101,16 @@ theorem exists_forall_isZero_rightDerived_globalSectionsAb_of_isQuasiCompactSpac
       (rightDerivedGlobalSectionsAbRestrictPushIso B S hS (edsInterHom B S hS hsq)
         (isEtale_edsInterHom B S hS hsq) F n)
 
-/-- **Stacks 072C, the uniform vanishing.**  On a quasi-compact and quasi-separated algebraic
-space `X` there is a single degree `N` beyond which the cohomology of every quasi-coherent
-`𝒪_X`-module vanishes: `Hᑫ(X, 𝓕) = 0` for `q ≥ N`. -/
-@[stacks 072C "the uniform vanishing degree, for every quasi-coherent module; the value \
-max (d_p + p) of the degree is not part of this statement"]
+/-- **The uniform vanishing on a quasi-compact quasi-separated space.**  On a quasi-compact and
+quasi-separated algebraic space `X` there is a single degree `N` beyond which the cohomology of
+every quasi-coherent `𝒪_X`-module vanishes: `Hᑫ(X, 𝓕) = 0` for `q ≥ N`.
+
+This is a consequence of [Stacks, Tag 072C] for the derived functors of global sections on the
+small étale ringed site, with `N` only asserted to exist.  The tag itself, with the source's
+explicit bound `max (d_p + p)` for any choices (1)–(5), is
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`,
+and the choices exist by
+`AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_diagonalComplementQuotient`. -/
 theorem exists_forall_isZero_rightDerived_globalSectionsFunctor_of_isQuasiCompactSpace
     (X : AlgebraicSpaces B S hS) (hqc : IsQuasiCompactSpace B S hS X.1)
     (hqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1) :

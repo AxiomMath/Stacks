@@ -33,16 +33,18 @@ own hypotheses — with no reference to `f` and `V` at all.
   the Stacks proof — a morphism of finite presentation over a quasi-compact quasi-separated base,
   flat over a quasi-compact open, is the base change of the same data, *still flat over the
   open*, over a Noetherian base.
-* `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat`: Stacks tag 0EVC under exactly
-  the tag's hypotheses, carrying only
+* `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat_of_noetherianAffineChart`: Stacks
+  tag 0EVC under the tag's hypotheses together with
   `AlgebraicGeometry.NoetherianAffineChartFlatteningCentre`.
 * `AlgebraicGeometry.NoetherianAffineChartFlatteningCentre.of_affineCase`: that hypothesis
   holds, from
   `AlgebraicGeometry.AffineChartFlatteningCentreUnderSourceHypotheses.of_compactSpace` — the
   affine case of the flatness assertion of Stacks tag 0815 for an arbitrary quasi-coherent
   module, proved from Stacks tag 0811 with nothing granted.
-* `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_affineCase`: **Stacks tag 0EVC** under
-  exactly the tag's hypotheses, carrying nothing. This is where the tag is registered.
+* `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_affineCase`: Stacks tag 0EVC under
+  exactly the tag's hypotheses, with the flatness read for `f ∣_ V`. The tag itself is
+  registered on `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat`, which states the
+  flatness for `X ×_Y V ⟶ V` as the source does.
 * `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat_pullback`: the same, with the
   flatness hypothesis read for the projection out of the fibre product, which is the shape the
   converse direction of Stacks tag 0EVF asks for.
@@ -56,16 +58,14 @@ model to a *later* stage, and reaching that stage needs the inverse system, whic
 does not expose. The approximation is therefore re-run here, and the model is taken at the stage
 tag 04AI supplies rather than at the stage where the data first descends.
 
-**What is carried.** The affine case of the flatness assertion of
-Stacks tag 0815 is carried, exactly as in the library's form of tag 081R
-(`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`) and in the Noetherian case
-of tag 0EVC. Its shape is different: it is not quantified over the models of one
-particular pair `(f, V)`, but is the affine case under its own hypotheses — a Noetherian base, a
-morphism of finite presentation, and flatness over a quasi-compact open. The only unconditional
-instance of it in the tree remains
-`AlgebraicGeometry.AffineChartFlatteningCentre.of_isFlatOver`, the region where no blowup is
-needed; closing it is the affine case of Raynaud–Gruson flattening, whose root is Stacks tag
-0811.
+**The affine case of tag 0815.** The library's form of tag 081R
+(`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`) and the Noetherian case
+of tag 0EVC take the affine case of the flatness assertion of Stacks tag 0815 as an input.
+`AlgebraicGeometry.NoetherianAffineChartFlatteningCentre` states that input under its own
+hypotheses — a Noetherian base, a morphism of finite presentation, and flatness over a
+quasi-compact open — rather than over the models of one particular pair `(f, V)`, and
+`AlgebraicGeometry.NoetherianAffineChartFlatteningCentre.of_affineCase` proves it from
+`AlgebraicGeometry.AffineChartFlatteningCentre.of_affineCase`, whose root is Stacks tag 0811.
 
 ## References
 
@@ -205,15 +205,11 @@ Noetherian case `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair` is applied the
 `AlgebraicGeometry.HasFlatAlmostBlowUpSquarePair.of_isPullback`, which is tag 0EV7 (steps (7) and
 (8)).
 
-The one thing carried beyond the tag is the affine case of the flatness assertion of Stacks tag
-0815, as `AlgebraicGeometry.NoetherianAffineChartFlatteningCentre` — the hypothesis the library's
-form of Stacks tag 081R carries, read under its own hypotheses.
-
-This tag is NOT registered on this declaration, which keeps that hypothesis explicit. It is not
-an unproved one: `AlgebraicGeometry.NoetherianAffineChartFlatteningCentre.of_affineCase`
-below proves it outright. The tag is registered on
-`AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_affineCase`, which is this statement with
-that producer supplied.
+The affine case of the flatness assertion of Stacks tag 0815 is taken here as the explicit
+argument `AlgebraicGeometry.NoetherianAffineChartFlatteningCentre`;
+`AlgebraicGeometry.NoetherianAffineChartFlatteningCentre.of_affineCase` below proves it, and
+`AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_affineCase` is this statement with that proof
+supplied.
 -/
 theorem hasFlatAlmostBlowUpSquarePair_of_flat_of_noetherianAffineChart {X Y : Scheme.{u}}
     [CompactSpace Y] [QuasiSeparatedSpace Y] (f : X ⟶ Y) (hf : FinitePresentation f) (V : Y.Opens)
@@ -269,7 +265,7 @@ squares are cartesian (`AlgebraicGeometry.lowerSquareIso`, `AlgebraicGeometry.to
 whose relative morphism `X' ⟶ Y'` is flat and of finite presentation.
 
 Every hypothesis of the source is present, with no Noetherian hypothesis on `Y`: the Noetherian
-case is `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat`, run at the Noetherian model
+case is `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair`, run at the Noetherian model
 supplied by `AlgebraicGeometry.exists_isNoetherian_model_of_finitePresentation_of_flat` and
 pulled back along `Y ⟶ Y₀`. The affine case of the flatness assertion of
 [Stacks, Tag 0815] it consumes is
@@ -280,13 +276,10 @@ Noetherian case consumes.
 
 The tag's hypothesis that `X_V ⟶ V` be flat is essential and is present here, where
 `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair` omits it: without it the affine case cannot be
-applied at the model at all, its own hypothesis (5) being exactly that flatness. -/
-@[stacks 0EVC "the conclusion in full, under exactly the source's hypotheses and with no \
-Noetherian hypothesis on the base: the affine case of the flatness \
-assertion of [Stacks, Tag 0815] that the proof consumes is \
-`AlgebraicGeometry.AffineChartFlatteningCentreUnderSourceHypotheses.of_compactSpace`, \
-itself proved from \
-[Stacks, Tag 0811]"]
+applied at the model at all, its own hypothesis (5) being exactly that flatness.
+
+The tag is registered on `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat`, which proves
+the same statement with the flatness read for the projection `X ×_Y V ⟶ V`. -/
 theorem hasFlatAlmostBlowUpSquarePair_of_affineCase {X Y : Scheme.{u}} [CompactSpace Y]
     [QuasiSeparatedSpace Y] (f : X ⟶ Y) (hf : FinitePresentation f) (V : Y.Opens)
     (hV : IsCompact (V : Set Y)) (hflat : Flat (f ∣_ V)) :

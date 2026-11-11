@@ -835,7 +835,9 @@ theorem local_baseChange_compatible (f : X ⟶ S) (h : Y ⟶ X) (e : Y ⟶ T) (g
 site of `X` has an étale covering whose members factor through an étale `S`-scheme by a
 quasi-compact morphism with geometrically connected fibres, then the canonical base change map
 `f⁻¹ g_* F ⟶ h_* e⁻¹ F` is an isomorphism for every sheaf of sets `F` on the small étale site of
-`T`. -/
+`T`. This is `isIso_smallEtaleSetBaseChange_of_etaleLocalFactorization` with its hypothesis
+`hlocal` supplied by `local_baseChange_compatible`; that untagged sibling keeps `hlocal` as an
+argument. -/
 @[stacks 0EZX "no residual hypothesis. Both paragraphs of the source's proof are supplied. The
 first is the chain of four identifications -- that the sections of `f⁻¹ g_* F` and of
 `h_* e⁻¹ F` over an object with such a factorization are both the sections of `F` over

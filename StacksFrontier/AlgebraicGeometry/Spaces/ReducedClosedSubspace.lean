@@ -929,8 +929,14 @@ Uniqueness is `AlgebraicGeometry.Space.eq_reducedClosedSubspace`, the witness is
 datum `AlgebraicGeometry.Space.reducedClosedSubspace`, and the closed-subspace clause of
 existence is `AlgebraicGeometry.Space.isClosedSubspace_reducedClosedSubspace`, whose own
 descent hypothesis is discharged by
-`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isClosedImmersion`. -/
-@[stacks 03IQ "existence and uniqueness"]
+`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isClosedImmersion`.
+
+This declaration also carries the SECTION tag 03IP, `\section{Reduced spaces}`: the section
+states no result of its own, and its central lemma is 03IQ, the reduced closed subspace
+structure on a closed subset. -/
+@[stacks 03IQ "existence and uniqueness", stacks 03IP "the SECTION tag \
+  `\\section{Reduced spaces}`; its central lemma is 03IQ, the unique reduced closed subspace \
+  structure on a closed subset"]
 theorem existsUnique_reducedClosedSubspace
     (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (hX : IsAlgebraicSpace B S hS X) (T : Set (points B S hS X)) (hT : IsClosed T) :

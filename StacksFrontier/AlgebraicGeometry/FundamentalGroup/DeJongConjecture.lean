@@ -4,7 +4,6 @@ public import Mathlib.AlgebraicGeometry.Geometrically.Irreducible
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Mathlib.RingTheory.PowerSeries.PiTopology
-public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.MorphismMap
 public import StacksFrontier.AlgebraicGeometry.Variety.Curve.Defs
 public import StacksFrontier.Deformation.Representation.FixedDeterminantUniversal
@@ -18,7 +17,7 @@ continuous representation `π₁(X) → GLₙ(F⟦t⟧)`, for `F` a finite field
 finite geometric monodromy, that is, the image of the geometric fundamental group `π₁(X_k̄)` is
 finite.
 
-Granting the conjecture, if the restriction of a continuous residual representation
+Under the conjecture, if the restriction of a continuous residual representation
 `ρ₀ : π₁(X) → GLₙ(𝐅_ℓ)` to `π₁(X_k̄)` is absolutely irreducible and `ℓ` does not divide `n`, then
 for a continuous character `δ : π₁(X) → ℤ_[ℓ]ˣ` lifting `det ρ₀` the universal deformation ring of
 `ρ₀` with determinant fixed to `δ` is finite and flat over `ℤ_[ℓ]`. In particular `ρ₀` then lifts
@@ -34,9 +33,9 @@ to characteristic zero.
 ## Main results
 
 * `AlgebraicGeometry.finite_of_isUniversalFixedDeterminantDeformation` — the universal
-  fixed-determinant deformation ring is finite over `ℤ_[ℓ]`.
+  fixed-determinant deformation ring is finite over `ℤ_[ℓ]` when its special fibre is finite.
 * `AlgebraicGeometry.flat_of_isUniversalFixedDeterminantDeformation` — the universal
-  fixed-determinant deformation ring is flat over `ℤ_[ℓ]`.
+  fixed-determinant deformation ring is flat over `ℤ_[ℓ]` when `ℓ` is a nonzerodivisor on it.
 
 ## Implementation notes
 
@@ -61,10 +60,11 @@ extensions of `ZMod ℓ`, rather than only `ZMod ℓ` itself, is what makes the 
 a one-dimensional quotient of a complete local `𝐅_ℓ`-algebra is normalized to `F⟦t⟧` only after
 a finite extension of the residue field.
 
-The two conclusions are deduced from properties of the special fibre of the deformation ring
-that the source obtains, in the cited work of de Jong, from the conjecture: that `R/ℓR` is
-finite, and that `ℓ` is a nonzerodivisor on `R`. Both are carried here as explicit hypotheses.
-The deductions themselves are
+The two theorems of this file deduce the conclusions from properties of the deformation ring:
+that `R/ℓR` is finite, and that `ℓ` is a nonzerodivisor on `R`. The full statement of Stacks
+Tag 03W1, which derives both from its hypotheses, is
+`AlgebraicGeometry.finite_flat_of_isUniversalFixedDeterminantDeformation` in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.DeJongConjectureFiniteFlat`. The deductions are
 `Deformation.IsUniversalFixedDeterminantDeformation.finite`, which is Stacks Tag 031D over the
 precomplete ring `ℤ_[ℓ]`, and
 `Deformation.IsUniversalFixedDeterminantDeformation.flat`, which is torsion freeness over the
@@ -106,20 +106,17 @@ public def DeJongConjectureHolds (k K : Type u) [Field k] [Finite k] [Field K] [
       (Set.range fun g : EtaleFundamentalGroup X' x =>
         ρ (etaleFundamentalGroupMap q x g)).Finite
 
-/-- **Stacks Project, Tag 03W1 (finiteness).** Let `X` be a smooth, geometrically irreducible,
-projective curve over a finite field `k` of characteristic `p`, let `ℓ ≠ p` be a prime, and let
-`ρ₀ : π₁(X) → GLₙ(ZMod ℓ)` be a continuous representation of its étale fundamental group. Assume
-that de Jong's conjecture holds for `X`, that the restriction of `ρ₀` to the geometric
-fundamental group is absolutely irreducible, and that `ℓ` does not divide `n`. Then the universal
-deformation ring of `ρ₀` with determinant fixed to a continuous character `δ` lifting `det ρ₀` is
-finite over `ℤ_[ℓ]`.
+/-- **Finiteness of the deformation ring from that of its special fibre.** Let `X` be a
+smooth, geometrically irreducible, projective curve over a finite field `k` of characteristic
+`p`, let `ℓ ≠ p` be a prime, and let `ρ₀ : π₁(X) → GLₙ(ZMod ℓ)` be a continuous representation
+of its étale fundamental group. Assume that de Jong's conjecture holds for `X`, that the
+restriction of `ρ₀` to the geometric fundamental group is absolutely irreducible, and that `ℓ`
+does not divide `n`. Then the universal deformation ring of `ρ₀` with determinant fixed to a
+continuous character `δ` lifting `det ρ₀` is finite over `ℤ_[ℓ]`.
 
-The step of de Jong's cited argument in which the conjecture is used, namely that the special
-fibre `R/ℓR` of the deformation ring is finite, is carried as the hypothesis
-`hspecialFibre`. -/
-@[stacks 03W1 "fixed-determinant finiteness; the step of the cited argument in which the \
-conjecture is used, that the special fibre R/lR of the universal deformation ring is finite, is \
-carried as the hypothesis hspecialFibre"]
+This is the reduction, via Stacks Tag 031D, of the finiteness of `R` to that of its special
+fibre `R/ℓR` (the hypothesis `hspecialFibre`). The full statement of Stacks Tag 03W1, with no
+such hypothesis, is `AlgebraicGeometry.finite_flat_of_isUniversalFixedDeterminantDeformation`. -/
 public theorem finite_of_isUniversalFixedDeterminantDeformation
     (k K : Type u) [Field k] [Finite k] [Field K] [Algebra k K] [IsAlgClosed K]
     (p ℓ n : ℕ) [CharP k p] [Fact ℓ.Prime] (_hℓp : ℓ ≠ p) (_hn : ¬ ℓ ∣ n)
@@ -142,14 +139,11 @@ public theorem finite_of_isUniversalFixedDeterminantDeformation
     Module.Finite ℤ_[ℓ] R :=
   hR.finite hspecialFibre
 
-/-- **Stacks Project, Tag 03W1 (flatness).** Under the same hypotheses, the universal
-fixed-determinant deformation ring of `ρ₀` is flat over `ℤ_[ℓ]`.
-
-The step of de Jong's cited argument in which the conjecture is used, namely that `ℓ` is a
-nonzerodivisor on the deformation ring, is carried as the hypothesis `hregular`. -/
-@[stacks 03W1 "fixed-determinant flatness; the step of the cited argument in which the \
-conjecture is used, that l is a nonzerodivisor on the universal deformation ring, is carried as \
-the hypothesis hregular"]
+/-- **Flatness of the deformation ring from the regularity of `ℓ`.** Under the same hypotheses,
+if `ℓ` is a nonzerodivisor on the universal fixed-determinant deformation ring of `ρ₀` (the
+hypothesis `hregular`), that ring is flat over `ℤ_[ℓ]`. The full statement of Stacks Tag 03W1,
+with no such hypothesis, is
+`AlgebraicGeometry.finite_flat_of_isUniversalFixedDeterminantDeformation`. -/
 public theorem flat_of_isUniversalFixedDeterminantDeformation
     (k K : Type u) [Field k] [Finite k] [Field K] [Algebra k K] [IsAlgClosed K]
     (p ℓ n : ℕ) [CharP k p] [Fact ℓ.Prime] (_hℓp : ℓ ≠ p) (_hn : ¬ ℓ ∣ n)

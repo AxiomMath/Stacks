@@ -13,7 +13,7 @@ fppf site `B`, and let `𝓕` be a coherent `𝒪_X`-module.  Stacks 07UH assert
 hypothesis carried.
 
 `StacksFrontier/AlgebraicGeometry/Spaces/FiniteDirectImageCoherence.lean` proves it granted the
-hypothesis `h03DW`, that is
+hypothesis `hchart`, that is
 `AlgebraicGeometry.Space.ChartwiseIsZeroHigherDirectImage`; that hypothesis is discharged in
 `StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardUnconditional.lean`, so nothing is
 left to carry.
@@ -38,10 +38,10 @@ assumption is used by the coherence half — it is what makes `f_* 𝓕` coheren
 vanishing half, which only needs `f` affine and `𝓕` quasi-coherent.  So the statement below
 omits it; the hypotheses it does carry, `f` finite, `𝓕` coherent and `0 < p`, are the source's.
 
-The coherence half is not proved here.  It is reduced in
-`StacksFrontier/AlgebraicGeometry/Spaces/FiniteDirectImageChartSections.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/FiniteDirectImageChartCartesian.lean`, which carry the
-`@[stacks 07UH]` attribute for that clause.
+The coherence half is not proved here: it is
+`AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite'`, and both halves together,
+under exactly the source's hypotheses, are
+`AlgebraicGeometry.Space.isZero_rightDerived_and_isCoherent_modulePushforward_of_isFinite`.
 
 ## References
 
@@ -70,7 +70,7 @@ module is quasi-coherent, so this is Stacks 073H,
 `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isQuasicoherentOnSite`.
 
 `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isFinite` is the same
-statement with the affine case carried as the hypothesis `h03DW` and with `𝓕` only required to
+statement with the affine case carried as the hypothesis `hchart` and with `𝓕` only required to
 be a module; that hypothesis is now discharged by
 `AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom`, which asks for `𝓕`
 quasi-coherent and `p > 0` — exactly what the source assumes here.

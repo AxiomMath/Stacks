@@ -196,9 +196,9 @@ the implication from the ambient stack to the closed substack, which is why its 
 says so.
 
 Clause (2) needs **Stacks 05ZR**, the scheme clause for a thickening of algebraic spaces, and
-the converse of clause (1) on top of it; the module
-`StacksFrontier.AlgebraicGeometry.Spaces.ThickeningSchemeRepresentable` has 05ZR only with the
-three hypotheses of Stacks 07VT assumed. The notion
+the converse of clause (1) on top of it; 05ZR is proved with no hypotheses as
+`AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom_of_isRepresentable` in
+`StacksFrontier.AlgebraicGeometry.Spaces.ThickeningSchemeRepresentableClosedImmersion`. The notion
 of an algebraic stack being a scheme needed to state the clause is
 `Stacks.RepresentableMorphism.IsRepresentableCFG` (**Stacks 02Y3**), and
 `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpace_of_isRepresentableCFG`

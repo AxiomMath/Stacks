@@ -59,9 +59,12 @@ Base change along an injection of `k`-algebras is injective because `R` is flat 
 (`TensorProduct.map_injective_of_flat_flat'`); this is the injectivity the source also reads off
 from flatness.
 
-Stacks 00I7, which the last step consumes, is proved here rather than imported: the
-analytic heart of it, that a field extension of a separably closed field is a geometrically
-irreducible algebra over it, is `geomPure_baseChange_irreducible` in
+The last step consumes Stacks 00I7 in its nilradical form, which this file restates and proves
+locally as `isPrime_nilradical_tensorProduct_of_isSepClosed`; the registered statement of 00I7 is
+`existsUnique_mem_minimalPrimes_tensorProduct_of_isSepClosed` in
+`StacksFrontier.RingTheory.Spectrum.Prime.IrreducibleFibres`. The analytic heart of it, that a
+field extension of a separably closed field is a geometrically irreducible algebra over it, is
+`geomPure_baseChange_irreducible` in
 `StacksFrontier.RingTheory.GeometricallyIrreducible.SeparableClosure`, and what remains is the
 reduction of a pair of `k^{sep}`-algebras with prime nilradical to a pair (domain, field), which
 is `isPrime_nilradical_tensorProduct_of_isSepClosed` below.
@@ -202,9 +205,10 @@ private theorem isPrime_nilradical_tensorProduct_of_forall_finiteDimensional
 
 end TensorMap
 
-/-- **Stacks 00I7.** Let `K` be a separably closed field and let `A`, `B` be `K`-algebras each
-with a unique minimal prime, that is, with prime nilradical. Then `A ⊗[K] B` has a unique
-minimal prime.
+/-- A local restatement of Stacks 00I7 in nilradical form, used by this file. Let `K` be a
+separably closed field and let `A`, `B` be `K`-algebras each with a unique minimal prime, that is,
+with prime nilradical. Then `A ⊗[K] B` has a unique minimal prime. The registered statement of
+00I7 is `existsUnique_mem_minimalPrimes_tensorProduct_of_isSepClosed`.
 
 Separable closedness of `K` is what makes this true rather than formal: for `K'/K` a nontrivial
 finite separable extension `Spec K'` is a point, hence irreducible, while `Spec (K' ⊗[K] K')` has

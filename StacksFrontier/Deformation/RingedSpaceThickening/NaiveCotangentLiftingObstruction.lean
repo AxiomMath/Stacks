@@ -2,7 +2,6 @@ module
 
 public import Mathlib.CategoryTheory.Abelian.Basic
 public import Mathlib.CategoryTheory.Triangulated.Pretriangulated
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The obstruction to lifting a morphism of deformations (Stacks 08U8)
@@ -35,12 +34,12 @@ under `Hom(H⁰(NL(α)), 𝒢₂) = Hom(Ω_{X₁/S₁}, 𝒢₂)`.
   vanishes.
 * `NaiveCotangentTwoTerm.conormalExtClass_eq_zero_iff`: the class of `ξ : ℐ/ℐ² ⟶ 𝒢` vanishes
   exactly when `ξ` factors as `ℐ/ℐ² ⟶ Ω ⟶ 𝒢`.
-* `AlgebraicGeometry.RingedSpaceThickening.liftingObstruction_eq_zero_iff`: **Stacks 08U8**,
-  clause (1), the vanishing of the class of Step 1 is necessary and sufficient for a morphism
-  `X'₂ ⟶ X'₁` fitting into the diagram compatibly with `ν` to exist.
+* `AlgebraicGeometry.RingedSpaceThickening.liftingObstruction_eq_zero_iff`: the formal step of
+  clause (1) of Stacks 08U8: given a bijection between the lifts and the factorizations of `ξ`
+  through `Ω`, the class of `ξ` vanishes exactly when a lift exists.
 * `AlgebraicGeometry.RingedSpaceThickening.liftTranslate_zero`,
-  `liftTranslate_add` and `existsUnique_liftTranslate`: **Stacks 08U8**, clause (2), those
-  morphisms form a principal homogeneous space under `Hom(H⁰(NL(α)), 𝒢₂)`.
+  `liftTranslate_add` and `existsUnique_liftTranslate`: the formal step of clause (2): under
+  such a bijection the lifts form a principal homogeneous space under `Hom(H⁰(NL(α)), 𝒢₂)`.
 
 ## Implementation notes
 
@@ -59,15 +58,13 @@ that recipe. Likewise `liftTranslate` is a definition and
 structure is pinned too; a bare existence statement for a group action would be satisfied by
 any reparametrisation of it.
 
-Two inputs of the source are hypotheses here. The underlying spaces of the diagram are
-identified, as in the source's reduction, so that a morphism `X'₂ ⟶ X'₁` fitting into the
-diagram compatibly with `ν` is a homomorphism of sheaves of rings `𝒪_{X'₁} ⟶ 𝒪_{X'₂}`; and
-Steps 1 to 3 of the source, which identify those homomorphisms with the factorizations of `ξ`
-through `Ω`, are carried as the equivalence `e`. What is proved from them is the source's two
-conclusions. The source's further identification of the acting group with
-`Hom_{𝒪_{X₂}}(g^*Ω_{X₁/S₁}, 𝒢₂)` and with `Ext⁰(Lg^*NL_{X₁/S₁}, 𝒢₂)` is not proved here: the
-acting group is `Hom(H⁰(NL(α)), 𝒢₂)`, written as the Hom out of the cokernel of the
-differential of `NL(α)`.
+This file is the formal, category-theoretic part of the source's argument: the set of lifts
+enters through an equivalence `e` with the factorizations of `ξ` through `Ω`, and the acting
+group is written as the Hom out of the cokernel of the differential of `NL(α)`. The complete
+lemma, for an arbitrary diagram of ringed spaces as in the source, with Steps 1 to 3 proved and
+the acting group and obstruction group in the source's spelling, is
+`AlgebraicGeometry.RingedSpaceThickening.DeformationIdealDiagram.lifting_obstruction_and_torsor`
+in `StacksFrontier.Deformation.RingedSpaceThickening.DeformationLiftingObstruction`.
 
 ## References
 
@@ -217,7 +214,7 @@ end NaiveCotangentTwoTerm
 
 end Factor
 
-/-! ### Stacks 08U8 -/
+/-! ### The obstruction class -/
 
 section Obstruction
 
@@ -232,16 +229,9 @@ def liftingObstruction (P : NaiveCotangentTwoTerm single) (G : M) (ξ : P.conorm
     P.obj ⟶ (single.obj G)⟦(1 : ℤ)⟧ :=
   P.conormalExtClass G ξ
 
-/-- **Stacks Project, Tag 08U8**, clause (1). In the situation of the source's diagram, reduced
-as in its proof to sheaves of rings on one space, the class in `Ext¹(NL(α), 𝒢₂)` of the
-difference homomorphism `ξ` of Step 1 vanishes if and only if there is a morphism
-`X'₂ ⟶ X'₁` fitting into the diagram compatibly with `ν`. -/
-@[stacks 08U8 "clause (1): the class of Step 1 of the source's proof and its vanishing \
-criterion, with the underlying spaces of the diagram identified as in the source's reduction, \
-the two-term structure of NL(α) supplied as the distinguished triangle of \
-`NaiveCotangentTwoTerm`, and the content of Steps 1 to 3 — the bijection between morphisms \
-X'₂ ⟶ X'₁ fitting into the diagram and factorizations of the difference map through the degree \
-0 term — carried as the hypothesis `e`"]
+/-- The formal step of clause (1) of [Stacks Project, Tag 08U8]: if the set `Lift` is in
+bijection with the factorizations of `ξ : ℐ/ℐ² ⟶ 𝒢₂` through `Ω` (Steps 1 to 3 of the source's
+proof), the class of `ξ` in `Ext¹(NL(α), 𝒢₂)` vanishes if and only if `Lift` is nonempty. -/
 theorem liftingObstruction_eq_zero_iff (P : NaiveCotangentTwoTerm single) (G : M)
     (ξ : P.conormal ⟶ G) {Lift : Type*} (e : Lift ≃ {θ : P.base ⟶ G // P.d ≫ θ = ξ}) :
     liftingObstruction P G ξ = 0 ↔ Nonempty Lift := by
@@ -283,31 +273,20 @@ private theorem liftTranslate_eq_iff (a : cokernel P.d ⟶ G) (p q : Lift) :
     liftTranslate P G ξ e a p = q ↔ (e q).1 = (e p).1 + cokernel.π P.d ≫ a := by
   rw [← e.injective.eq_iff, Subtype.ext_iff, liftTranslate_eq, eq_comm]
 
-/-- **Stacks Project, Tag 08U8**, clause (2). The zero homomorphism acts trivially on the
-morphisms `X'₂ ⟶ X'₁` fitting into the source's diagram. -/
-@[stacks 08U8 "clause (2): triviality of the action of 0 in the principal homogeneous space \
-structure under Hom(H⁰(NL(α)), 𝒢₂)"]
+/-- The zero homomorphism acts trivially (formal step of clause (2) of Stacks 08U8). -/
 theorem liftTranslate_zero (p : Lift) : liftTranslate P G ξ e 0 p = p := by
   rw [liftTranslate_eq_iff, Limits.comp_zero, add_zero]
 
-/-- **Stacks Project, Tag 08U8**, clause (2). Translation of the morphisms `X'₂ ⟶ X'₁` fitting
-into the source's diagram is additive in the translating homomorphism. -/
-@[stacks 08U8 "clause (2): additivity of the action in the principal homogeneous space \
-structure under Hom(H⁰(NL(α)), 𝒢₂)"]
+/-- Translation is additive in the translating homomorphism (formal step of clause (2) of
+Stacks 08U8). -/
 theorem liftTranslate_add (a b : cokernel P.d ⟶ G) (p : Lift) :
     liftTranslate P G ξ e a (liftTranslate P G ξ e b p) = liftTranslate P G ξ e (a + b) p := by
   refine e.injective (Subtype.ext ?_)
   simp only [liftTranslate_eq, Preadditive.comp_add]
   abel
 
-/-- **Stacks Project, Tag 08U8**, clause (2). The morphisms `X'₂ ⟶ X'₁` fitting into the
-source's diagram compatibly with `ν` form a principal homogeneous space under
-`Hom(H⁰(NL(α)), 𝒢₂) = Hom(Ω_{X₁/S₁}, 𝒢₂)`: any one of them is carried to any other by exactly
-one homomorphism. -/
-@[stacks 08U8 "clause (2): the morphisms X'₂ ⟶ X'₁ fitting into the diagram are a principal \
-homogeneous space under Hom(H⁰(NL(α)), 𝒢₂), the acting group being written as the Hom out of \
-the cokernel of the differential of NL(α); its further identification with \
-Hom(g^*Ω_{X₁/S₁}, 𝒢₂) and with Ext⁰(Lg^*NL_{X₁/S₁}, 𝒢₂) is not proved here"]
+/-- Translation is simply transitive: any element of `Lift` is carried to any other by exactly
+one homomorphism `H⁰(NL(α)) ⟶ 𝒢₂` (formal step of clause (2) of Stacks 08U8). -/
 theorem existsUnique_liftTranslate (p q : Lift) :
     ∃! a : cokernel P.d ⟶ G, liftTranslate P G ξ e a p = q := by
   refine ⟨cokernel.desc P.d ((e q).1 - (e p).1) ?_, ?_, ?_⟩

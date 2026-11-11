@@ -75,13 +75,14 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-/-- **Stacks 04RY**, three of the four clauses of its conclusion. For a groupoid in algebraic
+/-- Three of the four clauses of the conclusion of Stacks 04RY (not the point `u'` over `u` with
+`κ(u) = κ(u')`; Stacks 04RY itself is
+`Stacks.Groupoids.GroupoidScheme.exists_quasiSplit_separated_scheme_of_quasiSplittingSituation`).
+For a groupoid in algebraic
 spaces whose source and target are separated, whose source is flat and locally of finite
 presentation, whose target is locally of finite type and whose object space is a scheme, the
 finite part is a scheme, its projection to the object space is separated and étale, and the
 restriction along that projection is quasi-split at every point. -/
-@[stacks 04RY "the finite part U' = (R_s/U, e)_fin is a scheme, U' ⟶ U is separated and étale,
-and R|_{U'} is quasi-split at every point of U'"]
 theorem exists_finitePartGroupoid_isRepresentable_isSeparated
     {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
     {B : AlgebraicSpaces C S hS} (G : GroupoidInAlgebraicSpaces C S hS B)

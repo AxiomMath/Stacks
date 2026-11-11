@@ -17,10 +17,10 @@ associated sheaf `Fᵃ` of [Stacks, Tag 03OG], the right-hand side being cohomol
 object `S` of `𝒞`.  This file is [Stacks, Tag 03P3], the remark on that theorem, which has two
 assertions.
 
-This file proves both assertions with nothing carried.  The older reduction
+This file proves both assertions with no input beyond the data of the source.  The reduction
 `Stacks.EtaleCohomology.QcohSiteCohomology.zariskiCohomologyIsoCohomologyAtObject`, in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.QuasiCoherentSheaves.CohomologyAtAnObject`,
-takes Theorem 03P2 at a final object as the hypothesis `h03P2`, and is left as it is.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.QuasiCoherentSheaves.CohomologyAtAnObject`, works
+over an arbitrary site and takes a comparison at a final object as input; it carries no tag.
 
 **First assertion.**  `S` is a final object of `𝒞`, so the groups on the right-hand side of
 Tag 03P2 are the right derived functors of the global sections functor of `𝒞`, that is Mathlib's
@@ -365,7 +365,7 @@ This is `AlgebraicGeometry.bigOverQuasiCoherentCohomologyIsoAlong` at the whole 
 image is `Z` by `AlgebraicGeometry.objAtTopIso`.  Nothing is assumed: the source's own proof of
 Tag 03P2 is what is run, over `Z` instead of over `S`. -/
 @[stacks 03P3 "second assertion, the case 𝒞 = (Sch/S)_τ: H^p(U, f^*F) = H^p_τ(U, Fᵃ) at an \
-ARBITRARY object Z of the site, not only at a final one.  τ is a bound variable, so this one \
+ARBITRARY object Z of the site, final or not.  τ is a bound variable, so this one \
 declaration covers all five of fppf, syntomic, smooth, étale and Zariski.  Nothing is assumed: \
 the sheaf condition of Tag 03OG is already carried by bigOverAssociatedSheaf, and Tag 03P2 is \
 not invoked either — the collapse its proof runs along opensBelowToOver is run here along \
@@ -541,7 +541,7 @@ This is `AlgebraicGeometry.smallEtaleQuasiCoherentCohomologyIsoAlong` at the who
 image is `Z` by `AlgebraicGeometry.smallEtaleObjAtTopIso`.  Nothing is assumed: the source's own
 proof of Tag 03P2 is what is run, over `Z` instead of over `S`. -/
 @[stacks 03P3 "second assertion, the case 𝒞 = S_étale: H^p(U, f^*F) = H^p(U, Fᵃ) at an \
-ARBITRARY object Z of the small étale site of S, not only at a final one.  Nothing is assumed: \
+ARBITRARY object Z of the small étale site of S, final or not.  Nothing is assumed: \
 the sheaf condition of Tag 03OG is already carried by smallEtaleAssociatedSheaf, and Tag 03P2 is \
 not invoked either — the collapse its proof runs along opensToEtale is run here along \
 opensToEtaleAlong, the composite of opensToEtale over U with composition along the étale \

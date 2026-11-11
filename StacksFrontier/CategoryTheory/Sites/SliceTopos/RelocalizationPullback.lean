@@ -45,13 +45,15 @@ for further data `a : F' → F`, `b : G' → G`, `s' : F' → f⁻¹G'` with
 `a ∘ s = (f⁻¹b) ∘ s'` — using the formal identity
 `f⁻¹H ×_{f⁻¹G} F ×_F F' = f⁻¹(H ×_G G') ×_{f⁻¹G'} F'`.
 
-Mathlib does not host the slice-topos machinery needed to state the diagram of topoi, so
-only that identity is formalized here, with the inverse image `f⁻¹` replaced by an
-arbitrary functor `F : D ⥤ C` preserving the pullback of `φ` and `b` (an inverse image is
-a left adjoint, hence preserves finite limits). The resulting canonical isomorphism
-`(F.obj H ×_{F.obj G} Fbar) ×_{Fbar} Fbar' ≅ F.obj (H ×_G G') ×_{F.obj G'} Fbar'` is
-`relocalizeMorphismTopoiPullbackIso`, built from `PreservesPullback.iso` and the
-universal property of pullbacks.
+This file records only that identity, as a standalone lemma, with the inverse image `f⁻¹`
+replaced by an arbitrary functor `F : D ⥤ C` preserving the pullback of `φ` and `b` (an
+inverse image is a left adjoint, hence preserves finite limits). The resulting canonical
+isomorphism `(F.obj H ×_{F.obj G} Fbar) ×_{Fbar} Fbar' ≅ F.obj (H ×_G G') ×_{F.obj G'} Fbar'`
+is `relocalizeMorphismTopoiPullbackIso`, built from `PreservesPullback.iso` and the
+universal property of pullbacks. It is a step of the proof, not the lemma: Stacks 04IV itself
+(the morphism of topoi `f_s`, its factorization, the formula for `(f_s)⁻¹` and both squares)
+is `MorphismOfTopoi.sheafRelocalize` and its companions in
+`StacksFrontier/CategoryTheory/Sites/SliceTopos/RelocalizationSheafTopoi.lean`.
 -/
 
 @[expose] public section
@@ -116,10 +118,10 @@ Given `φ : H ⟶ G`, `b : G' ⟶ G` in `D` and `a : Fbar' ⟶ Fbar`,
 `a ≫ s = s' ≫ F.map b`, there is a canonical isomorphism
 `(F.obj H ×_{F.obj G} Fbar) ×_{Fbar} Fbar'  ≅  F.obj (H ×_G G') ×_{F.obj G'} Fbar'`.
 
-This is the formal pullback identity at the end of the proof, with the
-topos-theoretic inverse image `f⁻¹` replaced by the generic
-pullback-preserving functor `F`. -/
-@[stacks 04IV]
+This is the formal pullback identity at the end of the proof of Stacks 04IV, with the
+topos-theoretic inverse image `f⁻¹` replaced by the generic pullback-preserving functor `F`.
+It is a proof step, not the lemma: Stacks 04IV is `MorphismOfTopoi.sheafRelocalize` and its
+companions (`MorphismOfTopoi.sheafRelocalizeCompPullbackIso` for the last square). -/
 noncomputable def relocalizeMorphismTopoiPullbackIso :
     pullback (pullback.snd (F.map φ) s) a ≅
       pullback (F.map (pullback.snd φ b)) s' where

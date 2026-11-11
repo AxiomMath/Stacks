@@ -39,7 +39,9 @@ alignment.
   whose index set is small for the site.
 * `AlgebraicGeometry.Space.CLOConstructionOutput` is the hypothesis
   `AlgebraicGeometry.Space.hasSmallNoetherianApproximation_of_cloConstructionOutput` carries,
-  verbatim the hypothesis the library's Stacks 07SU carries. See the implementation notes.
+  verbatim the hypothesis `hCLO` of
+  `AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit`. See the
+  implementation notes.
 
 ## Main results
 
@@ -74,12 +76,12 @@ projections to the ambient category, so the restricted cones assemble to a limit
 vertex `f`.
 
 *The hypothesis carried.* Absolute Noetherian approximation for algebraic spaces, Stacks 07SU,
-is available in this development only granted the output of the Conrad–Lieblich–Olsson
-construction, which is the hypothesis `hCLO` of
-`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit`; the
-construction itself — the stratification of Stacks 07ST, absolute Noetherian approximation for
-schemes, and the stagewise approximation of the étale equivalence relations — is not proved
-there. That same hypothesis, named `AlgebraicGeometry.Space.CLOConstructionOutput`, is what
+is proved in this development, over `Spec ℤ`, as
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace`; its conclusion does
+not record the size of the index set. The hypothesis carried here is the output of the
+Conrad–Lieblich–Olsson construction *with* that size recorded, the hypothesis `hCLO` of
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit`. That same
+hypothesis, named `AlgebraicGeometry.Space.CLOConstructionOutput`, is what
 `AlgebraicGeometry.Space.hasSmallNoetherianApproximation_of_cloConstructionOutput` carries, and
 nothing further is assumed. It is quantified over its own algebraic space, so one instance of it
 serves both `X` and `Y`.
@@ -278,13 +280,13 @@ surjective étale atlas of `Z` and one of the system's limit whose kernel pairs 
 as relations on `U`.
 
 This is verbatim the hypothesis `hCLO` of
-`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit`, the library's
-form of Stacks 07SU: the construction itself — the stratification of Stacks 07ST, absolute
-Noetherian approximation for schemes, and the stagewise approximation of the étale equivalence
-relations — is not proved in this development, so Stacks 07SU is available only granted this.
-Naming the hypothesis lets results be stated against literally the same assumption. It is
-quantified over its own algebraic space, so a
-single instance of it serves both the source and the target of a morphism. -/
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit`. It is not
+proved in this development: Stacks 07SU itself is proved, as
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace`, but with no bound
+on the index set, while this hypothesis asks for an index set below the cofinality of the size
+cutoff of the site. Naming the hypothesis lets results be stated against literally the same
+assumption. It is quantified over its own algebraic space, so a single instance of it serves
+both the source and the target of a morphism. -/
 abbrev CLOConstructionOutput (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u})) : Prop :=
   ∀ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u, IsAlgebraicSpace B S hS Z →

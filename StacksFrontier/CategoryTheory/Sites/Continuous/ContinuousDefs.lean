@@ -11,7 +11,8 @@ import StacksCore.Tactic.StacksAttribute
   *continuous* when it takes coverings to coverings and preserves the fibre products
   occurring in a covering (Stacks 00WV).
 
-Tags covered: 00WV.
+The faithful notion of Stacks 00WV, for sites given by indexed covering families, is
+`Stacks.Sites.Site.IsContinuous`, which carries the tag.
 -/
 
 @[expose] public section
@@ -43,15 +44,14 @@ How much stronger: Stacks' Definition 00WV is satisfied by the identity functor 
 site, trivially.  This structure is not — `𝟭` of the two-element lattice site under the
 trivial pretopology fails `cover_pushforward`, because the downward closure of `{𝟙 ⊤}` also
 contains `⊥ ⟶ ⊤` and so is not the singleton presieve.  That is a machine-checked
-counterexample, not a suspicion.  So the attribute above over-claims: what is formalized here
-implies Tag 00WV's clause (2) faithfully (`pullback_iso`) but replaces its clause (1) by a
-condition the source's own examples do not satisfy.
+counterexample, not a suspicion.  So what is formalized here implies Tag 00WV's clause (2)
+faithfully (`pullback_iso`) but replaces its clause (1) by a condition the source's own examples
+do not satisfy.
 
-The attribute is left in place rather than moved, because repairing the field would change a
-definition that around ninety files in this tree construct, and `MapsCoveringsToCoverings`
-already carries the faithful clause for the consumers that need it.  Anything relying on this
-structure *as* Tag 00WV should be read against this warning first. -/
-@[stacks_fixed 00WV]
+The structure is kept because around ninety files in this tree construct it, and
+`MapsCoveringsToCoverings` carries the faithful clause (1) for the consumers that need it; the
+Stacks tag 00WV is carried by `Stacks.Sites.Site.IsContinuous`, the source's notion.  Anything
+relying on this structure *as* Tag 00WV should be read against this warning first. -/
 structure IsContinuous (u : C ⥤ D) (J : Pretopology C) (K : Pretopology D) :
     Prop where
   /-- The pushforward of a `J`-covering of `V` is a `K`-covering of `u V`. -/

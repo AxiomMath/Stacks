@@ -26,8 +26,11 @@ sections over the two opens: by the Mayer--Vietoris sequence (Stacks 0A50) the k
 degree-one map is the image of the connecting map out of degree zero, and the connecting map
 kills the image of the degree-zero difference map.
 
-That degree-zero gluing statement is the remaining content of Stacks 0GY7 and it is **carried
-as a hypothesis** here; see the implementation notes.
+That degree-zero gluing statement is a hypothesis of the results of this file. It is proved for
+a finite constant sheaf in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.AbsolutelyIntegrallyClosed.Vanishing`, where
+Stacks 0GY7 itself is
+`Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.subsingleton_H_constantSheaf_smallEtale`.
 
 ## Main results
 
@@ -41,8 +44,7 @@ as a hypothesis** here; see the implementation notes.
   positive-degree vanishing for an arbitrary abelian sheaf satisfying the degree-zero gluing
   condition.
 * `Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.subsingleton_H_constantSheaf` — the
-  vanishing for a finite constant sheaf, which is Stacks 0GY7 with the degree-zero gluing
-  condition carried as a hypothesis.
+  vanishing for a finite constant sheaf satisfying the degree-zero gluing condition.
 
 ## Implementation notes
 
@@ -58,25 +60,13 @@ the Mayer--Vietoris sequence and by Stacks 0GY0.
 The hypothesis `hsub` of `subsingleton_H_constantSheaf` is the degree-zero gluing statement of
 the source's proof: for `f, g ∈ R` every section of the constant sheaf over
 `D(f(f + g)) ∩ D(g(f + g))` is the difference of a section over `D(f(f + g))` and a section
-over `D(g(f + g))`. It is carried in the signature, so the statement below is weaker than
-Stacks 0GY7. In particular `[Finite M]` is **not used** by the proof below: in the source,
-finiteness of `M` is consumed exactly by the argument producing `hsub`.
-
-The source produces `hsub` from the short exact sequence of group schemes
+over `D(g(f + g))`. The source produces it from the short exact sequence of group schemes
 `0 → ℤ/ℓℤ → G^{(π)} → G^{(π ^ ℓ)} → 0` (Stacks 0GY4), the lifting of points through its isogeny
-(Stacks 0GY5) and the interpolation of two congruences (Stacks 0GY6). All three are formalized,
-faithfully to their own statements, in
-`AlgebraicGeometry.MultiplicativeDeformation`,
-`surjective_precomp_localizationMap_of_isAbsolutelyIntegrallyClosed` and
-`exists_isUnit_one_add_mul_of_comaximal`. What is missing is not any of those three but the
-chain of 0GY7's own proof that consumes them: the reduction to coefficients of prime order, the
-`H¹`-classifies-torsors step, the "banana" configuration of closures `Ā`, `B̄` and the
-scheme-theoretic pushout gluing `g₁` and `g₂` (Stacks 0C4J), and the transport of the
-constant-sheaf/locally-constant comparison (Stacks 03P5) onto
-`Stacks.EtaleCohomology.MayerVietoris.topology`, the single-universe presentation of the small
-étale site that `CategoryTheory.Sheaf.H'` forces on Stacks 0GY0. The library's 03P5 comparisons
-are stated for `AlgebraicGeometry.Scheme.smallEtaleTopology` and for the small étale site of a
-chosen big étale site, neither of which is that presentation.
+(Stacks 0GY5) and the interpolation of two congruences (Stacks 0GY6); this is where finiteness
+of `M` is used. That argument is
+`Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.sectionsSub_constantSheaf`, in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.AbsolutelyIntegrallyClosed.Vanishing`, which
+also states Stacks 0GY7 on Mathlib's small étale site.
 
 ## References
 
@@ -212,16 +202,16 @@ theorem subsingleton_H_of_sectionsSub (hR : IsAbsolutelyIntegrallyClosed R)
     (PrimeSpectrum.basicOpen_mul_le_right g (f + g))
     (basicOpen_add_eq_sup f g) (hsub f g) y hf hg
 
-/-- **Stacks 0GY7, with the degree-zero gluing hypothesis `hsub` carried.** Let `R` be an
-absolutely integrally closed ring and let `M` be a finite abelian group. Then the étale
-cohomology of `Spec R` with coefficients in the constant sheaf `M` vanishes in every positive
-degree, provided every section of that constant sheaf over `D(f(f + g)) ∩ D(g(f + g))` is a
-difference of sections over `D(f(f + g))` and over `D(g(f + g))`.
+/-- **Vanishing for a constant sheaf satisfying the degree-zero gluing condition.** Let `R` be
+an absolutely integrally closed ring and let `M` be a finite abelian group. If every section of
+the constant sheaf `M` over `D(f(f + g)) ∩ D(g(f + g))` is a difference of sections over
+`D(f(f + g))` and over `D(g(f + g))`, then the étale cohomology of `Spec R` with coefficients in
+that sheaf vanishes in every positive degree.
 
-This is weaker than Stacks 0GY7, which carries no such hypothesis. In the source, the gluing
-statement is where finiteness of `M` is used, through the group-scheme argument of Stacks 0GY4,
-0GY5 and 0GY6; here it is a hypothesis, and `[Finite M]` is therefore not used by the proof. -/
-@[stacks 0GY7 "assuming degree-zero sections over an overlap are differences (hypothesis hsub)"]
+The gluing condition is proved for every finite `M` by
+`Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.sectionsSub_constantSheaf`, which gives
+Stacks 0GY7 as
+`Stacks.EtaleCohomology.AbsolutelyIntegrallyClosed.subsingleton_H_constantSheaf_smallEtale`. -/
 theorem subsingleton_H_constantSheaf (hR : IsAbsolutelyIntegrallyClosed R)
     (M : AddCommGrpCat.{u + 1}) [Finite M]
     (hsub : ∀ f g : R,

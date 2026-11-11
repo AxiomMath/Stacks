@@ -54,7 +54,7 @@ holds; in one fixed site some bound on the system is needed. The form with the b
 
 * [Stacks Project, Tag 07SF](https://stacks.math.columbia.edu/tag/07SF)
 * [Stacks Project, Tag 03FO](https://stacks.math.columbia.edu/tag/03FO)
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public section

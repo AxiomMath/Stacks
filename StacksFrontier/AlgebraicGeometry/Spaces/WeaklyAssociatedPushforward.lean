@@ -64,26 +64,23 @@ along an *affine* morphism `g` every weakly associated point of `g_*H` is the im
   Stacks 0CUQ when the target is an affine scheme of the site and the source is quasi-compact,
   granting Stacks 0CU2.
 * `AlgebraicGeometry.Space.not_isWeaklyAssociatedPoint_modulePushforward_of_notMem_range`:
-  **Stacks 0CUQ**, granting Stacks 0CU2.
+  Stacks 0CUQ from Stacks 0CU2. The unconditional statement, with Stacks 0CU2 supplied, is
+  `AlgebraicGeometry.Space.not_isWeaklyAssociatedPoint_modulePushforward` in the file
+  `SpacePushforwardWeaklyAssociatedRange.lean` of
+  `StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated`.
 
 ## Implementation notes
 
-Stacks 0CU2 is not proved here, but it is carried in this development: it is
+Stacks 0CU2 is not proved in this file, because its proof imports it:
 `AlgebraicGeometry.Space.affinePushforwardWeaklyAssociatedImage` in
-`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/SpaceAffinePushforward.lean`,
-which proves the hypothesis `h0CU2` below from the case of a target represented by an affine
-scheme of the site.  Its own proof reduces, along an étale scheme chart of the target, to the
-case of an affine morphism of schemes (Stacks 05EX).  What that reduction still needs is not
-the stalk comparison of Stacks 05VP, which is available —
-`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison` in
-`StacksFrontier/AlgebraicGeometry/Spaces/ChartStalkTensorIsomorphism.lean` — nor Stacks 03LZ,
-which `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleChartQuasicoherentGlueing.lean` carries;
-it is the comparison of the Zariski modules of a represented algebraic space with its
-small-étale modules, the equivalence of Stacks 03LY, whose absence is recorded in the
-implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleChartModuleGlueing.lean`.  Carrying Stacks 0CU2
-as a hypothesis here is therefore the same idiom as the `h05VP` of
-`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf`.
+`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/SpaceAffinePushforward.lean`
+reduces it to the case of a target represented by an affine scheme of the site, and
+`AlgebraicGeometry.Space.weaklyAssociatedPoints_modulePushforward_subset_image_of_isAffineHom` in
+`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/SpaceAffineDirectImage.lean`
+proves it with nothing assumed.  Supplying it as the hypothesis `h0CU2` below gives Stacks 0CUQ
+unconditionally, as `AlgebraicGeometry.Space.not_isWeaklyAssociatedPoint_modulePushforward` in
+the file `SpacePushforwardWeaklyAssociatedRange.lean` of
+`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated`.
 
 Two hypotheses of the source are *not* assumed.  Quasi-separatedness of `f` is unused: the
 source needs it only to know that `f_*F` is quasi-coherent (Stacks 03M9), and the argument
@@ -316,10 +313,13 @@ theorem weaklyAssociatedPoints_subset_of_mono {X : AlgebraicSpaces B S hS}
 spaces over `S` and every quasi-coherent `𝒪_X`-module `H`, each weakly associated point of
 `g_*H` is the image of a weakly associated point of `H`.
 
-It is carried as an explicit hypothesis by the results below, and it is the only input they
-lack.  It is proved from the case of a target represented by an affine scheme of the site by
+It is carried as an explicit hypothesis by the results below, because its proof imports this
+file: it is reduced to the case of a target represented by an affine scheme of the site by
 `AlgebraicGeometry.Space.affinePushforwardWeaklyAssociatedImage` in
-`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/SpaceAffinePushforward.lean`. -/
+`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/SpaceAffinePushforward.lean`,
+and proved with nothing assumed by
+`AlgebraicGeometry.Space.weaklyAssociatedPoints_modulePushforward_subset_image_of_isAffineHom` in
+`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/SpaceAffineDirectImage.lean`. -/
 def AffinePushforwardWeaklyAssociatedImage : Prop :=
   ∀ {X Y : AlgebraicSpaces B S hS} (g : X ⟶ Y), IsAffineHom B S hS g.hom →
     ∀ H : Modules.{u, u} B S hS X.1 X.2, H.IsQuasicoherentOnSite →
@@ -375,18 +375,20 @@ theorem not_isWeaklyAssociatedPoint_modulePushforward_of_isQuasiCompactSpace
 
 /-! ### Stacks 0CUQ -/
 
-/-- **Stacks 0CUQ**, granting Stacks 0CU2.
+/-- Stacks 0CUQ derived from Stacks 0CU2.
 
 Let `f : X ⟶ Y` be a quasi-compact morphism of algebraic spaces over `S`, let `F` be a
 quasi-coherent `𝒪_X`-module and let `y` be a point of `Y` outside the image of `|f|`. Then `y`
 is not weakly associated to `f_*F`.
 
 The hypothesis `h0CU2` is Stacks 0CU2, the inclusion `WeakAss(g_*H) ⊆ |g|(WeakAss(H))` for an
-affine morphism `g`; it is the one step of the source's argument that this development does not
-have. Quasi-separatedness of `f`, which the source assumes, is not needed: it enters the source
-only through Stacks 03M9, and the argument below does not use quasi-coherence of the direct
-image, so Stacks 03M9 is not needed either. -/
-@[stacks 0CUQ "granting Stacks 0CU2"]
+affine morphism `g`. It cannot be supplied in this file, since its proof
+`AlgebraicGeometry.Space.weaklyAssociatedPoints_modulePushforward_subset_image_of_isAffineHom`
+imports this file; the statement with it supplied is
+`AlgebraicGeometry.Space.not_isWeaklyAssociatedPoint_modulePushforward`, which carries the Stacks
+0CUQ registration. Quasi-separatedness of `f`, which the source assumes, is not needed: it enters
+the source only through Stacks 03M9, and the argument below does not use quasi-coherence of the
+direct image, so Stacks 03M9 is not needed either. -/
 theorem not_isWeaklyAssociatedPoint_modulePushforward_of_notMem_range
     (h0CU2 : AffinePushforwardWeaklyAssociatedImage B S hS)
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom)

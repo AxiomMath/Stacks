@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Size.Cutoff
 /-!
 # The size of a relative spectrum
 
-The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Tag 000I) is the maximum of `ℵ₀`, the
+The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Stacks Section 000H) is the maximum of `ℵ₀`, the
 number of its affine opens, and the cardinalities of its rings of sections over affine opens.
 Tag 000R lists the constructions under which a size bound is preserved; the relative spectrum of
 a quasi-coherent algebra, Tag 01LP, is not among them, and this file supplies the missing clause:
@@ -52,7 +52,7 @@ immersion is an isomorphism onto its range.
 
 ## References
 
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 * [Stacks Project, Tag 000P](https://stacks.math.columbia.edu/tag/000P)
 * [Stacks Project, Tag 000Q](https://stacks.math.columbia.edu/tag/000Q)
 * [Stacks Project, Tag 000R](https://stacks.math.columbia.edu/tag/000R)

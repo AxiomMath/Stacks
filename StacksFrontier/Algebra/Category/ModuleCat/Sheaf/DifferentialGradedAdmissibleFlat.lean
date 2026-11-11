@@ -42,9 +42,8 @@ factors the composite through the two outer ones.
 
 Only condition (1) is treated here; condition (2), K-flatness, is in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedAdmissibleTensor.lean`, and
-condition (3) would need the graded splitting to be transported through the pullback of
-differential graded modules, which acts only on morphisms of differential graded modules, while
-the retraction and the section are merely graded.
+Tag 0FSC itself, with condition (3) of Tag 0FSA over morphisms of ringed topoi, is
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GoodDifferentialGradedAdmissibleTopos.lean`.
 
 ## References
 
@@ -308,10 +307,9 @@ variable {K L M : DifferentialGradedModule.{t, m, m} A} {f : K ⟶ L} {g : L ⟶
 
 /-- **Two out of three for flatness of the underlying right graded module**: if the middle and
 the third term of an admissible short exact sequence of right differential graded modules are
-flat, so is the first one. -/
-@[stacks 0FSC "condition (1) only — flatness of the underlying right graded module, two out of \
-three along an admissible short exact sequence; condition (2) is the `isKFlat_*` lemmas and \
-condition (3) the `isGood_*` lemmas, which together give the tag"]
+flat, so is the first one. This is
+condition (1) of goodness in Tag 0FSC; the tag itself, with all three conditions of Tag 0FSA, is
+`IsAdmissibleShortExact.isGoodToposBaseChange_left`. -/
 theorem isGradedFlat_left (h : IsAdmissibleShortExact f g)
     (hL : IsGradedFlat (GradedModule.ofDifferentialGraded L))
     (hM : IsGradedFlat (GradedModule.ofDifferentialGraded M)) :
@@ -320,10 +318,9 @@ theorem isGradedFlat_left (h : IsAdmissibleShortExact f g)
 
 /-- **Two out of three for flatness of the underlying right graded module**: if the first and
 the middle term of an admissible short exact sequence of right differential graded modules are
-flat, so is the third one. -/
-@[stacks 0FSC "condition (1) only — flatness of the underlying right graded module, two out of \
-three along an admissible short exact sequence; condition (2) is the `isKFlat_*` lemmas and \
-condition (3) the `isGood_*` lemmas, which together give the tag"]
+flat, so is the third one. This is
+condition (1) of goodness in Tag 0FSC; the tag itself, with all three conditions of Tag 0FSA, is
+`IsAdmissibleShortExact.isGoodToposBaseChange_right`. -/
 theorem isGradedFlat_right (h : IsAdmissibleShortExact f g)
     (hK : IsGradedFlat (GradedModule.ofDifferentialGraded K))
     (hL : IsGradedFlat (GradedModule.ofDifferentialGraded L)) :
@@ -332,10 +329,9 @@ theorem isGradedFlat_right (h : IsAdmissibleShortExact f g)
 
 /-- **Two out of three for flatness of the underlying right graded module**: if the two outer
 terms of an admissible short exact sequence of right differential graded modules are flat, so is
-the middle one. -/
-@[stacks 0FSC "condition (1) only — flatness of the underlying right graded module, two out of \
-three along an admissible short exact sequence; condition (2) is the `isKFlat_*` lemmas and \
-condition (3) the `isGood_*` lemmas, which together give the tag"]
+the middle one. This is
+condition (1) of goodness in Tag 0FSC; the tag itself, with all three conditions of Tag 0FSA, is
+`IsAdmissibleShortExact.isGoodToposBaseChange_middle`. -/
 theorem isGradedFlat_middle (h : IsAdmissibleShortExact f g)
     (hK : IsGradedFlat (GradedModule.ofDifferentialGraded K))
     (hM : IsGradedFlat (GradedModule.ofDifferentialGraded M)) :

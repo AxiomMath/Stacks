@@ -623,8 +623,10 @@ def sectionTensorHomEquiv (M : ModuleCat.{max u r w} (GlobalFunctionRing O))
 /-- **The functor `M ↦ M ⊗_A 𝒪` is left adjoint to global sections.**
 
 Consequently it preserves all colimits; in particular it is right exact, which is what a
-presentation of `M` by free `A`-modules is used for. -/
-@[stacks 07UZ "the module M ⊗_A 𝒪_X of the statement, as the left adjoint of global sections"]
+presentation of `M` by free `A`-modules is used for.  This is a construction used towards
+Stacks 07UZ, which is proved in full, and registered, as
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf` and
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`. -/
 def sectionTensorSheafAdjunction :
     sectionTensorSheafFunctor O ⊣ globalSectionsFunctor (ringSheafOfSite O) :=
   Adjunction.mkOfHomEquiv

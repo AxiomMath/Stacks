@@ -46,8 +46,8 @@ The corrected statement therefore has two halves:
 
 ## Main results
 
-* `AlgebraicGeometry.Space.universallyClosed_implications_of_isLocallyNoetherian`: **Stacks
-  0H1Y**, the implications (2) ⇒ (4) ⇒ (5) ⇒ (1) ⇔ (3), with no decency hypothesis.
+* `AlgebraicGeometry.Space.universallyClosed_implications_of_isLocallyNoetherian`: the
+  implications (2) ⇒ (4) ⇒ (5) ⇒ (1) ⇔ (3) of Stacks 0H1Y, with no decency hypothesis.
 * `AlgebraicGeometry.Space.universallyClosed_implications_and_tfae_of_isLocallyNoetherian`:
   **Stacks 0H1Y**, the full corrected statement: those implications, and the equivalence of the
   five conditions when `f` is decent, which is
@@ -98,12 +98,13 @@ part of the valuative criterion (Stacks section 03K9); see
 `not_forall_universallyClosed_tfae_of_isLocallyNoetherian`. The source's proof derives
 (1) ⇔ (2) from Stacks 03KA, which only gives (2) ⇒ (1). Every other implication of the source
 holds as stated, and they are the ones asserted here. The equivalence of all five conditions
-for `f` decent is `universallyClosed_implications_and_tfae_of_isLocallyNoetherian`.
+for `f` decent is part of `universallyClosed_implications_and_tfae_of_isLocallyNoetherian`,
+which carries the tag Stacks 0H1Y.
 
 The proof follows the source: (1) ⇔ (3) is Stacks 0CM9 (`f` is quasi-compact, being of finite
 type), (2) ⇒ (4) is Stacks 03KH with Krull–Akizuki (Stacks 00PG), (4) ⇒ (5) is immediate, and
 (5) ⇒ (1) reduces to closedness over a Noetherian affine base by Stacks 0CMC. -/
-@[stacks 0H1Y, ega "II 7.3.8" "(b) ⇒ (a)"]
+@[ega "II 7.3.8" "(b) ⇒ (a)"]
 theorem universallyClosed_implications_of_isLocallyNoetherian
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (X_alg : IsAlgebraicSpace B S hS X) (Y_alg : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y)

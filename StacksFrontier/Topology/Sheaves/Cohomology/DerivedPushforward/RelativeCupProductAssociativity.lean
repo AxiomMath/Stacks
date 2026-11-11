@@ -85,13 +85,11 @@ two along the K-flat descent of Stacks 06YS is
 the whole adjunction calculus the source's one-paragraph proof refers to, and the naturality of
 the associator — is proved here.
 
-The ringed-topos counterpart of this statement,
-`Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_assoc` of Stacks 0FPL,
-still carries the compatibility as a hypothesis, and additionally takes both associativity
-constraints and the naturality of one of them as data; here none of these is data — they are the
-constraints of the monoidal structure of Stacks 0FPB (`derivedAssociator`), their naturality is
-proved (`derivedAssociator_naturality`), and the compatibility of the comparison is proved as
-well.
+The ringed-topos counterpart of this statement, Stacks 0FPL, is
+`Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_assoc`, for an arbitrary
+morphism of ringed topoi.  Here, as there, the constraints are those of the monoidal structure of
+Stacks 0FPB (`derivedAssociator`), their naturality is proved (`derivedAssociator_naturality`),
+and the compatibility of the comparison is proved as well.
 
 *The associativity constraint is the repository's own.*  `aA` and `aB` are the associators of
 `Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal`, the monoidal structure of

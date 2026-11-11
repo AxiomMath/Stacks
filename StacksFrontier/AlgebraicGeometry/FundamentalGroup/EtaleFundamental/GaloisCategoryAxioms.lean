@@ -32,8 +32,7 @@ gives left exactness.
 | axiom of `IsGaloisCategory` | status |
 | --- | --- |
 | `hasFiniteLimits` | proved elsewhere, `Stacks.FundamentalGroup.hasFiniteLimits_finiteEtaleOver` |
-| `hasFiniteColimits` | proved elsewhere,
-  `Stacks.FundamentalGroup.hasFiniteColimits_finiteEtaleOver` |
+| `hasFiniteColimits` | proved elsewhere, `Stacks.FundamentalGroup.hasFiniteColimits_finiteEtaleOver` |
 | `finite_obj` | here, `AlgebraicGeometry.finite_finiteEtaleFiber` |
 | `reflectsIsomorphisms` | here, `AlgebraicGeometry.reflectsIsomorphisms_finiteEtaleFiberFunctor` |
 | `exists_finite_coproduct_connected` | here,
@@ -87,11 +86,14 @@ appeal to Tag 0BNB.
   `AlgebraicGeometry.exists_finiteCoproduct_isConnected_finiteEtaleOver` — the other three
   Galois-category axioms this file supplies.
 
-The two factorisations of the fibre functor and the equivalence
-`FÉt_{Spec K} ≌ (finite étale K-algebras)ᵒᵖ` that drives them are `private`, because their bodies
-name other private helpers and the 4.34 module system will not expose such a body.
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/FiberFunctorComplete.lean`
-reaches them with `import all` on this module rather than re-deriving them.
+* `AlgebraicGeometry.finiteEtaleOverSpecEquivOfIsSepClosed` — for `K` separably closed,
+  `FÉt_{Spec K}` is equivalent to finite sets (Stacks Tag 0BN8), through the equivalence
+  `AlgebraicGeometry.finiteEtaleSpecPoint` of `FÉt_{Spec K}` with `(finite étale K-algebras)ᵒᵖ`.
+
+The two factorisations of the fibre functor are `private`, because their bodies name other
+private helpers and the 4.34 module system will not expose such a body.
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/FiberFunctorComplete.lean` reaches
+them with `import all` on this module rather than re-deriving them.
 
 ## Implementation notes
 
@@ -114,6 +116,7 @@ functor preserving colimits — which is what keeps that proof clear of the miss
 * [Stacks Project, Tag 0BNB](https://stacks.math.columbia.edu/tag/0BNB)
 * [Stacks Project, Tag 0BN9](https://stacks.math.columbia.edu/tag/0BN9)
 * [Stacks Project, Tag 0BNA](https://stacks.math.columbia.edu/tag/0BNA)
+* [Stacks Project, Tag 0BN8](https://stacks.math.columbia.edu/tag/0BN8)
 -/
 
 @[expose] public noncomputable section
@@ -123,7 +126,7 @@ namespace AlgebraicGeometry
 
 /-- Taking the relative spectrum sends a finite étale `K`-algebra to a finite étale cover of
 `Spec K`, contravariantly. -/
-private noncomputable def finiteEtaleSpecPoint (K : Type u) [CommRing K] :
+noncomputable def finiteEtaleSpecPoint (K : Type u) [CommRing K] :
     (CommAlgCat.FiniteEtale.{u} K)ᵒᵖ ⥤ FiniteEtaleOver (Spec (.of K)) where
   obj B := MorphismProperty.Over.mk ⊤
     (Spec.map (CommRingCat.ofHom (algebraMap K B.unop.obj)))
@@ -157,7 +160,7 @@ private lemma finiteEtaleSpecPoint_faithful (K : Type u) [CommRing K] :
     have hh := congrArg (fun k => k.left) h
     change Spec.map (CommRingCat.ofHom f.unop.hom.hom.toRingHom) =
       Spec.map (CommRingCat.ofHom g.unop.hom.hom.toRingHom) at hh
-    apply AlgHom.toRingHom_injective
+    apply AlgHom.coe_ringHom_injective
     exact congrArg CommRingCat.Hom.hom (Spec.map_inj.mp hh)
 
 private lemma finiteEtaleSpecPoint_full (K : Type u) [CommRing K] :
@@ -184,7 +187,7 @@ private lemma finiteEtaleSpecPoint_essSurj (K : Type u) [CommRing K] :
   let : Etale X.hom := X.prop.2
   let : IsAffineHom X.hom := inferInstance
   let : IsAffine ((Functor.fromPUnit (Spec (CommRingCat.of K))).obj X.right) := by
-    change IsAffine (Spec (CommRingCat.of K))
+    show IsAffine (Spec (CommRingCat.of K))
     infer_instance
   let : IsAffine X.left := isAffine_of_isAffineHom X.hom
   let φ : CommRingCat.of K ⟶ CommRingCat.of Γ(X.left, ⊤) :=
@@ -201,12 +204,14 @@ private lemma finiteEtaleSpecPoint_essSurj (K : Type u) [CommRing K] :
   let := heta
   let B := CommAlgCat.FiniteEtale.of K Γ(X.left, ⊤)
   refine ⟨Opposite.op B, ⟨MorphismProperty.Over.isoMk X.left.isoSpec.symm ?_⟩⟩
-  change X.left.isoSpec.inv ≫ X.hom =
+  show X.left.isoSpec.inv ≫ X.hom =
     Spec.map (CommRingCat.ofHom (algebraMap K Γ(X.left, ⊤)))
-  change X.left.isoSpec.inv ≫ X.hom = Spec.map φ
+  show X.left.isoSpec.inv ≫ X.hom = Spec.map φ
   rw [Spec.map_preimage]
 
-private lemma finiteEtaleSpecPoint_isEquivalence (K : Type u) [CommRing K] :
+/-- The relative spectrum functor from finite étale `K`-algebras (opposite category) to finite
+étale covers of `Spec K` is an equivalence. -/
+lemma finiteEtaleSpecPoint_isEquivalence (K : Type u) [CommRing K] :
     (finiteEtaleSpecPoint K).IsEquivalence := by
   have := finiteEtaleSpecPoint_faithful K
   have := finiteEtaleSpecPoint_full K
@@ -243,7 +248,14 @@ private lemma finite_hom_over_point (K : Type u) [Field K] [IsSepClosed K]
   exact Finite.of_injective (fun f => E.inverse.map f)
     (fun _ _ h => E.inverse.map_injective h)
 
-private noncomputable def pointEquivFin (K : Type u) [Field K] [IsSepClosed K] :
+/-- For a separably closed field `K`, the category `FÉt_{Spec K}` of schemes finite étale over
+`Spec K` is equivalent to the category of finite sets. It is the composite of the relative
+spectrum equivalence `FÉt_{Spec K} ≌ (finite étale K-algebras)ᵒᵖ` with Mathlib's
+`CommAlgCat.FiniteEtale.equivOfIsSepClosed`. -/
+@[stacks 0BN8 "Stated for `k` separably closed, the general case of the example; an algebraically
+closed field is separably closed. The scheme-level category `FÉt_{Spec k}` is
+`FiniteEtaleOver (Spec k)`."]
+noncomputable def finiteEtaleOverSpecEquivOfIsSepClosed (K : Type u) [Field K] [IsSepClosed K] :
     FiniteEtaleOver (Spec (.of K)) ≌ FintypeCat.{u} :=
   letI : (finiteEtaleSpecPoint K).IsEquivalence := finiteEtaleSpecPoint_isEquivalence K
   (finiteEtaleSpecPoint K).asEquivalence.symm.trans
@@ -270,8 +282,8 @@ private def coyonedaFiniteTerminalIso (T : FintypeCat.{u}) [Unique T] :
 
 private noncomputable def pointCoyonedaIso (K : Type u) [Field K] [IsSepClosed K] :
     coyoneda.obj (Opposite.op (finiteEtalePointId K)) ≅
-      (pointEquivFin K).functor ⋙ FintypeCat.incl := by
-  let E := pointEquivFin K
+      (finiteEtaleOverSpecEquivOfIsSepClosed K).functor ⋙ FintypeCat.incl := by
+  let E := finiteEtaleOverSpecEquivOfIsSepClosed K
   let I := finiteEtalePointId K
   let hI : IsTerminal I := finiteEtalePointId_terminal K
   let hEI : IsTerminal (E.functor.obj I) := hI.isTerminalObj E.functor
@@ -288,7 +300,7 @@ private noncomputable def pointCoyonedaIso (K : Type u) [Field K] [IsSepClosed K
 
 private lemma pointCoyoneda_preservesFiniteColimits (K : Type u) [Field K] [IsSepClosed K] :
     PreservesFiniteColimits (coyoneda.obj (Opposite.op (finiteEtalePointId K))) := by
-  let E := pointEquivFin K
+  let E := finiteEtaleOverSpecEquivOfIsSepClosed K
   let : E.functor.IsEquivalence := E.isEquivalence_functor
   let : PreservesFiniteColimits E.functor := by infer_instance
   let : PreservesFiniteColimits (E.functor ⋙ FintypeCat.incl) := by infer_instance
@@ -367,7 +379,7 @@ private lemma baseChange_isIso_of_fiber_isIso {X : Scheme.{u}} (x : GeometricPoi
     {A B : FiniteEtaleOver X} (f : A ⟶ B)
     [IsIso ((finiteEtaleFiberFunctor x).map f)] :
     IsIso ((finiteEtaleBaseChange x.hom).map f) := by
-  let E := pointEquivFin x.residueField
+  let E := finiteEtaleOverSpecEquivOfIsSepClosed x.residueField
   let : E.functor.IsEquivalence := E.isEquivalence_functor
   have : (E.functor ⋙ FintypeCat.incl).ReflectsIsomorphisms := inferInstance
   let : (coyoneda.obj (Opposite.op (finiteEtalePointId x.residueField))).ReflectsIsomorphisms :=
@@ -377,7 +389,7 @@ private lemma baseChange_isIso_of_fiber_isIso {X : Scheme.{u}} (x : GeometricPoi
     (NatIso.isIso_map_iff (fiberIsoPointCoyoneda x) f).mp inferInstance
   have : IsIso ((coyoneda.obj (Opposite.op (finiteEtalePointId x.residueField))).map
       ((finiteEtaleBaseChange x.hom).map f)) := by
-    change IsIso ((finiteEtaleBaseChange x.hom ⋙
+    show IsIso ((finiteEtaleBaseChange x.hom ⋙
       coyoneda.obj (Opposite.op (finiteEtalePointId x.residueField))).map f)
     infer_instance
   exact isIso_of_reflects_iso _
@@ -428,7 +440,7 @@ private lemma finite_connectedComponents_left {X : Scheme.{u}} [ConnectedSpace X
   have hYfin : IsFinite Y.hom := Y.prop.1
   have hYet : Etale Y.hom := Y.prop.2
   have : ConnectedSpace ((Functor.fromPUnit X).obj Y.right) := by
-    change ConnectedSpace X
+    show ConnectedSpace X
     infer_instance
   exact Y.hom.isOpenMap.finite_connectedComponents_of_finite_preimage_singleton_of_connectedSpace
     Y.hom.isClosedMap (Y.hom.finite_preimage_singleton (x.hom default))
@@ -475,7 +487,7 @@ private lemma finiteEtale_connected {X : Scheme.{u}} (B : FiniteEtaleOver X)
     [ConnectedSpace B.left] [Nonempty B.left] : PreGaloisCategory.IsConnected B where
   notInitial h := by
     have h0 : IsEmpty ↥(finiteEtaleEmpty X).left := by
-      change IsEmpty ↥(∅ : Scheme.{u})
+      show IsEmpty ↥(∅ : Scheme.{u})
       infer_instance
     let i : B ≅ finiteEtaleEmpty X :=
       h.uniqueUpToIso (finiteEtaleIsInitialOfIsEmpty (finiteEtaleEmpty X))
@@ -515,7 +527,7 @@ private lemma finiteEtale_components {X : Scheme.{u}} [ConnectedSpace X]
       PreGaloisCategory.IsConnected (A i) := by
     have : ConnectedSpace (A i).left :=
       isConnected_iff_connectedSpace.mp (by
-        change _root_.IsConnected (connectedComponent (z (e i)))
+        show _root_.IsConnected (connectedComponent (z (e i)))
         exact isConnected_connectedComponent)
     have : Nonempty (A i).left := ⟨⟨z (e i), mem_connectedComponent⟩⟩
     exact finiteEtale_connected (A i)
@@ -523,7 +535,7 @@ private lemma finiteEtale_components {X : Scheme.{u}} [ConnectedSpace X]
     have hscheme : IsColimit (Cofan.mk Y.left (fun i => (f i).left)) := by
       have hoi (i : Fin (Fintype.card (ConnectedComponents Y.left))) :
           IsOpenImmersion (f i).left := by
-        change IsOpenImmersion (U (e i)).ι
+        show IsOpenImmersion (U (e i)).ι
         infer_instance
       have heq (i : Fin (Fintype.card (ConnectedComponents Y.left))) :
           (f i).left.opensRange = U (e i) :=
@@ -534,13 +546,13 @@ private lemma finiteEtale_components {X : Scheme.{u}} [ConnectedSpace X]
         simp only [TopologicalSpace.Opens.coe_iSup,
           TopologicalSpace.Opens.coe_top, Set.mem_iUnion, Set.mem_univ, iff_true]
         refine ⟨e.symm (ConnectedComponents.mk y), ?_⟩
-        change y ∈ connectedComponent (z (e (e.symm (ConnectedComponents.mk y))))
+        show y ∈ connectedComponent (z (e (e.symm (ConnectedComponents.mk y))))
         rw [e.apply_symm_apply]
         have h := Classical.choose_spec
           (ConnectedComponents.surjective_coe (ConnectedComponents.mk y))
         exact (ConnectedComponents.coe_eq_coe').1 h.symm
       · intro i j hij
-        change Disjoint (f i).left.opensRange (f j).left.opensRange
+        show Disjoint (f i).left.opensRange (f j).left.opensRange
         rw [heq, heq]
         apply (TopologicalSpace.Opens.coe_disjoint (s := U (e i)) (t := U (e j))).mp
         rw [Set.disjoint_left]
@@ -574,7 +586,7 @@ private lemma fiber_reflectsIsomorphisms {X : Scheme.{u}} [ConnectedSpace X]
   have hgl : IsIso g.left := (inferInstance : IsIso ((finiteEtaleOverForget x.source).map g))
   have := finite_connectedComponents_left x B
   let _cs : ConnectedSpace ((Functor.fromPUnit X).obj B.right) := by
-    change ConnectedSpace X
+    show ConnectedSpace X
     infer_instance
   have hrank : f.left.finrank = 1 := by
     ext b

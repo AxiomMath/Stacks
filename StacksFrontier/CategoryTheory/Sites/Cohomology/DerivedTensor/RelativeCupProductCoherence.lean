@@ -22,13 +22,24 @@ map that the source states right after the construction.
 Each is proved first in the abstract setting of an adjunction `L ⊣ R` with a bifunctor on each
 side and a comparison of the two along `L`, and then instantiated at the relative cup product.
 
-* `adjunctionCupProduct_assoc` and `relativeCupProduct_assoc` — **[Stacks, Tag 0FPL]**,
-  associativity: contracting `K ⊗ L` first and contracting `L ⊗ M` first agree.
-* `adjunctionCupProduct_braiding` and `relativeCupProduct_braiding` — **[Stacks, Tag 0FPM]**,
-  commutativity: the square with the symmetry `ψ` on the source and `Rf_*ψ` on the target
-  commutes.
-* `adjunctionCupProduct_comp` and `relativeCupProduct_comp` — **[Stacks, Tag 0FPN]**,
-  compatibility with the composition of two morphisms of ringed topoi.
+* `adjunctionCupProduct_assoc` and `relativeCupProduct_assoc` — associativity over arbitrary
+  constraints: contracting `K ⊗ L` first and contracting `L ⊗ M` first agree.  [Stacks, Tag 0FPL]
+  itself, over the canonical constraints and with no hypothesis, is
+  `Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_assoc`, built on these.
+* `adjunctionCupProduct_braiding` and `relativeCupProduct_braiding` — the chase behind
+  **[Stacks, Tag 0FPM]**, commutativity: the square with a symmetry `ψ` on the source and `Rf_*ψ`
+  on the target commutes.  The tag itself is
+  `Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_braiding`, in
+  `RelativeCupProductBraidingOfToposHom.lean` of this directory.
+* `adjunctionCupProduct_comp` and `relativeCupProduct_comp` — the square of
+  [Stacks, Tag 0FPN] for the composite *adjunction* `Rf_* ⋙ Rf'_*` with the composite of the two
+  comparisons of [Stacks, Tag 07A4].  This is the step from which [Stacks, Tag 0FPN] itself is
+  derived: the square at the composite morphism `f' ∘ f`, with left edge
+  `relativeCupProduct (f'.comp f)`, is
+  `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_comp_pushforwardCompIso`
+  in `RelativeCupProductCompositionTransport.lean` of this directory (and, for morphisms of
+  ringed topoi with no morphism of sites,
+  `Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_comp_pushforwardCompIso`).
 
 ## Implementation notes
 
@@ -44,27 +55,31 @@ here, so the constraints appear explicitly:
 * For [Stacks, Tag 0FPM] the commutativity constraint `ψ` of [Stacks, Tag 0FPT] is an argument
   on each side, and it occurs as `ψ` on the source of the cup product and as `Rf_*ψ` on its
   target, exactly as in the source's square.
-* For [Stacks, Tag 0FPN] the source's `@{=}` edge `R(f' ∘ f)_* = Rf'_*Rf_*` is realized as the
-  **identification carried by the composite adjunction**: `R(f' ∘ f)_*` is taken to be
-  `Rf_* ⋙ Rf'_*` with the adjunction `L(f')^*Lf^*… ⊣ Rf_* ⋙ Rf'_*` of
-  `CategoryTheory.Adjunction.comp`, whose counit is the composition of the two counits.  That
-  is precisely the content the source invokes for the edge ([Stacks, Tag 0DV0]), so the two
-  `@{=}` edges of the square become identities and nothing is absorbed silently.  This
-  repository also has the composition isomorphism
-  `Stacks.Cohomology.DerivedBaseChangePasting.derivedPushforwardCompIso`
-  `: Rf_* ⋙ Rf'_* ≅ R(f' ∘ f)_*`, an *isomorphism* and not an equality; transporting the
-  statement below along it would additionally need the compatibility of [Stacks, Tag 07A4] with
-  composition of morphisms of ringed topoi, which this development does not have.
+* For the composition square of [Stacks, Tag 0FPN] this file proves the version for the
+  composite adjunction `L(f')^*Lf^*… ⊣ Rf_* ⋙ Rf'_*` of `CategoryTheory.Adjunction.comp`, whose
+  counit is the composition of the two counits ([Stacks, Tag 0DV0]), with the composite of the
+  two comparisons of [Stacks, Tag 07A4].  Its left edge is therefore not the relative cup product
+  of the morphism `f' ∘ f`.  The transport to `relativeCupProduct (f'.comp f)`, along the
+  composition isomorphism
+  `Stacks.Cohomology.DerivedBaseChangePasting.derivedPushforwardCompIso` and using the
+  compatibility of the comparison of [Stacks, Tag 07A4] with composition
+  (`Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso_hom_app_comp`), is done in
+  `RelativeCupProductCompositionTransport.lean`, where [Stacks, Tag 0FPN] is registered.
 
 *The hypotheses carried beyond the source.*  The source gets its diagrams from the symmetric
 monoidal structure of [Stacks, Tag 0FPT] on `D(𝒪)` and `D(𝒪')` together with the fact that
 `Lf^*` is a symmetric monoidal functor for the comparison of [Stacks, Tag 07A4].  This
-development has neither the monoidal structure assembled (see the implementation notes of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/DerivedSymmetryAndUnit.lean`) nor the
-monoidality of the comparison.  Accordingly [Stacks, Tag 0FPL] and [Stacks, Tag 0FPM] below take
-the constraints and the monoidality of the comparison as explicit hypotheses, and the clause
-strings on their attributes say so.  [Stacks, Tag 0FPN] carries no hypothesis beyond the data of
-the two morphisms of ringed topoi.
+file is upstream of both, so the associativity and commutativity statements below take the
+constraints and the monoidality of the comparison as explicit hypotheses.  For associativity
+these are discharged downstream: the canonical constraint `derivedAssociator` and the
+associativity law of the comparison are proved in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/RelativeCupProductAssociativity.lean`
+and `RelativeCupProductAssociativityOfToposHom.lean`, which state [Stacks, Tag 0FPL] with no
+hypothesis.  For [Stacks, Tag 0FPM] the constraint `canonicalBraidingHom` of Tag 0FPT and the
+braidedness of the comparison have since been supplied, and the tag is registered on
+`Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_braiding` rather than here.
+The composition square carries no hypothesis beyond the data of the two morphisms of
+ringed topoi.
 
 *Why the abstract layer.*  Each statement is an equality between composites of maps built from a
 bifunctor applied to a pair of large objects of a derived category.  Proving the identities over
@@ -361,12 +376,12 @@ variable {X Y : RingedTopos.{u, u, u}}
       (ComplexShape.up ℤ)]
   (f : RingedToposSiteHom X Y)
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
-      (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
   (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
-/-- **[Stacks, Tag 0FPL].**  The relative cup product of [Stacks, Tag 0B6C] is associative: for
-`K`, `L`, `M` in `D(𝒪)` the square
+/-- Associativity of the relative cup product of [Stacks, Tag 0B6C] over arbitrary associativity
+constraints: for `K`, `L`, `M` in `D(𝒪)` the square
 
 ```
 (Rf_*K ⊗' Rf_*L) ⊗' Rf_*M --→ Rf_*(K ⊗ L) ⊗' Rf_*M --→ Rf_*((K ⊗ L) ⊗ M)
@@ -379,15 +394,15 @@ commutes in `D(𝒪')`.  The upper route contracts `K ⊗ L` first, the lower ro
 `L ⊗ M` first; the two are different composites.
 
 The source draws the square with `⊗^L` strictly associative, so the associativity constraints
-are explicit here: `aY` is the one for `⊗^L_{𝒪'}` and `aX` the one for `⊗^L_𝒪`.  The hypotheses
-beyond the source are `haX`, the naturality of `aX`, and `hcomp`, the compatibility of the
-comparison of [Stacks, Tag 07A4] with the two constraints — i.e. that `Lf^*` is a monoidal
-functor for it.  The source gets both from the symmetric monoidal structure of
-[Stacks, Tag 0FPT], which this development does not assemble. -/
-@[stacks 0FPL "associativity of the relative cup product, with the associativity constraints of \
-  the two derived tensor products supplied as data and their naturality and the monoidality of \
-  the comparison of Tag 07A4 for them carried as explicit hypotheses: this development has \
-  neither the symmetric monoidal structure of Tag 0FPT assembled nor that monoidality"]
+are explicit here: `aY` is any family for `⊗^L_{𝒪'}` and `aX` any family for `⊗^L_𝒪`, with
+`haX` the naturality of `aX` and `hcomp` the compatibility of the comparison of
+[Stacks, Tag 07A4] with the two families.  This is the form the specialisations instantiate:
+[Stacks, Tag 0FPL] itself, over the canonical constraints `derivedAssociator` of
+[Stacks, Tag 0FPT] and with both compatibilities proved, is
+`Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_assoc` for an arbitrary
+morphism of ringed topoi, and
+`Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_assoc_canonical` for one
+presented by a morphism of sites. -/
 theorem relativeCupProduct_assoc
     (aY : ∀ P Q S : DerivedModules Y.O,
       (uncurriedDerivedTensor Y).obj ((uncurriedDerivedTensor Y).obj (P, Q), S) ⟶
@@ -441,15 +456,16 @@ commutes in `D(𝒪')`.  The left edge is the commutativity constraint `sY` of `
 pair `(Rf_*K, Rf_*L)`; the right edge is `Rf_*` applied to the commutativity constraint `sX` of
 `⊗^L_𝒪` at `(K, L)`.  These are the source's `ψ` and `Rf_*ψ`, and they are different maps.
 
-The constraint of [Stacks, Tag 0FPT] is supplied as data on each side, because this development
-has it only one pair of objects at a time and not as part of an assembled monoidal structure
-(`Stacks.DerivedTensor.RingedSite.DerivedTensorProduct.braidingIso`).  The hypotheses beyond the
-source are `hsX`, its naturality, and `hcomp`, the compatibility of the comparison of
-[Stacks, Tag 07A4] with the two constraints — i.e. that `Lf^*` is a braided functor for it. -/
-@[stacks 0FPM "commutativity of the relative cup product, with the commutativity constraints of \
-  the two derived tensor products supplied as data and their naturality and the compatibility of \
-  the comparison of Tag 07A4 with them carried as explicit hypotheses: this development has \
-  neither the symmetric monoidal structure of Tag 0FPT assembled nor that compatibility"]
+This form takes a commutativity constraint on each side as data, together with `hsX`, the
+naturality of the one on `D(𝒪)`, and `hcomp`, the compatibility of the comparison of
+[Stacks, Tag 07A4] with the two constraints — i.e. that `Lf^*` is a braided functor for them.
+The tag itself, with `ψ` the constraint
+`Stacks.SheafOfModules.DerivedMonoidal.canonicalBraidingHom` of [Stacks, Tag 0FPT] on both
+sides and nothing assumed, is
+`Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_braiding` (for an arbitrary
+morphism of ringed topoi) and
+`Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_braiding_unconditional`
+(for one presented by a morphism of sites); both are obtained from this chase. -/
 theorem relativeCupProduct_braiding
     (sY : ∀ P Q : DerivedModules Y.O,
       (uncurriedDerivedTensor Y).obj (P, Q) ⟶ (uncurriedDerivedTensor Y).obj (Q, P))
@@ -506,51 +522,30 @@ variable {X Y Z : RingedTopos.{u, u, u}}
       (ComplexShape.up ℤ)]
   (f : RingedToposSiteHom X Y) (f' : RingedToposSiteHom Y Z)
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
-      (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy f').HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))
-      (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) (ComplexShape.up ℤ))]
   (hmosf : f.u.IsMorphismOfSites Y.J X.J) (hmosf' : f'.u.IsMorphismOfSites Z.J Y.J)
 
-/-- **[Stacks, Tag 0FPN].**  The relative cup product of [Stacks, Tag 0B6C] is compatible with
-composition: for `f : (Sh(C), 𝒪) ⟶ (Sh(C'), 𝒪')`, `f' : (Sh(C'), 𝒪') ⟶ (Sh(C''), 𝒪'')` and
-`K`, `L` in `D(𝒪)` the diagram
+/-- The relative cup product of [Stacks, Tag 0B6C] is compatible with the composite
+*adjunction*: for `f : (Sh(C), 𝒪) ⟶ (Sh(C'), 𝒪')`, `f' : (Sh(C'), 𝒪') ⟶ (Sh(C''), 𝒪'')` and
+`K`, `L` in `D(𝒪)`, the cup product for the adjunction `L(f')^* ⋙ Lf^* ⊣ Rf_* ⋙ Rf'_*` of
+`CategoryTheory.Adjunction.comp` (counit the composition of the two counits, [Stacks, Tag 0DV0])
+and the composite comparison `compComparison` of the two comparisons of [Stacks, Tag 07A4] is the
+cup product for `f'` at `(Rf_*K, Rf_*L)` followed by `Rf'_*` of the cup product for `f`.
 
-```
-R(f'f)_*K ⊗'' R(f'f)_*L  ====  Rf'_*Rf_*K ⊗'' Rf'_*Rf_*L
-        |                                  |
-        ↓                                  ↓
-R(f'f)_*(K ⊗ L)  ====  Rf'_*Rf_*(K ⊗ L)  ←--  Rf'_*(Rf_*K ⊗' Rf_*L)
-```
-
-commutes in `D(𝒪'')`: the cup product for the composite is the cup product for `f'` at
-`(Rf_*K, Rf_*L)` followed by `Rf'_*` of the cup product for `f`.
-
-**How the source's `@{=}` edges are handled.**  The source draws the two horizontal edges as
-equalities `R(f' ∘ f)_* = Rf'_* ∘ Rf_*`.  In this development the two functors are not equal:
-they are isomorphic by
-`Stacks.Cohomology.DerivedBaseChangePasting.derivedPushforwardCompIso`.  Accordingly
-`R(f' ∘ f)_*` is realized here as the composite `Rf_* ⋙ Rf'_*` with the composite
-adjunction `L(f')^* ⋙ Lf^* ⊣ Rf_* ⋙ Rf'_*` of `CategoryTheory.Adjunction.comp`, whose counit is
-the composition of the two counits — which is exactly the identification the source's proof
-appeals to ([Stacks, Tag 0DV0]).  With that realization the two `@{=}` edges are identities and
-no isomorphism is absorbed silently.  The comparison for the composite is correspondingly the
-composite comparison `compComparison`, the monoidal structure of the composite of two monoidal
-functors.  The statement holds for every pair of composable morphisms of ringed topoi that are
-morphisms of sites.
-
-Transporting this statement to `relativeCupProduct (f'.comp f)` — the cup product built from
-`DerivedPullbackOnRingedTopoi.derivedAdjunction (f'.comp f)` and
-`Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso (f'.comp f)` — would additionally
-require the compatibility of [Stacks, Tag 07A4] with composition of morphisms of ringed topoi,
-which this development does not have.  The same gap is recorded on
-`derivedBaseChangeMap_projectionFormulaMap_square` in
-`Stacks.Cohomology.ProjectionFormulaOnRingedTopoi`. -/
-@[stacks 0FPN "compatibility of the relative cup product with composition, with R(f' ∘ f)_* \
-  realized as the composite Rf_* ⋙ Rf'_* and its adjunction the composite adjunction of Tag \
-  0DV0 (the source's equality edge), and the comparison of Tag 07A4 for the composite taken to \
-  be the composite of the two comparisons, for every pair of composable morphisms of sites"]
+This is not [Stacks, Tag 0FPN] itself: the left side is built from the composite adjunction and
+the composite comparison, not from the morphism `f' ∘ f`, so it is not
+`relativeCupProduct (f'.comp f)`.  It is the step from which the source's square is derived.  The
+square of [Stacks, Tag 0FPN], with left edge `relativeCupProduct (f'.comp f)` and the
+identification `R(f' ∘ f)_* ≅ Rf'_*Rf_*` of
+`Stacks.Cohomology.DerivedBaseChangePasting.derivedPushforwardCompIso` on its two equality edges,
+is `relativeCupProduct_comp_pushforwardCompIso` in
+`RelativeCupProductCompositionTransport.lean` of this directory, proved from this statement and
+the compatibility of [Stacks, Tag 07A4] with composition,
+`Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso_hom_app_comp`. -/
 theorem relativeCupProduct_comp (K L : DerivedModules X.O) :
     adjunctionCupProduct
         ((DerivedPullbackOnRingedTopoi.derivedAdjunction f' hmosf').comp

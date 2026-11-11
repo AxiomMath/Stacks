@@ -17,10 +17,18 @@ power map modulo `p`, and let `X` be a scheme over the closed fibre `S₀ = V(I)
 locally nilpotent.  Taking spectra turns `σ` into an endomorphism of the divided power base which
 lifts the absolute Frobenius of `S₀`, and together with the absolute Frobenius `F_X` of `X` it
 induces the Frobenius endomorphism `(F_X)_cris` of the crystalline topos.  An *F-crystal* on
-`X/S` relative to `σ` is a crystal `E` in finite locally free `𝒪_{X/S}`-modules together with a
-map `F_E : (F_X)_cris^* E ⟶ E`.
+`X/S` relative to `σ`, [Stacks, Tag 07N3], is a crystal `E` in finite locally free
+`𝒪_{X/S}`-modules together with a map `F_E : (F_X)_cris^* E ⟶ E`.
 
-Two things have to be put in place before that definition can be read.
+The source reads that definition on the **small** crystalline site `Cris(X/S)`, with
+`(F_X)_cris = π_X ∘ (F_X)_CRIS ∘ i_X` the endomorphism of the small crystalline topos of
+[Stacks, Tag 07IK]; that notion is `Crystalline.SmallFCrystal` of
+`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.FCrystal`, where the tag is registered.  This
+file builds the analogue `Crystalline.FCrystal` on the **big** crystalline site `CRIS(X/S)`, with
+the Frobenius `(F_X)_CRIS` of the big crystalline topos; its restriction to `Cris(X/S)` carries the
+Frobenius structure `Crystalline.FCrystal.smallFrobenius` of that file.
+
+Two things have to be put in place before the big-site definition can be read.
 
 First, the *crystal* condition.  A sheaf of `𝒪_{X/S}`-modules `E` assigns to every object
 `(U, T, δ)` of the big crystalline site an `𝒪_T`-module `E_T`, and to every morphism
@@ -69,8 +77,9 @@ family after applying `u`.
   built on.
 * `Crystalline.FCrystalSituation.frobeniusModulePullback` — the Frobenius pullback
   `(F_X)_cris^*` of sheaves of `𝒪_{X/S}`-modules.
-* `Crystalline.FCrystal` — an F-crystal on `X/S` relative to `σ`, [Stacks, Tag 07N3].
-* `Crystalline.FCrystal.Nondegenerate` — nondegeneracy of an F-crystal, [Stacks, Tag 07N3].
+* `Crystalline.FCrystal` — the analogue on the big crystalline site `CRIS(X/S)` of an F-crystal
+  on `X/S` relative to `σ`; the source's notion, on `Cris(X/S)`, is `Crystalline.SmallFCrystal`.
+* `Crystalline.FCrystal.Nondegenerate` — nondegeneracy of a big-site F-crystal.
 
 ## Main results
 
@@ -127,10 +136,10 @@ the source's notion together with the presheaf-level crystal condition, an extra
 source does not impose.  It is kept only to name that stronger condition; nothing in the library
 is stated about it.
 
-## Where the condition an F-crystal carries is defined, and why here
+## Where the condition a big-site F-crystal carries is defined, and why here
 
 [Stacks, Tag 07N3] builds its F-crystal on a *crystal in finite locally free modules*, which is
-the notion of [Stacks, Tag 07IU], and that is what
+the notion of [Stacks, Tag 07IU], and on the big site that is what
 `Crystalline.GlobalCrystallineSituation.IsFiniteLocallyFreeQuasicoherentCrystal` below states:
 quasi-coherence, which is condition (1) of [Stacks, Tag 07IT] and is what the source's "crystal in
 quasi-coherent modules" is taken to be throughout this library, together with finite local
@@ -146,13 +155,13 @@ which needs `Crystalline.GlobalCrystallineSituation.IsCrystal` from this file.  
 predicate at the level where it is first needed — it asks for nothing beyond
 `SheafOfModules.IsQuasicoherentOnSite` and `SheafOfModules.IsFiniteLocallyFreeOnSite` of
 `StacksFrontier.AlgebraicGeometry.Topologies.ModuleTypesOnSite`, already imported here — lets
-`Crystalline.FCrystal` carry the source's condition and leaves the rest of
+`Crystalline.FCrystal` carry the big-site form of the source's condition and leaves the rest of
 [Stacks, Tag 07IU] where it was.
 
 Nondegeneracy quantifies over `i : ℕ`, which carries the source's `i ≥ 0`, and the scalar `p ^ i`
-acts on the endomorphism group of `(F_X)_cris^* E` through the `ℕ`-action of the additive group of
+acts on the endomorphism group of `(F_X)_CRIS^* E` through the `ℕ`-action of the additive group of
 morphisms in a preadditive category.  The source's `V ∘ F_E` is the diagrammatic composite
-`F_E ≫ V`, an endomorphism of `(F_X)_cris^* E`.
+`F_E ≫ V`, an endomorphism of `(F_X)_CRIS^* E`.
 
 ## References
 
@@ -371,9 +380,9 @@ modules — that is, quasi-coherent, condition (1) of [Stacks, Tag 07IT] — and
 free, every object of the site having a covering on whose members the restricted module is a
 finite free module over the restricted structure sheaf.
 
-This is the condition [Stacks, Tag 07N3] builds its F-crystal on, so it is stated here, upstream
-of `Crystalline.FCrystal`; the small-site form of the same condition and what either form gives
-through [Stacks, Tag 07IT] are in
+This is the big-site form of the condition [Stacks, Tag 07N3] builds its F-crystal on, so it is
+stated here, upstream of `Crystalline.FCrystal`; the small-site form of the same condition and
+what either form gives through [Stacks, Tag 07IT] are in
 `StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.FiniteLocallyFreeCrystal`. -/
 @[stacks 07IU "crystals in finite locally free modules on the big site CRIS(X/S), with the crystal
   in quasi-coherent modules taken as condition (1) of Stacks 07IT"]
@@ -433,16 +442,22 @@ namespace Crystalline
 
 open GlobalCrystallineSituation
 
-/-- **Stacks Project, Tag 07N3.**  An *F-crystal on `X/S` relative to `σ`*: a crystal in finite
-locally free `𝒪_{X/S}`-modules `E` together with a map `F_E : (F_X)_cris^* E ⟶ E`.
+/-- **An F-crystal on the big crystalline site.**  A crystal in finite locally free
+`𝒪_{X/S}`-modules `E` on `CRIS(X/S)` together with a map `F_E : (F_X)_CRIS^* E ⟶ E`, where
+`(F_X)_CRIS^*` is `Crystalline.FCrystalSituation.frobeniusModulePullback`.
 
-The crystal in finite locally free modules is the notion of [Stacks, Tag 07IU],
+This is **not** the definition of [Stacks, Tag 07N3], which takes `E` on the small crystalline site
+`Cris(X/S)` and `F_E : (F_X)_cris^* E ⟶ E` with `(F_X)_cris = π_X ∘ (F_X)_CRIS ∘ i_X` the Frobenius
+of the small crystalline topos, [Stacks, Tag 07IK]; that notion is `Crystalline.SmallFCrystal`,
+which carries the tag.  The restriction of `E` to `Cris(X/S)` carries the Frobenius structure
+`Crystalline.FCrystal.smallFrobenius`.
+
+The crystal in finite locally free modules is the big-site notion of [Stacks, Tag 07IU],
 `Crystalline.GlobalCrystallineSituation.IsFiniteLocallyFreeQuasicoherentCrystal`: quasi-coherence
 — condition (1) of [Stacks, Tag 07IT], the form in which this library reads the source's "crystal
 in quasi-coherent modules" — together with finite local freeness.  It is **not** the stronger
 `Crystalline.GlobalCrystallineSituation.IsFiniteLocallyFreeCrystal`, which reads the crystal
 condition with the comparison maps of presheaves of modules; see the module documentation. -/
-@[stacks 07N3 "F-crystal"]
 structure FCrystal (T : FCrystalSituation.{u}) where
   /-- The underlying sheaf of `𝒪_{X/S}`-modules `E`. -/
   crystal : SheafOfModules.{u} (crystallineStructureSheaf T.global)
@@ -451,11 +466,12 @@ structure FCrystal (T : FCrystalSituation.{u}) where
   /-- The Frobenius structure `F_E : (F_X)_cris^* E ⟶ E`. -/
   frobenius : T.frobeniusModulePullback.obj crystal ⟶ crystal
 
-/-- **Stacks Project, Tag 07N3.**  An F-crystal is *nondegenerate* when there are an integer
-`i ≥ 0` and a map `V : E ⟶ (F_X)_cris^* E` with `V ∘ F_E = p ^ i`, the composite being taken
-diagrammatically as `F_E ≫ V`, an endomorphism of `(F_X)_cris^* E`, and the scalar `p ^ i` acting
-through the `ℕ`-action on morphisms. -/
-@[stacks 07N3 "nondegenerate"]
+/-- **Nondegeneracy of an F-crystal on the big crystalline site**: there are an integer `i ≥ 0`
+and a map `V : E ⟶ (F_X)_CRIS^* E` with `V ∘ F_E = p ^ i`, the composite being taken
+diagrammatically as `F_E ≫ V`, an endomorphism of `(F_X)_CRIS^* E`, and the scalar `p ^ i` acting
+through the `ℕ`-action on morphisms.  This is the condition of [Stacks, Tag 07N3] read on
+`CRIS(X/S)`; the source's condition, on `Cris(X/S)`, is `Crystalline.SmallFCrystal.Nondegenerate`.
+-/
 def FCrystal.Nondegenerate {T : FCrystalSituation.{u}} (E : FCrystal T) : Prop :=
   ∃ (i : ℕ) (V : E.crystal ⟶ T.frobeniusModulePullback.obj E.crystal),
     E.frobenius ≫ V = (T.global.p ^ i) • 𝟙 (T.frobeniusModulePullback.obj E.crystal)

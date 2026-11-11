@@ -34,9 +34,15 @@ composition isomorphisms (`conjugateEquiv_stageDerivedPullbackCompIso_hom`).
   Stacks 0DIP is invertible, so is `RΓ_{Aₙ}(Uₙ, τₙ|_{Uₙ})`.
 * `…isIso_coheratorLimitPullbackMap_of_forall_isIso_etaleSectionsBaseChangeMap`: every `τₙ` is
   invertible once the canonical map of Stacks 0DIP is, for every affine `U` étale over `X`.
+* `…isIso_coheratorLimitPullbackMap`: every `τₙ` is invertible, for every coherator, with no
+  hypothesis: the input from [Stacks, Tag 0DIM] is discharged by
+  `…isIso_stageSections_map_tensor_coheratorLimitPullbackMap`.
 * `…exists_isPseudoCoherent_isCompatibleRestriction_of_forall`: the conclusion of Stacks 0DIQ,
   from the statement of [Stacks, Tag 0DIN] (`h0DIN`) and the part of [Stacks, Tag 0DIM] that
-  Stacks 0DIP uses (`h0DIM`).
+  Stacks 0DIP uses (`h0DIM`). Both inputs are proved in the library: 0DIN is
+  `…isPseudoCoherentOnLimit_coheratorObj` and 0DIM is
+  `…isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`; the unconditional form is
+  `…exists_isPseudoCoherent_stageDerivedPullback_iso`.
 * `…exists_isPseudoCoherent_stageDerivedPullback_iso`: **[Stacks, Tag 0DIQ]**, the derived
   Grothendieck existence theorem.
 
@@ -60,9 +66,9 @@ namespace AlgebraicGeometry.Space
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 section Coherator
 
@@ -121,7 +127,9 @@ theorem isIso_coheratorLimitPullbackMap_of_forall_isIso_etaleSectionsBaseChangeM
 /-- **Every `τₙ` is invertible, given the part of Stacks 0DIM that Stacks 0DIP uses**: if for
 every `n` and every perfect `E` on `X` the map `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` is invertible, then
 the canonical map of Stacks 0DIP is invertible for every `j : U ⟶ X` étale with `U` affine
-(`isIso_etaleSectionsBaseChangeMap_of_isIso`), hence every `τₙ` is. -/
+(`isIso_etaleSectionsBaseChangeMap_of_isIso`), hence every `τₙ` is. The hypothesis is proved
+([Stacks, Tag 0DIM], `isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`): the
+unconditional form is `isIso_coheratorLimitPullbackMap`. -/
 theorem isIso_coheratorLimitPullbackMap_of_forall_isPerfect
     (h0DIM : ∀ (n : ℕ) (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase
         D.X.left),
@@ -151,7 +159,10 @@ limit `L` of the tower `Rjₙ,* Kₙ`, `DQ(L)` is pseudo-coherent on `X`; the sh
 `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` is invertible; the hypothesis of
 `isIso_etaleSectionsBaseChangeMap_of_isIso`). Then there is a pseudo-coherent `K` in `D(𝒪_X)` with
 isomorphisms `ψₙ : Ljₙ^* K ≅ Kₙ`, compatible with the `φₙ`:
-`ψₙ = (Ljₙ^* ≅ Liₙ^* Ljₙ₊₁^*) ≫ Liₙ^* ψₙ₊₁ ≫ φₙ`. -/
+`ψₙ = (Ljₙ^* ≅ Liₙ^* Ljₙ₊₁^*) ≫ Liₙ^* ψₙ₊₁ ≫ φₙ`. Both hypotheses are proved in the library
+(0DIN: `isPseudoCoherentOnLimit_coheratorObj`; 0DIM:
+`isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`), and the unconditional statement is
+`exists_isPseudoCoherent_stageDerivedPullback_iso`. -/
 theorem exists_isPseudoCoherent_isCompatibleRestriction_of_forall
     (h0DIN : ∀ (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
         (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
@@ -187,7 +198,10 @@ of `D(A)`, as in `isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit`
 attribute [local instance] HasDerivedCategory.standard
 
 /-- **The derived Grothendieck existence theorem (Stacks 0DIQ), from the two halves of 0DIM.**
-In Situation 0DIK assume the two statements of [Stacks, Tag 0DIM] for every perfect `E` on `X`:
+In Situation 0DIK take as hypotheses the two statements of [Stacks, Tag 0DIM] for every perfect
+`E` on `X` (both are proved in the library, as
+`isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`; the unconditional statement is
+`exists_isPseudoCoherent_stageDerivedPullback_iso`):
 `h0DIMpc`, that `RΓ(X, E ⊗^𝐋 K)` is pseudo-coherent in `D(A)` for every derived limit `K` of the
 tower `Rjₙ,* Kₙ` in `D_QCoh(𝒪_X)`, and `h0DIM`, that `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` is invertible
 (the form [Stacks, Tag 0DIP] uses). Then there is a pseudo-coherent `K` in `D(𝒪_X)` with
@@ -221,6 +235,45 @@ theorem exists_isPseudoCoherent_isCompatibleRestriction_of_isPseudoCoherent_of_i
   D.exists_isPseudoCoherent_isCompatibleRestriction_of_forall
     (D.isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit h0DIMpc) h0DIM
 
+/-- **The derived Grothendieck existence theorem for `X` separated over `A`, given the
+pseudo-coherence of the `Mₙ`.** In the situation of
+`AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem`, if `RΓ(Xₙ, Lpₙ^*E ⊗^L Kₙ)` is
+pseudo-coherent for every perfect `E` and every `n`, then there is a pseudo-coherent `K` in
+`D(𝒪_X)` with isomorphisms `ψₙ : Ljₙ^* K ≅ Kₙ` such that
+`ψₙ = (Ljₙ^* ≅ Liₙ^* Ljₙ₊₁^*) ≫ Liₙ^* ψₙ₊₁ ≫ φₙ`. The proof is the source's proof of
+Stacks 0DIQ, in which properness of `X` enters only through that pseudo-coherence. -/
+theorem exists_isPseudoCoherent_stageDerivedPullback_iso_of_stageSectionsPseudoCoherent
+    (hpc : D.StageSectionsPseudoCoherent) :
+    ∃ (K : D.limitDerivedCategory) (ψ : ∀ n : ℕ, (D.stageDerivedPullback n).obj K ≅ D.K n),
+      D.IsPseudoCoherentOnLimit K ∧
+        ∀ n : ℕ, (ψ n).hom = (D.stageDerivedPullbackCompIso n).inv.app K ≫
+          (transitionDerivedPullback D.system D.B D.containsLimitBase D.containsBaseAt D.X n).map
+            (ψ (n + 1)).hom ≫ D.φ n :=
+  D.exists_isPseudoCoherent_isCompatibleRestriction_of_isPseudoCoherent_of_isIso
+    (fun hp K hK E hE => D.isPseudoCoherent_limitTensorSections_of_isDerivedLimit hpc hp K hK E hE)
+    (fun n E hE => D.isIso_stageSections_map_tensor_coheratorLimitPullbackMap D.coherator
+      D.coheratorAdjunction hpc n E hE)
+
+end Sections
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+/-- **Every `τₙ : Ljₙ^* K ⟶ Kₙ` is invertible**, for every coherator `adj : ι ⊣ DQ_X` and
+`K = DQ_X(R lim Kₙ)`: `isIso_coheratorLimitPullbackMap_of_forall_isPerfect` with its hypothesis
+discharged by [Stacks, Tag 0DIM]
+(`isIso_stageSections_map_tensor_coheratorLimitPullbackMap`). -/
+theorem isIso_coheratorLimitPullbackMap (D : DerivedExistenceSystem.{u})
+    (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
+      (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+        D.X.left).FullSubcategory)
+    (adj : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι ⊣ DQ)
+    (n : ℕ) : IsIso (D.toSeparated.coheratorLimitPullbackMap DQ adj n) :=
+  D.toSeparated.isIso_coheratorLimitPullbackMap_of_forall_isPerfect DQ adj
+    (fun m E hE => D.toSeparated.isIso_stageSections_map_tensor_coheratorLimitPullbackMap DQ adj
+      D.stageSectionsPseudoCoherent m E hE) n
+
 /-- **The derived Grothendieck existence theorem.** In Situation 0DIK there is a
 pseudo-coherent `K` in `D(𝒪_X)` with `Kₙ = K ⊗^L_{𝒪_X} 𝒪_{Xₙ}` for all `n`, compatibly with the
 maps `φₙ`: isomorphisms `ψₙ : Ljₙ^* K ≅ Kₙ` (`Ljₙ^*` the derived pullback along `jₙ : Xₙ ⟶ X`) with
@@ -230,23 +283,20 @@ isomorphism of derived pullbacks along `iₙ ≫ jₙ₊₁ = jₙ`.
 Proof as in the source: `K = DQ_X(R lim Kₙ)` is pseudo-coherent by [Stacks, Tag 0DIN] (from both
 halves of [Stacks, Tag 0DIM]), and the maps `τₙ : Ljₙ^* K ⟶ Kₙ` are isomorphisms by
 [Stacks, Tag 0DIP] over affine `U` étale over `X`, compatible with the `φₙ`. -/
-@[stacks 0DIQ "the full statement: K pseudo-coherent on X, K_n = Lj_n^* K for all n compatibly \
-  with the phi_n through the composition isomorphism of derived pullbacks; nothing is granted or \
-  assumed beyond Situation 0DIK"]
-theorem exists_isPseudoCoherent_stageDerivedPullback_iso :
+@[stacks 0DIQ "the full statement in Situation 0DIK with no further hypotheses: a pseudo-coherent \
+  K on X with isomorphisms Lj_n^* K = K_n for all n, compatible with the phi_n through the \
+  composition isomorphism of derived pullbacks"]
+theorem exists_isPseudoCoherent_stageDerivedPullback_iso (D : DerivedExistenceSystem.{u}) :
     ∃ (K : D.limitDerivedCategory) (ψ : ∀ n : ℕ, (D.stageDerivedPullback n).obj K ≅ D.K n),
       D.IsPseudoCoherentOnLimit K ∧
         ∀ n : ℕ, (ψ n).hom = (D.stageDerivedPullbackCompIso n).inv.app K ≫
           (transitionDerivedPullback D.system D.B D.containsLimitBase D.containsBaseAt D.X n).map
             (ψ (n + 1)).hom ≫ D.φ n :=
-  D.exists_isPseudoCoherent_isCompatibleRestriction_of_isPseudoCoherent_of_isIso
-    (fun hp K hK E hE => D.isPseudoCoherent_limitTensorSections_of_isDerivedLimit hp K hK E hE)
-    (fun n E hE => D.isIso_stageSections_map_tensor_coheratorLimitPullbackMap D.coherator
-      D.coheratorAdjunction n E hE)
-
-end Sections
+  D.toSeparated.exists_isPseudoCoherent_stageDerivedPullback_iso_of_stageSectionsPseudoCoherent
+    D.stageSectionsPseudoCoherent
 
 end DerivedExistenceSystem
+
 
 end AlgebraicGeometry.Space
 

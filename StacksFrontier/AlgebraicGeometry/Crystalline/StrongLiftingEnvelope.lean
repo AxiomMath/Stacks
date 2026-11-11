@@ -2,7 +2,6 @@ module
 
 public import Mathlib.RingTheory.Ideal.Quotient.Operations
 public import Mathlib.RingTheory.Smooth.Basic
-public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Crystalline.DividedPowerEnvelope
 public import StacksFrontier.RingTheory.DividedPowers.Nilpotent
 public import StacksFrontier.RingTheory.Smooth.Lifting
@@ -53,14 +52,7 @@ deduced from it, as `Crystalline.exists_dpMorphism_envelope_of_smooth`.
 * `Crystalline.exists_dpMorphism_envelope_of_smooth` — the lifting step for a smooth
   presentation, which is how [Stacks, Tag 07L5] uses it.
 
-## What is and is not proved
-
-**[Stacks, Tag 07L6] is not proved here: the one tag attribute in this file sits on the
-hypothesis-generalisation of the lifting step, and its description string says so.
-[Stacks, Tag 07L5] is no longer claimed here at all** — its retract is proved, at every finite
-level of the `p`-adic tower, by `Crystalline.exists_compatible_levelRetract` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeRetract.lean`, which is one of the two places
-the tag now sits; what that file still lacks is recorded in its own module docstring.
+## Relation to [Stacks, Tag 07L5] and [Stacks, Tag 07L6]
 
 [Stacks, Tag 07L5] has two assertions.  The first is the *retract*: for a smooth presentation
 `A → P' → C` with kernel `J'` and `D'` the `p`-adic completion of `D_{P', γ}(J')`, there are a
@@ -68,20 +60,8 @@ polynomial presentation `A → P → C` and homomorphisms of divided power `A`-a
 `a : D → D'`, `b : D' → D` compatible with the maps to `C` and satisfying `a ∘ b = id_{D'}`.
 The second is that `a` and `b` induce an equivalence between the categories of pairs `(M, ∇)`
 satisfying [Stacks, Tag 07JB], [Stacks, Tag 07JC], [Stacks, Tag 07JD] and [Stacks, Tag 07JE]
-over `D` and over `D'`.
-
-Of the second assertion, the direction the source derives from the first — "Since
-`a ∘ b = id_{D'}` we see that `F ∘ G` is the identity functor" — is proved, read on the
-completed de Rham complexes, as
-`Crystalline.CompletedDeRham.isIso_baseChangeComplexHom_comp_of_retract` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedConnectionBaseChangeComposite.lean`, which
-carries the tag for it.  Of the opposite direction `G ∘ F ≅ id`, the step the source's proof
-leaves to the reader — "It remains to prove that this map is horizontal, i.e., compatible with
-connections, which we omit." — is `Crystalline.nabla_taylorSum_eq` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorHorizontal.lean`.  The equivalence itself is
-stated nowhere in this library, resting further on [Stacks, Tag 07JH], which no declaration here
-carries; the module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeRetract.lean` sets out the rest.
+over `D` and over `D'`.  Both are proved in
+`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeRetractEquivalence.lean`.
 
 Of the first assertion, what is proved *here* is the step the source writes as "the kernel of
 `D_e → D'_e` is locally nilpotent, hence by [Stacks, Tag 07K4] we can find a lift
@@ -90,43 +70,25 @@ universal property of the divided power envelope we obtain a map `D_{P', γ}(J')
 `exists_dpMorphism_envelope_of_smooth`, stated for an arbitrary divided power `A`-algebra `B` in
 which `p` is nilpotent and an arbitrary ideal `L` of `B` contained in its divided power ideal,
 so that `B = D_e` and `L = ker(D_e → D'_e)` is one instance of it.  The *compatible* choice of
-the `β_e`, which is the one place where the source does more than invoke the lifting property
-once, is carried out in `EnvelopeRetract.lean`: the lifts are chosen successively along the
+the `β_e` is carried out in `EnvelopeRetract.lean`: the lifts are chosen successively along the
 surjections `D_{e + i + 1} → D_{e + i} ×_{D'_{e + i}} D'_{e + i + 1}`, whose kernels are square
-zero, and the fibre product is realised there as an equalizer subalgebra.
+zero.  A square zero ideal is locally nilpotent, so each of those lifts is again an instance of
+the strong lifting property — that is `Algebra.HasStrongLiftingProperty.exists_lift_of_sq_eq_bot`
+— and nothing in the construction needs smoothness beyond it.
 
-That successive construction is worth recording precisely, because it is the reason the source
-cites [Stacks, Tag 00TN] alongside [Stacks, Tag 07K4].  A square zero ideal is locally
-nilpotent, so each individual lift is again an instance of the strong lifting property — that
-is `Algebra.HasStrongLiftingProperty.exists_lift_of_sq_eq_bot` — and nothing in the first
-assertion of [Stacks, Tag 07L5] needs smoothness beyond it.  That is what licenses the
-hypothesis-generalisation below.
-
-[Stacks, Tag 07L6] is a remark, and **the source defers its own proof.**  In full, it reads:
-"The equivalence of Proposition [Stacks, Tag 07JH] holds if we start with a surjection `P → C`
-where `P/A` satisfies the strong lifting property of Algebra, Lemma [Stacks, Tag 07K4].  To
-prove this we can argue as in the proof of Lemma [Stacks, Tag 07L5].  *(Details will be added
-here if we ever need this.)*  Presumably there is also a direct proof of this result, but the
-advantage of using polynomial rings is that the rings `D(n)` are `p`-adic completions of divided
-power polynomial rings and the algebra is simplified."
-
-The parenthesis is the operative sentence: the equivalence half of [Stacks, Tag 07L6] cannot be
-formalized from the source as written, because the source supplies no proof of it — it points at
-the proof of [Stacks, Tag 07L5], whose own omitted step, the horizontality of the comparison
-isomorphism, is `Crystalline.nabla_taylorSum_eq` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorHorizontal.lean`, and which depends further on
-[Stacks, Tag 07JH], which is `...SmallSite.crystalPairFunctor_isEquivalence` of
-`SmallSite/CrystalPairEquivalence.lean`.  Its statement is also strictly stronger than both
-[Stacks, Tag 07JH] and [Stacks, Tag 07L5].  No declaration in this library states the
-equivalence of [Stacks, Tag 07L6].
-
-What *is* honest, and is what the [Stacks, Tag 07L6] attribute below marks, is the observation
-the remark rests on: the construction in the proof of [Stacks, Tag 07L5] uses smoothness of
-`P'/A` only through the strong lifting property of [Stacks, Tag 07K4].  For the lifting step,
-that observation is a theorem here —
-`exists_dpMorphism_envelope_of_hasStrongLiftingProperty` carries the property as a hypothesis
-and `exists_dpMorphism_envelope_of_smooth` is its smooth instance, obtained from it by
-`Algebra.HasStrongLiftingProperty.of_smooth` and nothing else.
+[Stacks, Remark 60.17.6, Tag 07L6] rests on exactly that observation: "The equivalence of
+Proposition [Stacks, Tag 07JH] holds if we start with a surjection `P → C` where `P/A` satisfies
+the strong lifting property of Algebra, Lemma [Stacks, Tag 07K4].  To prove this we can argue as
+in the proof of Lemma [Stacks, Tag 07L5]."  The remark is proved, by that argument, as
+`...SmallSite.exists_presentation_retract_crystalPairEquivalence_of_hasStrongLiftingProperty` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrystalStrongLiftingPairs.lean`: the retract
+for a presentation with the strong lifting property is
+`Crystalline.exists_completedEnvelopeRetract_of_hasStrongLiftingProperty`, and since `P` need not
+be of finite type the polynomial algebra mapping onto it has in general infinitely many
+variables, for which the equivalence of pairs along the retract is
+`Crystalline.CoordinateDual.retractPairEquivalence`.  The lifting step of this file, with the
+strong lifting property as a hypothesis, is
+`exists_dpMorphism_envelope_of_hasStrongLiftingProperty`.
 
 ## Implementation notes
 
@@ -199,7 +161,7 @@ theorem exists_lift_of_surjective {R : Type u} {S : Type v} [CommRing R] [CommRi
 /-- The infinitesimal lifting property of [Stacks, Tag 00TN] is a special case of the strong
 lifting property, because a square zero ideal is locally nilpotent.
 
-This is what licenses the hypothesis-generalisation of [Stacks, Tag 07L6]: the proof of
+This is what licenses the argument of [Stacks, Remark 60.17.6, Tag 07L6]: the proof of
 [Stacks, Tag 07L5] cites [Stacks, Tag 00TN] for its successive lifts along square zero kernels,
 and those lifts are therefore themselves instances of [Stacks, Tag 07K4], not a second use of
 smoothness. -/
@@ -240,11 +202,9 @@ over `A` whose restriction along `P' → D`, read modulo `L`, is `g`, and which 
 the maps to `C`: its restriction read modulo `K` is induced by `π`.
 
 Taking `B = D_e` and `L = ker(D_e → D'_e)` this is the step of the source's proof which produces
-`β_e : P' → D_e` lifting `P' → D'_e` and then the map `D_{P', γ}(J') → D_e`. -/
-@[stacks 07L6 "the hypothesis-generalisation of the lifting step in the proof of 07L5: \
-smoothness of P'/A is used only through the strong lifting property of 07K4, which is here a \
-hypothesis. The equivalence of categories asserted by 07L6 is NOT proved: the source defers \
-its own proof of it"]
+`β_e : P' → D_e` lifting `P' → D'_e` and then the map `D_{P', γ}(J') → D_e`; it is the step on
+which the argument of [Stacks, Remark 60.17.6, Tag 07L6] rests, proved as
+`...SmallSite.exists_presentation_retract_crystalPairEquivalence_of_hasStrongLiftingProperty`. -/
 theorem exists_dpMorphism_envelope_of_hasStrongLiftingProperty {p : ℕ} (hp : p.Prime)
     (A : DividedPowerRing.{u}) {P' : Type u} [CommRing P'] [Algebra A P']
     {C : Type v} [CommRing C] (π : P' →+* C)
@@ -316,10 +276,10 @@ Smoothness enters only through
 `Algebra.HasStrongLiftingProperty.of_smooth`: this is the smooth instance of
 `exists_dpMorphism_envelope_of_hasStrongLiftingProperty`.
 
-This carries no [Stacks, Tag 07L5] attribute: the retract of that lemma is proved, at every
-finite level of the `p`-adic tower, by `Crystalline.exists_compatible_levelRetract` of
+The retract of [Stacks, Tag 07L5] is proved, at every finite level of the `p`-adic tower, by
+`Crystalline.exists_compatible_levelRetract` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeRetract.lean`, which subsumes this lifting
-step and carries the tag. -/
+step. -/
 theorem exists_dpMorphism_envelope_of_smooth {p : ℕ} (hp : p.Prime)
     (A : DividedPowerRing.{u}) {P' : Type u} [CommRing P'] [Algebra A P']
     [Algebra.Smooth (A : Type u) P'] {C : Type v} [CommRing C] (π : P' →+* C)

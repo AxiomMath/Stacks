@@ -72,11 +72,8 @@ representable by algebraic spaces, étale and a surjection of sheaves are equiva
 
 A reduction of `X` exists by
 `AlgebraicGeometry.FormalSpace.exists_isReduction_of_isFormalAlgebraicSpace`. -/
-@[stacks 0AJ9 "the equivalence of the three conditions, for every reduction i : Xred ⟶ X of X, \
-a reduction existing by Stacks 0AIN (exists_isReduction_of_isFormalAlgebraicSpace); nothing is \
-assumed beyond the source's hypotheses, the input hCoproductEtale of \
-AlgebraicGeometry.FormalSpace.tfae_isQuasiCompactSpace_of_isReduction being the theorem \
-AlgebraicGeometry.FormalSpace.coproductsRepresentableEtale"]
+@[stacks 0AJ9 "the equivalence of the three conditions, for every reduction i : Xred ⟶ X of X; \
+a reduction exists by Stacks 0AIN (exists_isReduction_of_isFormalAlgebraicSpace)"]
 theorem tfae_isQuasiCompactSpace_unconditional
     {X Xred : FppfSheaf B S hS} {i : Xred ⟶ X}
     (hX : IsFormalAlgebraicSpace B S hS X) (hi : IsReduction B S hS X Xred i) :

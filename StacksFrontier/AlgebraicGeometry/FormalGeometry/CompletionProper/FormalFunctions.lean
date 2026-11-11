@@ -27,12 +27,15 @@ properness is used there:
   `Hᵖ(X, F) ⟶ Hᵖ(X, F / Jⁿ F)` and one saying that the image of that map is the stable image of
   the tower.
 
-**None of the three is carried by this library for a proper morphism**, so all three enter the
-main theorem as hypotheses; the tag attribute records that. [Stacks, Tag 02O6] is the affine
-case of the proper mapping theorem [Stacks, Tag 02O5], whose absence is recorded in
-`StacksFrontier/AlgebraicGeometry/ProperCohomologyFinite/Basic.lean`, and the uniform bounds rest
-on the same input, as recorded in
-`StacksFrontier/RingTheory/LocalCohomology/UniformCohomologyBound.lean`.
+In this file all three enter the main theorems as hypotheses. The library does prove them for
+a proper morphism, in later files: the finiteness by
+`Stacks.Algebraization.moduleFinite_cohomologyOverBase` and the two bounds by
+`Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8`
+over the unconditional [Stacks, Tag 02O8]. With them discharged, the unconditional
+[Stacks, Tag 087U] is
+`Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper_of_isAdicComplete`
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFunctor/FullyFaithfulComplete.lean`),
+which carries the tag; the conditional statements here are untagged.
 
 What the file does prove is the rest of the source's argument. The substantive part is the
 completion step: `Hᵖ(X, F)` is a finite module over a Noetherian `J`-adically complete ring,
@@ -67,9 +70,10 @@ an `A`-linear functor.
   uniform stable-image bound.
 * `Stacks.Algebraization.baseSmul_eq_zero_of_idealPowerMultiple_eq_bot` — a base scalar from
   `Jᵏ` annihilates a sheaf of modules killed by `(J · 𝒪_X) ᵏ`.
-* `Stacks.Algebraization.isIso_cohomologyToLimit` — **Stacks 087U** for all `p ≥ 0`, with the
-  finiteness of [Stacks, Tag 02O6] and the two uniform bounds of [Stacks, Tag 02OB] as
-  hypotheses.
+* `Stacks.Algebraization.isIso_cohomologyToLimit` — the comparison of Stacks 087U is an
+  isomorphism for all `p ≥ 0`, given the finiteness of [Stacks, Tag 02O6] and the two uniform
+  bounds of [Stacks, Tag 02OB] as hypotheses; the unconditional Stacks 087U, with these
+  discharged, is `Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper_of_isAdicComplete`.
 
 ## Implementation notes
 
@@ -326,8 +330,11 @@ section Complete
 
 open scoped ModuleCat.Algebra
 
-/-- **Stacks 087U**, granted the two uniform bounds of [Stacks, Tag 02OB] and the finiteness of
-[Stacks, Tag 02O6].
+/-- The comparison of [Stacks, Tag 087U], from the two uniform bounds of [Stacks, Tag 02OB] and
+the finiteness of [Stacks, Tag 02O6], taken as hypotheses. The unconditional
+[Stacks, Tag 087U] for a proper morphism, with these three discharged, is
+`Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper_of_isAdicComplete`, which carries
+the tag.
 
 Let `A` be a Noetherian ring complete with respect to an ideal `J`, let `X` be a locally
 Noetherian scheme over `A` and let `F` be a coherent sheaf on `X`. Then for every `p ≥ 0` the
@@ -338,25 +345,22 @@ canonical map
 is an isomorphism, provided
 
 * `hfin`: `Hᵖ(X, F)` is a finite `A`-module — this is [Stacks, Tag 02O6], the finiteness of
-  the cohomology of a coherent sheaf along a proper morphism, which is **not** available in this
-  library for a proper morphism;
+  the cohomology of a coherent sheaf along a proper morphism
+  (for a proper `f`, `Stacks.Algebraization.moduleFinite_cohomologyOverBase` transferred along
+  `Stacks.Cohomology.FormalFunctions.cohomologyBaseEquiv`);
 * `hker`: there is a `c` with `ker (Hᵖ(X, F) ⟶ Hᵖ(X, F / Jⁿ⁺ᶜ F)) ⊆ Jⁿ Hᵖ(X, F)` for all `n`;
 * `hstab`: there is a `c` such that the image of `Hᵖ(X, F) ⟶ Hᵖ(X, F / Jⁿ F)` contains the image
   of `Hᵖ(X, F / Jⁿ⁺ᶜ F) ⟶ Hᵖ(X, F / Jⁿ F)` for all `n`.
 
 The last two are the uniform Artin-Rees bounds of [Stacks, Tag 02OB], read through the long
 exact cohomology sequences of `0 → Jⁿ F → F → F / Jⁿ F → 0`; they are the two places where
-properness of the structure morphism enters the source's argument, and neither is available in
-this library — see the implementation notes of
-`StacksFrontier/RingTheory/LocalCohomology/UniformCohomologyBound.lean`.
+properness of the structure morphism enters the source's argument, and for a proper `f` they
+follow from
+`Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8`.
 
 What is proved here is everything else: the completion step of the source's proof — that no
 completion is needed on the left because a finite module over a complete Noetherian ring is
 itself complete — together with the derivation of the comparison from the two bounds. -/
-@[stacks 087U "for all p ≥ 0 and any f : X ⟶ Spec A with X locally Noetherian, hence in \
-particular for a proper f; the finiteness of the cohomology (02O6) and the two uniform \
-Artin-Rees bounds (02OB) enter as the hypotheses hfin, hker and hstab, none of which this \
-library carries for a proper morphism"]
 public theorem isIso_cohomologyToLimit (A : Type u) [CommRing A] [IsNoetherianRing A]
     (J : Ideal A) [IsAdicComplete J A] {X : Scheme.{u}} [IsLocallyNoetherian X]
     (f : X ⟶ Spec (.of A))
@@ -447,20 +451,20 @@ public theorem isIso_cohomologyToLimit (A : Type u) [CommRing A] [IsNoetherianRi
             (Stacks.Cohomology.FormalFunctions.baseIdealSheaf A J f) F n)).hom) x)) h1.symm
     simpa using h4
 
-/-- **Stacks 087U for a proper morphism**, granted the two uniform bounds of
-[Stacks, Tag 02OB] and the finiteness of [Stacks, Tag 02O6].
+/-- The comparison of [Stacks, Tag 087U] for a proper morphism, from the two uniform bounds of
+[Stacks, Tag 02OB] and the finiteness of [Stacks, Tag 02O6], taken as hypotheses. The
+unconditional [Stacks, Tag 087U], with these three discharged, is
+`Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper_of_isAdicComplete`, which carries
+the tag.
 
 This is `Stacks.Algebraization.isIso_cohomologyToLimit` with the hypothesis
 `IsLocallyNoetherian X` replaced by properness of `f`, which implies it over a Noetherian base.
 The statement is then the source's verbatim: `A` Noetherian and `J`-adically complete,
 `f : X ⟶ Spec A` proper, `F` coherent, and the conclusion for every `p ≥ 0`.
 
-The three hypotheses are the ones the source cites and the only places properness is used there;
-none of them is carried by this library for a proper morphism. See
+The three hypotheses are the ones the source cites and the only places properness is used there.
+See
 `Stacks.Algebraization.isIso_cohomologyToLimit` for what each of them says. -/
-@[stacks 087U "for a proper f and all p ≥ 0; the finiteness of the cohomology (02O6) and the \
-two uniform Artin-Rees bounds (02OB) enter as the hypotheses hfin, hker and hstab, none of \
-which this library carries for a proper morphism"]
 public theorem isIso_cohomologyToLimit_of_isProper (A : Type u) [CommRing A] [IsNoetherianRing A]
     (J : Ideal A) [IsAdicComplete J A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [IsProper f]
     (F : AlgebraicGeometry.SheafOfModules.CoherentModules X.ringCatSheaf) (p : ℕ)

@@ -166,7 +166,9 @@ variable {X Y S : Scheme.{u}} {j : X ⟶ Y} [IsOpenImmersion j] {q : Y ⟶ S} {p
 of schemes of finite type over `S` and `ω_X^•`, `ω_Y^•` dualizing complexes normalized relative to
 `ω_S^•`. Exactly one isomorphism `ω_X^• ≅ j^! ω_Y^•` carries the normalization `α_W` of `ω_X^•`
 to that of `j^! ω_Y^•` (`shriekOfIsOpenImmersion`) for every open `W ⊆ X` separated over `S`. -/
-@[stacks 0AUC]
+@[stacks 0AUC "S Noetherian with dualizing complex ω_S, X → Y an open immersion of schemes of \
+  finite type over S; the unique isomorphism ω_X^• ≅ j^! ω_Y^• compatible with the \
+  normalizations"]
 theorem existsUnique_iso_shriekOfIsOpenImmersion_nagata
     (hωS : haveI := hp.base_noetherian; IsDualizingComplex ωS.obj.obj)
     (𝒦X : NormalizedOnOpens UpperShriek.nagata hp ωS)
@@ -185,7 +187,7 @@ The canonical isomorphism `ω_X^• ≅ ω_Y^•|_X` in `D(𝒪_X)`: the unique 
 `ω_X^• ≅ j^! ω_Y^•` compatible with the normalizations
 (`existsUnique_iso_shriekOfIsOpenImmersion_nagata`), followed by `j^! = j^*`
 ([Stacks, Tag 0AU0]). -/
-@[stacks 0AUC]
+@[stacks 0AUC "the resulting canonical isomorphism ω_X^• ≅ ω_Y^•|_X in D(O_X)"]
 def isoDerivedRestrictNagata
     (hωS : haveI := hp.base_noetherian; IsDualizingComplex ωS.obj.obj)
     (𝒦X : NormalizedOnOpens UpperShriek.nagata hp ωS)
@@ -200,7 +202,7 @@ def isoDerivedRestrictNagata
 /-- **[Stacks, Tag 0AUC], the canonical isomorphism is characterised by the normalizations**:
 for any isomorphism `e : ω_X^• ≅ j^! ω_Y^•` compatible with the normalizations on every open of
 `X` separated over `S`, `isoDerivedRestrictNagata` is `e` followed by `j^! = j^*`. -/
-@[stacks 0AUC]
+@[stacks 0AUC "the canonical isomorphism ω_X^• ≅ ω_Y^•|_X is characterized through j^! = j^*"]
 theorem isoDerivedRestrictNagata_eq
     (hωS : haveI := hp.base_noetherian; IsDualizingComplex ωS.obj.obj)
     (𝒦X : NormalizedOnOpens UpperShriek.nagata hp ωS)

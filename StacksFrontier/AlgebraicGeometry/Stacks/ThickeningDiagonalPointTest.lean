@@ -128,7 +128,6 @@ variable {𝒳 𝒳' 𝒴 𝒴' : AlgebraicStacks.{u, w} B S hS}
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is locally quasi-finite in the sense of Stacks 04XB
 (**Stacks 03XJ**, part (1)) if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (k) of seventeen: locally quasi-finite"]
 theorem isLocallyQuasiFinite_relativeDiagonal_iff :
     Stack.IsLocallyQuasiFinite B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsLocallyQuasiFinite B S hS
@@ -138,7 +137,6 @@ theorem isLocallyQuasiFinite_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is finite in the sense of Stacks 04XB (**Stacks 03ZP**) if and
 only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (l) of seventeen: finite"]
 theorem isFinite_relativeDiagonal_iff :
     HasRelativeProperty.{u, u, u + 1, u} B S hS (Space.finiteMorphismProperty B S hS)
         (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom
@@ -155,7 +153,6 @@ theorem isFinite_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is unramified in the sense of Stacks 04XB (**Stacks 03ZH**,
 part (1)) if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (m) of seventeen: unramified"]
 theorem unramified_relativeDiagonal_iff :
     haveI : (Space.unramifiedMorphismProperty B S hS).IsStableUnderBaseChange :=
       Space.isUnramified_isStableUnderBaseChange B S hS
@@ -184,7 +181,6 @@ theorem unramified_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is a monomorphism in the sense of Stacks 04XB if and only if
 `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (n) of seventeen: monomorphism"]
 theorem mono_relativeDiagonal_iff :
     HasRelativeProperty.{u, u, u + 1, u} B S hS
         (MorphismProperty.monomorphisms (AlgebraicSpaces B S hS))
@@ -202,7 +198,6 @@ theorem mono_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is an immersion in the sense of Stacks 04XB if and only if
 `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (o) of seventeen: immersion"]
 theorem isImmersion_relativeDiagonal_iff :
     Stack.IsImmersion B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsImmersion B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom := by
@@ -218,7 +213,6 @@ theorem isImmersion_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is a closed immersion in the sense of Stacks 04XB if and only
 if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (p) of seventeen: closed immersion"]
 theorem isClosedImmersion_relativeDiagonal_iff :
     Stack.IsClosedImmersion B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsClosedImmersion B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom :=

@@ -25,11 +25,11 @@ intersection `T ∩ 𝒳_{ft-pts}` is dense in `T`.
 The set `𝒳_{ft-pts}` of finite type points is `AlgebraicGeometry.Stack.finiteTypePoints`
 (**Stacks 06FY**).
 
-## What is proved and what is carried
+## The source's route
 
-The source's proof has two halves, and only the first is available in this library.
+This file follows the source's proof, which has two halves.
 
-* The half that **is** proved here: *a nonempty algebraic stack has a finite type point*,
+* The half proved here outright: *a nonempty algebraic stack has a finite type point*,
   `AlgebraicGeometry.Stack.exists_isFiniteTypePoint_of_nonempty`. This is the last step of the
   source's argument — "any nonempty affine scheme `U` with a smooth morphism towards `𝒵` has at
   least one closed point, hence `𝒵` has at least one finite type point by Stacks 06FZ". It is
@@ -38,32 +38,34 @@ The source's proof has two halves, and only the first is available in this libra
   chart, where a closed point exists because an affine scheme is a compact `T₀` space, and then
   fed to condition (2) of **Stacks 06FX**.
 
-* The half that is **carried**, as the explicit hypothesis
-  `AlgebraicGeometry.Stack.HasReducedInducedSubstacks`: the *reduced induced substack structure*
-  on a locally closed subset of `|𝒳|`, which is **Stacks 06FK** (Properties of Stacks,
-  Remark `remark-stack-structure-locally-closed-subset`), together with the fact that its
-  inclusion is locally of finite type, which is **Stacks 06FV** at an immersion. Stacks 06FK is
-  carried nowhere in this library, so the substack itself is unavailable; the hypothesis asks
-  exactly for a locally-of-finite-type 1-morphism onto the subset, which is all the source's
-  proof uses of it. Stacks 06FV *is* available
-  (`AlgebraicGeometry.Stack.AlgebraicStacks.isLocallyOfFiniteType_of_isImmersion`), and is the
-  reason the hypothesis asks for local finite type rather than for an immersion.
+* The other half uses the *reduced induced substack structure* on a locally closed subset of
+  `|𝒳|` (**Stacks 06FK**) and the fact that its inclusion is locally of finite type
+  (**Stacks 06FV**). The predicate `AlgebraicGeometry.Stack.HasReducedInducedSubstacks` packages
+  exactly what the source's proof uses of it: a locally-of-finite-type 1-morphism onto the
+  subset. `StacksFrontier.AlgebraicGeometry.Stacks.ReducedInducedSubstackFiniteTypePoints` derives
+  it from the inputs of `AlgebraicGeometry.Stack.exists_reducedInducedSubstack`.
 
-Given that hypothesis, **both** clauses of Stacks 06G2 are proved. The density clause is
-derived from the nonemptiness clause by pure topology — for `T` closed and `V` open meeting `T`,
-the set `T ∩ V` is locally closed and nonempty — so it needs no further input.
+The two theorems `nonempty_inter_finiteTypePoints` and `subset_closure_inter_finiteTypePoints`
+below are the source's argument relative to that predicate. Both clauses of **Stacks 06G2** are
+proved without it, by a direct affine-chart argument, in
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointsLocallyClosedChart`
+(`AlgebraicGeometry.Stack.exists_mem_finiteTypePoints_of_isLocallyClosed`), and are stated
+together as `AlgebraicGeometry.Stack.nonempty_inter_and_closure_inter_finiteTypePoints` in
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointsDense`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Stack.HasReducedInducedSubstacks`: the carried **Stacks 06FK** input.
+* `AlgebraicGeometry.Stack.HasReducedInducedSubstacks`: what the source's proof uses of
+  **Stacks 06FK**.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.exists_isFiniteTypePoint_of_nonempty`: a nonempty algebraic stack has
   a finite type point.
-* `AlgebraicGeometry.Stack.nonempty_inter_finiteTypePoints`: **Stacks 06G2**, first clause.
-* `AlgebraicGeometry.Stack.subset_closure_inter_finiteTypePoints`: **Stacks 06G2**, second
-  clause.
+* `AlgebraicGeometry.Stack.nonempty_inter_finiteTypePoints`: the first clause of **Stacks 06G2**,
+  by the source's route.
+* `AlgebraicGeometry.Stack.subset_closure_inter_finiteTypePoints`: the second clause of
+  **Stacks 06G2**, by the source's route.
 
 ## Implementation notes
 
@@ -149,9 +151,9 @@ theorem exists_isFiniteTypePoint_of_nonempty (𝒳 : AlgebraicStacks.{u, w} B S 
   · rw [hy]
     exact hvclosed
 
-/-! ### The reduced induced substack structure, carried -/
+/-! ### The reduced induced substack structure -/
 
-/-- **The input Stacks 06G2 takes from Stacks 06FK, carried.**
+/-- **The input the source's proof of Stacks 06G2 takes from Stacks 06FK.**
 
 **Stacks 06FK** (Properties of Stacks, Remark `remark-stack-structure-locally-closed-subset`)
 equips a locally closed subset `T ⊆ |𝒳|` with its *reduced induced substack structure*: an
@@ -159,8 +161,8 @@ algebraic stack `𝒵` with an immersion `i : 𝒵 ⟶ 𝒳` whose image on poin
 immersion is locally of finite type (**Stacks 06FV**), what the proof of Stacks 06G2 uses is a
 1-morphism onto `T` which is locally of finite type, and that is what this hypothesis supplies.
 
-Stacks 06FK is carried nowhere in this library, which is why this is a hypothesis rather than a
-theorem. -/
+`StacksFrontier.AlgebraicGeometry.Stacks.ReducedInducedSubstackFiniteTypePoints` derives it from the
+inputs of `AlgebraicGeometry.Stack.exists_reducedInducedSubstack`. -/
 abbrev HasReducedInducedSubstacks (𝒳 : AlgebraicStacks.{u, w} B S hS) : Prop :=
   letI := pointTopology B S hS 𝒳.val
   ∀ T : Set (points B S hS 𝒳.val.val 𝒳.val.property), IsLocallyClosed T →
@@ -178,13 +180,9 @@ has a finite type point by
 `AlgebraicGeometry.Stack.exists_isFiniteTypePoint_of_nonempty`; the image of that point is a
 finite type point of `𝒳` by **Stacks 06G0** and lies in `T`.
 
-The substack is carried as `AlgebraicGeometry.Stack.HasReducedInducedSubstacks`, which stands for
-**Stacks 06FK**; everything else is proved. -/
-@[stacks 06G2 "the first clause: a nonempty locally closed subset of the point space meets the \
-set of finite type points. The reduced induced substack structure of Stacks 06FK on a locally \
-closed subset is carried as the hypothesis `hsub`, since Stacks 06FK is absent from this \
-library; the rest of the proof, including the existence of a finite type point on a nonempty \
-algebraic stack, is proved"]
+The substack enters through `AlgebraicGeometry.Stack.HasReducedInducedSubstacks`. The same
+statement without that hypothesis is
+`AlgebraicGeometry.Stack.exists_mem_finiteTypePoints_of_isLocallyClosed`. -/
 theorem nonempty_inter_finiteTypePoints (𝒳 : AlgebraicStacks.{u, w} B S hS)
     (hsub : HasReducedInducedSubstacks.{u, w} B S hS 𝒳) :
     letI := pointTopology B S hS 𝒳.val
@@ -206,10 +204,8 @@ stack, the finite type points lying in `T` are dense in `T`.
 
 This follows from the first clause by pure topology: given `x ∈ T` and an open `V` containing
 `x`, the set `T ∩ V` is locally closed and nonempty, so it meets the set of finite type points,
-which is exactly the statement that `V` meets `T ∩ 𝒳_{ft-pts}`. -/
-@[stacks 06G2 "the second clause: for a closed subset of the point space, its intersection with \
-the set of finite type points is dense in it. Derived from the first clause by topology alone, \
-so it carries exactly the same Stacks 06FK hypothesis `hsub` and nothing further"]
+which is exactly the statement that `V` meets `T ∩ 𝒳_{ft-pts}`. The same statement without the
+hypothesis `hsub` is `AlgebraicGeometry.Stack.subset_closure_inter_finiteTypePoints_of_isClosed`. -/
 theorem subset_closure_inter_finiteTypePoints (𝒳 : AlgebraicStacks.{u, w} B S hS)
     (hsub : HasReducedInducedSubstacks.{u, w} B S hS 𝒳) :
     letI := pointTopology B S hS 𝒳.val

@@ -7,14 +7,14 @@ public import StacksFrontier.RingTheory.LocalCohomology.HigherDegree.CohomologyO
 public import Mathlib.RingTheory.Regular.RegularSequence
 
 /-!
-# Algebraization under a regular-sequence hypothesis: the finiteness half
+# Algebraization under a regular-sequence hypothesis: the finiteness steps
 
 Fix an algebraization situation: a Noetherian ring `A` with ideals `I ⊆ 𝔞`, the affine scheme
 `X = Spec(A)` and the open complement `U = X \ V(𝔞)`. Let `(F_n)` be a coherent `I`-adic system
-on `U`. Stacks 0EJS proves that such a system extends canonically to `X` once `I` is generated
-by a sequence that is regular on the completed stalks `F_y^∧` and `H⁰(U, F_1)`, `H¹(U, F_1)` are
-finite `A`-modules; the proof verifies the three hypotheses (a), (b), (c) of the Mittag-Leffler
-criterion Stacks 0EHH.
+on `U`. Stacks 0EJS proves that such a system extends canonically to `X` once there are
+`f₁, …, f_d ∈ I` generating `I 𝒪_{X,y}` and regular on the completed stalks `F_y^∧` at every
+`y ∈ U ∩ Y`, and `H⁰(U, F_1)`, `H¹(U, F_1)` are finite `A`-modules; the proof verifies the
+three hypotheses (a), (b), (c) of the Mittag-Leffler criterion Stacks 0EHH.
 
 This file formalizes the part of that verification concerning condition (c), namely finiteness.
 The source's short exact sequences
@@ -69,27 +69,17 @@ then uses `Submodule.fg_of_fg_map_of_fg_inf_ker`: the image of `H⁰(U, F_(n+1))
 is finitely generated because `A` is Noetherian, and the kernel is finitely generated because it
 sits inside the image of the finite module `H⁰(U, I^(n+1) F_(n+1))`.
 
-What this file does **not** do is the rest of the proof of Stacks 0EJS, and the results below
-carry qualifiers on their tags saying so. The source obtains finiteness of
-`H⁰(U, I^(n+1)F_(n+1))` from the stalkwise direct-sum decomposition
-`IⁿF_(n+1) = ⨁_{e₁ + ⋯ + e_d = n} F_1 · f₁^{e₁} ⋯ f_d^{e_d}`, which rests on quasi-regularity of
-`f₁, …, f_d` on the completed stalks together with the identification of
-`Stacks.Algebraization.completedStalk` with `F_y^∧` (Stacks 0EJE, not proved in this library).
-Conditions (a) and (b) of Stacks 0EHH come in the source from Cohomology 0GYK and 0GYM, and they
-are hypotheses below. The reason is not that those tags are unavailable in a usable category:
-besides the models over `Stacks.Cohomology.QuotientTowers.ModuleSheaf` (sheaves of modules over
-a fixed ring on a topological space) and over `SheafOfModules` on a site
-(`Stacks.Cohomology.AdicInverseSystems`, Tags 0GYQ–0GYT, which does cover `𝒪_U`-modules), the
-general-ideal Mittag-Leffler argument is available category-agnostically as
-`Stacks.Cohomology.IdealBoundaries.isMittagLefflerCategorical_of_idealBoundaries`. What is
-missing is its last hypothesis: that beyond some degree every boundary class is a sum of
-boundary classes one step down pushed along the generators of `I`. That is finite generation of
-`⨁ₙ H¹(U, IⁿF_(n+1))` as a graded `gr_I(A)`-module, which the source gets from the direct-sum
-decomposition, and it is the only use the source makes of the degree-one half of its
-hypothesis (2) below. The source's own hypotheses (1) and (2) are recorded as the
-predicates `Stacks.Algebraization.HasRegularSequenceOnCompletedStalks` and
-`Stacks.Algebraization.HasFiniteLowDegreeCohomology`; they are statements only, consumed by no
-result here.
+The rest of the proof of Stacks 0EJS is carried out in the module
+`RegularSequenceCanonicalExtension` of this directory, whose
+`Stacks.Algebraization.canonicallyExtends_of_regularSequence` is the proposition itself.
+There the stalkwise direct-sum decomposition
+`IⁿF_(n+1) = ⨁_{e₁ + ⋯ + e_d = n} F_1 · f₁^{e₁} ⋯ f_d^{e_d}` is proved from quasi-regularity of
+`f₁, …, f_d` on the completed stalks (Algebra 00LN), and conditions (a) and (b) of Stacks 0EHH are
+derived from it as in Cohomology 0GYK and 0GYM. The results of this file are the steps of that
+argument which need only the short exact sequences, stated with their inputs as hypotheses so
+that they can be reused. The source's hypotheses (1) and (2) are recorded here as the predicates
+`Stacks.Algebraization.HasRegularSequenceOnCompletedStalks` and
+`Stacks.Algebraization.HasFiniteLowDegreeCohomology`.
 
 ## References
 
@@ -171,17 +161,15 @@ theorem ker_globalSectionsSystem_map_le_range (n : ℕ) :
     (idealPowerShortComplex_shortExact S F n) (⊤ : S.U.toScheme.Opens) y hcoker
   exact ⟨x, hx⟩
 
-/-- **Stacks Project, Tag 0EJS (the induction of the proof).** If `H⁰(U, F_1)` is a finite
+/-- **The induction of the proof of Stacks 0EJS.** If `H⁰(U, F_1)` is a finite
 `A`-module and every `H⁰(U, I^(n+1) F_(n+1))` is a finite `A`-module, then `H⁰(U, F_n)` is a
 finite `A`-module for every `n`.
 
 This is the step "using the assumption of finiteness of `H⁰(U, F_1)` and induction, we first
 conclude that `M_n = H⁰(U, F_n)` is a finite `A`-module for all `n`" of the source. The source
 gets finiteness of `H⁰(U, I^(n+1) F_(n+1))` from the stalkwise direct-sum decomposition of
-`I^(n+1) F_(n+1)` into copies of `F_1`, which is not available in this library; here it is a
-hypothesis. -/
-@[stacks 0EJS "the induction giving finiteness of every H⁰(U, Fₙ), with the direct-sum \
-decomposition of Iⁿ F₍ₙ₊₁₎ replaced by the hypothesis that its sections are finite"]
+`I^(n+1) F_(n+1)` into copies of `F_1`, which is proved in
+`Stacks.Algebraization.exists_isIso_idealPowerDesc_of_regularSequence`. -/
 theorem finite_globalSections_of_finite_idealPowerSections
     (h0 : Module.Finite S.A ((globalSectionsSystem S F).obj (op 0)))
     (hker : ∀ n, Module.Finite S.A (idealPowerSections S F n)) :
@@ -209,15 +197,14 @@ theorem finite_globalSections_of_finite_idealPowerSections
     · exact IsNoetherian.noetherian _
     · rwa [top_inf_eq]
 
-/-- **Stacks Project, Tag 0EJS (condition (c) of Tag 0EHH).** Finiteness of every `H⁰(U, F_n)`
+/-- **Condition (c) of Stacks 0EHH in the proof of Stacks 0EJS.** Finiteness of every `H⁰(U, F_n)`
 implies the finite-image condition (c) of the Mittag-Leffler criterion Stacks 0EHH, so together
 with the Mittag-Leffler condition (a) and the topology condition (b) it gives canonical
 extension.
 
 The source derives (a) and (b) from Cohomology 0GYK and 0GYM applied to the graded module
-`⨁_n H^p(U, IⁿF_(n+1))`; here they are hypotheses. -/
-@[stacks 0EJS "the reduction to Tag 0EHH: condition (c) from finiteness of every H⁰(U, Fₙ), \
-with conditions (a) and (b) as hypotheses"]
+`⨁_n H^p(U, IⁿF_(n+1))`; that derivation is
+`Stacks.Algebraization.canonicallyExtends_of_idealPowerDesc`. -/
 theorem canonicallyExtends_of_finite_globalSections
     (hML : IsMittagLefflerCategorical (globalSectionsSystem S F))
     (htop : (⨅ n : ℕ, TopologicalSpace.induced
@@ -230,13 +217,12 @@ theorem canonicallyExtends_of_finite_globalSections
   have := hfin n
   exact Module.Finite.iff_fg.mpr (IsNoetherian.noetherian _)
 
-/-- **Stacks Project, Tag 0EJS (the finiteness half).** A coherent adic system on the open
+/-- **Canonical extension from finiteness of sections.** A coherent adic system on the open
 complement extends canonically to `X` as soon as its system of global sections has
 Mittag-Leffler, the limit topology on the module of compatible sections is the `I`-adic topology,
 `H⁰(U, F_1)` is a finite `A`-module, and every `H⁰(U, I^(n+1) F_(n+1))` is a finite
-`A`-module. -/
-@[stacks 0EJS "the finiteness half: conditions (a), (b) of Tag 0EHH and finiteness of the \
-sections of Iⁿ F₍ₙ₊₁₎ are hypotheses instead of consequences of the regular sequence"]
+`A`-module. Stacks 0EJS itself is
+`Stacks.Algebraization.canonicallyExtends_of_regularSequence`. -/
 theorem canonicallyExtends_of_finite_idealPowerSections
     (hML : IsMittagLefflerCategorical (globalSectionsSystem S F))
     (htop : (⨅ n : ℕ, TopologicalSpace.induced
@@ -252,24 +238,23 @@ theorem canonicallyExtends_of_finite_idealPowerSections
 /-! ### The hypotheses of Stacks 0EJS
 
 The two predicates below are the source's hypotheses (1) and (2), written in this library's
-vocabulary. They are statements only: no result in this file consumes them, because the
-implication from them to the hypotheses of
-`Stacks.Algebraization.canonicallyExtends_of_finite_idealPowerSections` is the part of the proof
-of Stacks 0EJS that this library cannot yet carry out. -/
+vocabulary. They are the hypotheses of
+`Stacks.Algebraization.canonicallyExtends_of_regularSequence`, which is Stacks 0EJS. -/
 
 /-- The germ at a point `y` of `U` of the global function on `U` determined by an element of the
 base ring `A`. This is the image of `a ∈ A` in the local ring `𝒪_{X,y}`. -/
 def germOfBase (y : S.U.toScheme) (a : S.A) : S.U.toScheme.presheaf.stalk y :=
   (S.U.toScheme.presheaf.germ ⊤ y trivial).hom (scalarMap S a)
 
-/-- **Stacks Project, Tag 0EJS, hypothesis (1).** There are `f₁, …, f_d ∈ I` such that at every
+/-- **Hypothesis (1) of Stacks 0EJS.** There are `f₁, …, f_d ∈ I` such that at every
 point `y` of `U ∩ Y` the ideal `I 𝒪_{X,y}` is generated by the germs of `f₁, …, f_d` and those
 germs form an `F_y^∧`-regular sequence.
 
 The locus `U ∩ Y` is the support of the ideal sheaf `I 𝒪_U`, and `F_y^∧` is
 `Stacks.Algebraization.completedStalk`. The sequence is taken as a sequence of elements of the
-local ring `𝒪_{X,y}` acting on `F_y^∧`, which is how the source's `f_i ∈ I ⊆ A` act. -/
-@[stacks 0EJS "hypothesis (1), as a predicate; not used by any result in this file"]
+local ring `𝒪_{X,y}` acting on `F_y^∧`, which is how the source's `f_i ∈ I ⊆ A` act. The
+completion map from the inverse limit of the stalks to `completedStalk` is an isomorphism
+(`Stacks.Algebraization.formalStalkEquivCompletedStalk`, Stacks 0EJE). -/
 def HasRegularSequenceOnCompletedStalks : Prop :=
   ∃ (d : ℕ) (f : Fin d → S.A), (∀ i, f i ∈ S.I) ∧
     ∀ y ∈ (idealOnOpen S).support,
@@ -278,12 +263,11 @@ def HasRegularSequenceOnCompletedStalks : Prop :=
         RingTheory.Sequence.IsRegular (completedStalk (idealOnOpen S) F y)
           (List.ofFn fun i => germOfBase S y (f i))
 
-/-- **Stacks Project, Tag 0EJS, hypothesis (2).** `H⁰(U, F_1)` and `H¹(U, F_1)` are finite
+/-- **Hypothesis (2) of Stacks 0EJS.** `H⁰(U, F_1)` and `H¹(U, F_1)` are finite
 `A`-modules.
 
 Degree zero is the global-sections module of the system, and degree one is the first right
 derived functor of sections over the base, `Stacks.LocalCohomology.cohomologyOverBase`. -/
-@[stacks 0EJS "hypothesis (2), as a predicate; not used by any result in this file"]
 def HasFiniteLowDegreeCohomology : Prop :=
   Module.Finite S.A ((globalSectionsSystem S F).obj (op 0)) ∧
     Module.Finite S.A

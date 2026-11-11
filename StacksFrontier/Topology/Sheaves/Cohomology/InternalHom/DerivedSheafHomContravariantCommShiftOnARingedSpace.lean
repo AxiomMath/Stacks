@@ -35,12 +35,13 @@ settings: a topological space with a sheaf of commutative rings *is* a ringed si
 
 ## What is still missing, and what it blocks
 
-The implementation notes of
-`StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedSheafHomExactness` record that the
-contravariant variable `RSheafHom(-, N)` carries no `CategoryTheory.Functor.CommShift`. The
-*datum* of one is `derivedSheafHomOpShiftNatIso` below; what is not proved is the pair of
-coherence equations `CategoryTheory.Functor.CommShift.commShiftIso_zero` and `commShiftIso_add`,
-so nothing here is registered as an instance and that note's conclusion still stands as stated.
+A `CategoryTheory.Functor.CommShift` on the contravariant variable `RSheafHom(-, N)` is now an
+instance, `Stacks.SheafOfModules.commShift_derivedSheafHom_flip` of
+`StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedSheafHomTriangulated`, read off the
+ringed-site `AlgebraicGeometry.RingedSite.derivedSheafHomFlipCommShift`. The *datum*
+`derivedSheafHomOpShiftNatIso` below is not identified with that instance's `commShiftIso`, and
+its own coherence equations `CategoryTheory.Functor.CommShift.commShiftIso_zero` and
+`commShiftIso_add` are not proved, so nothing here is registered as an instance.
 
 They are not left standing bare, though: `commShift_derivedSheafHomFlip` below derives both of
 them from the corresponding structure on the ordinary internal hom complex, by the localization

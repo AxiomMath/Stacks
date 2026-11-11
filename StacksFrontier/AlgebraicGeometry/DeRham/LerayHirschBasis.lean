@@ -84,10 +84,10 @@ are carried as named fields rather than reconstructed.
 
 * `LerayHirschInput.classMorphism`, the identification
   `H^m_{dR}(X/Y) = Hom_{D(𝒪_Y)}(𝒪_Y[-m], Rf_*Ω^•_{X/Y})` which turns a de Rham class into a
-  morphism of `D(𝒪_Y)`. The library constructs only the differential graded avatar
+  morphism of `D(𝒪_Y)`. The library constructs the differential graded avatar
   `Ω^• ⟶ Ω^•[m]` of [Stacks, Tag 0FU7]
-  (`AlgebraicGeometry.SheafOfModules.deRhamClassDerivedMorphism`), and no comparison between
-  that and the direct image is made.
+  (`AlgebraicGeometry.SheafOfModules.deRhamClassMorphism`), and no comparison between that and
+  the direct image is made.
 * `LerayHirschInput.isPerfect`, perfectness of `Rf_*Ω^•_{X/Y}`: the perfectness half of
   [Stacks, Tag 0FM0] *for the complex*. The library has it for the sheaves `Ω^p_{X/Y}` only
   (`AlgebraicGeometry.ProperSmoothDeRham.isPerfect_derivedPushforward_relativeDifferentialForms`),

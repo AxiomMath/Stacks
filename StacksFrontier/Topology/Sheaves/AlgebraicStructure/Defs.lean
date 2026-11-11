@@ -54,7 +54,7 @@ universe v u
 The objects of `C` live in universe `u` and its homs in universe `v`, and the target is
 `Type v` so that the two size conditions are indexed by the same universe — see the module
 docstring. -/
-@[stacks_fixed 007M]
+@[stacks 007M]
 structure AlgebraicStructureType where
   /-- The underlying category. -/
   C : Type u

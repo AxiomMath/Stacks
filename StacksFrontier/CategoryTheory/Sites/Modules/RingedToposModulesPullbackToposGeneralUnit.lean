@@ -7,11 +7,11 @@ public import StacksFrontier.CategoryTheory.Sites.Modules.RingedToposModulesPull
 public import StacksFrontier.CategoryTheory.Sites.Modules.RingedSiteHomGeneralPushforwardUnderlying
 
 /-!
-# The two constructions of Stacks 03LU along a morphism of ringed sites agree
+# The two identifications `f^*𝒪_Y ≅ 𝒪_X` along a morphism of ringed sites agree
 
 Let `f : X ⟶ Y` be a morphism of ringed sites at independent universes
 (`AlgebraicGeometry.RingedSite.HomGeneral`).  The library carries **two** identifications
-`f^*𝒪_Y ≅ 𝒪_X` of Stacks 03LU for it, and they are taken along the two different presentations
+`f^*𝒪_Y ≅ 𝒪_X` for it, and they are taken along the two different presentations
 of its pullback of sheaves of modules that
 `AlgebraicGeometry.RingedSite.HomGeneral.pullbackModulesToposIsoGeneral` compares:
 
@@ -32,7 +32,7 @@ associated-module functor of a big site, which is what asked for it.
 ## Main results
 
 * `AlgebraicGeometry.RingedSite.HomGeneral.pullbackModulesToposIsoGeneral_hom_app_unit`: **the
-  comparison of the two pullbacks carries the corepresentability identification of Stacks 03LU to
+  comparison of the two pullbacks carries the corepresentability identification `f^*𝒪_Y ≅ 𝒪_X` to
   Mathlib's adjoint-transpose one.**
 * `AlgebraicGeometry.RingedSite.HomGeneral.homEquiv_pullbackModulesToposIsoGeneral_hom_app_unit`:
   the transposes of the two agree, which is the half of it that is pure adjunction calculus.
@@ -75,7 +75,6 @@ transparency, so the field is not found at that spelling.
 
 * [Stacks Project, Tag 03D6](https://stacks.math.columbia.edu/tag/03D6)
 * [Stacks Project, Tag 03D7](https://stacks.math.columbia.edu/tag/03D7)
-* [Stacks Project, Tag 03LU](https://stacks.math.columbia.edu/tag/03LU)
 -/
 
 @[expose] public noncomputable section
@@ -169,14 +168,14 @@ local instance HomGeneral.isContinuous_toRingedToposSiteHom_u :
 
 /-! ### The comparison of the two pushforwards is the identity on sections -/
 
-/-! ### The two identifications of Stacks 03LU -/
+/-! ### The two identifications `f^*𝒪_Y ≅ 𝒪_X` -/
 
 omit [X.J.HasSheafCompose (forget RingCat.{w})] [Y.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
-/-- Mathlib's identification `f^*𝒪_Y ≅ 𝒪_X` of Stacks 03LU transposes to `f^♯`, read at the
+/-- Mathlib's identification `f^*𝒪_Y ≅ 𝒪_X` transposes to `f^♯`, read at the
 `AlgebraicGeometry.RingedToposSiteHom.pullbackPushforwardAdjunctionToposGeneral` spelling of the
 adjunction of Stacks 03D7.  This is
 `SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit`; the restatement
@@ -190,7 +189,7 @@ public theorem HomGeneral.homEquiv_pullbackObjUnitToUnitGeneral :
       SheafOfModules.unitToPushforwardObjUnit f.toRingedToposSiteHom.fSharpRing :=
   SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit _
 
-/-- **The transpose of Mathlib's identification of Stacks 03LU, conjugated to the pullback of the
+/-- **The transpose of Mathlib's identification `f^*𝒪_Y ≅ 𝒪_X`, conjugated to the pullback of the
 modules development.**  Composing it with the comparison of the two pullbacks and transposing
 along Stacks 03D7 for the modules development gives `f^♯`, up to the comparison of the two
 pushforwards.
@@ -230,7 +229,7 @@ public theorem HomGeneral.homEquiv_pullbackModulesToposIsoGeneral_hom_app_unit :
 
 omit [EssentiallySmall.{w} Y.C] [LocallySmall.{w} X.C] [HasWeakSheafify X.J AddCommGrpCat.{w}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
-/-- The value on the unit section of the transpose of Mathlib's identification of Stacks 03LU: it
+/-- The value on the unit section of the transpose of Mathlib's identification `f^*𝒪_Y ≅ 𝒪_X`: it
 is the unit section, `f^♯` being a morphism of sheaves of rings.  Hoisted out of
 `pullbackModulesToposIsoGeneral_hom_app_unit` for the reason recorded at the head of this
 file. -/
@@ -254,8 +253,8 @@ private theorem HomGeneral.unitToPushforwardObjUnit_comp_inv_val_app_one
 omit [Y.J.HasSheafCompose (forget AddCommGrpCat.{w})] [EssentiallySmall.{w} Y.C]
   [LocallySmall.{w} X.C] [HasWeakSheafify X.J AddCommGrpCat.{w}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
-/-- The value on the unit section of the transpose of the corepresentability identification of
-Stacks 03LU: it is the unit section, by
+/-- The value on the unit section of the transpose of the corepresentability identification
+`f^*𝒪_Y ≅ 𝒪_X`: it is the unit section, by
 `Stacks.Sheaves.RingedToposModules.pullbackModulesObjUnitIso_inv_adjunct_val_app_one` and
 `CategoryTheory.Sheaf.unitTerminalHomEquiv_id_app_apply`.  Hoisted out for the same reason. -/
 private theorem HomGeneral.pushforward_map_unitTerminalHomEquiv_id_app_one
@@ -272,7 +271,7 @@ private theorem HomGeneral.pushforward_map_unitTerminalHomEquiv_id_app_one
     (f.u.op.obj W) _
 
 omit [EssentiallySmall.{w} Y.C] [LocallySmall.{w} X.C] in
-/-- **The two transposes of Stacks 03LU agree.**  Both morphisms `𝒪_Y ⟶ f_*𝒪_X` are the unit
+/-- **The two transposes of `f^*𝒪_Y ≅ 𝒪_X` agree.**  Both morphisms `𝒪_Y ⟶ f_*𝒪_X` are the unit
 section, so they are equal by `SheafOfModules.unitHomEquiv`. -/
 public theorem
     HomGeneral.unitToPushforwardObjUnit_comp_inv_eq_homEquiv_pullbackModulesObjUnitIso_inv :
@@ -289,19 +288,15 @@ public theorem
   exact (HomGeneral.unitToPushforwardObjUnit_comp_inv_val_app_one f W).trans
     (HomGeneral.pushforward_map_unitTerminalHomEquiv_id_app_one f W).symm
 
-/-- **The two constructions of Stacks 03LU along a morphism of ringed sites agree.**  The
-comparison `AlgebraicGeometry.RingedSite.HomGeneral.pullbackModulesToposIsoGeneral` of the two
-pullbacks of sheaves of modules carries the corepresentability identification
+/-- **The two pullbacks of modules of Stacks 03D6 along a morphism of ringed sites agree on the
+unit.**  The comparison `AlgebraicGeometry.RingedSite.HomGeneral.pullbackModulesToposIsoGeneral`
+of the two pullbacks of sheaves of modules carries the corepresentability identification
 `Stacks.Sheaves.RingedToposModules.pullbackModulesObjUnitIso` of `f^*𝒪_Y ≅ 𝒪_X` to Mathlib's
 adjoint-transpose one, `SheafOfModules.pullbackObjUnitToUnit` at `f^♯`.
 
 Both are pinned by their transposes along Stacks 03D7, those two transposes are compared by
 `homEquiv_pullbackModulesToposIsoGeneral_hom_app_unit`, and they agree because both are the unit
 section of `𝒪_X`. -/
-@[stacks 03LU "the corepresentability construction of `f^*𝒪_Y ≅ 𝒪_X` for the pullback of the
-modules development and Mathlib's adjoint-transpose construction for the site-presented pullback
-agree under the comparison of the two pullbacks, for a morphism of ringed sites at independent
-universes"]
 public theorem HomGeneral.pullbackModulesToposIsoGeneral_hom_app_unit :
     f.pullbackModulesToposIsoGeneral.hom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos Y).O)) ≫

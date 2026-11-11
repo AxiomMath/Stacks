@@ -47,6 +47,12 @@ number is that of its class, and the stalks `K_x̄` and the Frobenius `π_x` are
 `Stacks.EtaleCohomology.rationalPointStalkFrobenius`), whose perfectness is part of the
 conclusion.  The characteristic of `k̄` is read off the algebra `k → k̄`, not assumed.
 
+The abstract form of the argument, for a dévissage of `RΓ(X_k̄, K)` along `X(k)` together with a
+Galois descent, is
+`Stacks.EtaleCohomology.LefschetzGaloisDescent.globalLefschetzNumber_eq_localLefschetzNumber`; it
+takes the inputs of Steps 7 to 9 of [Stacks, Tag 03UG] as data, so the theorem below, which
+assumes nothing of the kind, is the registration of [Stacks, Tag 03TZ].
+
 ## References
 
 * [Stacks Project, Tag 03TZ](https://stacks.math.columbia.edu/tag/03TZ)
@@ -87,7 +93,8 @@ in Λ^natural, with K in D_ctf(X, Λ) given by a bounded below complex. Λ is a 
 cardinality prime to p, the standing hypothesis of the chapter fixed in 03SZ \
 (trace.tex:386: 'Fix a finite ring Λ with cardinality prime to p'); the literal reading with an \
 arbitrary finite Λ is false (k = F_5, E : y^2 = x^3 + 1 supersingular, Λ = Z/25, K = Λ: global \
-number 1, local number #E(F_5) = 6). Λ : Type as in the formalization of 03UG",
+number 1, local number #E(F_5) = 6). Λ : Type as in the formalization of 03UG, which is no \
+restriction: a finite ring is isomorphic to one in Type",
   sga "4½ Rapport 3.2" "partial",
   sga "5 IIIB 1.3" "special case"]
 theorem globalLefschetzNumberOfCtf_eq_sum_rationalPointStalkTrace (B : BigEtaleSite.{u})

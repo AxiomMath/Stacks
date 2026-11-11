@@ -39,9 +39,9 @@ from a local complete intersection map being perfect.
 
 The image condition says that every maximal ideal of `A` is the contraction of a prime ideal of
 `B`.  Finite Tor dimension is evaluated on `B` as an `A`-module through the canonical derived
-tensor product, which is the derived tensoring datum that `RingHom.IsLocalCompleteIntersection`
-produces a perfect-complex certificate against.  The Noetherian property of `B` follows from the
-finite-type hypothesis and is introduced where it is needed rather than assumed.
+tensor product, at which the Tor half of perfectness (`Algebra.Perfect.moduleHasFiniteTorDimension`)
+is read for a local complete intersection (Stacks 07EN).  The Noetherian property of `B` follows
+from the finite-type hypothesis and is introduced where it is needed rather than assumed.
 
 ## References
 
@@ -264,10 +264,9 @@ public theorem isLocalCompleteIntersectionRing_and_hasFiniteTorDimension_iff
       have hcompletion :=
         (isLocalCompleteIntersection_iff_forall_isCompleteIntersectionHom f hf).mp hfLci q
       exact ((hlocal q).2 ⟨hA _, hcompletion⟩).1
-    · exact (RingHom.IsLocalCompleteIntersection.isPerfectRingMap f hfLci
-        (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct A).tensor
-        (canonicalTensorComparison A)
-        (canonicalTensorIsLeftDerived A)).2
+    · have : Algebra.Perfect A B := RingHom.perfect_algebraMap.mp hfLci.perfect
+      exact Algebra.Perfect.moduleHasFiniteTorDimension (canonicalTensorComparison A)
+        (canonicalTensorIsLeftDerived A)
 
 end LocalCompleteIntersection
 

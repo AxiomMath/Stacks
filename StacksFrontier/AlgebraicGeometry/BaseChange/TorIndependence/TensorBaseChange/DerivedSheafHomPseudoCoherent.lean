@@ -26,7 +26,10 @@ holds for the comparison
 
 `L(g')^*R𝓗om(E, K) ⟶ R𝓗om(L(g')^*E, K')`.
 
-This is Stacks 0DJA (3) for a flat `g`.  Without flatness of `g` the statement fails:
+This is the case of a flat `g` of Stacks 0DJA (3) as corrected; the general case, `g` of finite
+Tor dimension, is
+`AlgebraicGeometry.isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_hasTorAmplitude`.
+With no condition on `g` the statement fails:
 `AlgebraicGeometry.not_pointwiseBaseChangeSheafHomOfPseudoCoherent` is a counterexample over
 `ℤ/4`.
 
@@ -54,12 +57,17 @@ attribute [local implicit_reducible] structureSheafRing CategoryTheory.sheafComp
 
 variable {X X' S S' : Scheme.{u}} {f : X ⟶ S} {g : S' ⟶ S} {f' : X' ⟶ S'} {g' : X' ⟶ X}
 
-/-- **Stacks 0DJA (3), for a flat `g`.** For a cartesian square of schemes with `g` flat, if the
-map of Stacks 0DJ7 at `(K, K', φ)` is an isomorphism at every point of `X'` and in every degree
-and `K` is bounded below, then so is the one at the comparison
-`L(g')^*R𝓗om(E, K) ⟶ R𝓗om(L(g')^*E, K')`, for every pseudo-coherent `E` in `D(𝒪_X)`. -/
-@[stacks 0DJA "(3), for a flat morphism g : S' → S; without flatness of g part (3) fails, by \
-the counterexample over ℤ/4 AlgebraicGeometry.not_pointwiseBaseChangeSheafHomOfPseudoCoherent"]
+/-- **Base change for `R𝓗om` out of a pseudo-coherent object, along a flat `g`.** For a cartesian
+square of schemes with `g` flat, if the map of Stacks 0DJ7 at `(K, K', φ)` is an isomorphism at
+every point of `X'` and in every degree and `K` is bounded below, then so is the one at the
+comparison `L(g')^*R𝓗om(E, K) ⟶ R𝓗om(L(g')^*E, K')`, for every pseudo-coherent `E` in
+`D(𝒪_X)`.
+
+A flat `g` has Tor amplitude in `[0, 0]`, so this is a special case of Stacks 0DJA (3) as
+corrected,
+`isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_hasTorAmplitude`;
+the proof here is the direct one: `φ` is an isomorphism and the comparison is the map of
+Tag 08I3 along the flat `g'`. -/
 theorem isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_isPseudoCoherent
     (hpb : IsPullback g' f' f g) [Flat g] (E K : DerivedCategory X.Modules)
     (hE : AlgebraicGeometry.RingedSpace.PseudoCoherence.IsPseudoCoherent (X := X.toRingedSpace) E)

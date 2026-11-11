@@ -28,8 +28,10 @@ supported on a strict normal crossings divisor.
   reduced effective Cartier divisor on a regular scheme whose components are in normal position
   has strict normal crossings. This is the last paragraph of the source's proof, which reads the
   configuration off through [Stacks, Tag 0BIA].
-* `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isStrictNormalCrossings`
-  — [Stacks, Tag 0BIC].
+* `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isStrictNormalCrossings` — the
+  reduction of [Stacks, Tag 0BIC] to four inputs. The tag itself is
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_support_eq_isStrictNormalCrossings`
+  (`EmbeddedResolution/NormalCrossingsResolution.lean`), which takes none of them.
 
 ## Implementation notes
 
@@ -52,27 +54,25 @@ that the support of `Zₙ` *equals* the support of that divisor, which is what t
 `Zₙ = ∑ mᵢ Yᵢ` with `∑ Yᵢ` strict normal crossings gives, rather than only the inclusion that
 "supported on" literally asks for.
 
-Four statements are threaded through the main theorem as explicit hypotheses rather than
-discharged, and the `@[stacks 0BIC]` attribute names them. Two of them are results that are
-available only in a weaker form:
+Four statements are threaded through the reduction as explicit hypotheses, each in a generality
+(arbitrary schemes, arbitrary chains) beyond what the tag needs. The unconditional
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_support_eq_isStrictNormalCrossings`
+proves the instances of their content that the source's argument uses, and that theorem carries
+[Stacks, Tag 0BIC]:
 
 * `descent` is the local splitting of [Stacks, Tag 0AGT] that the library's form of
   [Stacks, Tag 0AHH] consumes, and hence that [Stacks, Tag 0BIB] consumes; it is
   threaded through unchanged from there.
 * `blowupRegular` is the global form of [Stacks, Tag 0AGR]: the blowup of a regular Noetherian
-  scheme of dimension two at a closed point is again regular of dimension two. Tag 0AGR is
-  proved only for the blowup of the spectrum of a regular local ring of dimension two at its
-  closed point (`AlgebraicGeometry.isRegular_blowUp_maximalIdeal`), which does not give the
-  statement for a closed point of a scheme.
+  scheme of dimension two at a closed point is again regular of dimension two.
 * `resInherited` says that the resolution hypothesis on the one-dimensional components, which is
   condition (3) of [Stacks, Tag 0BI4], passes to the components of the inverse image
   along a chain of blowups at closed points.
 * `normalPosition` is the intersection-multiplicity iteration in the middle of the source's
   proof: that finitely many blowups at closed points bring the components of an effective
-  Cartier divisor on a regular surface into normal position. It is **not** discharged here. Its
-  inputs are available — the intersection multiplicity of [Stacks, Tag 0BI6], the three parts of
-  [Stacks, Tag 0BI7] that compare a strict transform with its centre, and the separation of a
-  family of curves of [Stacks, Tag 0BI8] — but the iteration itself is not.
+  Cartier divisor on a regular surface into normal position. The unconditional theorem runs that
+  iteration on the family of components instead
+  (`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_transverse`).
 
 What is proved here is the reduction of the source's statement to that iteration: the Cartier
 conclusion in full, by [Stacks, Tag 0BIB] followed by the composition of the two chains and the
@@ -290,30 +290,22 @@ public theorem isStrictNormalCrossingsDivisor_of_componentsInNormalPosition {W :
 
 /-! ### Embedded resolution -/
 
-/-- **Stacks Project, Tag 0BIC.** Let `X` be a regular Noetherian scheme of dimension two and let
-`Z ⊆ X` be a closed subscheme containing no irreducible component of `X` — the source's "proper
-closed subscheme" — each of whose one-dimensional irreducible components satisfies the equivalent
-conditions of [Stacks, Tag 0BI4], in the point-blowup form of clause (3) there. Then there is a
-sequence `Xₙ → … → X₁ → X` of blowups at closed points such that the inverse image `Zₙ` of `Z` in
-`Xₙ` is an effective Cartier divisor whose support carries a strict normal crossings divisor.
+/-- **A reduction of [Stacks, Tag 0BIC] to four inputs.** Let `X` be a regular Noetherian scheme of
+dimension two and let `Z ⊆ X` be a closed subscheme containing no irreducible component of `X` —
+the source's "proper closed subscheme" — each of whose one-dimensional irreducible components
+satisfies the equivalent conditions of [Stacks, Tag 0BI4], in the point-blowup form of clause (3)
+there. Then there is a sequence `Xₙ → … → X₁ → X` of blowups at closed points such that the
+inverse image `Zₙ` of `Z` in `Xₙ` is an effective Cartier divisor whose support carries a strict
+normal crossings divisor.
 
-Four statements are threaded through as hypotheses rather than discharged. `descent` is the local
-splitting of [Stacks, Tag 0AGT] that [Stacks, Tag 0BIB] consumes, passed on unchanged.
-`blowupRegular` is the global form of [Stacks, Tag 0AGR], proved only for the spectrum of a
-regular local ring. `resInherited` says the resolution hypothesis passes to the components of the
+Four statements are taken as hypotheses. `descent` is the local splitting of [Stacks, Tag 0AGT]
+that [Stacks, Tag 0BIB] consumes, passed on unchanged. `blowupRegular` is the global form of
+[Stacks, Tag 0AGR]. `resInherited` says the resolution hypothesis passes to the components of the
 inverse image along a chain of blowups at closed points. `normalPosition` is the
-intersection-multiplicity iteration in the middle of the source's proof. -/
-@[stacks 0BIC "granted four hypotheses: `normalPosition`, that finitely many blowups at closed \
-points bring the components of an effective Cartier divisor on a regular Noetherian surface into \
-normal position (every component regular, any two meeting in a regular scheme at points whose \
-ambient local ring has dimension two, no three with a common point), which is the \
-intersection-multiplicity iteration in the middle of the source's proof; `blowupRegular`, the \
-global form of Tag 0AGR, that a blowup at a closed point of a regular Noetherian scheme of \
-dimension two is again regular of dimension two, Tag 0AGR being available only for the spectrum of \
-a regular local ring; `resInherited`, that the resolution hypothesis on one-dimensional \
-components passes to the components of the inverse image along a chain of blowups at closed \
-points; and `descent`, the local splitting of Tag 0AGT that Tag 0BIB consumes, passed \
-on unchanged"]
+intersection-multiplicity iteration in the middle of the source's proof, in the form of
+`Stacks.ResolutionOfSurfaces.ComponentsInNormalPosition`. The tag itself is carried, with none of
+these hypotheses, by
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_support_eq_isStrictNormalCrossings`. -/
 public theorem exists_pointBlowupChain_comap_isStrictNormalCrossings
     (descent : ∀ (Y : Scheme.{u}) (S : Finset Y) (J : Y.IdealSheafData),
       (∀ y ∈ S, IsClosed ({y} : Set Y)) →

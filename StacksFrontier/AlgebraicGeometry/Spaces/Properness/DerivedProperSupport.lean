@@ -83,17 +83,16 @@ entry below names the nearest available statement and what it still carries.
   `AlgebraicGeometry.Space.isGE_derivedModulePushforward_obj` in
   `StacksFrontier/AlgebraicGeometry/Spaces/DerivedPushforwardBoundedBelow.lean`, whose own notes
   record the other two clauses as out of reach.  Coherence of the cohomology sheaves is
-  Stacks 08GC, carried by
-  `AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_hasProperSupport`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/ProperSupportCoherentPushforward.lean`,
-  line 206) with the three inputs `h03DW`, `h08AR` and `h0734`; the library's Stacks 08AR,
-  `AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/ProperHigherDirectImageCoherence.lean`, line 312),
-  itself carries Stacks 0720, the dévissage of Stacks 08AN and the integral-subspace witness
-  that the source draws from Chow's lemma for algebraic spaces.  Boundedness above is
-  Stacks 073G, whose two library forms in
-  `StacksFrontier/AlgebraicGeometry/Spaces/UniformHigherDirectImageVanishing.lean` (lines 252 and
-  332) both carry `AlgebraicGeometry.Space.SchemeBaseUniformVanishing` and so produce no bound;
+  Stacks 08GC, proved as
+  `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_hasProperSupport`
+  (`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/ProperSupportHigherDirectImageCoherence.lean`),
+  through the library's Stacks 08AR,
+  `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`
+  (`StacksFrontier/AlgebraicGeometry/Spaces/ProperHigherDirectImageCoherent.lean`).  Boundedness
+  above is Stacks 073G or Stacks 08FA.  Stacks 073G is
+  `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`
+  (`StacksFrontier/AlgebraicGeometry/Spaces/HigherDirectImageUniformBound.lean`), which bounds the
+  higher direct images of a quasi-coherent module rather than of a complex;
   Stacks 08FA has no presence.
 * `D^b_{Coh}(𝒪_Y) ⊆ D^-_{Coh}(𝒪_Y)` pseudo-coherent, the source's Stacks 08IK in the direction
   (1) ⇒ (2).  Only (2) ⇒ (1) is in this library, as

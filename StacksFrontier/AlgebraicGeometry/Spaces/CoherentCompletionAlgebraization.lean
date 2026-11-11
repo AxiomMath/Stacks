@@ -36,8 +36,10 @@ machinery it rests on.
   section.
 * `AlgebraicGeometry.Space.exists_lift_of_completion_lift` — a map between the completions of
   two coherent modules over a fixed one is the completion of a map over it.
-* `AlgebraicGeometry.Space.existsUnique_iso_of_algebraization` — **Stacks 08BB**, uniqueness:
-  two algebraizations of the same `α` differ by a unique compatible isomorphism.
+* `AlgebraicGeometry.Space.existsUnique_iso_of_algebraization` — the uniqueness half of Stacks
+  08BB with left exactness of completion as an instance argument: two algebraizations of the same
+  `α` differ by a unique compatible isomorphism.  The whole of Stacks 08BB, over the source's own
+  hypotheses, is `AlgebraicGeometry.Space.exists_algebraization_and_existsUnique_iso`.
 
 ## Implementation notes
 
@@ -58,18 +60,16 @@ charts is used, in the form of the `Fact` instance that
 `AlgebraicGeometry.Space.completionFunctor` is stated with; this is strictly weaker, exactly as
 for Stacks 08B4 itself.
 
-**Left exactness of the completion functor is carried as a hypothesis** by the algebraization
-results, in the form of the instance argument
-`PreservesFiniteLimits (completionFunctor B S hS F hF 𝓘 hI)`.  It is not a hypothesis of the
-source: it is Stacks 08B5, proved there before 08BB and not available in this tree.  It is used
-in one step of the proof, namely to recognize the completion of the pullback `M ×_G N` as the
-pullback of the completions, and nowhere in the statement of what is proved.
+**Left exactness of the completion functor is an instance argument** of the algebraization
+results, `PreservesFiniteLimits (completionFunctor B S hS F hF 𝓘 hI)`.  It is Stacks 08B5, which
+`StacksFrontier.AlgebraicGeometry.Spaces.CoherentCompletionLeftExact` supplies over a Noetherian
+algebraic space.  It is used in one step of the proof, namely to recognize the completion of the
+pullback `M ×_G N` as the pullback of the completions, and nowhere in the statement of what is
+proved.
 
-**The existence of an algebraization is neither proved nor stated.**  The source deduces it by
-étale descent from the case of a Noetherian scheme, which this tree has as
-`Stacks.Algebraization.exists_unique_algebraization_of_isNoetherian`; the descent step needs the
-restriction of coherent `𝓘`-adic systems to an étale chart, together with the gluing of the
-resulting algebraizations along the uniqueness proved here, and neither is available.
+The existence of an algebraization is not proved in this file; it is
+`AlgebraicGeometry.Space.C1573.exists_algebraization`, and the whole of Stacks 08BB is
+`AlgebraicGeometry.Space.exists_algebraization_and_existsUnique_iso`.
 
 ## References
 
@@ -468,18 +468,13 @@ with maps `a : M ⟶ G`, `a' : N ⟶ G` whose kernels and cokernels are annihila
 *unique* isomorphism `e : M ≅ N` compatible with the maps to `G` and with the comparison
 isomorphisms.
 
-**Left exactness of the completion functor is carried as a hypothesis**, in the form of
-the instance argument `PreservesFiniteLimits (completionFunctor B S hS F hF 𝓘 hI)`.  It is
-not a hypothesis of the source, which proves it beforehand as Stacks 08B5; it enters this proof
-only
-through the step that recognizes the completion of the pullback `M ×_G N` as the pullback of the
-completions.  Local Noetherianity replaces the source's Noetherian hypothesis, exactly as for
-the completion functor itself.
-
-The existence of an algebraization is *not* proved here: the source obtains it by étale descent
-from the case of a Noetherian scheme, and the restriction of coherent adic systems to an étale
-chart is not available in this tree. -/
-@[stacks 08BB "uniqueness, carrying left exactness of completion (08B5) as a hypothesis"]
+Left exactness of the completion functor is the instance argument
+`PreservesFiniteLimits (completionFunctor B S hS F hF 𝓘 hI)`, which the source proves beforehand
+as Stacks 08B5; it enters this proof only through the step that recognizes the completion of the
+pullback `M ×_G N` as the pullback of the completions.
+`AlgebraicGeometry.Space.existsUnique_iso_of_algebraization_of_isNoetherian` supplies it over a
+Noetherian algebraic space, and
+`AlgebraicGeometry.Space.exists_algebraization_and_existsUnique_iso` is the whole of Stacks 08BB. -/
 theorem existsUnique_iso_of_algebraization {G M N : CoherentModules.{u, u} B S hS F hF}
     {E : CoherentAdicSystems B S hS F hF 𝓘}
     (α : E ⟶ (completionFunctor B S hS F hF 𝓘 hI).obj G) (a : M ⟶ G) (a' : N ⟶ G)

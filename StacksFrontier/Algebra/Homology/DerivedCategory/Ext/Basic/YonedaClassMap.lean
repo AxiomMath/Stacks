@@ -44,6 +44,11 @@ left end. These two properties determine it, because every extension of degree a
 be cut at its left end, so the theorem can assert uniqueness; the map they characterise is built
 here by recursion on the degree along those very cuts.
 
+The source's own class `δ(E) = f s⁻¹` is constructed in
+`StacksFrontier.Algebra.Homology.DerivedCategory.Ext.Basic.YonedaComplexClass` as
+`CategoryTheory.Abelian.YonedaExtension.yonedaClass`, which is shown there to be the class map
+of this file up to the sign `(-1)^{i(i + 1)/2}`, and the source's lemma is stated there for it.
+
 ## References
 
 * [Stacks Project 06XU](https://stacks.math.columbia.edu/tag/06XU)
@@ -436,9 +441,14 @@ it is the class `CategoryTheory.ShortComplex.ShortExact.extClass` of the short e
 the extension is, and in degree `n + 2` it is the class of the extension cut at its left end
 (`cut`) composed with the class of the cutting short exact sequence
 (`shortExact_cut`). It is the unique such map: `isExtClassMap_extClassMap` is the pair of
-properties and `eq_of_isExtClassMap` their uniqueness. -/
-@[stacks 06XU "the class map δ itself; `isExtClassMap_extClassMap` is its two defining \
-properties and `eq_of_isExtClassMap` their uniqueness", no_expose, ega "0 12.3.2" "canonical map δ"]
+properties and `eq_of_isExtClassMap` their uniqueness. The source's class `δ(E) = f s⁻¹`, for the
+quasi-isomorphism `s` from the complex of the extension to `B[0]` and the map `f` to `A[n + 1]`, is
+`CategoryTheory.Abelian.YonedaExtension.yonedaClass`; it equals this map up to the sign
+`(-1)^{(n + 1)(n + 2)/2}` (`YonedaExtension.yonedaClass_eq_units_smul_extClassMap`). -/
+@[stacks 06XU "the class map, which is the source's `δ(E) = f s⁻¹` up to the sign \
+`(-1)^{i(i + 1)/2}` (`YonedaExtension.yonedaClass_eq_units_smul_extClassMap`); \
+`isExtClassMap_extClassMap` is its two defining properties and `eq_of_isExtClassMap` their \
+uniqueness", no_expose, ega "0 12.3.2" "canonical map δ"]
 noncomputable def extClassMap {B : 𝒜} :
     ∀ (n : ℕ) {A : 𝒜}, YonedaExtension B A n → Ext.{w} B A (n + 1)
   | 0, _, E => (shortExact_zero E).extClass

@@ -64,6 +64,10 @@ one, by the canonical truncations.
   localization `L : K(A) ⥤ D` at the quasi-isomorphisms, `Ac(A)` is a strictly full saturated
   triangulated subcategory, `Qis(A)` is a saturated multiplicative system equal to `Ac(A).trW`,
   `Ker(L) = Ac(A)`, and each `Hⁿ` factors through `L`.
+* `CochainComplex.exists_quasiIso_isStrictlyGE_of_isZero_homology`,
+  `CochainComplex.exists_quasiIso_isStrictlyLE_of_isZero_homology`: a complex whose cohomology
+  vanishes in degrees `≪ 0`, resp. `≫ 0`, maps by a quasi-isomorphism to a bounded below complex,
+  resp. receives one from a bounded above complex.
 * `CochainComplex.exists_quasiIso_square_of_isGE_of_isLE`: a complex whose cohomology vanishes
   outside `[a, b]` fits into a commutative square of quasi-isomorphisms whose other three
   vertices are strictly bounded below by `a`, strictly bounded above by `b`, and both.
@@ -100,12 +104,17 @@ is data while the clause is a proposition. Passing from `Hⁱ = H⁰(-⟦i⟧)`,
 For the truncation square the source's abelian category is weakened to the hypotheses of
 Mathlib's truncation API — zero morphisms, a zero object and homology for every short complex —
 under which `CochainComplex.isGE_iff_exists_quasiIso_isStrictlyGE` is already stated. Parts (1)
-and (2) of [Stacks, Tag 05RV] are available in canonical form (`K.πTruncGE a` and `K.ιTruncLE b`
-are quasi-isomorphisms with the prescribed strict bounds), so only the square is recorded; its
-witnesses are the canonical truncations `τ_{≥ a}K`, `τ_{≤ b}K` and `τ_{≥ a}τ_{≤ b}K`, and it
-commutes by naturality of `πTruncGE`. The vanishing hypotheses are `CochainComplex.IsGE` and
-`IsLE` at explicit integers, and the conclusion pins the bounds of the three other vertices to
-those same integers, which is sharper than the source's unquantified "bounded".
+and (2) of [Stacks, Tag 05RV] take the source's hypothesis literally, the vanishing of
+`K.homology n` for all `n` below, resp. above, some integer, and conclude with a quasi-isomorphism
+to, resp. from, a complex that is strictly `≥ a`, resp. `≤ b`, for some integer; the witnesses are
+Mathlib's canonical truncations `K.πTruncGE a` and `K.ιTruncLE b`, which are quasi-isomorphisms
+exactly when the cohomology vanishes outside the range (`CochainComplex.quasiIso_πTruncGE_iff`,
+`CochainComplex.quasiIso_ιTruncLE_iff`). The witnesses of the square of part (3) are the canonical
+truncations `τ_{≥ a}K`, `τ_{≤ b}K` and `τ_{≥ a}τ_{≤ b}K`, and it commutes by naturality of
+`πTruncGE`. Its vanishing hypotheses are `CochainComplex.IsGE` and `IsLE` at explicit integers,
+the cohomological conditions `H^n(K) = 0` for `n < a` and for `n > b`, and the conclusion pins
+the bounds of the three other vertices to those same integers, which is sharper than the source's
+unquantified "bounded".
 
 `K⁺(A)` is `HomotopyCategory.Plus A`; Mathlib has no name for `K⁻(A)` and `Kᵇ(A)`, which are
 spelled, as in [Stacks, Tag 05RQ], as the full subcategories on the strict images along the
@@ -297,6 +306,33 @@ private lemma quasiIso_truncGEMap' (φ : K ⟶ L) [QuasiIso φ] (a : ℤ) :
     QuasiIso (CochainComplex.truncGEMap φ a) :=
   (CochainComplex.quasiIso_truncGEMap_iff φ a).2 fun i _ ↦ (quasiIso_iff φ).1 ‹_› i
 
+/-- **Stacks 05RV (1).** Let `K` be a cochain complex in an abelian category — or, as stated
+here, in any category with zero morphisms, a zero object and homology — with `H^n(K) = 0` for all
+`n ≪ 0`. Then there is a quasi-isomorphism `K ⟶ L` with `L` bounded below. The witness is the
+canonical truncation `K.πTruncGE a : K ⟶ τ_{≥ a}K`, for `a` below which the cohomology vanishes. -/
+@[stacks 05RV "(1)"]
+public theorem exists_quasiIso_isStrictlyGE_of_isZero_homology (K : CochainComplex C ℤ)
+    (hK : ∃ a : ℤ, ∀ n < a, IsZero (K.homology n)) :
+    ∃ (L : CochainComplex C ℤ) (f : K ⟶ L) (_ : QuasiIso f), ∃ a : ℤ, L.IsStrictlyGE a := by
+  obtain ⟨a, ha⟩ := hK
+  have : K.IsGE a :=
+    (K.isGE_iff a).2 fun n hn ↦ (K.exactAt_iff_isZero_homology n).2 (ha n hn)
+  exact ⟨K.truncGE a, K.πTruncGE a, inferInstance, a, inferInstance⟩
+
+/-- **Stacks 05RV (2).** Let `K` be a cochain complex in an abelian category — or, as stated
+here, in any category with zero morphisms, a zero object and homology — with `H^n(K) = 0` for all
+`n ≫ 0`. Then there is a quasi-isomorphism `M ⟶ K` with `M` bounded above. The witness is the
+canonical truncation `K.ιTruncLE b : τ_{≤ b}K ⟶ K`, for `b` above which the cohomology
+vanishes. -/
+@[stacks 05RV "(2)"]
+public theorem exists_quasiIso_isStrictlyLE_of_isZero_homology (K : CochainComplex C ℤ)
+    (hK : ∃ b : ℤ, ∀ n > b, IsZero (K.homology n)) :
+    ∃ (M : CochainComplex C ℤ) (g : M ⟶ K) (_ : QuasiIso g), ∃ b : ℤ, M.IsStrictlyLE b := by
+  obtain ⟨b, hb⟩ := hK
+  have : K.IsLE b :=
+    (K.isLE_iff b).2 fun n hn ↦ (K.exactAt_iff_isZero_homology n).2 (hb n hn)
+  exact ⟨K.truncLE b, K.ιTruncLE b, inferInstance, b, inferInstance⟩
+
 /-- **Stacks 05RV (3).** Let `K` be a cochain complex in an abelian category — or, as stated
 here, in any category with zero morphisms, a zero object and homology — whose cohomology
 vanishes in degrees `< a` and in degrees `> b`. Then there is a commutative square of
@@ -307,9 +343,10 @@ quasi-isomorphisms
   K ⟶ L
 ```
 with `L` concentrated in degrees `≥ a`, `M` in degrees `≤ b`, and `N` in degrees `a ≤ n ≤ b`,
-i.e. `N` bounded. Parts (1) and (2) of the source are the horizontal, resp. left vertical, map
-alone, and are the quasi-isomorphisms `K.πTruncGE a`, resp. `K.ιTruncLE b`. -/
-@[stacks 05RV]
+i.e. `N` bounded. Parts (1) and (2) of the source are
+`CochainComplex.exists_quasiIso_isStrictlyGE_of_isZero_homology` and
+`CochainComplex.exists_quasiIso_isStrictlyLE_of_isZero_homology`. -/
+@[stacks 05RV "(3)"]
 public theorem exists_quasiIso_square_of_isGE_of_isLE
     (K : CochainComplex C ℤ) (a b : ℤ) [K.IsGE a] [K.IsLE b] :
     ∃ (L M N : CochainComplex C ℤ) (f : K ⟶ L) (g : M ⟶ K) (u : M ⟶ N) (v : N ⟶ L)

@@ -26,13 +26,12 @@ variable {R₀ R S A B : Type*} [CommSemiring R₀] [CommSemiring R] [CommSemiri
   [Semiring B] [Algebra R₀ R] [Algebra R₀ S] [Algebra R A] [Algebra S B] [Algebra R₀ A]
   [Algebra R₀ B] [IsScalarTower R₀ R A] [IsScalarTower R₀ S B]
 
-set_option backward.isDefEq.respectTransparency false in
 /-- The center of an algebra is preserved under algebra isomorphisms. -/
 @[simps!]
 def Subalgebra.centerCongr (e : A ≃ₐ[R₀] B) : Subalgebra.center R A ≃ₐ[R₀]
     Subalgebra.center S B where
   __ := Subsemiring.centerCongr e.toRingEquiv
-  commutes' r := by ext; simp
+  commutes' r := Subtype.ext (e.commutes r)
 
 add_to_stacks 074A Subalgebra.algebra
 add_to_stacks 074A Subalgebra.isScalarTower_mid

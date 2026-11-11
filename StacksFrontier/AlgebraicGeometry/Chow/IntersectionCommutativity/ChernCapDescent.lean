@@ -23,11 +23,10 @@ anticipated.
 ## Main definitions
 
 * `Stacks.Chow.FirstChernClassCapFactorsThroughRationalEquivalence` — the assertion of Stacks
-  02TI.
+  02TI for a component rule.
 * `Stacks.Chow.firstChernClassCapOnChow` — the cap product descended to Chow groups.
 * `Stacks.Chow.ChernCapOperator` — a component rule in every degree whose cap product factors
-  through rational equivalence: what an invertible module provides once Stacks 02SO and 02TI are
-  available.
+  through rational equivalence: what an invertible module provides by Stacks 02SO and 02TI.
 * `Stacks.Chow.iteratedChernCapOnChow` — the composite of such operations for a list of
   operators, the `c₁(L₁) ∩ ⋯ ∩ c₁(L_r) ∩ -` of the Stacks text.
 
@@ -44,32 +43,19 @@ anticipated.
 
 ## Implementation notes
 
-### Why the vanishing is a hypothesis
+### Why the vanishing is a hypothesis here
 
-The proof of Stacks 02TI pushes forward along the proper morphism `⨿ W_j ⟶ X` to reduce to a
-single integral `X` and `α = div_X(f)`, which needs Stacks 02SU (that the cap product commutes
-with proper pushforward) and through it Stacks 0GU8 and 02S2 (proper pushforward on Chow groups),
-none of which is in this repository; the reduced case is then
-`Stacks.Chow.firstChernClassCap_eq_zero_of_keyFormula` of
-`StacksFrontier.AlgebraicGeometry.Chow.IntersectionCommutativity`, which is proved there from the
-key formula. So the vanishing is carried as a hypothesis, exactly as
-`Stacks.Chow.GysinFactorsThroughRationalEquivalence` is for Stacks 02TO.
+The cap product here is built from an arbitrary `Stacks.Chow.FirstChernComponentCycleRule`, and
+an arbitrary rule on integral components has no reason to kill rational equivalences, so the
+generic construction takes the vanishing as an argument. The hypothesis is not a weakening —
+`Stacks.Chow.firstChernClassCapFactorsThroughRationalEquivalence_iff` says it is equivalent to
+the existence of the descended operation.
 
-Carrying it is also unavoidable for a reason that has nothing to do with missing inputs: the cap
-product here is built from an arbitrary `Stacks.Chow.FirstChernComponentCycleRule`, and an
-arbitrary rule on integral components has no reason to kill rational equivalences. The hypothesis
-is not a weakening — `Stacks.Chow.firstChernClassCapFactorsThroughRationalEquivalence_iff` says it
-is equivalent to the existence of the descended operation that is the content of Stacks 02TI.
-
-### The form of the `@[stacks 02TI]` attribute
-
-`Stacks.Chow.firstChernClassCapOnChow` constructs the operation `A_{k+1}(X) ⟶ A_k(X)` the tag
-asserts to exist, out of the vanishing on rational equivalences that the tag's proof establishes;
-the vanishing is a hypothesis and the `chern` parameter stands in for Stacks 02SO, so the
-attribute records both in its restriction string. The integral case of the vanishing, which is
-the case the source's proof reduces the general statement to, is proved in
-`StacksFrontier.AlgebraicGeometry.Chow.IntersectionCommutativity` and carries the tag there with its
-own restriction string.
+For the component rule of an invertible module the vanishing is proved:
+`Stacks.Chow.firstChernCapFactorsEverywhere` in
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.ChernCapFactors` is Stacks 02TI with no
+hypothesis, and `Stacks.Chow.firstChernClassCapChow` there is the descended operation of an
+invertible module. Those two carry the `@[stacks 02TI]` attribute; nothing in this file does.
 
 ## References
 
@@ -91,11 +77,10 @@ variable (C : ChowSituation.{u}) {X : Scheme.{u}} (p : X ⟶ C.S) [LocallyOfFini
 
 /-! ### The descended cap product -/
 
-/-- **Stacks 02TI.** The assertion that intersecting with the first Chern class kills every
-`(k+1)`-cycle rationally equivalent to zero, hence factors through rational equivalence.
-
-Carried as a hypothesis; see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.IntersectionCommutativity.ChernCapDescent`. -/
+/-- The assertion of Stacks 02TI for a component rule: intersecting with the first Chern class
+kills every `(k+1)`-cycle rationally equivalent to zero, hence factors through rational
+equivalence. For the component rule of an invertible module it is proved by
+`Stacks.Chow.firstChernCapFactorsEverywhere`. -/
 def FirstChernClassCapFactorsThroughRationalEquivalence : Prop :=
   ∀ α ∈ rationalEquivalences C p (k + 1), firstChernClassCap C p k chern α = 0
 
@@ -106,9 +91,9 @@ theorem firstChernClassCapFactorsThroughRationalEquivalence_iff_firstChernCapRul
       (firstChernCapRule C p k chern).FactorsThroughRationalEquivalence :=
   Iff.rfl
 
-/-- **Stacks 02TI.** Intersection with the first Chern class, descended to Chow groups,
-`c₁(L) ∩ - : A_{k+1}(X) ⟶ A_k(X)`. -/
-@[stacks 02TI "the descended operation, granting the vanishing and the rule of 02SO"]
+/-- Intersection with the first Chern class of a component rule, descended to Chow groups,
+`c₁(L) ∩ - : A_{k+1}(X) ⟶ A_k(X)`, given that it factors through rational equivalence. For an
+invertible module this is `Stacks.Chow.firstChernClassCapChow`, with the vanishing proved. -/
 def firstChernClassCapOnChow
     (h : FirstChernClassCapFactorsThroughRationalEquivalence C p k chern) :
     chowGroup C p (k + 1) →+ chowGroup C p k :=
@@ -181,8 +166,9 @@ theorem firstChernClassCapOnChow_finsum
 together with the assertion of Stacks 02TI that the resulting cap product factors through
 rational equivalence.
 
-This is what an invertible module on `X` provides once Stacks 02SJ (the divisor cycle of a
-regular meromorphic section, which produces the component rule) and Stacks 02TI are available.
+This is what an invertible module on `X` provides by Stacks 02SJ (the divisor cycle of a
+regular meromorphic section, which produces the component rule) and Stacks 02TI
+(`Stacks.Chow.firstChernCapFactorsEverywhere`).
 Bundling the two is what makes the iterates of the operation definable: iterating moves between
 degrees, so a rule in a single degree is not enough. -/
 structure ChernCapOperator (C : ChowSituation.{u}) {X : Scheme.{u}} (p : X ⟶ C.S)

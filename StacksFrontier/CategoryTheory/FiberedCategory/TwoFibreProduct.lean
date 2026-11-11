@@ -11,7 +11,10 @@ categories over `𝒞` and let `F : 𝒳 ⥤ 𝒮`, `G : 𝒴 ⥤ 𝒮` be 1-mor
 over `𝒞`. Stacks 02XQ (Lemma 4.33.10) asserts two things about the 2-fibre product
 `𝒳 ×_𝒮 𝒴` of Stacks 0040, whose construction is `CategoryTheory.TwoFibreProductOver`:
 its structure functor to `𝒞` is again a fibred category, and the two projections are
-again 1-morphisms of fibred categories.
+again 1-morphisms of fibred categories. The universal property in the 2-category of fibred
+categories — the mediating 1-morphism of a test cone of 1-morphisms of fibred categories is
+again one — is `TwoFibreProductOver.lift_isFibredOneMorphism`, in
+`StacksFrontier.CategoryTheory.FiberedCategory.TwoFibreProductUniversal`.
 
 Both come from one analysis of when a morphism of the 2-fibre product is strongly
 cartesian: a morphism `Φ = (a, b)` lying over `f` is strongly cartesian for the structure

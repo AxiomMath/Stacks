@@ -4,18 +4,17 @@ public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningPushoutEt
 public import StacksFrontier.AlgebraicGeometry.Spaces.Pushouts.ThickeningAffine
 
 /-!
-# The pushout of algebraic spaces along a thickening, unconditionally
+# The pushout of algebraic spaces along a thickening, under its primed name
 
 For a thickening `X ⟶ X'` and an affine morphism `X ⟶ Y` of schemes over `S`, a pushout square
-of schemes is also a pushout square in the algebraic spaces over `S`. This is the statement of
-Stacks 07SY with no hypothesis beyond its geometric data: the étale gluing criterion it is
-proved from is `Stacks.Pushout.etale_gluingFunctor_obj_iff` and the affineness of a thickening
-of an affine scheme is `Stacks.Thickenings.forall_isAffine_of_isThickening`.
+of schemes is also a pushout square in the algebraic spaces over `S`. This is Stacks 07SY,
+proved as `AlgebraicGeometry.Space.isPushout_algebraicSpaces_of_isThickening_of_isAffineHom`;
+this file restates it under the primed name its users cite.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'` is
-  **Stacks 07SY**.
+* `AlgebraicGeometry.Space.isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'`: the
+  statement of Stacks 07SY, derived from the unprimed theorem.
 
 ## References
 
@@ -30,9 +29,10 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-/-- **Stacks 07SY.** For a thickening `X ⟶ X'` and an affine morphism `X ⟶ Y` of schemes over
-`S`, a pushout square of schemes is also a pushout square in the algebraic spaces over `S`. -/
-@[stacks 07SY]
+/-- For a thickening `X ⟶ X'` and an affine morphism `X ⟶ Y` of schemes over `S`, a pushout
+square of schemes is also a pushout square in the algebraic spaces over `S`; this is
+`isPushout_algebraicSpaces_of_isThickening_of_isAffineHom` (Stacks 07SY), under the name its
+users cite. -/
 theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X X' Y Y' : BigFppfOver B S hS}
@@ -56,9 +56,7 @@ theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'
       (ObjectProperty.homMk (yoneda.map b) :
         (⟨yoneda.obj Y, isAlgebraicSpace_yoneda B S hS Y⟩ : AlgebraicSpaces B S hS) ⟶
         (⟨yoneda.obj Y', isAlgebraicSpace_yoneda B S hS Y'⟩ : AlgebraicSpaces B S hS)) :=
-  isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
-    (fun k g hk _ _ T => Stacks.Pushout.etale_gluingFunctor_obj_iff k g hk T)
-    B S hS i f a b hi hPushout
+  isPushout_algebraicSpaces_of_isThickening_of_isAffineHom B S hS i f a b hi hPushout
 
 end AlgebraicGeometry.Space
 

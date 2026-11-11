@@ -33,11 +33,13 @@ statement at it.
   *ringed-space* derived pullback `Lf^*` of Tag 06YJ.
 * `Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.derivedMixedTensorIso`: the comparison of
   Stacks 08DE after restriction of scalars along `f⁻¹O_Y ⟶ O_X`.
-* `Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.spaceLinearDerivedTensorPullback` and
-  `spaceLinearDerivedMixedTensor`: the two bifunctors `D(O_X) × D(O_Y) ⥤ D(O_X)` of the tag read
-  with the `O_X`-action that both sides carry.
+* `Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.spaceLinearDerivedTensorPullback`: the
+  left-hand bifunctor `(F, G) ↦ F ⊗^L_{O_X} Lf^*G` of the tag, read in `D(O_X)`.
+* `Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.spaceLinearDerivedMixedTensor`: the
+  bifunctor `(F, G) ↦ F ⊗^L_{O_X} Lh^*(f⁻¹G)` into `D(O_X)`, where `h` is extension of scalars
+  along `f⁻¹O_Y ⟶ O_X`.  It is not the derived mixed tensor product of the tag.
 * `Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.spaceDerivedLinearMixedTensorIso`:
-  **Stacks 08DE, `O_X`-linearly.**
+  `F ⊗^L_{O_X} Lf^*G ≅ F ⊗^L_{O_X} Lh^*(f⁻¹G)`, the whiskering of Stacks 0G6R.
 * `Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.spaceDerivedMixedTensorInverseImage`: the
   right-hand bifunctor `(F, G) ↦ F ⊗^L_{f⁻¹O_Y} f⁻¹G`, valued in `D(O_X)`, as the derived
   bifunctor of the sectionwise mixed tensor product
@@ -76,19 +78,17 @@ that class is a `Prop`.
 **The `O_X`-linear statement, in two constructions.**  Both sides of Stacks 08DE are genuinely
 `O_X`-modules — `F ⊗_{f⁻¹O_Y} f⁻¹G` inherits the `O_X`-action from `F`, the tensor product being
 taken over the smaller sheaf of rings `f⁻¹O_Y ⟶ O_X` — and the source states the tag for `F` in
-`D(O_X)` and `G` in `D(O_Y)`.  Both registered declarations are that statement in `D(O_X)`; they
-differ in how the right-hand bifunctor is built.
+`D(O_X)` and `G` in `D(O_Y)`.  The registered declaration `derivedLinearMixedTensorIso` is that
+statement in `D(O_X)`.
 
-`spaceDerivedLinearMixedTensorIso` builds it from `Stacks.MixedTensor.sheafMixedTensorRight`, the
-sheaf-of-modules analogue of `TensorProduct.AlgebraTensorModule`: the tensor product of an
-`O_X`-module with an `f⁻¹O_Y`-module over `f⁻¹O_Y`, with the `O_X`-action of the first factor,
-whose sections are `F(U) ⊗_{f⁻¹O_Y(U)} N(U)`.  The `O_X`-linear cancellation of a base change
-(`Stacks.MixedTensor.sheafMixedBaseChangeIso`) identifies that bifunctor with `F ⊗_{O_X} h^*N`,
-and the comparison is then the whiskering of Stacks 0G6R — `Lf^* ≅ Lg^* ⋙ Lh^*` — into the
-second variable.
+`spaceDerivedLinearMixedTensorIso` is an intermediate comparison and is not the tag: its
+right-hand side `spaceLinearDerivedMixedTensor` is `F ⊗^L_{O_X} Lh^*(f⁻¹G)`, the derived tensor
+product over `O_X` with the derived extension of scalars of `f⁻¹G`, and the comparison is the
+whiskering of Stacks 0G6R — `Lf^* ≅ Lg^* ⋙ Lh^*` — into the second variable.  No identification
+of that bifunctor with the derived mixed tensor product over `f⁻¹O_Y` is proved here.
 
-`derivedLinearMixedTensorIso` builds it as the derived bifunctor of the sectionwise mixed tensor
-product `(H, N) ↦ (H ⊗_{f⁻¹O_Y} N)^#`, computed by K-flat resolutions with flat terms of `N`; the
+`derivedLinearMixedTensorIso` builds the right-hand side as the derived bifunctor of the
+sectionwise mixed tensor product `(H, N) ↦ (H ⊗_{f⁻¹O_Y} N)^#`, computed by K-flat resolutions with flat terms of `N`; the
 isomorphism is, on a K-flat complex `G` with flat terms, the underived identity
 `F ⊗_{O_X} f^*G ≅ F ⊗_{f⁻¹O_Y} f⁻¹G` of sheaves of `O_X`-modules in each bidegree, as in the
 source's proof.
@@ -350,27 +350,21 @@ theorem spaceDerivedTensorPullback_eq_restrict :
       spaceLinearDerivedTensorPullback f ⋙ derivedRestrictTensor (ringedToposSiteHom f) :=
   rfl
 
-/-- **The right-hand bifunctor of Stacks 08DE, `O_X`-linearly**:
-`(F, G) ↦ F ⊗^L_{f⁻¹O_Y} f⁻¹G`, read in `D(O_X)`. -/
+/-- **The bifunctor `(F, G) ↦ F ⊗^L_{O_X} Lh^*(f⁻¹G)`** into `D(O_X)`, where `f⁻¹G` is the
+inverse image of `G` as a complex of `f⁻¹O_Y`-modules and `Lh^*` is the derived extension of
+scalars along `f⁻¹O_Y ⟶ O_X`.  This is not the derived mixed tensor product
+`F ⊗^L_{f⁻¹O_Y} f⁻¹G` of Stacks 08DE, which is `spaceDerivedMixedTensorInverseImage` below. -/
 def spaceLinearDerivedMixedTensor :
     DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) ×
         DerivedCategory (SheafOfModules.{u} (structureSheafRing Y)) ⥤
       DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) :=
   linearDerivedMixedTensor.{u} (ringedToposSiteHom f)
 
-/-- **Stacks 08DE, `O_X`-linearly.**  The canonical bifunctorial isomorphism
-
-`F ⊗^L_{O_X} Lf^*G ≅ F ⊗^L_{f⁻¹O_Y} f⁻¹G`
-
-in `D(O_X)`, for a morphism `f : (X, O_X) ⟶ (Y, O_Y)` of ringed spaces, `F` in `D(O_X)` and `G`
-in `D(O_Y)`.  Both sides are objects of `D(O_X)`: the tensor product over the smaller sheaf of
-rings `f⁻¹O_Y` inherits the `O_X`-action from `F`, and the mixed tensor product realising it is
-`Stacks.MixedTensor.sheafMixedTensorRight`, whose sections are `F(U) ⊗_{f⁻¹O_Y(U)} f⁻¹G(U)`.
-
-`derivedMixedTensorIso` above is the comparison read after restriction of scalars to
-`D(f⁻¹O_Y)`. -/
-@[stacks 08DE "the canonical bifunctorial isomorphism in D(O_X): the tensor product over the
-smaller sheaf of rings f⁻¹O_Y is an O_X-module through its first factor"]
+/-- **`F ⊗^L_{O_X} Lf^*G ≅ F ⊗^L_{O_X} Lh^*(f⁻¹G)`**, bifunctorially in `F` in `D(O_X)` and `G`
+in `D(O_Y)`, for a morphism `f : (X, O_X) ⟶ (Y, O_Y)` of ringed spaces, where `h` is extension
+of scalars along `f⁻¹O_Y ⟶ O_X`.  It is the whiskering of Stacks 0G6R, `Lf^* ≅ Lg^* ⋙ Lh^*`,
+into the second variable.  Its right-hand side is not the derived mixed tensor product of
+Stacks 08DE; the isomorphism of that tag is `derivedLinearMixedTensorIso` below. -/
 def spaceDerivedLinearMixedTensorIso :
     spaceLinearDerivedTensorPullback f ≅ spaceLinearDerivedMixedTensor f :=
   Stacks.Cohomology.MixedDerivedTensor.derivedLinearMixedTensorIso.{u} (ringedToposSiteHom f)

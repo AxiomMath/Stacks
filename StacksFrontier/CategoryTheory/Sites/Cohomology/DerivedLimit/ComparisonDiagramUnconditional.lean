@@ -43,7 +43,7 @@ This file therefore takes the module universe to be `max u v r w` -- still an ar
 since `w` is arbitrary -- and discharges all five, so that the tag is available with no class
 hypothesis at all beyond the model of the derived category.  This is the same treatment, at the
 same module universe, that the module `TruncationTowerConvergenceUnconditional` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit` gives to [Stacks, Tag 0D6M] and
+`StacksDraft.CategoryTheory.Sites.Cohomology.DerivedLimit` gives to [Stacks, Tag 0D6M] and
 `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.SectionsInjectivityUnconditional`
 to [Stacks, Tag 0D6L]; the five facts are the same five, and the discharges are those, reused.
 

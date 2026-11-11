@@ -10,7 +10,10 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.SeparationCancellation
 
 Let `𝒳 → 𝒴 → 𝒵` be 1-morphisms of algebraic stacks over `S`. **Stacks 0CIZ** says that if
 `𝒳 → 𝒵` is unramified and `𝒴 → 𝒵` is Deligne–Mumford then `𝒳 → 𝒴` is unramified. This file
-proves it from the nested presentations the source chooses, which are taken as a hypothesis.
+carries out the source's argument once the nested presentations it chooses are given; the
+statement itself, with the presentations built from the Deligne–Mumford hypotheses, is
+`AlgebraicGeometry.Stack.isUnramified_of_comp_of_isDM` in
+`StacksFrontier.AlgebraicGeometry.Stacks.UnramifiedPermanenceUnconditional`.
 
 ## Main definitions
 
@@ -24,7 +27,8 @@ proves it from the nested presentations the source chooses, which are taken as a
   diagram test of Stacks 0CIF cancels the second factor of a composite, for a property of
   morphisms of algebraic spaces that is étale-smooth local on the source-and-target and cancels
   the second factor there.
-* `AlgebraicGeometry.Stack.isUnramified_of_comp`: **Stacks 0CIZ**.
+* `AlgebraicGeometry.Stack.isUnramified_of_comp`: the argument of **Stacks 0CIZ**, given the
+  nested presentations.
 
 ## Implementation notes
 
@@ -34,13 +38,14 @@ The source's proof chooses an algebraic space `W` with `W → 𝒵` surjective s
 unramified, and `U → V` is unramified by **Stacks 06G6**. Only the second and third choices use
 the Deligne–Mumford hypotheses, and both are **Stacks 0CIA**, which rests on the structure
 theorem **Stacks 06N3** — a Deligne–Mumford algebraic stack admits a surjective étale
-presentation by a scheme — and is not available in this library. The two nested presentations are
-therefore carried as the hypothesis `HasSurjectiveEtaleSmoothDiagramOver`, which packages exactly
-what they produce: one diagram over `𝒳 → 𝒴` whose top horizontal morphism extends to one over
-`𝒳 → 𝒵`. Everything else in the argument is discharged.
+presentation by a scheme. Those choices are made in a separate file
+(`AlgebraicGeometry.Stack.hasSurjectiveEtaleSmoothDiagramOver_of_isDM_of_forward`, with 06N3
+supplied by `AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`); here they enter
+as `HasSurjectiveEtaleSmoothDiagramOver`, which packages exactly what they produce: one diagram
+over `𝒳 → 𝒴` whose top horizontal morphism extends to one over `𝒳 → 𝒵`.
 
 Once those presentations are supplied the Deligne–Mumford hypothesis on `𝒴 → 𝒵` is not used
-again, so it is not part of the statement below; what it is used for in the source is producing
+again, so it is not part of `isUnramified_of_comp`; what it is used for in the source is producing
 the presentation of `𝒴 ×_𝒵 W`. The Deligne–Mumford conclusion on `𝒳 → 𝒴` is **Stacks 050M**
 part (1), `AlgebraicGeometry.Stack.AlgebraicStacks.isDM_of_comp`, which needs no hypothesis on
 the second factor either.
@@ -133,15 +138,15 @@ theorem hasPropertyOnEveryEtaleSmoothDiagram_of_comp
   exact hasPropertyOnEveryEtaleSmoothDiagram_of_hasPropertyOnSomeEtaleSmoothDiagram
     B S hS P hP f ⟨U, V, hU, hV, a, b, h, η, hasu, hbsm, hmet, hcancel _ _ htop⟩
 
-/-- **Stacks 0CIZ.** Let `f : 𝒳 ⟶ 𝒴` and `g : 𝒴 ⟶ 𝒵` be 1-morphisms of algebraic stacks over
-`S`. If `f ≫ g` is unramified, then `f` is unramified.
+/-- **The argument of Stacks 0CIZ, given the nested presentations.** Let `f : 𝒳 ⟶ 𝒴` and
+`g : 𝒴 ⟶ 𝒵` be 1-morphisms of algebraic stacks over `S` admitting the nested presentations
+`HasSurjectiveEtaleSmoothDiagramOver`. If `f ≫ g` is unramified, then `f` is unramified. Stacks
+0CIZ itself, where the presentations come from `g` being Deligne–Mumford, is
+`isUnramified_of_comp_of_isDM`.
 
 `f` is Deligne–Mumford by Stacks 050M part (1). For the étale-smooth diagram test, the nested
 presentations supply a diagram over `f` extending to one over `f ≫ g`; the extended diagram's
 top horizontal morphism is unramified, hence so is the one over `f` by **Stacks 06G6**. -/
-@[stacks 0CIZ "carrying as a hypothesis the two nested surjective etale presentations that the \
-source obtains from Stacks 0CIA, which this library does not have because Stacks 06N3 is not \
-proved; once they are given, the Deligne-Mumford hypothesis on the second factor is not used"]
 theorem isUnramified_of_comp {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒴 ⟶ 𝒵)
     (hfg : IsUnramified B S hS (f ≫ g))
     (hdata : HasSurjectiveEtaleSmoothDiagramOver.{u, w} B S hS f g) :

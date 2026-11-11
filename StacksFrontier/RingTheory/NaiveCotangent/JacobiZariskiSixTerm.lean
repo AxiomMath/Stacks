@@ -44,6 +44,7 @@ the source, whose own proof runs over the three chosen presentations.
 
 ## Main results
 
+* `NaiveCotangent.jacobiZariski_diagram`: the diagram above, with its exact rows.
 * `NaiveCotangent.jacobiZariski_sixTerm_exact`: **Stacks 00S2**, the six-term sequence above
   is exact at each of its five interior nodes.
 * `NaiveCotangent.exists_jacobiZariski_sixTerm_exact`: the same, with the connecting map
@@ -62,6 +63,11 @@ diagram: `Algebra.Generators.CotangentSpace.map_toComp_injective`,
 
 Exactness at `H₁(NL(α) ⊗_B C)` is not asserted, and is false in general: the degree-`1` row
 is only right exact.
+
+The final assertion of Stacks 00S2, that `Tor₁^B(Ω_{B/A}, C) = Tor₂^B(Ω_{B/A}, C) = 0` gives
+`H₁(NL_{B/A} ⊗_B C) = H₁(L_{B/A}) ⊗_B C`, is
+`NaiveCotangent.bijective_h1BaseChangeMap_of_tor` in
+`StacksFrontier.RingTheory.NaiveCotangent.JacobiZariskiTor`.
 
 ## References
 
@@ -136,6 +142,29 @@ public noncomputable def nlOfComp (Q : Generators S T ι) (P : Generators R S σ
 spaces. -/
 @[simp] public theorem nlOfComp_f₀ (Q : Generators S T ι) (P : Generators R S σ) :
     (nlOfComp Q P).f₀ = Extension.CotangentSpace.map (Q.ofComp P).toExtensionHom := rfl
+
+/-- **The Jacobi-Zariski diagram** (Stacks 00S2, first assertion).  Let `A → B → C` be ring maps,
+let `α : A[x_s] → B` and `β : B[y_t] → C` be presentations with kernels `I` and `J`, and let
+`γ : A[x_s, y_t] → C` be the induced presentation, with kernel `K`.  In the canonical diagram
+```
+0 ⟶ C ⊗_B Ω_{A[x]/A} ⊗ B ⟶ Ω_{A[x,y]/A} ⊗ C ⟶ Ω_{B[y]/B} ⊗ C ⟶ 0
+          ▲                       ▲                  ▲
+     C ⊗_B I/I²       ⟶         K/K²       ⟶       J/J²        ⟶ 0
+```
+the top row is short exact, the bottom row is exact, and both squares commute: the vertical
+maps are the differentials of `NL(α) ⊗_B C`, `NL(γ)` and `NL(β)`, and the horizontal ones are
+the components of `NaiveCotangent.nlToComp` and `NaiveCotangent.nlOfComp`. -/
+@[stacks 00S2 "The canonical commutative diagram with exact rows: the top row is short \
+exact, the bottom row is exact with a surjection at its right end."]
+public theorem jacobiZariski_diagram (Q : Generators S T ι) (P : Generators R S σ) :
+    Injective (nlToComp Q P).f₀ ∧ Exact (nlToComp Q P).f₀ (nlOfComp Q P).f₀ ∧
+      Surjective (nlOfComp Q P).f₀ ∧ Exact (nlToComp Q P).f₁ (nlOfComp Q P).f₁ ∧
+      Surjective (nlOfComp Q P).f₁ ∧
+      (NL (Q.comp P)).d ∘ₗ (nlToComp Q P).f₁ = (nlToComp Q P).f₀ ∘ₗ (nlBaseChange T P).d ∧
+      (NL Q).d ∘ₗ (nlOfComp Q P).f₁ = (nlOfComp Q P).f₀ ∘ₗ (NL (Q.comp P)).d :=
+  ⟨Generators.CotangentSpace.map_toComp_injective Q P, Generators.CotangentSpace.exact Q P,
+    Generators.CotangentSpace.map_ofComp_surjective Q P, Generators.Cotangent.exact Q P,
+    Generators.Cotangent.surjective_map_ofComp Q P, (nlToComp Q P).comm, (nlOfComp Q P).comm⟩
 
 /-- **The Jacobi-Zariski connecting map** (Stacks 00S2): for ring maps `A → B → C` and
 presentations `α : A[x_s] → B`, `β : B[y_t] → C` with induced presentation

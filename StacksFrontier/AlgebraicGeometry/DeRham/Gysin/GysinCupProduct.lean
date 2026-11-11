@@ -10,7 +10,10 @@ Let `π : X ⟶ S` be a morphism of schemes, let `f₁, …, f_c ∈ Γ(X, 𝒪_
 `i : Z ⟶ X` be the closed subscheme they cut out.  For a class `α ∈ H^q(X, Ω^p_{X/S})` the
 **projection formula** of [Stacks, Tag 0G8C] computes the Gysin image of the restriction `α|_Z`:
 
-`γ^{p, q}(α|_Z) = α ∪ γ^{0, 0}(1)` in `H^{q + c}(X, Ω^{p + c}_{X/S})`.
+`γ^{p, q}(α|_Z) = (-1)^{qc} α ∪ γ^{0, 0}(1)` in `H^{q + c}(X, Ω^{p + c}_{X/S})`.
+
+The source prints this without the sign `(-1)^{qc}`. As printed it fails in general when `qc` is
+odd; see `errata.md` and the full statement named below.
 
 The source proves it from [Stacks, Tag 0G88] — the projection formula for the Gysin map at the
 level of local cohomology — and Cohomology, [Stacks, Tag 0G77], the compatibility of the cup
@@ -29,10 +32,11 @@ clause of Tag 0G83.  Then
 `H^{q + c}_Z(X, Ω^{p + c}_{X/S})`, with its support forgotten,
 
 which is `equationGysinCohomologyMap_comp_eq` below and is the cohomological content of
-Tag 0G88 for the Gysin map of a family of equations.  It is the items (1), (2) and (4) of the
-source's own list.  The remaining item (3) — that forgetting the support of that class gives the
-cup product with `γ^{0, 0}(1)` — is Cohomology, Tag 0G77 together with the matching of the two
-constructions of Cohomology, Tag 0G76.  The full statement of Tag 0G8C is
+Tag 0G88 for the Gysin map of a family of equations, together with item (4) of the source's own
+list.  The remaining items (1) to (3) — that forgetting the support of that class gives
+`(-1)^{qc}` times the cup product with `γ^{0, 0}(1)` — are Cohomology, Tag 0G77 together with
+the matching of the two constructions of Cohomology, Tag 0G76; the sign enters in that matching.
+The full statement of Tag 0G8C is
 `Stacks.DeRham.GysinCupHodge.gysinHodgeFormsMapOfConormalRank_hodgeRestriction`.
 
 ## Main definitions
@@ -253,17 +257,13 @@ the first arrow of the second composite being induced by the morphism of sheaves
 `p`-form `ω̃` to the class of `ω̃ ∧ d f₁ ∧ ⋯ ∧ d f_c` divided by `f₁ ⋯ f_c`.
 
 **This is the cohomological content of [Stacks, Tag 0G88]** for the Gysin map of a family of
-equations, which is items (1), (2) and (4) of the source's proof of [Stacks, Tag 0G8C]: the
+equations, together with item (4) of the source's proof of [Stacks, Tag 0G8C]: the
 sheaf-level projection formula is the formula clause of [Stacks, Tag 0G83],
 `formRestriction_comp_gysinMapOfFormKernel`, and the two factorisations are
 `cohomologyMapOfModuleHom_comp` and `gysinCohomologyMap_eq`.  Nothing is assumed beyond the
-hypotheses `hker` and `hvan` that [Stacks, Tag 0G8A] already carries. -/
-@[stacks 0G8C "the cohomological content of the proof, items (1), (2) and (4) of the source's \
-list, for the Gysin map of a family of equations: gamma^{p,q} of the restriction of alpha to Z \
-is the class with support of alpha wedge df_1 wedge ... wedge df_c over f_1 ... f_c with its \
-support forgotten, proved with no hypothesis beyond the hker and hvan that Tag 0G8A \
-already carries; the remaining identification of that class with alpha cup gamma^{0,0}(1) is \
-Cohomology Tags 0G77 and 0G76 in the Hgroup presentation of the groups, which is absent here"]
+hypotheses `hker` and `hvan` that [Stacks, Tag 0G8A] already carries.  This is a step of the
+proof of Tag 0G8C, not its statement, which is
+`Stacks.DeRham.GysinCupHodge.gysinHodgeFormsMapOfConormalRank_hodgeRestriction`. -/
 theorem equationGysinCohomologyMap_comp_eq (i : Z ⟶ X) [IsClosedImmersion i] (π : X ⟶ S) {n : ℕ}
     (f : Fin (n + 1) → Γ(X, ⊤)) (p : ℕ)
     [(relativeDifferentialForms π ((p : ℤ) + ((n + 1 : ℕ) : ℤ))).IsQuasicoherent]

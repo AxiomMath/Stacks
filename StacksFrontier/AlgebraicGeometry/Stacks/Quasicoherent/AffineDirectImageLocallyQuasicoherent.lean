@@ -24,11 +24,14 @@ spaces (**Stacks 0GQH**), then to an affine morphism of schemes (**Stacks 071Y**
 vanishing is **Stacks 01XC**; (1) is then *deduced* from the vanishing of `R¹f_*`; and (2) is
 **Stacks 01SB**.
 
-This file delivers (1) as a theorem over (3), which is the source's own deduction and the only
-mathematics of **Stacks 0GQI** proved here.  Assertion (3) is reduced to the objectwise
-statement `AlgebraicGeometry.Stack.ObjectwiseIsZeroHigherDirectImage`, which is what the source's
-chart reduction produces and which this library cannot discharge; assertion (2) is carried whole.
-Both carried clauses are named and both are described in the implementation notes.
+**Stacks 0GQI** itself, in the source's default fppf setting and with all three assertions, is
+`AlgebraicGeometry.Stack.stacks0GQI` in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/AffineDirectImageFppfVanishing.lean`.  This
+file is an étale-site companion at module universe `u + 1`: it delivers (1) as a theorem over
+(3), which is the source's own deduction.  Assertion (3) is reduced to the objectwise statement
+`AlgebraicGeometry.Stack.ObjectwiseIsZeroHigherDirectImage`, which is what the source's chart
+reduction produces; assertion (2) is carried whole.  Both carried clauses are named and both are
+described in the implementation notes.
 
 ## Main definitions
 
@@ -64,11 +67,12 @@ Both carried clauses are named and both are described in the implementation note
 `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules` and
 `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeEtaleModules` are, and as the library's
 form of **Stacks 0771** part (4)(b) in
-`LocallyQuasicoherentFlatBaseChangeSummary.lean` (in this file's directory,
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`) is.  The source's default topology is
-the fppf one; the two readings agree by **Stacks 0771**
-part (4)(a), which that file records as unavailable here, so the étale reading is the only one
-this library can state.  The membership predicate is therefore the same conjunction that
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LocallyQuasicoherentFlatBaseChangeSummary.lean`
+is.  The source's default topology is the fppf one, and the fppf reading is the one
+`AlgebraicGeometry.Stack.stacks0GQI` is stated in; the two readings of the higher direct images
+agree by **Stacks 0771** part (4)(a),
+`AlgebraicGeometry.Stack.nonempty_etaleComparison_fppfModulesHigherDirectImage_iso`.  The
+membership predicate is therefore the same conjunction that
 `AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChangeUnivLE_`
 `moduleSheafHigherDirectImage` uses — local quasi-coherence of **Stacks 06WJ** together with the
 flat base change property of **Stacks 0762** read at section universe `u + 1` — and the
@@ -87,22 +91,20 @@ in.
 
 `AlgebraicGeometry.Stack.ObjectwiseIsZeroHigherDirectImage` asks that the sections of `Rⁱf_*ℱ`
 over every object of `𝒴` vanish.  This is precisely the output of steps 2–4 of the source's
-proof: **Stacks 0GQH** (proved, over its own assumptions, as
-`AlgebraicGeometry.Space.restrictedHigherDirectImageChartIso`) identifies the restriction of
-`Rⁱf_*ℱ` to the small étale site of a chart `V` of `𝒴` with `Rⁱf'_*(ℱ|_U)` for the base change
-`f' : U ⟶ V` of `f`, an affine morphism of algebraic spaces; the vanishing of that is
-**Stacks 073H**, proved as
-`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom` over its own
-carried hypothesis `h03DW` — which is the étale-site analogue of **Stacks 01XC**, that is
-**Stacks 03DW**, absent from this library.
+proof: **Stacks 0GQH** (proved for the fppf higher direct image of `Mod(𝒪_𝒳)` as
+`AlgebraicGeometry.Stack.restrictedFppfModulesHigherDirectImage`, and in derived form, over a base
+change isomorphism, as `AlgebraicGeometry.Space.restrictedHigherDirectImageChartIso`) identifies
+the restriction of `Rⁱf_*ℱ` to the small étale site of a chart `V` of `𝒴` with `Rⁱf'_*(ℱ|_U)`
+for the base change `f' : U ⟶ V` of `f`, an affine morphism of algebraic spaces; the vanishing
+of that is **Stacks 073H**, proved as
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_isAffineHom`.
 
 What this file contributes to (3) is only the locality of the zero module,
 `SheafOfModules.isZero_iff_forall_isZero_obj`: a sheaf of modules vanishes exactly when all of
 its modules of sections do.  That is an *equivalence*, so
 `AlgebraicGeometry.Stack.isZero_etaleModuleHigherDirectImage_of_objectwise` locates the content
 of assertion (3) at the objects of `𝒴`, where **Stacks 0GQH** and **Stacks 073H** act, and does
-not establish it.  Wiring the two tags in instead would close the gap only up to
-**Stacks 03DW**; it is not done here because
+not establish it.  Wiring the two tags in is not done here because
 `AlgebraicGeometry.Space.restrictedHigherDirectImageChartIso` is stated for the cohomology of a
 *total derived* direct image on ringed topoi, and its identification with
 `CategoryTheory.Functor.rightDerived` of the degreewise direct image of **Stacks 06WE** — the
@@ -118,11 +120,12 @@ positive degrees on an object is right acyclicity of that object
 and a short exact sequence whose outer terms are right acyclic is carried to a short exact
 sequence.
 
-Exactness is stated as preservation of short exact sequences rather than as exactness of a
-functor between the subcategories: `LQCoh^fbc(𝒪_𝒳)` is a weak Serre subcategory of `Mod(𝒪_𝒳)`
-by **Stacks 0771** part (2), which this library does not have, so the subcategory is not known
-to be abelian and "exact functor between them" cannot be written down.  The inclusion of a weak
-Serre subcategory is exact and reflects short exactness, so the two readings agree.  Only the
+Exactness is stated as preservation of short exact sequences of `Mod(𝒪_𝒳)`, which is how
+`AlgebraicGeometry.Stack.stacks0GQI` states it too: `LQCoh^fbc(𝒪_𝒳)` is a weak Serre
+subcategory of `Mod(𝒪_𝒳)` by **Stacks 0771** part (2)
+(`AlgebraicGeometry.Stack.isWeakSerreClass_lqcohSheafFbcEtaleModules` at module universe `u`),
+and the inclusion of a weak Serre subcategory is exact and reflects short exactness, so the two
+readings agree.  Only the
 outer terms of the sequence are asked to lie in `LQCoh^fbc(𝒪_𝒳)`, which is weaker than the
 source's hypothesis and so gives a stronger statement.
 
@@ -132,10 +135,12 @@ source's hypothesis and so gives a stronger statement.
 family in `LQCoh^fbc(𝒪_𝒳)`, indexed by an arbitrary type, `f_*` carries a coproduct cocone to a
 coproduct cocone.  The source deduces it from **Stacks 01SB**, the identification of `f_*` on
 quasi-coherent modules with restriction of scalars along `𝒪_𝒴 ⟶ f_*𝒪_𝒳`; this library carries
-**Stacks 01SB** only for schemes
+**Stacks 01SB** for schemes
 (`StacksFrontier/AlgebraicGeometry/QcohLimits/RestrictScalars.lean`,
-`StacksFrontier/AlgebraicGeometry/AffineQcohUnit/Equivalence.lean`) and has no transport of it to
-the étale site of an algebraic stack, so the clause is assumed.  It is stated as
+`StacksFrontier/AlgebraicGeometry/AffineQcohUnit/Equivalence.lean`), and this file does not transport
+it to the étale site of an algebraic stack, so here the clause is assumed.  On the fppf sites at
+module universe `u`, `AlgebraicGeometry.Stack.stacks0GQI` proves it from the sections formula over
+objects lying over affine schemes instead.  It is stated as
 `CategoryTheory.Limits.PreservesColimit` of the discrete diagram, which asks nothing about the
 existence of the coproducts; no finiteness is imposed on the index type.
 
@@ -251,7 +256,8 @@ object of `𝒴` vanish.
 For an affine `f` and an `ℱ` in `LQCoh^fbc(𝒪_𝒳)` this is what steps 2–4 of the source's proof
 produce — **Stacks 0GQH** identifies the restriction of `Rⁱf_*ℱ` to a chart of `𝒴` with the
 higher direct image along the affine base change of `f` on algebraic spaces, and that vanishes
-by **Stacks 073H**, itself proved here only over the étale-site analogue of **Stacks 01XC**. -/
+by **Stacks 073H**, `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_isAffineHom`.
+-/
 def ObjectwiseIsZeroHigherDirectImage (f : 𝒳 ⟶ 𝒴) (ℱ : etaleModulesOfHomSource B S hS f)
     (i : ℕ) : Prop :=
   ∀ y : 𝒴.val.val.obj,
@@ -276,7 +282,8 @@ a family of members of `LQCoh^fbc(𝒪_𝒳)`, indexed by an arbitrary type, to 
 
 Nothing in this file proves this.  The source gets it from **Stacks 01SB**, which identifies
 `f_*` on quasi-coherent modules with restriction of scalars along `𝒪_𝒴 ⟶ f_*𝒪_𝒳`; this library
-carries **Stacks 01SB** for schemes only.  Preservation is asked as
+states **Stacks 01SB** for schemes.  The fppf form of the assertion at module universe `u` is
+part of `AlgebraicGeometry.Stack.stacks0GQI`.  Preservation is asked as
 `CategoryTheory.Limits.PreservesColimit` of the discrete diagram, so the statement presupposes
 no coproducts, and the index type is unrestricted. -/
 def DirectImagePreservesDirectSums (f : 𝒳 ⟶ 𝒴) : Prop :=
@@ -305,23 +312,11 @@ a short exact sequence of `𝒪_𝒴`-modules on `𝒴_étale`; that is, `f_*` i
 The vanishing in positive degrees is right acyclicity for `f_*`, by **Stacks 015C** and left
 exactness of the right adjoint `f_*`, and **Stacks 015D** part (1) turns right acyclicity of the
 outer terms into short exactness of the image.  Affineness is what discharges `hvan` and is
-consumed nowhere in the deduction, which is why the binder is written `_hf`. -/
-@[stacks 0GQI "ASSERTION (1) ONLY, exactness of f_*, on the ETALE reading of LQCoh^fbc (Tag
-0771 part (4)(a), the agreement with the source's default fppf reading, is absent here). It is
-DEDUCED from assertion (3) exactly as the source deduces it, through Tag 015D, and
-that deduction is the content of this declaration; the positive-degree vanishing is the
-hypothesis hvan and is NOT proved anywhere in this repository. Assertion (2), commutation with
-direct sums, and assertion (3) itself are NOT delivered by this file: see the module's
-implementation notes, and note that `stacks0GQI_of_objectwise_of_preservesDirectSums`
-deliberately carries NO attribute because its direct-sums conjunct is returned verbatim from
-its own hypothesis. Stated as preservation of short exact sequences rather than as an exact
-functor between the subcategories because Tag 0771 part (2) is absent, so LQCoh^fbc is not
-known to be a weak Serre subcategory and hence not known abelian; only the OUTER terms are
-required to lie in LQCoh^fbc, which is weaker than the source's hypothesis. AFFINENESS IS THE
-BINDER `_hf` AND IS CONSUMED NOWHERE: given the vanishing, this implication holds for an
-arbitrary 1-morphism, so it is a generalisation of the tag's assertion (1), not a weakening.
-The blocking input for the rest is Tag 03DW, the etale-site analogue of Tag 01XC, which is
-absent from the whole repository and also blocks Tags 073H and 03M9"]
+consumed nowhere in the deduction, which is why the binder is written `_hf`.
+
+This is the étale-site, module-universe-`u + 1` companion of assertion (1) of **Stacks 0GQI**;
+the tag itself, with all three assertions on the fppf sites, is
+`AlgebraicGeometry.Stack.stacks0GQI`. -/
 theorem shortExact_map_etaleModuleDirectImage_of_isZero_higherDirectImage (f : 𝒳 ⟶ 𝒴)
     (_hf : AlgebraicStacks.IsAffineHom B S hS f)
     (hvan : ∀ (i : ℕ), 0 < i → ∀ ℱ : etaleModulesOfHomSource B S hS f,
@@ -356,7 +351,8 @@ theorem shortExact_map_etaleModuleDirectImage_of_isZero_higherDirectImage (f : �
   exact ((Functor.rightAcyclic_and_shortExact_map_of_shortExact
     (etaleModuleDirectImage B S hS f) Sq hSq).1 (hac _ h₁) (hac _ h₃)).2
 
-/-- **Stacks 0GQI.** Let `f : 𝒳 ⟶ 𝒴` be an affine 1-morphism of algebraic stacks over `S`
+/-- **The three assertions of Stacks 0GQI on the étale sites, over two carried clauses.** Let
+`f : 𝒳 ⟶ 𝒴` be an affine 1-morphism of algebraic stacks over `S`
 (**Stacks 0CHQ**).  Then, on the category `LQCoh^fbc(𝒪_𝒳)` of locally quasi-coherent
 `𝒪_𝒳`-modules with the flat base change property, read on the étale site:
 
@@ -367,7 +363,8 @@ theorem shortExact_map_etaleModuleDirectImage_of_isZero_higherDirectImage (f : �
 
 Assertion (1) is *proved*, from assertion (3), which is the source's own deduction.  Assertion
 (3) is the carried `hobj`, the objectwise vanishing that steps 2–4 of the source's proof produce
-and that this library cannot discharge, and assertion (2) is the carried `h01SB`.  See the
+and assertion (2) is the carried `h01SB`; on the fppf sites at module universe `u` all three
+assertions are proved outright as `AlgebraicGeometry.Stack.stacks0GQI`.  See the
 implementation notes of this file for what each carried clause is and which tags would
 discharge it.  Affineness is what discharges the two carried clauses and is consumed nowhere
 below, which is why the binder is written `_hf`. -/

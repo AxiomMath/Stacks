@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.LocalCompleteIntersectionM
 public import StacksFrontier.AlgebraicGeometry.Stacks.SmoothLocalMorphismComp
 
 /-!
-# Composition of local complete intersection 1-morphisms of algebraic stacks (Stacks 0CJ4)
+# Composition of local complete intersection 1-morphisms of algebraic stacks: the argument
 
 **Stacks 0CJ4** says that a composition of local complete intersection 1-morphisms of algebraic
 stacks over `S` is a local complete intersection 1-morphism: if `f : 𝒳 ⟶ 𝒴` and `g : 𝒴 ⟶ 𝒵` are
@@ -14,9 +14,15 @@ Koszul, so is `f ≫ g`.
 
 The source proves it by citing the general composition remark **Stacks 06FP** at the Koszul
 property of morphisms of algebraic spaces, whose own stability under composition is **Stacks
-06C8**. That is the route taken here, with
+06C8**. This file runs that argument, with
 `AlgebraicGeometry.Stack.hasPropertyOnSomeSmoothDiagram_comp` for the former and
-`AlgebraicGeometry.Space.isLocalCompleteIntersection_comp` for the latter.
+`AlgebraicGeometry.Space.isLocalCompleteIntersection_comp` for the latter, parametrised by the
+smooth locality on the source-and-target of the Koszul property of morphisms of algebraic spaces
+that the argument consumes. That locality is
+`AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`, and
+**Stacks 0CJ4** itself, with exactly the source's hypotheses, is
+`AlgebraicGeometry.Stack.AlgebraicStacks.IsLocalCompleteIntersection.comp` in
+`StacksFrontier.AlgebraicGeometry.Stacks.LocalCompleteIntersectionComp`.
 
 ## Main definitions
 
@@ -24,7 +30,9 @@ There are no new definitions.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_comp`: **Stacks 0CJ4**.
+* `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_comp`: the composition
+  argument of Stacks 0CJ4, for a given smooth locality on the source-and-target of the Koszul
+  property of morphisms of algebraic spaces.
 
 ## Implementation notes
 
@@ -33,8 +41,7 @@ smooth-diagram criterion of **Stacks 06FM**, while Stacks 06FP concludes about t
 one, so the two hypotheses and the conclusion are all moved across the equivalence of conditions
 (1) and (2) of Stacks 06FM. This is exactly what the sibling
 `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_baseChange`
-(**Stacks 0CJ5**) does for the base-change remark, and the two carried hypotheses below are the
-same two it carries, for the same reasons.
+(**Stacks 0CJ5**) does for the base-change remark.
 
 The general composition remark is instantiated in its *universal-form* shape,
 `AlgebraicGeometry.Stack.hasPropertyOnSomeSmoothDiagram_comp`, rather than in the diagram-building
@@ -42,30 +49,21 @@ shape `AlgebraicGeometry.Stack.hasPropertyOnSomeSmoothDiagram_comp_of_precomp`. 
 less of the property — only precomposition-stability, composition-stability and base change on
 algebraic spaces — but it does not ask less *here*: its conclusion is again the existential
 criterion, so smooth locality on the source-and-target would still be needed to return to Stacks
-0CJ3, and the Koszul property of morphisms of algebraic spaces is not known to be stable under
-arbitrary base change, which that form wants. Nothing would be gained, so the form matching the
-source's citation is used.
+0CJ3, and the Koszul property of morphisms of algebraic spaces is stable only under flat base
+change, not the arbitrary base change that form wants. Nothing would be gained, so the form
+matching the source's citation is used.
 
-## Carried hypothesis
+The argument `hlocal` is the smooth locality on the source-and-target of the Koszul property of
+morphisms of *algebraic spaces* over `S` (**Stacks 06FC** at that property), which is what
+crosses the equivalence of conditions (1) and (2) of Stacks 06FM, in both directions. The library
+proves it as `AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`,
+from syntomic locality on the source (**Stacks 0CHN**) and on the target (the syntomic case of
+**Stacks 0CHM**) through the criterion **Stacks 06FB**; it is kept as an argument here only so
+that this file does not import that development.
 
-The statement below carries one hypothesis beyond the source's, the same one carried by Stacks
-0CJ5 in `StacksFrontier/AlgebraicGeometry/Stacks/LocalCompleteIntersectionFlatBaseChange.lean`.
-
-It is `hlocal`, that the Koszul property of morphisms of *algebraic spaces* over `S` is
-smooth local on the source-and-target, which is **Stacks 06FC** at that property. It is what
-crosses the equivalence of conditions (1) and (2) of Stacks 06FM, in both directions, and it is
-not available: the criterion `AlgebraicGeometry.Space.isSmoothLocalOnSourceAndTarget`
-(**Stacks 06FB**) asks for locality at the source and at the target for the smooth topology, and
-the transfer of those from schemes to algebraic spaces is missing for the syntomic and fpqc
-topologies — the same two gaps, **Stacks 06F0** and **Stacks 0428**, that
-`AlgebraicGeometry.Space.isSyntomic_isSmoothLocalOnSourceAndTarget` carries; see the
-implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/LocalOnSourceAndTarget/Syntomic.lean`.
-
-Nothing else is assumed. In particular Stacks 06C8 itself,
-`AlgebraicGeometry.Space.isLocalCompleteIntersection_comp`, now carries no hypothesis beyond its
-source's: the étale source locality of the Koszul property of morphisms of *schemes* it needs,
-**Stacks 069P** restricted to étale coverings, is
+Stacks 06C8 itself, `AlgebraicGeometry.Space.isLocalCompleteIntersection_comp`, carries no
+hypothesis beyond its source's: the étale source locality of the Koszul property of morphisms of
+*schemes* it needs, **Stacks 069P** restricted to étale coverings, is
 `AlgebraicGeometry.isLocalCompleteIntersectionMorphism_isLocalAtSource_etale`.
 
 ## References
@@ -91,23 +89,22 @@ universe u w
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 0CJ4.** A composition of local complete intersection 1-morphisms of algebraic stacks
-over `S` is a local complete intersection 1-morphism: if `f : 𝒳 ⟶ 𝒴` and `g : 𝒴 ⟶ 𝒵` are Koszul,
-so is `f ≫ g`.
+/-- The composition argument of **Stacks 0CJ4**: given that the Koszul property of morphisms of
+algebraic spaces is smooth local on the source-and-target (`hlocal`, **Stacks 06FC** at that
+property), a composition of local complete intersection 1-morphisms of algebraic stacks over `S`
+is a local complete intersection 1-morphism.
 
 This is the general composition remark **Stacks 06FP**,
 `AlgebraicGeometry.Stack.hasPropertyOnSomeSmoothDiagram_comp`, at the Koszul property of
 morphisms of algebraic spaces, which is stable under composition by **Stacks 06C8**. Stacks 0CJ3
 is the universal smooth-diagram criterion of **Stacks 06FM** where that remark speaks about the
 existential one, so the hypotheses and the conclusion are moved across the equivalence of
-conditions (1) and (2) of Stacks 06FM.
+conditions (1) and (2) of Stacks 06FM, which `hlocal` provides.
 
-One hypothesis beyond the source's is carried: `hlocal`, that the Koszul property of morphisms of
-algebraic spaces is smooth local on the source-and-target (**Stacks 06FC** at that property),
-which is what crosses that equivalence. It is not available in this library; see the
-carried-hypothesis note in the module docstring. -/
-@[stacks 0CJ4 "the composition argument in full, carrying one hypothesis this library does not \
-prove: `hlocal`, Stacks 06FC at the Koszul property of morphisms of algebraic spaces"]
+The library proves `hlocal` as
+`AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`; Stacks 0CJ4
+with exactly the source's hypotheses is
+`AlgebraicGeometry.Stack.AlgebraicStacks.IsLocalCompleteIntersection.comp`. -/
 theorem isLocalCompleteIntersection_comp
     (hlocal : Space.IsSmoothLocalOnSourceAndTarget B S hS
       (fun _ _ k => Space.IsLocalCompleteIntersection B S hS k))

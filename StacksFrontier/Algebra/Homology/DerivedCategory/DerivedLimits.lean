@@ -451,6 +451,7 @@ private theorem bijective_comp_Q_pi_π {J : Type} [HasProductsOfShape J A]
   exact bijective_fanHom_of_iso (t := Fan.mk (f := fun j ↦ Q.obj (I j)) (Q.obj (∏ᶜ I))
     fun j ↦ Q.map (Pi.π I j)) (Q.objObjPreimageIso T) (key _)
 
+omit [HasProductsOfShape ℕ A] in
 /-- **Stacks 0BK6, statement 2**, as a limit: the image of a termwise product of K-injective
 complexes is a product in `D(A)`. -/
 private noncomputable def isLimit_fan_Q_pi {J : Type} [HasProductsOfShape J A]

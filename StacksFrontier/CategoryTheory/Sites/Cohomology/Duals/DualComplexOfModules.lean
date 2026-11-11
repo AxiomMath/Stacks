@@ -65,9 +65,9 @@ a covering on whose members `ℱ^•` is strictly perfect, which gives the local
 terms used here but boundedness only *locally*; the support hypothesis below is a single global
 finite set of degrees. Removing it means making sense of `η = ∑ ηₙ` as a locally finite sum, and
 that is done in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/LeftDualOfALocallyStrictlyPerfectComplex.lean`
-(the degree-zero part of `ℱ^• ⊗ 𝒢^•` is a coproduct of locally finitely many nonzero summands,
-hence also their product, so `η` is produced from its components). The statement below is the
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/LeftDualOfALocallyStrictlyPerfectComplex.lean`:
+the degree-zero part of `ℱ^• ⊗ 𝒢^•` is a coproduct of locally finitely many nonzero summands,
+hence also their product, so `η` is produced from its components. The statement below is the
 globally bounded case, which needs none of that. The local boundedness of a complex that *has* a
 left dual is the converse direction,
 `Stacks.SheafOfModules.Strict.isLocallyBounded_of_exactPairing`.
@@ -125,17 +125,7 @@ def dualComplexPairing (i j : ℤ) (h : i + j = 0) :
 /-- **The dual complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)` of [Stacks, Tag 0FPR].** Its degree-`j` term
 is the dual sheaf `SheafHom(ℱ^{-j}, 𝒪)` of [Stacks, Tag 0FNY], and its differential is the
 signed transpose `d_𝒢^j = -(-1)^j (d_ℱ^{-j-1})^∨`, the sign convention of [Stacks, Tag 0FNK]. -/
-@[stacks 0FPR "the construction of the complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)`: its degree-`j` term \
-is the dual sheaf `SheafHom(ℱ^{-j}, 𝒪)` of Tag 0FNY — the single surviving factor of the \
-degree-`j` term of the Hom complex of Tag 0A8X into `𝒪` placed in degree zero — and its \
-differential is the signed transpose `d_𝒢^j = -(-1)^j (d_ℱ^{-j-1})^∨` of Tag 0FNK. The \
-remaining assertion of the tag, that `𝒢^•` with `η = ∑ ηₙ` and `ε = ∑ εₙ` is a left dual of \
-`ℱ^•`, is `Stacks.SheafOfModules.Strict.exactPairingDualComplex`, and under the \
-tag's OWN hypothesis \
-`Stacks.SheafOfModules.Strict.exactPairingDualComplexOfLocallyStrictlyPerfect`. Only the \
-termwise half of the tag's hypothesis is assumed here; the same complex under the tag's OWN \
-hypothesis is `Stacks.SheafOfModules.Strict.dualComplexOfLocallyStrictlyPerfect`",
-  sga "4 XVII 1.1.6" "special case"]
+@[sga "4 XVII 1.1.6" "special case"]
 def dualComplex : CochainComplex (Mod R) ℤ :=
   letI : MonoidalCategory (_root_.SheafOfModules.{max u v}
       (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
@@ -174,17 +164,7 @@ theorem dualComplex_d (n : ℤ) :
 `𝒢^• = SheafHom^•(ℱ^•, 𝒪)`, together with `η = ∑ ηₙ` and `ε = ∑ εₙ` assembled from the
 coevaluations and evaluations of [Stacks, Tag 0FNY], is a left dual of `ℱ^•` in the monoidal
 category of complexes of `𝒪`-modules of [Stacks, Tag 0FPQ]: both triangle identities hold. -/
-@[stacks 0FPR "the left-dual assertion: `𝒢^•` with `η = ∑ ηₙ` and `ε = ∑ εₙ`, the \
-coevaluations and evaluations of Tag 0FNY at the terms, satisfies the two triangle identities \
-of Tag 0FFP in the monoidal category of complexes of Tag 0FPQ. The complex `𝒢^•` is \
-`Stacks.SheafOfModules.Strict.dualComplex`, whose terms and signed-transpose differential are \
-`dualComplex_X` and `dualComplex_d`. NOT under the tag's own hypothesis: that every object has \
-a covering on which `ℱ^•` is strictly perfect gives the termwise local finiteness assumed \
-here, but boundedness only locally, whereas `s` is one global finite set of degrees. The same \
-conclusion under the tag's own hypothesis, with `η = ∑ ηₙ` made sense of as a locally finite \
-sum, is `Stacks.SheafOfModules.Strict.exactPairingDualComplexOfLocallyStrictlyPerfect`; the \
-converse local boundedness is \
-`Stacks.SheafOfModules.Strict.isLocallyBounded_of_exactPairing`", instance_reducible]
+@[instance_reducible]
 def exactPairingDualComplex (s : Finset ℤ) (hb : ∀ m, m ∉ s → IsZero (F.X m)) :
     @ExactPairing _ _ (monoidalCategoryCochainComplex R) F (dualComplex R F hF) :=
   letI : MonoidalCategory (_root_.SheafOfModules.{max u v}

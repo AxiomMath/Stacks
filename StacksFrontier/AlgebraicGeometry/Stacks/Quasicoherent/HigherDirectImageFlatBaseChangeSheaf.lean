@@ -31,10 +31,17 @@ with the flat base change property
 * `preservesHigherDirectImages_locallyQuasicoherentFlatBaseChangeSheafRule`:
   the higher direct images along every quasi-compact quasi-separated 1-morphism of algebraic
   stacks carry `LQCoh^fbc` into itself, in every degree.
-* `AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheaf_moduleSheafHigherDirectImage`: for a
-  quasi-compact quasi-separated 1-morphism `f` of algebraic stacks and a locally quasi-coherent
-  étale module `ℱ` with the flat base change property, every `Rⁱf_*ℱ` has the flat base change
-  property.
+* `AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheaf_moduleSheafHigherDirectImage`:
+  **Stacks 0765**, the registered form: for a quasi-compact quasi-separated 1-morphism `f` of
+  algebraic stacks and a locally quasi-coherent étale module `ℱ` with the flat base change
+  property, every `Rⁱf_*ℱ` has the flat base change property. It carries no hypothesis beyond the
+  source's.
+
+`AlgebraicGeometry.Stack.hasFlatBaseChangePropertyUnivLE_moduleSheafHigherDirectImage`, in
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.HigherDirectImageSmoothLocalCriterion`, is a
+different, untagged statement: it reads the flat base change property with the inverse image of
+presheaves of modules, the stronger demand on an étale sheaf, and carries the clauses of the
+criterion at that reading as hypotheses.
 
 ## References
 
@@ -162,9 +169,21 @@ The flat base change property is the source's, read on sheaves
 (`AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE`); the sheaves of modules have their
 sections in `Type (u + 1)`, where the higher direct images of Stacks 06WE live, and the source
 `𝒳` is presented strictly, its structure functor written as the functor of `f` followed by that
-of `𝒴`. -/
-@[stacks 0765 "R^i f_* of a locally quasi-coherent étale module with the flat base change \
-  property has the flat base change property, for f quasi-compact and quasi-separated"]
+of `𝒴`.
+
+This is the registered form of **Stacks 0765**: the whole lemma, in every degree, with the
+source's hypotheses and nothing more. The proof is the source's: the criterion of
+**Stacks 076Z** (`AlgebraicGeometry.Stack.smoothLocalHigherDirectImageCriterion_unconditional`)
+at the rule `LQCoh^fbc`, whose four conditions are discharged in this file and its imports
+(**Stacks 06WM**, **Stacks 06WL**, **Stacks 075Y** with **Stacks 0764**, and the affine case).
+The presheaf-reading statement
+`AlgebraicGeometry.Stack.hasFlatBaseChangePropertyUnivLE_moduleSheafHigherDirectImage` is untagged.
+-/
+@[stacks 0765 "the whole lemma, in every degree, with the source's hypotheses: f quasi-compact \
+  and quasi-separated, F an étale O_X-module that is locally quasi-coherent with the flat base \
+  change property (read on sheaves, as in the source); then every R^i f_* F, computed in the \
+  étale topology, has the flat base change property. Proved by the criterion of Stacks 076Z \
+  applied to LQCoh^fbc, all four of its conditions discharged"]
 theorem hasFlatBaseChangePropertySheaf_moduleSheafHigherDirectImage
     {𝒳 𝒴 : AlgebraicStacks.{u, t} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hqc : IsQuasiCompactMorphism B S hS f) (hqs : AlgebraicStacks.IsQuasiSeparated B S hS f)

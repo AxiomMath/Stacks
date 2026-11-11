@@ -36,6 +36,8 @@ product of two such quotients.
 * `fittingIdeal_basic_properties`: generation in bounded degree, behaviour on products, base
   change, finite generation for finitely presented modules, monotonicity under quotients, and the
   annihilator and support descriptions of the zeroth Fitting ideal.
+* `isClosed_support_and_isCompact_compl_support`: the support of a finitely presented module is
+  closed with quasi-compact complement (Stacks 051B).
 * `fittingIdeal_eq_of_linearEquiv`: the Fitting ideals are invariant under isomorphism.
 * `fittingIdeal_fin_eq_bot_or_top`: `Fit_k(Rⁿ)` is `⊥` for `k < n` and `⊤` for `k ≥ n`.
 * `fittingIdeal_quotient_and_prod`: `Fit_0(R ⧸ I) = I`, and for `(R ⧸ I) × (R ⧸ J)` the zeroth and
@@ -704,6 +706,18 @@ theorem fittingIdeal_basic_properties {R : Type u} [CommRing R]
   · exact fittingIdeal_zero_le_annihilator
   · exact fittingIdeal_zero_zeroLocus_eq_support
   · exact fittingIdeal_zero_quotient
+
+/-- **Stacks 051B.** The support of a finitely presented module is a closed subset of `Spec R`
+whose complement is quasi-compact. The support is the zero locus of the zeroth Fitting ideal,
+the ideal of maximal minors of a presentation matrix, and that ideal is finitely generated for
+a finitely presented module. -/
+@[stacks 051B "Supp(M) = V(Fit_0(M)) with Fit_0(M) finitely generated, as in the source proof"]
+theorem isClosed_support_and_isCompact_compl_support {R : Type*} [CommRing R]
+    (M : Type*) [AddCommGroup M] [Module R M] [Module.FinitePresentation R M] :
+    IsClosed (Module.support R M) ∧ IsCompact (Module.support R M)ᶜ := by
+  rw [← fittingIdeal_zero_zeroLocus_eq_support]
+  exact ⟨PrimeSpectrum.isClosed_zeroLocus _, (PrimeSpectrum.isCompact_isOpen_iff_ideal.mpr
+    ⟨_, fittingIdeal_fg_of_finitePresentation (M := M) 0, rfl⟩).1⟩
 
 /-- The Fitting ideals of a finite module are invariant under isomorphism. -/
 theorem fittingIdeal_eq_of_linearEquiv {R : Type u} [CommRing R]

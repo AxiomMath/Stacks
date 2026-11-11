@@ -39,8 +39,9 @@ namespace RelativeProjSituation
 variable (s : RelativeProjSituation.{u, m})
 
 /-- The relative homogeneous spectrum `Proj_X(𝒜)` of a quasi-coherent graded `𝒪_X`-algebra on
-an algebraic space `X` over `S`: the algebraic space `F` of Stacks 084B. -/
-@[stacks 084C "the relative Proj of A over X: the algebraic space F of Tag 084B"]
+an algebraic space `X` over `S`: the algebraic space `F` of Stacks 084B, the functor of
+quadruples, with structure morphism `π`. -/
+@[stacks 084C "Proj_X(A): the algebraic space F of Tag 084B, with structure morphism pi"]
 def Proj : AlgebraicSpaces s.site s.base s.containsBase :=
   ⟨s.relativeProjFunctor, s.isAlgebraicSpace_relativeProjFunctor⟩
 

@@ -101,8 +101,6 @@ This is the hypothesis `hker` of
 `AlgebraicGeometry.Space.restrictedLiftDifferenceData`, discharged in the case of
 Remark [Stacks Project, Tag 061D]: the target of the lifting problem is not deformed, so the
 map `A` out of the conormal module `𝒞_{W/W}` is zero. -/
-@[stacks 0618 "hypothesis (2) for two morphisms into an undeformed target: the kernel of the \
-reduction has no nonzero sections, so the two comorphisms agree on it"]
 theorem restrictedSharpThroughThickening_app_eq_of_top {X W : AlgebraicSpaces B S hS}
     (Z : ClosedSubspaces B S hS X.1)
     (e₀ : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS) ⟶

@@ -25,8 +25,19 @@ of étale local rings.
   local rings of a flat morphism of algebraic spaces at a geometric point of its source is
   faithfully flat.
 
+## Implementation notes
+
+The first result is Stacks Algebra, Lemma 10.39.17 (Tag 00HR), in the form of a ring
+homomorphism. The second is a corollary of Stacks 04NG (the étale local ring map of a flat
+morphism is flat) and 00HR; the Stacks proofs that use it cite it as
+"Morphisms of Spaces, Section 03MK". That section tag itself is registered on the definition of
+flatness and its agreement with the representable notion, which is what the section's
+introduction states.
+
 ## References
 
+* [Stacks Project, Tag 00HR](https://stacks.math.columbia.edu/tag/00HR)
+* [Stacks Project, Tag 04NG](https://stacks.math.columbia.edu/tag/04NG)
 * [Stacks Project, Tag 03MK](https://stacks.math.columbia.edu/tag/03MK)
 -/
 
@@ -38,8 +49,9 @@ universe u
 
 namespace RingHom.Flat
 
-/-- A flat local homomorphism of local rings is faithfully flat. -/
-@[stacks 03MK "section tag: a flat local homomorphism of local rings is faithfully flat",
+/-- **Stacks 00HR**, in the form of a ring homomorphism: a flat local homomorphism of local rings
+is faithfully flat. -/
+@[stacks 00HR "for a ring homomorphism",
   ega "0 6.6.1" "(e) ⇒ (a), special case",
   ega "0 6.6.2" "partial, special case",
   sga "1 IV 2.2" "special case",
@@ -59,8 +71,11 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- The canonical homomorphism of étale local rings `𝒪_{G, f ∘ x} ⟶ 𝒪_{F, x}` induced by a flat
 morphism `f : F ⟶ G` of algebraic spaces at a geometric point `x` of its source is faithfully
-flat. -/
-@[stacks 03MK "section tag: the étale local ring map of a flat morphism is faithfully flat"]
+flat.
+
+This is a corollary of Stacks 04NG (`flat_etaleLocalRingMap`: the map is flat) and Stacks 00HR
+(`RingHom.Flat.faithfullyFlat_of_isLocalHom`); the Stacks proofs that use it cite it as
+"Morphisms of Spaces, Section 03MK". -/
 theorem faithfullyFlat_etaleLocalRingMap {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hF : IsAlgebraicSpace B S hS F) (hG : IsAlgebraicSpace B S hS G) (f : F ⟶ G)
     (hf : IsFlat B S hS f) (x : GeometricPoint B S hS F) :

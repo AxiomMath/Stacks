@@ -353,8 +353,6 @@ index type.
 Dropping the hypothesis altogether is possible at the price of one on the site instead of on the
 rings; see
 `AlgebraicGeometry.FormalSpace.relativelyRepresentable_formalSpectrumMap_of_cutoff_isRegular`. -/
-@[stacks 0AN5 "(3) implies (2), assuming the stages of the target are uniformly bounded by the \
-site cutoff"]
 theorem relativelyRepresentable_formalSpectrumMap_of_isTaut
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -391,7 +389,6 @@ inaccessible (`AlgebraicGeometry.BigFppfSite.isInaccessible_cutoff_of_contains_s
 therefore not available from the axioms of `AlgebraicGeometry.BigFppfSite`, which a singular
 cutoff satisfies (`AlgebraicGeometry.exists_cutoff_isSingular`,
 `AlgebraicGeometry.exists_bigFppfSite_family_not_contains_sigma`). -/
-@[stacks 0AN5 "(3) implies (2), over a site whose cutoff is a regular cardinal"]
 theorem relativelyRepresentable_formalSpectrumMap_of_cutoff_isRegular
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -417,7 +414,7 @@ The other two arrows of the cycle are unconditional: (1) ⟹ (3) is
 (2) ⟹ (1) is
 `AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`. So the
 set-theoretic input of Stacks 0AN5 in this library is confined to the hypothesis `h` here, and
-this statement is what the forms of the tag below differ only in. -/
+this statement is what the forms of Stacks 0AN5 below differ only in. -/
 theorem formalSpectrumMap_tfae_of_imp_relativelyRepresentable
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -454,8 +451,6 @@ containment the glueing of the charts of condition (2) needs
 is not implied by the axioms of `AlgebraicGeometry.BigFppfSite`. Only the step (3) ⟹ (2),
 `AlgebraicGeometry.FormalSpace.relativelyRepresentable_formalSpectrumMap_of_cutoff_isRegular`,
 uses it. -/
-@[stacks 0AN5 "the equivalence of (1), (2) and (3), over a site whose cutoff is a regular \
-cardinal"]
 theorem formalSpectrumMap_tfae_of_cutoff_isRegular
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -534,7 +529,6 @@ The side condition of
 `AlgebraicGeometry.FormalSpace.relativelyRepresentable_formalSpectrumMap_of_isTaut` is
 discharged by `AlgebraicGeometry.FormalSpace.iSup_stageSize_lt_cutoff_of_isCountablyGenerated`.
 Nothing is assumed about `A`, and nothing about the site. -/
-@[stacks 0AN5 "(3) implies (2), for a countably indexed target"]
 theorem relativelyRepresentable_formalSpectrumMap_of_isCountablyGenerated
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -557,7 +551,6 @@ Only the step (3) ⟹ (2),
 `AlgebraicGeometry.FormalSpace.relativelyRepresentable_formalSpectrumMap_of_isCountablyGenerated`,
 uses the countability hypothesis; the other two arrows are the unconditional ones of
 `AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_imp_relativelyRepresentable`. -/
-@[stacks 0AN5 "the equivalence of (1), (2) and (3), for a countably indexed target"]
 theorem formalSpectrumMap_tfae_of_isCountablyGenerated
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)

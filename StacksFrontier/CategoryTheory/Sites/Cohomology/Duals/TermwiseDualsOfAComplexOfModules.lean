@@ -15,9 +15,8 @@ hypothesis of [Stacks, Tag 0FPR], which asks that every object of `C` admit a co
 together with `η = ∑ ηₙ` and `ε = ∑ εₙ`, is a left dual of `ℱ^•` in the monoidal category of
 complexes of `𝒪`-modules of [Stacks, Tag 0FPQ]. The `ηₙ` and `εₙ` it sums are the coevaluation
 and evaluation of [Stacks, Tag 0FNY] at the term `ℱ^n`. This file supplies exactly those
-degreewise pairings, for every term at once; what it does **not** supply is the passage to
-complexes. That passage is now carried out — see the "Implementation notes" below, which also
-retire the two obstructions this file used to record.
+degreewise pairings, for every term at once; the passage to complexes is carried out elsewhere —
+see the "Implementation notes" below.
 
 ## Main definitions
 
@@ -47,9 +46,7 @@ be the opposite direction and is not what the tag says. The ambient monoidal cat
 that [Stacks, Tag 0FPR] also carries is not needed for a degreewise statement, so it is not
 required. [Stacks, Tag 0FPR]'s hypothesis implies the one used here.
 
-**Why the complex-level statement is not here, and what is no longer in the way.** Two
-apparent obstructions are not in the way, and what remains is only
-the construction of the dual *complex* over a site.
+**Where the complex-level statement is.** Two apparent obstructions are not in the way.
 
 The first is the differential. Assembling `η = ∑ ηₙ` and `ε = ∑ εₙ` out of the degreewise
 pairings, and checking the two triangle identities for the sums, is available in the abstract:
@@ -59,8 +56,8 @@ of a monoidal preadditive category with bounded support. What that does not give
 `ε` are morphisms of *complexes* rather than of graded objects, and for that one needs
 the signed-transpose differential of the `ModuleCat` analogue [Stacks, Tag 0FNK], which is
 proved with elements. It has a counterpart over a site:
-`StacksFrontier/Algebra/Homology/AssembleLeftDual.lean` carries the whole passage element-free, for
-any monoidal preadditive category with the graded-monoidal hypotheses —
+`StacksFrontier/Algebra/Homology/AssembleLeftDual.lean` carries the whole passage element-free,
+for any monoidal preadditive category with the graded-monoidal hypotheses —
 `CochainComplex.coevaluationHom` and `CochainComplex.evaluationHom` for the sums,
 `CochainComplex.exactPairingOfDegreewise` for the two triangle identities, and
 `CochainComplex.exactPairingOfSignedTranspose` for the whole statement from the signed transpose
@@ -83,10 +80,10 @@ The *construction* of `𝒢^• = SheafHom^•(ℱ^•, 𝒪)` as a complex over
 it is `Stacks.SheafOfModules.Strict.dualComplex` in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/DualComplexOfModules.lean`, where
 `Stacks.SheafOfModules.Strict.exactPairingDualComplex` assembles the sums and both triangle
-identities. What is still owed for the full assertion of [Stacks, Tag 0FPR] is therefore only
-the tag's own hypothesis: that statement carries a single global finite set of degrees outside
-which `ℱ^•` vanishes, where the tag supplies boundedness only *locally*, so that `η = ∑ ηₙ`
-has to be made sense of as a locally finite sum.
+identities for a complex vanishing outside a finite set of degrees. The full assertion of
+[Stacks, Tag 0FPR], under the tag's local hypothesis, where `η = ∑ ηₙ` is a locally finite sum,
+is `Stacks.SheafOfModules.Strict.isLeftDual_dualComplexOfLocallyStrictlyPerfect` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/LeftDualOfALocallyStrictlyPerfectComplex.lean`.
 
 **Universes.** The module universe is forced equal to the ring universe `max u v`, as it is
 throughout the [Stacks, Tag 0FNY] cluster: the internal hom of [Stacks, Tag 03EM] makes a
@@ -138,21 +135,7 @@ the coevaluation `ηₙ : 𝒪 ⟶ ℱ^n ⊗ SheafHom(ℱ^n, 𝒪)` and the eval
 `εₙ : SheafHom(ℱ^n, 𝒪) ⊗ ℱ^n ⟶ 𝒪` of [Stacks, Tag 0FNY] satisfy the two triangle identities.
 
 These are exactly the `ηₙ` and `εₙ` that [Stacks, Tag 0FPR] sums to form `η` and `ε`. -/
-@[stacks 0FPR "the degreewise pairings only: for each n the dual sheaf `SheafHom(ℱⁿ, 𝒪)` is a \
-left dual of the term `ℱⁿ`, with the coevaluation ηₙ and evaluation εₙ of Tag 0FNY, in the \
-monoidal category of 𝒪-modules `Strict.monoidalCategory`. NOT the assertion of the tag, which \
-is about the complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)`: neither the sums η = ∑ ηₙ and ε = ∑ εₙ, nor \
-the triangle identities for them, nor the left-dual property of `𝒢^•` in the monoidal category \
-of complexes of Tag 0FPQ, is proved here. Those three are proved over a site by \
-`Stacks.SheafOfModules.Strict.dualComplex` and \
-`Stacks.SheafOfModules.Strict.exactPairingDualComplex`, for a complex of globally bounded \
-support. The construction of `𝒢^•` is available under the tag's own hypothesis, that every \
-object has a covering on which `ℱ^•` is strictly perfect, as \
-`Stacks.SheafOfModules.Strict.dualComplexOfLocallyStrictlyPerfect`, and the left-dual assertion \
-under that hypothesis is \
-`Stacks.SheafOfModules.Strict.exactPairingDualComplexOfLocallyStrictlyPerfect`. See the \
-module's Implementation notes",
-  instance_reducible]
+@[instance_reducible]
 public def termwiseExactPairingDualSheaf
     (hF : IsTermwiseLocallyDirectSummandOfFiniteFree 𝒪 h𝒪 F) (n : ℤ) :
     ExactPairing (F.X n) (dualSheaf 𝒪 h𝒪 (F.X n)) :=

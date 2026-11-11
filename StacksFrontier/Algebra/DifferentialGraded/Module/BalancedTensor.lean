@@ -17,13 +17,15 @@ exactly the balanced bilinear maps `M' × M → N` compatible with the different
 
 * `DifferentialGraded.BalancedBilinear`: a bilinear map `M' × M → Q` on homogeneous pieces which
   is `A`-balanced and satisfies the signed Leibniz rule.
-* `DifferentialGraded.tensorComplex`: the tensor product `M' ⊗_A M` as a complex of `R`-modules.
-* `DifferentialGraded.tensorTmul`: the universal balanced bilinear map `(x, y) ↦ x ⊗ y`.
+* `DifferentialGraded.tensorComplex` ([stacks 09LL]): the tensor product `M' ⊗_A M` as a
+  complex of `R`-modules.
+* `DifferentialGraded.tensorTmul` ([stacks 09LL]): the universal balanced bilinear map
+  `(x, y) ↦ x ⊗ y`.
 * `DifferentialGraded.tensorDesc`: the map of complexes induced by a balanced bilinear map.
 
 ## Main results
 
-* `DifferentialGraded.tensorHomEquiv`: the universal property
+* `DifferentialGraded.tensorHomEquiv` ([stacks 09LL]): the universal property
   `Hom_{Comp(R)}(M' ⊗_A M, Q) = BalancedBilinear_A(M' × M, Q)`.
 * `DifferentialGraded.tensorComplex_hom_ext`: a map of complexes out of `M' ⊗_A M` is determined
   by its values on homogeneous pure tensors.
@@ -366,7 +368,10 @@ theorem tensorDegD_comp (n : ℤ) :
   simp
 
 /-- The tensor product `M' ⊗_A M` of a right and a left differential graded `A`-module, as a
-complex of `R`-modules with differential `d (x ⊗ y) = d x ⊗ y + (-1)^p x ⊗ d y`. -/
+complex of `R`-modules with differential `d (x ⊗ y) = d x ⊗ y + (-1)^p x ⊗ d y`. Its degree-`n`
+term is the degree-`n` piece of the balanced tensor product of the underlying modules
+(`DifferentialGraded.balancedTensorGradedEquiv`). -/
+@[stacks 09LL "M ⊗_A N is a differential graded R-module"]
 noncomputable def tensorComplex : CochainComplex (ModuleCat.{u} R) ℤ :=
   CochainComplex.of (fun n => ModuleCat.of R (tensorDeg M' M n))
     (fun n => ModuleCat.ofHom (tensorDegD M' M n))
@@ -379,7 +384,9 @@ theorem tensorComplex_d (n : ℤ) :
     (tensorComplex M' M).d n (n + 1) = ModuleCat.ofHom (tensorDegD M' M n) := by
   simp [tensorComplex]
 
-/-- The universal balanced bilinear map `(x, y) ↦ x ⊗ y` into `M' ⊗_A M`. -/
+/-- The universal balanced bilinear map `(x, y) ↦ x ⊗ y` into `M' ⊗_A M`: it is `A`-balanced,
+compatible with the gradings and compatible with the differentials. -/
+@[stacks 09LL "the map M × N → M ⊗_A N in the differential graded case"]
 noncomputable def tensorTmul : BalancedBilinear M' M (tensorComplex M' M) where
   map p q n h := (tensorMk M' M n p q h).compr₂ (tensorRel M' M n).mkQ
   balance p i q n h₁ h₂ x a y :=
@@ -493,7 +500,9 @@ theorem tensorComplex_hom_ext {Q : CochainComplex (ModuleCat.{u} R) ℤ}
     tensorDeg_linearMap_ext M' M fun p q hpq x y => h p q n hpq x y
 
 /-- **The universal property of `M' ⊗_A M`.** Maps of complexes of `R`-modules out of
-`M' ⊗_A M` are the balanced bilinear maps out of `M'` and `M`. -/
+`M' ⊗_A M` are the balanced bilinear maps out of `M'` and `M`:
+`DifferentialGradedBilinear_A(M' × M, Q) = Hom_{Comp(R)}(M' ⊗_A M, Q)`. -/
+@[stacks 09LL "DifferentialGradedBilinear_A(M × N, Q) = Hom_{Comp(R)}(M ⊗_A N, Q)"]
 noncomputable def tensorHomEquiv (Q : CochainComplex (ModuleCat.{u} R) ℤ) :
     (tensorComplex M' M ⟶ Q) ≃ BalancedBilinear M' M Q where
   toFun f := (tensorTmul M' M).comp M' M f

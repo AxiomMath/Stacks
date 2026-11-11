@@ -33,15 +33,18 @@ there and not one depending on a supplied adjoint.
 
 * `Stacks.Duality.AnyModel.bijective_comp_canonicalSheafyTrace` — [Stacks, Tag 0B6I] with the
   adjoint discharged: what is still carried is the projection formula of [Stacks, Tag 08EU] and
-  part (1) of [Stacks, Tag 08DX], the two inputs of [Stacks, Tag 0A9Q], which are not proved
-  here.
+  part (1) of [Stacks, Tag 08DX], the two inputs of [Stacks, Tag 0A9Q] at every object; the
+  instances of them the tag needs are proved in
+  `StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceGlobalHomQcqs.lean`, where
+  `Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf_of_qcqs` states the tag with neither
+  carried.
 
 ## Implementation notes
 
-**No `@[stacks]` attribute is placed.** [Stacks, Tag 0B6H] and [Stacks, Tag 0B6I] are already
-registered on the statements this file specialises, and nothing of their content is added here;
-what is removed is one of their carried hypotheses. The attribute descriptions there record which
-hypotheses they carry, and they remain accurate for them.
+**No `@[stacks]` attribute is placed.** [Stacks, Tag 0B6H] is registered on the trace map this
+file specialises, and [Stacks, Tag 0B6I] on
+`Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf_of_qcqs`, which holds for every right
+adjoint and so in particular for the one fixed here.
 
 **The `hpush` hypothesis of the trace map is taken from
 `Stacks.Duality.StandardModel.isQuasicoherent_homology_derivedPushforward`**, which is part (1) of
@@ -126,10 +129,11 @@ quasi-compact and quasi-separated schemes, the sheafy trace map built from the a
 [Stacks, Tag 0A9E] induces, in every degree `n`, a bijection on the morphism groups out of
 `𝒪_Y⟦-n⟧` — that is, on the degree-`n` cohomology of the two global derived Homs.
 
-What is still carried is what [Stacks, Tag 0A9Q] carries in this development: the projection
-formula of [Stacks, Tag 08EU] as the hypothesis `h08EU` and the quasi-coherence of
-`Lf^*M ⊗^L_{𝒪_X} L` of [Stacks, Tag 08DX] part (1) as the hypothesis `hten`. The right adjoint of
-[Stacks, Tag 0A9E] is no longer among them. -/
+The hypotheses are those of `Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf`: the
+projection formula of [Stacks, Tag 08EU] as `h08EU` and the quasi-coherence of
+`Lf^*M ⊗^L_{𝒪_X} L` of [Stacks, Tag 08DX] part (1) as `hten`, at every object. The right adjoint
+of [Stacks, Tag 0A9E] is not among them. The form with neither hypothesis is
+`Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf_of_qcqs`. -/
 theorem bijective_comp_canonicalSheafyTrace (L : quasiCoherentDerivedCategory X)
     (K : quasiCoherentDerivedCategory Y)
     (hten : ∀ (M : quasiCoherentDerivedCategory Y) (i : ℤ),

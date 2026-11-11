@@ -468,6 +468,88 @@ public theorem exists_normalizedCochainComplex :
   have := isEquivalence_normalizedCochainComplexFunctor A
   exact ⟨inferInstance, inferInstance⟩
 
+/-! ### The projection `s(U) ⟶ Q(U)` is a homotopy equivalence -/
+
+section HomotopyUnop
+
+variable {A} {ι : Type*} {c : ComplexShape ι} {K L : HomologicalComplex Aᵒᵖ c}
+
+/-- A homotopy between morphisms of complexes of `Aᵒᵖ` gives a homotopy between the morphisms of
+the unopposed complexes. -/
+private def homotopyUnopFunctorMap {f g : K ⟶ L} (H : Homotopy f g) :
+    Homotopy ((HomologicalComplex.unopFunctor A c).map f.op)
+      ((HomologicalComplex.unopFunctor A c).map g.op) where
+  hom i j := (H.hom j i).unop
+  zero i j hij := by
+    rw [H.zero j i hij]
+    rfl
+  comm i := Quiver.Hom.op_inj <| by
+    have e₁ : (dNext i (C := (HomologicalComplex.unopFunctor A c).obj (op L))
+        (D := (HomologicalComplex.unopFunctor A c).obj (op K))
+        (fun i j => (H.hom j i).unop)).op = prevD i H.hom := rfl
+    have e₂ : (prevD i (C := (HomologicalComplex.unopFunctor A c).obj (op L))
+        (D := (HomologicalComplex.unopFunctor A c).obj (op K))
+        (fun i j => (H.hom j i).unop)).op = dNext i H.hom := rfl
+    rw [op_add, op_add, e₁, e₂]
+    exact (H.comm i).trans (by rw [add_comm (dNext i H.hom)]; rfl)
+
+/-- A homotopy equivalence of complexes of `Aᵒᵖ` gives a homotopy equivalence of the unopposed
+complexes, in the opposite direction. -/
+private def homotopyEquivUnop (e : HomotopyEquiv K L) :
+    HomotopyEquiv ((HomologicalComplex.unopFunctor A c).obj (op L))
+      ((HomologicalComplex.unopFunctor A c).obj (op K)) where
+  hom := (HomologicalComplex.unopFunctor A c).map e.hom.op
+  inv := (HomologicalComplex.unopFunctor A c).map e.inv.op
+  homotopyHomInvId := (Homotopy.ofEq (by rw [← CategoryTheory.Functor.map_comp, ← op_comp])).trans
+    ((homotopyUnopFunctorMap e.homotopyInvHomId).trans
+      (Homotopy.ofEq (by rw [op_id, CategoryTheory.Functor.map_id])))
+  homotopyInvHomId := (Homotopy.ofEq (by rw [← CategoryTheory.Functor.map_comp, ← op_comp])).trans
+    ((homotopyUnopFunctorMap e.homotopyHomInvId).trans
+      (Homotopy.ofEq (by rw [op_id, CategoryTheory.Functor.map_id])))
+
+end HomotopyUnop
+
+private lemma homotopyEquivalences_unopFunctor_map_inclusion (Y : SimplicialObject Aᵒᵖ) :
+    HomologicalComplex.homotopyEquivalences A (ComplexShape.up ℕ)
+      ((HomologicalComplex.unopFunctor A (ComplexShape.down ℕ)).map
+        (inclusionOfMooreComplexMap Y).op) :=
+  ⟨homotopyEquivUnop
+    (DoldKan.homotopyEquivNormalizedMooreComplexAlternatingFaceMapComplex (Y := Y)), rfl⟩
+
+private lemma homotopyEquivalences_dualize_inclusion (V : CosimplicialObject A) :
+    HomologicalComplex.homotopyEquivalences A (ComplexShape.up ℕ)
+      (((dualize A).map (inclusionOfMooreComplex Aᵒᵖ).op).app V) :=
+  homotopyEquivalences_unopFunctor_map_inclusion A
+    ((cosimplicialSimplicialEquiv A).functor.obj (op V))
+
+private lemma homotopyEquivalences_pi (U : CosimplicialObject A) :
+    HomologicalComplex.homotopyEquivalences A (ComplexShape.up ℕ) ((pi A).app U) := by
+  have h : (pi A).app U = ((signIso A).hom.app U ≫ (isoDualS A).hom.app ((revFunctor A).obj U)) ≫
+      ((dualize A).map (inclusionOfMooreComplex Aᵒᵖ).op).app ((revFunctor A).obj U) :=
+    (Category.assoc _ _ _).symm
+  obtain ⟨E, hE⟩ := homotopyEquivalences_dualize_inclusion A ((revFunctor A).obj U)
+  rw [h, ← hE]
+  exact ⟨(HomotopyEquiv.ofIso (asIso ((signIso A).hom.app U ≫
+      (isoDualS A).hom.app ((revFunctor A).obj U)))).trans E, rfl⟩
+
+/-- **The projection from the Moore cochain complex onto the normalized cochain complex is a
+homotopy equivalence.** Let `A` be an abelian category. There is a functor `Q`, the normalized
+cochain complex of [Stacks, Tag 019I], together with a natural transformation `π : s ⟶ Q` which is
+an isomorphism in degree `0` and, in degree `n + 1`, a cokernel of the cofaces `δ i : Uₙ ⟶ Uₙ₊₁`,
+`i ≤ n`, such that each `π.app U : s(U) ⟶ Q(U)` is a homotopy equivalence of cochain complexes. -/
+public theorem exists_normalizedCochainComplex_homotopyEquivalences :
+    ∃ (Q : CosimplicialObject A ⥤ CochainComplex A ℕ)
+      (π : alternatingCofaceMapComplex A ⟶ Q),
+      (∀ U : CosimplicialObject A, IsIso ((π.app U).f 0)) ∧
+      (∀ (U : CosimplicialObject A) (n : ℕ),
+        ∃ e : cokernel (Sigma.desc (f := fun _ : Fin (n + 1) => U.obj ⦋n⦌)
+            fun i => U.δ i.castSucc) ≅ (Q.obj U).X (n + 1),
+          cokernel.π _ ≫ e.hom = (π.app U).f (n + 1)) ∧
+      ∀ U : CosimplicialObject A,
+        HomologicalComplex.homotopyEquivalences A (ComplexShape.up ℕ) (π.app U) :=
+  ⟨normalizedCochainComplexFunctor A, pi A, isIso_pi_app_f_zero A, cokernel_pi A,
+    homotopyEquivalences_pi A⟩
+
 end DualDoldKan
 
 end AlgebraicTopology

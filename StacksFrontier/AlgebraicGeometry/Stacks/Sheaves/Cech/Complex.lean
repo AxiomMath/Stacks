@@ -66,6 +66,7 @@ of the covering being compared.
 
 ## References
 
+* [Stacks Project, Tag 06X3](https://stacks.math.columbia.edu/tag/06X3)
 * [Stacks Project, Tag 06X5](https://stacks.math.columbia.edu/tag/06X5)
 -/
 
@@ -163,6 +164,7 @@ public theorem reindexMap_comp {l m n : ℕ} (φ : ⦋l⦌ ⟶ ⦋m⦌) (ψ : �
   rfl
 
 /-- The cosimplicial object `n ↦ Γ(U_n, f_n⁻¹F)` underlying the Čech complex. -/
+@[stacks 06X3 "the cosimplicial object n ↦ Γ(U_n, f_n⁻¹F)"]
 public def cosimplicial : CosimplicialObject A where
   obj n := term p f F n.len
   map φ := reindexMap p f F φ
@@ -182,6 +184,7 @@ variable [Preadditive A] (p : X ⥤ C) (f : U ⥤ X) (F : Xᵒᵖ ⥤ A)
 
 /-- The Čech complex `Č(U → X, F)`: the cochain complex of the cosimplicial object
 `n ↦ Γ(U_n, f_n⁻¹F)`. -/
+@[stacks 06X3 "the Čech complex Č(U → X, F)"]
 public def complex : CochainComplex A ℕ :=
   (alternatingCofaceMapComplex A).obj (cosimplicial p f F)
 
@@ -189,6 +192,7 @@ public def complex : CochainComplex A ℕ :=
 @[simp] public theorem complex_X (n : ℕ) : (complex p f F).X n = term p f F n := rfl
 
 /-- The differential of the Čech complex is the alternating sum of the coface pullback maps. -/
+@[stacks 06X3 "the differential of the Čech complex"]
 public theorem complex_d (n : ℕ) :
     (complex p f F).d n (n + 1) =
       ∑ i : Fin (n + 2), (-1 : ℤ) ^ (i : ℕ) • (cosimplicial p f F).δ i := by

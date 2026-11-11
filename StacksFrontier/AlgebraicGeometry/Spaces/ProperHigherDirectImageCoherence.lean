@@ -10,6 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteDirectImageCoherence
 public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms
 public import StacksFrontier.AlgebraicGeometry.Spaces.NoetherianSpaces
 public import StacksFrontier.AlgebraicGeometry.Spaces.PointsTopology
+public import StacksFrontier.AlgebraicGeometry.Spaces.ProperHigherDirectImageCoherent
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentCokernelsUnconditional
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentPushforwardExactSequence
 public import StacksFrontier.AlgebraicGeometry.Spaces.SheafSupport
@@ -24,13 +25,18 @@ coherent `𝒪_Y`-module in every degree.  It is obtained here from the dévissa
 modules on `X`, Stacks 08AN, applied to the property that all higher direct images of a module
 are coherent: the two-out-of-three condition and the finite-sum condition of that dévissage are
 proved for this property, granted quasi-coherence of the higher direct images, which is
-Stacks 0720.
+Stacks 0720.  Stacks 08AR itself, with no hypothesis beyond the source's, is
+`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper`, which is
+`AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`
+(`StacksFrontier/AlgebraicGeometry/Spaces/ProperHigherDirectImageCoherent.lean`): there the
+étale-local reduction of the source is made through Stacks 07UB and Stacks 03LX, and the
+dévissage of Stacks 08AN is applied over each affine chart with the witness from Chow's lemma.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.HasCoherentHigherDirectImages` is the property `𝓟` of an
   `𝒪_X`-module that all of its higher direct images along `f` are coherent.
-* `AlgebraicGeometry.Space.QuasicoherentHigherDirectImages` is the hypothesis `h0720`:
+* `AlgebraicGeometry.Space.QuasicoherentHigherDirectImages` is the quasi-coherence condition:
   every higher direct image of a coherent `𝒪_X`-module along `f` is quasi-coherent.
 * `AlgebraicGeometry.Space.CoherentDevissage` is the dévissage principle of Stacks 08AN,
   stated for one property, with its three conditions as premises.
@@ -47,31 +53,32 @@ Stacks 0720.
   two-out-of-three condition of Stacks 08AN** for the property above, granted `h0720`.
 * `AlgebraicGeometry.Space.hasCoherentHigherDirectImages_finiteSum`: **the finite-sum
   condition of Stacks 08AN** for the property above, granted `h0720`.
+* `AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper_of_devissage`:
+  the conclusion of Stacks 08AR from quasi-coherence of the higher direct images, the dévissage
+  principle and its integral-subspace condition, given as hypotheses.
 * `AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper`:
-  **Stacks 08AR**, with Stacks 0720, Stacks 08AN and the integral-subspace condition of the
-  source's proof carried as explicit hypotheses.
+  **Stacks 08AR**.
 
 ## Implementation notes
 
-**What is carried and what is proved.**  Three hypotheses are carried by the last result and
-each is a cited result other than Stacks 08AR itself.
+**What the reduction takes as hypotheses.**
+`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper_of_devissage`
+is a reduction, kept as such; each of its three hypotheses is a result of another tag.
 
-* `h0720` is quasi-coherence of the higher direct images, Stacks 0720.  This development does
-  not prove it:
-  `StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherentReduction.lean` carries out
-  the reduction to an affine base and records which of the three inputs of the remaining step are
-  missing.
-* `h08AN` is the dévissage of Stacks 08AN for the property at hand, with the local
-  Noetherianity of `X` in place of the source's Noetherianity: the source reaches a Noetherian
-  `X` by first localizing étale on `Y`, and the étale-local test for coherence of a higher
-  direct image is not available here, there being no transfer of coherence along the chart
-  equivalence of Stacks 04M0 in either direction.  Local Noetherianity of `X` *is* discharged,
-  from properness and Stacks 04ZK.
-* `hwitness` is the third condition of the source's proof: at a reduced closed subspace with
+* `hqc` is quasi-coherence of the higher direct images, Stacks 0720, which is proved for a
+  quasi-compact and quasi-separated `f` as
+  `AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward'`.
+* `hdev` is the dévissage of Stacks 08AN for the property at hand, with the local
+  Noetherianity of `X` in place of the source's Noetherianity.  Local Noetherianity of `X` is
+  discharged here, from properness and Stacks 04ZK.  The étale-local reduction of the source
+  is carried out in `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`, through
+  Stacks 07UB and Stacks 03LX.
+* `hint` is the third condition of the source's proof: at a reduced closed subspace with
   irreducible point set, a coherent module with full support whose direct image to `X` has the
   property.  The source produces it from Chow's lemma for spaces, Stacks 089J, the eventual
-  vanishing of Stacks 08AQ and the projective case Stacks 02O4; a finite surjective scheme
-  cover, Stacks 09YC, serves the same purpose.
+  vanishing of Stacks 08AQ and the projective case Stacks 02O4; over a Noetherian affine base
+  the corresponding condition is
+  `AlgebraicGeometry.Space.hasCoherentWitnessOnIntegralSubspaces_of_isProper_of_isAffine`.
 
 The two remaining conditions of the dévissage are proved.  The two-out-of-three condition comes
 from the long exact sequence of right derived functors in the object variable,
@@ -166,9 +173,8 @@ def HasCoherentHigherDirectImages (f : X ⟶ Y) (G : Modules.{u, u} B S hS X.1 X
 /-- The hypothesis `h0720`: every higher direct image of a coherent `𝒪_X`-module along
 `f : X ⟶ Y` is quasi-coherent.
 
-For a quasi-compact and quasi-separated `f` this is Stacks 0720, whose reduction to an affine
-base is carried out in
-`StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherentReduction.lean`. -/
+For a quasi-compact and quasi-separated `f` this is Stacks 0720,
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward'`. -/
 def QuasicoherentHigherDirectImages (f : X ⟶ Y) : Prop :=
   ∀ G : Modules.{u, u} B S hS X.1 X.2, IsCoherent B S hS X.1 X.2 G → ∀ n : ℕ,
     have := hasInjectiveResolutions_modules B S hS X.1 X.2
@@ -282,41 +288,52 @@ theorem hasCoherentHigherDirectImages_finiteSum (f : X ⟶ Y)
 
 /-! ### Stacks 08AR -/
 
-/-- **Stacks 08AR**, with the three cited inputs of the source's proof carried as hypotheses.
-Let `f : X ⟶ Y` be a proper morphism of algebraic spaces over `S` with `Y` locally Noetherian
-and let `𝓕` be a coherent `𝒪_X`-module.  Then `R^i f_*𝓕` is a coherent `𝒪_Y`-module for every
-`i`.
+/-- **Coherence of the higher direct images from the conditions of the dévissage.**  Let
+`f : X ⟶ Y` be a proper morphism of algebraic spaces over `S` with `Y` locally Noetherian and
+let `𝓕` be a coherent `𝒪_X`-module.  Given quasi-coherence `hqc` of the higher direct images,
+the dévissage principle `hdev` of Stacks 08AN for the property that all higher direct images
+are coherent, and the integral-subspace condition `hint` for that property, `R^i f_*𝓕` is
+a coherent `𝒪_Y`-module for every `i`.
 
-The dévissage `h08AN` of Stacks 08AN is applied to the property that all higher direct images
-are coherent.  Its local Noetherianity premise is discharged from properness by Stacks 04ZK;
-its two-out-of-three and finite-sum conditions are
+The local Noetherianity premise of `hdev` is discharged from properness by Stacks 04ZK; its
+two-out-of-three and finite-sum conditions are
 `AlgebraicGeometry.Space.hasCoherentHigherDirectImages_twoOutOfThree` and
 `AlgebraicGeometry.Space.hasCoherentHigherDirectImages_finiteSum`, proved above from the long
-exact sequence of the higher direct images together with Stacks 07UC and Stacks 07UD and
-consuming the quasi-coherence hypothesis `h0720` of Stacks 0720; its integral-subspace
-condition is `hwitness` and is not proved. -/
-@[stacks 08AR "conditional on three cited results carried as explicit hypotheses: Stacks 0720 \
-as h0720 (quasi-coherence of the higher direct images), Stacks 08AN as h08AN (the devissage of \
-coherent modules, with its Noetherian hypothesis on X relaxed to the local Noetherianity that \
-properness supplies) and the third condition of the source's devissage as hwitness (a coherent \
-module with full support on each reduced closed subspace with irreducible point set, whose \
-direct image has coherent higher direct images -- the source gets it from Stacks 089J, 08AQ \
-and 02O4, and Stacks 09YC serves as well). The other two conditions of Stacks 08AN are PROVED \
-here for this property, and so is the local Noetherianity of X"]
-theorem isCoherent_rightDerived_modulePushforward_of_isProper (f : X ⟶ Y)
+exact sequence of the higher direct images together with Stacks 07UC and Stacks 07UD.
+Stacks 08AR with none of these hypotheses is
+`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper`. -/
+theorem isCoherent_rightDerived_modulePushforward_of_isProper_of_devissage (f : X ⟶ Y)
     (hf : IsProper B S hS f.hom)
     (hY : HasEtaleLocalProperty B S hS Y.1 (fun V : Scheme.{u} ↦ IsLocallyNoetherian V))
     (F : Modules.{u, u} B S hS X.1 X.2) (hF : IsCoherent B S hS X.1 X.2 F)
-    (h0720 : QuasicoherentHigherDirectImages B S hS f)
-    (h08AN : CoherentDevissage B S hS X (HasCoherentHigherDirectImages B S hS f))
-    (hwitness :
-      CoherentDevissageIntegralWitness B S hS X (HasCoherentHigherDirectImages B S hS f))
+    (hqc : QuasicoherentHigherDirectImages B S hS f)
+    (hdev : CoherentDevissage B S hS X (HasCoherentHigherDirectImages B S hS f))
+    (hint : CoherentDevissageIntegralWitness B S hS X (HasCoherentHigherDirectImages B S hS f))
     (i : ℕ) :
     have := hasInjectiveResolutions_modules B S hS X.1 X.2
     IsCoherent B S hS Y.1 Y.2 (((modulePushforward B S hS f).rightDerived i).obj F) :=
-  h08AN (isLocallyNoetherian_of_isLocallyOfFiniteType B S hS X.2 Y.2 f.hom hf.2.1.1 hY)
-    (hasCoherentHigherDirectImages_twoOutOfThree B S hS f hY h0720)
-    (hasCoherentHigherDirectImages_finiteSum B S hS f hY h0720) hwitness F hF i
+  hdev (isLocallyNoetherian_of_isLocallyOfFiniteType B S hS X.2 Y.2 f.hom hf.2.1.1 hY)
+    (hasCoherentHigherDirectImages_twoOutOfThree B S hS f hY hqc)
+    (hasCoherentHigherDirectImages_finiteSum B S hS f hY hqc) hint F hF i
+
+/-- **Stacks 08AR.**  Let `f : X ⟶ Y` be a proper morphism of algebraic spaces over `S` with `Y`
+locally Noetherian, and let `𝓕` be a coherent `𝒪_X`-module.  Then `R^i f_*𝓕` is a coherent
+`𝒪_Y`-module for every `i ≥ 0`.
+
+This is `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`: `R^i f_*𝓕` is
+quasi-coherent by Stacks 0720, so by Stacks 07UB it suffices that its sections over every affine
+étale chart `V` of `Y` are finite; by Stacks 03LX and the degeneration of the Leray spectral
+sequence over the affine `V` they are the cohomology of `𝓕` restricted to the proper base change
+`X_V ⟶ V`, which is finite by the dévissage of Stacks 08AN with the witness from Chow's
+lemma, `AlgebraicGeometry.Space.hasFiniteCohomologyOver_of_isProper`. -/
+@[stacks 08AR]
+theorem isCoherent_rightDerived_modulePushforward_of_isProper (f : X ⟶ Y)
+    (hf : IsProper B S hS f.hom)
+    (hY : HasEtaleLocalProperty B S hS Y.1 (fun V : Scheme.{u} ↦ IsLocallyNoetherian V))
+    (F : Modules.{u, u} B S hS X.1 X.2) (hF : IsCoherent B S hS X.1 X.2 F) (i : ℕ) :
+    have := hasInjectiveResolutions_modules B S hS X.1 X.2
+    IsCoherent B S hS Y.1 Y.2 (((modulePushforward B S hS f).rightDerived i).obj F) :=
+  isCoherent_higherDirectImage_of_isProper B S hS f hf hY F hF i
 
 end AlgebraicGeometry.Space
 

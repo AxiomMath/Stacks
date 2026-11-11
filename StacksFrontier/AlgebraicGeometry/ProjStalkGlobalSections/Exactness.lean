@@ -160,7 +160,7 @@ private theorem mk_mem_degreeZeroModuleAt (x : ProjectiveSpectrum.top 𝒮) (d :
 omit [Decomposition 𝒨] in
 /-- Every element of the degree-zero part is a single homogeneous fraction: the sum of two such
 fractions, and the product of one with a degree-zero fraction of `S`, are again of that form. -/
-private theorem exists_mk_of_mem_degreeZeroModuleAt (x : ProjectiveSpectrum.top 𝒮)
+theorem exists_mk_of_mem_degreeZeroModuleAt (x : ProjectiveSpectrum.top 𝒮)
     {z : ProjectiveSpectrum.Proj.ModuleFiber (M := M) 𝒮 x}
     (hz : z ∈ degreeZeroModuleAt 𝒮 𝒨 x) :
     ∃ (d : ℕ) (m : M) (s : x.asHomogeneousIdeal.toIdeal.primeCompl),

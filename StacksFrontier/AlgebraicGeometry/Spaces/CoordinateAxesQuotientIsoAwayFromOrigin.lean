@@ -52,6 +52,14 @@ namespace AlgebraicGeometry.CoordinateAxesQuotient
 
 open AffineLineInvolution
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_coordinateAxesQuotientIsoAwayFromOrigin
+    {B : BigFppfSite.{u}} {T : Scheme.{u}} {hT : B.Contains T}
+    {P Q R : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Setup.{u}) (hS : B.Contains (Spec (.of S.k)))
     [HasSheafify (BigFppfOver.topology B (Spec (.of S.k)) hS) (Type u)]
 

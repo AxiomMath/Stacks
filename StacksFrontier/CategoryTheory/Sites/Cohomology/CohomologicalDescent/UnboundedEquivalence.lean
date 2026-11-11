@@ -10,7 +10,8 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.Pushfo
 /-!
 # Derived pullback as an equivalence of unbounded derived categories
 
-Let `f : (Sh(C), 𝒪) ⟶ (Sh(C'), 𝒪')` be a flat morphism of ringed topoi, let `𝒜 ⊂ Mod(𝒪)` and
+Let `f : (Sh(C), 𝒪) ⟶ (Sh(C'), 𝒪')` be a flat morphism of ringed topoi induced by a morphism of
+sites, let `𝒜 ⊂ Mod(𝒪)` and
 `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories, and assume
 
 1. `f^*` induces an equivalence `𝒜' ⟶ 𝒜`,
@@ -22,6 +23,9 @@ Then
   `Lf^* : D_{𝒜'}(𝒪') ⟶ D_𝒜(𝒪)`
 
 is an equivalence of categories, with quasi-inverse `Rf_* : D_𝒜(𝒪) ⟶ D_{𝒜'}(𝒪')`.
+
+This is Stacks 0D7V for morphisms presented by sites. Stacks 0D7V itself, for an arbitrary
+morphism of ringed topoi, is in `UnboundedEquivalenceOfToposHom`, and carries the tag.
 
 ## The argument
 
@@ -79,10 +83,10 @@ objects of each site, an integer bound and a cofinal system of coverings of each
 class, rather than two `Stacks.Cohomology.OlssonLaszloSituation` arguments, because such a
 situation bundles its own site and sheaf of rings, which here must be those of `X` and of `Y`.
 
-**Flatness and the morphism-of-sites condition are the hypotheses of the source.** As in Tag
-0D7U, the final statements open with `letI`, because the *type* of `Lf^*` mentions the instance
-saying that degreewise pullback has a left derived functor, so nothing about `Lf^*` can be
-written down before that instance is in scope. The section `Exact` takes exactness of degreewise
+**Flatness is the hypothesis of the source; the morphism-of-sites condition `hmos` is not.**
+As in Tag 0D7U, the final statements open with `letI`, because the *type* of `Lf^*` mentions the
+instance saying that degreewise pullback has a left derived functor, so nothing about `Lf^*` can
+be written down before that instance is in scope. The section `Exact` takes exactness of degreewise
 pullback as instances and the propagated counit hypothesis of Tag 0D7S as an argument; the
 section `Descent` produces the instances from flatness and discharges that hypothesis.
 
@@ -192,8 +196,7 @@ variable (hA : ∀ M, A' M → A (f.pullbackTopos.obj M))
 include hA in
 omit [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
   [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
-  [A'.IsWeakSerreClass] [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+  [A'.IsWeakSerreClass] in
 /-- `Lf^*` carries `D_{𝒜'}(𝒪')` into `D_𝒜(𝒪)`: its cohomology objects are `f^*` of those of the
 source, and `f^*` carries `𝒜'` into `𝒜`. -/
 theorem derivedCategoryB_derivedPullback_obj_of_exact
@@ -298,7 +301,7 @@ theorem isIso_derivedCounit_app_of_derivedCategoryB_of_exact
     (NatIso.isIso_map_iff (derivedPullbackCompHomologyFunctorIso f j)
       ((derivedPushforward f).map
         ((DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K))).2 (by
-      change IsIso (f.pullbackTopos.map
+      show IsIso (f.pullbackTopos.map
         ((DerivedCategory.homologyFunctor (SheafOfModules.{w}
             (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) j).map
           ((derivedPushforward f).map
@@ -357,10 +360,10 @@ theorem isIso_of_isIso_pullbackTopos_map
   let g' : (⟨M, hM⟩ : A'.FullSubcategory) ⟶ ⟨N, hN⟩ := ObjectProperty.homMk g
   have : IsIso (F.map g') := by
     refine (ObjectProperty.isIso_hom_iff (F.map g')).1 ?_
-    change IsIso (f.pullbackTopos.map g)
+    show IsIso (f.pullbackTopos.map g)
     exact inferInstance
   have : IsIso g' := isIso_of_reflects_iso g' F
-  change IsIso g'.hom
+  show IsIso g'.hom
   exact inferInstance
 
 include hmos hA hEquiv hUnit basisCover vanishing basisCover' vanishing' in
@@ -410,7 +413,7 @@ theorem isIso_derivedUnit_app_of_derivedCategoryB_of_exact
         ((derivedPullbackPushforwardAdjunctionOfExact f).unit.app K))) :=
     (NatIso.isIso_map_iff (derivedPullbackCompHomologyFunctorIso f j)
       ((derivedPullbackPushforwardAdjunctionOfExact f).unit.app K)).1 (by
-      change IsIso ((DerivedCategory.homologyFunctor (SheafOfModules.{w}
+      show IsIso ((DerivedCategory.homologyFunctor (SheafOfModules.{w}
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) j).map
         ((derivedPullback f).map
           ((derivedPullbackPushforwardAdjunctionOfExact f).unit.app K)))
@@ -505,11 +508,13 @@ variable (hmos : f.u.IsMorphismOfSites Y.J X.J)
 include hmos hf hA in
 omit [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
   [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
-  [A'.IsWeakSerreClass] [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
-/-- **Stacks 0D7V**, the assertion that derived pullback restricts. Let `f` be a flat morphism of
-ringed topoi and let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories with
-`f^*𝒜' ⊂ 𝒜`. Then `Lf^*` carries `D_{𝒜'}(𝒪')` into `D_𝒜(𝒪)`. -/
-@[stacks 0D7V "derived pullback"]
+  [A'.IsWeakSerreClass] in
+/-- **Derived pullback restricts, for a morphism of ringed topoi induced by a morphism of sites**
+(the hypothesis `hmos`). Let `f` be a flat such morphism and let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be
+weak Serre subcategories with `f^*𝒜' ⊂ 𝒜`. Then `Lf^*` carries `D_{𝒜'}(𝒪')` into `D_𝒜(𝒪)`.
+This is the special case of Stacks 0D7V for morphisms presented by sites; the statement for an
+arbitrary morphism of ringed topoi is
+`Stacks.Cohomology.CohomologicalDescent.OfRingedToposHom.derivedCategoryB_derivedPullback_obj`. -/
 theorem derivedCategoryB_derivedPullback_obj :
     letI := f.pullbackTopos_preservesFiniteLimits hmos hf
     letI := f.pullbackTopos_preservesFiniteColimits
@@ -523,11 +528,14 @@ theorem derivedCategoryB_derivedPullback_obj :
   exact derivedCategoryB_derivedPullback_obj_of_exact f A A' hA
 
 include hmos hf hA hEquiv basisCover vanishing basisCover' vanishing' in
-/-- **Stacks 0D7V**, the assertion that derived pushforward restricts. Under the hypotheses of the
-source — `f` flat, `f^*` inducing an equivalence `𝒜' ⟶ 𝒜`, the unit `ℱ' ⟶ Rf_*f^*ℱ'` invertible
+/-- **Derived pushforward restricts, for a morphism of ringed topoi induced by a morphism of sites**
+(the hypothesis `hmos`, which the source does not make). Under the other hypotheses of Stacks
+0D7V — `f` flat, `f^*` inducing an equivalence `𝒜' ⟶ 𝒜`, the unit `ℱ' ⟶ Rf_*f^*ℱ'` invertible
 on `𝒜'`, and both sites satisfying the Olsson--Laszlo hypothesis of Tag 0D6R — the pushforward
-`Rf_*` carries `D_𝒜(𝒪)` into `D_{𝒜'}(𝒪')`. -/
-@[stacks 0D7V "derived pushforward"]
+`Rf_*` carries `D_𝒜(𝒪)` into `D_{𝒜'}(𝒪')`. The statement for an arbitrary morphism of ringed
+topoi is
+`Stacks.Cohomology.CohomologicalDescent.OfRingedToposHom.derivedCategoryB_derivedPushforward_obj`.
+-/
 theorem derivedCategoryB_derivedPushforward_obj :
     letI := f.pullbackTopos_preservesFiniteLimits hmos hf
     letI := f.pullbackTopos_preservesFiniteColimits
@@ -551,8 +559,9 @@ theorem derivedCategoryB_derivedPushforward_obj :
       have := isLE_derivedPushforward_singleFunctor_obj_of_exact f A A' hA hEquiv hUnit F hF
       DerivedCategory.isZero_of_isLE _ 0 (p : ℤ) hp))
 
-/-- **Stacks 0D7V.** Let `f : (Sh(C), 𝒪) ⟶ (Sh(C'), 𝒪')` be a flat morphism of ringed topoi and
-let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories such that `f^*` induces an
+/-- **Stacks 0D7V for a morphism of ringed topoi induced by a morphism of sites** (the hypothesis
+`hmos`, which the source does not make). Let `f : (Sh(C), 𝒪) ⟶ (Sh(C'), 𝒪')` be a flat such
+morphism and let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories such that `f^*` induces an
 equivalence `𝒜' ⟶ 𝒜` and the unit `ℱ' ⟶ Rf_*f^*ℱ'` is invertible for every `ℱ'` of `𝒜'`, and
 assume that `C, 𝒪, 𝒜` and `C', 𝒪', 𝒜'` both satisfy the standing hypothesis of Tag 0D6R. Then
 the derived pullback is an **equivalence** `D_{𝒜'}(𝒪') ≌ D_𝒜(𝒪)`.
@@ -560,8 +569,8 @@ the derived pullback is an **equivalence** `D_{𝒜'}(𝒪') ≌ D_𝒜(𝒪)`.
 The hypothesis on the unit propagates from `𝒜'` to all of `D⁺_{𝒜'}(𝒪')` by Tag 0D7T and the
 corresponding statement for the counit from `𝒜` to all of `D⁺_𝒜(𝒪)` by Tag 0D7S; the
 Olsson--Laszlo hypotheses then carry both from the bounded below subcategories to the whole
-derived categories, through Tag 0D6U. -/
-@[stacks 0D7V "equivalence"]
+derived categories, through Tag 0D6U. The statement for an arbitrary morphism of ringed topoi is
+`Stacks.Cohomology.CohomologicalDescent.OfRingedToposHom.derivedPullbackEquivalenceUnbounded`. -/
 def derivedPullbackEquivalenceUnbounded
     (hUnit :
       letI := f.pullbackTopos_preservesFiniteLimits hmos hf
@@ -582,9 +591,9 @@ def derivedPullbackEquivalenceUnbounded
       ((DerivedCategoryB.isBoundedBelow_iff_exists_isGE K).1 hK.1) fun q ↦
         isIso_derivedCounit_app_singleFunctor_obj_of_exact f A A' hA hEquiv hUnit _ (hK.2 q))
 
-/-- **Stacks 0D7V**, the identification of the forward functor of the equivalence with the
-restriction of the derived pullback. -/
-@[stacks 0D7V "forward functor"]
+/-- The identification of the forward functor of `derivedPullbackEquivalenceUnbounded` (Stacks
+0D7V for a morphism induced by a morphism of sites) with the restriction of the derived pullback.
+-/
 theorem derivedPullbackEquivalenceUnbounded_functor
     (hUnit :
       letI := f.pullbackTopos_preservesFiniteLimits hmos hf
@@ -604,9 +613,8 @@ theorem derivedPullbackEquivalenceUnbounded_functor
         (fun K ↦ derivedCategoryB_derivedPullback_obj f A A' hmos hf hA K.obj K.property) :=
   rfl
 
-/-- **Stacks 0D7V**, the identification of the quasi-inverse of the equivalence with the
-restriction of the derived pushforward. -/
-@[stacks 0D7V "quasi-inverse"]
+/-- The identification of the quasi-inverse of `derivedPullbackEquivalenceUnbounded` (Stacks 0D7V
+for a morphism induced by a morphism of sites) with the restriction of the derived pushforward. -/
 theorem derivedPullbackEquivalenceUnbounded_inverse
     (hUnit :
       letI := f.pullbackTopos_preservesFiniteLimits hmos hf

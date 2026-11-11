@@ -5,8 +5,7 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedInte
 import StacksCore.Tactic.StacksAttribute
 
 /-!
-# The derived internal hom of a ringed space transforms distinguished triangles into
-distinguished triangles
+# The derived internal hom of a ringed space on distinguished triangles: the existential form
 
 Let `(X, O_X)` be a ringed space.  For a distinguished triangle `T` of `D(O_X)` and an object `E`
 of `D(O_X)`, both
@@ -17,9 +16,10 @@ and
 
 `RSheafHom(E, T.obj₁) ⟶ RSheafHom(E, T.obj₂) ⟶ RSheafHom(E, T.obj₃)`
 
-extend by a connecting morphism to a distinguished triangle of `D(O_X)`.  So the bifunctor
-`RSheafHom(-, -)` of Stacks 08DH transforms distinguished triangles into distinguished triangles
-in both of its variables, the first contravariantly and the second covariantly.
+extend by *some* connecting morphism to a distinguished triangle of `D(O_X)`.  This is weaker
+than Stacks 08I0, which is proved as two `CategoryTheory.Functor.IsTriangulated` instances in
+`StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedSheafHomTriangulated`; see the
+implementation notes.
 
 A topological space with a sheaf of commutative rings *is* a ringed site, namely the site of its
 opens with the open-cover topology, so the ringed-site statement of Stacks 08JC applies verbatim.
@@ -46,31 +46,15 @@ in the covariant variable the triangle varies in the target and so has to be pre
 termwise split short exact sequence of *K-injective* complexes.  That refined presentation is
 `AlgebraicGeometry.RingedSite.exists_kInjective_degreewiseSplit_presentation`.
 
-The statements are the "there is a connecting morphism making the image a distinguished triangle"
-form rather than two `CategoryTheory.Functor.IsTriangulated` instances.
-`CategoryTheory.Functor.IsTriangulated` presupposes a chosen `CategoryTheory.Functor.CommShift`,
-and the localization descent that produces one for the derived tensor product does not apply to
-the derived internal hom in either variable: its cochain-level model is the internal Hom complex
-into the chosen K-injective *resolution* of the target, and that resolution functor is not known
-to commute with the shift.
-
-The other route to a `CommShift` is transport along an adjunction by
-`CategoryTheory.Adjunction.rightAdjointCommShift`, and it applies to the covariant variable:
-`Stacks.SheafOfModules.derivedSheafHomTensorAdjunction` is the bijection of Stacks 08DI as a
-`CategoryTheory.Adjunction` `- ⊗^L_{O_X} K ⊣ RSheafHom(K, -)`, and
-`Stacks.SheafOfModules.commShift_derivedSheafHom` is the `CategoryTheory.Functor.CommShift ℤ` on
-`RSheafHom(K, -)` it transports.
-
-That does not give the statements below, for two reasons.  First, the contravariant variable
-`RSheafHom(-, E)` is a functor on the opposite category and the right adjoint of nothing here, so
-the transport does not reach it, and `((derivedSheafHom Rc).flip.obj E).CommShift ℤ` is not found
-by instance synthesis, even with the opposite shift of `CategoryTheory.Pretriangulated.Opposite`
-in scope; `AlgebraicGeometry.RingedSite.commShift_derivedSheafHomFlip` provides it only under a
-cochain-level hypothesis on the internal Hom complex.  Second, even in the covariant variable
-`IsTriangulated` is stronger than the existential statement below: `map_distinguished` asks for
-the image triangle with the *specific* connecting morphism built from the triangle's own third
-map and the commutation isomorphism, whereas `exists_distinguished_derivedSheafHom_second`
-produces some connecting morphism and identifies it with nothing.
+The statements are the weak "there is a connecting morphism making the image a distinguished
+triangle" form.  They are **not** Stacks 08I0: in the sense of Stacks 014V, transforming
+distinguished triangles into distinguished triangles asks that the image triangle *with third map
+the image of the given third map composed with the commutation isomorphism* be distinguished,
+whereas here the connecting morphism is merely asserted to exist and is identified with nothing.
+Stacks 08I0 itself is `Stacks.SheafOfModules.isTriangulated_derivedSheafHom_flip` and
+`Stacks.SheafOfModules.isTriangulated_derivedSheafHom` of
+`StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedSheafHomTriangulated`, two
+`CategoryTheory.Functor.IsTriangulated` instances, which imply the statements below.
 
 The contravariant statement is phrased through `CategoryTheory.Functor.flip`, which turns
 `RSheafHom(-, -)` into a functor out of `D(O_X)ᵒᵖ` once the target is fixed; `D(O_X)ᵒᵖ` is
@@ -97,13 +81,15 @@ attribute [local instance] HasDerivedCategory.standard
 variable {X : TopCat.{u}} (Rc : TopCat.Sheaf CommRingCat.{u} X)
   [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
 
-/-- **Stacks 08I0, exactness in the source.**  On a ringed space, the derived internal hom into a
-fixed object carries a distinguished triangle of `D(O_X)` to a distinguished triangle: the two
-morphisms `RSheafHom(T.obj₃, E) ⟶ RSheafHom(T.obj₂, E) ⟶ RSheafHom(T.obj₁, E)` induced by
-`T.mor₂` and `T.mor₁` extend by a connecting morphism to a distinguished triangle.
+/-- **Exactness in the source, existential form.**  On a ringed space, the derived internal hom
+into a fixed object carries a distinguished triangle of `D(O_X)` to a distinguished triangle in
+the weak sense that the two morphisms
+`RSheafHom(T.obj₃, E) ⟶ RSheafHom(T.obj₂, E) ⟶ RSheafHom(T.obj₁, E)` induced by `T.mor₂` and
+`T.mor₁` extend by *some* connecting morphism to a distinguished triangle.
 
-The order of the two morphisms is reversed, which is the contravariance of the first variable. -/
-@[stacks 08I0 "exactness in the source"]
+The order of the two morphisms is reversed, which is the contravariance of the first variable.
+The connecting morphism is only asserted to exist; Stacks 08I0, which fixes it, is
+`Stacks.SheafOfModules.isTriangulated_derivedSheafHom_flip`. -/
 theorem exists_distinguished_derivedSheafHom_first
     (E : DerivedCategory (StructureSheafModules Rc))
     (T : Triangle (DerivedCategory (StructureSheafModules Rc)))
@@ -116,11 +102,12 @@ theorem exists_distinguished_derivedSheafHom_first
         δ ∈ distTriang (DerivedCategory (StructureSheafModules Rc)) :=
   RingedSite.exists_distinguished_derivedSheafHom (ringedSite Rc) E T hT
 
-/-- **Stacks 08I0, exactness in the target.**  On a ringed space, the derived internal hom out of
-a fixed object carries a distinguished triangle of `D(O_X)` to a distinguished triangle: the two
-morphisms `RSheafHom(E, T.obj₁) ⟶ RSheafHom(E, T.obj₂) ⟶ RSheafHom(E, T.obj₃)` induced by
-`T.mor₁` and `T.mor₂` extend by a connecting morphism to a distinguished triangle. -/
-@[stacks 08I0 "exactness in the target"]
+/-- **Exactness in the target, existential form.**  On a ringed space, the derived internal hom
+out of a fixed object carries a distinguished triangle of `D(O_X)` to a distinguished triangle in
+the weak sense that the two morphisms
+`RSheafHom(E, T.obj₁) ⟶ RSheafHom(E, T.obj₂) ⟶ RSheafHom(E, T.obj₃)` induced by `T.mor₁` and
+`T.mor₂` extend by *some* connecting morphism to a distinguished triangle.  Stacks 08I0, which
+fixes the connecting morphism, is `Stacks.SheafOfModules.isTriangulated_derivedSheafHom`. -/
 theorem exists_distinguished_derivedSheafHom_second
     (E : DerivedCategory (StructureSheafModules Rc))
     (T : Triangle (DerivedCategory (StructureSheafModules Rc)))

@@ -21,7 +21,8 @@ the cartesian square of the extension, is the required section over `b⁻¹(W)`.
 
 ## Main results
 
-* `AlgebraicGeometry.exists_isAdmissibleBlowup_extending_section` is [Stacks, Tag 0CP1].
+* `AlgebraicGeometry.exists_isAdmissibleBlowup_extending_section`: the argument of
+  [Stacks, Tag 0CP1], with the two inputs of [Stacks, Tag 081T] as hypotheses.
 
 ## Implementation notes
 
@@ -34,13 +35,17 @@ Such a `t` is unique: a `U`-admissible blowup is an isomorphism over `U`, so a m
 composite. The two clauses together therefore say that the restriction of `s'` to the inverse
 image of `U`, which that inverse image identifies with `U`, is `s`.
 
-The two results cited by [Stacks, Tag 081T] which this development does not prove —
-[Stacks, Tag 080Y] and [Stacks, Tag 081S] — are carried as hypotheses, in exactly the shape
-`AlgebraicGeometry.exists_isAdmissibleBlowup_dominating` consumes them, namely
+The two results cited by [Stacks, Tag 081T] — [Stacks, Tag 080Y] and [Stacks, Tag 081S] —
+enter `AlgebraicGeometry.exists_isAdmissibleBlowup_extending_section` as inputs, in exactly the
+shape `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating` consumes them, namely
 `AlgebraicGeometry.CartierBoundaryReduction` for the first and
-`AlgebraicGeometry.StrictTransformOpenImmersion` for the second. The second is about the
-scheme-theoretic image of `s` over `W`, which is the morphism the argument feeds to
-[Stacks, Tag 081T].
+`AlgebraicGeometry.StrictTransformOpenImmersion` for the second, the latter about the
+scheme-theoretic image of `s` over `W`. Both are proved, as
+`AlgebraicGeometry.cartierBoundaryReduction` and
+`AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`, and
+`AlgebraicGeometry.exists_isAdmissibleBlowup_extending_section_of_qcqs` (in
+`StacksFrontier.AlgebraicGeometry.Blowup.SectionExtensionOfQcqs`) discharges them; that
+declaration is [Stacks, Tag 0CP1].
 
 ## References
 
@@ -87,18 +92,24 @@ private lemma eq_of_comp_eq_of_isIso_morphismRestrict {A Y : Scheme.{u}} (q : A 
     _ = hpb.lift u n hn ≫ (q ⁻¹ᵁ V).ι := by rw [heq]
     _ = n := hpb.lift_snd u n hn
 
-/-- **Stacks Project, Tag 0CP1.** Let `S` be a quasi-compact and quasi-separated scheme, let
-`W ⊆ S` be a quasi-compact open subscheme and let `U ⊆ W` be a quasi-compact open subscheme.
-Let `f : X ⟶ W` be proper and let `s : U ⟶ X` satisfy `s ≫ f = U.ι`. Then there is a
-`U`-admissible blowup `b : S' ⟶ S` and a morphism `s' : b⁻¹(W) ⟶ X` with `s' ≫ f = b|_{b⁻¹(W)}`
-extending `s`, the extension being witnessed by a morphism `t : U ⟶ b⁻¹(W)` over `W`. -/
-@[stacks 0CP1 "with Stacks 080Y and 081S as hypotheses, in the shape Stacks 081T consumes them"]
+/-- **Extending a section after an admissible blowup, from the inputs of Tag 081T.** Let `S` be
+a quasi-compact and quasi-separated scheme, let `W ⊆ S` be a quasi-compact open subscheme and let
+`U ⊆ W` be a quasi-compact open subscheme. Let `f : X ⟶ W` be proper and let `s : U ⟶ X` satisfy
+`s ≫ f = U.ι`. Given the Cartier boundary reduction of `W` along `U` and the strict transform
+property of the scheme-theoretic image of `s` over `W`, there is a `U`-admissible blowup
+`b : S' ⟶ S` and a morphism `s' : b⁻¹(W) ⟶ X` with `s' ≫ f = b|_{b⁻¹(W)}` extending `s`, the
+extension being witnessed by a morphism `t : U ⟶ b⁻¹(W)` over `W`.
+
+Both inputs are proved in the library, by `AlgebraicGeometry.cartierBoundaryReduction` and
+`AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`; they are discharged
+in `AlgebraicGeometry.exists_isAdmissibleBlowup_extending_section_of_qcqs`, which is
+[Stacks, Tag 0CP1]. -/
 theorem exists_isAdmissibleBlowup_extending_section [CompactSpace S] [QuasiSeparatedSpace S]
     (W : S.Opens) (U : W.toScheme.Opens) (hW : IsCompact (W : Set S))
     (hU : IsCompact (U : Set W.toScheme)) (f : X ⟶ W.toScheme) [IsProper f]
     (s : U.toScheme ⟶ X) (hs : s ≫ f = U.ι)
-    (h080Y : CartierBoundaryReduction W.toScheme U)
-    (h081S : StrictTransformOpenImmersion (s.imageι ≫ f) U) :
+    (hcartier : CartierBoundaryReduction W.toScheme U)
+    (hstrict : StrictTransformOpenImmersion (s.imageι ≫ f) U) :
     ∃ (S' : Scheme.{u}) (b : S' ⟶ S),
       Stacks.Blowup.IsAdmissibleBlowup (W.ι ''ᵁ U) b ∧
         ∃ s' : (b ⁻¹ᵁ W).toScheme ⟶ X,
@@ -115,7 +126,7 @@ theorem exists_isAdmissibleBlowup_extending_section [CompactSpace S] [QuasiSepar
     exact hpb
   -- Hence it is dominated by a `U`-admissible blowup of `W`.
   obtain ⟨B, b₀, hb₀, g₀, hg₀⟩ :=
-    exists_isAdmissibleBlowup_dominating (s.imageι ≫ f) U h080Y h081S
+    exists_isAdmissibleBlowup_dominating (s.imageι ≫ f) U hcartier hstrict
   -- That blowup extends to a `W.ι ''ᵁ U`-admissible blowup of `S`.
   have hU' : IsCompact ((W.ι ''ᵁ U : S.Opens) : Set S) := hU.image W.ι.continuous
   obtain ⟨S', b, hb, g, hcart⟩ :=

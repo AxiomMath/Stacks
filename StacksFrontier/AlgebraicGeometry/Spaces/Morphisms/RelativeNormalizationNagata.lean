@@ -17,9 +17,11 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.QuasiCompactFpqcLocalAtTar
 
 Let `f : Y ⟶ X` be a quasi-separated morphism of finite type of algebraic spaces over a scheme
 `S`, with `X` Nagata and `Y` reduced. Tag 0BB0 asserts that the normalization `ν : X' ⟶ X` of
-`X` in `Y` is then a finite morphism. That is proved here for every factorization satisfying the
-characterization `AlgebraicGeometry.Space.IsRelativeNormalization` of Tag 0823, in the idiom of
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.RelativeNormalization`.
+`X` in `Y` is then a finite morphism. This file supplies the scheme-level input and proves the
+statement for every factorization satisfying the characterization
+`AlgebraicGeometry.Space.IsRelativeNormalization` of Tag 0823, given an embedding of sections
+`hdom` over affine étale charts; the embedding is proved, and Tag 0BB0 completed, in
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.RelativeNormalizationNagataFinite`.
 
 ## Main definitions
 
@@ -34,7 +36,10 @@ No new definitions are introduced.
 * `AlgebraicGeometry.isFinite_of_isIntegralHom_of_injective_appTop`: an integral morphism of
   affine schemes over a Nagata affine base is finite as soon as its sections embed into those of
   a reduced affine scheme of finite type over the base.
-* `AlgebraicGeometry.Space.IsRelativeNormalization.isFinite_of_isNagata` is **Tag 0BB0**.
+* `AlgebraicGeometry.Space.IsRelativeNormalization.isFinite_of_isNagata`: Tag 0BB0 given the
+  embedding of sections `hdom`. Tag 0BB0 itself, with `hdom` proved, is
+  `AlgebraicGeometry.Space.IsRelativeNormalization.isFinite_of_isNagata_of_isReduced` of
+  `StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.RelativeNormalizationNagataFinite`.
 
 ## Implementation notes
 
@@ -50,23 +55,14 @@ on `V` in the functions on `W` a finite module over the Noetherian ring of funct
 the functions on `N` are an integral subalgebra of it; a submodule of a finite module over a
 Noetherian ring is finite, which is the source's last step.
 
-**The hypothesis `hdom`, and why it is carried.** What makes the functions on `N` a *subalgebra*
-of the functions on `W` is the construction of Tag 0822: the normalization is the relative
-spectrum of a subalgebra `𝒪' ⊂ f_* 𝒪_Y`, so over an affine chart its functions are the integral
-closure of the chart ring inside the functions on the part of `Y` over the chart, and those inject
-into the functions on a surjective étale cover of it. The characterization of Tag 0823 does not
-see this: it determines the factorization up to unique isomorphism among integral factorizations,
-and nothing in a universal property distinguishes a subalgebra of `f_* 𝒪_Y` from a quotient of
-one. The construction itself rests on the relative spectrum of a quasi-coherent algebra on an
-algebraic space, Tag 081V, whose input
-`AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence` has no inhabitant in this library — the
-same gap that confines `AlgebraicGeometry.Space.normalizationIn` of
-`StacksFrontier.AlgebraicGeometry.Spaces.NormalizationIn` to a conditional statement. So the
-injectivity of the comparison on sections is carried as the named hypothesis `hdom`, and recorded
-in the attribute: it is the only input of the proof that the source gets from the construction
-rather than from the characterization. The sections assertion of Tag 0820, which the construction
-also uses, *is* available, as
-`AlgebraicGeometry.Space.AlgebraSheaf.range_integralClosureInclusion_app_eq_integralClosure'`.
+**The hypothesis `hdom`.** What makes the functions on `N` a *subalgebra* of the functions on
+`W` is, in the source, the construction of Tag 0822: the normalization is the relative spectrum of
+a subalgebra `𝒪' ⊂ f_* 𝒪_Y`. Here it is carried as the named hypothesis `hdom`. It is proved
+from the characterization and the reducedness of `Y` — the image of `Y` in `X'` is dense and
+`X'` is reduced — as
+`AlgebraicGeometry.Space.IsRelativeNormalization.injective_appTop_of_isPullback` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.RelativeNormalizationNagataFinite`, which also
+states Tag 0BB0 without it.
 
 **The quasi-separatedness hypothesis is not used.** The source imposes it on `f`, together with
 quasi-compactness, so that `f_* 𝒪_Y` is quasi-coherent and the normalization exists. Here the
@@ -271,18 +267,17 @@ private theorem isFinite_of_affine_etale_tests
 
 variable {X Y X' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {f : Y ⟶ X} {ν : X' ⟶ X} {f' : Y ⟶ X'}
 
-/-- **Stacks 0BB0.** Let `f : Y ⟶ X` be a quasi-separated morphism of finite type of algebraic
-spaces over `S` with `X` Nagata and `Y` reduced. Then the normalization `ν : X' ⟶ X` of `X`
-in `Y` is finite.
+/-- Let `f : Y ⟶ X` be a quasi-separated morphism of finite type of algebraic spaces over `S`
+with `X` Nagata and `Y` reduced, and let `ν : X' ⟶ X` be the normalization of `X` in `Y`. If,
+over every affine étale chart of `X`, the functions on the base change of `X'` embed into the
+functions on an affine surjective étale cover of the part of `Y` over the chart (`hdom`), then
+`ν` is finite.
 
 Nagata-ness and reducedness are the étale-local properties of schemes of Tag 03E6. The
-hypothesis `hdom` is the affine-chart description of the normalization of Tag 0822: over an
-affine étale chart of `X` the functions on the base change of `X'` embed into the functions on
-an affine surjective étale cover of the part of `Y` over the chart. -/
-@[stacks 0BB0 "granted Tag 081V, the relative spectrum of a quasi-coherent algebra on an \
-algebraic space, in the shape of the hypothesis hdom: over an affine étale chart of the base \
-the functions on the chart base change of the normalization embed into the functions on an \
-affine surjective étale cover of the corresponding part of the source"]
+hypothesis `hdom` always holds: it is
+`AlgebraicGeometry.Space.IsRelativeNormalization.injective_appTop_of_isPullback`, and Tag 0BB0
+without it is `AlgebraicGeometry.Space.IsRelativeNormalization.isFinite_of_isNagata_of_isReduced`,
+both in `StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.RelativeNormalizationNagataFinite`. -/
 theorem IsRelativeNormalization.isFinite_of_isNagata
     (hnorm : IsRelativeNormalization B S hS f ν f')
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)

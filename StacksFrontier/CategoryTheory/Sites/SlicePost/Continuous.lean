@@ -74,11 +74,6 @@ namespace Functor
 /-- Let `u : C ⥤ D` be a continuous functor of sites, let `C` have pullbacks and let `u` preserve
 them. Then `Over.post u : Over V ⥤ Over (u.obj V)` is continuous for the localized topologies
 `J.over V` and `K.over (u.obj V)`. -/
-@[stacks 03CF "Continuity of the functor `u' : D/V ⥤ C/U`, `V'/V ↦ u(V')/U`, which the proof of
-  03CF asserts without argument and which is the input to every other clause. Proved here for `u`
-  continuous with fibre products which `u` preserves, i.e. for Stacks' notion of continuity on
-  sites with fibre products; see `Functor.isContinuous_overPost_of_flat` for the flat version and
-  the module docstring for why bare `Functor.IsContinuous` is not known to suffice."]
 theorem isContinuous_overPost_of_preservesPullbacks [HasPullbacks C] (u : C ⥤ D)
     [PreservesLimitsOfShape WalkingCospan u] [u.IsContinuous J K] (V : C) :
     (Over.post (X := V) u).IsContinuous (J.over V) (K.over (u.obj V)) :=

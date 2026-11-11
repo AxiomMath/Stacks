@@ -34,8 +34,8 @@ quasi-isomorphy `hrows`, and the two edge identifications `hrow0` and `hcolumn0`
 ## What is and is not proved
 
 **No tag attribute is placed in this module.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  The statement here is a reduction with named
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  The statement here is a reduction with named
 hypotheses; what this module does is remove the last hypothesis that was not one of the source's
 own from a single statement.  No double complex `K` for a general crystal is supplied here.
 

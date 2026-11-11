@@ -28,7 +28,10 @@ which is the obstruction to an equivalence of the two stacks.
 * `Stacks.Examples.RadicalTower.isFpqcTorsor`: `P` is a principal homogeneous `G`-space.
 * `Stacks.Examples.RadicalTower.not_isFppfTorsor`: `P` is not an fppf `G`-torsor.
 * `Stacks.Examples.RadicalTower.fpqcTorsor_not_isomorphic_fppfTorsor`: `P` is a principal
-  homogeneous `G`-space isomorphic to no fppf `G`-torsor.
+  homogeneous `G`-space isomorphic to no fppf `G`-torsor.  The statement of Stacks 077B, about
+  the stacks `G-Principal` and `G-Torsors` themselves, is
+  `Stacks.Examples.RadicalTower.exists_not_isEquivalence_fppfTorsors_toPrincipal` in
+  `StacksFrontier.Examples.GroupSchemes.PrincipalNotFppf.StackComparison`.
 
 ## Implementation notes
 
@@ -210,15 +213,12 @@ private theorem false_of_isFppfTorsor_of_iso (Y : Over base) [ModObj groupObj Y]
 theorem not_isFppfTorsor : ¬ IsFppfTorsor base groupObj torsorObj :=
   fun h => false_of_isFppfTorsor_of_iso torsorObj h (Iso.refl _)
 
-/-- **Stacks Project, Tag 077B.**  Over `S = Spec ℚ` the group scheme `G = ∏ᵢ μ_{i+2}` has a
-principal homogeneous space, namely `P = Spec ℚ[x₀, x₁, …]/(xᵢ ^ (i + 2) - 2)`, which is
-isomorphic to no fppf `G`-torsor.  Hence the inclusion of the fppf `G`-torsors into the
-principal homogeneous `G`-spaces is not essentially surjective, so the two stacks they form are
-not equivalent in general. -/
-@[stacks 077B "counterexample: for S = Spec ℚ and G = ∏ᵢ μ_{i+2} a principal homogeneous \
-G-space is exhibited that is isomorphic to no fppf G-torsor, which is the failure of essential \
-surjectivity the source's proof invokes; the two stacks G-Principal and G-Torsors are not \
-themselves constructed here"]
+/-- Over `S = Spec ℚ` the group scheme `G = ∏ᵢ μ_{i+2}` has a principal homogeneous space, namely
+`P = Spec ℚ[x₀, x₁, …]/(xᵢ ^ (i + 2) - 2)`, which is isomorphic to no fppf `G`-torsor, in the
+slice of schemes over `Spec ℚ`.  This is the scheme-level form of the failure of essential
+surjectivity in the proof of Stacks 077B; the statement of Stacks 077B itself, about the stacks
+`G-Principal` and `G-Torsors` over the big fppf site, is
+`Stacks.Examples.RadicalTower.exists_not_isEquivalence_fppfTorsors_toPrincipal`. -/
 theorem fpqcTorsor_not_isomorphic_fppfTorsor :
     IsFpqcTorsor base groupObj torsorObj ∧
       ∀ (Y : Over base) (_ : ModObj groupObj Y),

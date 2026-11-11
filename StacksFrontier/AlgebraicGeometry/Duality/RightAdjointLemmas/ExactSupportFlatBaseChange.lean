@@ -27,8 +27,11 @@ section of the source opened by [Stacks, Tag 0E2J] attaches to this situation a 
 
 `Lg^* R ℰom(𝒪_Z, K) ⟶ R ℰom(𝒪_{Z'}, Lf^*K)`
 
-in `D(𝒪_{Z'})`, functorial in `K`; that map is [Stacks, Tag 0E2K], and
-`baseChangeSheafHomExactSupport` below is it. [Stacks, Tag 0E2M] asserts that it is invertible
+in `D(𝒪_{Z'})`, functorial in `K`; that map is [Stacks, Tag 0E2K], registered as
+`baseChangeSheafHomExactSupportMap` in
+`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportFlatBaseChangeMap`;
+`baseChangeSheafHomExactSupport` below is its component at `K`, built from the stalkwise
+hypothesis `hst`. [Stacks, Tag 0E2M] asserts that it is invertible
 when `f` is flat, `i` is pseudo-coherent and `K` lies in `D⁺_QCoh(𝒪_X)`.
 
 ## Main definitions
@@ -177,7 +180,8 @@ theorem isIso_derivedBaseChangeMapAt (sq : IsPullback i' g f i) [IsClosedImmersi
 
 /-! ### The base-change map of Stacks 0E2K -/
 
-/-- **Stacks Project, Tag 0E2K.** The canonical base-change map
+/-- The component at `K` of the canonical base-change map of [Stacks, Tag 0E2K]
+(`baseChangeSheafHomExactSupportMap` is the map itself, as a morphism of functors of `K`)
 
 `Lg^* R ℰom(𝒪_Z, K) ⟶ R ℰom(𝒪_{Z'}, Lf^*K)`
 
@@ -195,7 +199,6 @@ occurrences of `derivedPushforwardComparison` pass between the exact-functor and
 right derived models of pushforward, which the adjunction and the base-change map are
 respectively stated for. The stalkwise identification `hst` is the hypothesis [Stacks,
 Tag 0E23] carries in this library. -/
-@[stacks 0E2K "the canonical base-change map"]
 def baseChangeSheafHomExactSupport (sq : IsPullback i' g f i) [IsClosedImmersion i]
     (htor : AlgebraicGeometry.TorIndependent i f) (hst : DerivedStalkBaseChangeEqKFlat sq)
     (K : DerivedCategory

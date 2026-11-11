@@ -505,8 +505,8 @@ theorem cotangentDegreeIsoTwo_hom_apply (m : (𝕂).X (-2)) :
 comparison. -/
 theorem lsSurj_negTwo (y : (lichtenbaumSchlessingerComplex P).complex.X (-2))
     (hy : (lichtenbaumSchlessingerComplex P).complex.d (-2) (-1) y = 0) :
-    ∃ x : (cotangentComplexULift.{u, v, w} A B).X (-2),
-      (cotangentComplexULift.{u, v, w} A B).d (-2) (-1) x = 0 ∧
+    ∃ x : (uliftCotangentComplex.{u, v, w} A B).X (-2),
+      (uliftCotangentComplex.{u, v, w} A B).d (-2) (-1) x = 0 ∧
         y = P.lsChainTwo x := by
   classical
   let _ := relationModule P
@@ -580,10 +580,10 @@ theorem eqToHom_cotangentMooreComplex_d_three_two
   exact ConcreteCategory.congr_hom h w
 
 /-- A `(-2)`-cycle of `L_{B/A}` killed by the comparison is a boundary. -/
-theorem lsInj_negTwo (x : (cotangentComplexULift.{u, v, w} A B).X (-2))
-    (hx : (cotangentComplexULift.{u, v, w} A B).d (-2) (-1) x = 0) (hφ : P.lsChainTwo x = 0) :
-    ∃ z : (cotangentComplexULift.{u, v, w} A B).X (-3),
-      (cotangentComplexULift.{u, v, w} A B).d (-3) (-2) z = x := by
+theorem lsInj_negTwo (x : (uliftCotangentComplex.{u, v, w} A B).X (-2))
+    (hx : (uliftCotangentComplex.{u, v, w} A B).d (-2) (-1) x = 0) (hφ : P.lsChainTwo x = 0) :
+    ∃ z : (uliftCotangentComplex.{u, v, w} A B).X (-3),
+      (uliftCotangentComplex.{u, v, w} A B).d (-3) (-2) z = x := by
   let _ := relationModule P
   have hm : (𝕂).d (-2) (-1) x.down = 0 := by
     rw [← cotangentComplexULift_d_apply, hx]; rfl

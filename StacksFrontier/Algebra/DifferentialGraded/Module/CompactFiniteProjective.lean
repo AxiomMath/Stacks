@@ -24,7 +24,7 @@ and the contradiction is machine-checked in
 `StacksFrontier/Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean`
 (`Stacks.Examples.not_forall_exists_finite_gradedProjective_of_isCompactObject`), whose witness
 is a compact object over a bounded algebra with no finite graded-projective representative at
-all. The statement the source's proof does establish is registered under the tag in
+all. The statement the source's proof does establish is proved in
 `StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`:
 `DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`, where a
 compact object is a *direct summand* in `D(A, d)` of the image of a module which is *finite free*
@@ -32,8 +32,10 @@ as a graded module and satisfies the condition of [Stacks, Tag 09R0] — uncondi
 boundedness hypothesis. Its converse is
 `DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule`, which is the
 implication proved below with condition (2) read in that corrected form: finite freeness is used
-only through the finiteness it implies. So the tag's equivalence does hold once condition (2) is
-corrected, and the file below is the half of it that the source states correctly.
+through the finiteness it implies. The tag's equivalence, with condition (2) corrected, is
+registered there as
+`DifferentialGradedModule.isCompactObject_tfae_exists_retract`; the
+file below proves the direction that the source states correctly, in the source's own spelling.
 
 The argument is the one indicated in the source: direct sums in `D(A, d)` are computed by direct
 sums of differential graded modules (Tag 09QI), the hypothesis on `P` moves the test for
@@ -57,7 +59,7 @@ test map of any colimit cofan.
   out of which the localization functor is bijective on morphisms represents a compact object of
   `D(A, d)`.
 * `DifferentialGradedModule.isCompactObject_of_exists_finite_projective_representative`:
-  **[Stacks, Tag 09RB], the implication (2) ⟹ (1)**.
+  the implication (2) ⟹ (1) of [Stacks, Tag 09RB], as printed.
 
 ## Implementation notes
 
@@ -88,7 +90,8 @@ direct sums, and compactness is tested against those.
 
 * [Stacks Project, Tag 09RB](https://stacks.math.columbia.edu/tag/09RB)
 * [Stacks Project, Tag 09R1](https://stacks.math.columbia.edu/tag/09R1), finiteness and the
-  question answered here.
+  compactness of a finite module in `𝒟`, proved here as
+  `DifferentialGradedModule.isCompactObject_q_of_isFinite`.
 * [Stacks Project, Tag 09R0](https://stacks.math.columbia.edu/tag/09R0), the modules whose
   homotopy morphisms compute their derived morphisms.
 * [Stacks Project, Tag 09QI](https://stacks.math.columbia.edu/tag/09QI), the direct sums of
@@ -260,6 +263,8 @@ projective*, and answers it affirmatively for a `P` that is moreover an object o
 `𝒟` of [Stacks, Tag 09R0] — which is the hypothesis `hD` below. Graded projectivity is not
 needed and is not assumed, so this is more general than the source's claim. The definition of
 *finite* that the remark also gives is `DifferentialGradedModule.IsFinite`. -/
+@[stacks 09R1 "compactness: a finite differential graded module in the category `𝒟` of Tag 09R0 \
+  is compact in `D(A, d)`; graded projectivity is not needed"]
 theorem isCompactObject_q_of_isFinite {P : DifferentialGradedModule.{u, u, u} A} (hP : IsFinite P)
     (hD : ∀ M : DifferentialGradedModule.{u, u, u} A, Function.Bijective
       (((quasiIsomorphisms' A).Q).map :
@@ -274,10 +279,10 @@ end Compact
 
 /-! ### Tag 09RB, the implication from a finite projective representative to compactness -/
 
-/-- **[Stacks, Tag 09RB], the implication (2) ⟹ (1).** *"Let `(A, d)` be a differential graded
-algebra. Assume that `A^n = 0` for `|n| ≫ 0`. Let `E` be an object of `D(A, d)`. The following are
-equivalent: (1) `E` is a compact object, and (2) `E` can be represented by a differential graded
-`A`-module `P` which is finite projective as a graded `A`-module and satisfies
+/-- **The implication (2) ⟹ (1) of [Stacks, Tag 09RB], as printed.** *"Let `(A, d)` be a
+differential graded algebra. Assume that `A^n = 0` for `|n| ≫ 0`. Let `E` be an object of `D(A, d)`.
+The following are equivalent: (1) `E` is a compact object, and (2) `E` can be represented by a
+differential graded `A`-module `P` which is finite projective as a graded `A`-module and satisfies
 `Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` for every differential graded `A`-module `M`."*
 
 Condition (2) is read as the conjunction of: `P` is finite, that is finitely generated as a right
@@ -288,8 +293,9 @@ graded module (Tag 09R0); and `E` is isomorphic in `D(A, d)` to the class of `P`
 
 The boundedness of `A` and the graded projectivity of `P` are hypotheses of the source statement
 and are recorded here, but this implication uses neither: finiteness together with the comparison
-of morphism groups already gives compactness. -/
-@[stacks 09RB "(2) ⟹ (1)"]
+of morphism groups already gives compactness. The tag itself is registered on the corrected
+equivalence `DifferentialGradedModule.isCompactObject_tfae_exists_retract`
+(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`). -/
 theorem isCompactObject_of_exists_finite_projective_representative
     (A : DifferentialGradedAlgebra.{u, u} R) (c : ℤ)
     (_hA : ∀ n : ℤ, c ≤ |n| → A.grading n = ⊥) (E : derivedCategory' A)

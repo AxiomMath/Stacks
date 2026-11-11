@@ -25,13 +25,20 @@ This file was split from `StacksFrontier.RingTheory.Etale.Basic`, which re-expor
   formally étale, a module of principal parts of order `k` of `S' ⊗[S] M` over `R → S'` is the
   base change along `S → S'` of one of `M` over `R → S`, compatibly with the universal
   differential operators.
+* `LinearMap.IsUniversalDifferentialOperatorOfOrderLE.existsUnique_isBaseChange_of_formallyEtale`:
+  the comparison map exists and is unique.
+* `LinearMap.IsUniversalDifferentialOperatorOfOrderLE.existsUnique_extension_of_formallyEtale`:
+  a differential operator `M → N` of order at most `l` extends uniquely to a differential
+  operator `S' ⊗[S] M → S' ⊗[S] N`, of order at most `l`.
+* `LinearMap.IsUniversalDifferentialOperatorOfOrderLE.baseChange_of_formallyEtale`: both
+  assertions together, Stacks 0H94.
 
 ## Implementation notes
 
 The base change result is stated in the `IsBaseChange` form of
 `KaehlerDifferential.isBaseChange_of_formallyEtale`, for an arbitrary base change `M'` of `M`, and
-the comparison map `g` is a hypothesis pinned by its compatibility `hg` with the universal
-differential operators.
+the comparison map `g` is characterised by its compatibility with the universal differential
+operators.
 
 ## References
 
@@ -683,20 +690,12 @@ variable {R S S' M M' P P' : Type*} [CommRing R] [CommRing S] [CommRing S'] [Alg
   [IsScalarTower S S' P']
 
 /-- Let `R → S → S'` be ring maps with `S → S'` formally étale (for example
-étale), let `M` be an `S`-module, let `k : ℕ` and set `M' = S' ⊗[S] M`, the base change of `M`
-along `S → S'` given by `f`. Let `(P, D)` be a module of principal parts of order `k` of `M`
-relative to `R → S` and let `(P', D')` be one of `M'` relative to `R → S'`. Then the unique
-`S`-linear map `g : P → P'` with `g ∘ D = D' ∘ f` exhibits `P'` as the base change of `P` along
-`S → S'`:
-`S' ⊗[S] Pᵏ_{S/R}(M) = Pᵏ_{S'/R}(M')`.
-It follows that every differential operator `M → N` of order at most `k` has a unique extension
-to a differential operator `M' → S' ⊗[S] N` of order at most `k`. -/
-@[stacks 0H94 "Stated in Mathlib's `IsBaseChange` form, for an arbitrary base change `M'` of `M`
-and arbitrary modules of principal parts on both sides (Definition 09CL); the map is pinned by
-`hg`, compatibility with the universal differential operators, and its existence is elementary.
-The source's second assertion, the unique extension of a finite order differential operator,
-follows formally, as the source's `It follows that` says. The source sets `M' = S' ⊗_R M`, a slip
-for `S' ⊗_S M`. See the module docstring."]
+étale), let `M` be an `S`-module, let `k : ℕ` and let `M'` be the base change of `M` along
+`S → S'`, given by `f`. Let `(P, D)` be a module of principal parts of order `k` of `M`
+relative to `R → S` and let `(P', D')` be one of `M'` relative to `R → S'`. Then an `S`-linear map
+`g : P → P'` with `g ∘ D = D' ∘ f` exhibits `P'` as the base change of `P` along `S → S'`. Such a
+map exists and is unique, by `existsUnique_isBaseChange_of_formallyEtale`; the complete statement
+of Stacks 0H94 is `baseChange_of_formallyEtale`. -/
 theorem isBaseChange_of_formallyEtale [Algebra.FormallyEtale S S'] (k : ℕ)
     {D : M →ₗ[R] P} (hD : D.IsUniversalDifferentialOperatorOfOrderLE S k)
     {D' : M' →ₗ[R] P'} (hD' : D'.IsUniversalDifferentialOperatorOfOrderLE S' k)
@@ -735,6 +734,108 @@ theorem isBaseChange_of_formallyEtale [Algebra.FormallyEtale S S'] (k : ℕ)
     exact (LinearMap.liftBaseChangeEquiv S').symm.injective
       (LinearMap.ext fun p => LinearMap.congr_fun hres p)
   exact IsBaseChange.of_equiv (LinearEquiv.ofLinearMap η θ hηθ hθη) hη1
+
+omit [IsScalarTower R S S'] in
+/-- An operator of order at most `k` relative to `R → S'` has order at most `k` relative to
+`R → S`, for the `S`-module structures induced along `S → S'`. -/
+private lemma orderLE_of_orderLE_algebraMap {X Y : Type*} [AddCommGroup X] [Module R X]
+    [Module S X] [Module S' X] [IsScalarTower R S X] [IsScalarTower R S' X] [IsScalarTower S S' X]
+    [AddCommGroup Y] [Module R Y] [Module S Y] [Module S' Y] [IsScalarTower R S Y]
+    [IsScalarTower R S' Y] [IsScalarTower S S' Y] :
+    ∀ {j : ℕ} {F : X →ₗ[R] Y}, F.IsDifferentialOperatorOfOrderLE S' j →
+      F.IsDifferentialOperatorOfOrderLE S j := by
+  intro j
+  induction j with
+  | zero =>
+    intro F hF s x
+    rw [← algebraMap_smul S' s x, hF, algebraMap_smul]
+  | succ j ih =>
+    intro F hF
+    rw [isDifferentialOperatorOfOrderLE_succ_iff]
+    intro s
+    have key : commSMul F s = commSMul F (algebraMap S S' s) := by
+      ext x; simp [commSMul_apply, algebraMap_smul]
+    rw [key]
+    exact ih (isDifferentialOperatorOfOrderLE_succ_iff.mp hF _)
+
+/-- An operator of order at most `k` has order at most `k + n`. -/
+private lemma orderLE_add_right {X Y : Type*} [AddCommGroup X] [Module R X] [Module S' X]
+    [IsScalarTower R S' X] [AddCommGroup Y] [Module R Y] [Module S' Y] [IsScalarTower R S' Y]
+    {k : ℕ} {F : X →ₗ[R] Y} (hF : F.IsDifferentialOperatorOfOrderLE S' k) :
+    ∀ n : ℕ, F.IsDifferentialOperatorOfOrderLE S' (k + n)
+  | 0 => hF
+  | n + 1 => isDifferentialOperatorOfOrderLE_succ (orderLE_add_right hF n)
+
+/-- **Existence and uniqueness of the comparison map.** In the situation of
+`isBaseChange_of_formallyEtale`, there is a unique `S`-linear map `g : P → P'` with
+`g ∘ D = D' ∘ f`, and it exhibits `P'` as the base change of `P` along `S → S'`. -/
+theorem existsUnique_isBaseChange_of_formallyEtale [Algebra.FormallyEtale S S'] (k : ℕ)
+    {D : M →ₗ[R] P} (hD : D.IsUniversalDifferentialOperatorOfOrderLE S k)
+    {D' : M' →ₗ[R] P'} (hD' : D'.IsUniversalDifferentialOperatorOfOrderLE S' k)
+    (f : M →ₗ[S] M') (hf : IsBaseChange S' f) :
+    ∃ g : P →ₗ[S] P', (∀ m : M, g (D m) = D' (f m)) ∧ IsBaseChange S' g ∧
+      ∀ g' : P →ₗ[S] P', (∀ m : M, g' (D m) = D' (f m)) → g' = g := by
+  have : IsScalarTower R S M' := isScalarTower_of_isScalarTower_left (S' := S')
+  have : IsScalarTower R S P' := isScalarTower_of_isScalarTower_left (S' := S')
+  obtain ⟨g, hg, huniq⟩ := existsUnique_comp_eq hD (E := D' ∘ₗ f.restrictScalars R)
+    (orderLE_precomp f (orderLE_of_orderLE_algebraMap hD'.1))
+  exact ⟨g, hg, isBaseChange_of_formallyEtale k hD hD' f hf g hg, fun g' hg' => huniq g' hg'⟩
+
+/-- **Unique extension of a differential operator.** Let `R → S → S'` be ring maps with
+`S → S'` formally étale and let `M'` be the base change of the `S`-module `M` along `S → S'`,
+given by `f`. Then every differential operator `E : M → N` of order at most `l` relative to
+`R → S` has an extension `E' : M' → S' ⊗[S] N`, `E' (f m) = 1 ⊗ E m`, which is a differential
+operator of order at most `l` relative to `R → S'`; and any differential operator of finite order
+`M' → S' ⊗[S] N` relative to `R → S'` extending `E` equals `E'`. -/
+theorem existsUnique_extension_of_formallyEtale [Algebra.FormallyEtale S S'] {N : Type*}
+    [AddCommGroup N] [Module R N] [Module S N] [IsScalarTower R S N]
+    {f : M →ₗ[S] M'} (hf : IsBaseChange S' f) (l : ℕ) {E : M →ₗ[R] N}
+    (hE : E.IsDifferentialOperatorOfOrderLE S l) :
+    ∃ E' : M' →ₗ[R] S' ⊗[S] N, E'.IsDifferentialOperatorOfOrderLE S' l ∧
+      (∀ m : M, E' (f m) = (1 : S') ⊗ₜ[S] E m) ∧
+      ∀ (j : ℕ) (E'' : M' →ₗ[R] S' ⊗[S] N), E''.IsDifferentialOperatorOfOrderLE S' j →
+        (∀ m : M, E'' (f m) = (1 : S') ⊗ₜ[S] E m) → E'' = E' := by
+  have : IsScalarTower R S M' := isScalarTower_of_isScalarTower_left (S' := S')
+  have : IsScalarTower R S (S' ⊗[S] N) := isScalarTower_of_isScalarTower_left (S' := S')
+  obtain ⟨E', hord, hext⟩ := exists_extension (N := S' ⊗[S] N) hf l
+    (E := (TensorProduct.mk S S' N 1).restrictScalars R ∘ₗ E)
+    (orderLE_postcomp (TensorProduct.mk S S' N 1) hE)
+  refine ⟨E', hord, hext, fun j E'' hE'' hext'' => ?_⟩
+  have hsub : (E'' - E').IsDifferentialOperatorOfOrderLE S' (j + l) :=
+    isDifferentialOperatorOfOrderLE_sub (orderLE_add_right hE'' l)
+      (by rw [Nat.add_comm]; exact orderLE_add_right hord j)
+  have hzero : E'' - E' = 0 := eq_zero_of_orderLE_of_comp_eq_zero hf hsub fun m => by
+    rw [LinearMap.sub_apply, hext'' m, hext m]
+    simp
+  exact sub_eq_zero.mp hzero
+
+/-- Let `R → S → S'` be ring maps with `S → S'` formally étale (for example étale). Let `M` be an
+`S`-module and `M' = S' ⊗[S] M`, given as a base change `f : M → M'`. Let `(P, D)` and `(P', D')`
+be modules of principal parts of order `k` of `M` over `R → S` and of `M'` over `R → S'`. Then
+`S' ⊗[S] Pᵏ_{S/R}(M) = Pᵏ_{S'/R}(M')`: the unique `S`-linear `g : P → P'` with `g ∘ D = D' ∘ f`
+exhibits `P'` as the base change of `P`. Moreover, for any `S`-module `N`, every differential
+operator `E : M → N` of finite order `l` has a unique extension `E' : M' → S' ⊗[S] N` to a
+differential operator, which has order at most `l`. -/
+@[stacks 0H94 "The identification `S' ⊗_S Pᵏ_{S/R}(M) = Pᵏ_{S'/R}(M')` is stated in Mathlib's
+`IsBaseChange` form, for an arbitrary base change `f : M → M'` and arbitrary modules of principal
+parts on both sides (Definition 09CL, constructed in 09CK), via the unique map compatible with the
+universal differential operators. The extension is unique among differential operators of any
+finite order and has the order of `E`. The source writes `M' = S' ⊗_R M`, a slip for
+`S' ⊗_S M`."]
+theorem baseChange_of_formallyEtale [Algebra.FormallyEtale S S'] (k : ℕ)
+    {D : M →ₗ[R] P} (hD : D.IsUniversalDifferentialOperatorOfOrderLE S k)
+    {D' : M' →ₗ[R] P'} (hD' : D'.IsUniversalDifferentialOperatorOfOrderLE S' k)
+    (f : M →ₗ[S] M') (hf : IsBaseChange S' f) (N : Type*) [AddCommGroup N] [Module R N]
+    [Module S N] [IsScalarTower R S N] :
+    (∃ g : P →ₗ[S] P', (∀ m : M, g (D m) = D' (f m)) ∧ IsBaseChange S' g ∧
+      ∀ g' : P →ₗ[S] P', (∀ m : M, g' (D m) = D' (f m)) → g' = g) ∧
+    ∀ (l : ℕ) (E : M →ₗ[R] N), E.IsDifferentialOperatorOfOrderLE S l →
+      ∃ E' : M' →ₗ[R] S' ⊗[S] N, E'.IsDifferentialOperatorOfOrderLE S' l ∧
+        (∀ m : M, E' (f m) = (1 : S') ⊗ₜ[S] E m) ∧
+        ∀ (j : ℕ) (E'' : M' →ₗ[R] S' ⊗[S] N), E''.IsDifferentialOperatorOfOrderLE S' j →
+          (∀ m : M, E'' (f m) = (1 : S') ⊗ₜ[S] E m) → E'' = E' :=
+  ⟨existsUnique_isBaseChange_of_formallyEtale k hD hD' f hf,
+    fun l _ hE => existsUnique_extension_of_formallyEtale hf l hE⟩
 
 end PrincipalParts
 

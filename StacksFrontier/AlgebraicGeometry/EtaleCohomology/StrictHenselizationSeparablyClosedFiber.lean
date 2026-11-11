@@ -60,8 +60,16 @@ the corresponding groups of (2).
   `K`-algebras. This is the first sentence of the source's proof.
 * `Stacks.EtaleCohomology.locallyConstant_map_bijective_iff` — post-composition with a map is
   bijective on locally constant functions on a nonempty space exactly when the map is.
-* `Stacks.EtaleCohomology.bijective_strictHenselizationFiberRestriction_iff_of_presentation` is
-  **Stacks 0EZV**, the equivalence of the two conditions, given such a presentation.
+* `Stacks.EtaleCohomology.bijective_strictHenselizationFiberRestriction_iff_of_presentation` — the
+  equivalence of the two conditions as printed in Tag 0EZV, for a locally constant presentation of
+  the cohomology over `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K`.
+
+Tag 0EZV as printed is false, and such a presentation need not exist; see
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationFiberErratum`. The corrected
+statement, condition (1) if and only if condition (2) at every lift `k'` of `Spec K ⟶ S` to the
+strict henselization, is
+`Stacks.EtaleCohomology.bijective_strictHenselizationFiberCohomologyPullback_iff` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationSeparablyClosedFiberCohomology`.
 
 ## Implementation notes
 
@@ -72,41 +80,19 @@ is accordingly the inverse image along the comparison morphism of the coefficien
 downstairs, which is itself the inverse image of `ℱ` along the projection to `Spec K`; the source
 writes `ℱ` for all four groups.
 
-The equivalence of the tag's two conditions carries `@[stacks 0EZV]`. What is carried as the
-explicit datum `Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation`, rather than
-constructed, is the cohomological identification of the source's proof: that the two cohomology
-groups over `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K` are locally constant functions on the limit index
-space, compatibly with restriction. The geometric input that identification rests on is proved
-here: the local structure of étale schemes over a separably closed field, the identification
-which turns both conditions into conditions on base changes of a single morphism, the affineness
-of all three fibre products, and the presentation of the coordinate ring of
-`Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K` as a filtered colimit of étale `K`-algebras. What is missing is
-
-* the passage from ind-étaleness of the coordinate ring to an explicit cofiltered limit of
-  schemes. `Stacks.EtaleCohomology.indEtale_strictHenselizationBaseFiberRing` says that ring is a
-  filtered colimit of étale `K`-algebras and
-  `Stacks.EtaleCohomology.specIsoSigmaOfIsSepClosed` turns each of those into a finite coproduct
-  of copies of `Spec K`, but `StacksDraft.IndEtale` is phrased through
-  `CategoryTheory.MorphismProperty.ind`, and neither the extraction of a directed family of
-  étale subalgebras from it — the converse of
-  `StacksDraft.indEtale_of_directed_etale_subalgebras` — nor the identification of `Spec` of a
-  filtered colimit of rings with the cofiltered limit of their spectra is available;
-* the distribution of that limit through the base change along the morphism of strict
-  henselizations. The stages of the limit carry no morphism to `Spec(𝒪^{sh}_{S,s̄})` — only the
-  limit does, since the structure map `𝒪^{sh}_{S,s̄} ⟶ 𝒪^{sh}_{S,s̄} ⊗_{𝒪_{S,s}} K` factors
-  through no stage — so the source's identification of the base change with the limit of the
-  stagewise base changes is not an instance of base change commuting with limits. The copies of
-  `Spec K` appearing in the stages correspond to the different `K`-points of
-  `Spec(𝒪^{sh}_{S,s̄})`, and that their base changes along the morphism of strict henselizations
-  all agree is an identification the source does not state; and
-* the passage from the resulting limit of schemes to the colimit of cohomology groups. The
-  library's form of Theorem 09YQ,
-  `Stacks.EtaleCohomology.AffineLimitCohomology.etaleCohomologyColimit_isColimit_of_affine`,
-  covers the affine levels occurring here, but computes the right-derived `sheafSections` on the
-  small *affine* étale sites; transporting it to the `CategoryTheory.Sheaf.H` of the small étale
-  site used by `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap` along Tag 04HR
-  (`AlgebraicGeometry.SmallAffineEtale.inclusion_isSpecialCocontinuous`) is not carried out
-  anywhere in the library.
+The structure `Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation` records the
+cohomological identification of the source's proof: that the two cohomology groups over
+`Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K` are locally constant functions on the limit index space with
+values in the two groups of condition (2) at the given point, compatibly with restriction. That
+identification is where the source's proof goes wrong: the copies of `Spec K` in the stages of the
+limit correspond to the different lifts `k'` of `Spec K ⟶ S` to `Spec(𝒪^{sh}_{S,s̄})`, and the
+fibres of the morphism of strict henselizations over them need not agree with the fibre over the
+given point. The correct form of the argument, with each copy over its own lift, is carried out in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationSeparablyClosedFiberCohomology`,
+which uses the geometric input proved here: the local structure of étale schemes over a separably
+closed field, the identification which turns both conditions into conditions on base changes of a
+single morphism, the affineness of all three fibre products, and the presentation of the
+coordinate ring of `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K` as a filtered colimit of étale `K`-algebras.
 
 The index space of the presentation is a topological space and the two identifications are of
 locally constant functions on it, rather than a filtered colimit of finite direct sums over the
@@ -489,16 +475,18 @@ public abbrev strictHenselizationPointRestriction
   etaleCohomologyRestrictionMap.{u, v, w}
     (pullback.snd (strictHenselizationSquareMap B hX hS f x) k) F q
 
-/-- **The limit presentation of the cohomology over `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K`.** Since `K`
-is separably closed, that scheme is a cofiltered limit of finite disjoint unions of copies of
-`Spec K` over nonempty index sets, and cohomology turns the limit into a colimit (Theorem 09YQ).
-This datum records the resulting description of both cohomology groups of condition (1) of
-Tag 0EZV as locally constant functions on a nonempty space `A` with values in the corresponding
-cohomology groups of condition (2), together with the fact that under it the restriction map of
-condition (1) is computed pointwise from the restriction map of condition (2).
+/-- **A locally constant presentation of the cohomology over `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K`.**
+The proof of Tag 0EZV in the source writes that scheme as a cofiltered limit of finite disjoint
+unions of copies of `Spec K` and describes both cohomology groups of condition (1) as locally
+constant functions on the limit index space with values in the corresponding cohomology groups of
+condition (2) at the given point `k`. This structure records such a description over a nonempty
+space `A`, together with the fact that under it the restriction map of condition (1) is computed
+pointwise from the restriction map of condition (2).
 
-Constructing this datum is what remains of the proof of Tag 0EZV; see the module
-documentation. -/
+The description is in general wrong: each copy of `Spec K` lies over its own lift of
+`Spec K ⟶ S` to the strict henselization, whose fibre need not be the fibre over `k`, and at the
+counterexample to the tag the structure is empty
+(`Stacks.EtaleCohomology.isEmpty_sepClosedFiberLocallyConstantPresentation`). -/
 public structure SepClosedFiberLocallyConstantPresentation [IsSepClosed K] (A : Type u)
     [TopologicalSpace A]
     (F : Sheaf (Spec (CommRingCat.of K)).smallEtaleTopology AddCommGrpCat.{max (u + 1) v})
@@ -525,38 +513,20 @@ public structure SepClosedFiberLocallyConstantPresentation [IsSepClosed K] (A : 
     LocallyConstant.map
       (strictHenselizationPointRestriction.{u, v, w} B hX hS f x k F q) (baseEquiv c)
 
-/-- **Stacks Project, Tag 0EZV.** Let `f : X ⟶ S` be a morphism of schemes, let `x̄` be a
-geometric point of `X` with image `s̄` in `S`, let `Spec K ⟶ Spec(𝒪^{sh}_{S,s̄})` be a morphism
-with `K` a separably closed field, let `ℱ` be an abelian sheaf on the small étale site of
-`Spec K` and let `q ≥ 0`. Then
-`H^q(Spec(𝒪^{sh}_{X,x̄}) ×_S Spec K, ℱ) = H^q(Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K, ℱ)` holds if and
-only if `H^q(Spec(𝒪^{sh}_{X,x̄}) ×_{Spec(𝒪^{sh}_{S,s̄})} Spec K, ℱ) = H^q(Spec K, ℱ)` does, each
-equality read as bijectivity of the canonical restriction map.
+/-- **The printed equivalence of Tag 0EZV, for a locally constant presentation.** Let
+`f : X ⟶ S` be a morphism of schemes, `x̄` a geometric point of `X` with image `s̄`,
+`k : Spec K ⟶ Spec(𝒪^{sh}_{S,s̄})` with `K` separably closed, `ℱ` an abelian sheaf on `Spec K` and
+`q ≥ 0`. Given a presentation `Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation`
+of the two cohomology groups over `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K` as locally constant functions on
+a nonempty space with values in the two groups over `Spec K`, compatibly with restriction, the
+restriction map of condition (1) is bijective if and only if that of condition (2) at `k` is.
 
-The limit presentation of the two cohomology groups over `Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K` as
-locally constant functions on a nonempty space is carried as the explicit datum
-`Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation`; what is proved here is the
-equivalence, which comes down to post-composition with a map being bijective on locally constant
-functions on a nonempty space exactly when the map is. -/
-@[stacks 0EZV "the equivalence of the tag's two conditions. What is carried as the explicit datum
-`Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation`, rather than constructed, is
-exactly the COHOMOLOGICAL identification of the source's proof: that the two cohomology groups
-over `Spec(O^sh_{S,s̄}) ×_S Spec K` are locally constant functions on the limit index space with
-values in the two groups over `Spec K`, compatibly with restriction. The geometric input it rests
-on is proved here, not assumed -- the fibre product is affine
-(`isAffine_strictHenselizationBaseFiber`), is `Spec` of a ring ind-étale over `K`
-(`indEtale_strictHenselizationBaseFiberRing`, from `indEtale_etaleLocalRing` and Stacks 0BSH),
-and each étale `K`-algebra of such a presentation has `Spec` a finite coproduct of copies of
-`Spec K` (`specIsoSigmaOfIsSepClosed`). Three things block constructing the datum: Theorem 09YQ
-is available only as the right-derived `sheafSections` of the small AFFINE étale site and its
-transport to the `Sheaf.H` of the small étale site, which is what
-`Stacks.EtaleCohomology.etaleCohomologyRestrictionMap` is stated for, needs a general-degree
-comparison `Sheaf.H = rightDerived sheafSections` that exists nowhere at these universes; the
-passage from `StacksDraft.IndEtale` to an explicit cofiltered limit of schemes is unavailable;
-and the source's identification of the base change along the morphism of strict henselizations of
-the different copies of `Spec K` in a stage -- distinct `K`-points of `Spec(O^sh_{S,s̄})`, Galois
-twists of one another -- is suppressed in the source and not available either. The datum asserts
-only the cohomological identification, not the equivalence, which is proved here"]
+Such a presentation need not exist, and the equivalence fails in general: Tag 0EZV as printed is
+false (`Stacks.EtaleCohomology.not_forall_bijective_strictHenselizationFiberRestriction_iff`), and
+at its counterexample no presentation exists over any index space
+(`Stacks.EtaleCohomology.isEmpty_sepClosedFiberLocallyConstantPresentation`). The corrected
+statement, condition (1) if and only if condition (2) at every lift `k'` of `Spec K ⟶ S`, is
+`Stacks.EtaleCohomology.bijective_strictHenselizationFiberCohomologyPullback_iff`. -/
 public theorem bijective_strictHenselizationFiberRestriction_iff_of_presentation
     [IsSepClosed K] (A : Type u) [TopologicalSpace A]
     (F : Sheaf (Spec (CommRingCat.of K)).smallEtaleTopology AddCommGrpCat.{max (u + 1) v})

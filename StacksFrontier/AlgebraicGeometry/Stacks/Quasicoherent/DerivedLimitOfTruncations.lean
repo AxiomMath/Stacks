@@ -34,56 +34,42 @@ Descent **Stacks 0756** and Cohomology of Schemes **Stacks 01XB**.  The second i
 Cohomology on Sites **Stacks 0D6P** with `d = 0`, for the class `ℬ` of objects lying over an
 affine scheme.
 
-The second step is what this file proves.  The first is carried as the explicit hypothesis
-`hvan`; none of its four inputs is available here, and the implementation notes record where each
-stands.
+The second step is what this file proves, with the vanishing of the first step as the explicit
+hypothesis `hvan` and the covering property of `ℬ` as `hB`, at a general hom universe.  Both are
+discharged for an essentially small category fibred in groupoids whose morphisms lie in the
+universe of the schemes: the vanishing is `AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules`
+in `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FppfEtaleComparisonLqcFbc.lean`, and the
+resulting statement of **Stacks 08IY** is
+`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc_of_essentiallySmall` in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcFbcDerivedLimitOfTruncations.lean`.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver`: **the objects of `𝒳_fppf` lying over
   an affine scheme cover every object of `𝒳_fppf`** — the class `ℬ` of the source is a covering
-  class.  This is proved outright, with no hypothesis beyond fibredness in groupoids.
+  class.  This is proved outright, with no hypothesis beyond fibredness in groupoids, at hom
+  universe `u + 1`.
 * `AlgebraicGeometry.Stack.isIso_to_isDerivedLimit_truncGETower_of_lqcFbc`: the convergence
   criterion of **Stacks 0D6P** with `d = 0` transported to the fppf site of a category fibred in
   groupoids: the canonical map from `K` to *any* derived limit of the tower of its truncations is
   invertible.
-* `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc`: **Stacks 08IY** for a
-  category fibred in groupoids, with `ℬ` covering carried as the hypothesis `hB`.
-* `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc'`: **Stacks 08IY**, with
-  `hB` discharged — the form that applies to an algebraic stack, whose fppf site has hom universe
-  `u + 1`.
+* `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc`: the existence of the
+  triangle of Stacks 08IY for a category fibred in groupoids, from `hB` and `hvan`.
+* `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc'`: the same with `hB`
+  discharged, at the hom universe `u + 1`.
 * `AlgebraicGeometry.Stack.enoughInjectives_fppfSiteModules_of_univLE`: the enough-injectives
   hypothesis of the statements above is satisfiable — it is an instance whenever the total
   category of the fibred category and its homs inject into the module universe.
 
-## What is carried, and why
+## The hypothesis `hvan`
 
 The hypothesis `hvan` is the vanishing of the higher fppf cohomology of a module in
-`LQCoh^fbc(𝒪_𝒳)` over an object lying over an affine scheme.  It is the first sentence of the
-source's proof, and all four of its inputs are missing from this repository:
-
-* **Stacks 075R** — the agreement of fppf and étale cohomology for a module in `LQCoh^fbc` — is
-  not formalized.  Its own proof needs the comparison morphism `ε : 𝒳_fppf ⟶ 𝒳_étale` as a
-  morphism of topoi, which is not constructed; only the underlying functor `ε_*` for a pair of
-  comparable topologies exists, as `Stacks.SheafOfModules.comparisonPushforward`.
-* **Stacks 075F** is available for abelian sheaves and an arbitrary topology on the base, as
-  `AlgebraicGeometry.Stack.cohomologyOverObjectIso`, but its own attribute records that the case
-  of *modules over the structure sheaf* — the case needed here — is not included.
-* **Stacks 0756** is available only as its step from Stacks 0755, as
-  `AlgebraicGeometry.BigFppfOver.bigFppfCohomology_map_bijective_of_isParasitic`; the
-  identification of Stacks 03DW that turns it into the cohomology comparison is not.
-* **Stacks 01XB** is available only for the small Zariski site of a scheme, as
-  `Stacks.Cohomology.Cech.isZero_hgroup_of_isAffineOpen`.  The vanishing of the higher
-  cohomology of a quasi-coherent module on the *big fppf site* of an affine scheme is not
-  available; the
-  implementation notes of
-  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModuleCohomologyDegreeZero.lean` record that
-  the degree-zero case is all that is claimed there.
-
-So `hvan` stands for a chain of four cited lemmas and for nothing else: it is a statement about
-the modules in `LQCoh^fbc(𝒪_𝒳)` and the objects over affine schemes, not about `K`, and it is
-*not* the conclusion of Stacks 08IY in disguise — the conclusion is a statement about one
-unbounded complex and the hypothesis says nothing about complexes at all.
+`LQCoh^fbc(𝒪_𝒳)` over an object lying over an affine scheme.  It is a statement about the modules
+in `LQCoh^fbc(𝒪_𝒳)` and the objects over affine schemes, not about `K`: the conclusion of
+Stacks 08IY is a statement about one unbounded complex and the hypothesis says nothing about
+complexes at all.  When the morphisms of `𝒳` lie in the universe `u` of the schemes and `𝒳` is
+essentially small it is proved, as `AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules`, by
+the Čech argument of `AlgebraicGeometry.Stack.isZero_sheafCohomology_of_isLocallyQuasicoherent`.
 
 ## Implementation notes
 
@@ -104,9 +90,10 @@ instantiation.
 because `CategoryTheory.GrothendieckTopology.HasEnoughObjects` indexes its covering family in the
 hom universe of the site, while
 `AlgebraicGeometry.FibredSite.exists_affine_ofArrows` produces a family indexed in `Type (u + 1)`
-— the universe of the covering families of the big fppf site.  Hom universe `u + 1` is the
-configuration of an algebraic stack: the underlying category of an object of
-`AlgebraicGeometry.Stack.AlgebraicStacks` is a `CategoryTheory.BasedCategory.{u + 1, u + 1}`.
+— the universe of the covering families of the big fppf site.  An object of
+`AlgebraicGeometry.Stack.AlgebraicStacks` has its morphisms in `Type u` and is essentially small;
+at that hom universe the covering class is
+`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver_of_essentiallySmall`.
 
 ## References
 
@@ -144,7 +131,8 @@ It is `AlgebraicGeometry.FibredSite.exists_affine_ofArrows` read as
 an object is a covering family of the big fppf site, and lifting it along a functor fibred in
 groupoids gives a covering family upstairs whose members lie over affine schemes.  The hom
 universe is `u + 1` because that is where the covering families of the big fppf site are
-indexed, and it is the hom universe of an algebraic stack. -/
+indexed; at hom universe `u`, on an essentially small site, the same class is
+`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver_of_essentiallySmall`. -/
 theorem hasEnoughObjects_isAffineOver {𝒳 : Type v} [Category.{u + 1} 𝒳]
     (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids) :
     (BigFppfOver.associatedTopology B S hS p .fppf).HasEnoughObjects
@@ -186,9 +174,10 @@ variable [EnoughInjectives (fppfSiteModules B S hS p hp)]
 lying over an affine scheme: the first sentence of the proof of **Stacks 08IY**, which the source
 obtains from **Stacks 075R**, **Stacks 075F**, **Stacks 0756** and **Stacks 01XB**.
 
-None of those four is available in this repository in the form needed; see the section *What is
-carried, and why* in this file's module documentation.  This predicate names the conjunction so
-that the statements below can carry it as a single hypothesis. -/
+This predicate names the vanishing so that the statements below, which hold at any hom universe,
+can take it as a single hypothesis.  For an essentially small category fibred in groupoids whose
+morphisms lie in the universe of the schemes it holds, by
+`AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules`. -/
 def HasAffineAcyclicLqcFbcModules : Prop :=
   ∀ F : fppfSiteModules B S hS p hp,
     IsLocallyQuasicoherentWithFlatBaseChange B E h S hS p hp F.val →
@@ -232,16 +221,17 @@ theorem isIso_to_isDerivedLimit_truncGETower_of_lqcFbc
     (fppfSiteRingSheaf B S hS p hp) K (fun x => IsAffineOver B S hS (p.obj x)) hB
     (fun x hx i hi m => hvan _ (hK m) x hx i hi) L c pr δ hT hc
 
-/-- **Stacks 08IY** for a category fibred in groupoids, with the covering class carried as `hB`.
-An object `K` of `D(𝒪_𝒳)` whose cohomology sheaves are locally quasi-coherent with the flat base
-change property sits in a distinguished triangle
+/-- **The triangle of Stacks 08IY from the affine vanishing and the covering class.**  An object
+`K` of `D(𝒪_𝒳)` whose cohomology sheaves are locally quasi-coherent with the flat base change
+property sits in a distinguished triangle
 
 `K ⟶ ∏_{n ≥ 0} τ_{≥ -n}K ⟶ ∏_{n ≥ 0} τ_{≥ -n}K ⟶ K[1]`,
 
-that is, `K` *is* a derived limit of the tower of its canonical truncations from below.  The
-product of the tower exists because each stage is bounded below (**Stacks 0BK7**).
-
-The vanishing `hvan` is carried; see this file's module documentation. -/
+that is, `K` *is* a derived limit of the tower of its canonical truncations from below, provided
+the objects lying over an affine scheme cover `𝒳_fppf` (`hB`) and the higher cohomology of the
+modules in `LQCoh^fbc(𝒪_𝒳)` vanishes over them (`hvan`).  The product of the tower exists because
+each stage is bounded below (**Stacks 0BK7**).  Both hypotheses are discharged in
+`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc_of_essentiallySmall`. -/
 theorem exists_isDerivedLimit_truncGETower_of_lqcFbc
     (K : DerivedCategory (fppfSiteModules B S hS p hp))
     (hK : ∀ i : ℤ, IsLocallyQuasicoherentWithFlatBaseChange B E h S hS p hp
@@ -265,23 +255,17 @@ theorem exists_isDerivedLimit_truncGETower_of_lqcFbc
 
 end
 
-/-- **Stacks 08IY.** Let `𝒳` be an algebraic stack and let `K` be an object of `D(𝒪_𝒳)` whose
-cohomology sheaves are locally quasi-coherent (**Stacks 06WJ**) and have the flat base change
-property (**Stacks 0762**).  Then there is a distinguished triangle
-
-`K ⟶ ∏_{n ≥ 0} τ_{≥ -n}K ⟶ ∏_{n ≥ 0} τ_{≥ -n}K ⟶ K[1]`
-
-in `D(𝒪_𝒳)`: `K` is the derived limit of its canonical truncations from below.
+/-- **The triangle of Stacks 08IY at hom universe `u + 1`, from the affine vanishing.**  An object
+`K` of `D(𝒪_𝒳)` whose cohomology sheaves are locally quasi-coherent (**Stacks 06WJ**) and have the
+flat base change property (**Stacks 0762**) is the derived limit of its canonical truncations from
+below, provided the higher cohomology of the modules in `LQCoh^fbc(𝒪_𝒳)` vanishes over the
+objects lying over an affine scheme (`hvan`).
 
 This is `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc` with the covering
 class of the source's proof discharged by
-`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver`, at the hom universe `u + 1` of the fppf
-site of an algebraic stack.  The hypothesis `hvan` is the source's first sentence, carried; see
-this file's module documentation for the four cited lemmas it stands for and for why none of them
-is available. -/
-@[stacks 08IY "K is the derived limit of its canonical truncations from below, for a complex \
-of fppf modules with cohomology sheaves in LQCoh^fbc; the affine-object vanishing the \
-source cites is carried as the hypothesis `hvan`"]
+`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver`, at the hom universe `u + 1`.  The
+statement of Stacks 08IY with every hypothesis discharged is
+`AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc_of_essentiallySmall`. -/
 theorem exists_isDerivedLimit_truncGETower_of_lqcFbc' {𝒳 : Type v} [Category.{u + 1} 𝒳]
     (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids)
     [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrpCat.{u}]
@@ -314,12 +298,10 @@ instance hypotheses carried by
 `AlgebraicGeometry.Stack.exists_isDerivedLimit_truncGETower_of_lqcFbc` are visibly inhabited and
 not an empty class: taking `v = w = u` makes all three of them instances.
 
-It does not apply to an object of `AlgebraicGeometry.Stack.AlgebraicStacks`, whose total
-category and homs live in `u + 1`.  There the mathematical reason the class is inhabited is the
-essential `u`-smallness of the fppf site, which
-`AlgebraicGeometry.Stack.essentiallySmall_obj` supplies from local smallness and essential
-smallness of the fibres; transporting Grothendieck abelianness across that equivalence is not
-available in this repository, which is why the hypothesis is carried rather than discharged. -/
+It does not apply to an object of `AlgebraicGeometry.Stack.AlgebraicStacks`, whose objects live
+in `Type (u + 1)`.  There the class is inhabited because the fppf site is essentially small
+(`AlgebraicGeometry.Stack.essentiallySmall_obj_algebraicStack`), by
+`AlgebraicGeometry.Stack.enoughInjectives_fppfSiteModules_of_essentiallySmall`. -/
 theorem enoughInjectives_fppfSiteModules_of_univLE :
     EnoughInjectives (fppfSiteModules B S hS p hp) :=
   enoughInjectives_moduleSheaves.{u, v, w, u} B S hS p hp B.topology le_rfl

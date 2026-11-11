@@ -55,10 +55,9 @@ Global dimension appears as the supremum `⨆ M : ModuleCat.{u} R, projectiveDim
 `∀ M, HasProjectiveDimensionLE M n`, in which 00O9 and 00O8 bound it, is
 `CategoryTheory.projectiveDimension_le_iff`.
 
-Lemma 00O8 (2), that a localization inherits a bound on the global dimension of `R`, has no separate
-statement in this tree, so it is proved here as `iSup_projectiveDimension_localization_le`,
-in the form of
-the inequality `gl dim S⁻¹R ≤ gl dim R`, from Mathlib's
+Lemma 00O8 (2), that a localization inherits a bound on the global dimension of `R`, is
+`ringGlobalDimension_localization_le`; the form used here, the inequality `gl dim S⁻¹R ≤ gl dim R`,
+is proved as `iSup_projectiveDimension_localization_le` from Mathlib's
 `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule`, which localizes the
 projective dimension of a single module: an `S⁻¹R`-module `X` is its own localization, restriction
 of scalars along `algebraMap R (S⁻¹R)` making `LinearMap.id` an `IsLocalizedModule` for `S`
@@ -622,7 +621,7 @@ regularity with finiteness of the global dimension, and (1) → (3) is \"`R_𝔭
 ring for all primes `𝔭`\", spelled with Mathlib's `IsRegularRing` (Definition 00OD). Global
 dimension is the supremum of the projective dimensions of all `R`-modules, Mathlib having no name
 for it, and \"finite\" is `≠ ⊤`. See the module docstring.", ega "0 17.3.1"
-  "fin. coh. dim ⇔ regular"]
+  "fin. coh. dim ⇔ regular", ega "0 17.3.1" "fin. coh. dim ⇔ regular"]
 public theorem IsLocalRing.isRegularRing_tfae {R : Type u} [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] :
     List.TFAE

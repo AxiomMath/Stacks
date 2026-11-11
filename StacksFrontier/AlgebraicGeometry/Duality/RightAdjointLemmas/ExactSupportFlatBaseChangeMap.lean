@@ -153,7 +153,8 @@ Its component at `K` corresponds, under the adjunction `Ri'_* ⊣ R ℰom(𝒪_{
 whose equality is the Tor-independent base-change isomorphism of [Stacks, Tag 0E23]
 (`pushforwardBaseChangeIso`), and whose arrow is `Lf^*` of the counit of [Stacks, Tag 0A76];
 `baseChangeSheafHomExactSupportMap_app` spells this out. -/
-@[stacks 0E2K "the canonical base-change map, functorial in K"]
+@[stacks 0E2K "the canonical base change map (48.10.0.1), functorial in K, for a cartesian \
+  square with i a closed immersion and Z, X' Tor independent over X"]
 def baseChangeSheafHomExactSupportMap (sq : IsPullback i' g f i) [IsClosedImmersion i]
     (htor : AlgebraicGeometry.TorIndependent i f) :
     (closedQuotientOfClosedImmersion i).derivedSheafHomExactSupport ⋙

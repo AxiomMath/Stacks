@@ -33,7 +33,11 @@ supplies that completion hypothesis from the three hypotheses above.
   Situation [Stacks, Tag 0BLF] is the one over which the neighbourhoods of `U₀` and the ideal
   sheaf `f 𝒪_U` are already available.
 * `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_puncturedSpectrum_principal` —
-  [Stacks, Tag 0BLP], granted the section-extension property.
+  the conclusion of [Stacks, Tag 0BLP] from the section-extension property. The tag itself is
+  registered on
+  `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_puncturedSpectrum_of_isAdicComplete`
+  (`StacksFrontier.AlgebraicGeometry.FundamentalGroup.PuncturedSpectrumFiniteEtaleFullyFaithful`),
+  which proves it from the three hypotheses alone.
 
 ## Implementation notes
 
@@ -50,19 +54,17 @@ closed subscheme is `Stacks.Algebraization.principalFormalLocus`, the zero locus
 the same closed subscheme of `U`, and the first description is the one the colimit over the
 intermediate opens is stated with.
 
-**The carried hypothesis.** The library's form of [Stacks, Tag 0ELA],
-`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme`, does
-not consume full faithfulness of the completion functor; it consumes
+**The section-extension hypothesis.** The declaration here consumes
 `Stacks.FundamentalGroup.SectionsExtendNearSubscheme`, the shrinking form of the conclusion of
-[Stacks, Tag 0EL8], which is what the rest of the source's proof of Tag 0ELA extracts from the
-completion hypothesis. Since the conclusion of [Stacks, Tag 0EKV] is itself not available — the
-module
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFullyFaithful.PrincipalComplement`
-carries only its passage to condition (2) of [Stacks, Tag 0EK2] — the section-extension
-property is carried here as an explicit hypothesis. The three hypotheses of the tag are recorded
-in the statement but are not consumed: they are exactly the hypotheses under which
-[Stacks, Tag 0EKV] produces the completion input, and the step that turns that input into the
-section-extension property has no carrier in this library.
+[Stacks, Tag 0EL8], through
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme`; the
+three hypotheses of the tag are recorded but not consumed. The library does prove that input from
+the three hypotheses: [Stacks, Tag 0EKV] is
+`Stacks.Algebraization.completionFullyFaithfulComplete_principal` and [Stacks, Tag 0ELA] is
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_completionFullyFaithfulComplete`;
+their composite, the complete statement of [Stacks, Tag 0BLP], lives in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.PuncturedSpectrumFiniteEtaleFullyFaithful`, which
+imports this module.
 
 ## References
 
@@ -101,24 +103,18 @@ theorem complementZeroLocus_maximalIdeal_eq_puncturedSpectrum
     ({IsLocalRing.closedPoint A} : Set (PrimeSpectrum A))ᶜ
   rw [hzero]
 
-/-- **[Stacks, Tag 0BLP], granted the section-extension input.** In Situation
+/-- **The conclusion of [Stacks, Tag 0BLP] from the section-extension property.** In Situation
 [Stacks, Tag 0BLF] — a Noetherian local ring `(A, 𝔪)` and an element `f ∈ 𝔪`, with
 `U = Spec(A) ∖ {𝔪}` the punctured spectrum and `U₀ = U ∩ V(f)` the zero locus of `f` on it —
-assume that `A` is `f`-adically complete, that `f` is a nonzerodivisor and that `H¹_𝔪(A/fA)` is
-a finite `A`-module. Then the restriction functor
+if sections of finite étale covers of neighbourhoods of `U₀` extend and are determined after
+shrinking (`Stacks.FundamentalGroup.SectionsExtendNearSubscheme`), then the restriction functor
 `colim_{U₀ ⊆ U' ⊆ U} FÉt_{U'} ⟶ FÉt_{U₀}` is fully faithful.
 
-**What is granted.** The three hypotheses of the tag are recorded but not consumed. They are
-the hypotheses of [Stacks, Tag 0EKV], whose conclusion — full faithfulness of the completion
-functor `colim_{U'} Coh(𝒪_{U'}) ⟶ Coh(U, f𝒪_U)` on the finite locally free objects — is the
-input the source feeds to [Stacks, Tag 0ELA]; that conclusion is not available in this library,
-and neither is the passage from it to the section-extension property, which is the remainder of
-the proof of Tag 0ELA. Accordingly
-`Stacks.FundamentalGroup.SectionsExtendNearSubscheme`, the shrinking form of the conclusion of
-[Stacks, Tag 0EL8] and the actual input of
-`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme`, is
-assumed here in place of hypotheses (1)–(3). -/
-@[stacks 0BLP "granted SectionsExtendNearSubscheme in place of the 0EKV completion input"]
+The hypotheses (1)–(3) of the tag (`A` is `f`-adically complete, `f` is a nonzerodivisor,
+`H¹_𝔪(A/fA)` is a finite `A`-module) are recorded but not consumed. This declaration is not the
+registration of the tag: [Stacks, Tag 0BLP] itself, proved from (1)–(3) alone through
+[Stacks, Tag 0EKV] and [Stacks, Tag 0ELA], is
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_puncturedSpectrum_of_isAdicComplete`. -/
 theorem finiteEtaleColimitFullyFaithful_puncturedSpectrum_principal
     (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (f : A)
     (_hf : f ∈ IsLocalRing.maximalIdeal A)

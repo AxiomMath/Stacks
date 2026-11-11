@@ -14,8 +14,14 @@ vanishes.
 
 ## Main results
 
-* `Dualizing.localCohomology_isZero_of_isIso_smul` — local cohomology vanishes when an element
-  of the support ideal acts invertibly.
+* `Dualizing.localCohomology_isZero_of_isIso_smul` — local cohomology `RΓ_Z` vanishes when an
+  element of the support ideal acts invertibly (registered for Stacks 0A6S).
+* `Dualizing.isIPowerTorsion_subsingleton_of_isIso_smul` — an `I`-power-torsion module on which
+  an element of `I` acts invertibly is zero.
+
+The analogous vanishing for the derived torsion functor `RΓ_I` (Stacks 0A6M) is
+`Dualizing.derivedPowerTorsion_isZero_of_isIso_smul`, in
+`StacksFrontier.RingTheory.Dualizing.DerivingTorsion.DerivedVanishing`.
 
 ## Implementation notes
 
@@ -28,6 +34,7 @@ inclusion into `D(A)`, which is fully faithful.
 ## References
 
 * [Stacks Project, Tag 0A6M](https://stacks.math.columbia.edu/tag/0A6M)
+* [Stacks Project, Tag 0A6S](https://stacks.math.columbia.edu/tag/0A6S)
 -/
 
 @[expose] public noncomputable section
@@ -43,7 +50,7 @@ namespace Dualizing
 /-- An `I`-power-torsion module on which some `f ∈ I` acts invertibly is zero: the invertible
 action of `f` makes multiplication by every power of `f` injective, while torsion kills some
 power of `f` on each element. -/
-private lemma isIPowerTorsion_subsingleton_of_isIso_smul
+lemma isIPowerTorsion_subsingleton_of_isIso_smul
     (A : Type u) [CommRing A] (I : Ideal A) {f : A} (hf : f ∈ I)
     (M : ModuleCat.{v} A) (htors : IsIPowerTorsion A M I)
     (hiso : IsIso (f • 𝟙 M)) : Subsingleton M := by
@@ -87,9 +94,10 @@ private lemma isZero_iff_forall_homology_subsingleton
   rw [(DerivedCategory.homologyFunctor (ModuleCat.{v} A) n).map_zero,
     ← Coreflection.isZero_iff_zero_isIso, ModuleCat.isZero_iff_subsingleton]
 
-/-- **Stacks 0A6M.** If some `f ∈ I` acts invertibly on `K`, then its local cohomology with
-support in `V(I)` is zero. -/
-@[stacks 0A6M]
+/-- If some `f ∈ I` acts invertibly on `K`, then its local cohomology `RΓ_Z(K)` with support in
+`Z = V(I)`, the right adjoint of the inclusion of `D_{I^∞-torsion}(A)`, is zero. This is the
+`RΓ_Z` statement of Stacks 0A6S; the statement of Stacks 0A6M, about the derived functor `RΓ_I`
+of `H^0_I`, is `Dualizing.derivedPowerTorsion_isZero_of_isIso_smul`. -/
 theorem localCohomology_isZero_of_isIso_smul
     (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
     (K : DerivedCategory (ModuleCat.{v} A))

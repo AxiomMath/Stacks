@@ -18,18 +18,26 @@ public import StacksFrontier.Deformation.Lift
 /-!
 # Infinitesimal deformations
 
-An *infinitesimal deformation* of an object `x` of a category fibred in groupoids over a
-base `U` is a lift of `x` along an arrow `U' ⟶ U` of the base. This file develops the
-three basic structural facts about such lifts.
+This file develops three structural facts used for infinitesimal deformations.
 
-First, lifts are *functorial*: a morphism `F` of categories fibred in groupoids, together
-with a morphism `φ` from an object `y` over `V` to the pullback of `F x`, induces a functor
-from lifts of `x` along `U' ⟶ U` to lifts of `y` along `V' ⟶ V`, for any commutative square
-`c ≫ a = d ≫ b` in the base. The functor comes equipped with natural cartesian comparison
-arrows, and it is unique up to a unique isomorphism commuting with those arrows. Applied to
-the square of affine schemes attached to a morphism of deformation situations, this is the
-pullback of lifts; applied to a composite of morphisms of fibred groupoids it gives the
-composition isomorphism.
+The first part concerns *restrictions* of an object `x` of a category fibred in groupoids over
+a base `U` along an arrow `U' ⟶ U` *into* `U`: arrows `x' ⟶ x` lying over `U' ⟶ U`. These are
+not the source's lifts: Stacks' `Lift(x, A')` (Tag 07Y7) consists of arrows `x ⟶ x'` *out of*
+`x`, over `Spec A ⟶ Spec A'`. In a category fibred in groupoids every arrow is cartesian, so
+the category `Deformation.Artin.Lift` of restrictions below is contractible, and the functor
+`Deformation.Artin.liftFunctorOfPullback` on it is constant. The source's lifts and the
+functoriality of Stacks 07Y7 are formalized in
+`StacksFrontier/Deformation/Artin/InfinitesimalLiftOut.lean` (`Deformation.Artin.LiftOut`,
+`Deformation.Artin.liftOutFunctorOfPullback`, `Deformation.Artin.liftOutFunctor_unique`,
+`Deformation.Artin.liftFunctorOfHom_comp`).
+
+First, restrictions are *functorial*: a morphism `F` of categories fibred in groupoids,
+together with a morphism `φ` from the pullback of `F x` to an object `y` over `V`, induces a
+functor from restrictions of `x` along `U' ⟶ U` to restrictions of `y` along `V' ⟶ V`, for any
+commutative square `c ≫ a = d ≫ b` in the base. The functor comes equipped with natural
+cartesian comparison arrows, and it is unique up to a unique isomorphism commuting with those
+arrows; applied to a composite of morphisms of fibred groupoids it gives the composition
+isomorphism.
 
 Second, a *deformation situation* is a surjection of rings with square-zero kernel, and a
 composable triple of deformation situations over a common quotient is *short exact* when its
@@ -42,8 +50,8 @@ the right, and each action is simply transitive.
 
 ## Main definitions
 
-* `Deformation.Artin.Lift` — lifts of `x` along `a : U' ⟶ U`, together with their specified
-  identification with `x` after restriction along `a`.
+* `Deformation.Artin.Lift` — restrictions of `x` along `a : U' ⟶ U` (arrows into `x` over
+  `a`); not the source's `Lift(x, A')`, which is `Deformation.Artin.LiftOut`.
 * `Deformation.Artin.LiftFunctor` — a functor between categories of lifts, bundled with its
   natural cartesian comparison arrows.
 * `Deformation.Artin.IsDeformationSituation` — a square-zero surjection of rings.
@@ -56,12 +64,16 @@ the right, and each action is simply transitive.
 
 ## Main results
 
-* `Deformation.Artin.liftFunctorOfPullback` — the induced functor on lifts attached to a
-  commutative square in the base and a morphism out of the chosen pullback.
+* `Deformation.Artin.liftFunctorOfPullback` — the induced (constant) functor on restrictions
+  attached to a commutative square in the base and a morphism out of the chosen pullback.
 * `Deformation.Artin.liftFunctor_unique` — uniqueness of that functor up to a unique
   isomorphism commuting with the comparison arrows.
 * `Deformation.Artin.liftFunctor_comp` — the comparison of the functor attached to a
   composite with the composite of the two attached functors.
+
+These three are the analogues for restrictions of Stacks 07Y7; the tag itself is registered on
+`Deformation.Artin.liftOutFunctorOfPullback`, `Deformation.Artin.liftOutFunctor_unique` and
+`Deformation.Artin.liftFunctorOfHom_comp`.
 * `Deformation.Artin.exists_factorization_through_base` — the composite of the transition
   maps of a short exact sequence of deformation situations factors through the base.
 * `Deformation.Artin.splitExtensionRingEquiv` — the canonical isomorphism identifying `A₁`
@@ -92,8 +104,11 @@ variable {C : Type u₁} [Category.{v₁} C]
 variable {X : Type u₂} [Category.{v₂} X]
 variable {Y : Type u₃} [Category.{v₃} Y]
 
-/-- Lifts of `x` along `a : U' ⟶ U`, including their specified identification with `x`
-after restriction. -/
+/-- Restrictions of `x` along `a : U' ⟶ U`: arrows `x' ⟶ x` of the total category lying over
+`a`, i.e. the fibre of `Over.post p` over `a`. In a category fibred in groupoids every such
+arrow is cartesian, so this category is contractible. It is *not* the source's `Lift(x, A')` of
+Stacks 07Y7, whose objects are arrows `x ⟶ x'` out of `x`; that is `Deformation.Artin.LiftOut`.
+-/
 public abbrev Lift (p : X ⥤ C) {U' U : C} (a : U' ⟶ U) (x : X)
     (hx : p.obj x = U) :=
   (Over.post p).Fiber (Over.mk (a ≫ eqToHom hx.symm))
@@ -342,9 +357,11 @@ public lemma lift_map_hom_isHomLift (p : X ⥤ C) (q : Y ⥤ C) (F : X ⥤ Y)
   lift_map_isHomLift p q F hF a (lift_base_obj p a x hx t) hx t.1.hom
     (lift_isHomLift p a x hx t)
 
-/-- The canonical functor on lifts attached to a commutative square `c ≫ a = d ≫ b` in the base
-and a morphism `F(x)|_V ⟶ y` out of the chosen pullback. -/
-@[stacks 07Y7 "the functor"]
+/-- The functor on restrictions (`Deformation.Artin.Lift`) attached to a commutative square
+`c ≫ a = d ≫ b` in the base and a morphism `F(x)|_V ⟶ y` out of the chosen pullback. Its
+domain is contractible and the functor is constant on the chosen pullback of `y` along `d`.
+This is not Stacks 07Y7, which is about lifts out of the base: see
+`Deformation.Artin.liftOutFunctorOfPullback`. -/
 public noncomputable def liftFunctorOfPullback (p : X ⥤ C) (q : Y ⥤ C)
     (hq : q.IsFiberedInGroupoids) (F : X ⥤ Y) (hF : F ⋙ q = p)
     {U' U V' V : C} (a : U' ⟶ U) (b : V ⟶ U) (c : V' ⟶ U') (d : V' ⟶ V)
@@ -413,8 +430,9 @@ public noncomputable def liftFunctorOfPullback (p : X ⥤ C) (q : Y ⥤ C)
         simp [Category.assoc]
 
 /-- Two functors on lifts with cartesian comparison arrows over the same square are uniquely
-isomorphic by an isomorphism commuting with their comparison arrows. -/
-@[stacks 07Y7 "uniqueness"]
+isomorphic by an isomorphism commuting with their comparison arrows. This concerns
+restrictions (`Deformation.Artin.Lift`); the uniqueness clause of Stacks 07Y7, for the source's
+lifts out of the base, is `Deformation.Artin.liftOutFunctor_unique`. -/
 public theorem liftFunctor_unique (p : X ⥤ C) (q : Y ⥤ C)
     (hq : q.IsFiberedInGroupoids) (F : X ⥤ Y)
     {U' U V' V : C} (a : U' ⟶ U) (b : V ⟶ U) (c : V' ⟶ U') (d : V' ⟶ V)
@@ -501,8 +519,9 @@ public theorem liftFunctor_unique (p : X ⥤ C) (q : Y ⥤ C)
 canonically isomorphic to the composite of the two functors on lifts. The second
 morphism acts over the identity square at the target of the first. At every lift,
 the isomorphism is the unique vertical morphism commuting with the two cartesian
-comparison arrows. -/
-@[stacks 07Y7 "compatibility with composition"]
+comparison arrows. This concerns restrictions (`Deformation.Artin.Lift`); the composition
+clause of Stacks 07Y7, for the source's lifts out of the base, is
+`Deformation.Artin.liftFunctorOfHom_comp`. -/
 public noncomputable def liftFunctor_comp
     {Z : Type*} [Category Z]
     (p : X ⥤ C) (q : Y ⥤ C) (r : Z ⥤ C)
@@ -601,11 +620,6 @@ public noncomputable def liftFunctor_comp
     N).exists.choose_spec⟩
 
 end
-
-/-! ### Pullback of lifts along a morphism of deformation situations -/
-
-add_to_stacks 07YA "pullback_of_lifts" Deformation.Artin.liftFunctorOfPullback
-add_to_stacks 07YA "pullback_of_lifts" Deformation.Artin.liftFunctor_unique
 
 /-! ### Short exact sequences of deformation situations -/
 

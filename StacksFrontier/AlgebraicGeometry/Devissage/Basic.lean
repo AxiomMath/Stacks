@@ -17,8 +17,8 @@ The source's proof of [Stacks, Tag 01YQ] runs the dévissage [Stacks, Tag 01YM] 
 
 and then concludes by Serre's criterion [Stacks, Tag 01XF]. The chain of lemmas is four deep —
 01YQ ← 01YM ← {01YL, 01YG} ← 01YE — and **this file is the step at the very top**: that
-`𝒫 = H¹`-vanishing satisfies conditions (1) and (2) of
-01YM, and that the resulting vanishing feeds Serre's criterion.
+`𝒫 = H¹`-vanishing satisfies conditions (1) and (2) of 01YM, and that the resulting vanishing
+feeds Serre's criterion.
 
 ## What the library already provides, and where
 
@@ -73,11 +73,9 @@ Three obligations remain between this file and 01YQ, and they are of very differ
    `Stacks.AlgebraicGeometry.IdealPowerComparison.bijective_idealPowerMultiple_ι_app` over the
    opens inside `IdealPowerHomColimit.idealComplement 𝒥`; and `H¹(X, 𝒥·𝒢) = 0` is
    `isZero_hgroup_pushforward_of_isAffine` **once** `𝒥·f_*ℱ` is identified with
-   `f_*((f⁻¹𝒥)·ℱ)`. [Stacks, Tag 01YP] is proved as
-   `Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`, but
-   **only as an equality of section submodules on each affine open**; promoting it to the
-   isomorphism of module sheaves that [Stacks, Tag 089W] consumes is what remains of this
-   obligation.
+   `f_*((f⁻¹𝒥)·ℱ)`. [Stacks, Tag 01YP] is proved as an equality of
+   subsheaves, `Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`,
+   whose right-hand side is a direct image by `rfl`.
 2. **[Stacks, Tag 01YL].** Not derivable from 01YE plus the existing dévissage machinery: the
    01YH route to its top stratum goes through the two-out-of-three extension property, which
    01YL's condition (1) does not grant, and through multiplicity one, which is what 01YL's

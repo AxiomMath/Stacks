@@ -426,7 +426,7 @@ public lemma exists_cohomologyTowerEquiv_affineOpen {X Y : Scheme.{u}} [IsNoethe
   rw [show (J.comap f).comap (f ⁻¹ᵁ U.1).ι =
       Stacks.Cohomology.FormalFunctions.baseIdealSheaf (Γ(Y, U.1) : Type u) (J.ideal U)
         (preimageToSpec f U) from (baseIdealSheaf_preimageToSpec f U J).symm]
-  obtain ⟨e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
+  obtain ⟨-, e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
     (Γ(Y, U.1) : Type u) (preimageToSpec f U) (isProper_preimageToSpec f U) (J.ideal U)
     ((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ U.1).ι).obj F)
     (AlgebraicGeometry.CoherentAbelian.stacksIsCoherent_of_isCoherent ‹_›) 0

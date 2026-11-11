@@ -241,7 +241,7 @@ theorem supportOfSheaf_homology_isoQcohTransport
           (isoQcohTransport B S hS e E).obj)) =
       pointsMap B S hS Y.1 e.inv.hom ⁻¹' supportOfSheaf B S hS X.1 ((SheafOfModules.toSheaf _).obj
         ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS X.1 X.2) i).obj E.obj)) :=
-  (supportOfSheaf_eq_of_mapIso B S hS Y.1 Y.2 ((SheafOfModules.toSheaf _).mapIso
+  (supportOfSheaf_eq_of_sheafIso B S hS Y.1 Y.2 ((SheafOfModules.toSheaf _).mapIso
       (((isoModuleRestriction B S hS e).mapDerivedCategoryHomologyIso i).app E.obj))).trans
     (supportOfSheaf_isoModuleRestriction B S hS e _)
 
@@ -294,7 +294,7 @@ theorem approximationHolds_of_iso (Z : Set (points B S hS X.1))
     (isoModulePushforward B S hS e).mapDerivedCategory.map α ≫ c, fun i hi => ?_, ?_⟩
   · intro p hp
     have := hsupp i ((supportOfSheaf_isoModulePushforward B S hS e _).subset
-      ((supportOfSheaf_eq_of_mapIso B S hS X.1 X.2 ((SheafOfModules.toSheaf _).mapIso
+      ((supportOfSheaf_eq_of_sheafIso B S hS X.1 X.2 ((SheafOfModules.toSheaf _).mapIso
         (((isoModulePushforward B S hS e).mapDerivedCategoryHomologyIso i).app P))).subset hp))
     rwa [Set.mem_preimage, pointsMap_inv_pointsMap_hom] at this
   · have h₁ := (isoModulePushforward B S hS e).isIso_homologyFunctor_map_mapDerivedCategory_map

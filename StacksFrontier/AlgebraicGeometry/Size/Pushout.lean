@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.Size.FlatSurjective
 
 Let `i : X ⟶ X'` be a thickening of schemes and `f : X ⟶ Y` an affine morphism, and let
 `Q = Y ⨿_X X'` be their pushout, which exists by [Stacks Project, Tag 07RT].  The size of `Q`
-in the sense of [Stacks Project, Tag 000I] is bounded in terms of the sizes of `Y` and `X'`:
+in the sense of [Stacks Project, Section 000H] is bounded in terms of the sizes of `Y` and `X'`:
 
 * `Y ⟶ Q` is a thickening, so `Q` has no more points than `Y`, and its affine opens, being
   subsets of its points, number at most `2 ^ #Y ≤ 2 ^ 2 ^ size Y`;
@@ -29,7 +29,7 @@ site.
 
 ## References
 
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 * [Stacks Project, Tag 07RT](https://stacks.math.columbia.edu/tag/07RT)
 * [Stacks Project, Tag 07VX](https://stacks.math.columbia.edu/tag/07VX)
 -/

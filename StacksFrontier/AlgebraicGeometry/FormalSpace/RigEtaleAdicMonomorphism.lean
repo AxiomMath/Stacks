@@ -8,11 +8,13 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleStability
 # Cancelling rig-étaleness along an adic monomorphism
 
 Let `S` be a scheme contained in a big fppf site `B` and let `f : X ⟶ Y` and `g : Y ⟶ Z` be
-morphisms of locally Noetherian formal algebraic spaces over `S`. When `g` is a monomorphism
-the square with sides `𝟙 X` and `f` over `f ≫ g` and `g` is cartesian, so `f` is the base
-change of `g ∘ f` along `g`. Consequently, if `g ∘ f` is rig-étale (Stacks 0AQM) and `g` is an
-adic monomorphism, then `f` is rig-étale: this is **Stacks 0GH4**, a complement to the right
-cancellation of Stacks 0GD3, where the second factor is asked to be rig-étale instead.
+morphisms of fppf sheaves over `S`. When `g` is a monomorphism the square with sides `𝟙 X` and
+`f` over `f ≫ g` and `g` is cartesian, so `f` is the base change of `g ∘ f` along `g`. This is
+the step by which **Stacks 0GH4** — if `g ∘ f` is rig-étale and `g` is an adic monomorphism of
+locally Noetherian formal algebraic spaces, then `f` is rig-étale — is deduced from the base
+change result Stacks 0GD1; the statement itself is
+`isRigEtale_of_comp_of_isAdicMorphism_of_mono_of_isLocallyNoetherian` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleBaseChangeCharts`.
 
 ## Main results
 
@@ -20,22 +22,8 @@ cancellation of Stacks 0GD3, where the second factor is asked to be rig-étale i
   monomorphism exhibits the source of `f` as the fibre product of `f ≫ g` and `g`.
 * `AlgebraicGeometry.FormalSpace.isRigEtale_iso_hom_comp`: rig-étaleness is invariant under
   precomposition with an isomorphism of the source.
-* `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isAdicMorphism_of_mono`: **Stacks
-  0GH4**.
-
-## Implementation notes
-
-The base change along the adic morphism `g` is taken by the stability result of Stacks 0GD1,
-which the library carries for the chosen fibre product in the shape
-`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism`. Its four open
-inputs — the locality `hcond` of the cohomology-annihilation half of rig-étaleness, and the
-three parts `hcover`, `h31`, `hiso` of Remark 0GBG that the library leaves open — are
-therefore carried verbatim into the statement below, with `hcover` asked of the fibre product
-of `g ∘ f` and `g` that the proof actually forms.
-
-Passing from the second projection of that fibre product to `f` itself is the invariance of
-rig-étaleness under an isomorphism of the source, which reduces to the stability of
-representable étale morphisms under composition with an isomorphism and is proved here.
+* `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isAdicMorphism_of_mono`: the same
+  cancellation, on the inputs of `isRigEtale_pullback_snd_of_isAdicMorphism`.
 -/
 
 @[expose] public section
@@ -67,16 +55,17 @@ theorem isRigEtale_iso_hom_comp {X X' Y : FppfSheaf B S hS} (e : X ≅ X') (p : 
   exact hp U V hU hV (a ≫ e.hom) b t ha' hb ha'et hbet
     (by rw [Category.assoc]; exact hcomm)
 
-/-- **Stacks 0GH4.** Let `f : X ⟶ Y` and `g : Y ⟶ Z` be morphisms of locally Noetherian formal
-algebraic spaces over `S`. If `g ∘ f` is rig-étale and `g` is an adic monomorphism, then `f` is
-rig-étale: as `g` is a monomorphism, `f` is the base change of `g ∘ f` along `g`, and the base
-change of a rig-étale morphism along an adic morphism is rig-étale. -/
-@[stacks 0GH4 "granting the locality of the cohomology-annihilation half of rig-étaleness, \
-which is the hypothesis hcond and the only input of Stacks 0AQL, together with the three \
-inputs of Remark 0GBG that the library leaves open and that Stacks 0GD1, the sole cited \
-input of this tag, is itself carried with: the covering by fibre products of charts of \
-Stacks 0GBD and 0AN0 (hcover), the implication (3) ⟹ (1) of Stacks 0ANG (h31), and the \
-invariance of rig-étaleness under isomorphism of targets implied by Stacks 0ANI (hiso)"]
+/-- Let `f : X ⟶ Y` and `g : Y ⟶ Z` be morphisms of locally Noetherian formal algebraic spaces
+over `S` with `g ∘ f` rig-étale and `g` a monomorphism whose chart maps are adic, given the
+inputs `hcond`, `hiso`, `h31` and `hcover` of
+`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism`. Then `f` is
+rig-étale.
+
+The hypothesis `hcond` can never be supplied (see
+`StacksFrontier.RingTheory.Rig.RigEtaleConditionCounterexample`); Stacks 0GH4 itself, with exactly
+the source's hypotheses, is
+`AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isAdicMorphism_of_mono_of_isLocallyNoetherian`.
+-/
 theorem isRigEtale_of_comp_of_isAdicMorphism_of_mono (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S)
     (hcond : TopologicalRing.PropertyIsLocalNoetherian.{u}

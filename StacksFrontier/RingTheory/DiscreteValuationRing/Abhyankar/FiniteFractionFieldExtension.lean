@@ -22,10 +22,16 @@ The equalities of the sources are represented by algebra equivalences together w
 compatibility equations that pin down both canonical maps, so that applications do not have to
 rebuild the comparison data separately.
 
-The result is a corrected form of the source statement for Tag 09EQ: the printed equalities
-`L₁ = L ⊗_K K₁` and `B₁ = B ⊗_A A₁` fail for an inseparable `K₁ / K` over a non-excellent base
-(the completion example of Tag 00PB), where `L ⊗_K K₁` is not reduced. They are recovered here
-under the additional hypothesis that `L ⊗_K K₁` is reduced.
+The result is the corrected form of Tag 09EQ. The printed equalities `L₁ = L ⊗_K K₁` and
+`B₁ = B ⊗_A A₁` are false in general:
+`StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.FiniteFractionFieldExtensionCounterexample`
+gives `A → A^` for the non-excellent discrete valuation ring of Tag 00PB and a purely inseparable
+`K₁ / K` of degree two, for which neither `L ⊗_K K₁` nor `B ⊗_A A₁` is reduced (see `errata.md`).
+Since `L₁` and `B₁` are reduced, each equality forces `L ⊗_K K₁` to be reduced, and conversely
+both equalities hold when it is; so the reducedness of `L ⊗_K K₁` is exactly what they need. The
+rest of the source statement, formal smoothness of every local extension
+`(A₁)_{𝔪_i} → (B₁)_{𝔪_ij}`, and the identification `B₁ = (B ⊗_A A₁)_red`, hold for every
+finite `K₁ / K`.
 
 ## References
 
@@ -343,8 +349,13 @@ private theorem localizationAtPrimeEquiv
 
 /-- Formal smoothness of an extension of discrete valuation rings persists at every local factor
 after a finite extension of the fraction field.  The integral closure upstairs is the reduced
-tensor product, and it is the unreduced tensor product whenever `L ⊗_K K₁` is reduced. -/
-@[stacks 09EQ]
+tensor product, and it is the unreduced tensor product whenever `L ⊗_K K₁` is reduced, which is
+exactly when `L₁ = L ⊗_K K₁`. -/
+@[stacks 09EQ "Corrected statement. The formal smoothness of every local extension
+`(A₁)_{𝔪_i} → (B₁)_{𝔪_ij}` holds for every finite `K₁ / K`, as printed, and so does
+`B₁ = (B ⊗_A A₁)_red`. The printed equalities `L₁ = L ⊗_K K₁` and `B₁ = B ⊗_A A₁` are false in
+general (`exists_formallySmoothNAdic_not_isReduced_tensorProduct`); both say that `L ⊗_K K₁` is
+reduced, and both are proved here in exactly that case. Recorded in `errata.md`."]
 theorem formallySmooth_localizations_after_finite_fraction_field_extension
     (A : Type uA) (B : Type uB) (K : Type uK) (L : Type uL)
     (K₁ : Type uK₁) (L₁ : Type uL₁) (A₁ : Type uA₁) (B₁ : Type uB₁)

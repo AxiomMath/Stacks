@@ -131,9 +131,11 @@ lemma IsFiberedInSets.eq_of_obj_eq
 
 end Helpers
 
-/-- A 2-morphism over `𝒞` between two 1-morphisms into a category fibred in sets is an
-identity: the two 1-morphisms are equal. -/
-@[stacks 02Y2]
+/-- A vertical natural transformation `η : F ⟶ G` between two functors over `𝒞` into a category
+fibred in sets forces `F = G`. This is the step of Stacks 02Y2 on 1-morphisms; the complete
+lemma (every 2-morphism is an identity, and the equivalence between presheaves of sets and
+categories fibred in sets) is `CategoryTheory.CatFiberedInSets.exists_eq_eqToHom` and
+`CategoryTheory.CatFiberedInSets.presheafEquivalence`. -/
 theorem twoMorphisms_are_identity
     {𝒮 : Type u₂} [Category.{v₂} 𝒮] {𝒮' : Type u₃} [Category.{v₃} 𝒮']
     (p : 𝒮 ⥤ 𝒞) (p' : 𝒮' ⥤ 𝒞) [p'.IsFiberedInSets]

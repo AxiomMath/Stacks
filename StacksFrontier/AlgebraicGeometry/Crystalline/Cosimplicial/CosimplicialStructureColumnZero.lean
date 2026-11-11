@@ -29,8 +29,8 @@ with a carried hypothesis.
 ## What this does and does not do to [Stacks, Tag 07LG]
 
 **No `@[stacks 07LG]` attribute is placed.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  The hypothesis list of
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  The hypothesis list of
 `...SmallSite.computes07LG_of_doubleComplex` is `K`, `hcolumns`, `hrows`, `hrow0`, `hcolumn0`,
 `hker`, and what this module touches is the *first half* of `hcolumn0` only, at the single
 coefficient sheaf `𝒪_{X/S}`.

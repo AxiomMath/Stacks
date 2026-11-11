@@ -6,16 +6,18 @@ public import StacksFrontier.KTheory.Grothendieck.Product.BaseChange
 public import StacksFrontier.KTheory.Grothendieck.Product.Factors
 
 /-!
-# The Grothendieck group `K'_0` of a product of two Noetherian rings
+# The Grothendieck group `K'_0` of a product of two rings
 
-Stacks Project lemma `lemma-K0-product`:
+Stacks Project lemma 00JH:
 Let `R = R_1 \times R_2` be a product of two commutative rings. Then
-`K_0(R) = K_0(R_1) \times K_0(R_2)` and, when `R` is Noetherian,
-`K'_0(R) = K'_0(R_1) \times K'_0(R_2)`.
+`K_0(R) = K_0(R_1) \times K_0(R_2)` and `K'_0(R) = K'_0(R_1) \times K'_0(R_2)`.
 
-This file proves the second half: `K'_0(R_1 \times R_2) = K'_0(R_1) \times K'_0(R_2)`
-for Noetherian `R_1`, `R_2`, where `K'_0` is the Grothendieck group of *all*
-finite modules. The three-step pattern (forward map by base change along the two
+This file proves the second half, `K'_0(R_1 \times R_2) = K'_0(R_1) \times K'_0(R_2)`
+for arbitrary commutative rings `R_1`, `R_2` (`K0prime_prod`), where `K'_0` is the
+Grothendieck group of *all* finite modules (Stacks 00JC defines it for any ring).
+The Noetherian specialisation `K0prime_product` is kept as a corollary.
+
+The three-step pattern (forward map by base change along the two
 projections, backward map by restriction of scalars, both composites the
 identity) is the one described in
 `StacksFrontier.KTheory.Grothendieck.Product.K0`; the extra input here is that each
@@ -28,7 +30,7 @@ sequences.
 
 universe u
 
-/-- **(A') Forward map, K'₀** (Noetherian case).  Base change along the two
+/-- **(A') Forward map, K'₀.** Base change along the two
 projections gives a homomorphism `K'₀(R₁×R₂) → K'₀(R₁) × K'₀(R₂)` sending each
 generator `[M]` to `([M⊗R₁],[M⊗R₂])`.
 
@@ -42,8 +44,7 @@ sends a short exact sequence `0→M'→M→M''→0` to a short exact sequence
 factor of `R = R₁×R₂`, hence projective hence flat), so `_ ⊗_R Rᵢ` is exact
 (`Module.Flat`, `TensorProduct` right-exactness + injectivity-preservation under
 flatness).  Hence the images satisfy `K0Rel.ses` and the map descends. -/
-theorem K0prime_product_forward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
-    [IsNoetherianRing R1] [IsNoetherianRing R2] :
+theorem K0prime_prod_forward (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
     ∃ φ : K0prime (R1 × R2) →+ (K0prime R1 × K0prime R2),
       ∀ M : FGPres (R1 × R2),
         φ (K0prime.mk M) =
@@ -107,6 +108,16 @@ theorem K0prime_product_forward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
             exact Module.Flat.of_projective) x hx)
   exact ⟨QuotientAddGroup.lift _ g hker, fun _ => rfl⟩
 
+/-- Noetherian specialisation of `K0prime_prod_forward`. -/
+theorem K0prime_product_forward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
+    [IsNoetherianRing R1] [IsNoetherianRing R2] :
+    ∃ φ : K0prime (R1 × R2) →+ (K0prime R1 × K0prime R2),
+      ∀ M : FGPres (R1 × R2),
+        φ (K0prime.mk M) =
+          ( K0prime.baseChangeMk (RingHom.fst R1 R2) M.module,
+            K0prime.baseChangeMk (RingHom.snd R1 R2) M.module ) :=
+  K0prime_prod_forward R1 R2
+
 /-- Restriction of scalars along `f` sends isomorphic finite `S`-modules to the same class. -/
 private theorem restrictMk_eq_of_linearEquiv {R S : Type u} [CommRing R] [CommRing S]
     (f : R →+* S) (hfin : letI : Module R S := (f.toAlgebra).toModule; Module.Finite R S)
@@ -166,8 +177,7 @@ underlying abelian-group sequence is unchanged), so `K0Rel.ses`/`K0Rel.iso` are
 respected.  Set `ψ := ψ₁ ∘ fst + ψ₂ ∘ snd`; evaluate on generators with
 `map_zero`.  (Note `restrictMk pᵢ P.module` is the class of the same finite
 module regarded over `R`.) -/
-theorem K0prime_product_backward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
-    [IsNoetherianRing R1] [IsNoetherianRing R2] :
+theorem K0prime_prod_backward (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
     ∃ ψ : (K0prime R1 × K0prime R2) →+ K0prime (R1 × R2),
       (∀ N1 : FGPres R1,
           ψ (K0prime.mk N1, 0) =
@@ -184,6 +194,18 @@ theorem K0prime_product_backward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
     rw [map_zero, add_zero, hψ1]
   · change ψ1 0 + ψ2 (K0prime.mk N2) = _
     rw [map_zero, zero_add, hψ2]
+
+/-- Noetherian specialisation of `K0prime_prod_backward`. -/
+theorem K0prime_product_backward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
+    [IsNoetherianRing R1] [IsNoetherianRing R2] :
+    ∃ ψ : (K0prime R1 × K0prime R2) →+ K0prime (R1 × R2),
+      (∀ N1 : FGPres R1,
+          ψ (K0prime.mk N1, 0) =
+          K0prime.restrictMk (RingHom.fst R1 R2) (Prod.fst_finite R1 R2) N1.module) ∧
+      (∀ N2 : FGPres R2,
+          ψ (0, K0prime.mk N2) = K0prime.restrictMk (RingHom.snd R1 R2) (Prod.snd_finite R1
+              R2) N2.module) :=
+  K0prime_prod_backward R1 R2
 
 /-- The class of `M.module` as a module agrees with the class of the presentation `M`. -/
 private theorem mkModule_module_eq_mk {R : Type u} [CommRing R] (M : FGPres R) :
@@ -224,8 +246,7 @@ baseChangeMk snd M.module) = restrictMk fst (M.module ⊗ R₁) + restrictMk snd
 sums (a split SES is a SES: `K0Rel.ses`) gives `= mk M`.  The class identities
 use that `K0prime.mkModule`/`K0prime.restrictMk`/`K0prime.baseChangeMk` are well defined on
 isomorphism classes of finite modules (via `K0Rel.iso` / `FGPres.skeleton_surjective`). -/
-theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
-    [IsNoetherianRing R1] [IsNoetherianRing R2]
+theorem K0prime_prod_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
     (φ : K0prime (R1 × R2) →+ (K0prime R1 × K0prime R2))
     (ψ : (K0prime R1 × K0prime R2) →+ K0prime (R1 × R2))
     (hφ : ∀ M : FGPres (R1 × R2),
@@ -388,6 +409,24 @@ theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
   -- `mkModule A1 + mkModule A2 = mkModule (A1 × A2) = mkModule M.module = mk M`
   rw [← mkModule_prod, K0prime.mkModule_eq_of_iso _ _ eM, mkModule_module_eq_mk]
 
+/-- Noetherian specialisation of `K0prime_prod_left_inv`. -/
+theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
+    [IsNoetherianRing R1] [IsNoetherianRing R2]
+    (φ : K0prime (R1 × R2) →+ (K0prime R1 × K0prime R2))
+    (ψ : (K0prime R1 × K0prime R2) →+ K0prime (R1 × R2))
+    (hφ : ∀ M : FGPres (R1 × R2),
+        φ (K0prime.mk M) =
+          ( K0prime.baseChangeMk (RingHom.fst R1 R2) M.module,
+            K0prime.baseChangeMk (RingHom.snd R1 R2) M.module ))
+    (hψ1 : ∀ N1 : FGPres R1,
+        ψ (K0prime.mk N1, 0) =
+          K0prime.restrictMk (RingHom.fst R1 R2) (Prod.fst_finite R1 R2) N1.module)
+    (hψ2 : ∀ N2 : FGPres R2,
+        ψ (0, K0prime.mk N2) =
+          K0prime.restrictMk (RingHom.snd R1 R2) (Prod.snd_finite R1 R2) N2.module) :
+    ∀ x : K0prime (R1 × R2), ψ (φ x) = x :=
+  K0prime_prod_left_inv R1 R2 φ ψ hφ hψ1 hψ2
+
 -- needed: `K0prime_product_right_inv`'s product-component goals need the `K0prime` quotient
 -- instances unfolded at `default` transparency
 set_option backward.isDefEq.respectTransparency false in
@@ -403,8 +442,7 @@ restricting then extending along the same surjection `fst`) and
 `(N1.module|_R) ⊗_R R₂ ≅ 0` (idempotent `e₂` kills it), together with
 `K0prime.mkModule`/`baseChangeMk` respecting isomorphisms and `mkModule R 0 = 0`,
 give `(mk N1, 0)`.  Symmetric for `(0, mk N2)`. -/
-theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
-    [IsNoetherianRing R1] [IsNoetherianRing R2]
+theorem K0prime_prod_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
     (φ : K0prime (R1 × R2) →+ (K0prime R1 × K0prime R2))
     (ψ : (K0prime R1 × K0prime R2) →+ K0prime (R1 × R2))
     (hφ : ∀ M : FGPres (R1 × R2),
@@ -498,25 +536,55 @@ theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
   have hy : y = (y.fst, 0) + (0, y.snd) := by ext <;> simp
   rw [hy, map_add, map_add, hleft y.fst, hright y.snd]
 
-/-- Assume in addition that `R₁` and `R₂` are Noetherian
-(equivalently that `R = R₁ × R₂` is Noetherian).  Then the natural
-homomorphism `K'₀(R) → K'₀(R₁) × K'₀(R₂)`, given on generators by
+/-- Noetherian specialisation of `K0prime_prod_right_inv`. -/
+theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
+    [IsNoetherianRing R1] [IsNoetherianRing R2]
+    (φ : K0prime (R1 × R2) →+ (K0prime R1 × K0prime R2))
+    (ψ : (K0prime R1 × K0prime R2) →+ K0prime (R1 × R2))
+    (hφ : ∀ M : FGPres (R1 × R2),
+        φ (K0prime.mk M) =
+          ( K0prime.baseChangeMk (RingHom.fst R1 R2) M.module,
+            K0prime.baseChangeMk (RingHom.snd R1 R2) M.module ))
+    (hψ1 : ∀ N1 : FGPres R1,
+        ψ (K0prime.mk N1, 0) =
+          K0prime.restrictMk (RingHom.fst R1 R2) (Prod.fst_finite R1 R2) N1.module)
+    (hψ2 : ∀ N2 : FGPres R2,
+        ψ (0, K0prime.mk N2) =
+          K0prime.restrictMk (RingHom.snd R1 R2) (Prod.snd_finite R1 R2) N2.module) :
+    ∀ y : K0prime R1 × K0prime R2, φ (ψ y) = y :=
+  K0prime_prod_right_inv R1 R2 φ ψ hφ hψ1 hψ2
+
+/-- **Stacks 00JH, `K'_0` half.** Let `R = R₁ × R₂` be a product of two commutative
+rings (no further hypothesis). Then the natural homomorphism
+`K'₀(R) → K'₀(R₁) × K'₀(R₂)`, given on generators by
 `[M] ↦ ([M ⊗_R R₁], [M ⊗_R R₂])`, is an isomorphism of abelian groups.
 
-As for Statement 1, the classes `K0prime.mk M` generate `K0prime (R₁ × R₂)`, so the
-additive isomorphism `e` is uniquely determined by the stated property. -/
-@[stacks 00JH "K'_0"]
+As for the `K_0` half (`K0_product`), the classes `K0prime.mk M` generate
+`K0prime (R₁ × R₂)`, so the additive isomorphism `e` is uniquely determined by the
+stated property. -/
+@[stacks 00JH "K'_0 half, for arbitrary commutative rings R_1, R_2; the K_0 half is K0_product"]
+theorem K0prime_prod (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
+    ∃ e : K0prime (R1 × R2) ≃+ (K0prime R1 × K0prime R2),
+      ∀ M : FGPres (R1 × R2),
+        e (K0prime.mk M) =
+          ( K0prime.baseChangeMk (RingHom.fst R1 R2) M.module,
+            K0prime.baseChangeMk (RingHom.snd R1 R2) M.module ) := by
+  -- Same assembly as for `K0_product`: combine forward/backward maps with the two
+  -- round-trip identities (the math is in the four `K0prime_prod_*` sub-lemmas).
+  obtain ⟨φ, hφ⟩ := K0prime_prod_forward R1 R2
+  obtain ⟨ψ, hψ1, hψ2⟩ := K0prime_prod_backward R1 R2
+  exact ⟨{ toFun := φ, invFun := ψ, map_add' := φ.map_add,
+           left_inv := K0prime_prod_left_inv R1 R2 φ ψ hφ hψ1 hψ2,
+           right_inv := K0prime_prod_right_inv R1 R2 φ ψ hφ hψ1 hψ2 }, hφ⟩
+
+/-- The specialisation of `K0prime_prod` (Stacks 00JH) to Noetherian `R₁`, `R₂`: the
+natural homomorphism `K'₀(R₁ × R₂) → K'₀(R₁) × K'₀(R₂)`, `[M] ↦ ([M ⊗_R R₁], [M ⊗_R R₂])`,
+is an isomorphism. The Noetherian hypotheses are not needed; see `K0prime_prod`. -/
 theorem K0prime_product (R1 R2 : Type u) [CommRing R1] [CommRing R2]
     [IsNoetherianRing R1] [IsNoetherianRing R2] :
     ∃ e : K0prime (R1 × R2) ≃+ (K0prime R1 × K0prime R2),
       ∀ M : FGPres (R1 × R2),
         e (K0prime.mk M) =
           ( K0prime.baseChangeMk (RingHom.fst R1 R2) M.module,
-            K0prime.baseChangeMk (RingHom.snd R1 R2) M.module ) := by
-  -- Same assembly as Statement 1: combine forward/backward maps with the two
-  -- round-trip identities (the math is in the four `K0prime_product_*` sub-lemmas).
-  obtain ⟨φ, hφ⟩ := K0prime_product_forward R1 R2
-  obtain ⟨ψ, hψ1, hψ2⟩ := K0prime_product_backward R1 R2
-  exact ⟨{ toFun := φ, invFun := ψ, map_add' := φ.map_add,
-           left_inv := K0prime_product_left_inv R1 R2 φ ψ hφ hψ1 hψ2,
-            right_inv := K0prime_product_right_inv R1 R2 φ ψ hφ hψ1 hψ2 }, hφ⟩
+            K0prime.baseChangeMk (RingHom.snd R1 R2) M.module ) :=
+  K0prime_prod R1 R2

@@ -493,8 +493,13 @@ instance isRightAdjoint_modulePushforward (f : X ⟶ Y) :
   (modulePullbackAdjunction B S hS f).isRightAdjoint
 
 /-- The direct image of `𝒪`-modules along a morphism of algebraic spaces is an additive
-functor. -/
-@[stacks 03LU "additivity of the direct image"]
+functor.
+
+Stacks 03LU does not state additivity, so this instance carries no tag; the clauses of 03LU are
+registered on `AlgebraicGeometry.Space.modulePushforward`,
+`AlgebraicGeometry.Space.modulePullback`, `AlgebraicGeometry.Space.modulePullbackAdjunction`,
+`AlgebraicGeometry.Space.modulePushforwardCompIso` and
+`AlgebraicGeometry.Space.modulePullbackCompIso`. -/
 instance modulePushforward_additive (f : X ⟶ Y) :
     (modulePushforward B S hS f).Additive :=
   Functor.additive_of_preserves_binary_products _

@@ -151,13 +151,16 @@ neighbourhood of every point of every open of `T`, and the opens on which it is 
 of the topology of `T`.  That is
 `Crystalline.GlobalCrystallineSituation.exists_isIso_restrictedCrysDifferentialsConormalComparison`
 and `isBasis_isIso_restrictedCrysDifferentialsConormalComparison` in
-`SelfProductConormalIso.lean`, which carry the tag for the second assertion.
+`SelfProductConormalIso.lean`, from which the isomorphism of sheaves is deduced.
 
-What is **not** proved is the globalisation as a single morphism: the comparison is not assembled
-into an isomorphism of sheaves of `𝒪_T`-modules on all of `T`.  The comparison is compatible with
-restriction on representatives by `smallSelfProductDifferenceHom_restrict` below; but `K/K^{[2]}`
-is built open by open here rather than as a sheaf, for the reason given below, so there is no
-morphism of sheaves to call an isomorphism.
+The globalisation is `StacksFrontier/AlgebraicGeometry/Crystalline/SelfProductConormalSheaf.lean`.
+The comparison is compatible with restriction on representatives by
+`smallSelfProductDifferenceHom_restrict` below, so the conormal modules form a presheaf of
+`𝒪_T`-modules and the comparison maps a morphism of presheaves; the sheaf `K/K^{[2]}` is the sheaf
+of `𝒪_T`-modules that presheaf generates, and the sheafified comparison
+`(Ω_{X/S})_T ≅ K/K^{[2]}`,
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`, is an
+isomorphism because the comparison is bijective on a basis of the topology of `T`.
 
 No *coproduct datum* is needed for any of this: [Stacks, Tag 07HT] and [Stacks, Tag 07HV] — in
 the library as `Crystalline.Pushout.dividedPowerDifferentialsEquivDiagonalConormal` and
@@ -177,13 +180,10 @@ that sheaf is the kernel on sections, by `ker_ideal_smallSelfProductAmbientDiago
 quasi-coherent ideal sheaf is determined by its values on affine opens, the two readings of `K`
 agree.
 
-`K^{[2]}` and `K/K^{[2]}` are nevertheless still built open by open.  The divided second power
-exists only for an ideal of a ring, as `Crystalline.secondDividedPowerIdeal`; the library has no
-divided power of a quasi-coherent subsheaf of the structure sheaf, and no `IsSubDPIdeal`-style
-notion for one.  So the conormal family is indexed by the opens of `T` through
-`smallSelfProductOpen`, and the comparison is a family of `Γ(V, 𝒪_T)`-linear maps on those opens
-together with the restriction compatibilities above, rather than a morphism of
-`PresheafOfModules`-objects.
+`K^{[2]}` and `K/K^{[2]}` are built open by open here.  The divided second power exists for an
+ideal of a ring, as `Crystalline.secondDividedPowerIdeal`, so the conormal family is indexed by
+the opens of `T` through `smallSelfProductOpen`, with the restriction compatibilities above; it is
+assembled into a presheaf of `𝒪_T`-modules, and sheafified, in `SelfProductConormalSheaf.lean`.
 
 ## References
 
@@ -309,10 +309,9 @@ theorem secondDividedPowerIdeal_le_smallSelfProductDividedSquare
   rw [smallSelfProductDividedSquare, Ideal.add_eq_sup]
   exact le_sup_right
 
-/-- **Stacks Project, Tag 07J1.**  The divided square of the diagonal ideal is a sub-ideal of the
-diagonal ideal: the square of an ideal is contained in it, and the diagonal ideal is preserved by
-the divided powers of `J_{T(1)}`. -/
-@[stacks 07J1 "second assertion: K^{[2]} is a sub-ideal of K; sections over each open of T(1)"]
+/-- The divided square of the diagonal ideal is a sub-ideal of the diagonal ideal: the square of
+an ideal is contained in it, and the diagonal ideal is preserved by the divided powers of
+`J_{T(1)}`.  This is what makes `K/K^{[2]}` of [Stacks, Tag 07J1] a quotient of `K`. -/
 theorem smallSelfProductDividedSquare_le (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     (W : D.obj.thickening.target.scheme.Opens) :
     smallSelfProductDividedSquare h W ≤ smallSelfProductDiagonalIdeal h W := by
@@ -810,7 +809,7 @@ theorem smallSelfProductConormalDerivation_d (h : IsLimit (BinaryFan.mk pr₀ pr
     (V : B.obj.thickening.target.scheme.Opens) (f : Γ(B.obj.thickening.target.scheme, V)) :
     (smallSelfProductConormalDerivation h V).d f = smallSelfProductDifference h V f := rfl
 
-/-- **Stacks Project, Tag 07J1, the comparison map of the second assertion.**  The universal
+/-- **The comparison map of the second assertion of [Stacks, Tag 07J1].**  The universal
 property of the divided power differentials of `T` over `S` on an open `V` applied to the
 difference of the two coprojections: a `Γ(V, 𝒪_T)`-linear map from `Ω_{T/S,δ}(V)`, which is
 `(Ω_{X/S})_T(V)` by [Stacks, Tag 07IZ], to the conormal module `K/K^{[2]}` of the diagonal,
@@ -820,9 +819,11 @@ This is the map the equality `(Ω_{X/S})_T = K/K^{[2]}` of the source is an equa
 isomorphism over an affine open of `T` lying over an affine open of `S` — the hypotheses under
 which the source's proof works — by
 `Crystalline.GlobalCrystallineSituation.isIso_smallSelfProductConormalComparison` in
-`StacksFrontier/AlgebraicGeometry/Crystalline/SelfProductConormalIso.lean`. -/
-@[stacks 07J1 "second assertion: the comparison map (Ω_{X/S})_T → K/K^{[2]} on each open of T; \
-an isomorphism on an affine open of T lying over an affine open of S"]
+`StacksFrontier/AlgebraicGeometry/Crystalline/SelfProductConormalIso.lean`.  The isomorphism of
+sheaves of the source, which carries the tag, is
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf` in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SelfProductConormalSheaf.lean`, the sheafification of
+these maps. -/
 def smallSelfProductConormalComparison (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     (V : B.obj.thickening.target.scheme.Opens) :
     (dpDifferentialsPresheaf B.obj.thickening.target S.S.scheme B.obj.toBase.hom).obj (op V) ⟶

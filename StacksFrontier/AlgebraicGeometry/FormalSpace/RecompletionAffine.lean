@@ -94,7 +94,10 @@ the space or the subset:
 
 What Stacks 0GVQ asserts beyond that geometric half is the set-theoretic condition of
 Stacks 0AIS on the completion. It is needed in exactly the place and for exactly the reason that
-`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit` (Stacks 0GVM) carries it:
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit` carries it (the version of
+Stacks 0GVM assuming the set-theoretic condition; Stacks 0GVM itself is
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff` and
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`):
 the affine presentation produced for the completion is indexed by a disjoint union of the
 indices of the presentations of the stages, which need not be small enough for the size cutoff
 of the site. Since that is its only use, the geometric half of Stacks 0GVQ is

@@ -28,11 +28,16 @@ Stacks 0BGG for schemes.
 ## Main results
 
 * `AlgebraicGeometry.Space.exists_isDenseOpenSubspace_hasEtaleLocalProperty_isRegular` is the
-  dense regular open subspace: **Stacks 0BHT**, the assertion that `Y` has a regular dense open.
-* `AlgebraicGeometry.Space.NormalizationData.isFinite_hom_of_regular_alteration` is **Stacks
-  0BHT**, the assertion that the normalization morphism is finite, for a target represented by an
-  affine object of the site and conditional on the degree-zero case of Stacks 02O6; see the
-  implementation notes for both restrictions.
+  dense regular open subspace, the assertion of Stacks 0BHT that `Y` has a regular dense open.
+* `AlgebraicGeometry.Space.NormalizationData.isFinite_hom_of_regular_alteration` is the source's
+  argument for finiteness of the normalization, for a target represented by an affine object of
+  the site and given that the global functions of `X` are finite over it.
+
+Stacks 0BHT itself, with both assertions, is
+`AlgebraicGeometry.Space.isFinite_normalization_and_exists_isDenseOpenSubspace_isRegular` in
+`StacksFrontier.AlgebraicGeometry.Spaces.NoetherianRegularAlteration`, whose finiteness assertion,
+`AlgebraicGeometry.Space.isFinite_normalization_of_regular_alteration`, is proved by a different
+argument, through Chow's lemma over an affine chart.
 
 ## Implementation notes
 
@@ -87,14 +92,15 @@ affine object `Z` of the site whose scheme is integral and locally Noetherian �
 is `X` itself, which `AlgebraicGeometry.Space.IsAlteration` already makes integral. Confining a
 clause of a tag to a representable algebraic space is the established shape in this chapter: see
 `AlgebraicGeometry.Space.NormalizationData.isFinite_of_representable_of_isAnalyticallyUnramified`
-for Stacks 0BHR, whose general clause is likewise unowned. The unconditional statement needs the
-irreducible components of a normal locally Noetherian algebraic space to be open — the
-space-level form of Stacks 0357, which this library has only for schemes
-(`AlgebraicGeometry.isNormal_iff_exists_iso_coproduct`) — and is not proved here.
+for Stacks 0BHR. The general finiteness statement is proved by another route, which avoids both
+the reduction and the input below, in
+`AlgebraicGeometry.Space.isFinite_normalization_of_regular_alteration`.
 
-**One input is carried**, `h02O6`: the degree-zero case of Stacks 02O6, equivalently Stacks 08AR
-at `i = 0`, asserting that the ring of global regular functions on an algebraic space proper over
-`Spec A` is a finite `A`-module. The space-level tag is not available in this library. Its scheme
+**One input is a hypothesis**, `h02O6`: the degree-zero case of Stacks 02O6, equivalently
+Stacks 08AR at `i = 0`, asserting that the ring of global regular functions on an algebraic
+space proper over `Spec A` is a finite `A`-module. Stacks 08AR is
+`AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`; the passage from it to the
+spelling of the hypothesis here is not made in this library. Its scheme
 form is: `AlgebraicGeometry.FiniteGlobalSectionsOfProper` is proved by
 `AlgebraicGeometry.finiteGlobalSectionsOfProper`, which is what makes the scheme analogue
 `AlgebraicGeometry.normalization_isFinite_of_regular_alteration` unconditional — but that form
@@ -195,12 +201,11 @@ theorem isSurjective_of_isProper_of_isDominant (hY : IsAlgebraicSpace B S hS Y) 
 
 /-! ### Stacks 0BHT: a dense regular open subspace -/
 
-/-- **Stacks 0BHT, the dense regular open.** An integral algebraic space `Y` over `S` admitting
-an alteration `f : X ⟶ Y` whose source is regular has a dense open subspace which is regular. -/
-@[stacks 0BHT "the regular dense open; the source's Noetherian hypothesis on Y and the \
-finiteness of f over a nonempty open are unused, only reducedness of Y and properness and \
-dominance of f, which is a strengthening. The source's Stacks 07NG enters as the space-level \
-descent Stacks 06MK, whose engine on local rings is that same statement"]
+/-- **The dense regular open of Stacks 0BHT.** An integral algebraic space `Y` over `S`
+admitting an alteration `f : X ⟶ Y` whose source is regular has a dense open subspace which is
+regular. No Noetherian hypothesis on `Y` is needed. Stacks 0BHT itself, with both of its
+assertions, is
+`AlgebraicGeometry.Space.isFinite_normalization_and_exists_isDenseOpenSubspace_isRegular`. -/
 theorem exists_isDenseOpenSubspace_hasEtaleLocalProperty_isRegular (f : X ⟶ Y)
     (hf : IsAlteration B S hS f)
     (hXreg : HasEtaleLocalProperty B S hS X (fun T : Scheme.{u} => IsRegular T)) :
@@ -308,16 +313,15 @@ private theorem relative_inverseImage_isFinite_yoneda_map' {Zν Z : BigFppfOver 
       (@_root_.AlgebraicGeometry.IsFinite.{u})
   exact MorphismProperty.relative_map hp
 
-/-- **Stacks 0BHT, finiteness of the normalization**, for a target represented by an affine
-object of the site and conditional on the degree-zero case of Stacks 02O6. Let `Z` be an affine
-object of the site whose scheme is integral and locally Noetherian, let `f : X ⟶ h_Z` be an
-alteration with `X` regular, and let `D` be normalization data for `h_Z`. Then the normalization
-morphism of `D` is finite. -/
-@[stacks 0BHT "finiteness of the normalization, for a REPRESENTABLE AFFINE target: the source's \
-Step 1, etale localization to a Noetherian domain, is invalid for algebraic spaces -- charts of \
-an integral space are reduced but not irreducible, so Stacks 0BH3 does not apply over them. \
-Conditional on h02O6, the degree-zero case of Stacks 02O6 for algebraic spaces, which this \
-library lacks; see the module docstring"]
+/-- **Finiteness of the normalization over a representable affine target, from finiteness of
+global functions.** Let `Z` be an affine object of the site whose scheme is integral and locally
+Noetherian, let `f : X ⟶ h_Z` be an alteration with `X` regular, suppose the ring of global
+regular functions on `X` admits an injective finite ring map from `Γ(Z, ⊤)`, and let `D` be
+normalization data for `h_Z`. Then the normalization morphism of `D` is finite.
+
+This is the source's Step 2 run as written. The finiteness assertion of Stacks 0BHT holds without
+the hypothesis on global functions, for any quasi-compact `Y` with locally Noetherian charts:
+that is `AlgebraicGeometry.Space.isFinite_normalization_of_regular_alteration`. -/
 theorem NormalizationData.isFinite_hom_of_regular_alteration {Z : BigFppfOver B S hS}
     [IsAffine ((BigFppfOver.toScheme B S hS).obj Z)]
     [_root_.AlgebraicGeometry.IsIntegral ((BigFppfOver.toScheme B S hS).obj Z)]

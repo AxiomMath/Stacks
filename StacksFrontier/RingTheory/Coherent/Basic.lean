@@ -67,7 +67,8 @@ coherent as a module over itself.
 
 /-- An `R`-module `M` is *coherent* if it is finitely generated and every
 finitely generated submodule of `M` is finitely presented over `R`. -/
-@[stacks_fixed 05CV "coherent module", sga "6 I 3.1" "special case", sga "6 IV 2.1" "special case"]
+@[stacks_fixed 05CV "(1) coherent module: finite, every f.g. submodule finitely presented",
+  sga "6 I 3.1" "special case", sga "6 IV 2.1" "special case"]
 class Module.IsCoherent (R : Type*) (M : Type*) [Ring R] [AddCommGroup M] [Module R M] :
     Prop where
   /-- A coherent module is finitely generated. -/
@@ -78,7 +79,8 @@ class Module.IsCoherent (R : Type*) (M : Type*) [Ring R] [AddCommGroup M] [Modul
     ∀ (N : Submodule R M), N.FG → Module.FinitePresentation R N
 
 /-- A ring `R` is a *coherent ring* if it is coherent as a module over itself. -/
-@[stacks_fixed 05CV "coherent ring", ega "0 5.3.7" "special case"]
+@[stacks_fixed 05CV "(2) coherent ring: coherent as a module over itself",
+  ega "0 5.3.7" "special case"]
 class IsCoherentRing (R : Type*) [Ring R] : Prop where
   /-- A coherent ring is coherent as a module over itself. -/
   isCoherent : Module.IsCoherent R R

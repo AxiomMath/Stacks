@@ -54,10 +54,12 @@ small site `(C, J)` and arbitrary (not necessarily commutative) sheaves of rings
 a sheaf of modules for `Opens.grothendieckTopology X` — and is strictly more general than them.
 
 The two models of `O₂ ⊗_{p,O₁} G` present in the development, the explicit sectionwise one of
-`Stacks.Sheafify.ModuleStalkTensor.tensorPresheafOfModules` and the abstract left adjoint of
-restriction of scalars registered against tag 006R, agree, both being left adjoint to
-restriction of scalars; no comparison isomorphism between their sheafifications is constructed
-here.
+`Stacks.Sheafify.ModuleStalkTensor.tensorPresheafOfModules` (on which tag 006R is stated, in
+`Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafAdjunction`) and Mathlib's abstract left
+adjoint of restriction of scalars `PresheafOfModules.pullback`, agree, both being left adjoint to
+restriction of scalars; the comparison isomorphism of presheaf functors is
+`tensorPresheafIsoTensorPresheafFunctor` in
+`StacksFrontier/Topology/Sheaves/Presheaf/ModuleChangeOfRingsComparison.lean`.
 -/
 
 @[expose] public section

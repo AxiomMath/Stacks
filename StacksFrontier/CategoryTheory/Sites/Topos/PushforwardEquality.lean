@@ -16,7 +16,11 @@ monomorphisms and epimorphisms.
 * `sheafPushforwardContinuous_faithful_of_isCoverDense`: the pushforward is faithful.
 * `sheafPushforwardContinuous_reflectsMonomorphisms_of_isCoverDense`,
   `sheafPushforwardContinuous_reflectsEpimorphisms_of_isCoverDense`: the pushforward reflects
-  injections and surjections (Stacks 04D9).
+  monomorphisms and epimorphisms of sheaves with values in any category (Stacks 04D9).
+* `injective_app_of_injective_sheafPushforwardContinuous_map`,
+  `isLocallySurjective_of_isLocallySurjective_sheafPushforwardContinuous_map`: for sheaves of
+  sets, the pushforward reflects injections and surjections in the sense of Stacks 00WM
+  (Stacks 04D9); these are in `StacksFrontier.CategoryTheory.Sites.Topos.PushforwardReflectsInjSurj`.
 
 Tags covered: 04D9.
 -/
@@ -33,8 +37,9 @@ variable (J : GrothendieckTopology C) (K : GrothendieckTopology D)
 variable (A : Type u₃) [Category.{v₃} A]
 
 /-- If `u_*(f) = u_*(g)`, then `f` and `g` agree after restriction along any arrow
-`u.obj U ⟶ V`, by naturality applied to a `congrArg` on objects of the form `u.obj U`. -/
-@[stacks 04D9]
+`u.obj U ⟶ V`, by naturality applied to a `congrArg` on objects of the form `u.obj U`.
+This is the step of the proof of Stacks 04D9 that uses the sheaf condition on `u.obj U`; the
+lemma itself is registered on the reflection theorems below. -/
 lemma val_app_comp_eq_on_image_arrow
     [u.IsContinuous J K] {X Y : Sheaf K A} (f g : X ⟶ Y)
     (h : (u.sheafPushforwardContinuous A J K).map f =
@@ -72,7 +77,10 @@ lemma sheafPushforwardContinuous_faithful_of_isCoverDense
 /-- **Stacks 04D9.** If `u : C ⥤ D` is a continuous functor between sites
 which is also cover dense (i.e. every object of `D` is covered by
 images of objects of `C` under `u`), then the pushforward functor on
-sheaves `f_* : Sheaf K A ⥤ Sheaf J A` reflects monomorphisms. -/
+sheaves `f_* : Sheaf K A ⥤ Sheaf J A` reflects monomorphisms. For sheaves of sets these are
+the injections (Stacks 00WN); the componentwise form is
+`injective_app_of_injective_sheafPushforwardContinuous_map`. -/
+@[stacks 04D9 "f_* reflects injections (monomorphisms of sheaves)"]
 theorem sheafPushforwardContinuous_reflectsMonomorphisms_of_isCoverDense
     [u.IsContinuous J K] [u.IsCoverDense K] :
     (u.sheafPushforwardContinuous A J K).ReflectsMonomorphisms :=
@@ -82,7 +90,10 @@ theorem sheafPushforwardContinuous_reflectsMonomorphisms_of_isCoverDense
 /-- **Stacks 04D9.** If `u : C ⥤ D` is a continuous functor between sites
 which is also cover dense (i.e. every object of `D` is covered by
 images of objects of `C` under `u`), then the pushforward functor on
-sheaves `f_* : Sheaf K A ⥤ Sheaf J A` reflects epimorphisms. -/
+sheaves `f_* : Sheaf K A ⥤ Sheaf J A` reflects epimorphisms. For sheaves of sets these are
+the surjections (Stacks 00WN); the local form is
+`isLocallySurjective_of_isLocallySurjective_sheafPushforwardContinuous_map`. -/
+@[stacks 04D9 "f_* reflects surjections (epimorphisms of sheaves)"]
 theorem sheafPushforwardContinuous_reflectsEpimorphisms_of_isCoverDense
     [u.IsContinuous J K] [u.IsCoverDense K] :
     (u.sheafPushforwardContinuous A J K).ReflectsEpimorphisms :=

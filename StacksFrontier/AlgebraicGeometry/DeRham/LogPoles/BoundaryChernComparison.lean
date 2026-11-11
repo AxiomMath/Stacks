@@ -47,16 +47,24 @@ is what this file proves and applies.
 
 * `Stacks.ShiftedBoundary.Morphism.boundary_naturality`: **the boundary maps of two shifted short
   exact sequences are compatible with a morphism between them.**
-* `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.ambientChernBoundary_eq`: **Tag 0FUQ,
-  upper left triangle.** `ξ' = δ ∘ (restriction of forms)`.
-* `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.boundary_comp_shiftedRestriction`:
-  **Tag 0FUQ, lower right triangle.** `(restriction of forms)[2] ∘ δ = ζ'`.
-* `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.commSq_chernBoundary`: **Tag 0FUQ, the
-  square.** `(restriction of forms)[2] ∘ ξ' = ζ' ∘ (restriction of forms)`.
+* `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.ambientChernBoundary_eq`: the upper left
+  triangle of Tag 0FUQ for the carried sequences, `ξ' = δ ∘ (restriction of forms)`.
+* `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.boundary_comp_shiftedRestriction`: the
+  lower right triangle of Tag 0FUQ for the carried sequences, `(restriction of forms)[2] ∘ δ = ζ'`.
+* `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.commSq_chernBoundary`: the square of
+  Tag 0FUQ for the carried sequences,
+  `(restriction of forms)[2] ∘ ξ' = ζ' ∘ (restriction of forms)`.
 * `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.deRhamClassDerivedMorphism_eq` and
   `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.commSq_deRhamClassDerivedMorphism`: the
   same two statements with `ξ'` named as the morphism of Tag 0FU7 attached to
   `c₁^{dR}(𝒪_X(-Y))`, which is how Tag 0FUQ states it.
+
+Tag 0FUQ itself is registered in
+`StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.ChernClassRestrictionSquare`, where the three
+sequences and the two morphisms between them are constructed rather than carried:
+`Stacks.LineBundle.idealChernMorphism_eq_comp_boundary` (the upper left triangle),
+`Stacks.LineBundle.logPolesBoundary_comp_restriction_eq` (the lower right triangle) and
+`Stacks.LineBundle.idealChernMorphism_comp_restriction` (the square).
 
 ## Implementation notes
 
@@ -69,31 +77,34 @@ commutation of the localization functor with the translation and the canonical i
 "more precisely, we define `δ` as the boundary map corresponding to the shifted short exact
 sequence", and it is also the presentation in which the proof of Tag 0FUG reads `ξ'`.
 
-**What is carried, and why.** Everything in
-`AlgebraicGeometry.SheafOfModules.LogPolesResidueData` is carried, because the library has none
-of it in global form.
+**What is carried here, and what the library constructs.** Everything in
+`AlgebraicGeometry.SheafOfModules.LogPolesResidueData` is a parameter of this file: the theorems
+below hold for any three shifted short exact sequences and any two morphisms between them of the
+shape the proof of Tag 0FUQ uses. The library also constructs all of these data globally, and
+Tag 0FUQ is registered on the theorems about the constructed data, in
+`StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.ChernClassRestrictionSquare`.
 
-* The de Rham complex `Ω^•_{Y/S}` of the divisor, read as a complex of sheaves of `A`-modules on
-  the ambient space, and the restriction of forms `Ω^•_{X/S} ⟶ Ω^•_{Y/S}`. The source reads
-  `Ω^p_{Y/S}` as a quasi-coherent `𝒪_X`-module throughout Section 50.15, pushing forward along
-  the closed immersion `Y → X`; that pushforward is not in the library.
-* The log poles sequence of Tag 0FMW in its shifted global form. What the library has is the
-  affine local computation at the ring level,
-  `Stacks.LogPoles.shortExact_map_eval_logShortComplex`, and the reindexing of it to `ℤ` in
-  `StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.ResidueConnecting`, whose implementation notes
-  record that the sheaf-level sequence does not exist in the library. Carrying the sequence is
-  also why the hypotheses of Tag 0FUQ — that `Y` is an effective Cartier divisor and that the de
-  Rham complex of log poles is defined for it, `AlgebraicGeometry.Scheme.Hom`
-  `.HasLogPolesDeRhamComplex` of Tag 0FMV — do not appear as binders: they are the hypotheses
-  under which the source produces the sequence, and here the sequence itself is the input.
-* The two residue sequences of Tag 0FUF, for `ℒ = 𝒪_X(-Y)` on `X` and for `ℒ|_Y` on `Y`, again
-  in shifted global form. The library carries the same sequence as a hypothesis in
-  `AlgebraicGeometry.SheafOfModules.DeRhamResidueSequence` for exactly this reason.
-* The two morphisms of short exact sequences. The source constructs them by a formula on local
-  sections and observes that "the constructions of the maps in Lemmas 50.10.2 and 50.15.2 match
-  exactly"; since the three sequences are themselves carried, no map between them can be
-  constructed, so they are carried too. They are the only input to the proof of the two
-  triangles, and both of their commutation fields are used.
+* The de Rham complex `Ω^•_{Y/S}` of the divisor, read on the ambient space, is
+  `AlgebraicGeometry.Scheme.Hom.divisorDeRhamInt`, and the restriction of forms
+  `Ω^•_{X/S} ⟶ Ω^•_{Y/S}` is `AlgebraicGeometry.Scheme.Hom.divisorRestrictionInt`. The direct
+  image along the closed immersion `Y → X` over the base rings is
+  `Stacks.LineBundle.divisorPushforward`, and `Stacks.LineBundle.divisorDeRhamIntHom` identifies
+  `divisorDeRhamInt` with the direct image of the de Rham complex of `Y`.
+* The log poles sequence of Tag 0FMW in its shifted global form is
+  `AlgebraicGeometry.Scheme.Hom.logPolesShiftedSequence`, built under the hypotheses of Tag 0FUQ
+  (an effective Cartier divisor, and `AlgebraicGeometry.Scheme.Hom.HasLogPolesDeRhamComplex` of
+  Tag 0FMV). In this file those hypotheses do not appear as binders, because the sequence itself
+  is the input.
+* The residue sequences of Tag 0FUF in shifted global form are
+  `Stacks.LineBundle.Situation.residueShiftedSequence`, for `ℒ = 𝒪_X(-Y)` on `X`
+  (`Stacks.LineBundle.idealSituation`) and for `ℒ|_Y` on `Y` (`Stacks.LineBundle.divisorSituation`).
+* The two morphisms of short exact sequences that the source builds by a formula on local sections
+  are `Stacks.LineBundle.residueLogPolesMorphism` (upper left triangle) and
+  `Stacks.LineBundle.logPolesRestrictMorphism` (lower right triangle).
+
+The theorems for the constructed data are `Stacks.LineBundle.idealChernMorphism_eq_comp_boundary`
+(the upper left triangle), `Stacks.LineBundle.logPolesBoundary_comp_restriction_eq` (the lower
+right triangle) and `Stacks.LineBundle.idealChernMorphism_comp_restriction` (the square).
 
 **What is proved.** The commutativity of both triangles and of the square, from the
 functoriality of Mathlib's connecting morphism, `DerivedCategory.triangleOfSESδ_naturality`,
@@ -111,12 +122,15 @@ the library's own Tag 0FUG,
 carries as well: that the boundary map lifts to the derived category of right differential graded
 `Ω^•_{X/S}`-modules, and that its value at the unit is `c₁^{dR}(ℒ)`.
 
-For the divisor the same identification is **not** covered here. The morphism of Tag 0FU7 is
-constructed from the de Rham differential graded algebra of the ambient data `B`, `D`, so there
-is no such morphism for the complex `Ω^•_{Y/S}` read on the ambient space, and the comparison
-along the closed immersion that would supply one is not in the library. Accordingly `ζ'` appears
-below only as the boundary map of the residue sequence of Tag 0FUF for `ℒ|_Y`, which is the
-description Tag 0FUG gives of it and the description the proof of Tag 0FUQ uses.
+For the divisor the same identification is not made in this file. The morphism of Tag 0FU7 is
+constructed from the de Rham differential graded algebra of the ambient data `B`, `D`, so the
+abstract data here give no such morphism for the complex `Ω^•_{Y/S}` read on the ambient space.
+Accordingly `ζ'` appears below only as the boundary map of the residue sequence of Tag 0FUF for
+`ℒ|_Y`, which is the description Tag 0FUG gives of it and the description the proof of Tag 0FUQ
+uses. For the constructed data the library does make the identification: in
+`Stacks.LineBundle.logPolesBoundary_comp_restriction_eq`, `ζ'` is
+`Stacks.LineBundle.divisorChernMorphism`, the morphism of Tag 0FU7 on `Y` for `c₁^{dR}(ℒ|_Y)`,
+read on `X` through `Stacks.LineBundle.divisorPushforwardDerivedMap`.
 
 ## References
 
@@ -334,7 +348,9 @@ abbrev divisorChernBoundary :
     DerivedCategory.Q.obj d.divisorDeRham ⟶ (DerivedCategory.Q.obj d.divisorDeRham)⟦(2 : ℤ)⟧ :=
   d.divisorChern.boundary
 
-/-- **Stacks Project, Tag 0FUQ, the upper left triangle.**
+/-- **The upper left triangle of Stacks Tag 0FUQ, for carried sequences.** Tag 0FUQ itself, for
+the sequences the library constructs, is registered on
+`Stacks.LineBundle.idealChernMorphism_eq_comp_boundary`.
 
 `ξ' = δ ∘ (restriction of forms)`
 
@@ -346,17 +362,13 @@ of the log poles sequence of Tag 0FMW along the restriction of relative forms
 This is the functoriality of boundary maps along the morphism of short exact sequences
 `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.ambientMap`, whose left arrow is the
 identity. -/
-@[stacks 0FUQ "upper left triangle of the diagram: the map of 0FU7 for c_1^dR(O_X(-Y)), in the
-description 0FUG gives of it as the boundary map of the residue sequence of 0FUF, is the boundary
-map of the log poles sequence of 0FMW composed with the restriction of relative forms; the three
-short exact sequences in global form and the two morphisms between them that the source builds
-from a formula on local sections are carried as the explicit named hypothesis
-LogPolesResidueData, the library having none of them globally"]
 theorem ambientChernBoundary_eq :
     d.ambientChernBoundary = DerivedCategory.Q.map d.restriction ≫ d.boundary :=
   Morphism.boundary_eq_comp_boundary d.ambientMap
 
-/-- **Stacks Project, Tag 0FUQ, the lower right triangle.**
+/-- **The lower right triangle of Stacks Tag 0FUQ, for carried sequences.** Tag 0FUQ itself, for
+the sequences the library constructs, is registered on
+`Stacks.LineBundle.logPolesBoundary_comp_restriction_eq`.
 
 `(restriction of forms)[2] ∘ δ = ζ'`
 
@@ -368,16 +380,13 @@ twofold translate of the restriction of relative forms, is the map of Tag 0FU7 f
 This is the functoriality of boundary maps along the morphism of short exact sequences
 `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.divisorMap`, whose right arrow is the
 identity. -/
-@[stacks 0FUQ "lower right triangle of the diagram: the boundary map of the log poles sequence of
-0FMW, followed by the twofold translate of the restriction of relative forms, is the map of 0FU7
-for c_1^dR(O_X(-Y)|_Y) in the description 0FUG gives of it as the boundary map of the residue
-sequence of 0FUF on the divisor; the sequences and the two morphisms between them are carried as
-the explicit named hypothesis LogPolesResidueData"]
 theorem boundary_comp_shiftedRestriction :
     d.boundary ≫ (DerivedCategory.Q.map d.restriction)⟦(2 : ℤ)⟧' = d.divisorChernBoundary :=
   Morphism.boundary_comp_eq_boundary d.divisorMap
 
-/-- **Stacks Project, Tag 0FUQ, the square.**
+/-- **The square of Stacks Tag 0FUQ, for carried sequences.** Tag 0FUQ itself, for the
+sequences the library constructs, is registered on
+`Stacks.LineBundle.idealChernMorphism_comp_restriction`.
 
 `(restriction of forms)[2] ∘ ξ' = ζ' ∘ (restriction of forms)`
 
@@ -385,11 +394,6 @@ in `D(f^{-1}𝒪_S)`: the square built from the maps of Tag 0FU7 for `c₁^{dR}(
 restriction to the divisor, and from the restriction of relative forms in both degrees, commutes.
 As in the source this is deduced from the commutativity of the two triangles cut out by the
 boundary map `δ` of the log poles sequence of Tag 0FMW along the diagonal. -/
-@[stacks 0FUQ "the square of the diagram, deduced from the two triangles exactly as in the
-source: the restriction of relative forms, in degree zero and in degree two, carries the map of
-0FU7 for c_1^dR(O_X(-Y)) to the one for its restriction to the divisor, both read through 0FUG as
-boundary maps of residue sequences of 0FUF; the sequences and the two morphisms between them are
-carried as the explicit named hypothesis LogPolesResidueData"]
 theorem commSq_chernBoundary :
     d.ambientChernBoundary ≫ (DerivedCategory.Q.map d.restriction)⟦(2 : ℤ)⟧' =
       DerivedCategory.Q.map d.restriction ≫ d.divisorChernBoundary := by
@@ -401,8 +405,9 @@ section Chern
 
 variable [∀ x : X, IsLocalRing (X.presheaf.stalk x)]
 
-/-- **Stacks Project, Tag 0FUQ, the upper left triangle, with `ξ'` named as in the statement of
-Tag 0FUQ.**
+/-- **The upper left triangle of Stacks Tag 0FUQ for carried sequences, with `ξ'` named as in the
+statement of Tag 0FUQ.** Tag 0FUQ itself, for the sequences the library constructs, is
+registered on `Stacks.LineBundle.idealChernMorphism_eq_comp_boundary`.
 
 `ξ' = δ ∘ (restriction of forms)`
 
@@ -418,11 +423,6 @@ right differential graded `Ω^•_{X/S}`-modules, and `hev`, that its value at t
 `c₁^{dR}(ℒ)`. The third input, `realizationComparison`, transports the first Chern class from the
 abelian-sheaf realization of de Rham cohomology, in which it is constructed, to the
 sheaf-of-modules realization in which the classes of Tag 0FU7 live. -/
-@[stacks 0FUQ "upper left triangle with xi' named as the map of 0FU7 attached to the de Rham
-first Chern class of O_X(-Y), the identification of 0FUG being made through the uniqueness in
-0FU7; carried as explicit named hypotheses are LogPolesResidueData (the three short exact
-sequences in global form and the two morphisms between them), together with the three inputs the
-library's own 0FUG carries, namely hlift, hev and realizationComparison"]
 theorem deRhamClassDerivedMorphism_eq (c : DeRhamDerivedModuleCorrespondence B D)
     (realizationComparison : deRhamCohomologyAbelian B D 2 →+ deRhamCohomology B D 2)
     (L : _root_.SheafOfModules.{u} (structureSheaf X.sheaf))
@@ -436,7 +436,9 @@ theorem deRhamClassDerivedMorphism_eq (c : DeRhamDerivedModuleCorrespondence B D
       DerivedCategory.Q.map d.restriction ≫ d.boundary :=
   (eq_deRhamClassDerivedMorphism B D c 2 _ hlift hev).symm.trans d.ambientChernBoundary_eq
 
-/-- **Stacks Project, Tag 0FUQ, the square, with `ξ'` named as in the statement of Tag 0FUQ.**
+/-- **The square of Stacks Tag 0FUQ for carried sequences, with `ξ'` named as in the statement of
+Tag 0FUQ.** Tag 0FUQ itself, for the sequences the library constructs, is registered on
+`Stacks.LineBundle.idealChernMorphism_comp_restriction`.
 
 `(restriction of forms)[2] ∘ ξ' = ζ' ∘ (restriction of forms)`
 
@@ -444,14 +446,6 @@ in `D(f^{-1}𝒪_S)`, where `ξ'` is the morphism of Tag 0FU7 attached to `c₁^
 invertible module `ℒ`, which for Tag 0FUQ is `𝒪_X(-Y)`, and `ζ'` is the boundary map of the
 shifted residue sequence of Tag 0FUF on the divisor, which is the description Tag 0FUG gives of
 the morphism of Tag 0FU7 attached to `c₁^{dR}(ℒ|_Y)`. -/
-@[stacks 0FUQ "the square with xi' named as the map of 0FU7 attached to the de Rham
-first Chern class of O_X(-Y); zeta' stays in the description 0FUG gives of it as the boundary
-map of the
-residue sequence of 0FUF on the divisor, since the map of 0FU7 is built from the de Rham
-differential graded algebra of the ambient data and the comparison along the closed immersion
-that would supply one on the divisor is not in the library; carried as explicit named hypotheses
-are LogPolesResidueData and the three inputs of 0FUG, namely hlift, hev and
-realizationComparison"]
 theorem commSq_deRhamClassDerivedMorphism (c : DeRhamDerivedModuleCorrespondence B D)
     (realizationComparison : deRhamCohomologyAbelian B D 2 →+ deRhamCohomology B D 2)
     (L : _root_.SheafOfModules.{u} (structureSheaf X.sheaf))

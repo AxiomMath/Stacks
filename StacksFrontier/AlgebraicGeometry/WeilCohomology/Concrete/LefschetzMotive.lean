@@ -58,10 +58,12 @@ theorem comp_projectiveLineFibrePointCorr :
   exact projectiveLine_fibrePoint_comp_fibrePoint x hx
 
 /-- The *Lefschetz motive* `(P¹_k, c₂, 0)`: the projective line, cut down by the projector
-`c₂ = [P¹_k × x]` of Example 0FG6 attached to a `k`-rational point `x`, with no twist. In the
-literature it is denoted `L`, `𝐋`, `𝐐(-1)` or `h²(P¹_k)`. -/
-@[stacks 0FGE "the Lefschetz motive (X, c_2, 0) for X = P^1_k, written L, bold L, Q(-1) or
-h^2(P^1_k)"]
+`c₂ = [P¹_k × x]` of Example 0FG6 attached to a `k`-rational point `x`, with no twist, as an
+object of the category `M_k` of Chow motives. In the literature it is denoted `L`, `𝐋`, `𝐐(-1)`
+or `h²(P¹_k)`. Its invertibility, the content of Remark 0FGE, is
+`Stacks.WeilCohomology.ChowMotiveCat.isInvertible_lefschetzMotive`. -/
+@[stacks 0FGE "the Lefschetz motive (X, c_2, 0) in M_k for X = P^1_k and c_2 as in 0FG6, written
+L, bold L, Q(-1) or h^2(P^1_k)"]
 def lefschetzMotive : ChowMotiveCat k :=
   mk' (projectiveLineObj k) (projectiveLineFibrePointCorr x hx)
     (comp_projectiveLineFibrePointCorr x hx) 0

@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.LeraySpectralSequence
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictlyHenselianVanishing
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.StalkHigherDirectImageStrictHenselization
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -31,16 +32,20 @@ exact functor passes through the right derived functor of the direct image.
 * `Stacks.StrictlyHenselian.higherDirectImageEtaleStalkIso` — the stalk of the `n`-th higher
   direct image is the `n`-th étale cohomology group of the source.
 
-### No unrestricted `@[stacks 03Q9]`
+### Relation to Stacks 03Q9
 
 Tag 03Q9 identifies `(R^n f_* F)_s` with `H^n_ét(X ×_S Spec(𝒪^{sh}_{S,s}), p^{-1}F)` over an
-arbitrary base, for `f` quasi-compact and quasi-separated. Here the base is already strictly
-henselian local at `s`, so `𝒪^{sh}_{S,s} = R`, the base change `X ×_S Spec(𝒪^{sh}_{S,s})` is
-`X` itself and the right hand side is `H^n_ét(X, F)`; no hypothesis on `f` is needed. The
-general case writes `Spec(𝒪^{sh}_{S,s})` as the limit of the affine étale neighbourhoods of `s`
-and invokes Stacks 03Q6 — étale cohomology commutes with that limit. Neither Stacks 03Q6 nor
-the theorem Stacks 09YQ it specialises is in the library, so the tag attribute below carries
-the restriction to a strictly henselian base.
+arbitrary base, for `f` quasi-compact and quasi-separated. Its three assertions are
+`AlgebraicGeometry.stalkHigherDirectImageIso`,
+`AlgebraicGeometry.stalkDerivedPushforwardHomologyIso` and
+`AlgebraicGeometry.stalkDerivedPushforwardIso` in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/StalkHigherDirectImageStrictHenselization.lean`,
+in Mathlib's `AlgebraicGeometry.Scheme.Etale` model of the small étale site; the first of these is
+registered for the tag at the end of this file. The statement here
+is the special case of a base that is already strictly henselian local at `s`, in the
+`AlgebraicGeometry.BigEtaleSite` model: there `𝒪^{sh}_{S,s} = R`, the base change
+`X ×_S Spec(𝒪^{sh}_{S,s})` is `X` itself and the right hand side is `H^n_ét(X, F)`, and no
+hypothesis on `f` is needed.
 
 ## References
 
@@ -96,12 +101,11 @@ public abbrev higherDirectImage (n : ℕ) :
 
 variable [StrictlyHenselianLocalRing R]
 
-/-- **Stacks 03Q9 over a strictly henselian base.** The stalk at `s` of the `n`-th higher direct
+/-- **Stacks 03Q9 over a strictly henselian base**, in the `BigEtaleSite` model; the general
+statement, in Mathlib's model, is
+`AlgebraicGeometry.stalkHigherDirectImageIso`. The stalk at `s` of the `n`-th higher direct
 image of `F` along `f : X ⟶ Spec R` is the `n`-th étale cohomology group of `X` with
 coefficients in `F`. -/
-@[stacks 03Q9 "conditional on the base being `Spec R` for a strictly henselian local ring `R` \
-and the geometric point lying over its closed point, so that the strict henselization is `R` \
-and the base change of the source is `X` itself"]
 public def higherDirectImageEtaleStalkIso
     (hs : s.LiesOver (IsLocalRing.closedPoint R)) (n : ℕ)
     (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{u + 1}) :
@@ -128,5 +132,12 @@ public def higherDirectImageEtaleStalkIso
 end HigherDirectImage
 
 end Stacks.StrictlyHenselian
+
+add_to_stacks 03Q9 "first assertion, for an abelian sheaf `F` on `X_étale`, `f : X → S` \
+quasi-compact and quasi-separated over an arbitrary scheme `S` and an arbitrary geometric point \
+`s` of `S`: `(R^n f_* F)_s = H^n_ét(X ×_S Spec(𝒪^{sh}_{S,s}), p^{-1}F)`, with `R^n` Mathlib's \
+right derived functors of direct image and of global sections on the small étale sites; the strict \
+henselization is taken inside a big étale site `B` containing `S`"
+  AlgebraicGeometry.stalkHigherDirectImageIso
 
 end

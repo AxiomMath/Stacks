@@ -186,12 +186,6 @@ for an **arbitrary** object `K` of `D(𝒪')`, at a sheaf of ideals `ℐ ⊂ �
 `ℐ' = f^{-1}ℐ · 𝒪_X`. The isomorphism is the component at `K` of the isomorphism of functors
 `derivedCompletionPushforwardIsoOfIsFiniteType`, hence natural in `K`, and its underlying
 morphism is the canonical comparison map that [Stacks, Tag 0A0G] names. -/
-@[stacks 0A0I "Equation 52.7.0.1, `Rf_*(ℱ^∧) = (Rf_*ℱ)^∧`, as an isomorphism \
-`(Rf_*K)^∧ ≅ Rf_*(K^∧)` for an **arbitrary** object of `D(𝒪')`, at a sheaf of ideals `ℐ ⊂ 𝒪` \
-of **finite type** and the ideal sheaf `ℐ' = f^{-1}ℐ · 𝒪_X` that Section 52.7 builds out of it. \
-The two sides of the equation are identified by the canonical comparison map [Stacks, Tag 0A0G] \
-names, and the identification is the component of an isomorphism of functors, hence natural in \
-the object. No hypothesis on the object and none on the generating family"]
 def derivedCompletionPushforwardObjIsoOfIsFiniteType
     (K : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) :
     (derivedCompletion Y I).obj ((derivedPushforward.{u} f.toRingedToposSiteHom).obj K) ≅

@@ -112,22 +112,7 @@ theorem exists_isLocallyConstant_sub_eq_of_isCocycle₂_additive_units
 
 /-- For a Galois extension `Ω/K`, the continuous group cohomology `H¹(Gal(Ω/K), Ωˣ)` of the
 discrete Galois module `Stacks.GaloisCohomology.unitsContinuousGModule` vanishes. -/
-@[stacks 03R8 "part (1) at q = 1, for the derived-functor groups H^q(Gal(Ω/K), Ωˣ) of
-Stacks 04JR, with NO HYPOTHESIS WHATSOEVER -- STRONGER than the proposition at q = 1 in two
-independent ways. First, the proposition assumes Br(K') = 0 uniformly over every finite extension
-K'/K and this assumes nothing about Brauer groups at all: the cocycle statement at q = 1 is
-Hilbert 90 for an infinite Galois extension, namely
-isMulCoboundary₁_of_isLocallyConstant_of_isMulCocycle₁, which is unconditional, so the
-proposition's hypothesis is not used and is not needed. Second, Ω is an arbitrary Galois extension
-rather than the separable closure; at Ω = K^sep this is exactly the tag's q = 1 case. Nothing is
-carried: the comparison between the cocycle and derived-functor descriptions is
-Stacks.GroupCohomology.isZero_continuousGroupCohomology_one_of_forall_isCoboundary, which
-is a theorem, not a hypothesis. NOT proved here: the degrees q ≥ 2 of
-part (1) -- q = 2 is isZero_continuousGroupCohomology_units_two just below, over the tag's own
-hypothesis in the weaker form Br(K) = 0, and the degrees q ≥ 3 are
-isZero_continuousGroupCohomology_units_of_fourTerm and
-isZero_continuousGroupCohomology_units_of_annihilated, which still carry part (2) -- and
-part (2) itself", sga "4½ Arcata 1.5.3" "more general"]
+@[sga "4½ Arcata 1.5.3" "more general"]
 theorem isZero_continuousGroupCohomology_units_one :
     IsZero (continuousGroupCohomology.{u, u} Gal(Ω/K) 1 (unitsContinuousGModule K Ω)) :=
   Stacks.GroupCohomology.isZero_continuousGroupCohomology_one_of_forall_isCoboundary
@@ -136,26 +121,7 @@ theorem isZero_continuousGroupCohomology_units_one :
 /-- Let `K` be a field with `Br(K) = 0` and let `Ω/K` be a Galois extension. Then the continuous
 group cohomology `H²(Gal(Ω/K), Ωˣ)` of the discrete Galois module
 `Stacks.GaloisCohomology.unitsContinuousGModule` vanishes. -/
-@[stacks 03R8 "part (1) at q = 2, for the derived-functor groups H^q(Gal(Ω/K), Ωˣ) of
-Stacks 04JR. Nothing is carried: no comparison between the cocycle and derived-functor
-descriptions is assumed, and the only hypothesis is Br(K) = 0. That is STRICTLY WEAKER than the
-proposition's own hypothesis, which assumes Br(K') = 0 uniformly over every finite extension
-K'/K -- Br(K) = 0 is one instance of it, and it already forces every relative Brauer group
-Br(L/K) to vanish, which is what the crossed-product argument needs at each finite Galois
-subextension. Ω is an arbitrary Galois extension rather than the separable closure, so this is
-more general than the tag's degree-two case in that respect too; at Ω = K^sep it is exactly that
-case. The cocycle input is isMulCoboundary₂_of_brauer, assembled by
-exists_isLocallyConstant_isMulCoboundary₂_of_forall_finiteGalois (which records that the
-trivialising 1-cochain, being inflated from a finite level, is locally constant -- strictly more
-than Mathlib's IsMulCoboundary₂ gives, and exactly what the comparison consumes); the comparison
-itself is Stacks.GroupCohomology.isZero_continuousGroupCohomology_two_of_forall_isCoboundary, which
-is a theorem, not a hypothesis. NOT proved here: q = 1 of
-part (1), which is isZero_continuousGroupCohomology_units_one above and needs no Brauer
-hypothesis at all; the degrees q >= 3, which are
-isZero_continuousGroupCohomology_units_of_fourTerm and
-isZero_continuousGroupCohomology_units_of_annihilated and still carry part (2); and part (2)
-itself",
-  sga "4½ Arcata 3.1.6" "clause i), degree q=2"]
+@[sga "4½ Arcata 3.1.6" "clause i), degree q=2"]
 theorem isZero_continuousGroupCohomology_units_two (hBr : ∀ y : BrauerGroup K, y = 1) :
     IsZero (continuousGroupCohomology.{u, u} Gal(Ω/K) 2 (unitsContinuousGModule K Ω)) :=
   Stacks.GroupCohomology.isZero_continuousGroupCohomology_two_of_forall_isCoboundary

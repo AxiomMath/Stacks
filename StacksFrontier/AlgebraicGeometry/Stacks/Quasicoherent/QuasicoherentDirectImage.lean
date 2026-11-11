@@ -83,6 +83,16 @@ composites at module universe `u + 1`, over the coherator inputs at `u + 1`. The
 of modules at the two universes are related by the universe lift,
 `AlgebraicGeometry.Stack.fppfModulesPushforwardULiftIso`.
 
+**Stacks 077A** is registered at module universe `u`, where every input of the coherator is
+proved: the adjunction below, the factorizations
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentDirectImageIsoComposite` and
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageIsoComposite` through
+`LQCoh^fbc`, and the cohomological δ-functor
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageDeltaFunctor`.  At
+module universe `u + 1` the closure of quasi-coherence under colimits, which the coherator
+inputs there rest on, goes through the essential surjectivity of `𝓕 ↦ 𝓕^a` of **Stacks 03DX**,
+and the library proves that at module universe `u`.
+
 ## References
 
 * [Stacks Project, Tag 06WH](https://stacks.math.columbia.edu/tag/06WH)

@@ -39,7 +39,11 @@ need not be an isomorphism. Every isomorphism is produced as honest data — an 
 of a named canonical morphism — never merely as `Nonempty`.
 
 The tag asserts the same descriptions for (pre)sheaves of abelian groups, of algebraic
-structures and of modules; those cases are not treated here.
+structures and of modules. Those cases are proved in
+`StacksFrontier/Topology/Sheaves/OpenImmersion/Coefficients.lean`, for (pre)sheaves with values in
+an arbitrary category (which covers abelian groups and every type of algebraic structure), and
+in `StacksFrontier/Topology/Sheaves/OpenImmersion/ModuleRestriction.lean`, for (pre)sheaves of
+modules over a (pre)sheaf of rings.
 -/
 
 @[expose] public section

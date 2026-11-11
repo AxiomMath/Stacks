@@ -5,7 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.P
 public import StacksFrontier.Homology.Devissage.CompactGeneratedNatTrans
 
 /-!
-# Equation 48.8.0.1 is an isomorphism for every object of `D_QCoh`
+# Equation 48.8.0.1 is an isomorphism for every object of `D_QCoh`, given its inputs
 
 Let `f : X ⟶ Y` be a morphism of schemes and let `a` be a right adjoint of the restricted derived
 direct image `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`. For `K, L ∈ D_QCoh(𝒪_Y)` the comparison map
@@ -13,8 +13,15 @@ direct image `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`. For `K, L ∈ D_QCoh(�
   `Lf^*K ⊗ᴸ_{𝒪_X} a(L) ⟶ a(K ⊗ᴸ_{𝒪_Y} L)`
 
 of `Stacks.Duality.compareWithPullbackTensor`, the two-variable form of Equation 48.8.0.1 of
-[Stacks, Tag 0A9S], is an isomorphism for *every* `K`, not only for perfect `K`. This is
-[Stacks, Tag 0A9U].
+[Stacks, Tag 0A9S], is an isomorphism for *every* `K` as soon as it is one at a compact
+generating family and both of its sides are exact and commute with direct sums. This is the
+dévissage in the proof of [Stacks, Tag 0A9U], for an arbitrary morphism `f` and right adjoint
+`a`, with its inputs as hypotheses. The lemma itself, for a perfect proper morphism of Noetherian
+schemes and with no hypotheses beyond the source's, is
+`Stacks.Duality.isIso_compareWithPullback_twistedInverseImage` (in
+`PullbackComparisonUnconditional.lean`) and
+`Stacks.Duality.isIso_twistedInverseImageCompareWithPullback_of_perfect_of_isProper` (in
+`PullbackComparisonPerfectProper.lean`).
 
 ## The argument
 
@@ -49,52 +56,41 @@ All in the namespace `Stacks.Duality`.
 
 ## Main results
 
-* `isIso_compareWithPullbackTensor_of_isIso_generators` — **[Stacks, Tag 0A9U]**: the two-variable
-  comparison map is an isomorphism for every `K ∈ D_QCoh(𝒪_Y)`.
+* `isIso_compareWithPullbackTensor_of_isIso_generators` — the dévissage of [Stacks, Tag 0A9U]:
+  the two-variable comparison map is an isomorphism for every `K ∈ D_QCoh(𝒪_Y)` once it is one at
+  a compact generating family.
 * `isIso_compareWithPullback_of_isIso_generators` — the same for the map displayed in
   [Stacks, Tag 0A9S], `Lf^*K ⊗ᴸ_{𝒪_X} a(𝒪_Y) ⟶ a(K)`.
 * `isIso_compareWithPullbackTensor_of_isPerfect_generator` and
   `isIso_compareWithPullback_of_isPerfect_generator` — the two above with the invertibility at the
   generators replaced by the perfect case in the shape [Stacks, Tag 0A9T] states it, which is what
-  a consumer has: the generating object of [Stacks, Tag 09IS] is perfect. They carry the tag of
-  neither 0A9T nor 0A9U, being repackagings of the two tagged statements rather than content of
-  their own.
+  a consumer has: the generating object of [Stacks, Tag 09IS] is perfect.
 
-## What is carried, and why
+None of these carries a `@[stacks]` attribute: they state the dévissage over its inputs, and
+[Stacks, Tag 0A9U] is registered at the two complete statements named above.
 
-Everything the source cites in this proof, and nothing else.
+## The hypotheses
 
-* **The perfect case, [Stacks, Tag 0A9T].** It is the hypothesis `hgen`, and it is asked for only
-  at the members of the generating family — strictly less than the perfect case, since the
-  source's family is the single perfect generator of [Stacks, Tag 09IS]. The declaration that
-  supplies it is `Stacks.Duality.isIso_compareWithPullbackTensor_of_isPerfect` of
-  `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/PullbackComparisonPerfect.lean`,
-  which is not imported by this file. Note that `hgen` is a hypothesis about finitely many — in the
-  source, one — objects and the conclusion is about all of them; the dévissage is what bridges
-  them, and without it `hgen` gives nothing for a general `K`.
-* **Compact generation of `D_QCoh(𝒪_Y)` by a single perfect object, [Stacks, Tag 09IS].** It is
-  the family `E` together with `hEc`, its compactness, and `hE`, its generation. This repository
-  proves the affine, algebraic counterpart of 09IS in
-  `StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration.lean` but not 09IS itself, and every
-  consumer here — `Stacks.Duality.isLeftAdjoint_quasiCoherentDerivedPushforward`, for instance —
-  carries it in exactly this shape.
-* **The commutation of `a` with direct sums, [Stacks, Tag 0A9R]**, which is Lemma 48.13.1 of the
-  source and the one thing its proof of 48.13.3 proves rather than cites. It is not in this
-  repository, and it enters as the instance binder
+The inputs of the source's proof, which the complete statements of [Stacks, Tag 0A9U] discharge.
+
+* **The perfect case, [Stacks, Tag 0A9T]**: the hypothesis `hgen`, asked for only at the members
+  of the generating family. It is proved by
+  `Stacks.Duality.isIso_compareWithPullbackTensor_and_compareWithPullback_of_isPerfect` of
+  `PullbackComparisonPerfectDual.lean`.
+* **Compact generation of `D_QCoh(𝒪_Y)`, [Stacks, Tag 09IS]**: the family `E` with `hEc` and
+  `hE`. It is proved for quasi-compact quasi-separated `Y` by
+  `Stacks.Duality.QcqsGeneration.isCompactlyGenerated_quasiCoherentDerivedCategory`.
+* **The commutation of `a` with direct sums, [Stacks, Tag 0A9R]**: the instance binder
   `PreservesColimitsOfShape (Discrete J) (quasiCoherentDerivedTensorRight Y L ⋙ a)`, together
   with the commutation of derived pullback and of the derived tensor product with direct sums on
-  the other side.
+  the other side. For a perfect proper morphism of Noetherian schemes it is
+  `Stacks.Duality.preservesCoproducts_twistedInverseImage_of_perfect_proper`.
 * **Exactness and compatibility with the shift** of the two sides and of the comparison map, which
   is what "strictly full, saturated, triangulated subcategory" asks for: the instance binders
   `Functor.CommShift`, `Functor.IsTriangulated` and
-  `CategoryTheory.NatTrans.CommShift (compareWithPullbackTensorNatTrans …) ℤ`. These are the
-  structures that
-  `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/PullbackComparison.lean` records
-  as unavailable for the derived tensor product of this repository, so they cannot be discharged
-  and are hypotheses of the same kind as `α` there.
+  `CategoryTheory.NatTrans.CommShift (compareWithPullbackTensorNatTrans …) ℤ`.
 * **The projection formula, [Stacks, Tag 08EU]**, and the oplax monoidality `α` of derived
-  pullback, inherited unchanged from `Stacks.Duality.compareWithPullbackTensor`: the comparison
-  map does not exist without them.
+  pullback, inherited unchanged from `Stacks.Duality.compareWithPullbackTensor`.
 
 *The model of the derived categories.* As in `PullbackComparison.lean`, no declaration here
 carries a `[HasDerivedCategory.{w}]` binder: the quasi-coherent derived tensor product and derived
@@ -198,32 +194,19 @@ variable (L : quasiCoherentDerivedCategory Y)
     (quasiCoherentDerivedTensorRight Y L ⋙ a)]
   [NatTrans.CommShift (compareWithPullbackTensorNatTrans f hpush α adj L) ℤ]
 
-/-- **[Stacks, Tag 0A9U].** Let `f : X ⟶ Y` be a morphism of schemes, let `a` be a right adjoint
-of `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`, and let `L ∈ D_QCoh(𝒪_Y)`. Suppose `D_QCoh(𝒪_Y)` is
-generated by a family `E` of compact objects, suppose both sides of the two-variable comparison
-map of [Stacks, Tag 0A9S] are exact and commute with direct sums as functors of `K`, suppose the
-comparison map commutes with the shift, and suppose it is invertible at each `E i`. Then it is
-invertible at *every* `K ∈ D_QCoh(𝒪_Y)`.
+/-- **The dévissage of [Stacks, Tag 0A9U].** Let `f : X ⟶ Y` be a morphism of schemes, let `a` be
+a right adjoint of `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`, and let `L ∈ D_QCoh(𝒪_Y)`. Suppose
+`D_QCoh(𝒪_Y)` is generated by a family `E` of compact objects, suppose both sides of the
+two-variable comparison map of [Stacks, Tag 0A9S] are exact and commute with direct sums as
+functors of `K`, suppose the comparison map commutes with the shift, and suppose it is invertible
+at each `E i`. Then it is invertible at *every* `K ∈ D_QCoh(𝒪_Y)`.
 
-This is the source's Lemma 48.13.3. The hypothesis `hgen` is [Stacks, Tag 0A9T], the perfect
-case, asked for only at the generators; `E`, `hEc` and `hE` are the compact generation of
-[Stacks, Tag 09IS]; the direct-sum preservation of `quasiCoherentDerivedTensorRight Y L ⋙ a` is
-[Stacks, Tag 0A9R], that `a` commutes with direct sums. The dévissage is
-`StacksDraft.CompactDevissage.isIso_app_of_isCompactlyGenerated`. -/
-@[stacks 0A9U "the two-variable comparison map for an arbitrary object of D_QCoh(O_Y), by \
-dévissage along a compact generating family. Carried: `hgen`, the perfect case Stacks 0A9T, \
-asked for only at the generators — held by `Stacks.Duality.isIso_compareWithPullbackTensor_of_\
-isPerfect` of StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/\
-PullbackComparisonPerfect.lean; `E`, \
-`hEc`, `hE`, the compact generation of D_QCoh(O_Y) by a perfect object, Stacks 09IS, unproved \
-in this repository and carried the same way by every other consumer here; the instance binder \
-`PreservesColimitsOfShape (Discrete J) (quasiCoherentDerivedTensorRight Y L ⋙ a)`, which is \
-Stacks 0A9R, the commutation of `a` with direct sums, unproved in this repository; the instance \
-binders `Functor.CommShift`, `Functor.IsTriangulated` and `NatTrans.CommShift` for the two sides \
-and for the comparison map, the triangulated structure PullbackComparison.lean records as \
-unavailable for this repository's derived tensor product; and, inherited from \
-`Stacks.Duality.compareWithPullbackTensor`, the oplax monoidality `α` of derived pullback and \
-the invertibility of the projection formula, Stacks 08EU"]
+This is the argument of the source's Lemma 48.13.3, whose complete statement is
+`Stacks.Duality.isIso_compareWithPullback_twistedInverseImage`. The hypothesis `hgen` is
+[Stacks, Tag 0A9T], the perfect case, asked for only at the generators; `E`, `hEc` and `hE` are
+the compact generation of [Stacks, Tag 09IS]; the direct-sum preservation of
+`quasiCoherentDerivedTensorRight Y L ⋙ a` is [Stacks, Tag 0A9R], that `a` commutes with direct
+sums. The dévissage is `StacksDraft.CompactDevissage.isIso_app_of_isCompactlyGenerated`. -/
 theorem isIso_compareWithPullbackTensor_of_isIso_generators {ι : Type u}
     (E : ι → quasiCoherentDerivedCategory Y) (hEc : ∀ i, IsCompactObject.{u} (E i))
     (hE : ∀ Z : quasiCoherentDerivedCategory Y,
@@ -234,16 +217,17 @@ theorem isIso_compareWithPullbackTensor_of_isIso_generators {ι : Type u}
   StacksDraft.CompactDevissage.isIso_app_of_isCompactlyGenerated
     (compareWithPullbackTensorNatTrans f hpush α adj L) E hEc hE hgen K
 
-/-- **[Stacks, Tag 0A9U] with the perfect case in the shape [Stacks, Tag 0A9T] states it.** The
-same conclusion as `Stacks.Duality.isIso_compareWithPullbackTensor_of_isIso_generators`, with the
-invertibility at the generators replaced by the hypothesis `hperf` that the comparison map is
-invertible at every *perfect* object, together with `hEperf`, the perfectness of the generating
-family. This is what a consumer has: the generator produced by [Stacks, Tag 09IS] is perfect, and
-`hperf` is exactly the conclusion of
-`Stacks.Duality.isIso_compareWithPullbackTensor_of_isPerfect`, which is [Stacks, Tag 0A9T].
+/-- **The dévissage of [Stacks, Tag 0A9U], with the perfect case in the shape [Stacks, Tag 0A9T]
+states it.** The same conclusion as
+`Stacks.Duality.isIso_compareWithPullbackTensor_of_isIso_generators`, with the invertibility at
+the generators replaced by the hypothesis `hperf` that the comparison map is invertible at every
+*perfect* object, together with `hEperf`, the perfectness of the generating family. This is what
+a consumer has: the generator produced by [Stacks, Tag 09IS] is perfect, and `hperf` is the
+conclusion of `Stacks.Duality.isIso_compareWithPullbackTensor_and_compareWithPullback_of_isPerfect`,
+which is [Stacks, Tag 0A9T].
 
-No `@[stacks]` attribute: this is a repackaging of the hypotheses of the tagged statement above,
-not content of its own, and 0A9T is registered where it is proved. -/
+No `@[stacks]` attribute: this is a repackaging of the hypotheses of the dévissage above, not
+content of its own; 0A9T and 0A9U are registered where they are proved. -/
 theorem isIso_compareWithPullbackTensor_of_isPerfect_generator {ι : Type u}
     (E : ι → quasiCoherentDerivedCategory Y) (hEc : ∀ i, IsCompactObject.{u} (E i))
     (hE : ∀ Z : quasiCoherentDerivedCategory Y,
@@ -278,22 +262,11 @@ variable (ρ : (quasiCoherentDerivedTensor Y).flip.obj (derivedStructureSheaf Y)
   [NatTrans.CommShift
     (compareWithPullbackTensorNatTrans f hpush α adj (derivedStructureSheaf Y)) ℤ]
 
-/-- **[Stacks, Tag 0A9U], the map the source displays.** Equation 48.8.0.1 of
+/-- **The dévissage of [Stacks, Tag 0A9U], for the map the source displays.** Equation 48.8.0.1 of
 [Stacks, Tag 0A9S], the map `Lf^*K ⊗ᴸ_{𝒪_X} a(𝒪_Y) ⟶ a(K)`, is an isomorphism for every
 `K ∈ D_QCoh(𝒪_Y)`: it is the two-variable comparison map at `L = 𝒪_Y`, which is an isomorphism by
 `Stacks.Duality.isIso_compareWithPullbackTensor_of_isIso_generators`, followed by `a` applied to
 the right unitor `K ⊗ᴸ_{𝒪_Y} 𝒪_Y ≅ K`. -/
-@[stacks 0A9U "the structure-sheaf specialization, the map the source displays. Carried: \
-everything `Stacks.Duality.isIso_compareWithPullbackTensor_of_isIso_generators` carries, at \
-`L = 𝒪_Y` — `hgen`, the perfect case Stacks 0A9T held by \
-`Stacks.Duality.isIso_compareWithPullbackTensor_of_isPerfect` of StacksFrontier/AlgebraicGeometry/\
-Duality/RightAdjointPushforward/PullbackComparisonPerfect.lean; `E`, `hEc`, \
-`hE`, compact generation, Stacks 09IS; the direct-sum preservation of \
-`quasiCoherentDerivedTensorRight Y (derivedStructureSheaf Y) ⋙ a`, which is Stacks 0A9R; the \
-`CommShift`/`IsTriangulated`/`NatTrans.CommShift` binders; `α` and Stacks 08EU — and in \
-addition the right unitor of the derived tensor product as the hypothesis `ρ`, which \
-`Stacks.Duality.compareWithPullback` already carries because this repository's derived tensor \
-product has no unit"]
 theorem isIso_compareWithPullback_of_isIso_generators {ι : Type u}
     (E : ι → quasiCoherentDerivedCategory Y) (hEc : ∀ i, IsCompactObject.{u} (E i))
     (hE : ∀ Z : quasiCoherentDerivedCategory Y,
@@ -311,7 +284,7 @@ theorem isIso_compareWithPullback_of_isIso_generators {ι : Type u}
     a.map (ρ.hom.app K))
   infer_instance
 
-/-- **[Stacks, Tag 0A9U] for the displayed map, with the perfect case in the shape
+/-- **The dévissage of [Stacks, Tag 0A9U] for the displayed map, with the perfect case in the shape
 [Stacks, Tag 0A9T] states it.** As
 `Stacks.Duality.isIso_compareWithPullback_of_isIso_generators`, with the invertibility at the
 generators replaced by `hperf`, invertibility at every perfect object, and `hEperf`, perfectness

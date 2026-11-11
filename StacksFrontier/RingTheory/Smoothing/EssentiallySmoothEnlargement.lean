@@ -43,8 +43,9 @@ how that part of the setup is represented here.
 * `Stacks.Smoothing.exists_essentiallySmooth_artinianLocal_enlargement`: the ring-theoretic
   content, stated for an arbitrary flat local map of Artinian local rings of characteristic `p`
   and an arbitrary element of its target.
-* `Stacks.Smoothing.exists_essentiallySmooth_enlargement_containing_pow`: Stacks 07FI, the
-  previous result read off at `T = Λ_𝔮/𝔮ⁿΛ_𝔮` and `y = λ`.
+* `Stacks.Smoothing.exists_essentiallySmooth_enlargement_containing_pow`: the previous result
+  read off at `T = Λ_𝔮/𝔮ⁿΛ_𝔮` and `y = λ`. Stacks 07FI in the full setup of Lemma 07FH is derived
+  from it in `StacksFrontier.RingTheory.Smoothing.InseparableResidueField.EnlargementContainingPow`.
 * `Stacks.Smoothing.exists_essentiallySmooth_enlargement_residueField`: the same enlargement with
   the residue field extension *prescribed* instead of manufactured, hence with no power-taking
   anywhere and no hypothesis on the characteristic. This is the form Stacks 07FT needs: it
@@ -80,7 +81,11 @@ role in the conclusion beyond composing with the `D → D'` produced here, so th
 four-term factorization `k[y₁,…,y_m]_𝔭/𝔭ⁿ → D → D' → Λ_𝔮/𝔮ⁿΛ_𝔮` follows for *any* such map
 from `b' ∘ c = b`, and omitting it makes the statement stronger rather than weaker. Likewise
 `Λ_𝔮/𝔮ⁿΛ_𝔮` being local and Artinian is taken as a hypothesis rather than rederived, again as in
-07FH; it is satisfied whenever `Λ` is Noetherian and `1 ≤ n`, so nothing here is vacuous.
+07FH; it is satisfied whenever `Λ` is Noetherian and `1 ≤ n`, so nothing here is vacuous. The
+statement of 07FI in the full setup of 07FH, with all of these derived rather than assumed (the
+localness of `D → Λ_𝔮/𝔮ⁿΛ_𝔮` included, which holds because `𝔪_D` is nilpotent), is
+`Stacks.Smoothing.exists_essentiallySmooth_enlargement_containing_pow_of_factorization` in
+`StacksFrontier.RingTheory.Smoothing.InseparableResidueField.EnlargementContainingPow`.
 
 *What "`λ^q ∈ D'`" means.* In the source `D'` is not a subring of `Λ_𝔮/𝔮ⁿΛ_𝔮`; the phrase means
 that the image of `λ^q` comes from `D'`, which is what is proved. The reading is faithful because
@@ -620,17 +625,17 @@ theorem exists_essentiallySmooth_enlargement_residueField
   rw [hτ' z]
   exact congrArg (fun f : L →+* ResidueField T => f z) hτTres
 
-/-- **Stacks 07FI.** Let `k` be a field of characteristic `p > 0`, let `Λ` be a `k`-algebra, let
+/-- **The ring-theoretic content of Stacks 07FI.** Let `k` be a field of characteristic `p > 0`, let `Λ` be a `k`-algebra, let
 `𝔮 ⊆ Λ` be a prime and `n : ℕ`, and suppose `Λ_𝔮/𝔮ⁿΛ_𝔮` is Artinian local — as it is in the
 situation of Lemma 07FH. Let `D` be an Artinian local ring with a flat local map
 `b : D → Λ_𝔮/𝔮ⁿΛ_𝔮`, the right-hand half of the factorization produced by that lemma. Then for
 every `λ ∈ Λ` there is an integer `e > 0` and a factorization `D → D' → Λ_𝔮/𝔮ⁿΛ_𝔮` of `b` such
 that `D → D'` is an essentially smooth local map of Artinian local rings, `D' → Λ_𝔮/𝔮ⁿΛ_𝔮` is
 flat and local, and `λ ^ e` is in the image of `D'`. Composing with the source's
-`k[y₁,…,y_m]_𝔭/𝔭ⁿ → D` gives the displayed four-term factorization. -/
-@[stacks 07FI "the setup `as in Lemma 07FH` carried as the part of that lemma's data the \
-conclusion speaks about; the left-hand map is omitted, which strengthens the statement, and \
-the source's `λ ∉ 𝔮` is not assumed — see the implementation notes"]
+`k[y₁,…,y_m]_𝔭/𝔭ⁿ → D` gives the displayed four-term factorization.
+
+Stacks 07FI itself, in the full setup of Lemma 07FH from which the hypotheses here are derived,
+is `Stacks.Smoothing.exists_essentiallySmooth_enlargement_containing_pow_of_factorization`. -/
 theorem exists_essentiallySmooth_enlargement_containing_pow
     (k : Type u) [Field k] (p : ℕ) [CharP k p] (hp : 0 < p)
     (Λ : Type u) [CommRing Λ] [Algebra k Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime] (n : ℕ)

@@ -42,7 +42,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- **Stacks 08H0 (3).**  On an affine algebraic space the derived coherator `RQ_X`, restricted
 to the complexes of `𝒪_X`-modules with quasi-coherent cohomology, is naturally isomorphic to the
 inverse of the comparison functor `i_X : D(QCoh(𝒪_X)) ⥤ D_QCoh(𝒪_X)` of Stacks 08F1. -/
-@[stacks 08H0 "part (3)"]
+@[stacks 08H0 "part (3): for affine X, RQ_X restricted to D_QCoh(O_X) is naturally isomorphic \
+to the inverse of the comparison equivalence D(QCoh(O_X)) → D_QCoh(O_X) of 08F1"]
 def derivedCoheratorIsoComparisonInv_of_isAffineSpace (hAffine : IsAffineSpace B S hS F) :
     letI := isEquivalence_quasicoherentDerivedComparison_of_isAffineSpace B S hS F hF hAffine
     (DerivedCategoryB.derivedCategoryB

@@ -30,12 +30,16 @@ for `B` the integral closure of `A` in its fraction field covers exactly the one
 Noetherian local domains with a finite normalization, such as the local rings of schemes of finite
 type over a field.
 
+The tame symbol of Stacks 0EAH itself, the one the recipe Stacks 0EAQ defines for every
+one-dimensional Noetherian local ring, with its seven properties, is
+`Stacks.Chow.formulaTameSymbol_isTameSymbol`.
+
 ## Main definitions
 
 * `Stacks.Chow.localizationSymbol` — the tame symbol at a maximal ideal of a normal finite
   modification.
-* `Stacks.Chow.normPushforwardOfIsIntegrallyClosed` — Stacks 0EAH on nonzerodivisors, from a
-  normal finite modification.
+* `Stacks.Chow.normPushforwardOfIsIntegrallyClosed` — a tame symbol on nonzerodivisors in the
+  sense of Stacks 0EAH, from a normal finite modification.
 * `Stacks.Chow.normPushforwardOfFiniteIntegralClosure`,
   `Stacks.Chow.tameSymbolOfFiniteIntegralClosure` — the same with the modification taken to be
   the integral closure in the fraction field, on nonzerodivisors and on `Q(A)^*`.
@@ -156,7 +160,6 @@ normal finite modification: for `A ⊆ B` module-finite with `B` an integrally c
 `∂_A(a, b) = ∏_𝔮 Norm_{κ(𝔮)/κ(𝔪)}(∂_{B_𝔮}(a, b))`,
 
 the product over the maximal ideals `𝔮` of `B`. -/
-@[stacks 0EAH "on nonzerodivisors, for a local domain with a normal finite modification"]
 noncomputable def normPushforwardOfIsIntegrallyClosed (hA : ¬ IsField A)
     (hinj : Function.Injective (algebraMap A B))
     (hquot : ∃ n : ℕ, maximalIdeal A ^ n • (⊤ : Submodule A B) ≤
@@ -242,7 +245,6 @@ noncomputable def normPushforwardOfFiniteIntegralClosure (hA : ¬ IsField A) :
 /-- The tame symbol `∂_A : Q(A)^* × Q(A)^* → κ(𝔪)^*` of a one-dimensional Noetherian local domain
 `A` whose integral closure in its fraction field is module finite: the extension
 `Stacks.Chow.RegularTameSymbol.extend` of `Stacks.Chow.normPushforwardOfFiniteIntegralClosure`. -/
-@[stacks 0EAH "on Q(A)^*, for a local domain with a module-finite integral closure"]
 noncomputable def tameSymbolOfFiniteIntegralClosure (hA : ¬ IsField A)
     (Q : Type*) [CommRing Q] [Algebra A Q] [IsFractionRing A Q] : TameSymbol A Q :=
   (normPushforwardOfFiniteIntegralClosure A K hA).extend Q

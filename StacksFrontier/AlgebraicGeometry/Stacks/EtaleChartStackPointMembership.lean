@@ -83,8 +83,7 @@ still to be fed to `AlgebraicGeometry.Stack.FibreIsUnramifiedNear` through
 No `@[stacks]` attribute is registered. Nothing below is a step of Stacks 06N2, whose registration
 sits on `AlgebraicGeometry.Stack.exists_isOpenSubspace_isEtale`; and no part of **Stacks 06N3** is
 claimed, its registration sitting on
-`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`, which still carries the
-hypothesis `hForward`.
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`.
 
 ## References
 

@@ -20,7 +20,9 @@ family is
 where `X_s` is the scheme-theoretic fibre of `f` at `s`, a scheme over `Spec κ(s)`, and `ℱ_s` is
 the pullback of `ℱ` to it.  [Stacks, Tag 0BDN] asserts three things about `β_i`: its formation
 commutes with arbitrary base change, it is upper semi-continuous, and its level sets are locally
-constructible.
+constructible. This file sets up `β_i` and the hypotheses on the family; the three parts are
+proved in `StacksFrontier/AlgebraicGeometry/Perfect/FibreBettiNumbersCohomologyBaseChange.lean`, as
+`AlgebraicGeometry.FibreBetti.fibreBetti_baseChange_upperSemicontinuous_isLocallyConstructible`.
 
 ## Main definitions
 
@@ -41,25 +43,25 @@ constructible.
 
 * `AlgebraicGeometry.FibreBetti.derivedFiberBetti_eq_of_iso`: the derived-fibre Betti function of
   an object of the derived category depends only on its isomorphism class.
-* `AlgebraicGeometry.FibreBetti.fibreBetti_baseChange` is part (1): the formation of `β_i`
-  commutes with arbitrary base change.
-* `AlgebraicGeometry.FibreBetti.upperSemicontinuous_fibreBetti` is part (2): `β_i` is upper
-  semi-continuous, given upper semi-continuity of the derived-fibre Betti function of `Rf_*ℱ` on
-  each affine open of `S`.
+* `AlgebraicGeometry.FibreBetti.fibreBetti_baseChange`: the formation of `β_i` commutes with base
+  change, given `CohomologyAndBaseChange` and `BaseChangeCompatible`.
+* `AlgebraicGeometry.FibreBetti.upperSemicontinuous_fibreBetti`: `β_i` is upper semi-continuous,
+  given `CohomologyAndBaseChange` and upper semi-continuity on each affine open of `S`.
+
+Both data hold for every family satisfying the hypotheses of [Stacks, Tag 0BDN], by
+[Stacks, Tag 0B91].
 
 ## References
 
 * [Stacks Project, Tag 0BDN](https://stacks.math.columbia.edu/tag/0BDN)
 * [Stacks Project, Tag 0B91](https://stacks.math.columbia.edu/tag/0B91)
 * [Stacks Project, Tag 0BDI](https://stacks.math.columbia.edu/tag/0BDI)
-* [Stacks Project, Tag 054C](https://stacks.math.columbia.edu/tag/054C)
 -/
 
 @[expose] public noncomputable section
 
 open CategoryTheory CategoryTheory.Limits Topology
 open Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces (derivedPullback derivedPushforward)
-open scoped Set.Notation
 
 universe u
 
@@ -155,27 +157,12 @@ public theorem derivedFiberBetti_eq_of_iso (X : Scheme.{u})
 
 /-! ### Part (1): base change -/
 
-/-- The formation of `β_i` commutes with arbitrary base change: for a cartesian square whose
-right-hand vertical morphism is `f : X ⟶ S` and whose base is changed along an arbitrary
-`g : S' ⟶ S`, the `i`-th Betti-number function of the family `(f', (g')^*ℱ)` is the pullback
-along `g` of the `i`-th Betti-number function of `(f, ℱ)`. -/
-@[stacks 0BDN "part (1): formation of the Betti functions beta_i of the fibres commutes with \
-arbitrary base change. The function beta_i is fibreBetti, dim over kappa(s) of H^i of the \
-pullback of F to the scheme-theoretic fibre X_s, and all four hypotheses of the source are \
-fields of IsFlatFamily, which CohomologyAndBaseChange extends. WHAT IS ASSUMED rather than \
-proved: the source's cohomology-and-base-change step, carried as the fields isPseudoCoherent \
-and fibreBetti_eq of CohomologyAndBaseChange (that Rf_*F is pseudo-coherent and that beta_i is \
-its derived-fibre Betti function) and as BaseChangeCompatible (that the formation of Rf_*F \
-commutes with the cartesian square). Both are consequences of Stacks 0B91, of which this \
-library carries ONLY the base-change half of the conclusion and that half in the tensor form of \
-the source's own reduction, namely \
-AlgebraicGeometry.ProperFlatBaseChange.isIso_tensorFlatBaseChangeMap_module in \
-StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean line 334, tagged at \
-line 309: invertibility of tensorFlatBaseChangeMap at F in degree zero, hence for \
-Rf_*(O_X tensor^L F) and not for Rf_*F, with the perfection half absent from the library \
-altogether. WHAT IS PROVED here: the transport of the conclusion across those identifications, \
-using derivedFiberBetti_eq_of_iso and part (1) of Stacks 0BDI, \
-AlgebraicGeometry.DerivedFibreBetti.derivedFiberBetti_derivedPullback"]
+/-- The formation of `β_i` commutes with base change along one cartesian square, given the
+cohomology-and-base-change data for both families and for the square. All of these data hold for
+every family satisfying the hypotheses of [Stacks, Tag 0BDN], by [Stacks, Tag 0B91]; the statement
+with no hypotheses beyond the source's is
+`AlgebraicGeometry.FibreBetti.fibreBetti_baseChange_upperSemicontinuous_isLocallyConstructible`
+in `StacksFrontier/AlgebraicGeometry/Perfect/FibreBettiNumbersCohomologyBaseChange.lean`. -/
 public theorem fibreBetti_baseChange {X S X' S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S)
     (f' : X' ⟶ S') (g' : X' ⟶ X) (F : X.Modules)
     (h : CohomologyAndBaseChange f F)
@@ -190,28 +177,12 @@ public theorem fibreBetti_baseChange {X S X' S' : Scheme.{u}} (f : X ⟶ S) (g :
 
 /-! ### Part (2): upper semi-continuity -/
 
-/-- The Betti-number function `β_i` is upper semi-continuous, provided that for every affine
-open `U` of `S` the derived-fibre Betti function of the restriction of `Rf_*ℱ` to `U` is upper
-semi-continuous. -/
-@[stacks 0BDN "part (2): the Betti functions beta_i of the fibres are upper semi-continuous, for \
-beta_i the function fibreBetti and all four hypotheses of the source present as fields of \
-IsFlatFamily. WHAT IS ASSUMED rather than proved: first the cohomology-and-base-change step, as \
-the fields isPseudoCoherent and fibreBetti_eq of CohomologyAndBaseChange, which is the half of \
-Stacks 0B91 this library does not carry (see the attribute on fibreBetti_baseChange and \
-AlgebraicGeometry.ProperFlatBaseChange.isIso_tensorFlatBaseChangeMap_module in \
-StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean line 334, tagged at \
-line 309); and second part (2) of Stacks 0BDI for Rf_*F, which is NOT in the library -- the only \
-@[stacks 0BDI] attributes in the library are on its base-change half -- and which is assumed \
-here in its LOCAL form only, as upper semi-continuity of the derived-fibre Betti function of \
-the derived pullback of Rf_*F to each affine open of S. The affine case of that input is \
-available for an object of D(R) on PrimeSpectrum R as \
-StacksDraft.Perfect.upperSemicontinuous_fibreBetti_of_isPseudoCoherent in \
-StacksFrontier/Homology/Perfect/BettiSemicontinuity.lean line 395, but no bridge from it to \
-AlgebraicGeometry.DerivedFibreBetti.derivedFiberBetti on Spec R exists in the library. WHAT IS \
-PROVED here: the passage from that local form to upper semi-continuity on S, by the \
-reduction \
-AlgebraicGeometry.DerivedFibreBetti.upperSemicontinuous_derivedFiberBetti_of_openImmersions \
-applied to the cover of S by its affine opens, and the transport of the conclusion to beta_i"]
+/-- The Betti-number function `β_i` is upper semi-continuous, given cohomology-and-base-change data
+for the family and upper semi-continuity of the derived-fibre Betti function of `Rf_*ℱ` restricted
+to each affine open of `S`. This is the reduction of upper semi-continuity to an affine cover; the
+statement with no hypotheses beyond those of [Stacks, Tag 0BDN] is
+`AlgebraicGeometry.FibreBetti.fibreBetti_baseChange_upperSemicontinuous_isLocallyConstructible`
+in `StacksFrontier/AlgebraicGeometry/Perfect/FibreBettiNumbersCohomologyBaseChange.lean`. -/
 public theorem upperSemicontinuous_fibreBetti {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modules)
     (h : CohomologyAndBaseChange f F) (i : ℤ)
     (hloc : ∀ U : S.affineOpens, UpperSemicontinuous

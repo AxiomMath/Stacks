@@ -31,6 +31,10 @@ addition of derivations.
   `Deformation.Examples.ProjectiveGradedAlgebra`: the infinitesimal automorphism group of the
   deformation category of a graded algebra is the group of degree-preserving derivations under
   addition.
+* `exists_infinitesimalAutomorphismGroupMulEquiv_pushforward_eq_smul`, in the same namespace:
+  the identification `id + εD ↦ D` carries pushforward along a rescaling `ε ↦ cε` of the dual
+  numbers to multiplication by `c`, so it is `k`-linear for the natural vector-space structure
+  of the infinitesimal automorphisms.
 
 ## Implementation notes
 
@@ -595,7 +599,9 @@ private theorem coordinates_of_lift
       (∀ s y, E (s • y) = dualNumberRingHom (algebraMap k P) (c s) * E y) ∧
       (∀ d y, y ∈ xε.1.left.grading d ↔
         (E y).fst ∈ grading d ∧ (E y).snd ∈ grading d) ∧
-      (∀ y, (E y).fst = xε.1.hom.map y) := by
+      (∀ y, (E y).fst = xε.1.hom.map y) ∧
+      (∀ t, (c t).fst = xε.1.left.base.residueEquiv (IsLocalRing.residue _ t)) ∧
+      (∀ q, ∃ x, E (i.left.map x) = TrivSqZeroExt.inl q) := by
   let a : x₀.1.left.carrier ≃+* P :=
     RingEquiv.ofBijective x₀.1.hom.map (residueFiber_hom_map_bijective P grading)
   have hb₀ : x₀.1.left.base = residueFieldObject.{u, w, w} Λ k := x₀.2
@@ -605,7 +611,7 @@ private theorem coordinates_of_lift
     exact isField_residueFieldObject
   let b : x₀.1.left.base ≃+* k := RingEquiv.ofBijective x₀.1.hom.base.hom.toRingHom
     (artinianLocalAlgHom_bijective_of_isField _ _ hfield (Field.toIsField k) x₀.1.hom.base)
-  obtain ⟨b₀, bε, hg, _, _⟩ := hpair
+  obtain ⟨b₀, bε, hg, he, _⟩ := hpair
   let B := (ringEquivOfIso (eqToIso hb₀)).trans b₀.toRingEquiv
   let C := (ringEquivOfIso (eqToIso hbε)).trans bε.toRingEquiv
   have hC (r : x₀.1.left.base) : C (i.left.base.hom r) = TrivSqZeroExt.inl (B r) := by
@@ -626,8 +632,34 @@ private theorem coordinates_of_lift
     ext <;> simp [dualNumberRingEquiv, dualNumberRingHom]
   obtain ⟨E, hf, hs, hm⟩ := gradedHom_coordinates P grading i.left x₀.1.hom
     a (fun _ => rfl) b (fun _ => rfl) c hc
+  have hres (t : xε.1.left.base) :
+      (c t).fst = xε.1.left.base.residueEquiv (IsLocalRing.residue _ t) := by
+    let F : xε.1.left.base ⟶ residueFieldBase Λ k :=
+      eqToHom hbε ≫ e ≫ eqToHom hb₀.symm ≫ x₀.1.hom.base
+    have hF : (c t).fst = F.hom t := by
+      change (dualNumberRingHom (B.symm.trans b).toRingHom (C t)).fst = _
+      rw [dualNumberRingHom_fst]
+      change b (B.symm (bε ((eqToHom hbε).hom t)).fst) = _
+      have he' := AlgHom.congr_fun he ((eqToHom hbε).hom t)
+      change b₀ (e.hom ((eqToHom hbε).hom t)) = (bε ((eqToHom hbε).hom t)).fst at he'
+      have hB : B.symm (b₀ (e.hom ((eqToHom hbε).hom t))) =
+          (eqToHom hb₀.symm).hom (e.hom ((eqToHom hbε).hom t)) := by
+        apply B.injective
+        rw [RingEquiv.apply_symm_apply]
+        change _ = b₀ ((eqToHom hb₀).hom ((eqToHom hb₀.symm).hom (e.hom ((eqToHom hbε).hom t))))
+        have hid : ∀ {X Y : ArtinianLocalAlgCat.{u, w, w} Λ k} (h : X = Y) (z : Y),
+            (eqToHom h).hom ((eqToHom h.symm).hom z) = z := by
+          intro X Y h z
+          subst h
+          rfl
+        rw [hid]
+      rw [← he', hB]
+      rfl
+    rw [hF]
+    exact (residueFieldBase_residueEquiv_residue Λ k (F.hom t)).symm.trans (F.residue_comm t)
   exact ⟨E, c, hs, hm, gradedHom_coordinates_reduction P grading i.left x₀.1.hom xε.1.hom i.w
-    a (fun _ => rfl) b (fun _ => rfl) c hc E hf hs⟩
+    a (fun _ => rfl) b (fun _ => rfl) c hc E hf hs, hres,
+    fun q => ⟨a.symm q, by rw [hf, a.apply_symm_apply]⟩⟩
 
 /-- An identification compatible with scalar multiplication sends the image of a scalar to the
 coordinates of that scalar. -/
@@ -829,6 +861,105 @@ private noncomputable def coordinateAutEquiv
   · obtain ⟨D, hD⟩ := exists_coordinateDerivationAut_eq P grading x E c hs hm hr a
     exact ⟨Multiplicative.ofAdd D, hD⟩
 
+/-- **Pushing forward along a rescaling `ε ↦ λε` multiplies the derivation by `λ`.** Let `j` be
+an endomorphism of a lift over an endomorphism `s` of its base which, in dual-number coordinates,
+fixes the constants `P` and multiplies the maximal ideal of the base by an element of residue `λ`.
+Then pushing the automorphism `id + εD` forward along `j` gives `id + ελD`. -/
+private theorem coordinateDerivationAut_pushforward
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    (P : Type (max w m)) [CommRing P] [Algebra k P]
+    (grading : ℕ → Submodule k P) [GradedAlgebra grading]
+    [∀ d, Module.Finite k (grading d)]
+    {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
+    (x : (objectsOverFunctor ProjectiveGradedAlgebra.projection
+      (specialFiber (Λ := Λ) P grading)).Fiber A)
+    (E : x.1.left.carrier ≃+* DualNumber P)
+    (c : x.1.left.base ≃+* DualNumber k)
+    (hs : ∀ s y, E (s • y) = dualNumberRingHom (algebraMap k P) (c s) * E y)
+    (hm : ∀ d y, y ∈ x.1.left.grading d ↔
+      (E y).fst ∈ grading d ∧ (E y).snd ∈ grading d)
+    (hr : ∀ y, (E y).fst = x.1.hom.map y)
+    (hres : ∀ t, (c t).fst = x.1.left.base.residueEquiv (IsLocalRing.residue _ t))
+    (s : A ⟶ A) (j : x.1 ⟶ x.1)
+    (hj : (objectsOverFunctor ProjectiveGradedAlgebra.projection
+      (specialFiber (Λ := Λ) P grading)).IsHomLift s j)
+    (lam : k) (c' : x.1.left.base)
+    (hc' : x.1.left.base.residueEquiv (IsLocalRing.residue _ c') = lam)
+    (hjbase : ∀ t ∈ IsLocalRing.maximalIdeal x.1.left.base, j.left.base.hom t = c' * t)
+    (hjinl : ∀ q, E (j.left.map (E.symm (TrivSqZeroExt.inl q))) = TrivSqZeroExt.inl q)
+    (D D' : degreeZeroDerivations grading) (hD' : D'.val = lam • D.val) :
+    pushforwardAutomorphismHom
+        (isDeformationCategory_deformationCategory P grading).predeformation.cofibered s j hj
+        (coordinateDerivationAut P grading x E c hs hm hr D) =
+      coordinateDerivationAut P grading x E c hs hm hr D' := by
+  let J : DualNumber P → DualNumber P := fun z => E (j.left.map (E.symm z))
+  let t₀ : x.1.left.base := c.symm DualNumber.eps
+  have ht₀ : t₀ ∈ IsLocalRing.maximalIdeal x.1.left.base := by
+    rw [← IsLocalRing.residue_eq_zero_iff]
+    apply (ArtinianLocalAlgCat.residueEquiv x.1.left.base).injective
+    rw [← hres, map_zero]
+    change (c (c.symm DualNumber.eps)).fst = 0
+    rw [RingEquiv.apply_symm_apply]
+    rfl
+  have hEeps : E (algebraMap _ _ t₀) = DualNumber.eps := by
+    rw [map_algebraMap_of_map_smul E _ hs, RingEquiv.apply_symm_apply]
+    ext <;> simp [dualNumberRingHom]
+  have hfst : (c c').fst = lam := (hres c').trans hc'
+  have hJeps : E (j.left.map (algebraMap _ _ t₀)) =
+      TrivSqZeroExt.inr (algebraMap k P lam) := by
+    have hmap : j.left.map (algebraMap _ _ t₀) = algebraMap _ _ (j.left.base.hom t₀) := by
+      simpa [Algebra.smul_def] using j.left.map_smul t₀ 1
+    rw [hmap, map_algebraMap_of_map_smul E _ hs, hjbase t₀ ht₀, map_mul,
+      RingEquiv.apply_symm_apply]
+    ext <;> simp [dualNumberRingHom, hfst]
+  have hJ : ∀ z, J z = TrivSqZeroExt.inl z.fst + TrivSqZeroExt.inr (lam • z.snd) := by
+    intro z
+    have hz : E.symm z = E.symm (TrivSqZeroExt.inl z.fst) +
+        E.symm (TrivSqZeroExt.inl z.snd) * algebraMap _ _ t₀ := by
+      apply E.injective
+      rw [map_add, map_mul, hEeps, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply,
+        RingEquiv.apply_symm_apply]
+      ext <;> simp
+    change E (j.left.map (E.symm z)) = _
+    rw [hz]
+    simp only [map_add, map_mul]
+    rw [hJeps, hjinl, hjinl]
+    ext <;> simp [TrivSqZeroExt.algebraMap_eq_inl, Algebra.smul_def, mul_comm]
+  have hJE : ∀ y, E (j.left.map y) = J (E y) := fun y => by
+    simp only [J, RingEquiv.symm_apply_apply]
+  let a := coordinateDerivationAut P grading x E c hs hm hr D
+  let b := coordinateDerivationAut P grading x E c hs hm hr D'
+  let p := objectsOverFunctor
+    (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+    (specialFiber (Λ := Λ) P grading)
+  let hp := (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+  apply Aut.ext
+  apply Iso.ext
+  apply Functor.Fiber.hom_ext
+  change pushforwardEndomorphism hp.cofibered s j hj a = b.asIso.hom.val
+  let := hj
+  let := isStronglyCocartesian_of_isCofiberedInGroupoids hp.cofibered s j hj
+  have : p.IsHomLift (𝟙 A) b.asIso.hom.val := b.asIso.hom.2
+  apply Functor.IsStronglyCocartesian.ext p s j (𝟙 A)
+  rw [← hom_comp_eq_comp_pushforwardEndomorphism hp.cofibered s j hj a]
+  apply Over.OverMorphism.ext
+  apply ProjectiveGradedAlgebra.Hom.ext
+  · change a.asIso.hom.val.left.base ≫ j.left.base = j.left.base ≫ b.asIso.hom.val.left.base
+    rw [gradedFiberAut_base, gradedFiberAut_base, Category.id_comp, Category.comp_id]
+  · apply RingHom.ext
+    intro y
+    change j.left.map (a.asIso.hom.val.left.map y) = b.asIso.hom.val.left.map (j.left.map y)
+    apply E.injective
+    rw [hJE, coordinateDerivationAut_apply, coordinateDerivationAut_apply, hJE, hJ, hJ]
+    obtain ⟨h1, h2⟩ := derivationDualNumberAlgHom_coordinates D.val (E y)
+    obtain ⟨h3, h4⟩ := derivationDualNumberAlgHom_coordinates D'.val
+      (TrivSqZeroExt.inl (E y).fst + TrivSqZeroExt.inr (lam • (E y).snd))
+    apply TrivSqZeroExt.ext
+    · rw [h3, h1]
+      simp
+    · rw [h4, h2, hD']
+      simp [smul_add]
+
 /-- The infinitesimal automorphism group of the deformation category of a graded algebra is the
 additive group of degree-preserving derivations. -/
 @[stacks 0DVZ "graded_inf_derivations"]
@@ -858,13 +989,121 @@ public noncomputable def infinitesimalAutomorphismGroupEquivDegreeZeroDerivation
       Multiplicative (degreeZeroDerivations grading) := by
   classical
   exact Classical.choice <| by
-    obtain ⟨E, c, hs, hm, hr⟩ := coordinates_of_lift P grading g e hpair i hi
+    obtain ⟨E, c, hs, hm, hr, -, -⟩ := coordinates_of_lift P grading g e hpair i hi
     have htop := infinitesimalAutomorphisms_eq_top
       (isDeformationCategory_deformationCategory P grading).predeformation
       x₀ xε g e hpair i hi
     exact ⟨((MulEquiv.subgroupCongr htop).trans
         (Subgroup.topEquiv (G := Aut xε))).trans
       (coordinateAutEquiv P grading xε E c hs hm hr).symm⟩
+
+/-- **The identification `Inf(Def_P) = Der_k(P, P)` is `k`-linear (Stacks 0DVZ).** At every lift
+`i : x₀ ⟶ xε` of the special fibre along a canonical dual-number pair there is a group isomorphism
+`Φ` from the infinitesimal automorphisms to the degree-preserving derivations, `id + εD ↦ D` in
+dual-number coordinates, which carries pushforward along a rescaling `ε ↦ cε` to multiplication
+by `c`: for every endomorphism `s` of `Aε` which is `ε ↦ cε` in a dual-number coordinate of `Aε`
+compatible with its residue field, and every arrow `j : xε ⟶ xε` over `s` fixing `i`, the
+pushforward `b` of `a` along `j` satisfies `Φ b = c • Φ a`. -/
+public theorem exists_infinitesimalAutomorphismGroupMulEquiv_pushforward_eq_smul
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    (P : Type (max w m)) [CommRing P] [Algebra k P]
+    (grading : ℕ → Submodule k P) [GradedAlgebra grading]
+    [∀ d, Module.Finite k (grading d)]
+    {Aε : ArtinianLocalAlgCat.{u, w, w} Λ k}
+    {x₀ : (objectsOverFunctor
+      (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+      (specialFiber (Λ := Λ) P grading)).Fiber
+        (residueFieldObject.{u, w, w} Λ k)}
+    {xε : (objectsOverFunctor
+      (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+      (specialFiber (Λ := Λ) P grading)).Fiber Aε}
+    (g : residueFieldObject.{u, w, w} Λ k ⟶ Aε)
+    (e : Aε ⟶ residueFieldObject.{u, w, w} Λ k)
+    (hpair : IsCanonicalDualNumberPair g e)
+    (i : x₀.1 ⟶ xε.1)
+    (hi : (objectsOverFunctor
+      (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+      (specialFiber (Λ := Λ) P grading)).IsHomLift g i) :
+    ∃ Φ : infinitesimalAutomorphismGroup
+        (isDeformationCategory_deformationCategory P grading).predeformation
+        g e hpair i hi ≃* Multiplicative (degreeZeroDerivations grading),
+      ∀ (c : k) (s : Aε ⟶ Aε),
+        (∃ φ : Aε ≃ₐ[Λ] DualNumber k,
+          (∀ t : Aε, (φ t).1 = Aε.residueEquiv (IsLocalRing.residue Aε t)) ∧
+          (∀ t : k, φ (s.hom (φ.symm (TrivSqZeroExt.inl t))) = TrivSqZeroExt.inl t) ∧
+          φ (s.hom (φ.symm DualNumber.eps)) = c • DualNumber.eps) →
+        ∀ (j : xε.1 ⟶ xε.1) (hj : (objectsOverFunctor
+            (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+            (specialFiber (Λ := Λ) P grading)).IsHomLift s j),
+          i ≫ j = i →
+          ∀ a, ∃ b, b.val = pushforwardAutomorphismHom
+              (isDeformationCategory_deformationCategory P grading).predeformation.cofibered
+              s j hj a.val ∧
+            (Multiplicative.toAdd (Φ b)).val = c • (Multiplicative.toAdd (Φ a)).val := by
+  obtain ⟨E, cc, hs, hm, hr, hres, hinl⟩ := coordinates_of_lift P grading g e hpair i hi
+  have htop := infinitesimalAutomorphisms_eq_top
+    (isDeformationCategory_deformationCategory P grading).predeformation
+    x₀ xε g e hpair i hi
+  let K := coordinateAutEquiv P grading xε E cc hs hm hr
+  let Φ := ((MulEquiv.subgroupCongr htop).trans (Subgroup.topEquiv (G := Aut xε))).trans K.symm
+  have hΦ : ∀ a, K (Φ a) = a.val := fun a => K.apply_symm_apply _
+  refine ⟨Φ, fun c s ⟨φ, h1, h2, h3⟩ j hj hij a => ?_⟩
+  have hsm : ∀ y ∈ IsLocalRing.maximalIdeal Aε,
+      s.hom y = φ.symm (TrivSqZeroExt.inl c) * y := by
+    intro y hy
+    have hy0 : TrivSqZeroExt.fst (φ y) = 0 :=
+      (h1 y).trans (by rw [(IsLocalRing.residue_eq_zero_iff y).2 hy, map_zero])
+    have hye : φ y = TrivSqZeroExt.inl (TrivSqZeroExt.snd (φ y)) * DualNumber.eps := by
+      ext <;> simp [hy0]
+    apply φ.injective
+    have hsy : s.hom y = s.hom (φ.symm (TrivSqZeroExt.inl (TrivSqZeroExt.snd (φ y)))) *
+        s.hom (φ.symm DualNumber.eps) := by
+      rw [← map_mul, ← map_mul, ← hye, AlgEquiv.symm_apply_apply]
+    rw [hsy, map_mul, h2, h3, map_mul, AlgEquiv.apply_symm_apply, hye]
+    ext <;> simp
+  have hbε : xε.1.left.base = Aε := xε.2
+  have hw : j.left.base ≫ eqToHom hbε = eqToHom hbε ≫ s := by
+    have := hj
+    exact (IsHomLift.commSq (objectsOverFunctor ProjectiveGradedAlgebra.projection
+      (specialFiber (Λ := Λ) P grading)) s j).w
+  have key : ∀ {B : ArtinianLocalAlgCat.{u, w, w} Λ k} (h : B = Aε) (f : B ⟶ B),
+      f ≫ eqToHom h = eqToHom h ≫ s →
+      ∃ c' : B, B.residueEquiv (IsLocalRing.residue _ c') = c ∧
+        ∀ t ∈ IsLocalRing.maximalIdeal B, f.hom t = c' * t := by
+    intro B h f hf
+    subst h
+    simp only [eqToHom_refl, Category.comp_id, Category.id_comp] at hf
+    subst hf
+    refine ⟨φ.symm (TrivSqZeroExt.inl c), ?_, hsm⟩
+    rw [← h1, AlgEquiv.apply_symm_apply]
+    rfl
+  obtain ⟨c', hc', hjbase⟩ := key hbε j.left.base hw
+  have hjinl : ∀ q, E (j.left.map (E.symm (TrivSqZeroExt.inl q))) = TrivSqZeroExt.inl q := by
+    intro q
+    obtain ⟨y, hy⟩ := hinl q
+    rw [← hy, E.symm_apply_apply]
+    have hy' := congrArg (fun f : x₀.1 ⟶ xε.1 => f.left.map y) hij
+    change j.left.map (i.left.map y) = i.left.map y at hy'
+    rw [hy']
+  let D := Multiplicative.toAdd (Φ a)
+  have ha : a.val = coordinateDerivationAut P grading xε E cc hs hm hr D := (hΦ a).symm
+  let D' : degreeZeroDerivations grading := ⟨c • D.val, fun d y hy => by
+    rw [Derivation.smul_apply]
+    exact (grading d).smul_mem c (D.2 d y hy)⟩
+  have hpush := coordinateDerivationAut_pushforward P grading xε E cc hs hm hr hres s j hj
+    c c' hc' hjbase hjinl D D' rfl
+  refine ⟨⟨pushforwardAutomorphismHom
+    (isDeformationCategory_deformationCategory P grading).predeformation.cofibered s j hj a.val,
+      (Subgroup.eq_top_iff' _).1 htop _⟩, rfl, ?_⟩
+  have hb : Φ ⟨pushforwardAutomorphismHom
+      (isDeformationCategory_deformationCategory P grading).predeformation.cofibered s j hj a.val,
+        (Subgroup.eq_top_iff' _).1 htop _⟩ = Multiplicative.ofAdd D' := by
+    apply K.injective
+    rw [hΦ]
+    change _ = coordinateDerivationAut P grading xε E cc hs hm hr D'
+    rw [ha, hpush]
+  rw [hb]
+  rfl
 
 end ProjectiveGradedAlgebra
 

@@ -9,9 +9,12 @@ public import StacksFrontier.AlgebraicGeometry.TotalFractionRingFunctionField
 # The order of vanishing along a prime divisor meeting the schematic locus
 
 Let `S` be a scheme, let `X` be a locally Noetherian integral algebraic space over `S`, let
-`f ∈ R(X)^*`, and let `Z ⊂ X` be a prime divisor meeting the schematic locus of `X`. This file
-proves **Stacks 0ENM**: the order of vanishing `ord_Z(f)` of Definition 0ENL agrees with the
-order of vanishing of Divisors, Definition 02RJ.
+`f ∈ R(X)^*`, and let `Z ⊂ X` be a prime divisor meeting the schematic locus of `X`. Stacks 0ENM
+says that the order of vanishing `ord_Z(f)` of Definition 0ENL agrees with the order of vanishing of
+Divisors, Definition 02RJ, on the schematic locus. This file supplies the steps of the proof; the
+statement itself, on the scheme representing the schematic locus, is
+`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SchematicLocusOrderOfVanishing.lean`.
 
 The three ingredients are already in place.
 
@@ -44,7 +47,10 @@ The three ingredients are already in place.
   marked point.
 * `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_scheme_ord_of_chart`: on such a neighbourhood
   the two orders of vanishing agree.
-* `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_scheme_ord`: **Stacks 0ENM**.
+* `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_scheme_ord`: the two orders of vanishing agree
+  on some affine elementary étale neighbourhood. Stacks 0ENM itself, on the scheme representing
+  the schematic locus, is `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`
+  in `StacksFrontier/AlgebraicGeometry/Spaces/SchematicLocusOrderOfVanishing.lean`.
 
 ## References
 
@@ -89,7 +95,7 @@ variable (hInt : IsIntegralSpace B S hS X)
     (Z : PrimeDivisor B S hS X)
 
 include hX hInt hN in
-/-- **Stacks 0ENM**, the shrinking step of the proof in affine form. If a prime divisor `Z` of a
+/-- **The shrinking step of the proof of Stacks 0ENM, in affine form.** If a prime divisor `Z` of a
 locally Noetherian integral algebraic space `X` meets the schematic locus of `X`, then the
 generic point of `Z` has an *affine* elementary étale neighbourhood whose scheme is integral,
 locally Noetherian and of codimension one at the marked point.
@@ -99,10 +105,6 @@ The schematic locus itself is such a neighbourhood except for affineness, by
 affine open around the marked point preserves integrality and local Noetherianness, as
 properties of an open subscheme, and preserves the codimension of the marked point because
 codimension is computed in any open neighbourhood. -/
-@[stacks 0ENM "the shrinking step of the proof, with the neighbourhood affine: from the
-  hypothesis that the prime divisor meets the schematic locus, an affine elementary étale
-  neighbourhood of its generic point whose scheme is integral, locally Noetherian and of
-  codimension one at the marked point"]
 theorem PrimeDivisor.exists_affine_schematic_neighborhood
     (hmeet : (Z.support B S hS X ∩
       subspacePointSet B S hS X (schematicLocus B S hS X)).Nonempty) :
@@ -174,12 +176,12 @@ theorem PrimeDivisor.functionFieldToTotalFractionRing_totalFractionRingToFunctio
   exact RingHom.congr_fun key b
 
 include hInt hN in
-/-- **Stacks 0ENM on a given affine chart.** Let `Z` be a prime divisor of a decent, locally
-Noetherian, integral algebraic space `X`, and let `(U, u)` be an affine elementary étale
-neighbourhood of the generic point of `Z` whose scheme is integral, locally Noetherian and of
-codimension one at `u`. Then the order of vanishing along `Z` of an invertible rational function
-`f` of `X` is the order of vanishing at `u` of the pullback of `f` to the function field of `U`,
-in the sense of Divisors, Definition 02RJ. -/
+/-- **The comparison of Stacks 0ENM on a given affine chart.** Let `Z` be a prime divisor of a
+decent, locally Noetherian, integral algebraic space `X`, and let `(U, u)` be an affine elementary
+étale neighbourhood of the generic point of `Z` whose scheme is integral, locally Noetherian and of
+codimension one at `u`. Then the order of vanishing along `Z` of an invertible rational function `f`
+of `X` is the order of vanishing at `u` of the pullback of `f` to the function field of `U`, in the
+sense of Divisors, Definition 02RJ. -/
 theorem PrimeDivisor.ord_eq_scheme_ord_of_chart
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
     [IsAffine U.scheme.left.1] [AlgebraicGeometry.IsIntegral U.scheme.left.1]
@@ -220,10 +222,16 @@ theorem PrimeDivisor.ord_eq_scheme_ord_of_chart
         Z.ord_functionFieldToTotalFractionRing B S hS hX hdec U hcoh g hg
 
 include hX hInt hN in
-/-- **Stacks 0ENM.** Let `S` be a scheme, let `X` be a locally Noetherian integral algebraic
-space over `S` and let `f ∈ R(X)^*`. If the prime divisor `Z ⊂ X` meets the schematic locus of
-`X`, then the order of vanishing `ord_Z(f)` of Definition 0ENL agrees with the order of
-vanishing of Divisors, Definition 02RJ.
+/-- **The orders of vanishing agree on some affine étale neighbourhood.** Let `S` be a scheme,
+let `X` be a locally Noetherian integral algebraic space over `S`, let `f ∈ R(X)^*` and let the
+prime divisor `Z ⊂ X` meet the schematic locus of `X`. Then the generic point of `Z` has an
+affine, integral, locally Noetherian elementary étale neighbourhood `(U, u)` with `u` of
+codimension one on which `ord_Z(f)` of Definition 0ENL is the order of vanishing at `u`, in the
+sense of Divisors, Definition 02RJ, of the pullback of `f`.
+
+This is weaker than Stacks 0ENM: the statement does not tie `U` to the schematic locus. Stacks
+0ENM, the comparison with the order of vanishing on the scheme representing the schematic
+locus, is `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`.
 
 After shrinking `X` to the schematic locus and then to an affine open around the generic point
 `ξ` of `Z` we are on an integral Noetherian affine scheme `U` with a point of codimension one;
@@ -234,7 +242,6 @@ The hypotheses are exactly those of the source: decency, which the henselian loc
 hence the order of vanishing of Definition 0ENL are defined from, is part of integrality of an
 algebraic space — Stacks 0AD4, `AlgebraicGeometry.Space.IsIntegralSpace` — and is taken from
 `hInt` rather than assumed separately. -/
-@[stacks 0ENM]
 theorem PrimeDivisor.ord_eq_scheme_ord
     (hmeet : (Z.support B S hS X ∩
       subspacePointSet B S hS X (schematicLocus B S hS X)).Nonempty)

@@ -41,6 +41,10 @@ image under the ambient ring map `k^♯ : Γ(W', V) ⟶ Γ(Z', U)` ([Stacks Proj
   `Stacks.Thickenings.immersionConormalSheaf`.
 * `Stacks.Thickenings.conormalSheafMapWithCharacterization` bundles that morphism with its
   affine characterization.
+* `Stacks.Thickenings.universalConormalSheafPullbackMap` is the morphism
+  `f^* 𝒞_{W/Y} ⟶ 𝒞_{Z/X}` of [Stacks Project, Tag 04F7] for formally unramified `h` and `h'`,
+  between the conormal sheaves `Stacks.Thickenings.universalConormalSheaf` of
+  [Stacks Project, Tag 04F4].
 
 ## Main results
 
@@ -56,6 +60,10 @@ image under the ambient ring map `k^♯ : Γ(W', V) ⟶ Γ(Z', U)` ([Stacks Proj
 * `Stacks.ClosedImmersion.unit_comp_pushforward_idealSheafMap_comp_ι`: the section of `ℐ_i` that
   the square produces from a section of `ℐ_j` has for image in `𝒪_{Z'}` the image of the given
   section under `k^♯`.
+* `Stacks.Thickenings.existsUnique_universalFirstOrderThickening_map` and
+  `Stacks.Thickenings.isInducedConormalSheafMap_universalConormalSheafPullbackMap`: the two
+  assertions of [Stacks Project, Tag 04F7] for formally unramified `h` and `h'` and their chosen
+  universal first-order thickenings.
 * `Stacks.Thickenings.universalImmersionConormalSheafMap_eq` identifies
   `Stacks.Thickenings.universalImmersionConormalSheafMap` with
   `Stacks.Thickenings.universalConormalSheafMap`, read through
@@ -465,6 +473,68 @@ def conormalSheafMapWithCharacterization (tZ : UniversalFirstOrderThickening h)
         (universalFirstOrderThickeningMap_inclusion tZ tW f g comm) φ } :=
   ⟨universalImmersionConormalSheafMap tZ tW f g comm,
     isInducedConormalSheafMap_universalImmersionConormalSheafMap tZ tW f g comm⟩
+
+/-! ### Stacks 04F7 for formally unramified morphisms and their conormal sheaves -/
+
+/-- **Stacks Project, Tag 04F7, the canonical morphism of thickenings.** Let
+`h : Z ⟶ X` and `h' : W ⟶ Y` be formally unramified and let `h ≫ g = f ≫ h'` be a commutative
+square. Writing `Z ⊂ Z'` and `W ⊂ W'` for the universal first-order thickenings of `h` over `X`
+and of `h'` over `Y` ([Stacks Project, Tag 04F3], chosen by
+`Stacks.Thickenings.universalFirstOrderThickening`), there is exactly one morphism
+`f' : Z' ⟶ W'` with `f'|_Z = f` and which is a morphism over `Y`, i.e. exactly one morphism of
+thickenings `(f, f') : (Z, Z') ⟶ (W, W')` over `Y` making the diagram of the tag commute. It is
+`Stacks.Thickenings.universalFirstOrderThickeningMap`. -/
+@[stacks 04F7 "the canonical morphism of thickenings, for formally unramified morphisms"]
+theorem existsUnique_universalFirstOrderThickening_map [FormallyUnramified h]
+    [FormallyUnramified h'] (f : Z ⟶ W) (g : X ⟶ Y) (comm : h ≫ g = f ≫ h') :
+    ∃! f' : (universalFirstOrderThickening h).ambient ⟶
+        (universalFirstOrderThickening h').ambient,
+      ((universalFirstOrderThickening h).inclusion ≫ f' =
+          f ≫ (universalFirstOrderThickening h').inclusion) ∧
+        (f' ≫ (universalFirstOrderThickening h').toBase =
+          (universalFirstOrderThickening h).toBase ≫ g) :=
+  (universalFirstOrderThickening h).existsUnique_map (universalFirstOrderThickening h') f g comm
+
+/-- **Stacks Project, Tag 04F7, the induced morphism of conormal sheaves.** Let `h : Z ⟶ X` and
+`h' : W ⟶ Y` be formally unramified and let `h ≫ g = f ≫ h'` be a commutative square. The
+canonical morphism of universal first-order thickenings `(f, f') : (Z, Z') ⟶ (W, W')` over `Y`
+of `Stacks.Thickenings.existsUnique_universalFirstOrderThickening_map` induces the morphism of
+sheaves of `𝒪_Z`-modules
+
+`f^* 𝒞_{W/Y} ⟶ 𝒞_{Z/X}`
+
+between the conormal sheaves `Stacks.Thickenings.universalConormalSheaf` of
+[Stacks Project, Tag 04F4]. It is the map of [Stacks Project, Tag 01R4] for the square of
+immersions `(Z ⊂ Z') ⟶ (W ⊂ W')`, namely `Stacks.Immersion.immersionConormalSheafMap`; its
+affine characterization is
+`Stacks.Thickenings.isInducedConormalSheafMap_universalConormalSheafPullbackMap`. -/
+@[stacks 04F7 "the induced morphism of conormal sheaves `f^* 𝒞_{W/Y} ⟶ 𝒞_{Z/X}`"]
+def universalConormalSheafPullbackMap [FormallyUnramified h] [FormallyUnramified h']
+    (f : Z ⟶ W) (g : X ⟶ Y) (comm : h ≫ g = f ≫ h') :
+    (modulePullback f.toLRSHom.toShHom).obj (universalConormalSheaf h') ⟶
+      universalConormalSheaf h :=
+  universalImmersionConormalSheafMap (universalFirstOrderThickening h)
+    (universalFirstOrderThickening h') f g comm
+
+/-- **The morphism of conormal sheaves of [Stacks Project, Tag 04F7] is the one induced by
+`(f, f')`.** For formally unramified `h` and `h'` and a commutative square `h ≫ g = f ≫ h'`, the
+morphism `f^* 𝒞_{W/Y} ⟶ 𝒞_{Z/X}` of
+`Stacks.Thickenings.universalConormalSheafPullbackMap` is the map of [Stacks Project, Tag 01R4]
+for the morphism of thickenings `(f, f') : (Z ⊂ Z') ⟶ (W ⊂ W')`: on a compatible pair of affine
+opens `V ⊆ W'` and `U ⊆ f'⁻¹V` cut out by ideals `J` and `I`, it carries the class of `a : J` in
+`J/J²` to the class in `I/I²` of the image of `a` under the ring map of `f'`. -/
+@[stacks 04F7 "the conormal-sheaf morphism is the one induced by the morphism of thickenings"]
+theorem isInducedConormalSheafMap_universalConormalSheafPullbackMap [FormallyUnramified h]
+    [FormallyUnramified h'] (f : Z ⟶ W) (g : X ⟶ Y) (comm : h ≫ g = f ≫ h') :
+    IsInducedConormalSheafMap (universalFirstOrderThickening h).inclusion
+      (universalFirstOrderThickening h').inclusion f
+      (universalFirstOrderThickeningMap (universalFirstOrderThickening h)
+        (universalFirstOrderThickening h') f g comm)
+      (universalFirstOrderThickeningMap_inclusion (universalFirstOrderThickening h)
+        (universalFirstOrderThickening h') f g comm)
+      (universalConormalSheafPullbackMap f g comm) :=
+  isInducedConormalSheafMap_universalImmersionConormalSheafMap (universalFirstOrderThickening h)
+    (universalFirstOrderThickening h') f g comm
 
 end Stacks.Thickenings
 

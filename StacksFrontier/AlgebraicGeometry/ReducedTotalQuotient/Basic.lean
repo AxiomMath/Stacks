@@ -12,11 +12,12 @@ public import StacksFrontier.Topology.Sheaves.Presheaf.LocalizationStalk
 # Meromorphic functions on a reduced scheme with finitely many components locally
 
 Let `X` be a reduced scheme every quasi-compact open of which has finitely many irreducible
-components. Parts (3), (4) and (5) of Stacks Tag 02OW describe the presheaf of meromorphic
-functions on such an `X`: the germs of regular sections at a point are exactly the
-nonzerodivisors of the local ring, the stalk of the presheaf of meromorphic functions is the
-total quotient ring of that local ring, and on an affine open the meromorphic functions are the
-localization of the regular functions at all of their nonzerodivisors.
+components. Parts (3) and (4) of Stacks Tag 02OW describe the meromorphic functions on such an
+`X` locally: the germs of regular sections at a point are exactly the nonzerodivisors of the
+local ring, and the stalk of the presheaf of meromorphic functions (equal to the stalk of its
+sheafification) is the total quotient ring of that local ring. This file also records that on an
+affine open the sections of the *presheaf* of meromorphic functions are the localization of the
+regular functions at all of their nonzerodivisors.
 
 ## Main definitions
 
@@ -27,8 +28,10 @@ localization of the regular functions at all of their nonzerodivisors.
 
 In the namespace `Stacks.AlgebraicGeometry.ReducedTotalQuotient`,
 `regularSectionGerms_eq_nonZeroDivisors` is part (3),
-`stalk_totalQuotientPresheaf_isFractionRing` is part (4) and
-`isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen` is part (5).
+`stalk_totalQuotientPresheaf_isFractionRing` is part (4), and
+`isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen` is the presheaf-level affine
+statement. Part (5), about the sections of the sheaf `K_X`, is
+`AlgebraicGeometry.isLocalization_totalQuotientSheaf_obj_of_isReduced`.
 
 ## Implementation notes
 
@@ -41,11 +44,12 @@ On a reduced scheme that hypothesis holds identically, by
 follow by supplying the inclusion. The finiteness hypothesis of the source is precisely the
 second hypothesis of those two statements.
 
-Part (5) needs neither hypothesis: the denominator submonoid of the total quotient presheaf on an
-affine open is already the whole of `nonZeroDivisors Γ(X, U)`, so the statement holds for every
-scheme and every affine open. That general form is
-`AlgebraicGeometry.isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen` (Tag 02OV), and the
-statement of part (5) is obtained from it by discarding the hypotheses.
+The presheaf-level affine statement needs neither hypothesis: the denominator submonoid of the
+total quotient presheaf on an affine open is already the whole of `nonZeroDivisors Γ(X, U)`, so
+it holds for every scheme and every affine open. That general form is
+`AlgebraicGeometry.isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen` (Tag 02OV). Part (5)
+of Tag 02OW is the corresponding statement for the sheafification, which does use the
+hypotheses.
 
 The algebra structure on the meromorphic functions is the one induced by the canonical map from
 the structure sheaf, so the localization statement is about the canonical algebra and not about a
@@ -95,8 +99,10 @@ theorem stalk_totalQuotientPresheaf_isFractionRing
   stalk_totalQuotientPresheaf_isFractionRing_of_weaklyAssociatedPoints_subset_genericPoints X
     (weaklyAssociatedPointsOfScheme_eq_genericPoints X).le hfinite x
 
-/-- Meromorphic functions on an affine open form the total quotient ring of its functions. -/
-@[stacks 02OW "part (5)"]
+/-- The sections of the *presheaf* of meromorphic functions on an affine open form the total
+quotient ring of its functions. The hypotheses are not used. This is not part (5) of
+[Stacks, Tag 02OW], which concerns the sections of the sheafification `K_X`; that statement is
+`AlgebraicGeometry.isLocalization_totalQuotientSheaf_obj_of_isReduced`. -/
 theorem isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen
     (X : Scheme.{u}) [IsReduced X]
     (_hfinite : FiniteComponentsOnCompactOpens X)

@@ -21,13 +21,15 @@ This file proves that flatness and a bound on the relative dimension descend fro
 `AlgebraicGeometry.Space.ChartsBounded` hypothesis.
 
 The two statements are the affine-base forms of the last sentence of Stacks 08K0 and of
-Stacks 0D4K. Both tags are already registered, in the bounded
-`AlgebraicGeometry.Space.MorphismDescentSystemOfChartsBounded` form, on
-`AlgebraicGeometry.Space.MorphismDescentSystemOfChartsBounded.exists_isFlat_mapAt` and
-`AlgebraicGeometry.Space.MorphismDescentSystemOfChartsBounded.exists_hasRelativeDimensionLE_mapAt`;
-the declarations here are a different, incomparable reading of the same two tags (the base system
-is a system of affine objects of the site rather than a system of algebraic spaces, but the index
-category is unrestricted), so they carry no `@[stacks]` attribute of their own.
+Stacks 0D4K. Both tags are already registered on the statements for a system of algebraic
+spaces: Stacks 08K0 on `AlgebraicGeometry.Space.MorphismDescentSystem.exists_isFlat_mapAt`, and
+Stacks 0D4K, under the chapter's convention of Section 70.2 (tag 07SD) with no bound on the
+index, on
+`MorphismDescentSituation.exists_hasRelativeDimensionLE_mapAt_of_siteContainsBaseChangeLimits`
+in `AlgebraicGeometry.Space`. The declarations here are a different, incomparable reading of the
+same two tags (the base system is a system of affine objects of the site rather than a system of
+algebraic spaces, but the index category is unrestricted), so they carry no `@[stacks]`
+attribute of their own.
 
 ## Main results
 
@@ -210,7 +212,7 @@ spaces that is read off such a square reduces to the property `P` of a morphism 
 schemes over the stage, and the descent of `P` along the system of schemes is the input
 `hdescend`. -/
 private theorem exists_holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart_limit
-    (i : I)
+    (_hc : IsLimit ((BigAffineFppf.toScheme B S hS).mapCone c)) (i : I)
     (P : MorphismProperty Scheme.{u}) [P.RespectsIso] (R : MorphismProperty Scheme.{u})
     {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (z : Z ⟶ yoneda.obj ((BigAffineFppf.inclusion B S hS).obj (D.obj i)))
@@ -277,7 +279,7 @@ theorem exists_isFlat_baseChange_of_isFlat_limit
       (D ⋙ BigAffineFppf.toScheme B S hS) ((BigAffineFppf.toScheme B S hS).mapCone c) i
       X₀ Y₀ f₀ hc
   obtain ⟨j, g, hj⟩ := exists_holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart_limit
-    B S hS D i (@_root_.AlgebraicGeometry.Flat.{u}) (@LocallyOfFinitePresentation) z hZ hqc
+    B S hS D hc i (@_root_.AlgebraicGeometry.Flat.{u}) (@LocallyOfFinitePresentation) z hZ hqc
     hfp hdescend hflat
   refine ⟨j, g, (holdsOnEveryEtaleChart_iff_surjectiveChart B S hS _
     _root_.AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget
@@ -332,7 +334,7 @@ private theorem exists_hasRelativeDimensionLE_baseChange_of_holdsOnEveryEtaleCha
       AlgebraicGeometry.exists_fiberDimensionLE_baseChange_of_limitBaseChange
       (D ⋙ BigAffineFppf.toScheme B S hS) hc i X₀ Y₀ f₀ d hlim'
   obtain ⟨j, g, hj⟩ := exists_holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart_limit
-    B S hS D i (AlgebraicGeometry.fiberDimensionLE d) (@LocallyOfFiniteType) z hZ hqc hft
+    B S hS D hc i (AlgebraicGeometry.fiberDimensionLE d) (@LocallyOfFiniteType) z hZ hqc hft
     hdescend hdim
   exact ⟨j, g, hasRelativeDimensionLE_of_holdsOnSurjectiveEtaleChart B S hS
     (isAlgebraicSpace_pullback B S hS _ z (isAlgebraicSpace_yoneda B S hS _) hZ

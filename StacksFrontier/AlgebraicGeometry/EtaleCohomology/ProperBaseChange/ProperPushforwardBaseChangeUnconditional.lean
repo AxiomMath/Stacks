@@ -60,6 +60,7 @@ theorem isIso_etaleAbelianBaseChange_of_isProper
 /-- **Stacks Project, Tag 0A3T.** Let `f : X ⟶ S` be proper and `x : Spec Ω ⟶ S` a geometric
 point (`Ω` separably closed). For every sheaf of sets `F` on `X_étale` the canonical map
 `(f_* F)_x ⟶ Γ(X_x, F_x)` is bijective. -/
+@[stacks 0A3T "for every sheaf of sets on the small étale site of `X`, naturally in the sheaf"]
 theorem isIso_properGeometricFibreComparison_of_isProper
     {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] {Ω : Type u} [Field Ω] [IsSepClosed Ω]
     (x : Spec (.of Ω) ⟶ S) :

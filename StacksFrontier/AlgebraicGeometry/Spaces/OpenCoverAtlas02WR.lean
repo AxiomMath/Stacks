@@ -40,7 +40,8 @@ No new definitions are introduced.
   which étaleness of the atlas is checked.
 * `AlgebraicGeometry.Space.isAlgebraicSpace_of_openCover`: an fppf sheaf with a jointly locally
   surjective family of algebraic-space subfunctors attached through representable open immersions
-  is an algebraic space, when the coproduct of the family is one.
+  is an algebraic space, when the coproduct of the family is one and `#I < B.cutoff.ord.cof`.
+  Stacks 02WR without that bound is `AlgebraicGeometry.isAlgebraicSpace_of_open_cover`.
 
 ## Implementation notes
 
@@ -139,9 +140,14 @@ theorem exists_mem_range_snd_of_isColimit
   exists_mem_range_snd_of_sheafify_iSup B S hS hoj
     (sheafify_iSup_range_hom_of_isColimit B S hS jj hcoprod) a y
 
-/-- **Stacks 02WR.** An fppf sheaf `F` with a family `Fi` of algebraic-space subfunctors attached
-through relatively representable open immersions `(jj i).hom ≫ g`, whose coproduct `G` is an
-algebraic space and maps locally surjectively to `F`, is an algebraic space.
+/-- An fppf sheaf `F` with a family `Fi` of algebraic-space subfunctors attached through
+relatively representable open immersions `(jj i).hom ≫ g`, whose coproduct `G` is an algebraic
+space and maps locally surjectively to `F`, is an algebraic space, for an index type with
+`#I < B.cutoff.ord.cof`.
+
+This is Stacks 02WR under an extra bound on the index type which the source does not have, so it
+does not carry the tag. Stacks 02WR itself, for an index type in any universe and with no bound,
+is `AlgebraicGeometry.isAlgebraicSpace_of_open_cover`.
 
 The diagonal is `AlgebraicGeometry.Space.relativelyRepresentable_diag_of_openCover`. The atlas is
 the composite of an atlas of `G` with the covering map: it is étale by locality at the source

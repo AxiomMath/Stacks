@@ -503,6 +503,10 @@ If `s : X ⟶ Y` lies in `W`, then precomposition with `s` is a cofinal functor
   functor of `F` is defined at `X` if and only if it is defined at `Y`, and for
   values `c` at `X` and `d` at `Y` the comparison map `c.pt ⟶ d.pt` between them
   exists and is an isomorphism.
+* `CategoryTheory.Functor.exists_isLeftDerivedValueAt_iff_and_isIso_of_mem`: dually, for
+  `s : X ⟶ Y` in a class `W` with right calculus of fractions, the left derived functor of `F`
+  is defined at `X` if and only if it is defined at `Y`, and the comparison map between values
+  exists and is an isomorphism.
 
 ## Proof outline
 
@@ -555,12 +559,11 @@ with `s` cofinal) and whose `ext` is MS3. Some such hypothesis is necessary: for
 ind-object on `X/W` is essentially constant while `Y/W` is empty, so the first
 equivalence fails.
 
-*Part (2).* The left derived functor is not a second declaration: `LF` is defined
-at `X` exactly when `F.op` has a right derived value at `Xᵒᵖ` for `W.op`, and
-`W.op` has left calculus of fractions as soon as `W` has right calculus of
-fractions, so item (2) of the source is item (1) applied to `F.op`, `W.op` and
-`s.op`, in the form
-`(exists_isRightDerivedValueAt_iff_and_isIso_of_mem F.op W.op (s := s.op) hs)`.
+*Part (2).* `LF` is defined at `X` exactly when `F.op` has a right derived value at
+`Xᵒᵖ` for `W.op` (the cone/cocone bridge of section `OpBridge`), and `W.op` has left
+calculus of fractions as soon as `W` has right calculus of fractions, so item (2) of
+the source, `exists_isLeftDerivedValueAt_iff_and_isIso_of_mem`, is proved by applying
+item (1) to `F.op`, `W.op` and `s.op` and reading the result back in `C` and `H`.
 
 *The comparison map.* The source's second sentence in each item speaks of the map
 `RF(s)` between values, constructed in Tag 05SA from the hypothesis that `RF` is
@@ -906,9 +909,9 @@ end Restriction
   along every square `a.hom ≫ f = s ≫ b.hom` — that is, the map `RF(s)` of Stacks
   05SA — and `φ` is an isomorphism.
 
-Item (2) of the source, for the left derived functor, is this statement applied to
-`F.op`, `W.op` and `s.op`. -/
-@[stacks 05SB]
+Item (2) of the source, for the left derived functor, is
+`Functor.exists_isLeftDerivedValueAt_iff_and_isIso_of_mem`. -/
+@[stacks 05SB "(1)"]
 public theorem Functor.exists_isRightDerivedValueAt_iff_and_isIso_of_mem
     (F : C ⥤ H) (W : MorphismProperty C) [W.HasLeftCalculusOfFractions]
     {X Y : C} {s : X ⟶ Y} (hs : W s) :
@@ -928,6 +931,115 @@ public theorem Functor.exists_isRightDerivedValueAt_iff_and_isIso_of_mem
   change coprj c a ≫ α = F.map f ≫ coprj d b
   rw [hα a]
   exact transportι_eq s F d a b f hf
+
+section OpBridge
+
+variable {W : MorphismProperty C} {X : C}
+
+/-- The index of the pro-object `W/X` opposite to an index of the ind-object `(op X)/W.op`. -/
+private abbrev overOfUnderOp (a : W.op.Under ⊤ (Opposite.op X)) : W.Over ⊤ X :=
+  MorphismProperty.Over.mk ⊤ a.hom.unop a.prop
+
+/-- The index of the ind-object `(op X)/W.op` opposite to an index of the pro-object `W/X`. -/
+private abbrev underOpOfOver (a : W.Over ⊤ X) : W.op.Under ⊤ (Opposite.op X) :=
+  MorphismProperty.Under.mk ⊤ a.hom.op a.prop
+
+/-- The transition morphism of `W/X` opposite to one of `(op X)/W.op`. -/
+private abbrev overOfUnderOpMap {a b : W.op.Under ⊤ (Opposite.op X)} (f : a ⟶ b) :
+    overOfUnderOp b ⟶ overOfUnderOp a :=
+  MorphismProperty.Over.homMk f.right.unop (Quiver.Hom.op_inj (MorphismProperty.Under.w f))
+
+/-- The transition morphism of `(op X)/W.op` opposite to one of `W/X`. -/
+private abbrev underOpOfOverMap {a b : W.Over ⊤ X} (f : a ⟶ b) :
+    underOpOfOver b ⟶ underOpOfOver a :=
+  MorphismProperty.Under.homMk f.left.op (Quiver.Hom.unop_inj (MorphismProperty.Over.w f))
+
+variable (F : C ⥤ H)
+
+/-- The cocone on the ind-object for `F.op`, `W.op` and `op X` opposite to a cone on the
+pro-object for `F`, `W` and `X`. -/
+private def opCocone (c : Cone (MorphismProperty.Over.forget W ⊤ X ⋙ Over.forget X ⋙ F)) :
+    Cocone (MorphismProperty.Under.forget W.op ⊤ (Opposite.op X) ⋙
+      Under.forget (Opposite.op X) ⋙ F.op) where
+  pt := Opposite.op c.pt
+  ι :=
+    { app a := (c.π.app (overOfUnderOp a)).op
+      naturality _ _ f :=
+        (congrArg Quiver.Hom.op (c.w (overOfUnderOpMap f))).trans (Category.comp_id _).symm }
+
+/-- The cone on the pro-object for `F`, `W` and `X` opposite to a cocone on the ind-object for
+`F.op`, `W.op` and `op X`. -/
+private def unopCone (c : Cocone (MorphismProperty.Under.forget W.op ⊤ (Opposite.op X) ⋙
+      Under.forget (Opposite.op X) ⋙ F.op)) :
+    Cone (MorphismProperty.Over.forget W ⊤ X ⋙ Over.forget X ⋙ F) where
+  pt := c.pt.unop
+  π :=
+    { app a := (c.ι.app (underOpOfOver a)).unop
+      naturality _ _ f := (Category.id_comp _).trans
+        (congrArg Quiver.Hom.unop (c.w (underOpOfOverMap f))).symm }
+
+/-- A cone is a value of `LF` at `X` exactly when its opposite cocone is a value of the right
+derived functor of `F.op` relative to `W.op` at `op X`. -/
+private lemma isRightDerivedValueAt_op_opCocone_iff
+    (c : Cone (MorphismProperty.Over.forget W ⊤ X ⋙ Over.forget X ⋙ F)) :
+    F.op.IsRightDerivedValueAt W.op (Opposite.op X) (opCocone F c) ↔
+      F.IsLeftDerivedValueAt W X c := by
+  constructor
+  · rintro ⟨a₀, r, hr, hfac⟩
+    refine ⟨overOfUnderOp a₀, r.unop, Quiver.Hom.op_inj hr, fun a => ?_⟩
+    obtain ⟨t, u, v, huv⟩ := hfac (underOpOfOver a)
+    exact ⟨overOfUnderOp t, overOfUnderOpMap u, overOfUnderOpMap v,
+      (congrArg Quiver.Hom.unop huv).trans (Category.assoc _ _ _)⟩
+  · rintro ⟨a₀, r, hr, hfac⟩
+    refine ⟨underOpOfOver a₀, r.op, Quiver.Hom.unop_inj hr, fun a => ?_⟩
+    obtain ⟨t, u, v, huv⟩ := hfac (overOfUnderOp a)
+    exact ⟨underOpOfOver t, underOpOfOverMap u, underOpOfOverMap v,
+      (congrArg Quiver.Hom.op huv).trans
+        (Category.assoc ((opCocone F c).ι.app a) r.op (F.op.map (underOpOfOverMap v).right))⟩
+
+/-- `LF` is defined at `X` exactly when the right derived functor of `F.op` relative to `W.op` is
+defined at `op X`. -/
+private lemma exists_isLeftDerivedValueAt_iff_op :
+    (∃ c, F.IsLeftDerivedValueAt W X c) ↔
+      ∃ c, F.op.IsRightDerivedValueAt W.op (Opposite.op X) c :=
+  ⟨fun ⟨c, hc⟩ => ⟨opCocone F c, (isRightDerivedValueAt_op_opCocone_iff F c).2 hc⟩,
+    fun ⟨c, hc⟩ => ⟨unopCone F c, (isRightDerivedValueAt_op_opCocone_iff F (unopCone F c)).1 hc⟩⟩
+
+end OpBridge
+
+/-- **Stacks 05SB**(2). Let `F : C ⥤ H` be a functor, `W` a class of morphisms of
+`C` with right calculus of fractions and `s : X ⟶ Y` a morphism in `W`. Then:
+
+* the left derived functor of `F` is defined at `X` if and only if it is defined
+  at `Y`, definedness being essential constancy of the pro-object on `W/X` as in
+  Stacks 05S9;
+* if `c` is a value of `LF` at `X` and `d` is a value of `LF` at `Y`, there is a
+  morphism `φ : LF(X) ⟶ LF(Y)` compatible with the projections of `c` and `d`
+  along every square `a.hom ≫ s = f ≫ b.hom` — that is, the map `LF(s)` of Stacks
+  05SA — and `φ` is an isomorphism.
+
+The proof applies item (1) to `F.op`, `W.op` and `s.op`. -/
+@[stacks 05SB "(2)"]
+public theorem Functor.exists_isLeftDerivedValueAt_iff_and_isIso_of_mem
+    (F : C ⥤ H) (W : MorphismProperty C) [W.HasRightCalculusOfFractions]
+    {X Y : C} {s : X ⟶ Y} (hs : W s) :
+    ((∃ c, F.IsLeftDerivedValueAt W X c) ↔ (∃ d, F.IsLeftDerivedValueAt W Y d)) ∧
+      ∀ {c : Cone (MorphismProperty.Over.forget W ⊤ X ⋙ Over.forget X ⋙ F)}
+        {d : Cone (MorphismProperty.Over.forget W ⊤ Y ⋙ Over.forget Y ⋙ F)},
+        F.IsLeftDerivedValueAt W X c → F.IsLeftDerivedValueAt W Y d →
+          ∃ φ : c.pt ⟶ d.pt,
+            (∀ (a : W.Over ⊤ X) (b : W.Over ⊤ Y) (f : a.left ⟶ b.left),
+              a.hom ≫ s = f ≫ b.hom → φ ≫ d.π.app b = c.π.app a ≫ F.map f) ∧ IsIso φ := by
+  have hR := F.op.exists_isRightDerivedValueAt_iff_and_isIso_of_mem W.op (s := s.op) hs
+  refine ⟨(exists_isLeftDerivedValueAt_iff_op F).trans
+    (hR.1.symm.trans (exists_isLeftDerivedValueAt_iff_op F).symm), ?_⟩
+  intro c d hc hd
+  obtain ⟨φ, hφ, hiso⟩ := hR.2 ((isRightDerivedValueAt_op_opCocone_iff F d).2 hd)
+    ((isRightDerivedValueAt_op_opCocone_iff F c).2 hc)
+  refine ⟨φ.unop, fun a b f hf => ?_, (asIso φ).unop.isIso_hom⟩
+  have h := hφ (underOpOfOver b) (underOpOfOver a) f.op
+    (show (f ≫ b.hom).op = (a.hom ≫ s).op by rw [hf])
+  exact congrArg Quiver.Hom.unop h
 
 end CategoryTheory
 

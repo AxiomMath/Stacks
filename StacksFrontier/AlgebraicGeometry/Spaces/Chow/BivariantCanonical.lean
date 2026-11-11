@@ -207,9 +207,11 @@ operations are the operations on cycles of Stacks 0EP1, Stacks 0EP8 and Stacks 0
 asserts the source's equation through cycle representatives. -/
 @[stacks 0ERJ "the group A^p(X → Y) of bivariant classes of degree p, over the constructed Chow \
 groups of Stacks 0EQ6 and the constructed proper pushforward, flat pullback and refined Gysin \
-maps of Stacks 0EP1, 0EP8 and 0ER1; the three naturality axioms are stated through cycle \
-representatives, equivalently to the source's equations, because the descent of those three \
-operations to Chow groups is Stacks 0EQC, 0EQB and 0ERA and is not proved here"]
+maps of Stacks 0EP1, 0EP8 and 0ER1; axiom (3) is quantified over every invertible sheaf L' \
+with global section s' on the test space Y' and pairs it with its inverse image (N', t') to \
+X' = Y' ×_Y X (0ER3); the three naturality axioms are stated through cycle representatives, \
+equivalent to the source's equations by the descent of the operations to Chow groups (0EQC, \
+0EQB, 0ERA)"]
 structure BivariantClassCanonical {X Y : D.Ambient} (sX : X ⟶ D.space) (hX : D.IsGood sX)
     (sY : Y ⟶ D.space) (hY : D.IsGood sY) (f : X ⟶ Y) (hf : f ≫ sY = sX) (p : ℤ) where
   /-- The cap operation `c ∩ - : CH_k(Y') ⟶ CH_{k-p}(Y' ×_Y X)` on the Chow group of every good

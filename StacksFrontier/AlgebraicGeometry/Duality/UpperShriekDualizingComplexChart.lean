@@ -23,26 +23,19 @@ description.
 
 **No `stacks 0AA3` attribute is placed here**: the chart hypothesis `hchart` is the content of
 [Stacks, Tag 0AA1] together with clause (b) of [Stacks, Remark 0BV2], so this statement is
-conditional on them. What is still missing for an unconditional [Stacks, Tag 0AA3] is a proof of
-`hchart` for the constructed functor `Stacks.Duality.upperShriek f j` of [Stacks, Tag 0A9Y]:
-
-* `upperShriek f j` lives on the unbounded `D_QCoh` at the locally small model
-  `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory`, whereas `hchart` (like the base
-  statement) is phrased for a functor on `D⁺_QCoh` at `HasDerivedCategory.standard`, so a
-  comparison of the two models on `D⁺_QCoh` is needed to instantiate it;
-* restricting `upperShriek f j` to an affine open of `X` needs [Stacks, Tag 0ATX] (independence of
-  the compactification and composition); clause (a) of [Stacks, Remark 0BV2],
-  `Stacks.Duality.restrictedUpperShriekIsoOfOpenSquare`, still carries its two instances;
-* the chart formula itself needs [Stacks, Tag 0AA1], `f^! ≅ Lf^*[1]` for `𝔸¹_V → V`, which is
-  [Stacks, Tag 0A9W] (`a(𝒪) = 𝒪(-2)[1]` on `ℙ¹`) restricted to `𝔸¹`; neither is in the tree.
+conditional on it. The unconditional [Stacks, Tag 0AA3], for the constructed functor
+`Stacks.Duality.upperShriek f j` of [Stacks, Tag 0A9Y], is
+`Stacks.Duality.isDualizingComplex_upperShriek_obj` in
+`StacksFrontier/AlgebraicGeometry/Duality/UpperShriekDualizingComplexOfCharts.lean`; there the chart
+description is the theorem `Stacks.Duality.upperShriekCharts` ([Stacks, Tag 0BV2]), proved through
+[Stacks, Tag 0AA1] (`Stacks.Duality.nonempty_upperShriekPlus_affineLineProj_iso`).
 
 The hypothesis is not provable for `fShriek := Stacks.Duality.twistedInverseImage f` (the right
 adjoint of `Rf_*`) when `f` is not proper: for an open immersion `j` that right adjoint is not
 `j^*` (for `U = D(t) ⊆ Spec k[t]` it sends `k[t]` to a module other than `k[t, 1/t]`), and the
 identification `j^! = j^*` of [Stacks, Tag 0AU0] is a statement about the compactification
 construction, `Stacks.Duality.upperShriekIsoDerivedPullbackOfOpenImmersion`. For `f` proper the
-two functors agree (`Stacks.Duality.upperShriekProperIso`) and `hchart` is true, but its proof
-needs the same three inputs.
+two functors agree (`Stacks.Duality.upperShriekProperIso`) and `hchart` is true.
 
 ## References
 

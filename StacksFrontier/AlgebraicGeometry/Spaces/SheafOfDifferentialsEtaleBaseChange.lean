@@ -214,9 +214,9 @@ The top edge `g'` is étale by Stacks 03FU, so the cartesian square is a square 
 and `AlgebraicGeometry.Space.isIso_of_isSheafOfDifferentialsMap_etaleSquare` applies.
 
 This is **not** Stacks 05ZC, which assumes nothing of `g`: the general case needs the
-scheme-level statement Morphisms 01V0 through the invertibility clause of Stacks 04CS, and is
-`AlgebraicGeometry.Space.isIso_of_isSheafOfDifferentialsMap_of_isPullback` in
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsBaseChange.lean`.  No tag is
+scheme-level statement Morphisms 01V0, and is
+`AlgebraicGeometry.Space.isIso_sheafOfDifferentialsMap_of_isPullback` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeSquareBijective.lean`.  No tag is
 registered here. -/
 theorem isIso_of_isSheafOfDifferentialsMap_of_isPullback_of_isEtale {X' Y' : AlgebraicSpaces B S hS}
     (g' : X' ⟶ X) (p' : X' ⟶ Y') (p : X ⟶ Y) (g : Y' ⟶ Y) (h : IsPullback g' p' p g)

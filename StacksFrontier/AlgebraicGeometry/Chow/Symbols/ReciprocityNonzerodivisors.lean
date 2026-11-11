@@ -757,10 +757,12 @@ private theorem localSymbolOrder_heightOneSymbol_zero_of_right_unit
   rw [hprod, hone] at hmul
   omega
 
-/-- **Stacks Project, Tag 0EAW.** Let `A` be a two-dimensional Noetherian local ring and let
-`a, b` be nonzerodivisors of `A`. The orders of vanishing of the symbols `d_{A_𝔮}(a, b)` along
-`A / 𝔮`, summed over the height-one primes `𝔮` of `A`, give zero. -/
-@[stacks 0EAW]
+/-- **Reciprocity for the periodic determinant symbol.** Let `A` be a two-dimensional Noetherian
+local ring and let `a, b` be nonzerodivisors of `A`. The orders of vanishing of the symbols
+`d_{A_𝔮}(a, b)` of Stacks 02PZ along `A / 𝔮`, summed over the height-one primes `𝔮` of `A`, give
+zero. Stacks 0EAW states this for the tame symbol of the formula Stacks 0EAQ; that statement is
+`Stacks.Chow.finsum_tameSymbolOrderAt_formula_eq_zero`, deduced from this one through
+`Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue`. -/
 theorem sum_ord_heightOneSymbol_eq_zero
     {A : Type u} [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
     (hdim : ringKrullDim A = 2) {a b : A}

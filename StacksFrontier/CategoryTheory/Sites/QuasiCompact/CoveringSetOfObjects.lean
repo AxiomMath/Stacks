@@ -6,14 +6,20 @@ public import StacksFrontier.CategoryTheory.Sites.QuasiCompact.ObjectsAndColimit
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Stacks 0GMS case (2): a covering set of objects gives the hypothesis of Stacks 0GMR (4)
+# Stacks 0GMS cases (1) and (2): a set of objects gives the hypothesis of Stacks 0GMR (4)
 
 Stacks Remark 0GMS lists sufficient conditions on a site `C` for the hypotheses of part (4) of
 Stacks 0GMR to hold. In cases (1) and (2) one takes a set `B ⊆ Ob(C)` of objects and puts
 
   `S := { finite coproducts of the sheafified representables h_U^# : U ∈ B } ⊆ Ob(Sh(C))`.
 
-This file proves **case (2)**: under
+This file proves **case (1)**: under
+
+* (1)(a) for every surjection `G ⟶ *` there are finitely many `U₁, …, U_m ∈ B` with `G(U_j)`
+  nonempty and `∐_j h_{U_j}^# ⟶ *` surjective,
+* (1)(b) `h_U^# ⨯ h_{U'}^#` is quasi-compact for `U, U' ∈ B`,
+
+and **case (2)**: under
 
 * (2)(a) there are finitely many `U₁, …, U_m ∈ B` with `∐_j h_{U_j}^# ⟶ *` surjective,
 * (2)(b) every covering of a member of `B` is refined by a *finite* covering by members of `B`,
@@ -31,8 +37,12 @@ asserts this without proof, so each clause is work.
 
 ## Main results
 
-* `CategoryTheory.Sheaf.exists_set_isLocallySurjective_and_isQuasiCompact_prod_self`:
-  **Stacks 0GMS case (2)** — the only tagged statement in this file.
+* `forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_nonempty`:
+  **Stacks 0GMS case (1)**.
+* `forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_finite_refinement`:
+  **Stacks 0GMS case (2)**.
+* `CategoryTheory.Sheaf.exists_set_isLocallySurjective_and_isQuasiCompact_prod_self`: case (2) with
+  `S` existentially quantified, the shape Stacks 0GMR (4) consumes (untagged).
 * `CategoryTheory.Sheaf.exists_mem_coveringSetOfObjects`: clause (4)(a) of Stacks 0GMR for `S`,
   from (2)(a) and (2)(b).
 * `CategoryTheory.Sheaf.isQuasiCompact_prod_self_of_mem_coveringSetOfObjects`: clause (4)(b) of
@@ -98,18 +108,18 @@ of a coproduct of coproducts is cancelled one level at a time.
 
 ## Tag placement
 
-Stacks 0GMS is a Remark with three cases, and case (2) is a *single* assertion — that the set `S`
-displayed above satisfies the hypotheses of Stacks 0GMR (4). The one declaration that states that
-assertion, with `S` pinned to the displayed set rather than merely asserted to exist, is
-`exists_set_isLocallySurjective_and_isQuasiCompact_prod_self`, and it carries the single
-`@[stacks 0GMS "case (2)"]` site. The two clause theorems are its halves and the definition of
-`S` is a *Main definitions* entry, so neither is a second site. Cases (1) and (3) of the remark
-are not proved here and no key is claimed for them.
+Stacks 0GMS is a Remark with three cases, each a *single* assertion — that the set `S` the remark
+displays satisfies the hypotheses of Stacks 0GMR (4). Each case has one site, on the declaration
+stating that assertion with `S` pinned to the displayed set: cases (1) and (2) here, case (3) in
+`StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetFromCoversTop` (it uses the `CoversTop`
+criterion proved there). The clause theorems are their halves, the definition of `S` is a
+*Main definitions* entry, and `exists_set_isLocallySurjective_and_isQuasiCompact_prod_self` (case
+(2) with `S` existentially quantified) is a corollary; none of them is a further site.
 
 ## References
 
-Stacks Project, tag 0GMS (`sites-remark-stronger-conditions`), case (2); its target is tag 0GMR
-part (4), and it consumes tags 0D06, 0D07, 00WI, 00WT, 0GMP and 0GMQ.
+Stacks Project, tag 0GMS (`sites-remark-stronger-conditions`), cases (1) and (2); its target is
+tag 0GMR part (4), and it consumes tags 0D06, 0D07, 00WI, 00WT, 0GMP and 0GMQ.
 -/
 @[expose] public section
 
@@ -129,7 +139,7 @@ theorem isLocallySurjective_sigmaDesc_sigmaIota {ι : Type max u v}
     (A : ι → Sheaf J (Type max u v)) :
     IsLocallySurjective (Sigma.desc (Sigma.ι A)) := by
   have h : Sigma.desc (Sigma.ι A) = 𝟙 (∐ A) :=
-    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_comp_desc, Category.comp_id]
+    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_desc, Category.comp_id]
   rw [h]
   infer_instance
 
@@ -216,9 +226,8 @@ theorem isQuasiCompact_sigmaObj_of_isEmpty {ι : Type max u v} [IsEmpty ι]
 type.** A coproduct of a finite family of quasi-compact sheaves of sets is quasi-compact.
 
 Stacks 0GMQ is formalized as `Sheaf.quasiCompact_coproduct_fin`, for a family indexed by `Fin n`
-with
-`1 ≤ n` and in the `CategoryTheory.Epi`-and-`Finset` spelling of Stacks 0D07. Here the index is an
-arbitrary type of `Type max u v` with `Finite`, which is the index universe the sectionwise
+with `1 ≤ n` and in the `CategoryTheory.Epi`-and-`Finset` spelling of Stacks 0D07. Here the index
+is an arbitrary type of `Type max u v` with `Finite`, which is the index universe the sectionwise
 criterion `CategoryTheory.Sheaf.isLocallySurjective_sigmaDesc_iff` quantifies over, and the
 spelling is `CategoryTheory.Sheaf.IsQuasiCompact`, which is the one Stacks 0GMR (4) uses. The
 reindexing is `CategoryTheory.Limits.Sigma.reindex` along an equivalence with `Fin n`, the
@@ -308,10 +317,9 @@ Stacks 0GMS, and follows from its (2)(b) and (2)(c) by
 every finite family `U : ι → C` of members of `B` the product `K ⨯ K` of
 `K = ∐_i h_{U i}^#` with itself is quasi-compact.
 
-This is the second of the two clauses that Stacks 0GMS case (2) asserts for `S`; the first is
-`exists_mem_coveringSetOfObjects` below. Neither carries the `@[stacks 0GMS "case (2)"]`
-attribute, which sits on the one declaration asserting both at once,
-`exists_set_isLocallySurjective_and_isQuasiCompact_prod_self`. -/
+This is the second of the two clauses that Stacks 0GMS cases (1) and (2) assert for `S`; the
+first is `exists_mem_coveringSetOfObjects` below (for case (2)). Neither carries a
+`@[stacks 0GMS]` attribute, which sits on the declarations asserting both clauses at once. -/
 theorem isQuasiCompact_prod_self_sigmaSheafifiedYoneda {B : Set C} {ι : Type max u v} [Finite ι]
     (U : ι → C) (hU : ∀ i, U i ∈ B)
     (hB : ∀ W ∈ B, ∀ W' ∈ B,
@@ -340,8 +348,8 @@ theorem isLocallySurjective_sigmaDesc_sigma {ι : Type max u v} {κ : ι → Typ
   refine ⟨fun {Z} a b hab => Sigma.hom_ext _ _ fun i => ?_⟩
   refine (cancel_epi (Sigma.desc fun k : κ i => ψ ⟨i, k⟩)).1 (Sigma.hom_ext _ _ fun k => ?_)
   have h := congrArg (fun m => Sigma.ι A ⟨i, k⟩ ≫ m) hab
-  simp only [Sigma.ι_comp_desc_assoc, Category.assoc] at h
-  simp only [Sigma.ι_comp_desc_assoc]
+  simp only [Sigma.ι_desc_assoc, Category.assoc] at h
+  simp only [Sigma.ι_desc_assoc]
   exact h
 
 /-- A sheaf of sets surjecting onto the final sheaf has sections over a covering of every object:
@@ -435,7 +443,89 @@ theorem isQuasiCompact_prod_self_of_mem_coveringSetOfObjects {B : Set C}
   obtain ⟨ι, hfin, U, hUB, rfl⟩ := hK
   exact isQuasiCompact_prod_self_sigmaSheafifiedYoneda U hUB hB
 
+/-- **Stacks 0GMS, case (1).** Let `C` be a site and `B ⊆ Ob(C)` a set of objects such that
+
+* (a) for every surjection `G ⟶ *` there are finitely many `U₁, …, U_m ∈ B` with `G(U_j)`
+  nonempty and `∐_j h_{U_j}^# ⟶ *` surjective,
+* (b) for `U, U' ∈ B` the sheaf `h_U^# ⨯ h_{U'}^#` is quasi-compact.
+
+Then the hypotheses of part (4) of Stacks 0GMR are satisfied by the set `S` of finite coproducts of
+the sheafified representables of members of `B`, i.e.
+`CategoryTheory.Sheaf.coveringSetOfObjects J B`: every sheaf of sets `G` surjecting onto the final
+sheaf receives a morphism from a member `K` of `S` with `K ⟶ *` surjective, and `K ⨯ K` is
+quasi-compact for every `K ∈ S`.
+
+The source states this without proof. *Proof.* For (4)(a), the coproduct `K = ∐_j h_{U_j}^#` of
+the family (a) provides lies in `S`, the chosen sections of `G` over the `U_j` give `K ⟶ G`
+(`CategoryTheory.Sheaf.sectionEquiv`), and `K ⟶ *` is surjective by (a). Clause (4)(b) is
+`isQuasiCompact_prod_self_of_mem_coveringSetOfObjects`. -/
+@[stacks 0GMS "case (1)"]
+theorem forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_nonempty
+    {B : Set C}
+    (ha : ∀ G : Sheaf J (Type max u v), IsLocallySurjective (terminal.from G) →
+      ∃ (ι : Type max u v) (_ : Finite ι) (U : ι → C), (∀ i, U i ∈ B) ∧
+        (∀ i, Nonempty (G.obj.obj (op (U i)))) ∧
+        IsLocallySurjective (terminal.from (∐ fun i => (sheafifiedYoneda J).obj (U i))))
+    (hb : ∀ U ∈ B, ∀ U' ∈ B,
+      IsQuasiCompact ((sheafifiedYoneda J).obj U ⨯ (sheafifiedYoneda J).obj U')) :
+    (∀ G : Sheaf J (Type max u v), IsLocallySurjective (terminal.from G) →
+        ∃ K ∈ coveringSetOfObjects J B, Nonempty (K ⟶ G) ∧
+          IsLocallySurjective (terminal.from K)) ∧
+      ∀ K ∈ coveringSetOfObjects J B, IsQuasiCompact (K ⨯ K) := by
+  refine ⟨fun G hG => ?_, fun _ hK => isQuasiCompact_prod_self_of_mem_coveringSetOfObjects hb hK⟩
+  obtain ⟨ι, hι, U, hUB, hne, hsurj⟩ := ha G hG
+  exact ⟨_, ⟨ι, hι, U, hUB, rfl⟩, ⟨Sigma.desc fun i => (sectionEquiv J).symm (hne i).some⟩, hsurj⟩
+
 /-- **Stacks 0GMS, case (2).** Let `C` be a site and `B ⊆ Ob(C)` a set of objects such that
+
+* (a) there are finitely many `U₁, …, U_m ∈ B` with `∐_j h_{U_j}^# ⟶ *` surjective,
+* (b) every covering of a member of `B` is refined by a finite covering by members of `B`,
+* (c) for `U, U' ∈ B` there are finitely many `V_1, …, V_m ∈ B` with morphisms `V_k ⟶ U` and
+  `V_k ⟶ U'` for which `∐_k h_{V_k}^# ⟶ h_U^# ⨯ h_{U'}^#` is surjective.
+
+Then the hypotheses of part (4) of Stacks 0GMR are satisfied by the set `S` of finite coproducts of
+the sheafified representables of members of `B`, i.e.
+`CategoryTheory.Sheaf.coveringSetOfObjects J B`: every sheaf of sets `G` surjecting onto the final
+sheaf receives a morphism from a member `K` of `S` with `K ⟶ *` surjective, and `K ⨯ K` is
+quasi-compact for every `K ∈ S`.
+
+The source states this without proof. Clause (4)(a) is `exists_mem_coveringSetOfObjects`, from (a)
+and (b). Clause (4)(b) is `isQuasiCompact_prod_self_of_mem_coveringSetOfObjects`, once (b) makes
+every member of `B` a quasi-compact object
+(`CategoryTheory.GrothendieckTopology.isQuasiCompactObject_of_exists_finite_refinement`) and (c)
+then makes `h_U^# ⨯ h_{U'}^#` quasi-compact
+(`isQuasiCompact_prod_sheafifiedYoneda_of_isLocallySurjective`). -/
+@[stacks 0GMS "case (2)"]
+theorem forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_finite_refinement
+    {B : Set C}
+    (ha : ∃ (ι : Type max u v) (_ : Finite ι) (U : ι → C), (∀ i, U i ∈ B) ∧
+      IsLocallySurjective (terminal.from (∐ fun i => (sheafifiedYoneda J).obj (U i))))
+    (hb : ∀ U ∈ B, ∀ 𝒰 : PreZeroHypercover.{max u v} U, 𝒰.sieve₀ ∈ J U →
+      ∃ (𝒱 : PreZeroHypercover.{max u v} U) (_ : 𝒱.Hom 𝒰),
+        𝒱.sieve₀ ∈ J U ∧ Finite 𝒱.I₀ ∧ ∀ i, 𝒱.X i ∈ B)
+    (hc : ∀ U ∈ B, ∀ U' ∈ B, ∃ (ι : Type max u v) (_ : Finite ι) (V : ι → C)
+      (a : ∀ i, V i ⟶ U) (b : ∀ i, V i ⟶ U'), (∀ i, V i ∈ B) ∧
+        IsLocallySurjective (Sigma.desc fun i =>
+          prod.lift ((sheafifiedYoneda J).map (a i)) ((sheafifiedYoneda J).map (b i)))) :
+    (∀ G : Sheaf J (Type max u v), IsLocallySurjective (terminal.from G) →
+        ∃ K ∈ coveringSetOfObjects J B, Nonempty (K ⟶ G) ∧
+          IsLocallySurjective (terminal.from K)) ∧
+      ∀ K ∈ coveringSetOfObjects J B, IsQuasiCompact (K ⨯ K) := by
+  have hqcobj : ∀ U ∈ B, J.IsQuasiCompactObject U := fun U hU =>
+    GrothendieckTopology.isQuasiCompactObject_of_exists_finite_refinement fun 𝒰 h𝒰 => by
+      obtain ⟨𝒱, φ, h𝒱, hfin, -⟩ := hb U hU 𝒰 h𝒰
+      exact ⟨𝒱, φ, h𝒱, hfin⟩
+  have hB : ∀ W ∈ B, ∀ W' ∈ B,
+      IsQuasiCompact ((sheafifiedYoneda J).obj W ⨯ (sheafifiedYoneda J).obj W') := by
+    intro W hW W' hW'
+    obtain ⟨ι, hfin, V, a, b, hVB, hls⟩ := hc W hW W' hW'
+    exact isQuasiCompact_prod_sheafifiedYoneda_of_isLocallySurjective V
+      (fun i => hqcobj _ (hVB i)) _ hls
+  exact ⟨fun _ hG => exists_mem_coveringSetOfObjects ha hb hG,
+    fun _ hK => isQuasiCompact_prod_self_of_mem_coveringSetOfObjects hB hK⟩
+
+/-- **Stacks 0GMS, case (2), with the set `S` existentially quantified.** Let `C` be a site and
+`B ⊆ Ob(C)` a set of objects such that
 
 * (a) there are finitely many `U₁, …, U_m ∈ B` with `∐_j h_{U_j}^# ⟶ *` surjective,
 * (b) every covering of a member of `B` is refined by a finite covering by members of `B`,
@@ -453,8 +543,12 @@ The two clauses are `exists_mem_coveringSetOfObjects` and
 shape in which Stacks 0GMR (4) states its hypothesis, and `S` is pinned to the set the source
 displays rather than merely asserted to exist.
 
-Cases (1) and (3) of the remark are not proved here. -/
-@[stacks 0GMS "case (2)"]
+This is the shape in which Stacks 0GMR (4) states its hypothesis. It carries no `@[stacks]`
+attribute: the remark's case (2), with `S` the displayed set, is
+`forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_finite_refinement`; case (1)
+is `forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_nonempty`, and case (3)
+is `forall_exists_mem_coveringSetOfObjects_and_isQuasiCompact_prod_self_of_isQuasiCompactTopos`
+(in `StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetFromCoversTop`). -/
 theorem exists_set_isLocallySurjective_and_isQuasiCompact_prod_self {B : Set C}
     (ha : ∃ (ι : Type max u v) (_ : Finite ι) (U : ι → C), (∀ i, U i ∈ B) ∧
       IsLocallySurjective (terminal.from (∐ fun i => (sheafifiedYoneda J).obj (U i))))

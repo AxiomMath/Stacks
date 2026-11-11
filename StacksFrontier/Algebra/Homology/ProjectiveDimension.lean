@@ -66,10 +66,11 @@ of a module over a ring.
 * `schanuel` (Stacks 00O3): Schanuel's lemma.
 * `DualNumberInfiniteProjDim.main_theorem`: a module of infinite projective dimension over the dual
   numbers.
-* `pd_syzygy_projective` (Stacks 00O5): the leftmost syzygy of a truncated projective resolution of
-  length at least `pd(M) - 1` is projective.
-* `projectiveDimension_localization_le`, `globalDimension_localization_le` (Stacks 00O8):
-  localization and bounds on projective and global dimension.
+* `pd_syzygy_projective_of_le` (Stacks 00O5): the leftmost syzygy of a truncated projective
+  resolution of length at least `pd(M) - 1` is projective.
+* `projectiveDimension_localization_le`, `globalDimension_localization_le`: localization does not
+  raise a bound on projective or global dimension (Stacks 00O8, registered in
+  `StacksFrontier.Algebra.Homology.ProjectiveDimension.Localization`).
 -/
 
 @[expose] public section
@@ -1483,10 +1484,57 @@ theorem syzygy_pd_shift (n : ℕ)
     rw [heq] at ihres
     exact ihres
 
-/-- **Stacks Tag 00O5 / Lemma 10.109.3.** Let `M` have projective dimension `d` and let
+/-- **Stacks Tag 00O5 / Lemma 10.109.3.** Let `M` have projective dimension at most `d` and let
 `F_e → ⋯ → F_0 → M → 0` be exact with every `F_i` projective and `d ≤ e + 1`. Then the
-leftmost syzygy `Ker(F_e → F_{e-1})`, or `Ker(F_0 → M)` when `e = 0`, is projective. -/
-@[stacks 00O5, ega "0 17.2.1" "Necessity"]
+leftmost syzygy `Ker(F_e → F_{e-1})`, or `Ker(F_0 → M)` when `e = 0`, is projective.
+
+The source assumes `pd(M) = d` for its minimal-resolution projective dimension (00O4), under
+which the zero module has projective dimension `0`; the library's projective dimension of the zero
+module is `⊥` instead. The hypothesis `projectiveDimension M ≤ d` covers the source's hypothesis
+in both cases (for `M ≠ 0` the two invariants coincide, and for `M = 0` the value `⊥` is `≤ d`),
+so this is the source's statement, in a slightly more general form. -/
+@[stacks 00O5 "The source's hypothesis `pd(M) = d` is relaxed to `projectiveDimension M ≤ d`, \
+which also covers the zero module, of projective dimension `0` in the source and `⊥` here.",
+  ega "0 17.2.1" "Necessity"]
+theorem pd_syzygy_projective_of_le (d e : ℕ)
+    -- the truncated sequence `F_e → ⋯ → F_0 → M → 0`
+    (S : ComposableArrows (ModuleCat R) (e + 2))
+    -- `M`, the object at position `e + 1`, has projective dimension at most `d`
+    (hpd : projectiveDimension (S.obj ⟨e + 1, by omega⟩) ≤ (d : WithBot ℕ∞))
+    -- the hypothesis `e ≥ d - 1`, equivalently `d ≤ e + 1`
+    (hde : d ≤ e + 1)
+    -- exactness at every internal object (in particular `F_0 → M` is surjective);
+    -- note exactness is NOT imposed at the leftmost object `F_e`
+    (hexact : S.Exact)
+    -- the rightmost object (position `e + 2`) is the zero module
+    (hzero : Limits.IsZero (S.obj (Fin.last (e + 2))))
+    -- each `F_i` (positions `0, …, e`) is projective
+    (hproj : ∀ i : Fin (e + 1), Projective (S.obj i.castSucc.castSucc)) :
+    -- the leftmost syzygy `Ker(F_e → F_{e-1})` (or `Ker(F_0 → M)` when `e = 0`)
+    -- is projective
+    Projective (Limits.kernel (S.map' 0 1)) := by
+  -- Step 1: from `pd_R(M) ≤ d` and `d ≤ e + 1`, get `HasProjectiveDimensionLT M (e + 2)`.
+  have hM : HasProjectiveDimensionLT (S.obj ⟨e + 1, by omega⟩) (e + 2) := by
+    have hle : HasProjectiveDimensionLE (S.obj ⟨e + 1, by omega⟩) (e + 1) := by
+      rw [← projectiveDimension_le_iff]
+      exact hpd.trans (by exact_mod_cast hde)
+    -- `HasProjectiveDimensionLE X (e+1)` is definitionally `HasProjectiveDimensionLT X (e+2)`.
+    exact hle
+  -- Step 2: the core dimension–shift induction with `m = 0` gives
+  -- `HasProjectiveDimensionLT (Ker(S.map' 0 1)) 1`.
+  have hker : HasProjectiveDimensionLT (Limits.kernel (S.map' 0 1)) 1 := by
+    have := syzygy_pd_shift e S hexact hzero hproj 0 (by simpa using hM)
+    simpa using this
+  -- Step 3: `HasProjectiveDimensionLT X 1 ↔ HasProjectiveDimensionLE X 0 ↔ Projective X`.
+  rw [projective_iff_hasProjectiveDimensionLE_zero]
+  exact hker
+
+/-- Let `M` have projective dimension exactly `d` and let `F_e → ⋯ → F_0 → M → 0` be exact with
+every `F_i` projective and `d ≤ e + 1`. Then the leftmost syzygy `Ker(F_e → F_{e-1})`, or
+`Ker(F_0 → M)` when `e = 0`, is projective. This is the special case of
+`pd_syzygy_projective_of_le` (Stacks 00O5) with an equality hypothesis; since the library's
+projective dimension of the zero module is `⊥`, it excludes the source's case `M = 0`, `d = 0`. -/
+@[ega "0 17.2.1" "Necessity"]
 theorem pd_syzygy_projective (d e : ℕ)
     -- the truncated sequence `F_e → ⋯ → F_0 → M → 0`
     (S : ComposableArrows (ModuleCat R) (e + 2))
@@ -1503,21 +1551,8 @@ theorem pd_syzygy_projective (d e : ℕ)
     (hproj : ∀ i : Fin (e + 1), Projective (S.obj i.castSucc.castSucc)) :
     -- the leftmost syzygy `Ker(F_e → F_{e-1})` (or `Ker(F_0 → M)` when `e = 0`)
     -- is projective
-    Projective (Limits.kernel (S.map' 0 1)) := by
-  -- Step 1: from `pd_R(M) = d` and `d ≤ e + 1`, get `HasProjectiveDimensionLT M (e + 2)`.
-  have hM : HasProjectiveDimensionLT (S.obj ⟨e + 1, by omega⟩) (e + 2) := by
-    have hle : HasProjectiveDimensionLE (S.obj ⟨e + 1, by omega⟩) (e + 1) := by
-      rw [← projectiveDimension_le_iff, hpd]; exact_mod_cast hde
-    -- `HasProjectiveDimensionLE X (e+1)` is definitionally `HasProjectiveDimensionLT X (e+2)`.
-    exact hle
-  -- Step 2: the core dimension–shift induction with `m = 0` gives
-  -- `HasProjectiveDimensionLT (Ker(S.map' 0 1)) 1`.
-  have hker : HasProjectiveDimensionLT (Limits.kernel (S.map' 0 1)) 1 := by
-    have := syzygy_pd_shift e S hexact hzero hproj 0 (by simpa using hM)
-    simpa using this
-  -- Step 3: `HasProjectiveDimensionLT X 1 ↔ HasProjectiveDimensionLE X 0 ↔ Projective X`.
-  rw [projective_iff_hasProjectiveDimensionLE_zero]
-  exact hker
+    Projective (Limits.kernel (S.map' 0 1)) :=
+  pd_syzygy_projective_of_le d e S hpd.le hde hexact hzero hproj
 
 -- ===== merged from StacksDraft.Ch10.Sec109.Tag00O8 =====
 
@@ -1718,13 +1753,14 @@ theorem projectiveDimension_localization_le_step
   exact hLM
 
 /-- **Statement 1.** If `M` has projective dimension `≤ n` as an `R`-module, then
-the localization `S⁻¹M` has projective dimension `≤ n` as an `S⁻¹R`-module.
+the localization `S⁻¹M` has projective dimension `≤ n` as an `S⁻¹R`-module, for `M` in the
+universe of `R`. The Stacks registration is `Module.projectiveDimension_localizedModule_le`.
 
 Proof by induction on `n`: base case proved inline (projective localizes to
 projective); inductive step is `projectiveDimension_localization_le_step`.  The
 induction generalizes `M` so the hypothesis applies to the syzygy `K` at the next
 level. -/
-@[stacks 00O8 "(1)", ega "0 17.2.5" "partial", ega "IV 6.2.1" "(i), special case"]
+@[ega "0 17.2.5" "partial", ega "IV 6.2.1" "(i), special case"]
 theorem projectiveDimension_localization_le
     (R : Type u) [CommRing R] (S : Submonoid R)
     (M : Type u) [AddCommGroup M] [Module R M] (n : ℕ)
@@ -1738,7 +1774,7 @@ theorem projectiveDimension_localization_le
   | succ n ih => exact projectiveDimension_localization_le_step R S n (fun K _ _ hK => ih K hK) M hM
 
 /-- **Statement 2.** If `R` has global dimension `≤ n`, then `S⁻¹R` has global
-dimension `≤ n`.
+dimension `≤ n`. The Stacks registration is `ringGlobalDimension_localization_le`.
 
 This reduces to Statement 1. Let `X : ModuleCat (S⁻¹R)` be
 arbitrary, with underlying type `M'`.  View `M'` as an `R`-module by restriction of
@@ -1755,7 +1791,7 @@ Statement 1 gives `ModuleProjectiveDimensionLE (S⁻¹R) (LocalizedModule S M') 
 `HasProjectiveDimensionLT (ModuleCat.of (S⁻¹R) (LocalizedModule S M')) (n+1)`.
 Transport across `e` with `hasProjectiveDimensionLT_of_iso` to obtain
 `HasProjectiveDimensionLT X (n+1)`. -/
-@[stacks 00O8 "(2)", ega "0 17.2.10" "partial"]
+@[ega "0 17.2.10" "partial"]
 theorem globalDimension_localization_le
     (R : Type u) [CommRing R] (S : Submonoid R) (n : ℕ)
     (hR : RingGlobalDimensionLE R n) :

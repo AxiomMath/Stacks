@@ -317,9 +317,14 @@ theorem pullbackTildeComparison_degreeZero (F : X.Modules) (t : twistSections F 
 `S = Γ_*(X, L)` and `f : X ⟶ Proj S` the canonical morphism of Tag 01PZ — the comparison
 `pullbackTildeComparison : f^* M̃ ⟶ ℱ`, `M = Γ_*(X, L, ℱ)`, is a natural transformation in `ℱ`
 (functoriality), it is an isomorphism for every quasi-coherent `ℱ`, and
-`M_0 ⟶ Γ(Proj S, M̃) ⟶ Γ(X, ℱ)` is the identity. -/
-@[stacks 01QJ "the natural transformation `f^*M̃ ⟶ ℱ` is an isomorphism for `ℱ` quasi-coherent and
-is the identity on `M_0`"]
+`M_0 ⟶ Γ(Proj S, M̃) ⟶ Γ(X, ℱ)` is the identity.
+
+The comparison is the transpose across `f^* ⊣ f_*` of the family `M̃ ⟶ f_* ℱ` constructed as
+`Stacks.SectionRingProjQuasicoherent.tildeToPushforward`; read through the binder form
+`Stacks.SectionRingProjQuasicoherent.pullbackComparison`, this is
+`Stacks.SectionRingProjQuasicoherent.pullbackComparison_tildeToPushforward`. -/
+@[stacks 01QJ "the comparison `f^*M̃ ⟶ ℱ`, `M = Γ_*(X, L, ℱ)`, is natural in `ℱ`, an isomorphism
+for every quasi-coherent `ℱ`, and the identity on `M_0 ⟶ Γ(Proj S, M̃) ⟶ Γ(X, ℱ)`"]
 theorem pullbackTildeComparison_spec :
     (∀ (F : X.Modules) [F.IsQuasicoherent], IsIso ((pullbackTildeComparison L hL).app F)) ∧
       ∀ (F : X.Modules) (t : twistSections F L 0),

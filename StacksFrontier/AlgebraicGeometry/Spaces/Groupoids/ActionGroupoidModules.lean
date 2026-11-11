@@ -78,9 +78,12 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
 
 /-- The action groupoid `(X, G ×_B X, pr₁, a, m)` of an action `A` of a group algebraic space `G`
 over `B` on an algebraic space `X` over `B`, with the projection as its source and the action
-morphism as its target. -/
-@[stacks 0444 "the action groupoid itself",
-  stacks 06DZ "the groupoid `(Spec k, G, p, p, m)` of a group over a field, at the trivial"]
+morphism as its target.
+
+At the trivial action of `G` on the base this groupoid has arrow space `G ×_B B`, not `G`; the
+groupoid `(Spec k, G, p, p, m)` of Stacks 06DZ, with arrow space `G` itself, is
+`AlgebraicGeometry.Space.groupoidOfGroupOverField`. -/
+@[stacks 0444 "the action groupoid itself"]
 noncomputable abbrev actionGroupoid (G : GroupAlgebraicSpace 𝒞 S hS B hB) (X : Over B)
     (hX : IsAlgebraicSpace 𝒞 S hS X.left) (A : ModObj G.obj.X X) :
     GroupoidInAlgebraicSpaces 𝒞 S hS ⟨B, hB⟩ :=

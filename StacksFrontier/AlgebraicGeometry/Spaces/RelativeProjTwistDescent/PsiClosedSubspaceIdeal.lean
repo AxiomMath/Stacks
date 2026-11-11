@@ -97,8 +97,7 @@ theorem isQuasicoherentOnSite_psiClosedSubspaceIdeal
     ((Stacks.SheafOfModules.isLimitKernelForkKerSubmodule
         (closedSubspaceSectionMap (psiTwistSections s Px) i d)).conePointUniqueUpToIso
       (kernelIsKernel (closedSubspaceSectionMap (psiTwistSections s Px) i d))).symm
-    (isQuasicoherentOnSite_closedSubspaceGradedIdealObj (psiTwistSections s Px) i
-      (isQuasicoherentOnSite_psiTwistedStructureDirectImage s Px i hπ hi) d)
+    (isQuasicoherentOnSite_closedSubspaceGradedIdealObj (psiTwistSections s Px) i hπ hi d)
 
 end AlgebraicGeometry.Space.C1359Bridge
 

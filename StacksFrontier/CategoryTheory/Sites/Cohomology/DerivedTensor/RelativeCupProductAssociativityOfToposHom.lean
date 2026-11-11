@@ -39,7 +39,12 @@ sites, so this is the statement in the generality of the source.  The proof is t
 `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.adjunctionCupProduct_assoc` applied to the
 derived adjunction of [Stacks, Tag 07A6], the comparison of [Stacks, Tag 07A4], the naturality
 of the canonical constraint, and the associativity law of the comparison, which is
-`Stacks.Sheaves.DerivedPullback.OfToposHom.derivedPullbackTensorIso_associator`.
+`Stacks.Sheaves.DerivedPullback.OfToposHom.derivedPullbackTensorIso_associator`.  The
+site-presented `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_assoc`, over
+arbitrary constraints with their naturality and that associativity law as hypotheses, is what
+`relativeCupProduct_assoc_canonical` specialises.  Neither carries a `stacks` attribute: the
+site-presented statements are special cases of the one here, which alone is registered as
+[Stacks, Tag 0FPL].
 
 ## References
 
@@ -170,7 +175,7 @@ comparison of [Stacks, Tag 07A4] that the source's proof uses silently is
   of Tag 01D3, part (2) (a morphism of the underlying topoi with its structure map, no functor \
   between the underlying sites and no morphism-of-sites hypothesis), at RingedTopos.{u, u, u}, \
   for all K, L, M in D(𝒪); the edges a are the associativity constraints derivedAssociator of \
-  Tag 0FPT and the statement carries no hypothesis or class argument; the associativity law of \
+  Tag 0FPT and the statement has no hypothesis or class argument; the associativity law of \
   the comparison of Tag 07A4, which the source's proof uses silently, is \
   pullbackTensorComparisonAssociative"]
 theorem relativeCupProduct_assoc {X Y : RingedTopos.{u, u, u}} (f : RingedToposHom X Y)

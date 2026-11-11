@@ -44,10 +44,16 @@ criterion.
 
 ## Main results
 
-* `Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero`: **Stacks 08MV**,
-  the two-condition criterion for the existence of a flat lift.
-* `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero`: **Stacks 08VW, part (1)**,
-  the criterion in the situation of Stacks 08VV, where `f'` is flat as well.
+* `Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero`: the deduction of
+  the two-condition criterion of Stacks 08MV from the dictionary `IsFlatLiftCorrespondence`.
+* `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero`: the same deduction for
+  Stacks 08VW, part (1), in the situation of Stacks 08VV, where `f'` is flat as well, from the
+  two propositions above.
+
+The dictionary is proved, as `Deformation.ToposThickening.isFlatLiftCorrespondence`, in
+`StacksFrontier/Deformation/ToposThickening/FlatLiftCorrespondence.lean`, which states Stacks 08MV
+itself as `Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero'`. All
+three parts of Stacks 08VW are in `StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`.
 
 ## Implementation notes
 
@@ -93,10 +99,12 @@ universes, and all four sites keep independent universes.
 
 ## Scope
 
-Stacks 08MQ — the characterization of the `O'`-modules flat over `O_{ℬ'}` — is not in the
-library at the time of writing; it is being formalized elsewhere and is not duplicated here.
-Both results below therefore carry the consequence of it that their proof consumes as an
-explicit hypothesis, stated with 08MQ's own hypotheses as antecedents so that 08MQ discharges it:
+Stacks 08MQ — the characterization of the `O'`-modules flat over `O_{ℬ'}` — is proved
+downstream of this module (`Deformation.ToposThickening.isFlat_iff_isIso_canonicalMap`), so it
+cannot be invoked here. The two deductions below therefore take the consequence of it that they
+consume as an explicit binder, stated with 08MQ's own hypotheses as antecedents. The binders are
+discharged downstream, by `Deformation.ToposThickening.isFlatLiftCorrespondence` and
+`Deformation.ToposThickening.isIdealComparisonIsoOfFlat`:
 
 * `Deformation.ToposThickening.IsFlatLiftCorrespondence`, for Stacks 08MV, is 08MQ specialized
   to the extensions with `K = I ⊗_O ℱ` and `c = 1`: granting strictness and flatness of `ℱ` over
@@ -119,22 +127,26 @@ explicit hypothesis, stated with 08MQ's own hypotheses as antecedents so that 08
   `I = f^*J` that the source makes when setting up Situation 08VV; it is carried in the tensored
   form, which is all the proof needs and which 08MQ's "moreover" clause gives directly.
 
-Only part (1) of Stacks 08VW is covered. Its parts (2) and (3) — that the isomorphism classes of
+This module states part (1) of Stacks 08VW only as a deduction from those binders; with them
+discharged it is `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero'`, and with the
+class written for `f^*J ⊗_O ℱ` it is
+`Deformation.ToposThickening.hasFlatLift_iff_basePullbackIdeal_obstruction_eq_zero`. Parts (2)
+and (3) — that the isomorphism classes of
 flat lifts form a principal homogeneous space under `Ext¹_O(ℱ, f^*J ⊗_O ℱ)`, and that the
 automorphisms of a lift restricting to the identity of `ℱ` are `Ext⁰_O(ℱ, f^*J ⊗_O ℱ)` — rest on
-Stacks 08MU and Stacks 08MR. Both are now in the library, conditional on Stacks 08MQ exactly as
-the results here are: `Deformation.ToposThickening.flatLiftClass_torsor` and
-`Deformation.ToposThickening.moduleMapLift_torsor_of_isFlat` in
-`StacksFrontier.Deformation.ToposThickening.FlatLiftTorsors`. Neither part (2) nor part (3) follows
-from them in one step, and neither is proved anywhere:
+Stacks 08MU and Stacks 08MR, both of which are in the library unconditionally:
+`Deformation.ToposThickening.exists_addTorsor_flatLiftClass` and
+`Deformation.ToposThickening.exists_addTorsor_moduleMapLift`. Parts (2) and (3) are proved, in
+modules that import this one, in `StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`;
+neither follows from 08MU or 08MR in one step:
 
 * Part (2) needs `Ext¹` transported along `idealTensorComparison`, which is an iso of
   `O'`-modules on the thickened topos while the `Ext¹` of 08MU is over `i_*O`; the comparison must
   first be descended through `FirstOrderThickening.restrictScalarsFullyFaithful` — legitimate
   under strictness, both ideals being annihilated by `I` — and the class group then moved along it.
 * Part (3) needs the same coefficient transport in degree zero, and in addition the statement that
-  every lift of the identity is an isomorphism, which is the square-zero nilpotence argument and
-  is in the library nowhere.
+  every lift of the identity is an isomorphism, which is the square-zero nilpotence argument,
+  `Deformation.ToposThickening.isIso_of_pullbackModules_map_eq_id`.
 
 ## References
 
@@ -253,9 +265,8 @@ noncomputable def idealTensorComparison (i : RingedToposHom X X') (t : RingedTop
 
 variable [HasSheafify X'.J AddCommGrpCat.{w}]
 
-/-- **The consequence of Stacks 08MQ that the proof of Stacks 08MV consumes**, carried as a
-hypothesis: granting that the square is strict and that `ℱ` is flat over `O_ℬ`, which are the
-hypotheses of 08MQ,
+/-- **The consequence of Stacks 08MQ that the proof of Stacks 08MV consumes**: assuming that
+the square is strict and that `ℱ` is flat over `O_ℬ`, which are the hypotheses of 08MQ,
 
 * a flat lift of `ℱ` forces the canonical map `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` to be an isomorphism, which is
   the "moreover" clause of 08MQ, and
@@ -265,7 +276,7 @@ hypotheses of 08MQ,
   identification.
 
 This is the dictionary the source's proof of 08MV appeals to; see the scope section of the module
-docstring. -/
+docstring. It is proved as `Deformation.ToposThickening.isFlatLiftCorrespondence`. -/
 def IsFlatLiftCorrespondence (i : RingedToposHom X X') (t : RingedToposHom S S')
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)
@@ -294,9 +305,10 @@ def IsFlatLiftCorrespondence (i : RingedToposHom X X') (t : RingedToposHom S S')
                 𝟙 (((sheafTensor.{u', v', w, w, w}
                   ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F)))
 
-/-- **The consequence of Stacks 08MQ that the proof of part (1) of Stacks 08VW consumes**,
-carried as a hypothesis: granting that `f'` is flat and that the square is strict, the canonical
-map `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` is an isomorphism. The source obtains it by applying 08MQ to `O'` itself,
+/-- **The consequence of Stacks 08MQ that the proof of part (1) of Stacks 08VW consumes**, as a
+proposition (proved as `Deformation.ToposThickening.isIdealComparisonIsoOfFlat`): granting that
+`f'` is flat and that the square is strict, the canonical map `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` is an
+isomorphism. The source obtains it by applying 08MQ to `O'` itself,
 which gives `I = f^*J`, when setting up Situation 08VV. -/
 def IsIdealComparisonIsoOfFlat (i : RingedToposHom X X') (t : RingedToposHom S S')
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
@@ -307,11 +319,15 @@ def IsIdealComparisonIsoOfFlat (i : RingedToposHom X X') (t : RingedToposHom S S
   f'.IsFlat → (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).IsStrict →
     IsIso (idealTensorComparison i t f f' hi ht comm F)
 
-/-- **Stacks 08MV.** Let `(f, f')` be a morphism of first order thickenings of ringed topoi as in
-Situation 08M7, strict, and let `ℱ` be an `O`-module flat over `O_ℬ`. Then `ℱ` has a lift to an
+/-- **The deduction of Stacks 08MV from the flat-lift dictionary.** Let `(f, f')` be a strict
+morphism of first order thickenings of ringed topoi as in Situation 08M7, and let `ℱ` be an
+`O`-module flat over `O_ℬ`. Given the dictionary `IsFlatLiftCorrespondence`, `ℱ` has a lift to an
 `O'`-module flat over `O_{ℬ'}` if and only if the canonical map `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` is an
-isomorphism and the obstruction class `o(ℱ, I ⊗_O ℱ, 1)` of Stacks 08MF vanishes. -/
-@[stacks 08MV "granting Stacks 08MQ, carried as the hypothesis `IsFlatLiftCorrespondence`"]
+isomorphism and the obstruction class `o(ℱ, I ⊗_O ℱ, 1)` of Stacks 08MF vanishes.
+
+The dictionary is proved as `Deformation.ToposThickening.isFlatLiftCorrespondence`, and Stacks 08MV
+with it discharged is `Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero'`.
+-/
 theorem hasFlatLift_iff_isIso_and_obstruction_eq_zero
     (i : RingedToposHom X X') (t : RingedToposHom S S') (f : RingedToposHom X S)
     (f' : RingedToposHom X' S') (hi : FirstOrderThickening i) (ht : FirstOrderThickening t)
@@ -339,12 +355,19 @@ theorem hasFlatLift_iff_isIso_and_obstruction_eq_zero
   · rintro ⟨hiso, hzero⟩
     exact (hdict hiso).2 ((existenceObstructionClass_eq_zero_iff hi F _ _).1 hzero)
 
-/-- **Stacks 08VW, part (1).** In the situation of Stacks 08VV — a strict morphism `(f, f')` of
-first order thickenings of ringed topoi with `f'` flat, and an `O`-module `ℱ` flat over `O_ℬ` —
-the module `ℱ` has a lift to an `O'`-module flat over `O_{ℬ'}` if and only if the obstruction
-class `o(ℱ, f^*J ⊗_O ℱ, 1)` of Stacks 08MF vanishes. The class is written here for
-`I ⊗_O ℱ`, the two agreeing because `I = f^*J` under these hypotheses. -/
-@[stacks 08VW "part (1) only; (2) and (3) are not proved; granting 08MQ as hypotheses"]
+/-- **The deduction of part (1) of Stacks 08VW from the two consequences of Stacks 08MQ.** In the
+situation of Stacks 08VV — a strict morphism `(f, f')` of first order thickenings of ringed topoi
+with `f'` flat, and an `O`-module `ℱ` flat over `O_ℬ` — given the propositions
+`IsFlatLiftCorrespondence` and `IsIdealComparisonIsoOfFlat`, the module `ℱ` has a lift to an
+`O'`-module flat over `O_{ℬ'}` if and only if the obstruction class `o(ℱ, I ⊗_O ℱ, 1)` of
+Stacks 08MF vanishes.
+
+Both propositions are theorems of the library
+(`Deformation.ToposThickening.isFlatLiftCorrespondence`,
+`Deformation.ToposThickening.isIdealComparisonIsoOfFlat`), and with them supplied this is
+`Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero'`. Stacks 08VW, with the class
+written for `f^*J ⊗_O ℱ`, and its parts (2) and (3) are in
+`StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`. -/
 theorem hasFlatLift_iff_obstruction_eq_zero
     (i : RingedToposHom X X') (t : RingedToposHom S S') (f : RingedToposHom X S)
     (f' : RingedToposHom X' S') (hi : FirstOrderThickening i) (ht : FirstOrderThickening t)

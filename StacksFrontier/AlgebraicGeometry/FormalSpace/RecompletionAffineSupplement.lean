@@ -894,9 +894,12 @@ completion `X_{/W}` satisfies the set-theoretic condition of Stacks 0AIS.
 
 The condition does not follow from the affine presentation of `X_{/W}`: that presentation is
 indexed by a disjoint union of the indices of the presentations of the stages, which is why
-`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit` (Stacks 0GVM) carries the
-condition as a hypothesis. It follows instead from the condition *for `X`*, which an affine
-formal algebraic space satisfies by definition. That condition gives a surjection onto `X` from
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`, the version of Stacks 0GVM
+assuming the set-theoretic condition, carries the condition as a hypothesis (Stacks 0GVM itself
+is `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff` and
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`).
+It follows instead from the condition *for `X`*, which an affine formal algebraic space
+satisfies by definition. That condition gives a surjection onto `X` from
 the fppf sheaf `h_U` of an object `U` of the site;
 `AlgebraicGeometry.FormalSpace.epi_completionSheafMapULift` turns it into a surjection of the
 completion of `h_U` along the inverse image of `W` onto `X_{/W}`; the completion of `h_U`

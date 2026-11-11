@@ -89,7 +89,6 @@ variable {R₀ R : Sheaf (SmallEtale.topology B S hS X.1) RingCat.{u}}
 `f, g : R ⟶ 𝒪_X` become equal after the structure map `i^♯ : 𝒪_X ⟶ i_*𝒪_Z` of the inclusion of
 a closed subspace `Z ⊆ X`, the sectionwise difference `f - g`, as a section of the defining ideal
 of `Z`, the sectionwise kernel of `i^♯`. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 noncomputable def liftDifference
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -118,7 +117,6 @@ theorem liftDifference_coe
   rfl
 
 /-- The difference of two lifts is additive. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 theorem liftDifference_add
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -145,7 +143,6 @@ theorem liftDifference_sub
 /-- The Leibniz rule for the difference `D` of two lifts into a first-order thickening, for the
 `R`-action on the defining ideal obtained by restricting scalars along `f`:
 `D (r * s) = f r • D s + f s • D r`. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 theorem liftDifference_smul_add_smul (hZ : IsFirstOrderThickening B S hS X Z.1)
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -172,7 +169,6 @@ private theorem liftDifference_eq_zero_of_agree
   Subtype.ext (by rw [liftDifference_coe, hr, sub_self, ZeroMemClass.coe_zero])
 
 /-- If the two maps agree on `R₀`, their difference vanishes on sections coming from `R₀`. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 theorem liftDifference_app_eq_zero
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -182,7 +178,6 @@ theorem liftDifference_app_eq_zero
     (congrArg (fun t => t.hom.app U) hφ) r)
 
 /-- The difference of two lifts annihilates a section on which the two maps agree. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 theorem liftDifference_eq_zero_of_apply_eq
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -192,7 +187,6 @@ theorem liftDifference_eq_zero_of_apply_eq
   liftDifference_eq_zero_of_agree B S hS Z f g hfg hr
 
 /-- The difference of two lifts commutes with the restriction maps of the small étale site. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 theorem liftDifference_naturality
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -211,7 +205,6 @@ theorem liftDifference_naturality
 /-- The difference of two lifts into a first-order thickening, carried into the pushed-forward
 conormal module `i_*𝒞_{Z/X}` by `AlgebraicGeometry.Space.firstOrderConormalModuleIso` and
 included back into `𝒪_X` by `AlgebraicGeometry.Space.firstOrderConormalModuleι`, is `f - g`. -/
-@[stacks 0618 "the derivation, for two abstract algebra maps; no descent to 𝒪_Y"]
 theorem firstOrderConormalModuleι_liftDifference (hZ : IsFirstOrderThickening B S hS X Z.1)
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))

@@ -48,7 +48,10 @@ scheme-level Tag 07ZH.
 The proof is the source's: the three assertions are local on `X`, and at the scheme points of the
 base they are the case of schemes, Tag 07ZH
 (`AlgebraicGeometry.Space.RelativeProjHomPoints.relativeMapSubfunctor_eq_of_eq_comp`,
-`…compRestrict_comp_relativeMapSpaceHom` and `…relativeTwistSpaceMap_comp`).
+`…compRestrict_comp_relativeMapSpaceHom` and `…relativeTwistSpaceMap_comp`).  The last of these is
+the third assertion for an arbitrary map of graded algebras over the scheme points of the base,
+and carries its own Tag 085G registration; the theorem here specializes it to the maps the
+algebra maps define.
 
 ## References
 

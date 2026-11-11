@@ -19,9 +19,10 @@ hypothesis on `ℱ`.
 * `AlgebraicGeometry.Stack.isCoherentOnSite_internalHomSheafSmall`: the internal Hom out of an
   `O_X`-module of finite presentation into a Stacks 03DL(8)-coherent one is Stacks
   03DL(8)-coherent, with no hypothesis on the stack beyond being an algebraic stack.
-* `AlgebraicGeometry.Stack.isCoherent_internalHomSheafSmall`: **Stacks 0GRD with the source's own
-  hypothesis on the first argument**, that it be coherent in the sense of Stacks 0GR6, and the
-  hypothesis on the second argument strengthened to Stacks 03DL(8) coherence.
+* `AlgebraicGeometry.Stack.isCoherent_internalHomSheafSmall`: a variant of Stacks 0GRD for the
+  internal Hom itself, with the first argument coherent in the sense of Stacks 0GR6 and the
+  second coherent in the sense of Stacks 03DL(8).  Stacks 0GRD is
+  `AlgebraicGeometry.Stack.FlatFppf.isCoherent_coheratorInternalHom`.
 
 ## Implementation notes
 
@@ -60,11 +61,11 @@ namespace AlgebraicGeometry.Stack
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 0GRD for the internal Hom of Stacks 03EM, with the source's own hypothesis on `ℱ`
-and a strengthened one on `𝒢`.**  Let `𝒳` be an algebraic stack, let `ℱ` be an `𝒪_𝒳`-module of
-finite presentation — which on a locally Noetherian `𝒳` is exactly coherence in the sense of
-Stacks 0GR6, by `AlgebraicGeometry.Stack.isCoherent_iff_isCoherentModule` — and let `𝒢` be
-coherent in the sectionwise sense of Stacks 03DL(8).  Then the internal Hom
+/-- **A variant of Stacks 0GRD for the internal Hom of Stacks 03EM, with the source's hypothesis
+on `ℱ` and a strengthened one on `𝒢`.**  Let `𝒳` be an algebraic stack, let `ℱ` be an
+`𝒪_𝒳`-module of finite presentation — which on a locally Noetherian `𝒳` is exactly coherence in
+the sense of Stacks 0GR6, by `AlgebraicGeometry.Stack.isCoherent_iff_isCoherentModule` — and
+let `𝒢` be coherent in the sectionwise sense of Stacks 03DL(8).  Then the internal Hom
 `𝓗om_{𝒪_𝒳}(ℱ, 𝒢)`, read at module universe `u` through
 `AlgebraicGeometry.RingedSite.internalHomSheafSmall`, is coherent in the sense of
 Stacks 03DL(8).
@@ -94,28 +95,23 @@ theorem isCoherentOnSite_internalHomSheafSmall (𝒳 : AlgebraicStacks.{u, t} B 
     (FibredSite.ringedSite B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids SiteKind.fppf)
     hsm h1 h2 ℱ 𝒢 hℱ h𝒢
 
-/-- **Stacks 0GRD for the internal Hom of Stacks 03EM, with the tag's own hypothesis on `ℱ`.**
+/-- **A variant of Stacks 0GRD for the internal Hom of Stacks 03EM itself.**
 Let `𝒳` be a locally Noetherian algebraic stack, let `ℱ` be a coherent `𝒪_𝒳`-module in the sense
 of Stacks 0GR6 and let `𝒢` be coherent in the sectionwise sense of Stacks 03DL(8).  Then the
 internal Hom `𝓗om_{𝒪_𝒳}(ℱ, 𝒢)` is a coherent `𝒪_𝒳`-module in the sense of Stacks 0GR6.
 
-Two things still separate this from Stacks 0GRD, and the attribute names both; but the
-hypothesis on the *first* argument is now the source's own, where
-`AlgebraicGeometry.Stack.isCoherent_internalHomSheaf` asks it to be finite locally free.  What
-remains is the hypothesis on the second argument, strengthened from Stacks 0GR6-coherence to the
+This differs from Stacks 0GRD in two ways, while the hypothesis on the *first* argument is the
+source's own, where
+`AlgebraicGeometry.Stack.isCoherent_internalHomSheaf` asks it to be finite locally free.  The
+first is the hypothesis on the second argument, strengthened from Stacks 0GR6-coherence to the
 sectionwise coherence of Stacks 03DL(8) — it is the coherence that
 `Stacks.SheafOfModules.isCoherentOnSite_piFin` and
 `Stacks.SheafOfModules.isCoherentOnSite_kernel` are closed under, and it implies but is not
 implied by Stacks 0GR6-coherence, see
 `StacksFrontier.AlgebraicGeometry.Stacks.CoherenceNotionComparison` — and the source's object,
-which is not this internal Hom but its image under the quasi-coherator; see the module
-documentation. -/
-@[stacks 0GRD "the coherence of the internal Hom of Stacks 03EM itself, for a first argument \
-satisfying the source's own condition of coherence in the sense of Stacks 0GR6; the condition \
-on the second argument is strengthened to the sectionwise coherence of Stacks 03DL(8), which \
-implies Stacks 0GR6-coherence and is not implied by it; and the source's object is the image \
-hom(F, G) of this one under the quasi-coherator of Stacks 0GQN, which is not this statement's \
-object"]
+which is not this internal Hom but its image under the quasi-coherator.  Stacks 0GRD itself, for
+that image and with both arguments coherent in the sense of Stacks 0GR6, is
+`AlgebraicGeometry.Stack.FlatFppf.isCoherent_coheratorInternalHom`. -/
 theorem isCoherent_internalHomSheafSmall (𝒳 : AlgebraicStacks.{u, t} B S hS)
     [hsm : EssentiallySmall.{u} 𝒳.val.val.obj]
     (h𝒳 : HasPropertyOnSomeSchemeAtlas B S hS

@@ -45,11 +45,10 @@ Mathlib's `AlgebraicGeometry.locallyOfFiniteType_iff`, which is the `mk_iff` lem
 `AlgebraicGeometry.LocallyOfFiniteType` and so holds by definition; it is what
 `AlgebraicGeometry.exists_immersion_affineSpace` consumes. Tag 01TS, the stability of finite
 presentation under base change, holds for the local notion by Mathlib's
-`AlgebraicGeometry.locallyOfFinitePresentation_isStableUnderBaseChange` and for the bundled notion
-by `AlgebraicGeometry.FinitePresentation.of_isPullback` of
-`StacksFrontier/AlgebraicGeometry/LimitDescentGlueing/Glueing.lean`, which carries no attribute of
-its own, its proof using only Mathlib's base-change stability of the three components of the
-bundled notion.
+`AlgebraicGeometry.locallyOfFinitePresentation_isStableUnderBaseChange`, registered here, and for
+the bundled notion by `AlgebraicGeometry.finitePresentation_isStableUnderBaseChange` of
+`StacksFrontier/AlgebraicGeometry/Morphisms/FinitePresentationPoint.lean`, which carries the
+attribute for that second sentence.
 
 ## References
 
@@ -72,7 +71,8 @@ add_to_stacks 01T2 "(1) implies (2) and conversely"
   AlgebraicGeometry.locallyOfFiniteType_iff
 add_to_sga "3 VIB 1.3" "locally of finite type" AlgebraicGeometry.locallyOfFiniteType_iff
 
-add_to_stacks 01TS "locally of finite presentation"
+add_to_stacks 01TS
+  "locally of finite presentation: Mathlib's `locallyOfFinitePresentation_isStableUnderBaseChange`"
   AlgebraicGeometry.locallyOfFinitePresentation_isStableUnderBaseChange
 add_to_sga "3 VIB 5.6.1.0" "partial"
   AlgebraicGeometry.locallyOfFinitePresentation_isStableUnderBaseChange

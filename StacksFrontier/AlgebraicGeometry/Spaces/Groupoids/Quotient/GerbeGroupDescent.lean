@@ -22,8 +22,8 @@ fppf sheaves `G ×_B X' ⟶ X` and both projections of the space of triples
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff`: **Stacks 06PK**, the
-  criterion above, with the groupoid criterion of Stacks 06PJ carried as a hypothesis.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff`: the reduction of the
+  criterion above to the groupoid criterion of Stacks 06PJ, applied to an action groupoid.
 
 ## Implementation notes
 
@@ -44,9 +44,13 @@ the slice over `B`, so `overPullbackLeftIso`, the comparison of a fibre product 
 with the one taken in presheaves, transports them to the underlying presheaves, where flatness
 and local finite presentation of Stacks 03ML and Stacks 03XP are stated.
 
-Stacks 06PJ — the same criterion for the quotient stack of an arbitrary groupoid in algebraic
-spaces — is not in the library, so it is carried as the explicit hypothesis `h06PJ` and the part
-string of the `@[stacks 06PK]` attribute records this.
+The statements here take the groupoid criterion of Stacks 06PJ as an argument `hgroupoid`, so
+that this file does not import its proof. That criterion is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong`, and supplying it
+gives Stacks 06PK itself:
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff_exists_cover` and
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_groupoidOfAction_iff_exists_cover` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.ActionQuotientStackAlgebraicIff`.
 
 ## References
 
@@ -860,24 +864,24 @@ private theorem holdsOnEveryEtaleChart_restriction_snd_iff
   rw [← holdsOnEveryEtaleChart_precompIso C S hS P
     (actionRestrictionComparisonIso C S hS B G X X' φ), actionRestrictionComparisonIso_hom_snd]
 
-/-- **Stacks 06PK.** Let a group algebraic space `G` over an algebraic space `B` act on an
-algebraic space `X` over `B`. The quotient stack `[X/G]` of the action groupoid is an algebraic
+/-- **The reduction of Stacks 06PK to Stacks 06PJ.** Let a group algebraic space `G` over an
+algebraic space `B` act on an algebraic space `X` over `B`. Given the groupoid criterion of
+Stacks 06PJ as `hgroupoid`, the quotient stack `[X/G]` of the action groupoid is an algebraic
 stack exactly when there is a morphism `φ : X' ⟶ X` of algebraic spaces over `B` for which
 `G ×_B X' ⟶ X`, `(g, x') ↦ g • φ x'`, is a surjection of fppf sheaves and both projections to
 `X'` of the space of triples `{(x₁, g, x₂) : φ x₁ = g • φ x₂}` are flat and locally of finite
 presentation.
 
-Stacks 06PJ, the same criterion for an arbitrary groupoid in algebraic spaces, is not in the
-library and is carried as the hypothesis `h06PJ`. -/
-@[stacks 06PK "with Stacks 06PJ, the same criterion for an arbitrary groupoid in algebraic \
-spaces, carried as the explicit hypothesis h06PJ"]
+The criterion of Stacks 06PJ is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong`; with it supplied
+this is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff_exists_cover`. -/
 theorem isAlgebraicStack_quotientStack_action_iff
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     (B : AlgebraicSpaces C S hS)
     (G X : Over B.obj) [GrpObj G] [ModObj G X]
     (hG : IsAlgebraicSpace C S hS G.left) (hX : IsAlgebraicSpace C S hS X.left)
     (A : Space.ActionGroupoidConstruction B G X hG hX)
-    (h06PJ : ∀ H : GroupoidInAlgebraicSpaces C S hS B,
+    (hgroupoid : ∀ H : GroupoidInAlgebraicSpaces C S hS B,
       IsAlgebraicStack.{u, w} C S hS (quotientStack H) ↔
         ∃ (U' : AlgebraicSpaces C S hS) (g : U' ⟶ H.objects),
           Presheaf.IsLocallySurjective (BigFppfOver.topology C S hS)
@@ -899,7 +903,7 @@ theorem isAlgebraicStack_quotientStack_action_iff
         Space.IsFlat C S hS (pullback.snd φ.left a.left ≫ (snd G X').left) ∧
         Space.IsLocallyOfFinitePresentation C S hS
           (pullback.snd φ.left a.left ≫ (snd G X').left) := by
-  rw [h06PJ A.groupoid]
+  rw [hgroupoid A.groupoid]
   rcases A with ⟨grp, hObjects, hArrows, hObjectsBase, hArrowsBase,
     hSource, hTarget, hCompIso, hCompFst, hCompSnd, hComp, hIdentity, hInverse⟩
   rcases grp with ⟨objects, arrows, objectsToBase, arrowsToBase, source, target,
@@ -955,19 +959,21 @@ theorem isAlgebraicStack_quotientStack_action_iff
     · exact (hres X' φ (@LocallyOfFinitePresentation : MorphismProperty Scheme.{u})).1.mp hfp₁
     · exact (hres X' φ (@LocallyOfFinitePresentation : MorphismProperty Scheme.{u})).2.mp hfp₂
 
-/-- **Stacks 06PK** for the action groupoid of Stacks 0444 itself: the quotient stack `[X/G]`
+/-- **The reduction of Stacks 06PK to Stacks 06PJ** for the action groupoid of Stacks 0444
+itself: given the groupoid criterion of Stacks 06PJ as `hgroupoid`, the quotient stack `[X/G]`
 is an algebraic stack exactly when there is a morphism `φ : X' ⟶ X` of algebraic spaces over
 `B` for which `G ×_B X' ⟶ X`, `(g, x') ↦ g • φ x'`, is a surjection of fppf sheaves and both
 projections to `X'` of the space of triples `{(x₁, g, x₂) : φ x₁ = g • φ x₂}` are flat and
 locally of finite presentation.
 
-Stacks 06PJ is carried as the hypothesis `h06PJ`. -/
+With `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong` supplied this
+is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_groupoidOfAction_iff_exists_cover`. -/
 theorem isAlgebraicStack_quotientStack_groupoidOfAction_iff
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     (B : AlgebraicSpaces C S hS)
     (G X : Over B.obj) [GrpObj G] [ModObj G X]
     (hG : IsAlgebraicSpace C S hS G.left) (hX : IsAlgebraicSpace C S hS X.left)
-    (h06PJ : ∀ H : GroupoidInAlgebraicSpaces C S hS B,
+    (hgroupoid : ∀ H : GroupoidInAlgebraicSpaces C S hS B,
       IsAlgebraicStack.{u, w} C S hS (quotientStack H) ↔
         ∃ (U' : AlgebraicSpaces C S hS) (g : U' ⟶ H.objects),
           Presheaf.IsLocallySurjective (BigFppfOver.topology C S hS)
@@ -991,7 +997,7 @@ theorem isAlgebraicStack_quotientStack_groupoidOfAction_iff
         Space.IsLocallyOfFinitePresentation C S hS
           (pullback.snd φ.left a.left ≫ (snd G X').left) :=
   isAlgebraicStack_quotientStack_action_iff C S hS B G X hG hX
-    (Space.groupoidOfAction B G X hG hX) h06PJ
+    (Space.groupoidOfAction B G X hG hX) hgroupoid
 
 end AlgebraicGeometry.Stack
 

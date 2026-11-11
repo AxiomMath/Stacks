@@ -1,6 +1,7 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.AlgebraicGeometry.Spaces.SeparatedOverGlobalFunctions
 public import StacksFrontier.AlgebraicGeometry.SerreAffinenessCriterion.VanishingCriterion
 public import StacksFrontier.AlgebraicGeometry.Spaces.CohomologyVanishingBaseChange
 public import StacksFrontier.AlgebraicGeometry.Spaces.EtaleChartFinitePoints
@@ -21,7 +22,9 @@ The morphism itself is `AlgebraicGeometry.Space.CohomologyVanishingSituation`'s
 `toSpecGlobalFunctions`, built from the universal property of Stacks 05Z1; nothing is
 constructed here.  The source's proof chooses a scheme `Y` with a surjective integral morphism
 `Y ⟶ X`, finds `Y` affine by Serre's criterion, and descends separatedness of `Y ⟶ Spec A`
-along the surjection.
+along the surjection.  That argument is formalized here for a space handed such a cover;
+Stacks 07V5 itself is deduced from the separatedness of `X` proved in
+`StacksFrontier/AlgebraicGeometry/Spaces/SeparatedOverGlobalFunctions.lean`.
 
 ## Main definitions
 
@@ -34,10 +37,11 @@ along the surjection.
 * `AlgebraicGeometry.Space.isSeparated_to_affine_of_existsIntegralSurjectiveSchemeCover`: a
   quasi-compact algebraic space covered as in Stacks 09YB, over which the vanishing above
   holds, is separated over every affine object of the site.
+* `…isSeparated_toSpecGlobalFunctions_of_existsIntegralSurjectiveSchemeCover` and
+  `…CohomologyVanishingSituation.isAbsolutelySeparated_of_existsIntegralSurjectiveSchemeCover`:
+  the source's argument, at a general module universe, for a space with such a cover.
 * `…CohomologyVanishingSituation.isSeparated_toSpecGlobalFunctions`: **Stacks 07V5**, the
   canonical morphism `X ⟶ Spec A` is separated.
-* `…CohomologyVanishingSituation.isAbsolutelySeparated_of_existsIntegralSurjectiveSchemeCover`:
-  the stronger conclusion the source's proof reaches, that `X` is a separated algebraic space.
 
 ## Implementation notes
 
@@ -58,38 +62,22 @@ Stacks 05Z2, separatedness of `X` as an algebraic space — is reached instead f
 statement through `AlgebraicGeometry.Space.isAbsolutelySeparated_of_isSeparated_to_affine`,
 the target being affine.
 
-*The two carried hypotheses, and what was tried instead.*
+*The two inputs of the source's argument.*  The existence of the cover is clause (1) of
+Stacks 09YB, proved for a quasi-compact and quasi-separated space as
+`AlgebraicGeometry.Space.existsIntegralSurjectiveSchemeCover_and_refining`; that file builds on
+the definitions here, so it cannot be imported.  The vanishing is clause (1) of Stacks 07V0 read
+in the Zariski cohomology of a scheme affine over `X`, the shape Stacks 01XF consumes; the
+étale-cohomology form is
+`…CohomologyVanishingSituation.isZero_firstCohomology_of_isAffineHom`, and passing between
+the two is Stacks 03DW in degree one.
 
-`h09YB` is clause (1) of Stacks 09YB, the existence of a scheme with a surjective integral
-morphism to `X`.  No declaration of this development carries `@[stacks 09YB]`, so there is
-nothing to apply; it is the source's first step and cannot be avoided, since part (4) of
-Stacks 05Z2 needs a separated algebraic space surjecting onto `X` and the vanishing hypothesis
-alone produces none.
-
-`h07V0` is clause (1) of Stacks 07V0 — `H¹(X', 𝓕') = 0` for an affine morphism `X' ⟶ X` and a
-quasi-coherent `𝒪_{X'}`-module — restricted to an `X'` represented by an object of the site and
-to a quasi-coherent ideal sheaf, with the first cohomology read as Zariski cohomology of that
-scheme.  That clause *is* proved, as
-`…CohomologyVanishingSituation.isZero_firstCohomology_of_isAffineHom`, and it is not applied
-here for two independent reasons.  First, its first cohomology is the first right derived
-functor of `Γ(X, f_*−)` on the small étale ringed site of the space, whereas Stacks 01XF — the
-only Serre criterion available, and the one the source cites — consumes the first right derived
-functor of `Γ(Y, −)` on the *Zariski* site of the scheme `Y`; the comparison of the two is
-Stacks 03DW, whose single attribute site,
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModuleCohomologyDegreeZero.lean`, is
-clause-qualified to the case `q = 0`, which is not the degree needed.  The scheme-level half of
-that comparison does exist, as `AlgebraicGeometry.smallEtaleQuasiCoherentGlobalCohomologyIso`
-(Stacks 03P2 for `𝒞 = S_étale`), but it compares Zariski cohomology of a module with the
-cohomology of the associated *abelian* sheaf on the small étale site of the scheme, not with
-module cohomology on the small étale site of the algebraic space, and no declaration bridges
-those two.  Second, clause (1) itself carries four further hypotheses — Stacks 07UY
-at the module universe of the structure rings, 07U8, 03DW and 072Z — none of which the
-situation discharges, so routing through it would raise the count to six rather than lower it.
-Carrying the clause once, in the shape Stacks 01XF consumes, is therefore the minimum.
-
-Neither hypothesis is a technical condition of the argument below: each is an assertion of a
-named tag about `X` alone.  Quasi-separatedness of the situation is not used; quasi-compactness
-is, to make the cover quasi-compact.
+*Stacks 07V5 itself.*  `…CohomologyVanishingSituation.isSeparated_toSpecGlobalFunctions` does
+not go through the cover.  In the situation of Stacks 07UY at the module universe of the
+structure sheaf, `X` is a separated algebraic space,
+`…CohomologyVanishingSituation.isAbsolutelySeparated`, proved by the valuative criterion and
+Zariski's main theorem; so `X` is separated over the base, and `p` composed with the morphism
+of `Spec A` to the terminal presheaf is the structure morphism of `X`, whence `p` is separated
+by `AlgebraicGeometry.Space.isSeparated_of_comp`.
 
 *Why `IsTerminal T.base` appears.*  It is not a hypothesis of the argument but part of the
 signature of `…CohomologyVanishingSituation.toSpecGlobalFunctions`, the canonical
@@ -97,8 +85,9 @@ morphism, which cannot be written without it: the universal property of Stacks 0
 from reads a morphism of underlying schemes as a morphism over the base.  The same is true of
 the presentation data `V` and `e` of `Spec Γ(X, 𝒪_X)` as an affine object of the site.  Both are
 documented at the point of definition, in
-`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingBaseChange.lean`.  The general
-statement below, from which the tagged one is a specialization, carries neither.
+`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingBaseChange.lean`.  Over an arbitrary
+base the canonical morphism is formed after viewing `X` over `Spec ℤ`, and its separatedness is
+`…CohomologyVanishingSituation.isSeparated_toSpecGlobalFunctionsOverIntegers`.
 
 ## References
 
@@ -177,25 +166,24 @@ variable (T : CohomologyVanishingSituation.{u, m}) (hterminal : IsTerminal T.bas
     (e : Γ((BigFppfOver.toScheme T.site T.base T.containsBase).obj V, ⊤) ≃+*
       _root_.AlgebraicGeometry.Space.globalFunctions T.site T.base T.containsBase T.space.1)
 
-/-- **Stacks 07V5.** In the situation of Stacks 07UY, the canonical morphism
-`p : X ⟶ Spec Γ(X, 𝒪_X)` is separated, `Spec Γ(X, 𝒪_X)` being presented by an affine object `V`
-of the site through a ring isomorphism `Γ(V, 𝒪_V) ≅ Γ(X, 𝒪_X)`. -/
-@[stacks 07V5 "two inputs are carried as named hypotheses -- h09YB, clause (1) of Stacks 09YB,
-and h07V0, clause (1) of Stacks 07V0 for a scheme of the site affine over X with its first
-cohomology read in the Zariski topology of that scheme. IsTerminal T.base is inherited from the
-signature of toSpecGlobalFunctions. See this file's implementation notes"]
-theorem isSeparated_toSpecGlobalFunctions
-    (h09YB : ExistsIntegralSurjectiveSchemeCover T.site T.base T.containsBase T.space.1)
-    (h07V0 : SchemeAffineOverFirstZariskiCohomologyVanishing T.site T.base T.containsBase
+/-- **The source's proof of Stacks 07V5, for a space with an integral cover.** In the situation
+of Stacks 07UY, if some scheme of the site maps to `X` by a surjective integral morphism and the
+Zariski-cohomology vanishing above holds over `X`, then the canonical morphism
+`p : X ⟶ Spec Γ(X, 𝒪_X)` is separated.  This keeps the module universe `m` of the situation
+general; `isSeparated_toSpecGlobalFunctions` below is Stacks 07V5 itself, with neither input. -/
+theorem isSeparated_toSpecGlobalFunctions_of_existsIntegralSurjectiveSchemeCover
+    (hcover : ExistsIntegralSurjectiveSchemeCover T.site T.base T.containsBase T.space.1)
+    (hvanish : SchemeAffineOverFirstZariskiCohomologyVanishing T.site T.base T.containsBase
       T.space.1) :
     IsSeparated T.site T.base T.containsBase
       (toSpecGlobalFunctions T hterminal V e).hom :=
   isSeparated_to_affine_of_existsIntegralSurjectiveSchemeCover T.site T.base T.containsBase
-    T.space.2 T.quasiCompact h09YB h07V0 V inferInstance _
+    T.space.2 T.quasiCompact hcover hvanish V inferInstance _
 
-/-- **In the situation of Stacks 07UY the space `X` is a separated algebraic space.** This is
-the conclusion the proof of Stacks 07V5 reaches, separatedness over the terminal scheme, which
-is stronger than separatedness of the canonical morphism to `Spec Γ(X, 𝒪_X)`. -/
+/-- **In the situation of Stacks 07UY the space `X` is a separated algebraic space**, for a
+space with an integral cover as above.  This is the conclusion the proof of Stacks 07V5
+reaches, separatedness over the terminal scheme, which is stronger than separatedness of the
+canonical morphism to `Spec Γ(X, 𝒪_X)`. -/
 theorem isAbsolutelySeparated_of_existsIntegralSurjectiveSchemeCover
     (T' : CohomologyVanishingSituation.{u, m}) (hterm : IsTerminal T'.base)
     (W : BigFppfOver T'.site T'.base T'.containsBase)
@@ -208,7 +196,40 @@ theorem isAbsolutelySeparated_of_existsIntegralSurjectiveSchemeCover
     IsAbsolutelySeparated T'.site T'.base T'.containsBase T'.containsTerminal T'.space.1 :=
   isAbsolutelySeparated_of_isSeparated_to_affine T'.site T'.base T'.containsBase
     T'.containsTerminal W hW (toSpecGlobalFunctions T' hterm W ε).hom
-    (isSeparated_toSpecGlobalFunctions T' hterm W ε h09YB h07V0)
+    (isSeparated_toSpecGlobalFunctions_of_existsIntegralSurjectiveSchemeCover T' hterm W ε
+      h09YB h07V0)
+
+end CohomologyVanishingSituation
+
+namespace CohomologyVanishingSituation
+
+variable (T : CohomologyVanishingSituation.{u, u}) (hterminal : IsTerminal T.base)
+    (V : BigFppfOver T.site T.base T.containsBase)
+    [IsAffine ((BigFppfOver.toScheme T.site T.base T.containsBase).obj V)]
+    (e : Γ((BigFppfOver.toScheme T.site T.base T.containsBase).obj V, ⊤) ≃+*
+      _root_.AlgebraicGeometry.Space.globalFunctions T.site T.base T.containsBase T.space.1)
+
+/-- **Stacks 07V5.** In the situation of Stacks 07UY, the canonical morphism
+`p : X ⟶ Spec Γ(X, 𝒪_X)` is separated, `Spec Γ(X, 𝒪_X)` being presented by an affine object `V`
+of the site through a ring isomorphism `Γ(V, 𝒪_V) ≅ Γ(X, 𝒪_X)`.
+
+`X` is a separated algebraic space,
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.isAbsolutelySeparated`, so it is separated
+over the base, and a morphism out of a space separated over the base is separated: `p` followed
+by the morphism to the terminal presheaf is the structure morphism of `X`. -/
+@[stacks 07V5 "the situation is taken at the module universe of the structure sheaf; the base
+of the situation is the terminal scheme, as the canonical morphism toSpecGlobalFunctions is
+formed over it; over an arbitrary base see isSeparated_toSpecGlobalFunctionsOverIntegers"]
+theorem isSeparated_toSpecGlobalFunctions :
+    IsSeparated T.site T.base T.containsBase
+      (toSpecGlobalFunctions T hterminal V e).hom := by
+  have hover : IsSeparatedOver T.site T.base T.containsBase T.space.1 :=
+    isSeparatedOver_of_isAbsolutelySeparated T.site T.base T.containsBase T.containsTerminal
+      T.space.2 T.isAbsolutelySeparated
+  have hX := (isSeparatedOver_iff_isSeparated_of_isTerminal T.site T.base T.containsBase
+    terminalIsTerminal (terminal.from T.space.1)).1 hover
+  refine isSeparated_of_comp T.site T.base T.containsBase _ (terminal.from _) ?_
+  rwa [terminal.comp_from]
 
 end CohomologyVanishingSituation
 

@@ -441,9 +441,9 @@ The structure sheaf is the one of **Stacks 06TV**, with sections in `Type u`, an
 have their sections in `Type (u+1)`. -/
 @[stacks 07AS "part (4), the whole of it: existence of the unbounded left derived functor \
 `Lg_!` of `g_!` on sheaves of modules for the flat-fppf site, its adjunction \
-`Lg_! ⊣ g^*` (with invertible unit), and `g^* ∘ Lg_! = id`, for every algebraic stack and with \
-NO hypothesis. The structure sheaf is the one of Tag 06TV; the acyclicity statement of Tag 07AC \
-is a theorem here, `AlgebraicGeometry.Stack.subsiteLowerShriekModulesAcyclic`, and the \
+`Lg_! ⊣ g^*` (with invertible unit), and `g^* ∘ Lg_! = id`, for every algebraic stack, with \
+no hypothesis. The structure sheaf is the one of Tag 06TV; the acyclicity statement of Tag 07AC \
+is proved, as `AlgebraicGeometry.Stack.subsiteLowerShriekModulesAcyclic`, and the \
 invertibility of the ordinary unit is Tag 077I"]
 theorem lowerShriekModules_derived :
     (FreeRingUniverse.lowerShriekOnHomotopy.{u + 1} (inclusionTopology B S hS 𝒳)
@@ -570,9 +570,9 @@ The structure sheaf is the one of **Stacks 06TV**, with sections in `Type u`, an
 have their sections in `Type (u+1)`. -/
 @[stacks 07AS "part (2), the whole of it: existence of the unbounded left derived functor \
 `Lg_!` of `g_!` on sheaves of modules for the lisse-étale site, its adjunction \
-`Lg_! ⊣ g^*` (with invertible unit), and `g^* ∘ Lg_! = id`, for every algebraic stack and with \
-NO hypothesis. The structure sheaf is the one of Tag 06TV; the acyclicity statement of Tag 07AC \
-is a theorem here, `AlgebraicGeometry.Stack.subsiteLowerShriekModulesAcyclic`, and the \
+`Lg_! ⊣ g^*` (with invertible unit), and `g^* ∘ Lg_! = id`, for every algebraic stack, with \
+no hypothesis. The structure sheaf is the one of Tag 06TV; the acyclicity statement of Tag 07AC \
+is proved, as `AlgebraicGeometry.Stack.subsiteLowerShriekModulesAcyclic`, and the \
 invertibility of the ordinary unit is Tag 077I"]
 theorem lowerShriekModules_derived :
     (FreeRingUniverse.lowerShriekOnHomotopy.{u + 1} (inclusionTopology.{u, w} B S hS 𝒳)

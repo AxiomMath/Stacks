@@ -49,16 +49,22 @@ general site an invertible module need not be finite locally free (Stacks 0B8M).
   `AlgebraicGeometry.Stack.isCoherentModule_of_isFiniteLocallyFreeOnSite`: **Stacks 0GR7**, the
   structure-sheaf clause and the finite locally free clause.  The invertible-module clause is
   `AlgebraicGeometry.Stack.isCoherentModule_of_isInvertible`.
-* `AlgebraicGeometry.Stack.isCoherentModule_modulePullback`: **Stacks 0GR8**.
+* `AlgebraicGeometry.Stack.isCoherentModule_modulePullback`: the inverse image along a
+  1-morphism of algebraic stacks preserves condition (2) of Stacks 0GR5.  Stacks 0GR8 itself,
+  for the coherence of Stacks 0GR6, is `AlgebraicGeometry.Stack.isCoherent_modulePullback` of
+  `StacksFrontier.AlgebraicGeometry.Stacks.CoherentModules`.
 
 ## Implementation notes
 
-`IsCoherentModule` carries no `@[stacks]` attribute.  Stacks 0GR6 defines coherence by reference
-to the equivalence of the four conditions of Stacks 0GR5, and that equivalence is not proved
-here; what is recorded is one of the four conditions, so the definition is not the source's
-definition and does not realize its tag.  Both results below therefore read coherence as
-Stacks 0GR5(2), and each is in fact a statement about finite presentation on the fppf site of
-the stack.
+`IsCoherentModule` carries no `@[stacks]` attribute: it records one of the four conditions of
+Stacks 0GR5, not the definition of Stacks 0GR6.  The coherence of Stacks 0GR6 is
+`AlgebraicGeometry.Stack.IsCoherent` of `StacksFrontier.AlgebraicGeometry.Stacks.CoherentModules`,
+equivalent to `IsCoherentModule` on a locally Noetherian stack by
+`AlgebraicGeometry.Stack.isCoherent_iff_isCoherentModule`; the equivalence of the four conditions
+of Stacks 0GR5 is `AlgebraicGeometry.Stack.tfae_coherenceConditions` of
+`StacksFrontier.AlgebraicGeometry.Stacks.CoherenceConditionsEquivalence`.  The results below read
+coherence as Stacks 0GR5(2), and each is in fact a statement about finite presentation on the
+fppf site of the stack.
 
 Local Noetherianity of the stack is an explicit hypothesis of both statements, as in the source,
 and is unused: on a general ringed site the structure sheaf is of finite presentation, finite
@@ -303,8 +309,9 @@ theorem isFinitePresentationOnSite_modulePullback
 `𝒳` is *coherent* when it is of finite presentation as a module on that ringed site, which is
 condition (2) of Stacks 0GR5.
 
-This carries no tag: Stacks 0GR6 defines coherence by the equivalence of the four conditions of
-Stacks 0GR5, and that equivalence is not proved here. -/
+This carries no tag: it is one of the four conditions of Stacks 0GR5, while the coherence of
+Stacks 0GR6 is `AlgebraicGeometry.Stack.IsCoherent`, equivalent to it on a locally Noetherian
+stack by `AlgebraicGeometry.Stack.isCoherent_iff_isCoherentModule`. -/
 abbrev IsCoherentModule (𝒳 : AlgebraicStacks.{u, t} B S hS)
     (M : SheafOfModules.{m} (ringStructureSheafCore B S hS 𝒳.val.val.p
       𝒳.val.isFiberedInGroupoids B.topology le_rfl)) : Prop :=
@@ -338,13 +345,11 @@ theorem isCoherentModule_of_isFiniteLocallyFreeOnSite (𝒳 : AlgebraicStacks.{u
     IsCoherentModule B S hS 𝒳 M :=
   SheafOfModules.isFinitePresentationOnSite_of_isFiniteLocallyFreeOnSite hM
 
-/-- **Stacks 0GR8.**  For a 1-morphism `f : 𝒳 ⟶ 𝒴` of locally Noetherian algebraic stacks, the
-inverse image `f^*` sends coherent modules on `𝒴` to coherent modules on `𝒳`.
-
-Coherence is Stacks 0GR5(2), finite presentation on the fppf site, and the inverse image of
-modules along a 1-morphism preserves it.  Local Noetherianity of the two stacks is the hypothesis
-of the source and is not used. -/
-@[stacks 0GR8]
+/-- For a 1-morphism `f : 𝒳 ⟶ 𝒴` of locally Noetherian algebraic stacks, the inverse image `f^*`
+sends modules satisfying condition (2) of Stacks 0GR5 on `𝒴` to such modules on `𝒳`: the inverse
+image of modules along a 1-morphism preserves finite presentation on the fppf site.  Local
+Noetherianity of the two stacks is not used.  Stacks 0GR8 for the coherence of Stacks 0GR6 is
+`AlgebraicGeometry.Stack.isCoherent_modulePullback`. -/
 theorem isCoherentModule_modulePullback (𝒳 𝒴 : AlgebraicStacks.{u, t} B S hS) (f : 𝒳 ⟶ 𝒴)
     (_h𝒳 : HasPropertyOnSomeSchemeAtlas B S hS
       (fun T : Scheme.{u} ↦ IsLocallyNoetherian T) 𝒳)

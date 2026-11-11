@@ -43,8 +43,9 @@ Joining the two needs flatness of `q` and the identification of the fibre of `q`
 with the divisor of the corresponding vector, neither of which is available unconditionally in
 this library yet.
 
-Accordingly **no `@[stacks]` attribute is attached**: Tag 0FD6 keeps its registration on
-`Stacks.Bertini.FamilyDivisors.smooth_specializedDivisor_forGeneral`.
+Accordingly **no `@[stacks]` attribute is attached**: Tag 0FD6 is registered on
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`.
 
 ## References
 

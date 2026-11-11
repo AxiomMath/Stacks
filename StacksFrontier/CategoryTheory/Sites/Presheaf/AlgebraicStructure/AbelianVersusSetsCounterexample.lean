@@ -44,14 +44,28 @@ import StacksCore.Tactic.EgaSgaAttribute
 Stacks tag 00YU (Remark 7.44.4).  For a functor `u : C ⥤ D`, the left adjoint `u_p` of the
 precomposition functor `u^p` is the left Kan extension along `uᵒᵖ`, computed pointwise as a
 colimit over the comma category `CostructuredArrow uᵒᵖ V` (the opposite of the Stacks index
-category `I^u_V`); the abelian version `u_p^{ab}` is the same colimit taken in `Ab`.  The
-forgetful functor `Ab → Set` induces a comparison map
-`θ_F : u_p (F^set) ⟶ forget ∘ (u_p^{ab} F)`, and the two constructions *agree* when every
-`θ_{F,V}` is bijective.  Agreement fails already for `C` empty and `D = PUnit`, where the
-index category is empty, so `(u_p F^set)(V)` is empty while `(u_p^{ab} F)(V)` contains `0`.
-Only the bare functor `u` enters, no Grothendieck topology.
--/
+category `I^u_V`); the abelian version `u_p^{ab}` is the same colimit taken in `Ab`, and it is
+left adjoint to `u^p` on abelian presheaves.  The forgetful functor `Ab → Set` induces a
+comparison map `θ_F : u_p (F^set) ⟶ forget ∘ (u_p^{ab} F)`, and the two constructions *agree*
+when every `θ_{F,V}` is bijective.
 
+Agreement fails already for `C` empty and `D = PUnit`, where the index category is empty, so
+`(u_p F^set)(V)` is empty while `(u_p^{ab} F)(V)` contains `0`.  This witness is a genuine
+morphism of sites in the sense of Stacks 00X1 (`CategoryTheory.Functor.IsMorphismOfSites`):
+equip `PUnit` with the topology `⊤`, in which the empty family covers the point.  Continuity is
+vacuous because `C` has no objects, and every sheaf of sets for `⊤` is terminal, so `u_s` is
+exact.
+
+## Main results
+
+* `uShriekAb`, `uShriekAbAdjunction`: `u_p^{ab}` by the same colimits, and `u_p^{ab} ⊣ u^p`.
+* `exists_isMorphismOfSites_not_bijective_theta` (in
+  `StacksFrontier.CategoryTheory.Sites.Presheaf.AlgebraicStructure.AbelianVersusSetsMorphismOfSites`):
+  there are sites `(C, J)`, `(D, K)` and a
+  continuous functor `u : C ⥤ D` defining a morphism of sites, an abelian presheaf `F` and an
+  object `V` with `θ_{F,V}` not bijective (Stacks 00YU).
+* `not_universally_agrees`: the same failure for a bare functor, with no topologies.
+-/
 @[expose] public section
 
 open CategoryTheory CategoryTheory.Limits
@@ -116,6 +130,8 @@ noncomputable def uShriekSet (u' : C ⥤ D) :
 The left adjoint of `u^p` on abelian presheaves, equivalently the left Kan
 extension along `uᵒᵖ`; its pointwise value is the *same* colimit diagram, now
 taken in `Ab`. -/
+@[stacks 00YU "`u_p^{ab}` is defined on abelian presheaves by the same colimits as `u_p` on
+  presheaves of sets: both are the pointwise left Kan extension along `uᵒᵖ`."]
 noncomputable def uShriekAb (u' : C ⥤ D) :
     (Cᵒᵖ ⥤ AddCommGrpCat.{u}) ⥤ (Dᵒᵖ ⥤ AddCommGrpCat.{u}) :=
   u'.op.lan
@@ -126,7 +142,8 @@ noncomputable def uShriekSetAdjunction (u' : C ⥤ D) :
   u'.op.lanAdjunction (Type u)
 
 /-- Adjointness `u_p^{ab} ⊣ u^p` on presheaves of abelian groups (Stacks
-Remark 00VF). -/
+Remark 00VF, and Stacks 00YU). -/
+@[stacks 00YU "`u_p^{ab}` is left adjoint to `u^p` on the categories of abelian presheaves."]
 noncomputable def uShriekAbAdjunction (u' : C ⥤ D) :
     uShriekAb u' ⊣ uPullbackAb u' :=
   u'.op.lanAdjunction AddCommGrpCat.{u}
@@ -151,41 +168,35 @@ and every object `V` of `D`. -/
 def Agrees (u' : C ⥤ D) : Prop :=
   ∀ (F : Cᵒᵖ ⥤ AddCommGrpCat.{u}) (V : Dᵒᵖ), Function.Bijective ((theta u' F).app V)
 
-/-- **Main Statement (Tag 00YU).** Agreement does not hold in general: there
-exist categories `C`, `D`, a functor `u : C ⥤ D`, a presheaf of abelian groups
-`F` on `C`, and an object `V` of `D` such that the comparison map `θ_{F,V}` is
-*not* a bijection. -/
-@[stacks 00YU]
+/-- For the empty functor `Discrete PEmpty ⥤ PUnit` and any abelian presheaf `F` on the empty
+category, the comparison map `θ_{F,V}` at the point `V` is not a bijection: its source is a
+colimit of sets over the empty index category, hence empty, while its target is an abelian
+group, which contains `0`. -/
+theorem not_bijective_theta_empty (F : (Discrete PEmpty.{1})ᵒᵖ ⥤ AddCommGrpCat.{0}) :
+    ¬ Function.Bijective
+      ((theta (Functor.empty PUnit.{1}) F).app (Opposite.op PUnit.unit)) := by
+  intro h
+  obtain ⟨a, -⟩ := h.2 (0 : ((uShriekAb (Functor.empty PUnit.{1})).obj F).obj
+    (Opposite.op PUnit.unit))
+  have : IsEmpty (CostructuredArrow (Functor.empty PUnit.{1}).op (Opposite.op PUnit.unit)) :=
+    ⟨fun j => j.left.unop.as.elim⟩
+  exact (isEmpty_lan_obj (Functor.empty PUnit.{1}) ((underlyingSet).obj F)
+    (Opposite.op PUnit.unit)).elim a
+
+/-- Agreement does not hold for a bare functor: there exist categories `C`, `D`, a functor
+`u : C ⥤ D`, a presheaf of abelian groups `F` on `C`, and an object `V` of `D` such that the
+comparison map `θ_{F,V}` is *not* a bijection.  No topology enters; the statement of Stacks
+00YU, where `u` is a continuous functor defining a morphism of sites, is
+`exists_isMorphismOfSites_not_bijective_theta`. -/
 theorem not_universally_agrees :
     ∃ (C D : Type) (_ : SmallCategory C) (_ : SmallCategory D) (u' : C ⥤ D)
       (F : Cᵒᵖ ⥤ AddCommGrpCat.{0}) (V : Dᵒᵖ),
-      ¬ Function.Bijective ((theta u' F).app V) := by
-  refine ⟨Discrete PEmpty.{1}, PUnit.{1}, inferInstance, inferInstance,
-    Functor.empty _,
+      ¬ Function.Bijective ((theta u' F).app V) :=
+  ⟨Discrete PEmpty.{1}, PUnit.{1}, inferInstance, inferInstance, Functor.empty _,
     { obj := fun X => X.unop.as.elim
       map := fun {X} => X.unop.as.elim
       map_id := fun X => X.unop.as.elim
       map_comp := fun {X} => X.unop.as.elim },
-    Opposite.op PUnit.unit, ?_⟩
-  intro h
-  have hsurj := h.2
-  rw [Function.Surjective] at hsurj
-  -- target is nonempty: take 0 in the abelian group
-  set G := (uShriekAb (Functor.empty PUnit.{1})).obj
-    { obj := fun X => (Opposite.unop X).as.elim, map := fun {X Y} => (Opposite.unop X).as.elim,
-      map_id := fun X => (Opposite.unop X).as.elim,
-      map_comp := fun {X Y Z} => (Opposite.unop X).as.elim } with hG
-  obtain ⟨a, ha⟩ := hsurj (0 : G.obj (Opposite.op PUnit.unit))
-  -- source must be empty since the index category is empty
-  have : IsEmpty (CostructuredArrow (Functor.empty PUnit.{1}).op (Opposite.op PUnit.unit)) :=
-    ⟨fun j => j.left.unop.as.elim⟩
-  have := isEmpty_lan_obj (Functor.empty PUnit.{1})
-    ((underlyingSet).obj
-      { obj := fun X => (Opposite.unop X).as.elim, map := fun {X Y} => (Opposite.unop X).as.elim,
-        map_id := fun X => (Opposite.unop X).as.elim,
-        map_comp := fun {X Y Z} => (Opposite.unop X).as.elim })
-    (Opposite.op PUnit.unit)
-  rw [uShriekSet] at a
-  exact (isEmptyElim a)
+    Opposite.op PUnit.unit, not_bijective_theta_empty _⟩
 
 end Stacks.Presheaf.AbelianVersusSets

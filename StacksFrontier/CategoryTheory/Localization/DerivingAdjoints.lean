@@ -53,10 +53,12 @@ the adjunction which is compatible with `β`, `α` and the given adjunction betw
 ## Main results
 
 * `CategoryTheory.Adjunction.existsUnique_homEquiv_of_isRightDerivedValueAt`: the pointwise
-  bijection, together with its characterisation by the fractions, [Stacks 0FND].
+  bijection, together with its characterisation by the fractions, [Stacks 0FND] (its
+  functoriality is in `StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`).
 * `CategoryTheory.Adjunction.existsUnique_homEquiv_derivedCategory_of_isRightDerivedValueAt`: the
   same bijection between derived categories of abelian categories, with the two numerators
-  degreewise adjoint chain maps, [Stacks 0DVC].
+  degreewise adjoint chain maps, [Stacks 0DVC] (its functoriality is in
+  `StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`).
 * `CategoryTheory.Adjunction.exists_derived_of_isRightDerivedValueAt_of_isLeftDerivedValueAt`:
   the derived adjunction `LG ⊣ RF`, [Stacks 09T5].
 
@@ -160,14 +162,21 @@ written down without them.
 asserted here is a bijection; no additivity of the bijection is claimed, although both `Hom`s are
 abelian groups.
 
-*Functoriality.* The source's assertion that the isomorphism is functorial in both variables on
-the subcategories where `RF` and `LG` are defined is the compatibility of these bijections with
-the ind- and pro-structures, and that compatibility, for every index `s`, every index `t` and
-every (adjoint pair of) morphism(s) between them, is exactly what is asserted here; it is also
-what determines the bijection uniquely, which is why the pointwise conclusions are `∃!`. Stating
-functoriality as the naturality of a natural transformation would require the morphisms `RF(s)`,
-`LG(t)` between values of Tag 05SA, which are not available while the derived functors are only
-partially defined; the source omits the proof of functoriality.
+*Functoriality.* The source also asserts that the isomorphism is functorial in both variables on
+the subcategories where `RF` and `LG` are defined. That is not part of the statements here, which
+assert the compatibility of the bijection with the ind- and pro-structures — for every index `s`,
+every index `t` and every (adjoint pair of) morphism(s) between them — and hence its uniqueness,
+which is why the pointwise conclusions are `∃!`. Naturality with respect to morphisms between
+different objects `K ⟶ K'` and `M' ⟶ M` uses the morphisms `RF(κ)`, `LG(γ)` between values of
+Tag 05SA (`StacksDerivedFunctor.rightDerivedMap`, `StacksDerivedFunctor.leftDerivedMap`), and is
+proved in `StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`: for the statement
+of Tag 0FND as `CategoryTheory.Adjunction.derivedHomEquiv_naturality` (morphisms of `𝒟` and
+`𝒟'`), `CategoryTheory.Adjunction.derivedHomEquiv_comp_eq_comp` and
+`CategoryTheory.Adjunction.derivedHomEquiv_comp_eq_comp_left` (morphisms of the localized
+categories), and for the derived-category statement of Tag 0DVC as
+`CategoryTheory.Adjunction.derivedCategoryHomEquiv_comp_rightDerivedMap` and
+`CategoryTheory.Adjunction.derivedCategoryHomEquiv_map_comp`; the source omits the proof of
+functoriality.
 
 *Existence of `RF` is everywhere-definedness together with the functor it produces.* For the
 global statement, the source's "`RF : D(𝒜) ⥤ D(ℬ)` exists" is: `RF` is defined at every object in
@@ -588,8 +597,16 @@ two sides: for every index `s : K ⟶ I` of the ind-object defining `RF(K)`, eve
 `t : P ⟶ M` of the pro-object defining `LG(M)` and every `f : P ⟶ F(I)`, a morphism
 `ψ : M ⟶ RF(K)` satisfies `Q'(t) ≫ ψ = Q'(f) ≫ (coprojection at s)` if and only if its image
 satisfies `φ(ψ) ≫ Q(s) = (projection at t) ≫ Q(f^♯)`, where `f^♯ : G(P) ⟶ I` is adjoint
-to `f`. -/
-@[stacks 0FND, sga "4 XVII 2.3.7" "outer Hom bijection"]
+to `f`.
+
+The source's further assertion that this bijection is functorial in both variables is proved in
+`StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`, where the bijection is named
+`CategoryTheory.Adjunction.derivedHomEquiv`: `derivedHomEquiv_naturality` for morphisms of `𝒟`
+and `𝒟'`, and `derivedHomEquiv_comp_eq_comp`, `derivedHomEquiv_comp_eq_comp_left` for morphisms
+of `S⁻¹𝒟` and `(S')⁻¹𝒟'`. -/
+@[stacks 0FND "the canonical bijection and its characterisation by fractions; its functoriality
+in both variables is `derivedHomEquiv_naturality`, `derivedHomEquiv_comp_eq_comp` and
+`derivedHomEquiv_comp_eq_comp_left`", sga "4 XVII 2.3.7" "outer Hom bijection"]
 theorem existsUnique_homEquiv_of_isRightDerivedValueAt
     {D : Type u₁} [Category.{v₁} D] {D' : Type u₂} [Category.{v₂} D']
     {SD : Type u₃} [Category.{v₃} SD] {SD' : Type u₄} [Category.{v₄} SD']
@@ -825,8 +842,15 @@ sides: for every index `s : K ⟶ I` of the ind-object defining `RF(K)`, every i
 of the pro-object defining `LG(M)` and every pair of chain maps `f : P ⟶ F(I)`, `g : G(P) ⟶ I`
 that are adjoint to one another in each degree, a morphism `ψ : M ⟶ RF(K)` satisfies
 `Qh(t) ≫ ψ = Qh(f) ≫ (coprojection at s)` if and only if its image satisfies
-`φ(ψ) ≫ Qh(s) = (projection at t) ≫ Qh(g)`. -/
-@[stacks 0DVC]
+`φ(ψ) ≫ Qh(s) = (projection at t) ≫ Qh(g)`.
+
+The source's further assertion that this isomorphism is functorial in both variables is not part
+of this statement: the bijection is named `CategoryTheory.Adjunction.derivedCategoryHomEquiv`, and
+its naturality in `K` and in `M` is `derivedCategoryHomEquiv_comp_rightDerivedMap` and
+`derivedCategoryHomEquiv_map_comp`, in the module
+`StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`. -/
+@[stacks 0DVC "the canonical isomorphism and its characterisation by fractions; functoriality is
+`derivedCategoryHomEquiv_comp_rightDerivedMap` and `derivedCategoryHomEquiv_map_comp`"]
 theorem existsUnique_homEquiv_derivedCategory_of_isRightDerivedValueAt
     {A : Type u₁} [Category.{v₁} A] [Abelian A] [HasDerivedCategory.{w₁} A]
     {B : Type u₂} [Category.{v₂} B] [Abelian B] [HasDerivedCategory.{w₂} B]

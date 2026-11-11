@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.RelativeDimensio
 public import StacksFrontier.AlgebraicGeometry.Spaces.UniversallyClosed
 
 /-!
-# Bivariant classes for good algebraic spaces
+# Bivariant classes over a parameterized Chow-group system
 
 In the situation of Stacks 0EDT let `f : X ⟶ Y` be a morphism of good algebraic spaces over the
 base space `B` and let `p` be an integer. A *bivariant class `c` of degree `p` for `f`* assigns to
@@ -18,28 +18,37 @@ every good `Y' ⟶ Y` over `B` and every `k` an additive map
 
 compatibly with the three operations chapter 82 puts on the Chow groups of good algebraic spaces:
 proper pushforward, flat pullback of fixed relative dimension, and the refined Gysin map of
-Stacks 0ER1. The group of all of them is `A^p(X ⟶ Y)`, and that group is
-`AlgebraicGeometry.Space.BivariantClass`, an abelian group under the pointwise operations.
+Stacks 0ER1. The group of all of them is `A^p(X ⟶ Y)`.
+
+This file states a *variant* of that definition, `AlgebraicGeometry.Space.BivariantClass`, over
+an abstract `AlgebraicGeometry.Space.ChowGroupSystem` whose Gysin maps are attached to a closed
+subspace alone. It is **not** `A^p(X ⟶ Y)` of Stacks 0ERJ: the refined Gysin map of Stacks 0ER1
+depends on the invertible module `ℒ` and not only on the vanishing locus `Z(s)` (if `W ⊆ Z(s)`
+then `i^*[W] = c₁(ℒ|_W) ∩ [W]`), and a system with one Gysin map per locus cannot
+express axiom (3) of Stacks 0ERJ; see the implementation notes. The group `A^p(X ⟶ Y)` of
+Stacks 0ERJ, over the constructed Chow groups and with axiom (3) quantified over every triple
+`(ℒ', s')`, is `AlgebraicGeometry.Space.BivariantClassCanonical` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.BivariantCanonical`.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.BaseSpaceDimensionSituation.Ambient` — the ambient category of the
   Chow theory of a base situation, presheaves on its big fppf category.
-* `AlgebraicGeometry.Space.GysinDatum` — the vanishing locus of Stacks 0ER1, in the form the
-  Gysin compatibility of a bivariant class needs it: a closed subspace which is good over the
-  base.
-* `AlgebraicGeometry.Space.ChowGroupSystem` — the data of Stacks 82.15 and Stacks 82.22 which
-  this development does not construct, bundled: rational equivalence on every good algebraic
-  space over the base, proper pushforward, flat pullback of fixed relative dimension, and the
-  refined Gysin maps. See the implementation notes.
+* `AlgebraicGeometry.Space.GysinDatum` — a good closed subspace of a good algebraic space, the
+  shape of a vanishing locus of Stacks 0ER1 without the invertible module and section.
+* `AlgebraicGeometry.Space.ChowGroupSystem` — abstract Chow-group data, bundled: rational
+  equivalence on every good algebraic space over the base, proper pushforward, flat pullback of
+  fixed relative dimension, and one Gysin map per admissible closed subspace. See the
+  implementation notes.
 * `AlgebraicGeometry.Space.ChowGroupSystem.chow` — the Chow group `CH_k(X')` such a system
   provides, `AlgebraicGeometry.Space.ChowGroupSystem.cycleClass` its quotient map from the
   group of `k`-cycles, and `AlgebraicGeometry.Space.ChowGroupSystem.chowCongr` its transport
   along an equality of structure morphisms.
 * `AlgebraicGeometry.Space.bivariantBaseChangeMap` — the map `Y'' ×_Y X ⟶ Y' ×_Y X` induced by
   a morphism `Y'' ⟶ Y'`.
-* `AlgebraicGeometry.Space.BivariantClass` — **Stacks 0ERJ**, the group `A^p(X ⟶ Y)` of
-  bivariant classes of degree `p` for `f`.
+* `AlgebraicGeometry.Space.BivariantClass` — the group of bivariant classes of degree `p` for
+  `f` relative to a `ChowGroupSystem`; a variant of Stacks 0ERJ, not that definition (the
+  definition of Stacks 0ERJ is `AlgebraicGeometry.Space.BivariantClassCanonical`).
 
 ## Main results
 
@@ -51,31 +60,33 @@ Stacks 0ER1. The group of all of them is `A^p(X ⟶ Y)`, and that group is
   `AlgebraicGeometry.Space.BivariantClass.sub_cap`,
   `AlgebraicGeometry.Space.BivariantClass.nsmul_cap`,
   `AlgebraicGeometry.Space.BivariantClass.zsmul_cap` — the abelian group structure on
-  `A^p(X ⟶ Y)` is the pointwise one.
+  group of parameterized bivariant classes is the pointwise one.
 
 ## Implementation notes
 
-### What is parameterized, and why
+### What is parameterized, and why this is not Stacks 0ERJ
 
-Rational equivalence of cycles on an algebraic space is *not* available in this repository.
-Only the groups `Z_k(X)` of `k`-cycles are, as `AlgebraicGeometry.Space.CycleGroup`: rational
-equivalence is defined by the principal divisors `div(f)` of rational functions on the integral
-closed subspaces of δ-dimension `k + 1`, and the order of vanishing of a rational function along
-a prime divisor of an integral algebraic space is not constructed here. That obstruction and its
-consequences are recorded in the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.LocalizationSequence`. With `CH_k` absent, so are the
-three operations on it that Stacks 0ERJ quantifies over, and so is the refined Gysin
-homomorphism of Stacks 0ER1, whose target is a Chow group already.
+This file was written before rational equivalence and the operations on Chow groups of good
+algebraic spaces were constructed, so all of them are a parameter:
+`AlgebraicGeometry.Space.ChowGroupSystem` is the datum of rational equivalence on every good
+algebraic space over the base — a subgroup of `Z_k`, so that `CH_k` is its quotient and comes with
+its abelian group structure and its cycle class map for free — together with proper pushforward,
+flat pullback of relative dimension `r`, and, for the Gysin maps, a predicate singling out some
+good closed subspaces (`AlgebraicGeometry.Space.GysinDatum`) and a Gysin map for each of them.
 
-So all of it is a parameter: `AlgebraicGeometry.Space.ChowGroupSystem` is the datum of rational
-equivalence on every good algebraic space over the base — a subgroup of `Z_k`, so that `CH_k` is
-its quotient and comes with its abelian group structure and its cycle class map for free —
-together with proper pushforward, flat pullback of relative dimension `r`, and, for the Gysin
-maps, a predicate singling out the vanishing loci of Stacks 0ER1 among the good closed subspaces
-and a Gysin map for each of them. Every declaration below carries that parameter, and
-`@[stacks 0ERJ]` is placed on `AlgebraicGeometry.Space.BivariantClass` with a description saying
-so: the definition of `A^p(X ⟶ Y)` is here in full, over data the source has already
-constructed by the time it states 0ERJ and this repository has not.
+That last datum does not model Stacks 0ER1. The refined Gysin map of a triple `(ℒ, s, i : D → X)`
+depends on `ℒ` and not only on `D = Z(s)`: for an integral `W ⊆ D` it is `c₁(ℒ|_W) ∩ [W]`; for
+`s = 0` it is `c₁(ℒ) ∩ -`, which changes with `ℒ`. A `GysinDatum` records only the closed
+immersion, so a `ChowGroupSystem` has one Gysin map per locus, and the Gysin axiom of
+`AlgebraicGeometry.Space.BivariantClass` relates the Gysin map of a locus `D' ⊆ Y'` to that of a
+locus `E' ⊆ X'` merely isomorphic to `X' ×_{Y'} D'`, with no relation between their invertible
+modules. Whatever the system, this is not axiom (3) of Stacks 0ERJ: it is imposed for at most one
+`ℒ'` per locus, and when the system attaches to `E'` a module that is not the pullback of the one
+attached to `D'` it fails already for the identity class. So `BivariantClass` is not
+`A^p(X ⟶ Y)` and is not registered for that tag. The definition of Stacks 0ERJ is
+`AlgebraicGeometry.Space.BivariantClassCanonical`, over the constructed Chow groups
+`AlgebraicGeometry.Space.chowGroupCanonical`, with axiom (3) quantified over every invertible
+module and global section on the test space and their inverse image to `X'`.
 
 Goodness of an algebraic space over the base,
 `AlgebraicGeometry.Space.BaseSpaceDimensionSituation.IsGood`, is a `Prop` taken as an explicit
@@ -88,9 +99,8 @@ proof give the same group.
 
 The fibre product `X' = Y' ×_Y X` is the categorical pullback `pullback f g` of the ambient
 presheaf category, which has all limits; `pullback.fst f g` is its map to `X`, so a cap operation
-lands in `G.chow (pullback.fst f g ≫ sX) _ (k - p)`. Goodness of that pullback over the base is
-itself a theorem this repository does not have, so it is a hypothesis of the cap operation, where
-proof irrelevance again makes it harmless.
+lands in `G.chow (pullback.fst f g ≫ sX) _ (k - p)`. Goodness of that pullback over the base is a
+hypothesis of the cap operation.
 
 The compatibility axioms are stated for an arbitrary morphism `h'` between two such pullbacks
 making the indicated square cartesian and commuting with the maps to `X`, so they apply in
@@ -111,9 +121,7 @@ spaces involved are hypotheses of the axiom fields rather than conclusions, beca
 that would supply them for algebraic spaces — stability of properness, flatness and relative
 dimension under base change, and goodness of a fibre product of good spaces — are not available
 here. They are forced by typing, in the sense that the operations in the conclusion cannot be
-written down without them, and each appears in the conclusion; proof irrelevance therefore makes
-the quantified field equivalent to the unconditional one. The same applies to the hypothesis that
-the pulled-back vanishing locus is again one of the loci of Stacks 0ER1.
+written down without them, and each appears in the conclusion.
 
 ## References
 
@@ -156,10 +164,11 @@ instance (priority := high) hasPullback_bigFppfOver_presheaf (B : BigFppfSite.{u
 
 /-! ### The vanishing locus a Gysin map is attached to -/
 
-/-- The vanishing locus `D = Z(s)` of Stacks 0ER1 on a good algebraic space `X/B`, in the form
-the Gysin compatibility of a bivariant class needs it: a closed subspace of `X` which is itself
-good over the base. The invertible module and the global section it comes from are not recorded,
-only the closed immersion they produce; which closed subspaces do arise this way is the predicate
+/-- A closed subspace of a good algebraic space `X/B` which is itself good over the base: the
+shape of the vanishing locus `D = Z(s)` of Stacks 0ER1, without the invertible module and the
+global section it comes from. Since the refined Gysin map of Stacks 0ER1 depends on the module,
+a Gysin map attached to a `GysinDatum` alone is not the Gysin map of Stacks 0ER1; which closed
+subspaces a system admits is the predicate
 `AlgebraicGeometry.Space.ChowGroupSystem.IsGysinDatum`. -/
 structure GysinDatum (D : BaseSpaceDimensionSituation.{u}) {X : D.Ambient}
     (sX : X ⟶ D.space) where
@@ -174,16 +183,16 @@ structure GysinDatum (D : BaseSpaceDimensionSituation.{u}) {X : D.Ambient}
 
 /-! ### The Chow-group data a bivariant class is stated against -/
 
-/-- **The data of Stacks 82.15 and Stacks 82.22 that this development does not construct.** For
-every good algebraic space over the base and every `k`, the subgroup of `k`-cycles rationally
-equivalent to zero — so that the Chow group `CH_k` is its quotient — together with the proper
-pushforward, the flat pullback of fixed relative dimension and the refined Gysin maps of
-Stacks 0ER1 on those Chow groups.
+/-- **Abstract Chow-group data.** For every good algebraic space over the base and every `k`, a
+subgroup of `k`-cycles declared rationally equivalent to zero — so that a Chow group `CH_k` is
+its quotient — together with a proper pushforward, a flat pullback of fixed relative dimension,
+and one Gysin map for each admissible closed subspace (`AlgebraicGeometry.Space.GysinDatum`).
 
-This is what chapter 82 provides by the time it states Stacks 0ERJ. Bundling it is what makes
-the three compatibility axioms of a bivariant class statable at all; see the implementation notes
-of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.Bivariant` for why none of it is available
-here. -/
+The Gysin maps are indexed by the closed subspace alone, whereas the refined Gysin map of
+Stacks 0ER1 depends on an invertible module and a section; see the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.Bivariant`. The constructed Chow groups and operations
+of chapter 82 are `AlgebraicGeometry.Space.chowGroupCanonical` and the maps of Stacks 0EP1,
+0EP8 and 0ER1. -/
 structure ChowGroupSystem (D : BaseSpaceDimensionSituation.{u}) where
   /-- The subgroup of `k`-cycles rationally equivalent to zero, on every good algebraic space
   over the base: the kernel of the cycle class map of Stacks 82.15. -/
@@ -204,11 +213,12 @@ structure ChowGroupSystem (D : BaseSpaceDimensionSituation.{u}) where
     (_hr : HasRelativeDimension r D.site D.base D.base_mem h) (k : ℤ),
     CycleGroup D sY k ⧸ rationalEquivalences sY hY k →+
       CycleGroup D sX (k + (r : ℤ)) ⧸ rationalEquivalences sX hX (k + (r : ℤ))
-  /-- Which good closed subspaces of a good algebraic space over the base are the vanishing
-  locus `Z(s)` of a global section `s` of an invertible module, as in Stacks 0ER1. -/
+  /-- Which good closed subspaces of a good algebraic space over the base the system attaches a
+  Gysin map to. -/
   IsGysinDatum : ∀ {X : D.Ambient} (sX : X ⟶ D.space), D.IsGood sX → GysinDatum D sX → Prop
-  /-- The refined Gysin homomorphism `i^* : CH_{k+1}(X) ⟶ CH_k(D)` of Stacks 0ER1, for every
-  vanishing locus of a global section of an invertible module. -/
+  /-- A Gysin homomorphism `i^* : CH_{k+1}(X) ⟶ CH_k(D)` for every admissible closed subspace
+  `i : D ⟶ X`, one per closed subspace (not per invertible module and section, as in
+  Stacks 0ER1). -/
   gysin : ∀ {X : D.Ambient} (sX : X ⟶ D.space) (hX : D.IsGood sX) (d : GysinDatum D sX)
     (_hd : IsGysinDatum sX hX d) (k : ℤ),
     CycleGroup D sX (k + 1) ⧸ rationalEquivalences sX hX (k + 1) →+
@@ -245,17 +255,16 @@ abbrev bivariantBaseChangeMap (D : BaseSpaceDimensionSituation.{u}) {X Y Y' Y'' 
 
 /-! ### Bivariant classes -/
 
-/-- **Stacks 0ERJ.** A bivariant class of degree `p` for a morphism `f : X ⟶ Y` of good
-algebraic spaces over the base: a rule assigning to every good `Y' ⟶ Y` over the base and every
-`k` an additive map `CH_k(Y') ⟶ CH_{k-p}(Y' ×_Y X)`, natural for proper pushforward, for flat
-pullback of fixed relative dimension, and for the refined Gysin maps of Stacks 0ER1. The group
-of all of them is denoted `A^p(X ⟶ Y)`.
+/-- A bivariant class of degree `p` for a morphism `f : X ⟶ Y` of good algebraic spaces over the
+base, relative to a `ChowGroupSystem` `G`: a rule assigning to every good `Y' ⟶ Y` over the base
+and every `k` an additive map `G.chow_k(Y') ⟶ G.chow_{k-p}(Y' ×_Y X)`, natural for the system's
+proper pushforward, for its flat pullback of fixed relative dimension, and for its Gysin maps.
 
-Stated against an `AlgebraicGeometry.Space.ChowGroupSystem`, which supplies the Chow groups of
-Stacks 82.15 and the three operations on them that the axioms quantify over, none of which this
-repository constructs; see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.Bivariant`. -/
-@[stacks 0ERJ "over the parameterized Chow groups of 82.15 and Gysin maps of 82.22"]
+This is a variant of Stacks 0ERJ, not that definition: the Gysin maps of `G` are attached to a
+closed subspace alone, without the invertible module of Stacks 0ER1, so the Gysin axiom below is
+not axiom (3) of Stacks 0ERJ; see the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.Bivariant`. The group `A^p(X ⟶ Y)` of Stacks 0ERJ is
+`AlgebraicGeometry.Space.BivariantClassCanonical`. -/
 structure BivariantClass (D : BaseSpaceDimensionSituation.{u}) (G : ChowGroupSystem D)
     {X Y : D.Ambient} (sX : X ⟶ D.space) (hX : D.IsGood sX) (sY : Y ⟶ D.space)
     (hY : D.IsGood sY) (f : X ⟶ Y) (hf : f ≫ sY = sX) (p : ℤ) where
@@ -264,7 +273,7 @@ structure BivariantClass (D : BaseSpaceDimensionSituation.{u}) (G : ChowGroupSys
   cap : ∀ {Y' : D.Ambient} (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY))
     (hX' : D.IsGood (pullback.fst f g ≫ sX)) (k : ℤ),
     G.chow (g ≫ sY) hY' k →+ G.chow (pullback.fst f g ≫ sX) hX' (k - p)
-  /-- Cap product commutes with proper pushforward: Stacks 0ERJ (1). -/
+  /-- Cap product commutes with the system's proper pushforward, the shape of Stacks 0ERJ (1). -/
   proper_naturality : ∀ {Y' Y'' : D.Ambient} (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY))
     (hX' : D.IsGood (pullback.fst f g ≫ sX)) (h : Y'' ⟶ Y')
     (hY'' : D.IsGood ((h ≫ g) ≫ sY)) (hX'' : D.IsGood (pullback.fst f (h ≫ g) ≫ sX))
@@ -278,7 +287,8 @@ structure BivariantClass (D : BaseSpaceDimensionSituation.{u}) (G : ChowGroupSys
           (Category.assoc h g sY).symm hh k α) =
       G.properPushforward (pullback.fst f (h ≫ g) ≫ sX) hX'' (pullback.fst f g ≫ sX) hX' h'
         (by rw [← Category.assoc, hfst]) hh' (k - p) (cap (h ≫ g) hY'' hX'' k α)
-  /-- Cap product commutes with flat pullback of fixed relative dimension: Stacks 0ERJ (2). -/
+  /-- Cap product commutes with the system's flat pullback of fixed relative dimension, the shape
+  of Stacks 0ERJ (2). -/
   flat_naturality : ∀ {Y' Y'' : D.Ambient} (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY))
     (hX' : D.IsGood (pullback.fst f g ≫ sX)) (h : Y'' ⟶ Y')
     (hY'' : D.IsGood ((h ≫ g) ≫ sY)) (hX'' : D.IsGood (pullback.fst f (h ≫ g) ≫ sX))
@@ -296,8 +306,9 @@ structure BivariantClass (D : BaseSpaceDimensionSituation.{u}) (G : ChowGroupSys
           hr k α))
       (G.flatPullback (pullback.fst f (h ≫ g) ≫ sX) hX'' (pullback.fst f g ≫ sX) hX' h'
         (by rw [← Category.assoc, hfst]) hh' r hr' (k - p) (cap g hY' hX' k α))
-  /-- Cap product commutes with the refined Gysin map of every pulled-back vanishing locus:
-  Stacks 0ERJ (3). -/
+  /-- Cap product commutes with the system's Gysin maps of a locus `D' ⊆ Y'` and of a locus
+  `E' ⊆ X'` isomorphic to its base change. Not axiom (3) of Stacks 0ERJ, which pairs the Gysin
+  map of a triple `(ℒ', s')` with that of its inverse image `(𝒩', t')` to `X'`. -/
   gysin_naturality : ∀ {Y' : D.Ambient} (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY))
     (hX' : D.IsGood (pullback.fst f g ≫ sX)) (d : GysinDatum D (g ≫ sY))
     (hd : G.IsGysinDatum (g ≫ sY) hY' d) (e : GysinDatum D (pullback.fst f g ≫ sX))
@@ -319,7 +330,7 @@ variable (D : BaseSpaceDimensionSituation.{u}) (G : ChowGroupSystem D) {X Y : D.
   (sX : X ⟶ D.space) (hX : D.IsGood sX) (sY : Y ⟶ D.space) (hY : D.IsGood sY) (f : X ⟶ Y)
   (hf : f ≫ sY = sX) (p : ℤ)
 
-/-- **Stacks 0ERJ.** Two bivariant classes agree as soon as all their cap operations agree. -/
+/-- Two bivariant classes agree as soon as all their cap operations agree. -/
 @[ext]
 theorem BivariantClass.ext {c d : BivariantClass D G sX hX sY hY f hf p}
     (h : ∀ {Y' : D.Ambient} (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY))
@@ -335,7 +346,7 @@ theorem BivariantClass.ext {c d : BivariantClass D G sX hX sY hY f hf p}
       cases hcap
       congr
 
-/-- **Stacks 0ERJ.** The zero bivariant class, capping to zero on every good test space. -/
+/-- The zero bivariant class, capping to zero on every good test space. -/
 instance : Zero (BivariantClass D G sX hX sY hY f hf p) where
   zero :=
     { cap := fun _ _ _ _ => 0
@@ -357,7 +368,7 @@ instance : Zero (BivariantClass D G sX hX sY hY f hf p) where
         rw [cast_zero, map_zero]
         omega }
 
-/-- **Stacks 0ERJ.** The pointwise sum of two bivariant classes. -/
+/-- The pointwise sum of two bivariant classes. -/
 instance : Add (BivariantClass D G sX hX sY hY f hf p) where
   add c d :=
     { cap := fun g hY' hX' k => c.cap g hY' hX' k + d.cap g hY' hX' k
@@ -399,7 +410,7 @@ instance : Add (BivariantClass D G sX hX sY hY f hf p) where
         rw [map_add, hc, hd, ← map_add, ← cast_add]
         omega }
 
-/-- **Stacks 0ERJ.** The pointwise negation of a bivariant class. -/
+/-- The pointwise negation of a bivariant class. -/
 instance : Neg (BivariantClass D G sX hX sY hY f hf p) where
   neg c :=
     { cap := fun g hY' hX' k => -c.cap g hY' hX' k
@@ -434,14 +445,14 @@ instance : Neg (BivariantClass D G sX hX sY hY f hf p) where
         rw [map_neg, hc, ← map_neg, ← cast_neg]
         omega }
 
-/-- **Stacks 0ERJ.** The zero bivariant class caps to zero. -/
+/-- The zero bivariant class caps to zero. -/
 @[simp]
 theorem BivariantClass.zero_cap {Y' : D.Ambient} (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY))
     (hX' : D.IsGood (pullback.fst f g ≫ sX)) (k : ℤ) (α : G.chow (g ≫ sY) hY' k) :
     (0 : BivariantClass D G sX hX sY hY f hf p).cap g hY' hX' k α = 0 :=
   rfl
 
-/-- **Stacks 0ERJ.** A sum of bivariant classes caps to the sum of their cap products. -/
+/-- A sum of bivariant classes caps to the sum of their cap products. -/
 @[simp]
 theorem BivariantClass.add_cap (c d : BivariantClass D G sX hX sY hY f hf p) {Y' : D.Ambient}
     (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY)) (hX' : D.IsGood (pullback.fst f g ≫ sX)) (k : ℤ)
@@ -449,7 +460,7 @@ theorem BivariantClass.add_cap (c d : BivariantClass D G sX hX sY hY f hf p) {Y'
     (c + d).cap g hY' hX' k α = c.cap g hY' hX' k α + d.cap g hY' hX' k α :=
   rfl
 
-/-- **Stacks 0ERJ.** A negated bivariant class caps to the negated cap product. -/
+/-- A negated bivariant class caps to the negated cap product. -/
 @[simp]
 theorem BivariantClass.neg_cap (c : BivariantClass D G sX hX sY hY f hf p) {Y' : D.Ambient}
     (g : Y' ⟶ Y) (hY' : D.IsGood (g ≫ sY)) (hX' : D.IsGood (pullback.fst f g ≫ sX)) (k : ℤ)
@@ -457,7 +468,7 @@ theorem BivariantClass.neg_cap (c : BivariantClass D G sX hX sY hY f hf p) {Y' :
     (-c).cap g hY' hX' k α = -c.cap g hY' hX' k α :=
   rfl
 
-/-- **Stacks 0ERJ.** Bivariant classes of degree `p` for `f` form a commutative additive
+/-- Bivariant classes of degree `p` for `f` form a commutative additive
 monoid. -/
 instance : AddCommMonoid (BivariantClass D G sX hX sY hY f hf p) where
   add_assoc a b c := by
@@ -482,11 +493,11 @@ instance : AddCommMonoid (BivariantClass D G sX hX sY hY f hf p) where
     exact _root_.add_comm _ _
   nsmul := nsmulRec
 
-/-- **Stacks 0ERJ.** The difference of two bivariant classes. -/
+/-- The difference of two bivariant classes. -/
 instance : Sub (BivariantClass D G sX hX sY hY f hf p) where
   sub a b := a + -b
 
-/-- **Stacks 0ERJ.** The group `A^p(X ⟶ Y)` of bivariant classes of degree `p` for `f`. -/
+/-- The group of bivariant classes of degree `p` for `f` relative to a `ChowGroupSystem`. -/
 instance : AddCommGroup (BivariantClass D G sX hX sY hY f hf p) where
   toAddCommMonoid := inferInstance
   toNeg := inferInstance
@@ -499,7 +510,7 @@ instance : AddCommGroup (BivariantClass D G sX hX sY hY f hf p) where
   sub_eq_add_neg _ _ := rfl
   zsmul := zsmulRec
 
-/-- **Stacks 0ERJ.** A difference of bivariant classes caps to the difference of their cap
+/-- A difference of bivariant classes caps to the difference of their cap
 products. -/
 @[simp]
 theorem BivariantClass.sub_cap (c d : BivariantClass D G sX hX sY hY f hf p) {Y' : D.Ambient}
@@ -508,7 +519,7 @@ theorem BivariantClass.sub_cap (c d : BivariantClass D G sX hX sY hY f hf p) {Y'
     (c - d).cap g hY' hX' k α = c.cap g hY' hX' k α - d.cap g hY' hX' k α := by
   simp [sub_eq_add_neg]
 
-/-- **Stacks 0ERJ.** A natural multiple of a bivariant class caps to that multiple of its cap
+/-- A natural multiple of a bivariant class caps to that multiple of its cap
 product. -/
 @[simp]
 theorem BivariantClass.nsmul_cap (n : ℕ) (c : BivariantClass D G sX hX sY hY f hf p)
@@ -519,7 +530,7 @@ theorem BivariantClass.nsmul_cap (n : ℕ) (c : BivariantClass D G sX hX sY hY f
   | zero => simp
   | succ n ih => simp [succ_nsmul, ih]
 
-/-- **Stacks 0ERJ.** An integer multiple of a bivariant class caps to that multiple of its cap
+/-- An integer multiple of a bivariant class caps to that multiple of its cap
 product. -/
 @[simp]
 theorem BivariantClass.zsmul_cap (n : ℤ) (c : BivariantClass D G sX hX sY hY f hf p)

@@ -43,10 +43,11 @@ the source draws from elsewhere are carried as hypotheses; see the implementatio
 * `AlgebraicGeometry.Stack.EtaleSmoothLift.isIso_of_isIso_components`: a morphism of smooth lifts
   whose two space components are isomorphisms is an isomorphism. This is the step the source
   states as "and hence `(f, f', γ')` is an isomorphism", and it is proved here outright.
-* `AlgebraicGeometry.Stack.EtaleSmoothLift.fiber_isGroupoid`: **Stacks 0CJT**, the fibre
-  categories of the projection are groupoids.
-* `AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids`: **Stacks 0CJT**, the projection
-  is fibred in groupoids.
+* `AlgebraicGeometry.Stack.EtaleSmoothLift.fiber_isGroupoid`: the fibre categories of the
+  projection are groupoids, given `hiso`.
+* `AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids`: the projection is fibred in
+  groupoids, given `hiso` and `hfib`. **Stacks 0CJT** itself, with neither hypothesis, is
+  `AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids_proj`, which discharges both.
 
 ## Implementation notes
 
@@ -404,18 +405,18 @@ theorem isIso_base_of_isHomLift {U : Space.SpacesEtale B S hS W} (m : ξ ⟶ η)
     rw [hfac]; infer_instance
   exact h
 
-/-- **Stacks 0CJT, the fibre categories are groupoids.** A morphism of the fibre over an étale
-open `U` of `W` lies over the identity of `U`, so its base component is invertible; its ambient
-component is then invertible by `hiso`, and
+/-- **The fibre categories are groupoids, from the isomorphism clause `hiso`.** A morphism of
+the fibre over an étale open `U` of `W` lies over the identity of `U`, so its base component is
+invertible; its ambient component is then invertible by `hiso`, and
 `AlgebraicGeometry.Stack.EtaleSmoothLift.isIso_of_isIso_components` makes the morphism itself
 invertible.
 
 The hypothesis `hiso` is the isomorphism clause of **Stacks 0CJC** for the thickening `ι`,
 written out for this category: if the base component of a morphism of smooth lifts is an
 isomorphism then so is its ambient component. It is carried because that clause of 0CJC is not
-available here — see the implementation notes — and **Stacks 0CJC** is the tag that would
-discharge it. -/
-@[stacks 0CJT "the fibre categories are groupoids"]
+available in this file — see the implementation notes. It is discharged by
+`AlgebraicGeometry.Stack.EtaleSmoothLift.isIso_ambient_of_isIso_base`, and the unconditional
+form is `AlgebraicGeometry.Stack.EtaleSmoothLift.isGroupoid_fiber_proj`. -/
 theorem fiber_isGroupoid
     (hiso : ∀ (ζ ζ' : EtaleSmoothLift B S hS ι hι W x hx) (n : ζ ⟶ ζ'),
       IsIso (Hom.base n) → IsIso (Hom.ambient n))
@@ -437,9 +438,9 @@ theorem fiber_isGroupoid
     · exact IsIso.hom_inv_id φ
     · exact IsIso.inv_hom_id φ
 
-/-- **Stacks 0CJT.** The category of smooth lifts of the étale opens of `W` along the thickening
-`ι`, projected to the spaces-étale site of `W`, is fibred in groupoids. The fibre categories are
-groupoids by `AlgebraicGeometry.Stack.EtaleSmoothLift.fiber_isGroupoid`, and that together with
+/-- **Fibred in groupoids, from the two hypotheses `hiso` and `hfib`.** The category of smooth
+lifts of the étale opens of `W` along the thickening `ι`, projected to the spaces-étale site of
+`W`, is fibred in groupoids. The fibre categories are groupoids by `AlgebraicGeometry.Stack.EtaleSmoothLift.fiber_isGroupoid`, and that together with
 the fibred-category half gives the conclusion by **Stacks 003V**.
 
 Two hypotheses are carried. The first, `hiso`, is the isomorphism clause of **Stacks 0CJC** for
@@ -453,8 +454,11 @@ which is not available here — every available form of it asks the thickening t
 because the source omits the strongly cartesian verification itself. **Stacks 07VW** is the tag
 that would discharge it; see the implementation notes for the full evidence. What `hfib` supplies
 is existence of strongly cartesian lifts; the uniqueness of fill-ins demanded by **Stacks 003S**
-is supplied by the groupoid-fibre half proved here. -/
-@[stacks 0CJT "fibred in groupoids, granted the fibred-category half"]
+is supplied by the groupoid-fibre half proved here.
+
+Stacks 0CJT itself, with neither hypothesis, is
+`AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids_proj`, which also discharges
+`hiso` and `hfib`. -/
 theorem isFiberedInGroupoids
     (hiso : ∀ (ζ ζ' : EtaleSmoothLift B S hS ι hι W x hx) (n : ζ ⟶ ζ'),
       IsIso (Hom.base n) → IsIso (Hom.ambient n))

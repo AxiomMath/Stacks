@@ -366,7 +366,6 @@ public noncomputable def sectionsCocone : Cocone (idealPowersHom A I M) where
 
 /-- **Stacks Project, Tag 01PM (`canonical_map`).** The canonical map
 `colim_n Hom_A(I ^ n, M) → Γ(Spec(A) \ V(I), M̃)`. -/
-@[stacks 01PM "canonical_map"]
 public noncomputable def canonicalMapToSectionsData : CanonicalMapToSectionsData A I M where
   hom := colimit.desc _ (sectionsCocone A I M)
   restrict_ι n φ f hf := by
@@ -392,7 +391,6 @@ public noncomputable def canonicalMapToSections :
 
 /-- On every basic open `D(f)` with `f ∈ I`, a colimit representative `φ` has image
 `φ(fⁿ)/fⁿ`. -/
-@[stacks 01PM "canonical_map"]
 public theorem canonicalMapToSections_restrict_ι (n : ℕ)
     (φ : (I ^ n : Ideal A) →ₗ[A] M) (f : A) (hf : f ∈ I) :
     restrictToBasicOpen A I M f hf
@@ -475,9 +473,8 @@ public lemma exists_pow_smul_eq_zero_of_apply_eq_zero (n : ℕ)
   obtain ⟨k, hk⟩ := (tildeBasicOpenFraction_eq_zero_iff _ _ _ _).mp h2
   exact ⟨k, by simpa using congrArg ULift.down hk⟩
 
-/-- **Stacks Project, Tag 01PM (`injective`).** The canonical map
+/-- The canonical map
 `colim_n Hom_A(I ^ n, M) → Γ(Spec(A) \ V(I), M̃)` is injective when `I` is finitely generated. -/
-@[stacks 01PM "injective"]
 public theorem canonicalMapToSections_injective_of_fg (hI : I.FG) :
     Function.Injective (canonicalMapToSections A I M) := by
   have hforget : PreservesFilteredColimitsOfSize.{0, 0}

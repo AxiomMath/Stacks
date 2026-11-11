@@ -49,12 +49,6 @@ namespace Stacks.Chow
 horizontal legs `u₀ : A₀ ⟶ B₀`, `u₁ : A₁ ⟶ B₁` are proper and whose vertical legs `d : A₁ ⟶ A₀`,
 `v : B₁ ⟶ B₀` are flat of relative dimension `r`, flat pullback of Chow classes commutes with
 proper pushforward: `v^* u₀_* α = u₁_* d^* α`. -/
-@[stacks 02RG "the identity ON CHOW GROUPS in the four-corner form of the source -- a cartesian \
-square with two proper legs and two flat legs of a common relative dimension r -- for an \
-arbitrary class, with NOTHING ASSUMED: the two descents (Stacks 02S1, 02S2) are theorems here, \
-coherence of the two direct images is Stacks 02O5 and the flat base change isomorphism is part \
-(1) of Stacks 02KH at i = 0, which is the only degree the comparison of ordinary direct images \
-needs"]
 theorem properPushforwardFlatPullbackBaseChange (C : ChowSituation.{u}) :
     ProperPushforwardFlatPullbackBaseChange C := by
   intro A₀ A₁ B₀ B₁ sA₀ _ sA₁ _ sB₀ _ sB₁ _ u₀ _ hu₀ u₁ _ hu₁ d _ _ hd v _ _ hv hsq r hdr hvr k
@@ -65,10 +59,6 @@ theorem properPushforwardFlatPullbackBaseChange (C : ChowSituation.{u}) :
 /-- The proper-pushforward condition of Stacks 0B76 (1) for the flat-pullback rule of Stacks 0B78:
 flat pullback along the base change of a flat `f : X ⟶ Y` of relative dimension `r` commutes with
 proper pushforward along a proper morphism `h : T' ⟶ T` of test schemes over `Y`. -/
-@[stacks 0B78 "the proper-pushforward condition of Stacks 0B76 for the flat-pullback rule, with \
-NOTHING ASSUMED: Stacks 02RG on Chow groups is the theorem \
-Stacks.Chow.properPushforwardFlatPullbackBaseChange above, and the Stacks 02S1 descent along \
-which the rule is formed is the theorem Stacks.Chow.flatPullbackDescends"]
 theorem flatPullbackBivariantCap_proper_naturality_unconditional (C : ChowSituation.{u})
     {X Y : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S)
     [LocallyOfFiniteType sY] (f : X ⟶ Y) [LocallyOfFiniteType f] [Flat f] (hf : f ≫ sY = sX)
@@ -132,9 +122,6 @@ def flatPullbackBivariantClassOfInvertible (C : ChowSituation.{u}) {X Y : Scheme
 /-- The class `Stacks.Chow.flatPullbackBivariantClassOfInvertible` is the flat-pullback class in
 the sense of `Stacks.Chow.IsBivariantFlatPullback`: on every test scheme its cap operation is flat
 pullback along the base change of `f`. -/
-@[stacks 0B78 "the class of the same tag constructed above satisfies the characterization \
-Stacks.Chow.IsBivariantFlatPullback, with NOTHING ASSUMED, so that the uniqueness statement \
-Stacks.Chow.eq_of_isBivariantFlatPullback is about a nonempty collection"]
 theorem isBivariantFlatPullback_flatPullbackBivariantClassOfInvertible (C : ChowSituation.{u})
     {X Y : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S)
     [LocallyOfFiniteType sY] (f : X ⟶ Y) [LocallyOfFiniteType f] [Flat f] (hf : f ≫ sY = sX)

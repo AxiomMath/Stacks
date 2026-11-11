@@ -206,7 +206,7 @@ Everything lives in the namespace `Crystalline.GlobalCrystallineSituation.SmallS
   commutation of the square of topoi, which is `...SmallSite.crisZariskiSquare`, nor the Leray
   coherence named in `crisCohomologyMap`'s docstring, which is
   `...SmallSite.crisZariskiLerayCoherence`: it is [Stacks, Proposition 07LG]
-  (`...SmallSite.crystalPairDeRhamComplex_computesCohomology`), through [Stacks, Tag 07Q9],
+  (`...SmallSite.crystalPairDeRhamDerivedPlusIso`), through [Stacks, Tag 07Q9],
   together with the monomorphism of `ℋ^0` that the cokernel half needs
   (`...SmallSite.mono_zariskiDirectImage_map_crisModuleUnit_of_isIteratedAlphaPCover`).
 
@@ -251,8 +251,8 @@ Where the tags are, and what this file contributes to them:
   directly.
 * **The mathematical content of [Stacks, Tag 07Q9]** is [Stacks, Proposition 07LG], the
   computation of the cohomology of a crystal in quasi-coherent modules by the de Rham complex of
-  the divided power envelope — `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-  `SmallSite/CrystalDeRhamComputesCohomology.lean` — together with [Stacks, Tag 07Q7] at `a = p`
+  the divided power envelope — `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+  `SmallSite/CrystalDeRhamDerived07LG.lean` — together with [Stacks, Tag 07Q7] at `a = p`
   for the extension of [Stacks, Tag 07N1]: in Situation 07MD for the completed envelope this is
   `Crystalline.PthRootExtension.exists_homotopyInverse_completedPthRootExtension_situation` of
   `Differentials/PthRootCompletedSituation.lean`, and the splitness of `D ⟶ D'` as a map of

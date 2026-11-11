@@ -68,9 +68,12 @@ the `have` in the represented-base lemma fixes it at `u`, and removing that `hav
 same reason `AlgebraicGeometry.Stack.relativeDiagonal` is written `.{u, u, u + 1}` at every term
 occurrence.
 
-**The library's `AlgebraicGeometry.Stack.isQuasiSeparated_iff_isQuasiCompact_relativeDiagonal`
-(Stacks 04YT, parts (1) and (2)) is not an input here**, and the module is not imported. That
-theorem reads condition (1) of Stacks 04YT as Definition 04YW, while part (2) of Stacks 04Z0 needs
+**The library's
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparated_iff_isQuasiCompact_relativeDiagonal` is
+not an input here**, and its module is not imported: it is Stacks 04YT,
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparated_relativeDiagonal_tfae`, that is derived
+from the equivalence proved here. That theorem reads quasi-separatedness of `f` as
+Definition 04YW, while part (2) of Stacks 04Z0 needs
 it read as the Section 04XB predicate — Section 04XB quasi-separatedness of `Δ_{f,1}` rather than
 Definition 04YW quasi-separatedness of `Δ_{f,1}`. The two agree for a representable 1-morphism,
 but only as a consequence of the equivalence proved here, so this file proves the Section 04XB
@@ -260,8 +263,10 @@ Stacks 04XB, exactly when `f` is quasi-separated in that same sense.
 This is condition (1) of Stacks 04YT read as the Section 04XB predicate, which is how the source
 states it — its proof opens *"the statements `f` is quasi-separated, `Δ_f` is quasi-compact … refer
 to the notions defined in Properties of Stacks, Section 04XB"*. The library's
-`AlgebraicGeometry.Stack.isQuasiSeparated_iff_isQuasiCompact_relativeDiagonal` reads condition (1)
-as Definition 04YW instead, so the two are different statements; see the implementation notes.
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparated_iff_isQuasiCompact_relativeDiagonal`
+reads quasi-separatedness of `f` as Definition 04YW instead, so the two are different statements;
+see the implementation notes. The full Stacks 04YT is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparated_relativeDiagonal_tfae`.
 
 Both directions go through the base change of `f` to a scheme-valued point, where
 `AlgebraicGeometry.Stack.isQuasiCompact_relativeDiagonal_baseChange_iff_isQuasiSeparated` applies.

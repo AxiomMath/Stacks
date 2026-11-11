@@ -6,11 +6,19 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ThickeningMorphisms
 public import StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.EtaleSite
 
 /-!
-# A thickening of a scheme is a scheme (Stacks 05ZR)
+# A thickening of a scheme is a scheme, through Stacks 07VV for an integral morphism
 
 Let `S` be a scheme and let `X ⊂ X'` be a thickening of algebraic spaces over `S`. If `X` is
-(representable by) a scheme, then so is `X'`. Being a scheme is
+(representable by) a scheme, then so is `X'` (Stacks 05ZR). Being a scheme is
 `CategoryTheory.Functor.IsRepresentable` for the presheaf underlying the space.
+
+The results of this file are the forms of Stacks 05ZR obtained from Stacks 07VV for an integral
+morphism, and they carry the three hypotheses of the library's Stacks 07VT. Stacks 05ZR itself
+is proved with no hypotheses, from the closed-immersion form of Stacks 07VV, as
+`AlgebraicGeometry.Space.isRepresentable_of_isThickening_of_isRepresentable` and
+`AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom_of_isRepresentable` in
+`StacksFrontier/AlgebraicGeometry/Spaces/ThickeningSchemeRepresentableClosedImmersion.lean`; the
+tag is registered on those, and not on the declarations here.
 
 The inclusion of a thickening is integral and bijective on points, so this is Stacks 07VV in
 the direction that goes from the source: the hypotheses of
@@ -20,34 +28,30 @@ properties of the inclusion of a thickening already recorded in
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isRepresentable_of_isRepresentable_thickening`: **Stacks 05ZR** in
-  the subspace form in which Stacks 05ZK, part (1) states a thickening — a closed subspace
-  `G ⊂ X'` whose inclusion is surjective on points.
-* `AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom`: **Stacks 05ZR** in the
-  morphism form `AlgebraicGeometry.Space.IsThickeningHom`, the shape in which thickenings of
-  algebraic spaces appear in Stacks 05ZS, 07VX and 0AIC.
+* `AlgebraicGeometry.Space.isRepresentable_of_isRepresentable_thickening`: Stacks 05ZR, with
+  the three hypotheses of Stacks 07VT, in the subspace form in which Stacks 05ZK, part (1)
+  states a thickening — a closed subspace `G ⊂ X'` whose inclusion is surjective on points.
+* `AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom`: Stacks 05ZR, with the three
+  hypotheses of Stacks 07VT, in the morphism form `AlgebraicGeometry.Space.IsThickeningHom`,
+  the shape in which thickenings of algebraic spaces appear in Stacks 05ZS, 07VX and 0AIC.
 
 ## Implementation notes
 
 The thin side of a thickening needs none of this: a closed subspace of a scheme is a scheme
 with no hypotheses, which is
 `AlgebraicGeometry.Space.isRepresentable_of_isThickening` in
-`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/Scheme.lean`. That file records in its
-implementation notes that the direction proved here is absent from the library and that no
-declaration in it carries `@[stacks 05ZR]`; that note describes the state of the library
-before Stacks 07VV was available and is superseded by this file, which does not alter it.
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/Scheme.lean`.
 
 Both results below carry the three hypotheses `h09YA`, `h07SQ` and `hFinitePresentation`
 verbatim from `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom_of_bijective`, and
 hence from `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`, the
-library form of Stacks 07VT. They are passed straight through and are used for nothing else,
-so Stacks 05ZR is conditional here on precisely what Stacks 07VT is conditional on and on
-nothing further. None of the three is the universally quantified form of the conclusion
-below: the first two conclude about inverse systems and the third about affineness of a
-target, while the conclusion here is representability of a presheaf. The conditionality is
-not avoidable by a different route: the content of Stacks 05ZR beyond topology is that an
-algebraic space receiving a surjective universally closed morphism from an affine scheme is
-affine, which is Stacks 07VT itself.
+weaker form of Stacks 07VT (Stacks 07VT itself is proved with no hypotheses as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`).
+They are passed straight through and are used for nothing else, so these forms depend on precisely
+what that weaker form depends on and on nothing further. The hypotheses are avoidable: the
+inclusion of a thickening is a closed immersion, and for a closed immersion the affineness step
+needs only the thickening case of Stacks 07VT, which holds with no hypotheses; that is the route
+of the forms with no hypotheses named above.
 
 The inclusion `G.ι` of a thickening is injective on points because it is a monomorphism and
 surjective on points by definition, which together give the bijectivity that Stacks 07VV
@@ -77,22 +81,15 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 05ZR.** Let `S` be a scheme and let `G ⊂ X'` be a thickening of algebraic spaces
-over `S`, in the subspace form of Stacks 05ZK, part (1). If `G` is (representable by) a
-scheme, then so is `X'`.
+/-- **Stacks 05ZR through Stacks 07VV for an integral morphism.** Let `S` be a scheme and let
+`G ⊂ X'` be a thickening of algebraic spaces over `S`, in the subspace form of Stacks 05ZK,
+part (1). If `G` is (representable by) a scheme, then so is `X'`, given the three hypotheses of
+the library's Stacks 07VT. The same statement with no hypotheses is
+`AlgebraicGeometry.Space.isRepresentable_of_isThickening_of_isRepresentable`.
 
 The inclusion `G.ι` is integral by Stacks 081Y, injective on points because it is a
 monomorphism, and surjective on points by the definition of a thickening, so Stacks 07VV
 applies in the direction that goes from the source. -/
-@[stacks 05ZR "granted the three hypotheses of Stacks 07VT, carried verbatim from Stacks \
-07VV and used for nothing else: `h09YA`, the conclusion of Stacks 09YA that an integral \
-morphism over a quasi-compact quasi-separated algebraic space is a directed limit of finite \
-morphisms of finite presentation; `h07SQ`, the conclusion of Stacks 07SQ that a directed \
-system with affine transition morphisms whose limit is affine has an affine stage; and \
-`hFinitePresentation`, the case of Stacks 07VT in which the morphism is finite and of finite \
-presentation. None is the universally quantified form of this conclusion: the first two \
-conclude about inverse systems and the third about affineness of a target, while this \
-concludes representability of a presheaf"]
 theorem isRepresentable_of_isRepresentable_thickening {X' : AlgebraicSpaces B S hS}
     {G : Subfunctor X'.1} (hG : IsThickening B S hS X' G)
     (hGrep : G.toFunctor.IsRepresentable)
@@ -114,23 +111,15 @@ theorem isRepresentable_of_isRepresentable_thickening {X' : AlgebraicSpaces B S 
     (isIntegralHom_ι_of_isThickening B S hS hG)
     ⟨pointsMap_injective_of_mono B S hS G.ι, hG.2⟩ hGrep h09YA h07SQ hFinitePresentation
 
-/-- **Stacks 05ZR, morphism form.** Let `S` be a scheme and let `i : X ⟶ X'` be a thickening
-of algebraic spaces over `S`, in the morphism form of
-`AlgebraicGeometry.Space.IsThickeningHom`. If `X` is (representable by) a scheme, then so is
-`X'`.
+/-- **Stacks 05ZR, morphism form, through Stacks 07VV for an integral morphism.** Let `S` be a
+scheme and let `i : X ⟶ X'` be a thickening of algebraic spaces over `S`, in the morphism form
+of `AlgebraicGeometry.Space.IsThickeningHom`. If `X` is (representable by) a scheme, then so is
+`X'`, given the three hypotheses of the library's Stacks 07VT. The same statement with no
+hypotheses is `AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom_of_isRepresentable`.
 
 A thickening is a closed immersion, hence integral by Stacks 081Y, it is a monomorphism and
 therefore injective on points, and it is surjective on points, so Stacks 07VV applies in the
 direction that goes from the source. -/
-@[stacks 05ZR "the morphism form, granted the three hypotheses of Stacks 07VT, carried \
-verbatim from Stacks 07VV and used for nothing else: `h09YA`, the conclusion of Stacks 09YA \
-that an integral morphism over a quasi-compact quasi-separated algebraic space is a directed \
-limit of finite morphisms of finite presentation; `h07SQ`, the conclusion of Stacks 07SQ that \
-a directed system with affine transition morphisms whose limit is affine has an affine stage; \
-and `hFinitePresentation`, the case of Stacks 07VT in which the morphism is finite and of \
-finite presentation. None is the universally quantified form of this conclusion: the first \
-two conclude about inverse systems and the third about affineness of a target, while this \
-concludes representability of a presheaf"]
 theorem isRepresentable_of_isThickeningHom {X X' : AlgebraicSpaces B S hS} (i : X ⟶ X')
     (hi : IsThickeningHom B S hS i) (hXrep : X.1.IsRepresentable)
     (h09YA : ∀ {Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Y ⟶ Z),

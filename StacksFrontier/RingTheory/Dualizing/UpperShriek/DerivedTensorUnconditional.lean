@@ -7,8 +7,6 @@ public import StacksFrontier.RingTheory.Dualizing.UpperShriek.DerivedTensor
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.OpenImmersion
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.PolynomialEvalDualityProof
 public import StacksFrontier.RingTheory.PseudoCoherentMap.CompleteIntersection
-public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectAnyPresentation
-import StacksFrontier.RingTheory.PseudoCoherentMap.Flat
 
 /-!
 # The upper shriek formalism at module universe equal to the ring universe
@@ -30,7 +28,7 @@ Tate tensor factor and so makes no choice at all.
 
 * `Dualizing.PolynomialPresentation.nonempty_upperShriekFunctor_iso_derivedTensorProduct` —
   **Stacks 0BZU at module universe equal to the ring universe.**
-* `nonempty_upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap`, in that same
+* `nonempty_upperShriekFunctor_iso_derivedTensorProduct_of_perfect`, in that same
   namespace — **the same, with perfectness taken in the hypothesis shape of Stacks 0BZU itself**:
   that of a perfect homomorphism, rather than that of a perfect module over the polynomial
   algebra of the presentation.
@@ -113,12 +111,11 @@ theorem isPerfectModule_of_flat_of_finitePresentation {R A : Type u} [CommRing R
     StacksDraft.Perfect.IsPerfectModule (R := p.Poly) A := by
   let : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
   let : Algebra.FinitePresentation R A := RingHom.finitePresentation_algebraMap.mp hfp
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  let α : p.Poly →ₐ[R] A := p.toAlgHom
-  exact RingHom.isPerfectModule_of_isPerfectRingMap D.tensor D.comparison D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2
-      D.tensor D.comparison D.isLeftDerived)
-    p.variableCount α p.surjective
+  have := Algebra.Perfect.of_flat_of_finitePresentation R A
+  let : Module p.Poly A := Module.compHom A p.toRingHom
+  exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+    (Algebra.Perfect.exists_finite_projective_resolution
+      (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
 
 /-- **Stacks 0BZU, with no carried hypothesis.** Let `φ : R → A` be a ring homomorphism and `p` a
 polynomial presentation of it whose polynomial algebra makes `A` a perfect
@@ -150,36 +147,17 @@ perfect ring homomorphism and `p` a polynomial presentation of it. Then the
 algebraic upper shriek functor of `p` is derived tensor product over `R` with the single object
 `φ^!(R)` of `D(A)`.
 
-This is the hypothesis shape of Stacks 0BZU itself: perfectness of `φ`, in the form of
-`RingHom.IsPerfectRingMap` relative to a model of the derived tensor product on `D(R)`, rather
-than perfectness of `A` over the polynomial algebra of `p`. Tag 068Y passes between the two, as
-`RingHom.isPerfectModule_of_isPerfectRingMap`, which is what feeds
-`Dualizing.PolynomialPresentation.nonempty_upperShriekFunctor_iso_derivedTensorProduct` here. So
-this is
-`Dualizing.PolynomialPresentation.upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap`
+This is the hypothesis shape of Stacks 0BZU itself: perfectness of `φ`, `RingHom.Perfect`, rather
+than perfectness of `A` over the polynomial algebra of `p`. Tag 068Y at `p` passes between the
+two, as `Algebra.Perfect.exists_finite_projective_resolution` read through Tag 066Q, which is what
+feeds `Dualizing.PolynomialPresentation.nonempty_upperShriekFunctor_iso_derivedTensorProduct` here.
+This is `Dualizing.PolynomialPresentation.upperShriekFunctor_iso_derivedTensorProduct_of_perfect`
 read at module universe equal to the ring universe. -/
-@[stacks 0BZU "for a perfect homomorphism of Noetherian rings, at an arbitrary polynomial \
-presentation, at module universe equal to the ring universe; the same statement at an arbitrary \
-module universe is \
-Dualizing.PolynomialPresentation.upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap"]
-theorem nonempty_upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap
-    (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+@[stacks 0BZU "for a perfect homomorphism, at an arbitrary polynomial presentation, at module \
+universe equal to the ring universe; the same statement at an arbitrary module universe is \
+Dualizing.PolynomialPresentation.upperShriekFunctor_iso_derivedTensorProduct_of_perfect"]
+theorem nonempty_upperShriekFunctor_iso_derivedTensorProduct_of_perfect
+    (p : PolynomialPresentation f) (hf : f.Perfect) :
     letI : MonoidalCategoryStruct (ModuleCat.{u} R) :=
       ModuleCat.liftedModuleMonoidalStruct.{u, u}
     letI : MonoidalCategory (ModuleCat.{u} R) :=
@@ -188,12 +166,12 @@ theorem nonempty_upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap
       (MonoidalCategoryStruct.tensorUnit (ModuleCat.{u} R))
     Nonempty (p.upperShriekFunctor.{u, u} ≅
       derivedTensorProductOver.{u, u} f (p.upperShriekFunctor.{u, u}.obj R₀)) :=
-  p.nonempty_upperShriekFunctor_iso_derivedTensorProduct
-    (by
-      let : Algebra R A := f.toAlgebra
-      exact RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived
-        hf p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes)
-        p.surjective)
+  p.nonempty_upperShriekFunctor_iso_derivedTensorProduct (by
+    algebraize [f]
+    let : Module p.Poly A := Module.compHom A p.toRingHom
+    exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective))
 
 /-- **Stacks 0BZU with the isomorphism built, and no carried hypothesis.** Same hypotheses as
 `Dualizing.PolynomialPresentation.nonempty_upperShriekFunctor_iso_derivedTensorProduct`, but the

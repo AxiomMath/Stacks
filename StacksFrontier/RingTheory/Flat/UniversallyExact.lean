@@ -453,7 +453,9 @@ variable {R : Type u} [CommRing R]
 /--
 The short exact sequence `0 -> M_1 ->[u] M_2 ->[v] M_3 -> 0` is *universally exact* if it
 is a short exact sequence (`u` injective, `v` surjective, exact at `M_2`) and the map `u`
-is universally injective. -/
+is universally injective. This is the second of the two notions of Stacks 058I; the first,
+universally injective maps, is `UniversallyInjective`. -/
+@[stacks 058I "universally exact"]
 structure UniversallyExact
     {M₁ M₂ M₃ : Type u} [AddCommGroup M₁] [AddCommGroup M₂] [AddCommGroup M₃]
     [Module R M₁] [Module R M₂] [Module R M₃]

@@ -16,7 +16,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.Modules.GlobalSecti
 [Stacks, Tag 08AS] asserts that for a Noetherian ring `A`, a proper morphism of algebraic spaces
 `f : X ⟶ Spec A` and a coherent `𝒪_X`-module `F`, every cohomology module `H^i(X, F)` is a finite
 `A`-module.  This file proves it, for `𝒪_X`-modules whose sections lie in the universe of the
-structure rings, with nothing carried.
+structure rings.
 
 The proof is the source's.  The right derived functors of `Γ(V, f_* −)`, for `f : X ⟶ V` proper
 with `V` affine and Noetherian, are finite over the functions on `V` at every coherent module
@@ -43,8 +43,9 @@ lift are exact, so they pass through the right derived functors.
 image `AlgebraicGeometry.Space.modulePushforward` exists.  Cohomology is the right derived functors
 of `Stacks.Cohomology.SiteModules.globalSectionsFunctor`, valued in modules over the global
 functions in the universe `u + 1` of the small étale site.
-`AlgebraicGeometry.Space.cohomologyOverBase`, at a module universe containing `u + 1`, is not
-reached; see `StacksFrontier.AlgebraicGeometry.Spaces.ProperCohomologyFinite`.
+The statement for `AlgebraicGeometry.Space.cohomologyOverBase`, at the module universes
+`max (u + 1) w`, is deduced from this one by universe descent of coherent modules in
+`StacksFrontier.AlgebraicGeometry.Spaces.ProperCohomologyOverBaseFinite`.
 
 ## References
 

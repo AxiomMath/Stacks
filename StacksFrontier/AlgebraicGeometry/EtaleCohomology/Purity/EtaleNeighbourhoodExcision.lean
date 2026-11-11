@@ -18,8 +18,9 @@ Let `ψ : U ⟶ X` be étale, `z : Z ⟶ X` a closed immersion and `k : T ⟶ U`
 `Λ`-modules on `Z`, the counit `ψ_! ψ⁻¹ (z_* M) ⟶ z_* M` is an isomorphism
 (`isIso_extensionByZeroAdj_counit_app_directImage`), and therefore
 `ψ⁻¹ : Ext^n_X(z_* M, A) ⟶ Ext^n_U(ψ⁻¹ z_* M, ψ⁻¹ A)` is injective
-(`injective_mapExactFunctor_inverseImage_of_isPullback`): this is excision for étale
-neighbourhoods, `H^n_Z(X, -) ≅ H^n_T(U, ψ⁻¹ -)`, read on `Ext` out of sheaves supported on `Z`.
+(`injective_mapExactFunctor_inverseImage_of_isPullback`). This is the injective half of excision
+for étale neighbourhoods, `H^n_Z(X, -) ≅ H^n_T(U, ψ⁻¹ -)`, read on `Ext` out of sheaves supported
+on `Z`; surjectivity, and so the isomorphism, is not proved in this file.
 
 The counit is checked on the cover of `X` by `Z` and its open complement `X ∖ Z`
 (`Stacks.EtaleCohomology.isIso_of_isIso_etaleModuleInverseImage_family`).
@@ -256,7 +257,8 @@ theorem isIso_extensionByZeroAdj_counit_app_directImage (M : EtaleModules.{u, 0}
         ((bijective_restriction_map_directImage Λ ψ z k ψT sq M G).comp (Equiv.bijective _)))
 
 include sq in
-/-- **Excision for an étale neighbourhood, on `Ext`**, for the restriction functor. -/
+/-- **The injective half of excision for an étale neighbourhood, on `Ext`**, for the restriction
+functor: `x ↦ x.mapExactFunctor (etaleModuleRestriction Λ ψ)` is injective. -/
 theorem injective_mapExactFunctor_restriction_of_isPullback (M : EtaleModules.{u, 0} Λ Z)
     (A : EtaleModules.{u, 0} Λ X) (n : ℕ) :
     Function.Injective (fun x : Ext ((etaleModuleDirectImage.{u, 0} Λ z).obj M) A n =>
@@ -279,8 +281,8 @@ theorem injective_mapExactFunctor_restriction_of_isPullback (M : EtaleModules.{u
   exact (Stacks.ExtAdjunction.precomp_mk₀_bijective_of_isIso (adjL.counit.app F) n).1 h
 
 include sq in
-/-- **Excision for an étale neighbourhood, on `Ext`**: for `ψ : U ⟶ X` étale whose base change
-`T ⟶ Z` along the closed immersion `z : Z ⟶ X` is an isomorphism,
+/-- **The injective half of excision for an étale neighbourhood, on `Ext`**: for `ψ : U ⟶ X`
+étale whose base change `T ⟶ Z` along the closed immersion `z : Z ⟶ X` is an isomorphism,
 `ψ⁻¹ : Ext^n_X(z_* M, A) ⟶ Ext^n_U(ψ⁻¹ z_* M, ψ⁻¹ A)` is injective. -/
 theorem injective_mapExactFunctor_inverseImage_of_isPullback (M : EtaleModules.{u, 0} Λ Z)
     (A : EtaleModules.{u, 0} Λ X) (n : ℕ) :

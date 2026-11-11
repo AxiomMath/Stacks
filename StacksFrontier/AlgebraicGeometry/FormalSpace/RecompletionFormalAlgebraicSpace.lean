@@ -310,7 +310,9 @@ The functor is `AlgebraicGeometry.Space.completionSubfunctorULift` of `X` along 
 charts from Stacks 0GVQ, and the set-theoretic condition of Stacks 0AIS is
 `satisfiesSetTheoreticCondition_completionSheafULift_of_satisfiesSetTheoreticCondition`.
 A reduction exists by Stacks 0AIN, and the statement holds for every one. -/
-@[stacks 0GVR]
+@[stacks 0GVR "the functor `X_{/T}` is an fppf sheaf and a formal algebraic space, for any \
+reduction `X_red` of `X` and `T` closed in `|X_red|`; the atlas, the affine case 0GVQ and the \
+set-theoretic condition of 0AIS for `X_{/T}` are all proved here"]
 theorem isFormalAlgebraicSpace_completionFunctor {X Xred : FppfSheaf B S hS}
     (hX : IsFormalAlgebraicSpace B S hS X) {i : Xred ⟶ X}
     (hi : IsReduction B S hS X Xred i)

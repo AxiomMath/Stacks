@@ -110,8 +110,7 @@ private theorem exists_covSeries_isMin_head {R : Type*} [CommRing R] [IsNoetheri
       (by rw [hlast, ← PrimeSpectrum.height_eq_orderHeight, hlen]) i
   refine ⟨⟨l.length, l.toFun, fun i => covBy_of_height_eq_of_height_eq (n := (i : ℕ)) (l.step i)
     (by simpa using hidx i.castSucc) (by simpa using hidx i.succ)⟩, ?_, hlast⟩
-  change IsMin (l.toFun 0)
-  exact Order.height_eq_zero.mp (by simpa using hidx 0)
+  exact (Order.height_eq_zero (x := l.toFun 0)).mp (by simpa using hidx 0)
 
 /-- **The chains of primes ending at `𝔮` are bounded in length by `height 𝔮`**, a natural number in
 a Noetherian ring. This is the first, easy half of catenarity. -/
@@ -285,9 +284,8 @@ separate declaration is owed for the first sentence.
 *The hypothesis is the source's, by name.* "Cohen–Macaulay `R`-module" is Definition 0AAH, the
 project's `Module.IsCohenMacaulay`, and "`Supp(M) = Spec(R)`" is `Module.support R M = Set.univ`,
 the spelling the companion Tag 0AAE uses for the same clause. Neither is unfolded here: the
-localised
-modules `M_𝔭` and the local rings `R_𝔭` that the condition speaks of live inside Definition 0AAH,
-which pins them to the canonical models `Localization.AtPrime p` and
+localised modules `M_𝔭` and the local rings `R_𝔭` that the condition speaks of live inside
+Definition 0AAH, which pins them to the canonical models `Localization.AtPrime p` and
 `LocalizedModule p.primeCompl M`, and measures depth along
 `IsLocalRing.maximalIdeal (Localization.AtPrime p)`. Writing the conjunction out instead, as the
 single condition `Module.IsMaximalCohenMacaulay (Localization.AtPrime p)
@@ -314,11 +312,12 @@ are made for a Noetherian ring and a finite module; the project's `Module.IsCohe
 the condition without them, so both are hypotheses of this lemma, as they are of Lemmas 0AAI and
 0AAE.
 
-*The catenary predicate.* `Ring.IsUniversallyCatenary` is Definition 00NL, formalized with Tag 00NK,
-and carries no Noetherian hypothesis of its own; `R` is Noetherian here, so the conclusion is the
-source's notion verbatim. Its finite-type algebras range over the universe of `R`, which is no
-restriction: every finite-type `R`-algebra is a quotient of some `R[X_1, …, X_n]`, hence
-isomorphic to one in that universe.
+*The catenary predicate.* `Ring.IsUniversallyCatenary` is the second clause of Definition 00NL,
+formalized with Tag 00NK, and carries no Noetherian condition of its own (the source's notion is
+`Ring.IsUniversallyCatenaryNoetherian`); `R` is Noetherian here, so the conclusion together with
+`[IsNoetherianRing R]` is the source's notion verbatim. Its finite-type algebras range over the
+universe of `R`, which is no restriction: every finite-type `R`-algebra is a quotient of some
+`R[X_1, …, X_n]`, hence isomorphic to one in that universe.
 
 Faithfulness to [StackProject 00NM].
 

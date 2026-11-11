@@ -186,15 +186,13 @@ which has no hypothesis, and the one over the overlaps is
 whose single hypothesis is retrocompactness of `U` — the form the tag's quasi-compactness of
 `U → S` takes, by `AlgebraicGeometry.isRetrocompact_of_quasiCompact_ι`.  Quasi-compactness of
 `U → S` is used in that one place, exactly as in the tag's proof. -/
-@[stacks 0E90 "the equivalence, unconditionally: for a point `s` of `S` whose complement is an \
-open `U` with quasi-compact inclusion — the tag's closed point and quasi-compact `U → S` — the \
-comparison functor `FP_S ⥤ FP_U ×_{FP_V} FP_{Spec O_{S,s}}` is an equivalence, with \
-`V = Spec O_{S,s} ∖ {s}` the complement of the closed point, which the vertex of the system of \
-overlaps is by `toScheme_obj_opensSpecStalkSiteObj_eq_compl_closedPoint`. The two colimit \
-identifications that the general \
-theorem `isEquivalence_glueingFunctor_of_colimit` carries as hypotheses are discharged here from \
-Stacks 07SK and the identification of `Spec O_{S,s}` and of its puncture as the limits of the \
-affine open neighbourhoods of `s` and of their intersections with `U`"]
+@[stacks 0E90 "for a point `s` of `S` whose complement is an open `U` with quasi-compact \
+inclusion (the tag's closed point with `U = S ∖ {s} → S` quasi-compact), the comparison functor \
+`FP_S ⥤ FP_U ×_{FP_V} FP_{Spec O_{S,s}}` is an equivalence, with `V = Spec O_{S,s} ∖ {s}` the \
+complement of the closed point, which the vertex of the system of overlaps is by \
+`toScheme_obj_opensSpecStalkSiteObj_eq_compl_closedPoint`. Both colimit identifications of the \
+proof are derived from Stacks 07SK and the limit descriptions of `Spec O_{S,s}` and of its \
+puncture over the affine open neighbourhoods of `s`"]
 theorem isEquivalence_glueingFunctor_specStalk (hUc : (U : Set S) = {s}ᶜ)
     (hqc : QuasiCompact U.ι) :
     (glueingFunctor B S hS (isPullback_opensSpecStalkApex B S hS s W₀ U).w).IsEquivalence :=

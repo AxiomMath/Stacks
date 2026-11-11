@@ -124,7 +124,8 @@ rational polynomial is determined by its values at the integral tuples
 (`MvPolynomial.eq_of_eval_intCast_eq`), so every polynomial with these values is that one, and
 `AlgebraicGeometry.Space.exists_intCast_eq_coeff_one` applies to it, the integer being
 `AlgebraicGeometry.Space.intersectionNumber`. -/
-@[stacks 0EDG, sga "6 X 2.3.1" "special case"]
+@[stacks 0EDG "the numerical polynomial and the integrality of its coefficient of n_1 ⋯ n_d",
+  sga "6 X 2.3.1" "special case"]
 theorem exists_eval_eq_eulerCharacteristic_and_exists_intCast_eq_coeff_one (d : ℕ)
     (f : X.1 ⟶ yoneda.obj (baseObject k B hk)) (hf : IsProper B (Spec (.of k)) hk f)
     (i : Z ⟶ X) (hi : IsClosedImmersion B (Spec (.of k)) hk i.hom)
@@ -165,7 +166,7 @@ Euler characteristics of `i_*𝒪_Z` by the `d + 1` invertible modules
 in `d + 1` variables, and
 `AlgebraicGeometry.Space.intersectionNumber_eq_add_of_iso_tensorSheaf_of_totalDegree_le` reads
 the three intersection numbers off it. -/
-@[stacks 0EDH]
+@[stacks 0EDH "additivity in each of the d invertible modules"]
 theorem intersectionNumber_eq_add_intersectionNumber_of_iso_tensorSheaf (d : ℕ)
     (f : X.1 ⟶ yoneda.obj (baseObject k B hk)) (hf : IsProper B (Spec (.of k)) hk f)
     (i : Z ⟶ X) (hi : IsClosedImmersion B (Spec (.of k)) hk i.hom)

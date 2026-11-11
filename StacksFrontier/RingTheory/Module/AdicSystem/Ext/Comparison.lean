@@ -466,10 +466,15 @@ maps from `I ^ c Ext_{A_m}^i(M_m,N_m) / I ^ n Ext_{A_m}^i(M_m,N_m)` to
 by `I ^ d`. The displayed factorization characterizes these maps in terms of mutually
 inverse representatives of the isomorphism of Tag 0EGY.
 
-The source's single exponent is split: maps are defined on I^c-multiples, and their
-kernel/cokernel are annihilated by some possibly larger power I^d; with one exponent the
-claim fails, e.g. for A = k[x,y,z,w]/(xy), I = (x,y,z,w), M = N = A/(x), i = 2. -/
-@[stacks 0EGZ]
+This is the corrected form of the remark. As printed, Stacks asks for one exponent `c` that
+both defines the maps and annihilates their kernels and cokernels; that is false, for any
+choice of maps (see `errata.md`): for `A = k[x, y, z]`, `I = (x, y, z)`, `M = A / (x)`,
+`N = A / (x²)` and `i = 0` it is refuted by
+`ExtComparisonCounterexample.not_exists_extOfAdicQuotients_comparison_one_exponent`.
+Here the maps live on `I ^ c`-multiples with `c` the total delay of the two representatives,
+and their kernels and cokernels are annihilated by a possibly larger power `I ^ d`. -/
+@[stacks 0EGZ "corrected: the maps are defined on I^c-multiples and their kernels and \
+cokernels are killed by a possibly larger power I^d; the single exponent claimed by Stacks fails"]
 public theorem exists_eventually_extOfAdicQuotients_comparison (I : Ideal A) (M N : Type v)
     [AddCommGroup M] [Module A M] [Module.Finite A M]
     [AddCommGroup N] [Module A N] [Module.Finite A N] (i : ℕ) :

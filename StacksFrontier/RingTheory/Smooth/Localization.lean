@@ -136,7 +136,7 @@ arbitrary submonoid `M`.
 /-- Let `R → S` be a smooth ring map and let `S'` be a localization of `S` away from an element
 `g : S`. Then `S'` is smooth over `R`. -/
 @[stacks 00T3 "First assertion: any localization `S_g` is smooth over `R`. `Algebra.Smooth` is
-Mathlib's definition (formally smooth and of finite presentation), equivalent to 00T2 by 00TN.
+Definition 00T2 (Mathlib's formal smoothness is the cotangent condition, plus finite presentation).
 The localization is an abstract `IsLocalization.Away g S'`. See the module docstring."]
 public theorem Algebra.Smooth.localization_away {R S S' : Type*} [CommRing R] [CommRing S]
     [CommRing S'] [Algebra R S] [Algebra R S'] [Algebra S S'] [IsScalarTower R S S']
@@ -152,8 +152,8 @@ invertible element of `Sₘ`. Then `Sₘ` is smooth over `Rₘ`. -/
 @[stacks 00T3 "Second assertion: if `f ∈ R` maps to an invertible element of `S` then `R_f → S`
 is smooth. Stated as the `Algebra.Smooth` analogue of `Algebra.FormallySmooth.localization_base`:
 the base is localized at an arbitrary submonoid `M`, and the hypothesis on `f` is the pair
-`[Algebra Rₘ Sₘ] [IsScalarTower R Rₘ Sₘ]`. `Algebra.Smooth` is Mathlib's definition (formally
-smooth and of finite presentation), equivalent to 00T2 by 00TN. See the module docstring."]
+`[Algebra Rₘ Sₘ] [IsScalarTower R Rₘ Sₘ]`. `Algebra.Smooth` is Definition 00T2 (Mathlib's
+formal smoothness is the cotangent condition, plus finite presentation). See the module docstring."]
 public theorem Algebra.Smooth.localization_base {R Rₘ Sₘ : Type*} [CommRing R] [CommRing Rₘ]
     [CommRing Sₘ] [Algebra R Rₘ] [Algebra R Sₘ] [Algebra Rₘ Sₘ] [IsScalarTower R Rₘ Sₘ]
     (M : Submonoid R) [IsLocalization M Rₘ] [Algebra.Smooth R Sₘ] :

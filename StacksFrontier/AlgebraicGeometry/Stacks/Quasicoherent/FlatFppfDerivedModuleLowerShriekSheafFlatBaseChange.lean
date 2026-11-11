@@ -78,8 +78,8 @@ theorem locallyQuasicoherentSheafFlatBaseChange_of_affine_presented
     exists_flat_lfp_affine_presented B S hS 𝒳 H hH x₀ hx₀ t
   exact ⟨⟨⟨y, V, a, g⟩, haff, hpres, hflat, hlfp⟩, s, hs⟩
 
-/-- Let `H` be a quasi-coherent module on the flat-fppf site of an algebraic
-stack `𝒳`. For every `p`, the cohomology sheaf `H^p(Lg_! H)` of the derived lower shriek of
+/-- **Stacks 07B3, part (2).** Let `H` be a quasi-coherent module on the flat-fppf site of an
+algebraic stack `𝒳`. For every `p`, the cohomology sheaf `H^p(Lg_! H)` of the derived lower shriek of
 Stacks 07AS (4) is a locally quasi-coherent module with the flat base change property on `𝒳`, the
 flat base change property of Stacks 0762 being read with the pullback of sheaves. -/
 @[stacks 07B3 "part (2): for a quasi-coherent module `H` (Stacks 03DL) on the flat-fppf site of \

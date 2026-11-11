@@ -19,9 +19,14 @@ isomorphism in every degree `i < σ` as soon as
 
 `depth(𝓕_p) + dim({p}‾) > σ`
 
-at every point `p` of `P` outside `Q`.
+at every point `p` of `P` outside `Q`. That proposition, for `P` proper over a field `k`, `L`
+ample and `𝓕` coherent, is `Stacks.Algebraization.isIso_zeroSchemeComparison_of_isProper` in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/LefschetzZeroSchemeComparison.lean`, proved through
+Čech complexes of the section ring. This file keeps the earlier route through local cohomology
+on the punctured cone, whose last step is a transport lemma with the geometric inputs taken as
+hypotheses.
 
-## The route, and what is carried
+## The route, and what is taken as hypotheses
 
 The source's proof passes to the cone: with `A = ⨁_{m ≥ 0} Γ(P, L^m)` the section ring,
 `U ⊆ Spec A` the punctured cone and `M` a finite `A`-module with `𝓕|_U = M̃|_U`, the comparison
@@ -37,23 +42,20 @@ fibre dichotomy of the punctured cone
 [Stacks, Tag 0EFC] turns that into an ideal `J` annihilating the local cohomology, with
 `V(J) ⊆ V(I)`; and since `f ∈ I` some power of `f` lies in `J`.
 
-Three inputs the library does not have are carried as explicit hypotheses; each is named in the
-attribute string of the main theorem.
+The transport lemma `isIso_zeroSchemeComparison_of_depthAddDim_gt` takes three inputs as
+explicit hypotheses.
 
 * **The fibre dichotomy `hsplit`.** A point of `U` over `p ∈ P` is either the generic point of
   the fibre of `π|_U`, where the depth is `depth(𝓕_p)` and the dimension `dim({p}‾) + 1`, or a
   closed point of it, where the depth is `depth(𝓕_p) + 1` and the dimension `dim({p}‾)`. This
   rests on `π|_U` being smooth of relative dimension one, which is not in the library.
-* **The section ring and its finiteness.** Clause (1) of [Stacks, Tag 0B5T] — that the section
-  ring of an ample invertible module on a scheme proper over a Noetherian ring is a finitely
-  generated algebra — is *not* in this library; the only clause of that tag which is formalized is
-  clause (2), and
-  `StacksFrontier/AlgebraicGeometry/ProperAmpleCohomology/Basic.lean` records clauses (1), (3), (4)
-  and (5) as owed, clause (1) being blocked on clause (5) of [Stacks, Tag 01YS]. So the section
-  ring enters as an abstract Noetherian `k`-algebra `A` of finite type together with the finite
-  module `M` of [Stacks, Tag 0BK0]; this also subsumes the finiteness of coherent cohomology for
-  a proper morphism ([Stacks, Tags 02O5, 02O6]), which the library has only for finite
-  morphisms. The `f`-adic completeness of `A` is the source's passage to `A'`.
+* **The section ring data.** The ring enters as an abstract Noetherian `k`-algebra `A` of finite
+  type together with a finite module `M`. The lemma also asks `A` to be `f`-adically complete.
+  A finite type algebra over a field is a Jacobson ring, so its Jacobson radical is its
+  nilradical, while `f`-adic completeness puts `f` in the Jacobson radical
+  (`IsAdicComplete.le_jacobson_bot`): the hypotheses together force `f` to be nilpotent. The
+  source's passage to the completion `A'` is therefore not what these hypotheses describe, and
+  the lemma does not apply to the section ring of a non-nilpotent `s`.
 * **The algebraization square.** That the geometric comparison map *is* the comparison map of
   [Stacks, Tag 0EKM] under the graded decomposition of [Stacks, Tag 0EKH] is carried as a
   commuting square with bijective vertical maps. This is the only place where the two sides are
@@ -73,7 +75,9 @@ attribute string of the main theorem.
   power of `f` for every `k ≤ σ + 1`.
 * `Stacks.Algebraization.bijective_toTowerSections_of_fibreSplitting` — hence the comparison map
   of [Stacks, Tag 0EKM] is bijective in every degree `i < σ`.
-* `Stacks.Algebraization.isIso_zeroSchemeComparison_of_depthAddDim_gt` — **[Stacks, Tag 0EL1]**.
+* `Stacks.Algebraization.isIso_zeroSchemeComparison_of_depthAddDim_gt` — transport of that
+  bijectivity to the geometric comparison map along a commuting square. [Stacks, Tag 0EL1] itself
+  is `Stacks.Algebraization.isIso_zeroSchemeComparison_of_isProper`.
 
 ## Implementation notes
 
@@ -213,34 +217,17 @@ theorem bijective_toTowerSections_of_fibreSplitting
 
 /-! ### Stacks 0EL1 -/
 
-/-- **Stacks Project, Tag 0EL1 (Proposition 52.28.1).** Let `P` be a scheme, `L` an invertible
-`𝒪_P`-module, `s` a global section of `L` with zero scheme `Q`, let `Qₙ` be the `n`-th
-infinitesimal neighbourhood of `Q` in `P`, let `𝓕` be a quasi-coherent `𝒪_P`-module with
-restrictions `𝓕ₙ` to `Qₙ`, and let `σ` be an integer with
+/-- Transport of the bijectivity of the comparison map of [Stacks, Tag 0EKM] to the geometric
+comparison map `Hⁱ(P, 𝓕) ⟶ lim Hⁱ(Qₙ, 𝓕ₙ)` of a zero scheme, for `P` a scheme, `L` an invertible
+module, `s ∈ Γ(P, L)` and `𝓕` quasi-coherent, under `depth(𝓕_p) + dim({p}‾) > σ` off `Q = Z(s)`
+(`hdepth`). The cone inputs are hypotheses: the fibre dichotomy `hsplit` with `hproj`, a
+Noetherian `k`-algebra `A` of finite type which is `f`-adically complete with a finite module `M`,
+and the square `halg` identifying the geometric comparison map with the algebraic one.
 
-`depth(𝓕_p) + dim({p}‾) > σ`
-
-at every point `p` of `P` outside `Q`. Then `Hⁱ(P, 𝓕) ⟶ lim Hⁱ(Qₙ, 𝓕ₙ)` is an isomorphism for
-every `0 ≤ i < σ`.
-
-The depth–dimension hypothesis is `hdepth` and it is the hypothesis of the tag, read with the
-depth of a module at a point of [Stacks, Tag 0341] part (1) and the dimension of the closure of
-a point. Three inputs are carried; see the module documentation for why each is
-unavailable.
-
-* `hsplit`, with `hproj`: the fibre dichotomy of the punctured cone `π|_U`, which rests on
-  `π|_U` being smooth of relative dimension one. This is what transports `hdepth` from `P` to
-  `Spec A`, and `hproj` says that the primes of `A` outside `V(I)` lie over `P ∖ Q`.
-* the section ring data `A`, `I`, `fam`, `f` and `M`, with `A` a Noetherian `k`-algebra of
-  finite type which is `f`-adically complete and `M` finite: clause (1) of [Stacks, Tag 0B5T] is
-  not in this library, so the finite generation of the section ring cannot be produced here.
-* `halg`: the algebraization square identifying the geometric comparison map with the one of
-  [Stacks, Tag 0EKM]. -/
-@[stacks 0EL1 "H^i(P,F) -> lim H^i(Q_n,F_n) is an isomorphism for i < sigma, from \
-depth(F_p) + dim(closure{p}) > sigma off the zero scheme of s; carried: the punctured-cone \
-fibre dichotomy (hsplit, hproj), the section ring data A, I, fam, f, M (clause (1) of 0B5T, \
-hence 02O5/02O6, is absent from this library), and the algebraization square halg identifying \
-the comparison map with that of 0EKM via 0EKH"]
+A finite type `k`-algebra is Jacobson and `f`-adic completeness puts `f` in its Jacobson radical,
+so these hypotheses force `f` to be nilpotent in `A`; the lemma is not a form of
+[Stacks, Tag 0EL1]. That proposition, for `P` proper over `k`, `L` ample and `𝓕` coherent, is
+`Stacks.Algebraization.isIso_zeroSchemeComparison_of_isProper`. -/
 theorem isIso_zeroSchemeComparison_of_depthAddDim_gt
     (k : Type u) [Field k] (X : Scheme.{u}) (L : X.Modules)
     [Stacks.Ample.IsInvertibleModule X L] (s : Γ(L, ⊤)) (F : X.Modules) [F.IsQuasicoherent]

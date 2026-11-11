@@ -71,7 +71,7 @@ and the other unqualified names below are in `AlgebraicGeometry.Space`).
 All carriers lie in `|E'|`, so the rational equivalence on `X'` descends to `E'` (the descent
 lemma `isRationallyEquivalentToZeroCanonical_of_…_closedPushforward` of the module
 `ClosedPushforwardRationalEquivalenceDescentCanonical` under
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow`).
+`StacksDraft.AlgebraicGeometry.Spaces.Chow`).
 Nothing is assumed.
 
 ## Main results

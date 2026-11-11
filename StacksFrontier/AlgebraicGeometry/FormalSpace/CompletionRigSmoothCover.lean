@@ -325,7 +325,9 @@ Stacks 0GCQ for `f_{/T}` from them
 (`correspondsToNoetherianMapAfterSourceCover_isRigSmoothArrow_completionSheafMap`: the reduction
 to the affine case and the affine case by Stacks 0GAK and Stacks 0GAM), and the implication
 (4) ⟹ (1) of Stacks 0GCQ. -/
-@[stacks 0GDH]
+@[stacks 0GDH "for a morphism `f : X' ⟶ X` of algebraic spaces over `S` and a closed \
+`T ⊆ |X|`: if `X` is locally Noetherian, `f` is locally of finite type and `U' → U` is smooth, \
+then the completion `f_{/T} : X'_{/T'} ⟶ X_{/T}` is rig-smooth"]
 theorem isRigSmooth_completionSheafMap_of_isLocallyNoetherian
     {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX' : IsAlgebraicSpace B S hS X')
     (hX : IsAlgebraicSpace B S hS X) (f : X' ⟶ X) (T : Set (Space.points B S hS X))

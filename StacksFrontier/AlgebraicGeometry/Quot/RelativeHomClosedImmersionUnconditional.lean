@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ModuleAffineBaseChange
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleModulePushforwardIdIso
 
 /-!
-# The relative Hom functor and a closed immersion, unconditionally
+# The relative Hom functor and a closed immersion: Stacks 08K5
 
 Stacks 08K5: for a closed immersion `i : X' ⟶ X` of algebraic spaces over an algebraic space
 `Y`, a quasi-coherent `𝒪_X`-module `F` and a quasi-coherent `𝒪_{X'}`-module `G'`,
@@ -72,7 +72,7 @@ theorem testSchemePushforwardBaseChange_of_isAffineHom (p : X ⟶ Y) (i : X' ⟶
   nonempty_modulePullbackModulePushforwardIso_of_isAffineHom
     (isPullback_baseChangeSourceMap p i T).flip hi G' hG'
 
-/-- Let `i : X' ⟶ X` be a closed immersion of algebraic spaces over an
+/-- **Stacks 08K5.**  Let `i : X' ⟶ X` be a closed immersion of algebraic spaces over an
 algebraic space `Y` over `S`, let `F` be a quasi-coherent `𝒪_X`-module and let `G'` be a
 quasi-coherent `𝒪_{X'}`-module.  Then
 
@@ -86,7 +86,7 @@ of Stacks 03LU.
 The two situations are formed with the quasi-coherence of `i_*G'` (Stacks 03M9) and of `i^*F`
 (Stacks 03GA), and the comparison is bijective by the base-change clause of Stacks 07U8 for
 the affine morphism `i`. -/
-@[stacks 08K5]
+@[stacks 08K5 "The whole statement, under exactly the source's hypotheses."]
 def homFunctorClosedImmersionIso_of_isQuasicoherentOnSite (p : X ⟶ Y) (i : X' ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (F : Modules.{u, u} B S hS X.1 X.2)
     (G' : Modules.{u, u} B S hS X'.1 X'.2) (hF : F.IsQuasicoherentOnSite)

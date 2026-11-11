@@ -24,10 +24,21 @@ quotient map; hence the kernel of `φ` is contained in `P`.
 
 ## Main results
 
-* `exteriorPower.ker_eq_span_of_tprod_eq_ιMulti`: Stacks Tag 0H1C in the corrected form,
-  with two `B`-proportional entries in the first family, not merely two equal ones.
+Stacks Tag 0H1C is formalized completely, including its failure in one case: the source's
+form holds for `n ≥ 3` (`exteriorPower.ker_eq_span_of_tprod_eq_ιMulti_of_two_lt`); for `n = 2`
+it is false (`exteriorPower.not_forall_ker_eq_span_of_tprod_eq_ιMulti`, with the counterexample
+`A = ℤ`, `B = M = ℤ[X]` in `exteriorPower.ker_ne_span_of_tprod_eq_ιMulti_two`, both in
+`StacksFrontier.LinearAlgebra.ExteriorPower.PresentationCounterexample`); the corrected
+form, with first family `mᵢ = b • mⱼ`, holds for all `n ≥ 1`
+(`exteriorPower.ker_eq_span_of_tprod_eq_ιMulti`).
+
+* `exteriorPower.ker_eq_span_of_tprod_eq_ιMulti`: the corrected form, with two `B`-proportional
+  entries in the first family, not merely two equal ones, for every `n ≥ 1`.
 * `exteriorPower.ker_eq_span_of_tprod_eq_ιMulti_of_two_lt`: the stated form for `n ≥ 3`,
   with two equal entries in the first family.
+* `exteriorPower.not_forall_ker_eq_span_of_tprod_eq_ιMulti` (in
+  `StacksFrontier.LinearAlgebra.ExteriorPower.PresentationCounterexample`): the stated form is false
+  for `n = 2`.
 
 ## Implementation notes
 
@@ -71,7 +82,8 @@ First, the source takes as first family the pure tensors with a *repeated* entry
 `n ≥ 3` this changes nothing: `mᵢ = b • mⱼ` exhibits `m₁ ⊗ ⋯ ⊗ mₙ` as a tensor with a
 repeated entry into whose `k`-th slot, for some `k ∉ {i, j}`, the scalar `b` has been
 moved, and the second family absorbs that move.  For `n = 2` the source's first family is
-too small, so the lemma as stated there is false: take `A = ℤ`, `B = ℤ[X]`, `M = B` and
+too small, so the lemma as stated there is false
+(`exteriorPower.ker_ne_span_of_tprod_eq_ιMulti_two`): take `A = ℤ`, `B = ℤ[X]`, `M = B` and
 `n = 2`.  Then `⋀²_B B = 0`, so the kernel is all of `B ⊗_ℤ B`, whereas the `ℤ`-linear map
 `B ⊗_ℤ B → ℤ/2` sending `f ⊗ g` to the coefficient of `X` in `f g` mod `2` annihilates
 every `f ⊗ f` (that coefficient is `2 f₀ f₁`) and every `(g f) ⊗ h - f ⊗ (g h)`, while it
@@ -356,7 +368,7 @@ The kernel of the canonical `A`-linear map `M ⊗_A ⋯ ⊗_A M → ⋀[B]^n M`,
 `m₁ ⊗ ⋯ ⊗ mₙ ↦ m₁ ∧ ⋯ ∧ mₙ`, is generated as an `A`-module by the pure tensors
 `m₁ ⊗ ⋯ ⊗ mₙ` with `mᵢ = b • mⱼ` for some `i ≠ j` and `b ∈ B`, together with the
 differences `m₁ ⊗ ⋯ ⊗ b mᵢ ⊗ ⋯ ⊗ mₙ - m₁ ⊗ ⋯ ⊗ b mⱼ ⊗ ⋯ ⊗ mₙ` for `i ≠ j` and `b ∈ B`. -/
-@[stacks 0H1C "first family `mᵢ = b • mⱼ`, not `mᵢ = mⱼ`: the latter fails for `n = 2`"]
+@[stacks 0H1C "corrected form, first family `mᵢ = b • mⱼ`, for all `n ≥ 1`"]
 theorem exteriorPower.ker_eq_span_of_tprod_eq_ιMulti
     {A B M : Type*} [CommRing A] [CommRing B] [Algebra A B] [AddCommGroup M]
     [Module A M] [Module B M] [IsScalarTower A B M] {n : ℕ} (hn : 0 < n)

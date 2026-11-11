@@ -11,10 +11,11 @@ public import StacksFrontier.CategoryTheory.Sites.Localization.SheavesOverRepres
 /-!
 # The prestack of algebraic spaces over varying bases (Stacks 04UA)
 
-Let `S` be a scheme contained in a big fppf site `B`. Stacks 04UA is the first two of the
-three conditions making the category of algebraic spaces over varying base schemes — the
-comma category of Stacks 04U8, projected to its base scheme by
-`AlgebraicGeometry.spacesProjection` — a stack over the big fppf site of `S`.
+Let `S` be a scheme contained in a big fppf site `B`. Stacks 04UA states that the projection
+`AlgebraicGeometry.spacesProjection` from the category of algebraic spaces over varying base
+schemes — the comma category of Stacks 04U8 — to the big fppf site of `S` satisfies conditions
+(1) and (2) of Stacks 026F; the source states exactly these two conditions, and calls the
+result a prestack.
 
 Condition (1), that the projection is a fibred category, is the base change of an algebraic
 space along a map of base schemes: the presheaf fibre product is again an algebraic space
@@ -36,8 +37,12 @@ structure with the iterated-slice equivalence `(C/U)/T ≌ C/T`.
 * `AlgebraicGeometry.spacesProjection_isFibered`: **Stacks 04UA**, condition (1).
 * `AlgebraicGeometry.spacesProjection_isMorSheaf`: **Stacks 04UA**, condition (2).
 
-Together with effective descent these are the fields of
-`CategoryTheory.Functor.IsStack`; condition (3) is not proved here.
+Together with effective descent these are the fields of `CategoryTheory.Functor.IsStack`.
+The source does not assert effective descent for all algebraic spaces: Remark 04UB explains
+that a descent datum glues to an algebraic space when set-theoretic size is ignored, the
+obstruction being that an arbitrary disjoint union of algebraic spaces may leave the chosen
+partial universe. The stack the source does assert is the finite-type one, Stacks 04UD,
+`AlgebraicGeometry.finiteTypeSpacesProjection_isStack_of_bootstrap`.
 
 ## Implementation notes
 

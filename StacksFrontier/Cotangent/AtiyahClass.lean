@@ -72,18 +72,15 @@ The derived categories are the standard model, which is the one derived lower sh
 coefficients is constructed over; the local instance is given a priority because the imports
 also supply a second model of the derived category of presheaves of modules.
 
-The identifications `Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M) = L_{B/A} ⊗^L_B M` of Tag 08PU and `Lπ_!(M) = M` of
-Tag 08QE name the first and third terms of the displayed triangle in the source;
-`CommAlgCat.polynomialAtiyahTriangle_distinguished_of_iso` takes them as hypotheses, so that
-supplying them yields the displayed triangle and the Atiyah class in the source's form.
-
-This note previously said those identifications are not available. Both are now present in
-`D(B)` at module coefficients — 08PU as
-`CommAlgCat.standardResolutionCotangentDerivedLowerShriekIso`
-(`StacksFrontier/Cotangent/PolynomialAlgebraSiteModuleShriekDerived.lean`) and 08QE as
-`CommAlgCat.smallPolynomialModuleDerivedInverseImageCompLowerShriekIso`
-(`StacksFrontier/Cotangent/PolynomialAlgebraSiteModuleShriek.lean`) — so the hypotheses of that
-theorem are candidates for discharge, which would make the Atiyah class unconditional.
+The identifications `Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M) = L_{B/A} ⊗^L_B M` (Tag 08PT and the flatness of the
+terms of `L_{B/A}`) and `Lπ_!(M) = M` (Tag 08QE) name the first and third terms of the displayed
+triangle in the source. This file reads the triangle with its endpoints left as `Lπ_!` of the two
+sheaves; `CommAlgCat.polynomialAtiyahTriangle_distinguished_of_iso` and
+`CommAlgCat.polynomialAtiyahClassOfIso` take arbitrary identifications of the endpoints as
+arguments. Both identifications are proved downstream, at the site `C_{B/A}` itself:
+`StacksFrontier/Cotangent/AtiyahClassBigSiteEndpoints.lean` for the third term and
+`StacksFrontier/Cotangent/AtiyahClassBigSiteCanonical.lean` for the first, where the Atiyah class
+`M ⟶ (L_{B/A} ⊗_B^𝐋 M)[1]` of Tag 09DE is defined as `CommAlgCat.atiyahClass`.
 
 ## References
 
@@ -321,15 +318,13 @@ theorem polynomialAtiyahTriangle_distinguished_of_iso
       distinguishedTriangles :=
   Stacks.Atiyah.triangle_distinguished_of_iso _ _ _ _ L N e₁ e₃
 
-/-- **Stacks 09DE.** The *Atiyah class* of `M`, in the form displayed by the source. For `L`
-identified with `Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M)` and `N` identified with `Lπ_!(M)` this is the last arrow
-`N ⟶ L[1]` of the distinguished triangle of Tag 09DD. Under the source's identifications
-`L = L_{B/A} ⊗_B^𝐋 M` and `N = M` it is the Atiyah class `M ⟶ L_{B/A} ⊗_B^𝐋 M[1]`. That it is
-the last arrow of the displayed triangle is
+/-- The Atiyah class of `M` read through identifications of the endpoints of the triangle: for
+`L` identified with `Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M)` and `N` identified with `Lπ_!(M)` this is the last arrow
+`N ⟶ L[1]` of the distinguished triangle of Tag 09DD. At the canonical identifications
+`L = L_{B/A} ⊗_B^𝐋 M` and `N = M` it is the Atiyah class `M ⟶ L_{B/A} ⊗_B^𝐋 M[1]` of Tag 09DE,
+which is `CommAlgCat.atiyahClass` (`StacksFrontier/Cotangent/AtiyahClassBigSiteCanonical.lean`).
+That it is the last arrow of the displayed triangle is
 `CommAlgCat.polynomialAtiyahClassOfIso_mem_distinguished`. -/
-@[stacks 09DE "the Atiyah class; the source's identifications
-Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M) = L_{B/A} ⊗_B^L M (Tag 08PT) and Lπ_!(M) = M (Tag 08QE) are not available
-here, so they are carried as the extra hypotheses `e₁` and `e₃`, which the source does not have"]
 def polynomialAtiyahClassOfIso
     (L N : DerivedCategory (ModuleCat.{u + 1} (ULift.{u + 1} (B : Type u))))
     (e₁ : (polynomialAtiyahTriangle A B M).obj₁ ≅ L)

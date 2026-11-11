@@ -293,8 +293,8 @@ variable (B : BigEtaleSite.{u}) {Xbar Y : B.Scheme} (fbar : Xbar ⟶ Y)
   [HasDerivedCategory.{w} (AbelianSheaf.{u, u} B Y)]
 
 /-- `R f̄_* = f̄_*`: for a finite morphism `f̄` the functor induced on unbounded derived
-categories by the direct image `f̄_*` is a total right derived functor of `f̄_*`. -/
-@[stacks 0GKM "R f̄_* = f̄_* for finite f̄"]
+categories by the direct image `f̄_*` is a total right derived functor of `f̄_*`. This is the
+step `R f̄_* = f̄_*` of the proof of Stacks 0GKM. -/
 public theorem etalePushforward_isRightDerivedFunctor_of_isFinite :
     (etalePushforward.{u, u + 1} B fbar).mapDerivedCategory.IsRightDerivedFunctor
       (etalePushforward.{u, u + 1} B fbar).mapDerivedCategoryFactorsh.inv

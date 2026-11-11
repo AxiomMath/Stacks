@@ -27,6 +27,8 @@ algebraic spaces.
   on a represented algebraic space preserves epimorphisms.
 * `AlgebraicGeometry.Space.RelativeProjSituation.epi_restrictHom_app`: the restriction of `ψ` to a
   scheme point of `X` is an epimorphism in every degree in which `ψ` is surjective.
+* `AlgebraicGeometry.Space.RelativeProjSituation.isIso_restrictHom_app`: it is an isomorphism in
+  every degree in which `ψ` is an isomorphism.
 * `AlgebraicGeometry.Space.RelativeProjSituation.relativeMapSubfunctor_homPoints_eq_top` and
   `AlgebraicGeometry.Space.RelativeProjSituation.isClosedImmersion_relativeMapSpaceHom_homPoints`:
   the first two assertions of Stacks 085H for `ψ`.
@@ -122,6 +124,15 @@ theorem epi_zariskiReading_map (T : BigFppfOver B S hS)
     (isIso_zariskiReadingAdjunction_counit_app T N₂ h₂)
     (isQuasicoherent_zariskiReading_piece T N₁ h₁) (isQuasicoherent_zariskiReading_piece T N₂ h₂)
 
+/-- The Zariski reading of modules on a represented algebraic space carries an isomorphism to an
+isomorphism, being a functor. -/
+theorem isIso_zariskiReading_map (T : BigFppfOver B S hS)
+    {N₁ N₂ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)}
+    (g : N₁ ⟶ N₂) (hg : IsIso g) :
+    IsIso ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)).map g) := by
+  let e : N₁ ≅ N₂ := @asIso _ _ _ _ g hg
+  exact ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)).mapIso e).isIso_hom
+
 namespace RelativeProjSituation
 
 variable {X : AlgebraicSpaces B S hS}
@@ -170,6 +181,26 @@ theorem epi_restrictHom_app (n : ℤ)
       ((𝔰₁).shrink.isQuasicoherent n))
     (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS (pointHom f) _
       ((𝔰₂).shrink.isQuasicoherent n))
+
+/-- **The restriction of `ψ` to a scheme point is an isomorphism in every degree in which `ψ` is.**
+If `ψ_n : 𝒜₁,n ⟶ 𝒜₂,n` is an isomorphism of sheaves of modules on the small étale site of `X`,
+then for every scheme point `f : T ⟶ X` the restriction `f^*ψ` is an isomorphism of
+`𝒪_T`-modules in degree `n`: it is `ψ_n`, carried to the small presentations, then pulled back to
+the small étale site of `T` and read on its Zariski opens, and each of these steps is a functor. -/
+theorem isIso_restrictHom_app (n : ℤ) (hn : IsIso (ψ.app n))
+    (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X.1) :
+    IsIso ((restrictHom h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ T f).app n) := by
+  have := (𝔰₁).small_sections
+  have := (𝔰₂).small_sections
+  have h1 : IsIso ((shrinkMap h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ).app n) :=
+    SheafOfModules.GradedAlgebra.isIso_smallPresentationMap_app ψ n hn
+  have h2 : IsIso ((Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+      (smallEtaleRingedToposHom B S hS (pointHom f)).toRingedToposModulesHom).map
+        ((shrinkMap h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ).app n)) :=
+    @Functor.map_isIso _ _ _ _ _ _ _ _ h1
+  change IsIso ((@pointAlgebraHom B S hS X _ _ (shrinkMap h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ) T
+    f).app n)
+  exact isIso_zariskiReading_map T _ h2
 
 /-- Local surjectivity of `ψ_d` for `d ≫ 0` makes every restriction of `ψ` an epimorphism in all
 large degrees. -/

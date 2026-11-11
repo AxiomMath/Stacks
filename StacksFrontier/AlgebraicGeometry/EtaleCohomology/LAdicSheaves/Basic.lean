@@ -17,18 +17,19 @@ one power of ℓ annihilates the whole system.
 
 ## Main definitions
 
-* `Stacks.EtaleCohomology.FiniteLevelSheaf` is the category of small étale sheaves of
-  modules at a single finite level of coefficients, with the restriction, reduction and
-  comparison maps relating consecutive levels.
-* `Stacks.EtaleCohomology.LAdicSheaf` is the type of ℓ-adic sheaves on a Noetherian
-  scheme, and `Stacks.EtaleCohomology.LAdicSheaf.Hom` is a morphism of such.
-* `Stacks.EtaleCohomology.LAdicSheaf.IsLisse` expresses local constancy at every level.
 * `Stacks.EtaleCohomology.LAdicSheaf.IsTorsion` expresses annihilation by a single power
   of ℓ.
 
-## Main results
+The rest is defined in `StacksFrontier.AlgebraicGeometry.Topologies.Etale.LAdicSheaves` and only
+re-exported here:
 
-* `Stacks.EtaleCohomology.LAdicSheaf.category` makes ℓ-adic sheaves a category.
+* `AlgebraicGeometry.SmallEtale.FiniteLevelSheaf` is the category of small étale sheaves of
+  modules at a single finite level of coefficients, with the restriction, reduction and
+  comparison maps relating consecutive levels.
+* `AlgebraicGeometry.SmallEtale.LAdicSheaf` is the type of ℓ-adic sheaves on a Noetherian
+  scheme, and `AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom` is a morphism of such.
+* `AlgebraicGeometry.SmallEtale.LAdicSheaf.IsLisse` expresses local constancy at every level.
+* `AlgebraicGeometry.SmallEtale.LAdicSheaf.category` makes ℓ-adic sheaves a category.
 
 ## Implementation notes
 

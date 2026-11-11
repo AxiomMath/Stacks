@@ -103,8 +103,9 @@ Clause (a) of Stacks 03CF, that `f'` is a morphism of sites, is
 -/
 @[stacks 03CF "Clause (d): the identity `f'_* j_U^{-1} = j_V^{-1} f_*`, for sheaves valued in any
   category; also the last sentence of 03EF. Clause (a) is in
-  Sites/SlicePost/MorphismOfSitesGeneral.lean and clauses (b) and (c) are in
-  Sites/SliceTopos/InverseImage.lean, all three in 03CF's own generality."]
+  Sites/SlicePost/MorphismOfSitesGeneral.lean, clause (b) in Sites/SliceTopos/InverseImage.lean
+  and clause (c) in Sites/SliceTopos/InverseImageYoneda.lean, all three in 03CF's own
+  generality."]
 theorem sheafPushforwardContinuous_overPost_eq :
     (Over.forget (u.obj V)).sheafPushforwardContinuous A (K.over (u.obj V)) K ⋙
         (Over.post (X := V) u).sheafPushforwardContinuous A (J.over V) (K.over (u.obj V)) =
@@ -126,9 +127,9 @@ obtained here not from Stacks 00WY but by taking left adjoints in
 `j_U^{-1} ⋙ f'_*` and `j_{V!} ⋙ f^{-1}` is left adjoint to `f_* ⋙ j_V^{-1}`, and those two right
 adjoints are equal.  Uniqueness of left adjoints does the rest. -/
 @[stacks 03CF "The isomorphism `j_{U!}(f')^{-1} ≅ f^{-1}j_{V!}` of the proof of 03CF, deduced from
-  clause (d) by uniqueness of left adjoints. As in the clause note on
-  `sheafPushforwardContinuous_overPost_eq`, clauses (b) and (c) of 03CF are not covered; they
-  are in Sites/SliceTopos/InverseImage.lean."]
+  clause (d) by uniqueness of left adjoints; it is the input to clauses (b) and (c), which are
+  `overPullbackCompSheafPullbackOverPostIso` and
+  `sheafFunctorToOverCompOverPostSheafifyYonedaIso`."]
 noncomputable def sheafPullbackOverPostIso :
     (Over.post (X := V) u).sheafPullback A (J.over V) (K.over (u.obj V)) ⋙
         (Over.forget (u.obj V)).sheafPullback A (K.over (u.obj V)) K ≅

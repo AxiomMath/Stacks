@@ -9,7 +9,8 @@ public import StacksFrontier.RingTheory.Henselian.Pair.LocalRing
 Let `k'/k` be an extension of fields and let `f : X ⟶ Spec k` be a scheme over `k`. This file
 studies the base-change functor `FÉt_X ⟶ FÉt_{X_{k'}}`, `U ↦ U_{k'}`, where
 `X_{k'} = X ×_{Spec k} Spec k'`, and proves it to be an equivalence of categories for `X` proper
-over `k` — the conclusion of Stacks Tag 0A49 — granted two inputs, described below.
+over `k` — the conclusion of Stacks Tag 0A49 — from two inputs taken as arguments, described
+below.
 
 The *faithful* half needs nothing: `Spec k'` is a one-point scheme over the one-point scheme
 `Spec k`, so the projection `X_{k'} ⟶ X` is surjective, and
@@ -19,18 +20,18 @@ point of `X` specializing to itself.  By the same surjectivity the reduction of 
 and the whole statement is reduced to *essential surjectivity over every finite étale cover of `X`*
 (`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_essSurj`).
 
-## What is carried as a hypothesis
+## The two inputs taken as arguments
 
-Two inputs of the source proof are carried, because this library does not have them.
+This file takes two inputs of the source proof as arguments, so that it does not import the
+modules proving them; both are proved in this library, and
+`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_isAlgClosed` (in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleAlgClosedEquivalence`) supplies both.
 
 * `AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence` is the conclusion of Tag 0A48 for a
-  **proper** scheme over a henselian local ring.  What the library has is Tag 0A48 for a *finite*
-  morphism
-  (`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_of_isFinite_of_henselianLocalRing`);
-  the general proper case needs Grothendieck existence over a complete Noetherian ring together
-  with Artin approximation, and a consumer discharges this hypothesis exactly by supplying that
-  case — the reduction of the proper case to essential surjectivity alone is already available as
-  `AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair_of_essSurj`.
+  **proper** scheme over a henselian local ring.  It is proved as
+  `AlgebraicGeometry.properHenselianFiniteEtaleEquivalence`
+  (`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperHenselianLimit`), from
+  Grothendieck existence (Tag 088C) and the reduction to Noetherian G-rings.
 
 * `AlgebraicGeometry.FiniteEtaleDescendsToHenselianPoint` is the *spreading out* step: every scheme
   finite étale over `X_{k'}` is already the base change of one finite étale over `X_R`, for some
@@ -49,10 +50,12 @@ Two inputs of the source proof are carried, because this library does not have t
   (`finite_of_finite_type_of_isJacobsonRing` and `IsAlgClosed.lift`) — and obtain the map `R → k'`
   from the algebraicity of a henselization over its base (Tag 0A1W,
   `IsLocalRing.isAlgebraic_of_isHenselization`) together with `k'` being algebraically closed.
-  None of that chain is carried out here.
+  That chain is carried out in
+  `StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleSpreadingOut`, as
+  `AlgebraicGeometry.finiteEtaleDescendsToHenselianPoint_of_isAlgClosed`.
 
 Neither hypothesis is a restatement of the conclusion: the descent hypothesis produces a cover of
-`X_R`, and bringing it down from `X_R` to `X` is exactly what the carried case of Tag 0A48 does
+`X_R`, and bringing it down from `X_R` to `X` is exactly what the proper case of Tag 0A48 does
 here.  It is, however, satisfied by the choice `R = k`, in which case it *is* essential
 surjectivity; the content of this file is therefore the reduction of Tag 0A49 to descent to a
 henselian local approximation, not the construction of that approximation.
@@ -84,11 +87,10 @@ henselian local approximation, not the construction of that approximation.
   for a henselian local `k`-algebra `R` with residue field `k`, base change along `X_R ⟶ X` is an
   equivalence on finite étale covers, granted Tag 0A48 for `X_R ⟶ Spec R`.
 * `isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_henselianPoint_of_isFinite`, in the
-  same namespace — the same with nothing carried when `X` is finite over `k`, the one case this
-  library can discharge; the conclusion is near-trivial there, such an `X` being
-  zero-dimensional.
+  same namespace — the same with Tag 0A48 for a finite morphism supplied, when `X` is finite over
+  `k`; the conclusion is near-trivial there, such an `X` being zero-dimensional.
 * `AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian` —
-  Tag 0A49 granted the two hypotheses above.
+  the conclusion of Tag 0A49 from the two inputs above.
 
 ## Implementation notes
 
@@ -296,14 +298,14 @@ theorem isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_henselianPoint
     infer_instance
   exact isEquivalence_finiteEtaleBaseChange_pullback_fst_of_isIso_comp f _ _ h0A48
 
-/-- **The one case in which this library can discharge the carried hypothesis of the previous
-result**: `X` *finite* over `k` rather than merely proper. Then `X_R ⟶ Spec R` is finite, so Tag
+/-- **The previous result with its hypothesis supplied by Tag 0A48 for a finite morphism**: `X`
+*finite* over `k` rather than merely proper. Then `X_R ⟶ Spec R` is finite, so Tag
 0A48 for a finite morphism applies to it, and base change along `X_R ⟶ X` is an equivalence on
 finite étale covers with nothing carried.
 
 The conclusion is of little interest for such an `X` — a scheme finite over a field is the spectrum
-of a finite `k`-algebra, so it is zero-dimensional — and this is emphatically not Tag 0A49, which
-also needs the descent hypothesis `FiniteEtaleDescendsToHenselianPoint`. Its purpose is to witness
+of a finite `k`-algebra, so it is zero-dimensional — and this is not Tag 0A49 (for which see
+`isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_isAlgClosed`). Its purpose is to witness
 that the geometric step above fires on an input this library proves. -/
 theorem isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_henselianPoint_of_isFinite
     (T : HenselianPoint k k') {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsFinite f] :
@@ -316,17 +318,14 @@ theorem isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_henselianPoint
 
 end HenselianPoint
 
-/-! ### The two carried hypotheses, and Tag 0A49 -/
+/-! ### The two inputs, and the conclusion of Tag 0A49 -/
 
 /-- **The conclusion of Stacks Tag 0A48 for a proper scheme over a henselian local ring**: for
 every henselian local ring `R` and every proper `p : Y ⟶ Spec R`, base change to the closed fibre
 `Y ×_{Spec R} Spec (R ⧸ 𝔪) ⟶ Y` is an equivalence on finite étale covers.
 
-This library proves this for a *finite* `p`
-(`isEquivalence_finiteEtaleBaseChange_of_isFinite_of_henselianLocalRing`) and reduces the proper
-case to essential surjectivity
-(`isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair_of_essSurj`); the remaining
-input is Grothendieck existence together with Artin approximation. -/
+This library proves it as `properHenselianFiniteEtaleEquivalence` (Tag 0A48, in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperHenselianLimit`). -/
 def ProperHenselianFiniteEtaleEquivalence : Prop :=
   ∀ (R : Type u) [CommRing R] [HenselianLocalRing R] {Y : Scheme.{u}} (p : Y ⟶ Spec (.of R)),
     IsProper p →
@@ -341,7 +340,7 @@ variable {k k' : Type u} [Field k] [Field k'] [Algebra k k']
 base change of a scheme finite étale over `X_R`, for some henselian point `R` of `k'/k`.
 
 For `k ⊆ k'` algebraically closed this is supplied by the source's filtered-colimit argument; see
-the module docstring for the chain of results a consumer puts together to discharge it. -/
+`finiteEtaleDescendsToHenselianPoint_of_isAlgClosed`. -/
 def FiniteEtaleDescendsToHenselianPoint (k k' : Type u) [Field k] [Field k'] [Algebra k k']
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) : Prop :=
   ∀ Q : FiniteEtaleOver (pullback f (Spec.map (CommRingCat.ofHom (algebraMap k k')))),
@@ -380,21 +379,19 @@ theorem essSurj_finiteEtaleBaseChange_specMap_algebraMap_of_descends {X : Scheme
   exact (finiteEtaleBaseChange (T.baseChangeMap f)).mapIso
     (Functor.objObjPreimageIso _ P) ≪≫ ε
 
-/-- **Stacks Project, Tag 0A49, granted the proper case of Tag 0A48 and the spreading-out
-hypothesis.** Let `k'/k` be an extension of fields and let `X` be proper over `k`. Then base change
-`U ↦ U_{k'}` is an equivalence between the category of schemes finite étale over `X` and the
-category of schemes finite étale over `X_{k'}`.
+/-- **The conclusion of Stacks Tag 0A49, from the proper case of Tag 0A48 and the spreading-out
+property taken as arguments.** Let `k'/k` be an extension of fields and let `X` be proper over
+`k`. Then base change `U ↦ U_{k'}` is an equivalence between the category of schemes finite étale
+over `X` and the category of schemes finite étale over `X_{k'}`.
 
 Faithfulness is unconditional
 (`faithful_finiteEtaleBaseChange_specMap_algebraMap`); fullness and essential surjectivity come
 from essential surjectivity over every finite étale cover `P` of `X`, each such `P` being again
 proper over `k`, and that is what the two hypotheses provide. The source states this for `k ⊆ k'`
 algebraically closed, which is the case in which its filtered-colimit argument supplies the
-spreading-out hypothesis; the deduction below does not use algebraic closedness. -/
-@[stacks 0A49 "the conclusion, with two inputs of the source proof carried as hypotheses: \
-`ProperHenselianFiniteEtaleEquivalence`, Tag 0A48 for a proper — not merely finite — scheme over \
-a henselian local ring; and `FiniteEtaleDescendsToHenselianPoint`, the source's filtered-colimit \
-spreading out. Proved for an arbitrary field extension. See the module docstring."]
+spreading-out hypothesis; the deduction below does not use algebraic closedness. Tag 0A49
+itself is `isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_isAlgClosed`, which supplies
+both arguments. -/
 theorem isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian {X : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) [IsProper f]
     (h0A48 : ProperHenselianFiniteEtaleEquivalence.{u})

@@ -84,7 +84,7 @@ the inverse image:
 `RΓ(X, E) = RΓ((C/K)_total, a⁻¹E)`,
 
 as an isomorphism of functors on the unbounded derived category of abelian sheaves on `C/X`. -/
-@[stacks 09X7]
+@[stacks 09X7 "RΓ(X, E) ≅ RΓ((C/K)_total, a⁻¹E) for E ∈ D(C/X), K a hypercovering of X"]
 def derivedGlobalSectionsInverseImageIsoOverOfHypercovering :
     Augmentation.derivedGlobalSectionsBase (Cat.of (Over X)) (P.toGrothendieck.over X) ≅
       Augmentation.derivedTotalInverseImage (situationOver P K) (Cat.of (Over X))
@@ -102,7 +102,11 @@ weak Serre subcategory of cartesian abelian sheaves. The derived inverse image i
 
 `a⁻¹ : D⁺(C/X) ⟶ D⁺_𝒜((C/K)_total)`
 
-with quasi-inverse `Ra_*`. -/
+with quasi-inverse `Ra_*`. The hypercovering condition enters through the two inputs of
+Stacks 0D8L (`isIso_situationAbelianTotalAdjunctionUnit_over`,
+`inverseImageComputesDerivedPushforward_over_of_isHypercovering`) and the essential surjectivity
+clause of Stacks 0D8K (2) (`essImage_situationTotalInverseImageAb_of_isCartesianAbSheaf_over`),
+all proved from `hK`. -/
 @[stacks 0D8M]
 def derivedTotalInverseImageEquivalenceOverOfHypercovering :
     (DerivedCategoryB.derivedCategoryBPlus

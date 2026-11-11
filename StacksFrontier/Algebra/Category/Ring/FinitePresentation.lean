@@ -40,7 +40,8 @@ of finite presentation is of finite presentation, by Lemma 00F4 parts (4) and (2
 
 ## Main results
 
-* `Stacks.AlgebraCategory.Presentability.solution`: the statement of Tag 00QO.
+* `Stacks.AlgebraCategory.Presentability.solution`: the categorical form of Tag 00QO, from which
+  `CommRingCat.finitePresentation_tfae_colimit_hom` derives the statement as written.
 
 ## Implementation notes
 
@@ -216,46 +217,50 @@ of `R`-algebras: the ones whose covariant hom functor commutes with directed col
 
 ## Main results
 
-* `CommRingCat.isFinitelyPresentable_under_tfae`: the three conditions above, for
-  `S : Under R` with `R : CommRingCat`, are equivalent.
+* `CommRingCat.finitePresentation_tfae_colimit_hom`: the three conditions above, for
+  `S : Under R` with `R : CommRingCat`, are equivalent, each item exactly as stated.
+* `CommRingCat.isFinitelyPresentable_under_tfae`: the categorical variant, in which (2) is
+  `IsFinitelyPresentable S` (bijectivity for every *filtered* diagram) and (3) is the
+  factorisation property for every directed *partially* ordered system.
 
 ## Implementation notes
 
 The category of `R`-algebras is `Under R` for `R : CommRingCat`, in which the hom set from `S`
 to `A` is `Homᵣ(S, A)`; a directed system of `R`-algebras is a functor `Λ ⥤ Under R` out of a
-nonempty directed order, and `colim_λ A_λ` is any cocone `c` on it with `IsColimit c`, so the
-comparison map is the canonical one and no choice of construction of the colimit is made.
+nonempty directed preordered set `Λ` (a directed set in the sense of Categories, Definition
+`002V`), and `colim_λ A_λ` is any cocone `c` on it with `IsColimit c`, so no choice of
+construction of the colimit is made. The comparison map `colim_λ Homᵣ(S, A_λ) → Homᵣ(S,
+colim_λ A_λ)` is `colimit.desc` of the image of `c` under the hom functor `coyoneda.obj (op S)`,
+the colimit of sets on the left being Mathlib's `colimit` in `Type u`.
 
-Condition (2), "`colim_λ Homᵣ(S, -)  → Homᵣ(S, colim_λ -)` is bijective", is Mathlib's
-`CategoryTheory.IsFinitelyPresentable S`: by
-`isFinitelyPresentable_iff_preservesFilteredColimits` it says exactly that
-`coyoneda.obj (op S)` preserves the relevant colimits, and a map of sets is bijective iff it is
-an isomorphism. Condition (3) is spelled out, as the factorisation property
-`∃ l, ∃ g' : S ⟶ A l, g' ≫ c.ι.app l = g`, because surjectivity of the comparison map is what
-that property says and Mathlib names no half-preservation class; it is the conclusion
-of `CategoryTheory.IsFinitelyPresentable.exists_hom_of_isColimit`.
+The index set `Λ` lives in `Type u`, the universe of the algebras. The source works in one
+universe of sets, in which every directed system of `R`-algebras has its set-theoretic colimit
+as an `R`-algebra; in `Under R` with `R : CommRingCat.{u}` that holds for `Λ : Type u`, and for an
+index type in a larger universe the statement is false, so this is the faithful reading. For
+instance, with `R = ℤ`, a type `X` that is not `u`-small and `Λ` the finite subsets `F ⊆ X`, take
+(`u`-small copies of) the fields `A_F = ℚ(F)` of rational functions. Their set-theoretic colimit
+`ℚ(X)` is a field larger than every `u`-small ring, so it has no ring map to any nonzero `u`-small
+ring; hence the colimit of the system in `Under R` is the zero ring. For `S` the zero ring,
+which is of finite presentation over `ℤ`, the comparison map is the map from the empty set
+`colim_F Hom(0, ℚ(F))` to the one-point set `Hom(0, 0)`, which is not surjective.
 
-The two departures from the source's form both strengthen the statement, and are the only
-ones. First, (2) is taken over *all* filtered index categories rather than only directed
-orders: that is how `IsFinitelyPresentable` is defined, it is what Mathlib proves in
-`CommRingCat.isFinitelyPresentable_under`, and by Categories, Lemma `0032` the two agree.
-Second, (3) is taken over *partially* ordered directed index sets rather than preordered ones,
-which is fewer systems and hence a weaker condition: this is the form Lemma `00QN` produces,
-and in an equivalence a weaker item is a stronger theorem. Together the result reads: bijective
-for every filtered diagram as soon as it is surjective for every directed poset of algebras.
+The proof goes through the categorical variant. A directed preordered set is a filtered
+category, so `IsFinitelyPresentable S` makes `coyoneda.obj (op S)` preserve the colimit `c`,
+which is bijectivity of the comparison map. Conversely an element of `colim_λ Homᵣ(S, A_λ)` is
+the class of some `g' : S ⟶ A_l`, and the comparison map sends it to `g' ≫ c.ι.app l`, so
+surjectivity is the factorisation property; restricted to partial orders this is the third item
+of the categorical variant, whose proof is the source's: write `S = colim_λ S_λ` with `S_λ` of
+finite presentation (Lemma `00QN`) and factor the identity of `S` through some `S_λ`.
 
 Faithfulness. (1) There is no hypothesis besides the ring map `S.hom` itself, which all three
-items mention; the conditions are the three equivalent statements, not one of them with the
-others as decoration. (2) The scalars and base are the source's: the index category is
+items mention. (2) The scalars and base are the source's: the index category is
 `Λ ⥤ Under R`, so every algebra, transition map and comparison map is over `R`, and `S ⟶ A l`
 in `Under R` is `Homᵣ(S, A l)`, not a plain ring map. (3) The canonical map of the source is
-pinned, not merely asserted to exist: (2) is preservation of the colimit by `coyoneda.obj
-(op S)`, whose comparison map is the canonical one, and (3) factors the given `g : S ⟶ c.pt`
-through the given cocone leg `c.ι.app l`. (4) The instantiation is not degenerate: for
-`S = R[x₁, x₂, x₃, …]` on countably many variables item (1) fails, and item (3) fails too,
-because `S` is the colimit of the directed system `R[x₁, …, xₙ]` in which the identity of `S`
-factors through no member; while for `S` of finite presentation all three hold, so no item is
-vacuous or trivially true.
+pinned, not merely asserted to exist: it is `colimit.desc` of the given cocone `c`. (4) The
+instantiation is not degenerate: for `S = R[x₁, x₂, x₃, …]` on countably many variables item
+(1) fails, and item (3) fails too, because `S` is the colimit of the directed system
+`R[x₁, …, xₙ]` in which the identity of `S` factors through no member; while for `S` of finite
+presentation all three hold, so no item is vacuous or trivially true.
 
 ## References
 
@@ -279,13 +284,7 @@ finitely presentable object of the category `Under R` of `R`-algebras, that is
 `R`-algebras; and every `R`-algebra map from `S` to the colimit of a directed system of
 `R`-algebras factors through one of its members, that is the same comparison map is
 merely surjective. -/
-@[stacks 00QO "Item (2) is `IsFinitelyPresentable` in `Under R`, which is bijectivity of
-`colim Homᵣ(S, A_λ) → Homᵣ(S, colim A_λ)` for every *filtered* system (Lemma `0032` identifies
-these with directed ones); item (3) is the surjectivity of that map, spelled as factoring a
-map through a member of the system, for every *partially* ordered directed system, the form
-Lemma `00QN` provides. Both departures strengthen the equivalence. See the module docstring.",
-  ega
-  "IV 8.14.2.2" "more general",
+@[ega "IV 8.14.2.2" "more general",
   ega "IV 8.8.2.3" "f.p. => bijective",
   ega "IV 8.8.2.1" "f.p. case: bijective",
   ega "IV 8.13.1" "affine case, bijective",
@@ -298,6 +297,55 @@ public theorem isFinitelyPresentable_under_tfae {R : CommRingCat.{u}} (S : Under
           (A : Λ ⥤ Under R) (c : Cocone A), IsColimit c → ∀ g : S ⟶ c.pt,
             ∃ (l : Λ) (g' : S ⟶ A.obj l), g' ≫ c.ι.app l = g ] :=
     by apply Stacks.AlgebraCategory.Presentability.solution
+
+/-- **Algebras of finite presentation are the compact algebras.** For an `R`-algebra `S`, the
+following are equivalent: the ring map `R → S` is of finite presentation; for every directed
+system `A_λ` of `R`-algebras the canonical map `colim_λ Homᵣ(S, A_λ) → Homᵣ(S, colim_λ A_λ)` is
+bijective; for every directed system `A_λ` of `R`-algebras that map is surjective.
+
+A directed system of `R`-algebras is a functor `A : Λ ⥤ Under R` out of a nonempty directed
+preordered set `Λ`, `colim_λ A_λ` is the vertex of any colimit cocone `c` on it, and the
+canonical map is `colimit.desc` of the image of `c` under the hom functor `Homᵣ(S, -)`. -/
+@[stacks 00QO "A directed system of `R`-algebras is a functor `Λ ⥤ Under R` out of a nonempty
+directed preordered set, `colim_λ A_λ` is the vertex of any colimit cocone `c`, and the map
+`colim_λ Homᵣ(S, A_λ) → Homᵣ(S, colim_λ A_λ)` is `colimit.desc` of `coyoneda.obj (op S)`
+applied to `c`."]
+public theorem finitePresentation_tfae_colimit_hom {R : CommRingCat.{u}} (S : Under R) :
+    List.TFAE
+      [ S.hom.hom.FinitePresentation,
+        ∀ (Λ : Type u) [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
+          (A : Λ ⥤ Under R) (c : Cocone A), IsColimit c →
+            Function.Bijective
+              (colimit.desc (A ⋙ CategoryTheory.coyoneda.obj (Opposite.op S))
+                ((CategoryTheory.coyoneda.obj (Opposite.op S)).mapCocone c)),
+        ∀ (Λ : Type u) [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
+          (A : Λ ⥤ Under R) (c : Cocone A), IsColimit c →
+            Function.Surjective
+              (colimit.desc (A ⋙ CategoryTheory.coyoneda.obj (Opposite.op S))
+                ((CategoryTheory.coyoneda.obj (Opposite.op S)).mapCocone c)) ] := by
+  tfae_have 1 → 2 := by
+    intro h1 Λ _ _ _ A c hc
+    have : IsFinitelyPresentable.{u} S := ((isFinitelyPresentable_under_tfae S).out 1 2).mp h1
+    have : PreservesFilteredColimits (CategoryTheory.coyoneda.obj (Opposite.op S)) :=
+      isFinitelyPresentable_iff_preservesFilteredColimits.mp this
+    have hP := isColimitOfPreserves (CategoryTheory.coyoneda.obj (Opposite.op S)) hc
+    have he : ((colimit.isColimit _).coconePointUniqueUpToIso hP).hom =
+        colimit.desc (A ⋙ CategoryTheory.coyoneda.obj (Opposite.op S))
+          ((CategoryTheory.coyoneda.obj (Opposite.op S)).mapCocone c) :=
+      colimit.hom_ext fun l ↦ by
+        rw [colimit.ι_desc]
+        exact (colimit.isColimit _).comp_coconePointUniqueUpToIso_hom hP l
+    rw [← he, ← isIso_iff_bijective]
+    infer_instance
+  tfae_have 2 → 3 := fun h Λ _ _ _ A c hc ↦ (h Λ A c hc).2
+  tfae_have 3 → 1 := by
+    intro h3
+    apply ((isFinitelyPresentable_under_tfae S).out 3 1).mp
+    intro Λ _ _ _ A c hc g
+    obtain ⟨x, hx⟩ := h3 Λ A c hc g
+    obtain ⟨l, g', rfl⟩ := Types.jointly_surjective' x
+    exact ⟨l, g', by simpa using hx⟩
+  tfae_finish
 
 end CommRingCat
 

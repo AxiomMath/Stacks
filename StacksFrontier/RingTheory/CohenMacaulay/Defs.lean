@@ -102,10 +102,15 @@ dimension of support, local ring, localization
 
 /-- **Maximal Cohen–Macaulay module.** A module `M` over a local ring `(R, 𝔪)` is *maximal
 Cohen–Macaulay* if its depth along `𝔪` equals the Krull dimension of `R`,
-`depth_𝔪(M) = dim(R)`, which is the largest value the depth of an `R`-module can take. The
+`depth_𝔪(M) = dim(R)`, which for `R` Noetherian is the largest value the depth of a nonzero
+finite `R`-module can take. The
 source states this for `R` Noetherian and `M` finite; neither hypothesis is needed to state the
-condition, so both are left to the lemmas. -/
-@[stacks 00NF "Stated without the Noetherian and finiteness hypotheses; see the module docstring.",
+condition, so both are left to the lemmas, and under them this is the source's condition. The
+depth is that of Tag 00LI, so the zero module has depth `∞` and, `dim(R)` being finite for a
+Noetherian local ring, is not maximal Cohen–Macaulay, as in the source. -/
+@[stacks 00NF "Stated without the Noetherian and finiteness hypotheses, which the lemmas assume \
+  where needed; under them this is the source's condition, with the depth of Tag 00LI. See the \
+  module docstring.",
   ega "IV 7.5.3"]
 public def Module.IsMaximalCohenMacaulay (R : Type*) [CommRing R] [IsLocalRing R] (M : Type*)
     [AddCommGroup M] [Module R M] : Prop :=

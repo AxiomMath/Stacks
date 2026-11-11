@@ -15,7 +15,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ZariskiGluingInSite
 A coproduct `G = ∐ᵢ Fᵢ` of algebraic spaces over `S` is an algebraic space, provided the index
 type and the members are not too large. This file supplies the scheme atlas, which is the
 clause the source calls straightforward, and assembles it with the sheaf condition and the
-representable diagonal.
+representable diagonal, under the source's own size hypothesis and under a cofinality bound on
+the index type.
 
 The atlas is the coproduct `U = ∐ᵢ Uᵢ` of charts of the members. What makes `U` an object of the
 site is a size hypothesis, and the two forms of it are kept apart:
@@ -26,11 +27,14 @@ site is a size hypothesis, and the two forms of it are kept apart:
   representability of the diagonal as an input, because the atlas clause of
   `AlgebraicGeometry.IsAlgebraicSpace` asks for surjectivity and étaleness *after every
   representable base change*, which presupposes that the atlas is relatively representable.
-* `AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit` is the whole theorem, under the
+* `AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit_of_contains`, in
+  `StacksFrontier.AlgebraicGeometry.Spaces.CoproductSpaceContains`, is the whole theorem under
+  exactly that hypothesis, with no bound on the index type and no hypothesis on the diagonal:
+  the diagonal clause is proved for every index type.
+* `AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit` is the whole theorem under the
   cofinality bound `#I < B.cutoff.ord.cof` on the index type. That bound discharges the
   containment automatically, through
-  `AlgebraicGeometry.BigFppfSite.contains_sigma_of_lt_cof`, and it is also what the only
-  available proof of the diagonal clause consumes.
+  `AlgebraicGeometry.BigFppfSite.contains_sigma_of_lt_cof`.
 
 ## Main results
 
@@ -46,16 +50,25 @@ site is a size hypothesis, and the two forms of it are kept apart:
 
 ## Implementation notes
 
-Nothing here carries a `@[stacks 02WQ]` attribute. The source states its size hypothesis as
-"`I` and the `Fᵢ` are not too large", offering as an example that the coproduct of a choice of
-charts be isomorphic to an object of the site, whereas
-`AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit` assumes `#I < B.cutoff.ord.cof`, which
-`StacksFrontier.AlgebraicGeometry.Spaces.SiteGluing` records as the strictly stronger condition of
-the two. So the theorem proved here is weaker than the one the source states, and the gap is
-exactly the diagonal clause: the atlas clause is available under the source's own hypothesis,
-which is what `AlgebraicGeometry.Space.exists_atlas_of_isColimit_of_contains` isolates.
+Nothing here carries a `@[stacks 02WQ]` attribute. It is carried by
+`AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit_of_contains`
+(`StacksFrontier.AlgebraicGeometry.Spaces.CoproductSpaceContains`), which assumes exactly the
+source's precise hypothesis: for some choice of surjective étale charts `Uᵢ → Fᵢ`, the
+coproduct `∐ Uᵢ` is an object of the site. (The tag is also carried by
+`AlgebraicGeometry.isAlgebraicSpace_coproduct`, which asks instead for a coproduct of the
+`Uᵢ` inside the site, a condition implied by the containment.) No size bound on `I` and no
+hypothesis on the diagonal is used there. The diagonal is
+`AlgebraicGeometry.relativelyRepresentable_diag_of_isColimit_cofan`, valid for an index type of
+any size: a fibre product `V ×_G W` of two representables splits along the decomposition of
+Stacks 02WO into the pieces `Vᵢ ×_{Fᵢ} Wᵢ`, which are monomorphisms into `V ×_S W`, and their
+union is assembled into an object of the site by a size bound that does not involve `#I`.
 
-The diagonal is not reproved. It is
+`AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit` assumes `#I < B.cutoff.ord.cof`, which
+`StacksFrontier.AlgebraicGeometry.Spaces.SiteGluing` records as the strictly stronger of the two
+conditions; it is kept as the form in which the containment is automatic.
+
+Under the cofinality bound the diagonal is also obtained, in
+`AlgebraicGeometry.Space.relativelyRepresentable_diag_of_isColimit`, from
 `AlgebraicGeometry.Space.relativelyRepresentable_diag_of_openCover`, the general glueing theorem
 of Stacks 02WR, applied to the covering map `𝟙 G`: a coproduct is covered by its own summands,
 which are attached through representable open immersions by
@@ -263,9 +276,9 @@ than the cofinality of the site's size cutoff.
 
 This is not the hypothesis of Stacks 02WQ, which asks instead that the coproduct of a choice of
 charts of the members be an object of the site, and that is the weaker of the two conditions.
-What is available under the source's own hypothesis is the atlas clause alone,
-`AlgebraicGeometry.Space.exists_atlas_of_isColimit_of_contains`; the diagonal clause is what
-consumes the bound on the index type. -/
+The theorem under the source's own hypothesis is
+`AlgebraicGeometry.Space.isAlgebraicSpace_of_isColimit_of_contains`; this one is the case in
+which that hypothesis is automatic, by `AlgebraicGeometry.BigFppfSite.contains_sigma_of_lt_cof`. -/
 theorem isAlgebraicSpace_of_isColimit
     {I : Type u} (hI : #I < B.cutoff.ord.cof)
     {Fᵢ : I → Sheaf (BigFppfOver.topology B S hS) (Type u)}

@@ -20,8 +20,9 @@ on affine opens — `Stacks.Smooth.FormallySmoothAffineLocally`, which is condit
 [Stacks Project, Tag 0D0F] — and deduces (1) ⟹ (2), (1) ⟹ (3) verbatim from the single
 scheme-level implication (3) ⟹ (1) of Tag 0D0F, which is
 `Stacks.Smooth.formallySmooth_of_formallySmooth_appLE`. Both implications are therefore
-unconditional. The biconditionals of Tag 061K are proved in
-`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartBiconditional.lean`, which is where
+unconditional. Tag 061K itself is proved as
+`AlgebraicGeometry.Space.formallySmooth_tfae_etaleCharts` of
+`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmooth/ChartGlue/Main061K.lean`, which is where
 the tag is registered; nothing here is tagged `061K`.
 
 ## Main definitions
@@ -83,10 +84,9 @@ interchanged by `Stacks.Smooth.formallySmoothAffineLocally_iff_appLE`.
 presentation, through `Stacks.Smooth.smooth_iff_formallySmoothAffineLocally`; it predates this
 file and is left unchanged.
 
-The converse implication (3) ⟹ (1) of Tag 061K is the torsor argument of
-[Stacks Project, Tag 04AM] step (II) and is not approached here; it is approached in
-`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartBiconditional.lean`, where step (I),
-the existence of étale-local lifts, is proved and the torsor triviality is what is left.
+The converse implication (3) ⟹ (1) of Tag 061K is not approached here; it is
+`AlgebraicGeometry.Space.formallySmooth_of_surjectiveEtaleChart_of_formallySmoothScheme` of
+`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmooth/ChartGlue/Main061K.lean`.
 
 ## References
 
@@ -257,8 +257,8 @@ no obstruction, by
 is formal smoothness of the ring maps on affine opens, and
 `Stacks.Smooth.formallySmooth_of_formallySmooth_appLE` — the implication (3) ⟹ (1) of
 [Stacks Project, Tag 0D0F] — turns it into the lifting property. The statement does not carry
-the tag because the tag asserts the biconditionals, which are proved in
-`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartBiconditional.lean`. -/
+the tag because the tag asserts the equivalences, which are
+`AlgebraicGeometry.Space.formallySmooth_tfae_etaleCharts`. -/
 theorem holdsOnEveryEtaleChart_formallySmoothScheme' {f : X ⟶ Y} (hf : FormallySmooth f) :
     HoldsOnEveryEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f :=
   fun U V a b h ha hb hsq =>
@@ -276,8 +276,8 @@ theorem holdsOnEveryEtaleChart_formallySmoothScheme {f : X ⟶ Y} (hf : Formally
 over `S` admits a commuting square of étale scheme charts whose chart of the source is
 surjective and whose underlying scheme morphism is formally smooth.
 
-The statement does not carry the tag because the tag asserts the biconditionals, which are
-proved in `StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartBiconditional.lean`. -/
+The statement does not carry the tag because the tag asserts the equivalences, which are
+`AlgebraicGeometry.Space.formallySmooth_tfae_etaleCharts`. -/
 theorem holdsOnSurjectiveEtaleChart_formallySmoothScheme'
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) {f : X ⟶ Y}
     (hf : FormallySmooth f) :

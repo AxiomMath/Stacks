@@ -348,15 +348,6 @@ each tangent space with a first Ext group of the naive cotangent complex, by
 through the two comparison maps of **Stacks 0GPV**, by
 `Deformation.Examples.squareZeroFiberExtClass_completion`; and both comparison maps are
 bijective by **Stacks 0DZ4**. -/
-@[stacks 0DZ5 "the second conclusion only: the functor induces an isomorphism on tangent \
-spaces. The first conclusion, smoothness, is not proved here; granted the correspondence of \
-liftability it is \
-`Deformation.Examples.isSmooth_adicCompletionFunctorData_of_lifts`. RESTRICTED: the statement \
-is for any completion functor datum of Stacks 0DYV which in addition satisfies \
-`Deformation.Examples.AdicCompletionFunctorData.IsBaseCompatible`, and such data exist by \
-`Deformation.Examples.nonempty_isBaseCompatible_adicCompletionFunctorData`; it is not for the \
-arbitrary choice `Deformation.Examples.adicCompletionFunctor`, which satisfies only the \
-clauses recorded in Stacks 0DYV. See the implementation notes"]
 public theorem bijective_differential_adicCompletionFunctorData
     [Algebra.FiniteType k P]
     (F : AdicCompletionFunctorData (Λ := Λ) (k := k) P J) (hF : F.IsBaseCompatible)
@@ -424,14 +415,6 @@ liftability of its completion.
 That implication is the deformation-category reading of **Stacks 0DZ3** and is the only input
 missing: the other half of the criterion of **Stacks 0DYP**, surjectivity of the differential,
 is `Deformation.Examples.bijective_differential_adicCompletionFunctorData`. -/
-@[stacks 0DZ5 "the first conclusion, smoothness, GRANTED the hypothesis `hlifts`: that a \
-deformation lifts along a small extension of its Artinian base whenever its completion does. \
-That correspondence of liftability is the deformation-category reading of Stacks 0DZ3 and is \
-NOT proved here, so this declaration is not the conclusion of the tag. The tag's other input, \
-surjectivity of the differential, is supplied in full from \
-`Deformation.Examples.bijective_differential_adicCompletionFunctorData`, and the reduction to \
-the two inputs is Stacks 0DYP. RESTRICTED in the same way as that declaration, to a \
-base-compatible completion functor datum. See the implementation notes"]
 public theorem isSmooth_adicCompletionFunctorData_of_lifts
     [Algebra.FiniteType k P]
     (F : AdicCompletionFunctorData (Λ := Λ) (k := k) P J) (hF : F.IsBaseCompatible)

@@ -178,9 +178,6 @@ being smooth, so `P` is the sheaf of an affine object `T` of the site by the aff
 Stacks 0AIN. The second projection `P ⟶ Xred` is a base change of `c`, hence representable by
 algebraic spaces and étale, and it is surjective on points because `c` is; so `T ⟶ Xred` is a
 quasi-compact surjective étale chart of `Xred`. -/
-@[stacks 0AJ9 "the implication (3) ⇒ (1), for every reduction i : Xred ⟶ X of X, a reduction \
-existing by Stacks 0AIN (exists_isReduction_of_isFormalAlgebraicSpace); nothing is assumed \
-beyond the source's hypotheses"]
 theorem IsQuasiCompactSpace.isQuasiCompactSpaceULift_of_isReduction
     {X Xred : FppfSheaf B S hS} {i : Xred ⟶ X} (hi : IsReduction B S hS X Xred i)
     (h : IsQuasiCompactSpace B S hS X) :

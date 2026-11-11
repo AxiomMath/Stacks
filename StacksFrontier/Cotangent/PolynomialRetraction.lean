@@ -39,18 +39,25 @@ is all that `StacksFrontier.Cotangent.SurjectionSingleDegree` needs in order to 
   polynomial algebra over `A`, the derived base change `L_{B/A} ⊗^𝐋_B C` lies in `D^{≥0}(C)`.
 * `CommAlgCat.isGE_cotangentComplexDerived_retraction`: `L_{A/B}` lies in `D^{≥ -1}(B)`.
 * `CommAlgCat.isZero_homology_cotangentComplex_retraction`: `H^i(L_{A/B}) = 0` for `i ≤ -2`.
-* `CommAlgCat.nonempty_cotangentComplex_retraction_iso_single`: **Tag 08SI**, in the general
-  form — `L_{A/B}` is isomorphic in `D(A)` to `I/I²` placed in cohomological degree `-1`.
+* `CommAlgCat.nonempty_cotangentComplex_retraction_iso_single`: Tag 08SI, in the general form
+  — `L_{A/B}` is isomorphic in `D(A)` to `I/I²` placed in cohomological degree `-1` — given the
+  fundamental triangle of the tower `A → B → A`. The registration of Tag 08SI is
+  `CommAlgCat.nonempty_cotangentComplex_retraction_iso_single_unconditional` of
+  `StacksFrontier/Cotangent/PolynomialRetractionUnconditional.lean`, which supplies that triangle.
 
-## The carried hypothesis
+## The triangle as a hypothesis
 
 Proposition 08QX — that the three vertices of the display of Tag 08QS form a distinguished
-triangle for *arbitrary* ring maps `A → B → C` — is not proved in this library; see the
-`No @[stacks 08QX]` section of `StacksFrontier/Cotangent/Triangle/Distinguished.lean`. What the
-library carries is the triangle of Tag 08SD, `CommAlgCat.cotangentTriangle_distinguished`, which
-assumes the middle map `B → C` *injective*. The map this file needs it for is the augmentation
-`B → A`, which is surjective and far from injective, so Tag 08SD does not apply and 08QX is
-carried as the explicit hypothesis `h08QX : HasFundamentalTriangleAt A B A`.
+triangle for *arbitrary* ring maps `A → B → C` — is proved in this library downstream of this
+file, as `CommAlgCat.productFundamentalTriangle_distinguished` of
+`StacksFrontier/Cotangent/Triangle/ProductDescent.lean`. The triangle of Tag 08SD,
+`CommAlgCat.cotangentTriangle_distinguished`, would not do: it assumes the middle map `B → C`
+*injective*, and the map this file needs it for is the augmentation `B → A`, which is
+surjective. Since this file is upstream of Proposition 08QX, the triangle of the tower
+`A → B → A` is taken here as the hypothesis `h08QX : HasFundamentalTriangleAt A B A`, and
+`StacksFrontier/Cotangent/PolynomialRetractionUnconditional.lean` discharges it
+(`CommAlgCat.hasFundamentalTriangleAt`) to state Tag 08SI with no hypothesis beyond the
+source's.
 
 Carrying it does not turn the statement into a restatement of its own conclusion. `h08QX`
 asserts only that a distinguished triangle exists on the three named vertices, for the tower
@@ -248,22 +255,15 @@ theorem isZero_homology_cotangentComplex_retraction
   exact ((DerivedCategory.homologyFunctorFactors
     (ModuleCat.{u} ↥(CommAlgCat.of B A)) i).app (cotangentComplex B (CommAlgCat.of B A))).symm
 
-/-- **Stacks Project, Tag 08SI.** Let `A` be a commutative ring, let `B` be a polynomial algebra
-over `A`, and let `B → A` be a retraction of `A → B` — an augmentation. Let `I = ker(B → A)`.
-Then `L_{A/B}` is quasi-isomorphic to `I/I²[1]`, that is, isomorphic in `D(A)` to the conormal
-module `I/I²` placed in cohomological degree `-1`.
+/-- **Tag 08SI, given the fundamental triangle.** Let `A` be a commutative ring, let `B` be a
+polynomial algebra over `A`, and let `B → A` be a retraction of `A → B` — an augmentation. Let
+`I = ker(B → A)`. If the three vertices of the display of Tag 08QS for the tower `A → B → A` form
+a distinguished triangle, then `L_{A/B}` is quasi-isomorphic to `I/I²[1]`, that is, isomorphic in
+`D(A)` to the conormal module `I/I²` placed in cohomological degree `-1`.
 
-The source states this for `A = ℤ`, `B = ℤ[x₁, …, xₙ]` and the augmentation sending every
-variable to `0`, whose kernel is the ideal `I = (x₁, …, xₙ)`; the statement here is that case
-with the base ring and the set of variables left general. -/
-@[stacks 08SI "the lemma for a general base ring A and a general polynomial algebra B over it \
-  with an augmentation B → A, of which the source's A = Z[x_1,...,x_n] -> B = Z sending every \
-  x_i to 0 is the case A = Z; the source's ideal I = (x_1,...,x_n) is the kernel of the \
-  augmentation, and I/I^2 is its conormal module. ONE carried hypothesis: h08QX, Proposition \
-  08QX for the tower A -> B -> A, which is the triangle the source's proof invokes and which is \
-  not proved in this library — the triangle the library carries, Tag 08SD, needs the middle map \
-  injective, whereas the augmentation B → A is surjective. The hypothesis is 08QX itself, for a \
-  general not-necessarily-injective map, and not the conclusion proved here"]
+The registration of Tag 08SI is
+`CommAlgCat.nonempty_cotangentComplex_retraction_iso_single_unconditional`, which supplies the
+triangle from Proposition 08QX. -/
 theorem nonempty_cotangentComplex_retraction_iso_single
     (hB : Algebra.IsPolynomialAlgebra A B) (h08QX : HasFundamentalTriangleAt A B A) :
     Nonempty (DerivedCategory.Q.obj (cotangentComplex B (CommAlgCat.of B A)) ≅

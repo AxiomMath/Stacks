@@ -51,8 +51,12 @@ let `f : X ⟶ Spec k` be proper. Then base change along the projection `X_{k'} 
 category of schemes finite étale over `X_{k'} = X ×_{Spec k} Spec k'`.
 
 This is `isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian_of_isAlgClosed`
-with Tag 0A48 supplied by `properHenselianFiniteEtaleEquivalence`. -/
-@[stacks 0A49 "As stated in the source: `k ⊆ k'` algebraically closed, `X` proper over `k`.",
+with Tag 0A48 supplied by `properHenselianFiniteEtaleEquivalence`. The stand-in
+`ProperHenselianFiniteEtaleEquivalence` cannot be discharged inside
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleAlgClosedExtension` itself, since the
+module proving it imports that one; this module is where both inputs are supplied. -/
+@[stacks 0A49 "Complete, under exactly the source's hypotheses: `k ⊆ k'` algebraically closed, \
+`X` proper over `k`.",
   sga "1 IX 6.3" "more general",
   sga "1 X 1.8" "more general"]
 theorem isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_isAlgClosed

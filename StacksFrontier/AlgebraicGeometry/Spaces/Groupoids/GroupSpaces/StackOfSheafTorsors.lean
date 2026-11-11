@@ -199,7 +199,7 @@ private theorem isIso_leftSMul_ofIso {E : Type u₁} [Category.{v₁} E]
 /-- The sieve of morphisms along which a given section of a presheaf becomes the image of a
 section of one of a family of presheaves mapping to it. -/
 @[sga "4 I 4.3.3" "more general"]
-private abbrev familyImageSieve
+abbrev familyImageSieve
     {C : Type u₁} [Category.{v₁} C] {P : Cᵒᵖ ⥤ Type u₂}
     {I : Type w₁} {F : I → Cᵒᵖ ⥤ Type u₂} (π : ∀ i, F i ⟶ P)
     {W : C} (x : P.obj (Opposite.op W)) : Sieve W where

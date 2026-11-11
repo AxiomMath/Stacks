@@ -97,26 +97,21 @@ structure sheaf and the one the indexing sheaf of rings of a sheaf of modules us
 search does not cross between them, so the modules a tensor product is formed from have to be
 read at one of them throughout.
 
-## What is not done here
+## The displayed self-map
 
 The source displays the family with total space `𝐏 × 𝐏(V)` on both sides, using the
-identifications `𝐏(V ⊗ 𝒪_𝐏) = 𝐏(V ⊗ 𝒪_𝐏(1)) = 𝐏 × 𝐏(V)`. The **first** of them is made, in
+identifications `𝐏(V ⊗ 𝒪_𝐏) = 𝐏(V ⊗ 𝒪_𝐏(1)) = 𝐏 × 𝐏(V)`. The **first** of them is made in
 `StacksFrontier/AlgebraicGeometry/Intersection/Projections/UniversalFamilyProductSpace.lean`: the
 target `𝐏(V ⊗ 𝒪_𝐏)` of the family is the fibre product of `𝐏` with the projective space of `V`
 over `Spec k`, by Tag 01O3 over an arbitrary — in particular non-affine — base, which is
-`AlgebraicGeometry.projectiveBundleBaseChangeComparison`. Its second factor is presented as the
-projective bundle of `Ṽ` over `Spec k` rather than as
-`AlgebraicGeometry.projectiveSpaceOfModule k V`; that file's own `What is not done here` records
-why those two presentations are not yet identified over `Spec k`.
-
-The **second** identification is not made. It is Tag 02NC, the invariance of a relative
-homogeneous spectrum under twisting the graded algebra by an invertible module, and the only form
-of it in this repository is the absolute graded-ring one,
-`Stacks.GradedRing.InvertibleTwist.projTwistIsoGeneral`, over a commutative ring
-rather than over a base scheme. So the *source* `U(ψ) ⊆ 𝐏(V ⊗ 𝒪_𝐏(1))` of the family is not an
-open of `𝐏 × 𝐏(V)`, the family is not a partially defined self-map of one scheme, and the fibre
-of this family over a point `[g]` of `𝐏` is not compared with `r_g` either; that comparison is
-made over the affine cone `𝔸(E) = Spec Sym(Eᵛ)` in
+`AlgebraicGeometry.projectiveBundleBaseChangeComparison`. The **second** is made in
+`StacksFrontier/AlgebraicGeometry/Intersection/Projections/UniversalFamilySelfMap.lean`, by Tag 02NC
+over a base scheme in its projective-bundle form
+`Stacks.SymProjectiveBundleTwist.exists_iso_schemeProjectiveBundle_tensorObj`; there
+`AlgebraicGeometry.ProjectiveSpaceOfModule.exists_iso_universalEndFamily_selfMap` assembles the
+display: `U(ψ)` is an open subscheme of `𝐏 × 𝐏(V)` and `r_ψ` a morphism from it to `𝐏 × 𝐏(V)`
+over `𝐏`. The fibres of the family over a point `[g]` are compared with `U(g)` and `r_g` over
+the affine cone `𝔸(E) = Spec Sym(Eᵛ)` in
 `StacksFrontier/AlgebraicGeometry/Intersection/Projections/UniversalEndomorphismFamily.lean`.
 
 ## References
@@ -342,10 +337,10 @@ def tensorGlobalSections (F : (projectiveSpaceOfModule k W).Modules) (n : ℤ) :
 sheaf is quasi-coherent by Tag 01MB and the twist is a tensor product with it. -/
 instance isQuasicoherent_twist (F : (projectiveSpaceOfModule k W).Modules)
     [hF : F.IsQuasicoherent] (n : ℤ) : (twistObj k W F n).IsQuasicoherent :=
-  letI : SheafOfModules.IsQuasicoherent.{u, u, u}
+  letI _h₁ : SheafOfModules.IsQuasicoherent.{u, u, u}
       (show SheafOfModules.{u} (structureSheaf (structurePresheaf k W)
         (isSheaf_structurePresheaf k W)) from F) := hF
-  letI : SheafOfModules.IsQuasicoherent.{u, u, u}
+  letI _h₂ : SheafOfModules.IsQuasicoherent.{u, u, u}
       (show SheafOfModules.{u} (structureSheaf (structurePresheaf k W)
         (isSheaf_structurePresheaf k W)) from twistingSheaf (grading k W) n) :=
     associatedModuleSheaf_isQuasicoherent (grading k W) (twistGrading (grading k W) n)
@@ -474,10 +469,9 @@ def universalEndSheafMap :
 
 /-- **The open `U(ψ) ⊆ 𝐏(V ⊗ 𝒪_𝐏(1))`** of the universal family over the projective parameter
 space: Tag 07ZG's open for `Sym ψ`. -/
-@[stacks 0B2W "U(ψ) ⊆ 𝐏(V ⊗ 𝒪_𝐏(1)) over the projective parameter space 𝐏 = 𝐏(Eᵛ); the \
-identification of the twisted total space 𝐏(V ⊗ 𝒪_𝐏(1)) with the displayed 𝐏 × 𝐏(V) is not \
-made, that being Tag 02NC over a base scheme, which this repository has only over a \
-commutative ring"]
+@[stacks 0B2W "U(ψ) ⊆ 𝐏(V ⊗ 𝒪_𝐏(1)) over the projective parameter space 𝐏 = 𝐏(Eᵛ); its \
+identification with an open subscheme of the displayed 𝐏 × 𝐏(V) is \
+exists_iso_universalEndFamily_selfMap"]
 abbrev universalEndSheafDomain :
     (schemeProjectiveBundle
       (twistObj k (dualEndSpace k V) (constantModule k (dualEndSpace k V) V) ((1 : ℕ) : ℤ))
@@ -487,10 +481,9 @@ abbrev universalEndSheafDomain :
 /-- **The universal family of projective transformations over the projective parameter space**,
 `𝐏(V ⊗ 𝒪_𝐏(1)) ⊇ U(ψ) --r_ψ--> 𝐏(V ⊗ 𝒪_𝐏)`: the partially defined morphism of relative
 projective spaces that Tag 07ZG attaches to `Sym ψ`. -/
-@[stacks 0B2W "r_ψ : U(ψ) → 𝐏(V ⊗ 𝒪_𝐏) over the projective parameter space 𝐏 = 𝐏(Eᵛ); the \
-target 𝐏(V ⊗ 𝒪_𝐏) is identified with the displayed 𝐏 × 𝐏(V) over 𝐏, but the source \
-𝐏(V ⊗ 𝒪_𝐏(1)) is not, that being Tag 02NC over a base scheme, so r_ψ is not yet a partially \
-defined self-map of one scheme"]
+@[stacks 0B2W "r_ψ : U(ψ) → 𝐏(V ⊗ 𝒪_𝐏) over the projective parameter space 𝐏 = 𝐏(Eᵛ); read \
+through the identifications of both total spaces with 𝐏 × 𝐏(V) over 𝐏, it is the displayed \
+self-map, exists_iso_universalEndFamily_selfMap"]
 def universalEndSheafProjection :
     (universalEndSheafDomain k V).toScheme ⟶
       (schemeProjectiveBundle (constantModule k (dualEndSpace k V) V)

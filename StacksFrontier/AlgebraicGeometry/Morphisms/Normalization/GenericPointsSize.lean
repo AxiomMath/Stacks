@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.Size.OpenCover
 /-!
 # The size of the normalization of a scheme
 
-The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Tag 000I) is the maximum of `ℵ₀`, the
+The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Stacks Section 000H) is the maximum of `ℵ₀`, the
 number of its affine opens, and the cardinalities of its rings of sections over affine opens,
 and containment in a big fppf site is exactly a bound on it. For the *relative* normalization
 of a quasi-compact quasi-separated morphism the bound is
@@ -54,7 +54,7 @@ read at a family of spectra of residue fields.
 
 ## References
 
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 * [Stacks Project, Tag 000R](https://stacks.math.columbia.edu/tag/000R)
 * [Stacks Project, Tag 035M](https://stacks.math.columbia.edu/tag/035M)
 * [Stacks Project, Tag 035N](https://stacks.math.columbia.edu/tag/035N)

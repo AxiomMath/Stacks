@@ -25,6 +25,21 @@ that nothing beyond the source's notion of a local property is assumed.
 * `AlgebraicGeometry.FormalSpace.hasProperty_tfae_of_isLocallyCountablyIndexed_of_isLocal`:
   **Stacks 0ANG**.
 
+## Implementation notes
+
+The three implications are proved in
+`AlgebraicGeometry.FormalSpace.hasProperty_tfae_isCountablyWeaklyAdmissible_of_etale`: (1) to
+(2) by `AlgebraicGeometry.FormalSpace.hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram`,
+whose fibre products of charts are formal algebraic spaces by
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_etale` (Stacks 0AJ3);
+(2) to (3) by `AlgebraicGeometry.FormalSpace.hasPropertyAfterSourceCover_of_afterTargetCover`;
+and (3) to (1) by
+`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocal`,
+whose refinement of the covering is
+`AlgebraicGeometry.FormalSpace.hasEtaleRefinementOfSourceCover_of_etale` (Stacks 0AJ2). The étale
+case of Stacks 0AJH that both use is
+`AlgebraicGeometry.FormalSpace.representableEtaleOverAffineIsFormal`.
+
 ## References
 
 * [Stacks Project, Tag 0CBA](https://stacks.math.columbia.edu/tag/0CBA)

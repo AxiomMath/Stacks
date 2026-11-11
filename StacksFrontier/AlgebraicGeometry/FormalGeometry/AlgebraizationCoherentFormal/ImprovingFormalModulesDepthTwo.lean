@@ -39,22 +39,14 @@ adjunction `L ⊣ R`: precomposition with a morphism that `L` inverts is bijecti
 into an object at which the unit is invertible.
 
 Closedness of `T'` is what makes `X ∖ T'` open, and it is the only place the hypothesis is
-used; a closed subset is in particular stable under specialization, so this is a restriction of
-the source's hypothesis on `T'` and not an extra one.  Without it the source replaces `V` by a
-family of opens avoiding one point at a time, which needs the stabilization of the system of
-pushforwards that this library does not have.
+used in this file. The case of a `T'` that is only stable under specialization is reduced to
+the closed one in `ImprovingFormalModulesDepthTwoSystem.lean`, which also constructs the
+termwise depth-two extensions (`Stacks.Algebraization.canonicalDepthTwoImprovement`); here they
+are taken as a structure `Stacks.Algebraization.DepthTwoImprovement`, so that the depth bounds
+hold for any choice.
 
-The termwise depth-two extensions are data: their existence is the existence half of
-[Stacks, Tag 0EI3], which this library carries only conditionally.
-
-### No unrestricted `@[stacks 0EJF]`
-
-Only conclusions (1) and (2) of the source are proved here, and under two restrictions
-recorded in the attribute: `T'` is closed, and the termwise depth-two extensions are
-hypotheses rather than constructed.  Conclusions (3) and (4) — that `(ℱ''ₙ)` is
-pro-isomorphic to an object of `Coh(X, ℐ)` and that the induced morphism has kernel and
-cokernel annihilated by a power of `ℐ` — rest on the essential-constancy assertion of
-[Stacks, Tag 0EIE], which this library carries only as a hypothesis of its consequences.
+[Stacks, Tag 0EJF] itself, with all four of its conclusions, is
+`Stacks.Algebraization.exists_proIso_coherentAdicSystem_canonicalImprovedSystem`.
 
 ## References
 
@@ -245,12 +237,10 @@ public theorem toDepthTwoImprovedSystem_app (hT' : IsClosed T')
       (toImprovedSystem T hT F).app n ≫ S.extend n :=
   rfl
 
-/-- **Stacks Project, Tag 0EJF, conclusions (1) and (2).** Every term of the depth-two improved
-system has depth at least one at each point of `T` and depth at least two at each point of
-`T'`. -/
-@[stacks 0EJF "conclusions (1) and (2), for T' closed and with the termwise depth-two \
-extensions as data; conclusions (3) and (4) rest on the essential-constancy assertion of Tag \
-0EIE, which this library carries only as a hypothesis"]
+/-- Every term of a system of termwise depth-two extensions of `(ℱ'ₙ)` has depth at least one
+at each point of `T` and depth at least two at each point of `T'`: conclusions (1) and (2) of
+[Stacks, Tag 0EJF], whose full statement is
+`Stacks.Algebraization.exists_proIso_coherentAdicSystem_canonicalImprovedSystem`. -/
 public theorem depth_stalk_depthTwoImprovedSystem (S : DepthTwoImprovement T T' hT F)
     (n : ℕᵒᵖ) (x : X) :
     letI : Module (X.presheaf.stalk x)

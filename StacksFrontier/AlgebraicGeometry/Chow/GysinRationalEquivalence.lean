@@ -50,43 +50,25 @@ class (Stacks 02SO, whose factoring through rational equivalence is Stacks 02TI)
 
 ## Implementation notes
 
-### Why the vanishing is a hypothesis
+### Why the vanishing is an argument here
 
-The proof of Stacks 02TO reduces, by proper pushforward along `⨿ W_j ⟶ X`, to the case of a
-single integral `X` and `α = div(f)`, and then evaluates the two sides with the key formula.
-Precisely, it uses
+The Gysin map of Stacks 02T8 is built in this file from an arbitrary
+`Stacks.Chow.FirstChernComponentClassRule`, and its values on components contained in the zero
+scheme are whatever that rule says, so it has no reason to kill rational equivalences unless the
+rule really is the first Chern class. So for an arbitrary `chern` the vanishing
+`Stacks.Chow.GysinFactorsThroughRationalEquivalence` is a `Prop` taken as an argument, not a
+theorem.
 
-* Stacks 02TA, that the Gysin map commutes with proper pushforward — unformalized, and stated in
-  terms of proper pushforward on *Chow* groups (Stacks 0GU8), which this repository does not have
-  either, since that rests on Stacks 02S2;
-* Stacks 02S2, that proper pushforward preserves rational equivalence — unformalized;
-* Stacks 02TM, that `i^* div_N(t) = c_1(N|_D) ∩ [D]_{n-1}` — unformalized, and resting on the key
-  formula of Stacks 0AYC, on Stacks 02SJ (the divisor of a meromorphic section) and on Stacks
-  02SK;
-* Stacks 02TI and 02SP, both of which are statements about the first Chern class cap product of
-  Stacks 02SO, which is likewise not in this repository.
+### Where Stacks 02TO is proved
 
-Every one of these is a genuine gap, not a matter of effort here. So the vanishing is carried as
-an explicit hypothesis `Stacks.Chow.GysinFactorsThroughRationalEquivalence`, in the same way that
-`StacksFrontier.AlgebraicGeometry.Chow.Vocabulary` carries the dimension function of the missing
-Stacks 02JW as an explicit hypothesis, and that
-`StacksFrontier.AlgebraicGeometry.Chow.GysinConstruction` carries the first Chern class of the
-missing Stacks 02SO as the explicit argument `chern`. Whoever proves Stacks 02TO discharges the
-hypothesis and recovers the unconditional statements; until then nothing below is tainted.
-
-The hypothesis is genuinely needed for an arbitrary `chern`: the Gysin map of Stacks 02T8 is
-built here from an arbitrary `Stacks.Chow.FirstChernComponentClassRule`, and its values on
-components contained in the zero scheme are whatever that rule says, so it has no reason to kill
-rational equivalences unless the rule really is the first Chern class.
-
-### Where Stacks 02TO is carried
-
-The declarations below quantify over the `chern` parameter of Stacks 02T8, so they are statements
-about an arbitrary rule on integral components rather than about `L` and `s`. The tag is carried
-two steps further on, in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceReduction`: there `chern` is the
-first Chern class component rule of `L`, the vanishing is *derived* rather than assumed, and what is
-granted in its place is the single-component statement the source's proof reduces to.
+At the first Chern class component rule of `L` the vanishing is
+`Stacks.Chow.GysinOfInvertibleFactorsThroughRationalEquivalence`, stated in
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceInvertible`. It is proved with no
+hypothesis, following the source's proof (a reduction to a single integral component in
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceReduction`, and the integral case from
+the key formula of Stacks 0AYC), as `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`
+in `StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.GysinComponentDischarge`, where Stacks 02TO is
+registered together with the descended map `Stacks.Chow.gysinChowOfInvertible`.
 
 ## References
 
@@ -147,8 +129,7 @@ theorem eq_descend (h : R.FactorsThroughRationalEquivalence)
 
 /-- **The hypothesis is exactly the descent.** A rule on integral components factors through
 rational equivalence precisely when its coefficientwise extension descends to a homomorphism of
-Chow groups. So carrying the factoring as a hypothesis, as Stacks 02TO must be carried in this
-repository, loses nothing: the hypothesis *is* the existence of the descended map. -/
+Chow groups: the factoring *is* the existence of the descended map. -/
 theorem factorsThroughRationalEquivalence_iff :
     R.FactorsThroughRationalEquivalence ↔
       ∃ F : chowGroup C p (k + 1) →+ chowGroup C q k,
@@ -169,9 +150,10 @@ variable (C : ChowSituation.{u}) {X : Scheme.{u}} (p : X ⟶ C.S) [LocallyOfFini
 /-- **Stacks 02TO.** The assertion that the Gysin homomorphism of the zero scheme of `s` kills
 every `(k+1)`-cycle rationally equivalent to zero, hence factors through rational equivalence.
 
-This is the statement of Stacks 02TO, carried as a hypothesis because its proof needs Stacks
-02TA, 02S2, 02TM, 02TI and 02SP, none of which is formalized in this repository; see the
-implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalence`. -/
+For an arbitrary component rule `chern` this is a `Prop`, not a theorem; at the first Chern class
+component rule of `L` it is the statement of Stacks 02TO, proved as
+`Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`. See the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalence`. -/
 def GysinFactorsThroughRationalEquivalence : Prop :=
   ∀ α ∈ rationalEquivalences C p (k + 1), gysinHomomorphism C p k L s chern α = 0
 
@@ -183,7 +165,7 @@ theorem gysinFactorsThroughRationalEquivalence_iff_gysinRule :
   Iff.rfl
 
 /-- **Stacks 02TO.** The Gysin homomorphism descended to Chow groups,
-`i^* : A_{k+1}(X) ⟶ A_k(D)`, granted that it factors through rational equivalence. -/
+`i^* : A_{k+1}(X) ⟶ A_k(D)`, from a proof that it factors through rational equivalence. -/
 def gysinHomomorphismOnChow (h : GysinFactorsThroughRationalEquivalence C p k L s chern) :
     chowGroup C p (k + 1) →+
       chowGroup C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) k :=

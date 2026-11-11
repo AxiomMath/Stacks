@@ -26,6 +26,8 @@ when it is moreover quasi-compact.
   quasi-finiteness at every point.
 * `AlgebraicGeometry.quasiFinite_conditions_iff_isDiscrete_fibers` expresses the fiber condition
   in the definition of a quasi-finite morphism.
+* `AlgebraicGeometry.quasiFinite_conditions_iff_forall_quasiFiniteAt_and_quasiCompact`: a
+  morphism is quasi-finite if and only if it is locally quasi-finite and quasi-compact.
 * `AlgebraicGeometry.locallyQuasiFinite_conditions_tfae` and
   `AlgebraicGeometry.locallyQuasiFinite_conditions_resLE` characterize local quasi-finiteness on
   affine opens and on open coverings, and restrict it to open subschemes.
@@ -42,9 +44,10 @@ last characterization explicitly uses
 `LocallyQuasiFinite`, under the local finite-type condition, with discreteness of every
 set-theoretic fiber.
 
-Because the three conditions defining a quasi-finite morphism are unbundled, the statement that
-a morphism is quasi-finite exactly when it is locally quasi-finite and quasi-compact is a
-reassociation of a conjunction, namely `and_right_comm`.
+The statement that a morphism is quasi-finite exactly when it is locally quasi-finite and
+quasi-compact is stated with quasi-finiteness as finite type plus discreteness of every fiber and
+local quasi-finiteness as `quasiFiniteAt` at every point. It follows from the two
+characterizations above together with a reassociation of the conjunction.
 
 ## References
 
@@ -106,8 +109,6 @@ add_to_stacks 01TD "the fiber-isolation condition in parts (2) and (3)"
 add_to_stacks 01TD "the quasi-compact condition in part (3)"
   AlgebraicGeometry.QuasiCompact
 
-add_to_stacks 01TJ and_right_comm
-
 /-- Finite type at a point, unfolded to its affine-neighbourhood form. -/
 private lemma finiteTypeAt_iff_exists_affineOpens
     {X S : Scheme.{u}} (f : X ⟶ S) (x : X) :
@@ -160,6 +161,15 @@ public theorem quasiFinite_conditions_iff_isDiscrete_fibers
     have := h.1
     locallyQuasiFinite_iff_isDiscrete_preimage_singleton
 
+/-- A morphism is quasi-finite, that is of finite type with every point isolated in its fiber,
+exactly when it is locally quasi-finite, that is quasi-finite at every point, and
+quasi-compact. -/
+@[stacks 01TJ "quasi-finite as in Tag 01TD (3), locally quasi-finite as in Tag 01TD (2)"]
+public theorem quasiFinite_conditions_iff_forall_quasiFiniteAt_and_quasiCompact
+    {X S : Scheme.{u}} (f : X ⟶ S) :
+    ((LocallyOfFiniteType f ∧ QuasiCompact f) ∧ ∀ s, IsDiscrete (f ⁻¹' {s})) ↔
+      ((∀ x, quasiFiniteAt f x) ∧ QuasiCompact f) := by
+  rw [forall_quasiFiniteAt_iff, ← quasiFinite_conditions_iff_isDiscrete_fibers, and_right_comm]
 
 /-- The ring-map condition `FiniteType ∧ QuasiFinite` defining quasi-finite ring maps is stable
 under composition with a principal localization of the source. -/

@@ -35,8 +35,11 @@ This file builds that page, row by row, directly from the de Rham complex.
 
 ## Implementation notes
 
-The spectral sequence itself is not constructed here, only its first page. The construction is
-available: the de Rham complex of `AlgebraicGeometry.SheafOfModules.deRhamComplexInt` is
+This file builds the rows of the first page as complexes. The two spectral sequences of Section
+0FM6 — the Hodge-to-de Rham one and the conjugate one — are
+`AlgebraicGeometry.SheafOfModules.exists_hodgeToDeRham_and_conjugate_spectralSequences`, obtained
+from a Cartan-Eilenberg resolution of the de Rham complex. The brutal-filtration construction is
+also available: the de Rham complex of `AlgebraicGeometry.SheafOfModules.deRhamComplexInt` is
 concentrated in nonnegative degrees, so
 `Stacks.Cohomology.FilteredComplex.exists_boundedBelowStupidTruncationSpectralSequence`
 ([Stacks, Tag 0FLK]) applies to it and produces the spectral sequence of its brutal filtration
@@ -89,9 +92,10 @@ Stacks Section 0FM6.** The term in position `p` is the Hodge cohomology group
 `H^q(X, Ω^p_{𝒪_X/A})` and the differential `d_1^{p, q} : H^q(X, Ω^p) ⟶ H^q(X, Ω^{p + 1})` is the
 map induced by the de Rham differential `d : Ω^p ⟶ Ω^{p + 1}`; it squares to zero because the de
 Rham differential does. -/
-@[stacks 0FM6 "the first page of the Hodge-to-de Rham spectral sequence, E_1^{p,q} = H^q(X, Ω^p)
-with d_1 induced by the de Rham differential; the spectral sequence itself and the conjugate
-spectral sequence are not constructed", sga "7 XXII 3.3" "First page of (3.3.2)"]
+@[stacks 0FM6 "the rows E_1^{•,q} of the first page of the Hodge-to-de Rham spectral sequence as
+cochain complexes: E_1^{p,q} = H^q(X, Ω^p) with d_1 induced by the de Rham differential; the
+spectral sequences are exists_hodgeToDeRham_and_conjugate_spectralSequences",
+  sga "7 XXII 3.3" "First page of (3.3.2)"]
 abbrev hodgeToDeRhamFirstPage (q : ℕ) : CochainComplex AddCommGrpCat.{u} ℕ :=
   (((sectionsFunctor X.carrier ⊤).rightDerived q).mapHomologicalComplex
     (ComplexShape.up ℕ)).obj (deRhamAbelianComplex B D)

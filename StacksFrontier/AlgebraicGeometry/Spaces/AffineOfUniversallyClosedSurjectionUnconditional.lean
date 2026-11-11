@@ -208,6 +208,7 @@ variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 /-- **Stacks 07VT.** Let `S` be a scheme and let `f : X ⟶ Y` be a morphism of algebraic spaces
 over `S`. Assume that `X` is affine and that `f` is surjective and universally closed. Then `Y` is
 affine. -/
+@[stacks 07VT "target of a universally closed surjection from an affine algebraic space is affine"]
 theorem isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hsurj : IsSurjective B S hS f) (hclosed : UniversallyClosed B S hS f)

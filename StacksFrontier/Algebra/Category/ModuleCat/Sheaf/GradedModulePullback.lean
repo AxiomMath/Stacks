@@ -58,8 +58,12 @@ unique isomorphism, in the shape used for sheaves of differential graded modules
 That such a datum exists for every `φ` is
 `SheafOfModules.GradedModule.pullbackData` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullbackConstruction.lean`, which
-obtains the pullback as the left adjoint of the direct image; the tag's attribute sits there,
-on `SheafOfModules.GradedModule.pullbackHomOfDegreeEquiv`, which is
+obtains the pullback as the left adjoint of the direct image. The explicit pullback
+`f⁻¹N ⊗_{f⁻¹B, φ} A` of the source is a datum too,
+`SheafOfModules.GradedTensorPullback.tensorPullbackData` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullbackTensor.lean`; the tag's
+attribute sits there, on
+`SheafOfModules.GradedTensorPullback.tensorPullbackHomOfDegreeEquiv`, which is
 `PullbackData.homOfDegreeEquiv` at that datum. What this file contributes is the other half of
 the source's proof: the universal property is at degree zero only, and the degree-`n` statement
 is obtained from it by shifting the target, together with `semilinearHomOfDegreeEquiv`, which is

@@ -103,10 +103,10 @@ rank, so it takes `A_{k-m}` to `A_k`, and the relation of Stacks 0FBK types its 
 ### The cap product with `c_top(ℰ)`
 
 The ranks of `𝒩'`, `𝒩` and `ℰ` are constant, the case the source reduces to: `c_top(ℰ)` is by
-definition (Stacks 0FA4, `Stacks.Chow.topChernClass`) assembled from the `r`-th Chern classes of
-the restrictions of `ℰ` to the loci where its rank is `r`. For constant rank `e` the top Chern
-class is `c_e(ℰ)`, and the cap product with it is a `Stacks.Chow.HigherChernCapRule` evaluated at
-the top index `Fin.last e`, as in
+definition (Stacks 0FA4, `Stacks.Chow.topChernClassOfInvertible`) assembled from the `r`-th
+Chern classes of the restrictions of `ℰ` to the loci where its rank is `r`. For constant rank `e`
+the top Chern class is `c_e(ℰ)`, and the cap product with it is a
+`Stacks.Chow.HigherChernCapRule` evaluated at the top index `Fin.last e`, as in
 `Stacks.Chow.subbundleEmbedding_pushforward_flatPullback_eq_topChernCap`.
 
 ## References

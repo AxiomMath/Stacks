@@ -33,6 +33,11 @@ and the small-étale module associated to its Zariski `Ω` — and it asserts no
 here is the monomorphy of a *map*, the comparison map `f^*Ω_{Y/Z} ⟶ Ω_{X/Z}` of Stacks 05Z8
 restricted to a chart, over a diagram of *three* charts rather than a square of two.  Isomorphic
 objects do not transport a property of maps between them, so the two statements are kept apart.
+The hypothesis is nonetheless discharged downstream: for every `f` and `g` it follows from
+`AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison` by
+`AlgebraicGeometry.Space.pullbackDifferentialsMapChartComparison_of_schemeTriangle`, and
+Stacks 06BI is proved unconditionally as
+`AlgebraicGeometry.Space.triangleDifferentials_shortExact_of_formallySmooth`.
 -/
 
 @[expose] public section
@@ -251,16 +256,16 @@ theorem triangleDifferentials_shortExact_of_mono (f : X ⟶ Y) (g : Y ⟶ Z)
   obtain ⟨h, hexact⟩ := triangleDifferentials_exact B S hS f g
   exact ⟨h, ShortComplex.ShortExact.mk' hexact hmono (triangleDifferentials_epi B S hS f g)⟩
 
-/-- **Stacks 06BI.** For morphisms `f : X ⟶ Y` and `g : Y ⟶ B` of algebraic spaces over `S`
-with `f` formally smooth, the transitivity sequence
-`0 ⟶ f^*Ω_{Y/B} ⟶ Ω_{X/B} ⟶ Ω_{X/Y} ⟶ 0` of Stacks 05Z8 is short exact.
+/-- For morphisms `f : X ⟶ Y` and `g : Y ⟶ B` of algebraic spaces over `S` with `f` formally
+smooth, the transitivity sequence `0 ⟶ f^*Ω_{Y/B} ⟶ Ω_{X/B} ⟶ Ω_{X/Y} ⟶ 0` of Stacks 05Z8 is
+short exact, given the chart comparison `hchart`.
 
 Short exactness adds monomorphy of the first map to the three clauses of Stacks 05Z8, and
 `AlgebraicGeometry.Space.pullbackDifferentialsMap_mono_of_formallySmooth` supplies it from the
-case of schemes by étale localization, granted the chart comparison. -/
-@[stacks 06BI "granted as `hchart` the étale localization of 04CU and 04CS identifying the
-  restriction of the comparison map of Ω to a surjective étale chart with the chart morphisms'
-  own comparison map of Ω"]
+case of schemes by étale localization, given the chart comparison.  Stacks 06BI itself, with no
+such hypothesis, is
+`AlgebraicGeometry.Space.triangleDifferentials_shortExact_of_formallySmooth`
+(`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSquare.lean`). -/
 theorem triangleDifferentials_shortExact (f : X ⟶ Y) (g : Y ⟶ Z) (hf : FormallySmooth f.hom)
     (hchart : PullbackDifferentialsMapChartComparison B S hS f g) :
     ∃ h : pullbackDifferentialsMap B S hS f g ≫ toRelativeDifferentials B S hS f g = 0,

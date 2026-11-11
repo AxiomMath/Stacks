@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekBounded
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
 
 /-!
 # The relative dualizing complex is bounded coherent, from its affine charts, for `f` perfect
@@ -30,7 +31,6 @@ attribute [local instance] AlgebraicGeometry.Scheme.Modules.hasDerivedCategory
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits TopologicalSpace
 open Stacks.AlgebraicGeometry.CoherentTFAE Stacks.AlgebraicGeometry.CoherentOfFiniteType
-open StacksDraft.TorAmplitude
 
 attribute [local instance 5000] HasDerivedCategory.standard
 attribute [local instance 10000] AlgebraicGeometry.Scheme.Modules.hasDerivedCategory
@@ -86,12 +86,9 @@ theorem derivedCategoryBBounded_upperShriek_derivedStructureSheaf_of_charts [Per
       IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
     have hUn : IsNoetherianRing Γ(X.left, U) :=
       IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
-    let D : CertifiedDerivedTensoring.{u, u} Γ(Y.left, V) :=
-      canonicalCertifiedDerivedTensoring Γ(Y.left, V)
     exact ⟨U, hU, hxU, _,
-      Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap.{u, u} p
-        D.tensor D.comparison D.isLeftDerived
-        (AlgebraicGeometry.Perfect.perfect_appLE f.left U hU V hV hUV D)
+      Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect.{u, u} p
+        (HasRingHomProperty.appLE @Perfect f.left ‹_› ⟨V, hV⟩ ⟨U, hU⟩ hUV)
         (derivedCategoryBBounded_structureModel (Y := Y) V),
       he⟩
   exact ⟨isBounded_of_tildeModels hmodels, isCoherent_homology_of_tildeModels hmodels⟩

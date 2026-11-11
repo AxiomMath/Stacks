@@ -23,8 +23,10 @@ is the one whose cohomology carries the `A ⊗[R] R'`-action of
 `RingTheory.TorIndependence.baseChangeCohomology`. This file shows that this cohomology is a
 homological functor and that it preserves direct sums.
 
-Note that `derivedBaseChangeFunctor` is *not* extension of scalars along a ring map out of `A`:
-that is the functor of [stacks 0DJD], and the two differ exactly by Tor independence.
+Note that `derivedBaseChangeFunctor` is *not* extension of scalars along a ring map out of `A`
+(such as `A → A ⊗[R] R'`): the two differ exactly by Tor independence. It is the functor of
+[stacks 0DJD], whose cohomology statement is
+`RingTheory.TorIndependence.baseChangeCohomologyIsoOfFlat`.
 
 ## Main definitions
 

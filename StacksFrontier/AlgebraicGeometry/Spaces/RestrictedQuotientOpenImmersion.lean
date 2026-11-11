@@ -286,8 +286,12 @@ variable {S : Scheme.{u}} {R U U' : Over S}
 
 /-- **Stacks 02WU.** Let `j` be an equivalence relation on `U` over `S` whose source and
 target maps are surjective, flat and locally of finite presentation, and let `g : U' ⟶ U` be
-flat and locally of finite presentation. Then the induced map of fppf quotient sheaves
-`U'/R' ⟶ U/R` is representable by open immersions. -/
+flat and locally of finite presentation. Let `R' = R|_{U'}` be the restriction of `j` along
+`g` (`AlgebraicGeometry.PreRelation.restrict`). Then the induced map of fppf quotient sheaves
+`U'/R' ⟶ U/R` is representable and an open immersion (`AlgebraicGeometry.Space.IsOpenImmersion`
+asks for representability). No hypothesis beyond the source's is assumed: the saturation
+`t(s⁻¹(g(U')))` is shown to be open and covered fppf by the reach map from flatness and local
+finite presentation alone. -/
 @[stacks 02WU]
 theorem isOpenImmersion_restrictedQuotientMap
     (B : BigFppfSite.{u}) (hS : B.Contains S)

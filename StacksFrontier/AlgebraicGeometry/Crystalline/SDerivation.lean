@@ -18,7 +18,9 @@ section pulled back from `V`, and obeys the divided power chain rule
 `D (δ_n x) = δ_{n-1} x · D x` on the divided power ideal.
 
 In the global crystalline situation `(p, (S, I, γ), X)` the same local condition defines an
-*`S`-derivation* of the structure sheaf of the big crystalline category `CRIS(X/S)`: for an
+`S`-derivation of the structure presheaf of the big crystalline category `CRIS(X/S)`, the
+big-site analogue of the `S`-derivations of [Stacks, Tag 07IX] (which live on the small site and
+are `Crystalline.GlobalCrystallineSituation.SmallSite.SDerivation`): for an
 object `(U, T, δ)` and *any* open `V ⊆ S` through which the structure morphism `T → S` factors,
 the map on sections `Γ(T, 𝒪_T) → Γ(T, ℱ)` is a divided power `Γ(V, 𝒪_V)`-derivation.  The open
 `V` stays universally quantified, as in the source: the condition is imposed for every open of
@@ -56,18 +58,17 @@ the map on sections `Γ(T, 𝒪_T) → Γ(T, ℱ)` is a divided power `Γ(V, �
 
 ## Implementation notes
 
-Neither the crystalline structure sheaf `𝒪_{X/S}` nor the small crystalline site `Cris(X/S)`
-of [Stacks, Tag 07IG] is available, so the `S`-derivation condition of [Stacks, Tag 07IX] is
-stated here over the big crystalline category `CRIS(X/S)` of [Stacks, Tag 07I6], whose objects
-are the same divided power thickenings `(U, T, δ)`.  Because the condition is objectwise, this
-loses nothing: the structure presheaf `(U, T, δ) ↦ Γ(T, 𝒪_T)` is built directly as
-`structureRingPresheaf`, as the composite of the functor `ambient` remembering `T` with the
-global sections functor on schemes, and the coefficients are a `PresheafOfModules` over it.  The
-sheaf condition for the topology `Crystalline.GlobalCrystallineSituation.topology` is *not*
-proved and is not needed: no part of the definition refers to it.  Establishing it would require
-continuity of `ambient` between the two generated topologies, which in turn needs the base change
-stability of crystalline Zariski covering families, [Stacks, Tag 07IA], a result the library does
-not have.
+The `S`-derivation condition of [Stacks, Tag 07IX] is stated here over the big crystalline
+category `CRIS(X/S)` of [Stacks, Tag 07I6], whose objects are the same divided power thickenings
+`(U, T, δ)` as those of the small site `Cris(X/S)` of [Stacks, Tag 07IG].  The structure presheaf
+`(U, T, δ) ↦ Γ(T, 𝒪_T)` is built directly as `structureRingPresheaf`, as the composite of the
+functor `ambient` remembering `T` with the global sections functor on schemes, and the
+coefficients are a `PresheafOfModules` over it.  No part of the definition refers to the
+topology.  The structure presheaf is a sheaf for the crystalline Zariski topology
+(`Crystalline.GlobalCrystallineSituation.crystallineStructureSheaf`).  The definition of the
+source, on the small site, is `Crystalline.GlobalCrystallineSituation.SmallSite.SDerivation`
+(applied to a sheaf of `𝒪_{X/S}`-modules), in `SmallSite/CrystallineDifferentialsSheaf.lean`,
+where the tag is registered and which is used for the sheaf `Ω_{X/S}`.
 
 A derivation is presented by its family of maps on sections `app W` together with, for each pair
 `W ≤ f ⁻¹ᵁ V`, the witnessing `Crystalline.DividedPowerDerivation` and the statement that its
@@ -274,8 +275,10 @@ instance moduleGlobalSections (F : PresheafOfModules.{u} (structureRingCatPreshe
 the structure presheaf of `CRIS(X/S)`, this is a map of presheaves of abelian groups
 `𝒪_{X/S} → F` such that for every object `(U, T, δ)` and *every* open `V ⊆ S` through which the
 structure morphism `T → S` factors, the induced map `Γ(T, 𝒪_T) → Γ(T, F)` is a divided power
-`Γ(V, 𝒪_V)`-derivation. -/
-@[stacks 07IX "S-derivation"]
+`Γ(V, 𝒪_V)`-derivation.  This is the big-site analogue of [Stacks, Tag 07IX]; the definition of
+the source, on the small site `Cris(X/S)` with coefficients in a sheaf `ℱ` of
+`𝒪_{X/S}`-modules, is `Crystalline.GlobalCrystallineSituation.SmallSite.SDerivation` applied to
+`ℱ`. -/
 structure SDerivation (F : PresheafOfModules.{u} (structureRingCatPresheaf S)) where
   /-- The map on the global sections of the ambient divided power scheme of an object. -/
   app (A : Thickening S) : Γ(A.thickening.target.scheme, ⊤) → F.obj (op A)

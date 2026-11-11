@@ -43,10 +43,13 @@ abelian-sheaf adjunction of a simplicial site.
   **the equivalence `D⁺(C) ≌ D⁺_𝒜((C/K)_total)` for a general augmentation**, granted that the
   unit is invertible on `D⁺(C)` and the counit on `D⁺_𝒜((C/K)_total)`.
 * `Stacks.CategoryTheory.Hypercovering.derivedTotalInverseImageEquivalenceOfHypercovering`:
-  the same for the augmentation of Stacks 0D8B attached to a hypercovering, which is
-  Stacks 0D8I, together with
+  the same for the augmentation of Stacks 0D8B attached to a hypercovering, assembled from the
+  inputs of Stacks 0D8G and Stacks 0D8E passed as arguments, together with
   `.derivedTotalInverseImageEquivalenceOfHypercovering_functor` and `..._inverse` identifying
-  its two functors with the restrictions of `a⁻¹` and of `R a_*`.
+  its two functors with the restrictions of `a⁻¹` and of `R a_*`. Stacks 0D8I itself, with
+  those inputs proved, is
+  `Stacks.CategoryTheory.Hypercovering.derivedTotalInverseImageEquivalenceOfHypercovering'` in
+  `StacksFrontier.CategoryTheory.Sites.Simplicial.HypercoveringBoundedBelowEquivalenceUnconditional`.
 
 ## Main results
 
@@ -66,22 +69,23 @@ abelian-sheaf adjunction of a simplicial site.
   object of `D⁺_𝒜((C/K)_total)` as soon as the unit is invertible on `D(C)` and every cartesian
   abelian sheaf is `a⁻¹` of an abelian sheaf on `C`.
 
-## What Stacks 0D8I still lacks here
+## The inputs taken as arguments
 
-`Stacks.CategoryTheory.Hypercovering.derivedTotalInverseImageEquivalenceOfHypercovering` carries
-three named hypotheses, and says so in its clause string.
+`Stacks.CategoryTheory.Hypercovering.derivedTotalInverseImageEquivalenceOfHypercovering` takes
+three named arguments, so that it can be stated in this file, before the library proves them.
 
-* `hunit` and `hacyclic` are the two inputs of Stacks 0D8G, inherited unchanged from
+* `hunit` and `hacyclic` are the two inputs of Stacks 0D8G, in the shape of
   `Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering`: the
   first is Stacks 0D8E in its abelian form, that the underived unit `F ⟶ a_*a⁻¹F` is an
-  isomorphism, and the second is that `a⁻¹` of a K-injective complex computes `R a_*`. See the
-  module docstring of
-  `StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringCohomologicalDescent.lean` for why
-  neither is available.
-* `hsurj` is the remaining clause of Stacks 0D8E (2): every cartesian abelian sheaf on the total
-  site lies in the essential image of `a⁻¹`. It is carried in exactly the shape in which
-  `Stacks.CategoryTheory.Hypercovering.mem_essImage_iff_isCartesianAbSheaf` carries it, and for
-  the same reason: the degree-zero condition on a hypercovering does not supply it.
+  isomorphism, and the second is that `a⁻¹` of a K-injective complex computes `R a_*`. Both are
+  proved for the augmentation of a hypercovering in `CategoryTheory.SimplicialSemiRepresentable`.
+* `hsurj` is the essential surjectivity clause of Stacks 0D8E (2): every cartesian abelian sheaf
+  on the total site lies in the essential image of `a⁻¹`. It is
+  `CategoryTheory.SimplicialSemiRepresentable`
+  `.essImage_situationTotalInverseImageAb_of_isCartesianAbSheaf`.
+
+The unconditional Stacks 0D8I, discharging all three, is
+`Stacks.CategoryTheory.Hypercovering.derivedTotalInverseImageEquivalenceOfHypercovering'`.
 
 Nothing else is assumed. In particular the exactness of `a⁻¹` on derived categories, the
 restriction of both functors to the bounded below subcategories, and the propagation of the
@@ -414,24 +418,23 @@ variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : 
         J.toGrothendieck (hypercoveringAugmentation J H)).essImage G)
 
 include hunit hacyclic hsurj in
-/-- **Stacks 0D8I**, granted the inputs the library does not have. For a site `C` with equalizers
-and fibre products, a hypercovering `K` of it, the augmentation `a` of Stacks 0D8B and the weak
-Serre subcategory `𝒜 ⊂ Ab((C/K)_total)` of cartesian abelian sheaves of Stacks 0D7J, the derived
-inverse image is an equivalence
+/-- **The equivalence of Stacks 0D8I, from the inputs of Stacks 0D8G and 0D8E.** For a site `C`
+with equalizers and fibre products, a hypercovering `K` of it, the augmentation `a` of
+Stacks 0D8B and the weak Serre subcategory `𝒜 ⊂ Ab((C/K)_total)` of cartesian abelian sheaves of
+Stacks 0D7J, the derived inverse image is an equivalence
 
 `a⁻¹ : D⁺(C) ⟶ D⁺_𝒜((C/K)_total)`
 
 with quasi-inverse `R a_*`. Both functors of the equivalence are the restrictions of `a⁻¹` and
 of `R a_*` on the nose, since the equivalence is the restricted adjunction.
 
-Three hypotheses are carried. `hunit` and `hacyclic` are the two inputs of Stacks 0D8G, inherited
-unchanged from `isIso_derivedAugmentationUnit_app_of_hypercovering`: the first is Stacks 0D8E in
-its abelian form, that the underived unit `F ⟶ a_*a⁻¹F` is an isomorphism, and the second is that
-`a⁻¹` of a K-injective complex computes `R a_*`. `hsurj` is the remaining clause of
+Three arguments are taken. `hunit` and `hacyclic` are the two inputs of Stacks 0D8G, in the shape
+of `isIso_derivedAugmentationUnit_app_of_hypercovering`: the first is Stacks 0D8E in its abelian
+form, that the underived unit `F ⟶ a_*a⁻¹F` is an isomorphism, and the second is that `a⁻¹` of a
+K-injective complex computes `R a_*`. `hsurj` is the essential surjectivity clause of
 Stacks 0D8E (2), that every cartesian abelian sheaf on the total site lies in the essential image
-of `a⁻¹`; it is carried in the same shape as in `mem_essImage_iff_isCartesianAbSheaf`. The
-derived content of Stacks 0D7U is *not* assumed: see the module docstring. -/
-@[stacks 0D8I "granted the two inputs of Tag 0D8G and the essential surjectivity clause of 0D8E"]
+of `a⁻¹`. The library proves all three for a hypercovering, and
+`derivedTotalInverseImageEquivalenceOfHypercovering'` is Stacks 0D8I with them discharged. -/
 def derivedTotalInverseImageEquivalenceOfHypercovering :
     (DerivedCategoryB.derivedCategoryBPlus
         (⊤ : ObjectProperty (Sheaf J.toGrothendieck AddCommGrpCat.{u}))).FullSubcategory ≌
@@ -444,9 +447,8 @@ def derivedTotalInverseImageEquivalenceOfHypercovering :
     (fun X hX ↦ Augmentation.isIso_derivedCounit_app_of_isCartesian _ _ _ _ hall hsurj X hX)
 
 include hunit hacyclic hsurj in
-/-- **Stacks 0D8I, the forward functor of the equivalence is `a⁻¹`:** it is the restriction of
-the derived inverse image to the bounded below subcategories. -/
-@[stacks 0D8I "the forward functor of the equivalence is a⁻¹"]
+/-- The forward functor of `derivedTotalInverseImageEquivalenceOfHypercovering` is `a⁻¹`: it is
+the restriction of the derived inverse image to the bounded below subcategories. -/
 theorem derivedTotalInverseImageEquivalenceOfHypercovering_functor :
     (derivedTotalInverseImageEquivalenceOfHypercovering J H hunit hacyclic hsurj).functor =
       Augmentation.derivedTotalInverseImagePlus (hypercoveringSituation J H) (Cat.of C)
@@ -454,9 +456,8 @@ theorem derivedTotalInverseImageEquivalenceOfHypercovering_functor :
   rfl
 
 include hunit hacyclic hsurj in
-/-- **Stacks 0D8I, the quasi-inverse of the equivalence is `R a_*`:** it is the restriction of
-the derived direct image to the bounded below subcategories. -/
-@[stacks 0D8I "the quasi-inverse of the equivalence is Ra_*"]
+/-- The quasi-inverse of `derivedTotalInverseImageEquivalenceOfHypercovering` is `R a_*`: it is
+the restriction of the derived direct image to the bounded below subcategories. -/
 theorem derivedTotalInverseImageEquivalenceOfHypercovering_inverse :
     (derivedTotalInverseImageEquivalenceOfHypercovering J H hunit hacyclic hsurj).inverse =
       Augmentation.derivedTotalPushforwardPlus (hypercoveringSituation J H) (Cat.of C)

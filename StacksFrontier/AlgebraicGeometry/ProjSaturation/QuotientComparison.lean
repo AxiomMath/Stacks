@@ -46,10 +46,10 @@ ideal `I`, the ideal of equations of `V₊(I)` is `I` itself.
   the saturation of `I`.
 * `AlgebraicGeometry.ProjectiveSpectrum.Proj`
   `.pullbackGlobalSections_degreeSection_eq_zero_iff_degreeSection_quotientGradingMk_eq_zero`:
-  **Tag 01N0 part (3) on canonical sections** — the pullback along `r` of the section of
-  `𝒪_X(n)` attached to `a ∈ 𝒮 n` vanishes exactly when the section of `𝒪_Y(n)` attached to the
-  class of `a` vanishes. This is the assertion that `θ` is injective where the source's
-  counterexample says it need not be, under degree-one generation.
+  **the comparison of Tag 01N0 part (3) on canonical sections** — the pullback along `r` of the
+  section of `𝒪_X(n)` attached to `a ∈ 𝒮 n` vanishes exactly when the section of `𝒪_Y(n)`
+  attached to the class of `a` vanishes. This is the assertion that `θ` is injective where the
+  source's counterexample says it need not be, under degree-one generation.
 * `AlgebraicGeometry.ProjectiveSpectrum.Proj.idealOfClosedSubscheme_map_eq_of_ker_eq_of_saturated`:
   for a surjective `ψ`, a saturated kernel is the ideal of equations of `Proj ℬ ⊆ Proj 𝒮`. At the
   quotient by a homogeneous ideal this is
@@ -226,27 +226,26 @@ theorem mem_idealOfClosedSubscheme_map_iff [IsNoetherianRing S]
 
 /-! ### Tag 01N0 part (3) on the canonical sections -/
 
-/-- **Tag 01N0 part (3) on canonical twisted sections, for a surjective homomorphism of graded
-rings out of a Noetherian ring generated in degree one.** Write `X = Proj 𝒮`, `Y = Proj ℬ` and
-`r = r_ψ : Y ⟶ X` for the closed immersion of part (2). For `a ∈ 𝒮 n`, the pullback along `r` of
-the canonical section of `𝒪_X(n)` attached to `a` vanishes exactly when the canonical section of
-`𝒪_Y(n)` attached to `ψ a` vanishes.
+/-- **The comparison of Tag 01N0 part (3) on canonical twisted sections, for a surjective
+homomorphism of graded rings out of a Noetherian ring generated in degree one.** Write
+`X = Proj 𝒮`, `Y = Proj ℬ` and `r = r_ψ : Y ⟶ X` for the closed immersion of part (2). For
+`a ∈ 𝒮 n`, the pullback along `r` of the canonical section of `𝒪_X(n)` attached to `a` vanishes
+exactly when the canonical section of `𝒪_Y(n)` attached to `ψ a` vanishes.
 
 The source's part (3) says the comparison maps `θ : r^* 𝒪_X(n) ⟶ 𝒪_Y(n)` of Tag 01MY are
 surjective but in general not injective, even for a surjective `ψ`; its counterexample is
 `𝒮 = k[x, y]` with `deg x = 1`, `deg y = 2` and `Ker ψ = (x)`. The statement here is that `θ`
 *is* injective on the canonical sections once `𝒮` is generated in degree one — the hypothesis the
-counterexample violates. Surjectivity of `θ` is
-`Stacks.AlgebraicGeometry.ProjTwistEpi.epi_projMapData_twistMap_of_eventually_surjective`.
+counterexample violates. Tag 01N0 part (3) itself is carried by
+`Stacks.AlgebraicGeometry.ProjTwistEpi.epi_projMapData_twistMap_of_eventually_surjective`
+(surjectivity of `θ`) and
+`Stacks.AlgebraicGeometry.ProjTwistCompare.NotIsoExample`
+`.surjective_and_not_isIso_projMapData_twistMap`
+(an example where `θ₁` is not an isomorphism), so no `@[stacks]` attribute is attached here.
 
 Both sides are the saturation of `Ker ψ`: the left by `mem_idealOfClosedSubscheme_map_iff` and
 the right by `AlgebraicGeometry.ProjectiveSpectrum.Proj.degreeSection_eq_zero_iff` on `ℬ`, which
 inherits Noetherianness and degree-one generation from `𝒮` along `ψ`. -/
-@[stacks 01N0 "part (3), the comparison θ : r_ψ^* 𝒪_X(n) ⟶ 𝒪_Y(n) on the canonical twisted \
-sections: for ψ surjective out of a Noetherian graded ring generated in degree one, θ is \
-injective on them, so the pulled-back section of a ∈ 𝒮 n vanishes iff the section of ψ a does. \
-Surjectivity of θ is twist_surjective; sheaf-level isomorphy of θ, and the source's \
-counterexample to it, are not proved."]
 theorem pullbackGlobalSections_degreeSection_eq_zero_iff_degreeSection_map_eq_zero
     [IsNoetherianRing S] (hψ : Function.Surjective ψ)
     (hgen : Algebra.adjoin (𝒮 0) (𝒮 1 : Set S) = ⊤) {n : ℕ} (b : 𝒮 n) :

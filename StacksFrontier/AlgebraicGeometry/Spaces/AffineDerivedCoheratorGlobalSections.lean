@@ -4,7 +4,6 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.PostcomposedTotalR
 public import StacksFrontier.AlgebraicGeometry.Spaces.AffineCoheratorGlobalSections
 public import StacksFrontier.AlgebraicGeometry.Spaces.DerivedModulePushforward
 public import StacksFrontier.Homology.DerivedCategory.LocallySmall
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The derived coherator of an affine algebraic space is the associated complex of `RΓ`
@@ -27,7 +26,10 @@ the complex of quasi-coherent `𝒪_X`-modules associated to the object `RΓ(X, 
 * `AlgebraicGeometry.Space.derivedCoheratorSmallEtale` is `RQ_X`, the total right derived
   functor of a coherator `Q_X`.
 * `AlgebraicGeometry.Space.derivedCoheratorIsoAssociatedDerivedGlobalSections`: the isomorphism
-  of `RQ_X` with `RΓ(X, -)` followed by the associated-complex functor.
+  of `RQ_X` with `RΓ(X, -)` followed by a carried associated-module functor; vacuous for a
+  representable affine `X` with nontrivial global functions, and not the registration of
+  Stacks 08H0 (2), which is
+  `AlgebraicGeometry.Space.derivedCoheratorIsoDerivedGlobalSectionsAssociated_of_isAffineSpace`.
 
 ## Main results
 
@@ -195,13 +197,18 @@ abbrev derivedCoheratorSmallEtale :
     DerivedCategory.Qh (HomotopyCategory.quasiIso (Modules.{u, u} B S hS F hF)
       (ComplexShape.up ℤ))
 
-/-- Let `X` be an affine algebraic space and `A = Γ(X, 𝒪_X)`. The derived coherator
-`RQ_X : D(𝒪_X) ⥤ D(QCoh(𝒪_X))` sends an object `E` of `D(𝒪_X)` to the complex of
-quasi-coherent `𝒪_X`-modules associated to the object `RΓ(X, E)` of `D(A)`. -/
-@[stacks 08H0 "(2): the derived coherator of an affine algebraic space is the associated complex \
-of the derived global sections; carried are a coherator with its adjunction (Stacks 077V(2), \
-which the development has only as an existence statement) and the associated-module equivalence \
-Mod(A) ≌ QCoh(O_X) of the affine case of Stacks 03DX(2) with its adjunction to global sections"]
+/-- Let `X` be an algebraic space, `A = Γ(X, 𝒪_X)`, `Q` a right adjoint of the inclusion
+`QCoh(𝒪_X) ⥤ Mod(𝒪_X)`, and `assoc : ModuleCat.{u + 1} A ≌ QCoh(𝒪_X)` an equivalence with an
+adjunction `assoc.functor ⋙ ι ⊣ Γ(X, -)`.  Then the total right derived functor of `Q` is
+naturally isomorphic to `RΓ(X, -)` followed by `assoc.functor` applied termwise.
+
+This is **vacuous** for every representable affine algebraic space with nontrivial ring of
+global functions: there no such `assoc` exists
+(`AlgebraicGeometry.Space.not_nonempty_equivalence_moduleCat_quasicoherentSheaves_yoneda`),
+because `A` lies in `Type (u + 1)` and `ModuleCat.{u + 1} A` is equivalent to no category with
+Hom-sets in `Type u`.  It is therefore not a registration of Stacks 08H0 (2); the unconditional
+statement is
+`AlgebraicGeometry.Space.derivedCoheratorIsoDerivedGlobalSectionsAssociated_of_isAffineSpace`. -/
 def derivedCoheratorIsoAssociatedDerivedGlobalSections (hAffine : IsAffineSpace B S hS F) :
     letI := modulesAbelianSmallEtale B S hS F hF
     letI := quasicoherentSheavesAbelianSmallEtale B S hS F hF

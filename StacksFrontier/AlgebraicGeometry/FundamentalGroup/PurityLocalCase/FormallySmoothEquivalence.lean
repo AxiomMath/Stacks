@@ -21,7 +21,11 @@ Let `A → B` be a local homomorphism of Noetherian local rings. Assume `A` has 
 two, that `A → B` is formally smooth for the `𝔪_B`-adic topology, and that
 `dim(B) > dim(A)`. For an open `V ⊆ Y = Spec B` which contains every prime `𝔮` of `B` with
 `𝔮 ∩ A ≠ 𝔪_A` and contains the prime `𝔪_A B`, the functor `FÉt_Y ⟶ FÉt_V` is an equivalence;
-in particular purity holds for `B`. This is [Stacks, Tag 0EYC].
+in particular purity holds for `B`. This is [Stacks, Tag 0EYC], whose complete statement is
+`isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic_of_depth` and
+`hasPurity_of_formallySmoothNAdic` in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityLocalCase.FormallySmoothPurity`. This file
+supplies the source's first paragraph, the fully faithful half used there.
 
 The source's first paragraph is proved here, and so is the density of `V` that the first
 paragraph's appeal to [Stacks, Tag 0BQF] needs but the source does not verify. A prime `𝔮` of
@@ -43,34 +47,19 @@ paragraph's appeal to [Stacks, Tag 0BQF] needs but the source does not verify. A
   condition (1) contains every minimal prime of `B`, hence is dense.
 * `Stacks.FundamentalGroup.fullyFaithful_finiteEtaleBaseChange_of_flat` — the source's first
   paragraph, unconditionally.
-* `Stacks.FundamentalGroup.isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic` —
-  **[Stacks, Tag 0EYC]**; the fully faithful half is proved, essential surjectivity is carried.
-* `isEquivalence_finiteEtaleBaseChange_puncturedSpectrum_of_formallySmoothNAdic` —
-  **[Stacks, Tag 0EYC]** at the punctured spectrum, which is the tag's "in particular" clause:
-  the punctured spectrum is shown to be an open as in the tag.
+* `Stacks.FundamentalGroup.isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic` — the
+  equivalence assembled from the fully faithful half, given flatness and essential surjectivity
+  as arguments; both are proved in `FormallySmoothPurity` (flatness from formal smoothness by
+  [Stacks, Tag 07NP], essential surjectivity by
+  `essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic`), where
+  `isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic_of_depth` supplies them.
+* `Stacks.FundamentalGroup.mem_puncturedSpectrum_of_comap_ne_maximalIdeal_of_isLocalHom` and
+  `Stacks.FundamentalGroup.mem_puncturedSpectrum_of_eq_map_maximalIdeal_of_ringKrullDim_lt` —
+  the punctured spectrum of `B` is an open as in the tag; `hasPurity_of_formallySmoothNAdic`
+  uses them for the tag's "in particular" clause.
 
-## What is carried
-
-Two things.
-
-* `hflat`, the flatness of `A → B`. The source asserts it in the first paragraph without
-  justification; it follows from formal smoothness for the `𝔪_B`-adic topology by
-  [Stacks, Tag 07ED] and [Stacks, Tag 07PM], a deduction not carried out here.
-* `hessSurj`, essential surjectivity: the whole of the source's argument after the first
-  paragraph — the reduction to the completions ([Stacks, Tag 07NV], [Stacks, Tag 07NW],
-  [Stacks, Tag 07ED], [Stacks, Tag 0BLL]), Popescu's theorem ([Stacks, Tag 07GC]), the descent
-  of the cover along the resulting filtered colimit ([Stacks, Tag 01Z4], [Stacks, Tag 01ZM],
-  [Stacks, Tag 01ZO], [Stacks, Tag 07RP]) and the appeal to [Stacks, Tag 0EYB].
-
-Consequently the tag's final assertion, that purity holds for `B`, is *not* delivered:
-`AlgebraicGeometry.HasPurity B` is by definition the essential surjectivity of base change
-along the punctured spectrum, which is exactly the carried hypothesis. No theorem here
-concludes it; the punctured spectrum statement concludes the equivalence from that hypothesis,
-adding the fully faithful half and the verification of the tag's two conditions.
-
-Unlike the power series case [Stacks, Tag 0EYA], the density of `V` is *not* carried: it is
-proved from the depth hypothesis and the flatness of `A → B`, see
-`dense_of_forall_comap_ne_maximalIdeal_mem`.
+Unlike the power series case [Stacks, Tag 0EYA], the density of `V` is proved from the depth
+hypothesis and the flatness of `A → B`, see `dense_of_forall_comap_ne_maximalIdeal_mem`.
 
 ## References
 
@@ -283,48 +272,18 @@ public theorem fullyFaithful_finiteEtaleBaseChange_of_flat (A B : Type u) [CommR
 
 /-! ### Tag 0EYC -/
 
-/-- **[Stacks, Tag 0EYC]** (Ramanujam--Samuel for finite étale covers). Let `A → B` be a local
-homomorphism of Noetherian local rings with `depth(A) ≥ 2`, with `A → B` formally smooth for
-the `𝔪_B`-adic topology, and with `dim(B) > dim(A)`. Let `V ⊆ Y = Spec B` be an open which
-contains every prime `𝔮` of `B` with `𝔮 ∩ A ≠ 𝔪_A` and contains the prime `𝔪_A B`. Then the
-restriction functor `FÉt_Y ⟶ FÉt_V` is an equivalence.
+/-- **Assembling the equivalence of [Stacks, Tag 0EYC].** Let `A → B` be a local homomorphism
+of Noetherian local rings with `depth(A) ≥ 2`, with `A → B` formally smooth for the `𝔪_B`-adic
+topology, and with `dim(B) > dim(A)`, and let `V ⊆ Y = Spec B` be an open as in the tag
+(`hV₁`, `hV₂`). Given flatness of `A → B` (`hflat`) and essential surjectivity of the
+restriction functor (`hessSurj`), the restriction functor `FÉt_Y ⟶ FÉt_V` is an equivalence.
 
-The two conditions on `V` are `hV₁` and `hV₂`. `hV₂` is phrased as a condition on the points of
-`Spec B` rather than on the ideal `𝔪_A B`, so that the primality of `𝔪_A B` need not be
-produced.
-
-The fully faithful half is proved: a point of `Spec B` outside `V` lies over `𝔪_A` by `hV₁`, so
-its local ring has depth at least two by `two_le_depth_stalk_of_notMem_of_flat`, which is
-flatness fed to [Stacks, Tag 0337]; `isConnectedPuncturedStrictHenselization_of_two_le_depth`
-([Stacks, Tag 0BLR]) turns that into the local hypothesis of [Stacks, Tag 0BQF], whose
-remaining hypothesis — the density of `V`, which the source does not verify — is
-`dense_of_forall_comap_ne_maximalIdeal_mem`. That is the source's first paragraph.
-
-Two hypotheses are carried.
-
-* `hflat` is the flatness of `A → B`, asserted without justification in the source's first
-  paragraph; it follows from `hsmooth` by [Stacks, Tag 07ED] and [Stacks, Tag 07PM].
-* `hessSurj` is essential surjectivity, the source's argument after the first paragraph: the
-  reduction to the completions of `A` and `B`, Popescu's theorem writing `B` as a filtered
-  colimit of smooth `A`-algebras, the descent of `W ⟶ V` to a finite étale cover of an open of
-  one `Spec B_i`, and the appeal to [Stacks, Tag 0EYB]. -/
-@[stacks 0EYC "the fully faithful half unconditionally: a point of `Spec B` outside `V` lies \
-over `𝔪_A` by the tag's condition (1), hence its local ring has depth at least two by flatness \
-of `B` over `A` fed to Tag 0337, which is the source's first paragraph; Tag 0BLR through \
-`isConnectedPuncturedStrictHenselization_of_two_le_depth` turns that into the local hypothesis \
-of Tag 0BQF, and the density of `V` that Tag 0BQF also needs — and that the source does not \
-verify — is proved here: such an open contains every minimal prime of `B`, since a minimal \
-prime lying over `𝔪_A` would give a zero-dimensional local ring of depth at least two, \
-against Tag 00LK. Two hypotheses \
-are carried. `hflat` is the flatness of `A → B`, which the source asserts in the first \
-paragraph without justification and which follows from the formal smoothness hypothesis by Tag \
-07ED and Tag 07PM. `hessSurj` is the essential surjectivity half, that is the whole of the \
-source's argument after the first paragraph: the reduction to the completions (Tags 07NV, \
-07NW, 07ED, 0BLL), Popescu's theorem (Tag 07GC), the descent along the resulting filtered \
-colimit (Tags 01Z4, 01ZM, 01ZO, 07RP) and the appeal to Tag 0EYB. The formal smoothness \
-hypothesis `hsmooth` and the tag's condition (2) on `V` are stated; they are consumed by the \
-carried half and by the corollary at the punctured spectrum below rather than by the fully \
-faithful half."]
+The fully faithful half is the source's first paragraph,
+`fullyFaithful_finiteEtaleBaseChange_of_flat`. Both remaining arguments are theorems of the
+library: flatness follows from formal smoothness ([Stacks, Tag 07NP]), and essential
+surjectivity is `essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic`. The tag itself, with
+neither argument, is `isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic_of_depth`, and
+its "in particular" clause is `hasPurity_of_formallySmoothNAdic`. -/
 public theorem isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic (A B : Type u)
     [CommRing A] [CommRing B] [IsLocalRing A] [IsLocalRing B] [IsNoetherianRing A]
     [IsNoetherianRing B] [Algebra A B] [IsLocalHom (algebraMap A B)]
@@ -339,8 +298,7 @@ public theorem isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic (A B :
     (hessSurj : (finiteEtaleBaseChange V.ι).EssSurj) :
     (finiteEtaleBaseChange V.ι).IsEquivalence := by
   -- The formal smoothness hypothesis, the dimension hypothesis and the tag's condition (2) are
-  -- stated but are consumed by the carried half and by the corollary at the punctured spectrum
-  -- below.
+  -- consumed by the proofs of `hflat` and `hessSurj` in `FormallySmoothPurity`.
   have : RingHom.FormallySmoothNAdic.{u} (algebraMap A B) (maximalIdeal B) := hsmooth
   have : ringKrullDim A < ringKrullDim B := hdim
   have : ∀ q : PrimeSpectrum B,

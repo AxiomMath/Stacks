@@ -692,8 +692,12 @@ composite of `f` with some surjective étale chart of `X` is locally of finite t
 commuting square of étale charts of `f` induces a scheme morphism which is locally of finite
 type; some such square whose chart of `X` is surjective does; and there are Zariski coverings
 of `Y` and of the inverse images in `X` of its members over which `f` is locally of finite
-type. -/
-@[stacks 040Y]
+type.
+
+The conditions are listed in the order of the source, so the `n`-th entry of the list is
+condition `(n)`. Schemes over `Y` are objects of the big fppf site of `S`, and condition (7)
+is literally the definition of local finite type, which is why (1) ⇔ (7) is `Iff.rfl`. -/
+@[stacks 040Y "all nine conditions (1)–(9) equivalent"]
 theorem isLocallyOfFiniteType_tfae (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     List.TFAE

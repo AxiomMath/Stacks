@@ -16,7 +16,8 @@ be the right adjoint of `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`. For `L` in `
 
 `Rf_*R𝓗om_{𝒪_X}(L, a(K)) ⟶ R𝓗om_{𝒪_Y}(Rf_*L, Rf_*a(K)) ⟶ R𝓗om_{𝒪_Y}(Rf_*L, K)`,
 
-the canonical map `Rf_*R𝓗om(L, M) ⟶ R𝓗om(Rf_*L, Rf_*M)` followed by the counit `Rf_*a(K) ⟶ K`.
+the canonical map `Rf_*R𝓗om(L, M) ⟶ R𝓗om(Rf_*L, Rf_*M)` of [Stacks, Tag 0B6D] followed by the
+counit `Rf_*a(K) ⟶ K` (Equation 86.3.2.1 of [Stacks, Tag 0E57]).
 It becomes an isomorphism after applying a right adjoint `DQ_Y` of the inclusion
 `D_QCoh(𝒪_Y) ⟶ D(𝒪_Y)`.
 
@@ -25,7 +26,7 @@ It becomes an isomorphism after applying a right adjoint `DQ_Y` of the inclusion
 * `AlgebraicGeometry.Space.smallEtaleDerivedSheafHomPushforwardMap`: the canonical map
   `Rf_*R𝓗om(L, M) ⟶ R𝓗om(Rf_*L, Rf_*M)`.
 * `AlgebraicGeometry.Space.smallEtalePushforwardTrace`: the trace map
-  `Rf_*R𝓗om(L, a(K)) ⟶ R𝓗om(Rf_*L, K)`.
+  `Rf_*R𝓗om(L, a(K)) ⟶ R𝓗om(Rf_*L, K)`, Equation 86.3.2.1 of [Stacks, Tag 0E57].
 
 ## Main results
 
@@ -77,7 +78,13 @@ variable (hZ : B.Contains (⊤_ Scheme.{u})) (f : X ⟶ Y) (hXqc : IsQuasiCompac
 adjoint `a` of `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`, and `L` in `D_QCoh(𝒪_X)`, `K` in
 `D_QCoh(𝒪_Y)`, the canonical map `Rf_*R𝓗om(L, a(K)) ⟶ R𝓗om(Rf_*L, K)`: the map
 `smallEtaleDerivedSheafHomPushforwardMap` followed by `R𝓗om(Rf_*L, -)` of the counit
-`Rf_*a(K) ⟶ K`. -/
+`Rf_*a(K) ⟶ K`.
+
+Here `a` is `quasicoherentDerivedRightAdjoint`, the right adjoint of the restricted functor
+`Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)` given by [Stacks, Tag 0E55], and the second arrow is the
+counit of that adjunction on `D_QCoh`; the first arrow is the map of [Stacks, Tag 0B6D],
+adjoint to the relative cup product followed by `Rf_*` of the evaluation. -/
+@[stacks 0E57]
 def smallEtalePushforwardTrace (L : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2)
     (K : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2) :
     (derivedModulePushforward B S hS f).obj
@@ -96,7 +103,8 @@ def smallEtalePushforwardTrace (L : QuasicoherentDerivedCategory.{u, u} B S hS X
         K).hom
 
 /-- The trace map is `smallEtaleDerivedSheafHomPushforwardMap` followed by `R𝓗om(Rf_*L, -)` of
-the counit. -/
+the counit of the adjunction `Rf_* ⊣ a` on `D_QCoh`. -/
+@[stacks 0E57 "the defining composition"]
 theorem smallEtalePushforwardTrace_eq (L : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2)
     (K : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2) :
     smallEtalePushforwardTrace hZ f hXqc hXqs hYqs L K =

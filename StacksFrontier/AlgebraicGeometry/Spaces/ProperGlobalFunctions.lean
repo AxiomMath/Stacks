@@ -22,8 +22,12 @@ The splitting itself is `AlgebraicGeometry.Space.ComponentwiseArtinianFactorizat
 `StacksFrontier.AlgebraicGeometry.Spaces.GlobalSectionsAlgebra` from finiteness of the set of
 connected components and artinianness of the whole ring of global functions, and restated in
 `StacksFrontier.AlgebraicGeometry.Spaces.NoetherianPointSpace` with the first of those two
-discharged.  What this file adds is the second: finite dimensionality of `A`, which is
-[Stacks, Tag 08AS] in degree zero for the structure sheaf, and the three consequences of it.
+discharged.  What this file adds is the reduction of the second, finite dimensionality of `A`,
+to finiteness of the cohomology of coherent modules ([Stacks, Tag 08AS], used in degree zero for
+the structure sheaf), and the three consequences of it.  The complete statement of
+Tag 0DMY, with finite dimensionality of `A` proved outright, is registered in
+`StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctionsFinite` (parts (1) to (3)) and
+`StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctionsGeometric` (parts (4) to (8)).
 
 Four things are needed to run [Stacks, Tag 08AS] at the structure sheaf and are provided here.
 The structure sheaf has to be presented as an `𝒪_X`-module in the module universe of
@@ -50,34 +54,38 @@ quasi-compact and locally Noetherian, which properness over an affine base suppl
   `AlgebraicGeometry.Space.hasEtaleLocalProperty_isLocallyNoetherian_of_isProper`: a proper
   algebraic space over an affine base is quasi-compact, and is locally Noetherian when the base
   ring is Noetherian.
-* `AlgebraicGeometry.Space.finiteDimensional_globalFunctions_of_isProper`: **Tag 0DMY,
-  part (1)**, the global functions of a proper algebraic space over a field form a finite
-  dimensional `k`-algebra.
+* `AlgebraicGeometry.Space.finiteDimensional_globalFunctions_of_isProper`: the global functions
+  of a proper algebraic space over a field are finite dimensional once the cohomology of coherent
+  modules is finite over `k`.
 * `AlgebraicGeometry.Space.isArtinianRing_globalFunctions_of_isProper`: that ring is therefore
   Artinian.
-* `AlgebraicGeometry.Space.finite_connectedComponents_points_of_isProper` and
-  `AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization_of_isProper`:
-  **Tag 0DMY, part (2)**, `|X|` has finitely many connected components and the global functions
-  split as the product, over those components, of the rings of functions on the charts of each,
-  each factor Artinian and local.
+* `AlgebraicGeometry.Space.finite_connectedComponents_points_of_isProper`: **Tag 0DMY,
+  part (2)**, `|X|` has finitely many connected components.
+* `AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization_of_isProper`: the global
+  functions split as the product, over those components, of the rings of functions on the charts
+  of each, each factor Artinian and local.
 * `AlgebraicGeometry.Space.isReduced_componentFunctions` and
   `AlgebraicGeometry.Space.isField_componentFunctions`: **Tag 0DMY, part (3)**, for a reduced
   `X` each factor is reduced, hence a field.
-* `AlgebraicGeometry.Space.finiteDimensional_componentFunctions_of_isProper`: **Tag 0DMY,
-  part (3)**, each factor is finite dimensional over `k`.
+* `AlgebraicGeometry.Space.finiteDimensional_componentFunctions_of_isProper`: each factor is
+  finite dimensional over `k`, under the same finiteness hypothesis.
 
 ## Implementation notes
 
-**The carried hypothesis.**  [Stacks, Tag 08AS] is not available in this library: as the
-implementation notes of `StacksFrontier.AlgebraicGeometry.Spaces.ProperCohomologyFinite` record,
-its proof needs [Stacks, Tag 08AR], and the higher direct images that tag is about cannot even
-be written at the module universe at which
-`AlgebraicGeometry.Space.cohomologyOverBase` lives.  Accordingly
-`AlgebraicGeometry.Space.finiteDimensional_globalFunctions_of_isProper` and the results
-downstream of it carry Tag 08AS as an explicit hypothesis `h08AS`, generically quantified over
-every coherent `𝒪_X`-module and every cohomological degree — that is, exactly the statement of
-that tag for the algebraic space at hand.  Everything else Tag 0DMY uses for these three
-clauses is proved: Tags 04ZK, 04ZF, 04ZL, 00J6, 00KJ and 0BGS are all in the library.
+**The finiteness hypothesis.**
+`AlgebraicGeometry.Space.finiteDimensional_globalFunctions_of_isProper` and the results downstream
+of it take as a hypothesis `hcoh` that the cohomology over `k` of
+every coherent `𝒪_X`-module, in the module universe of
+`AlgebraicGeometry.Space.cohomologyOverBase`, is a finite `k`-module in every degree.  The
+hypothesis is not needed for their conclusions: finite dimensionality of `A` is proved
+outright, over any Noetherian base ring, as
+`AlgebraicGeometry.Space.moduleFinite_globalFunctions_of_isProper` in
+`StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalSections.Finiteness` (via finiteness of the
+global sections of coherent modules,
+`AlgebraicGeometry.Space.moduleFinite_sectionsOverBase_of_isProper`), and
+`StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctionsFinite` derives parts (1) to (3)
+of Tag 0DMY from it.  Tags 04ZK, 04ZF, 04ZL, 00J6, 00KJ and 0BGS, also used here, are all in
+the library.
 
 **Universes.**  `AlgebraicGeometry.Space.cohomologyOverBase.{u, w}` is valued in
 `ModuleCat.{max (u + 1) w}`, while `AlgebraicGeometry.Space.globalFunctions` lies in
@@ -108,18 +116,11 @@ Reducedness of a factor is read off the product through `Pi.single`: a nilpotent
 factor is a nilpotent element of the product, which is reduced because the global functions
 are, by Tag 0BGS.
 
-**What is not done.**  Parts (4) to (8) of Tag 0DMY — separability of the factors for a
+**Parts (4) to (8).**  Parts (4) to (8) of Tag 0DMY — separability of the factors for a
 geometrically reduced `X`, geometric irreducibility of `A` for a geometrically connected or
-geometrically irreducible `X`, and `A = k` for a geometrically reduced and connected, or
-geometrically integral, `X` — are not stated here.  All five rest on [Stacks, Tag 073K], the
-comparison `H⁰(X, 𝒪_X) ⊗_k K = H⁰(X_K, 𝒪_{X_K})` for a field extension `K/k`;  there is no
-base change of cohomology, and no base change of global functions, along a morphism of
-algebraic spaces in this library, so the comparison cannot be formed.  The base change `X_K`
-itself is `AlgebraicGeometry.Space.fieldBaseChange` and the geometric hypotheses are
-`AlgebraicGeometry.Space.IsGeometricallyReduced`,
-`AlgebraicGeometry.Space.IsGeometricallyConnected`,
-`AlgebraicGeometry.Space.IsGeometricallyIrreducible` and
-`AlgebraicGeometry.Space.IsGeometricallyIntegral`, so only the comparison is missing.
+geometrically irreducible `X`, and `A = k` for a geometrically reduced and geometrically
+connected, or geometrically integral, `X` — are not stated here; they are proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctionsGeometric`.
 
 ## References
 
@@ -291,37 +292,36 @@ variable (k : Type u) [Field k] (B : BigFppfSite.{u}) (hS : B.Contains (Spec (.o
 
 include hX
 
-/-- **Stacks 0DMY, part (1).**  The global regular functions of a proper algebraic space `X`
-over a field `k` form a finite dimensional `k`-algebra.
+/-- The global regular functions of a proper algebraic space `X` over a field `k` form a finite
+dimensional `k`-algebra, given that the cohomology over `k` of every coherent `𝒪_X`-module is a
+finite `k`-module in every degree (the hypothesis `hcoh`).  The conclusion holds without `hcoh`:
+it is `AlgebraicGeometry.Space.moduleFinite_globalFunctions_of_isProper`, part (1) of Tag 0DMY.
 
-Tag 0DMY gets this from Tag 08AS, which is carried here as the hypothesis `h08AS`:  the
-cohomology over `k` of every coherent `𝒪_X`-module is a finite `k`-module in every degree.
 Properness makes `X` locally Noetherian over `k`, so the structure sheaf is a coherent
 `𝒪_X`-module by `AlgebraicGeometry.Space.isCoherent_structureModuleLarge`, and its degree-zero
 cohomology over `k` is the ring of global functions by
 `AlgebraicGeometry.Space.cohomologyZeroStructureModuleLinearEquiv`. -/
-@[stacks 0DMY "part (1), with Stacks 08AS — finiteness over the base ring of the cohomology of \
-a coherent module on a proper algebraic space, in every degree — carried as the hypothesis \
-h08AS"]
 theorem finiteDimensional_globalFunctions_of_isProper (hf : IsProper B (Spec (.of k)) hS f)
-    (h08AS : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
+    (hcoh : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
       IsCoherent B (Spec (.of k)) hS X hX M → ∀ i : ℕ,
         Module.Finite k (cohomologyOverBase.{u, u} k B hS X hX M i)) :
     Module.Finite k (globalFunctions B (Spec (.of k)) hS X) :=
-  have := h08AS (structureModuleLarge k B hS X hX)
+  have := hcoh (structureModuleLarge k B hS X hX)
     (isCoherent_structureModuleLarge k B hS X hX
       (hasEtaleLocalProperty_isLocallyNoetherian_of_isProper k B hS X hX f hf)) 0
   Module.Finite.equiv (cohomologyZeroStructureModuleLinearEquiv k B hS X hX)
 
 /-- The ring of global regular functions of a proper algebraic space over a field is Artinian:
-it is a finite dimensional `k`-algebra by part (1) of Tag 0DMY, hence Artinian as a module over
-`k`, hence over itself. -/
+it is a finite dimensional `k`-algebra by
+`AlgebraicGeometry.Space.finiteDimensional_globalFunctions_of_isProper`, hence Artinian as a
+module over `k`, hence over itself.  The same holds without `hcoh`:
+`AlgebraicGeometry.Space.isArtinianRing_globalFunctions_of_isProper_of_field`. -/
 theorem isArtinianRing_globalFunctions_of_isProper (hf : IsProper B (Spec (.of k)) hS f)
-    (h08AS : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
+    (hcoh : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
       IsCoherent B (Spec (.of k)) hS X hX M → ∀ i : ℕ,
         Module.Finite k (cohomologyOverBase.{u, u} k B hS X hX M i)) :
     IsArtinianRing (globalFunctions B (Spec (.of k)) hS X) :=
-  have := finiteDimensional_globalFunctions_of_isProper k B hS X hX f hf h08AS
+  have := finiteDimensional_globalFunctions_of_isProper k B hS X hX f hf hcoh
   IsArtinianRing.of_finite k (globalFunctions B (Spec (.of k)) hS X)
 
 /-- **Stacks 0DMY, part (2), the number of factors.**  The point space of a proper algebraic
@@ -330,7 +330,7 @@ its global regular functions is a finite product.
 
 Properness makes `X` quasi-compact and locally Noetherian through Tags 04ZL and 04ZK, and
 Tag 04ZF then makes `|X|` a Noetherian topological space;  a Noetherian space has finitely many
-connected components.  Tag 08AS is not used. -/
+connected components. -/
 @[stacks 0DMY "part (2): the product is finite, there being one factor for each of the finitely \
 many connected components of the point space"]
 theorem finite_connectedComponents_points_of_isProper (hf : IsProper B (Spec (.of k)) hS f) :
@@ -339,32 +339,31 @@ theorem finite_connectedComponents_points_of_isProper (hf : IsProper B (Spec (.o
     (isQuasiCompactSpace_of_isProper_baseObject k B hS X hX f hf)
     (hasEtaleLocalProperty_isLocallyNoetherian_of_isProper k B hS X hX f hf)
 
-/-- **Stacks 0DMY, part (2).**  The global regular functions of a proper algebraic space over a
-field split as the product, over the connected components of its point space, of the rings of
-functions on the étale charts lying in each component;  each factor is an Artinian local ring,
+/-- The global regular functions of a proper algebraic space over a field split as the product,
+over the connected components of its point space, of the rings of functions on the étale charts
+lying in each component;  each factor is an Artinian local ring,
 and the splitting is simultaneous restriction to the components.  The set of components is
 finite by `AlgebraicGeometry.Space.finite_connectedComponents_points_of_isProper`, so the
 product is finite.
 
 This is `AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization_of_isQuasiCompactSpace`
 with its remaining hypothesis discharged:  artinianness of the whole ring of global functions
-is `AlgebraicGeometry.Space.isArtinianRing_globalFunctions_of_isProper`, hence part (1) of
-Tag 0DMY.  Quasi-compactness and local Noetherianity of `X` come from properness through
-Tags 04ZL and 04ZK, and Tag 04ZF then makes the point space Noetherian, so that the set of
+is `AlgebraicGeometry.Space.isArtinianRing_globalFunctions_of_isProper`, which uses `hcoh`.
+Without `hcoh` this is
+`AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization_of_isProper_of_field`,
+part (2) of Tag 0DMY.  Quasi-compactness and local Noetherianity of `X` come from properness
+through Tags 04ZL and 04ZK, and Tag 04ZF then makes the point space Noetherian, so that the set of
 connected components is finite. -/
-@[stacks 0DMY "part (2), with Stacks 08AS — finiteness over the base ring of the cohomology of \
-a coherent module on a proper algebraic space, in every degree — carried as the hypothesis \
-h08AS"]
 theorem nonempty_componentwiseArtinianFactorization_of_isProper
     (hf : IsProper B (Spec (.of k)) hS f)
-    (h08AS : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
+    (hcoh : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
       IsCoherent B (Spec (.of k)) hS X hX M → ∀ i : ℕ,
         Module.Finite k (cohomologyOverBase.{u, u} k B hS X hX M i)) :
     Nonempty (ComponentwiseArtinianFactorization k B hS X) :=
   nonempty_componentwiseArtinianFactorization_of_isQuasiCompactSpace k B hS X hX
     (isQuasiCompactSpace_of_isProper_baseObject k B hS X hX f hf)
     (hasEtaleLocalProperty_isLocallyNoetherian_of_isProper k B hS X hX f hf)
-    (isArtinianRing_globalFunctions_of_isProper k B hS X hX f hf h08AS)
+    (isArtinianRing_globalFunctions_of_isProper k B hS X hX f hf hcoh)
 
 /-- Each factor of a componentwise factorization of the global functions of a reduced algebraic
 space is a reduced ring.
@@ -416,19 +415,18 @@ theorem isField_componentFunctions
   have := isReduced_componentFunctions k B hS X hX hred fac c
   IsArtinianRing.isField_of_isReduced_of_isLocalRing _
 
-/-- **Stacks 0DMY, part (3).**  Each factor of a componentwise factorization of the global
-regular functions of a proper algebraic space over a field is finite dimensional over that
-field — so that, `X` being reduced, each factor is a finite field extension of `k` by
-`AlgebraicGeometry.Space.isField_componentFunctions`.
+/-- Each factor of a componentwise factorization of the global regular functions of a proper
+algebraic space over a field is finite dimensional over that field, given `hcoh` — so that, `X`
+being reduced, each factor is a finite field extension of `k`
+by `AlgebraicGeometry.Space.isField_componentFunctions`.
 
-The global functions are finite dimensional by part (1), the factorization makes the product of
-the factors `k`-linearly isomorphic to them, and projection onto a factor is a surjective
-`k`-linear map.  Reducedness is not used. -/
-@[stacks 0DMY "part (3): the factors are finite over the base field, with Stacks 08AS — \
-finiteness over the base ring of the cohomology of a coherent module on a proper algebraic \
-space, in every degree — carried as the hypothesis h08AS"]
+The global functions are finite dimensional by
+`AlgebraicGeometry.Space.finiteDimensional_globalFunctions_of_isProper`, the factorization makes
+the product of the factors `k`-linearly isomorphic to them, and projection onto a factor is a
+surjective `k`-linear map.  Reducedness is not used.  Without `hcoh` this is
+`AlgebraicGeometry.Space.moduleFinite_componentFunctions_of_isProper`, part (3) of Tag 0DMY. -/
 theorem finiteDimensional_componentFunctions_of_isProper (hf : IsProper B (Spec (.of k)) hS f)
-    (h08AS : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
+    (hcoh : ∀ M : Modules.{u, u + 1} B (Spec (.of k)) hS X hX,
       IsCoherent B (Spec (.of k)) hS X hX M → ∀ i : ℕ,
         Module.Finite k (cohomologyOverBase.{u, u} k B hS X hX M i))
     (fac : ComponentwiseArtinianFactorization k B hS X)
@@ -438,7 +436,7 @@ theorem finiteDimensional_componentFunctions_of_isProper (hf : IsProper B (Spec 
         (fac.factorAlgebra c)) := by
   let (d : ConnectedComponents (points B (Spec (.of k)) hS X)) :
       Algebra k (componentFunctions B (Spec (.of k)) hS X d) := fac.factorAlgebra d
-  have := finiteDimensional_globalFunctions_of_isProper k B hS X hX f hf h08AS
+  have := finiteDimensional_globalFunctions_of_isProper k B hS X hX f hf hcoh
   have : Module.Finite k
       (∀ d : ConnectedComponents (points B (Spec (.of k)) hS X),
         componentFunctions B (Spec (.of k)) hS X d) :=

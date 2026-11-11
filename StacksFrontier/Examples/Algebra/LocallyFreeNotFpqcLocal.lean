@@ -22,17 +22,19 @@ not descend along faithfully flat ring maps, that is, it is not an fpqc-local pr
 
 * `Stacks.Examples.exists_faithfullyFlat_free_baseChange_directSum`: a countable direct sum of
   rank one locally free modules is projective and becomes free over a faithfully flat algebra.
-* `Stacks.Examples.exists_faithfullyFlat_free_baseChange_not_isLocallyFree`: if such a direct
-  sum is moreover not locally free, local freeness fails to descend along the faithfully flat
-  map constructed above.
+* `Stacks.Examples.exists_faithfullyFlat_free_baseChange_not_isLocallyFree`: the same base
+  change applied to a direct sum which is moreover not locally free.
 
 ## Implementation notes
 
-Both statements are conditional on the hypotheses of the source: that the summands are rank one
-locally free, and — for the second — that the sum is not locally free. That a direct sum of rank
-one locally free modules which is not locally free exists at all is **Stacks 05WL**, which the
-source cites rather than proves and which is not formalized here; so the second statement is an
-implication and does not on its own establish that some module fails to descend. Rank one local
+The first statement holds for every countable family of rank one locally free modules; the
+source's further assumption that the sum is not locally free plays no role in its proof, and the
+second statement merely carries that assumption along. The source's first sentence, that local
+freeness does not descend in the fpqc topology, needs in addition a ring and such a direct sum
+which is not locally free: that is Stacks 05WL, proved in
+`StacksFrontier.Examples.Algebra.RankOneSumNotLocallyFree.Reduction`, where the two are combined into
+`Stacks.Examples.CircleTorus.exists_ring_faithfullyFlat_free_baseChange_not_isLocallyFree`. Rank
+one local
 freeness is the predicate `Module.IsFiniteLocallyFreeOfRank R (L n) 1`, which is the source's
 wording; it is converted internally to `Module.Invertible R (L n)` by
 `Module.isFiniteLocallyFreeOfRank_one_iff_invertible`. Projectivity of the sum, a hypothesis in
@@ -342,14 +344,11 @@ theorem exists_faithfullyFlat_free_baseChange_directSum {R : Type u} [CommRing R
   have := hinv n
   infer_instance
 
-/-- **Stacks 05VF.** Being locally free does not descend along faithfully flat ring maps: a
-countable direct sum of rank one locally free modules which is not locally free still becomes
-free after a faithfully flat base change. -/
-@[stacks 05VF "being locally free does not descend along a faithfully flat ring map: a countable \
-direct sum of rank one locally free modules which is not locally free still becomes free after \
-the faithfully flat base change built here. That such a direct sum exists is Stacks 05WL, which \
-the source cites and which is not formalized, so failure of local freeness is a hypothesis here \
-and not a conclusion"]
+/-- A countable direct sum of rank one locally free modules which is not locally free becomes
+free after a faithfully flat base change; this is
+`Stacks.Examples.exists_faithfullyFlat_free_baseChange_directSum` with the assumption that the
+sum is not locally free carried into the conclusion. Such a sum exists by Stacks 05WL; see
+`Stacks.Examples.CircleTorus.exists_ring_faithfullyFlat_free_baseChange_not_isLocallyFree`. -/
 theorem exists_faithfullyFlat_free_baseChange_not_isLocallyFree {R : Type u} [CommRing R]
     (L : ℕ → Type u) [∀ n, AddCommGroup (L n)] [∀ n, Module R (L n)]
     (hL : ∀ n, Module.IsFiniteLocallyFreeOfRank R (L n) 1)

@@ -133,8 +133,6 @@ theorem isIso_baseChange_app_pushforward_unitModule_integralComponentAt {X Y X' 
 composite of proper pushforward along `f` and flat pullback along `g` equals the composite of flat
 pullback along `g'` and proper pushforward along `f'`, as homomorphisms
 `A_k(X) ⟶ A_{k+r}(Y')`. -/
-@[stacks 02RG "the identity ON CHOW GROUPS as an equality of the two composite homomorphisms, \
-with EVERY side condition discharged"]
 theorem flatPullbackChow_comp_properChowPushforward_of_isPullback
     (C : ChowSituation.{u}) {X Y X' Y' : Scheme.{u}}
     (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S) [LocallyOfFiniteType sY]

@@ -41,10 +41,18 @@ Chow group of `Y ×_X Z`, which is where the source puts it.
   Chow group of `Y ×_X Z`.
 * `Stacks.Chow.intersectionProductBilin`: the same product as a `ℤ`-bilinear map
   `CH_n(Y) → CH_m(Z) → CH_{n+m-d}(Y ×_X Z)`, which is the shape the product is used in.
-* `Stacks.Chow.diagonalVirtualNormalGysinClass`: the Gysin class of the diagonal produced by the
-  construction of Stacks 0FBK, which discharges the class carried by the definitions above.
+* `Stacks.Chow.diagonalVirtualNormalGysinClass`: the class of the diagonal produced by the
+  construction of Stacks 0FBK from a virtual normal bundle datum and the construction's inputs.
 * `Stacks.Chow.intersectionProductOfVirtualNormalBundle`: the intersection product formed with
-  that class, so that no bivariant class is assumed.
+  that class; it still takes the inputs of that construction as arguments.
+
+The definitions here take the class `Δ^!` as an argument `c`. The intersection product of Stacks
+0FC0 itself, formed with the Gysin map of the diagonal of Stacks 0FBR
+(`Stacks.Chow.diagonalGysinClass`) and with no class as an argument, is
+`Stacks.Chow.smoothIntersectionProduct` (for `X` equidimensional) and
+`Stacks.Chow.smoothIntersectionProductParts` (for `X` of arbitrary dimension), in
+`StacksFrontier.AlgebraicGeometry.Chow.SmoothIntersectionProduct`; this file cannot import
+`StacksFrontier.AlgebraicGeometry.Chow.DiagonalGysinClass`, which depends on it.
 
 ## Main results
 
@@ -88,8 +96,8 @@ The class is carried as a `Stacks.Chow.BivariantClass` in the degree-`d` group
 `A^d(X ⟶ X ×_k X)`. This is a single bivariant class attached to `X` alone: it does not mention
 `Y`, `Z`, or any product operation, and the content of Stacks 0FC0 is precisely that capping it
 against the exterior product is a product on Chow groups.
-`Stacks.Chow.diagonalVirtualNormalGysinClass` discharges it outright from the construction of
-Stacks 0FBK, so the carried class is a convenience and not an assumption of the result.
+`Stacks.Chow.smoothIntersectionProduct` instantiates it at the Gysin class of the diagonal of
+Stacks 0FBR, `Stacks.Chow.diagonalGysinClass`, which is the product of the source.
 
 The instance of Stacks 02S2 that the pushforward of the product needs — proper pushforward
 descending to Chow groups, bundled as `Stacks.Chow.ProperPushforwardDescends` — is *not* a
@@ -203,7 +211,7 @@ variable (C : ChowSituation.{u}) [Subsingleton C.S] [IsIntegral C.S] [JacobsonSp
     (diagonal_comp_selfProductStructure C sX) d)
   (n m : ℤ)
 
-/-- **Stacks Project, Tag 0FC0.** The Gysin pullback `Δ^!(α × β)` of the exterior product along
+/-- The Gysin pullback `Δ^!(α × β)` of the exterior product along a bivariant class `c` of
 the diagonal of `X`, read on the pullback `(Y ×_k Z) ×_{X ×_k X} X` of the diagonal. This is the
 intersection product of Stacks 0FC0 before the identification of that pullback with `Y ×_X Z`;
 `Stacks.Chow.intersectionProduct` performs the identification.
@@ -211,18 +219,12 @@ intersection product of Stacks 0FC0 before the identification of that pullback w
 It is an additive map out of `CH_n(Y) ⊗_ℤ CH_m(Z)`, so the product it defines is `ℤ`-bilinear by
 construction; `Stacks.Chow.intersectionProductBilin` is that bilinear form.
 
-The Gysin class `c` of the diagonal is a hypothesis: it is a single element of
-`A^d(X ⟶ X ×_k X)` depending on `X` alone, and it is produced from smoothness of `X` by
-`Stacks.Chow.isRegularImmersion_diagonal_of_smooth` together with the construction of Stacks
-0FBK, which `Stacks.Chow.diagonalVirtualNormalGysinClass` carries out. The instances of Stacks
+The class `c` of the diagonal is an argument, an arbitrary element of `A^d(X ⟶ X ×_k X)`. The
+product of Stacks 0FC0, with `c` the Gysin map of the diagonal of Stacks 0FBR, is
+`Stacks.Chow.smoothIntersectionProduct`. The instances of Stacks
 02S1 that the exterior product needs are not hypotheses: they are supplied by
 `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_holds`, hence
 ultimately by the general case of Stacks 02S1. -/
-@[stacks 0FC0 "the product Δ^!(α × β), on the pullback of the diagonal rather than on Y ×_X Z, \
-with the Gysin class Δ^! of the diagonal carried as c (Stacks 0FBR and 0FBK supply it; no \
-product is assumed); the exterior product's instances of Stacks 02S1 are supplied by the general \
-case of Stacks 02S1, Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general, and are \
-not carried; no property of the product is proved"]
 def diagonalGysinProduct :
     TensorProduct ℤ (chowGroup C (a ≫ sX) n) (chowGroup C (b ≫ sX) m) →+
       chowGroup C (pullback.fst (pullback.diagonal sX) (exteriorToSelfProduct C sX a b) ≫ sX)
@@ -232,12 +234,14 @@ def diagonalGysinProduct :
         (n + m)).toAddMonoidHom).comp
       (chowExteriorProduct C hδ (a ≫ sX) (b ≫ sX) n m))
 
-/-- **Stacks Project, Tag 0FC0.** The intersection product
+/-- The product
 
-`· : CH_n(Y) ⊗_ℤ CH_m(Z) ⟶ CH_{n+m-d}(Y ×_X Z)`
+`· : CH_n(Y) ⊗_ℤ CH_m(Z) ⟶ CH_{n+m-d}(Y ×_X Z)`,   `α · β = c(α × β)`,
 
-of Stacks 0FC0, for `Y` and `Z` locally of finite type over a scheme `X` whose diagonal has a
-Gysin class of degree `d`. It is the Gysin pullback of the exterior product along the diagonal,
+for `Y` and `Z` locally of finite type over `X`, formed with an arbitrary bivariant class
+`c ∈ A^d(X ⟶ X ×_k X)` of the diagonal, given as an argument. The intersection product of Stacks
+0FC0 is this at the Gysin map of the diagonal of Stacks 0FBR, with `X` smooth:
+`Stacks.Chow.smoothIntersectionProduct`. It is the cap of the exterior product with `c`,
 `Stacks.Chow.diagonalGysinProduct`, pushed forward along the identification
 `(Y ×_k Z) ×_{X ×_k X} X ≅ Y ×_X Z` the source uses.
 
@@ -246,14 +250,7 @@ that lets proper pushforward descend to Chow groups, and that is supplied here b
 `Stacks.Chow.properPushforwardDescends` rather than assumed. The instances of Stacks 02S1 the
 exterior product needs are likewise supplied, by
 `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_holds`. The only
-hypothesis of the product is therefore the Gysin class `c` of the diagonal. -/
-@[stacks 0FC0 "the intersection product α · β = Δ^!(α × β) in CH_{n+m-d}(Y ×_X Z), with Δ^! \
-carried as c (Stacks 0FBR and 0FBK supply it; no product is assumed); the exterior product's \
-instances of Stacks 02S1 are supplied by \
-Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general and the Stacks 02S2 instance \
-for the pushforward along Y ×_X Z = (Y ×_k Z) ×_{X ×_k X} X by \
-Stacks.Chow.properPushforwardDescends, so neither is carried; no property of the product is \
-proved"]
+argument of the product beyond the schemes and degrees is therefore the class `c`. -/
 def intersectionProduct :
     TensorProduct ℤ (chowGroup C (a ≫ sX) n) (chowGroup C (b ≫ sX) m) →+
       chowGroup C (pullback.fst a b ≫ (a ≫ sX)) (n + m - d) :=
@@ -264,9 +261,8 @@ def intersectionProduct :
       (properPushforwardDescends C _ _ _ _ _)).comp
     (diagonalGysinProduct C hδ G sX a b d c n m)
 
-/-- **Stacks Project, Tag 0FC0.** The defining formula of the intersection product: it is the
-Gysin pullback of the exterior product along the diagonal, carried to `Y ×_X Z`. -/
-@[stacks 0FC0 "the defining formula α · β = Δ^!(α × β) of the product, unfolded"]
+/-- The defining formula of `Stacks.Chow.intersectionProduct`: it is the cap of the exterior
+product with the class `c` of the diagonal, carried to `Y ×_X Z`. -/
 theorem intersectionProduct_apply
     (t : TensorProduct ℤ (chowGroup C (a ≫ sX) n) (chowGroup C (b ≫ sX) m)) :
     intersectionProduct C hδ G sX a b d c n m t =
@@ -280,22 +276,20 @@ theorem intersectionProduct_apply
             (n + m) (chowExteriorProduct C hδ (a ≫ sX) (b ≫ sX) n m t))) :=
   rfl
 
-/-- **Stacks Project, Tag 0FC0.** The intersection product as a `ℤ`-bilinear map
+/-- The product `Stacks.Chow.intersectionProduct`, formed with a class `c` of the diagonal given
+as an argument, as a `ℤ`-bilinear map
 
 `CH_n(Y) → CH_m(Z) → CH_{n+m-d}(Y ×_X Z)`,
 
 which is the shape `α · β` is used in. Bilinearity is free: the product is an additive map out
 of the tensor product by construction. -/
-@[stacks 0FC0 "the product as the bilinear map α ↦ β ↦ α · β, bilinear by construction, with \
-the same carried hypotheses as Stacks.Chow.intersectionProduct"]
 def intersectionProductBilin :
     chowGroup C (a ≫ sX) n →ₗ[ℤ] chowGroup C (b ≫ sX) m →ₗ[ℤ]
       chowGroup C (pullback.fst a b ≫ (a ≫ sX)) (n + m - d) :=
   TensorProduct.curry
     (intersectionProduct C hδ G sX a b d c n m).toIntLinearMap
 
-/-- **Stacks Project, Tag 0FC0.** The bilinear form of the product agrees with the product. -/
-@[stacks 0FC0 "the bilinear form evaluates to the product on a pure tensor"]
+/-- The bilinear form of the product agrees with the product. -/
 theorem intersectionProductBilin_apply
     (α : chowGroup C (a ≫ sX) n) (β : chowGroup C (b ≫ sX) m) :
     intersectionProductBilin C hδ G sX a b d c n m α β =
@@ -318,9 +312,11 @@ variable (C : ChowSituation.{u}) [Subsingleton C.S] [IsIntegral C.S] [JacobsonSp
     chowGroup C (pullback.fst (pullback.diagonal sX) g ≫ sX) (k - (r : ℤ)) →+
       chowGroup C (pullback.fst (q ≫ pullback.diagonal sX) g ≫ sN) (k - e))
 
-/-- **Stacks Project, Tag 0FBK.** The Gysin class `c(X ⟶ X ×_k X, 𝒩) ∈ A^r(X ⟶ X ×_k X)` of the
-diagonal, produced by the construction of Stacks 0FBK from a virtual normal bundle of constant
-rank `r` for the diagonal. For `X` smooth over the base the diagonal is a regular immersion by
+/-- The Gysin class `c(X ⟶ X ×_k X, 𝒩) ∈ A^r(X ⟶ X ×_k X)` of the diagonal, assembled by
+`Stacks.Chow.virtualNormalGysinClass` (the abstract form of the construction of Stacks 0FBK) for a
+virtual normal bundle of constant rank `r` for the diagonal, from the flat and Gysin laws `hflat`
+and `hgysin` of its prescribed cap operation. For `X` smooth over the base the diagonal is a
+regular immersion by
 `Stacks.Chow.isRegularImmersion_diagonal_of_smooth`, and its virtual normal bundle is the
 conormal bundle, of rank the relative dimension.
 
@@ -330,10 +326,6 @@ discharges that hypothesis; `Stacks.Chow.intersectionProductOfVirtualNormalBundl
 The instance of Stacks 02S2 that the construction of Stacks 0FBK needs is not a hypothesis here:
 it is supplied by `Stacks.Chow.properPushforwardDescends`, which proves that statement
 outright. -/
-@[stacks 0FBK "the class of the construction, instantiated at the diagonal of X: the degree-r \
-bivariant class of X ⟶ X ×_k X attached to a virtual normal bundle of constant rank r, with the \
-same carried hypotheses as Stacks.Chow.virtualNormalGysinClass except Stacks 02S2, which is \
-supplied by Stacks.Chow.properPushforwardDescends and is not carried"]
 def diagonalVirtualNormalGysinClass (P : VirtualNormalBundleProjection (pullback.diagonal sX) q r)
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ (pullback sX sX : Scheme.{u})) [LocallyOfFiniteType g]
       (k : ℤ), Function.Bijective (π g k))
@@ -348,17 +340,12 @@ def diagonalVirtualNormalGysinClass (P : VirtualNormalBundleProjection (pullback
     (diagonal_comp_selfProductStructure C sX) q hq r e E π P (properPushforwardDescends C) hπ
     hproper hflat hgysin
 
-/-- **Stacks Project, Tag 0FC0.** The intersection product of Stacks 0FC0 formed with the Gysin
-class of the diagonal that the construction of Stacks 0FBK produces, so that no bivariant class
-is assumed: the degree of the product is the rank `r` of the virtual normal bundle of the
-diagonal, which for `X` smooth is its relative dimension. -/
-@[stacks 0FC0 "the product α · β = Δ^!(α × β) with Δ^! the class of the diagonal built by the \
-Stacks 0FBK construction, so no bivariant class is carried; that construction's inputs (the \
-Stacks 0FBQ datum, Stacks 02TY bijectivity, the flat and Gysin transport laws) remain carried, \
-while Stacks 02S1 is supplied by \
-Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general and Stacks 02S2 by \
-Stacks.Chow.properPushforwardDescends, neither being carried, and no property of the product is \
-proved"]
+/-- The product `Stacks.Chow.intersectionProduct` formed with the class of the diagonal that the
+construction of Stacks 0FBK produces from the arguments of
+`Stacks.Chow.diagonalVirtualNormalGysinClass` (a virtual normal bundle datum, the bijectivity of
+Stacks 02TY and the transport laws), which remain arguments here; the degree of the product is
+the rank `r`. The intersection product of Stacks 0FC0 with none of these arguments, formed with
+the Gysin map of the diagonal of Stacks 0FBR, is `Stacks.Chow.smoothIntersectionProduct`. -/
 def intersectionProductOfVirtualNormalBundle
     (P : VirtualNormalBundleProjection (pullback.diagonal sX) q r)
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ (pullback sX sX : Scheme.{u})) [LocallyOfFiniteType g]

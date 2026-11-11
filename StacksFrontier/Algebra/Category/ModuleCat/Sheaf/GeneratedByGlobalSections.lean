@@ -341,10 +341,12 @@ theorem toSheaf_reflectsEpi {M N : SheafOfModules.{0} O_X} (φ : M ⟶ N)
 
 -- Main Statement(s)
 
-/-- **Stacks Tag 01AN, Lemma 17.4.2.** Let `(X, O_X)` be a ringed space, `F` a sheaf of
-`O_X`-modules, `I` a set, and `s_i ∈ Γ(X, F)` global sections. Then the sections generate
-`F` (Definition 2) if and only if for every point `x` the germs `s_{i,x}` generate the
-`O_{X,x}`-module `F_x` (Definition 3 at the stalk).
+/-- **Generation by global sections, tested on stalks of the underlying abelian sheaves.** Let
+`(X, O_X)` be a ringed space, `F` a sheaf of `O_X`-modules, `I` a set, and `s_i ∈ Γ(X, F)` global
+sections. Then the sections generate `F` (Definition 2) if and only if for every point `x` the
+stalk at `x` of the associated morphism `⨁_{i ∈ I} O_X ⟶ F`, taken on underlying sheaves of
+abelian groups, is surjective. The form with the germs spanning the `O_{X,x}`-module `F_x` is
+`AlgebraicGeometry.generates_iff_stalkwise_generates`.
 
 PROOF: a finite chain of iff's. With `φ := assocMap O_X F s` and `ψ := (toSheaf O_X).map φ`:
   Epi φ  ↔ Epi ψ                                   -- toSheaf_preservesEpi + toSheaf_reflectsEpi
@@ -355,7 +357,7 @@ PROOF: a finite chain of iff's. With `φ := assocMap O_X F s` and `ψ := (toShea
                                                    -- locally_surjective_iff_surjective_on_stalks
                                                    -- (defeq to TopCat version)
         ≡ GenerateStalks                           -- defeq: matches `stalkMapAb`. -/
-@[stacks 01AN, ega "0 5.1.1" "parenthetical"]
+@[ega "0 5.1.1" "parenthetical"]
 theorem generate_iff_generateStalks (s : I → F.sections) :
     Generate O_X F s ↔ GenerateStalks O_X F s := by
   unfold Generate GenerateStalks

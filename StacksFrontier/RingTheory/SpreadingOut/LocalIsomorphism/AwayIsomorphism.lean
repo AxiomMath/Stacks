@@ -53,18 +53,20 @@ import StacksCore.Tactic.EgaSgaAttribute
 * `exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime`, in the namespace
   `Stacks.SpreadingOut.LocalIsoSplitting`: if `A` is of finite presentation over `B` and
   `B_p → A_Q` is an isomorphism, then `A_a ≅ B_f` as `B`-algebras for some `f ∉ p` and `a ∉ Q`.
-* `Algebra.FinitePresentation.exists_algEquiv_localizationAway_of_algEquiv_atPrime`: algebras
-  of finite presentation with isomorphic local rings become isomorphic after inverting one
-  element on each side.
+* `Algebra.FinitePresentation.exists_algEquiv_localizationAway_awayLift_eq_of_algEquiv_atPrime`:
+  algebras of finite presentation with isomorphic local rings become isomorphic after inverting
+  one element on each side, by an isomorphism inducing the given one on the local rings.
+* `Algebra.FinitePresentation.exists_algEquiv_localizationAway_of_algEquiv_atPrime`: the same
+  without the compatibility.
 
 ## Implementation notes
 
-In `Algebra.FinitePresentation.exists_algEquiv_localizationAway_of_algEquiv_atPrime` the local
-rings `Sq` and `Sq'` are any `S`-algebra with `IsLocalization.AtPrime Sq q` whose `R`-algebra
-structure is the composite `R → S → Sq` (`IsScalarTower R S Sq`), and similarly for `Sq'`. The
-localizations of the conclusion are the models `Localization.Away g` and `Localization.Away g'`;
-by uniqueness of localizations (`IsLocalization.algEquiv`) this is no loss of generality. Only
-the existence of an `R`-algebra isomorphism `S_g ≅ S'_{g'}` is asserted.
+In these theorems the local rings `Sq` and `Sq'` are any `S`-algebra with
+`IsLocalization.AtPrime Sq q` whose `R`-algebra structure is the composite `R → S → Sq`
+(`IsScalarTower R S Sq`), and similarly for `Sq'`. The localizations of the conclusion are the
+models `Localization.Away g` and `Localization.Away g'`; by uniqueness of localizations
+(`IsLocalization.algEquiv`) this is no loss of generality. Compatibility of `Φ : S_g ≅ S'_{g'}`
+with `e : S_q ≅ S'_{q'}` is stated with the canonical maps `Localization.awayLift`.
 
 ## References
 
@@ -274,15 +276,19 @@ public theorem isLocalization_atPrime_map {S : Type*} [CommRing S] (M₀ : Submo
     · exact hnotMem d (Set.disjoint_left.mp hdisj d.2) hmem
 
 /-- Let `A` be a `B`-algebra of finite presentation and let `L` be at once the localization of
-`B` at a prime `p` and, compatibly with the scalar tower, the localization of `A` at a prime `Q`,
-so that the induced map `B_p → A_Q` is an isomorphism. Then there are `f ∈ B`, `f ∉ p` and
-`a ∈ A`, `a ∉ Q` with `A_a ≅ B_f` as `B`-algebras. -/
-public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime {B : Type u}
-    [CommRing B] {A : Type v} [CommRing A] [Algebra B A] [Algebra.FinitePresentation B A]
+`B` at a prime `p` and, compatibly with the scalar tower, the localization of `A` at a prime `Q`.
+Then there are `f ∈ B`, `f ∉ p`, `a ∈ A`, `a ∉ Q` and a `B`-algebra isomorphism `A_a ≅ B_f`
+which, followed by the canonical map `B_f → L`, restricts on `A` to `A → L`. -/
+public theorem exists_notMem_algEquiv_localizationAway_awayLift_eq_of_isLocalization_atPrime
+    {B : Type u} [CommRing B] {A : Type v} [CommRing A] [Algebra B A]
+    [Algebra.FinitePresentation B A]
     {L : Type w} [CommRing L] [Algebra B L] [Algebra A L] [IsScalarTower B A L] (p : Ideal B)
     [p.IsPrime] [IsLocalization.AtPrime L p] (Q : Ideal A) [Q.IsPrime]
     [IsLocalization.AtPrime L Q] :
-    ∃ f ∉ p, ∃ a ∉ Q, Nonempty (Localization.Away a ≃ₐ[B] Localization.Away f) := by
+    ∃ f, ∃ hf : f ∉ p, ∃ a ∉ Q, ∃ e : Localization.Away a ≃ₐ[B] Localization.Away f,
+      ∀ x : A, Localization.awayLift (algebraMap B L) f
+          (IsLocalization.map_units L (⟨f, hf⟩ : p.primeCompl)) (e (algebraMap A _ x)) =
+        algebraMap A L x := by
   classical
   have : IsLocalRing L := IsLocalization.AtPrime.isLocalRing L p
   have hmem : ∀ b : B, b ∈ p ↔ algebraMap B A b ∈ Q := fun b => by
@@ -378,11 +384,20 @@ public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime
     exact σ'.commutes x
   let φ : Localization.Away a →ₐ[B] Localization.Away (σ2 a) :=
     { Localization.awayMap σ2.toRingHom a with commutes' := hcomm }
-  have e1 : Localization.Away a ≃ₐ[B] Localization.Away (σ2 a) := AlgEquiv.ofBijective φ hbij
+  obtain ⟨e1, he1⟩ : ∃ e1 : Localization.Away a ≃ₐ[B] Localization.Away (σ2 a),
+      ∀ y : A', e1 (algebraMap A' (Localization.Away a) y) =
+        algebraMap Bf (Localization.Away (σ2 a)) (σ2 y) :=
+    ⟨AlgEquiv.ofBijective φ hbij, fun y =>
+      show Localization.awayMap σ2.toRingHom a (algebraMap A' (Localization.Away a) y) = _ from
+        IsLocalization.map_eq _ y⟩
   have hdisj : Disjoint (Submonoid.powers f₀ : Set B) (p : Set B) :=
     (Ideal.disjoint_powers_iff_notMem_of_isPrime (I := p) f₀).mpr hf₀
   have hPprime : (Ideal.map (algebraMap B Bf) p).IsPrime :=
     IsLocalization.isPrime_of_isPrime_disjoint (Submonoid.powers f₀) Bf p ‹p.IsPrime› hdisj
+  have h2 : IsUnit (hl (σ2 a)) := by
+    rw [show hl (σ2 a) = algebraMap A L s from by
+        rw [show hl (σ2 a) = hl (σ' a) from rfl, hlσ' a, hadef, hτ_apply s]]
+    exact IsLocalization.map_units L (⟨s, hs⟩ : Q.primeCompl)
   have hσ2aP : σ2 a ∉ Ideal.map (algebraMap B Bf) p := by
     intro hc
     have h1 : hl (σ2 a) ∈ Ideal.map (algebraMap B L) p := by
@@ -390,10 +405,6 @@ public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime
       rwa [Ideal.map_map,
         show hl.toRingHom.comp (algebraMap B Bf) = algebraMap B L from hl.comp_algebraMap] at this
     rw [IsLocalization.AtPrime.map_eq_maximalIdeal] at h1
-    have h2 : IsUnit (hl (σ2 a)) := by
-      rw [show hl (σ2 a) = algebraMap A L s from by
-          rw [show hl (σ2 a) = hl (σ' a) from rfl, hlσ' a, hadef, hτ_apply s]]
-      exact IsLocalization.map_units L (⟨s, hs⟩ : Q.primeCompl)
     exact IsLocalRing.notMem_maximalIdeal.mpr h2 h1
   obtain ⟨r, hr, hrloc⟩ :=
     exists_notMem_comap_isLocalization_away (S' := B) (T := Bf) f₀ (Ideal.map (algebraMap B Bf) p)
@@ -403,24 +414,66 @@ public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime
   have hrp : r ∉ p := by rwa [hcomap] at hr
   have e2 : Localization.Away (σ2 a) ≃ₐ[B] Localization.Away r :=
     IsLocalization.algEquiv (Submonoid.powers r) _ _
-  have e3 : Localization.Away a ≃ₐ[B] Localization.Away (u * s) :=
-    (IsLocalization.algEquiv (Submonoid.powers (u * s)) (Localization.Away a)
-          (Localization.Away (u * s))).restrictScalars
-      B
+  obtain ⟨e3, he3⟩ : ∃ e3 : Localization.Away a ≃ₐ[B] Localization.Away (u * s),
+      ∀ x : A, e3.symm (algebraMap A (Localization.Away (u * s)) x) =
+        algebraMap A' (Localization.Away a) (algebraMap A A' x) :=
+    ⟨(IsLocalization.algEquiv (Submonoid.powers (u * s)) (Localization.Away a)
+        (Localization.Away (u * s))).restrictScalars B, fun x => by
+      rw [← IsScalarTower.algebraMap_apply A A' (Localization.Away a)]
+      exact (IsLocalization.algEquiv (Submonoid.powers (u * s)) (Localization.Away a)
+        (Localization.Away (u * s))).symm.commutes x⟩
+  have hr' : IsUnit (algebraMap B L r) := IsLocalization.map_units L (⟨r, hrp⟩ : p.primeCompl)
+  have hlam : ∀ z, Localization.awayLift (algebraMap B L) r hr' (e2 z) =
+      Localization.awayLift hl.toRingHom (σ2 a) h2 z :=
+    localization_apply_eq_of_comp_eq (Submonoid.powers r)
+      (j := (Localization.awayLift (algebraMap B L) r hr').comp e2.toAlgHom.toRingHom)
+      (k := Localization.awayLift hl.toRingHom (σ2 a) h2) (by
+        ext x
+        change Localization.awayLift (algebraMap B L) r hr' (e2 (algebraMap B _ x)) =
+          Localization.awayLift hl.toRingHom (σ2 a) h2 (algebraMap B _ x)
+        rw [AlgEquiv.commutes, IsLocalization.Away.lift_eq,
+          IsScalarTower.algebraMap_apply B Bf (Localization.Away (σ2 a)),
+          IsLocalization.Away.lift_eq]
+        exact (hl.commutes x).symm)
   refine
     ⟨r, hrp, u * s, fun hc => (‹Q.IsPrime›.mem_or_mem hc).elim huQ hs,
-      ⟨e3.symm.trans (e1.trans e2)⟩⟩
+      e3.symm.trans (e1.trans e2), fun x => ?_⟩
+  rw [AlgEquiv.trans_apply, AlgEquiv.trans_apply, he3, he1, hlam, IsLocalization.Away.lift_eq]
+  change hl (σ' (algebraMap A A' x)) = _
+  rw [hlσ', hτ_apply]
 
-/-- Let `S` and `S'` be `R`-algebras of finite presentation and `q ⊆ S`, `q' ⊆ S'` primes. If the
-local rings `S_q` and `S'_{q'}` are isomorphic as `R`-algebras, then `S_g ≅ S'_{g'}` as
-`R`-algebras for some `g ∉ q` and `g' ∉ q'`. -/
-public theorem solution {R : Type u} [CommRing R] {S : Type v} [CommRing S] [Algebra R S]
-    [Algebra.FinitePresentation R S] {S' : Type v'} [CommRing S'] [Algebra R S']
+/-- Let `A` be a `B`-algebra of finite presentation and let `L` be at once the localization of
+`B` at a prime `p` and, compatibly with the scalar tower, the localization of `A` at a prime `Q`,
+so that the induced map `B_p → A_Q` is an isomorphism. Then there are `f ∈ B`, `f ∉ p` and
+`a ∈ A`, `a ∉ Q` with `A_a ≅ B_f` as `B`-algebras. -/
+public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime {B : Type u}
+    [CommRing B] {A : Type v} [CommRing A] [Algebra B A] [Algebra.FinitePresentation B A]
+    {L : Type w} [CommRing L] [Algebra B L] [Algebra A L] [IsScalarTower B A L] (p : Ideal B)
+    [p.IsPrime] [IsLocalization.AtPrime L p] (Q : Ideal A) [Q.IsPrime]
+    [IsLocalization.AtPrime L Q] :
+    ∃ f ∉ p, ∃ a ∉ Q, Nonempty (Localization.Away a ≃ₐ[B] Localization.Away f) := by
+  obtain ⟨f, hf, a, ha, e, -⟩ :=
+    exists_notMem_algEquiv_localizationAway_awayLift_eq_of_isLocalization_atPrime (L := L) p Q
+  exact ⟨f, hf, a, ha, ⟨e⟩⟩
+
+/-- Let `S` and `S'` be `R`-algebras of finite presentation and `q ⊆ S`, `q' ⊆ S'` primes, and
+let `e : S_q ≅ S'_{q'}` be an isomorphism of `R`-algebras. Then there are `g ∉ q`, `g' ∉ q'` and an
+`R`-algebra isomorphism `Φ : S_g ≅ S'_{g'}` compatible with `e`: `e` composed with the canonical
+map `S_g → S_q` is the canonical map `S'_{g'} → S'_{q'}` composed with `Φ`. -/
+public theorem exists_algEquiv_localizationAway_awayLift_eq {R : Type u} [CommRing R] {S : Type v}
+    [CommRing S] [Algebra R S] [Algebra.FinitePresentation R S] {S' : Type v'} [CommRing S']
+    [Algebra R S']
     [Algebra.FinitePresentation R S'] (q : Ideal S) [q.IsPrime] (q' : Ideal S') [q'.IsPrime]
     (Sq : Type w) [CommRing Sq] [Algebra S Sq] [IsLocalization.AtPrime Sq q] [Algebra R Sq]
     [IsScalarTower R S Sq] (Sq' : Type w') [CommRing Sq'] [Algebra S' Sq']
     [IsLocalization.AtPrime Sq' q'] [Algebra R Sq'] [IsScalarTower R S' Sq'] (e : Sq ≃ₐ[R] Sq') :
-    ∃ g ∉ q, ∃ g' ∉ q', Nonempty (Localization.Away g ≃ₐ[R] Localization.Away g') := by
+    ∃ g, ∃ hg : g ∉ q, ∃ g', ∃ hg' : g' ∉ q',
+      ∃ Φ : Localization.Away g ≃ₐ[R] Localization.Away g',
+        ∀ y : Localization.Away g,
+          Localization.awayLift (algebraMap S' Sq') g'
+              (IsLocalization.map_units Sq' (⟨g', hg'⟩ : q'.primeCompl)) (Φ y) =
+            e (Localization.awayLift (algebraMap S Sq) g
+              (IsLocalization.map_units Sq (⟨g, hg⟩ : q.primeCompl)) y) := by
   classical
   obtain ⟨g', hg', ψ, fT, hfT, hcomp⟩ :=
     exists_mem_algHom_localizationAway_of_finitePresentation (M := q'.primeCompl) (Tm := Sq')
@@ -449,18 +502,76 @@ public theorem solution {R : Type u} [CommRing R] {S : Type v} [CommRing S] [Alg
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
     change algebraMap S Sq' x = fT (ψ x)
     exact (congrArg (fun g : S →ₐ[R] Sq' => g x) hcomp).symm
-  obtain ⟨f, hf, a, haQ, ⟨e1⟩⟩ :=
-    exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime (B := S) (A := T) (L := Sq')
-      q Q
+  obtain ⟨f, hf, a, haQ, e1, he1⟩ :=
+    exists_notMem_algEquiv_localizationAway_awayLift_eq_of_isLocalization_atPrime (B := S)
+      (A := T) (L := Sq') q Q
   obtain ⟨r, hr, hrloc⟩ := exists_notMem_comap_isLocalization_away (T := T) g' Q haQ
-  refine ⟨f, hf, r, hQc ▸ hr, ⟨?_⟩⟩
+  have hrq' : r ∉ q' := hQc ▸ hr
   have e2 : Localization.Away r ≃ₐ[S'] Localization.Away a :=
     IsLocalization.algEquiv (Submonoid.powers r) (Localization.Away r) (Localization.Away a)
-  refine ((e2.restrictScalars R).trans ?_).symm
-  refine AlgEquiv.ofRingEquiv (f := e1.toRingEquiv) fun x => ?_
-  change e1 (algebraMap R (Localization.Away a) x) = algebraMap R (Localization.Away f) x
-  rw [IsScalarTower.algebraMap_apply R S (Localization.Away a),
-    IsScalarTower.algebraMap_apply R S (Localization.Away f), e1.commutes]
+  obtain ⟨e1R, he1R⟩ : ∃ e1R : Localization.Away a ≃ₐ[R] Localization.Away f, ∀ w, e1R w = e1 w :=
+    ⟨AlgEquiv.ofRingEquiv (f := e1.toRingEquiv) fun x => by
+      change e1 (algebraMap R (Localization.Away a) x) = algebraMap R (Localization.Away f) x
+      rw [IsScalarTower.algebraMap_apply R S (Localization.Away a),
+        IsScalarTower.algebraMap_apply R S (Localization.Away f), e1.commutes], fun _ => rfl⟩
+  have he1R' : ∀ z, e1R.symm z = e1.symm z := fun z =>
+    e1R.injective (by rw [AlgEquiv.apply_symm_apply, he1R, AlgEquiv.apply_symm_apply])
+  refine ⟨f, hf, r, hrq', ((e2.restrictScalars R).trans e1R).symm, fun y => ?_⟩
+  have haU : IsUnit (algebraMap T Sq' a) :=
+    IsLocalization.map_units Sq' (⟨a, haQ⟩ : Q.primeCompl)
+  have hfU : IsUnit (algebraMap S Sq' f) :=
+    IsLocalization.map_units Sq' (⟨f, hf⟩ : q.primeCompl)
+  have hrU : IsUnit (algebraMap S' Sq' r) :=
+    IsLocalization.map_units Sq' (⟨r, hrq'⟩ : q'.primeCompl)
+  have c1 : ∀ w, Localization.awayLift (algebraMap S' Sq') r hrU (e2.symm w) =
+      Localization.awayLift (algebraMap T Sq') a haU w :=
+    localization_apply_eq_of_comp_eq (Submonoid.powers r)
+      (j := (Localization.awayLift (algebraMap S' Sq') r hrU).comp
+        e2.symm.toAlgHom.toRingHom)
+      (k := Localization.awayLift (algebraMap T Sq') a haU) (by
+        ext z
+        change Localization.awayLift (algebraMap S' Sq') r hrU (e2.symm (algebraMap S' _ z)) =
+          Localization.awayLift (algebraMap T Sq') a haU (algebraMap S' (Localization.Away a) z)
+        rw [AlgEquiv.commutes, IsLocalization.Away.lift_eq,
+          IsScalarTower.algebraMap_apply S' T (Localization.Away a), IsLocalization.Away.lift_eq,
+          ← IsScalarTower.algebraMap_apply])
+  have c2 : ∀ w, Localization.awayLift (algebraMap S Sq') f hfU (e1 w) =
+      Localization.awayLift (algebraMap T Sq') a haU w :=
+    localization_apply_eq_of_comp_eq (Submonoid.powers a)
+      (j := (Localization.awayLift (algebraMap S Sq') f hfU).comp e1.toAlgHom.toRingHom)
+      (k := Localization.awayLift (algebraMap T Sq') a haU) (by
+        ext t
+        change Localization.awayLift (algebraMap S Sq') f hfU (e1 (algebraMap T _ t)) =
+          Localization.awayLift (algebraMap T Sq') a haU (algebraMap T _ t)
+        rw [he1 t, IsLocalization.Away.lift_eq])
+  refine localization_apply_eq_of_comp_eq (Submonoid.powers f)
+    (j := (Localization.awayLift (algebraMap S' Sq') r hrU).comp
+      ((e2.restrictScalars R).trans e1R).symm.toAlgHom.toRingHom)
+    (k := e.toAlgHom.toRingHom.comp (Localization.awayLift (algebraMap S Sq) f
+      (IsLocalization.map_units Sq (⟨f, hf⟩ : q.primeCompl)))) ?_ y
+  ext x
+  change Localization.awayLift (algebraMap S' Sq') r hrU
+      (((e2.restrictScalars R).trans e1R).symm (algebraMap S (Localization.Away f) x)) =
+    e (Localization.awayLift (algebraMap S Sq) f
+      (IsLocalization.map_units Sq (⟨f, hf⟩ : q.primeCompl)) (algebraMap S (Localization.Away f) x))
+  rw [AlgEquiv.symm_trans_apply, he1R',
+    show ∀ w, (e2.restrictScalars R).symm w = e2.symm w from fun _ => rfl]
+  rw [c1, ← c2, AlgEquiv.apply_symm_apply, IsLocalization.Away.lift_eq,
+    IsLocalization.Away.lift_eq]
+  rfl
+
+/-- Let `S` and `S'` be `R`-algebras of finite presentation and `q ⊆ S`, `q' ⊆ S'` primes. If the
+local rings `S_q` and `S'_{q'}` are isomorphic as `R`-algebras, then `S_g ≅ S'_{g'}` as
+`R`-algebras for some `g ∉ q` and `g' ∉ q'`. -/
+public theorem solution {R : Type u} [CommRing R] {S : Type v} [CommRing S] [Algebra R S]
+    [Algebra.FinitePresentation R S] {S' : Type v'} [CommRing S'] [Algebra R S']
+    [Algebra.FinitePresentation R S'] (q : Ideal S) [q.IsPrime] (q' : Ideal S') [q'.IsPrime]
+    (Sq : Type w) [CommRing Sq] [Algebra S Sq] [IsLocalization.AtPrime Sq q] [Algebra R Sq]
+    [IsScalarTower R S Sq] (Sq' : Type w') [CommRing Sq'] [Algebra S' Sq']
+    [IsLocalization.AtPrime Sq' q'] [Algebra R Sq'] [IsScalarTower R S' Sq'] (e : Sq ≃ₐ[R] Sq') :
+    ∃ g ∉ q, ∃ g' ∉ q', Nonempty (Localization.Away g ≃ₐ[R] Localization.Away g') := by
+  obtain ⟨g, hg, g', hg', Φ, -⟩ := exists_algEquiv_localizationAway_awayLift_eq q q' Sq Sq' e
+  exact ⟨g, hg, g', hg', ⟨Φ⟩⟩
 
 end Stacks.SpreadingOut.LocalIsoSplitting
 
@@ -473,14 +584,8 @@ namespace Algebra.FinitePresentation
 /-- Let `R` be a ring, let `S` and `S'` be `R`-algebras of finite presentation,
 and let `q ⊆ S`, `q' ⊆ S'` be primes. If the local rings `S_q` and `S'_{q'}` are isomorphic as
 `R`-algebras, then there are `g ∈ S`, `g ∉ q` and `g' ∈ S'`, `g' ∉ q'` such that `S_g` and
-`S'_{g'}` are isomorphic as `R`-algebras. -/
-@[stacks 00QS "The local rings `S_q`, `S'_{q'}` are abstract (`IsLocalization.AtPrime Sq q` with
-`IsScalarTower R S Sq`, so that the `R`-algebra structure is the composite `R → S → Sq`), which
-makes the hypothesis available for any model; the localizations `S_g`, `S'_{g'}` of the
-conclusion are the models `Localization.Away g`, `Localization.Away g'`, a choice that costs no
-strength by uniqueness of localizations. As in the source only the existence of an `R`-algebra
-isomorphism is claimed, not the compatibility with the given isomorphism of local rings that the
-proof also produces. See the module docstring."]
+`S'_{g'}` are isomorphic as `R`-algebras. The isomorphism can be chosen compatible with the given
+one, see `exists_algEquiv_localizationAway_awayLift_eq_of_algEquiv_atPrime`. -/
 public theorem exists_algEquiv_localizationAway_of_algEquiv_atPrime {R : Type u} [CommRing R]
     {S : Type v} [CommRing S] [Algebra R S] [Algebra.FinitePresentation R S] {S' : Type v'}
     [CommRing S'] [Algebra R S'] [Algebra.FinitePresentation R S'] (q : Ideal S) [q.IsPrime]
@@ -490,6 +595,33 @@ public theorem exists_algEquiv_localizationAway_of_algEquiv_atPrime {R : Type u}
     [IsScalarTower R S' Sq'] (e : Sq ≃ₐ[R] Sq') :
     ∃ g ∉ q, ∃ g' ∉ q', Nonempty (Localization.Away g ≃ₐ[R] Localization.Away g') :=
   Stacks.SpreadingOut.LocalIsoSplitting.solution q q' Sq Sq' e
+
+/-- Let `R` be a ring, let `S` and `S'` be `R`-algebras of finite presentation, and let
+`q ⊆ S`, `q' ⊆ S'` be primes. If `e : S_q ≅ S'_{q'}` is an isomorphism of `R`-algebras,
+then there are `g ∈ S`, `g ∉ q`, `g' ∈ S'`, `g' ∉ q'` and an isomorphism of `R`-algebras
+`Φ : S_g ≅ S'_{g'}`; moreover `Φ` induces `e` on the local rings: for every `y ∈ S_g`, the image of
+`Φ y` under the canonical map `S'_{g'} → S'_{q'}` is `e` of the image of `y` under `S_g → S_q`. -/
+@[stacks 00QS "The local rings `S_q`, `S'_{q'}` are any localizations at the primes
+(`IsLocalization.AtPrime Sq q` with `IsScalarTower R S Sq`, so that the `R`-algebra structure is
+the composite `R → S → Sq`), and `S_g`, `S'_{g'}` are the models `Localization.Away g`,
+`Localization.Away g'`, which by uniqueness of localizations costs no generality. Besides the
+isomorphism `S_g ≅ S'_{g'}` of the statement, the theorem records that it is compatible with the
+given isomorphism `S_q ≅ S'_{q'}`, which the proof in the source produces."]
+public theorem exists_algEquiv_localizationAway_awayLift_eq_of_algEquiv_atPrime {R : Type u}
+    [CommRing R] {S : Type v} [CommRing S] [Algebra R S] [Algebra.FinitePresentation R S]
+    {S' : Type v'} [CommRing S'] [Algebra R S'] [Algebra.FinitePresentation R S'] (q : Ideal S)
+    [q.IsPrime] (q' : Ideal S') [q'.IsPrime] (Sq : Type w) [CommRing Sq] [Algebra S Sq]
+    [IsLocalization.AtPrime Sq q] [Algebra R Sq] [IsScalarTower R S Sq] (Sq' : Type w')
+    [CommRing Sq'] [Algebra S' Sq'] [IsLocalization.AtPrime Sq' q'] [Algebra R Sq']
+    [IsScalarTower R S' Sq'] (e : Sq ≃ₐ[R] Sq') :
+    ∃ g, ∃ hg : g ∉ q, ∃ g', ∃ hg' : g' ∉ q',
+      ∃ Φ : Localization.Away g ≃ₐ[R] Localization.Away g',
+        ∀ y : Localization.Away g,
+          Localization.awayLift (algebraMap S' Sq') g'
+              (IsLocalization.map_units Sq' (⟨g', hg'⟩ : q'.primeCompl)) (Φ y) =
+            e (Localization.awayLift (algebraMap S Sq) g
+              (IsLocalization.map_units Sq (⟨g, hg⟩ : q.primeCompl)) y) :=
+  Stacks.SpreadingOut.LocalIsoSplitting.exists_algEquiv_localizationAway_awayLift_eq q q' Sq Sq' e
 
 end Algebra.FinitePresentation
 

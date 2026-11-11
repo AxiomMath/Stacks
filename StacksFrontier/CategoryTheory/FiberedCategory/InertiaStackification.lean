@@ -240,7 +240,7 @@ private lemma isStronglyCartesian_hom [p.IsFibered] {A B : RelativeInertia p} {R
 /-! ### `π` and `I_G` as 1-morphisms of fibred categories over `𝒞` -/
 
 /-- The forgetful functor `π : I_𝒴 ⥤ 𝒴` is a 1-morphism of fibred categories over `𝒞`. -/
-private lemma isFibredOneMorphism_π (p : 𝒴 ⥤ 𝒞) [p.IsFibered] :
+lemma isFibredOneMorphism_π (p : 𝒴 ⥤ 𝒞) [p.IsFibered] :
     (RelativeInertia.toBase p).IsFibredOneMorphism p (RelativeInertia.π p) where
   comp_eq := rfl
   map_isStronglyCartesian := by

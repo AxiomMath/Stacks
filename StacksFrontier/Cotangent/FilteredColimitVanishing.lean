@@ -176,7 +176,12 @@ namespace CommAlgCat
 attribute [-instance] CategoryTheory.Limits.hasColimitsOfShape_of_has_filtered_colimits in
 /-- **Stacks Project, Tag 08R2, filtered colimits.** If every map of a filtered system of ring
 maps has vanishing relative cotangent complex, so has the map induced on the colimits. -/
-@[stacks 08R2 "filtered colimit"]
+@[stacks 08R2 "item (6) of the lemma, `A → B` a filtered colimit of ring maps for which the \
+cotangent complex vanishes: a filtered system `f : A ⟶ B` of ring maps in `CommRingCat` with \
+`L_{B_i/A_i} = 0` at every stage gives `L_{colim B/colim A} = 0`. NOTHING is carried; the \
+source's route through Stacks 08S9 is followed (the cotangent complexes form a colimit \
+cocone, `CommAlgCat.isColimit_cotangentComplexAbCocone`), after replacing the filtered index \
+category by a cofinal directed order"]
 theorem cotangentComplex_isZero_of_filtered_colimit
     {J : Type u} [SmallCategory J] [IsFiltered J]
     (A B : J ⥤ CommRingCat.{u}) (f : A ⟶ B)

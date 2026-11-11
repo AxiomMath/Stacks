@@ -39,8 +39,13 @@ corresponding assertion of Stacks 0BGG.
   the target is finite.
 * `Space.NormalizationData.isFinite_hom_of_regular_alteration_of_isQuasiCompactSpace`: the
   normalization morphism of an arbitrary normalization datum of the target is finite.
-* `AlgebraicGeometry.Space.isFinite_normalization_of_regular_alteration`: **Stacks 0BHT**, the
-  assertion that the normalization morphism is finite, for *the* normalization.
+* `AlgebraicGeometry.Space.isFinite_normalization_of_regular_alteration`: the assertion of
+  Stacks 0BHT that the normalization morphism is finite, for *the* normalization, under
+  quasi-compactness and local Noetherianity of `Y`.
+
+**Stacks 0BHT** itself, both assertions for a Noetherian `Y`, is
+`AlgebraicGeometry.Space.isFinite_normalization_and_exists_isDenseOpenSubspace_isRegular` in
+`StacksFrontier.AlgebraicGeometry.Spaces.NoetherianRegularAlteration`.
 
 ## Implementation notes
 
@@ -61,8 +66,9 @@ finiteness of `C` over `A` — Stacks 08AR for the proper `X ⟶ Spec(A)` — an
 sits inside `C` and is therefore finite. Neither step is available here. The reduction is invalid
 for algebraic spaces, an étale scheme chart of an integral algebraic space being reduced and
 decent but not irreducible, the number of branches at a point being an étale-local invariant; and
-Stacks 08AR is not in this library, nor can its higher direct images even be written at the
-universe at which the cohomology of an algebraic space lives, as the implementation notes of
+Stacks 08AR, `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`, is stated for
+the higher direct images at the module universe `u` of the structure rings, not at the universe
+at which the cohomology of an algebraic space lives, as the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Spaces.ProperCohomologyFinite` record.
 
 Both obstructions are avoided by passing to a *scheme* over the chart. Let `U` be an affine
@@ -474,15 +480,13 @@ The normalization is the constructed one, neither assumed nor existentially quan
 étale scheme charts of `Y` are locally Noetherian, so they satisfy the finiteness condition of
 Stacks 0BB1 by Stacks 0GMB, and `AlgebraicGeometry.Space.normalizationData` is then the
 normalization of `Y`, unique up to a unique isomorphism over `Y` by
-`AlgebraicGeometry.Space.NormalizationData.existsUnique_iso_hom`. -/
-@[stacks 0BHT "finiteness of the normalization. The source's Noetherian hypothesis on Y is used \
-only as quasi-compactness of its point space and local Noetherianity of its etale charts; the \
-quasi-separatedness that Stacks 03EA also asks for is unused, which is a strengthening. \
-Integrality of Y is part of IsAlteration. The source's Step 1 -- etale localization to a \
-Noetherian domain, which charts of an integral space do not permit -- and its appeal to \
-Stacks 08AR are both replaced by Chow's lemma for spaces (Stacks 089J) over an affine chart, \
-which reduces the finiteness to the degree-zero case of Stacks 02O6 for schemes; see the module \
-docstring"]
+`AlgebraicGeometry.Space.NormalizationData.existsUnique_iso_hom`.
+
+The source's Noetherian hypothesis on `Y` enters here only as quasi-compactness of `|Y|` and
+local Noetherianity of its étale scheme charts; Stacks 0BHT itself, with both of its assertions
+and the source's hypotheses, is
+`AlgebraicGeometry.Space.isFinite_normalization_and_exists_isDenseOpenSubspace_isRegular` in
+`StacksFrontier.AlgebraicGeometry.Spaces.NoetherianRegularAlteration`. -/
 theorem isFinite_normalization_of_regular_alteration
     (f : X ⟶ Y) (hf : IsAlteration B S hS f)
     (hXreg : HasEtaleLocalProperty B S hS X (fun T : Scheme.{u} => IsRegular T))

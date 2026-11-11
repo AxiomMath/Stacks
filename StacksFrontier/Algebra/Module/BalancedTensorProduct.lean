@@ -38,6 +38,13 @@ for every `R`-module `Q`.
 * `StacksDraft.BalancedTensorProduct.existsUnique_lift`: every `A`-balanced bilinear map factors
   uniquely through the universal one.
 
+The rest of Tag 09LL is registered beside the constructions it concerns: right exactness and
+commutation with colimits in each variable in `StacksFrontier.Homology.Perfect.BalancedDerivedTensor`,
+the grading of `M ⊗_A N` for graded `A`, `M` and `N`, with its pieces and its universal property,
+in `StacksFrontier.Algebra.DifferentialGraded.Module.BalancedTensorGraded`, and the differential
+graded tensor product with its universal property in
+`StacksFrontier.Algebra.DifferentialGraded.Module.BalancedTensor`.
+
 ## Implementation notes
 
 The source takes `A` to be an `R`-algebra. Neither the construction nor the universal property

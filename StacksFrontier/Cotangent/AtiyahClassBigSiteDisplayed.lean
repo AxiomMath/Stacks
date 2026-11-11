@@ -43,8 +43,11 @@ lost. The identification of the third term is canonical and is named outright.
 * `CommAlgCat.exists_atiyahDisplayedTriangle_distinguished`: **the displayed triangle of
   [Stacks, Tag 09DD] is distinguished**, with its first term `L_{B/A} ⊗^𝐋_B M` and its third
   term `M`.
-* `CommAlgCat.exists_atiyahDisplayedClass_mem_distinguished`: **the Atiyah class of `M`,
-  `M ⟶ (L_{B/A} ⊗^𝐋_B M)[1]`, is the last arrow of that triangle** — [Stacks, Tag 09DE].
+* `CommAlgCat.exists_atiyahDisplayedClass_mem_distinguished`: the arrow
+  `CommAlgCat.polynomialAtiyahClassOfIso`, read at the displayed endpoints, is the last arrow of
+  that triangle for some identification of the first term. The Atiyah class of [Stacks, Tag 09DE]
+  itself, with the first term identified canonically, is `CommAlgCat.atiyahClass` in
+  `StacksFrontier/Cotangent/AtiyahClassBigSiteCanonical.lean`.
 
 ## Implementation notes
 
@@ -73,26 +76,15 @@ Independently of the site, the small statement quantifies over `M : ModuleCat.{u
 over `M : ModuleCat.{u + 1} (ULift B)`, which is strictly wider, so it could not imply this one
 even given a comparison of the sites.
 
-**Why the Atiyah class is not a `def` here.** The displayed class is the arrow already named by
-`CommAlgCat.polynomialAtiyahClassOfIso` (`StacksFrontier/Cotangent/AtiyahClass.lean`) — the Atiyah
-class `Lπ_!(M̲) ⟶ Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M̲)[1]` of the triangle, read through identifications of the
-two endpoints — instantiated at the displayed endpoints `L := L_{B/A} ⊗^𝐋_B M` and `N := M`,
-with `e₃` the canonical `CommAlgCat.polynomialAtiyahTriangleObj₃Iso` and `e₁` an identification
-of the first term. No new arrow is defined here, and none should be: `e₁` is available only as a
-`Nonempty`, so a closed-form `def` could only pick one by `Classical.choice`, and the resulting
-arrow genuinely depends on the pick — two identifications `e₁` and `e₁'` give classes differing
-by post-composition with `(e₁.symm ≪≫ e₁').hom⟦1⟧`, a generally non-identity automorphism of
-`(L_{B/A} ⊗^𝐋_B M)[1]`. So the class is well defined only up to that automorphism group, and a
-`def` would fix a non-canonical choice silently.
-
-Nothing is lost by stating it existentially. Being the last arrow of the displayed distinguished
-triangle holds for **every** identification of the first term — that is
-`CommAlgCat.polynomialAtiyahClassOfIso_mem_distinguished`, proved for arbitrary `e₁` and `e₃` —
-and an identification exists, by
-`CommAlgCat.nonempty_atiyahFirstVertexDerivedTensorIso`. The existential in
-`CommAlgCat.exists_atiyahDisplayedClass_mem_distinguished` is therefore the conjunction of those
-two facts and not a choice of `e₁`: it says the identification exists, and the conclusion is
-insensitive to which one it is.
+**The identification of the first term here.**
+`CommAlgCat.nonempty_atiyahFirstVertexDerivedTensorIso` goes through
+`Stacks.DerivedTensor.nonempty_derivedTensor_iso_tensor_of_kFlat_right`, which picks a K-flat
+resolution, so the statements of this file are existential in the identification `e₁`.
+That loses nothing for membership in the distinguished triangles, which holds for every `e₁`
+(`CommAlgCat.polynomialAtiyahClassOfIso_mem_distinguished`). The canonical identification, through
+the canonical map `QK ⊗^𝐋 QL ⟶ Q(K ⊗ L)` of
+`CochainComplex.DerivedTensor.ToTotal.canonicalDerivedToTensorNatTrans`, and the Atiyah class
+defined with it, are in `StacksFrontier/Cotangent/AtiyahClassBigSiteCanonical.lean`.
 
 ## References
 
@@ -261,34 +253,19 @@ theorem exists_atiyahDisplayedTriangle_distinguished :
 
 /-! ### The Atiyah class -/
 
-/-- **Stacks 09DE, the Atiyah class of a module.** For a ring map `A → B` and a `B`-module `M`
-there is an identification `e₁` of the first term of the Atiyah triangle on the site `C_{B/A}`
-with `L_{B/A} ⊗^𝐋_B M` for which the *Atiyah class* of `M`,
-
-`M ⟶ (L_{B/A} ⊗^𝐋_B M)[1]`,
-
-is the last arrow of the distinguished triangle displayed by [Stacks, Tag 09DD]:
+/-- For a ring map `A → B` and a `B`-module `M` there is an identification `e₁` of the first
+term of the Atiyah triangle on the site `C_{B/A}` with `L_{B/A} ⊗^𝐋_B M` for which
+`CommAlgCat.polynomialAtiyahClassOfIso`, read at the displayed endpoints, is the last arrow
+`M ⟶ (L_{B/A} ⊗^𝐋_B M)[1]` of the distinguished triangle displayed by [Stacks, Tag 09DD]:
 
 `L_{B/A} ⊗^𝐋_B M ⟶ Lπ_!(P¹_{𝒪/A}(M)) ⟶ M ⟶ (L_{B/A} ⊗^𝐋_B M)[1]`.
 
-The class itself is `CommAlgCat.polynomialAtiyahClassOfIso`, the last arrow
-`Lπ_!(M̲) ⟶ Lπ_!(Ω_{𝒪/A} ⊗_𝒪 M̲)[1]` of the Atiyah triangle read through identifications of the
-endpoints, instantiated at the displayed endpoints: the third by the canonical
-`CommAlgCat.polynomialAtiyahTriangleObj₃Iso`, [Stacks, Tag 08QE] at this site, and the first by
-`e₁`. Nothing is assumed — `e₁` is produced inside the proof from
-`CommAlgCat.nonempty_atiyahFirstVertexDerivedTensorIso`, the chain of [Tag 08PT] and [Tag 08PU]
-at this site — and this is the whole of the definition: the arrow, its source `M`, its target
-`(L_{B/A} ⊗^𝐋_B M)[1]`, and its being the last arrow of the triangle of (92.17.0.1).
-
-`e₁` is existentially quantified rather than named because the K-flat resolution computing the
-derived tensor product is chosen and not canonical, so there is no canonical identification of
-the first term to name. That costs nothing: by
-`CommAlgCat.polynomialAtiyahClassOfIso_mem_distinguished` the conclusion holds for *every* such
-identification, so the existential asserts only that one exists. The module documentation records
-why naming one by `Classical.choice` instead would fix a non-canonical choice. -/
-@[stacks 09DE "the Atiyah class M → (L_{B/A} ⊗^L_B M)[1] at the site C_{B/A} itself, as the \
-  last arrow of the displayed distinguished triangle of (92.17.0.1); both endpoint \
-  identifications are proved rather than assumed"]
+The third term is identified by the canonical `CommAlgCat.polynomialAtiyahTriangleObj₃Iso`
+([Stacks, Tag 08QE] at this site) and `e₁` is produced inside the proof from
+`CommAlgCat.nonempty_atiyahFirstVertexDerivedTensorIso`. The conclusion holds for every such `e₁`,
+by `CommAlgCat.polynomialAtiyahClassOfIso_mem_distinguished`. The Atiyah class of
+[Stacks, Tag 09DE] as a named morphism, at the canonical identification of the first term, is
+`CommAlgCat.atiyahClass` (`StacksFrontier/Cotangent/AtiyahClassBigSiteCanonical.lean`). -/
 theorem exists_atiyahDisplayedClass_mem_distinguished :
     ∃ e₁ : (polynomialAtiyahTriangle A B M).obj₁ ≅ atiyahDisplayedObj₁ A B M,
       Triangle.mk (e₁.inv ≫ (polynomialAtiyahTriangle A B M).mor₁)

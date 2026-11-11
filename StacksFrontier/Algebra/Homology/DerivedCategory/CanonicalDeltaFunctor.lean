@@ -72,8 +72,9 @@ that.
 
 The source adds that the same construction makes `Comp⁺(𝒜) ⥤ D⁺(𝒜)`, `Comp⁻(𝒜) ⥤ D⁻(𝒜)` and
 `Comp^b(𝒜) ⥤ D^b(𝒜)` into `δ`-functors. These are restrictions of the one above along fully
-faithful triangulated inclusions, which reflect distinguished triangles, so they are consequences
-of the statement here rather than further mathematics.
+faithful triangulated inclusions, which reflect distinguished triangles; they are proved in
+`StacksFrontier.Algebra.Homology.DerivedCategory.BoundedDeltaFunctor`, whose
+`DerivedCategory.exists_deltaFunctorStructure_δ_eq_and_plus_minus_bounded` states all four.
 
 For a termwise split short exact sequence the source asks only for an *isomorphism* of triangles.
 Here the two triangles have the same objects and the same first two morphisms by construction, so
@@ -158,7 +159,7 @@ morphism is `DerivedCategory.triangleOfSESδ = -p ∘ q⁻¹`: for every short e
 `0 ⟶ A^• ⟶ B^• ⟶ C^• ⟶ 0` of complexes the triangle
 `(Q A^•, Q B^•, Q C^•, Q a, Q b, triangleOfSESδ)` is distinguished, and `triangleOfSESδ` is
 natural in the short exact sequence. -/
-@[stacks 0152, sga "4½ Etat_0 3.1.5" "partial"]
+@[stacks 0152 "the functor Comp(𝒜) ⥤ D(𝒜)", sga "4½ Etat_0 3.1.5" "partial"]
 public theorem exists_deltaFunctorStructure_δ_eq
     (C : Type u) [Category.{v} C] [Abelian C] [HasDerivedCategory.{w} C] :
     ∃ h : Functor.DeltaFunctorStructure (CochainComplex C ℤ) (DerivedCategory C) Q,

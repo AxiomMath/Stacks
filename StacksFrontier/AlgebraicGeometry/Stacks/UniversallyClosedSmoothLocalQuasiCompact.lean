@@ -374,7 +374,7 @@ private theorem universallyClosed_of_isClosedOnSiteFinitePresentationBases_baseC
       (Stack.isQuasiCompactMorphism_baseChange B S hS f a _
         (Stack.isTwoFibreProduct_twoFibreProductSquareAlgebraicStacks B S hS a f) hf) h)
 
-/-- **Stacks 0H2A, (2) implies (1), with the reduction to a target represented by a scheme.** Let
+/-- **Stacks 0H2A, (2) implies (1).** Let
 `f : 𝒳 ⟶ 𝒴` be a quasi-compact 1-morphism of algebraic stacks over `S` such that the base change
 of `f` to every affine scheme of the site along a 1-morphism locally of finite presentation is
 closed on points. Then `f` is universally closed.
@@ -385,7 +385,7 @@ along `a`, whose target is represented by a scheme of the site; that base change
 by **Stacks 050V**, and it inherits the hypothesis because `a` is locally of finite presentation
 by Stacks 0DNP and clause (2) is inherited by a base change along a 1-morphism locally of finite
 presentation. -/
-@[stacks 0H2A "(2) implies (1), with the reduction to a target represented by a scheme"]
+@[stacks 0H2A "(2) implies (1)"]
 theorem universallyClosed_of_isQuasiCompactMorphism_of_isClosed_affine_lfp
     {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hf : Stack.IsQuasiCompactMorphism.{u, w} B S hS f)

@@ -20,6 +20,8 @@ particular after an étale — covering of the source.
 * `AlgebraicGeometry.finiteTorDimensionRingHom_of_faithfullyFlat`: the algebra content, that
   finite Tor dimension of a ring map `R → A` can be read off the composite `R → B` whenever
   `A → B` is faithfully flat.
+* `RingHom.Perfect.of_comp_of_faithfullyFlat`: a pseudo-coherent ring map `R → A` is perfect
+  when its composite with a faithfully flat `A → B` is.
 * `AlgebraicGeometry.Perfect.respectsLeft_syntomic`: precomposition with a syntomic morphism
   preserves perfectness.
 * `AlgebraicGeometry.perfect_of_comp_surjective_syntomic_of_isAffine`: the affine case, that a
@@ -31,8 +33,8 @@ particular after an étale — covering of the source.
 
 ## Implementation notes
 
-Perfectness of a ring map splits into pseudo-coherence and finite Tor dimension of the target,
-which is how `AlgebraicGeometry.PerfectRingHom` records it, and the two halves descend for
+Perfectness of a ring map splits into pseudo-coherence and finite Tor dimension of the target
+(inside the proof of `RingHom.Perfect.of_comp_of_faithfullyFlat`), and the two halves descend for
 different reasons. Pseudo-coherence is Tag 0698, in the geometric form
 `AlgebraicGeometry.pseudoCoherent_of_comp_surjective_syntomic_of_isAffine`. Finite Tor dimension
 is Tag 0DJF: for ring maps `R → A → B` with `A → B` faithfully flat, a complex of `A`-modules
@@ -226,6 +228,23 @@ theorem finiteTorDimensionRingHom_of_faithfullyFlat {R A B : Type u} [CommRing R
     (hasTorAmplitude0DJF_of_isoComplex (restrictScalarsSingleIso R A)
       ((FaithfullyFlat.hasTorAmplitudeIn_iff_extendScalars R A B K a b).2 hExt))⟩
 
+/-- **Faithfully flat descent of perfectness.** Let `f : R →+* A` and `g : A →+* B` be ring maps
+with `g` faithfully flat. If `f` is pseudo-coherent and the composite `g.comp f` is perfect, then
+`f` is perfect: finite Tor dimension descends by
+`AlgebraicGeometry.finiteTorDimensionRingHom_of_faithfullyFlat`. -/
+theorem _root_.RingHom.Perfect.of_comp_of_faithfullyFlat {R A B : Type u} [CommRing R]
+    [CommRing A] [CommRing B] (f : R →+* A) (g : A →+* B) (hg : g.FaithfullyFlat)
+    (hf : f.PseudoCoherent) (h : (g.comp f).Perfect) : f.Perfect := by
+  have htor : HasFiniteTorDimensionRingHom (g.comp f) := by
+    algebraize [g.comp f]
+    exact (hasFiniteTorDimensionRingHom_iff_forall _).mpr fun D =>
+      Algebra.Perfect.moduleHasFiniteTorDimension (h := h) D.comparison D.isLeftDerived
+  algebraize [f]
+  let D := canonicalCertifiedDerivedTensoring R
+  exact (Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension D.comparison
+    D.isLeftDerived).mpr ⟨hf, (hasFiniteTorDimensionRingHom_iff_forall f).mp
+      (finiteTorDimensionRingHom_of_faithfullyFlat f g hg htor) D⟩
+
 end Algebra
 
 /-! ### Source locality of perfectness -/
@@ -256,12 +275,12 @@ theorem perfect_of_comp_surjective_syntomic_of_isAffine {X' X Y : Scheme.{u}}
       (@pseudoCoherent_of_perfect _ _ (g ≫ f) hcomp)
   have hff : (g.appTop).hom.FaithfullyFlat :=
     (Flat.flat_and_surjective_iff_faithfullyFlat_of_isAffine g).mp ⟨flat hg, hgsurj⟩
-  have hcomp' : PerfectRingHom (g.appTop.hom.comp f.appTop.hom) := by
+  have hcomp' : (g.appTop.hom.comp f.appTop.hom).Perfect := by
     simpa only [Scheme.Hom.comp_appTop, CommRingCat.hom_comp] using
       HasRingHomProperty.appTop (P := @Perfect) (g ≫ f) hcomp
-  rw [HasRingHomProperty.iff_of_isAffine (P := @Perfect) (Q := @PerfectRingHom)]
-  exact ⟨HasRingHomProperty.appTop (P := @PseudoCoherent) f hpc,
-    finiteTorDimensionRingHom_of_faithfullyFlat f.appTop.hom g.appTop.hom hff hcomp'.2⟩
+  rw [HasRingHomProperty.iff_of_isAffine (P := @Perfect) (Q := @RingHom.Perfect)]
+  exact .of_comp_of_faithfullyFlat _ _ hff (HasRingHomProperty.appTop (P := @PseudoCoherent) f hpc)
+    hcomp'
 
 /-- Perfectness of morphisms of schemes is local on the source for the syntomic topology: a
 morphism is perfect exactly when its composites with the members of a syntomic covering of its

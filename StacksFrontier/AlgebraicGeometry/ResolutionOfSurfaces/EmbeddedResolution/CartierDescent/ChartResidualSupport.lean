@@ -40,7 +40,7 @@ point of codimension two. This is the content of [Stacks, Tag 0AGT].
 ## Implementation notes
 
 Everything is read off the fibre computation of the sibling module `ChartFibre` (that is,
-`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierDescent`
+`StacksDraft.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierDescent`
 `.ChartFibre`), which identifies `B/ξB` with the polynomial ring `κ[T]`. From that
 identification the fibre is a principal ideal domain, so:
 

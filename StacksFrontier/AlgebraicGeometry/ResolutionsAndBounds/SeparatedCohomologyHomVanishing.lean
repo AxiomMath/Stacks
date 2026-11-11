@@ -35,19 +35,19 @@ for `K`, `L` in `D^b_{Coh}(𝒪_X)` with cohomological ranges separated by `d`.
   for bounded `K` and `L` with cohomological ranges separated by `d`, in an arbitrary abelian
   category.
 * `AlgebraicGeometry.subsingleton_hom_of_homology_separated`: the same statement on a regular
-  Noetherian scheme of dimension `d`, which is part (2) of [Stacks, Tag 0FZ3].
+  Noetherian scheme of dimension `d`, from the vanishing of `Ext^n` between coherent modules for
+  `n > d`. With that vanishing proved, this is part (2) of [Stacks, Tag 0FZ3], registered as
+  `AlgebraicGeometry.subsingleton_hom_of_homology_separated_of_isRegular`.
 
 ## Implementation notes
 
 The vanishing of `Ext^n` between coherent modules in degrees `n > d`, which is part (1) of
-[Stacks, Tag 0FZ3], is an explicit hypothesis of
-`AlgebraicGeometry.subsingleton_hom_of_homology_separated` rather than a citation: its proof in
-the source runs through the local-to-global spectral sequence
-`H^p(X, SheafExt^q(F, G)) ⇒ Ext^{p+q}(F, G)` of [Stacks, Tag 0BQP], which this library does not
-have. The regularity and dimension hypotheses are therefore carried but unused, so that the
-statement is the source's with that one hypothesis added; they are what a proof of part (1) would
-consume. The same shape is used by Grothendieck vanishing in
-`StacksFrontier/Topology/Sheaves/Cohomology/Vanishing/NoetherianSpaces.lean`.
+[Stacks, Tag 0FZ3], is an explicit hypothesis `hExt` of
+`AlgebraicGeometry.subsingleton_hom_of_homology_separated`, so that this file does not depend on
+the proof of part (1). That proof is `AlgebraicGeometry.subsingleton_zExt_of_isRegular` in
+`StacksFrontier.AlgebraicGeometry.ResolutionsAndBounds.ExtVanishingRegular`, which discharges `hExt`
+and registers both parts of the tag. The regularity and dimension hypotheses are carried but
+unused here.
 
 Vanishing of a morphism group is expressed as `Subsingleton`, and a cohomological range is
 expressed through the t-structure predicates `IsGE` and `IsLE`, which
@@ -200,13 +200,14 @@ attribute [local instance] HasDerivedCategory.standard
 
 universe u'
 
-/-- **Stacks Project, Tag 0FZ3, part (2).** Let `X` be a regular Noetherian scheme of dimension
-`d < ∞`. Let `K` and `L` be objects of `D^b_{Coh}(𝒪_X)` and let `a` be an integer. If
-`H^i(K) = 0` for `i < a + d` and `H^i(L) = 0` for `i ≥ a`, then `Hom_X(K, L) = 0`.
+/-- Let `X` be a regular Noetherian scheme of dimension `d`, and suppose that
+`Ext^n_X(F, G) = 0` for coherent `F`, `G` and `n > d` (`hExt`). Let `K` and `L` be objects of
+`D^b_{Coh}(𝒪_X)` and let `a` be an integer. If `H^i(K) = 0` for `i < a + d` and `H^i(L) = 0` for
+`i ≥ a`, then `Hom_X(K, L) = 0`.
 
-The vanishing of `Ext^n_X(F, G)` for coherent `F`, `G` and `n > d`, which is part (1) of the same
-tag, is the hypothesis `hExt`; see the implementation notes of this file. -/
-@[stacks 0FZ3 "part (2), with part (1) as a hypothesis"]
+The hypothesis `hExt` is part (1) of [Stacks, Tag 0FZ3], proved as
+`AlgebraicGeometry.subsingleton_zExt_of_isRegular`; the unconditional statement, part (2) of that
+tag, is `AlgebraicGeometry.subsingleton_hom_of_homology_separated_of_isRegular`. -/
 public theorem subsingleton_hom_of_homology_separated (X : Scheme.{u'}) [IsNoetherian X]
     (_hX : IsRegular X) (d : ℕ) (_hd : topologicalKrullDim X = (d : WithBot ℕ∞))
     (hExt : ∀ F G : X.Modules, F.IsCoherent → G.IsCoherent →

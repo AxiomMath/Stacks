@@ -579,7 +579,9 @@ restriction `res(C)` of Remark 0F9Z.
 
 The restriction is a class for the chosen fibre product `W_∞ ×_X X' ⟶ X'`; it is read as a class
 for `W'_∞ ⟶ X'` along the canonical identification `W_∞ ×_X X' ≅ W'_∞` over `X'`. -/
-@[stacks 0GUH]
+@[stacks 0GUH "the class C' constructed as in Lemma 0F9J from the base change b' of b along \
+X' ⟶ X is the restriction (Remark 0F9Z) of the class C constructed from b, read on W'_∞ along \
+the canonical identification W_∞ ×_X X' ≅ W'_∞"]
 theorem gysinAtInfinityClass_baseChange
     (hA : IsIso (pullback.snd b (projectiveLineAffineChart f))) :
     haveI := hA

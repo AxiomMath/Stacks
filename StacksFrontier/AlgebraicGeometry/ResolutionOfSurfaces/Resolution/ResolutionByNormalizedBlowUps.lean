@@ -98,8 +98,8 @@ assemble into one over the stage by
 `AlgebraicGeometry.hasResolutionByNormalizedBlowUps_of_local`. What is left between this file and
 Tag 0BGM is therefore Tag 0BBV over Tag 0B4Z, Tag 0BGE, and the rationality of the singular
 local rings of the dominating stage — Step 4's first half, which is Tag 0B4Q together with Tag
-0BG0 in the local-ring form of
-`AlgebraicGeometry.definesRationalSingularity_stalk`, itself carrying three named hypotheses.
+0BG0 in its local-ring form,
+`AlgebraicGeometry.definesRationalSingularity_stalk_of_isModification`.
 
 ## References
 

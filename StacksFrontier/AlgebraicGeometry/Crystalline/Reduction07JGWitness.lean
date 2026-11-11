@@ -107,7 +107,7 @@ functor is a functor out of an empty category.
 Nothing here proves any part of [Stacks, Tag 07JG], [Stacks, Tag 07JH] or [Stacks, Tag 07LG],
 and no attribute is placed.  Those tags are `...SmallSite.crystalPairFunctor`,
 `...SmallSite.crystalPairFunctor_isEquivalence` and
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology`, built directly from the whole-space
+`...SmallSite.crystalPairDeRhamDerivedPlusIso`, built directly from the whole-space
 system of [Stacks, Tag 07JN] and not through a reduction datum.
 
 The datum is the degenerate one, and the reader should read it as a *diagnosis of the clauses*

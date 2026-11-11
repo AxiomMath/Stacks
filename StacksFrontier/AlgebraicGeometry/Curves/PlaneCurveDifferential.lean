@@ -9,6 +9,7 @@ public import Mathlib.RingTheory.Etale.Kaehler
 public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 public import Mathlib.RingTheory.Ideal.Quotient.Basic
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
+public import StacksFrontier.AlgebraicGeometry.Curves.Models.PlaneCurveModel
 public import StacksFrontier.AlgebraicGeometry.Variety.Curve.Defs
 public import StacksFrontier.RingTheory.CompleteIntersection.AtPrime
 public import StacksFrontier.RingTheory.Kaehler.Basic
@@ -43,7 +44,7 @@ homogeneous `F` in three variables and the plane curve is the projective curve `
 * `AlgebraicGeometry.ProjectivePlaneCurve`: an irreducible projective plane curve `D = V(F)`
   together with the affine plane curve its standard chart cuts out, and
   `AlgebraicGeometry.ProjectivePlaneCurve.curve`,
-  `AlgebraicGeometry.ProjectivePlaneCurve.inclusion`: the reduced projective curve and its
+  `AlgebraicGeometry.ProjectivePlaneCurve.inclusion`: the projective curve `V(F)` and its
   closed immersion into the projective plane.
 
 ## Main results
@@ -81,9 +82,9 @@ denominator is nonzero, so no consumer need know which was chosen.
 That at least one partial derivative of an irreducible `f` is nonzero as a *polynomial* uses
 perfectness of `k`: in characteristic `p` a polynomial killed by both partial derivatives is
 a `p`-th power of a polynomial whose coefficients are the `p`-th roots of its own, hence is
-not irreducible. This is the only place where anything beyond `Field k` is used, so the
-hypothesis is `PerfectField k` and not algebraic closedness, which is what the source
-assumes. That the nonzero partial derivative survives in the function field is a degree
+not irreducible. This is the single place in this file where anything beyond `Field k` is
+used, so the assumption is `PerfectField k` and not algebraic closedness, which is what the
+source assumes. That the nonzero partial derivative survives in the function field is a degree
 count: `f` cannot divide a nonzero polynomial of smaller total degree.
 
 That `dx` and `dy` are nonzero in `Ω[K⁄k]` when the corresponding partial derivative is
@@ -99,11 +100,20 @@ basis `dX₀, dX₁` of `Ω[k[x,y]⁄k]` and pushed to `K` along
 `KaehlerDifferential.mapBaseChange`.
 
 Projective points are relevant homogeneous prime ideals of the standard graded polynomial
-ring in three variables; the projective plane curve is the reduced induced closed subscheme
-of the vanishing set of `F`, and its inclusion into the projective plane is the subscheme
-immersion. That the dehomogenization `F(1, x, y)` of an irreducible `F` not divisible by the
-first coordinate is itself irreducible is carried as a field of
-`AlgebraicGeometry.ProjectivePlaneCurve` rather than proved.
+ring in three variables; the projective plane curve is the closed subscheme
+`Proj (k[T₀, T₁, T₂]/(F))` of `Stacks.Models.PlaneCurveModel`, and its inclusion into the
+projective plane is the closed immersion induced by the quotient map.
+
+The rest of the situation of Stacks 09U0 — `D` as a projective curve over `k`, the
+identification of `K` with its function field, the abstract curve `C` of `K` with the
+surjection `C ⟶ D` (bijective over the nonsingular locus, an isomorphism if `D` is
+nonsingular) and the canonical divisor `K_C = div(ω)` on `C` — is constructed and proved in
+`StacksFrontier.AlgebraicGeometry.Curves.PlaneCurveSituation`, whose
+`AlgebraicGeometry.ProjectivePlaneCurve.situation` carries the full statement. There the
+irreducibility of the dehomogenization `F(1, x, y)` of an irreducible `F` with `T₀ ∤ F` is also
+proved (`AlgebraicGeometry.ProjectivePlaneCurve.irreducible_dehomCoeff`), and
+`AlgebraicGeometry.ProjectivePlaneCurve.ofEquation` builds a `ProjectivePlaneCurve` from `F`
+alone.
 
 ## References
 
@@ -551,13 +561,27 @@ end AffinePlaneCurve
 
 /-! ### The projective plane curve -/
 
-/-- **Stacks 09U0.** An irreducible projective plane curve `D = V(F)` over a field, together
-with the affine plane curve cut out on the standard chart `X₀ = 1` by the dehomogenization
-`f(x, y) = F(1, x, y)`.
+/-- **Stacks 09U0.** The data of the plane-curve situation: an irreducible homogeneous
+`F ∈ k[T₀, T₁, T₂]` of degree `d`, not a scalar multiple of `T₀`, together with the affine plane
+curve cut out on the standard chart `T₀ = 1` by the dehomogenization `f(x, y) = F(1, x, y)`,
+whose fraction field of `k[x, y]/(f)` is `K`.
 
-The irreducibility of the dehomogenization is carried as a field rather than deduced from the
-irreducibility of `F` and the assumption that `F` is not a scalar multiple of the first
-coordinate. -/
+This structure records the input data of the situation. The objects the source builds from it
+are constructed, and their properties proved, in
+`StacksFrontier.AlgebraicGeometry.Curves.PlaneCurveSituation`: the curve `D = V(F)`
+(`AlgebraicGeometry.ProjectivePlaneCurve.curve`), the abstract curve `C` of `K`
+(`AlgebraicGeometry.ProjectivePlaneCurve.abstractCurve`, the normalization of `D`) with
+`K ≃ₐ[k] C.functionField`, the surjection `C ⟶ D`
+(`AlgebraicGeometry.ProjectivePlaneCurve.abstractCurveMap`), bijective over the nonsingular
+locus and an isomorphism when `D` is nonsingular, the differential `ω`
+(`AlgebraicGeometry.ProjectivePlaneCurve.differential`) and `K_C = div(ω)` on `C`
+(`AlgebraicGeometry.ProjectivePlaneCurve.canonicalDivisor`); the complete statement is
+`AlgebraicGeometry.ProjectivePlaneCurve.situation`.
+
+The field `affineChart` is determined by `F` through `affineChart_equation`; its irreducibility
+is a consequence of the other fields, proved as
+`AlgebraicGeometry.ProjectivePlaneCurve.irreducible_dehomCoeff`, and
+`AlgebraicGeometry.ProjectivePlaneCurve.ofEquation` builds the structure from `F` alone. -/
 @[stacks 09U0 "the plane-curve situation"]
 structure ProjectivePlaneCurve (k : Type u) [Field k] where
   /-- The homogeneous equation `F` of the curve. -/
@@ -600,17 +624,22 @@ plane. -/
 def closedLocus : TopologicalSpace.Closeds D.projectivePlane :=
   ⟨D.zeroLocus, ProjectiveSpectrum.isClosed_zeroLocus _ _⟩
 
-/-- **Stacks 09U0.** The projective plane curve `D = V(F)`, as the reduced induced closed
-subscheme of the projective plane on the vanishing set of `F`. -/
+/-- **Stacks 09U0.** The projective plane curve `D = V(F)`, the closed subscheme
+`Proj (k[T₀, T₁, T₂]/(F))` of the projective plane cut out by the equation `F`. -/
 @[stacks 09U0 "the projective plane curve D = V(F)"]
-def curve : Scheme.{u} :=
-  (Scheme.IdealSheafData.vanishingIdeal D.closedLocus).subscheme
+abbrev curve : Scheme.{u} :=
+  Stacks.Models.PlaneCurveModel.scheme D.equation D.isHomogeneous_equation
 
 /-- **Stacks 09U0.** The closed immersion of the projective plane curve into the projective
 plane. -/
 @[stacks 09U0 "the closed immersion of D into the projective plane"]
 def inclusion : D.curve ⟶ D.projectivePlane :=
-  (Scheme.IdealSheafData.vanishingIdeal D.closedLocus).subschemeι
+  Stacks.Models.PlaneCurveModel.embedding D.equation D.isHomogeneous_equation
+
+/-- The inclusion of the projective plane curve into the projective plane is a closed
+immersion. -/
+instance isClosedImmersion_inclusion : IsClosedImmersion D.inclusion :=
+  Stacks.Models.PlaneCurveModel.isClosedImmersion_embedding _ _
 
 /-- **Stacks 09U0.** The distinguished rational differential `ω = dx/f_y = -dy/f_x` of the
 plane curve, taken on its standard affine chart. -/

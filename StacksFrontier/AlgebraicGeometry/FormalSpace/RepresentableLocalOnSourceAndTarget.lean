@@ -56,12 +56,18 @@ Surjectivity of `U ⟶ X` in condition (2) is surjectivity of the morphism of sh
 of an atlas; étaleness is the representable étaleness of
 `AlgebraicGeometry.FormalSpace.IsRepresentableEtale`.
 
-Two inputs of the source are explicit hypotheses because the library does not carry them. The
-step from condition (1) to condition (3) uses Stacks 0AQ0, that a morphism of formal algebraic
-spaces whose composite with a further morphism is representable by algebraic spaces is itself
-representable by algebraic spaces; it is `h0AQ0`. The step from condition (3) to condition (4)
-needs the fibre products `Vⱼ ×_Y X` to be formal algebraic spaces, which is Stacks 0AJ3; it is
-`h0AJ3`, exactly as in the corresponding step of Stacks 0ANG. Everything else — that the chart
+The steps from condition (1) to condition (3) and from condition (3) to condition (4) are
+stated here with two inputs of the source as explicit arguments, so that they can be used in
+contexts where those inputs are supplied in another form. Both inputs are theorems of this
+library. The step from condition (1) to condition (3) uses Stacks 0AQ0, that a morphism of
+formal algebraic spaces whose composite with a further morphism is representable by algebraic
+spaces is itself representable by algebraic spaces; it is the argument `h0AQ0`, proved as
+`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_of_comp_of_isFormalAlgebraicSpace`.
+The step from condition (3) to condition (4) needs the fibre products `Vⱼ ×_Y X` to be formal
+algebraic spaces, which is Stacks 0AJ3; it is the argument `h0AJ3`, proved as
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace`.
+The full equivalence of the conditions, with both inputs discharged, is
+`AlgebraicGeometry.FormalSpace.isRepresentable_tfae`. Everything else — that the chart
 `Uⱼᵢ` maps to `X` by a morphism representable by algebraic spaces, and that the square it forms
 with `f` and `Vⱼ ⟶ Y` commutes — is proved here, from Stacks 0APY and the base change
 stability of representable étale morphisms.
@@ -70,10 +76,9 @@ The implication from condition (3) to condition (1) needs nothing: the square fo
 identities of `X` and of `Y` is a square as in condition (3) whose upper horizontal map is `f`.
 
 The implication from condition (2) to condition (1) is the one the source closes with Stacks
-0AMP, which this library does not have — it is equivalent to the bootstrap theorem Stacks 04S6,
-part (3), by
-`AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection_iff`. What is proved here
-instead is the étale case with the source column representable by objects of the site rather
+0AMP, which this library proves for presheaves of the base universe as
+`AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`.
+What is proved here is the étale case with the source column representable by objects of the site rather
 than by algebraic spaces, which runs on Stacks 0BGR, a theorem of this library; the step into
 the value universe of a formal algebraic space is
 `AlgebraicGeometry.Space.isAlgebraicSpaceULift_of_relative_surjective_etale`. Locality on the
@@ -166,8 +171,6 @@ abbrev IsRepresentableAfterTargetCover {X Y : FppfSheaf B S hS} (f : X ⟶ Y) : 
 
 /-- **Stacks 0AN4, condition (1) implies condition (2).** The square formed by the identities
 of `X` and of `Y` witnesses condition (2). -/
-@[stacks 0AN4 "condition (1) implies condition (2), reading surjectivity of the source column \
-as surjectivity of the morphism of sheaves"]
 theorem isRepresentableOnSomeSquare_of_isRepresentable {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom) :
@@ -180,10 +183,9 @@ theorem isRepresentableOnSomeSquare_of_isRepresentable {X Y : FppfSheaf B S hS} 
 composite `U ⟶ X ⟶ Y` is representable by algebraic spaces by Stacks 0APY, and it factors
 through `V`, so Stacks 0AQ0 applies to `U ⟶ V ⟶ Y`.
 
-The hypothesis `h0AQ0` is Stacks 0AQ0, which this library does not carry. -/
-@[stacks 0AN4 "condition (1) implies condition (3), with Stacks 0AQ0 — that a morphism of \
-formal algebraic spaces is representable by algebraic spaces as soon as its composite with a \
-further morphism is — carried as the hypothesis h0AQ0, since this library does not have it"]
+The argument `h0AQ0` is Stacks 0AQ0, a theorem of this library
+(`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_of_comp_of_isFormalAlgebraicSpace`);
+`AlgebraicGeometry.FormalSpace.isRepresentable_tfae` discharges it. -/
 theorem isRepresentableOnEverySquare_of_isRepresentable {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hY : IsFormalAlgebraicSpace B S hS Y)
     (h0AQ0 : ∀ {A A' A'' : FppfSheaf B S hS} (s : A ⟶ A') (r : A' ⟶ A''),
@@ -201,7 +203,6 @@ theorem isRepresentableOnEverySquare_of_isRepresentable {X Y : FppfSheaf B S hS}
 
 /-- **Stacks 0AN4, condition (3) implies condition (1).** The square formed by the identities
 of `X` and of `Y` is a square as in condition (3) whose upper horizontal map is `f`. -/
-@[stacks 0AN4 "condition (3) implies condition (1)"]
 theorem isRepresentable_of_isRepresentableOnEverySquare {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsRepresentableOnEverySquare B S hS f) :
@@ -215,11 +216,10 @@ atlases of the fibre products of its members with the source witness condition (
 second projection is a base change of `Vⱼ ⟶ Y`, and the square it forms with `f` and `Vⱼ ⟶ Y`
 commutes by the universal property of the fibre product.
 
-The hypothesis `h0AJ3` is the assertion of Stacks 0AJ3 that `Vⱼ ×_Y X` is a formal algebraic
-space, which this library does not carry. -/
-@[stacks 0AN4 "condition (3) implies condition (4), with Stacks 0AJ3 — that the fibre product \
-of a chart of the target with the morphism is a formal algebraic space — carried as the \
-hypothesis h0AJ3, since this library does not have it"]
+The argument `h0AJ3` is the assertion of Stacks 0AJ3 that `Vⱼ ×_Y X` is a formal algebraic
+space, a theorem of this library
+(`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace`);
+`AlgebraicGeometry.FormalSpace.isRepresentable_tfae` discharges it. -/
 theorem isRepresentableAfterTargetCover_of_everySquare {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hY : IsFormalAlgebraicSpace B S hS Y)
     (h0AJ3 : ∀ (V : FppfSheaf B S hS) (v : V ⟶ Y), IsAffineFormalAlgebraicSpace B S hS V →

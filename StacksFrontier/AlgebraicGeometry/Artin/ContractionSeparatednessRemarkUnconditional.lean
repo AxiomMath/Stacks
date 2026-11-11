@@ -10,27 +10,28 @@ Theorem Stacks 0GIB assumes `X'` and `W` separated over `S`. Remark **Stacks 0GI
 the proof uses this in two places:
 
 * to show that the diagonal `Δ : F ⟶ F × F` of Artin's functor is representable (Stacks 0GHF);
-  this use is avoided by the bootstrap for the diagonal, applying the theorem in the separated case
-  to the triples of Stacks 0GHD (4)
+  the remark replaces this use by the bootstrap for the diagonal, applying the theorem in the
+  separated case to the triples of Stacks 0GHD (4)
   (`ContractionSituation.relativelyRepresentable_diag_contractionFunctor_of_solutions`);
-* in Lemma 0GI8, and there only to obtain the morphism `x' : V' ⟶ X'`; the existence of `x'` is
-  the algebraization property `ContractionSituation.HasCompletionAlgebraization`, from which every
-  formal object of `F` is effective with no separatedness
+* in Lemma 0GI8, to obtain the morphism `x' : V' ⟶ X'`; the existence of `x'` is the
+  algebraization property `ContractionSituation.HasCompletionAlgebraization`, from which every
+  formal object of `F` is effective
   (`ContractionSituation.hasEffectiveFormalObjects_of_hasCompletionAlgebraization`).
 
 ## Main results
 
-* `AlgebraicGeometry.Artin.ContractionSituation.separatednessRemark`: Artin's theorem on
-  contractions holds without separatedness of `W`, and without separatedness of `X'` given the
-  algebraization property; the diagonal of Artin's functor is representable unconditionally.
+* `AlgebraicGeometry.Artin.ContractionSituation.separatednessRemark`: Remark 0GIC. The diagonal of
+  Artin's functor is representable for arbitrary `X'` and `W`; Artin's theorem holds for every
+  `X'` admitting the morphisms `x'` of Lemma 0GI8, with `X'` and `W` arbitrary otherwise; and it
+  holds for `X'` separated and `W` arbitrary.
 
-## What is not formalized
+## The quasi-separated case
 
-The remark's closing sentences, that `x'` exists when `X'` is merely quasi-separated and hence that
-the theorem holds with "separated" replaced by "quasi-separated", rest on More on Morphisms of
-Spaces, Remark 0GHK, which appeals to algebraization theorems outside the Stacks project (Bhatt;
-Hall–Rydh) and which the source does not state or prove ("If we ever need this we will precisely
-state and carefully prove this here"). For `W` no separatedness at all is needed below.
+The remark's closing sentences, that `x'` exists when `X'` is quasi-separated and hence that the
+theorem holds with "separated" replaced by "quasi-separated", rest on More on Morphisms of Spaces,
+Remark 0GHK, which appeals to algebraization theorems outside the Stacks project (Bhatt;
+Hall–Rydh); the source defers them ("If we ever need this we will precisely state and carefully
+prove this here"). They are recorded in `errata.md` (no proof in Stacks).
 
 ## References
 
@@ -52,26 +53,27 @@ attribute [local instance] Space.pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     (c : ContractionSituation B S hS)
 
-/-- In the situation of Stacks 0GH8, with the local rings of `S` at its finite type points G-rings
-and **no separatedness assumed on `X'` or on `W`**:
+/-- **Stacks 0GIC.** In the situation of Stacks 0GH8, with the local rings of `S` at its finite
+type points G-rings, and with `X'` and `W` arbitrary (separatedness is assumed in clause 3 alone):
 
 1. the diagonal `Δ : F ⟶ F × F` of Artin's functor is representable (by schemes, a fortiori by
    algebraic spaces): the bootstrap of the remark, applying Artin's theorem in the separated case
    to the triples `E'`, `(E' ⟶ V)⁻¹Z`, `E'_{/Z} ⟶ E_W` of Stacks 0GHD;
-2. "the proof of Lemma 0GI8 is the only place where separatedness of `X'` is used, and only to
-   obtain `x' : V' ⟶ X'`": for every `X'` for which the morphisms `x'` exist (the algebraization
-   property `HasCompletionAlgebraization`), Artin's theorem holds, with no separatedness of `X'`
-   or `W`;
-3. in particular Artin's theorem holds when `X'` alone is separated over `S`, `W` being arbitrary.
+2. "the proof of Lemma 0GI8 is the one place where separatedness of `X'` is used, and it is used
+   to obtain `x' : V' ⟶ X'`": for every `X'` for which the morphisms `x'` exist (the
+   algebraization property `HasCompletionAlgebraization`), Artin's theorem holds, for arbitrary
+   `X'` and `W`;
+3. Artin's theorem holds when `X'` is separated over `S`, `W` being arbitrary.
 
 The solutions are the solutions of Stacks 0GIB whose open part `U` is the complement of `T` (the
-corrected notion of Stacks 0GHB). The remark's closing sentences on quasi-separated `X'` rest on
-Remark 0GHK, outside the Stacks project; see the module documentation. -/
-@[stacks 0GIC "the diagonal of F is representable with no separatedness of X' or W; the theorem \
-holds for every X' admitting the morphisms x' of Lemma 0GI8, with no separatedness of X' or W; the \
-theorem holds with X' separated and W arbitrary. The closing sentences on quasi-separated X' rest \
-on Remark 0GHK (algebraization results of Bhatt and of Hall-Rydh outside the Stacks project), \
-which the source does not state or prove"]
+corrected notion of Stacks 0GHB). On the remark's closing sentences (quasi-separated `X'`) see the
+module documentation. -/
+@[stacks 0GIC "Remark 0GIC: (1) the diagonal of Artin's functor F is representable for arbitrary \
+X' and W (the bootstrap for the diagonal); (2) separatedness of X' enters the proof of 0GIB \
+through the morphisms x' : V' -> X' of Lemma 0GI8: the theorem holds for every X' admitting these \
+morphisms, with X' and W otherwise arbitrary; (3) the theorem holds for X' separated and W \
+arbitrary. The closing sentences on quasi-separated X' cite Remark 0GHK (Bhatt; Hall-Rydh), which \
+the source defers, and are recorded in errata.md"]
 theorem separatednessRemark
     (hG : ∀ s : S, IsFiniteTypePoint s → IsGRing (S.presheaf.stalk s)) :
     (uliftYoneda.{u + 1} (C := LocallyNoetherianOver B S hS)).relativelyRepresentable

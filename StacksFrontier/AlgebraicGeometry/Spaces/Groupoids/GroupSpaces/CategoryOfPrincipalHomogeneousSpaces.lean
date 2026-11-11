@@ -18,9 +18,10 @@ categories of principal homogeneous `U ×_{b, B} G`-spaces, hence is a groupoid.
 
 `G-Principal` is a different category from the category `G-Torsors` of Stacks 04UR, whose objects
 are trivialized by an *fppf* covering: by Stacks 077B there is a principal homogeneous space
-isomorphic to no fppf torsor, which is
-`Stacks.Examples.RadicalTower.fpqcTorsor_not_isomorphic_fppfTorsor`. So neither the category nor
-any property of `p` may be read off from Stacks 04UR and Stacks 04US.
+isomorphic to no fppf torsor, so the canonical functor `G-Torsors ⥤ G-Principal` is not
+essentially surjective in general, which is
+`Stacks.Examples.RadicalTower.exists_not_isEquivalence_fppfTorsors_toPrincipal`. So neither the
+category nor any property of `p` may be read off from Stacks 04UR and Stacks 04US.
 
 ## Main definitions
 

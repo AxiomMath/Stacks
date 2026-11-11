@@ -78,9 +78,6 @@ whose object scheme is the spectrum of a field, whose arrow scheme is zero-dimen
 pre-relation is unramified, separated, locally of finite type and locally quasi-finite can be
 divided by the piece of its arrow scheme through the identity, and the quotient is the spectrum
 of a field. -/
-@[stacks 06N0 "the division of the groupoid of a flat field-valued presentation by the open and \
-closed piece of its arrow scheme through the identity, with the quotient the spectrum of a \
-field: the step of the proof which produces the field k_0 of invariants"]
 theorem exists_division_identityArrowOpens_of_isoSpecField {S : Scheme.{u}}
     (G : Stacks.Groupoids.GroupoidScheme S) (k : Type u) [Field k]
     (iso : G.objects.left ≅ Spec (.of k))

@@ -44,10 +44,9 @@ Composition of morphisms of sites is composition of the underlying continuous fu
 products by `u` is used there.
 
 The final clause of Stacks 03EF, that the associated diagram of morphisms of topoi is equal to the
-diagram of Stacks 03CF, is not formalized here. What remains for it is the equation
-`CategoryTheory.SliceTopos.sheafFunctorToOverCompOverPostIso_of_eq`, that the identification
-forced by the triangle at the terminal sheaf is the one of Stacks 04D3. The consequence
-`f'_* j_U^{-1} = j_V^{-1} f_*` is `sheafPushforwardContinuous_overPost_eq`.
+diagram of Stacks 03CF, and the complete statement of 03EF, are
+`CategoryTheory.SliceTopos.localizationDiagram` in `Sites/SliceTopos/LocalizationDiagram.lean`.
+The consequence `f'_* j_U^{-1} = j_V^{-1} f_*` is `sheafPushforwardContinuous_overPost_eq`.
 
 ## References
 
@@ -73,8 +72,8 @@ component at `X` is `Limits.prodComparison u V X : u.obj (V ⨯ X) ⟶ u.obj V �
 @[stacks 03EF "Commutativity of the diagram of 03EF: the two composites `C ⥤ Over (u.obj V)` of
   continuous functors around the square are isomorphic, which since morphisms of sites compose by
   composing their continuous functors (03CC) is what it means for the square of morphisms of sites
-  to commute. The final clause of 03EF, that the induced diagram of topoi equals the diagram of
-  03CF, is NOT covered — see the module docstring."]
+  to commute. The complete statement of 03EF, including that its diagram of topoi is 03CF's, is
+  `SliceTopos.localizationDiagram`."]
 noncomputable def starCompOverPostIso [HasBinaryProducts C] [HasBinaryProducts D] (u : C ⥤ D)
     [PreservesLimitsOfShape (Discrete WalkingPair) u] (V : C) :
     Over.star V ⋙ Over.post (X := V) u ≅ u ⋙ Over.star (u.obj V) :=
@@ -140,9 +139,9 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 of functors `Sheaf (K.over U) A ⥤ Sheaf J A`, for `U = u.obj V` and any category `A`, induced by
 `starCompOverPostIso`: the square of pushforwards on sheaves commutes. -/
 @[stacks 03EF "The induced diagram of morphisms of topoi commutes, on the pushforward side, for
-  sheaves valued in any category. 03EF's final clause — that this diagram is EQUAL to 03CF's
-  diagram of topoi — is NOT covered; 03CF's clause (b) is now proved in
-  Sites/SliceTopos/InverseImage.lean, leaving one equation."]
+  sheaves valued in any category. That this diagram is 03CF's diagram of topoi, and the complete
+  statement of 03EF, is `SliceTopos.localizationDiagram` in
+  Sites/SliceTopos/LocalizationDiagram.lean."]
 noncomputable def sheafPushforwardContinuousStarOverPostIso [HasBinaryProducts C]
     [HasBinaryProducts D] (u : C ⥤ D) [PreservesLimitsOfShape (Discrete WalkingPair) u] (V : C)
     [u.IsContinuous J K]

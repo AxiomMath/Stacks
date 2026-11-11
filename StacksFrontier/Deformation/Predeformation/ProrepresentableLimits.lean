@@ -19,11 +19,14 @@ exponents. Hence every point of `K j` over `R` factors uniquely through the adic
 `R / m_R ^ (n + 1)`, and the limit of the hom-sets is computed by the hom-set out of that
 single Artinian quotient, which is itself an object of `𝒞_Λ`.
 
-The Stacks source says "arbitrary limits". Restriction from complete local algebras to
-Artinian local algebras does not preserve infinite limits: over a field `k` the inverse
-system `k[t]/(t ^ n)` has limit `k` inside `𝒞_Λ`, whereas the compatible substitutions
-`t ↦ t` give a nonconstant point of the limit of the functor prorepresented by `k[[t]]`.
-Finite limits are what the tangent-space construction of Tag 06IA uses.
+The Stacks source (Example 06IC) says that `F` commutes with finite limits, which is what is
+proved here; it is the input of the tangent-space construction of Tag 06IA. The hypotheses of
+Tag 06IA in the bundled form `TangentSpaceFunctorConditions` are
+`Deformation.prorepresented_tangentSpaceFunctorConditions` in
+`StacksFrontier.Deformation.TangentSpace.Derivations`. Finite limits cannot be replaced by
+arbitrary ones: over a field `k` the inverse system `k[t]/(t ^ n)` has limit `k` inside
+`𝒞_Λ`, whereas the compatible substitutions `t ↦ t` give a nonconstant point of the limit of
+the functor prorepresented by `k[[t]]`.
 
 ## Main results
 

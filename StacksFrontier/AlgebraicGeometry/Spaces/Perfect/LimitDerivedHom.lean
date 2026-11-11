@@ -51,28 +51,26 @@ than the tag's "is an isomorphism" is stated.
 * `AlgebraicGeometry.Space.DescentSituation.IsHomColimit` is **the conclusion of Stacks 09RI**:
   `Hom_{D(𝒪_X)}(E, K)` is the filtered colimit of the `Hom_{D(𝒪_{X_i})}(E_i, K_i)`.
 * `AlgebraicGeometry.Space.DescentSituation.RingModel` is the affine translation dictionary the
-  proof consumes; see "The carried hypothesis" below.
+  proof consumes; see "The ring-level model" below.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.DescentSituation.isHomColimit_of_ringModel` is **Stacks 09RI**, with
-  the ring-level model of the system of homomorphism groups carried as a hypothesis.
+* `AlgebraicGeometry.Space.DescentSituation.isHomColimit_of_ringModel`: the conclusion of
+  Stacks 09RI from a ring-level model of the system of homomorphism groups.  Stacks 09RI itself,
+  both clauses with no such input, is
+  `AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`
+  of `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`.
 
-## The carried hypothesis
+## The ring-level model
 
 The source proves 09RI by the induction principle of Stacks 08GP, using Mayer–Vietoris for
 homomorphisms in the derived category (Stacks 08H9) at the union step, and reducing the affine
 case to the scheme-level Stacks 09RE through the comparison of the small étale and the Zariski
-site (Stacks 071Q, 08HE, 08HF, 08HG).  Of that chain this library has only the ring-level heart,
-`Stacks.FilteredColimitHom.exists_descends_derived` and
-`Stacks.FilteredColimitHom.exists_le_eq_of_eq_derived` — the clause labels of those tagged
-theorems record that their own sheaf-level reduction is not included — while Stacks 08HE and
-08HG are available only in one direction and conditionally on the left exactness of the slice
-inverse images (Stacks 08HF is available in both directions, on the `Type u`-presented model of
-the small étale ringed topos).
+site (Stacks 071Q, 08HE, 08HF, 08HG).  That route is carried out in
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`.
 
-What is carried here is therefore the *dictionary* that the affine case of the source's proof
-produces, `AlgebraicGeometry.Space.DescentSituation.RingModel`: a ring `R`, a bounded complex
+The theorem of this file instead starts from the *dictionary* that the affine case of the
+source's proof produces, `AlgebraicGeometry.Space.DescentSituation.RingModel`: a ring `R`, a bounded complex
 `cx` of finitely presented projective `R`-modules, a directed system `N` of complexes of
 `R`-modules whose degreewise filtered colimit is a complex `P`, and bijections
 
@@ -84,7 +82,7 @@ hypothesis as `AlgebraicGeometry.RelativeDescentSituation.AffineRingTranslation`
 theorem of `StacksFrontier/AlgebraicGeometry/Perfect/RelativeDescentCapstone.lean` for Stacks 0DI7,
 the relative scheme-level analogue of this tag.
 
-Carrying it does not turn the statement into a restatement of its own conclusion.  A `RingModel`
+Starting from it does not turn the statement into a restatement of its own conclusion.  A `RingModel`
 asserts no colimit property of any system of homomorphism groups.  Its colimit clauses, `hsurj`
 and `hzero`, are assertions about the *modules* in each single degree — every element of `P.X n`
 comes from some `N i` and an element of `N i` dying in `P` dies at a later stage — which is the
@@ -101,19 +99,14 @@ assembly below.
 
 ## Implementation notes
 
-The derived pullback of `𝒪`-modules along a morphism of algebraic spaces is carried as data
-rather than constructed.  `AlgebraicGeometry.Space.smallEtaleDerivedModulePullback` of
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleDerivedModulePullback.lean` is the construction,
-but it carries the existence premise `Functor.HasLeftDerivedFunctor` at every use site — the
-K-flat resolution of Stacks 06YS is stated in this tree only for a small site, and the small
-étale site is only essentially small — and no composition comparison
-`Lf^* ⋙ Lg^* ≅ L(g ∘ f)^*` is available for it either; that gap is recorded as the hypothesis
-`AlgebraicGeometry.Space.BottomRankBaseChange` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/BottomRankStratum.lean`.  Both are ambient
-pseudofunctoriality of `Lf^*`, not part of what 09RI asserts, so a
-`AlgebraicGeometry.Space.DescentSituation.DerivedPullbackSystem` supplies the functors — each
-pinned by `Functor.IsLeftDerivedFunctor` to be a total left derived functor of the inverse image
-of Stacks 03LU, hence `Lf^*` and not an arbitrary functor — and the two comparisons.
+The derived pullback of `𝒪`-modules along a morphism of algebraic spaces enters the statement
+through a `AlgebraicGeometry.Space.DescentSituation.DerivedPullbackSystem`, which supplies the
+functors — each pinned by `Functor.IsLeftDerivedFunctor` to be a total left derived functor of the
+inverse image of Stacks 03LU, hence `Lf^*` and not an arbitrary functor — and two comparisons.
+The system with the canonical comparisons is
+`AlgebraicGeometry.Space.DescentSituation.canonicalDerivedPullbackSystem` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHom/CanonicalSystem.lean`, built from
+the coherent pseudofunctor of derived pullbacks of Stacks 06YY and 0D6D.
 
 The derived categories are those of `AlgebraicGeometry.Space.Modules`, the `𝒪`-modules of the
 small étale *ringed site* of Stacks 04KH, because that is the spelling at which perfectness and
@@ -342,7 +335,7 @@ with bijections identifying the system of homomorphism groups of Stacks 09RI wit
 `Hom_{D(R)}(cx, N i) → Hom_{D(R)}(cx, P)`.
 
 The two colimit clauses are `hsurj` and `hzero`, and they are assertions about the *modules* in
-a single degree, not about homomorphisms in a derived category; see "The carried hypothesis" in
+a single degree, not about homomorphisms in a derived category; see "The ring-level model" in
 this file's module documentation. -/
 structure RingModel (R : Type u) [Ring R] [HasDerivedCategory.{w} (ModuleCat.{u} R)] where
   /-- The complex of `R`-modules corresponding to `E₀`. -/
@@ -395,28 +388,21 @@ structure RingModel (R : Type u) [Ring R] [HasDerivedCategory.{w} (ModuleCat.{u}
 
 /-! ### Stacks 09RI -/
 
-/-- **Stacks 09RI.**  In Situation 09RH, let `E₀` and `K₀` be objects of `D(𝒪_{X₀})`, put
-`E_i = Lf_{i0}^*E₀`, `K_i = Lf_{i0}^*K₀` for `i ≥ 0` and `E = Lf_0^*E₀`, `K = Lf_0^*K₀`.  If
-either `E₀` is perfect and `K₀` lies in `D_QCoh(𝒪_{X₀})`, or `E₀` is pseudo-coherent and `K₀`
-lies in `D_QCoh(𝒪_{X₀})` and has finite Tor dimension, then
+/-- **The conclusion of Stacks 09RI from a ring-level model.**  In Situation 09RH, let `E₀` and
+`K₀` be objects of `D(𝒪_{X₀})`, put `E_i = Lf_{i0}^*E₀`, `K_i = Lf_{i0}^*K₀` for `i ≥ 0` and
+`E = Lf_0^*E₀`, `K = Lf_0^*K₀`.  Given a ring-level model `model` of the system of homomorphism
+groups (see "The ring-level model" in this file's module documentation),
 
 `colim_{i ≥ 0} Hom_{D(𝒪_{X_i})}(E_i, K_i) ⟶ Hom_{D(𝒪_X)}(E, K)`
 
-is an isomorphism.
-
-The affine translation dictionary `model` is carried as an explicit hypothesis rather than
-discharged; see "The carried hypothesis" in this file's module documentation for what it is and
-why it is an input of the source's proof and not its conclusion.
+is an isomorphism.  Stacks 09RI itself, with no such model, is
+`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`.
 
 The three clauses are read off the ring-level colimit computation of Stacks 09RE, which this
 library proves: surjectivity is
 `Stacks.FilteredColimitHom.exists_descends_derived`, eventual injectivity is
 `Stacks.FilteredColimitHom.exists_le_eq_of_eq_derived`, and the cocone identity is the
 compatibility of the dictionary with `RingModel.hcompat`. -/
-@[stacks 09RI "the affine ring-translation dictionary `model` is carried as an explicit \
-hypothesis: the reduction of the sheaf-level statement to the ring-level colimit computation \
-of Stacks 09RE, which runs through the induction principle 08GP, Mayer-Vietoris 08H9 and the \
-small-etale-to-Zariski comparison 071Q, is not available in this library"]
 theorem isHomColimit_of_ringModel
     [∀ U : (smallEtaleRingedSite B S hS (D.stage D.base).obj (D.stage D.base).property).C,
       HasSheafify ((smallEtaleRingedSite B S hS (D.stage D.base).obj

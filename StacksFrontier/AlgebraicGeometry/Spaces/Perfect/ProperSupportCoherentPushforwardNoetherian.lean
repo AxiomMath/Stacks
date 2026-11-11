@@ -7,10 +7,10 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ProperHigherDirectImageCoh
 /-!
 # Coherence of the higher direct images of a module with proper support, over a Noetherian base
 
-The form of Stacks 08GC of `isCoherent_rightDerived_modulePushforward_of_hasProperSupport` in
-which the vanishing half of Stacks 07UH is applied to the quasi-coherent module produced by
-Stacks 0CZI, so that the étale-affine case of Stacks 03DW is not carried, and Stacks 08AR over a
-locally Noetherian target, `coherentHigherDirectImageOfProper_of_isLocallyNoetherian`.
+The reduction of Stacks 08GC to its two inputs `CoherentHigherDirectImageOfProper` (Stacks 08AR)
+and `HigherDirectImageCompOfAcyclic` (Stacks 0734), in which the vanishing half of Stacks 07UH is
+applied to the quasi-coherent module produced by Stacks 0CZI, and Stacks 08AR over a locally
+Noetherian target, `coherentHigherDirectImageOfProper_of_isLocallyNoetherian`.
 
 ## Main results
 
@@ -51,9 +51,9 @@ theorem coherentHigherDirectImageOfProper_of_isLocallyNoetherian (Y : AlgebraicS
 
 /-! ### Stacks 08GC -/
 
-/-- **Stacks 08GC, without the input of Stacks 03DW.**  Let `S` be a scheme, let `f : X ⟶ Y` be
-a morphism of algebraic spaces over `S` which is locally of finite type with `Y` locally
-Noetherian, and let `𝓕` be a coherent `𝒪_X`-module whose support is proper over `Y`.  Then
+/-- **Stacks 08GC from its inputs Stacks 08AR and Stacks 0734.**  Let `S` be a scheme, let
+`f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is locally of finite type with `Y`
+locally Noetherian, and let `𝓕` be a coherent `𝒪_X`-module whose support is proper over `Y`.  Then
 `R^p f_*𝓕` is a coherent `𝒪_Y`-module for every `p`, granted `h08AR`, Stacks 08AR, and `h0734`,
 the degeneration of the relative Leray spectral sequence. -/
 theorem isCoherent_rightDerived_modulePushforward_of_hasProperSupport_of_isQuasicoherent
@@ -69,7 +69,6 @@ theorem isCoherent_rightDerived_modulePushforward_of_hasProperSupport_of_isQuasi
   have _hFc := hF
   have _hFcs := hF.toIsCoherentOnSite
   have _hinjX := hasInjectiveResolutions_modules B S hS X.1 X.2
-  change IsCoherent B S hS Y.1 Y.2 (((modulePushforward B S hS f).rightDerived p).obj F)
   obtain ⟨Z, G, hGqc, -, hZp, ⟨e⟩⟩ :=
     ((hasProperSupport_tfae B S hS X Y f.hom hf F hF.toIsQuasicoherentOnSite
       (isFiniteTypeOnSite_of_isCoherentOnSite B S hS X F)

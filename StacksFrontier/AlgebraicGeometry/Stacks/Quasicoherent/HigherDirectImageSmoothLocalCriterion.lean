@@ -27,14 +27,19 @@ modules for **Stacks 075Z**, and `LQCoh^fbc` for **Stacks 0765**. This file form
 criterion as a statement about an arbitrary such rule, states the four hypotheses it asks of the
 rule, and derives both tags from it.
 
-**Stacks 076Z itself is not proved here**, and neither are three of the four hypotheses it asks of
-the two rules; they are carried as explicit, individually named hypotheses of the two theorems
-below, each one a clause of the criterion at one of the rules and each one naming the tag of the
-source it is. Hypothesis (2) of the criterion for local quasi-coherence *is* proved, from
-**Stacks 06WL**, and with it the forward half of hypothesis (3) for that rule. The conclusions are
-the conclusions of the two tags, at every degree and with the source's hypothesis sets unchanged:
-nothing is weakened, and what is missing is missing in the open and in the shape the source would
-supply it.
+Here the higher direct images are those of `AlgebraicGeometry.Stack.moduleSheafHigherDirectImage`,
+with sections in `u + 1`. The criterion in this shape is proved, as
+`AlgebraicGeometry.Stack.smoothLocalHigherDirectImageCriterion_unconditional`, for families in
+clause (3) indexed in a universe containing `u`; the two theorems below take it, together with
+those clauses of the criterion at the two rules that are not available at section universe
+`u + 1`, as explicit, individually named hypotheses, each one naming the tag of the source it is.
+At the section universe `u` of the schemes **Stacks 075Z** is proved outright, with no
+hypothesis beyond the source's, as
+`AlgebraicGeometry.Stack.isLocallyQuasicoherent_stackModuleHigherDirectImage`.
+Hypothesis (2) of the criterion for local quasi-coherence *is* proved, from **Stacks 06WL**, and
+with it the forward half of hypothesis (3) for that rule. The conclusions are the conclusions of
+the two tags at section universe `u + 1`, at every degree and with the source's hypothesis sets
+on `f` and `ℱ` unchanged.
 
 ## Main definitions
 
@@ -67,10 +72,13 @@ supply it.
   of **Stacks 076Z** for local quasi-coherence, which is **Stacks 06WL**.
 * `AlgebraicGeometry.Stack.isSmoothLocal_locallyQuasicoherentRule`: hypothesis (3) of
   **Stacks 076Z** for local quasi-coherence, from its converse half.
-* `AlgebraicGeometry.Stack.isLocallyQuasicoherent_moduleSheafHigherDirectImage`:
-  **Stacks 075Z**, from the criterion and the three of its hypotheses this library does not have.
-* `AlgebraicGeometry.Stack.hasFlatBaseChangePropertyUnivLE_moduleSheafHigherDirectImage`:
-  **Stacks 0765**, likewise.
+* `AlgebraicGeometry.Stack.isLocallyQuasicoherent_moduleSheafHigherDirectImage`: the conclusion
+  of **Stacks 075Z** for the higher direct images at section universe `u + 1`, from the criterion
+  and three of its clauses at that universe. **Stacks 075Z** itself is
+  `AlgebraicGeometry.Stack.isLocallyQuasicoherent_stackModuleHigherDirectImage`.
+* `AlgebraicGeometry.Stack.hasFlatBaseChangePropertyUnivLE_moduleSheafHigherDirectImage`: the
+  conclusion of **Stacks 0765**, likewise; **Stacks 0765** itself is
+  `AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheaf_moduleSheafHigherDirectImage`.
 
 ## Implementation notes
 
@@ -155,8 +163,11 @@ spaces. Of these, **Stacks 073K** is proved, in
 formalized
 only as the cartesian square of algebraic spaces it produces, not as the cohomological
 identification, which is **Stacks 075H** — formalized at abelian coefficients only — together with
-**Stacks 075N**; and **Stacks 0720** is not formalized. Hypothesis (4) is therefore carried, at both
-rules.
+**Stacks 075N**. **Stacks 0720** is proved, as
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward'`, and the affine
+case for local quasi-coherence at section universe `u` is
+`AlgebraicGeometry.Stack.preservesHigherDirectImagesOfAffine_locallyQuasicoherentModuleRule`.
+Hypothesis (4) at section universe `u + 1` is carried, at both rules.
 
 "Representable by an affine scheme" is read as being the algebraic stack
 `AlgebraicGeometry.Stack.schemeStack` of an object of the big fppf site whose underlying scheme is
@@ -502,19 +513,20 @@ noncomputable abbrev HasFlatBaseChangePropertyHigherDirectImage
             (CatFiberedInGroupoids.homFunctor f.hom) rfl (etaleTopology B)
             (etaleTopology_le_topology B) i).obj ℱ).val
 
-/-- **Stacks 075Z.** Let `f : 𝒳 ⟶ 𝒴` be a quasi-compact (**Stacks 050U**) and quasi-separated
-(**Stacks 04YW**) 1-morphism of algebraic stacks over `S` and let `ℱ` be a locally quasi-coherent
-`𝒪_𝒳`-module on `𝒳_étale` (**Stacks 06WJ**). Then the higher direct image `Rⁱf_*ℱ`, computed in
-the étale topology, is locally quasi-coherent on `𝒴_étale`, in every degree `i`.
+/-- Let `f : 𝒳 ⟶ 𝒴` be a quasi-compact (**Stacks 050U**) and quasi-separated (**Stacks 04YW**)
+1-morphism of algebraic stacks over `S` and let `ℱ` be a locally quasi-coherent `𝒪_𝒳`-module on
+`𝒳_étale` (**Stacks 06WJ**) with sections in `u + 1`. Then the higher direct image `Rⁱf_*ℱ` of
+`AlgebraicGeometry.Stack.moduleSheafHigherDirectImage`, computed in the étale topology, is locally
+quasi-coherent on `𝒴_étale`, in every degree `i`.
 
-The conclusion is `AlgebraicGeometry.Stack.IsLocallyQuasicoherentHigherDirectImage`, the
-library's statement of the assertion of the source, unchanged and for every degree.
+**Stacks 075Z**, at the section universe `u` of the schemes and with no hypothesis beyond the
+source's, is `AlgebraicGeometry.Stack.isLocallyQuasicoherent_stackModuleHigherDirectImage`. This
+is the reading at section universe `u + 1`, derived from the criterion of **Stacks 076Z** and
+three of its clauses at the rule of local quasi-coherence, at that universe:
 
-Three hypotheses are carried, each a clause of the criterion of **Stacks 076Z** at the rule of
-local quasi-coherence and each one a result of the source this library does not have:
-
-* `hcrit` is **Stacks 076Z**, quantified over every rule. Its proof runs the first-quadrant
-  spectral sequence of **Stacks 072G**, which is not formalized here.
+* `hcrit` is **Stacks 076Z**, quantified over every rule; it is proved, for families in clause (3)
+  indexed in a universe containing `u`, as
+  `AlgebraicGeometry.Stack.smoothLocalHigherDirectImageCriterion_unconditional`.
 * `hserre` is hypothesis (1), the weak Serre condition, which is parts (1) to (3) of
   **Stacks 06WM**, proved at section universe `u` in
   `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.LocallyQuasicoherentClosure`; here it is
@@ -524,17 +536,12 @@ local quasi-coherence and each one a result of the source this library does not 
   `u + 1`; closing this gap is a universe generalization of **Stacks 03DN**, not a new theorem of
   the source.
 * `haffine` is hypothesis (4), the case of stacks representable by affine schemes, which the
-  source proves from **Stacks 075P** and **Stacks 0720**; the cohomological content of
-  **Stacks 075P** and all of **Stacks 0720** are absent.
+  source proves from **Stacks 075P** and **Stacks 0720**; at section universe `u` it is
+  `AlgebraicGeometry.Stack.preservesHigherDirectImagesOfAffine_locallyQuasicoherentModuleRule`.
 
 Hypothesis (2) is not carried: it is **Stacks 06WL** and is supplied by
 `AlgebraicGeometry.Stack.isStableUnderSmoothPullback_locallyQuasicoherentRule`, which also supplies
 the forward half of hypothesis (3). -/
-@[stacks 075Z "the whole statement, in every degree and with the source's hypotheses unweakened, \
-  granted four named hypotheses: the criterion of Stacks 076Z quantified over every rule, the \
-  weak Serre condition of Stacks 06WM parts (1)-(3), the converse half of the smooth-local \
-  criterion Stacks 075Y at section universe u+1, and the affine case (Stacks 075P and \
-  Stacks 0720). Hypothesis (2) of the criterion, Stacks 06WL, is proved rather than assumed"]
 theorem isLocallyQuasicoherent_moduleSheafHigherDirectImage
     (hcrit : SmoothLocalHigherDirectImageCriterion.{u, t, s} B S hS)
     (hserre : StackEtaleModuleRule.IsWeakSerre.{u, t} B S hS (locallyQuasicoherentRule B E h S hS))
@@ -550,7 +557,7 @@ theorem isLocallyQuasicoherent_moduleSheafHigherDirectImage
     (isStableUnderSmoothPullback_locallyQuasicoherentRule B E h S hS)
     (isSmoothLocal_locallyQuasicoherentRule B E h S hS hconv) haffine f hqc hqs i
 
-/-- **Stacks 0765.** Let `f : 𝒳 ⟶ 𝒴` be a quasi-compact (**Stacks 050U**) and quasi-separated
+/-- Let `f : 𝒳 ⟶ 𝒴` be a quasi-compact (**Stacks 050U**) and quasi-separated
 (**Stacks 04YW**) 1-morphism of algebraic stacks over `S` and let `ℱ` be a sheaf of `𝒪_𝒳`-modules
 on `𝒳_étale` which is locally quasi-coherent (**Stacks 06WJ**) and has the flat base change
 property (**Stacks 0762**). Then every higher direct image `Rⁱf_*ℱ`, computed in the étale
@@ -558,15 +565,19 @@ topology, has the flat base change property.
 
 The conclusion is `AlgebraicGeometry.Stack.HasFlatBaseChangePropertyHigherDirectImage`: both
 hypotheses on `ℱ` are the source's, the conclusion is about the flat base change property alone as
-in the source, and it holds in every degree.
+in the source, and it holds in every degree. **Stacks 0765** is proved with no hypothesis beyond
+the source's, for the flat base change property read on sheaves, as
+`AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheaf_moduleSheafHigherDirectImage`; this is the
+derivation from the criterion and its clauses at `LQCoh^fbc`.
 
 The route is the source's: the criterion of **Stacks 076Z** at the rule `LQCoh^fbc`, whose
 conclusion gives local quasi-coherence of `Rⁱf_*ℱ` — which is **Stacks 075Z** — and the flat base
-change property, of which only the latter is asserted. Five hypotheses are carried, each a clause
-of that criterion at `LQCoh^fbc` or at the flat base change property alone, and each a result of
-the source this library does not have:
+change property, of which only the latter is asserted. Six hypotheses are carried, each a clause
+of that criterion at `LQCoh^fbc` or at the flat base change property alone:
 
-* `hcrit` is **Stacks 076Z**, quantified over every rule.
+* `hcrit` is **Stacks 076Z**, quantified over every rule; it is proved, for families in clause (3)
+  indexed in a universe containing `u`, as
+  `AlgebraicGeometry.Stack.smoothLocalHigherDirectImageCriterion_unconditional`.
 * `hserre` is hypothesis (1) for `LQCoh^fbc`, which is parts (1) to (3) of **Stacks 06WM**
   together with part (2) of **Stacks 0764**.
 * `hfbcPull` is the flat base change half of hypothesis (2), which is part (1) of **Stacks 0764**;
@@ -576,10 +587,6 @@ the source this library does not have:
 * `haffine` is hypothesis (4) for `LQCoh^fbc`, which the source proves from **Stacks 075P** and
   **Stacks 073K**; **Stacks 073K** is proved but the cohomological content of **Stacks 075P** is
   not. -/
-@[stacks 0765 "the whole statement, in every degree and with the source's hypotheses \
-  unweakened, granted six named hypotheses: Stacks 076Z quantified over every rule; the weak \
-  Serre condition for LQCoh^fbc (Stacks 06WM (1)-(3), Stacks 0764 (2)); Stacks 0764 (1) and (3); \
-  Stacks 075Y at section universe u+1; and the affine case (Stacks 075P, Stacks 073K)"]
 theorem hasFlatBaseChangePropertyUnivLE_moduleSheafHigherDirectImage
     (hcrit : SmoothLocalHigherDirectImageCriterion.{u, t, s} B S hS)
     (hserre : StackEtaleModuleRule.IsWeakSerre.{u, t} B S hS

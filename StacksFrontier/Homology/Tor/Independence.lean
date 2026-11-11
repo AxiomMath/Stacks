@@ -656,7 +656,9 @@ private theorem flat_tensorProduct_lift_of_isLocalization_right
       (fun _ _ ↦ Commute.all _ _)).toRingHom := by
   exact flat_lift_swap f _ (flat_tensorProduct_lift_of_isLocalization U f hf)
 
-private theorem isIso_torExtensionMap_atPrime
+/-- For primes `p ⊂ A` and `q ⊂ B` lying over `r ⊂ R`, the canonical scalar-extended
+change-of-rings map from `Tor_i^R(A, B)` to `Tor_i^{R_r}(A_p, B_q)` is an isomorphism. -/
+theorem isIso_torExtensionMap_atPrime
     (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
     [Algebra R A] [Algebra R B]
     (r : PrimeSpectrum R) (p : PrimeSpectrum A) (q : PrimeSpectrum B)

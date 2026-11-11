@@ -49,9 +49,11 @@ into a differential graded `(R, A)`-bimodule.
 
 ## Implementation notes
 
-The left action is not written out by hand. By Tag 0FQ3, left differential graded actions of `A`
-on a complex `M` correspond to homomorphisms of differential graded algebras from `A` into the
-endomorphism algebra of `M` (`DifferentialGradedAlgebra.leftActionEquivHom`), and
+The left action is not written out by hand. Left differential graded actions of `A` on a complex
+`M`, recorded as cochains, correspond to homomorphisms of differential graded algebras from `A`
+into the endomorphism algebra of `M` (`DifferentialGradedAlgebra.leftActionEquivHom`, the
+cochain-level form of Tag 0FQ3, whose module statement is
+`DifferentialGraded.LeftModule.toEndomorphismHom_spec_surjective_eq_iff`), and
 `Dualizing.baseHom` already provides such a homomorphism out of `Dualizing.baseAlgebra R` for
 *every* differential graded algebra, the endomorphism algebra included. So the action is obtained
 by transporting `Dualizing.baseHom` through that correspondence, and the only thing left to prove
@@ -100,7 +102,8 @@ private theorem ofHom_id_v_coe (B : DifferentialGradedAlgebra.{u, u} R)
 
 /-- **The canonical left action of the base ring in degree zero on an arbitrary complex of
 `R`-modules.** A scalar acts by scalar multiplication; the action is obtained by transporting
-`Dualizing.baseHom` into the endomorphism algebra through the correspondence of Tag 0FQ3. -/
+`Dualizing.baseHom` into the endomorphism algebra through `leftActionEquivHom`, the cochain-level
+form of Tag 0FQ3. -/
 def baseLeftAction (M : CochainComplex (ModuleCat.{u} R) ℤ) :
     (baseAlgebra R).LeftAction M :=
   (DifferentialGradedAlgebra.leftActionEquivHom (baseAlgebra R) M).1.symm

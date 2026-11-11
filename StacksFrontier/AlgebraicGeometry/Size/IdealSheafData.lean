@@ -20,7 +20,7 @@ sections there. Both the affine opens and their sections are bounded by
 
 ## References
 
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public section

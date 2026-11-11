@@ -63,11 +63,12 @@ continuous homomorphism of Noetherian adic topological rings.
 
 This is the chart condition which Formal Spaces, Section 0AQ2 matches with representability by
 algebraic spaces — the latter being what Definition 0AQ3 takes as the definition of an adic
-morphism, carried by `AlgebraicGeometry.FormalSpace.IsAdicMorphism`. The matching is Stacks
-0ANK, which the library does not carry outright, and it is read at `WAdm^{adic*}` rather than at
-`WAdm^{Noeth}`; so this predicate is kept under its own name and the rig-smooth and rig-flat
-developments, which work over the Noetherian adic class, state their adicness hypotheses with
-it. -/
+morphism, carried by `AlgebraicGeometry.FormalSpace.IsAdicMorphism`. An adic morphism satisfies
+this predicate: that is
+`AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagramNoetherian_of_isAdicMorphism`,
+read off from the implication (1) ⟹ (2) of Section 0AQ2 at `WAdm^{adic*}`. The predicate is kept
+under its own name because the rig-smooth and rig-flat developments, which work over the
+Noetherian adic class, state their adicness hypotheses with it. -/
 abbrev IsAdicOnEveryAffineEtaleDiagramNoetherian
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y) : Prop :=

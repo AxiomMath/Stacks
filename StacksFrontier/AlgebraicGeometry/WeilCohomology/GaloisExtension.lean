@@ -2,7 +2,6 @@ module
 
 public import Mathlib.FieldTheory.Galois.Basic
 public import StacksFrontier.AlgebraicGeometry.WeilCohomology.BlowupPushforward
-public import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The trace of the unit class on the spectrum of a Galois extension
@@ -28,7 +27,12 @@ of the nonempty scheme `Spec(k')` is nonzero this forces `λ(1) = |Gal(k'/k)| = 
 ## Main results
 
 * `Stacks.WeilCohomology.integration_one_eq_finrank`: `∫_{Spec(k')} 1 = [k' : k]` for a finite
-  Galois extension `k'/k`.
+  Galois extension `k'/k`, from the identities of the proof stated as hypotheses.
+
+Stacks 0FVR on the actual data `(D0)`, `(D1)`, `(D2')` satisfying `(A1)` -- `(A7)`
+(`Stacks.WeilCohomology.WeilChernData`), where each of these identities is proved, is
+`Stacks.WeilCohomology.WeilChernData.untwistTrace_one_spec_galois`, in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.GaloisTraceDegree`.
 
 ## Implementation notes
 
@@ -81,9 +85,11 @@ open scoped TensorProduct
 
 namespace Stacks.WeilCohomology
 
-/-- **Stacks Project, Tag 0FVR.** For a finite Galois extension `k'/k` the trace map
-`∫_{Spec(k')} = λ` of axiom `(A6)` takes the unit class to the degree of the extension:
-`∫_{Spec(k')} 1 = [k' : k]`.
+/-- **The algebra of the proof of Stacks 0FVR.** For a finite Galois extension `k'/k`, a
+functional `λ` with the normalisation of axiom `(A6)` takes the unit class to the degree of the
+extension: `λ(1) = [k' : k]`. Stacks 0FVR itself, on the actual data `(D0)`, `(D1)`, `(D2')`
+satisfying `(A1)` -- `(A7)`, is
+`Stacks.WeilCohomology.WeilChernData.untwistTrace_one_spec_galois`.
 
 Here `A` is `H^0(Spec(k'))`, nonzero because `Spec(k')` is nonempty, and `A ⊗_F A` is the
 cohomology of `Spec(k') × Spec(k')` in the same degree by axioms `(A5)` and `(A1)`; `CH` is the
@@ -92,11 +98,6 @@ of the diagonal. The hypothesis `decomposition` is the source's identity of cycl
 `Spec(k') × Spec(k') = ∐_{σ ∈ Gal(k'/k)} (Spec(σ) × id)^{-1} Δ`, and `normalization` is the
 equation of axiom `(A6)` that characterises `λ`. The module documentation reads each hypothesis
 against the data `(D0)`, `(D1)`, `(D2')` and the axioms. -/
-@[stacks 0FVR "the value of the trace map of axiom (A6) on the unit class of the spectrum of a \
-  finite Galois extension; the part of the data (D0), (D1), (D2') and of the axioms (A1) -- (A7) \
-  the argument consumes is carried as hypotheses, as elsewhere in Section 45.14, and the \
-  decomposition of the self-product into Galois translates of the diagonal is the hypothesis \
-  `decomposition`"]
 theorem integration_one_eq_finrank
     (k k' : Type u) [Field k] [Field k'] [Algebra k k']
     [FiniteDimensional k k'] [IsGalois k k']

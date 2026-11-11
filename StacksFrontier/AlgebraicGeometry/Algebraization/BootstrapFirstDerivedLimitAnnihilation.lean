@@ -143,8 +143,6 @@ private theorem smul_id_firstDerivedLimit_eq_zero_of_stableImage {A : Type u} [C
 
 /-- In Situation [Stacks, Tag 0EFU], at a general specialization-stable `T`, there is an integer
 `m₀` such that every element of `I^{m₀}` annihilates `R¹lim H^s_T(M/IⁿM)`. -/
-@[stacks 0EFY "part (7) at a general specialization-stable T in Situation 0EFU: I^{m₀} \
-annihilates R¹lim Hˢ_T(M/IⁿM)"]
 theorem exists_smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero
     (S : BootstrapSituation.{u, u, u}) :
     ∃ m₀ : ℕ, ∀ a ∈ S.I ^ m₀,

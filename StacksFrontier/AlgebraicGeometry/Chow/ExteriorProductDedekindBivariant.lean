@@ -9,7 +9,10 @@ public import StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.Cycles
 Let `(S, δ)` be a locally Noetherian scheme with an open covering by spectra of Dedekind domains,
 with `δ(s) = 0` for `s` closed and `δ(s) = 1` otherwise, and let `X` be locally of finite type
 over `S`. This file constructs the additive map `A^p(X → S) → CH_{1 - p}(X)`, `c ↦ c ∩ [S]₁`,
-where `[S]₁ ∈ CH₁(S)` is the fundamental class of the base; by Stacks 0FC5 it is an isomorphism.
+where `[S]₁ ∈ CH₁(S)` is the fundamental class of the base. By Stacks 0FC5, corrected to a base
+with no zero-dimensional component, it is an isomorphism; that is
+`Stacks.Chow.bivariantCapBaseFundamentalClass_bijective`, in
+`StacksFrontier.AlgebraicGeometry.Chow.ExteriorProductDedekindBivariantIdentification`.
 
 ## Main definitions
 
@@ -63,9 +66,8 @@ def basePullbackPushforward (k : ℤ) :
 
 /-- The canonical map `A^p(X → S) → CH_{1-p}(X)`, sending a bivariant class `c` of degree `p`
 for the structure morphism `X ⟶ S` to `c ∩ [S]₁`, read on `X` through the isomorphism
-`X ×_S S ⟶ X`. -/
-@[stacks 0FC5 "the canonical map A^p(X → S) → CH_{1-p}(X), c ↦ c ∩ [S]₁; the source's \
-assertion that it is bijective is not proved here"]
+`X ×_S S ⟶ X`. It is the map of Stacks 0FC5; its bijectivity, over a base with no
+zero-dimensional component, is `Stacks.Chow.bivariantCapBaseFundamentalClass_bijective`. -/
 def bivariantCapBaseFundamentalClass :
     BivariantClass C G sX (𝟙 C.S) sX (Category.comp_id sX) p →+ chowGroup C sX (1 - p) :=
   AddMonoidHom.mk'

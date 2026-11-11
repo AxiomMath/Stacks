@@ -15,26 +15,32 @@ let `F : S ⥤ S'` be a 1-morphism of fibred categories over `C`. The relative i
 pairs `(x, α)` with `α` an automorphism of `x` satisfying `F α = id`.
 
 Stacks 034H has two parts. Part (1) identifies `I_{S/S'}` with the 2-fibre product
-`S ×_{Δ, S ×_{S'} S, Δ} S` along the diagonal: an equivalence `Φ : I_{S/S'} ⥤ Δ ⊡ Δ`,
-`(x, α) ↦ (x, x, (α, id))`, with explicit quasi-inverse `Ψ`, `(x, y, (ι, κ)) ↦ (x, κ⁻¹ ∘ ι)`,
-satisfying `Ψ ∘ Φ = 𝟭` on the nose and `Φ ∘ Ψ ≅ 𝟭` via the isomorphism with component
-`(id, κ)`. Part (2) is that `I_{S/S'}`, with its structure functor `π ⋙ p`, is a fibred
+`S ×_{Δ, S ×_{S'} S, Δ} S` along the diagonal, in the (2,1)-category of categories over `C`:
+an equivalence `Φ`, `(x, α) ↦ (x, x, (α, id))`, with explicit quasi-inverse `Ψ`,
+`(x, y, (ι, κ)) ↦ (x, κ⁻¹ ∘ ι)`, the unit having components `id_x` and the counit components
+`(id_x, κ)`. Part (2) is that `I_{S/S'}`, with its structure functor `π ⋙ p`, is a fibred
 category over `C`.
 
-## Notes on the Mathlib rendering
+## Where the source's statement is
 
-`Limits.CategoricalPullback F G` (notation `F ⊡ G`) has as objects the triples `(a, c, e)`
-with `e : F a ≅ G c`, and a morphism `(a, c, e) → (a', c', e')` is a pair `(f₁, f₂)` with
-`F f₁ ≫ e' = e ≫ G f₂`. This is the base-free rendering of the underlying categories: the
-"over `C`" bookkeeping is carried by the structure functors to `C` (the composites with the
-projections), and "equivalence over `C`" is recorded by `Φ` and `Ψ` commuting with those
-structure functors (`toDiagonalPullback_comp_proj`, `fromDiagonalPullback_comp_proj`) and
-by the counit projecting to an identity (`counitIso_proj_eq_id`). Since the diagonal has no
-verticality restriction on `ι`, `κ`, part (1) as stated is if anything stronger than the
-source's statement in the (2,1)-category of categories over `C`.
+Stacks 034H (1), with the source's 2-fibre products in the (2,1)-category of categories over
+`C` (Stacks 02XQ, `CategoryTheory.TwoFibreProductOver`, vertical comparison isomorphisms), is
+`CategoryTheory.RelativeInertia.isEquivalenceOverToDiagonalFibreProductOver`, and the full
+Stacks 034H is
+`CategoryTheory.RelativeInertia.isEquivalenceOver_toDiagonalFibreProductOver_and_isFibered`, both
+in `StacksFrontier.CategoryTheory.FiberedCategory.InertiaDiagonalOver`. Part (2) is
+`CategoryTheory.RelativeInertia.isFibered`.
 
-The fibred hypotheses on `p` and `F` enter only in part (2), which is
-`CategoryTheory.RelativeInertia.isFibered`; part (1) is purely 1-categorical.
+## The variant in `Cat`
+
+This file proves the analogous statement for Mathlib's 2-fibre product in
+`Cat`, `Limits.CategoricalPullback` (notation `F ⊡ G`), whose comparison isomorphisms are
+arbitrary isomorphisms, not necessarily vertical: `diagonalPullbackEquivalence`, an equivalence
+`I_{S/S'} ≌ Δ ⊡ Δ` whose functors commute strictly with the structure functors to `C`
+(`toDiagonalPullback_comp_proj`, `fromDiagonalPullback_comp_proj`) and whose counit projects to
+identities (`counitIso_proj_eq_id`). This is a different category from the source's iterated
+2-fibre product over `C` and is not the statement of Stacks 034H (1); that one is
+`isEquivalenceOverToDiagonalFibreProductOver`. Neither variant needs any fibredness hypothesis.
 -/
 
 @[expose] public section
@@ -328,8 +334,12 @@ def counitIso (F : S ⥤ S') :
 
 /-- The comparison functor `Φ : I_{S/S'} ⥤ Δ ⊡ Δ` is an equivalence of categories, with explicit
 quasi-inverse `Ψ`, unit coming from the equality `Ψ ∘ Φ = 𝟭` and counit the isomorphism with
-component `(id, κ)`. -/
-@[stacks 034H "(1)"]
+component `(id, κ)`.
+
+This is the analogue of Stacks 034H (1) for the 2-fibre products in `Cat`
+(`Limits.CategoricalPullback`), whose comparison isomorphisms need not be vertical; it is not
+the statement of the source, which takes the 2-fibre products in the (2,1)-category of
+categories over `C`. That statement is `isEquivalenceOverToDiagonalFibreProductOver`. -/
 def diagonalPullbackEquivalence (F : S ⥤ S') :
     RelativeInertia F ≌ CategoricalPullback (diagonal F) (diagonal F) :=
   CategoryTheory.Equivalence.mk (toDiagonalPullback F) (fromDiagonalPullback F)
@@ -388,7 +398,7 @@ theorem counitIso_proj_eq_id (F : S ⥤ S') (p : S ⥤ C)
     simp [CategoricalPullback.π₁]
   exact (congrArg p.map h).trans (p.map_id t.fst)
 
-/-! ## Part (2): the relative inertia is fibred over `C` -/
+/-! ## Automorphisms of the inertia lie over identities -/
 
 /-- For an object `(x, α)` of the relative inertia, the automorphism `α` projects to the
 identity under the structure functor `p` to `C`: indeed `p = F ⋙ p'` and `F α = 𝟙`. -/
@@ -396,6 +406,8 @@ theorem struct_map_auto_eq_id (p : S ⥤ C) (p' : S' ⥤ C) (hF : F ⋙ p' = p)
     (t : RelativeInertia F) : p.map t.auto.asIso.hom = 𝟙 (p.obj t.obj) := by
   subst hF
   simp [t.cond]
+
+/-! ## Part (2): the relative inertia is fibred over `C` -/
 
 add_to_stacks 034H "(2)" CategoryTheory.RelativeInertia.isFibered
 

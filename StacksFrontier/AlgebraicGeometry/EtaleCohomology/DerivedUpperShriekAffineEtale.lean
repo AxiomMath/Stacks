@@ -55,13 +55,17 @@ presheaf below is the source's presheaf with the source's transition maps.
   `M = Rf^! K`, **as presheaves**.  The source gives the equality of the groups and omits "the
   verification that the transition maps are given by the transition maps between the objects
   `Rg_! Λ`".
-* `Stacks.EtaleCohomology.affineEtaleSheafifiedHomIso`: the half of **Stacks Tag 0GLK** that
-  does not depend on Stacks Tag 0BKV — the sheafification of
-  `U ↦ Hom_Y(R(U ⟶ Y)_! Λ, K[n])` is the sheafification of `U ↦ Hom_X((j_U)_! Λ, Rf^! K[n])`,
-  with no `sheafifiedCohomology` hypothesis.
-* `Stacks.EtaleCohomology.derivedUpperShriekHomologyAffineEtale`: **Stacks Tag 0GLK**, the
-  comparison of the sheafification of `U ↦ Hom_Y(R(U ⟶ Y)_! Λ, K[n])` with the restriction of
-  `H^n(Rf^! K)`.
+* `Stacks.EtaleCohomology.affineEtaleSheafifiedHomIso`: a `D⁺` variant of the adjunction step of
+  **Stacks Tag 0GLK** — the sheafification of `U ↦ Hom_Y(R(U ⟶ Y)_! Λ, K[n])` is the
+  sheafification of `U ↦ Hom_X((j_U)_! Λ, Uf K[n])` for a right adjoint `Uf` of `Rf_!` on `D⁺`.
+* `Stacks.EtaleCohomology.derivedUpperShriekHomologyAffineEtale`: a `D⁺` variant of **Stacks
+  Tag 0GLK**, with the right adjoint and the identification of the sheafified Hom presheaf of
+  `Uf K` with `H^n(Uf K)` as arguments.
+
+The full statement of Stacks Tag 0GLK, on unbounded derived categories, with `Rf^!` the right
+adjoint of Stacks Tag 0G2C and the sheafified Hom presheaf identified with the cohomology sheaf
+for every object, is `Stacks.EtaleCohomology.derivedUpperShriek_homology_affineEtale` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedUpperShriek.AffineEtaleHomology`.
 
 ## Implementation notes
 
@@ -69,44 +73,12 @@ The upper shriek is explicit data: a functor `Uf` together with an adjunction `R
 torsion hypothesis on `Λ` enters only through that adjunction, so it does not appear here.
 Likewise `Rf_!` takes an explicit compactification.
 
-Two inputs are hypotheses rather than constructions.
-
-**`adjF : derivedLowerShriek f j Λ ⊣ Uf`.**  That `Rf_!` has a right adjoint at all is Stacks
-Tag 0G2C, proved there by Brown representability for a torsion coefficient ring.  The adjunction
-is exactly what `Rf^!` is.
-
-**`sheafifiedCohomology`.**  This is Stacks Tag 0BKV — the cohomology sheaf `H^n(M)` is the
-sheaf associated to the presheaf `U ↦ H^n(U, M)` — composed with the source's "recall that
-`Hom_X(j_! Λ, M[n]) = H^n(U, M)`", at the single object `M = Rf^! K` where it is used.  The
-forms of Tag 0BKV for a `RingedSite`'s `SheafOfModules` (and of Tag 0BKJ for a ringed space) do
-not apply here, for four separate reasons, of which only the last is formal.
-
-1. *The category is different.*  Those forms are about `SheafOfModules R` for `R` a sheaf of
-   rings on the site.  This statement is about `Sheaf X.smallEtaleTopology (ModuleCat Λ)`,
-   modules valued in a fixed category of `Λ`-modules.  The only candidate ring sheaf is the
-   *sheafified* constant one, `AlgebraicGeometry.constantCoefficientSheaf`, whose sections over
-   `U` are the locally constant `Λ`-valued functions on `U`, not `Λ`.  A module over that sheaf
-   of rings carries an action of locally constant functions; an object of
-   `Sheaf J (ModuleCat Λ)` carries a single global `Λ`-action.  The two categories therefore
-   genuinely differ, and comparing their derived categories is not a formality.
-2. *The presheaf is presented differently.*  There the cohomology presheaf is `H^q` of the
-   right-derived **sections** presheaf.  The presheaf here is `U ↦ Hom(Λ_U, M[n])`.  Identifying
-   them is the source's "recall", available here only in degree zero and only for abelian
-   coefficients: `Stacks.Cohomology.FreeYoneda.cohomologyPresheafIsoSections` and
-   `Stacks.Cohomology.CohomologyPresheaf.extAddEquivSectionsHomology`.  Neither covers an object
-   of `D⁺` in a nonzero degree over `ModuleCat Λ`.
-3. *The universes are pinned.*  The clauses of Tag 0BKV that supply the values on objects and
-   their naturality are stated only at `RingedSite.{u, u, u}`.  Here the site lies in `u + 1`
-   with morphisms in `u` and the modules in `max (u + 1) r` with `r` the independent universe of
-   the coefficient ring, so those clauses cannot be instantiated without pinning `r`.
-4. *The site is different*, the statement below being about the restriction to
-   `X_{affine, étale}` while those clauses sheafify on the site itself.  This difference is
-   formal, handled by `CategoryTheory.Functor.IsDenseSubsite.sheafEquiv` together with
-   `CategoryTheory.Functor.IsDenseSubsite.sheafEquivSheafificationCompatibility`.  It is *not*
-   handled by `AlgebraicGeometry.Scheme.AffineEtale.sheafEquiv`, whose variable block pins the
-   coefficient category to `Category.{u}` over a `Scheme.{u}` and so does not instantiate at
-   `AddCommGrpCat.{max (u + 1) r + 1}`; the generic dense-subsite pair is universe-general and
-   does.
+The variants here take two inputs as arguments: the adjunction
+`adjF : derivedLowerShriek f j Λ ⊣ Uf` on `D⁺`, and, in `derivedUpperShriekHomologyAffineEtale`,
+the identification `sheafifiedCohomology` of the sheafification of `U ↦ Hom_X((j_U)_! Λ, M[n])`
+with the restriction of `H^n(M)` at `M = Uf K`.  On unbounded derived categories both are proved:
+the adjunction is `DerivedUpperShriek.isLeftAdjoint_derivedLowerShriekUnbounded` (Stacks Tag
+0G2C) and the identification is `Stacks.EtaleCohomology.affineEtaleHomPresheafSheafificationIso`.
 
 The two presheaves take values in abelian groups rather than `Λ`-modules: for `Λ` not
 commutative the groups `Hom_Y(R(U ⟶ Y)_! Λ, K[n])` carry no `Λ`-action, and the source's
@@ -299,12 +271,13 @@ def affineEtaleHomPresheafAdjIso {X Y : Scheme.{u}} {f : X ⟶ Y}
 
 /-! ### Stacks Tag 0GLK -/
 
-/-- **The content of Stacks Tag 0GLK that does not depend on Stacks Tag 0BKV.** The
-sheafification of the source's presheaf `U ↦ Hom_Y(R(U ⟶ Y)_! Λ, K[n])` on the small affine
-étale site of `X` is the sheafification of `U ↦ Hom_X((j_U)_! Λ, Rf^! K[n])`. -/
-@[stacks 0GLK "the comparison of the two sheafifications, which is the half of the tag not \
-depending on Stacks 0BKV; Rf^! is an explicit right adjoint of Rf_!, its existence being \
-Stacks 0G2C"]
+/-- **D⁺ variant of Stacks Tag 0GLK, the adjunction step.** For an explicit right adjoint
+`Uf` of `Rf_!` on `D⁺`, the sheafification of the source's presheaf
+`U ↦ Hom_Y(R(U ⟶ Y)_! Λ, K[n])` on the small affine étale site of `X` is the sheafification of
+`U ↦ Hom_X((j_U)_! Λ, Uf K[n])`.  The full statement of the tag, on unbounded derived
+categories, is `Stacks.EtaleCohomology.derivedUpperShriek_homology_affineEtale`. -/
+@[stacks 0GLK "D⁺ variant: the comparison of the two sheafifications given by the adjunction \
+Rf_! ⊣ Uf, for an explicit right adjoint Uf of Rf_! on D⁺"]
 def affineEtaleSheafifiedHomIso {X Y : Scheme.{u}} {f : X ⟶ Y}
     (j : CompactificationOf (Over.mk f)) (Λ : Type r) [Ring Λ]
     {Uf : DerivedCategory.Plus (EtaleModules.{u, r} Λ Y) ⥤
@@ -318,16 +291,17 @@ def affineEtaleSheafifiedHomIso {X Y : Scheme.{u}} {f : X ⟶ Y}
   (presheafToSheaf (AffineEtale.topology X) AddCommGrpCat.{max (u + 1) r + 1}).mapIso
     (affineEtaleHomPresheafAdjIso.{u, r} j Λ adjF K n).symm
 
-/-- **The same comparison, with only the right adjoint of the proper pushforward assumed.**
+/-- **D⁺ variant of Stacks Tag 0GLK, the adjunction step, built from a right adjoint of the proper
+pushforward.**
 
 `Rf_!` is the composite `R(fbar)_* ∘ Rj_!` of a compactification, and `Rj_!` has the right
 adjoint `Stacks.EtaleCohomology.etaleModuleDerivedExtensionByZeroAdj`, extension by zero along
 the open immersion being exact. So the adjunction `Rf_! ⊣ Rf^!` is
 `Stacks.EtaleCohomology.derivedLowerShriekAdjunctionOfFactors` of a right adjoint `Ubar` of
 `R(fbar)_*`, and `Rf^!` is `Ubar ⋙ Rj^{-1}`. -/
-@[stacks 0GLK "the comparison of the two sheafifications, assuming only a right adjoint of the \
-proper pushforward R(fbar)_*; the right adjoint of Rj_! along the open immersion is constructed, \
-not assumed"]
+@[stacks 0GLK "D⁺ variant: the comparison of the two sheafifications, for an explicit right \
+adjoint of the proper pushforward R(fbar)_* on D⁺; the right adjoint of Rj_! along the open \
+immersion is constructed"]
 def affineEtaleSheafifiedHomIsoOfToBase {X Y : Scheme.{u}} {f : X ⟶ Y}
     (j : CompactificationOf (Over.mk f)) (Λ : Type r) [Ring Λ]
     {Ubar : DerivedCategory.Plus (EtaleModules.{u, r} Λ Y) ⥤
@@ -343,7 +317,12 @@ def affineEtaleSheafifiedHomIsoOfToBase {X Y : Scheme.{u}} {f : X ⟶ Y}
     (derivedLowerShriekAdjunctionOfFactors.{u, r} j Λ
       (etaleModuleDerivedExtensionByZeroAdj.{u, r} Λ j.immersion) adjToBase) K n
 
-/-- **Stacks Project, Tag 0GLK.** Let `f : X ⟶ Y` be a separated finite type morphism of
+/-- **D⁺ variant of Stacks Tag 0GLK, with an explicit right adjoint and the sheafified
+cohomology identification as an argument.** The full statement of the tag, on unbounded derived
+categories and with both of these proved, is
+`Stacks.EtaleCohomology.derivedUpperShriek_homology_affineEtale`.
+
+Let `f : X ⟶ Y` be a separated finite type morphism of
 quasi-compact and quasi-separated schemes, let `Λ` be a ring, let `K` be an object of
 `D⁺(Y_étale, Λ)` and let `n : ℤ`.  Let `Uf` be a right adjoint of `Rf_!`, so `Uf = Rf^!`.  Then
 the cohomology sheaf `H^n(Rf^! K)`, restricted to the small affine étale site of `X`, is the
@@ -355,12 +334,9 @@ The right adjoint `Uf` and the adjunction are data: the adjunction is what `Rf^!
 existence is Stacks Tag 0G2C.  The hypothesis `sheafifiedCohomology` is Stacks Tag 0BKV
 together with the source's recollection `Hom_X(j_! Λ, M[n]) = H^n(U, M)`, at the single object
 `M = Rf^! K`. -/
-@[stacks 0GLK "with Rf^! taken as an explicit right adjoint of Rf_!, its existence being \
-Stacks 0G2C, which is not proved in this library and is therefore an \
-interface here; and with Stacks 0BKV supplied at the single object \
-Rf^!K, the clauses of 0BKV in this library being stated for a RingedSite's SheafOfModules in the \
-derived-sections presentation, which does not instantiate to Sheaf(X_etale, ModuleCat Λ) in \
-the Hom((j_U)_!Λ, -) presentation"]
+@[stacks 0GLK "D⁺ variant, for an explicit right adjoint Uf of Rf_! on D⁺ and with the \
+identification of the sheafified Hom presheaf of Uf K with its cohomology sheaf passed as an \
+argument; the unbounded statement is derivedUpperShriek_homology_affineEtale"]
 def derivedUpperShriekHomologyAffineEtale {X Y : Scheme.{u}} {f : X ⟶ Y}
     (j : CompactificationOf (Over.mk f)) (Λ : Type r) [Ring Λ]
     {Uf : DerivedCategory.Plus (EtaleModules.{u, r} Λ Y) ⥤

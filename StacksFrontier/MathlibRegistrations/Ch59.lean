@@ -140,7 +140,7 @@ add_to_stacks 03N5 AlgebraicGeometry.Scheme.etalePrecoverage
 
 add_to_stacks 03NC CategoryTheory.Functor
 
-add_to_stacks 03ND CategoryTheory.yoneda
+add_to_stacks 03ND "definition of h_X, the representable presheaf `U ↦ Mor(U, X)`" CategoryTheory.yoneda
 
 add_to_stacks 03NE CategoryTheory.Yoneda.fullyFaithful
 

@@ -69,7 +69,7 @@ unconditional.
 * `Stacks.Adequate.BigSite.universallyAcyclic_eq_inverseImage_qcohAllAlgebraSections` — **the
   condition on all `A`-algebras, proved.**
 * `Stacks.Adequate.BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_affine` —
-  **[Stacks, Tag 06ZR] over an affine base, unconditionally.**
+  **[Stacks, Tag 06ZR] at `τ = fppf`, unconditionally.**
 
 ## Implementation notes
 
@@ -135,13 +135,13 @@ proved. The four steps, each now closed:
 
 The hypothesis is therefore discharged, in
 `Stacks.Adequate.BigSite.universallyAcyclic_eq_inverseImage_qcohAllAlgebraSections`, and
-`Stacks.Adequate.BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_affine`
-carries the registration of [Stacks, Tag 06ZR] over an affine base. The `_of_huniv`,
-`_of_acyclic`, `_of_sections` and `_of_allAlgebras` statements remain, untagged, as the record of
-the reduction; what is still open for [Stacks, Tag 06ZR] is only the non-affine base, whose
-inputs are the hypotheses of
-`Stacks.Adequate.BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq` of
-`DerivedLocalization.lean`.
+`Stacks.Adequate.BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_affine` is
+[Stacks, Tag 06ZR] on the chosen big fppf site. The source states the lemma over an affine base
+`U = Spec A` only, for whichever of the five topologies the chapter has fixed; the passage from
+`τ = fppf` to the other four is
+`StacksFrontier/AlgebraicGeometry/Adequate/AdequateModules/DerivedLocalizationAllTopologies.lean`,
+where the registration is. The `_of_huniv`, `_of_acyclic`, `_of_sections` and `_of_allAlgebras`
+statements remain, untagged, as the record of the reduction.
 
 ## References
 
@@ -270,8 +270,9 @@ with its hypothesis rewritten by
 about sheaves on the site, or about adequate modules, is left in the hypothesis: both sides are
 conditions on complexes of modules over rings.
 
-It carries no tag, being still conditional; the registration of the source's lemma is on the
-statements of `DerivedLocalization.lean` and of `AssociatedModuleAdequacy.lean`. -/
+It carries no tag, being still conditional; the registration of the source's lemma is on
+`Stacks.Adequate.BigSite.isLocalization_associatedModuleAdeq_universalQuasiIso` of
+`DerivedLocalizationAllTopologies.lean`. -/
 public theorem BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_of_sections
     (hsec : universallyAcyclic (Spec A) =
       (HomotopyCategory.Plus.subcategoryAcyclic
@@ -489,8 +490,9 @@ with its hypothesis rewritten by
 has disappeared from the hypothesis: what is left of it is the comparison between all schemes
 `T ⟶ Spec A` and the affine ones, and nothing about a cutoff on the size of `T`.
 
-It carries no tag, being still conditional; the registration of the source's lemma is on the
-statements of `DerivedLocalization.lean` and of `AssociatedModuleAdequacy.lean`. -/
+It carries no tag, being still conditional; the registration of the source's lemma is on
+`Stacks.Adequate.BigSite.isLocalization_associatedModuleAdeq_universalQuasiIso` of
+`DerivedLocalizationAllTopologies.lean`. -/
 public theorem BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_of_allAlgebras
     (hall : universallyAcyclic (Spec A) =
       (HomotopyCategory.Plus.subcategoryAcyclic
@@ -551,17 +553,16 @@ public theorem BigSite.universallyAcyclic_eq_inverseImage_qcohAllAlgebraSections
         Functor.mapHomotopyCategoryPlusCompIso
           (BigSite.qcohAllAlgebraSectionsIsoModuleExtension B hS).symm))
 
-/-- **[Stacks, Tag 06ZR] over an affine base, unconditionally.** Over an affine scheme
-`U = Spec A` the bounded below derived category `D⁺(Adeq(𝒪))` is the localization of
-`K⁺(QCoh(𝒪_U))` at the universal quasi-isomorphisms.
+/-- **[Stacks, Tag 06ZR] at `τ = fppf`.** Over an affine scheme `U = Spec A`, on the chosen
+big fppf site of `B` over `U`, the bounded below derived category `D⁺(Adeq(𝒪))` is the
+localization of `K⁺(QCoh(𝒪_U))` at the universal quasi-isomorphisms. The statement for each of
+the five topologies of the source's conventions is
+`Stacks.Adequate.BigSite.isLocalization_associatedModuleAdeq_universalQuasiIso` of
+`DerivedLocalizationAllTopologies.lean`, which carries the registration.
 
 This is `BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_of_allAlgebras` with
 its single hypothesis discharged by
 `Stacks.Adequate.BigSite.universallyAcyclic_eq_inverseImage_qcohAllAlgebraSections`. -/
-@[stacks 06ZR "over an affine base `U = Spec A`, with no hypothesis: `D⁺(Adeq(𝒪))`, taken as the
-source does as the localization of `K⁺(Adeq(𝒪))` at the quasi-isomorphisms, is the localization
-of `K⁺(QCoh(𝒪_U))` at the universal quasi-isomorphisms along `u`. `(Sch/U)_fppf` is rendered as
-a chosen big fppf site containing `Spec A`"]
 public theorem BigSite.isLocalization_mapHomotopyCategoryPlus_associatedModuleAdeq_affine :
     (((BigSite.ofBigFppfSite B (Spec A) hS).associatedModuleAdeq).mapHomotopyCategoryPlus ⋙
         MorphismProperty.Q (HomotopyCategory.Plus.quasiIso

@@ -60,9 +60,9 @@ For `g : Sh(𝒳_{lisse,étale}) ⟶ Sh(𝒳_{étale})` the comparison morphism 
 * `g⁻¹ ∘ Lg_! = id`. -/
 @[stacks 07AS "part (1), the whole of it: existence of the unbounded left derived functor `Lg_!` \
 of `g_!` on abelian sheaves for the lisse-étale site, its adjunction `Lg_! ⊣ g⁻¹` (with \
-invertible unit), and `g⁻¹ ∘ Lg_! = id`, for every algebraic stack and with NO hypothesis. The \
-acyclicity statement of Tag 07AC is the theorem \
-`AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriekAcyclic` and the invertibility of the \
+invertible unit), and `g⁻¹ ∘ Lg_! = id`, for every algebraic stack, with no hypothesis. The \
+acyclicity statement of Tag 07AC is proved, as \
+`AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriekAcyclic`, and the invertibility of the \
 ordinary unit is Tag 077I"]
 theorem abelianLowerShriek_derived :
     haveI := isContinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
@@ -102,9 +102,9 @@ For `g : Sh(𝒳_{flat,fppf}) ⟶ Sh(𝒳_{fppf})` the comparison morphism of to
 * `g⁻¹ ∘ Lg_! = id`. -/
 @[stacks 07AS "part (3), the whole of it: existence of the unbounded left derived functor `Lg_!` \
 of `g_!` on abelian sheaves for the flat-fppf site, its adjunction `Lg_! ⊣ g⁻¹` (with \
-invertible unit), and `g⁻¹ ∘ Lg_! = id`, for every algebraic stack and with NO hypothesis. The \
-acyclicity statement of Tag 07AC is the theorem \
-`AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriekAcyclic` and the invertibility of the \
+invertible unit), and `g⁻¹ ∘ Lg_! = id`, for every algebraic stack, with no hypothesis. The \
+acyclicity statement of Tag 07AC is proved, as \
+`AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriekAcyclic`, and the invertibility of the \
 ordinary unit is Tag 077I"]
 theorem abelianLowerShriek_derived :
     haveI := isContinuous_inclusion B S hS 𝒳 flatClosure

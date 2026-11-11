@@ -40,7 +40,9 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- **Stacks 0CIA, part (1).** Let `f : 𝒳 ⟶ 𝒴` be a DM 1-morphism of algebraic stacks. For every
 DM algebraic stack `𝒵` and 1-morphism `g : 𝒵 ⟶ 𝒴` there is a scheme with a surjective étale
 1-morphism onto `𝒳 ×_{f, 𝒴, g} 𝒵`. -/
-@[stacks 0CIA "part (1)"]
+@[stacks 0CIA "part (1), unconditional: the apex is DM by Stacks 050F and 050L
+  (isAbsolutelyDM_twoFibreProduct_of_isDM) and the presentation comes from the proved substantial
+  direction of Stacks 06N3, existsEtalePresentationOfIsAbsolutelyDM"]
 theorem isDeligneMumfordStack_twoFibreProduct_of_isDM_of_dm
     {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)
     (hf : Stack.IsDM B S hS f) (h𝒵 : IsAbsolutelyDM B S hS B.contains_terminal 𝒵) :
@@ -52,7 +54,8 @@ theorem isDeligneMumfordStack_twoFibreProduct_of_isDM_of_dm
 /-- **Stacks 0CIA, part (2).** Let `f : 𝒳 ⟶ 𝒴` be a DM 1-morphism of algebraic stacks. For every
 algebraic space `Z` and 1-morphism `g : Z ⟶ 𝒴` there is a scheme with a surjective étale
 1-morphism onto `𝒳 ×_{f, 𝒴, g} Z`. -/
-@[stacks 0CIA "part (2)"]
+@[stacks 0CIA "part (2), unconditional and with no hypothesis on the algebraic space Z: Z read
+  as an algebraic stack is DM (isAbsolutelyDM_algebraicSpaceStack), so part (1) applies"]
 theorem isDeligneMumfordStack_twoFibreProduct_of_isDM_algebraicSpace
     {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (hf : Stack.IsDM B S hS f)
     (Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hZ : IsAlgebraicSpace B S hS Z)

@@ -21,9 +21,11 @@ between them that forgets the trivialisation along the section.
 ## Main definitions
 
 * `AlgebraicGeometry.Space.picardCategory` and
-  `AlgebraicGeometry.Space.picardCategoryData`: **Section 0372**, the category
-  `Picardstack_{X/B}`, and the value of the specification
-  `AlgebraicGeometry.Space.PicardCategoryData` it provides.
+  `AlgebraicGeometry.Space.picardCategoryData`: the category `Picardstack_{X/B}` of Section
+  0372 built from a given pseudofunctoriality of the direct images of Stacks 03LU, and the value
+  of the specification `AlgebraicGeometry.Space.PicardCategoryData` it provides.  The category
+  with no hypothesis is `AlgebraicGeometry.Space.picardStackCategory` of
+  `StacksFrontier/AlgebraicGeometry/Quot/PicardStackCategoryCanonical.lean`.
 * `AlgebraicGeometry.Space.picardBasedCategory` and `AlgebraicGeometry.Space.picardCFG`:
   **Stacks 04WN**, `Picardstack_{X/B}` as a category over the big fppf site of `S` and as an
   object of the 2-category of categories fibred in groupoids over it.
@@ -32,11 +34,11 @@ between them that forgets the trivialisation along the section.
   form the identity and the composition of `Picardstack_{X/B, σ}` need.
 * `AlgebraicGeometry.Space.sectionedPicardCategory`,
   `AlgebraicGeometry.Space.sectionedPicardBasedCategory` and
-  `AlgebraicGeometry.Space.sectionedPicardCFG`: **Stacks 0D29**, the rigidified category
-  `Picardstack_{X/B, σ}`, as a category, as a category over the site, and as an object of the
-  2-category of categories fibred in groupoids over it.
+  `AlgebraicGeometry.Space.sectionedPicardCFG`: the rigidified category `Picardstack_{X/B, σ}`
+  of the definition preceding Stacks 0D29, as a category, as a category over the site, and as an
+  object of the 2-category of categories fibred in groupoids over it.
 * `AlgebraicGeometry.Space.forgetTrivializationBased` and
-  `AlgebraicGeometry.Space.forgetTrivialization`: **Stacks 0D29**, the functor
+  `AlgebraicGeometry.Space.forgetTrivialization`: the faithful forgetful functor
   `Picardstack_{X/B, σ} ⟶ Picardstack_{X/B}` forgetting the trivialisation, as a functor over
   the site and as a 1-morphism of the 2-category of categories fibred in groupoids.  This is the
   1-morphism of **Stacks 0D2A**.
@@ -239,7 +241,6 @@ private theorem baseChangeMapComparison_hom_app_comp {T T' : s.SchemesOver} {g g
 
 /-- **Section 0372, the identity law at the source.**  Composing a morphism of
 `Picardstack_{X/B}` with the identity of its source returns it. -/
-@[stacks 0372 "the identity law at the source for the composition of the Picard stack"]
 theorem id_comp (hc : ModulePushforwardCoherence B S hS) {A C : PicardObject s}
     (m : PicardHom A C) : PicardHom.comp (PicardHom.id hc A) m = m := by
   refine PicardHom.ext (Category.id_comp m.base) ?_
@@ -249,7 +250,6 @@ theorem id_comp (hc : ModulePushforwardCoherence B S hS) {A C : PicardObject s}
 
 /-- **Section 0372, the identity law at the target.**  Composing a morphism of
 `Picardstack_{X/B}` with the identity of its target returns it. -/
-@[stacks 0372 "the identity law at the target for the composition of the Picard stack"]
 theorem comp_id (hc : ModulePushforwardCoherence B S hS) {A C : PicardObject s}
     (m : PicardHom A C) : PicardHom.comp m (PicardHom.id hc C) = m := by
   refine PicardHom.ext (Category.comp_id m.base) ?_
@@ -258,7 +258,6 @@ theorem comp_id (hc : ModulePushforwardCoherence B S hS) {A C : PicardObject s}
   exact eqToHom_comp_eqToHom_comp_picard _ _ _
 
 /-- **Section 0372, associativity.**  The composition of `Picardstack_{X/B}` is associative. -/
-@[stacks 0372 "associativity of the composition of the Picard stack"]
 theorem comp_assoc (hc : ModulePushforwardCoherence B S hS) {A C D E : PicardObject s}
     (m : PicardHom A C) (n : PicardHom C D) (p : PicardHom D E) :
     PicardHom.comp (PicardHom.comp m n) p = PicardHom.comp m (PicardHom.comp n p) := by
@@ -281,8 +280,7 @@ end PicardHom
 /-- **Section 0372, the category `Picardstack_{X/B}`.**  The objects are the triples `(U, b, L)`,
 the morphisms are the pairs `(f, g)` of a morphism of test schemes over the base and an
 isomorphism `f^*L' ≅ L`, and the identities and the composition are the ones of Section 0372. -/
-@[instance_reducible, stacks 0372 "the category Picardstack_{X/B}, conditional on the \
-pseudofunctoriality of the direct images of Stacks 03LU that its identity already needs"]
+@[instance_reducible]
 def picardCategory (hc : ModulePushforwardCoherence B S hS) (s : PicardSituation B S hS) :
     Category.{u + 1} (PicardObject s) where
   Hom A C := PicardHom A C
@@ -294,7 +292,6 @@ def picardCategory (hc : ModulePushforwardCoherence B S hS) (s : PicardSituation
 
 /-- **Section 0372, the functor `p`.**  The projection of `Picardstack_{X/B}` to the test schemes
 over the base, forgetting the invertible module. -/
-@[stacks 0372 "the projection of the Picard stack to the test schemes over the base"]
 def picardProjection (hc : ModulePushforwardCoherence B S hS) (s : PicardSituation B S hS) :
     letI : Category.{u + 1} (PicardObject s) := picardCategory hc s
     PicardObject s ⥤ s.SchemesOver :=
@@ -307,8 +304,6 @@ def picardProjection (hc : ModulePushforwardCoherence B S hS) (s : PicardSituati
 /-- **Section 0372.**  The category `Picardstack_{X/B}` together with its projection satisfies
 the specification `AlgebraicGeometry.Space.PicardCategoryData`: its hom-sets, identities,
 composition and projection are the ones of Section 0372. -/
-@[stacks 0372 "a value of the specification of the category Picardstack_{X/B} with its \
-projection, conditional on the pseudofunctoriality of the direct images of Stacks 03LU"]
 def picardCategoryData (hc : ModulePushforwardCoherence B S hS)
     (s : PicardSituation B S hS) : PicardCategoryData hc s where
   category := picardCategory hc s
@@ -372,11 +367,13 @@ section Sectioned
 
 variable {s : PicardSituation B S hS} {σ : s.base ⟶ s.X} {hσ : σ ≫ s.f = 𝟙 s.base}
 
-/-- **Stacks 0D29, the category `Picardstack_{X/B, σ}`.**  The objects are the quadruples
-`(T, h, L, α)` and the morphisms are the morphisms of `Picardstack_{X/B}` compatible with the
-trivialisations; the identities and the composition are those of `Picardstack_{X/B}`. -/
-@[instance_reducible, stacks 0D29 "the rigidified category Picardstack_{X/B, sigma}, \
-conditional on the pseudofunctoriality of the restriction along the section"]
+/-- **The category `Picardstack_{X/B, σ}` of the definition before Stacks 0D29.**  The objects
+are the quadruples `(T, h, L, α)` and the morphisms are the morphisms of `Picardstack_{X/B}`
+compatible with the trivialisations; the identities and the composition are those of
+`Picardstack_{X/B}`. The coherence `ht` is proved in the library
+(`AlgebraicGeometry.Space.sectionTransportCoherence`), and Stacks 0D29 itself is
+`AlgebraicGeometry.Space.sectionedPicardCFG_isStackInGroupoids`. -/
+@[instance_reducible]
 def sectionedPicardCategory (hc : ModulePushforwardCoherence B S hS)
     (ht : SectionTransportCoherence hc σ hσ) :
     Category.{u + 1} (PicardSituation.SectionedPicardObject σ hσ) where
@@ -473,10 +470,9 @@ def sectionedPicardCFG (hc : ModulePushforwardCoherence B S hS)
 
 /-! ### The 1-morphism forgetting the trivialisation -/
 
-/-- **Stacks 0D29, the functor `Picardstack_{X/B, σ} ⟶ Picardstack_{X/B}`** forgetting the
-trivialisation along the section, as a functor over the big fppf site of `S`. -/
-@[stacks 0D29 "the functor forgetting the trivialization along the section, as a functor over \
-the big fppf site"]
+/-- **The functor `Picardstack_{X/B, σ} ⟶ Picardstack_{X/B}`** of the definition before
+Stacks 0D29, forgetting the trivialisation along the section, as a functor over the big fppf site
+of `S`. -/
 def forgetTrivializationBased (hc : ModulePushforwardCoherence B S hS)
     (ht : SectionTransportCoherence hc σ hσ) :
     sectionedPicardBasedCategory hc ht ⥤ᵇ picardBasedCategory hc s where
@@ -497,10 +493,9 @@ theorem forgetTrivializationBased_faithful (hc : ModulePushforwardCoherence B S 
     (forgetTrivializationBased hc ht).toFunctor.Faithful :=
   ⟨fun h ↦ PicardSituation.SectionedPicardHom.ext h⟩
 
-/-- **Stacks 0D29, the 1-morphism `Picardstack_{X/B, σ} ⟶ Picardstack_{X/B}`** of the 2-category
-of categories fibred in groupoids over the big fppf site of `S`. -/
-@[stacks 0D29 "the 1-morphism of categories fibred in groupoids forgetting the trivialization \
-along the section"]
+/-- **The 1-morphism `Picardstack_{X/B, σ} ⟶ Picardstack_{X/B}`** forgetting the
+trivialisation, in the 2-category of categories fibred in groupoids over the big fppf site of
+`S`. -/
 def forgetTrivialization (hc : ModulePushforwardCoherence B S hS)
     (ht : SectionTransportCoherence hc σ hσ) :
     sectionedPicardCFG hc ht ⟶ picardCFG hc s :=

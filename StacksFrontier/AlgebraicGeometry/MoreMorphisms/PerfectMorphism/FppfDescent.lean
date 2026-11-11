@@ -38,8 +38,6 @@ open CategoryTheory
 
 universe u
 
-attribute [local instance] HasDerivedCategory.standard
-
 namespace AlgebraicGeometry
 
 /-- Precomposition with a flat morphism locally of finite presentation preserves perfectness of
@@ -71,12 +69,12 @@ theorem perfect_of_comp_surjective_flat_of_isAffine {X' X Y : Scheme.{u}}
     exact inferInstance
   have hff : (g.appTop).hom.FaithfullyFlat :=
     (Flat.flat_and_surjective_iff_faithfullyFlat_of_isAffine g).mp ⟨hgflat, hgsurj⟩
-  have hcomp' : PerfectRingHom (g.appTop.hom.comp f.appTop.hom) := by
+  have hcomp' : (g.appTop.hom.comp f.appTop.hom).Perfect := by
     simpa only [Scheme.Hom.comp_appTop, CommRingCat.hom_comp] using
       HasRingHomProperty.appTop (P := @Perfect) (g ≫ f) hcomp
-  rw [HasRingHomProperty.iff_of_isAffine (P := @Perfect) (Q := @PerfectRingHom)]
-  exact ⟨HasRingHomProperty.appTop (P := @PseudoCoherent) f hpc,
-    finiteTorDimensionRingHom_of_faithfullyFlat f.appTop.hom g.appTop.hom hff hcomp'.2⟩
+  rw [HasRingHomProperty.iff_of_isAffine (P := @Perfect) (Q := @RingHom.Perfect)]
+  exact .of_comp_of_faithfullyFlat _ _ hff (HasRingHomProperty.appTop (P := @PseudoCoherent) f hpc)
+    hcomp'
 
 /-- Perfectness of morphisms of schemes is local on the source for the fppf topology: a morphism
 is perfect exactly when its composites with the members of an fppf covering of its source are. -/

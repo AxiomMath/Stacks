@@ -51,8 +51,9 @@ No `@[stacks 0A86]` attribute appears below. The content of the tag is the equiv
 reverse implication is proved here only relative to its two ring-theoretic steps, which are
 hypotheses of `Stacks.Duality.isDualizingComplex_of_affineOpenCover` rather than theorems; the
 audit scanner keys on the bare four-character tag, so an attribute on a conditional form would
-render 0A86 formalized. The attribute belongs on the unconditional statement once the two steps
-land.
+render 0A86 formalized. The unconditional statement, which carries the attribute, is
+`Stacks.Duality.isDualizingComplex_iff_exists_affineOpenCover` in
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingComplexCoverCriterion.lean`.
 
 `AlgebraicGeometry.of_affine_open_cover` is stated for a predicate on `X.affineOpens`, whose
 basic opens are spelled `AlgebraicGeometry.Scheme.affineBasicOpen`; the hypotheses below are

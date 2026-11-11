@@ -31,8 +31,12 @@ and not merely some morphism with a Cartier inverse image.
 
 ## Main results
 
-* `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isEffectiveCartierDivisor` —
-  [Stacks, Tag 0BIB](https://stacks.math.columbia.edu/tag/0BIB).
+* `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isEffectiveCartierDivisor` — the
+  argument of [Stacks, Tag 0BIB](https://stacks.math.columbia.edu/tag/0BIB) for `Z` containing no
+  irreducible component of `X`, with the principalization step taken as an argument. The
+  registered form of Tag 0BIB is
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isEffectiveCartierDivisor_of_isRegular`
+  in `StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierInverseImage`.
 * `Stacks.ResolutionOfSurfaces.isNowhereDense_support_of_irreducibleSpace` — on an irreducible
   scheme a closed subscheme whose support is not everything does not contain a component, so the
   hypothesis of the previous result is the literal properness hypothesis of the source there.
@@ -63,10 +67,12 @@ second factor is supported on that finite set, so [Stacks, Tag 0AHH] principaliz
 chain of blowups at closed points; the inverse image of `E` stays Cartier along that chain, and a
 product of effective Cartier divisors is one.
 
-Tag 0AHH is formalized with the local splitting of [Stacks, Tag 0AGT] as an explicit hypothesis,
-since that local statement about regular two-dimensional local rings is not in the library. That
-hypothesis is threaded through unchanged here rather than discharged, and the `@[stacks 0BIB]`
-attribute carries a note saying so.
+The principalization step is the descent step of [Stacks, Tag 0AHH] (built on the local
+splitting of [Stacks, Tag 0AGT]), taken here as the argument `descent` so that this module does
+not import its proof. The library proves it (`Stacks.ResolutionOfSurfaces.pointBlowupDescent`),
+and `exists_pointBlowupChain_comap_isEffectiveCartierDivisor_of_isRegular` in
+`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierInverseImage` is
+Tag 0BIB with no such argument.
 
 ## References
 
@@ -218,14 +224,14 @@ public theorem PointBlowupChain.mono {X Y : Scheme.{u}} {T T' : Set X} {f : Y �
 
 /-! ### Turning a closed subscheme into an effective Cartier divisor -/
 
-/-- **Stacks Project, Tag 0BIB.** Let `X` be a regular Noetherian scheme of dimension `2` and let
-`Z ⊆ X` be a closed subscheme containing no irreducible component of `X` — the source's "proper
-closed subscheme". Then there is a sequence `Xₙ → … → X₁ → X` of blowups at closed points such
-that the inverse image `Zₙ` of `Z` in `Xₙ` is an effective Cartier divisor.
+/-- The argument of [Stacks, Tag 0BIB]: let `X` be a regular Noetherian scheme of dimension `2`
+and let `Z ⊆ X` be a closed subscheme containing no irreducible component of `X`. Then there is a
+sequence `Xₙ → … → X₁ → X` of blowups at closed points such that the inverse image `Zₙ` of `Z` in
+`Xₙ` is an effective Cartier divisor.
 
-The first hypothesis is the local splitting of [Stacks, Tag 0AGT] that the library's form of
-[Stacks, Tag 0AHH] consumes; it is threaded through unchanged. -/
-@[stacks 0BIB "granted the local splitting of Tag 0AGT that the formalized Tag 0AHH consumes"]
+The first argument is the descent step of [Stacks, Tag 0AHH], which the library proves as
+`Stacks.ResolutionOfSurfaces.pointBlowupDescent`. Tag 0BIB itself, with no such argument, is
+`exists_pointBlowupChain_comap_isEffectiveCartierDivisor_of_isRegular`. -/
 public theorem exists_pointBlowupChain_comap_isEffectiveCartierDivisor
     (descent : ∀ (Y : Scheme.{u}) (S : Finset Y) (J : Y.IdealSheafData),
       (∀ y ∈ S, IsClosed ({y} : Set Y)) →

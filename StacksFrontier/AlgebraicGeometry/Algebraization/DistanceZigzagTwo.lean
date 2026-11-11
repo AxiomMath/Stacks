@@ -1,6 +1,5 @@
 module
 
-public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Algebraization.DistanceFunction
 
 /-!
@@ -106,10 +105,10 @@ public theorem two_le_topCodim_closureSingleton_of_specializes [T0Space X] {a c 
         · exact h₂⟩
   exact IrreducibleClosedsCodim.length_le_topCodim _ _ p rfl rfl
 
-/-- **Stacks Project, Tag 0EIX.** In a Noetherian scheme, if a point `z` of `Z` is an
-immediate specialization of `v`, `v` an immediate specialization of `w`, and `w ⤳ c ⤳ y` is a
-strict chain of length two, then `δ^Y_Z(y) ≤ 2`. -/
-@[stacks 0EIX "a zigzag of weight two"]
+/-- In a Noetherian scheme, if a point `z` of `Z` is an immediate specialization of `v`, `v` an
+immediate specialization of `w`, and `w ⤳ c ⤳ y` is a strict chain of length two, then the
+distance `δ^Y_Z(y)` of Stacks 0EIX is at most two. This is a consequence of the definition, not
+a statement of the source. -/
 public theorem distanceFunction_le_two_of_zigzag (Y : Scheme.{u}) [IsNoetherian Y]
     (Z : Closeds Y) {z v w c y : Y} (hz : z ∈ (Z : Set Y))
     (hvz : v ⤳ z) (hcovvz : ∀ x, v ⤳ x → x ⤳ z → x = v ∨ x = z)

@@ -21,10 +21,11 @@ with `χ(ℙⁿ_k, ℱ(d)) = P(d)` for all `d ∈ ℤ` — is
 the degree bound this file's induction is refined into there.
 
 `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial` carries out the source's induction on
-`n` and its base case, granted one geometric input: the hypothesis `hstep`, the hyperplane
+`n` and its base case, taking one geometric input as the argument `hstep`: the hyperplane
 difference formula, which asserts that the first difference of the Hilbert polynomial of a
 coherent sheaf on `ℙ^{m+1}_k` is again the Hilbert polynomial of a coherent sheaf, now on `ℙᵐ_k`.
-**This file discharges `hstep`**, and so proves the tag outright.
+**This file discharges `hstep`** over an infinite field, and so proves the eventual reading
+outright; the tag itself is registered on the every-integer statement.
 
 ## Main results
 
@@ -32,8 +33,8 @@ coherent sheaf on `ℙ^{m+1}_k` is again the Hilbert polynomial of a coherent sh
   formula over an infinite field** — `hstep`, for an infinite base field.
 * `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial_of_infinite`: hence
   [Stacks, Tag 08AC] over an infinite field.
-* `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'`: **[Stacks, Tag 08AC]** in the
-  eventual reading of [Stacks, Tag 00JX], over an arbitrary field.
+* `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'`: the Hilbert polynomial is a
+  numerical polynomial in the sense of [Stacks, Tag 00JX], over an arbitrary field.
 
 ## How `hstep` is discharged
 
@@ -75,12 +76,11 @@ the other is.
 
 ## Implementation notes
 
-**[Stacks, Tag 08AC] is attached**, with no qualifier, to
-`AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'`. The clause-qualified attribute on
-`AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial` is left where it is: that theorem is
-the source's induction with `hstep` as an explicit hypothesis, which is still the reusable form,
-and the two registrations together say that the induction and its one geometric input are both
-accounted for.
+**[Stacks, Tag 08AC] is registered on**
+`AlgebraicGeometry.exists_polynomial_eval_eq_hilbertPolynomial`, downstream in
+`StacksFrontier.AlgebraicGeometry.Variety.EulerChar.HilbertPolynomialFiniteDetermination`, which
+states it at every integer. `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'` gives
+only the eventual reading of [Stacks, Tag 00JX] and so carries no tag.
 
 **Why the Euler characteristic needs a congruence lemma for the structure morphism.**
 `AlgebraicGeometry.eulerCharacteristic` takes the morphism to `Spec k` as an argument, so
@@ -179,8 +179,9 @@ public theorem exists_coherent_hilbertPolynomial_sub_eq (k : Type u) [Field k] [
       (projectiveTwist m H d) h3
   exact hdiff.trans heq
 
-/-- **[Stacks, Tag 08AC] over an infinite field.** For an infinite field `k`, an integer `n ≥ 0`
-and a coherent sheaf `ℱ` on `ℙⁿ_k`, the function `d ↦ χ(ℙⁿ_k, ℱ(d))` is a numerical polynomial.
+/-- **The Hilbert polynomial is a numerical polynomial, over an infinite field.** For an infinite
+field `k`, an integer `n ≥ 0` and a coherent sheaf `ℱ` on `ℙⁿ_k`, the function
+`d ↦ χ(ℙⁿ_k, ℱ(d))` is a numerical polynomial.
 
 The source's induction on `n` is
 `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial`; its hypothesis is discharged by
@@ -225,7 +226,7 @@ public theorem hilbertPolynomial_pullback_fieldExtension (k K : Type u) [Field k
     (projectiveSpaceOverRing n (CommRingCat.of K) ↘ Spec (CommRingCat.of K)) etw
   exact hiso.symm.trans hbc.symm
 
-/-- **[Stacks, Tag 08AC] in its eventual reading.** For a field `k`, an integer `n ≥ 0` and a
+/-- **The Hilbert polynomial is a numerical polynomial.** For a field `k`, an integer `n ≥ 0` and a
 coherent sheaf `ℱ` on `ℙⁿ_k`, the function `d ↦ χ(ℙⁿ_k, ℱ(d))` is a numerical polynomial.
 **No hypothesis.**
 
@@ -236,10 +237,7 @@ statement is `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial_of_infin
 
 `IsNumericalPolynomial` is [Stacks, Tag 00JX]'s notion, which constrains the function only for
 `d ≫ 0`. The tag as stated — a polynomial identity at every `d ∈ ℤ` — is
-`AlgebraicGeometry.exists_polynomial_eval_eq_hilbertPolynomial`. -/
-@[stacks 08AC "the conclusion in the eventual reading of Tag 00JX: the Hilbert polynomial agrees \
-with a sum of binomial coefficients for d >> 0; the tag's own every-integer reading is \
-AlgebraicGeometry.exists_polynomial_eval_eq_hilbertPolynomial"]
+`AlgebraicGeometry.exists_polynomial_eval_eq_hilbertPolynomial`, which carries the tag. -/
 public theorem isNumericalPolynomial_hilbertPolynomial' (k : Type u) [Field k] (n : ℕ)
     (F : (projectiveSpaceOverRing n (CommRingCat.of k)).Modules) [F.IsCoherent] :
     IsNumericalPolynomial (hilbertPolynomial k n F) := by

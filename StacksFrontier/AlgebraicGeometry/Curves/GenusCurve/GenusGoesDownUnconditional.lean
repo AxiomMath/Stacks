@@ -216,8 +216,10 @@ end Cokernel
 Then the genus of `Y` is at most the genus of `X`, that is
 `dim_k H¹(Y, 𝒪_Y) ≤ dim_k H¹(X, 𝒪_X)`.
 
-This is `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero` with its three cohomological
-hypotheses discharged; see the module docstring. -/
+The hypotheses are exactly the source's: `X` proper over `k` of dimension at most one, `f`
+finite, and `f` a closed immersion over the dense open `U`. The proof applies the cohomological
+step `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero`, whose three inputs are proved here
+from those hypotheses; see the module docstring. -/
 @[stacks 0CE3]
 theorem genus_le_of_isFinite_of_isClosedImmersion_over_dense_open
     (k : Type u) [Field k] {X Y : Scheme.{u}} (g : X ⟶ Spec (.of k)) [IsProper g]

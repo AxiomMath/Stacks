@@ -152,7 +152,12 @@ R(f'f)_*(K ⊗ L) --c--→ Rf'_*Rf_*(K ⊗ L) ←--Rf'_*(cup for f)-- Rf'_*(Rf_*
 
 commutes in `D(𝒪'')`. The left-hand vertical arrow is the relative cup product for the composite
 morphism `f' ∘ f` itself, and the two horizontal edges `c` are the components of the composition
-isomorphism `derivedPushforwardCompIso`. -/
+isomorphism `derivedPushforwardCompIso`.
+
+The proof transports `relativeCupProduct_comp`, the same square for the composite adjunction
+`Rf_* ⋙ Rf'_*` with the composite of the two comparisons of [Stacks, Tag 07A4], along the
+composition isomorphism, using the compatibility of the comparison of [Stacks, Tag 07A4] with
+composition, `Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso_hom_app_comp`. -/
 @[stacks 0FPN "the square at the composite morphism itself, with no carried input: the left edge \
   is the relative cup product of Tag 0B6C for f' ∘ f and the two equality edges of the source are \
   the components of the composition isomorphism of derived pushforward, the conjugate of the \

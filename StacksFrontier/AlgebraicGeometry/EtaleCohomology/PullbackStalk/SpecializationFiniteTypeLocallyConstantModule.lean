@@ -18,9 +18,10 @@ at the geometric point and is compatible with specialization, so the stalks are 
 generated `Λ`-modules and the specialization maps are bijective.
 
 This is the implication (1) ⟹ (2) of Tag 0GKC, the module-coefficient analogue of Tag 0GJ7.
-The converse implication (2) ⟹ (1) is carried as a hypothesis in
-`AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_iff_stalks_and_specialization`;
-see the implementation notes.
+The converse implication (2) ⟹ (1) and the equivalence itself are proved in the downstream file
+`SpecializationFiniteTypeLocallyConstantModuleConverse.lean` of this directory, as
+`AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_of_isFG_etaleStalk` and
+`AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_iff_isFG_etaleStalk_and_bijective`.
 
 ## Main definitions
 
@@ -37,7 +38,9 @@ see the implementation notes.
   `AlgebraicGeometry.bijective_specializationMapOnStalks_of_isFiniteTypeLocallyConstantModuleSheaf`
   — the two halves of the implication (1) ⟹ (2) of Tag 0GKC.
 * `AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_iff_stalks_and_specialization`
-  — the equivalence of Tag 0GKC, with the converse implication carried as a hypothesis.
+  — the equivalence of Tag 0GKC derived from a supplied proof `hconverse` of the converse
+  implication; the equivalence with no such argument is
+  `AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_iff_isFG_etaleStalk_and_bijective`.
 
 ## Implementation notes
 
@@ -54,13 +57,13 @@ provide are transported to the small étale site itself by
 `CategoryTheory.GrothendieckTopology.mem_over_iff` before the joint surjectivity property of the
 point attached to the geometric point is applied to them.
 
-Only the implication (1) ⟹ (2) is proved. The converse implication is carried as the explicit
-hypothesis `hconverse` of the equivalence below: its proof in the source constructs an étale
-neighbourhood trivializing `F` out of a presentation of the stalk, which needs Tag 03PU for
-sheaves of `Λ`-modules (the library has it for sheaves of sets and of abelian groups), the
-openness of the locus where a comparison map is bijective, and the ascent of the
-finitely-many-irreducible-components hypothesis along an étale morphism from Tag 0BAL. The
-hypothesis on `S` is the tag's own and is not strengthened to a Noetherian hypothesis.
+The implication (1) ⟹ (2) proved here uses neither the hypothesis on the irreducible
+components of `S` nor the Noetherian hypothesis on `Λ`. The converse implication, which constructs
+an étale neighbourhood trivializing `F` out of a presentation of the stalk, is proved in the
+downstream file `SpecializationFiniteTypeLocallyConstantModuleConverse.lean` of this directory,
+using the openness of the locus where a comparison map is bijective and the ascent of the
+finitely-many-irreducible-components hypothesis along an étale morphism (Tag 0BAL,
+`AlgebraicGeometry.finiteIrreducibleComponents_of_etale`).
 
 ## References
 
@@ -256,10 +259,9 @@ public theorem exists_locallyBijective_constantHom_of_isFiniteTypeLocallyConstan
     toSheafify ((SmallEtale.topology B S hS).over (X i))
       ((Functor.const (Over (X i))ᵒᵖ).obj E) ≫ δ.hom, inferInstance, inferInstance⟩
 
-/-- **Stacks Project, Tag 0GKC, the implication (1) ⟹ (2), first half.** The stalk at a
+/-- The implication (1) ⟹ (2) of Stacks Project, Tag 0GKC, first half: the stalk at a
 geometric point of a finite type locally constant sheaf of `Λ`-modules on the small étale site
 of a scheme is a finitely generated `Λ`-module. -/
-@[stacks 0GKC "(1) ⟹ (2), the stalks are finite modules"]
 public theorem isFG_etaleStalk_of_isFiniteTypeLocallyConstantModuleSheaf
     (F : Sheaf (SmallEtale.topology B S hS) (ModuleCat.{max (u + 1) r} Λ))
     (hF : IsFiniteTypeLocallyConstantModuleSheaf.{u, u + 1, r}
@@ -271,10 +273,10 @@ public theorem isFG_etaleStalk_of_isFiniteTypeLocallyConstantModuleSheaf
       B S hS Λ F hF s
   exact isFG_etaleStalk_of_bijective_moduleConstantGerm B S hS Λ hE s x ψ hinj hsurj
 
-/-- **Stacks Project, Tag 0GKC, the implication (1) ⟹ (2), second half.** Every specialization
+/-- The implication (1) ⟹ (2) of Stacks Project, Tag 0GKC, second half: every specialization
 map between stalks of a finite type locally constant sheaf of `Λ`-modules on the small étale
 site of a scheme is bijective. -/
-@[stacks 0GKC "(1) ⟹ (2), the specialization maps are bijective", sga "4 IX 2.13" "(i)"]
+@[sga "4 IX 2.13" "(i)"]
 public theorem bijective_specializationMapOnStalks_of_isFiniteTypeLocallyConstantModuleSheaf
     (F : Sheaf (SmallEtale.topology B S hS) (ModuleCat.{max (u + 1) r} Λ))
     (hF : IsFiniteTypeLocallyConstantModuleSheaf.{u, u + 1, r}
@@ -288,17 +290,18 @@ public theorem bijective_specializationMapOnStalks_of_isFiniteTypeLocallyConstan
 
 /-! ### The equivalence of Tag 0GKC -/
 
-/-- **Stacks Project, Tag 0GKC.** Let `S` be a scheme such that every quasi-compact open of `S`
-has a finite number of irreducible components, let `Λ` be a Noetherian ring and let `F` be a
-sheaf of `Λ`-modules on the small étale site of `S`. Then `F` is a finite type locally constant
-sheaf of `Λ`-modules if and only if all its stalks at geometric points are finite, i.e.
-finitely generated, `Λ`-modules and all specialization maps between stalks are bijective.
+/-- The equivalence of Stacks Project, Tag 0GKC, from a supplied converse. Let `S` be a scheme
+such that every quasi-compact open of `S` has a finite number of irreducible components, let `Λ`
+be a Noetherian ring and let `F` be a sheaf of `Λ`-modules on the small étale site of `S`. Then
+`F` is a finite type locally constant sheaf of `Λ`-modules if and only if all its stalks at
+geometric points are finite, i.e. finitely generated, `Λ`-modules and all specialization maps
+between stalks are bijective.
 
 The implication (1) ⟹ (2) is proved here, using neither `hqc` nor the Noetherian hypothesis
-on `Λ`. The converse implication (2) ⟹ (1) is **not** proved: it is carried as the
-explicit hypothesis `hconverse`, which is the only use made of `hqc` and of
-`IsNoetherianRing Λ`. See the implementation notes of this file for what its proof needs. -/
-@[stacks 0GKC "the equivalence, with (2) ⟹ (1) carried as the hypothesis `hconverse`"]
+on `Λ`; the implication (2) ⟹ (1) is read off from `hconverse`. The converse is proved with no
+such argument by `AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_of_isFG_etaleStalk`,
+and the equivalence without `hconverse` is
+`AlgebraicGeometry.isFiniteTypeLocallyConstantModuleSheaf_iff_isFG_etaleStalk_and_bijective`. -/
 public theorem isFiniteTypeLocallyConstantModuleSheaf_iff_stalks_and_specialization
     [IsNoetherianRing Λ]
     (hqc : ∀ V : S.Opens, IsCompact (V : Set S) → (irreducibleComponents V).Finite)

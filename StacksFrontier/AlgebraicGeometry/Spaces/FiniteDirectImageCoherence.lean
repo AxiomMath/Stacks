@@ -13,9 +13,12 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentCartesianOnAf
 
 Let `f : X ⟶ Y` be a finite morphism of algebraic spaces over a scheme `S` with `Y` locally
 Noetherian, and let `F` be a coherent `𝒪_X`-module.  Stacks 07UH asserts that `R^p f_*F = 0`
-for `p > 0` and that `f_*F` is coherent.  Both assertions are proved here, each from one named
+for `p > 0` and that `f_*F` is coherent.  This file reduces each assertion to one named
 hypothesis holding the case of an étale chart of `Y`, which is the step the source's proof
-delegates to the case of schemes (Cohomology of Schemes, Lemma 01Y6) across Stacks 03DW.
+delegates to the case of schemes (Cohomology of Schemes, Lemma 01Y6).  Stacks 07UH itself, with
+no hypothesis beyond the source's, is
+`AlgebraicGeometry.Space.isZero_rightDerived_and_isCoherent_modulePushforward_of_isFinite` in
+`StacksFrontier/AlgebraicGeometry/Spaces/FiniteDirectImageCoherentVanishing.lean`.
 
 The coherence criterion that the direct image is measured against is proved here without any
 hypothesis: on a locally Noetherian algebraic space a module is coherent exactly when it is
@@ -30,22 +33,21 @@ quasi-coherent and of finite type, which is Stacks 07UB (1) ⇔ (2).
   `AlgebraicGeometry.Space.hasEtaleLocalProperty_isLocallyNoetherian_chart`: **Stacks 03E8 at
   local Noetherianity** — every étale chart of a locally Noetherian algebraic space is locally
   Noetherian, as a scheme and as an algebraic space.
-* `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isFinite`: **the vanishing
-  assertion of Stacks 07UH** — the higher direct images of a module along a finite morphism
-  vanish, granted the chart case `h03DW`.
-* `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite`: **the coherence assertion
-  of Stacks 07UH** — the direct image of a coherent module along a finite morphism onto a
-  locally Noetherian algebraic space is coherent, granted the chart case `hchart` at one étale
-  chart of `Y` surjective on points, which the caller chooses.
+* `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isFinite`: the reduction of
+  the vanishing assertion of Stacks 07UH to the chart case — the higher direct images of a
+  module along a finite morphism vanish when those of its chart base changes do.
+* `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite`: the reduction of the
+  coherence assertion of Stacks 07UH to the chart case `hchart` at one étale chart of `Y`
+  surjective on points, which the caller chooses.
 
 ## Implementation notes
 
 **The coherence criterion is unconditional.**  `AlgebraicGeometry.Space.CoherentNoetherian`
 proves Stacks 07UB (1) ⇔ (2) over the hypothesis
-`AlgebraicGeometry.Space.IsCartesianOnAffineCharts`, which is Descent, Proposition 03DX (2) for
-the charts of the space, and records that the tree does not have it.  It does:
-`AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite` carries
-`@[stacks 03DX "quasi-coherent implies cartesian"]`, and in the reverse direction of the
+`AlgebraicGeometry.Space.IsCartesianOnAffineCharts`, and records that the tree does not derive
+it from quasi-coherence.  It does:
+`AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite` proves that a
+quasi-coherent `𝒪_F`-module is cartesian on affine charts, and in the reverse direction of the
 criterion quasi-coherence is a hypothesis, so the base change property is free there.  The
 module universe is the universe `u` of the structure rings, which is where that input lives.
 
@@ -64,11 +66,12 @@ the étale-site form of Stacks 01Y6, whose Zariski form is proved — the vanish
 `Stacks.AlgebraicGeometry.FiniteDirectImageCoherent.isZero_higherDirectImage_of_isFinite` and
 the coherence half as
 `Stacks.AlgebraicGeometry.FiniteDirectImageCoherent.isCoherent_pushforward_of_isFinite` — for
-`AlgebraicGeometry.Scheme.Modules`, that is on the Zariski site.  Passing to the small étale
-site is Stacks 03DW, which is carried nowhere in this development, and the comparison of
-`AlgebraicGeometry.Scheme.Modules` with `AlgebraicGeometry.Space.Modules` of a represented
-algebraic space that would transport it does not exist either.  So one tag, 03DW, is what both
-hypotheses are owed from, and each attribute below names it.
+`AlgebraicGeometry.Scheme.Modules`, that is on the Zariski site.  Both hypotheses are now
+discharged elsewhere: the vanishing one by
+`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom` for `F`
+quasi-coherent and degree positive, and the coherence assertion is proved outright by
+`AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite'` (through Stacks 04NZ and
+Stacks 02O6), so neither declaration below carries the Stacks attribute.
 
 **Neither assertion needs all of the source's hypotheses.**  The vanishing reduction uses
 finiteness of `f` only through affineness, and uses neither local Noetherianity of `Y`, nor
@@ -89,7 +92,6 @@ commits to them and then fails on the universe constraint.
 * [Stacks Project, Tag 07UH](https://stacks.math.columbia.edu/tag/07UH)
 * [Stacks Project, Tag 07UB](https://stacks.math.columbia.edu/tag/07UB)
 * [Stacks Project, Tag 01Y6](https://stacks.math.columbia.edu/tag/01Y6)
-* [Stacks Project, Tag 03DW](https://stacks.math.columbia.edu/tag/03DW)
 * [Stacks Project, Tag 03DX](https://stacks.math.columbia.edu/tag/03DX)
 * [Stacks Project, Tag 073H](https://stacks.math.columbia.edu/tag/073H)
 * [Stacks Project, Tag 04CF](https://stacks.math.columbia.edu/tag/04CF)
@@ -136,26 +138,27 @@ theorem isCoherent_iff_isQuasicoherentOnSite_and_isFiniteType
 
 variable {X Y : AlgebraicSpaces B S hS}
 
-/-- **The vanishing assertion of Stacks 07UH, granted the chart case `h03DW`.**  Let
+/-- **Reduction of the vanishing assertion of Stacks 07UH to the chart case.**  Let
 `f : X ⟶ Y` be a finite morphism of algebraic spaces over `S` whose chart base changes have
 vanishing degree-`n` higher direct images.  Then `R^n f_*𝓕 = 0`.
 
 A finite morphism is affine, `AlgebraicGeometry.Space.IsFinite.isAffineHom`, so this is
-`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`, the reduction of
-Stacks 073H through Equation 69.3.0.1 of Stacks 071Z.  The source's hypotheses that `Y` be
-locally Noetherian, that `𝓕` be coherent and that `n > 0` are not used; `h03DW` is the
-étale-site form of Stacks 01Y6, that is Stacks 03DW, which this development does not carry. -/
-@[stacks 07UH "vanishing of the higher direct images, granted the étale-affine case h03DW \
-of Stacks 03DW"]
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`, the reduction
+behind Stacks 073H through Equation 69.3.0.1 of Stacks 071Z.  The source's hypotheses that `Y` be
+locally Noetherian, that `𝓕` be coherent and that `n > 0` are not used; `hchart` is the
+étale-site form of Stacks 01Y6.  For `𝓕` quasi-coherent and `n > 0` it is discharged by
+`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom`, which gives the
+unconditional
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isFinite_of_isCoherent`. -/
 theorem isZero_rightDerived_modulePushforward_of_isFinite (f : X ⟶ Y)
     (hf : IsFinite B S hS f.hom) (G : Modules.{u, u} B S hS X.obj X.property) (n : ℕ)
-    (h03DW : ChartwiseIsZeroHigherDirectImage B S hS f
+    (hchart : ChartwiseIsZeroHigherDirectImage B S hS f
       (relativelyRepresentable_of_isAffineHom B S hS f hf.isAffineHom)
       G n) :
     have := hasInjectiveResolutions_modules B S hS X.obj X.property
     IsZero (((modulePushforward B S hS f).rightDerived n).obj G) :=
   isZero_rightDerived_modulePushforward_of_isAffineHom B S hS f
-    hf.isAffineHom G n h03DW
+    hf.isAffineHom G n hchart
 
 /-! ### Local Noetherianity of an arbitrary étale chart -/
 
@@ -186,7 +189,7 @@ theorem hasEtaleLocalProperty_isLocallyNoetherian_chart
 
 /-! ### The coherence of the direct image along a finite morphism -/
 
-/-- **The coherence assertion of Stacks 07UH, granted the chart case `hchart`.**  Let
+/-- **Reduction of the coherence assertion of Stacks 07UH to the chart case `hchart`.**  Let
 `f : X ⟶ Y` be a finite morphism of algebraic spaces over `S` with `Y` locally Noetherian, let
 `𝓕` be a coherent `𝒪_X`-module, and let `V` be an étale scheme chart of `Y` surjective on
 points.  Then `f_*𝓕` is coherent.
@@ -196,13 +199,13 @@ localized direct image of Stacks 04CF, by
 `AlgebraicGeometry.Space.isCoherentOnSite_modulePushforward_of_over_of_isSurjective`.  The two
 geometric premises of `hchart` are discharged: the base change of `f` along `V` is finite by
 Stacks 03ZS, and `V` is locally Noetherian by Stacks 03E8.  So `hchart` is the étale-site form
-of Stacks 01Y6, that is Stacks 03DW, which this development does not carry.
+of Stacks 01Y6.  The coherence assertion itself, with no chart hypothesis, is
+`AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite'`.
 
 Unlike `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite_of_chartCase` the chart
 is the caller's, not the atlas that `hY` supplies, which is what lets `hchart` be met at an
 *affine* chart; that is possible here because local Noetherianity of an arbitrary chart is
 available, by `AlgebraicGeometry.Space.isLocallyNoetherian_chart`. -/
-@[stacks 07UH "coherence of the direct image, granted the chart case hchart of Stacks 03DW"]
 theorem isCoherent_modulePushforward_of_isFinite (f : X ⟶ Y) (hf : IsFinite B S hS f.hom)
     (hY : HasEtaleLocalProperty B S hS Y.1 (fun T : Scheme.{u} ↦ IsLocallyNoetherian T))
     (G : Modules.{u, u} B S hS X.1 X.2) (hG : IsCoherent B S hS X.1 X.2 G)

@@ -67,12 +67,11 @@ existentially over the restrictions they use. They carry *separate* coverings, a
 Stacks 06P1 (2): the covering in (2)(b) depends on the morphism `b`, and merging the two into
 one covering would strengthen the definition.
 
-Stacks states 06P2 for stacks in groupoids. The descent half of that hypothesis has no
-counterpart available: `CategoryTheory.Pseudofunctor.IsStack` is stated for pseudofunctors,
-and there is no construction turning a fibred category into one, which would need a cleavage.
-The hypothesis recorded here is therefore that both fibrations are fibred in groupoids. Every
-stack in groupoids is fibred in groupoids, so `IsGerbeOver` applied to stacks in groupoids is
-the notion of Stacks 06P2, and `IsGerbeOver.comp` is proved in the wider generality.
+Stacks states 06P2 for stacks in groupoids. `IsGerbeOver` asks only that both fibrations be
+fibred in groupoids, which every stack in groupoids is; the definition of Stacks 06P2 itself,
+with the stacks-in-groupoids hypotheses of Stacks 02ZI, is
+`CategoryTheory.IsGerbeOverStackInGroupoids`, which is `IsGerbeOver` together with those
+hypotheses. `IsGerbeOver.comp` is proved in the wider generality.
 -/
 
 @[expose] public section
@@ -108,12 +107,14 @@ private theorem exists_fiberHom_of_isHomLift {p : 𝒳 ⥤ 𝒞} (hp : p.IsFiber
     rw [IsHomLift.fac' p f ξ', IsHomLift.fac' p f ξ]; simp)
   exact ⟨χ, IsHomLift.of_fac' p (𝟙 V) χ h₁ h₂ (by simp [hmap]), hfac⟩
 
-/-- **Stacks 06P2**. `F` makes `𝒳` a *gerbe over* `𝒴`, where `q : 𝒴 ⥤ 𝒞` fibres `𝒴` over the
+/-- `F` makes `𝒳` a *gerbe over* `𝒴`, where `q : 𝒴 ⥤ 𝒞` fibres `𝒴` over the
 site `(𝒞, J)` and `F ⋙ q` fibres `𝒳` over it: both fibrations are fibred in groupoids, every
 object of `𝒴` is locally in the image of `F`, and every morphism of a fibre of `q` between
 `F`-images is locally the `F`-image of a morphism of a fibre of `F ⋙ q`. The last two
-conditions are Stacks 06P1 (2)(a) and (2)(b). -/
-@[stacks_fixed 06P2]
+conditions are Stacks 06P1 (2)(a) and (2)(b).
+
+The definition of Stacks 06P2, for stacks in groupoids `F ⋙ q` and `q`, is
+`CategoryTheory.IsGerbeOverStackInGroupoids`, which adds those two hypotheses to this one. -/
 structure IsGerbeOver (J : GrothendieckTopology 𝒞) (q : 𝒴 ⥤ 𝒞) (F : 𝒳 ⥤ 𝒴) : Prop where
   /-- `𝒴` is fibred in groupoids over `𝒞`. -/
   base_isFiberedInGroupoids : q.IsFiberedInGroupoids

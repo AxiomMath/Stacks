@@ -23,8 +23,8 @@ ringed topoi *presented by a continuous functor of the underlying sites*. The re
 carries a second, topos-morphism presentation,
 `Stacks.Sheaves.RingedToposModules.pushforwardModules`, which is a different declaration over a
 different four-field structure and has **no composition operation at all**. Only
-`RingedToposSiteHom` has one: `AlgebraicGeometry.RingedToposSiteHom.comp`, carrying
-`@[stacks 01D3 "part (3): composition of morphisms of ringed topoi"]`. So the composition law
+`RingedToposSiteHom` has one: `AlgebraicGeometry.RingedToposSiteHom.comp`, the site-level
+form of the composition rule of Stacks 01D3 (3). So the composition law
 is stated here for the presentation that both has a composition and feeds 07A6.
 
 With that presentation the whole statement reduces to Mathlib. `pushforwardTopos f` is

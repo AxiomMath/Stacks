@@ -10,8 +10,9 @@ public import StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBoun
 
 Let `S` be a Noetherian scheme and let `f : X ⟶ Y` be a **flat** morphism of
 `AlgebraicGeometry.FTS S`, the category of schemes separated and of finite type over `S` of
-[Stacks, Tag 0F42]. Let `x ∈ X` with image `y ∈ Y`. This file proves the stalk assertion of
-[Stacks, Tag 0BV6] (Lemma 48.21.2):
+[Stacks, Tag 0F42]. Let `x ∈ X` with image `y ∈ Y`. This file proves, on an affine chart
+through `x` described as in Remark [Stacks, Tag 0BV2], the stalk assertion of
+[Stacks, Tag 0BV6] (Lemma 48.21.4):
 
   `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -dim_x(X_y) ≤ i ≤ 0`,
 
@@ -21,6 +22,13 @@ dimension of the scheme-theoretic fibre of `f` through `x`, at `x`. It also prov
 cohomological concentration that goes with it: if every fibre of `f` has dimension at most
 `d`, then the cohomology *sheaf* `H^i(f^!𝒪_Y)` is zero for every `i` outside `[-d, 0]`.
 
+The chart description is a theorem, `Stacks.Duality.upperShriekStructureSheafCharts`, and both
+assertions of [Stacks, Tag 0BV6], with no chart hypothesis, are proved in
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekFibreDimensionFlatCharts`:
+`Stacks.Duality.fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat_unconditional`
+(the stalk bounds) and `Stacks.Duality.hasTorAmplitude_derivedScalarRestriction_upperShriek`
+(Tor amplitude in `[-d, 0]` over `f^{-1}𝒪_Y`). The tag is registered there.
+
 This sharpens [Stacks, Tag 0BV5],
 `Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek`, which has the lower
 bound `-dim_x(X_y) ≤ i` with no flatness hypothesis.
@@ -28,11 +36,11 @@ bound `-dim_x(X_y) ≤ i` with no flatness hypothesis.
 ## Main results
 
 * `Stacks.Duality.fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat` — the
-  **stalk assertion of [Stacks, Tag 0BV6]**: the two-sided bound `-dim_x(X_y) ≤ i ≤ 0`.
+  stalk assertion of [Stacks, Tag 0BV6] on a given chart: the two-sided bound
+  `-dim_x(X_y) ≤ i ≤ 0`.
 * `Stacks.Duality.isZero_homology_upperShriek_derivedStructureSheaf_of_notMem_Icc` — the
   cohomological concentration of `f^!𝒪_Y` in `[-d, 0]` under a bound `d` on every fibre
-  dimension. This is the `𝒪_Y`-instance of the Tor-amplitude assertion of
-  [Stacks, Tag 0BV6]; see below for why the Tor-amplitude assertion itself is not claimed.
+  dimension, given charts through every point.
 
 ## Implementation notes
 
@@ -40,15 +48,13 @@ bound `-dim_x(X_y) ≤ i` with no flatness hypothesis.
 and `Y = Spec(R)` affine; then `f^!𝒪_Y` is the relative dualizing complex `ω^•_{A/R}` of
 [Stacks, Tag 0E9M] by Remark [Stacks, Tag 0BV2]; and the assertion is [Stacks, Tag 0E9Q].
 
-*What is carried.* One hypothesis is carried, `h0BV2`, in exactly the shape that
-[Stacks, Tag 0BV5] and part (a) of [Stacks, Tag 0B6U] carry it: on an affine open `U ∋ x` of
-`X` inside the preimage of an affine open `V` of `Y`, the restriction of `f^!𝒪_Y` to `U` is the
+*The chart.* The statements here take a chart `h0BV2`: on an affine open `U ∋ x` of `X`
+inside the preimage of an affine open `V` of `Y`, the restriction of `f^!𝒪_Y` to `U` is the
 associated sheaf of the *algebraic* upper shriek, along a polynomial presentation of the chart
-ring map `f.appLE V U`, of `Γ(Y, V)` placed in degree zero. That is clause (b) of the source's
-Remark [Stacks, Tag 0BV2], the affine formula, which is unavailable here: the repository's
-Tag 0BV2, `Stacks.Duality.restrictedUpperShriekIsoOfOpenSquare`, proves only clause (a),
-because [Stacks, Tag 0AA1] — `f^! ≅ Lf^*[1]` for `𝔸¹_V ⟶ V` — is absent. The hypothesis names
-one isomorphism of complexes and asserts nothing about any degree.
+ring map `f.appLE V U`, of `Γ(Y, V)` placed in degree zero. That is the affine formula of
+Remark [Stacks, Tag 0BV2], and it holds for every such chart by
+`Stacks.Duality.upperShriekStructureSheafCharts`; the chart-free statements are derived from
+these ones in `StacksFrontier.AlgebraicGeometry.Duality.UpperShriekFibreDimensionFlatCharts`.
 
 Flatness of `f` is **not** carried: the chart-level `Module.Flat Γ(Y, V) Γ(X, U)` that the
 ring-level bounds consume is discharged from the instance `[Flat f.left]` through
@@ -62,23 +68,13 @@ dimensions. Those are the ring-level statements of Tag 0E9Q, and they are
 `Dualizing.isZero_homology_upperShriekFunctor_unit_of_notMem_Icc` of
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBoundUpper`.
 
-*The Tor-amplitude assertion of Tag 0BV6 is NOT claimed.* The source adds: if all fibres of `f`
-have dimension at most `d` then `f^!𝒪_Y` has Tor-amplitude in `[-d, 0]` as an object of
-`D(X, f^{-1}𝒪_Y)`. That statement is expressible in this repository —
-`Stacks.Cohomology.TorAmplitude.HasTorAmplitude` on the ringed space
-`AlgebraicGeometry.RingedSpace.inverseImage Y.left.toRingedSpace f.left.base`, applied to
-`AlgebraicGeometry.Scheme.Hom.derivedScalarRestriction f.left` of `f^!𝒪_Y` — but it is not
-provable from what the library has. The missing input is the affine-locality assembly that
-passes from a chart to the sheaf-level Tor-amplitude predicate over the inverse-image structure
-sheaf, whose absence is already recorded in
-`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekRelativePerfection`. What is proved below
-instead is the `𝒪_Y`-instance of that assertion, which is the degreewise vanishing of the
-cohomology sheaves outside `[-d, 0]`.
-
-The *ring-level* Tor-amplitude clause of Tag 0E9Q — Tor amplitude of `ω^•_{A/R}` over `R`, not
-merely cohomological concentration — is not missing. It is
-`Dualizing.upperShriekFunctor_hasTorAmplitude_of_fiber_dimension_le` of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingTorAmplitude`.
+*The Tor-amplitude assertion of Tag 0BV6.* The source adds: if all fibres of `f` have
+dimension at most `d` then `f^!𝒪_Y` has Tor-amplitude in `[-d, 0]` as an object of
+`D(X, f^{-1}𝒪_Y)`. That is `Stacks.Duality.hasTorAmplitude_derivedScalarRestriction_upperShriek`
+of `StacksFrontier.AlgebraicGeometry.Duality.UpperShriekFibreDimensionFlatCharts`, from the
+ring-level Tor-amplitude clause of Tag 0E9Q in
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingTorAmplitude`. The concentration
+statement below is its consequence for the cohomology sheaves.
 
 *The two derived categories.* `Stacks.Duality.upperShriek` lives on
 `Stacks.Duality.quasiCoherentDerivedCategory`, read at the locally small model
@@ -96,8 +92,6 @@ sheafification functor `AlgebraicGeometry.tilde.functor`.
 * [Stacks Project, Tag 0E9P](https://stacks.math.columbia.edu/tag/0E9P)
 * [Stacks Project, Tag 0E9M](https://stacks.math.columbia.edu/tag/0E9M)
 * [Stacks Project, Tag 0BV2](https://stacks.math.columbia.edu/tag/0BV2)
-* [Stacks Project, Tag 0AA1](https://stacks.math.columbia.edu/tag/0AA1)
-* [Stacks Project, Tag 0B6U](https://stacks.math.columbia.edu/tag/0B6U)
 * [Stacks Project, Tag 0F42](https://stacks.math.columbia.edu/tag/0F42)
 -/
 
@@ -155,17 +149,20 @@ private theorem flat_chart (hflat : Flat f.left) {U : X.left.Opens} (hU : IsAffi
     Module.Flat Γ(Y.left, V) Γ(X.left, U) :=
   f.left.flat_appLE hV hU hUV
 
-/-- **Stacks Project, Tag 0BV6 (Lemma 48.21.2), the stalk assertion.** In Situation 48.16.1, let
-`f : X ⟶ Y` be a **flat** morphism of `FTS S` and let `x ∈ X` with image `y ∈ Y`. Then
+/-- **The stalk assertion of [Stacks, Tag 0BV6] (Lemma 48.21.4) on a chart.** In
+Situation 48.16.1, let `f : X ⟶ Y` be a **flat** morphism of `FTS S` and let `x ∈ X` with image
+`y ∈ Y`. Then
 
   `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -dim_x(X_y) ≤ i ≤ 0`,
 
 the local dimension `dim_x(X_y)` of the scheme-theoretic fibre being named by the hypothesis
 `hd` that identifies it with a natural number `d`.
 
-The affine identification of `f^!𝒪_Y` of Remark [Stacks, Tag 0BV2] is the carried hypothesis
-`h0BV2`; it names an isomorphism on an affine chart through `x` and asserts nothing about any
-degree. Both halves of the bound are proved: the lower one is [Stacks, Tag 0E9P] and
+The binder `h0BV2` is an affine chart through `x` on which `f^!𝒪_Y` has the affine description
+of Remark [Stacks, Tag 0BV2]; such a chart always exists by
+`Stacks.Duality.upperShriekStructureSheafCharts`, and the statement without it is
+`Stacks.Duality.fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat_unconditional`,
+which carries the tag. Both halves of the bound are proved: the lower one is [Stacks, Tag 0E9P] and
 the upper one the ring-level Tag 0E9Q,
 `Dualizing.upperShriekFunctor_relativeDimensionAt_bounds_of_nontrivial_localizedHomology`, moved
 to the chart by the stalk dictionary
@@ -175,14 +172,7 @@ Flatness is used only through the chart-level flatness of `f.appLE V U`.
 
 This is the flat sharpening of [Stacks, Tag 0BV5],
 `Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek`, which proves the
-lower bound alone and for an arbitrary morphism of `FTS S`. The Tor-amplitude assertion of
-Tag 0BV6 is not claimed; see the module documentation. -/
--- The Stacks 0BV6 attribute is not placed on this declaration: the binder `h0BV2` is clause (b)
--- of Stacks 0BV2, an assumed prerequisite tag, so this declaration cannot carry the tag while
--- that hypothesis is assumed. The tag is registered instead via `add_to_stacks` at the end of
--- this file, recording what is proved and what is assumed.
--- The root prerequisite is Stacks 0AA1 (f^! = Lf^*[1] for A^1_V -> V), which is not available
--- here, so the result is stated with that hypothesis explicit.
+lower bound alone and for an arbitrary morphism of `FTS S`. -/
 theorem fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat
     [Flat f.left] (x : X.left)
     (h0BV2 : ∃ (U : X.left.Opens) (hU : IsAffineOpen U) (V : Y.left.Opens)
@@ -225,13 +215,14 @@ theorem fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat
 `f : X ⟶ Y` be a **flat** morphism of `FTS S` all of whose fibres have dimension at most `d`.
 Then the cohomology sheaf `H^i(f^!𝒪_Y)` is zero for every `i` outside `[-d, 0]`.
 
-This is the `𝒪_Y`-instance of the Tor-amplitude assertion of [Stacks, Tag 0BV6], that assertion
-itself not being claimed here; see the module documentation. It is strictly stronger than the
-stalk assertion above read at every point, which only says that the stalks are not nontrivial.
+This is a consequence for the cohomology sheaves of the Tor-amplitude assertion of
+[Stacks, Tag 0BV6], `Stacks.Duality.hasTorAmplitude_derivedScalarRestriction_upperShriek`. It is
+strictly stronger than the stalk assertion above read at every point, which only says that the
+stalks are not nontrivial.
 
-The carried hypothesis `h0BV2` is the one of part (a) of [Stacks, Tag 0B6U], quantified over
-every point of `X`; vanishing of a sheaf of modules is local, so the charts it provides suffice
-with no quasi-compactness. -/
+The binder `h0BV2` is a chart through every point of `X` as in the stalk assertion; such charts
+exist by `Stacks.Duality.upperShriekStructureSheafCharts`. Vanishing of a sheaf of modules is
+local, so these charts suffice with no quasi-compactness. -/
 theorem isZero_homology_upperShriek_derivedStructureSheaf_of_notMem_Icc
     [Flat f.left]
     (h0BV2 : ∀ x : X.left, ∃ (U : X.left.Opens) (hU : IsAffineOpen U) (V : Y.left.Opens)
@@ -277,26 +268,5 @@ end Shriek
 end Stacks.Duality
 
 end Geometric
-
-/-! ### Registration against Stacks 0BV6
-
-Stacks 0BV6 is **not** proved unconditionally.  The first assertion is proved in full, but under
-an assumed prerequisite tag; the tor-amplitude assertion is not proved at all.
--/
-
-add_to_stacks 0BV6 "THE FIRST ASSERTION, both halves, BUT UNDER AN ASSUMED PREREQUISITE TAG, and
-NOT the tor-amplitude assertion. Proved: for f flat and x over y, if the stalk at x of
-H^i(f^! O_Y) is nontrivial then -dim_x(X_y) <= i <= 0, with no affineness on X or Y and flatness
-an instance. ASSUMED: h0BV2, the affine-chart description of f^! O_Y, which is clause (b) of
-Stacks 0BV2 and rests on Stacks 0AA1 (f^! = Lf^*[1] for A^1_V -> V). Tag 0AA1 is not proved in
-this library; this result becomes unconditional by composing with a proof of it. Note the
-same hypothesis is carried in the identical shape by the
-statements of Tags 0BV5 and 0B6U and by Duality/UpperShriekBounded.lean, so discharging 0AA1
-unconditionalises those too. NOT PROVED: f^! O_Y has tor-amplitude in [-d,0] in
-D(X, f-inverse O_Y). Only its O_Y instance is proved, the vanishing of the cohomology SHEAVES
-outside [-d,0], as isZero_homology_upperShriek_derivedStructureSheaf_of_notMem_Icc below; the
-ring-level version at base is itself conditional on Tag 0BZV and the chart-to-sheaf assembly is
-absent."
-  Stacks.Duality.fibreDim_bounds_of_nontrivial_stalk_homology_upperShriek_of_flat
 
 end

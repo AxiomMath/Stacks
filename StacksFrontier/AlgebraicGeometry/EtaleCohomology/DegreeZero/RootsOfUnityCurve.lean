@@ -22,18 +22,19 @@ of genus `g`; the implementation notes say what the other cases rest on.
 
 ## Implementation notes
 
-Only the `q = 0` clause is stated. The source computes `H^q_étale(X, μ_n)` for every `q`; the
-other three clauses rest on the following.
+Only the `q = 0` clause is stated here. The source computes `H^q_étale(X, μ_n)` for every `q`;
+all clauses together are
+`AlgebraicGeometry.etaleCohomology_rootsOfUnity_smoothProjectiveCurve_of_genus` (in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.RootsOfUnityCurvesFinal`). The other three
+clauses rest on the following, all in the library.
 
-* `q = 1`, `H¹_étale(X, μ_n) = Pic⁰(X)[n]`, needs `H¹_étale(X, 𝐆_m) = Pic(X)`, Stacks Tag 03P8.
-  That tag is not proved: see the implementation notes of
-  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.KummerTheory.MultiplicativeTorsors`, which
-  record that the identification of `𝐆_m`-torsor classes with the Picard group is missing and
-  that no `@[stacks 03P8]` attribute is therefore carried. It also needs `Pic⁰` and the degree
-  map `Pic(X) → 𝐙`, and the surjectivity of multiplication by `n` on an abelian variety,
+* `q = 1`, `H¹_étale(X, μ_n) = Pic⁰(X)[n]`, needs `H¹_étale(X, 𝐆_m) = Pic(X)`, Stacks Tag 03P8,
+  which is `Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard`. It also needs `Pic⁰` and the
+  degree map `Pic(X) → 𝐙`, and the surjectivity of multiplication by `n` on an abelian variety,
   Stacks Tag 03RP.
 * `q = 2`, `H²_étale(X, μ_n) = 𝐙/n𝐙`, needs in addition the vanishing of `H^q_étale(X, 𝐆_m)`
-  for `q ≥ 2` on a curve, Stacks Tag 03RM.
+  for `q ≥ 2` on a curve, Stacks Tag 03RM, which is
+  `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve`.
 * `q ≥ 3` needs the same vanishing.
 
 The hypotheses of the source are all taken, as the standing situation of the tag, even though
@@ -59,8 +60,8 @@ namespace AlgebraicGeometry
 /-- **Stacks Project, Tag 03RQ, the case `q = 0`.** Let `X` be a smooth projective curve over an
 algebraically closed field `k` and let `n` be invertible in `k`. Pullback along the structure
 morphism is a bijection from the `n`-th roots of unity of `k` onto `H⁰_étale(X, μ_n)`. -/
-@[stacks 03RQ "the q = 0 clause, H^0_etale(X, mu_n) = mu_n(k); the clauses for q = 1, q = 2 \
-and q >= 3 need Stacks 03P8 and 03RM, which the library does not have"]
+@[stacks 03RQ "the q = 0 clause, H^0_etale(X, mu_n) = mu_n(k); all clauses together are \
+etaleCohomology_rootsOfUnity_smoothProjectiveCurve_of_genus"]
 public theorem baseRootsToEtaleH0_bijective_of_isCurve
     (B : BigEtaleSite.{u}) (k : Type u) [Field k] [IsAlgClosed k]
     (X : Scheme.{u}) (hX : B.Contains X) (f : X ⟶ Spec (.of k))

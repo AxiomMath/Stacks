@@ -9,9 +9,12 @@ public import StacksCore.Tactic.StacksAttribute
 /-!
 # Big pro-étale sites
 
-A big pro-étale site is obtained by choosing a small collection of schemes and of pro-étale
-covering families, closing the schemes under a sufficiently large size bound, and then choosing
-a set-sized system of pro-étale covering families which satisfies the site axioms.
+This file develops a cardinal-cutoff model of a big pro-étale site: the full subcategory of all
+schemes whose size lies below a suitable cardinal, with the pro-étale covering families whose
+index sets are bounded by a second cardinal. Neither the objects nor the coverings of this model
+form a set; the big pro-étale site of Stacks 098G, built on a set of schemes as in Stacks 000J and
+a set of coverings as in Stacks 000X, is `AlgebraicGeometry.ProEtale.SetBigProetaleSite` in
+`StacksFrontier.AlgebraicGeometry.ProEtale.Site.BigSet`.
 
 ## Main definitions
 
@@ -22,8 +25,10 @@ a set-sized system of pro-étale covering families which satisfies the site axio
   covering family in that subcategory.
 * `CategoryTheory.coveringPrecoverage` is the precoverage cut out by a predicate on bundled
   covering families.
-* `AlgebraicGeometry.ProEtale.BigProetaleSite` records the choices and properties of a big
-  pro-étale site.
+* `AlgebraicGeometry.ProEtale.BigProetaleSite` is a cardinal-cutoff model of a big pro-étale
+  site, on which the pro-étale sheaf theory of this library is developed. The big pro-étale site
+  of Stacks 098G itself is `AlgebraicGeometry.ProEtale.SetBigProetaleSite`, in
+  `StacksFrontier.AlgebraicGeometry.ProEtale.Site.BigSet`.
 * `AlgebraicGeometry.ProEtale.BigProetaleSite.precoverage` is the precoverage of its chosen
   covering presieves, `BigProetaleSite.pretopology` the pretopology they form and
   `BigProetaleSite.topology` the Grothendieck topology they generate.
@@ -39,7 +44,8 @@ a set-sized system of pro-étale covering families which satisfies the site axio
 
 ## References
 
-* [Stacks Project, Tag 098G](https://stacks.math.columbia.edu/tag/098G)
+* [Stacks Project, Tag 098G](https://stacks.math.columbia.edu/tag/098G), whose definition is
+  formalized in `StacksFrontier.AlgebraicGeometry.ProEtale.Site.BigSet`
 -/
 
 @[expose] public section
@@ -93,10 +99,15 @@ instance (k : Cardinal.{u}) :
     rw [AlgebraicGeometry.Scheme.size_congr (HasLimit.isoOfNatIso (diagramIsoCospan F))]
     exact AlgebraicGeometry.Scheme.size_pullback_lt _ _ (hF .left) (hF .right))
 
-/-- A big pro-étale site, including the initial set-sized choices, the
-size-bounded full category of schemes, and a set-sized choice of pro-étale coverings satisfying
-the site axioms and representing every pro-étale covering. -/
-@[stacks 098G]
+/-- A cardinal-cutoff model of a big pro-étale site: the underlying category is the full
+subcategory of *all* schemes of size below an uncountable strong limit cardinal `cutoff` (a class
+closed under isomorphism, not a set of schemes), and the coverings are *all* pro-étale families
+whose index set has cardinality at most `coveringBound` (again not a set). The ordinal
+`coveringOrdinal` plays no role. This is a convenient large-category model on which the
+pro-étale sheaf theory of this library is developed, and not the site of Stacks 098G itself,
+which is `AlgebraicGeometry.ProEtale.SetBigProetaleSite`: there the underlying category is a set
+of schemes with the countable limit and colimit properties of Stacks 000J, and the coverings form
+a set as in Stacks 000X. -/
 structure BigProetaleSite where
   /-- The cardinal cutoff defining the underlying category of schemes. -/
   cutoff : Cardinal.{u}

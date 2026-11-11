@@ -27,16 +27,24 @@ at once, and then states it for the two subsites the source names.
 * `AlgebraicGeometry.Stack.subsiteCohomologyOverObjectIso`: for a full subcategory `P` of the
   objects of an algebraic stack whose inclusion is continuous, and for an object `x` of `P`,
   restriction does not change cohomology over `x`.
-* `AlgebraicGeometry.Stack.FlatFppf.cohomologyOverObjectIso`: **Stacks 0GR0** (2)(b), for the
-  flat-fppf site.
-* `AlgebraicGeometry.Stack.LisseEtale.cohomologyOverObjectIso`: **Stacks 0GR0** (1)(b), for the
-  lisse-étale site.
+* `AlgebraicGeometry.Stack.FlatFppf.cohomologyOverObjectIso`: Stacks 0GR0 (2)(b), for the
+  flat-fppf site, from the acyclicity of the slice.
+* `AlgebraicGeometry.Stack.LisseEtale.cohomologyOverObjectIso`: Stacks 0GR0 (1)(b), for the
+  lisse-étale site, from the acyclicity of the slice.
 * `AlgebraicGeometry.Stack.subsiteModuleCohomologyOverObjectIso`,
   `AlgebraicGeometry.Stack.FlatFppf.moduleCohomologyOverObjectIso` and
   `AlgebraicGeometry.Stack.LisseEtale.moduleCohomologyOverObjectIso`: the same three statements
-  for sheaves of modules, which is the source's "the same holds for sheaves of modules".
+  for sheaves of modules, from the module form of that acyclicity.
 
-## The one hypothesis, and what the tags say
+The statements of Stacks 0GR0 (1)(b) and (2)(b) with no hypothesis, which carry the tag, are
+downstream: `AlgebraicGeometry.Stack.FlatFppf.cohomologyOverObjectIso'` and
+`AlgebraicGeometry.Stack.LisseEtale.cohomologyOverObjectIso'` in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteAcyclicity.lean`, and
+`AlgebraicGeometry.Stack.FlatFppf.sliceModuleCohomologyIso` and
+`AlgebraicGeometry.Stack.LisseEtale.sliceModuleCohomologyIso` in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteObjectwiseModuleCohomology.lean`.
+
+## The one hypothesis
 
 The proof is the second paragraph of the proof of Stacks 07AK, which 0GR0 cites: for a covering
 `{x_i → x}` of the subsite the two Čech complexes agree, so an injective abelian sheaf on the
@@ -45,14 +53,17 @@ the subsite being cofinal — to a sheaf with vanishing higher cohomology over e
 makes injective sheaves on the ambient site acyclic for cohomology over `x` on the subsite, and
 the comparison of the two derived functors follows.
 
-That acyclicity is **Stacks 0D6X**, and it is carried below as the explicit hypothesis
-`hacyclic`, named in each tag note. It is *not* available as an instance of the library's form
-`Stacks.CechSite.injective_sheaf_sheafCohomology_isZero_of_functor`: that statement requires the
-source site's morphism universe to be its coefficient universe and the site itself to be
-`Small`, whereas these sites have objects in `Type (u + 1)`, morphisms in `Type u`, and
-coefficients in `Type (u + 1)` — the same universe obstruction recorded in the module docstring
-of `StacksFrontier/AlgebraicGeometry/Stacks/FlatFppfDerivedLowerShriek.lean` for the acyclicity
-input of Stacks 07AS.
+That acyclicity is **Stacks 0D6X**, and it is carried in this file as the explicit hypothesis
+`hacyclic`. It is not an instance of the form
+`Stacks.CechSite.injective_sheaf_sheafCohomology_isZero_of_functor`, which requires the source
+site's morphism universe to be its coefficient universe and the site itself to be `Small`; but it
+is proved, for both subsites and every algebraic stack, from the form
+`Stacks.CechSite.injective_sheaf_subsingleton_sheafH_of_functor` whose universes are free:
+`AlgebraicGeometry.Stack.FlatFppf.sliceAcyclic` and
+`AlgebraicGeometry.Stack.LisseEtale.sliceAcyclic` in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteAcyclicity.lean`, and, at the coefficients of the
+modules, `AlgebraicGeometry.Stack.subsiteSliceCohomology_eq_zero_of_le` in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteObjectwiseModuleCohomology.lean`.
 
 What is **not** hypothesised is injectivity of the restriction. Restriction along the inclusion
 of either subsite does not preserve injective abelian sheaves, because its left adjoint `g_!` is
@@ -62,9 +73,9 @@ over a flat object need not be flat. That is why the comparison is proved here f
 `Stacks.Cohomology.BiggerSiteGlobal.cohomologyOverObjectIso`, which is Stacks 03YU and asks for
 injectivity.
 
-Both statements are conditional on that acyclicity alone, and the two module clauses on its
-module form — the vanishing of `Ext^{≥1}` out of the structure sheaf on the restriction of an
-injective sheaf of modules. The closure condition of Stacks
+The abelian statements here take that acyclicity as their one hypothesis, and the module
+statements its module form — the vanishing of `Ext^{≥1}` out of the structure sheaf on the
+restriction of an injective sheaf of modules. The closure condition of Stacks
 07AK (1), which is what makes the inclusion of either subsite continuous and cocontinuous, is
 discharged for every algebraic stack with no hypothesis: in the lisse-étale case by
 `AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms`, and in the flat-fppf case by
@@ -318,8 +329,8 @@ namespace FlatFppf
 
 variable (𝒴 : Stack.AlgebraicStacks.{u, w} B S hS)
 
-/-- **Stacks 0GR0, part (2)(b).** For an algebraic stack `𝒳`, an abelian sheaf `F` on the fppf
-site of `𝒳` and a flat object `x` of `𝒳`,
+/-- **Stacks 0GR0, part (2)(b), from acyclicity.** For an algebraic stack `𝒳`, an abelian sheaf
+`F` on the fppf site of `𝒳` and a flat object `x` of `𝒳`,
 
 `H^q(x, F) = H^q(𝒳_{flat,fppf}/x, g⁻¹ F)`,
 
@@ -328,11 +339,10 @@ over an object is the global cohomology on the slice site.
 
 The closure condition of Stacks 07AK (1) is discharged — it holds for every algebraic stack, by
 `AlgebraicGeometry.Stack.FlatFppf.closedUnderFlatMorphisms` — so the inclusion of the flat
-objects is continuous and cocontinuous with no hypothesis. What remains open is the acyclicity
-statement of Stacks 0D6X for the slice at `x`, carried here as the hypothesis `hacyclic`: see the
-module docstring for why the library's form of 0D6X does not apply at these universes. -/
-@[stacks 0GR0 "part (2)(b), cohomology over a flat object; conditional on the acyclicity \
-statement of 0D6X only"]
+objects is continuous and cocontinuous with no hypothesis. The acyclicity statement of Stacks
+0D6X for the slice at `x` is carried here as the hypothesis `hacyclic`; it is proved as
+`AlgebraicGeometry.Stack.FlatFppf.sliceAcyclic`, and the statement without it, which carries the
+tag, is `AlgebraicGeometry.Stack.FlatFppf.cohomologyOverObjectIso'`. -/
 def cohomologyOverObjectIso
     (x : ObjectProperty.FullSubcategory (objectProperty B S hS 𝒴))
     (hacyclic : haveI := isContinuous_inclusion B S hS 𝒴 flatClosure
@@ -366,9 +376,9 @@ noncomputable abbrev sliceStructureRing
   (ringStructureSheaf.{u, u + 1, u, t} B S hS 𝒴.val.val.p 𝒴.val.isFiberedInGroupoids
     B.topology le_rfl).over ((objectProperty B S hS 𝒴).ι.obj x)
 
-/-- **Stacks 0GR0, part (2)(b) for sheaves of modules** — the source's "the same holds for
-sheaves of modules". For an algebraic stack `𝒳`, a sheaf `F` of `O_𝒳`-modules and a flat object
-`x` of `𝒳`,
+/-- **Stacks 0GR0, part (2)(b) for sheaves of modules, from acyclicity** — the source's "the same
+holds for sheaves of modules". For an algebraic stack `𝒳`, a sheaf `F` of `O_𝒳`-modules and a
+flat object `x` of `𝒳`,
 
 `H^q(x, F) = H^q(𝒳_{flat,fppf}/x, g^*F)`,
 
@@ -382,17 +392,16 @@ Three of the four inputs are discharged rather than assumed. The closure conditi
 modules on the slices — the first sentence of Stacks 0789 — is
 `AlgebraicGeometry.Stack.isRightAdjoint_subsiteSliceModuleRestriction`, from essential smallness
 of the slice of a full subsite. Exactness of `g^*` is
-`Stacks.Cohomology.DerivedLowerShriek.restriction_exact`. What remains open is the module form of
-the acyclicity statement of Stacks 0D6X for the slice at `x`, carried here as the hypothesis
-`hacyclic`: see the module docstring for why the library's form of 0D6X does not apply at these
-universes.
+`Stacks.Cohomology.DerivedLowerShriek.restriction_exact`. The module form of the acyclicity
+statement of Stacks 0D6X for the slice at `x` is carried here as the hypothesis `hacyclic`. The
+statement with no hypothesis at all, which carries the tag, is
+`AlgebraicGeometry.Stack.FlatFppf.sliceModuleCohomologyIso`, which goes through the underlying
+abelian sheaves instead.
 
 The sheaf of modules is quantified over the slice site at `x` rather than over `𝒳` itself, which
 is the generalization the comparison naturally has: the source's `H^q(x, F)` for `F` on `𝒳` is
 the cohomology of the restriction of `F` to the slice, so instantiating at that restriction gives
 the source's statement. -/
-@[stacks 0GR0 "part (2)(b), modules; conditional on the module form of the acyclicity statement \
-of 0D6X only"]
 noncomputable def moduleCohomologyOverObjectIso
     (x : ObjectProperty.FullSubcategory (objectProperty B S hS 𝒴))
     (hacyclic : haveI := isContinuous_inclusion B S hS 𝒴 flatClosure
@@ -434,8 +443,8 @@ namespace LisseEtale
 
 variable (𝒴 : Stack.AlgebraicStacks.{u, w} B S hS)
 
-/-- **Stacks 0GR0, part (1)(b).** For an algebraic stack `𝒳`, an abelian sheaf `F` on the étale
-site of `𝒳` and a smooth object `x` of `𝒳`,
+/-- **Stacks 0GR0, part (1)(b), from acyclicity.** For an algebraic stack `𝒳`, an abelian sheaf
+`F` on the étale site of `𝒳` and a smooth object `x` of `𝒳`,
 
 `H^q(x, F) = H^q(𝒳_{lisse,étale}/x, g⁻¹ F)`,
 
@@ -443,12 +452,11 @@ naturally in `F`, where `g⁻¹` is restriction to the lisse-étale site of Stac
 
 The closure condition of Stacks 07AK (1) for the smooth objects is discharged — it holds for
 every algebraic stack, by `AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms` — so
-the inclusion of the smooth objects is continuous and cocontinuous with no hypothesis. What
-remains open is the acyclicity statement of Stacks 0D6X for the slice at `x`, carried here as the
-hypothesis `hacyclic`: see the module docstring for why the library's form of 0D6X does not apply
-at these universes. -/
-@[stacks 0GR0 "part (1)(b), cohomology over a smooth object; conditional on the acyclicity \
-statement of 0D6X only"]
+the inclusion of the smooth objects is continuous and cocontinuous with no hypothesis. The
+acyclicity statement of Stacks 0D6X for the slice at `x` is carried here as the hypothesis
+`hacyclic`; it is proved as `AlgebraicGeometry.Stack.LisseEtale.sliceAcyclic`, and the statement
+without it, which carries the tag, is `AlgebraicGeometry.Stack.LisseEtale.cohomologyOverObjectIso'`.
+-/
 def cohomologyOverObjectIso
     (x : ObjectProperty.FullSubcategory (smoothObject.{u, w} B S hS 𝒴))
     (hacyclic : haveI := isContinuous_inclusion B S hS 𝒴 (closedUnderSmoothMorphisms B S hS 𝒴)
@@ -486,9 +494,9 @@ noncomputable abbrev sliceStructureRing
     (etaleTopology B) (etaleTopology_le_topology B)).over
       ((smoothObject.{u, w} B S hS 𝒴).ι.obj x)
 
-/-- **Stacks 0GR0, part (1)(b) for sheaves of modules** — the source's "the same holds for
-sheaves of modules". For an algebraic stack `𝒳`, a sheaf `F` of `O_𝒳`-modules and a smooth object
-`x` of `𝒳`,
+/-- **Stacks 0GR0, part (1)(b) for sheaves of modules, from acyclicity** — the source's "the same
+holds for sheaves of modules". For an algebraic stack `𝒳`, a sheaf `F` of `O_𝒳`-modules and a
+smooth object `x` of `𝒳`,
 
 `H^q(x, F) = H^q(𝒳_{lisse,étale}/x, g^*F)`,
 
@@ -500,15 +508,14 @@ closure condition of Stacks 07AK (1) by
 `AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms`, the existence of `g_!` on
 sheaves of modules on the slices by
 `AlgebraicGeometry.Stack.isRightAdjoint_subsiteSliceModuleRestriction`, and exactness of `g^*` by
-`Stacks.Cohomology.DerivedLowerShriek.restriction_exact`. What remains open is the module form of
-the acyclicity statement of Stacks 0D6X for the slice at `x`, carried here as the hypothesis
-`hacyclic`.
+`Stacks.Cohomology.DerivedLowerShriek.restriction_exact`. The module form of the acyclicity
+statement of Stacks 0D6X for the slice at `x` is carried here as the hypothesis `hacyclic`. The
+statement with no hypothesis at all, which carries the tag, is
+`AlgebraicGeometry.Stack.LisseEtale.sliceModuleCohomologyIso`.
 
 The sheaf of modules is quantified over the slice site at `x`, which is the generalization the
 comparison naturally has; see
 `AlgebraicGeometry.Stack.FlatFppf.moduleCohomologyOverObjectIso`. -/
-@[stacks 0GR0 "part (1)(b), modules; conditional on the module form of the acyclicity statement \
-of 0D6X only"]
 noncomputable def moduleCohomologyOverObjectIso
     (x : ObjectProperty.FullSubcategory (smoothObject.{u, w} B S hS 𝒴))
     (hacyclic :

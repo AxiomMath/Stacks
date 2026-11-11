@@ -409,12 +409,12 @@ Its functor, followed by the inclusion of `QC(F_{affine}, 𝒪_F)`, is the inclu
 and the inclusion of a full triangulated subcategory commutes with the translation.
 
 This is the canonical shift-compatibility of the equivalence `(3) ≌ (4)`, and it is an instance:
-the compatibility of the equivalence with the translation `[1]` is half of the tag's assertion
-that the equivalence is *exact*, so it is a registered fact about the equivalence and not a
-structure chosen inside the statement of the other half. -/
-@[instance_reducible, stacks 0H06 "the equivalence (3) D_QCoh(X_affine, O_X) ≃ (4) \
-QC(X_affine, O_X) commutes with the translation [1]: half of the tag's assertion that it is \
-exact"]
+the compatibility of the equivalence with the translation `[1]` is one ingredient of its
+exactness, so it is a declared fact about the equivalence and not a structure chosen inside the
+statement of preservation of distinguished triangles.  The tag's assertion of exactness is
+registered on
+`AlgebraicGeometry.Space.isTriangulatedEquivalence_quasicoherentDerivedAffineEtaleChain`. -/
+@[instance_reducible]
 noncomputable instance commShiftAffineEtaleChartChaoticQuasicoherentQCEquivalence :
     (affineEtaleChartChaoticQuasicoherentQCEquivalence.{u, w} B S hS F hF).functor.CommShift ℤ :=
   ObjectProperty.commShiftOfCompι (IsQC.{w} (affineEtaleBaseChangeData.{u, w} B S hS F hF))
@@ -447,9 +447,7 @@ and `Rε_*` commutes with the translation
 This is the canonical shift-compatibility of the equivalence `(2) ≌ (3)`, and it is an instance,
 for the reason given at
 `AlgebraicGeometry.Space.commShiftAffineEtaleChartChaoticQuasicoherentQCEquivalence`. -/
-@[instance_reducible, stacks 0H06 "the equivalence (2) D_QCoh(X_affine_etale, O_X) ≃ \
-(3) D_QCoh(X_affine, O_X) commutes with the translation [1]: half of the tag's assertion that it \
-is exact"]
+@[instance_reducible]
 noncomputable instance commShiftAffineEtaleChartQuasicoherentDerivedChaoticEquivalence :
     (affineEtaleChartQuasicoherentDerivedChaoticEquivalence.{u, w} B S hS F
       hF).functor.CommShift ℤ :=
@@ -496,9 +494,7 @@ for the reason given at
 derived category of `𝒪_F`-modules it is read over is the standard model, introduced by the `letI`
 of the first line as everywhere in the chain; that `letI` names the *category*, not the
 shift-compatibility, and the goal it is found at carries the same one. -/
-@[instance_reducible, stacks 0H06 "the equivalence (1) D_QCoh(O_X) ≃ \
-(2) D_QCoh(X_affine_etale, O_X) commutes with the translation [1]: half of the tag's assertion \
-that it is exact"]
+@[instance_reducible]
 noncomputable instance commShiftQuasicoherentDerivedAffineEtaleChartEquivalence :
     letI : HasDerivedCategory (Modules.{u, max (u + 1) w} B S hS F hF) :=
       HasDerivedCategory.standard _
@@ -596,12 +592,13 @@ are exact functors of triangulated categories: each carries distinguished triang
 distinguished triangles, over the shift-compatibility of the equivalence it belongs to.  That
 shift-compatibility is not chosen here: `CategoryTheory.Functor.IsTriangulated` takes the
 `CategoryTheory.Functor.CommShift` structure it is read over as an instance, and the instance
-found at each of the three functors is the one registered for it under this tag, namely
+found at each of the three functors is the one declared for it in this file, namely
 `AlgebraicGeometry.Space.commShiftQuasicoherentDerivedAffineEtaleChartEquivalence`,
 `AlgebraicGeometry.Space.commShiftAffineEtaleChartQuasicoherentDerivedChaoticEquivalence` and
 `AlgebraicGeometry.Space.commShiftAffineEtaleChartChaoticQuasicoherentQCEquivalence`.  So both
 halves of *exact* — compatibility with the translation `[1]` and preservation of distinguished
-triangles — are registered facts about the three equivalences.
+triangles — are declared facts about the three equivalences.  The tag itself is registered on
+the bundled form below, which subsumes this statement.
 
 Together with
 `AlgebraicGeometry.Space.isTriangulated_quasicoherentDerivedAffineEtaleChain`, which says that
@@ -610,10 +607,6 @@ and `AlgebraicGeometry.Space.quasicoherentDerivedAffineEtaleChain`, which is the
 equivalences itself, this is the assertion of the tag;
 `AlgebraicGeometry.Space.isTriangulatedEquivalence_quasicoherentDerivedAffineEtaleChain` states
 the same exactness in Mathlib's bundled form. -/
-@[stacks 0H06 "the three equivalences of the chain are exact: (1) D_QCoh(O_X) ≃ \
-(2) D_QCoh(X_affine_etale, O_X), (2) ≃ (3) D_QCoh(X_affine, O_X) and (3) ≃ \
-(4) QC(X_affine, O_X) each carry distinguished triangles to distinguished triangles, over the \
-compatibilities with the translation [1] registered for them under this tag"]
 theorem isTriangulated_quasicoherentDerivedAffineEtaleChainEquivalences :
     letI : HasDerivedCategory (Modules.{u, max (u + 1) w} B S hS F hF) :=
       HasDerivedCategory.standard _

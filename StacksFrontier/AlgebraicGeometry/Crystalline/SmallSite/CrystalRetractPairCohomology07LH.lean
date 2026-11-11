@@ -4,13 +4,18 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.CrystalRetr
 public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.SmoothPresentationCohomology07LH
 
 /-!
-# [Stacks, Lemma 60.21.4, Tag 07LH] for the pair of [Stacks, Lemma 60.17.5, Tag 07L5]
+# The cohomology groups of the de Rham complex of the pair of [Stacks, Lemma 60.17.5, Tag 07L5]
 
 [Stacks, Lemma 60.21.4, Tag 07LH] speaks of "`(M', ∇')` the pair over `D'` corresponding to `ℱ`,
 see Lemma 60.17.5": the image of `ℱ` under the functor of [Stacks, Tag 07L5] towards the pairs
-over `D'`, `...SmallSite.crystalRetractPairFunctor`.  This module states the lemma for exactly
-that pair, `...SmallSite.crystalRetractPair_computesCohomology`, and deduces it from
+over `D'`, `...SmallSite.crystalRetractPairFunctor`.  This module states the reading of the
+lemma on cohomology groups for exactly that pair, for a retract `a, b` of [Stacks, Tag 07L5] and
+a surjection `A[x_i] ↠ P'` presenting the system,
+`...SmallSite.crystalRetractPair_computesCohomology`, and deduces it from
 `...SmallSite.smoothPresentationPair_computesCohomologyOfTower`.
+[Stacks, Tag 07LH] itself, the isomorphism `M' ⊗^∧_{D'} Ω^*_{D'} ≅ RΓ(Cris(X/S), ℱ)` in the
+derived category, is `...SmallSite.smoothPresentationPairDerivedPlusIso` of
+`SmallSite/SmoothPresentationDerived07LH.lean`.
 
 Both pairs are base changes along `a : D → D'` of the pair `(M, ∇)` of [Stacks, Tag 07JG], so
 they have the same module `D' ⊗̂_D M`.  They differ in the spelling of the one-forms:
@@ -430,7 +435,8 @@ theorem crystalRetractConnModule_nabla (x : (crystalRetractConnModule hp Fc f' h
   exact (congrArg (fun n ↦ n x) key).trans
     (CompletedConnection.transportForms_apply _ _ _ nabla' x)
 
-/-- **[Stacks, Lemma 60.21.4, Tag 07LH], for the pair of [Stacks, Lemma 60.17.5, Tag 07L5]**:
+/-- **The groupwise form of [Stacks, Lemma 60.21.4, Tag 07LH] for a retract pair of
+[Stacks, Lemma 60.17.5, Tag 07L5]**:
 in the situation of [Stacks, Proposition 60.21.3, Tag 07LG] (`X` and `S` affine, `p` nilpotent on
 `X`), let `ℱ` be a crystal in quasi-coherent `𝒪_{X/S}`-modules, `A → P' → C` ring maps with
 `A → P'` smooth and `P' → C` surjective, `D'` the `p`-adic completion of `D_{P', γ}(J')`,
@@ -439,20 +445,17 @@ presentation of the system), `a : D → D'`, `b : D' → D` a retract of [Stacks
 with the augmentations, and
 `(M', ∇') = (crystalRetractPairFunctor hp D' a b ha hb hab hρ).obj ℱ` the pair over `D'`
 corresponding to `ℱ` (the base change along `a` of the pair of [Stacks, Tag 07JG]).  Then the
-complex `M' ⊗^∧_{D'} Ω^*_{D'}` computes `RΓ(Cris(X/S), ℱ)`: the module with connection
+complex `M' ⊗^∧_{D'} Ω^*_{D'}` has the cohomology groups of `Cris(X/S)`: the module with connection
 `...SmallSite.crystalRetractConnModule` has module `M'`
 (`...SmallSite.crystalRetractConnModule_carrier`) and connection `∇'` read in the completed
 one-forms `Ω̂¹_{E'/A,δ}` (`...SmallSite.crystalRetractConnModule_nabla`), and the cohomology of its
 de Rham complex in every degree `j` is `H^j(Cris(X/S), ℱ)`.  Here `D` is the completed envelope of
 the presentation of the system (`...SmallSite.WholeSpacePresentation S hp`), as in
-`...SmallSite.exists_presentation_retract_crystalPairEquivalence`. -/
-@[stacks 07LH "in 07L5's reading: for A -> P' smooth and P' -> C surjective, D' the p-adically \
-completed divided power envelope, the data A[x_i] ->> P' -> C of 07L5 presenting the system, \
-a retract a : D -> D', b : D' -> D of 07L5 compatible with the \
-augmentations, and (M', nabla') the pair over D' of 07L5 corresponding to F \
-(crystalRetractPairFunctor), the complex M' ⊗^∧_{D'} Ω*_{D'} (crystalRetractConnModule: module M', \
-connection nabla' read in the completed one-forms of the envelope of P') computes \
-RΓ(Cris(X/S), F): its cohomology in every degree j is H^j(Cris(X/S), F)"]
+`...SmallSite.exists_presentation_retract_crystalPairEquivalence`.
+
+[Stacks, Tag 07LH] itself, the isomorphism `M' ⊗^∧_{D'} Ω^*_{D'} ≅ RΓ(Cris(X/S), ℱ)` in the
+derived category, with no surjection `A[x_i] ↠ P'` assumed, is
+`...SmallSite.smoothPresentationPairDerivedPlusIso`. -/
 theorem crystalRetractPair_computesCohomology
     [Algebra.Smooth ((affineSituation S hp).A : Type u) P']
     (q : MvPolynomial (wholeSpaceIndex S hp) (affineSituation S hp).A →ₐ[(affineSituation S hp).A]

@@ -23,8 +23,10 @@ of Tag 0FW9). Hence the general results of that section hold for de Rham cohomol
 
 * `Stacks.DeRhamChern.exists_injective_pull_hasInvertibleFiltration`: **Tag 0FWA**, the
   splitting principle.
-* `Stacks.DeRhamChern.IsDeRhamTotalChernClass.apply_classOf_tensorObj_invertible`:
-  **Tag 0FWA**, the Chern classes of a twist.
+* `Stacks.DeRhamChern.IsDeRhamTotalChernClass.apply_classOf_tensorObj_invertible`: the Chern
+  classes of a twist in degrees `i ≤ r`; every degree is
+  `Stacks.DeRhamChern.IsDeRhamTotalChernClass.apply_classOf_tensorObj_invertible_of_any`
+  (**Tag 0FWA**).
 
 ## References
 
@@ -70,19 +72,16 @@ theorem exists_injective_pull_hasInvertibleFiltration
           (E i)) (r i) :=
   deRhamSourceChernSetup.toChernSetup.exists_injective_hasInvertibleFiltration X I E r hE
 
-/-- **Stacks Project, Tag 0FWA: the Chern classes of a twist for de Rham Chern classes.** Let
+/-- **The Chern classes of a twist for de Rham Chern classes, in degrees at most the rank.** Let
 `c^{dR}` be the de Rham total Chern class of Tag 0FW9 (by that lemma there is exactly one rule with
 its three properties), let `X` be a quasi-compact and quasi-separated scheme, `ℰ` a finite locally
 free `𝒪_X`-module of constant rank `r` and `ℒ` an invertible `𝒪_X`-module. Then for `i ≤ r`
 
 `c^{dR}_i(ℰ ⊗ ℒ) = ∑_{j=0}^{i} binom(r - i + j, j) c^{dR}_{i-j}(ℰ) ∪ c₁^{dR}(ℒ)^j`
 
-in `H^{2i}_{dR}(X/𝐙)`. This is Tag 0FI8 in the de Rham situation of the proof of Tag 0FW9. -/
-@[stacks 0FWA "the analogue of Weil Cohomology Theories, Lemma 0FI8 (chern classes of tensor \
-products) holds for de Rham Chern classes on quasi-compact and quasi-separated schemes: for the \
-de Rham total Chern class c^dR of Tag 0FW9, E finite locally free of constant rank r, L \
-invertible and i <= r, c^dR_i(E (x) L) = sum_{j=0}^i binom(r-i+j, j) c^dR_{i-j}(E) cup \
-c_1^dR(L)^j"]
+in `H^{2i}_{dR}(X/𝐙)`, with the binomial coefficient written `(r - i + j).choose j`. This is
+Tag 0FI8 in the de Rham situation of the proof of Tag 0FW9. The formula in every degree `i` is
+`Stacks.DeRhamChern.IsDeRhamTotalChernClass.apply_classOf_tensorObj_invertible_of_any`. -/
 theorem IsDeRhamTotalChernClass.apply_classOf_tensorObj_invertible
     {c : ∀ X : (QCQSScheme (Spec (CommRingCat.of ℤ))).FullSubcategory,
       VectorBundleKZero ((QCQSScheme (Spec (CommRingCat.of ℤ))).ι.obj X).left → ℕ →

@@ -103,6 +103,12 @@ which `Stacks.ClosedImmersion.idealSheaf` and hence
 
 ## What this leaves owed
 
+The comparison `AlgebraicGeometry.Space.RepresentableConormalSheafComparison` itself is proved,
+by another route, as `AlgebraicGeometry.Space.representableConormalSheafComparison`, from
+`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_conormalSheaf_of_scheme` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/RepresentableConormal.lean`; what follows is
+what this file's own route would still need.
+
 This is the object identification, not clause (2) of
 `AlgebraicGeometry.Space.RepresentableConormalSheafComparison`.  What separates them is now
 entirely **scheme-level**, the space-level side being discharged by the statement below together

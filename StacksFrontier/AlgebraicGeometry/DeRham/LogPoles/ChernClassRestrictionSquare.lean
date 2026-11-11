@@ -117,7 +117,10 @@ theorem logPolesBoundary_comp_restriction_eq :
 
 include hlog in
 /-- The square: `res[2] ∘ ξ' = ζ' ∘ res`. -/
-@[stacks 0FUQ "the square of the diagram, deduced from the two triangles"]
+@[stacks 0FUQ "the square of the diagram, deduced from the two triangles: the restriction of
+forms in degree two after the map of 0FU7 for c_1^dR(O_X(-Y)) equals the map of 0FU7 on Y for
+c_1^dR(O_X(-Y)|_Y) after the restriction of forms, with the latter read on X through the exact
+direct image along the closed immersion"]
 theorem idealChernMorphism_comp_restriction :
     idealChernMorphism f I ≫
         (DerivedCategory.Q.map

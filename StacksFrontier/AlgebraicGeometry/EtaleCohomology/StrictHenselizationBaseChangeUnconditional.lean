@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.PushforwardBaseCh
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SubmersiveSections
 
 /-!
-# Base change for a flat morphism with connected strict-henselization fibres, unconditionally
+# Base change for a flat morphism with connected strict-henselization fibres
 
 Let
 
@@ -61,10 +61,13 @@ of the three other base change maps are:
 ## Main results
 
 * `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_flat_strictHenselizationSquareMap` —
-  the statement with the flatness of the morphisms of strict henselizations as the hypothesis.
-* `isIso_smallEtaleSetBaseChange_of_geometricallyConnected_strictHenselization` — for `f` flat
-  with geometrically connected fibres of the morphisms of strict henselizations, and `g`
-  quasi-compact and quasi-separated, the base change map is an isomorphism.
+  the base change map is an isomorphism when every morphism of strict henselizations is flat
+  with geometrically connected fibres and `g` is quasi-compact and quasi-separated.
+* `isIso_smallEtaleSetBaseChange_of_geometricallyConnected_strictHenselization`
+  — **Stacks Project, Tag 0F00**: for `f` flat with geometrically connected fibres of the
+  morphisms of strict henselizations, and `g` quasi-compact and quasi-separated, the base change
+  map is an isomorphism; the flatness of the morphisms of strict henselizations is derived from
+  that of `f` by `AlgebraicGeometry.flat_strictHenselizationSquareMap`.
 
 ## References
 
@@ -254,7 +257,7 @@ theorem isIso_Γ_inverseImage_smallEtaleSetBaseChange_of_strictHenselizationSqua
     hpbτ.w (pullback.fst g (strictHenselizationToBase B S hS (x.map f))) pullback.condition
     hτp.symm (strictHenselizationSquareMapGammaIso B hX hS f x) F ht ht' hs'
 
-/-- **Tag 0F00 with the flatness of the morphisms of strict henselizations as hypothesis.** In a
+/-- **Base change when the morphisms of strict henselizations are flat.** In a
 cartesian square with `g` quasi-compact and quasi-separated, if at every geometric point `x̄` of
 `X` the morphism of strict henselizations `Spec(O^sh_{X,x̄}) ⟶ Spec(O^sh_{S,f(x̄)})` is flat with
 geometrically connected fibres, then the base change map `f⁻¹ g_* F ⟶ h_* e⁻¹ F` is an
@@ -275,7 +278,7 @@ theorem isIso_smallEtaleSetBaseChange_of_flat_strictHenselizationSquareMap
       (isIso_Γ_inverseImage_smallEtaleSetBaseChange_of_strictHenselizationSquareMap B hX hS f sq F
         (GeometricPoint.ofPoint X z) (hflat _) (hconn _))
 
-/-- Let `f : X ⟶ S` be flat, and suppose that for every geometric
+/-- **Stacks Project, Tag 0F00.** Let `f : X ⟶ S` be flat, and suppose that for every geometric
 point `x̄` of `X` the morphism `Spec(O^sh_{X,x̄}) ⟶ Spec(O^sh_{S,f(x̄)})` of strict henselizations
 has geometrically connected fibres. Then for every cartesian square
 
@@ -291,7 +294,9 @@ with `g` quasi-compact and quasi-separated, the canonical base change map
 
 The strict henselizations are those constructed inside a big étale site `B` containing `X` and
 `S`; the base change map is `Stacks.EtaleCohomology.smallEtaleSetBaseChange`, and the conclusion
-is that it is an isomorphism of functors, that is, at every `F`. -/
+is that it is an isomorphism of functors, that is, at every `F`. The flatness of the morphisms
+of strict henselizations used by the proof is derived from `Flat f` by
+`AlgebraicGeometry.flat_strictHenselizationSquareMap`. -/
 @[stacks 0F00]
 theorem isIso_smallEtaleSetBaseChange_of_geometricallyConnected_strictHenselization [Flat f]
     (hconn : ∀ x : GeometricPoint X,

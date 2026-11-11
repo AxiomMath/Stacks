@@ -41,14 +41,15 @@ functor `f.u` is *continuous* — that is its sole `Prop` field, `isContinuous` 
 own is a morphism of ringed *sites*.  Exactness of `f^{-1} = u_s`, the other half of the
 source's Definition 00X1, is not a field of it, and
 `CategoryTheory.Functor.IsMorphismOfSites` is this library's encoding of that definition
-(`StacksFrontier/CategoryTheory/Sites/MorphismOfSites.lean`, carrying `@[stacks_fixed 00X1]`):
+(`StacksFrontier/CategoryTheory/Sites/MorphismOfSites.lean`) for Grothendieck topologies:
 continuity plus left and right exactness of `u_s`.  So `hmos` supplies the half of *morphism of
 ringed topoi* that the structure omits rather than restricting the source's hypothesis — by
 Stacks 00XC it is exactly what makes the geometric datum of `f` a morphism of topoi
 (`CategoryTheory.Functor.IsMorphismOfSites.morphismOfTopoi`).  What is narrower than the source
 here is not `hmos` but the *presentation*: `f` carries a functor between the underlying sites
-rather than an arbitrary adjoint pair, as the `@[stacks 01D3]` note on `RingedToposSiteHom`
-records and as the `@[stacks 07A6]` note on `derivedAdjunction` repeats.
+rather than an arbitrary adjoint pair, as the docstring of `RingedToposSiteHom` (a site-level
+variant of the morphisms of ringed topoi of Stacks 01D3) records and as the `@[stacks 07A6]` note on
+`derivedAdjunction` repeats.
 
 The square is stated for an object of the unbounded homotopy category rather than for a
 cochain complex, which is the form the comparison maps of the two derived functors take and is

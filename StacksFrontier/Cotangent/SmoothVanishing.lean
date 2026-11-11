@@ -11,7 +11,11 @@ public import StacksFrontier.Homology.Tor.BaseChangeTensorIso
 
 For a smooth ring map `A → B` the cotangent complex `L_{B/A}` is concentrated in cohomological
 degree `0`, where it is the module of Kähler differentials: `L_{B/A} = Ω[B⁄A][0]` in `D(B)`.
-This is Lemma 92.9.1 of the Stacks Project, [Stacks, Tag 08R5].
+This is the content of Lemma 92.9.1 of the Stacks Project, [Stacks, Tag 08R5], proved here for
+the fundamental distinguished triangles taken as a parameter; the lemma itself, with
+Proposition 08QX supplied, is
+`CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional` in
+`StacksFrontier.Cotangent.SmoothUnconditional`.
 
 ## Main results
 
@@ -19,12 +23,10 @@ This is Lemma 92.9.1 of the Stacks Project, [Stacks, Tag 08R5].
   `A → A[σ] → B` whose second map is étale, `Hⁱ(L_{B/A}) = 0` for every `i ≠ 0`.
 * `CommAlgCat.isZero_homology_cotangentComplex_of_isStandardSmooth`: the same for a standard
   smooth `A → B`.
-* `CommAlgCat.isZero_homology_cotangentComplex_of_smooth`: **[Stacks, Tag 08R5]**, the vanishing
-  of `Hⁱ(L_{B/A})` for `i ≠ 0` when `A → B` is smooth.
-* `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth`: **[Stacks, Tag 08R5]** in
-  full, the isomorphism `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)`, with
-  `CommAlgCat.nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_smooth` its existence
-  form.
+* `CommAlgCat.isZero_homology_cotangentComplex_of_smooth`: the vanishing of `Hⁱ(L_{B/A})` for
+  `i ≠ 0` when `A → B` is smooth.
+* `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth`: the isomorphism
+  `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)` for a smooth `A → B`.
 
 ## Implementation notes
 
@@ -36,23 +38,18 @@ other cohomology vanishes, and the two are assembled through the t-structure on 
 complex which is both `IsLE 0` and `IsGE 0` is a single module in degree `0`, and that module is
 identified with `Ω[B⁄A]` by its degree-`0` cohomology.
 
-*The one carried hypothesis.* Proposition 08QX — that the three vertices
-`L_{B/A} ⊗^𝐋_B C`, `L_{C/A}`, `L_{C/B}` of a tower `A → B → C` form a distinguished triangle —
-is not formalized in this library; see the `No @[stacks 08QX]` section of
-`StacksFrontier.Cotangent.Triangle.Distinguished`. Both
+*The triangle parameter.* Proposition 08QX — that the three vertices `L_{B/A} ⊗^𝐋_B C`,
+`L_{C/A}`, `L_{C/B}` of a tower `A → B → C` form a distinguished triangle — is proved as
+`CommAlgCat.productFundamentalTriangle_distinguished` in
+`StacksFrontier.Cotangent.Triangle.ProductDescent`, which is downstream of this file. Both
 `CommAlgCat.isZero_cotangentComplexDerived_of_etale` ([Stacks, Tag 08R2] item (5)) and
 `CommAlgCat.nonempty_fundamentalVertex₁_iso_fundamentalVertex₂_of_isZero` ([Stacks, Tag 08R3])
-therefore take the triangle of a single tower as a hypothesis. The proof below needs that
-triangle for several towers whose members are only produced during the argument — the polynomial
-subalgebra of a standard smooth presentation, the localizations of `B` at a covering family, and
-the diagonal towers of the étale maps involved — so the hypothesis is carried in the quantified
-form `CommAlgCat.HasFundamentalTriangle`, carried as `h08QX`, which is Tag 08QX itself for
-towers of rings in one universe. It is a theorem of the source and not an extra condition on
-`A → B`; nothing beyond it is assumed, and smoothness is load-bearing everywhere it is used.
-The quantified shape is forced rather than chosen: the towers at which Tag 08QX is used are
-`A → B → B_f` for every `f` in a spanning set that smoothness produces,
-`A → A[ULift (Fin n_f)] → B_f` for a polynomial index set whose size depends on `f`, and the
-diagonal tower of each of those étale maps, so they cannot be enumerated in the statement.
+take the triangle of a single tower as a parameter. The proof below needs that triangle for
+several towers whose members are only produced during the argument — the polynomial subalgebra
+of a standard smooth presentation, the localizations of `B` at a covering family, and the
+diagonal towers of the étale maps involved — so it takes the quantified form
+`CommAlgCat.HasFundamentalTriangle`, as `h08QX`, which `CommAlgCat.hasFundamentalTriangle` of
+`StacksFrontier.Cotangent.SmoothUnconditional` proves.
 
 *The reduction.* The vanishing is local on `Spec B`. Mathlib's
 `Algebra.Smooth.exists_span_eq_top_isStandardSmooth` covers `Spec B` by basic opens `D(f)` on
@@ -126,7 +123,9 @@ attribute [local instance] diagonalAlgebra
 
 /-- **Proposition 08QX for towers of rings in a single universe.** Every tower `A → B → C`
 admits a distinguished triangle `L_{B/A} ⊗^𝐋_B C ⟶ L_{C/A} ⟶ L_{C/B} ⟶ (L_{B/A} ⊗^𝐋_B C)[1]`
-on the vertices of the fundamental display of Equation 92.7.0.1. -/
+on the vertices of the fundamental display of Equation 92.7.0.1. This file is upstream of its
+proof; `CommAlgCat.hasFundamentalTriangle` of `StacksFrontier.Cotangent.SmoothUnconditional` proves
+it from `CommAlgCat.productFundamentalTriangle_distinguished`. -/
 def HasFundamentalTriangle : Prop :=
   ∀ (A B C : Type u) [CommRing A] [CommRing B] [CommRing C] [Algebra A B] [Algebra A C]
     [Algebra B C] [IsScalarTower A B C],
@@ -246,15 +245,11 @@ theorem isZero_localizedModule_homology_cotangentComplex
     (Submonoid.powers f)).mapIso ((DerivedCategory.homologyFunctorFactors
       (ModuleCat.{u} B) i).app (cotangentComplex A (CommAlgCat.of A B))).symm)
 
-/-- **[Stacks, Tag 08R5], the vanishing.** For a smooth ring map `A → B` the cotangent complex
-`L_{B/A}` has no cohomology outside degree `0`.
+/-- **The vanishing for a smooth ring map, for given triangles.** For a smooth ring map `A → B`
+the cotangent complex `L_{B/A}` has no cohomology outside degree `0`.
 
 A smooth ring map is standard smooth on a cover of `Spec B` by basic opens, [Stacks, Tag 00TA],
 and the cohomology of `L_{B/A}` is a `B`-module whose localizations along that cover vanish. -/
-@[stacks 08R5 "the vanishing: `Hⁱ(L_{B/A}) = 0` for every `i ≠ 0`, which together with Tag \
-08QF in degree 0 is the lemma. One carried hypothesis `h08QX`: Tag 08QX, that the fundamental \
-triangle is distinguished, which is not formalized in this library; it is quantified over towers \
-because the towers are produced by the proof itself and cannot be enumerated"]
 theorem isZero_homology_cotangentComplex_of_smooth (h08QX : HasFundamentalTriangle.{u})
     (A : Type u) [CommRing A] (B : Type u) [CommRing B] [Algebra A B] [Algebra.Smooth A B]
     (i : ℤ) (hi : i ≠ 0) :
@@ -265,15 +260,13 @@ theorem isZero_homology_cotangentComplex_of_smooth (h08QX : HasFundamentalTriang
   exact isZero_localizedModule_homology_cotangentComplex h08QX A B f i
     (isZero_homology_cotangentComplex_of_isStandardSmooth h08QX A (Localization.Away f) i hi)
 
-/-- **[Stacks, Tag 08R5].** For a smooth ring map `A → B`, the identification
-`L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)` of the cotangent complex with the module of Kähler
-differentials placed in cohomological degree `0`.
+/-- **The cotangent complex of a smooth ring map, for given triangles.** For a smooth ring map
+`A → B`, the identification `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)` of the cotangent complex with the
+module of Kähler differentials placed in cohomological degree `0`. With `h08QX` supplied this is
+[Stacks, Tag 08R5], `CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmoothUnconditional`.
 
 The cohomology vanishes outside degree `0` and is `Ω[B⁄A]` in degree `0` by [Stacks, Tag 08QF],
 so the t-structure on `D(B)` exhibits `L_{B/A}` as a single module in degree `0`. -/
-@[stacks 08R5 "the lemma in full and as data: the isomorphism `L_{B/A} ≅ Ω[B⁄A][0]` in `D(B)`. \
-One carried hypothesis `h08QX`: Tag 08QX, not formalized in this library. Nothing else is \
-assumed, and the conclusion is the source's whole equality rather than only its degree 0 part"]
 noncomputable def cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth
     (h08QX : HasFundamentalTriangle.{u}) (A : Type u) [CommRing A] (B : Type u) [CommRing B]
     [Algebra A B] [Algebra.Smooth A B] :
@@ -301,18 +294,6 @@ noncomputable def cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth
     (DerivedCategory.singleFunctorCompHomologyFunctorIso (ModuleCat.{u} B) 0).app Y).symm) ≪≫ ?_
   exact (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} B) 0).app _ ≪≫
     cotangentComplex_homologyZeroIso A (CommAlgCat.of A B)
-
-/-- **[Stacks, Tag 08R5].** For a smooth ring map `A → B` the cotangent complex `L_{B/A}` is
-isomorphic in `D(B)` to the module of Kähler differentials placed in cohomological degree `0`:
-`L_{B/A} = Ω[B⁄A][0]`. This is the existence form of
-`CommAlgCat.cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth`. -/
-theorem nonempty_cotangentComplexDerived_iso_kaehlerDifferential_of_smooth
-    (h08QX : HasFundamentalTriangle.{u}) (A : Type u) [CommRing A] (B : Type u) [CommRing B]
-    [Algebra A B] [Algebra.Smooth A B] :
-    Nonempty (cotangentComplexDerived.{u, u} A (CommAlgCat.of A B) ≅
-      (DerivedCategory.singleFunctor (ModuleCat.{u} B) 0).obj
-        (ModuleCat.of B (KaehlerDifferential A B))) :=
-  ⟨cotangentComplexDerivedIsoKaehlerDifferentialOfSmooth h08QX A B⟩
 
 end CommAlgCat
 

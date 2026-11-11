@@ -58,36 +58,33 @@ the symmetry of a fibre product, and the second is the convention already fixed 
 ## Implementation notes
 
 **What is here and what is not.**  The objects, the morphisms, the identities and the
-composition are the data of Section 0372 and they are unconditional except for the identity,
-which is the unit law of Stacks 03LU.  The three *category laws* are not verified here, and
-therefore neither is the category, nor the functor `p` of the section, nor the groupoid
-structure of its fibre categories.  The laws reduce, through the composition calculus
-`CategoryTheory.Functor.fibreComp` of
-`StacksFrontier/AlgebraicGeometry/Quot/CoherentStack.lean` and the three coherences above, to
-`CategoryTheory.Functor.fibreComp_id_left`, `CategoryTheory.Functor.fibreComp_id_right` and
-`CategoryTheory.Functor.fibreComp_assoc`, and that reduction elaborates; what does not finish is
-the *kernel's* check of the resulting proof terms, which is the behaviour the implementation
-notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePushforwardCoherence.lean` record for any
-statement that projects the underlying morphism of one of these comparisons.  The three
-coherences are stated and proved here so that a later proof of the laws needs nothing further
-about the comparisons themselves.
+composition are the data of Section 0372.  The identity takes the pseudofunctoriality
+`AlgebraicGeometry.Space.ModulePushforwardCoherence` of the direct images of Stacks 03LU as an
+argument, and that structure is inhabited with no hypothesis by
+`AlgebraicGeometry.Space.modulePushforwardCoherence`.  The three category laws, the category, the
+functor `p` of the section and the groupoid structure of its fibre categories are in
+`StacksFrontier/AlgebraicGeometry/Quot/PicardStackCategory.lean`, where the category with no
+hypothesis is `AlgebraicGeometry.Space.picardStackCategory`.  The laws reduce, through the
+composition calculus `CategoryTheory.Functor.fibreComp` of
+`StacksFrontier/AlgebraicGeometry/Quot/CoherentStack.lean`, to the three coherences above, which
+are stated and proved here so that the proofs of the laws need nothing further about the
+comparisons themselves.
 
-**The category is therefore specified rather than constructed.**  Section 0372 names
-`Picardstack_{X/B}` a category by designation and verifies nothing, so what is recorded here is
-`AlgebraicGeometry.Space.PicardCategoryData`: a category structure on the objects, a projection
-to the test schemes over the base, and the identifications of its hom-sets, identities,
-composition and projection with `AlgebraicGeometry.Space.PicardHom`,
-`AlgebraicGeometry.Space.PicardHom.id` and `AlgebraicGeometry.Space.PicardHom.comp`.  No value
-of it is constructed.  Because those identifications pin all four pieces of data, a statement
-about `AlgebraicGeometry.Space.PicardCategoryData.projection` is a statement about the functor
-`p` of the source and not about some other functor on the same objects.  This is the same device
-as `AlgebraicGeometry.Space.CoherentCategoryData` of
-`StacksFrontier/AlgebraicGeometry/Quot/CoherentStack.lean`, whose category of Stacks 08KB is
-introduced by the source in the same way.
+**The specification of the category.**  `AlgebraicGeometry.Space.PicardCategoryData` records a
+category structure on the objects, a projection to the test schemes over the base, and the
+identifications of its hom-sets, identities, composition and projection with
+`AlgebraicGeometry.Space.PicardHom`, `AlgebraicGeometry.Space.PicardHom.id` and
+`AlgebraicGeometry.Space.PicardHom.comp`.  Because those identifications pin all four pieces of
+data, a statement about `AlgebraicGeometry.Space.PicardCategoryData.projection` is a statement
+about the functor `p` of the source and not about some other functor on the same objects.  Its
+value is `AlgebraicGeometry.Space.picardCategoryData`.  This is the same device as
+`AlgebraicGeometry.Space.CoherentCategoryData` of
+`StacksFrontier/AlgebraicGeometry/Quot/CoherentStack.lean`.
 
 **Why the comparisons are kept variable.**  The comparisons of Stacks 03LU contain
-`CategoryTheory.eqToIso` factors, which is the source of the behaviour just described; every
+`CategoryTheory.eqToIso` factors, and the kernel does not finish checking a proof of a
+statement that projects the underlying morphism of one of them, as the implementation notes of
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePushforwardCoherence.lean` record; every
 statement about them here keeps the comparison a variable or is an equation between two
 comparisons, never a projection of one.
 
@@ -289,8 +286,6 @@ theorem ext {m n : PicardHom A C} (hbase : m.base = n.base)
 
 /-- **Section 0372, the identity of an object.**  The identity of its pair `(U, b)`, with the
 unit law `(X_{𝟙 U})^* ≅ 𝟭` of Stacks 03LU as its comparison of modules. -/
-@[stacks 0372 "the identity, conditional on the pseudofunctoriality of the direct images of \
-Stacks 03LU"]
 def id (hc : ModulePushforwardCoherence B S hS) (A : PicardObject s) : PicardHom A A where
   base := 𝟙 A.T
   fibre := (baseChangeIdComparison hc s.f A.T).hom.app A.lineBundle

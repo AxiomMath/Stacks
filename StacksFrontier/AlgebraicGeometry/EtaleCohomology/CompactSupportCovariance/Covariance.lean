@@ -40,8 +40,11 @@ field.
 ## Main definitions
 
 * `Stacks.EtaleCohomology.compactlySupportedCohomologyTraceOfWeighting` and its cases
-  `…OfEtale`, `…OfFlat`, `…OfGeometricallyUnibranch`: the natural transformation
-  `RΓ_c(X, f^{-1}K) ⟶ RΓ_c(Y, K)` of functors of `K ∈ D⁺_tors(Y_étale, Λ)`.
+  `…OfEtale`, `…OfFlat` and `compactlySupportedCohomologyGenericSeparableDegreeTrace`: the natural
+  transformation `RΓ_c(X, f^{-1}K) ⟶ RΓ_c(Y, K)` of functors of `K ∈ D⁺_tors(Y_étale, Λ)`.
+  Case (3) uses the generic separable degree `AlgebraicGeometry.genericSeparableDegreeWeight`;
+  the older `…OfGeometricallyUnibranch` maps use an unspecified weighting and are not the
+  canonical ones.
 * `Stacks.EtaleCohomology.compactlySupportedCohomologyUnboundedTraceOfWeighting` and its cases:
   the same for `K ∈ D(Y_étale, Λ)` and `Λ` torsion.
 * `Stacks.EtaleCohomology.compactlySupportedCohomologyConstantTraceOfWeighting` and its cases:
@@ -384,9 +387,11 @@ variable (hY : IsGeometricallyUnibranch Y)
 
 omit [QuasiCompact q] [IsSeparated q] [QuasiCompact (f ≫ q)] [IsSeparated (f ≫ q)] in
 include q hY in
-/-- In case (3) of [Stacks, Tag 0GKS] the generic separable degree of [Stacks, Tag 0GKJ],
-[Stacks, Tag 0F3E], is a weighting of `f`: `Y` is locally Noetherian, being of finite type over a
-field. -/
+/-- In case (3) of [Stacks, Tag 0GKS] the morphism `f` has a weighting, for instance the generic
+separable degree of [Stacks, Tag 0GKJ], [Stacks, Tag 0F3E]: `Y` is locally Noetherian, being of
+finite type over a field. This only asserts existence; the weighting of case (3) is
+`AlgebraicGeometry.genericSeparableDegreeWeight`
+(`Stacks.EtaleCohomology.isWeighting_genericSeparableDegreeWeight_of_covariance`). -/
 theorem exists_isWeighting_of_isGeometricallyUnibranch [LocallyQuasiFinite f] :
     ∃ w : X → ℤ, IsWeighting f w :=
   haveI := isLocallyNoetherian_of_covariance k q
@@ -395,10 +400,12 @@ theorem exists_isWeighting_of_isGeometricallyUnibranch [LocallyQuasiFinite f] :
   ⟨fun x => (h.choose x : ℤ), h.choose_spec.1⟩
 
 include hY in
-/-- **Stacks Project, Tag 0GKS**, case (3), on `D⁺_tors`: `f` quasi-finite and `Y` geometrically
-unibranch. The weighting is the generic separable degree of [Stacks, Tag 0GKJ]. -/
-@[stacks 0GKS "case (3), f quasi-finite and Y geometrically unibranch, K in D⁺_tors(Y_étale, Λ): \
-the map RΓ_c(X, f⁻¹K) ⟶ RΓ_c(Y, K)"]
+/-- A map `RΓ_c(X, f^{-1}K) ⟶ RΓ_c(Y, K)` of `K ∈ D⁺_tors(Y_étale, Λ)` for `f` quasi-finite and
+`Y` geometrically unibranch, through the trace map of an unspecified weighting of `f` (chosen from
+`Stacks.EtaleCohomology.exists_isWeighting_of_isGeometricallyUnibranch`, which forgets the values
+of the weighting). It is not the canonical map of case (3) of [Stacks, Tag 0GKS], which uses the
+generic separable degree of [Stacks, Tag 0GKJ]; that map is
+`Stacks.EtaleCohomology.compactlySupportedCohomologyGenericSeparableDegreeTrace`. -/
 def compactlySupportedCohomologyTraceOfGeometricallyUnibranch [LocallyQuasiFinite f] :
     (isTorsionPlus.{u, u} Λ Y).ι ⋙ etaleModuleDerivedInverseImagePlus.{u, u} Λ f ⋙
         compactlySupportedCohomology.{u, u} k (f ≫ q) jp Λ ⟶
@@ -407,9 +414,11 @@ def compactlySupportedCohomologyTraceOfGeometricallyUnibranch [LocallyQuasiFinit
     (exists_isWeighting_of_isGeometricallyUnibranch k q f hY).choose_spec
 
 include hY hΛ in
-/-- **Stacks Project, Tag 0GKS**, case (3), on `D(Y_étale, Λ)` for a torsion ring `Λ`. -/
-@[stacks 0GKS "case (3), f quasi-finite and Y geometrically unibranch, K in D(Y_étale, Λ) with Λ \
-torsion: the map RΓ_c(X, f⁻¹K) ⟶ RΓ_c(Y, K)"]
+/-- A map `RΓ_c(X, f^{-1}K) ⟶ RΓ_c(Y, K)` of `K ∈ D(Y_étale, Λ)`, `Λ` torsion, for `f`
+quasi-finite and `Y` geometrically unibranch, through the trace map of an unspecified weighting of
+`f`. It is not the canonical map of case (3) of [Stacks, Tag 0GKS], which uses the generic
+separable degree of [Stacks, Tag 0GKJ]; that map is
+`Stacks.EtaleCohomology.compactlySupportedCohomologyUnboundedGenericSeparableDegreeTrace`. -/
 def compactlySupportedCohomologyUnboundedTraceOfGeometricallyUnibranch [LocallyQuasiFinite f] :
     (etaleModuleInverseImage.{u, u} Λ f).mapDerivedCategory ⋙
         compactlySupportedCohomologyUnbounded.{u, u} k (f ≫ q) jp Λ ⟶
@@ -418,10 +427,11 @@ def compactlySupportedCohomologyUnboundedTraceOfGeometricallyUnibranch [LocallyQ
     (exists_isWeighting_of_isGeometricallyUnibranch k q f hY).choose_spec hΛ
 
 include hY hΛ in
-/-- **Stacks Project, Tag 0GKS**, case (3), the arrow `Tr_f : RΓ_c(X, Λ) ⟶ RΓ_c(Y, Λ)` for `f`
-quasi-finite, `Y` geometrically unibranch and `Λ` torsion. -/
-@[stacks 0GKS "case (3), f quasi-finite and Y geometrically unibranch: the arrow \
-Tr_f : RΓ_c(X, Λ) ⟶ RΓ_c(Y, Λ) for a torsion ring Λ"]
+/-- An arrow `RΓ_c(X, Λ) ⟶ RΓ_c(Y, Λ)` for `f` quasi-finite, `Y` geometrically unibranch and `Λ`
+torsion, through the trace map of an unspecified weighting of `f`. It is not the arrow `Tr_f` of
+case (3) of [Stacks, Tag 0GKS], which uses the generic separable degree of [Stacks, Tag 0GKJ];
+that arrow is
+`Stacks.EtaleCohomology.compactlySupportedCohomologyConstantGenericSeparableDegreeTrace`. -/
 def compactlySupportedCohomologyConstantTraceOfGeometricallyUnibranch [LocallyQuasiFinite f] :
     (compactlySupportedCohomologyUnbounded.{u, u} k (f ≫ q) jp Λ).obj
         ((DerivedCategory.singleFunctor (EtaleModules.{u, u} Λ X) 0).obj
@@ -433,6 +443,104 @@ def compactlySupportedCohomologyConstantTraceOfGeometricallyUnibranch [LocallyQu
             (ModuleCat.of Λ (ULift.{u + 1} Λ)))) :=
   compactlySupportedCohomologyConstantTraceOfWeighting k q f jp jq Λ
     (exists_isWeighting_of_isGeometricallyUnibranch k q f hY).choose_spec hΛ
+
+/-! ### Case (3) with the generic separable degree -/
+
+omit [QuasiCompact q] [IsSeparated q] [LocallyOfFiniteType (f ≫ q)] [QuasiCompact (f ≫ q)]
+  [IsSeparated (f ≫ q)] in
+include q in
+/-- In case (3) of [Stacks, Tag 0GKS] the generic separable degree of [Stacks, Tag 0GKJ],
+[Stacks, Tag 0F3E], `AlgebraicGeometry.genericSeparableDegreeWeight`, is a weighting of `f`: `Y`
+is locally Noetherian, being of finite type over a field. -/
+theorem isWeighting_genericSeparableDegreeWeight_of_covariance [LocallyOfFiniteType f]
+    [LocallyQuasiFinite f] :
+    IsWeighting f (fun x ↦ (genericSeparableDegreeWeight f hY x : ℤ)) :=
+  haveI := isLocallyNoetherian_of_covariance k q
+  isWeighting_genericSeparableDegreeWeight f hY
+
+include hY in
+/-- **Stacks Project, Tag 0GKS**, case (3), on `D⁺_tors`: `f` quasi-finite and `Y` geometrically
+unibranch. The map `RΓ_c(X, f^{-1}K) ⟶ RΓ_c(Y, K)` of `K ∈ D⁺_tors(Y_étale, Λ)` of
+`Stacks.EtaleCohomology.compactlySupportedCohomologyTraceOfWeighting` for the weighting of
+[Stacks, Tag 0GKJ], the generic separable degree `AlgebraicGeometry.genericSeparableDegreeWeight`
+(`Stacks.EtaleCohomology.compactlySupportedCohomologyGenericSeparableDegreeTrace_eq`). -/
+@[stacks 0GKS "case (3), f quasi-finite and Y geometrically unibranch, K in D⁺_tors(Y_étale, Λ): \
+the map RΓ_c(X, f⁻¹K) ⟶ RΓ_c(Y, K) through the trace Tr_{f,w,K} for w the generic separable \
+degree of 0GKJ (AlgebraicGeometry.genericSeparableDegreeWeight, determined by its values by \
+eq_genericSeparableDegreeWeight); replaces \
+compactlySupportedCohomologyTraceOfGeometricallyUnibranch, which used an unspecified weighting"]
+def compactlySupportedCohomologyGenericSeparableDegreeTrace [LocallyQuasiFinite f] :
+    (isTorsionPlus.{u, u} Λ Y).ι ⋙ etaleModuleDerivedInverseImagePlus.{u, u} Λ f ⋙
+        compactlySupportedCohomology.{u, u} k (f ≫ q) jp Λ ⟶
+      (isTorsionPlus.{u, u} Λ Y).ι ⋙ compactlySupportedCohomology.{u, u} k q jq Λ :=
+  haveI : LocallyOfFiniteType f := locallyOfFiniteType_of_comp f q
+  compactlySupportedCohomologyTraceOfWeighting k q f jp jq Λ
+    (isWeighting_genericSeparableDegreeWeight_of_covariance k q f hY)
+
+/-- The map of case (3) of [Stacks, Tag 0GKS] is the map of case (4) for the generic separable
+degree `AlgebraicGeometry.genericSeparableDegreeWeight` of [Stacks, Tag 0GKJ]. -/
+theorem compactlySupportedCohomologyGenericSeparableDegreeTrace_eq [LocallyOfFiniteType f]
+    [LocallyQuasiFinite f] :
+    compactlySupportedCohomologyGenericSeparableDegreeTrace k q f jp jq Λ hY =
+      compactlySupportedCohomologyTraceOfWeighting k q f jp jq Λ
+        (isWeighting_genericSeparableDegreeWeight_of_covariance k q f hY) :=
+  rfl
+
+include hY hΛ in
+/-- **Stacks Project, Tag 0GKS**, case (3), on `D(Y_étale, Λ)` for a torsion ring `Λ`: the map
+`RΓ_c(X, f^{-1}K) ⟶ RΓ_c(Y, K)` of `K ∈ D(Y_étale, Λ)` through the trace map of the generic
+separable degree `AlgebraicGeometry.genericSeparableDegreeWeight` of [Stacks, Tag 0GKJ]. -/
+@[stacks 0GKS "case (3), f quasi-finite and Y geometrically unibranch, K in D(Y_étale, Λ) with Λ \
+torsion: the map RΓ_c(X, f⁻¹K) ⟶ RΓ_c(Y, K) through the trace Tr_{f,w,K} for w the generic \
+separable degree of 0GKJ; replaces \
+compactlySupportedCohomologyUnboundedTraceOfGeometricallyUnibranch, which used an unspecified \
+weighting"]
+def compactlySupportedCohomologyUnboundedGenericSeparableDegreeTrace [LocallyQuasiFinite f] :
+    (etaleModuleInverseImage.{u, u} Λ f).mapDerivedCategory ⋙
+        compactlySupportedCohomologyUnbounded.{u, u} k (f ≫ q) jp Λ ⟶
+      compactlySupportedCohomologyUnbounded.{u, u} k q jq Λ :=
+  haveI : LocallyOfFiniteType f := locallyOfFiniteType_of_comp f q
+  compactlySupportedCohomologyUnboundedTraceOfWeighting k q f jp jq Λ
+    (isWeighting_genericSeparableDegreeWeight_of_covariance k q f hY) hΛ
+
+/-- The map of case (3) of [Stacks, Tag 0GKS] on `D(Y_étale, Λ)` is the map of case (4) for the
+generic separable degree `AlgebraicGeometry.genericSeparableDegreeWeight`. -/
+theorem compactlySupportedCohomologyUnboundedGenericSeparableDegreeTrace_eq
+    [LocallyOfFiniteType f] [LocallyQuasiFinite f] :
+    compactlySupportedCohomologyUnboundedGenericSeparableDegreeTrace k q f jp jq Λ hΛ hY =
+      compactlySupportedCohomologyUnboundedTraceOfWeighting k q f jp jq Λ
+        (isWeighting_genericSeparableDegreeWeight_of_covariance k q f hY) hΛ :=
+  rfl
+
+include hY hΛ in
+/-- **Stacks Project, Tag 0GKS**, case (3), the arrow `Tr_f : RΓ_c(X, Λ) ⟶ RΓ_c(Y, Λ)` for `f`
+quasi-finite, `Y` geometrically unibranch and `Λ` torsion, through the trace map of the generic
+separable degree `AlgebraicGeometry.genericSeparableDegreeWeight` of [Stacks, Tag 0GKJ]. -/
+@[stacks 0GKS "case (3), f quasi-finite and Y geometrically unibranch: the arrow \
+Tr_f : RΓ_c(X, Λ) ⟶ RΓ_c(Y, Λ) for a torsion ring Λ, for w the generic separable degree of 0GKJ; \
+replaces compactlySupportedCohomologyConstantTraceOfGeometricallyUnibranch, which used an \
+unspecified weighting"]
+def compactlySupportedCohomologyConstantGenericSeparableDegreeTrace [LocallyQuasiFinite f] :
+    (compactlySupportedCohomologyUnbounded.{u, u} k (f ≫ q) jp Λ).obj
+        ((DerivedCategory.singleFunctor (EtaleModules.{u, u} Λ X) 0).obj
+          ((constantSheaf X.smallEtaleTopology (ModuleCat.{u + 1} Λ)).obj
+            (ModuleCat.of Λ (ULift.{u + 1} Λ)))) ⟶
+      (compactlySupportedCohomologyUnbounded.{u, u} k q jq Λ).obj
+        ((DerivedCategory.singleFunctor (EtaleModules.{u, u} Λ Y) 0).obj
+          ((constantSheaf Y.smallEtaleTopology (ModuleCat.{u + 1} Λ)).obj
+            (ModuleCat.of Λ (ULift.{u + 1} Λ)))) :=
+  haveI : LocallyOfFiniteType f := locallyOfFiniteType_of_comp f q
+  compactlySupportedCohomologyConstantTraceOfWeighting k q f jp jq Λ
+    (isWeighting_genericSeparableDegreeWeight_of_covariance k q f hY) hΛ
+
+/-- The arrow `Tr_f` of case (3) of [Stacks, Tag 0GKS] is the arrow of case (4) for the generic
+separable degree `AlgebraicGeometry.genericSeparableDegreeWeight`. -/
+theorem compactlySupportedCohomologyConstantGenericSeparableDegreeTrace_eq
+    [LocallyOfFiniteType f] [LocallyQuasiFinite f] :
+    compactlySupportedCohomologyConstantGenericSeparableDegreeTrace k q f jp jq Λ hΛ hY =
+      compactlySupportedCohomologyConstantTraceOfWeighting k q f jp jq Λ
+        (isWeighting_genericSeparableDegreeWeight_of_covariance k q f hY) hΛ :=
+  rfl
 
 end Covariance
 

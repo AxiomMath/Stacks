@@ -37,14 +37,13 @@ that it be Grothendieck abelian with enough injectives.  Both are supplied for t
 `CategoryTheory.IsGrothendieckAbelian.enoughInjectives`, introduced here as file-scoped local
 instances; no global instance is added.
 
-The other two clauses of Stacks 08GK's conclusion are not proved here and are not reachable
-from unconditional content of this library.  Coherence of the cohomology sheaves of `Rf_*E` is
-Stacks 08GC, whose library form
-`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_hasProperSupport`
-carries Stacks 08AR, itself proved only with Stacks 0720, Stacks 08AN and Chow's lemma for
-algebraic spaces carried.  Boundedness from above is Stacks 073G or Stacks 08FA; Stacks 073G
-is `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward`, which bounds
-the higher direct images of a quasi-coherent module, and Stacks 08FA has no presence.
+The other two clauses of Stacks 08GK's conclusion are not proved here.  Coherence of the
+cohomology sheaves of `Rf_*E` is Stacks 08GC, proved as
+`AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_hasProperSupport`.  Boundedness from
+above is Stacks 073G or Stacks 08FA; Stacks 073G is
+`AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`, which
+bounds the higher direct images of a quasi-coherent module rather than of a complex, and
+Stacks 08FA has no presence.
 
 ## References
 

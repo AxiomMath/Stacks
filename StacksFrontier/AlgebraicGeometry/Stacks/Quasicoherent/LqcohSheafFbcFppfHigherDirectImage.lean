@@ -31,9 +31,9 @@ The proof is the source's. By **Stacks 075R** (3)
 `LQCoh^fbc` by part (b) in the étale topology, so it is an fppf sheaf (**Stacks 0771** part (1)),
 that is `G = ε_*M` for an fppf module `M` in `LQCoh^fbc`; then `ε^*G = M` and `ε_*ε^*G = G`.
 
-The total direct image `Rf_*` of part (a), on bounded below derived categories, is not treated:
-there is no derived direct image of modules at the module universe of the schemes on the sites of
-algebraic stacks in the library.
+The total direct image `Rf_*` of part (a), on bounded below derived categories, is
+`AlgebraicGeometry.Stack.lqcohSheafFbcTotalDirectImageIso` in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcohSheafFbcTotalDirectImage.lean`.
 
 ## References
 
@@ -96,8 +96,9 @@ higher direct image `Rⁱf_*F`, computed in the fppf topology, is an object of `
 Modules have sections in the universe `u` of the schemes; local quasi-coherence is read against
 an auxiliary big étale site `E` with `E.cutoff = B.cutoff`, and the flat base change property is
 the sheaf-level one of **Stacks 0762**. -/
-@[stacks 0771 "part (4)(b), in Mod(O_Y): the higher direct images computed in the fppf \
-  topology, modules at the module universe u of the schemes"]
+@[stacks 0771 "part (4)(b), in Mod(𝒪_𝒴): for f quasi-compact and quasi-separated, each \
+  R^i f_*F computed in the fppf topology lies in LQCoh^fbc(𝒪_𝒴), with the flat base change \
+  property of 0762 read on sheaves; modules at the module universe u of the schemes"]
 theorem lqcohSheafFbcFppfModules_fppfModulesHigherDirectImage
     {𝒳 𝒴 : AlgebraicStacks.{u, t} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hqc : IsQuasiCompactMorphism B S hS f) (hqs : AlgebraicStacks.IsQuasiSeparated B S hS f)
@@ -118,10 +119,11 @@ topology: `ε_*(Rⁱf_{fppf,*}F) ≅ Rⁱf_{ét,*}(ε_*F)`, where `ε_*` reads a
 site.
 
 Modules have sections in the universe `u` of the schemes. The assertion of the source about the
-total direct image `Rf_*` is not included: there is no derived direct image at that universe on
-the sites of algebraic stacks in the library. -/
-@[stacks 0771 "part (4)(a), for the higher direct images R^i f_* (not the total direct image \
-  Rf_*), modules at the module universe u of the schemes"]
+total direct image `Rf_*` is `AlgebraicGeometry.Stack.lqcohSheafFbcTotalDirectImageIso`. -/
+@[stacks 0771 "part (4)(a), for the higher direct images: ε_*(R^i f_{fppf,*}F) ≅ \
+  R^i f_{ét,*}(ε_*F) for f quasi-compact and quasi-separated and F in LQCoh^fbc, modules at the \
+  module universe u of the schemes; the total direct image Rf_* is \
+  lqcohSheafFbcTotalDirectImageIso"]
 theorem nonempty_etaleComparison_fppfModulesHigherDirectImage_iso
     {𝒳 𝒴 : AlgebraicStacks.{u, t} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hqc : IsQuasiCompactMorphism B S hS f) (hqs : AlgebraicStacks.IsQuasiSeparated B S hS f)

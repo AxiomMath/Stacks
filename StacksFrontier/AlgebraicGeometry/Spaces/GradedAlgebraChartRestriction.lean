@@ -7,6 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.SheafSymmetricAlgebra.Bridge
 public import StacksFrontier.AlgebraicGeometry.SheafSymmetricAlgebra.SheafifyRestrict
 public import StacksFrontier.AlgebraicGeometry.SheafSymmetricAlgebra.Transport
 public import StacksFrontier.AlgebraicGeometry.Spaces.ChartModuleRestriction
+public import StacksFrontier.AlgebraicGeometry.Spaces.ChartSchemeRestrictionQuasicoherent
 public import StacksFrontier.AlgebraicGeometry.Spaces.StructureMapSharp
 
 /-!
@@ -59,6 +60,8 @@ extends a multiplication along the sheafification units.
 * `AlgebraicGeometry.Space.chartSheafAlgebra_isCommutative` and
   `AlgebraicGeometry.Space.chartSheafAlgebra_vanishesInNegativeDegrees`: commutativity and
   concentration in nonnegative degrees pass to the restriction.
+* `AlgebraicGeometry.Space.chartSheafAlgebra_isQuasicoherent`: quasi-coherence of the pieces on
+  the small étale site of `X` passes to the Zariski restriction, by Stacks 03DX.
 
 ## Implementation notes
 
@@ -73,26 +76,18 @@ unit laws transport by `AlgebraicGeometry.Space.heq_ulift_up`.  The one genuinel
 step, extending the multiplication along the sheafification units, is already done once and for
 all by `Stacks.GradedAlgebra.sheafify`.
 
-**The two carried inputs, and why they are inputs.**  `relativeProjChartAlgebra` takes
-quasi-coherence of the module restrictions of the pieces as a hypothesis, `hqc`.  Quasi-coherence
-of the pieces of `𝒜` is quasi-coherence on the *small étale site* of `X`; the restriction lives on
-the *Zariski* site of the chart's scheme, and passing between them is the étale-to-Zariski
-direction of Descent, Stacks 03DX, together with a drop of the presentation index types from
-`Type (u + 1)` to `Type u`.  That direction is not in this library — the two clauses of
-Stacks 03DX which are, `hasGlobalPresentation_of_isQuasicoherentOnSite` and
-`isQuasicoherentOnSite_iff_isCartesianOnAffineCharts`, are a statement about an affine scheme's
-own Zariski site and a statement about the small étale site of a space, neither of which
-compares the two.  Carrying it is the library's established device in this situation: the
-neighbouring `AlgebraicGeometry.Space.isLocallyProjective_restrictToChartScheme_of_isSurjective`
-takes exactly this hypothesis, under the same name, and still carries its `stacks` attribute.  It
-is an input and not a disguised conclusion: it speaks only of the pieces of `𝒜`, mentions no
-chart-level statement, and is a property of a single module.
+**Quasi-coherence of the restricted pieces.**  Quasi-coherence of the pieces of `𝒜` is
+quasi-coherence on the *small étale site* of `X`; the restriction lives on the *Zariski* site of
+the chart's scheme.  Passing between them is the étale-to-Zariski direction of Descent,
+Stacks 03DX, which is `AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme`, so
+`relativeProjChartAlgebra` asks only for quasi-coherence of the pieces of `𝒜` on the small étale
+site of `X`, in the form Situation 0849 states it.
 
 **Commutativity is a hypothesis on `𝒜`, not a field of it.**  `SheafOfModules.GradedAlgebra` is
 not assumed commutative; commutativity, concentration in nonnegative degrees and quasi-coherence
 are fields of `AlgebraicGeometry.Space.RelativeProjSituation` rather than of the bare algebra.
-So the three appear here as explicit hypotheses, in the section-level form that the situation
-supplies them.
+So the three appear here as explicit hypotheses on `𝒜`, in the form that the situation supplies
+them.
 
 ## References
 
@@ -262,6 +257,15 @@ theorem chartSheafAlgebra_vanishesInNegativeDegrees
   fun n hn U x =>
     restrictToChartScheme_section_eq_zero V (A.piece n) (hneg n hn) U x
 
+/-- **Quasi-coherence passes to the chart restriction.**  A homogeneous piece of `𝒜` which is
+quasi-coherent on the small étale site of `X` has a quasi-coherent Zariski restriction to the
+chart's scheme, by the étale-to-Zariski direction of Descent, Stacks 03DX, in the form
+`AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme`. -/
+theorem chartSheafAlgebra_isQuasicoherent
+    (hA : ∀ n : ℤ, (A.piece n).IsQuasicoherentOnSite) (n : ℤ) :
+    ((chartSheafAlgebra A V).piece n).IsQuasicoherent :=
+  isQuasicoherent_restrictToChartScheme B S hS X (A.piece n) (hA n) V
+
 /-! ### The restriction as graded algebra data of Situation 01NN -/
 
 /-- **The restriction `𝒜|_V` of a graded algebra on an algebraic space to an étale scheme chart,
@@ -269,24 +273,23 @@ as graded algebra data in the sense of Situation 01NN.**  This is the object the
 theory of the relative Proj consumes, so it is what makes a reduction to the case of schemes on
 an étale chart possible.
 
-Commutativity and concentration in nonnegative degrees are transported from `𝒜`.  Quasi-coherence
-of the restricted pieces is the hypothesis `hqc`; see the implementation notes for why it is
-carried and why it is an input rather than a disguised conclusion. -/
-@[stacks 01NN "the restriction of a graded algebra on an algebraic space to an étale scheme \
-chart, as graded algebra data on the chart; granted quasi-coherence of the module restrictions \
-of the homogeneous pieces, which is the étale-to-Zariski direction of Descent 03DX and is \
-carried here in the same form as in the neighbouring Tag 060Q"]
+Commutativity, concentration in nonnegative degrees and quasi-coherence of the pieces are
+transported from `𝒜`; quasi-coherence passes from the small étale site of `X` to the Zariski site
+of the chart's scheme by `AlgebraicGeometry.Space.chartSheafAlgebra_isQuasicoherent`. -/
+@[stacks 01NN "the restriction of a quasi-coherent, commutative, nonnegatively graded algebra on \
+an algebraic space to an étale scheme chart, as a quasi-coherent graded algebra on the chart's \
+scheme"]
 def relativeProjChartAlgebra
     (hcomm : ∀ (i j : ℤ) (W : (SmallEtale B S hS X.1)ᵒᵖ) (a : (A.piece i).val.obj W)
       (b : (A.piece j).val.obj W), HEq ((A.mul i j).app W a b) ((A.mul j i).app W b a))
     (hneg : ∀ (n : ℤ), n < 0 → ∀ (W : (SmallEtale B S hS X.1)ᵒᵖ)
       (y : (A.piece n).val.obj W), y = 0)
-    (hqc : ∀ n : ℤ, (restrictToChartScheme B S hS X.1 X.2 (A.piece n) V).IsQuasicoherent) :
+    (hA : ∀ n : ℤ, (A.piece n).IsQuasicoherentOnSite) :
     SheafGradedAlgebra (chartScheme V) :=
   toSheafGradedAlgebra (chartSheafAlgebra A V)
     (chartSheafAlgebra_isCommutative A V hcomm)
     (chartSheafAlgebra_vanishesInNegativeDegrees A V hneg)
-    (fun n => hqc n)
+    (chartSheafAlgebra_isQuasicoherent A V hA)
 
 /-- The homogeneous pieces of the restriction of Situation 01NN are the module restrictions of
 the pieces of `𝒜`. -/
@@ -295,9 +298,8 @@ theorem relativeProjChartAlgebra_piece
       (b : (A.piece j).val.obj W), HEq ((A.mul i j).app W a b) ((A.mul j i).app W b a))
     (hneg : ∀ (n : ℤ), n < 0 → ∀ (W : (SmallEtale B S hS X.1)ᵒᵖ)
       (y : (A.piece n).val.obj W), y = 0)
-    (hqc : ∀ n : ℤ, (restrictToChartScheme B S hS X.1 X.2 (A.piece n) V).IsQuasicoherent)
-    (n : ℤ) :
-    (relativeProjChartAlgebra A V hcomm hneg hqc).piece n =
+    (hA : ∀ n : ℤ, (A.piece n).IsQuasicoherentOnSite) (n : ℤ) :
+    (relativeProjChartAlgebra A V hcomm hneg hA).piece n =
       restrictToChartScheme B S hS X.1 X.2 (A.piece n) V :=
   rfl
 

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.FGModuleCat.Abelian
+public import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 public import Mathlib.Algebra.Category.ModuleCat.Ext.Basic
 public import Mathlib.Algebra.Category.ModuleCat.Ext.Finite
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
@@ -21,6 +22,7 @@ public import StacksFrontier.RingTheory.Module.AdicSystem.Hom
 public import StacksFrontier.RingTheory.Module.AdicSystem.Homology
 public import StacksFrontier.RingTheory.Module.ReduceModIdealExact
 public import StacksFrontier.RingTheory.Module.AdicSystem.Ext.AdicComparison
+public import StacksFrontier.CategoryTheory.Abelian.Projective.ExtMapExactFunctor
 
 /-!
 # Ext over adic quotients: flat base change on inverse limits (Tag 0EH0)
@@ -124,7 +126,7 @@ private lemma ker_cyclesToExt (n : ℕ) :
   cases n with
   | zero =>
     ext f
-    change P.extMk f.1 1 rfl f.2 = 0 ↔ _
+    show P.extMk f.1 1 rfl f.2 = 0 ↔ _
     rw [extMk_zero_eq_zero_iff]
     simp [homIncoming]
   | succ n => simpa [homIncoming, homDifferential] using ker_cyclesToExt_succ P Y n
@@ -327,7 +329,7 @@ private lemma reduceModIdeal_exact_of_range_inf
       induction x using Submodule.Quotient.induction_on with
       | _ x =>
         rw [← hx]
-        change Submodule.Quotient.mk (g (f x)) = 0
+        show Submodule.Quotient.mk (g (f x)) = 0
         rw [hfg.apply_apply_eq_zero x, Submodule.Quotient.mk_zero]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -375,9 +377,9 @@ private lemma ker_homReduction [Small.{v} R] (I : Ideal R)
   ext f
   let e := ModuleCat.homLinearEquiv (S := R)
     (M := (quotientFunctor I).obj M) (N := (quotientFunctor I).obj N)
-  change e.symm (LinearMap.reduceModIdeal I f.hom) = 0 ↔ _
+  show e.symm (LinearMap.reduceModIdeal I f.hom) = 0 ↔ _
   rw [e.symm.map_eq_zero_iff]
-  change f.hom ∈ (LinearMap.reduceModIdeal I).ker ↔ _
+  show f.hom ∈ (LinearMap.reduceModIdeal I).ker ↔ _
   rw [ker_reduceModIdeal]
   constructor
   · intro h
@@ -436,6 +438,60 @@ private lemma ker_inf_smul_map_of_flat [Module.Flat A M]
 
 end Relative
 
+section CanonicalMaps
+
+
+/-! ### The canonical change-of-rings maps on `Ext` -/
+
+universe uB v
+
+variable {B : Type uB} [CommRing B]
+
+/-- The quotient map `X → X ⧸ K X`, as a morphism of `B`-modules into the restriction of scalars
+of the `B ⧸ K`-module `X ⧸ K X`. -/
+def toRestrictQuotient (K : Ideal B) (X : ModuleCat.{v} B) :
+    X ⟶ (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).obj
+      (ModuleCat.of (B ⧸ K) (X ⧸ K • (⊤ : Submodule B X))) :=
+  ModuleCat.ofHom
+    { toFun := Submodule.Quotient.mk
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+
+/-- For ideals `K ≤ K'`, the quotient map `Y ⧸ K Y → Y ⧸ K' Y`, as a morphism of `B`-modules
+between restrictions of scalars. -/
+def restrictQuotientFactor {K K' : Ideal B} (h : K ≤ K') (Y : ModuleCat.{v} B) :
+    (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).obj
+        (ModuleCat.of (B ⧸ K) (Y ⧸ K • (⊤ : Submodule B Y))) ⟶
+      (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K')).obj
+        (ModuleCat.of (B ⧸ K') (Y ⧸ K' • (⊤ : Submodule B Y))) :=
+  ModuleCat.ofHom
+    { toFun := Submodule.factor (Submodule.smul_mono_left h)
+      map_add' := map_add _
+      map_smul' := fun b x => by
+        induction x using Submodule.Quotient.induction_on with
+        | _ x => rfl }
+
+/-- **The canonical comparison of `Ext` over `B ⧸ K` with `Ext` over `B`.** A class in
+`Ext^i_{B/K}(X ⧸ K X, Y ⧸ K Y)` is sent to `Ext^i_B(X, Y ⧸ K Y)` by restriction of scalars along
+`B → B ⧸ K` (`CategoryTheory.Abelian.Ext.mapExactFunctor`) followed by precomposition with the
+quotient map `X → X ⧸ K X`. -/
+def extQuotientToBase [Small.{v} B] (K : Ideal B) (X Y : ModuleCat.{v} B) (i : ℕ) :
+    Ext (ModuleCat.of (B ⧸ K) (X ⧸ K • (⊤ : Submodule B X)))
+        (ModuleCat.of (B ⧸ K) (Y ⧸ K • (⊤ : Submodule B Y))) i →+
+      Ext X ((ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).obj
+        (ModuleCat.of (B ⧸ K) (Y ⧸ K • (⊤ : Submodule B Y)))) i :=
+  ((Ext.mk₀ (toRestrictQuotient K X)).precomp _ (zero_add i)).comp
+    ((ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).mapExtAddHom _ _ i)
+
+lemma extQuotientToBase_apply [Small.{v} B] (K : Ideal B) (X Y : ModuleCat.{v} B) (i : ℕ)
+    (z : Ext (ModuleCat.of (B ⧸ K) (X ⧸ K • (⊤ : Submodule B X)))
+      (ModuleCat.of (B ⧸ K) (Y ⧸ K • (⊤ : Submodule B Y))) i) :
+    extQuotientToBase K X Y i z = (Ext.mk₀ (toRestrictQuotient K X)).comp
+      (z.mapExactFunctor (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K))) (zero_add i) :=
+  rfl
+
+end CanonicalMaps
+
 section FlatResolution
 
 universe uA uB v
@@ -479,15 +535,15 @@ private lemma range_d_inf_smul_map (I : Ideal A) (n : ℕ) :
     rw [range_d_succ_eq_ker, ← f.ker_rangeRestrict]
     exact ker_inf_smul_map_of_flat I f.rangeRestrict f.surjective_rangeRestrict
 
-private def quotientResolution (I : Ideal A) :
-    ProjectiveResolution ((quotientFunctor (I.map (algebraMap A B))).obj M) := by
-  let J := I.map (algebraMap A B)
+private def quotientResolution (I : Ideal A) {K : Ideal B} (hK : I.map (algebraMap A B) = K) :
+    ProjectiveResolution ((quotientFunctor K).obj M) := by
+  let J := K
   let F := quotientFunctor.{uB, v} J
   haveI : F.Additive := quotientFunctor_additive J
-  let K := (F.mapHomologicalComplex (ComplexShape.down ℕ)).obj P.complex
-  haveI hproj (n : ℕ) : Projective (K.X n) := projective_quotient J (P.complex.X n)
-  let ε : K.X 0 ⟶ F.obj M := F.map (P.π.f 0)
-  have hε : K.d 1 0 ≫ ε = 0 := by
+  let KC := (F.mapHomologicalComplex (ComplexShape.down ℕ)).obj P.complex
+  haveI hproj (n : ℕ) : Projective (KC.X n) := projective_quotient J (P.complex.X n)
+  let ε : KC.X 0 ⟶ F.obj M := F.map (P.π.f 0)
+  have hε : KC.d 1 0 ≫ ε = 0 := by
     change F.map (P.complex.d 1 0) ≫ F.map (P.π.f 0) = 0
     rw [← F.map_comp, P.complex_d_comp_π_f_zero, F.map_zero]
   have hπ := augmentation_surjective P
@@ -497,37 +553,40 @@ private def quotientResolution (I : Ideal A) :
     obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ x
     obtain ⟨y, rfl⟩ := hπ x
     exact ⟨Submodule.Quotient.mk y, rfl⟩
-  apply projectiveResolutionOfExact K (F.obj M) ε hε
+  apply projectiveResolutionOfExact KC (F.obj M) ε hε
   · apply (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr
     exact LinearMap.reduceModIdeal_exact J (P.complex.d 1 0).hom (P.π.f 0).hom
       ((ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mp P.exact₀) hπ
   · intro n
-    apply (HomologicalComplex.exactAt_iff' K (n + 2) (n + 1) n (by simp) (by simp)).mpr
+    apply (HomologicalComplex.exactAt_iff' KC (n + 2) (n + 1) n (by simp) (by simp)).mpr
     apply (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr
     exact reduceModIdeal_exact_of_range_inf J
       (P.complex.d (n + 2) (n + 1)).hom (P.complex.d (n + 1) n).hom
       ((ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mp (P.exact_succ n))
-      (le_of_eq (range_d_inf_smul_map P I n))
+      (le_of_eq (by subst hK; exact range_d_inf_smul_map P I n))
 
-private lemma quotientResolution_complex (I : Ideal A) :
-    letI := quotientFunctor_additive (I.map (algebraMap A B))
-    (quotientResolution P I).complex =
-      ((quotientFunctor (I.map (algebraMap A B))).mapHomologicalComplex
+private lemma quotientResolution_complex (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) :
+    letI := quotientFunctor_additive (K)
+    (quotientResolution P I hK).complex =
+      ((quotientFunctor K).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj P.complex := rfl
 
-private lemma quotientResolution_d (I : Ideal A) (i j : ℕ) :
-    (quotientResolution P I).complex.d i j =
-      (quotientFunctor (I.map (algebraMap A B))).map (P.complex.d i j) := rfl
+private lemma quotientResolution_d (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (i j : ℕ) :
+    (quotientResolution P I hK).complex.d i j =
+      (quotientFunctor K).map (P.complex.d i j) := rfl
 
 variable [∀ n, Module.Finite B (P.complex.X n)]
 
 /-- A hom out of `P.X n` is a cocycle modulo `J = I B` iff its reduction is a cocycle for the
 reduced resolution. -/
-private lemma quotientResolution_d_comp_eq_zero_iff (I : Ideal A) (Y : ModuleCat.{v} B) (n : ℕ)
+private lemma quotientResolution_d_comp_eq_zero_iff (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (n : ℕ)
     (f : P.complex.X n ⟶ Y) :
-    (quotientResolution P I).complex.d (n + 1) n ≫ (quotientFunctor (I.map (algebraMap A B))).map f
+    (quotientResolution P I hK).complex.d (n + 1) n ≫ (quotientFunctor K).map f
       = 0 ↔ homDifferential (R := B) P Y n f ∈
-        I.map (algebraMap A B) • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y)) := by
+        K • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y)) := by
   rw [← homReduction_eq_zero_iff, homReduction_apply]
   change _ = 0 ↔ (quotientFunctor _).map (P.complex.d (n + 1) n ≫ f) = 0
   rw [Functor.map_comp]
@@ -535,19 +594,20 @@ private lemma quotientResolution_d_comp_eq_zero_iff (I : Ideal A) (Y : ModuleCat
 
 -- Quotient scalar structures and transported Ext actions require additional elaboration.
 set_option backward.isDefEq.respectTransparency false in
-private def reducedCyclesToExt (I : Ideal A) (Y : ModuleCat.{v} B) (i : ℕ) :
-    ((I.map (algebraMap A B) •
+private def reducedCyclesToExt (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (i : ℕ) :
+    ((K •
       (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
         (homDifferential (R := B) P Y i)) →ₗ[B]
-      Ext ((quotientFunctor (I.map (algebraMap A B))).obj M)
-        ((quotientFunctor (I.map (algebraMap A B))).obj Y) i := by
-  let J := I.map (algebraMap A B)
+      Ext ((quotientFunctor K).obj M)
+        ((quotientFunctor K).obj Y) i := by
+  let J := K
   let F := quotientFunctor J
-  let Q := quotientResolution P I
+  let Q := quotientResolution P I hK
   have hf (f : (J • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
       (homDifferential (R := B) P Y i)) :
       Q.complex.d (i + 1) i ≫ F.map f.1 = 0 :=
-    (quotientResolution_d_comp_eq_zero_iff P I Y i f.1).mpr f.property
+    (quotientResolution_d_comp_eq_zero_iff P I hK Y i f.1).mpr f.property
   exact
     { toFun := fun f => Q.extMk (F.map f.1) (i + 1) rfl (hf f)
       map_add' := fun f g => by
@@ -560,39 +620,41 @@ private def reducedCyclesToExt (I : Ideal A) (Y : ModuleCat.{v} B) (i : ℕ) :
         simpa only [Submodule.coe_smul, hsmul, RingHom.id_apply] using
           smul_extMk (R := B) Q (F.obj Y) i (F.map f.1) (hf f) r }
 
-private lemma reducedCyclesToExt_surjective (I : Ideal A) (Y : ModuleCat.{v} B) (i : ℕ) :
-    Function.Surjective (reducedCyclesToExt P I Y i) := by
-  let J := I.map (algebraMap A B)
-  let Q := quotientResolution P I
+private lemma reducedCyclesToExt_surjective (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (i : ℕ) :
+    Function.Surjective (reducedCyclesToExt P I hK Y i) := by
+  let J := K
+  let Q := quotientResolution P I hK
   intro x
   obtain ⟨f, hf, hfx⟩ := Q.extMk_surjective x (i + 1) rfl
   obtain ⟨g, hg⟩ := homReduction_surjective J (P.complex.X i) Y f
   have hg' : g ∈ (J • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
       (homDifferential (R := B) P Y i) := by
-    rw [Submodule.mem_comap, ← quotientResolution_d_comp_eq_zero_iff]
+    rw [Submodule.mem_comap, ← quotientResolution_d_comp_eq_zero_iff P I hK]
     change _ ≫ homReduction J _ _ g = 0
     rw [hg]
     exact hf
   refine ⟨⟨g, hg'⟩, ?_⟩
-  change Q.extMk (homReduction J _ _ g) (i + 1) rfl (by rw [hg]; exact hf) = x
+  show Q.extMk (homReduction J _ _ g) (i + 1) rfl (by rw [hg]; exact hf) = x
   simpa only [hg] using hfx
 
 -- Quotient scalar structures and transported Ext actions require additional elaboration.
 set_option backward.isDefEq.respectTransparency false in
-private lemma ker_reducedCyclesToExt_succ (I : Ideal A) (Y : ModuleCat.{v} B) (n : ℕ) :
-    let J := I.map (algebraMap A B)
+private lemma ker_reducedCyclesToExt_succ (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (n : ℕ) :
+    let J := K
     let Z := (J • (⊤ : Submodule B (P.complex.X (n + 2) ⟶ Y))).comap
       (homDifferential (R := B) P Y (n + 1))
-    (reducedCyclesToExt P I Y (n + 1)).ker =
+    (reducedCyclesToExt P I hK Y (n + 1)).ker =
       ((homDifferential (R := B) P Y n).range ⊔
         J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))).comap Z.subtype := by
-  let J := I.map (algebraMap A B)
+  let J := K
   let F := quotientFunctor J
-  let Q := quotientResolution P I
+  let Q := quotientResolution P I hK
   ext x
   have hxcycle : Q.complex.d (n + 2) (n + 1) ≫ F.map x.1 = 0 :=
-    (quotientResolution_d_comp_eq_zero_iff P I Y (n + 1) x.1).mpr x.property
-  change Q.extMk (F.map x.1) (n + 1 + 1) rfl hxcycle = 0 ↔
+    (quotientResolution_d_comp_eq_zero_iff P I hK Y (n + 1) x.1).mpr x.property
+  show Q.extMk (F.map x.1) (n + 1 + 1) rfl hxcycle = 0 ↔
     x.1 ∈ (homDifferential (R := B) P Y n).range ⊔
       J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))
   rw [Q.extMk_eq_zero_iff _ _ _ _ n rfl]
@@ -602,7 +664,7 @@ private lemma ker_reducedCyclesToExt_succ (I : Ideal A) (Y : ModuleCat.{v} B) (n
     have hz : x.1 - homDifferential (R := B) P Y n h ∈
         J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y)) := by
       rw [← homReduction_eq_zero_iff, map_sub]
-      change F.map x.1 - F.map (P.complex.d (n + 1) n ≫ h) = 0
+      show F.map x.1 - F.map (P.complex.d (n + 1) n ≫ h) = 0
       rw [F.map_comp]
       apply sub_eq_zero.mpr
       exact hg.symm.trans (congrArg (fun k => Q.complex.d (n + 1) n ≫ k) hh.symm)
@@ -616,57 +678,175 @@ private lemma ker_reducedCyclesToExt_succ (I : Ideal A) (Y : ModuleCat.{v} B) (n
     have hb' : homReduction J (P.complex.X (n + 1)) Y b = 0 :=
       (homReduction_eq_zero_iff _ _ _ _).mpr hb
     rw [← hab]
-    change F.map (P.complex.d (n + 1) n) ≫ F.map h =
+    show F.map (P.complex.d (n + 1) n) ≫ F.map h =
       homReduction J _ _ (homDifferential (R := B) P Y n h + b)
     rw [map_add, hb', add_zero]
     exact (F.map_comp _ _).symm
 
-private def reducedHomologyEquivExtSucc (I : Ideal A) (Y : ModuleCat.{v} B) (n : ℕ) :
-    let J := I.map (algebraMap A B)
+private def reducedHomologyEquivExtSucc (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (n : ℕ) :
+    let J := K
     let Z := (J • (⊤ : Submodule B (P.complex.X (n + 2) ⟶ Y))).comap
       (homDifferential (R := B) P Y (n + 1))
     (Z ⧸ ((homDifferential (R := B) P Y n).range ⊔
         J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))).comap Z.subtype) ≃ₗ[B]
       Ext ((quotientFunctor J).obj M) ((quotientFunctor J).obj Y) (n + 1) :=
-  (Submodule.quotEquivOfEq _ _ (ker_reducedCyclesToExt_succ P I Y n).symm).trans
-    ((reducedCyclesToExt P I Y (n + 1)).quotKerEquivOfSurjective
-      (reducedCyclesToExt_surjective P I Y (n + 1)))
+  (Submodule.quotEquivOfEq _ _ (ker_reducedCyclesToExt_succ P I hK Y n).symm).trans
+    ((reducedCyclesToExt P I hK Y (n + 1)).quotKerEquivOfSurjective
+      (reducedCyclesToExt_surjective P I hK Y (n + 1)))
 
 -- Reducing the cohomology quotient elaborates several compatible scalar structures.
 set_option backward.isDefEq.respectTransparency false in
-private lemma ker_reducedCyclesToExt (I : Ideal A) (Y : ModuleCat.{v} B) (n : ℕ) :
-    let J := I.map (algebraMap A B)
+private lemma ker_reducedCyclesToExt (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (n : ℕ) :
+    let J := K
     let Z := (J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))).comap
       (homDifferential (R := B) P Y n)
-    (reducedCyclesToExt P I Y n).ker =
+    (reducedCyclesToExt P I hK Y n).ker =
       ((homIncoming (R := B) P Y n).range ⊔
         J • (⊤ : Submodule B (P.complex.X n ⟶ Y))).comap Z.subtype := by
   cases n with
   | succ n =>
-    simpa [homIncoming, homDifferential] using ker_reducedCyclesToExt_succ P I Y n
+    simpa [homIncoming, homDifferential] using ker_reducedCyclesToExt_succ P I hK Y n
   | zero =>
-    let J := I.map (algebraMap A B)
+    let J := K
     let F := quotientFunctor J
-    let Q := quotientResolution P I
+    let Q := quotientResolution P I hK
     ext x
     have hxcycle : Q.complex.d 1 0 ≫ F.map x.1 = 0 :=
-      (quotientResolution_d_comp_eq_zero_iff P I Y 0 x.1).mpr x.property
-    change Q.extMk (F.map x.1) 1 rfl hxcycle = 0 ↔ _
+      (quotientResolution_d_comp_eq_zero_iff P I hK Y 0 x.1).mpr x.property
+    show Q.extMk (F.map x.1) 1 rfl hxcycle = 0 ↔ _
     rw [extMk_zero_eq_zero_iff]
-    change homReduction J _ _ x.1 = 0 ↔ _
+    show homReduction J _ _ x.1 = 0 ↔ _
     rw [homReduction_eq_zero_iff]
     simp [homIncoming, J]
 
-private def reducedHomologyEquivExt (I : Ideal A) (Y : ModuleCat.{v} B) (n : ℕ) :
-    let J := I.map (algebraMap A B)
+private def reducedHomologyEquivExt (I : Ideal A)
+    {K : Ideal B} (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (n : ℕ) :
+    let J := K
     let Z := (J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))).comap
       (homDifferential (R := B) P Y n)
     (Z ⧸ ((homIncoming (R := B) P Y n).range ⊔
         J • (⊤ : Submodule B (P.complex.X n ⟶ Y))).comap Z.subtype) ≃ₗ[B]
       Ext ((quotientFunctor J).obj M) ((quotientFunctor J).obj Y) n :=
-  (Submodule.quotEquivOfEq _ _ (ker_reducedCyclesToExt P I Y n).symm).trans
-    ((reducedCyclesToExt P I Y n).quotKerEquivOfSurjective
-      (reducedCyclesToExt_surjective P I Y n))
+  (Submodule.quotEquivOfEq _ _ (ker_reducedCyclesToExt P I hK Y n).symm).trans
+    ((reducedCyclesToExt P I hK Y n).quotKerEquivOfSurjective
+      (reducedCyclesToExt_surjective P I hK Y n))
+
+omit [∀ n, Module.Finite B (P.complex.X n)] in
+private lemma homologyEquivExt_mk (Y : ModuleCat.{v} B) (n : ℕ)
+    (c : (homDifferential (R := B) P Y n).ker) :
+    homologyEquivExt (R := B) P Y n (Submodule.Quotient.mk c) =
+      P.extMk c.1 (n + 1) rfl c.2 := rfl
+
+private lemma reducedHomologyEquivExt_mk (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (n : ℕ)
+    (y : (K • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))).comap
+      (homDifferential (R := B) P Y n)) :
+    reducedHomologyEquivExt P I hK Y n (Submodule.Quotient.mk y) =
+      (quotientResolution P I hK).extMk ((quotientFunctor K).map y.1) (n + 1) rfl
+        ((quotientResolution_d_comp_eq_zero_iff P I hK Y n y.1).mpr y.2) := rfl
+
+omit [∀ n, Module.Finite B (P.complex.X n)] in
+/-- The quotient maps `P_k → P_k ⧸ K P_k`, as a morphism from `P` to the restriction of scalars
+of the reduced resolution. -/
+private def resolutionToRestrictQuotient (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) :
+    P.complex ⟶ ((ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).mapHomologicalComplex
+      (ComplexShape.down ℕ)).obj (quotientResolution P I hK).complex where
+  f k := toRestrictQuotient K (P.complex.X k)
+  comm' i j _ := by
+    ext x
+    rfl
+
+omit [∀ n, Module.Finite B (P.complex.X n)] in
+private lemma resolutionToRestrictQuotient_π (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) :
+    (resolutionToRestrictQuotient P I hK).f 0 ≫
+        (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).map
+          ((quotientResolution P I hK).π.f 0) =
+      P.π.f 0 ≫ toRestrictQuotient K M := by
+  ext x
+  rfl
+
+omit [∀ n, Module.Finite B (P.complex.X n)] in
+private lemma resolutionToRestrictQuotient_comp (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) {Y : ModuleCat.{v} B} (k : ℕ) (g : P.complex.X k ⟶ Y) :
+    (resolutionToRestrictQuotient P I hK).f k ≫
+        (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)).map ((quotientFunctor K).map g) =
+      g ≫ toRestrictQuotient K Y := by
+  ext x
+  rfl
+
+private lemma d_comp_comp_toRestrictQuotient (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (i : ℕ) (g : P.complex.X i ⟶ Y)
+    (hg : g ∈ (K • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
+      (homDifferential (R := B) P Y i)) :
+    P.complex.d (i + 1) i ≫ g ≫ toRestrictQuotient K Y = 0 := by
+  have h := (quotientResolution_d_comp_eq_zero_iff P I hK Y i g).mpr hg
+  ext x
+  exact congrArg (fun φ => φ.hom (Submodule.Quotient.mk x)) h
+
+/-- **The canonical comparison on a reduced cocycle.** The class of the reduction of `g` modulo
+`K` in `Ext` over `B ⧸ K`, carried to `Ext` over `B` by `extQuotientToBase`, is the class of
+`g` followed by `Y → Y ⧸ K Y`. -/
+private lemma extQuotientToBase_extMk (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (i : ℕ) (g : P.complex.X i ⟶ Y)
+    (hg : g ∈ (K • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
+      (homDifferential (R := B) P Y i)) :
+    extQuotientToBase K M Y i ((quotientResolution P I hK).extMk ((quotientFunctor K).map g)
+        (i + 1) rfl ((quotientResolution_d_comp_eq_zero_iff P I hK Y i g).mpr hg)) =
+      P.extMk (g ≫ toRestrictQuotient K Y) (i + 1) rfl
+        (d_comp_comp_toRestrictQuotient P I hK Y i g hg) := by
+  refine (extQuotientToBase_apply K M Y i _).trans
+    ((Stacks.ExtProjective.mk₀_comp_mapExactFunctor_extMk
+      (ModuleCat.restrictScalars.{v} (Ideal.Quotient.mk K)) (quotientResolution P I hK) P
+      (resolutionToRestrictQuotient P I hK) (toRestrictQuotient K M)
+      (resolutionToRestrictQuotient_π P I hK) _ (i + 1) rfl _).trans ?_)
+  congr 1
+
+omit [Small.{v} B] [∀ n, Module.Finite B (P.complex.X n)] in
+private lemma quotientFunctor_map_eq_zero_of_comp (K : Ideal B) {Z Y : ModuleCat.{v} B}
+    (u : Z ⟶ Y) (hu : u ≫ toRestrictQuotient K Y = 0) : (quotientFunctor K).map u = 0 := by
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  induction x using Submodule.Quotient.induction_on with
+  | _ x => exact congrArg (fun φ => φ.hom x) hu
+
+include P in
+/-- **The canonical comparison is injective.** -/
+private lemma extQuotientToBase_injective (I : Ideal A) {K : Ideal B}
+    (hK : I.map (algebraMap A B) = K) (Y : ModuleCat.{v} B) (i : ℕ) :
+    Function.Injective (extQuotientToBase K M Y i) := by
+  rw [injective_iff_map_eq_zero]
+  intro z hz
+  let Q := quotientResolution P I hK
+  have : (quotientFunctor K).Additive := quotientFunctor_additive K
+  obtain ⟨g', hg', rfl⟩ := Q.extMk_surjective z (i + 1) rfl
+  obtain ⟨g, rfl⟩ := homReduction_surjective K (P.complex.X i) Y g'
+  have hgK : g ∈ (K • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
+      (homDifferential (R := B) P Y i) :=
+    (quotientResolution_d_comp_eq_zero_iff P I hK Y i g).mp hg'
+  change extQuotientToBase K M Y i (Q.extMk ((quotientFunctor K).map g) (i + 1) rfl
+    ((quotientResolution_d_comp_eq_zero_iff P I hK Y i g).mpr hgK)) = 0 at hz
+  rw [extQuotientToBase_extMk P I hK Y i g hgK] at hz
+  change Q.extMk ((quotientFunctor K).map g) (i + 1) rfl
+    ((quotientResolution_d_comp_eq_zero_iff P I hK Y i g).mpr hgK) = 0
+  have hepi : Epi (toRestrictQuotient K Y) :=
+    (ModuleCat.epi_iff_surjective _).mpr (Submodule.Quotient.mk_surjective _)
+  cases i with
+  | zero =>
+    exact (extMk_zero_eq_zero_iff Q _ _ _).mpr (quotientFunctor_map_eq_zero_of_comp K g
+      ((extMk_zero_eq_zero_iff P _ _ _).mp hz))
+  | succ p =>
+    obtain ⟨h, hh⟩ := (P.extMk_eq_zero_iff _ _ _ _ p rfl).mp hz
+    let h₁ := Projective.factorThru h (toRestrictQuotient K Y)
+    have hd : (P.complex.d (p + 1) p ≫ h₁ - g) ≫ toRestrictQuotient K Y = 0 := by
+      rw [Preadditive.sub_comp, Category.assoc, Projective.factorThru_comp, hh, sub_self]
+    have h0 := quotientFunctor_map_eq_zero_of_comp K _ hd
+    rw [Functor.map_sub, sub_eq_zero, Functor.map_comp] at h0
+    exact (Q.extMk_eq_zero_iff _ _ _ _ p rfl).mpr ⟨(quotientFunctor K).map h₁, h0⟩
 
 end FlatResolution
 
@@ -674,16 +854,15 @@ universe uA uB uM uN
 
 set_option maxHeartbeats 2400000 in
 -- The Ext identifications carry quotient scalar structures in four universes.
-/-- **Stacks 0EH0.** Let `A → B` be a flat map of Noetherian rings, let `I` be an
-ideal of `A`, and let `M` and `N` be finite `B`-modules. If `M` is flat over `A`, the
-canonical reduction maps from the `I`-adic quotients of `Ext_B(M, N)` to the Ext groups over
-`B / I ^ n B` are compatible with all transition maps and induce an isomorphism on inverse
-limits.
+/-- An inverse system on the groups `Ext^i_{B / I^n B}(M / I^n M, N / I^n N)` whose limit is
+identified with the limit of the `I`-adic quotients of `Ext^i_B(M, N)`, for a flat map `A → B` of
+Noetherian rings, finite `B`-modules `M`, `N` and `M` flat over `A`.
 
-The maps are given simultaneously in every degree. Their identity, composition, reduction,
-and quotient-factorization laws record the canonical inverse-system structure. The induced
-map on limits is an isomorphism of `A`-modules. -/
-@[stacks 0EH0]
+The transition maps, the maps from `Ext^i_B(M, N)` and the comparison maps are only asserted to
+*exist*, subject to their identity, composition, reduction and quotient-factorization laws; they
+are not identified with the canonical change-of-rings maps. This is therefore weaker than Stacks
+0EH0, which is `limit_ext_quotient_iso_limit_ext_canonical`: there the maps are pinned down by
+the canonical comparison `extQuotientToBase` with `Ext` over `B`. -/
 public theorem limit_ext_quotient_iso_limit_ext_baseChange
     {A : Type uA} {B : Type uB} {M : Type uM} {N : Type uN}
     [CommRing A] [CommRing B] [Algebra A B]
@@ -755,7 +934,7 @@ public theorem limit_ext_quotient_iso_limit_ext_baseChange
   let (i n : ℕ) : IsScalarTower A B (En i n) := by
     apply IsScalarTower.of_algebraMap_smul
     intro a x
-    change (algebraMap B (B ⧸ J ^ n) (algebraMap A B a)) • x =
+    show (algebraMap B (B ⧸ J ^ n) (algebraMap A B a)) • x =
       algebraMap A (B ⧸ J ^ n) a • x
     rw [← IsScalarTower.algebraMap_apply A B (B ⧸ J ^ n)]
   have h : ∀ i, HasAdicComparison I (E i) (En i) := by
@@ -773,23 +952,247 @@ public theorem limit_ext_quotient_iso_limit_ext_baseChange
       (homIncoming (R := B) P Y i) (homDifferential (R := B) P Y i)
       (homDifferential_comp_homIncoming P Y i) (homologyEquivExt P Y i)
     intro n
-    let en := reducedHomologyEquivExt (A := A) P (I ^ n) Y i
-    have en' :
-        (((J ^ n • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
-          (homDifferential (R := B) P Y i)) ⧸
-          ((homIncoming (R := B) P Y i).range ⊔
-            J ^ n • (⊤ : Submodule B (P.complex.X i ⟶ Y))).comap
-              ((J ^ n • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
-                (homDifferential (R := B) P Y i)).subtype) ≃ₗ[B]
-        Ext ((quotientFunctor (J ^ n)).obj X) ((quotientFunctor (J ^ n)).obj Y) i := by
-      dsimp only [J]
-      rw [← Ideal.map_pow]
-      exact en
+    let en' := reducedHomologyEquivExt (A := A) P (I ^ n) (K := J ^ n)
+      (Ideal.map_pow _ _ _) Y i
     exact en'.trans (extCongr (R := B) (Y := (quotientFunctor (J ^ n)).obj Y)
       (quotientULiftEquiv.{uB, uM, max uA uB uM uN} (J ^ n) M).toModuleIso
       (quotientULiftEquiv.{uB, uN, max uA uB uM uN} (J ^ n) N).toModuleIso i)
   choose t r f ht hc hr hf hfn he using h
   exact ⟨t, r, f, ht, hc, hr, hf, hfn, he⟩
+
+section Canonical
+
+universe w
+
+variable {A : Type uA} {B : Type uB} [CommRing A] [CommRing B] [Algebra A B]
+  [IsNoetherianRing B] [Small.{w} B] [Module.Flat A B]
+  (X : ModuleCat.{w} B) [Module A X] [IsScalarTower A B X] [Module.Flat A X] [Module.Finite B X]
+  (Y : ModuleCat.{w} B) [Module.Finite B Y] (I : Ideal A)
+
+omit [Module.Finite B Y] in
+/-- **The canonical comparison `extQuotientToBase` is injective** for `X` finite over `B` and
+flat over `A`, and `K = I^n B`. -/
+theorem extQuotientToBase_injective_of_flat (n i : ℕ) :
+    Function.Injective (extQuotientToBase ((I.map (algebraMap A B)) ^ n) X Y i) := by
+  obtain ⟨P, hP⟩ := exists_finite_projectiveResolution B X
+  let (k : ℕ) : Module.Finite B (P.complex.X k) := hP k
+  let (k : ℕ) : Module A (P.complex.X k) := Module.compHom (P.complex.X k) (algebraMap A B)
+  let (k : ℕ) : IsScalarTower A B (P.complex.X k) :=
+    IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
+  exact extQuotientToBase_injective P (I ^ n) (Ideal.map_pow _ _ _) Y i
+
+/-- **The canonical maps of tag 0EH0 in one degree.** For `X` finite over `B` and flat over `A`,
+there are an inverse system on the `Ext^i_{B/J^n}(X/J^n X, Y/J^n Y)` (`J = I B`) and maps from
+`Ext^i_B(X, Y)`, characterized through the injective comparison `extQuotientToBase` as the
+canonical transition and reduction maps, which form an adic comparison. -/
+theorem exists_canonical_adicComparison (i : ℕ) :
+    let J := I.map (algebraMap A B)
+    let E := Ext X Y i
+    let _ : Module A E := Module.compHom E (algebraMap A B)
+    let En : ℕ → Type w := fun n =>
+      Ext (ModuleCat.of (B ⧸ J ^ n) (X ⧸ J ^ n • (⊤ : Submodule B X)))
+        (ModuleCat.of (B ⧸ J ^ n) (Y ⧸ J ^ n • (⊤ : Submodule B Y))) i
+    let _ : ∀ n, Module A (En n) := fun n => Module.compHom (En n) (algebraMap A (B ⧸ J ^ n))
+    ∃ (t : ∀ m n, n ≤ m → En m →ₗ[A] En n) (r : ∀ n, E →ₗ[A] En n)
+      (f : ∀ n, (E ⧸ I ^ n • (⊤ : Submodule A E)) →ₗ[A] En n),
+      (∀ n (x : E), extQuotientToBase (J ^ n) X Y i (r n x) =
+        x.comp (Ext.mk₀ (toRestrictQuotient (J ^ n) Y)) (add_zero i)) ∧
+      (∀ n (y : En (n + 1)), extQuotientToBase (J ^ n) X Y i (t (n + 1) n n.le_succ y) =
+        (extQuotientToBase (J ^ (n + 1)) X Y i y).comp
+          (Ext.mk₀ (restrictQuotientFactor (Ideal.pow_le_pow_right n.le_succ) Y)) (add_zero i)) ∧
+      IsAdicComparison I E En t r f := by
+  intro J E _ En _
+  let : IsScalarTower A B E := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
+  let (n : ℕ) : IsScalarTower A B (En n) := by
+    apply IsScalarTower.of_algebraMap_smul
+    intro a x
+    change (algebraMap B (B ⧸ J ^ n) (algebraMap A B a)) • x =
+      algebraMap A (B ⧸ J ^ n) a • x
+    rw [← IsScalarTower.algebraMap_apply A B (B ⧸ J ^ n)]
+  obtain ⟨P, hP⟩ := exists_finite_projectiveResolution B X
+  let (n : ℕ) : Module.Finite B (P.complex.X n) := hP n
+  let (n : ℕ) : Module A (P.complex.X n) :=
+    Module.compHom (P.complex.X n) (algebraMap A B)
+  let (n : ℕ) : IsScalarTower A B (P.complex.X n) :=
+    IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
+  let (n : ℕ) : Module.Finite B (P.complex.X n ⟶ Y) :=
+    Module.Finite.equiv (ModuleCat.homLinearEquiv (R := B) (S := B)
+      (M := P.complex.X n) (N := Y)).symm
+  obtain ⟨t, r, f, hr, ht, hc⟩ := adicComparison_of_complex_spec En I
+    (homIncoming (R := B) P Y i) (homDifferential (R := B) P Y i)
+    (homDifferential_comp_homIncoming P Y i) (homologyEquivExt P Y i)
+    (fun n => reducedHomologyEquivExt P (I ^ n) (K := J ^ n) (Ideal.map_pow _ _ _) Y i)
+  refine ⟨t, r, f, fun n x => ?_, fun n y => ?_, hc⟩
+  · obtain ⟨c, rfl⟩ := (homologyEquivExt (R := B) P Y i).surjective x
+    induction c using Submodule.Quotient.induction_on with
+    | _ c =>
+      have hc' : c.1 ∈ (J ^ n • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
+          (homDifferential (R := B) P Y i) := by
+        rw [Submodule.mem_comap, LinearMap.mem_ker.mp c.2]
+        exact zero_mem _
+      rw [hr n c ⟨c.1, hc'⟩ rfl]
+      exact (extQuotientToBase_extMk P (I ^ n) (Ideal.map_pow _ _ _) Y i c.1 hc').trans
+        (P.extMk_comp_mk₀ c.1 (i + 1) rfl c.2 (toRestrictQuotient (J ^ n) Y)).symm
+  · obtain ⟨z, rfl⟩ := (reducedHomologyEquivExt P (I ^ (n + 1)) (K := J ^ (n + 1))
+      (Ideal.map_pow _ _ _) Y i).surjective y
+    induction z using Submodule.Quotient.induction_on with
+    | _ z =>
+      have hz' : z.1 ∈ (J ^ n • (⊤ : Submodule B (P.complex.X (i + 1) ⟶ Y))).comap
+          (homDifferential (R := B) P Y i) :=
+        Submodule.smul_mono_left (Ideal.pow_le_pow_right n.le_succ) z.2
+      rw [ht n z ⟨z.1, hz'⟩ rfl]
+      refine (extQuotientToBase_extMk P (I ^ n) (Ideal.map_pow _ _ _) Y i z.1 hz').trans ?_
+      refine Eq.trans ?_ (congrArg (fun w => w.comp
+        (Ext.mk₀ (restrictQuotientFactor (Ideal.pow_le_pow_right n.le_succ) Y)) (add_zero i))
+        (extQuotientToBase_extMk P (I ^ (n + 1)) (Ideal.map_pow _ _ _) Y i z.1 z.2).symm)
+      rw [ProjectiveResolution.extMk_comp_mk₀]
+      congr 1
+
+/-- **Tag 0EH0 in one degree.** The canonical reduction and transition maps, characterized
+through the injective comparison `extQuotientToBase`, induce an isomorphism from the limit of the
+`I`-adic quotients of `Ext^i_B(X, Y)` to the limit of the `Ext^i_{B/J^n}(X/J^n X, Y/J^n Y)`. -/
+theorem exists_canonical_ext_limit_iso (i : ℕ) :
+    let J := I.map (algebraMap A B)
+    let E := Ext X Y i
+    let _ : Module A E := Module.compHom E (algebraMap A B)
+    let En : ℕ → Type w := fun n =>
+      Ext (ModuleCat.of (B ⧸ J ^ n) (X ⧸ J ^ n • (⊤ : Submodule B X)))
+        (ModuleCat.of (B ⧸ J ^ n) (Y ⧸ J ^ n • (⊤ : Submodule B Y))) i
+    let _ : ∀ n, Module A (En n) := fun n => Module.compHom (En n) (algebraMap A (B ⧸ J ^ n))
+    ∃ (reduction : ∀ n, E →ₗ[A] En n) (transition : ∀ n, En (n + 1) →ₗ[A] En n)
+      (comparison : ∀ n, (E ⧸ I ^ n • (⊤ : Submodule A E)) →ₗ[A] En n),
+      (∀ n (x : E), extQuotientToBase (J ^ n) X Y i (reduction n x) =
+        x.comp (Ext.mk₀ (toRestrictQuotient (J ^ n) Y)) (add_zero i)) ∧
+      (∀ n (y : En (n + 1)), extQuotientToBase (J ^ n) X Y i (transition n y) =
+        (extQuotientToBase (J ^ (n + 1)) X Y i y).comp
+          (Ext.mk₀ (restrictQuotientFactor (Ideal.pow_le_pow_right n.le_succ) Y)) (add_zero i)) ∧
+      (∀ n, (comparison n).comp (I ^ n • (⊤ : Submodule A E)).mkQ = reduction n) ∧
+      let Qsys : Functor ℕᵒᵖ (ModuleCat.{w} A) :=
+        Functor.ofOpSequence
+          (X := fun n => ModuleCat.of A (E ⧸ I ^ n • (⊤ : Submodule A E)))
+          (fun n => ModuleCat.ofHom (Submodule.factorPowSucc I E n))
+      let Esys : Functor ℕᵒᵖ (ModuleCat.{w} A) :=
+        Functor.ofOpSequence
+          (X := fun n => ModuleCat.of A (En n))
+          (fun n => ModuleCat.ofHom (transition n))
+      ∃ e : limit Qsys ≅ limit Esys,
+        ∀ n, e.hom ≫ limit.π Esys (op n) =
+          limit.π Qsys (op n) ≫ ModuleCat.ofHom (comparison n) := by
+  obtain ⟨t, r, f, hr, ht, hc⟩ := exists_canonical_adicComparison X Y I i
+  exact ⟨r, fun n => t (n + 1) n n.le_succ, f, hr, ht, hc.2.2.2.1, hc.2.2.2.2.2⟩
+
+/-- `exists_canonical_ext_limit_iso` in all degrees at once, with the `A`-module structures on the
+`Ext` groups taken as families `instE`, `instEn` equal to the ones through `algebraMap`. A caller
+whose `Ext` groups over the `B ⧸ J ^ n` are elaborated along other, definitionally equal, instance
+paths (as for `X = ModuleCat.of B (ULift M)`) passes its own families. The two `Module.compHom`
+structures on such an `Ext` group, whose comparison unfolds the derived category, are then compared
+once, in the proofs `rfl` of the two equations, and not at each of their occurrences. -/
+private theorem exists_canonical_ext_limit_iso_forall :
+    let J := I.map (algebraMap A B)
+    let E : ℕ → Type w := fun i => Ext X Y i
+    ∀ instE : ∀ i, Module A (E i), instE = (fun i => Module.compHom (E i) (algebraMap A B)) →
+    let En : ℕ → ℕ → Type w := fun i n =>
+      Ext (ModuleCat.of (B ⧸ J ^ n) (X ⧸ J ^ n • (⊤ : Submodule B X)))
+        (ModuleCat.of (B ⧸ J ^ n) (Y ⧸ J ^ n • (⊤ : Submodule B Y))) i
+    ∀ instEn : ∀ i n, Module A (En i n),
+      instEn = (fun i n => Module.compHom (En i n) (algebraMap A (B ⧸ J ^ n))) →
+    ∃ (reduction : ∀ i n, E i →ₗ[A] En i n)
+      (transition : ∀ i n, En i (n + 1) →ₗ[A] En i n)
+      (comparison : ∀ i n, (E i ⧸ I ^ n • (⊤ : Submodule A (E i))) →ₗ[A] En i n),
+      (∀ i n (x : E i), extQuotientToBase (J ^ n) X Y i (reduction i n x) =
+        x.comp (Ext.mk₀ (toRestrictQuotient (J ^ n) Y)) (add_zero i)) ∧
+      (∀ i n (y : En i (n + 1)), extQuotientToBase (J ^ n) X Y i (transition i n y) =
+        (extQuotientToBase (J ^ (n + 1)) X Y i y).comp
+          (Ext.mk₀ (restrictQuotientFactor (Ideal.pow_le_pow_right n.le_succ) Y)) (add_zero i)) ∧
+      (∀ i n, (comparison i n).comp (I ^ n • (⊤ : Submodule A (E i))).mkQ = reduction i n) ∧
+      ∀ i,
+        let Qsys : Functor ℕᵒᵖ (ModuleCat.{w} A) :=
+          Functor.ofOpSequence
+            (X := fun n => ModuleCat.of A (E i ⧸ I ^ n • (⊤ : Submodule A (E i))))
+            (fun n => ModuleCat.ofHom (Submodule.factorPowSucc I (E i) n))
+        let Esys : Functor ℕᵒᵖ (ModuleCat.{w} A) :=
+          Functor.ofOpSequence
+            (X := fun n => ModuleCat.of A (En i n))
+            (fun n => ModuleCat.ofHom (transition i n))
+        ∃ e : limit Qsys ≅ limit Esys,
+          ∀ n, e.hom ≫ limit.π Esys (op n) =
+            limit.π Qsys (op n) ≫ ModuleCat.ofHom (comparison i n) := by
+  dsimp only
+  intro _ hE _ hEn
+  subst hE hEn
+  have h := fun i => exists_canonical_ext_limit_iso X Y I i
+  dsimp only at h
+  choose r t f hr ht hf he using h
+  exact ⟨r, t, f, hr, ht, hf, he⟩
+
+end Canonical
+
+/-- **Stacks 0EH0.** Let `A → B` be a flat map of Noetherian rings, let `I ⊆ A` be an ideal and
+let `M`, `N` be finite `B`-modules; put `B_n = B / I^n B`, `M_n = M / I^n M`, `N_n = N / I^n N`.
+If `M` is flat over `A`, then for every `i`
+`lim_n Ext^i_B(M, N) / I^n Ext^i_B(M, N) = lim_n Ext^i_{B_n}(M_n, N_n)`.
+
+The identification is the one induced by the canonical maps. Write
+`ρ_n : Ext^i_{B_n}(M_n, N_n) → Ext^i_B(M, N_n)` for restriction of scalars along `B → B_n`
+followed by precomposition with `M → M_n` (`extQuotientToBase`); the first clause says that
+`ρ_n` is injective. The canonical reduction `Ext^i_B(M, N) → Ext^i_{B_n}(M_n, N_n)` is therefore
+the unique map `r_n` with `ρ_n ∘ r_n` equal to postcomposition with `N → N_n`, and the canonical
+transition `Ext^i_{B_{n+1}}(M_{n+1}, N_{n+1}) → Ext^i_{B_n}(M_n, N_n)` is the unique map `t_n`
+with `ρ_n ∘ t_n` equal to `ρ_{n+1}` followed by `N_{n+1} → N_n`. The second clause gives these
+maps, `A`-linear, a factorization `f_n` of `r_n` through `E / I^n E`, and says that the `f_n`
+induce an isomorphism from the limit of the `I`-adic quotients of `E = Ext^i_B(M, N)` (along the
+canonical maps `E / I^{n+1} E → E / I^n E`) to the limit of the `Ext^i_{B_n}(M_n, N_n)` along the
+`t_n`.
+
+`M` and `N` are lifted to a common universe with `ULift`, and `M_n` is written as the quotient
+`ULift M ⧸ I^n B • ULift M`. -/
+@[stacks 0EH0 "canonical maps, pinned down by the injective comparison `extQuotientToBase`; \
+  `M`, `N` finite `B`-modules (the source's A-modules is a typo)"]
+public theorem limit_ext_quotient_iso_limit_ext_canonical
+    {A : Type uA} {B : Type uB} {M : Type uM} {N : Type uN}
+    [CommRing A] [CommRing B] [Algebra A B]
+    [AddCommGroup M] [Module A M] [Module B M] [IsScalarTower A B M]
+    [AddCommGroup N] [Module B N]
+    [IsNoetherianRing A] [IsNoetherianRing B] [Module.Flat A B]
+    [Module.Finite B M] [Module.Finite B N] [Module.Flat A M]
+    (I : Ideal A) :
+    let J := I.map (algebraMap A B)
+    let X := ModuleCat.of B (ULift.{max uA uB uM uN} M)
+    let Y := ModuleCat.of B (ULift.{max uA uB uM uN} N)
+    let E : ℕ → Type (max uA uB uM uN) := fun i => Ext X Y i
+    let _ : ∀ i, Module A (E i) := fun i => Module.compHom (E i) (algebraMap A B)
+    let En : ℕ → ℕ → Type (max uA uB uM uN) := fun i n =>
+      Ext (ModuleCat.of (B ⧸ J ^ n) (X ⧸ J ^ n • (⊤ : Submodule B X)))
+        (ModuleCat.of (B ⧸ J ^ n) (Y ⧸ J ^ n • (⊤ : Submodule B Y))) i
+    let _ : ∀ i n, Module A (En i n) := fun i n =>
+      Module.compHom (En i n) (algebraMap A (B ⧸ J ^ n))
+    (∀ i n, Function.Injective (extQuotientToBase (J ^ n) X Y i)) ∧
+    ∃ (reduction : ∀ i n, E i →ₗ[A] En i n)
+      (transition : ∀ i n, En i (n + 1) →ₗ[A] En i n)
+      (comparison : ∀ i n, (E i ⧸ I ^ n • (⊤ : Submodule A (E i))) →ₗ[A] En i n),
+      (∀ i n (x : E i), extQuotientToBase (J ^ n) X Y i (reduction i n x) =
+        x.comp (Ext.mk₀ (toRestrictQuotient (J ^ n) Y)) (add_zero i)) ∧
+      (∀ i n (y : En i (n + 1)), extQuotientToBase (J ^ n) X Y i (transition i n y) =
+        (extQuotientToBase (J ^ (n + 1)) X Y i y).comp
+          (Ext.mk₀ (restrictQuotientFactor (Ideal.pow_le_pow_right n.le_succ) Y)) (add_zero i)) ∧
+      (∀ i n, (comparison i n).comp (I ^ n • (⊤ : Submodule A (E i))).mkQ = reduction i n) ∧
+      ∀ i,
+        let Qsys : Functor ℕᵒᵖ (ModuleCat.{max uA uB uM uN} A) :=
+          Functor.ofOpSequence
+            (X := fun n => ModuleCat.of A (E i ⧸ I ^ n • (⊤ : Submodule A (E i))))
+            (fun n => ModuleCat.ofHom (Submodule.factorPowSucc I (E i) n))
+        let Esys : Functor ℕᵒᵖ (ModuleCat.{max uA uB uM uN} A) :=
+          Functor.ofOpSequence
+            (X := fun n => ModuleCat.of A (En i n))
+            (fun n => ModuleCat.ofHom (transition i n))
+        ∃ e : limit Qsys ≅ limit Esys,
+          ∀ n, e.hom ≫ limit.π Esys (op n) =
+            limit.π Qsys (op n) ≫ ModuleCat.ofHom (comparison i n) := by
+  intro J X Y E instE En instEn
+  refine ⟨fun i n => extQuotientToBase_injective_of_flat X Y I n i, ?_⟩
+  -- Elaborated before it is matched with the goal: cheaper than `exact` of the application.
+  have h := exists_canonical_ext_limit_iso_forall X Y I instE rfl instEn rfl
+  exact h
 
 end Stacks.AdicSystem.ExtFlatBaseChange
 

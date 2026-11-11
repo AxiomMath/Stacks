@@ -22,7 +22,7 @@ curve.
 The projective completion `j : X ⟶ X̄` with discrete valuation boundary is [Stacks, Tag 0BXW] in
 the form
 `Stacks.CurveProjectiveCompletion.exists_projective_completion_discreteValuation_of_isReduced`,
-which asks only that `X` be reduced; a curve is integral, hence reduced.
+which asks that `X` be reduced, not integral; a curve is integral, hence reduced.
 
 The morphism `g` is extended across the finitely many boundary points by
 `AlgebraicGeometry.exists_extension_of_finite_compl_valuationRing_stalk`, the finite iteration of

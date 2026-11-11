@@ -276,7 +276,10 @@ public theorem isUniversallyCatenary_of_isRegularLocalRing
     ((IsRegularLocalRing.isRegular_and_isRegularLocalRing_quotient_and_isMaximalCohenMacaulay
       R).2).of_isLocalization_atPrime p (Localization.AtPrime p)
 
-/-- **Stacks Project, Tag 032C.** A Noetherian complete local ring is universally catenary.
+/-- **A Noetherian complete local ring is universally catenary.** This is the last assertion of
+Stacks 032C, which is registered on `cohen_structure_consequences` in
+`StacksFrontier.RingTheory.CompleteLocalRing.QuotientOfRegular`, together with the statements on
+power series rings and on quotients of regular local rings that precede it.
 
 By the Cohen structure theorem it is a quotient of a power series ring over a field or over a
 Cohen ring, hence of a regular local ring; a regular local ring is Cohen-Macaulay with full
@@ -285,8 +288,7 @@ support, so [Stacks, Tag 00NM] applies, and universal catenarity passes to quoti
 Completeness is asked for as precompleteness for the maximal ideal, as in [Stacks, Tag 07PJ]; the
 Hausdorff half is automatic for a Noetherian local ring, so a ring carrying
 `IsAdicComplete (IsLocalRing.maximalIdeal R) R` satisfies the hypothesis by inference. -/
-@[stacks 032C "universally catenary",
-  ega "IV 5.2.5" "special case",
+@[ega "IV 5.2.5" "special case",
   ega "IV 5.6.4" "special case",
   ega "IV 7.1.11" "clause (i), special case",
   ega "IV 7.5.3" "more general"]

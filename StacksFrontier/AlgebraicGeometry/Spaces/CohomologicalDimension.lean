@@ -25,9 +25,10 @@ alternating sum.
   `U ⟶ X`, and a universal bound on the degrees of its fibres.
 * `AlgebraicGeometry.Space.exists_forall_isZero_cohomologyOverBase_of_isQuasiCompactSpace`: a
   single degree beyond which the cohomology over the base ring of every quasi-coherent
-  `𝒪_X`-module vanishes.
+  `𝒪_X`-module vanishes, from such a degree for each affine chart with universally bounded
+  fibres. This is a reduction taking the vanishing as a hypothesis, not [Stacks, Tag 072C].
 * `AlgebraicGeometry.Space.exists_forall_isZero_cohomologyOverBase_of_isCoherent`: the same
-  bound read off for coherent modules, which is the form the additivity of the Euler
+  conditional bound read off for coherent modules, which is the form the additivity of the Euler
   characteristic consumes.
 
 ## Implementation notes
@@ -48,16 +49,13 @@ quasi-separated, very reasonable, reasonable — followed by
 taken in the absolute form `AlgebraicGeometry.Space.IsAbsolutelyQuasiSeparated` of
 [Stacks, Tag 03BS](3), which is why the ambient big fppf site must contain the terminal scheme.
 
-**What is carried, and why.** Choices (4) and (5) of the source — an affine surjective étale
-cover of each quotient `U_p = W_p/S_{p+1}` and a bound on its fibres — are not made here: the
-library has `W_p` together with its free `S_{p+1}`-action ([Stacks, Tag 0726], in
-`StacksFrontier.AlgebraicGeometry.Spaces.AlternatingCech.DiagonalComplement`) but not the quotient
-algebraic space `U_p`. Consequently [Stacks, Tag 072B], the vanishing above the fibre bound for
-a quasi-compact separated space, is carried as the explicit hypothesis `h072B`: its proof, and
-the passage from it to the quasi-separated case, both run through the alternating Čech spectral
-sequence of [Stacks, Tag 0728], whose `E₁`-page is the cohomology of the `U_p`. The library has
-the `Ext` spectral sequence of [Stacks, Tag 0725] and the sign twist of [Stacks, Tag 072A], but
-not that identification of the `E₁`-page.
+**Where the full tag is.** This file only makes the choices (1)–(3), and its vanishing
+statement for `cohomologyOverBase` reduces to a vanishing degree for a chart, taken as the
+hypothesis `hvanish`.  The complete [Stacks, Tag 072C] — the choices (4)–(5) and the vanishing
+`H^q(X, ℱ) = 0` for `q ≥ max (d_p + p)`, over an arbitrary base scheme — is
+`AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_diagonalComplementQuotient` and
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`, under
+`StacksDraft.AlgebraicGeometry.Spaces.AlternatingCech`.
 
 ## References
 
@@ -110,16 +108,15 @@ theorem exists_affine_etale_surjective_cover_hasUniversallyBoundedFibers
           B (Spec (.of A)) hA X hZ hX hqs))) U hU g ?_
   exact (isEtale_iff_presheaf_of_yoneda B (Spec (.of A)) hA g).1 het
 
-/-- **Stacks 072C.** On a quasi-compact, quasi-separated algebraic space over `Spec A` there is
-a single degree `N` beyond which the cohomology over `A` of every quasi-coherent `𝒪_X`-module
-vanishes. -/
-@[stacks 072C "the conclusion, uniformly in the quasi-coherent module, with Stacks 072B \
-carried as the hypothesis h072B: the alternating Čech spectral sequence of Stacks 0728 and the \
-quotients U_p that both its proof and the reduction to the separated case need are absent"]
+/-- On a quasi-compact, quasi-separated algebraic space over `Spec A`, if every affine étale
+surjective chart with universally bounded fibres gives a single degree beyond which the
+cohomology over `A` of every quasi-coherent `𝒪_X`-module vanishes, then there is such a degree.
+The chart exists by
+`AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_hasUniversallyBoundedFibers`. -/
 theorem exists_forall_isZero_cohomologyOverBase_of_isQuasiCompactSpace
     (hqc : IsQuasiCompactSpace B (Spec (.of A)) hA X)
     (hqs : IsAbsolutelyQuasiSeparated B (Spec (.of A)) hA hZ X)
-    (h072B : ∀ (U : BigFppfOver B (Spec (.of A)) hA) (g : yoneda.obj U ⟶ X),
+    (hvanish : ∀ (U : BigFppfOver B (Spec (.of A)) hA) (g : yoneda.obj U ⟶ X),
       IsAffine ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U) →
       (MorphismProperty.inverseImage (@Surjective.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B (Spec (.of A)) hA)).presheaf g →
@@ -133,14 +130,18 @@ theorem exists_forall_isZero_cohomologyOverBase_of_isQuasiCompactSpace
         IsZero (cohomologyOverBase.{u, w} A B hA X hX F q) := by
   obtain ⟨U, g, hU, hsurj, het, hbd⟩ :=
     exists_affine_etale_surjective_cover_hasUniversallyBoundedFibers.{u} A B hA hZ X hX hqc hqs
-  exact h072B U g hU hsurj het hbd
+  exact hvanish U g hU hsurj het hbd
 
-/-- The cohomological dimension bound of Stacks 072C, read off for coherent modules: a coherent
-module is quasi-coherent, being an extension of that condition. -/
+/-- The conditional bound of
+`AlgebraicGeometry.Space.exists_forall_isZero_cohomologyOverBase_of_isQuasiCompactSpace`, read off
+for coherent modules: a coherent module is quasi-coherent, being an extension of that condition.
+Like that statement it takes the vanishing for a chart as the hypothesis `hvanish`, so it is not
+[Stacks, Tag 072C] itself; the unconditional vanishing is
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`. -/
 theorem exists_forall_isZero_cohomologyOverBase_of_isCoherent
     (hqc : IsQuasiCompactSpace B (Spec (.of A)) hA X)
     (hqs : IsAbsolutelyQuasiSeparated B (Spec (.of A)) hA hZ X)
-    (h072B : ∀ (U : BigFppfOver B (Spec (.of A)) hA) (g : yoneda.obj U ⟶ X),
+    (hvanish : ∀ (U : BigFppfOver B (Spec (.of A)) hA) (g : yoneda.obj U ⟶ X),
       IsAffine ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U) →
       (MorphismProperty.inverseImage (@Surjective.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B (Spec (.of A)) hA)).presheaf g →
@@ -153,7 +154,7 @@ theorem exists_forall_isZero_cohomologyOverBase_of_isCoherent
       IsCoherent B (Spec (.of A)) hA X hX F → ∀ q, N ≤ q →
         IsZero (cohomologyOverBase.{u, w} A B hA X hX F q) := by
   obtain ⟨N, hN⟩ := exists_forall_isZero_cohomologyOverBase_of_isQuasiCompactSpace.{u, w}
-    A B hA hZ X hX hqc hqs h072B
+    A B hA hZ X hX hqc hqs hvanish
   exact ⟨N, fun F hF => hN F hF.toIsQuasicoherentOnSite⟩
 
 end AlgebraicGeometry.Space

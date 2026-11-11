@@ -27,7 +27,7 @@ and it asserts that the three are equivalent. This file proves that assertion. T
 conditions are the library's `AlgebraicGeometry.Stack.HasSingletonPointMonomorphism`,
 `AlgebraicGeometry.Stack.HasReducedSingletonPointMonomorphism` and
 `AlgebraicGeometry.Stack.HasFlatFieldCoverMonomorphism` of
-`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbe`, where they were stated but left open.
+`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbe`, where they are stated.
 
 For the equivalence of (2) and (3): condition (2) says exactly that some
 monomorphism to `𝒳` with image `x` has reduced source with a singleton space of points, which is
@@ -58,18 +58,21 @@ which is `AlgebraicGeometry.Stack.exists_reduction`, the reduced closed substack
   the three equivalences of **Stacks 06MT**.
 * `AlgebraicGeometry.Stack.eq_of_isResidualGerbeAt_of_bootstrap`: the uniqueness of the residual
   gerbe, half of the final assertion of **Stacks 06MT**.
-* `AlgebraicGeometry.Stack.exists_isResidualGerbeAt_of_hasReducedSingletonPointMonomorphism`: the
-  existence of the residual gerbe, the other half, relative to the input described below.
+
+The complete statement of **Stacks 06MT** — the three equivalences together with the existence and
+uniqueness of the residual gerbe — is
+`AlgebraicGeometry.Stack.tfae_hasSingletonPointMonomorphism_and_existsUnique_isResidualGerbeAt` of
+`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeExistsUnique`, where the tag is registered.
 
 ## The passage to the reduction
 
-The monomorphy of the inclusion `𝒵_red ⟶ 𝒵` is proved: the inclusion is representable by algebraic
-spaces because it is a closed immersion, which is the content of
-`AlgebraicGeometry.Stack.IsClosedSubstack` (**Stacks 04YM** part (2)), and it satisfies the
-monomorphy clause of **Stacks 04ZW** because it is fully faithful, by the implication (2) ⟹ (1) of
-**Stacks 04ZZ** in the form
-`AlgebraicGeometry.Stack.AlgebraicStacks.mono_representingMaps_fullSubcategoryInclusion`. The source
-instead quotes **Stacks 0504**, that an immersion is a monomorphism, which this library
+The monomorphy of the inclusion `𝒵_red ⟶ 𝒵` is proved: the inclusion is representable by
+algebraic spaces because it is a closed immersion,
+which is the content of `AlgebraicGeometry.Stack.IsClosedSubstack` (**Stacks 04YM** part (2)),
+and it satisfies the monomorphy clause of **Stacks 04ZW** because it is fully faithful, by the
+implication (2) ⟹ (1) of **Stacks 04ZZ** in the form
+`AlgebraicGeometry.Stack.AlgebraicStacks.mono_representingMaps_fullSubcategoryInclusion`. The
+source instead quotes **Stacks 0504**, that an immersion is a monomorphism, which this library
 also has as `AlgebraicGeometry.Stack.AlgebraicStacks.isMonomorphism_of_isImmersion`; the two
 routes prove the same statement and the one taken here needs no further import.
 
@@ -78,27 +81,17 @@ routes prove the same statement and the one taken here needs no further import.
 Stacks 06MT has a final assertion beyond the equivalence of the three conditions: when they hold
 there is a *unique* strictly full subcategory of `𝒳` which is a reduced, locally Noetherian
 algebraic stack whose space of points is a singleton over `x` — the residual gerbe of
-**Stacks 06MU**, specified by `AlgebraicGeometry.Stack.IsResidualGerbeAt`. Both halves are proved
-here by the source's arguments:
+**Stacks 06MU**, specified by `AlgebraicGeometry.Stack.IsResidualGerbeAt`.
 
-* `AlgebraicGeometry.Stack.eq_of_isResidualGerbeAt_of_bootstrap` is the uniqueness. The source's
-  argument needs the inclusion of a strictly full algebraic subcategory to be a monomorphism, so
-  representable by algebraic spaces, which is the implication (2) ⟹ (3) of **Stacks 04Y5**; the
-  library has that implication from the bootstrap theorem Stacks 04S6 part (3),
-  `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`.
-* `AlgebraicGeometry.Stack.exists_isResidualGerbeAt_of_hasReducedSingletonPointMonomorphism` is
-  the existence, relative to one input the library does not have, and for that reason it is not
-  registered against Stacks 06MT. The source's argument passes through the existence half of
-  **Stacks 06MR**, whose construction is the quotient stack of the self-intersection groupoid of a
-  field cover, algebraic by **Stacks 06FI**; the library has that step only as
-  `AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations`, its Stacks 06FI
-  carrying Artin's theorem **Stacks 06DC**. That step cannot be bypassed through **Stacks 06MX**:
-  the source of the monomorphism given by condition (2) is reduced with one point but need not be
-  locally Noetherian (Stacks 06MS is a reduced one-point algebraic space which is not), so it is
-  not itself a candidate, and Stacks 06MX applies only to a source satisfying the conditions of
-  **Stacks 06MP**. Everything else is proved: the full faithfulness of a monomorphism (the
-  implication (1) ⟹ (2) of **Stacks 04ZZ**), condition (3) of **Stacks 06MN**, and the passage to
-  the essential image.
+`AlgebraicGeometry.Stack.eq_of_isResidualGerbeAt_of_bootstrap` is the uniqueness, by the source's
+argument. That argument needs the inclusion of a strictly full algebraic subcategory to be a
+monomorphism, so representable by algebraic spaces, which is the implication (2) ⟹ (3) of
+**Stacks 04Y5**; the library has that implication from the bootstrap theorem Stacks 04S6 part (3),
+`AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`. The existence passes
+through the existence half of **Stacks 06MR**, `AlgebraicGeometry.Stack`
+`.exists_isReducedLocallyNoetherianUniquePointSubstack_of_isReducedWithUniquePoint`, and is
+proved in `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeExistsUnique` as
+`AlgebraicGeometry.Stack.existsUnique_isResidualGerbeAt`.
 
 ## References
 
@@ -115,9 +108,6 @@ here by the source's arguments:
 * [Stacks Project, Tag 0504](https://stacks.math.columbia.edu/tag/0504)
 * [Stacks Project, Tag 0509](https://stacks.math.columbia.edu/tag/0509)
 * [Stacks Project, Tag 050C](https://stacks.math.columbia.edu/tag/050C)
-* [Stacks Project, Tag 06DC](https://stacks.math.columbia.edu/tag/06DC)
-* [Stacks Project, Tag 06FI](https://stacks.math.columbia.edu/tag/06FI)
-* [Stacks Project, Tag 06FK](https://stacks.math.columbia.edu/tag/06FK)
 * [Stacks Project, Tag 06MN](https://stacks.math.columbia.edu/tag/06MN)
 * [Stacks Project, Tag 06MP](https://stacks.math.columbia.edu/tag/06MP)
 * [Stacks Project, Tag 06MQ](https://stacks.math.columbia.edu/tag/06MQ)
@@ -183,12 +173,6 @@ The implication (2) ⟹ (1) is
 immediate; the implication (1) ⟹ (2) is
 `AlgebraicGeometry.Stack.hasReducedSingletonPointMonomorphism_of_hasSingletonPointMonomorphism`,
 which passes to the reduction of Stacks 0509. -/
-@[stacks 06MT "conditions (1) and (2) are equivalent, granting the existence half of \
-Stacks 0509 at the whole point set — that every algebraic stack over S has a reduction, a \
-reduced closed substack whose inclusion is surjective on points — which is the hypothesis \
-hreduction. That hypothesis is quantified over every algebraic stack over S, mentions neither \
-the stack nor the point the conclusion ranges over, and so restricts no object; the library \
-does not have it, its Stacks 050C recording the reduction as a predicate for that reason"]
 theorem hasSingletonPointMonomorphism_iff_hasReducedSingletonPointMonomorphism
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳) :
     HasSingletonPointMonomorphism B S hS 𝒳 x ↔
@@ -210,7 +194,6 @@ source of the monomorphism, which is left unchanged. Going forwards, the unique 
 source has a preimage on the cover because the cover is surjective; going backwards, the image
 of the chosen point of the cover is a point of the source, and the source has at most one
 point. -/
-@[stacks 06MT "conditions (2) and (3) are equivalent; unconditional"]
 theorem hasReducedSingletonPointMonomorphism_iff_hasFlatFieldCoverMonomorphism
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳) :
     HasReducedSingletonPointMonomorphism B S hS 𝒳 x ↔
@@ -237,11 +220,6 @@ theorem hasReducedSingletonPointMonomorphism_iff_hasFlatFieldCoverMonomorphism
 /-- **Conditions (1) and (3) of Stacks 06MT are equivalent.** The implication (1) ⟹ (3) is
 (1) ⟹ (2) followed by (2) ⟹ (3); the implication (3) ⟹ (1) is
 `AlgebraicGeometry.Stack.hasSingletonPointMonomorphism_of_flatFieldCover`. -/
-@[stacks 06MT "conditions (1) and (3) are equivalent, granting the existence half of \
-Stacks 0509 at the whole point set — that every algebraic stack over S has a reduction — which \
-is the hypothesis hreduction, used only for the forward implication. That hypothesis is \
-quantified over every algebraic stack over S, mentions neither the stack nor the point the \
-conclusion ranges over, and so restricts no object; the library does not have it"]
 theorem hasSingletonPointMonomorphism_iff_hasFlatFieldCoverMonomorphism
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳) :
     HasSingletonPointMonomorphism B S hS 𝒳 x ↔ HasFlatFieldCoverMonomorphism B S hS 𝒳 x :=
@@ -284,8 +262,7 @@ This is the source's argument. Both subcategories satisfy condition (2) of **Sta
 implication (1) ⟹ (2); the first projection `𝒵_P ×_𝒳 𝒵_Q ⟶ 𝒵_P` is a monomorphism, as a base
 change of the inclusion of `𝒵_Q`; its source has a point by **Stacks 04XH**, both points lying
 over `x`; so it is an equivalence by **Stacks 06MQ**, and every object satisfying `P` satisfies
-`Q`. That argument is
-`AlgebraicGeometry.Stack.imp_of_isReducedLocallyNoetherianUniquePointSubstack`.
+`Q`. That argument is `AlgebraicGeometry.Stack.imp_of_isReducedLocallyNoetherianUniquePointSubstack`.
 
 The inclusion of `𝒵_Q` is a monomorphism of algebraic stacks only once it is known to be
 representable by algebraic spaces, which the source takes from the implication (2) ⟹ (3) of
@@ -304,63 +281,6 @@ theorem eq_of_isResidualGerbeAt_of_bootstrap
       imp_of_isReducedLocallyNoetherianUniquePointSubstack.{u, w} B S hS 𝒳 hQ' hP'
         (fun a b zQ zP => (pointsMap_eq_of_isResidualGerbeAt B S hS hQ a zQ).trans
           (pointsMap_eq_of_isResidualGerbeAt B S hS hP b zP).symm) X⟩
-
-/-- **The existence assertion of Stacks 06MT, reduced to the quotient-stack presentation.** Let
-`𝒳` be an algebraic stack over `S` and `x` a point of `|𝒳|` satisfying condition (2) of
-**Stacks 06MT**. Then some strictly full subcategory of `𝒳` is a reduced, locally Noetherian
-algebraic stack with a single point lying over `x`.
-
-This is the source's argument. Let `f : 𝒵 ⟶ 𝒳` be a monomorphism with `𝒵` reduced and `|𝒵|` a
-singleton over `x`. Then `f` is fully faithful by the implication (1) ⟹ (2) of **Stacks 04ZZ**.
-By condition (3) of **Stacks 06MN** there is a surjective flat 1-morphism, locally of finite type,
-from the spectrum of a field to `𝒵`, and by the source's construction of **Stacks 06MR** there is
-a fully faithful `i : 𝒴 ⟶ 𝒵` with `𝒴` satisfying condition (2) of **Stacks 06MP**. The composite
-`i ≫ f` is fully faithful, and its image on points is `{x}`, because `𝒴` has a point and every
-point of `𝒵` lies over `x`; the essential image of `i ≫ f` is the required subcategory by
-`AlgebraicGeometry.Stack.exists_isResidualGerbeAt_of_full_of_faithful`.
-
-The construction of `i` is the quotient stack `[U/R]` of the self-intersection groupoid of the
-cover (**Stacks 04T4**), algebraic by **Stacks 06FI**, and the library has it only as the
-hypothesis `AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations`, which is
-`hpres` here: its Stacks 06FI carries Artin's theorem **Stacks 06DC**. For that reason this
-theorem is not registered against Stacks 06MT. -/
-theorem exists_isResidualGerbeAt_of_hasReducedSingletonPointMonomorphism
-    (hpres : HasFullyFaithfulFinitePresentationPresentations.{u, w} B S hS)
-    (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳)
-    (h : HasReducedSingletonPointMonomorphism B S hS 𝒳 x) :
-    ∃ P : ObjectProperty 𝒳.val.val.obj, IsResidualGerbeAt B S hS 𝒳 x P := by
-  obtain ⟨𝒵, f, hred, hf, z, hz, hzx⟩ := h
-  have h𝒵 : IsReducedWithUniquePoint B S hS 𝒵 :=
-    ⟨hred, ⟨z⟩, ⟨fun a b => (hz a).trans (hz b).symm⟩⟩
-  obtain ⟨F, c, hlft, hsurj, hflat⟩ :=
-    hasLocallyOfFiniteTypeFlatFieldSpectrumCover_of_hasFlatFieldSpectrumCover.{u, w} B S hS 𝒵
-      (hasFlatFieldSpectrumCover_of_isReducedWithUniquePoint.{u, w} B S hS 𝒵 h𝒵)
-  obtain ⟨𝒴, i, hifull, hifaith, hcov⟩ := hpres 𝒵 F c hlft hsurj hflat
-  obtain ⟨hffull, hffaith⟩ :=
-    AlgebraicStacks.full_and_faithful_homFunctor_of_isMonomorphism B S hS f hf
-  have hfull : (CatFiberedInGroupoids.homFunctor (i ≫ f).hom).Full :=
-    Functor.Full.comp (CatFiberedInGroupoids.homFunctor i.hom)
-      (CatFiberedInGroupoids.homFunctor f.hom)
-  have hfaith : (CatFiberedInGroupoids.homFunctor (i ≫ f).hom).Faithful :=
-    Functor.Faithful.comp (CatFiberedInGroupoids.homFunctor i.hom)
-      (CatFiberedInGroupoids.homFunctor f.hom)
-  have hover : ∀ y : AlgebraicStacks.points B S hS 𝒴,
-      AlgebraicStacks.pointsMap B S hS (i ≫ f) y = x := fun y => by
-    rw [congrFun (AlgebraicStacks.pointsMap_comp B S hS i f) y, Function.comp_apply,
-      hz (AlgebraicStacks.pointsMap B S hS i y)]
-    exact hzx
-  obtain ⟨y⟩ := (isReducedLocallyNoetherianWithUniquePoint_of_locallyOfFinitePresentation
-    B S hS 𝒴 hcov).1.2.1
-  have himg : Set.range (AlgebraicStacks.pointsMap B S hS (i ≫ f)) = {x} := by
-    ext p
-    constructor
-    · rintro ⟨y', rfl⟩
-      exact hover y'
-    · rintro rfl
-      exact ⟨y, hover y⟩
-  obtain ⟨P, -, hP, -⟩ :=
-    exists_isResidualGerbeAt_of_full_of_faithful B S hS 𝒳 𝒴 (i ≫ f) hfull hfaith hcov x himg
-  exact ⟨P, hP⟩
 
 end AlgebraicGeometry.Stack
 

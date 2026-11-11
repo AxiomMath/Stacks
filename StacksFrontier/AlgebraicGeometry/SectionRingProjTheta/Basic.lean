@@ -123,11 +123,11 @@ a product of sections. Nothing below depends on it: `hasTwistedExtension` is pro
 (2) instead.
 
 **Nothing about Tag 01QJ is here**, and part (2) above does not feed it. Tag 01QJ's map
-`θ_𝓕 : f^* M~ ⟶ 𝓕` is formalized — as clause (b) only, the functoriality in `𝓕` — in
-`StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/Comparison.lean`, as
-`Stacks.SectionRingProjQuasicoherent.pullbackComparison`, which carries Tag 0B5I's family
-`M̃ ⟶ f_*𝓕` as a hypothesis. It cannot be stated against the module used here: the canonical
-morphism
+`θ_𝓕 : f^* M~ ⟶ 𝓕` is formalized in
+`StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/Isomorphism.lean`, as
+`Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison`, with Tag 01QJ itself as
+`Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison_spec`. It cannot be stated against
+the module used here: the canonical morphism
 `Stacks.SectionRingProjMorphism.projHomOfIsAmple` targets `Proj` of
 `Stacks.AmpleFiniteAvoidance.grading L`, whose graded ring is
 `Stacks.GradedSections.sectionRing L = ⨁_n (𝟙 ⟶ natTensorPow L n)`, while

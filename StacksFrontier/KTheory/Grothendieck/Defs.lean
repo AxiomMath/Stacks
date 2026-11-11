@@ -303,7 +303,8 @@ of Stacks 00JJ. -/
   sga "1 IV 4.3" "case (b): (ii) ⇒ (i)",
   sga "3 VIA 2.1.3" "special case",
   sga "3 VIIB 0.3.7" "special case",
-  sga "6 I 2.15.1" "special case"]
+  sga "6 I 2.15.1" "special case",
+  stacks 00JJ "every finite projective module over a local ring is finite free"]
 theorem finite_projective_is_finite_free
     (R : Type u) [CommRing R] [IsLocalRing R]
     (M : Type v) [AddCommGroup M] [Module R M]
@@ -504,7 +505,7 @@ lemma K0.rank_invG {R : Type u} [CommRing R] [IsLocalRing R] (z : ℤ) :
 /-- Over a local ring, the rank map `K_0(R) → ℤ` is an isomorphism. Combined
 with `finite_projective_is_finite_free`, this gives the full statement of
 Stacks 00JJ. -/
-@[stacks 00JJ]
+@[stacks 00JJ "the rank map `[M] ↦ rank_R(M)` is a well-defined isomorphism `K_0(R) ≃+ ℤ`"]
 theorem K0.rank_isIso
     (R : Type u) [CommRing R] [IsLocalRing R] :
     ∃ e : K0 R ≃+ ℤ, ⇑e = K0.rank R :=
@@ -513,5 +514,72 @@ theorem K0.rank_isIso
      left_inv := fun x => (K0.eq_rank_smul_g x).symm
      right_inv := K0.rank_invG
      map_add' := map_add _ }, rfl⟩
+
+
+/-! ### Part 5: Stacks' presentation of `K_0(R)` by short exact sequences -/
+
+/-- The relations of the Stacks presentation of `K_0(R)`: `[M] - [M'] - [M'']` for every
+short exact sequence `0 → M' → M → M'' → 0` of finite projective `R`-modules. -/
+def K0.sesRels (R : Type u) [CommRing R] : AddSubgroup (FreeAbelianGroup (FGProj R)) :=
+  AddSubgroup.closure
+    {x | ∃ (M' M M'' : FGProj R) (f : M'.carrier →ₗ[R] M.carrier)
+        (g : M.carrier →ₗ[R] M''.carrier), Function.Injective f ∧ Function.Exact f g ∧
+        Function.Surjective g ∧
+        x = FreeAbelianGroup.of M - FreeAbelianGroup.of M' - FreeAbelianGroup.of M''}
+
+/-- A short exact sequence `0 → M' → M → M'' → 0` of finite projective modules gives
+`[M] = [M'] + [M'']` in `K0 R`, since it splits. -/
+theorem K0.mk_eq_add_of_exact {R : Type u} [CommRing R] {M' M M'' : FGProj R}
+    {f : M'.carrier →ₗ[R] M.carrier} {g : M.carrier →ₗ[R] M''.carrier}
+    (hf : Function.Injective f) (hfg : Function.Exact f g) (hg : Function.Surjective g) :
+    K0.mk M = K0.mk M' + K0.mk M'' := by
+  obtain ⟨l, hl⟩ := Module.projective_lifting_property g LinearMap.id hg
+  rw [← K0.mk_directSum_eq]
+  exact K0.mk_eq_of_iso M (M'.directSum M'') (hfg.splitSurjectiveEquiv hf ⟨l, hl⟩).1
+
+/-- The direct-sum and isomorphism relations defining `K0 R` generate the same subgroup as
+the short-exact-sequence relations of the Stacks presentation. -/
+theorem K0.rels_eq_sesRels (R : Type u) [CommRing R] : K0.rels R = K0.sesRels R := by
+  apply le_antisymm
+  · have h0 : FreeAbelianGroup.of (FGProj.free R 0) ∈ K0.sesRels R := by
+      have h : FreeAbelianGroup.of (FGProj.free R 0) - FreeAbelianGroup.of (FGProj.free R 0)
+          - FreeAbelianGroup.of (FGProj.free R 0) ∈ K0.sesRels R :=
+        AddSubgroup.subset_closure ⟨FGProj.free R 0, FGProj.free R 0, FGProj.free R 0,
+          LinearMap.id, 0, Function.injective_id,
+          fun y => ⟨fun _ => ⟨y, rfl⟩, fun _ => rfl⟩,
+          fun y => ⟨0, funext fun i => i.elim0⟩, rfl⟩
+      simpa using h
+    refine (AddSubgroup.closure_le _).2 ?_
+    rintro x (⟨M, N, rfl⟩ | ⟨M, N, ⟨e⟩, rfl⟩)
+    · exact AddSubgroup.subset_closure ⟨M, M.directSum N, N, LinearMap.inl R _ _,
+        LinearMap.snd R _ _, fun a b h => congrArg Prod.fst h, Function.Exact.inl_snd,
+        fun y => ⟨(0, y), rfl⟩, rfl⟩
+    · have hs : FreeAbelianGroup.of N - FreeAbelianGroup.of M
+          - FreeAbelianGroup.of (FGProj.free R 0) ∈ K0.sesRels R :=
+        AddSubgroup.subset_closure ⟨M, N, FGProj.free R 0, e.toLinearMap, 0, e.injective,
+          fun y => ⟨fun _ => ⟨e.symm y, by simp⟩, fun _ => rfl⟩,
+          fun y => ⟨0, funext fun i => i.elim0⟩, rfl⟩
+      show FreeAbelianGroup.of M - FreeAbelianGroup.of N ∈ K0.sesRels R
+      convert sub_mem (neg_mem hs) h0 using 1
+      abel
+  · refine (AddSubgroup.closure_le _).2 ?_
+    rintro x ⟨M', M, M'', f, g, hf, hfg, hg, rfl⟩
+    apply (QuotientAddGroup.eq_zero_iff _).mp
+    change K0.mk M - K0.mk M' - K0.mk M'' = 0
+    rw [K0.mk_eq_add_of_exact hf hfg hg]
+    abel
+
+/-- `K0 R` is canonically isomorphic to the group `K_0(R)` of the Stacks project: the free
+abelian group on finite projective `R`-modules modulo `[M] = [M'] + [M'']` for every short
+exact sequence `0 → M' → M → M'' → 0` of finite projective `R`-modules. -/
+def K0.equivSes (R : Type u) [CommRing R] :
+    K0 R ≃+ FreeAbelianGroup (FGProj R) ⧸ K0.sesRels R :=
+  QuotientAddGroup.quotientAddEquivOfEq (K0.rels_eq_sesRels R)
+
+/-- `K0.equivSes` sends the class `[M]` to the class `[M]`. -/
+@[simp]
+lemma K0.equivSes_mk {R : Type u} [CommRing R] (M : FGProj R) :
+    K0.equivSes R (K0.mk M) = QuotientAddGroup.mk (FreeAbelianGroup.of M) :=
+  rfl
 
 end

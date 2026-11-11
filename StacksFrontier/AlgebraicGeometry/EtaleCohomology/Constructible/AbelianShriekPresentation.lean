@@ -72,8 +72,7 @@ additive functor of the constant value and `ULift ℤ / N ≅ ULift (Z/NZ)`.
 
 * `AlgebraicGeometry.exists_nsmul_id_eq_zero_of_isConstructibleAbelianSheaf` — **a constructible
   abelian sheaf on a quasi-compact quasi-separated scheme is annihilated by a positive integer.**
-  This is the input the source leaves to the reader and whose absence
-  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/PrimaryDevissage.lean` records.
+  This is the input the source leaves to the reader.
 * `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_hasFiniteZModShriekPresentation` and
   `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_affineZModShriekPresentation` —
   **Stacks 09YT**, at quasi-compact quasi-separated and at affine étale objects.

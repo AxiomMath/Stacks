@@ -3,9 +3,9 @@ module
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.FirstCohomologyModificationTransfer
 
 /-!
-# Tag 0B4Q: a regular local ring of dimension two defines a rational singularity
+# The argument of Tag 0B4Q over two of its inputs
 
-The assembly of [Stacks, Tag 0B4Q] out of the pieces of the sibling module
+The assembly of the source's argument for [Stacks, Tag 0B4Q] out of the pieces of the sibling module
 `Boundedness.RegularLocalRing`: a modification `X ⟶ Spec(A)` with `X` normal is dominated by a
 sequence of blowups at closed points, the vanishing of the first cohomology of the structure
 sheaf holds along that whole sequence, and it descends from the dominating modification to `X`.
@@ -17,14 +17,15 @@ The statement lives here rather than next to its ingredients because the descent
 ## Main results
 
 * `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_unconditional`: the
-  statement of the source, with its two remaining cited inputs carried.
+  source's argument over its two remaining cited inputs. The complete statement of
+  [Stacks, Tag 0B4Q], with nothing assumed, is
+  `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`.
 
 ## Implementation notes
 
-Two hypotheses of the source's proof are carried rather than discharged, and the
-`@[stacks 0B4Q]` attribute names them; they are `dominate` and `blowUpStep`, documented in the
-module docstring of `Boundedness.RegularLocalRing`, where they were carried alongside a third,
-`transfer`.
+Two hypotheses of the source's proof are carried rather than discharged here; they are
+`dominate` and `blowUpStep`, documented in the module docstring of
+`Boundedness.RegularLocalRing`, where they were carried alongside a third, `transfer`.
 
 `transfer` was the injectivity half of the first conclusion of [Stacks, Tag 0AXF], in the form in
 which the source uses it: the vanishing of the first cohomology passes from a dominating normal
@@ -34,8 +35,12 @@ modification back to the one it dominates. It is no longer carried — it is
 modification of a normal integral scheme ([Stacks, Tag 0AY8]) and the unconditional injectivity
 of the first Leray edge map ([Stacks, Tag 01F2]).
 
-The `blowUpStep` hypothesis still refers to the right-hand exactness of the same sequence of
-[Stacks, Tag 0AXF], which is not available in this development, so it remains carried.
+The `blowUpStep` hypothesis refers to the right-hand exactness of the same sequence of
+[Stacks, Tag 0AXF], and remains carried by this declaration. The library proves the survival of
+the vanishing across such a blowup as
+`AlgebraicGeometry.isZeroFirstStructureSheafCohomology_blowUp_of_isRegularLocalRing`, and
+`dominate` is replaced by [Stacks, Tag 0BBT] in the complete statement
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`.
 
 ## References
 
@@ -56,9 +61,10 @@ universe u
 
 namespace AlgebraicGeometry
 
-/-- **Stacks Project, Tag 0B4Q.** A Nagata regular local ring `A` of dimension two defines a
-rational singularity: the first cohomology of the structure sheaf vanishes on every modification
-of `Spec(A)` with normal source.
+/-- **The argument of [Stacks, Tag 0B4Q] over two of its inputs.** A Nagata regular local ring
+`A` of dimension two defines a rational singularity, once the two inputs below are given. The
+complete statement is
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`.
 
 Two inputs of the source's proof are carried as hypotheses. `dominate` is [Stacks, Tag 0AHI],
 that every such modification is dominated by a sequence of blowups at closed points over the

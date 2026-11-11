@@ -84,7 +84,9 @@ natural map `K ⊗_R M → V` is an isomorphism.  Since `M` is a finitely genera
 torsion-free `R`-module and `K` is flat over `R`, that map is automatically
 injective, so the condition is equivalent to surjectivity, i.e. to the
 `K`-linear span of `M` being all of `V` (equivalently, `M` contains a
-`K`-basis of `V`). -/
+`K`-basis of `V`). The source's form of the definition, and its equivalence with the span form
+used here, are `Submodule.IsBaseChangeLattice` and `Submodule.isBaseChangeLattice_iff_isLattice`
+in `StacksFrontier.RingTheory.Lattice.Distance`. -/
 
 /-- `M` is a lattice in `V`: a finitely generated `R`-submodule whose
 `K`-span is all of `V`. -/

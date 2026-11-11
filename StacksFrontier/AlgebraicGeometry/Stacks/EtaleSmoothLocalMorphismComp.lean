@@ -31,7 +31,9 @@ its apex is an étale chart of `𝒳 ×_𝒵 W`, obtained by pasting the two inn
 * `AlgebraicGeometry.Stack.isRelativelyEtale_preHom_diagramCone_of_chart`: the comparison
   1-morphisms of a diagram of Stacks 06FM cut out by an étale chart of a 2-fibre product are
   étale.
-* `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_comp`: **Stacks 0CIH**.
+* `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_comp`: the argument of **Stacks 0CIH**,
+  over the forward direction of Stacks 06N3 as the argument `hForward`; **Stacks 0CIH** itself is
+  `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_comp_of_isEtaleSmoothLocal`.
 
 ## Implementation notes
 
@@ -56,9 +58,9 @@ The 2-fibre products of Stacks 0CIA are taken in the orientation `𝒳 ×_𝒴 V
 `CategoryTheory.Bicategory.TwoCommSq.swap`, which keeps the apex on the nose; so the
 Deligne–Mumford condition Stacks 0CIA supplies needs no transport.
 
-The substantial direction of **Stacks 06N3** is carried as the explicit hypothesis `hForward`,
-exactly as in `StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordSpecialPresentation`, since the
-structure theorem behind it is not in this library; it enters only through Stacks 0CIA.
+The forward direction of **Stacks 06N3** is the argument `hForward`, as in
+`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordSpecialPresentation`; it enters only through
+Stacks 0CIA, and `AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM` proves it.
 
 ## References
 
@@ -200,11 +202,11 @@ is stable under composition.
 The composite is Deligne–Mumford by **Stacks 050K**. For the diagram test, take a smooth chart
 `W ⟶ 𝒵` surjective on objects, an étale chart `V ⟶ 𝒴 ×_𝒵 W` and an étale chart `U ⟶ 𝒳 ×_𝒴 V`,
 the last two by **Stacks 0CIA**; the morphisms `V ⟶ W` and `U ⟶ V` have `P`, hence so does
-`U ⟶ W`, and pasting the two 2-fibre products exhibits `U` as an étale chart of `𝒳 ×_𝒵 W`. -/
-@[stacks 0CIH "with the substantial direction of Stacks 06N3 as the explicit hypothesis hForward
-  (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2, 06G3, is absent from the
-  library); it enters only through Stacks 0CIA, which supplies the surjective etale presentations
-  of the two 2-fibre products the source's argument chooses"]
+`U ⟶ W`, and pasting the two 2-fibre products exhibits `U` as an étale chart of `𝒳 ×_𝒵 W`.
+
+The forward direction of **Stacks 06N3** enters as the argument `hForward`, through Stacks 0CIA;
+it is discharged by `AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM` in
+`AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_comp_of_isEtaleSmoothLocal`. -/
 theorem hasEtaleSmoothLocalProperty_comp
     (P : MorphismProperty (AlgebraicSpaces B S hS))
     (hP : Space.IsEtaleSmoothLocalOnSourceAndTarget B S hS P)

@@ -141,8 +141,11 @@ arbitrary closed point. Beyond the last equality recorded in the section above, 
   Tag 0AGR, `AlgebraicGeometry.isRegular_and_topologicalKrullDim_blowUp_vanishingIdeal_singleton`
   (`Blowup/RegularSurfaceBlowupGlobal.lean:326`), gives `IsRegular (blowUp M)` together with
   `topologicalKrullDim (blowUp M) = 2`. The first yields `IsRegularLocalRing` at every point; the
-  second does *not* yield dimension two at a nominated closed point. This is the same gap that
-  blocks the `resInherited` binder of [Stacks, Tag 0BIC].
+  second does *not* yield dimension two at a nominated closed point. The same point arises for
+  the `resInherited` binder of the reduction
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isStrictNormalCrossings`; the
+  unconditional [Stacks, Tag 0BIC] avoids it by working with chains whose centres have
+  two-dimensional local rings.
 
 What this file does supply, once the last equality above is in place, is the strict comparison at
 the single point `y`; those four items are what stand between that and `descent`.

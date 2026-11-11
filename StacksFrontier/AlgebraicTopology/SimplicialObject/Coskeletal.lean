@@ -42,12 +42,13 @@ is representable, the representing object extends `U` by one degree: it is the t
 satisfies the adjointness `Mor(V, Ũ) = Mor(sk_{n + 1} V, U)`.
 
 Being a right adjoint, `cosk_n` preserves all limits that exist; in particular it commutes with
-fibre products. Coskeleta of different levels are compatible: for `n ≤ m` the further truncation
-`Simp_m(C) ⥤ Simp_n(C)` is left adjoint to `sk_m cosk_n`, every `cosk_n U` is `m`-coskeletal,
-and an `n`-coskeletal simplicial object is `m`-coskeletal. Finally, for `m ≥ 1` the coskeleton of
-a truncated simplicial object of a slice category `C/X` may be computed in `C`, because the
-comma categories indexing the defining limits are then connected and `Over.forget X` preserves
-connected limits.
+fibre products, and this already holds when only the coskeleta of the objects involved exist, by the
+same hom-set computation. Coskeleta of different levels are compatible: for `n ≤ m` the further
+truncation `Simp_m(C) ⥤ Simp_n(C)` is left adjoint to `sk_m cosk_n`, every `cosk_n U` is
+`m`-coskeletal, and an `n`-coskeletal simplicial object is `m`-coskeletal. Finally, for `m ≥ 1` the
+coskeleton of a truncated simplicial object of a slice category `C/X` may be computed in `C`,
+because the comma categories indexing the defining limits are then connected and `Over.forget X`
+preserves connected limits.
 
 ### Main results
 
@@ -65,6 +66,9 @@ connected limits.
   `cosk_n U` is `m`-coskeletal, and an `n`-coskeletal object is `m`-coskeletal.
 * `CategoryTheory.SimplicialObject.Truncated.cosk.preservesLimitsOfSize`: `cosk_n` preserves
   limits of every shape and size.
+* `CategoryTheory.SimplicialObject.Truncated.isIso_pullback_lift_coskMap`: for a category with
+  fibre products, `cosk_n (U ×_V W) = cosk_n U ×_{cosk_n V} cosk_n W` whenever the coskeleta
+  involved exist.
 * `CategoryTheory.Over.preservesPointwiseRightKanExtensions_forget_inclusion_succ_op`: for
   `m ≥ 1` the forgetful functor of a slice category commutes with `cosk_m`.
 
@@ -616,6 +620,42 @@ private noncomputable def adjunctionOfIsRightKanExtension (L : A ⥤ B) (R : (A 
         dsimp [Functor.homEquivOfIsRightKanExtension]
         rw [Category.assoc] }
 
+/-- A fibre product of right Kan extensions is a right Kan extension of the fibre product. Let
+`(U', εU)`, `(V', εV)`, `(W', εW)` be right Kan extensions along `L` of `U`, `V`, `W`, and let
+`f' : U' ⟶ V'`, `g' : W' ⟶ V'` be compatible with `f : U ⟶ V`, `g : W ⟶ V`. Then
+`U' ×_{V'} W'` is a right Kan extension of `U ×_V W`, with the structure map induced by `εU` and
+`εW`. -/
+private lemma isRightKanExtension_pullback {L : A ⥤ D} {U V W : A ⥤ H} (f : U ⟶ V)
+    (g : W ⟶ V) [HasPullback f g] {U' V' W' : D ⥤ H} (εU : L ⋙ U' ⟶ U) (εV : L ⋙ V' ⟶ V)
+    (εW : L ⋙ W' ⟶ W) [U'.IsRightKanExtension εU] [V'.IsRightKanExtension εV]
+    [W'.IsRightKanExtension εW] (f' : U' ⟶ V') (g' : W' ⟶ V')
+    (hf : whiskerLeft L f' ≫ εV = εU ≫ f) (hg : whiskerLeft L g' ≫ εV = εW ≫ g)
+    [HasPullback f' g'] :
+    (pullback f' g').IsRightKanExtension
+      (pullback.lift (whiskerLeft L (pullback.fst f' g') ≫ εU)
+        (whiskerLeft L (pullback.snd f' g') ≫ εW) (by
+          rw [Category.assoc, Category.assoc, ← hf, ← hg, ← whiskerLeft_comp_assoc,
+            ← whiskerLeft_comp_assoc, pullback.condition]) :
+        L ⋙ pullback f' g' ⟶ pullback f g) := by
+  refine isRightKanExtension_of_bijective _ _ fun G ↦ ⟨fun φ ψ h ↦ ?_, fun β ↦ ?_⟩
+  · have h₁ := h =≫ pullback.fst f g
+    have h₂ := h =≫ pullback.snd f g
+    simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd] at h₁ h₂
+    refine pullback.hom_ext (U'.hom_ext_of_isRightKanExtension εU _ _ ?_)
+      (W'.hom_ext_of_isRightKanExtension εW _ _ ?_)
+    · simpa only [whiskerLeft_comp, Category.assoc] using h₁
+    · simpa only [whiskerLeft_comp, Category.assoc] using h₂
+  · let a := U'.liftOfIsRightKanExtension εU G (β ≫ pullback.fst f g)
+    let b := W'.liftOfIsRightKanExtension εW G (β ≫ pullback.snd f g)
+    have hab : a ≫ f' = b ≫ g' := V'.hom_ext_of_isRightKanExtension εV _ _ (by
+      simp only [whiskerLeft_comp, Category.assoc, hf, hg, a, b,
+        liftOfIsRightKanExtension_fac_assoc, pullback.condition])
+    refine ⟨pullback.lift a b hab, pullback.hom_ext ?_ ?_⟩
+    · simp only [Category.assoc, pullback.lift_fst, ← whiskerLeft_comp_assoc, a,
+        liftOfIsRightKanExtension_fac]
+    · simp only [Category.assoc, pullback.lift_snd, ← whiskerLeft_comp_assoc, b,
+        liftOfIsRightKanExtension_fac]
+
 end KanExtension
 
 variable {C : Type u} [Category.{v} C]
@@ -711,18 +751,88 @@ open Limits
 
 variable {C : Type u} [Category.{v} C]
 
-/-- **Stacks 018D**.
-The `n`-th coskeleton functor `cosk n : Simp_n(C) ⥤ Simp(C)` preserves all limits, being right
-adjoint to `truncation n`. In particular, for morphisms `f : U ⟶ V` and `g : W ⟶ V` of
-`n`-truncated simplicial objects of `C`, `cosk n (U ×_V W) = cosk n U ×_{cosk n V} cosk n W`
-whenever both sides exist, the canonical comparison `Limits.pullbackComparison (cosk n) f g` being
-an isomorphism. -/
-@[stacks 018D]
+/-- The `n`-th coskeleton functor `cosk n : Simp_n(C) ⥤ Simp(C)`, when it exists on all of
+`Simp_n(C)`, preserves all limits, being right adjoint to `truncation n`. In particular it
+commutes with fibre products; the form of Stacks 018D that assumes only the existence of the
+coskeleta involved is `isIso_pullback_lift_coskMap`. -/
 public instance cosk.preservesLimitsOfSize (n : ℕ)
     [∀ F : (SimplexCategory.Truncated n)ᵒᵖ ⥤ C,
       (SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension F] :
     PreservesLimitsOfSize.{w, w'} (Truncated.cosk (C := C) n) :=
   (SimplicialObject.coskAdj n).rightAdjoint_preservesLimits
+
+/-- The morphism `cosk_n U ⟶ cosk_n V` induced by a morphism `f : U ⟶ V` of `n`-truncated
+simplicial objects, for `U` and `V` whose coskeleta exist (as chosen right Kan extensions along
+`(Δ_{≤ n} ⊆ Δ)ᵒᵖ`); it is the morphism corresponding to `sk_n cosk_n U ⟶ U ⟶ V` under the
+universal property of `cosk_n V`. -/
+public noncomputable def coskMap {n : ℕ} {U V : SimplicialObject.Truncated C n}
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension U]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension V] (f : U ⟶ V) :
+    (SimplexCategory.Truncated.inclusion n).op.rightKanExtension U ⟶
+      (SimplexCategory.Truncated.inclusion n).op.rightKanExtension V :=
+  ((SimplexCategory.Truncated.inclusion n).op.rightKanExtension V).liftOfIsRightKanExtension
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit V) _
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit U ≫ f)
+
+/-- The morphism `coskMap f` is compatible with the structure maps of the coskeleta. -/
+@[reassoc (attr := simp)]
+public lemma whiskerLeft_coskMap_comp_counit {n : ℕ} {U V : SimplicialObject.Truncated C n}
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension U]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension V] (f : U ⟶ V) :
+    Functor.whiskerLeft (SimplexCategory.Truncated.inclusion n).op (coskMap f) ≫
+        (SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit V =
+      (SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit U ≫ f :=
+  Functor.liftOfIsRightKanExtension_fac _ _ _ _
+
+/-- `coskMap` is compatible with composition. -/
+public lemma coskMap_comp {n : ℕ} {U V W : SimplicialObject.Truncated C n}
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension U]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension V]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension W]
+    (f : U ⟶ V) (g : V ⟶ W) : coskMap (f ≫ g) = coskMap f ≫ coskMap g := by
+  refine Functor.rightKanExtension_hom_ext _ _ _ _ ?_
+  simp [Functor.whiskerLeft_comp]
+
+/-- **Stacks 018D**.
+Let `C` be a category with fibre products, and let `f : U ⟶ V`, `g : W ⟶ V` be morphisms of
+`n`-truncated simplicial objects of `C`. Whenever the coskeleta `cosk_n U`, `cosk_n V`,
+`cosk_n W` and `cosk_n (U ×_V W)` exist (as right Kan extensions along `(Δ_{≤ n} ⊆ Δ)ᵒᵖ`, not
+assuming that the coskeleton functor exists), the canonical comparison morphism
+`cosk_n (U ×_V W) ⟶ cosk_n U ×_{cosk_n V} cosk_n W`, with components `cosk_n` of the two
+projections, is an isomorphism. The fibre product on the right exists since `C` has fibre
+products. -/
+@[stacks 018D "the equality is the statement that the canonical comparison morphism is an \
+  isomorphism; the coskeleta are the right Kan extensions along `(Δ_{≤ n} ⊆ Δ)ᵒᵖ`, assumed to \
+  exist for `U`, `V`, `W` and `U ×_V W` only"]
+public theorem isIso_pullback_lift_coskMap [HasPullbacks C] {n : ℕ}
+    {U V W : SimplicialObject.Truncated C n} (f : U ⟶ V) (g : W ⟶ V)
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension U]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension V]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension W]
+    [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension (pullback f g)] :
+    IsIso (pullback.lift (coskMap (pullback.fst f g)) (coskMap (pullback.snd f g))
+      (by rw [← coskMap_comp, ← coskMap_comp, pullback.condition]) :
+      (SimplexCategory.Truncated.inclusion n).op.rightKanExtension (pullback f g) ⟶
+        pullback (coskMap f) (coskMap g)) := by
+  have := SimplicialObject.isRightKanExtension_pullback f g
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit U)
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit V)
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit W)
+    (coskMap f) (coskMap g) (whiskerLeft_coskMap_comp_counit f)
+    (whiskerLeft_coskMap_comp_counit g)
+  refine (Functor.isRightKanExtension_iff_isIso _
+    (pullback.lift
+      (Functor.whiskerLeft _ (pullback.fst (coskMap f) (coskMap g)) ≫
+        (SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit U)
+      (Functor.whiskerLeft _ (pullback.snd (coskMap f) (coskMap g)) ≫
+        (SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit W) _)
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit (pullback f g)) ?_).mp
+    inferInstance
+  refine pullback.hom_ext ?_ ?_
+  · rw [Category.assoc, pullback.lift_fst, ← Functor.whiskerLeft_comp_assoc, pullback.lift_fst,
+      whiskerLeft_coskMap_comp_counit]
+  · rw [Category.assoc, pullback.lift_snd, ← Functor.whiskerLeft_comp_assoc, pullback.lift_snd,
+      whiskerLeft_coskMap_comp_counit]
 
 end CategoryTheory.SimplicialObject.Truncated
 
@@ -914,22 +1024,34 @@ end
 ## The coskeleton of a product of truncated simplicial objects
 
 Let `C` be a category and let `U`, `V` be `n`-truncated simplicial objects of `C`, that is
-functors `(Δ_{≤ n})ᵒᵖ ⥤ C`. The coskeleton functor `cosk_n : Simp_n(C) ⥤ Simp(C)`, right Kan
-extension along the inclusion `Δ_{≤ n} ↪ Δ`, is right adjoint to the truncation functor
-`sk_n : Simp(C) ⥤ Simp_n(C)`. Whenever the products `U ⨯ V` in `Simp_n(C)` and
-`cosk_n U ⨯ cosk_n V` in `Simp(C)` exist, the canonical comparison morphism
-`cosk_n (U ⨯ V) ⟶ cosk_n U ⨯ cosk_n V` is an isomorphism, because a right adjoint preserves
-products. No completeness assumption on `C` enters: only the coskeleta and the products appearing
-in the statement are required to exist. The source states the conclusion as an equality of
+functors `(Δ_{≤ n})ᵒᵖ ⥤ C`. The coskeleton `cosk_n W` of a single truncated simplicial object
+`W` exists when `W` has a right Kan extension along the inclusion `(Δ_{≤ n})ᵒᵖ ⥤ Δᵒᵖ`: the
+counit `sk_n cosk_n W ⟶ W` then induces bijections `Mor(T, cosk_n W) = Mor(sk_n T, W)` for every
+simplicial object `T`. Whenever `cosk_n U`, `cosk_n V`, `cosk_n (U ⨯ V)` and the products
+`U ⨯ V` in `Simp_n(C)` and `cosk_n U ⨯ cosk_n V` in `Simp(C)` exist, the canonical comparison
+morphism `cosk_n (U ⨯ V) ⟶ cosk_n U ⨯ cosk_n V` is an isomorphism. The proof uses the universal
+property of each of the three right Kan extensions separately, so no other coskeleton, and no
+completeness assumption on `C`, is needed. The source states the conclusion as an equality of
 coskeleta; since a coskeleton is determined by a universal property, its content is that this
-*canonical* map is invertible, which is why the isomorphism is identified with `prodComparison`.
+*canonical* map is invertible.
+
+When the whole coskeleton functor `Truncated.cosk n` exists, the comparison morphism is
+`prodComparison (Truncated.cosk n) U V`, and the statement is also an instance of the
+preservation of limits by a right adjoint.
 
 ### Main definitions
 
-* `coskProdIso`: the isomorphism `cosk_n (U ⨯ V) ≅ cosk_n U ⨯ cosk_n V`.
+* `prodLiftOfIsRightKanExtension`: for right Kan extensions `CU`, `CV`, `CUV` of `U`, `V`,
+  `U ⨯ V`, the canonical morphism `CUV ⟶ CU ⨯ CV`.
+* `prodIsoOfIsRightKanExtension`: the resulting isomorphism `CUV ≅ CU ⨯ CV`.
+* `rightKanExtensionProdIso`: the isomorphism `cosk_n (U ⨯ V) ≅ cosk_n U ⨯ cosk_n V`, assuming
+  only that these three coskeleta and the two products exist.
+* `coskProdIso`: the same isomorphism, when the whole coskeleton functor exists.
 
 ### Main results
 
+* `isIso_prodLiftOfIsRightKanExtension`: the canonical morphism `CUV ⟶ CU ⨯ CV` is an
+  isomorphism.
 * `isIso_prodComparison_cosk`: the comparison morphism
   `prodComparison (Truncated.cosk n) U V` is an isomorphism.
 * `coskProdIso_hom`: the underlying morphism of `coskProdIso` is that comparison
@@ -952,6 +1074,129 @@ namespace CategoryTheory.SimplicialObject.Truncated
 
 variable {C : Type u} [Category.{v} C]
 
+section general
+
+variable {n : ℕ} {U V : SimplicialObject.Truncated C n} [HasBinaryProduct U V]
+  {CU CV CUV : SimplicialObject C}
+  (αU : (SimplexCategory.Truncated.inclusion n).op ⋙ CU ⟶ U) [CU.IsRightKanExtension αU]
+  (αV : (SimplexCategory.Truncated.inclusion n).op ⋙ CV ⟶ V) [CV.IsRightKanExtension αV]
+  (αUV : (SimplexCategory.Truncated.inclusion n).op ⋙ CUV ⟶ U ⨯ V)
+  [CUV.IsRightKanExtension αUV] [HasBinaryProduct CU CV]
+
+/-- For right Kan extensions `(CU, αU)`, `(CV, αV)` and `(CUV, αUV)` of `n`-truncated simplicial
+objects `U`, `V` and `U ⨯ V` along the inclusion `(Δ_{≤ n})ᵒᵖ ⥤ Δᵒᵖ`, the canonical morphism
+`CUV ⟶ CU ⨯ CV`, whose components are induced by the projections of `U ⨯ V`. -/
+noncomputable def prodLiftOfIsRightKanExtension : CUV ⟶ CU ⨯ CV :=
+  prod.lift (CU.liftOfIsRightKanExtension αU CUV (αUV ≫ prod.fst))
+    (CV.liftOfIsRightKanExtension αV CUV (αUV ≫ prod.snd))
+
+/-- The inverse of `prodLiftOfIsRightKanExtension`, induced by the universal property of `CUV`. -/
+noncomputable def prodLiftOfIsRightKanExtensionInv : CU ⨯ CV ⟶ CUV :=
+  CUV.liftOfIsRightKanExtension αUV (CU ⨯ CV)
+    (prod.lift (Functor.whiskerLeft _ prod.fst ≫ αU) (Functor.whiskerLeft _ prod.snd ≫ αV))
+
+omit [CUV.IsRightKanExtension αUV] in
+@[reassoc (attr := simp)]
+lemma prodLiftOfIsRightKanExtension_fst :
+    prodLiftOfIsRightKanExtension αU αV αUV ≫ prod.fst =
+      CU.liftOfIsRightKanExtension αU CUV (αUV ≫ prod.fst) :=
+  prod.lift_fst _ _
+
+omit [CUV.IsRightKanExtension αUV] in
+@[reassoc (attr := simp)]
+lemma prodLiftOfIsRightKanExtension_snd :
+    prodLiftOfIsRightKanExtension αU αV αUV ≫ prod.snd =
+      CV.liftOfIsRightKanExtension αV CUV (αUV ≫ prod.snd) :=
+  prod.lift_snd _ _
+
+@[reassoc (attr := simp)]
+lemma prodLiftOfIsRightKanExtension_hom_inv_id :
+    prodLiftOfIsRightKanExtension αU αV αUV ≫ prodLiftOfIsRightKanExtensionInv αU αV αUV =
+      𝟙 CUV := by
+  apply CUV.hom_ext_of_isRightKanExtension αUV
+  apply prod.hom_ext <;>
+    simp [prodLiftOfIsRightKanExtensionInv, ← Functor.whiskerLeft_comp_assoc]
+
+@[reassoc (attr := simp)]
+lemma prodLiftOfIsRightKanExtension_inv_hom_id :
+    prodLiftOfIsRightKanExtensionInv αU αV αUV ≫ prodLiftOfIsRightKanExtension αU αV αUV =
+      𝟙 (CU ⨯ CV) := by
+  apply prod.hom_ext
+  · apply CU.hom_ext_of_isRightKanExtension αU
+    simp [prodLiftOfIsRightKanExtensionInv]
+  · apply CV.hom_ext_of_isRightKanExtension αV
+    simp [prodLiftOfIsRightKanExtensionInv]
+
+/-- For right Kan extensions `CU`, `CV`, `CUV` of `n`-truncated simplicial objects `U`, `V` and
+`U ⨯ V` along the inclusion `(Δ_{≤ n})ᵒᵖ ⥤ Δᵒᵖ`, the canonical morphism `CUV ⟶ CU ⨯ CV` is an
+isomorphism, whenever the product `CU ⨯ CV` exists. -/
+theorem isIso_prodLiftOfIsRightKanExtension :
+    IsIso (prodLiftOfIsRightKanExtension αU αV αUV) :=
+  ⟨prodLiftOfIsRightKanExtensionInv αU αV αUV, by simp, by simp⟩
+
+/-- For right Kan extensions `CU`, `CV`, `CUV` of `n`-truncated simplicial objects `U`, `V` and
+`U ⨯ V` along the inclusion `(Δ_{≤ n})ᵒᵖ ⥤ Δᵒᵖ`, the canonical isomorphism `CUV ≅ CU ⨯ CV`,
+with underlying morphism `prodLiftOfIsRightKanExtension`. -/
+@[simps]
+noncomputable def prodIsoOfIsRightKanExtension : CUV ≅ CU ⨯ CV where
+  hom := prodLiftOfIsRightKanExtension αU αV αUV
+  inv := prodLiftOfIsRightKanExtensionInv αU αV αUV
+
+end general
+
+section single
+
+variable (n : ℕ) (U V : SimplicialObject.Truncated C n) [HasBinaryProduct U V]
+  [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension U]
+  [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension V]
+  [(SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension (U ⨯ V)]
+  [HasBinaryProduct ((SimplexCategory.Truncated.inclusion n).op.rightKanExtension U)
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtension V)]
+
+/-- **Stacks 018C**.
+For `n`-truncated simplicial objects `U`, `V` of `C`, the canonical isomorphism
+`cosk_n (U ⨯ V) ≅ cosk_n U ⨯ cosk_n V`, whenever the coskeleta `cosk_n U`, `cosk_n V`,
+`cosk_n (U ⨯ V)` (right Kan extensions along `(Δ_{≤ n})ᵒᵖ ⥤ Δᵒᵖ`) and the products `U ⨯ V`,
+`cosk_n U ⨯ cosk_n V` exist. Its underlying morphism is the canonical comparison morphism
+(`rightKanExtensionProdIso_hom`). -/
+@[stacks 018C "the coskeleton of a single truncated simplicial object is its right Kan \
+extension along the inclusion of truncated simplex categories; the equality is the canonical \
+isomorphism, whose underlying morphism is the comparison morphism"]
+noncomputable def rightKanExtensionProdIso :
+    (SimplexCategory.Truncated.inclusion n).op.rightKanExtension (U ⨯ V) ≅
+      (SimplexCategory.Truncated.inclusion n).op.rightKanExtension U ⨯
+        (SimplexCategory.Truncated.inclusion n).op.rightKanExtension V :=
+  prodIsoOfIsRightKanExtension
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit U)
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit V)
+    ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit (U ⨯ V))
+
+/-- The underlying morphism of `rightKanExtensionProdIso` is the canonical comparison morphism
+`cosk_n (U ⨯ V) ⟶ cosk_n U ⨯ cosk_n V` induced by the projections of `U ⨯ V`. -/
+theorem rightKanExtensionProdIso_hom :
+    (rightKanExtensionProdIso n U V).hom = prodLiftOfIsRightKanExtension
+      ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit U)
+      ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit V)
+      ((SimplexCategory.Truncated.inclusion n).op.rightKanExtensionCounit (U ⨯ V)) :=
+  rfl
+
+end single
+
+/-- When the whole coskeleton functor exists, the comparison morphism
+`prodComparison (Truncated.cosk n) U V` is the underlying morphism of
+`rightKanExtensionProdIso`. -/
+theorem prodComparison_cosk_eq_rightKanExtensionProdIso_hom (n : ℕ)
+    [∀ (F : (SimplexCategory.Truncated n)ᵒᵖ ⥤ C),
+      (SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension F]
+    (U V : SimplicialObject.Truncated C n)
+    [HasBinaryProduct U V]
+    [HasBinaryProduct ((Truncated.cosk n).obj U) ((Truncated.cosk n).obj V)] :
+    haveI : HasBinaryProduct ((SimplexCategory.Truncated.inclusion n).op.rightKanExtension U)
+        ((SimplexCategory.Truncated.inclusion n).op.rightKanExtension V) :=
+      ‹HasBinaryProduct ((Truncated.cosk n).obj U) ((Truncated.cosk n).obj V)›
+    prodComparison (Truncated.cosk n) U V = (rightKanExtensionProdIso n U V).hom :=
+  rfl
+
 /-- The canonical comparison morphism `cosk_n (U ⨯ V) ⟶ cosk_n U ⨯ cosk_n V` is an isomorphism,
 i.e. the coskeleton functor preserves the binary product of the `n`-truncated simplicial objects
 `U` and `V`. -/
@@ -969,11 +1214,11 @@ theorem isIso_prodComparison_cosk (n : ℕ)
   rw [← h]
   infer_instance
 
-/-- **Stacks 018C**.
-The canonical isomorphism `cosk_n (U ⨯ V) ≅ cosk_n U ⨯ cosk_n V` in `Simp(C)`, for `U`, `V`
+/-- The canonical isomorphism `cosk_n (U ⨯ V) ≅ cosk_n U ⨯ cosk_n V` in `Simp(C)`, for `U`, `V`
 `n`-truncated simplicial objects of `C`, coming from the preservation of the binary product of
-`U` and `V` by the coskeleton functor. -/
-@[stacks 018C]
+`U` and `V` by the coskeleton functor. This assumes that the whole coskeleton functor exists;
+`rightKanExtensionProdIso` (Stacks 018C) needs only the coskeleta and products in the
+statement. -/
 noncomputable def coskProdIso (n : ℕ)
     [∀ (F : (SimplexCategory.Truncated n)ᵒᵖ ⥤ C),
       (SimplexCategory.Truncated.inclusion n).op.HasRightKanExtension F]

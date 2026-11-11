@@ -28,7 +28,7 @@ single equation `θ_𝓕 ⊗ θ_{𝓛^{⊗n}} = f^*(mult) ≫ θ_{𝓕 ⊗ 𝓛^
 instead that the square cannot be proved from the library's statement of Tag 01QJ**, and the proof
 of that is the mathematical content here rather than a note in a docstring.
 
-The library's form of Tag 01QJ is
+The binder form of Tag 01QJ's comparison is
 `Stacks.SectionRingProjQuasicoherent.pullbackComparison L hL c :
 pullbackTildeFunctor L hL ⟶ 𝟭 X.Modules`, which takes Tag 0B5I's family `M̃ ⟶ f_*𝓕` as the
 binder `c` and transposes it across `f^* ⊣ f_*`. Nothing constrains `c` beyond naturality in
@@ -107,9 +107,16 @@ scheme-level instances arrive by a different route.
 ## What is not done here
 
 **Tag 01QK's square is not proved here, and no `@[stacks 01QK]` attribute is attached in this
-file.** The repository's one attribute for the tag is on
+file.** Both assertions of the tag are proved, with no hypothesis, for the *constructed*
+comparison `Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison`, and carry the
+attribute there:
+`Stacks.SectionRingProjTheta.twistSquareInt` (assertion (ii), in
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistRemarkSquareInt.lean`) and
+`Stacks.SectionRingProjTheta.projTheta_app_eq_twistThetaInt` (assertion (i), in
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistRemarkNormalization.lean`). The
+obstruction of this file concerns the binder form `pullbackComparison` only. For that form,
 `Stacks.SectionRingProjTheta.pullbackComparison_tensorHom` in
-`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistSquare.lean`, which supplies the
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistSquare.lean` supplies the
 characterisation of `c` that the obstruction below proves to be necessary — the
 multiplication-compatibility of Tag 0B5I's family, on the `Proj` side — as a named hypothesis
 and derives the square from it by the mate calculus.
@@ -125,8 +132,10 @@ hypothesis must do.
 Neither is the Remark's first assertion, that Tag 01QI's isomorphism
 `f^*𝒪_Y(n) → 𝓛^{⊗n}` "is just `θ_{𝓛^{⊗n}}`"; the negation argument of this file applies to it
 verbatim, because its other side mentions no `θ` either, and that is carried out in
-`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistNormalization.lean`. Three inputs are
-missing, in increasing cost.
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistNormalization.lean`. For the binder
+form, three inputs were recorded as missing, in increasing cost; for the constructed comparison
+they are supplied by `twistPowIdent` and `twistModuleIdent` of `TwistRemarkSquareInt.lean`, and
+the first assertion is `projTheta_app_eq_twistThetaInt`.
 
 1. **Tag 01QI's second claim is proved, and the maps `f^*𝒪_Y(n) → 𝓛^{⊗n}` it is about are in
   the library too.**
@@ -210,10 +219,11 @@ its source rewritten from `(Γ_*(Proj 𝒮, 𝒪(1), f_*𝓕))~` to `(Γ_*(X, �
 section ring comparison of Tag 01PW — the same identification assertion (i) of the Remark is
 about. So the distance from Tag 0B5I to a constructed `c` is that comparison, not Tag 0B5I.
 
-Nothing is claimed about `θ` beyond what is written: no iso-ness (Tag 01QJ's main assertion is
-not proved — only clause (b), the functoriality), no comparison of the two tensor products on
-`X.Modules`, and no statement that any particular `t` is or is not the pullback of Equation
-01MQ's multiplication map.
+Nothing is claimed about `θ` beyond what is written: no iso-ness (Tag 01QJ's assertion that the
+comparison is an isomorphism is `Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison_spec`,
+at the constructed family `Stacks.SectionRingProjQuasicoherent.tildeToPushforward`), no
+comparison of the two tensor products on `X.Modules`, and no statement that any particular `t` is
+or is not the pullback of Equation 01MQ's multiplication map.
 
 ## References
 
@@ -410,8 +420,9 @@ This is the obstruction in its sharpest form, and it is why this file carries no
 needs `c` *characterised* — its compatibility with Equation 01MQ's multiplication — not merely
 bound; and assuming that characterisation adds nothing to the square, since
 `Stacks.SectionRingProjTheta.pullbackComparison_tensorHom_iff_mulComm` proves it equivalent to
-the square. The characterisation has to be *proved* of a constructed `c`, and the module
-docstring names Stacks Lemma 28.18.2 as the cheapest input that would construct one. -/
+the square. The characterisation has to be *proved* of a constructed `c`; for the constructed
+comparison `pullbackTildeComparison` that is done, and the square is
+`Stacks.SectionRingProjTheta.twistSquareInt`, which carries `@[stacks 01QK]`. -/
 theorem not_forall_twistSquare
     (c : tildeFunctor L ⟶ Scheme.Modules.pushforward (projHomOfIsAmple L hL))
     (F G : X.Modules)

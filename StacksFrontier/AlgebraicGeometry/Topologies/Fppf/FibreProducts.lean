@@ -88,14 +88,6 @@ public instance schemeSizeBelow_isClosedUnderLimitsOfShape_walkingCospan (κ : C
 
 add_to_stacks 021U "closure of size-bounded schemes under fibre products"
   schemeSizeBelow_isClosedUnderLimitsOfShape_walkingCospan
-add_to_stacks 0DBN "closure of size-bounded schemes under fibre products"
-  schemeSizeBelow_isClosedUnderLimitsOfShape_walkingCospan
-
-add_to_stacks 0DBN "fibre products in the big ph site"
-  CategoryTheory.Limits.hasLimitsOfShape_of_closedUnderLimits
-
-add_to_stacks 0DBN "preservation by the big ph site inclusion"
-  CategoryTheory.Limits.createsLimitsOfShapeFullSubcategoryInclusion
 
 variable (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
@@ -141,9 +133,6 @@ private noncomputable instance createsPullbacks_bigAffineFppfInclusion :
         (D.map WalkingCospan.Hom.inr)
       exact @IsAffine.of_isIso _ _ e.hom e.isIso_hom inferInstance)
 
-add_to_stacks 0DBN "fibre products in the big ph slice"
-  CategoryTheory.Over.instHasPullbacks
-
 /-- The category of affine objects in the big fppf category over `S` admits fibre products. -/
 @[stacks 021U "fibre products in the big affine fppf site"]
 public instance hasPullbacks_bigAffineFppf :
@@ -151,21 +140,12 @@ public instance hasPullbacks_bigAffineFppf :
   hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
     (AlgebraicGeometry.BigAffineFppf.inclusion B S hS)
 
-add_to_stacks 0DBN "preservation by the big ph slice forgetful functor"
-  CategoryTheory.Over.preservesLimitsOfShape_forget_of_isConnected
-
-add_to_stacks 0DBN "preservation under composition for the big ph slice functor"
-  CategoryTheory.Limits.comp_preservesLimitsOfShape
-
 /-- The canonical functor from affine objects over `S` to schemes preserves fibre products. -/
 @[stacks 021U "preservation by the big affine fppf functor to schemes"]
 public instance preservesPullbacks_bigAffineFppfToScheme :
     PreservesLimitsOfShape WalkingCospan
       (AlgebraicGeometry.BigAffineFppf.toScheme B S hS) :=
   comp_preservesLimitsOfShape _ _
-
-add_to_stacks 0DBN "the final object of the big ph slice"
-  CategoryTheory.Over.mkIdTerminal
 
 /-- The big fppf category over `S` has binary products, being a slice with a final object and
 fibre products. -/

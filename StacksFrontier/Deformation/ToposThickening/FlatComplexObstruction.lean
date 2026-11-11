@@ -17,7 +17,10 @@ unit of extension and restriction of scalars, and the reduction of the different
 differential of `P₀`. Since the differential of `P` squares to zero, the canonical class
 `ω(P₀)` vanishes.
 
-So the implication `(2) ⇒ (1)` of Tag 0DIW holds in the generality of the source: if a bounded
+So the implication `(2) ⇒ (1)` of Tag 0DIW holds for the class `omega` stated against a
+supplied `Deformation.ComplexLift.DerivedIdealTensor` (a datum that exists only when `I` is flat
+over `O₀`; the implication for every square-zero ideal is
+`Deformation.ComplexLift.tensorOmegaMinus_eq_zero_of_nonempty_derivedLift`): if a bounded
 above object `K₀` of `D(O₀)` is `K ⊗^L_O O₀` for some `K ∈ D⁻(O)`, then `ω(K₀) = 0`. Represent
 `K` by a bounded above complex `P` of flat `O`-modules; then `K ⊗^L_O O₀` is represented by
 `P₀`, whose class vanishes, and `ω` is natural along the identification `P₀ ≅ K₀` in `D(O₀)`.
@@ -37,7 +40,8 @@ above object `K₀` of `D(O₀)` is `K ⊗^L_O O₀` for some `K ∈ D⁻(O)`, t
 * `Deformation.ComplexLift.FlatLift.isFlat_reduction`: the reduction of a flat lift has flat
   terms.
 * `Deformation.ComplexLift.omega_eq_zero_of_flatComplex`: `ω(P₀) = 0`.
-* `Deformation.ComplexLift.omega_eq_zero_of_nonempty_derivedLift`: **Tag 0DIW, `(2) ⇒ (1)`**.
+* `Deformation.ComplexLift.omega_eq_zero_of_nonempty_derivedLift`: `(2) ⇒ (1)` of Tag 0DIW, at
+  a supplied derived ideal tensor datum.
 
 ## References
 
@@ -210,14 +214,19 @@ theorem omega_eq_zero_of_flatComplex (hf : Sheaf.IsLocallySurjective f)
 
 variable [HasDerivedCategory.{d} (SheafMod O)]
 
-/-- **Stacks 0DIW, `(2) ⇒ (1)`.** Let `K₀ ∈ D⁻(O₀)`, represented by a complex `K₀'` of
+/-- **`(2) ⇒ (1)` of Stacks 0DIW, at a supplied derived ideal tensor datum.** Let `K₀ ∈ D⁻(O₀)`,
+represented by a complex `K₀'` of
 `O₀`-modules. If there is `K ∈ D⁻(O)` with `K ⊗^L_O O₀ ≅ K₀` in `D(O₀)` (for any derived base
 change `T` along `f`), then the canonical class `ω(K₀')` of Tag 0DIU vanishes.
 
 Represent `K` by a bounded above complex `P` of flat `O`-modules. Its derived base change is
 then represented by the degreewise reduction `P₀`, whose class vanishes because the
 differential of `P` squares to zero; and `ω` is natural along the resulting isomorphism
-`P₀ ≅ K₀'` of `D(O₀)`. -/
+`P₀ ≅ K₀'` of `D(O₀)`.
+
+The class is stated against `D : DerivedIdealTensor I`, which exists only when `I` is flat over
+`O₀`; the implication for every square-zero ideal is
+`Deformation.ComplexLift.tensorOmegaMinus_eq_zero_of_nonempty_derivedLift`. -/
 theorem omega_eq_zero_of_nonempty_derivedLift (hf : Sheaf.IsLocallySurjective f)
     (S : SquareZeroIdeal f I) (D : DerivedIdealTensor I) (T : DerivedExtensionOfScalars f)
     (E : DerivedCategory.Minus (SheafMod O₀)) (K₀ : CochainComplex (SheafMod O₀) ℤ)

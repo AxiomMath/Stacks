@@ -3,7 +3,6 @@ module
 public import Mathlib.Data.Matrix.Basic
 public import Mathlib.Data.ZMod.Basic
 public import Mathlib.LinearAlgebra.Matrix.Trace
-public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilTraceFormula
 
 /-!
@@ -35,6 +34,12 @@ of the diagonal, of the two fibres through a base point and of the graph of `φ`
 of `φ`. Relative to that datum the three degreewise traces are the fields of
 `Stacks.EtaleCohomology.JacobianCorrespondence.EtaleFrobeniusAction`, and the alternating sum is
 computed here from Weil's formula.
+
+This file is the abstract form of the computation. Tag 03U3 itself, for the étale cohomology of the
+constant sheaf on an actual smooth proper curve with the freeness of the cohomology and the three
+degreewise traces proved, is
+`Stacks.EtaleCohomology.sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilFormulaEtaleCohomologyCurve`.
 
 ## Main definitions
 
@@ -92,7 +97,10 @@ two, where `H^2(C, μ_{ℓ^n}) = Pic(C)/ℓ^n Pic(C) ≅ Z/ℓ^n Z`.
 
 See [Stacks Project, Tag 03U3](https://stacks.math.columbia.edu/tag/03U3). -/
 public structure EtaleFrobeniusAction (D : W.EndomorphismData) (ℓ n : ℕ) where
-  /-- The number `ℓ` is prime; it is invertible in the base field. -/
+  /-- The number `ℓ` is prime. This abstract datum has no base field, so the invertibility of
+  `ℓ` in `k` is not recorded here; the curve statement
+  `Stacks.EtaleCohomology.sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection`
+  takes it as its argument `hℓ`. -/
   prime : Nat.Prime ℓ
   /-- The rank of the free `Z/ℓ^n Z`-module `H^0(C, Z/ℓ^n Z)`. -/
   rank₀ : ℕ
@@ -141,19 +149,19 @@ on the étale cohomology of `C` with coefficients in `Z/ℓ^n Z`. -/
 public def alternatingTrace : ZMod (ℓ ^ n) :=
   ∑ i : Fin 3, (-1) ^ (i : ℕ) * T.trace i
 
-/-- **Weil's trace formula modulo `ℓ^n` (Stacks 03U3).** In the situation of Weil's theorem,
-Tag 03U1, let `ℓ` be a prime invertible in `k`. Then
+/-- **Weil's trace formula modulo `ℓ^n`, relative to the abstract datum.** In the situation of
+Weil's theorem, Tag 03U1, let `ℓ` be a prime invertible in `k`. Then
 
   `∑_{i=0}^{2} (-1)^i Tr(φ^* | H^i(C, Z/ℓ^n Z)) = V(φ) mod ℓ^n`,
 
 the alternating sum of the traces of `φ^*` on the étale cohomology of `C` with coefficients in
-`Z/ℓ^n Z` being `1 - Tr_J(φ^*) + deg φ` by the three degreewise computations carried by
+`Z/ℓ^n Z` being `1 - Tr_J(φ^*) + deg φ` by the three degreewise values recorded in the fields of
 `Stacks.EtaleCohomology.JacobianCorrespondence.EtaleFrobeniusAction`, and that being `V(φ)` by
-Weil's formula. -/
-@[stacks 03U3 "the alternating sum of the traces on the étale cohomology of the curve is the \
-fixed point number V(φ) modulo ℓ^n, with the three degreewise traces — 1 in degree zero, \
-Tr_J(φ^*) in degree one and deg φ in degree two — as hypotheses, the situation of Stacks 03U1 \
-being the JacobianCorrespondence datum"]
+Weil's formula.
+
+This is the computation relative to the abstract datum; the statement for the étale cohomology of
+an actual curve, with the degreewise traces proved, is
+`Stacks.EtaleCohomology.sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection`. -/
 public theorem alternatingTrace_eq :
     T.alternatingTrace = (W.fixedPointNumber D : ZMod (ℓ ^ n)) := by
   rw [alternatingTrace, W.fixedPointNumber_eq, Fin.sum_univ_three]

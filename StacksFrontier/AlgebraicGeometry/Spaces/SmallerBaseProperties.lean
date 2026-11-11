@@ -56,7 +56,12 @@ namespace AlgebraicGeometry
 of morphisms of schemes stable under base change. For an algebraic space `F` over `S` and a
 morphism `f : h_T ⟶ F` from the representable algebraic space of an object `T` of the big fppf
 site of `S`, the morphism `P`-property of representable base changes holds for the image of `f`
-under the forward functor of Stacks 04SG exactly when it holds for `f`. -/
+under the forward functor of Stacks 04SG exactly when it holds for `f`.
+
+"Has `P`" is the notion of Stacks Definition 025V (Spaces, Definition 65.5.1), which is
+`AlgebraicGeometry.Space.HasSchemeProperty`, that is `MorphismProperty.presheaf` of `P` read on
+underlying schemes. Definition 025V also asks `P` to be fppf local on the base; that hypothesis
+is not needed here, so the statement covers every `P` the source allows. -/
 @[stacks 03I6]
 theorem presheaf_property_map_base_iff
     (B : BigFppfSite.{u}) (S S' : Scheme.{u}) (hS : B.Contains S) (hS' : B.Contains S')

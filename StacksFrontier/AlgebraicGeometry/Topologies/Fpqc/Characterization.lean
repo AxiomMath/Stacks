@@ -18,14 +18,18 @@ an fpqc covering.
 
 ## Main results
 
-* `AlgebraicGeometry.mem_fpqcPrecoverage_iff_affine_finite_support`: a family is fpqc if and
-  only if it is flat and every affine open of the target is the union of the images of
-  quasi-compact opens, all but finitely many of them empty.
+* `AlgebraicGeometry.mem_fpqcPrecoverage_iff_affine_finite_support`: a family lies in Mathlib's
+  `Scheme.fpqcPrecoverage` if and only if it is flat and every affine open of the target is the
+  union of the images of quasi-compact opens, all but finitely many of them empty.
 * `AlgebraicGeometry.mem_fpqcPrecoverage_iff_exists_affine_open_cover`: the same with finitely
   many quasi-compact opens over each member of some affine open covering of the target.
 * `AlgebraicGeometry.mem_fpqcPrecoverage_iff_pointwise_compact_open_neighborhood`: for a
   quasi-separated target, the same with a neighbourhood of every point in place of an affine
   open.
+
+The forms of these equivalences with the Stacks 022B notion of fpqc covering
+(`IsFpqcCoveringFamily`) as condition (1), and the bridge between that notion and
+`Scheme.fpqcPrecoverage`, are in `StacksFrontier.AlgebraicGeometry.Topologies.Fpqc.CoveringFamily`.
 * `AlgebraicGeometry.presieve₀_mem_fpqcPrecoverage_of_affine_refinements`: the criterion by
   refinements after affine base change.
 * `AlgebraicGeometry.ofArrows_mem_fpqcPrecoverage_of_fpqc_locally`: being an fpqc covering is
@@ -162,10 +166,10 @@ private lemma fpqc_mem_iff_flat_and_compactOpenCovered :
       exact ⟨i, y, hxy⟩
     exact ⟨hqc, (Scheme.ofArrows_mem_precoverage_iff @Flat).mpr ⟨hsurj, hflat⟩⟩
 
-/-- A family is an fpqc covering if and only if
+/-- A family lies in Mathlib's `Scheme.fpqcPrecoverage` if and only if
 every member is flat and every affine open of the target is the union of the images of
-quasi-compact opens in the sources, all but finitely many of which are empty. -/
-@[stacks 03L7 "conditions (1) and (2)"]
+quasi-compact opens in the sources, all but finitely many of which are empty.  The form with
+the Stacks 022B notion of fpqc covering is `isFpqcCoveringFamily_iff_affine_finite_support`. -/
 public lemma mem_fpqcPrecoverage_iff_affine_finite_support :
     Presieve.ofArrows X f ∈ Scheme.fpqcPrecoverage T ↔
       ((∀ i, Flat (f i)) ∧
@@ -221,10 +225,10 @@ public lemma mem_fpqcPrecoverage_iff_affine_finite_support :
     exact IsCompactOpenCovered.of_finite (fun j : s => j.1) (fun j => V j.1)
       (fun j => hV j.1) (hEq.trans hcover)
 
-/-- A family is an fpqc covering if and only if its
+/-- A family lies in Mathlib's `Scheme.fpqcPrecoverage` if and only if its
 members are flat and some affine open covering of the target is, member by member, the union of
-images of finitely many quasi-compact opens in the sources. -/
-@[stacks 03L7 "conditions (1) and (3)"]
+images of finitely many quasi-compact opens in the sources.  The form with the Stacks 022B
+notion of fpqc covering is `isFpqcCoveringFamily_iff_exists_affine_open_cover`. -/
 public lemma mem_fpqcPrecoverage_iff_exists_affine_open_cover :
     Presieve.ofArrows X f ∈ Scheme.fpqcPrecoverage T ↔
       ((∀ i, Flat (f i)) ∧
@@ -295,11 +299,11 @@ public lemma mem_fpqcPrecoverage_iff_exists_affine_open_cover :
     exact IsCompactOpenCovered.of_iUnion_eq_of_finite (fun p : s => (localOpen p.1 : Set T))
       hWcover hlocal
 
-/-- If the target is quasi-separated, a family is an
-fpqc covering if and only if its members are flat and every point has a neighborhood which is
-the union of the images of finitely many quasi-compact opens in the sources. The neighborhood
-itself is not required to be open. -/
-@[stacks 03L7 "conditions (1) and (4)"]
+/-- If the target is quasi-separated, a family lies in
+Mathlib's `Scheme.fpqcPrecoverage` if and only if its members are flat and every point has a
+neighborhood which is the union of the images of finitely many quasi-compact opens in the
+sources. The neighborhood itself is not required to be open.  The form with the Stacks 022B
+notion of fpqc covering is `isFpqcCoveringFamily_iff_pointwise_compact_open_neighborhood`. -/
 public lemma mem_fpqcPrecoverage_iff_pointwise_compact_open_neighborhood
     [QuasiSeparatedSpace T] :
     Presieve.ofArrows X f ∈ Scheme.fpqcPrecoverage T ↔
@@ -340,6 +344,7 @@ public lemma mem_fpqcPrecoverage_iff_pointwise_compact_open_neighborhood
           have hWcov : IsCompactOpenCovered (fun i => (f i).base) (W : Set T) :=
             IsCompactOpenCovered.of_finite i V' hV' hEq
           exact ⟨W, hWO.trans inf_le_right, hxW, W.2, hWcov⟩)
+
 end Characterization
 
 section AffineRefinements

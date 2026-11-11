@@ -57,8 +57,7 @@ is where the source's chain of maps arrives before its last arrow to the underiv
 product.  The identification of the source's `i`-th cohomology sheaf with
 `G ⊗_{𝒪_{S'}} g^*R^if_*F` uses the mixed derived tensor product of [Stacks, Tag 08DE] in its
 `𝒪_{S'}`-linear form, namely
-`Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.spaceDerivedLinearMixedTensorIso` (and
-`Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.derivedLinearMixedTensorIso`).  What
+`Stacks.Cohomology.MixedDerivedTensorOnARingedSpace.derivedLinearMixedTensorIso`.  What
 remains between that identification and the cohomology sheaves is the flatness of `G` over
 `g^{-1}𝒪_S` and the exactness of `g^{-1}`, which [Stacks, Tag 0GN5] assumes and this file does
 not.

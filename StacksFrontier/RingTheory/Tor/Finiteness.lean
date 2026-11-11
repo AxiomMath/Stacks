@@ -81,6 +81,7 @@ resolutions do not depend on the lift.
   the lift.
 * `FreeResolution.isIso_torMap_of_isLift`, `FreeResolution.torMap_eq_id_of_isLift`: the induced
   map is an isomorphism when `φ` is, and the identity when `φ` is the identity.
+* `FreeResolution.torMap_isLift_properties`: the three assertions together (Stacks 00LZ).
 
 ## References
 
@@ -437,8 +438,8 @@ end FreeResolution
 open FreeResolution in
 /-- The induced map on homology is independent of the choice of the lift: two chain maps
 `α, β : F.complex ⟶ G.complex` both lifting `φ : M₁ ⟶ M₂` induce equal maps
-`H_i(F ⊗ N) ⟶ H_i(G ⊗ N)`. -/
-@[stacks 00LZ]
+`H_i(F ⊗ N) ⟶ H_i(G ⊗ N)`. This is the first assertion of Stacks Tag 00LZ; the full lemma is
+`FreeResolution.torMap_isLift_properties`. -/
 theorem torMap_independent_of_lift {R : Type} [CommRing R] {M₁ M₂ : ModuleCat R}
     (F : FreeResolution M₁) (G : FreeResolution M₂) (N : ModuleCat R) {φ : M₁ ⟶ M₂}
     (α β : F.complex ⟶ G.complex) (hα : IsLift F G φ α) (hβ : IsLift F G φ β) (i : ℕ) :
@@ -465,5 +466,22 @@ theorem isIso_torMap_of_isLift {M₁ M₂ : ModuleCat R} (F : FreeResolution M�
   exact ⟨⟨torMap G F N (liftInv F G φ) i,
     by rw [← torMap_comp, torMap_eq_id_of_isLift F N (by simpa using hα.comp hγ)],
     by rw [← torMap_comp, torMap_eq_id_of_isLift G N (by simpa using hγ.comp hα)]⟩⟩
+
+/-- Let `F` and `G` be free resolutions of `M₁` and `M₂`, let `φ : M₁ ⟶ M₂` and let `N` be a
+module. Then the maps `H_i(α) : H_i(F ⊗ N) ⟶ H_i(G ⊗ N)` induced by chain maps `α` lifting `φ`
+are independent of the choice of `α`; if `φ` is an isomorphism, so are all the maps `H_i(α)`;
+and if `F = G` and `φ` is the identity, all the maps `H_i(α)` are the identity. -/
+@[stacks 00LZ "All three assertions: independence of the lift, the isomorphism case, and the \
+  identity case (`M₁ = M₂`, `F = G`, `φ = 𝟙`)."]
+theorem torMap_isLift_properties {M₁ M₂ : ModuleCat R} (F : FreeResolution M₁)
+    (G : FreeResolution M₂) (N : ModuleCat R) (φ : M₁ ⟶ M₂) :
+    (∀ (α β : F.complex ⟶ G.complex), IsLift F G φ α → IsLift F G φ β → ∀ i,
+        torMap F G N α i = torMap F G N β i) ∧
+      (IsIso φ → ∀ (α : F.complex ⟶ G.complex), IsLift F G φ α → ∀ i,
+        IsIso (torMap F G N α i)) ∧
+      (∀ (α : F.complex ⟶ F.complex), IsLift F F (𝟙 M₁) α → ∀ i, torMap F F N α i = 𝟙 _) :=
+  ⟨fun α β hα hβ i => torMap_independent_of_lift F G N α β hα hβ i,
+    fun _ _ hα i => isIso_torMap_of_isLift F G N hα i,
+    fun _ hα i => torMap_eq_id_of_isLift F N hα i⟩
 
 end FreeResolution

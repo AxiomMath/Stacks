@@ -12,8 +12,18 @@ For a field `k`, let `k[ε]` be the dual-number ring. Multiplication by two nonz
 multiples `u ε` and `v ε` gives an exact two-periodic complex. Its periodic determinant is
 `-u / v` under the canonical map from `k` to the residue field of `k[ε]`.
 
+## Main definitions
+
+* `DualNumber.dualNumberSequence` is the admissible sequence `(ε, 1)` of `k[ε]` over itself.
+* `DualNumber.dualRangeSequence` is the admissible sequence `ε` of the image of multiplication
+  by `a ε`.
+
 ## Main results
 
+* `DualNumber.span_symbol_dualNumberSequence_eq_top` says that `[ε, 1]` generates the
+  determinant of `k[ε]` over itself.
+* `DualNumber.periodicGamma_unitMulT_dualRangeSequence_first` and `_second` compute the
+  determinant maps of the two short exact sequences on the tensor of the classes of `ε`.
 * `DualNumber.periodicDeterminant_unitMulT` computes the periodic determinant of the two
   multiplications.
 
@@ -40,7 +50,7 @@ namespace DualNumber
 universe u v
 
 /-- The dual numbers have finite length over themselves. -/
-private lemma dualNumber_isFiniteLength (k : Type u) [Field k] :
+lemma dualNumber_isFiniteLength (k : Type u) [Field k] :
     IsFiniteLength (DualNumber k) (DualNumber k) := by
   have : IsArtinianRing (DualNumber k) :=
     (isArtinianRing_iff_isNilpotent_maximalIdeal _).mpr ⟨2, by
@@ -66,7 +76,7 @@ private lemma dualRange_isSimple (k : Type u) [Field k] (a : kˣ) :
     ((LinearMap.quotKerEquivRange f).isSimpleModule_iff.mp hsimpleQuot)
 
 /-- That image has length one. -/
-private lemma dualRange_moduleLength (k : Type u) [Field k] (a : kˣ) :
+lemma dualRange_moduleLength (k : Type u) [Field k] (a : kˣ) :
     moduleLength (DualNumber k) (LinearMap.range (unitMulT k a)) = 1 := by
   change (Module.length (DualNumber k) (LinearMap.range (unitMulT k a))).toNat = 1
   rw [Module.length_eq_one_iff.mpr (dualRange_isSimple k a)]
@@ -79,7 +89,7 @@ private lemma dualRange_isFiniteLength (k : Type u) [Field k] (a : kˣ) :
     (LinearMap.surjective_rangeRestrict (unitMulT k a))
 
 /-- Two multiplications by unit multiples of `ε` form an exact sequence. -/
-private lemma dual_unitMulT_exact (k : Type u) [Field k] (a b : kˣ) :
+lemma dual_unitMulT_exact (k : Type u) [Field k] (a b : kˣ) :
     Function.Exact (unitMulT k a) (unitMulT k b) := by
   rw [LinearMap.exact_iff, ker_unitMulT, range_unitMulT]
 
@@ -102,7 +112,7 @@ private lemma spanBefore_zero_eq_bot {R M : Type*} [CommRing R] [AddCommGroup M]
   simp
 
 /-- The dual numbers have length two over themselves. -/
-private lemma dualNumber_moduleLength (k : Type u) [Field k] :
+lemma dualNumber_moduleLength (k : Type u) [Field k] :
     moduleLength (DualNumber k) (DualNumber k) = 2 := by
   let R := DualNumber k
   let f : R →ₗ[R] R := unitMulT k (1 : kˣ)
@@ -123,18 +133,30 @@ private lemma dual_mul_eps_eq_zero (k : Type u) [Field k] {r : DualNumber k}
   obtain ⟨c, hc⟩ := Ideal.mem_span_singleton.mp hr
   rw [hc, mul_right_comm, DualNumber.eps_mul_eps, zero_mul]
 
-/-- The one-term admissible sequence `ε` in the image of multiplication by `a ε`. -/
-private def dualRangeSequence (k : Type u) [Field k] (a : kˣ) :
-    AdmissibleSequence (DualNumber k) (LinearMap.range (unitMulT k a)) := by
-  refine ⟨fun _ ↦ ⟨DualNumber.eps, ?_⟩, ?_⟩
-  · rw [range_unitMulT]
-    exact Ideal.mem_span_singleton_self _
-  · intro i r hr
-    rcases i with ⟨i, hi⟩
-    rw [dualRange_moduleLength] at hi
-    interval_cases i
-    rw [spanBefore_zero_eq_bot _ (by simp [dualRange_moduleLength]), Submodule.mem_bot]
-    exact Subtype.ext (by simpa [smul_eq_mul] using dual_mul_eps_eq_zero k hr)
+/-- The element `ε` lies in the image of multiplication by `a ε`. -/
+theorem eps_mem_range_unitMulT (k : Type u) [Field k] (a : kˣ) :
+    DualNumber.eps ∈ LinearMap.range (unitMulT k a) := by
+  rw [range_unitMulT]
+  exact Ideal.mem_span_singleton_self _
+
+/-- The constant sequence `ε` in the image of multiplication by `a ε` is admissible over the
+dual numbers. -/
+theorem dualRangeSequence_isAdmissible (k : Type u) [Field k] (a : kˣ) :
+    IsAdmissibleSequence (R := DualNumber k)
+      (fun _ : Fin (moduleLength (DualNumber k) (LinearMap.range (unitMulT k a))) ↦
+        (⟨DualNumber.eps, eps_mem_range_unitMulT k a⟩ : LinearMap.range (unitMulT k a))) := by
+  intro i r hr
+  rcases i with ⟨i, hi⟩
+  rw [dualRange_moduleLength] at hi
+  interval_cases i
+  rw [spanBefore_zero_eq_bot _ (by simp [dualRange_moduleLength]), Submodule.mem_bot]
+  exact Subtype.ext (by simpa [smul_eq_mul] using dual_mul_eps_eq_zero k hr)
+
+/-- The one-term admissible sequence `ε` in the image of multiplication by `a ε`, over the
+dual numbers. -/
+def dualRangeSequence (k : Type u) [Field k] (a : kˣ) :
+    AdmissibleSequence (DualNumber k) (LinearMap.range (unitMulT k a)) :=
+  ⟨_, dualRangeSequence_isAdmissible k a⟩
 
 /-- That sequence spans the image. -/
 private lemma dualRangeSequence_span_top (k : Type u) [Field k] (a : kˣ) :
@@ -154,12 +176,15 @@ private lemma dualRangeSequence_span_top (k : Type u) [Field k] (a : kˣ) :
   rw [hxeq]
   exact Submodule.smul_mem _ c (Submodule.subset_span ⟨_, rfl⟩)
 
-/-- The admissible sequence `(ε, 1)` of the dual numbers over themselves. -/
-private noncomputable def dualNumberSequence (k : Type u) [Field k] :
-    AdmissibleSequence (DualNumber k) (DualNumber k) := by
+/-- The sequence `(ε, 1)` of the dual numbers is admissible over the dual numbers: the
+maximal ideal `(ε)` kills `ε`, and it sends `1` into the span of `ε`. -/
+theorem dualNumberSequence_isAdmissible (k : Type u) [Field k] :
+    IsAdmissibleSequence (R := DualNumber k)
+      (fun i : Fin (moduleLength (DualNumber k) (DualNumber k)) ↦
+        if i.val = 0 then DualNumber.eps else (1 : DualNumber k)) := by
   let f : Fin (moduleLength (DualNumber k) (DualNumber k)) → DualNumber k :=
     fun i ↦ if i.val = 0 then DualNumber.eps else 1
-  refine ⟨f, ?_⟩
+  change IsAdmissibleSequence (R := DualNumber k) f
   intro i r hr
   rcases i with ⟨i, hi⟩
   have hn := dualNumber_moduleLength k
@@ -189,6 +214,11 @@ private noncomputable def dualNumberSequence (k : Type u) [Field k] :
     rw [DualNumber.maximalIdeal_eq_span_singleton_eps] at hr
     rw [hspan]
     simpa [f, smul_eq_mul] using hr
+
+/-- The admissible sequence `(ε, 1)` of the dual numbers over themselves. -/
+noncomputable def dualNumberSequence (k : Type u) [Field k] :
+    AdmissibleSequence (DualNumber k) (DualNumber k) :=
+  ⟨_, dualNumberSequence_isAdmissible k⟩
 
 /-- Two linear maps agree when they agree on a generator. -/
 private lemma linearMap_eq_of_span_singleton {K V W : Type*} [Field K]
@@ -295,6 +325,47 @@ private lemma periodicGamma_dual_value (k : Type u) [Field k] (a b : kˣ)
   change symbol eOut = _
   rw [hchange, show (⟨Function.update eOut.1 j1 1, hupdAdm⟩ : AdmissibleSequence R R) =
     dualNumberSequence k from Subtype.ext hupdate]
+
+/-- **Stacks Project, Tag 02PP.** The symbol `[ε, 1]` of the admissible sequence `(ε, 1)` of the
+dual numbers over themselves generates their determinant over the residue field. -/
+@[stacks 02PP "dual_generator"]
+theorem span_symbol_dualNumberSequence_eq_top (k : Type u) [Field k] :
+    (IsLocalRing.ResidueField (DualNumber k)) ∙ symbol (dualNumberSequence k) = ⊤ := by
+  refine span_symbol_eq_top (dualNumber_isFiniteLength k) (dualNumberSequence k) ?_
+  have hn := dualNumber_moduleLength k
+  refine (Ideal.eq_top_iff_one _).mpr (Submodule.subset_span ⟨⟨1, by simp [hn]⟩, ?_⟩)
+  simp [dualNumberSequence]
+
+/-- **Stacks Project, Tag 02PP.** For the short exact sequence of the dual numbers given by the
+image of multiplication by `v ε` and multiplication by `u ε`, the determinant map sends the tensor
+of the two classes of `ε` to `u⁻¹ [ε, 1]`. -/
+@[stacks 02PP "dual_gamma_values"]
+theorem periodicGamma_unitMulT_dualRangeSequence_first (k : Type u) [Field k] (u v : kˣ)
+    (hvu : Function.Exact (unitMulT k v) (unitMulT k u))
+    (hM : IsFiniteLength (DualNumber k) (DualNumber k)) :
+    periodicGamma (unitMulT k u) (unitMulT k v) hvu hM
+      (symbol (dualRangeSequence k v) ⊗ₜ[IsLocalRing.ResidueField (DualNumber k)]
+        symbol (dualRangeSequence k u)) =
+      algebraMap k (IsLocalRing.ResidueField (DualNumber k)) ((u⁻¹ : kˣ) : k) •
+        symbol (dualNumberSequence k) := by
+  rw [periodicGamma_dual_value k u v hvu hM, Units.coe_map,
+    ← IsLocalRing.ResidueField.algebraMap_eq]
+  exact congrArg (· • symbol (dualNumberSequence k))
+    (IsScalarTower.algebraMap_apply k (DualNumber k) _ _).symm
+
+/-- **Stacks Project, Tag 02PP.** For the short exact sequence of the dual numbers given by the
+image of multiplication by `u ε` and multiplication by `v ε`, the determinant map sends the tensor
+of the two classes of `ε` to `v⁻¹ [ε, 1]`. -/
+@[stacks 02PP "dual_gamma_values"]
+theorem periodicGamma_unitMulT_dualRangeSequence_second (k : Type u) [Field k] (u v : kˣ)
+    (huv : Function.Exact (unitMulT k u) (unitMulT k v))
+    (hM : IsFiniteLength (DualNumber k) (DualNumber k)) :
+    periodicGamma (unitMulT k v) (unitMulT k u) huv hM
+      (symbol (dualRangeSequence k u) ⊗ₜ[IsLocalRing.ResidueField (DualNumber k)]
+        symbol (dualRangeSequence k v)) =
+      algebraMap k (IsLocalRing.ResidueField (DualNumber k)) ((v⁻¹ : kˣ) : k) •
+        symbol (dualNumberSequence k) :=
+  periodicGamma_unitMulT_dualRangeSequence_first k v u huv hM
 
 /-- **Stacks Project, Tag 02PP.** The periodic determinant of multiplication by `u ε` and
 `v ε` on the dual numbers is `-u / v`. -/

@@ -18,10 +18,13 @@ finite type and its base change to `B` is a monomorphism, then its base change t
 
 ## Main results
 
-* `AlgebraicGeometry.Space.MorphismDescentSystem.exists_mono_mapAt`: the monomorphism descends
-  to a stage of the inverse system.
-* `AlgebraicGeometry.Space.MorphismDescentSituation.exists_mono_mapAt`: the same for a
-  `AlgebraicGeometry.Space.MorphismDescentSituation` whose system is small for the site.
+* `MorphismDescentSituation.exists_mono_mapAt_of_siteContainsBaseChangeLimits`
+  is Stacks 07SM, under the chapter's convention of Section 70.2 (tag 07SD), with no condition on
+  the size of the index.
+* `AlgebraicGeometry.Space.MorphismDescentSituation.exists_mono_mapAt`: the same for a system
+  that is small for the site.
+* `AlgebraicGeometry.Space.MorphismDescentSystem.exists_mono_mapAt`: the same for a
+  `AlgebraicGeometry.Space.MorphismDescentSystem`, whose index is bounded.
 
 ## References
 
@@ -66,10 +69,14 @@ private instance (priority := high) hasPullback_presheaf_Monomorphism
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
-/-- If the base change `f` of `f₀` to the limit `B` is a monomorphism and `f₀` is locally of
-finite type, then the base change `f_i` of `f₀` to some stage `B_i` is a monomorphism, provided
-the site contains the base changes to the limit (`hconv`). -/
-@[sga "3 VIB 10.1" "partial"]
+/-- **Stacks 07SM.** In Situation 084W, under the chapter's convention of Section 70.2 (tag
+07SD), if the base change `f` of `f₀` to the limit `B` is a monomorphism and `f₀` is locally of
+finite type, then the base change `f_i` of `f₀` to some stage `B_i` is a monomorphism.
+
+The convention of Section 70.2, that every scheme considered lies in the big fppf site, is
+`hconv`: the limits of the base changes of the system to affine objects of the site lie in the
+site. Nothing is asked of the size of the index. -/
+@[stacks 07SM, sga "3 VIB 10.1" "partial"]
 theorem exists_mono_mapAt_of_siteContainsBaseChangeLimits (hconv : SiteContainsBaseChangeLimits B S
     hS D.base) (hf : Mono D.mapLimit)
     (hf₀ : IsLocallyOfFiniteType B S hS D.map₀) :
@@ -133,8 +140,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (D : MorphismDescentSystem B S hS hZ I)
 
 /-- If the base change `f` of `f₀` to the limit `B` is a monomorphism and `f₀` is locally of
-finite type, then the base change `f_i` of `f₀` to some stage `B_i` is a monomorphism. -/
-@[stacks 07SM, sga "3 VIB 10.1" "partial"]
+finite type, then the base change `f_i` of `f₀` to some stage `B_i` is a monomorphism, for a
+system whose index is bounded by the field
+`AlgebraicGeometry.Space.MorphismDescentSystem.indexSize`.
+
+Stacks 07SM itself, under the convention of Section 70.2 and with no bound on the index, is
+`MorphismDescentSituation.exists_mono_mapAt_of_siteContainsBaseChangeLimits`. -/
+@[sga "3 VIB 10.1" "partial"]
 theorem exists_mono_mapAt (hf : Mono D.mapLimit)
     (hf₀ : IsLocallyOfFiniteType B S hS D.map₀) :
     ∃ (i : I) (hi : D.initial ≤ i), Mono (D.mapAt i hi) :=

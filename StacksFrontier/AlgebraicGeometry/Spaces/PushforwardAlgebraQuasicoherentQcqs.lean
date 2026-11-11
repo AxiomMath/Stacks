@@ -9,7 +9,9 @@ import StacksCore.Tactic.StacksAttribute
 Let `f : Y ⟶ X` be a quasi-compact and quasi-separated morphism of algebraic spaces over a scheme
 `S`. The sheaf of `𝒪_X`-algebras `f_* 𝒪_Y` is quasi-coherent: its underlying `𝒪_X`-module is
 the direct image of the structure sheaf of `Y`, which is quasi-coherent by [Stacks, Tag 03M9].
-This is the first assertion of [Stacks, Tag 081X].
+This is the first assertion of [Stacks, Tag 081X]; the tag is registered on
+`AlgebraicGeometry.Space.directImageSpec_factorization` of
+`StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`, which proves all of it.
 
 ## Main results
 
@@ -21,6 +23,3 @@ This is the first assertion of [Stacks, Tag 081X].
 * [Stacks Project, Tag 081X](https://stacks.math.columbia.edu/tag/081X)
 * [Stacks Project, Tag 03M9](https://stacks.math.columbia.edu/tag/03M9)
 -/
-
-add_to_stacks 081X "quasi-coherence of the pushforward algebra"
-  AlgebraicGeometry.Space.isQuasicoherent_pushforwardAlgebra_of_qcqs

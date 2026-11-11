@@ -6,7 +6,6 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SheafOfDifferentialsEtaleL
 public import StacksFrontier.AlgebraicGeometry.Spaces.SheafOfDifferentialsMap
 public import StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.Universal
 public import StacksFrontier.AlgebraicGeometry.Thickenings.UniversalDifferentials
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Differentials of a universal first-order thickening of algebraic spaces
@@ -25,14 +24,17 @@ conclusion are read, as the source reads them, through the inclusion `ι : Z ⟶
 product `Ω_{Z'/Y} ⊗ 𝒪_Z` is `ι^*Ω_{Z'/Y}` and `h^*Ω_{X/Y}` is `ι^*(h')^*Ω_{X/Y}` because
 `ι ≫ h' = h`.  So the content of the tag is that `ι^*c_{h'}` is an isomorphism.
 
-Two things are proved.  The tag itself is proved the way the source proves it — by the étale
-localization of Stacks 04CU and Stacks 060D, which is carried as a hypothesis, followed by the
-case of schemes, Stacks 04FB, which is applied.  Independently of that hypothesis, and with no
-hypothesis at all beyond the characterization of `c_{h'}`, the tag is *reduced* to a statement
-about lifting derivations: it holds exactly when every `Y`-derivation of `𝒪_X` with values in
-`h_*F` extends uniquely to a `Y`-derivation of `𝒪_{Z'}` with values in `ι_*F`.  That reduction
-is the shape in which the universal property of Stacks 0602 would prove the tag outright, and
-the *What is not proved here* section records what it would still need.
+This file sets up the map of the tag and *reduces* the tag, with no hypothesis beyond the
+characterization of `c_{h'}`, to a statement about lifting derivations: it holds exactly when
+every `Y`-derivation of `𝒪_X` with values in `h_*F` extends uniquely to a `Y`-derivation of
+`𝒪_{Z'}` with values in `ι_*F`.  The tag itself is proved from that reduction, with no carried
+hypothesis, in `StacksFrontier/AlgebraicGeometry/Spaces/UniversalThickeningDifferentialsIso.lean`
+(`IsUniversalFirstOrderThickening.isIso_restrict_of_isSheafOfDifferentialsMap` and
+`IsUniversalFirstOrderThickening.isIso_thickeningSheafOfDifferentialsMap`, in the namespace
+`AlgebraicGeometry.Space`), which is where Stacks 060E is registered.  This file also keeps a
+proof of the tag along the route the source writes down — étale localization, Stacks 04CU and
+Stacks 060D, followed by the case of schemes, Stacks 04FB — from an étale-local hypothesis in
+the shape that route delivers; it is not the registered form.
 
 ## Main definitions
 
@@ -53,8 +55,11 @@ the *What is not proved here* section records what it would still need.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isIso_restrict_of_isSheafOfDifferentialsMap`: **Stacks 060E**, for an
-  arbitrary realization of the comparison map of Stacks 04CX.
+* `AlgebraicGeometry.Space.isIso_restrict_of_isSheafOfDifferentialsMap`: the map of Stacks 060E
+  is an isomorphism, for an arbitrary realization of the comparison map of Stacks 04CX, from the
+  étale-local hypothesis `AlgebraicGeometry.Space.IsEtaleLocalThickeningDifferentialsMap`.  The
+  unconditional statement is the one of the same name in the namespace
+  `AlgebraicGeometry.Space.IsUniversalFirstOrderThickening`.
 * `AlgebraicGeometry.Space.isIso_thickeningSheafOfDifferentialsMap`: the same for the comparison
   map as Stacks 04CX constructs it.
 * `AlgebraicGeometry.Space.derivationDirectImageEquiv_comp_restrict`: the commuting square that
@@ -66,8 +71,8 @@ the *What is not proved here* section records what it would still need.
 
 ## Implementation notes
 
-**What is granted, and the tie to the chart.**  The étale localization of the sheaf of
-differentials is the input the tree does not have, and it is carried as
+**The étale-local route, and the tie to the chart.**  The proof along the source's route takes
+the étale localization of the sheaf of differentials as
 `AlgebraicGeometry.Space.IsEtaleLocalThickeningDifferentialsMap`, in the shape in which the
 source's argument delivers it and consumes nothing more.  This follows Stacks 05ZC
 and Stacks 05ZD, `AlgebraicGeometry.Space.isIso_of_isSheafOfDifferentialsMap_of_isPullback` and
@@ -111,51 +116,23 @@ thickening is a `CategoryTheory.Subfunctor` of the ambient space, so the morphis
 source is not a separate datum: it is the composite `Z.ι ≫ h'.hom`.  The base algebraic space of
 the source is called `Y` here, the letter `B` being taken by the big fppf site.
 
-## What is not proved here
+## The two routes to the tag
 
-Proving Stacks 060E outright, rather than from the étale localization, would take either of two
-routes, and each stops at an input this library does not have.  The obstructions are recorded
-because they, and not the transport, are what closing this properly requires.
+**The corepresentability route, which proves the tag.**
+`AlgebraicGeometry.Space.sheafOfDifferentials` is defined by its universal property, so the tag
+is equivalent to the bijectivity of `AlgebraicGeometry.Space.pushforwardDerivationRestriction`
+for every `𝒪_Z`-module `F`; that equivalence is proved below.  The bijectivity is proved in
+`StacksFrontier/AlgebraicGeometry/Spaces/UniversalThickeningDerivationExtension.lean` from two
+inputs: `ι_*F` is killed by the ideal of `Z`, and on affine squares of charts the thickening is
+a universal first-order thickening of rings,
+`AlgebraicGeometry.Space.isUniversalFirstOrderThickening_chartDiagramFunctionMap`, which is
+where the étale localization of Stacks 060D enters.  The resulting unconditional statement is in
+`StacksFrontier/AlgebraicGeometry/Spaces/UniversalThickeningDifferentialsIso.lean`.
 
-**The source's route: étale localization.**  Discharging
-`AlgebraicGeometry.Space.IsEtaleLocalThickeningDifferentialsMap` needs four things, of which
-this library has one.  The comparison of Stacks 04CS between the differentials of a morphism of
-schemes on its small Zariski and small étale sites is available in the scheme's own spelling:
-`AlgebraicGeometry.SmallEtale.existsUnique_postcomp_associatedRelativeDifferentialsDerivation`
-of the module
-`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleDifferentialsCorepresentable`
-proves that `(Ω_{X/Y})^a` with its derivation `d^a` corepresents the derivations, and
-`AlgebraicGeometry.SmallEtale.isIso_differentialsComparison_of_universal` turns that into
-invertibility of `AlgebraicGeometry.SmallEtale.differentialsComparison` at a universal pair.
-What is still missing is the transport of that identification to the *spaces*-level sheaf of
-differentials `AlgebraicGeometry.Space.sheafOfDifferentials` of a morphism of represented
-algebraic spaces, whose relative structure is the inverse image `f⁻¹𝒪_Y` rather than the
-vanishing on functions pulled back from opens of `Y` that the scheme-level statement uses.  The
-étale-source
-half of Stacks 04CU is the one that is available:
-`AlgebraicGeometry.Space.sheafOfDifferentialsEtaleSourceLocalizationIso` proves it, and
-`AlgebraicGeometry.Space.sheafOfDifferentialsEtaleLocalizationIso` is unconditional because of
-it.  The representable étale extension of a chart of `Z` across `Z ⊂ Z'`, which Stacks 060D
-clause (2),
-`AlgebraicGeometry.Space.IsUniversalFirstOrderThickening.etaleLocalization`, takes as a
-hypothesis because the topological invariance of the spaces-étale site, Stacks 05ZH, is absent.
-And a passage from the spaces-level universal property of Stacks 0602 for a representable
-thickening to the scheme-level `Stacks.Thickenings.IsUniversalFirstOrderThickening` that
-Stacks 04FB consumes; `AlgebraicGeometry.Space.formallyUnramified_of_etaleLocalization` and the
-criteria of Stacks 0603 test the spaces-level property on schemes but do not produce the
-scheme-level predicate.
-
-**The corepresentability route.**  `AlgebraicGeometry.Space.sheafOfDifferentials` is defined by
-its universal property, so the tag is equivalent to the bijectivity of
-`AlgebraicGeometry.Space.pushforwardDerivationRestriction` for every `𝒪_Z`-module `F`; that
-equivalence is proved below.  What remains is to deduce that bijectivity from the universal
-property of Stacks 0602, which quantifies over *given* first-order thickenings of algebraic
-spaces: to apply it to a module `F` one needs the trivial square-zero extension of `Z` by `F` —
-an algebraic space `Z[F]` with `Z ⊂ Z[F]` a first-order thickening of conormal module `F` —
-together with the identification of the morphisms `Z[F] ⟶ X` over `Y` extending `h` with the
-`Y`-derivations of `𝒪_X` with values in `h_*F`.  Neither is constructed in this library, which
-is also why Stacks 0606 is absent from it; see the *What is not proved here* section of
-`StacksFrontier/AlgebraicGeometry/Spaces/UniversalFirstOrderThickening.lean`.
+**The source's route: étale localization.**  The theorems of this file follow the source's
+proof literally and take the étale localization of Stacks 04CU for the spaces-level sheaf of
+differentials in the tied shape `AlgebraicGeometry.Space.IsEtaleLocalThickeningDifferentialsMap`;
+they are kept as that form of the argument and are not the registration of the tag.
 
 ## References
 
@@ -288,12 +265,13 @@ def IsEtaleLocalThickeningDifferentialsMap
 
 /-! ### Stacks 060E -/
 
-/-- **Stacks 060E.**  Let `h : Z ⟶ X` be a morphism of algebraic spaces over `S`, presented as
-the composite `Z.ι ≫ h'` of the inclusion of a closed subspace `Z` of an algebraic space `Z'`
-with a structure morphism `h' : Z' ⟶ X`, and let `Z ⊂ Z'` be a universal first-order thickening
-of `Z` over `X`.  For a morphism `p : X ⟶ Y` to a base algebraic space, the comparison map
-`c_{h'} : (h')^*Ω_{X/Y} ⟶ Ω_{Z'/Y}` of Stacks 04CX induces an isomorphism
-`h^*Ω_{X/Y} ⟶ Ω_{Z'/Y} ⊗ 𝒪_Z`, namely its restriction along the inclusion of `Z`.
+/-- **Stacks 060E along the source's étale-local route.**  Let `h : Z ⟶ X` be a morphism of
+algebraic spaces over `S`, presented as the composite `Z.ι ≫ h'` of the inclusion of a closed
+subspace `Z` of an algebraic space `Z'` with a structure morphism `h' : Z' ⟶ X`, and let
+`Z ⊂ Z'` be a universal first-order thickening of `Z` over `X`.  For a morphism `p : X ⟶ Y` to
+a base algebraic space, the comparison map `c_{h'} : (h')^*Ω_{X/Y} ⟶ Ω_{Z'/Y}` of Stacks 04CX
+induces an isomorphism `h^*Ω_{X/Y} ⟶ Ω_{Z'/Y} ⊗ 𝒪_Z`, namely its restriction along the
+inclusion of `Z`.
 
 The map is named by the characterizing property of Stacks 04CX, which determines it uniquely by
 `AlgebraicGeometry.Space.eq_of_isSheafOfDifferentialsMap`; that uniqueness carries the
@@ -304,12 +282,11 @@ morphism of `𝒪_Z`-modules which is bijective on the sections over every chart
 isomorphism.
 
 Formal unramifiedness of `h`, a hypothesis of the source, is not assumed: it is what makes a
-universal first-order thickening exist, one is given, and by Stacks 0609 it follows. -/
-@[stacks 060E "granted, as `hetale`, the étale localization of 04CU and 060D: over each object
-  of the small étale site of `Z` the restriction along `Z ⟶ Z'` of the comparison map of 04CX
-  is, on sections, the map 04FB of a universal first-order thickening of schemes assembled from
-  charts of `Z'`, `X` and `Y` over that object.  The scheme case 04FB is applied, not granted;
-  formal unramifiedness of `h` is not assumed, a universal first-order thickening being given"]
+universal first-order thickening exist, one is given, and by Stacks 0609 it follows.
+
+The étale-local input is taken as `hetale`; the statement without it is
+`IsUniversalFirstOrderThickening.isIso_restrict_of_isSheafOfDifferentialsMap`, in the namespace
+`AlgebraicGeometry.Space`. -/
 theorem isIso_restrict_of_isSheafOfDifferentialsMap
     (hZ : IsUniversalFirstOrderThickening B S hS Z h') (p : X ⟶ Y)
     (c c₀ : (modulePullback B S hS h').obj (sheafOfDifferentials B S hS p) ⟶
@@ -337,16 +314,15 @@ theorem isIso_restrict_of_isSheafOfDifferentialsMap
     exact hb.comp (EquivLike.bijective α)
   exact (Function.Bijective.of_comp_iff' (EquivLike.bijective β) _).1 hcomposed
 
-/-- **Stacks 060E** for the comparison map constructed by
+/-- **Stacks 060E along the étale-local route** for the comparison map constructed by
 `AlgebraicGeometry.Space.sheafOfDifferentialsMap`: the map
 `AlgebraicGeometry.Space.thickeningSheafOfDifferentialsMap` is an isomorphism.
 
 This is `AlgebraicGeometry.Space.isIso_restrict_of_isSheafOfDifferentialsMap` at the realization
 of the comparison map which Stacks 04CX constructs, whose characterizing property is
-`AlgebraicGeometry.Space.isSheafOfDifferentialsMap_sheafOfDifferentialsMap`. -/
-@[stacks 060E "granted, as `hetale`, the étale localization of 04CU and 060D, as for
-  `isIso_restrict_of_isSheafOfDifferentialsMap`; stated for the comparison map of 04CX as
-  constructed"]
+`AlgebraicGeometry.Space.isSheafOfDifferentialsMap_sheafOfDifferentialsMap`.  The statement
+without `hetale` is `IsUniversalFirstOrderThickening.isIso_thickeningSheafOfDifferentialsMap`,
+in the namespace `AlgebraicGeometry.Space`. -/
 theorem isIso_thickeningSheafOfDifferentialsMap
     (hZ : IsUniversalFirstOrderThickening B S hS Z h') (p : X ⟶ Y)
     (hetale : IsEtaleLocalThickeningDifferentialsMap B S hS hZ p
@@ -378,8 +354,8 @@ noncomputable def pushforwardDerivationRestriction
       (universalThickeningSubSpace B S hS hZ).property) :
     (sheafOfDifferentials B S hS (h' ≫ p) ⟶
         (modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F) →
-      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj
-          ((modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F)).val
+      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj ((modulePushforward B S hS
+          (universalThickeningInclusion B S hS hZ)).obj F)).val
         (structureSharpInverseImage B S hS p).hom :=
   fun x ↦ (pushforwardUniversalDerivation B S hS h' p (h' ≫ p) (𝟙 Y)
       (Category.comp_id (h' ≫ p)).symm).postcomp
@@ -455,9 +431,9 @@ precomposition with it is bijective at every target.
 Nothing is carried here: this is an equivalent form of Stacks 060E, not a proof of it.  It is
 the shape in which the universal property of Stacks 0602 would prove the tag: a `Y`-derivation
 of `𝒪_X` with values in `h_*F` is a morphism to `X` out of the trivial square-zero extension of
-`Z` by `F`, and lifting it across `Z ⊂ Z'` is the unique-extension clause of Stacks 0602.  That
-extension is not available in this library; see the *What is not proved here* section of this
-file. -/
+`Z` by `F`, and lifting it across `Z ⊂ Z'` is the unique-extension clause of Stacks 0602.  The
+bijectivity is proved, and the tag with it, in
+`StacksFrontier/AlgebraicGeometry/Spaces/UniversalThickeningDifferentialsIso.lean`. -/
 theorem isIso_restrict_iff_bijective_pushforwardDerivationRestriction
     {c : (modulePullback B S hS h').obj (sheafOfDifferentials B S hS p) ⟶
       sheafOfDifferentials B S hS (h' ≫ p)}

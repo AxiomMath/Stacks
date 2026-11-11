@@ -45,7 +45,10 @@ the same functor which matches the identity under the two bijections is an isomo
 * `Stacks.Cohomology.SiteModules.isIso_freeSectionsHom`: `Γ(C, ⨁_{i ∈ I} 𝒪) = ⨁_{i ∈ I} A` when
   global sections commute with that coproduct.
 * `Stacks.Cohomology.SiteModules.isIso_sectionTensorSheafUnit_free`: the free-module case of
-  `Γ(C, M ⊗_A 𝒪) = M`.
+  `Γ(C, M ⊗_A 𝒪) = M`, under the hypothesis on global sections below.  Stacks 07UZ itself, in
+  Situation 07UY, is
+  `AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf` and
+  `AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`.
 
 ## Implementation notes
 
@@ -332,14 +335,16 @@ theorem sectionTensorSheafUnit_comp_map_sectionTensorFreeHom (I : Type (max u r)
   rw [freeGlobalModuleHomEquiv_homEquiv, freeGlobalModuleHomEquiv_freeSectionsHom,
     sectionTensorFreeHomEquiv_sectionTensorFreeHom]
 
-/-- **`Γ(C, (⨁_I A) ⊗_A 𝒪) = ⨁_I A`**, granted that the global-sections functor commutes with the
-coproduct of `I` copies of the structure sheaf.
+/-- **`Γ(C, (⨁_I A) ⊗_A 𝒪) = ⨁_I A`** on a general site, for an index set `I` such that the
+global-sections functor commutes with the coproduct of `I` copies of the structure sheaf (the
+hypothesis `hI`).  This is the free-module step of the source's proof of Stacks 07UZ; Stacks 07UZ
+itself is proved in full, with no such hypothesis, and registered, as
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf` and
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`.
 
 The canonical map factors as the comparison `⨁_I A ⟶ Γ(C, 𝒪^{(I)})` through the global sections
 of the isomorphism `(⨁_I A) ⊗_A 𝒪 ≅ 𝒪^{(I)}`, and that comparison is invertible because
 `Γ(C, ⨁_{i ∈ I} 𝒪) = ⨁_{i ∈ I} A`. -/
-@[stacks 07UZ "the free-module case of Γ(X, M ⊗_A 𝒪_X) = M, i.e. the direct-sum computation \
-Γ(X, ⨁_I 𝒪_X) = ⨁_I A, granted that global sections commute with that direct sum"]
 theorem isIso_sectionTensorSheafUnit_free (I : Type (max u r))
     (hI : PreservesColimit
       (Discrete.functor (fun _ : I => SheafOfModules.unit (ringSheafOfSite O)))

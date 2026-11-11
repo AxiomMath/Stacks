@@ -9,18 +9,20 @@ public import StacksCore.Tactic.StacksAttribute
 /-!
 # Big ph sites
 
-A big ph site is a size-bounded full subcategory of schemes together with a chosen,
-set-sized system of ph covering families on it.  The system contains prescribed initial
-schemes and coverings, satisfies the site axioms, and contains a combinatorial
-representative of every ph covering.  For such a site containing a scheme `S`, the big ph
-category over `S` is the slice over `S`, and the big affine ph category is its full
+The big ph site of Stacks 0DBJ is `AlgebraicGeometry.StacksBigPHSite`, in
+`StacksFrontier.AlgebraicGeometry.Topologies.Ph.BigSiteOfSets`. This file provides the size-bounded
+variant `AlgebraicGeometry.BigPHSite` used throughout the library: a size-bounded full subcategory
+of schemes together with a chosen bounded class of ph covering families on it.  The system
+contains prescribed initial schemes and coverings, satisfies the site axioms, and contains a
+combinatorial representative of every ph covering.  For such a site containing a scheme `S`, the
+big ph category over `S` is the slice over `S`, and the big affine ph category is its full
 subcategory on objects with affine underlying scheme; the finite ph covering families of
 the latter again satisfy the site axioms.
 
 ## Main definitions
 
 * `AlgebraicGeometry.IsPHCoveringInCutoff`: recognizes ph coverings in a cutoff category.
-* `AlgebraicGeometry.BigPHSite`: packages the choices defining a big ph site.
+* `AlgebraicGeometry.BigPHSite`: the size-bounded variant of a big ph site.
 * `AlgebraicGeometry.BigPHOver` and `AlgebraicGeometry.BigAffinePH`: the big ph category
   over `S` and its affine full subcategory, with their covering families and topologies.
 
@@ -31,11 +33,11 @@ the latter again satisfy the site axioms.
 
 ## Implementation notes
 
-Following Stacks 000J, the ambient category is `AlgebraicGeometry.SchemeBelow`, the
-full subcategory of schemes of size below the cutoff; a family there is ph covering when
-its image under the canonical inclusion is one in the sense of Stacks 0DBG.  As in Stacks
-000X the chosen families are those with index cardinality at most `coveringBound`, and the
-limit ordinal records the remaining choice in that construction.  The generated
+The ambient category is `AlgebraicGeometry.SchemeBelow`, the full subcategory of schemes of
+size below the cutoff, a class rather than the set `Sch_α` of Stacks 000J; a family there is ph
+covering when its image under the canonical inclusion is one in the sense of Stacks 0DBG.  The
+chosen families are all those with index cardinality at most `coveringBound`, a class rather than
+the set of coverings of Stacks 000X.  The generated
 Grothendieck topology is kept separate from the chosen family-level coverings, so that both
 the site axioms and Mathlib's sheaf interface are directly available.  Stability of the
 affine families under base change needs that a fibre product of affine objects of the
@@ -64,10 +66,13 @@ public abbrev IsPHCoveringInCutoff {κ : Cardinal.{u}}
   let 𝒱 := 𝒰.2.map (AlgebraicGeometry.schemeBelowInclusion κ)
   IsPHCovering 𝒱.X 𝒱.f
 
-/-- **Stacks 0DBJ.** A big ph site consists of an initial set of schemes and initial ph
-coverings, a sufficiently large cutoff category containing them, and a bounded collection
-of ph coverings satisfying the site axioms and representing every ph covering. -/
-@[stacks 0DBJ]
+/-- A size-bounded variant of the big ph site of Stacks 0DBJ, used throughout the library: an
+initial set of schemes and initial ph coverings, the cutoff category of schemes of size below a
+cardinal, and the class of all ph coverings of it whose index type has cardinality at most a
+bound, assumed to satisfy the site axioms and to represent every ph covering. Neither its objects
+nor its coverings form a set, the Stacks 000J conditions on countable limits and colimits are not
+established for the cutoff category, and the ordinal `coveringOrdinal` constrains nothing; it
+therefore differs from Stacks 0DBJ, which is `AlgebraicGeometry.StacksBigPHSite`. -/
 public structure BigPHSite where
   /-- The initially chosen set of schemes. -/
   initialSchemes : Set Scheme.{u}

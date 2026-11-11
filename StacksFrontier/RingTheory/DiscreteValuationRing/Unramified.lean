@@ -79,6 +79,9 @@ stable under composition in a tower.
   `IsDiscreteValuationRing`: the three permanence properties of unramified extensions with
   respect to `A`.
 * `IsDiscreteValuationRing.isUnramifiedIn_comp`: unramifiedness over a prime composes in a tower.
+* `IsDiscreteValuationRing.isUnramifiedWithRespectTo_trans`: if `L/K` is unramified with respect
+  to `A` and `M/L` is unramified with respect to every localization `B_𝔪` of the integral closure
+  `B` of `A` in `L` at a maximal ideal, then `M/K` is unramified with respect to `A`.
 
 ## Implementation notes
 
@@ -94,11 +97,12 @@ and total predicates are transparent abbreviations of `Stacks.KummerExtension.Is
 `Stacks.KummerExtension.IsTotallyRamified`. Containment of field extensions is represented by
   compatible
 algebra structures and scalar towers; the common overextension is not required to be a specified
-compositum, in accordance with the source. Unramifiedness in a tower is stated for an arbitrary
-tower of commutative rings and a prime of the base: applying it to the integral closures and the
-maximal ideal of `A` gives the source statement, since
-`Algebra.isUnramifiedAt_iff_map_eq` identifies the local condition in `Algebra.IsUnramifiedIn`
-with ramification index one together with separability of the residue field extension.
+compositum, in accordance with the source. Unramifiedness in a tower is proved in two forms: for
+an arbitrary tower of commutative rings and a prime of the base (`isUnramifiedIn_comp`), and in the
+source's terms (`isUnramifiedWithRespectTo_trans`), where `B_𝔪` is `Localization.AtPrime 𝔪`,
+made a subring of `L` by `localizationAtPrimeAlgebra`. The latter goes through formal
+unramifiedness of the integral closures, using that the localization of the integral closure of
+`A` in `M` at `B ∖ 𝔪` is the integral closure of `B_𝔪` in `M`.
 
 ## References
 
@@ -866,8 +870,10 @@ theorem isUnramifiedWithRespectTo_of_tower_and_exists_isGalois_and_common_extens
 /-! ### Unramifiedness in a tower -/
 
 /-- If `p` is unramified in `B` and `C` is unramified over every prime of `B` lying over `p`,
-then `p` is unramified in `C`. -/
-@[stacks 0EXS, sga "1 I 10.4" "(ii) transitivity"]
+then `p` is unramified in `C`. This is the transitivity of unramifiedness over a prime for an
+arbitrary tower of commutative rings, stated with `Algebra.IsUnramifiedIn`; the statement of
+Stacks 0EXS in terms of `IsUnramifiedWithRespectTo` is `isUnramifiedWithRespectTo_trans`. -/
+@[sga "1 I 10.4" "(ii) transitivity"]
 theorem isUnramifiedIn_comp
     (A B C : Type*) [CommRing A] [CommRing B] [CommRing C]
     [Algebra A B] [Algebra B C] [Algebra A C] [IsScalarTower A B C]
@@ -885,6 +891,204 @@ theorem isUnramifiedIn_comp
   have : P.LiesOver q := ⟨rfl⟩
   have : Algebra.IsUnramifiedAt A q := hAB q hq hqp
   have : Algebra.IsUnramifiedAt B P := hBC q hq hqp P hP inferInstance
+  exact Algebra.IsUnramifiedAt.comp q P
+
+/-- A maximal ideal of the integral closure of a discrete valuation ring `A` in an algebraic
+extension of its fraction field is nonzero. -/
+theorem ne_bot_of_isMaximal_integralClosure
+    (A : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
+    (K : Type*) [Field K] [Algebra A K] [IsFractionRing A K]
+    (L : Type*) [Field L] [Algebra K L] [Algebra A L] [IsScalarTower A K L]
+    (m : Ideal (integralClosure A L)) [m.IsMaximal] : m ≠ ⊥ := by
+  intro h
+  have hAL : Function.Injective (algebraMap A L) := by
+    rw [IsScalarTower.algebraMap_eq A K L]
+    exact (algebraMap K L).injective.comp (IsFractionRing.injective A K)
+  have hinj : Function.Injective (algebraMap A (integralClosure A L)) := fun x y hxy =>
+    hAL (congrArg Subtype.val hxy)
+  have hmax := Ideal.IsMaximal.under A m
+  rw [h, Ideal.under, Ideal.comap_bot_of_injective _ hinj] at hmax
+  exact IsDiscreteValuationRing.not_a_field A
+    ((IsLocalRing.eq_maximalIdeal hmax).symm)
+
+/-- The structure map making the localization `B_𝔪` of the integral closure `B` of `A` in `L`
+at a prime `𝔪` a subring of `L`: it extends the inclusion `B ⊆ L`. -/
+noncomputable abbrev localizationAtPrimeAlgebra
+    (A L : Type*) [CommRing A] [Field L] [Algebra A L]
+    (m : Ideal (integralClosure A L)) [m.IsPrime] :
+    Algebra (Localization.AtPrime m) L :=
+  (IsLocalization.lift (M := m.primeCompl) (S := Localization.AtPrime m)
+    (g := algebraMap (integralClosure A L) L) fun s =>
+      IsUnit.mk0 _ fun h => s.2 (by
+        rw [show (s : integralClosure A L) = 0 from Subtype.ext h]
+        exact m.zero_mem)).toAlgebra
+
+/-- Let `S` be an integrally closed domain integral over a domain `R`, with fraction field `M`,
+let `q` be a prime of `R` and `P` a prime of `S` over it. If the integral closure of `R_q` in `M`
+is formally unramified over `R_q`, then `S` is unramified over `R` at `P`. -/
+private theorem isUnramifiedAt_of_formallyUnramified_integralClosure_localization
+    (R S M : Type*) [CommRing R] [IsDomain R] [CommRing S] [IsDomain S] [Algebra R S]
+    [Algebra.IsIntegral R S] [IsIntegrallyClosed S] [Field M] [Algebra S M] [IsFractionRing S M]
+    [Algebra R M] [IsScalarTower R S M]
+    (hinj : Function.Injective (algebraMap R S))
+    (q : Ideal R) [q.IsPrime] (P : Ideal S) [P.IsPrime] (hPq : P.under R = q)
+    [Algebra (Localization.AtPrime q) M] [IsScalarTower R (Localization.AtPrime q) M]
+    [Algebra.FormallyUnramified (Localization.AtPrime q)
+      (integralClosure (Localization.AtPrime q) M)] :
+    Algebra.IsUnramifiedAt R P := by
+  let T := Algebra.algebraMapSubmonoid S q.primeCompl
+  have hT : T ≤ nonZeroDivisors S := by
+    rintro _ ⟨s, hs, rfl⟩
+    apply mem_nonZeroDivisors_of_ne_zero
+    intro h
+    apply hs
+    rw [hinj (h.trans (map_zero _).symm)]
+    exact q.zero_mem
+  have hu : ∀ y : T, IsUnit (algebraMap S M y) := fun y =>
+    IsUnit.mk0 _ ((map_ne_zero_iff _ (IsFractionRing.injective S M)).mpr
+      (nonZeroDivisors.ne_zero (hT y.2)))
+  let : Algebra (Localization T) M := (IsLocalization.lift hu).toAlgebra
+  have : IsScalarTower S (Localization T) M :=
+    IsScalarTower.of_algebraMap_eq fun x => (IsLocalization.lift_eq hu x).symm
+  have : IsDomain (Localization T) := IsLocalization.isDomain_of_le_nonZeroDivisors _ hT
+  have : IsFractionRing (Localization T) M :=
+    IsFractionRing.isFractionRing_of_isDomain_of_isLocalization T _ M
+  have : IsIntegrallyClosed (Localization T) := isIntegrallyClosed_of_isLocalization _ T hT
+  have hmap : ∀ r : R, algebraMap (Localization.AtPrime q) (Localization T)
+      (algebraMap R (Localization.AtPrime q) r) =
+        algebraMap S (Localization T) (algebraMap R S r) :=
+    fun r => IsLocalization.map_eq _ _
+  -- The localization `S_T` of `S` at `T = R ∖ q` is the integral closure of `R_q` in `M`.
+  have : IsScalarTower (Localization.AtPrime q) (Localization T) M := by
+    refine IsScalarTower.of_algebraMap_eq' (IsLocalization.ringHom_ext q.primeCompl
+      (RingHom.ext fun r => ?_))
+    rw [RingHom.comp_apply, RingHom.comp_apply, RingHom.comp_apply, hmap,
+      ← IsScalarTower.algebraMap_apply S (Localization T) M,
+      ← IsScalarTower.algebraMap_apply R S M,
+      ← IsScalarTower.algebraMap_apply R (Localization.AtPrime q) M]
+  have : Algebra.IsIntegral (Localization.AtPrime q) (Localization T) :=
+    ⟨isIntegral_localization (M := q.primeCompl) (S := S)⟩
+  have : IsIntegralClosure (Localization T) (Localization.AtPrime q) M :=
+    IsIntegralClosure.of_isIntegrallyClosed _ _ M
+  have : Algebra.FormallyUnramified (Localization.AtPrime q) (Localization T) :=
+    Algebra.FormallyUnramified.of_equiv (IsIntegralClosure.equiv (Localization.AtPrime q)
+      (integralClosure (Localization.AtPrime q) M) M (Localization T))
+  have : Algebra.FormallyUnramified R (Localization.AtPrime q) :=
+    Algebra.FormallyUnramified.of_isLocalization q.primeCompl
+  have : Algebra.FormallyUnramified R (Localization T) :=
+    Algebra.FormallyUnramified.comp R (Localization.AtPrime q) _
+  -- Passing from `S_T` to `S_P`.
+  have hTP : T ≤ P.primeCompl := by
+    rintro _ ⟨s, hs, rfl⟩ h
+    exact hs (by rw [← hPq]; exact h)
+  have hv : ∀ y : T, IsUnit (algebraMap S (Localization.AtPrime P) y) :=
+    fun y => IsLocalization.map_units (M := P.primeCompl) _ ⟨y, hTP y.2⟩
+  let : Algebra (Localization T) (Localization.AtPrime P) := (IsLocalization.lift hv).toAlgebra
+  have : IsScalarTower S (Localization T) (Localization.AtPrime P) :=
+    IsScalarTower.of_algebraMap_eq fun x => (IsLocalization.lift_eq hv x).symm
+  have : Algebra.FormallyUnramified S (Localization.AtPrime P) :=
+    Algebra.FormallyUnramified.of_isLocalization P.primeCompl
+  have : Algebra.FormallyUnramified (Localization T) (Localization.AtPrime P) :=
+    Algebra.FormallyUnramified.of_restrictScalars S _ _
+  have : IsScalarTower R (Localization T) (Localization.AtPrime P) :=
+    IsScalarTower.of_algebraMap_eq fun r => by
+      rw [IsScalarTower.algebraMap_apply R S (Localization T),
+        ← IsScalarTower.algebraMap_apply S (Localization T) (Localization.AtPrime P),
+        ← IsScalarTower.algebraMap_apply R S (Localization.AtPrime P)]
+  exact Algebra.FormallyUnramified.comp R (Localization T) _
+
+/-- **Stacks 0EXS.** Let `A` be a discrete valuation ring with fraction field `K`, let `M/L/K` be
+finite separable extensions and let `B` be the integral closure of `A` in `L`. If `L/K` is
+unramified with respect to `A` and `M/L` is unramified with respect to `B_𝔪` for every maximal
+ideal `𝔪` of `B`, then `M/K` is unramified with respect to `A`. Here `B_𝔪` is
+`Localization.AtPrime 𝔪`, a discrete valuation ring with fraction field `L` through
+`localizationAtPrimeAlgebra`, and `M` is a `B_𝔪`-algebra through `L`. -/
+@[stacks 0EXS "with `B_𝔪` the localization `Localization.AtPrime 𝔪`, a subring of `L`"]
+theorem isUnramifiedWithRespectTo_trans
+    (A : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
+    (K : Type*) [Field K] [Algebra A K] [IsFractionRing A K]
+    (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Algebra A L] [IsScalarTower A K L]
+    (M : Type*) [Field M] [Algebra L M] [FiniteDimensional L M] [Algebra.IsSeparable L M]
+    [Algebra K M] [IsScalarTower K L M] [FiniteDimensional K M] [Algebra.IsSeparable K M]
+    [Algebra A M] [IsScalarTower A K M]
+    (hL : IsUnramifiedWithRespectTo A K L)
+    (hM : ∀ (m : Ideal (integralClosure A L)) [m.IsMaximal],
+      letI := localizationAtPrimeAlgebra A L m
+      letI : Algebra (Localization.AtPrime m) M :=
+        ((algebraMap L M).comp (algebraMap (Localization.AtPrime m) L)).toAlgebra
+      haveI : IsScalarTower (Localization.AtPrime m) L M := IsScalarTower.of_algebraMap_eq' rfl
+      haveI : IsScalarTower (integralClosure A L) (Localization.AtPrime m) L :=
+        IsScalarTower.of_algebraMap_eq fun x => (IsLocalization.lift_eq _ x).symm
+      haveI : IsFractionRing (integralClosure A L) L :=
+        integralClosure.isFractionRing_of_finite_extension K L
+      haveI : IsFractionRing (Localization.AtPrime m) L :=
+        IsFractionRing.isFractionRing_of_isDomain_of_isLocalization m.primeCompl _ L
+      haveI : IsDedekindDomain (integralClosure A L) := integralClosure.isDedekindDomain A K L
+      haveI : IsDiscreteValuationRing (Localization.AtPrime m) :=
+        IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain _
+          (ne_bot_of_isMaximal_integralClosure A K L m) _
+      IsUnramifiedWithRespectTo (Localization.AtPrime m) L M) :
+    IsUnramifiedWithRespectTo A K M := by
+  have hB : Algebra.FormallyUnramified A (integralClosure A L) :=
+    (isUnramifiedWithRespectTo_iff_formallyUnramified A K L).mp hL
+  have : IsScalarTower A L M := IsScalarTower.of_algebraMap_eq' (by
+    rw [IsScalarTower.algebraMap_eq A K M, IsScalarTower.algebraMap_eq K L M,
+      IsScalarTower.algebraMap_eq A K L, RingHom.comp_assoc])
+  apply (isUnramifiedWithRespectTo_iff_formallyUnramified A K M).mpr
+  apply formallyUnramified_of_forall_maximal
+  intro P hP
+  -- The integral closure `B` of `A` in `L` maps into the integral closure `C` of `A` in `M`.
+  let φ : integralClosure A L →ₐ[A] integralClosure A M :=
+    ((IsScalarTower.toAlgHom A L M).comp (integralClosure A L).val).codRestrict
+      (integralClosure A M) fun b =>
+        (mem_integralClosure_iff A M).mpr
+          (((mem_integralClosure_iff A L).mp b.2).map (IsScalarTower.toAlgHom A L M))
+  let : Algebra (integralClosure A L) (integralClosure A M) := φ.toRingHom.toAlgebra
+  have : IsScalarTower A (integralClosure A L) (integralClosure A M) :=
+    IsScalarTower.of_algebraMap_eq' φ.comp_algebraMap.symm
+  have : Algebra.IsIntegral (integralClosure A L) (integralClosure A M) :=
+    Algebra.IsIntegral.tower_top A
+  have : IsScalarTower (integralClosure A L) (integralClosure A M) M :=
+    IsScalarTower.of_algebraMap_eq fun _ => rfl
+  have hφ : Function.Injective (algebraMap (integralClosure A L) (integralClosure A M)) :=
+    fun x y h => Subtype.ext ((algebraMap L M).injective (congrArg Subtype.val h :))
+  -- The maximal ideal `q = P ∩ B` and the hypothesis at `B_q`.
+  obtain ⟨q, hq⟩ : ∃ q : Ideal (integralClosure A L), q = P.under _ := ⟨_, rfl⟩
+  have : q.IsMaximal := hq ▸ Ideal.IsMaximal.under (integralClosure A L) P
+  have : P.LiesOver q := ⟨hq⟩
+  have : Algebra.FormallyUnramified (integralClosure A L) (Localization.AtPrime q) :=
+    Algebra.FormallyUnramified.of_isLocalization q.primeCompl
+  have : Algebra.IsUnramifiedAt A q :=
+    Algebra.FormallyUnramified.comp A (integralClosure A L) (Localization.AtPrime q)
+  let := localizationAtPrimeAlgebra A L q
+  let : Algebra (Localization.AtPrime q) M :=
+    ((algebraMap L M).comp (algebraMap (Localization.AtPrime q) L)).toAlgebra
+  have : IsScalarTower (Localization.AtPrime q) L M := IsScalarTower.of_algebraMap_eq' rfl
+  have : IsScalarTower (integralClosure A L) (Localization.AtPrime q) L :=
+    IsScalarTower.of_algebraMap_eq fun x => (IsLocalization.lift_eq _ x).symm
+  have : IsFractionRing (integralClosure A L) L :=
+    integralClosure.isFractionRing_of_finite_extension K L
+  have : IsFractionRing (Localization.AtPrime q) L :=
+    IsFractionRing.isFractionRing_of_isDomain_of_isLocalization q.primeCompl _ L
+  have : IsDedekindDomain (integralClosure A L) := integralClosure.isDedekindDomain A K L
+  have : IsDiscreteValuationRing (Localization.AtPrime q) :=
+    IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain _
+      (ne_bot_of_isMaximal_integralClosure A K L q) _
+  have : Algebra.FormallyUnramified (Localization.AtPrime q)
+      (integralClosure (Localization.AtPrime q) M) :=
+    (isUnramifiedWithRespectTo_iff_formallyUnramified (Localization.AtPrime q) L M).mp (hM q)
+  have : IsScalarTower (integralClosure A L) (Localization.AtPrime q) M :=
+    IsScalarTower.of_algebraMap_eq fun x => by
+      rw [IsScalarTower.algebraMap_apply (Localization.AtPrime q) L M,
+        ← IsScalarTower.algebraMap_apply (integralClosure A L) (Localization.AtPrime q) L]
+      rfl
+  have : IsFractionRing (integralClosure A M) M :=
+    integralClosure.isFractionRing_of_finite_extension K M
+  have : IsIntegrallyClosed (integralClosure A M) :=
+    integralClosure.isIntegrallyClosedOfFiniteExtension K
+  have : Algebra.IsUnramifiedAt (integralClosure A L) P :=
+    isUnramifiedAt_of_formallyUnramified_integralClosure_localization _ _ M hφ q P hq.symm
   exact Algebra.IsUnramifiedAt.comp q P
 
 end IsDiscreteValuationRing

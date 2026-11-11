@@ -33,7 +33,7 @@ in every degree `q`.
 ## Implementation notes
 
 The mathematics is already in the library, in the three modules (the first and the last under
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison`)
+`StacksDraft.AlgebraicGeometry.EtaleCohomology.CechComparison`)
 
 * `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.BigSiteQuasiCoherentCohomology`,
 * `StacksFrontier.AlgebraicGeometry.Topologies.Zariski.SmallZariskiQuasiCoherentCohomology`,

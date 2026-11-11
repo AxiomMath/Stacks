@@ -6,17 +6,20 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChan
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChangePullback
 
 /-!
-# The inverse image of modules on the fppf site preserves `LQCoh^fbc`
+# The inverse image of modules on the fppf site preserves the presheaf-level `LQCoh^fbc`
 
 Let `f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks over `S`.  **Stacks 0771** part (3) says
-that the inverse image `f^*` carries `LQCoh^fbc(𝒪_𝒴)` into `LQCoh^fbc(𝒪_𝒳)`.  The source states
-it for the modules on the fppf site, which is the ambient category
-`AlgebraicGeometry.Stack.fppfModules` uses, and that is what is proved here.
+that the inverse image `f^*` carries `LQCoh^fbc(𝒪_𝒴)` into `LQCoh^fbc(𝒪_𝒳)`.  This file proves
+the analogue for the presheaf-level `LQCoh^fbc`
+(`AlgebraicGeometry.Stack.IsLocallyQuasicoherentWithFlatBaseChange`), whose flat base change
+property is strictly stronger than **Stacks 0762**, on the modules on the fppf site
+`AlgebraicGeometry.Stack.fppfModules`.  Part (3) itself, at the sheaf-level reading of
+**Stacks 0762**, is `AlgebraicGeometry.Stack.lqcohSheafFbcFppfModules_fppfModulesPullback`.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_fppfModulesPullback`:
-  **Stacks 0771** part (3) in the source's own ambient category.
+  the inverse image statement for the presheaf-level `LQCoh^fbc` on the fppf sites.
 
 ## Implementation notes
 
@@ -70,18 +73,21 @@ universe u w
 variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (hE : E.cutoff = B.cutoff)
   (S : Scheme.{u}) (hS : B.Contains S) {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
 
-/-- **Stacks 0771, part (3), in the source's ambient category.**  Let `f : 𝒳 ⟶ 𝒴` be a
-1-morphism of algebraic stacks and let `F` be a module on the fppf site of `𝒴` lying in
-`LQCoh^fbc(𝒪_𝒴)`.  Then the inverse image `f^*F` lies in `LQCoh^fbc(𝒪_𝒳)`.
+/-- **The inverse image on the fppf sites preserves the presheaf-level `LQCoh^fbc`.**  Let
+`f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks and let `F` be a module on the fppf site of `𝒴`
+lying in the presheaf-level `LQCoh^fbc(𝒪_𝒴)`.  Then the inverse image `f^*F` lies in the
+presheaf-level `LQCoh^fbc(𝒪_𝒳)`.
+
+This is not **Stacks 0771** part (3): the presheaf-level flat base change property is strictly
+stronger than **Stacks 0762**, so the hypothesis leaves out members of `LQCoh^fbc` such as
+`𝒪(-1)` on `ℙ¹`.  Part (3) is
+`AlgebraicGeometry.Stack.lqcohSheafFbcFppfModules_fppfModulesPullback`.
 
 `AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_stackInverseImage` is
 this statement for the inverse image of *presheaves* of modules, stated at the structure functor
 `f ⋙ 𝒪_𝒴` of the composite presentation; the structure functor of the source is a parameter `p`
 here, together with the identification `e`, so that substituting `e` puts the goal at the
 composite presentation where that statement applies.  See the implementation notes. -/
-@[stacks 0771 "part (3): the inverse image along a 1-morphism of algebraic stacks of a module \
-in LQCoh^fbc lies in LQCoh^fbc, with the ambient category the modules on the fppf site, which \
-is the source's own"]
 theorem isLocallyQuasicoherentWithFlatBaseChange_fppfModulesPullback
     {p : 𝒳.val.val.obj ⥤ BigFppfOver B S hS}
     (e : CatFiberedInGroupoids.homFunctor f.hom ⋙ 𝒴.val.val.p = p)

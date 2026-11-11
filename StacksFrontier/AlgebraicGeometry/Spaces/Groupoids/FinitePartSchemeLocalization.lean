@@ -26,10 +26,17 @@ Stacks 04RU, clause (3), hence is quasi-split at every point.
 ## Main results
 
 * `AlgebraicGeometry.GroupoidInAlgebraicSpaces.exists_etale_separated_scheme_quasiSplitting`:
-  **Stacks 04RY** for a groupoid in algebraic spaces whose object space is a scheme.
+  for a groupoid in algebraic spaces whose object space is a scheme, a scheme `U'` separated and
+  étale over `U` over which the restricted groupoid is quasi-split at every point.
 * `Stacks.Groupoids.GroupoidScheme.exists_etale_separated_scheme_quasiSplitting`: the same for a
   groupoid scheme in the quasi-splitting situation of Stacks 04RV, obtained by realizing it as a
   groupoid in algebraic spaces.
+
+Neither result is Stacks 04RY itself: neither exhibits the point `u'` of `U'` over `u` with
+`κ(u) = κ(u')` (and without it the statements hold with `U'` empty).  Stacks 04RY, with that
+point, is
+`Stacks.Groupoids.GroupoidScheme.exists_quasiSplit_separated_scheme_of_quasiSplittingSituation`
+in `StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuasiSplittingEtaleScheme`.
 
 ## Implementation notes
 
@@ -43,7 +50,10 @@ by Stacks 04RI, part (1).
 The conclusion is quasi-splitting at every point of `U'`, which is stronger than quasi-splitting
 at a single point but does not exhibit a point of `U'` above the chosen point `u` of `U` with
 `κ(u) = κ(u')`; the source obtains that point by decomposing the fibre of `R` over `κ(u)` using
-the stabilizer hypotheses of Stacks 04RV, which nothing here consumes.
+the quasi-finiteness of `s` at `e(u)` from Stacks 04RV, which nothing here consumes.  That point
+is constructed in
+`Stacks.Groupoids.GroupoidScheme.exists_quasiSplit_separated_scheme_of_quasiSplittingSituation`,
+which is where `@[stacks 04RY]` sits.
 
 ## References
 
@@ -66,16 +76,16 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
-/-- **Stacks Project, Tag 04RY**, for a groupoid in algebraic spaces whose object space is a
-scheme.
+/-- The scheme-and-separatedness part of Stacks 04RY, for a groupoid in algebraic spaces whose
+object space is a scheme; the point `u'` over `u` with `κ(u) = κ(u')` is not part of this
+statement (Stacks 04RY itself is
+`Stacks.Groupoids.GroupoidScheme.exists_quasiSplit_separated_scheme_of_quasiSplittingSituation`).
 
 Let `G = (U, R, s, t, c)` be a groupoid in algebraic spaces over `B` whose source and target are
 separated, whose source is flat and locally of finite presentation, whose target is locally of
 finite type and whose object space `U` is a scheme.  Then there is an algebraic space `U'` which
 is a *scheme*, a *separated* étale morphism `g : U' ⟶ U`, and `R|_{U'}` is quasi-split at every
 point of `U'`. -/
-@[stacks 04RY "U' is a scheme, U' ⟶ U is separated and étale, and R|_{U'} is quasi-split at
-every point of U'"]
 theorem exists_etale_separated_scheme_quasiSplitting
     (G : GroupoidInAlgebraicSpaces C S hS B)
     (hsep : Space.IsSeparated C S hS G.source.hom)
@@ -132,7 +142,10 @@ private theorem toScheme_map_schemeSiteMap (C : AlgebraicGeometry.BigFppfSite.{u
   congrArg (fun m : X ⟶ Y => m.left)
     (AlgebraicGeometry.Space.siteToOver_map_schemeSiteMap C hS hX hY f)
 
-/-- **Stacks Project, Tag 04RY**, in the quasi-splitting situation of Stacks 04RV.
+/-- The scheme-and-separatedness part of Stacks 04RY, in the quasi-splitting situation of
+Stacks 04RV; the point `u'` over `u` with `κ(u) = κ(u')` is not part of this statement (Stacks
+04RY itself is
+`Stacks.Groupoids.GroupoidScheme.exists_quasiSplit_separated_scheme_of_quasiSplittingSituation`).
 
 In Situation 04RV, assume in addition that the source of the groupoid scheme is flat and locally
 of finite presentation.  Then there is a *scheme* `U'`, a *separated* étale morphism
@@ -141,8 +154,6 @@ of finite presentation.  Then there is a *scheme* `U'`, a *separated* étale mor
 Only the flatness and local finite presentation of the *source* are used; the tag assumes them of
 the target as well, so the hypotheses here are weaker than the tag's.  Separatedness and local
 finiteness of type of the source and of the target come from Situation 04RV itself. -/
-@[stacks 04RY "in Situation 04RV: U' is a scheme, U' ⟶ U is separated and étale, and R|_{U'} is
-quasi-split at every point of U'"]
 theorem exists_etale_separated_scheme_quasiSplitting
     (D : AlgebraicGeometry.Space.QuasiSplittingSituation.{u})
     (C : AlgebraicGeometry.BigFppfSite.{u}) (hS : C.Contains D.S)

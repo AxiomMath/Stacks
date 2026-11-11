@@ -104,7 +104,7 @@ theorem approximationByPerfectComplexes_of_eds {W : AlgebraicSpaces B S hS}
       Set.subset_inter (hin.2 i (by omega)) (hamp i (by omega))
     have happrox := hrV ((quasicoherentDerivedEtalePullback B S hS (edsEtaleHom B S hS hsq')
         (isEtale_edsEtaleHom B S hS hsq')).obj E) m
-      (isPseudoCoherentFrom_mono B S hS _ _ (isPseudoCoherentFrom_etaleModulePullback B S hS
+      (isPseudoCoherentFrom_of_le B S hS _ _ (isPseudoCoherentFrom_etaleModulePullback B S hS
         (edsEtaleHom B S hS hsq') (isEtale_edsEtaleHom B S hS hsq') E.obj _ hin.1) (by omega))
       (fun i hi p hp => by
         have hp' := (supportOfSheaf_eq_of_iso B S hS (edsEtale B S hS hsq')
@@ -121,7 +121,7 @@ theorem approximationByPerfectComplexes_of_eds {W : AlgebraicSpaces B S hS}
     intro m t E ht hin hamp
     refine exists_approximation_step B S hS hsq' T hlift (max rU 0) (fun E' m' hpc hs => ?_)
       _ _ le_rfl m t E ht hin hamp
-    exact hrU E' m' (isPseudoCoherentFrom_mono B S hS _ _ hpc (by omega))
+    exact hrU E' m' (isPseudoCoherentFrom_of_le B S hS _ _ hpc (by omega))
       (fun i hi => hs i (by omega))
   · -- the amplitude exists, `U` being quasi-compact
     intro m E hin

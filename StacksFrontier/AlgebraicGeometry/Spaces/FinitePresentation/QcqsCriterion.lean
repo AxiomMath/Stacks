@@ -36,6 +36,9 @@ transition morphisms, Stacks 0CP4.
 ## Main results
 
 * `AlgebraicGeometry.Space.affineLimitSquare_iff_qcqsLimitSquare`: the two conditions agree.
+  Stacks 0CP4 itself, the equivalence with local finite presentation, is
+  `AlgebraicGeometry.Space.isLocallyOfFinitePresentation_tfae_qcqsLimitSquare` in
+  `StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentation.QcqsCriterionTfae`.
 * `AlgebraicGeometry.Space.affineLimitSquare_of_qcqsLimitSquare`: the easy implication, which
   needs no hypothesis on the source and target.
 * `AlgebraicGeometry.Space.qcqsLimitSquare_of_relativelyLimitPreserving` and
@@ -1108,12 +1111,16 @@ private theorem isPullback_of_chartBridges {f : X ⟶ Y}
     rw [← he j, Category.assoc, hz₁, ← Category.assoc, e.hom_inv_id]
     exact Category.id_comp _
 
-/-- **Stacks 0CP4.** For a morphism of algebraic spaces over `S`, the affine-limit
-comparison square is cartesian for every sufficiently small cofiltered inverse system of
-affine objects exactly when the comparison square of morphism sets is cartesian for every
-sufficiently small cofiltered inverse system of quasi-compact and quasi-separated algebraic
-spaces with affine transition morphisms. -/
-@[stacks 0CP4]
+/-- For a morphism of algebraic spaces over `S`, the affine-limit comparison square is
+cartesian for every sufficiently small cofiltered inverse system of affine objects exactly when
+the comparison square of morphism sets is cartesian for every sufficiently small cofiltered
+inverse system of quasi-compact and quasi-separated algebraic spaces with affine transition
+morphisms.
+
+This relates two size-bounded forms of condition (3) of Stacks 0CP4 to each other only. Stacks
+0CP4 itself, the equivalence of (3) with local finite presentation and relative limit
+preservation, is `AlgebraicGeometry.Space.isLocallyOfFinitePresentation_tfae_qcqsLimitSquare`,
+where (3) is read under the chapter's standing convention (tag 07SD). -/
 theorem affineLimitSquare_iff_qcqsLimitSquare (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) :
     AffineLimitSquare B S hS f ↔ QcqsLimitSquare B S hS hZ f := by
@@ -1135,10 +1142,13 @@ theorem qcqsLimitSquare_of_relativelyLimitPreserving (f : X ⟶ Y)
       (relativelyLimitPreserving_iff_affineLimit_isPullback.{u, u, u, u} B S hS f).mp h
         I D c hlim haff hafflim
 
-/-- **Stacks 0CP4.** A morphism of algebraic spaces over `S` which is locally of finite
-presentation satisfies the comparison condition for cofiltered limits of quasi-compact and
-quasi-separated algebraic spaces with affine transition morphisms. -/
-@[stacks 0CP4 "the implication from locally of finite presentation"]
+/-- A morphism of algebraic spaces over `S` which is locally of finite presentation satisfies
+the comparison condition for sufficiently small cofiltered limits of quasi-compact and
+quasi-separated algebraic spaces with affine transition morphisms.
+
+This is the implication (1) ⇒ (3) of Stacks 0CP4 for the size-bounded form
+`AlgebraicGeometry.Space.QcqsLimitSquare` of (3); the full equivalence is
+`AlgebraicGeometry.Space.isLocallyOfFinitePresentation_tfae_qcqsLimitSquare`. -/
 theorem qcqsLimitSquare_of_isLocallyOfFinitePresentation (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hf : IsLocallyOfFinitePresentation B S hS f) :

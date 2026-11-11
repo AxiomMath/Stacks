@@ -73,6 +73,7 @@ omit
   [A'.IsWeakSerreClass] in
 /-- **Stacks 0D7V for a morphism of ringed topoi**, the assertion that derived pullback
 restricts: for a flat `f` with `f^*𝒜' ⊂ 𝒜`, `Lf^*` carries `D_{𝒜'}(𝒪')` into `D_𝒜(𝒪)`. -/
+@[stacks 0D7V "derived pullback"]
 theorem derivedCategoryB_derivedPullback_obj
     (K : DerivedCategory
       (SheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))))
@@ -113,6 +114,7 @@ variable
 include hf hA hEquiv hUnit basisCover vanishing basisCover' vanishing' in
 /-- **Stacks 0D7V for a morphism of ringed topoi**, the assertion that derived pushforward
 restricts: under the hypotheses of the source, `Rf_*` carries `D_𝒜(𝒪)` into `D_{𝒜'}(𝒪')`. -/
+@[stacks 0D7V "derived pushforward"]
 theorem derivedCategoryB_derivedPushforward_obj :
     ∀ K : DerivedCategory
         (SheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O))),
@@ -133,6 +135,7 @@ let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories suc
 equivalence `𝒜' ⟶ 𝒜` and the unit `ℱ' ⟶ Rf_*f^*ℱ'` is invertible for every `ℱ'` of `𝒜'`, and
 assume that `C, 𝒪, 𝒜` and `C', 𝒪', 𝒜'` both satisfy the standing hypothesis of Tag 0D6R. Then
 the derived pullback is an **equivalence** `D_{𝒜'}(𝒪') ≌ D_𝒜(𝒪)`. -/
+@[stacks 0D7V "equivalence"]
 def derivedPullbackEquivalenceUnbounded :
     (DerivedCategoryB.derivedCategoryB A').FullSubcategory ≌
       (DerivedCategoryB.derivedCategoryB A).FullSubcategory :=
@@ -147,6 +150,7 @@ def derivedPullbackEquivalenceUnbounded :
 
 /-- **Stacks 0D7V for a morphism of ringed topoi**, the identification of the forward functor of
 the equivalence with the restriction of the derived pullback. -/
+@[stacks 0D7V "forward functor"]
 theorem derivedPullbackEquivalenceUnbounded_functor :
     (derivedPullbackEquivalenceUnbounded f hf A A' hA hEquiv hUnit
       B basisCover degreeBound coverings vanishing
@@ -158,6 +162,7 @@ theorem derivedPullbackEquivalenceUnbounded_functor :
 
 /-- **Stacks 0D7V for a morphism of ringed topoi**, the identification of the quasi-inverse of
 the equivalence with the restriction of the derived pushforward. -/
+@[stacks 0D7V "quasi-inverse"]
 theorem derivedPullbackEquivalenceUnbounded_inverse :
     (derivedPullbackEquivalenceUnbounded f hf A A' hA hEquiv hUnit
       B basisCover degreeBound coverings vanishing

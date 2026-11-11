@@ -164,7 +164,10 @@ which has an ample invertible module `A`, and let `dim X ≤ d`. Then for invert
 
 the product being the composition of Stacks 0B75 of the bivariant first Chern classes of
 Stacks 0B77, at the Gysin system of the first Chern class rule. -/
-@[stacks 0FDX]
+@[stacks 0FDX "X of finite type over the base of Situation 02QL with an ample invertible \
+module and dim X ≤ d; the product c₁(ℒ_1) ∘ ⋯ ∘ c₁(ℒ_{d+1}) of the bivariant first Chern \
+classes (Stacks 0B77, composed by Stacks 0B75) is zero in A^{d+1}(X), by the source's \
+induction on d"]
 theorem firstChernClassProduct_eq_zero_of_topologicalKrullDim_le [QuasiCompact sX]
     (A : X.Modules) [Stacks.Ample.IsInvertibleModule X A] (hA : Stacks.Ample.IsAmple X A)
     (d : ℕ) (hdim : topologicalKrullDim X ≤ (d : WithBot ℕ∞)) (L : Fin (d + 1) → X.Modules)

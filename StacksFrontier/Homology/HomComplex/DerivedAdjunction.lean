@@ -2385,6 +2385,30 @@ private lemma chain_internalCurry {R : Type u} [CommRing R] (P K T L M : C R)
     simp only [sub_eq_add_neg, Int.negOnePow_add, Int.negOnePow_neg,
       Int.negOnePow_mul_self]
 
+/-- **Stacks 0A61**.
+The canonical map `Tot(Hom^•(L, M) ⊗ K) ⟶ Hom^•(Hom^•(K, L), M)` of Stacks 0A60 obtained from
+the symmetric monoidal structure agrees with the direct construction `chainEvaluation`: it is the
+transpose, under the tensor–Hom adjunction of Stacks 0A5Y, of the arrow
+`Hom^•(L, M) ⊗ K ⊗ Hom^•(K, L) ⟶ M` that swaps the last two factors with the Koszul sign and then
+applies the evaluation maps `Hom^•(K, L) ⊗ K ⟶ L` and `Hom^•(L, M) ⊗ L ⟶ M`. -/
+@[stacks 0A61 "the monoidal construction of the evaluation map of 0A60 (Koszul swap of the last \
+two factors, two evaluations, transpose) equals chainEvaluation"]
+theorem _root_.ChainEvaluation.chainEvaluation_eq_tensorHomEquiv_symm {R : Type u} [CommRing R]
+    (K L M : CochainComplex (ModuleCat.{u} R) ℤ) :
+    ChainEvaluation.chainEvaluation K L M =
+      (Stacks.HomComplex.MonoidalClosed.tensorHomEquiv (HomComplexR R L M ⊗ K)
+        (HomComplexR R K L) M).symm
+        ((α_ (HomComplexR R L M) K (HomComplexR R K L)).hom ≫
+          (HomComplexR R L M ◁ (Model.complexSwap R K (HomComplexR R K L)).hom) ≫
+          (HomComplexR R L M ◁
+            Stacks.HomComplex.MonoidalClosed.tensorHomEquiv (HomComplexR R K L) K L (𝟙 _)) ≫
+          Stacks.HomComplex.MonoidalClosed.tensorHomEquiv (HomComplexR R L M) L M (𝟙 _)) := by
+  rw [Equiv.eq_symm_apply]
+  have h := chain_internalCurry (HomComplexR R L M) K (HomComplexR R K L) L M (𝟙 _) (𝟙 _)
+  simp only [MonoidalCategory.id_whiskerRight, Category.id_comp,
+    Stacks.HomComplex.TensorHomMap.precomp_id, Category.comp_id] at h
+  exact h
+
 
 private lemma internalCurry_test {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (d : DerivedHomAdjunction R)

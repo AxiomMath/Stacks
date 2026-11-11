@@ -67,13 +67,13 @@ representing presheaves; and Tag 04SD identifies the representing presheaf of th
 
 ## Implementation notes
 
-Stacks 04XC and 04XB would shorten the write-up and neither is available: both, and
-`AlgebraicGeometry.Stack.HasRelativeProperty` itself, carry the instance argument
+Stacks 04XC, 04XB and `AlgebraicGeometry.Stack.HasRelativeProperty` itself carry the instance
+argument
 `(Space.universallyClosedProperty B S hS).IsLocalAtTarget (Space.Topology.fppf.precoverage B S hS)`,
-which is Tag 0421 and is not in the library. The route above instantiates the definition of
-`AlgebraicGeometry.Stack.UniversallyClosed` directly and uses
-`AlgebraicGeometry.Stack.prop_algebraicSpaceMap_iff`, which needs only `RespectsIso`; so Tag 0421
-is not needed for Tag 0512.
+which is Stacks 041O (`AlgebraicGeometry.Space.universallyClosed_isLocalAtTarget_fpqc`, moved to
+the fppf precoverage along Stacks 0DFQ). The route above does not need it: it instantiates the
+definition of `AlgebraicGeometry.Stack.UniversallyClosed` directly and uses
+`AlgebraicGeometry.Stack.prop_algebraicSpaceMap_iff`, which needs only `RespectsIso`.
 
 `AlgebraicGeometry.Stack.pointsMap_basedFunctorId`, from the file of Tag 04XL, is used directly.
 

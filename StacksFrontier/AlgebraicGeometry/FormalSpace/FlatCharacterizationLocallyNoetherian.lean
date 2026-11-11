@@ -92,8 +92,12 @@ over `S` the following are equivalent:
 
 As in the source, (1) and (2) agree by Definition 0GCC, and (2), (3), (4) are the three
 conditions of the Noetherian variant of Stacks 0ANG (Remark 0ANI) for flatness, a local property
-of arrows of `WAdm^{Noeth}` by Stacks 0GC9. -/
-@[stacks 0GCD]
+of arrows of `WAdm^{Noeth}` by Stacks 0GC9. The only hypotheses are those of the source, that
+`X` and `Y` are locally Noetherian (Stacks 0AKY); the inputs that
+`AlgebraicGeometry.FormalSpace.isFlat_tfae` takes as hypotheses are all proved here. -/
+@[stacks 0GCD "all four conditions, for a morphism of locally Noetherian formal algebraic \
+spaces as in the source; Stacks 0AJ3, the refinement of Remark 0ANI and the locality of \
+flatness (Stacks 0GC9) are proved, not assumed"]
 theorem isFlat_tfae_of_isLocallyNoetherian {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyNoetherian B S hS X) (hY : IsLocallyNoetherian B S hS Y) :
     List.TFAE

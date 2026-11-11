@@ -45,17 +45,22 @@ agree on all field-valued points without being equal.
 * `AlgebraicGeometry.Space.diskMaps_agree_on_fieldPoints`: the two morphisms agree after
   every field-valued point of the disk.
 * `AlgebraicGeometry.Space.diskMaps_ne`: the two morphisms are nevertheless distinct.
-* `AlgebraicGeometry.Space.exists_setTheoreticallyInvariant_not_invariant`: the resulting
-  pre-relation on the formal disk with a set-theoretically invariant morphism which is not
-  invariant, so that quasi-separatedness cannot replace local separatedness in **Stacks
-  048Y**.
+* `AlgebraicGeometry.Space.exists_algebraicSpaces_setTheoreticallyInvariant_not_invariant`:
+  the resulting pre-relation of algebraic spaces over `Spec k`, the formal disk acting on
+  itself, with reduced relation space, quasi-separated target and a set-theoretically
+  invariant morphism which is not invariant, so that quasi-separatedness cannot replace local
+  separatedness in **Stacks 048Y**;
+  `AlgebraicGeometry.Space.not_forall_isInvariant_of_isQuasiSeparated` states this as the
+  negation of **Stacks 048Y** with `IsQuasiSeparated` in place of
+  `IsLocallySeparated`.
 * `AlgebraicGeometry.Space.hasEtaleLocalProperty_isReduced_involutionQuotient` and
   `AlgebraicGeometry.Space.isAbsolutelyQuasiSeparated_siteFormalDisk`: the quotient is
   reduced and the formal disk is quasi-separated, the two assertions of the example not
   already available for the other space.
-* `AlgebraicGeometry.Space.exists_agree_on_fieldPoints_ne_and_not_invariant`: the example
-  itself — a pair of morphisms of reduced quasi-separated algebraic spaces agreeing on all
-  field-valued points but not equal, together with the consequence for **Stacks 048Y**.
+* `AlgebraicGeometry.Space.exists_agree_on_fieldPoints_ne_and_algebraicSpaces_not_invariant`:
+  the example itself — a pair of morphisms of reduced quasi-separated algebraic spaces
+  agreeing on all field-valued points but not equal, together with the consequence for
+  **Stacks 048Y**.
 * `AlgebraicGeometry.Space.surjective_involutionQuotient_product`,
   `AlgebraicGeometry.Space.etale_involutionQuotient_product` and
   `AlgebraicGeometry.Space.isPullback_involutionRelation_diagonal`: the product of the
@@ -602,31 +607,51 @@ private theorem siteDiskNegation_comp_diskToInvolutionQuotient
     ((involutionProjection k B hS).naturality_apply (siteDiskNegation k B hS hD).op
       (diskCoordinate k)).symm
 
+/-- The terminal presheaf on the big fppf site of `Spec k` is an algebraic space: it is
+represented by `Spec k` itself. -/
+private theorem isAlgebraicSpace_terminal :
+    IsAlgebraicSpace B (Spec (.of k)) hS
+      (⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u)) := by
+  let V : BigFppfOver B (Spec (.of k)) hS := Over.mk (𝟙 (B.obj hS))
+  have hVterminal : IsTerminal (yoneda.obj V) :=
+    (Over.mkIdTerminal : IsTerminal V).isTerminalObj yoneda _
+  exact isAlgebraicSpace_of_iso B (Spec (.of k)) hS
+    (hVterminal.uniqueUpToIso terminalIsTerminal)
+    (isAlgebraicSpace_yoneda B (Spec (.of k)) hS V)
+
 include hD in
 /-- **Stacks 048Z.** Quasi-separatedness of the target cannot replace local separatedness in
 the criterion `AlgebraicGeometry.Space.isInvariant_of_isSetTheoreticallyInvariant_of_reduced`
-(**Stacks 048Y**): over a field in which two is invertible there is a pre-relation on a
-reduced algebraic space, with quasi-separated target, carrying a set-theoretically invariant
-morphism which is not invariant.
+(**Stacks 048Y**): over a field in which two is invertible there are an algebraic space `Z`
+and algebraic spaces `R`, `U`, `X` over `Z`, a pre-relation `j : R ⟶ U ×_Z U` and a morphism
+`φ : U ⟶ X` over `Z` such that `φ` is set-theoretically invariant, `R` is reduced, `X` is
+quasi-separated over `Z` (and an fppf sheaf), and yet `φ` is not invariant.
 
-The relation is the formal disk, acting on itself by the identity and by negation of the
-coordinate, and the morphism is the coordinate map to the quotient of the affine line by the
-involution relation.  Quasi-separatedness of that quotient is **Stacks 02Z1**, taken from
-`AlgebraicGeometry.AffineLineInvolution.isAbsolutelyQuasiSeparated_involutionQuotient` and
+The base `Z` is `Spec k`, the relation is the formal disk `Spec k[[x]]` acting on itself by
+the identity and by negation of the coordinate, and the morphism is the coordinate map to the
+quotient of the affine line by the involution relation of **Stacks 02Z1**, whose
+quasi-separatedness is
+`AlgebraicGeometry.AffineLineInvolution.isAbsolutelyQuasiSeparated_involutionQuotient`,
 converted to quasi-separatedness of the structure morphism by **Stacks 073B** part (2). -/
-@[stacks 048Z "quasi-separatedness does not suffice"]
-theorem exists_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
+@[stacks 048Z "quasi-separatedness does not suffice in 048Y"]
+theorem exists_algebraicSpaces_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
     (hZ : B.Contains (⊤_ Scheme.{u}))
     [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] :
     ∃ (Z : (BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u) (R U X : Over Z)
       (j : PreRelation R U) (φ : U ⟶ X),
-      HasEtaleLocalProperty B (Spec (.of k)) hS R.left (fun T : Scheme.{u} ↦ IsReduced T) ∧
+      IsAlgebraicSpace B (Spec (.of k)) hS Z ∧
+        IsAlgebraicSpace B (Spec (.of k)) hS R.left ∧
+        IsAlgebraicSpace B (Spec (.of k)) hS U.left ∧
+        IsAlgebraicSpace B (Spec (.of k)) hS X.left ∧
+        IsSetTheoreticallyInvariant j φ.left ∧
+        HasEtaleLocalProperty B (Spec (.of k)) hS R.left (fun T : Scheme.{u} ↦ IsReduced T) ∧
         IsQuasiSeparated B (Spec (.of k)) hS X.hom ∧
-        IsSetTheoreticallyInvariant j φ.left ∧ ¬ IsInvariant j φ.left := by
+        Presheaf.IsSheaf (BigFppfOver.topology B (Spec (.of k)) hS) X.left ∧
+        ¬ IsInvariant j φ.left := by
+  have hQ := isAlgebraicSpace_involutionQuotient k hchar B hS
   have hqs : IsQuasiSeparated B (Spec (.of k)) hS
       (terminal.from (involutionQuotient k B hS).obj) :=
-    isQuasiSeparated_of_isAbsolutelyQuasiSeparated_source B (Spec (.of k)) hS hZ
-      (isAlgebraicSpace_involutionQuotient k hchar B hS)
+    isQuasiSeparated_of_isAbsolutelyQuasiSeparated_source B (Spec (.of k)) hS hZ hQ
       (isAbsolutelyQuasiSeparated_involutionQuotient k B hS hchar hZ) _
   let D : Over (⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u)) :=
     Over.mk (terminal.from (yoneda.obj (siteFormalDisk k B hS hD)))
@@ -639,8 +664,10 @@ theorem exists_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
   have hs : j.source = 𝟙 D := prod.lift_snd _ _
   have ht : j.target = n := prod.lift_fst _ _
   have hna := siteDiskNegation_comp_diskToInvolutionQuotient k B hS hD
-  refine ⟨_, D, D, Q, j, φ, formalDisk_hasEtaleLocalProperty_isReduced k B hS hD, hqs,
-    ?_, ?_⟩
+  have hDalg : IsAlgebraicSpace B (Spec (.of k)) hS D.left :=
+    isAlgebraicSpace_yoneda B (Spec (.of k)) hS _
+  refine ⟨_, D, D, Q, j, φ, isAlgebraicSpace_terminal k B hS, hDalg, hDalg, hQ, ?_,
+    formalDisk_hasEtaleLocalProperty_isReduced k B hS hD, hqs, hQ.isSheaf, ?_⟩
   · rintro p x y ⟨r, hx, hy⟩
     rw [← hx, ← hy, congrArg Over.Hom.left ht, congrArg Over.Hom.left hs]
     change (r.1 ≫ yoneda.map (siteDiskNegation k B hS hD)) ≫
@@ -657,6 +684,55 @@ theorem exists_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
       diskToInvolutionQuotient k B hS hD at hinv
     rw [hna] at hinv
     exact diskMaps_ne k B hS hD hchar hinv.symm
+
+include hD in
+/-- **Stacks 048Z.** **Stacks 048Y** fails with local separatedness of the target replaced by
+quasi-separatedness: over a field in which two is invertible it is not true that for every
+algebraic space `Z`, all algebraic spaces `R`, `U`, `X` over `Z`, every pre-relation
+`j : R ⟶ U ×_Z U` and every morphism `φ : U ⟶ X` over `Z`, set-theoretic invariance of `φ`,
+reducedness of `R`, quasi-separatedness of `X` over `Z` and the sheaf condition on `X` imply
+that `φ` is invariant.  This is the hypothesis list of
+`AlgebraicGeometry.Space.isInvariant_of_isSetTheoreticallyInvariant_of_reduced` with
+`IsLocallySeparated` replaced by `IsQuasiSeparated`. -/
+@[stacks 048Z "048Y fails for quasi-separated targets"]
+theorem not_forall_isInvariant_of_isQuasiSeparated (hchar : (2 : k) ≠ 0)
+    (hZ : B.Contains (⊤_ Scheme.{u}))
+    [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] :
+    ¬ ∀ (Z : (BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u) (R U X : Over Z)
+      (j : PreRelation R U) (φ : U ⟶ X),
+      IsAlgebraicSpace B (Spec (.of k)) hS Z →
+        IsAlgebraicSpace B (Spec (.of k)) hS R.left →
+        IsAlgebraicSpace B (Spec (.of k)) hS U.left →
+        IsAlgebraicSpace B (Spec (.of k)) hS X.left →
+        IsSetTheoreticallyInvariant j φ.left →
+        HasEtaleLocalProperty B (Spec (.of k)) hS R.left (fun T : Scheme.{u} ↦ IsReduced T) →
+        IsQuasiSeparated B (Spec (.of k)) hS X.hom →
+        Presheaf.IsSheaf (BigFppfOver.topology B (Spec (.of k)) hS) X.left →
+        IsInvariant j φ.left := by
+  intro h
+  obtain ⟨Z, R, U, X, j, φ, h₁, h₂, h₃, h₄, h₅, h₆, h₇, h₈, h₉⟩ :=
+    exists_algebraicSpaces_setTheoreticallyInvariant_not_invariant k B hS hD hchar hZ
+  exact h₉ (h Z R U X j φ h₁ h₂ h₃ h₄ h₅ h₆ h₇ h₈)
+
+include hD in
+/-- Quasi-separatedness of the target cannot replace local separatedness in the criterion
+`AlgebraicGeometry.Space.isInvariant_of_isSetTheoreticallyInvariant_of_reduced`
+(**Stacks 048Y**): over a field in which two is invertible there is a pre-relation with
+reduced relation space and quasi-separated target carrying a set-theoretically invariant
+morphism which is not invariant.  This omits the algebraicity of the spaces involved;
+`AlgebraicGeometry.Space.exists_algebraicSpaces_setTheoreticallyInvariant_not_invariant`
+records that all of them are algebraic spaces. -/
+theorem exists_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
+    (hZ : B.Contains (⊤_ Scheme.{u}))
+    [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] :
+    ∃ (Z : (BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u) (R U X : Over Z)
+      (j : PreRelation R U) (φ : U ⟶ X),
+      HasEtaleLocalProperty B (Spec (.of k)) hS R.left (fun T : Scheme.{u} ↦ IsReduced T) ∧
+        IsQuasiSeparated B (Spec (.of k)) hS X.hom ∧
+        IsSetTheoreticallyInvariant j φ.left ∧ ¬ IsInvariant j φ.left := by
+  obtain ⟨Z, R, U, X, j, φ, -, -, -, -, h₅, h₆, h₇, -, h₉⟩ :=
+    exists_algebraicSpaces_setTheoreticallyInvariant_not_invariant k B hS hD hchar hZ
+  exact ⟨Z, R, U, X, j, φ, h₆, h₇, h₅, h₉⟩
 
 /-! ### The two spaces are reduced and quasi-separated -/
 
@@ -725,33 +801,23 @@ theorem hasEtaleLocalProperty_isReduced_involutionQuotient (hchar : (2 : k) ≠ 
   have hV : IsReduced ((BigFppfOver.toScheme B (Spec (.of k)) hS).obj V) := by
     change IsReduced (Spec (.of k))
     exact (affine_isReduced_iff _).2 inferInstance
-  have hTerm : IsAlgebraicSpace B (Spec (.of k)) hS
-      (⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u)) :=
-    isAlgebraicSpace_of_iso B (Spec (.of k)) hS eV
-      (isAlgebraicSpace_yoneda B (Spec (.of k)) hS V)
   have hTermRed : HasEtaleLocalProperty B (Spec (.of k)) hS
       (⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u))
       (fun T : Scheme.{u} ↦ IsReduced T) :=
     hasEtaleLocalProperty_of_representable B (Spec (.of k)) hS _
       (fun T : Scheme.{u} ↦ IsReduced T) V eV.symm hV
   exact isReduced_source_of_isSmooth B (Spec (.of k)) hS
-    (isAlgebraicSpace_involutionQuotient k hchar B hS) hTerm _
+    (isAlgebraicSpace_involutionQuotient k hchar B hS) (isAlgebraicSpace_terminal k B hS) _
     (isSmooth_involutionQuotient k hchar B hS) hTermRed
 
 include hD in
-/-- **Stacks 048Z.** Over a field in which two is invertible there are reduced
-quasi-separated algebraic spaces `X`, `Y` and two morphisms `a, b : Y ⟶ X` which agree on
-every field-valued point of `Y` yet are not equal; consequently quasi-separatedness of the
-target cannot replace local separatedness in the criterion
-`AlgebraicGeometry.Space.isInvariant_of_isSetTheoreticallyInvariant_of_reduced` (**Stacks
-048Y**), because there is a pre-relation on a reduced algebraic space with quasi-separated
-target carrying a set-theoretically invariant morphism which is not invariant.
-
-The spaces are `Y = Spec k[[x]]` and `X = 𝔸¹_k/(Δ ⨿ {(x, -x) | x ≠ 0})`, the algebraic space
-of **Stacks 02Z1**, and the two morphisms are the coordinate and its negative followed by the
-projection to the quotient.  The pre-relation witnessing the second assertion is `Y` acting
-on itself by the identity and by negation of the coordinate. -/
-@[stacks 048Z]
+/-- Over a field in which two is invertible there are reduced quasi-separated algebraic spaces
+`X`, `Y` and two morphisms `a, b : Y ⟶ X` which agree on every field-valued point of `Y` yet
+are not equal, and there is a pre-relation with reduced relation space and quasi-separated
+target carrying a set-theoretically invariant morphism which is not invariant.  The second
+conjunct omits the algebraicity of the spaces involved;
+`AlgebraicGeometry.Space.exists_agree_on_fieldPoints_ne_and_algebraicSpaces_not_invariant`
+is the full statement of **Stacks 048Z**. -/
 theorem exists_agree_on_fieldPoints_ne_and_not_invariant (hchar : (2 : k) ≠ 0)
     (hZ : B.Contains (⊤_ Scheme.{u}))
     [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] :
@@ -787,6 +853,52 @@ theorem exists_agree_on_fieldPoints_ne_and_not_invariant (hchar : (2 : k) ≠ 0)
   · intro K _ hK β g
     rw [← Yoneda.fullyFaithful.map_preimage g]
     exact diskMaps_agree_on_fieldPoints k B hS hD K hK β (Yoneda.fullyFaithful.preimage g)
+
+include hD in
+/-- **Stacks 048Z.** Over a field in which two is invertible there are reduced
+quasi-separated algebraic spaces `X`, `Y` and two morphisms `a, b : Y ⟶ X` which agree on
+every field-valued point of `Y` yet are not equal; consequently **Stacks 048Y**
+(`AlgebraicGeometry.Space.isInvariant_of_isSetTheoreticallyInvariant_of_reduced`) does not
+hold with local separatedness of the target replaced by quasi-separatedness: there are an
+algebraic space `Z`, algebraic spaces `R`, `U`, `X` over `Z`, a pre-relation
+`j : R ⟶ U ×_Z U` with `R` reduced and `X` quasi-separated over `Z`, and a set-theoretically
+invariant morphism `φ : U ⟶ X` over `Z` which is not invariant.
+
+The spaces are `Y = Spec k[[x]]` and `X = 𝔸¹_k/(Δ ⨿ {(x, -x) | x ≠ 0})`, the algebraic space
+of **Stacks 02Z1**, and the two morphisms are the coordinate and its negative followed by the
+projection to the quotient.  For the second assertion `Z = Spec k`, `R = U = Y` with
+`s = 1`, `t = -1`, and `φ = a`. -/
+@[stacks 048Z]
+theorem exists_agree_on_fieldPoints_ne_and_algebraicSpaces_not_invariant
+    (hchar : (2 : k) ≠ 0) (hZ : B.Contains (⊤_ Scheme.{u}))
+    [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] :
+    (∃ (X Y : (BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u) (a b : Y ⟶ X),
+        IsAlgebraicSpace B (Spec (.of k)) hS X ∧
+        IsAlgebraicSpace B (Spec (.of k)) hS Y ∧
+        HasEtaleLocalProperty B (Spec (.of k)) hS X (fun T : Scheme.{u} ↦ IsReduced T) ∧
+        HasEtaleLocalProperty B (Spec (.of k)) hS Y (fun T : Scheme.{u} ↦ IsReduced T) ∧
+        IsAbsolutelyQuasiSeparated B (Spec (.of k)) hS hZ X ∧
+        IsAbsolutelyQuasiSeparated B (Spec (.of k)) hS hZ Y ∧
+        (∀ (K : Type u) [Field K] (hK : B.Contains (Spec (.of K)))
+            (β : Spec (.of K) ⟶ Spec (.of k))
+            (g : yoneda.obj (Over.mk (ObjectProperty.homMk β : B.obj hK ⟶ B.obj hS) :
+              BigFppfOver B (Spec (.of k)) hS) ⟶ Y),
+          g ≫ a = g ≫ b) ∧
+        a ≠ b) ∧
+      ∃ (Z : (BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u) (R U X : Over Z)
+        (j : PreRelation R U) (φ : U ⟶ X),
+        IsAlgebraicSpace B (Spec (.of k)) hS Z ∧
+          IsAlgebraicSpace B (Spec (.of k)) hS R.left ∧
+          IsAlgebraicSpace B (Spec (.of k)) hS U.left ∧
+          IsAlgebraicSpace B (Spec (.of k)) hS X.left ∧
+          IsSetTheoreticallyInvariant j φ.left ∧
+          HasEtaleLocalProperty B (Spec (.of k)) hS R.left
+            (fun T : Scheme.{u} ↦ IsReduced T) ∧
+          IsQuasiSeparated B (Spec (.of k)) hS X.hom ∧
+          Presheaf.IsSheaf (BigFppfOver.topology B (Spec (.of k)) hS) X.left ∧
+          ¬ IsInvariant j φ.left :=
+  ⟨(exists_agree_on_fieldPoints_ne_and_not_invariant k B hS hD hchar hZ).1,
+    exists_algebraicSpaces_setTheoreticallyInvariant_not_invariant k B hS hD hchar hZ⟩
 
 end AlgebraicGeometry.Space
 

@@ -58,9 +58,8 @@ variable {S : GlobalCrystallineSituation.{u}} {B D : CrystallineThickening S} {p
 /-- **The open of `T(1)` lying over an affine open of `T` is affine.**  The ambient diagonal
 `Δ : T ⟶ T(1)` is a closed immersion, hence finite, and a homeomorphism on spaces, hence
 surjective; it pulls `p₀⁻¹V ⊓ p₁⁻¹V` back to `V`, so its restriction over that open is a finite
-surjective morphism with affine source, and [Stacks, Tag 01ZT] applies. -/
-@[stacks 07J1 "the open of T(1) corresponding to an affine open of T is affine, by Limits, \
-Lemma 01ZT applied to the restriction of the diagonal"]
+surjective morphism with affine source, and [Stacks, Tag 01ZT] applies.  This is the reduction
+to the affine case in the proof of [Stacks, Tag 07J1]. -/
 theorem isAffineOpen_smallSelfProductOpen (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     {V : B.obj.thickening.target.scheme.Opens} (hV : IsAffineOpen V) :
     IsAffineOpen (smallSelfProductOpen pr₀ pr₁ V) := by

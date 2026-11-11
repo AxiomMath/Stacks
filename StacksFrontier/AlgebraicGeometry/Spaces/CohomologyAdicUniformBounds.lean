@@ -33,13 +33,8 @@ one sentence, and that deduction is carried out here in the vocabulary of
 
 ## What is carried
 
-Neither the long exact cohomology sequence of a short exact sequence of modules on the small
-étale site of an algebraic space, nor [Stacks, Tag 08AX], nor the coherence
-[Stacks, Tag 08AR] that makes the cohomology modules finite, is available in this repository:
-no declaration in the library proves 08AX or 08AR, and the cohomology long exact
-sequence for the étale site is not formalized either.  Accordingly the statements below take as
-hypotheses exactly the four facts the source's proof uses about the situation, and prove the
-rest:
+The results here are about abstract towers of `A`-modules, so they take as hypotheses the facts
+the source's proof uses about the situation, and prove the rest:
 
 * `hexactM` and `hexact`: the two exactness assertions of the long exact sequence that the
   source invokes — `ker (π n) ⊆ im (ι n)` (exactness at `H ᵖ (X, ℱ)`) and
@@ -48,21 +43,31 @@ rest:
   `im (ι n) ⊆ I ^ (n - c) M` for `n ≥ c`, and for `H ᵖ⁺¹`, that
   `im (U n k) ⊆ I ^ (k - n - c) L n` for `k ≥ n + c`.  The single `c` is the source's
   `c₁ = max {c_p, c_{p+1}}`;
-* `hfin`: finiteness of `L n` over `A`, which in the situation is [Stacks, Tag 08AR] together
-  with the Noetherian hypothesis;
+* `hfin`: finiteness of `L n` over `A` ([Stacks, Tag 08AS] together with the Noetherian
+  hypothesis);
 * `hann`: that `I ⁿ` annihilates `Q n`, which holds because `ℱ / I ⁿ ℱ` is a module over
   `𝒪_X / I ⁿ 𝒪_X`.
 
-Everything else is proved: the Artin–Rees step is
+All of these inputs are proved for the cohomology of a coherent module on an algebraic space
+proper over `Spec A` in the file `CohomologyAdicUniformBoundsSpace.lean` of
+`StacksFrontier/AlgebraicGeometry/Spaces/GrothendieckExistence/HomBijection/`, which deduces
+[Stacks, Tag 08AY] itself, unconditionally, from the results of this file.  The registrations
+of 08AY are the declarations
+`AlgebraicGeometry.Space.exists_ker_cohomologyIdealQuotientProj_le`,
+`AlgebraicGeometry.Space.isMittagLefflerCategorical_cohomologyIdealQuotientTower` and
+`AlgebraicGeometry.Space.exists_range_cohomologyIdealQuotientTr_eq` of
+`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyAdicUniformBoundsSpace.lean`.
+
+Here the Artin–Rees step is
 `Ideal.exists_pow_inf_eq_pow_smul` fed into `range_inf_smul_top_le_map_smul_top`, the
 map form of [Stacks, Tag 00IO], and the Mittag-Leffler step is the subobject-to-range
 dictionary `isMittagLefflerCategorical_of_range_eq_submodule`.
 
 ## Main results
 
-* `Stacks.AdicCohomologyBound.ker_le_pow_smul_top` — clause (1).
-* `Stacks.AdicCohomologyBound.exists_range_transition_eq_range_proj` — clause (3); this is the
-  Artin–Rees argument of the source and the only substantial proof in the file.
+* `Stacks.AdicCohomologyBound.ker_le_pow_smul_top` — the tower form of clause (1).
+* `Stacks.AdicCohomologyBound.exists_range_transition_eq_range_proj` — the tower form of clause (3);
+  this is the Artin–Rees argument of the source and the only substantial proof in the file.
 * `Stacks.AdicCohomologyBound.exists_range_transition_stable` — clause (2) in its elementary
   form, the stabilization of the images of the transition maps, deduced from clause (3).
 * `Stacks.AdicCohomologyBound.isMittagLefflerCategorical_of_exists_range_eq_range_proj` —
@@ -82,14 +87,9 @@ annihilates `Q n`" needs `N - c₃ ≥ n`, which costs a second `n`.  So clause 
 the existential, exactly as the source states it.
 
 **Why the cohomology groups are data.**  `Q`, `Λ` and `L` are arbitrary families of
-`A`-modules rather than the cohomology of the adic quotients of a coherent module, because the
-input this lemma needs about them — the long exact sequence together with [Stacks, Tag 08AX] —
-is not available for the cohomology of an algebraic space here.  Stating the lemma for
-arbitrary families costs nothing and makes it applicable to either of the two presentations of
-cohomology in this repository once those inputs exist: the derived-functor presentation
-`Stacks.Cohomology.SiteModules.globalModuleCohomology` used by
-`StacksFrontier/AlgebraicGeometry/Spaces/FormalFunctionsAdicLimit.lean`, or the corepresentable
-one.  No presentation is committed to below, and no bridge between them is used.
+`A`-modules rather than the cohomology of the adic quotients of a coherent module, so that the
+algebra of the source's argument is separated from the geometry that supplies its inputs; the
+geometric inputs are supplied in `CohomologyAdicUniformBoundsSpace.lean`.
 
 **The clause (2) statement is over `ModuleCat`.**  `IsMittagLefflerCategorical` is a statement
 about the subobject lattices of an inverse system in an abelian category, so its subject is a
@@ -103,7 +103,7 @@ packaging the tower as a functor.
 * [Stacks Project, Tag 08AY](https://stacks.math.columbia.edu/tag/08AY)
 * [Stacks Project, Tag 08AV](https://stacks.math.columbia.edu/tag/08AV)
 * [Stacks Project, Tag 08AX](https://stacks.math.columbia.edu/tag/08AX)
-* [Stacks Project, Tag 08AR](https://stacks.math.columbia.edu/tag/08AR)
+* [Stacks Project, Tag 08AS](https://stacks.math.columbia.edu/tag/08AS)
 * [Stacks Project, Tag 02N0](https://stacks.math.columbia.edu/tag/02N0)
 * [Stacks Project, Tag 00IO](https://stacks.math.columbia.edu/tag/00IO)
 * [Stacks Project, Tag 08AZ](https://stacks.math.columbia.edu/tag/08AZ)
@@ -121,7 +121,8 @@ section Tower
 
 variable {A : Type*} [CommRing A] (I : Ideal A) {M : Type*} [AddCommGroup M] [Module A M]
 
-/-- **Clause (1) of [Stacks, Tag 08AY].**
+/-- **The abstract-tower form of clause (1) of [Stacks, Tag 08AY].**  For the statement itself,
+unconditional, see `AlgebraicGeometry.Space.exists_ker_cohomologyIdealQuotientProj_le`.
 
 In Situation 08AV, for a fixed `p` there is a `c` with
 `ker (H ᵖ (X, ℱ) ⟶ H ᵖ (X, ℱ / I ⁿ ℱ)) ⊆ I ^ (n - c) H ᵖ (X, ℱ)` for all `n ≥ c`.
@@ -132,11 +133,6 @@ The source's proof is two steps.  The long exact sequence of
 [Stacks, Tag 08AX], taken at `n = 0`, bounds that image by `I ^ (n - c) H ᵖ (X, ℱ)`, which is
 the hypothesis `h08AX`.  Only the containment `ker (π n) ⊆ im (ι n)` is needed, not the
 equality the source writes. -/
-@[stacks 08AY "clause (1): ker(H^p(X,F) -> H^p(X,F/I^n F)) is contained in I^(n-c) H^p(X,F) \
-for n >= c. The two inputs of the source's two-step proof are hypotheses, neither being \
-available in this repository: hexactM is exactness of the long exact sequence of \
-0 -> I^n F -> F -> F/I^n F -> 0 at H^p(X,F), and h08AX is clause (2) of Tag 08AX at n = 0. \
-The cohomology modules are arbitrary A-modules for the same reason"]
 theorem ker_le_pow_smul_top {Λ : ℕ → Type*} [∀ n, AddCommGroup (Λ n)] [∀ n, Module A (Λ n)]
     {Q : ℕ → Type*} [∀ n, AddCommGroup (Q n)] [∀ n, Module A (Q n)]
     (ι : ∀ n, Λ n →ₗ[A] M) (π : ∀ n, M →ₗ[A] Q n) (c : ℕ)
@@ -145,7 +141,8 @@ theorem ker_le_pow_smul_top {Λ : ℕ → Type*} [∀ n, AddCommGroup (Λ n)] [�
     ∀ n, c ≤ n → LinearMap.ker (π n) ≤ I ^ (n - c) • (⊤ : Submodule A M) :=
   fun n hn => (hexactM n).trans (h08AX n hn)
 
-/-- **Clause (3) of [Stacks, Tag 08AY].**
+/-- **The abstract-tower form of clause (3) of [Stacks, Tag 08AY].**  For the statement itself,
+unconditional, see `AlgebraicGeometry.Space.exists_range_cohomologyIdealQuotientTr_eq`.
 
 In Situation 08AV, for a fixed `p` and a fixed `n` there is a `c₂ ≥ n` with
 `im (H ᵖ (X, ℱ / I ᵏ ℱ) ⟶ H ᵖ (X, ℱ / I ⁿ ℱ)) = im (H ᵖ (X, ℱ) ⟶ H ᵖ (X, ℱ / I ⁿ ℱ))`
@@ -162,11 +159,6 @@ once `N - c₃ ≥ n` that target submodule is zero.  Hence `δ n x = 0`, and ex
 `H ᵖ (X, ℱ / I ⁿ ℱ)` puts `x` in the image of `π n`.  The threshold produced is
 `c₂ = 2 * n + c + c₃`; see this file's implementation notes for why it cannot be brought down
 to `n + c` for a single `c`. -/
-@[stacks 08AY "clause (3): for each n there is c2 >= n with im(H^p(X,F/I^k F) -> \
-H^p(X,F/I^n F)) = im(H^p(X,F) -> H^p(X,F/I^n F)) for k >= c2. The source's Artin-Rees \
-argument, proved in full; its four inputs are hypotheses, none available here: the ladder of \
-long exact sequences, Tag 08AX clause (2) for H^(p+1), finiteness from Tag 08AR, and the \
-annihilation of H^p(X,F/I^n F) by I^n. As in the source c2 grows with n: NOT of form n + c"]
 theorem exists_range_transition_eq_range_proj [IsNoetherianRing A]
     {Q : ℕ → Type*} [∀ n, AddCommGroup (Q n)] [∀ n, Module A (Q n)]
     {L : ℕ → Type*} [∀ n, AddCommGroup (L n)] [∀ n, Module A (L n)]
@@ -204,15 +196,12 @@ theorem exists_range_transition_eq_range_proj [IsNoetherianRing A]
   · rintro x ⟨z, rfl⟩
     exact ⟨(π k) z, by simpa using LinearMap.congr_fun (hπ n k h) z⟩
 
-/-- **Clause (2) of [Stacks, Tag 08AY], in elementary form.**
+/-- **Clause (2) of [Stacks, Tag 08AY], in elementary form, for an abstract tower.**
 
 "Part (3) implies part (2) by definition of the Mittag-Leffler condition": once the image of
 `T n k` equals the image of `π n` for all `k ≥ c₂`, those images are in particular all equal
 to one another, which is the stabilization asserted by [Stacks, Tag 02N0].  The hypothesis
 here is precisely the conclusion of `exists_range_transition_eq_range_proj`. -/
-@[stacks 08AY "clause (2) in elementary form -- the images of the transition maps of the tower \
-H^p(X,F/I^n F) stabilize -- deduced from clause (3) exactly as the source does, the hypothesis \
-being the conclusion of exists_range_transition_eq_range_proj above"]
 theorem exists_range_transition_stable {Q : ℕ → Type*} [∀ n, AddCommGroup (Q n)]
     [∀ n, Module A (Q n)] (π : ∀ n, M →ₗ[A] Q n) (T : ∀ m n : ℕ, m ≤ n → Q n →ₗ[A] Q m)
     (h : ∀ n : ℕ, ∃ c₂ : ℕ, n ≤ c₂ ∧ ∀ (k : ℕ) (hnk : n ≤ k), c₂ ≤ k →
@@ -227,7 +216,9 @@ end Tower
 
 section Categorical
 
-/-- **Clause (2) of [Stacks, Tag 08AY], in the vocabulary of [Stacks, Tag 02N0].**
+/-- **Clause (2) of [Stacks, Tag 08AY] for an abstract tower, in the vocabulary of
+[Stacks, Tag 02N0].**  For the statement itself, unconditional, see
+`AlgebraicGeometry.Space.isMittagLefflerCategorical_cohomologyIdealQuotientTower`.
 
 For the tower `n ↦ H ᵖ (X, ℱ / I ⁿ ℱ)` presented as an inverse system of `A`-modules, that is
 a functor `F : ℕᵒᵖ ⥤ ModuleCat A`, clause (3) of [Stacks, Tag 08AY] says that the images of
@@ -235,10 +226,6 @@ the transition maps into `F.obj (op n)` are eventually the image of `π n`; so t
 which is the Mittag-Leffler condition `IsMittagLefflerCategorical` of [Stacks, Tag 02N0].  The
 passage from ranges of linear maps to the transition subobjects that the definition speaks of
 is the dictionary `isMittagLefflerCategorical_of_range_eq_submodule`. -/
-@[stacks 08AY "clause (2) in the vocabulary of Tag 02N0: the tower H^p(X,F/I^n F), presented \
-as a functor into ModuleCat, satisfies IsMittagLefflerCategorical. Deduced from clause (3), \
-whose conclusion is the hypothesis h; the stabilized value is the image of the restriction \
-map from H^p(X,F)"]
 theorem isMittagLefflerCategorical_of_exists_range_eq_range_proj {A : Type u} [Ring A]
     {M : Type w} [AddCommGroup M] [Module A M] (F : ℕᵒᵖ ⥤ ModuleCat.{v} A)
     (π : ∀ n : ℕ, M →ₗ[A] F.obj (op n))

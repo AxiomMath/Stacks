@@ -132,11 +132,13 @@ noncomputable abbrev affineChartPresheaf (G : SheafOfModules.{u} (structureSheaf
     PresheafOfModules.{u} (affineChartRings B S hS ⋙ forget₂ CommRingCat RingCat) :=
   (affineChartModule B S hS G).val
 
-/-! ### Descent, Proposition 03DX (2) on the affine subsite -/
+/-! ### Quasi-coherent implies cartesian on the affine subsite -/
 
 /-- **A quasi-coherent sheaf of modules on the small étale site of a scheme is cartesian over
-every arrow of the small affine étale site**, for the chart rings. -/
-@[stacks 03DX "quasi-coherent implies cartesian over the small affine étale site of a scheme"]
+every arrow of the small affine étale site**, for the chart rings.  This is a step of the proof of
+Descent, Proposition 03DX (2) at `τ = étale`, not the clause itself (an equivalence of
+categories, `AlgebraicGeometry.SmallEtale.isEquivalence_associatedModuleQcohOnSite'`), and it
+carries no `stacks` attribute. -/
 theorem bijective_restrictionBaseChange_affineChartModule
     (G : SheafOfModules.{u} (structureSheaf B S hS)) (hG : G.IsQuasicoherentOnSite)
     {X Y : (SmallAffineEtale B S hS)ᵒᵖ} (a : X ⟶ Y) :

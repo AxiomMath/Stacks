@@ -89,11 +89,10 @@ small étale site of `X`.
 This is `AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_sheafOfDifferentials`, the reduction
 of Stacks 0CK5 to Stacks 02G1, applied to
 `AlgebraicGeometry.Space.sheafOfDifferentialsSchemeSiteComparison`, which proves the comparison
-of Stacks 04CS that the reduction takes as its argument `hsite`.  The mathematics is that of the
-reduction; only the argument is supplied. -/
-@[stacks 0CK5 "the unconditional form, with the 04CS site transport of finite local freeness
-  discharged by `AlgebraicGeometry.Space.sheafOfDifferentialsSchemeSiteComparison`; smoothness of
-  `f` is the only thing this asks"]
+of Stacks 04CS that the reduction takes as its argument `hsite`. -/
+@[stacks 0CK5 "the full statement: for `f : X ⟶ Y` a smooth morphism of algebraic spaces over
+  `S`, `Ω_{X/Y}` is finite locally free on the small étale site of `X`; smoothness of `f` is the
+  sole hypothesis"]
 theorem isFiniteLocallyFreeOnSite_sheafOfDifferentials_of_isSmooth
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hf : IsSmooth B S hS f.hom) :
     SheafOfModules.IsFiniteLocallyFreeOnSite (sheafOfDifferentials B S hS f) :=

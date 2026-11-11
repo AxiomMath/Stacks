@@ -186,9 +186,9 @@ open LocallyTopologicallyRingedSpace in
 fppf sheaves, as in Stacks 0AIU, then `𝔛` has a fundamental system of ideals of definition, with
 the definitions of the source: ideal sheaves whose ideals of sections over every affine formal open
 are ideals of definition, and a neighbourhood basis of zero there. -/
-@[stacks 0AIW "the only if direction: for 𝔛 quasi-compact, if h_𝔛 is a colimit of schemes as in \
-Lemma 0AIU (colimit in fppf sheaves) then there exists a fundamental system of ideals of \
-definition for 𝔛, for ideal sheaves in the source's generality"]
+@[stacks 0AIW "the direction from colimit to fundamental system: for 𝔛 quasi-compact, if h_𝔛 \
+is a colimit of schemes as in Lemma 0AIU (colimit in fppf sheaves) then there exists a \
+fundamental system of ideals of definition for 𝔛, for ideal sheaves in the source's generality"]
 theorem FormalScheme.exists_isFundamentalSystemOfIdealsOfDefinitionOn_of_isFppfColimitOfThickenings
     (X : FormalScheme.{u}) [CompactSpace ↥X.obj]
     (h : X.toMcQuillanFormalScheme.IsFppfColimitOfThickenings) :
@@ -209,11 +209,12 @@ The source's definition of an ideal of definition is sectionwise and does not as
 condition (the analogue of `ℐ|_𝔘 = ℐ(𝔘)^Δ` in EGA), and with it the "if" direction is false
 (`FormalScheme.not_forall_isFppfColimitOfThickenings_of_exists`). -/
 @[stacks 0AIW "corrected form: for 𝔛 quasi-compact, h_𝔛 is a colimit of schemes as in Lemma \
-0AIU (colimit in fppf sheaves) if and only if there exists a fundamental system of ideals of \
-definition for 𝔛 cut out by their sections over the affine formal opens; the if direction as \
-printed is false: see FormalScheme.not_forall_isFppfColimitOfThickenings_of_exists (the only \
-if direction for arbitrary ideal sheaves is \
-exists_isFundamentalSystemOfIdealsOfDefinitionOn_of_isFppfColimitOfThickenings)"]
+0AIU (colimit in fppf sheaves) iff there exists a fundamental system of ideals of definition for 𝔛 \
+cut out by their sections over the affine formal opens (erratum in errata.md); the direction from \
+fundamental system to colimit as printed is false: see \
+FormalScheme.not_forall_isFppfColimitOfThickenings_of_exists; the direction from colimit to \
+fundamental system holds for arbitrary ideal sheaves, \
+exists_isFundamentalSystemOfIdealsOfDefinitionOn_of_isFppfColimitOfThickenings"]
 theorem FormalScheme.isFppfColimitOfThickenings_iff (X : FormalScheme.{u}) [CompactSpace ↥X.obj] :
     X.toMcQuillanFormalScheme.IsFppfColimitOfThickenings ↔ ∃ 𝒮 : Set (IdealSheaf X.obj),
       (∀ I ∈ 𝒮, I.IsCutOutOn (IsAffineFormalOpen X.obj)) ∧

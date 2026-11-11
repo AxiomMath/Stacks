@@ -17,10 +17,12 @@ equivalent conditions of **Stacks 06MP**, and that the inclusion `𝒵' ⟶ 𝒵
 algebraic spaces and a monomorphism.
 
 This file proves the uniqueness assertion and the monomorphy assertion. The existence assertion
-is not proved here: the source constructs `𝒵'` as the quotient stack `[U/R]` of the
+is proved elsewhere: the source constructs `𝒵'` as the quotient stack `[U/R]` of the
 self-intersection groupoid of a surjective flat locally finite type cover `U = Spec(k) ⟶ 𝒵`, using
 the representability theorem **Stacks 06FI** and then replacing `[U/R]` by its essential image by
-**Stacks 03YQ**; see `StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackExistence`.
+**Stacks 03YQ**; see `StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackExistence`
+and `StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackLocalImage`, where the full
+statement of Stacks 06MR is assembled.
 
 Uniqueness is the source's own argument. Given two such subcategories `P` and `Q`, the first
 projection of the 2-fibre product `𝒵_P ×_𝒵 𝒵_Q` is a monomorphism, being a base change of the
@@ -127,10 +129,6 @@ fully faithful 1-morphism. Representability by algebraic spaces is what the sour
 Stacks 04Y5 as
 `AlgebraicGeometry.Stack.AlgebraicStacks.isRepresentableByAlgebraicSpaces_of_faithful`,
 fed with the bootstrap theorem Stacks 04S6 part (3). -/
-@[stacks 06MR "the inclusion morphism of the substack is representable by algebraic spaces and \
-a monomorphism, granting the implication (2) ⟹ (3) of Stacks 04Y5 for the inclusion of a \
-strictly full algebraic subcategory, which is the hypothesis hrep and which the library leaves \
-open"]
 theorem AlgebraicStacks.isMonomorphism_fullSubcategoryInclusion
     (𝒵 : AlgebraicStacks.{u, w} B S hS) (P : ObjectProperty 𝒵.val.val.obj)
     (hP : IsAlgebraicStack.{u, w} B S hS (fullSubcategoryBased 𝒵 P)) :
@@ -226,11 +224,10 @@ reduced with a singleton space of points, that is, which satisfies condition (1)
 **Stacks 06MN**. Then at most one strictly full subcategory of `𝒵` is an algebraic stack
 satisfying condition (2) of **Stacks 06MP**.
 
-Existence is not proved; see the module docstring. -/
-@[stacks 06MR "the uniqueness of the substack, with the equivalent conditions of Stacks 06MP \
-read as its condition (2), and granting the implication (2) ⟹ (3) of Stacks 04Y5 for the \
-inclusion of a strictly full algebraic subcategory, which is the hypothesis hrep and which the \
-library leaves open"]
+Existence is
+`exists_isReducedLocallyNoetherianUniquePointSubstack_of_isReducedWithUniquePoint`, and the full statement of Stacks 06MR is
+`AlgebraicGeometry.Stack.existsUnique_reducedLocallyNoetherianUniquePointSubstack_isMonomorphism`,
+both in `StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackLocalImage`. -/
 theorem eq_of_isReducedLocallyNoetherianUniquePointSubstack
     (𝒵 : AlgebraicStacks.{u, w} B S hS) (h𝒵 : IsReducedWithUniquePoint B S hS 𝒵)
     {P Q : ObjectProperty 𝒵.val.val.obj}

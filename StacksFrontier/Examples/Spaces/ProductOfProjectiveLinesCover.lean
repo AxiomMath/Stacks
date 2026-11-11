@@ -58,16 +58,16 @@ immersion is quasi-compact, and the projection away from an affine factor is a b
 the structure morphism of that factor. Affineness of `X^ι` is what makes this apply, and it is
 the only property of `X` used.
 
-### No `@[stacks 078F]`
+### Relation to tag 078F
 
-This file does not discharge any conjunct of tag 078F, so it carries no scoped tag for it. The
-third conjunct asks for a morphism to the witness from a scheme that is surjective, flat,
-universally open *and* quasi-compact; of those four properties only quasi-compactness is proved
-here, and it is proved for the covering by a product of copies of an affine scheme rather than
-for the morphism `(SL₂)^∞ ⟶ (ℙ¹)^∞` of the Stacks Project's argument. The remaining three
-properties need the morphism `SL₂ ⟶ ℙ¹`, which is not available, and the behaviour of faithful
-flatness under infinite fibre products over an arbitrary base scheme; the covering constructed
-here is not surjective, since the standard chart of `ℙ¹` misses a point in every component.
+The covering morphism in Stacks 078F is surjective, flat, universally open and quasi-compact.
+The morphism `projectiveLinePowCover` of this file is quasi-compact but not surjective, since the
+standard chart of `ℙ¹` misses a point in every component. The covering morphism of the tag is
+`AlgebraicGeometry.projectiveLinePowFlatCover` in
+`StacksFrontier/Examples/Spaces/ProductOfProjectiveLinesFlatCover.lean`, the product of copies of the
+disjoint union of the two standard charts; its quasi-compactness is
+`AlgebraicGeometry.quasiCompact_presheaf_powCover` of this file. The complete statement of the
+tag is `AlgebraicGeometry.ProjectiveLinePow.exists_fpqc_sheaf_not_isAlgebraicSpace`.
 
 ## References
 

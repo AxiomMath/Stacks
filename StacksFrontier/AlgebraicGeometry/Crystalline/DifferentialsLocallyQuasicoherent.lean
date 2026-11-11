@@ -15,7 +15,12 @@ sections of `Ω_{X/S}` over `(U ∩ W, W, δ|_W)`.  Local quasi-coherence of `Ω
 clause of [Stacks, Tag 07KM], says that `(Ω_{X/S})_T` is a quasi-coherent `𝒪_T`-module for every
 object of the site.  By [Stacks, Tag 07IZ] the restriction `(Ω_{X/S})_T` is the module
 `Ω_{T/S,δ}` of divided power differentials of the ambient divided power scheme `T` over the base,
-and by [Stacks, Tag 07IY] that module is quasi-coherent.
+and by [Stacks, Tag 07IY] that module is quasi-coherent.  Here `Ω_{X/S}` is the presheaf of
+`Crystalline.GlobalCrystallineSituation.crysDifferentials` and `(Ω_{X/S})_T` the sheaf associated
+with its restriction; for the sheaf `Ω_{X/S}` on the small site, whose restriction to `T` is
+`Ω_{T/S,δ}` by
+`Crystalline.GlobalCrystallineSituation.SmallSite.crysDifferentialsSheafRestrictionIso`, see
+`SmallSite/CrystallineDifferentialsSheaf.lean`.
 
 ## Main definitions
 
@@ -27,8 +32,8 @@ and by [Stacks, Tag 07IY] that module is quasi-coherent.
 
 ## Main results
 
-* `Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIso` —
-  `(Ω_{X/S})_T ≅ Ω_{T/S,δ}`, at the level of sheaves.
+* `Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIso` — the sheaf
+  associated with the restriction of the presheaf `Ω_{X/S}` is `Ω_{T/S,δ}`.
 * `Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheaf_isQuasicoherent` and
   `Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheaf_isQuasicoherentOnSite`
   — `(Ω_{X/S})_T` is a quasi-coherent `𝒪_T`-module, in Mathlib's sense and in the sense of
@@ -93,10 +98,12 @@ def restrictedCrysDifferentialsSheaf (A : Thickening S) :
   (PresheafOfModules.sheafification (𝟙 A.thickening.target.scheme.ringCatSheaf.obj)).obj
     (restrictedCrysDifferentials S A)
 
-/-- The `𝒪_T`-module `(Ω_{X/S})_T` obtained by restricting `Ω_{X/S}` to the ambient scheme of
-an object `(U, T, δ)` of `CRIS(X/S)` is the sheaf `Ω_{T/S,δ}` of divided power differentials of
-`T` over `S`. -/
-@[stacks 07IZ "the module identification, at the level of sheaves"]
+/-- The sheaf of `𝒪_T`-modules associated with the restriction of the presheaf `Ω_{X/S}` to the
+ambient scheme of an object `(U, T, δ)` of `CRIS(X/S)` is the sheaf `Ω_{T/S,δ}` of divided power
+differentials of `T` over `S`: the sheafification of
+`Crystalline.GlobalCrystallineSituation.comparisonIso`.  This is a statement about the presheaf
+`Ω_{X/S}`; [Stacks, Tag 07IZ], about the restriction of the sheaf `Ω_{X/S}` itself, is
+`Crystalline.GlobalCrystallineSituation.SmallSite.crysDifferentialsSheafRestrictionIso`. -/
 def restrictedCrysDifferentialsSheafIso (A : Thickening S) :
     (dpDifferentialsSheaf A.thickening.target S.S.scheme A.toBase.hom :
         SheafOfModules.{u} A.thickening.target.scheme.ringCatSheaf) ≅

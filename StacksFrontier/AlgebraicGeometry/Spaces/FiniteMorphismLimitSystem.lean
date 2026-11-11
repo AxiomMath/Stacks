@@ -53,8 +53,8 @@ the same argument with the anti-equivalence and the presentation as hypotheses. 
 argument — that a limit in the full subcategory of the algebraic spaces affine over `Y` is a
 limit of presheaves when the transition morphisms are closed immersions, through the
 scheme-theoretic image of Stacks 082X — is made of file-private lemmas, which are restated here
-verbatim with the same proofs, because a private declaration cannot be used from another module
-and that module's conditional registration must not be touched.
+verbatim with the same proofs, because a private declaration cannot be used from another
+module.
 
 ## References
 
@@ -519,6 +519,7 @@ The direct-image algebra `f_* 𝒪_X` is a finite quasi-coherent `𝒪_Y`-algebr
 writes it as a directed colimit of finite algebras of finite presentation with surjective
 transition maps; and `X_i = \underline{Spec}_Y(𝒜_i)` is the limit presentation by
 `AlgebraicGeometry.Space.exists_integralFiniteSystem_of_isFinite_of_presentation`. -/
+@[stacks 07VR "finite X ⟶ Y, Y qcqs: X = lim of finite f.p. X_i ⟶ Y, closed immersion transitions"]
 theorem exists_integralFiniteSystem_of_isFinite {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : X ⟶ Y) (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hfin : IsFinite B S hS f)

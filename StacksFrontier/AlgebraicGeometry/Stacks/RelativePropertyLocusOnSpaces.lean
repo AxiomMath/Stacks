@@ -43,6 +43,8 @@ from a smooth scheme chart of the target, and proves the maximality half of asse
 
 * `AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_of_hasRelativePropertyLocusOnSpaces`:
   assertion (A) of Stacks 06M3 from its hypotheses on algebraic spaces.
+* `AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_and_isRelativePropertyLocus_baseChange`:
+  **Stacks 06M3**, assertions (A) and (B) together.
 * `AlgebraicGeometry.Stack.isRelativePropertyLocus_baseChange_apply_symm` and
   `AlgebraicGeometry.Stack.pointSet_subset_preimage_of_hasRelativeProperty`: the maximality half of
   assertion (B).
@@ -637,9 +639,6 @@ and with that greatest open subspace compatible with base change along a morphis
 a 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over `S` representable by algebraic spaces and
 having `Q` has an open substack of `𝒳` on which it restricts to a 1-morphism with the relative
 property `P` of **Stacks 03YK** and which contains every open substack with that property. -/
-@[stacks 06M3 "assertion (A), the existence of the largest open substack of the source on which \
-a 1-morphism representable by algebraic spaces and having Q has P, from the four hypotheses of \
-the source on P, Q and R, by the chart construction of the source"]
 theorem exists_isRelativePropertyLocus_of_hasRelativePropertyLocusOnSpaces
     (P Q R : MorphismProperty (AlgebraicSpaces B S hS))
     [P.IsStableUnderBaseChange]
@@ -1072,11 +1071,6 @@ representable by algebraic spaces having `R` and let `D` be a 2-fibre product sq
 cospan `(g, f)`. If `W` is the `P`-locus of `f` and `W'` the `P`-locus of the base change
 `D.fst`, then every object of the apex lying in `W'` is carried by `D.snd` into `W`: that is,
 `W(P, f') ⊆ 𝒵 ×_𝒴 W(P, f)`. -/
-@[stacks 06M3 "assertion (B), the maximality half: the locus of the base change is carried into \
-the locus of the 1-morphism, so that together with the containment proved above the base change \
-of the locus is the locus of the base change. From the four hypotheses of the source on P, Q and \
-R, with Q for the 1-morphism and R for the base change as the source has them, by the source's \
-chart construction run at one more base change"]
 theorem isRelativePropertyLocus_baseChange_apply_symm
     (hsmR : SmoothImplies B S hS R)
     (h3 : HasRelativePropertyLocusOnSpaces B S hS P Q)
@@ -1124,6 +1118,59 @@ theorem pointSet_subset_preimage_of_hasRelativeProperty
       property_baseChange_of_hasRelativeProperty B S hS P Q R hsmR h3 h4 hQf hRg D hD
         (hfst := hfst) hW V hV hr,
       rfl⟩
+
+/-- **Stacks 06M3.** Let `P`, `Q`, `R` be properties of morphisms of algebraic spaces over `S`
+which are fppf local on the target and stable under arbitrary base change (hypothesis (1), the
+instance arguments), such that smoothness implies `R` (hypothesis (2), `hsmR`), every morphism
+with `Q` has a largest open subspace of its source on which it has `P` (hypothesis (3), `h3`),
+and that largest open subspace is compatible with base change along a morphism with `R`
+(hypothesis (4), `h4`). Let `f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks over `S`
+representable by algebraic spaces and having `Q`. Then
+
+* (A) there is a largest open substack `W` of `𝒳` on which `f` has `P`, and
+* (B) for every 1-morphism `g : 𝒵 ⟶ 𝒴` of algebraic stacks representable by algebraic spaces
+  and having `R`, and every 2-fibre product square `D` over `(g, f)`, the inverse image of `W`
+  along the projection `D.snd` to `𝒳` — the open substack `𝒵 ×_𝒴 W` of `𝒵 ×_𝒴 𝒳` — is the
+  largest open substack of `𝒵 ×_𝒴 𝒳` on which the base change `D.fst` of `f` has `P`.
+
+Assertion (A) is
+`AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_of_hasRelativePropertyLocusOnSpaces`;
+in (B) the base change has `Q` by **Stacks 045C**, so it has a `P`-locus by (A), and the two
+containments are `AlgebraicGeometry.Stack.isRelativePropertyLocus_baseChange_apply` and
+`AlgebraicGeometry.Stack.isRelativePropertyLocus_baseChange_apply_symm`. -/
+@[stacks 06M3 "assertions (A) and (B): the largest open substack on which f has P, and its base \
+change along a 1-morphism with R as the largest open substack on which the base change of f has \
+P, under the four hypotheses of the source on P, Q and R"]
+theorem exists_isRelativePropertyLocus_and_isRelativePropertyLocus_baseChange
+    (hsmR : SmoothImplies B S hS R)
+    (h3 : HasRelativePropertyLocusOnSpaces B S hS P Q)
+    (h4 : RelativePropertyLocusBaseChange B S hS P Q R)
+    {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
+    (hf : IsRepresentableByAlgebraicSpaces B S hS f.hom.hom)
+    (hQf : HasRelativeProperty.{u, u, u + 1, u} B S hS Q f.hom hf) :
+    ∃ W : OpenSubstack 𝒳, IsRelativePropertyLocus B S hS P f hf W ∧
+      ∀ {𝒵 : AlgebraicStacks.{u, w} B S hS} (g : 𝒵 ⟶ 𝒴)
+        (hg : IsRepresentableByAlgebraicSpaces B S hS g.hom.hom),
+        HasRelativeProperty.{u, u, u + 1, u} B S hS R g.hom hg →
+        ∀ (D : Bicategory.TwoCommSq g f) (hD : Bicategory.IsTwoFibreProduct D),
+          ∃ W' : OpenSubstack D.pt,
+            (∀ x : D.pt.val.val.obj,
+              W'.property x ↔ W.property (D.snd.hom.hom.toFunctor.obj x)) ∧
+            IsRelativePropertyLocus B S hS P D.fst
+              (isRepresentableByAlgebraicSpaces_baseChange_algebraicStacks B S hS f g D hD hf)
+              W' := by
+  obtain ⟨W, hW⟩ := exists_isRelativePropertyLocus_of_hasRelativePropertyLocusOnSpaces
+    B S hS P Q R hsmR h3 h4 f hf hQf
+  refine ⟨W, hW, fun g hg hRg D hD => ?_⟩
+  have hfst := isRepresentableByAlgebraicSpaces_baseChange_algebraicStacks B S hS f g D hD hf
+  have hQfst : HasRelativeProperty.{u, u, u + 1, u} B S hS Q D.fst.hom hfst :=
+    hasRelativeProperty_baseChange_algebraicStacks B S hS Q f g D hD hf hfst hQf
+  obtain ⟨W', hW'⟩ := exists_isRelativePropertyLocus_of_hasRelativePropertyLocusOnSpaces
+    B S hS P Q R hsmR h3 h4 D.fst hfst hQfst
+  exact ⟨W', fun x =>
+    ⟨fun hx => isRelativePropertyLocus_baseChange_apply_symm B S hS P Q R hsmR h3 h4 hQf hRg D hD
+        hW hW' hx,
+      fun hx => isRelativePropertyLocus_baseChange_apply B S hS P D hD hW hW' hx⟩, hW'⟩
 
 end BaseChangeMaximality
 

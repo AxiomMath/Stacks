@@ -120,7 +120,14 @@ theorem openClosedModuleShortComplex_shortExact (Λ : Type r) [CommRing Λ]
 field, `X` a separated scheme of finite type over `k` of dimension at most one, `ℱ` a
 constructible sheaf of `Λ`-modules on `X_étale`, and `j : X' ⟶ X` the inclusion of a dense open
 subscheme. Then `H^q_étale(X, ℱ)` is a finite `Λ`-module if and only if
-`H^q_étale(X, j_!j^{-1}ℱ)` is a finite `Λ`-module. -/
+`H^q_étale(X, j_!j^{-1}ℱ)` is a finite `Λ`-module.
+
+"Separated of finite type over `k`" is `IsSeparated p`, `LocallyOfFiniteType p` and
+`QuasiCompact p` for the structure morphism `p`, "of dimension at most one" is
+`topologicalKrullDim X ≤ 1`, and constructibility is `IsConstructibleEtaleSiteModuleSheaf`
+(Tag 03RW, read on the small étale site). The proof discharges the localization sequence
+(`openClosedModuleShortComplex_shortExact`) and the cohomology of the closed part, and applies
+`module_finite_cohomology_iff_extensionByZero`. -/
 @[stacks 0GJE]
 theorem module_finite_cohomology_iff_extensionByZero_of_dense
     (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]

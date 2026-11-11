@@ -20,8 +20,9 @@ original definition by joint universal submersiveness.
 ## Main definitions
 
 * `AlgebraicGeometry.UniversallySubmersiveHasPHRefinement` is the geometric input the implication
-  from universal submersiveness to the h covering condition needs and this file does not prove:
-  that such a family is refined by a ph covering.
+  from universal submersiveness to the h covering condition needs: that such a family is refined
+  by a ph covering. It is proved as `AlgebraicGeometry.universallySubmersiveHasPHRefinement` in
+  `StacksFrontier.AlgebraicGeometry.Topologies.HTopology.SubmersiveFlatteningRefinement`.
 
 ## Main results
 
@@ -33,7 +34,10 @@ original definition by joint universal submersiveness.
   family of *flat* morphisms, granted `AlgebraicGeometry.FppfHasFiniteDomination`.
 * `AlgebraicGeometry.isHCovering_of_universallySubmersive` and
   `AlgebraicGeometry.universallySubmersive_sigmaDesc_iff_isHCovering`: the converse implication,
-  and the equivalence, granted `AlgebraicGeometry.UniversallySubmersiveHasPHRefinement`.
+  and the equivalence, from `AlgebraicGeometry.UniversallySubmersiveHasPHRefinement`. Stacks 0ETT
+  itself, with that predicate discharged, is
+  `AlgebraicGeometry.universallySubmersive_sigmaDesc_iff_isHCovering_of_isNoetherian` in
+  `StacksFrontier.AlgebraicGeometry.Topologies.HTopology.SubmersiveFlatteningRefinement`.
 
 ## Implementation notes
 
@@ -44,21 +48,19 @@ covering is universally submersive (`AlgebraicGeometry.isVCovering_universallySu
 Nothing in that chain uses the base, the index type or the members beyond smallness of the
 index type, so it is recorded in that generality.
 
-The converse is where all the content of the source lies, and this file does not prove it.
-The Stacks argument chooses a generic flatness stratification of the base (Stacks 0H3Z), takes
+The converse is where all the content of the source lies, and it is proved downstream of this
+file. The Stacks argument chooses a generic flatness stratification of the base (Stacks 0H3Z), takes
 scheme-theoretic closures of its strata (Stacks 01R8) to reduce to a reduced base with a dense
 open over which the family is flat, flattens the family by an admissible blowup of that base
 (Stacks 0815) which may be taken to have scheme-theoretically dense centre (Stacks 080Y), and
 then lifts points of the blowup along discrete valuation rings (Stacks 0CM2) to recognize the
-flattened family as an fppf covering. The flattening step is no longer an obstruction: the
-flatness assertion of Stacks 0815 is proved, as
-`AlgebraicGeometry.finitePresentationHasFlatteningBlowup` in
-`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/GenericFibreFreeBlowup0811.lean`. What is not
-carried out here is the rest of that argument, which also has to pass from the finite type
-morphisms over a Noetherian base that the predicate below quantifies over to the finitely
-presented data the flattening theorem consumes. What the whole argument produces is a ph covering
+flattened family as an fppf covering. What the whole argument produces is a ph covering
 refining the given family, and that is exactly what
-`AlgebraicGeometry.UniversallySubmersiveHasPHRefinement` asserts; the step from such a
+`AlgebraicGeometry.UniversallySubmersiveHasPHRefinement` asserts. The reduction to a base with a
+dense open over which the family is flat is
+`AlgebraicGeometry.UniversallySubmersiveHasPHRefinement.of_denseFlat`, and the flattening and
+valuative steps are `AlgebraicGeometry.denseFlatUniversallySubmersiveHasPHRefinement`; together
+they give `AlgebraicGeometry.universallySubmersiveHasPHRefinement`. The step from such a
 refinement to the h covering condition is proved here, from Stacks 0ET9 and Stacks 0H45.
 
 The endgame of the Stacks argument *is* proved here, in
@@ -137,15 +139,17 @@ theorem isHCovering_of_universallySubmersive_of_flat (H : FppfHasFiniteDominatio
   exact exists_mem_range_of_surjective_sigmaDesc
     ((submersive_iff _).1 (submersive_of_universallySubmersive hsub)).surjective
 
-/-- The geometric input of Stacks 0ETT which this development does not have: a finite family of
-morphisms of finite type to a Noetherian scheme whose disjoint-union morphism is universally
-submersive is refined by a ph covering.
+/-- The geometric input of Stacks 0ETT: a finite family of morphisms of finite type to a
+Noetherian scheme whose disjoint-union morphism is universally submersive is refined by a ph
+covering.
 
 The Stacks proof constructs such a refinement from a generic flatness stratification of the base
-and a flattening blowup; see the implementation notes of this file for what of that this
-development carries out. The predicate is stated in the shape of the second clause of
+and a flattening blowup; it is proved as `AlgebraicGeometry.universallySubmersiveHasPHRefinement`
+in `StacksFrontier.AlgebraicGeometry.Topologies.HTopology.SubmersiveFlatteningRefinement`. The
+predicate is stated in the shape of the second clause of
 `AlgebraicGeometry.isPHCovering_tfae`, so that it combines with that equivalence directly, and is
-a `Prop` so that it can be carried as an explicit hypothesis, in the style of
+a `Prop` so that the step from it to the h covering condition is proved here, upstream of the
+flattening machinery, in the style of
 `AlgebraicGeometry.FinitePresentationHasFlatteningBlowup` and
 `AlgebraicGeometry.StandardVCoveringHasPHRefinement`, both of which are now theorems. -/
 def UniversallySubmersiveHasPHRefinement : Prop :=
@@ -156,15 +160,15 @@ def UniversallySubmersiveHasPHRefinement : Prop :=
       Nonempty (({ I₀ := K, X := Z, f := g } : PreZeroHypercover.{v} X).Hom
         ({ I₀ := I, X := Y, f := f } : PreZeroHypercover.{v} X))
 
-/-- **Stacks 0ETT, (1) implies (2)**, granted
-`AlgebraicGeometry.UniversallySubmersiveHasPHRefinement`: a finite family of morphisms of finite
+/-- **Stacks 0ETT, (1) implies (2), from a ph refinement.** Given
+`AlgebraicGeometry.UniversallySubmersiveHasPHRefinement`, a finite family of morphisms of finite
 type to a Noetherian scheme whose disjoint-union morphism is universally submersive is an h
 covering.
 
 The hypothesis supplies a ph covering refining the family; a family of morphisms locally of
 finite type refined by a ph covering is a ph covering (Stacks 0ET9), and over a locally
-Noetherian base the ph coverings are exactly the h coverings (Stacks 0H45). -/
-@[stacks 0ETT "(1) implies (2)"]
+Noetherian base the ph coverings are exactly the h coverings (Stacks 0H45). The predicate is
+discharged in `AlgebraicGeometry.isHCovering_of_universallySubmersive_of_isNoetherian`. -/
 theorem isHCovering_of_universallySubmersive (H : UniversallySubmersiveHasPHRefinement.{u, v})
     {X : Scheme.{u}} [IsNoetherian X] {I : Type v} [Finite I] [Small.{u} I]
     {Y : I → Scheme.{u}} (f : ∀ i, Y i ⟶ X) [∀ i, LocallyOfFiniteType (f i)]
@@ -174,13 +178,14 @@ theorem isHCovering_of_universallySubmersive (H : UniversallySubmersiveHasPHRefi
     (((isPHCovering_tfae Y f fun i ↦ inferInstance).out 2 1).1
       (H X I Y f (fun i ↦ inferInstance) (fun i ↦ inferInstance) hsub))
 
-/-- **Stacks 0ETT**, granted `AlgebraicGeometry.UniversallySubmersiveHasPHRefinement`: for a
-finite family `{X i ⟶ X}` of morphisms of finite type to a Noetherian scheme `X`, the morphism
-`∐ X i ⟶ X` is universally submersive if and only if the family is an h covering.
+/-- **Stacks 0ETT, from a ph refinement.** Given
+`AlgebraicGeometry.UniversallySubmersiveHasPHRefinement`, for a finite family `{X i ⟶ X}` of
+morphisms of finite type to a Noetherian scheme `X`, the morphism `∐ X i ⟶ X` is universally
+submersive if and only if the family is an h covering.
 
 The implication from the h covering condition is unconditional; the hypothesis is used only for
-the converse. -/
-@[stacks 0ETT]
+the converse. The predicate is discharged in
+`AlgebraicGeometry.universallySubmersive_sigmaDesc_iff_isHCovering_of_isNoetherian`. -/
 theorem universallySubmersive_sigmaDesc_iff_isHCovering
     (H : UniversallySubmersiveHasPHRefinement.{u, v}) {X : Scheme.{u}} [IsNoetherian X]
     {I : Type v} [Finite I] [Small.{u} I] {Y : I → Scheme.{u}} (f : ∀ i, Y i ⟶ X)

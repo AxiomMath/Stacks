@@ -51,22 +51,17 @@ the canonical one.
 
 ## Implementation notes
 
-The hypothesis `epres` is the one input this library does not carry. In the source it is clause
-(2) of the same tag — the fibre product of McQuillan affine formal algebraic spaces over a
-separated McQuillan one is again McQuillan — read through the McQuillan criterion of Stacks
-0AIC, of which this library has the direction producing a presentation only for a sequential
-one (`AlgebraicGeometry.FormalSpace.exists_quotientSystem_formalSpectrum_iso`) and for a
-countably indexed one
-(`AlgebraicGeometry.FormalSpace.exists_quotientSystem_of_isCountablyIndexed`). It cannot be
-removed by Yoneda: `AlgebraicGeometry.FormalSpace.existsUnique_continuousHom_formalSpectrumMap_eq`,
-which is Stacks 0AN0 here, is full faithfulness of `Spf` against *formal spectra*, not a
-universal property against arbitrary fppf sheaves, so representability of the fibre product is
-not a consequence of it. Clause (1),
-`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_pullback`, gives affineness of the
-fibre product and says nothing about its chart ring.
+The hypothesis `epres` is discharged in this file:
+`exists_quotientSystem_iso_pullback_completedTensorProduct_of_isWeaklyAdmissible` proves that
+the fibre product of the two formal spectra is the colimit of the stagewise fibre products,
+which are the stages of `Spf (A₁ ⊗̂_{A₀} A)` at the projection kernels. It cannot be obtained by
+Yoneda alone: `existsUnique_continuousHom_formalSpectrumMap_eq`, which is Stacks 0AN0 here, is
+full faithfulness of `Spf` against *formal spectra*, not a universal property against arbitrary
+fppf sheaves. The three clauses of Stacks 0AN3 together, at the hypotheses of the source, are
+`pullback_isAffine_hasSomeSurjectivePresentation_completedTensorProduct`.
 
-Separatedness of the base is therefore *not* assumed. The source uses it only to obtain clauses
-(1) and (2); with the presentation of the fibre product granted, the identification of its chart
+Separatedness of the base is *not* assumed here. The source uses it only to obtain clauses
+(1) and (2); given a presentation of the fibre product, the identification of its chart
 ring needs nothing of the base beyond weak admissibility.
 
 ## References
@@ -634,17 +629,6 @@ completed tensor product `A₁ ⊗̂_{A₀} A`: that ring carries a chart system
 isomorphism onto the fibre product compatible with both projections, through which the two
 projections are the formal spectra of the two canonical maps into the completed tensor
 product. -/
-@[stacks 0AN3 "clause (3), that the fibre product of two McQuillan affine formal algebraic \
-spaces over a third is the formal spectrum of the completed tensor product of their weakly \
-admissible topological rings, compatibly with both projections. The quotient system on the \
-completed tensor product and the comparison with the fibre product are proved. The one input \
-this library does not carry is the hypothesis epres: that the fibre product is itself a formal \
-spectrum, which is clause (2) of the same tag together with the McQuillan criterion of Stacks \
-0AIC. Stacks 0AN0 is full faithfulness of Spf against formal spectra only \
-(existsUnique_continuousHom_formalSpectrumMap_eq), not a universal property against arbitrary \
-fppf sheaves, so representability of the fibre product is not a consequence of it; \
-separatedness of the base, which the source uses only to obtain clauses (1) and (2), is \
-therefore not needed here and is not assumed"]
 theorem exists_quotientSystem_iso_pullback_completedTensorProduct
     (h₀ : TopologicalRing.IsWeaklyAdmissible A₀)
     (h₁ : TopologicalRing.IsWeaklyAdmissible A₁) (hA : TopologicalRing.IsWeaklyAdmissible A)
@@ -764,15 +748,6 @@ ring `R` over `S`, then `R` is isomorphic, as a topological ring, to the complet
 product `A₁ ⊗̂_{A₀} A`, compatibly with the two projections: the isomorphism carries each of the
 two canonical maps into the completed tensor product to the continuous homomorphism that
 Stacks 0AN0 attaches to the corresponding projection. -/
-@[stacks 0AN3 "clause (3) read on chart rings: the chart ring of the fibre product of two \
-McQuillan affine formal algebraic spaces over a third is the completed tensor product of their \
-weakly admissible topological rings, by an isomorphism of topological rings compatible with \
-both projections. The one input this library does not carry is the hypothesis epres, that the \
-fibre product is itself a formal spectrum, which is clause (2) of the same tag together with \
-the McQuillan criterion of Stacks 0AIC; Stacks 0AN0 is full faithfulness of Spf against formal \
-spectra only, so representability of the fibre product does not follow from it. Separatedness \
-of the base, which the source uses only for clauses (1) and (2), is not needed here and is not \
-assumed"]
 theorem exists_continuous_ringEquiv_completedTensorProduct_pullback
     (h₀ : TopologicalRing.IsWeaklyAdmissible A₀)
     (h₁ : TopologicalRing.IsWeaklyAdmissible A₁) (hA : TopologicalRing.IsWeaklyAdmissible A)
@@ -1230,11 +1205,6 @@ This is `exists_quotientSystem_iso_pullback_completedTensorProduct` with its hyp
 discharged: the fibre product of the two formal spectra is the colimit of the stagewise fibre
 products, which are the stages of `Spf (A₁ ⊗̂_{A₀} A)` at the projection kernels, and those are
 cofinal among all its stages. -/
-@[stacks 0AN3 "clause (3), that the fibre product of two McQuillan affine formal algebraic \
-spaces over a third is the formal spectrum of the completed tensor product of their weakly \
-admissible topological rings, compatibly with both projections, with no hypothesis beyond the \
-weak admissibility of the three rings: the fibre product is proved to be a formal spectrum, as \
-the colimit of the stagewise fibre products"]
 theorem exists_quotientSystem_iso_pullback_completedTensorProduct_of_isWeaklyAdmissible
     (h₀ : TopologicalRing.IsWeaklyAdmissible A₀)
     (h₁ : TopologicalRing.IsWeaklyAdmissible A₁) (hA : TopologicalRing.IsWeaklyAdmissible A)

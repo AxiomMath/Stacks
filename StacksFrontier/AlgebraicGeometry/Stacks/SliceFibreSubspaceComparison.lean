@@ -91,10 +91,9 @@ representability datum `Z.2.2.rep` and a reconstructed bundling would not be the
 hypotheses of that lemma are stated at.
 
 No `@[stacks]` attribute is claimed. **Stacks 06N3** is no tag of its own: its registration sits
-on `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`, which still carries the
-hypothesis `hForward`, and nothing here closes that. **Stacks 083Q** is the inverse-image
-construction and its fibre-product characterisation, both already tagged in
-`StacksFrontier/AlgebraicGeometry/Spaces/SubspacePreimage.lean`.
+on `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`.
+**Stacks 083Q** is the inverse-image construction and its fibre-product characterisation, both
+already tagged in `StacksFrontier/AlgebraicGeometry/Spaces/SubspacePreimage.lean`.
 
 ## References
 

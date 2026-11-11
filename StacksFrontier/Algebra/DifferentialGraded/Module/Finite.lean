@@ -9,8 +9,13 @@ public import StacksFrontier.Algebra.DGA.Abelian
 
 A right differential graded module over a differential graded algebra `(A, d)` is *finite* when
 its underlying right `A`-module is finitely generated. Finiteness in this sense ignores the
-grading and the differential, and is the condition under which a differential graded module is a
-compact object of the derived category.
+grading and the differential. [Stacks, Tag 09R1] gives this definition and also asserts that a
+finite differential graded module lying in the category `𝒟` of [Stacks, Tag 09R0] (morphisms out
+of it in `K(A, d)` already compute those in `D(A, d)`) is a compact object of `D(A, d)`; that
+assertion is registered under the same tag as
+`DifferentialGradedModule.isCompactObject_q_of_isFinite`
+(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteProjective.lean`), where graded
+projectivity is not needed. Finiteness alone does not make a module compact.
 
 ## Main definitions
 
@@ -33,7 +38,7 @@ namespace DifferentialGradedModule
 
 /-- A differential graded module that is finitely generated as a right module over its
 differential graded algebra. -/
-@[stacks 09R1 "finite_differential_graded_module"]
+@[stacks 09R1 "definition of a finite differential graded module"]
 public abbrev IsFinite {R : Type u} [CommRing R] {A : DifferentialGradedAlgebra R}
     (M : DifferentialGradedModule A) : Prop := Module.Finite (MulOpposite A.A) M.M
 

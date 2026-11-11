@@ -21,16 +21,18 @@ transport of scalars from `Γ(Spec R, ⊤)` to `R` along `Stacks.Scheme.ΓSpecIs
 **[Stacks, Tag 0897] part (1) is therefore stated here rather than in
 `StacksFrontier.AlgebraicGeometry.GradedProperCohomology.Basic`**: it is the one implication of that
 tag whose cohomological input is [Stacks, Tag 02O6], and here that input is a theorem, so the
-statement carries no `Tag02O6` hypothesis. Its remaining hypotheses are the base change
-`X' = Spec(B) ×_{Spec(A)} X` of the source's own proof, which the library cannot yet build;
-the vocabulary (`cohomologyOf`, `specAlgebraRingHom`, `pieceModule`, `gradedCohomologySum`) and
+statement carries no `Tag02O6` hypothesis. Its remaining arguments are the base change
+`X' = Spec(B) ×_{Spec(A)} X` of the source's own proof, supplied by the caller. The tag
+itself, with that base change constructed, is
+`moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology` in
+`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.FiniteGradedCohomology`; the vocabulary (`cohomologyOf`, `specAlgebraRingHom`, `pieceModule`, `gradedCohomologySum`) and
 part (2) are in `Basic`.
 
 ## Main results
 
 * `tag02O6` — the proposition `Tag02O6` is a theorem.
-* `moduleFinite_gradedCohomologySum` — **[Stacks, Tag 0897] part (1)**, granted the base change
-  alone.
+* `moduleFinite_gradedCohomologySum` — part (1) of [Stacks, Tag 0897] read off a given base
+  change.
 -/
 
 @[expose] public noncomputable section
@@ -76,7 +78,7 @@ theorem tag02O6 : Tag02O6.{u} := by
 
 /-! ### Tag 0897 part (1) -/
 
-/-- **[Stacks, Tag 0897] part (1), granted the base change.** Let `A` be a Noetherian ring, `B` a
+/-- **Part (1) of [Stacks, Tag 0897], read off a given base change.** Let `A` be a Noetherian ring, `B` a
 finitely generated graded `A`-algebra, `f : X ⟶ Spec A` proper and `F` a quasi-coherent graded
 `𝓑`-module of finite type. Then the graded `B`-module `⨁ₙ H^p(X, Fₙ)` is a finite `B`-module,
 for every `p`.
@@ -99,8 +101,6 @@ Given the base change, the content is that [Stacks, Tag 02O6] applies to `f'` wi
 `B` is Noetherian because it is a finitely generated algebra over the Noetherian ring `A`, and
 `F'` is coherent, so `H^p(X', F')` is a finite `B`-module and `cmp` carries that finiteness back
 to `⨁ₙ H^p(X, Fₙ)`. -/
-@[stacks 0897 "part (1), with the base change X' = Spec(B) ×_Spec(A) X, the graded B-action \
-on the graded cohomology and its comparison with H^p(X', F') (089W) as hypotheses"]
 theorem moduleFinite_gradedCohomologySum {X : Scheme.{u}}
     {𝓑 : _root_.SheafOfModules.GradedAlgebra.{u, u} X.ringCatSheaf}
     (A : Type u) [CommRing A] [IsNoetherianRing A] {B : Type u} [CommRing B] [Algebra A B]

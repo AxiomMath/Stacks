@@ -19,7 +19,11 @@ complexes
 ((f_*G)_x̄ ⟶ (f_*(j'_*(G|_V)))_x̄) ⟶ (G_ȳ ⟶ (j'_*(G|_V))_ȳ)
 ```
 given by the canonical comparison `(f_*(-))_x̄ ⟶ (-)_ȳ` induces an isomorphism on kernels and
-an injection on cokernels. This is **Stacks 0AER**.
+an injection on cokernels. This is **Stacks 0AER**. This file proves it for a morphism whose
+underlying morphism of presheaves is relatively representable, with the direct image
+`AlgebraicGeometry.Space.smallEtaleAbelianPushforward`; Stacks 0AER for an arbitrary morphism
+is `AlgebraicGeometry.Space.isIso_kernelMap_and_mono_cokernelMap_directImageStalkMap` in
+`StacksFrontier/AlgebraicGeometry/Spaces/FormalGlueingTwoTermStalkComplexGeneral.lean`.
 
 ## The argument
 
@@ -59,7 +63,7 @@ cartesian, so a left exact functor carries `G ⟶ im φ` to an epimorphism.
 ## Main results
 
 * `AlgebraicGeometry.Space.isIso_kernelMap_and_mono_cokernelMap_pushforwardStalkMap`
-  is **Stacks 0AER**.
+  is Stacks 0AER for a morphism `f` with representable underlying morphism.
 
 ## References
 
@@ -410,8 +414,9 @@ private theorem isIso_kernelMap_and_mono_cokernelMap_of_isIso_inverseImage (f : 
   exact mono_cokernelMap_of_mono_comparison
     (smallEtaleAbelianPushforwardStalkMap B S hS f hfr y) u
 
-/-- **Stacks 0AER.** Let `f : Y ⟶ X` be a morphism of algebraic spaces over a scheme `S` and
-let `Z ⊆ X` be a closed subspace such that `f^{-1}Z ⟶ Z` is integral and universally
+/-- Stacks 0AER for a morphism with representable underlying morphism. Let `f : Y ⟶ X` be a
+morphism of algebraic spaces over a scheme `S` whose underlying morphism of presheaves is
+relatively representable, and let `Z ⊆ X` be a closed subspace such that `f^{-1}Z ⟶ Z` is integral and universally
 injective. Let `ȳ` be a geometric point of `Y`, let `x̄ = f(ȳ)` and let `G` be an abelian sheaf
 on the small étale site of `Y`. Writing `V = Y ∖ f^{-1}Z` and `j' : V ⟶ Y` for the inclusion,
 the map of two-term complexes
@@ -420,8 +425,10 @@ the map of two-term complexes
 ```
 given by the canonical comparison of
 `AlgebraicGeometry.Space.smallEtaleAbelianPushforwardStalkMap` induces an isomorphism on
-kernels and an injection on cokernels. -/
-@[stacks 0AER "isomorphism on kernels and injection on cokernels of the two-term stalk complexes"]
+kernels and an injection on cokernels.
+
+Stacks 0AER itself, for an arbitrary morphism `f`, is
+`AlgebraicGeometry.Space.isIso_kernelMap_and_mono_cokernelMap_directImageStalkMap`. -/
 theorem isIso_kernelMap_and_mono_cokernelMap_pushforwardStalkMap (f : Y ⟶ X)
     (hfr : yoneda.relativelyRepresentable f.hom) (Z : ClosedSubspaces B S hS X.1)
     (hint : IsIntegralHom B S hS (Z.1.fromPreimage f.hom))

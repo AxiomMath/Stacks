@@ -56,10 +56,12 @@ two legs are stated separately here and then joined.
 * `AlgebraicGeometry.Space.ord_eq_zero_of_functionFieldToEtaleFractionRing_eq_algebraMap`: a
   rational function of the chart whose image in `Q(𝒪_{X, ū})` is a unit of `𝒪_{X, ū}` has order
   of vanishing zero at the chart point — the input of algebraic Hartogs.
-* `AlgebraicGeometry.Space.PrimeDivisor.ord_mk'_eq_ord_mk'_chart`: **Stacks 0ENM at an arbitrary
-  étale chart.** The order of vanishing along `Z` of a fraction of nonzerodivisors of
-  `𝒪^h_{X, ξ}` is the order of vanishing at `u` of a fraction of nonzerodivisors of `𝒪_{U, u}`,
-  as soon as numerator and denominator have the same images in `𝒪_{X, ū}`.
+* `AlgebraicGeometry.Space.PrimeDivisor.ord_mk'_eq_ord_mk'_chart`: **the comparison of orders of
+  vanishing at an arbitrary étale chart**, a variant of the comparison step of Stacks 0ENM (the
+  lemma itself is `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`). The order of
+  vanishing along `Z` of a fraction of nonzerodivisors of `𝒪^h_{X, ξ}` is the order of vanishing at
+  `u` of a fraction of nonzerodivisors of `𝒪_{U, u}`, as soon as numerator and denominator have the
+  same images in `𝒪_{X, ū}`.
 * `AlgebraicGeometry.Space.PrimeDivisor.genericTotalFractionRingToEtaleFractionRing` and
   `AlgebraicGeometry.Space.PrimeDivisor.ord_chart_eq_zero_of_isUnit_of_etaleFractionRing_eq`: the
   induced map `Q(𝒪^h_{X, ξ}) → Q(𝒪_{X, ū})`, and the unit hypothesis of Stacks 0EPX read on a
@@ -407,14 +409,16 @@ theorem ord_eq_zero_of_functionFieldToEtaleFractionRing_eq_algebraMap
 
 variable (hdec : IsDecentSpace B S hS X) (Z : PrimeDivisor B S hS X)
 
-/-- **Stacks 0ENM at an arbitrary étale chart.** Let `Z` be a prime divisor of a decent algebraic
-space `X` with generic point `ξ`, let `x̄` be a geometric point of `X`, and let `(U, u)` be a
-small étale neighbourhood of `x̄` whose scheme is integral and locally Noetherian and whose point
-has codimension one. Let `a / b` be a fraction of nonzerodivisors of `𝒪^h_{X, ξ}` and `c / d` one
-of nonzerodivisors of `𝒪_{U, u}` whose numerators and denominators agree in `𝒪_{X, x̄}`, along a
-map `ψ : 𝒪^h_{X, ξ} → 𝒪_{X, x̄}` leaving `Ring.ord` unchanged and the canonical map of Stacks
-05VP. Then the order of vanishing of `a / b` along `Z` is the order of vanishing of `c / d` at
-`u` in the sense of Divisors, Definition 02RJ.
+/-- **The comparison of orders of vanishing at an arbitrary étale chart.** This is a variant of the
+comparison step of the proof of Stacks 0ENM, not that lemma, which is
+`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`. Let `Z` be a prime divisor of a
+decent algebraic space `X` with generic point `ξ`, let `x̄` be a geometric point of `X`, and let
+`(U, u)` be a small étale neighbourhood of `x̄` whose scheme is integral and locally Noetherian and
+whose point has codimension one. Let `a / b` be a fraction of nonzerodivisors of `𝒪^h_{X, ξ}` and
+`c / d` one of nonzerodivisors of `𝒪_{U, u}` whose numerators and denominators agree in `𝒪_{X, x̄}`,
+along a map `ψ : 𝒪^h_{X, ξ} → 𝒪_{X, x̄}` leaving `Ring.ord` unchanged and the canonical map of
+Stacks 05VP. Then the order of vanishing of `a / b` along `Z` is the order of vanishing of `c / d`
+at `u` in the sense of Divisors, Definition 02RJ.
 
 Both sides are a difference of two `Ring.ord`s, by
 `AlgebraicGeometry.Space.PrimeDivisor.ord_mk'` and `AlgebraicGeometry.Scheme.ord_mk'`, and the
@@ -429,13 +433,6 @@ unlike the elementary-neighbourhood comparison
 that `(U, u)` be an elementary étale neighbourhood of `ξ`, which is what makes the statement
 usable on a chart chosen for a different reason — in the proof of Stacks 0EPX, one trivializing
 an invertible module. -/
-@[stacks 0ENM "at an arbitrary étale chart, routed through the étale local ring at a geometric
-  point rather than through the canonical map into the henselian local ring: in place of the
-  hypothesis that `Z` meets the schematic locus of `X`, a small étale neighbourhood `(U, u)` of a
-  geometric point whose scheme is integral and locally Noetherian and whose point has
-  codimension one is given, and the two fractions are compared through their images in
-  `𝒪_{X, x̄}`. Noetherianness and the dimension bound for the henselian local ring are
-  hypotheses"]
 theorem PrimeDivisor.ord_mk'_eq_ord_mk'_chart
     [Nontrivial ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     [IsNoetherianRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]

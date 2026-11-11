@@ -103,7 +103,7 @@ public structure PullbackFunctor
 /-- Pullback of descent data along a commutative square of schemes. On underlying schemes this
 is base change along `f`; the gluing isomorphism is pulled back along the induced map of
 self-fibre products. -/
-@[stacks 023Y "part (1)", stacks 02VR "the pullback functor on descent data"]
+@[stacks 02VR "the pullback functor on descent data"]
 noncomputable def pullbackFunctor
     {S S' X X' : Scheme.{u}} (a : X ⟶ S) (a' : X' ⟶ S') (h : S' ⟶ S)
     (f : X' ⟶ X) (comm : f ≫ a = a' ≫ h) :

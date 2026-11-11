@@ -63,6 +63,9 @@ pair of `h_U ⟶ X` is itself represented by an object of the site
   **Stacks 0GVM**, for an index set with a cofinal family indexed by an admissible set.
 * `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_admissible`: the case
   of an admissible index set.
+* `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff`: for an arbitrary
+  directed index set, the colimit is an affine formal algebraic space exactly when it satisfies
+  the set-theoretic condition.
 * `AlgebraicGeometry.FormalSpace.not_forall_isAffineFormalAlgebraicSpace_colimit`: without a
   size bound on the index set, the statement is false.
 
@@ -167,6 +170,36 @@ theorem isAffineFormalAlgebraicSpace_colimit_of_admissible (B : BigFppfSite.{u})
     IsAffineFormalAlgebraicSpace B S hS X :=
   isAffineFormalAlgebraicSpace_colimit_of_cofinal B S hS D hD hthick X e id
     fun i ↦ ⟨i, le_rfl⟩
+
+/-- **Stacks 0GVM, exact form.** For a directed system of affine formal algebraic spaces over
+`S` whose transition morphisms are representable thickenings -- equivalently, closed immersions
+inducing isomorphisms on reductions -- indexed by an arbitrary directed set, the colimit is an
+affine formal algebraic space over `S` if and only if it satisfies the set-theoretic condition
+of Remark 0AIS. The condition is part of Definition 0AI7, so it is necessary; the source's proof
+supplies the rest, a presentation of the colimit as a directed colimit of affine schemes along
+thickenings (`AlgebraicGeometry.FormalSpace.exists_affinePresentation_of_colimit`). The
+condition can fail
+(`AlgebraicGeometry.FormalSpace.not_forall_isAffineFormalAlgebraicSpace_colimit`), and it holds
+when the index has a cofinal family indexed by an admissible set
+(`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`). -/
+@[stacks 0GVM "corrected form, for an arbitrary directed index set as printed: the colimit is an \
+affine formal algebraic space exactly when it satisfies the set-theoretic condition of Stacks \
+0AIS, which is part of Definition 0AI7 and fails for some index sets \
+(AlgebraicGeometry.FormalSpace.not_forall_isAffineFormalAlgebraicSpace_colimit); the condition \
+is derived for an index with an admissible cofinal family in \
+AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal"]
+theorem isAffineFormalAlgebraicSpace_colimit_iff (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) {I : Type (u + 1)} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
+    (D : I ⥤ Sheaf (BigFppfOver.topology B S hS) (Type (u + 1)))
+    (hD : ∀ i, IsAffineFormalAlgebraicSpace B S hS (D.obj i))
+    (hthick : ∀ ⦃i j : I⦄ (f : i ⟶ j),
+      MorphismProperty.relative (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS))
+        (MorphismProperty.inverseImage
+          (@Stacks.Thickenings.IsThickening : MorphismProperty Scheme.{u})
+          (BigFppfOver.toScheme B S hS)) (D.map f))
+    (X : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) (e : X ≅ colimit D) :
+    IsAffineFormalAlgebraicSpace B S hS X ↔ SatisfiesSetTheoreticCondition B S hS X :=
+  ⟨fun h ↦ h.1, isAffineFormalAlgebraicSpace_colimit B S hS D hD hthick X e⟩
 
 /-- **Stacks 0GVM needs a size bound on the index set.** Over a nonempty scheme `S` of the site
 it is not the case that the colimit of every directed system of affine formal algebraic spaces

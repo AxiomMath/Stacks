@@ -785,7 +785,8 @@ restriction of `c` along `W_∞ ⟶ X`; the second composite lives on `Y ×_X W_
 bivariant classes are those of Stacks 0B76, `Stacks.Chow.BivariantChowClass`, and `C` is
 `Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass` read through the bridge
 `Stacks.Chow.BivariantChowClass.equivBivariantClass`. -/
-@[stacks 0FAS]
+@[stacks 0FAS "C ∘ c = c ∘ C in A^p(W_∞ ×_X Y → X) for the class C of 0F9J and every \
+c in A^p(Y → X), as an equality of bivariant classes after the symmetry W_∞ ×_X Y ≅ Y ×_X W_∞"]
 theorem gysinAtInfinityClass_comp_comm {sY : Y ⟶ C.S} [LocallyOfFiniteType sY]
     (hY : fY ≫ f = sY) (c : BivariantChowClass C sY f fY hY p) :
     ((BivariantChowClass.equivBivariantClass.symm (gysinAtInfinityClass C f b hA)).restrict fY

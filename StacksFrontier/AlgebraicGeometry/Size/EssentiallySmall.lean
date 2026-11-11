@@ -28,6 +28,8 @@ model of the site, which is how
   `κ` form an essentially small property of objects.
 * `AlgebraicGeometry.essentiallySmall_schemeSizeBelow`: the schemes of size below `κ` form an
   essentially small property of objects.
+* `AlgebraicGeometry.exists_family_iso_of_size_le`: **Stacks 000I**, for every cardinal `κ`
+  there is a set of schemes representing every scheme of size at most `κ` up to isomorphism.
 * `AlgebraicGeometry.essentiallySmall_schemeBelow`: **Stacks 000J**, the cutoff category
   itself is essentially small. It needs no countability hypothesis on `κ`, so use it rather
   than the property form above when all that is wanted is a small model of `Sch_κ`.
@@ -56,6 +58,7 @@ arrows of the thin index category.
 
 ## References
 
+* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
 * [Stacks Project, Tag 000J](https://stacks.math.columbia.edu/tag/000J)
 * [Stacks Project, Tag 021A](https://stacks.math.columbia.edu/tag/021A)
 -/
@@ -99,6 +102,28 @@ theorem essentiallySmall_schemeSizeBelow (κ : Cardinal.{u}) (hκ : Cardinal.ale
   exact (Q.colimitsCardinalClosure κ).prop_of_isColimit
     (Scheme.AffineZariskiSite.isColimitCocone X) fun U ↦ Q.le_colimitsCardinalClosure κ _
       ⟨Opposite.op Γ(X, U.1), X.mk_sections_le_size U |>.trans_lt hX, ⟨Iso.refl _⟩⟩
+
+/-- **Stacks 000I** (Lemma 3.9.1). For every cardinal `κ` there is a set of schemes such that
+every scheme `S` with `size S ≤ κ` is isomorphic to a member of it: here the set is a family
+`A : ι → Scheme.{u}` indexed by a type `ι : Type u`.
+
+No hypothesis on `κ` is needed: the schemes of size at most `κ` are among those of size below
+`Order.succ (max κ ℵ₀)`, which is uncountable, so `essentiallySmall_schemeSizeBelow` applies. -/
+@[stacks 000I "The set `A` of schemes is a family indexed by a type in the universe of the
+schemes, and `X ≅ S` is an isomorphism of schemes."]
+theorem exists_family_iso_of_size_le (κ : Cardinal.{u}) :
+    ∃ (ι : Type u) (A : ι → Scheme.{u}), ∀ S : Scheme.{u}, S.size ≤ κ →
+      ∃ i, Nonempty (A i ≅ S) := by
+  have hκ : Cardinal.aleph0 ≤ Order.succ (max κ Cardinal.aleph0) :=
+    (le_max_right _ _).trans (Order.le_succ _)
+  have := essentiallySmall_schemeSizeBelow _ hκ
+  obtain ⟨Q, hQ, -, hPQ⟩ := ObjectProperty.EssentiallySmall.exists_small_le
+    (schemeSizeBelow (Order.succ (max κ Cardinal.aleph0)))
+  refine ⟨Shrink.{u} (Subtype Q), fun i ↦ ((equivShrink.{u} (Subtype Q)).symm i).1, ?_⟩
+  intro S hS
+  obtain ⟨X, hX, ⟨e⟩⟩ := hPQ S (Order.lt_succ_of_le (le_max_of_le_left hS))
+  refine ⟨equivShrink.{u} (Subtype Q) ⟨X, hX⟩, ?_⟩
+  simpa using (show Nonempty (X ≅ S) from ⟨e.symm⟩)
 
 /-- **Stacks 000J.** The cutoff category `Sch_κ` of schemes of size below a cardinal `κ` is
 essentially small at the universe of its schemes.

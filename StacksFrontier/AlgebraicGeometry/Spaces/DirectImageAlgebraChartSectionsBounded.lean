@@ -35,7 +35,7 @@ that functor is essentially surjective, for every quasi-coherent `𝒪_X`-algebr
 * [Stacks Project, Tag 03G2](https://stacks.math.columbia.edu/tag/03G2)
 * [Stacks Project, Tag 03H7](https://stacks.math.columbia.edu/tag/03H7)
 * [Stacks Project, Tag 025Y](https://stacks.math.columbia.edu/tag/025Y)
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public noncomputable section

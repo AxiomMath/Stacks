@@ -70,8 +70,11 @@ field `V i`, and were the hypothesis stated at `S` the two spellings of the base
 would differ in that corner.
 
 **What the reduction does not do: the affine case itself.** For `S` the spectrum of a separably
-closed field that case is the remaining content of Tag 0EZY. An affine scheme over `Spec k` is a
-cofiltered limit of affine schemes of finite type over `Spec k`, the finite-type case being
+closed field that case is reached by the source's proof of Tag 0EZY as follows (Tag 0EZY itself is
+proved by a stalkwise argument instead, as
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_of_quasiCompact`). An affine
+scheme over `Spec k` is a cofiltered limit of affine schemes of finite type over `Spec k`, the
+finite-type case being
 `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_locallyOfFiniteType`, and
 the passage to the limit is Tag 0EZT clause (1),
 `Stacks.EtaleCohomology.LimitSetBaseChange.isIso_smallEtaleSetBaseChange_limit`. That clause is
@@ -83,13 +86,14 @@ that its colimit diagram is constant; the other,
 (`Stacks.EtaleCohomology.LimitHigherDirectImage.higherDirectImageColimit`, whose coefficient
 category is `Ab`). Its degree zero case
 (`Stacks.EtaleCohomology.LimitHigherDirectImage.isHigherDirectImageColimit_zero`) is likewise
-abelian. That set-valued instance is the one missing input.
+abelian. That set-valued instance is the one input this route lacks.
 
-Note also that the limit step of Tag 0EZY needs a hypothesis its printed statement does not
-grant. Along the system only the `X`-corner varies, so the system's lower horizontal morphism is
-`g` itself at every level, and Tag 0EZT asks the levels' lower horizontal morphisms to be
-quasi-compact and quasi-separated. So the affine case supplied to the reduction below will carry
-`g` quasi-compact and quasi-separated; this is an erratum to the Stacks Project.
+Note also that the limit step of Tag 0EZY needs `g` quasi-compact and quasi-separated, the
+standing convention of Section 0EZW, which the statement of Tag 0EZY does not repeat. Along the
+system only the `X`-corner varies, so the system's lower horizontal morphism is `g` itself at
+every level, and Tag 0EZT asks the levels' lower horizontal morphisms to be quasi-compact and
+quasi-separated. So the affine case supplied to the reduction below will carry `g`
+quasi-compact and quasi-separated, as Section 0EZW does.
 
 It is not possible to avoid the limit argument by widening the covering condition of Tag 0EZX
 instead: over a separably closed field that condition asks every étale `X`-scheme to be covered

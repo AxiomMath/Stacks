@@ -22,8 +22,10 @@ base change of the universal family `Y_{n, d} ⟶ X_{n, d}` of Example 0FK8: the
 * `AlgebraicGeometry.exists_universalPolynomial_specialization`: **Stacks 0FKA**, the
   cocartesian diagram of rings underlying the construction — a square presentation of the
   sections of `f` whose relations are specializations of the universal polynomials.
-* `AlgebraicGeometry.exists_isPullback_universalQuasiFiniteMorphism`: **Stacks 0FKA**, the
-  cartesian square with the universal family.
+* `AlgebraicGeometry.exists_isPullback_universalQuasiFiniteMorphismLift`: **Stacks 0FKA**, the
+  cartesian square with the universal family, for schemes in any universe.
+* `AlgebraicGeometry.exists_isPullback_universalQuasiFiniteMorphism`: the same square for
+  schemes in `Scheme.{0}`, over the universal family `universalQuasiFiniteMorphism` itself.
 
 ## Implementation notes
 
@@ -39,11 +41,14 @@ choosing `d` larger than the total degrees of the `g_i` lets the universal coeff
 to the `g_i`. A square presentation is padded by one variable and one relation so that the index
 `n` is positive, as Example 0FK8 requires.
 
-The geometric statement is restricted to `Scheme.{0}`. The universal family of Example 0FK8 is
-built from a polynomial ring over `ℤ`, so `AlgebraicGeometry.universalBaseScheme` and
-`AlgebraicGeometry.universalQuasiFiniteScheme` are objects of `Scheme.{0}`, and a square
-comparing a morphism of `Scheme.{u}` with them is not well typed for `u ≠ 0`. Making the
-geometric statement universe polymorphic requires a universe-polymorphic form of Example 0FK8.
+The universal family of Example 0FK8 is built from a polynomial ring over `ℤ`, so
+`AlgebraicGeometry.universalBaseScheme` and `AlgebraicGeometry.universalQuasiFiniteScheme` are
+objects of `Scheme.{0}`. For schemes in `Scheme.{u}` the statement uses
+`AlgebraicGeometry.universalQuasiFiniteMorphismLift`, the same construction over the universe
+lift `ULift.{u} ℤ[a_{i, E}]` of the coefficient ring; its quotient algebra is identified with
+the universe lift of `B` by `AlgebraicGeometry.universalQuotientRingLiftEquiv`. Both, and the
+universe-polymorphic statement, are in
+`StacksFrontier.AlgebraicGeometry.Different.QuasiFiniteSyntomic.UniversalFamilyLift`.
 
 Passing from `Spec(Γ(X, U) ⊗_A B)` to the open subscheme `Y_{n, d} ⊆ Spec(B)` uses that the
 quasi-finite locus is stable under base change (Stacks 01TM): every point of `V` is quasi-finite
@@ -252,12 +257,12 @@ private theorem spec_appLE {P : MorphismProperty Scheme.{u}} {Q : ∀ {R S : Typ
     P (Spec.map (f.appLE U.1 V.1 hVU)) :=
   (HasRingHomProperty.Spec_iff (P := P)).mpr (HasRingHomProperty.appLE P f hf U V hVU)
 
-/-- **Stacks Project, Tag 0FKA.** Let `f : Y ⟶ X` be a morphism of schemes satisfying the
+/-- Stacks 0FKA for schemes in `Scheme.{0}`, stated over the universal family
+`universalQuasiFiniteMorphism` itself. Let `f : Y ⟶ X` be a morphism of schemes satisfying the
 equivalent conditions of Stacks 0BWE. Then every point `y` of `Y` has opens `y ∈ V ⊆ Y` and
 `U ⊆ X` with `f(V) ⊆ U`, together with positive integers `n` and `d` and a commutative diagram
-whose right-hand square, over the family `Y_{n, d} ⟶ X_{n, d}` of Example 0FK8, is cartesian. -/
-@[stacks 0FKA "stated for schemes in the universe of the universal family `Y_{n, d} ⟶ X_{n, d}`
-of Example 0FK8, which is built from a polynomial ring over `ℤ` and so lives in `Scheme.{0}`."]
+whose right-hand square, over the family `Y_{n, d} ⟶ X_{n, d}` of Example 0FK8, is cartesian.
+For schemes in an arbitrary universe see `exists_isPullback_universalQuasiFiniteMorphismLift`. -/
 theorem exists_isPullback_universalQuasiFiniteMorphism {Y X : Scheme.{0}} {f : Y ⟶ X}
     (hqf : LocallyQuasiFinite f) (hsyn : Syntomic f) (y : Y) :
     ∃ (U : X.Opens) (V : Y.Opens) (_ : y ∈ V) (hVU : V ≤ f ⁻¹ᵁ U) (n d : ℕ)

@@ -73,15 +73,17 @@ hypothesis `hθ`, and nothing else.
 *Why the hypothesis is not discharged here.*  `hθ` is the statement that the comparison along a
 composite is the composite of the comparisons, for the two ways around the square.  For the
 canonical comparison `Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso` of
-[Stacks, Tag 07A4] on ringed topoi that is not available in this tree: that isomorphism carries
-only naturality (`derivedPullbackTensorModelIso_naturality` and the naturality implicit in its
-type), and no compatibility with the composition isomorphism
+[Stacks, Tag 07A4] on ringed topoi, its compatibility with the composition isomorphism
 `Stacks.Cohomology.DerivedPullbackCompositionOnTopoi.derivedPullbackCompIso` of
-[Stacks, Tag 0D6D], at the derived level or at the underived one — the comparison of total
-tensor complexes `Stacks.Sheaves.DerivedPullback.pullbackToposTensorTotalIso` likewise has only
-`pullbackToposTensorTotalIso_hom_naturality`.  It is the *same* missing input that
-`Stacks.Cohomology.RelativeCupProductOnRingedTopoi.adjunctionCupProduct_comp` leaves open for
-[Stacks, Tag 0FPN], recorded there; discharging it once settles both.  The ringed-space
+[Stacks, Tag 0D6D] is `Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso_comp` (pointwise,
+`derivedPullbackTensorIso_hom_app_comp`) of `PullbackToposTensorIsoCompositionDescent.lean` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/`;
+it is the input that turns the composite-adjunction square
+`Stacks.Cohomology.RelativeCupProductOnRingedTopoi.adjunctionCupProduct_comp` into
+[Stacks, Tag 0FPN] at the composite morphism, `relativeCupProduct_comp_pushforwardCompIso`.
+Deriving `hθ` from it at a commutative square of ringed topoi is not done in this file, which
+does not import it; the morphism-of-topoi form of [Stacks, Tag 0H9A] is in
+`RelativeCupProductBaseChangeOfToposHom.lean`.  The ringed-space
 development, in the namespace `Stacks.Cohomology.DerivedPullbackTensor`, carries a comparison of
 its own with its own composition isomorphism, and is of no help here: neither its comparison nor
 its composition isomorphism is the one above.
@@ -207,8 +209,8 @@ that the two composite comparisons `compComparison` agree under `eg.hom ≫ ef.i
 This is the form [Stacks, Tag 0H9A] takes for a commutative square of ringed topoi, where `Lc`
 is the derived pullback along the common composite and `eg`, `ef` are the two composition
 isomorphisms of [Stacks, Tag 0D6D]; the surviving hypothesis is then the compatibility of the
-comparison of [Stacks, Tag 07A4] with that composition isomorphism, which is the same input
-[Stacks, Tag 0FPN] still needs. -/
+comparison of [Stacks, Tag 07A4] with that composition isomorphism, the same input that
+[Stacks, Tag 0FPN] uses at the composite morphism. -/
 theorem adjunctionCupProduct_baseChangeMap
     (hθ : ∀ M N : P,
       (compComparison AQ' AP' AP αf' αg).app (M, N) ≫

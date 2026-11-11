@@ -591,7 +591,8 @@ private theorem localized_relativeWeakNormalization_le_adjoin
   exact hadj _ (Set.range_subset_iff.2 hb) ⟨z, hz⟩ (hzAd (by simp))
 
 /-- Relative weak normalization commutes with localization at a submonoid of the base. -/
-@[stacks 0H3K]
+@[stacks 0H3K "formation of B' commutes with localization at any multiplicative subset S of A: \
+S⁻¹B' = (S⁻¹B)' as S⁻¹A-subalgebras of S⁻¹B, for Spec B → Spec A dominant"]
 public theorem relativeWeakNormalization_localization
     (A B : Type u) [CommRing A] [CommRing B] [Algebra A B]
     (h : IsDominant (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op))

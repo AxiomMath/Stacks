@@ -27,10 +27,13 @@ second.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isTwoFibreProduct_of_toCatFiberedInGroupoids`: a
   2-commutative square of algebraic stacks whose underlying square of categories fibred in
   groupoids is a 2-fibre product is a 2-fibre product of algebraic stacks.
-* `AlgebraicGeometry.Stack.AlgebraicStacks.isTwoFibreProduct_twoFibreProductSquare`:
+* `AlgebraicGeometry.Stack.AlgebraicStacks.isFinalTwoCommSq_twoFibreProductSquare`:
   **Stacks 04T2**, the 2-categorical universal property — the canonical square
   `AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare` is a 2-fibre product in the
-  2-category of algebraic stacks.
+  sense of Stacks 003Q in the 2-category of algebraic stacks; its 1-truncated form is
+  `AlgebraicGeometry.Stack.AlgebraicStacks.isTwoFibreProduct_twoFibreProductSquare`.
+* `AlgebraicGeometry.Stack.AlgebraicStacks.isFinalTwoCommSq_of_isTwoFibreProduct`: for algebraic
+  stacks the 1-truncated notion already implies the one of Stacks 003Q.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isTwoFibreProduct_toCatFiberedInGroupoids`: the
   converse of the first — for a cospan of algebraic stacks the implication also runs upwards,
   because the cospan has a 2-fibre product whose apex is again an algebraic stack.
@@ -106,14 +109,15 @@ noncomputable def isTwoFibreProduct_of_toCatFiberedInGroupoids {g : 𝒵 ⟶ �
     Bicategory.IsTwoFibreProduct P :=
   Bicategory.isTwoFibreProduct_of_underlying hP
 
-/-- **Stacks 04T2, the 2-categorical universal property.** The canonical 2-fibre product square
-`AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare` of a cospan of algebraic stacks
-over `S` is a 2-fibre product *in the 2-category of algebraic stacks over* `(Sch/S)_fppf`, not
-merely in the ambient 2-category of categories fibred in groupoids.
+/-- **Stacks 04T2, the 2-categorical universal property, 1-truncated.** The canonical 2-fibre
+product square `AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare` of a cospan of
+algebraic stacks over `S` is terminal in the quotient category of 2-commutative squares *in the
+2-category of algebraic stacks over* `(Sch/S)_fppf`, not merely in the ambient 2-category of
+categories fibred in groupoids. The form with the 2-fibre product of Stacks 003Q is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isFinalTwoCommSq_twoFibreProductSquare`.
 
 That its apex is an algebraic stack is Stacks 04TF; see
 `AlgebraicGeometry.Stack.isAlgebraicStack_twoFibreProduct`. -/
-@[stacks 04T2 "the 2-categorical universal property"]
 noncomputable def isTwoFibreProduct_twoFibreProductSquare (g : 𝒵 ⟶ 𝒴) (f : 𝒳 ⟶ 𝒴) :
     Bicategory.IsTwoFibreProduct (twoFibreProductSquare B S hS g f) :=
   isTwoFibreProduct_of_toCatFiberedInGroupoids B S hS _
@@ -134,6 +138,35 @@ noncomputable def isTwoFibreProduct_toCatFiberedInGroupoids {g : 𝒵 ⟶ 𝒴} 
   Bicategory.isTwoFibreProduct_underlying
     (twoFibreProductSquare B S hS g f) hP
     (CatFiberedInGroupoids.isTwoFibreProduct_twoFibreProductSquare.{u, u, u + 1, u + 1}
+      g.hom f.hom)
+
+/-- **In the 2-category of algebraic stacks the two notions of 2-fibre product agree.** A terminal
+object of the quotient category of 2-commutative squares over a cospan of algebraic stacks is a
+2-fibre product in the sense of Stacks 003Q: its underlying square of categories fibred in groupoids
+is a 2-fibre product there, whose legs detect 2-cells, and the 2-cells of the full sub-2-category
+of algebraic stacks are those of categories fibred in groupoids. -/
+noncomputable def isFinalTwoCommSq_of_isTwoFibreProduct {g : 𝒵 ⟶ 𝒴} {f : 𝒳 ⟶ 𝒴}
+    (P : Bicategory.TwoCommSq g f) (hP : Bicategory.IsTwoFibreProduct P) :
+    Bicategory.IsFinalTwoCommSq P :=
+  Bicategory.isFinalTwoCommSq_of_legsDetect hP
+    (Bicategory.legsDetectTwoCells_of_underlying
+      (CatFiberedInGroupoids.legsDetectTwoCells_of_isTwoFibreProduct.{u, u, u + 1, u + 1}
+        (isTwoFibreProduct_toCatFiberedInGroupoids B S hS P hP)))
+
+/-- **Stacks 04T2, the 2-categorical universal property.** The canonical 2-fibre product square
+`AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare` of a cospan of algebraic stacks
+over `S` is a 2-fibre product in the sense of Stacks 003Q *in the 2-category of algebraic stacks
+over* `(Sch/S)_fppf`, not merely in the ambient 2-category of categories fibred in groupoids: a
+final object of the 2-category of 2-commutative diagrams over the cospan, any two 1-morphisms into
+it being isomorphic by a unique 2-morphism.
+
+That its apex is an algebraic stack is Stacks 04TF; see
+`AlgebraicGeometry.Stack.isAlgebraicStack_twoFibreProduct`. -/
+@[stacks 04T2 "the 2-categorical universal property"]
+noncomputable def isFinalTwoCommSq_twoFibreProductSquare (g : 𝒵 ⟶ 𝒴) (f : 𝒳 ⟶ 𝒴) :
+    Bicategory.IsFinalTwoCommSq (twoFibreProductSquare B S hS g f) :=
+  Bicategory.isFinalTwoCommSq_of_underlying
+    (CatFiberedInGroupoids.isFinalTwoCommSq_twoFibreProductSquare.{u, u, u + 1, u + 1}
       g.hom f.hom)
 
 end AlgebraicStacks

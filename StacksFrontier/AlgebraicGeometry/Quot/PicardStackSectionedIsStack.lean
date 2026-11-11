@@ -536,8 +536,13 @@ theorem sectionedPicardBasedCategory_isStack
         (hFlift _ _).2 (hc₀l g hg), hc₀f g hg⟩⟩
 
 /-- **Stacks 0D29.** In Situation 0D25, given a section `σ` of `f : X ⟶ B`, the rigidified
-Picard stack `Picardstack_{X/B, σ}` is a stack in groupoids over `(Sch/S)_fppf`. -/
-@[stacks 0D29]
+Picard stack `Picardstack_{X/B, σ}` is a stack in groupoids over `(Sch/S)_fppf`. The category
+is built from the pseudofunctoriality of Stacks 03LU
+(`AlgebraicGeometry.Space.modulePushforwardCoherence`) and the coherence of the restriction along
+the section (`AlgebraicGeometry.Space.sectionTransportCoherence`), both proved in the library, so
+the statement carries no hypothesis beyond the section. -/
+@[stacks 0D29 "the full statement: Picardstack_{X/B,sigma} is a stack in groupoids over \
+(Sch/S)_fppf, for any section sigma of f"]
 theorem sectionedPicardCFG_isStackInGroupoids (s : PicardSituation B S hS) (σ : s.base ⟶ s.X)
     (hσ : σ ≫ s.f = 𝟙 s.base) :
     (sectionedPicardCFG (modulePushforwardCoherence B S hS)

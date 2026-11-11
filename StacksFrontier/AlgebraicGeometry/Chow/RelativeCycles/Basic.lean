@@ -80,6 +80,7 @@ abbrev FiberCycleGroup {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f] 
 
 /-- A family of `r`-cycles on the fibres of `f`: an `r`-cycle on the scheme-theoretic fibre
 over each point of the base. -/
+@[stacks 0H4N "a family of `r`-cycles on the fibres of `X/S`"]
 abbrev FamilyOfCycles {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f] (r : ℕ) : Type u :=
   ∀ s : S, FiberCycleGroup f s r
 

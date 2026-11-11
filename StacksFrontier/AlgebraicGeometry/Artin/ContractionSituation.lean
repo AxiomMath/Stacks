@@ -12,7 +12,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.OpenSubspaceCorrespondence
 /-!
 # The situation of Artin's theorem on contractions
 
-Let `S` be a scheme contained in a big fppf site `B`. **Stacks 0GH8** fixes the standing data
+Let `S` be a scheme contained in a big fppf site `B`. Stacks 0GH8 fixes the standing data
 for Artin's theorem on contractions: `S` is locally Noetherian, `X'` is an algebraic space
 locally of finite type over `S`, `T' ⊆ |X'|` is a closed subset with open complement the open
 subspace `U' ⊆ X'`, `W` is a locally Noetherian formal algebraic space over `S` whose
@@ -20,12 +20,17 @@ reduction `W_red` is locally of finite type over `S`, and `g : X'_{/T'} ⟶ W` i
 modification in the sense of Stacks 0GDK from the completion of `X'` along `T'` of Stacks
 0AIX to `W`.
 
-This is a setting rather than an assertion, so it is recorded as a structure bundling exactly
-those data.
+This is a setting rather than an assertion, so it is recorded as a structure bundling those
+data, with the reduction `W_red` of `W` carried as a datum. Stacks 0GH8 itself, with `W_red` the
+reduction of `W` constructed by Stacks 0AIN, is registered at
+`AlgebraicGeometry.Artin.ContractionSetting`
+(`StacksFrontier/AlgebraicGeometry/Artin/ContractionSetting.lean`), which produces this structure
+through `AlgebraicGeometry.Artin.ContractionSetting.toContractionSituation`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Artin.ContractionSituation`: **Stacks 0GH8**, the standing data.
+* `AlgebraicGeometry.Artin.ContractionSituation`: the standing data of Stacks 0GH8, with the
+  reduction of `W` carried as a datum.
 * `AlgebraicGeometry.Artin.ContractionSituation.U'`: the open subspace `U' ⊆ X'` with
   `|U'| = |X'| ∖ T'`.
 
@@ -40,7 +45,7 @@ those data.
 
 Nothing beyond the source's own hypotheses. The reduction `W_red` is carried as the three
 fields `Wred`, `WredInclusion` and `isReduction_WredInclusion` rather than constructed from
-`W`, which is what the note on the tag records. This costs no generality: Stacks 0AIN —
+`W`. This costs no generality: Stacks 0AIN —
 `AlgebraicGeometry.FormalSpace.exists_isReduction_of_isFormalAlgebraicSpace` — supplies such
 a datum for every formal algebraic space, so no locally Noetherian formal algebraic
 space `W` is excluded; and a reduction is unique up to unique isomorphism by the universal
@@ -74,8 +79,9 @@ space being `Type (u + 1)` rather than `Type u`.
 `W` is an object of `AlgebraicGeometry.FormalSpace.FppfSheaf`, the fppf sheaves of
 `Type (u + 1)`, and `X'_{/T'}` is `AlgebraicGeometry.Space.completionSheaf` of Stacks 0AMC,
 the sheafification of the subfunctor of sections whose point-set image lies in `T'`. That
-`X'_{/T'}` is a formal algebraic space is Stacks 0AIZ, which the library does not prove; it is
-not assumed here either, because the source's own hypothesis on `g` already contains it: the
+`X'_{/T'}` is a formal algebraic space is Stacks 0AIZ
+(`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionSheaf_of_isClosed`); it is not
+needed as a separate field, because the source's own hypothesis on `g` already contains it: the
 field `isLocallyNoetherian_source` of `AlgebraicGeometry.FormalSpace.IsFormalModification`
 asserts that the source of a formal modification is a locally Noetherian formal algebraic
 space.
@@ -109,7 +115,7 @@ namespace AlgebraicGeometry.Artin
 
 attribute [local instance] Space.pointTopology
 
-/-- **Stacks 0GH8.** The standing situation of Artin's theorem on contractions: a locally
+/-- The standing situation of Artin's theorem on contractions (Stacks 0GH8): a locally
 Noetherian base scheme `S` contained in a big fppf site `B`, an algebraic space `X'` locally
 of finite type over `S`, a closed subset `T' ⊆ |X'|`, a locally Noetherian formal algebraic
 space `W` over `S` with reduction `W_red` locally of finite type over `S`, and a formal
@@ -118,15 +124,11 @@ modification `g : X'_{/T'} ⟶ W` from the completion of `X'` along `T'` to `W`.
 The open subspace `U' ⊆ X'` with `|U'| = |X'| ∖ T'` is not a field: it is constructed from
 `T'` as `AlgebraicGeometry.Artin.ContractionSituation.U'`.
 
-The reduction of `W` is carried as data rather than constructed; see the module
-documentation. -/
-@[stacks 0GH8 "the standing data S, X', T', W, W_red and g; the reduction of `W`, its \
-inclusion and the witness that the inclusion exhibits it as the reduction are carried as the \
-fields `Wred`, `WredInclusion` and `isReduction_WredInclusion` rather than constructed. That \
-costs no generality: Stacks 0AIN supplies these for every formal algebraic space, and a \
-reduction is unique up to unique isomorphism by its universal property, so the requirement \
-that the reduction be locally of finite type over `S` does not depend on which one is \
-supplied"]
+The reduction of `W` is carried as data, which is the shape the rest of the contraction
+development consumes. Stacks 0GH8 itself, with `W_red` the reduction constructed by Stacks 0AIN,
+is `AlgebraicGeometry.Artin.ContractionSetting`, and
+`AlgebraicGeometry.Artin.ContractionSetting.toContractionSituation` produces this structure from
+it. -/
 structure ContractionSituation (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     where
   /-- The base scheme `S` is locally Noetherian. -/
@@ -179,8 +181,6 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 correspondence of Stacks 03BZ. Its two defining properties are
 `AlgebraicGeometry.Artin.ContractionSituation.isOpenSubspace_U'` and
 `AlgebraicGeometry.Artin.ContractionSituation.range_pointsMap_ι_U'`. -/
-@[stacks 0GH8 "the open subspace U' ⊆ X' with |U'| = |X'| ∖ T', which is determined by T' and \
-therefore constructed rather than carried as a field of the situation"]
 def U' : Subfunctor c.X' :=
   Space.openSubspaceOfPoints B S hS c.X' c.T'ᶜ
 

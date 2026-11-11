@@ -27,16 +27,19 @@ pushing forward the product of `F` by the inverse-image ideal `f⁻¹ I`:
 ## Main results
 
 * `Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`
-  identifies these two submodules sectionwise on every affine open.
+  identifies these two submodules sectionwise on every affine open. This is the affine-local
+  computation of [Stacks, Tag 01YP]; the tag, as an equality of subsheaves of `f₊ F`, is
+  `Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`.
 
 ## Implementation notes
 
 Mathlib represents a quasi-coherent ideal sheaf by `AlgebraicGeometry.Scheme.IdealSheafData`,
-whose data are its ideals on affine opens. Accordingly the equality of subsheaves is expressed
-as equality of their sets of sections over every affine open; those opens form a basis, so this
-is the affine-basis form of the sheaf equality in the source. The right-hand side is transported
-along the canonical identification of sections of a pushforward with sections over the inverse
-image, which is available because `f` is affine and hence `f ⁻¹ᵁ U` is affine.
+whose data are its ideals on affine opens. This file proves the equality of the two sets of
+sections over every affine open; the upgrade to an equality of subsheaves, using that affine opens
+form a basis, is made in `StacksFrontier/AlgebraicGeometry/SheafPushforward/Basic.lean`. The
+right-hand side is transported along the canonical identification of sections of a pushforward
+with sections over the inverse image, which is available because `f` is affine and hence
+`f ⁻¹ᵁ U` is affine.
 
 The mathematical core is `ideal_comap_affine`: for an affine morphism the inverse-image ideal
 sheaf is computed on affine opens by `Ideal.map` along `f.app U`. That in turn reduces, via the
@@ -136,12 +139,15 @@ def pullbackIdealMultiplePushforwardSections (f : Y ⟶ X) [IsAffineHom f]
       (I.comap f).ideal ⟨f ⁻¹ᵁ U, U.2.preimage f⟩ •
         (⊤ : Submodule Γ(Y, f ⁻¹ᵁ U) Γ(F, f ⁻¹ᵁ U)) }
 
-/-- **Stacks Project, Tag 01YP.** If `f : Y ⟶ X` is affine, `F` is a quasi-coherent
-`𝒪_Y`-module, and `I` is a quasi-coherent ideal sheaf on `X`, then `I · f₊ F = f₊((f⁻¹ I) · F)`.
+/-- **The affine-local computation behind [Stacks, Tag 01YP].** If `f : Y ⟶ X` is affine and
+`U ⊆ X` is an affine open, then the submodule `I(U) · Γ(f₊ F, U)` of `Γ(f₊ F, U)` equals the
+submodule `(f⁻¹ I)(f ⁻¹ᵁ U) · Γ(F, f ⁻¹ᵁ U)`, transported along `Γ(f₊ F, U) = Γ(F, f ⁻¹ᵁ U)`.
 
-The equality is stated on every affine open, using the affine-open presentation of
-quasi-coherent ideal sheaves. -/
-@[stacks 01YP]
+This is an identity between two sets of sections defined by formula, the source's
+`I(M_A) = ((IB)M)_A`; it is not by itself a statement about subsheaves. The tag itself, the
+equality of subsheaves `𝒥 · f₊ℱ = f₊((f⁻¹𝒥) · ℱ)` of `f₊ℱ`, is
+`Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`, which is
+deduced from this one. -/
 theorem ideal_smul_pushforward_sections_eq (f : Y ⟶ X) [IsAffineHom f]
     (I : X.IdealSheafData) (F : Y.Modules) [F.IsQuasicoherent]
     (U : X.affineOpens) :

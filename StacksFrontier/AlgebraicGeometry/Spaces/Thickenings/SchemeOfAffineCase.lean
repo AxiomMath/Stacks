@@ -29,7 +29,7 @@ affine case enters as the explicit hypothesis `hAffineCase`.
 
 ## Implementation notes
 
-The library's other form of Stacks 05ZR,
+The library's form of Stacks 05ZR through Stacks 07VV for an integral morphism,
 `AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom`, runs through Stacks 07VV and so
 through Stacks 07VT, with that proposition's hypotheses `h09YA`, `h07SQ` and `hFinitePresentation`.
 The affine case used here is weaker: it is about a closed immersion rather than an arbitrary

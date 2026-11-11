@@ -57,9 +57,15 @@ point `o` to the image of `s`, such that `sp` is isomorphic to the specializatio
 of topological groups `π₁(X_{s̄'}) ≅ π₁((X_R)_{η̄})` and `π₁(X_{s̄}) ≅ π₁((X_R)_{ō})` intertwining
 `sp` and `sp_R`.
 
-This is `exists_isSpecializationMap_isomorphic_over_isDiscreteValuationRing` with its input
-Tag 0A48 supplied by `properHenselianFiniteEtaleEquivalence`. -/
-@[stacks 0C0N "The full statement under the source's hypotheses; nothing is granted or assumed."]
+The proof follows the source: `exists_isSpecializationMap_isomorphic_over_isDiscreteValuationRing`
+builds the discrete valuation ring dominating the strict henselization `A` of `𝒪_{S,s}` (Tags 00PH,
+0ARL, 0AP1) and the two comparison isomorphisms (Tag 0A49), taking Tag 0A48 for proper schemes
+over henselian local rings as an argument; that argument is the theorem
+`properHenselianFiniteEtaleEquivalence`, supplied here. -/
+@[stacks 0C0N "The full statement under the source's hypotheses, with no extra input: Tag 0A48 is \
+supplied by `properHenselianFiniteEtaleEquivalence`. The source leaves \"isomorphic\" undefined; \
+it is stated as a commutative square of isomorphisms of topological groups `eη`, `eo` with \
+`eo ∘ sp = sp_R ∘ eη`. The ring `R` produced also has algebraically closed residue field."]
 theorem exists_isSpecializationMap_isomorphic_over_strictlyHenselianDVR
     {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] [GeometricallyConnected f] [IsNoetherian S]
     (s' s : GeometricPoint S)

@@ -30,7 +30,9 @@ polynomial ring `R = k[y_1, …, y_m, t_1, …, t_d]` with its elements `γ_i = 
   `k`-algebra generating family of `A` form a finite subset of `Λ̄`.
 * `Stacks.Smoothing.exists_mvPolynomial_localArtinianFactorization_mem`: the factorization
   `k[y_1, …, y_m]_𝔭/𝔭^n → D → Λ̄` by local Artinian rings, with the first map essentially smooth,
-  the second flat, `E ⊆ D`, and `k[y_1, …, y_m]_𝔭 → Λ_𝔮` flat with `𝔭Λ_𝔮 = 𝔮Λ_𝔮`.
+  the second flat, `E ⊆ D`, and `k[y_1, …, y_m]_𝔭 → Λ_𝔮` flat with `𝔭Λ_𝔮 = 𝔮Λ_𝔮`, when `κ(𝔮)`
+  is essentially of finite type over `k`; Stacks 07FT in general is
+  `Stacks.Smoothing.hasArtinianApproximationData`.
 * `Stacks.Smoothing.exists_fin_mem_span_eq_maximalIdeal_of_flat`: `dim k[y_1, …, y_m]_𝔭 = d`
   together with `d` elements of `𝔭` whose images form a regular system of parameters of
   `k[y_1, …, y_m]_𝔭`.
@@ -113,34 +115,25 @@ private theorem isArtinianRing_primePowerQuotient_of_one_le {R : Type*} [CommRin
       Ideal.Quotient.mk_surjective,
     ← Ideal.map_pow, ← ideal_map_pow_eq_maximalIdeal_pow, Ideal.map_quotient_self]
 
-/-- **Stacks 07FT.** Let `k` be a field of characteristic `p > 0`, let `Λ` be a Noetherian
-geometrically regular `k`-algebra, let `𝔮` be a prime of `Λ`, let `n ≥ 1` and let `E` be a finite
+/-- **Stacks 07FT under a residue-field restriction.** Let `k` be a field of characteristic
+`p > 0`, let `Λ` be a Noetherian geometrically regular `k`-algebra, let `𝔮` be a prime of `Λ` whose
+residue field `κ(𝔮)` is essentially of finite type over `k`, let `n ≥ 1` and let `E` be a finite
 subset of `Λ̄ = Λ_𝔮/𝔮^nΛ_𝔮`. Then there are `m` and a `k`-algebra map `φ : k[y_1, …, y_m] → Λ`
 such that, with `𝔭 = φ^{-1}(𝔮)`, the induced local map `g : k[y_1, …, y_m]_𝔭 → Λ_𝔮` is flat with
 `𝔭Λ_𝔮 = 𝔮Λ_𝔮`, and the map `u : k[y_1, …, y_m]_𝔭/𝔭^n → Λ̄` induced by `g` factors as
 `D.subtype ∘ a` through a subring `D` of `Λ̄` containing `E`, with `a` essentially smooth and
 `D.subtype` flat. All three rings of the factorization are local Artinian.
 
+This is a special case of Stacks 07FT, the hypothesis `Algebra.EssFiniteType k κ(𝔮)` being one the
+source does not make, so it carries no `@[stacks 07FT]` tag: the tag is on
+`Stacks.Smoothing.hasArtinianApproximationData`, in
+`StacksFrontier/RingTheory/Smoothing/ArtinianApproximationGeneral.lean`, which proves 07FT for every
+prime `𝔮`. This theorem repackages
+`Stacks.Smoothing.exists_mvPolynomial_factorization_mem_isEssentiallySmooth_flat`.
+
 "Essentially smooth" is `RingHom.IsEssentiallySmooth`: essentially of finite presentation
 (Tag 00QM (2)) and formally smooth; see
 `StacksFrontier/RingTheory/Smoothing/EssentiallySmooth.lean`. -/
-@[stacks 07FT "Item 9 of the proof of Stacks 07FJ, stated for the class of objects on which
-clauses (2) and (3) of Stacks 07FH are available in this repository: `Λ` Noetherian and
-geometrically regular over the field `k` of characteristic `p > 0`, with the residue field
-`κ(𝔮)` of `Λ_𝔮` essentially of finite type over `k`, equivalently a finitely generated field
-extension of `k`. That restriction on the objects is the one recorded by
-`exists_mvPolynomial_factorization_mem_isEssentiallySmooth_flat`, which this theorem repackages;
-outside it clause (2) is open in this repository, the source's choice of `λ_1, …, λ_t` being
-unjustified as written and the natural repair provably destroying the flatness the argument needs
-— for the counterexample `k = 𝐅_p`, `Λ̄ = k(v)[ε]/ε²` see
-`StacksFrontier.RingTheory.Smoothing.InseparableResidueField`. Clause (1), the flat `g` with
-`𝔭Λ_𝔮 = 𝔮Λ_𝔮`, needs no such restriction and is repeated here because the item states it. WHAT
-IS PROVED: the source's `m`, `φ : k[y_1, …, y_m] → Λ`, `𝔭 = φ^{-1}(𝔮)`, the flat
-`g : k[y]_𝔭 → Λ_𝔮` compatible with `φ`, the ideal identity `𝔭Λ_𝔮 = 𝔮Λ_𝔮`, and the factorization
-of the induced `u : k[y]_𝔭/𝔭^n → Λ̄` as the equation `D.subtype ∘ a = u` of ring maps, with `a`
-essentially smooth, `D.subtype` flat and each of `k[y]_𝔭/𝔭^n`, `D` and `Λ̄` local Artinian, which
-is the source's `factorization by local Artinian rings`. The source's `E ⊆ D mod 𝔮^nΛ_𝔮` is
-`∀ e ∈ E, e ∈ D`, `E` being a finite subset of `Λ_𝔮/𝔮^nΛ_𝔮` already."]
 theorem exists_mvPolynomial_localArtinianFactorization_mem {k Λ : Type u} [Field k] [CommRing Λ]
     [Algebra k Λ] [IsNoetherianRing Λ] [Algebra.IsGeometricallyRegular k Λ] (𝔮 : Ideal Λ)
     [𝔮.IsPrime] (p : ℕ) [Fact p.Prime] [CharP k p]

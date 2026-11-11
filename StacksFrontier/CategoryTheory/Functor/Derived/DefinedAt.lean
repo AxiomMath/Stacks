@@ -217,8 +217,9 @@ Following Deligne, `F` is called *right derivable*, and `RF` *everywhere defined
 defined at every object of `𝒟`; dually `F` is *left derivable*, and `LF` *everywhere defined*,
 when `LF` is defined at every object of `𝒟`. These are the two properties defined here. In that
 case `RF`, resp. `LF`, descends to a functor `W⁻¹𝒟 ⥤ 𝒟'` (Tag 05SW, via Tag 05SE); the passage
-from everywhere-definedness to that functor is a separate result and is not part of these
-definitions.
+from everywhere-definedness to that functor is a separate result, not part of these definitions:
+`CategoryTheory.Functor.totalRightDerived_isTriangulated_and_isRightDerivedValueAt`, resp.
+`CategoryTheory.Functor.totalLeftDerived_isTriangulated_and_isLeftDerivedValueAt`.
 
 ## Main definitions
 
@@ -340,12 +341,12 @@ computing `RF`.
 Situation 05S8 nothing else is assumed — `F` exact between triangulated categories and `W` a
 saturated multiplicative system compatible with the triangulated structure are used by the
 results *about* computing objects (through filteredness of `X/W`, resp. cofilteredness of
-`W/X`), not by the definition, exactly as in the statement of Tag 05S9.
-(2) The base is the source's:
-the index category is the source's `X/S`, resp. `S/X` — morphisms of `𝒟` lying in `W` out of,
-resp. into, `X`, with arbitrary morphisms of `𝒟` under, resp. over, `X` between them — the
-diagram takes its values in `𝒟'` through `F`, and "defined at" is the source's essential
-constancy of that ind-object, resp. pro-object, not the localization-and-Kan-extension condition
+`W/X`), not by the definition, exactly as in the statement of Tag 05S9. (2) The base is the
+source's: the index category is the source's `X/S`, resp. `S/X` — morphisms of `𝒟` lying in
+`W` out of, resp. into, `X`, with arbitrary morphisms of `𝒟` under, resp. over, `X` between
+them — the diagram takes its values in `𝒟'` through `F`, and "defined at" is the source's
+essential constancy of that ind-object, resp. pro-object, not the
+localization-and-Kan-extension condition
 `CategoryTheory.Functor.HasPointwiseRightDerivedFunctorAt`. (3) The canonical map is pinned, not
 merely asserted to exist: it is `c.ι.app (MorphismProperty.Under.mk ⊤ (𝟙 X) _)`, of type
 `F.obj X ⟶ c.pt`, resp. `c.π.app (MorphismProperty.Over.mk ⊤ (𝟙 X) _)`, of type

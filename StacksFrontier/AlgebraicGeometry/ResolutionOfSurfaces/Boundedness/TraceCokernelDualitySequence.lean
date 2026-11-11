@@ -73,14 +73,11 @@ which is the `Ext²` of the source's short exact sequence.
 
 **No `@[stacks 0B4S]` attribute is placed here.** None of the five conditions above is
 discharged in this file: what is proved is the implication, which is the step of the source's
-proof — duality applied to the triangle, composed with local duality — that this development did
-not have. The three inputs still owed are the cohomological concentration of `RΓ(X, 𝒪_X)`
-together with `f_*𝒪_X = 𝒪_{Spec A}`, the reading of `hvan` through the adjunction, and the
-identification of `Hom_{D(A)}(C, ω_A^•)` with `Γ(X, ω_X)` carrying `u` to the trace. The
-registration of the tag stays on
+proof — duality applied to the triangle, composed with local duality. The tag is registered,
+by a route through the trace on `H^{-2}` that does not pass through these conditions, on
 `Stacks.ResolutionOfSurfaces`
-`.isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero`
-of `Boundedness/TraceCokernelReduction.lean`.
+`.isReductionToRationalSingularitiesPossible_of_smul_baseTraceCokernel_eq_zero`
+of `Boundedness/TraceCokernelImageLift.lean`.
 
 ## References
 

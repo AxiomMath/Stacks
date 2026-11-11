@@ -279,7 +279,8 @@ abelian groups, naturally in the object of `D(𝒪_X)`: the connecting map is a 
 transformation and the other four maps are natural transformations of the given functors.
 Applying the cohomological functors gives the functorial Mayer--Vietoris long exact
 sequence. -/
-@[stacks 08BX "for a pair of opens covering an arbitrary open, not only the whole space"]
+@[stacks 08BX "the triangle, for a pair of opens covering an arbitrary open, not only the whole
+space"]
 public theorem relativeUnboundedMayerVietoris (X : RingedSpace.{u, u})
     (U V W : Opens X.carrier) (hUV : U ⊔ V = W)
     (RW RU RV RUV : DerivedCategory (ModuleSheaves X) ⥤ DerivedCategory AddCommGrpCat.{u})
@@ -425,9 +426,9 @@ derived functors of degreewise sections along the quasi-isomorphisms — the rig
 restriction maps, with the usual sign on the overlap, fit into a distinguished triangle in the
 derived category of abelian groups, naturally in the object of `D(𝒪_X)`: the connecting map is
 a natural transformation and the other four maps are natural transformations of the given
-functors.  Applying the cohomological functors gives the functorial Mayer--Vietoris long exact
-sequence. -/
-@[stacks 08BX]
+functors.  The functorial Mayer--Vietoris long exact cohomology sequence obtained from the
+triangle is `Stacks.Cohomology.LinearMayerVietoris.linearUnboundedMayerVietoris_longExact`. -/
+@[stacks 08BX "the triangle, in the derived category of abelian groups"]
 public theorem unboundedMayerVietoris (X : RingedSpace.{u, u}) (U V : Opens X.carrier)
     (hUV : U ⊔ V = ⊤)
     (RX RU RV RUV : DerivedCategory (ModuleSheaves X) ⥤ DerivedCategory AddCommGrpCat.{u})

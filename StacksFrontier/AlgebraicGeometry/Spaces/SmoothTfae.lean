@@ -279,7 +279,7 @@ private theorem smooth_implies_smooth_on_top_opens
             rw [Category.assoc, Category.assoc, pullback.condition]
       exact hf U V a' b' h ha' hb' hab'
 
-private theorem isSmooth_precomp_iso
+theorem isSmooth_precomp_iso
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (e : F ≅ G) (f : G ⟶ H) (hf : IsSmooth B S hS f) :

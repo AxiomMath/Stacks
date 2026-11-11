@@ -457,7 +457,14 @@ private theorem formallySmoothTop_source_completion_iff.{u, v, w}
     rw [← RingHom.comp_assoc, hgf, extensionHom_comp_coeRingHom]
 
 /-- Formal smoothness of a continuous homomorphism of adic rings is unchanged
-by completing the target, or by completing both source and target. -/
+by completing the target, or by completing both source and target.
+
+The hypotheses are exactly those of Stacks 07ED: rings `R` and `S` with
+finitely generated ideals `m` and `n`, endowed with the `m`-adic and `n`-adic
+topologies, and a continuous ring homomorphism `f : R →+* S`. The completions
+carry the adic topologies of the extended ideals `m R^∧` and `n S^∧`; since `m`
+and `n` are finitely generated, these are the `m`-adic and `n`-adic topologies
+of the completions (Stacks 05GG). -/
 @[stacks 07ED,
   ega "0 19.3.6" "adic top., f.g. ideals",
   ega "0 19.9.4" "a) <=> b) <=> c)",

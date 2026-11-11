@@ -180,10 +180,6 @@ degree-`e` part (`Stacks.Chow.topChernCap`), and the identity holds in
 `CH_{k+r'}(p⁻¹(U)) = CH_{(k-e)+(r'+e)}(p⁻¹(U))`. Taking for `U` the pieces of the decomposition of
 `X` by the ranks of `𝒩'` and `ℰ`, this is the identity of the tag in
 `CH_*(N) = ∏_U CH_*(p⁻¹(U))`. -/
-@[stacks 0FAA "For a short exact sequence of finite locally free modules of arbitrary ranks: on \
-every open U of X where N' and E have constant ranks r' and e, with p' and p restricted to the \
-parts of N' and N over U (flat of relative dimensions r' and r' + e), i restricted to them, and \
-c_top(E) the top Chern class of Tag 0FA4 acting by its degree-e part."]
 theorem subbundleEmbeddingRestrict_pushforward_flatPullback_eq_topChernCap (U : X.Opens)
     (r' e : ℕ) (hN' : U ≤ rankLocus N' r') (hE : U ≤ rankLocus E e) (k : ℤ)
     (α : chowGroup C sX k) :

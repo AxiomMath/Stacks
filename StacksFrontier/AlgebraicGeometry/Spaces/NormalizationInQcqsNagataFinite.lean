@@ -47,7 +47,8 @@ is Nagata, `f` is quasi-separated of finite type, and `Y` is reduced. Then the n
 Being Nagata and being reduced are the étale-local properties of schemes of Tag 03E6; the
 quasi-compactness that the normalization of Stacks 0822 requires of `f` is the second half of
 `f` being of finite type. -/
-@[stacks 0BB0]
+@[stacks 0BB0 "for f : Y ⟶ X quasi-separated of finite type, X Nagata and Y reduced, the \
+normalization of X in Y (Stacks 0822) is finite over X"]
 theorem isFinite_normalizationInQcqsHom_of_isNagata {X Y : AlgebraicSpaces B S hS} (f : Y ⟶ X)
     (hXnagata : HasEtaleLocalProperty B S hS X.1 fun Z : Scheme.{u} => IsNagataScheme Z)
     (hYred : HasEtaleLocalProperty B S hS Y.1 fun Z : Scheme.{u} => IsReduced Z)

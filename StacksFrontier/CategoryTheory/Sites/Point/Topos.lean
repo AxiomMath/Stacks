@@ -50,6 +50,12 @@ form `PointOfTopos.*_pushforward`:
 6. it reflects surjections (`reflectsEpimorphisms_pushforward`);
 7. it reflects isomorphisms (`reflectsIsomorphisms_pushforward`).
 
+The eighth, "it commutes with coequalizers", is false as stated
+(`Point.not_preservesCoequalizers_pushforward_pointOfTopos_pointBot`, below); its corrected form,
+that `p_*` commutes with the coequalizer of a pair which is an equivalence relation on its
+target, is `preservesColimit_pushforward_of_equivalence`. Both are in
+`StacksFrontier/CategoryTheory/Sites/Point/ToposCoequalizer.lean`.
+
 As in `StacksFrontier/CategoryTheory/Sites/Subtopos/ClosedImmersion.lean`, "injection", "surjection"
 and "isomorphism" of
 sheaves are rendered as monomorphism, epimorphism and isomorphism.
@@ -85,7 +91,8 @@ any functor whatsoever.
 ### The eighth property of Stacks 05UY is false
 
 The remaining assertion of Stacks 05UY is that `p_*` commutes with coequalizers. That is
-false, and no declaration below claims it.
+false, and no declaration below claims it; the counterexample below is
+`Point.not_preservesCoequalizers_pushforward_pointOfTopos_pointBot`.
 
 The failure is proved here in the form
 `Point.subsingleton_fiber_of_preservesCoequalizers`: if the skyscraper presheaf functor
@@ -128,7 +135,9 @@ The gap in the Stacks proof is the step "it follows immediately from this formul
 it does not preserve coequalizers as soon as `A` has more than one element. What is true —
 and what the applications use — is that `Map(A, -)` preserves quotients by *equivalence
 relations*, i.e. `p_*` preserves the coequalizer of a pair which is an equivalence relation on
-its target. That corrected statement is not proved here either.
+its target. That corrected statement is `PointOfTopos.preservesColimit_pushforward_of_equivalence`,
+for an arbitrary point of an arbitrary topos: the quotient of a set by an equivalence relation is
+a split coequalizer (`Types.isSplitCoequalizerOfEquivalence`), which every functor preserves.
 
 ### Relation to Stacks 04EL
 
@@ -554,7 +563,9 @@ theorem exists_sitePoint_fiber_eq {C : Type u} [Category.{v} C] {J : Grothendiec
   rw [hcalc, hz']
   exact IsIso.inv_hom_id_apply (G.map f) x
 
-private noncomputable def fiberToSheafYoneda
+/-- The identification `u(X) = p⁻¹(h_X^#)` of Stacks 00YA for a point `Φ` of the site: the fibre of
+`Φ` at `X` is the stalk at `Φ` of the sheafified representable `h_X^#`. -/
+noncomputable def fiberToSheafYoneda
     {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
     (Φ : GrothendieckTopology.Point.{max u v} J) (X : C) :
     Φ.fiber.obj X ≅ Φ.sheafFiber.obj ((Sheaf.sheafifiedYoneda J).obj X) :=
@@ -563,7 +574,9 @@ private noncomputable def fiberToSheafYoneda
       ((Φ.presheafToSheafCompSheafFiberIso (Type max u v)).app
         (uliftYoneda.obj X)).symm
 
-private theorem fiberToSheafYoneda_hom_apply
+/-- The identification `u(X) = p⁻¹(h_X^#)` sends `x` to the germ at `(X, x)` of the tautological
+section of `h_X^#`. -/
+theorem fiberToSheafYoneda_hom_apply
     {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
     (Φ : GrothendieckTopology.Point.{max u v} J) (X : C) (x : Φ.fiber.obj X) :
     (fiberToSheafYoneda Φ X).hom x =
@@ -770,7 +783,7 @@ computed objectwise, so this yields an actual counterexample to the clause as st
 `p_* : Set ⥤ Sh(C)`: take `C = WalkingParallelPair`, `J = ⊥` and `Φ = pointBot zero`
 (Mathlib's `GrothendieckTopology.pointBot`), whose fibre functor is `Hom(zero, -)`, so that
 `u(one) = {left, right}` has two elements. The transport of the statement below across
-`Sh(C, ⊥) ≃ PSh(C)` is not formalized here. -/
+`Sh(C, ⊥) ≃ PSh(C)` is `not_preservesCoequalizers_pushforward_pointOfTopos_pointBot`. -/
 theorem subsingleton_fiber_of_preservesCoequalizers (Φ : Point.{w} J)
     (h : PreservesColimitsOfShape WalkingParallelPair (Φ.skyscraperPresheafFunctor (A := Type w)))
     (X : C) : Subsingleton (Φ.fiber.obj X) := by

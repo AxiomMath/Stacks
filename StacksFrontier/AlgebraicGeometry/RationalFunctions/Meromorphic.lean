@@ -656,8 +656,10 @@ theorem exists_commRing_rationalFunctions_ringEquiv_totalQuotientSheaf_top_of_is
     (weaklyAssociatedPointsOfScheme_eq_genericPoints X).subset hfinite
 
 /-- **[Stacks, Tag 0EMH]**: on a locally Noetherian scheme without embedded points, the ring of
-rational functions is the ring of global meromorphic functions. -/
-@[stacks 0EMH "rational functions are meromorphic functions", ega "I 7.1.3" "special case"]
+rational functions is the ring of global meromorphic functions.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
+@[ega "I 7.1.3" "special case"]
 theorem exists_commRing_rationalFunctions_ringEquiv_totalQuotientSheaf_top_of_hasNoEmbeddedPoints
     (X : Scheme.{u}) [IsLocallyNoetherian X] (hX : HasNoEmbeddedPoints X) :
     ∃ _ : CommRing X.rationalFunctions,

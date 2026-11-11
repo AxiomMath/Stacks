@@ -1,7 +1,6 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
-public import StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationExistence
 public import StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismBaseChangeStable
 public import StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismEquivalence
 
@@ -23,10 +22,9 @@ from `P` is stable under arbitrary base change.
 
 The source's argument is
 `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_baseChange`, in
-`StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismBaseChangeStable`, which takes the
-one surjective étale presentation it chooses — that of `𝒳 ×_𝒴 V` for a smooth chart `V ⟶ 𝒴`,
-supplied by **Stacks 0CIA** — through the substantial direction of **Stacks 06N3** as a
-hypothesis. Here that direction is the proved theorem
+`StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismBaseChangeStable`. The one
+surjective étale presentation it chooses — that of `𝒳 ×_𝒴 V` for a smooth chart `V ⟶ 𝒴`,
+supplied by **Stacks 0CIA** — comes from the forward direction of **Stacks 06N3**, the theorem
 `AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`, read at the terminal scheme,
 which every big fppf site contains (`AlgebraicGeometry.BigFppfSite.contains_terminal`); so the
 statement has exactly the source's hypotheses.
@@ -71,8 +69,7 @@ theorem hasEtaleSmoothLocalProperty_snd_of_isTwoFibreProduct_of_isStableUnderBas
     (hf : HasEtaleSmoothLocalProperty B S hS P f) :
     HasEtaleSmoothLocalProperty B S hS P R.snd :=
   hasEtaleSmoothLocalProperty_snd_of_isTwoFibreProduct B S hS P f g R hR
-    (hasEtaleSmoothLocalProperty_baseChange B S hS P hP B.contains_terminal
-      (existsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS B.contains_terminal) f g hf)
+    (hasEtaleSmoothLocalProperty_baseChange B S hS P hP f g hf)
 
 end AlgebraicGeometry.Stack
 

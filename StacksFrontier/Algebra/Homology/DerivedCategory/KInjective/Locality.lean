@@ -129,6 +129,10 @@ isomorphism of `K(A)` by Tag 070I.
   `F : K(A) ⥤ H` has a pointwise right derived functor with respect to `Qis(A)`, and for every
   localization functor `L` for `Qis(A)`, every right derived functor `(RF, α)` of `F` and every
   K-injective complex `I`, the canonical map `α.app I : F(I) ⟶ RF(I)` is an isomorphism.
+* `CategoryTheory.Functor.isRightDerivable_and_computesRightDerived_of_exists_quasiIso_isKInjective`
+  (Stacks 070K): under the same assumption every `F : K(A) ⥤ H` is right derivable with respect
+  to `Qis(A)` in the sense of Tag 05SV, every K-injective complex computes `RF` in the sense of
+  Tag 05SX, and the two Mathlib conclusions above hold as well.
 
 ## Implementation notes
 
@@ -407,9 +411,9 @@ public theorem exists_isRightDerivedValueAt_and_isIso_of_isKInjective
   obtain ⟨g, hg⟩ := exists_mem_hom_to_of_isLocal hI hX
   exact ⟨_, isRightDerivedValueAt_coconeOfDiagramTerminal F _ _ (isTerminalUnderMk hI hg)⟩
 
-/-- **Stacks 070K.** Let `A` be an abelian category such that every complex admits a
-quasi-isomorphism towards a K-injective complex, and let `F : K(A) ⥤ D'` be a functor on the
-homotopy category of `ℤ`-indexed cochain complexes. Then:
+/-- Let `A` be an abelian category such that every complex admits a quasi-isomorphism towards a
+K-injective complex, and let `F : K(A) ⥤ D'` be a functor on the homotopy category of
+`ℤ`-indexed cochain complexes. Then, in Mathlib's language of Kan extensions:
 
 * `F` has a pointwise right derived functor with respect to the quasi-isomorphisms `Qis(A)` of
   `K(A)`; in particular `F.HasRightDerivedFunctor Qis(A)` holds, i.e. `F` has a right derived
@@ -418,8 +422,10 @@ homotopy category of `ℤ`-indexed cochain complexes. Then:
   any right derived functor `RF` of `F` with unit `α : F ⟶ L ⋙ RF`, the canonical map
   `α.app I : F(I) ⟶ RF(I)` is an isomorphism, which is the source's `RF(I) = F(I)`.
 
-The source assumes `F` exact between triangulated categories; neither conclusion uses this. -/
-@[stacks 070K]
+These are the Mathlib-side conclusions of Stacks 070K; the statement in the source's own
+terms (Tags 05SV and 05SX) is
+`CategoryTheory.Functor.isRightDerivable_and_computesRightDerived_of_exists_quasiIso_isKInjective`,
+which carries them as well. -/
 public theorem hasPointwiseRightDerivedFunctor_and_isIso_app_of_exists_quasiIso_isKInjective
     {A : Type u₁} [Category.{v₁} A] [Abelian A] {H : Type u₂} [Category.{v₂} H]
     (F : HomotopyCategory A (ComplexShape.up ℤ) ⥤ H)
@@ -447,6 +453,51 @@ public theorem hasPointwiseRightDerivedFunctor_and_isIso_app_of_exists_quasiIso_
     (W := HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) (L := L) (F' := RF) (α := α)
   have hI' := hpt (L.obj ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj I))
   simpa using hI'.isIso_ι_app_of_isTerminal _ (isTerminalMkIdOfIsKInjective L hI)
+
+/-- **Stacks 070K.** Let `A` be an abelian category such that every complex admits a
+quasi-isomorphism towards a K-injective complex, and let `F : K(A) ⥤ D'` be a functor on the
+homotopy category of `ℤ`-indexed cochain complexes, `Qis(A)` its class of quasi-isomorphisms.
+Then `F` has a right derived functor `RF : D(A) ⥤ D'` and `RF(I) = F(I)` for K-injective `I`:
+
+* `F` is right derivable with respect to `Qis(A)`, i.e. `RF` is everywhere defined in the sense of
+  Tag 05SV: for every object `X` of `K(A)` the ind-object `X/Qis(A) ⥤ D'`,
+  `(s : X ⟶ X') ↦ F(X')`, is essentially constant (`CategoryTheory.Functor.IsRightDerivable`);
+* every K-injective complex `I` computes `RF` in the sense of Tag 05SX: `RF` is defined at `I` and
+  the canonical map `F(I) ⟶ RF(I)` is an isomorphism
+  (`CategoryTheory.Functor.ComputesRightDerived`);
+* in Mathlib's terms, `F` has a pointwise right derived functor with respect to `Qis(A)` — a
+  pointwise left Kan extension `RF : D(A) ⥤ D'` of `F` along the localization `K(A) ⥤ D(A)` —
+  and for any localization functor `L` for `Qis(A)` and any right derived functor `RF` of `F`
+  with unit `α : F ⟶ L ⋙ RF`, the component `α.app I : F(I) ⟶ RF(I)` at a K-injective `I` is an
+  isomorphism.
+
+The source assumes `F` exact between triangulated categories; none of the conclusions uses this,
+so the statement is for an arbitrary functor. -/
+@[stacks 070K]
+public theorem isRightDerivable_and_computesRightDerived_of_exists_quasiIso_isKInjective
+    {A : Type u₁} [Category.{v₁} A] [Abelian A] {H : Type u₂} [Category.{v₂} H]
+    (F : HomotopyCategory A (ComplexShape.up ℤ) ⥤ H)
+    (hA : ∀ K : CochainComplex A ℤ, ∃ (I : CochainComplex A ℤ) (f : K ⟶ I),
+      I.IsKInjective ∧ QuasiIso f) :
+    F.IsRightDerivable (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) ∧
+      (∀ I : CochainComplex A ℤ, I.IsKInjective →
+        F.ComputesRightDerived (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))
+          ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj I)) ∧
+      F.HasPointwiseRightDerivedFunctor (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) ∧
+      ∀ {D : Type u₃} [Category.{v₃} D] (L : HomotopyCategory A (ComplexShape.up ℤ) ⥤ D)
+        [L.IsLocalization (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
+        (RF : D ⥤ H) (α : F ⟶ L ⋙ RF)
+        [RF.IsRightDerivedFunctor α (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
+        (I : CochainComplex A ℤ), I.IsKInjective →
+          IsIso (α.app ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj I)) := by
+  refine ⟨fun X => ?_, fun I hI => ?_,
+    hasPointwiseRightDerivedFunctor_and_isIso_app_of_exists_quasiIso_isKInjective F hA⟩
+  · obtain ⟨K, rfl⟩ := HomotopyCategory.quotient_obj_surjective X
+    obtain ⟨I, f, hI, hf⟩ := hA K
+    exact (exists_isRightDerivedValueAt_and_isIso_of_isKInjective F I).2 _
+      (Or.inl ⟨(HomotopyCategory.quotient A (ComplexShape.up ℤ)).map f,
+        by rwa [HomotopyCategory.quotient_map_mem_quasiIso_iff]⟩)
+  · exact (exists_isRightDerivedValueAt_and_isIso_of_isKInjective F I).1
 
 end Functor
 

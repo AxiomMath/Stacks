@@ -59,6 +59,14 @@ All of them live in the namespace `Stacks.EtaleCohomology`, in the directory
   printed, for the restriction maps `strictHenselizationFiberRestriction` and
   `strictHenselizationPointRestriction` of
   `StrictHenselizationSeparablyClosedFiber.lean`. It is registered below.
+* `bijective_strictHenselizationFiberRestriction_iff_forall_lift`, in
+  `StrictHenselizationSeparablyClosedFiberRestriction.lean`: the corrected statement for those
+  restriction maps.
+* `bijective_strictHenselizationFiberRestriction_iff_of_presentation`, in
+  `StrictHenselizationSeparablyClosedFiber.lean`: the printed equivalence for a locally constant
+  presentation `SepClosedFiberLocallyConstantPresentation` of the cohomology of the base fibre;
+  by `isEmpty_sepClosedFiberLocallyConstantPresentation` no such presentation exists at the
+  counterexample. It is not registered under the tag.
 
 ## References
 

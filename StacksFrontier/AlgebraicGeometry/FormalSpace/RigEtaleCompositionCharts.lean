@@ -223,9 +223,14 @@ theorem isRigEtale_comp_of_isLocallyNoetherian {X Y Z : FppfSheaf B S hS} (f : X
       (hasPropertyOnAffineChartMap_of_correspondsToRigEtaleMap B S hS (hs i)))
     hCA hCR D E eU eV
 
-/-- Let `f : X ⟶ Y` and `g : Y ⟶ Z` be morphisms of locally Noetherian formal
-algebraic spaces over `S`. If `g ∘ f` and `g` are rig-étale, then so is `f`. -/
-@[stacks 0GD3]
+/-- **Stacks 0GD3.** Let `f : X ⟶ Y` and `g : Y ⟶ Z` be morphisms of locally Noetherian
+formal algebraic spaces over `S`. If `g ∘ f` and `g` are rig-étale, then so is `f`.
+
+The proof is unconditional and works on affine étale charts: an affine étale cover of `X`
+is factored through affine étale charts of `Y` and `Z` adapted to `g`, and rig-étaleness of
+`f` is checked chart by chart from that of `g ∘ f` and `g`. -/
+@[stacks 0GD3 "f, g morphisms of locally Noetherian formal algebraic spaces over S; \
+g ∘ f and g rig-étale implies f rig-étale"]
 theorem isRigEtale_of_comp_of_isLocallyNoetherian {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y)
     (g : Y ⟶ Z) (hX : IsLocallyNoetherian B S hS X) (hY : IsLocallyNoetherian B S hS Y)
     (hZ : IsLocallyNoetherian B S hS Z) (hfg : IsRigEtale B S hS (f ≫ g))

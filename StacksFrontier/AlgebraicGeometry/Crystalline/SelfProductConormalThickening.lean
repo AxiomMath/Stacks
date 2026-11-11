@@ -486,12 +486,12 @@ theorem smallSelfProductConormalInverse_difference (h : IsLimit (BinaryFan.mk pr
       (op V) f
   exact (congrArg sqZeroExtSnd hq).trans (sqZeroExtSnd_mk _ _)
 
-/-- **Stacks Project, Tag 07J1, the inverse comparison.**  The comparison map
+/-- **The inverse comparison of the second assertion of [Stacks, Tag 07J1].**  The comparison map
 `(Ω_{X/S})_T(V) → K/K^{[2]}` followed by the map back out of the first-order thickening is the
 comparison of the presheaf of divided power differentials with the sheaf it generates.  In
-particular the comparison map is injective whenever that comparison is. -/
-@[stacks 07J1 "second assertion: the inverse comparison K/K^{[2]} → (Ω_{X/S})_T out of the \
-first-order thickening T', and that it undoes the comparison map"]
+particular the comparison map is injective whenever that comparison is.  This is a step of the
+proof; the second assertion itself is
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`. -/
 theorem smallSelfProductConormalInverse_comp_comparison (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     (V : B.obj.thickening.target.scheme.Opens)
     (x : ↥((dpDifferentialsPresheaf B.obj.thickening.target S.S.scheme

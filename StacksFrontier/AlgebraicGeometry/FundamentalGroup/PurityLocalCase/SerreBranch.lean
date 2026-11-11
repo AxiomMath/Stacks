@@ -129,7 +129,7 @@ dimension at least `3`. Then
 for every prime `𝔭 ⊂ A` with `f ∉ 𝔭`.
 
 The conclusion is verbatim the `hdepth` hypothesis of
-`fullyFaithful_finiteEtaleRestriction_of_depth` (Stacks 0EK5) and of
+`fullyFaithful_finiteEtaleRestriction_of_depth_add_dim` (the case (c)(ii) of Stacks 0EK5) and of
 `exists_finiteEtale_extension_of_depth_add_dim` (Stacks 0EK6), so either branch of hypothesis (c)
 feeds both. -/
 public theorem two_lt_depth_add_ringKrullDim_of_propertySkRing_away

@@ -30,7 +30,7 @@ Let `(C, F)` be a type of algebraic structure. Let `A`, `B`, `C` be objects of `
 let `f : A ⟶ B`, `g : C ⟶ B`. If `F.map g` is injective and the range of `F.map f` is
 contained in the range of `F.map g`, then `f` factors through `g`: there is a morphism
 `t : A ⟶ C` with `f = t ≫ g`. -/
-@[stacks_fixed 007P]
+@[stacks 007P "f factors through g when F(g) is injective and Im F(f) ⊆ Im F(g)"]
 theorem factor_through_injective_image_subset
     (S : AlgebraicStructureType.{v, u})
     (A B C : S.C) (f : A ⟶ B) (g : C ⟶ B)

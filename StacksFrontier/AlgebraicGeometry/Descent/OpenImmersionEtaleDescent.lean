@@ -37,7 +37,7 @@ chart cut out by the descent datum then its image `V` in `a` is open, satisfies
   immersion of algebraic spaces over `S`. It is
   `AlgebraicGeometry.Space.isOpenImmersion_tfae` with its hypothesis discharged.
 * `AlgebraicGeometry.Space.isOpenSubspace_invariantSubspace` is the open-subscheme case of
-  Stacks 07TW, unconditionally: the subspace of an algebraic space cut out by an invariant open
+  Stacks 07TW: the subspace of an algebraic space cut out by an invariant open
   subscheme of a surjective étale chart is an open subspace.
 * `AlgebraicGeometry.exists_comp_eq_of_isOpenImmersion`: a morphism of the site whose image lies
   in the image of an open immersion of the site factors through it.
@@ -547,11 +547,11 @@ This is `AlgebraicGeometry.Space.isAlgebraicSpace_and_presheaf_invariantSubspace
 `P = AlgebraicGeometry.IsOpenImmersion`, where its descent hypothesis is supplied by
 `AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isOpenImmersion`. It is the
 open-subscheme case of the forward direction of Stacks 07TW together with the openness
-clause, and unlike
-`AlgebraicGeometry.Space.invariantLocallyClosedSubschemeEquiv` it carries no hypothesis: the
-general case is Stacks 03I2 at `AlgebraicGeometry.IsImmersion`, which still needs the
-effective fppf descent of immersions, Stacks 02W8. -/
-@[stacks 07TW "forward direction at an invariant open subscheme, unconditionally"]
+clause. The full statement of Stacks 07TW, for every invariant locally closed subscheme, is
+`AlgebraicGeometry.Space.invariantLocallyClosedSubschemeEquiv_of_isAlgebraicSpace` with
+`AlgebraicGeometry.Space.closed_iff_of_isAlgebraicSpace` and
+`AlgebraicGeometry.Space.open_iff_of_isAlgebraicSpace`, whose descent input is
+`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isImmersion`. -/
 theorem isOpenSubspace_invariantSubspace
     (hs : (MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@Surjective.{u} : MorphismProperty Scheme.{u})

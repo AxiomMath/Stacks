@@ -24,7 +24,7 @@ the sheaves that are trivial away from `f(X)`, and `f_{small}^{-1}` is a left in
 * `Stacks.EtaleCohomology.openComplementRange` — the open complement of the image of a
   universally closed morphism.
 * `Stacks.EtaleCohomology.AbelianEssImageClosedImmersion` — the abelian essential image
-  description for a closed immersion, carried as a hypothesis; see below.
+  description for a closed immersion (Stacks 04CA part (2)), as a proposition; see below.
 
 ## Main results
 
@@ -37,7 +37,8 @@ the sheaves that are trivial away from `f(X)`, and `f_{small}^{-1}` is a left in
 * `Stacks.EtaleCohomology.smallEtalePushforward_essImage_iff_of_integral_universallyInjective`
   and
   `Stacks.EtaleCohomology.smallEtalePushforwardAb_essImage_iff_of_integral_universallyInjective`
-  — the two descriptions of the essential image.
+  — the essential image on sheaves of sets, and the reduction of the essential image on abelian
+  sheaves to the case of a closed immersion.
 * `Stacks.EtaleCohomology.smallEtalePushforwardCompInverseImageIso_of_integral_universallyInjective`
   and
   `Stacks.EtaleCohomology.smallEtalePushforwardAbCompPullbackIso_of_integral_universallyInjective`
@@ -58,24 +59,17 @@ abelian sheaves that it vanishes. The abelian condition is the source's "support
 the support is the set of points with nonvanishing stalk and the stalks of a restriction to an
 open are the stalks at the points of that open.
 
-## No unconditional abelian essential image
+## The closed-immersion case
 
-The abelian essential image is carried with one hypothesis,
-`Stacks.EtaleCohomology.AbelianEssImageClosedImmersion`: the same description of the essential
-image for a *closed immersion*, which is Stacks 04CA part (2). What is proved here is the
-reduction of the integral universally injective case to the closed immersion case, which is the
-content of the source's proof. The hypothesis is not available in the site of this development:
-Stacks 04CA part (2) is carried by
-`AlgebraicGeometry.smallEtalePushforward_essImage_iff_abelian` in the module
-`ClosedImmersionsPushforward.AbelianSheafEssentialImage` of this development,
-line 449, where it is stated for the small étale site
-`AlgebraicGeometry.SmallEtale.topology` of a chosen big étale site and phrased with
-`AlgebraicGeometry.SmallEtale.supportSheaf`, whereas the present module and Stacks 04CA part (1)
-(`Stacks.EtaleCohomology.smallEtalePushforward_essImage_iff`, in the module
-`ClosedImmersionsPushforward.SetSheafEssentialImage` of this development, line 484) use
-Mathlib's `AlgebraicGeometry.Scheme.smallEtaleTopology`. The two sheaf categories are equivalent
-by `AlgebraicGeometry.SmallEtale.sheafEquiv`, but that equivalence has not been shown to carry
-one direct image comparison to the other. Everything else in this module is unconditional.
+The abelian essential image is proved here as a reduction,
+`Stacks.EtaleCohomology.smallEtalePushforwardAb_essImage_iff_of_integral_universallyInjective`,
+taking as input `Stacks.EtaleCohomology.AbelianEssImageClosedImmersion`, the same description
+of the essential image for a closed immersion (Stacks 04CA part (2)); this reduction is the
+content of the source's proof. The closed-immersion case is proved in
+`smallEtalePushforwardAb_essImage_iff_of_isClosedImmersion`, and the unconditional statement of
+Stacks 04FZ part (2) is
+`smallEtalePushforwardAb_essImage_iff_support_of_integral_universallyInjective`, both in the
+module `IntegralUniversallyInjectivePushforwardEssImage` of this directory.
 
 ## References
 
@@ -259,11 +253,10 @@ public def smallEtalePushforwardAbFullyFaithful_of_integral_universallyInjective
   have := Functor.Faithful.of_iso (smallEtalePushforwardAbImageFactorIso f)
   exact Functor.FullyFaithful.ofFullyFaithful _
 
-/-- **Stacks 04FZ, part (2).** An abelian sheaf on `Y_étale` lies in the essential image of
-direct image along an integral universally injective morphism exactly when its support is
-contained in `f(X)`, that is, exactly when its restriction to the open complement of `f(X)`
-vanishes. -/
-@[stacks 04FZ "part (2): essential image"]
+/-- Reduction of the essential image description for an integral universally injective
+morphism to the closed-immersion case: given the description for closed immersions, an abelian
+sheaf on `Y_étale` lies in the essential image of direct image along `f` exactly when its
+restriction to the open complement of `f(X)` vanishes. -/
 public theorem smallEtalePushforwardAb_essImage_iff_of_integral_universallyInjective
     (h04CA : AbelianEssImageClosedImmersion.{u})
     (F : Sheaf (smallEtaleTopology Y) Ab.{u + 1}) :

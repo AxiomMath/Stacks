@@ -32,6 +32,7 @@ without them.
 
 ## References
 
+* [Stacks Project, Tag 0FGU](https://stacks.math.columbia.edu/tag/0FGU)
 * [Stacks Project, Tag 0FHD](https://stacks.math.columbia.edu/tag/0FHD)
 -/
 
@@ -139,6 +140,17 @@ theorem cycleClassMul_iff_cycleClass_codimensionExteriorProduct (hCa : W.CycleCl
     SmoothProjectiveScheme.diag_fst, SmoothProjectiveScheme.diag_snd, pullTw_id, pullTw_id]
 
 end WeilData
+
+add_to_stacks 0FGU "the intersection product is α · β = Δ^!(α × β), for the intersection product \
+of Stacks 0FC0, the exterior product of Stacks 0FBV and the Gysin map of the diagonal"
+  Stacks.Chow.codimensionIntersectionProduct_eq_codimensionGysin_diag
+
+add_to_stacks 0FGU "α × β = pr₁^!α · pr₂^!β in CH^*(X × Y), stated without proof in the source"
+  Stacks.Chow.codimensionExteriorProduct_eq_codimensionIntersectionProduct
+
+add_to_stacks 0FGU "given (C)(a), axiom (C)(c) is equivalent to compatibility of γ with exterior \
+products, γ(α × β) = pr₁^*γ(α) ∪ pr₂^*γ(β); (A) and (B) are not used"
+  Stacks.WeilCohomology.WeilData.cycleClassMul_iff_cycleClass_codimensionExteriorProduct
 
 end Stacks.WeilCohomology
 

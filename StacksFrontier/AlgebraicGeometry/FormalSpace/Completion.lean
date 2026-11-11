@@ -27,7 +27,9 @@ when `X` and `X'` are algebraic spaces.
   point-set image inside a set of points.
 * `AlgebraicGeometry.Space.completionSubfunctor` is the subfunctor of sections with image in
   the given set of points, and `AlgebraicGeometry.Space.completionSheaf` its fppf
-  sheafification, the completion itself: **Stacks 0AMC**, the completion of `X` along `T`.
+  sheafification, the completion itself; for an algebraic space and a closed `T` it is the
+  formal algebraic space `AlgebraicGeometry.FormalSpace.completionAlongClosedSubset` of
+  **Stacks 0AMC**.
 * `AlgebraicGeometry.Space.completionMap` and `AlgebraicGeometry.Space.completionSheafMap`
   are the morphisms induced on completions by a morphism of presheaves.
 * `AlgebraicGeometry.Space.sheafifiedULift` is the fppf sheafification of the universe lift
@@ -111,17 +113,14 @@ def completionSubfunctor (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     simpa only [op_comp, Quiver.Hom.unop_op, Functor.map_comp,
       ConcreteCategory.comp_apply] using hq
 
-/-- **Stacks 0AMC.** The completion `X_{/T}` of `X` along `T`: the fppf sheafification of the
-subfunctor of sections with point-set image in `T`.
+/-- The completion `X_{/T}` of `X` along `T`: the fppf sheafification of the subfunctor of
+sections with point-set image in `T`.
 
-For `X` an algebraic space over `S` and `T ⊆ |X|` closed this is the object Stacks 0AMC names
-the *completion of `X` along `T`*, namely the formal algebraic space of Stacks 0AIZ: the fppf
-sheafification of the functor sending `U` to the morphisms `f : U ⟶ X` with `f(|U|) ⊆ T`.
-Stacks 0AIZ, that it is a formal algebraic space, is not proved in this library; the object
-named here is the sheaf itself, defined for an arbitrary presheaf `X` and an arbitrary set `T`
-of its points. The affine case of 0AIZ is
-`AlgebraicGeometry.FormalSpace.hasSomeSurjectivePresentation_completionSheaf` (Stacks 0AIY). -/
-@[stacks 0AMC "the completion along a closed subset; 0AIZ, formal algebraic space, not proved"]
+For `X` an algebraic space over `S` and `T ⊆ |X|` closed this sheaf is a formal algebraic space
+(Stacks 0AIZ, `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionSheaf_of_isClosed`),
+and bundled as such it is the *completion of `X` along `T`* of Stacks 0AMC,
+`AlgebraicGeometry.FormalSpace.completionAlongClosedSubset`. The sheaf itself is defined here for
+an arbitrary presheaf `X` and an arbitrary set `T` of its points. -/
 def completionSheaf (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (T : Set (points B S hS X)) :
     Sheaf (BigFppfOver.topology B S hS) (Type (u + 1)) :=
   ⟨(BigFppfOver.topology B S hS).sheafify (completionSubfunctor B S hS X T).toFunctor,

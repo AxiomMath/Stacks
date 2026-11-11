@@ -9,13 +9,13 @@ import StacksCore.Tactic.EgaSgaAttribute
 # The inertia of a stack
 
 Let `(𝒞, J)` be a site, let `p : 𝒮 ⥤ 𝒞` and `p' : 𝒮' ⥤ 𝒞` be stacks over `𝒞` and let
-`F : 𝒮 ⥤ 𝒮'` be a 1-morphism of stacks over `𝒞`. This file records two facts about the
+`F : 𝒮 ⥤ 𝒮'` be a 1-morphism of stacks over `𝒞`. This file records facts about the
 relative inertia `I_{𝒮/𝒮'} = CategoryTheory.RelativeInertia F` and the absolute inertia
 `I_𝒮 = CategoryTheory.AbsoluteInertia p`, which is the case `𝒮' = 𝒞`, `F = p`, `p' = 𝟭 𝒞` of
 the relative one.
 
-* the inertia is again a stack, and is a stack in groupoids resp. in setoids as soon as `𝒮`
-  is (Stacks 036Y);
+* the fibredness of the inertia, and the fibres of the inertia are groupoids resp. thin as soon as
+  those of `𝒮` are, which together with the stack condition give Stacks 036Y;
 * for a stack in groupoids `𝒮`, the forgetful 1-morphism `π : I_𝒮 ⥤ 𝒮` is an equivalence if
   and only if `𝒮` is a stack in setoids (Stacks 04ZM).
 
@@ -26,15 +26,16 @@ the relative one.
 
 ## Implementation notes
 
-Part (1) of Stacks 036Y is **not proved here**: only its fibredness half is, from Stacks 034H
-(2), and the two descent conditions of Definition 026F for the inertia are hypotheses
-`hmor` and `heff` of `RelativeInertia.isStack`. In the source they come from the closure of
-stacks under 2-fibre products (Stacks 026G, 02ZL, 0434) together with the equivalence of
-Stacks 034H (1); the pinned Mathlib has neither the 2-fibre product of categories over a base
-as a stack nor the invariance of the stack condition under an equivalence over the base, and
-this file adds no unproved statement in their place. Parts (2) and (3) are proved in full,
-granting part (1): the content beyond part (1) is that the fibres of the inertia are groupoids
-resp. thin whenever the fibres of `p` are, and that is what is proved.
+Stacks 036Y itself is proved in
+`StacksFrontier.CategoryTheory.FiberedCategory.RelativeInertiaIsStack`
+(`CategoryTheory.RelativeInertia.isStack_of_isStack`,
+`CategoryTheory.RelativeInertia.isStack_and_fiber_isGroupoid_of_isStack`,
+`CategoryTheory.RelativeInertia.isStackInSetoids_of_isStackInSetoids`), which imports this file.
+The three lemmas `RelativeInertia.isStack`, `.isStack_and_fiber_isGroupoid` and
+`.isStackInSetoids` here are conditional forms: they assemble the stack condition on the relative
+inertia from its descent conditions, given as hypotheses, and add the groupoid resp. thin fibres.
+The proof of Stacks 036Y uses only the fibre lemmas `RelativeInertia.fiber_isGroupoid` and
+`RelativeInertia.fiber_isThin` from this file.
 
 Stacks 04ZM is proved in full, and in a form slightly stronger than the source: `π` is not
 only an equivalence of categories but an isomorphism of categories over `𝒞`, the neutral
@@ -125,18 +126,18 @@ lemma fiber_isThin (F : 𝒮 ⥤ 𝒮') (p : 𝒮 ⥤ 𝒞) (U : 𝒞) (ht : Qui
   simpa using congrArg Functor.Fiber.fiberInclusion.map
     ((ht _ _).allEq (Functor.Fiber.homMk p U ψ₁.val.hom) (Functor.Fiber.homMk p U ψ₂.val.hom))⟩
 
-/-! ## The inertia is a stack (Stacks 036Y) -/
+/-! ## Assembling the stack condition on the inertia -/
 
 variable {F : 𝒮 ⥤ 𝒮'} {p : 𝒮 ⥤ 𝒞} {p' : 𝒮' ⥤ 𝒞} {J : GrothendieckTopology 𝒞}
 
-/-- The relative inertia `I_{𝒮/𝒮'}` of a 1-morphism `F` of stacks over the site `(𝒞, J)`, with its
-structure functor `π ⋙ p`, is a stack over `𝒞`; taking `F = p` and `p' = 𝟭 𝒞`, so is the absolute
-inertia `I_𝒮`.
+/-- If the presheaves `Mor(x, y)` of the relative inertia `I_{𝒮/𝒮'}` of a 1-morphism `F` of stacks
+over the site `(𝒞, J)` are sheaves and its descent data are effective, then `I_{𝒮/𝒮'}`, with its
+structure functor `π ⋙ p`, is a stack over `𝒞`.
 
-Only the fibredness half of the conclusion is proved, from Stacks 034H (2); the descent of
-morphisms and the effectivity of descent for the inertia are the hypotheses `hmor` and
-`heff`. -/
-@[stacks 036Y "(1)"]
+This lemma derives only the fibredness half of the conclusion, from Stacks 034H (2), and takes
+the descent of morphisms and the effectivity of descent for the inertia as the hypotheses `hmor`
+and `heff`. The unconditional statement, Stacks 036Y (1), is
+`CategoryTheory.RelativeInertia.isStack_of_isStack`. -/
 theorem isStack (hp : p.IsStack J) (_hp' : p'.IsStack J) (hF : p.IsFibredOneMorphism p' F)
     (hmor : haveI : (RelativeInertia.π F ⋙ p).IsFibered :=
         RelativeInertia.isFibered F p p' hp.isFibered hF
@@ -150,13 +151,13 @@ theorem isStack (hp : p.IsStack J) (_hp' : p'.IsStack J) (hF : p.IsFibredOneMorp
   isMorSheaf := hmor
   hasEffectiveDescent := heff
 
-/-- If `𝒮` and `𝒮'` are stacks in groupoids over the site `(𝒞, J)`, then so is the relative inertia
-`I_{𝒮/𝒮'}`; taking `F = p` and `p' = 𝟭 𝒞`, so is the absolute inertia `I_𝒮`.
+/-- If `𝒮` and `𝒮'` are stacks in groupoids over the site `(𝒞, J)` and the relative inertia
+`I_{𝒮/𝒮'}` is a stack, then it is a stack in groupoids.
 
-Being a stack in groupoids is written out as being a stack with groupoid fibres; the stack
-condition on the inertia is the hypothesis `hst`, which is part (1), and what is proved here is
-the remaining content, that the fibres of the inertia are groupoids. -/
-@[stacks 036Y "(2)"]
+Being a stack in groupoids is written out as being a stack with groupoid fibres. This lemma takes
+the stack condition on the inertia as the hypothesis `hst` and proves that the fibres of the
+inertia are groupoids. The unconditional statement, Stacks 036Y (2), is
+`CategoryTheory.RelativeInertia.isStack_and_fiber_isGroupoid_of_isStack`. -/
 theorem isStack_and_fiber_isGroupoid (_hp : p.IsStack J) (hgp : ∀ U, IsGroupoid (p.Fiber U))
     (_hp' : p'.IsStack J) (_hgp' : ∀ U, IsGroupoid (p'.Fiber U))
     (hst : Functor.IsStack (RelativeInertia.π F ⋙ p) J) :
@@ -164,12 +165,12 @@ theorem isStack_and_fiber_isGroupoid (_hp : p.IsStack J) (hgp : ∀ U, IsGroupoi
       ∀ U, IsGroupoid ((RelativeInertia.π F ⋙ p).Fiber U) :=
   ⟨hst, fun U ↦ fiber_isGroupoid F p U (hgp U)⟩
 
-/-- If `𝒮` and `𝒮'` are stacks in setoids over the site `(𝒞, J)`, then so is the relative inertia
-`I_{𝒮/𝒮'}`; taking `F = p` and `p' = 𝟭 𝒞`, so is the absolute inertia `I_𝒮`.
+/-- If `𝒮` and `𝒮'` are stacks in setoids over the site `(𝒞, J)` and the relative inertia
+`I_{𝒮/𝒮'}` is a stack, then it is a stack in setoids.
 
-The stack condition on the inertia is the hypothesis `hst`, which is part (1); what is proved
-here is the remaining content, that the fibres of the inertia are setoids. -/
-@[stacks 036Y "(3)"]
+This lemma takes the stack condition on the inertia as the hypothesis `hst` and proves that the
+fibres of the inertia are setoids. The unconditional statement, Stacks 036Y (3), is
+`CategoryTheory.RelativeInertia.isStackInSetoids_of_isStackInSetoids`. -/
 theorem isStackInSetoids (hp : p.IsStackInSetoids J) (_hp' : p'.IsStackInSetoids J)
     (hst : Functor.IsStack (RelativeInertia.π F ⋙ p) J) :
     (RelativeInertia.π F ⋙ p).IsStackInSetoids J where

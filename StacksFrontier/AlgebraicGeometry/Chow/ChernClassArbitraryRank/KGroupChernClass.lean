@@ -81,15 +81,19 @@ def totalChernClassUnit (M : X.Modules) : (TotalChowClass C sX)ˣ :=
 theorem val_totalChernClassUnit (M : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} M] :
     (totalChernClassUnit C sX M : TotalChowClass C sX) = totalChernClassOfModule C sX M := by
-  rw [totalChernClassUnit, dite_eq_left
-    ‹Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M›]
-  rfl
+  rw [totalChernClassUnit]
+  split_ifs with h
+  · rfl
+  · exact absurd ‹AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} M› h
 
 /-- Off the finite locally free modules, `Stacks.Chow.totalChernClassUnit` is `1`. -/
 theorem totalChernClassUnit_of_not (M : X.Modules)
     (hM : ¬ Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
     totalChernClassUnit C sX M = 1 := by
-  rw [totalChernClassUnit, dite_eq_right hM]
+  rw [totalChernClassUnit]
+  split_ifs with h
+  · exact absurd h hM
+  · rfl
 
 /-- Any two of the units `Stacks.Chow.totalChernClassUnit` commute. -/
 theorem totalChernClassUnit_commute (M N : X.Modules) :
@@ -143,6 +147,10 @@ def totalChernKGroupHom : VectorBundleKZero X →+ Additive (TotalChowClass C sX
   (MonoidHom.toAdditive (totalChernUnitGroup C sX).subtype).comp (totalChernKHom C sX)
 
 /-- **Stacks 0FEL.** The Chern class map `c : K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)`. -/
+@[stacks 0FEL "the canonical map c : K_0(Vect(X)) -> prod_{i >= 0} A^i(X), into the ring \
+  Stacks.Chow.TotalChowClass of total Chow cohomology classes under the composition product of \
+  Tag 0FE0, sending [E] to the total Chern class of Tag 0ESW of E (any rank); its properties are \
+  Stacks.Chow.totalChernKGroupMap_spec"]
 def totalChernKGroupMap (α : VectorBundleKZero X) : TotalChowClass C sX :=
   ((Additive.toMul (totalChernKGroupHom C sX α) : (TotalChowClass C sX)ˣ) : TotalChowClass C sX)
 
@@ -247,7 +255,15 @@ class map `c : K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)`:
 
 It is well defined by the Whitney sum formula, Stacks 02UI
 (`Stacks.Chow.totalChernClassOfModule_eq_mul_of_shortExact`). -/
-@[stacks 0FEL]
+@[stacks 0FEL "the canonical map c : K_0(Vect(X)) -> prod_{i >= 0} A^i(X) in full, for X locally \
+  of finite type over the base of Situation 02QL: the target is Stacks.Chow.TotalChowClass, the \
+  product of the Chow cohomology groups A^i(X) of Tag 0B7E with the Cauchy product of the \
+  composition of bivariant classes (Tag 0FE0); the value on [E], for E finite locally free of \
+  any, possibly non-constant, rank, is the total Chern class 1 + c_1(E) + c_2(E) + ... of \
+  Tag 0ESW, assembled over the open and closed loci where the rank is constant; the map is \
+  multiplicative, sends -[E] to the two-sided inverse c(E)^{-1}, and is the unique such map; \
+  well-definedness is the Whitney sum formula of Tag 02UI, proved as \
+  Stacks.Chow.totalChernClassOfModule_eq_mul_of_shortExact"]
 theorem totalChernKGroupMap_spec :
     (∀ (E : X.Modules) [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} E],
       totalChernKGroupMap C sX (VectorBundleKZero.classOf X E) = totalChernClassOfModule C sX E ∧

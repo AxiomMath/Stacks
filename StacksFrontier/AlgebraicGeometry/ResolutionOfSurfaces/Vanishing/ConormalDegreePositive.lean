@@ -704,7 +704,9 @@ to `g_i`; so `deg(𝒞_{e_i Z/X}|_{C_i}) > 0` by part (2) of [Stacks, Tag 0B40],
 `e_i · deg(𝒞_{Z/X}|_{C_i})` ([Stacks, Tags 02OP, 0B3P, 0AYX]). -/
 @[stacks 0AXA "the precise clause: in Situation 0AX8 with X normal, for a nonempty effective \
 Cartier divisor Z of X contained set theoretically in the special fibre, there is a component \
-C_i of the special fibre with C_i contained in Z and deg(C_{Z/X}|_{C_i}) > 0"]
+C_i of the special fibre with C_i contained in Z and deg(C_{Z/X}|_{C_i}) > 0; the \
+dimension-one observation following Situation 0AX8, the section built from Lemma 0AX9 and part \
+(2) of Tag 0B40 are all proved in the library"]
 theorem exists_subset_invertibleCurveDegree_conormalOnComponent_pos [IsNormal V.X]
     (I : V.X.IdealSheafData) [hI : Stacks.Divisors.IsEffectiveCartierDivisor I]
     (hne : I.supportSet.Nonempty)
@@ -755,7 +757,8 @@ were, its restriction to the component `C_i ⊆ Z` provided by
 and so would have degree zero. -/
 @[stacks 0AXA "the first clause: in Situation 0AX8 with X normal, the conormal sheaf of a \
 nonempty effective Cartier divisor Z of X contained set theoretically in the special fibre is \
-not trivial"]
+not trivial, derived from the precise clause since a trivial conormal sheaf restricts to a \
+sheaf of degree zero on C_i"]
 theorem not_isTrivial_conormalSheaf_of_nonempty [IsNormal V.X] (I : V.X.IdealSheafData)
     [Stacks.Divisors.IsEffectiveCartierDivisor I] (hne : I.supportSet.Nonempty)
     (hZs : I.supportSet ⊆ Set.range (V.f.fiberι V.closedPoint)) :

@@ -83,6 +83,7 @@ commutativity is what makes the internal hom a presheaf of modules.
 ## References
 
 * [Stacks Project, Tag 0FR2](https://stacks.math.columbia.edu/tag/0FR2)
+* [Stacks Project, Tag 0FR4](https://stacks.math.columbia.edu/tag/0FR4)
 * [Stacks Project, Tag 0FR5](https://stacks.math.columbia.edu/tag/0FR5)
 -/
 
@@ -960,9 +961,14 @@ instance isLocallyInjective_toSheafifyPiece (P : PreGradedModule.{t, max u v z, 
     exact (J.W_toSheafify (P.piece n).presheaf).isLocallyInjective
   exact h
 
-/-- **The right graded `B`-module `M ⊗_A N`**, for `M` a right graded `A`-module and `N` a
-graded `(A, B)`-bimodule: degree `n` is degree `n` of the graded relative tensor product, and a
-homogeneous section `b` of `B` acts on `x ⊗ y` by `x ⊗ (y b)`. -/
+/-- **Stacks 0FR4: the right graded `B`-module `M ⊗_A N`**, for `M` a right graded `A`-module and
+`N` a graded `(A, B)`-bimodule: degree `n` is degree `n` of the graded tensor product of Stacks
+0FR2, and a homogeneous section `b` of `B` acts on `x ⊗ y` by `x ⊗ (y b)`
+(`SheafOfModules.RelativeTensor.gradedTensorRight_smul_tmul`). The functors `- ⊗_A N` are
+`SheafOfModules.RelativeTensor.gradedTensorRightFunctor` and
+`SheafOfModules.RelativeTensor.gradedTensorRightHomOfDegree`, with the laws of a functor of graded
+categories in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedBimoduleTensorFunctor.lean`. -/
+@[stacks 0FR4 "M ⊗_A N is a right graded B-module, with (x ⊗ y) b = x ⊗ (y b)"]
 noncomputable def gradedTensorRight : GradedModule.{t, max u v z, max u v z} B :=
   (preGradedModule M N).sheafify
 

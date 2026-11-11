@@ -21,18 +21,21 @@ base change of a proper surjection.
   `AlgebraicGeometry.isProper_inclusion_map_pullback_snd`: surjectivity and properness of a
   morphism of a big étale site pass to its base changes.
 * `AlgebraicGeometry.smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_proper_of_section`:
-  the split case, unconditionally.
+  the split case, which is already [Stacks, Tag 0GEY].
 * `AlgebraicGeometry.smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_proper`: descent
-  along a proper surjection is effective, granted the dévissage of [Stacks, Tag 0GF1].
+  along a proper surjection is effective, given the dévissage of [Stacks, Tag 0GF1] as a
+  hypothesis.
 
 ## Implementation notes
 
 The source proves this lemma by rerunning the proof of [Stacks, Tag 0GEZ] with the base-change
 theorem for integral morphisms replaced by the proper base-change theorem [Stacks, Tag 0A3U].
-Neither that argument nor the dévissage of [Stacks, Tag 0GF1] is available -- the dévissage is
-proved in the source from the present lemma together with [Stacks, Tag 0GEZ], so it cannot be
-used here without circularity -- so the dévissage is carried as an explicit hypothesis, stated
-for the proper branch of the criterion only, exactly as is done for the integral surjections.
+That argument, which needs no dévissage hypothesis, is
+`AlgebraicGeometry.smallEtaleSheafDescentFunctor_isEquivalence_of_isProper_of_surjective` in the
+module `SheafDescentProperSurjectiveUnconditional` beside this one.
+The results of this file reduce the general case to the dévissage of [Stacks, Tag 0GF1] instead;
+that dévissage is proved in the source from the present lemma together with [Stacks, Tag 0GEZ],
+so it is taken here as an explicit hypothesis, stated for the proper branch of the criterion only.
 
 ## References
 
@@ -65,10 +68,6 @@ public theorem isProper_inclusion_map_pullback_snd (B : BigEtaleSite.{u})
 
 /-- A proper surjection admitting a section is an effective descent morphism for small étale
 sheaves. -/
-@[stacks 0GF0 "the case of a proper surjection admitting a section, proved unconditionally.  This
-case is degenerate: the conclusion for a split morphism is already [Stacks, Tag 0GEY], so neither
-surjectivity nor properness enters the proof.  No other case of the source statement is proved
-unconditionally."]
 public theorem smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_proper_of_section
     (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
     [Surjective (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
@@ -77,15 +76,6 @@ public theorem smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_proper_
   smallEtaleSheafDescentFunctor_isEquivalence_of_section B f s hs
 
 /-- A proper surjection is an effective descent morphism for small étale sheaves. -/
-@[stacks 0GF0 "conditional.  Carried as the hypothesis `devissage`: the proper branch of the
-base-change criterion [Stacks, Tag 0GF1], namely that descent along a morphism is effective once
-it is effective after base change along a surjective proper morphism `g` and after base change
-along `pullback.fst g g ≫ g`.  Proved here: a proper surjection `f` satisfies every hypothesis of
-that criterion for the covering `g = f`, because the two base changes of `f` that occur there are
-split -- by the diagonal and by the graph of the first projection -- so that descent is effective
-along them.  NOT proved: the source's own argument for this lemma, that is the proof of
-[Stacks, Tag 0GEZ] rerun with the proper base-change theorem [Stacks, Tag 0A3U] in place of
-[Stacks, Tag 0EYP]."]
 public theorem smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_proper
     (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
     [Surjective (B.inclusion.map f)] [IsProper (B.inclusion.map f)]

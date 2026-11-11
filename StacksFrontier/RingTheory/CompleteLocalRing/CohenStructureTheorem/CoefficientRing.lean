@@ -680,4 +680,11 @@ public theorem IsLocalRing.exists_isCoefficientRing_and_exists_surjective_mvPowe
     fun hFG => exists_surjective_mvPowerSeries_of_hasCoefficientRingHom R hFG
       (hasCoefficientRingHom R)⟩
 
+attribute [stacks 0323 "Theorem 032A of the section, the Cohen structure theorem: a complete \
+local ring `(R, 𝔪)` has a coefficient ring, and if `𝔪` is finitely generated then `R` is a \
+quotient of `Λ[[x_1, …, x_n]]` with `Λ` a field or a Cohen ring. The section's opening notion, \
+Definition 0324 of a complete local ring, is also registered under 0323, on \
+`IsCompleteLocalRing`."]
+  IsLocalRing.exists_isCoefficientRing_and_exists_surjective_mvPowerSeries
+
 end

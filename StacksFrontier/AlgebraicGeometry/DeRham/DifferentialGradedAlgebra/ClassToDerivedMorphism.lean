@@ -29,10 +29,9 @@ graded `Ω^•`-modules and whose value at the unit is `ξ`, and these two prope
 * `AlgebraicGeometry.SheafOfModules.deRhamDerivedRegular` and
   `AlgebraicGeometry.SheafOfModules.deRhamDerivedRegularShift`: that module and its `n`-fold
   translate, as objects of the derived category of right differential graded modules.
-* `AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`: **the parameter**, the
-  identification of `H^n_{dR}` with morphisms `Ω^• ⟶ Ω^•[n]` in the derived category of right
-  differential graded modules, together with the forgetful map to `D(A)` and the evaluation at
-  the unit.
+* `AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`: an identification of
+  `H^n_{dR}` with morphisms `Ω^• ⟶ Ω^•[n]` in the derived category of right differential graded
+  modules, together with a forgetful map to `D(A)` and an evaluation at the unit inverse to it.
 * `AlgebraicGeometry.SheafOfModules.deRhamClassDerivedMorphism`: **the morphism `ξ'` attached to
   a relative de Rham cohomology class `ξ`.**
 
@@ -48,15 +47,24 @@ graded `Ω^•`-modules and whose value at the unit is `ξ`, and these two prope
 
 ## Implementation notes
 
-The one parameter of this file is
-`AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`. It carries the input of
-Differential Graded Sheaves, Section 0FU3 that the library does not have: the identification
+The results of this file are stated for an arbitrary term `c` of
+`AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`: the identification
 `H^n(C, M) = Hom_{D(A, d)}(A, M[n])` of Tag 0FTX, taken for `M` the regular module, the map
 induced on morphisms by forgetting the right differential graded module structure, and the
 evaluation at the unit, which reads a morphism `Ω^• ⟶ Ω^•[n]` of `D(A)` as a class in
-`H^0(X, Ω^•[n]) = H^n_{dR}`. Only the compatibility of the three — that evaluation at the unit
-inverts the identification of Tag 0FTX — is assumed; the existence and the uniqueness of `ξ'` are
-deduced from it, so neither is taken as a hypothesis.
+`H^0(X, Ω^•[n]) = H^n_{dR}`, together with the compatibility of the three — that evaluation at
+the unit inverts the identification of Tag 0FTX. The existence and the uniqueness of `ξ'` are
+deduced from that compatibility.
+
+Differential Graded Sheaves, Section 0FU3 is proved for the relative de Rham complex in
+`StacksFrontier.AlgebraicGeometry.DeRham.DifferentialGradedAlgebra.DerivedModuleCorrespondence`,
+which constructs the morphism `ξ'` of Remark 0FU7 with no parameter
+(`AlgebraicGeometry.SheafOfModules.deRhamClassMorphism`, with properties (1) and (2) in
+`AlgebraicGeometry.SheafOfModules.exists_lift_deRhamClassMorphism` and
+`AlgebraicGeometry.SheafOfModules.deRhamEvalOne_deRhamClassMorphism`), and the canonical term of
+the structure is `AlgebraicGeometry.SheafOfModules.deRhamDerivedModuleCorrespondence`, for which
+`deRhamClassDerivedMorphism` is `deRhamClassMorphism`
+(`AlgebraicGeometry.SheafOfModules.deRhamClassDerivedMorphism_deRhamDerivedModuleCorrespondence`).
 
 Both the source and the target of `ξ'` are the relative de Rham complex, extended by zero to
 negative degrees, which is why the forgetful map of the parameter has the type it has: the
@@ -159,9 +167,10 @@ which Tag 0FTX gives for the regular module, and the evaluation at the unit, whi
 morphism `Ω^• ⟶ Ω^•[n]` of `D(A)` as a class in `H^0(X, Ω^•[n]) = H^n_{dR}`, together with the one
 compatibility between them: evaluation at the unit inverts the identification of Tag 0FTX.
 
-This is the one parameter of this file: Section 0FU3 and Tag 0FTX are not in the library, and no
-second construction of them is given here. The existence and the uniqueness of the morphism
-attached to a class are *deduced* from the compatibility and are not fields. -/
+The canonical term, built from Section 0FU3 as proved for the relative de Rham complex, is
+`AlgebraicGeometry.SheafOfModules.deRhamDerivedModuleCorrespondence`. The existence and the
+uniqueness of the morphism attached to a class are *deduced* from the compatibility and are not
+fields. -/
 structure DeRhamDerivedModuleCorrespondence where
   /-- Forgetting the right differential graded module structure, on morphisms. -/
   forget (n : ℤ) :
@@ -183,44 +192,35 @@ variable (c : DeRhamDerivedModuleCorrespondence B D)
 
 /-! ### The morphism attached to a de Rham class -/
 
-/-- **Stacks Project, Tag 0FU7.** The morphism
+/-- The morphism
 
 `ξ' : Ω^•_{X/S} ⟶ Ω^•_{X/S}[n]`
 
-in `D(f^{-1}𝒪_S)` attached to a relative de Rham cohomology class `ξ ∈ H^n_{dR}(X/S)`: the
-morphism of right differential graded `Ω^•_{X/S}`-modules which Tag 0FTX attaches to `ξ`, with its
-module structure forgotten. -/
-@[stacks 0FU7 "the morphism of D(f^{-1}O_S) attached to a de Rham class; the discussion of
-Differential Graded Sheaves Section 0FU3 is carried as the explicit named hypothesis
-DeRhamDerivedModuleCorrespondence, whose fields are the identification of Tag 0FTX for the regular
-module, the forgetful map on morphisms and the evaluation at the unit"]
+in `D(f^{-1}𝒪_S)` attached through the identification `c` to a relative de Rham cohomology class
+`ξ ∈ H^n_{dR}(X/S)`: the morphism of right differential graded `Ω^•_{X/S}`-modules which `c`
+attaches to `ξ`, with its module structure forgotten. For the canonical identification this is
+the morphism `deRhamClassMorphism` of Remark 0FU7. -/
 noncomputable def deRhamClassDerivedMorphism (n : ℤ) (ξ : deRhamCohomology B D n) :
     deRhamDerivedObject B D ⟶ (deRhamDerivedObject B D)⟦n⟧ :=
   c.forget n (c.classEquiv n ξ)
 
-/-- **Stacks Project, Tag 0FU7, property (1).** The morphism attached to a relative de Rham class
-lifts to a morphism in the derived category of right differential graded `Ω^•_{X/S}`-modules. -/
-@[stacks 0FU7 "property (1): the morphism lifts to the derived category of right differential
-graded modules; Section 0FU3 is carried as the hypothesis DeRhamDerivedModuleCorrespondence"]
+/-- The morphism attached through `c` to a relative de Rham class lifts to a morphism in the
+derived category of right differential graded `Ω^•_{X/S}`-modules. -/
 theorem exists_lift_deRhamClassDerivedMorphism (n : ℤ) (ξ : deRhamCohomology B D n) :
     ∃ g : deRhamDerivedRegular B D ⟶ deRhamDerivedRegularShift B D n,
       c.forget n g = deRhamClassDerivedMorphism B D c n ξ :=
   ⟨c.classEquiv n ξ, rfl⟩
 
-/-- **Stacks Project, Tag 0FU7, property (2).** The value at the unit of the morphism attached to
-a relative de Rham class `ξ` is `ξ` itself: `ξ'(1) = ξ` in
+/-- The value at the unit of the morphism attached through `c` to a relative de Rham class `ξ` is
+`ξ` itself: `ξ'(1) = ξ` in
 `H^0(X, Ω^•_{X/S}[n]) = H^n_{dR}(X/S)`. -/
-@[stacks 0FU7 "property (2): the value of the morphism at the unit is the class it came from;
-Section 0FU3 is carried as the hypothesis DeRhamDerivedModuleCorrespondence"]
 theorem evalOne_deRhamClassDerivedMorphism (n : ℤ) (ξ : deRhamCohomology B D n) :
     c.evalOne n (deRhamClassDerivedMorphism B D c n ξ) = ξ :=
   c.evalOne_forget_classEquiv n ξ
 
-/-- **Stacks Project, Tag 0FU7.** A morphism `Ω^•_{X/S} ⟶ Ω^•_{X/S}[n]` of `D(f^{-1}𝒪_S)` which
-lifts to the derived category of right differential graded `Ω^•_{X/S}`-modules and whose value at
-the unit is `ξ` is the morphism attached to `ξ`. -/
-@[stacks 0FU7 "uniqueness: properties (1) and (2) determine the morphism; Section 0FU3 is carried
-as the hypothesis DeRhamDerivedModuleCorrespondence"]
+/-- A morphism `Ω^•_{X/S} ⟶ Ω^•_{X/S}[n]` of `D(f^{-1}𝒪_S)` which lifts to the derived category of
+right differential graded `Ω^•_{X/S}`-modules and whose value at the unit is `ξ` is the morphism
+attached to `ξ` through `c`. -/
 theorem eq_deRhamClassDerivedMorphism (n : ℤ) (ξ : deRhamCohomology B D n)
     {f : deRhamDerivedObject B D ⟶ (deRhamDerivedObject B D)⟦n⟧}
     (hlift : ∃ g : deRhamDerivedRegular B D ⟶ deRhamDerivedRegularShift B D n, c.forget n g = f)

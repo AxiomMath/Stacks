@@ -263,10 +263,11 @@ theorem range_lineZeroSection_subset_range_affineChart (S : Scheme.{u}) :
   rw [← lineZeroSection_eq, range_comp_scheme]
   exact Set.image_subset_range _ _
 
-/-- **Stacks Project, Tag 02RQ part (3), the zero divisor.** `D₀ ⊆ ℙ¹_S` is an effective
+/-- **Stacks 0F93, `D₀` is an effective Cartier divisor.** `D₀ ⊆ ℙ¹_S` is an effective
 Cartier divisor: on the affine chart it is cut out by the coordinate `T`, which is a
 nonzerodivisor on the inverse image of any affine open of `S`, and away from the chart it is
 the unit ideal. -/
+@[stacks 0F93 "D₀ is an effective Cartier divisor"]
 theorem lineZeroDivisor_isEffectiveCartierDivisor (S : Scheme.{u}) :
     Stacks.Divisors.IsEffectiveCartierDivisor (lineZeroDivisor S) := by
   refine Stacks.Divisors.isEffectiveCartierDivisor_of_forall_exists_affineOpen _ fun p => ?_

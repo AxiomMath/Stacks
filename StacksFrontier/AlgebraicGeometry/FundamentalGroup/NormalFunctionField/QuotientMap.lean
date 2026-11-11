@@ -287,7 +287,9 @@ in particular `M` is separable over `K`, so it lies in a separable closure `K^se
 to `M`.
 
 No Noetherian hypothesis is needed; this is the difference between the present tag and Stacks
-Tag 03VG, which the library proves in the same generality above. -/
+Tag 03VG, which the library also proves without the Noetherian hypothesis, for an algebraic
+geometric point over the generic point as that tag requires
+(`AlgebraicGeometry.fundamentalGroupIsoGalMaximalEtaleExtension`). -/
 @[stacks 0BQM "π₁(X, η̄) = Gal(M/K), with the canonical generic-point homomorphism identified \
 with the quotient map onto Gal(M/K)", sga "1 V 8.2" "special case", sga "7 XIX 1.4" "π1(ℓ−S"]
 public theorem isQuotientMap_absoluteGaloisToFundamentalGroup

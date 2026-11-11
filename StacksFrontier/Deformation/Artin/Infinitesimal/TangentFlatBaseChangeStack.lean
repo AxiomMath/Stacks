@@ -374,7 +374,7 @@ theorem exists_isHomLift_tensorMap (g : X ⟶ (tensorAlg X X.obj hXX)) (g' : (te
     (specOverMap (tensorAlgHom X C hXC)) (trans a ι (tensorAlgHom X C hXC) w)
   have hbase : specOverMap (tensorAlgHom (tensorAlg X X.obj hXX) C hXXC) ≫ specOverMap g =
       specOverMap g' ≫ specOverMap (tensorAlgHom X C hXC) := by
-    rw [← specOverMap_comp, ← specOverMap_comp]
+    rw [← GroupoidLift.specOverMap_comp, ← GroupoidLift.specOverMap_comp]
     congr 1
     exact ObjectProperty.hom_ext _ (CommAlgCat.hom_ext (AlgHom.ext fun z ↦ (hg z).symm))
   exact (IsStronglyCartesian.universal_property 𝒳.val.p _ _ _ _ hbase _).exists

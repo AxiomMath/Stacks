@@ -42,8 +42,8 @@ presentation.
   the top square of the diagram as cartesian.
 * `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat_strictTransformToBlowUp` builds the
   diagram from a centre on `Y` whose blowup flattens the strict transform of `X`.
-* `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair` is Stacks tag 0EVC for a locally Noetherian
-  base, feeding that construction from the flattening blowup of Stacks tag 081R.
+* `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair` is the locally Noetherian case of Stacks
+  tag 0EVC, feeding that construction from the flattening blowup of Stacks tag 081R.
 
 ## Implementation notes
 
@@ -69,11 +69,13 @@ finite type; this is where the Stacks proof's parenthetical "we also use that st
 are blow ups" enters, as `AlgebraicGeometry.strictTransformBlowUpIso` (tag 080E, part 1): it
 transports the flatness of the strict transform over `Y'` to flatness of `Bl_{Z·𝒪_X}(X) ⟶ Y'`.
 Finite presentation of that morphism is then automatic, the blowup of a locally Noetherian scheme
-being locally Noetherian; this is why tag 081R's unproved finite-presentation assertion is not
-needed here.
+being locally Noetherian; this is why tag 081R's finite-presentation assertion is not needed
+here.
 
-What this file does *not* do is the reduction of the general quasi-compact and quasi-separated
-case to the Noetherian one by absolute Noetherian approximation.
+The reduction of the general quasi-compact and quasi-separated case to the Noetherian one by
+absolute Noetherian approximation is in
+`StacksFrontier.AlgebraicGeometry.Topologies.BlowUpSquares.FlatteningApproximation`, as
+`AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat`, where Stacks tag 0EVC is registered.
 
 ## References
 
@@ -180,8 +182,9 @@ public theorem hasFlatAlmostBlowUpSquarePair_of_flat_strictTransformToBlowUp
     rw [reassoc_of% hw]
   · exact finitePresentation_of_finiteType _
 
-/-- **Stacks Project, Tag 0EVC.** Let `Y` be a quasi-compact and quasi-separated scheme, let `X`
-be a scheme of finite presentation over `Y`, and let `V ⊆ Y` be a quasi-compact open. Then there
+/-- **The locally Noetherian case of Stacks Project, Tag 0EVC.** Let `Y` be a quasi-compact,
+quasi-separated and locally Noetherian scheme, let `X` be a scheme of finite presentation over
+`Y`, and let `V ⊆ Y` be a quasi-compact open. Then there
 is a diagram as in the tag: two almost blowup squares, over `Y` with a centre disjoint from `V`
 and over `X` with the inverse-image centre, whose lower and top squares are cartesian
 (`AlgebraicGeometry.lowerSquareIso`, `AlgebraicGeometry.topSquareIso`) and whose relative
@@ -191,15 +194,14 @@ The flattening centre comes from
 `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`, the library's form of Stacks tag
 081R, and two things are carried beyond the tag's own hypotheses. The base is assumed locally
 Noetherian: this is the case the Stacks proof calls immediate, the general case being reduced to
-it by absolute Noetherian approximation, which is not done here. And the affine case of the
-flatness half of Stacks tag 0815 is carried as
-`AlgebraicGeometry.AffineChartFlatteningCentre f X.unitModule V`, exactly as that form of
-tag 081R carries it. The tag's remaining hypothesis that `X_V ⟶ V` be flat is not assumed
+it by absolute Noetherian approximation in
+`AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair_of_flat`, where the tag is registered. And the
+affine case of the flatness half of Stacks tag 0815 is an argument,
+`AlgebraicGeometry.AffineChartFlatteningCentre f X.unitModule V`, exactly as in that form of
+tag 081R; `AlgebraicGeometry.finitePresentationHasAffineChartFlatteningCentre` supplies it when
+`f` is flat over `V`. The tag's remaining hypothesis that `X_V ⟶ V` be flat is not assumed
 separately, because in the source it enters only through that affine case; so the statement below
 is a generalization in that respect. -/
-@[stacks 0EVC "locally Noetherian base; the affine case of the flatness half of [Stacks, Tag \
-0815] carried as the hypothesis `AlgebraicGeometry.AffineChartFlatteningCentre`, inherited from \
-the library's form of [Stacks, Tag 081R]"]
 public theorem hasFlatAlmostBlowUpSquarePair [IsLocallyNoetherian Y] [CompactSpace Y]
     [QuasiSeparatedSpace Y] (f : X ⟶ Y) (hf : FinitePresentation f) (V : Y.Opens)
     (hV : IsCompact (V : Set Y)) (H : AffineChartFlatteningCentre f X.unitModule V) :

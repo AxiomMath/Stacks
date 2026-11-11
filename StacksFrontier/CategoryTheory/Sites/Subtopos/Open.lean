@@ -5,33 +5,38 @@ public import Mathlib.CategoryTheory.Subterminal
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Open subtopoi
+# Subcategories supported in a subterminal sheaf
 
-A strictly full subcategory `E ⊆ Sh(C)` closed under isomorphisms is an *open subtopos* when
-there is a subsheaf `F` of the terminal sheaf together with an equivalence `E ≌ Sh(C)/F`
-compatible with the two functors into `Sh(C)` (Stacks 08LX).  What justifies modelling
-"`Sh(C)/F` is a subtopos of `Sh(C)`" by full faithfulness of `Over.forget F` is Stacks lemma
-08LW, proved here: for an object `X` of any category, `Over.forget X` is full — faithful it
-always is — if and only if `X` is a subobject of the final object, that is, any two morphisms
-into `X` agree.  When a terminal object is available this says that `X ⟶ ⊤` is a monomorphism.
+For a subsheaf `F` of the terminal sheaf, the localization morphism `j_F : Sh(C)/F ⟶ Sh(C)` has
+the adjoint triple `j_{F!} ⊣ j_F⁻¹ ⊣ j_{F,*}`, with `j_{F!} = Over.forget F`. This file is about
+`j_{F!}`: its essential image is the subcategory of sheaves *supported in `F`*, those admitting
+a morphism to `F`. That is not the open subtopos of Stacks 08LX, which is the essential image of
+`j_{F,*}`; see `IsOpenSubtopos` in `StacksFrontier.CategoryTheory.Sites.Subtopos.IsOpen`.
+
+The categorical input is the fullness of `Over.forget X`: for an object `X` of any category,
+`Over.forget X` is full — faithful it always is — if and only if `X` is a subobject of the final
+object, that is, any two morphisms into `X` agree.  When a terminal object is available this
+says that `X ⟶ ⊤` is a monomorphism. By the adjoint triple this is equivalent to `j_{F,*}` being
+fully faithful, which is Stacks 08LW
+(`MorphismOfTopoi.isEmbedding_overLocalization_iff_isSubterminal`).
 
 ## Main definitions
 
 * `OpenSubtopos.IsSubobjectOfTerminal`: the unique morphism from a sheaf to the terminal sheaf
   is a monomorphism.
-* `OpenSubtopos.IsSubtoposOver`: `Over.forget F` is fully faithful, which is how "`Sh(C)/F` is a
-  subtopos of `Sh(C)`" is modelled.
-* `OpenSubtopos.IsOpenSubtopos`: a strictly full subcategory of `Sh(C)` is an *open subtopos*
-  when it is `Sh(C)/F` for a subsheaf `F` of the terminal sheaf (Stacks 08LX).
+* `OpenSubtopos.IsSubtoposOver`: `j_{F!} = Over.forget F` is fully faithful.
+* `OpenSubtopos.IsOpenSubtopos`: a strictly full subcategory of `Sh(C)` is the essential image of
+  `j_{F!} = Over.forget F` for a subsheaf `F` of the terminal sheaf, i.e. the subcategory of
+  sheaves supported in `F`. This is not the open subtopos of Stacks 08LX.
 
 ## Main results
 
 * `full_overForget_iff_isSubterminal`: `Over.forget X` is full if and only if `X` is a subobject
-  of the final object (Stacks 08LW).
+  of the final object.
 * `over_forget_fullyFaithful_iff_mono_terminalFrom`: the same in a category with a terminal
   object, in the `Mono (Limits.terminal.from X)` spelling.
 * `isSubobjectOfTerminal_iff_isSubtoposOver`: a sheaf `F` is a subobject of the terminal sheaf if
-  and only if `Sh(C)/F` is a subtopos of `Sh(C)`.
+  and only if `Over.forget F` is fully faithful.
 
 ## Implementation notes
 
@@ -42,8 +47,6 @@ which mentions no chosen terminal object.  That is the form both directions of t
 The terminal-object spelling is the corollary `over_forget_fullyFaithful_iff_mono_terminalFrom`,
 kept because the definitions here say "subsheaf of the terminal sheaf" as
 `Mono (Limits.terminal.from F)`.
-
-Tags covered: 08LX.
 -/
 
 @[expose] public section
@@ -71,29 +74,35 @@ def IsSubobjectOfTerminal [Limits.HasTerminal (Sheaf J (Type w))]
   Mono (Limits.terminal.from F)
 
 /--
-`IsSubtoposOver F` says that the topos `Sh(C)/F` is a subtopos of `Sh(C)`.
-We model "subtopos" via the canonical functor
-`Over.forget F : Over F ⥤ Sheaf J (Type w)` — which realizes the `j_!`
-functor of the localization morphism of topoi `j_F : Sh(C)/F → Sh(C)` — being
-fully faithful. This is the standard categorical characterization of an
-inclusion (geometric embedding) of topoi at the level of `j_!`.
+`IsSubtoposOver F` says that the canonical functor
+`Over.forget F : Over F ⥤ Sheaf J (Type w)`, the functor `j_{F!}` of the
+localization morphism of topoi `j_F : Sh(C)/F → Sh(C)`, is fully faithful.
+Stacks 08LU and 08LV ask instead for full faithfulness of the pushforward
+`j_{F,*}`; the two conditions are equivalent through the adjoint triple
+`j_{F!} ⊣ j_F⁻¹ ⊣ j_{F,*}` (see
+`MorphismOfTopoi.isEmbedding_overLocalization_iff_isSubterminal`, Stacks 08LW),
+but this definition itself is the `j_{F!}` condition.
 -/
 @[sga "4 IV 5.7"]
 def IsSubtoposOver (F : Sheaf J (Type w)) : Prop :=
   (Over.forget F).Full ∧ (Over.forget F).Faithful
 
 /--
-**Open subtopos.**
+**Subcategory supported in a subterminal sheaf.**
 
-A strictly full subcategory `E ⊂ Sh(C)`, modelled as an
-`ObjectProperty (Sheaf J (Type w))` closed under isomorphisms, is an
-*open subtopos* of `Sh(C)` if there exists a subsheaf `F` of the terminal
-sheaf such that `E` is the subtopos `Sh(C)/F`. We capture "`E` is the
-subtopos `Sh(C)/F`" by an equivalence of categories
-`P.FullSubcategory ≌ Over F` compatible with the inclusion `P.ι` into
-`Sh(C)` and the canonical forgetful functor `Over.forget F`.
+`IsOpenSubtopos J P` says that the strictly full subcategory `P` of `Sh(C)`,
+closed under isomorphisms, is the essential image of
+`j_{F!} = Over.forget F : Sh(C)/F ⥤ Sh(C)` for some subsheaf `F` of the
+terminal sheaf: there is an equivalence `P.FullSubcategory ≌ Over F`
+compatible with the inclusion `P.ι` and `Over.forget F`. Its objects are the
+sheaves admitting a morphism to `F`, the sheaves supported in `F`.
+
+This is *not* the open subtopos of Stacks 08LX, which is the essential image of
+the pushforward `j_{F,*}`; that is the root-namespace `IsOpenSubtopos`. The two
+differ: on the one-point site with `F` the initial sheaf, this subcategory
+consists of the initial sheaves while the essential image of `j_{F,*}` consists
+of the final sheaves.
 -/
-@[stacks 08LX]
 def IsOpenSubtopos [Limits.HasTerminal (Sheaf J (Type w))]
     (P : ObjectProperty (Sheaf J (Type w))) : Prop :=
   P.IsClosedUnderIsomorphisms ∧
@@ -103,7 +112,7 @@ def IsOpenSubtopos [Limits.HasTerminal (Sheaf J (Type w))]
 
 end OpenSubtopos
 
-/-! ## Fullness of `Over.forget` (Stacks 08LW) -/
+/-! ## Fullness of `Over.forget` -/
 
 /--
 If `Over.forget X : Over X ⥤ D` is full, then any two morphisms `f g : Y ⟶ X`
@@ -121,7 +130,8 @@ lemma full_overForget_imp_hom_eq
 For an object `X` of any category, `Over.forget X : Over X ⥤ D` is full if and
 only if `X` is a subobject of the final object, that is, any two morphisms into
 `X` agree; faithful `Over.forget X` always is. This is the categorical content
-of Stacks Lemma 08LW, and needs no terminal object to be stated.
+of Stacks Lemma 08LW (by the adjoint triple `j_{F!} ⊣ j_F⁻¹ ⊣ j_{F,*}`), and needs
+no terminal object to be stated.
 -/
 @[sga "4 IV 9.2.1" "partial"]
 theorem full_overForget_iff_isSubterminal {D : Type u} [Category.{v} D] (X : D) :
@@ -171,8 +181,7 @@ theorem over_forget_fullyFaithful_iff_mono_terminalFrom
 
 /--
 Specialization to sheaves: `F` is a subobject of the terminal sheaf if and
-only if `Sh(C)/F` is a subtopos of `Sh(C)`, in the sense that `Over.forget F`
-is fully faithful.
+only if `j_{F!} = Over.forget F` is fully faithful.
 -/
 theorem isSubobjectOfTerminal_iff_isSubtoposOver
     {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)

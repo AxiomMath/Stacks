@@ -45,9 +45,8 @@ quasi-coherent module at a geometric point of an algebraic space with its length
 scheme chart: the comparison map `𝒪_{U, u} → 𝒪_{X, x̄}` of
 `AlgebraicGeometry.Space.chartLocalRingToEtaleLocalRing` is a strict henselization, by Stacks
 04KF. No declaration here carries `@[stacks 0EE1]`: the geometric half of that proof is Stacks
-05VP, the identification `F_{x̄} = (F|_U)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄}`, which this development does
-not have — see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/GeometricStalkBaseChange.lean`.
+05VP, the identification `F_{x̄} = (F|_U)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄}`, which is
+`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison` and is not imported here.
 
 ## References
 

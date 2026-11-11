@@ -294,8 +294,13 @@ and is étale because that projection is étale by Stacks 04QH and the inclusion
 subspace is étale. Its arrow space is the open subspace `Z_univ` of `U' ×_{g, U, s} R` belonging
 to the pair which the inclusion names under Stacks 04PE, part (2); it is finite over `U'` by
 construction, closed by Stacks 04PH, and contains the base change of the unit because every
-pair named by a section of `U'` does. -/
-@[stacks 04RT "the object space and the arrow space of the finite part"]
+pair named by a section of `U'` does.
+
+The structure morphisms `t', e', i', c'`, the groupoid they form and its canonical morphism to the
+given groupoid are built from this in
+`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidStructure.lean`;
+`AlgebraicGeometry.GroupoidInAlgebraicSpaces.finitePartGroupoid_spec` records the whole of Stacks
+04RT. -/
 noncomputable def finitePart (G : GroupoidInAlgebraicSpaces C S hS B)
     (hsep : Space.IsSeparated C S hS G.source.hom)
     (hft : Space.IsLocallyOfFiniteType C S hS G.source.hom) :

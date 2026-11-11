@@ -25,7 +25,10 @@ Then for every `K` of `D_A(O)`:
 * the canonical map `Hʲ(Rf_*K) ⟶ Hʲ(Rf_*(τ_{≥ -n}K))` is an isomorphism for `j ≥ N - n`.
 
 This is Stacks 0D6U, a version of [Laszlo--Olsson, six-I, Lemma 2.1.10] with slightly changed
-hypotheses, and the content of this file.
+hypotheses. This file proves it for a morphism of ringed topoi presented by a continuous functor
+of the underlying sites (`AlgebraicGeometry.RingedToposSiteHom`); the statement for an arbitrary
+morphism of ringed topoi (`AlgebraicGeometry.RingedToposHom`), which carries the tag, is in
+the module `ToposHomBoundedCohomologicalDimension` of this directory.
 
 ## The argument
 
@@ -43,9 +46,10 @@ their eventual values. Comparing with the stabilising stage gives both conclusio
 ## Main results
 
 * `Stacks.Cohomology.OlssonLaszlo.derivedCategoryB_derivedPushforward_obj` (Stacks 0D6U,
-  part (a)): `Rf_*` carries `D_A(O)` into `D_{A'}(O')`.
+  part (a), for a morphism presented by sites): `Rf_*` carries `D_A(O)` into `D_{A'}(O')`.
 * `Stacks.Cohomology.OlssonLaszlo.isIso_homology_derivedPushforward_truncGEπ` (Stacks 0D6U,
-  part (b)): the truncation comparison is an isomorphism on `Hʲ` for `j ≥ N - n`.
+  part (b), for a morphism presented by sites): the truncation comparison is an isomorphism on
+  `Hʲ` for `j ≥ N - n`.
 
 Along the way:
 
@@ -61,11 +65,12 @@ Along the way:
 ## Implementation notes
 
 The morphism of ringed topoi is an `AlgebraicGeometry.RingedToposSiteHom` together with the
-assertion that its underlying functor is a morphism of sites. That assertion is not an extra
-hypothesis: it is what makes the pair a morphism of ringed topoi in the source's sense, and it
-is what supplies the adjunction `Lf^* ⊣ Rf_*` on which Stacks 0A07 rests; the same convention
-is used for Stacks 0A07 itself. The three universes of both ringed topoi are collapsed to one,
-as they are for that adjunction.
+assertion that its underlying functor is a morphism of sites, which supplies the adjunction
+`Lf^* ⊣ Rf_*` on which Stacks 0A07 rests. This is a special kind of morphism of ringed topoi, and
+the statements here are therefore not tagged: Stacks 0D6U for an arbitrary morphism of ringed
+topoi is proved in `ToposHomBoundedCohomologicalDimension`, from the exact right adjoint form of
+`RightAdjointBoundedCohomologicalDimension`. The three universes of both ringed topoi are
+collapsed to one, as they are for that adjunction.
 
 The standing hypotheses of the two Olsson--Laszlo situations are taken as loose data — a class
 of objects, a cofinal system of coverings of each of them and an integer bound — rather than as
@@ -900,11 +905,15 @@ private theorem derivedCategoryBPlus_derivedPushforward_truncGETower
       (DerivedCategory.isZero_of_isGE _ 0 pp (by omega))
 
 include hA hA' basisCover vanishing basisCover' vanishing' himage hvanishImage hmos in
-/-- **Stacks Project, Tag 0D6U, part (a).** Let `f : (Sh(C), O) ⟶ (Sh(C'), O')` be a morphism
-of ringed topoi and let `A`, `A'` be weak Serre subcategories of `Mod(O)`, `Mod(O')` for which
-both sites satisfy the Olsson--Laszlo hypothesis, `Rᵖf_*` carries `A` into `A'`, and
-`Rᵖf_*F = 0` for `p > N` and `F` in `A`. Then `Rf_*` carries `D_A(O)` into `D_{A'}(O')`. -/
-@[stacks 0D6U "part (a)"]
+/-- **Stacks 0D6U, part (a), for a morphism of ringed topoi presented by sites.** Let
+`f : (Sh(C), O) ⟶ (Sh(C'), O')` be a morphism of ringed topoi given by a continuous functor of
+the underlying sites which is a morphism of sites, and let `A`, `A'` be weak Serre subcategories
+of `Mod(O)`, `Mod(O')` for which both sites satisfy the Olsson--Laszlo hypothesis, `Rᵖf_*`
+carries `A` into `A'`, and `Rᵖf_*F = 0` for `p > N` and `F` in `A`. Then `Rf_*` carries `D_A(O)`
+into `D_{A'}(O')`.
+
+This is the site-presented form; Stacks 0D6U itself, for an arbitrary morphism of ringed topoi,
+is `Stacks.Cohomology.OlssonLaszlo.derivedCategoryB_derivedPushforward_obj_of_ringedToposHom`. -/
 theorem derivedCategoryB_derivedPushforward_obj
     (K : DerivedCategory (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (hK : DerivedCategoryB.derivedCategoryB A K) :
@@ -955,10 +964,14 @@ theorem derivedCategoryB_derivedPushforward_obj
       ((derivedPushforward f).mapIso (asIso c)).symm) (hlimit j)
 
 include hA hA' basisCover vanishing basisCover' vanishing' himage hvanishImage hmos in
-/-- **Stacks Project, Tag 0D6U, part (b).** In the situation of part (a), the canonical map
+/-- **Stacks 0D6U, part (b), for a morphism of ringed topoi presented by sites.** In the
+situation of `derivedCategoryB_derivedPushforward_obj`, the canonical map
 `Hʲ(Rf_*K) ⟶ Hʲ(Rf_*(τ_{≥ -n}K))` induced by the truncation `K ⟶ τ_{≥ -n}K` is an isomorphism
-for every `j ≥ N - n`. -/
-@[stacks 0D6U "part (b)"]
+for every `j ≥ N - n`.
+
+This is the site-presented form; Stacks 0D6U itself, for an arbitrary morphism of ringed topoi,
+is `Stacks.Cohomology.OlssonLaszlo.isIso_homology_derivedPushforward_truncGEπ_of_ringedToposHom`.
+-/
 theorem isIso_homology_derivedPushforward_truncGEπ
     (K : DerivedCategory (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (hK : DerivedCategoryB.derivedCategoryB A K)

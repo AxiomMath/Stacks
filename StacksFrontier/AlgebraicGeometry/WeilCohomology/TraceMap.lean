@@ -33,8 +33,12 @@ pins down the value of that isomorphism at `i = 0`.
   that contracting the coevaluation and pairing against the evaluation are mutually inverse.
 * `Stacks.WeilCohomology.diagonalDuality_symm_apply`: the inverse of the duality defined by
   `γ([Δ])` is the pairing whose perfectness is Tag 0FFV.
-* `Stacks.WeilCohomology.traceMap_unique`: **the operative statement of Tag 0FIK.** Two linear
-  maps `H^{2d}(X)(d) → F` satisfying the normalisation of axiom `(A6)` are equal.
+* `Stacks.WeilCohomology.traceMap_unique`: two linear maps `W 0 → F` with the same contraction
+  against the coevaluation are equal, the shape of the uniqueness of the trace map in Tag 0FIK.
+
+Remark 0FIK itself, for the data of Section 45.14 satisfying (A1)–(A7), is
+`IsCohomologicalChernCharacter.perfectDuality_diagonalClass_and_existsUnique_trace` (namespace
+`Stacks.WeilCohomology.FirstChernClassData`) in `...WeilCohomology.Concrete.TraceUniqueness`.
 
 ## The dictionary
 
@@ -65,9 +69,9 @@ exhibit contraction against the coevaluation and pairing against the evaluation 
 inverse linear maps. The reduction from the graded statement to a single degree is
 `CategoryTheory.GradedObject.Monoidal.exactPairingApply`.
 
-The hypothesis carried throughout is the left-dual structure, which is the conclusion of Tag
-0FIJ and not of this one; the remark itself instructs the reader to combine the proof of that
-lemma with Tag 0FFV, so carrying it is what the source does.
+The results here are linear algebra over an arbitrary exact pairing `V ⊣ W`; for the data of
+Section 45.14 the exact pairing is constructed in the proof of Tag 0FIJ, and the concrete
+statement of Tag 0FIK is proved in `...WeilCohomology.Concrete.TraceUniqueness`.
 
 ## References
 
@@ -143,16 +147,13 @@ section Graded
 
 variable {F : Type uF} [Field F] (V W : GradedObject ℤ (ModuleCat.{uF} F)) [ExactPairing V W]
 
-/-- **Stacks Project, Tag 0FIK.** The class `γ([Δ])` defines a perfect duality between `H^i(X)`
-and `H^{2d - i}(X)(d)`: contracting its degree-`i` Künneth component against a linear functional
-on `H^{2d - i}(X)(d)` is a linear isomorphism onto `H^i(X)`.
+/-- **The duality defined by the coevaluation of a graded exact pairing**, in degree `i`:
+contracting the degree-`i` component of the coevaluation against a linear functional on `W (-i)`
+is a linear isomorphism onto `V i`.
 
-Here `V i` is `H^i(X)`, `W (-i)` is `H^{2d - i}(X)(d)`, and the left-dual structure is the one
-Lemma 45.14.5, Tag 0FIJ, produces, whose coevaluation is multiplication by `γ([Δ])`. The
-inverse is the pairing of Tag 0FFV, recorded in `diagonalDuality_symm_apply`. -/
-@[stacks 0FIK "the perfect duality that `γ([Δ])` defines between `H^i(X)` and `H^{2d-i}(X)(d)`; \
-  the left-dual structure of `H^*(X)` produced by Lemma 45.14.5, Tag 0FIJ, is carried as the \
-  hypothesis `ExactPairing V W`, as the remark itself directs"]
+Read with `V i = H^i(X)`, `W (-i) = H^{2d - i}(X)(d)` and the left-dual structure of the proof
+of Tag 0FIJ, whose coevaluation is multiplication by `γ([Δ])`, this is the perfect duality of
+Tag 0FIK. The inverse is the pairing of Tag 0FFV, recorded in `diagonalDuality_symm_apply`. -/
 noncomputable def diagonalDuality (i : ℤ) : (W (-i) →ₗ[F] F) ≃ₗ[F] V i :=
   letI := exactPairingApply V W i
   coevEquiv (V i) (W (-i))
@@ -175,13 +176,9 @@ theorem eq_of_diagonalDuality_eq {i : ℤ} {μ ν : W (-i) →ₗ[F] F}
     (h : diagonalDuality V W i μ = diagonalDuality V W i ν) : μ = ν :=
   (diagonalDuality V W i).injective h
 
-/-- **Stacks Project, Tag 0FIK.** The trace map is unique: an `F`-linear map
-`λ : H^{2d}(X)(d) → F` satisfying the normalisation `(id ⊗ λ) γ([Δ]) = 1` of axiom `(A6)` is
-determined by that equation, because contraction of `γ([Δ])` against a functional is injective
-in degree `0`. This is what licenses the notation `∫_X` for it. -/
-@[stacks 0FIK "uniqueness of the trace map `∫_X = λ` of axiom (A6), the remark's conclusion; \
-  the normalisation `(id ⊗ λ) γ([Δ]) = 1` is axiom (A6) and the left-dual structure is Lemma \
-  45.14.5, Tag 0FIJ"]
+/-- **A functional on `W 0` is determined by its contraction against the coevaluation**:
+contraction is injective in degree `0`. Read as in `diagonalDuality`, this is the shape of the
+uniqueness of the trace map `λ` of axiom `(A6)` in Tag 0FIK. -/
 theorem traceMap_unique (one : V 0) {lam lam' : W 0 →ₗ[F] F}
     (hlam : diagonalDuality V W 0 lam = one) (hlam' : diagonalDuality V W 0 lam' = one) :
     lam = lam' :=

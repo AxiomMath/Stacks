@@ -262,7 +262,7 @@ theorem isZero_of_modelQcohDerived
 /-- **Stacks 09MC.** *Let `X` be a quasi-compact and quasi-separated algebraic space over `S`.
 Then there exists a differential graded algebra `(E, d)` with only a finite number of nonzero
 cohomology groups `H^i(E)` such that `D_QCoh(𝒪_X)` is equivalent to `D(E, d)`.* -/
-@[stacks 09MC]
+@[stacks 09MC, stacks 09M9 "Theorem 09MC of the section"]
 theorem exists_differentialGradedAlgebra_equivalence (hqc : IsQuasiCompactSpace B S hS X.1)
     (hqs : IsAbsolutelyQuasiSeparated B S hS B.contains_terminal X.1) :
     ∃ E : DifferentialGradedAlgebra.{0, u} ℤ, {i : ℤ | Nontrivial (E.Cohomology i)}.Finite ∧

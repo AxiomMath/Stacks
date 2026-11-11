@@ -33,11 +33,10 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Pretriangulated Opposit
 
 universe u
 
-attribute [local instance] HasDerivedCategory.standard
-
 namespace NoetherianAdicCompletion
 
-variable {A : Type u} [Ring A] {F : ℕᵒᵖ ⥤ DerivedCategory (ModuleCat.{u} A)}
+variable {A : Type u} [Ring A] [HasDerivedCategory (ModuleCat.{u} A)]
+  {F : ℕᵒᵖ ⥤ DerivedCategory (ModuleCat.{u} A)}
   [HasProduct fun n : ℕ ↦ F.obj ⟨n⟩] {K : DerivedCategory (ModuleCat.{u} A)}
   {p : ∀ n : ℕ, K ⟶ F.obj ⟨n⟩}
 
@@ -96,6 +95,46 @@ theorem IsDerivedLimitWithProjections.nonempty_isLimit_mapCone_homology
   have : IsIso ((limit.isLimit (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) r)).lift
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) r).mapCone h.cone)) := this
   exact ⟨IsLimit.ofPointIso (limit.isLimit _)⟩
+
+/-- **The Milnor comparison is an isomorphism when the Milnor difference map is onto.** If the
+difference map `(xₙ) ↦ (xₙ - fₙ₊₁(xₙ₊₁))` on the product of the system `{H^{r-1}(Fₙ)}` is an
+epimorphism, the comparison map from `H^r(K)` to the limit of `{H^r(Fₙ)}` induced by the
+cohomology of the projections of a derived limit is an isomorphism. -/
+theorem IsDerivedLimitWithProjections.isIso_lift_mapCone_homology_of_epi
+    (h : IsDerivedLimitWithProjections F K p) (r : ℤ)
+    (hepi : Epi (Pi.lift fun n : ℕ ↦
+      Pi.π (fun n : ℕ ↦ (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)).obj
+        (op n)) n -
+        Pi.π (fun n : ℕ ↦ (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)).obj
+          (op n)) (n + 1) ≫
+          (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)).map
+            (homOfLE (Nat.le_succ n)).op)) :
+    IsIso (limit.lift _ ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) r).mapCone
+      h.cone)) := by
+  obtain ⟨δ, hδ⟩ := id h
+  obtain ⟨e, i, q, w, -, -, hq, hS⟩ :=
+    DerivedCategory.homology_shortExact_of_distinguished F K (Pi.lift p) δ hδ r
+  have hzero : IsZero (cokernel (Pi.lift fun n : ℕ ↦
+      Pi.π (fun n : ℕ ↦ (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)).obj
+        (op n)) n -
+        Pi.π (fun n : ℕ ↦ (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)).obj
+          (op n)) (n + 1) ≫
+          (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)).map
+            (homOfLE (Nat.le_succ n)).op)) :=
+    isZero_cokernel_of_epi _
+  have : Mono q := hS.exact.mono_g (hzero.eq_of_src _ _)
+  have : Epi q := hS.epi_g
+  have : IsIso q := isIso_of_mono_of_epi q
+  have hql : q = limit.lift _ ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) r).mapCone
+      h.cone) := by
+    refine limit.hom_ext fun n => ?_
+    induction n using Opposite.rec with
+    | op n =>
+      refine (hq n).trans (Eq.trans ?_ (limit.lift_π
+        ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) r).mapCone h.cone) (op n)).symm)
+      rw [← Functor.map_comp, Pi.lift_comp_π]
+      rfl
+  rwa [hql] at this
 
 end NoetherianAdicCompletion
 

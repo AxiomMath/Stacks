@@ -36,7 +36,8 @@ take exactly the hypotheses of the source.
   `.injFunctor_affinePushforward_eq_unconditional`,
   `.surjFunctor_affinePushforward_eq_unconditional` and
   `.zeroFunctor_affinePushforward_eq_unconditional`: **Stacks 0CW8**, with no hypothesis beyond
-  the source's: `g` affine and over `Y`.
+  the source's: `g` affine and over `Y`.  These four theorems are the registrations of
+  Stacks 0CW8.
 
 ## Implementation notes
 
@@ -123,7 +124,7 @@ include comm
 
 /-- **Stacks 0CW8**, `F_{u,iso} = F_{u',iso}`: for an affine morphism `g : X ⟶ X'` over `Y`,
 the isomorphism locus of `u` is that of its direct image `u' = g_*u`. -/
-@[stacks 0CW8 "F_iso"]
+@[stacks 0CW8 "F_{u,iso} = F_{u',iso} for g affine over Y, u' = g_*u"]
 theorem isoFunctor_affinePushforward_eq_unconditional :
     (D.affinePushforward g f' (schemeTargetAffinePushforwardQuasicoherent B S hS) hg).isoFunctor
         (modulePullbackSystem B S hS) =
@@ -133,7 +134,7 @@ theorem isoFunctor_affinePushforward_eq_unconditional :
 
 /-- **Stacks 0CW8**, `F_{u,inj} = F_{u',inj}`: for an affine morphism `g : X ⟶ X'` over `Y`,
 the universal-injectivity locus of `u` is that of its direct image `u' = g_*u`. -/
-@[stacks 0CW8 "F_inj"]
+@[stacks 0CW8 "F_{u,inj} = F_{u',inj} for g affine over Y, u' = g_*u"]
 theorem injFunctor_affinePushforward_eq_unconditional :
     (D.affinePushforward g f' (schemeTargetAffinePushforwardQuasicoherent B S hS) hg).injFunctor
         (modulePullbackSystem B S hS) =
@@ -143,7 +144,7 @@ theorem injFunctor_affinePushforward_eq_unconditional :
 
 /-- **Stacks 0CW8**, `F_{u,surj} = F_{u',surj}`: for an affine morphism `g : X ⟶ X'` over `Y`,
 the surjectivity locus of `u` is that of its direct image `u' = g_*u`. -/
-@[stacks 0CW8 "F_surj"]
+@[stacks 0CW8 "F_{u,surj} = F_{u',surj} for g affine over Y, u' = g_*u"]
 theorem surjFunctor_affinePushforward_eq_unconditional :
     (D.affinePushforward g f' (schemeTargetAffinePushforwardQuasicoherent B S hS) hg).surjFunctor
         (modulePullbackSystem B S hS) =
@@ -153,7 +154,7 @@ theorem surjFunctor_affinePushforward_eq_unconditional :
 
 /-- **Stacks 0CW8**, `F_{u,zero} = F_{u',zero}`: for an affine morphism `g : X ⟶ X'` over `Y`,
 the vanishing locus of `u` is that of its direct image `u' = g_*u`. -/
-@[stacks 0CW8 "F_zero"]
+@[stacks 0CW8 "F_{u,zero} = F_{u',zero} for g affine over Y, u' = g_*u"]
 theorem zeroFunctor_affinePushforward_eq_unconditional :
     (D.affinePushforward g f' (schemeTargetAffinePushforwardQuasicoherent B S hS) hg).zeroFunctor
         (modulePullbackSystem B S hS) =

@@ -13,4 +13,4 @@ import StacksCore.Tactic.StacksAttribute
 
 @[expose] public section
 
-add_to_stacks 09FJ "first part" PrincipalIdealRing.isMaximal_of_irreducible
+add_to_stacks 09FI "first part" PrincipalIdealRing.isMaximal_of_irreducible

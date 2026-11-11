@@ -72,7 +72,9 @@ Everything lives in the namespace `Crystalline.GlobalCrystallineSituation`.
 
 ## What is and is not proved
 
-(07MK) is **not** proved and no `@[stacks]` attribute is placed; as in
+No `@[stacks]` attribute is placed here; (07MK) is proved in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKProof.lean`
+by another route, which does not use this file.  As in
 `Formula07MKRestrict.lean`, what is proved is the geometric and site-level comparison that the
 sheaf-level statement needs, not the equation of sheaves.  Nothing here compares the direct image
 computed on one site with the one computed on the other: the equivalence of sites is available,

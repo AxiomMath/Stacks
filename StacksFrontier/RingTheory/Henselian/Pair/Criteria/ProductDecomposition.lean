@@ -25,6 +25,12 @@ coming from a section of an étale algebra, and Gabber's root criterion for the 
 * `prodQuotientOfIsIdempotentElem_apply_idempotent_mod`: the product decomposition attached to an
   idempotent sends that idempotent to `(1, 0)`.
 
+The lift of the decomposition of `B' ⧸ IB'` to the integral closure `B'` itself under Gabber's
+criterion (Stacks 0EM4) is
+`exists_integralClosure_algEquiv_prod_lift_of_gabber_root_condition`, in
+`StacksFrontier.RingTheory.Henselian.Pair.Criteria.IntegralClosureLift`; the splitting of a ring by
+complementary idempotents used here is Mathlib's `AlgEquiv.prodQuotientOfIsIdempotentElem`.
+
 ## Implementation notes
 
 Reduction modulo `I` maps polynomial coefficients along `Ideal.Quotient.mk I`, and the extension of
@@ -37,9 +43,6 @@ Reduction modulo `I` maps polynomial coefficients along `Ideal.Quotient.mk I`, a
 * Raynaud, *Anneaux locaux henséliens*, Chapter XI
 * Gabber, *Affine analog of the proper base change theorem*, Proposition 1
 -/
-
-add_to_stacks 0EM4 "product decomposition by complementary idempotents"
-  AlgEquiv.prodQuotientOfIsIdempotentElem
 
 open Polynomial
 

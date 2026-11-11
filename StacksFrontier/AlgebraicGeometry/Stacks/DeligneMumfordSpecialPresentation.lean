@@ -21,9 +21,12 @@ as an algebraic stack is Deligne–Mumford.
 Two of the statements are about the Deligne–Mumford *condition* on the 2-fibre product; the two
 after them turn that condition into the presentation **Stacks 0CIA** asserts, a scheme with a
 surjective étale 1-morphism onto the 2-fibre product. The step from one to the other is the
-structure theorem **Stacks 06N3**, whose substantial direction the library carries as the
-hypothesis `AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM`, so that hypothesis
-is named explicitly in the two presentation statements.
+structure theorem **Stacks 06N3**, whose substantial direction enters here as the hypothesis
+`AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM`, named explicitly in the two
+presentation statements. That direction is proved, as
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`, in a file this one cannot
+import, so the unconditional forms of Stacks 0CIA, which carry its tag, are in
+`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordFibreProductPresentation`.
 
 ## Main results
 
@@ -37,10 +40,10 @@ is named explicitly in the two presentation statements.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_twoFibreProduct_algebraicSpaceStack`:
   the case of an algebraic space, which is the one that needs no hypothesis on `𝒵` at all.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_of_isDM`:
-  **Stacks 0CIA**, part (1) — a scheme with a surjective étale 1-morphism onto the 2-fibre
-  product.
+  part (1) of Stacks 0CIA — a scheme with a surjective étale 1-morphism onto the 2-fibre
+  product — given the substantial direction of Stacks 06N3 as a hypothesis.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_algebraicSpace`:
-  **Stacks 0CIA**, part (2), the same for an algebraic space.
+  part (2) of Stacks 0CIA, the same for an algebraic space, under the same hypothesis.
 
 ## Implementation notes
 
@@ -51,13 +54,13 @@ change and Stacks 050L for the composition, already carry their keys at
 below are applications of them.
 
 Passing from the condition to the presentation is the one application of **Stacks 06N3** the
-source makes. The library's **Stacks 06N3**,
-`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`, carries both of its
-implications as explicit hypotheses, since the structure theorem behind the substantial one
-(Stacks 06MD, 06N0, 06N2, 06G2, 06G3) is not in this library. Only the substantial direction is
-used here, so the two presentation statements take
-`AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM` as a named hypothesis
-`hForward` and nothing else.
+source makes. Only its substantial direction is used here, so the two presentation statements
+take `AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM` as a named hypothesis
+`hForward` and nothing else. The tagged statements of Stacks 0CIA,
+`isDeligneMumfordStack_twoFibreProduct_of_isDM_of_dm` and
+`isDeligneMumfordStack_twoFibreProduct_of_isDM_algebraicSpace` (both in the namespace
+`AlgebraicGeometry.Stack.AlgebraicStacks`), discharge `hForward` with
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`.
 
 The algebraic space case is the source's own reduction of part (2) of Stacks 0CIA to part (1).
 It is obtained at the structure 1-morphism: a 1-morphism out of something representable by an
@@ -117,12 +120,6 @@ This is the first half of the argument for part (1) of Stacks 0CIA; the half lef
 structure theorem Stacks 06N3, which turns the conclusion into a surjective étale presentation
 of the apex by a scheme and is applied in
 `AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_of_isDM`. -/
-@[stacks 0CIA "part (1), the Deligne-Mumford condition on the 2-fibre product: the apex of the
-  canonical square of a DM 1-morphism f and a 1-morphism out of a DM algebraic stack is itself a
-  DM algebraic stack. This is the source's own argument for part (1) up to its closing appeal to
-  Stacks 06N3; that appeal is made in
-  `AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_of_isDM`, which
-  states part (1) in the source's existence form"]
 theorem isAbsolutelyDM_twoFibreProduct_of_isDM
     {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)
     (hf : Stack.IsDM B S hS f) (h𝒵 : IsAbsolutelyDM B S hS hT 𝒵) :
@@ -139,12 +136,6 @@ Deligne–Mumfordness of `f` is needed.
 As for `AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_twoFibreProduct_of_isDM`, what is
 left of Stacks 0CIA after this is one application of Stacks 06N3, made in
 `AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_algebraicSpace`. -/
-@[stacks 0CIA "part (2), the Deligne-Mumford condition on the 2-fibre product: the apex of the
-  canonical square of a DM 1-morphism f and a 1-morphism out of an algebraic space is a DM
-  algebraic stack, with no hypothesis on the algebraic space. This is the source's own reduction
-  of part (2) to part (1), up to the closing appeal to Stacks 06N3; that appeal is made in
-  `AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_algebraicSpace`,
-  which states part (2) in the source's existence form"]
 theorem isAbsolutelyDM_twoFibreProduct_algebraicSpaceStack
     {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (hf : Stack.IsDM B S hS f)
     (Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hZ : IsAlgebraicSpace B S hS Z)
@@ -160,13 +151,8 @@ with a surjective étale 1-morphism onto `𝒳 ×_{f, 𝒴, g} 𝒵`.
 The apex is a Deligne–Mumford algebraic stack by
 `AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_twoFibreProduct_of_isDM`, and the
 presentation comes from the structure theorem Stacks 06N3, carried here as the hypothesis
-`hForward`. -/
-@[stacks 0CIA "part (1), in the source's existence form: a scheme with a surjective etale
-  1-morphism onto the 2-fibre product, with the substantial direction of Stacks 06N3 as the
-  explicit hypothesis hForward (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2,
-  06G3, is absent from the library). The Deligne-Mumford condition on the apex, which is the
-  whole of the source's argument apart from that appeal, is proved unconditionally in
-  `AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_twoFibreProduct_of_isDM`"]
+`hForward`. The unconditional statement, which carries the tag of Stacks 0CIA, is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_of_isDM_of_dm`. -/
 theorem isDeligneMumfordStack_twoFibreProduct_of_isDM
     (hForward : Stack.ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hT)
     {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)
@@ -181,13 +167,10 @@ stacks. For every algebraic space `Z` over `𝒴` there is a scheme of the site 
 
 This is part (1) applied to the algebraic space read as an algebraic stack, which is
 Deligne–Mumford by
-`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_algebraicSpaceStack`. -/
-@[stacks 0CIA "part (2), in the source's existence form: a scheme with a surjective etale
-  1-morphism onto the 2-fibre product with an algebraic space, with the substantial direction of
-  Stacks 06N3 as the explicit hypothesis hForward (the structure theorem behind it, Stacks 06MD,
-  06N0, 06N2, 06G2, 06G3, is absent from the library). The Deligne-Mumford condition on the apex
-  is proved unconditionally in
-  `AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_twoFibreProduct_algebraicSpaceStack`"]
+`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_algebraicSpaceStack`, with the
+substantial direction of Stacks 06N3 carried as the hypothesis `hForward`. The unconditional
+statement, which carries the tag of Stacks 0CIA, is
+`isDeligneMumfordStack_twoFibreProduct_of_isDM_algebraicSpace`. -/
 theorem isDeligneMumfordStack_twoFibreProduct_algebraicSpace
     (hForward : Stack.ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hT)
     {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (hf : Stack.IsDM B S hS f)

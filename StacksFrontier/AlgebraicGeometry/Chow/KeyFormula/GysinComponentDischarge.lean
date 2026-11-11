@@ -825,31 +825,35 @@ theorem gysinOfInvertibleKillsPrincipalDivisorOnComponent :
     ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) k h02TA (hpush.mono hsub)
   rwa [sub_add_cancel] at h
 
-/-- **Stacks 02TO, with no hypothesis.** The Gysin homomorphism of the zero scheme of a global
-section of an invertible module kills every `(k+1)`-cycle rationally equivalent to zero.
+/-- **Stacks 02TO.** Let `X` be locally of finite type over the base `S` of chapter 42, let `L` be
+an invertible `𝒪_X`-module and `s ∈ Γ(X, L)`, with zero scheme `i : D = Z(s) ⟶ X` as in Stacks
+02T8. The Gysin homomorphism `i^* : Z_{k+1}(X) ⟶ A_k(D)` kills every `(k+1)`-cycle rationally
+equivalent to zero, so it factors through rational equivalence; the map it induces on Chow groups
+is `Stacks.Chow.gysinChowOfInvertible`.
 
-The single-component case the source's proof reduces to is
-`Stacks.Chow.gysinOfInvertibleKillsPrincipalDivisorOnComponent`, proved above, and the reduction
-to it is `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_of_components`. -/
-@[stacks 02TO "the Gysin map factors through rational equivalence, with no hypothesis: the \
-single-component case the source's proof reduces to is proved here, as \
-`gysinOfInvertibleKillsPrincipalDivisorOnComponent`, from the key formula 0AYC"]
+The proof follows the source: the reduction to one integral `V` and one rational function on it
+is `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_of_components`, and that case
+is `Stacks.Chow.gysinOfInvertibleKillsPrincipalDivisorOnComponent`, from the key formula 0AYC. -/
+@[stacks 02TO "the Gysin homomorphism i^* : Z_{k+1}(X) ⟶ A_k(D) of the zero scheme of a section \
+of an invertible module factors through rational equivalence; the induced map \
+i^* : A_{k+1}(X) ⟶ A_k(D) is `gysinChowOfInvertible`"]
 theorem gysinOfInvertibleFactorsThroughRationalEquivalence :
     GysinOfInvertibleFactorsThroughRationalEquivalence C p k L s :=
   gysinOfInvertibleFactorsThroughRationalEquivalence_of_components C p k L s
     (gysinOfInvertibleKillsPrincipalDivisorOnComponent C p k L s)
 
-/-- **Stacks 02TO, with no hypothesis.** The Gysin homomorphism of the zero scheme `D = Z(s)` of a
-global section of an invertible module, descended to Chow groups,
+/-- **Stacks 02TO.** The Gysin homomorphism of the zero scheme `i : D = Z(s) ⟶ X` of a global
+section of an invertible module factors through rational equivalence to give the map
 
   `i^* : A_{k+1}(X) ⟶ A_k(D)`.
 
-This is `Stacks.Chow.gysinHomomorphismOnChowOfInvertibleOfComponents` with its single-component
-datum supplied, and `Stacks.Chow.eq_gysinHomomorphismOnChowOfInvertible` says it is the only
-homomorphism of Chow groups agreeing with the Gysin map of Stacks 02T8 on cycle
-representatives. -/
-@[stacks 02TO "the descended map i^* : A_{k+1}(X) ⟶ A_k(D), with no hypothesis: the \
-single-component datum is proved, in `gysinOfInvertibleKillsPrincipalDivisorOnComponent`"]
+Its value on the class of a cycle is the Gysin homomorphism of Stacks 02T8 on that cycle
+(`Stacks.Chow.gysinChowOfInvertible_mk`), and `Stacks.Chow.eq_gysinHomomorphismOnChowOfInvertible`
+says it is the only homomorphism of Chow groups agreeing with the Gysin map of Stacks 02T8 on
+cycle representatives. -/
+@[stacks 02TO "the map i^* : A_{k+1}(X) ⟶ A_k(D) induced by the Gysin homomorphism of the zero \
+scheme of a section of an invertible module, which factors through rational equivalence by \
+`gysinOfInvertibleFactorsThroughRationalEquivalence`"]
 def gysinChowOfInvertible : chowGroup C p (k + 1) →+
     chowGroup C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) k :=
   gysinHomomorphismOnChowOfInvertibleOfComponents C p k L s

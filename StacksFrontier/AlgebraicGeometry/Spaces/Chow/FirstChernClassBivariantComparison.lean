@@ -8,32 +8,34 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Chow.ProperPushforwardClos
 public import StacksFrontier.AlgebraicGeometry.Spaces.Chow.ProperPushforwardFirstChernCapCanonical
 
 /-!
-# The first Chern class of an invertible module is the bivariant class of Stacks 0ERM
+# The cap operation of Stacks 0ERM and the Segre-recursion first Chern class
 
-In Situation 0EDT let `X/B` be good and let `ℒ` be an invertible `𝒪_X`-module. Stacks 0ES0
-asserts that the first Chern class `c₁(ℒ) ∈ A^1(X)` of Definition 0ERZ, defined through the
-projective bundle `(π : P = 𝐏(ℒ) ⟶ X, 𝒪_P(1))`, is the bivariant class
-`f ↦ c₁(f^*ℒ) ∩ -` of Stacks 0ERM.
+In Situation 0EDT let `X/B` be good and let `ℒ` be an invertible `𝒪_X`-module. This file compares
+the cap operation of the bivariant class `f ↦ c₁(f^*ℒ) ∩ -` of Stacks 0ERM
+(`AlgebraicGeometry.Space.firstChernBivariantClass`) on a good test space `g : Y' ⟶ X`, which maps
+`CH_k(Y')` to `CH_{k-1}(X ×_X Y')` (that is `CH_{k-1}(Y')` along the isomorphism
+`X ×_X Y' ⟶ Y'`), with the operation `c₁(g^*ℒ) ∩ -` on `CH_*(Y')` given by the Segre recursion
+(`AlgebraicGeometry.Space.PrivateChern.chernCap`).
 
-A class in `A^1(X)` is determined by its operations on the Chow groups of the good test spaces
-`g : Y' ⟶ X`, and the class `c₁(ℒ)` of Stacks 0ERZ acts on `CH_*(Y')` by the first Chern class
-`c₁(g^*ℒ) ∩ -` of Stacks 0ERZ of the module `g^*ℒ` of rank one on `Y'`
-(`AlgebraicGeometry.Space.PrivateChern.chernCap`). The class of Stacks 0ERM
-(`AlgebraicGeometry.Space.firstChernBivariantClass`) maps `CH_k(Y')` to `CH_{k-1}(X ×_X Y')`;
-this is `CH_{k-1}(Y')` along the isomorphism `X ×_X Y' ⟶ Y'`. So Stacks 0ES0 is the equality,
-for every good `g : Y' ⟶ X`, every `k` and every `α ∈ CH_k(Y')`, of the two operations.
-
-The proof is that of the source: for an invertible module the projective bundle has relative
-dimension `0` and `𝒪_P(1) = π^*ℒ`, so the defining relation of Stacks 0ERY reads
-`c₁^{new}(ℒ) = c₁(ℒ) ∩ -`
+The proof: for an invertible module the projective bundle has relative dimension `0` and
+`𝒪_P(1) = π^*ℒ`, so the Segre-recursion class is the cap product
 (`AlgebraicGeometry.Space.PrivateChern.chernCap_one_eq_firstChernCapChow`, on every good space);
 and the cap operation of Stacks 0ERM on `Y'` is the cap product with `c₁` of the inverse image of
 `ℒ` to `X ×_X Y'`, which the isomorphism `X ×_X Y' ≅ Y'` carries to `c₁(g^*ℒ) ∩ -` on `Y'`
 (Stacks 0EQT along that isomorphism).
 
+Stacks 0ES0, stated for the class `AlgebraicGeometry.Space.chernClass` of Definition 0ERZ (the
+bivariant class characterized by the relation of Stacks 0ERY) as an equality in `A^1(X)`, is
+`AlgebraicGeometry.Space.chernClass_one_eq_firstChernBivariantClass` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChernClassRankOneBivariant`.
+
 ## Main results
 
-* `AlgebraicGeometry.Space.chernCap_one_eq_firstChernBivariantClass_cap`: **Stacks 0ES0.**
+* `AlgebraicGeometry.Space.chernCap_one_eq_firstChernBivariantClass_cap`: the cap operation of
+  Stacks 0ERM is the Segre-recursion operation `AlgebraicGeometry.Space.PrivateChern.chernCap`.
+  Stacks 0ES0 itself, for the class `AlgebraicGeometry.Space.chernClass` of Definition 0ERZ, is
+  `AlgebraicGeometry.Space.chernClass_one_eq_firstChernBivariantClass`
+  (`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChernClassRankOneBivariant`).
 
 ## References
 
@@ -66,20 +68,20 @@ theorem isFiniteLocallyFreeOfRank_one_pullbackLine {Y' : D.Ambient} (g : Y' ⟶ 
   (isInvertibleModule_iff_isFiniteLocallyFreeOfRank_one (Z := goodSpace hY') _).1
     (isInvertibleModule_pullbackLine D (g ≫ sX) hY' sX hX g L hL)
 
-/-- **Stacks 0ES0.** In Situation 0EDT let `X/B` be good and let `ℒ` be an invertible
-`𝒪_X`-module. Then the first Chern class `c₁(ℒ)` of Definition 0ERZ equals the bivariant class of
-Stacks 0ERM (`AlgebraicGeometry.Space.firstChernBivariantClass`).
+/-- **The cap operation of Stacks 0ERM is the Segre-recursion first Chern class.** In
+Situation 0EDT let `X/B` be good and let `ℒ` be an invertible `𝒪_X`-module. On every good test
+space `g : Y' ⟶ X`, for every `k` and `α ∈ CH_k(Y')`, the cap operation
+`CH_k(Y') ⟶ CH_{k-1}(X ×_X Y')` of the bivariant class of Stacks 0ERM
+(`AlgebraicGeometry.Space.firstChernBivariantClass`), followed by the pushforward along the
+isomorphism `X ×_X Y' ⟶ Y'`, is `c₁(g^*ℒ) ∩ α` for the operation
+`AlgebraicGeometry.Space.PrivateChern.chernCap` on `CH_*(Y') = ⨁_k CH_k(Y')` (defined by the Segre
+recursion; `chowGroupCanonicalEquivChowGroup` identifies the Chow groups of Stacks 0EQ6 on which
+the bivariant classes act with the summands of `CH_*(Y')`).
 
-Both are classes in `A^1(X)`, and the equality is that of their operations on the Chow groups of
-every good test space `g : Y' ⟶ X`: for every `k` and `α ∈ CH_k(Y')`, the cap operation
-`CH_k(Y') ⟶ CH_{k-1}(X ×_X Y')` of the class of Stacks 0ERM, followed by the identification of
-`X ×_X Y'` with `Y'` (pushforward along the isomorphism `X ×_X Y' ⟶ Y'`), is
-`c₁(g^*ℒ) ∩ α` for the first Chern class of Definition 0ERZ of the rank-one module `g^*ℒ` on `Y'`
-(`AlgebraicGeometry.Space.PrivateChern.chernCap`, the operation on
-`CH_*(Y') = ⨁_k CH_k(Y')`; `chowGroupCanonicalEquivChowGroup` identifies the Chow groups of
-Stacks 0EQ6 on which the bivariant classes act with the summands of `CH_*(Y')`). -/
-@[stacks 0ES0 "c_1(L) ∈ A^1(X) of Definition 0ERZ (chernCap 1 on every good Y' → X) equals the \
-bivariant class c_1(f^*L) ∩ - of Lemma 0ERM, for X/B good and L invertible"]
+This is an auxiliary comparison, not Stacks 0ES0 itself: the equality in `A^1(X)` of the Chern
+class `AlgebraicGeometry.Space.chernClass` of Definition 0ERZ (characterized by Stacks 0ERY) with
+the class of Lemma 0ERM is `AlgebraicGeometry.Space.chernClass_one_eq_firstChernBivariantClass`
+(`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChernClassRankOneBivariant`). -/
 theorem chernCap_one_eq_firstChernBivariantClass_cap
     (L : Modules.{u, u} D.site D.base D.base_mem X hX.1)
     (hL : IsInvertibleModule (⟨X, hX.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) L)

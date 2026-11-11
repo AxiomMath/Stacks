@@ -52,7 +52,9 @@ image of a surjection — **Stacks 08AJ** for universal closedness and quasi-com
   **Stacks 050H** read in the 2-category of algebraic stacks rather than in the 2-category of
   categories fibred in groupoids, which is the form the fppf descent of Stacks 0CPP consumes.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isSeparated_of_isSeparated_comp_of_universallyInjective`
-  is **Stacks 0CPQ**, with the three hypotheses discussed below.
+  is **Stacks 0CPQ**, with the three hypotheses discussed below; it is untagged, the corrected
+  form being registered in the module
+  `StacksFrontier.AlgebraicGeometry.Stacks.SeparationUniversallyInjectiveCoverCorrected`.
 
 ## Implementation notes
 
@@ -370,10 +372,15 @@ of `Δ_g` along `f × f`, so properness of `Δ_g` descends by Stacks 0CPP.
 Given the other hypotheses, universal closedness of `Δ_f` is also a consequence of the
 conclusion, so the implication below is in fact an equivalence; and local finite type of a
 relative diagonal (part (2) of Stacks 04XS) and the three properties of `f × f` are assumed. See
-the implementation notes. -/
-@[stacks 0CPQ "universal closedness of Δ_f is added: the published statement is false without \
-it, a section of a 1-morphism of stacks being a monomorphism only when the 1-morphism is \
-faithful; 04XS (2) and the permanence of the three properties under forming f × f are assumed"]
+the implementation notes.
+
+It carries no tag: the module
+`StacksFrontier.AlgebraicGeometry.Stacks.SeparationUniversallyInjectiveCoverCorrected` removes the
+last two assumptions, and the registration of Stacks 0CPQ sits on the corrected form
+`AlgebraicGeometry.Stack.AlgebraicStacks`
+`.isSeparated_of_isSeparated_comp_of_universallyInjective_of_isSeparated_diagonal`; the statement as
+written is false, see
+`Stacks.Examples.not_forall_isSeparated_of_isSeparated_comp_of_universallyInjective`. -/
 theorem isSeparated_of_isSeparated_comp_of_universallyInjective
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒴 ⟶ 𝒵)

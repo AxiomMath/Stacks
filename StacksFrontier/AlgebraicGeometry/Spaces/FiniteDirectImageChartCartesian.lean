@@ -47,8 +47,9 @@ between `V ×_Y X` and `W ×_Y X`.
 * `isCoherent_modulePushforward_structureSheaf_preimage'`: **the coherence assertion of
   Stacks 0GF7** — the structure sheaf of the inverse image of a closed subspace under a finite
   morphism pushes forward to a coherent module.
-* `isCoherent_and_supportOfSheaf_eq_univ_modulePushforward_structureSheaf_preimage`: for `f`
-  moreover surjective, that direct image is coherent and its support is everything.
+* `isCoherent_and_supportOfSheaf_eq_univ_modulePushforward_structureSheaf_preimage`: **the
+  whole of Stacks 0GF7**, registered under that tag with exactly its hypotheses — for `f`
+  moreover surjective, that direct image is coherent and its support is all of `Z`.
 
 ## References
 
@@ -246,10 +247,14 @@ theorem isCoherent_modulePushforward_structureSheaf_preimage' {Z Z' : AlgebraicS
   exact isCoherent_modulePushforward_of_isFinite' B S hS f' hf' hZ _
     (isCoherent_structureSheaf B S hS Z'.1 Z'.2)
 
-/-- Let `S` be a scheme and let `f : Y ⟶ X` be a morphism of algebraic spaces over `S` which is
-finite and surjective, with `X` locally Noetherian.  Let `i : Z ⟶ X` be a closed immersion, let
-`i' : Z' ⟶ Y` be the inverse image of `Z`, and let `f' : Z' ⟶ Z` be the induced morphism.  Then
-`𝒢 = f'_*𝒪_{Z'}` is a coherent `𝒪_Z`-module whose support is all of `Z`. -/
+/-- **Stacks 0GF7.**  Let `S` be a scheme and let `f : Y ⟶ X` be a morphism of algebraic spaces
+over `S` which is finite and surjective, with `X` locally Noetherian.  Let `i : Z ⟶ X` be a
+closed immersion, let `i' : Z' ⟶ Y` be the inverse image of `Z`, and let `f' : Z' ⟶ Z` be the
+induced morphism.  Then `𝒢 = f'_*𝒪_{Z'}` is a coherent `𝒪_Z`-module whose support is all of `Z`.
+
+Coherence is `isCoherent_modulePushforward_structureSheaf_preimage'`, which needs neither the
+surjectivity of `f` nor a chart of `Z`; the support is
+`supportOfSheaf_modulePushforward_structureSheaf_preimage_eq_univ`. -/
 @[stacks 0GF7 "the whole statement: for f finite and surjective with X locally Noetherian and \
 i : Z -> X a closed immersion, the direct image f'_* O_{Z'} along the induced morphism of the \
 inverse image is a coherent O_Z-module, and its support is all of Z"]

@@ -34,9 +34,11 @@ of both clauses at the canonical map**, with nothing granted:
 It also proves the tensor forms of the two base-change halves, at the canonical map
 `AlgebraicGeometry.tensorFlatBaseChangeMap` of [Stacks, Tag 0A1D].
 
-The perfection half of clause (1) — `Rf_*E` perfect for `E` perfect and `f` flat — is not proved
-here; the perfection half of clause (2) is
-`AlgebraicGeometry.ProperFlatFibreEulerCharacteristic.perfectDerivedPushforward`.
+The perfection half of clause (1) — `Rf_*E` perfect for `E` perfect and `f` flat — is
+`AlgebraicGeometry.isPerfect_derivedPushforward_of_flat_of_isProper`; the perfection half of
+clause (2) is `AlgebraicGeometry.ProperFlatFibreEulerCharacteristic.perfectDerivedPushforward`.
+Both clauses in full, the statement registered as [Stacks, Tag 0B91], are
+`ProperFlatBaseChange.isPerfect_derivedPushforward_and_isIso_baseChange_of_isProper`.
 
 ## Main results
 
@@ -166,11 +168,8 @@ canonical map `Lg^*Rf_*E ⟶ Rf'_*L(g')^*E` of [Stacks, Tag 08HY] is an isomorph
 
 Only quasi-compactness and quasi-separatedness of `f` are used, besides flatness, so the
 statement is made under those; a proper morphism of finite presentation has both. That `Rf_*E`
-is perfect is not stated here. -/
-@[stacks 0B91 "clause (1), the base-change half only: for f flat (and quasi-compact and \
-quasi-separated, which a proper morphism of finite presentation is) and E perfect, the canonical \
-map Lg^*Rf_*E --> Rf'_*L(g')^*E of Tag 08HY is an isomorphism for every cartesian square. \
-Nothing is granted. The perfection half of clause (1) is not proved"]
+is perfect is `AlgebraicGeometry.isPerfect_derivedPushforward_of_flat_of_isProper`; the whole of
+[Stacks, Tag 0B91] is `isPerfect_derivedPushforward_and_isIso_baseChange_of_isProper`. -/
 theorem isIso_derivedBaseChangeMap_of_isPerfect (hsq : IsPullback g' f' f g) [QuasiCompact f]
     [QuasiSeparated f] [Flat f] (E : DerivedCategory X.Modules)
     (hE : Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace) E) :
@@ -189,11 +188,6 @@ base change: the canonical map `Lg^*Rf_*𝒢 ⟶ Rf'_*L(g')^*𝒢 ⟶ Rf'_*(g')^
 Only quasi-compactness and quasi-separatedness of `f` are used, so the statement is made under
 those. That `Rf_*𝒢` is perfect is
 `AlgebraicGeometry.ProperFlatFibreEulerCharacteristic.perfectDerivedPushforward`. -/
-@[stacks 0B91 "clause (2), the base-change half only: for f quasi-compact and quasi-separated \
-(which a proper morphism of finite presentation is) and G of finite presentation and flat over \
-S, the canonical map Lg^*Rf_*G --> Rf'_*L(g')^*G --> Rf'_*(g')^*G (Tag 08HY followed by the \
-derived-to-ordinary comparison) is an isomorphism for every cartesian square. Nothing is \
-granted. The perfection half of clause (2) is perfectDerivedPushforward"]
 theorem isIso_derivedBaseChangeComp_singleDegree_of_isFinitePresentation
     (hsq : IsPullback g' f' f g) [QuasiCompact f] [QuasiSeparated f] (G : X.Modules)
     [G.IsFinitePresentation] (hGflat : IsFlatOver f.toLRSHom.toShHom G) :

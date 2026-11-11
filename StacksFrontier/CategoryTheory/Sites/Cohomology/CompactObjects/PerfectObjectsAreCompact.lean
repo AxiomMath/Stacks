@@ -4,10 +4,9 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.CompactnessFromCove
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.CompactObjects.ExtensionByZeroIsCompact
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.PerfectObjects
 public import StacksFrontier.CategoryTheory.Triangulated.CompactObjects
-import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Compactness of a perfect object on a ringed site
+# Compactness of a perfect object on a ringed site, from the reduction of Stacks 09JC
 
 Let `(C, O)` be a ringed site whose underlying site has a quasi-compact final object `X`, in
 which every quasi-compact object has a cofinal system of finite coverings by quasi-compact
@@ -18,7 +17,7 @@ objects, and in which the fibre products occurring in such a covering are again 
   bounded below then `Hom(K, M) = ⨁_{i ∈ I} Hom(K, M_i)`; and
 * **(b)** if `(C, O)` has finite cohomological dimension then `K` is a compact object of `D(O)`.
 
-Both are proved here from the reduction the source performs, namely the identification
+This file proves both clauses from the reduction the source performs, namely the identification
 `Hom_{D(O)}(K, M) = H⁰(X, K^∨ ⊗^L_O M)`, functorial in `M`, together with the fact that
 `K^∨ ⊗^L_O -` commutes with direct sums. Since `H⁰(X, -) = Hom_{D(O)}(j_{X!}O_X, -)`, that
 reduction says precisely that `Hom(K, -)` is naturally isomorphic to
@@ -26,8 +25,13 @@ reduction says precisely that `Hom(K, -)` is naturally isomorphic to
 parts then follow from the compactness properties of `j_{X!}O_X` already in the library,
 Stacks 0G22 for (a) and Stacks 094D for (b).
 
-That reduction is **not formalized in this library** and is therefore an explicit hypothesis of
-both tagged results; see "What this file assumes" below. The transfer itself is isolated in
+Here that reduction is an explicit hypothesis of both results; see "What this file assumes"
+below. The reduction itself is produced, for `T = - ⊗^L_O K^∨`, in
+`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectDualReduction`, and the complete
+statement of Stacks 09JC, under exactly the hypotheses of the tag, is
+`hom_coproduct_bijective_and_isCompactObject_of_isPerfect_of_isQuasiCompactObject` in the
+namespace `Stacks.Cohomology.QuasiCompactSite`, which carries the tag. The transfer itself is
+isolated in
 `Stacks.Cohomology.bijective_cofanMap_of_homAddEquiv` and
 `Stacks.Cohomology.isCompactObject_of_homAddEquiv`, which are statements about an arbitrary
 preadditive category.
@@ -42,43 +46,35 @@ preadditive category.
   the `T`-images, when `T` preserves that coproduct.
 * `Stacks.Cohomology.isCompactObject_of_homAddEquiv`: compactness of `K` transfers from
   compactness of `L` along such a natural bijection.
-* `Stacks.Cohomology.hom_coproduct_bijective_of_isPerfect`: **Stacks 09JC (a)**, bounded-below
-  compactness of a perfect object.
-* `Stacks.Cohomology.isCompactObject_of_isPerfect`: **Stacks 09JC (b)**, compactness of a
-  perfect object on a ringed site of finite cohomological dimension.
+* `Stacks.Cohomology.hom_coproduct_bijective_of_isPerfect`: clause (a) of Stacks 09JC,
+  bounded-below compactness of a perfect object, given the reduction.
+* `Stacks.Cohomology.isCompactObject_of_isPerfect`: clause (b) of Stacks 09JC, compactness of a
+  perfect object on a ringed site of finite cohomological dimension, given the reduction.
 
 ## What this file assumes
 
-The source's reduction rests on Stacks 08JJ. All four of that tag's assertions are in the
-library: `AlgebraicGeometry.RingedSite.isPerfect_derivedDual` (the dual of a perfect object is
-perfect), `AlgebraicGeometry.RingedSite.isIso_derivedBidual_of_isPerfect` (`(K^∨)^∨ ≅ K`),
-`AlgebraicGeometry.RingedSite.derivedDualTensorSheafHomIso` and
-`AlgebraicGeometry.RingedSite.derivedDualTensorGlobalSectionsEquiv`. What is *absent* is the
-identification `H⁰(C, M ⊗^L_O K^∨) = Hom_{D(O)}(K, M)` read off the **canonical** map, which is
-what this file would need: that map is
-`AlgebraicGeometry.RingedSite.derivedTensorDualGlobalSectionsMap` (Stacks 08JD), the equivalence
-just named is built instead from the diagonal of Stacks 0BYS, and, as
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.Duals` records, the two are nowhere
-compared, so no declaration in the library asserts that the canonical map is bijective. Neither is
-the commutation of `K^∨ ⊗^L_O -` with direct sums. Both tagged results below therefore carry, as
-explicit hypotheses, a functor `T` and a natural additive bijection `(K ⟶ -) ≃+ (j_{X!}O_X ⟶ T(-))`
-with `T` preserving the relevant coproducts; this is the reduction "after reformulation as above"
-of the source's proof, and nothing else of Stacks 08JJ is used. Perfectness of `K` is retained as a
-hypothesis because it is what the source's Stacks 08JJ provides this datum for; it is not otherwise
-consumed.
+The source's reduction rests on Stacks 08JJ: `Hom_{D(O)}(K, M) = H⁰(C, M ⊗^L_O K^∨)` naturally in
+`M`, with `K^∨ ⊗^L_O -` commuting with direct sums. The two results below take it as a datum: a
+functor `T` and a natural additive bijection `(K ⟶ -) ≃+ (j_{X!}O_X ⟶ T(-))` with `T` preserving
+the relevant coproducts. Stated this way they also serve Stacks 09J7 on a ringed space, where
+`T` is the identity
+(`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectObjectsOnARingedSpace`).
+The datum for `T = - ⊗^L_O K^∨` is constructed in
+`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectDualReduction` from the bijectivity
+of the canonical map of Stacks 08JD for a perfect source
+(`AlgebraicGeometry.RingedSite.bijective_derivedTensorDualGlobalSectionsMap_of_isPerfect`,
+Stacks 08JJ) and the commutation of the derived tensor product with direct sums
+(`AlgebraicGeometry.RingedSite.preservesColimitsOfShape_derivedTensorFlip`).
 
 Part (a) needs in addition that `T` sends the bounded-below coproduct to a bounded-below object,
-which for the intended `T = K^∨ ⊗^L_O -` follows from the finite tor-amplitude of a perfect
-complex (Stacks 08G8); that implication is not available in the shape needed, so the
-boundedness of `T(⨁ M_i)` is a hypothesis as well.
+which for `T = K^∨ ⊗^L_O -` follows from the finite Tor amplitude of the dual
+(`Stacks.Cohomology.QuasiCompactSite.hasFiniteTorDimension_derivedDual_of_isPerfect`, from
+Stacks 08G8); here it is part of the datum.
 
 Part (b) is stated with the two hypotheses of Stacks 094D: finite cohomological dimension at the
 final object, and the commutation of the higher cohomology functors there with direct sums. In
-the source the latter is supplied by Stacks 0739 from hypotheses (2) and (3) of the tag; that
-derivation is private to the module proving Stacks 0G22,
-`StacksDraft.CategoryTheory.Sites.Cohomology.CompactnessFromCoverings.`
-`CompactnessFromFiniteCoverings`, and is not re-proved here, so hypotheses (2) and (3) enter
-part (b) only through it.
+the source the latter is supplied by Stacks 0739 from hypotheses (2) and (3) of the tag; that is
+`Stacks.Cohomology.preservesCoproducts_rightDerived_evaluation_of_hasIntersectionsIn`.
 
 ## Implementation notes
 
@@ -300,7 +296,8 @@ theorem isCompactObject_of_reduction (X₀ : X.C)
     (CompactExtensionByZero.isCompactObject_singleFunctor_extensionByZeroUnit X X₀ hcd hsums)
     e he
 
-/-- **Stacks 09JC (a).** Let `(C, O)` be a ringed site, let `B` be a collection of objects of `C`
+/-- **Clause (a) of Stacks 09JC, given the reduction.** Let `(C, O)` be a ringed site, let `B`
+be a collection of objects of `C`
 with a cofinal system of finite coverings whose fibre products again lie in `B` — hypotheses (1),
 (2) and (3) of the tag, with `B` the quasi-compact objects — and let `X₀` be a member of `B`, the
 quasi-compact final object of the tag. Let `K` be a perfect object of `D(O)`. If `M : I → D(O)`
@@ -310,10 +307,10 @@ has a bounded-below coproduct, then morphisms from `K` into that coproduct are f
 The hypothesis `hreduce` is the reduction the source performs, and is what perfectness of `K` is
 used for: by Stacks 08JJ the dual `K^∨` satisfies
 `Hom_{D(O)}(K, N) = H⁰(X₀, K^∨ ⊗^L_O N)` naturally in `N`, the functor `T = K^∨ ⊗^L_O -`
-commutes with direct sums, and `T` keeps a bounded-below coproduct bounded below. None of those
-three facts is available in this library — see "What this file assumes" in the module
-documentation — so the reduction is assumed; granted it, this is Stacks 0G22 at `U = X₀`. -/
-@[stacks 09JC "(a) bounded-below compactness; assumes the 08JJ reduction, not formalized"]
+commutes with direct sums, and `T` keeps a bounded-below coproduct bounded below. Here the
+reduction is a datum — see "What this file assumes" in the module documentation — and from it
+this is Stacks 0G22 at `U = X₀`. The reduction is constructed, and Stacks 09JC proved, in
+`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectObjectsOnAQuasiCompactSite`. -/
 theorem hom_coproduct_bijective_of_isPerfect
     (B : Set X.C) (Cov : ∀ U : X.C, Set (PreZeroHypercover.{c} U))
     (hCov : ∀ (U : X.C) (F : PreZeroHypercover.{c} U), Cov U F → F.sieve₀ ∈ X.J U)
@@ -347,7 +344,8 @@ theorem hom_coproduct_bijective_of_isPerfect
   obtain ⟨T, hT, hTplus, e, he⟩ := hreduce hK
   exact hom_coproduct_bijective_of_reduction X B Cov hCov hfinite hcofinal X₀ hX₀ K T e he M hTplus
 
-/-- **Stacks 09JC (b).** Let `(C, O)` be a ringed site, let `X₀` be an object of `C` — the
+/-- **Clause (b) of Stacks 09JC, given the reduction.** Let `(C, O)` be a ringed site, let `X₀`
+be an object of `C` — the
 quasi-compact final object of the tag — and let `K` be a perfect object of `D(O)`. If cohomology
 over `X₀` has finite cohomological dimension, that is `(C, O)` has finite cohomological
 dimension, and if the functors `F ↦ H^p(X₀, F)` commute with direct sums, then `K` is a compact
@@ -356,10 +354,11 @@ object of `D(O)`.
 The hypothesis `hreduce` is the reduction the source performs, and is what perfectness of `K` is
 used for: by Stacks 08JJ the dual `K^∨` satisfies
 `Hom_{D(O)}(K, N) = H⁰(X₀, K^∨ ⊗^L_O N)` naturally in `N`, and `T = K^∨ ⊗^L_O -` commutes with
-direct sums. Neither fact is available in this library — see "What this file assumes" in the
-module documentation — so the reduction is assumed; granted it, this is Stacks 094D at `U = X₀`.
-The hypothesis `hsums` is what hypotheses (2) and (3) of the tag supply through Stacks 0739. -/
-@[stacks 09JC "(b) unbounded compactness; assumes the 08JJ reduction, 0739 sums; not formalized"]
+direct sums. Here the reduction is a datum — see "What this file assumes" in the module
+documentation — and from it this is Stacks 094D at `U = X₀`. The hypothesis `hsums` is what
+hypotheses (2) and (3) of the tag supply through Stacks 0739. The reduction is constructed, and
+Stacks 09JC proved, in
+`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectObjectsOnAQuasiCompactSite`. -/
 theorem isCompactObject_of_isPerfect (X₀ : X.C)
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (hK : X.IsPerfect K)

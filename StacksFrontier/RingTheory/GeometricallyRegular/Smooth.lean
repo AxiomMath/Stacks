@@ -82,7 +82,7 @@ namespace Algebra
 `B`. -/
 @[stacks 07QF "The source's smooth `k`-algebra map `A → B` is `Algebra A B` with \
   `IsScalarTower k A B` and `Algebra.Smooth A B`, the latter being `(algebraMap A B).Smooth` by \
-  `RingHom.smooth_algebraMap` and being Definition 00T2 by Proposition 00TN; geometric regularity \
+  `RingHom.smooth_algebraMap` and being Definition 00T2; geometric regularity \
   is `Algebra.IsGeometricallyRegular` (Definition 0382), which already implies the Noetherianness \
   Definition 0382 assumes. Named after the sibling 07NH, \
   `IsGeometricallyRegular.of_faithfullyFlat`. See the module docstring."]

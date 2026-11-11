@@ -9,8 +9,12 @@ morphisms. This file states that for the split presentation of a stack over a si
 data of a stack is a functor `Cᵒᵖ ⥤ Cat`, and its sheaves of morphisms and the identification of
 their sections with hom-sets in the fibres are carried as data.
 
-That presentation is provisional. At this Mathlib pin the faithful notions are
-`CategoryTheory.Pseudofunctor.IsStack` (which carries tag 026F) for a stack,
+That presentation is ad hoc, and the result here is only a fibrewise variant of Stacks 04WQ.
+Stacks 04WQ itself, for stacks `CategoryTheory.Functor.IsStack` with full faithfulness on the
+total categories, is
+`CategoryTheory.Functor.IsFibredOneMorphism.full_and_faithful_iff_isIso_morSheafMap` in
+`StacksFrontier/CategoryTheory/Sites/Stack/FullyFaithfulIffMorSheafIso.lean`. Other faithful notions
+at this Mathlib pin are `CategoryTheory.Pseudofunctor.IsStack` (which carries tag 026F) for a stack,
 `CategoryTheory.Pseudofunctor.sheafHom` for the sheaf of morphisms, and
 `CategoryTheory.Pseudofunctor.CoGrothendieck.map` for the functor on total categories along which
 full faithfulness of a 1-morphism is measured. `CategoryTheory.Functor.toPseudofunctor'` sends the
@@ -116,16 +120,16 @@ namespace Stack.Hom
 
 variable {T T' : Stack C J}
 
-/-- Condition (1) of Stacks 04WQ, read fibrewise: every induced functor between fibres is full and
-faithful. Stacks asks instead that the 1-morphism be fully faithful on the total categories, which
-for these data is `CategoryTheory.Pseudofunctor.CoGrothendieck.map`. -/
+/-- A fibrewise variant of condition (1) of Stacks 04WQ: every induced functor between fibres is
+full and faithful. Stacks asks instead that the 1-morphism be fully faithful on the total
+categories, which for these data is `CategoryTheory.Pseudofunctor.CoGrothendieck.map`. -/
 def IsFullyFaithful (F : Stack.Hom T T') : Prop :=
   ∀ (U : C),
     Functor.Full (F.η.app (op U)).toFunctor ∧
       Functor.Faithful (F.η.app (op U)).toFunctor
 
-/-- Condition (2) of Stacks 04WQ: every induced morphism of sheaves of morphisms is an
-isomorphism. -/
+/-- Condition (2) of Stacks 04WQ for the carried sheaves of morphisms: every induced morphism of
+sheaves of morphisms is an isomorphism. -/
 def MorSheafIso (F : Stack.Hom T T') : Prop :=
   ∀ (U : C) (x y : (T.data.obj (op U)).α), IsIso (F.onMor U x y)
 
@@ -172,7 +176,7 @@ lemma bijective_onMor_app (F : Stack.Hom T T') (h : F.IsFullyFaithful) (U : C)
     exact hθ.comp (T.sections U x y f).bijective
   simpa using (T'.sections U _ _ f).symm.bijective.comp hcomp
 
-/-- Stacks 04WQ, (1) implies (2). -/
+/-- The fibrewise variant of Stacks 04WQ, (1) implies (2). -/
 lemma morSheafIso_of_isFullyFaithful (F : Stack.Hom T T') (h : F.IsFullyFaithful) :
     F.MorSheafIso := by
   intro U x y
@@ -232,19 +236,21 @@ lemma bijective_map (F : Stack.Hom T T') (h : F.MorSheafIso) (U : C)
     eT.symm.bijective.comp tT.bijective using 1
   exact funext fun φ => map_eq_homCongrEq F U x y φ
 
-/-- Stacks 04WQ, (2) implies (1). -/
+/-- The fibrewise variant of Stacks 04WQ, (2) implies (1). -/
 lemma isFullyFaithful_of_morSheafIso (F : Stack.Hom T T') (h : F.MorSheafIso) :
     F.IsFullyFaithful := fun U =>
   ⟨⟨fun {x y} g => (bijective_map F h U x y).2 g⟩,
    ⟨fun {x y} _ _ hEq => (bijective_map F h U x y).1 hEq⟩⟩
 
-/-- **Stacks 04WQ**. A 1-morphism of stacks is fully faithful if and only if it induces
-isomorphisms on the sheaves of morphisms.
+/-- A 1-morphism of split presentations `Stack.Hom` is fully faithful on every fibre if and only
+if it induces isomorphisms on the carried sheaves of morphisms.
 
-Condition (1) is read fibrewise here rather than on the total categories, which is what makes the
-implication from (2) available without the reduction to strongly cartesian morphisms of the Stacks
-proof; see `Stack.Hom.IsFullyFaithful`. -/
-@[stacks 04WQ]
+This is a fibrewise variant of Stacks 04WQ for the ad-hoc split presentation of this file, not
+Stacks 04WQ itself: condition (1) is read fibrewise rather than on the total categories, and the
+sheaves of morphisms are carried as data. Stacks 04WQ for genuine stacks
+(`CategoryTheory.Functor.IsStack`), with full faithfulness on the total categories and the
+morphism sheaves derived from the fibration, is
+`CategoryTheory.Functor.IsFibredOneMorphism.full_and_faithful_iff_isIso_morSheafMap`. -/
 theorem isFullyFaithful_iff_morSheafIso (F : Stack.Hom T T') :
     F.IsFullyFaithful ↔ F.MorSheafIso :=
   ⟨morSheafIso_of_isFullyFaithful F, isFullyFaithful_of_morSheafIso F⟩

@@ -6,7 +6,6 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.C
 public import StacksFrontier.AlgebraicGeometry.Spaces.ProetaleComparison
 public import StacksFrontier.Homology.DerivedIndexing.Basic
 public import StacksFrontier.RingTheory.Noetherian.Basic
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Finiteness of cohomology and restriction to an open subscheme
@@ -39,8 +38,8 @@ concentrated in degree zero and is a finite `Λ`-module there, then in every deg
 
 * `Stacks.EtaleCohomology.TorsionModules.module_finite_of_exact` — over a Noetherian ring, the
   middle term of a three-term exact sequence of modules with finite outer terms is finite.
-* `Stacks.EtaleCohomology.TorsionModules.module_finite_cohomology_iff_extensionByZero` —
-  **Stacks Tag 0GJE**, in the form described above.
+* `Stacks.EtaleCohomology.TorsionModules.module_finite_cohomology_iff_extensionByZero` — the
+  biconditional described above, the last step of the proof of Stacks Tag 0GJE.
 
 ## Implementation notes
 
@@ -54,39 +53,25 @@ in the other `A^q` sits between `C^{q-1}` and `B^q`, with `C^{q-1}` finite becau
 `C^0` or zero, and `A^0` is a submodule of the finite module `B^0`. Noetherianness of `Λ` enters
 exactly where a submodule of a finite module has to be finite.
 
-**What is assumed, and why.** Two things.
+**The hypotheses, and where they are discharged.** The biconditional below takes three inputs
+as hypotheses, because the results that supply them live in modules importing this one.
 
-*The localization sequence for module coefficients.* Tag 095L is in the tree, but only for
-abelian sheaves — `Stacks.EtaleCohomology.openClosedShortComplex_shortExact` is stated for
-`Sheaf X.smallEtaleTopology AddCommGrpCat`. Its proof is stalkwise and does not transport to
-`ModuleCat Λ` coefficients without an independent argument, so the statement is carried as the
-hypothesis `h095L`, in its general form: universally quantified over every scheme, every closed
-immersion, every open immersion onto the complement and every sheaf of `Λ`-modules, and
-instantiated only inside the proof at `i`, `j` and `ℱ`. It is a different tag, and it mentions
-neither cohomology nor finiteness.
+*The localization sequence for module coefficients* is the hypothesis `h095L`, in its general
+form: universally quantified over every scheme, every closed immersion, every open immersion onto
+the complement and every sheaf of `Λ`-modules, and instantiated only inside the proof at `i`, `j`
+and `ℱ`. It is Tag 095L for these functors, proved as
+`Stacks.EtaleCohomology.TorsionModules.openClosedModuleShortComplex_shortExact` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.RestrictToDenseOpenCurve`.
 
-*The cohomology of the closed part.* The hypotheses `h0` and `hpos` say that
-`H^0(X, i_*i^{-1}ℱ)` is a finite `Λ`-module and that `H^q(X, i_*i^{-1}ℱ)` vanishes for `q > 0`.
-This is **not** a Stacks tag; it is the place where the whole geometric content of Tag 0GJE
-sits, and it is what this file does not deliver. In the source it is obtained as follows: `X` is
-separated of finite type of dimension at most one over an algebraically closed field `k` and
-`X'` is dense, so `Z = X \ X'` is zero-dimensional and hence a finite set of `k`-rational
-points; `i` is a closed immersion, hence finite, so Proposition 03QP and the Leray collapse
-(Lemma 0733) give `H^q(X, i_*i^{-1}ℱ) = H^q(Z, i^{-1}ℱ)`; `Z` is a disjoint union of spectra of
-algebraically closed fields, so that vanishes for `q > 0` and is the direct sum of the stalks
-`ℱ_{x_1}, …, ℱ_{x_n}` in degree zero; and those stalks are finite `Λ`-modules because `ℱ` is
-constructible.
+*The cohomology of the closed part* is the pair of hypotheses `h0` and `hpos`: `H^0(X, i_*i^{-1}ℱ)`
+is a finite `Λ`-module and `H^q(X, i_*i^{-1}ℱ)` vanishes for `q > 0`. They do not hold for an
+arbitrary closed immersion; they hold in the setting of Tag 0GJE, where `X` is separated of
+finite type of dimension at most one over an algebraically closed field, `X'` is dense and `ℱ`
+is constructible, so that `Z` is a finite set of `k`-rational points.
 
-None of the four steps of that chain is available in this repository. Tag 03QP is not proved
-(see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FinitePushforwardStalk.lean`); there is no notion
-of the dimension of a scheme in the tree, only `topologicalKrullDim` of its carrier; the étale
-cohomology of a spectrum of an algebraically closed field with module coefficients is not
-computed; and the stalks of a constructible sheaf of `Λ`-modules
-(`AlgebraicGeometry.IsConstructibleModuleSheaf`) are not shown to be finite. Accordingly the
-hypotheses of the source statement that feed only into that chain — `k` algebraically closed,
-`X` separated of finite type over `k` of dimension at most one, `X'` dense in `X`, and `ℱ`
-constructible — do not appear in the statement below, which is correspondingly more general.
+Tag 0GJE itself, under exactly the hypotheses of the source, is
+`Stacks.EtaleCohomology.TorsionModules.module_finite_cohomology_iff_extensionByZero_of_dense`,
+which discharges all three hypotheses and applies the declaration below.
 
 ## References
 
@@ -234,30 +219,19 @@ abbrev openClosedModuleShortComplex {Z U X : Scheme.{u}} (i : Z ⟶ X) (j : U �
   ShortComplex.mk ((moduleExtensionByZeroAdj.{u, w, r} Λ j).counit.app ℱ)
     ((moduleInverseImageDirectImageAdj.{u, w, r} Λ i).unit.app ℱ) hz
 
-/-- **Stacks Project, Tag 0GJE**, granted Tag 095L for sheaves of `Λ`-modules as the hypothesis
-`h095L`, and the cohomology of `i_*i^{-1}ℱ` as the hypotheses `h0` and `hpos`.
+/-- **The biconditional of Stacks Tag 0GJE, from the localization sequence.**
 
 Let `Λ` be a Noetherian ring, let `X` be a scheme, let `j : X' ⟶ X` be an open immersion and let
 `i : Z ⟶ X` be a closed immersion whose image is the complement of the image of `j`. Let `ℱ` be
-a sheaf of `Λ`-modules on `X_étale`. If `H^0_étale(X, i_*i^{-1}ℱ)` is a finite `Λ`-module and
+a sheaf of `Λ`-modules on `X_étale`. If the localization short complex is short exact for every
+such pair (`h095L`), `H^0_étale(X, i_*i^{-1}ℱ)` is a finite `Λ`-module and
 `H^q_étale(X, i_*i^{-1}ℱ) = 0` for `q > 0`, then for every `q`
 
   `H^q_étale(X, ℱ)` is a finite `Λ`-module  ↔  `H^q_étale(X, j_!j^{-1}ℱ)` is a finite
   `Λ`-module.
 
-The hypothesis `h095L` is the general statement of Tag 095L for sheaves of `Λ`-modules: for
-*every* scheme, *every* closed immersion into it, *every* open immersion onto the complement and
-*every* sheaf of `Λ`-modules, the localization short complex exists and is short exact. It is a
-different tag, it quantifies over all of its own inputs, it is instantiated only inside the
-proof, and it says nothing about cohomology or finiteness.
-
-The hypotheses `h0` and `hpos` are not a Stacks tag. They are the cohomological consequence of
-the geometric hypotheses of the source — `X` separated of finite type of dimension at most one
-over an algebraically closed field, `X'` dense, `ℱ` constructible — and are the part of Tag 0GJE
-this declaration does **not** prove; see the implementation notes of this file for the chain of
-four absent results they stand in for. They concern `i_*i^{-1}ℱ` only, and so are independent of
-the conclusion, which concerns `ℱ` and `j_!j^{-1}ℱ`. -/
-@[stacks 0GJE "granted 095L for Λ-module sheaves as h095L; closed part's cohomology as h0, hpos"]
+This is the last step of the proof of Tag 0GJE; the tag itself, with all three hypotheses
+discharged, is `module_finite_cohomology_iff_extensionByZero_of_dense`. -/
 theorem module_finite_cohomology_iff_extensionByZero
     {X Z X' : Scheme.{u}} (i : Z ⟶ X) (j : X' ⟶ X) [IsClosedImmersion i] [IsOpenImmersion j]
     (hij : Set.range j.base = (Set.range i.base)ᶜ)

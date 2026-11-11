@@ -23,9 +23,11 @@ In Situation [Stacks, Tag 0CX4] let `K` be as in [Stacks, Tag 0CX5] and `W ⊂ X
 * `AlgebraicGeometry.Space.FlatSheafExistenceSituation.IsExistenceNeighbourhood.mono`: the three
   conclusions of Stacks 0CX9 persist on a smaller open subspace still containing `X₀`; this is
   what "possibly shrinking `W`" leaves intact.
-* `FlatSheafExistenceSituation.exists_isExistenceNeighbourhood_hasProperSupport`:
-  **Stacks 0CXA**, for every object `K` with maps `πₙ : K ⟶ Fₙ` and every open subspace `W`
-  with the three conclusions of Stacks 0CX9.
+* `FlatSheafExistenceSituation.exists_isExistenceNeighbourhood_hasProperSupport`: the
+  statement of Stacks 0CXA for every object `K` with maps `πₙ : K ⟶ Fₙ` and every open subspace
+  `W` with the three conclusions of Stacks 0CX9.
+* `FlatSheafExistenceSituation.exists_isExistenceNeighbourhood_hasProperSupport_coheratorObj`:
+  **Stacks 0CXA**, for the `K = DQ_X(R lim Fₙ)` of Stacks 0CX5 with its canonical maps.
 
 ## Implementation notes
 
@@ -124,27 +126,24 @@ theorem IsExistenceNeighbourhood.mono
     rw [Functor.comp_map]
     infer_instance
 
-/-- **Stacks 0CXA.** In Situation 0CX4 let `K` be an object of `D(𝒪_X)` with maps
+/-- **The support of `H⁰(K)|_W` is proper over `A` after shrinking `W`, for any `K`.** In
+Situation 0CX4 let `K` be an object of `D(𝒪_X)` with maps
 `πₙ : K ⟶ Fₙ`, and let `W ⊆ X` be an open subspace with the conclusions of Stacks 0CX9
 (`D.IsExistenceNeighbourhood K π W hW`). Then, after shrinking `W` to an open subspace `W'` which
 still has the conclusions of Stacks 0CX9, the support of `F = H⁰(K)|_{W'}` is proper over `A`.
 
-This covers the source's statement as written: its `K` is that of Stacks 0CX5,
+Stacks 0CXA is the case of the `K` of Stacks 0CX5,
 `K = DQ_X(R lim Fₙ)`, here `(spaceQuasicoherentProp _ _ _ _).ι.obj (DQ.obj L)` with the maps
 `D.derivedLimitProjection adj p` for a coherator `adj : ι ⊣ DQ` and a triangle `p` presenting
 `L = R lim_{D(𝒪_X)} Fₙ`, and its `W` is any open subspace with the conclusions of Stacks 0CX9
-for that `K`, which is what `D.IsExistenceNeighbourhood K π W hW` says; the statement below is
-the special case of the one for every `K` and every such `W`.
+for that `K`, which is what `D.IsExistenceNeighbourhood K π W hW` says; that case is
+`exists_isExistenceNeighbourhood_hasProperSupport_coheratorObj`.
 
 The source's proof, at the first level: `F` restricted to `X₁` is `F₁` by part (3) of
 Stacks 0CX9, since `W` contains `X₀ = |X₁|`; so the support of `F` meets `X₁` in the support of
 `F₁`, proper over `A₁`, and
 `AlgebraicGeometry.Space.FlatSheafExistenceSituation.exists_isOpenSubspace_hasProperSupport`
 (the henselian pair `(A, Ker(A → A₁))` and Stacks 0CWI) shrinks `W`. -/
-@[stacks 0CXA "the full statement: for every K with maps to the Fₙ (in particular the K of 0CX5 \
-with its canonical maps) and every W with the three conclusions of 0CX9, a smaller open W', \
-still with those conclusions, on which the support of H⁰(K)|_W' is proper over A; nothing is \
-granted or assumed"]
 theorem exists_isExistenceNeighbourhood_hasProperSupport
     {K : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left}
     {π : ∀ n : ℕ, K ⟶ D.derivedSystem.obj (op n)} {W : Subfunctor D.X.left.1}
@@ -223,6 +222,48 @@ theorem exists_isExistenceNeighbourhood_hasProperSupport
     rintro T _ rfl _ _ h
     exact h
   exact ⟨hset ▸ hcl, key _ _ hset hcl _ hp⟩
+
+open CategoryTheory.Pretriangulated in
+/-- **Stacks 0CXA.** In Situation 0CX4 let `K = DQ_X(L)` be as in Stacks 0CX5: `DQ_X` is a
+coherator (`adj : ι ⊣ DQ_X`) and `L ⟶ ∏ Fₙ ⟶ ∏ Fₙ ⟶ L[1]` (first map `p`) presents `L` as
+`R lim_{D(𝒪_X)} Fₙ`, with the canonical maps `K ⟶ Fₙ`. Let `W ⊂ X` be as in Stacks 0CX9: an
+open subspace containing `X₀` with `Hⁱ(K)|_W = 0` for `i ≠ 0`, `H⁰(K)|_W` of finite
+presentation and `Fₙ = H⁰(K)|_W ⊗ 𝒪_{Xₙ}`. Then after shrinking `W` to an open subspace `W'`
+(which again is as in Stacks 0CX9) the support of `F = H⁰(K)|_{W'}` is proper over `A`. -/
+@[stacks 0CXA "the full statement: for every coherator DQ_X and every presentation of \
+L = R lim F_n in D(O_X), K = DQ_X(L) with its canonical maps K → F_n, and every open W as in \
+0CX9 for that K, there is a smaller open W', again as in 0CX9, on which the support of \
+H^0(K)|_W' is proper over A"]
+theorem exists_isExistenceNeighbourhood_hasProperSupport_coheratorObj
+    {DQ : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left ⥤
+      (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).FullSubcategory}
+    (adj : (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).ι ⊣ DQ)
+    {L : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left}
+    (p : L ⟶ ∏ᶜ fun n : ℕ => D.derivedSystem.obj ⟨n⟩)
+    (_ : ∃ δ : (∏ᶜ fun n : ℕ => D.derivedSystem.obj ⟨n⟩) ⟶ L⟦(1 : ℤ)⟧,
+      Triangle.mk p (Pi.lift fun n : ℕ => Pi.π (fun n : ℕ => D.derivedSystem.obj ⟨n⟩) n -
+        Pi.π (fun n : ℕ => D.derivedSystem.obj ⟨n⟩) (n + 1) ≫
+          D.derivedSystem.map (homOfLE (Nat.le_succ n)).op) δ ∈
+        distTriang (spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left))
+    {W : Subfunctor D.X.left.1} {hW : IsOpenSubspace D.B D.S D.containsLimitBase W}
+    (hN : D.IsExistenceNeighbourhood
+      ((spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).ι.obj (DQ.obj L))
+      (D.derivedLimitProjection adj p) W hW) :
+    ∃ (W' : Subfunctor D.X.left.1) (hW' : IsOpenSubspace D.B D.S D.containsLimitBase W')
+      (_ : W' ≤ W), D.IsExistenceNeighbourhood
+        ((spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).ι.obj (DQ.obj L))
+        (D.derivedLimitProjection adj p) W' hW' ∧
+      ∃ hlft : IsLocallyOfFiniteType D.B D.S D.containsLimitBase (W'.ι ≫ D.X.hom.hom),
+        HasProperSupport D.B D.S D.containsLimitBase hW'.1
+          (schemeSpace (limitBaseObject D.system D.B D.containsLimitBase)).2
+          (W'.ι ≫ D.X.hom.hom) hlft
+          ((SheafOfModules.toSheaf _).obj
+            ((modulePullback D.B D.S D.containsLimitBase
+              (openSubspaceHom D.B D.S D.containsLimitBase W' hW')).obj
+                ((spaceDerivedHomology D.B D.S D.containsLimitBase D.X.left 0).obj
+                  ((spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).ι.obj
+                    (DQ.obj L))))) :=
+  D.exists_isExistenceNeighbourhood_hasProperSupport hN
 
 end FlatSheafExistenceSituation
 

@@ -21,10 +21,15 @@ sections on `X`, and it is an isomorphism at every injective sheaf.
 
 ## Main results
 
-* `exists_hypercoverToDerivedSections`: **[Stacks, Tag 01GY]**, the comparison map.
-* `exists_cechCohomologyToSheafCohomology`: **[Stacks, Tag 01GY]**, the natural transformations
-  it induces on cohomology in every degree, from the Čech cohomology of the hypercovering to
-  sheaf cohomology on `X`.
+* `exists_hypercoverToDerivedSections`: a comparison map as in [Stacks, Tag 01GY], compatible
+  with the augmentation and invertible at injective sheaves.
+* `exists_cechCohomologyToSheafCohomology`: the natural transformations such a map induces on
+  cohomology in every degree, from the Čech cohomology of the hypercovering to sheaf cohomology
+  on `X`.
+
+The statement of [Stacks, Tag 01GY] itself, with the explicit comparison map
+`hypercoverComparisonMap` and the spectral sequence, is in
+`StacksFrontier.CategoryTheory.Sites.Hypercovering.CohomologyComparisonDegreewise`.
 * `hypercoverDerivedHomologyIso`: the cohomology of `s(-(K))` read in `D⁺(Ab)` is the cohomology
   of the complex, which is what makes the source of those transformations Čech cohomology.
 
@@ -104,9 +109,9 @@ local instance wEqualsLocallyBijective_sheafAddCommGrpCat :
 
 attribute [local instance] enoughInjectives_sheafAddCommGrpCat
 
-/-- **Stacks Project, Tag 01GY.**  For a hypercovering `K` of an object `X` of a site with fibre
-products there are a canonical map `ψ` from the sections on `X` to derived sections at the single
-complex, and a map
+/-- **A comparison map as in [Stacks, Tag 01GY].**  For a hypercovering `K` of an object `X` of a
+site with fibre products there are a canonical map `ψ` from the sections on `X` to derived
+sections at the single complex, and a map
 
 `α : s(-(K)) ⟶ RΓ(X, -)`
 
@@ -116,7 +121,6 @@ sections on `X`; and both are isomorphisms at every injective sheaf.
 The last clause is what makes the statement non-vacuous: by
 `StacksDraft.DerivedSectionsComparison.isZero_of_pin_zero`, `α = 0` would force `Q(s(I(K)))` to be
 a zero object for every injective `I`. -/
-@[stacks 01GY "the comparison map s(F(K)) ⟶ RΓ(X, F) in D⁺(Ab), functorial in F"]
 theorem exists_hypercoverToDerivedSections (hK : IsHypercovering J K) :
     ∃ (ψ : (sheafSectionsFunctor.{w} J X ⋙ singlePlus AddCommGrpCat.{max u v w}) ⋙
           DerivedCategory.Plus.Q ⟶ derivedSectionsFunctor.{w} J X)
@@ -151,7 +155,7 @@ noncomputable def hypercoverDerivedHomologyIso (i : ℤ) :
   Functor.isoWhiskerLeft (hypercoverCochainIntFunctor.{w} J X K)
     (DerivedCategory.homologyFunctorFactors AddCommGrpCat.{max u v w} i)
 
-/-- **Stacks Project, Tag 01GY.**  The comparison map of
+/-- **The cohomology maps of [Stacks, Tag 01GY].**  The comparison map of
 `exists_hypercoverToDerivedSections` induces, in every degree `i`, a natural transformation
 
 `Ȟ^i(K, -) ⟶ H^i(X, -)`
@@ -162,7 +166,6 @@ sheaf.
 The source is the `i`-th cohomology of the complex `s(-(K))` itself, i.e. the Čech cohomology of
 the hypercovering, and the target is the `i`-th cohomology of `RΓ(X, -)`, i.e. sheaf cohomology on
 `X`.  The invertibility at injectives is again what rules out the zero transformation. -/
-@[stacks 01GY "the induced natural transformations Ȟ^i(K, -) ⟶ H^i(X, -)"]
 theorem exists_cechCohomologyToSheafCohomology (hK : IsHypercovering J K) :
     ∃ β : ∀ i : ℤ,
         (hypercoverCochainIntFunctor.{w} J X K ⋙

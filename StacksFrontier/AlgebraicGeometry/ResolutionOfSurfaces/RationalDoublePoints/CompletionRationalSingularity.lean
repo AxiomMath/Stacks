@@ -19,6 +19,8 @@ the closed points of the blowup of `Spec(A)` in `𝔪`, is
 `AlgebraicGeometry.isNormalDomain_adicCompletion_stalk_blowUp_maximalIdeal`, which takes the
 normality of the blowup of `Spec(A^)` in the maximal ideal of `A^` as a hypothesis. Clause (1)
 discharges that hypothesis, so clause (2) is restated here with the source's hypotheses on `A`.
+Both clauses with no further hypotheses are
+`AlgebraicGeometry.definesRationalSingularity_adicCompletion_and_isNormalDomain_stalk_blowUp`.
 
 ## Main results
 

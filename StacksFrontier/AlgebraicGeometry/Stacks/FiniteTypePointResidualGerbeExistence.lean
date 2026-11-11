@@ -10,9 +10,14 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.LocalImageFieldPointCover
 Let `𝒳` be an algebraic stack over `S` and let `x ∈ |𝒳|`. **Stacks 06G3** says that `x` is a
 finite type point exactly when there is a one-point algebraic stack with a
 locally-of-finite-type 1-morphism to `𝒳` whose image on points is `{x}`, and exactly when the
-residual gerbe of `𝒳` at `x` exists with locally-of-finite-type inclusion. This file proves the
-one implication `StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointResidualGerbe` carried as a
-hypothesis — (1) ⟹ (3) — and restates the tag with nothing assumed.
+residual gerbe of `𝒳` at `x` exists with locally-of-finite-type inclusion.
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointResidualGerbe` proves (3) ⟹ (2) and
+(2) ⟹ (1) and states (1) ⟹ (3) as the proposition
+`AlgebraicGeometry.Stack.ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint`; it cannot
+prove it, since the proof here imports it. This file proves that proposition and assembles the
+three implications into **Stacks 06G3**, which is registered here only: the equivalence
+`AlgebraicGeometry.Stack.isFiniteTypePoint_tfae` there, which takes (1) ⟹ (3) as a hypothesis, is
+superseded by `AlgebraicGeometry.Stack.isFiniteTypePoint_tfae_unconditional`.
 
 ## The route
 

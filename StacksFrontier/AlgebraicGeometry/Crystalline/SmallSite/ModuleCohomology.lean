@@ -169,8 +169,8 @@ What is **not** proved here:
   directly, so neither needs a universe-lift circumlocution.  Neither is proved: both reduce,
   through formula (07MK) of [Stacks, Tag 07MJ] and the distinguished triangle of
   [Stacks, Tag 07ML], to [Stacks, Tag 07LG], which is
-  `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-  `SmallSite/CrystalDeRhamComputesCohomology.lean`; the reduction itself is not carried out.
+  `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+  `SmallSite/CrystalDeRhamDerived07LG.lean`; the reduction itself is not carried out.
 
   The statements in `CrisModuleDirectImage.lean` ask for quasi-coherence alone, which is this
   library's spelling of "crystal in quasi-coherent modules".  They do not also carry

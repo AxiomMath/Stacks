@@ -197,7 +197,8 @@ public theorem epi_twistMap_of_eventually_surjective (ψ : 𝒜 →+*ᵍ ℬ)
 
 /-- If `ψ` is surjective on homogeneous components of all sufficiently large degree, then the
 twist maps of the bundle `projMapData 𝒜 ℬ ψ` are epimorphisms of sheaves of modules. -/
-@[stacks 01N0 "twist_surjective"]
+@[stacks 01N0 "part (3), first half: θ : r_ψ^* 𝒪(n) ⟶ 𝒪(n) is surjective for every n when \
+A_d → B_d is surjective for all d ≫ 0"]
 public theorem epi_projMapData_twistMap_of_eventually_surjective (ψ : 𝒜 →+*ᵍ ℬ)
     (hψ : ∀ᶠ d : ℕ in atTop, Function.Surjective (GradedRingHom.gradedAddHom ψ d))
     (n : ℤ) : Epi ((projMapData 𝒜 ℬ ψ).twistMap n) := by

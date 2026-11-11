@@ -37,7 +37,9 @@ right derived functor of that on the unbounded derived category.
 * `AlgebraicGeometry.RingedToposHom.derivedGlobalSectionsPullbackIso`: the isomorphism
   `RΓ(D, -) ≅ Lf^* ⋙ RΓ(C, -)` for a morphism of ringed topoi with invertible structure map.
 * `Stacks.CategoryTheory.Hypercovering.derivedGlobalSectionsPullbackIsoOfHypercovering`:
-  the same for the ringed augmentation of a hypercovering, which is **Stacks 0DA1**.
+  the same for the ringed augmentation of a hypercovering, from three hypotheses. Stacks 0DA1
+  itself is `derivedLinearGlobalSectionsPullbackIsoOfHypercovering`, in
+  `HypercoveringModuleDerivedGlobalSectionsUnconditional.lean`.
 
 ## Main results
 
@@ -47,25 +49,26 @@ right derived functor of that on the unbounded derived category.
   factorisation that is not formal, and it is proved rather than assumed: `f_*` is the right
   adjoint of the exact functor `f^*`.
 
-## What Stacks 0DA1 still lacks here
+## The three hypotheses, and where they are proved
 
-`Stacks.CategoryTheory.Hypercovering.derivedGlobalSectionsPullbackIsoOfHypercovering` carries
-three named hypotheses, and says so in its clause string.
+`Stacks.CategoryTheory.Hypercovering.derivedGlobalSectionsPullbackIsoOfHypercovering` takes three
+hypotheses, all of which this library proves, in
+`HypercoveringModuleCohomologicalDescentUnconditional.lean` and
+`HypercoveringModuleDerivedGlobalSectionsUnconditional.lean` in this directory:
 
-* `hunit` and `hacyclic` are the two inputs of this library's Stacks 0DA0, inherited unchanged
-  from `Stacks.CategoryTheory.Hypercovering`
-  `.isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`: the first is Stacks 0D8E in its
-  module form, that the underived unit `M ⟶ a_*a^*M` is an
-  isomorphism, and the second is that `a^*` of a K-injective complex computes `R a_*`. See the
-  module docstring of `HypercoveringModuleCohomologicalDescent.lean`, in this directory, for why
-  neither is available.
-* `hΓ` is the **underived** identity `Γ(C, a_*M) = Γ((C/K)_total, M)` on sheaves of modules, on
-  which Stacks 08J6 rests. It is the statement that the composition of `a` with the morphism to
-  the punctual topos is the morphism to the punctual topos, and it is not available in this
-  library for the same reason as its abelian counterpart, the hypothesis `hΓ` of this library's
-  Stacks 0D8H: `CategoryTheory.Sheaf.Γ` is the right adjoint of
-  `CategoryTheory.constantSheaf`, so the identity amounts to `a⁻¹` carrying a constant abelian
-  sheaf to a constant abelian sheaf, and nothing in Mathlib or in this development says that.
+* `hunit`, the module form of Stacks 0D8E, that the underived unit `M ⟶ a_*a^*M` is an
+  isomorphism: `CategoryTheory.SimplicialSemiRepresentable`
+  `.isIso_pullbackAdjPushforwardModules_unit_of_hypercoveringOfTerminal`;
+* `hacyclic`, that `a^*` of a K-injective complex computes `R a_*`:
+  `CategoryTheory.SimplicialSemiRepresentable`
+  `.pullbackComputesDerivedPushforward_of_hypercoveringOfTerminal`;
+* `hΓ`, the underived identity `Γ(C, a_*M) = Γ((C/K)_total, M)` on which Stacks 08J6 rests:
+  `pushforwardModulesGlobalSectionsIsoOfHypercovering`.
+
+The declaration with these supplied is
+`derivedGlobalSectionsPullbackIsoOfHypercoveringOfTerminal`.
+Stacks 0DA1 in the source's reading, in `D(Γ(C, O_C))`, is
+`derivedLinearGlobalSectionsPullbackIsoOfHypercovering`.
 
 What is *not* assumed is the derived content: the factorisation
 `R a_* ⋙ RΓ(C, -) ≅ RΓ((C/K)_total, -)` is proved from `hΓ` by
@@ -109,7 +112,7 @@ sheaf of modules valued in modules over the global sections of the structure she
 state an isomorphism between objects of two *different* module categories, over `Γ(C, O_C)` and
 over `Γ((C/K)_total, O)`, so it additionally needs the restriction of scalars along
 `Γ(C, O_C) ⟶ Γ((C/K)_total, O)` and its compatibility with the total right derived functors.
-That comparison is not built here.
+That comparison is built in `HypercoveringModuleDerivedGlobalSectionsUnconditional.lean`.
 
 Global sections are additive because they are a right adjoint, hence preserve binary products. A
 global-sections functor exists for every site here because `AddCommGrpCat` has limits of the
@@ -162,7 +165,7 @@ instance additive_abelianGlobalSections : (Sheaf.Γ Z.J AddCommGrpCat.{u}).Addit
 instance additive_moduleGlobalSections : (moduleGlobalSections Z).Additive :=
   inferInstanceAs
     ((SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⋙
-    Sheaf.Γ Z.J AddCommGrpCat.{u})).Additive
+      Sheaf.Γ Z.J AddCommGrpCat.{u})).Additive
 
 /-- `RΓ(C, -)`: the total right derived functor of global sections of sheaves of modules on a
 ringed topos, on the unbounded derived category, valued in `D(Ab)`. -/
@@ -223,8 +226,8 @@ def derivedGlobalSectionsPushforwardIso
 /-! ### Derived global sections are unchanged by the derived pullback -/
 
 /-- **`RΓ(D, E) = RΓ(C, Lf^*E)` for a morphism of ringed topoi with invertible structure map**,
-granted the two inputs of this library's Stacks 0DA0 and the underived identity
-`Γ(D, f_*M) = Γ(C, M)`.
+granted the two inputs `hunit` and `hacyclic` of `isIso_derivedPullbackPushforwardUnit` and the
+underived identity `Γ(D, f_*M) = Γ(C, M)`.
 
 The isomorphism is the canonical map `E ⟶ R f_* Lf^* E`, which `hunit` and `hacyclic` make
 invertible, followed by the factorisation `R f_* ⋙ RΓ(D, -) ≅ RΓ(C, -)`. It is an isomorphism of
@@ -261,36 +264,19 @@ attribute [local instance]
 variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : Pretopology C)
   (H : HypercoveringOfTerminal.{u, u} J) (OC : Sheaf J.toGrothendieck CommRingCat.{u})
 
-/-- **Stacks 0DA1**, granted the inputs the library does not have. For a site `C` with equalizers
-and fibre products, a sheaf of commutative rings `O_C` on it, a hypercovering `K` of `C` and the
-ringed augmentation `a : (Sh((C/K)_total), O) ⟶ (Sh(C), O_C)` of Stacks 0D9W with `O = a⁻¹O_C`,
-derived global sections on `C` are derived global sections on the total site of the derived
-pullback:
+/-- **`RΓ(C, E) = RΓ((C/K)_total, La^*E)` in `D(Ab)`, from three hypotheses.** For a site `C`
+with equalizers and fibre products, a sheaf of commutative rings `O_C` on it, a hypercovering `K`
+of `C` and the ringed augmentation `a : (Sh((C/K)_total), O) ⟶ (Sh(C), O_C)` of Stacks 0D9W with
+`O = a⁻¹O_C`, derived global sections on `C` are derived global sections on the total site of the
+derived pullback, as an isomorphism of functors on the unbounded derived category `D(O_C)`, both
+sides read in `D(Ab)` with the module structure of global sections forgotten.
 
-`RΓ(C, E) = RΓ((C/K)_total, La^*E)`.
-
-The statement is an isomorphism of functors on the *unbounded* derived category `D(O_C)` of
-sheaves of `O_C`-modules, so it holds at every object `E` with no boundedness assumption, which
-is the form the source states.
-
-Three hypotheses are carried. `hunit` and `hacyclic` are the two inputs of this library's
-Stacks 0DA0, inherited unchanged from
-`isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`: the first is Stacks 0D8E in its
-module form, that the underived unit `M ⟶ a_*a^*M` is an isomorphism, and the second is that
-`a^*` of a K-injective complex computes `R a_*`. `hΓ` is the underived identity
-`Γ(C, a_*M) = Γ((C/K)_total, M)` on which the factorisation of Stacks 08J6 rests; it is
-unavailable here for the same reason as its abelian counterpart in this library's Stacks 0D8H,
-namely that nothing says the inverse image of a morphism of topoi carries a constant abelian
-sheaf to a constant abelian sheaf. The derived content of Stacks 08J6 is *not* assumed: see the
-module docstring.
-
-Both sides are read in `D(Ab)`: global sections of a sheaf of modules are taken with the module
-structure forgotten, the source's `D(Γ(C, O_C))` reading being unavailable in this library. -/
-@[stacks 0DA1 "granted the two inputs of this library's Tag 0DA0 -- the module form of Tag 0D8E \
-as hunit and the Ra_*-acyclicity of a^* of a K-injective complex as hacyclic -- and granted the \
-underived identity Γ(C, a_*M) = Γ(total, M) of Tag 08J6 as hΓ. Unbounded: the isomorphism is of \
-functors on all of D(O_C). Both sides are read in D(Ab), the module structure of global sections \
-over Γ(C, O_C) being forgotten"]
+The hypotheses are `hunit`, the module form of Stacks 0D8E; `hacyclic`, that `a^*` of a
+K-injective complex computes `R a_*`; and `hΓ`, the underived identity
+`Γ(C, a_*M) = Γ((C/K)_total, M)` of Stacks 08J6. All three are proved in this library, and
+`derivedGlobalSectionsPullbackIsoOfHypercoveringOfTerminal` is this declaration with them
+supplied. Stacks 0DA1, in the source's reading in `D(Γ(C, O_C))`, is
+`derivedLinearGlobalSectionsPullbackIsoOfHypercovering`. -/
 def derivedGlobalSectionsPullbackIsoOfHypercovering
     (hunit : IsIso (AlgebraicGeometry.RingedToposHom.pullbackAdjPushforwardModules
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).unit)

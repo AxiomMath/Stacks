@@ -18,9 +18,20 @@ with
 
 and records that **formation of `U(ψ) ⊆ X` commutes with pullback by any morphism `X' ⟶ X`**.
 
-This file carries that out in the form the relative Proj of an algebraic space is available at in
-this library: through the scheme points of `X`.  An algebraic space is a sheaf on the big fppf
-site (`AlgebraicGeometry.IsAlgebraicSpace`, [Stacks, Tag 025Y]), and
+**This file does not formalize Tag 0D2Y**, and none of its declarations carries the tag.  The
+datum `GradedPowerMapPoints` below is an unconstrained family of per-scheme-point data with no
+comparison between the data at two scheme points, so it determines no subspace of `X`, and its
+pullback compatibility `locus_comap` holds by definition.  The situation of Tag 0D2Y, with
+`U(ψ)` an open subspace of `X` (`…InvertibleTwistingRestriction.locus`) cut out by the loci where
+the positive-degree components of `ψ` are surjective, and with `U(g^*ψ) = g^{-1}(U(ψ))` for every
+morphism `g : X' ⟶ X`, is
+`AlgebraicGeometry.Space.RelativeProjSituation.InvertibleTwistingRestriction.tag0D2Y` in
+`StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjInvertibleSpaceLocusPullback.lean`.
+
+This file carries out a per-scheme-point shadow of the situation in the form the relative Proj
+of an algebraic space is available at in this library: through the scheme points of `X`.  An
+algebraic space is a sheaf on the big fppf site (`AlgebraicGeometry.IsAlgebraicSpace`,
+[Stacks, Tag 025Y]), and
 `AlgebraicGeometry.Space.GradedAlgebraPoints` presents a graded algebra on it by its restriction
 `x^*𝒜` to each scheme point `x`, which is how
 `StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjQuadruples.lean` builds the functor of
@@ -29,31 +40,32 @@ quadruples of [Stacks, Tag 084A] and how
 presented the same way: by the open it cuts on each scheme point of `X`, computed there by the
 scheme-level construction of [Stacks, Tag 01O8] in
 `StacksFrontier/AlgebraicGeometry/RelativeProjInvertibleMorphism/Locus.lean`.  In that presentation
-the pullback of `U(ψ)` along `g : X' ⟶ X` is the family reindexed along `g`, so the tag's
-compatibility assertion is the equality `GradedPowerMapPoints.locus_comap` below — the same
+the pullback of the family along `g : X' ⟶ X` is the family reindexed along `g`, so the
+equality `GradedPowerMapPoints.locus_comap` below holds by definition and is no substitute for
+the tag's compatibility assertion — the same
 phenomenon that makes `AlgebraicGeometry.Space.GradedAlgebraPoints.comap_algebra` an equality
 rather than a comparison isomorphism.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.GradedPowerMapPoints`: the data of [Stacks, Tag 0D2Y], localised at
-  the scheme points of `X` — for every scheme point `x` of `X` the restriction of `f^*𝒜` to it,
+* `AlgebraicGeometry.Space.GradedPowerMapPoints`: a shadow of the data of [Stacks, Tag 0D2Y],
+  localised at the scheme points of `X` with no comparison between them — for every scheme
+  point `x` of `X` the restriction of `f^*𝒜` to it,
   together with the restrictions of `ℒ` and of the homogeneous components of `ψ` as the datum
   `Stacks.AlgebraicGeometry.RelativeProjInvertibleMorphism.GradedPowerMap` of
   [Stacks, Tag 01O8].
 * `AlgebraicGeometry.Space.GradedPowerMapPoints.comap`: the pullback of that data along a
   morphism `g : X' ⟶ X` of algebraic spaces, the reindexing along `g`.
-* `AlgebraicGeometry.Space.GradedPowerMapPoints.locus`: **the open `U(ψ) ⊆ X` of
-  [Stacks, Tag 0D2Y]**, as the open it cuts on each scheme point of `X`.
+* `AlgebraicGeometry.Space.GradedPowerMapPoints.locus`: the family of opens, one on each scheme
+  point of `X`, that the open `U(ψ) ⊆ X` of [Stacks, Tag 0D2Y] would cut there.
 
 ## Main results
 
 * `…GradedPowerMapPoints.mem_locus_iff`: **membership in `U(ψ)`.**  A point of a scheme point of
   `X` lies in `U(ψ)` exactly when the value of `ψ` at some homogeneous section of positive degree
   of `f^*𝒜` over some affine open does not vanish there.
-* `…GradedPowerMapPoints.locus_comap`: **formation of `U(ψ) ⊆ X` commutes with pullback by a
-  morphism `X' ⟶ X`.**  The open that `U(g^*ψ)` cuts on a scheme point `x'` of `X'` is the open
-  that `U(ψ)` cuts on `x' ∘ g`.
+* `…GradedPowerMapPoints.locus_comap`: the family of the reindexed data on a scheme point `x'`
+  of `X'` is the family of the data on `x' ∘ g`, by definition.
 * `…GradedPowerMapPoints.openOfPositiveSection_le_locus` and
   `…GradedPowerMapPoints.nonvanishingOpenAt_le_locus`: each member of the family lies in
   `U(ψ)`, so with `mem_locus_iff` the open is the union of the tag and not merely one containing
@@ -101,7 +113,11 @@ Tag 084C]), or on test objects `AlgebraicGeometry.Space.GradedAlgebraPoints.F` w
 
 ## Not done here
 
-* **No open-subspace subfunctor is constructed.**  An open subspace in this library is a
+* **No open-subspace subfunctor is constructed here.**  It is constructed, for the datum with
+  comparisons, as
+  `AlgebraicGeometry.Space.RelativeProjSituation.InvertibleTwistingRestriction.locus` in
+  `StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjInvertibleSpace.lean`.  An open subspace in
+  this library is a
   `CategoryTheory.Subfunctor` satisfying `AlgebraicGeometry.Space.IsOpenSubspace`, and
   `AlgebraicGeometry.Space.openSubspaceOfPoints` builds one from an open subset of
   `AlgebraicGeometry.Space.points`.  Assembling the family below into such a subset needs the
@@ -145,7 +161,10 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### The data -/
 
-/-- **The data of [Stacks, Tag 0D2Y], localised at the scheme points of `X`.**
+/-- **A per-scheme-point shadow of the data of [Stacks, Tag 0D2Y].**  No comparison between the
+data at two scheme points is recorded, so this does not determine a sheaf or a subspace on `X`;
+the data of the tag is
+`AlgebraicGeometry.Space.RelativeProjSituation.InvertibleTwistingRestriction`.
 
 For every object `T` of the big fppf site and every `T`-point `x` of the algebraic space `X`: the
 restriction `x^*(f^*𝒜)` of the pulled-back graded algebra to the scheme underlying `T`, together
@@ -192,27 +211,20 @@ public def comap (P : GradedPowerMapPoints B S hS X) (g : X' ⟶ X) :
 
 /-! ### The open `U(ψ)` -/
 
-/-- **The open subspace `U(ψ) ⊆ X` of [Stacks, Tag 0D2Y]**, presented by the open it cuts on each
-scheme point of `X`: on a `T`-point `x`, the open `U(ψ)` of [Stacks, Tag 01O8] of the restricted
+/-- **The family of opens attached to the per-scheme-point data**: on a `T`-point `x`, the open
+`U(ψ)` of [Stacks, Tag 01O8] of the restricted
 data, that is the union of the opens on which the values of `ψ` at the homogeneous sections of
 positive degree of `f^*𝒜` over the affine opens of the scheme of `T` do not vanish.
 
-This is the source of the morphism `r_{ℒ,ψ} : U(ψ) ⟶ Proj_Y(𝒜)` of [Stacks, Tag 0D2Z].  On each
-scheme point it is an abbreviation of
+On each scheme point it is an abbreviation of
 `Stacks.AlgebraicGeometry.RelativeProjInvertibleMorphism.GradedPowerMap.coveringOpen` of the
 restricted data (it is reducible), and it is reasoned about through that open's characterising
 lemmas.
 
-Two things the present tag asks for are absent, and both are recorded here rather than in the
-attribute.  Tag 0D2Y describes the same open as the union of the loci where `f^*𝒜_d ⟶ ℒ^{⊗ d}`
-is surjective; identifying the two descriptions still needs the stalk of the pullback `f^*𝒜_d`
-computed as a tensor product, for which see the "Not done here" section of
-`StacksFrontier/AlgebraicGeometry/RelativeProjInvertibleMorphism/Locus.lean`.  And the family of
-opens below is not assembled into an open-subspace subfunctor object. -/
-@[stacks 0D2Y "the open U(psi) of the situation, presented by the opens it cuts on the scheme \
-points of X; on a scheme point it is the union, over the homogeneous sections of positive degree \
-of f^*A over the affine opens, of the opens where the value of psi does not vanish, which is the \
-description of Tag 01O8"]
+The family is not assembled into a subspace of `X`.  The open subspace `U(ψ)` of
+[Stacks, Tag 0D2Y], with its description by the surjectivity loci of the components of `ψ`, is
+`AlgebraicGeometry.Space.RelativeProjSituation.InvertibleTwistingRestriction.locus` (see
+`…InvertibleTwistingRestriction.tag0D2Y`). -/
 public def locus (P : GradedPowerMapPoints B S hS X) (T : BigFppfOver B S hS)
     (x : yoneda.obj T ⟶ X) : ((BigFppfOver.toScheme B S hS).obj T).Opens :=
   (P.pow T x).coveringOpen
@@ -243,12 +255,10 @@ public theorem exists_mem_openOfPositiveSection_of_mem_locus
     ∃ p : PositiveSection (P.algebra T x), z ∈ (P.pow T x).openOfPositiveSection p :=
   (P.pow T x).exists_mem_openOfPositiveSection_of_mem_coveringOpen hz
 
-/-- **Membership in `U(ψ)`.**  A point of the scheme of `T` lies in the open that `U(ψ)` cuts on
+/-- **Membership in the family of opens.**  A point of the scheme of `T` lies in the open that
+`U(ψ)` cuts on
 a `T`-point `x` of `X` exactly when the value of `ψ` at some homogeneous section of positive
 degree of `f^*𝒜` over some affine open does not vanish there. -/
-@[stacks 0D2Y "membership in U(psi): a point of a scheme point of X lies in U(psi) exactly when \
-the value of psi at some homogeneous section of f^*A of positive degree over some affine open \
-does not vanish there"]
 public theorem mem_locus_iff (P : GradedPowerMapPoints B S hS X) (T : BigFppfOver B S hS)
     (x : yoneda.obj T ⟶ X) {z : (BigFppfOver.toScheme B S hS).obj T} :
     z ∈ P.locus T x ↔
@@ -257,13 +267,11 @@ public theorem mem_locus_iff (P : GradedPowerMapPoints B S hS X) (T : BigFppfOve
 
 /-! ### Compatibility with pullback -/
 
-/-- **Formation of `U(ψ) ⊆ X` commutes with pullback by a morphism `g : X' ⟶ X` of algebraic
-spaces**, the final assertion of [Stacks, Tag 0D2Y].  The open that `U(g^*ψ)` cuts on a scheme
-point `x'` of `X'` is the open that `U(ψ)` cuts on the scheme point `x' ∘ g` of `X`, which is the
-open that the pullback of `U(ψ)` along `g` cuts on `x'`. -/
-@[simp, stacks 0D2Y "formation of U(psi) commutes with pullback by a morphism of algebraic \
-spaces X' -> X: the open cut by U(g^*psi) on a scheme point x' of X' is the open cut by U(psi) \
-on x' composed with g"]
+/-- **The family of opens of the reindexed data along `g : X' ⟶ X`** is, on a scheme point `x'`
+of `X'`, the open of the data on `x' ∘ g`; this holds by definition of the reindexing.  The
+pullback assertion of [Stacks, Tag 0D2Y], for the open subspace `U(ψ)`, is
+`AlgebraicGeometry.Space.RelativeProjSituation.InvertibleTwistingRestriction.locus_comap`. -/
+@[simp]
 public theorem locus_comap (P : GradedPowerMapPoints B S hS X) (g : X' ⟶ X)
     (T : BigFppfOver B S hS) (x : yoneda.obj T ⟶ X') :
     (P.comap g).locus T x = P.locus T (x ≫ g) :=

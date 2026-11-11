@@ -313,8 +313,13 @@ public theorem freeHom_stalk_surjective_iff_span (s : I → F.sections) (x : X) 
     (LinearEquiv.range (freeStalkLinearEquiv O_X x I).symm), freeHom_stalk_range]
   rfl
 
-/-- A family of global sections generates a sheaf of modules if and only if its germs at
-every point generate the corresponding stalk. -/
+/-- **Global sections generate a sheaf of modules iff their germs generate every stalk.** Let
+`O_X` be a sheaf of rings on a topological space `X`, `F` a sheaf of `O_X`-modules and
+`s : I → Γ(X, F)` a family of global sections. The sections generate `F`, that is, the morphism
+`⨁_{i ∈ I} O_X ⟶ F` they determine (`F.freeHomEquiv.symm s`) is an epimorphism of sheaves of
+`O_X`-modules, if and only if for every `x : X` the germs `s_{i,x}` span the stalk `F_x` as a
+module over `O_{X,x}`. -/
+@[stacks 01AN]
 public theorem generates_iff_stalkwise_generates (s : I → F.sections) :
     Epi (F.freeHomEquiv.symm s) ↔
       ∀ x : X,

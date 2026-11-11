@@ -28,7 +28,10 @@ rings, which is the class of **Stacks 0ANG**.
 * `AlgebraicGeometry.FormalSpace.isCountablyWeaklyAdmissible_pi`: `WAdm^count` is stable under
   finite products.
 * `AlgebraicGeometry.FormalSpace.hasProperty_tfae_of_isLocallyCountablyIndexed`:
-  **Stacks 0ANG**, the equivalence of its three conditions.
+  the equivalence of the three conditions of Stacks 0ANG, with the invariance of `P` under
+  isomorphism of sources and of targets as two arguments; Stacks 0ANG itself, for Situation
+  0CBA's notion of a local property, is
+  `AlgebraicGeometry.FormalSpace.hasProperty_tfae_of_isLocallyCountablyIndexed_of_isLocal`.
 
 ## References
 
@@ -156,8 +159,9 @@ homomorphism presenting the morphism of formal spectra through rings of `WAdm^co
 
 This is `AlgebraicGeometry.FormalSpace.hasProperty_tfae_isCountablyWeaklyAdmissible_of_etale` at
 the étale case of Stacks 0AJH,
-`AlgebraicGeometry.FormalSpace.representableEtaleOverAffineIsFormal`. -/
-@[stacks 0ANG]
+`AlgebraicGeometry.FormalSpace.representableEtaleOverAffineIsFormal`. The form taking the
+invariance clause of Situation 0CBA in the single form `TopologicalRing.PropertyIsLocal'` is
+`AlgebraicGeometry.FormalSpace.hasProperty_tfae_of_isLocallyCountablyIndexed_of_isLocal`. -/
 theorem hasProperty_tfae_of_isLocallyCountablyIndexed
     (hP : TopologicalRing.PropertyIsLocal P TopologicalRing.IsCountablyWeaklyAdmissible)
     (hsrc : PropertyIsInvariantUnderSourceIso.{u} TopologicalRing.IsCountablyWeaklyAdmissible P)

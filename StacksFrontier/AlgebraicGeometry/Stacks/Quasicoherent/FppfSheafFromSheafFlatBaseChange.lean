@@ -406,8 +406,9 @@ theorem isSheaf_fppf_of_isLocallyQuasicoherentWithSheafFlatBaseChange
 /-- **Stacks 0771, part (1)**, the clause "it is an object of `Mod(𝒪_𝒳)`": a member of
 `LQCoh^fbc(𝒪_𝒳) ⊆ Mod(𝒳_ét, 𝒪_𝒳)` on an algebraic stack is a module on the fppf site, with the
 same underlying presheaf of modules, and it lies in `LQCoh^fbc(𝒪_𝒳) ⊆ Mod(𝒪_𝒳)`. -/
-@[stacks 0771 "part (1), the clause `i.e. it is an object of Mod(𝒪_𝒳)`: the fppf module a member \
-  of LQCoh^fbc is, again in LQCoh^fbc"]
+@[stacks 0771 "part (1), the clause `i.e. it is an object of Mod(𝒪_𝒳)`: a member of LQCoh^fbc on \
+  the étale site of an algebraic stack, as an object of LQCoh^fbc(𝒪_𝒳) ⊆ Mod(𝒪_𝒳) with the same \
+  underlying presheaf of modules"]
 noncomputable def fppfModuleOfLqcohSheafFbc (𝒳 : AlgebraicStacks.{u, w} B S hS)
     (G : SheafOfModules.{u} (ringStructureSheafCore B S hS 𝒳.val.val.p
       𝒳.val.isFiberedInGroupoids (etaleTopology B) (etaleTopology_le_topology B)))

@@ -41,8 +41,12 @@ variable {S X : Scheme.{u}}
 `W ⊆ S` be a quasi-compact open subscheme and let `U ⊆ W` be a quasi-compact open subscheme.
 Let `f : X ⟶ W` be proper and let `s : U ⟶ X` satisfy `s ≫ f = U.ι`. Then there is a
 `U`-admissible blowup `b : S' ⟶ S` and a morphism `s' : b⁻¹(W) ⟶ X` with `s' ≫ f = b|_{b⁻¹(W)}`
-extending `s`, the extension being witnessed by a morphism `t : U ⟶ b⁻¹(W)` over `W`. -/
-@[stacks 0CP1 "the conclusion in full, under exactly the source's hypotheses (1)-(3)"]
+extending `s`, the extension being witnessed by a morphism `t : U ⟶ b⁻¹(W)` over `W`.
+
+The two results [Stacks, Tag 081T] uses are supplied by
+`AlgebraicGeometry.cartierBoundaryReduction` and
+`AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`. -/
+@[stacks 0CP1 "the full statement, under the source's hypotheses (1)-(3)"]
 theorem exists_isAdmissibleBlowup_extending_section_of_qcqs [CompactSpace S]
     [QuasiSeparatedSpace S] (W : S.Opens) (U : W.toScheme.Opens) (hW : IsCompact (W : Set S))
     (hU : IsCompact (U : Set W.toScheme)) (f : X ⟶ W.toScheme) [IsProper f]

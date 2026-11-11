@@ -42,6 +42,15 @@ The two sides of either law live in cohomology modules of degrees, `(i + j) + k`
 transposed product, is transported along the equality of degrees by
 `AlgebraicGeometry.SheafOfModules.reindexDeRhamCohomology`.
 
+Tag 0FM3 is registered on the two laws of this file and on the two clauses of its proof about the
+wedge product, `AlgebraicGeometry.SheafOfModules.wedgeProduct_summand_assoc` and
+`AlgebraicGeometry.SheafOfModules.wedgeProduct_summand_comm`. It is not registered on
+`AlgebraicGeometry.SheafOfModules.deRhamCupProduct_assoc` and
+`AlgebraicGeometry.SheafOfModules.deRhamCupProduct_comm`: those are about the cup product induced
+by a parameter `AlgebraicGeometry.SheafOfModules.HypercohomologyCupProduct` standing in for
+Section 0FKU, and hold only through the laws that parameter carries, whereas
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup` is constructed.
+
 ## References
 
 * [Stacks Project, Tag 0FM3](https://stacks.math.columbia.edu/tag/0FM3)

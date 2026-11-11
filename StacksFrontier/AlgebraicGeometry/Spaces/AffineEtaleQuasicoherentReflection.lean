@@ -169,9 +169,9 @@ for module sections in the universe of the schemes. It is
 discharged by the reflection of quasi-coherence under restriction to the affine charts,
 `isQuasicoherentOnSite_of_isQuasicoherentOnSite_affineEtaleModuleRestriction`, so it is the
 restriction of the derived restriction functor
-`AlgebraicGeometry.Space.affineEtaleDerivedRestrictionEquivalence`. -/
-@[stacks 0H06 "the equivalence of (1) D_QCoh(O_X) and (2) D_QCoh(X_affine_etale, O_X), induced \
-by derived restriction, for module sections in the universe of the schemes"]
+`AlgebraicGeometry.Space.affineEtaleDerivedRestrictionEquivalence`.  It is not registered under
+Stacks 0H06: the tag is carried by `AlgebraicGeometry.Space.quasicoherentDerivedAffineEtaleChain`
+and its exactness companions, at the module universe of the chain. -/
 noncomputable def quasicoherentDerivedAffineEtaleRestrictionEquivalence :
     QuasicoherentDerivedCategory.{u, u} B S hS F hF ≌
       affineEtaleQuasicoherentDerivedCategory B S hS F hF :=

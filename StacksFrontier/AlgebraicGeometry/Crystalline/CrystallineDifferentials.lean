@@ -25,7 +25,11 @@ Over an open `W` of `T` both that restriction and the presheaf of divided power 
 the differentials of the same set of base sections, read through the two mutually inverse
 identifications `Γ(W, 𝒪_T) ≅ Γ(W, 𝒪_W)`.  Hence they are isomorphic as presheaves of
 `𝒪_T`-modules, compatibly with the universal differentials, and the sheaf `Ω_{T/S,δ}` is the
-sheaf associated with the restriction of `Ω_{X/S}`; this is [Stacks, Tag 07IZ].
+sheaf associated with the restriction of `Ω_{X/S}`.  This presheaf-level comparison is the input
+of [Stacks, Tag 07IZ], which is stated and proved for the *sheaf* `Ω_{X/S}` on the small
+crystalline site in `SmallSite/CrystallineDifferentialsSheaf.lean`
+(`Crystalline.GlobalCrystallineSituation.SmallSite.crysDifferentialsSheafRestrictionIso` and
+`...SmallSite.crysDifferentialsSheafRestrictionIso_hom_app_d`).
 
 ## Main definitions
 
@@ -55,9 +59,10 @@ sheaf associated with the restriction of `Ω_{X/S}`; this is [Stacks, Tag 07IZ].
 * `Crystalline.GlobalCrystallineSituation.crysSDerivation_isUniversal` — `d_{X/S}` is universal:
   every `S`-derivation of the structure presheaf of `CRIS(X/S)` is obtained from it by a unique
   map of presheaves of modules.
-* `Crystalline.GlobalCrystallineSituation.comparisonIso` — **Stacks, Tag 07IZ**: the restriction
-  of `Ω_{X/S}` to the ambient scheme of `(U, T, δ)` is isomorphic, as a presheaf of
-  `𝒪_T`-modules, to the presheaf of divided power differentials of `T` over `S`.
+* `Crystalline.GlobalCrystallineSituation.comparisonIso` — the restriction of the presheaf
+  `Ω_{X/S}` to the ambient scheme of `(U, T, δ)` is isomorphic, as a presheaf of `𝒪_T`-modules,
+  to the presheaf of divided power differentials of `T` over `S`; the presheaf-level input of
+  [Stacks, Tag 07IZ].
 * `Crystalline.GlobalCrystallineSituation.comparisonHom_app_d` and
   `restrictedToSheaf_app_d` — the comparison carries `d_{T/S,δ}` to the restriction of `d_{X/S}`,
   before and after sheafification.
@@ -76,21 +81,21 @@ while the `V = ⊤` object does not.  The base ring of the ring-level constructi
 ring, and `Γ(S, 𝒪_S)` is used for that; the `V` quantifier is carried entirely by the set of
 constants that is divided out.
 
-What of [Stacks, Tag 07IZ] is proved: the two assertions of the tag, for the big crystalline
-category `CRIS(X/S)` of [Stacks, Tag 07I6] in place of the small site `Cris(X/S)`, and at the
-level of presheaves of `𝒪_T`-modules.  Namely `comparisonIso` is an isomorphism of presheaves of
-`𝒪_T`-modules between the restriction of `Ω_{X/S}` to `T` and the presheaf whose sheafification
-is `Ω_{T/S,δ}`, and `restrictedToSheaf_app_d` says that the induced map into `Ω_{T/S,δ}` carries
-the restriction of `d_{X/S}` to `d_{T/S,δ}`.
-
-What is *not* proved: that the restriction of `Ω_{X/S}` to `T` is already a sheaf, so the
-comparison is stated with the presheaf of [Stacks, Tag 07IY] and only a morphism — not an
-isomorphism — is produced into the sheaf `Ω_{T/S,δ}` itself; and nothing is said about the small
-crystalline site `Cris(X/S)` of [Stacks, Tag 07IG] or about the crystalline structure sheaf
-`𝒪_{X/S}`, neither of which the library has.  Relatedly, `Ω_{X/S}` is not shown to be a sheaf for
-`Crystalline.GlobalCrystallineSituation.topology`: that would need the base change stability of
-crystalline Zariski covering families, [Stacks, Tag 07IA], which the library does not have.  No
-part of the statements here refers to the topology.
+The object `crysDifferentials` here is the *presheaf* `(U, T, δ) ↦ Ω_{Γ(T, 𝒪_T)/Γ(V, 𝒪_V), δ}`,
+not the sheaf `Ω_{X/S}` of [Stacks, Section 60.12]: over an object whose ambient scheme is not
+affine its sections are the divided power differentials of the global functions, which in
+general is a strictly smaller group than the global sections of the sheaf.  So the comparison
+results of this file are statements about presheaves of `𝒪_T`-modules: `comparisonIso`
+identifies the restriction of the presheaf `Ω_{X/S}` to `T` with the presheaf whose
+sheafification is `Ω_{T/S,δ}`, and `restrictedToSheaf_app_d` says that the induced map into
+`Ω_{T/S,δ}` carries the restriction of the presheaf-level `d_{X/S}` to `d_{T/S,δ}`.  They are the
+input of [Stacks, Tag 07IZ], whose statement is about the sheaf `Ω_{X/S}` on the small site
+`Cris(X/S)` and is proved, from these results, in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrystallineDifferentialsSheaf.lean`: there
+`Ω_{X/S}` is the sheaf associated with the presheaf of this file, with its universal
+`S`-derivation, and its restriction to `T_Zar` is shown to be isomorphic to `Ω_{T/S,δ}` as a
+sheaf of `𝒪_T`-modules, compatibly with the universal derivations.  No part of the statements
+here refers to the topology.
 
 Three spellings have to be managed by hand.  The ring `Γ(W, 𝒪_T)` of sections over an open and
 the ring `Γ(⊤, 𝒪_W)` of global sections of the open subscheme are the same ring presented
@@ -111,9 +116,7 @@ transparency, so the proofs are written in term mode rather than with `rw` and `
 * [Stacks Project, Tag 07HR](https://stacks.math.columbia.edu/tag/07HR)
 * [Stacks Project, Tag 07I6](https://stacks.math.columbia.edu/tag/07I6)
 * [Stacks Project, Tag 07IG](https://stacks.math.columbia.edu/tag/07IG) — the small crystalline
-  site, which the library does not have.
-* [Stacks Project, Tag 07IA](https://stacks.math.columbia.edu/tag/07IA) — base change stability of
-  crystalline Zariski covering families, which the library does not have.
+  site, on which the sheaf `Ω_{X/S}` is built in `SmallSite/CrystallineDifferentialsSheaf.lean`.
 -/
 
 @[expose] public noncomputable section
@@ -636,10 +639,10 @@ theorem openTopRes_naturality_apply
     ((congrArg (fun φ : Γ(A.thickening.target.scheme, W.unop) ⟶ Γ(W'.unop.toScheme, ⊤) ↦ φ b)
         (Thickening.openTopRes_naturality A i)).trans (CommRingCat.comp_apply _ _ b))
 
-/-- **Stacks Project, Tag 07IZ, the comparison morphism.**  The universal property of the presheaf
-of divided power differentials of `T` over `S` applied to the restriction of `d_{X/S}`: a morphism
-of presheaves of `𝒪_T`-modules from `Ω_{T/S,δ}` before sheafification to the restriction of
-`Ω_{X/S}`, carrying `d_{T/S,δ}` to the restriction of `d_{X/S}`. -/
+/-- **The comparison morphism, input of [Stacks, Tag 07IZ].**  The universal property of the
+presheaf of divided power differentials of `T` over `S` applied to the restriction of `d_{X/S}`:
+a morphism of presheaves of `𝒪_T`-modules from `Ω_{T/S,δ}` before sheafification to the
+restriction of `Ω_{X/S}`, carrying `d_{T/S,δ}` to the restriction of `d_{X/S}`. -/
 def comparisonHom (A : Thickening S) :
     dpDifferentialsPresheaf A.thickening.target S.S.scheme A.toBase.hom ⟶
       restrictedCrysDifferentials S A where
@@ -776,10 +779,13 @@ def comparisonIsoApp (W : A.thickening.target.scheme.Opens) :
   inv_hom_id :=
     ModuleCat.hom_ext (LinearMap.ext fun m ↦ comparisonApp_comparisonAppInv₀ A W m)
 
-/-- **Stacks Project, Tag 07IZ.**  The restriction of `Ω_{X/S}` to the ambient scheme of an object
-`(U, T, δ)` of `CRIS(X/S)` is the presheaf of divided power differentials of `T` over `S`, and the
-isomorphism carries `d_{T/S,δ}` to the restriction of `d_{X/S}`. -/
-@[stacks 07IZ "the module identification, at the level of presheaves"]
+/-- **The restriction of the presheaf `Ω_{X/S}` to the ambient scheme of an object `(U, T, δ)` of
+`CRIS(X/S)` is the presheaf of divided power differentials of `T` over `S`**, as presheaves of
+`𝒪_T`-modules, and the isomorphism carries the presheaf-level `d_{T/S,δ}` to the restriction of
+`d_{X/S}` (`comparisonHom_app_d`).  This is an identification of presheaves; [Stacks, Tag 07IZ],
+about the sheaf `Ω_{X/S}`, is
+`Crystalline.GlobalCrystallineSituation.SmallSite.crysDifferentialsSheafRestrictionIso`, which is
+deduced from it. -/
 def comparisonIso (A : Thickening S) :
     dpDifferentialsPresheaf A.thickening.target S.S.scheme A.toBase.hom ≅
       restrictedCrysDifferentials S A :=
@@ -790,20 +796,24 @@ def comparisonIso (A : Thickening S) :
 theorem comparisonIso_hom (A : Thickening S) :
     (comparisonIso A).hom = comparisonHom A := rfl
 
-/-- **Stacks Project, Tag 07IZ, at the level of the sheaf.**  The sheaf `Ω_{T/S,δ}` of divided
-power differentials receives the restriction of `Ω_{X/S}` to `T`, through the comparison
-isomorphism followed by the unit of the sheafification; so `Ω_{T/S,δ}` is the sheaf associated
-with the restriction of `Ω_{X/S}`. -/
+/-- **The restriction of the presheaf `Ω_{X/S}` to `T`, mapped into the sheaf `Ω_{T/S,δ}`**,
+through the comparison isomorphism followed by the unit of the sheafification; so `Ω_{T/S,δ}` is
+the sheaf associated with the restriction of the presheaf `Ω_{X/S}`.  This is only a morphism of
+presheaves of `𝒪_T`-modules; the isomorphism of sheaves of [Stacks, Tag 07IZ] is
+`Crystalline.GlobalCrystallineSituation.SmallSite.crysDifferentialsSheafRestrictionIso`. -/
 def restrictedToSheaf (A : Thickening S) :
     restrictedCrysDifferentials S A ⟶
       (Scheme.Modules.toPresheafOfModules A.thickening.target.scheme).obj
         (dpDifferentialsSheaf A.thickening.target S.S.scheme A.toBase.hom) :=
   (comparisonIso A).inv ≫ dpDifferentialsToSheaf A.thickening.target S.S.scheme A.toBase.hom
 
-/-- **Stacks Project, Tag 07IZ, on derivations.**  The comparison carries the restriction of
-`d_{X/S}` to `d_{T/S,δ}`: the section of the restriction of `Ω_{X/S}` over `W` given by the
-restricted universal `S`-derivation of a section `b` is sent to `d_{T/S,δ} b`. -/
-@[simp, stacks 07IZ "the derivations correspond"]
+/-- **The comparison carries the restriction of the presheaf-level `d_{X/S}` to `d_{T/S,δ}`**: the
+section of the restriction of the presheaf `Ω_{X/S}` over `W` given by the restricted universal
+`S`-derivation of a section `b` is sent to `d_{T/S,δ} b`.  The corresponding statement for the
+sheaf `Ω_{X/S}`, part of [Stacks, Tag 07IZ], is
+`Crystalline.GlobalCrystallineSituation.SmallSite.crysDifferentialsSheafRestrictionIso_hom_app_d`.
+-/
+@[simp]
 theorem restrictedToSheaf_app_d (A : Thickening S) (W : A.thickening.target.scheme.Opens)
     (b : Γ(A.thickening.target.scheme, W)) :
     ((restrictedToSheaf A).app (op W)).hom

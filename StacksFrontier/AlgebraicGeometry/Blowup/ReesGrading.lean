@@ -45,6 +45,7 @@ The decomposition is built from `DirectSum.mk` over the polynomial support.
 ## References
 
 * [Stacks Project, Tag 01OG](https://stacks.math.columbia.edu/tag/01OG)
+* [Stacks Project, Tag 052Q](https://stacks.math.columbia.edu/tag/052Q), part (1)
 * [Stacks Project, Tag 0804](https://stacks.math.columbia.edu/tag/0804)
 -/
 
@@ -229,8 +230,11 @@ instance instDecompositionReesGrading : DirectSum.Decomposition (reesGrading I) 
       exact (coe_eq_monomial I (x n).2).symm)))
 
 /-- **The Rees algebra is a graded algebra.** The ideal powers `Iⁿ`, placed in degree `n`,
-decompose `R[It]`. -/
-@[ega "III 4.1.7.7"]
+decompose `R[It]`. This is the blowup algebra `Bl_I(R) = ⨁_{n ≥ 0} Iⁿ` of Stacks 052Q (1): the
+`R`-algebra `reesAlgebra I` with this grading, whose degree-`n` part is `Iⁿ` by
+`reesGradingEquivPow`. -/
+@[ega "III 4.1.7.7", stacks 052Q "(1) the blowup (Rees) algebra Bl_I(R) = ⨁ₙ Iⁿ as a graded \
+  R-algebra: `reesAlgebra I` graded by `reesGrading I`, degree n part ≅ Iⁿ (`reesGradingEquivPow`)"]
 instance instGradedAlgebraReesGrading : GradedAlgebra (reesGrading I) where
 
 /-- The degree-zero part of the Rees algebra is `R`. -/

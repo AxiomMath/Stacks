@@ -64,9 +64,18 @@ variable (D : CoherentSituation B S hS)
 
 /-! ### Stacks 08W5 -/
 
-/-- In the situation of Stacks 08KB the projection `p : Coh_{X/Y} ⟶ (Sch/S)_fppf`, which sends
-an object `(T, g, F)` to its test scheme `T`, is fibred in groupoids. -/
-@[stacks 08W5]
+/-- **Stacks 08W5.**  In the situation of Stacks 08KB the projection
+`p : Coh_{X/Y} ⟶ (Sch/S)_fppf`, which sends an object `(T, g, F)` to its test scheme `T`, is
+fibred in groupoids.
+
+`Coh_{X/Y}` is the category of Stacks 08KB as constructed in
+`AlgebraicGeometry.Space.CoherentSituation.categoryData`: its objects are
+`AlgebraicGeometry.Space.CoherentObject` (a test scheme `T` over `Y` and a quasi-coherent
+`𝒪_{X_T}`-module of finite presentation, flat over `T`, with support proper over `T`), and its
+morphisms are `AlgebraicGeometry.Space.CoherentHom` (a morphism `h` of test schemes and an
+isomorphism `(X_h)^*F' ⟶ F`).  The base-change stability the lifting half needs is the proved
+`AlgebraicGeometry.Space.modulePullbackStabilityOfFinitePresentation`, so nothing is assumed. -/
+@[stacks 08W5 "Coh_{X/Y} with the category structure of Stacks 08KB; no hypotheses"]
 theorem projection_isFiberedInGroupoids :
     letI : Category.{u + 1} (CoherentObject D) := D.categoryData.category
     Functor.IsFiberedInGroupoids

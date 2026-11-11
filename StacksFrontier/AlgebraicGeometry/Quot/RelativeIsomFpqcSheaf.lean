@@ -137,7 +137,8 @@ isomorphism; the base changes `{X_{U i} ⟶ X_T}` form an fpqc covering of `X_T`
 and invertibility descends along it by Stacks 04W8,
 `AlgebraicGeometry.Space.reflectsIsoAlongFpqcCovering`, the base-changed modules being
 quasi-coherent by Stacks 03GA. -/
-@[stacks 08K8]
+@[stacks 08K8 "the functor Isom(F, G) of Situation 08JT satisfies the sheaf property for \
+every fpqc covering"]
 theorem isSheafFor_isomFunctor_of_isFpqcCovering {I : Type v} {T : s.SchemesOver}
     {U : I → s.SchemesOver} (g : ∀ i, U i ⟶ T)
     (hg : IsFpqcCovering B S hS fun i ↦ ((schemeSpaceFunctor B S hS).map (g i).left).hom) :

@@ -27,8 +27,8 @@ canonical action of the square-zero ideal is the identity.
 of propositions, and `Deformation.ToposThickening.isFlatLiftCorrespondence` proves it.
 `Deformation.ToposThickening.IsFlatLiftClassCorrespondence` is the same dictionary with its
 second clause strengthened to a **bijection of isomorphism classes**, which is what the
-principal homogeneous statement of Stacks 08MU needs, and this file **proves** that, so that it
-is no longer a hypothesis of Stacks 08MU.
+principal homogeneous statement of Stacks 08MU needs; this file **proves** it, and from it
+Stacks 08MU.
 
 ## Main results
 
@@ -46,15 +46,17 @@ is no longer a hypothesis of Stacks 08MU.
   between the isomorphism classes of flat lifts of `ℱ` and the isomorphism classes of extensions
   of `ℱ` by `I ⊗_O ℱ` with action map the identity.
 * `Deformation.ToposThickening.isFlatLiftClassCorrespondence`: **the class-level dictionary
-  itself**, which discharges
+  itself**, which proves
   `Deformation.ToposThickening.IsFlatLiftClassCorrespondence`.
-The dictionary is what makes **Stacks 08MU** unconditional: it is supplied, not assumed, to
-`Deformation.ToposThickening.flatLiftClass_torsor` in
-`StacksFrontier/Deformation/ToposThickening/FlatLiftTorsors.lean`. The vocabulary the dictionary is
-stated over — `Deformation.ToposThickening.FlatLift`,
+* `Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass`: **Stacks 08MU**, from the
+  dictionary and Stacks 08ME. The same statement with the action of the source's proof made
+  explicit is `Deformation.ToposThickening.exists_addTorsor_flatLiftClass` in
+  `StacksFrontier/Deformation/ToposThickening/FlatLiftClassTorsor.lean`.
+
+The vocabulary the dictionary is stated over — `Deformation.ToposThickening.FlatLift`,
 `Deformation.ToposThickening.FlatLiftClass` and
-`Deformation.ToposThickening.IsFlatLiftClassCorrespondence` itself — lives in that same module,
-which this one imports.
+`Deformation.ToposThickening.IsFlatLiftClassCorrespondence` itself — lives in
+`StacksFrontier/Deformation/ToposThickening/FlatLiftTorsors.lean`, which this one imports.
 
 ## How the proof goes
 
@@ -443,9 +445,8 @@ square is strict and that `ℱ` is flat over `O_ℬ`, a flat lift of `ℱ` force
 classes of flat lifts of `ℱ` are in bijection with the isomorphism classes of extensions of `ℱ`
 by `I ⊗_O ℱ` of Stacks 08MB whose canonical action of the square-zero ideal is the identity.
 
-This discharges `Deformation.ToposThickening.IsFlatLiftClassCorrespondence`, which used to be
-carried as a hypothesis at Stacks 08MU; `Deformation.ToposThickening.flatLiftClass_torsor` now
-supplies it from here. -/
+This proves `Deformation.ToposThickening.IsFlatLiftClassCorrespondence`, which is what
+`Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass` (Stacks 08MU) uses. -/
 theorem isFlatLiftClassCorrespondence
     [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))] :
     IsFlatLiftClassCorrespondence.{_, _, _, _, _, _, _, _, _, _, _, e}
@@ -459,6 +460,32 @@ theorem isFlatLiftClassCorrespondence
   exact ⟨flatLiftClassEquivFixedActionExtensionClass i t f f' hi ht comm F hstrict hF
     ((isIso_idealTensorComparison_iff_isIso_canonicalFirstFactor i t f f' hi ht comm
       F).mp hiso)⟩
+
+/-- **Stacks 08MU.** Let `(f, f')` be a strict morphism of first order thickenings of ringed
+topoi as in Situation 08M7 and let `ℱ` be an `O`-module flat over `O_ℬ`. If `ℱ` has at least one
+lift to an `O'`-module flat over `O_{ℬ'}`, then the isomorphism classes of such lifts form a
+principal homogeneous set under `Ext¹_O(ℱ, I ⊗_O ℱ)`.
+
+The proof is the source's: Stacks 08MQ makes the canonical map `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` an
+isomorphism, which identifies the lifts with the extensions of `ℱ` by `I ⊗_O ℱ` whose action map
+is the identity (`Deformation.ToposThickening.isFlatLiftClassCorrespondence`), and those form a
+principal homogeneous set by Stacks 08ME (through
+`Deformation.ToposThickening.flatLiftClass_torsor`). The same statement with the action of the
+source's proof made explicit is `Deformation.ToposThickening.exists_addTorsor_flatLiftClass`. -/
+@[stacks 08MU]
+theorem nonempty_addTorsor_flatLiftClass
+    [HasExt.{e} (SheafOfModules.{w}
+      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))]
+    [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))]
+    (hstrict : (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).IsStrict)
+    (hflat : IsFlatOverBase i f F) (hne : Nonempty (FlatLift i f' hi F)) :
+    Nonempty (AddTorsor
+      (Abelian.Ext.{e} F
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', w, w, w}
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F) 1)
+      (FlatLiftClass i f' hi F)) :=
+  flatLiftClass_torsor i t f f' hi ht comm F hstrict hflat
+    (isFlatLiftClassCorrespondence.{_, _, _, _, _, _, _, _, _, _, _, e} i t f f' hi ht comm F) hne
 
 end Statement
 

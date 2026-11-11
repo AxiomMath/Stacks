@@ -16,14 +16,14 @@ an immediate consequence of its pointwise form, Stacks tag 05IH, and that is how
 here: the only extra content is the passage from the pointwise statement to the set equality,
 which is `Stacks.Divisors.mem_iUnion_fiberι_associatedPoints_iff` below.
 
-Two forms are given, matching what the library has for the pointwise statement. The first is
-the full equality, conditional on the algebraic input
-`Stacks.Divisors.LocalWeaklyAssociatedTensorFormula` of tag 05II, exactly as tag 05IH is
-conditional on it. The second is the inclusion `⊆`, which needs no such input: it rests on the
-forward implication of tag 05IH of
-`StacksFrontier.AlgebraicGeometry.Flatness.WeaklyAssociatedTensorPullbackFibre` and therefore
-inherits its one restriction, finite generation of the maximal ideals of the local rings
-of `S`.
+Two forms are given. The first is the full equality, taking the algebraic input
+`Stacks.Divisors.LocalWeaklyAssociatedTensorFormula` of tag 05II as an argument. That input is
+proved, as `Stacks.Divisors.weaklyAssociatedPrimesTensorFormula`, in
+`StacksFrontier.AlgebraicGeometry.Flatness.WeaklyAssociatedTensorPullbackFormula`, which supplies
+it and states tag 05IJ itself as `Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq`.
+The second is the inclusion `⊆` from the forward implication of tag 05IH of
+`StacksFrontier.AlgebraicGeometry.Flatness.WeaklyAssociatedTensorPullbackFibre`, under that
+implication's extra hypothesis of finitely generated maximal ideals on the local rings of `S`.
 
 ## Main results
 
@@ -34,11 +34,11 @@ of `S`.
 * `Stacks.Divisors.iUnion_fiberι_associatedPoints_eq`: that union is the part of the relative
   assassin of tag 05AT lying over `T`.
 * `Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq_of_localFormula` and
-  `Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq_of_formula`: **tag 05IJ**, the full
-  equality, from the local and from the global form of the algebraic input of tag 05II.
-* `Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_subset`: **tag 05IJ**, the inclusion
-  `⊆`, unconditionally, under the tag's own hypotheses together with finitely generated maximal
-  ideals on `S`.
+  `Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq_of_formula`: the full equality of
+  tag 05IJ, from the local and from the global form of the algebraic input of tag 05II.
+* `Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_subset`: the inclusion `⊆` of tag
+  05IJ, with no algebraic input, under the tag's own hypotheses together with finitely
+  generated maximal ideals on `S`.
 
 ## Implementation notes
 
@@ -105,7 +105,7 @@ theorem iUnion_fiberι_associatedPoints_eq {X S : Scheme.{u}} (f : X ⟶ S) (F :
     mem_relativeAssassin_iff_isAssociatedPoint_asFiber, Set.mem_preimage]
   exact and_comm
 
-/-- **Stacks Project, Tag 05IJ**, from the local form of the algebraic formula of tag 05II. Let
+/-- Tag 05IJ from the local form of the algebraic formula of tag 05II, taken as an argument. Let
 `f : X ⟶ S` be locally of finite type, let `F` be a finite-type quasi-coherent `𝒪_X`-module
 flat over `S`, and let `G` be a quasi-coherent `𝒪_S`-module. The weakly associated points of
 `F ⊗_{𝒪_X} f^*G` are the points of the fibres `X_s` over weakly associated points `s` of `G`
@@ -113,9 +113,9 @@ that are associated to the restriction of `F` to `X_s`.
 
 This is the source's own proof: the pointwise statement is tag 05IH, available here as
 `Stacks.Divisors.isWeaklyAssociatedPoint_tensorPullback_iff_of_localFormula`, and the passage
-to the set equality is `Stacks.Divisors.mem_iUnion_fiberι_associatedPoints_iff`. -/
-@[stacks 05IJ "the set equality, conditional on the algebraic formula of Tag 05II, carried \
-here by the hypothesis `LocalWeaklyAssociatedTensorFormula`, which this library does not prove"]
+to the set equality is `Stacks.Divisors.mem_iUnion_fiberι_associatedPoints_iff`. The input is
+proved as `Stacks.Divisors.weaklyAssociatedPrimesTensorFormula`, and the tag itself is
+`Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq`. -/
 theorem weaklyAssociatedPoints_tensorPullback_eq_of_localFormula
     (hformula : LocalWeaklyAssociatedTensorFormula.{u})
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f]
@@ -134,9 +134,9 @@ theorem weaklyAssociatedPoints_tensorPullback_eq_of_localFormula
     (isWeaklyAssociatedPoint_tensorPullback_iff_of_localFormula hformula f F G x (hF x)).trans
       and_comm
 
-/-- **Stacks Project, Tag 05IJ**, from the algebraic formula of tag 05II itself. -/
-@[stacks 05IJ "the set equality, conditional on the formula of Tag 05II, carried here by the \
-hypothesis `WeaklyAssociatedPrimesTensorFormula`, which this library does not prove"]
+/-- Tag 05IJ from the algebraic formula of tag 05II itself, taken as an argument. The formula is
+`Stacks.Divisors.weaklyAssociatedPrimesTensorFormula`, and
+`Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq` applies this to it. -/
 theorem weaklyAssociatedPoints_tensorPullback_eq_of_formula
     (hformula : WeaklyAssociatedPrimesTensorFormula.{u})
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f]
@@ -153,7 +153,7 @@ theorem weaklyAssociatedPoints_tensorPullback_eq_of_formula
   weaklyAssociatedPoints_tensorPullback_eq_of_localFormula
     (localWeaklyAssociatedTensorFormula_of_formula hformula) f F G hF
 
-/-- **Stacks Project, Tag 05IJ, the inclusion `⊆`.** Let `f : X ⟶ S` be locally of finite type,
+/-- The inclusion `⊆` of tag 05IJ under finitely generated maximal ideals on `S`. Let `f : X ⟶ S` be locally of finite type,
 let `F` be a quasi-coherent `𝒪_X`-module of finite type which is flat over `S`, and let `G` be
 an `𝒪_S`-module. If the maximal ideals of the local rings of `S` are finitely generated, then
 every weakly associated point of `F ⊗_{𝒪_X} f^*G` lies on the fibre over a weakly associated
@@ -164,9 +164,8 @@ No algebraic input is assumed: this is the forward implication of tag 05IH,
 read as a statement about sets. Its one restriction is inherited: finite generation of the
 maximal ideal at the image point, which replaces the prime avoidance the source runs after
 making the stalk of `F` projective over the base by the étale-local structure theorem of
-tag 05ID. -/
-@[stacks 05IJ "the inclusion ⊆ only, and under one hypothesis the tag does not have: finitely \
-generated maximal ideals on S, which the base clause of Tag 05IH needs"]
+tag 05ID. The full tag, with no such hypothesis, is
+`Stacks.Divisors.weaklyAssociatedPoints_tensorPullback_eq`. -/
 theorem weaklyAssociatedPoints_tensorPullback_subset
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f]
     (F : X.Modules) (G : S.Modules) [F.IsQuasicoherent] [F.IsFiniteType]

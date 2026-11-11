@@ -32,18 +32,25 @@ topoi.
 ## Main results
 
 * `Stacks.Cohomology.DerivedPushforwardOnRingedTopoi.isDerivedLimit_map_derivedPushforward`:
-  **Tag 0A07.**
+  the special case of a morphism of ringed topoi presented by a morphism of ringed sites
+  (`RingedToposSiteHom` with `f.u` a morphism of sites).  Tag 0A07 itself, for an arbitrary
+  morphism of ringed topoi, is
+  `Stacks.Cohomology.DerivedPushforward.isDerivedLimit_map_derivedPushforward` in
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/DerivedLimitsOfToposHom.lean`.
 
 ## Implementation notes
 
-*Why `hmos` appears.*  `Rf_*` itself is unconditional — it exists for every morphism of ringed
-topoi, by `pushforward_hasRightDerivedFunctor` of
-`Stacks.Cohomology.DerivedPullbackPushforwardAdjunction`.  What needs `f` to be a morphism of
-ringed *topoi* is its being a right **adjoint**: the left adjoint is `Lf^*`, whose existence is
-Tag 06YY, and that is where
-`f.u.IsMorphismOfSites Y.J X.J` enters.  It is not an added hypothesis — it is what makes `f` a
-morphism of ringed topoi in the source's sense at all; see the implementation notes of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean`.
+*The two statements.*  The ringed-site version takes `f : RingedToposSiteHom X Y` together
+with `hmos : f.u.IsMorphismOfSites Y.J X.J`, because its adjunction `Lf^* ⊣ Rf_*` is the one of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean`,
+built from a continuous functor of sites; it is therefore only the case of Tag 0A07 in which the
+morphism of topoi comes from a morphism of sites.  The tagged statement takes an arbitrary
+`f : RingedToposHom X Y` (Tag 01D3, part (2)) and gets right adjointness from
+`Stacks.Cohomology.DerivedPullbackOfToposHom.derivedAdjunction`, which needs no hypothesis on
+`f`.  Its only extra hypotheses are the instances making the module categories and their
+sheafifications exist, and `UnivLE.{u, w}`, `UnivLE.{v, w}` (site of `X` below its module
+universe), under which `Mod(𝒪)` is Grothendieck abelian
+(`SheafOfModules.isGrothendieckAbelian_of_univLE`), so that `Rf_*` exists.
 
 *Reuse of the abstract lemma.*  The ringed-*space* analogue, Tag 0BKP
 (`Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.isDerivedLimit_map_derivedPushforward`),
@@ -85,10 +92,12 @@ variable {X Y : RingedTopos.{u, u, u}}
   (f : RingedToposSiteHom X Y) (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
 include hmos in
-/-- **Stacks Project, Tag 0A07.**  Derived pushforward along a morphism of ringed topoi commutes
-with derived limits: it carries an object exhibited as the derived limit of a countable inverse
-system to the derived limit of the pushed-forward system. -/
-@[stacks 0A07]
+/-- Derived pushforward along a morphism of ringed topoi *presented by a morphism of sites*
+(`f : RingedToposSiteHom X Y` with `f.u` a morphism of sites, all universes equal) commutes with
+derived limits.  This is the special case of Stacks 0A07 in which the morphism of topoi comes
+from a continuous functor of the underlying sites; the statement for an arbitrary morphism of
+ringed topoi is `Stacks.Cohomology.DerivedPushforward.isDerivedLimit_map_derivedPushforward`,
+which carries the tag. -/
 theorem isDerivedLimit_map_derivedPushforward
     (K : ℕᵒᵖ ⥤ DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     [HasProduct fun n : ℕ ↦ K.obj ⟨n⟩]

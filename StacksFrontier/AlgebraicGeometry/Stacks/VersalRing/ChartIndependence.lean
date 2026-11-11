@@ -220,7 +220,7 @@ private theorem rebaseDeformation_roundtrip
   · rfl
 
 /-- Morphisms of deformation objects with the same arrow are equal. -/
-private theorem deformationMorphism_ext_arrow
+theorem deformationMorphism_ext_arrow
     {a b : Deformation.Artin.DeformationObject iΛ q x₀ hx₀}
     {f g : Deformation.Artin.DeformationMorphism iΛ q x₀ hx₀ a b}
     (h : f.arrow = g.arrow) : f = g := by

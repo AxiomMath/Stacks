@@ -37,42 +37,50 @@ is onto.
 * `Stacks.ArtinSchreier.injective_artinSchreierComparison`: it is injective.
 * `Stacks.ArtinSchreier.exists_preimage_artinSchreierComparison`: every `F`-fixed vector is a
   value.
-* `Stacks.ArtinSchreier.finite_etaleH_constantZMod_of_isProper`: **[Stacks, Tag 0A3P] (1)**.
+* `Stacks.ArtinSchreier.finite_etaleH_constantZMod_of_isProper`: finiteness of
+  `H ^ q (X_étale, 𝐙/p𝐙)` from an Artin–Schreier sequence and a Frobenius comparison.
 * `Stacks.ArtinSchreier.bijOn_fixedPoints_of_frobenius_base_change`: the Frobenius-fixed vectors
   of a finite-dimensional vector space are unchanged by extension of the ground field.
-* `Stacks.ArtinSchreier.bijective_of_frobenius_base_change`: **[Stacks, Tag 0A3P] (2)**.
+* `Stacks.ArtinSchreier.bijective_of_frobenius_base_change`: bijectivity of a map on
+  `H ^ q (X_étale, 𝐙/p𝐙)` compatible with a base change of the cohomology of the structure
+  sheaves.
+
+[Stacks, Tag 0A3P] itself, with neither the Artin–Schreier sequence nor the comparisons as
+inputs, is `Stacks.ArtinSchreier.finite_etaleH_constantZMod_of_isProper_unconditional` (1) and
+`Stacks.ArtinSchreier.bijective_etaleCohomologyBaseChangeMap_constantZMod` (2) in
+`ProperConstantCoefficientsUnconditional`.
 
 ## Implementation notes
 
-The two inputs carried as hypotheses are the ones already carried by [Stacks, Tag 0A3K] and
-[Stacks, Tag 0A3N] in the neighbouring modules `ConstantCoefficientVanishing` and
-`TopDegreeVanishing`: exactness of the Artin–Schreier sequence ([Stacks, Tag 0A3J]), as
+The results here take as arguments, in the same shape as the neighbouring modules
+`ConstantCoefficientVanishing` and `TopDegreeVanishing`: exactness of the Artin–Schreier
+sequence ([Stacks, Tag 0A3J]), as
 `Stacks.ArtinSchreier.ArtinSchreierSequence`, and the comparison of the étale cohomology of
 `𝐆_a` with the cohomology of the structure sheaf together with the Frobenius-semilinear
 description of the Artin–Schreier map on it ([Stacks, Tag 03P2]), as
-`Stacks.ArtinSchreier.TopDegreeFrobeniusComparison`. The latter is carried in every degree, not
+`Stacks.ArtinSchreier.TopDegreeFrobeniusComparison`. The library constructs both:
+`Stacks.ArtinSchreier.constantArtinSchreierSequenceDatum` and
+`Stacks.ArtinSchreier.gaFrobeniusComparison`. The comparison is taken in every degree, not
 just the top one: the argument here reads the long exact sequence in two consecutive degrees at
 once.
 
-The finite dimensionality of `H ^ q (X, 𝒪_X)`, which [Stacks, Tag 0A3N] still carries as a
-hypothesis, is **not** carried here. It is a theorem of this repository for a proper `X`:
+The finite dimensionality of `H ^ q (X, 𝒪_X)` is not an argument here. It is a theorem of this
+repository for a proper `X`:
 `AlgebraicGeometry.finiteDimensional_cohomologyOverField_of_isProper`, which is
 [Stacks, Tag 02O6] over a field, applied to the structure sheaf, coherent because a scheme
 proper over a field is locally Noetherian.
 
-For the second part two further inputs are carried, both for the same reason as the first two:
-the base-change map `β` on the cohomology of the structure sheaves, which is the flat base change
-of [Stacks, Tag 02KH] and is recorded in the shape that says `H ^ q (X', 𝒪_{X'})` is the base
-change of `H ^ q (X, 𝒪_X)` along `k ⟶ k'` — additive, semilinear, injective, with `k'`-spanning
-image — compatibly with the Frobenius; and the induced map `γ` on the étale cohomology of
-`𝐙/p𝐙`, with its compatibility with `β` through the two Artin–Schreier comparisons. The library
-does have the canonical `γ`, namely
-`Stacks.EtaleCohomology.etaleCohomologyBaseChangeMap`; it is carried rather than named because
-its compatibility with the Artin–Schreier sequences is part of [Stacks, Tag 0A3J], which is
-itself carried. No generality is lost: the compatibility hypothesis determines `γ` uniquely,
-the Artin–Schreier comparison of `X'` being injective. The second part is also stated for an
-arbitrary `X'` proper over `k'` rather than for the scalar extension `X ×_k k'`, the only
-property of the scalar extension used being that `β` exists.
+The second result takes two further arguments: the base-change map `β` on the cohomology of the
+structure sheaves, which is the flat base change of [Stacks, Tag 02KH] and is recorded in the shape
+that says `H ^ q (X', 𝒪_{X'})` is the base change of `H ^ q (X, 𝒪_X)` along `k ⟶ k'` — additive,
+semilinear, injective, with `k'`-spanning image — compatibly with the Frobenius; and the induced map
+`γ` on the étale cohomology of `𝐙/p𝐙`, with its compatibility with `β` through the two
+Artin–Schreier comparisons. For the canonical `γ`,
+`Stacks.EtaleCohomology.etaleCohomologyBaseChangeMap`, the statement is
+`Stacks.ArtinSchreier.bijective_etaleCohomologyBaseChangeMap_constantZMod`. The compatibility
+hypothesis determines `γ` uniquely, the Artin–Schreier comparison of `X'` being injective. The
+second part is also stated for an arbitrary `X'` proper over `k'` rather than for the scalar
+extension `X ×_k k'`, the only property of the scalar extension used being that `β` exists.
 
 Étale cohomology is Mathlib's `CategoryTheory.Sheaf.H` on `Scheme.smallEtaleTopology` at the
 coefficient universe `u + 1`, and the constant sheaf `𝐙/p𝐙` is
@@ -182,16 +190,14 @@ private theorem finiteDimensional_cohomologyOverField_unit {k : Type u} [Field k
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
   exact finiteDimensional_cohomologyOverField_of_isProper k f (SheafOfModules.unit X.ringCatSheaf) i
 
-/-- **[Stacks, Tag 0A3P] (1).** Let `X` be a scheme proper over an algebraically closed field `k`
-of characteristic `p > 0`. Then `H ^ q (X_étale, 𝐙/p𝐙)` is finite for every `q`.
+/-- **Finiteness from an Artin–Schreier sequence.** Let `X` be a scheme proper over an
+algebraically closed field `k` of characteristic `p > 0`, with an Artin–Schreier sequence and a
+Frobenius comparison in every degree. Then `H ^ q (X_étale, 𝐙/p𝐙)` is finite for every `q`.
 
 The Artin–Schreier comparison embeds `H ^ q (X_étale, 𝐙/p𝐙)` into the `F`-fixed vectors of
 `H ^ q (X, 𝒪_X)`. That group is a finite-dimensional `k`-vector space by [Stacks, Tag 02O6],
 `X` being proper over `k`, so its `F`-fixed vectors form a finite-dimensional module over the
 prime field `𝐙/p𝐙` by [Stacks, Tag 0A3L], hence a finite set. -/
-@[stacks 0A3P "part (1); the Artin-Schreier sequence (0A3J) and the comparison of étale with \
-  Zariski cohomology of the structure sheaf in its Frobenius-semilinear form (03P2) are carried \
-  as hypotheses"]
 public theorem finite_etaleH_constantZMod_of_isProper (hp : 0 < p) [IsAlgClosed k] [CharP k p]
     [IsProper f] (cmp : ∀ i : ℕ, TopDegreeFrobeniusComparison p k f AS.Ga AS.φ i) :
     Finite (Sheaf.H.{w, u + 1} (etaleConstantZMod X p) q) := by
@@ -529,27 +535,23 @@ variable {p : ℕ} (k : Type u) [Field k] [IsAlgClosed k] [CharP k p]
   [HasExt.{w} (Sheaf X'.smallEtaleTopology AddCommGrpCat.{u + 1})]
   (AS : ArtinSchreierSequence p X) (AS' : ArtinSchreierSequence p X') (q : ℕ)
 
-/-- **[Stacks, Tag 0A3P] (2).** Let `X` be proper over an algebraically closed field `k` of
-characteristic `p > 0`, let `k'` be another algebraically closed field with a ring map
-`φ : k ⟶ k'`, and let `X'` be proper over `k'`. Suppose `β` is the base-change map on the
-cohomology of the structure sheaves, so that `H ^ q (X', 𝒪_{X'})` is the base change along `φ`
-of `H ^ q (X, 𝒪_X)` compatibly with the Frobenius, and suppose `γ` is a map on the étale
+/-- **Bijectivity from a base change of the structure-sheaf cohomology.** Let `X` be proper over an
+algebraically closed field `k` of characteristic `p > 0`, let `k'` be another algebraically closed
+field with a ring map `φ : k ⟶ k'`, and let `X'` be proper over `k'`. Suppose `β` is the base-change
+map on the cohomology of the structure sheaves, so that `H ^ q (X', 𝒪_{X'})` is the base change
+along `φ` of `H ^ q (X, 𝒪_X)` compatibly with the Frobenius, and suppose `γ` is a map on the étale
 cohomology of `𝐙/p𝐙` compatible with `β` through the two Artin–Schreier comparisons. Then `γ` is
 bijective.
 
 The compatibility `hγ` determines `γ` uniquely, the Artin–Schreier comparison of `X'` being
-injective, so no generality is lost by carrying `γ`. For the scalar extension `X' = X ×_k k'`
-along an extension of algebraically closed fields, `β` is the flat base change of
-[Stacks, Tag 02KH] and `γ` is the canonical map
-`Stacks.EtaleCohomology.etaleCohomologyBaseChangeMap`.
+injective. For the scalar extension `X' = X ×_k k'` along an extension of algebraically closed
+fields, `β` is the flat base change of [Stacks, Tag 02KH] and `γ` is the canonical map
+`Stacks.EtaleCohomology.etaleCohomologyBaseChangeMap`; that case is
+`Stacks.ArtinSchreier.bijective_etaleCohomologyBaseChangeMap_constantZMod`.
 
 Both sides are identified with the Frobenius-fixed vectors of the cohomology of the structure
 sheaf, finite-dimensional because `X` and `X'` are proper, and
 `bijOn_fixedPoints_of_frobenius_base_change` matches the two groups of fixed vectors. -/
-@[stacks 0A3P "part (2); the Artin-Schreier sequence (0A3J), the comparison of étale with \
-  Zariski cohomology of the structure sheaf in its Frobenius-semilinear form (03P2), the flat \
-  base change of the cohomology of the structure sheaf (02KH) and the induced map on étale \
-  cohomology are carried as hypotheses"]
 public theorem bijective_of_frobenius_base_change (hp : 0 < p)
     (cmp : ∀ i : ℕ, TopDegreeFrobeniusComparison p k f AS.Ga AS.φ i)
     (cmp' : ∀ i : ℕ, TopDegreeFrobeniusComparison p k' f' AS'.Ga AS'.φ i)

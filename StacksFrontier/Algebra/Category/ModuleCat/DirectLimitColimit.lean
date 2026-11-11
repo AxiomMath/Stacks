@@ -135,6 +135,63 @@ lemma linearEquivOfIsColimit_symm_ι_app (hc : IsColimit c) (i : ι) (x : G i) :
     (linearEquivOfIsColimit hc).symm (c.ι.app i x) = Module.DirectLimit.of R ι G f i x :=
   (linearEquivOfIsColimit hc).injective (by simp)
 
+section Directed
+
+/-! ### Directed colimits: the disjoint union modulo eventual equality
+
+Over a directed index the colimit has the explicit description of Stacks 00D6: the quotient
+`_root_.DirectLimit G f` of `Σ i, G i` by eventual equality, with the module structure computed
+through a common upper bound (`DirectLimit.mk_eq_mk_iff`, `DirectLimit.mk_add_mk`, and
+`DirectLimit.smul_def`, registered in `StacksFrontier.MathlibRegistrations.Ch10`) and the maps
+`φ_i = DirectLimit.Module.of R ι G f i` induced by `Sigma.mk i`. -/
+
+variable (G f) [Nonempty ι] [IsDirectedOrder ι]
+
+/-- The cocone on `ModuleCat.directLimitDiagram G f` whose vertex is the explicit module
+`_root_.DirectLimit G f` (the disjoint union `Σ i, G i` modulo eventual equality) and whose
+legs are the maps `G i → _root_.DirectLimit G f`, `x ↦ ⟦⟨i, x⟩⟧`. -/
+@[simps]
+def directLimitSigmaCocone : Cocone (directLimitDiagram G f) where
+  pt := of R (_root_.DirectLimit G f)
+  ι :=
+    { app := fun i ↦ ofHom (_root_.DirectLimit.Module.of R ι G f i)
+      naturality := fun _ _ hij ↦ by
+        ext
+        exact _root_.DirectLimit.Module.of_f }
+
+/-- **The colimit of a directed system of modules is the disjoint union modulo eventual
+equality.** Over a nonempty directed preorder `ι`, the module `_root_.DirectLimit G f`, the
+quotient of `Σ i, G i` by `m ∼ m' ↔ μ_{ij} m = μ_{i'j} m'` for some `j ≥ i, i'`, together with
+the maps `φ_i : x ↦ ⟦⟨i, x⟩⟧`, is a colimit of the system in `ModuleCat R`. -/
+@[stacks 00D6 "the module `Σ i, G i` modulo eventual equality, with the maps `φ_i`, is the colimit"]
+def isColimitDirectLimitSigmaCocone : IsColimit (directLimitSigmaCocone G f) :=
+  isColimitOfLinearEquiv (Module.DirectLimit.linearEquiv G f) fun _ _ ↦
+    Module.DirectLimit.linearEquiv_of _ _
+
+/-- The canonical isomorphism between the colimit of `ModuleCat.directLimitDiagram G f` and
+the explicit module `_root_.DirectLimit G f`, over a nonempty directed preorder. -/
+@[stacks 00D6 "the canonical isomorphism of the colimit with `Σ i, G i` mod eventual equality"]
+def colimitDirectLimitSigmaIso :
+    colimit (directLimitDiagram G f) ≅ of R (_root_.DirectLimit G f) :=
+  colimit.isoColimitCocone ⟨directLimitSigmaCocone G f, isColimitDirectLimitSigmaCocone G f⟩
+
+/-- The composite of `colimit.ι` with `ModuleCat.colimitDirectLimitSigmaIso` is the map
+`x ↦ ⟦⟨i, x⟩⟧` induced by `Sigma.mk i`. -/
+@[reassoc (attr := simp)]
+lemma ι_colimitDirectLimitSigmaIso_hom (i : ι) :
+    colimit.ι (directLimitDiagram G f) i ≫ (colimitDirectLimitSigmaIso G f).hom =
+      ofHom (_root_.DirectLimit.Module.of R ι G f i) :=
+  colimit.isoColimitCocone_ι_hom _ i
+
+/-- `ModuleCat.colimitDirectLimitSigmaIso` sends `colimit.ι _ i x` to `⟦⟨i, x⟩⟧`. -/
+@[simp]
+lemma colimitDirectLimitSigmaIso_hom_apply (i : ι) (x : G i) :
+    (colimitDirectLimitSigmaIso G f).hom (colimit.ι (directLimitDiagram G f) i x) =
+      (⟦⟨i, x⟩⟧ : _root_.DirectLimit G f) :=
+  ConcreteCategory.congr_hom (ι_colimitDirectLimitSigmaIso_hom G f i) x
+
+end Directed
+
 end DirectLimit
 
 section Preorder
@@ -244,5 +301,28 @@ theorem exists_directed_linearEquiv_of_isFiltered (J : Type v) [SmallCategory J]
 end Final
 
 end ModuleCat
+
+namespace DirectLimit
+
+variable {R : Type u} [Ring R] {ι : Type v} [Preorder ι] [IsDirectedOrder ι]
+  {G : ι → Type*} [∀ i, AddCommGroup (G i)] [∀ i, Module R (G i)]
+  {f : ∀ i j, i ≤ j → G i →ₗ[R] G j} [DirectedSystem G fun i j h ↦ f i j h]
+
+/-- In the direct limit over a directed preorder, the classes of `m ∈ G i` and `m' ∈ G i'`
+agree exactly when `μ_{ij} m = μ_{i'j} m'` for some `j ≥ i, i'`. -/
+@[stacks 00D6 "item (1): the equivalence relation on `Σ i, G i`"]
+theorem mk_eq_mk_iff {i i' : ι} (m : G i) (m' : G i') :
+    (⟦⟨i, m⟩⟧ : DirectLimit G f) = ⟦⟨i', m'⟩⟧ ↔
+      ∃ (j : ι) (hij : i ≤ j) (hi'j : i' ≤ j), f i j hij m = f i' j hi'j m' :=
+  Quotient.eq
+
+/-- In the direct limit over a directed preorder, the sum of the classes of `m ∈ G i` and
+`m' ∈ G i'` is the class of `μ_{ij} m + μ_{i'j} m'`, for any `j ≥ i, i'`. -/
+@[stacks 00D6 "item (2): the addition, through any common upper bound"]
+theorem mk_add_mk {i i' j : ι} (hij : i ≤ j) (hi'j : i' ≤ j) (m : G i) (m' : G i') :
+    (⟦⟨i, m⟩⟧ : DirectLimit G f) + ⟦⟨i', m'⟩⟧ = ⟦⟨j, f i j hij m + f i' j hi'j m'⟩⟧ := by
+  rw [← mk_apply i j m hij, ← mk_apply i' j m' hi'j, add_def]
+
+end DirectLimit
 
 end

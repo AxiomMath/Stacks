@@ -24,7 +24,8 @@ on the big étale site over `X`,
 
 `RΓ(X_étale, K) = RΓ((Sch/X)_étale, π_X⁻¹K)`,
 
-the form of Stacks 0DDI in which cohomology is compared. Combined with the comparison of
+a consequence of Stacks 0DDI (stated in full as
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`) in which cohomology is compared. Combined with the comparison of
 cohomology for a change of topology (Stacks 0EZH) in the situation of Stacks 0F0I or Stacks 0F0J,
 it computes étale cohomology on the ph or h site; that step is the generic form of Stacks 0DE6
 and Stacks 0EWH.
@@ -100,7 +101,10 @@ theorem rightAcyclic_smallEtaleGlobalSections_sheafPushforward
 
 variable {E X}
 
-/-- **Stacks 0DDI, on derived global sections.** For `K` in `D⁺(X_étale)` the derived global
+/-- **A consequence of Stacks 0DDI, on derived global sections.** This is not Stacks 0DDI
+itself, which is `AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso` (the derived unit
+`K ⟶ Rπ_{X,*}π_X⁻¹K` is an isomorphism in the unbounded `D(X_étale)`); it is that statement after
+applying derived global sections, on `D⁺`. For `K` in `D⁺(X_étale)` the derived global
 sections of `π_X⁻¹K` on the big étale site over `X` are those of `K` on the small étale site:
 `RΓ((Sch/X)_étale, π_X⁻¹K) = RΓ(X_étale, K)`, naturally in `K`. -/
 def derivedGlobalSectionsSmallEtaleIso

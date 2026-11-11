@@ -302,6 +302,7 @@ theorem flatPullbackCoeff_open
 
 /-- The restriction of a family of cycles to the fibres of an open subscheme, specified by
 restriction of the coefficients along the canonical fibre map. -/
+@[stacks 0H4N "restriction of a family of cycles on fibres to open subschemes"]
 def restrictedFamily {X S U V : Scheme.{u}} (f : X ⟶ S)
     [LocallyOfFiniteType f] (fU : U ⟶ V) [LocallyOfFiniteType fU]
     (j : U ⟶ X) [IsOpenImmersion j] (i : V ⟶ S) [IsOpenImmersion i]

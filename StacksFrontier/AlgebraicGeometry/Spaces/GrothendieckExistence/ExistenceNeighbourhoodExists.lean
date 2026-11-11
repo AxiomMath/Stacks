@@ -52,7 +52,7 @@ there is an open subspace `W ⊂ X` containing the points `X₀` lying over `Spe
 @[stacks 0CX9 "the full statement: for every coherator DQ_X and every presentation of \
 L = R lim F_n in D(O_X), K = DQ_X(L) has an open subspace W containing X_0 with H^i(K)|_W = 0 \
 for i ≠ 0, H^0(K)|_W of finite presentation, and F_n = H^0(K)|_W ⊗ O_{X_n} through the \
-canonical maps K → F_n; nothing is granted or assumed"]
+canonical maps K → F_n"]
 theorem exists_isExistenceNeighbourhood
     {DQ : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left ⥤
       (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).FullSubcategory}

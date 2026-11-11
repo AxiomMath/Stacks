@@ -18,6 +18,11 @@ chosen scheme limit cone are limiting; this retains the projections and all thei
 The specialization assertion uses Mathlib's `Specializes`, so `Specializes s s'` means that `s'`
 lies in the closure of `s`.
 
+## Main definitions
+
+* `AlgebraicGeometry.SmallDescentSituation`: Situation 086P, the descent situation whose
+  directed index set is small in the universe of the schemes.
+
 ## Main results
 
 * `AlgebraicGeometry.nonempty_isLimit_forget_mapCone`: the underlying-set cone is a limit cone.
@@ -45,9 +50,26 @@ open CategoryTheory CategoryTheory.Limits
 
 universe v u w
 
-add_to_stacks 086P AlgebraicGeometry.DescentSituation
-
 namespace AlgebraicGeometry
+
+/-- **Situation 086P.** A directed inverse system `(S_i)_{i ∈ I}` of quasi-compact and
+quasi-separated schemes with affine transition morphisms, indexed by a directed *set* `I`,
+together with its limit `S = lim S_i`, the projections `f_i : S ⟶ S_i`, and a chosen element
+`0 ∈ I`.
+
+The source's directed set is a set, which here means that the index preorder is `u`-small,
+`u` being the universe of the schemes: the field `small`. For such an index the limit of
+Stacks 01YX, glued from the affine-locally computed limits, is the categorical limit in
+`Scheme.{u}`, and the chosen limit cone of the underlying
+`AlgebraicGeometry.DescentSituation` records it with its projections. Without the bound the
+categorical limit in `Scheme.{u}` of a large system need not be that scheme; see
+`StacksFrontier/AlgebraicGeometry/SmallnessNecessary/Basic.lean`. Nonemptiness of `I` is
+witnessed by the chosen element `base`. -/
+@[stacks 086P]
+structure SmallDescentSituation (I : Type v) [Preorder I] [IsDirected I (· ≤ ·)]
+    extends DescentSituation.{v, u} I where
+  /-- The directed index set is a set: it is small in the universe of the schemes. -/
+  small : Small.{u} I
 
 /-- A functor out of schemes that preserves all cofiltered limits with affine transition
 morphisms indexed in the scheme universe preserves them for any index category that is small in

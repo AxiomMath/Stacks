@@ -20,7 +20,9 @@ proves that a dualizing module is coherent.
 ## Main results
 
 * `Stacks.Duality.IsDualizingModuleOf.isCoherent` — a dualizing module on a connected Noetherian
-  scheme is a coherent `𝒪_X`-module.
+  scheme is a coherent `𝒪_X`-module, the coherence clause of [Stacks, Tag 0AWK], whose three
+  assertions together are
+  `Stacks.Duality.IsDualizingModuleOf.supp_eq_and_isCoherent_and_sheafHasPropertySk_two`.
 * `Stacks.Duality.IsDualizingModuleOf.stacksIsCoherent` — the same conclusion for the coherence
   predicate `Stacks.SheafOfModules.IsCoherent`.
 
@@ -56,7 +58,6 @@ structure IsDualizingModuleOf {X : Scheme.{u}} [IsLocallyNoetherian X]
 
 /-- A dualizing module on a connected Noetherian scheme is a coherent `𝒪_X`-module: it is a
 cohomology sheaf of a dualizing complex, and those are coherent. -/
-@[stacks 0AWK "coherence"]
 theorem IsDualizingModuleOf.isCoherent {X : Scheme.{u}} [IsNoetherian X] [ConnectedSpace X]
     [HasDerivedCategory.{w} X.Modules] {ω : X.Modules} {K : DerivedCategory X.Modules} {n : ℤ}
     (h : IsDualizingModuleOf ω K n) : _root_.SheafOfModules.IsCoherent ω := by

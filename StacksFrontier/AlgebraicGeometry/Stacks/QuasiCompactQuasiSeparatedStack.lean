@@ -7,42 +7,44 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.QuasiSeparatedCancellation
 public import StacksFrontier.AlgebraicGeometry.Stacks.SeparationOverBaseSource
 
 /-!
-# Morphisms out of quasi-compact and quasi-separated algebraic stacks (Stacks 075S)
+# Morphisms out of quasi-compact and quasi-separated algebraic stacks over a quasi-separated base
 
-Stacks 075S has three parts, for a 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks: if `𝒳` is
-quasi-compact and `𝒴` is quasi-separated then `f` is quasi-compact (part (1)); if moreover `𝒳` is
-quasi-separated then `f` is quasi-compact and quasi-separated (part (2)); and a fibre product of
-quasi-compact and quasi-separated algebraic stacks is quasi-compact and quasi-separated
-(part (3)).
+Stacks 075S has three parts, for a 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over an arbitrary
+base scheme `S`: if `𝒳` is quasi-compact and `𝒴` is quasi-separated then `f` is quasi-compact
+(part (1)); if moreover `𝒳` is quasi-separated then `f` is quasi-compact and quasi-separated
+(part (2)); and a fibre product of quasi-compact and quasi-separated algebraic stacks is
+quasi-compact and quasi-separated (part (3)). Quasi-separatedness of an algebraic stack there is
+the *absolute* notion of **Stacks 050D** part (8), quasi-separatedness over `Spec ℤ`, and nothing
+is assumed of `S`. Those statements are
+`AlgebraicGeometry.Stack.isQuasiCompactMorphism_of_isQuasiCompactStack_absolute`,
+`AlgebraicGeometry.Stack.isQuasiCompactMorphism_and_isQuasiSeparated_absolute` and
+`AlgebraicGeometry.Stack.isQuasiCompactStack_and_isAbsolutelyQuasiSeparated_twoFibreProduct`, in
+`StacksFrontier/AlgebraicGeometry/Stacks/QuasiCompactQuasiSeparatedStackAbsolute.lean`, which carry
+the tag.
+
+This file proves the relative variant: the separation conditions are read over the base,
+`AlgebraicGeometry.Stack.IsQuasiSeparatedOver` (**Stacks 050D**, part (4)), and the base scheme `S`
+is assumed quasi-separated. The absolute statements are deduced from these at the terminal scheme,
+which is affine and hence quasi-separated.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isQuasiCompactMorphism_of_isQuasiCompactStack`: **Stacks 075S**,
-  part (1).
-* `AlgebraicGeometry.Stack.isQuasiCompactMorphism_and_isQuasiSeparated`: **Stacks 075S**,
-  part (2).
-* `AlgebraicGeometry.Stack.isQuasiCompactStack_and_isQuasiSeparatedOver_twoFibreProduct`:
-  **Stacks 075S**, part (3).
+* `AlgebraicGeometry.Stack.isQuasiCompactMorphism_of_isQuasiCompactStack`: the relative form of
+  Stacks 075S, part (1).
+* `AlgebraicGeometry.Stack.isQuasiCompactMorphism_and_isQuasiSeparated`: the relative form of
+  Stacks 075S, part (2).
+* `AlgebraicGeometry.Stack.isQuasiCompactStack_and_isQuasiSeparatedOver_twoFibreProduct`: the
+  relative form of Stacks 075S, part (3).
 
 ## The hypothesis on the base scheme
 
-The source states Stacks 075S absolutely, i.e. over `Spec ℤ`, and its proof of part (1) is
-Stacks 050Y applied to `𝒳 ⟶ 𝒴 ⟶ Spec ℤ`, which needs the structure morphism of the quasi-compact
-`𝒳` to be quasi-compact. Over a general base scheme `S` that step is **false**: a surjective
-smooth presentation of a quasi-compact algebraic stack is by an affine object `V` of the site, the
-base change of the structure morphism of `V` by an affine `W` is the product `W ×_S V` taken in
-the site, and for a base scheme which is not quasi-separated two affine opens can meet in a
-non-quasi-compact open. So the three statements carry the hypothesis `QuasiSeparatedSpace S`,
-which `Spec ℤ` satisfies, being affine; at `S = Spec ℤ` they are exactly the source's statements.
-
-The separation conditions are read over the base, `AlgebraicGeometry.Stack.IsQuasiSeparatedOver`
-(**Stacks 050D**, part (4)), which at `S = Spec ℤ` is absolute quasi-separatedness
-(**Stacks 050D**, part (8)). Over a general base, a hypothesis of absolute quasi-separatedness is
-carried to the over-the-base form by
-`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparatedOver_of_isAbsolutelyQuasiSeparated`, and
-the over-the-base conclusion of part (3) is carried back to the absolute one by Stacks 050N
-part (8) at the projection followed by Stacks 050L part (8),
-`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyQuasiSeparated_of_isQuasiSeparated`.
+The proof of part (1) is Stacks 050Y applied to `𝒳 ⟶ 𝒴 ⟶ S`, which needs the structure morphism
+of the quasi-compact `𝒳` to `S` to be quasi-compact. That fails over a base scheme which is not
+quasi-separated: a surjective smooth presentation of a quasi-compact algebraic stack is by an
+affine object `V` of the site, the base change of the structure morphism of `V` by an affine `W`
+is the product `W ×_S V` taken in the site, and two affine opens of such a base can meet in a
+non-quasi-compact open. This is a feature of the relative reading, not of the source, whose
+products are over `Spec ℤ`; hence the hypothesis `QuasiSeparatedSpace S` here.
 
 ## Implementation notes
 
@@ -161,14 +163,17 @@ theorem isQuasiCompactStack_of_isQuasiCompactMorphism
       (isTwoFibreProduct_twoFibreProductSquareAlgebraicStacks B S hS (𝟙 𝒴) f)
       (isSurjective_id.{u, w} B S hS 𝒴))
 
-/-- **Stacks 075S, part (1).** A 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over a
-quasi-separated base scheme with `𝒳` quasi-compact and `𝒴` quasi-separated over the base is
+/-- **Relative form of Stacks 075S, part (1).** A 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over
+a quasi-separated base scheme with `𝒳` quasi-compact and `𝒴` quasi-separated over the base is
 quasi-compact.
 
 The structure morphism of `𝒳` is `f` followed by the structure morphism of `𝒴`, and it is
 quasi-compact because `𝒳` is; the structure morphism of `𝒴` is quasi-separated because `𝒴` is
-quasi-separated over the base; so Stacks 050Y cancels it. -/
-@[stacks 075S "part (1)", sga "4 VI 1.14" "(i), algebraic stacks"]
+quasi-separated over the base; so Stacks 050Y cancels it.
+
+The source's statement, with absolute quasi-separatedness and no hypothesis on the base, is
+`AlgebraicGeometry.Stack.isQuasiCompactMorphism_of_isQuasiCompactStack_absolute`. -/
+@[sga "4 VI 1.14" "(i), algebraic stacks"]
 theorem isQuasiCompactMorphism_of_isQuasiCompactStack (hqs : QuasiSeparatedSpace S)
     {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
     (h𝒳 : IsQuasiCompactStack.{u, w} B S hS 𝒳.val 𝒳.property)
@@ -179,14 +184,17 @@ theorem isQuasiCompactMorphism_of_isQuasiCompactStack (hqs : QuasiSeparatedSpace
   rw [comp_structureMorphism.{u, w} B S hS f]
   exact isQuasiCompactMorphism_structureMorphism B S hS hqs 𝒳 h𝒳
 
-/-- **Stacks 075S, part (2).** A 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over a
-quasi-separated base scheme with `𝒳` quasi-compact and quasi-separated over the base and `𝒴`
+/-- **Relative form of Stacks 075S, part (2).** A 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over
+a quasi-separated base scheme with `𝒳` quasi-compact and quasi-separated over the base and `𝒴`
 quasi-separated over the base is quasi-compact and quasi-separated.
 
 Quasi-compactness is part (1); quasi-separatedness is Stacks 050N part (8), whose hypothesis on
 the relative diagonal of the structure morphism of `𝒴` is the second conjunct of
-quasi-separatedness of `𝒴` over the base. -/
-@[stacks 075S "part (2)", sga "4 VI 1.14" "(i), stacks, X also qs"]
+quasi-separatedness of `𝒴` over the base.
+
+The source's statement, with absolute quasi-separatedness and no hypothesis on the base, is
+`AlgebraicGeometry.Stack.isQuasiCompactMorphism_and_isQuasiSeparated_absolute`. -/
+@[sga "4 VI 1.14" "(i), stacks, X also qs"]
 theorem isQuasiCompactMorphism_and_isQuasiSeparated (hqs : QuasiSeparatedSpace S)
     {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
     (h𝒳qc : IsQuasiCompactStack.{u, w} B S hS 𝒳.val 𝒳.property)
@@ -197,15 +205,17 @@ theorem isQuasiCompactMorphism_and_isQuasiSeparated (hqs : QuasiSeparatedSpace S
   ⟨isQuasiCompactMorphism_of_isQuasiCompactStack B S hS hqs f h𝒳qc h𝒴,
     AlgebraicStacks.isQuasiSeparated_of_isQuasiSeparatedOver B S hS f h𝒳qs h𝒴.2⟩
 
-/-- **Stacks 075S, part (3).** A 2-fibre product `𝒳 ×_𝒴 𝒵` of algebraic stacks over a
-quasi-separated base scheme, with `𝒳`, `𝒵` quasi-compact and quasi-separated over the base and
-`𝒴` quasi-separated over the base, is quasi-compact and quasi-separated over the base.
+/-- **Relative form of Stacks 075S, part (3).** A 2-fibre product `𝒳 ×_𝒴 𝒵` of algebraic stacks
+over a quasi-separated base scheme, with `𝒳`, `𝒵` quasi-compact and quasi-separated over the base
+and `𝒴` quasi-separated over the base, is quasi-compact and quasi-separated over the base.
 
 The projection to `𝒵` is a base change of `f`, which is quasi-compact and quasi-separated by
 part (2), hence is itself quasi-compact (Stacks 050V) and quasi-separated (Stacks 050F). A
 quasi-compact 1-morphism into the quasi-compact `𝒵` has quasi-compact source, and Stacks 050L
-part (4) carries quasi-separatedness over the base from `𝒵` to the apex. -/
-@[stacks 075S "part (3)"]
+part (4) carries quasi-separatedness over the base from `𝒵` to the apex.
+
+The source's statement, with absolute quasi-separatedness and no hypothesis on the base, is
+`AlgebraicGeometry.Stack.isQuasiCompactStack_and_isAbsolutelyQuasiSeparated_twoFibreProduct`. -/
 theorem isQuasiCompactStack_and_isQuasiSeparatedOver_twoFibreProduct
     (hqs : QuasiSeparatedSpace S) {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS}
     (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)

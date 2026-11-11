@@ -16,7 +16,9 @@ following are equivalent:
 The implication (1) ⇒ (2) is
 `CoherentCharacterization.hasFiniteTotalExt_of_derivedCategoryBBounded'` (in the namespace
 `Stacks.AlgebraicGeometry.DerivedVarieties`). This file proves the converse,
-`derivedCategoryBBounded_of_hasFiniteTotalExt`, and registers the two directions together.
+`derivedCategoryBBounded_of_hasFiniteTotalExt`, and states the equivalence;
+`derivedCategoryBBounded_iff_cardinalSum_rank_ext_lt_aleph0`, with condition (2) as the source's
+sum of dimensions, carries the tag.
 
 ## Main results
 
@@ -64,8 +66,6 @@ perfect `E`. Then `K ∈ D^b_Coh(𝒪_X)`.
 Stated at the standard model, exactly as the hypothesis `h0FYD` of
 `Stacks.AlgebraicGeometry.DerivedVarieties.Representability.exists_iso_linearYoneda_of_converse`
 ([Stacks, Tag 0FYH]) asks. -/
-@[stacks 0FYD "the implication (2) ⇒ (1), for X proper over a field and K in D_QCoh(O_X), with \
-condition (2) as HasFiniteTotalExt; at the standard model, in the form 0FYH's h0FYD consumes"]
 theorem derivedCategoryBBounded_of_hasFiniteTotalExt :
     ∀ K : @DerivedCategory X.left.Modules _ _ (HasDerivedCategory.standard X.left.Modules),
       @DerivedCategoryB.derivedCategoryB X.left.Modules _ _
@@ -85,8 +85,6 @@ object of `D_QCoh(𝒪_X)`. Then `K ∈ D^b_Coh(𝒪_X)` if and only if
 `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K) < ∞` for every perfect object `E` of `D(𝒪_X)`; the finiteness is
 spelled `HasFiniteTotalExt`: every `Ext^i_X(E, K)` is finite-dimensional and only finitely many
 are nonzero. -/
-@[stacks 0FYD "both implications, for X proper over a field and K in D_QCoh(O_X), with \
-condition (2) as HasFiniteTotalExt (each Ext^i finite-dimensional, finitely many nonzero)"]
 theorem derivedCategoryBBounded_iff_hasFiniteTotalExt (K : DerivedCategory X.left.Modules)
     (hK : DerivedCategoryB.derivedCategoryB
       (SheafOfModules.isQuasicoherent X.left.ringCatSheaf) K) :

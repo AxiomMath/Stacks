@@ -47,6 +47,9 @@ because the local ring at a node is reduced (Stacks Tag 0C3B, part (2)).
 * `Stacks.Curves.bijective_fieldToResidue_of_bijective_fieldToResidue_normalization` — the
   converse passage: if some point of the normalization above `x` has residue field `k`, so does
   `x`.
+* `Stacks.Curves.surjective_algebraMap_residueField_integralClosure_of_nonempty_algEquiv_prod` —
+  the residue field at a maximal ideal of the normalization of a local ring with split quadratic
+  algebra is reached from the ring.
 
 ## Implementation notes
 
@@ -61,8 +64,11 @@ of an `algebraMap` out of the quotient, so that no algebra structure on the quot
 quotient of a quadratic algebra carries two competing ones, through the residue field and through
 the integral closure, and the statement would have to choose.
 
-No `@[stacks]` tag is carried here: these are components of Stacks Tag 0CBW, whose statement is
-`Stacks.Curves.isSplitNode_tfae_normalizationFibre_adicCompletion`.
+The results over a field `k` with `κ(x) = k` are components of Stacks Tag 0CBW, whose statement
+is `Stacks.Curves.isSplitNode_tfae_normalizationFibre_adicCompletion`, and carry no tag. The
+closing assertion of Stacks Tag 0CBU, for an arbitrary locally Noetherian `k`-scheme and an
+arbitrary residue field `κ(x)`, is
+`Stacks.Curves.nonempty_quadraticAlgebra_algEquiv_prod_iff_normalizationFiber`.
 
 ## References
 
@@ -171,6 +177,37 @@ public theorem bijective_algebraMap_residueField_integralClosure_of_nonempty_alg
   refine ⟨(algebraMap k m.asIdeal.ResidueField).injective, ?_⟩
   rw [← hcomm]
   exact hρ.comp hres.2
+
+/-- **The residue field at a maximal ideal of the normalization of a local ring with split
+quadratic algebra is a quotient of the local ring.**
+
+A maximal ideal `m` of `A' = integralClosure A (FractionRing A)` contains `𝔪_A A'`
+(`Stacks.Curves.map_maximalIdeal_le_of_isMaximal`), so the residue field at `m` is a quotient of
+`quadraticAlgebra A`; if the latter is `κ × κ`, it is already reached from `κ`, hence from `A`. -/
+public theorem surjective_algebraMap_residueField_integralClosure_of_nonempty_algEquiv_prod
+    (A : Type u) [CommRing A] [IsLocalRing A]
+    (hsplit : Nonempty (quadraticAlgebra A ≃ₐ[ResidueField A]
+      (ResidueField A × ResidueField A)))
+    (m : MaximalSpectrum ↥(integralClosure A (FractionRing A))) :
+    Function.Surjective (algebraMap A m.asIdeal.ResidueField) := by
+  have hm : m.asIdeal.IsMaximal := m.isMaximal
+  have hJm : (maximalIdeal A).map
+      (algebraMap A ↥(integralClosure A (FractionRing A))) ≤ m.asIdeal :=
+    map_maximalIdeal_le_of_isMaximal m.asIdeal
+  let σ : quadraticAlgebra A →+* m.asIdeal.ResidueField :=
+    Ideal.Quotient.lift _ (algebraMap ↥(integralClosure A (FractionRing A))
+      m.asIdeal.ResidueField) fun b hb ↦ Ideal.algebraMap_residueField_eq_zero.mpr (hJm hb)
+  have hσ : Function.Surjective σ := by
+    intro z
+    obtain ⟨b, rfl⟩ := m.asIdeal.algebraMap_residueField_surjective z
+    exact ⟨Ideal.Quotient.mk _ b, rfl⟩
+  have hρ : Function.Surjective (σ.comp (algebraMap (ResidueField A) (quadraticAlgebra A))) :=
+    surjective_comp_algebraMap_of_nonempty_algEquiv_prod hsplit σ hσ
+  intro z
+  obtain ⟨c, rfl⟩ := hρ z
+  obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective c
+  exact ⟨a, (IsScalarTower.algebraMap_apply A ↥(integralClosure A (FractionRing A))
+    m.asIdeal.ResidueField a).trans rfl⟩
 
 /-! ### The residue fields of the fibre of the normalization -/
 

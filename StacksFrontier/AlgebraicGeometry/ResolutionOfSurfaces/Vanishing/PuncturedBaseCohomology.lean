@@ -18,8 +18,12 @@ public import StacksFrontier.AlgebraicGeometry.GlobalSectionsOverRingCatSheaf
 In the vanishing situation of [Stacks, Tag 0AX8] — a two-dimensional Noetherian normal local
 domain `A` with maximal ideal `𝔪`, residue field `κ`, spectrum `S = Spec(A)`, closed point `s`
 and punctured spectrum `U = S ∖ {s}`, together with a modification `f : X ⟶ S` — let `X` be
-normal and let `A` be Nagata. Then restriction `H¹(X, 𝒪_X) ⟶ H¹(f⁻¹(U), 𝒪_X)` is injective
-([Stacks, Tag 0AXB]).
+normal. Then restriction `H¹(X, 𝒪_X) ⟶ H¹(f⁻¹(U), 𝒪_X)` is injective ([Stacks, Tag 0AXB]).
+This file sets up the objects in which that statement is phrased, together with the geometric
+construction of the source's proof. The tag itself is proved, without the source's Nagata
+hypothesis and without that construction, as
+`AlgebraicGeometry.VanishingSituation.firstCohomologyRestriction_injective` in
+`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.LipDPuncturedRestriction`.
 
 The file also defines the objects in which [Stacks, Tag 0AXC] — `Hom_{D(A)}(κ[-1], Rf_*𝒪_X)`
 is zero — is phrased, together with the construction carried out in the source's proof of it.
@@ -45,32 +49,34 @@ That tag is proved as
 
 ## Main results
 
-* `AlgebraicGeometry.VanishingSituation.hOne_restrict_puncturedSpectrum_injective` —
-  [Stacks, Tag 0AXB].
+* `AlgebraicGeometry.VanishingSituation.hOne_restrict_puncturedSpectrum_injective` — injectivity
+  of `H¹(X, 𝒪_X) ⟶ H¹(f⁻¹(U), 𝒪_X)` from the geometric construction of the source's proof.
 
-## What is granted, and what is not
+## The constructions of the source's proofs
 
-Each grant is a `Prop` defined below.
+Each construction is a `Prop` defined below.
 
-**For [Stacks, Tag 0AXB]** the grant is
-`VanishingSituation.TrivialConormalDivisorOfEqualRestriction`. From two distinct classes in
-`H¹(X, 𝒪_X)` with the same restriction to `f⁻¹(U)` — in the source, from their nonzero
-difference `ξ` — it produces a normal modification of `S` carrying a nonempty effective Cartier
-divisor, contained set theoretically in the special fibre, whose conormal sheaf is trivial. That
-is the whole of the source's construction: the extension `0 → 𝒪_X → ℰ → 𝒪_X → 0` attached to `ξ`
-([Stacks, Tag 0B3A]); the projective bundle `π : P = 𝐏(ℰ) → X` and the section `σ` cut out by
-`ℰ → 𝒪_X`, whose conormal sheaf is `𝒪_X` ([Stacks, Tag 0B3V]); the second section `σ'` over
-`f⁻¹(U)` coming from the splitting of `ξ` there, and the scheme-theoretic image `X' ⊆ P` of
-`σ'`, which meets `σ(X)` since if it did not then `X' → X` would be affine and proper, hence finite
-([Stacks, Tags 01R7, 01WN]), hence an isomorphism by normality ([Stacks, Tag 0AB1]); the
-normalization `X^ν → X'`, finite because `A` is Nagata ([Stacks, Tags 035S, 035B]); and the
-pullback `Z ⊆ X^ν` of the effective Cartier divisor `σ(X)` ([Stacks, Tag 067R]), nonempty,
-contained in the closed fibre, and with trivial conormal sheaf by functoriality of the conormal
-sheaf under flat pullback ([Stacks, Tag 0473]).
+**For [Stacks, Tag 0AXB]** the construction is
+`VanishingSituation.TrivialConormalDivisorOfEqualRestriction`, which
+`VanishingSituation.hOne_restrict_puncturedSpectrum_injective` turns into injectivity. The tag
+itself is proved by another route, which assumes neither it nor the Nagata hypothesis. From two
+distinct classes in `H¹(X, 𝒪_X)` with the same restriction to `f⁻¹(U)` — in the source, from their
+nonzero difference `ξ` — it produces a normal modification of `S` carrying a nonempty effective
+Cartier divisor, contained set theoretically in the special fibre, whose conormal sheaf is trivial.
+That is the whole of the source's construction: the extension `0 → 𝒪_X → ℰ → 𝒪_X → 0` attached to
+`ξ` ([Stacks, Tag 0B3A]); the projective bundle `π : P = 𝐏(ℰ) → X` and the section `σ` cut out by
+`ℰ → 𝒪_X`, whose conormal sheaf is `𝒪_X` ([Stacks, Tag 0B3V]); the second section `σ'` over `f⁻¹(U)`
+coming from the splitting of `ξ` there, and the scheme-theoretic image `X' ⊆ P` of `σ'`, which meets
+`σ(X)` since if it did not then `X' → X` would be affine and proper, hence finite ([Stacks, Tags
+01R7, 01WN]), hence an isomorphism by normality ([Stacks, Tag 0AB1]); the normalization `X^ν → X'`,
+finite because `A` is Nagata ([Stacks, Tags 035S, 035B]); and the pullback `Z ⊆ X^ν` of the
+effective Cartier divisor `σ(X)` ([Stacks, Tag 067R]), nonempty, contained in the closed fibre, and
+with trivial conormal sheaf by functoriality of the conormal sheaf under flat pullback ([Stacks, Tag
+0473]).
 
-What the theorem contributes is the contradiction, which is [Stacks, Tag 0AXA] in the form this
-library proves it, `VanishingSituation.not_isTrivial_conormalSheaf`. That form carries two
-hypotheses of its own, so the grant carries them too: the observation following Situation 0AX8
+The contradiction that ends the source's proof is [Stacks, Tag 0AXA] in the form this library
+proves it, `VanishingSituation.not_isTrivial_conormalSheaf`. That form carries two hypotheses of
+its own, so the `Prop` carries them too: the observation following Situation 0AX8
 that every component of the special fibre has dimension one, part (2) of [Stacks, Tag 0B40] as
 `AlgebraicGeometry.VanishingSectionDegreePos`, and the global section of the conormal sheaf
 restricted to a component contained in `Z` which is nonzero and has a zero.
@@ -184,7 +190,7 @@ abbrev residueFieldModule : ModuleCat.{u} V.A :=
 abbrev residueFieldShift : DerivedCategory (ModuleCat.{u} V.A) :=
   ((DerivedCategory.singleFunctor (ModuleCat.{u} V.A) 0).obj V.residueFieldModule)⟦(-1 : ℤ)⟧
 
-/-! ### The grants -/
+/-! ### The constructions of the source's proofs -/
 
 /-- **The geometric construction in the proof of [Stacks, Tag 0AXB].** From two distinct classes
 in `H¹(X, 𝒪_X)` whose restrictions to `f⁻¹(U)` agree — in the source, from their nonzero
@@ -233,26 +239,17 @@ def ExtensionClassOfDerivedHom (K : DerivedCategory (ModuleCat.{u} V.A)) : Prop 
       (SheafOfModules.unit V.structureRingSheaf),
       V.firstCohomologyRestriction ξ = V.firstCohomologyRestriction 0 ∧ (ξ = 0 → α = 0)
 
-/-! ### The lemma -/
+/-! ### The source's route to Tag 0AXB -/
 
-/-- **Stacks Project, Tag 0AXB.** In Situation 0AX8 with `X` normal and `A` Nagata, the
-restriction map `H¹(X, 𝒪_X) ⟶ H¹(f⁻¹(U), 𝒪_X)` on the first cohomology of the structure sheaf is
-injective.
+/-- **The source's route to [Stacks, Tag 0AXB].** In Situation 0AX8 with `X` normal and `A`
+Nagata, the geometric construction of the source's proof, `hgeom`, yields injectivity of the
+restriction map `H¹(X, 𝒪_X) ⟶ H¹(f⁻¹(U), 𝒪_X)`.
 
-Two distinct classes with the same restriction are fed to the construction of the source's
-proof, the hypothesis `hgeom`, which returns a nonempty effective Cartier divisor with trivial
-conormal sheaf inside the special fibre of a normal modification of the base; and
-`VanishingSituation.not_isTrivial_conormalSheaf`, which is [Stacks, Tag 0AXA], forbids such a
-divisor. -/
-@[stacks 0AXB "injectivity, granted the geometric construction of the source's proof as the \
-hypothesis hgeom -- the extension of Tag 0B3A attached to the difference of the two classes, \
-its projective bundle with the section of Tag 0B3V, the second section over f^{-1}(U) and the \
-scheme-theoretic image of that section, the normalization of the image (finite because A is \
-Nagata, Tags 035S and 035B) and the pullback to it of the first section as a nonempty effective \
-Cartier divisor in the special fibre with trivial conormal sheaf, together with the three \
-inputs that this library's form of Tag 0AXA consumes: the dimension-one observation following \
-Situation 0AX8, part (2) of Tag 0B40 as VanishingSectionDegreePos, and the global section of \
-the restricted conormal sheaf. The contradiction with Tag 0AXA is what is proved here"]
+Two distinct classes with the same restriction are fed to the construction, which returns a
+nonempty effective Cartier divisor with trivial conormal sheaf inside the special fibre of a normal
+modification of the base; and `VanishingSituation.not_isTrivial_conormalSheaf`, which is
+[Stacks, Tag 0AXA], forbids such a divisor. The tag itself, with no Nagata hypothesis and no
+construction assumed, is `VanishingSituation.firstCohomologyRestriction_injective`. -/
 theorem hOne_restrict_puncturedSpectrum_injective [IsNormal V.X] (hA : IsNagataRing V.A)
     (hgeom : V.TrivialConormalDivisorOfEqualRestriction) :
     Function.Injective V.firstCohomologyRestriction := by

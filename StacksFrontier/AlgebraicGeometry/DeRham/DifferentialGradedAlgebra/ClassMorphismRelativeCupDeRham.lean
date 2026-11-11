@@ -86,7 +86,9 @@ with vertical maps `Rf_*ξ' ⊗ 1` and `Rf_*ξ'` commutes in `D(Y)`. The top `μ
 product `deRhamRelativeCupProduct` of Remark 0FU6; the bottom `μ` is the relative cup product
 followed by `Rf_*` of the multiplication `derivedShiftedMul` of the right differential graded
 module `Ω^•[n]`. -/
-@[stacks 0FU7 "property (5): compatibility with the relative cup product of Remark 0FU6"]
+@[stacks 0FU7 "property (5): for a morphism of ringed spaces f : (X, A) -> (Y, O_Y), as for a
+  diagram of Remark 0FU6, the square of relative cup products mu with vertical maps Rf_* xi' tensor
+  id and Rf_* xi' commutes in D(Y)"]
 theorem deRhamRelativeCupProduct_deRhamClassMorphism (n : ℤ) (ξ : deRhamCohomology B D n) :
     Eq ((Functor.uncurry.obj
           (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Y.sheaf)).map

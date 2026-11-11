@@ -45,11 +45,12 @@ between the two geometric stalks: a germ at `s` of a section over an étale neig
 * `AlgebraicGeometry.smallEtaleSpecializationStalkAb_toPresheafFiber` — the specialization map
   carries the germ at `s` of a section `σ` over an étale neighbourhood `(W, v)` to the germ at
   `t ≫ p` of `σ` over `(W, v')`, where `v'` is the lift of the specialized point.
-* `AlgebraicGeometry.etaleStalkToSectionsAb_eq_smallEtaleSpecializationStalkAb` — one half of
-  [Stacks, Tag 0GJ3]: composed with the comparison `F_{t ≫ p} ⟶ Γ(t, (t ≫ p)⁻¹F)` of Stacks
-  03Q1, the specialization map is the canonical map `F_s ⟶ Γ(t, (t ≫ p)⁻¹F)` which restricts a
-  germ at `s` along `t ⟶ Spec(𝒪^{sh}_{S,s}) ⟶ W`. The factorization of that canonical map
-  through `Γ(Spec(𝒪^{sh}_{S,s}), p⁻¹F)` is not part of the statement.
+* `AlgebraicGeometry.etaleStalkToSectionsAb_eq_smallEtaleSpecializationStalkAb` — composed with
+  the comparison `F_{t ≫ p} ⟶ Γ(t, (t ≫ p)⁻¹F)` of Stacks 03Q1, the specialization map is the
+  canonical map `F_s ⟶ Γ(t, (t ≫ p)⁻¹F)` which restricts a germ at `s` along
+  `t ⟶ Spec(𝒪^{sh}_{S,s}) ⟶ W`. This is a step towards [Stacks, Tag 0GJ3], which is
+  `AlgebraicGeometry.smallEtaleSpecializationStalkAb_eq_sectionsRestrictionAb` in
+  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/SpecializationStalkIdentifications.lean`.
 
 ## References
 
@@ -246,10 +247,6 @@ theorem smallEtaleSpecializationStalkAb_toPresheafFiber
 `F_{t ≫ p} ⟶ Γ(t, (t ≫ p)⁻¹F)` of Stacks 03Q1, the specialization map on stalks is the canonical
 map `F_s ⟶ Γ(t, (t ≫ p)⁻¹F)` of Stacks 0GJN, which restricts the germ at `s` of a section over an
 étale neighbourhood `W` along the composite `t ⟶ Spec(𝒪^{sh}_{S,s}) ⟶ W`. -/
-@[stacks 0GJ3 "the specialization map is pullback by the geometric point of the strict
-henselization, after the identification of the stalk at the specialized point with sections on
-that point. The factorization of the left-hand side through sections over the strict
-henselization itself is not proved here; see the module docstring."]
 theorem etaleStalkToSectionsAb_eq_smallEtaleSpecializationStalkAb :
     etaleStalkToSectionsAb B S hS s t.hom =
       smallEtaleSpecializationStalkAb B S hS s t ≫

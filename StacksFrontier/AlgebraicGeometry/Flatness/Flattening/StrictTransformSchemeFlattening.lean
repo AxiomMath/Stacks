@@ -28,8 +28,10 @@ is flatness of the other.
 
 * `AlgebraicGeometry.flat_strictTransformToBlowUp_iff`: the strict transform of `X` is flat over
   the blowup of `S` in `I` exactly when the strict transform of `𝒪_X` is flat over it.
-* `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`: the flatness assertion of
-  **[Stacks, Tag 081R]**, with the affine case carried as a hypothesis.
+* `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`: flatness of the strict
+  transform of `X` from the chart predicate `AlgebraicGeometry.AffineChartFlatteningCentre`, the
+  gluing step of the proof of [Stacks, Tag 081R]. The tag itself is proved in full as
+  `exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`.
 * `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform_of_flat`: the same
   conclusion unconditionally when `f` is already flat.
 
@@ -65,10 +67,13 @@ below. On the region where no blowup is needed the hypothesis is unconditional,
 `AlgebraicGeometry.AffineChartFlatteningCentre.of_isFlatOver`, whence
 `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform_of_flat`.
 
-**What is not proved.** The source concludes as well that the strict transform is of finite
+**Finite presentation.** The source concludes as well that the strict transform is of finite
 presentation over `S'`. That assertion is recovered from flatness by [Stacks, Tag 081N] once a
-retrocompact scheme-theoretically dense open of the blowup is available, and is not treated
-here.
+retrocompact scheme-theoretically dense open of the blowup is available; this is done in
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.StrictTransformFinitePresentationFromFlat`,
+where the chart predicate is also produced from hypothesis (2) and [Stacks, Tag 081R] is proved in
+full as
+`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`.
 
 The strict transform of `X` is `AlgebraicGeometry.strictTransformToBlowUp`, the closed immersion
 of `Stacks.StrictTransform.scheme` into `X ×_S S'` followed by the projection to the blowup,
@@ -177,21 +182,19 @@ theorem flat_strictTransformToBlowUp_iff :
       infer_instance
   exact h5.symm.trans (h4.symm.trans (h3.symm.trans (h2.trans h1.symm)))
 
-/-- **Stacks Project, Tag 081R, flatness assertion.** Let `S` be a quasi-compact and
+/-- **Flatness of the strict transform from the affine charts.** Let `S` be a quasi-compact and
 quasi-separated scheme, let `f : X ⟶ S` be of finite type and quasi-separated and let `U ⊆ S` be
-a quasi-compact open. Granted the affine case `AlgebraicGeometry.AffineChartFlatteningCentre`
-for the structure sheaf of `X`, there is a centre `I` on `S`, finitely presented and supported
-away from `U`, exhibiting the blowup of `S` in `I` as a `U`-admissible blowup, such that the
-strict transform of `X` along that blowup is flat over it.
+a quasi-compact open. If `AlgebraicGeometry.AffineChartFlatteningCentre` holds for the structure
+sheaf of `X`, there is a centre `I` on `S`, finitely presented and supported away from `U`,
+exhibiting the blowup of `S` in `I` as a `U`-admissible blowup, such that the strict transform of
+`X` along that blowup is flat over it.
 
-The flatness assertion of [Stacks, Tag 0815] for `𝒪_X` gives the centre and the flatness of the
-strict transform of `𝒪_X`, and `AlgebraicGeometry.flat_strictTransformToBlowUp_iff` reads that
-as flatness of the strict transform of `X`. -/
-@[stacks 081R "the flatness assertion of the conclusion; the affine case is carried as the \
-hypothesis `AlgebraicGeometry.AffineChartFlatteningCentre`, inherited from the flatness half of \
-[Stacks, Tag 0815], and hypothesis (2) of the source — `X_U ⟶ U` flat and locally of finite \
-presentation — is not assumed separately because it enters only through that hypothesis; finite \
-presentation of the strict transform is not claimed"]
+The chart predicate gives the centre and the flatness of the strict transform of `𝒪_X`, and
+`AlgebraicGeometry.flat_strictTransformToBlowUp_iff` reads that as flatness of the strict
+transform of `X`. This is the gluing step of the proof of [Stacks, Tag 081R]; the tag itself,
+under exactly the source's hypotheses and with both clauses of its conclusion, is
+`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`.
+-/
 theorem exists_isAdmissibleBlowup_flat_strictTransform [CompactSpace S] [QuasiSeparatedSpace S]
     [LocallyOfFiniteType f] [QuasiCompact f] [QuasiSeparated f] (U : S.Opens)
     (hU : IsCompact (U : Set S)) (H : AffineChartFlatteningCentre f X.unitModule U) :

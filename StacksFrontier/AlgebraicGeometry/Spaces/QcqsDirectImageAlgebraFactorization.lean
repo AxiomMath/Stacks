@@ -32,12 +32,12 @@ giving the forms suffixed `_unconditional`.
 
 ## Implementation notes
 
-The factorization statements still presuppose the anti-equivalence `E` of Stacks 081V and its
+The constructions still presuppose the anti-equivalence `E` of Stacks 081V and its
 base-change compatibility `C`, and `AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence` is
 uninhabited by
 `AlgebraicGeometry.Space.not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart`, so
 they are vacuous over any algebraic space with one affine chart whose ring of functions is not
-zero; their `@[stacks 081X]` clauses say so.  The quasi-coherence statement mentions no `E`.
+zero.  The quasi-coherence statement mentions no `E`.
 Stacks 081X itself is delivered unconditionally by
 `AlgebraicGeometry.Space.directImageSpec_factorization` of
 `StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`.
@@ -74,7 +74,7 @@ This is `AlgebraicGeometry.Space.isQuasicoherent_pushforwardAlgebra` with its St
 hypothesis supplied, read at an object of `Over X` rather than at `Over.mk f`.  The form at a
 morphism `f : Y ⟶ X` is `AlgebraicGeometry.Space.isQuasicoherent_pushforwardAlgebra_of_qcqs` of
 `StacksFrontier.AlgebraicGeometry.Spaces.PushforwardAlgebraQcqs`. -/
-@[stacks 081X "quasi-coherence of the pushforward algebra", ega "IV 21.12.1" "more general"]
+@[ega "IV 21.12.1" "more general"]
 theorem isQuasicoherent_pushforwardAlgebra_unconditional (T : Over X)
     (hfqc : IsQuasiCompact B S hS T.hom.hom) (hfqs : IsQuasiSeparated B S hS T.hom.hom) :
     (pushforwardAlgebra B S hS T).IsQuasicoherent :=
@@ -107,28 +107,11 @@ def qcqsDirectImageFactorizationMap_unconditional :
   qcqsDirectImageFactorizationMap B S hS E C f hfqc hfqs
     fun hqc hqs => isQuasicoherentOnSite_modulePushforward_of_qcqs B S hS f hqc hqs
 
-/-- **Stacks 081X.** A quasi-compact, quasi-separated morphism `f : Y ⟶ X` of algebraic spaces
-factors canonically as `Y ⟶ \underline{Spec}_X(f_* 𝒪_Y) ⟶ X`, with nothing assumed beyond the
-anti-equivalence of Stacks 081V and its base-change compatibility.
-
-This is `AlgebraicGeometry.Space.qcqsDirectImageFactorizationMap_factorization` with its
-Stacks 03M9 hypothesis supplied.
-
-**This statement is vacuous**, for the reason recorded at
-`AlgebraicGeometry.Space.directImageFactorizationMap_factorization`: the anti-equivalence `E` it
-presupposes is an inhabitant of `AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence`, which
-`AlgebraicGeometry.Space.not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart`
-empties.  The same factorization against the bounded anti-equivalence is
-`AlgebraicGeometry.Space.boundedQcqsDirectImageFactorizationMap_factorization` of
-`StacksFrontier.AlgebraicGeometry.Spaces.BoundedDirectImageAlgebraFactorization`.  Stacks 081X is
-delivered unconditionally by `AlgebraicGeometry.Space.directImageSpec_factorization` of
-`StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`. -/
-@[stacks 081X "the canonical factorization of a quasi-compact quasi-separated morphism — but \
-presupposing an inhabitant of AffineAlgebraAntiEquivalence, which \
-not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart shows is uninhabited over any \
-algebraic space with one affine chart carrying a nonzero ring of functions, so the statement is \
-vacuous there; the factorization against the bounded anti-equivalence, which that argument does \
-not refute, is boundedQcqsDirectImageFactorizationMap_factorization"]
+/-- `AlgebraicGeometry.Space.qcqsDirectImageFactorizationMap_factorization` with its Stacks 03M9
+hypothesis supplied.  Stacks 081X is registered on
+`AlgebraicGeometry.Space.directImageSpec_factorization` of
+`StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`, which proves it with nothing
+missing from the library. -/
 theorem qcqsDirectImageFactorizationMap_factorization_unconditional :
     (qcqsDirectImageFactorizationMap_unconditional B S hS E C f hfqc hfqs).left ≫
         (qcqsRelativeSpecDirectImage_unconditional B S hS E f hfqc hfqs).obj.hom = f :=

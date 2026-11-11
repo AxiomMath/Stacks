@@ -33,11 +33,15 @@ All in the namespace `AlgebraicGeometry.SmallEtale`.
 * `isLeftAdjoint_compactificationDerivedLowerShriek` — so `Rf_!` has a right adjoint, and
   `compactificationRightAdjointIso` and `rightAdjointIsoModuleRUpperShriekFunctor`: every right
   adjoint of `Rf_!`, in particular `Functor.rightAdjoint Rf_!`, is isomorphic to `Rf^!`.
-* `exists_compactification_rightAdjointIso_moduleRUpperShriekFunctor` —
-  **[Stacks, Tag 0GL8]**: for `f` separated and quasi-finite with quasi-compact
-  quasi-separated target, `f` has a compactification `f = f̄ ∘ j` with `f̄` finite (Zariski's
-  main theorem), the functor `Rf_! = Rf̄_* ∘ j_!` of it is a left adjoint, and every right
-  adjoint of it is isomorphic to the `Rf^!` of [Stacks, Tag 0F5N].
+* `exists_compactification_rightAdjointIso_moduleRUpperShriekFunctor` — the case of
+  [Stacks, Tag 0GL8] for *one* compactification: for `f` separated and quasi-finite with
+  quasi-compact quasi-separated target, `f` has a compactification `f = f̄ ∘ j` with `f̄` finite
+  (Zariski's main theorem), the functor `Rf_! = Rf̄_* ∘ j_!` of it is a left adjoint, and every
+  right adjoint of it is isomorphic to the `Rf^!` of [Stacks, Tag 0F5N]. The statement of the
+  tag, for *every* compactification and the functor `Rf^!` of [Stacks, Tag 0G2C] on Mathlib's
+  small étale sites, is
+  `AlgebraicGeometry.SmallEtale.derivedUpperShriekUnboundedIsoModuleRUpperShriekFunctor` in
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedUpperShriek.QuasiFiniteComparison`.
 
 ## Implementation notes
 
@@ -159,18 +163,23 @@ def rightAdjointIsoModuleRUpperShriekFunctor :
 
 end Compactification
 
-/-- **[Stacks, Tag 0GL8].** Let `f : X ⟶ Y` be a separated quasi-finite morphism of a big
-étale site with `Y` quasi-compact and quasi-separated, and let `Λ` be a ring. Then `f` factors
-as an open immersion `j : X ⟶ X̄` followed by a finite morphism `f̄ : X̄ ⟶ Y` (Zariski's main
-theorem, [Stacks, Tag 05K0]), and for every model of `D(X̄_étale, Λ)` and every total right
+/-- The case of [Stacks, Tag 0GL8] for one compactification, with finite `f̄`. Let `f : X ⟶ Y`
+be a separated quasi-finite morphism of a big étale site with `Y` quasi-compact and
+quasi-separated, and let `Λ` be a ring. Then `f` factors as an open immersion `j : X ⟶ X̄`
+followed by a finite morphism `f̄ : X̄ ⟶ Y` (Zariski's main theorem, [Stacks, Tag 05K0]), and
+for every model of `D(X̄_étale, Λ)` and every total right
 derived functor `Rf̄_*` of `f̄_*`, the derived lower shriek `Rf_! = Rf̄_* ∘ j_!` of
 [Stacks, Tag 0G2C] has a right adjoint, and every right adjoint `Rf^!` of it is isomorphic to
 the derived upper shriek `Rf^! : D(Y_étale, Λ) ⥤ D(X_étale, Λ)` of [Stacks, Tag 0F5N].
 
 Quasi-finiteness is [Stacks, Tag 02NG]: locally quasi-finite, locally of finite type and
-quasi-compact together. The compactification is produced, not assumed. -/
-@[stacks 0GL8 "Rf^! of Tag 0G2C is the Rf^! of Tag 0F5N, for every right adjoint of Rf_!",
-  ega "IV 18.12.13" "special case"]
+quasi-compact together. The compactification is produced, not assumed.
+
+This says that *some* compactification works. [Stacks, Tag 0GL8] itself, for an arbitrary
+compactification (made canonical by [Stacks, Tag 0F7I]) and the functor `Rf^!` of
+[Stacks, Tag 0G2C] on Mathlib's small étale sites, is
+`AlgebraicGeometry.SmallEtale.derivedUpperShriekUnboundedIsoModuleRUpperShriekFunctor`. -/
+@[ega "IV 18.12.13" "special case"]
 theorem exists_compactification_rightAdjointIso_moduleRUpperShriekFunctor
     (B : BigEtaleSite.{u}) (Λ : Type u) [Ring Λ] {X Y : B.Scheme} (f : X ⟶ Y)
     [IsSeparated (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]

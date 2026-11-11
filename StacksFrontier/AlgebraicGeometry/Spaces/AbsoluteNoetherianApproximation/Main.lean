@@ -448,7 +448,11 @@ theorem hasConventionalNoetherianApproximation_of_etaleAtlas
 space over `Spec ℤ`, the terminal scheme `⊤_ Scheme`, on the big fppf site `B`. Then there are a
 directed set `I` and an inverse system `(X_i)` of algebraic spaces over `I` such that
 (1) the transition morphisms are affine, (2) each `X_i` is quasi-separated and of finite type
-over `ℤ`, and (3) `X = lim X_i`, the limit being taken in presheaves on the site. -/
+over `ℤ`, and (3) `X = lim X_i`, the limit being taken in presheaves on the site.
+
+The hypotheses are exactly those of the source, and nothing further is assumed: `X` is written
+as a limit by the descending induction over the strata of Stacks 07ST, through
+`AlgebraicGeometry.Space.hasConventionalNoetherianApproximation_of_etaleAtlas`. -/
 @[stacks 07SU]
 theorem hasNoetherianApproximation_of_isQuasiCompactSpace
     {X : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u}

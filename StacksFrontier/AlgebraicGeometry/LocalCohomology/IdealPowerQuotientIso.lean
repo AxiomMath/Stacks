@@ -974,10 +974,9 @@ section Isomorphism
 
 variable (A : Type u) [CommRing A] (M : Type v) [AddCommGroup M] [Module A M] (I : Ideal A)
 
-/-- **Stacks Project, Tag 01PM (`general_isomorphism`).** For a finitely generated ideal `I`
+/-- For a finitely generated ideal `I`
 the canonical map from the direct limit of `Hom_A(I ^ n, M / Mₙ)` to the sections of `M̃` on
 `Spec(A) \ V(I)` is bijective. -/
-@[stacks 01PM "general_isomorphism"]
 public lemma canonicalMapModuloAnnihilator_bijective (hI : I.FG) :
     Function.Bijective (canonicalMapModuloAnnihilator A I M) :=
   ⟨canonicalMapModuloAnnihilator_injective A M I hI,

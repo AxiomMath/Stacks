@@ -43,6 +43,12 @@ steps compose directly. The same pattern gives finite type, clause (5) of Stacks
 
 ## What this does and does not settle
 
+The comparison `AlgebraicGeometry.Space.RepresentableConormalSheafComparison` itself is proved,
+by another route, as `AlgebraicGeometry.Space.representableConormalSheafComparison`, from
+`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_conormalSheaf_of_scheme` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/RepresentableConormal.lean`; what follows is
+what this file's own route would still need.
+
 This is the comparison numbered (1) in the section *What is not proved here* of the module that
 declares `AlgebraicGeometry.Space.RepresentableConormalSheafComparison`
 (`Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/Conormal.lean`).  That hypothesis is

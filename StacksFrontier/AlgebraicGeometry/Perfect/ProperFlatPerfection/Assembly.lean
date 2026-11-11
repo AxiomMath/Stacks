@@ -88,10 +88,7 @@ theorem perfectDerivedPushforward_of_baseChange (hbc : BaseChangeDerivedPushforw
 
 /-- Let `f : X ⟶ S` be a proper morphism of finite presentation and `ℱ` an `𝒪_X`-module of
 finite presentation, flat over `S`. Then `Rf_*ℱ` is a perfect object of `D(𝒪_S)`. -/
-@[stacks 0B91 "clause (2), the perfection half: for f proper of finite presentation and a module \
-of finite presentation flat over S, Rf_*F is a perfect object of D(O_S), over an arbitrary base. \
-Proved by Noetherian approximation of (f, F), the Noetherian case, base change and stability of \
-perfection under derived pullback; nothing is granted", sga "6 IV 3.3.2" "3.3.2.3, special case"]
+@[sga "6 IV 3.3.2" "3.3.2.3, special case"]
 theorem perfectDerivedPushforward : PerfectDerivedPushforward.{u} :=
   perfectDerivedPushforward_of_baseChange baseChangeDerivedPushforward
 

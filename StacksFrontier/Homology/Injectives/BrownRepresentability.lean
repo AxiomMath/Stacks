@@ -37,10 +37,17 @@ represents `H`.
 
 ## Main results
 
-* `Stacks.Injectives.isRepresentable_of_isGrothendieckAbelian`: Brown representability for the
-  unbounded derived category of a Grothendieck abelian category, [Stacks, Tag 0F5X].
+* `Stacks.Injectives.isRepresentable_of_isHomological_of_isGrothendieckAbelian`: Brown
+  representability for the unbounded derived category of a Grothendieck abelian category,
+  [Stacks, Tag 0F5X].
+* `Stacks.Injectives.isRepresentable_of_isGrothendieckAbelian`: the same under the hypothesis
+  `IsGrothendieckAbelian.{max w u v} A`, which only the zero category satisfies.
 * `Stacks.Injectives.exists_exact_rightAdjoint`: an exact functor out of that derived category
-  which transforms direct sums into direct sums has an exact right adjoint, [Stacks, Tag 0F5Y].
+  which transforms direct sums into direct sums has an exact right adjoint, under
+  `IsGrothendieckAbelian.{max w u v} A`, which only the zero category satisfies. The statement of
+  [Stacks, Tag 0F5Y] is
+  `Stacks.Injectives.exists_exact_rightAdjoint_of_isGrothendieckAbelian`, in
+  `StacksFrontier.Homology.Injectives.BrownRepresentabilityRightAdjoint`.
 
 ## Implementation notes
 
@@ -447,10 +454,34 @@ open Opposite CategoryTheory.Pretriangulated CategoryTheory.Pretriangulated.Oppo
 
 universe z w v u u'
 
-/-- **Stacks 0F5X (Brown representability for Grothendieck abelian categories).** Let `A` be a
-Grothendieck abelian category and `H : D(A) ⥤ Ab` a contravariant cohomological functor which
-transforms direct sums into products. Then `H` is representable. -/
-@[stacks 0F5X]
+/-- **Brown representability for Grothendieck abelian categories**, with the Grothendieck
+condition `IsGrothendieckAbelian.{v} A` in the universe `v` of the morphisms of `A`: for a
+Grothendieck abelian category `A`, a contravariant cohomological functor
+`H : D(A)ᵒᵖ ⥤ AddCommGrpCat.{v}` which transforms direct sums indexed by `Type v` into products
+is representable.
+
+This is the statement of [Stacks, Tag 0F5X] for every ordinary Grothendieck abelian category,
+e.g. `ModuleCat.{v} R`. The model of `D(A)` is arbitrary; in the model with morphisms in `Type v`
+(which exists by `hasDerivedCategory_of_isGrothendieckAbelian`) the functors
+`Hom(-, X) = preadditiveYoneda.obj X` themselves satisfy the hypotheses. -/
+@[stacks 0F5X "Brown representability: a contravariant cohomological functor D(A) → Ab, A a \
+Grothendieck abelian category, which transforms direct sums into products is representable"]
+public theorem isRepresentable_of_isHomological_of_isGrothendieckAbelian (A : Type u)
+    [Category.{v} A] [Abelian A] [IsGrothendieckAbelian.{v} A] [HasDerivedCategory.{z} A]
+    (H : (DerivedCategory A)ᵒᵖ ⥤ AddCommGrpCat.{v}) [H.IsHomological]
+    [∀ J : Type v, PreservesLimitsOfShape (Discrete J) H] :
+    (H ⋙ forget AddCommGrpCat).IsRepresentable := by
+  let Φ : A ≌ A := CategoryTheory.Equivalence.refl
+  have : Φ.functor.Additive := inferInstanceAs (𝟭 A).Additive
+  have : Φ.inverse.Additive := inferInstanceAs (𝟭 A).Additive
+  exact isRepresentable_of_equivalence_isGrothendieckAbelian Φ H
+
+/-- Brown representability under the hypothesis `IsGrothendieckAbelian.{max w u v} A`, with `A`
+in `Type u` and its morphisms in `Type v`. That hypothesis gives coproducts indexed by the type
+of all morphisms of `A`, so by Freyd's Cantor argument every hom-set of `A` is a subsingleton
+and `A` is equivalent to the zero category: this statement is vacuous for every nontrivial `A`.
+The faithful statement of [Stacks, Tag 0F5X] is
+`isRepresentable_of_isHomological_of_isGrothendieckAbelian`. -/
 public theorem isRepresentable_of_isGrothendieckAbelian (A : Type u) [Category.{v} A] [Abelian A]
     [IsGrothendieckAbelian.{max w u v} A] [HasDerivedCategory.{z} A]
     (H : (DerivedCategory A)ᵒᵖ ⥤ AddCommGrpCat.{max u v}) [H.IsHomological]
@@ -470,11 +501,17 @@ public theorem isRepresentable_of_isGrothendieckAbelian (A : Type u) [Category.{
     inferInstanceAs ((ShrinkHoms.inverse A).Additive)
   exact isRepresentable_of_equivalence_isGrothendieckAbelian (ShrinkHoms.equivalence A) H
 
-/-- **Stacks 0F5Y.** Let `A` be a Grothendieck abelian category and `D` a triangulated category.
-An exact functor `F : D(A) ⥤ D` which transforms direct sums into direct sums has an exact right
-adjoint: a functor `G`, an adjunction `F ⊣ G`, and a commutation of `G` with the shift making `G`
-triangulated. -/
-@[stacks 0F5Y]
+/-- Let `A` be an abelian category which is Grothendieck abelian relative to the universe
+`max w u v`, and `D` a triangulated category. An exact functor `F : D(A) ⥤ D` which transforms
+direct sums indexed by `Type (max w u v)` into direct sums has an exact right adjoint: a functor
+`G`, an adjunction `F ⊣ G`, and a commutation of `G` with the shift making `G` triangulated.
+
+This is not the statement of [Stacks, Tag 0F5Y]: the hypothesis
+`IsGrothendieckAbelian.{max w u v} A` holds for no category with a nonzero object, since a direct
+sum `⨁_κ G` of a nonzero `G` over a type `κ` above `v` would give `Hom(⨁_κ G, G) = ∏_κ End(G)`,
+too large for `Type v`. The tag is carried by
+`Stacks.Injectives.exists_exact_rightAdjoint_of_isGrothendieckAbelian`, which asks for
+`IsGrothendieckAbelian.{v} A` and direct sums indexed by `Type v`. -/
 public theorem exists_exact_rightAdjoint (A : Type u) [Category.{v} A] [Abelian A]
     [IsGrothendieckAbelian.{max w u v} A] [HasDerivedCategory.{z} A]
     (D : Type u') [Category.{max u v} D] [HasZeroObject D] [HasShift D ℤ] [Preadditive D]

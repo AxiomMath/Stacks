@@ -59,8 +59,6 @@ theorem exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform_of_isPrope
       (pullback.snd f U.ι)).mp inferInstance
   -- the base change over `U` is the restriction of `f` to `U`, so `f ∣_ U` is flat and locally
   -- of finite presentation: hypothesis (2) of [Stacks, Tag 081R]
-  -- the base change over `U` is the restriction of `f` to `U`, so `f ∣_ U` is flat and locally
-  -- of finite presentation: hypothesis (2) of [Stacks, Tag 081R]
   have hflatU := (prop_morphismRestrict_iff_pullback_snd @Flat f U).mpr hflfU.2.1
   have hlofpU :=
     (prop_morphismRestrict_iff_pullback_snd @LocallyOfFinitePresentation f U).mpr hflfU.2.2

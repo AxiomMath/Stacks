@@ -126,7 +126,11 @@ theorem exists_boundary_lift_vanishing_of_stableImages
   trivial
 
 /-- **Stacks Project, Tag 0GYR**, the footnote: the images of `Hᵖ(C, F_k) → Hᵖ(C, Fᵢ)` are the
-stable image already at `k = i + c`, for one `c` independent of `i`. -/
+stable image already at `k = i + c`, for one `c` independent of `i`. In Stacks' indexing
+(`Mₙ = Hᵖ(C, Fₙ)` with Lean's `F i` standing for Stacks' `F_{i+1}`): there is `c ≥ 0` with
+`Im(Mₙ → M_{n-c})` the stable image for all `n ≥ c`, the stable image being the common value of
+`Im(M_k → M_{n-c})` for all `k ≥ n`. -/
+@[stacks 0GYR "the footnote: a uniform shift `c` with `Im(Mₙ → M_{n-c})` the stable image"]
 theorem exists_uniform_stable_image_of_stableImages
     (hacc : WellFoundedGT (StableGradedSubmodule hF p)) :
     ∃ c : ℕ, ∀ i k : ℕ, ∀ h : i + c ≤ k,
@@ -160,8 +164,10 @@ theorem exists_uniform_stable_image_of_stableImages
 /-- **Stacks Project, Tag 0GYR.** For an inverse system of sheaves of modules on a site with
 `Fₙ = Fₙ₊₁/IⁿFₙ₊₁`, the ascending chain condition on the graded submodules of `⨁ₙ Nₙ`, where
 `Nₙ = ⋂_{m ≥ n} Im(H^(p+1)(C, IⁿF_m) → H^(p+1)(C, IⁿFₙ))`, implies that the inverse system
-`n ↦ Hᵖ(C, Fₙ)` satisfies the Mittag-Leffler condition. -/
-@[stacks 0GYR]
+`n ↦ Hᵖ(C, Fₙ)` satisfies the Mittag-Leffler condition. The footnote's uniform shift is
+`exists_uniform_stable_image_of_stableImages`. -/
+@[stacks 0GYR "the Mittag-Leffler condition; the footnote's uniform shift is \
+`exists_uniform_stable_image_of_stableImages`"]
 theorem isMittagLefflerCategorical_cohomology_of_stableImages
     (hacc : WellFoundedGT (StableGradedSubmodule hF p)) :
     IsMittagLefflerCategorical (F ⋙ globalModuleCohomology.{u, v, r, w} O p) := by

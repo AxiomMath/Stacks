@@ -23,7 +23,11 @@ what bounds the number of steps.
 ## Main results
 
 * `Module.FiniteLength.exists_sequence_with_successive_quotients_at_minimal_support`
-  constructs the required sequence and identifies its length.
+  constructs the required sequence, with the length of the localized module as its length.
+* `Module.FiniteLength.eq_toNat_length_localized_of_successive_quotients` shows that every
+  such sequence has the length of the localized module as its length.
+* `Module.FiniteLength.exists_sequence_with_successive_quotients_at_minimal_support_and_length_eq`
+  is the complete statement of Tag 02QC.
 
 ## Implementation notes
 
@@ -258,10 +262,14 @@ private theorem exists_sequence_from_submodule
       · rw [Fin.range_cons, Submodule.span_insert, ← sup_assoc]
         exact hysupp
 
-/-- **Stacks Project, Tag 02QC.** At a minimal point `q` of the support of a finite module
-`M`, one can successively remove copies of `R / q` until `q` is absent from the support. The
-number of copies is the length of the localization of `M` at `q`. -/
-@[stacks 02QC]
+/-- The existence half of Tag 02QC: at a minimal point `q` of the support of a finite module
+`M`, one can successively remove copies of `R / q` until `q` is absent from the support, with
+as many copies as the length of the localization of `M` at `q`. This only exhibits one such
+sequence; that every such sequence has this length is
+`Module.FiniteLength.eq_toNat_length_localized_of_successive_quotients`, and the complete
+statement of Tag 02QC is
+`Module.FiniteLength.exists_sequence_with_successive_quotients_at_minimal_support_and_length_eq`.
+-/
 theorem exists_sequence_with_successive_quotients_at_minimal_support
     {R : Type u} {M : Type v} [CommRing R] [IsNoetherianRing R]
     [AddCommGroup M] [Module R M] [Module.Finite R M]
@@ -291,5 +299,151 @@ theorem exists_sequence_with_successive_quotients_at_minimal_support
   have hi := hfac i
   rw [bot_sup_eq] at hi
   simpa [Submodule.submoduleOf] using hi
+
+/-- The span of the entries of a sequence with index below `k` is the span before the entry of
+index `k`. -/
+private theorem span_image_lt_eq_spanBefore
+    {R : Type u} {M : Type v} [Ring R] [AddCommGroup M] [Module R M]
+    {l : ℕ} (x : Fin l → M) (k : ℕ) (hk : k < l) :
+    Submodule.span R (x '' {j | (j : ℕ) < k}) = spanBefore (R := R) x ⟨k, hk⟩ := by
+  rw [show {j : Fin l | (j : ℕ) < k} = Set.Iio ⟨k, hk⟩ from by ext j; simp [Fin.lt_def]]
+
+/-- The span of the entries of a sequence with index below `k + 1` adds the entry of index `k`
+to the span before it. -/
+private theorem span_image_lt_succ
+    {R : Type u} {M : Type v} [Ring R] [AddCommGroup M] [Module R M]
+    {l : ℕ} (x : Fin l → M) (k : ℕ) (hk : k < l) :
+    Submodule.span R (x '' {j | (j : ℕ) < k + 1}) =
+      spanBefore (R := R) x ⟨k, hk⟩ ⊔ R ∙ x ⟨k, hk⟩ := by
+  have himage : x '' {j : Fin l | (j : ℕ) < k + 1} =
+      insert (x ⟨k, hk⟩) (x '' Set.Iio ⟨k, hk⟩) := by
+    rw [← Set.image_insert_eq]
+    congr 1
+    ext j
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_Iio, Fin.lt_def, Fin.ext_iff]
+    omega
+  rw [himage, Submodule.span_insert, sup_comm]
+
+/-- Adding an entry whose successive quotient is `R / q` raises the length of the localization
+at `q` by one. -/
+private theorem length_localized_sup_eq_add_one
+    {R : Type u} {M : Type v} [CommRing R] [AddCommGroup M] [Module R M]
+    (q : PrimeSpectrum R) (S : Submodule R M) (z : M)
+    (e : ((S ⊔ R ∙ z : Submodule R M) ⧸ S.comap (S ⊔ R ∙ z : Submodule R M).subtype) ≃ₗ[R]
+      R ⧸ q.asIdeal) :
+    Module.length (Localization.AtPrime q.asIdeal)
+        (LocalizedModule q.asIdeal.primeCompl (S ⊔ R ∙ z : Submodule R M)) =
+      Module.length (Localization.AtPrime q.asIdeal) (LocalizedModule q.asIdeal.primeCompl S) +
+        1 := by
+  rw [length_localized_add_of_exact q.asIdeal.primeCompl
+      (S.comap (S ⊔ R ∙ z : Submodule R M).subtype).subtype
+      (S.comap (S ⊔ R ∙ z : Submodule R M).subtype).mkQ (Submodule.subtype_injective _)
+      (Submodule.mkQ_surjective _) (LinearMap.exact_subtype_mkQ _),
+    length_localized_congr q.asIdeal.primeCompl (Submodule.comapSubtypeEquivOfLe le_sup_left),
+    length_localized_congr q.asIdeal.primeCompl e, localized_length_quotient_at_prime_one]
+
+/-- Along a sequence whose successive quotients are `R / q`, the localization at `q` of the
+span of the first `k` entries has length `k`. -/
+private theorem length_localized_span_image_lt
+    {R : Type u} {M : Type v} [CommRing R] [AddCommGroup M] [Module R M]
+    (q : PrimeSpectrum R) {l : ℕ} (x : Fin l → M)
+    (hx : ∀ i : Fin l,
+      Nonempty
+          (((spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M) ⧸
+              (spanBefore (R := R) x i).comap
+                (spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M).subtype) ≃ₗ[R]
+            R ⧸ q.asIdeal))
+    (k : ℕ) (hk : k ≤ l) :
+    Module.length (Localization.AtPrime q.asIdeal)
+      (LocalizedModule q.asIdeal.primeCompl (Submodule.span R (x '' {j | (j : ℕ) < k}))) = k := by
+  induction k with
+  | zero =>
+      rw [length_localized_congr q.asIdeal.primeCompl (LinearEquiv.ofEq _ ⊥ (by simp)),
+        Nat.cast_zero, Module.length_eq_zero_iff]
+      refine Module.notMem_support_iff.mp ?_
+      rw [Module.support_eq_empty_iff.mpr inferInstance]
+      exact Set.notMem_empty q
+  | succ k ih =>
+      have hkl : k < l := hk
+      rw [length_localized_congr q.asIdeal.primeCompl
+          (LinearEquiv.ofEq _ _ (span_image_lt_succ x k hkl)),
+        length_localized_sup_eq_add_one q _ _ (hx ⟨k, hkl⟩).some,
+        ← length_localized_congr q.asIdeal.primeCompl
+          (LinearEquiv.ofEq _ _ (span_image_lt_eq_spanBefore x k hkl)),
+        ih hkl.le, Nat.cast_succ]
+
+/-- The second half of Tag 02QC, in extended natural numbers: if a sequence `x` has successive
+quotients isomorphic to `R / q` and its span removes `q` from the support, then its number of
+terms is the length of the localization of `M` at `q`. No finiteness or minimality hypothesis
+is needed. -/
+public theorem length_localized_eq_of_successive_quotients
+    {R : Type u} {M : Type v} [CommRing R] [AddCommGroup M] [Module R M]
+    (q : PrimeSpectrum R) {l : ℕ} (x : Fin l → M)
+    (hsupp : q ∉ Module.support R (M ⧸ Submodule.span R (Set.range x)))
+    (hx : ∀ i : Fin l,
+      Nonempty
+          (((spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M) ⧸
+              (spanBefore (R := R) x i).comap
+                (spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M).subtype) ≃ₗ[R]
+            R ⧸ q.asIdeal)) :
+    Module.length (Localization.AtPrime q.asIdeal) (LocalizedModule q.asIdeal.primeCompl M) =
+      l := by
+  have hspan : Submodule.span R (x '' {j | (j : ℕ) < l}) = Submodule.span R (Set.range x) := by
+    simp [Set.image_univ]
+  rw [length_localized_add_of_exact q.asIdeal.primeCompl (Submodule.span R (Set.range x)).subtype
+      (Submodule.span R (Set.range x)).mkQ (Submodule.subtype_injective _)
+      (Submodule.mkQ_surjective _) (LinearMap.exact_subtype_mkQ _),
+    Module.length_eq_zero_iff.mpr (Module.notMem_support_iff.mp hsupp), add_zero,
+    ← length_localized_congr q.asIdeal.primeCompl (LinearEquiv.ofEq _ _ hspan),
+    length_localized_span_image_lt q x hx l le_rfl]
+
+/-- The second half of Tag 02QC: if a sequence `x` has successive quotients isomorphic to
+`R / q` and its span removes `q` from the support, then its number of terms is the length of
+the localization of `M` at `q`. -/
+public theorem eq_toNat_length_localized_of_successive_quotients
+    {R : Type u} {M : Type v} [CommRing R] [AddCommGroup M] [Module R M]
+    (q : PrimeSpectrum R) {l : ℕ} (x : Fin l → M)
+    (hsupp : q ∉ Module.support R (M ⧸ Submodule.span R (Set.range x)))
+    (hx : ∀ i : Fin l,
+      Nonempty
+          (((spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M) ⧸
+              (spanBefore (R := R) x i).comap
+                (spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M).subtype) ≃ₗ[R]
+            R ⧸ q.asIdeal)) :
+    l = (Module.length (Localization.AtPrime q.asIdeal)
+      (LocalizedModule q.asIdeal.primeCompl M)).toNat := by
+  rw [length_localized_eq_of_successive_quotients q x hsupp hx, ENat.toNat_natCast]
+
+/-- **Stacks Project, Tag 02QC.** Let `M` be a finite module over a Noetherian ring `R` and
+`q` a minimal point of the support of `M`. Then there is a sequence `x₁, …, x_l` in `M` such
+that `q` is not in the support of `M / ⟨x₁, …, x_l⟩` and each successive quotient
+`⟨x₁, …, x_i⟩ / ⟨x₁, …, x_{i-1}⟩` is isomorphic to `R / q`. Moreover, every sequence with these
+two properties has `l` equal to the length of the localization `M_q` over `R_q`. -/
+@[stacks 02QC "The ring is not assumed local."]
+theorem exists_sequence_with_successive_quotients_at_minimal_support_and_length_eq
+    {R : Type u} {M : Type v} [CommRing R] [IsNoetherianRing R]
+    [AddCommGroup M] [Module R M] [Module.Finite R M]
+    (q : PrimeSpectrum R) (hq : Minimal (· ∈ Module.support R M) q) :
+    (∃ (l : ℕ) (x : Fin l → M),
+      q ∉ Module.support R (M ⧸ Submodule.span R (Set.range x)) ∧
+      ∀ i : Fin l,
+        Nonempty
+          (((spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M) ⧸
+              (spanBefore (R := R) x i).comap
+                (spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M).subtype) ≃ₗ[R]
+            R ⧸ q.asIdeal)) ∧
+    ∀ (l : ℕ) (x : Fin l → M),
+      q ∉ Module.support R (M ⧸ Submodule.span R (Set.range x)) →
+      (∀ i : Fin l,
+        Nonempty
+          (((spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M) ⧸
+              (spanBefore (R := R) x i).comap
+                (spanBefore (R := R) x i ⊔ R ∙ x i : Submodule R M).subtype) ≃ₗ[R]
+            R ⧸ q.asIdeal)) →
+      l = (Module.length (Localization.AtPrime q.asIdeal)
+        (LocalizedModule q.asIdeal.primeCompl M)).toNat := by
+  obtain ⟨l, x, hsupp, hx, -⟩ := exists_sequence_with_successive_quotients_at_minimal_support q hq
+  exact ⟨⟨l, x, hsupp, hx⟩, fun l x hsupp hx =>
+    eq_toNat_length_localized_of_successive_quotients q x hsupp hx⟩
 
 end Module.FiniteLength

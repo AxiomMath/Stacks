@@ -51,10 +51,15 @@ the hypothesis `b|_Y = 0`.
 * `AlgebraicGeometry.SheafOfModules.deRhamCupProduct_neg_left`: cup product on `H^*_{dR}` is
   compatible with negation in its first variable, the first equality of the proof.
 * `AlgebraicGeometry.SheafOfModules.cup_deRhamFirstChernClass_eq_zero_of_restriction_eq_zero`:
-  **Tag 0FMX** for the relative de Rham complex of a morphism of sheaves of rings on a ringed
-  space.
-* `AlgebraicGeometry.Scheme.Hom.cup_deRhamFirstChernClass_eq_zero`: **Tag 0FMX** for a morphism
-  of schemes, with the two hypotheses the source states on the divisor.
+  the chain of Tag 0FMX for the relative de Rham complex of a morphism of sheaves of rings on a
+  ringed space, with the inputs listed below as parameters.
+* `AlgebraicGeometry.Scheme.Hom.cup_deRhamFirstChernClass_eq_zero`: the same chain for a
+  morphism of schemes, with the same parameters.
+
+The complete statement of Tag 0FMX, with no parameter beyond the source's hypotheses, is
+`AlgebraicGeometry.Scheme.Hom.deRhamCohomologyCup_firstChernClass_eq_zero` in
+`StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.CupFirstChernClassVanishing`, which carries the
+Stacks attribution; the two results here are not registered.
 
 ## Implementation notes
 
@@ -76,23 +81,27 @@ where they are carried for the same reason — so the passage from the two hypot
 sequences is not available, and the sequences are data. Four further inputs are carried as
 binders, exactly as the library's Tag 0FUQ carries them: the cup product on hypercohomology of
 Cohomology, Section 0FKU
-(`AlgebraicGeometry.SheafOfModules.HypercohomologyCupProduct`), the identification of
+(`AlgebraicGeometry.SheafOfModules.HypercohomologyCupProduct`), an identification of
 Differential Graded Sheaves, Section 0FU3
-(`AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`), the comparison
+(`AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`, whose canonical term is
+`AlgebraicGeometry.SheafOfModules.deRhamDerivedModuleCorrespondence`), the comparison
 `realizationComparison` of the two realizations of de Rham cohomology, and the two clauses
 `hlift` and `hev` of Tag 0FUG.
 
-**Remark 0FU7, property (3) is carried.** The library's Tag 0FU7,
-`StacksFrontier.AlgebraicGeometry.DeRham.DifferentialGradedAlgebra.ClassToDerivedMorphism`, has
-properties (1) and (2) of Remark 0FU7 and the uniqueness they give, but not property (3), that
-`ξ'` sends `η ∈ H^m_{dR}` to `ξ ∪ η`. Property (3) is therefore the parameter
-`AlgebraicGeometry.SheafOfModules.DeRhamClassCupAction`. Its second field is property (3) itself;
-its first is the identification `H^m(X, Ω^•_{X/S}[n]) = H^{n + m}_{dR}(X/S)` without which
-property (3) cannot be stated, since `ξ'` induces a map to the hypercohomology of a translate.
-That identification is the same kind of input as the field `evalOne` of
-`AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`, which is its case `m = 0`,
-and like it is not in the library: derived global sections of sheaves of `A`-modules carry no
-commutation with the translation here.
+**Remark 0FU7, property (3) is a parameter here.** The morphism `ξ'` of this file is the one
+attached through an arbitrary identification `cc` of Section 0FU3
+(`AlgebraicGeometry.SheafOfModules.deRhamClassDerivedMorphism`), and its action on
+`derivedHypercohomology`, so property (3), that `ξ'` sends `η ∈ H^m_{dR}` to `ξ ∪ η`, is the
+parameter `AlgebraicGeometry.SheafOfModules.DeRhamClassCupAction`. Its second field is property
+(3) itself; its first is the identification `H^m(X, Ω^•_{X/S}[n]) = H^{n + m}_{dR}(X/S)` without
+which property (3) cannot be stated, since `ξ'` induces a map to the hypercohomology of a
+translate. The library proves property (3) for the canonical morphism
+`AlgebraicGeometry.SheafOfModules.deRhamClassMorphism`, read through derived global sections
+`derivedSectionsBase` and the identification
+`AlgebraicGeometry.SheafOfModules.deRhamShiftHomologyIso`
+(`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_eq_deRhamClassMorphism`); this file is
+stated in the realization `derivedHypercohomology`, and the comparison of the two is not made
+here.
 
 **What is proved.** The chain of the source. The third equality is the library's Tag 0FUQ,
 `AlgebraicGeometry.SheafOfModules.LogPolesResidueData.deRhamClassDerivedMorphism_eq`, turned from
@@ -185,11 +194,11 @@ the shifted degree, together with property (3) of Remark 0FU7: the morphism
 `ξ' : Ω^•_{X/S} ⟶ Ω^•_{X/S}[n]` which Tag 0FU7 attaches to a de Rham class `ξ ∈ H^n_{dR}(X/S)`
 sends `η ∈ H^m_{dR}(X/S)` to `ξ ∪ η`.
 
-This is the one parameter of this file beyond those the library's Tag 0FUQ already carries. The
-library's Tag 0FU7 has properties (1) and (2) of Remark 0FU7 and the uniqueness they give, but
-not property (3); and the identification of the first field is the case `m ≠ 0` of the field
-`AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence.evalOne`, which Tag 0FU7
-carries for the same reason. -/
+This is the one parameter of this file beyond those the library's Tag 0FUQ already takes. The
+library proves property (3) for the canonical morphism
+(`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_eq_deRhamClassMorphism`), in the
+realization `derivedSectionsBase` of derived global sections; this structure states it for the
+morphism attached through `cc`, in the realization `derivedHypercohomology`. -/
 structure DeRhamClassCupAction (cp : HypercohomologyCupProduct B D)
     (cc : DeRhamDerivedModuleCorrespondence B D) where
   /-- The identification `H^m(X, Ω^•_{X/S}[n]) = H^{n + m}_{dR}(X/S)`. -/
@@ -238,8 +247,10 @@ local instance logPolesPicardGroupAddCommGroup :
   Stacks.SheafOfModules.Picard.instAddCommGroupPicardGroup X.sheaf.obj
     (structureSheaf X.sheaf).property
 
-/-- **Stacks Project, Tag 0FMX**, for the relative de Rham complex of a morphism `φ : A ⟶ 𝒪_X` of
-sheaves of commutative rings on a ringed space.
+/-- **The chain of Tag 0FMX, with its inputs as parameters**, for the relative de Rham complex of a
+morphism `φ : A ⟶ 𝒪_X` of sheaves of commutative rings on a ringed space. The complete statement
+of Tag 0FMX, with none of these parameters, is
+`AlgebraicGeometry.Scheme.Hom.deRhamCohomologyCup_firstChernClass_eq_zero`.
 
 `c₁^{dR}(𝒪_X(Y)) ∪ b = 0`
 
@@ -258,7 +269,6 @@ Carried as explicit named hypotheses are the sequences of Tag 0FUQ, `d`; the cup
 Cohomology, Section 0FKU, `cp`; the identification of Differential Graded Sheaves, Section 0FU3,
 `cc`; property (3) of Remark 0FU7, `act`; the comparison `realizationComparison` of the two
 realizations of de Rham cohomology; and the two clauses `hlift` and `hev` of Tag 0FUG. -/
-@[stacks 0FMX "sheaf-of-modules form over a ringed space; see the docstring for what is carried"]
 theorem cup_deRhamFirstChernClass_eq_zero_of_restriction_eq_zero (d : LogPolesResidueData B D)
     (cp : HypercohomologyCupProduct B D) (cc : DeRhamDerivedModuleCorrespondence B D)
     (act : DeRhamClassCupAction B D cp cc)
@@ -327,7 +337,11 @@ structure LogPolesDivisorData (p : X ⟶ S) (I : X.IdealSheafData) where
   residueData : SheafOfModules.LogPolesResidueData (deRhamAlgebras p)
     (SheafOfModules.deRhamDifferential (deRhamAlgebras p))
 
-/-- **Stacks Project, Tag 0FMX.** Let `p : X ⟶ S` be a morphism of schemes and let `Y ⊆ X` be an
+/-- **The chain of Tag 0FMX for a morphism of schemes, with its inputs as parameters.** The
+complete statement of Tag 0FMX, with none of the parameters below, is
+`AlgebraicGeometry.Scheme.Hom.deRhamCohomologyCup_firstChernClass_eq_zero`.
+
+Let `p : X ⟶ S` be a morphism of schemes and let `Y ⊆ X` be an
 effective Cartier divisor for which the de Rham complex of log poles is defined over `S`. If the
 restriction to `Y` of a relative de Rham cohomology class `b ∈ H^m_{dR}(X/S)` is zero, then
 
@@ -342,7 +356,6 @@ explicit named hypotheses are the sequences of Tag 0FUQ, the third field of `h`;
 of Cohomology, Section 0FKU, `cp`; the identification of Differential Graded Sheaves, Section
 0FU3, `cc`; property (3) of Remark 0FU7, `act`; the comparison `realizationComparison` of the two
 realizations of de Rham cohomology; and the two clauses `hlift` and `hev` of Tag 0FUG. -/
-@[stacks 0FMX "morphism-of-schemes form; see the docstring for what is carried"]
 theorem cup_deRhamFirstChernClass_eq_zero {p : X ⟶ S} {I : X.IdealSheafData}
     (h : LogPolesDivisorData p I)
     (cp : SheafOfModules.HypercohomologyCupProduct (deRhamAlgebras p)

@@ -56,10 +56,10 @@ isomorphisms `ℒₙ ≅ ℒ|_{Xₙ}` is a morphism in that category.
 form [Stacks, Tag 088F] states it. The library carries [Stacks, Tag 088E] at
 `Stacks.Algebraization.isEquivalence_completionFunctorProperOver_holds`, against the
 category `Stacks.Coherent.CoherentAdicSystems (baseIdealSheaf A I fX)`; the *unwinding* of that
-category into systems on the adic base changes — the content [Stacks, Tag 088F] adds — is recorded
-as missing in the module documentation of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/AdicThickeningCoherentSystem.lean`, so it is not
-available here and the equivalence enters as a hypothesis in the geometric form. Only *essential
+category into systems on the adic base changes — the content [Stacks, Tag 088F] adds — is
+`AlgebraicGeometry.isEquivalence_adicThickeningCompletionFunctor`
+(`FormalGeometry/CompletionProper/AdicThickeningEssSurj.lean`), which is not among the imports of
+this file, so the equivalence enters here as a hypothesis in the geometric form. Only *essential
 surjectivity* of the restriction functor is used; the equivalence is asked for because that is the
 form in which Grothendieck existence is stated.
 

@@ -36,14 +36,17 @@ public import Mathlib.Topology.Sheaves.Init
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Universal property of the localization at a multiplicative system
+# Universal property of the localization at a left multiplicative system
 
-Stacks 04VK: the localization `S⁻¹𝓒` at a multiplicative system `S` carries a functor
-`Q : 𝓒 ⥤ S⁻¹𝓒` that is the identity on objects and sends `f` to the fraction with denominator
-`𝟙`; `Q s` is an isomorphism for every `s ∈ S`; and every functor `G : 𝓒 ⥤ 𝓓` inverting `S`
-factors as `G = Q ⋙ H` for a unique `H : S⁻¹𝓒 ⥤ 𝓓`. Stacks states 04VK for a right
-multiplicative system; the form proved here is the left one, with
-`S⁻¹𝓒 = LeftFraction.Localization S`.
+The left-handed lemma, Stacks 04VG: for a left multiplicative system `S`, the localization
+`S⁻¹𝓒 = LeftFraction.Localization S` (left fractions, Stacks 04VD) carries a functor
+`Q : 𝓒 ⥤ S⁻¹𝓒` that is the identity on objects and sends `f` to the left fraction `(f, 𝟙)`;
+`Q s` is an isomorphism for every `s ∈ S`; and every functor `G : 𝓒 ⥤ 𝓓` inverting `S`
+factors as `G = Q ⋙ H` for a unique `H : S⁻¹𝓒 ⥤ 𝓓`. Stacks 04VG itself is registered on the
+Mathlib declarations (`StacksFrontier.MathlibRegistrations.Ch04`); this file packages them.
+
+The right-handed lemma, Stacks 04VK, for a right multiplicative system and the category of
+right fractions, is in `StacksFrontier.CategoryTheory.Localization.RightFraction.UniversalProperty`.
 -/
 
 @[expose] public section
@@ -58,16 +61,17 @@ variable {𝓒 : Type u} [Category.{v} 𝓒]
 variable (S : MorphismProperty 𝓒) [S.HasLeftCalculusOfFractions]
 variable {𝓓 : Type u'} [Category.{v'} 𝓓]
 
-/-- The canonical localization functor `Q04VK : 𝓒 ⥤ S⁻¹𝓒` (Stacks Tag 04VK (1)).
+/-- The canonical localization functor `Q04VK : 𝓒 ⥤ S⁻¹𝓒` for a left multiplicative system
+(the left form, Stacks 04VG (1); the right form 04VK (1) is `RightLocalization.Q`).
 This is the Mathlib functor `LeftFraction.Localization.Q`. -/
-@[stacks 04VK "(1)", sga "5 V 2.3" "functor p : E → E(S⁻¹)", sga "4½ Etat_0 2.3.1"]
+@[sga "5 V 2.3" "functor p : E → E(S⁻¹)", sga "4½ Etat_0 2.3.1"]
 noncomputable def Q04VK : 𝓒 ⥤ LeftFraction.Localization S := LeftFraction.Localization.Q S
 
-/-- Stacks 04VK (1), object part: the functor `Q04VK` acts as the identity on
+/-- Stacks 04VG (1), object part: the functor `Q04VK` acts as the identity on
 objects. -/
 theorem Q_obj (X : 𝓒) : (Q04VK S).obj X = X := rfl
 
-/-- Stacks 04VK (1), morphism part: the functor `Q04VK` sends `f : X ⟶ Y` to the
+/-- Stacks 04VG (1), morphism part: the functor `Q04VK` sends `f : X ⟶ Y` to the
 canonical morphism in `S⁻¹𝓒` induced by the left fraction `(f, 𝟙 _)`. -/
 theorem Q_map {X Y : 𝓒} (f : X ⟶ Y) :
     (Q04VK S).map f =
@@ -75,18 +79,16 @@ theorem Q_map {X Y : 𝓒} (f : X ⟶ Y) :
         (Localization.inverts _ S) := by
   simp [Q04VK, LeftFraction.map_ofHom]
 
-/-- Stacks 04VK (2): For any `s ∈ S` the morphism `Q04VK(s)` is an isomorphism
-in `S⁻¹𝓒`. -/
-@[stacks 04VK "(2)"]
+/-- Stacks 04VG (2), the left form of 04VK (2): For any `s ∈ S` the morphism `Q04VK(s)` is
+an isomorphism in `S⁻¹𝓒`. -/
 theorem Q_isIso_of_mem {X Y : 𝓒} (s : X ⟶ Y) (hs : S s) :
     IsIso ((Q04VK S).map s) :=
   inferInstanceAs (IsIso (LeftFraction.Localization.Qiso s hs).hom)
 
-/-- Stacks 04VK (3) — combined statement: for any functor `G : 𝓒 ⥤ 𝓓`
-inverting `S`, there exists a *unique* functor `H : S⁻¹𝓒 ⥤ 𝓓` such that
+/-- Stacks 04VG (3), the left form of 04VK (3) — combined statement: for any functor
+`G : 𝓒 ⥤ 𝓓` inverting `S`, there exists a *unique* functor `H : S⁻¹𝓒 ⥤ 𝓓` such that
 `H ∘ Q04VK = G`. -/
-@[stacks 04VK "(3)",
-  sga "5 V 2.3" "left calc. of fractions",
+@[sga "5 V 2.3" "left calc. of fractions",
   sga "4½ Etat_0 2.3.1" "partial",
   sga "4½ Etat_0 Problem2" "partial"]
 theorem exists_unique_lift (G : 𝓒 ⥤ 𝓓) (hG : S.IsInvertedBy G) :

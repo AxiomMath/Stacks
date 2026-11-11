@@ -19,9 +19,12 @@ finite Tor dimension over its source.
 
 ## Main results
 
-* `RingHom.isPerfectRingMap_of_flat_of_finitePresentation` (Stacks 067J).
-* `RingHom.PseudoCoherent.of_flat_of_finitePresentation`: a flat ring map of finite presentation
-  is pseudo-coherent, which is the pseudo-coherence half of Stacks 067J.
+* `RingHom.isPerfectRingMap_of_flat_of_finitePresentation`: Stacks 067J for
+  `RingHom.IsPerfectRingMap`; for `Algebra.Perfect` it is
+  `Algebra.Perfect.of_flat_of_finitePresentation`.
+* `Algebra.PseudoCoherent.of_flat_of_finitePresentation`: a flat algebra of finite presentation is
+  pseudo-coherent, which is the pseudo-coherence half of Stacks 067J;
+  `RingHom.PseudoCoherent.of_flat_of_finitePresentation` is the same for a ring homomorphism.
 
 ## Implementation notes
 
@@ -52,7 +55,7 @@ open StacksDraft.PseudoCoherence
 
 namespace RingHom
 
-universe u
+universe u v
 
 attribute [local instance] HasDerivedCategory.standard
 
@@ -262,6 +265,17 @@ private lemma pseudoCoherent_restrictScalars_of_surjective
 
 /-! ### Finite Tor dimension -/
 
+/-- The terms of a complex concentrated in one degree on a flat module are flat. -/
+public theorem _root_.HomologicalComplex.flat_single_obj_X {R : Type*} [CommRing R]
+    (M : ModuleCat R) [Module.Flat R M] {ι : Type*} [DecidableEq ι] (c : ComplexShape ι)
+    (j i : ι) : Module.Flat R (((HomologicalComplex.single (ModuleCat R) c j).obj M).X i) := by
+  by_cases hi : i = j
+  · subst hi
+    exact .of_linearEquiv (HomologicalComplex.singleObjXSelf c i M).toLinearEquiv
+  · have := ModuleCat.isZero_iff_subsingleton.mp
+      (HomologicalComplex.isZero_single_obj_X c j M i hi)
+    infer_instance
+
 /-- A flat module is its own flat resolution, so it has Tor amplitude in `[0, 0]` for any
 certified derived tensor product. -/
 private lemma hasTorAmplitude_zero_of_flat
@@ -286,11 +300,8 @@ private lemma hasTorAmplitude_zero_of_flat
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 Mc i hi
   have hbounded : ∃ d : ℤ, ∀ i : ℤ, d < i → IsZero (P.X i) :=
     ⟨0, fun i hi => hzeroX i (by omega)⟩
-  have hflat : ∀ i : ℤ, Module.Flat A (P.X i) := by
-    intro i
-    rcases single_X_equiv_or_subsingleton Mc i with ⟨⟨e⟩⟩ | _
-    · exact Module.Flat.of_linearEquiv e
-    · infer_instance
+  have hflat : ∀ i : ℤ, Module.Flat A (P.X i) :=
+    HomologicalComplex.flat_single_obj_X Mc (ComplexShape.up ℤ) 0
   have e : DerivedCategory.Q.obj P ≅
       (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj Mc :=
     ((DerivedCategory.singleFunctorIsoCompQ (ModuleCat.{u} A) 0).app Mc).symm
@@ -311,12 +322,32 @@ private lemma hasTorAmplitude_zero_of_flat
     (((derivedTensor.mapIso e).app
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N)).symm))
 
-/-! ### The theorem -/
+/-! ### The theorems -/
 
-/-- **Stacks 067J.** A flat ring map of finite presentation is perfect: it is pseudo-coherent,
-and its target has finite Tor dimension over its source for every certified derived tensor
-product. -/
-@[stacks 067J]
+/-- **The pseudo-coherence half of Stacks 067J.** A flat algebra of finite presentation is
+pseudo-coherent.
+
+`B` is isomorphic to the quotient of a polynomial algebra over `A` by the kernel of a presentation,
+which lives in the universe of `A`. There Stacks 0675
+(`Algebra.pseudoCoherent_iff_isModuleRelativelyPseudoCoherent`) reduces pseudo-coherence to the
+pseudo-coherence of the restriction of scalars along each polynomial presentation, proved on a
+Noetherian model (see the implementation notes), and `Algebra.PseudoCoherent.equiv` carries the
+result back to `B`. -/
+public theorem _root_.Algebra.PseudoCoherent.of_flat_of_finitePresentation (A : Type u)
+    (B : Type v) [CommRing A] [CommRing B] [Algebra A B] [Module.Flat A B]
+    [Algebra.FinitePresentation A B] : Algebra.PseudoCoherent A B := by
+  obtain ⟨n, α, hα, -⟩ := Algebra.FinitePresentation.out (R := A) (A := B)
+  let e := Ideal.quotientKerAlgEquivOfSurjective hα
+  have : Module.Flat A (MvPolynomial (Fin n) A ⧸ ker α) := .of_linearEquiv e.toLinearEquiv
+  have : Algebra.FinitePresentation A (MvPolynomial (Fin n) A ⧸ ker α) := .equiv e.symm
+  refine Algebra.PseudoCoherent.equiv ?_ e
+  exact Algebra.pseudoCoherent_iff_isModuleRelativelyPseudoCoherent.mpr fun m k f hf ↦
+    (pseudoCoherent_iff_all _).mp (pseudoCoherent_restrictScalars_of_surjective k f hf) m
+
+/-- **Stacks 067J for `RingHom.IsPerfectRingMap`.** A flat ring map of finite presentation is
+pseudo-coherent, and its target has finite Tor dimension over its source for every certified
+derived tensor product. For `Algebra.Perfect` it is `Algebra.Perfect.of_flat_of_finitePresentation`;
+this form serves the statements that still take a certificate. -/
 public theorem isPerfectRingMap_of_flat_of_finitePresentation
     (A : Type u) (B : Type u) [CommRing A] [CommRing B] [Algebra A B]
     [Module.Flat A B] [Algebra.FinitePresentation A B] :
@@ -334,22 +365,17 @@ public theorem isPerfectRingMap_of_flat_of_finitePresentation
           (comparison N)
           (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ))),
       IsPerfectRingMap A B derivedTensor comparison isLeftDerived := by
-  have hpc : Algebra.PseudoCoherent A B :=
-    Algebra.pseudoCoherent_iff_isModuleRelativelyPseudoCoherent.mpr fun m n f hf ↦
-      (pseudoCoherent_iff_all _).mp (pseudoCoherent_restrictScalars_of_surjective n f hf) m
+  have hpc := Algebra.PseudoCoherent.of_flat_of_finitePresentation A B
   exact ⟨hpc, fun _ comparison isLeftDerived ↦
     ⟨hpc, 0, 0, hasTorAmplitude_zero_of_flat B comparison isLeftDerived⟩⟩
 
-/-- **The pseudo-coherence half of Stacks 067J.** A flat ring map of finite presentation is
-pseudo-coherent.
-
-This is the first component of
-`RingHom.isPerfectRingMap_of_flat_of_finitePresentation`, read for the algebra structure that the
-ring map itself induces. -/
-public theorem PseudoCoherent.of_flat_of_finitePresentation {A B : Type u} [CommRing A]
-    [CommRing B] {f : A →+* B} (hflat : f.Flat) (hfp : f.FinitePresentation) :
+/-- A flat ring map of finite presentation is pseudo-coherent: the pseudo-coherence half of
+Stacks 067J (`Algebra.PseudoCoherent.of_flat_of_finitePresentation`), read for the algebra
+structure that the ring map itself induces. -/
+public theorem PseudoCoherent.of_flat_of_finitePresentation {A : Type u} {B : Type v}
+    [CommRing A] [CommRing B] {f : A →+* B} (hflat : f.Flat) (hfp : f.FinitePresentation) :
     f.PseudoCoherent := by
   algebraize [f]
-  exact (isPerfectRingMap_of_flat_of_finitePresentation A B).1
+  exact Algebra.PseudoCoherent.of_flat_of_finitePresentation A B
 
 end RingHom

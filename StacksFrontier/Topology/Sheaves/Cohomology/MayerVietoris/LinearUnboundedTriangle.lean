@@ -44,6 +44,10 @@ functorially in `E`. This file produces that triangle in the derived category `D
   distinguished Mayer--Vietoris triangle in `D(A)` of the `A`-linear derived sections functors
   for a cover by two opens.
 
+The long exact cohomology sequence obtained from this triangle is
+`Stacks.Cohomology.LinearMayerVietoris.linearUnboundedMayerVietoris_longExact`, in
+`StacksFrontier.Topology.Sheaves.Cohomology.MayerVietoris.LinearUnboundedLongExact`.
+
 ## References
 
 * [Stacks Project, Tag 08BX](https://stacks.math.columbia.edu/tag/08BX)
@@ -845,7 +849,7 @@ The restriction maps of the `A`-linear derived sections functors, with the usual
 overlap, fit into a distinguished triangle in the derived category of `A`-modules, naturally in
 the object of `D(𝒪_X)`: the connecting map is a natural transformation and the other four maps
 are the right-derived restrictions. -/
-@[stacks 08BX "the triangle in D(A), A = Γ(X, 𝒪_X)"]
+@[stacks 08BX "the triangle, in D(A), A = Γ(X, 𝒪_X)"]
 theorem linearUnboundedMayerVietoris (hUV : U ⊔ V = ⊤) :
     ∃ δ : derivedLinearSections X (U ⊓ V) ⟶ derivedLinearSections X ⊤ ⋙
           shiftFunctor (DerivedCategory (ModuleCat.{u} (baseRing X))) (1 : ℤ),

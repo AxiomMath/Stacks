@@ -18,6 +18,10 @@ separable degree is a weighting.
 
 * `AlgebraicGeometry.exists_weighting_genericSeparableDegree` produces the weighting and
   identifies each of its values with the generic separable degree.
+* `AlgebraicGeometry.genericSeparableDegreeWeight`: the generic separable degree as a function,
+  with `AlgebraicGeometry.isWeighting_genericSeparableDegreeWeight` (it is a weighting),
+  `AlgebraicGeometry.genericSeparableDegreeWeight_eq` (its values) and
+  `AlgebraicGeometry.eq_genericSeparableDegreeWeight` (its values determine it).
 -/
 
 public section
@@ -473,5 +477,132 @@ public theorem exists_weighting_genericSeparableDegree
   · intro x κY _ _ _ Rsh _ _ _ hRsh κX _ _ _ Ssh _ _ _ _ _ _ hSsh hcomp p _ hp
       Kbar _ _ _
     exact genericSeparableDegree_eq f hY x κY Rsh hRsh κX Ssh hSsh hcomp p hp Kbar
+
+/-- **The generic separable degree** ([Stacks, Tag 0F3E], the weighting of [Stacks, Tag 0GKJ]).
+For `f : X ⟶ Y` locally quasi-finite and locally of finite type with `Y` geometrically unibranch,
+its value at `x` is the number of `κ(p)`-algebra maps `κ(p) ⊗[Rsh] Ssh → Kbar`, for compatible
+strict henselizations `Rsh` of `𝒪_{Y,f(x)}` and `Ssh` of `𝒪_{X,x}`, the minimal prime `p` of `Rsh`
+and an algebraic closure `Kbar` of `κ(p)`; this number does not depend on these choices
+(`AlgebraicGeometry.genericSeparableDegreeWeight_eq`), and the function is determined by it
+(`AlgebraicGeometry.eq_genericSeparableDegreeWeight`). -/
+public noncomputable def genericSeparableDegreeWeight
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [LocallyOfFiniteType f]
+    [LocallyQuasiFinite f] (hY : IsGeometricallyUnibranch Y) (x : X) : ℕ :=
+  genericSeparableDegree f hY x
+
+/-- The value of `AlgebraicGeometry.genericSeparableDegreeWeight` at `x` is the number of
+`κ(p)`-algebra maps `κ(p) ⊗[Rsh] Ssh → Kbar`, for every choice of compatible strict
+henselizations `Rsh` of `𝒪_{Y,f(x)}` and `Ssh` of `𝒪_{X,x}`, minimal prime `p` of `Rsh` and
+algebraic closure `Kbar` of `κ(p)`. -/
+public theorem genericSeparableDegreeWeight_eq
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [LocallyOfFiniteType f]
+    [LocallyQuasiFinite f] (hY : IsGeometricallyUnibranch Y)
+    (x : X)
+    (κY : Type u) [Field κY]
+    [Algebra (maximalIdeal (Y.presheaf.stalk (f x))).ResidueField κY]
+    [IsSepClosure (maximalIdeal (Y.presheaf.stalk (f x))).ResidueField κY]
+    (Rsh : Type u) [CommRing Rsh] [IsLocalRing Rsh]
+    [Algebra (Y.presheaf.stalk (f x)) Rsh]
+    (hRsh : Stacks.StrictHenselization.IsStrictHenselization
+      (Y.presheaf.stalk (f x)) κY Rsh)
+    (κX : Type u) [Field κX]
+    [Algebra (maximalIdeal (X.presheaf.stalk x)).ResidueField κX]
+    [IsSepClosure (maximalIdeal (X.presheaf.stalk x)).ResidueField κX]
+    (Ssh : Type u) [CommRing Ssh] [IsLocalRing Ssh]
+    [Algebra (X.presheaf.stalk x) Ssh] [Algebra Rsh Ssh]
+    [Algebra (Y.presheaf.stalk (f x)) Ssh]
+    [IsScalarTower (Y.presheaf.stalk (f x)) Rsh Ssh]
+    (hSsh : Stacks.StrictHenselization.IsStrictHenselization
+      (X.presheaf.stalk x) κX Ssh)
+    (hcomp : (algebraMap (Y.presheaf.stalk (f x)) Ssh) =
+      (algebraMap (X.presheaf.stalk x) Ssh).comp (f.stalkMap x).hom)
+    (p : Ideal Rsh) [p.IsPrime] (hp : p ∈ minimalPrimes Rsh)
+    (Kbar : Type u) [Field Kbar]
+    [Algebra p.ResidueField Kbar] [IsAlgClosure p.ResidueField Kbar] :
+    genericSeparableDegreeWeight f hY x = Nat.card (AlgHom p.ResidueField
+      (TensorProduct Rsh p.ResidueField Ssh) Kbar) :=
+  genericSeparableDegree_eq f hY x κY Rsh hRsh κX Ssh hSsh hcomp p hp Kbar
+
+/-- **The generic separable degree is determined by its values**: a function `w : X → ℕ` whose
+value at every `x` is the number of `κ(p)`-algebra maps `κ(p) ⊗[Rsh] Ssh → Kbar`, for all
+compatible strict henselizations `Rsh` of `𝒪_{Y,f(x)}` and `Ssh` of `𝒪_{X,x}`, minimal primes `p`
+of `Rsh` and algebraic closures `Kbar` of `κ(p)`, is
+`AlgebraicGeometry.genericSeparableDegreeWeight`. Such data exist at every point. -/
+public theorem eq_genericSeparableDegreeWeight
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [LocallyOfFiniteType f]
+    [LocallyQuasiFinite f] (hY : IsGeometricallyUnibranch Y) (w : X → ℕ)
+    (hw : ∀ (x : X)
+        (κY : Type u) [Field κY]
+        [Algebra (maximalIdeal (Y.presheaf.stalk (f x))).ResidueField κY]
+        [IsSepClosure (maximalIdeal (Y.presheaf.stalk (f x))).ResidueField κY]
+        (Rsh : Type u) [CommRing Rsh] [IsLocalRing Rsh]
+        [Algebra (Y.presheaf.stalk (f x)) Rsh]
+        (_hRsh : Stacks.StrictHenselization.IsStrictHenselization
+          (Y.presheaf.stalk (f x)) κY Rsh)
+        (κX : Type u) [Field κX]
+        [Algebra (maximalIdeal (X.presheaf.stalk x)).ResidueField κX]
+        [IsSepClosure (maximalIdeal (X.presheaf.stalk x)).ResidueField κX]
+        (Ssh : Type u) [CommRing Ssh] [IsLocalRing Ssh]
+        [Algebra (X.presheaf.stalk x) Ssh] [Algebra Rsh Ssh]
+        [Algebra (Y.presheaf.stalk (f x)) Ssh]
+        [IsScalarTower (Y.presheaf.stalk (f x)) Rsh Ssh]
+        (_hSsh : Stacks.StrictHenselization.IsStrictHenselization
+          (X.presheaf.stalk x) κX Ssh)
+        (_hcomp : (algebraMap (Y.presheaf.stalk (f x)) Ssh) =
+          (algebraMap (X.presheaf.stalk x) Ssh).comp (f.stalkMap x).hom)
+        (p : Ideal Rsh) [p.IsPrime] (_hp : p ∈ minimalPrimes Rsh)
+        (Kbar : Type u) [Field Kbar]
+        [Algebra p.ResidueField Kbar] [IsAlgClosure p.ResidueField Kbar],
+        w x = Nat.card (AlgHom p.ResidueField
+          (TensorProduct Rsh p.ResidueField Ssh) Kbar)) :
+    w = genericSeparableDegreeWeight f hY := by
+  funext x
+  let : Algebra (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) :=
+    (f.stalkMap x).hom.toAlgebra
+  let : IsLocalHom (algebraMap (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)) :=
+    inferInstanceAs (IsLocalHom (f.stalkMap x).hom)
+  let κR₀ := SeparableClosure (maximalIdeal (Y.presheaf.stalk (f x))).ResidueField
+  let κS₀ := SeparableClosure (maximalIdeal (X.presheaf.stalk x)).ResidueField
+  obtain ⟨R₀, ringR₀, localR₀, algebraR₀, ⟨hR₀⟩⟩ :=
+    exists_strictHenselization (Y.presheaf.stalk (f x)) κR₀
+  obtain ⟨S₀, ringS₀, localS₀, algebraS₀, ⟨hS₀⟩⟩ :=
+    exists_strictHenselization (X.presheaf.stalk x) κS₀
+  let := ringR₀
+  let := localR₀
+  let := algebraR₀
+  let := ringS₀
+  let := localS₀
+  let := algebraS₀
+  let : Algebra (Y.presheaf.stalk (f x)) S₀ :=
+    ((algebraMap (X.presheaf.stalk x) S₀).comp (f.stalkMap x).hom).toAlgebra
+  let : IsScalarTower (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) S₀ :=
+    .of_algebraMap_eq' rfl
+  obtain ⟨hom, _⟩ := exists_localAlgHom_of_strictHenselization κR₀ κS₀ R₀ S₀ hR₀ hS₀
+  let : Algebra R₀ S₀ := hom.toRingHom.toAlgebra
+  let : IsScalarTower (Y.presheaf.stalk (f x)) R₀ S₀ :=
+    .of_algebraMap_eq fun element => (hom.commutes element).symm
+  obtain ⟨prime₀, hprime₀, _⟩ := existsUnique_minimalPrime_of_strictHenselization
+    (Y.presheaf.stalk (f x)) κR₀ R₀ hR₀
+    ((isGeometricallyUnibranch_iff_isGeometricallyUnibranchRing _).mpr (hY (f x)))
+  let : prime₀.IsPrime := hprime₀.isPrime
+  exact (hw x κR₀ R₀ hR₀ κS₀ S₀ hS₀ rfl prime₀ hprime₀
+      (AlgebraicClosure prime₀.ResidueField)).trans
+    (genericSeparableDegreeWeight_eq f hY x κR₀ R₀ hR₀ κS₀ S₀ hS₀ rfl prime₀ hprime₀
+      (AlgebraicClosure prime₀.ResidueField)).symm
+
+/-- **The generic separable degree is a weighting** ([Stacks, Tag 0F3E], [Stacks, Tag 0GKJ]): for
+`f : X ⟶ Y` locally quasi-finite and locally of finite type over a geometrically unibranch locally
+Noetherian scheme `Y`, `AlgebraicGeometry.genericSeparableDegreeWeight` is a weighting of `f`. -/
+public theorem isWeighting_genericSeparableDegreeWeight
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [LocallyOfFiniteType f]
+    [LocallyQuasiFinite f] [IsLocallyNoetherian Y]
+    (hY : IsGeometricallyUnibranch Y) :
+    IsWeighting f (fun x ↦ (genericSeparableDegreeWeight f hY x : ℤ)) := by
+  unfold genericSeparableDegreeWeight
+  apply isWeighting_genericSeparableDegree_of_finite
+  intro U V π _ _ hV
+  apply isLocallyConstant_weightedFiberSum_of_affineFinite
+  intro U V _ _ π _ _ hV
+  exact isLocallyConstant_weightedFiberSum_of_isAffine π hV
 
 end AlgebraicGeometry

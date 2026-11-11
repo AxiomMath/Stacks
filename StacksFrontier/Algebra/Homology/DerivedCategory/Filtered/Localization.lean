@@ -6,6 +6,11 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-!
 # The kernel of the localisation of the finitely filtered complexes
 
+This file proves a model-level analogue of [Stacks, Tag 05S1] on the filtered cochain complexes.
+The statement of [Stacks, Tag 05S1] in the triangulated category `K(Fil^f(𝒜))` is
+`HomotopyCategory.filteredAcyclic_isTriangulated_and_trW_eq_filteredQuasiIso`, in
+`StacksFrontier.Homology.FilteredDerivedCategory.Basic`.
+
 The source deduces [Stacks, Tag 05S1] from [Stacks, Tag 05RM] applied to the homological functor
 `H^0 ∘ gr` of [Stacks, Tag 05S0]. That route is unavailable in this model: `FAc(𝒜)` and `FQis(𝒜)`
 are recorded on filtered *complexes* rather than on `K(Fil^f(𝒜))`, and no triangulated structure is
@@ -249,14 +254,17 @@ open filteredAcyclicKernel
 
 variable {A : Type u} [Category.{v} A] [Abelian A] {D : Type u'} [Category.{v'} D]
 
-/-- **Stacks 05S1.** Let `𝒜` be an abelian category. The filtered acyclic complexes
-`FAc(𝒜)` form a strictly full saturated (thick) subcategory of the filtered complexes of `𝒜`,
-whose corresponding saturated multiplicative system in the sense of [Stacks, Tag 05RL] is the
-class `FQis(𝒜)` of filtered quasi-isomorphisms: every localisation
-`L : K(Fil(𝒜)) ⥤ DF(𝒜)` at `FQis(𝒜)` has kernel exactly `FAc(𝒜)` and inverts exactly the
-filtered quasi-isomorphisms. Moreover each `H^n ∘ gr^p` inverts `FQis(𝒜)`, i.e. the homological
-functor `H^0 ∘ gr` factors through `L`. -/
-@[stacks 05S1, sga "4 Vbis 2.5.1" "Σ saturated", sga "4½ Etat_0 2.4.1" "filtered complexes"]
+/-- A model-level form of [Stacks, Tag 05S1] on all filtered cochain complexes of `𝒜` (filtered by
+subcomplexes, with no finiteness condition), not on `K(Fil^f(𝒜))`: the filtered acyclic complexes
+`filteredAcyclic A` are closed under isomorphisms and retracts, every localisation `L` of the
+filtered complexes at `filteredQuasiIso A` has kernel exactly `filteredAcyclic A` and inverts
+exactly the filtered quasi-isomorphisms, and each `H^n ∘ gr^p` inverts `filteredQuasiIso A`. No
+triangulated structure is involved. The statement of [Stacks, Tag 05S1] itself, in the triangulated
+category `K(Fil^f(𝒜))` — `FAc(𝒜)` a strictly full saturated triangulated subcategory whose
+multiplicative system is `FQis(𝒜)`, the kernel of `K(Fil^f(𝒜)) ⥤ DF(𝒜)` being `FAc(𝒜)` and
+`H^0 ∘ gr` factoring through `DF(𝒜)` — is
+`HomotopyCategory.filteredAcyclic_isTriangulated_and_trW_eq_filteredQuasiIso`. -/
+@[sga "4 Vbis 2.5.1" "Σ saturated", sga "4½ Etat_0 2.4.1" "filtered complexes"]
 public theorem kernel_eq_filteredAcyclic_and_filteredQuasiIso_eq_inverseImage_isomorphisms :
     (filteredAcyclic A).IsClosedUnderIsomorphisms ∧
       (filteredAcyclic A).IsStableUnderRetracts ∧

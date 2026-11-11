@@ -131,7 +131,7 @@ Tag 08QB asserts that `Stacks.CategoryHomology.derivedExternalTensorComparison` 
 *invertible*.  This file reduces that to a pair of generators; the generator case, and with it
 the tag (`Stacks.CategoryHomology.isIso_derivedExternalTensorComparison`), is proved in the
 sibling module `DerivedExternalTensorProductFormula` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.CategoryHomology`, where `hres` is discharged by
+`StacksDraft.CategoryTheory.Sites.Cohomology.CategoryHomology`, where `hres` is discharged by
 `Stacks.CategoryHomology.exists_kFlat_quasiIso_diagrams`.
 
 `HasDerivedCategory.standard` is made a local instance at a raised priority, because

@@ -169,20 +169,25 @@ end
 /-!
 # Local dimension of a scheme at a point
 
-The local dimension of a scheme `X` at a point `x` is the Krull dimension of the local
-ring `𝒪_{X,x}`. For `X = Spec S` with `S` of finite type over a field and `x` the closed
-point of a maximal ideal `m ⊆ S`, this local dimension is `dim S_m`: the stalk of the
-structure sheaf at `m` is the localization `S_m`, so `RingEquiv.ringKrullDim` applied to
-`AlgebraicGeometry.StructureSheaf.stalkIso` transports the dimension across.
+`Scheme.localKrullDim X x` is the Krull dimension of the local ring `𝒪_{X,x}`. This is not
+the Stacks notion `dim_x X` of Topology, Definition 0055 (4), which is the topological
+`TopologicalSpace.localKrullDim` above. For `X = Spec S` and `x` the point of a maximal ideal
+`m ⊆ S` it is `dim S_m` for every commutative ring `S`: the stalk of the structure sheaf at `m` is
+the localization `S_m`, so `RingEquiv.ringKrullDim` applied to
+`AlgebraicGeometry.StructureSheaf.stalkIso` transports the dimension across. Stacks 00OU, which
+compares the topological `dim_x X` with `dim S_m` for `S` of finite type over a field, is
+`PrimeSpectrum.localKrullDim_eq_ringKrullDim_localization_of_isMaximal` in
+`StacksFrontier.RingTheory.Spectrum.Prime.LocalDimensionClosedPoint`.
 -/
 
 @[expose] public section
 
 open AlgebraicGeometry CategoryTheory
 
-/-- The local dimension of a scheme `X` at a point `x`: the Krull dimension of the local
-ring of `X` at `x`. -/
-@[stacks 00OU, ega "IV 17.15.8", ega "IV 21.10.1" "partial", sga "1 II 5.9"]
+/-- The Krull dimension of the local ring of a scheme `X` at a point `x`. This is not the
+topological local dimension `dim_x X` of Stacks, Topology, Definition 0055 (4), which is
+`TopologicalSpace.localKrullDim`. -/
+@[ega "IV 17.15.8", ega "IV 21.10.1" "partial", sga "1 II 5.9"]
 noncomputable def Scheme.localKrullDim (X : Scheme) (x : X) : WithBot ℕ∞ :=
   ringKrullDim (X.presheaf.stalk x)
 
@@ -192,8 +197,11 @@ def specClosedPoint {S : Type*} [CommRing S] (m : Ideal S) [hm : m.IsMaximal] :
     (Spec (CommRingCat.of S) : Scheme) :=
   (⟨m, hm.isPrime⟩ : PrimeSpectrum S)
 
-/-- For a finite type algebra `S` over a field `k` and a maximal ideal `m ⊆ S`, the local
-dimension of `Spec S` at the closed point of `m` equals the Krull dimension of `S_m`. -/
+/-- For a maximal ideal `m ⊆ S`, the Krull dimension of the stalk of `Spec S` at the closed point
+of `m` equals the Krull dimension of `S_m`, the stalk being `S_m`. The hypothesis that `S` is of
+finite type over a field `k` is not used. This is not Stacks 00OU, which concerns the topological
+local dimension; that is
+`PrimeSpectrum.localKrullDim_eq_ringKrullDim_localization_of_isMaximal`. -/
 theorem Scheme.localKrullDim_specClosedPoint
     (k : Type*) [Field k]
     (S : Type*) [CommRing S] [Algebra k S] [Algebra.FiniteType k S]

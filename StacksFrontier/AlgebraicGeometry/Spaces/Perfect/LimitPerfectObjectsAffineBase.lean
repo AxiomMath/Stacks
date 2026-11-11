@@ -96,13 +96,11 @@ clause of the scheme-level Stacks 09RF appears.
 ## What is not here
 
 The induction of Stacks 08GP that globalises this base case over the quasi-compact objects of
-`(X_0)_{étale}` is not run, so essential surjectivity for Stacks 09RJ is **not** proved: the step
-for an elementary distinguished square needs clause (1) of the glueing lemma Stacks 08HB, the
-existence of the glued object, and only its clause (2),
-`AlgebraicGeometry.Space.exists_hom_of_glueData` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietorisGlueing.lean`, which takes the glued
-datum as input, is in the tree.  Nothing below is tagged, since a fragment of 09RJ's essential
-surjectivity is not 09RJ.
+`(X_0)_{étale}` is not run in this file, so essential surjectivity for Stacks 09RJ is not proved
+here: the step for an elementary distinguished square is the glueing lemma Stacks 08HB,
+`AlgebraicGeometry.Space.exists_glued_object_and_hom` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietorisGlueingTag.lean`.  Nothing below is
+tagged, since a fragment of 09RJ's essential surjectivity is not 09RJ.
 
 ## Implementation notes
 

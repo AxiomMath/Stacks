@@ -22,9 +22,12 @@ Let `(A, 𝔪)` be a Noetherian local ring, let `U = Spec A ∖ {𝔪}` be its p
 This file proves the comparison for the object the source's chain of identities produces: the
 derived sections `RΓ(U, ℒ)` of an object `ℒ` of `D(𝒪_U)` that is a derived limit of the tower
 `n ↦ ℱ/Iⁿℱ`.  By [Stacks, Tag 0A0K] such an `ℒ` is the derived completion `ℱ^∧`, and by
-[Stacks, Tag 0BLX] `RΓ(U, ℱ^∧)` is `RΓ(U, ℱ)^∧`; the latter identity is not available in this
-library, which is why the left-hand side is named by the derived limit rather than by a
-completion functor on `D(A)`.  See "What remains" below.
+[Stacks, Tag 0BLX] `RΓ(U, ℱ^∧)` is `RΓ(U, ℱ)^∧`.  The statements here take the derived limit
+`ℒ` and the Mittag-Leffler condition as inputs, so that they apply to an arbitrary tower
+satisfying it; [Stacks, Tag 0DXI] itself, with the derived `I`-adic completion `RΓ(U, ℱ)^∧` on
+the left and nothing assumed, is
+`Stacks.Algebraization.isIso_toLimit_homology_derivedCompletion_puncturedSpectrumSections` in
+`PuncturedSpectrumDerivedCompletion.lean`.  See "How Tag 0DXI is completed" below.
 
 ## Main definitions
 
@@ -38,8 +41,9 @@ completion functor on `D(A)`.  See "What remains" below.
 
 ## Main results
 
-* `Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections` — **[Stacks, Tag
-  0DXI]** for the derived sections of a derived limit of the adic quotient tower: the comparison
+* `Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections` — the comparison of
+  [Stacks, Tag 0DXI] for the derived sections of a derived limit of the adic quotient tower: the
+  comparison
   map `Hⁱ(RΓ(U, ℒ)) ⟶ lim_n Hⁱ(U, ℱ/Iⁿℱ)` characterized by the limit projections exists and is
   an isomorphism, in every degree `i` — no degree is excluded, and the Mittag-Leffler hypothesis
   is asked for in the single degree `i - 1`.
@@ -54,8 +58,8 @@ subscheme read as a ringed space, which is the shape
 `Stacks.Cohomology.DerivedSectionsOverBase.derivedSectionsOver` takes.  Nothing is restated at
 the `AlgebraicGeometry.Scheme.Modules` spelling: sheaves of modules on `U` appear throughout as
 `SheafOfModules (structureSheafRing (puncturedSpectrumRingedSpace A))`, which is the presentation
-both the coherence predicate `SheafOfModules.IsCoherent` and the derived sections functor are stated
-at.
+both the coherence predicate `SheafOfModules.IsCoherent` and the derived sections functor are
+stated at.
 
 *"For all `i`".*  The degree `i` ranges over `ℤ`, and the conclusion is universally quantified
 over it; no degree is excluded and no boundedness hypothesis is imposed.
@@ -82,34 +86,29 @@ the forgetful functor, which preserves the countable products involved.  The lef
 the Milnor short exact sequence is the cokernel of that map, so it vanishes and the comparison
 map is both a monomorphism and an epimorphism.
 
-### What remains for Tag 0DXI
+### How Tag 0DXI is completed
 
-Two of the four inputs the source cites are unavailable in this library, and both are carried as
-hypotheses rather than silently assumed away.
+The statement of this file takes two of the four inputs the source cites as hypotheses, so that
+it is the general comparison for any tower satisfying them; both are proved elsewhere in the
+library, and the tag itself is assembled from them in `PuncturedSpectrumDerivedCompletion.lean`.
 
 * [Stacks, Tag 0DX1] part (2) — for an inverse system `ℱₙ` of coherent `𝒪_U`-modules on the
   punctured spectrum, the inverse system `Hⁱ(U, ℱₙ)` satisfies the Mittag-Leffler condition for
-  `i > 0`.  The library has part (1) only, for the local cohomology modules `Hⁱ_𝔪(Mₙ)` of an
-  inverse system of finite modules
-  (`Stacks.LocalCohomology.isMittagLeffler_localCohomology`).  Deducing part (2) from part (1)
-  needs the identification `Hⁱ(U, ℱ) ≅ H^{i+1}_𝔪(M)` of [Stacks, Tag 0DWR] in positive degrees,
-  which `StacksFrontier/RingTheory/LocalCohomology/ComplementCohomology.lean` records as missing:
-  what is available there is the comparison with the third term of the localization triangle,
-  identified with genuine derived sections only in degree zero.  So `hML` is a hypothesis.  It
-  is asked for in the single degree `i - 1` that the Milnor sequence in degree `i` consumes, so
-  for `i ≥ 2` it is exactly what Tag 0DX1 part (2) would supply.
-* [Stacks, Tag 0BLX] — the identity `RΓ(U, ℱ)^∧ = RΓ(U, ℱ^∧)`.  The module documentation of
-  `DerivedCompletionRinged/GlobalSectionsCompletion.lean`, in this same directory tree,
-  records that this identity is not proved there: its proof is [Stacks, Tag 0A0G] at the
-  morphism of ringed topoi `(U, 𝒪_U) ⟶ (pt, A)`, and neither Tag 0A0G nor that morphism is
-  available.  Consequently the left-hand side below is `Hⁱ(RΓ(U, ℒ))` for `ℒ` a derived limit of
-  the tower, which is `Hⁱ(RΓ(U, ℱ^∧))` by [Stacks, Tag 0A0K], and *not* `Hⁱ(RΓ(U, ℱ)^∧)`.
+  `i > 0`.  This is
+  `Stacks.Algebraization.isMittagLefflerCategorical_puncturedSpectrumCohomologySystem` of
+  `PuncturedSpectrumCohomologyMittagLeffler.lean`, and the same file proves the condition in
+  every degree for the tower `ℱ/Iⁿℱ`.  Here it is the hypothesis `hML`, asked for in the single
+  degree `i - 1` that the Milnor sequence in degree `i` consumes.
+* [Stacks, Tag 0BLX] — the identity `RΓ(U, ℱ)^∧ = RΓ(U, ℱ^∧)`.  Together with
+  [Stacks, Tag 0A0K] it is
+  `Stacks.Algebraization.exists_isDerivedLimit_and_iso_derivedCompletion_derivedSections`, which
+  produces one `ℒ` that is both a derived limit of the tower and has `RΓ(U, ℒ) ≅ RΓ(U, ℱ)^∧`.
+  Here the left-hand side is `Hⁱ(RΓ(U, ℒ))` for a derived limit `ℒ` given as the hypothesis `hL`.
 
-The other two inputs are used: [Stacks, Tag 0D60] in the form
+The other two inputs are used directly: [Stacks, Tag 0D60] in the form
 `Stacks.Cohomology.DerivedSectionsOverBase.exists_shortExact_homology_derivedSectionsOver`, and
-the derived-limit hypothesis `hL` is the conclusion of [Stacks, Tag 0A0K], available in this
-library at the `AlgebraicGeometry.Scheme.Modules` spelling as
-`Stacks.Algebraization.isDerivedLimit_single_limit_powerQuotients`.
+the derived-limit property of `hL`, which for the adic quotient tower is the conclusion of
+[Stacks, Tag 0A0K].
 
 ## References
 
@@ -287,9 +286,8 @@ noncomputable local instance derivedCategoryModuleCatHasProductsNat :
   Stacks.DerivedProducts.hasProductsOfShape_derivedCategory
 
 noncomputable local instance derivedCategorySheafOfModulesHasProductsNat :
-    HasProductsOfShape ℕ
-      (DerivedCategory
-        (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))) :=
+    HasProductsOfShape ℕ (DerivedCategory
+      (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))) :=
   Stacks.KInjectiveProducts.hasProductsOfShape_derivedCategory_sheafOfModules
     (structureSheafRing (puncturedSpectrumRingedSpace A))
 
@@ -302,7 +300,7 @@ local instance puncturedSpectrumRingSheaf_isMulCommutative :
   fun V ↦ inferInstanceAs
     (IsMulCommutative ((puncturedSpectrumRingedSpace A).presheaf.obj V))
 
-/-- **Stacks Project, Tag 0DXI, for the derived sections of a derived limit of the adic quotient
+/-- **The comparison of [Stacks, Tag 0DXI] at a derived limit of the adic quotient
 tower.** Let `(A, 𝔪)` be a Noetherian local ring, let `U = Spec A ∖ {𝔪}` be its punctured
 spectrum, let `ℱ` be a coherent `𝒪_U`-module and let `I ⊆ A` be an ideal.  Let `S` be the adic
 quotient tower `n ↦ ℱ/Iⁿℱ`, pinned down by the quotient maps `π` through the universal property
@@ -313,16 +311,13 @@ map
 characterized by its composites with the limit projections, is an isomorphism.
 
 The `R¹lim` term of the Milnor short exact sequence of [Stacks, Tag 0D60] vanishes because the
-inverse system `n ↦ H^{i-1}(U, ℱ/Iⁿℱ)` is Mittag-Leffler, which is the hypothesis `hML` — asked
-for in that one degree only, so that for `i ≥ 2` it is exactly what [Stacks, Tag 0DX1] part (2)
-would supply; that part of Tag 0DX1 is unavailable in this library.  By [Stacks, Tag 0BLX]
-`RΓ(U, ℱ^∧)` is the derived `I`-adic completion `RΓ(U, ℱ)^∧`, which is how the source names the
-left-hand side; that identity is also unavailable here, so the left-hand side is named by `ℒ`
-instead.  See the module documentation. -/
-@[stacks 0DXI "for `RΓ(U, ℒ)` with `ℒ` a derived limit of the tower `ℱ/Iⁿℱ` in `D(𝒪_U)`, which \
-is `RΓ(U, ℱ)^∧` only by [Stacks, Tag 0BLX] + [Stacks, Tag 0A0K]; the Mittag-Leffler condition of \
-[Stacks, Tag 0DX1] part (2) is carried as the hypothesis `hML`, neither it nor [Stacks, Tag \
-0BLX] being available in this library"]
+inverse system `n ↦ H^{i-1}(U, ℱ/Iⁿℱ)` is Mittag-Leffler, which is the input `hML`, asked for in
+that one degree only.  This is the general comparison for any such tower; it carries no tag.
+[Stacks, Tag 0DXI] itself, whose left-hand side is the derived `I`-adic completion
+`RΓ(U, ℱ)^∧`, is
+`Stacks.Algebraization.isIso_toLimit_homology_derivedCompletion_puncturedSpectrumSections`,
+which supplies `hML` by [Stacks, Tag 0DX1] part (2) and its degree-zero and negative-degree
+companions, and `ℒ` together with `RΓ(U, ℒ) ≅ RΓ(U, ℱ)^∧` by [Stacks, Tags 0A0K and 0BLX]. -/
 theorem isIso_toLimit_homology_puncturedSpectrumSections
     [IsNoetherianRing A] (I : Ideal A)
     (F : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))
@@ -387,9 +382,9 @@ theorem isIso_toLimit_homology_puncturedSpectrumSections
   have : Epi q := hshort.epi_g
   exact isIso_of_mono_of_epi _
 
-/-- **Stacks Project, Tag 0DXI, read as an isomorphism of `A`-modules.** In the situation of
-`Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections`, the degree-`i`
-cohomology of `RΓ(U, ℒ)` is isomorphic to the inverse limit of the `A`-modules
+/-- **The comparison of [Stacks, Tag 0DXI] at a derived limit, as an `A`-module isomorphism.** In
+the situation of `Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections`, the
+degree-`i` cohomology of `RΓ(U, ℒ)` is isomorphic to the inverse limit of the `A`-modules
 `Hⁱ(U, ℱ/Iⁿℱ)`. -/
 theorem nonempty_homologyIso_limit_puncturedSpectrumSections
     [IsNoetherianRing A] (I : Ideal A)

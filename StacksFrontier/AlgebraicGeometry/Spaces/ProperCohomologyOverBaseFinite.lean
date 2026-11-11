@@ -37,9 +37,7 @@ the module universe of `AlgebraicGeometry.Space.cohomologyOverBase` in two steps
   `AlgebraicGeometry.Space.moduleFinite_cohomologyOverBase_uliftForPresentation_iff_rightDerived`.
 
 Finiteness then transports along the isomorphism
-(`AlgebraicGeometry.Space.moduleFinite_cohomologyOverBase_of_iso`).  The base's conditional
-`AlgebraicGeometry.Space.moduleFinite_cohomologyOverBase_of_isProper` carries finiteness below a
-vanishing bound as a hypothesis; the declaration here carries nothing.
+(`AlgebraicGeometry.Space.moduleFinite_cohomologyOverBase_of_iso`).
 
 ## References
 
@@ -64,7 +62,7 @@ Here `Hⁱ(X, F)` is `AlgebraicGeometry.Space.cohomologyOverBase`, at any module
 structure rings, where the finiteness is
 `AlgebraicGeometry.Space.moduleFinite_cohomology_of_isProper` (the affine case of Stacks 08AR),
 and the cohomology over the base of a lift is the lift of the cohomology. -/
-@[stacks 08AS]
+@[stacks 08AS "H^i(X, F) as cohomologyOverBase, at every module universe max (u + 1) w"]
 theorem moduleFinite_cohomologyOverBase_of_isProper_of_isCoherent
     (A : Type u) [CommRing A] (B : BigFppfSite.{u}) (hA : B.Contains (Spec (.of A)))
     [IsNoetherianRing A]

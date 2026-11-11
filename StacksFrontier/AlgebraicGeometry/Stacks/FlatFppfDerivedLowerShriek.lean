@@ -4,7 +4,6 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Sheaf
 public import StacksFrontier.AlgebraicGeometry.Stacks.FlatFppfInclusion
 public import StacksFrontier.AlgebraicGeometry.Stacks.FlatFppfRinged
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.LowerShriek.AbelianDerivedExistence
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Derived lower shriek for abelian sheaves on the flat-fppf site
@@ -29,30 +28,31 @@ This file assembles that from the two general theories it is the instance of:
 So all four of the displayed assertions of Stacks 07AS (3) — existence, the construction of
 `Lg_!`, adjointness and `g⁻¹ Lg_! = id` — are reached here with no new homological algebra.
 
-## The one remaining hypothesis, and what the tag says
+## The acyclicity hypothesis, and where it is discharged
 
-The closure condition of Stacks 07AK (1) is **no longer a hypothesis**: it holds for every
+The closure condition of Stacks 07AK (1) is **not a hypothesis**: it holds for every
 algebraic stack, by `AlgebraicGeometry.Stack.FlatFppf.closedUnderFlatMorphisms`. The statements
 below still have to pass it to the declarations of `FlatFppfInclusion.lean`, which take it as an
 argument, and they do so through `AlgebraicGeometry.Stack.FlatFppf.flatClosure`; none of them is
 conditional on it.
 
-What remains open is one hypothesis, carried explicitly by the tagged statements and named in
-their tag notes:
+The statements of this file take one argument `hFP`:
 
 * `AlgebraicGeometry.Stack.FlatFppf.AbelianLowerShriekAcyclic`, the acyclicity statement of
   Stacks 07AC for this inclusion: `g_!` carries a bounded above acyclic complex of abelian
   sheaves whose terms are direct sums of the extensions by zero `j_{U!} ℤ_U` to an acyclic
-  complex. `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean`
-  is what leaves it open, and `abelianLowerShriekAcyclic_of_ext_vanishing` below reduces it to the
-  object-level vanishing `Ext^{≥1}(j_{U!} ℤ_U, g⁻¹ I) = 0` of Stacks 0D6X for an injective abelian
-  sheaf `I` on `𝒳_{fppf}`. The library's form of 0D6X,
-  `Stacks.CechSite.injective_sheaf_sheafCohomology_isZero_of_functor`, does not yet apply to
-  this site: it requires the source site's morphism universe to be the coefficient universe,
-  whereas the flat-fppf site has morphisms in `Type u` and coefficients in `Type (u + 1)`.
+  complex. `abelianLowerShriekAcyclic_of_ext_vanishing` below reduces it to the object-level
+  vanishing `Ext^{≥1}(j_{U!} ℤ_U, g⁻¹ I) = 0` of Stacks 0D6X for an injective abelian sheaf `I`
+  on `𝒳_{fppf}`.
 
-The tag of Stacks 07AS is placed on the covering set of its part (3), with the one condition
-named in the note.
+That statement is a theorem for every algebraic stack,
+`AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriekAcyclic`, proved downstream of this file in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteCohomologyComparison.lean`.
+`StacksFrontier/AlgebraicGeometry/Stacks/FlatFppfDerivedLowerShriekUnconditional.lean` instantiates
+the statements here at it, and the whole of Stacks 07AS (3), with nothing assumed, is
+`AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriek_derived` in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteAbelianDerivedLowerShriek.lean`, which carries the
+tag.
 
 ## Main definitions
 
@@ -75,8 +75,7 @@ named in the note.
 * `AlgebraicGeometry.Stack.FlatFppf.isIso_abelianLowerShriekAdjunction_unit`: **Stacks 077I**
   for this inclusion, as invertibility of the whole unit of `g_! ⊣ g⁻¹`.
 * `AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriekAcyclic_of_ext_vanishing`: the acyclicity
-  statement follows from the object-level vanishing of **Stacks 0D6X**, so that is the only
-  homological input still owed.
+  statement follows from the object-level vanishing of **Stacks 0D6X**.
 * `AlgebraicGeometry.Stack.FlatFppf.derivedAbelianLowerShriekAdjunction`: **Stacks 07AS (3)**,
   `Lg_! ⊣ g⁻¹`.
 * `AlgebraicGeometry.Stack.FlatFppf.derivedAbelianLowerShriekRestrictionIso`: **Stacks 07AS
@@ -87,9 +86,8 @@ named in the note.
 The coefficient category is `AbCat.{u, u + 1} = Ab.{u + 1}`, as in `FlatFppfInclusion.lean`:
 the two sites live in `Type (u + 1)` with morphisms in `Type u`, and that is the universe in
 which sheafification of abelian presheaves on them is available. In the language of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is
-the instance `w = u + 1` of its coefficient convention `AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the
-morphism universe of the flat-fppf site.
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is the instance `w = u + 1` of its coefficient convention
+`AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the morphism universe of the flat-fppf site.
 
 Each statement opens with the same block of local instances: continuity and cocontinuity of the
 inclusion from the closure property, sheafification on the two sites and Grothendieck
@@ -208,16 +206,16 @@ functor on abelian sheaves carries every bounded above acyclic complex whose ter
 sums of the extensions by zero `j_{U!} ℤ_U` of the constant sheaf `ℤ` on the localizations of
 the flat-fppf site to an acyclic complex.
 
-This is the one input of Stacks 07AS (3) that is open:
 `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` reduces
-the whole of Stacks 07AC for abelian sheaves to it. -/
+the whole of Stacks 07AC for abelian sheaves to it, and it holds for every algebraic stack:
+`AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriekAcyclic`. -/
 abbrev AbelianLowerShriekAcyclic : Prop :=
   haveI := isContinuous_inclusion B S hS 𝒳 flatClosure
   haveI := isCocontinuous_inclusion B S hS 𝒳 flatClosure
   Stacks.Cohomology.DerivedLowerShriek.AbelianLowerShriekAcyclic.{u + 1}
     (inclusionTopology B S hS 𝒳) (fppfTopology B S hS 𝒳) (objectProperty B S hS 𝒳).ι
 
-/-- **Stacks 0D6X is the last remaining input of Stacks 07AS (3).** The acyclicity statement for
+/-- **The acyclicity statement from Stacks 0D6X.** The acyclicity statement for
 the flat-fppf inclusion follows from the object-level vanishing
 
 `Ext^n(j_{U!} ℤ_U, g⁻¹ I) = 0` for `U` a flat object, `I` an injective abelian sheaf on
@@ -228,9 +226,9 @@ of `g⁻¹ I` over `U`, and it vanishes because the Čech cohomology of an injec
 vanishes in positive degrees and the flat-fppf site has, by the closure property, a cofinal
 system of coverings closed under the iterated fibre products the Čech complex needs.
 
-Once that vanishing is supplied, every statement in this file holds with
-`AbelianLowerShriekAcyclic` discharged, and Stacks 07AS (3) carries its tag as soon as
-`ClosedUnderFlatMorphisms` is discharged too. -/
+That vanishing is supplied for every algebraic stack in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteCohomologyComparison.lean`, which discharges
+`AbelianLowerShriekAcyclic` as `AlgebraicGeometry.Stack.FlatFppf.abelianLowerShriekAcyclic`. -/
 theorem abelianLowerShriekAcyclic_of_ext_vanishing
     [HasExt.{u + 1} (Sheaf (inclusionTopology B S hS 𝒳) AbCat.{u, u + 1})]
     (hExt : haveI := isContinuous_inclusion B S hS 𝒳 flatClosure
@@ -247,8 +245,8 @@ theorem abelianLowerShriekAcyclic_of_ext_vanishing
   Stacks.Cohomology.DerivedLowerShriek.abelianLowerShriekAcyclic_of_ext_vanishing.{u + 1, u + 1}
     (inclusionTopology B S hS 𝒳) (fppfTopology B S hS 𝒳) (objectProperty B S hS 𝒳).ι hExt
 
-/-- **Stacks 07AS (3), existence**, conditional on the closure property and on the acyclicity
-statement: degreewise lower shriek of abelian sheaves, followed by the localization of the
+/-- **Stacks 07AS (3), existence**, in terms of the acyclicity
+statement `hFP`: degreewise lower shriek of abelian sheaves, followed by the localization of the
 homotopy category of `Ab(𝒳_{fppf})`, has a pointwise left derived functor along the localization
 of the homotopy category of `Ab(𝒳_{flat,fppf})`. That is the assertion that the unbounded left
 derived functor `Lg_!` exists and is defined at every object. -/
@@ -273,7 +271,6 @@ homotopy category of `Ab(𝒳_{fppf})`, has a left derived functor along the loc
 homotopy category of `Ab(𝒳_{flat,fppf})`. This is the weakening of
 `AlgebraicGeometry.Stack.FlatFppf.hasPointwiseLeftDerivedFunctor_abelianLowerShriek` that
 forgets pointwise-ness. -/
-@[stacks 07AS "part (3), existence; conditional on the acyclicity statement of 07AC"]
 theorem hasLeftDerivedFunctor_abelianLowerShriek
     (hFP : AbelianLowerShriekAcyclic B S hS 𝒳) :
     haveI := isContinuous_inclusion B S hS 𝒳 flatClosure
@@ -300,8 +297,8 @@ abbrev derivedAbelianRestriction :
     (inclusionTopology B S hS 𝒳) (fppfTopology B S hS 𝒳) (objectProperty B S hS 𝒳).ι
 
 /-- **Stacks 07AS (3)**: the unbounded total left derived lower-shriek functor
-`Lg_! : D(𝒳_{flat,fppf}) ⥤ D(𝒳_{fppf})` on abelian sheaves, conditional on the closure property
-and on the acyclicity statement. -/
+`Lg_! : D(𝒳_{flat,fppf}) ⥤ D(𝒳_{fppf})` on abelian sheaves, in terms of
+the acyclicity statement `hFP`. -/
 def derivedAbelianLowerShriek (hFP : AbelianLowerShriekAcyclic B S hS 𝒳) :
     DerivedCategory (Sheaf (inclusionTopology B S hS 𝒳) AbCat.{u, u + 1}) ⥤
       DerivedCategory (Sheaf (fppfTopology B S hS 𝒳) AbCat.{u, u + 1}) :=
@@ -314,11 +311,10 @@ def derivedAbelianLowerShriek (hFP : AbelianLowerShriekAcyclic B S hS 𝒳) :
 open Stacks.Cohomology.DerivedLowerShriek
   (isLeftDerivedFunctor_abelianLowerShriek_comp_of_acyclic) in
 /-- **Stacks 07AS (3), adjointness**: the derived lower-shriek functor on abelian sheaves is
-left adjoint to derived restriction, conditional on the closure property and on the acyclicity
-statement. This is Stacks 09T5 on the unbounded derived category of the Grothendieck abelian
+left adjoint to derived restriction, in terms of the acyclicity statement `hFP`. This is
+Stacks 09T5 on the unbounded derived category of the Grothendieck abelian
 category `Ab(𝒳_{fppf})`, whose two inputs — existence of `Lg_!` and its absoluteness — both come
 from the acyclicity statement. -/
-@[stacks 07AS "part (3), adjointness; conditional on the acyclicity statement of 07AC"]
 def derivedAbelianLowerShriekAdjunction (hFP : AbelianLowerShriekAcyclic B S hS 𝒳) :
     derivedAbelianLowerShriek B S hS 𝒳 hFP ⊣
       derivedAbelianRestriction B S hS 𝒳 :=
@@ -340,14 +336,13 @@ def derivedAbelianLowerShriekAdjunction (hFP : AbelianLowerShriekAcyclic B S hS 
 open Stacks.Cohomology.DerivedLowerShriek
   (isLeftDerivedFunctor_abelianLowerShriek_comp_of_acyclic) in
 /-- **Stacks 07AS (3), the last assertion `g⁻¹ Lg_! = id`**: restriction after derived lower
-shriek is canonically the identity of `D(𝒳_{flat,fppf})`, conditional on the closure property and
-on the acyclicity statement.
+shriek is canonically the identity of `D(𝒳_{flat,fppf})`, in terms of the acyclicity
+statement `hFP`.
 
 The ordinary unit `F ⟶ g⁻¹ g_! F` is an isomorphism, the inclusion of the flat objects being
 continuous, cocontinuous and fully faithful — that is Stacks 077I, proved as
 `AlgebraicGeometry.Stack.FlatFppf.isIso_abelianLowerShriek_unit` — and uniqueness of left
 derived functors carries that to the unit of the derived adjunction. -/
-@[stacks 07AS "part (3), g^{-1} Lg_! = id; conditional on the acyclicity statement of 07AC"]
 def derivedAbelianLowerShriekRestrictionIso (hFP : AbelianLowerShriekAcyclic B S hS 𝒳) :
     derivedAbelianLowerShriek B S hS 𝒳 hFP ⋙
         derivedAbelianRestriction B S hS 𝒳 ≅

@@ -18,41 +18,18 @@ Let `𝒳` be an algebraic stack and let `g : Sh(𝒳') ⟶ Sh(𝒳)` be the mor
 quasi-coherent module to a quasi-coherent module, in part (1) for the lisse-étale site and in part
 (2) for the flat-fppf site.
 
-This file proves that assertion **for an `H` that has a global presentation**, which is the case
-the source's proof reduces the lemma to, and in which its remaining two steps are carried out:
+This file carries out the step of the source's proof for an `H` that has a global presentation,
+given `g_!O_{𝒳'} = O_𝒳` (**Stacks 078A**):
 
 > Since `g_!` commutes with arbitrary colimits (as a left adjoint functor, see Lemma 0789 and
 > Categories, Lemma 0038) we conclude that there exists an exact sequence
 > `⊕_{j ∈ J} g_!O ⟶ ⊕_{i ∈ I} g_!O ⟶ g_!H ⟶ 0`. Lemma 078A shows that `g_!O = O_𝒳`.
 
-## What is proved and what is hypothesised
-
-`AlgebraicGeometry.Stack.LisseEtale.isQuasicoherentOnSite_moduleLowerShriek` and
-`AlgebraicGeometry.Stack.FlatFppf.isQuasicoherentOnSite_moduleLowerShriek` carry the two clauses
-of Stacks 07B0 with three conditions, all three named in their tags:
-
-* `H` **has a global presentation**, `SheafOfModules.IsPresentedByGlobalSections` — the condition
-  of **Stacks 03DE** (6) at a single universe of sections. The source's reduction of a general
-  quasi-coherent `H` to this case uses the base-change isomorphism
-  `f^{-1}g_!H = g_{!}(f')^{-1}H` along a smooth (resp. flat) 1-morphism `f` together with
-  **Stacks 07AT** and **Stacks 07AZ**. That isomorphism is *not* available: the library has only
-  `CategoryTheory.Sites.isIso_pushforwardBaseChange_iff`, which says that the base-change
-  comparison for the lower shriek on *abelian* sheaves is invertible exactly when the one for
-  the direct images is, and neither side of that equivalence is established here.
-* `g_!O_{𝒳'} = O_𝒳`, i.e. **Stacks 078A**, as `IsIso` of
-  `AlgebraicGeometry.Stack.subsiteUnitLowerShriekMap`. This is the source's own cited input. In
-  this library it is `AlgebraicGeometry.Stack.LisseEtale.isIso_unitLowerShriekMap` and its
-  flat-fppf sibling, each of which still rests on a localisation hypothesis that has no producer,
-  so the hypothesis here has no producer either.
-* essential smallness of the category underlying the stack, which every statement of this layer
-  carries and the source does not ask for.
-
-For the lisse-étale clause the conclusion is quasi-coherence on `(𝒳_étale, O_𝒳)`, which is the
-point the source's proof reaches before its last sentence; passing from there to "quasi-coherent
-module on `𝒳`" in the sense of **Stacks 06WG**, i.e. on `𝒳_fppf`, is **Stacks 0EM8**, and the
-implication needed is the one over `AlgebraicGeometry.FibredSite.IsSheafFppfOfQuasicoherentOnSite`,
-an input that file leaves open. For the flat-fppf clause no such step is needed — the ambient site
-*is* `𝒳_fppf` — which is the source's "In case (2) we are done".
+The two parts of **Stacks 07B0** for an arbitrary quasi-coherent `H` are
+`AlgebraicGeometry.Stack.LisseEtale.isQuasicoherentClause_fppf_moduleLowerShriek` and
+`AlgebraicGeometry.Stack.FlatFppf.isQuasicoherentOnSite_moduleLowerShriek_of_isQuasicoherentOnSite`
+in `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.LowerShriekQuasicoherent`, which reduce to
+the presented case treated here.
 
 ## Main results
 
@@ -67,8 +44,7 @@ an input that file leaves open. For the flat-fppf clause no such step is needed 
   quasi-coherent for an `H` with a global presentation, stated once for an arbitrary continuous
   and cocontinuous full subsite.
 * `AlgebraicGeometry.Stack.LisseEtale.isQuasicoherentOnSite_moduleLowerShriek` and
-  `AlgebraicGeometry.Stack.FlatFppf.isQuasicoherentOnSite_moduleLowerShriek`: the two clauses of
-  **Stacks 07B0** in that form.
+  `AlgebraicGeometry.Stack.FlatFppf.isQuasicoherentOnSite_moduleLowerShriek`: its two instances.
 
 ## Implementation notes
 
@@ -100,10 +76,7 @@ it is a left adjoint (**Stacks 0038**), and it matches the two structure sheaves
 * [Stacks Project, Tag 0788](https://stacks.math.columbia.edu/tag/0788)
 * [Stacks Project, Tag 0789](https://stacks.math.columbia.edu/tag/0789)
 * [Stacks Project, Tag 078A](https://stacks.math.columbia.edu/tag/078A)
-* [Stacks Project, Tag 07AT](https://stacks.math.columbia.edu/tag/07AT)
-* [Stacks Project, Tag 07AZ](https://stacks.math.columbia.edu/tag/07AZ)
 * [Stacks Project, Tag 07B0](https://stacks.math.columbia.edu/tag/07B0)
-* [Stacks Project, Tag 0EM8](https://stacks.math.columbia.edu/tag/0EM8)
 -/
 
 @[expose] public section
@@ -183,8 +156,8 @@ presentation of `H` to one of `g_!H` by
 presentation is quasi-coherent. -/
 theorem isQuasicoherentOnSite_subsiteModuleLowerShriek
     (hO : IsIso (subsiteUnitLowerShriekMap B S hS p hp τ hτ P))
-    (H : SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O))
+    (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (subsiteRingedTopos B S hS p hp τ hτ P).O))
     (hH : H.IsPresentedByGlobalSections) :
     ((subsiteModuleLowerShriek B S hS p hp τ hτ P).obj H).IsQuasicoherentOnSite := by
   have hu := isIso_subsiteModuleLowerShriekAdjunction_unit B S hS p hp τ hτ P
@@ -213,19 +186,12 @@ variable (𝒳 : Stack.AlgebraicStacks.{u, t} B S hS) [EssentiallySmall.{u} 𝒳
 -- stack; the general subsite declarations ask for the two as instances
 attribute [local instance] isContinuous_inclusion' isCocontinuous_inclusion'
 
-/-- **Stacks 07B0 (1) for an `H` with a global presentation**: if `H` is an
-`O_{𝒳_{lisse,étale}}`-module with a global presentation, then `g_!H` is quasi-coherent on
-`(𝒳_étale, O_𝒳)`.
-
-The three conditions are the ones named in the tag; see the module documentation for where each
-comes from and what is missing without it. -/
-@[stacks 07B0 "the lisse-étale clause, for an `H` that has a global presentation, with \
-conclusion quasi-coherence on `𝒳_étale`.  Three conditions: (a) `H` has a global presentation \
-rather than being quasi-coherent — the source's reduction to this case, through 07AT, 07AZ and \
-the base-change isomorphism for `g_!` on sheaves of modules, is not in the library; (b) 078A, \
-`g_!O = O_𝒳`, as a hypothesis, which this library proves only from a localisation hypothesis \
-with no producer; (c) essential smallness of the category underlying the stack.  Passing from \
-`𝒳_étale` to `𝒳_fppf`, the source's last sentence, is 0EM8 over an input left open there"]
+/-- If `g_!O = O_𝒳` and `H` is an `O_{𝒳_{lisse,étale}}`-module with a global presentation, then
+`g_!H` is quasi-coherent on `(𝒳_étale, O_𝒳)`. This is the presented case of **Stacks 07B0** (1);
+the full statement is
+`AlgebraicGeometry.Stack.LisseEtale.isQuasicoherentClause_fppf_moduleLowerShriek`, and the
+hypothesis `g_!O = O_𝒳` (**Stacks 078A**) is
+`AlgebraicGeometry.Stack.LisseEtale.isIso_unitLowerShriekMap_algebraicStack`. -/
 theorem isQuasicoherentOnSite_moduleLowerShriek
     (hO : IsIso (unitLowerShriekMap.{u, t} B S hS 𝒳))
     (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos.{u, t} B S hS 𝒳
@@ -245,25 +211,16 @@ variable (𝒳 : Stack.AlgebraicStacks.{u, t} B S hS) [EssentiallySmall.{u} 𝒳
 
 attribute [local instance] isContinuous_inclusion' isCocontinuous_inclusion'
 
-/-- **Stacks 07B0 (2) for an `H` with a global presentation**: if `H` is an
-`O_{𝒳_{flat,fppf}}`-module with a global presentation, then `g_!H` is a quasi-coherent module on
-`𝒳`, that is, quasi-coherent on `(𝒳_fppf, O_𝒳)`.
-
-Here the ambient site is `𝒳_fppf` already, so the conclusion is quasi-coherence of a module on
-`𝒳` in the sense of **Stacks 06WG** and nothing further is needed — the source's "In case (2) we
-are done". The three conditions are the ones named in the tag. -/
-@[stacks 07B0 "the flat-fppf clause, for an `H` that has a global presentation.  Three \
-conditions: (a) `H` has a global presentation rather than being quasi-coherent — the source's \
-reduction to this case, through 07AT, 07AZ and the base-change isomorphism for `g_!` on sheaves \
-of modules, is not in the library; (b) 078A, `g_!O = O_𝒳`, as a hypothesis, which this library \
-proves only from a localisation hypothesis with no producer; (c) essential smallness of the \
-category underlying the stack.  The conclusion is the clause's own: quasi-coherence on `𝒳_fppf`, \
-i.e. of a module on `𝒳` in the sense of 06WG"]
+/-- If `g_!O = O_𝒳` and `H` is an `O_{𝒳_{flat,fppf}}`-module with a global presentation, then
+`g_!H` is quasi-coherent on `(𝒳_fppf, O_𝒳)`. This is the presented case of **Stacks 07B0** (2);
+the full statement is
+`AlgebraicGeometry.Stack.FlatFppf.isQuasicoherentOnSite_moduleLowerShriek_of_isQuasicoherentOnSite`,
+and the hypothesis `g_!O = O_𝒳` (**Stacks 078A**) is
+`AlgebraicGeometry.Stack.FlatFppf.isIso_unitLowerShriekMap_algebraicStack`. -/
 theorem isQuasicoherentOnSite_moduleLowerShriek
     (hO : IsIso (unitLowerShriekMap B S hS 𝒳))
-    (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
-      (subsiteRingedTopos B S hS 𝒳.val.val.p
-        𝒳.val.isFiberedInGroupoids B.topology le_rfl (objectProperty B S hS 𝒳)).O))
+    (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS
+      𝒳.val.val.p 𝒳.val.isFiberedInGroupoids B.topology le_rfl (objectProperty B S hS 𝒳)).O))
     (hH : H.IsPresentedByGlobalSections) :
     ((moduleLowerShriek B S hS 𝒳).obj H).IsQuasicoherentOnSite :=
   isQuasicoherentOnSite_subsiteModuleLowerShriek B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids

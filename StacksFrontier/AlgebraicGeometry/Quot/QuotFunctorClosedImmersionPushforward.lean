@@ -20,15 +20,19 @@ by Stacks 04CJ the direct image `π_{T,*}` identifies the `𝒪_{X_T}`-modules w
 `Quot_{F/X/B}(T) ⟶ Quot_{π_*F/Y/B}(T)` is a bijection for every `T`, and the morphism of Quot
 functors is an isomorphism.
 
-The two halves of that bijectivity come apart.  Injectivity is *full faithfulness* of `π_{T,*}`,
-which is Stacks 04CJ as proved in this development; surjectivity is the *essential-image* half of
-Stacks 04CJ, part (3), which is not, and is carried as a hypothesis.
+The two halves of that bijectivity come apart.  Injectivity is *full faithfulness* of `π_{T,*}`;
+surjectivity uses the *essential-image* half of Stacks 04CJ, part (3), and the descent of the four
+conditions of Stacks 09TR along `π_{T,*}`.  This file proves the bijectivity from those two inputs,
+taken as a structure; both are constructed in
+`StacksFrontier/AlgebraicGeometry/Quot/QuotFunctorClosedImmersionPushforwardUnconditional.lean`, and
+Stacks 0DP4 itself is `isIso_pushforwardQuotFunctorMap_ofIsClosedImmersion`, in the namespace
+`AlgebraicGeometry.Space.QuotPushforwardSituation`, in
+`StacksFrontier/AlgebraicGeometry/Quot/QuotFunctorClosedImmersionDirectImageIso.lean`.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.QuotPushforwardSituation.ClosedImmersionQuotInputs`: the two inputs of
-  the source's proof which this development does not have, each field naming the result it stands
-  for.
+  the surjectivity half of the source's proof, each field naming the result it stands for.
 
 ## Main results
 
@@ -40,34 +44,26 @@ Stacks 04CJ, part (3), which is not, and is carried as a hypothesis.
   image of quotients of `F_T` is injective.
 * `AlgebraicGeometry.Space.QuotPushforwardSituation.exists_pushforwardQuotient_eq`: every member
   of `Quot_{π_*F/Y/B}(T)` is the direct image of a member of `Quot_{F/X/B}(T)`.
-* `AlgebraicGeometry.Space.QuotPushforwardSituation.isIso_quotFunctorMap`: **Stacks 0DP4**, the
-  morphism of Quot functors induced by a closed immersion is an isomorphism.
+* `AlgebraicGeometry.Space.QuotPushforwardSituation.isIso_quotFunctorMap`: the morphism of Quot
+  functors induced by a closed immersion is an isomorphism, given the two inputs.
 
 ## Implementation notes
 
-**Two inputs are carried as hypotheses.**  Injectivity of the map on `T`-points needs only full
+**Two inputs are taken as a structure.**  Injectivity of the map on `T`-points needs only full
 faithfulness of `π_{T,*}`, which is
 `AlgebraicGeometry.Space.fullyFaithfulModulePushforward` — Stacks 04CJ, part (2) — applied to the
-base change of the closed immersion.  Surjectivity needs two further assertions, neither of which
-is available in this development, and they are the fields of
+base change of the closed immersion.  Surjectivity needs two further assertions, the fields of
 `AlgebraicGeometry.Space.QuotPushforwardSituation.ClosedImmersionQuotInputs`:
 
-* that every quotient of `G_T` is itself a direct image along `π_T`, which is the
-  *essential-image* assertion of Stacks 04CJ, part (3).  That assertion is recorded in
-  `StacksFrontier/AlgebraicGeometry/Spaces/ClosedImmersionModulePushforward.lean` as not proved: it
-  is available there only as
-  `AlgebraicGeometry.Space.essImage_modulePushforward_iff_of_essSurj`, whose own hypothesis
-  `hsurj` is the essential-image assertion of Stacks 04E5;
+* that every quotient of `G_T` is itself a direct image along `π_T`, which follows from the
+  essential-image assertion of Stacks 04CJ, part (3),
+  `AlgebraicGeometry.Space.essImage_modulePushforward_of_annihilatedByKerIdeal`;
 * that the four conditions of Stacks 09TR descend along `π_{T,*}`, that is, that a module whose
   direct image is quasi-coherent, of finite presentation, flat over `T` and properly supported
-  over `T` is itself so.  This is the reverse direction of the morphism of stacks
-  `Coh_{X/B} ⟶ Coh_{Y/B}` of Stacks 0DN9, of which this development has only the two reduction
-  steps of the proof, in
-  `StacksFrontier/AlgebraicGeometry/Quot/CoherentStackPushforwardReduction.lean`.
+  over `T` is itself so.
 
-The forward direction of the second assertion is the field `pushforwardMem` of
-`AlgebraicGeometry.Space.QuotPushforwardSituation.AffinePushforwardQuotInputs`, already carried by
-Stacks 0DP1 for the same reason.
+Both are constructed, for every closed immersion, by
+`AlgebraicGeometry.Space.QuotPushforwardSituation.closedImmersionQuotInputs`.
 
 **The closed immersion is an extra hypothesis on the standing data of Stacks 0DP1.**  That
 standing data asks `π` to be affine and quasi-finite, which a closed immersion is; being a closed
@@ -117,25 +113,21 @@ def fullyFaithfulPushforwardBaseChangeOfMap (hπ : IsClosedImmersion B S hS D.π
   fullyFaithfulModulePushforward B S hS (D.baseChangeOfMap T)
     (D.isClosedImmersion_baseChangeOfMap hπ T)
 
-/-! ### The two inputs of the source's proof which are carried -/
+/-! ### The two inputs of the surjectivity half of the source's proof -/
 
-/-- **The two inputs of the proof of Stacks 0DP4 which this development does not have**, bundled.
+/-- **The two inputs of the surjectivity half of the proof of Stacks 0DP4**, bundled.
 
 The first field is the *essential-image* assertion of Stacks 04CJ, part (3), in the form the
 argument consumes: every quotient of `G_T = π_{T,*}F_T` is a direct image along `π_T`.  In the
 source this is the statement that `π_{T,*}` is an equivalence onto the `𝒪_{Y_T}`-modules
 annihilated by the ideal cutting out `X_T`, applied to a quotient of `G_T`, which is so
-annihilated because `G_T` is.  Only the annihilation half of that assertion is proved in this
-development, as `AlgebraicGeometry.Space.annihilatedByKerIdeal_modulePushforward`; the
-essential-image half is available only as
-`AlgebraicGeometry.Space.essImage_modulePushforward_iff_of_essSurj`, under its own hypothesis
-`hsurj`, which is the essential-image assertion of Stacks 04E5.
+annihilated because `G_T` is.
 
 The second field is the reverse direction of the morphism of stacks `Coh_{X/B} ⟶ Coh_{Y/B}` of
-Stacks 0DN9: the four conditions of Stacks 09TR descend along `π_{T,*}`.  Its forward direction
-is the field `pushforwardMem` of
-`AlgebraicGeometry.Space.QuotPushforwardSituation.AffinePushforwardQuotInputs`, carried by
-Stacks 0DP1 for the same reason. -/
+Stacks 0DN9: the four conditions of Stacks 09TR descend along `π_{T,*}`.
+
+Both fields are constructed for every closed immersion by
+`AlgebraicGeometry.Space.QuotPushforwardSituation.closedImmersionQuotInputs`. -/
 structure ClosedImmersionQuotInputs (D : QuotPushforwardSituation B S hS)
     (h : SchemeTargetAffinePushforwardQuasicoherent B S hS) where
   /-- **The essential-image assertion of Stacks 04CJ, part (3) for the situation**: a quotient of
@@ -165,8 +157,8 @@ theorem pushforwardQuotient_injective (h : SchemeTargetAffinePushforwardQuasicoh
 
 /-- **Every member of `Quot_{G/Y/B}(T)` is the direct image of a member of
 `Quot_{F/X/B}(T)`.**  The quotient of `G_T` by it is a direct image along `π_T` by the first
-carried input, so it is the direct image of a quotient of `F_T`; the four conditions of
-Stacks 09TR for that quotient of `F_T` are the second carried input. -/
+input, so it is the direct image of a quotient of `F_T`; the four conditions of
+Stacks 09TR for that quotient of `F_T` are the second input. -/
 theorem exists_pushforwardQuotient_eq (h : SchemeTargetAffinePushforwardQuasicoherent B S hS)
     (I : D.AffinePushforwardQuotInputs h) (J : D.ClosedImmersionQuotInputs h)
     (hπ : IsClosedImmersion B S hS D.π.hom) (T : SchemesOver D.base)
@@ -182,11 +174,10 @@ theorem exists_pushforwardQuotient_eq (h : SchemeTargetAffinePushforwardQuasicoh
       (QuotSituation.IsQuotModule.of_iso ι.symm
         (((D.targetSituation h).mem_properlySupportedQuotients_iff T K').mp hK')))
 
-/-- **Stacks 0DP4.**  The morphism of Quot functors `Quot_{F/X/B} ⟶ Quot_{π_*F/Y/B}` induced by
-the direct image along a closed immersion is an isomorphism: over every test scheme it is a
-bijection, injectively by full faithfulness of `π_{T,*}` (Stacks 04CJ) and surjectively by the
-two carried inputs. -/
-@[stacks 0DP4 "an isomorphism, granted 04CJ (3) essential image and 0DN9 reversed"]
+/-- The morphism of Quot functors `Quot_{F/X/B} ⟶ Quot_{π_*F/Y/B}` induced by the direct image
+along a closed immersion is an isomorphism: over every test scheme it is a bijection, injectively
+by full faithfulness of `π_{T,*}` (Stacks 04CJ) and surjectively by the two inputs `J`.  Stacks
+0DP4 itself is `isIso_pushforwardQuotFunctorMap_ofIsClosedImmersion`. -/
 theorem isIso_quotFunctorMap (h : SchemeTargetAffinePushforwardQuasicoherent B S hS)
     (I : D.AffinePushforwardQuotInputs h) (J : D.ClosedImmersionQuotInputs h)
     (hπ : IsClosedImmersion B S hS D.π.hom) :

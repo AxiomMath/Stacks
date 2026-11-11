@@ -23,10 +23,15 @@ in `κ(S)`, the left-hand side being read there through `κ(A) → κ(S)`.
 
 ## Main results
 
-* `Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length_support` — the identity, with the
-  product over the maximal ideals of `T` containing the image of `π`.
+* `Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length_support` — the identity (Stacks
+  0GU1), with the product over the maximal ideals of `T` containing the image of `π`, the
+  finiteness and locality facts at those maximal ideals being taken as instances. They are proved
+  in `StacksFrontier.RingTheory.Length.NormFlatBaseChangeSupport`, where
+  `Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length_of_isFiniteLength` states the
+  identity without them.
 * `Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length` — the identity, with the product
-  over all of `MaximalSpectrum T`.
+  over all of `MaximalSpectrum T`, under locality and finiteness instances at every maximal ideal
+  of `T`.
 
 ## References
 
@@ -237,7 +242,10 @@ with `m = length_S(S / 𝔪_A S)`, let `B` be a local `A`-algebra along a local 
   = ∏_𝔮 Norm_{κ(T_𝔮)/κ(S)}(ū) ^ length_{T_𝔮}(T_𝔮 / πT_𝔮)`,
 
 the product running over the maximal ideals of `T` that contain the image of `π` and the
-left-hand side being read in `κ(S)` through `κ(A) → κ(S)`. -/
+left-hand side being read in `κ(S)` through `κ(A) → κ(S)`. The instances at those maximal ideals
+hold whenever `B / πB` has finite length
+(`Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length_of_isFiniteLength`). -/
+@[stacks 0GU1 "with `B` a local `A`-algebra standing for `B_j`"]
 theorem map_norm_pow_length_eq_prod_norm_pow_length_support
     {A : Type u} {S : Type v} {B : Type w}
     [CommRing A] [CommRing S] [CommRing B]
@@ -466,9 +474,16 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
 `(Norm_{κ(B)/κ(A)}(ū) ^ length_B(B / πB)) ^ m
   = ∏_𝔮 Norm_{κ(T_𝔮)/κ(S)}(ū) ^ length_{T_𝔮}(T_𝔮 / πT_𝔮)`,
 
-the product running over the maximal ideals of `T` and the left-hand side being read in `κ(S)`
-through `κ(A) → κ(S)`. -/
-@[stacks 0GU1]
+the product running over all maximal ideals of `T` and the left-hand side being read in `κ(S)`
+through `κ(A) → κ(S)`.
+
+This form asks for the locality of `S → T_𝔮` and the finiteness of `κ(T_𝔮) / κ(S)` at every
+maximal ideal `𝔮` of `T`, which can fail in the situation of Stacks 0GU1: for the completion
+`A → Â` of the local ring of a nodal curve and `B` a localization of its normalization,
+`Â ⊗_A B` has a maximal ideal with local ring `k((s))`. The identity (0GU1) is
+`Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length_support` and
+`Stacks.Length.map_norm_pow_length_eq_prod_norm_pow_length_of_isFiniteLength`, whose products run
+over the maximal ideals containing `π`, where these facts hold. -/
 theorem map_norm_pow_length_eq_prod_norm_pow_length
     {A : Type u} {S : Type v} {B : Type w}
     [CommRing A] [CommRing S] [CommRing B]

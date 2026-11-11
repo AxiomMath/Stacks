@@ -44,8 +44,8 @@ attribute [local instance] isContinuous_inclusion' isCocontinuous_inclusion'
 variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
   (S : Scheme.{u}) (hS : B.Contains S) (𝒳 : Stack.AlgebraicStacks.{u, w} B S hS)
 
-/-- Let `H` be a quasi-coherent module on the lisse-étale site of an algebraic stack `𝒳`. For
-every `p`, the cohomology sheaf `H^p(Lg_! H)` of the derived lower shriek `Lg_!` is a locally
+/-- **Stacks 07B3, part (1).** Let `H` be a quasi-coherent module on the lisse-étale site of an
+algebraic stack `𝒳`. For every `p`, the cohomology sheaf `H^p(Lg_! H)` of the derived lower shriek `Lg_!` is a locally
 quasi-coherent module with the flat base change property on `𝒳`, the flat base change property
 being read with the pullback of sheaves. -/
 @[stacks 07B3 "part (1): for a quasi-coherent module `H` (Stacks 03DL) on the lisse-étale site of \

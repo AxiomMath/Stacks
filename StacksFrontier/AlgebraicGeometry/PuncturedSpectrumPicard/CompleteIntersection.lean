@@ -35,8 +35,11 @@ Picard group of the punctured spectrum of a regular local ring.  For the inducti
 ## Main results
 
 * `subsingleton_picardGroup_puncturedSpectrum_of_isCompleteIntersectionRing` (in
-  `Stacks.PuncturedSpectrumPicard`): **[Stacks, Tag 0F2I]**, granted the conclusion of
-  [Stacks, Tag 0F2D].
+  `Stacks.PuncturedSpectrumPicard`): the argument of [Stacks, Tag 0F2I], with the conclusion of
+  [Stacks, Tag 0F2D] taken as an input.  The library proves [Stacks, Tag 0F2D] as
+  `Stacks.PuncturedSpectrumPicard.picardColimitSurjective`, and
+  `subsingleton_picardGroup_puncturedSpectrum_of_completeIntersection` (in
+  `CompleteIntersectionPicardTrivial`) supplies it, giving [Stacks, Tag 0F2I] outright.
 * `Stacks.PuncturedSpectrumPicard.isMaximalCohenMacaulay_of_isCompleteIntersectionRing`: a
   Noetherian local complete intersection is Cohen-Macaulay, so its depth is its dimension.  This
   is what feeds the depth hypothesis of [Stacks, Tag 0F2G].
@@ -47,9 +50,10 @@ Picard group of the punctured spectrum of a regular local ring.  For the inducti
 ## Implementation notes
 
 **The carried hypothesis.**  The conclusion of [Stacks, Tag 0F2D] — surjectivity of
-`colim_{U₀ ⊆ U' ⊆ U} Pic(U') → Pic(U₀)`, stated unproved in this library as
-`Stacks.PuncturedSpectrumPicard.PicardColimitSurjective` — is not available, and [Stacks, Tag
-0F2F] consumes it.  It is therefore carried here as a hypothesis, universally quantified over the
+`colim_{U₀ ⊆ U' ⊆ U} Pic(U') → Pic(U₀)`, written
+`Stacks.PuncturedSpectrumPicard.PicardColimitSurjective` — is consumed by [Stacks, Tag 0F2F].
+Its proof, `Stacks.PuncturedSpectrumPicard.picardColimitSurjective`, lives in a module that is
+not imported here, so it is carried in this file as a hypothesis, universally quantified over the
 rings and elements the induction applies it to, and guarded by the conditions of [Stacks, Tag
 0F2D] that the induction can discharge: the ring is Noetherian local and complete for its
 maximal-ideal-adic topology (condition (1) of [Stacks, Tag 0F2D], `f`-adic completeness following
@@ -662,28 +666,28 @@ theorem forall_trivialPicardOfCompletePresentation
         at hfibre
       exact subsingleton_picard_puncturedSpectrum_of_ringEquiv esnoc hfibre
 
-/-! ### Stacks 0F2I -/
+/-! ### The argument of Stacks 0F2I, with the conclusion of Stacks 0F2D as input -/
 
-/-- **[Stacks, Tag 0F2I].** Let `(A, 𝔪)` be a Noetherian local ring.  If `A` is a complete
-intersection of dimension at least four, then the Picard group of the punctured spectrum
-`U = Spec A ∖ {𝔪}` of `A` is trivial.
+/-- **The argument of [Stacks, Tag 0F2I]**, with the conclusion of [Stacks, Tag 0F2D] taken as
+the input `h0F2D`.  Let `(A, 𝔪)` be a Noetherian local ring.  If `A` is a complete intersection
+of dimension at least four, then the Picard group of the punctured spectrum `U = Spec A ∖ {𝔪}`
+of `A` is trivial.
 
-Granted, and not proved anywhere in this library, is the conclusion of [Stacks, Tag 0F2D]: it is
-carried as the hypothesis `h0F2D`, phrased with the library's own
-`Stacks.PuncturedSpectrumPicard.PicardColimitSurjective` and quantified over the Noetherian local
-rings `B` that are `𝔪`-adically complete, the elements `g ∈ 𝔪_B` that are nonzerodivisors, and
-the bound `5 ≤ depth(B)`.  Completeness and the nonzerodivisor clause are conditions (1) and (2)
-of the source's [Stacks, Tag 0F2D], and the depth bound is that tag's own footnote, "(3) and (4)
-hold if `depth(A/fA) ≥ 4`, or equivalently `depth(A) ≥ 5`", which covers its remaining conditions
-(3) and (4).  So `h0F2D` asserts no more than [Stacks, Tag 0F2D] does, and a proof of that tag
-discharges it.
+The input `h0F2D` is phrased with `Stacks.PuncturedSpectrumPicard.PicardColimitSurjective` and
+quantified over the Noetherian local rings `B` that are `𝔪`-adically complete, the elements
+`g ∈ 𝔪_B` that are nonzerodivisors, and the bound `5 ≤ depth(B)`.  Completeness and the
+nonzerodivisor clause are conditions (1) and (2) of [Stacks, Tag 0F2D], and the depth bound is
+that tag's own footnote, "(3) and (4) hold if `depth(A/fA) ≥ 4`, or equivalently
+`depth(A) ≥ 5`", which covers its remaining conditions (3) and (4).  So `h0F2D` asserts no more
+than [Stacks, Tag 0F2D] does.  The library proves that tag as
+`Stacks.PuncturedSpectrumPicard.picardColimitSurjective`, and
+`Stacks.PuncturedSpectrumPicard.subsingleton_picardGroup_puncturedSpectrum_of_completeIntersection`
+discharges `h0F2D` with it; that theorem is [Stacks, Tag 0F2I].
 
-The induction applies it exactly to the intermediate quotients `A' = B/(f₁, …, f_{r-1})` of the
-source's presentation: all are complete because the presenting ring is, and all have
+The induction applies `h0F2D` exactly to the intermediate quotients `A' = B/(f₁, …, f_{r-1})` of
+the source's presentation: all are complete because the presenting ring is, and all have
 `depth(A') = dim(A') = dim(A) + 1 ≥ 5` because a quotient of a regular local ring by a regular
 sequence is Cohen-Macaulay. -/
-@[stacks 0F2I "GRANTED, not proved here: h0F2D, the conclusion of Stacks 0F2D as \
-PicardColimitSurjective, under that tag's conditions (1), (2) and its footnote's depth bound"]
 theorem subsingleton_picardGroup_puncturedSpectrum_of_isCompleteIntersectionRing
     (A : Type u) [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
     (h0F2D : ∀ (B : Type u) [CommRing B] [IsNoetherianRing B] [IsLocalRing B]

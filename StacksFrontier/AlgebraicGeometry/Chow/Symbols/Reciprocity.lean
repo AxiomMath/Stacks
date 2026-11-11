@@ -1210,11 +1210,10 @@ private theorem globalSymbolOrder_eq_zero_on_ring_elements
     rfl
   exact hglobal.trans (hreindex.trans hdetSum)
 
-/-- **Stacks Project, Tags 02QJ and 0EAX.** Let `A` be a two-dimensional Noetherian local domain
+/-- **Stacks Project, Tag 02QJ.** Let `A` be a two-dimensional Noetherian local domain
 with fraction field `K` and let `f, g` be units of `K`. The orders of vanishing of the tame
 symbols `∂_{A_𝔮}(f, g)` along `A / 𝔮`, summed over the height-one primes `𝔮` of `A`, give zero. -/
-@[stacks 02QJ "the reciprocity formula, second displayed form: all height-one primes",
-  stacks 0EAX "the second displayed form, the sum over all height-one primes"]
+@[stacks 02QJ "the reciprocity formula, second displayed form: all height-one primes"]
 theorem sum_ord_localTameSymbol_eq_zero
     {A : Type u} {K : Type v} [CommRing A] [IsDomain A] [IsNoetherianRing A]
     [Field K] [Algebra A K] [IsFractionRing A K]

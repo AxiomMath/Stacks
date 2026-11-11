@@ -99,8 +99,14 @@ variable [HasFiniteLimits C]
 
 /-- On a site in which finite limits exist, the point with fiber functor `u : C ⥤ Type w`, for
 `u` commuting with finite limits, with initially small category of elements, and jointly
-surjective on covering sieves. -/
-@[stacks 00YC, simps, sga "4 IV 6.3" "left exact ⇒ point"]
+surjective on covering sieves.
+
+This is the direction "(1) and (2) imply a point" of Stacks 00YC for points in Mathlib's sense;
+the equivalence for the points of Stacks 00Y5 is
+`GrothendieckTopology.SitePoint.exists_fiber_eq_iff`. -/
+@[stacks 00YC "the direction (1) and (2) ⇒ point, for Mathlib's points; the equivalence for
+  the points of 00Y5 is `SitePoint.exists_fiber_eq_iff`", simps,
+  sga "4 IV 6.3" "left exact ⇒ point"]
 def ofPreservesFiniteLimits (u : C ⥤ Type w) [PreservesFiniteLimits u]
     [InitiallySmall.{w} u.Elements] (hu : u.CoveringJointlySurjective J) :
     Point.{w} J where
@@ -119,8 +125,11 @@ correspond bijectively to the functors `u : C ⥤ Type w` such that
    initially small,
 
 the bijection being `Φ ↦ Φ.fiber` in one direction and `ofPreservesFiniteLimits` in the
-other. -/
-@[stacks 00YC, sga "4 IV 6.3" "characterization"]
+other. This is Stacks 00YC for points in Mathlib's sense; for the points of Stacks 00Y5 see
+`GrothendieckTopology.SitePoint.exists_fiber_eq_iff` and
+`GrothendieckTopology.SitePoint.equivFiber`. -/
+@[stacks 00YC "the bijection, for Mathlib's points (with initially small category of elements)",
+  sga "4 IV 6.3" "characterization"]
 noncomputable def equivFiber :
     Point.{w} J ≃ {u : C ⥤ Type w //
       InitiallySmall.{w} u.Elements ∧ PreservesFiniteLimits u ∧

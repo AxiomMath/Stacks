@@ -8,6 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.PseudoCoherent.AffineDerivedPrese
 public import StacksFrontier.AlgebraicGeometry.PseudoCoherent.RestrictFunctorAlongIso
 public import StacksFrontier.Topology.Sheaves.Cohomology.TransportAlongAnIsomorphism
 import StacksCore.Tactic.StacksAttribute
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
+import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # The derived direct image along a perfect morphism of affine schemes has finite Tor dimension
@@ -53,8 +55,8 @@ The three transports along `isoSpec` that the reduction needs are all available:
   statement declines to assert, plays no part.
 
 The ring map of the transported statement is `h.appLE ⊤ ⊤`, not `h.appTop`, because that is the
-spelling perfectness of a morphism of schemes is stated at
-(`AlgebraicGeometry.Perfect.perfect_appLE`); the two agree by
+spelling perfectness of a morphism of schemes is read at
+(`AlgebraicGeometry.HasRingHomProperty.appLE`); the two agree by
 `Stacks.AffineAlgebraEquivalence.appLE_top_top`, which is where
 `AlgebraicGeometry.Scheme.toSpecΓ_naturality` is read.
 
@@ -157,10 +159,10 @@ theorem isPullback_isoSpec {Z W : Scheme.{u}} [IsAffine Z] [IsAffine W] (h : Z �
 perfect with `Z` and `W` affine, the ring `Γ(Z, ⊤)` has finite Tor dimension over `Γ(W, ⊤)` along
 `h.appLE ⊤ ⊤`.
 
-This is the second clause of `AlgebraicGeometry.Perfect.perfect_appLE` at the pair of affine opens
-`⊤ ⊆ Z`, `⊤ ⊆ W`, read at the canonical derived tensor product by
-`StacksDraft.TorAmplitude.hasTorAmplitudeIn_canonicalCertified_iff`. It is the hypothesis `hφ` of
-`AlgebraicGeometry.hasFiniteTorDimension_schemeDerivedPushforward_specMap`. -/
+This is the Tor half of perfectness (`Algebra.Perfect.moduleHasFiniteTorDimension`) for the
+chart ring map at the pair of affine opens `⊤ ⊆ Z`, `⊤ ⊆ W`, read at the canonical derived tensor
+product by `StacksDraft.TorAmplitude.hasTorAmplitudeIn_canonicalCertified_iff`. It is the
+hypothesis `hφ` of `AlgebraicGeometry.hasFiniteTorDimension_schemeDerivedPushforward_specMap`. -/
 theorem perfectTorAmplitude_appLE_top {Z W : Scheme.{u}} [IsAffine Z] [IsAffine W] (h : Z ⟶ W)
     [AlgebraicGeometry.Perfect h] (hle : (⊤ : Z.Opens) ≤ h ⁻¹ᵁ ⊤) :
     letI : Algebra Γ(W, ⊤) Γ(Z, ⊤) := (h.appLE ⊤ ⊤ hle).hom.toAlgebra
@@ -169,8 +171,12 @@ theorem perfectTorAmplitude_appLE_top {Z W : Scheme.{u}} [IsAffine Z] [IsAffine 
         ((ModuleCat.restrictScalars (algebraMap Γ(W, ⊤) Γ(Z, ⊤))).obj
           (ModuleCat.of Γ(Z, ⊤) Γ(Z, ⊤)))) c d := by
   let : Algebra Γ(W, ⊤) Γ(Z, ⊤) := (h.appLE ⊤ ⊤ hle).hom.toAlgebra
-  obtain ⟨c, d, hcd⟩ := (Perfect.perfect_appLE h ⊤ (isAffineOpen_top Z) ⊤ (isAffineOpen_top W) hle
-    (canonicalCertifiedDerivedTensoring Γ(W, ⊤))).2
+  have : Algebra.Perfect Γ(W, ⊤) Γ(Z, ⊤) := RingHom.perfect_algebraMap.mp
+    (HasRingHomProperty.appLE @Perfect h ‹_› ⟨⊤, isAffineOpen_top W⟩ ⟨⊤, isAffineOpen_top Z⟩
+      hle)
+  let D := canonicalCertifiedDerivedTensoring Γ(W, ⊤)
+  obtain ⟨c, d, hcd⟩ :=
+    Algebra.Perfect.moduleHasFiniteTorDimension (B := Γ(Z, ⊤)) D.comparison D.isLeftDerived
   exact ⟨c, d, (hasTorAmplitudeIn_canonicalCertified_iff Γ(W, ⊤) _ c d).mp hcd⟩
 
 /-! ### The affine base case at a morphism of affine schemes -/

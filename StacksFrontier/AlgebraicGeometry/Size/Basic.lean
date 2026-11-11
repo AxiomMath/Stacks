@@ -35,7 +35,7 @@ public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 
 /-!
-# The size of a scheme (Stacks 000I)
+# The size of a scheme (Stacks Section 000H)
 
 The *size* of a scheme `S` is the cardinal
 `max ℵ₀ (max #S.affineOpens (⨆ U : S.affineOpens, #Γ(S, U)))`, together with the three
@@ -51,7 +51,8 @@ open CategoryTheory CategoryTheory.Limits Cardinal
 
 namespace AlgebraicGeometry
 
-/-- **The size of a scheme** (Stacks tag 000I, Definition 3.9.2).
+/-- **The size of a scheme**, as defined in the opening text of Stacks Section 000H
+(Section 3.9, before Lemma 3.9.1, Tag 000I).
 
 The *size* of a scheme `S` is the maximum of `ℵ₀`, the cardinality of the set of
 affine opens of `S`, and the supremum over affine opens `U ⊆ S` of the
@@ -59,7 +60,6 @@ cardinality of the ring of sections `Γ(S, U)`.
 
 Every Section 3.9 size bound is stated in terms of this one cardinal, so the bounds
 compose. -/
-@[stacks 000I]
 noncomputable def Scheme.size (S : Scheme.{u}) : Cardinal.{u} :=
   max Cardinal.aleph0
     (max (Cardinal.mk S.affineOpens)

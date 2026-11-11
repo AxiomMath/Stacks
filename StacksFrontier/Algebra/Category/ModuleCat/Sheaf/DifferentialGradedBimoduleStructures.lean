@@ -348,7 +348,7 @@ theorem restrictScalarsObj_mul_app (φ : A ⟶ B) (hφ : φ.IsUnital)
       (M.mul n i).app U x ((φ.toHomologicalComplex.f i).val.app U y) :=
   rfl
 
-/-- **The restriction functor `res_φ : Mod^dg(B, d) ⥤ Mod^dg(A, d)`** attached to a unital
+/-- **The restriction functor `res_φ : Mod(B, d) ⥤ Mod(A, d)`** attached to a unital
 homomorphism `φ : A ⟶ B` of sheaves of differential graded algebras. -/
 @[stacks 0FRP "restriction res_φ along a homomorphism of sheaves of differential graded algebras"]
 def restrictScalars (φ : A ⟶ B) (hφ : φ.IsUnital) :

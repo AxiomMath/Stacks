@@ -253,14 +253,6 @@ no instance hypothesis. Nilpotence makes every object derived complete, by
 `AlgebraicGeometry.RingedSite.isDerivedComplete_of_forall_isNilpotent`, so this is
 `AlgebraicGeometry.RingedSite.isIso_derivedCompletionPushforwardComparison_of_isDerivedComplete`
 with its hypothesis discharged. -/
-@[stacks 0A0I "Equation 52.7.0.1 at a morphism of ringed spaces read on its small Zariski
-  sites, for an **arbitrary** object, when the local sections of both sheaves of ideals are
-  nilpotent — a restriction on the data, not on the object, from which the two derived
-  completion functors are produced rather than assumed, so that no part of
-  [Stacks, Tag 099F] is a hypothesis here. The display at the source's own data, two sheaves of
-  ideals of finite type, is `Stacks.RingedSpace`
-  `.isIso_derivedCompletionPushforwardComparison_of_isFiniteType_of_isDerivedComplete` of
-  `PushforwardCommutesCompletionFiniteType.lean`, for an object derived complete along `ℐ'`"]
 theorem isIso_derivedCompletionPushforwardComparison_of_forall_isNilpotent
     (hnil : ∀ (V : Opens X.carrier)
       (g : ((Stacks.SheafOfModules.Tensor.ringSheaf (toRingedSite X).O)).obj.obj (op V)),
@@ -375,15 +367,7 @@ sheaves of ideals of finite type, `AlgebraicGeometry.Scheme`
 global sections, `AlgebraicGeometry.Scheme`
 `.isIso_derivedCompletionPushforwardComparison_generatedIdealSheaf_of_isDerivedComplete` of
 `PushforwardCommutesCompletionGenerated.lean`. -/
-@[stacks 0A0I "Equation 52.7.0.1 in the display's own setting, a morphism of schemes, for an
-  **arbitrary** object — in particular for an arbitrary quasi-coherent sheaf — when the local
-  sections of both sheaves of ideals are nilpotent. A restriction on the data, not on the
-  object, and the two derived completion functors are produced from it rather than assumed, so
-  that no part of [Stacks, Tag 099F] is a hypothesis here. The display at the source's own
-  data, two sheaves of ideals of finite type, is `AlgebraicGeometry.Scheme`
-  `.isIso_derivedCompletionPushforwardComparison_of_isFiniteType_of_isDerivedComplete` of
-  `PushforwardCommutesCompletionFiniteType.lean`, for an object derived complete along `ℐ'`",
-  stacks 0AKL "the mathematical content of Remark 52.7.4, which is its fifth and last sentence:
+@[stacks 0AKL "the mathematical content of Remark 52.7.4, which is its fifth and last sentence:
   the analogue of Equation 52.7.0.1 for complexes of quasi-coherent modules, [HL-P,
   Theorem 6.5]. What is proved here is that analogue at a morphism of **schemes** for an
   **arbitrary** object of `D(𝒪_X)`, hence for an arbitrary complex of quasi-coherent modules,

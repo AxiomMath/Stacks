@@ -33,7 +33,9 @@ stages.
 ## Main results
 
 * `exists_stack_isLimitPreservingOnObjects_not_isLimitPreserving` produces such a stack over
-  the big fppf site of a nonempty scheme.
+  the big fppf site of a nonempty scheme, from the stackiness of categories of torsors; the
+  unconditional statement, Stacks 07Z1, is in
+  `StacksFrontier/Examples/Stacks/ObjectwiseLimitPreservingTorsors.lean`.
 
 ## Implementation notes
 
@@ -45,7 +47,8 @@ Boolean powers `R → R^{2^n}` of a nonzero ring gives a cofiltered system of af
 limit has a section of the product sheaf that does not come from any stage.
 
 `IsStackOfTorsors` carries the stackiness of the category of torsors, which is Stacks 04UM;
-the main result takes it as an explicit hypothesis in that shape.
+the result here takes it as an explicit hypothesis in that shape, which
+`StacksFrontier/Examples/Stacks/ObjectwiseLimitPreservingTorsors.lean` discharges.
 
 ## References
 
@@ -2422,11 +2425,11 @@ end
 
 attribute [local instance] uliftCategory
 
-/-- **Stacks 07Z1.** Over a nonempty base there is a stack in groupoids whose structure
+/-- Over a nonempty base, given that the categories of torsors under group objects over sheaves
+are stacks in groupoids over the big fppf site, there is a stack in groupoids whose structure
 morphism to the big fppf site is limit preserving on objects while the stack itself is not
-limit preserving. The stackiness of the category of torsors, Stacks 04UM, enters as the
-hypothesis `h04UM`. -/
-@[stacks 07Z1]
+limit preserving. The hypothesis `h04UM` is Stacks 04UM, and it is discharged in
+`StacksFrontier/Examples/Stacks/ObjectwiseLimitPreservingTorsors.lean`, which states 07Z1. -/
 public theorem exists_stack_isLimitPreservingOnObjects_not_isLimitPreserving
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     [Nonempty S]

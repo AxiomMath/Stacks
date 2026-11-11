@@ -21,9 +21,10 @@ As motivation, it depends only on the fibre modules `N ⊗_R κ(𝔭)` over the 
 `S ⊗_R κ(𝔭)`; and, as for the assassin of a module, the notion makes most sense when those fibre
 rings are Noetherian, for instance when `R → S` is of finite type.
 
-This is the set called `A` in `Module.relativeAssassin_comparison`, which compares it with the
-five variants one is tempted to use instead. In particular it is also the set `A'` there: the
-image of `Ass_{S ⊗_R κ(𝔭)}(N ⊗_R κ(𝔭))` under the canonical map `Spec(S ⊗_R κ(𝔭)) → Spec(S)`.
+This is the set called `A` in `Module.relativeAssassin_comparison_annihilator`, which compares
+it with the five variants one is tempted to use instead. In particular it is also the set `A'`
+there: the image of `Ass_{S ⊗_R κ(𝔭)}(N ⊗_R κ(𝔭))` under the canonical map
+`Spec(S ⊗_R κ(𝔭)) → Spec(S)`.
 
 ## Main definitions
 
@@ -52,10 +53,10 @@ annihilator of `1` but is the annihilator of no element of `N ⊗_k κ((0)) ≅ 
 weakening for non-Noetherian fibre rings is the *relative weak assassin* of the following
 section, not the radical of an annihilator.
 
-`Module.relativeAssassin_comparison` describes its set `A` with Mathlib's `associatedPrimes`.
-That description and this definition agree once a Noetherian hypothesis is in force, as it is in
-items (3) and (5) there; the source's identification of `Ass_{S/R}(N)` with `A` is for `Ass` read
-as above.
+`Module.relativeAssassin_comparison_annihilator` (tag 05GB) reads `Ass` as above, so its set
+`A` is this definition. `Module.relativeAssassin_comparison` describes its set `A` with
+Mathlib's `associatedPrimes`; that description and this definition agree when `S` is
+Noetherian.
 
 Membership is `Module.mem_relativeAssassin_iff`, which is how a reader uses the definition
 without unfolding it.
@@ -95,7 +96,7 @@ variable (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
 /-- The **relative assassin** `Ass_{S/R}(N)` of an `S`-module `N` over a ring map `R → S`: the
 set of primes `𝔮` of `S` which, with `𝔭 = R ∩ 𝔮` the contraction of `𝔮` to `R`, are associated
 primes over `S` of the fibre module `N ⊗_R κ(𝔭)`, that is, are the annihilator of some element
-of it. This is the set `A` of `Module.relativeAssassin_comparison`. -/
+of it. This is the set `A` of `Module.relativeAssassin_comparison_annihilator`. -/
 @[stacks 05GC]
 public def relativeAssassin : Set (PrimeSpectrum S) :=
   {q | ∃ m : N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField,

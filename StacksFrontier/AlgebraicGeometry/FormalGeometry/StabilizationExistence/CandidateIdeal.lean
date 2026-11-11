@@ -495,7 +495,6 @@ annihilator criterion Stacks 0EFC of Claim III by the finiteness of `H⁰_{J₀}
 
 For `s ≥ 1` the hypotheses are needed; see
 `Stacks.Algebraization.exists_isStabilizingData`. -/
-@[stacks 0EFI "the existence of the stabilizing data, for s ≤ 0"]
 public theorem exists_isStabilizingData_of_nonpos
     {A : Type u} [CommRing A] [IsNoetherianRing A]
     {M : Type v} [AddCommGroup M] [Module A M] [Module.Finite A M]

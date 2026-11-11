@@ -636,8 +636,7 @@ functor. The two are the same functor -- `hypercoveringSpectralSequence` *is* th
 and composition of functors is associative definitionally -- but checking that at the ambient
 heartbeat budget means unfolding `CategoryTheory.SpectralSequence.natRestrictE₂Comp` inside a
 functor-level defeq, which does not finish. -/
-@[stacks 01GY "spectral_sequence",
-  sga "4 V 7.4.0" "(7.4.0.3) E₂ page",
+@[sga "4 V 7.4.0" "(7.4.0.3) E₂ page",
   sga "4 Vbis 2.5.6" "E_2 term"]
 def hypercoveringPageTwoIso (p q : ℕ) :
     (ObjectProperty.ι (fun K : SimplicialObject (Limits.FormalCoproduct.{v} (Over X)) =>

@@ -29,7 +29,8 @@ homomorphism `u : F_T ⟶ G_T`; what remains is that `u` is invertible, and that
 descending along the fpqc covering `{X_{T_i} ⟶ X_T}` of `X_T` obtained from the given covering
 `{T_i ⟶ T}` by base change.  That the base changes do form an fpqc covering is **Stacks 03MR**,
 part (3), and is proved below; the descent itself is the full-faithfulness clause of
-Stacks 04W8, and is carried.
+Stacks 04W8, which this file takes as an argument and
+`StacksFrontier/AlgebraicGeometry/Quot/RelativeIsomFpqcSheaf.lean` proves.
 
 ## Main definitions
 
@@ -61,8 +62,11 @@ Stacks 04W8, and is carried.
 * `AlgebraicGeometry.Space.HomSituation.isIsomAt_of_isFpqcCovering`: the point the source's
   proof isolates — a homomorphism `F_T ⟶ G_T` whose base changes along an fpqc covering of
   test schemes are isomorphisms is an isomorphism.
-* `AlgebraicGeometry.Space.HomSituation.isSheafFor_isomFunctor`: **Stacks 08K8**, the sheaf
-  property of the relative Isom functor for an fpqc covering of test schemes over the target.
+* `AlgebraicGeometry.Space.HomSituation.isSheafFor_isomFunctor`: the reduction of
+  **Stacks 08K8** to the sheaf property of the relative Hom functor and descent of
+  invertibility; the tag itself, with both inputs supplied, is
+  `AlgebraicGeometry.Space.HomSituation.isSheafFor_isomFunctor_of_isFpqcCovering` of
+  `StacksFrontier/AlgebraicGeometry/Quot/RelativeIsomFpqcSheaf.lean`.
 
 ## Implementation notes
 
@@ -75,28 +79,29 @@ condition of Stacks 03MQ for the underlying family of algebraic spaces,
 `AlgebraicGeometry.Space.IsFpqcCovering`, rather than for the family of schemes; the two agree,
 a covering of schemes being a covering of the algebraic spaces they represent.
 
-**Two inputs are carried, and neither is the conclusion.**
+**Two inputs are arguments here, and neither is the conclusion.**  Both are proved in
+`StacksFrontier/AlgebraicGeometry/Quot/RelativeIsomFpqcSheaf.lean`, which assembles Stacks 08K8.
 
 The first is the sheaf property of the relative Hom functor itself, which is Stacks 08JV.  It
 is a statement about `Hom(F, G)`, not about `Isom(F, G)`: it supplies the glued homomorphism
-and the uniqueness, and says nothing about invertibility.  Stacks 08JV is not available in this
-development.
+and the uniqueness, and says nothing about invertibility.  Stacks 08JV is
+`AlgebraicGeometry.Space.HomSituation.isSheafFor_homFunctor`.
 
 The second is the full-faithfulness clause of Stacks 04W8 — fpqc descent of quasi-coherent
 modules on algebraic spaces — isolated as
 `AlgebraicGeometry.Space.ReflectsIsoAlongFpqcCovering`: along an fpqc covering of algebraic
 spaces, a homomorphism of quasi-coherent modules whose inverse images are isomorphisms is an
 isomorphism.  It is a statement about one morphism of modules on one algebraic space, with no
-test schemes, no relative Hom functor and no sheaf condition in it.  Stacks 04W8 is not
-available in this development either.
+test schemes, no relative Hom functor and no sheaf condition in it.  It is proved from
+Stacks 04W8 as `AlgebraicGeometry.Space.reflectsIsoAlongFpqcCovering`.
 
-What is *not* carried is the step between them, which is where the source's proof does its
+What is *not* an argument is the step between them, which is where the source's proof does its
 work: the covering of `X_T` that the descent is applied to has to be produced from the given
 covering of `T`, and that is `AlgebraicGeometry.Space.isFpqcCovering_baseChangeMap` below,
 Stacks 03MR part (3) pulled back along `X_T ⟶ T` and transported along the pasted-pullback
 identification `X_{U i} ≅ X_T ×_T U i` of
 `AlgebraicGeometry.Space.isPullback_baseChangeMap`.  Nor is the reduction of the sheaf property
-of a subfunctor to that of its ambient presheaf carried; that is
+of a subfunctor to that of its ambient presheaf an argument; that is
 `CategoryTheory.Subfunctor.isSheafFor_of_local`.
 
 **Quasi-coherence of the base-changed modules is a hypothesis**, exactly as it is for
@@ -106,8 +111,8 @@ a *field* of `AlgebraicGeometry.Space.HomSituation`: the fact itself is Stacks 0
 along an arbitrary morphism of algebraic spaces by
 `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite` of
 `StacksFrontier/AlgebraicGeometry/Spaces/ModulePullbackQuasicoherentFromChartDiagrams.lean`, so a
-consumer holding quasi-coherence of the two modules on `X` can always fill the fields in.  The
-hypothesis is recorded in the tag attribute.
+consumer holding quasi-coherence of the two modules on `X` can always fill the fields in, as
+`AlgebraicGeometry.Space.HomSituation.isSheafFor_isomFunctor_of_isFpqcCovering` does.
 
 **Invertibility is a predicate on the Hom set, not a second Hom set.**
 `AlgebraicGeometry.Space.HomSituation.homAt` is a `def` rather than an `abbrev`, for the
@@ -259,7 +264,7 @@ theorem isFpqcCovering_baseChangeMap (f : X ⟶ Y) {I : Type v} {T : SchemesOver
 
 end BaseChangeCovering
 
-/-! ### Fpqc descent of invertibility, carried -/
+/-! ### Fpqc descent of invertibility, as a statement -/
 
 /-- **The full-faithfulness clause of Stacks 04W8**, in the form the relative Isom functor
 consumes: given an fpqc covering `(p i : Z i ⟶ W)` of algebraic spaces over `S` and two
@@ -267,8 +272,9 @@ quasi-coherent `𝒪_W`-modules, a homomorphism between them whose inverse image
 of the covering are all isomorphisms is itself an isomorphism.
 
 This is the statement that the functor from quasi-coherent modules on `W` to descent data for
-the covering is faithful and full on isomorphisms, read on one morphism.  It is not available in
-this development, so it is carried as a hypothesis wherever it is needed. -/
+the covering is faithful and full on isomorphisms, read on one morphism.  It is proved, from
+Stacks 04W8, as `AlgebraicGeometry.Space.reflectsIsoAlongFpqcCovering` of
+`StacksFrontier/AlgebraicGeometry/Quot/RelativeIsomFpqcSheaf.lean`. -/
 def ReflectsIsoAlongFpqcCovering (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
     Prop :=
   ∀ {I : Type v} {W : AlgebraicSpaces B S hS} {Z : I → AlgebraicSpaces B S hS}
@@ -384,7 +390,8 @@ the form of `AlgebraicGeometry.Space.isFpqcCovering_baseChangeMap`; the pullback
 `g i` is invertible exactly when its inverse image along `X_{U i} ⟶ X_T` is, by
 `AlgebraicGeometry.Space.HomSituation.isIsomAt_homMap_iff`; and a homomorphism of quasi-coherent
 modules whose inverse images along an fpqc covering are isomorphisms is an isomorphism, which is
-the carried full-faithfulness clause of Stacks 04W8. -/
+the full-faithfulness clause of Stacks 04W8, taken here as the argument `hdesc` and proved as
+`AlgebraicGeometry.Space.reflectsIsoAlongFpqcCovering`. -/
 theorem isIsomAt_of_isFpqcCovering
     (hdesc : ReflectsIsoAlongFpqcCovering.{u, v} B S hS)
     {I : Type v} {T : s.SchemesOver} {U : I → s.SchemesOver} (g : ∀ i, U i ⟶ T)
@@ -399,10 +406,13 @@ theorem isIsomAt_of_isFpqcCovering
 
 /-! ### The sheaf property of the relative Isom functor, Stacks 08K8 -/
 
-/-- **Stacks 08K8.**  In the standing data of Stacks 08JT the relative Isom functor
-`Isom(F, G)` satisfies the sheaf property for the fpqc topology: for every fpqc covering
-`{U i ⟶ T}` of test schemes over the base, every compatible family of invertible
-`𝒪_{X_{U i}}`-homomorphisms `F_{U i} ⟶ G_{U i}` has a unique amalgamation, again invertible.
+/-- **The reduction of Stacks 08K8 to its inputs.**  In the standing data of Stacks 08JT,
+given the sheaf property of the relative Hom functor for an fpqc covering `{U i ⟶ T}` of test
+schemes over the base, descent of invertibility along fpqc coverings, and quasi-coherence of the
+two base-changed modules, the relative Isom functor `Isom(F, G)` is a sheaf for that covering.
+All three inputs are theorems of the library, and
+`AlgebraicGeometry.Space.HomSituation.isSheafFor_isomFunctor_of_isFpqcCovering` of
+`StacksFrontier/AlgebraicGeometry/Quot/RelativeIsomFpqcSheaf.lean`, Stacks 08K8, supplies them.
 
 This is the proof of the source.  The relative Hom functor already satisfies the sheaf property,
 so the family glues to a unique homomorphism `F_T ⟶ G_T`; what remains is that it is invertible,
@@ -410,9 +420,6 @@ and that is `AlgebraicGeometry.Space.HomSituation.isIsomAt_of_isFpqcCovering`, w
 the fpqc covering `{X_{U i} ⟶ X_T}` of `X_T` by Stacks 03MR, part (3), and descends
 invertibility along it.  The passage from the sheaf property of `Hom(F, G)` to that of its
 subfunctor is `CategoryTheory.Subfunctor.isSheafFor_of_local`. -/
-@[stacks 08K8 "conditional on the sheaf property of the relative Hom functor (Stacks 08JV), on \
-the full-faithfulness clause of the fpqc descent of quasi-coherent modules (Stacks 04W8), and \
-on the quasi-coherence of the two base-changed modules (Stacks 03GA)"]
 theorem isSheafFor_isomFunctor
     (hdesc : ReflectsIsoAlongFpqcCovering.{u, v} B S hS)
     {I : Type v} {T : s.SchemesOver} {U : I → s.SchemesOver} (g : ∀ i, U i ⟶ T)

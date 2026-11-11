@@ -5,15 +5,20 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChan
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.HigherDirectImageLocallyQuasicoherent
 
 /-!
-# Inverse image of a module in `LQCoh^fbc` (Stacks 0771, part (3))
+# Inverse image of a module in the presheaf-level `LQCoh^fbc`
 
 Let `g : 𝒵 ⟶ 𝒳` be a 1-morphism of algebraic stacks over `S`. **Stacks 0771** part (3) says that
 the inverse image `g^{-1}` carries `LQCoh^fbc(𝒪_𝒳)` into `LQCoh^fbc(𝒪_𝒵)`, where `LQCoh^fbc` is
 the category of **Stacks 07AQ**: the modules on the étale site which are locally quasi-coherent
-(**Stacks 06WJ**) and have the flat base change property (**Stacks 0762**).
+(**Stacks 06WJ**) and have the flat base change property (**Stacks 0762**). That statement is
+`AlgebraicGeometry.Stack.lqcohSheafFbcEtaleModules_stackModuleInverseImage`, at the sheaf-level
+reading of **Stacks 0762**.
 
-The source proves it by citing the two halves separately. The local quasi-coherence half is
-**Stacks 06WL** and is available, as
+This file works with the presheaf-level reading
+`AlgebraicGeometry.Stack.IsLocallyQuasicoherentWithFlatBaseChange`, which is strictly stronger
+than **Stacks 0762**, and proves the local quasi-coherence half of the inverse image statement
+there. The source proves part (3) by citing the two halves separately. The local
+quasi-coherence half is **Stacks 06WL** and is available, as
 `AlgebraicGeometry.Stack.isLocallyQuasicoherent_stackModulePresheafPullback`. The flat base change
 half is **Stacks 0764** part (1), which is not available; it is the hypothesis `hfbc`.
 
@@ -22,7 +27,9 @@ half is **Stacks 0764** part (1), which is not available; it is the hypothesis `
 * `AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_of_iso`: membership in
   `LQCoh^fbc(𝒪_𝒳)` transports along an isomorphism of presheaves of modules.
 * `AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChange_stackModulePresheafPullback`:
-  **Stacks 0771** part (3), with the flat base change property of the inverse image assumed.
+  the local quasi-coherence half of the inverse image statement for the presheaf-level
+  `LQCoh^fbc`; the flat base change property of the inverse image is a hypothesis, so this is not
+  **Stacks 0771** part (3).
 
 ## Implementation notes
 
@@ -85,18 +92,22 @@ theorem isLocallyQuasicoherentWithFlatBaseChange_of_iso {𝒳 : Type*} [Category
     hasFlatBaseChangeProperty_of_iso B E h S hS p hp (etaleTopology B)
       (etaleTopology_le_topology B) e hF.2⟩
 
-/-- **Stacks 0771, part (3), the local quasi-coherence half.** Let `g : 𝒵 ⟶ 𝒳` be a 1-morphism
-of algebraic stacks over `S` and let `F` lie in `LQCoh^fbc(𝒪_𝒳)`. Then the inverse image
-`g^{-1}F` lies in `LQCoh^fbc(𝒪_𝒵)`.
+/-- **The local quasi-coherence half of the inverse image statement, for the presheaf-level
+`LQCoh^fbc`.** Let `g : 𝒵 ⟶ 𝒳` be a 1-morphism of algebraic stacks over `S`, let `F` lie in the
+presheaf-level `LQCoh^fbc(𝒪_𝒳)`, and suppose the inverse image `g^{-1}F` has the presheaf-level
+flat base change property. Then `g^{-1}F` lies in the presheaf-level `LQCoh^fbc(𝒪_𝒵)`.
+
+This is not **Stacks 0771** part (3): the flat base change half of the conclusion is the
+hypothesis `hfbc`, and the reading of the flat base change property is the presheaf-level one,
+stronger than **Stacks 0762**. Part (3) is
+`AlgebraicGeometry.Stack.lqcohSheafFbcEtaleModules_stackModuleInverseImage` and
+`AlgebraicGeometry.Stack.lqcohSheafFbcFppfModules_fppfModulesPullback`.
 
 Local quasi-coherence of `g^{-1}F` is **Stacks 06WL**, which holds for every 1-morphism of
 categories fibred in groupoids. The flat base change property of `g^{-1}F` is the hypothesis
 `hfbc`: the source deduces it from **Stacks 0764** part (1), whose module-level ingredient — the
 form of **Stacks 075D** part (4) for presheaves of modules — is not available; see the
 implementation notes of this file. -/
-@[stacks 0771 "part (3), the local quasi-coherence half: the inverse image along a 1-morphism \
-  of algebraic stacks of a module in LQCoh^fbc lies in LQCoh^fbc, with the flat base change \
-  property of the inverse image assumed (Stacks 0764 part (1))"]
 theorem isLocallyQuasicoherentWithFlatBaseChange_stackModulePresheafPullback
     {𝒵 𝒳 : AlgebraicStacks.{u, w} B S hS} (g : 𝒵 ⟶ 𝒳)
     (F : PresheafOfModules.{u} (ringStructureSheafCore B S hS 𝒳.val.val.p

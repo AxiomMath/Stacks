@@ -29,11 +29,15 @@ flat; together with an `O'₂`-module `ℱ'₂` flat over `O_{ℬ'₂}`, its res
 and the canonical splitting `π : (Sh(C'₁), O'₁) ⟶ (Sh(C), O)` of the upper row. This is
 Situation **Stacks 08VX**.
 
-**Stacks 08VY**, proved here, says that `π^*ℱ` and `h^*ℱ'₂` are `O'₁`-modules flat over
+**Stacks 08VY** says that `π^*ℱ` and `h^*ℱ'₂` are `O'₁`-modules flat over
 `O_{ℬ'₁}` restricting to `ℱ`, that their difference is a class
 `θ ∈ Ext¹_O(ℱ, f^*𝒥₁ ⊗_O ℱ)`, and that the boundary of `θ` in `Ext²_O(ℱ, f^*𝒥₃ ⊗_O ℱ)` for the
 sequence `0 ⟶ f^*𝒥₃ ⊗_O ℱ ⟶ f^*𝒥₂ ⊗_O ℱ ⟶ f^*𝒥₁ ⊗_O ℱ ⟶ 0` is the obstruction of
-Stacks 08VW to lifting `ℱ` to an `O'₃`-module flat over `O_{ℬ'₃}`.
+Stacks 08VW to lifting `ℱ` to an `O'₃`-module flat over `O_{ℬ'₃}`. This file proves its general
+form, from which the tag is obtained as
+`Deformation.ToposThickening.FlatThickeningComplexSituation`
+`.boundary_difference_trivialLift_pulledLift_eq_obstruction`
+(`StacksFrontier/Deformation/ToposThickening/FlatThickeningComplexBoundaryObstruction.lean`).
 
 ## Main definitions
 
@@ -47,7 +51,7 @@ Stacks 08VW to lifting `ℱ` to an `O'₃`-module flat over `O_{ℬ'₃}`.
   maps `I₃ ⊗_O ℱ ⟶ I₂ ⊗_O ℱ ⟶ I₁ ⊗_O ℱ` of a complex of first order thickenings compose to
   zero, so the coefficient sequence of the boundary is a complex.
 * `Deformation.ToposThickening.FirstOrderThickeningComplex`
-  `.boundary_underlyingExtensionClass_eq_obstruction`: **Stacks 08VY**.
+  `.boundary_underlyingExtensionClass_eq_obstruction`: the general form of **Stacks 08VY**.
 
 ## Implementation notes
 
@@ -78,10 +82,10 @@ Stacks 08VW are already stated in the library.
   `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero` states Stacks 08VW and
   under which `Deformation.ToposThickening.MorphismOfFirstOrderThickenings`
   `.existenceObstructionClass_first_tensorIdeal` states Stacks 0CYE, so the obstruction class
-  below is exactly the class those tags are about. Identifying the two as terms would need the
-  descent of `Deformation.ToposThickening.idealTensorComparison` from `O'` to `i_*O`, the gap
-  recorded in the scope section of
-  `StacksFrontier/Deformation/ToposThickening/FlatLiftObstruction.lean`.
+  below is exactly the class those tags are about. The identification of the two as terms is
+  `Deformation.ToposThickening.basePullbackIdealIsoIdeal`
+  (`StacksFrontier/Deformation/ToposThickening/FlatThickeningFlatLifts.lean`), through which the
+  tag's statement with coefficients `f^*𝒥ₖ ⊗_O ℱ` is read off this one.
 * `ℱ'₂`, an `O'₂`-module flat over `O_{ℬ'₂}` with `i₂^*ℱ'₂ = ℱ`, enters as an extension `E₂` of
   `ℱ` by `I₂ ⊗_O ℱ` over `O'₂` as in Stacks 08MB whose canonical action of the square-zero
   ideal is the identity. That these are the same thing is Stacks 08MQ, in the form in which
@@ -120,10 +124,14 @@ Stacks 08VW are already stated in the library.
 
 ## Scope
 
-Stacks 08MQ — the characterization of the `O'`-modules flat over `O_{ℬ'}` — is not in the
-library at the time of writing; it is being formalized elsewhere and is not duplicated here. The
-result below therefore carries the consequences of it that its proof consumes as explicit
-hypotheses, each stated with 08MQ's own hypotheses as antecedents so that 08MQ discharges it.
+Stacks 08MQ — the characterization of the `O'`-modules flat over `O_{ℬ'}` — is
+`Deformation.ToposThickening.isFlat_iff_isIso_canonicalMap_of_isStrict`
+(`StacksFrontier/Deformation/ToposThickening/FlatLiftFlatness.lean`). The result below carries the
+consequences of it that its proof consumes as explicit binders, each stated with 08MQ's own
+hypotheses as antecedents, because the modules proving them import this one; each is proved, and
+the restatement without them is
+`Deformation.ToposThickening.FirstOrderThickeningComplex`
+`.boundary_underlyingExtensionClass_eq_obstruction'`.
 This is the treatment of `Deformation.ToposThickening.IsFlatLiftCorrespondence` in
 `StacksFrontier/Deformation/ToposThickening/FlatLiftObstruction.lean`, and one of the three
 hypotheses is literally that, for the third column, carried through the application of
@@ -134,9 +142,11 @@ and so cannot discharge the binder here; the result below is restated without it
 `StacksFrontier/Deformation/ToposThickening/FlatThickeningBoundaryCorrespondence.lean`, as
 `Deformation.ToposThickening.FirstOrderThickeningComplex`
 `.boundary_underlyingExtensionClass_eq_obstruction'`, which is what Stacks 08VY's own statement
-is now obtained from. The identification `I = f^*J` that 08VW also needs is *not* among them
+is obtained from. The identification `I = f^*J` that 08VW also needs is *not* among them
 either: it is proved without 08MQ, by
-`Deformation.ToposThickening.isIdealComparisonIsoOfFlat`. The remaining two are:
+`Deformation.ToposThickening.isIdealComparisonIsoOfFlat`. The remaining two, proved by
+`Deformation.ToposThickening.isFlatOfFixedActionIdentity` and
+`Deformation.ToposThickening.FirstOrderThickeningComplex.isIdealTensorShortExact`, are:
 
 * `Deformation.ToposThickening.IsFlatOfFixedActionIdentity`, the "if" half of 08MQ read per
   module: granting strictness of the column, flatness of `f'` and flatness of `ℱ` over `O_ℬ`,
@@ -153,8 +163,7 @@ either: it is proved without 08MQ, by
   each `Iₖ ⊗_O ℱ` into `f^*𝒥ₖ ⊗_O ℱ`, and the sequence is then the inverse image of
   `0 ⟶ 𝒥₃ ⟶ 𝒥₂ ⟶ 𝒥₁ ⟶ 0` tensored over `f⁻¹O_ℬ` with the `f⁻¹O_ℬ`-flat module `ℱ`.
 
-Nothing below asserts the content of 08MQ, and the result is not weaker than its source
-statement once 08MQ is available.
+Nothing below asserts the content of 08MQ.
 
 ## References
 
@@ -347,10 +356,13 @@ consequences of Stacks 08MQ carried as the hypotheses `hMQ`, `hMQ₁` and `hMQ�
 
 This is the general form and is untagged: it quantifies over an arbitrary Yoneda extension `E₁`,
 an `E₂` and a map `u` between them, where the source speaks of `π^*ℱ` and `h^*ℱ'₂`. Stacks 08VY
-itself is `Deformation.ToposThickening.FirstOrderThickeningComplex`
+itself is `Deformation.ToposThickening.FlatThickeningComplexSituation`
+`.boundary_difference_trivialLift_pulledLift_eq_obstruction`
+(`StacksFrontier/Deformation/ToposThickening/FlatThickeningComplexBoundaryObstruction.lean`); the
+instantiation at the 08MJ pushout with coefficients `Iₖ ⊗_O ℱ` is
+`Deformation.ToposThickening.FirstOrderThickeningComplex`
 `.boundary_underlyingExtensionClass_eq_obstruction_pushout`
-(`StacksFrontier/Deformation/ToposThickening/FlatThickeningBoundaryPushout.lean`), which
-instantiates this at the tag's own two modules and assumes none of 08MQ's consequences. -/
+(`StacksFrontier/Deformation/ToposThickening/FlatThickeningBoundaryPushout.lean`). -/
 theorem boundary_underlyingExtensionClass_eq_obstruction
     [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))]
     [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]

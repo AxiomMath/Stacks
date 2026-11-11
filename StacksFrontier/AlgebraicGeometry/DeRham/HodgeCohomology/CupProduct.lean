@@ -25,7 +25,13 @@ hypothesis — `Stacks.Cohomology.DerivedRelativeCupProduct.relativeCupProduct_a
 `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductAssociativity.lean`
 and `Stacks.Cohomology.DerivedRelativeCupProduct.relativeCupProduct_braiding` in
 `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductCommutativity.lean`
-— so what is carried as a parameter below is Section 0FKU's pairing on `RΓ`, not those lemmas.
+— and the results below are stated for any pairing `c : HodgeCohomologyCupProduct B` obeying the
+Hodge form of those two laws. The pairing of Section 0FKU is constructed, with those laws proved,
+as `AlgebraicGeometry.SheafOfModules.hodgeCohomologyCupProduct` in
+`StacksFrontier/AlgebraicGeometry/DeRham/HodgeCohomology/CupProductLaws.lean`, where Tag 0FM5 itself
+is `AlgebraicGeometry.SheafOfModules.hodgeTotalCupProduct_assoc` and
+`AlgebraicGeometry.SheafOfModules.hodgeTotalCupProduct_comm`, on the direct sums
+`H^*_{Hodge}(X/S)`.
 
 ## Main definitions
 
@@ -53,10 +59,10 @@ and `Stacks.Cohomology.DerivedRelativeCupProduct.relativeCupProduct_braiding` in
   `AlgebraicGeometry.SheafOfModules.isScaledTranspose_exteriorProductComponent`: the two laws of
   the wedge product of Tag 0FM2, `(ω ∧ η) ∧ ζ = ω ∧ (η ∧ ζ)` and `ω ∧ η = (-1)^{pp'} η ∧ ω`, read
   as compatibilities of the multiplications of forms that induce the pairing.
-* `AlgebraicGeometry.SheafOfModules.hodgeCupProduct_assoc`: **the cup product on `H^*_{Hodge}` is
-  associative.**
-* `AlgebraicGeometry.SheafOfModules.hodgeCupProduct_comm`: **the cup product on `H^*_{Hodge}` is
-  graded commutative** for the total degree, `ξ ∪ ζ = (-1)^{(p + q)(p' + q')} ζ ∪ ξ` for `ξ` in
+* `AlgebraicGeometry.SheafOfModules.hodgeCupProduct_assoc`: the cup product `hodgeCupProduct B c`
+  is associative on classes of pure bidegree.
+* `AlgebraicGeometry.SheafOfModules.hodgeCupProduct_comm`: the cup product `hodgeCupProduct B c` is
+  graded commutative for the total degree, `ξ ∪ ζ = (-1)^{(p + q)(p' + q')} ζ ∪ ξ` for `ξ` in
   `H^q(X, Ω^p)` and `ζ` in `H^{q'}(X, Ω^{p'})`.
 
 ## Implementation notes
@@ -72,23 +78,22 @@ Section 0FKU paired with `∧` alone obeys the bigraded law
 exactly `(-1)^{qp'}` on each side. The passage between the two is
 `AlgebraicGeometry.SheafOfModules.hodgeCupProduct_comm`.
 
-**What is a parameter.** The cup product of Cohomology, Section 0FKU and its Lemmas 0FP4 and 0FP5
-are not in the library, so they are carried as the single named parameter
+**The parameter.** The results of this file are stated for any term of
 `AlgebraicGeometry.SheafOfModules.HodgeCohomologyCupProduct`, whose two laws are *conditional* on
 the corresponding compatibilities of the multiplication of forms that induces the pairing. Those
 two compatibilities are then discharged for the wedge product of Tag 0FM2 from
 `AlgebraicGeometry.SheafOfModules.formProduct_assoc` and
-`AlgebraicGeometry.SheafOfModules.formProduct_comm`, so the statements of Tag 0FM5 below carry no
-hypothesis beyond the parameter. Nothing below assumes either conclusion of Tag 0FM5: the
-parameter gives Lemma 0FP5 for a transposed pair of multiplications and Lemma 0FP4 for an
-associative quadruple, and the passage from those to the laws of the total degree is the sign
-computation of each proof.
+`AlgebraicGeometry.SheafOfModules.formProduct_comm`, so the two laws below carry no hypothesis
+beyond the parameter. Nothing below assumes either conclusion of Tag 0FM5: the parameter gives
+Lemma 0FP5 for a transposed pair of multiplications and Lemma 0FP4 for an associative quadruple,
+and the passage from those to the laws of the total degree is the sign computation of each proof.
 
 **Pure bidegrees.** Both laws are stated for classes of pure bidegree, which is where the grading
 lives: the pairing is additive in each variable and every class in `H^n_{Hodge}` is a finite sum
 of ones of pure bidegree, so the two laws on pure bidegrees are the two laws of the graded
 pairing. The totalization of the pairing to the direct sum
-`AlgebraicGeometry.SheafOfModules.hodgeCohomology` is not formed here.
+`AlgebraicGeometry.SheafOfModules.hodgeCohomology` is
+`AlgebraicGeometry.SheafOfModules.hodgeTotalCupProduct`, in `CupProductLaws.lean`.
 
 **Degrees.** The exterior degrees `p + p'` and `p' + p`, and `(p + p') + p''` and
 `p + (p' + p'')`, are equal but not syntactically equal, and likewise for the cohomological
@@ -267,13 +272,12 @@ relative differential forms, the `A(X)`-bilinear pairing
 which Cohomology, Section 0FKU produces by composing the cup product in cohomology with `m`,
 together with the two statements that Cohomology, Lemmas 0FP4 and 0FP5 turn into: the pairing
 associates and transposes **as soon as the multiplications do**. Both laws are therefore
-conditional, and the statements of Tag 0FM5 below are deductions from them and from the
+conditional, and the two laws of the cup product below are deductions from them and from the
 associativity and graded commutativity of the wedge product, exactly as in the proof of
 Tag 0FM3.
 
-This is the one parameter of this file: Section 0FKU and Lemmas 0FP4, 0FP5 are not in the
-library, and a second construction of a cup product in cohomology is deliberately not given
-here. -/
+This is the one parameter of this file. The term given by Section 0FKU, with both laws proved,
+is `AlgebraicGeometry.SheafOfModules.hodgeCohomologyCupProduct`. -/
 structure HodgeCohomologyCupProduct where
   /-- The cup product of Section 0FKU, composed with a multiplication of forms. -/
   cup {p p' r : ℕ} (m : FormsMultiplication B p p' r) (q q' : ℤ) :
@@ -351,10 +355,11 @@ noncomputable def hodgeCupProduct (p p' : ℕ) (q q' : ℤ)
     hodgeCohomologyComponent B (p + p') (q + q') :=
   (((q * (p' : ℤ)).negOnePow : ℤ)) • c.cup (exteriorProductComponent B p p') q q' ξ ζ
 
-/-- **Stacks Project, Tag 0FM5.** The cup product on `H^*_{Hodge}(X/S)` is **associative**. This
-is Cohomology, Lemma 0FP4 together with the associativity of the wedge product. -/
-@[stacks 0FM5 "the cup product on Hodge cohomology is associative, on classes of pure bidegree; \
-the 0FKU pairing with its 0FP4 law is the carried parameter HodgeCohomologyCupProduct"]
+/-- The cup product `hodgeCupProduct B c` built from a pairing `c` obeying the laws of
+Cohomology, Lemmas 0FP4 and 0FP5 is **associative** on classes of pure bidegree: Lemma 0FP4
+together with the associativity of the wedge product. For the constructed cup product
+`hodgeCohomologyCupProduct` this gives Tag 0FM5,
+`AlgebraicGeometry.SheafOfModules.hodgeTotalCupProduct_assoc`. -/
 theorem hodgeCupProduct_assoc (p p' p'' : ℕ) (q q' q'' : ℤ)
     (ξ : hodgeCohomologyComponent B p q) (ζ : hodgeCohomologyComponent B p' q')
     (θ : hodgeCohomologyComponent B p'' q'') :
@@ -376,13 +381,12 @@ theorem hodgeCupProduct_assoc (p p' p'' : ℕ) (q q' q'' : ℤ)
       (isAssociativeTriple_exteriorProductComponent B p p' p'') q q' q'' ξ ζ θ,
     hsign]
 
-/-- **Stacks Project, Tag 0FM5.** The cup product on `H^*_{Hodge}(X/S)` is **graded
-commutative**: `ξ ∪ ζ = (-1)^{(p + q)(p' + q')} ζ ∪ ξ` for `ξ` in `H^q(X, Ω^p)` and `ζ` in
-`H^{q'}(X, Ω^{p'})`, the sign of the total degrees. This is Cohomology, Lemma 0FP5 together with
-the graded commutativity of the wedge product. -/
-@[stacks 0FM5 "the cup product on Hodge cohomology is graded commutative for the total degree \
-p + q, sign (-1)^((p+q)(p'+q')), on classes of pure bidegree; the 0FKU pairing with its 0FP5 law \
-is the carried parameter HodgeCohomologyCupProduct"]
+/-- The cup product `hodgeCupProduct B c` built from a pairing `c` obeying the laws of
+Cohomology, Lemmas 0FP4 and 0FP5 is **graded commutative** on classes of pure bidegree:
+`ξ ∪ ζ = (-1)^{(p + q)(p' + q')} ζ ∪ ξ` for `ξ` in `H^q(X, Ω^p)` and `ζ` in `H^{q'}(X, Ω^{p'})`,
+the sign of the total degrees. This is Lemma 0FP5 together with the graded commutativity of the
+wedge product. For the constructed cup product `hodgeCohomologyCupProduct` this gives Tag 0FM5,
+`AlgebraicGeometry.SheafOfModules.hodgeTotalCupProduct_comm`. -/
 theorem hodgeCupProduct_comm (p p' : ℕ) (q q' : ℤ)
     (ξ : hodgeCohomologyComponent B p q) (ζ : hodgeCohomologyComponent B p' q') :
     hodgeCupProduct B c p p' q q' ξ ζ =

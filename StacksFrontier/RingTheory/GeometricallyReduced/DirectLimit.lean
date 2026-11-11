@@ -244,16 +244,13 @@ reducedness makes the element itself vanish.
 
 ## Implementation notes
 
-The source collects four elementary properties of geometrically reduced algebras over a field `k`,
-of which three are already available under their own names and are not restated here: (1) a
-`k`-subalgebra of a geometrically reduced algebra is geometrically reduced, which is
-`Algebra.IsGeometricallyReduced.of_injective` for the inclusion, stated there for an arbitrary
-injective `k`-algebra map; (2) an algebra all of whose finitely generated `k`-subalgebras are
-geometrically reduced is geometrically reduced, which is
+The source collects four elementary properties of geometrically reduced algebras over a field `k`;
+this file states (3), the directed colimit. The others are stated in their own homes: (1) a
+`k`-subalgebra of a geometrically reduced algebra is geometrically reduced,
+`Subalgebra.isGeometricallyReduced`; (2) an algebra all of whose finitely generated
+`k`-subalgebras are geometrically reduced is geometrically reduced, Mathlib's
 `Algebra.IsGeometricallyReduced.of_forall_fg`; and (4) a localization of a geometrically reduced
-algebra is geometrically reduced, which is Lemma 04KN, stated there together with the polynomial
-ring. What is stated here is (3), the directed colimit, the one part of the lemma with no other
-home.
+algebra is geometrically reduced, `IsLocalization.isGeometricallyReduced`.
 
 The base is generalized from a field to a commutative ring `R`: neither the statement nor the
 argument uses that the base is a field, and `Algebra.IsGeometricallyReduced` is defined over a
@@ -283,7 +280,8 @@ in countably many variables.
 
 * [Stacks 030T](https://stacks.math.columbia.edu/tag/030T)
   (`algebra-lemma-subalgebra-separable`), part (3), in the section "Geometrically reduced
-  algebras". Geometric reducedness is Definition 030S, and the localization statement, part (4), is
+  algebras". Geometric reducedness is Definition 030S, equivalent over a field to Mathlib's
+  `Algebra.IsGeometricallyReduced` by Lemma 030V; the localization statement, part (4), is also
   Lemma 04KN.
 -/
 
@@ -294,9 +292,12 @@ namespace DirectLimit
 /-- **Stacks 030T (3).** A directed colimit of geometrically reduced `R`-algebras is geometrically
 reduced over `R`. -/
 @[stacks 030T "Part (3): a directed colimit of geometrically reduced algebras is geometrically
-  reduced, stated for `DirectLimit` of a directed system of algebras over a commutative base ring.
-  Parts (1) and (2) are `Algebra.IsGeometricallyReduced.of_injective` and
-  `Algebra.IsGeometricallyReduced.of_forall_fg`; part (4) is Lemma 04KN."]
+  reduced, stated for `DirectLimit` of a directed system of algebras over a commutative base ring,
+  which for the base a field `k` is the source's statement. Part (1) is
+  `Subalgebra.isGeometricallyReduced`, part (2) is Mathlib's
+  `Algebra.IsGeometricallyReduced.of_forall_fg`, part (4) is
+  `IsLocalization.isGeometricallyReduced`. Geometric reducedness is Mathlib's
+  `Algebra.IsGeometricallyReduced`, equivalent over a field to Definition 030S by Lemma 030V."]
 public instance instIsGeometricallyReduced
     {R : Type*} [CommRing R] {ι : Type*} [Preorder ι] [IsDirectedOrder ι] [Nonempty ι]
     {G : ι → Type*} [∀ i, Ring (G i)] [∀ i, Algebra R (G i)]

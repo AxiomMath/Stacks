@@ -18,40 +18,44 @@ algebraic space over `S`.
 * `AlgebraicGeometry.FormalSpace.isRepresentableEtale_of_stageSquares`: a morphism of fppf
   sheaves is representable étale as soon as it becomes so after base change along a family of
   morphisms into its target through which every scheme-valued point of that target factors.
-* `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_thickenings`:
-  **Stacks 0AIU**, granting the étale charts of the system as a hypothesis.
+* `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_thickenings`: the colimit
+  is a formal algebraic space once a system of étale charts as in the Stacks proof of 0AIU is
+  given.
 * `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_isAlgebraicSpace_of_affineFormal`:
   the hypotheses of the previous statement are satisfiable, on the constant diagram over
   `PUnit`.
 
+**Stacks 0AIU** itself is proved, in the corrected form recorded in `errata.md`, as
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`
+(`StacksFrontier.AlgebraicGeometry.FormalSpace.ColimitOfAlgebraicSpaceThickenings`), which builds
+the chart system below from the stages.
+
 ## Implementation notes
 
-The geometric input of the Stacks proof is not available in this library. There an affine étale
-chart of one stage `X_λ` is transported to every later stage along the thickenings, by the
-topological invariance of the étale site (**Stacks 05ZH**); the transported charts stay affine
-(**Stacks 07VT**), their colimit is an affine formal algebraic space, and it is étale over the
-colimit because a morphism from an affine scheme to the colimit factors through a stage, a step
-the source omits. Neither 05ZH nor 07VT is carried here, so the chart system is a hypothesis:
-`G` is the system of chart diagrams, `α` maps it to the system of stages, `haff` says that each
-chart diagram colimits to an affine formal algebraic space, `hαet` that each chart morphism is
-representable étale, `hsq` that the charts base change from the colimit, `hcov` that they cover
-each stage, and `hfac` is the omitted factorization of a scheme-valued point of the colimit
-through a stage. The library does carry the affine analogue of `hfac`,
-`AlgebraicGeometry.exists_factor_through_thickening` (**Stacks 0AIA**), for a quasi-compact
-source and a presented affine formal algebraic space.
+In the Stacks proof an affine étale chart of one stage `X_λ` is transported to every later
+stage along the thickenings, by the topological invariance of the étale site (**Stacks 05ZH**,
+`AlgebraicGeometry.FormalSpace.thickeningChart`); the transported charts stay affine
+(**Stacks 07VT**, thickening case,
+`AlgebraicGeometry.FormalSpace.exists_isAffine_iso_thickeningChart_obj`), their colimit is an
+affine formal algebraic space, and it is étale over the colimit because a morphism from an
+affine scheme to the colimit factors through a stage. The criterion of this file starts from
+such a chart system: `G` is the system of chart diagrams, `α` maps it to the system of stages,
+`haff` says that each chart diagram colimits to an affine formal algebraic space, `hαet` that
+each chart morphism is representable étale, `hsq` that the charts base change from the colimit,
+`hcov` that they cover each stage, and `hfac` is the factorization of a scheme-valued point of
+the colimit through a stage. The affine analogue of `hfac` is
+`AlgebraicGeometry.exists_factor_through_thickening` (**Stacks 0AIA**).
 
-What is proved from that input is the passage from the stages to the colimit: `hsq` and `hfac`
+From that input this file proves the passage from the stages to the colimit: `hsq` and `hfac`
 make the induced morphism out of each chart colimit representable étale
 (`isRepresentableEtale_of_stageSquares`), `hcov` makes the resulting family jointly surjective,
 and the atlas so assembled is the one Definition 0AIM asks for. The algebraic-space hypothesis
-on the stages and the thickening hypothesis on the transition morphisms are kept in the
-statement, where the source puts them, but they are consumed by the chart hypothesis and so go
-unused; that is why they are written `_halg` and `_hthick`.
+on the stages and the thickening hypothesis on the transition morphisms are consumed by the
+chart hypothesis and so go unused; that is why they are written `_halg` and `_hthick`.
 
 The set-theoretic condition of Stacks 0AIS on the colimit is a hypothesis rather than a
-conclusion, for the same reason as in
-`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_etaleCover`: it does not follow from
-the remaining data.
+conclusion: it does not follow from the remaining data
+(`AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_thickenings`).
 
 ## References
 
@@ -149,25 +153,17 @@ theorem isRepresentableEtale_of_stageSquares {Λ : Type*}
   have h2 := isEtaleULift_precomp_iso B S hS e.symm (e.hom ≫ pullback.fst ξ ζ.hom) h1
   simpa using h2
 
-/-- **Stacks 0AIU**, granting the étale charts of the system. Let `E` be a directed system of
-fppf sheaves over `S` whose stages are algebraic spaces and whose transition morphisms are
-representable thickenings. A sheaf `Z` isomorphic to its colimit, satisfying the set-theoretic
-condition of Stacks 0AIS and admitting a system of affine étale charts as in the Stacks proof,
-is a formal algebraic space over `S`.
+/-- A chart-system criterion for the colimit of a directed system of fppf sheaves over `S`
+whose stages are algebraic spaces and whose transition morphisms are representable thickenings:
+a sheaf `Z` isomorphic to the colimit, satisfying the set-theoretic condition of Stacks 0AIS and
+admitting a system of affine étale charts as in the Stacks proof of 0AIU, is a formal algebraic
+space over `S`.
 
 The charts are the hypotheses `G`, `α`, `haff`, `hαet`, `hsq` and `hcov`, and `hfac` says that a
 scheme-valued point of the colimit factors through a stage. What is proved is that the colimit
 of each chart diagram is representable étale over `Z` and that these colimits cover `Z`, so that
-they form an atlas as in Definition 0AIM. -/
-@[stacks 0AIU "granting the chart system that the topological invariance of the étale site \
-(Stacks 05ZH) and the affineness of a thickening of an affine scheme (Stacks 07VT) produce from \
-an affine étale chart of one stage, neither of which this library carries: the chart diagrams, \
-their colimits being affine formal algebraic spaces, their being representable étale over and \
-covering each stage, and the factorization of a scheme-valued point of the colimit through a \
-stage — the step the source omits — are the hypotheses `G`, `α`, `haff`, `hαet`, `hsq`, `hcov` \
-and `hfac`. What is proved is the passage from the stages to the colimit: that those colimits \
-are an atlas of the colimit sheaf in the sense of Definition 0AIM. The set-theoretic condition \
-of Stacks 0AIS on the colimit is the hypothesis `hZset`, as it is for Stacks 0AJ1"]
+they form an atlas as in Definition 0AIM. Stacks 0AIU, which constructs the charts, is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`. -/
 theorem isFormalAlgebraicSpace_of_colimit_thickenings
     (Λ : Type (u + 1)) [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
     (E : Λ ⥤ FppfSheaf B S hS)

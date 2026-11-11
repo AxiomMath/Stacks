@@ -9,21 +9,25 @@ import StacksFrontier.RingTheory.DiscreteValuationRing.EppCondition
 import StacksFrontier.Topology.Algebra.AdicTopology.WeaklyAdmissibleAdic
 
 /-!
-# Rig-surjectivity is étale local on the target
+# Rig-surjectivity along a jointly rig-surjective étale cover, with explicit inputs
 
-Let `S` be a scheme contained in a big fppf site `B`, let `f : X ⟶ Y` be a morphism of locally
-Noetherian formal algebraic spaces over `S` which is locally of finite type, and let
-`{gᵢ : Yᵢ ⟶ Y}` be a family of morphisms of formal algebraic spaces which are representable by
-algebraic spaces and étale and for which `∐ gᵢ` is surjective. **Stacks 0AQV** says that `f` is
-rig-surjective if and only if every base change `fᵢ : X ×_Y Yᵢ ⟶ Yᵢ` is rig-surjective.
+Let `S` be a scheme contained in a big fppf site `B`, let `f : X ⟶ Y` be a morphism of fppf
+sheaves over `S` which is locally of finite type, and let `{gᵢ : Yᵢ ⟶ Y}` be a family of
+representable étale morphisms which is jointly surjective on points. This file defines joint
+rig-surjectivity and joint surjectivity of such a family, and proves that `f` is rig-surjective
+if and only if every base change `fᵢ : X ×_Y Yᵢ ⟶ Yᵢ` is, given two general inputs as explicit
+arguments (see below).
 
-Both directions are proved. The forward direction is stability of rig-surjectivity under base
-change, which is Stacks 0AQS. For the converse an adic point `Spf R ⟶ Y` out of a complete
-discrete valuation ring is first lifted, after an extension `R ⊂ R'` of complete discrete
-valuation rings, to an adic point of one member `Yᵢ` of the family — this is the joint
-rig-surjectivity of the family, Stacks 0AQU for `∐ gᵢ` — and then lifted through `fᵢ` after a
-further extension `R' ⊂ R''`; the projection `X ×_Y Yᵢ ⟶ X` turns that into a lift through `f`
-and the two extensions compose to the single extension the definition asks for.
+**Stacks 0AQV** itself, with both inputs proved, is
+`AlgebraicGeometry.FormalSpace.isRigSurjective_iff_forall_pullback_snd_of_isRepresentableEtale`
+in `StacksFrontier.AlgebraicGeometry.FormalSpace.JointlyRigSurjectiveEtale`.
+
+The forward direction is stability of rig-surjectivity under base change, which is
+Stacks 0AQS. For the converse an adic point `Spf R ⟶ Y` out of a complete discrete valuation
+ring is first lifted, after an extension `R ⊂ R'` of complete discrete valuation rings, to an
+adic point of one member `Yᵢ` of the family, and then lifted through `fᵢ` after a further
+extension `R' ⊂ R''`; the projection `X ×_Y Yᵢ ⟶ X` turns that into a lift through `f` and the
+two extensions compose to the single extension the definition asks for.
 
 ## Main definitions
 
@@ -35,8 +39,8 @@ and the two extensions compose to the single extension the definition asks for.
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isRigSurjective_iff_forall_pullback_snd`: **Stacks 0AQV**,
-  both directions, carrying two hypotheses — see below.
+* `AlgebraicGeometry.FormalSpace.isRigSurjective_iff_forall_pullback_snd`: the equivalence
+  above, with the two inputs as arguments.
 
 ## Implementation notes
 
@@ -55,25 +59,18 @@ The locally Noetherian hypotheses on `X`, `Y` and the `Yᵢ` are omitted, exactl
 `AlgebraicGeometry.FormalSpace.IsRigSurjective` already takes adicness in the representable
 form.
 
-### The two hypotheses carried
+### The two explicit inputs
 
 `hetaleFiniteType` is the assertion that a morphism of fppf sheaves which is representable by
-algebraic spaces and étale is locally of finite type. It is Stacks 0AJG read through
-Definition 0AM4 and is not in this library, which has no implication from
-`AlgebraicGeometry.Space.IsEtaleULift` to
-`AlgebraicGeometry.Space.IsLocallyOfFiniteTypeULift`. It is quantified over *all* representable
-étale morphisms, so it is a statement about the library's étale morphisms and not a restatement
-of anything below; it is used for the members `gᵢ` of the family, which Stacks 0AQS needs to be
-locally of finite type in both directions.
+algebraic spaces and étale is locally of finite type (Stacks 0AJG read through
+Definition 0AM4); the library proves it as
+`AlgebraicGeometry.FormalSpace.IsLocallyOfFiniteType.of_isRepresentableEtale`.
 
 `h0AQU` is the assertion that a family of representable étale morphisms whose disjoint union is
-surjective on points is jointly rig-surjective. This is **Stacks 0AQU** applied to `∐ gᵢ`,
-which is representable étale and surjective, together with the fact that an adic point of a
-coproduct of formal algebraic spaces out of the formal spectrum of a complete discrete
-valuation ring factors through one summand. Neither is in this library: Stacks 0AQU has no
-declaration here, and the coproduct of fppf sheaves carries no such factorization result. Like
-`hetaleFiniteType` it is quantified over all families, so applying it to `{gᵢ}` is what consumes
-the étaleness of the `gᵢ` and the joint surjectivity of the family.
+surjective on points is jointly rig-surjective: Stacks 0AQU applied to `∐ gᵢ`, together with
+the factorization of an adic point of a coproduct through a summand. The library proves it, for
+families of formal algebraic spaces, as
+`isJointlyRigSurjective_of_isRepresentableEtale_of_isJointlySurjective`.
 
 ## References
 
@@ -132,10 +129,12 @@ abbrev IsJointlySurjective (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contai
     ∃ (j : J) (x : Space.pointsULift.{u + 1} B S hS (Vj j).obj),
       Space.pointsMapULift.{u + 1} B S hS (Vj j).obj (v j).hom x = q
 
-/-- **Stacks 0AQV**, both directions, carrying two hypotheses. Let `f : X ⟶ Y` be a morphism of
-formal algebraic spaces over `S` which is locally of finite type and let `{gᵢ : Yᵢ ⟶ Y}` be a
-family of representable étale morphisms which is jointly surjective on points. Then `f` is
-rig-surjective exactly when each base change `X ×_Y Yᵢ ⟶ Yᵢ` is rig-surjective.
+/-- **Rig-surjectivity is étale local on the target, from explicit inputs.** Let `f : X ⟶ Y` be a
+morphism of fppf sheaves over `S` which is locally of finite type and let `{gᵢ : Yᵢ ⟶ Y}` be a
+family of representable étale morphisms which is jointly surjective on points. Given that
+representable étale morphisms are locally of finite type (`hetaleFiniteType`) and that jointly
+surjective families of representable étale morphisms are jointly rig-surjective (`h0AQU`), `f`
+is rig-surjective exactly when each base change `X ×_Y Yᵢ ⟶ Yᵢ` is rig-surjective.
 
 The forward direction is Stacks 0AQS. For the converse an adic point of `Y` out of a complete
 discrete valuation ring is lifted to one `Yᵢ` over an extension of complete discrete valuation
@@ -143,15 +142,12 @@ rings, using that the family is jointly rig-surjective, and then lifted through 
 change over a further extension; the projection to `X` makes the result a lift through `f`, and
 the two extensions compose to one.
 
-The two hypotheses are `hetaleFiniteType`, that a representable étale morphism is locally of
-finite type (Stacks 0AJG for Definition 0AM4), and `h0AQU`, that a jointly surjective family of
-representable étale morphisms is jointly rig-surjective (**Stacks 0AQU** for `∐ gᵢ`, together
-with the factorization of an adic point of a coproduct through a summand); neither is available
-in this library. -/
-@[stacks 0AQV "both directions, assuming that a representable étale morphism is locally of \
-finite type (hetaleFiniteType) and that a jointly surjective family of representable étale \
-morphisms is jointly rig-surjective, which is Stacks 0AQU for the coproduct of the family \
-together with the factorization of an adic point of a coproduct through a summand (h0AQU)"]
+Both inputs are proved in the library
+(`AlgebraicGeometry.FormalSpace.IsLocallyOfFiniteType.of_isRepresentableEtale` and, when the
+`Yᵢ` are formal algebraic spaces,
+`isJointlyRigSurjective_of_isRepresentableEtale_of_isJointlySurjective`);
+**Stacks 0AQV** with them discharged is
+`AlgebraicGeometry.FormalSpace.isRigSurjective_iff_forall_pullback_snd_of_isRepresentableEtale`. -/
 theorem isRigSurjective_iff_forall_pullback_snd (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) {I : Type v} {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (Yi : I → FppfSheaf B S hS) (g : ∀ i, Yi i ⟶ Y)

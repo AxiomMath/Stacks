@@ -56,7 +56,7 @@ for every ring in `Type 0`, with no side condition for the consumer to discharge
 * `AlgebraicGeometry.exists_isEssentiallyConstantWith_of_isConstructibleModuleSheaf_colimit'` —
   **Stacks 095P (3)** for such a ring.
 * `AlgebraicGeometry.isNoetherianObject_of_isConstructibleModuleSheaf'` — **Stacks 09YV** for
-  sheaves of modules, with both of its hypotheses discharged, for such a ring.
+  sheaves of modules, with Stacks 09BH and Stacks 095P supplied, for such a ring.
 
 ## Implementation notes
 
@@ -314,15 +314,14 @@ public theorem exists_isEssentiallyConstantWith_of_isConstructibleModuleSheaf_co
     (isConstructibleModuleSheaf_shrink B R X t.pt hcolim)
   exact ⟨i, _, hs.of_equivalence (SmallEtale.sheafShrinkEquivalence B R X) F t i s⟩
 
-/-- **Stacks 09YV for sheaves of modules, with nothing granted and the coefficient ring in any
-universe.** On a Noetherian scheme, over a Noetherian ring, every ascending chain of subsheaves
-of a constructible sheaf of `R`-modules stabilizes.
+/-- **Stacks 09YV for sheaves of modules, with the coefficient ring in any universe.** On a
+Noetherian scheme, over a Noetherian ring, every ascending chain of subsheaves of a constructible
+sheaf of `R`-modules stabilizes.
 
-`AlgebraicGeometry.isNoetherianObject_of_isConstructibleModuleSheaf` carries Stacks 09BH and
-Stacks 095P as the explicit hypotheses `hsub` and `hess`. Both are available above at a
-coefficient ring in any universe, so they are supplied here and nothing is granted. The
-quasi-compactness and quasi-separatedness that Stacks 095P asks of `X` follow from its being
-Noetherian. -/
+The proof is `AlgebraicGeometry.isNoetherianObject_of_isConstructibleModuleSheaf`, whose two
+inputs, Stacks 09BH and Stacks 095P, are proved above at a coefficient ring in any universe and
+are supplied here. The quasi-compactness and quasi-separatedness that Stacks 095P asks of `X`
+follow from its being Noetherian. -/
 @[stacks 09YV "sheaves of modules over a Noetherian ring in any universe, with Stacks 09BH and \
 Stacks 095P discharged", sga "4 IX 2.10"]
 public theorem isNoetherianObject_of_isConstructibleModuleSheaf' [IsNoetherian X.obj]

@@ -63,7 +63,7 @@ spaces over `B` for which
 This is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff` with the
 biconditional of **Stacks 06PJ** it takes supplied by
 `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong`. -/
-@[stacks 06PK "for any action groupoid construction of Stacks 0444"]
+@[stacks 06PK "the full criterion, for any action groupoid construction of Stacks 0444"]
 theorem isAlgebraicStack_quotientStack_action_iff_exists_cover
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     (B : AlgebraicSpaces C S hS)
@@ -91,7 +91,7 @@ and locally of finite presentation.
 This is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_groupoidOfAction_iff` with the
 biconditional of Stacks 06PJ it takes supplied as in
 `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff_exists_cover`. -/
-@[stacks 06PK "for the action groupoid of Stacks 0444 that the library builds"]
+@[stacks 06PK "the full criterion, for the action groupoid of Stacks 0444 that the library builds"]
 theorem isAlgebraicStack_quotientStack_groupoidOfAction_iff_exists_cover
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     (B : AlgebraicSpaces C S hS)

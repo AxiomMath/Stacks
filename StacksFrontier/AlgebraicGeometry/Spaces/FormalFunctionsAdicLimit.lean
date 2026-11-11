@@ -25,14 +25,20 @@ The isomorphism is `AlgebraicGeometry.Space.FormalFunctionsSituation.formalFunct
 *the* map assembled from the projections: its `n`-th component takes the image of `x ∈ M` to the
 image of `x` in `M n`.
 
-## What is proved and what is carried
+## What this file does
 
-[Stacks, Tag 08AZ] has two clauses. Only the first, the isomorphism of `A`-modules, is treated
-here; the second, that the comparison is a homeomorphism for the limit topologies, is **not**
-proved and no declaration below claims it.
-
-The isomorphism is proved granted the two clauses of [Stacks, Tag 08AY] that the source's proof
-uses, carried as the named hypotheses `h08AY_ker` and `h08AY_range`:
+The complete statement of [Stacks, Tag 08AZ] — the isomorphism, that it is defined by the
+system of maps, and that it is a homeomorphism for the limit topologies — is
+`AlgebraicGeometry.Space.formalFunctionsEquiv`,
+`AlgebraicGeometry.Space.formalFunctionsEquiv_apply` and
+`AlgebraicGeometry.Space.isHomeomorph_formalFunctionsEquiv` in
+`StacksFrontier/AlgebraicGeometry/Spaces/FormalFunctionsAdicLimitUnconditional.lean`, which carry
+the tag; [Stacks, Tag 08AY] is proved in `CohomologyAdicUniformBounds.lean` and
+`CohomologyAdicUniformBoundsSpace.lean`.  This file treats the isomorphism of `A`-modules in
+an abstract form, on an arbitrary site, with the two clauses of [Stacks, Tag 08AY] that the
+source's proof uses taken as a hypothesis (on an arbitrary site they are not theorems); its
+instance in Situation 08AV is discharged in `FormalFunctionsSituationUnconditional.lean`.  The
+hypothesis has two parts, `h08AY_ker` and `h08AY_range`:
 
 * `h08AY_ker` is clause (1) of [Stacks, Tag 08AY]: for a fixed `c` and all `n ≥ c` the kernel of
   `M ⟶ M n` lies in `I^(n-c) M`;
@@ -52,10 +58,11 @@ comparison isomorphism is
 `Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange`, the source's own
 argument carried out abstractly for a tower of modules over a commutative ring.
 
-## Tagged declarations
+## Comparison declarations
 
-Four declarations carry `@[stacks 08AZ]`, two for each of the two assertions of the isomorphism
-clause, once for an arbitrary site and once in Situation 08AV:
+Four declarations treat the isomorphism clause, two for each of its two assertions, once for an
+arbitrary site and once in Situation 08AV (none carries the tag, which is on the complete
+statement named above):
 
 * `AlgebraicGeometry.Space.SiteAdicCohomology.adicCompletionEquivCohomologyTower` — the
   isomorphism `H^p(C, ℱ)^∧_I ≅ lim_n H^p(C, ℱ/I^nℱ)` on an arbitrary site.
@@ -65,8 +72,6 @@ clause, once for an arbitrary site and once in Situation 08AV:
   Situation 08AV.
 * `AlgebraicGeometry.Space.FormalFunctionsSituation.formalFunctionsEquiv_proj_of` — that it is
   the map defined by the system of projections, in Situation 08AV.
-
-The homeomorphism clause carries no attribute anywhere, because it is not proved.
 
 ## Main definitions
 
@@ -362,8 +367,9 @@ abbrev CohomologyAdicComparison (p : ℕ) :=
 
 variable (p c : ℕ) (hb : IsAdicCohomologyBound O φ I F p c)
 
-/-- **Stacks Project, Tag 08AZ**, the isomorphism clause, for an arbitrary site and granted
-[Stacks, Tag 08AY].
+/-- The isomorphism clause of [Stacks, Tag 08AZ], for an arbitrary site, from clauses (1) and (3)
+of [Stacks, Tag 08AY] taken as the hypothesis `hb`.  The complete statement of 08AZ is
+`AlgebraicGeometry.Space.formalFunctionsEquiv` and its companions.
 
 With `𝒪` a sheaf of commutative rings on a site `C`, `I` an ideal of a ring `A` mapping to the
 global functions by `φ` and `ℱ` an `𝒪`-module, the `I`-adic completion of `H ^ p (C, ℱ)` is the
@@ -379,16 +385,12 @@ coherence and Noetherian hypotheses of Situation 08AV enter the source's proof o
 separately and the statement generalizes.
 
 [Stacks, Tag 08AZ] further asserts that the comparison is a homeomorphism for the limit
-topologies.  **That clause is not proved and is not claimed by any declaration in this file.**
+topologies; that is `AlgebraicGeometry.Space.isHomeomorph_formalFunctionsEquiv`.
 
 The containment `I ^ n H ^ p (C, ℱ) ⊆ ker (H ^ p (C, ℱ) ⟶ H ^ p (C, ℱ / I ^ n ℱ))` is reproved
 in place rather than taken from `pow_smul_top_le_ker_cohomologyAdicProj`: passing that lemma in
 makes the elaborator compare its statement with the one the tower comparison asks for through
 the `ModuleCat` coercions of the cohomology modules, which does not terminate. -/
-@[stacks 08AZ "the isomorphism of A-modules only, NOT the homeomorphism for the limit \
-topologies, which is not proved anywhere in this file; for an arbitrary site, generalizing \
-Situation 08AV; granted the bundled hb : IsAdicCohomologyBound, whose two fields ker_le and \
-range_eq are exactly Tag 08AY clauses (1) and (3), the latter with its per-n level"]
 def adicCompletionEquivCohomologyTower : CohomologyAdicComparison O φ I F p := by
   refine Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange
     (cohomologyAdicTower O φ I F p) (cohomologyAdicTowerMap O φ I F p)
@@ -437,10 +439,6 @@ This is the second assertion of the isomorphism clause of [Stacks, Tag 08AZ], fo
 site; Situation 08AV is the case of the small étale ringed site of a proper algebraic space over
 `Spec A` with a coherent module on it, and nothing here asserts the homeomorphism of limit
 topologies. -/
-@[stacks 08AZ "the identification of the isomorphism as the one DEFINED BY the system of maps
-H^p(X, F)/I^n H^p(X, F) -> H^p(X, F/I^n F) of the statement, rather than merely an abstract
-isomorphism of the two limits; same carried hypothesis hb : IsAdicCohomologyBound (Tag 08AY
-clauses (1) and (3)); again nothing about the limit topologies"]
 lemma adicCompletionEquivCohomologyTower_proj_of (n : ℕ) :
     IsDefinedByProjections O φ I F p c hb n :=
   fun _ => rfl
@@ -552,7 +550,8 @@ that for all `k ≥ c₂` the image of
 `H ^ p (X, ℱ) ⟶ H ^ p (X, ℱ / I ^ n ℱ)`.  The two clauses are the fields
 `AlgebraicGeometry.Space.SiteAdicCohomology.IsAdicCohomologyBound.ker_le` and `range_eq`.
 
-This is a hypothesis here, not a theorem: [Stacks, Tag 08AY] is **not** proved in this file. -/
+This is a hypothesis here; it holds for some `c` by
+`AlgebraicGeometry.Space.FormalFunctionsSituation.exists_is08AYBound`. -/
 abbrev Is08AYBound (p c : ℕ) : Prop :=
   IsAdicCohomologyBound.{u + 1, u, u, max (u + 1) w} (structureRing S) (baseRing S) S.ideal
     S.coefficients p c
@@ -567,8 +566,9 @@ section Theorem
 
 variable (p c : ℕ) (h08AY : Is08AYBound S p c)
 
-/-- **Stacks Project, Tag 08AZ** in Situation 08AV, the isomorphism clause, granted
-[Stacks, Tag 08AY].
+/-- The isomorphism clause of [Stacks, Tag 08AZ] in Situation 08AV, from the bound `h08AY`.
+The complete statement of 08AZ is `AlgebraicGeometry.Space.formalFunctionsEquiv` and its
+companions.
 
 In Situation 08AV — `A` Noetherian, `I ⊆ A` an ideal, `f : X ⟶ Spec A` a proper morphism of
 algebraic spaces and `ℱ` a coherent `𝒪_X`-module, all of them fields of `S` — the `I`-adic
@@ -578,15 +578,14 @@ cohomology is `AlgebraicGeometry.Space.cohomologyOverBase` (`cohomology_eq`,
 the `I ^ n`-multiples of its sections (`adicThickening`).
 
 **What is carried.** The hypothesis `h08AY` is the conjunction of clauses (1) and (3) of
-[Stacks, Tag 08AY]; see `Is08AYBound`.  [Stacks, Tag 08AY] is not proved
-in this file.  Clause (2) of that lemma, the Mittag-Leffler condition, is not needed: in this
-formulation clause (3) subsumes it.  The standing hypotheses of Situation 08AV are what make
-[Stacks, Tag 08AY] true and are used nowhere else in the argument, which is why `h08AY` is the
-only hypothesis beyond the situation itself.
+[Stacks, Tag 08AY]; see `Is08AYBound`.  Clause (2) of that lemma, the Mittag-Leffler
+condition, is not needed: in this formulation clause (3) subsumes it.  The standing
+hypotheses of Situation 08AV are what make [Stacks, Tag 08AY] true and are used nowhere else in
+the argument, which is why `h08AY` is the only hypothesis beyond the situation itself.
 
-**What is not proved.** [Stacks, Tag 08AZ] further asserts that the comparison is a
-homeomorphism for the limit topologies.  That clause is not proved, and no declaration in this
-file claims it; neither side is given a topology here.
+[Stacks, Tag 08AZ] further asserts that the comparison is a homeomorphism for the limit
+topologies; that is `AlgebraicGeometry.Space.isHomeomorph_formalFunctionsEquiv`.  Neither side
+is given a topology here.
 
 Everything else is proved: the thickenings and their transition maps are constructed, `I ^ n` is
 shown to annihilate `H ^ p (X, ℱ / I ^ n ℱ)`, and the passage from those facts to the comparison
@@ -598,10 +597,6 @@ The body is written with `have` and `exact` rather than as a direct term: elabor
 specialization against the expected type makes the elaborator reduce the module structures of
 the cohomology groups at the small étale ringed site, which does not terminate, whereas
 elaborating it first and matching the two syntactically equal types afterwards is immediate. -/
-@[stacks 08AZ "IN SITUATION 08AV: the isomorphism of A-modules only, NOT the homeomorphism \
-for the limit topologies, which is nowhere claimed here; granted the one bundled hypothesis \
-h08AY : Is08AYBound S p c, whose two fields ker_le and range_eq are exactly Tag 08AY clauses \
-(1) and (3), the latter with its per-n level; Situation 08AV's hypotheses are fields of S"]
 def formalFunctionsEquiv : Comparison S p := by
   have e := adicCompletionEquivCohomologyTower.{u + 1, u, u, max (u + 1) w} (structureRing S)
     (baseRing S) S.ideal S.coefficients p c h08AY
@@ -625,12 +620,7 @@ Together with `formalFunctionsEquiv` this is the assertion of [Stacks, Tag 08AZ]
 of maps `H ^ p (X, ℱ) / I ^ n H ^ p (X, ℱ) ⟶ H ^ p (X, ℱ / I ^ n ℱ)` is what *defines* the
 isomorphism of limits, rather than merely that the two modules are isomorphic.
 
-Carried: the same single hypothesis `h08AY`, clauses (1) and (3) of [Stacks, Tag 08AY].  Not
-claimed: the homeomorphism for the limit topologies. -/
-@[stacks 08AZ "IN SITUATION 08AV: the identification of the isomorphism of formalFunctionsEquiv
-as the one DEFINED BY the system of maps H^p(X, F)/I^n H^p(X, F) -> H^p(X, F/I^n F) of the
-statement; same carried hypothesis h08AY : Is08AYBound S p c (Tag 08AY clauses (1) and (3));
-again nothing about the limit topologies"]
+It takes the same hypothesis `h08AY`, clauses (1) and (3) of [Stacks, Tag 08AY]. -/
 lemma formalFunctionsEquiv_proj_of (n : ℕ) : IsDefinedBy08AZProjections S p c h08AY n := by
   have h := adicCompletionEquivCohomologyTower_proj_of.{u + 1, u, u, max (u + 1) w}
     (structureRing S) (baseRing S) S.ideal S.coefficients p c h08AY n

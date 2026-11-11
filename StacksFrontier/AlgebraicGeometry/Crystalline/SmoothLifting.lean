@@ -33,32 +33,25 @@ ideal, and the extensions on the various charts agree; the resulting divided pow
 * `Crystalline.GlobalCrystallineSituation.smoothLiftingCrystallineThickening` — the resulting
   object `(X, Y, γ)` of the small crystalline site `Cris(X/S)`, [Stacks, Tag 07MW] part (1).
 
-## What is and is not proved
+## Where the three assertions of the remark are proved
 
-[Stacks, Tag 07MW] is a remark with three assertions.  **Only part (1) is proved here, and the
-tag attribute says so.**
+[Stacks, Tag 07MW] is a remark with three assertions.  This file proves the first; the other two
+are proved in later files, and each of the three declarations carries the tag.
 
-Part (1) — that `γ` extends to a divided power structure on the ideal of `X` in `Y` so that
-`(X, Y, γ)` is an object of `Cris(X/S)` — is proved in full, as
-`smoothLiftingCrystallineThickening`: the object is built from the given data, so that its
-thickened scheme is `X`, its ambient scheme is `Y`, its immersion is the given `X ⟶ Y`, its map
-to the divided power base is the given `Y ⟶ S` and its map to `X` is the identity, all by
-definition and recorded as `rfl` lemmas.  Membership in the small site — that the map to `X` is
-an open immersion — is the identity being an open immersion.
-
-Part (2) — that the restriction `F_Y` of a crystal `F` in quasi-coherent `𝒪_{X/S}`-modules to the
-smooth lifting carries a canonical integrable connection
-`∇ : F_Y ⟶ F_Y ⊗_{𝒪_Y} Ω¹_{Y/S}` — is **not** stated here.  It is a statement about the
-restriction functor of [Stacks, Tag 07IN] applied to the object constructed in this file, and
-belongs with the crystal-to-connection comparison rather than with the construction of the
-object.
-
-Part (3) — that the crystalline cohomology of `F` is the de Rham cohomology of the complex
-`F_Y ⟶ F_Y ⊗ Ω¹_{Y/S} ⟶ F_Y ⊗ Ω²_{Y/S} ⟶ ⋯` — is **not** stated here.  The comparison it rests
-on is [Stacks, Tag 07LH], proved for the affine situation as
-`Crystalline.GlobalCrystallineSituation.SmallSite.smoothPresentationPair_computesCohomology` of
-`SmallSite/SmoothPresentationCohomology07LH.lean`; identifying the de Rham complex of the smooth
-lifting with the complex `M' ⊗^∧_{D'} Ω^*_{D'}` of that theorem is not done here.
+1. That `γ` extends to a divided power structure on the ideal of `X` in `Y` so that `(X, Y, γ)`
+   is an object of `Cris(X/S)` is `smoothLiftingCrystallineThickening`, below: the object is
+   built from the given data, so that its thickened scheme is `X`, its ambient scheme is `Y`, its
+   immersion is the given `X ⟶ Y`, its map to the divided power base is the given `Y ⟶ S` and its
+   map to `X` is the identity, all by definition and recorded as `rfl` lemmas.  Membership in the
+   small site — that the map to `X` is an open immersion — is the identity being an open
+   immersion.
+2. That the restriction `F_Y` of a crystal `F` in quasi-coherent `𝒪_{X/S}`-modules carries a
+   canonical integrable connection `∇ : F_Y ⟶ F_Y ⊗_{𝒪_Y} Ω_{Y/S}` is
+   `Crystalline.GlobalCrystallineSituation.SmallSite.Situation07MW.moduleWithConnection` of
+   `SmallSite/SmoothLiftingConnection.lean`.
+3. That `RΓ(Cris(X/S), F) = RΓ(Y, F_Y ⊗_{𝒪_Y} Ω^•_{Y/S})` in `D(A)` is
+   `Crystalline.GlobalCrystallineSituation.SmallSite.Situation07MW.deRhamComparison` of
+   `SmallSite/SmoothLiftingDeRhamCohomology07MW.lean`.
 
 ## Implementation notes
 
@@ -339,7 +332,8 @@ theorem smoothLiftingThickening_toX :
 /-- The object `(X, Y, γ)` of the small crystalline site `Cris(X/S)` given by a smooth lifting
 `Y` of the closed fibre: the object `smoothLiftingThickening` of `CRIS(X/S)`, whose map to `X` is
 the identity. -/
-@[stacks 07MW "part (1): γ extends to the ideal of X in Y, and (X, Y, γ) is an object of Cris(X/S)"]
+@[stacks 07MW "(1): γ extends to a divided power structure on the ideal of X in Y, and (X, Y, γ) \
+is an object of Cris(X/S)"]
 noncomputable def smoothLiftingCrystallineThickening : CrystallineThickening base where
   obj := smoothLiftingThickening base prime_nilpotent Y toBase toY cartesian
   property := by

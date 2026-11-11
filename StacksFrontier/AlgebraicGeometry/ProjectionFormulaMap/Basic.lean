@@ -126,7 +126,9 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 It is the adjoint transpose of the comparison morphism `Stacks.RingedSpace.comparisonNatTrans`
 followed by the counit of `f^* ⊣ f_*` in the first tensor factor. Only the oplax direction of the
 comparison is used, so this morphism exists unconditionally; its invertibility for an affine `f`
-and quasi-coherent `G`, `H` is the content of the tag and is not proved here. -/
+and quasi-coherent `G`, `H` is the content of the tag and is not proved here; it is proved, for
+schemes, as `Stacks.AlgebraicGeometry.ProjectionFormula.isIso_projectionFormulaMap` in
+`StacksFrontier/AlgebraicGeometry/Duality/ProjectionFormulaLocal.lean`. -/
 noncomputable def projectionFormulaMap'
     (G : SheafOfModules.{u} (structureRingSheaf X))
     (H : SheafOfModules.{u} (structureRingSheaf Y)) :

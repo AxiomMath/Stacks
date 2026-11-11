@@ -84,7 +84,8 @@ localized liftability hypothesis, and `E → E ⊗_P Q` is bijective on `J'`-pow
 (Stacks 05EC). That is carried out there, for a `P'`-module `M` finite over `P` and under the
 hypothesis that the thickening `P' → P` is square-zero rather than merely nilpotent. Those two
 deviations from the source, and why the dévissage to the nilpotent case is not available from
-0DZ2's own hypotheses, are recorded at the tag there and in that file's implementation notes.
+0DZ2's own hypotheses, are recorded in that file's implementation notes. The corrected
+equivalence carrying the tag is `Deformation.exists_flatModuleLift_iff_baseChange_of_sq_zero`.
 This file's direction needs none of it and carries the source's nilpotence.
 
 ## References
@@ -261,22 +262,13 @@ the ideal `J'`, nor the local liftability hypothesis is needed. The converse is 
 obstruction-theoretic half, and is
 `exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift_of_isNilpotent_ker` in
 `StacksFrontier.Deformation.FlatModuleLiftLocalization`. -/
-@[stacks 0DZ2 "the implication (1) => (2) of 0DZ2, in full, at the source's hypotheses and with \
-no hypothesis added. This is what the tag asserts in this library: the converse is FALSE at the \
-source's hypotheses, a Stacks ERRATUM. The biconditional \
-is refuted, at every universe, by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatement`, and in the form \
-that writes out every one of the source's hypotheses by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatementFaithful`. Inside the \
-forward implication nothing is restricted: it carries the source's own nilpotence hypothesis on \
-the kernel of `P' → P` and is more general than the source in needing neither the Noetherian \
-hypotheses, nor finiteness of `M`, nor the ideal `J'`, nor the local liftability hypothesis, \
-and every binder it does carry is used. A restricted converse — a finite `M` under a \
-square-zero thickening `P' → P` — is proved in \
-`StacksFrontier.Deformation.FlatModuleLiftLocalization`, whose clause records why the dévissage to \
-the source's nilpotent thickening is not merely unavailable from 0DZ2's hypotheses but closed: \
-the step it needs is `Deformation.ObstructionIndependentOfLift` and that statement is \
-unsatisfiable, by `Deformation.not_obstructionIndependentOfLift`"]
+@[stacks 0DZ2 "the implication (1) => (2) of 0DZ2, at the source's hypotheses with nothing \
+added; it needs neither the Noetherian hypotheses, nor finiteness of `M`, nor `J'`, nor the \
+local liftability hypothesis. The converse (2) => (1) is false as printed (Stacks erratum, see \
+errata.md): `Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatementFaithful` \
+satisfies every hypothesis of the source and (2) holds there while (1) fails. The corrected \
+equivalence, with `ker(A' → A)^2 = ⊥` and `M` finite over `P` added, is \
+`Deformation.exists_flatModuleLift_iff_baseChange_of_sq_zero`"]
 public theorem HasFlatModuleLift.baseChange
     {A' : Type u₁} {P' : Type u₃} {P : Type u₄} {Q' : Type u₅} {Q : Type u₆}
     [CommRing A'] [CommRing P'] [CommRing P] [CommRing Q'] [CommRing Q]

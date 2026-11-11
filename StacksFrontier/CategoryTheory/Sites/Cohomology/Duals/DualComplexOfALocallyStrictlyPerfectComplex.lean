@@ -144,16 +144,6 @@ of the tag.** Its degree-`j` term is the dual sheaf `SheafHom(ℱ^{-j}, 𝒪)` a
 is the signed transpose `d_𝒢^j = -(-1)^j (d_ℱ^{-j-1})^∨`, exactly as in
 `Stacks.SheafOfModules.Strict.dualComplex`; what is new is that the hypothesis is the tag's own
 local one, not the termwise condition extracted from it. -/
-@[stacks 0FPR "the construction of the complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)` under the tag's OWN \
-hypothesis — that every object of the site has a covering on whose members `ℱ^•` is strictly \
-perfect — rather than under the termwise condition that \
-`Stacks.SheafOfModules.Strict.dualComplex` assumes. The terms and the signed-transpose \
-differential are `dualComplex_X` and `dualComplex_d`, through which this is the same complex. \
-NOT the left-dual assertion of the tag, which for this same complex is \
-`Stacks.SheafOfModules.Strict.exactPairingDualComplexOfLocallyStrictlyPerfect`: \
-`Stacks.SheafOfModules.Strict.exactPairingDualComplex` proves it only for a complex vanishing \
-outside one global finite set of degrees, and the hypothesis here bounds `ℱ^•` only locally, so \
-`η = ∑ ηₙ` is a locally finite sum of morphisms and has to be produced from its components"]
 def dualComplexOfLocallyStrictlyPerfect (hK : IsLocallyStrictlyPerfect R K) :
     CochainComplex (Mod R) ℤ :=
   dualComplex R K (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK)

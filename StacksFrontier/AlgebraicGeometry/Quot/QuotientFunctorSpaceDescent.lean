@@ -679,7 +679,12 @@ pullback `F_T` of `F` to `X ×_{Y, h} T` which is quasi-coherent and flat over `
 
 The sheaf of `T` is lifted to the universe of the functor of quotients. The inverse sends a pair
 to the transformation restricting it along the chart `t : V ⟶ T` of each section `t` of `T` over
-a scheme `V` of the site (`AlgebraicGeometry.Space.QuotientSituation.SpaceQuotient.toMor`). -/
+a scheme `V` of the site (`AlgebraicGeometry.Space.QuotientSituation.SpaceQuotient.toMor`).
+
+The inverse images are composed with `AlgebraicGeometry.Space.modulePushforwardCoherence`, so
+nothing is assumed.  The untagged
+`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceQuotient` is the special case of a
+scheme `T` of the site, for any proof of that coherence. -/
 @[stacks 0D3U "the first displayed identification, for Q_{F/X/Y} and an arbitrary algebraic \
 space T"]
 def morEquivSpaceQuotientOfAlgebraicSpace (T : AlgebraicSpaces B S hS) :

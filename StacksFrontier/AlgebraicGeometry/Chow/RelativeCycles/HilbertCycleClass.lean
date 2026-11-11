@@ -18,7 +18,8 @@ public import StacksCore.Tactic.StacksAttribute
 
 Let `f : X ⟶ S` be a morphism locally of finite presentation and let `r ≥ 0`. The set
 `Hilb(X/S, r)` consists of the closed subschemes `Z ⊆ X` whose structure morphism `Z ⟶ S` is flat,
-of finite presentation and of relative dimension at most `r`. Such a `Z` has every fibre `Z_s` of
+of finite presentation (locally of finite presentation, quasi-compact and quasi-separated) and of
+relative dimension at most `r`. Such a `Z` has every fibre `Z_s` of
 dimension at most `r`, so the pushforward of its structure sheaf to `X` is a quasi-coherent module
 of finite type whose support meets each fibre of `f` in dimension at most `r`, and the construction
 of the family of cycles associated to a module therefore applies to it: the resulting family is
@@ -30,30 +31,40 @@ sending `∑ nᵢ [Zᵢ]` to `∑ nᵢ [Zᵢ/X/S]_r`.
 
 ## Main definitions
 
-* `Stacks.Chow.HilbertCycleDatum` — a member of `Hilb(X/S, r)`: a closed subscheme of `X`,
+* `Stacks.Chow.HilbertSubscheme` — a member of `Hilb(X/S, r)`: a closed subscheme of `X`,
   flat and of finite presentation over `S`, of relative dimension at most `r`.
+* `Stacks.Chow.HilbertCycleDatum` — the same without the quasi-separatedness of `Z ⟶ S`; for
+  `f` quasi-separated it is the same set (`HilbertSubscheme.equivHilbertCycleDatum`).
 * `Stacks.Chow.HilbertCycleDatum.cycleFamily` — the family `[Z/X/S]_r` of `r`-cycles on the
   fibres of `X/S` attached to such a subscheme.
-* `Stacks.Chow.cycleClassMap` — the displayed homomorphism out of the free abelian group on
-  `Hilb(X/S, r)`.
+* `Stacks.Chow.hilbertCycleClassMap` — the displayed homomorphism out of the free abelian group
+  on `Hilb(X/S, r)`.
+* `Stacks.Chow.cycleClassMap` — the same homomorphism out of the free abelian group on
+  `HilbertCycleDatum f r`, used by the rest of the library.
 
 ## Main results
 
 * `Stacks.Chow.HilbertCycleDatum.structureModule_fiberSupport_dimension_le` — the support of
   the pushed-forward structure sheaf has dimension at most `r` on every fibre of `f`.
-* `Stacks.Chow.cycleClassMap_of` — on a generator the homomorphism is the family `[Z/X/S]_r`.
+* `Stacks.Chow.hilbertCycleClassMap_of` — on a generator the homomorphism is the family
+  `[Z/X/S]_r`.
+* `Stacks.Chow.cycleClassMap_eq_comp`, `Stacks.Chow.range_cycleClassMap` — for `f`
+  quasi-separated, `cycleClassMap` is the homomorphism of Tag 0H6V, with the same image.
 
 ## Implementation notes
 
 A closed subscheme of `X` is recorded by its ideal sheaf, as `Scheme.IdealSheafData`, and the
 three conditions on it are stated for the composite `Z ⟶ X ⟶ S`; "of finite presentation" is
-`LocallyOfFinitePresentation` together with `QuasiCompact`. Local finite type of that composite,
+`LocallyOfFinitePresentation` together with `QuasiCompact` and `QuasiSeparated` (Tag 01TP).
+`HilbertCycleDatum` records only the first two; its quasi-separatedness is automatic when `f` is
+quasi-separated, which `HilbertSubscheme` records as a field. Local finite type of that composite,
 needed to state the relative dimension condition, is deduced from finite presentation rather
 than assumed.
 
 The source takes `f` to be of finite presentation, but only `LocallyOfFinitePresentation f` is
-assumed here: quasi-compactness of `f` is never used. Each member of `Hilb(X/S, r)` carries the
-quasi-compactness of its own structure morphism `Z ⟶ S` as part of its data, and the associated
+assumed here: quasi-compactness and quasi-separatedness of `f` are never used. Each member of
+`Hilb(X/S, r)` carries the finite presentation of its own structure morphism `Z ⟶ S` as part of
+its data, and the associated
 family of Tag 0H4Q needs no more of `f` than local finite type. So the homomorphism exists, and
 is determined on generators, at this larger generality.
 
@@ -196,10 +207,14 @@ private theorem topologicalKrullDim_supp_pullback_le {T X S : Scheme.{u}} (i : T
 
 /-! ### The members of `Hilb(X/S, r)` -/
 
-/-- A member of `Hilb(X/S, r)`: a closed subscheme `Z ⊆ X`, given by its ideal sheaf, whose
-structure morphism `Z ⟶ S` is flat, of finite presentation, and of relative dimension at most `r`.
--/
-@[stacks 0H6V "the set Hilb(X/S, r)"]
+/-- A closed subscheme `Z ⊆ X`, given by its ideal sheaf, whose structure morphism `Z ⟶ S` is
+flat, locally of finite presentation, quasi-compact, and of relative dimension at most `r`.
+
+This omits the quasi-separatedness of `Z ⟶ S` that "of finite presentation" (Tag 01TP) includes,
+so for a general `f` it is a larger set than `Hilb(X/S, r)`. When `f` is quasi-separated, as it is
+in the source, where `f` is of finite presentation, the closed immersion `Z ⟶ X` makes `Z ⟶ S`
+quasi-separated automatically, and `HilbertSubscheme.equivHilbertCycleDatum` identifies the two
+sets. `Hilb(X/S, r)` itself is `HilbertSubscheme`. -/
 structure HilbertCycleDatum {X S : Scheme.{u}} (f : X ⟶ S) (r : ℕ) where
   /-- The ideal sheaf cutting out the closed subscheme `Z ⊆ X`. -/
   ideal : X.IdealSheafData
@@ -259,20 +274,88 @@ end HilbertCycleDatum
 
 /-! ### The cycle-class homomorphism -/
 
-/-- The cycle-class homomorphism from the free abelian group on `Hilb(X/S, r)` to the families of
-`r`-cycles on the fibres of `X/S`, sending `∑ nᵢ [Zᵢ]` to `∑ nᵢ [Zᵢ/X/S]_r`. -/
-@[stacks 0H6V "the homomorphism"]
+/-- The homomorphism from the free abelian group on `HilbertCycleDatum f r` to the families of
+`r`-cycles on the fibres of `X/S`, sending `∑ nᵢ [Zᵢ]` to `∑ nᵢ [Zᵢ/X/S]_r`. When `f` is
+quasi-separated it agrees with `hilbertCycleClassMap`, the homomorphism of Tag 0H6V, under the
+identification `HilbertSubscheme.equivHilbertCycleDatum` (`cycleClassMap_eq_comp`). -/
 def cycleClassMap {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f] (r : ℕ) :
     FreeAbelianGroup (HilbertCycleDatum f r) →+ FamilyOfCycles f r :=
   FreeAbelianGroup.lift fun Z => Z.cycleFamily f
 
-/-- On a generator the cycle-class homomorphism is the family of cycles `[Z/X/S]_r` of the closed
-subscheme. -/
-@[stacks 0H6V "on generators"]
+/-- On a generator the homomorphism `cycleClassMap` is the family of cycles `[Z/X/S]_r` of the
+closed subscheme. -/
 theorem cycleClassMap_of {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
     (r : ℕ) (Z : HilbertCycleDatum f r) :
     cycleClassMap f r (FreeAbelianGroup.of Z) = Z.cycleFamily f :=
   FreeAbelianGroup.lift_apply_of _ _
+
+/-! ### `Hilb(X/S, r)` and the homomorphism of Tag 0H6V -/
+
+/-- A member of `Hilb(X/S, r)`: a closed subscheme `Z ⊆ X`, given by its ideal sheaf, whose
+structure morphism `Z ⟶ S` is flat, of finite presentation (locally of finite presentation,
+quasi-compact and quasi-separated, Tag 01TP), and of relative dimension at most `r`. -/
+@[stacks 0H6V "the set Hilb(X/S, r)"]
+structure HilbertSubscheme {X S : Scheme.{u}} (f : X ⟶ S) (r : ℕ)
+    extends HilbertCycleDatum f r where
+  /-- `Z ⟶ S` is quasi-separated; with `locallyFinitePresentation` and `quasiCompact`, of finite
+  presentation. -/
+  quasiSeparated : QuasiSeparated (ideal.subschemeι ≫ f)
+
+/-- When `f` is quasi-separated (in particular when `f` is of finite presentation), every closed
+subscheme `Z ⊆ X` has `Z ⟶ S` quasi-separated, so `Hilb(X/S, r)` is `HilbertCycleDatum f r`. -/
+def HilbertSubscheme.equivHilbertCycleDatum {X S : Scheme.{u}} (f : X ⟶ S) [QuasiSeparated f]
+    (r : ℕ) : HilbertSubscheme f r ≃ HilbertCycleDatum f r where
+  toFun Z := Z.toHilbertCycleDatum
+  invFun Z := ⟨Z, inferInstance⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+/-- The homomorphism of Tag 0H6V from the free abelian group on `Hilb(X/S, r)` to the families of
+`r`-cycles on the fibres of `X/S`, sending `∑ nᵢ [Zᵢ]` to `∑ nᵢ [Zᵢ/X/S]_r`. -/
+@[stacks 0H6V "the homomorphism; for `f` locally of finite presentation"]
+def hilbertCycleClassMap {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
+    (r : ℕ) : FreeAbelianGroup (HilbertSubscheme f r) →+ FamilyOfCycles f r :=
+  FreeAbelianGroup.lift fun Z => Z.cycleFamily f
+
+/-- On a generator `[Z]` the homomorphism of Tag 0H6V is the family of cycles `[Z/X/S]_r`. -/
+@[stacks 0H6V "on generators"]
+theorem hilbertCycleClassMap_of {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
+    (r : ℕ) (Z : HilbertSubscheme f r) :
+    hilbertCycleClassMap f r (FreeAbelianGroup.of Z) = Z.cycleFamily f :=
+  FreeAbelianGroup.lift_apply_of _ _
+
+/-- The homomorphism of Tag 0H6V factors through `cycleClassMap` by forgetting the
+quasi-separatedness of `Z ⟶ S`. -/
+theorem hilbertCycleClassMap_eq_comp {X S : Scheme.{u}} (f : X ⟶ S)
+    [LocallyOfFinitePresentation f] (r : ℕ) :
+    hilbertCycleClassMap f r =
+      (cycleClassMap f r).comp (FreeAbelianGroup.map HilbertSubscheme.toHilbertCycleDatum) := by
+  ext Z
+  simp [hilbertCycleClassMap_of, cycleClassMap_of]
+
+/-- For `f` quasi-separated, `cycleClassMap` is the homomorphism of Tag 0H6V transported along
+`HilbertSubscheme.equivHilbertCycleDatum`. -/
+theorem cycleClassMap_eq_comp {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
+    [QuasiSeparated f] (r : ℕ) :
+    cycleClassMap f r = (hilbertCycleClassMap f r).comp
+      (FreeAbelianGroup.map (HilbertSubscheme.equivHilbertCycleDatum f r).symm) := by
+  ext Z
+  simp only [AddMonoidHom.coe_comp, Function.comp_apply, FreeAbelianGroup.map_of_apply,
+    cycleClassMap_of, hilbertCycleClassMap_of]
+  rfl
+
+/-- For `f` quasi-separated, `cycleClassMap` and the homomorphism of Tag 0H6V have the same
+image. -/
+theorem range_cycleClassMap {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
+    [QuasiSeparated f] (r : ℕ) :
+    (cycleClassMap f r).range = (hilbertCycleClassMap f r).range := by
+  refine le_antisymm ?_ ?_
+  · rw [cycleClassMap_eq_comp]
+    rintro _ ⟨x, rfl⟩
+    exact ⟨_, rfl⟩
+  · rw [hilbertCycleClassMap_eq_comp]
+    rintro _ ⟨x, rfl⟩
+    exact ⟨_, rfl⟩
 
 end Stacks.Chow
 

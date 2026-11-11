@@ -2797,9 +2797,10 @@ hypothesis on `f` itself is needed, all the geometry happening at `k`.  For `k` 
 quasi-compact and with geometrically connected fibres they are supplied by
 `Stacks.EtaleCohomology.universally_isQuotientMap_of_flat_quasiCompact`.
 
-No tag attribute is placed here.  The carrier of Tag 0A3H in this library is
-`Stacks.EtaleCohomology.globalSectionsSmallEtaleInverseImageIso_of_flat_quasiCompact`, which
-states the tag's own global form. -/
+No tag attribute is placed here.  The carriers of Tag 0A3H in this library are
+`Stacks.EtaleCohomology.isIso_globalSectionsSmallEtaleInverseImage_of_flat_quasiCompact` and
+`Stacks.EtaleCohomology.globalSectionsSmallEtaleInverseImageIso_of_flat_of_quasiCompact`, which
+state the tag's own global form. -/
 public theorem isIso_smallEtaleInverseImageSections
     {X S : Scheme.{u}} (f : X ⟶ S)
     (G : Sheaf (smallEtaleTopology S) (Type (max (u + 1) v)))

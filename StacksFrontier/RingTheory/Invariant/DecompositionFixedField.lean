@@ -404,7 +404,8 @@ theorem stabilizes_of_apply_henselizationToField {σ : Gal(L/K)}
 
 omit [IsIntegrallyClosed A] in
 include K in
-/-- **Stacks Project, Tag 0BSW: `K^h = (K^sep)^D`, in the form of the fixing subgroup.** An
+/-- **The step `K^h = (K^sep)^D` of the proof of Stacks Tag 0BSW, in the form of the fixing
+subgroup.** An
 automorphism of `K^sep` over `K` lies in the decomposition group `D` at `𝔪^sep` exactly when it
 fixes the image of the henselization `A^h` pointwise, that is exactly when it fixes `K^h`. -/
 theorem mem_stabilizer_iff_apply_henselizationToField (σ : Gal(L/K)) :
@@ -426,20 +427,18 @@ theorem injective_henselizationToField :
   rw [IsScalarTower.algebraMap_eq A K L]
   exact (algebraMap K L).injective.comp (IsFractionRing.injective A K)
 
-/-- **Stacks Project, Tag 0BSW: `K^h = (K^sep)^D`.** Let `(A, 𝔪, κ)` be a normal local domain
-with fraction field `K`, let `K^sep` be a separable closure of `K`, let `𝔪^sep = q` be a prime of
-the integral closure `A^sep` of `A` in `K^sep` lying over `𝔪`, let `A^h` be a henselization of
-`A` and let `K^h` be its fraction field. Then `K^h` embeds in `K^sep` over `K`, compatibly with
-the canonical local map `A^h → (A^sep)_{𝔪^sep}`, in such a way that the subgroup of
-`Gal(K^sep/K)` fixing its image is exactly the decomposition group
-`D = {σ | σ 𝔪^sep = 𝔪^sep}`; equivalently the image of `K^h` is the fixed field `(K^sep)^D`.
+/-- **The step `K^h = (K^sep)^D` of the proof of Stacks Tag 0BSW.** Let `(A, 𝔪, κ)` be a normal
+local domain with fraction field `K`, let `K^sep` be a separable closure of `K`, let `𝔪^sep = q` be
+a prime of the integral closure `A^sep` of `A` in `K^sep` lying over `𝔪`, let `A^h` be a
+henselization of `A` and let `K^h` be its fraction field. Then `K^h` embeds in `K^sep` over `K`,
+compatibly with the canonical local map `A^h → (A^sep)_{𝔪^sep}`, in such a way that the subgroup of
+`Gal(K^sep/K)` fixing its image is exactly the decomposition group `D = {σ | σ 𝔪^sep = 𝔪^sep}`;
+equivalently the image of `K^h` is the fixed field `(K^sep)^D`.
 
 Together with Stacks Tag 0BNE — under which the image of `π₁(Spec K^h)` in `π₁(Spec K)` is the
 subgroup of `Gal(K^sep/K)` fixing `K^h` — this is the identification `π₁(U^h) = D` of the top
-row of the diagram of Tag 0BSV. -/
-@[stacks 0BSW "the identification K^h = (K^sep)^D of the middle of the top row of the diagram: \
-the fixed field of the decomposition group D is the fraction field of a henselization of A, \
-embedded in K^sep compatibly with the canonical local map to (A^sep)_{𝔪^sep}"]
+row of the diagram of Tag 0BSV. The lemma itself, with all objects and arrows of the diagram, is
+`Stacks.RamificationTheory.inertiaDiagram_translation`. -/
 theorem exists_algHom_fieldRange_eq_fixedField_stabilizer
     (Kh : Type u) [Field Kh] [Algebra Ah Kh] [IsFractionRing Ah Kh]
     [Algebra A Kh] [IsScalarTower A Ah Kh] [Algebra K Kh] [IsScalarTower A K Kh] :

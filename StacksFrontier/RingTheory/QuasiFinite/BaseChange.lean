@@ -17,13 +17,17 @@ quasi-finite at `𝔮'` if and only if `R → S` is quasi-finite at `𝔮`. Equi
 canonical map `Spec(S') → Spec(S)`.
 
 If moreover `Spec(R') → Spec(R)` is surjective, then `R → S` is quasi-finite if and only if
-`R' → S'` is: one direction is `Algebra.QuasiFinite.baseChange`, and the other follows from the
-equivalence above by choosing, for each prime `𝔭` of `R`, a prime of `R'` over it.
+`R' → S'` is: one direction is `Algebra.QuasiFinite.baseChange`; for the other, given a prime `𝔭`
+of `R`, choose a prime `𝔭'` of `R'` over it. The fibre of `S'` over `𝔭'` is the base change of the
+fibre of `S` over `𝔭` along the field extension `κ(𝔭) → κ(𝔭')`, and a basis of the latter fibre
+over `κ(𝔭)` base changes to a basis of the former over `κ(𝔭')`, so it is finite.
 
 ## Main results
 
 * `Algebra.quasiFiniteAt_baseChange_iff`: `R' → S'` is quasi-finite at `𝔮'` if and only if
   `R → S` is quasi-finite at the image `𝔮` of `𝔮'` in `Spec S`.
+* `Algebra.quasiFinite_iff_baseChange_of_surjective`: if `Spec(R') → Spec(R)` is surjective,
+  then `R → S` is quasi-finite if and only if `R' → S'` is.
 
 ## References
 
@@ -140,13 +144,39 @@ quasi-finite locus of `Spec(S)`. -/
 subsets of `Spec(S')` is this equivalence quantified over `𝔮'`. Quasi-finiteness at a prime
 (Definition 00PL) is `Algebra.QuasiFiniteAt`, the source's notion under the finite type
 hypothesis. The `←` direction is `Algebra.QuasiFiniteAt.baseChange`; `→` is the new content.
-Part (3) is `Algebra.QuasiFinite.baseChange`, tagged 00PP upstream; see the module docstring for
-part (2)."]
+Part (2) is `Algebra.quasiFinite_iff_baseChange_of_surjective` and part (3) is Mathlib's
+`Algebra.QuasiFinite.baseChange`, tagged 00PP upstream."]
 public theorem Algebra.quasiFiniteAt_baseChange_iff {R S : Type*} [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.FiniteType R S] (R' : Type*) [CommRing R'] [Algebra R R']
     (𝔮 : Ideal S) [𝔮.IsPrime] (𝔮' : Ideal (R' ⊗[R] S)) [𝔮'.IsPrime]
     (h : 𝔮 = 𝔮'.comap Algebra.TensorProduct.includeRight.toRingHom) :
     Algebra.QuasiFiniteAt R' 𝔮' ↔ Algebra.QuasiFiniteAt R 𝔮 :=
   Stacks.QuasiFinite.BaseChangeInvariance.solution (S := S) R' 𝔮 𝔮' h
+
+/-- Let `R → S` be a ring map of finite type and let `R → R'` be a ring map such that
+`Spec(R') → Spec(R)` is surjective. Then `R → S` is quasi-finite if and only if `R' → R' ⊗[R] S` is
+quasi-finite. -/
+@[stacks 00PP "(2). Surjectivity of `Spec(R') → Spec(R)` is surjectivity of
+`PrimeSpectrum.comap (algebraMap R R')`. Quasi-finiteness (Definition 00PL) is
+`Algebra.QuasiFinite`, which agrees with the source's notion since `R → S`, hence also
+`R' → R' ⊗[R] S`, is of finite type. The `→` direction is Mathlib's
+`Algebra.QuasiFinite.baseChange` (part (3)); part (1) is `Algebra.quasiFiniteAt_baseChange_iff`."]
+public theorem Algebra.quasiFinite_iff_baseChange_of_surjective {R S : Type*} [CommRing R]
+    [CommRing S] [Algebra R S] [Algebra.FiniteType R S] (R' : Type*) [CommRing R'] [Algebra R R']
+    (hR' : Function.Surjective (PrimeSpectrum.comap (algebraMap R R'))) :
+    Algebra.QuasiFinite R S ↔ Algebra.QuasiFinite R' (R' ⊗[R] S) := by
+  refine ⟨fun _ ↦ inferInstance, fun _ ↦ ⟨fun 𝔭 _ ↦ ?_⟩⟩
+  obtain ⟨⟨𝔭', _⟩, h𝔭'⟩ := hR' ⟨𝔭, ‹_›⟩
+  have : 𝔭'.LiesOver 𝔭 := ⟨(congrArg PrimeSpectrum.asIdeal h𝔭').symm⟩
+  let := Localization.AtPrime.algebraOfLiesOver 𝔭 𝔭'
+  let e : 𝔭'.Fiber (R' ⊗[R] S) ≃ₐ[𝔭'.ResidueField]
+      𝔭'.ResidueField ⊗[𝔭.ResidueField] (𝔭.Fiber S) :=
+    (Algebra.TensorProduct.cancelBaseChange _ _ _ _ _).trans
+      (Algebra.TensorProduct.cancelBaseChange _ _ _ _ _).symm
+  have : Module.Finite 𝔭'.ResidueField (𝔭'.ResidueField ⊗[𝔭.ResidueField] 𝔭.Fiber S) :=
+    Module.Finite.equiv e.toLinearEquiv
+  let b := Module.Free.chooseBasis 𝔭.ResidueField (𝔭.Fiber S)
+  have := Module.Finite.finite_basis (b.baseChange 𝔭'.ResidueField)
+  exact Module.Finite.of_basis b
 
 end

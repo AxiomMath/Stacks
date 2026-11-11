@@ -369,8 +369,10 @@ variable {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
 
 /-- **Stacks 0771, part (3)**, on `Mod(𝒳_ét, 𝒪_𝒳)`: the inverse image along a 1-morphism of
 algebraic stacks of the étale sites carries `LQCoh^fbc(𝒪_𝒴)` into `LQCoh^fbc(𝒪_𝒳)`. -/
-@[stacks 0771 "part (3), on Mod(𝒳_ét, 𝒪_𝒳), with the flat base change property of 0762 read on \
-  sheaves; the module sections in the universe of the schemes"]
+@[stacks 0771 "part (3), on Mod(𝒳_ét, 𝒪_𝒳): f^* carries LQCoh^fbc(𝒪_𝒴) into LQCoh^fbc(𝒪_𝒳) for \
+  every 1-morphism f of algebraic stacks, with the flat base change property of 0762 read on \
+  sheaves; the module sections in the universe of the schemes. The induced functor is \
+  lqcohSheafFbcEtaleModulesPullback"]
 theorem lqcohSheafFbcEtaleModules_stackModuleInverseImage (F : StackModules B S hS .etale 𝒴)
     (hF : lqcohSheafFbcEtaleModules.{u, w, u} B E h S hS 𝒴 F) :
     lqcohSheafFbcEtaleModules.{u, w, u} B E h S hS 𝒳
@@ -382,8 +384,10 @@ theorem lqcohSheafFbcEtaleModules_stackModuleInverseImage (F : StackModules B S 
 
 /-- **Stacks 0771, part (3)**, on `Mod(𝒪_𝒳)`: the inverse image along a 1-morphism of algebraic
 stacks of the fppf sites carries `LQCoh^fbc(𝒪_𝒴)` into `LQCoh^fbc(𝒪_𝒳)`. -/
-@[stacks 0771 "part (3), on Mod(𝒪_𝒳), with the flat base change property of 0762 read on \
-  sheaves; the module sections in the universe of the schemes"]
+@[stacks 0771 "part (3), on Mod(𝒪_𝒳): f^* carries LQCoh^fbc(𝒪_𝒴) into LQCoh^fbc(𝒪_𝒳) for every \
+  1-morphism f of algebraic stacks, with the flat base change property of 0762 read on sheaves; \
+  the module sections in the universe of the schemes. The induced functor is \
+  lqcohSheafFbcFppfModulesPullback"]
 theorem lqcohSheafFbcFppfModules_fppfModulesPullback (F : fppfModules B S hS 𝒴)
     (hF : lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒴 F) :
     lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳 ((fppfModulesPullback B S hS f).obj F) :=

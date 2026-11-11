@@ -42,23 +42,26 @@ Stacks 007F (Lemma 6.12.1) says that for a presheaf `F` of abelian groups on a t
 for every `U ⊂ X` open with `x ∈ U` the map `F(U) → F_x` is a group homomorphism, and that
 moreover `F_x = colim_{x ∈ U} F(U)` holds in the category of abelian groups.
 
-Both assertions are formalized, and neither is vacuous:
+Here `F_x` is the stalk of the underlying presheaf of *sets* (Stacks Section 6.11), i.e. the
+`Type`-valued stalk `Presheaf.stalk (F ⋙ forget AddCommGrpCat) x`, which a priori carries no group
+structure. Both assertions are formalized for it:
 
-* `existsUnique_addCommGroup_stalk`: there is exactly one `AddCommGroup` structure on the
-  underlying type of `F.stalk x` for which every germ map `F(U) → F_x` is additive. Existence is
-  the structure that Mathlib's `AddCommGrpCat`-valued stalk already carries, additivity of its
-  germ maps being `stalk_germ_add`. Uniqueness, `stalk_addCommGroup_unique`, is the content of the
-  source's proof: any two elements of `F_x` are germs of sections `s` over `U` and `t` over `V`,
-  which restrict to the common open neighbourhood `U ⊓ V` of `x`, so additivity of the germ maps
-  forces `a + b` to be the germ of `s|_{U ⊓ V} + t|_{U ⊓ V}`; an abelian group structure is
-  determined by its addition (`AddCommGroup.ext`). Only additivity of the germ maps is assumed,
-  which for group structures is equivalent to being a group homomorphism and makes the uniqueness
-  statement the stronger one.
-* `stalk_eq_colimit_openNhds`: the colimit formula, as the literal equality of objects of
-  `AddCommGrpCat` that the source writes. Mathlib defines the stalk to *be* the colimit of `F`
-  along `(OpenNhds.inclusion x).op`, so the equality holds by `rfl`; stating it as an equality
-  pins that definition down, whereas asserting a mere isomorphism between the two sides would
-  unfold to `A ≅ A` and assert nothing.
+* `existsUnique_addCommGroup_forget_stalk`: there is exactly one `AddCommGroup` structure on
+  `Presheaf.stalk (F ⋙ forget AddCommGrpCat) x` for which every germ map `F(U) → F_x` is
+  additive. Existence transports the structure of Mathlib's `AddCommGrpCat`-valued stalk along the
+  comparison bijection `stalkForgetEquiv` (the forgetful functor preserves filtered colimits),
+  which sends germs to germs. Uniqueness, `forget_stalk_addCommGroup_unique`, is the source's
+  proof: two elements of `F_x` are germs of sections `s` over `U` and `t` over `V`, which restrict
+  to `U ⊓ V`, so additivity of the germ maps forces their sum to be the germ of
+  `s|_{U ⊓ V} + t|_{U ⊓ V}`.
+* `isColimitGermCocone`: with this group structure, `F_x` together with the germ maps
+  (`germCocone`, whose legs are the germs by `germCocone_ι_app_apply`) is a colimit cocone in
+  `AddCommGrpCat` of the sections of `F` over the open neighbourhoods of `x`.
+
+The earlier declarations `existsUnique_addCommGroup_stalk` and `stalk_eq_colimit_openNhds` state
+the analogous facts for the carrier of Mathlib's `AddCommGrpCat`-valued stalk `F.stalk x`, which
+is by definition already the colimit in `AddCommGrpCat`; they are auxiliary (the first is used for
+the uniqueness argument above) and do not by themselves state Stacks 007F.
 -/
 
 @[expose] public section
@@ -105,12 +108,11 @@ theorem stalk_addCommGroup_unique (G₁ G₂ : AddCommGroup (ToType (F.stalk x))
     ← F.germ_res_apply (homOfLE (inf_le_right : U ⊓ V ≤ V)) x hW t, ← h₁ _ hW, ← h₂ _ hW]
 
 /--
-**Stacks 007F**, first assertion. There exists a unique structure of an abelian group on the stalk
-`F_x` of a presheaf of abelian groups `F` at a point `x` such that for every open `U` with `x ∈ U`
-the map `F(U) → F_x` is a homomorphism of groups. The witness is the structure carried by
-Mathlib's stalk in `AddCommGrpCat`.
+The analogue of Stacks 007F's first assertion for the carrier of Mathlib's `AddCommGrpCat`-valued
+stalk `F.stalk x`: it carries exactly one abelian group structure making every germ map additive,
+namely its own. This is not Stacks 007F itself, whose `F_x` is the set-valued stalk; that is
+`existsUnique_addCommGroup_forget_stalk`.
 -/
-@[stacks 007F]
 theorem existsUnique_addCommGroup_stalk :
     ∃! G : AddCommGroup (ToType (F.stalk x)), letI := G
       ∀ (U : Opens X) (hx : x ∈ U) (s t : ToType (F.obj (op U))),
@@ -119,15 +121,137 @@ theorem existsUnique_addCommGroup_stalk :
     stalk_addCommGroup_unique F x G (F.stalk x).str hG (stalk_germ_add F x)⟩
 
 /--
-**Stacks 007F**, second assertion: `F_x = colim_{x ∈ U} F(U)` in the category of abelian groups,
-the colimit being taken over the diagram of sections indexed by the open neighbourhoods of `x`.
-This is an equality of objects of `AddCommGrpCat`, as in the source, and it holds by `rfl` because
-Mathlib defines the stalk to be exactly that colimit; the statement therefore pins Mathlib's
-definition of `TopCat.Presheaf.stalk` down.
+Mathlib's `AddCommGrpCat`-valued stalk is by definition the colimit, in `AddCommGrpCat`, of the
+sections of `F` over the open neighbourhoods of `x`; this holds by `rfl`. It is a definitional
+remark, not Stacks 007F's second assertion, which is about the set-valued stalk with its induced
+group structure: `isColimitGermCocone`.
 -/
-@[stacks 007F]
 theorem stalk_eq_colimit_openNhds :
     F.stalk x = Limits.colimit ((TopologicalSpace.OpenNhds.inclusion x).op ⋙ F) :=
   rfl
+
+/-! ### The set-valued stalk
+
+Stacks' `F_x` is the stalk of the underlying presheaf of *sets*, i.e. the `Type`-valued stalk
+`Presheaf.stalk (F ⋙ forget AddCommGrpCat) x`. Since the forgetful functor preserves filtered
+colimits, it is in bijection with the carrier of the `AddCommGrpCat`-valued stalk, compatibly with
+germs; this transports the group structure and the colimit property to it. -/
+
+/-- The comparison bijection between the carrier of the `AddCommGrpCat`-valued stalk `F.stalk x`
+and the set-valued stalk `Presheaf.stalk (F ⋙ forget AddCommGrpCat) x`, coming from the fact
+that the forgetful functor preserves the (filtered) colimit defining the stalk. -/
+noncomputable def stalkForgetEquiv :
+    ToType (F.stalk x) ≃ Presheaf.stalk (F ⋙ forget AddCommGrpCat) x :=
+  (preservesColimitIso (forget AddCommGrpCat) ((OpenNhds.inclusion x).op ⋙ F)).toEquiv
+
+/-- The comparison bijection `stalkForgetEquiv` sends germs to germs. -/
+theorem stalkForgetEquiv_germ (U : Opens X) (hx : x ∈ U) (s : ToType (F.obj (op U))) :
+    stalkForgetEquiv F x (F.germ U x hx s) =
+      Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx s :=
+  ConcreteCategory.congr_hom (ι_preservesColimitIso_hom (forget AddCommGrpCat)
+    ((OpenNhds.inclusion x).op ⋙ F) (op ⟨U, hx⟩)) s
+
+/-- The abelian group structure on the set-valued stalk
+`Presheaf.stalk (F ⋙ forget AddCommGrpCat) x`, transported from Mathlib's `AddCommGrpCat`-valued
+stalk along `stalkForgetEquiv`. -/
+noncomputable abbrev stalkAddCommGroup :
+    AddCommGroup (Presheaf.stalk (F ⋙ forget AddCommGrpCat) x) :=
+  (stalkForgetEquiv F x).symm.addCommGroup
+
+attribute [local instance] stalkAddCommGroup
+
+/-- For `stalkAddCommGroup`, every germ map `F(U) → F_x` into the set-valued stalk is additive. -/
+theorem forget_germ_add (U : Opens X) (hx : x ∈ U) (s t : ToType (F.obj (op U))) :
+    Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx (s + t) =
+      Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx s +
+        Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx t := by
+  rw [← stalkForgetEquiv_germ, ← stalkForgetEquiv_germ, ← stalkForgetEquiv_germ,
+    stalk_germ_add]
+  change _ = stalkForgetEquiv F x ((stalkForgetEquiv F x).symm _ + (stalkForgetEquiv F x).symm _)
+  simp only [Equiv.symm_apply_apply]
+
+/-- Uniqueness on the set-valued stalk: an abelian group structure on
+`Presheaf.stalk (F ⋙ forget AddCommGrpCat) x` all of whose germ maps are additive is unique. -/
+theorem forget_stalk_addCommGroup_unique
+    (G₁ G₂ : AddCommGroup (Presheaf.stalk (F ⋙ forget AddCommGrpCat) x))
+    (h₁ : letI := G₁
+      ∀ (U : Opens X) (hx : x ∈ U) (s t : ToType (F.obj (op U))),
+        Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx (s + t) =
+          Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx s +
+            Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx t)
+    (h₂ : letI := G₂
+      ∀ (U : Opens X) (hx : x ∈ U) (s t : ToType (F.obj (op U))),
+        Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx (s + t) =
+          Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx s +
+            Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx t) :
+    G₁ = G₂ := by
+  apply AddCommGroup.ext
+  funext a b
+  obtain ⟨U, hU, s, hs⟩ := F.exists_germ_eq ((stalkForgetEquiv F x).symm a)
+  obtain ⟨V, hV, t, ht⟩ := F.exists_germ_eq ((stalkForgetEquiv F x).symm b)
+  rw [Equiv.eq_symm_apply, stalkForgetEquiv_germ] at hs ht
+  subst hs ht
+  have hW : x ∈ U ⊓ V := ⟨hU, hV⟩
+  rw [← Presheaf.germ_res_apply (F ⋙ forget AddCommGrpCat)
+      (homOfLE (inf_le_left : U ⊓ V ≤ U)) x hW s,
+    ← Presheaf.germ_res_apply (F ⋙ forget AddCommGrpCat)
+      (homOfLE (inf_le_right : U ⊓ V ≤ V)) x hW t]
+  exact (h₁ _ hW _ _).symm.trans (h₂ _ hW _ _)
+
+/--
+**Stacks 007F**, first assertion. Let `F` be a presheaf of abelian groups on `X` and `x : X`.
+There exists a unique structure of an abelian group on the stalk `F_x` — the stalk of the
+underlying presheaf of sets, `Presheaf.stalk (F ⋙ forget AddCommGrpCat) x` — such that for every
+open `U` with `x ∈ U` the germ map `F(U) → F_x` is a homomorphism of groups (equivalently,
+additive). The witness is `stalkAddCommGroup`.
+-/
+@[stacks 007F]
+theorem existsUnique_addCommGroup_forget_stalk :
+    ∃! G : AddCommGroup (Presheaf.stalk (F ⋙ forget AddCommGrpCat) x), letI := G
+      ∀ (U : Opens X) (hx : x ∈ U) (s t : ToType (F.obj (op U))),
+        Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx (s + t) =
+          Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx s +
+            Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx t :=
+  ⟨stalkAddCommGroup F x, forget_germ_add F x, fun G hG =>
+    forget_stalk_addCommGroup_unique F x G (stalkAddCommGroup F x) hG (forget_germ_add F x)⟩
+
+/-- The germ cocone: the set-valued stalk `Presheaf.stalk (F ⋙ forget AddCommGrpCat) x` with the
+group structure `stalkAddCommGroup`, viewed as an object of `AddCommGrpCat`, together with the germ
+maps `F(U) → F_x` (now group homomorphisms) as a cocone over the diagram of sections of `F` on the
+open neighbourhoods of `x`. -/
+noncomputable def germCocone : Limits.Cocone ((OpenNhds.inclusion x).op ⋙ F) where
+  pt := AddCommGrpCat.of (Presheaf.stalk (F ⋙ forget AddCommGrpCat) x)
+  ι :=
+    { app := fun U => AddCommGrpCat.ofHom
+        (AddMonoidHom.mk' (Presheaf.germ (F ⋙ forget AddCommGrpCat) U.unop.1 x U.unop.2)
+          (forget_germ_add F x U.unop.1 U.unop.2))
+      naturality := fun U V i => by
+        ext s
+        exact (Presheaf.germ_res_apply' (F ⋙ forget AddCommGrpCat) i.unop.op x V.unop.2 s).trans
+          rfl }
+
+/-- The legs of `germCocone` are the germ maps into the set-valued stalk. -/
+theorem germCocone_ι_app_apply (U : Opens X) (hx : x ∈ U) (s : ToType (F.obj (op U))) :
+    (germCocone F x).ι.app (op ⟨U, hx⟩) s =
+      Presheaf.germ (F ⋙ forget AddCommGrpCat) U x hx s :=
+  rfl
+
+/--
+**Stacks 007F**, second assertion: `F_x = colim_{x ∈ U} F(U)` in the category of abelian groups.
+The set-valued stalk `F_x = Presheaf.stalk (F ⋙ forget AddCommGrpCat) x`, with the group
+structure of `existsUnique_addCommGroup_forget_stalk` and the germ maps `F(U) → F_x` as legs
+(`germCocone`, `germCocone_ι_app_apply`), is a colimit cocone in `AddCommGrpCat` of the diagram of
+sections of `F` over the open neighbourhoods of `x`.
+-/
+@[stacks 007F]
+noncomputable def isColimitGermCocone : Limits.IsColimit (germCocone F x) :=
+  Limits.IsColimit.ofIsoColimit (Limits.colimit.isColimit _)
+    (Limits.Cocone.ext
+      (AddEquiv.toAddCommGrpIso (X := F.stalk x)
+        (Y := AddCommGrpCat.of (Presheaf.stalk (F ⋙ forget AddCommGrpCat) x))
+        (stalkForgetEquiv F x).symm.addEquiv.symm)
+      (fun U => by
+        ext s
+        exact stalkForgetEquiv_germ F x U.unop.1 U.unop.2 s))
 
 end Stacks.AbelianStalk

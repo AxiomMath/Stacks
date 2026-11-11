@@ -13,18 +13,19 @@ In the situation of [Stacks, Tag 0DIK], the tower `(Rjₙ,* Kₙ)` in `D(𝒪_X)
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.spaceTower`: the tower `(Rjₙ,* Kₙ)` read in
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.spaceTower`: the tower `(Rjₙ,* Kₙ)` read
+  in
   `spaceDerivedCategory X` (the `Modules` spelling of `D(𝒪_X)`).
 
 ## Main results
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isQuasicoherentOnSite_homology_spaceTower`: the
+* `SeparatedDerivedExistenceSystem.isQuasicoherentOnSite_homology_spaceTower`: the
   terms of the tower lie in `D_QCoh(𝒪_X)`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_spaceCohomologyVanishesAbove_spaceTower`:
+* `SeparatedDerivedExistenceSystem.exists_spaceCohomologyVanishesAbove_spaceTower`:
   the terms of the tower are uniformly bounded above.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_isDerivedLimit_spaceTower`:
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.exists_isDerivedLimit_spaceTower`:
   `R lim_{D(𝒪_X)} Kₙ` exists.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_sectionsAmplitudeLE_of_isDerivedLimit`:
+* `SeparatedDerivedExistenceSystem.exists_sectionsAmplitudeLE_of_isDerivedLimit`:
   there is `a` such that every derived limit of the tower, on every K-injective representative,
   has no cohomology over the affine étale charts of `X` in degrees `> a`.
 
@@ -45,9 +46,9 @@ namespace AlgebraicGeometry.Space
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **The tower `(Rjₙ,* Kₙ)` in `D(𝒪_X)`**, read in `spaceDerivedCategory X`. -/
 def spaceTower : ℕᵒᵖ ⥤ spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left :=
@@ -95,6 +96,6 @@ theorem exists_sectionsAmplitudeLE_of_isDerivedLimit :
     (limitBase D.system) D.containsLimitBase D.X.left D.spaceTower L p ⟨δ, hL⟩ b
     D.isQuasicoherentOnSite_homology_spaceTower hb I hI e⟩
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space

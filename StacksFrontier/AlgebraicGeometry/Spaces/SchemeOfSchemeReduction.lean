@@ -16,7 +16,8 @@ scheme, which is Limits of Spaces, Lemma 07VU. Being a scheme is
   immersion of algebraic spaces over `S` is bijective on points and its source is a scheme, then
   its target is a scheme.
 * `AlgebraicGeometry.IsAlgebraicSpace.isRepresentable_of_isRepresentable_reduction`:
-  **Stacks 049D**, an algebraic space whose reduction is a scheme is a scheme.
+  **Stacks 049D** and **Stacks 07VU**, an algebraic space whose reduction is a scheme is a
+  scheme.
 
 ## References
 
@@ -163,8 +164,12 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
-/-- An algebraic space over `S` whose reduction is a scheme is a scheme. -/
-@[stacks 049D]
+/-- **Stacks 049D, Stacks 07VU.** Let `S` be a scheme and let `X` be an algebraic space over
+`S`. If `X_red` is a scheme, then `X` is a scheme.
+
+The inclusion of the reduction is a closed immersion bijective on points, so
+`AlgebraicGeometry.Space.isRepresentable_of_isClosedImmersion_of_bijective` applies. -/
+@[stacks 049D, stacks 07VU]
 theorem isRepresentable_of_isRepresentable_reduction {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X)
     (hred : (reduction B S hS X hX).toFunctor.IsRepresentable) :

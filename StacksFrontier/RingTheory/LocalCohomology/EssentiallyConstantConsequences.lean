@@ -146,41 +146,16 @@ The closed-point statements take the module universe equal to the ring universe,
 the supported-sections model used here with the coreflection model of [Stacks, Tag 0A6Q], which
 is where the Artinianness of [Stacks, Tag 0DX0] is available — is stated only there.
 
-### Why the assertion is still not proved
+### Where the assertion is proved
 
-What the reduction leaves is the identification `H^i_T(M) = lim H^i_T(M/IⁿM)` for `i ≤ s`, which
-is part (3) of [Stacks, Tag 0EFY] and, at the closed point of a local ring, [Stacks, Tag 0EFR].
-Neither is available in the form needed:
-
-* for a general specialization-stable `T ⊆ V(I)`, part (3) of Tag 0EFY rests on the pro-zero
-  assertion of [Stacks, Tag 0EFX], whose per-prime half the library does not have: the source
-  proves it by local duality, and the library's local duality
-  (`nonempty_adicCompletion_localizedDualCohomology_linearEquiv_matlisDual`) is objectwise, not
-  natural in the module, which is exactly what transporting the vanishing of a *transition map*
-  needs. The same gap is what keeps
-  `Stacks.LocalCohomology.exists_forall_injective_localCohomologyAdicProjection_of_proZero` —
-  part (1) of Tag 0EFY — conditional;
-* at the closed point, Tag 0EFR *is* formalized, as
-  `Stacks.Algebraization.isIso_localCohomologyToAdicQuotientLimit_of_isAdicComplete`, but about
-  a different arrow: `Stacks.Algebraization.localCohomologyToAdicQuotientLimit`, built from the
-  comparison `RΓ_𝔪(M) ⟶ RΓ_𝔪(M)^∧` of [Stacks, Tag 0EFL] followed by the Milnor comparison of
-  [Stacks, Tag 0EEW], on the tower `Dualizing.adicQuotientLocalCohomologySystem`. Turning that
-  into `IsLimit (localCohomologyAdicCone)` needs an isomorphism of that tower with
-  `localCohomologyAdicTower` — available in principle, the two towers having the same objects
-  and transition maps and the two models of local cohomology agreeing — *and* the statement that
-  the arrow of Tag 0EFR is the comparison `limit.lift` induced by the quotient maps
-  `M → M/IⁿM`. `Dualizing.completedLocalCohomologyToLimit` is defined by `Classical.choose` from
-  the existential of `Dualizing.exists_milnor_shortExact_of_isDerivedLimit`, and the clause
-  characterizing its composites with the limit projections is inside that existential rather
-  than exported, so the second statement is not available either. Exporting that clause would
-  not by itself suffice: it characterizes the comparison through the map `a : K ⟶ ∏ₙ RΓ_𝔪(M/IⁿM)`
-  of the presenting triangle, and `CategoryTheory.Pretriangulated.IsDerivedLimit` quantifies
-  that map existentially — `Dualizing.isDerivedLimit_completedLocalCohomology` names no
-  projections — so nothing identifies `a ≫ Pi.π n` with `RΓ_𝔪` of the quotient map
-  `M → M/IⁿM`. The route therefore also needs Tag 0EEW part (1) for `RΓ_𝔪(M)^∧` in the
-  projection-carrying form `NoetherianAdicCompletion.IsDerivedLimitWithProjections`, with the
-  projections of `Stacks.Algebraization.localCohomologyToCompletedLocalCohomology` named, and
-  that is not what the library has.
+Theorem [Stacks, Tag 0EIE] itself, in Situation [Stacks, Tag 0EFU] at a general
+specialization-stable `T`, is
+`Stacks.LocalCohomology.Bootstrap.essentiallyConstant_and_consequences`, in
+`StacksFrontier/RingTheory/LocalCohomology/EssentiallyConstantBootstrap.lean`. In that situation both
+assertions of [Stacks, Tag 0EFX] are
+`Stacks.Algebraization.isProZero_and_hasStableImage_idealPowerCohomology`, and all seven parts of
+[Stacks, Tag 0EFY], at one and the same `m₀`, are
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`.
 
 ## References
 

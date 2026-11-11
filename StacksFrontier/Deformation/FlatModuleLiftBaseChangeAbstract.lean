@@ -830,18 +830,36 @@ private theorem nonempty_extendScalars_iso_tensorBaseChange
     (ulift_up_semilinear A' A Q' Q hsurjA hsurjQ hkerQ N hsmulN)).mp hMN
 
 include hsurjA hsurjP hkerP hsurjQ hkerQ in
-/-- **Stacks 0DZ2 at an abstract pair of thickenings, for a square-zero kernel.** This is the
-statement of Stacks 0DZ2 in the shape the proof of Stacks 0DZ3 produces — `P` and `Q` abstract
-rings carrying the kernel identities rather than the literal base changes `P' ⊗_{A'} A` and
-`Q' ⊗_{A'} A` — for a kernel of `A' → A` of square zero, and for `M` finite over `P`.
+/-- **Stacks 0DZ2, corrected (Stacks erratum).** Let `A' → P' → Q'` lie over `A → P → Q`, with
+`A' → A`, `P' → P`, `Q' → Q` surjective, `ker(P' → P) = I·P'` and `ker(Q' → Q) = I·Q'` for
+`I = ker(A' → A)` (the two squares are cocartesian), `A' → P'`, `P' → Q'`, `P → Q` flat and `P`
+Noetherian. Let `J' ⊂ P'` be an ideal with `P'/J' = Q'/J'Q'`, let `M` be a `P`-module, finite over
+`P` and flat over `A`, and let `N ≅ Q ⊗_P M`. If `M_g` has an `A'`-flat lift to `(P')_g` for every
+`g ∈ J'` and `I² = 0`, then `M` has an `A'`-flat lift to a `P'`-module if and only if `N` has an
+`A'`-flat lift to a `Q'`-module.
 
-The two restrictions are exactly the two the proved form carries. `M` finite is what the
-`Ext` base change of Stacks 0A6A needs. Square-zero kernel is what makes the two thickenings
-`P' → P` and `Q' → Q` square-zero, which is what the obstruction calculus of Stacks 0DYR
-needs; the form of Stacks 0DZ2 proved in
-`StacksFrontier.Deformation.FlatModuleLiftLocalization` already allows the kernel of `A' → A` to
-be merely nilpotent provided the two thickenings are square-zero, and it is that form which is
-used here. -/
+Stacks 0DZ2 as printed asks `I` to be nilpotent and does not ask `M` to be finite, and in that
+form the implication (2) ⇒ (1) is false:
+`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatementFaithful` is a
+counterexample with `I³ = 0`, `I² ≠ 0` and `M` cyclic, satisfying every hypothesis of the source.
+The two hypotheses added here are the correction recorded in `errata.md`: `I² = 0` is sharp by
+that counterexample, and finiteness of `M` is what the source's own proof uses ("here we use that
+`P` is Noetherian and `M` finite", at Stacks 0A6A). The implication (1) ⇒ (2) holds at the
+source's hypotheses with no addition, as `Deformation.HasFlatModuleLift.baseChange`.
+
+The proof is the source's proof with its induction step removed: it transports to this shape the
+form proved in `StacksFrontier.Deformation.FlatModuleLiftLocalization`, which allows `I` to be
+nilpotent provided the thickening `P' → P` is square-zero. -/
+@[stacks 0DZ2 "corrected form of 0DZ2 (Stacks erratum, see errata.md): the equivalence \
+(1) <=> (2) with the two hypotheses `hzeroA : ker(A' → A)^2 = ⊥` and `Module.Finite P M` added, \
+every other hypothesis being the source's (Noetherianity is asked of `P` alone, flatness of \
+`A → P` and nilpotence of the kernels follow, and `Module.Flat A' Q'` is the composite of \
+`A' → P' → Q'`). As printed, (2) => (1) is false: \
+`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatementFaithful` satisfies \
+every hypothesis of the source, with `ker(A' → A) = (t)`, `t^3 = 0`, `t^2 ≠ 0` and `M` cyclic, \
+and (1) fails there. So `I^2 = 0` cannot be weakened to `I^3 = 0`; finiteness of `M` is used by \
+the source's own proof at 0A6A. The implication (1) => (2) holds as printed, with no hypothesis \
+added: `Deformation.HasFlatModuleLift.baseChange`"]
 theorem exists_flatModuleLift_iff_baseChange_of_sq_zero
     [IsNoetherianRing P] [Module.Flat P' Q'] [Module.Flat P Q]
     (hzeroA : RingHom.ker (algebraMap A' A) ^ 2 = ⊥)

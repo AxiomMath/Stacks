@@ -19,10 +19,13 @@ three things about a crystal `ℱ` in quasi-coherent `𝒪_{X/S}`-modules:
 3. `RΓ(Cris(X/S), ℱ) = RΓ(Y, ℱ_Y ⊗_{𝒪_Y} Ω^•_{Y/S})` in `D(A)`.
 
 Part (1) is formalized, as
-`Crystalline.GlobalCrystallineSituation.smoothLiftingCrystallineThickening`
-of `StacksFrontier/AlgebraicGeometry/Crystalline/SmoothLifting.lean`.  **This file states part
-(3)**, as the proposition `DeRhamComparison07MW`, and reduces the perfectness remark
-[Stacks, Tag 07MX] to it together with one further named proposition.
+`Crystalline.GlobalCrystallineSituation.smoothLiftingCrystallineThickening` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmoothLifting.lean`.  **This file states part (3)**, as
+the proposition `DeRhamComparison07MW`, and reduces the perfectness remark [Stacks, Tag 07MX] to
+it together with one further named proposition.  Part (2) is
+`Situation07MW.moduleWithConnection` of `SmallSite/SmoothLiftingConnection.lean`, and part (3) is
+proved, with the module of part (2) as the witness, as `Situation07MW.deRhamComparison` and
+`Situation07MW.deRhamComparison07MW` of `SmallSite/SmoothLiftingDeRhamCohomology07MW.lean`.
 
 ## The situation, and how it differs from the one of [Stacks, Tag 07MZ]
 
@@ -51,19 +54,15 @@ against `AlgebraicGeometry.Scheme.Hom.derivedBaseGlobalSections` and
 `StacksFrontier/AlgebraicGeometry/DeRham/BaseDerivedGlobalSections.lean`, which is the construction
 underlying `Situation07MZ`, stated for a bare morphism of schemes.
 
-## Why `ℱ_Y` is existentially quantified
+## Why `ℱ_Y` is existentially quantified here
 
 The source names `ℱ_Y`: it is the restriction of `ℱ` to the object `(X, Y, γ)` of part (1), and
-part (2) says that restriction carries a canonical integrable connection.  Part (2) is **not**
-stated in this library — see the "What is and is not proved" section of `SmoothLifting.lean` and
-of `SmoothLiftingDifferentials.lean` — so there is no term for "the restriction of `ℱ` with its
-canonical connection" to write on the right hand side.  `DeRhamComparison07MW` therefore asserts
-the existence of a module with integrable connection for which the comparison holds, exactly as
-`DeRhamComparison07MZ` does for the same reason.
-
-This is weaker than the remark by precisely the identification of the witness with the
-restriction, and that is the only thing it is weaker by.  Supplying part (2) would let the
-existential be replaced by the named restriction without changing anything else here.
+part (2) says that restriction carries a canonical integrable connection.  This file predates the
+construction of part (2), so `DeRhamComparison07MW` asserts the existence of a module with
+integrable connection for which the comparison holds, exactly as `DeRhamComparison07MZ` does.
+The named form — with the witness the restriction `ℱ_Y` with its canonical connection,
+`Situation07MW.moduleWithConnection` — is `Situation07MW.deRhamComparison` of
+`SmallSite/SmoothLiftingDeRhamCohomology07MW.lean`, which also proves `DeRhamComparison07MW`.
 
 The existential is not vacuous in the trivial sense: the type it ranges over is inhabited for
 every morphism of schemes, by
@@ -72,13 +71,11 @@ canonical connection `∇(b) = 1 ⊗ d b`.
 
 ## What is and is not proved
 
-Nothing here proves part (3), and **no tag attribute is placed**: `DeRhamComparison07MW` is a
-proposition, and the reduction below has it as a hypothesis.  Part (3) is the conclusion of
-[Stacks, Lemma 60.21.4, Tag 07LH], which this library states and does not prove — as
-`...SmallSite.Computes07LH` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmoothPresentationDeRham.lean`, whose reduction to
-[Stacks, Tag 07LG] is `computes07LH_of_computes07LG` — plus the globalisation of that affine
-statement over `X_{Zar}`, which is also missing.
+Nothing in this file proves part (3), and **no tag attribute is placed here**:
+`DeRhamComparison07MW` is a proposition, and the reduction below has it as a hypothesis.  It is
+proved as `Situation07MW.deRhamComparison07MW` in
+`SmallSite/SmoothLiftingDeRhamCohomology07MW.lean`, which cannot be imported here without a
+cycle, so the reductions below keep it as a hypothesis.
 
 What *is* proved is a reduction of [Stacks, Tag 07MX] to part (3).  It is the source's argument
 for that remark, and it takes two named propositions and one piece of data beyond 07MX's own
@@ -232,12 +229,13 @@ under this library's convention *is* "a crystal in quasi-coherent `𝒪_{X/S}`-m
 condition (1) of [Stacks, Tag 07IT].  No separate crystal hypothesis may be added alongside it,
 and the remark asks no finiteness of `ℱ`, so none is asked here.
 
-`ℱ_Y` is existentially quantified rather than named, because part (2) of the remark — the
-canonical connection on the restriction of `ℱ` — is not available; the module documentation says
-what that costs and what would remove it.
+`ℱ_Y` is existentially quantified rather than named; the named form, with the canonical
+connection of part (2), is `Situation07MW.deRhamComparison`.
 
-This is a proposition, not a theorem: nothing here proves it, and it carries no tag attribute. -/
-def DeRhamComparison07MW : Prop :=
+This is a proposition; it is proved as `Situation07MW.deRhamComparison07MW` of
+`SmallSite/SmoothLiftingDeRhamCohomology07MW.lean`, and carries no tag attribute. -/
+def DeRhamComparison07MW [HasDerivedCategory (ModuleCat.{u + 1} Γ(S.S.scheme, ⊤))]
+    [HasDerivedCategory (TwistedModules T.toBase)] : Prop :=
   ∀ F : _root_.SheafOfModules.{u} (structureSheaf S), F.IsQuasicoherentOnSite →
     ∃ M : ModuleWithConnection T.toBase,
       Nonempty (moduleULiftDerivedGlobalSections S F ≅
@@ -404,7 +402,8 @@ that to an isomorphism in `D(A)`, and the de Rham side is perfect by
 isomorphism — a bounded finite projective representative of one object is one of the other — so
 the crystalline side is perfect, which is the conclusion of the remark.
 
-**This is not a proof of [Stacks, Tag 07MX].**  Two of the three inputs are not discharged, and
+**This is not a proof of [Stacks, Tag 07MX].**  `hcomp` is part (3) of [Stacks, Tag 07MW], proved
+as `Situation07MW.deRhamComparison07MW` in a later file; `hfil` is not discharged; and
 the third, `Situation07MW S`, is a genuine addition to the remark's hypotheses: 07MX assumes `X`
 smooth over `S₀`, and a smooth lifting of `X` over `S` need not exist globally.  Of the remark's
 own hypotheses the proof uses only `S` affine and `p` nilpotent in `A`, both of which
@@ -442,7 +441,8 @@ relative dimension bound and [Stacks, Tag 07VK] (1) at the twisted forms — and
 about the terms, where they can be checked, and not about the filtration.
 
 **This is still not a proof of [Stacks, Tag 07MX]**, and no tag attribute is placed: `hcomp` is
-part (3) of the remark, which this library does not prove, `hgraded` is not discharged, and
+part (3) of the remark (proved as `Situation07MW.deRhamComparison07MW` in a later file),
+`hgraded` is not discharged, and
 `Situation07MW S` is a genuine addition to the remark's hypotheses for the reason given in
 `perfect07MX_of_deRhamComparison07MW`. -/
 theorem perfect07MX_of_deRhamComparison07MW_of_isPerfect_deRhamGradedPiece (T : Situation07MW S)

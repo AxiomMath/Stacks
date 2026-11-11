@@ -55,11 +55,11 @@ def diagonalVirtualNormalBundleClass :
   virtualNormalBundleClass C sX (selfProductStructure C sX) (pullback.diagonal sX)
     (diagonal_comp_selfProductStructure C sX) 𝒩 r
 
-/-- The intersection product `α · β = Δ^!(α × β)` formed with the Gysin class
-`Δ^! = c(X ⟶ X ×_k X, 𝒩)` of the diagonal; its degree is the rank `r` of the virtual normal
-bundle `𝒩`. -/
-@[stacks 0FC0 "the product α · β = Δ^!(α × β) with Δ^! the class c(X → X ×_k X, 𝒩) of Stacks \
-0FBK for a virtual normal bundle 𝒩 of the diagonal; no property of the product is proved here"]
+/-- The product `α · β = c(X ⟶ X ×_k X, 𝒩)(α × β)` formed with the class of Stacks 0FBK of a
+virtual normal bundle `𝒩` of the diagonal, given as an argument; its degree is the rank `r` of
+`𝒩`. The intersection product of Stacks 0FC0, formed with the Gysin map of the diagonal of a
+smooth `X` of Stacks 0FBR and with no bundle as an argument, is
+`Stacks.Chow.smoothIntersectionProduct`. -/
 def intersectionProductOfVirtualNormalBundleClass (n m : ℤ) :
     TensorProduct ℤ (chowGroup C (a ≫ sX) n) (chowGroup C (b ≫ sX) m) →+
       chowGroup C (pullback.fst a b ≫ (a ≫ sX)) (n + m - (r : ℤ)) :=

@@ -15,6 +15,8 @@ public import StacksFrontier.Homology.TorAmplitude.FlatResolution
 public import StacksFrontier.Homology.TorAmplitude.Local
 public import StacksFrontier.Homology.TorAmplitude.ProjectiveResolutionModel
 public import StacksFrontier.Homology.TorAmplitude.SingleOfCanonical
+import StacksFrontier.Algebra.Homology.Resolution.ProjectiveDimensionTruncation
+import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # Perfectness passes to the local rings
@@ -54,15 +56,15 @@ the form Stacks 09PW consumes, and it is the last result below.
 ## Implementation notes
 
 Tor amplitude appears here in two renderings and both are needed.  Perfectness of a ring map
-records it against an arbitrary certified derived tensor product
-(`StacksDraft.TorAmplitude.CertifiedDerivedTensoring`), whereas the localisation theorem Stacks
+gives it against any certified derived tensor product
+(`Algebra.Perfect.moduleHasFiniteTorDimension`), whereas the localisation theorem Stacks
 0B67 is stated for the projective-resolution rendering
 `StacksDraft.TorAmplitude.FaithfullyFlat.HasTorAmplitude`.  The two are compared by
 `StacksDraft.TorAmplitude.hasTorAmplitude_iff_hasTorAmplitude0DJF`, which needs a K-flat,
 bounded-above, termwise flat model of the object; `hasTorAmplitude0DJF_single_of_canonical`
 below supplies that model for a module placed in degree zero, by taking its projective
-resolution.  The certificate fed to the defining condition of perfectness is built here as a
-structure literal rather than taken from
+resolution.  Finite Tor dimension is read at `StacksDraft.TorAmplitude.canonicalTensorComparison`
+and `StacksDraft.TorAmplitude.canonicalTensorIsLeftDerived` directly, rather than through
 `StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring`, because the latter is not exposed
 and its field projections therefore do not reduce against the shape the comparison lemmas are
 stated in.
@@ -152,11 +154,10 @@ theorem hasTorAmplitudeAt_of_perfect {X S : Scheme.{u}} (f : X ⟶ S) [Perfect f
         ((CochainComplex.singleFunctor (ModuleCat.{u} Γ(X, U)) 0).obj
           (ModuleCat.of Γ(X, U) Γ(X, U))) q a b := by
   let _ : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
-  obtain ⟨a, b, hamp⟩ :=
-    (Perfect.perfect_appLE f U hU V hV hUV
-      { tensor := (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct Γ(S, V)).tensor
-        comparison := canonicalTensorComparison Γ(S, V)
-        isLeftDerived := canonicalTensorIsLeftDerived Γ(S, V) }).2
+  have : Algebra.Perfect Γ(S, V) Γ(X, U) :=
+    RingHom.perfect_algebraMap.mp (HasRingHomProperty.appLE @Perfect f ‹_› ⟨V, hV⟩ ⟨U, hU⟩ hUV)
+  obtain ⟨a, b, hamp⟩ := Algebra.Perfect.moduleHasFiniteTorDimension (B := Γ(X, U))
+    (canonicalTensorComparison Γ(S, V)) (canonicalTensorIsLeftDerived Γ(S, V))
   have hQ : HasTorAmplitude
       (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct Γ(S, V)).tensor
       (canonicalTensorComparison Γ(S, V)) (canonicalTensorIsLeftDerived Γ(S, V))
@@ -321,17 +322,7 @@ private theorem exists_hasProjectiveDimensionLE_of_isPerfect_single (R : Type u)
     ∃ n : ℕ, HasProjectiveDimensionLE (ModuleCat.of R M) n := by
   obtain ⟨d, F, hF, hzeroF⟩ :=
     (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution (R := R) M).mp h
-  let G : (isProjective (ModuleCat.{u} R)).LeftResolution (ModuleCat.of R M) :=
-    { complex := F.complex
-      property i := by
-        have _ : Module.Projective R (F.complex.X i) := (hF i).2
-        exact ModuleCat.projective_of_categoryTheory_projective (F.complex.X i)
-      π := F.π
-      quasiIso := F.quasiIso }
-  have hres : ∃ G : (isProjective (ModuleCat.{u} R)).LeftResolution (ModuleCat.of R M),
-      ∀ i, d < i → IsZero (G.complex.X i) := ⟨G, hzeroF⟩
-  exact ⟨d, ((CategoryTheory.hasProjectiveDimensionLE_tfae_leftResolution
-    (ModuleCat.of R M) d).out 2 1).mp hres⟩
+  exact ⟨d, F.hasProjectiveDimensionLE (fun i => (hF i).2) hzeroF⟩
 
 /-- **From a Tor-amplitude bound at a prime to finite projective dimension of the local rings.**
 If the structure of `B` as an `A`-module has Tor amplitude in `[a, b]` after localising at a

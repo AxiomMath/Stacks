@@ -32,8 +32,8 @@ It is the source's: Stacks 0D7V for `a`. Its assumptions are
 
 The argument of 0D7V is run through `Stacks.Cohomology.CohomologicalDescent`
 `.equivalenceOfAdjunctionUnbounded`, which needs of `Ra_*` only that it is a triangulated right
-adjoint preserving boundedness below: the library's own Stacks 0D7V is stated for a morphism of
-ringed topoi presented by a continuous functor of sites, which `a` is not. Its two further inputs
+adjoint preserving boundedness below: the form of Stacks 0D7V in `UnboundedEquivalence` is stated
+for a morphism of ringed topoi presented by a continuous functor of sites, which `a` is not. Its two further inputs
 — that `Ra_*` of an object of `A_total` placed in degree zero is an object of `A` placed in
 degree zero, and that the counit is invertible on `D⁺_{A_total}(O)` — are the bounded below
 case: an object of `A_total` is `a^*N` with `N` in `A`, and `Ra_*La^*N = N`.

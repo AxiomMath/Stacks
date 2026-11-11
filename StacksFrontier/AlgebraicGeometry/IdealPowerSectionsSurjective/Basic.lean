@@ -11,7 +11,7 @@ nonzero element of which is annihilated by `I`.  This file proves that
 `Stacks.AlgebraicGeometry.IdealPowerSections.canonicalMapToSections`, the canonical map
 `colim_n Hom_A(I ^ n, M) → Γ(Spec(A) \ V(I), M̃)`, is **surjective**, hence — with the injectivity
 of `Stacks.AlgebraicGeometry.IdealPowerSections.canonicalMapToSections_injective` — bijective.
-This is the second assertion of [Stacks, Tag 01PM] and the affine core of the surjectivity half
+This is the third assertion of [Stacks, Tag 01PM] and the affine core of the surjectivity half
 of [Stacks, Tag 01PQ], which is in turn the affine input to [Stacks, Tag 01YB].
 
 ## Main results
@@ -241,7 +241,7 @@ public noncomputable def sectionsLinearEquiv (hI : I.FG)
   LinearEquiv.ofBijective (canonicalMapToSections A I M).hom
     (canonicalMapToSections_bijective A I M hI htors)
 
-/-- **Stacks Project, Tag 01PM (`torsionfree_isomorphism`).** Let `I` be a finitely generated
+/-- Let `I` be a finitely generated
 ideal of `A`. If no nonzero element of `M` is annihilated by all of `I`, then the canonical map
 `colim_n Hom_A(I ^ n, M) → Γ(Spec(A) \ V(I), M̃)` is an isomorphism.
 
@@ -249,7 +249,6 @@ The hypothesis is the vanishing of `Submodule.torsionBySet A M I`, the submodule
 annihilated by every element of `I`; in the source it is used exactly to see that all of the
 submodules `Mₙ` vanish, so that the general isomorphism of [Stacks, Tag 01PM] reduces to the
 canonical map itself. -/
-@[stacks 01PM "torsionfree_isomorphism"]
 public theorem isIso_canonicalMapToSections (hI : I.FG)
     (hM : Submodule.torsionBySet A M (I : Ideal A) = ⊥) :
     IsIso (canonicalMapToSections A I M) := by

@@ -83,7 +83,8 @@ dimension of the spectrum of the fibre at the point `q̄` corresponding to `q`. 
 natural map `S → S ⊗_R κ(p)` being `q`.
 
 A finite type ring map `R → S` is *quasi-finite* exactly when for every prime `p ⊂ R`
-the fibre `S ⊗_R κ(p)` is a finite `κ(p)`-vector space (Stacks tag 00PM); this is
+the fibre `S ⊗_R κ(p)` is a finite `κ(p)`-vector space (Stacks tag 00PM,
+`forall_quasiFiniteAt_iff_forall_finite_fiber`); this is
 `Algebra.QuasiFinite` / `RingHom.QuasiFinite`, whose defining field is
 `∀ (P : Ideal R) [P.IsPrime], Module.Finite P.ResidueField (P.Fiber S)`.
 
@@ -1324,7 +1325,7 @@ theorem quasiFinite_over_polynomial_of_relativeDimension
   -- composite `R → R[t] → S_g` is finite type, so by base/cancellation
   -- (`RingHom.FiniteType.comp`, 00F4, plus finite-type of `R[t]`-algebra structure) `φ` is
   -- finite type. `φ.QuasiFinite`: from Step B the fibre over `q` is module-finite, giving
-  -- `QuasiFiniteAt … q` (`Algebra.quasiFinite_iff` 00PM / `QuasiFiniteAt` 00PN); the
+  -- `QuasiFiniteAt … q` (`forall_quasiFiniteAt_iff_forall_finite_fiber` 00PM / 00PN); the
   -- quasi-finite locus is open (Stacks 00QA / Zariski's main property 00Q9
   -- `Algebra.zariskisMainProperty_iff_exists_saturation_eq_top`), so a further localization
   -- by some `g₂ ∉ q` makes it quasi-finite at *every* prime. Combine `g₁, g₂` into one `g`

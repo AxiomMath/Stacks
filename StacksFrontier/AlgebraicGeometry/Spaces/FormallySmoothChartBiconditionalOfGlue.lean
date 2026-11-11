@@ -3,21 +3,21 @@ module
 public import StacksFrontier.AlgebraicGeometry.Spaces.FormallySmoothChartBiconditional
 
 /-!
-# The étale-chart biconditionals of Stacks 061K without the scheme-level 0D0F hypothesis
+# The étale-chart biconditionals of Stacks 061K through the gluing hypothesis
 
-`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartBiconditional.lean` proves the two
-biconditionals of [Stacks Project, Tag 061K] for a morphism `f : X ⟶ Y` of algebraic spaces,
-carrying two hypotheses: `h0D0F`, the scheme-level implication (3) ⟹ (1) of
-[Stacks Project, Tag 0D0F], used only for the forward implications, and `hGlue`, the triviality
-of the pseudo-torsor of lifts, used only for the converse.
-
-The first is no longer needed: `Stacks.Smooth.formallySmooth_of_formallySmooth_appLE` of
-`StacksFrontier/AlgebraicGeometry/Smooth/FormallySmoothTFAE.lean` proves it unconditionally, and the
-forward implications
+[Stacks Project, Tag 061K] is proved unconditionally as
+`AlgebraicGeometry.Space.formallySmooth_tfae_etaleCharts` of
+`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmooth/ChartGlue/Main061K.lean`. This file records
+the route through step (II) of the Stacks proof: the three biconditionals below take `hGlue`,
+the triviality of the pseudo-torsor of lifts (every étale-locally formally smooth morphism of
+algebraic spaces is formally smooth), as their only hypothesis, and use it only for the
+converse. The forward implications are unconditional:
 `AlgebraicGeometry.Space.holdsOnEveryEtaleChart_formallySmoothScheme'` and
 `AlgebraicGeometry.Space.holdsOnSurjectiveEtaleChart_formallySmoothScheme'` of
-`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartCriterion.lean` go through it.  This
-file restates the three biconditionals with `hGlue` as their only hypothesis.
+`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartCriterion.lean`, through
+`Stacks.Smooth.formallySmooth_of_formallySmooth_appLE` of
+`StacksFrontier/AlgebraicGeometry/Smooth/FormallySmoothTFAE.lean`, the scheme-level implication
+(3) ⟹ (1) of [Stacks Project, Tag 0D0F].
 
 ## Main results
 

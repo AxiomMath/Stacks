@@ -86,12 +86,13 @@ every hypothesis of this file is about K-flatness, and none is about a resolutio
 section) assert the existence of K-flat resolutions; they are exactly the hypothesis of
 `CochainComplex.KFlatMonoidal.derivedMonoidal`, without which neither derived category has a
 tensor product and the statement cannot be written at all.  For complexes of modules over a ring
-the first is `CochainComplex.KFlat.exists_kFlat_resolution` (Stacks 06Y4); for a functor category
-no such statement exists in this repository -- every K-flat resolution theorem available is
-specialized either to `CochainComplex (ModuleCat R) ℤ` or to complexes of sheaves of modules on a
-ringed site (`Stacks.SheafOfModules.exists_kFlat_quasiIso`, Stacks 06YS), and there is no
-transport of K-flat-resolution existence along an equivalence of categories.  So the
-functor-category hypothesis is carried rather than discharged.
+the first is `CochainComplex.KFlat.exists_kFlat_resolution` (Stacks 06Y4); for diagrams of modules
+`J ⥤ ModuleCat.{u} R` over a small `J` the second is
+`Stacks.CategoryHomology.exists_kFlat_quasiIso_diagrams` (in
+`StacksFrontier.Homology.KFlat.DiagramResolution`).  For a general coefficient category `D` no such
+statement is available, so here the hypothesis is carried rather than discharged.  The
+unconditional [Stacks, Tag 08QC] over `ModuleCat.{u} R`, where both are discharged, is
+`Stacks.ChaoticSite.totalDerivedColimitTensorIso`.
 
 ## References
 

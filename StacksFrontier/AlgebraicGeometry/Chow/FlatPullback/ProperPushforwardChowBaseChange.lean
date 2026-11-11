@@ -25,9 +25,11 @@ flat pullback commutes with proper pushforward on Chow groups: for a class `c �
 
 `g^* f_* c = f'_* (g')^* c`  in  `A_{k+r}(Y')`.
 
-The identity is proved assuming the descents `Stacks.Chow.FlatPullbackDescends` and
+The identity is proved here from the descents `Stacks.Chow.FlatPullbackDescends` and
 `Stacks.Chow.ProperPushforwardDescends` and, for the structure sheaf of each integral closed
-subscheme of `X`, coherence of its two direct images and the flat base change isomorphism.
+subscheme of `X`, coherence of its two direct images and the flat base change isomorphism, taken
+as parameters. All of these are theorems of this repository, supplied in
+`Stacks.Chow.flatPullbackChow_properChowPushforward_unconditional`.
 
 ## Main results
 
@@ -88,10 +90,6 @@ direct image along `f'` of its pullback along `g'` are coherent and that the bas
 `Stacks.AlgebraicGeometry.AffinePushforward.baseChangeNatTrans` is an isomorphism at it. Then
 
 `g^* f_* c = f'_* (g')^* c`  in  `A_{k+r}(Y')`. -/
-@[stacks 02RG "the identity ON CHOW GROUPS, for an ARBITRARY class and an ARBITRARY cartesian \
-square, descended from the cycle identity; unlike the sibling carrier keyed to two isomorphism \
-legs it restricts neither leg, but the 02S1/02S2 descents remain bundled HYPOTHESES, as do the \
-flat base change isomorphisms (Stacks 02KH) and coherence of the direct images (Stacks 02O5)"]
 theorem flatPullbackChow_properChowPushforward
     (C : ChowSituation.{u}) {X Y X' Y' : Scheme.{u}}
     (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S) [LocallyOfFiniteType sY]

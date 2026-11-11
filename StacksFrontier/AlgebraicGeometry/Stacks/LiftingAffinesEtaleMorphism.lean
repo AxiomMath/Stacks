@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.NoetherianPointsAlgebraicS
 public import StacksFrontier.AlgebraicGeometry.Stacks.SmoothLocalMorphismMonotone
 
 /-!
-# A morphism of smooth lifts is étale on the ambient spaces (Stacks 0CJS)
+# A morphism of smooth lifts is étale on the ambient spaces, given 0CJC (Stacks 0CJS)
 
 Fix a thickening `ι : 𝒳 ⟶ 𝒳'` of algebraic stacks over `S`, an algebraic space `W` over `S` and
 a smooth 1-morphism `x : W ⟶ 𝒳`, and consider the category
@@ -27,21 +27,24 @@ smooth. The étale clause of that lemma then carries étaleness from `f` to `f'`
 
 * `AlgebraicGeometry.Stack.EtaleSmoothLift.isEtale_base`: the component `f` of a morphism of
   smooth lifts is étale, which is **Stacks 03FV** on the spaces-étale site of `W`.
-* `AlgebraicGeometry.Stack.EtaleSmoothLift.isEtale_ambient`: **Stacks 0CJS**, the component `f'`
-  is étale.
+* `AlgebraicGeometry.Stack.EtaleSmoothLift.isEtale_ambient`: the component `f'` is étale, given
+  the étale clause of Stacks 0CJC as the hypothesis `hCJC`. The unconditional statement of
+  **Stacks 0CJS** is `AlgebraicGeometry.Stack.EtaleSmoothLift.Hom.isEtale_ambient`, in
+  `StacksFrontier.AlgebraicGeometry.Stacks.LiftingAffinesEtaleAmbient`, which carries the tag.
 
 ## Implementation notes
 
 **The carried hypothesis `hCJC`, and what it is.** Stacks 0CJC is Lemma 106.5.2, an eleven-clause
 list of properties of a 1-morphism of algebraic stacks invariant along a commutative diagram of
-thickenings. Three of its clauses are formalized, in
-`StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDeformationProperties`: flatness, smoothness and
-syntomicity. Its clause (9), étaleness, is not, and it is exactly what 0CJS invokes. The general
-engine behind the three formalized clauses,
-`AlgebraicGeometry.Stack.hasPropertyOnSomeSmoothDiagram_iff_of_flatDeformation`, cannot produce
-it: that engine asks for the property to be smooth local on the source and target, and étaleness
-is not — which is why the source proves clauses (8) and (9) by a separate chart reduction
-through a surjective *étale* chart of `V' ×_{𝒴'} 𝒳'`.
+thickenings. Its clause (9), étaleness, is exactly what 0CJS invokes. When this file was written
+that clause was not yet in the library; it now is, unconditionally, as
+`AlgebraicGeometry.Stack.isEtale_ambient_of_isEtale` (registered as Stacks 0CJC "etale" through
+`AlgebraicGeometry.Stack.isEtale_iff_isEtale_ambient`), proved by the separate chart reduction
+through a surjective *étale* chart of `V' ×_{𝒴'} 𝒳'` that the source uses for clauses (8) and
+(9). The hypothesis `hCJC` is therefore redundant: it is discharged in
+`AlgebraicGeometry.Stack.isEtale_of_isTwoFibreProduct_of_isThickening`, and the unconditional
+**Stacks 0CJS** is `AlgebraicGeometry.Stack.EtaleSmoothLift.Hom.isEtale_ambient`. The
+declaration below is kept, untagged, as the conditional form.
 
 The hypothesis `hCJC` below is that missing clause, written out for the base thickening `ι` in
 the only shape in which 0CJS uses it: for two cartesian squares over `ι` whose right-hand legs
@@ -105,16 +108,20 @@ theorem isEtale_base (ξ η : EtaleSmoothLift B S hS ι hι W x hx) (m : ξ ⟶ 
   rw [Over.w (Hom.base m).hom]
   exact ξ.base.property
 
-/-- **Stacks 0CJS.** For a morphism `(f, f', γ)` of smooth lifts of étale opens of `W` along the
-thickening `ι`, the component `f' : U' ⟶ V'` between the ambient algebraic spaces is étale.
+/-- **Stacks 0CJS, given the étale clause of 0CJC as a hypothesis.** For a morphism `(f, f', γ)`
+of smooth lifts of étale opens of `W` along the thickening `ι`, the component `f' : U' ⟶ V'`
+between the ambient algebraic spaces is étale, given `hCJC`.
+
+The unconditional statement, which carries the tag Stacks 0CJS, is
+`AlgebraicGeometry.Stack.EtaleSmoothLift.Hom.isEtale_ambient`: `hCJC` holds, by
+`AlgebraicGeometry.Stack.isEtale_of_isTwoFibreProduct_of_isThickening`.
 
 The hypothesis `hCJC` is the étale clause, item (9), of **Stacks 0CJC** for the thickening `ι`,
 written out for a morphism of two cartesian squares over `ι` whose right-hand legs come from
 algebraic spaces: given that the target's leg `y'` is locally of finite type, that the source's
 leg `x'` is flat and locally of finite presentation, that the two squares are 2-fibre products,
 and that `(f, f', γ)` is a morphism of them over `𝒳'`, étaleness of `f` gives étaleness of `f'`.
-See the implementation notes for why that clause is not available from the three formalized clauses
-of 0CJC.
+See the implementation notes for where that clause is proved.
 
 Everything 0CJC asks for is supplied here from the two smooth lifts and the morphism between
 them: the squares are their `isTwoFibreProduct` fields, the restriction equation, the comparison
@@ -122,7 +129,6 @@ them: the squares are their `isTwoFibreProduct` fields, the restriction equation
 and `y'` follow from smoothness of the ambient maps — local finite presentation by
 **Stacks 0DNP**, local finite type by **Stacks 06Q5** on top of it, and flatness by
 monotonicity of the smooth-diagram criterion. Étaleness of `f` is `isEtale_base`. -/
-@[stacks 0CJS]
 theorem isEtale_ambient
     (hCJC : ∀ (U U' V V' : AlgebraicSpaces B S hS) (i : U ⟶ U') (j : V ⟶ V')
       (u : (algebraicSpaceStackFunctor B S hS).obj U ⟶ 𝒳)

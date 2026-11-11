@@ -28,8 +28,11 @@ definitions carry the tag through the `add_to_stacks` annotations at the end of 
 
 ## Main results
 
-* `CategoryTheory.Functor.sheafPullbackSheafificationCompatibility` (**Stacks 00WY**):
-  `(u_p G)^# ≅ f⁻¹(G^#)`.
+* `CategoryTheory.Functor.lanCompPresheafToSheafIsoSheafPullback` (**Stacks 00WY**):
+  `(u_p G)^# ≅ f⁻¹(G^#)`, with no hypothesis beyond continuity of `u` and the existence of
+  sheafification and of the Kan extension `u_p`.
+* `CategoryTheory.Functor.sheafPullbackSheafificationCompatibility`: the same isomorphism for
+  an arbitrary instance witnessing that `u^s` is a right adjoint.
 
 ## References
 
@@ -45,14 +48,16 @@ namespace CategoryTheory.Functor
 
 universe v₁ v₂ v₃ u₁ u₂ u₃
 
-/-- **Stacks 00WY**.
-Sheafification commutes with the presheaf pullback `u_p` along a continuous functor
+/-- Sheafification commutes with the presheaf pullback `u_p` along a continuous functor
 `u : C ⥤ D`: the composite of `u_p = u.op.lan` with sheafification on `D` is naturally
 isomorphic to the composite of sheafification on `C` with the sheaf pullback
 `f⁻¹ = u.sheafPullback`. Both composites are left adjoint to the same functor
 `Sheaf K A ⥤ Cᵒᵖ ⥤ A`, namely restriction along `u` followed by the inclusion of sheaves
-into presheaves, so the isomorphism is uniqueness of left adjoints. -/
-@[stacks 00WY]
+into presheaves, so the isomorphism is uniqueness of left adjoints.
+
+This version takes the right adjointness of `u.sheafPushforwardContinuous A J K` as an instance
+argument; Mathlib derives that instance from the other hypotheses, and
+`lanCompPresheafToSheafIsoSheafPullback` (Stacks 00WY) is the statement without it. -/
 noncomputable def sheafPullbackSheafificationCompatibility
     {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D] (A : Type u₃)
     [Category.{v₃} A] (J : GrothendieckTopology C) (K : GrothendieckTopology D) (u : C ⥤ D)
@@ -63,6 +68,22 @@ noncomputable def sheafPullbackSheafificationCompatibility
   Adjunction.leftAdjointUniq
     ((u.op.lanAdjunction A).comp (sheafificationAdjunction K A))
     ((sheafificationAdjunction J A).comp (u.sheafAdjunctionContinuous A J K))
+
+/-- **Stacks 00WY**.
+For a continuous functor `u : C ⥤ D` between sites and a presheaf `G` on `C`,
+`(u_p G)^# ≅ (u_p (G^#))^# = u_s (G^#)`, naturally in `G`: the composite of
+`u_p = u.op.lan` with sheafification on `D` is isomorphic to sheafification on `C` followed by
+the sheaf pullback `u_s = u.sheafPullback`. The right adjointness of `u^s` needed to form
+`u.sheafPullback` is Mathlib's instance built from `u_p` and sheafification on `D`, so it is
+not a hypothesis here. -/
+@[stacks 00WY]
+noncomputable def lanCompPresheafToSheafIsoSheafPullback
+    {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D] (A : Type u₃)
+    [Category.{v₃} A] (J : GrothendieckTopology C) (K : GrothendieckTopology D) (u : C ⥤ D)
+    [u.IsContinuous J K] [HasWeakSheafify J A] [HasWeakSheafify K A]
+    [∀ F : Cᵒᵖ ⥤ A, u.op.HasLeftKanExtension F] :
+    u.op.lan ⋙ presheafToSheaf K A ≅ presheafToSheaf J A ⋙ u.sheafPullback A J K :=
+  sheafPullbackSheafificationCompatibility A J K u
 
 end CategoryTheory.Functor
 

@@ -5,14 +5,15 @@ public import StacksFrontier.RingTheory.DiscreteValuationRing.PurelyInseparable
 public import StacksFrontier.RingTheory.LocalRing.ResidueSection
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.LevelDefinition
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.NonfieldKummer
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.GaloisTotallyRamified
 
 open Stacks.DiscreteValuationRing.AdjoinPthRoot
 
 /-!
 # Making a degree-`p` extension have finite level
 
-The finite, totally ramified base extension which is either a weak solution or makes a Galois
-degree-`p` extension have finite level (Stacks Tag 09F4).
+The finite Galois, totally ramified base extension which is either a weak solution or makes a
+Galois degree-`p` extension have finite level (Stacks Tag 09F4).
 -/
 
 @[expose] public noncomputable section
@@ -852,8 +853,12 @@ private lemma exists_isWeakSolution_self_of_isWeaklyUnramified
 /-- In mixed characteristic, a weakly unramified tower followed by a Galois extension of
 prime degree admits a finite, totally ramified base extension. This base extension
 is either a weak solution for the full tower or makes the canonical tensor-product
-extension a degree-`p` extension of finite level. -/
-@[stacks 09F4]
+extension a degree-`p` extension of finite level.
+
+This is the statement of Stacks Tag 09F4 without the assertion that `K₁ / K` is Galois: the base
+extension used is `K(π ^ (1 / p))`, as in the proof of Stacks, which need not be Galois over `K`.
+The complete statement, with `K₁ / K` Galois, is
+`exists_totallyRamified_isGalois_isWeakSolution_or_finiteLevel`. -/
 theorem exists_totallyRamified_galoisExtension_isWeakSolution_or_finiteLevel
     (A B C K L M : Type u)
     [CommRing A] [CommRing B] [CommRing C]
@@ -1067,5 +1072,377 @@ theorem exists_totallyRamified_galoisExtension_isWeakSolution_or_finiteLevel
               A B C K L M E hweak p (Fact.out : p.Prime) hdegree hdegE
               π hπ u n y hunitpow hn hgen htot hL₁ hM₁
           exact ⟨E, hE, hKE, hAE, hAKE, hfinE, htot, Or.inl hsolution⟩
+
+
+/-- If `B` is a weakly unramified extension of `A` containing a primitive `p`-th root of unity
+and `A` has residue characteristic `p`, then `p = u π ^ ((p - 1) r)` in `A` for a unit `u` and
+some `r > 0`: the valuation of `p` is `p - 1` times the valuation of `1 - ζ`. -/
+private lemma exists_natCast_eq_unit_mul_pow_of_irreducible
+    (A B : Type u) [CommRing A] [CommRing B] [IsDomain A] [IsDomain B]
+    [IsDiscreteValuationRing A] [IsDiscreteValuationRing B] [Algebra A B]
+    [IsDiscreteValuationRing.IsExtension A B] [CharZero B]
+    (p : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField A) p]
+    (f : CyclotomicRing p ℤ ℚ →+* B) (πA : A) (hπA : Irreducible πA)
+    (hπ : Irreducible (algebraMap A B πA)) :
+    ∃ (r : ℕ) (uA : Aˣ), 0 < r ∧ (p : A) = uA * πA ^ ((p - 1) * r) := by
+  have hp' := (Fact.out : p.Prime)
+  have hζpow : zetaA f ^ p = 1 := by
+    dsimp [zetaA]
+    rw [← map_pow]
+    exact (congrArg f (IsCyclotomicExtension.zeta_spec p ℤ
+      (CyclotomicRing p ℤ ℚ)).pow_eq_one).trans (map_one f)
+  have hζne : zetaA f ≠ 1 := fun h => wElt_ne_zero_of_charZero f (sub_eq_zero.mpr h.symm)
+  have hζ : IsPrimitiveRoot (zetaA f) p :=
+    IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hζpow hζne)
+  obtain ⟨ε, hε⟩ := GaloisTotallyRamified.associated_sub_one_pow_prime hζ
+  have hζ1 : zetaA f - 1 ≠ 0 := sub_ne_zero.mpr hζne
+  obtain ⟨r, uB, hr⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hζ1 hπ
+  have hpA : (p : A) ≠ 0 := by
+    intro h
+    have h' := congrArg (algebraMap A B) h
+    rw [map_natCast, map_zero] at h'
+    exact (Nat.cast_ne_zero.mpr hp'.ne_zero) h'
+  obtain ⟨e, uA, he⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hpA hπA
+  have hpB : (p : B) = ((uB ^ (p - 1) * ε : Bˣ) : B) * algebraMap A B πA ^ (r * (p - 1)) := by
+    rw [← hε, hr, Units.val_mul, Units.val_pow_eq_pow_val, pow_mul]
+    ring
+  have hkey : ((Units.map (algebraMap A B).toMonoidHom uA : Bˣ) : B) * algebraMap A B πA ^ e =
+      ((uB ^ (p - 1) * ε : Bˣ) : B) * algebraMap A B πA ^ (r * (p - 1)) := by
+    rw [← hpB, ← map_natCast (algebraMap A B), he, map_mul, map_pow, Units.coe_map]
+    rfl
+  have heq := IsDiscreteValuationRing.unit_mul_pow_congr_pow hπ hπ _ _ e (r * (p - 1)) hkey
+  have hr0 : 0 < r := by
+    rcases Nat.eq_zero_or_pos r with h | h
+    · exfalso
+      have hpunitB : IsUnit (algebraMap A B (p : A)) := by
+        rw [map_natCast, hpB, h, zero_mul, pow_zero, mul_one]
+        exact Units.isUnit _
+      have hpunit : IsUnit (p : A) := isUnit_of_map_unit (algebraMap A B) _ hpunitB
+      have hres : IsLocalRing.residue A (p : A) = 0 := by
+        rw [map_natCast]
+        exact CharP.cast_eq_zero _ p
+      exact (IsLocalRing.mem_maximalIdeal _).mp
+        ((IsLocalRing.residue_eq_zero_iff _).mp hres) hpunit
+    · exact h
+  exact ⟨r, uA, hr0, by rw [he, heq, mul_comm r]⟩
+
+/-- The base change of a Kummer generator `y ^ p = u π ^ n` along `K₁ / K`, where
+`t ^ p = π V` in `K₁`, is a Kummer generator `(y / t ^ n) ^ p = u V ^ (-n)` over `L ⊗_K K₁`. -/
+private lemma exists_pow_eq_unit_mul_tensorProduct_of_pow_eq_mul
+    (B K L M E : Type u) [CommRing B]
+    [Field K] [Field L] [Field M] [Field E]
+    [Algebra K L] [Algebra K M] [Algebra L M] [Algebra K E]
+    [IsScalarTower K L M] [Algebra B L]
+    (p : ℕ) (hp : p ≠ 0) (π : K) (hπ : π ≠ 0) (y : M) (u : Bˣ) (n : ℤ)
+    (hy : y ^ p = algebraMap L M
+      (algebraMap B L u * algebraMap K L π ^ n))
+    (hgen : Algebra.adjoin L {y} = ⊤)
+    (t V : E) (ht : t ^ p = algebraMap K E π * V) (hV0 : V ≠ 0)
+    (hL₁ : IsField (L ⊗[K] E)) (hM₁ : IsField (M ⊗[K] E)) :
+    letI := hL₁.toField
+    letI := hM₁.toField
+    letI : Algebra (L ⊗[K] E) (M ⊗[K] E) :=
+      (Algebra.TensorProduct.map (IsScalarTower.toAlgHom K L M)
+        (AlgHom.id K E)).toRingHom.toAlgebra
+    ∃ z : M ⊗[K] E,
+      z ^ p = algebraMap (L ⊗[K] E) (M ⊗[K] E) (algebraMap B (L ⊗[K] E) u *
+        ((Algebra.TensorProduct.includeRight : E →ₐ[K] L ⊗[K] E) V) ^ (-n)) ∧
+        Algebra.adjoin (L ⊗[K] E) {z} = ⊤ := by
+  let := hL₁.toField
+  let := hM₁.toField
+  let L₁ := L ⊗[K] E
+  let M₁ := M ⊗[K] E
+  let ι := Algebra.TensorProduct.map (IsScalarTower.toAlgHom K L M) (AlgHom.id K E)
+  let : Algebra L₁ M₁ := ι.toRingHom.toAlgebra
+  let : IsScalarTower L L₁ M₁ := isScalarTower_tensorProduct_map K L M E
+  let t₁ : L₁ := (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) t
+  let V₁ : L₁ := (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) V
+  let π₁ : L₁ := algebraMap L L₁ (algebraMap K L π)
+  have hπ₁ : π₁ ≠ 0 := (map_ne_zero_iff _ (algebraMap L L₁).injective).mpr
+    ((map_ne_zero_iff _ (algebraMap K L).injective).mpr hπ)
+  have ht₁ : t₁ ^ p = π₁ * V₁ := by
+    change ((Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) t) ^ p = _
+    rw [← map_pow, ht, map_mul, AlgHom.commutes, IsScalarTower.algebraMap_apply K L L₁]
+  have hV₁ : V₁ ≠ 0 := (map_ne_zero_iff _
+    (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁).toRingHom.injective).mpr hV0
+  have ht₁ne : t₁ ≠ 0 := by
+    intro h
+    apply mul_ne_zero hπ₁ hV₁
+    rw [← ht₁, h, zero_pow hp]
+  have hy₁ : (algebraMap M M₁ y) ^ p = algebraMap L₁ M₁
+      (algebraMap B L₁ u * π₁ ^ n) := by
+    rw [← map_pow, hy, ← IsScalarTower.algebraMap_apply L M M₁,
+      IsScalarTower.algebraMap_apply L L₁ M₁]
+    simp only [map_mul, map_zpow₀, ← IsScalarTower.algebraMap_apply B L L₁, π₁]
+  have htn : t₁ ^ n ≠ 0 := zpow_ne_zero n ht₁ne
+  refine ⟨algebraMap M M₁ y / algebraMap L₁ M₁ (t₁ ^ n), ?_, ?_⟩
+  · have hpow : (t₁ ^ n) ^ p = (π₁ * V₁) ^ n := by
+      rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ht₁]
+    rw [div_pow, hy₁, ← map_pow, hpow, ← map_div₀]
+    congr 1
+    change algebraMap B L₁ u * π₁ ^ n / (π₁ * V₁) ^ n = algebraMap B L₁ u * V₁ ^ (-n)
+    rw [mul_zpow, zpow_neg, ← div_div, mul_div_assoc, div_self (zpow_ne_zero n hπ₁), mul_one,
+      div_eq_mul_inv]
+  · have h := adjoin_singleton_sub_div (algebraMap M M₁ y) 0 (t₁ ^ n) htn
+    simp only [map_zero, sub_zero] at h
+    exact h.trans (adjoin_tensorProduct_map_eq_top K L M E y hgen)
+
+/-- **Stacks 09F4.** Let `A ⊆ B ⊆ C` be extensions of discrete valuation rings with fraction
+fields `K ⊆ L ⊆ M`, where `A` has mixed characteristic `(0, p)`, `A ⊆ B` is weakly unramified,
+`B` contains a primitive `p`-th root of unity (the ring map `f : ℤ[ζ_p] → B`) and `M / L` is
+Galois of degree `p`. Then there is a finite Galois extension `K₁ / K`, totally ramified with
+respect to `A`, which is either a weak solution for `A → C` or is such that
+`M₁ / L₁ = M ⊗_K K₁ / L ⊗_K K₁` is a degree-`p` extension of finite level.
+
+When the Kummer parameter of `M / L` has valuation prime to `p`, the proof of Stacks uses a
+degree-`p` totally ramified extension (Lemma 15.117.7, Tag 09EW), which in characteristic zero is
+`K(π ^ (1 / p))`; this is Galois over `K` only when `K` contains the `p`-th roots of unity. Here
+the base extension is instead the degree-`p` Galois, totally ramified extension of
+`Stacks.DegreePExtensionLevel.GaloisTotallyRamified.exists_isGalois_totallyRamified`, which
+contains an element `t` with `t ^ p = π V` for a unit `V`, and the rest of the argument of
+Stacks goes through with `t` in place of `π ^ (1 / p)`. -/
+@[stacks 09F4]
+theorem exists_totallyRamified_isGalois_isWeakSolution_or_finiteLevel
+    (A B C K L M : Type u)
+    [CommRing A] [CommRing B] [CommRing C]
+    [IsDomain A] [IsDomain B] [IsDomain C]
+    [IsDiscreteValuationRing A] [IsDiscreteValuationRing B]
+    [IsDiscreteValuationRing C]
+    [Field K] [Field L] [Field M]
+    [Algebra A B] [Algebra B C] [Algebra A C]
+    [Algebra A K] [Algebra B L] [Algebra C M]
+    [Algebra K L] [Algebra L M] [Algebra K M]
+    [Algebra A L] [Algebra A M] [Algebra B M]
+    [IsScalarTower A B C] [IsScalarTower A B L]
+    [IsScalarTower B C M] [IsScalarTower B L M]
+    [IsScalarTower A C M] [IsScalarTower A K L]
+    [IsScalarTower A K M] [IsScalarTower K L M]
+    [IsDiscreteValuationRing.IsExtension A B] [IsDiscreteValuationRing.IsExtension B C]
+    [IsDiscreteValuationRing.IsExtension A C]
+    [IsFractionRing A K] [IsFractionRing B L] [IsFractionRing C M]
+    (p : ℕ) [Fact p.Prime] [CharZero K]
+    [CharP (IsLocalRing.ResidueField A) p]
+    (hweak : IsDiscreteValuationRing.IsWeaklyUnramified A B)
+    (f : CyclotomicRing p ℤ ℚ →+* B)
+    [FiniteDimensional L M] [IsGalois L M]
+    (hdegree : Module.finrank L M = p) :
+    ∃ (K₁ : Type u) (_ : Field K₁) (_ : Algebra K K₁) (_ : Algebra A K₁)
+      (_ : IsScalarTower A K K₁) (_ : Module.Finite K K₁),
+      IsGalois K K₁ ∧ IsDiscreteValuationRing.IsTotallyRamifiedWithRespectTo A K K₁ ∧
+        ((∃ D : IsDiscreteValuationRing.IntegralClosureBaseChange.{u, u, u, u, u, u, u, u} A C K M
+          K₁,
+            D.IsWeakSolution) ∨
+          let L₁ := L ⊗[K] K₁
+          let M₁ := M ⊗[K] K₁
+          ∃ (hL₁ : IsField L₁) (hM₁ : IsField M₁),
+            letI := hL₁.toField
+            letI := hM₁.toField
+            let ι : L₁ →ₐ[K] M₁ :=
+              Algebra.TensorProduct.map (IsScalarTower.toAlgHom K L M) (AlgHom.id K K₁)
+            letI : Algebra L₁ M₁ := ι.toRingHom.toAlgebra
+            let B₁ := integralClosure B L₁
+            ∃ (hB₁ : IsDiscreteValuationRing B₁) (hfrac : IsFractionRing B₁ L₁)
+              (hfin : Module.Finite L₁ M₁),
+              letI := hB₁
+              letI := hfrac
+              letI := hfin
+              ∃ P : Polynomial B,
+                intProp f P ∧ quotChar f P ∧ shapeProp f P ∧ funcEq f P ∧
+                  IsDegreePExtensionOfFiniteLevel B₁ L₁ M₁ p
+                    ((algebraMap B B₁).comp f) (P.map (algebraMap B B₁))) := by
+  by_cases hAC : IsDiscreteValuationRing.IsWeaklyUnramified A C
+  · refine ⟨K, inferInstance, inferInstance, inferInstance, inferInstance,
+      inferInstance, IsGalois.self K, isTotallyRamifiedWithRespectTo_self A K, Or.inl ?_⟩
+    exact exists_isWeakSolution_self_of_isWeaklyUnramified A C K M hAC
+  · have : CharZero L := charZero_of_injective_algebraMap (algebraMap K L).injective
+    obtain ⟨y, b, hy, hgen⟩ := exists_pow_eq_and_adjoin_eq_top_of_prime_degree
+      p ((algebraMap B L).comp f) hdegree
+    have hb := kummer_parameter_ne_zero p (Fact.out : p.Prime).one_lt
+      y b hy hgen hdegree
+    obtain ⟨πA, hπA⟩ := IsDiscreteValuationRing.exists_irreducible A
+    let π := algebraMap A B πA
+    have hπ : Irreducible π :=
+      (isWeaklyUnramified_iff_irreducible_algebraMap A B πA hπA).mp hweak
+    obtain ⟨n, u, hu⟩ :=
+      IsDiscreteValuationRing.exists_units_eq_smul_zpow_of_irreducible hπ hb
+    have hunitpow : y ^ p = algebraMap L M
+        (algebraMap B L (u : B) * algebraMap B L π ^ n) := by
+      simpa only [hu, Units.smul_def, Algebra.smul_def] using hy
+    by_cases hn : (p : ℤ) ∣ n
+    · obtain ⟨z, hz, hzg⟩ := exists_pow_eq_unit_of_pow_eq_unit_mul_zpow p y u
+        (algebraMap B L π)
+        ((map_ne_zero_iff _ (IsFractionRing.injective B L)).mpr hπ.ne_zero)
+        n hunitpow hn
+      have hzgen : Algebra.adjoin L {z} = ⊤ := hzg.trans hgen
+      have : CharZero B := (RingHom.charZero_iff (IsFractionRing.injective B L)).mpr inferInstance
+      obtain ⟨P, hP, hquot, hshape, hfunc⟩ :=
+        main_statement f
+      have hzB : z ^ p = algebraMap B M (u : B) := by
+        rw [IsScalarTower.algebraMap_apply B L M]
+        exact hz
+      rcases isWeaklyUnramified_or_finiteLevel_of_pow_eq_unit B C L M p f P hP
+          hdegree z hzgen u hzB with hBC | hlevel
+      · exact (hAC (IsDiscreteValuationRing.isWeaklyUnramified_trans A B C hweak hBC)).elim
+      · obtain ⟨hL₁, hM₁, hB₁, hfrac, hfin, hlevel₁⟩ :=
+          finiteLevel_tensorProduct_self B K L M p f P hlevel
+        refine ⟨K, inferInstance, inferInstance, inferInstance, inferInstance,
+          inferInstance, IsGalois.self K, isTotallyRamifiedWithRespectTo_self A K, Or.inr ?_⟩
+        exact ⟨hL₁, hM₁, hB₁, hfrac, hfin, P, hP, hquot, hshape, hfunc, hlevel₁⟩
+    · let : IsDiscreteValuationRing (integralClosure B M) :=
+        isDiscreteValuationRing_integralClosure_of_pow_eq_unit_mul_zpow B L M
+          p hdegree π hπ u n y hunitpow hn
+      obtain ⟨eC⟩ := integralClosure_algEquiv_of_isDiscreteValuationRing B C L M
+      let : Algebra.IsIntegral B C := Algebra.IsIntegral.of_surjective eC.toAlgHom eC.surjective
+      · have : CharZero B :=
+          (RingHom.charZero_iff (IsFractionRing.injective B L)).mpr inferInstance
+        obtain ⟨r, uA, hr0, hpu⟩ :=
+          exists_natCast_eq_unit_mul_pow_of_irreducible A B p f πA hπA hπ
+        obtain ⟨E, hE, hKE, hAE, hAKE, hfinE, hGalE, hdegE, htot, t, V, ht, hVint, hVinv, hV0⟩ :=
+          GaloisTotallyRamified.exists_isGalois_totallyRamified A K p πA hπA r hr0 uA hpu
+        let := hE
+        let := hKE
+        let := hAE
+        let := hAKE
+        let := hfinE
+        have hweakIdeal : Ideal.map (algebraMap A B) (IsLocalRing.maximalIdeal A) =
+            IsLocalRing.maximalIdeal B := by
+          have h := (IsDiscreteValuationRing.ramificationIndex_characterization A B).2.1
+          change IsDiscreteValuationRing.ramificationIndex A B = 1 at hweak
+          simpa only [hweak, pow_one] using h
+        obtain ⟨hL₁, hA₁, hBdom, hBdvr, hinj, hweakT, hCdom, hB₁, hfrac,
+            eB, heB, hinjB, hweakB⟩ :=
+          IsDiscreteValuationRing.isField_tensorProduct_and_isDVR_baseChange_of_totallyRamified
+            A B K L E hweakIdeal htot
+        let := hL₁.toField
+        let L₁ := L ⊗[K] E
+        let M₁ := M ⊗[K] E
+        let B₁ := integralClosure B L₁
+        let := hB₁
+        let := hfrac
+        by_cases hM₁ : IsField M₁
+        · let := hM₁.toField
+          let ι := Algebra.TensorProduct.map (IsScalarTower.toAlgHom K L M) (AlgHom.id K E)
+          let : Algebra L₁ M₁ := ι.toRingHom.toAlgebra
+          obtain ⟨hfin, hdeg⟩ := finite_finrank_tensorProduct_map K L M E hL₁
+          let := hfin
+          have hparam : y ^ p = algebraMap L M
+              (algebraMap B L u * algebraMap K L (algebraMap A K πA) ^ n) := by
+            simpa only [π, ← IsScalarTower.algebraMap_apply A B L,
+              ← IsScalarTower.algebraMap_apply A K L] using hunitpow
+          have htK : t ^ p = algebraMap K E (algebraMap A K πA) * V := by
+            rwa [← IsScalarTower.algebraMap_apply A K E]
+          obtain ⟨z, hz, hzgen⟩ := exists_pow_eq_unit_mul_tensorProduct_of_pow_eq_mul B K L M E
+            p (Fact.out : p.Prime).ne_zero (algebraMap A K πA)
+            ((map_ne_zero_iff _ (IsFractionRing.injective A K)).mpr hπA.ne_zero)
+            y u n hparam hgen t V htK hV0 hL₁ hM₁
+          let V₁ : L₁ := (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) V
+          have hcomp : (algebraMap B L₁).comp (algebraMap A B) =
+              (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁).toRingHom.comp
+                (algebraMap A E) := by
+            ext a
+            change algebraMap B L₁ (algebraMap A B a) =
+              (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) (algebraMap A E a)
+            rw [IsScalarTower.algebraMap_apply B L L₁, ← IsScalarTower.algebraMap_apply A B L,
+              IsScalarTower.algebraMap_apply A K L, ← IsScalarTower.algebraMap_apply K L L₁,
+              IsScalarTower.algebraMap_apply A K E, AlgHom.commutes]
+          have hV₁int : IsIntegral B V₁ := IsIntegral.map_of_comp_eq (algebraMap A B)
+            (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁).toRingHom hcomp hVint
+          have hV₁inv : IsIntegral B V₁⁻¹ := by
+            rw [show V₁⁻¹ = (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) V⁻¹ from
+              (map_inv₀ _ V).symm]
+            exact IsIntegral.map_of_comp_eq (algebraMap A B)
+              (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁).toRingHom hcomp hVinv
+          have hV₁0 : V₁ ≠ 0 := (map_ne_zero_iff _
+            (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁).toRingHom.injective).mpr hV0
+          let W : B₁ˣ :=
+            (GaloisTotallyRamified.isUnit_of_isIntegral_inv hV₁int hV₁inv hV₁0).unit
+          have hWn : algebraMap B₁ L₁ ((W ^ (-n) : B₁ˣ) : B₁) = V₁ ^ (-n) := by
+            have h := Units.coe_map (algebraMap B₁ L₁ : B₁ →* L₁) (W ^ (-n))
+            rw [map_zpow, Units.val_zpow_eq_zpow_val, Units.coe_map] at h
+            exact h.symm
+          let u₁ : B₁ˣ := Units.map (algebraMap B B₁).toMonoidHom u * W ^ (-n)
+          have hz₁ : z ^ p = algebraMap L₁ M₁ (algebraMap B₁ L₁ u₁) := by
+            rw [hz]
+            congr 1
+            rw [Units.val_mul, map_mul, hWn, Units.coe_map]
+            simp only [RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+            rw [← IsScalarTower.algebraMap_apply B B₁ L₁]
+          by_cases hres : ∃ r : IsLocalRing.ResidueField B₁,
+              IsLocalRing.residue B₁ u₁ = r ^ p
+          · have : CharZero L₁ := charZero_of_injective_algebraMap (algebraMap L L₁).injective
+            have : CharZero B₁ :=
+              (RingHom.charZero_iff (IsFractionRing.injective B₁ L₁)).mpr inferInstance
+            obtain ⟨P, hP, hquot, hshape, hfunc⟩ :=
+              main_statement f
+            have hlevel := isDegreePExtensionOfFiniteLevel_of_pow_eq_unit p
+              ((algebraMap B B₁).comp f) (P.map (algebraMap B B₁))
+              (intProp_map f (algebraMap B B₁) P hP) (hdeg.trans hdegree)
+              z hzgen u₁ hz₁ hres
+            exact ⟨E, hE, hKE, hAE, hAKE, hfinE, hGalE, htot,
+              Or.inr ⟨hL₁, hM₁, hB₁, hfrac, hfin, P, hP, hquot, hshape, hfunc, hlevel⟩⟩
+          · let : IsScalarTower L L₁ M₁ := isScalarTower_tensorProduct_map K L M E
+            let : Algebra B₁ M₁ :=
+              ((algebraMap L₁ M₁).comp (algebraMap B₁ L₁)).toAlgebra
+            let : IsScalarTower B₁ L₁ M₁ := IsScalarTower.of_algebraMap_eq fun _ => rfl
+            let : IsScalarTower B L₁ M₁ := IsScalarTower.of_algebraMap_eq fun b => by
+              change algebraMap B M b ⊗ₜ[K] (1 : E) =
+                ι (algebraMap B L b ⊗ₜ[K] 1)
+              simp [ι, ← IsScalarTower.algebraMap_apply B L M]
+            let : IsScalarTower B B₁ M₁ := IsScalarTower.of_algebraMap_eq fun b => by
+              rw [IsScalarTower.algebraMap_apply B L₁ M₁,
+                IsScalarTower.algebraMap_apply B B₁ L₁]
+              rfl
+            have hzS : z ^ p = algebraMap B₁ M₁ (u₁ : B₁) := hz₁
+            obtain ⟨hS, hπS⟩ :=
+              isDiscreteValuationRing_integralClosure_and_irreducible_of_pow_eq
+                (K := L₁) p (u₁ : B₁) hres z hzS hzgen
+            let S := integralClosure B₁ M₁
+            let R := integralClosure C M₁
+            let : IsDiscreteValuationRing S := hS
+            obtain ⟨e, heval⟩ := exists_integralClosure_algEquiv_of_isIntegral B B₁ C M₁
+            have hweakS :=
+              Stacks.DiscreteValuationRing.AdjoinPthRoot.maximalIdeal_map_eq_of_pow_eq (K := L₁) p
+                (u₁ : B₁) hres z hzS hzgen
+            let A₁ := integralClosure A E
+            let := hA₁
+            have hweakIdx :=
+              @Stacks.DiscreteValuationRing.WeakUnramifiedTransfer.weak_indices_through_equivalence
+                A₁ B₁ S R
+                inferInstance inferInstance inferInstance inferInstance
+                hA₁.toIsLocalRing hB₁.toIsLocalRing hS.toIsLocalRing
+                (eB.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom)
+                (algebraMap B₁ S) e.toRingEquiv hweakB hweakS
+            let g : A₁ →+* R := e.toRingHom.comp
+              ((algebraMap B₁ S).comp
+                (eB.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom))
+            let : Algebra A₁ R := g.toAlgebra
+            have hg : ∀ a : A₁, algebraMap R M₁ (g a) =
+                (Algebra.TensorProduct.includeRight : E →ₐ[K] M₁) (a : E) := by
+              intro a
+              change (e ((algebraMap B₁ S)
+                (eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a))) : M₁) = _
+              rw [heval]
+              change algebraMap B₁ M₁
+                (eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a)) = _
+              rw [IsScalarTower.algebraMap_apply B₁ L₁ M₁]
+              change ι ((eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a) : B₁) :
+                L₁) = _
+              rw [heB]
+              simp [ι]
+            let : IsScalarTower A A₁ R :=
+              Stacks.DiscreteValuationRing.WeakUnramifiedTransfer.scalarTower_of_injective_square A
+                A₁ R E M₁
+                ((Algebra.TensorProduct.includeRight : E →ₐ[K] M₁).restrictScalars A) g
+                (IsIntegralClosure.algebraMap_injective R C M₁) hg
+            have hnil : nilradical M₁ = ⊥ := nilradical_eq_zero M₁
+            have hsolution := exists_isWeakSolution_of_reduced_tensorProduct A C K M E A₁ R
+              hnil hg hweakIdx
+            exact ⟨E, hE, hKE, hAE, hAKE, hfinE, hGalE, htot, Or.inl hsolution⟩
+        · let := hA₁
+          have hsolution :=
+            Stacks.WeakSolution.NonfieldKummer.exists_weakSolution_of_nondivisible_kummer_nonfield
+              A B C K L M E hweak p (Fact.out : p.Prime) hdegree hdegE
+              π hπ u n y hunitpow hn hgen htot hL₁ hM₁
+          exact ⟨E, hE, hKE, hAE, hAKE, hfinE, hGalE, htot, Or.inl hsolution⟩
 
 end Stacks.DegreePExtensionLevel

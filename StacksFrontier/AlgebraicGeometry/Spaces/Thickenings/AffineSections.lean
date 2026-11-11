@@ -14,7 +14,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleStru
 Let `G ⊂ X` be a thickening of algebraic spaces over a scheme `S`, so `X` is the ambient space
 and `G` the closed subspace, which have the same points. Let `U` be an object of the
 spaces-étale site of `X` and let `G ×_X U` be its base change along the inclusion, an object of
-the spaces-étale site of `G`. This file proves **Stacks 05ZQ**: if `G ×_X U` is affine then the
+the spaces-étale site of `G`. This file proves a form of **Stacks 05ZQ** conditional on the
+hypotheses of the library's Stacks 07VS: if `G ×_X U` is affine then the
 restriction map
 `Γ(U, 𝒪_U) → Γ(G ×_X U, 𝒪_{G ×_X U})`
 along the cartesian projection `G ×_X U ⟶ U` is surjective.
@@ -25,6 +26,16 @@ the source's own quantifier: an *arbitrary* object `V` of the spaces-étale site
 affine underlying algebraic space is isomorphic to such a base change `G ×_X U`, and
 restriction of regular functions along the resulting closed immersion `V ≅ G ×_X U ⟶ U` is
 surjective.
+
+The unconditional statement, registered as Stacks 05ZQ, is
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isThickening` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.AffineSectionsSpacesEtale`: a thickening of
+arbitrary order, an arbitrary affine object of the spaces-étale site of `G`, and nothing granted.
+It uses the unconditional closed-immersion case of Stacks 07VT,
+`AlgebraicGeometry.Space.isAffineSpace_of_isClosedImmersion_of_isSurjective`, in place of the
+granted Stacks 07VS used here, and essential surjectivity of base change at a thickening of
+arbitrary order, `AlgebraicGeometry.Space.essSurj_spacesBaseChange_of_isThickening`. The
+conditional statements below are kept as they are, without a registration.
 
 The route is the one of the source. The cartesian projection is a base change of the inclusion,
 hence a closed immersion, and it is surjective on points because the inclusion of a thickening
@@ -41,9 +52,9 @@ proved first below.
   thickening `G ⊂ X`, an object of the spaces-étale site of `X` whose base change to `G` is
   affine is itself affine.
 * `AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening`:
-  **Stacks 05ZQ**, surjectivity of the restriction map.
+  surjectivity of the restriction map, granted the hypotheses of the library's Stacks 07VS.
 * `AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isFirstOrderThickening`:
-  **Stacks 05ZQ at a first-order thickening**, with the source's own quantifier over an
+  the same at a first-order thickening, with the source's own quantifier over an
   arbitrary affine object of the spaces-étale site of the closed subspace.
 
 ## Implementation notes
@@ -74,20 +85,15 @@ object of `G_{spaces,étale}` being isomorphic to some base change `G ×_X U` tu
 hypothesis "the base change of `U` is affine" into "`V` is affine" for an *arbitrary* object
 `V` of `G_{spaces,étale}`, which is the source's own quantifier.
 
-*The first-order case, and what is still missing for a general thickening.* Essential
-surjectivity is proved only for the inclusion of a **first-order** thickening,
+*The first-order case.* The first-order statement here uses essential surjectivity for the
+inclusion of a **first-order** thickening,
 `AlgebraicGeometry.Space.essSurj_spacesBaseChange_of_isFirstOrderThickening`; full faithfulness
 is `AlgebraicGeometry.Space.fullyFaithfulSpacesBaseChangeOfIsFirstOrderThickening` and the
 equivalence `AlgebraicGeometry.Space.isEquivalence_spacesBaseChange_of_isFirstOrderThickening`.
-So `AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isFirstOrderThickening` has the
-source's quantifier at a first-order thickening and nowhere else, and **the general-thickening
-case of Stacks 05ZQ still rests on the weaker parametrisation** of
-`AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening`, which
-quantifies over an object `U` of the *ambient* space's site and assumes its base change affine.
-Nothing in this library supplies essential surjectivity for a thickening of arbitrary order.
-The restriction is a recognised one: the source itself gives a second proof of Stacks 05ZQ "for
-finite order thickenings which is the case most used in practice", and that proof begins by
-reducing to the first-order case.
+Essential surjectivity at a thickening of arbitrary order is also in the library,
+`AlgebraicGeometry.Space.essSurj_spacesBaseChange_of_isThickening`, and the source's quantifier
+at an arbitrary thickening is
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isThickening`.
 
 The ambient object is named with the essential-surjectivity API,
 `CategoryTheory.Functor.objPreimage` and `CategoryTheory.Functor.objObjPreimageIso`, rather than
@@ -97,13 +103,15 @@ surjectivity is asserted is pullback of regular functions along the composite of
 isomorphism with the cartesian projection, a morphism `V ⟶ U` of algebraic spaces, so it is a
 genuine map `Γ(U, 𝒪_U) → Γ(V, 𝒪_V)`.
 
-*Affineness of the ambient object.* This is Stacks 07VS, and it is used rather than granted:
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite` is available, and the three
-hypotheses it carries — the conclusions of Stacks 07VR and Stacks 07SQ, and its own
+*Affineness of the ambient object.* This is Stacks 07VS, and it is used rather than granted,
+through its conditional form `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`,
+whose three hypotheses — the conclusions of Stacks 07VR and Stacks 07SQ, and its own
 finite-presentation special case — are threaded through unchanged, so nothing is granted here
-beyond what that declaration already grants. The two facts the cartesian projection has to
-supply are proved: it is a closed immersion because closed immersions of algebraic spaces are
-stable under base change in the sense of
+beyond what that declaration grants. Stacks 07VS itself is proved with no hypothesis as
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`,
+so these hypotheses could be dropped by applying that theorem instead. The two facts the
+cartesian projection has to supply are proved: it is a closed immersion because closed
+immersions of algebraic spaces are stable under base change in the sense of
 `CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange`, hence finite by Stacks
 081Y; and it is surjective on points by
 `AlgebraicGeometry.Space.bijective_pointsMap_spacesBaseChange_projection_of_isThickening`.
@@ -121,11 +129,14 @@ affineness of the target is needed, not of the source.
 
 **The three granted hypotheses, and the unconditional route that was not taken.** `h07VR`,
 `h07SQ` and `hFinitePresentation` are not new assumptions: they are passed unchanged into
-Stacks 07VS, `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`, so the
-results here are exactly as conditional as that theorem and nothing is granted beyond it. The
-reason 07VS carries them at all is that it concludes about a general algebraic space.
+the conditional form of Stacks 07VS,
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`, so the results here are
+exactly as conditional as that theorem and nothing is granted beyond it. Stacks 07VS is proved
+with nothing granted as
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`,
+which these results do not yet use.
 
-The scheme-level route, with nothing granted, does not apply. The
+The scheme-level route, with nothing granted, does not apply directly. The
 implication *is* proved unconditionally for schemes, as
 `Stacks.Thickenings.isAffine_of_isThickening` and its quantified form
 `Stacks.Thickenings.forall_isAffine_of_isThickening` (Stacks 06AD), resting on
@@ -137,17 +148,23 @@ objects whose structure morphism is étale, for `X` an *algebraic space*, so an 
 site is an algebraic space étale over `X`. That is the content of Stacks 03G0, in contrast with
 the small étale site, whose objects are schemes. The cartesian projection `G ×_X U ⟶ U` is
 therefore a thickening of algebraic spaces rather than of schemes, and transferring affineness
-along it is exactly Stacks 07VS. Nor is there an algebraic-space-level form of that transfer
-with nothing granted: `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite` and
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed` both carry the
-grants, and the granted-free statements nearby —
+along it is exactly Stacks 07VS, whose algebraic-space form with nothing granted is
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`;
+the granted-free statements nearby —
 `AlgebraicGeometry.Space.IsFinite.isAffineSpace_source` and
 `AlgebraicGeometry.Space.IsAffineHom.isAffineSpace_source` — run the other way, from an affine
-target to an affine source.
+target to an affine source. The algebraic-space-level transfer along a surjective closed
+immersion is also proved with nothing granted, as
+`AlgebraicGeometry.Space.isAffineSpace_of_isClosedImmersion_of_isSurjective` (the thickening
+case of Stacks 07VT) in
+`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.AffineOfAffineClosedSubspace`, which this file
+does not import; it is what the unconditional Stacks 05ZQ uses.
 
-Stacks 07VT and 07VS are both formalized in
-`StacksFrontier/AlgebraicGeometry/Spaces/AffineOfUniversallyClosedSurjection.lean`, with the granted
-hypotheses described above.
+Conditional forms of Stacks 07VT and 07VS, with the granted hypotheses described above, are in
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineOfUniversallyClosedSurjection.lean`. Both tags are
+also proved with nothing granted, as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`
+and `AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`.
 
 ## References
 
@@ -290,27 +307,19 @@ theorem isAffineSpace_of_isThickening_of_isAffineSpace_baseChange
       (isClosedImmersion_spacesBaseChange_projection_of_isThickening B S hS hG U))
     hU h07VR h07SQ hFinitePresentation
 
-/-- **Stacks 05ZQ.** Let `G ⊂ X` be a thickening of algebraic spaces over `S` and let `U` be an
-object of the spaces-étale site of `X` whose base change `G ×_X U` along the inclusion is
-affine. Then restriction of global regular functions along the cartesian projection
-`G ×_X U ⟶ U`, that is `Γ(U, 𝒪_U) → Γ(G ×_X U, 𝒪_{G ×_X U})`, is surjective.
+/-- **Stacks 05ZQ, granted the hypotheses of Stacks 07VS.** Let `G ⊂ X` be a thickening of
+algebraic spaces over `S` and let `U` be an object of the spaces-étale site of `X` whose base
+change `G ×_X U` along the inclusion is affine. Then restriction of global regular functions
+along the cartesian projection `G ×_X U ⟶ U`, that is `Γ(U, 𝒪_U) → Γ(G ×_X U, 𝒪_{G ×_X U})`, is surjective.
 
 The ambient object `U` is affine by
 `AlgebraicGeometry.Space.isAffineSpace_of_isThickening_of_isAffineSpace_baseChange`, which is
 Stacks 07VS, and the projection is a closed immersion, so
-`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isClosedImmersion` applies. -/
-@[stacks 05ZQ "surjectivity of the restriction of regular functions, stated at the level of \
-the spaces-étale sites: the affine object of the thickening's site is the base change \
-`G ×_X U` of an object `U` of the ambient space's site, and the map is pullback along the \
-cartesian projection `G ×_X U ⟶ U`, which is the closed immersion the source proof uses. The \
-transport of the ambient structure sheaf through Stacks 05ZM is not used and no part of \
-Stacks 05ZM is claimed: in this library 05ZM is formalized as an equivalence of topoi only, so \
-the sheaf `𝒪_{X'}` on the thickening's site does not exist and `Γ(U, 𝒪_{X'})` is `Γ(U, 𝒪_U)` \
-by construction. Granted `h07VR`, `h07SQ` and `hFinitePresentation`, which are passed \
-unchanged to Stacks 07VS, \
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`, and are the conclusions \
-of Stacks 07VR and Stacks 07SQ about inverse systems together with the finite-presentation \
-special case of Stacks 07VS; none is the universally quantified form of this conclusion"]
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isClosedImmersion` applies.
+
+The unconditional form, with the source's quantifier, is
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isThickening`, which carries the
+Stacks 05ZQ registration. -/
 theorem surjective_globalFunctionsMap_projection_of_isThickening
     (hG : IsThickening B S hS X G) (U : SpacesEtale B S hS X)
     (hU : IsAffineSpace B S hS
@@ -338,7 +347,7 @@ theorem surjective_globalFunctionsMap_projection_of_isThickening
 
 /-! ### The first-order case, with the source's quantifier -/
 
-/-- **Stacks 05ZQ at a first-order thickening, with the source's own quantifier.** Let
+/-- **Stacks 05ZQ at a first-order thickening, granted the hypotheses of Stacks 07VS.** Let
 `G ⊂ X` be a *first-order* thickening of algebraic spaces over `S` and let `V` be an
 *arbitrary* object of the spaces-étale site of `G` whose underlying algebraic space is affine.
 Then restriction of global regular functions `Γ(U, 𝒪_U) → Γ(V, 𝒪_V)` is surjective, where `U`
@@ -356,28 +365,11 @@ essential surjectivity. Transporting affineness of `V` across the isomorphism ma
 `U`, and pullback along an isomorphism is bijective on global regular functions, so the
 composite is surjective.
 
-Only the first-order case: Stacks 05ZQ is stated in the source for a thickening of arbitrary
-order, and for such a thickening the weaker parametrisation of
-`AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening` remains all
-that is available. The three hypotheses are threaded unchanged into that theorem. -/
-@[stacks 05ZQ "the FIRST-ORDER thickening case only, with the source's own quantifier: `V` is \
-an arbitrary object of the spaces-étale site of the closed subspace `G` whose underlying \
-algebraic space is affine, and the map is pullback of global regular functions along the \
-composite `V ≅ G ×_X U ⟶ U` of the isomorphism supplied by essential surjectivity of base \
-change with the cartesian projection, `U` being the object of the ambient space's site that \
-essential surjectivity produces. The source states 05ZQ for a thickening of arbitrary order; \
-essential surjectivity, \
-`AlgebraicGeometry.Space.essSurj_spacesBaseChange_of_isFirstOrderThickening`, is proved only \
-at a first-order thickening, so the general case stays with the weaker parametrisation of \
-`AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening`. The \
-source's own second proof, for finite order thickenings, likewise reduces to the first-order \
-case. As for the general statement, the transport of the ambient structure sheaf through \
-Stacks 05ZM is not used and no part of Stacks 05ZM is claimed: `Γ(V, 𝒪_{X'})` is `Γ(U, 𝒪_U)` \
-by construction. Granted `h07VR`, `h07SQ` and `hFinitePresentation`, passed unchanged to the \
-theorem of Stacks 07VS, \
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`, and are the conclusions \
-of Stacks 07VR and Stacks 07SQ about inverse systems together with the finite-presentation \
-special case of Stacks 07VS; none is the universally quantified form of this conclusion"]
+The three hypotheses are threaded unchanged into
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening`. The
+unconditional statement at a thickening of arbitrary order is
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isThickening`, which carries the
+Stacks 05ZQ registration. -/
 theorem surjective_globalFunctionsMap_of_isFirstOrderThickening
     (hG : IsFirstOrderThickening B S hS X G)
     (V : SpacesEtale B S hS (IsThickening.space B S hS (hG.isThickening B S hS)))

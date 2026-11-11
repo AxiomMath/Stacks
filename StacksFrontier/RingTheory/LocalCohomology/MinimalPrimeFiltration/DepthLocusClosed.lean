@@ -16,8 +16,9 @@ proves that the locus
 
 is contained in a **closed** subset of `T`.  That is the datum
 `AlgebraicGeometry.exists_isDepthTwoExtension_of_isClosed_of_subset` needs at `n = 1`, and it is
-the only thing missing from the existence half of [Stacks, Tag 0EI3] along a
-specialization-stable subset.
+the input through which the existence half of [Stacks, Tag 0EI3] along a specialization-stable
+subset is proved (the complete statement is
+`AlgebraicGeometry.existsUnique_isDepthTwoExtension_and_pullback`).
 
 ## The argument
 

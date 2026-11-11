@@ -104,13 +104,17 @@ from.  For `k/k₀` finite separable the coarse groupoid satisfies the automorph
 after extending to a splitting field the base change becomes a finite disjoint union of copies of
 `Spec k'` and every permutation of the pieces is an automorphism over `Spec k'`.
 
-### What is and is not formalized here
+### Where the counterexample is formalized
 
-Only the arithmetic obstruction is formalized.  The surrounding steps — that the coarse groupoid
-is a groupoid scheme, the identification of the base change with `Spec (k ⊗_ℚ k')`, the two prime
-computations, and the determination of the automorphism group — are standard commutative algebra
-whose formalization would require a large amount of infrastructure that the conclusion does not
-warrant; they are recorded above as a mathematical argument and are not checked by the kernel.
+This file holds the arithmetic obstruction.  The whole counterexample is checked by the kernel in
+`StacksFrontier/AlgebraicGeometry/Groupoids/FieldExtensionCounterexample.lean`:
+`Stacks.Groupoids.not_groupoidOnFieldHomogeneousStatement` proves that the printed statement of
+Tag 04LP fails for the coarse groupoid above, with `r` the point `t = s` and `r'` the point
+`s = t²`.  That proof does not compute the whole automorphism group: it shows that the image `W`
+of `u` under a `k'`-algebra automorphism is a unit with `W - 1` a unit, writes both as a
+polynomial in `u` over a nonzero element of `ℚ[u]`, and deduces that either `W` is constant
+(impossible for an injective map) or `W(c)` lies in `L(c)`, where it cannot be a square root of
+`c` for degree reasons.
 
 ## References
 

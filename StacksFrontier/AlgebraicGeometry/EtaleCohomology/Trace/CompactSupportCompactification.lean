@@ -22,10 +22,13 @@ compactification of `X` over the finite field, which is how the source prescribe
 
 The chosen compactification is an explicit argument of every definition here, never a choice
 extracted from an existence statement.  Its independence is therefore a comparison between the
-values at two arguments: given the canonical isomorphism of the two derived lower shriek
-functors, which is [Stacks, Tag 0F7I] and is not proved in this development, the two complexes
-`RΓ_c(X_k̄, -)` and the two families of modules `H^i_c(X_k̄, -)` are canonically isomorphic, and
-the comparisons compose.
+values at two arguments: an isomorphism of the two derived lower shriek functors induces an
+isomorphism of the two complexes `RΓ_c(X_k̄, -)` and of the two families of modules
+`H^i_c(X_k̄, -)`, and the comparisons compose.  The canonical isomorphism of the derived lower
+shriek functors for compactifications of dimension at most one, and with it the independence of
+the compactification of Remark 03UI (2), is constructed in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.GeometricCompactSupportCanonicalComparison`
+(`Stacks.EtaleCohomology.geometricCompactSupportCanonicalComparison`).
 
 ## Main definitions
 
@@ -37,7 +40,8 @@ the comparisons compose.
   `H^i_c(X_k̄, K)`, the `i`-th cohomology of that complex.
 * `Stacks.EtaleCohomology.geometricCompactSupportComparison` and
   `Stacks.EtaleCohomology.geometricCompactSupportGroupComparison` — the comparisons of the
-  complexes and of the modules obtained from two compactifications of `X` over `k`.
+  complexes and of the modules obtained from two compactifications of `X` over `k`, induced by
+  an isomorphism of their derived lower shriek functors.
 
 ## Main results
 
@@ -55,12 +59,14 @@ projective `k`-scheme is, so neither appears in the elaborated type of these def
 is the convention under which [Stacks, Tag 0GJZ] is already stated in this development, where
 the finite type and separatedness of `X` are likewise absent from the formula.
 
-Independence of the choice of `X̄` is not proved.  What is proved is that it follows from the
-independence of `Rf_!`, [Stacks, Tag 0F7I]: that isomorphism is a hypothesis of
-`Stacks.EtaleCohomology.geometricCompactSupportComparison`, whose content is that the
+Independence of the choice of `X̄` is proved in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.GeometricCompactSupportCanonicalComparison`,
+which constructs the canonical isomorphism of the derived lower shriek functors through the
+closure of `X` in `X̄₁ ×_k X̄₂` and feeds it to
+`Stacks.EtaleCohomology.geometricCompactSupportComparison`.  The latter takes an arbitrary
+isomorphism of the derived lower shriek functors as an argument; its content is that the
 comparison it induces on `RΓ_c` and on each `H^i_c` is natural in the coefficient complex and
-compatible with composition.  No comparison is constructed out of thin air, and no coherence is
-asserted of the hypothesis beyond what it is given as.
+compatible with composition.
 
 ## References
 
@@ -183,8 +189,7 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   (Λ : Type r) [Ring Λ]
 
 /-- The derived lower shriek functor `Rf_!` of `X_k̄` over `k̄` formed through the base change
-of a compactification of `X` over `k`.  Its independence of the compactification is
-[Stacks, Tag 0F7I]. -/
+of a compactification of `X` over `k`. -/
 public abbrev geometricLowerShriek :
     DerivedCategory.Plus
         (EtaleModules.{u, r} Λ (pullback f (Stacks.Frobenius.specAlgebraMap k kbar))) ⥤
@@ -192,12 +197,11 @@ public abbrev geometricLowerShriek :
   derivedLowerShriek.{u, r} (pullback.snd f (Stacks.Frobenius.specAlgebraMap k kbar))
     (compactificationFieldBaseChange f j₁ kbar) Λ
 
-/-- **Independence of the compactification.**  An isomorphism of the derived lower shriek
-functors attached to two compactifications of `X` over `k`, which is [Stacks, Tag 0F7I],
-induces an isomorphism of the complexes `RΓ_c(X_k̄, -)` they present, natural in the
-coefficient complex. -/
-@[stacks 03UI "item (2): RΓ_c(X_k̄, -) is independent of the compactification, reduced to the \
-independence of Rf_! of 0F7I, which is a hypothesis here"]
+/-- An isomorphism of the derived lower shriek functors attached to two compactifications of `X`
+over `k` induces an isomorphism of the complexes `RΓ_c(X_k̄, -)` they present, natural in the
+coefficient complex.  Applied to the canonical isomorphism of the derived lower shriek functors
+it gives the independence of the compactification,
+`Stacks.EtaleCohomology.geometricCompactSupportCanonicalComparison`. -/
 public def geometricCompactSupportComparison
     (e : geometricLowerShriek.{u, r} f j₁ kbar Λ ≅ geometricLowerShriek.{u, r} f j₂ kbar Λ) :
     geometricCompactSupportCohomology.{u, r} f j₁ kbar Λ ≅
@@ -225,11 +229,10 @@ public lemma geometricCompactSupportComparison_trans
   ext K
   simp [geometricCompactSupportComparison]
 
-/-- **Independence of the compactification for `H^i_c`.**  The comparison of the complexes
-induces an isomorphism of the modules `H^i_c(X_k̄, -)` in every degree, natural in the
-coefficient complex. -/
-@[stacks 03UI "item (2): H^i_c(X_k̄, -) is independent of the compactification, induced by the \
-comparison of the complexes"]
+/-- The comparison of the complexes induces an isomorphism of the modules `H^i_c(X_k̄, -)` in
+every degree, natural in the coefficient complex.  Applied to the canonical isomorphism of the
+derived lower shriek functors it gives
+`Stacks.EtaleCohomology.geometricCompactSupportGroupCanonicalComparison`. -/
 public def geometricCompactSupportGroupComparison
     (e : geometricLowerShriek.{u, r} f j₁ kbar Λ ≅ geometricLowerShriek.{u, r} f j₂ kbar Λ)
     (i : ℤ) :

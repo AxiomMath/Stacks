@@ -41,8 +41,8 @@ file proves that this fails for
 The gap in the source is in the proof of [Stacks, Tag 0DJA] (3): `L(g')^*` of the Hom complex
 `𝓗om^•(P, 𝒢^•)` out of a bounded above complex `P` of finite free modules is computed term by term,
 but that Hom complex is a bounded *below* complex of `S`-flat modules, which need not be K-flat.
-The corrected statement, for flat `g`, is
-`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_flat`.
+The corrected statement (`errata.md`, entry **08IE(2)**), for `g` of finite Tor dimension, is
+`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`.
 
 ## Main results
 

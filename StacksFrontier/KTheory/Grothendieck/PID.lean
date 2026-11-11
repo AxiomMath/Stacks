@@ -203,17 +203,17 @@ noncomputable def K0toK0' : K0OfProjGen R →+ K0PrimeOfFinPres R :=
 
 section Rank
 
-/-- The integer rank of the module attached to a generator, over a PID `R`. -/
-noncomputable def K0'Gen.rankZ (R : Type*) [CommRing R] [IsDomain R] [IsPrincipalIdealRing R]
+/-- The integer rank of the module attached to a generator. -/
+noncomputable def K0'Gen.rankZ (R : Type*) [CommRing R]
     (p : K0'Gen R) : ℤ :=
   ((Module.rank R (K0'Gen.module R p)).toNat : ℤ)
 
 universe u
 
-/-- Rank is additive on short exact sequences of finite modules over a PID
+/-- Rank is additive on short exact sequences of modules over a domain
     (all modules in the same universe). -/
 @[sga "6 I 6.0" "(ii), special case"]
-theorem rank_shortExact {R : Type u} [CommRing R] [IsDomain R] [IsPrincipalIdealRing R]
+theorem rank_shortExact {R : Type u} [CommRing R] [IsDomain R]
     {M₁ M₂ M₃ : Type u} [AddCommGroup M₁] [Module R M₁] [AddCommGroup M₂] [Module R M₂]
     [AddCommGroup M₃] [Module R M₃] (f : M₁ →ₗ[R] M₂) (g : M₂ →ₗ[R] M₃) (hf : Function.Injective f)
     (hg : Function.Surjective g) (hfg : LinearMap.range f = LinearMap.ker g) :
@@ -230,9 +230,8 @@ theorem rank_shortExact {R : Type u} [CommRing R] [IsDomain R] [IsPrincipalIdeal
 
 section RankZ
 
-variable {R : Type u} [CommRing R] [IsDomain R] [IsPrincipalIdealRing R]
+variable {R : Type u} [CommRing R] [IsDomain R]
 
-omit [IsPrincipalIdealRing R] in
 /-- Each generator's module has finite rank. -/
 theorem K0'Gen.rank_lt_aleph0 (p : K0'Gen R) :
     Module.rank R (K0'Gen.module R p) < Cardinal.aleph0 :=
@@ -357,12 +356,13 @@ end Classes
 
 section RankHom
 
-variable (R : Type u) [CommRing R] [IsDomain R] [IsPrincipalIdealRing R]
+variable (R : Type u) [CommRing R] [IsDomain R]
 
 /-- The rank map on the free abelian group of generators. -/
 noncomputable def rankFree : FreeAbelianGroup (K0'Gen R) →+ ℤ :=
   FreeAbelianGroup.lift (fun p => K0'Gen.rankZ R p)
 
+omit [IsDomain R] in
 /-- The rank map sends a generator to the rank of its module. -/
 @[simp]
 theorem rankFree_of (p : K0'Gen R) : rankFree R (FreeAbelianGroup.of p) = K0'Gen.rankZ R p := by
@@ -458,18 +458,18 @@ private def K0'Gen.free1Equiv (R : Type*) [CommRing R] : K0'Gen.module R (K0'Gen
 section Sketch
 
 universe u
-variable {R : Type u} [CommRing R] [IsDomain R] [IsPrincipalIdealRing R]
+variable {R : Type u} [CommRing R]
 open scoped DirectSum
 
 /-- The abstract class in `K0'` of an arbitrary finite `R`-module, defined as the
     class of a chosen generator presenting it. -/
-noncomputable def K0PrimeOfFinPres.mkM (R : Type u) [CommRing R] [IsDomain R]
-    [IsPrincipalIdealRing R] (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M] :
+noncomputable def K0PrimeOfFinPres.mkM (R : Type u) [CommRing R]
+    (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M] :
     K0PrimeOfFinPres R :=
   K0PrimeOfFinPres.mk R (exists_generator_iso (R := R) M).choose
 
 /-- The abstract integer rank of a finite module. -/
-noncomputable def rankZM (R : Type u) [CommRing R] [IsDomain R] [IsPrincipalIdealRing R]
+noncomputable def rankZM (R : Type u) [CommRing R]
     (M : Type u) [AddCommGroup M] [Module R M] : ℤ :=
   ((Module.rank R M).toNat : ℤ)
 
@@ -515,7 +515,8 @@ theorem K0PrimeOfFinPres.mkM_shortExact {A B C : Type u} [AddCommGroup A] [Modul
 
 /-- Abstract additivity of the rank across a short exact sequence of finite modules. -/
 @[sga "6 I 6.0" "(ii), special case"]
-theorem rankZM_shortExact {A B C : Type u} [AddCommGroup A] [Module R A] [Module.Finite R A]
+theorem rankZM_shortExact [IsDomain R] {A B C : Type u} [AddCommGroup A] [Module R A]
+    [Module.Finite R A]
     [AddCommGroup B] [Module R B] [Module.Finite R B] [AddCommGroup C] [Module R C]
     [Module.Finite R C] (f : A →ₗ[R] B) (g : B →ₗ[R] C) (hf : Function.Injective f)
     (hg : Function.Surjective g) (hfg : LinearMap.range f = LinearMap.ker g) :
@@ -536,7 +537,7 @@ theorem K0PrimeOfFinPres.mkM_prod (M N : Type u) [AddCommGroup M] [Module R M] [
 
 /-- The rank is additive over binary products. -/
 @[ega "I 6.4.5" "(6.4.5.1), special case"]
-theorem rankZM_prod (M N : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M]
+theorem rankZM_prod [IsDomain R] (M N : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M]
     [AddCommGroup N] [Module R N] [Module.Finite R N] :
     rankZM R (M × N) = rankZM R M + rankZM R N := by
   refine
@@ -570,13 +571,13 @@ theorem K0PrimeOfFinPres.mkM_free (n : ℕ) :
     rw [add_smul, one_smul, add_comm]
 
 /-- The rank of the free module `R^n` is `n`. -/
-theorem rankZM_free (n : ℕ) : rankZM R (Fin n → R) = (n : ℤ) := by
+theorem rankZM_free [IsDomain R] (n : ℕ) : rankZM R (Fin n → R) = (n : ℤ) := by
   unfold rankZM
   rw [rank_fun']
   simp
 
 /-- A nonzero-modulus cyclic quotient `R/(d)` has class `0`. -/
-theorem K0PrimeOfFinPres.mkM_cyclic_zero (d : R) (hd : d ≠ 0) :
+theorem K0PrimeOfFinPres.mkM_cyclic_zero [IsDomain R] (d : R) (hd : d ≠ 0) :
     K0PrimeOfFinPres.mkM R (R ⧸ R ∙ d) = 0 := by
   have hkey :
     K0PrimeOfFinPres.mkM R R = K0PrimeOfFinPres.mkM R R + K0PrimeOfFinPres.mkM R (R ⧸ R ∙ d) := by
@@ -596,7 +597,7 @@ theorem K0PrimeOfFinPres.mkM_cyclic_zero (d : R) (hd : d ≠ 0) :
   simpa using sub_eq_zero.mpr hkey.symm
 
 /-- A nonzero-modulus cyclic quotient `R/(d)` has rank `0`. -/
-theorem rankZM_cyclic_zero (d : R) (hd : d ≠ 0) : rankZM R (R ⧸ R ∙ d) = 0 := by
+theorem rankZM_cyclic_zero [IsDomain R] (d : R) (hd : d ≠ 0) : rankZM R (R ⧸ R ∙ d) = 0 := by
   have htor : Module.IsTorsion R (R ⧸ R ∙ d) := by
     intro x
     refine ⟨⟨d, ?_⟩, ?_⟩
@@ -625,7 +626,8 @@ noncomputable def piFinSuccEquiv (m : ℕ) (N : Fin (m + 1) → Type u) [∀ i, 
   right_inv p := by refine Prod.ext ?_ ?_ <;> simp
 
 /-- A finite product of nonzero-modulus cyclic quotients has class `0`. -/
-theorem K0PrimeOfFinPres.mkM_pi_cyclic_zero (m : ℕ) (d : Fin m → R) (hd : ∀ i, d i ≠ 0) :
+theorem K0PrimeOfFinPres.mkM_pi_cyclic_zero [IsDomain R] (m : ℕ) (d : Fin m → R)
+    (hd : ∀ i, d i ≠ 0) :
     K0PrimeOfFinPres.mkM R (Π i : Fin m, R ⧸ R ∙ d i) = 0 := by
   induction m with
   | zero => exact K0PrimeOfFinPres.mkM_subsingleton _
@@ -635,7 +637,7 @@ theorem K0PrimeOfFinPres.mkM_pi_cyclic_zero (m : ℕ) (d : Fin m → R) (hd : �
       ih (fun i => d i.succ) (fun i => hd i.succ), add_zero]
 
 /-- A finite product of nonzero-modulus cyclic quotients has rank `0`. -/
-theorem rankZM_pi_cyclic_zero (m : ℕ) (d : Fin m → R) (hd : ∀ i, d i ≠ 0) :
+theorem rankZM_pi_cyclic_zero [IsDomain R] (m : ℕ) (d : Fin m → R) (hd : ∀ i, d i ≠ 0) :
     rankZM R (Π i : Fin m, R ⧸ R ∙ d i) = 0 := by
   induction m with
   | zero =>
@@ -651,7 +653,8 @@ theorem rankZM_pi_cyclic_zero (m : ℕ) (d : Fin m → R) (hd : ∀ i, d i ≠ 0
     is `(rankZ p) • [R]`, where `[R] = K0PrimeOfFinPres.mk R (K0'Gen.free1 R)` is the
     class of the rank-1 free module. -/
 @[sga "6 IX 1.7" "partial"]
-theorem K0PrimeOfFinPres.mk_eq_rankZ_smul_free1 (p : K0'Gen R) :
+theorem K0PrimeOfFinPres.mk_eq_rankZ_smul_free1 [IsDomain R] [IsPrincipalIdealRing R]
+    (p : K0'Gen R) :
     K0PrimeOfFinPres.mk R p = (K0'Gen.rankZ R p) • (K0PrimeOfFinPres.mk R (K0'Gen.free1 R)) := by
   obtain ⟨n, ι, hιfin, pr, hirr, e, ⟨equ⟩⟩ :=
     Module.equiv_free_prod_directSum R (K0'Gen.module R p)
@@ -682,7 +685,7 @@ theorem K0PrimeOfFinPres.mk_eq_rankZ_smul_free1 (p : K0'Gen R) :
     Tactic hint: `Submodule.quotEquivOfEqBot`, `LinearEquiv.rank_eq`,
     `rank_fun'` / `Module.rank_fin_fun` (rank of `Fin 1 → R` is `1`),
     `Cardinal.toNat_one`. -/
-theorem K0'Gen.rankZ_free1 : K0'Gen.rankZ R (K0'Gen.free1 R) = 1 := by
+theorem K0'Gen.rankZ_free1 [IsDomain R] : K0'Gen.rankZ R (K0'Gen.free1 R) = 1 := by
   have e : (K0'Gen.module R (K0'Gen.free1 R)) ≃ₗ[R] (Fin 1 → R) := Submodule.quotEquivOfEqBot _ rfl
   unfold K0'Gen.rankZ
   rw [e.rank_eq, rank_fun']
@@ -690,10 +693,9 @@ theorem K0'Gen.rankZ_free1 : K0'Gen.rankZ R (K0'Gen.free1 R) = 1 := by
 
 /-- **D3.**  `rankHom` sends the free class to `1`. -/
 @[sga "6 IX 1.7" "partial"]
-theorem rankHom_free1 : rankHom R (K0PrimeOfFinPres.mk R (K0'Gen.free1 R)) = 1 := by
+theorem rankHom_free1 [IsDomain R] : rankHom R (K0PrimeOfFinPres.mk R (K0'Gen.free1 R)) = 1 := by
   rw [rankHom_mk, K0'Gen.rankZ_free1]
 
-omit [IsDomain R] [IsPrincipalIdealRing R] in
 /-- **D4 (surjectivity of `K0'.mk` onto `K0'`).**  `K0'(R)` is generated by the
     classes `K0PrimeOfFinPres.mk R p`; in fact every element is `K0PrimeOfFinPres.mk`
     of some generator's class composed via the group structure.  We only need: the
@@ -719,7 +721,8 @@ set_option backward.isDefEq.respectTransparency false in
     D1, and `rankHom (mk' (of p)) = rankZ p`; additivity and negation propagate the
     linear relation.  Hence `x = (rankHom R x) • [R]`. -/
 @[sga "6 IX 1.7" "partial"]
-theorem K0PrimeOfFinPres.eq_rankHom_smul_free1 (x : K0PrimeOfFinPres R) :
+theorem K0PrimeOfFinPres.eq_rankHom_smul_free1 [IsDomain R] [IsPrincipalIdealRing R]
+    (x : K0PrimeOfFinPres R) :
     x = (rankHom R x) • (K0PrimeOfFinPres.mk R (K0'Gen.free1 R)) := by
   refine eq_hom_smul_of_gens (rankHom R) _ (fun p => ?_) x
   have h := K0PrimeOfFinPres.mk_eq_rankZ_smul_free1 p
@@ -730,12 +733,13 @@ theorem K0PrimeOfFinPres.eq_rankHom_smul_free1 (x : K0PrimeOfFinPres R) :
     `rankHom [R] = 1` (D3) and `rankHom` is additive.  Injective: if
     `rankHom x = 0` then `x = (rankHom x) • [R] = 0` by D5. -/
 @[sga "6 IX 1.7"]
-theorem rankHom_bijective : Function.Bijective (rankHom R) :=
+theorem rankHom_bijective [IsDomain R] [IsPrincipalIdealRing R] : Function.Bijective (rankHom R) :=
   bijective_of_eq_smul _ _ rankHom_free1 K0PrimeOfFinPres.eq_rankHom_smul_free1
 
 /-- **D7 (`K0'(R) ≃+ ℤ` via `rankHom`).** -/
 @[sga "6 IX 1.7"]
-noncomputable def K0PrimeOfFinPres.rankEquiv : K0PrimeOfFinPres R ≃+ ℤ :=
+noncomputable def K0PrimeOfFinPres.rankEquiv [IsDomain R] [IsPrincipalIdealRing R] :
+    K0PrimeOfFinPres R ≃+ ℤ :=
   AddEquiv.ofBijective (rankHom R) (rankHom_bijective)
 
 end Sketch
@@ -770,6 +774,7 @@ omit [IsDomain R] [IsPrincipalIdealRing R] in
 theorem K0toK0'_free1 :
     K0toK0' R (K0OfProjGen.mk R (K0Gen.free1 R)) = K0PrimeOfFinPres.mk R (K0'Gen.free1 R) := rfl
 
+omit [IsPrincipalIdealRing R] in
 /-- `rankHomK0` sends the free class to `1`. -/
 @[sga "6 IX 1.7" "partial"]
 theorem rankHomK0_free1 : rankHomK0 R (K0OfProjGen.mk R (K0Gen.free1 R)) = 1 := by

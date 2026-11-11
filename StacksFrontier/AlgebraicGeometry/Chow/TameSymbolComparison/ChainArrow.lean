@@ -15,8 +15,8 @@ finite in `x'` (for a class `α` and a quasi-compact open `U` only finitely many
 
 (`Stacks.Chow.chainArrow`). It is the construction of `Stacks.Chow.dimMilnorChainBoundary` with
 an arbitrary family of local components in place of the tame symbol, so that the arrows of
-Stacks 0EAY can be built from the tame symbol of Section 42.5 (Stacks 02Q1) and from the order
-of vanishing.
+Stacks 0EAY can be built from a tame symbol — the symbol `d_A` of Stacks 02Q1, or the tame
+symbol of Section 42.5 given by the recipe of Stacks 0EAQ — and from the order of vanishing.
 
 ## Main definitions
 

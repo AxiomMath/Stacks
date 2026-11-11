@@ -64,9 +64,8 @@ Implication (1) ⇒ (2) is the source's: the representing object of `F' ×_{G'} 
 finite presentation projection to `V`, hence is locally Noetherian when `V` is. The finite
 presentation step needs the limit criterion of Stacks 01ZC tested on *directed* inverse systems,
 because that is the shape in which
-`AlgebraicGeometry.ExtendingFunctors.PreservesAffineLimits` supplies limit preservation; the
-criterion of Stacks 0CM0 is stated for arbitrary cofiltered index categories, and the sharper
-directed form it already proves is
+`AlgebraicGeometry.ExtendingFunctors.PreservesAffineLimits` supplies limit preservation; that is
+the criterion of Stacks 0CM0,
 `AlgebraicGeometry.locallyOfFinitePresentation_of_directedAffineLimit_surjective`.
 
 Only limit preservation of `F'` and `G'` is used, not the sheaf condition and not the topology;
@@ -77,7 +76,7 @@ specialisation to the hypotheses of the source.
 |---|---|
 | Tag 001X | `CategoryTheory.Functor.relativelyRepresentable` |
 | Tag 0GE3 | `AlgebraicGeometry.ExtendingFunctors.IsLocallyNoetherianOver` |
-| Tag 0CM0 | `AlgebraicGeometry.locallyOfFinitePresentation_of_affineLimit_surjective` |
+| Tag 0CM0 | `AlgebraicGeometry.locallyOfFinitePresentation_of_directedAffineLimit_surjective` |
 
 ## References
 

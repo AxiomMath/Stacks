@@ -204,7 +204,7 @@ private lemma isAffine_reducedInduced_levelSet_of_isAffineOpen_maxLocus
 schemes and let `w : X → ℤ_{>0}` be a positive weighting of `f`. If `X` is affine and `Y` is
 separated, then the affine stratification number of `Y` is at most the number of distinct values
 of the weighted fibre integral `∫_f w`. -/
-@[stacks 0F3S]
+@[stacks 0F3S "quasi-finite as LocallyOfFiniteType and LocallyQuasiFinite; bound as in source"]
 theorem affineStratificationNumber_le_ncard_separableDegreeWeightedFiberSum
     {X Y : Scheme.{u}} [IsAffine X] [Y.IsSeparated] (f : X ⟶ Y)
     [Surjective f] [LocallyOfFiniteType f] [LocallyQuasiFinite f]

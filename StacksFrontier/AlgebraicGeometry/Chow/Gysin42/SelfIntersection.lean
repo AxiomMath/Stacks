@@ -243,7 +243,9 @@ integral components of the zero scheme, the composite of proper pushforward alon
 descended Gysin map is the descended cap product, `A_{k+1}(D) ⟶ A_k(D)`.
 
 The two descent hypotheses are those of Stacks 02TO for the Gysin map and of Stacks 02TI for the
-cap product, carried as hypotheses throughout this repository. The instance of Stacks 02S2 that
+cap product, stated here for arbitrary component rules `chern`; for the first Chern class rule of
+an invertible module Stacks 02TO is proved, as
+`Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`. The instance of Stacks 02S2 that
 `Stacks.Chow.properChowPushforward` requires is discharged, `i` being a closed immersion. -/
 theorem gysinHomomorphismOnChow_properChowPushforward_subschemeι
     (hgysin : GysinFactorsThroughRationalEquivalence C p k L s chern)

@@ -35,13 +35,18 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFuncto
 
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, where `𝒜` has enough
 injectives. The family `{R ⁱ F, δ}_{i ≥ 0}` is a cohomological `δ`-functor, universal as soon as
-every object of `𝒜` embeds into a right acyclic object ([Stacks, Tag 05TE], via Grothendieck's
-criterion [Stacks, Tag 010T]). The file also proves that right derived functors move cohomology
-to the right ([Stacks, Tag 05TC]).
+every object of `𝒜` embeds into a right acyclic object (the enough-injectives case of
+[Stacks, Tag 05TE], via Grothendieck's criterion [Stacks, Tag 010T]). The core of the argument,
+`CategoryTheory.Functor.isDeltaFunctor_and_isUniversal_of_deltaFunctorStructure`, is stated for any
+`δ`-functor into `D⁺(ℬ)`; the tag itself, for an everywhere defined `RF` and no injectives, is
+`CategoryTheory.Functor.isDeltaFunctor_and_isUniversal_of_isRightDerivable` in
+`StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedDeltaFunctor`. The file also proves
+that right derived functors move cohomology to the right ([Stacks, Tag 05TC]).
 
 ## Main results
 
 * `CategoryTheory.Functor.rightDerivedPlus_isDeltaFunctor_and_isUniversal`
+* `CategoryTheory.Functor.isDeltaFunctor_and_isUniversal_of_deltaFunctorStructure`
 * `CategoryTheory.Functor.isGE_and_isIso_homologyFunctor_map_of_isRightDerivedValueAt`
 
 ## References
@@ -440,7 +445,13 @@ set_option maxHeartbeats 1600000 in
 -- spellings of the functors `R ⁱ F`: `H ⁱ ∘ RF ∘ (·[0])` on this side and `G ⋙ H⁰.shift i` in
 -- [Stacks, Tag 05SR], and the shift sequence of `H ⁰` has to be unfolded to identify them.
 open ShortComplex Pretriangulated in
-/-- **The higher right derived functors form a universal `δ`-functor**, [Stacks 05TE].
+/-- **The higher right derived functors form a universal `δ`-functor: the enough-injectives
+case** of [Stacks, Tag 05TE]. The tag itself, which assumes only that `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` is
+everywhere defined, is
+`CategoryTheory.Functor.isDeltaFunctor_and_isUniversal_of_isRightDerivable`; here enough
+injectives is assumed instead, a strictly stronger hypothesis under which the hypothesis of part (2)
+always holds (an injective object is right acyclic), and `RF` is the chosen
+`Functor.rightDerivedFunctorPlus`.
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, where `𝒜` has enough
 injectives, so that `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` is everywhere defined and `R ⁱ F = H ⁱ ∘ RF ∘ (·[0])`.
 Let `h` be a `δ`-functor structure on `A ↦ RF(A[0]) : 𝒜 ⥤ D⁺(ℬ)`, and let `δ` be the connecting
@@ -453,7 +464,6 @@ attaches to a short exact sequence `0 ⟶ A ⟶ B ⟶ C ⟶ 0` of `𝒜`. Then
    `{R ⁱ F, δ}_{i ≥ 0}` is a universal `δ`-functor: for every `δ`-functor `{G ⁱ, δ_G}_{i ≥ 0}`
    from `𝒜` to `ℬ` and every `t₀ : R ⁰ F ⟶ G ⁰` there is a unique family `t ⁱ : R ⁱ F ⟶ G ⁱ`
    commuting with `δ` and `δ_G` and with `t ⁰ = t₀`. -/
-@[stacks 05TE]
 public theorem rightDerivedPlus_isDeltaFunctor_and_isUniversal
     {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
     [HasDerivedCategory C] [HasDerivedCategory D] (F : C ⥤ D) [F.Additive] [EnoughInjectives C]
@@ -528,6 +538,85 @@ public theorem rightDerivedPlus_isDeltaFunctor_and_isUniversal
     (fun _ A => hmono A) (fun n A => ?_) t₀
   have h015C := (rightAcyclic_iff_isIso_and_isZero_rightDerivedPlus F (Mo A)).1.mp (hacyc A)
   exact (h015C.2 ((n : ℤ) + 1) (by positivity)).eq_zero_of_tgt _
+
+open ShortComplex Pretriangulated in
+/-- **The `δ`-functor attached to a `δ`-functor into `D⁺(ℬ)`, and its universality**: the common
+core of [Stacks, Tag 05TE] for any right derived functor. Let `G : 𝒜 ⥤ D⁺(ℬ)` carry a `δ`-functor
+structure `h` with `H ⁻¹(G(A)) = 0` for every `A`, and let `δ` be the connecting morphism
+`H ⁱ(G(C)) ⟶ H ⁱ⁺¹(G(A))` that the homology sequence of the distinguished triangles of `h`
+attaches to a short exact sequence `0 ⟶ A ⟶ B ⟶ C ⟶ 0` of `𝒜`. Then `{H ⁱ ∘ G, δ}_{i ≥ 0}` is a
+cohomological `δ`-functor ([Stacks, Tag 05SR]), and it is universal as soon as every object of `𝒜`
+admits a monomorphism into an object `I` with `H ⁱ(G(I)) = 0` for all `i > 0` (Grothendieck's
+criterion, [Stacks, Tag 010T]). -/
+public theorem isDeltaFunctor_and_isUniversal_of_deltaFunctorStructure
+    {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D] [HasDerivedCategory D]
+    (G : C ⥤ DerivedCategory.Plus D)
+    (h : DeltaFunctorStructure C (DerivedCategory.Plus D) G)
+    (hG : ∀ A : C, IsZero ((DerivedCategory.Plus.homologyFunctor D (-1)).obj (G.obj A)))
+    (δ : ∀ {S : ShortComplex C}, S.ShortExact → ∀ i : ℕ,
+      (G ⋙ DerivedCategory.Plus.homologyFunctor D i).obj S.X₃ ⟶
+        (G ⋙ DerivedCategory.Plus.homologyFunctor D (i + 1)).obj S.X₁)
+    (hδ : ∀ {S : ShortComplex C} (hS : S.ShortExact) (i : ℕ), δ hS i =
+      (DerivedCategory.Plus.homologyFunctor D 0).homologySequenceδ
+        (Triangle.mk (G.map S.f) (G.map S.g) (h.δ hS)) i (i + 1) rfl) :
+    ((∀ i : ℕ, (G ⋙ DerivedCategory.Plus.homologyFunctor D i).Additive) ∧
+      (∀ {S : ShortComplex C}, S.ShortExact →
+        Mono ((G ⋙ DerivedCategory.Plus.homologyFunctor D 0).map S.f)) ∧
+      (∀ {S : ShortComplex C} (_ : S.ShortExact) (i : ℕ),
+        ∃ hz : (G ⋙ DerivedCategory.Plus.homologyFunctor D i).map S.f ≫
+            (G ⋙ DerivedCategory.Plus.homologyFunctor D i).map S.g = 0,
+          (ShortComplex.mk _ _ hz).Exact) ∧
+      (∀ {S : ShortComplex C} (hS : S.ShortExact) (i : ℕ),
+        ∃ hz : (G ⋙ DerivedCategory.Plus.homologyFunctor D i).map S.g ≫ δ hS i = 0,
+          (ShortComplex.mk _ _ hz).Exact) ∧
+      (∀ {S : ShortComplex C} (hS : S.ShortExact) (i : ℕ),
+        ∃ hz : δ hS i ≫ (G ⋙ DerivedCategory.Plus.homologyFunctor D (i + 1)).map S.f = 0,
+          (ShortComplex.mk _ _ hz).Exact) ∧
+      (∀ {S S' : ShortComplex C} (hS : S.ShortExact) (hS' : S'.ShortExact) (φ : S ⟶ S') (i : ℕ),
+        (G ⋙ DerivedCategory.Plus.homologyFunctor D i).map φ.τ₃ ≫ δ hS' i =
+          δ hS i ≫ (G ⋙ DerivedCategory.Plus.homologyFunctor D (i + 1)).map φ.τ₁)) ∧
+    ((∀ A : C, ∃ (I : C) (u : A ⟶ I), Mono u ∧
+        ∀ i : ℕ, IsZero ((G ⋙ DerivedCategory.Plus.homologyFunctor D (i + 1)).obj I)) →
+      ∀ (E : ℕ → C ⥤ D) (_ : ∀ i, (E i).Additive)
+        (δE : ∀ {S : ShortComplex C}, S.ShortExact → ∀ i : ℕ,
+          (E i).obj S.X₃ ⟶ (E (i + 1)).obj S.X₁),
+        (∀ {S : ShortComplex C}, S.ShortExact → Mono ((E 0).map S.f)) →
+        (∀ {S : ShortComplex C} (_ : S.ShortExact) (i : ℕ),
+          ∃ hz : (E i).map S.f ≫ (E i).map S.g = 0, (ShortComplex.mk _ _ hz).Exact) →
+        (∀ {S : ShortComplex C} (hS : S.ShortExact) (i : ℕ),
+          ∃ hz : (E i).map S.g ≫ δE hS i = 0, (ShortComplex.mk _ _ hz).Exact) →
+        (∀ {S : ShortComplex C} (hS : S.ShortExact) (i : ℕ),
+          ∃ hz : δE hS i ≫ (E (i + 1)).map S.f = 0, (ShortComplex.mk _ _ hz).Exact) →
+        (∀ {S S' : ShortComplex C} (hS : S.ShortExact) (hS' : S'.ShortExact) (φ : S ⟶ S')
+          (i : ℕ), (E i).map φ.τ₃ ≫ δE hS' i = δE hS i ≫ (E (i + 1)).map φ.τ₁) →
+        ∀ t₀ : G ⋙ DerivedCategory.Plus.homologyFunctor D 0 ⟶ E 0,
+          ∃! t : ∀ i : ℕ, G ⋙ DerivedCategory.Plus.homologyFunctor D i ⟶ E i,
+            t 0 = t₀ ∧ ∀ {S : ShortComplex C} (hS : S.ShortExact) (i : ℕ),
+              (t i).app S.X₃ ≫ δE hS i = δ hS i ≫ (t (i + 1)).app S.X₁) := by
+  -- Part (1): the `δ`-functor structure, [Stacks, Tag 05SR] applied to `H ⁰`.
+  obtain ⟨hadd, hmono0, hex₂, hexl, hexr, hnat⟩ :=
+    DeltaFunctorStructure.isCohomologicalDeltaFunctor_comp_shift h
+      (DerivedCategory.Plus.homologyFunctor D 0) hG δ hδ
+  refine ⟨⟨hadd, hmono0, hex₂, hexl, hexr, hnat⟩, ?_⟩
+  -- Part (2): universality, by Grothendieck's criterion.
+  intro heff Ef Eadd δE _ _ Eexl Eexr Enat t₀
+  let R : DeltaFunctor C D :=
+    { obj := fun i => G ⋙ DerivedCategory.Plus.homologyFunctor D i
+      additive := hadd
+      δ := fun hS i => δ hS i
+      exact_δ_left := fun hS i => hexl hS i
+      exact_δ_right := fun hS i => hexr hS i
+      δ_naturality := fun hS hS' φ i => hnat hS hS' φ i }
+  let Ed : DeltaFunctor C D :=
+    { obj := Ef
+      additive := Eadd
+      δ := fun hS i => δE hS i
+      exact_δ_left := fun hS i => Eexl hS i
+      exact_δ_right := fun hS i => Eexr hS i
+      δ_naturality := fun hS hS' φ i => Enat hS hS' φ i }
+  choose Mo uu hmono hzero using heff
+  exact existsUnique_of_effaceable R Ed (fun _ A => Mo A) (fun _ A => uu A)
+    (fun _ A => hmono A) (fun n A => (hzero A n).eq_of_tgt _ _) t₀
 
 end CategoryTheory.Functor
 

@@ -54,8 +54,8 @@ universe where the direct image lives, and it is the only form in which the situ
 consumed here.  It is named in the clause string.
 
 *The three further carried hypotheses* are not content of Stacks 07V0 and are all inherited.
-`h03DW` and `h072Z` are the hypotheses of
-`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`, the library's form of Stacks 0D2U,
+`h03DW` and `h072Z` are the two inputs of the Leray collapse
+`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise`,
 namely the affine case of Stacks 073H on the small étale site (Stacks 03DW) and the acyclicity
 of Stacks 072Z read through part (3) of Stacks 0731; `h07U8` is the hypothesis
 `AlgebraicGeometry.Space.SchemeTargetAffinePushforwardQuasicoherent` of the library's form of

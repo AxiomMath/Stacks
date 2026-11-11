@@ -49,6 +49,14 @@ which a family of morphisms covers when each of its members is strongly cartesia
 and the family of images covers in `𝒞`.
 
 Stacks 06NW says that `F` is then a continuous and a cocontinuous functor between those two sites.
+This file proves Stacks 06NW in the special case where `𝒞` has fibre products (`[HasPullbacks 𝒞]`,
+which Stacks does not assume). The registered forms of Stacks 06NW, with no hypothesis on the base
+beyond its topology, are
+`CategoryTheory.Functor.IsFibredOneMorphism.isContinuous_inheritedTopology` and
+`CategoryTheory.Functor.IsFibredOneMorphism.isCocontinuous_inheritedTopology`
+(`StacksFrontier/CategoryTheory/Sites/InheritedTopology/OneMorphismContinuity.lean`), and the
+morphism of topoi derived from them in
+`StacksFrontier/CategoryTheory/Sites/InheritedTopology/OneMorphismTopoi.lean`.
 
 Consequently `F` induces a morphism of topoi `f : Sh(𝒳) ⟶ Sh(𝒴)` whose inverse image is plain
 restriction, so that `f⁻¹(𝒢)(x) = 𝒢(F x)`, and whose direct image is the right Kan extension along
@@ -174,8 +182,11 @@ public theorem IsFibredOneMorphism.preservesLimit_cospan_of_isStronglyCartesian
 /-- Let `(𝒞, J)` be a site and let `F : 𝒳 ⥤ 𝒴` be a 1-morphism of fibred categories over `𝒞`
 (Stacks 02XP), so that `F ⋙ q = p` and `F` preserves strongly cartesian morphisms. Then `F` is a
 continuous and a cocontinuous functor between the topologies that `𝒳` and `𝒴` inherit from `𝒞`
-(Stacks 06NV). -/
-@[stacks 06NW]
+(Stacks 06NV).
+
+This is the special case of Stacks 06NW in which `𝒞` has fibre products; the general form, with no
+`[HasPullbacks 𝒞]`, is `IsFibredOneMorphism.isContinuous_inheritedTopology` together with
+`IsFibredOneMorphism.isCocontinuous_inheritedTopology`. -/
 public theorem IsFibredOneMorphism.isContinuous_and_isCocontinuous_inheritedTopology
     [HasPullbacks 𝒞] (J : GrothendieckTopology 𝒞) {p : 𝒳 ⥤ 𝒞} {q : 𝒴 ⥤ 𝒞} {F : 𝒳 ⥤ 𝒴}
     [p.IsFibered] [q.IsFibered] (hF : p.IsFibredOneMorphism q F) :
@@ -248,6 +259,9 @@ public theorem IsFibredOneMorphism.isContinuous_and_isCocontinuous_inheritedTopo
 `F` induces a morphism of topoi `f : Sh(𝒳) ⟶ Sh(𝒴)` with `f_* = {}_sF = {}_pF` the right Kan
 extension along `F.op`, `f⁻¹ = F^s = F^p` plain restriction along `F.op`, and
 `f⁻¹(𝒢)(x) = 𝒢(F x)`. Here `A` is any category of coefficients.
+
+The declarations of this section assume `[HasPullbacks 𝒞]`, which Stacks 06NW does not; the
+forms without it are in `StacksFrontier/CategoryTheory/Sites/InheritedTopology/OneMorphismTopoi.lean`.
 -/
 
 universe v₄ u₄
@@ -261,7 +275,6 @@ variable [HasPullbacks 𝒞] (J : GrothendieckTopology 𝒞) {p : 𝒳 ⥤ 𝒞}
 /-- The inverse image of the morphism of topoi induced by a 1-morphism of fibred categories is
 plain restriction along `F.op`: as a functor to presheaves on `𝒳` it is `sheafToPresheaf` followed
 by precomposition with `F.op`, with no sheafification intervening. -/
-@[stacks 06NW]
 def IsFibredOneMorphism.inverseImageCompSheafToPresheafIso :
     letI := (hF.isContinuous_and_isCocontinuous_inheritedTopology J).1
     F.sheafPushforwardContinuous A (p.inheritedTopology J) (q.inheritedTopology J) ⋙
@@ -272,7 +285,6 @@ def IsFibredOneMorphism.inverseImageCompSheafToPresheafIso :
 
 /-- The formula `f⁻¹(𝒢)(x) = 𝒢(F x)`: the sections of the inverse image of a sheaf `𝒢` on `𝒴`
 over an object `x` of `𝒳` are the sections of `𝒢` over `F x`. -/
-@[stacks 06NW]
 theorem IsFibredOneMorphism.inverseImage_obj_obj_obj :
     letI := (hF.isContinuous_and_isCocontinuous_inheritedTopology J).1
     ∀ (𝒢 : Sheaf (q.inheritedTopology J) A) (x : 𝒳),
@@ -284,7 +296,6 @@ theorem IsFibredOneMorphism.inverseImage_obj_obj_obj :
 
 /-- The inverse image `f⁻¹` of the morphism of topoi induced by a 1-morphism of fibred categories
 preserves finite limits. -/
-@[stacks 06NW]
 theorem IsFibredOneMorphism.preservesFiniteLimits_inverseImage [HasFiniteLimits A] :
     letI := (hF.isContinuous_and_isCocontinuous_inheritedTopology J).1
     PreservesFiniteLimits (F.sheafPushforwardContinuous A (p.inheritedTopology J)
@@ -301,7 +312,6 @@ theorem IsFibredOneMorphism.preservesFiniteLimits_inverseImage [HasFiniteLimits 
 
 /-- The direct image of the morphism of topoi is the right Kan extension along `F.op`, taken on
 sheaves: as a functor to presheaves on `𝒴` it is `sheafToPresheaf` followed by `F.op.ran`. -/
-@[stacks 06NW]
 noncomputable def IsFibredOneMorphism.directImageCompSheafToPresheafIso
     [∀ (G : 𝒳ᵒᵖ ⥤ A), F.op.HasPointwiseRightKanExtension G] :
     letI := (hF.isContinuous_and_isCocontinuous_inheritedTopology J).2
@@ -315,7 +325,6 @@ noncomputable def IsFibredOneMorphism.directImageCompSheafToPresheafIso
 as the adjunction `f⁻¹ ⊣ f_*` between the two inherited sites, with `f⁻¹` the restriction
 `F.sheafPushforwardContinuous` and `f_*` the right Kan extension `F.sheafPushforwardCocontinuous`.
 -/
-@[stacks 06NW]
 noncomputable def IsFibredOneMorphism.sheafAdjunctionInheritedTopology
     [∀ (G : 𝒳ᵒᵖ ⥤ A), F.op.HasPointwiseRightKanExtension G] :
     letI := (hF.isContinuous_and_isCocontinuous_inheritedTopology J).1

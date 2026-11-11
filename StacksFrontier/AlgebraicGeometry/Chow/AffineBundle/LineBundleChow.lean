@@ -27,9 +27,12 @@ injective.
 The total space, the projection and the zero section are already in this repository, for a
 `Stacks.LineBundle.Situation` — a scheme `X` carrying an invertible module `L` — as
 `Stacks.LineBundle.Situation.totalSpace`, `Stacks.LineBundle.Situation.totalSpaceToBase` and
-`Stacks.LineBundle.Situation.zeroSection`. This file proves the part of the source's argument
-that the repository's inputs support: the retraction of the flat pullback along the zero section,
-and injectivity from it.
+`Stacks.LineBundle.Situation.zeroSection`. This file proves the injectivity half of the source's
+argument relative to an abstract Gysin map satisfying Stacks 02TR on Chow groups: the retraction
+of the flat pullback along the zero section, and injectivity from it. The inputs are supplied in
+`StacksFrontier.AlgebraicGeometry.Chow.AffineBundle.LineBundleChowInjective`, and the complete
+statement of Stacks 0B74 is `Stacks.Chow.flatPullbackChow_totalSpaceToBase_bijective` of
+`StacksFrontier.AlgebraicGeometry.Chow.AffineBundle.LineBundleChowBijective`.
 
 ## Main definitions
 
@@ -37,8 +40,9 @@ and injectivity from it.
   for a flat `p : Z ⟶ Y` of relative dimension one, a flat `q : W ⟶ Y` of relative dimension
   zero, and a homomorphism `gysin : A_{k+1}(Z) ⟶ A_k(W)`: that `gysin ∘ p^* = q^*`. Taking
   `q = p ∘ i` for a relative effective Cartier divisor `i : W ⟶ Z` and `gysin` its Gysin
-  homomorphism, this is the first equality of Stacks 02TR read on Chow classes. Carried as a
-  hypothesis; see the honest-hypotheses section below.
+  homomorphism, this is the first equality of Stacks 02TR read on Chow classes. For the zero
+  section it is proved as
+  `Stacks.Chow.gysinRetractsFlatPullbackChow_zeroSectionGysinChowRetraction`.
 
 ## Main results
 
@@ -52,65 +56,35 @@ and injectivity from it.
   `Stacks.Chow.relativeDimension_zeroSection_comp_totalSpaceToBase` — the restricted projection
   `p|_{o(X)}` is locally of finite type and flat of relative dimension zero, being the identity
   of `X`.
-* `Stacks.Chow.gysin_flatPullbackChow_zeroSection` — **the retraction**: granted Stacks 02TR for
+* `Stacks.Chow.gysin_flatPullbackChow_zeroSection` — **the retraction**: from Stacks 02TR for
   the zero section, `o^*(p^* α) = α` for every `α ∈ A_k(X)`, up to the transport
   `A_k(X) = A_{k+0}(X)` of degrees.
-* `Stacks.Chow.flatPullbackChow_injective_of_gysinRetracts` — **Stacks 0B74, injectivity**:
-  `p^* : A_k(X) ⟶ A_{k+1}(L)` is injective.
+* `Stacks.Chow.flatPullbackChow_injective_of_gysinRetracts` — injectivity of
+  `p^* : A_k(X) ⟶ A_{k+1}(L)` from a Gysin map retracting it.
 
-## What is carried as a hypothesis, and why
+## Where the inputs are proved
 
-Three facts about this situation are not available in this repository and are carried as
-explicit named hypotheses of the statements that need them. None of them weakens a conclusion:
-each is a true statement of the source whose proof is missing here.
+The statements below take as arguments the properties of `p` that writing `p^*` needs, Stacks
+02S1 (`hfac`), and a Gysin map `gysin` with Stacks 02TR on Chow groups
+(`GysinRetractsFlatPullbackChow`). Each is a theorem of the repository for the line bundle:
 
-### `IsAffineSpaceBundle p 1`, hence the three properties `p^*` needs
+* `p` is flat, locally of finite type and of relative dimension one, being Zariski locally the
+  projection `𝔸¹_U ⟶ U`: `Stacks.LineBundle.Situation.isAffineSpaceBundle_totalSpaceToBase`,
+  `Stacks.LineBundle.Situation.flat_totalSpaceToBase` and
+  `Stacks.LineBundle.Situation.relativeDimension_totalSpaceToBase`.
+* Stacks 02S1 in every relative dimension is
+  `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general`; along `𝟙_X` it is
+  `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_id`, supplied inside the statements
+  below.
+* The Gysin map of the zero section is `Stacks.Chow.zeroSectionGysinChow`, and the retraction
+  `o^* ∘ p^* = \mathrm{id}` is
+  `Stacks.Chow.zeroSectionGysinChow_flatPullbackChowOfRelativeDimension`, clause (4) of Stacks
+  0F96; `Stacks.Chow.gysinRetractsFlatPullbackChow_zeroSectionGysinChowRetraction` packages it in
+  the form `GysinRetractsFlatPullbackChow`.
 
-Writing `p^*` down at all needs `p` locally of finite type, flat, and of relative dimension one.
-All three follow from the local triviality of the line bundle through the lemmas
-`Stacks.Chow.locallyOfFiniteType_of_isAffineSpaceBundle`,
-`Stacks.Chow.flat_of_isAffineSpaceBundle` and
-`Stacks.Chow.relativeDimension_of_isAffineSpaceBundle` of
-`StacksFrontier.AlgebraicGeometry.Chow.AffineBundle.Basic`, applied to
-`Stacks.Chow.IsAffineSpaceBundle p 1`. That local triviality — over an open `U` trivializing `ℒ`
-one has `\Sym^*(𝒪_U) = 𝒪_U[T]` and hence `p^{-1}U ≅ 𝔸^1_U` over `U` — is **not** proved here:
-the repository has no identification of a relative spectrum chart
-`Stacks.RelativeSpec.gluedSpectrum`.chart with an affine space. So the statements below take the
-three properties as instance and explicit binders, exactly as
-`Stacks.Chow.flatPullbackChow_surjective_of_isAffineSpaceBundle_zero` does, and a caller who has
-`IsAffineSpaceBundle p 1` supplies them from it.
-
-### `hfac`: Stacks 02S1 at relative dimension one
-
-`Stacks.Chow.flatPullbackChow` is granted
-`Stacks.Chow.FlatPullbackFactorsThroughRationalEquivalence`, the assertion of Stacks 02S1, as a
-hypothesis by the convention of this chapter: Stacks 02S1 is proved here only for open immersions
-and isomorphisms, hence at relative dimension zero. The zero-dimensional half of the retraction
-does **not** need it as a hypothesis — along `𝟙_X` it is the theorem
-`Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_id`, which is supplied inside the
-statements below rather than assumed.
-
-### `gysin` and `GysinRetractsFlatPullbackChow`: Stacks 02TR on Chow groups
-
-Two things are granted here. First, that the zero section's image `o(X)` is an effective Cartier
-divisor on `L`, and hence — with the flatness proved below — a relative effective Cartier divisor
-on `L/X` in the sense of Definition 062T. It is: `o(X)` is the zero scheme of the fibre
-coordinate `Stacks.LineBundle.fibreCoordinate`, a regular global section of `p^*ℒ^{⊗ -1}`, which
-is Stacks 0F96 part (1). The repository has the fibre coordinate but no identification of its
-zero scheme with `o(X)`, and Stacks 0F96 is not formalized here, so the Gysin homomorphism of
-that divisor is not constructible and is taken as the abstract homomorphism `gysin`.
-
-Second, Stacks 02TR itself on Chow classes. The repository's 02TR carriers —
-`Stacks.Chow.gysinHomomorphismOfInvertible_flatPullback_primeCycle` and its two companions in
-`StacksFrontier.AlgebraicGeometry.Chow.RelativeEffectiveCartierFlatPullback` — are stated **only on
-the fundamental cycle of one integral closed subscheme**, and that file records that the
-extension to a general cycle, which reindexes a locally finite sum along the fibres of `p`, is
-not carried out. Descending further to Chow classes would in addition need Stacks 02TO, itself a
-hypothesis here (`Stacks.Chow.GysinOfInvertibleFactorsThroughRationalEquivalence`). So the
-Chow-level statement is carried as `Stacks.Chow.GysinRetractsFlatPullbackChow`, phrased for an
-arbitrary pair `p`, `q` of flat morphisms and an arbitrary `gysin`, and instantiated below at
-`q = p ∘ o = 𝟙_X`. Phrasing it for an arbitrary pair is deliberate: the hypothesis is then a
-statement of Stacks 02TR and not a restatement of the conclusion of Stacks 0B74.
+`GysinRetractsFlatPullbackChow` is phrased for an arbitrary pair `p`, `q` of flat morphisms and an
+arbitrary `gysin`, and instantiated below at `q = p ∘ o = 𝟙_X`, so that it is a statement of
+Stacks 02TR and not a restatement of the conclusion of Stacks 0B74.
 
 ## Implementation notes
 
@@ -253,7 +227,7 @@ variable (C : ChowSituation.{u}) (D : Stacks.LineBundle.Situation.{u}) (sX : D.X
   (gysin : chowGroup C (D.totalSpaceToBase ≫ sX) (k + ((1 : ℕ) : ℤ)) →+
     chowGroup C sX (k + ((0 : ℕ) : ℤ)))
 
-/-- **The flat pullback along the line bundle is retracted by the zero section.** Granted Stacks
+/-- **The flat pullback along the line bundle is retracted by the zero section.** From Stacks
 02TR for the zero section — the hypothesis `h02TR`, instantiated at the restricted projection
 `p ∘ o = 𝟙_X` — one has
 
@@ -274,21 +248,22 @@ theorem gysin_flatPullbackChow_zeroSection
       chowGroupCast C sX (show k = k + ((0 : ℕ) : ℤ) from by simp) α := by
   rw [h02TR α, flatPullbackChow_id]
 
-/-- **Stacks 0B74, the injectivity half.** Let `(S, δ)` be as in Situation 02QL, let `X` be
-locally of finite type over `S`, let `ℒ` be an invertible `𝒪_X`-module and let
-`p : L = \underline{\Spec}(\Sym^*(ℒ)) ⟶ X` be the associated line bundle. Then
+/-- **Injectivity of the flat pullback along a line bundle, from a retracting Gysin map.** Let
+`(S, δ)` be as in Situation 02QL, let `X` be locally of finite type over `S`, let `ℒ` be an
+invertible `𝒪_X`-module and let `p : L = \underline{\Spec}(\Sym^*(ℒ)) ⟶ X` be the associated
+line bundle. If `gysin : A_{k+1}(L) ⟶ A_k(X)` satisfies Stacks 02TR for the zero section, that is
+`gysin ∘ p^* = (p ∘ o)^* = 𝟙^*`, then
 
   `p^* : A_k(X) ⟶ A_{k+1}(L)`
 
-is injective for every `k`.
+is injective.
 
 This is the source's argument: the zero section `o : X ⟶ L` satisfies `p ∘ o = 𝟙_X`
-(`Stacks.LineBundle.Situation.zeroSection_comp_totalSpaceToBase`) and its image is a relative
-effective Cartier divisor on `L/X`, so Stacks 02TR gives `o^* ∘ p^* = \mathrm{id}` and `p^*` is
-split injective. The retraction is `Stacks.Chow.gysin_flatPullbackChow_zeroSection`; the
-hypotheses `gysin` and `h02TR` are Stacks 02TR on Chow groups, and `hfac` is Stacks 02S1 at
-relative dimension one, both carried for the reasons recorded in the module documentation. -/
-@[stacks 0B74 "injectivity only, from the zero section and Stacks 02TR"]
+(`Stacks.LineBundle.Situation.zeroSection_comp_totalSpaceToBase`), so `gysin` retracts `p^*` and
+`p^*` is split injective. The retraction is `Stacks.Chow.gysin_flatPullbackChow_zeroSection`.
+The Gysin map and its 02TR property are supplied in
+`Stacks.Chow.flatPullbackChow_totalSpaceToBase_injective`, and the complete statement of
+[Stacks, Tag 0B74] is `Stacks.Chow.flatPullbackChow_totalSpaceToBase_bijective`. -/
 theorem flatPullbackChow_injective_of_gysinRetracts
     (h02TR : GysinRetractsFlatPullbackChow C sX (D.totalSpaceToBase ≫ sX) sX
       D.totalSpaceToBase rfl hp (𝟙 D.X) (Category.id_comp sX) (relativeDimension_identity D.X) k

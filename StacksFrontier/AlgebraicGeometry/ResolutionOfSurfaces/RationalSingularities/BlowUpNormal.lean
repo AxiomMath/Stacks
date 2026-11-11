@@ -115,7 +115,7 @@ theorem restrict_mem_ideal_exceptionalIdeal (U : S.X.affineOpens) {a : S.A}
 sheaf `𝓘 = 𝔪𝒪_X` of the special fibre is locally principal. -/
 theorem mem_idealSheafGlobalSections_exceptionalIdealPow_of_isIntegralOver
     (hprin : Stacks.Divisors.IsLocallyPrincipal S.exceptionalIdeal) (n : ℕ) {x : S.A}
-    (hx : IsIntegralOverIdeal (RingHom.id S.A) (S.maximalIdeal ^ n) x) :
+    (hx : (RingHom.id S.A).IsIntegralElemOverIdeal (S.maximalIdeal ^ n) x) :
     ((Scheme.ΓSpecIso (.of S.A)).inv ≫ S.f.appTop).hom x ∈
       idealSheafGlobalSections (S.exceptionalIdeal ^ n) := by
   classical
@@ -146,9 +146,9 @@ theorem mem_idealSheafGlobalSections_exceptionalIdealPow_of_isIntegralOver
         (Ideal.map_le_iff_le_comap.2 fun m hm ↦ Ideal.mem_comap.2 (hmap m hm)) N
     exact hle (Ideal.mem_map_of_mem ψ hz)
   obtain ⟨k, c, hk, hc, hrel⟩ := hx.exists_sum_eq_zero
-  have hint : IsIntegralOverIdeal (RingHom.id Γ(S.X, (U y : S.X.Opens)))
+  have hint : (RingHom.id Γ(S.X, (U y : S.X.Opens))).IsIntegralElemOverIdeal
       ((Ideal.span {t} : Ideal Γ(S.X, (U y : S.X.Opens))) ^ n) (ψ x) := by
-    refine Ideal.isIntegralOverIdeal_id_iff.2 ⟨k, fun j ↦ ψ (c j), hk, fun j hj ↦ ?_, ?_⟩
+    refine Ideal.isIntegralElemOverIdeal_id_iff.2 ⟨k, fun j ↦ ψ (c j), hk, fun j hj ↦ ?_, ?_⟩
     · rw [← pow_mul]
       exact hpow (n * (k - j)) (c j) (by rw [pow_mul]; exact hc j hj)
     · have hz : ψ (x ^ k + ∑ j ∈ Finset.range k, c j * x ^ j) = ψ 0 := by rw [hrel]

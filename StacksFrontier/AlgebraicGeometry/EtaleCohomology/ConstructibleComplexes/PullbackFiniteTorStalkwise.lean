@@ -23,8 +23,12 @@ arbitrary morphism. Tag 0963 is therefore unconditional here.
 
 * `Stacks.EtaleCohomology.pullbackPreservesLocallyFiniteTorDimension`: **the
   finite-Tor-dimension half of Tag 0963**, at an arbitrary morphism of schemes.
-* `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback_unconditional`:
-  **Tag 0963**.
+* `Stacks.EtaleCohomology.isConstructible_and_locallyHasFiniteTorDimension_derivedPullback`:
+  **Tag 0963**, derived inverse image `Lf^*` carries an object of `D_{ctf}(Y_étale, Λ)` to one
+  of `D_{ctf}(X_étale, Λ)`.
+* `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback_unconditional`: the
+  same as a map of full subcategories, whose underlying object is `Lf^*K` by
+  `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback_unconditional_obj`.
 * `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryEtalePullback_unconditional`: the
   same at an étale morphism, which is part (1) of Tag 0962 with the restriction spelled as the
   inverse image. The tag itself is registered on
@@ -421,20 +425,62 @@ public theorem pullbackPreservesLocallyFiniteTorDimension
         y)
     K
 
-/-- **Stacks 0963.** Let `Λ` be a Noetherian ring and `f : X ⟶ Y` a morphism of schemes. The
-derived inverse image of an object of `D_{ctf}(Y_étale, Λ)` is an object of
-`D_{ctf}(X_étale, Λ)`.
+/-- **Stacks 0963.** Let `Λ` be a Noetherian ring and `f : X ⟶ Y` a morphism of schemes. Then
+`Lf^*` maps `D_{ctf}(Y_étale, Λ)` into `D_{ctf}(X_étale, Λ)`: if an object `K` of the derived
+category of étale sheaves of `Λ`-modules on `Y` has constructible cohomology sheaves and its image
+under the change of coefficients of Tag 03TR locally has finite Tor dimension against `T`, then
+its derived inverse image `Lf^*K` has constructible cohomology sheaves and its image locally has
+finite Tor dimension against `T'`.
 
-Constructibility of the cohomology sheaves of `Lf^*K` is Tag 095Y, which is
-`Stacks.EtaleCohomology.constructibleDerivedCategoryPullback`. Locally finite Tor dimension of
-its image under the change of coefficients is
-`Stacks.EtaleCohomology.pullbackPreservesLocallyFiniteTorDimension`.
-
-`Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback` is the same statement
-taking the finite-Tor-dimension half as a hypothesis, which this one discharges. -/
+The membership condition is that of Tag 03TQ,
+`Stacks.EtaleCohomology.ConstructibleFiniteTorDerivedCategory`. Constructibility of the
+cohomology sheaves of `Lf^*K` is Tag 095Y,
+`Stacks.EtaleCohomology.isConstructible_derivedPullback`; locally finite Tor dimension of its
+image is
+`Stacks.EtaleCohomology.pullbackPreservesLocallyFiniteTorDimension`. -/
 @[stacks 0963 "the constructible-cohomology half by Tag 095Y, the finite-Tor-dimension half by \
 Tag 0DJJ read at the stalks on the slices of the constant coefficient ringed sites",
   sga "5 III 1.2" "more general",
+  sga "5 IIIB 6.2" "special case"]
+public theorem isConstructible_and_locallyHasFiniteTorDimension_derivedPullback
+    (T : ∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).C,
+      Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) w r, d}
+        ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).over U))
+    (T' : ∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).C,
+      Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) w r, d}
+        ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).over U))
+    (K : DerivedCategory (Sheaf (SmallEtale.topology B Y.obj Y.property)
+      (ModuleCat.{max (u + 1) w} Λ)))
+    (hK : IsConstructible B Y Λ K ∧
+      Stacks.SheafOfModules.DerivedTensorProduct.LocallyHasFiniteTorDimension
+        (X := constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ) T
+        ((moduleSheafOverConstantCoefficientsFunctor.{u, max (u + 1) w, r} B Y
+          Λ).mapDerivedCategory.obj K)) :
+    IsConstructible B X Λ
+        (((smallEtaleBaseChange B f).sheafPullback (ModuleCat.{max (u + 1) w} Λ)
+          (SmallEtale.topology B Y.obj Y.property)
+          (SmallEtale.topology B X.obj X.property)).mapDerivedCategory.obj K) ∧
+      Stacks.SheafOfModules.DerivedTensorProduct.LocallyHasFiniteTorDimension
+        (X := constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ) T'
+        ((moduleSheafOverConstantCoefficientsFunctor.{u, max (u + 1) w, r} B X
+          Λ).mapDerivedCategory.obj
+          (((smallEtaleBaseChange B f).sheafPullback (ModuleCat.{max (u + 1) w} Λ)
+            (SmallEtale.topology B Y.obj Y.property)
+            (SmallEtale.topology B X.obj X.property)).mapDerivedCategory.obj K)) :=
+  ⟨isConstructible_derivedPullback B Λ f K hK.1,
+    pullbackPreservesLocallyFiniteTorDimension.{u, w, r, d} B f Λ T T' K hK.2⟩
+
+/-- **Stacks 0963, for the full subcategory.** Derived inverse image along a morphism
+`f : X ⟶ Y` of schemes, as a map from `D_{ctf}(Y_étale, Λ)` to `D_{ctf}(X_étale, Λ)`: the
+underlying object of the image of `K` is `Lf^*K`, by
+`Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback_unconditional_obj`, and its
+membership is
+`Stacks.EtaleCohomology.isConstructible_and_locallyHasFiniteTorDimension_derivedPullback`, where
+Tag 0963 is registered.
+
+`Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback` is the same map taking the
+finite-Tor-dimension half as a hypothesis, which this one discharges. -/
+@[sga "5 III 1.2" "more general",
   sga "5 IIIB 6.2" "special case"]
 public def constructibleFiniteTorDerivedCategoryPullback_unconditional
     (T : ∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).C,
@@ -447,6 +493,24 @@ public def constructibleFiniteTorDerivedCategoryPullback_unconditional
     ConstructibleFiniteTorDerivedCategory.{u, max (u + 1) w, r, d} B X Λ T' :=
   ⟨constructibleDerivedCategoryPullback B Λ f K.obj,
     pullbackPreservesLocallyFiniteTorDimension.{u, w, r, d} B f Λ T T' K.obj.obj K.property⟩
+
+/-- The underlying object of
+`Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback_unconditional` at `K` is
+the derived inverse image `Lf^*K` of the underlying object of `K`. -/
+public theorem constructibleFiniteTorDerivedCategoryPullback_unconditional_obj
+    (T : ∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).C,
+      Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) w r, d}
+        ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).over U))
+    (T' : ∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).C,
+      Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) w r, d}
+        ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).over U))
+    (K : ConstructibleFiniteTorDerivedCategory.{u, max (u + 1) w, r, d} B Y Λ T) :
+    (constructibleFiniteTorDerivedCategoryPullback_unconditional.{u, w, r, d} B f Λ T T'
+        K).obj.obj =
+      ((smallEtaleBaseChange B f).sheafPullback (ModuleCat.{max (u + 1) w} Λ)
+        (SmallEtale.topology B Y.obj Y.property)
+        (SmallEtale.topology B X.obj X.property)).mapDerivedCategory.obj K.obj.obj :=
+  rfl
 
 /-- **Part (1) of Stacks 0962.** Let `Λ` be a Noetherian ring and `f : X ⟶ Y` an étale morphism
 of schemes — the source's `j : U ⟶ X`, with `X` here in the rôle of its `U` and `Y` in the rôle

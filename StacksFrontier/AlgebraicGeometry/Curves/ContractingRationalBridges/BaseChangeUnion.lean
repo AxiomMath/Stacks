@@ -14,8 +14,9 @@ components is a rational bridge of `X_K`.
 
 ## Main results
 
-* `AlgebraicGeometry.exists_finset_isRationalBridge_baseChange`: **[Stacks, Tag 0E65] in the
-  union form**, for an arbitrary field extension.
+* `AlgebraicGeometry.exists_finset_isRationalBridge_baseChange`: **[Stacks, Tag 0E65], corrected**
+  from a disjoint union to a union (the disjoint form is false as printed), for an arbitrary
+  field extension.
 * `Stacks.Curves.isRationalBridge_vanishingIdeal_component_baseChange`: an irreducible component
   of `X_K` lying over a rational bridge is itself a rational bridge.
 * `Stacks.Curves.finrank_sup_complementaryCurveIdeal_component_eq_two_of_isRationalBridge`: over
@@ -807,12 +808,18 @@ finiteness is assumed — the inverse image of `C` in the base change `X_K` is t
 scheme-theoretic *union* of a finite set of rational bridges of `X_K`, namely of the reduced
 structures on the irreducible components of `X_K` lying over `C`.
 
-The tag asserts a *disjoint* union, which is false; that erratum is recorded at
-`AlgebraicGeometry.exists_iso_sigma_isRationalBridge_baseChange`, which proves the disjoint form
-under the extra hypothesis that the bridge is geometrically integral over its field of global
-functions `k' = Γ(C, 𝒪_C)`. The dichotomy behind the repair is this: a rational bridge is either
-geometrically integral over `k'` — exactly the hypothesis that earlier statement carries, and
-then `C_K` really is a disjoint union of `[k' ⊗_k K : K]`-many bridges — or it acquires precisely
+The tag asserts a *disjoint* union, which is false as printed: over `k = ℝ` the component
+`C = V(T₀² + T₁²)` of the plane cubic `X = V(T₂(T₀² + T₁²)) ⊂ P²_ℝ` is a rational bridge, while
+`C_ℂ = V(T₀ + iT₁) ∪ V(T₀ - iT₁)` is connected and reducible, so it is not a disjoint union of
+integral schemes;
+`Stacks.Curves.DegenerateConic.not_exists_iso_sigma_isRationalBridge_degenerateConic` refutes
+the disjoint conclusion for this conic. This statement is the corrected tag: the same hypotheses,
+with "finite disjoint union" replaced by "finite union". The disjoint form holds when the bridge
+is moreover geometrically integral over its field of global functions `k' = Γ(C, 𝒪_C)`, and is
+`AlgebraicGeometry.exists_iso_sigma_isRationalBridge_baseChange`.
+
+The dichotomy behind the repair is this: a rational bridge is either geometrically integral over
+`k'`, and then `C_K` really is a disjoint union of `[k' ⊗_k K : K]`-many bridges, or it acquires
 two geometric components, meeting in one point and carrying one point of `C ∩ X'` each. In the
 second case the two components of `C_K` meet, so no disjoint decomposition exists, while the
 union form is still correct and is what this statement proves.
@@ -824,7 +831,13 @@ therefore conjugate, so their complementary degrees agree
 `Stacks.Curves.sum_finrank_sup_complementaryCurveIdeal_eq` alone does not suffice: it only says
 that the complementary degrees sum to twice the number of components, which a chain of three
 components with degrees `(1, 4, 1)` satisfies just as well. -/
-@[stacks 0E65 "base_change_union"]
+@[stacks 0E65 "Corrected statement. Stacks asserts that C_K is a finite DISJOINT union of rational
+bridges; that is false as printed: for the rational bridge C = V(T₀² + T₁²) of
+X = V(T₂(T₀² + T₁²)) ⊂ P²_ℝ, the base change C_ℂ is two lines meeting in a point, connected and
+reducible (`Stacks.Curves.DegenerateConic.not_exists_iso_sigma_isRationalBridge_degenerateConic`).
+Proved here at the tag's own hypotheses, for every field extension K/k, with disjoint union
+replaced by union: C_K is the scheme-theoretic union of finitely many rational bridges of X_K,
+the reduced irreducible components of X_K over C."]
 theorem exists_finset_isRationalBridge_baseChange
     (k K : Type u) [Field k] [Field K] [Algebra k K]
     (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsProper (X ↘ Spec (.of k))]

@@ -20,9 +20,9 @@ subspace.  Stacks 085L forms the graded ideal `ℐ ⊆ 𝒜` as the kernel of th
 "as `π` is quasi-compact, `π_*` transforms quasi-coherent modules into quasi-coherent modules
 (Stacks 03M9), hence `ℐ` is a quasi-coherent `𝒪_X`-module".
 
-That file takes the quasi-coherence of the direct images `π_*((i_*𝒪_Z)(d))` as an argument.
-This file proves it, so that the quasi-coherence of `ℐ_d` holds on the source's own hypotheses:
-`π` quasi-compact and `i` a closed immersion.
+That file proves the quasi-coherence of `ℐ_d` at the twists of Stacks 084D on `Proj_X(𝒜)`.  This
+file proves it for any datum of quasi-coherent twists on a morphism `π : P ⟶ X` presented on an
+étale chart by the restriction of `𝒜`, for `π` quasi-compact and `i` a closed immersion.
 
 ## Main results
 
@@ -101,17 +101,23 @@ quasi-compact, presented on an étale chart by the restriction of `𝒜`, and `i
 immersion, the degree-`d` piece of the graded ideal cut out by `Z` is a quasi-coherent
 `𝒪_X`-module.
 
-This is `AlgebraicGeometry.Space.isQuasicoherentOnSite_closedSubspaceGradedIdealObj` with its
-input on the direct images discharged by
-`AlgebraicGeometry.Space.isQuasicoherentOnSite_twistedStructureDirectImage`. -/
+The direct images are quasi-coherent by
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_twistedStructureDirectImage`, and the kernel of a
+map of quasi-coherent modules is quasi-coherent (Stacks 03M1(3),
+`AlgebraicGeometry.Space.isClosedUnderKernels_quasicoherentSheaves_smallEtale`). -/
 theorem isQuasicoherentOnSite_closedSubspaceGradedIdealObj_of_isQuasiCompact
     (c : RelativeProjSituationChart s π.hom)
     (hπ : IsQuasiCompact s.site s.base s.containsBase π.hom)
     (T : ClosedSubspaceTwistSections s P π) (i : Z ⟶ P)
     (hi : IsClosedImmersion s.site s.base s.containsBase i.hom) (d : ℕ) :
     (closedSubspaceGradedIdealObj T i d).IsQuasicoherentOnSite :=
-  isQuasicoherentOnSite_closedSubspaceGradedIdealObj T i
-    (isQuasicoherentOnSite_twistedStructureDirectImage c hπ T i hi) d
+  let : CategoryTheory.ObjectProperty.IsClosedUnderKernels
+      (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
+        (structureRingSheaf s.site s.base s.containsBase s.space)) :=
+    AlgebraicGeometry.Space.isClosedUnderKernels_quasicoherentSheaves_smallEtale
+      s.site s.base s.containsBase s.space.1 s.space.2
+  CategoryTheory.ObjectProperty.prop_kernel _ (closedSubspaceSectionMap T i d)
+    (s.isQuasicoherent (d : ℤ)) (isQuasicoherentOnSite_twistedStructureDirectImage c hπ T i hi d)
 
 /-- **The submodule `ℐ_d ⊆ 𝒜_d` is quasi-coherent**, on the same hypotheses: the sectionwise
 kernel of the canonical map is a kernel (`Stacks.SheafOfModules.isLimitKernelForkKerSubmodule`),

@@ -65,8 +65,11 @@ theorem isCompactObject_quasiCoherentDerivedPushforward_of_perfect_proper
 
 /-- **[Stacks, Tag 0A9R].** Let `f : X ⟶ Y` be a perfect proper morphism of Noetherian schemes.
 The twisted inverse image `a = f^×`, the right adjoint of
-`Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)` ([Stacks, Tag 0A9E]), commutes with direct sums. -/
-@[stacks 0A9R]
+`Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)` ([Stacks, Tag 0A9E]), commutes with direct sums: it
+preserves coproducts indexed by every `J : Type u`, the universe of the schemes, which is the
+universe of the hom-sets of `D_QCoh` and the one at which it has all direct sums. -/
+@[stacks 0A9R "a = f^× commutes with direct sums indexed by every type J in the universe of \
+X and Y, the universe of the hom-sets of D_QCoh"]
 theorem preservesCoproducts_twistedInverseImage_of_perfect_proper (J : Type u) :
     PreservesColimitsOfShape (Discrete J)
       (twistedInverseImage f (isQuasicoherent_homology_derivedPushforward_of_qcqs f)) := by

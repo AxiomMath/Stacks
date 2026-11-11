@@ -13,6 +13,13 @@ whose adjoint `f^* det(K) → det(Lf^*K)` is an isomorphism: on an affine open `
 an affine open `V ⊆ Y` it is the base change `Γ(X, W) ⊗_{Γ(Y, V)} det(M_V) ≅ det(M'_W)`. When `K`
 has rank zero it carries the pullback of `δ(K)` to `δ(Lf^*K)`.
 
+Here `det(K)` is `AlgebraicGeometry.DeterminantTwoTerm.detModule`, the determinant glued directly
+from the local determinants. Transported along its isomorphism
+`AlgebraicGeometry.DeterminantTwoTerm.detModuleIso` with the value of the determinant functor of
+Stacks 0FJX, these results give Stacks 0FJY for that functor:
+`AlgebraicGeometry.DeterminantTwoTerm.pullbackDeterminantIso` in
+`StacksFrontier/AlgebraicGeometry/DeterminantTwoTermGlobal/PullbackDeterminant.lean`.
+
 ## Main definitions
 
 * `AlgebraicGeometry.DeterminantTwoTerm.detPushforwardMap`: `det(K) → f_* det(Lf^*K)`.
@@ -329,8 +336,9 @@ instance isIso_pullbackDetHom : IsIso (pullbackDetHom f K) := by
 
 /-- For a morphism of schemes `f : X ⟶ Y` and a perfect object `K` of `D(𝒪_Y)` of Tor amplitude in
 `[-1, 0]`, the canonical identification `f^* det(K) ≅ det(Lf^*K)`, adjoint to the glued maps of
-local determinants (`detSectionsEquiv_pullbackDetIso_hom`). -/
-@[stacks 0FJY "(b) the canonical identification f^*det(K) → det(Lf^*K)"]
+local determinants (`detSectionsEquiv_pullbackDetIso_hom`), for the determinant `detModule` glued
+from the local determinants. For the determinant functor of Stacks 0FJX this is
+`pullbackDeterminantIso`, transported along `detModuleIso`. -/
 def pullbackDetIso :
     (Scheme.Modules.pullback f).obj (detModule K) ≅ detModule (pullbackObj f K) :=
   asIso (pullbackDetHom f K)
@@ -338,9 +346,8 @@ def pullbackDetIso :
 /-- For affine opens `V ⊆ Y` and `W ⊆ f⁻¹V`, the identification `f^* det(K) ≅ det(Lf^*K)` sends the
 pullback of a section `a` of `det(K)` over `V` to the image of `a` under the base change
 `det(M_V) → Γ(X, W) ⊗_{Γ(Y, V)} det(M_V) = det(M'_W)` of the determinants of More on Algebra,
-Section 0FJI of the local avatars `M_V` of `K` and `M'_W` of `Lf^*K`. -/
-@[stacks 0FJY "(b) the identification f^*det(K) → det(Lf^*K) is, over affine opens W ⊆ f⁻¹V, the
-base change of the determinant of the local avatar of K over V"]
+Section 0FJI of the local avatars `M_V` of `K` and `M'_W` of `Lf^*K`. For the determinant functor
+of Stacks 0FJX this is `pullbackDeterminantIso_hom_pullbackSection`. -/
 theorem detSectionsEquiv_pullbackDetIso_hom (V : Y.affineOpens) (W : X.affineOpens)
     (h : (W : X.Opens) ≤ f ⁻¹ᵁ V) (a : Γ(detModule K, V)) :
     detSectionsEquiv (pullbackObj f K) W ((pullbackDetIso f K).hom.val.app (op W)
@@ -362,8 +369,8 @@ theorem pbValue_deltaSection (hK : IsRankZero K) (W : X.affineOpens)
   exact (pullbackDetMapAt_delta f K p.1.1 p.2.1 _ _ hK).symm
 
 /-- If `K` has rank zero, the identification `f^* det(K) ≅ det(Lf^*K)` carries the pullback of the
-canonical global section `δ(K)` to `δ(Lf^*K)`. -/
-@[stacks 0FJY "(c) if K has rank 0, δ(K) pulls back to δ(Lf^*K) via f^*det(K) → det(Lf^*K)"]
+canonical global section `δ(K)` to `δ(Lf^*K)`. For the determinant functor of Stacks 0FJX and its
+canonical section this is `pullbackDeterminantIso_hom_determinantSection`. -/
 theorem pullbackDetIso_hom_deltaSection (hK : IsRankZero K) :
     (pullbackDetIso f K).hom.val.app (op ⊤)
         (Scheme.Modules.pullbackSection f (detModule K) ⊤ ⊤ le_top (deltaSection K hK)) =

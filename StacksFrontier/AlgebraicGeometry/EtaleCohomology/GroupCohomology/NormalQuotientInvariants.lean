@@ -15,9 +15,14 @@ because its preimage in `Γ` is open. Right deriving the resulting functor `H⁰
 `RH⁰(N, -) : D⁺(Mod_Γ) ⥤ D⁺(Mod_{Γ⧸N})`.
 
 Tag 03VI is the whole of Section 64.28, "Profinite groups, cohomology and homology", rather than
-a single statement. The attributes in this file carry its two assertions about a normal subgroup:
-that `H⁰(N, -)` takes discrete `Γ`-modules to discrete `Γ ⧸ N`-modules, and that it has a right
-derived functor between bounded below derived categories.
+a single statement. The attributes in this file carry its two assertions about a normal subgroup
+on the side of cohomology: that `H⁰(N, -)` takes discrete `Γ`-modules to discrete `Γ ⧸ N`-modules,
+and that it has a right derived functor between bounded below derived categories. The side of
+homology is in `StacksFrontier/AlgebraicGeometry/EtaleCohomology/GroupHomology/`: the anti-equivalence
+of compact and discrete modules (`Stacks.GroupHomology.discreteDualEquivalence`), the homology
+`H_i(G, -) = L_i H₀(G, -)` (`Stacks.GroupHomology.groupHomologyFunctor`), the derived functor
+`LH₀(N, -)` (`Stacks.GroupHomology.derivedNormalCoinvariantsFunctor`) and the trivial duality
+`H_i(G, M^∧) ≅ Hⁱ(G, M)^∧` (`Stacks.GroupHomology.groupHomologyCompactDualIso`).
 
 ## Main definitions
 
@@ -224,12 +229,11 @@ section Derived
 
 variable [N.Normal] [IsTopologicalGroup Γ]
 
-attribute [local instance] HasDerivedCategory.standard
-
 /-- The right derived functor `RH⁰(N, -) : D⁺(Mod_Γ) ⥤ D⁺(Mod_{Γ⧸N})` of taking invariants
 under a normal subgroup. -/
 @[stacks 03VI "the derived functor RH⁰(N, -) of the invariants functor"]
-abbrev derivedNormalInvariantsFunctor :
+abbrev derivedNormalInvariantsFunctor [HasDerivedCategory (ContinuousGModule.{u, max u v} Γ)]
+    [HasDerivedCategory (ContinuousGModule.{u, max u v} (Γ ⧸ N))] :
     DerivedCategory.Plus (ContinuousGModule.{u, max u v} Γ) ⥤
       DerivedCategory.Plus (ContinuousGModule.{u, max u v} (Γ ⧸ N)) :=
   (normalInvariantsFunctor.{u, max u v} N).rightDerivedFunctorPlus
@@ -238,12 +242,27 @@ abbrev derivedNormalInvariantsFunctor :
 discrete `Γ ⧸ N`-modules. -/
 abbrev normalInvariantsRightDerived (i : ℤ) :
     ContinuousGModule.{u, max u v} Γ ⥤ ContinuousGModule.{u, max u v} (Γ ⧸ N) :=
+  letI := HasDerivedCategory.standard (ContinuousGModule.{u, max u v} Γ)
+  letI := HasDerivedCategory.standard (ContinuousGModule.{u, max u v} (Γ ⧸ N))
   (normalInvariantsFunctor.{u, max u v} N).rightDerivedPlus i
+
+variable (Γ) in
+/-- The right derived functor `RH⁰(Γ, -) : D⁺(Mod_Γ) ⥤ D⁺(Ab)` of taking invariants on discrete
+`Γ`-modules, whose cohomology objects are the groups `Hⁱ(Γ, M)`. -/
+@[stacks 03VI "the derived version RH⁰(G, -) of the invariants functor"]
+abbrev derivedInvariantsFunctor [HasDerivedCategory (ContinuousGModule.{u, max u v} Γ)]
+    [HasDerivedCategory AddCommGrpCat.{max u v}] :
+    DerivedCategory.Plus (ContinuousGModule.{u, max u v} Γ) ⥤
+      DerivedCategory.Plus AddCommGrpCat.{max u v} :=
+  (continuousGModuleInvariants.{u, max u v} Γ).rightDerivedFunctorPlus
 
 end Derived
 
--- The cohomological half of Section 64.28 is the construction of Tag 04JR: the right derived
--- functors of taking invariants on discrete modules over a profinite group.
+-- The cohomology of Section 64.28 is the construction of Tag 04JR: the right derived functors of
+-- taking invariants on discrete modules over a profinite group. Its homology, the left derived
+-- functors of the coinvariants on compact modules, is `Stacks.GroupHomology.groupHomologyFunctor`.
+add_to_stacks 03VI "the category of discrete G-modules has enough injectives"
+  _root_.continuousGModuleEnoughInjectives
 add_to_stacks 03VI "the cohomology functors Hⁱ(G, -) of a profinite group on discrete modules"
   _root_.continuousGroupCohomologyFunctor
 add_to_stacks 03VI "the cohomology groups Hⁱ(G, M) of a profinite group on a discrete module"

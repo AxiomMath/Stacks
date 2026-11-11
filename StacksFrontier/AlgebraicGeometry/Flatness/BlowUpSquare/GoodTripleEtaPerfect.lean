@@ -46,17 +46,22 @@ gives rise to is strictly perfect, and perfectness of `Lη_I M` is a local condi
 * `AlgebraicGeometry.ComplexAndDivisorSituation.ChartDecalage.roof_of_iso` and
   `AlgebraicGeometry.ComplexAndDivisorSituation.ChartDecalage.nonempty_iso`: in any model of
   `D(𝒪_U)`, the comparison is an isomorphism `(Lη_I M)|_U ≅ (η_f M^•)^~`.
-* `AlgebraicGeometry.ComplexAndDivisorSituation.isPerfect_derivedEta_obj`: **tag 0GTW**.
+* `AlgebraicGeometry.ComplexAndDivisorSituation.isPerfect_derivedEta_obj`: tag 0GTW, with the
+  functor `Lη_I`, the affine-chart comparison and the charts off `D` as hypotheses.  Tag 0GTW
+  itself, with all three discharged, is
+  `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodTriple.isPerfect_derivedEta_obj`
+  (`ChartDecalageExistence.lean`).
 
 ## What is carried
 
-Two things are hypotheses rather than theorems here, and both are named in the statement of
-tag 0GTW below.
+Two things are hypotheses of `isPerfect_derivedEta_obj` below; both are proved elsewhere in
+the library, and the unconditional tag 0GTW is
+`AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodTriple.isPerfect_derivedEta_obj`.
 
-1. The functor `Lη_I` itself, as `Stacks.Divisors.Eta.DerivedEta S.D`. That structure is
-   [Stacks, Tag 0F8Q] and is already carried that way by
-   `StacksFrontier/AlgebraicGeometry/Divisors/EtaDerivedQuasicoherent.lean`, which also records
-   that `Stacks.IdealTorsion.Eta.derivedEta` discharges it.
+1. The functor `Lη_I` itself, as `Stacks.Divisors.Eta.DerivedEta S.D`, the data of
+   [Stacks, Tag 0F8Q] (`StacksFrontier/AlgebraicGeometry/Divisors/EtaDerivedQuasicoherent.lean`).
+   It is constructed for the ideal sheaf of every effective Cartier divisor by
+   `Stacks.Divisors.Eta.derivedEtaData`.
 
 2. `ChartDecalage`, the comparison identifying the restriction of `Lη_I M` to an affine chart
    with the complex of `𝒪_U`-modules coming from the algebraic décalage `η_f M^•` of the
@@ -67,12 +72,15 @@ tag 0GTW below.
    Everything below the comparison — that the algebraic décalage of a chart with principal
    determinantal ideals is termwise finite projective, that the associated complex of sheaves is
    therefore strictly perfect, and that perfectness of `Lη_I M` follows because it is local — is
-   proved.
+   proved.  The comparison itself is proved, for every triple and every `Lη_I`, by
+   `AlgebraicGeometry.ComplexAndDivisorSituation.chartDecalage_of_derivedEta`.
 
 Separately, `isPerfect_derivedEta_obj` asks for charts with principal determinantal ideals at
-the points *off* `D` as well, as the hypothesis `hoff`. Good-triple-ness is a condition at the
-points of `D` only; off `D` the equation `f` of a chart is a unit, so its determinantal ideals
-are automatically the unit ideal, and a chart exists around every point because `M` is perfect.
+the points *off* `D` as well, as the hypothesis `hoff`, discharged by
+`ComplexAndDivisorSituation.exists_chart_isPrincipal_determinantalIdeal_of_notMem_supportSet`.
+Good-triple-ness is a condition at the points of `D` only; off `D` the equation `f` of a
+chart is a unit, so its determinantal ideals are automatically the unit ideal,
+and a chart exists around every point because `M` is perfect.
 The source uses both facts without comment — the second is the "details omitted" of the proof
 of tag 0GTY, where the affine charts are asserted to form a basis for the topology of `X`.
 
@@ -285,13 +293,15 @@ theorem nonempty_iso (h : ChartDecalage S E) (C : AffineChart S)
 
 end ChartDecalage
 
-/-- **[Stacks, Tag 0GTW].** Let `X`, `D`, `I`, `M` be as in Situation 0F8S. If `(X, D, M)` is a
-good triple, then `Lη_I M` is a perfect object of `D(𝒪_X)`.
+/-- **Perfectness of `Lη_I M` for a good triple, from an affine-chart comparison.** Let `X`,
+`D`, `I`, `M` be as in Situation 0F8S. If `(X, D, M)` is a good triple, then `Lη_I M` is a
+perfect object of `D(𝒪_X)`, for every functor `E` with the properties of tag 0F8Q, given the
+affine-chart comparison `hcomp` (the shape of the second assertion of tag 0GTV) and the charts
+`hoff` with principal determinantal ideals at the points off `D`.
 
-The functor `Lη_I` is the hypothesis `E` (tag 0F8Q) and the affine-chart comparison is the
-hypothesis `hcomp` (the second assertion of tag 0GTV); `hoff` supplies at the points off `D`
-the charts with principal determinantal ideals that good-triple-ness supplies at the points of
-`D`. See the module documentation for why each is carried.
+Both `hcomp` and `hoff` are theorems of the library, and Stacks tag 0GTW, with them discharged,
+is `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodTriple.isPerfect_derivedEta_obj`; this
+declaration is the step of its proof that uses them.
 
 Perfectness of a complex is local, so it is enough that, around every point of `X`, a
 representative of `Lη_I M` restricts to a perfect complex. A chart with principal determinantal
@@ -299,10 +309,6 @@ ideals is such an open: by `hcomp` another representative restricts to a complex
 roof of quasi-isomorphisms to the complex coming from the algebraic décalage of the chart, which
 is strictly perfect by the translation of tag 0F7W, and the two representatives are joined by a
 roof which restricts to the chart. -/
-@[stacks 0GTW "granted Stacks 0F8Q as the hypothesis E, bundled as \
-Stacks.Divisors.Eta.DerivedEta, and the second assertion of Stacks 0GTV as the hypothesis \
-hcomp; neither is proved in this library. The hypothesis hoff supplies the affine charts with \
-principal determinantal ideals at the points off D, which the source leaves implicit"]
 theorem isPerfect_derivedEta_obj (S : ComplexAndDivisorSituation.{u, d})
     (E : Stacks.Divisors.Eta.DerivedEta S.D)
     (hS : IsGoodTriple S)

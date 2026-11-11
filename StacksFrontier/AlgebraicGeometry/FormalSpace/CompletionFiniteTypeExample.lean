@@ -40,7 +40,9 @@ completion `(A')^ = lim_{I ⊆ A w.i.d.} A' / IA'`:
   `T ×_{Spec (A / I)} Spec (A' / IA')` of the site, and its projection to `T` is of finite
   type.
 * `FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_completionOver`:
-  the second assertion in full — `Spf ((A')^) ⟶ Spf A` is representable by algebraic spaces.
+  `Spf ((A')^) ⟶ Spf A` is representable by algebraic spaces; the second assertion itself,
+  representability by schemes, is derived from it in
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionFiniteTypeExampleUnconditional`.
 * `AlgebraicGeometry.FormalSpace.isFiniteType_formalSpectrumMap_completionOver`: the third
   assertion in full — `Spf ((A')^) ⟶ Spf A` is of finite type.
 
@@ -360,10 +362,13 @@ private theorem compactPullbackRepresentable_formalSpectrumMap_completionOver
 topological ring over `S`, let `f : B →+* A` be a finite type ring map and let `g` present
 the canonical map `B ⟶ A^` to the relative completion as a morphism of quotient systems over
 `S`. Then `Spf A^ ⟶ Spf B` is representable by algebraic spaces, which is condition (1) of
-Stacks 0AN5 and the assertion Stacks 0AN6 makes about this morphism. -/
-@[stacks 0ANM "representability of `Spf ((A')^) → Spf A`: the morphism is representable by \
-algebraic spaces over `S`, with no restriction on the scheme-valued point of `Spf A` along \
-which the base change is taken"]
+Stacks 0AN5 and the assertion Stacks 0AN6 makes about this morphism.
+
+The source's "representable" means representable by schemes, condition (2) of Stacks 0AN5,
+which is stronger than this statement as written. The full assertion, with representability by
+schemes (by affine morphisms), is
+`isWeaklyAdmissible_and_relative_isAffineHom_and_isFiniteType_completionOver`,
+which carries the tag and is derived from this one. -/
 theorem isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_completionOver
     (f : B →+* A) (hB : TopologicalRing.IsWeaklyAdmissible B) (hf : f.FiniteType)
     (D : QuotientSystem 𝔅 S hS B)

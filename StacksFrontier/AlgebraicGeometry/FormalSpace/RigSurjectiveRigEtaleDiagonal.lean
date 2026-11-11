@@ -60,9 +60,15 @@ isomorphism and its inverse composed with `W' ⟶ W ⟶ X` is the lift of `p` wa
   0AQS** with the hypotheses on the morphism one bases along weakened to representability by
   algebraic spaces, and with the local finite typeness of `f` dropped.
 * `AlgebraicGeometry.FormalSpace.factorsAdicCompleteDvrPoints_of_rigEtaleDiagonal`:
-  **Stacks 0GDA**, the substantial direction, carrying five hypotheses — see below.
+  the substantial direction of Stacks 0GDA, from five inputs stated as hypotheses — see below.
 * `AlgebraicGeometry.FormalSpace.isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_diagonal`:
-  **Stacks 0GDA** as the equivalence it is stated as, carrying the same five.
+  the equivalence of Stacks 0GDA from the same five inputs.
+
+Stacks 0GDA itself, under exactly the source's hypotheses and with every input proved, is
+`isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_rigEtale_diagonal`
+in `StacksFrontier.AlgebraicGeometry.FormalSpace.RigSurjectiveRigEtaleDiagonalCriterion`, which
+carries the tag. The two declarations here are kept for the statements downstream which still
+take the five inputs as hypotheses.
 
 ## Implementation notes
 
@@ -93,57 +99,55 @@ arbitrary category with fibre products: they say that `W ×_Z W ⟶ X ×_Y X` is
 `Z ⟶ Y` and that `Δ_p` is a base change of `Δ_f` along it. They are the exact statements the
 source means by "`Δ_p` is the base change of `Δ_f`".
 
-### The five carried hypotheses
+### The five inputs taken as hypotheses
 
-Each is a theorem of the source which this library does not have, each is stated for all of
-its own data rather than for the `f` of the conclusion, and none of them mentions the
-conclusion.
+Each is a theorem of the source, each is stated for all of its own data rather than for the
+`f` of the conclusion, and none of them mentions the conclusion. The library now proves the
+instances of each that Stacks 0GDA needs (all in the namespace `AlgebraicGeometry.FormalSpace`),
+and `isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_rigEtale_diagonal` uses those proofs
+instead:
+
+* `isLocallyNoetherian_of_isPullback'` for Stacks 0AQ8;
+* `isRigEtale_pullback_snd_of_isLocallyNoetherian` for Stacks 0GD1;
+* `isLocallyNoetherian_formalSpectrum_of_isAdicComplete` for Stacks 0AKY;
+* `isFlat_formalSpectrumMap_of_isExtension` for Stacks 0GCD;
+* `exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete` and
+  `isIso_or_isInitial_flatPart_of_isRigEtale_of_isRigSurjective_diagonal` for Stacks 0GD8 and
+  Stacks 0GD9.
+
+The inputs as stated here:
 
 * `h0AQ8` is `AlgebraicGeometry.FormalSpace.FibreProductIsLocallyNoetherian`, **Stacks 0AQ8**,
   reused verbatim from `StacksFrontier.AlgebraicGeometry.FormalSpace.FormalModificationBaseChange`
-  where it is carried for Stacks 0GDN. The library proves each instance of it as
-  `AlgebraicGeometry.FormalSpace.isLocallyNoetherian_of_isPullback`, but only modulo the four
-  open inputs of Stacks 0AQ7 recorded there.
+  where it is carried for Stacks 0GDN.
 * `h0GD1` is **Stacks 0GD1**, that a base change of a rig-étale morphism along an adic
   morphism is rig-étale, with "adic" read as representability by algebraic spaces, which is
   what Stacks 0AQ3 identifies it with for the locally Noetherian — hence locally adic\* —
-  spaces the statement displays. The library's
-  `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism` proves Stacks 0GD1
-  only modulo four open inputs of its own, and only for the chosen fibre product and for
-  `AlgebraicGeometry.FormalSpace.IsAdicOnEveryAffineEtaleDiagramNoetherian` in place of
-  representability; carrying the
-  conclusion keeps the hypothesis a single named tag.
+  spaces the statement displays. The library proves Stacks 0GD1 for the chosen fibre product
+  as `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isLocallyNoetherian`; the
+  hypothesis asks it of every cartesian square.
 * `hSpfNoeth` is that `Spf A` is locally Noetherian for `A` a complete discrete valuation
   ring. `A` is Noetherian and its topology adic, so `Spf A` is a Noetherian affine formal
-  algebraic space and in particular carries a one-member atlas as in Definition 0AIM; the
-  library has no declaration concluding `AlgebraicGeometry.FormalSpace.IsLocallyNoetherian` of
-  a `AlgebraicGeometry.FormalSpace.formalSpectrum`, affineness alone needing the largeness
-  condition `AlgebraicGeometry.FormalSpace.QuotientSystem.HasLargeSite` which
-  `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_formalSpectrum` consumes. That
-  largeness condition is absorbed into the hypothesis rather than carried separately: the weak
-  ideals of definition of a complete discrete valuation ring are the powers of its maximal
-  ideal, so the coproduct the condition asks the site to contain is a countable coproduct of
-  quotient spectra the site already contains, and no restriction on the site is thereby hidden.
+  algebraic space and in particular carries a one-member atlas as in Definition 0AIM.
 * `hextFlat` is that `Spf R' ⟶ Spf R` is flat for an extension `R ⊂ R'` of complete discrete
   valuation rings. The ring-theoretic content is that `R'` is a flat `R`-module, which holds
   because `R` is a discrete valuation ring and `R'` is torsion free over it; turning that into
   `AlgebraicGeometry.FormalSpace.IsFlat` of the induced map of formal spectra is **Stacks
-  0GCD**, which `StacksFrontier.AlgebraicGeometry.FormalSpace.FlatPartOverCdvr` records as a use
-  the library does not carry for any `formalSpectrumMap`.
+  0GCD**, which the library carries as
+  `AlgebraicGeometry.FormalSpace.isFlat_formalSpectrumMap_of_isExtension`.
 * `h0GD9` is **Stacks 0GD9** bundled with the existence statement of **Stacks 0GD8** that its
   phrase "let `X' ⊂ X` be as in Lemma 0GD8" presupposes: the flat part `ι : W' ⟶ W` with its
-  closed immersion, flatness and universal property, and then the dichotomy. The library's
-  `AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian` is
-  Stacks 0GD8 modulo five open inputs of its own and nothing in the library addresses Stacks
-  0GD9, so the two are carried together as the single statement the source's sentence makes.
+  closed immersion, flatness and universal property, and then the dichotomy, as the single
+  statement the source's sentence makes. The library proves Stacks 0GD8 as
+  `AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`
+  and the dichotomy of Stacks 0GD9 as
+  `isIso_or_isInitial_flatPart_of_isRigEtale_of_isRigSurjective_diagonal`.
 
 The dichotomy is rendered as `IsIso (ι ≫ q)` — the source's "`X' = Spf(A)`", there being no
 other morphism `X' ⟶ Spf(A)` in play — or the absence of points of `W'` out of formal spectra
 of discrete valuation rings. That second disjunct is what the source's "`X' = ∅`" is used for,
-and it is a consequence of emptiness; rendering emptiness as initiality of `W'` instead would
-additionally need the formal spectrum of a complete discrete valuation ring to be non-initial
-and the initial object of the sheaf category to be strict, neither of which this library has,
-and the hypothesis would then not be usable where the source uses it.
+and it is a consequence of emptiness. The unconditional proof renders emptiness as initiality
+of `W'` and excludes it by `AlgebraicGeometry.FormalSpace.not_isInitial_of_hom_formalSpectrum`.
 
 Local Noetherianity of `Y` is not used: it enters the source's proof only through the aside
 that `X ×_Y X` is locally Noetherian, and the route taken here obtains that from local
@@ -210,7 +214,7 @@ theorem IsRigSurjective.of_isPullback_of_representable {W X Y Z : FppfSheaf B S 
     sq.lift (formalSpectrumMap hRweak e ≫ pt) x (by rw [Category.assoc]; exact hx.symm),
     he, sq.lift_fst _ _ _⟩
 
-/-! ### Stacks 0GD1, 0AKY, 0GCD and 0GD9 as carried hypotheses -/
+/-! ### Stacks 0GD1, 0AKY, 0GCD and 0GD9 as statements -/
 
 /-- **Stacks 0GD1** for every cartesian square at once, with adicness of the morphism one
 bases along read as representability by algebraic spaces, which **Stacks 0AQ3** identifies it
@@ -218,10 +222,8 @@ with for locally adic\* — in particular locally Noetherian — formal algebrai
 change of a rig-étale morphism of locally Noetherian formal algebraic spaces over `S` along an
 adic morphism is rig-étale.
 
-`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism` proves this for the
-chosen fibre product, for
-`AlgebraicGeometry.FormalSpace.IsAdicOnEveryAffineEtaleDiagramNoetherian` in place of
-representability, and modulo four open inputs of its own. -/
+`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isLocallyNoetherian` proves this for
+the chosen fibre product. -/
 abbrev RigEtaleIsStableUnderRepresentableBaseChange : Prop :=
   ∀ {W X Y Z : FppfSheaf B S hS} {p : W ⟶ Z} {q : W ⟶ X} {g : Z ⟶ Y} {f : X ⟶ Y},
     IsPullback p q g f →
@@ -231,9 +233,8 @@ abbrev RigEtaleIsStableUnderRepresentableBaseChange : Prop :=
 
 /-- **Stacks 0AKY** for the formal spectrum of a complete discrete valuation ring `A`: since
 `A` is Noetherian and its topology adic, `Spf A` is a Noetherian affine formal algebraic space
-and so is locally Noetherian. The library has no declaration concluding
-`AlgebraicGeometry.FormalSpace.IsLocallyNoetherian` of an
-`AlgebraicGeometry.FormalSpace.formalSpectrum`. -/
+and so is locally Noetherian. This is proved, for any Noetherian adic complete ring, as
+`AlgebraicGeometry.FormalSpace.isLocallyNoetherian_formalSpectrum_of_isAdicComplete`. -/
 abbrev FormalSpectrumOfCompleteDvrIsLocallyNoetherian : Prop :=
   ∀ (A : Type u) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsLinearTopology A A],
@@ -243,9 +244,8 @@ abbrev FormalSpectrumOfCompleteDvrIsLocallyNoetherian : Prop :=
 
 /-- **Stacks 0GCD** for an extension `A ⊂ A'` of complete discrete valuation rings: `A'` is a
 flat `A`-module, being torsion free over a discrete valuation ring, so the induced morphism
-`Spf A' ⟶ Spf A` of formal spectra is flat in the sense of Definition 0GCC. The library
-carries no instance of `AlgebraicGeometry.FormalSpace.IsFlat` of an
-`AlgebraicGeometry.FormalSpace.formalSpectrumMap`. -/
+`Spf A' ⟶ Spf A` of formal spectra is flat in the sense of Definition 0GCC. This is proved as
+`AlgebraicGeometry.FormalSpace.isFlat_formalSpectrumMap_of_isExtension`. -/
 abbrev FormalSpectrumMapOfDvrExtensionIsFlat : Prop :=
   ∀ (A A' : Type u) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsLinearTopology A A] [CommRing A'] [IsDomain A']
@@ -290,7 +290,10 @@ abbrev FlatPartOfRigEtaleDiagonalIsBaseOrPointless : Prop :=
 
 /-! ### Stacks 0GDA -/
 
-/-- **Stacks 0GDA**, the substantial direction, carrying five hypotheses. Let `f : X ⟶ Y` be a
+/-- The substantial direction of Stacks 0GDA, from five inputs stated as hypotheses; Stacks
+0GDA itself, with every input proved, is
+`isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_rigEtale_diagonal`.
+Let `f : X ⟶ Y` be a
 morphism of formal algebraic spaces over `S` with `X` locally Noetherian, `f` locally of finite
 type and `Δ_f : X ⟶ X ×_Y X` rig-étale and rig-surjective. If `f` is rig-surjective then every
 adic morphism `Spf R ⟶ Y`, with `R` a complete discrete valuation ring, lifts to `X` over `R`
@@ -311,10 +314,6 @@ second alternative of the dichotomy is impossible. Therefore `ι ≫ p₁` is an
 
 Local Noetherianity of `Y` is a hypothesis of Stacks 0GDA and is kept as `_hY`; the proof does
 not use it, obtaining local Noetherianity of `X ×_Y X` from that of `X` instead. -/
-@[stacks 0GDA "the complete discrete valuation ring lifting criterion is necessary for \
-rig-surjectivity, granting Stacks 0AQ8, Stacks 0GD1 read through Stacks 0AQ3, Stacks 0AKY for \
-the formal spectrum of a complete discrete valuation ring, Stacks 0GCD for an extension of \
-such rings, and Stacks 0GD9 with Stacks 0GD8; see the module docstring for each"]
 theorem factorsAdicCompleteDvrPoints_of_rigEtaleDiagonal
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyNoetherian B S hS X) (_hY : IsLocallyNoetherian B S hS Y)
@@ -391,7 +390,10 @@ theorem factorsAdicCompleteDvrPoints_of_rigEtaleDiagonal
   refine ⟨inv (ι ≫ pullback.fst pt f) ≫ ι ≫ pullback.snd pt f, ?_⟩
   rw [Category.assoc, key, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
 
-/-- **Stacks 0GDA**, carrying five hypotheses. Let `f : X ⟶ Y` be a morphism of formal
+/-- The equivalence of Stacks 0GDA from five inputs stated as hypotheses; Stacks 0GDA itself,
+with every input proved, is
+`isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_rigEtale_diagonal`.
+Let `f : X ⟶ Y` be a morphism of formal
 algebraic spaces over `S` with `X` and `Y` locally Noetherian, `f` locally of finite type and
 the relative diagonal `Δ_f : X ⟶ X ×_Y X` rig-étale and rig-surjective. Then `f` is
 rig-surjective if and only if every adic morphism `Spf R ⟶ Y`, with `R` a complete discrete
@@ -399,12 +401,8 @@ valuation ring, lifts to a morphism `Spf R ⟶ X`.
 
 The direction the source calls trivial is
 `AlgebraicGeometry.FormalSpace.isRigSurjective_of_factorsAdicCompleteDvrPoints`, which needs
-none of the hypotheses. The five carried hypotheses are used by the other direction only; see
+none of the hypotheses. The five inputs are used by the other direction only; see
 the module docstring. -/
-@[stacks 0GDA "granting Stacks 0AQ8, Stacks 0GD1 read through Stacks 0AQ3, Stacks 0AKY for \
-the formal spectrum of a complete discrete valuation ring, Stacks 0GCD for an extension of \
-such rings, and Stacks 0GD9 with Stacks 0GD8, all five used by the forward implication only; \
-see the module docstring for each"]
 theorem isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_diagonal
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyNoetherian B S hS X) (hY : IsLocallyNoetherian B S hS Y)

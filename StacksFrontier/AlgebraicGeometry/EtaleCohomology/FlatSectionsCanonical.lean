@@ -27,11 +27,11 @@ comparison of global sections is an isomorphism [Stacks, Tag 0EZK]
 
 ## Implementation notes
 
-`Stacks.EtaleCohomology.globalSectionsSmallEtaleInverseImageIso_of_flat_quasiCompact` states the
-same isomorphism with Tag 0EZK as a hypothesis; Tag 0EZK being proved, the isomorphism here
-assumes nothing beyond the source.  Unlike Tag 0EZK, this tag needs no erratum: flatness and
-quasi-compactness are stable under base change, so they give universal submersivity outright,
-and the étale base change at which plain submersivity fails for 0EZK does not arise here.
+Both results assume exactly the source's hypotheses: Tag 0EZK is proved in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.SubmersiveSections`.  Unlike Tag 0EZK, this tag
+needs no erratum: flatness and quasi-compactness are stable under base change, so they give
+universal submersivity outright, and the étale base change at which plain submersivity fails for
+0EZK does not arise here.
 
 ## References
 

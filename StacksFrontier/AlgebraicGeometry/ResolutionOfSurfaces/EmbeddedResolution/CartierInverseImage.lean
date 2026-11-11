@@ -25,7 +25,7 @@ finite sequence of blowups at closed points `Xₙ → … → X₁ → X` along 
 
 This is [Stacks, Tag 0BIB](https://stacks.math.columbia.edu/tag/0BIB), proved from the
 principalization of [Stacks, Tag 0AHH](https://stacks.math.columbia.edu/tag/0AHH),
-`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_principalizing`, with no local splitting
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_principalizing`, with no descent
 hypothesis of the kind that the earlier form
 `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_comap_isEffectiveCartierDivisor` carries.
 

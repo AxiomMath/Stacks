@@ -22,7 +22,7 @@ over `𝔭` with the same residue field, agreeing with the given solution modulo
 * `StacksDraft.ArtinApproximation.artinApproximationGRing`: Stacks 0CAR.
 * `StacksDraft.ArtinApproximation.artinApproximationGRing_of_local`: the reduction of 0CAR to its
   own local case (Theorem 07QZ) together with the finite-stage descent of an étale algebra along
-  a localization (Algebra, Lemma 00U2 (9)).
+  a localization (Algebra, Lemma 00U2 (10)).
 * `StacksDraft.ArtinApproximation.localApproximationProperty`: the first of those two inputs,
   which is Theorem 07QZ.
 * `StacksDraft.ArtinApproximation.etaleDescentAlongLocalization`: the second of those two inputs,
@@ -45,7 +45,7 @@ The source's proof of 0CAR has exactly two inputs, and both are proved in this f
   `Stacks.Smoothing.isIndSmoothAdicCompletion_of_isGRing`, Popescu's Theorem 07GC
   (`Stacks.Smoothing.indSmooth_of_isRegularRingMap`) together with Lemma 0AH2
   (`Stacks.GRing.isRegularRingHom_algebraMap_adicCompletion`).
-* `EtaleDescentAlongLocalization` is **Algebra, Lemma 00U2 (9)**: an étale algebra over a
+* `EtaleDescentAlongLocalization` is **Algebra, Lemma 00U2 (10)**: an étale algebra over a
   localization `M⁻¹A` is the base change of an étale algebra over `A`; equivalently — and this is
   the form used here — it is the localization of an étale `A`-algebra at the image of `M`. This
   is `AlgebraicGeometry.exists_etale_pushout_of_localization`, which states it as a pushout
@@ -100,7 +100,7 @@ def LocalApproximationProperty : Prop :=
       (∀ j, MvPolynomial.eval₂ (algebraMap L (AdicCompletion (maximalIdeal L) L)) a (f j) = 0) →
       Nonempty (LocalEtaleSolution L f N a)
 
-/-! ### Algebra, Lemma 00U2 (9), the finite-stage descent, as the input of the reduction -/
+/-! ### Algebra, Lemma 00U2 (10), the finite-stage descent, as the input of the reduction -/
 
 /-- The datum that the finite-stage descent of an étale algebra along a localization produces:
 an étale `A`-algebra `E` of which `S` is the localization at the image of `M`. -/
@@ -125,7 +125,7 @@ structure LocalizationDescent (A : Type u) [CommRing A] (M : Submonoid A) (L : T
 attribute [instance] LocalizationDescent.commRing LocalizationDescent.algebra
   LocalizationDescent.etale LocalizationDescent.algebraS LocalizationDescent.tower
 
-/-- **Stacks 00U2 (9) (Algebra, Lemma 10.143.3).** An étale algebra over a localization `M⁻¹A` is
+/-- **Stacks 00U2 (10) (Algebra, Lemma 10.143.3).** An étale algebra over a localization `M⁻¹A` is
 the base change of an étale algebra over `A`; equivalently, it is the localization of an étale
 `A`-algebra at the image of `M`.
 
@@ -135,7 +135,7 @@ def EtaleDescentAlongLocalization : Prop :=
     [IsLocalization M L] (S : Type u) [CommRing S] [Algebra L S] [Algebra A S]
     [IsScalarTower A L S], Algebra.Etale L S → Nonempty (LocalizationDescent A M L S)
 
-/-- **Algebra, Lemma 00U2 (9).** An étale algebra over a localization `M⁻¹A` is the localization
+/-- **Algebra, Lemma 00U2 (10).** An étale algebra over a localization `M⁻¹A` is the localization
 of an étale `A`-algebra at the image of `M`.
 
 This is `AlgebraicGeometry.exists_etale_pushout_of_localization`, which states the
@@ -471,7 +471,7 @@ then for every `N` there are an étale ring map `A → A'`, a prime `𝔭' ⊂ A
 
 The hypothesis `h07QZ` is the first input of the source's proof, Theorem 07QZ, the same
 statement for a Noetherian local G-ring, which the source deduces from Popescu's theorem (07GC).
-The second input, Algebra, Lemma 00U2 (9), the finite-stage descent of an étale algebra along a
+The second input, Algebra, Lemma 00U2 (10), the finite-stage descent of an étale algebra along a
 localization, is `StacksDraft.ArtinApproximation.etaleDescentAlongLocalization`. Everything else
 is proved here.
 
@@ -596,12 +596,12 @@ then for every `N` there are an étale ring map `A → A'`, a prime `𝔭' ⊂ A
 `a_i - b_i ∈ (𝔭')^N (A'_{𝔭'})^∧`.
 
 Both inputs of the source's proof are proved: Theorem 07QZ is `localApproximationProperty` and
-Algebra, Lemma 00U2 (9) is `etaleDescentAlongLocalization`. -/
+Algebra, Lemma 00U2 (10) is `etaleDescentAlongLocalization`. -/
 @[stacks 0CAR "the full conclusion — étaleness of `A → A'`, `𝔭'` lying over `𝔭`, the solution \
 in `A'`, the residue field equality `κ(𝔭) = κ(𝔭')` and the congruence \
 `a_i - b_i ∈ (𝔭')^N (A'_{𝔭'})^∧` for every `i` and every `N` — in the spelling of \
 `StacksDraft.ArtinApproximation.ArtinApproximationGRing`, with NO carried hypotheses. The \
-source's proof has two inputs and both are proved. The second, Algebra Lemma 00U2 (9), is \
+source's proof has two inputs and both are proved. The second, Algebra Lemma 00U2 (10), is \
 `etaleDescentAlongLocalization`, from the public \
 `AlgebraicGeometry.exists_etale_pushout_of_localization`. The first is Theorem 07QZ, \
 `Stacks.Smoothing.exists_localEtaleSolution_of_isGRing`, itself unconditional because \

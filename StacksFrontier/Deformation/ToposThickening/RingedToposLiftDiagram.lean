@@ -253,10 +253,20 @@ ideals**, for genuine morphisms of ringed topoi.
 * `nu` is `ν : g⁻¹𝒢₁ ⟶ 𝒢₂`, linear over `g⁻¹𝒪₁`, and `nu_base` the commutativity of the left
   square of (08UI); see the module docstring.
 
-The faces `f'ⱼ ∘ iⱼ = tⱼ ∘ fⱼ` of (08UH) are part of the solutions `Qⱼ`. -/
+The faces `f'ⱼ ∘ iⱼ = tⱼ ∘ fⱼ` of (08UH) are part of the solutions `Qⱼ`. The special case
+where everything lives on one site, with identity underlying topoi, is
+`Deformation.ToposThickening.LiftDiagram`. -/
 @[stacks 08UH "the commutative diagram of morphisms of ringed topoi, for genuine morphisms \
 f₁, f₂, g, h between four arbitrary ringed topoi, each thickening presented on the site of its \
-reduction as in the source's convention"]
+reduction as in the source's convention",
+  stacks 08UI "the commutative diagram of exact ideal rows: the front and back rows are the \
+solutions `Q₁`, `Q₂` of (08UF) (the exact sequences `0 → 𝒢ⱼ → 𝒪'ⱼ → 𝒪ⱼ → 0` over \
+`0 → fⱼ⁻¹𝒥ⱼ → fⱼ⁻¹𝒪_{ℬ'ⱼ} → fⱼ⁻¹𝒪_{ℬⱼ} → 0` with the maps `cⱼ`), the north-north-west \
+arrows are `nu` (a map of `g⁻¹𝒪₁`-modules `g⁻¹𝒢₁ → 𝒢₂`), `g^♯` and the base comparisons \
+through `h` and `hB'`, and the only condition on `nu` is the source's: the left square \
+`ν ∘ g⁻¹c₁ = c₂ ∘ (g⁻¹f₁⁻¹𝒥₁ → f₂⁻¹𝒥₂)` commutes (`nu_base`, stated after the injection \
+`𝒢₂ ⊂ 𝒪'₂` on sections of the base ideal); the remaining squares commute by `comm`, \
+`hB'_reduction` and the solutions' faces"]
 structure RingedToposLiftDiagram where
   /-- The front problem: `f₁`, the base thickening `t₁` and `f₁⁻¹𝒥₁`, and the module `𝒢₁`. -/
   S₁ : RingedToposExtensionProblem X₁ B₁

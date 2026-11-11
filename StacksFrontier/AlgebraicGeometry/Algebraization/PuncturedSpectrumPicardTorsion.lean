@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Polynomial.Roots
 public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.AlgebraicGeometry.Algebraization.CoherentTripleHilbertInductionStep
 public import StacksFrontier.AlgebraicGeometry.Algebraization.CoherentTripleTriviality
 public import StacksFrontier.AlgebraicGeometry.Algebraization.CoherentTripleUnit
 public import StacksFrontier.AlgebraicGeometry.Algebraization.PuncturedSpectrumPicardInjectivitySGA2
@@ -31,42 +32,15 @@ values of a rational polynomial. If the class of `ℒ` has finite order `m`, tha
 vanishes at every nonnegative multiple of `m`, hence identically; its value at `1` is then zero
 too, so the class of `ℒ` itself is zero.
 
-## What this result is conditional on
+## The polynomiality input
 
-[Stacks, Tag 0F27] -- the polynomiality of `n ↦ χ((ℱ, ℱ₀, α) ⊗ (ℒ, ℒ₀, λ)^{⊗ n})` -- is the one
-step of this that the library does not prove. Of the source's proposition it has the induction
-step (`Stacks.Algebraization.exists_polynomial_eulerCharacteristic_of_shortExact_succ`) and the
-concluding finite-difference step
-(`Stacks.Algebraization.exists_polynomial_natDegree_le_of_forall_sub_eq`), but not the dévissage
-over the dimension of the support that joins them. It is therefore carried here as the named
-hypothesis `Stacks.Algebraization.IsCoherentTripleHilbertPolynomial`. The hypothesis is *weaker*
-than the source's proposition: it asks only that the Euler characteristics be polynomial, not that
-the degree be at most the dimension of the support. Nothing in it mentions the Picard group or
-any restriction map, so the conclusion is nowhere assumed.
-
-Concretely, four things are missing for that dévissage, none of which exists in the library in
-any form. (1) A multiplication-by-a-global-section morphism `ℱ ⟶ ℱ ⊗ ℒ` of modules on a scheme:
-the only section-multiplication available is `𝒪_X ⟶ ℒ`, which is `SheafOfModules.unitHomEquiv`,
-and the regular-section sequence [Stacks, Tag 0C6K]
-(`Stacks.AlgebraicGeometry.SectionIdeal.shortExact_zeroScheme`) is likewise only at `ℱ = 𝒪_X`.
-(2) Hence a morphism of coherent triples between consecutive twists, which the source builds from
-the pair `(s, s₀)` out of the unit triple; `CoherentTriple.Hom.tensorInvertible` and
-`CoherentTriple.Hom.twistZ` only transport a morphism one already has. (3) Any construction of a
-`CoherentTriple.ShortExact` that is not the twist of an existing one -- the type is at present
-only ever consumed, its two producers being `ShortExact.tensorInvertible` and `ShortExact.twistZ`.
-(4) The dimension of the support of a coherent triple and the strict drop for the quotient; the
-library's idiom for `dim Supp(ℱ)` is `topologicalKrullDim (SheafOfModules.supp ℱ)`, used in
-`StacksFrontier/AlgebraicGeometry/TwistedSheafEuler/Basic.lean`, but nothing connects it to a
-coherent triple. The two inputs that *are* ready and unused are [Stacks, Tag 0F20]
-(`Stacks.QuasiAffineGlobalGeneration.exists_affine_nonvanishingOpen_containing_finite`) and
-quasi-affineness of the punctured spectrum
-(`Stacks.Algebraization.isQuasiAffine_puncturedSpectrum`). The source also marks two of these
-steps "details omitted".
+[Stacks, Tag 0F27] -- the polynomiality of `n ↦ χ((ℱ, ℱ₀, α) ⊗ (ℒ, ℒ₀, λ)^{⊗ n})` -- is
+`Stacks.Algebraization.exists_polynomial_natDegree_le_dim_supp`, proved in
+`StacksFrontier/AlgebraicGeometry/Algebraization/CoherentTripleHilbertInductionStep.lean`. The
+deduction here uses it with its bound on the degree forgotten.
 
 ## Main definitions
 
-* `Stacks.Algebraization.IsCoherentTripleHilbertPolynomial`: the statement of
-  [Stacks, Tag 0F27], carried as a hypothesis.
 * `Stacks.Algebraization.coherentTripleOfTrivialRestriction`: the invertible coherent triple
   built from an invertible module on `U` whose restriction to `U₀` is trivial.
 
@@ -82,8 +56,7 @@ steps "details omitted".
   carries as a hypothesis.
 * `Stacks.Algebraization.eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder`: a torsion
   class on `U` restricting to zero on `U₀` is zero.
-* `Stacks.Algebraization.picRestrictionInjOnTorsion`: **[Stacks, Tag 0F2A]**, conditional on the
-  hypothesis above.
+* `Stacks.Algebraization.picRestrictionInjOnTorsion`: **[Stacks, Tag 0F2A]**.
 
 ## Implementation notes
 
@@ -131,24 +104,6 @@ open scoped Pointwise
 universe u
 
 namespace Stacks.Algebraization
-
-/-! ### The carried statement of Tag 0F27 -/
-
-/-- **The statement of [Stacks, Tag 0F27]**: for a coherent triple `(ℱ, ℱ₀, α)` and an invertible
-coherent triple `(ℒ, ℒ₀, λ)` over a Noetherian local ring, the function
-`n ↦ χ((ℱ, ℱ₀, α) ⊗ (ℒ, ℒ₀, λ)^{⊗ n})` on `ℤ` is given by a rational polynomial.
-
-This is the proposition the Stacks Project proves and from which [Stacks, Tag 0F2A] follows; the
-library has its induction step and its finite-difference step but not the dévissage over the
-dimension of the support, so it is carried as a hypothesis rather than proved here. It is asked
-in a weaker form than the source's: the degree bound `≤ dim Supp(ℱ)` is omitted, since the
-deduction does not use it. -/
-public def IsCoherentTripleHilbertPolynomial : Prop :=
-  ∀ (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (f : A),
-    f ∈ maximalIdeal A → IsRegular f → ∀ (T L : CoherentTriple A f)
-    (hL : IsInvertibleTriple L),
-    ∃ P : Polynomial ℚ, ∀ n : ℤ,
-      (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ)
 
 /-! ### The two elementary inputs -/
 
@@ -315,13 +270,13 @@ Let `ℒ` represent the class. Its restriction being zero makes `ℒ^{⊗ n}` th
 member of the `n`-th twist of the unit coherent triple by the invertible coherent triple
 `(ℒ, 𝒪_{X₀}, λ)` of `Stacks.Algebraization.coherentTripleOfTrivialRestriction`, so by
 [Stacks, Tag 0F28] the Euler characteristic of that twist vanishes exactly when `n` times the
-class does. Those Euler characteristics are polynomial in `n` by the carried hypothesis, and the
+class does. Those Euler characteristics are polynomial in `n` by [Stacks, Tag 0F27]
+(`Stacks.Algebraization.exists_polynomial_natDegree_le_dim_supp`), and the
 polynomial vanishes at every nonnegative multiple of the order of the class, hence identically,
 hence at `1`. -/
 public theorem eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder (A : Type u)
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (f : A) (hf : f ∈ maximalIdeal A)
     (hreg : IsRegular f) (hdepth : 3 ≤ Module.depth A (maximalIdeal A) A)
-    (hpoly : IsCoherentTripleHilbertPolynomial.{u})
     {x : Stacks.Picard.ofScheme (Stacks.Divisors.puncturedSpectrum A).toScheme}
     (hx : IsOfFinAddOrder x)
     (h0 : Stacks.Picard.schemePullbackClass (puncturedClosedFibreRestriction A f) x = 0) :
@@ -366,7 +321,8 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder (A : Ty
   have hT : IsInvertibleTriple T :=
     isInvertibleTriple_coherentTripleOfTrivialRestriction A f htf L e'
   -- the Euler characteristics of the twists of the unit triple
-  obtain ⟨P, hP⟩ := hpoly A f hf hreg (CoherentTriple.unit A f htf) T hT
+  obtain ⟨P, -, hP⟩ := exists_polynomial_natDegree_le_dim_supp hf T hT
+    (CoherentTriple.unit A f htf)
   have hkey : ∀ n : ℕ,
       ((CoherentTriple.unit A f htf).twistZ T hT (n : ℤ)).eulerCharacteristic = 0 ↔
         (n : ℤ) • x = 0 := by
@@ -420,18 +376,14 @@ Two classes of finite order with the same restriction have a difference of finit
 restricting to zero, and such a difference is zero by
 `Stacks.Algebraization.eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder`.
 
-Beyond the tag's own hypotheses this carries one thing: `hpoly`, which is [Stacks, Tag 0F27] and
-which this development does not prove. It is a statement about Euler characteristics of twists of
-coherent triples; it mentions neither the Picard group nor any restriction map, so the conclusion
-is nowhere assumed. The `f`-torsion-freeness of `𝒪_U` that the rest of this section carries is
-*not* assumed here -- it is proved, from `f` being a nonzerodivisor, by
+The Euler-characteristic polynomiality the argument rests on is [Stacks, Tag 0F27], proved as
+`Stacks.Algebraization.exists_polynomial_natDegree_le_dim_supp`, and the `f`-torsion-freeness of
+`𝒪_U` is proved, from `f` being a nonzerodivisor, by
 `Stacks.Algebraization.isFTorsionFree_unitModule`. -/
-@[stacks 0F2A "conditional only on the polynomiality of the Euler characteristics of the twists \
-(Tag 0F27), which this development does not prove"]
+@[stacks 0F2A]
 public theorem picRestrictionInjOnTorsion (A : Type u) [CommRing A] [IsLocalRing A]
     [IsNoetherianRing A] (f : A) (hfm : f ∈ maximalIdeal A) (hreg : IsRegular f)
-    (hb : 2 ≤ Module.depth A (maximalIdeal A) (A ⧸ Ideal.span {f}))
-    (hpoly : IsCoherentTripleHilbertPolynomial.{u}) :
+    (hb : 2 ≤ Module.depth A (maximalIdeal A) (A ⧸ Ideal.span {f})) :
     Set.InjOn (Stacks.Picard.schemePullbackClass (puncturedClosedFibreRestriction A f))
       {x : Stacks.Picard.ofScheme (Stacks.Divisors.puncturedSpectrum A).toScheme |
         IsOfFinAddOrder x} := by
@@ -457,7 +409,7 @@ public theorem picRestrictionInjOnTorsion (A : Type u) [CommRing A] [IsLocalRing
     rw [sub_eq_add_neg]
     exact hx'.add hy'.neg
   exact sub_eq_zero.1 (eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder A f hfm hreg
-    hdepth hpoly htors hsub)
+    hdepth htors hsub)
 
 end Stacks.Algebraization
 

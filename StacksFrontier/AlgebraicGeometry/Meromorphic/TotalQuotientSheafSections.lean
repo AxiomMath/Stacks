@@ -71,10 +71,12 @@ namespace AlgebraicGeometry
 
 variable {X : TopCat.{u}}
 
-/-- For a sheaf of commutative rings, a section over an open set whose germ at every point of
-that open set is a nonzerodivisor is itself a nonzerodivisor in the ring of sections. This is
-the inclusion of the denominator submonoid of the total quotient presheaf into the
-nonzerodivisors, and it needs no hypothesis on the open set. -/
+/-- **Stacks 02AR part (6), the denominators are nonzerodivisors.** For a sheaf of commutative
+rings, a section over an open set whose germ at every point of that open set is a nonzerodivisor
+is itself a nonzerodivisor in the ring of sections. This is the inclusion of the denominator
+submonoid `S_U` of the total quotient presheaf into the nonzerodivisors, and it needs no
+hypothesis on the open set. -/
+@[stacks 02AR "total_quotient_sheaf"]
 theorem mem_nonZeroDivisors_of_mem_submonoidPresheafOfStalk
     (O : TopCat.Sheaf CommRingCat.{u} X) {U : Opens X} {b : O.presheaf.obj (op U)}
     (hb : b ∈ (O.presheaf.submonoidPresheafOfStalk

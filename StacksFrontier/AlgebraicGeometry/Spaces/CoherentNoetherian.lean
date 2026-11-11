@@ -39,8 +39,9 @@ the third of them is too long to qualify on one line.
 ## Implementation notes
 
 The three results carry `IsCartesianOnAffineCharts` and therefore do **not** carry
-`@[stacks 07UB]`.  Deriving it from `SheafOfModules.IsQuasicoherentOnSite` is Stacks 03DX(2),
-which this tree does not have; the hypothesis is the same one carried by
+`@[stacks 07UB]`.  Deriving it from `SheafOfModules.IsQuasicoherentOnSite` is the chart
+criterion `AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite`, which is
+not imported here; the hypothesis is the same one carried by
 `StacksFrontier.AlgebraicGeometry.Spaces.ChartSections` and by the kernel and cokernel results
 built on it, and no second spelling of it is introduced.  Its name is part of each name below
 for that reason: the three general forms in `CoherentModules` carry it too, so what distinguishes

@@ -25,10 +25,11 @@ source's earlier paragraphs supply left as hypotheses.
 * `AlgebraicGeometry.Space.discreteTopology_points_pullback_of_universallyInjective`: the fibre
   of a universally injective morphism over a field-valued point of its target has discrete
   point space — indeed at most one point.
-* `AlgebraicGeometry.Space.isLocallyQuasiFinite_of_universallyInjective`: a universally
-  injective morphism of algebraic spaces which is locally of finite type is locally
-  quasi-finite.  This is the step the source performs with Stacks 07V4 and Stacks 06RW.
-* `AlgebraicGeometry.Space.isRepresentable_of_isSeparated_of_universallyInjective`: such a
+* `AlgebraicGeometry.Space.isRepresentable_of_isSeparated_of_universallyInjective`: a
+  universally injective morphism locally of finite type is locally quasi-finite,
+  `AlgebraicGeometry.Space.isLocallyQuasiFinite_of_universallyInjective` (in
+  `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingAffineness.lean`), the step the source
+  performs with Stacks 07V4 and Stacks 06RW; such a
   morphism with separated source over a representable target has representable source, so `X`
   is a scheme.
 * `AlgebraicGeometry.Space.isAffineSpace_of_isSeparated_of_universallyInjective`: and that
@@ -48,12 +49,11 @@ source's earlier paragraphs supply left as hypotheses.
 and not the tag.  Four assertions about `X` are hypotheses below, and none of them is available
 in this development for a general situation as in Stacks 07UY:
 
-* `hsep`, separatedness of `p`, is the assertion of Stacks 07V5.  It is proved as
+* `hsep`, separatedness of `p`, is the assertion of Stacks 07V5, proved as
   `…CohomologyVanishingSituation.isSeparated_toSpecGlobalFunctions` in
-  `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingSeparatedMorphism.lean`, but only
-  with two hypotheses of its own carried: clause (1) of Stacks 09YB, the existence of a scheme
-  with a surjective integral morphism onto `X`, which has no carrier anywhere in this
-  development, and the Zariski-cohomology form of clause (1) of Stacks 07V0 below.
+  `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingSeparatedMorphism.lean` for a
+  situation at the module universe of the structure sheaf; the declaration below keeps a
+  general module universe.
 * `hinj`, universal injectivity of `p`, is the assertion of Stacks 07V4.  The two declarations
   carrying that tag are in
   `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingClosedPoints.lean`: one proves the
@@ -157,8 +157,9 @@ Both of that statement's carried hypotheses, and its quasi-compactness assumptio
 there for the single purpose of making the cover affine: clause (1) of Stacks 07V0 feeds Serre's
 criterion Stacks 01XF, and quasi-compactness of `X` is what makes the cover quasi-compact so
 that the criterion applies.  With the cover affine from the start none of the three is needed,
-so in particular no cohomology-vanishing hypothesis of any kind enters, and Stacks 09YB — which
-has no carrier in this development — is not appealed to.
+so in particular no cohomology-vanishing hypothesis of any kind enters, and Stacks 09YB
+(`AlgebraicGeometry.Space.existsIntegralSurjectiveSchemeCover_and_refining`) is not appealed
+to.
 
 This is the shape in which the separatedness step of the proof of Stacks 07V6 is available to
 Stacks 07VP, whose hypotheses hand over exactly such a cover: a surjection onto `X` from an
@@ -207,20 +208,6 @@ theorem discreteTopology_points_pullback_of_universallyInjective
   Subsingleton.discreteTopology
 
 /-! ### Local quasi-finiteness, representability and affineness -/
-
-/-- **A universally injective morphism of algebraic spaces which is locally of finite type is
-locally quasi-finite.**  Each of its fibres over a field-valued point of the target has at most
-one point, so condition (2) of Stacks 06RW holds.
-
-This is the step the proof of Stacks 07V6 performs with Stacks 07V4 and Stacks 06RW. -/
-theorem isLocallyQuasiFinite_of_universallyInjective
-    {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
-    (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y)
-    (hft : IsLocallyOfFiniteType B S hS f)
-    (hf : UniversallyInjective B S hS f) :
-    IsLocallyQuasiFinite B S hS f :=
-  (isLocallyQuasiFinite_iff_forall_discreteTopology_fibre B S hS hX hY f hft).2
-    (discreteTopology_points_pullback_of_universallyInjective B S hS f hf)
 
 /-- **An algebraic space separated, universally injective and locally of finite type over an
 affine object of the site is a scheme.**  The morphism is locally quasi-finite, hence

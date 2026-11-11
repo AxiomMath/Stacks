@@ -79,9 +79,10 @@ Tag 03ST has two assertions: that the identification of Étale Cohomology, Theor
 `G_k`-equivariant.  Only the second is proved here, and only in degree zero; the tag attribute
 below carries both qualifications.
 
-The first assertion is Tag 03Q9, which this library has only over a strictly henselian base
-(`Stacks.StrictlyHenselian.higherDirectImageEtaleStalkIso`); the general case needs Tag 03Q6,
-which is absent.  The equivariance in degree `j > 0` needs the degree-`j` form of the comparison
+The first assertion is Tag 03Q9, which this library has as
+`AlgebraicGeometry.stalkHigherDirectImageIso` (the stalk is the cohomology of the base change to
+the strict henselization, here `Spec k^sep`), followed by the passage from `k^sep` to `k̄`; that
+these assemble to the comparison of this file is not proved here.  The equivariance in degree `j > 0` needs the degree-`j` form of the comparison
 together with a composition law for restriction of sections along a composite of morphisms of
 schemes — transitivity of `Stacks.EtaleCohomology.smallEtaleSectionsPullbackAb` in the scheme
 over the base, rather than in the étale object, which
@@ -389,9 +390,9 @@ whole stalk, and it is the statement that the identification of Tag 03Q9 is a ma
 @[stacks 03ST "Galois equivariance of the Theorem 03Q9 comparison in degree zero: \
 unconditional in `α`, in the sheaf and in the algebraically closed extension, stated on the \
 germ at an arbitrary étale neighbourhood of the geometric point. That the comparison is an \
-isomorphism is Tag 03Q9, available in this library only over a strictly henselian base, and \
-the equivariance in degree j > 0 needs transitivity of restriction of sections in the scheme \
-over the base; neither is assumed here"]
+isomorphism is Tag 03Q9, in this library as `AlgebraicGeometry.stalkHigherDirectImageIso`, \
+not identified here with this comparison, and the equivariance in degree j > 0 needs \
+transitivity of restriction of sections in the scheme over the base; neither is assumed here"]
 public theorem fibreComparison_galoisStalkAction (σ : K ≃ₐ[k] K)
     (W : (Spec (.of k)).Etale)
     (u : (Scheme.pointSmallEtale (specAlgebraMap k K)).fiber.obj W) :

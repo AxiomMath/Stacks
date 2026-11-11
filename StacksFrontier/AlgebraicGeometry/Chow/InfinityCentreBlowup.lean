@@ -51,7 +51,7 @@ centre.
   `Stacks.Chow.exists_isEffectiveCartierDivisor_fibreIdealAtInfinity_eq` — `E ⊆ W_∞`, the fibre
   at infinity is an effective Cartier divisor on `W`, and `W_∞ = D + E` for a third effective
   Cartier divisor `D`.
-* `Stacks.Chow.lineToBlowupAtInfinity_comp` — the first half of assertion (8): the composite of
+* `Stacks.Chow.lineToBlowupAtInfinity_comp` — assertion (8), the triangle: the composite of
   `𝐏¹_Z ⟶ W` with `b` is the inclusion `𝐏¹_Z ⟶ 𝐏¹_X`.
 * `Stacks.Chow.isIso_blowupAtInfinityToLine_restrict` — assertion (1): `b` is an isomorphism
   over `𝐀¹_X ∪ 𝐏¹_{X ∖ Z}`.
@@ -82,12 +82,17 @@ Assertions (2) and (4) of the source — the divisor `D` with `W_∞ = D + E` is
 `Stacks.Chow.fibreIdealAtInfinity_eq_mul_strictTransformIdealAtInfinity` in
 `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreDivisor`, which also proves
 `W_∞ ∖ X' = E ∖ X'`. The blowup at infinity as a modification `W ⟶ X ×_S 𝐏¹_S` in the sense of
-Stacks 0F9J is `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreModification`. Assertions (5),
-(6) and (7) identify `E`, `X' ∩ E` and `E ∖ X'` with the relative `Proj` and `Spec` of the conormal
-algebra `𝒞_{Z/X,*}`, and the second half of (8) describes the fibre of `𝐏¹_Z ⟶ W` at infinity
-through the vertex of the normal cone; those are not in this file. The second half of (8) is
-Stacks 0FE9, `Stacks.Chow.lineToBlowupAtInfinity_spec` in
-`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreLineAtInfinity`.
+Stacks 0F9J is `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreModification`. Assertion (5),
+`E = Proj_Z(𝒞_{Z/X,*}[S])`, is `Stacks.Chow.exceptionalDivisorIsoConormalPolynomialProj` in
+`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreExceptionalPolynomial`; assertion (6),
+`X' ∩ E = Proj_Z(𝒞_{Z/X,*})`, is
+`Stacks.Chow.strictTransformOnExceptionalIsoProjectivizedNormalCone` in
+`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreProjectivizedNormalCone`; assertion (7),
+`E ∖ X' = E ∖ (X' ∩ E) = Spec_Z(𝒞_{Z/X,*}) = C_ZX`, is
+`Stacks.Chow.normalConeToExceptionalDivisor_spec` in
+`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreNormalConeIso` (also Stacks 0FBH); and assertion
+(8) in full, with the base change of `𝐏¹_Z ⟶ W` by `∞`, is `Stacks.Chow.lineToBlowupAtInfinity_spec`
+in `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreLineAtInfinity` (also Stacks 0FE9).
 
 ## References
 

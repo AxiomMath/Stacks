@@ -11,22 +11,25 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.MonomorphismClosedImm
 `AlgebraicGeometry.FormalSpace.Is07VT` is the shape in which the formal-space tree states
 **Stacks 07VT** — an algebraic space over `S` receiving a surjective universally closed
 morphism from an affine scheme of the site is an affine scheme. It is the special case of
-Stacks 07VT in which the source is representable by an affine scheme of the site, and the
+Stacks 07VT in which the source is representable by an affine scheme of the site. The
 library's Stacks 07VT is
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+proved outright; this file works with its conditional form
 `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`.
 
 This file proves that specialisation, so that the hypothesis is not an assumption beyond the
-three the library's Stacks 07VT already carries, and proves the converse: the restriction of the
-source to a representable one is no restriction at all, so `Is07VT` and the library's Stacks 07VT
+three its conditional form carries, and proves the converse: the restriction of the
+source to a representable one is no restriction at all, so `Is07VT` and Stacks 07VT
 are equivalent.
 
 It does the first of those for `AlgebraicGeometry.FormalSpace.Is07VS` as well. That is the
 same shape asking only a *finite* morphism — the conclusion of **Stacks 07VS** — and it, not
 `Is07VT`, is what the consumers in the formal-space tree carry, the single place the grant is
 eliminated applying it to a closed immersion. It is strictly weaker, by
-`AlgebraicGeometry.FormalSpace.is07VS_of_is07VT`, and correspondingly it is implied by the
-three hypotheses of the library's Stacks 07VS, which are weaker than those of the
-library's Stacks 07VT.
+`AlgebraicGeometry.FormalSpace.is07VS_of_is07VT`, and unlike `Is07VT` it is proved with no
+hypothesis, as `AlgebraicGeometry.FormalSpace.is07VS` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.Is07VSUnconditional`, from the library's Stacks 07VS,
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`.
 
 ## Main results
 
@@ -72,8 +75,10 @@ is `AlgebraicGeometry.FormalSpace.isAffineSpace_of_is07VT`, and together with
 `AlgebraicGeometry.FormalSpace.is07VT_of_grants` it says that the two propositions are
 equivalent. So no route to `Is07VT` is cheaper than a proof of Stacks 07VT in full: inhabiting
 the hypothesis the formal-space tree carries means proving the tag, not a special case of it.
-What stands in the way is therefore exactly the three grants of the library's Stacks 07VT, none of
-which this library inhabits — `h09YA` needs the anti-equivalence of Stacks 081V,
+Stacks 07VT is now proved outright, as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+by a route that avoids the three grants of its conditional form, none of which this library
+inhabits — `h09YA` needs the anti-equivalence of Stacks 081V,
 `AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence`, which is a structure with no inhabitant,
 together with the colimit presentation of Stacks 086Z; `h07SQ` needs the sections identification
 of Stacks 07SI, `AlgebraicGeometry.Space.LimitSituation.IsSectionsColimit`, which is stated and
@@ -84,83 +89,31 @@ and `hFinitePresentation` runs through Serre's criterion for affineness of an al
 Stacks 07VP, of which this library has only the scheme-level form
 `Stacks.SerreCriterion.isAffine_of_forall_isZero_H1_ideal`.
 
-### The same holds of `Is07VS`, and what blocks each of its three grants
+### The same holds of `Is07VS`, and it is proved
 
 `AlgebraicGeometry.FormalSpace.isAffineSpace_of_is07VS` runs that argument for the weaker
 proposition the consumers actually carry: finiteness is stable under precomposition with an
 isomorphism by `AlgebraicGeometry.Space.isFinite_comp` and
 `AlgebraicGeometry.Space.isFinite_of_isIso`, so the representable-source restriction in
-`Is07VS` is vacuous too, and `Is07VS` is *equivalent* to the statement of Stacks 07VS.
-**Two consequences are worth stating because both are easy to get wrong.** First, neither the
-library's `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite` nor
-`is07VS_of_grants` discharges the grant: they are that same statement over three hypotheses, so
-citing either replaces one open proposition by three. Second, discharging the conclusion of
-Stacks 07VR alone does **not** suffice; it is one of the three, and each of the three is open
-on its own account.
-
-* **`h07VR`**, the conclusion of Stacks 07VR, is formalized as
-  `AlgebraicGeometry.Space.integralFiniteSystem_of_isFinite`, over five hypotheses of its own:
-  `E`, the anti-equivalence of Stacks 081V; `h086Z`; and three comparisons between finiteness
-  of a morphism and finiteness of its direct-image algebra, which the source reads off the
-  construction of the relative spectrum of Stacks 081W. `E` is
-  `AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence`, still uninhabited;
-  `AlgebraicGeometry.Space.affineAlgebraAntiEquivalenceOfPushforwardProperties` reduces all five
-  of its fields to fullness, faithfulness and essential surjectivity of
-  `AlgebraicGeometry.Space.affineQuasicoherentPushforwardAlgebraFunctor`, and none of the three
-  is proved — the first two are nowhere even stated at this level, and the third is the
-  space-level relative spectrum of Stacks 081W, which
-  `AlgebraicGeometry.Space.relativeSpec` does not supply, being a projection out of `E` rather
-  than a construction of one. `h086Z` is formalized as
-  `AlgebraicGeometry.Space.exists_directed_isFinite_isFinitePresentation_locallySurjective` over
-  a carried `hsource`; discharging that asks quasi-coherence *and* finite presentation of
-  `Sym(ℱ)` on the small étale site, of which the first is reduced to its per-degree form in
-  `StacksFrontier.AlgebraicGeometry.Spaces.SymmetricAlgebraSheafQuasicoherence` and the second is
-  recorded there and in that file's neighbours as unavailable, `Sym(ℱ)` being a sheafification.
-* **`h07SQ`**, the conclusion of Stacks 07SQ, is carried by no declaration of this library that
-  proves it. The strongest statement about an affine limit is the separated-stage weakening
-  named above, and the obstruction is the one its own module documentation records: the source
-  presents the étale chart ring-theoretically over a finite stage and consumes
-  `AlgebraicGeometry.Space.LimitSituation.IsSectionsColimit`, Stacks 07SI, which is stated and
-  nowhere established, so the stage ring is unavailable and the Cartesian square of
-  Stacks 084U cannot be formed.
-* **`hFinitePresentation`** is the finite-and-finitely-presented case, and runs through
-  Stacks 07VP as said above. Nothing of the cohomological criterion it needs exists at the level
-  of algebraic spaces: the Serre criterion this library proves,
-  `Stacks.SerreCriterion.isAffine_of_forall_isZero_H1_ideal`, concludes `IsAffine` of a
-  `Scheme`, and there is no affineness-from-vanishing statement about
-  `AlgebraicGeometry.Space.IsAffineSpace`.
-
-So the debt the two open tags of the formal-space chapter carry is one proposition in the
-binder and three independent theorems behind it, no one of which this library is one lemma away
-from. A route that makes `h07VS` disappear from a binder without proving one of the three has
-not discharged it.
-
-*Narrowing the grant to the one shape it is applied in does not help.* The single application is
-in
-`isAffineFormalAlgebraicSpace_liftSheaf_of_isRepresentableThickening_uliftYoneda`
-of `StacksFrontier.AlgebraicGeometry.FormalSpace.AffineOfAffineReduction`, to a representable
-thickening — a closed immersion, surjective on points — so a hypothesis restricted to closed
-immersions would serve the consumers just as well. It would not be nearer to a theorem: the
-library's own statement for that shape,
-`AlgebraicGeometry.Space.isAffineSpace_of_isThickening_of_isAffineSpace_baseChange`, carries
-`h07VR`, `h07SQ` and `hFinitePresentation` verbatim, exactly as the library's Stacks 07VS does,
-and so do the Stacks 05ZR statements
-`AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom` and
-`isRepresentable_of_isRepresentable_thickening`. Restricting to finite order is not open
-either: that would weaken the two tags, whose thickenings come from Stacks 0AJE with no order
-bound.
+`Is07VS` is vacuous too, and `Is07VS` is *equivalent* to the statement of Stacks 07VS. That
+statement is proved with no hypothesis as
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`, so `Is07VS` is
+inhabited, by `AlgebraicGeometry.FormalSpace.is07VS`; the three hypotheses of
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite` and of `is07VS_of_grants`
+are not needed for it. Of those three, `h07VR` is itself a theorem of this library,
+`AlgebraicGeometry.Space.exists_integralFiniteSystem_of_isFinite` (Stacks 07VR).
 
 No `@[stacks 07VT]` registration is added, on any declaration here, and no `@[stacks 07VS]`
 registration either; the latter sits on
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`, of which
-`is07VS_of_grants` is likewise only the representable-source special case. The 07VT tag sits on
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`, which states the
-proposition for an arbitrary affine algebraic-space source; `is07VT_of_grants` below is its
-special case for a representable source, and registering the tag on a special case as well
-would claim coverage for a statement that does not state the tag. `isAffineSpace_of_is07VT`
-does state the tag, but it assumes it: `Is07VT` is the universally quantified form of its own
-conclusion, which is why it is a hypothesis of the consumers in the formal-space tree and not
-a hypothesis of anything carrying the tag.
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`, of which `is07VS`
+and `is07VS_of_grants` are only the representable-source special case. The 07VT tag sits on
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+which states the proposition for an arbitrary affine algebraic-space source; `is07VT_of_grants`
+below is a special case of its conditional form for a representable source, and registering
+the tag on a special case as well would claim coverage for a statement that does not state the
+tag. `isAffineSpace_of_is07VT` does state the tag, but it assumes it: `Is07VT` is the
+universally quantified form of its own conclusion, which is why it is a hypothesis of the
+consumers in the formal-space tree and not a hypothesis of anything carrying the tag.
 
 ## References
 
@@ -267,8 +220,9 @@ private theorem isSurjective_inv_comp {F X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
 
 /-- **The restriction of Stacks 07VT to a representable source is no restriction**: granted
 `AlgebraicGeometry.FormalSpace.Is07VT`, a surjective universally closed morphism of algebraic
-spaces over `S` with affine source has affine target, which is the statement of the library's
-Stacks 07VT, `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`.
+spaces over `S` with affine source has affine target, which is the statement of Stacks 07VT,
+proved outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`.
 
 An affine algebraic space is isomorphic to the presheaf represented by an object of the site
 with affine underlying scheme, so precomposing with that isomorphism turns the given morphism
@@ -296,8 +250,8 @@ theorem isAffineSpace_of_is07VT (h07VT : Is07VT B S hS)
 
 /-- **The restriction of Stacks 07VS to a representable source is no restriction either**:
 granted `AlgebraicGeometry.FormalSpace.Is07VS`, a surjective *finite* morphism of algebraic
-spaces over `S` with affine source has affine target, which is the statement of the library's
-Stacks 07VS, `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`.
+spaces over `S` with affine source has affine target, which is the statement of Stacks 07VS,
+proved outright as `AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`.
 
 The argument is that of `AlgebraicGeometry.FormalSpace.isAffineSpace_of_is07VT`, with
 finiteness in place of universal closedness: an affine algebraic space is isomorphic to the
@@ -308,13 +262,9 @@ with that isomorphism preserves surjectivity on points by
 `AlgebraicGeometry.Space.isFinite_of_isIso`. Unlike the universally closed case this needs no
 algebraicity of the source, finiteness being stable under composition outright.
 
-**This is what makes the grant of the two open tags irreducible.** With
-`AlgebraicGeometry.FormalSpace.is07VS_of_grants` it says that `Is07VS` and the statement of
-Stacks 07VS are *equivalent*, so the representable-source restriction buys nothing: the
-hypothesis `h07VS` that Stacks 0DE8 and Stacks 0GVN carry is the whole tag, and neither the
-library's `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite` nor
-`is07VS_of_grants` can discharge it, both of them having the same three undischarged
-hypotheses. -/
+With `AlgebraicGeometry.FormalSpace.is07VS` and
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective` it says that `Is07VS`
+and the statement of Stacks 07VS are *equivalent*, and both hold. -/
 theorem isAffineSpace_of_is07VS (h07VS : Is07VS B S hS)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
     (hY : IsAlgebraicSpace B S hS Y) (hsurj : Space.IsSurjective B S hS f)

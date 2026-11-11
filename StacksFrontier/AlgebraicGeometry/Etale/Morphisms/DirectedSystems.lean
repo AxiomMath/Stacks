@@ -23,6 +23,11 @@ homomorphisms `φ i j h : A i →+* A j`, and a `DirectedSystem A` instance for 
 maps. The general Mathlib notions are therefore adopted directly rather than wrapped in
 ring-specific aliases.
 
+The exercise text of Tag 078I states the composition law `φ_jk ∘ φ_ij = φ_ik` for `i ≤ j ≤ k`
+and leaves the identity law `φ_ii = id` implicit, so read literally each `φ_ii` is merely
+idempotent. Mathlib's `DirectedSystem` includes the identity law as `DirectedSystem.map_self`,
+in line with the definition of systems of modules in Tag 00D4, which states both laws.
+
 ## References
 
 * [Stacks Project, Tag 078I](https://stacks.math.columbia.edu/tag/078I)
@@ -31,4 +36,6 @@ ring-specific aliases.
 @[expose] public section
 
 add_to_stacks 078I "directed sets" IsDirected
-add_to_stacks 078I "systems of rings" DirectedSystem
+add_to_stacks 078I "systems of rings; the exercise text omits the identity law φ_ii = id, which
+  `DirectedSystem.map_self` includes, as does the definition of systems of modules in Tag 00D4"
+  DirectedSystem

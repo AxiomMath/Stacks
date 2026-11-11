@@ -92,9 +92,10 @@ the nose.
 The coefficient module is the source's `𝒢 ⊗_O f^*𝒥`, with `f^*𝒥` the `O`-module
 `Deformation.ToposThickening.basePullbackIdeal`. Stacks 08MQ, and so
 `Deformation.ToposThickening.IsIdealProductTensorIso`, identifies the ideal product with the
-other order `f^*𝒥 ⊗_O 𝒢`, which is how
-`Deformation.ToposThickening.moduleMapLift_torsor_of_isFlat` states Stacks 08MR; the two are
-exchanged by the symmetry
+other order `f^*𝒥 ⊗_O 𝒢`, which is the coefficient module of
+`Deformation.ToposThickening.moduleMapLift_torsor_of_isFlat` (Stacks 08MR itself, with the
+source's order and action, is `Deformation.ToposThickening.exists_addTorsor_moduleMapLift`); the
+two orders are exchanged by the symmetry
 `Stacks.SheafOfModules.FlatSquareZero.tensorLeftIsoTensorRight` of the sheaf tensor product.
 The Ext group is taken in the `O`-modules on `Sh(C)`, which is where the source takes it.
 

@@ -10,13 +10,15 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleDesc
 Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` which is representable by
 schemes and which is surjective and integral, or surjective and proper, or surjective and flat
 and locally of finite presentation. Then étale sheaves on `Y` are descent data for the covering
-`{X ⟶ Y}`. This is **Stacks 0GFU**.
+`{X ⟶ Y}`. This is **Stacks 0GFU**; this file proves its reduction to a scheme base, and the
+unconditional statement is
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable`.
 
-The source argument is run here. Each of the three conditions is a property of representable
+The reduction of the source is run here. Each of the three conditions is a property of representable
 morphisms in the sense of Stacks 02WE, hence is stable under arbitrary base change for free, so
 Stacks 0GFT lets one test effective descent along an étale covering of `Y`. The definition of an
-algebraic space (Stacks 025Y) supplies a one-member étale covering `{a : U ⟶ Y}` by a *scheme*,
-and the two base changes of `f` that Stacks 0GFT asks about — along `a`, and along the structure
+algebraic space (Stacks 025Y) supplies a one-member étale covering `{a : U ⟶ Y}` by a *scheme*, and
+the two base changes of `f` that Stacks 0GFT asks about — along `a`, and along the structure
 morphism of `U ×_Y U` — then have representable target: `U` is a scheme by construction, and
 `U ×_Y U` is a scheme because `a` is representable, the diagonal of `Y` being so. That is the
 reduction of the source to the case of a scheme target, and it is what this file proves.
@@ -24,9 +26,9 @@ reduction of the source to the case of a scheme target, and it is what this file
 ## Main definitions
 
 * `AlgebraicGeometry.Space.SpacesEtaleDescentOverRepresentable` is effective descent restricted
-  to the morphisms whose *target is representable*, that is, the case of a scheme base. It is
-  what the three statements below are granted, and it is strictly weaker than any of them: the
-  target of the morphism in each conclusion is an arbitrary algebraic space.
+  to the morphisms whose *target is representable*, that is, the case of a scheme base. The
+  three statements below take it as a hypothesis; it is proved by
+  `AlgebraicGeometry.Space.spacesEtaleDescentOverRepresentable_of_smallEtale`.
 
 ## Main results
 
@@ -37,7 +39,7 @@ reduction of the source to the case of a scheme target, and it is what this file
   overlap of two scheme-valued points of an algebraic space;
 * `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_surjective_integral`,
   `…_of_surjective_proper` and `…_of_surjective_flat_locallyOfFinitePresentation` are the three
-  cases of Stacks 0GFU.
+  cases of Stacks 0GFU reduced to a scheme base.
 
 ## Implementation notes
 
@@ -47,12 +49,14 @@ spaces-étale inverse images, exactly as Stacks 0GFS and Stacks 0GFT are in
 `…SpacesEtaleDescentEtaleLocal`; the source states all three for the small étale topoi, which
 are the same topoi by Stacks 03G1.
 
-The case over a scheme base is not available in this library and is carried as an explicit
-hypothesis: the source deduces it from Étale Cohomology, Lemmas 0GEZ, 0GF0 and 0GF2, none of
-which this library has, and those in turn rest on the dévissage of Stacks 0GF1 and, for the
-integral case, on the base-change theorem of Stacks 0EYP. Each of the three statements below
-carries the hypothesis for its own property only, so that no case borrows the conclusion of
-another.
+The three statements below take the case over a scheme base as an explicit hypothesis, for
+their own property only, so that this file isolates the étale-local reduction. That case is
+proved in the library: `AlgebraicGeometry.Space.spacesEtaleDescentOverRepresentable_of_smallEtale`
+derives it from effective descent of small étale sheaves along a morphism of schemes (Étale
+Cohomology, Lemmas 0GEZ, 0GF0 and 0GF2), and the unconditional Stacks 0GFU is
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleDescentSchemeTarget`, which applies
+these three statements with that hypothesis discharged.
 
 The three conditions are *alternatives*, not simultaneous assumptions, so each case is a
 separate statement. Each is phrased with its conjuncts as separate hypotheses, which is how the
@@ -108,7 +112,8 @@ theorem isRepresentable_pullback_of_yoneda {Y : AlgebraicSpaces B S hS}
 
 /-- **Effective descent of spaces-étale sheaves along the morphisms with property `Q` whose
 target is representable.** This is the case of Stacks 0GFU in which the base is a scheme, the
-case the source settles by citing Étale Cohomology, Lemmas 0GEZ, 0GF0 and 0GF2.
+case the source settles by citing Étale Cohomology, Lemmas 0GEZ, 0GF0 and 0GF2, and which
+`AlgebraicGeometry.Space.spacesEtaleDescentOverRepresentable_of_smallEtale` proves from them.
 
 It is a strictly weaker assertion than any of the three statements of Stacks 0GFU below, whose
 conclusions are about a morphism whose target is an arbitrary algebraic space; passing from this
@@ -147,7 +152,7 @@ theorem isEquivalence_toDescentData_singleton_of_descentOverRepresentable
   · exact hQ _ (isRepresentable_pullback_of_yoneda B S hS a a)
       (Q.pullback_snd f.hom _ hf)
 
-/-! ### The three cases of Stacks 0GFU -/
+/-! ### The three cases of Stacks 0GFU, reduced to a scheme base -/
 
 section Cases
 
@@ -177,20 +182,12 @@ private theorem isEquivalence_toDescentData_singleton_of_inverseImage
     (MorphismProperty.inverseImage P (BigFppfOver.toScheme B S hS))
   exact isEquivalence_toDescentData_singleton_of_descentOverRepresentable B S hS _ hsch f hf
 
-/-- **Stacks 0GFU, the surjective integral case.** Let `f : X ⟶ Y` be a morphism of algebraic
-spaces over `S` which is representable by schemes, surjective and integral. Then spaces-étale
+/-- **Reduction of Stacks 0GFU to a scheme base, the surjective integral case.** Let
+`f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is representable by schemes,
+surjective and integral. Then spaces-étale
 sheaves on `Y` are equivalent, via the canonical descent datum, to descent data for the covering
-`{X ⟶ Y}`, granted the same assertion for a morphism with representable target. -/
-@[stacks 0GFU "the surjective integral case, for the pseudofunctor of spaces-étale inverse \
-images, granted the case of a representable target as the hypothesis `hsch`.  Proved here: the \
-étale-local reduction of the source, that is, that the conclusion for an arbitrary algebraic \
-space `Y` follows from the case in which the target is a scheme -- a scheme atlas of `Y` is a \
-one-member étale covering (Tag 025Y), the two base changes of `f` named by Tag 0GFT have \
-representable target, and the representable surjective integral morphisms are stable under base \
-change (Tag 02WE).  NOT proved, and carried by `hsch`: the case of a scheme target, which the \
-source deduces from Etale Cohomology Tag 0GEZ; that lemma is not in this library and rests in \
-turn on the devissage of Tag 0GF1 and on the base-change theorem of Tag 0EYP.  The other two \
-cases of the source statement are separate declarations with their own hypothesis."]
+`{X ⟶ Y}`, given the same assertion for a morphism with representable target. The reduction step
+of `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable`. -/
 theorem isEquivalence_toDescentData_singleton_of_surjective_integral
     (hsch : SpacesEtaleDescentOverRepresentable B S hS
       (MorphismProperty.inverseImage
@@ -205,20 +202,12 @@ theorem isEquivalence_toDescentData_singleton_of_surjective_integral
   exact isEquivalence_toDescentData_singleton_of_inverseImage B S hS hsch f
     (presheaf_inf_of B S hS hsurj hint)
 
-/-- **Stacks 0GFU, the surjective proper case.** Let `f : X ⟶ Y` be a morphism of algebraic
-spaces over `S` which is representable by schemes, surjective and proper. Then spaces-étale
+/-- **Reduction of Stacks 0GFU to a scheme base, the surjective proper case.** Let
+`f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is representable by schemes,
+surjective and proper. Then spaces-étale
 sheaves on `Y` are equivalent, via the canonical descent datum, to descent data for the covering
-`{X ⟶ Y}`, granted the same assertion for a morphism with representable target. -/
-@[stacks 0GFU "the surjective proper case, for the pseudofunctor of spaces-étale inverse \
-images, granted the case of a representable target as the hypothesis `hsch`.  Proved here: the \
-étale-local reduction of the source, that is, that the conclusion for an arbitrary algebraic \
-space `Y` follows from the case in which the target is a scheme -- a scheme atlas of `Y` is a \
-one-member étale covering (Tag 025Y), the two base changes of `f` named by Tag 0GFT have \
-representable target, and the representable surjective proper morphisms are stable under base \
-change (Tag 02WE).  NOT proved, and carried by `hsch`: the case of a scheme target, which the \
-source deduces from Etale Cohomology Tag 0GF0; that lemma is not in this library and rests in \
-turn on the devissage of Tag 0GF1 and on the proper base-change theorem of Tag 0A3U.  The other \
-two cases of the source statement are separate declarations with their own hypothesis."]
+`{X ⟶ Y}`, given the same assertion for a morphism with representable target. The reduction step
+of `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable`. -/
 theorem isEquivalence_toDescentData_singleton_of_surjective_proper
     (hsch : SpacesEtaleDescentOverRepresentable B S hS
       (MorphismProperty.inverseImage
@@ -233,22 +222,12 @@ theorem isEquivalence_toDescentData_singleton_of_surjective_proper
   exact isEquivalence_toDescentData_singleton_of_inverseImage B S hS hsch f
     (presheaf_inf_of B S hS hsurj hproper)
 
-/-- **Stacks 0GFU, the surjective flat locally finitely presented case.** Let `f : X ⟶ Y` be a
-morphism of algebraic spaces over `S` which is representable by schemes, surjective, flat and
-locally of finite presentation. Then spaces-étale sheaves on `Y` are equivalent, via the
-canonical descent datum, to descent data for the covering `{X ⟶ Y}`, granted the same assertion
-for a morphism with representable target. -/
-@[stacks 0GFU "the surjective flat locally-of-finite-presentation case, for the pseudofunctor \
-of spaces-étale inverse images, granted the case of a representable target as the hypothesis \
-`hsch`.  Proved here: the étale-local reduction of the source, that is, that the conclusion for \
-an arbitrary algebraic space `Y` follows from the case in which the target is a scheme -- a \
-scheme atlas of `Y` is a one-member étale covering (Tag 025Y), the two base changes of `f` \
-named by Tag 0GFT have representable target, and the representable surjective flat morphisms \
-locally of finite presentation are stable under base change (Tag 02WE).  NOT proved, and \
-carried by `hsch`: the case of a scheme target, which the source deduces from Etale Cohomology \
-Tag 0GF2; that lemma is not in this library and rests in turn on the devissage of Tag 0GF1 and \
-on the finite domination of an fppf covering of Tag 0CP0.  The other two cases of the source \
-statement are separate declarations with their own hypothesis."]
+/-- **Reduction of Stacks 0GFU to a scheme base, the surjective flat locally finitely presented
+case.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is representable by
+schemes, surjective, flat and locally of finite presentation. Then spaces-étale sheaves on `Y` are
+equivalent, via the canonical descent datum, to descent data for the covering `{X ⟶ Y}`, given the
+same assertion for a morphism with representable target. The reduction step of
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable`. -/
 theorem isEquivalence_toDescentData_singleton_of_surjective_flat_locallyOfFinitePresentation
     (hsch : SpacesEtaleDescentOverRepresentable B S hS
       (MorphismProperty.inverseImage

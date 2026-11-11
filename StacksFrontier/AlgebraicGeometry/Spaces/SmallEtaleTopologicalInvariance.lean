@@ -57,8 +57,11 @@ each of the two equivalences above carries all four:
   `AlgebraicGeometry.Space.isEquivalence_spacesBaseChange_of_isFirstOrderThickening`, and not
   for an arbitrary integral, universally injective and surjective morphism, so the general
   equivalence cannot be supplied here.
-* `h09YA`, `h07SQ` and `hFinitePresentation`, the three hypotheses of Stacks 07VT carried
-  unchanged from `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`
+* `h09YA`, `h07SQ` and `hFinitePresentation`, the three hypotheses of the conditional form of
+  Stacks 07VT, carried unchanged from
+  `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed` (Stacks 07VT
+  itself is proved outright as
+  `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`)
   and from `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom_of_bijective`. None is the
   universally quantified form of any conclusion here: the first two conclude about inverse
   systems and the third about affineness of the target of a finite morphism of finite

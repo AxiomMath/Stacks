@@ -21,8 +21,10 @@ with a cofiltered system of open neighbourhoods `W i` of `s` under it, and an ob
 the system of the `W i ∩ U`, such that base change exhibits the algebraic spaces of finite
 presentation over `M` as the cofiltered `2`-colimit of those over the `W i` and likewise for `N`
 and the `W i ∩ U`, the comparison functor attached to the cartesian square with vertices `N`,
-`U`, `M`, `S` is an equivalence. The two colimit identifications are carried as hypotheses; see
-the section on what is and is not proved below.
+`U`, `M`, `S` is an equivalence. The two colimit identifications are hypotheses of this general
+theorem; they are discharged for `M = Spec 𝒪_{S,s}` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationSpecStalkGlueing`, which proves
+Stacks 0E90 itself (see the section on the scope of this file below).
 
 Faithfulness and fullness are transported from a single neighbourhood: two morphisms over `S`
 agreeing over `M` already agree over some `W j`, and a morphism of glueing data over `M` comes
@@ -49,7 +51,7 @@ those projections in the slice of presheaves.
 * `AlgebraicGeometry.FinitePresentationSpacesOver.IsFinitePresentationColimit`: the property
   that base change along a cone exhibits the algebraic spaces of finite presentation over the
   vertex as the cofiltered `2`-colimit of those over the stages. This is the shape of the two
-  carried hypotheses.
+  hypotheses of the general theorem.
 * `AlgebraicGeometry.FinitePresentationSpacesOver.coneIso` and
   `AlgebraicGeometry.FinitePresentationSpacesOver.transIso`: the comparisons of base change from
   the base to the vertex, respectively to a stage, with base change through a stage,
@@ -91,18 +93,19 @@ their further base changes to `N`.
   `AlgebraicGeometry.FinitePresentationSpacesOver.essSurj_glueingFunctor_of_colimit`: the
   comparison functor is faithful, full and essentially surjective.
 * `AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_of_colimit`:
-  **the comparison functor is an equivalence**, which is Stacks 0E90 granted the two colimit
-  identifications.
+  **the comparison functor is an equivalence** for any cofiltered system of neighbourhoods with
+  the two colimit properties; Stacks 0E90 is its instance
+  `AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_specStalk`.
 
-## What is proved of Stacks 0E90, and what is not
+## Scope of this file, and where Stacks 0E90 is proved
 
-Proved with no hypothesis beyond the point-set situation: that the complement of the closed
+Proved here with no hypothesis beyond the point-set situation: that the complement of the closed
 point `s` and any open neighbourhood `W` of it cover `S`, and hence that the comparison functor
 `FP_S ⥤ FP_U ×_{FP_{U ∩ W}} FP_W` of Stacks 0E8Z is an equivalence for every such `W`. This is
 the first half of the argument of Stacks 0E90.
 
-Proved from two hypotheses: that the comparison functor `FP_S ⥤ FP_U ×_{FP_N} FP_M` is an
-equivalence. The hypotheses are
+Proved here for an arbitrary cofiltered system: that the comparison functor
+`FP_S ⥤ FP_U ×_{FP_N} FP_M` is an equivalence, given
 
 * `hloc : IsFinitePresentationColimit B S hS W M pM hpM`, that base change along the cone `pM`
   exhibits `FP_M` as the cofiltered `2`-colimit of the `FP_{W i}`, and
@@ -112,20 +115,14 @@ equivalence. The hypotheses are
 together with the data these refer to: the index category, the two diagrams, the two cones and
 the evident compatibilities of the cones with the structure morphisms of the squares.
 
-Not proved, and the reason the two hypotheses are carried: the theorem never says that `M` is
-`Spec 𝒪_{S,s}` or that `N` is its puncture — `M` and `N` are arbitrary objects of the site with
-the stated colimit property. Specialising the theorem to Stacks 0E90 requires the cofiltered
-diagram of affine open neighbourhoods of `s`, the identification of `Spec 𝒪_{S,s}` with its
-limit, and the identification of `Spec 𝒪_{S,s} ∖ {s}` with the limit of the `W i ∩ U` — which
-are quasi-compact because `U → S` is, the hypothesis of Stacks 0E90 that plays no other role
-here. Those limit identifications are not available in this library for the big fppf site, and
-they are not constructed here. Granted them, the two hypotheses are exactly what
-Stacks 07SK provides: `AlgebraicGeometry.Space.exists_model_of_finitePresentation` (essential
-surjectivity), `AlgebraicGeometry.Space.exists_morphism_after_baseChange` (fullness) and
-`AlgebraicGeometry.Space.eventually_eq_of_baseChange_eq` (faithfulness) of
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationDescent`, which are stated for a
-cofiltered diagram of presheaves with affine transitions and its limit; transporting them from
-that formulation to base change along a cone is likewise not done here.
+The theorem here does not say that `M` is `Spec 𝒪_{S,s}` or that `N` is its puncture. That
+specialisation is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_specStalk` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationSpecStalkGlueing`, which carries
+the tag: it takes the system of affine open neighbourhoods of `s`, uses the identifications of
+`Spec 𝒪_{S,s}` with their limit and of `Spec 𝒪_{S,s} ∖ {s}` with the limit of the `W i ∩ U`
+(quasi-compact because `U → S` is), and derives `hloc` and `hoverlap` from Stacks 07SK, so that
+it holds with no hypothesis beyond those of the tag.
 
 The fourth condition `IsFinitePresentationColimit.essIso`, that an isomorphism between the base
 changes of two stage objects descends to an isomorphism at a stage, is a consequence of the
@@ -889,22 +886,15 @@ include hsq hsqW hpNU hpNW hiUn hiWn hloc hoverlap hUopen hWopen hU hW in
 `FP_U ×_{FP_N} FP_M`, when `M` is a cofiltered limit of open neighbourhoods of the point
 complementary to `U` and `N` is the corresponding limit of their intersections with `U`.**
 
-This is Stacks 0E90 for `M = Spec O_{S,s}` and `N = Spec O_{S,s} ∖ {s}`, granted the two
-colimit identifications carried as the hypotheses `hloc` and `hoverlap`: what the theorem proves
-is the formal combination, namely that the comparison functor is faithful, full and essentially
+This is the formal combination behind Stacks 0E90, for an arbitrary cofiltered system with the
+colimit properties `hloc` and `hoverlap`; the tag itself, with `M = Spec O_{S,s}`,
+`N = Spec O_{S,s} ∖ {s}` and both colimit properties proved, is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_specStalk`. It proves
+that the comparison functor is faithful, full and essentially
 surjective. Faithfulness and fullness come from the equivalence of Stacks 0E8Z at a single
 neighbourhood, which applies because the complement of the point and any neighbourhood of it
 cover the base; essential surjectivity needs in addition that a glueing datum descends to a
 neighbourhood. -/
-@[stacks 0E90 "the equivalence, granted the two colimit identifications. The theorem is stated \
-for an arbitrary object `M` of the site equipped with a cofiltered system of open neighbourhoods \
-`W i` of the point complementary to `U`, and an object `N` over their intersections with `U`, \
-such that base change exhibits `FP_M` as the cofiltered 2-colimit of the `FP_{W i}` and `FP_N` \
-as that of the `FP_{W i ∩ U}`; these two statements are the hypotheses `hloc` and `hoverlap`. \
-For `M = Spec O_{S,s}` they are what Stacks 07SK gives once the affine open neighbourhoods of \
-`s` are known to have `Spec O_{S,s}` as their limit and the `W i ∩ U` to have its puncture as \
-theirs — neither limit identification is available in this library, which is why the two \
-colimit statements are carried as hypotheses rather than proved"]
 theorem isEquivalence_glueingFunctor_of_colimit :
     (glueingFunctor B S hS hsq.w).IsEquivalence := by
   have hfaithful := faithful_glueingFunctor_of_colimit B S hS hsq hsqW hloc

@@ -280,9 +280,9 @@ the terminal object and on fibre products: the former by
 with the fact that `j_{V!}` preserves and `j_{U!}` reflects connected limits (Stacks 00Y1) and
 that `u_s` is left exact by hypothesis. -/
 @[stacks 03CF "Clause (a): the localized functor `u' = Over.post u` defines a morphism of sites
-  `D/u(V) → C/V`, assuming only that `u` does. This is the clause Stacks derives from clause (c)
-  via 00Y1, and which `Functor.isMorphismOfSites_overPost` covers only under 03EF's finite-limit
-  and left-exactness hypotheses."]
+  `D/u(V) → C/V` whenever `u` does, which is 03CF's hypothesis. Stacks derives it from clause (c)
+  via 00Y1; `Functor.isMorphismOfSites_overPost` is the variant under 03EF's finite-limit and
+  left-exactness hypotheses."]
 theorem Functor.isMorphismOfSites_overPost_of_isMorphismOfSites {C : Type u} [SmallCategory C]
     {D : Type u} [SmallCategory D] (J : GrothendieckTopology C) (K : GrothendieckTopology D)
     (u : C ⥤ D) (V : C) (h : u.IsMorphismOfSites J K) :

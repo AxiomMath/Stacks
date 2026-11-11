@@ -35,8 +35,11 @@ No new definitions are introduced.
 * `AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization_of_isQuasiCompactSpace`
   is `AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization` with the finiteness
   of the set of connected components replaced by the geometric hypotheses that Tag 0DMY draws
-  it from.  Its remaining hypothesis, artinianness of the ring of global functions, is the
-  part of Tag 0DMY that rests on Tag 08AS and is not available in this library.
+  it from.  Its remaining hypothesis, artinianness of the ring of global functions, follows for
+  a proper space over a field from part (1) of Tag 0DMY,
+  `AlgebraicGeometry.Space.isArtinianRing_globalFunctions_of_isProper_of_field`; the resulting
+  part (2) is
+  `AlgebraicGeometry.Space.nonempty_componentwiseArtinianFactorization_of_isProper_of_field`.
 
 ## Implementation notes
 
@@ -108,8 +111,8 @@ derives it from: Tag 04ZL makes a proper algebraic space over a field quasi-comp
 locally Noetherian, and Tag 04ZF then makes its point space Noetherian.
 
 The remaining hypothesis is artinianness of the whole ring of global functions, which
-Tag 0DMY gets from its own finite-dimensionality clause, hence from Tag 08AS;  that is the
-part of Tag 0DMY this library does not have. -/
+Tag 0DMY gets from its own finite-dimensionality clause, part (1); for a proper space over a
+field it is `AlgebraicGeometry.Space.isArtinianRing_globalFunctions_of_isProper_of_field`. -/
 theorem nonempty_componentwiseArtinianFactorization_of_isQuasiCompactSpace
     (hX : IsAlgebraicSpace B (Spec (.of k)) hS X)
     (hqc : IsQuasiCompactSpace B (Spec (.of k)) hS X)

@@ -8,8 +8,9 @@ import StacksCore.Tactic.StacksAttribute
 
 For a hypercovering `K` of a site `C` with a sheaf of rings `O_C`, the canonical map
 `E ⟶ Ra_*La^*E` along the ringed augmentation `a` is an isomorphism for every `E` in `D(O_C)`
-(Stacks 0DA0). This file attaches the tag to the theorem
-`SimplicialSemiRepresentable.isIso_derivedPullbackPushforwardUnit_of_hypercoveringOfTerminal`.
+(Stacks 0DA0). The tag is carried by the attribute on the theorem
+`SimplicialSemiRepresentable.isIso_derivedPullbackPushforwardUnit_of_hypercoveringOfTerminal`;
+this module re-exports it.
 
 ## References
 
@@ -19,8 +20,5 @@ For a hypercovering `K` of a site `C` with a sheaf of rings `O_C`, the canonical
 @[expose] public section
 
 open CategoryTheory
-
-add_to_stacks 0DA0
-  SimplicialSemiRepresentable.isIso_derivedPullbackPushforwardUnit_of_hypercoveringOfTerminal
 
 end

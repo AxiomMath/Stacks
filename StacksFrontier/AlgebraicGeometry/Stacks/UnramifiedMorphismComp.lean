@@ -52,7 +52,9 @@ unramified: for `f : 𝒳 ⟶ 𝒴` and `g : 𝒴 ⟶ 𝒵` unramified, so is `f
 This is **Stacks 0CIH** at unramifiedness of morphisms of algebraic spaces, which is étale-smooth
 local on the source-and-target by **Stacks 0CG3** and stable under composition by
 **Stacks 03ZI**. -/
-@[stacks 0CIU]
+@[stacks 0CIU "for 1-morphisms of algebraic stacks over a scheme S of the big fppf site;
+  proved as in the source through Stacks 0CIH, with Stacks 06N3 (1) => (2) supplied by
+  existsEtalePresentationOfIsAbsolutelyDM"]
 theorem isUnramified_comp
     {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒴 ⟶ 𝒵)
     (hf : IsUnramified B S hS f) (hg : IsUnramified B S hS g) :

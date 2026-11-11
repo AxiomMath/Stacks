@@ -17,9 +17,9 @@ functorial in all three entries, where `SheafHom(G, H)` is the sheaf
 
 ## What is proved here
 
-`Sheaf.tensorHomEquivIhom` is the bijection, for the internal hom that Mathlib's
-`MonoidalClosed (Sheaf J A)` instance supplies. Being the hom-equivalence of an adjunction
-it is automatically natural in all three entries, which is Stacks' functoriality clause.
+`Sheaf.tensorHomEquivIhom` is a bijection of the shape of 0BWQ, for the abstract internal hom
+that Mathlib's `MonoidalClosed (Sheaf J A)` instance supplies; this is the slogan (sheaves are
+cartesian closed), not the displayed formula of 0BWQ, see below.
 
 For sheaves of sets the instance costs nothing: `monoidalClosed_sheaf_type` records that
 `MonoidalClosed (Sheaf J (Type (max u v)))` holds for *any* site, with no side conditions.
@@ -37,14 +37,12 @@ with `CartesianMonoidalCategory`.
 ## What is NOT proved here
 
 The internal hom of the `MonoidalClosed` instance is the abstract one produced by
-`cartesianClosedOfReflective'` from the reflection `presheafToSheaf`. It is *not* known to
-agree with Stacks' `SheafHom`, which is Mathlib's `CategoryTheory.sheafHom`. Both
-`Mathlib/CategoryTheory/Sites/SheafHom.lean` and `Mathlib/CategoryTheory/Sites/Monoidal.lean`
-carry a `TODO` for exactly that identification, and it is not supplied here: the internal
-hom is characterised by the adjunction below, so deriving `ihom G H ≅ sheafHom G H` would
-require proving the adjunction *for* `sheafHom`, which is the substance of the tag's
-displayed formula. So the slogan is settled and the displayed formula, read with Stacks'
-own `SheafHom`, is not.
+`cartesianClosedOfReflective'` from the reflection `presheafToSheaf`. It is *not* identified here
+with Stacks' `SheafHom`, which is Mathlib's `CategoryTheory.sheafHom`, so
+`tensorHomEquivIhom` is not Stacks 0BWQ and does not carry the tag. The displayed formula of
+0BWQ with `sheafHom`, for sheaves of sets on a site, natural in all three entries, is
+`CategoryTheory.SheafHomAdj.prodHomEquivSheafHom` and `prodHomEquivSheafHom_natural`, in
+`StacksFrontier/CategoryTheory/Sites/Glueing/SheafHomProdEquiv.lean`.
 -/
 
 @[expose] public section
@@ -64,15 +62,12 @@ noncomputable def monoidalClosed_sheaf_type :
     MonoidalClosed (Sheaf J (Type (max u v))) :=
   inferInstance
 
-/-- **Stacks 0BWQ.** For sheaves `F`, `G`, `H` on a site `C` there is a canonical bijection
-`Mor(F × G, H) ≃ Mor(F, SheafHom(G, H))`, where `SheafHom(G, H)` is the internal hom of the
-cartesian closed category of sheaves.
-
-The bijection is the hom-equivalence of the adjunction `- ⊗ G ⊣ ihom G`, so it is natural
-in all three entries, which is Stacks' functoriality clause. See the module docstring for
-the caveat that the internal hom here is Mathlib's abstract one rather than Mathlib's
-`sheafHom`. -/
-@[stacks 0BWQ]
+/-- For sheaves `F`, `G`, `H` on a site `C` there is a bijection
+`Mor(F ⊗ G, H) ≃ Mor(F, ihom G H)`, where `ihom G` is the abstract internal hom of Mathlib's
+`MonoidalClosed (Sheaf J A)` instance. It is the hom-equivalence of the adjunction
+`- ⊗ G ⊣ ihom G` (with a braiding swap), so it holds by construction of the instance and does not
+identify `ihom G H` with the explicit sheaf `SheafHom(G, H)` of Stacks 0BWQ. Stacks 0BWQ itself,
+with Mathlib's `sheafHom`, is `CategoryTheory.SheafHomAdj.prodHomEquivSheafHom`. -/
 noncomputable def tensorHomEquivIhom {A : Type*} [Category.{max u v} A]
     [CartesianMonoidalCategory A] [MonoidalClosed (Cᵒᵖ ⥤ A)] [HasSheafify J A]
     (F G H : Sheaf J A) :

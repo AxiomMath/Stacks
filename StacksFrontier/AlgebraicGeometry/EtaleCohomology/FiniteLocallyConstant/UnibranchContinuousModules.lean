@@ -47,55 +47,31 @@ normalization.
 * `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModuleOfComparison` — the tag for `X`
   follows from the tag for a scheme `Y` whose finite type locally constant module category is
   equivalent to that of `X` and whose fundamental group is isomorphic to that of `X`.
-* `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModule` — **Tag 0GIY** in the
-  restricted form described below.
+* `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModule` — the source's reduction of
+  Tag 0GIY along the normalization, with the inputs described below as hypotheses.
 
-## No unrestricted `@[stacks 0GIY]`
+## Tag 0GIY and the reduction along the normalization
 
-The tag is carried in a restricted form: its geometric input is taken as hypotheses. What the
-declaration proves is the source's first reduction. Geometric unibranchness and irreducibility are
-used to produce the universal homeomorphism `ν : X^ν → X` of Tag 0GIQ
-(`AlgebraicGeometry.Scheme.universalHomeomorphism_normalization`), the hypothesis on the locally
-constant categories is instantiated at it, the fundamental group comparison is derived from the
-hypothesis that base change along `ν` is an equivalence of finite étale covers, and the resulting
-equivalences are composed with the transport of the continuous module category along that
-comparison. The hypotheses are, by tag number:
+Tag 0GIY itself is `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModuleUniv`, which
+proves it with no hypotheses beyond the source's, by a direct argument that avoids the
+normalization. The declaration `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModule`
+of this module is the source's first reduction instead, and is not registered under the tag.
+Geometric unibranchness and irreducibility are used to produce the universal homeomorphism
+`ν : X^ν → X` of Tag 0GIQ (`AlgebraicGeometry.Scheme.universalHomeomorphism_normalization`), the
+hypothesis on the locally constant categories is instantiated at it, the fundamental group
+comparison is derived from the hypothesis that base change along `ν` is an equivalence of finite
+étale covers, and the resulting equivalences are composed with the transport of the continuous
+module category along that comparison. Its hypotheses are:
 
-* **0BQN** — that base change along a universal homeomorphism is an equivalence of finite étale
-  covers. Only faithfulness of the base change functor is available
-  (`AlgebraicGeometry.faithful_finiteEtaleBaseChange_of_universalHomeomorphism`); fullness and
-  essential surjectivity, for which the source invokes Tag 0BTP, are not. Carried here as the
-  instance hypothesis `[(finiteEtaleBaseChange (Scheme.normalizationOfIrreducible X.obj))
-  .IsEquivalence]`. The isomorphism `π₁(X^ν, x^ν) ≅ π₁(X, x)` of topological groups is *not* a
-  hypothesis: it is deduced from this by Tag 0BQA part (2),
-  `AlgebraicGeometry.etaleFundamentalGroupContinuousMulEquivOfIsEquivalence`.
-* **04DZ** — the topological invariance of the small étale site, which is what identifies the
-  finite type locally constant module categories of `X` and `X^ν`. There is no `@[stacks 04DZ]`
-  declaration in this library. Carried here as `hinvariance`.
-* That the geometric point `x` of `X` lifts to the normalization, carried here as `xν` together
-  with `hx`. Every point does lift, `ν` being surjective
-  (`AlgebraicGeometry.Scheme.surjective_normalization`), but lifting a *geometric* point needs the
-  residue field extension, which is not assembled here. Without the lift the statement would have
-  to invoke the change of base point of Tag 0BND part (2), which is itself conditional in this
-  library.
-* **0GIY itself for an integral normal scheme** — the source's Steps 2 and 3. Carried here as
-  `hnormal`. Its own inputs are in mixed shape: the surjection
-  `Gal(κ(η)^{sep}/κ(η)) = π₁(η, η̄) → π₁(X, η̄)` of **0BQM** is available
-  (`AlgebraicGeometry.surjective_galoisToFundamentalGroup`), the description of its kernel in
-  **0BTD** is available only in the incomplete forms recorded in
-  `StacksFrontier.AlgebraicGeometry.FundamentalGroup.NormalKernelLocalRings`, and **0BQI** has no
-  declaration in this library. The construction of the sheaf attached to a module,
-  `F = f_*Z ⊗_{Z[G]} M` for `f : Y → X` the Galois cover with group `G = π₁(X, η̄)/H`, needs the
-  dictionary of **03RV** between finite locally constant sheaves and finite étale covers, which is
-  available only granted effective descent along an étale covering, Tag **0245**
-  (`Stacks.EtaleCohomology.isFiniteLocallyConstant_iff_finiteEtaleRepresentable_of_descent`),
-  together with descent of `Λ`-modules along a Galois cover, Section **03QW**, of which there is
-  nothing here.
-
-Sizes, as a rough guide: the lift of the geometric point is a short argument from surjectivity of
-the normalization; 04DZ is a self-contained site-theoretic statement; the missing half of 0BQN
-rests on 0BTP; the normal case 0GIY for integral normal schemes is the bulk of the tag and rests
-on 03RV, 0245 and 03QW.
+* `[(finiteEtaleBaseChange (Scheme.normalizationOfIrreducible X.obj)).IsEquivalence]` — base
+  change of finite étale covers along `ν` is an equivalence, the content of Tag 0BQN at `ν`. The
+  isomorphism `π₁(X^ν, x^ν) ≅ π₁(X, x)` of topological groups is deduced from it by Tag 0BQA
+  part (2), `AlgebraicGeometry.etaleFundamentalGroupContinuousMulEquivOfIsEquivalence`.
+  `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModuleOfNormalization` supplies it.
+* `hinvariance` — an equivalence of the finite type locally constant module categories of `X` and
+  `X^ν` from the universal homeomorphism `ν` (Tag 04DZ at the level of module sheaves).
+* `xν` and `hx` — a lift of the geometric point `x` to the normalization.
+* `hnormal` — the tag for the normalization `X^ν`, an integral normal scheme.
 
 ## Implementation notes
 
@@ -339,33 +315,19 @@ public def finiteTypeLocallyConstantEquivContinuousModuleOfComparison
       FiniteTypeContinuousModule Λ (EtaleFundamentalGroup X.obj x) :=
   eF.trans (eN.trans (finiteTypeContinuousModuleResEquiv Λ φ).symm)
 
-/-- **Stacks Project, Tag 0GIY.** Let `X` be an irreducible, geometrically unibranch scheme, let
-`x` be a geometric point of `X` and let `Λ` be a ring. The finite type locally constant sheaves of
-`Λ`-modules on `X_étale` are equivalent to the finite `Λ`-modules endowed with a continuous
-`π₁(X, x)`-action.
+/-- **The reduction of Stacks Project, Tag 0GIY along the normalization.** Let `X` be an
+irreducible, geometrically unibranch scheme, let `x` be a geometric point of `X` and let `Λ` be a
+ring. Given the inputs below on the normalization `ν : X^ν → X`, the finite type locally constant
+sheaves of `Λ`-modules on `X_étale` are equivalent to the finite `Λ`-modules endowed with a
+continuous `π₁(X, x)`-action.
 
-The source proves this by reducing to the case of an integral normal scheme along the
-normalization `ν : X^ν → X`, which is a universal homeomorphism by Tag 0GIQ precisely because `X`
-is irreducible and geometrically unibranch. That reduction is what is carried out here: the
-geometric unibranchness is used to produce the universal homeomorphism, the equivalence of the
-finite type locally constant module categories of `X` and `X^ν` is instantiated at it, the
-isomorphism `π₁(X^ν, x^ν) ≅ π₁(X, x)` is obtained from the hypothesis that base change along `ν`
-is an equivalence of finite étale covers — the content of Tag 0BQN — through Tag 0BQA part (2),
-and the tag itself for the normalization is a hypothesis. See the module docstring for the gaps by
-tag number. -/
-@[stacks 0GIY "the equivalence, with the geometric input carried as hypotheses. Proved here: the \
-source's reduction along the normalization — geometric unibranchness yields the universal \
-homeomorphism of Tag 0GIQ, at which the hypothesis on the locally constant categories is \
-instantiated; the fundamental group comparison is derived from the hypothesis that base change on \
-finite étale covers along the normalization is an equivalence, which is the content of Tag 0BQN, \
-by Tag 0BQA part (2); and the category of finite type continuous modules is \
-transported along that comparison. Carried as hypotheses, none of them proved in this library: \
-that base change on finite étale covers along a universal homeomorphism is an equivalence (Tag \
-0BQN, of which only faithfulness is available, the rest resting on Tag 0BTP), that a universal \
-homeomorphism induces an equivalence of the finite type locally constant module categories (Tag \
-04DZ), the existence of a lift of the geometric point to the normalization, and the tag itself \
-for the normalization, i.e. for an integral normal scheme (Tags 0BQM, 0BTD, 0BQI, 03RV, 0245, \
-03QW)"]
+This is the source's first step: `ν` is a universal homeomorphism by Tag 0GIQ precisely because
+`X` is irreducible and geometrically unibranch; the equivalence `hinvariance` of the finite type
+locally constant module categories of `X` and `X^ν` is instantiated at it; the isomorphism
+`π₁(X^ν, x^ν) ≅ π₁(X, x)` is obtained from the instance hypothesis that base change along `ν` is
+an equivalence of finite étale covers, through Tag 0BQA part (2); and `hnormal` is the tag for the
+normalization. Tag 0GIY itself, with no such inputs, is
+`AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModuleUniv`. -/
 public def finiteTypeLocallyConstantEquivContinuousModule
     (B : BigEtaleSite.{u}) (X : B.Scheme) [IrreducibleSpace X.obj]
     (hX : IsGeometricallyUnibranch X.obj) (x : GeometricPoint X.obj)

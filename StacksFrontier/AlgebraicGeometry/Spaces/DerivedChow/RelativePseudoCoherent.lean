@@ -166,7 +166,7 @@ theorem isRelativelyPseudoCoherent_of_isPseudoCoherent_derivedSections_tensor
     HasRingHomProperty.appTop @LocallyOfFinitePresentation (Q.map tV) inferInstance
   obtain ⟨hft, hAV⟩ :=
     Algebra.pseudoCoherent_iff_exists_isModuleRelativelyPseudoCoherent.mp
-      (RingHom.isPerfectRingMap_of_flat_of_finitePresentation RA RV).1
+      (Algebra.PseudoCoherent.of_flat_of_finitePresentation RA RV)
   exact ((_root_.PseudoCoherence.relativelyPseudoCoherent_iff_of_comp (R := RA) (A := RV)
     (B := RU) hAV M m).1).2 h₆
 

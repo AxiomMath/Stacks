@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.DerivedAffineMorphism.DerivedPushforwardOverPushforwardRing
 public import StacksFrontier.AlgebraicGeometry.Duality.ClosedImmersionTwistedInverseImage
 public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.ConstructedDerivedAdjunction
+public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.ConstructedDerivedAdjunctionRestrictScalars
 
 /-!
 # The trace of the right adjoint of pushforward is evaluation at one
@@ -31,10 +32,13 @@ identification of [Stacks, Tag 0AX2]: here it is the canonical comparison map
 `AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom`,
 `Rf_* a(K) ⟶ R ℰom_{𝒪_X}(f₊ 𝒪_Y, K)`, the transpose of the trace along the adjunction of
 [Stacks, Tag 0BV0] read through the factorisation of `Rf_*` of [Stacks, Tag 0AVW].  The lower
-horizontal edge is the counit of [Stacks, Tag 0BV0], which is the map induced by
-`𝒪_X ⟶ f₊ 𝒪_Y`: the adjunction of [Stacks, Tag 0BV0] is the derived form of the adjunction
-`restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` of [Stacks, Tag 0BUZ], whose counit sends a
-local homomorphism out of `f₊ 𝒪_Y` to its value at the section `1`.
+horizontal edge is the map induced by `𝒪_X ⟶ f₊ 𝒪_Y`, defined directly as the right derived
+functor of evaluation at `1`, `ℰom_{𝒪_X}(f₊ 𝒪_Y, F) ⟶ F`, `φ ↦ φ(1)`
+(`AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne`).  The adjunction of
+[Stacks, Tag 0BV0] is constructed as the derived adjunction of
+`restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` of [Stacks, Tag 0BUZ], whose counit is
+evaluation at `1`, and its counit, read through [Stacks, Tag 0BV1], is proved equal to that
+lower edge (`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation_eq_evaluationOne`).
 
 This file builds the edges and proves that the square commutes, which holds for every affine
 morphism and every `K` in `D_QCoh(𝒪_X)`.  That the left edge is an *isomorphism* when `f` is
@@ -45,11 +49,14 @@ an equality — is proved in
 
 ## Main definitions
 
-* `AlgebraicGeometry.derivedRestrictionHomSheafAdjunction` and
-  `AlgebraicGeometry.derivedHomSheafRestrictionIso` — the adjunction of [Stacks, Tag 0BV0] and
-  the isomorphism of [Stacks, Tag 0BV1], taken from those two theorems.
-* `AlgebraicGeometry.derivedInternalHomPushforwardEvaluation` — the lower horizontal arrow
-  `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -) ⟶ 𝟭`, for every morphism of schemes.
+* `AlgebraicGeometry.derivedRestrictionHomSheafAdjunction` — the adjunction of
+  [Stacks, Tag 0BV0], constructed by deriving the adjunction of [Stacks, Tag 0BUZ].
+* `AlgebraicGeometry.derivedHomSheafRestrictionIso` — the isomorphism of [Stacks, Tag 0BV1],
+  the witness of that theorem's `∃!`.
+* `AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne` — the lower horizontal arrow
+  `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -) ⟶ 𝟭`, the right derived functor of evaluation at `1`.
+* `AlgebraicGeometry.derivedInternalHomPushforwardEvaluation` — the isomorphism of
+  [Stacks, Tag 0BV1] followed by the counit of [Stacks, Tag 0BV0].
 * `AlgebraicGeometry.pushforwardTraceTranspose` — the adjunct of the trace.
 * `AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom` — the left vertical edge, the
   comparison map `Rf_* a(K) ⟶ R ℰom_{𝒪_X}(f₊ 𝒪_Y, K)` of [Stacks, Tag 0AX2]; it is an
@@ -57,7 +64,9 @@ an equality — is proved in
 
 ## Main results
 
-* `AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom_comp_evaluation` — the square
+* `AlgebraicGeometry.derivedInternalHomPushforwardEvaluation_eq_evaluationOne` — the counit of
+  [Stacks, Tag 0BV0], read through [Stacks, Tag 0BV1], is the derived evaluation at `1`.
+* `AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom_comp_evaluationOne` — the square
   of [Stacks, Tag 0AX3] commutes: the comparison map of [Stacks, Tag 0AX2] followed by the map
   induced by `𝒪_X ⟶ f₊ 𝒪_Y` is the trace map.
 
@@ -66,11 +75,15 @@ an equality — is proved in
 *What the content of the square is.*  The comparison map of [Stacks, Tag 0AX2] is, here as in
 the source, the transpose of the trace: the source proves that tag by uniqueness of adjoints,
 and the isomorphism uniqueness of adjoints produces between two right adjoints of one functor is
-by construction built from the counits.  So the square is the mate identity — the triangle
-`L(adjunct of u) ≫ ε = u` of the adjunction of [Stacks, Tag 0BV0] — and the two geometric
-inputs that make it a statement about the source's square are that the lower arrow is the counit
-of that adjunction, hence the map induced by `𝒪_X ⟶ f₊ 𝒪_Y` ([Stacks, Tag 0BUZ]), and that
-`Rf_*` is `Φ` followed by restriction of scalars along `𝒪_X ⟶ f₊ 𝒪_Y` ([Stacks, Tag 0AVW]).
+by construction built from the counits.  So, with the lower arrow read as the counit, the
+square is the mate identity — the triangle `L(adjunct of u) ≫ ε = u` of the adjunction of
+[Stacks, Tag 0BV0].  The geometric inputs that make it a statement about the source's square are
+that this counit is the map induced by `𝒪_X ⟶ f₊ 𝒪_Y`, i.e. the right derived functor of
+evaluation at `1` (`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation_eq_evaluationOne`,
+which uses that the adjunction is the derived adjunction of [Stacks, Tag 0BUZ] and not an
+arbitrary one: between two fixed functors the counit is determined only up to an automorphism of
+the right adjoint), and that `Rf_*` is `Φ` followed by restriction of scalars along
+`𝒪_X ⟶ f₊ 𝒪_Y` ([Stacks, Tag 0AVW]).
 
 *Why affineness suffices for the square.*  What the commutativity needs of `f` is only that
 `Rf_*` carry `D_QCoh` into `D_QCoh`, so that there is a functor for `a` to be adjoint to at all;
@@ -78,13 +91,13 @@ that is part (1) of [Stacks, Tag 08D5], available here for an *affine* morphism 
 `Stacks.Duality.isQuasicoherent_homology_derivedPushforward_of_isAffineHom`, and the restricted
 functor it produces is the canonical `Stacks.Duality.affineHomQuasiCoherentDerivedPushforward`.
 
-*The adjunctions of [Stacks, Tag 0BV0] and [Stacks, Tag 0BV1]* are taken from
-`AlgebraicGeometry.derivedRestriction_adj_derivedHomSheaf` and
-`AlgebraicGeometry.derivedHomSheaf_comp_derivedRestriction_iso`, which hold for every morphism
-of schemes.  The isomorphism of [Stacks, Tag 0BV1] is unique, so nothing is chosen there beyond
-reading off the witness of its `∃!`; a right adjoint is unique up to canonical isomorphism, and
-which one `AlgebraicGeometry.derivedRestrictionHomSheafAdjunction` names does not matter to the
-statement, since the lower arrow is defined from it.
+*The adjunction of [Stacks, Tag 0BV0]* is `AlgebraicGeometry.derivedRestrictScalarsHomAdjunction`,
+the derived adjunction (`CategoryTheory.Adjunction.derived`) of
+`restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)`; it is not a witness chosen from
+`AlgebraicGeometry.derivedRestriction_adj_derivedHomSheaf`, since the counit of an arbitrary
+witness need not be the map induced by `𝒪_X ⟶ f₊ 𝒪_Y`.  *The isomorphism of
+[Stacks, Tag 0BV1]* is unique, so nothing is chosen there beyond reading off the witness of the
+`∃!` of `AlgebraicGeometry.derivedHomSheaf_comp_derivedRestriction_iso`.
 
 *The right adjoint `a`.*  The square is drawn with `Rf_* a(K)` in it and `Tr_{f, K}` the counit
 of `Rf_* ⊣ a`, so every statement below is quantified over a right adjoint `a` of `Rf_*` and an
@@ -125,13 +138,17 @@ namespace AlgebraicGeometry
 variable {X Y : Scheme.{u}} (f : Y ⟶ X)
 
 /-- **The adjunction of [Stacks, Tag 0BV0]**: restriction of scalars along `𝒪_X ⟶ f₊ 𝒪_Y` is
-left adjoint to `R ℰom(f₊ 𝒪_Y, -)`.  This reads off a witness of
-`AlgebraicGeometry.derivedRestriction_adj_derivedHomSheaf`, which holds for every morphism of
-schemes with nothing assumed; a right adjoint is unique up to canonical isomorphism, so which
-witness this is does not matter to anything below. -/
+left adjoint to `R ℰom(f₊ 𝒪_Y, -)`.  This is the specific adjunction
+`AlgebraicGeometry.derivedRestrictScalarsHomAdjunction` obtained by deriving the adjunction
+`restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` of [Stacks, Tag 0BUZ], not an arbitrary witness
+of `AlgebraicGeometry.derivedRestriction_adj_derivedHomSheaf`: its counit is induced by the
+underived counit, which is evaluation at the section `1`
+(`AlgebraicGeometry.derivedRestrictScalarsHomAdjunction_counit_fac`).  This matters: the counit
+of an adjunction between two fixed functors is only determined up to an automorphism of the right
+adjoint, and it is the counit that the square of [Stacks, Tag 0AX3] is about. -/
 def derivedRestrictionHomSheafAdjunction :
     derivedRestrictionOfScalars f ⊣ derivedHomSheaf f :=
-  (derivedRestriction_adj_derivedHomSheaf f).some
+  derivedRestrictScalarsHomAdjunction f
 
 /-- **The isomorphism of [Stacks, Tag 0BV1]**: following `R ℰom(f₊ 𝒪_Y, -)` by restriction of
 scalars gives `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -)`.  This reads off the witness of the `∃!` of
@@ -141,13 +158,73 @@ def derivedHomSheafRestrictionIso :
     derivedHomSheaf f ⋙ derivedRestrictionOfScalars f ≅ derivedInternalHomPushforward f :=
   (derivedHomSheaf_comp_derivedRestriction_iso f).choose
 
-/-- **The map `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -) ⟶ 𝟭` induced by `𝒪_X ⟶ f₊ 𝒪_Y`**, that is, evaluation of a
-local homomorphism at the section `1`: the isomorphism of [Stacks, Tag 0BV1] followed by the
-counit of the adjunction of [Stacks, Tag 0BV0], which is the derived form of the adjunction
-`restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` of [Stacks, Tag 0BUZ].
+/-- The isomorphism of [Stacks, Tag 0BV1] is compatible with the comparison maps: the comparison
+map of `R ℰom(f₊ 𝒪_Y, -)` followed by restriction of scalars, followed by the isomorphism, is the
+comparison map of `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -)`. -/
+theorem compositeDerivedHomSheafUnit_comp_derivedHomSheafRestrictionIso_hom :
+    compositeDerivedHomSheafUnit f ≫
+        Functor.whiskerLeft DerivedCategory.Qh (derivedHomSheafRestrictionIso f).hom =
+      derivedInternalHomPushforwardUnit f :=
+  (derivedHomSheaf_comp_derivedRestriction_iso f).choose_spec.1
 
-This is the lower horizontal arrow of the square of [Stacks, Tag 0AX3].  It is built for every
-morphism of schemes. -/
+/-- **Evaluation at `1` on complexes, in the homotopy category**: the natural transformation
+`ℰom_{𝒪_X}(f₊ 𝒪_Y, -) ⟶ 𝟭` of [Stacks, Tag 0BUZ] — the counit of
+`restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)`, which sends a local homomorphism
+`φ : f₊ 𝒪_Y|_U ⟶ F|_U` to `φ(1)` and is the map `ℰom_{𝒪_X}(f₊ 𝒪_Y, F) ⟶ ℰom_{𝒪_X}(𝒪_X, F) = F`
+induced by `𝒪_X ⟶ f₊ 𝒪_Y` — applied degreewise to complexes. -/
+def homSheafEvaluationOneHomotopy :
+    letI := homSheaf_comp_restrictScalars_additive f
+    (RingedSpaceModuleAdjunction.homSheaf f.toRingCatSheafHom ⋙
+        SheafOfModules.restrictScalars f.toRingCatSheafHom).mapHomotopyCategory
+          (ComplexShape.up ℤ) ⟶
+      𝟭 (HomotopyCategory (SheafOfModules.{u} X.ringCatSheaf) (ComplexShape.up ℤ)) :=
+  letI := homSheaf_comp_restrictScalars_additive f
+  CategoryTheory.Quotient.natTransLift _
+    (Functor.whiskerRight
+      (NatTrans.mapHomologicalComplex
+          (RingedSpaceModuleAdjunction.restrictScalarsHomAdjunction f.toRingCatSheafHom).counit
+          (ComplexShape.up ℤ) ≫
+        (Functor.mapHomologicalComplexIdIso _ (ComplexShape.up ℤ)).hom)
+      (HomotopyCategory.quotient _ _))
+
+/-- **The map `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -) ⟶ 𝟭` induced by `𝒪_X ⟶ f₊ 𝒪_Y`**, defined directly as the
+right derived functor of evaluation at `1`: the natural transformation out of the right derived
+functor `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` of `ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` induced, by its universal property,
+by `AlgebraicGeometry.homSheafEvaluationOneHomotopy`.  It is characterised by
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne_fac_app`: on a complex `K` it is
+the localization of the degreewise evaluation at `1`, `ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K`.
+
+This is the lower horizontal arrow of the square of [Stacks, Tag 0AX3]; it is equal to
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation`
+(`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation_eq_evaluationOne`). -/
+def derivedInternalHomPushforwardEvaluationOne :
+    derivedInternalHomPushforward f ⟶ 𝟭 (DerivedCategory (SheafOfModules.{u} X.ringCatSheaf)) :=
+  (derivedInternalHomPushforward f).rightDerivedDesc (derivedInternalHomPushforwardUnit f)
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} X.ringCatSheaf) (ComplexShape.up ℤ)) (𝟭 _)
+    (Functor.whiskerRight (homSheafEvaluationOneHomotopy f) DerivedCategory.Qh ≫
+      (Functor.leftUnitor _).hom ≫ (Functor.rightUnitor _).inv)
+
+/-- On the image of a complex `K`, the comparison map of `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` followed by
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne` is the localization of evaluation
+at `1`, `ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K`, applied degreewise. -/
+theorem derivedInternalHomPushforwardEvaluationOne_fac_app
+    (K : HomotopyCategory (SheafOfModules.{u} X.ringCatSheaf) (ComplexShape.up ℤ)) :
+    (derivedInternalHomPushforwardUnit f).app K ≫
+        (derivedInternalHomPushforwardEvaluationOne f).app (DerivedCategory.Qh.obj K) =
+      DerivedCategory.Qh.map ((homSheafEvaluationOneHomotopy f).app K) := by
+  rw [derivedInternalHomPushforwardEvaluationOne, Functor.rightDerived_fac_app]
+  simp
+
+/-- **The counit of [Stacks, Tag 0BV0] as a map `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -) ⟶ 𝟭`**: the isomorphism
+of [Stacks, Tag 0BV1] followed by the counit of the adjunction of [Stacks, Tag 0BV0], which is
+the derived form of the adjunction `restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` of
+[Stacks, Tag 0BUZ].
+
+It is equal to the right derived functor of evaluation at `1`,
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne`, the lower horizontal arrow of the
+square of [Stacks, Tag 0AX3], by
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation_eq_evaluationOne`.  It is built for
+every morphism of schemes. -/
 def derivedInternalHomPushforwardEvaluation :
     derivedInternalHomPushforward f ⟶ 𝟭 (DerivedCategory (SheafOfModules.{u} X.ringCatSheaf)) :=
   (derivedHomSheafRestrictionIso f).inv ≫ (derivedRestrictionHomSheafAdjunction f).counit
@@ -161,6 +238,110 @@ theorem derivedInternalHomPushforwardEvaluation_app (K : DerivedCategory
         (derivedInternalHomPushforwardEvaluation f).app K =
       (derivedRestrictionHomSheafAdjunction f).counit.app K := by
   rw [derivedInternalHomPushforwardEvaluation, NatTrans.comp_app, Iso.hom_inv_id_app_assoc]
+
+/-- Cancelling a split monomorphism inside a composite: if `i ≫ j = 𝟙` and `g ≫ e = j ≫ m`,
+then `(a ≫ 𝟙 ≫ i ≫ 𝟙 ≫ g ≫ 𝟙) ≫ e = a ≫ m`. -/
+private theorem comp_comp_comp_eq_of_hom_inv_id {C : Type*} [Category C] {P Q R S T : C}
+    (a : P ⟶ Q) (i : Q ⟶ R) (j : R ⟶ Q) (g : R ⟶ S) (e : S ⟶ T) (m : Q ⟶ T)
+    (hij : i ≫ j = 𝟙 Q) (h : g ≫ e = j ≫ m) :
+    (a ≫ 𝟙 Q ≫ i ≫ 𝟙 R ≫ g ≫ 𝟙 S) ≫ e = a ≫ m := by
+  simp only [Category.id_comp, Category.comp_id, Category.assoc, h, reassoc_of% hij]
+
+/-- On the image of a complex `K`, evaluation at `1` in the homotopy category is the class of the
+degreewise counit `ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K`. -/
+theorem homSheafEvaluationOneHomotopy_app_quotient
+    (K : CochainComplex (SheafOfModules.{u} X.ringCatSheaf) ℤ) :
+    letI := homSheaf_comp_restrictScalars_additive f
+    (homSheafEvaluationOneHomotopy f).app ((HomotopyCategory.quotient _ _).obj K) =
+      (HomotopyCategory.quotient _ _).map ((NatTrans.mapHomologicalComplex
+          (RingedSpaceModuleAdjunction.restrictScalarsHomAdjunction f.toRingCatSheafHom).counit
+          (ComplexShape.up ℤ)).app K ≫
+        (Functor.mapHomologicalComplexIdIso _ (ComplexShape.up ℤ)).hom.app K) :=
+  rfl
+
+/-- The identification of `ℰom(f₊ 𝒪_Y, -)` followed by restriction of scalars with
+`ℰom_{𝒪_X}(f₊ 𝒪_Y, -)`, on complexes, followed by the degreewise counit, is the degreewise
+counit. -/
+theorem mapHomologicalComplexCompIso_inv_app_comp_counit
+    (K : CochainComplex (SheafOfModules.{u} X.ringCatSheaf) ℤ) :
+    letI := restrictScalars_additive f
+    letI := homSheaf_additive f
+    letI := homSheaf_comp_restrictScalars_additive f
+    (Functor.mapHomologicalComplexCompIso (Iso.refl
+        (RingedSpaceModuleAdjunction.homSheaf f.toRingCatSheafHom ⋙
+          SheafOfModules.restrictScalars f.toRingCatSheafHom)) (ComplexShape.up ℤ)).inv.app K ≫
+      ((RingedSpaceModuleAdjunction.restrictScalarsHomAdjunction
+          f.toRingCatSheafHom).mapHomologicalComplex (ComplexShape.up ℤ)).counit.app K =
+    (NatTrans.mapHomologicalComplex
+          (RingedSpaceModuleAdjunction.restrictScalarsHomAdjunction f.toRingCatSheafHom).counit
+          (ComplexShape.up ℤ)).app K ≫
+        (Functor.mapHomologicalComplexIdIso _ (ComplexShape.up ℤ)).hom.app K := by
+  let := restrictScalars_additive f
+  let := homSheaf_additive f
+  let := homSheaf_comp_restrictScalars_additive f
+  ext n
+  simp [Functor.mapHomologicalComplexCompIso, Functor.mapHomologicalComplexIdIso]
+  rfl
+
+/-- The comparison map of the composite of `R ℰom(f₊ 𝒪_Y, -)` and derived restriction of scalars,
+unfolded at the image of a complex `K`. -/
+theorem compositeDerivedHomSheafUnit_app_quotient
+    (K : CochainComplex (SheafOfModules.{u} X.ringCatSheaf) ℤ) :
+    letI := restrictScalars_additive f
+    letI := homSheaf_additive f
+    letI := homSheaf_comp_restrictScalars_additive f
+    (compositeDerivedHomSheafUnit f).app ((HomotopyCategory.quotient _ _).obj K) =
+      DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+          ((Functor.mapHomologicalComplexCompIso (Iso.refl
+            (RingedSpaceModuleAdjunction.homSheaf f.toRingCatSheafHom ⋙
+              SheafOfModules.restrictScalars f.toRingCatSheafHom)) (ComplexShape.up ℤ)).inv.app
+            K)) ≫ 𝟙 _ ≫
+        (inv (derivedRestrictionOfScalarsFactors f).hom).app
+          (((RingedSpaceModuleAdjunction.homSheaf f.toRingCatSheafHom).mapHomotopyCategory
+            (ComplexShape.up ℤ)).obj ((HomotopyCategory.quotient _ _).obj K)) ≫ 𝟙 _ ≫
+        (derivedRestrictionOfScalars f).map
+          ((derivedHomSheafUnit f).app ((HomotopyCategory.quotient _ _).obj K)) ≫ 𝟙 _ :=
+  rfl
+
+/-- On the image of a complex `K`, the comparison map of the composite of `R ℰom(f₊ 𝒪_Y, -)` and
+derived restriction of scalars, followed by the counit of the adjunction of
+[Stacks, Tag 0BV0], is the localization of evaluation at `1`. -/
+theorem compositeDerivedHomSheafUnit_app_comp_counit
+    (K : CochainComplex (SheafOfModules.{u} X.ringCatSheaf) ℤ) :
+    (compositeDerivedHomSheafUnit f).app ((HomotopyCategory.quotient _ _).obj K) ≫
+        (derivedRestrictionHomSheafAdjunction f).counit.app
+          (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ _).obj K)) =
+      DerivedCategory.Qh.map
+        ((homSheafEvaluationOneHomotopy f).app ((HomotopyCategory.quotient _ _).obj K)) := by
+  let := restrictScalars_additive f
+  let := homSheaf_additive f
+  let := homSheaf_comp_restrictScalars_additive f
+  rw [compositeDerivedHomSheafUnit_app_quotient, homSheafEvaluationOneHomotopy_app_quotient]
+  refine (comp_comp_comp_eq_of_hom_inv_id _ _ _ _ _ _
+    (NatTrans.congr_app (IsIso.inv_hom_id (derivedRestrictionOfScalarsFactors f).hom) _)
+    (derivedRestrictScalarsHomAdjunction_counit_fac f K)).trans ?_
+  refine (Functor.map_comp _ _ _).symm.trans (congrArg _ ?_)
+  exact ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map_comp _ _).symm.trans
+    (congrArg _ (mapHomologicalComplexCompIso_inv_app_comp_counit f K))
+
+/-- **The lower arrow is evaluation at `1`.**  The isomorphism of [Stacks, Tag 0BV1] followed by
+the counit of the adjunction of [Stacks, Tag 0BV0] is the right derived functor of evaluation at
+`1`, `AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne`: both are natural
+transformations out of the right derived functor `R ℰom_{𝒪_X}(f₊ 𝒪_Y, -)`, and they agree after
+the comparison map, on every complex, by
+`AlgebraicGeometry.compositeDerivedHomSheafUnit_app_comp_counit`. -/
+theorem derivedInternalHomPushforwardEvaluation_eq_evaluationOne :
+    derivedInternalHomPushforwardEvaluation f = derivedInternalHomPushforwardEvaluationOne f := by
+  apply Functor.rightDerived_ext (derivedInternalHomPushforward f)
+    (derivedInternalHomPushforwardUnit f)
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} X.ringCatSheaf) (ComplexShape.up ℤ))
+  ext ⟨K⟩
+  have hA := congrArg (fun t => t.app ((HomotopyCategory.quotient _ _).obj K))
+    (compositeDerivedHomSheafUnit_comp_derivedHomSheafRestrictionIso_hom f)
+  exact ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hA)).symm.trans
+    ((congrArg (_ ≫ ·) (derivedInternalHomPushforwardEvaluation_app f _)).trans
+      ((compositeDerivedHomSheafUnit_app_comp_counit f K).trans
+        (derivedInternalHomPushforwardEvaluationOne_fac_app f _).symm))
 
 section
 
@@ -199,14 +380,14 @@ def pushforwardRightAdjointToDerivedInternalHom (K : quasiCoherentDerivedCategor
     (derivedRestrictionOfScalars f).map (pushforwardTraceTranspose f adj K) ≫
       (derivedHomSheafRestrictionIso f).hom.app K.obj
 
-/-- **The square of [Stacks, Tag 0AX3] commutes.** Let `f : Y ⟶ X` be an affine morphism of
-schemes and let `a` be a right adjoint of `Rf_* : D_QCoh(𝒪_Y) ⥤ D_QCoh(𝒪_X)`.  Then the
-comparison map of [Stacks, Tag 0AX2] followed by the map `R ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K` induced
-by `𝒪_X ⟶ f₊ 𝒪_Y` is the trace map `Tr_{f, K}`, that is the counit of `Rf_* ⊣ a`.
-
-The whole remark — this together with the invertibility of the comparison map, for `f` finite
-and `K` in `D_QCoh^+(𝒪_X)` — is
-`AlgebraicGeometry.isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluation`. -/
+/-- **The mate identity behind the square of [Stacks, Tag 0AX3].** Let `f : Y ⟶ X` be an affine
+morphism of schemes and let `a` be a right adjoint of `Rf_* : D_QCoh(𝒪_Y) ⥤ D_QCoh(𝒪_X)`.  Then
+the comparison map of [Stacks, Tag 0AX2] followed by
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation` — the isomorphism of
+[Stacks, Tag 0BV1] followed by the counit of [Stacks, Tag 0BV0] — is the trace map `Tr_{f, K}`,
+that is the counit of `Rf_* ⊣ a`.  This is the triangle identity of the adjunction of
+[Stacks, Tag 0BV0]; the square with the lower arrow stated as the derived evaluation at `1` is
+`AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom_comp_evaluationOne`. -/
 theorem pushforwardRightAdjointToDerivedInternalHom_comp_evaluation
     (K : quasiCoherentDerivedCategory X) :
     pushforwardRightAdjointToDerivedInternalHom f adj K ≫
@@ -229,6 +410,26 @@ theorem pushforwardRightAdjointToDerivedInternalHom_comp_evaluation
     ((congrArg (fun t =>
           (derivedPushforwardOverRingCompRestrictScalarsIso f).hom.app ((a.obj K).obj) ≫ t)
         hmid).trans (Iso.hom_inv_id_app_assoc _ _ _))
+
+/-- **The square of [Stacks, Tag 0AX3] commutes.** Let `f : Y ⟶ X` be an affine morphism of
+schemes and let `a` be a right adjoint of `Rf_* : D_QCoh(𝒪_Y) ⥤ D_QCoh(𝒪_X)`.  Then the
+comparison map `Rf_* a(K) ⟶ R ℰom_{𝒪_X}(f₊ 𝒪_Y, K)` of [Stacks, Tag 0AX2] followed by the map
+`R ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K` induced by `𝒪_X ⟶ f₊ 𝒪_Y` — the right derived functor of
+evaluation at `1`, `AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne` — is the trace
+map `Tr_{f, K}`, that is the counit of `Rf_* ⊣ a`.
+
+The whole remark — this together with the invertibility of the comparison map, for `f` finite
+and `K` in `D_QCoh^+(𝒪_X)` — is
+`AlgebraicGeometry.isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluationOne`. -/
+theorem pushforwardRightAdjointToDerivedInternalHom_comp_evaluationOne
+    (K : quasiCoherentDerivedCategory X) :
+    pushforwardRightAdjointToDerivedInternalHom f adj K ≫
+        (derivedInternalHomPushforwardEvaluationOne f).app K.obj =
+      (adj.counit.app K).hom :=
+  (congrArg (fun t : derivedInternalHomPushforward f ⟶ 𝟭 _ =>
+      pushforwardRightAdjointToDerivedInternalHom f adj K ≫ t.app K.obj)
+    (derivedInternalHomPushforwardEvaluation_eq_evaluationOne f)).symm.trans
+    (pushforwardRightAdjointToDerivedInternalHom_comp_evaluation f adj K)
 
 end
 

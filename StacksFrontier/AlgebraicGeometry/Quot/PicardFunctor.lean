@@ -79,8 +79,13 @@ of Stacks 03LU supply.
   schemes.  These are the well-definedness of the presheaf.
 * `AlgebraicGeometry.Space.PicardSituation.isSheaf_picardFunctor`: the relative Picard functor is
   an fppf sheaf.
-* `AlgebraicGeometry.Space.PicardSituation.injective_basePicardPullback`: **Stacks 0D27 at
-  `Pic(T)`**, the first arrow of the sequence is injective.
+* `AlgebraicGeometry.Space.PicardSituation.injective_basePicardPullback`: the first arrow of the
+  sequence of Stacks 0D27 is injective, given the unit isomorphism
+  `AlgebraicGeometry.Space.ModulePushforwardUnitIso` as an argument.  That assertion is proved by
+  `AlgebraicGeometry.Space.modulePushforwardUnitIso` in
+  `StacksFrontier/AlgebraicGeometry/Quot/PicardPushforwardUnitIso.lean`, and the whole of Stacks
+  0D27 is `AlgebraicGeometry.Space.PicardSituation.exact_picardSequence` in
+  `StacksFrontier/AlgebraicGeometry/Quot/PicardExactSequence.lean`.
 
 ## Implementation notes
 
@@ -127,26 +132,15 @@ so both halves carry the tag: the presheaf being sheafified and the sheafificati
 second reading of the same functor, on the schemes over `S` together with a map to the base, is
 not formed here.
 
-**What of Stacks 0D27 is here, and what is not.**  The sequence
-`0 ⟶ Pic(T) ⟶ Pic(X_T) ⟶ Pic_{X/B}(T)` is written down, and exactness at `Pic(T)` — injectivity
-of the first arrow — is proved.  The one input it carries is
-`AlgebraicGeometry.Space.ModulePushforwardUnitIso`: the source argues that `N ⟶ f_*f^*N` is an
-isomorphism because `N` is locally trivial, and an invertible module on a *general* site need not
-be locally trivial — `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleBraidingSelf.lean`
-records that, and the library has the converse only for a ringed space whose stalks are local
-rings (`Stacks.SheafOfModules.Invertible.isLocallyTrivial_of_isInvertible`).  Deducing it on the
-small étale site of an algebraic space from the étale base change of Stacks 03LX would need
-`AlgebraicGeometry.Space.modulePushforwardEtaleBaseChangeIso` to be the adjunction mate of the
-inverse-image identification, which its own docstring records as not proved.
-
-Exactness at `Pic(X_T)` is *not* proved.  Its two halves need, beyond the above, the descent
-datum argument of Descent, Proposition 023T: a trivialising section of `L` over each `X_{T_i}`,
-and the transition units in `Γ(X_{T_i ×_T T_j}, 𝒪^*)` that the structure-sheaf hypothesis
-identifies with `Γ(T_i ×_T T_j, 𝒪^*)`.  There is no sheaf of units, and no group of global
-units, of the structure sheaf of an algebraic space in this development, so that argument cannot
-be stated at all; the fpqc descent of Stacks 023T itself *is* available unconditionally, for
-schemes, as `Stacks.Descent.nonempty_fullyFaithful_canonicalDescentFunctor'` and
-`AlgebraicGeometry.QuasicoherentDescentData.isEffective_fpqcPrecoverage`.
+**Where Stacks 0D27 is.**  The sequence `0 ⟶ Pic(T) ⟶ Pic(X_T) ⟶ Pic_{X/B}(T)` is written
+down here, and injectivity of the first arrow is proved from
+`AlgebraicGeometry.Space.ModulePushforwardUnitIso`, the first paragraph of the source's proof
+read on modules.  That assertion is stated here and proved, with no hypothesis, by
+`AlgebraicGeometry.Space.modulePushforwardUnitIso` in
+`StacksFrontier/AlgebraicGeometry/Quot/PicardPushforwardUnitIso.lean`, a file that imports this one.
+Exactness at `Pic(X_T)`, the descent argument of Descent, Proposition 023T, and the complete
+statement `AlgebraicGeometry.Space.PicardSituation.exact_picardSequence` are in
+`StacksFrontier/AlgebraicGeometry/Quot/PicardExactSequence.lean`.
 
 ## References
 
@@ -301,8 +295,9 @@ assertion that for a morphism `g : W ⟶ V` of algebraic spaces whose structure 
 `𝒪_V ⟶ g_*𝒪_W` is an isomorphism, the canonical map `N ⟶ g_*g^*N` is an isomorphism for every
 invertible `𝒪_V`-module `N`.
 
-It is the first paragraph of the proof of Stacks 0D27 read on modules, and it is not proved in
-this development; see the implementation notes. -/
+It is the first paragraph of the proof of Stacks 0D27 read on modules.  It is stated here,
+before the Picard functor, and proved with no hypothesis by
+`AlgebraicGeometry.Space.modulePushforwardUnitIso`. -/
 def ModulePushforwardUnitIso (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) : Prop :=
   ∀ {V W : AlgebraicSpaces B S hS} (g : W ⟶ V), IsIso (structureSharp B S hS g) →
     ∀ N : Modules.{u, u} B S hS V.1 V.2, IsInvertibleModule V N →
@@ -452,11 +447,12 @@ def picardClassMap (T : s.SchemesOver) (x : s.picardAt T) :
     s.picardFunctor.obj (Opposite.op T) :=
   s.toPicardFunctor.app (Opposite.op T) x
 
-/-- **Stacks 0D27, exactness at `Pic(T)`.**  If `𝒪_T ⟶ f_{T, *}𝒪_{X_T}` is an isomorphism for
-every scheme `T` over the base, then pullback along `f_T` is an injection `Pic(T) ⟶ Pic(X_T)`:
-an invertible `𝒪_T`-module is determined up to isomorphism by its inverse image on `X_T`. -/
-@[stacks 0D27 "exactness at the Picard group of the test scheme, conditional on the unit of \
-the Stacks 03LU adjunction being an isomorphism at an invertible module"]
+/-- **The first arrow of the sequence of Stacks 0D27 is injective.**  If
+`𝒪_T ⟶ f_{T, *}𝒪_{X_T}` is an isomorphism for every scheme `T` over the base, then pullback along
+`f_T` is an injection `Pic(T) ⟶ Pic(X_T)`: an invertible `𝒪_T`-module is determined up to
+isomorphism by its inverse image on `X_T`.  The argument `hu` is proved by
+`AlgebraicGeometry.Space.modulePushforwardUnitIso`, which imports this file; Stacks 0D27 itself is
+`AlgebraicGeometry.Space.PicardSituation.exact_picardSequence`. -/
 theorem injective_basePicardPullback (hu : ModulePushforwardUnitIso B S hS)
     (h : s.StructureSheafMapIso) (T : s.SchemesOver) :
     Function.Injective (s.basePicardPullback T) := by

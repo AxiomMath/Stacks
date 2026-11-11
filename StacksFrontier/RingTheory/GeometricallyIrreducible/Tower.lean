@@ -35,6 +35,8 @@ proves:
   `algebraicClosure k K = ⊥` is geometrically irreducible over `k`.
 * `separableClosure.eq_bot_iff_geometricallyIrreducible`: the separable closure of `k` in `K` is
   trivial if and only if `K/k` is geometrically irreducible.
+* `separableClosure.isGeometricallyIrreducible`: `K` is geometrically irreducible over the
+  separable closure of `k` in `K` (Stacks 037Q (1)).
 * `Stacks.Irreducibility.TrivialSepClosure.isGeometricallyIrreducible_of_injective`: a subalgebra
   of a geometrically irreducible `k`-algebra is geometrically irreducible.
 
@@ -329,5 +331,17 @@ public theorem separableClosure.eq_bot_iff_geometricallyIrreducible (k K : Type 
     [Field K] [Algebra k K] :
     separableClosure k K = ⊥ ↔ GeometricallyIrreducible (Spec.map (ofHom (algebraMap k K))) :=
   Stacks.Irreducibility.TrivialSepClosure.solution k K
+
+/-- Let `K/k` be a field extension and let `k' = separableClosure k K` be the subextension of
+elements of `K` separably algebraic over `k`. Then `K` is geometrically irreducible over `k'`,
+in the sense of Stacks 037L (`Algebra.IsGeometricallyIrreducible`, test fields in the universe
+of `K`). The proof is the source's: an element of `K` separably algebraic over `k'` is separably
+algebraic over `k` by transitivity, so lies in `k'`, and the criterion 0G33 applies. -/
+@[stacks 037Q "(1): `K` is geometrically irreducible over `k'`, in the 037L sense"]
+public theorem separableClosure.isGeometricallyIrreducible (k : Type*) (K : Type u) [Field k]
+    [Field K] [Algebra k K] :
+    Algebra.IsGeometricallyIrreducible (separableClosure k K) K :=
+  (separableClosure.eq_bot_iff_geometricallyIrreducible (separableClosure k K) K).mp
+    (separableClosure.separableClosure_eq_bot k K)
 
 end

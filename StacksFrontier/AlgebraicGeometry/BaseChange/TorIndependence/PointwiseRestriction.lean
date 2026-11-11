@@ -49,12 +49,12 @@ attribute [local instance 10000] HasDerivedCategory.standard
 
 variable {X X' S S' : Scheme.{u}} {f : X ⟶ S} {g : S' ⟶ S} {f' : X' ⟶ S'} {g' : X' ⟶ X}
 
-private theorem inv_eq_of_eq_trans {C : Type*} [Category C] {a b c : C} (X : a ≅ c) (W : a ≅ b)
+theorem inv_eq_of_eq_trans {C : Type*} [Category C] {a b c : C} (X : a ≅ c) (W : a ≅ b)
     (D : b ≅ c) (h : X = W ≪≫ D) : W.inv = D.hom ≫ X.inv := by
   subst h
   simp
 
-private theorem chase_left {C : Type*} [Category C] {P₀ P₂ P₃ P₄ P₅ P₆ P₇ : C}
+theorem chase_left {C : Type*} [Category C] {P₀ P₂ P₃ P₄ P₅ P₆ P₇ : C}
     (τ : P₃ ⟶ P₃) (Einv : P₃ ⟶ P₇) (Tc : P₇ ⟶ P₆) (Dinv : P₃ ⟶ P₀) (Sc : P₀ ⟶ P₅)
     (PhK : P₅ ⟶ P₆) (Dhom : P₀ ⟶ P₃) (sc : P₀ ⟶ P₂) (tdg : P₇ ⟶ P₄) (Pinv : P₄ ⟶ P₂)
     (Phom : P₂ ⟶ P₄) (sL : P₂ ⟶ P₅) (tsφ : P₄ ⟶ P₆)
@@ -239,12 +239,12 @@ theorem stalkCongr_comp_eq {T : Scheme.{u}} {a b c d : T} (h₁ : a = b) (h₂ :
   simp only [TopCat.Presheaf.stalkCongr_hom, TopCat.Presheaf.stalkSpecializes_refl,
     Category.comp_id]
 
-private theorem inv_eq_of_eq_trans_right {C : Type*} [Category C] {a b c : C} (X : a ≅ c)
+theorem inv_eq_of_eq_trans_right {C : Type*} [Category C] {a b c : C} (X : a ≅ c)
     (W : a ≅ b) (D : b ≅ c) (h : X = W ≪≫ D) : D.inv = X.inv ≫ W.hom := by
   subst h
   simp
 
-private theorem chase_source {C : Type*} [Category C] {P₀ P₁ P₂ P₃ P₄ P₅ : C}
+theorem chase_source {C : Type*} [Category C] {P₀ P₁ P₂ P₃ P₄ P₅ : C}
     (Tθ : P₀ ⟶ P₁) (tw : P₁ ⟶ P₂) (Einv : P₂ ⟶ P₄) (Dψ : P₄ ⟶ P₅) (Dinv : P₀ ⟶ P₃)
     (Dcψ : P₃ ⟶ P₅) (ι : P₅ ⟶ P₅) (Dc : P₃ ⟶ P₄) (twinv : P₂ ⟶ P₁) (Tθinv : P₁ ⟶ P₀)
     (Xinv : P₂ ⟶ P₃) (hι : ι = 𝟙 _) (hD : Dcψ = Dc ≫ Dψ) (hE : Einv = Xinv ≫ Dc)

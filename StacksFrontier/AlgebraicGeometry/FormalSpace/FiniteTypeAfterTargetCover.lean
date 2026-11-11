@@ -21,12 +21,14 @@ of the implication from condition (1) to condition (3) that it uses.
 
 ## Implementation notes
 
-The general implication from condition (1) to condition (3) needs the relative diagonal of a
-morphism of formal algebraic spaces to be locally of finite type, Stacks 0AN2. It is carried
-here for a square whose chart of the target is an affine formal algebraic space, by
+The general implication from condition (1) to condition (3) is
+`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteTypeOnEverySquare_of_isLocallyOfFiniteType`,
+and the equivalence of all the conditions of Stacks 0ANL is
+`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteType_tfae`. The case recorded here, a square
+whose chart of the target is an affine formal algebraic space, goes through
 `AlgebraicGeometry.FormalSpace.IsLocallyOfFiniteType.of_comp_of_isAffineFormal`; since the
 charts of the target in condition (4) are affine by Definition 0AIM, that form gives condition
-(1) implies condition (4) outright, which is the implication the proof of **Stacks 0GBB**
+(1) implies condition (4) directly, which is the implication the proof of **Stacks 0GBB**
 clause (5) consumes.
 
 ## References
@@ -52,21 +54,18 @@ is an affine formal algebraic space.** If `f` is locally of finite type and the 
 has `p` representable étale and `V`, the source of its target column, an affine formal
 algebraic space, then `t` is locally of finite type.
 
-This is the implication the general (1) ⟹ (3) is blocked on, in the generality the source's own
-proof of condition (4) uses it: there the chart `Vⱼ` of the target *is* affine. The two steps
-are both unconditional. First `t ≫ q = p ≫ f` is locally of finite type, `p` being locally of
-finite type by **Stacks 0AJG** and composition being **Stacks 0AQ4**. Then the cancellation of
+This is the generality in which the source's own proof of condition (4) uses the implication:
+there the chart `Vⱼ` of the target *is* affine. The general implication is
+`isLocallyOfFiniteTypeOnEverySquare_of_isLocallyOfFiniteType`.
+
+First `t ≫ q = p ≫ f` is locally of finite type, `p` being locally of finite type by
+**Stacks 0AJG** and composition being **Stacks 0AQ4**. Then the cancellation of
 **Stacks 0AQ6** removes `q`: it needs the locally-of-finite-type assertion of **Stacks 0AN2**
 for the relative diagonal of `q`, which `AlgebraicGeometry.FormalSpace.IsLocallyOfFiniteType`
 `.of_comp_of_isAffineFormal` supplies from affineness of `V`.
 
 Neither column of the square is asked to be surjective, `q` is not asked to be representable
 étale, and `U` and `V` are not asked to be formal algebraic spaces beyond affineness of `V`. -/
-@[stacks 0ANL "condition (1) implies condition (3), for a square whose chart of the target is \
-an affine formal algebraic space: the general implication needs the locally of finite type \
-assertion of Stacks 0AN2 for the relative diagonal of a morphism of formal algebraic spaces, \
-which this library has only for a morphism whose source is an affine formal algebraic space, \
-and that is the case the source's own proof of condition (4) uses"]
 theorem isLocallyOfFiniteType_square_of_isAffineFormal {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hf : IsLocallyOfFiniteType B S hS f) (U V : FppfSheaf B S hS) (p : U ⟶ X) (q : V ⟶ Y)
     (t : U ⟶ V) (hV : IsAffineFormalAlgebraicSpace B S hS V)
@@ -85,16 +84,11 @@ space, so `isLocallyOfFiniteType_square_of_isAffineFormal` applies to the square
 `Uⱼᵢ` of `Vⱼ ×_Y X` forms with `f` and `Vⱼ ⟶ Y`.
 
 This is the implication the proof of **Stacks 0GBB** clause (5) consumes, where `f` is the
-morphism `X_red ⟶ Y_red` on the reductions. Previously only condition (3) implied condition
-(4), and condition (3) was reachable from nothing.
+morphism `X_red ⟶ Y_red` on the reductions.
 
 The fibre product `Vⱼ ×_Y X` is a formal algebraic space by the étale case of Stacks 0AJ3,
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`, since
 `X` is a formal algebraic space and the chart `Vⱼ ⟶ Y` is representable étale. -/
-@[stacks 0ANL "condition (1) implies condition (4), for a morphism of formal algebraic spaces, \
-with nothing assumed: the fibre product of a chart of the target with the morphism is a formal \
-algebraic space by the étale case of Stacks 0AJ3, \
-`isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
 theorem isLocallyOfFiniteTypeAfterTargetCover_of_isLocallyOfFiniteType {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsLocallyOfFiniteType B S hS f) :

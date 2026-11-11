@@ -27,10 +27,13 @@ in [Stacks, Section 0G4A] is carried elsewhere in this repository and nothing of
 here:
 
 * the relative cup product (\ref{0G4B}) is
-  `Stacks.Cohomology.BoxKunneth.relativeBoxKunnethMap`, tagged `0G4B` at
-  `StacksFrontier/AlgebraicGeometry/DeRham/BoxTotalKunnethMap.lean:125`, carrying no parameter;
+  `Stacks.Cohomology.BoxKunneth.relativeBoxKunnethMapUnbounded`, for arbitrary complexes, tagged
+  `0G4B` at `StacksFrontier/AlgebraicGeometry/DeRham/RelativeKunnethUnbounded.lean:446`, carrying no
+  parameter; for strictly bounded below complexes it is also
+  `Stacks.Cohomology.BoxKunneth.relativeBoxKunnethMap` in
+  `StacksFrontier/AlgebraicGeometry/DeRham/BoxTotalKunnethMap.lean`;
 * the global cup product (\ref{0FLR}) is `Stacks.Cohomology.BoxKunneth.globalBoxKunnethMap`,
-  tagged `0FLR` at `StacksFrontier/AlgebraicGeometry/DeRham/BoxTotalKunnethMap.lean:202`, carrying
+  tagged `0FLR` at `StacksFrontier/AlgebraicGeometry/DeRham/BoxTotalKunnethMap.lean:186`, carrying
   only the global cup product of its step (3);
 * steps (4) and (5) of both constructions are
   `Stacks.Cohomology.BoxKunneth.boxTotalDerivedComparison` at

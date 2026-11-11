@@ -120,15 +120,20 @@ end
 /-!
 ## The extension relating `K(A, k)` and `K(A, k + 1)`
 
-Let `𝒜` be an abelian category, let `A` be an object of `𝒜` and let `k` be an integer `≥ 0`. The
-Eilenberg–MacLane simplicial object `K(A, k)` has `K(A, k)_n = ⨁_α A`, the sum over the surjective
-monotone maps `α : [n] → [k]`, and the structure map attached to a monotone `φ : [m] → [n]` carries
-the summand indexed by `α` via `id_A` into the summand indexed by `α ∘ φ` when `α ∘ φ` is again
-surjective, and by `0` otherwise. The simplicial object `E` is built by the same rule from the
-monotone maps `α : [n] → [k + 1]` whose image is `[k]` or `[k + 1]`. This module constructs the
-sequence `0 → K(A, k) → E → K(A, k + 1) → 0`, where the first map includes the summands of
-`K(A, k)_n` along the bottom inclusion `[k] ↪ [k + 1]` and the second projects onto the summands
-indexed by the surjective maps, and shows that it is short exact and split in each degree.
+Let `𝒜` be an abelian category, let `A` be an object of `𝒜` and let `k` be an integer `≥ 0`. By
+[Stacks, Tag 0190](2)-(3) the Eilenberg–MacLane simplicial object `K(A, k)` has
+`K(A, k)_n = ⨁_α A`, the sum over the surjective monotone maps `α : [n] → [k]`, and the
+structure map attached to a monotone `φ : [m] → [n]` carries the summand indexed by `α` via `id_A`
+into the summand indexed by `α ∘ φ` when `α ∘ φ` is again surjective, and by `0` otherwise. The
+simplicial object `E` is built by the same rule from the monotone maps `α : [n] → [k + 1]` whose
+image is `[k]` or `[k + 1]`. This module takes these rules as the definition of an explicit model
+`emKAk A k` of `K(A, k)`, constructs the sequence `0 → emKAk A k → E → emKAk A (k + 1) → 0`,
+where the first map includes the summands of `(emKAk A k)_n` along the bottom inclusion
+`[k] ↪ [k + 1]` and the second projects onto the summands indexed by the surjective maps, and
+shows that it is short exact and split in each degree. The identification of `emKAk A k` with
+`eilenbergMacLane A k`, and the resulting statement of [Stacks, Tag 0192] for the
+Eilenberg–MacLane objects themselves, are in
+`StacksFrontier.AlgebraicTopology.EilenbergMacLaneExplicit`.
 
 Both index sets are cut out by a single predicate: `coversBelow s α` says that `α` attains every
 value `≤ s` of its codomain. A monotone `α : [n] → [k]` is surjective iff `coversBelow k α`; a
@@ -144,7 +149,10 @@ The declarations of this section live in the namespace
   `α : [n] → T` satisfying an admissibility predicate closed downwards under precomposition.
 * `emRelabel`: the morphism of two such objects induced by postcomposition with a fixed
   `ρ : T₁ ⟶ T₂`.
-* `emKAk`, `emEobj`: the simplicial objects `K(A, k)` and `E`, as `emObject`s for `coversBelow`.
+* `emKAk`, `emEobj`: the explicit model of `K(A, k)` given by [Stacks, Tag 0190](2)-(3), and the
+  simplicial object `E`, as `emObject`s for `coversBelow`. The isomorphism of `emKAk A k` with
+  `eilenbergMacLane A k` and the statement of [Stacks, Tag 0192] for `eilenbergMacLane` are in
+  `StacksFrontier.AlgebraicTopology.EilenbergMacLaneExplicit`.
 * `emIota`, `emPi`: the morphisms `ι : K(A, k) ⟶ E` and `π : E ⟶ K(A, k + 1)`.
 * `emShortComplex`: the short complex `K(A, k) ⟶ E ⟶ K(A, k + 1)` of simplicial objects.
 * `emSplittingApp`: a splitting of `emShortComplex A k` evaluated in a degree `n`.
@@ -368,8 +376,10 @@ noncomputable def emRelabel (A : 𝒜) (T₁ T₂ : SimplexCategory)
         · rw [dite_eq_left hQg, h2 hQg]
         · rw [dite_eq_right hQg]
 
-/-- The Eilenberg–MacLane object `K(A,k)`: summands indexed by surjective monotone maps
-`[n] → [k]`, encoded as `coversBelow k`. -/
+/-- The explicit model of the Eilenberg–MacLane object `K(A,k)` given by the rules of
+[Stacks, Tag 0190](2)-(3): summands indexed by surjective monotone maps `[n] → [k]`, encoded as
+`coversBelow k`. It is identified with `K(A, k) = i_{k!}U` (`eilenbergMacLane A k`) by
+`CategoryTheory.SimplicialObject.EilenbergMacLane.eilenbergMacLaneIsoEmKAk`. -/
 noncomputable abbrev emKAk (A : 𝒜) (k : ℕ) : SimplicialObject 𝒜 :=
   emObject A (SimplexCategory.mk k) (fun _ => coversBelow k) (coversBelow_hP k)
 
@@ -690,10 +700,11 @@ noncomputable def emSplittingApp (A : 𝒜) (k : ℕ) (n : SimplexCategoryᵒᵖ
   s_g := sectionApp_emPi_id A k n
   id := retractionApp_add_sectionApp_id A k n
 
-/-- **Stacks 0192**.
-The sequence `0 → K(A,k) → E → K(A,k+1) → 0` is term by term split exact: for each degree `n`
-the short complex obtained by evaluating it at `[n]` admits a splitting in `𝒜`. -/
-@[stacks 0192]
+/-- The sequence `0 → emKAk A k → E → emKAk A (k + 1) → 0` of explicit models is term by term
+split: for each degree `n` the short complex obtained by evaluating it at `[n]` admits a splitting
+in `𝒜`. For [Stacks, Tag 0192] itself, about the Eilenberg–MacLane objects `eilenbergMacLane A k`
+and `eilenbergMacLane A (k + 1)`, see
+`eilenbergMacLaneShortComplex_shortExact_and_splitting`. -/
 theorem emSplit (A : 𝒜) (k : ℕ) (n : SimplexCategoryᵒᵖ) :
     Nonempty
       (((emShortComplex A k).map ((CategoryTheory.evaluation _ _).obj n)).Splitting) :=
@@ -709,10 +720,10 @@ theorem emPi_app_epi (A : 𝒜) (k : ℕ) (n : SimplexCategoryᵒᵖ) :
     Epi ((emPi A k).app n) :=
   ((emSplit A k n).some).shortExact.epi_g
 
-/-- **Stacks 0192**.
-The sequence `0 → K(A,k) → E → K(A,k+1) → 0` is a short exact sequence of simplicial objects
-of `𝒜`. -/
-@[stacks 0192]
+/-- The sequence `0 → emKAk A k → E → emKAk A (k + 1) → 0` of explicit models is a short exact
+sequence of simplicial objects of `𝒜`. For [Stacks, Tag 0192] itself, about the Eilenberg–MacLane
+objects `eilenbergMacLane A k` and `eilenbergMacLane A (k + 1)`, see
+`eilenbergMacLaneShortComplex_shortExact_and_splitting`. -/
 theorem emShortComplex_shortExact (A : 𝒜) (k : ℕ) :
     (emShortComplex A k).ShortExact := by
   have hmono : Mono (emIota A k) := by

@@ -480,6 +480,7 @@ some `X_a` is affine. As `f` factors through `X_a ⟶ Y`, the latter is surjecti
 morphism of finite presentation,
 `AlgebraicGeometry.Space.isAffineSpace_of_isFinite_of_isFinitePresentation_of_isSurjective`, which
 runs through Stacks 07SU, 07SK, 084Z, 07SN, 07SQ and 07VP, concludes. -/
+@[stacks 07VS "the target of a finite surjection from an affine algebraic space is affine"]
 theorem isAffineSpace_target_of_isFinite_of_isSurjective
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)

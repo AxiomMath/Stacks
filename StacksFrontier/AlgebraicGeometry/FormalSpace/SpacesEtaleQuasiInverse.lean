@@ -110,9 +110,11 @@ general-thickening case of Stacks 05ZH,
   `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_liftAlong_of_isAffineFormalAlgebraicSpace`:
   the atlas of `U_{V_i, ψ_i}` is the family of dependent products of the affine étale charts of
   `V_i` over the stages of a presentation of `X_i`, each of which is an affine formal algebraic
-  space by Stacks 0GVM
-  (`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`) applied to its own
-  stagewise base changes. The affine étale lift across a thickening of schemes of the site
+  space by `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`, the version of
+  Stacks 0GVM assuming the set-theoretic condition (Stacks 0GVM itself is
+  `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff` and
+  `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`), applied to
+  its own stagewise base changes. The affine étale lift across a thickening of schemes of the site
   (`AlgebraicGeometry.FormalSpace.exists_affine_etale_lift_of_isThickening`, out of Stacks 039R
   and Stacks 06AD) is what makes those base changes affine, and the set-theoretic condition of
   Stacks 0AIS descends to `U_{V, ψ}` from `X` along the representable morphism

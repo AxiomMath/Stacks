@@ -57,8 +57,11 @@ There are no new definitions.
 * `AlgebraicGeometry.Stack.hasPropertyOnSomeSmoothDiagram_baseChange_of_isFlat`: the flat form of
   **Stacks 06FQ** — base change of the existential smooth-diagram criterion along an arbitrary
   2-fibre-product square whose cospan leg is flat.
-* `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_baseChange`:
-  **Stacks 0CJ5**.
+* `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_baseChange`: the
+  base-change argument of **Stacks 0CJ5**, with the smooth source-and-target locality of the Koszul
+  property of morphisms of algebraic spaces as an argument. Stacks 0CJ5 itself is
+  `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_baseChange_of_isFlat` of
+  `StacksFrontier.AlgebraicGeometry.Stacks.LocalCompleteIntersectionIsFlatBaseChange`.
 
 ## Implementation notes
 
@@ -82,22 +85,19 @@ over the base, and the property is invariant under composing with it by **Stacks
 invariance under isomorphism of presheaves. That is the only structural difference from the
 statement it copies.
 
-## Carried hypothesis
+## The locality argument
 
-The statement of Stacks 0CJ5 below carries one hypothesis beyond the source's.
+The statement below takes as an argument that the Koszul property of morphisms of *algebraic
+spaces* over `S` is smooth local on the source-and-target, which is **Stacks 06FC** at that
+property. It is what crosses the equivalence of conditions (1) and (2) of Stacks 06FM, in both
+directions. It is a theorem of this library,
+`AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget` (from
+**Stacks 0CHN** and the syntomic case of **Stacks 0CHM** through the criterion **Stacks 06FB**),
+and it is supplied in
+`AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_baseChange_of_isFlat`, the
+registered form of Stacks 0CJ5.
 
-It is that the Koszul property of morphisms of *algebraic spaces* over `S` is smooth local
-on the source-and-target, which is **Stacks 06FC** at that property. It is what crosses the
-equivalence of conditions (1) and (2) of Stacks 06FM, in both directions, and it is not available:
-the criterion `AlgebraicGeometry.Space.isSmoothLocalOnSourceAndTarget` (**Stacks 06FB**) asks for
-locality at the source and at the target for the smooth topology, and the transfer of those from
-schemes to algebraic spaces is missing for the syntomic and fpqc topologies — the same two gaps,
-**Stacks 06F0** and **Stacks 0428**, that
-`AlgebraicGeometry.Space.isSyntomic_isSmoothLocalOnSourceAndTarget` carries, and for the same
-reason; see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/LocalOnSourceAndTarget/Syntomic.lean`.
-
-Nothing else is assumed: the base-change argument itself is proved here in full. In particular
+The base-change argument itself is proved here in full. In particular
 Stacks 06C7, `AlgebraicGeometry.Space.isLocalCompleteIntersection_pullback_snd`, now carries no
 hypothesis beyond its source's: the étale source locality of the Koszul property of morphisms of
 *schemes* it needs, **Stacks 069P** restricted to étale coverings, is
@@ -113,6 +113,8 @@ hypothesis beyond its source's: the étale source locality of the Koszul propert
 * [Stacks Project, Tag 06FC](https://stacks.math.columbia.edu/tag/06FC)
 * [Stacks Project, Tag 06FM](https://stacks.math.columbia.edu/tag/06FM)
 * [Stacks Project, Tag 06FQ](https://stacks.math.columbia.edu/tag/06FQ)
+* [Stacks Project, Tag 0CHM](https://stacks.math.columbia.edu/tag/0CHM)
+* [Stacks Project, Tag 0CHN](https://stacks.math.columbia.edu/tag/0CHN)
 * [Stacks Project, Tag 06PX](https://stacks.math.columbia.edu/tag/06PX)
 * [Stacks Project, Tag 069P](https://stacks.math.columbia.edu/tag/069P)
 * [Stacks Project, Tag 0CJ3](https://stacks.math.columbia.edu/tag/0CJ3)
@@ -509,9 +511,10 @@ theorem hasPropertyOnSomeSmoothDiagram_baseChange_of_isFlat
 
 namespace AlgebraicStacks
 
-/-- **Stacks 0CJ5.** A flat base change of a local complete intersection 1-morphism of algebraic
-stacks over `S` is a local complete intersection 1-morphism: if `Q` is a 2-fibre product of the
-cospan `(g, f)`, `g` is flat and `f` is Koszul, then the projection `Q.fst` is Koszul.
+/-- The base-change argument of **Stacks 0CJ5**. A flat base change of a local complete
+intersection 1-morphism of algebraic stacks over `S` is a local complete intersection 1-morphism:
+if `Q` is a 2-fibre product of the cospan `(g, f)`, `g` is flat and `f` is Koszul, then the
+projection `Q.fst` is Koszul.
 
 This is the flat base-change remark `hasPropertyOnSomeSmoothDiagram_baseChange_of_isFlat` — the
 form of **Stacks 06FQ** the source's hint names — at the Koszul property of morphisms of algebraic
@@ -520,12 +523,11 @@ by **Stacks 06C7**. Stacks 0CJ3 is the universal smooth-diagram criterion of **S
 that remark concludes about the existential one, so both hypothesis and conclusion are moved
 across the equivalence of conditions (1) and (2) of Stacks 06FM.
 
-One hypothesis beyond the source's is carried: `hlocal`, that the Koszul property of morphisms of
-algebraic spaces is smooth local on the source-and-target (**Stacks 06FC** at that property), which
-is what crosses that equivalence. It is not available in this library; see the
-carried-hypothesis note in the module docstring. -/
-@[stacks 0CJ5 "the base-change argument in full, carrying one hypothesis this library does not \
-prove: `hlocal`, Stacks 06FC at the Koszul property of morphisms of algebraic spaces"]
+The argument `hlocal`, that the Koszul property of morphisms of algebraic spaces is smooth local
+on the source-and-target (**Stacks 06FC** at that property), is what crosses that equivalence. It
+is proved, as `AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`,
+and supplied in `isLocalCompleteIntersection_baseChange_of_isFlat`, the registered form of
+Stacks 0CJ5; see the module docstring. -/
 theorem isLocalCompleteIntersection_baseChange
     (hlocal : Space.IsSmoothLocalOnSourceAndTarget B S hS
       (fun _ _ k => Space.IsLocalCompleteIntersection B S hS k))

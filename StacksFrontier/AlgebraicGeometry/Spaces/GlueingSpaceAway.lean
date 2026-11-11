@@ -527,6 +527,12 @@ let `y : Spec k ⟶ Y` be a closed immersion.  Then `f` factors as `X ⟶ X' ⟶
 
 and moreover `X' ⟶ Y` is finite when `f` is finite and `Y` is locally Noetherian.
 
+The residue field in clause (3) is that of Stacks 0EMW: the field of a monomorphism from the
+spectrum of a field representing the point, unique up to unique isomorphism over the space
+(`AlgebraicGeometry.Space.residueFieldRepresentative_unique`).  A closed immersion is a
+monomorphism, so `x'` is such a representative of `p` and `κ(p) = k` is the statement that `x'`
+is a closed immersion with image `{p}`.
+
 The space `X'` is the quotient of the chart-level pushout over a separated étale chart of `Y`
 (`AlgebraicGeometry.Space.EtaleChartRelation.exists_of_isAlgebraicSpace`) by the étale
 equivalence relation induced by the chart's kernel pair; the sheafification it needs is

@@ -58,8 +58,8 @@ annihilated by `q` — as an input, so that it applies to any morphism and any a
 `...SmallSite.crisModuleCohomologyMap` of a crystal in quasi-coherent modules under the source's
 hypotheses, and discharges the annihilation by [Stacks, Tag 07Q9],
 `...SmallSite.annihilation07Q9_of_isIteratedAlphaPCover` — whose content is [Stacks, Proposition
-60.21.3, Tag 07LG], `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.
+60.21.3, Tag 07LG], `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.
 
 The cokernel half additionally takes the monomorphism of `ℋ^0` of the comparison map, in either of
 the two forms `SmallSite/Bound07QAHypotheses.lean` and `SmallSite/CrisUnitMono.lean` reduce it to.

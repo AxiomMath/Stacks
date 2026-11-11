@@ -17,6 +17,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.LocalC
 public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.Triangles
 public import StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfect.AffineFiniteProjective
 public import StacksCore.Tactic.StacksAttribute
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
+import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # The direct image of the structure sheaf under a perfect closed immersion
@@ -85,20 +87,24 @@ attribute [local instance] HasDerivedCategory.standard
 
 /-! ### A surjective perfect ring map presents a perfect module -/
 
-/-- **A surjective perfect ring map makes its target a perfect module over its source.**
-Pseudo-coherence of the ring map, read through the presentation with no variables that
-surjectivity provides, says that the target is pseudo-coherent as a module; finite Tor dimension
-supplies a flat representative in a bounded range, and the two together are perfectness. -/
-private theorem isPerfectModule_of_surjective_isPerfectRingMap
+/-- **A surjective perfect ring map makes its target a perfect module over its source**, in the
+form of Stacks 066Q: a finite resolution by finite projective modules. Pseudo-coherence of the
+ring map, read through the presentation with no variables that surjectivity provides, says that
+the target is pseudo-coherent as a module; finite Tor dimension, read at the canonical certified
+derived tensor product, supplies a flat representative in a bounded range, and the two together
+are perfectness. -/
+private theorem exists_finite_projective_resolution_of_surjective_of_perfect
     {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
-    (hf : Function.Surjective f)
-    (D : StacksDraft.TorAmplitude.CertifiedDerivedTensoring R)
-    (hD : letI := f.toAlgebra
-      RingHom.IsPerfectRingMap R S D.tensor D.comparison D.isLeftDerived) :
+    (hf : Function.Surjective f) (hP : f.Perfect) :
     letI : Algebra R S := f.toAlgebra
-    StacksDraft.Perfect.IsPerfectModule (R := R) S := by
+    ∃ (d : ℕ) (F : ModuleResolution R S),
+      (∀ i, Module.Finite R (F.complex.X i) ∧ Module.Projective R (F.complex.X i)) ∧
+        ∀ i, d < i → IsZero (F.complex.X i) := by
   let : Algebra R S := f.toAlgebra
-  obtain ⟨hpcm, htor⟩ := hD
+  refine (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution S).mp ?_
+  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
+  obtain ⟨hpcm, htor⟩ := (Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension
+    D.comparison D.isLeftDerived).mp hP
   obtain ⟨_, hpc⟩ :=
     Algebra.pseudoCoherent_iff_exists_isModuleRelativelyPseudoCoherent.mp hpcm
   let eA := MvPolynomial.isEmptyAlgEquiv R (Fin 0)
@@ -148,12 +154,13 @@ theorem isPerfectModule_sections_of_perfect_isClosedImmersion {Z X : Scheme.{u}}
     [IsClosedImmersion i] [Perfect i] (V : X.Opens) (hV : IsAffineOpen V) :
     letI : Algebra Γ(X, V) Γ(Z, i ⁻¹ᵁ V) := (i.app V).hom.toAlgebra
     StacksDraft.Perfect.IsPerfectModule (R := Γ(X, V)) Γ(Z, i ⁻¹ᵁ V) := by
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring Γ(X, V)
-  have hperfect := (inferInstance : Perfect i).perfect_appLE (i ⁻¹ᵁ V) (hV.preimage i) V hV
-    le_rfl D
+  have hperfect :=
+    HasRingHomProperty.appLE @Perfect i ‹_› ⟨V, hV⟩ ⟨i ⁻¹ᵁ V, hV.preimage i⟩ le_rfl
   rw [Scheme.Hom.appLE_eq_app] at hperfect
-  exact isPerfectModule_of_surjective_isPerfectRingMap (i.app V).hom
-    (i.app_surjective V hV) D hperfect
+  let : Algebra Γ(X, V) Γ(Z, i ⁻¹ᵁ V) := (i.app V).hom.toAlgebra
+  exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution _).mpr
+    (exists_finite_projective_resolution_of_surjective_of_perfect (i.app V).hom
+      (i.app_surjective V hV) hperfect)
 
 /-- A finite free module sheaf on a ringed space is the coproduct of copies of the structure
 sheaf indexed by a universe-lifted finite type. -/

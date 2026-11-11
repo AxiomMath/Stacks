@@ -30,8 +30,9 @@ hypothesis is applied to the remaining `n - 1` points with that intermediate bas
 essentially surjective, is
 `AlgebraicGeometry.FinitePresentationSpacesOver.ClosedPointsGlueingData.Solvable`.
 
-Full faithfulness is not proved here, because Stacks 0E92 does not prove it: its proof omits it.
-See the section on what is and is not proved below.
+Full faithfulness, the construction of the tower, and hence Stacks 0E92 itself, are in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedPointsGlueingEquivalence`,
+as `AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_comparisonFunctor_closedPoints`.
 
 ## Main definitions
 
@@ -58,30 +59,19 @@ See the section on what is and is not proved below.
   `AlgebraicGeometry.FinitePresentationSpacesOver.baseChangeSquareIso_comp_factor`: replacing the
   first leg of a commuting square by its composite with a factorisation of the first base
   morphism changes the comparison only by the comparisons of the factorisations.
-* `AlgebraicGeometry.FinitePresentationSpacesOver.ClosedPointsGlueingData` and its
-  `essSurj_comparisonFunctor`: **the comparison functor of Stacks 0E92 is essentially
-  surjective**, granted a tower of splittings whose binary comparison functors are essentially
-  surjective.
+* `AlgebraicGeometry.FinitePresentationSpacesOver.ClosedPointsGlueingData`'s
+  `essSurj_comparisonFunctor`: the comparison functor is essentially surjective along a tower
+  of splittings whose binary comparison functors are essentially surjective.
 
-## What is proved of Stacks 0E92, and what is not
+## Relation to Stacks 0E92
 
-Proved: the comparison functor itself, with no hypothesis beyond the glueing data, and its
-essential surjectivity granted `Solvable`. The latter hypothesis is the case `n = 1` of the
-lemma, namely Stacks 0E90, at each step of the tower of intermediate bases, exactly as the
-proof of Stacks 0E92 uses it; the reduction from `n` to `n - 1` is what is proved here.
-
-Not proved: full faithfulness, which the proof of Stacks 0E92 explicitly omits, and therefore
-that the comparison functor is an equivalence. The attribute on the theorem records this.
-
-Also not proved, and the reason `Solvable` is a hypothesis rather than a consequence: that the
-intermediate bases exist with the stated properties, and that each binary comparison functor is
-essentially surjective. The latter is Stacks 0E90, whose carrier in this library,
-`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_of_colimit` of
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedFibreGlueing`, is itself
-stated for an arbitrary object of the site carrying two cofiltered colimit identifications, and
-so does not identify the local part with `Spec 𝒪_{S,s}`. Specialising it to a closed point needs
-those limit identifications, which are not available in this library; the quasi-compactness of
-`U → S` enters only through them.
+This file proves the comparison functor and the reduction of its essential surjectivity from
+`n` to `n - 1` points. The tower `Solvable` is built, with Stacks 0E90 applied at each of its
+intermediate bases (through
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_of_mono`), and full
+faithfulness is proved by the same splitting, in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedPointsGlueingEquivalence`;
+its `isEquivalence_comparisonFunctor_closedPoints` is Stacks 0E92.
 
 ## Implementation notes
 
@@ -510,19 +500,17 @@ private theorem essSurj_comparisonFunctor_peel {n : ℕ}
     ((baseChangeFactorIso B S hS p.openToMid_comp).app Y ≪≫
       (baseChange B S hS p.openToMid).mapIso c ≪≫ a') bb key
 
-/-- **Stacks 0E92, essential surjectivity of the comparison functor, granted the case `n = 1`.**
+/-- **Essential surjectivity of the comparison functor along a tower of splittings.**
 Every object of the `n`-fold `2`-fibre product — an algebraic space of finite presentation over
 the open part, a family of such over the local parts, and a family of identifications over the
 overlaps — is, up to isomorphism, the image of an algebraic space of finite presentation over
 the base, as soon as the glueing data admits a tower of splittings whose binary comparison
 functors are essentially surjective. The induction splits off the last point by one such
-comparison functor and applies the induction hypothesis to the remaining points. -/
-@[stacks 0E92 "the comparison functor, and its essential surjectivity granted the case n = 1 \
-of the lemma — that is, Stacks 0E90 — at each step of a tower of intermediate bases, carried \
-as the hypothesis `Solvable`. The target is the iso-comma category of the two functors into \
-`∀ i, FP_{Uᵢ}` assembled from the base changes, which is the 2-fibre product the lemma names. \
-Full faithfulness, and hence that the functor is an equivalence, is NOT proved: the proof of \
-Stacks 0E92 omits it"]
+comparison functor and applies the induction hypothesis to the remaining points. This is the
+essential surjectivity half of Stacks 0E92, which is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_comparisonFunctor_closedPoints`
+of `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedPointsGlueingEquivalence`;
+there the tower is constructed. -/
 theorem essSurj_comparisonFunctor :
     ∀ (n : ℕ) (D : ClosedPointsGlueingData B S hS n), Solvable n D →
       D.comparisonFunctor.EssSurj := by

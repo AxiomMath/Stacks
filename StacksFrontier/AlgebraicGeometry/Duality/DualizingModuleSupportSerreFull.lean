@@ -1,7 +1,5 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModuleSupportSerre
-import all StacksFrontier.AlgebraicGeometry.Duality.DualizingModuleSupportSerre
 public import StacksFrontier.AlgebraicGeometry.Cohomology.Coherent.Depth
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModuleOfComplex
 public import StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizing.DerivedStalkHomology
@@ -34,7 +32,6 @@ at that generic point.
   vanishes.
 * `Stacks.Duality.IsDualizingModuleOf.supp_eq_maxDimensionalComponents_of_dimensionFunction` —
   the support clause, for an arbitrary dimension function on `X`.
-* `Stacks.Duality.IsDualizingModuleOf.sheafHasPropertySk_two_of_dualizing` — `ω` satisfies `(S₂)`.
 * `Stacks.Duality.IsDualizingModuleOf.supp_eq_and_isCoherent_and_sheafHasPropertySk_two` —
   **[Stacks, Tag 0AWK]**, the three assertions together.
 
@@ -61,7 +58,7 @@ largest has maximal dimension, and is zero otherwise. This is the local statemen
 The support for an arbitrary dimension function follows because, `X` being connected, two
 dimension functions differ by a constant ([Stacks, Tag 02IB],
 `TopologicalSpace.DimensionFunction.maximalComponents_eq`). Connectedness enters through that
-step alone; the dichotomy and `(S₂)` hold on any Noetherian scheme.
+step alone; the dichotomy, and the argument for `(S₂)`, work on any Noetherian scheme.
 
 Serre's condition is `AlgebraicGeometry.SheafHasPropertySk` of [Stacks, Tag 0341], a pointwise
 condition on the stalks over the local rings of `X`. A module with
@@ -212,12 +209,22 @@ theorem IsDualizingModuleOf.supp_eq_maxDimensionalComponents_of_dimensionFunctio
   exact DimensionFunction.maximalComponents_eq
     (isLocallyNoetherianSpace_of_isLocallyNoetherian X) D δ
 
-/-- **Serre's condition for a dualizing module.** The dualizing module of a dualizing complex on
-a Noetherian scheme satisfies `(S₂)`: at a point where its stalk is the canonical module of the
-local ring the depth bound for canonical modules applies, and at a point where the stalk vanishes
-the condition is empty. -/
-theorem IsDualizingModuleOf.sheafHasPropertySk_two_of_dualizing (h : IsDualizingModuleOf ω K n) :
-    SheafHasPropertySk X ω 2 := by
+/-- **Stacks Project, Tag 0AWK.** Let `X` be a connected Noetherian scheme and let `ω` be a
+dualizing module on `X`, the cohomology sheaf of a dualizing complex `K` in the leftmost degree
+`n` in which `K` has nonvanishing cohomology. Then the support of `ω` is the union of the
+irreducible components of maximal dimension with respect to any dimension function `δ`, and `ω`
+is a coherent `𝒪_X`-module having property `(S₂)`. -/
+@[stacks 0AWK]
+theorem IsDualizingModuleOf.supp_eq_and_isCoherent_and_sheafHasPropertySk_two
+    [ConnectedSpace X] (h : IsDualizingModuleOf ω K n) :
+    (∀ δ : DimensionFunction X,
+      (⟨ω.val, ω.isSheaf⟩ : RingedSpace.ModuleSheaf.{u} X.toRingedSpace).supp =
+        {x : X | ∃ ξ ∈ genericPoints X, x ∈ closure {ξ} ∧
+          ∀ η ∈ genericPoints X, δ η ≤ δ ξ}) ∧
+      _root_.SheafOfModules.IsCoherent ω ∧ SheafHasPropertySk X ω 2 := by
+  refine ⟨h.supp_eq_maxDimensionalComponents_of_dimensionFunction, h.isCoherent, ?_⟩
+  -- `(S₂)`: where the stalk of `ω` is the canonical module of the local ring the depth bound for
+  -- canonical modules applies, and where it vanishes the condition is empty.
   intro x
   rcases h.stalk_dichotomy x with ⟨-, L, d, hL, hd, ⟨e⟩⟩ | ⟨-, hsub⟩
   · let φ := (stalkLinearEquivModulesStalkFunctor ω x).trans e.toLinearEquiv
@@ -237,22 +244,6 @@ theorem IsDualizingModuleOf.sheafHasPropertySk_two_of_dualizing (h : IsDualizing
       (stalkLinearEquivModulesStalkFunctor ω x).toEquiv.subsingleton_congr.mpr hsub
     rw [Module.supportDim_eq_bot_of_subsingleton]
     exact (min_le_right _ _).trans bot_le
-
-/-- **Stacks Project, Tag 0AWK.** Let `X` be a connected Noetherian scheme and let `ω` be a
-dualizing module on `X`, the cohomology sheaf of a dualizing complex `K` in the leftmost degree
-`n` in which `K` has nonvanishing cohomology. Then the support of `ω` is the union of the
-irreducible components of maximal dimension with respect to any dimension function `δ`, and `ω`
-is a coherent `𝒪_X`-module having property `(S₂)`. -/
-@[stacks 0AWK]
-theorem IsDualizingModuleOf.supp_eq_and_isCoherent_and_sheafHasPropertySk_two
-    [ConnectedSpace X] (h : IsDualizingModuleOf ω K n) :
-    (∀ δ : DimensionFunction X,
-      (⟨ω.val, ω.isSheaf⟩ : RingedSpace.ModuleSheaf.{u} X.toRingedSpace).supp =
-        {x : X | ∃ ξ ∈ genericPoints X, x ∈ closure {ξ} ∧
-          ∀ η ∈ genericPoints X, δ η ≤ δ ξ}) ∧
-      _root_.SheafOfModules.IsCoherent ω ∧ SheafHasPropertySk X ω 2 :=
-  ⟨h.supp_eq_maxDimensionalComponents_of_dimensionFunction, h.isCoherent,
-    h.sheafHasPropertySk_two_of_dualizing⟩
 
 end Stacks.Duality
 

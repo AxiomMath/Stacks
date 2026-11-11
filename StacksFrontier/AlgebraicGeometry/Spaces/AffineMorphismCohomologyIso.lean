@@ -4,7 +4,7 @@ public import
     StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.ModuleHigherVanishing
 public import StacksFrontier.AlgebraicGeometry.Spaces.AffineBaseChangeChart
 public import StacksFrontier.AlgebraicGeometry.Spaces.AffineChartCohomologyVanishing
-public import StacksFrontier.AlgebraicGeometry.Spaces.AffineMorphismCohomologyCollapse
+public import StacksFrontier.AlgebraicGeometry.Spaces.AffineMorphismLerayCollapse
 public import StacksFrontier.AlgebraicGeometry.Spaces.ChartSpacePresentedSections
 public import StacksFrontier.AlgebraicGeometry.Spaces.InjectivePushforwardAcyclicity
 public import StacksFrontier.AlgebraicGeometry.Spaces.ModulePushforwardChartComparison
@@ -31,8 +31,8 @@ Let `f : X ⟶ Y` be an affine morphism of algebraic spaces over `S` and `𝓕` 
   `H^i(X, 𝓕) ≅ H^i(Y, f_*𝓕)` as abelian groups.
 
 `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom` and
-`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom` state the reductions with the two
-inputs `h03DW` and `h072Z` carried; the declarations here discharge them.
+`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise` state the reductions with
+their two inputs as arguments; the declarations here prove those inputs.
 
 ## Implementation notes
 
@@ -212,7 +212,8 @@ variable {X Y : AlgebraicSpaces B S hS}
 acyclic for global sections on `Y`: this is
 `AlgebraicGeometry.Space.acyclic_globalSectionsFunctor_modulePushforward_of_injective`, Stacks 072Z
 read through part (3) of Stacks 0731. -/
-theorem acyclicPushforwardOfInjective (f : X ⟶ Y) : AcyclicPushforwardOfInjective B S hS f :=
+theorem acyclicPushforwardOfInjective (f : X ⟶ Y) :
+    PushforwardInjectiveGlobalSectionsAcyclic B S hS f :=
   fun Z _ => acyclic_globalSectionsFunctor_modulePushforward_of_injective B S hS f Z
 
 /-- **Stacks 0D2U.**  Let `f : X ⟶ Y` be an affine morphism of algebraic spaces over `S` and `𝓕`
@@ -222,7 +223,8 @@ groups.
 Both sides are the right derived functors of global sections of modules, read in abelian groups.
 Global sections of `f_*` are global sections on `X`
 (`AlgebraicGeometry.Space.globalSectionsModulePushforwardIso`), forgetting to abelian groups is
-exact, and the Leray collapse `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`,
+exact, and the Leray collapse
+`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise`,
 whose two hypotheses are discharged by Stacks 073H and Stacks 072Z, identifies the derived
 functors of `Γ(Y, f_* −)` with the cohomology of `f_*𝓕`. -/
 def cohomologyIsoOfIsAffineHom (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom)
@@ -247,7 +249,8 @@ def cohomologyIsoOfIsAffineHom (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom)
     (Functor.rightDerivedCompIso (modulePushforward B S hS f ⋙ globalSectionsFunctor.{u + 1, u, u,
       u} (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))
       (forget₂ _ AddCommGrpCat.{u + 1}) i).app F ≪≫
-    (forget₂ _ AddCommGrpCat.{u + 1}).mapIso (cohomologyCollapseIsoOfIsAffineHom B S hS f hf F
+    (forget₂ _ AddCommGrpCat.{u + 1}).mapIso
+      (cohomologyCollapseIsoOfIsAffineHomOfChartwise B S hS f hf F
       (fun n hn => chartwiseIsZeroHigherDirectImage_of_isAffineHom B S hS f hf _ F hF n hn)
       (acyclicPushforwardOfInjective B S hS f) i)
 

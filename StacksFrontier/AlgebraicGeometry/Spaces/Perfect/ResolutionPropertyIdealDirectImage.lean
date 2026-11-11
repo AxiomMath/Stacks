@@ -72,9 +72,9 @@ case, and none of the steps of that reduction is available:
   (only the point set `AlgebraicGeometry.Space.idealZeroLocus`, as the situation's own
   condition reflects);
 * the affineness of the chart at a finite stage is Stacks 07SQ;
-* absolute Noetherian approximation, Stacks 07SU, is in the library only in the form
-  `AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit`, which
-  is not unconditional.
+* absolute Noetherian approximation, Stacks 07SU, is in the library as
+  `AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace`, but only over the
+  base `⊤_ Scheme`, so it has to be transported to the base `S` of the situation.
 
 ## References
 

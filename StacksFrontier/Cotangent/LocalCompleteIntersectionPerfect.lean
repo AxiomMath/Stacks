@@ -33,14 +33,11 @@ The source's proof picks a finite polynomial presentation `P = A[x₁, …, x_n]
    `A → P → B` and the computation 08QH of `L_{P/A}` for a polynomial algebra — kills
    `Hⁱ(L_{B/A})` outside `[-1, 0]`.
 
-Step 1 is what this file proves. Step 2 is **not** available in this library: of Tag 08RB only
-the degree-zero clause `CommAlgCat.cotangentComplexHomologyZeroIsoNaive` is formalized, the
-comparison map of Tag 08R7 is not constructed, and Tag 08SK is absent altogether. The
-quasi-isomorphism of step 2 is therefore a hypothesis of the theorem below, recorded as an
-isomorphism in `D(B)` between `L_{B/A}` and the naive complex of the given presentation. It is
-the content of two *other* Stacks tags, and it is strictly weaker than the conclusion: on its own
-it says nothing about the terms of `NL(P → B)`, which is exactly where the
-local-complete-intersection hypothesis does its work.
+Step 1 is what this file proves, together with the reduction of the proposition to an
+isomorphism `L_{B/A} ≅ NL(P → B)` in `D(B)`. Step 2, the construction of that isomorphism, and
+the resulting statement of Tag 08SL under its single hypothesis are in
+`StacksFrontier/Cotangent/LocalCompleteIntersectionPerfectUnconditional.lean`
+(`CommAlgCat.isPerfect_and_hasTorAmplitude_cotangentComplexDerived_of_isLCI`).
 
 ## Main results
 
@@ -49,8 +46,8 @@ local-complete-intersection hypothesis does its work.
   every finite polynomial presentation of `B` over `A` is perfect with Tor amplitude in
   `[-1, 0]`.
 * `CommAlgCat.isPerfect_and_hasTorAmplitude_cotangentComplexDerived_of_isLocalCompleteIntersection`:
-  **Tag 08SL**, in the conditional form described above. Both assertions of the source —
-  perfectness and Tor amplitude in `[-1, 0]` — are proved.
+  `L_{B/A}` is perfect with Tor amplitude in `[-1, 0]` given an isomorphism of `L_{B/A}` with the
+  naive complex of a finite polynomial presentation; the step used by Tag 08SL.
 
 ## Implementation notes
 
@@ -173,12 +170,9 @@ private lemma isPerfect_and_hasTorAmplitude_of_iso_naiveComplex
 every finite polynomial presentation `P → B` of `B` over `A` is a perfect object of `D(B)` with
 Tor amplitude in `[-1, 0]`.
 
-This is the unconditional content of Stacks 08SL's proof: the two terms of `NL(P → B)` are the
-conormal module `J/J²` of the presentation, finite projective by Tag 08RK through Tags 07CZ and
-062I, and the free module `⨁ B dxᵢ` on the variables. Passing from here to `L_{B/A}` needs the
-quasi-isomorphism `NL(P → B) ≅ L_{B/A}` of Tags 08RB and 08SK, which is why
-`isPerfect_and_hasTorAmplitude_cotangentComplexDerived_of_isLocalCompleteIntersection` takes it
-as a hypothesis. -/
+The two terms of `NL(P → B)` are the conormal module `J/J²` of the presentation, finite
+projective by Tag 08RK through Tags 07CZ and 062I, and the free module `⨁ B dxᵢ` on the
+variables. -/
 theorem isPerfect_and_hasTorAmplitude_naiveComplex_of_isLocalCompleteIntersection
     {A B : Type u} [CommRing A] [CommRing B] [Algebra A B] {ι : Type u} [Finite ι]
     (P : Algebra.Generators A B ι)
@@ -189,22 +183,16 @@ theorem isPerfect_and_hasTorAmplitude_naiveComplex_of_isLocalCompleteIntersectio
         (DerivedCategory.Q.obj (Algebra.Extension.naiveComplex P.toExtension)) (-1) 0 :=
   isPerfect_and_hasTorAmplitude_of_iso_naiveComplex P hlci _ (Iso.refl _)
 
-/-- **Stacks 08SL.** Let `A → B` be a local complete intersection map. Then the cotangent complex
-`L_{B/A}` is a perfect object of `D(B)` with Tor amplitude in `[-1, 0]`.
+/-- Let `A → B` be a local complete intersection map and `P` a finite polynomial presentation of
+`B` over `A`. If `L_{B/A}` is isomorphic in `D(B)` to the naive complex `NL(P → B)`, then `L_{B/A}`
+is a perfect object of `D(B)` with Tor amplitude in `[-1, 0]`.
 
-The quasi-isomorphism `L_{B/A} ≅ NL(P → B)` with the naive complex of a finite polynomial
-presentation `P` is taken as the hypothesis `e`: it is the conjunction of Tag 08RB and Tag 08SK,
-neither of which is available in this library (see the module documentation). What the local
-complete intersection hypothesis supplies, and what is proved here, is that the two terms of
-`NL(P → B)` are finite projective `B`-modules — the conormal module `J/J²` by Tag 08RK through
-Tags 07CZ and 062I, and `⨁ B dxᵢ` by the canonical basis of the cotangent space. Perfectness is
-then immediate from the definition and the Tor-amplitude bound follows by Tag 0654, a projective
-module being flat. -/
-@[stacks 08SL "perfectness and Tor amplitude in [-1, 0] are both proved, conditionally on the
-hypothesis e that L_{B/A} is isomorphic in D(B) to the naive complex of the given finite
-polynomial presentation; that isomorphism is Tag 08RB (only its degree-zero clause is in this
-library) together with Tag 08SK (absent from this library). All the local complete intersection
-hypothesis is used for, finite projectivity of the two terms, is proved"]
+The two terms of `NL(P → B)` are finite projective `B`-modules: the conormal module `J/J²` by
+Tag 08RK through Tags 07CZ and 062I, and `⨁ B dxᵢ` by the canonical basis of the cotangent
+space. Perfectness is then immediate from the definition and the Tor-amplitude bound follows by
+Tag 0654, a projective module being flat. The isomorphism `e` is constructed in
+`CommAlgCat.cotangentComplexDerivedIsoNaiveComplexOfIsLocalCompleteIntersection`, which gives
+Stacks 08SL as `CommAlgCat.isPerfect_and_hasTorAmplitude_cotangentComplexDerived_of_isLCI`. -/
 theorem isPerfect_and_hasTorAmplitude_cotangentComplexDerived_of_isLocalCompleteIntersection
     (A : Type u) [CommRing A] (B : CommAlgCat.{u} A) {ι : Type u} [Finite ι]
     (P : Algebra.Generators A ↥B ι)

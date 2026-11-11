@@ -230,10 +230,11 @@ over the base carries a fundamental class to a fundamental class by
 The hypotheses are those of
 `Stacks.Chow.lciGysinCap_fundamentalChowClass_of_isVirtualNormalBundleClass`, whose implementation
 notes say what each one is and why none of them is the conclusion; see also the implementation
-notes above for how the Cohen-Macaulay hypothesis and the conditions of Stacks 0FE3 enter. -/
-@[stacks 0FF8 "part (b): `f^![Y]_n = [X]_{n-(r-d)}` on `X` itself, from 0FF7 at `Y' = Y`. The \
-0FE3 conditions enter as the two δ-dimension bounds and the Cohen-Macaulay hypothesis as the \
-vanishing excess `hcone`, exactly as in 0FF7's carrier; no clopen reduction"]
+notes above for how the Cohen-Macaulay hypothesis and the conditions of Stacks 0FE3 enter.
+
+This is a special case, with the excess vanishing `hcone` assumed; Stacks 0FF8 (b) itself, for the
+Gysin map of Stacks 0FF3 under the conditions of Stacks 0FE3 only, is
+`Stacks.Chow.lciGysinClass_completedCapDegreeZero_fundamentalClass`, which carries the tag. -/
 theorem lciGysinCap_fundamentalChowClass_id_of_isVirtualNormalBundleClass
     {ci : BivariantClass C G sX sP i hi (r : ℤ)}
     (hci : IsVirtualNormalBundleClass C sX sP i hi G 𝒩 r ci)

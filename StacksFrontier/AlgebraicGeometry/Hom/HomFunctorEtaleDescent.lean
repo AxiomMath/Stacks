@@ -24,6 +24,9 @@ pairs `(h, u)` with `h : T ⟶ base` and `u : F_T ⟶ G_T` [Stacks, Tag 0D3S].
   two pullbacks along a kernel pair of `g`.
 * `AlgebraicGeometry.Space.HomSituation.etaleHomDescent`: consequently the fullness clause
   `AlgebraicGeometry.Space.HomSituation.EtaleHomDescent` holds for every Hom situation.
+* `AlgebraicGeometry.Space.HomSituation.homSchemeFunctor`: the relative Hom functor of
+  [Stacks, Tag 08JT] on the test schemes over the base, with `homSchemeFunctor_obj` and
+  `homSchemeFunctor_map` its value and its action.
 * `AlgebraicGeometry.Space.HomSituation.bijective_morOfSpaceHom` and
   `AlgebraicGeometry.Space.HomSituation.spaceHomPairEquiv`: the bijection between the pairs
   `(h, u)` at an algebraic space `T` and the morphisms `T ⟶ Hom(F, G)`.
@@ -37,6 +40,7 @@ The morphisms of sheaves out of `T` are morphisms of presheaves out of the unive
 ## References
 
 * [Stacks Project, Tag 0D3S](https://stacks.math.columbia.edu/tag/0D3S)
+* [Stacks Project, Tag 08JT](https://stacks.math.columbia.edu/tag/08JT)
 * [Stacks Project, Tag 04W8](https://stacks.math.columbia.edu/tag/04W8)
 * [Stacks Project, Tag 04W6](https://stacks.math.columbia.edu/tag/04W6)
 * [Stacks Project, Tag 03LU](https://stacks.math.columbia.edu/tag/03LU)
@@ -187,7 +191,8 @@ def spaceHomPairEquiv (T : AlgebraicSpaces B S hS) :
 
 /-- **The relative Hom functor of Stacks 08JT on the test schemes over the base is the
 restriction of the one indexed by the algebraic spaces over the base.**  The functor
-`Hom(F, G) : (Sch/base)^{opp} ⥤ Sets` of Stacks 08JT is
+`AlgebraicGeometry.Space.HomSituation.homFunctor`, built from any inhabitant `hc` of the
+coherence data of Stacks 03LU, is
 `AlgebraicGeometry.Space.HomSituation.homOverSpaceFunctor` composed with the inclusion
 `AlgebraicGeometry.Space.schemesOverToOver` of the test schemes over the base into the
 algebraic spaces over the base.
@@ -195,11 +200,33 @@ algebraic spaces over the base.
 The two sides are the same functor on the nose: base change along a test scheme is base change
 along the algebraic space it names, and the coherence datum the left-hand side carries is used
 only in the two functor laws, which are propositions. -/
-@[stacks 08JT "the Hom functor on the test schemes over the base is the restriction of the \
-Hom functor indexed by the algebraic spaces over the base"]
 theorem homFunctor_eq_restriction (hc : ModulePushforwardCoherence B S hS) :
     s.homFunctor hc = (schemesOverToOver s.base).op ⋙ s.homOverSpaceFunctor :=
   rfl
+
+/-- **Stacks 08JT.**  The relative Hom functor `Hom(F, G) : (Sch/base)ᵒᵖ ⥤ Sets`: its value at a
+test scheme `T` over the base is `Hom_{𝒪_{X_T}}(F_T, G_T)`, the homomorphisms of the two modules
+pulled back to `X_T = X ×_{base} T`, and its action on a morphism of test schemes is pullback of
+homomorphisms.  It is `AlgebraicGeometry.Space.HomSituation.homOverSpaceFunctor` restricted to
+the test schemes over the base; the pseudofunctoriality of the direct images of Stacks 03LU that
+makes it a functor is `AlgebraicGeometry.Space.modulePushforwardCoherence`. -/
+@[stacks 08JT "the Hom functor on the schemes over the base"]
+def homSchemeFunctor : (s.SchemesOver)ᵒᵖ ⥤ Type (u + 1) :=
+  (schemesOverToOver s.base).op ⋙ s.homOverSpaceFunctor
+
+/-- **Stacks 08JT.**  The value of the relative Hom functor at a test scheme `T` over the base
+is the set of `𝒪_{X_T}`-module homomorphisms `F_T ⟶ G_T`. -/
+@[stacks 08JT "the value of the Hom functor at a scheme over the base"]
+theorem homSchemeFunctor_obj (T : s.SchemesOver) :
+    s.homSchemeFunctor.obj (Opposite.op T) = s.homAt T :=
+  rfl
+
+/-- **Stacks 08JT.**  The action of the relative Hom functor on a morphism of test schemes is
+pullback of homomorphisms. -/
+@[stacks 08JT "the action of the Hom functor on a morphism of schemes over the base"]
+theorem homSchemeFunctor_map {U T : s.SchemesOver} (g : U ⟶ T) :
+    s.homSchemeFunctor.map (Opposite.op g) = TypeCat.ofHom (s.homMap g) :=
+  s.homFunctor_map (modulePushforwardCoherence B S hS) g
 
 end HomSituation
 

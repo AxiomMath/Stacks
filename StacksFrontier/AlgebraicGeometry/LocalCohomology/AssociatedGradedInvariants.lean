@@ -45,7 +45,8 @@ functor of global sections `Stacks.Cohomology.sectionsFunctor`, their global sec
 * `AssociatedGraded.qInvariant_le`: `q(S)` is a lower bound for every degree past which the two
   conditions hold — one half of "smallest".
 * `AssociatedGraded.isRegularDegree_of_qInvariant_le`: the other half, that the two conditions do
-  hold for every `q ≥ q(S)`, *provided* some bound exists at all.
+  hold for every `q ≥ q(S)`, given some bound (which exists for `A` Noetherian, see the
+  implementation notes).
 * `AssociatedGraded.dInvariant_eq_zero_of_eq_top` and
   `AssociatedGraded.qInvariant_eq_zero_of_eq_top`: in the degenerate case `I = A`, where `S = 0`,
   both invariants are `0`. The second goes through
@@ -55,27 +56,31 @@ functor of global sections `Stacks.Cohomology.sectionsFunctor`, their global sec
 ## Implementation notes
 
 `d(S)` is valued in `ℕ∞`, not in `ℕ`. The source treats it as a natural number; that it is
-finite rests on properness of the blowup over a Noetherian base, which is not proved here, so
-taking the supremum in `ℕ∞` is the statement that does not assume it. A fibre with empty
-underlying space has `topologicalKrullDim = ⊥`, which is sent to `0` by `WithBot.unbotD 0`;
-this is the source's convention "`d = 0` if `X = ∅`".
+finite rests on properness of the blowup over a Noetherian base, so it is proved downstream, in
+`Stacks.LocalCohomology.UniformityIII.dInvariant_eq_fibreDim`
+(`BitUniformityIII/FibreDimensionAssociatedGraded.lean`), which identifies `d(S)` with the natural
+number `Stacks.LocalCohomology.UniformityIII.fibreDim`. A fibre with empty underlying space has
+`topologicalKrullDim = ⊥`, which is sent to `0` by `WithBot.unbotD 0`; this is the source's
+convention "`d = 0` if `X = ∅`".
 
 `q(S)` is `sInf` of the set of valid bounds, taken in `ℕ`. The source knows this set is nonempty
-by Cohomology of Schemes, Lemmas [Stacks, Tag 0AG6] and [Stacks, Tag 0AG7]; **those are not
-available in the generality needed here** (see
-`StacksFrontier/AlgebraicGeometry/ProjSerreDevissage/` and
-`StacksFrontier/AlgebraicGeometry/ProjLargeDegreeSections/Basic.lean`, whose Tag 0AG7 statement
-carries homogeneous generating data for the kernel and the cokernel instead of deriving it from
-Noetherianity). So nonemptiness is a *hypothesis* of `isRegularDegree_of_qInvariant_le` rather than
-a theorem; `Nat.sInf` of the empty set is `0`, and no claim is made about `qInvariant` in that case.
+by Cohomology of Schemes, Lemmas [Stacks, Tag 0AG6] and [Stacks, Tag 0AG7]; for `A` Noetherian
+this is `Stacks.LocalCohomology.UniformityIII.exists_forall_isRegularDegree`
+(`BitUniformityIII/UniformityInvariants.lean`), which transports Serre's two theorems on the blowup
+to `Y = Proj(S)` along the closed immersion `Y → X`. This file states
+`isRegularDegree_of_qInvariant_le` for an arbitrary ring, so there nonemptiness is an argument;
+`Nat.sInf` of the empty set is `0`.
 
 `dInvariant` formalizes clause (2) of the paragraph of [Stacks, Tag 0GA6] that introduces `d`,
 namely the description as the maximal fibre dimension of `Proj(S) → Spec(S₀)`, which is the
 description that exhibits `d` as an invariant of the isomorphism class of `S` and justifies the
 notation `d(S)`. The paragraph's primary phrasing is the maximal fibre dimension of the blowup
 `p : X → Spec(A)` — in this repository `Stacks.Blowup.toSpec` on
-`Stacks.Blowup.blowUpSpec I = Proj (Stacks.Blowup.reesGrading I)` — and the equality of the two
-is *not* proved here.
+`Stacks.Blowup.blowUpSpec I = Proj (Stacks.Blowup.reesGrading I)` — and the two agree by
+`Stacks.LocalCohomology.UniformityIII.dInvariant_eq_fibreDim`.
+
+The full content of the section, for `A` Noetherian, is
+`Stacks.LocalCohomology.UniformityIII.dInvariant_qInvariant_spec`, which carries the tag.
 
 The `d(S)`-dependent range `1 ≤ i ≤ d` of the vanishing clause is read in `ℕ∞`; since the two
 conditions are indexed by `i : ℕ`, the hypothesis is `(i : ℕ∞) ≤ dInvariant I`.
@@ -116,13 +121,10 @@ def toSpecGradeZero : projGr I ⟶ Spec (.of (grading I 0)) :=
 /-- **The invariant `d(S) = d(Gr_I(A))`**: the maximum of the dimensions of the fibres of
 `Proj(S) → Spec(S₀)`, a fibre with empty underlying space contributing `0`.
 
-This is clause (2) of the paragraph of [Stacks, Tag 0GA6] that introduces `d`; see the
-implementation notes for its relation to the paragraph's primary phrasing in terms of the
-blowup. -/
-@[stacks 0GA6 "the invariant d(S) of the associated graded ring S = Gr_I(A), as the maximum of \
-the dimensions of the fibres of Proj(S) → Spec(S₀), which is clause (2) of the paragraph \
-defining d; the equality with the maximum of the fibre dimensions of the blowup p : X → Spec(A), \
-the paragraph's primary phrasing, is not proved here"]
+This is clause (2) of the paragraph of [Stacks, Tag 0GA6] that introduces `d`; for `A` Noetherian
+it equals the maximal fibre dimension of the blowup by
+`Stacks.LocalCohomology.UniformityIII.dInvariant_eq_fibreDim`, and the section's statements about
+it are `Stacks.LocalCohomology.UniformityIII.dInvariant_qInvariant_spec`. -/
 def dInvariant : ℕ∞ :=
   ⨆ y : Spec (.of (grading I 0)),
     (topologicalKrullDim (Scheme.Hom.fiber (toSpecGradeZero I) y)).unbotD 0
@@ -156,13 +158,10 @@ def IsRegularDegree (q : ℕ) : Prop :=
 `AssociatedGraded.IsRegularDegree` holds at every `q ≥ q₀`.
 
 That the set of such `q₀` is nonempty is Cohomology of Schemes, Lemmas [Stacks, Tag 0AG6] and
-[Stacks, Tag 0AG7], which are not available in this generality; it is therefore a hypothesis of
-`AssociatedGraded.isRegularDegree_of_qInvariant_le` and not proved here. -/
-@[stacks 0GA6 "the invariant q(S) of the associated graded ring S = Gr_I(A), as the smallest \
-q(S) ≥ 0 such that for all q ≥ q(S) one has Hⁱ(Y, 𝒪_Y(q)) = 0 for 1 ≤ i ≤ d(S) and \
-H⁰(Y, 𝒪_Y(q)) = I^q/I^{q+1} for Y = Proj(S); the appeal to Cohomology of Schemes Lemmas 0AG6 \
-and 0AG7 that makes the set of such bounds nonempty is not proved here, and is carried as a \
-hypothesis by isRegularDegree_of_qInvariant_le"]
+[Stacks, Tag 0AG7]; for `A` Noetherian it is
+`Stacks.LocalCohomology.UniformityIII.exists_forall_isRegularDegree`, and
+`Stacks.LocalCohomology.UniformityIII.dInvariant_qInvariant_spec` states that `q(S)` is the least
+such bound. -/
 def qInvariant : ℕ := sInf {q₀ : ℕ | ∀ q : ℕ, q₀ ≤ q → IsRegularDegree I q}
 
 /-- `q(S)` is at most any degree past which the two conditions hold. -/
@@ -171,7 +170,8 @@ theorem qInvariant_le {q₀ : ℕ} (h : ∀ q : ℕ, q₀ ≤ q → IsRegularDeg
   Nat.sInf_le h
 
 /-- The two conditions hold at every degree `≥ q(S)`, provided some degree past which they hold
-exists at all. -/
+exists at all; for `A` Noetherian one does, by
+`Stacks.LocalCohomology.UniformityIII.exists_forall_isRegularDegree`. -/
 theorem isRegularDegree_of_qInvariant_le
     (h : ∃ q₀ : ℕ, ∀ q : ℕ, q₀ ≤ q → IsRegularDegree I q) {q : ℕ} (hq : qInvariant I ≤ q) :
     IsRegularDegree I q :=

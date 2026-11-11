@@ -53,9 +53,11 @@ no hypothesis standing for Stacks 0DZ2: the square-zero case of 0DZ2 in the shap
 * `Deformation.Examples.isSmooth_adicCompletionFunctorData_unconditional`: **the smoothness
   conclusion of Stacks 0DZ5**, over an arbitrary base-compatible completion functor datum.
 * `Deformation.Examples.bijective_differential_adicCompletionFunctor` and
-  `Deformation.Examples.isSmooth_adicCompletionFunctor`: **the two conclusions of Stacks
-  0DZ5**, at the completion functor `Deformation.Examples.adicCompletionFunctor` of Stacks
+  `Deformation.Examples.isSmooth_adicCompletionFunctor`: the two conclusions of Stacks
+  0DZ5, at the completion functor `Deformation.Examples.adicCompletionFunctor` of Stacks
   0DYV.
+* `Deformation.Examples.isSmooth_and_bijective_differential_adicCompletionFunctor`: **Stacks
+  0DZ5**, both conclusions together.
 * `Deformation.Examples.bijective_differential_baseCompatibleAdicCompletionFunctor`: the
   tangent-space conclusion at `Deformation.Examples.baseCompatibleAdicCompletionFunctor`.
 * `Deformation.Examples.lifts_adicCompletionFunctorData`,
@@ -64,13 +66,9 @@ no hypothesis standing for Stacks 0DZ2: the square-zero case of 0DZ2 in the shap
   the same results, each taking a hypothesis `h0DZ2` it no longer needs, retained for
   developments stated against them and carrying no Stacks attribute.
 
-Four of the above carry `@[stacks 0DZ5]`:
-`Deformation.Examples.isSmooth_adicCompletionFunctorData_unconditional`,
-`Deformation.Examples.bijective_differential_adicCompletionFunctor`,
-`Deformation.Examples.isSmooth_adicCompletionFunctor` and
-`Deformation.Examples.bijective_differential_baseCompatibleAdicCompletionFunctor`. The
-tangent-space conclusion over an arbitrary base-compatible datum is registered too, in
-`StacksFrontier.Deformation.Examples.Geometric.CompletionTangentSpace`.
+The tag `@[stacks 0DZ5]` is carried by
+`Deformation.Examples.isSmooth_and_bijective_differential_adicCompletionFunctor`, which states
+both conclusions together at `Deformation.Examples.adicCompletionFunctor`.
 
 ## Implementation notes
 
@@ -93,9 +91,8 @@ the proof applies
 having discharged it by `Deformation.flatModuleLiftBaseChangeStatementAt_of_sq_zero`.
 `Deformation.Examples.isSmooth_adicCompletionFunctorData_unconditional` inherits that, being
 assembled from it and from the differential. Both conclusions of Stacks 0DZ5 are therefore
-established at the source's own hypotheses, and both are registered: smoothness on
-`Deformation.Examples.isSmooth_adicCompletionFunctor`, the isomorphism on tangent spaces on
-`Deformation.Examples.bijective_differential_adicCompletionFunctor`.
+established at the source's own hypotheses, and they are registered together on
+`Deformation.Examples.isSmooth_and_bijective_differential_adicCompletionFunctor`.
 
 Three declarations here do still take `h0DZ2` —
 `Deformation.Examples.lifts_adicCompletionFunctorData`,
@@ -444,16 +441,7 @@ The criterion of **Stacks 0DYP** reduces this to surjectivity of the differentia
 `Deformation.Examples.bijective_differential_adicCompletionFunctorData`, and to the
 correspondence of liftability, which is
 `Deformation.Examples.lifts_adicCompletionFunctorData_unconditional`. -/
-@[stacks 0DZ5 "the first conclusion, smoothness, over an arbitrary base-compatible completion \
-functor datum, and unconditionally: no hypothesis stands for Stacks 0DZ2, because only the \
-square-zero case of Stacks 0DZ3 is consumed and that case is proved in \
-`StacksFrontier.Deformation.FlatModuleLiftBaseChangeAbstract`. The second conclusion, the \
-isomorphism on tangent spaces, is \
-`Deformation.Examples.bijective_differential_adicCompletionFunctorData` over the same data. \
-RESTRICTED in the same way as that declaration, to a datum satisfying \
-`Deformation.Examples.AdicCompletionFunctorData.IsBaseCompatible`; at the canonical choice the \
-conclusion is `Deformation.Examples.isSmooth_adicCompletionFunctor`",
-  sga "7 VI 4.13" "(a), special case"]
+@[sga "7 VI 4.13" "(a), special case"]
 theorem isSmooth_adicCompletionFunctorData_unconditional [Algebra.FiniteType k P]
     (F : AdicCompletionFunctorData (Λ := Λ) (k := k) P J) (hF : F.IsBaseCompatible)
     (hsm : ∀ q : PrimeSpectrum P, ¬ J ≤ q.asIdeal → Algebra.IsSmoothAt k q.asIdeal) :
@@ -506,9 +494,6 @@ theorem isSmooth_adicCompletionFunctorData [Algebra.FiniteType k P]
 completion functor `Deformation.Examples.adicCompletionFunctor` of **Stacks 0DYV**, whose
 base-compatibility is `Deformation.Examples.isBaseCompatible_adicCompletionFunctor`; so no
 hypothesis on the functor remains. -/
-@[stacks 0DZ5 "the second conclusion only: the functor induces an isomorphism on tangent \
-spaces. The first conclusion, smoothness, is \
-`Deformation.Examples.isSmooth_adicCompletionFunctor`"]
 theorem bijective_differential_adicCompletionFunctor [Algebra.FiniteType k P]
     (hsm : ∀ q : PrimeSpectrum P, ¬ J ≤ q.asIdeal → Algebra.IsSmoothAt k q.asIdeal) :
     letI : IsNoetherianRing P := Algebra.FiniteType.isNoetherianRing k P
@@ -527,8 +512,6 @@ theorem bijective_differential_adicCompletionFunctor [Algebra.FiniteType k P]
 completion functor `Deformation.Examples.adicCompletionFunctor` of **Stacks 0DYV**, whose
 base-compatibility is `Deformation.Examples.isBaseCompatible_adicCompletionFunctor`; so no
 hypothesis on the functor remains. -/
-@[stacks 0DZ5 "the first conclusion, smoothness. The second conclusion, the isomorphism on \
-tangent spaces, is `Deformation.Examples.bijective_differential_adicCompletionFunctor`"]
 theorem isSmooth_adicCompletionFunctor [Algebra.FiniteType k P]
     (hsm : ∀ q : PrimeSpectrum P, ¬ J ≤ q.asIdeal → Algebra.IsSmoothAt k q.asIdeal) :
     letI : IsNoetherianRing P := Algebra.FiniteType.isNoetherianRing k P
@@ -538,6 +521,33 @@ theorem isSmooth_adicCompletionFunctor [Algebra.FiniteType k P]
     (adicCompletionFunctor (Λ := Λ) (k := k) P J)
     (isBaseCompatible_adicCompletionFunctor P J) hsm
 
+/-- **Stacks 0DZ5.** Let `k` be a field, `P` a finite type `k`-algebra, `J ⊆ P` an ideal such
+that `Spec(P) → Spec(k)` is smooth on the complement of `V(J)`, and `P^` the `J`-adic
+completion. Then the completion functor `𝓓_P ⟶ 𝓓_{P^}` of **Stacks 0DYV**
+(`Deformation.Examples.adicCompletionFunctor`) is smooth and induces an isomorphism on tangent
+spaces.
+
+As in the source, this is the criterion of **Stacks 0DYP** applied to the two inputs: the
+isomorphism on tangent spaces, from **Stacks 0DZ4** with `N = B`
+(`Deformation.Examples.bijective_differential_adicCompletionFunctor`), and the correspondence of
+liftability, from **Stacks 0DZ3** at a small extension
+(`Deformation.Examples.lifts_adicCompletionFunctorData_unconditional`), which together give
+smoothness (`Deformation.Examples.isSmooth_adicCompletionFunctor`). -/
+@[stacks 0DZ5 "both conclusions, at the completion functor \
+`Deformation.Examples.adicCompletionFunctor` of Stacks 0DYV: it is smooth, and its differential \
+on tangent spaces is bijective. The hypotheses are the source's: `P` of finite type over the \
+field `k`, and `P` smooth over `k` at every prime not containing `J`"]
+theorem isSmooth_and_bijective_differential_adicCompletionFunctor [Algebra.FiniteType k P]
+    (hsm : ∀ q : PrimeSpectrum P, ¬ J ≤ q.asIdeal → Algebra.IsSmoothAt k q.asIdeal) :
+    letI : IsNoetherianRing P := Algebra.FiniteType.isNoetherianRing k P
+    IsSmooth (adicCompletionFunctor (Λ := Λ) (k := k) P J).functor ∧
+      Function.Bijective (differential (𝓕 := ringDeformationBasedCategory Λ k P)
+        (𝓖 := ringDeformationBasedCategory Λ k (AdicCompletion J P))
+        isCofiberedInGroupoids_ringDeformationProjection
+        isCofiberedInGroupoids_ringDeformationProjection
+        (adicCompletionFunctor (Λ := Λ) (k := k) P J).functor) :=
+  ⟨isSmooth_adicCompletionFunctor P J hsm, bijective_differential_adicCompletionFunctor P J hsm⟩
+
 /-! ### The two conclusions at the canonical base-compatible completion functor
 
 The two declarations below state the same two conclusions at
@@ -545,26 +555,14 @@ The two declarations below state the same two conclusions at
 base-compatibility is its own second component. They are retained unchanged because other
 developments are stated against them.
 
-The first of the two carries `@[stacks 0DZ5]`, as it does on the base: it assumes only `hsm`,
-the source's own smoothness hypothesis off `V(J)`. The second does **not**, because it still
-takes `h0DZ2`, which is refuted; the smoothness conclusion is registered instead on
-`Deformation.Examples.isSmooth_adicCompletionFunctorData_unconditional`, over an arbitrary
-base-compatible datum, and on `Deformation.Examples.isSmooth_adicCompletionFunctor`, at
-`Deformation.Examples.adicCompletionFunctor`, whose base-compatibility is now proved outright by
-`Deformation.Examples.isBaseCompatible_adicCompletionFunctor`. -/
+Neither carries a Stacks attribute; the tag is on
+`Deformation.Examples.isSmooth_and_bijective_differential_adicCompletionFunctor`. The second
+still takes `h0DZ2`, which is refuted, and does not use it. -/
 
 /-- **Stacks 0DZ5, the tangent-space conclusion, at the canonical base-compatible completion
 functor.** This is `Deformation.Examples.bijective_differential_adicCompletionFunctorData`
 specialized to `Deformation.Examples.baseCompatibleAdicCompletionFunctor`, whose
 base-compatibility is its own second component; so no hypothesis on the functor remains. -/
-@[stacks 0DZ5 "the second conclusion only: the functor induces an isomorphism on tangent \
-spaces. Stated at the canonical base-compatible completion functor datum \
-`Deformation.Examples.baseCompatibleAdicCompletionFunctor` rather than over an arbitrary datum, \
-so there is no hypothesis on the functor; it is still RESTRICTED to a base-compatible datum. \
-The first conclusion, smoothness, is proved over an arbitrary base-compatible datum by \
-`Deformation.Examples.isSmooth_adicCompletionFunctorData_unconditional`, and at \
-`Deformation.Examples.adicCompletionFunctor` by \
-`Deformation.Examples.isSmooth_adicCompletionFunctor`"]
 theorem bijective_differential_baseCompatibleAdicCompletionFunctor
     [Algebra.FiniteType k P] [IsNoetherianRing P]
     (hsm : ∀ q : PrimeSpectrum P, ¬ J ≤ q.asIdeal → Algebra.IsSmoothAt k q.asIdeal) :

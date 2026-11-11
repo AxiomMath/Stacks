@@ -71,6 +71,10 @@ the quotient of `C` by that kernel.
   smallest strictly full saturated triangulated subcategory containing `P`.
 * `CategoryTheory.ObjectProperty.isLeast_trW_kernel_and_kernel_eq_self`: each round trip of the
   two constructions saturates, so on saturated inputs they are mutually inverse.
+* `CategoryTheory.ObjectProperty.isLeast_trW_kernel_and_isLeast_kernel_and_orderIso`: each round
+  trip saturates, and the two constructions are mutually inverse order isomorphisms between the
+  saturated multiplicative systems compatible with the triangulated structure and the strictly
+  full saturated triangulated subcategories.
 * `CategoryTheory.Functor.isSaturated_homologicalKernel_and_mem_trW_iff_and_exists_lift`: the
   kernel of a homological functor, the identification of its class of morphisms with the
   quasi-isomorphisms of `H`, and the factorizations of `H` and its shifts through the quotient.
@@ -330,6 +334,17 @@ theorem isTriangulated_and_isSaturated_kernel (F : C ⥤ D) [F.CommShift ℤ]
     F.kernel.IsTriangulated ∧ F.kernel.IsSaturated :=
   ⟨inferInstance, isSaturated_of_isStableUnderRetracts_isoClosure _⟩
 
+/-- **Definition 05RF (1).** The kernel `Ker(F)` of an exact functor `F : C ⥤ D` of
+pre-triangulated categories is the strictly full saturated (pre-)triangulated subcategory of
+`C` of Lemma 05RC: its objects are the `X` with `F X = 0`. In Lean this is Mathlib's
+`CategoryTheory.Functor.kernel`. -/
+@[stacks 05RF "(1): Ker(F) for an exact functor: the strictly full saturated triangulated
+subcategory of objects with F(X) = 0 (Mathlib's Functor.kernel; see 05RC)"]
+theorem kernel_isStacksKernel (F : C ⥤ D) [F.CommShift ℤ] [F.IsTriangulated] :
+    (∀ X, F.kernel X ↔ IsZero (F.obj X)) ∧ F.kernel.IsClosedUnderIsomorphisms ∧
+      F.kernel.IsTriangulated ∧ F.kernel.IsSaturated :=
+  ⟨fun _ ↦ Iff.rfl, inferInstance, isTriangulated_and_isSaturated_kernel F⟩
+
 end CategoryTheory.Functor
 
 end KernelExact
@@ -358,6 +373,18 @@ theorem isTriangulated_and_isSaturated_homologicalKernel (H : C ⥤ A) [H.IsHomo
   have := isStableUnderRetracts_homologicalKernel H
   ⟨inferInstance, IsSaturated.of_isStableUnderRetracts _⟩
 
+/-- **Definition 05RF (2).** The kernel `Ker(H)` of a homological functor `H : C ⥤ A` from a
+pre-triangulated category to an abelian category is the strictly full saturated
+(pre-)triangulated subcategory of `C` of Lemma 05RD: its objects are the `X` with `H (X⟦n⟧) = 0`
+for all `n : ℤ`. In Lean this is Mathlib's `CategoryTheory.Functor.homologicalKernel`. -/
+@[stacks 05RF "(2): Ker(H) for a homological functor: the strictly full saturated triangulated
+subcategory of objects with H(X[n]) = 0 for all n (Mathlib's Functor.homologicalKernel; see 05RD)"]
+theorem homologicalKernel_isStacksKernel (H : C ⥤ A) [H.IsHomological] :
+    (∀ X, H.homologicalKernel X ↔ ∀ n : ℤ, IsZero (H.obj (X⟦n⟧))) ∧
+      H.homologicalKernel.IsClosedUnderIsomorphisms ∧
+      H.homologicalKernel.IsTriangulated ∧ H.homologicalKernel.IsSaturated :=
+  ⟨fun _ ↦ Iff.rfl, inferInstance, isTriangulated_and_isSaturated_homologicalKernel H⟩
+
 end CategoryTheory.Functor
 
 end KernelHomological
@@ -376,8 +403,11 @@ variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
 /-- The kernel of a functor `F` commuting with the shift by `ℤ`, described as in [Stacks, Tag 05RD]
 by the vanishing of `F (X⟦n⟧)` for all `n : ℤ`, is described as in [Stacks, Tag 05RC] by the
 vanishing of `F X`: the homological kernel and the kernel of such a functor — in particular of an
-exact functor of pre-triangulated categories — are the same strictly full subcategory of `C`. -/
-@[stacks 05RF]
+exact functor of pre-triangulated categories — are the same strictly full subcategory of `C`.
+
+This comparison is not stated in the Stacks project; compare [Stacks, Tag 05RF], whose two kernels
+`Ker(F)` and `Ker(H)` are `CategoryTheory.Functor.kernel` and
+`CategoryTheory.Functor.homologicalKernel`. -/
 public theorem homologicalKernel_eq_kernel (F : C ⥤ D) [F.CommShift ℤ] :
     F.homologicalKernel = F.kernel := by
   ext X
@@ -703,8 +733,7 @@ Together with [Stacks, Tag 05RK] — which says that `B(S(P))` is in general the
 full saturated triangulated subcategory containing `P` — this says that the two constructions are
 mutually inverse, order preserving bijections between the saturated multiplicative systems of `C`
 compatible with the triangulated structure and the strictly full saturated triangulated
-subcategories of `C`. -/
-@[stacks 05RL]
+subcategories of `C`; that statement is `isLeast_trW_kernel_and_isLeast_kernel_and_orderIso`. -/
 theorem isLeast_trW_kernel_and_kernel_eq_self :
     (∀ (S : MorphismProperty C) [S.HasLeftCalculusOfFractions]
         [S.HasRightCalculusOfFractions] [S.IsCompatibleWithTriangulation]
@@ -721,6 +750,86 @@ theorem isLeast_trW_kernel_and_kernel_eq_self :
   · obtain ⟨-, hmem, hlb⟩ :=
       kernel_iff_exists_isoClosure_biprod_and_isLeast_kernel P L
     exact le_antisymm (hlb ⟨inferInstance, inferInstance, inferInstance, le_rfl⟩) hmem.2.2.2
+
+open ZeroObject in
+omit [IsTriangulated C] in
+/-- For a subcategory `P` closed under isomorphisms and under the shifts, the morphism
+`X ⟶ 0` lies in `P.trW` exactly when `X` lies in `P`: the triangle `X ⟶ X ⟶ 0 ⟶ X⟦1⟧` is
+distinguished. -/
+private lemma trW_zero_iff (P : ObjectProperty C) [P.IsClosedUnderIsomorphisms]
+    [P.IsStableUnderShift ℤ] (X : C) : P.trW (0 : X ⟶ 0) ↔ P X :=
+  P.trW_iff_of_distinguished' _ (contractible_distinguished X)
+
+open ZeroObject in
+/-- **[Stacks, Tag 05RL].** Let `C` be a triangulated category. Consider the constructions
+`S ↦ B(S) = Ker(Q : C → S⁻¹C)` (the kernel of a localization `L : C ⥤ D` of `C` at `S`) on
+multiplicative systems `S` compatible with the triangulated structure, and `P ↦ S(P) = P.trW`
+(the morphisms fitting in a distinguished triangle whose third object is isomorphic to an object
+of `P`) on full triangulated subcategories `P`. Then
+
+1. `S(B(S))` is the saturation of `S`: the smallest saturated multiplicative system
+   ([Stacks, Tag 05Q8]) of `C` containing `S`;
+2. `B(S(P))` is the saturation of `P`: the smallest strictly full saturated
+   ([Stacks, Tag 05RB]) triangulated subcategory of `C` containing `P`;
+3. in particular the two constructions — `B` computed with the canonical localization
+   `S.Q : C ⥤ S.Localization` — are mutually inverse, order preserving bijections between the
+   (partially ordered) set of saturated multiplicative systems of `C` compatible with the
+   triangulated structure and the (partially ordered) set of strictly full saturated triangulated
+   subcategories of `C`.
+
+Part (2) is [Stacks, Tag 05RK] (`kernel_iff_exists_isoClosure_biprod_and_isLeast_kernel`), and
+that `S(P)` is a multiplicative system compatible with the triangulation is Mathlib's
+`ObjectProperty.trW` instances, with saturation from [Stacks, Tag 05RG]. A strictly full
+triangulated subcategory `P` is recovered from `S(P)` as the objects `X` with `(X ⟶ 0) ∈ S(P)`,
+which makes `P ↦ S(P)` an order embedding. -/
+@[stacks 05RL]
+theorem isLeast_trW_kernel_and_isLeast_kernel_and_orderIso :
+    (∀ (S : MorphismProperty C) [S.HasLeftCalculusOfFractions]
+        [S.HasRightCalculusOfFractions] [S.IsCompatibleWithTriangulation]
+        (L : C ⥤ D) [L.IsLocalization S],
+      IsLeast {S' : MorphismProperty C | S'.IsSaturated ∧ S ≤ S'} L.kernel.trW) ∧
+    (∀ (P : ObjectProperty C) [P.IsTriangulated] (L : C ⥤ D) [L.IsLocalization P.trW],
+      IsLeast {P' : ObjectProperty C | P'.IsClosedUnderIsomorphisms ∧ P'.IsTriangulated ∧
+        P'.IsSaturated ∧ P ≤ P'} L.kernel) ∧
+    ∃ e : {S : MorphismProperty C // S.IsSaturated ∧ S.IsCompatibleWithTriangulation} ≃o
+        {P : ObjectProperty C // P.IsClosedUnderIsomorphisms ∧ P.IsTriangulated ∧ P.IsSaturated},
+      (∀ S, (e S).1 = S.1.Q.kernel) ∧ ∀ P, (e.symm P).1 = P.1.trW := by
+  refine ⟨(isLeast_trW_kernel_and_kernel_eq_self (D := D)).1,
+    fun P _ L _ ↦ (kernel_iff_exists_isoClosure_biprod_and_isLeast_kernel P L).2, ?_⟩
+  let φ : {P : ObjectProperty C // P.IsClosedUnderIsomorphisms ∧ P.IsTriangulated ∧
+      P.IsSaturated} → {S : MorphismProperty C // S.IsSaturated ∧
+      S.IsCompatibleWithTriangulation} := fun P ↦
+    ⟨P.1.trW, by
+      have := P.2.1; have := P.2.2.1
+      exact ⟨((hasCalculusOfFractions_isCompatibleWithTriangulation_and_isSaturated_iff P.1
+          P.1.trW (fun _ _ f ↦ by
+            rw [← P.1.trW_isoClosure, trW_iff]; simp only [exists_prop])).2).2
+          P.2.2.2, inferInstance⟩⟩
+  let ψ : {S : MorphismProperty C // S.IsSaturated ∧ S.IsCompatibleWithTriangulation} →
+      {P : ObjectProperty C // P.IsClosedUnderIsomorphisms ∧ P.IsTriangulated ∧
+      P.IsSaturated} := fun S ↦
+    ⟨S.1.Q.kernel, by
+      have := S.2.1.hasLeftCalculusOfFractions; have := S.2.2
+      obtain ⟨htri, hsat⟩ := Functor.isTriangulated_and_isSaturated_kernel S.1.Q
+      exact ⟨isClosedUnderIsomorphisms_kernel _, htri, hsat⟩⟩
+  refine ⟨OrderIso.symm
+    { toFun := φ
+      invFun := ψ
+      left_inv := fun P ↦ by
+        have := P.2.1; have := P.2.2.1; have := P.2.2.2
+        exact Subtype.ext
+          ((isLeast_trW_kernel_and_kernel_eq_self (D := P.1.trW.Localization)).2 P.1 P.1.trW.Q)
+      right_inv := fun S ↦ by
+        have := S.2.1.hasLeftCalculusOfFractions; have := S.2.1.hasRightCalculusOfFractions
+        have := S.2.2
+        have h := (isLeast_trW_kernel_and_kernel_eq_self (D := S.1.Localization)).1 S.1 S.1.Q
+        exact Subtype.ext (le_antisymm (h.2 ⟨S.2.1, le_rfl⟩) h.1.2)
+      map_rel_iff' := fun {P P'} ↦ by
+        have := P.2.1; have := P.2.2.1; have := P'.2.1; have := P'.2.2.1
+        change P.1.trW ≤ P'.1.trW ↔ P.1 ≤ P'.1
+        refine ⟨fun h X hX ↦ ?_, fun h ↦ trW_monotone h⟩
+        exact (trW_zero_iff P'.1 X).1 (h (0 : X ⟶ 0) ((trW_zero_iff P.1 X).2 hX)) },
+    fun _ ↦ rfl, fun _ ↦ rfl⟩
 
 end CategoryTheory.ObjectProperty
 

@@ -79,13 +79,6 @@ compatible with boundary maps but not coming from an identification on `D^+_{QCo
 **not** asserted: at `f = 𝟙` and `E = 𝒪` it is the statement that a pseudo-coherent complex on
 a quasi-compact quasi-separated scheme is determined by its `δ`-functor `ℱ ↦ Ext^*(L, ℱ)` on
 quasi-coherent modules, which is neither proved nor refuted here. -/
-@[stacks 0DJV "the characterization of the complex L of Tag 0DJU by functorial isomorphisms \
-Ext^i(L, F) = Ext^i(K, E (x)^L Lf^*F) for F quasi-coherent, compatible with boundary maps: their \
-existence, induced by a natural identification Hom(L, N) = Hom(K, E (x)^L Lf^*N) on D^+_QCoh(O_S), \
-and uniqueness of L among pseudo-coherent complexes carrying such an identification. Proved: \
-existence in the source's shape, and uniqueness among L' carrying the D^+_QCoh identification. \
-Open: the remark's module-level uniqueness (from the Ext delta-functor on QCoh alone), which is \
-an Adams-type realizability question; see the module docstring"]
 theorem exists_unique_relativeExt_representative [CompactSpace S] [QuasiSeparatedSpace S]
     [IsProper f] [Flat f] [LocallyOfFinitePresentation f] (E K : DStd X)
     (hE : IsRelPerfect f E) (hK : IsPseudoCoherentStd K) :

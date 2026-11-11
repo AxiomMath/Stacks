@@ -85,7 +85,6 @@ point.
 ## References
 
 * [Stacks Project, Tag 03ZQ](https://stacks.math.columbia.edu/tag/03ZQ)
-* [Stacks Project, Tag 0AYG](https://stacks.math.columbia.edu/tag/0AYG)
 * [Stacks Project, Tag 0BB1](https://stacks.math.columbia.edu/tag/0BB1)
 * [Stacks Project, Tag 0BB2](https://stacks.math.columbia.edu/tag/0BB2)
 * [Stacks Project, Tag 0BB3](https://stacks.math.columbia.edu/tag/0BB3)
@@ -1144,9 +1143,5 @@ end NormalizationData
 add_to_stacks 0BB2 AlgebraicGeometry.Space.NormalizationData.hom
 
 end AlgebraicGeometry.Space
-
-/-! ### Generic points of a relative normalization of schemes -/
-
-add_to_stacks 0AYG AlgebraicGeometry.exists_genericPoint_irreducibleComponent_mapping_to
 
 end

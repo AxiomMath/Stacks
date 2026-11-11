@@ -114,13 +114,17 @@ theorem preservesHigherDirectImagesOfAffine_locallyQuasicoherentModuleRule :
 `ℱ` a locally quasi-coherent `𝒪_𝒳`-module on `𝒳_étale`. Then every higher direct image `Rⁱf_*ℱ`,
 computed in the étale topology, is locally quasi-coherent on `𝒴_étale`.
 
-Modules have sections in the universe `u` of the schemes, and `Rⁱf_*` is the right derived
-functor of the direct image right adjoint to the inverse image
-(`AlgebraicGeometry.Stack.stackModuleHigherDirectImage`). Local quasi-coherence is stated against
-an auxiliary big étale site `E` with the cutoff of `B`. -/
-@[stacks 075Z "the whole statement, with modules and higher direct images at the module \
-  universe u of the schemes; local quasi-coherence read against an auxiliary big étale site E \
-  with E.cutoff = B.cutoff"]
+Modules have sections in the universe `u` of the schemes, the universe of the structure sheaf
+`𝒪_𝒳`, and `Rⁱf_*` is the right derived functor of the direct image right adjoint to the inverse
+image (`AlgebraicGeometry.Stack.stackModuleHigherDirectImage`). The small étale sites `U_étale` in
+the definition of local quasi-coherence (**Stacks 06WJ**) are those of the big étale site `E`
+whose underlying category is that of the big fppf site `B` (`E.cutoff = B.cutoff`), which is the
+convention of the source: `Sch_étale` is the big étale site on the underlying category `Sch_α`
+of `Sch_fppf`. -/
+@[stacks 075Z "the whole statement, for every degree i, with the source's hypotheses: f \
+  quasi-compact and quasi-separated, ℱ a locally quasi-coherent 𝒪_𝒳-module on 𝒳_étale; modules \
+  have sections in the universe of the structure sheaf, and Sch_étale is the big étale site E on \
+  the underlying category of Sch_fppf (E.cutoff = B.cutoff), as in the source"]
 theorem isLocallyQuasicoherent_stackModuleHigherDirectImage
     {𝒳 𝒴 : AlgebraicStacks.{u, t} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hqc : IsQuasiCompactMorphism B S hS f) (hqs : AlgebraicStacks.IsQuasiSeparated B S hS f)

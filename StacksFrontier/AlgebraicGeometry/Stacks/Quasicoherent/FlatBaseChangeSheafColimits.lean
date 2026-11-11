@@ -41,8 +41,11 @@ isomorphism at its colimit.
   sheaves of modules on the small étale sites — the source's comparison map.
 * `AlgebraicGeometry.Stack.restrictSheafPullbackComparisonNatTrans`: the same, as a natural
   transformation in the sheaf.
-* `AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE`: **Stacks 0762** for an étale
-  sheaf of `𝒪_𝒳`-modules, read with that comparison map.
+* `AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`: **Stacks 0761**, the same map
+  at section universe `u` with domain `SheafOfModules.pullback` along the morphism of ringed sites
+  `ε_a` of Stacks 070R (2), the pullback of the ringed topoi of the small étale sites.
+* `AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE`: **Stacks 0762**, the flat base
+  change property of an étale sheaf of `𝒪_𝒳`-modules, read with that comparison map.
 
 ## Main results
 
@@ -258,17 +261,71 @@ noncomputable def restrictSheafPullbackComparisonNatTrans :
   app F := restrictSheafPullbackComparison B E h S hS p hp φ F
   naturality _ _ α := restrictSheafPullbackComparison_naturality B E h S hS p hp φ α
 
+omit [UnivLE.{u, m}] in
+/-- **Stacks 0761.** The comparison map
+`c_φ : f_{small}^*(F|_{U'_ét}) ⟶ F|_{U_ét}` of Equation (103.7.0.1) for an étale sheaf `F` of
+`𝒪_𝒳`-modules, below an arrow `φ : x ⟶ y` of `𝒳` lying over a morphism of schemes
+`f : U ⟶ U'`. Here `f_{small}^*` is the pullback of modules along the morphism of ringed topoi
+`(Sh(U_ét), 𝒪_U) ⟶ (Sh(U'_ét), 𝒪_{U'})`, that is `SheafOfModules.pullback` along the morphism
+of ringed sites `ε_f` of **Stacks 070R (2)**, whose ring map is the map `f_{small}^♯` of
+**Stacks 06WC**; it includes sheafification.
+
+It is `AlgebraicGeometry.Stack.restrictSheafPullbackComparison` (the adjunct, across
+sheafification on `U_ét`, of the presheaf map
+`AlgebraicGeometry.Stack.restrictModulePullbackComparison` of Sheaves on Stacks, Equation
+(96.9.4.1)) read through the identification
+`AlgebraicGeometry.Stack.sheafifiedPullbackComparisonIso` of the sheafified presheaf pullback
+with `SheafOfModules.pullback`.
+
+This is also **Stacks 06WC**, the comparison map
+`c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}` of `𝒪_{U_ét}`-modules of Sheaves on Stacks,
+Equation (96.9.4.1), for an étale sheaf `F` of modules on `𝒳`: there too `a_{small}^*` is the
+pullback of sheaves of modules along `ε_a`, the map `a_{small}^♯` being the one of Stacks 070R,
+and `F|_{V_ét}`, `F|_{U_ét}` are the restrictions of Stacks 06WJ. -/
+@[stacks 06WC "c_φ of étale sheaves of modules", stacks 0761 "with `f_{small}^*` the pullback \
+of sheaves of modules along the morphism of ringed topoi of the small étale sites"]
+noncomputable def restrictSheafModulesPullbackComparison
+    (F : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp (etaleTopology B)
+      (etaleTopology_le_topology B))) :
+    (SheafOfModules.pullback.{u} (SmallEtale.smallEtaleStructureMapRing E
+        (smallEtaleBaseMorphism B E h S hS p φ))).obj
+        ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp y).obj F) ⟶
+      (restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp x).obj F :=
+  (sheafifiedPullbackComparisonIso B E h S hS p hp (etaleTopology B)
+      (etaleTopology_le_topology B) φ).inv.app
+      ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp y).obj F) ≫
+    restrictSheafPullbackComparison.{u, v, w, u} B E h S hS p hp φ F
+
+omit [UnivLE.{u, m}] in
+/-- The comparison map `c_φ` of **Stacks 0761**, with domain `SheafOfModules.pullback`, is an
+isomorphism exactly when `AlgebraicGeometry.Stack.restrictSheafPullbackComparison` is, the two
+differing by the isomorphism `AlgebraicGeometry.Stack.sheafifiedPullbackComparisonIso`. -/
+theorem isIso_restrictSheafModulesPullbackComparison_iff
+    (F : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp (etaleTopology B)
+      (etaleTopology_le_topology B))) :
+    IsIso (restrictSheafModulesPullbackComparison B E h S hS p hp φ F) ↔
+      IsIso (restrictSheafPullbackComparison.{u, v, w, u} B E h S hS p hp φ F) :=
+  isIso_comp_left_iff _ _
+
 end Comparison
 
-/-- **Stacks 0762 for an étale sheaf of modules.** An étale sheaf of `𝒪_𝒳`-modules *has the flat
-base change property* when the comparison map `c_φ^{sh}` of **Stacks 0761** — taken with
-`a_{small}^*` the inverse image of sheaves of modules, as the source takes it — is an isomorphism
-for every arrow `φ` of `𝒳` lying over a flat morphism of schemes.
+/-- **Stacks 0762.** An étale sheaf of `𝒪_𝒳`-modules *has the flat base change property* when the
+comparison map `c_φ` of **Stacks 0761**, taken with `a_{small}^*` the inverse image of sheaves of
+modules as the source takes it, is an isomorphism for every arrow `φ` of `𝒳` lying over a flat
+morphism of schemes. The source calls the name nonstandard.
 
-This is the property read in the source's ambient category `Mod(𝒳_étale, 𝒪_𝒳)`.
+This is the property read in the source's ambient category `Mod(𝒳_étale, 𝒪_𝒳)`. The source
+takes `𝒳` an algebraic stack; here `𝒳` is any category fibred in groupoids over
+`(Sch/S)_{fppf}`. The module sections live in any universe `m` with `UnivLE.{u, m}`; the source's
+case is `m = u`, where `UnivLE.{u, u}` always holds, so this is no extra hypothesis. At `m = u`
+the comparison map is `AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`, whose
+domain is `SheafOfModules.pullback`, up to the isomorphism of
+`hasFlatBaseChangePropertySheafUnivLE_iff_isIso_restrictSheafModulesPullbackComparison`.
 `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty` is the same definition with the inverse image
 of presheaves of modules, which on an étale sheaf is strictly the stronger demand; the
 implementation notes of this file say why. -/
+@[stacks 0762 "for an étale sheaf of modules on a category fibred in groupoids, with \
+`f_{small}^*` the pullback of sheaves of modules"]
 noncomputable abbrev HasFlatBaseChangePropertySheafUnivLE
     (F : SheafOfModules.{m} (ringStructureSheafCore B S hS p hp (etaleTopology B)
       (etaleTopology_le_topology B))) : Prop :=
@@ -308,6 +365,21 @@ theorem hasFlatBaseChangePropertySheafUnivLE_of_hasFlatBaseChangePropertyUnivLE
       (asIso (restrictModulePullbackComparisonUnivLE B E h S hS p hp φ (etaleTopology B)
         (etaleTopology_le_topology B) F.val))).isIso_hom
   exact IsIso.comp_isIso' hmap hcounit
+
+omit [UnivLE.{u, m}] in
+/-- At section universe `u`, the flat base change property of an étale sheaf of modules says
+that the comparison map `c_φ` of **Stacks 0761**, with domain the pullback of sheaves of modules
+`SheafOfModules.pullback`, is an isomorphism for every arrow `φ` lying over a flat morphism. -/
+theorem hasFlatBaseChangePropertySheafUnivLE_iff_isIso_restrictSheafModulesPullbackComparison
+    (F : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp (etaleTopology B)
+      (etaleTopology_le_topology B))) :
+    HasFlatBaseChangePropertySheafUnivLE.{u, v, w, u} B E h S hS p hp F ↔
+      ∀ {x y : 𝒳} (φ : x ⟶ y), Flat (B.inclusion.map (p.map φ).left) →
+        IsIso (restrictSheafModulesPullbackComparison B E h S hS p hp φ F) :=
+  ⟨fun hF _ _ φ hf => (isIso_restrictSheafModulesPullbackComparison_iff B E h S hS p hp φ F).2
+      (hF φ hf),
+    fun hF _ _ φ hf => (isIso_restrictSheafModulesPullbackComparison_iff B E h S hS p hp φ F).1
+      (hF φ hf)⟩
 
 section Colimits
 

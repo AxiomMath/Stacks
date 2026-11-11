@@ -44,7 +44,7 @@ documentation of
 **Neither clause of [Stacks, Tag 08BN] is proved here, and nothing in this file carries that
 tag**; the second clause is assembled out of this file in the module
 `BoundedBelowComplexSpectralSequence` of
-`StacksFrontier.Topology.Sheaves.Cohomology.CechSpectralSequence`,
+`StacksDraft.Topology.Sheaves.Cohomology.CechSpectralSequence`,
 and the implementation notes say which further results that needs.
 
 ## Main definitions
@@ -78,7 +78,7 @@ two bounds are properties of the application and not of the construction.
 
 The second clause of [Stacks, Tag 08BN] is proved out of this file, in the module
 `BoundedBelowComplexSpectralSequence` of
-`StacksFrontier.Topology.Sheaves.Cohomology.CechSpectralSequence`
+`StacksDraft.Topology.Sheaves.Cohomology.CechSpectralSequence`
 (`Stacks.Cech.exists_cechSpectralSequence`), which is where that clause's tag sits.  The three
 pieces it adds to the construction and the second page recorded here are:
 

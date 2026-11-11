@@ -3,7 +3,6 @@ module
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackTensorAssociatorOnKFlat
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.RelativeCupProductCoherence
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.DerivedTensorReseatConstraints
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Associativity of the relative cup product on a ringed topos, over the canonical constraints
@@ -38,7 +37,9 @@ is the derived tensor bifunctor.
 * `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.pullbackTensorComparisonAssociative`:
   `Lf^*` is a monoidal functor for `⊗^L`, for arbitrary objects of `D(𝒪')`.
 * `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_assoc_canonical`: the
-  relative cup product is associative over the canonical constraints, with no hypothesis.
+  relative cup product is associative over the canonical constraints, for a morphism presented
+  on the underlying sites; [Stacks, Tag 0FPL] for an arbitrary morphism of ringed topoi is
+  `Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_assoc`.
 
 ## References
 
@@ -202,13 +203,11 @@ Rf_*K ⊗' (Rf_*L ⊗' Rf_*M) --→ Rf_*K ⊗' Rf_*(L ⊗ M) --→ Rf_*(K ⊗ (L
 
 commutes in `D(𝒪')`. The four unlabelled arrows are relative cup products in one or the other
 tensor factor; the two edges `a` are the canonical associativity constraints `derivedAssociator`
-of `⊗^L_{𝒪'}` and `⊗^L_𝒪`. -/
-@[stacks 0FPL "associativity of the relative cup product, unconditionally, over the canonical \
-  associativity constraints of the two derived tensor products (derivedAssociator, the \
-  associator of the monoidal structure of Tag 0FPT whose tensor product is the derived tensor \
-  product of Tag 06YU on the nose): their naturality is derivedAssociator_naturality and the \
-  associativity law of the comparison of Tag 07A4 for them, which the source's proof uses \
-  silently, is pullbackTensorComparisonAssociative"]
+of `⊗^L_{𝒪'}` and `⊗^L_𝒪`.
+
+This is the statement for a morphism presented by a continuous functor between the underlying
+sites with `Functor.IsMorphismOfSites`; [Stacks, Tag 0FPL] for an arbitrary morphism of ringed
+topoi is `Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_assoc`. -/
 theorem relativeCupProduct_assoc_canonical (K L M : DerivedModules X.O) :
     (uncurriedDerivedTensor Y).map
           (relativeCupProduct f hmos K L ×ₘ 𝟙 ((derivedPushforward f).obj M)) ≫

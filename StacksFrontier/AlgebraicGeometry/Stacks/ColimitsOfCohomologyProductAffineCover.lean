@@ -387,10 +387,12 @@ sheafified representables jointly cover `h_x^# ⨯ h_{x'}^#`.
 The family has one member, as in the source: it is the one of
 `AlgebraicGeometry.Stack.exists_affineObject_exists_covering_hom_pair`, and the passage from the
 factorisation of pairs of morphisms there to the surjection of sheaves here is
-`AlgebraicGeometry.Stack.isLocallySurjective_prodLift_fppfTopology_of_exists_covering`. -/
-@[stacks 0GMS "condition (2)(c) for the fppf site of an algebraic stack quasi-separated over a \
-quasi-separated base scheme, with the collection B of Stacks 0GQV: the objects of the site lying \
-over affine schemes; the family produced has one member, as in the source"]
+`AlgebraicGeometry.Stack.isLocallySurjective_prodLift_fppfTopology_of_exists_covering`.
+
+This checks hypothesis (2)(c) of Stacks 0GMS on this site: it applies the remark (whose
+cases are formalized in `StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetOfObjects`
+and `…CoveringSetFromCoversTop`) and is not a statement of it, so it carries no
+`@[stacks 0GMS]` attribute. -/
 theorem exists_fin_affineObjects_isLocallySurjective_prodLift
     (hqsS : QuasiSeparatedSpace S) (h𝒳 : IsQuasiSeparatedOver.{u, w} B S hS 𝒳) :
     ∀ U ∈ affineObjects B S hS 𝒳.val, ∀ U' ∈ affineObjects B S hS 𝒳.val,

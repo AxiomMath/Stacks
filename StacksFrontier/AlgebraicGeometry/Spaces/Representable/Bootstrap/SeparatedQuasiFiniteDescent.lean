@@ -51,14 +51,18 @@ Stacks 03XX, and Stacks 02W8 descends the family to a scheme over the base.
 * `AlgebraicGeometry.Space.relativelyRepresentable_of_isPullback_of_flat_surjective`: the
   bottom row `b` of the square is representable by objects of the site, unconditionally.
 * `AlgebraicGeometry.Space.IsRepresentabilityDescentAlongFlatSurjection` is the statement of
-  Stacks 0AMP, taken as an input by the declarations below that need it.
+  Stacks 0AMP as a proposition, taken as an input by the declarations below that use it.
 * `AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_isPullback_of_descent`
   deduces representability of `b` by algebraic spaces from it.
 * `AlgebraicGeometry.Space.relativelyRepresentable_separated_locallyQuasiFinite_of_isPullback`
   is **Stacks 046J**.
-* `AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective` is
-  **Stacks 0AMP**, deduced from the bootstrap theorem Stacks 04S6 part (3), which it takes as
-  the input `AlgebraicGeometry.Space.IsBootstrapAlgebraicSpaceAlongFlatSurjection`.
+* `AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective` is the
+  source's deduction of Stacks 0AMP from the bootstrap theorem Stacks 04S6 part (3), which it
+  takes as the input `AlgebraicGeometry.Space.IsBootstrapAlgebraicSpaceAlongFlatSurjection`.
+  That input is proved as `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`,
+  and Stacks 0AMP itself, with nothing carried, is
+  `Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`
+  in `StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/FinalBootstrap.lean`.
 * `AlgebraicGeometry.Space.isRepresentabilityDescentAlongFlatSurjection_of_bootstrap`
   discharges the Stacks 0AMP hypothesis above from that same bootstrap theorem.
 * `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection_iff`: the two
@@ -91,9 +95,11 @@ Stacks 0427, `AlgebraicGeometry.Space.isLocallyQuasiFinite_isLocalAtTarget_fppf`
 Stacks 0AMP is a different matter.  Its source proof is an appeal to the bootstrap theorem
 Stacks 04S6 part (3), and it is equivalent to that condition rather than weaker than it: read
 over the terminal object of the site, "`b` is representable by algebraic spaces" for the
-structure morphism of a sheaf says that the sheaf is an algebraic space.  So
-`AlgebraicGeometry.Space.IsRepresentabilityDescentAlongFlatSurjection` remains a hypothesis,
-discharged only by `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection_iff`.
+structure morphism of a sheaf says that the sheaf is an algebraic space.  This file therefore
+proves Stacks 0AMP from the bootstrap theorem, taken as an input; the bootstrap theorem is
+proved in `StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/Unconditional.lean`, and the
+two are put together in
+`StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/FinalBootstrap.lean`.
 
 Local quasi-finiteness needs no hypothesis at all: Stacks 0427 is available at the fppf
 precoverage as `AlgebraicGeometry.Space.isLocallyQuasiFinite_isLocalAtTarget_fppf`, so
@@ -419,8 +425,10 @@ theorem relativelyRepresentable_of_isPullback_of_flat_surjective
 morphism of fppf sheaves which is representable by algebraic spaces, surjective, flat and
 locally of finite presentation.
 
-In the source this is a corollary of the bootstrap theorem Stacks 04S6, which this library
-does not have, so it is taken as an input rather than proved.  The three properties of
+In the source this is a corollary of the bootstrap theorem Stacks 04S6.  This abbreviation
+states the condition and proves nothing; it holds by
+`AlgebraicGeometry.Space.isRepresentabilityDescentAlongFlatSurjection_of_bootstrap` applied to
+`AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`.  The three properties of
 the descending morphism are read through `AlgebraicGeometry.Space.HasProperty`, which is the
 definition of Stacks 03YK. -/
 abbrev IsRepresentabilityDescentAlongFlatSurjection : Prop :=
@@ -515,7 +523,7 @@ theorem relativelyRepresentable_separated_locallyQuasiFinite_of_isPullback
       hgRep hgSurj hgFlat hgLfp haRep haLqf hbRep
   exact ⟨hbRep, hbSch, hbSep, hbLqf⟩
 
-/-! ### Stacks 0AMP, modulo the bootstrap theorem -/
+/-! ### Stacks 0AMP from the bootstrap theorem -/
 
 /-- **The statement of Stacks 04S6, part (3).** A sheaf on the big fppf site of `S` which
 receives a morphism from an algebraic space over `S` that is representable by algebraic
@@ -525,9 +533,10 @@ over `S`.
 The three properties of the morphism are read through
 `AlgebraicGeometry.Space.HasProperty`, the definition of Stacks 03XZ.
 
-This abbreviation states a condition and proves nothing.  It is deliberately untagged: the
-source derives it from the whole Bootstrap chapter, which this library does not have, so
-tagging it would register a part of Stacks 04S6 that is not proved here. -/
+This abbreviation states a condition and proves nothing, so it is untagged.  The condition is
+proved as `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`, in
+`StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/Unconditional.lean`, which carries
+the Stacks 04S6 attribute. -/
 abbrev IsBootstrapAlgebraicSpaceAlongFlatSurjection : Prop :=
   ∀ {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y),
     Presheaf.IsSheaf (BigFppfOver.topology B S hS) Y →
@@ -553,14 +562,13 @@ and the bootstrap theorem makes `U ×_H G` an algebraic space.
 Sheafness of `F` is assumed in the source and is not needed here: representability of `a ≫ b`
 already makes the base changes of `F` that the argument uses algebraic spaces.
 
-**This does not register [Stacks, Tag 0AMP] and carries no attribute.** Its input
-`hbootstrap` is Stacks 04S6 part (3), which this repository does not prove, and
+This carries no attribute: its input `hbootstrap` is Stacks 04S6 part (3), and
 `isBootstrapAlgebraicSpaceAlongFlatSurjection_iff` below shows the two statements are
-*equivalent*: the universally quantified form of this theorem is 04S6 part (3). So nothing
-weaker than 04S6 part (3) can discharge the input, and a declaration assuming an equivalent
-statement does not formalize the tag. The theorem and its proof are kept, because they are
-the deduction the source makes; the tag will be registered here once 04S6 part (3) is proved. -/
-@[stacks 0AMP "granted Stacks 04S6 part (3), carried as the hypothesis hbootstrap"]
+equivalent.  The input is proved as
+`AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`, and
+[Stacks, Tag 0AMP] is registered on
+`Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`,
+which is this theorem with that input supplied. -/
 theorem isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective
     (hbootstrap : IsBootstrapAlgebraicSpaceAlongFlatSurjection B S hS)
     {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : F ⟶ G) (b : G ⟶ H)
@@ -597,7 +605,7 @@ theorem isRepresentabilityDescentAlongFlatSurjection_of_bootstrap
   exact isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective B S hS hbootstrap a b hG hH
     haRep haSurj haFlat haLfp hcomp
 
-/-- **Stacks 0AMP and Stacks 04S6 part (3) are the same assumption.**
+/-- **Stacks 0AMP and Stacks 04S6 part (3) are equivalent statements.**
 
 One direction is Stacks 0AMP itself.  For the other, read Stacks 0AMP over the terminal object
 `S` of the site: a sheaf `Y` receiving a chart `f : X ⟶ Y` from an algebraic space which is
@@ -607,9 +615,10 @@ structure morphism `Y ⟶ h_S` representable by algebraic spaces, because the co
 The base change of `Y ⟶ h_S` along the identity of `h_S` is `Y` itself, so `Y` is an algebraic
 space.
 
-So assuming Stacks 0AMP is assuming the bootstrap theorem: no hypothesis strictly weaker than
+So no hypothesis strictly weaker than
 `AlgebraicGeometry.Space.IsBootstrapAlgebraicSpaceAlongFlatSurjection` can discharge
-`AlgebraicGeometry.Space.IsRepresentabilityDescentAlongFlatSurjection`. -/
+`AlgebraicGeometry.Space.IsRepresentabilityDescentAlongFlatSurjection`; both are proved, the
+former as `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`. -/
 theorem isBootstrapAlgebraicSpaceAlongFlatSurjection_iff :
     IsBootstrapAlgebraicSpaceAlongFlatSurjection B S hS ↔
       IsRepresentabilityDescentAlongFlatSurjection B S hS := by

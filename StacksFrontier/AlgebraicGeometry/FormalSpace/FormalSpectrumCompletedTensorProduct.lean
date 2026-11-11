@@ -619,11 +619,22 @@ theorem isPullback_completedTensorStage_formalSpectrum :
       (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)) :=
     inferInstanceAs (PreservesLimitsOfShape WalkingCospan
       (uliftYoneda.{u + 1} ⋙ presheafToSheaf (BigFppfOver.topology B S hS) (Type (u + 1))))
+  have hmono : Mono (formalSpectrumInclusion D₀ (OrderDual.toDual K)) := by
+    have : Nonempty (WeakIdeals A₀) := ⟨OrderDual.toDual ⟨_, hA₀.1.choose_spec⟩⟩
+    have : IsDirectedOrder (WeakIdeals A₀) := isDirectedOrder_weakIdeals A₀
+    apply Sheaf.mono_colimit_ι_of_mono_transition
+    intro J L g
+    apply Sheaf.mono_sheafifiedYoneda_map_of_mono_underlying
+      (BigFppfOver.topology B S hS) (BigFppfOver.toScheme B S hS)
+    change Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
+    have : IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g)))) :=
+      IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective (leOfHom g))
+    infer_instance
   have h := isPullback_comp_mono
     ((isPullback_completedTensorStage A₀ D₁ D₂ hA₀ φ₁ φ₂ hφ₁ hφ₂ I J K h₁ h₂).map
       (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)))
     (formalSpectrumInclusion D₀ (OrderDual.toDual K))
-    (mono_formalSpectrumInclusion hA₀ D₀ _)
+    hmono
   rwa [← formalSpectrumMap_spec hA₀ φ₁ K I h₁, ← formalSpectrumMap_spec hA₀ φ₂ K J h₂] at h
 
 end Stage
@@ -1336,7 +1347,6 @@ weakly admissible topological rings over `S`. Then the completed tensor product
 `T = A₁ ⊗̂_{A₀} A₂` is weakly admissible and `Spf T`, with the maps induced by the canonical
 continuous homomorphisms `A₁ → T` and `A₂ → T`, is the fibre product
 `Spf A₁ ×_{Spf A₀} Spf A₂`. -/
-@[stacks 0AN3 "clause (3): Spf A ×_{Spf C} Spf B corresponds to the completed tensor product"]
 theorem isPullback_formalSpectrumMap_completedTensor :
     TopologicalRing.IsWeaklyAdmissible
         (TopologicalRing.CompletedTensorProduct (R := A₀) (M := A₁) (N := A₂)) ∧

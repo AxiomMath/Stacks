@@ -30,6 +30,8 @@ where invertibility is what the surrounding derived-functor arguments produce. B
 the underlying map of abelian groups is then read off with
 `ConcreteCategory.bijective_of_isIso`, the two being the same condition.
 
+The universe of the sheaf of rings and the universe of the modules are independent.
+
 The object property `B` is arbitrary rather than being the locus of invertibility itself, which
 is the convenient form at the use site; it is no weaker, since
 `GrothendieckTopology.HasEnoughObjects` is monotone in its object property.
@@ -45,9 +47,9 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 namespace PresheafOfModules
 
-universe w' v u
+universe w w' v u
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{w'}}
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{w}}
   [HasSheafify J AddCommGrpCat.{w'}] [J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
 
 /-- **Stacks 0H6Y for presheaves of modules.** If a map `f` of presheaves of `R`-modules is

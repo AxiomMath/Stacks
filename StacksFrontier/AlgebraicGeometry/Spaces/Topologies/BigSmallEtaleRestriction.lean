@@ -20,8 +20,11 @@ injective objects, and on complexes it preserves K-injectivity. The same holds f
 to the spaces-étale site of `X` itself, which Tag 0DF3 identifies with the inverse image of
 `i_X` and with the direct image of `π_X`.
 
-The analogous statements for sheaves of modules are false, and nothing of the kind is asserted
-here.
+The analogous statements for sheaves of modules are false, as the source records; the
+counterexamples over `Spec ℤ` are
+`AlgebraicGeometry.BigEtaleSpaceSite.exists_injective_not_injective_restrictModules` and its
+three companions in
+`StacksFrontier/AlgebraicGeometry/Spaces/Topologies/BigSmallEtaleModuleRestrictionInjective.lean`.
 
 ## Main definitions
 

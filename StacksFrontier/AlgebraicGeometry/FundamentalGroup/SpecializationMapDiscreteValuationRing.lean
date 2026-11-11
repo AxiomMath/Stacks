@@ -54,8 +54,11 @@ dominating `A/P` inside its fraction field, Stacks 0ARL replaces it by an integr
 algebraically closed residue field, and the adic completion of that is a complete — hence
 henselian — discrete valuation ring with the same residue field.
 
-Everything is proved here except the one input the library cannot prove, carried as the
-hypothesis `h0A48` and described on the main theorem.
+The main theorem takes Tag 0A48 for proper schemes over henselian local rings as an argument
+`h0A48 : ProperHenselianFiniteEtaleEquivalence`. That statement is proved in this library
+(`AlgebraicGeometry.properHenselianFiniteEtaleEquivalence`), and Tag 0C0N itself, with the argument
+supplied, is
+`AlgebraicGeometry.exists_isSpecializationMap_isomorphic_over_strictlyHenselianDVR`.
 
 ## References
 
@@ -736,31 +739,23 @@ private theorem isSpecializationMap_of_identity_factorization
       closedGeometricPoint_liesOver R, inferInstance, hi, t, hform⟩
   exact ⟨R, inferInstance, inferInstance, hAlg, hsh, (congrArg Q hg).mpr hQ⟩
 
-/-! ### Tag 0C0N -/
+/-! ### Realizing a specialization map over a discrete valuation ring -/
 
-/-- **Stacks Project, Tag 0C0N.** Let `f : X ⟶ S` be a proper morphism with geometrically
-connected fibres over a Noetherian scheme, let `s'` and `s` be geometric points of `S`, and let
-`sp : π₁(X_{s'}) → π₁(X_s)` be a specialization map. Then there are a complete — in particular
-strictly henselian — discrete valuation ring `R` with algebraically closed residue field, a
-morphism `r : Spec R ⟶ S` carrying the generic point of `Spec R` to the image of `s'` and its
-closed point to the image of `s`, and a specialization map
+/-- Let `f : X ⟶ S` be a proper morphism with geometrically connected fibres over a Noetherian
+scheme, let `s'` and `s` be geometric points of `S`, and let `sp : π₁(X_{s'}) → π₁(X_s)` be a
+specialization map. Given Tag 0A48 for proper schemes over henselian local rings as the argument
+`h0A48`, there are a complete — in particular strictly henselian — discrete valuation ring `R`
+with algebraically closed residue field, a morphism `r : Spec R ⟶ S` carrying the generic point of
+`Spec R` to the image of `s'` and its closed point to the image of `s`, and a specialization map
 `sp_R : π₁((X_R)_{η̄}) → π₁((X_R)_{ō})` of the base change `X_R ⟶ Spec R` from the generic to the
 closed point, such that `sp` and `sp_R` are intertwined by isomorphisms of topological groups on
-the source and on the target. -/
-@[stacks 0C0N "the whole statement, with the same one input this library cannot prove carried as \
-the hypothesis `h0A48`: `ProperHenselianFiniteEtaleEquivalence`, Tag 0A48 for a proper — not \
-merely finite — scheme over a henselian local ring, whose remaining content is Grothendieck \
-existence together with Artin approximation (see \
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleAlgClosedExtension`). It is used \
-exactly twice, for Tag 0A49 through \
-`isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian_of_isAlgClosed` and \
-for the closed geometric fibre of `X_R ⟶ Spec R`; it is the same datum that is already part of \
-`AlgebraicGeometry.IsSpecializationMap`, so it constrains none of the data quantified over. \
-Everything else is proved here: the discrete valuation ring (Tags 00PH, 0ARL and 0AP1), that the \
-strict henselization of the stalk is Noetherian, the two factorizations of the geometric points, \
-and the base-point bookkeeping. `sp_R` is produced as a specialization map in the sense of \
-`AlgebraicGeometry.IsSpecializationMap`, and `R` is strictly henselian in the strong sense that \
-its residue field is algebraically closed."]
+the source and on the target.
+
+The argument `h0A48` is used for Tag 0A49 through
+`isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian_of_isAlgClosed` and for
+the closed geometric fibre of `X_R ⟶ Spec R`. It is proved in this library as
+`properHenselianFiniteEtaleEquivalence`; Tag 0C0N, with it supplied, is
+`exists_isSpecializationMap_isomorphic_over_strictlyHenselianDVR`. -/
 theorem exists_isSpecializationMap_isomorphic_over_isDiscreteValuationRing
     {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] [GeometricallyConnected f] [IsNoetherian S]
     (s' s : GeometricPoint S)

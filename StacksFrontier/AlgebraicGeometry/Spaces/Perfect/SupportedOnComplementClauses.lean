@@ -33,6 +33,8 @@ scheme `S`, let `P = U ×_X V` be its intersection and set `T = |X| \ |U|`.  Sta
 * `AlgebraicGeometry.Space.isIso_supportedShriekToPushforward_of_supported`:
   **clause (2)(c)**, the comparison `j_!F ⟶ Rj_*F` of
   `AlgebraicGeometry.Space.supportedShriekToPushforward`.
+* `AlgebraicGeometry.Space.isIso_of_cohomologySupportedOn_edsEtale`: **Stacks 08GG**, all
+  five clauses together.
 
 ## The argument
 
@@ -494,6 +496,46 @@ theorem isIso_supportedShriekToPushforward_of_supported
   unfold supportedShriekToPushforward
   rw [Adjunction.homEquiv_unit]
   infer_instance
+
+/-- Let `S` be a scheme, let `(U ⊆ X, j : V ⟶ X)` be an elementary distinguished square of
+algebraic spaces over `S` and set `T = |X| \ |U|`.  Let `j_!` and `Rj_*` be a left and a right
+adjoint of derived restriction `(-)|_V : D(𝒪_X) ⥤ D(𝒪_V)`.
+
+1. If `E` in `D(𝒪_X)` is supported on `T`, then (a) `E ⟶ Rj_*(E|_V)` and (b) `j_!(E|_V) ⟶ E`
+   are isomorphisms.
+2. If `F` in `D(𝒪_V)` is supported on `j^{-1}T`, then (a) `F ⟶ (j_!F)|_V`, (b)
+   `(Rj_*F)|_V ⟶ F` and (c) `j_!F ⟶ Rj_*F` are isomorphisms.
+
+The maps of (1)(a), (1)(b), (2)(a), (2)(b) are the units and counits of the two adjunctions,
+and the map of (2)(c) is `AlgebraicGeometry.Space.supportedShriekToPushforward`. -/
+@[stacks 08GG "all five clauses: for E in D(O_X) supported on T = |X| \\ |U| the unit
+E ⟶ Rj_*(E|_V) and the counit j_!(E|_V) ⟶ E are isomorphisms, and for F in D(O_V) supported on
+the preimage of T the unit F ⟶ (j_!F)|_V, the counit (Rj_*F)|_V ⟶ F and the comparison
+j_!F ⟶ Rj_*F are isomorphisms. j_! and Rj_* are any left and right adjoints of derived
+restriction, which pins them and their units and counits; the derived functor of
+etaleModuleLowerShriek and a total right derived functor of j_* are such adjoints"]
+theorem isIso_of_cohomologySupportedOn_edsEtale
+    {shriekD RpushD : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).1
+        (edsEtale B S hS hsq).2) ⥤ DerivedCategory (Modules.{u, u} B S hS W.1 W.2)}
+    (adjShriek : shriekD ⊣ (etaleModulePullback.{u, u} B S hS (edsEtaleHom B S hS hsq)
+      (isEtale_edsEtaleHom B S hS hsq)).mapDerivedCategory)
+    (adjPush : (etaleModulePullback.{u, u} B S hS (edsEtaleHom B S hS hsq)
+      (isEtale_edsEtaleHom B S hS hsq)).mapDerivedCategory ⊣ RpushD) :
+    (∀ E : DerivedCategory (Modules.{u, u} B S hS W.1 W.2),
+      CohomologySupportedOn B S hS W.1 W.2 (edsComplementPoints B S hS Uo) E →
+        IsIso (adjPush.unit.app E) ∧ IsIso (adjShriek.counit.app E)) ∧
+    (∀ (F : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).1
+        (edsEtale B S hS hsq).2))
+      (hF : CohomologySupportedOn B S hS (edsEtale B S hS hsq).1 (edsEtale B S hS hsq).2
+        (edsEtalePreimageComplementPoints B S hS hsq) F),
+        IsIso (adjShriek.unit.app F) ∧ IsIso (adjPush.counit.app F) ∧
+          IsIso (supportedShriekToPushforward B S hS hsq adjShriek adjPush F
+            (isIso_unit_derivedShriek_of_cohomologySupportedOn B S hS hsq adjShriek F hF))) :=
+  ⟨fun E hE => ⟨isIso_unit_derivedRestrict_of_cohomologySupportedOn B S hS hsq adjPush E hE,
+      isIso_counit_derivedRestrict_of_cohomologySupportedOn B S hS hsq adjShriek E hE⟩,
+    fun F hF => ⟨isIso_unit_derivedShriek_of_cohomologySupportedOn B S hS hsq adjShriek F hF,
+      isIso_counit_derivedPushforward_of_cohomologySupportedOn B S hS hsq adjPush F hF,
+      isIso_supportedShriekToPushforward_of_supported B S hS hsq adjShriek adjPush F hF⟩⟩
 
 end Square
 

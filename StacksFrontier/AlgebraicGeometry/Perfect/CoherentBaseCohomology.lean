@@ -18,14 +18,14 @@ cohomology module `Hⁱ(X, G)` is a coherent `R`-module. This is [Stacks, Tag 0E
 The source proves it by combining [Stacks, Tag 0A1H] — for a morphism of finite presentation, a
 perfect `E` and a bounded complex of finitely presented modules flat over the base with support
 proper over the base, `Rf_*(E ⊗^𝐋 𝒢^•)` is perfect — with the two algebra lemmas
-[Stacks, Tag 0658] and [Stacks, Tag 0EWZ], both of which this library has. Tag 0A1H is not in this
-library: its proof is Noetherian approximation of the whole situation, and the Noetherian case
-that is available here, `isPerfect_derivedGlobalSections` of
-`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatGlobalSections.lean` ([Stacks, Tag 07VK] (1)),
-does not apply, since a coherent ring need not be Noetherian and a
-morphism of finite presentation with properly supported module need not be proper. Perfectness of
-`RΓ(X, G)` over `R` is therefore carried here as an explicit hypothesis; see the implementation
-notes.
+[Stacks, Tag 0658] and [Stacks, Tag 0EWZ]. This file supplies the algebra half of that argument:
+from perfectness of `RΓ(X, G)` over `R` to coherence of every `Hⁱ(X, G)`. The geometric half is
+the perfectness part of [Stacks, Tag 0A1H], `AlgebraicGeometry.isPerfect_derivedPushforward_tensor`
+(`StacksFrontier/AlgebraicGeometry/Perfect/TensorFinitelyPresentedPerfect.lean`), read over the
+affine base in `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportGlobalSectionsPerfect.lean`;
+the two halves are combined into [Stacks, Tag 0EX6] itself,
+`isCoherent_rightDerived_moduleGlobalSections`, in
+`StacksFrontier/AlgebraicGeometry/Perfect/CoherentBaseCohomologyUnconditional.lean`.
 
 ## Main definitions
 
@@ -39,23 +39,22 @@ No new objects are introduced: `RΓ(X, G)` as an object of `D(R)` is
   by [Stacks, Tag 0EWZ], and is unconditional.
 * `…CoherentBaseCohomology.cohomologyIso`: the degree-`i` cohomology of `RΓ(X, G)`, read over the
   base ring, is `Hⁱ(X, G)` with its `R`-action restricted along `R ⟶ Γ(X, 𝒪_X)`.
-* `…CoherentBaseCohomology.isCoherent_cohomology_of_isPerfect_derivedGlobalSections`:
-  **[Stacks, Tag 0EX6]**, with perfectness of `RΓ(X, G)` as an explicit hypothesis.
+* `…CoherentBaseCohomology.isCoherent_cohomology_of_isPerfect_derivedGlobalSections`: under the
+  hypotheses of [Stacks, Tag 0EX6], if `RΓ(X, G)` is a perfect object of `D(R)` then every
+  `Hⁱ(X, G)` is coherent. [Stacks, Tag 0EX6] itself is
+  `…CoherentBaseCohomology.isCoherent_rightDerived_moduleGlobalSections`, in
+  `StacksFrontier/AlgebraicGeometry/Perfect/CoherentBaseCohomologyUnconditional.lean`.
 
 ## Implementation notes
 
-**The carried hypothesis.** `isCoherent_cohomology_of_isPerfect_derivedGlobalSections` takes
+**The perfectness input.** `isCoherent_cohomology_of_isPerfect_derivedGlobalSections` takes
 `StacksDraft.Perfect.IsPerfect (derivedGlobalSectionsOverBase f G)`: the object `RΓ(X, G)` of
 `D(R)` is perfect. That is [Stacks, Tag 0A1H] for `E = 𝒪_X` and the one-term complex `G`, read over
-the affine base `Spec R` — the geometric input the source's proof cites, and the only part of the
-source's proof that this library cannot supply. It is a statement about a complex, not about the
-module `Hⁱ(X, G)` the conclusion is about, and it is proved by an argument (Noetherian
-approximation, [Stacks, Tag 0A1H]) entirely different from the algebra that turns it into the
-conclusion here. All of the source's own hypotheses are kept, so the statement is the source's
-statement with one upstream lemma assumed; when Tag 0A1H lands the hypothesis discharges by
-application and the conclusion does not change.
+the affine base `Spec R`; it is proved as
+`…ProperSupportGlobalSectionsPerfect.isPerfect_derivedGlobalSectionsOverBase_of_properSupport`,
+and `isCoherent_rightDerived_moduleGlobalSections` supplies it to the lemma here.
 
-**Everything else is proved.** The two algebra lemmas the source combines with Tag 0A1H are
+**The algebra.** The two algebra lemmas the source combines with Tag 0A1H are
 `StacksDraft.Perfect.isPerfect_iff_pseudoCoherent_and_finiteTorDimension` ([Stacks, Tag 0658]) and
 `StacksDraft.PseudoCoherence.pseudoCoherentFrom_iff_finite_and_coherent_homology`
 ([Stacks, Tag 0EWZ]); `isCoherent_homology_of_isPerfect` is their composite and uses no hypothesis
@@ -68,9 +67,9 @@ functor of `AlgebraicGeometry.moduleGlobalSections`
 (`Stacks.DerivedIndexing.rightDerivedIso`).
 
 **The source's other hypotheses.** Flatness of `G` over `R` and properness of its support are
-kept, because they are the source's statement, but they are not used by the argument below: they
-are exactly what Tag 0A1H consumes, and Tag 0A1H is the carried hypothesis. They are therefore
-named `_hflat` and `_hsupp`.
+kept, so that the signature is the one of [Stacks, Tag 0EX6], but they are not used by the
+argument below: they are exactly what Tag 0A1H consumes, and the perfectness of `RΓ(X, G)` is
+taken as given here. They are therefore named `_hflat` and `_hsupp`.
 
 **The derived-category model.** Everything here runs under
 `CategoryTheory.HasDerivedCategory.standard`, which is the model `derivedGlobalSectionsOverBase`
@@ -146,24 +145,20 @@ def cohomologyIso {R : Type u} [CommRing R] {X : Scheme.{u}}
       ((Stacks.DerivedIndexing.rightDerivedIso (AlgebraicGeometry.moduleGlobalSections X) i).app
           F).symm
 
-/-- **[Stacks, Tag 0EX6].** Let `R` be a coherent ring, let `f : X ⟶ Spec R` be of finite
-presentation ([Stacks, Tag 01TP] (3), spelled out as its three constituent properties) and let `G`
-be an `𝒪_X`-module of finite presentation, flat over `R`, whose support is proper over `R`. Then
+/-- **Coherence of `Hⁱ(X, G)` from perfectness of `RΓ(X, G)`.** Let `R` be a coherent ring, let
+`f : X ⟶ Spec R` be of finite presentation ([Stacks, Tag 01TP] (3), spelled out as its three
+constituent properties) and let `G` be an `𝒪_X`-module of finite presentation, flat over `R`, whose
+support is proper over `R`. If moreover `RΓ(X, G)` is a perfect object of `D(R)` (`hperf`), then
 `Hⁱ(X, G)`, with its `R`-action restricted along `R ⟶ Γ(X, 𝒪_X)`, is a coherent `R`-module in
 every degree.
 
-The proof is the source's: `RΓ(X, G)` is a perfect object of `D(R)` ([Stacks, Tag 0A1H] for
-`E = 𝒪_X` and the one-term complex `G`, carried here as the hypothesis `hperf`), a perfect object
-is pseudo-coherent ([Stacks, Tag 0658]), and over a coherent ring the cohomology modules of a
-bounded above pseudo-coherent object are coherent ([Stacks, Tag 0EWZ]); `cohomologyIso` identifies
-the cohomology of `RΓ(X, G)` with `Hⁱ(X, G)`.
+A perfect object is pseudo-coherent ([Stacks, Tag 0658]), and over a coherent ring the cohomology
+modules of a bounded above pseudo-coherent object are coherent ([Stacks, Tag 0EWZ]);
+`cohomologyIso` identifies the cohomology of `RΓ(X, G)` with `Hⁱ(X, G)`.
 
-**Carried hypothesis.** `hperf : StacksDraft.Perfect.IsPerfect (derivedGlobalSectionsOverBase f G)`
-is Tag 0A1H over the affine base, the one input of the source's proof that this library does not
-prove. It is a statement about the complex `RΓ(X, G)`, proved by Noetherian approximation, and not
-the conclusion — which is coherence of the single module `Hⁱ(X, G)` — restated. The source's own
-hypotheses are all present; when Tag 0A1H lands, `hperf` discharges by application. -/
-@[stacks 0EX6 "carrying as an explicit hypothesis Tag 0A1H: RΓ(X, G) is perfect over the base"]
+`hperf` is [Stacks, Tag 0A1H] over the affine base, proved as
+`…ProperSupportGlobalSectionsPerfect.isPerfect_derivedGlobalSectionsOverBase_of_properSupport`;
+[Stacks, Tag 0EX6] itself, without `hperf`, is `isCoherent_rightDerived_moduleGlobalSections`. -/
 theorem isCoherent_cohomology_of_isPerfect_derivedGlobalSections
     {R : Type u} [CommRing R] [IsCoherentRing R] {X : Scheme.{u}} (f : X ⟶ Spec (.of R))
     [LocallyOfFinitePresentation f] [QuasiCompact f] [QuasiSeparated f]

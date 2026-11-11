@@ -52,6 +52,8 @@ admits a section.
 
 * `ArtinianLocalAlgCat.residue_comm_iff` identifies compatibility on
   representatives with commutativity of the residue-field triangle.
+* `ArtinianLocalAlgCat.isSmallExtension_iff` identifies small extensions in `𝒞_Λ` with
+  surjections whose kernel is a nonzero principal ideal annihilated by the maximal ideal.
 * `surjective_factors_into_smallExtensions` gives the finite factorization.
 * `not_isEssentialSurjection_iff_exists_section`
   characterizes nonessential small extensions by the existence of a section.
@@ -86,7 +88,8 @@ neither is needed to form it. The classical case uses the existing predicate
 We adopt `InfinitesimalLifting.IsSmallExtension`, already used for Stacks Project Tag 02HS,
 rather than duplicate it for morphisms in `𝒞_Λ`. Its length-one condition says that the kernel
 is a simple module. Over the local Artinian source of a morphism in `𝒞_Λ`, this is equivalent to
-the source formulation: a nonzero principal ideal annihilated by the maximal ideal. Thus the
+the source formulation: a nonzero principal ideal annihilated by the maximal ideal
+(`ArtinianLocalAlgCat.isSmallExtension_iff`). Thus the
 adopted predicate applies directly after viewing the underlying ring homomorphism as a morphism
 of bundled commutative rings.
 
@@ -282,8 +285,66 @@ end
 /-! ### Small extensions -/
 
 section
+open IsLocalRing
+universe u v w
 
-add_to_stacks 06GD InfinitesimalLifting.IsSmallExtension
+variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+
+/-- A morphism `f : B → A` in `𝒞_Λ` is a small extension in the sense of
+`InfinitesimalLifting.IsSmallExtension` if and only if it is a small extension in the sense of
+the source: `f` is surjective and its kernel is a nonzero principal ideal annihilated by the
+maximal ideal of `B`. -/
+@[stacks 06GD]
+theorem ArtinianLocalAlgCat.isSmallExtension_iff {B A : ArtinianLocalAlgCat.{u, v, w} Λ k}
+    (f : B ⟶ A) :
+    InfinitesimalLifting.IsSmallExtension (CommRingCat.ofHom f.hom.toRingHom) ↔
+      Function.Surjective f.hom ∧ RingHom.ker f.hom.toRingHom ≠ ⊥ ∧
+        (RingHom.ker f.hom.toRingHom).IsPrincipal ∧
+        maximalIdeal B * RingHom.ker f.hom.toRingHom = ⊥ := by
+  set I : Ideal B := RingHom.ker f.hom.toRingHom
+  have hdef : InfinitesimalLifting.IsSmallExtension (CommRingCat.ofHom f.hom.toRingHom) ↔
+      Function.Surjective f.hom ∧ IsSimpleModule B I :=
+    ⟨fun h ↦ ⟨h.2.2.2.2.1, Module.length_eq_one_iff.mp h.2.2.2.2.2⟩,
+      fun h ↦ ⟨inferInstance, inferInstance, inferInstance, inferInstance, h.1,
+        Module.length_eq_one_iff.mpr h.2⟩⟩
+  rw [hdef]
+  refine and_congr_right fun _ ↦ ⟨fun hs ↦ ?_, fun ⟨hne, hp, hm⟩ ↦ ?_⟩
+  · have := IsSimpleModule.nontrivial B I
+    obtain ⟨x, hx⟩ := exists_ne (0 : I)
+    refine ⟨fun hI ↦ hx (Subtype.ext ((Submodule.mem_bot B).mp (hI ▸ x.2))), ⟨⟨x, ?_⟩⟩, ?_⟩
+    · ext y
+      refine ⟨fun hy ↦ ?_, fun hy ↦ ?_⟩
+      · obtain ⟨a, ha⟩ := IsSimpleModule.toSpanSingleton_surjective B hx ⟨y, hy⟩
+        exact Submodule.mem_span_singleton.mpr ⟨a, by simpa using congrArg Subtype.val ha⟩
+      · obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hy
+        exact I.smul_mem a x.2
+    · have heq : Module.annihilator B I = maximalIdeal B :=
+        IsLocalRing.eq_maximalIdeal IsSimpleModule.annihilator_isMaximal
+      refine (Submodule.eq_bot_iff _).mpr fun z hz ↦ ?_
+      refine Submodule.mul_induction_on hz (fun c hc y hy ↦ ?_)
+        (fun _ _ h₁ h₂ ↦ by rw [h₁, h₂, add_zero])
+      rw [← heq, Module.mem_annihilator] at hc
+      simpa using congrArg Subtype.val (hc ⟨y, hy⟩)
+  · obtain ⟨⟨x, hx⟩⟩ := hp
+    have hxI : x ∈ I := hx ▸ Submodule.mem_span_singleton_self x
+    have hgen : ∀ y ∈ I, ∃ b : B, b * x = y := fun y hy ↦ by
+      rw [hx] at hy
+      obtain ⟨b, hb⟩ := Submodule.mem_span_singleton.mp hy
+      exact ⟨b, by simpa using hb⟩
+    have hkill : ∀ c ∈ maximalIdeal B, c * x = 0 := fun c hc ↦ by
+      have : c * x ∈ maximalIdeal B * I := Ideal.mul_mem_mul hc hxI
+      rwa [hm, Ideal.mem_bot] at this
+    have : Nontrivial I := Submodule.nontrivial_iff_ne_bot.mpr hne
+    refine isSimpleModule_iff_toSpanSingleton_surjective.mpr ⟨this, fun z hz y ↦ ?_⟩
+    obtain ⟨c, hc⟩ := hgen z z.2
+    obtain ⟨b, hb⟩ := hgen y y.2
+    have hcu : IsUnit c := by
+      by_contra hcu
+      exact hz (Subtype.ext (by rw [← hc]; exact hkill c ((mem_maximalIdeal c).mpr hcu)))
+    obtain ⟨u, rfl⟩ := hcu
+    refine ⟨b * ↑u⁻¹, Subtype.ext ?_⟩
+    simp only [LinearMap.toSpanSingleton_apply, Submodule.coe_smul, smul_eq_mul]
+    rw [← hb, ← hc, mul_assoc, ← mul_assoc (↑u⁻¹ : B), Units.inv_mul, one_mul]
 
 end
 

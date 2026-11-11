@@ -17,8 +17,8 @@ sequence
 — the second displayed sequence of the source's proof, whose outer terms are the tag's own — and
 the identification `H^p(RΓ(X, ℱ)^∧) = H^p(X, ℱ)^∧` of the cohomology of the derived `I`-adic
 completion of `RΓ(X, ℱ)` with the `I`-adic completion of `H^p(X, ℱ)`. Both are proved under the
-tag's own hypotheses in `exists_shortExact_cohomology_limit_adicQuotients`, which is what carries
-the tag.
+tag's own hypotheses in `exists_shortExact_cohomology_limit_adicQuotients`, a step of the
+source's proof.
 
 What separates that from the source's conclusion is a single isomorphism of `D(A)`: the
 identification of `RΓ(X, lim ℱ/𝓘ⁿℱ)` with the derived `I`-adic completion of `RΓ(X, ℱ)`, which is
@@ -102,7 +102,8 @@ universe u
 
 namespace Stacks.Algebraization
 
-/-- **Stacks Project, Tag 0A0M**, the exact sequence at the formal completion.
+/-- **The second displayed sequence of the proof of [Stacks, Tag 0A0M]**, the exact sequence at
+the formal completion.
 
 Let `A` be a Noetherian ring, `I ⊆ A` an ideal, `f : X ⟶ Spec A` a Noetherian scheme over `A` and
 `ℱ` a coherent `𝒪_X`-module whose cohomology modules `H^p(X, ℱ)` are finite over `A` — the
@@ -130,18 +131,6 @@ proved for an arbitrary ideal `I` in
 `Stacks.Algebraization.hBLX_baseIdealSheaf`, and the source's whole statement — the sequence with
 `H^p(X, ℱ)^∧` in the middle, and the vanishing of the `R¹lim` term for a proper `f` — is
 `Stacks.Algebraization.exists_shortExact_adicCompletion_cohomology_whole` there. -/
-@[stacks 0A0M "for every p, the short exact sequence of A-modules \
-`0 → R¹lim H^{p-1}(X, ℱ/𝓘ⁿℱ) → H^p(X, lim ℱ/𝓘ⁿℱ) → lim H^p(X, ℱ/𝓘ⁿℱ) → 0`, the second \
-displayed sequence of the source's proof, whose outer two terms are those of the source's \
-conclusion; together with the identification `H^p(C(RΓ(X,ℱ))) = H^p(X,ℱ)^∧` of the cohomology of \
-the derived I-adic completion of RΓ(X,ℱ) with the I-adic completion of H^p(X,ℱ), for every \
-reflector C onto the derived-complete objects of D(A), which is the step at which finiteness of \
-H^p(X,ℱ) over A enters. Proved under the source's own hypotheses; the reflector is \
-produced in the proof and the conclusion quantifies over it. The source's whole statement — the \
-same sequence with H^p(X,ℱ)^∧ in the middle, together with the vanishing of the R¹lim term for a \
-proper f — is `Stacks.Algebraization.exists_shortExact_adicCompletion_cohomology_whole` of \
-`Completion/GeneralCohomologyAdicCompletion.lean`, which transports this sequence along the \
-isomorphism RΓ(X, lim ℱ/𝓘ⁿℱ) ≅ C(RΓ(X,ℱ)) of [Stacks, Tag 0BLX]"]
 public theorem exists_shortExact_cohomology_limit_adicQuotients
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     {X : Scheme.{u}} [IsNoetherian X] (f : X ⟶ Spec (.of A))
@@ -225,10 +214,12 @@ fixes no choice of one; by uniqueness of left adjoints that is equivalent to its
 single reflector.
 
 Because `hBLX` is a result the source's proof *derives* rather than one of its hypotheses, this
-theorem carries no tag; it is an engine, waiting for Tag 0BLX at a general ideal. What the tag is
-registered on is `exists_shortExact_cohomology_limit_adicQuotients` above, which proves the
-same sequence with `H^p(X, lim ℱ/𝓘ⁿℱ)` in the middle and assumes nothing; this theorem is
-exactly its transport along `hBLX`. -/
+theorem carries no tag; it is exactly the transport along `hBLX` of
+`exists_shortExact_cohomology_limit_adicQuotients` above, which proves the same sequence with
+`H^p(X, lim ℱ/𝓘ⁿℱ)` in the middle and assumes nothing. `hBLX` is proved at an arbitrary ideal by
+`Stacks.Algebraization.hBLX_baseIdealSheaf`, and the tag is carried by
+`Stacks.Algebraization.exists_shortExact_adicCompletion_cohomology_whole` of
+`Completion/GeneralCohomologyAdicCompletion.lean`. -/
 public theorem exists_shortExact_adicCompletion_cohomology_of_forall_reflector
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     {X : Scheme.{u}} [IsNoetherian X] (f : X ⟶ Spec (.of A))

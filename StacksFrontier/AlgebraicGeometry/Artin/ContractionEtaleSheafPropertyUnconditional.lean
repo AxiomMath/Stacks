@@ -185,7 +185,8 @@ theorem exists_mapTriple_eq_of_isEtaleCovering (c : ContractionSituation B S hS)
 /-- In a contraction situation the functor `F` of triples satisfies the sheaf property for all
 étale coverings of locally Noetherian schemes over `S`: a compatible family of triples on such a
 covering has a unique amalgamation. -/
-@[stacks 0GHG]
+@[stacks 0GHG "existence and uniqueness of the amalgamation of a compatible family of \
+triples, for every étale covering of locally Noetherian schemes over S"]
 theorem contractionFunctor_satisfiesEtaleSheafProperty (c : ContractionSituation B S hS) :
     SatisfiesEtaleSheafProperty c := by
   rw [satisfiesEtaleSheafProperty_iff]

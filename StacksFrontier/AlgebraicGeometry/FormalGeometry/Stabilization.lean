@@ -314,7 +314,6 @@ public theorem stabilizingData_eq_of_not_exists
   rw [stabilizingData, dite_eq_right h]
 
 /-- **Stacks 0EFI.** The stabilizing ideal is contained in the ideal it shrinks. -/
-@[stacks 0EFI "the stabilizing ideal is contained in J"]
 public theorem stabilizingIdeal_le :
     stabilizingIdeal I J s d omega H ≤ J := by
   classical
@@ -324,7 +323,6 @@ public theorem stabilizingIdeal_le :
 
 /-- **Stacks 0EFI.** Shrinking `J` to the stabilizing ideal does not change the intersection of
 the zero locus with `V(I)`. -/
-@[stacks 0EFI "V(J₀) ∩ V(I) = V(J) ∩ V(I) for the stabilizing ideal"]
 public theorem zeroLocus_stabilizingIdeal_inter :
     PrimeSpectrum.zeroLocus (stabilizingIdeal I J s d omega H : Set A) ∩
         PrimeSpectrum.zeroLocus (I : Set A) =

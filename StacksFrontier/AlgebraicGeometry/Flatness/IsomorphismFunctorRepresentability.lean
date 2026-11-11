@@ -39,7 +39,10 @@ the flattening ideal of Tag 05PE in the affine case with projective sections.  T
 stated and proved as
 `Stacks.Flatness.ModuleMapBaseChangeSituation.exists_isFlatteningIdeal_iff`, so that the
 hypothesis of the main theorem below cannot be mistaken for something weaker than its
-conclusion: it is the same assertion in concrete terms, and the devissage is what remains.
+conclusion: it is the same assertion in concrete terms.  The devissage itself is carried out in
+`StacksFrontier/AlgebraicGeometry/Flatness/FlatteningFunctor/EtaleLocalRepresentability.lean`, and
+Tag 05PF with both of its assertions is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`.
 
 Finite presentation of the representing closed immersion is reduced to a single concrete
 hypothesis — that the flattening ideal sheaf is finitely generated on every affine open — which
@@ -53,7 +56,9 @@ the exact strength of the hypothesis is recorded rather than asserted:
 `Stacks.Flatness.ModuleMapBaseChangeSituation.exists_isFlatteningIdeal_fg_iff` proves it
 equivalent to the conjunction of the first assertion of Tag 05PF with local finite presentation of
 the representing morphism, so what the second theorem below genuinely discharges are
-quasi-compactness and quasi-separatedness, and what it leaves open is local finite presentation.
+quasi-compactness and quasi-separatedness.  Local finite presentation, from the finite
+presentation of `G` alone, is proved through limit preservation (Tags 05MJ(4) and 05LX) in
+`Stacks.Flatness.finitePresentation_hom_of_representableBy_isomorphismFunctor`.
 
 ## Main definitions
 
@@ -81,8 +86,9 @@ quasi-compactness and quasi-separatedness, and what it leaves open is local fini
   refinement by finite generation to its being locally of finite presentation as well.
 * `Stacks.Flatness.isomorphismFunctor_representableBy_closedImmersion` and
   `Stacks.Flatness.finitePresentation_of_representableBy_isomorphismFunctor` are the two
-  assertions of Tag 05PF, the first granted a flattening ideal sheaf and the second granted a
-  finitely generated one.
+  assertions of Tag 05PF in terms of a flattening ideal sheaf, the first for a flattening ideal
+  sheaf and the second for a finitely generated one; the theorem itself is
+  `Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`.
 
 ## Implementation notes
 
@@ -300,8 +306,8 @@ end Stacks.Flatness.ModuleMapBaseChangeSituation
 
 namespace Stacks.Flatness
 
-/-- **Stacks Project, Tag 05PF.** The isomorphism-after-base-change functor of a surjection from a
-finitely presented, flat and pure module is represented by a closed immersion into the base.
+/-- The isomorphism-after-base-change functor of a surjection from a finitely presented, flat and
+pure module is represented by a closed immersion into the base, given a flattening ideal sheaf.
 
 The construction of the representing closed subscheme is the hypothesis `hJ`: it asks for an ideal
 sheaf on the base which dies exactly on those schemes over the base on which `u` becomes an
@@ -309,7 +315,9 @@ isomorphism.  By
 `Stacks.Flatness.ModuleMapBaseChangeSituation.exists_isFlatteningIdeal_iff` that hypothesis is
 equivalent to the conclusion, so nothing of the source's devissage is discharged here; what the
 theorem does supply is the dictionary between the two formulations, which is the form in which
-the devissage's output — the flattening ideal of Tag 05PE — presents itself. -/
+the devissage's output — the flattening ideal of Tag 05PE — presents itself.  Tag 05PF itself,
+with the devissage, is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`. -/
 theorem isomorphismFunctor_representableBy_closedImmersion
     (D : ModuleMapBaseChangeSituation.{u})
     [LocallyOfFinitePresentation D.f] [QuasiCompact D.f] [QuasiSeparated D.f]
@@ -321,8 +329,10 @@ theorem isomorphismFunctor_representableBy_closedImmersion
       Nonempty (D.isomorphismFunctor.RepresentableBy W) :=
   D.exists_isFlatteningIdeal_iff.mp hJ
 
-/-- **Stacks Project, Tag 05PF.** If the target module is finitely presented, every morphism
-representing the isomorphism-after-base-change functor is of finite presentation.
+/-- If the target module is finitely presented and the flattening ideal sheaf exists and is
+finitely generated, every morphism representing the isomorphism-after-base-change functor is of
+finite presentation.  Tag 05PF, which needs no such ideal sheaf, is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`.
 
 All three constituents are obtained from the single hypothesis `hJ`, that the flattening ideal
 sheaf of the situation exists and is finitely generated on every affine open of the base; unlike

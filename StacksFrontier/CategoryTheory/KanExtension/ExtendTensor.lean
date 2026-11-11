@@ -95,7 +95,10 @@ F(X) ⊗ (F(Y) ⊗ F(Z)) ⟶ F(X) ⊗ F(Y ⊗ Z) ⟶ F(X ⊗ (Y ⊗ Z))
 (F(X) ⊗ F(Y)) ⊗ F(Z) ⟶ F(X ⊗ Y) ⊗ F(Z) ⟶ F((X ⊗ Y) ⊗ Z)
 ```
 commutes (the vertical arrows being the associativity constraints), and such that `F(𝟙)` is a
-unit (`CategoryTheory.MonoidalCategory.IsUnitObject`). -/
+unit (`CategoryTheory.MonoidalCategory.IsUnitObject`). Mathlib's `CategoryTheory.Functor.Monoidal`
+additionally fixes a unit isomorphism `𝟙 ≅ F(𝟙)` compatible with the unitors, so it is stronger;
+`CategoryTheory.Functor.Monoidal.toTensorStructure` forgets that datum. -/
+@[stacks 0FFL]
 structure TensorStructure (F : C ⥤ D) where
   /-- The isomorphism `F(X) ⊗ F(Y) ≅ F(X ⊗ Y)`. -/
   μIso (X Y : C) : F.obj X ⊗ F.obj Y ≅ F.obj (X ⊗ Y)

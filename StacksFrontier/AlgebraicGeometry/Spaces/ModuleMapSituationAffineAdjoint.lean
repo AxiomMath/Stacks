@@ -232,7 +232,8 @@ theorem quasicoherent_modulePushforward (hi : IsAffineHom B S hS A.i.hom) :
 /-- **Stacks 0CW7, part (1), unconditionally**: for an affine `i : Z ⟶ X`, a quasi-coherent
 `𝒪_Z`-module `H` and a map `u : F ⟶ i_*H` with adjoint `v : i^*F ⟶ H`,
 `F_{v,zero} = F_{u,zero}`. -/
-@[stacks 0CW7 "part (1)"]
+@[stacks 0CW7 "(1) for i : Z → X affine, G = i_*H and v : i^*F → H adjoint to u, \
+  F_{u,zero} = F_{v,zero}"]
 theorem zeroFunctor_adjointSituation_eq_of_isAffineHom (hi : IsAffineHom B S hS A.i.hom) :
     (A.adjointSituation A.quasicoherent_modulePullback).zeroFunctor
         (modulePullbackSystem B S hS) =
@@ -242,7 +243,7 @@ theorem zeroFunctor_adjointSituation_eq_of_isAffineHom (hi : IsAffineHom B S hS 
 
 /-- **Stacks 0CW7, part (2), unconditionally**: if moreover `i` is a closed immersion,
 `F_{v,surj} = F_{u,surj}`. -/
-@[stacks 0CW7 "part (2)"]
+@[stacks 0CW7 "(2) if moreover i is a closed immersion, F_{u,surj} = F_{v,surj}"]
 theorem surjFunctor_adjointSituation_eq_of_isClosedImmersion (hi : IsAffineHom B S hS A.i.hom)
     (hci : IsClosedImmersion B S hS A.i.hom) :
     (A.adjointSituation A.quasicoherent_modulePullback).surjFunctor

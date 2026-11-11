@@ -16,9 +16,11 @@ import StacksCore.Tactic.StacksAttribute
 Let `X` be a Noetherian algebraic space over a scheme `S` and let `𝒥` be an injective object of
 the category `QCoh(𝒪_X)` of quasi-coherent modules on the small étale site of `X`.  Then
 `H^p(U, 𝒥|_U) = 0` for `p > 0` and every quasi-compact and quasi-separated algebraic space `U`
-étale over `X`.  This is Stacks 09TL, part (1), and the one input left assumed is Stacks 07U6 at
-an affine surjective étale chart `j : W ⟶ X` of Stacks 03H6: that `j_*` preserves filtered
-colimits of quasi-coherent modules.
+étale over `X`.  This is Stacks 09TL, part (1), here reduced to one input, Stacks 07U6 at an
+affine surjective étale chart `j : W ⟶ X` of Stacks 03H6: that `j_*` preserves filtered colimits
+of quasi-coherent modules.  That input is proved in
+`StacksFrontier/AlgebraicGeometry/Cohomology/InjectiveQcoh/UnconditionalArtinianPresentation.lean`,
+which states Stacks 09TJ and Stacks 09TL, part (1), without it.
 
 ## Main results
 
@@ -37,7 +39,7 @@ precomposed with étale restriction along `g : U ⟶ X`; this is the arrangement
 universes are discussed.
 
 Of the four fields of `AlgebraicGeometry.Space.ChartArtinianPresentation`, which is the
-hypothesis of Stacks 09TJ
+hypothesis of the chart reduction of Stacks 09TJ
 (`AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract`):
 
 * `pushforwardQuasicoherent`, Stacks 03M9 for the chart, is
@@ -54,11 +56,9 @@ hypothesis of Stacks 09TJ
   produces the colimit isomorphic to the given injective object; an isomorphism is in particular
   a retract.
 * `pushforwardPreservesFilteredColimits`, Stacks 07U6 for the chart read in `QCoh`, is the one
-  field carried as a hypothesis.  The library's Stacks 07U6,
-  `AlgebraicGeometry.Space.isIso_colimit_post_rightDerived_smallEtaleAbelianPushforward`, is
-  about the higher direct images of abelian sheaves on the small étale site and says nothing
-  about filtered colimits in `QCoh`, whose comparison with the ambient colimits of `Mod(𝒪_X)`
-  along a non-étale morphism this library does not have.
+  field carried as a hypothesis here.  It is proved in `UnconditionalArtinianPresentation.lean`
+  of this directory, which imports this file, as
+`AlgebraicGeometry.Space.preservesFilteredColimitsOfSize_chartQuasicoherentPushforward_of_isAffine`.
 
 The retract of Stacks 09TJ is then turned into the vanishing by
 `AlgebraicGeometry.Space.isZero_etaleRestrictionCohomology_of_retract_colimit`: the colimit is

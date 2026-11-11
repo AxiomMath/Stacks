@@ -28,7 +28,9 @@ rings is asked to respect their structure maps.
 
 ## References
 
-* [Stacks Project, Tag 0BAD](https://stacks.math.columbia.edu/tag/0BAD)
+* [Stacks Project, Tag 0BAD](https://stacks.math.columbia.edu/tag/0BAD); the statement with
+  `S`-birationality in the sense of Tag 0A20 is in
+  `StacksFrontier.AlgebraicGeometry.Morphisms.Birational.GenericStalkCriterionDominant`.
 -/
 
 @[expose] public section
@@ -107,9 +109,11 @@ private theorem genericPoint_opens_val {X : Scheme.{u}} [IrreducibleSpace X] (U 
   exact (by simpa [Set.image_univ, U.range_ι, hd.closure_eq] using h :
     IsGenericPoint (U.ι (genericPoint U.toScheme)) (Set.univ : Set X)).eq (genericPoint_spec X)
 
-/-- For irreducible schemes, birationality over a base is witnessed by an
-isomorphism of nonempty open subschemes over that base. -/
-@[stacks 0BAD "parts (1) and (2)"]
+/-- For irreducible schemes, birationality over a base in the sense of
+`AlgebraicGeometry.Scheme.BirationalOver` (an isomorphism of dense open subschemes over the base)
+is witnessed by an isomorphism of nonempty open subschemes over that base. This is a repackaging
+of the definition; Stacks' Tag 0BAD, with `S`-birationality in the sense of Tag 0A20, is
+`AlgebraicGeometry.Scheme.dominantBirationalOver_tfae_generic_stalk_iso`. -/
 public theorem birationalOver_iff_exists_nonempty_open_iso
     {S X Y : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
     [IrreducibleSpace X] [IrreducibleSpace Y] :
@@ -127,9 +131,11 @@ public theorem birationalOver_iff_exists_nonempty_open_iso
              dense_target := V.2.dense hV, iso := e }, he⟩
 
 /-- For irreducible schemes locally of finite presentation over a base,
-birationality over that base is equivalent to an isomorphism of their generic
-local rings as algebras over the local ring of the common image. -/
-@[stacks 0BAD "parts (1) and (3)", ega "I 6.5.4" "(ii), special case"]
+birationality over that base (`AlgebraicGeometry.Scheme.BirationalOver`) is equivalent to an
+isomorphism of their generic local rings as algebras over the local ring of the common image.
+Stacks' Tag 0BAD, with `S`-birationality in the sense of Tag 0A20, is
+`AlgebraicGeometry.Scheme.dominantBirationalOver_tfae_generic_stalk_iso`. -/
+@[ega "I 6.5.4" "(ii), special case"]
 public theorem birationalOver_iff_generic_stalk_iso
     {S X Y : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
     [IrreducibleSpace X] [IrreducibleSpace Y]

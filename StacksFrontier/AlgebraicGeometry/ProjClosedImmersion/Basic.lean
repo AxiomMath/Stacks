@@ -50,9 +50,12 @@ hypothesis, and it is discharged separately for a genuinely surjective `f`.
 
 No `@[stacks]` attribute is attached. Tag 01N0 has three parts; parts (1) and (2) are what is
 proved here, part (1) being `AlgebraicGeometry.Proj.map`'s own side condition `ℬ₊ ≤ 𝒜₊.map f`
-(`U(ψ) = Y`) and part (2) the closed immersion. Part (3), that the comparison maps
-`r_ψ^* 𝒪_X(n) ⟶ 𝒪_Y(n)` are surjective, is not proved, so the tag may not be presented as
-formalized.
+(`U(ψ) = Y`) and part (2) the closed immersion, both for Mathlib's `AlgebraicGeometry.Proj.map`.
+The tag itself, under its own hypothesis and with part (3) on the comparison maps
+`r_ψ^* 𝒪_X(n) ⟶ 𝒪_Y(n)`, is carried in
+`StacksFrontier/AlgebraicGeometry/RelativeProjChain/EventualSurjective.lean`,
+`StacksFrontier/AlgebraicGeometry/ProjTwistEpi/Basic.lean` and
+`StacksFrontier/AlgebraicGeometry/ProjTwistCompare/NotIsoExample.lean`.
 
 ## References
 

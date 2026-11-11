@@ -29,10 +29,14 @@ All three are in the namespace `AlgebraicGeometry.Stack`.
 
 * `isEquivalence_sheafPushforwardContinuous_of_isStackificationEquivalence`:
   restriction of abelian sheaves along `f` is an equivalence.
-* `isEquivalence_modulePullback_of_isStackificationEquivalence_anyUniverse`:
-  **Stacks 06WR, the `Mod` clause.**
-* `isEquivalence_quasicoherentPullback_of_isStackificationEquivalence_anyUniverse`:
-  **Stacks 06WR, the `QCoh` clause.**
+* `isEquivalence_modulePullback_of_isStackificationEquivalence_anyUniverse` and
+  `isEquivalence_quasicoherentPullback_of_isStackificationEquivalence_anyUniverse`: the `Mod` and
+  `QCoh` clauses of Stacks 06WR for a 1-morphism satisfying the local criteria of Stacks 02ZN.
+
+Stacks 06WR under the source's hypothesis, that `f` induces an equivalence of stackifications, is
+`AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackification_of_isEquivalenceOver`
+and `isEquivalence_quasicoherentPullback_of_isStackification_of_isEquivalenceOver`, in
+`StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.StackificationModulesOfStackifications`.
 
 ## Implementation notes
 
@@ -250,18 +254,20 @@ theorem isEquivalence_sheafPushforwardContinuous_of_isStackificationEquivalence
       J (inducedCategoryTopology B S hS q f)).IsEquivalence
 
 include hp hq in
-/-- **Stacks 06WR, the `Mod` clause.**  Let `f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in
-groupoids over the big fppf category of `S`.  If `f` induces an equivalence of stackifications,
-then the inverse image of sheaves of modules of Stacks 06WE is an equivalence
-`Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`, for modules with sections in any universe containing `u`.
+/-- **The `Mod` clause of Stacks 06WR, under the local criteria of Stacks 02ZN.**  Let
+`f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over the big fppf category of `S`
+satisfying the two local criteria of Stacks 02ZN,
+`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence'`.  Then the inverse
+image of sheaves of modules of Stacks 06WE is an equivalence `Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`, for modules
+with sections in any universe containing `u`.  Stacks 06WR itself, with the hypothesis that `f`
+induces an equivalence of stackifications, is
+`AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackification_of_isEquivalenceOver`.
 
 `f` is a dense subsite inclusion for the associated fppf topologies (Stacks 06WQ), restriction of
 abelian sheaves along it is an equivalence
 (`isEquivalence_sheafPushforwardContinuous_of_isStackificationEquivalence`), and the structure
 sheaf of `𝒳` is the restriction along `f` of that of `𝒴`, so the Comparison Lemma for sheaves of
 modules applies. -/
-@[stacks 06WR "the Mod clause: f^* is an equivalence Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳), for categories fibred \
-in groupoids in arbitrary universes and modules in any universe containing that of the rings"]
 theorem isEquivalence_modulePullback_of_isStackificationEquivalence_anyUniverse
     (heq : letI : p.IsFibered := hp.isFibered
       letI : q.IsFibered := hq.isFibered
@@ -279,17 +285,18 @@ theorem isEquivalence_modulePullback_of_isStackificationEquivalence_anyUniverse
     (ringStructureSheafCore_obj_eq B S hS p q hp hq f hF.comp_eq B.topology le_rfl)
 
 include hp hq in
-/-- **Stacks 06WR, the `QCoh` clause.**  Let `f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in
-groupoids over the big fppf category of `S`.  If `f` induces an equivalence of stackifications,
-then the inverse image of quasi-coherent modules is an equivalence `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)`, for
-modules with sections in any universe containing `u`.
+/-- **The `QCoh` clause of Stacks 06WR, under the local criteria of Stacks 02ZN.**  Let
+`f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over the big fppf category of `S`
+satisfying the two local criteria of Stacks 02ZN,
+`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence'`.  Then the inverse
+image of quasi-coherent modules is an equivalence `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)`, for modules with
+sections in any universe containing `u`.  Stacks 06WR itself, with the hypothesis that `f`
+induces an equivalence of stackifications, is
+`isEquivalence_quasicoherentPullback_of_isStackification_of_isEquivalenceOver`.
 
 Fullness and faithfulness come from the `Mod` clause, since `QCoh` is a full subcategory;
 essential surjectivity needs in addition that `f^*` reflects quasi-coherence, which holds because
 `f` is cover-dense (`AlgebraicGeometry.Stack.isQuasicoherentOnSite_of_modulePullback'`). -/
-@[stacks 06WR "the QCoh clause: f^* is an equivalence QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳), for categories \
-fibred in groupoids in arbitrary universes and modules in any universe containing that of the \
-rings"]
 theorem isEquivalence_quasicoherentPullback_of_isStackificationEquivalence_anyUniverse
     (heq : letI : p.IsFibered := hp.isFibered
       letI : q.IsFibered := hq.isFibered

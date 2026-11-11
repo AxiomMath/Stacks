@@ -4,6 +4,7 @@ public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.Lev
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.RamificationTransport
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.NonfieldKummer
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.FiniteLevel
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.GaloisTotallyRamified
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.LevelNumerator
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.ScaledParameter
 public import StacksFrontier.RingTheory.DiscreteValuationRing.ExtensionLevel.ArtinSchreierShift
@@ -21,9 +22,8 @@ polynomial `P` — and proves the two steps of the elimination-of-ramification a
 use it.
 
 The first step makes the extension have finite level: when `M / L` is Galois of degree `p`
-there is a finite extension `K₁ / K`, totally ramified with respect to `A`, which either is a
-weak solution for `A → C` or makes the base-changed degree-`p` extension have finite level;
-`K₁ / K` is not asserted to be Galois.
+there is a finite Galois extension `K₁ / K`, totally ramified with respect to `A`, which either
+is a weak solution for `A → C` or makes the base-changed degree-`p` extension have finite level.
 The second step lowers the level: when `M / L` has positive finite level `l` and the residue
 field of `A` is the intersection of the subfields of `p ^ n`-th powers in the residue field of
 `B`, a finite separable totally ramified extension of `K` is either a weak solution for
@@ -43,8 +43,12 @@ field of `A` is the intersection of the subfields of `p ^ n`-th powers in the re
 
 * `Stacks.DegreePExtensionLevel.exists_extensionLevel_isLeast_and_mem_Ico`: the infimum defining
   the level is attained, is independent of any choice of generator, and lies in `[0, p)`.
+* `DegreePExtensionLevel.exists_totallyRamified_isGalois_isWeakSolution_or_finiteLevel`:
+  the finite Galois, totally ramified base extension making the extension have finite level.
+* `DegreePExtensionLevel.GaloisTotallyRamified.exists_isGalois_totallyRamified`: a degree-`p`
+  Galois extension of `K`, totally ramified with respect to `A`, used as that base extension.
 * `DegreePExtensionLevel.exists_totallyRamified_galoisExtension_isWeakSolution_or_finiteLevel`:
-  the finite, totally ramified base extension making the extension have finite level.
+  the same statement without the Galois clause, with base extension `K(π ^ (1 / p))`.
 * `EppLevelInduction.exists_totallyRamified_isWeakSolution_or_extensionLevel_le`:
   the totally ramified extension which is a weak solution or lowers the level by the stated bound.
 

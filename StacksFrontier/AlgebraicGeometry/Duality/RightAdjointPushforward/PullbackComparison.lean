@@ -37,7 +37,8 @@ All in the namespace `Stacks.Duality`.
 * `quasiCoherentDerivedTensorSwap` — the derived tensor product of `D_QCoh(𝒪_Z)` as a functor on
   the product category with its two arguments interchanged, `(K₁, K₂) ↦ K₂ ⊗ᴸ_{𝒪_Z} K₁`.
 * `projectionFormulaMap` — the canonical map `K ⊗ᴸ_{𝒪_Y} Rf_*E ⟶ Rf_*(Lf^*K ⊗ᴸ_{𝒪_X} E)`, whose
-  invertibility is [Stacks, Tag 08EU].
+  invertibility is [Stacks, Tag 08EU]; the ringed-space map of [Stacks, Tag 0B53] is
+  `Stacks.Cohomology.DerivedProjectionFormula.projectionFormulaMap`.
 * `compareWithPullbackTensor` — the comparison map `Lf^*K ⊗ᴸ_{𝒪_X} a(L) ⟶ a(K ⊗ᴸ_{𝒪_Y} L)` of
   [Stacks, Tag 0A9S].
 * `twistedInverseImageCompareWithPullbackTensor` — the same map for the twisted inverse image
@@ -162,8 +163,15 @@ variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 /-- **The projection-formula map** `K ⊗ᴸ_{𝒪_Y} Rf_*E ⟶ Rf_*(Lf^*K ⊗ᴸ_{𝒪_X} E)`: the adjoint
 transpose, for the adjunction `Lf^* ⊣ Rf_*` on the quasi-coherent derived categories, of the
 oplax monoidality of `Lf^*` followed by the counit of that adjunction in the pushforward factor.
-Its invertibility is [Stacks, Tag 08EU]. -/
-@[stacks 0B53 "the map"]
+Its invertibility is [Stacks, Tag 08EU].
+
+This is the counterpart, on the quasi-coherent derived categories of a morphism of schemes and
+with the tensor factors in the order of [Stacks, Tag 08EU], of the map of [Stacks, Tag 0B53],
+built from the oplax monoidality `α` supplied as an argument; it is not identified here with the
+ringed-space map. The map of Tag 0B53 itself, for an arbitrary morphism of ringed spaces and
+arbitrary `E ∈ D(𝒪_X)`, `K ∈ D(𝒪_Y)`, is
+`Stacks.Cohomology.DerivedProjectionFormula.projectionFormulaMap`, which carries that
+registration. -/
 def projectionFormulaMap (E : quasiCoherentDerivedCategory X)
     (K : quasiCoherentDerivedCategory Y) :
     ((quasiCoherentDerivedTensor Y).obj K).obj
@@ -176,7 +184,6 @@ def projectionFormulaMap (E : quasiCoherentDerivedCategory X)
     (quasiCoherentDerivedTensorSwap Y) (quasiCoherentDerivedTensorSwap X) α E K
 
 /-- The projection-formula map is natural in both arguments. -/
-@[stacks 0B53 "naturality"]
 theorem projectionFormulaMap_naturality {E E' : quasiCoherentDerivedCategory X}
     {K K' : quasiCoherentDerivedCategory Y} (φ : E ⟶ E') (h : K ⟶ K') :
     (((quasiCoherentDerivedTensor Y).map h).app

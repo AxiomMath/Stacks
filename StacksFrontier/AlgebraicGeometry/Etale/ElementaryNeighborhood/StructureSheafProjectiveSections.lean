@@ -40,7 +40,7 @@ other needs three identifications, all of which are available:
 
 ## The two forms of Tag 05IE
 
-This library has two forms of Tag 05ID, and Tag 05IE is proved from each.
+This library has Tag 05ID and a conditional reduction of it, and Tag 05IE is proved from each.
 
 `exists_elementaryEtaleNeighborhood_projective_structureSheafSections_of_isFlatAt` instantiates
 `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt` at
@@ -72,7 +72,9 @@ are the ones used, not
 * `AlgebraicGeometry.Scheme.unitModule_isFinitePresentation`: the structure sheaf of a scheme,
   viewed as a module over itself at the `X.Modules` ascription, is of finite presentation.
 * `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_structureSheafSections`:
-  **Tag 05IE**, from the hypothesis `hdev` of this library's Tag 05ID at the structure sheaf.
+  **Tag 05IE**, from the hypothesis `hdev` of the conditional reduction
+  `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections` at the structure
+  sheaf.
 * `exists_elementaryEtaleNeighborhood_projective_structureSheafSections_of_isFlatAt`, in the same
   namespace: **Tag 05IE** with no hypothesis beyond the source's, obtained from the unconditional
   form of Tag 05ID.
@@ -186,7 +188,7 @@ from the morphism to the structure sheaf by
 `𝒪_X` as a module, which Tag 05ID requires of `ℱ`, is
 `AlgebraicGeometry.Scheme.unitModule_isFinitePresentation`.
 
-The hypothesis `hdev` is the hypothesis of this library's Tag 05ID,
+The hypothesis `hdev` is the hypothesis of the conditional reduction of Tag 05ID,
 `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections`, instantiated at
 the structure sheaf: Proposition 05HR composed with Remark 05I0, carrying the injectivity of the
 maps `α i` of Lemma 05IA. Nothing is assumed beyond it — in particular no Noetherian hypothesis,

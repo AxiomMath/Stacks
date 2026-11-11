@@ -180,7 +180,6 @@ theorem coproductsRepresentableEtale' : CoproductsRepresentableEtale' B S hS := 
 atlas as in Definition 0AIM indexed by a one-point type, the induced map from the coproduct
 over that type being the given map up to the coproduct inclusion, which is a split
 epimorphism. -/
-@[stacks 0AJ9 "the implication (3) ⇒ (2)"]
 theorem IsQuasiCompactSpace.hasFiniteFormalAtlas' {X : FppfSheaf B S hS}
     (h : IsQuasiCompactSpace B S hS X) : HasFiniteFormalAtlas' B S hS X := by
   let _ : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
@@ -200,7 +199,6 @@ theorem IsQuasiCompactSpace.hasFiniteFormalAtlas' {X : FppfSheaf B S hS}
 quasi-compact formal algebraic space over `S`: the coproduct of the finitely many members of
 the atlas is an affine formal algebraic space, and the induced morphism from it is
 representable by algebraic spaces, étale and a surjection of sheaves. -/
-@[stacks 0AJ9 "the implication (2) ⇒ (3)"]
 theorem HasFiniteFormalAtlas.isQuasiCompactSpace'
     {X : FppfSheaf B S hS} (h : HasFiniteFormalAtlas' B S hS X) :
     IsQuasiCompactSpace B S hS X := by

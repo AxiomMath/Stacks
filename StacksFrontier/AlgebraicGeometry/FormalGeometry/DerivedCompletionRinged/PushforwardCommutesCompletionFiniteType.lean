@@ -84,53 +84,29 @@ type in the sense of `SheafOfModules.IsFiniteType`.
   `AlgebraicGeometry.RingedSite.isFiniteType_generatedIdealSheaf` together with
   `HasBinaryProducts (TopologicalSpace.Opens X)`.
 
-## What is and is not covered of the display
+## The display and the second sheaf of ideals
 
-At an independent parameter `ℐ'` the restriction is on the **object**, not on the data: those
-statements either restrict `ℱ` to the objects derived complete along `ℐ'` — where
-`Rf_*(ℱ^∧) = Rf_*ℱ = (Rf_*ℱ)^∧` — or assert derived completeness of `Rf_*(ℱ^∧)` for an
-arbitrary `ℱ`. At the source's own `ℐ' = f^{-1}ℐ · 𝒪_X` there is no restriction:
+At an independent parameter `ℐ'` the statements here restrict `ℱ` to the objects derived complete
+along `ℐ'` — where `Rf_*(ℱ^∧) = Rf_*ℱ = (Rf_*ℱ)^∧` — or assert derived completeness of
+`Rf_*(ℱ^∧)` for an arbitrary `ℱ`. At the source's own `ℐ' = f^{-1}ℐ · 𝒪_X` there is no
+restriction on `ℱ`:
 `Scheme.isIso_derivedCompletionPushforwardComparison_idealSheafData_inverseImageIdealSheaf`
-is the display for every `ℱ`.
+is the display [Stacks, Tag 0A0I] for every `ℱ ∈ D(𝒪_X)`.
+
+There `ℐ'` is `AlgebraicGeometry.RingedSite.inverseImageIdealSheaf`, the image of the canonical
+map `f^*ℐ ⟶ 𝒪_X`, which is the source's `f^{-1}ℐ · 𝒪_X`. That `f^♯` carries `f^{-1}ℐ` into it
+is `AlgebraicGeometry.RingedSite.pushforwardIdealCompatible_inverseImageIdealSheaf`, and that it
+is of finite type is `AlgebraicGeometry.RingedSite.isFiniteType_inverseImageIdealSheaf`.
 
 The invertibility of the comparison for an arbitrary `ℱ` is the assertion of
-[Stacks, Tag 0A0G], and it is proved at the same data — a sheaf of ideals of finite type — by
+[Stacks, Tag 0A0G], proved at a sheaf of ideals of finite type by
 `RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`
-of `PushforwardCommutesCompletionLocalToGlobal.lean`, for `ℐ'` the ideal sheaf
-`f^{-1}ℐ · 𝒪_X` that Section 52.7 constructs. The source's own route to it — rewrite both sides
-by the Koszul formula of [Stacks, Tag 0A0E] and finish with the invertibility of the projection
-formula [Stacks, Tag 0944], of which this library has only the map,
-`Stacks.Cohomology.ProjectionFormulaOnRingedTopoi.projectionFormulaMap` of [Stacks, Tag 0B56] —
-is *not* the route taken, and
-`AlgebraicGeometry.RingedSite.isIso_derivedCompletionPushforwardComparison_of_isIso_map_unit`,
-the criterion that computation would be fed into, is not what closed it: the globally generated
-case is reached through the Čech formula of [Stacks, Tag 099B] and the general case from it by
-localization on the target site.
-
-The second sheaf of ideals is a parameter here, asked to be of finite type and to receive
-`f^♯(f^{-1}ℐ)`. The source's own `ℐ' = f^{-1}ℐ · 𝒪_X` is such a sheaf of ideals — it receives
-`f^♯(f^{-1}ℐ)` by construction, and it is of finite type because `ℐ` is, being locally generated
-by the images of local generators of `ℐ`. Where this library builds that ideal sheaf, namely out
-of global generators of `ℐ` in `PushforwardCommutesCompletionConstructedIdeal.lean`, both facts
-are proved: `AlgebraicGeometry.RingedSite.pushforwardIdealCompatible_pushGlobalSections` and
-`Stacks.RingedSpace.isFiniteType_generatedIdealSheaf`. So the two sheaves of ideals are kept as
-independent parameters linked by
-`AlgebraicGeometry.RingedSite.PushforwardIdealCompatible`, as they are throughout this
-directory.
-
-*Where `f^{-1}ℐ · 𝒪_X` lives for a quasi-coherent `ℐ`, and what it would take to use it.* For a
-morphism of schemes it is `AlgebraicGeometry.Scheme.IdealSheafData.comap I f` of
-`Mathlib/AlgebraicGeometry/IdealSheaf/Functorial.lean`, the kernel of
-`pullback.fst f I.subschemeι` — the ideal of the scheme-theoretic preimage, which is the image
-of `f^*ℐ ⟶ 𝒪_X`. Substituting it for the parameter `ℐ'` in the quasi-coherent statements below
-needs two bridges this library does not have: that the site-level `f^♯` of
-`Stacks.RingedSpace.toRingedSiteHom` agrees with `f.app`, and that membership in
-`Stacks.Algebraization.idealSheafSiteSubmodule` over an arbitrary open may be checked on an
-affine cover. Given those, `AlgebraicGeometry.Scheme.IdealSheafData.le_map_comap`
-(`ℐ ≤ (ℐ.comap f).map f`) together with `AlgebraicGeometry.Scheme.IdealSheafData.ideal_map` —
-which carries `[QuasiCompact f]` and asks the preimage of the affine open to be affine — reads
-`AlgebraicGeometry.RingedSite.PushforwardIdealCompatible` on such an open. Finite-typeness of
-the comap would be a third bridge.
+of `PushforwardCommutesCompletionLocalToGlobal.lean`: the globally generated case is reached
+through the Čech formula of [Stacks, Tag 099B], and the general case from it by localization on
+the target site. The source's own route — the Koszul formula of [Stacks, Tag 0A0E] and the
+projection formula [Stacks, Tag 0944], which this library proves for a perfect complex as
+`Stacks.Cohomology.ProjectionFormulaOfToposHom.isIso_projectionFormulaMap_of_isPerfect` — is not
+the route taken.
 
 ## References
 
@@ -232,13 +208,6 @@ The derived completion functor on `D(𝒪_X)` is produced from the finite-type h
 itself is then [Stacks, Tag 099J]:
 `AlgebraicGeometry.RingedSite.isDerivedComplete_derivedPushforward_derivedCompletion` read at
 the small Zariski sites of `X` and `Y`. -/
-@[stacks 0A0I "the left hand side `Rf_*(ℱ^∧)` of Equation 52.7.0.1 is derived complete along \
-`ℐ`, for an **arbitrary** object, at a morphism of ringed *spaces* read on its small Zariski \
-sites, at the source's own data: a sheaf of ideals `ℐ` of finite type, the completion on `X` \
-being taken along a sheaf of ideals `ℐ'` of finite type receiving `f^♯(f^{-1}ℐ)`, as the \
-display's `f^{-1}ℐ · 𝒪_X` does. The derived completion functor is produced from the finite-type \
-hypothesis by [Stacks, Tag 099F], so it is an output here and not an input. Quasi-coherence of \
-`ℐ` and of `ℱ` is not needed"]
 theorem isDerivedComplete_derivedPushforward_derivedCompletion_of_isFiniteType
     [I'.toSheafOfModules.IsFiniteType]
     (K : DerivedCategory (_root_.SheafOfModules.{u}
@@ -267,13 +236,6 @@ and at the constructed `ℐ' = f^{-1}ℐ · 𝒪_X` rather than at an independen
 `RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`,
 and at a morphism of schemes and a quasi-coherent `ℐ` of finite type by
 `Scheme.isIso_derivedCompletionPushforwardComparison_idealSheafData_inverseImageIdealSheaf`. -/
-@[stacks 0A0I "Equation 52.7.0.1 at a morphism of ringed *spaces* read on its small Zariski \
-sites, for a **derived-complete** object, at the source's own data: two sheaves of ideals of \
-finite type, `ℐ ⊆ 𝒪_Y` and `ℐ' ⊆ 𝒪_X` with `f^♯(f^{-1}ℐ) ⊆ ℐ'`, as the display's pair \
-`ℐ, f^{-1}ℐ · 𝒪_X` is. Both derived completion functors are produced from those finite-type \
-hypotheses by [Stacks, Tag 099F], so no part of that tag is an input, and quasi-coherence of \
-`ℐ` and of `ℱ` is not needed. The display for an arbitrary object is the invertibility half of \
-[Stacks, Tag 0A0G]"]
 theorem isIso_derivedCompletionPushforwardComparison_of_isFiniteType_of_isDerivedComplete
     [I.toSheafOfModules.IsFiniteType] [I'.toSheafOfModules.IsFiniteType]
     {K : DerivedCategory (_root_.SheafOfModules.{u}
@@ -311,13 +273,6 @@ arbitrary `ℱ ∈ D(𝒪_X)`.
 
 Quasi-coherence of `ℐ` and of `ℱ` is not needed, and the derived completion functor on `D(𝒪_X)`
 is produced from the finite-type hypothesis by [Stacks, Tag 099F]. -/
-@[stacks 0A0I "the left hand side `Rf_*(ℱ^∧)` of Equation 52.7.0.1 is derived complete along \
-`ℐ`, for an **arbitrary** object, at a morphism of **schemes** — the display's own setting — \
-and at the source's own data: a sheaf of ideals `ℐ ⊆ 𝒪_S` of finite type, with the completion \
-on `X` taken along a sheaf of ideals `ℐ'` of finite type receiving `f^♯(f^{-1}ℐ)`, as the \
-display's `f^{-1}ℐ · 𝒪_X` does. The derived completion functor is produced from the finite-type \
-hypothesis by [Stacks, Tag 099F], so no part of that tag is an input; quasi-coherence of `ℐ` \
-and of `ℱ` is not needed, those entering the source only through that tag"]
 theorem isDerivedComplete_derivedPushforward_derivedCompletion_of_isFiniteType
     [I'.toSheafOfModules.IsFiniteType]
     (K : DerivedCategory (_root_.SheafOfModules.{u}
@@ -360,16 +315,7 @@ parameter `ℐ'` — by
 `RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`,
 and at a morphism of schemes and a quasi-coherent `ℐ` of finite type by
 `Scheme.isIso_derivedCompletionPushforwardComparison_idealSheafData_inverseImageIdealSheaf`. -/
-@[stacks 0A0I "Equation 52.7.0.1 in the display's own setting, a morphism of **schemes**, for a \
-**derived-complete** object, at the source's own data: a sheaf of ideals `ℐ ⊆ 𝒪_S` of finite \
-type and a sheaf of ideals `ℐ' ⊆ 𝒪_X` of finite type with `f^♯(f^{-1}ℐ) ⊆ ℐ'`, as the \
-display's pair `ℐ, f^{-1}ℐ · 𝒪_X` is. Both derived completion functors are produced from those \
-finite-type hypotheses by [Stacks, Tag 099F], so no part of that tag is an input, and \
-quasi-coherence of `ℐ` and of `ℱ` is not needed — in the source those enter only through that \
-tag — so the statement covers every quasi-coherent `ℐ` of finite type and every quasi-coherent \
-`ℱ` derived complete along `ℐ'`. The display for an arbitrary object is the invertibility half \
-of [Stacks, Tag 0A0G]",
-  stacks 0AKL "the mathematical content of Remark 52.7.4, which is its fifth and last sentence: \
+@[stacks 0AKL "the mathematical content of Remark 52.7.4, which is its fifth and last sentence: \
 the analogue of Equation 52.7.0.1 for complexes of quasi-coherent modules, [HL-P, Theorem 6.5]. \
 What is proved here is that analogue at a morphism of **schemes**, at the source's own data — \
 two sheaves of ideals of finite type, `ℐ ⊆ 𝒪_S` and `ℐ' ⊆ 𝒪_X` with `f^♯(f^{-1}ℐ) ⊆ ℐ'` — for \
@@ -421,14 +367,6 @@ small Zariski ringed site by `Stacks.Algebraization.idealSheafSiteSubmodule`; "o
 many sections. On a locally Noetherian scheme it is automatic, by the instance
 `Stacks.Algebraization.isFiniteType_idealSheafSiteSubmodule`, so there the two binders need no
 argument. -/
-@[stacks 0A0I "the left hand side `Rf_*(ℱ^∧)` of Equation 52.7.0.1 is derived complete along \
-`ℐ`, for an **arbitrary** object, at Section 52.7's own data: a morphism of **schemes**, a \
-**quasi-coherent** sheaf of ideals `ℐ ⊆ 𝒪_S` **of finite type** — an \
-`AlgebraicGeometry.Scheme.IdealSheafData` whose ringed-site reading is of finite type — and the \
-completion on `X` taken along a quasi-coherent sheaf of ideals `ℐ'` of finite type receiving \
-`f^♯(f^{-1}ℐ)`, as the display's `f^{-1}ℐ · 𝒪_X` does. The derived completion functor is \
-produced from the finite-type hypothesis by [Stacks, Tag 099F], so no part of that tag is an \
-input; on a locally Noetherian scheme the finite-type hypothesis is itself automatic"]
 theorem isDerivedComplete_derivedPushforward_derivedCompletion_idealSheafData
     [(idealSheafSiteSubmodule I').toSheafOfModules.IsFiniteType]
     (K : DerivedCategory (_root_.SheafOfModules.{u}
@@ -468,17 +406,7 @@ parameter `ℐ'` — by
 `RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`,
 and at a morphism of schemes and a quasi-coherent `ℐ` of finite type by
 `Scheme.isIso_derivedCompletionPushforwardComparison_idealSheafData_inverseImageIdealSheaf`. -/
-@[stacks 0A0I "Equation 52.7.0.1 at Section 52.7's own data, for a **derived-complete** object: \
-a morphism of **schemes** `f : X ⟶ S`, a **quasi-coherent** sheaf of ideals `ℐ ⊆ 𝒪_S` **of \
-finite type** and a quasi-coherent sheaf of ideals `ℐ' ⊆ 𝒪_X` of finite type with \
-`f^♯(f^{-1}ℐ) ⊆ ℐ'`, as the display's pair `ℐ, f^{-1}ℐ · 𝒪_X` is. A quasi-coherent sheaf of \
-ideals is an `AlgebraicGeometry.Scheme.IdealSheafData` read on the small Zariski ringed site, \
-and of finite type is `SheafOfModules.IsFiniteType`, locally generated by finitely many \
-sections, which is the source's own hypothesis; on a locally Noetherian scheme it is automatic. \
-Both derived completion functors are produced from it by [Stacks, Tag 099F], so no part of that \
-tag is an input. The display for an arbitrary object is the invertibility half of \
-[Stacks, Tag 0A0G]",
-  stacks 0AKL "the mathematical content of Remark 52.7.4, which is its fifth and last sentence: \
+@[stacks 0AKL "the mathematical content of Remark 52.7.4, which is its fifth and last sentence: \
 the analogue of Equation 52.7.0.1 for complexes of quasi-coherent modules, [HL-P, Theorem 6.5]. \
 What is proved here is that analogue at a morphism of **schemes** and at Section 52.7's own \
 data — two **quasi-coherent** sheaves of ideals **of finite type**, `ℐ ⊆ 𝒪_S` and `ℐ' ⊆ 𝒪_X` \

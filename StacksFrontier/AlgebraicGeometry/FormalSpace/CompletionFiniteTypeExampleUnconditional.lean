@@ -20,6 +20,9 @@ no restriction on the scheme-valued points along which base changes are taken.
   represented by an object whose projection is locally of finite type and quasi-compact.
 * `isFiniteType_formalSpectrumMap_completionOver'`: the morphism `Spf A^ ⟶ Spf B` induced by the
   relative completion along a finite type ring map is of finite type.
+* `isWeaklyAdmissible_and_relative_isAffineHom_and_isFiniteType_completionOver`: Stacks 0ANM
+  in full — the relative completion is weakly admissible, and `Spf A^ ⟶ Spf B` is
+  representable by schemes, by affine morphisms, and of finite type.
 -/
 
 @[expose] public section
@@ -130,6 +133,43 @@ theorem isFiniteType_formalSpectrumMap_completionOver'
     (pullbackRightPullbackFstIso ξ (formalSpectrumMap hB g).hom γ).symm
     (isQuasiCompactULift_of_compact_pullback 𝔅 S hS (formalSpectrumMap hB g) hcpr Z hZ hZqc
       (γ ≫ ξ))
+
+/-- **Stacks 0ANM**, every assertion of the example. Let `B` be a weakly admissible topological
+ring over `S`, let `f : B →+* A` be a finite type ring map and let `g` present the canonical map
+`B ⟶ A^` to the relative completion `A^ = lim_{I ⊆ B w.i.d.} A / IA` as a morphism of quotient
+systems over `S`. Then
+
+1. `A^` is a weakly admissible topological ring;
+2. `Spf A^ ⟶ Spf B` is representable, in the source's sense of representable by schemes
+   (Stacks 0AN5 (2)): every base change of it along an object of the site is represented by an
+   object of the site, and the projection is moreover an affine morphism;
+3. `Spf A^ ⟶ Spf B` is of finite type in the sense of Definition 0AM4, part (2).
+
+Representability by schemes is Stacks 0AKN for the two affine formal algebraic spaces, applied
+to representability by algebraic spaces
+(`isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_completionOver`); both formal spectra
+have presentations by affine thickenings with no condition on the size of the site
+(`hasThickeningPresentation_formalSpectrum`). -/
+@[stacks 0ANM "the relative completion `(A')^` is weakly admissible, `Spf ((A')^) → Spf A` is \
+representable by schemes (every base change along an object of the site is represented by an \
+object of the site, by an affine morphism), and it is of finite type as Definition 0AM4, part \
+(2); no size hypothesis on the site"]
+theorem isWeaklyAdmissible_and_relative_isAffineHom_and_isFiniteType_completionOver
+    (f : B →+* A) (hB : TopologicalRing.IsWeaklyAdmissible B) (hf : f.FiniteType)
+    (D : QuotientSystem 𝔅 S hS B)
+    (E : QuotientSystem 𝔅 S hS (TopologicalRing.CompletionOver f))
+    (g : ContinuousHom D E)
+    (hg : g.toRingHom = TopologicalRing.CompletionOver.canonicalMap f) :
+    TopologicalRing.IsWeaklyAdmissible (TopologicalRing.CompletionOver f) ∧
+      (MorphismProperty.inverseImage (@AlgebraicGeometry.IsAffineHom.{u})
+        (BigFppfOver.toScheme 𝔅 S hS)).relative
+        (Sheaf.sheafifiedYoneda (BigFppfOver.topology 𝔅 S hS)) (formalSpectrumMap hB g) ∧
+      IsFiniteType' 𝔅 S hS (formalSpectrumMap hB g) := by
+  have hA := TopologicalRing.completionOver_isWeaklyAdmissible f hB
+  exact ⟨hA, relative_isAffineHom_of_hasThickeningPresentation 𝔅 S hS (formalSpectrumMap hB g)
+    (hasThickeningPresentation_formalSpectrum hA E) (hasThickeningPresentation_formalSpectrum hB D)
+    (isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_completionOver f hB hf D E g hg),
+    isFiniteType_formalSpectrumMap_completionOver' f hB hf D E g hg⟩
 
 end AlgebraicGeometry.FormalSpace
 

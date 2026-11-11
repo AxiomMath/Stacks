@@ -68,8 +68,8 @@ The connection in each cosimplicial degree is not constructed here.
 ## What this does and does not do to [Stacks, Tag 07LG]
 
 **No `@[stacks …]` attribute is placed.** [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`. What falls here is the module half of the double
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`. What falls here is the module half of the double
 complex `K` for a general crystal; the connection in each cosimplicial degree is not built here, so
 no `Crystalline.CosimplicialCompletedPair` follows from this module alone: the pair of a general
 crystal is `...SmallSite.crystalCosimplicialPair` of `SmallSite/CrystalCosimplicialPair.lean`. The

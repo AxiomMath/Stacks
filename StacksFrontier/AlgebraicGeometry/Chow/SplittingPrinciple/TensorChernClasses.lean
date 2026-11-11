@@ -16,16 +16,22 @@ finite type over `S` and let `ℰ` and `ℱ` be finite locally free `𝒪_X`-mod
 
   `c₂(ℰ ⊗ ℱ) = r·c₂(ℱ) + s·c₂(ℰ) + C(r,2)·c₁(ℱ)² + (r·s − 1)·c₁(ℱ)·c₁(ℰ) + C(s,2)·c₁(ℰ)²`,
 
-in `A^*(X)`, together with the remark "and so on". Both identities are proved here,
-**componentwise, as identities between cap products on Chow groups**, in the vocabulary of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.FilteredAdditivity`; the cross-term coefficient
-is `r·s − 1`, not `r·s`, and that is what is proved. The trailing "and so on" is not a precise
-assertion and nothing is claimed for it.
+in `A^*(X)`, together with the remark "and so on". This file proves both identities in the
+filtered case, **componentwise, as identities between cap products on Chow groups**, in the
+vocabulary of `StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.FilteredAdditivity`; the
+cross-term coefficient is `r·s − 1`, not `r·s`, and that is what is proved. The trailing "and so
+on" is not a precise assertion and nothing is claimed for it.
 
-As in `StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.DualChernClasses`, this development
-has no bivariant ring `A^*(X)` and no total Chern class — see the module documentation of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation` — so every identity of this
-section of chapter 42 is read degree by degree against a fixed cycle `α`.
+The statement of Stacks 0FA6 itself, for arbitrary finite locally free `ℰ` and `ℱ` of ranks `r`
+and `s` with nothing further assumed, is proved in the Chow cohomology ring `A^*(X)` as
+`Stacks.Chow.chernClass_tensorObj_one_chowCohomology` and
+`Stacks.Chow.chernClass_tensorObj_two_chowCohomology`
+(`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClassesBivariant`), and in the
+ring of total classes as `Stacks.Chow.totalChern_sheafTensor_degree_one` and
+`Stacks.Chow.totalChern_sheafTensor_degree_two`
+(`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernRelations`). The cap-product
+identities of this file, for a given choice of the three filtrations, are the formal computation
+those proofs reduce to.
 
 ## The proof, and where it starts
 
@@ -38,17 +44,14 @@ lexicographically to obtain a filtration of `ℰ ⊗ ℱ` with successive quotie
 filtrations to get `c(ℰ) = ∏ (1 + x_i)`, `c(ℱ) = ∏ (1 + y_j)` and
 `c(ℰ ⊗ ℱ) = ∏ (1 + x_i + y_j)`, and finish by "a formal computation which we omit".
 
-**Everything after the reduction is proved below, in full.** The reduction itself is carried as
-a hypothesis, for the two reasons recorded in the `@[stacks 0FA5]` clause of
-`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.DualChernClasses` and repeated in the
-clauses below: the filtration Stacks 02UL delivers is an inductive `Prop`
-(`Stacks.WeilCohomology.HasInvertibleFiltration`) from which the tower of modules and maps that
-Stacks 02UJ consumes cannot be eliminated, and nothing in this repository states that the Chern
-class cap product commutes with flat pullback, so injectivity of `π^*` has nothing to be applied
-to. So the hypotheses below are exactly the three filtrations the source reduces to, presented as
-the towers of short exact sequences that Stacks 02UJ consumes, together with the lexicographic
-identification `hquot` of the quotients of the third with the tensor products of the quotients of
-the first two.
+**Everything after the reduction is proved below, in full**, for given filtrations: the
+hypotheses of the two results of this file are the three filtrations the source reduces to,
+presented as the towers of short exact sequences that Stacks 02UJ consumes, together with the
+lexicographic identification `hquot` of the quotients of the third with the tensor products of
+the quotients of the first two. The reduction itself, through the flag bundle of Stacks 02UL and
+the injectivity of the flat pullback, is performed in
+`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClassesTotal`, which proves
+the two identities with nothing assumed beyond the two ranks.
 
 ## The formal computation the source omits
 
@@ -105,8 +108,9 @@ and the degree-one identity is proved without it, for an arbitrary ring.
   computation the source omits, in degree two.
 * `Stacks.Chow.firstChernCapSum_eq_chernClassCapExt_one` — the identification of
   `Stacks.Chow.firstChernCapSum` with `c₁ ∩ -`, by Stacks 02UJ.
-* `Stacks.Chow.chernClassCapExt_tensorObj_one` — **Stacks 0FA6**, the first displayed identity.
-* `Stacks.Chow.chernClassCapExt_tensorObj_two` — **Stacks 0FA6**, the second displayed identity.
+* `Stacks.Chow.chernClassCapExt_tensorObj_one`, `Stacks.Chow.chernClassCapExt_tensorObj_two` —
+  the two displayed identities of Stacks 0FA6 for filtered modules, componentwise on cap
+  products.
 
 ## References
 
@@ -552,7 +556,7 @@ theorem firstChernShift_congr (e : A ≅ B) (hA : InvertibleChernCapDescends C p
   match i with
   | 0 => rfl
   | j + 1 =>
-      change firstChernCapStep C p n A hA j (h j) = firstChernCapStep C p n B hB j (h j)
+      show firstChernCapStep C p n A hA j (h j) = firstChernCapStep C p n B hB j (h j)
       rw [firstChernCapStep_congr C p A B n e hA hB j]
 
 /-- **Stacks 02SP for the shift operators.** The shift of a module isomorphic to `A ⊗ B` is the
@@ -565,7 +569,7 @@ theorem firstChernShift_eq_add_of_iso_tensorObj (e : D ≅ Scheme.Modules.tensor
   match i with
   | 0 => exact (zero_add (0 : chowGroup C p (n - ((0 : ℕ) : ℤ)))).symm
   | j + 1 =>
-      change firstChernCapStep C p n D hD j (h j)
+      show firstChernCapStep C p n D hD j (h j)
           = firstChernCapStep C p n A hA j (h j) + firstChernCapStep C p n B hB j (h j)
       rw [firstChernCapStep_eq_add_of_iso_tensorObj C p A B D n e hA hB hD j]
       rfl
@@ -711,7 +715,7 @@ theorem elemSymmChernCap_eq_esymRec (α : chowGroup C p n) :
       | zero => rw [esymRec_degree_zero]; rfl
       | succ k =>
           rw [esymRec_succ, firstChernShiftSeq_of_lt C p n L hfac m hm']
-          change elemSymmChernCap C p n L hfac (m + 1) hm (k + 1) α = _
+          show elemSymmChernCap C p n L hfac (m + 1) hm (k + 1) α = _
           rw [elemSymmChernCap_succ C p n L hfac m hm k]
           simp only [AddMonoidHom.add_apply, AddMonoidHom.coe_comp, Function.comp_apply]
           rw [ih (Nat.le_of_succ_le hm) (k + 1), ih (Nat.le_of_succ_le hm) k]
@@ -926,7 +930,8 @@ variable {r s : ℕ} (L : Fin r → X.Modules)
   (chernE chernF chernT : ∀ m : ℕ, ChernClassCycleRule C m) (α : CycleGroup C p n)
 
 include hexactE hexactF hexactT in
-/-- **Stacks 0FA6, the first displayed identity, componentwise on cap products.** Let `ℰ = E r`
+/-- **The first displayed identity of Stacks 0FA6 for filtered modules, componentwise on cap
+products.** Let `ℰ = E r`
 be finite locally free of rank `r` with a filtration whose successive quotients are the invertible
 modules `ℒ_i = L i`, let `ℱ = F s` be finite locally free of rank `s` with a filtration whose
 successive quotients are the invertible modules `𝒩_j = N j`, and let the tower `T` be a filtration
@@ -937,49 +942,9 @@ which is the lexicographic filtration of the source. Then for every `n`-cycle `�
 
 in `A_{n-1}(X)`, which is the identity `c₁(ℰ ⊗ ℱ) = r·c₁(ℱ) + s·c₁(ℰ)` of the source read against
 `α`. The rank hypotheses enter as the lengths `r` and `s` of the two filtrations, as the rank
-`r·s` of the tensor product, and as the two coefficients. -/
-@[stacks 0FA6 "the first displayed identity, componentwise on cap products, and conditional.  \
-CORRECTION OF FORM: the source states c_1(E tensor F) = r c_1(F) + s c_1(E) in the bivariant ring \
-A^*(X).  This development has no bivariant ring and no total Chern class, for the reason recorded \
-in the Stacks 02UH clause of \
-StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation, so -- exactly as for Stacks \
-02UJ and Stacks 0FA5, which this result is read on top of -- the identity is stated degree by \
-degree as cap products against a fixed cycle: for every n and every alpha in CycleGroup C p n, \
-c_1(E tensor F) cap alpha = s times (c_1(E) cap alpha) plus r times (c_1(F) cap alpha) in \
-A_{n-1}(X).  The module on the left is the library's canonical tensor product \
-AlgebraicGeometry.Scheme.Modules.tensorObj of the two bundles, identified with the top of the \
-tensor filtration by the hypothesis hTop.  WHAT IS CARRIED: the reduction of the source's proof \
-to the filtered case, i.e. the three filtrations themselves, as the towers of short exact \
-sequences that Stacks 02UJ consumes -- for E with invertible quotients L_i, for F with invertible \
-quotients N_j, and for E tensor F with quotients M_k, together with hquot, the source's \
-lexicographic identification M_{i*s+j} iso L_i tensor N_j.  The source gets these from Stacks \
-02UL and the injectivity of pi^*, and that reduction CANNOT be performed in this repository, for \
-the two independent reasons recorded in the Stacks 0FA5 clause of \
-StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.DualChernClasses: \
-Stacks 02UL is formalized as \
-Stacks.Chow.exists_splittingMorphism and delivers \
-Stacks.WeilCohomology.HasInvertibleFiltration, an inductive Prop from which the tower of modules \
-and maps that Stacks 02UJ needs -- which is data -- cannot be eliminated; and nothing in this \
-repository states that the Chern class cap product commutes with flat pullback (the clause of \
-Stacks 02U0 quoted as Stacks 02U1), so injectivity of pi^* has no identity on P to descend to X.  \
-ALSO CARRIED, each of them an input of Stacks 02UJ itself and carried there for the same reason: \
-chernE, chernF, chernT, the Stacks 02U0 component data in every rank; hnormE, hnormF, hnormT, the \
-Stacks 02U0 normalisation c_0 = 1 along each tower; hbinomE, hbinomF, hbinomT, the equality of \
-binomial transforms that Stacks 02UD gives once Stacks 02UG is applied, neither of which is \
-proved here; hfacL, hfacN, hfacM, Stacks 02TI for c_1 of each quotient; and hrankTensor, the \
-rank-preservation of the tensor product in rank r*s, carried exactly as \
-StacksFrontier.AlgebraicGeometry.Chow.ChernClassTwist carries hrankEL for a twist -- the rank \
-multiplicativity of a tensor product has no library presence in the PullbackPreservesRank form \
-the cap products need.  NOT \
-CARRIED, i.e. proved here: Stacks 02SP for the descended operations, \
-firstChernCapStep_eq_add_of_iso_tensorObj, giving c_1(L tensor N) cap - = c_1(L) cap - + c_1(N) \
-cap -, which is absent from this repository before this file; and the degree-one half of the \
-formal computation the source omits, namely that the sum over the lexicographic family of the \
-r*s operations c_1(L_i) + c_1(N_j) is s times the sum of the c_1(L_i) plus r times the sum of the \
-c_1(N_j), proved for every r and every s as sum_range_lexFamily.  Stacks 02TJ is NOT needed for \
-this identity and is NOT carried: sum_range_lexFamily is proved for an arbitrary ring.  It is \
-carried by the degree-two identity chernClassCapExt_tensorObj_two, where it is genuinely \
-needed"]
+`r·s` of the tensor product, and as the two coefficients. Stacks 0FA6 for arbitrary finite
+locally free modules, with no filtration given, is
+`Stacks.Chow.chernClass_tensorObj_one_chowCohomology`. -/
 theorem chernClassCapExt_tensorObj_one
     (hnormE : ∀ (m : ℕ) (hm : m ≤ r),
       chernClassCapExt C p n (E m) m (hrankE m hm) (chernE m) 0 α = cycleClassDegreeZero C p n α)
@@ -1031,7 +996,8 @@ theorem chernClassCapExt_tensorObj_one
   simp only [map_add, map_zsmul]
 
 include hexactE hexactF hexactT in
-/-- **Stacks 0FA6, the second displayed identity, componentwise on cap products.** In the
+/-- **The second displayed identity of Stacks 0FA6 for filtered modules, componentwise on cap
+products.** In the
 situation of `Stacks.Chow.chernClassCapExt_tensorObj_one`, for every `n`-cycle `α`
 
   `c₂(ℰ ⊗ ℱ) ∩ α = s·(c₂(ℰ) ∩ α) + r·(c₂(ℱ) ∩ α) + C(r,2)·(c₁(ℱ) ∩ (c₁(ℱ) ∩ α))
@@ -1047,49 +1013,9 @@ the sum of the first Chern class cap operations of the quotients of the correspo
 which `Stacks.Chow.firstChernCapSum_eq_chernClassCapExt_one` identifies with `c₁ ∩ -`; the inner
 one is the Chern class cap product of Stacks 02U5 itself. Writing the squares this way is forced:
 the cap products of Stacks 02U5 go from cycles to Chow classes, so they cannot be iterated, and
-this development has no bivariant ring in which `c₁(ℱ)²` would be a class. -/
-@[stacks 0FA6 "the second displayed identity, componentwise on cap products, and conditional.  \
-CORRECTION OF FORM: the source states c_2(E tensor F) = r c_2(F) + s c_2(E) + binom(r,2) \
-c_1(F)^2 + (r*s - 1) c_1(F) c_1(E) + binom(s,2) c_1(E)^2 in the bivariant ring A^*(X).  This \
-development has no bivariant ring and no total Chern class, for the reason recorded in the Stacks \
-02UH clause of StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation, \
-so -- exactly \
-as for Stacks 02UJ and Stacks 0FA5, which this result is read on top of -- the identity is stated \
-degree by degree as cap products against a fixed cycle: for every n and every alpha in CycleGroup \
-C p n, c_2(E tensor F) cap alpha = s times (c_2(E) cap alpha) plus r times (c_2(F) cap alpha) \
-plus binom(r,2) times (c_1(F) cap (c_1(F) cap alpha)) plus (r*s - 1) times (c_1(E) cap (c_1(F) \
-cap alpha)) plus binom(s,2) times (c_1(E) cap (c_1(E) cap alpha)) in A_{n-2}(X).  The cross-term \
-coefficient is r*s - 1, as in the source, and NOT r*s.  The five summands appear in a different \
-order from the source's; addition is commutative.  Each squared or mixed term is a COMPOSITE of \
-operations rather than a product of classes, with the outer factor the descended operation \
-firstChernCapSum -- the sum of the Stacks 02TI operations of the quotients of the relevant \
-filtration, identified with c_1 cap - by firstChernCapSum_eq_chernClassCapExt_one -- and the \
-inner factor the Stacks 02U5 cap product itself: the cap products of Stacks 02U5 go from cycles \
-to Chow classes and so cannot be iterated, and there is no ring in which c_1(F)^2 would be a \
-class.  The module on the left is the library's canonical tensor product \
-AlgebraicGeometry.Scheme.Modules.tensorObj of the two bundles, identified with the top of the \
-tensor filtration by the hypothesis hTop.  WHAT IS CARRIED: exactly what \
-chernClassCapExt_tensorObj_one carries, and for the same reasons -- the three filtrations as the \
-towers Stacks 02UJ consumes together with hquot, the source's lexicographic identification \
-M_{i*s+j} iso L_i tensor N_j, because the reduction via Stacks 02UL and the injectivity of pi^* \
-cannot be performed in this repository; the Stacks 02U0 data chern* and normalisations hnorm*; \
-the binomial-transform agreements hbinom* that Stacks 02UD and Stacks 02UG would give; Stacks \
-02TI for c_1 of each quotient as hfac*; and hrankTensor, the rank-preservation of the tensor \
-product in rank r*s, which has no library presence in the PullbackPreservesRank form the cap \
-products need and is carried exactly as StacksFrontier.AlgebraicGeometry.Chow.ChernClassTwist \
-carries hrankEL for a twist.  ADDITIONALLY CARRIED here, and not by the degree-one identity: \
-Stacks \
-02TJ, as hcommLL, hcommNN and hcommLN, the commutativity of the first Chern class cap operations \
-of the quotients.  This repository proves Stacks 02TJ only with Stacks 02TH carried as a \
-hypothesis (Stacks.Chow.firstChernClassCapOnChowOfInvertible_comm) and at a different \
-presentation of the descended operation, so the statement itself is carried.  It is genuinely \
-needed: the source works in a commutative ring, and without commutativity the degree-two \
-elementary symmetric function of the lexicographic family does not collapse -- the cancellation \
-that turns the block-dependent coefficient s*(i+1) - 1 into the constant r*s - 1 is exactly a \
-commutation.  NOT CARRIED, i.e. proved here: Stacks 02SP for the descended operations \
-(firstChernCapStep_eq_add_of_iso_tensorObj), absent from this repository before this file; and \
-the whole of the formal computation the source omits, in degree two and for every r and every s, \
-as esymRec_block_increment, esymRec_two_block and esymRec_two_tensor"]
+the squares are not products in a ring of cap families here. Stacks 0FA6 for arbitrary finite
+locally free modules, with the products those of the Chow cohomology ring `A^*(X)`, is
+`Stacks.Chow.chernClass_tensorObj_two_chowCohomology`. -/
 theorem chernClassCapExt_tensorObj_two
     (hnormE : ∀ (m : ℕ) (hm : m ≤ r),
       chernClassCapExt C p n (E m) m (hrankE m hm) (chernE m) 0 α = cycleClassDegreeZero C p n α)

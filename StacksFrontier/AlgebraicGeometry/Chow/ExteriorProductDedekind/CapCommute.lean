@@ -797,7 +797,9 @@ compared through the canonical isomorphism `Stacks.Chow.mixedCommuteHom`, and in
 `n + (m - q) - 1` and `(n + m - 1) - q`. The source's statement is the case `T = Z`. The exterior
 product is the map of Stacks 0FC4 and `c'` ranges over the whole group `A^q(Y ⟶ Z)` of
 Stacks 0B76. -/
-@[stacks 0FC7]
+@[stacks 0FC7 "α × (c' ∩ β) = c' ∩ (α × β) for every c' ∈ A^q(Y → Z) and every test scheme \
+T → Z (the remark is the case T = Z), over every base as in Section 42.63, with the exterior \
+product of Stacks 0FC4 on the tensor product of Chow groups"]
 theorem exteriorProductDedekindChowTensor_cap_comm {T : Scheme.{u}} (t : T ⟶ Z)
     [LocallyOfFiniteType t] (α : chowGroup C sX n) (β : chowGroup C (t ≫ sZ) m) :
     chowPushforwardOfIso C (pullback.fst sX (pullback.fst w t ≫ (w ≫ sZ)) ≫ sX)

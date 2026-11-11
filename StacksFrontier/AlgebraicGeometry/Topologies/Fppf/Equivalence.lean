@@ -18,6 +18,8 @@ determined by its restriction to affine schemes.
 
 ## Main results
 
+* `AlgebraicGeometry.exists_affineOpens_isStandardFppfCovering`: every fppf covering of an
+  affine scheme is refined by a standard fppf covering by affine opens of its members.
 * `AlgebraicGeometry.exists_standardFppf_refinement`: every covering sieve of an affine
   object is refined by a chosen covering family which is a standard fppf covering.
 * `AlgebraicGeometry.bigAffineFppfInclusion_isCocontinuous`: the inclusion is cocontinuous.
@@ -32,6 +34,7 @@ images `gInv` and `gStar`.
 
 ## References
 
+* [Stacks Project, Tag 021P](https://stacks.math.columbia.edu/tag/021P)
 * [Stacks Project, Tag 021V](https://stacks.math.columbia.edu/tag/021V)
 -/
 
@@ -43,11 +46,70 @@ universe u
 
 namespace AlgebraicGeometry
 
+/-- Every fppf covering `{Tᵢ ⟶ T}` of an affine scheme `T` is refined by a finite fppf covering
+`{Uⱼ ⟶ T}_{j < m}` in which every `Uⱼ` is an affine open subscheme of some `T_{i(j)}`, the map
+`Uⱼ ⟶ T` being the inclusion `Uⱼ ⟶ T_{i(j)}` followed by `T_{i(j)} ⟶ T`; in particular the
+refinement is a standard fppf covering. -/
+@[stacks 021P "finite fppf refinement by affine opens of the members"]
+theorem exists_affineOpens_isStandardFppfCovering {T : Scheme.{u}} [IsAffine T]
+    (𝒰 : T.Cover Scheme.fppfPrecoverage) :
+    ∃ (m : ℕ) (i : Fin m → 𝒰.I₀) (U : ∀ j, (𝒰.X (i j)).affineOpens),
+      Presieve.ofArrows (fun j ↦ (U j : (𝒰.X (i j)).Opens).toScheme)
+          (fun j ↦ (U j : (𝒰.X (i j)).Opens).ι ≫ 𝒰.f (i j)) ∈
+        Scheme.fppfPrecoverage T ∧
+      AlgebraicGeometry.IsStandardFppfCovering
+        (fun j ↦ (U j : (𝒰.X (i j)).Opens).toScheme)
+        (fun j ↦ (U j : (𝒰.X (i j)).Opens).ι ≫ 𝒰.f (i j)) := by
+  classical
+  have h𝒰 := (Scheme.presieve₀_mem_precoverage_iff 𝒰.toPreZeroHypercover).mp 𝒰.mem₀
+  have hP (k : 𝒰.I₀) : Flat (𝒰.f k) ∧ LocallyOfFinitePresentation (𝒰.f k) := h𝒰.2 k
+  choose i y hy using h𝒰.1
+  have hV (x : T) : ∃ V : (𝒰.X (i x)).Opens, IsAffineOpen V ∧ y x ∈ V := by
+    obtain ⟨_, ⟨V : (𝒰.X (i x)).Opens, hV, rfl⟩, hyV, -⟩ :=
+      (𝒰.X (i x)).isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ (y x)) isOpen_univ
+    exact ⟨V, hV, hyV⟩
+  choose V hVaff hyV using hV
+  have hopen (x : T) : IsOpen (𝒰.f (i x) '' (V x : Set (𝒰.X (i x)))) := by
+    obtain ⟨_, _⟩ := hP (i x)
+    exact (𝒰.f (i x)).isOpenMap _ (V x).isOpen
+  have : CompactSpace T := (TopCat.homeoOfIso (asIso T.isoSpec.inv.base)).compactSpace
+  obtain ⟨t, ht⟩ := isCompact_univ.elim_finite_subcover
+    (fun x ↦ 𝒰.f (i x) '' (V x : Set (𝒰.X (i x)))) hopen
+    (fun x _ ↦ Set.mem_iUnion.mpr ⟨x, y x, hyV x, hy x⟩)
+  let e : Fin t.card ≃ t := t.equivFin.symm
+  let ι : Fin t.card → 𝒰.I₀ := fun j ↦ i (e j)
+  let U : ∀ j, (𝒰.X (ι j)).affineOpens := fun j ↦ ⟨V (e j), hVaff (e j)⟩
+  have hsurj (z : T) : ∃ j, ∃ w : (U j : (𝒰.X (ι j)).Opens).toScheme,
+      ((U j : (𝒰.X (ι j)).Opens).ι ≫ 𝒰.f (ι j)) w = z := by
+    obtain ⟨x, hxt, hzx⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ z))
+    obtain ⟨v, hv, rfl⟩ := hzx
+    obtain ⟨j, hj⟩ := e.surjective ⟨x, hxt⟩
+    have hx : (e j : T) = x := by rw [hj]
+    subst hx
+    exact ⟨j, ⟨v, hv⟩, rfl⟩
+  have hstd : AlgebraicGeometry.IsStandardFppfCovering
+      (fun j ↦ (U j : (𝒰.X (ι j)).Opens).toScheme)
+      (fun j ↦ (U j : (𝒰.X (ι j)).Opens).ι ≫ 𝒰.f (ι j)) := by
+    refine ⟨inferInstance, inferInstance, fun j ↦ (U j).2, fun j ↦ ?_, fun j ↦ ?_, ?_⟩
+    · obtain ⟨_, _⟩ := hP (ι j)
+      infer_instance
+    · obtain ⟨_, _⟩ := hP (ι j)
+      have : IsAffine (U j : (𝒰.X (ι j)).Opens).toScheme := (U j).2
+      exact ⟨inferInstance, inferInstance, inferInstance⟩
+    · refine Set.eq_univ_iff_forall.mpr fun z ↦ ?_
+      obtain ⟨j, w, hw⟩ := hsurj z
+      exact Set.mem_iUnion.mpr ⟨j, w, hw⟩
+  refine ⟨t.card, ι, U, ?_, hstd⟩
+  exact (Scheme.presieve₀_mem_precoverage_iff
+    (PreZeroHypercover.mk (Fin t.card) (fun j ↦ (U j : (𝒰.X (ι j)).Opens).toScheme)
+      (fun j ↦ (U j : (𝒰.X (ι j)).Opens).ι ≫ 𝒰.f (ι j)))).mpr
+    ⟨hsurj, fun j ↦ ⟨hstd.flat j, (hstd.finite_presentation j).1⟩⟩
+
 /-- Every covering sieve of an affine object of a big fppf site is refined by a chosen covering
 family which is a standard fppf covering, that is, by a finite family of flat morphisms of finite
-presentation, jointly surjective, whose sources are affine over the affine target. -/
-@[stacks 021P "the finite affine refinement; the tag's further assertion that each member may be
-chosen open affine inside one of the given members is not claimed"]
+presentation, jointly surjective, whose sources are affine over the affine target.  This is the
+form of `AlgebraicGeometry.exists_affineOpens_isStandardFppfCovering` (Stacks 021P) used inside a
+big fppf site. -/
 theorem exists_standardFppf_refinement
     (B : AlgebraicGeometry.BigFppfSite.{u})
     {T : B.Schemes} [IsAffine (B.inclusion.obj T)] {R : Sieve T}

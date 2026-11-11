@@ -26,6 +26,9 @@ their target as a colimit, and cohomology of the limit vanishes when it vanishes
 ## Main definitions
 
 * `AlgebraicGeometry.stalkHigherDirectImageIso` — the first isomorphism, for an abelian sheaf.
+  Its `stacks 03Q9` registration is made by `add_to_stacks` in
+  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/StrictlyHenselianDirectImageStalk.lean`, beside
+  the case of a strictly henselian local base.
 * `AlgebraicGeometry.stalkDerivedPushforwardHomologyIso` — the second, for `K ∈ D⁺(X_étale)`.
 * `AlgebraicGeometry.stalkDerivedPushforwardIso` — the third, in `D⁺(Ab)`.
 * `AlgebraicGeometry.affineNeighborhoodOfGeometricPoint` — a chosen affine open neighbourhood of
@@ -275,10 +278,7 @@ variable (B : BigEtaleSite.{u}) {S : Scheme.{u}} (hS : B.Contains S) {X : Scheme
 `p : X ×_S Spec(𝒪^{sh}_{S,s}) ⟶ X` the projection,
 `(R^n f_* F)_s ≅ H^n_ét(X ×_S Spec(𝒪^{sh}_{S,s}), p⁻¹F)` for every abelian sheaf `F` on `X_étale`
 and every `n`. -/
-@[stacks 03Q9 "first assertion, for an abelian sheaf `F` on `X_étale`: `(R^n f_* F)_s = H^n_ét(X \
-×_S Spec(𝒪^{sh}_{S,s}), p^{-1}F)`, with `R^n` Mathlib's right derived functors of direct image \
-and of global sections on the small étale sites; the strict henselization is taken inside a big \
-étale site `B` containing `S`", sga "4 IX 4.1.1" "more general"]
+@[sga "4 IX 4.1.1" "more general"]
 def stalkHigherDirectImageIso (F : Sheaf (smallEtaleTopology X) Ab.{u + 1}) (n : ℕ) :
     (smallEtaleStalkAb s.hom).obj (((smallEtalePushforwardAb f).rightDerived n).obj F) ≅
       ((Sheaf.Γ (smallEtaleTopology (strictHenselizationBaseChange B hS f s))

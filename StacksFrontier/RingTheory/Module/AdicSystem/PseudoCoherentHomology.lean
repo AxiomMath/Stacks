@@ -39,7 +39,9 @@ There are no new definitions.
 ## Main results
 
 * `pseudoCoherent_mittagLeffler_and_adicCompletion_iso_limit_derivedReduction`:
-  the Kollár--Kovács Mittag--Leffler and completion theorem for a pseudo-coherent object.
+  the Mittag--Leffler property and an abstract completion isomorphism for a pseudo-coherent
+  object. The canonical form of Stacks 0EGV is in
+  `StacksFrontier.RingTheory.Module.AdicSystem.DerivedReductionCompletion`.
 
 ## Implementation notes
 
@@ -369,11 +371,15 @@ open CategoryTheory.MonoidalCategory HomologicalComplex
 
 set_option backward.isDefEq.respectTransparency false
 
-/-- **Stacks 0EGV (Kollár--Kovács).** If `K` is a pseudo-coherent object of `D(A)` for a
-Noetherian ring `A`, then in every degree the cohomology of its reductions modulo the positive
-powers of `I` is Mittag--Leffler, and its inverse limit is the `I`-adic completion of the
-cohomology of `K`. -/
-@[stacks 0EGV]
+/-- **Mittag--Leffler and an abstract completion isomorphism for a pseudo-coherent object.** If
+`K` is a pseudo-coherent object of `D(A)` for a Noetherian ring `A`, then in every degree the
+cohomology of its reductions modulo the positive powers of `I` is Mittag--Leffler, and its inverse
+limit is isomorphic to the `I`-adic completion of the cohomology of `K`.
+
+The second conjunct only asserts that some isomorphism exists. Stacks 0EGV asserts the canonical
+identification, induced by the reduction maps `K ⟶ K ⊗ᴸ[A] A/Iⁿ`; that statement is
+`pseudoCoherent_mittagLeffler_and_isIso_adicCompletionToLimitDerivedReduction` in
+`StacksFrontier.RingTheory.Module.AdicSystem.DerivedReductionCompletion`. -/
 theorem pseudoCoherent_mittagLeffler_and_adicCompletion_iso_limit_derivedReduction
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     (K : DerivedCategory (ModuleCat.{u} A))

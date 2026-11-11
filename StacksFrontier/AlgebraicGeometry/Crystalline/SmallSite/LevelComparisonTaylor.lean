@@ -74,7 +74,7 @@ Everything is in the namespace `Crystalline.GlobalCrystallineSituation.SmallSite
 **No `@[stacks]` attribute is placed in this module.**  [Stacks, Tag 07JG],
 [Stacks, Proposition 60.17.4, Tag 07JH] and [Stacks, Proposition 60.21.3, Tag 07LG] are
 `...SmallSite.crystalPairFunctor`, `...SmallSite.crystalPairFunctor_isEquivalence` and
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology`, built directly from the whole-space
+`...SmallSite.crystalPairDeRhamDerivedPlusIso`, built directly from the whole-space
 system and not through the level datum of this module.
 In particular `...SmallSite.levelComparison07JGWholeSpaceOfTaylor` still consumes hypotheses, so
 it produces no term of `...SmallSite.LevelReduction07JG` and no term of

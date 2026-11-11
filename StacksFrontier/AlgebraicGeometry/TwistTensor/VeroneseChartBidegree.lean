@@ -9,8 +9,11 @@ public import StacksFrontier.AlgebraicGeometry.SectionRingVeroneseChart.IntegerD
 # The twist leg of the Veronese-chart comparison, pulled back to `X`
 
 `Stacks.SectionRingVeroneseChart.twistComparisonIso` is a composite of five isomorphisms, and the
-multiplicativity of each of the five in an arbitrary integer bidegree is what makes Situation
-[Stacks, Tag 01QH]'s map a map of `ℤ`-graded `𝒪_X`-algebras rather than a degreewise family.
+multiplicativity of each of the five in an arbitrary integer bidegree is what makes its forward
+map `twistComparison` a map of `ℤ`-graded `𝒪_X`-algebras rather than a degreewise family.  (The
+map of Situation [Stacks, Tag 01QH] itself is Tag 01NK's `θ`,
+`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`; `twistComparison` is not proved equal to
+it.)
 Three of the five already have their integer-bidegree square — the twist leg on `W₁`
 (`Stacks.AlgebraicGeometry.GoodOpenIntTwist.theta_mul`), the pullback leg
 (`Stacks.AlgebraicGeometry.PullbackTensorPowInt.pullbackTensorPowModuleIntIso_mul`) and the
@@ -49,7 +52,7 @@ makes it a retyping rather than a new chase.
 `StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean`.**  The first
 structural leg's square is `Stacks.SectionRingVeroneseChart.pbTwistIsoGood_mul` and the pasting of
 the five is `Stacks.SectionRingVeroneseChart.twistComparison_mul_aux`, whence
-`Stacks.SectionRingVeroneseChart.twistComparison_mul`: Situation [Stacks, Tag 01QH]'s map is
+`Stacks.SectionRingVeroneseChart.twistComparison_mul`: `twistComparison` is
 multiplicative in an arbitrary integer bidegree.  Two mechanical obstacles arise; they are
 resolved as follows, as that file's implementation notes record.
 

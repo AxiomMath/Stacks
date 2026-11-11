@@ -46,7 +46,9 @@ topoi.
 * `AlgebraicGeometry.RingedSite.Hom.forgetFSharp_ringedToposHom`: on underlying sheaves of sets
   the structure map of `ringedToposHom` is the structure map of the morphism of ringed sites.
 * `AlgebraicGeometry.RingedSite.Hom.overPullback_comp_localizedPushforward`: the last assertion
-  of Stacks 04J0, `f'_* j_U^{-1} = j_V^{-1} f_*`, for the assembled morphism.
+  of Stacks 04J0, `f'_* j_U^{-1} = j_V^{-1} f_*`, for the assembled morphism. Its companion on
+  sheaves of modules, `f'_* j_U^* = j_V^* f_*`, is
+  `Stacks.Cohomology.Localization.pushforwardTopos_comp_overFunctor`.
 * `AlgebraicGeometry.RingedSite.Hom.localizedRingedSquare`: Stacks 04J0's commutative diagram of
   ringed topoi, as a 2-isomorphism of the two composites.
 
@@ -314,8 +316,14 @@ theorem Hom.unit_localizedRingedSquareComparison (V : Y.C) :
        | f'                     | f
   (Sh(D/V), O'_V)  --j_V-->  (Sh(D), O')
 ```
-commutes, as a square of ringed topoi. -/
-@[stacks 04J0 "(2): the commutative diagram of ringed topoi"]
+commutes, as a square of ringed topoi: the two composites `j_V ∘ f'` and `f ∘ j_U` are
+2-isomorphic in the sense of Stacks 04IC, which is what Stacks means by a commutative diagram of
+ringed topoi. The 2-isomorphism is an isomorphism of the two direct images (from Stacks 03CF's
+clause (b)) carrying the structure map of `j_V ∘ f'` to that of `f ∘ j_U`, where `j_U♯` and `j_V♯`
+are the units of `j^{-1} ⊣ j_*` at the structure sheaves and `(f')♯` is the structure map of
+`localizedRingedToposHom`. No hypothesis beyond `f` being a morphism of ringed sites is used. -/
+@[stacks 04J0 "(2): the commutative diagram of ringed topoi `(f, f♯) ∘ (j_U, j_U♯) ≅
+  (j_V, j_V♯) ∘ (f', (f')♯)`, as a 2-isomorphism of ringed topoi"]
 noncomputable def Hom.localizedRingedSquare (V : Y.C) :
     AlgebraicGeometry.RingedToposHom.TwoIso
       (A := ringedTopos (X.over (f.u.obj V))) (B := ringedTopos Y)

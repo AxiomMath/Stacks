@@ -45,11 +45,13 @@ vanishes for formal reasons, and the positive half is the substance.
 **One hypothesis is carried: `h02V7`.** It is the residue of [Stacks, Tag 02V7] at fibre
 dimension one, and it is a statement about *every* proper morphism onto an affine base all of
 whose fibres have dimension at most one — not about `f`. It is instantiated at `f` inside the
-proof. [Stacks, Tag 02V7] is a different result, genuinely absent from this development: its
-proof needs Grothendieck vanishing on the fibre ([Stacks, Tag 02UZ], available as
-`Stacks.CohomologyVanishing.subsingleton_sheafCohomology_of_noetherianSpace_of_dim_le`)
-*together with* the theorem on formal functions ([Stacks, Tag 02OD]) and the coherence of the
-higher direct images of a proper morphism ([Stacks, Tag 02O5]), neither of which is available.
+proof. [Stacks, Tag 02V7] itself is proved in this development, in
+`StacksFrontier/AlgebraicGeometry/HigherDirectImageFibreDimension/GeneralDimension.lean`; what
+`h02V7` asks for beyond it is an arbitrary, possibly non-Noetherian, affine base. The
+unconditional form of [Stacks, Tag 0B4X], which uses the Noetherian base of the situation and
+carries no hypothesis, is
+`AlgebraicGeometry.RationalSingularitySituation.isZero_cohomology_of_isQuasicoherent` of
+`QuasicoherentCohomologyExtra.lean` in this directory, where the tag is registered.
 
 ## References
 
@@ -75,8 +77,9 @@ variable (S : RationalSingularitySituation.{u})
 
 attribute [local instance] HasDerivedCategory.standard
 
-/-- **[Stacks, Tag 0B4X] clause (1).** In Situation [Stacks, Tag 0B4W], the cohomology of a
-quasi-coherent `𝒪_X`-module vanishes in every degree outside `{0, 1}`.
+/-- Clause (1) of [Stacks, Tag 0B4X], under the hypothesis `h02V7`. In Situation
+[Stacks, Tag 0B4W], the cohomology of a quasi-coherent `𝒪_X`-module vanishes in every degree
+outside `{0, 1}`.
 
 Above degree one this is part (3) of [Stacks, Tag 0E7H] at the modification `f`, whose target is
 affine and which is proper; the fibre-dimension bound it needs is
@@ -85,8 +88,6 @@ formal reasons.
 
 The hypothesis `h02V7` is the residue of [Stacks, Tag 02V7] at fibre dimension one, quantified
 over all proper morphisms onto an affine base with one-dimensional fibres. -/
-@[stacks 0B4X "clause (1); the residue of Tag 02V7 at fibre dimension one, quantified over all \
-proper morphisms onto an affine base, is the hypothesis h02V7"]
 theorem isZero_cohomology_of_notMem_zero_one (h02V7 : CohomologyVanishesAboveOne.{u})
     (F : S.X.Modules) [F.IsQuasicoherent] (p : ℤ) (hp : p ∉ ({0, 1} : Set ℤ)) :
     IsZero (((moduleGlobalSections S.X).rightDerivedPlus p).obj F) := by
@@ -98,8 +99,9 @@ theorem isZero_cohomology_of_notMem_zero_one (h02V7 : CohomologyVanishesAboveOne
   · exact S.isZero_cohomology_of_one_lt h02V7 S.topologicalKrullDim_fiber_le_natCast_one F p
       (by omega)
 
-/-- **[Stacks, Tag 0B4X] clause (2).** In Situation [Stacks, Tag 0B4W], a globally generated
-quasi-coherent `𝒪_X`-module has vanishing first cohomology.
+/-- Clause (2) of [Stacks, Tag 0B4X], under the hypothesis `h02V7`. In Situation
+[Stacks, Tag 0B4W], a globally generated quasi-coherent `𝒪_X`-module has vanishing first
+cohomology.
 
 From the presentation `⨁_{i ∈ I} 𝒪_X ⟶ ℱ` given by the global generators, clause (1) kills `H²`
 of the relations and hence makes `H¹(⨁_{i ∈ I} 𝒪_X) ⟶ H¹(ℱ)` surjective, while
@@ -108,8 +110,6 @@ of the relations and hence makes `H¹(⨁_{i ∈ I} 𝒪_X) ⟶ H¹(ℱ)` surjec
 the source.
 
 The hypothesis `h02V7` is as in clause (1). -/
-@[stacks 0B4X "clause (2); the residue of Tag 02V7 at fibre dimension one, quantified over all \
-proper morphisms onto an affine base, is the hypothesis h02V7"]
 theorem isZero_cohomology_one_of_globallyGenerated (h02V7 : CohomologyVanishesAboveOne.{u})
     (F : S.X.Modules) [F.IsQuasicoherent] (σ : SheafOfModules.GeneratingSections F) :
     IsZero (((moduleGlobalSections S.X).rightDerivedPlus 1).obj F) :=

@@ -490,12 +490,14 @@ section LevelRetract
 variable (s : AffineCrystallineSituation.{u, v})
 variable {P P' : Type u} [CommRing P] [Algebra s.A P] [CommRing P'] [Algebra s.A P']
 
-/-- **The retract of [Stacks, Tag 07L5] at every finite level of the `p`-adic tower.**
+/-- **The retract of [Stacks, Tag 07L5] at every finite level of the `p`-adic tower**, for a
+presentation with the strong lifting property of [Stacks, Tag 07K4].
 
-Let `A → P' → C` be a smooth presentation in the affine situation of [Stacks, Tag 07MD] and
-let `q : P ↠ P'` be any surjection of `A`-algebras, so that `A → P → C` is a second
-presentation.  Write `D = D_{P, γ}(J)` and `D' = D_{P', γ}(J')` for the two divided power
-envelopes.
+Let `A → P' → C` be a presentation in the affine situation of [Stacks, Tag 07MD] such that
+`P'/A` has the strong lifting property (`Algebra.HasStrongLiftingProperty`; a smooth `P'` has it,
+which is the case of [Stacks, Tag 07L5]) and let `q : P ↠ P'` be any surjection of
+`A`-algebras, so that `A → P → C` is a second presentation.  Write `D = D_{P, γ}(J)` and
+`D' = D_{P', γ}(J')` for the two divided power envelopes.
 
 Then the canonical map `ρ : D → D'` of [Stacks, Tag 07HB] is surjective, the divided power
 ideal `I_D` is the **full preimage** of `I_{D'}` under it, and for every level `e` at which the
@@ -519,8 +521,8 @@ endomorphism `b ∘ a` of `D̂`, through
 `Crystalline.map_algebraMap_comp_of_retract`: the preimage property makes the map induced by `a`
 on the augmentation targets injective, and the compatibility of `θ_e` with `A` is what makes `b`
 a map over `A` in the limit. -/
-public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' →ₐ[s.A] s.C)
-    [Algebra.Smooth (s.A : Type u) P']
+public theorem exists_compatible_levelRetract_of_hasStrongLiftingProperty (q : P →ₐ[s.A] P')
+    (f' : P' →ₐ[s.A] s.C) (hSLP : Algebra.HasStrongLiftingProperty (s.A : Type u) P')
     (hq : Function.Surjective q) (hf' : Function.Surjective f') :
     ∃ ρ : DividedPowers.DPMorphism
         (presentationEnvelope s (f'.comp q)).object.dividedPowers
@@ -562,8 +564,6 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
                         (A := (presentationEnvelope s (f'.comp q)).object) s.p ^ e)).comp
                     (presentationEnvelope s (f'.comp q)).structureMap.toRingHom := by
   classical
-  have hSLP : Algebra.HasStrongLiftingProperty (s.A : Type u) P' :=
-    Algebra.HasStrongLiftingProperty.of_smooth _ _
   set f : P →ₐ[s.A] s.C := f'.comp q with hf
   have hfsurj : Function.Surjective f := by
     intro y
@@ -829,6 +829,56 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
       (hθcompat m e (hNn₀.trans hm) (hN'n₀.trans hm) (hNn₀.trans he) (hN'n₀.trans he) hme)
   · exact congrArg DividedPowers.DPMorphism.toRingHom
       (hθstruct e (hNn₀.trans he) (hN'n₀.trans he))
+
+/-- **The retract of [Stacks, Tag 07L5] at every finite level of the `p`-adic tower**, for a
+smooth presentation `A → P' → C`: the smooth instance of
+`Crystalline.exists_compatible_levelRetract_of_hasStrongLiftingProperty`, smoothness entering only
+through the strong lifting property of [Stacks, Tag 07K4]
+(`Algebra.HasStrongLiftingProperty.of_smooth`). -/
+public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' →ₐ[s.A] s.C)
+    [Algebra.Smooth (s.A : Type u) P']
+    (hq : Function.Surjective q) (hf' : Function.Surjective f') :
+    ∃ ρ : DividedPowers.DPMorphism
+        (presentationEnvelope s (f'.comp q)).object.dividedPowers
+        (presentationEnvelope s f').object.dividedPowers,
+      ρ.comp (presentationEnvelope s (f'.comp q)).structureMap =
+          (presentationEnvelope s f').structureMap ∧
+        ρ.toRingHom.comp (presentationEnvelope s (f'.comp q)).algebraMap.toRingHom =
+          (presentationEnvelope s f').algebraMap.toRingHom.comp q.toRingHom ∧
+        Function.Surjective ρ ∧
+        (∀ u : (presentationEnvelope s (f'.comp q)).object,
+          ρ u ∈ (presentationEnvelope s f').object.ideal →
+            u ∈ (presentationEnvelope s (f'.comp q)).object.ideal) ∧
+        ∃ (N : ℕ) (hlev : ∀ e, N ≤ e →
+            pAdicIdeal (A := (presentationEnvelope s (f'.comp q)).object) s.p ^ e ≤
+                (presentationEnvelope s (f'.comp q)).object.ideal ∧
+              (presentationEnvelope s (f'.comp q)).object.dividedPowers.IsSubDPIdeal
+                (pAdicIdeal (A := (presentationEnvelope s (f'.comp q)).object) s.p ^ e)),
+          ∃ θ : ∀ (e : ℕ) (he : N ≤ e), DividedPowers.DPMorphism
+              (presentationEnvelope s f').object.dividedPowers
+              (DividedPowers.quotientDividedPowers
+                (presentationEnvelope s (f'.comp q)).object.ideal
+                (presentationEnvelope s (f'.comp q)).object.dividedPowers s.p e
+                (hlev e he).1 (hlev e he).2),
+            (∀ e (he : N ≤ e),
+              (Ideal.quotientMap
+                  (pAdicIdeal (A := (presentationEnvelope s f').object) s.p ^ e) ρ.toRingHom
+                  (levelPAdicIdeal_pow_le_comap ρ.toRingHom s.p e)).comp (θ e he).toRingHom =
+                Ideal.Quotient.mk
+                  (pAdicIdeal (A := (presentationEnvelope s f').object) s.p ^ e)) ∧
+              (∀ (m e : ℕ) (hm : N ≤ m) (he : N ≤ e) (hme : m ≤ e),
+                (Ideal.Quotient.factor (Ideal.pow_le_pow_right
+                    (I := pAdicIdeal
+                      (A := (presentationEnvelope s (f'.comp q)).object) s.p) hme)).comp
+                  (θ e he).toRingHom = (θ m hm).toRingHom) ∧
+              ∀ (e : ℕ) (he : N ≤ e),
+                (θ e he).toRingHom.comp (presentationEnvelope s f').structureMap.toRingHom =
+                  (Ideal.Quotient.mk
+                      (pAdicIdeal
+                        (A := (presentationEnvelope s (f'.comp q)).object) s.p ^ e)).comp
+                    (presentationEnvelope s (f'.comp q)).structureMap.toRingHom :=
+  exists_compatible_levelRetract_of_hasStrongLiftingProperty s q f'
+    (Algebra.HasStrongLiftingProperty.of_smooth _ _) hq hf'
 
 end LevelRetract
 
@@ -1161,9 +1211,12 @@ section CompletedRetract
 variable (s : AffineCrystallineSituation.{u, v})
 variable {P P' : Type u} [CommRing P] [Algebra s.A P] [CommRing P'] [Algebra s.A P']
 
-/-- **The retract of [Stacks, Lemma 60.17.5, Tag 07L5] between the `p`-adic completions.**
+/-- **The retract of [Stacks, Lemma 60.17.5, Tag 07L5] between the `p`-adic completions**, for a
+presentation with the strong lifting property of [Stacks, Tag 07K4].
 
-Let `A → P' → C` be a smooth presentation in the affine situation of [Stacks, Tag 07MD] and let
+Let `A → P' → C` be a presentation in the affine situation of [Stacks, Tag 07MD] such that
+`P'/A` has the strong lifting property (`Algebra.HasStrongLiftingProperty`; a smooth `P'` has it)
+and let
 `q : P ↠ P'` be any surjection of `A`-algebras, so that `A → P → C` is a second presentation.
 Write `D = D_{P, γ}(J)` and `D' = D_{P', γ}(J')` for the two divided power envelopes and `D̂`,
 `D̂'` for their `p`-adic completions.
@@ -1197,8 +1250,8 @@ the proof of [Stacks, Proposition 60.17.4, Tag 07JH] and then says "It remains t
 this map is horizontal, i.e., compatible with connections, which we omit."  That horizontality
 is `Crystalline.nabla_taylorSum_eq`.  The equivalence itself is
 `Crystalline.exists_presentation_retract_pairEquivalence`. -/
-public theorem exists_completedEnvelopeRetract (q : P →ₐ[s.A] P') (f' : P' →ₐ[s.A] s.C)
-    [Algebra.Smooth (s.A : Type u) P']
+public theorem exists_completedEnvelopeRetract_of_hasStrongLiftingProperty (q : P →ₐ[s.A] P')
+    (f' : P' →ₐ[s.A] s.C) (hSLP : Algebra.HasStrongLiftingProperty (s.A : Type u) P')
     (hq : Function.Surjective q) (hf' : Function.Surjective f') :
     ∃ ρ : DividedPowers.DPMorphism
         (presentationEnvelope s (f'.comp q)).object.dividedPowers
@@ -1237,7 +1290,7 @@ public theorem exists_completedEnvelopeRetract (q : P →ₐ[s.A] P') (f' : P' �
                   ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom x) := by
   classical
   obtain ⟨ρ, hρstruct, hρalg, hρsurj, hρpre, N, hlev, θ, hsplit, hcompat, hθstruct⟩ :=
-    exists_compatible_levelRetract s q f' hq hf'
+    exists_compatible_levelRetract_of_hasStrongLiftingProperty s q f' hSLP hq hf'
   refine ⟨ρ, hρstruct, hρalg, hρsurj, hρpre, ?_⟩
   let : Algebra (DividedPowers.IntegersAtPrime s.p)
       ((presentationEnvelope s (f'.comp q)).object : Type u) :=
@@ -1260,6 +1313,52 @@ public theorem exists_completedEnvelopeRetract (q : P →ₐ[s.A] P') (f' : P' �
   exact (DFunLike.congr_fun (hθstruct e he) x).trans
     (AdicCompletion.evalₐ_of
       (pAdicIdeal (A := (presentationEnvelope s (f'.comp q)).object) s.p) e _).symm
+
+/-- **The retract of the first assertion of [Stacks, Lemma 60.17.5, Tag 07L5] between the
+`p`-adic completions**, for a smooth presentation `A → P' → C`: the smooth instance of
+`Crystalline.exists_completedEnvelopeRetract_of_hasStrongLiftingProperty`, smoothness entering
+only through the strong lifting property of [Stacks, Tag 07K4]
+(`Algebra.HasStrongLiftingProperty.of_smooth`). -/
+public theorem exists_completedEnvelopeRetract (q : P →ₐ[s.A] P') (f' : P' →ₐ[s.A] s.C)
+    [Algebra.Smooth (s.A : Type u) P']
+    (hq : Function.Surjective q) (hf' : Function.Surjective f') :
+    ∃ ρ : DividedPowers.DPMorphism
+        (presentationEnvelope s (f'.comp q)).object.dividedPowers
+        (presentationEnvelope s f').object.dividedPowers,
+      ρ.comp (presentationEnvelope s (f'.comp q)).structureMap =
+          (presentationEnvelope s f').structureMap ∧
+        ρ.toRingHom.comp (presentationEnvelope s (f'.comp q)).algebraMap.toRingHom =
+            (presentationEnvelope s f').algebraMap.toRingHom.comp q.toRingHom ∧
+          Function.Surjective ρ ∧
+          (∀ u : (presentationEnvelope s (f'.comp q)).object,
+            ρ u ∈ (presentationEnvelope s f').object.ideal →
+              u ∈ (presentationEnvelope s (f'.comp q)).object.ideal) ∧
+          ∃ (a : (DividedPowers.completedDividedPowers
+                (presentationEnvelope s (f'.comp q)).object.ideal
+                (presentationEnvelope s (f'.comp q)).object.dividedPowers s.p
+                (presentationEnvelope_prime_nilpotent s (f'.comp q) (hf'.comp hq))).1.DPMorphism
+              (DividedPowers.completedDividedPowers
+                (presentationEnvelope s f').object.ideal
+                (presentationEnvelope s f').object.dividedPowers s.p
+                (presentationEnvelope_prime_nilpotent s f' hf')).1)
+            (b : (DividedPowers.completedDividedPowers
+                (presentationEnvelope s f').object.ideal
+                (presentationEnvelope s f').object.dividedPowers s.p
+                (presentationEnvelope_prime_nilpotent s f' hf')).1.DPMorphism
+              (DividedPowers.completedDividedPowers
+                (presentationEnvelope s (f'.comp q)).object.ideal
+                (presentationEnvelope s (f'.comp q)).object.dividedPowers s.p
+                (presentationEnvelope_prime_nilpotent s (f'.comp q)
+                  (hf'.comp hq))).1),
+            a.comp b = DividedPowers.DPMorphism.id _ ∧
+              (∀ x : (presentationEnvelope s (f'.comp q)).object,
+                a.toRingHom (algebraMap _ _ x) = algebraMap _ _ (ρ.toRingHom x)) ∧
+              ∀ x : (s.A : Type u), b.toRingHom
+                  (algebraMap _ _ ((presentationEnvelope s f').structureMap.toRingHom x)) =
+                algebraMap _ _
+                  ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom x) :=
+  exists_completedEnvelopeRetract_of_hasStrongLiftingProperty s q f'
+    (Algebra.HasStrongLiftingProperty.of_smooth _ _) hq hf'
 
 end CompletedRetract
 

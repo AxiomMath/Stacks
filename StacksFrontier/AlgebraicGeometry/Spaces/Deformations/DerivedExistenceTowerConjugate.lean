@@ -21,14 +21,14 @@ derived direct images and the conjugate of the derived pullback compositor.
 * `AlgebraicGeometry.Space.map_homEquiv_comp_hom_app_of_conjugateEquiv`: abstractly, a composite
   `Rg'(φ^♯) ≫ P` with `P⁻¹` the conjugate of `e` along transported adjunctions, read through the
   untransported ones.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.conjugateEquiv_stageDerivedPullbackCompIso_hom`:
+* `SeparatedDerivedExistenceSystem.conjugateEquiv_stageDerivedPullbackCompIso_hom`:
   along `Ljₙ^* ⊣ Rjₙ,*` and `Ljₙ₊₁^* ⋙ Liₙ^* ⊣ Riₙ,* ⋙ Rjₙ₊₁,*`, the conjugate of
   `Ljₙ₊₁^* ⋙ Liₙ^* ≅ Ljₙ^*` is the inverse of `Riₙ,* ⋙ Rjₙ₊₁,* ≅ Rjₙ,*`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.towerMap_eq`: the transition map
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.towerMap_eq`: the transition map
   `Rjₙ₊₁,* Kₙ₊₁ ⟶ Rjₙ,* Kₙ` is the ringed-topos `Rjₙ₊₁,*` of the adjoint of `φₙ` followed by the
   conjugate of `Ljₙ^* ≅ Liₙ^* Ljₙ₊₁^*`, read through the identifications of the two direct images.
-* `Space.DerivedExistenceSystem.stageToposDerivedPushforward_eq`,
-  `Space.DerivedExistenceSystem.conjugateEquiv_stageDerivedPullbackCompIso_inv_eq`:
+* `Space.SeparatedDerivedExistenceSystem.stageToposDerivedPushforward_eq`,
+  `Space.SeparatedDerivedExistenceSystem.conjugateEquiv_stageDerivedPullbackCompIso_inv_eq`:
   the functor and the conjugate of `towerMap_eq` expressed through
   `AlgebraicGeometry.Space.derivedModulePushforward` and
   `AlgebraicGeometry.Space.smallEtaleDerivedModuleAdjunction`.
@@ -99,9 +99,9 @@ theorem map_homEquiv_comp_hom_app_of_conjugateEquiv {A B C : Type*} [Category* A
 
 end Abstract
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **The two composition isomorphisms of the tower of Situation 0DIK are conjugate**: along
 `Ljₙ^* ⊣ Rjₙ,*` and the composite `Ljₙ₊₁^* ⋙ Liₙ^* ⊣ Riₙ,* ⋙ Rjₙ₊₁,*`, the conjugate of
@@ -120,14 +120,16 @@ theorem conjugateEquiv_stageDerivedPullbackCompIso_hom (n : ℕ) :
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   have := D.preservesFiniteColimits_toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedTransitionSpace n)
+    ((isClosedImmersion_transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   have hj (m : ℕ) : PreservesFiniteLimits (D.toposPushforward
         (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X m)) ∧
       PreservesFiniteColimits (D.toposPushforward
         (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X m)) :=
     ⟨D.preservesFiniteLimits_toposPushforward _,
       D.preservesFiniteColimits_toposPushforward _
-        (D.toDerivedExistenceSituation.closedSpaceProjection m)⟩
+        ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective m))⟩
   have hr (m : ℕ) :=
     haveI := (hj m).1
     haveI := (hj m).2
@@ -219,7 +221,7 @@ theorem conjugateEquiv_stageDerivedPullbackCompIso_inv_eq (n : ℕ) :
             D.containsBaseAt D.X n)).inv :=
   rfl
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

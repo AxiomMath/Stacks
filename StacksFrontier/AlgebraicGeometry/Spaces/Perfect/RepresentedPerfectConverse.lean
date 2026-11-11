@@ -229,7 +229,8 @@ attribute [local instance 10000] SmallEtale.hasSheafify_smallEtale
   smallEtaleRingedSite_wEqualsLocallyBijective smallEtaleRingedSite_hasSheafify_over
   smallEtaleRingedSite_wEqualsLocallyBijective_over
 
-attribute [local instance 10000] modulesAbelianAtSchemeUniverse modulesHasDerivedCategory
+attribute [local instance 10000] smallEtaleModulesAbelianAtSchemeUniverse
+  smallEtaleModulesHasDerivedCategory
 
 attribute [local instance] etaleModulePullback_additive preservesFiniteLimits_etaleModulePullback
   preservesFiniteColimits_etaleModulePullback

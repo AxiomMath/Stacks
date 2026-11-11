@@ -97,29 +97,17 @@ theorem flatPullback_primeCycle (K : Type u) [Field K] {X Y : Scheme.{u}}
 
 /-! ### The whole of Stacks 0B0Y -/
 
-/-- **Stacks Project, Tag 0B0Y.** Let `f : X ⟶ Y` be a flat morphism of nonsingular varieties
-over an algebraically closed field `K` — the chapter's convention, Tag 0AZ8 — and set
+/-- **Stacks 0B0Y when `r + s ≥ dim Y`.** Let `f : X ⟶ Y` be a flat morphism of nonsingular
+varieties over an algebraically closed field `K` — the chapter's convention, Tag 0AZ8 — and set
 `e = dim X - dim Y`. Let `ℱ` and `𝒢` be coherent sheaves on `Y` with
 `dim Supp ℱ ≤ r`, `dim Supp 𝒢 ≤ s` and `dim(Supp ℱ ∩ Supp 𝒢) ≤ r + s - dim Y`. Then the cycles
 `[f^*ℱ]_{r+e}` and `[f^*𝒢]_{s+e}` intersect properly and
 
 `f^*([ℱ]_r · [𝒢]_s) = [f^*ℱ]_{r+e} · [f^*𝒢]_{s+e}`.
 
-`WithBot ℕ∞` has no subtraction, so `n = r + s - dim Y` is the relation `r + s = dim Y + n`. -/
-@[stacks 0B0Y "the whole lemma in the case `r + s ≥ dim Y`, the expected dimension being a \
-natural number `n`; every case, `r + s < dim Y` included, is \
-`flatPullback_coherentSheafCycleProduct_integerDimension`. Here: both that `[f^*ℱ]_{r+e}` and \
-`[f^*𝒢]_{s+e}` intersect properly \
-and the identity `f^*([ℱ]_r · [𝒢]_s) = [f^*ℱ]_{r+e} · [f^*𝒢]_{s+e}`, for a flat morphism of \
-nonsingular varieties over an algebraically closed field — the chapter's own convention, Tag \
-0AZ8 — under the source's own three dimension bounds on `Supp ℱ`, `Supp 𝒢` and their \
-intersection. `WithBot ℕ∞` has no subtraction, so `n = r + s - dim Y` is the relation \
-`r + s = dim Y + n`. Both products are the Section 43.17 product of cycles \
-`AlgebraicGeometry.TorFormula.torFormulaCycleIntersectionProduct` (Tag 0B08), so this is the \
-source's statement and not merely its Tor-sheaf shadow: the passage between the two is Tag \
-0B0W, applied downstairs and upstairs. The flat pullback of the alternating sum of Tor cycles, \
-which is the other half of the source's proof, is \
-`Stacks.Intersection.FlatPullback.flatPullback_intersectionProductCycleGroup_eq_pullbackSheaves`."]
+`WithBot ℕ∞` has no subtraction, so `n = r + s - dim Y` is the relation `r + s = dim Y + n`, and
+the natural number `n` covers the case `r + s ≥ dim Y`. Every case, `r + s < dim Y` included, is
+`Stacks.Intersection.CycleFlatPullback.flatPullback_coherentSheafCycleProduct_integerDimension`. -/
 theorem flatPullback_coherentSheafCycleProduct (K : Type u) [Field K] [IsAlgClosed K]
     {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of K)) (sY : Y ⟶ Spec (.of K))
     [IsVariety K sX] [IsVariety K sY] (hX : AlgebraicGeometry.IsRegular X)

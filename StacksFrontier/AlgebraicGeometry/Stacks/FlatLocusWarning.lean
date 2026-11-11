@@ -69,19 +69,22 @@ set exactly when the set is open — which is a theorem under local finite prese
 
 ## Implementation notes
 
-**Stacks 06M4** asserts no proposition of its own; it warns about how a lemma reads at a
-particular triple of properties. As for other tags of this kind, it is formalized as
-the statements it introduces. There are two, and they are separated here.
+The full statement of **Stacks 06M4** — that **Stacks 06M3** applies at this triple, all four
+of its hypotheses, together with the warning — is
+`AlgebraicGeometry.Stack.localSourceLemmaHypotheses_flat_and_maximalFlatOpen_ne_flatLocus` in
+`StacksFrontier/AlgebraicGeometry/Stacks/MaximalFlatOpenBaseChange.lean`, which carries the tag.
+This file provides its ingredients for hypothesis (3) and for the warning.
 
 *The instantiation.* That **Stacks 06M3** applies at this triple is the conjunction of its
 four hypotheses. Hypothesis (1) and hypothesis (2) are already in the library — flatness and
 local finite presentation are stable under base change and fppf local on the target, and
 `AlgebraicGeometry.Space.isFlat_of_isSmooth` together with
-`AlgebraicGeometry.Space.isLocallyOfFinitePresentation_of_isSmooth` is `smooth ⇒ R` — so they
-are not restated. Hypothesis (3), the existence of the largest flat open on the source, is
-what this file proves, and it is also the object the warning is about. Hypothesis (4),
-compatibility of that open with base change along a morphism which is flat and locally of
-finite presentation, is **not** proved here and no hypothesis is carried for it; see below.
+`AlgebraicGeometry.Space.isLocallyOfFinitePresentation_of_isSmooth` is `smooth ⇒ R`. Hypothesis
+(3), the existence of the largest flat open on the source, is what this file proves, and it is
+also the object the warning is about. Hypothesis (4), compatibility of that open with base
+change along a morphism which is flat and locally of finite presentation, is
+`AlgebraicGeometry.Space.maximalFlatOpen_eq_preimage_of_isPullback` in
+`StacksFrontier/AlgebraicGeometry/Stacks/MaximalFlatOpenBaseChange.lean`.
 
 *The warning.* Read literally — "the largest open `W ⊂ X` such that `f|_W` is flat is not the
 set of points where `f` is flat" — this is an assertion that the two differ for *some*
@@ -130,19 +133,6 @@ rings; flatness near a point is the chart condition at
 `AlgebraicGeometry.MorphismOfGerms.HasRepresentativeWithProperty` of flatness, by
 `AlgebraicGeometry.Space.holdsOnEveryEtaleChartAtPoint_iff_exists_open` (**Stacks 04RF**,
 part (2)). The first is implied by the second and does not imply it.
-
-Hypothesis (4) of **Stacks 06M3** is left open deliberately, not for lack of a statement to
-make. Its pointwise content is the base-change assertion of **Stacks 05X3**, and
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/FlatLocus.lean` records why that is not
-available: the scheme-level counterpart is stated for a pair of stacked cartesian squares over
-a common base, and reading it on charts needs a configuration of étale charts of all six
-spaces in which both the chart of the target and the chart of the source are fibre products
-over the chart of the base, whereas only the single-square case
-(`AlgebraicGeometry.Space.exists_compatible_etale_charts`) exists. Only the equality in
-hypothesis (4) is affected: its unconditional half — that the inverse image of the largest
-flat open is contained in the largest flat open of the base change — is the argument of
-`AlgebraicGeometry.Space.preimage_maximalSmoothOpen_le` with smoothness replaced by flatness,
-and is not restated here because the hypothesis it belongs to cannot be completed.
 
 ## References
 
@@ -282,7 +272,6 @@ def maximalFlatOpen (f : X ⟶ Y) : Subfunctor X :=
 `P = flat` and `Q = empty`.** Every open subspace of the source on which the morphism is flat
 is contained in the largest flat open: it is a member of the family that open is the supremum
 of. No hypothesis on the morphism is needed, which is what `Q = empty` means. -/
-@[stacks 06M4 "hypothesis (3) of Stacks 06M3 at P = flat, Q = empty: maximality"]
 theorem le_maximalFlatOpen (f : X ⟶ Y) {U : Subfunctor X}
     (hU : IsOpenSubspace B S hS U) (hUf : IsFlat B S hS (U.ι ≫ f)) :
     U ≤ maximalFlatOpen B S hS f := le_sSup ⟨hU, hUf⟩
@@ -327,7 +316,6 @@ private theorem isOpenSubspace_and_isFlat_and_range_maximalFlatOpen
 /-- **Stacks 06M4, the instantiation: openness in hypothesis (3) of Stacks 06M3 at
 `P = flat` and `Q = empty`.** The largest flat open of a morphism of algebraic spaces over `S`
 is an open subspace of the source. No hypothesis on the morphism is needed. -/
-@[stacks 06M4 "hypothesis (3) of Stacks 06M3 at P = flat, Q = empty: openness"]
 theorem isOpenSubspace_maximalFlatOpen (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsOpenSubspace B S hS (maximalFlatOpen B S hS f) :=
@@ -336,7 +324,6 @@ theorem isOpenSubspace_maximalFlatOpen (hX : IsAlgebraicSpace B S hS X)
 /-- **Stacks 06M4, the instantiation: flatness in hypothesis (3) of Stacks 06M3 at
 `P = flat` and `Q = empty`.** A morphism of algebraic spaces over `S` is flat on its largest
 flat open. No hypothesis on the morphism is needed. -/
-@[stacks 06M4 "hypothesis (3) of Stacks 06M3 at P = flat, Q = empty: flatness on the open"]
 theorem isFlat_maximalFlatOpen (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsFlat B S hS ((maximalFlatOpen B S hS f).ι ≫ f) :=
@@ -386,7 +373,6 @@ largest open on whose restriction the morphism is flat — and that universal pr
 the interior of the pointwise flat locus, not the locus. Flatness at a point is the germ
 condition of Stacks 03ML part (2), which does not quantify over neighbourhoods, so no
 hypothesis on the morphism makes the interior superfluous for free. -/
-@[stacks 06M4 "the warning: the largest flat open is the interior of the flat locus"]
 theorem range_pointsMap_maximalFlatOpen_eq_interior (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     Set.range (pointsMap B S hS (maximalFlatOpen B S hS f).toFunctor
@@ -405,7 +391,6 @@ i.e. that the flat locus of some morphism of algebraic spaces is not open; such 
 exists, and
 `AlgebraicGeometry.Space.exists_range_pointsMap_maximalFlatOpen_ne_setOf_isFlatAt` derives the
 literal reading from this equivalence by `Iff.not`. -/
-@[stacks 06M4 "the warning: equality with the flat locus holds exactly when it is open"]
 theorem range_pointsMap_maximalFlatOpen_eq_setOf_isFlatAt_iff_isOpen
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     Set.range (pointsMap B S hS (maximalFlatOpen B S hS f).toFunctor
@@ -470,7 +455,6 @@ presheaves the flat locus of the morphism of algebraic spaces is cut out by the 
 the morphism of schemes, through
 `AlgebraicGeometry.Space.isFlatAt_yoneda_iff` and the correspondence
 `AlgebraicGeometry.Space.isOpen_yoneda_iff_isSchemeOpen` of Stacks 03BX. -/
-@[stacks 06M4 "the warning: for some morphism the largest flat open is not the flat locus"]
 theorem exists_range_pointsMap_maximalFlatOpen_ne_setOf_isFlatAt :
     ∃ (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       (X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (_ : IsAlgebraicSpace B S hS X)

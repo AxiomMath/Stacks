@@ -34,8 +34,10 @@ The represented sheaf is the sheafified Yoneda image, which makes sense without 
 subcanonical instance for the small étale site. Its inverse image along a stratum is computed by
 corepresentability: both the pullback of `h_U^♯` and the representable of the base-changed object
 corepresent sections over that object, so the fully faithful coyoneda embedding produces the
-isomorphism. The existence of the stratification is a hypothesis, stated as the conclusion of
-Stacks 03S0; it is a property of the morphism alone and involves no sheaf.
+isomorphism. The existence of the stratification is taken here in the form of the conclusion of
+Stacks 03S0, a property of the morphism alone involving no sheaf; it is proved by
+`AlgebraicGeometry.hasFiniteEtaleStratification`, which discharges it in
+`AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda_of_qcqs`.
 
 ## References
 
@@ -132,12 +134,15 @@ public def HasFiniteEtaleStratification (B : BigEtaleSite.{u}) (X : B.Scheme)
         IsFinite (B.inclusion.map ((smallEtaleBaseChange B i).obj U).obj.hom) ∧
         Etale (B.inclusion.map ((smallEtaleBaseChange B i).obj U).obj.hom))
 
-/-- **Stacks 03S8, part (1).** For an étale morphism of quasi-compact and quasi-separated
-schemes `j : U ⟶ X`, presented as an object `U` of the small étale site of `X`, the sheaf `h_U`
-represented by `U` is a constructible sheaf of sets on `X_étale`. -/
-@[stacks 03S8 "part (1), carrying the conclusion of Stacks 03S0 (an etale morphism of \
-quasi-compact quasi-separated schemes becomes finite etale on the strata of a partition of its \
-target into constructible locally closed subschemes) as the explicit hypothesis hstrat"]
+/-- **Constructibility of `h_U` from a finite étale stratification.** For an étale morphism of
+quasi-compact and quasi-separated schemes `j : U ⟶ X`, presented as an object `U` of the small
+étale site of `X`, over which `j` becomes finite étale on the strata of a partition of `X` into
+constructible locally closed subschemes, the sheaf `h_U` represented by `U` is a constructible
+sheaf of sets on `X_étale`.
+
+Such a stratification always exists, by Stacks 03S0
+(`AlgebraicGeometry.hasFiniteEtaleStratification`); Stacks 03S8 (1) without it is
+`AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda_of_qcqs`. -/
 public theorem isConstructibleSetSheaf_sheafifiedYoneda (B : BigEtaleSite.{u}) (X : B.Scheme)
     [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
     (U : SmallEtale B X.obj X.property)

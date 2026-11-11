@@ -38,7 +38,9 @@ properties (0EZ4), (0EZ5), (0EZ6) and (0EZ8) of the situation hold, following th
 Property (0EZ7), that the higher direct images along a finite morphism preserve `𝒜'`, is
 reduced by `AlgebraicGeometry.fppfEtaleWeakSerre_rightDerived_of_exact` to the exactness of the
 direct image along a finite morphism and to the identification `f_{big,*}π_X⁻¹ = π_Y⁻¹f_{small,*}`
-in degree zero, which are the two inputs of the proof of Stacks 0DDJ (4).
+in degree zero, which are the two inputs of the proof of Stacks 0DDJ (4). Both are proved in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.FinitePushforwardInputs`, and
+property (0EZ7) itself is `AlgebraicGeometry.fppfEtaleWeakSerre_rightDerived_of_finite`.
 
 ## Main definitions
 

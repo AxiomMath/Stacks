@@ -67,7 +67,7 @@ No `@[stacks 0998]` attribute is attached here: the tag asserts that the rule
 half, and the sheaf of ideals itself —
 `AlgebraicGeometry.RingedSite.derivedCompleteIdealSheaf`, which carries the unscoped
 `@[stacks 0998]` — are in the module `VanishingIdealSheafCondition` of
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged`, which consumes
+`StacksDraft.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged`, which consumes
 `IsDerivedCompleteAtSection.restrict` below.
 
 ## References

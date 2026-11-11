@@ -64,7 +64,10 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 variable {F : Type uF} [Category.{vF} F]
 variable {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
 
-private lemma associatedPointInclusion_lift
+/-- The point inclusion of an associated morphism at `α` lies over the map from the selected
+adic truncation to the Artinian base of `α`. -/
+public lemma associatedPointInclusion_lift
+    (_hp : IsCofiberedInGroupoids p)
     {ξ : FormalObject p} (pushforwards : ChosenPushforwards p)
     (X : AssociatedMorphism ξ pushforwards)
     (α : (restrictedCoyoneda ξ.base).Elements) :
@@ -80,14 +83,16 @@ private lemma associatedPointInclusion_lift
   exact (IsHomLift.eqToHom_comp_lift_iff p (X.factor α)
     (X.pointInclusion α) (X.obj_eq α)).mp hi'
 
-private lemma associatedPointInclusion_stronglyCocartesian
+/-- In a category cofibered in groupoids, the point inclusions of an associated morphism are
+strongly cocartesian. -/
+public lemma associatedPointInclusion_stronglyCocartesian
     (hp : IsCofiberedInGroupoids p)
     {ξ : FormalObject p} (pushforwards : ChosenPushforwards p)
     (X : AssociatedMorphism ξ pushforwards)
     (α : (restrictedCoyoneda ξ.base).Elements) :
     p.IsStronglyCocartesian (X.factor α) (X.pointInclusion α) := by
   exact isStronglyCocartesian_of_isCofiberedInGroupoids hp (X.factor α)
-    (X.pointInclusion α) (associatedPointInclusion_lift pushforwards X α)
+    (X.pointInclusion α) (associatedPointInclusion_lift hp pushforwards X α)
 
 private lemma vertical_isIso
     (hp : IsCofiberedInGroupoids p)
@@ -110,7 +115,9 @@ private noncomputable def verticalIso
   letI : IsIso φ := vertical_isIso hp φ hφ
   exact asIso φ
 
-private lemma transitionTo_naturality
+/-- The level maps of a morphism of formal objects commute with the composite transition
+maps. -/
+public lemma transitionTo_naturality
     {ξ η : FormalObject p} (a : ξ ⟶ η) {n m : ℕ} (h : n ≤ m) :
     transitionTo ξ h ≫ a.app n = a.app m ≫ transitionTo η h := by
   induction m, h using Nat.le_induction with
@@ -130,7 +137,7 @@ private lemma transitionTo_top_cast
   simp
 
 /-- Pushing a transition map through `a` and a cast of levels, for equal levels `n = m`. -/
-private lemma transitionTo_comp_app_eqToHom {ξ η : FormalObject p} (a : ξ ⟶ η) {n m N : ℕ}
+public lemma transitionTo_comp_app_eqToHom {ξ η : FormalObject p} (a : ξ ⟶ η) {n m N : ℕ}
     (e : n = m) (hn : n ≤ N) (hm : m ≤ N) {Z : F} (i : η.level m ⟶ Z) :
     transitionTo ξ hn ≫ a.app n ≫ eqToHom (congrArg η.level e) ≫ i =
       a.app N ≫ transitionTo η hm ≫ i := by
@@ -244,7 +251,7 @@ public theorem associatedMorphism_map
         ((a.app (X.level (f.obj α)) ≫ eqToHom (congrArg η.level (hlevel α))) ≫
           Y.pointInclusion α) := by
       let := hfirst
-      let := associatedPointInclusion_lift pushforwards Y α
+      let := associatedPointInclusion_lift hp pushforwards Y α
       exact IsHomLift.comp p
         (AdicTruncation.map a.base (X.level (f.obj α)) ≫
           eqToHom (congrArg (AdicTruncation.obj η.base) (hlevel α)))

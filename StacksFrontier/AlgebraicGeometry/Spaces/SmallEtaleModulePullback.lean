@@ -73,7 +73,10 @@ theorem smallEtaleRingedToposHom_pushforward_eq (f : X ⟶ Y) :
   rfl
 
 /-- The pullback `f^*G = 𝒪_X ⊗_{f⁻¹𝒪_Y} f⁻¹G` of `𝒪_Y`-modules along a morphism `f : X ⟶ Y`
-of algebraic spaces. -/
+of algebraic spaces: the pullback of Stacks 03D6 along the morphism of small étale ringed topoi
+of `f`, which Stacks defines by this formula rather than as a left adjoint. That it is left
+adjoint to `AlgebraicGeometry.Space.modulePushforward` is
+`AlgebraicGeometry.Space.modulePullbackAdjunction`. -/
 @[stacks 03LU "pullback"]
 noncomputable def modulePullback (f : X ⟶ Y) :
     Modules.{u, u} B S hS Y.1 Y.2 ⥤ Modules.{u, u} B S hS X.1 X.2 :=

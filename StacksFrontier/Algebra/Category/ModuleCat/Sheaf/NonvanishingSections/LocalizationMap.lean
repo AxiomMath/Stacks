@@ -1167,6 +1167,178 @@ public theorem sectionLocalizationMap_smul (s : L.sections) :
   rw [hφ]
   exact moduleFractionNumerator_smul X L F s m n r x hr' hx
 
+/-- **The canonical ring map `Γ_*(X, L)_{(s)} ⟶ Γ(X_s, 𝒪_X)` of [Stacks, Tag 01PW] exists.**
+There is a ring map out of the degree-zero homogeneous localization of the section ring
+`Γ_*(X, L) = ⨁_{n ≥ 0} Γ(X, L^{⊗ n})` at `s`, sending a fraction `a / sⁿ` to the function `t` on
+`X_s` with `a|_{X_s} = t · sⁿ|_{X_s}`, that is to `a ⊗ s^{-n}`; and the Tag 0B5L map of every
+`𝒪_X`-module `G` is linear over it. -/
+public theorem exists_sectionRingLocalizationMap (s : L.sections) :
+    ∃ φ : HomogeneousLocalization.Away
+        (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+        (homogeneousSection X L s) →+*
+          (sectionSiteRing X).obj (op (nonvanishingOpen L s)),
+      (∀ (z : HomogeneousLocalization.Away
+          (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+          (homogeneousSection X L s)) (n : ℕ)
+        (a : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+          (n : ℤ)).val.obj (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
+        (t : (sectionSiteRing X).obj (op (nonvanishingOpen L s))),
+        HomogeneousLocalization.val z =
+            Localization.mk (DirectSum.of _ n a)
+              (⟨homogeneousSection X L s ^ n, by exact ⟨n, rfl⟩⟩ :
+                Submonoid.powers (homogeneousSection X L s)) →
+          (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.map
+              (terminal.from (nonvanishingOpen L s)).op a =
+            ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+              (n : ℤ)).val.obj (op (nonvanishingOpen L s))).isModule.smul t
+              ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+                (n : ℤ)).val.map (terminal.from (nonvanishingOpen L s)).op
+                (sectionPower X L s n)) →
+          φ z = t) ∧
+      ∀ (G : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
+        (a : HomogeneousLocalization.Away
+          (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+          (homogeneousSection X L s)) (z : sectionAtNonvanishingOpen X L G s),
+        sectionLocalizationMap X L G s (a • z) =
+          (G.val.obj (op (nonvanishingOpen L s))).isModule.smul (φ a)
+            (sectionLocalizationMap X L G s z) := by
+  let A := sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L
+  let e := ringFractionNumerator X L s
+  let he := ringFractionNumerator_mul_power X L s
+  have h1 : e 0 1 = 1 := by
+    simpa only [pow_zero] using ringFractionNumerator_power X L s 0
+  let φ := homogeneousLocalizationLift A (homogeneousSection_mem X L s) e he h1
+    (ringFractionNumerator_mul X L s)
+  refine ⟨φ, fun z n a t hz ha => ?_, fun G a z => ?_⟩
+  · change ringFractionValue A (homogeneousSection_mem X L s) e z = t
+    rw [ringFractionValue_eq A (homogeneousSection_mem X L s) e he z n (DirectSum.of _ n a)
+      ⟨a, rfl⟩ hz]
+    apply (powerBasisAt X L s n).injective
+    rw [ringFractionNumerator_of, powerBasisAt_smul, powerBasisAt_one]
+    exact ha
+  · let U := nonvanishingOpen L s
+    let _mG : Module ((sectionSiteRing X).obj (op U)) (G.val.obj (op U)) :=
+      (G.val.obj (op U)).isModule
+    let B := sectionModuleGrading (sectionSiteRing X) (sectionSiteSheaf X) L G
+    apply degreeZeroLocalizationLift_smul A B (homogeneousSection_mem X L s)
+      (moduleFractionNumerator X L G s) (moduleFractionNumerator_smul_power X L G s) φ
+    intro m n r x hr hx
+    have hr' : r ∈ A m := by simpa using hr
+    have hφ : φ (HomogeneousLocalization.Away.mk A (homogeneousSection_mem X L s) m r hr) =
+        e m r :=
+      ringFractionValue_eq A (homogeneousSection_mem X L s) e he _ m r hr'
+        (HomogeneousLocalization.Away.val_mk ..)
+    rw [hφ]
+    exact moduleFractionNumerator_smul X L G s m n r x hr' hx
+
+/-- **The canonical ring map `Γ_*(X, L)_{(s)} ⟶ Γ(X_s, 𝒪_X)`** of [Stacks, Tag 01PW],
+`a / sⁿ ↦ a ⊗ s^{-n}`: a degree-zero fraction `a / sⁿ` of the section ring
+`Γ_*(X, L) = ⨁_{n ≥ 0} Γ(X, L^{⊗ n})` goes to the function `t` on `X_s` with
+`a|_{X_s} = t · sⁿ|_{X_s}`, see `Stacks.SheafOfModules.sectionRingLocalizationMap_fraction`. -/
+public noncomputable def sectionRingLocalizationMap (s : L.sections) :
+    HomogeneousLocalization.Away
+        (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+        (homogeneousSection X L s) →+*
+      (sectionSiteRing X).obj (op (nonvanishingOpen L s)) :=
+  Classical.choose (exists_sectionRingLocalizationMap X L s)
+
+/-- **The value of the ring map of Tag 01PW on a fraction.** The fraction `a / sⁿ` goes to the
+function `t` on `X_s` with `a|_{X_s} = t · sⁿ|_{X_s}`. -/
+public theorem sectionRingLocalizationMap_fraction (s : L.sections)
+    (z : HomogeneousLocalization.Away
+      (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+      (homogeneousSection X L s)) (n : ℕ)
+    (a : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+      (n : ℤ)).val.obj (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
+    (t : (sectionSiteRing X).obj (op (nonvanishingOpen L s)))
+    (hz : HomogeneousLocalization.val z =
+      Localization.mk (DirectSum.of _ n a)
+        (⟨homogeneousSection X L s ^ n, by exact ⟨n, rfl⟩⟩ :
+          Submonoid.powers (homogeneousSection X L s)))
+    (ha : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.map
+        (terminal.from (nonvanishingOpen L s)).op a =
+      ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+        (n : ℤ)).val.obj (op (nonvanishingOpen L s))).isModule.smul t
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+          (n : ℤ)).val.map (terminal.from (nonvanishingOpen L s)).op
+          (sectionPower X L s n))) :
+    sectionRingLocalizationMap X L s z = t :=
+  (Classical.choose_spec (exists_sectionRingLocalizationMap X L s)).1 z n a t hz ha
+
+/-- **The Tag 0B5L map is linear over the ring map of Tag 01PW**:
+`(a · z) ↦ φ(a) · (z ↦ section on X_s)`, for `φ` the map
+`Stacks.SheafOfModules.sectionRingLocalizationMap`. -/
+public theorem sectionLocalizationMap_smul_eq (s : L.sections)
+    (a : HomogeneousLocalization.Away
+      (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+      (homogeneousSection X L s)) (z : sectionAtNonvanishingOpen X L F s) :
+    sectionLocalizationMap X L F s (a • z) =
+      (F.val.obj (op (nonvanishingOpen L s))).isModule.smul
+        (sectionRingLocalizationMap X L s a) (sectionLocalizationMap X L F s z) :=
+  (Classical.choose_spec (exists_sectionRingLocalizationMap X L s)).2 F a z
+
+/-- The action `a ↦ a • z` of the degree-zero localization of the section ring on a degree-zero
+fraction `z` of twisted sections, as an additive map. -/
+public noncomputable def fractionAction (s : L.sections) (z : sectionAtNonvanishingOpen X L F s) :
+    HomogeneousLocalization.Away
+        (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+        (homogeneousSection X L s) →+
+      sectionAtNonvanishingOpen X L F s :=
+  (LinearMap.toSpanSingleton _ _ z).toAddMonoidHom
+
+/-- **The Tag 0B5L map is linear over the ring map of Tag 01PW**, in the form of
+`Stacks.SheafOfModules.fractionAction`. -/
+public theorem sectionLocalizationMap_fractionAction (s : L.sections)
+    (z : sectionAtNonvanishingOpen X L F s)
+    (a : HomogeneousLocalization.Away
+      (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+      (homogeneousSection X L s)) :
+    sectionLocalizationMap X L F s (fractionAction X L F s z a) =
+      (F.val.obj (op (nonvanishingOpen L s))).isModule.smul
+        (sectionRingLocalizationMap X L s a) (sectionLocalizationMap X L F s z) :=
+  sectionLocalizationMap_smul_eq X L F s a z
+
+/-- The underlying fraction of `a • z` is the product of the fraction `a` with that of `z`. -/
+public theorem fractionAction_val (s : L.sections) (z : sectionAtNonvanishingOpen X L F s)
+    (a : HomogeneousLocalization.Away
+      (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
+      (homogeneousSection X L s)) :
+    (fractionAction X L F s z a : LocalizedModule.Away
+        (R := sectionRing (sectionSiteRing X) (sectionSiteSheaf X) L)
+        (homogeneousSection X L s)
+        (sectionModule (sectionSiteRing X) (sectionSiteSheaf X) L F)) =
+      HomogeneousLocalization.val a • (z : LocalizedModule.Away
+        (R := sectionRing (sectionSiteRing X) (sectionSiteSheaf X) L)
+        (homogeneousSection X L s)
+        (sectionModule (sectionSiteRing X) (sectionSiteSheaf X) L F)) :=
+  rfl
+
+/-- **Multiplication by a homogeneous section of the section ring on `t ⊗ s⁰`.** For a global
+section `b` of `L^{⊗ n}` and a global section `t` of `F`, the action of `b` on the degree-zero
+twisted section `t ⊗ s⁰` is the twisted section `t ⊗ b` of degree `n`. -/
+public theorem of_smul_of_tensorSectionAtOpen_sectionPower_zero (s : L.sections) (n : ℕ)
+    (b : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+      (n : ℤ)).val.obj (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
+    (t : F.val.obj (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)))) :
+    (DirectSum.of _ n b : sectionRing (sectionSiteRing X) (sectionSiteSheaf X) L) •
+      (DirectSum.of _ ((0 : ℕ) : ℤ)
+        (tensorSectionAtOpen X L F (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)) 0 t
+          (sectionPower X L s 0)) :
+        sectionModule (sectionSiteRing X) (sectionSiteSheaf X) L F) =
+      DirectSum.of _ (n : ℤ)
+        (tensorSectionAtOpen X L F (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)) n t b) := by
+  have hmul : powerMulAt X L (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)) n 0 b
+      (sectionPower X L s 0) = b := by
+    have h := sectionRing_of_mul_of X L n 0 b (sectionPower X L s 0)
+    rw [← homogeneousSection_pow_eq_of_sectionPower, pow_zero, mul_one] at h
+    exact (DirectSum.of_injective (β := fun k : ℕ =>
+      (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (k : ℤ)).val.obj
+        (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)))) n h).symm
+  rw [sectionModule_of_smul X L F n 0 b, moduleMulAt_tensor]
+  exact congrArg (fun q => (DirectSum.of _ (n : ℤ)
+    (tensorSectionAtOpen X L F (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)) n t q) :
+      sectionModule (sectionSiteRing X) (sectionSiteSheaf X) L F)) hmul
+
 end AcceptedStatementInstances
 
 end Stacks.SheafOfModules

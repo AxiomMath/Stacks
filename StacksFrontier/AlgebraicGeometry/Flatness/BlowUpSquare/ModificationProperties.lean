@@ -16,13 +16,16 @@ that a finitely presented closed subscheme of `D'` carries `Li^*Q` with locally 
 of the original ranks, the affine-chart description of `b` and of `Q`, and the preservation of
 having a locally bounded finite locally free representative.
 
-This file proves the clause of that list which this library does not yet have anywhere, namely
-**clause (1)**: a morphism with properties (1) and (2) of tag 0GTY is an isomorphism over the
-complement of the divisor.  The source leaves this to the admissibility of the blowing up; here
-it follows from the universal property alone, because the inclusion of `X ∖ D` is good for the
-triple for the cheapest possible reason — the pulled-back divisor has no points, so there is no
-point at which a chart with principal determinantal ideals has to be produced.  The second
-result of the file collects clause (1) with the clauses already available.
+The complete statement of tag 0F9Y is
+`AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase_modification` (for the morphism
+of tag 0GTY) and `AlgebraicGeometry.ComplexAndDivisorSituation.exists_isProper_modification`
+(in existential form).  This file supplies two of its ingredients for any morphism `b` with
+properties (1) and (2) of tag 0GTY: **clause (1)**, that `b` is an isomorphism over the
+complement of the divisor, and clauses (5) and (9) bundled with it.  The source leaves clause (1)
+to the admissibility of the blowing up; here it follows from the universal property alone,
+because the inclusion of `X ∖ D` is good for the triple for the cheapest possible reason — the
+pulled-back divisor has no points, so there is no point at which a chart with principal
+determinantal ideals has to be produced.
 
 ## Main definitions
 
@@ -38,54 +41,23 @@ result of the file collects clause (1) with the clauses already available.
   morphism whose image misses `D` is good for the triple; the inclusion of `X ∖ D` and the
   restriction `b⁻¹(X ∖ D) ⟶ X` of any `b` are therefore good for the triple.
 * `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isIso_resLE_divisorComplement`:
-  **clause (1) of Stacks tag 0F9Y**, `b` is an isomorphism over `X ∖ D`.
+  clause (1) of Stacks tag 0F9Y, `b` is an isomorphism over `X ∖ D`.
 * `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isIso_and_isPerfect_and_exists_rep`:
-  **clauses (1), (5) and (9) of Stacks tag 0F9Y** together.
+  clauses (1), (5) and (9) of Stacks tag 0F9Y together, for a representable `M`.
 
-## Which clauses of tag 0F9Y are delivered
+## Relation to the complete statement
 
-Clause (1) is proved here outright from properties (1) and (2) of tag 0GTY.  Clause (5),
-perfectness of `Q`, and clause (9), the locally bounded finite locally free representative of
-`Q`, both come from tag 0GU0 under its hypothesis `hrep` that `M` has such a representative;
-`hrep` is clause (9)'s own hypothesis, so it costs clause (9) nothing and costs clause (5) the
-qualification that
-`AlgebraicGeometry.ComplexAndDivisorSituation.isPerfect_etaDerivedPullbackObject` already
-carries.
-
-Clause (2), that `b` is an isomorphism over the locally free locus `W`, is **not** bundled with
-them, although it is proved: it is tag 0F8W, available in
-`StacksFrontier.AlgebraicGeometry.Flatness.BlowUpSquare.LocallyFreeLocus` in two forms, and
-neither belongs in the bundle.  The universal-property form,
-`AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isIso_resLE_locallyFreeLocus`,
-carries the goodness of the inclusion of `W` and of the restriction `b⁻¹W ⟶ X` of `b`; given
-the first of those, the second is *equivalent* to the conclusion, since an isomorphism over `W`
-identifies `b⁻¹W ⟶ X` with `W ⟶ X` up to an isomorphism and goodness is invariant under
-precomposition with one.  Bundling it would therefore put a hypothesis inter-derivable with a
-conclusion into this statement.  The affine-chart form,
-`AlgebraicGeometry.ComplexAndDivisorSituation.isIso_pullback_snd_locallyFreeLocus`, has no such
-defect — its hypotheses are the affine-chart clause of tag 0GTY and the affine-chart pullback
-of tag 0F8T — but it concludes `IsIso (pullback.snd b W.ι)` rather than the `resLE` form used
-here, and is already tagged 0F8W where it stands.
-
-Clause (3), that `D' = b⁻¹D` is an effective Cartier divisor, is by definition the field
-`pullbackDefined` of `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodOver`, hence a
-*hypothesis* of every statement here rather than a conclusion of any of them; no declaration
-below asserts it, because asserting it from `IsGoodBlowup b` would be asserting a field of the
-hypothesis.  What would discharge it is the existence half of tag 0GTY, which is not
-formalized.  Clause (4), that `Q = Lη_{ℐ'}Lb^*M`, is the *definition* of
-`AlgebraicGeometry.ComplexAndDivisorSituation.etaDerivedPullbackObject` and so is likewise not
-a theorem.
-
-Properness of `b`, clause (6) about the closed subscheme `i : T ⟶ D'`, clause (7) the
-affine-chart description of `b`, and clause (8) the identification of `Q|_V` with the algebraic
-eta complex and of `T` with the total obstruction ideal, are **not** delivered.  Properness and
-clause (7) are the unformalized affine-chart and admissibility descriptions of tag 0GTY; clause
-(6) rests on parts (2) and (3) of tag 0GTZ, recorded as unformalized in
-`StacksFrontier.AlgebraicGeometry.Flatness.BlowUpSquare.GoodTripleSubscheme`; clause (8) needs
-Stacks tag 08DW, the comparison of a derived pullback with termwise base change on a complex of
-finite free modules.  The rank stratification of clause (6)'s subscheme is the separate tag
-0F8Y, delivered in
-`StacksFrontier.AlgebraicGeometry.Flatness.BlowUpSquare.DivisorRankStrata`.
+Clause (1) is proved here from properties (1) and (2) of tag 0GTY.  The bundle
+`AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isIso_and_isPerfect_and_exists_rep`
+derives clause (5), perfectness of `Q`, from clause (9), the locally bounded finite locally free
+representative of `Q` given by tag 0GU0 when `M` has such a representative.  The morphism of
+tag 0GTY itself, `AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase`, its
+properness, the remaining clauses (2)--(4) and (6)--(8), and perfectness of `Q` with no
+assumption on `M` (tag 0F8U,
+`AlgebraicGeometry.ComplexAndDivisorSituation.isPerfect_etaDerivedPullbackObject_goodBlowup`)
+are proved in `StacksFrontier.AlgebraicGeometry.Flatness.BlowUpSquare.GoodBlowupModification` and
+`StacksFrontier.AlgebraicGeometry.Flatness.BlowUpSquare.ModificationCollected`, which state tag 0F9Y
+in full.
 
 ## Implementation notes
 
@@ -187,40 +159,32 @@ namespace IsGoodBlowup
 
 variable {X' : Scheme.{u}} {b : X' ⟶ S.X}
 
-/-- **Clause (1) of Stacks tag 0F9Y.**  A morphism `b : X' ⟶ X` with properties (1) and (2) of
+/-- Clause (1) of Stacks tag 0F9Y: a morphism `b : X' ⟶ X` with properties (1) and (2) of
 Stacks tag 0GTY is an isomorphism over the complement `X ∖ D` of the effective Cartier divisor.
 
 The inclusion of `X ∖ D` and the restriction `b⁻¹(X ∖ D) ⟶ X` of `b` are both good for the
 triple, because the divisor pulled back along either has no points at all; so the universal
 property of `b` identifies `b⁻¹(X ∖ D)` with `X ∖ D` by
 `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isIso_resLE_of_isGoodOver`. -/
-@[stacks 0F9Y "part (1), `b` is an isomorphism over `X ∖ D`, for any `b` with properties (1) \
-and (2) of tag 0GTY; the existence of such a `b` is not formalized, so `b` is a hypothesis, \
-and part (1) is proved from the universal property rather than from the unformalized \
-admissibility of the blowing up"]
 theorem isIso_resLE_divisorComplement (hb : S.IsGoodBlowup b) :
     IsIso (b.resLE S.divisorComplement (b ⁻¹ᵁ S.divisorComplement) le_rfl) :=
   hb.isIso_resLE_of_isGoodOver _ S.isGoodOver_divisorComplement_ι
     (isGoodOver_preimage_divisorComplement_ι_comp b)
 
-/-- **Clauses (1), (5) and (9) of Stacks tag 0F9Y.**  Let `(X, D, M)` be a triple as in
-Situation 0F8S and let `b : X' ⟶ X` have properties (1) and (2) of Stacks tag 0GTY.  Suppose
-`M` is represented by a locally bounded complex of finite locally free `𝒪_X`-modules.  Then `b`
-is an isomorphism over `X ∖ D`, the object `Q = Lη_{ℐ'}Lb^*M` is a perfect object of
-`D(𝒪_{X'})`, and `Q` too is represented by a locally bounded complex of finite locally free
-`𝒪_{X'}`-modules.
+/-- Clauses (1), (5) and (9) of Stacks tag 0F9Y, for a representable `M`.  Let `(X, D, M)` be
+a triple as in Situation 0F8S and let `b : X' ⟶ X` have properties (1) and (2) of Stacks tag
+0GTY.  Suppose `M` is represented by a locally bounded complex of finite locally free
+`𝒪_X`-modules.  Then `b` is an isomorphism over `X ∖ D`, the object `Q = Lη_{ℐ'}Lb^*M` is a
+perfect object of `D(𝒪_{X'})`, and `Q` too is represented by a locally bounded complex of
+finite locally free `𝒪_{X'}`-modules.
 
 Clause (1) is
 `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isIso_resLE_divisorComplement`,
 clause (9) is tag 0GU0 as
 `Stacks.BlowUpComplexes.exists_isLocallyBoundedFiniteLocallyFree_etaDerivedPullback`, and clause
 (5) follows from clause (9) because a locally bounded complex of finite locally free modules is
-perfect.  Clause (2) is deliberately *not* among the conclusions; see the module docstring. -/
-@[stacks 0F9Y "parts (1), (5) and (9) together, for any `b` with properties (1) and (2) of tag \
-0GTY, under tag 0GU0's hypothesis `hrep` that `M` has a locally bounded finite locally free \
-representative; properness and parts (6), (7) and (8) are not covered, part (2) is the proved \
-tag 0F8W and is not bundled here, and parts (3) and (4) are the hypothesis `hb` and the \
-definition of `Q`"]
+perfect.  The complete statement of tag 0F9Y is
+`AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase_modification`. -/
 theorem isIso_and_isPerfect_and_exists_rep (hb : S.IsGoodBlowup b)
     (hrep : ∃ ℳ : CochainComplex (OXMod.{u, u} S.X.toRingedSpace) ℤ,
       Stacks.Chow.IsLocallyBoundedFiniteLocallyFree ℳ ∧

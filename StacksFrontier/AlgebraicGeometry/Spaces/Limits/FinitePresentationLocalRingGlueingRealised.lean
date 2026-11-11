@@ -245,7 +245,16 @@ The colimit is the category `StageColimit` over the stages `U ∪ W`, `W` runnin
 open neighbourhoods of `s` contained in `W₀`. The first two clauses say that the stages are
 cofinal among the opens `U'` of `S` with `U ⊆ U'` and `s ∈ U'`; the third and fourth identify
 the remaining vertices of the `2`-fibre product as `Spec 𝒪_{S, s}` and as `V`, the preimage of
-`U` in `Spec 𝒪_{S, s}`; the fifth is the equivalence. -/
+`U` in `Spec 𝒪_{S, s}`; the fifth is the equivalence.
+
+This is the complete statement of Stacks 0E91, under the tag's hypothesis that `U` is
+retrocompact in `S`. The category `StageColimit` is the filtered `2`-colimit of the categories
+`FP_{U ∪ W}`: an object is a stage together with an algebraic space of finite presentation over
+it, and a morphism is a germ, an equivalence class of morphisms between the base changes to a
+later stage, two of them being identified when they agree at a still later stage. Indexing by
+the stages `U ∪ W` rather than by all the opens `U'` with `U ⊆ U'` and `s ∈ U'` gives the same
+colimit, because the stages are cofinal among those opens, which is what the first two clauses
+say. -/
 @[stacks 0E91 "the equivalence of categories out of the filtered 2-colimit. The colimit of the \
 categories `FP_{U ∪ W}` is the category `StageColimit` — objects the spaces over a stage, \
 morphisms the germs — and the comparison functor `specStalkStageColimitFunctor` out of it to \

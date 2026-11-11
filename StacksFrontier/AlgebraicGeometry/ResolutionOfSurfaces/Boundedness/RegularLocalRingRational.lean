@@ -48,6 +48,29 @@ of the statement is used.
 * `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`:
   [Stacks, Tag 0B4Q].
 
+## Implementation notes
+
+This is the complete statement of [Stacks, Tag 0B4Q] under exactly the source's hypotheses — `A`
+is a Nagata regular local ring with `ringKrullDim A = 2` — with no cited input assumed, and it
+carries the tag (as does its `letI` restatement
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_ringKrullDim_eq_two`).
+It supersedes the earlier conditional forms of the source's argument, which are no longer
+registered:
+
+* `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing`
+  (`Boundedness.RegularLocalRing`) assumes `dominate` ([Stacks, Tag 0AHI] with Tags 0AGR and
+  0567), `transfer` (the injectivity half of [Stacks, Tag 0AXF]) and `blowUpStep`
+  ([Stacks, Tag 0AGS] with Tag 0AXF);
+* `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_dominate`
+  (`Boundedness.RegularLocalRingTransfer`) and
+  `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_unconditional`
+  (`Boundedness.RegularLocalRingRationalSingularity`) assume `dominate` and `blowUpStep`.
+
+Here `transfer` is `AlgebraicGeometry.firstStructureSheafCohomologyVanishes_of_dominates`,
+`blowUpStep` is
+`AlgebraicGeometry.isZeroFirstStructureSheafCohomology_blowUp_of_isRegularLocalRing`, and
+`dominate` is replaced by the domination of [Stacks, Tag 0BBT].
+
 ## References
 
 * [Stacks Project, Tag 0B4Q](https://stacks.math.columbia.edu/tag/0B4Q)
@@ -284,7 +307,9 @@ The modification is dominated by a chain of normalized blowups at closed points
 ([Stacks, Tag 0BBT], which uses the Nagata hypothesis); along the chain every scheme is regular
 with two-dimensional local rings at its closed points and has `H¹(𝒪) = 0`
 (`AlgebraicGeometry.normalizedBlowUpChain_invariant`), and `H¹(X, 𝒪_X)` embeds into the
-cohomology of the dominating scheme ([Stacks, Tag 0AXF]). -/
+cohomology of the dominating scheme ([Stacks, Tag 0AXF]). Nothing beyond the source's
+hypotheses is assumed; the conditional forms of the argument, which carry Tags 0AHI, 0AXF and
+0AGS as hypotheses, are listed in the module docstring. -/
 @[stacks 0B4Q]
 theorem definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing (A : Type u)
     [CommRing A] [IsRegularLocalRing A] [IsNagataRing A] (hdim : ringKrullDim A = 2) :

@@ -266,7 +266,8 @@ end Invertible
 /-! ### The geometric input of the source's proof -/
 
 /-- **The geometric input of Tag 0FEJ.** The four facts about the second symmetric and exterior
-powers that the source's proof of Tag 0FEJ uses and that the library does not supply:
+powers that the source's proof of Tag 0FEJ uses; they hold for every scheme, by
+`AlgebraicGeometry.VectorBundleKZero.squarePowersData`:
 
 * they preserve finite local freeness;
 * along a short exact sequence `0 → ℰ → ℱ → 𝒢 → 0` of finite locally free modules, `Sym² ℱ` has
@@ -545,13 +546,13 @@ value on an invertible module, and the third is its commutation with any ring ma
 Grothendieck rings realising pullback of finite locally free modules. The first conjunct records
 the construction `ψ²([ℰ]) = [Sym² ℰ] - [⋀² ℰ]`.
 
-The hypothesis `SquarePowersData X` is the geometric input of the source's proof: the
+The parameter `SquarePowersData X` is the geometric input of the source's proof: the
 filtration of the two squares along a short exact sequence and the two short exact sequences
-computing the squares of a tensor product, neither of which is available in the library. The
-value on an invertible module is not assumed; it is proved. -/
-@[stacks 0FEJ "the ring map, its value on invertible modules and its compatibility with \
-  pullback, granted `SquarePowersData`: the filtration of `Sym²` and `⋀²` along a short exact \
-  sequence and the two short exact sequences for the squares of a tensor product"]
+computing the squares of a tensor product. It holds for every scheme, by
+`AlgebraicGeometry.VectorBundleKZero.squarePowersData`; the unconditional statement, with the
+pullback ring map of `K₀(Vect(-))`, is
+`AlgebraicGeometry.VectorBundleKZero.exists_secondAdamsOperator_pullbackRingHom`. The value on
+an invertible module is not assumed; it is proved. -/
 theorem exists_secondAdamsOperator (X : Scheme.{u}) (h : SquarePowersData X) :
     ∃ ψ : VectorBundleKZero X →+* VectorBundleKZero X,
       (∀ E : X.Modules, IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) E →

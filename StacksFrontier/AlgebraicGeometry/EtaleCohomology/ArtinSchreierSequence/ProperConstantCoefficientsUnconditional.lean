@@ -169,7 +169,7 @@ public theorem exists_sheafH_map_zmodSheafHom_eq (hp : p.Prime) (q : ℕ)
 
 /-- Let `X` be a scheme proper over an algebraically closed field `k` of characteristic `p > 0`.
 Then `H ^ q (X_étale, 𝐙/p𝐙)` is finite for every `q`. -/
-@[stacks 0A3P "(1)"]
+@[stacks 0A3P "part (1): H^q(X_et, Z/pZ) is finite"]
 public theorem finite_etaleH_constantZMod_of_isProper_unconditional (hp : 0 < p) [IsAlgClosed k]
     [CharP k p] [IsProper f] (q : ℕ) :
     Finite (Sheaf.H.{w, u + 1} (etaleConstantZMod X p) q) := by
@@ -297,7 +297,8 @@ public theorem scalarExtensionFst_appTop_algebraMap (a : k) :
 `k'/k` be an extension of algebraically closed fields. Then the restriction map
 `H ^ q (X_étale, 𝐙/p𝐙) ⟶ H ^ q (X_{k'}, 𝐙/p𝐙)` to the scalar extension
 `X_{k'} = X ×_{Spec k} Spec k'` is bijective. -/
-@[stacks 0A3P "(2)"]
+@[stacks 0A3P "part (2): restriction to the scalar extension X_{k'} is bijective on \
+  H^q(X_et, Z/pZ)"]
 public theorem bijective_etaleCohomologyBaseChangeMap_constantZMod {p : ℕ} (hp : 0 < p)
     [IsAlgClosed k] [IsAlgClosed k'] [CharP k p] [IsProper f]
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]

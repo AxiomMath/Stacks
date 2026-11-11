@@ -83,7 +83,8 @@ counterpart of `AlgebraicGeometry.Scheme.Pullback.exists_preimage_pullback`.
   corresponding to `y_σ` under it.
 * `StacksDraft.ArtinApproximation.exists_common_elementaryEtaleNeighborhood_absoluteApproximation`:
   Tag 0GDX.
-* `StacksDraft.ArtinApproximation.exists_etale_relativeIsomorphismApproximation`: Tag 0CB1, the
+* `StacksDraft.ArtinApproximation.exists_etale_relativeIsomorphismApproximation`: the diagram
+  of Tag 0CB1 for an isomorphism of completions `𝒪^∧_{X, x} ≅ 𝒪^∧_{Y_σ, y_σ}`, the
   same construction run in the setting of Tag 0CAW — where `T` comes with a morphism to `S`
   locally of finite type and `σ` is a map of `𝒪_{S, s}`-algebras — and packaged as the diagram
   of Tag 0CAW with `f : W ⟶ X ×_S V` étale.
@@ -4519,7 +4520,7 @@ theorem exists_common_elementaryEtaleNeighborhood_absoluteApproximation
 
 /-! ### Tag 0CB1: the approximating diagram with an étale leg -/
 
-/-- **Stacks Project, Tag 0CB1 (More on Morphisms, Lemma 37.39.7).** With the notation and
+/-- **The diagram of Tag 0CB1 from an isomorphism of completions.** With the notation and
 assumptions of Tag 0CAW — a locally Noetherian `S`, morphisms `p : X ⟶ S`, `q : Y ⟶ T` and
 `h : T ⟶ S` locally of finite type, points `x ↦ s` and `y ↦ t ↦ s`, a G-ring `𝒪_{S, s}`, a
 local `𝒪_{S, s}`-algebra map `σ : 𝒪_{T, t} → 𝒪^∧_{S, s}`, the base change
@@ -4547,33 +4548,12 @@ alone the completions can be a cusp and a node.
 The correspondence of `y_τ` with `y_σ` is recorded in addition, as in Tag 0GDX: an isomorphism
 `eBase` of the residue fields of the two bases compatible with their maps to `S` and to `T`, and
 an isomorphism `eFiber` of the scheme-theoretic closed fibres compatible with the two maps to
-`Y` and with `eBase`, carrying the point above `y_σ` to the point above `y_τ`. -/
-@[stacks 0CB1 "the source's own hypotheses, with nothing beyond them: `h : T ⟶ S` locally of \
-finite type, `σ : 𝒪_{T, t} → 𝒪^∧_{S, s}` a local `𝒪_{S, s}`-algebra map for `h`, the base \
-change `Y_σ = Y ×_{T, σ} Spec 𝒪^∧_{S, s}`, a point `y_σ` of `Y_σ` over `y` and the closed \
-point, and the isomorphism `φ : 𝒪^∧_{X, x} ≅ 𝒪^∧_{Y_σ, y_σ}` of `𝒪_{S, s}`-algebras which is \
-what 0CB1 adds to Tag 0CAW. Theorem 07QZ is NOT carried: the `LocalApproximationProperty` \
-hypothesis of Tag 0CAU behind Tag 0CAV and behind the first stage of Tag 0CAW is \
-discharged with `StacksDraft.ArtinApproximation.localApproximationProperty`, which rests on the \
-unconditional Tag 07QZ `Stacks.Smoothing.exists_localEtaleSolution_of_isGRing` and hence \
-on the unconditional Popescu Theorem 07GC `Stacks.Smoothing.indSmooth_of_isRegularRingMap`. \
-The conclusion is the source's whole diagram: clauses (1), (2), (3), (4) and (5) of Tag 0CAW \
-together with the étaleness of `f : W ⟶ X ×_S V`, which is the content of 0CB1. Clause (5) is \
-the ring isomorphism `θ : 𝒪_{Y_σ, y_σ}/𝔪^N ≅ 𝒪_{Y ×_{T, τ} V, (y, v)}/𝔪^N` which the \
-conclusion exhibits, compatible with the two maps from `𝒪_{Y, y}` and with the two maps from \
-`𝒪_{S, s}` — the compatibilities which characterise the source's canonical identification over \
-`𝒪_{V, v}/𝔪_v ^ N = 𝒪_{S, s}/𝔪_s ^ N` — together with the source's commuting square: `φ` read \
-on `𝒪_{X, x}` through `θ` and then through `W ⟶ Y ×_{T, τ} V` is `F^♯_w` modulo `𝔪_w ^ N`. \
-Only the `𝔪 ^ N`-truncations are identified; the completions `𝒪^∧_{Y_σ, y_σ}` and \
-`𝒪^∧_{Y ×_{T, τ} V, y_τ}` need not be isomorphic, as the cusp-versus-node example in the \
-module docstring of \
-`StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/FiniteTypeBaseApproximation.lean` \
-shows. The identification of the closed fibres `(Y_σ)_s ≅ (Y ×_T V)_v` of Tag 0GDX \
-is recorded as well. The route to étaleness is Tag 0CAV over `Spec 𝒪^∧_{S, s}` followed by the \
-descent of Tag 0GDX, which delivers `W ⟶ X` étale directly, in place of the source's comparison \
-of associated graded rings through Tag 0CAY; clause (5) comes from the congruence modulo \
-`𝔪 ^ N` that Tag 0CAV supplies upstairs, transported to `W` by the order-`N` comparison of the \
-two base changes of the stage object along `Spec 𝒪^∧_{S, s} ⟶ D` and along `V ⟶ D`"]
+`Y` and with `eBase`, carrying the point above `y_σ` to the point above `y_τ`.
+
+Here the isomorphism of completions is the input; Tag 0CB1 as stated, for a local
+`𝒪_{S, s}`-algebra map `φ : 𝒪_{X, x} → 𝒪^∧_{Y_σ, y_σ}` inducing an isomorphism on
+completions, is `StacksDraft.ArtinApproximation.exists_etale_relativeMapApproximation`, which
+is derived from this. -/
 theorem exists_etale_relativeIsomorphismApproximation
     {X S Y T : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T) (h : T ⟶ S)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [LocallyOfFiniteType h]

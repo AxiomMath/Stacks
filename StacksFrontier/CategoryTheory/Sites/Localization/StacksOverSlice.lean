@@ -264,7 +264,12 @@ lemma fromSliceFullSub_comp_toSliceFullSub (p : 𝒮 ⥤ Over U) :
 
 end ConstructionB
 
-/-- **Construction B of Stacks 04WV, at the level of stacks.** Let `U` be an object of `𝒞` whose
+/-- **Construction B of Stacks 04WV, at the level of stacks, for a site with fibre products.** This
+is not the registration of Stacks 04WV: the statement without `[HasPullbacks 𝒞]`, for an arbitrary
+site as in the source, is `CategoryTheory.Over.isStack_of_isStack_comp_forget`
+(`StacksFrontier/CategoryTheory/Sites/Localization/StackOfCompForget.lean`), which carries the tag.
+
+Let `U` be an object of `𝒞` whose
 representable presheaf `h_U` is a sheaf, and let `p : 𝒮 ⥤ 𝒞/U` be a functor whose composite with
 the localization functor `j_U` is a stack over `(𝒞, J)`. Then `p` itself is a stack over the site
 `(𝒞/U, J.over U)`. This is the source's "in this case it is automatically the case that
@@ -288,7 +293,8 @@ Two costs of this route, both stated here rather than hidden.
   Stacks 04WC, whose proof genuinely uses fibre products in the source site
   (`CategoryTheory.StrictPullback.glue`); the source's notion of a morphism of sites (Stacks 00WU)
   asks for them, and Mathlib's `Functor.IsContinuous` does not. So this is Construction B for a
-  site with fibre products, which is a mild weakening of 04WV.
+  site with fibre products only; the hypothesis is not needed for the result itself, as the
+  direct proof of `CategoryTheory.Over.isStack_of_isStack_comp_forget` shows.
 * The universes are *not* pinned, and the earlier note here saying they were is superseded. The
   pushforward lives in `Type (max u₁ v₁ u₂)` with morphisms in `max v₁ v₂`, and `𝒮` used to be
   given there so that it and the full subcategory of the pushforward coincide; but the transport
@@ -301,7 +307,6 @@ Two costs of this route, both stated here rather than hidden.
   universe settings where it is used: `CategoryTheory.Over.isStack_map_iff` and
   `CategoryTheory.Over.isStack_of_comp_forget_slice` keep their own statements unchanged and only
   their explicit universe applications of this result move. -/
-@[stacks 04WV]
 theorem isStack_of_comp_forget [HasPullbacks 𝒞] {𝒮 : Type u₂} [Category.{v₂} 𝒮]
     (p : 𝒮 ⥤ Over U) {J : GrothendieckTopology 𝒞}
     (hU : Presheaf.IsSheaf J (yoneda.obj U)) (hq : (p ⋙ Over.forget U).IsStack J) :
@@ -360,8 +365,11 @@ theorem isStack_map_iff [HasPullbacks 𝒞] {V W : 𝒞} (g : V ⟶ W)
 as a functor of the 2-categories of stacks, bijective on 1-morphisms and on 2-morphisms and
 compatible with identities, composition and whiskering
 (`CategoryTheory.Over.stackConstructionHomEquiv`, `CategoryTheory.Over.stackConstructionHom₂Equiv`
-and their companions). Construction B completes it to a bijection on objects, and that is all of
-Stacks 04WV that was missing.
+and their companions). Construction B completes it to a bijection on objects. The section below
+does so for a site with fibre products, through `CategoryTheory.Over.isStack_of_comp_forget`; the
+bijection for an arbitrary site, as in the source, is
+`CategoryTheory.Over.basedStackEquivStackPair`
+(`StacksFrontier/CategoryTheory/Sites/Localization/StackOfCompForget.lean`).
 
 The universes are pinned exactly as there, and for the same reason: the right-hand 2-category
 speaks of a 1-morphism `𝒯 ⟶ 𝒞/U` inside the 2-category of stacks over `𝒞`, so `𝒞/U` has to be an
@@ -411,7 +419,11 @@ lemma stackConstructionA_stackConstructionB_aux {X₀ : Type (max u₁ v₁)} [i
   subst hw
   rfl
 
-/-- **Constructions A and B of Stacks 04WV are mutually inverse on objects.** A pair `(𝒯, p)`
+/-- **Constructions A and B of Stacks 04WV are mutually inverse on objects**, for a site with fibre
+products (the section variable `[HasPullbacks 𝒞]`, inherited from
+`CategoryTheory.Over.isStack_of_comp_forget`). This is not the registration of Stacks 04WV: the
+bijection for an arbitrary site, as in the source, is
+`CategoryTheory.Over.basedStackEquivStackPair`, which carries the tag. A pair `(𝒯, p)`
 carries no information beyond `p`, because "`p` is a 1-morphism of categories over `𝒞`" says
 exactly that the structure functor of `𝒯` is `p ⋙ j_U`; and the two stack conditions agree, by
 `CategoryTheory.Functor.isStack_comp_forget` in one direction and
@@ -421,7 +433,6 @@ Together with `CategoryTheory.Over.stackConstructionHomEquiv` and
 `CategoryTheory.Over.stackConstructionHom₂Equiv`, which are bijections on 1-morphisms and on
 2-morphisms compatible with identities, composition and whiskering, this exhibits Constructions A
 and B as mutually inverse functors of the two 2-categories. -/
-@[stacks 04WV]
 def stackConstructionObjEquiv :
     BasedStack.{v₁, v₁, max u₁ v₁, max u₁ v₁} (Over U) (J.over U) ≃ StackPair U J hU where
   toFun := stackConstructionA U J hU

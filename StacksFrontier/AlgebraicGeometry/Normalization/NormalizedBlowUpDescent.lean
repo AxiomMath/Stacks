@@ -21,13 +21,23 @@ normalized blowups `Xₙ → ⋯ → X₁ → Spec A`, and the latter is proper 
 ## Main definitions
 
 * `AlgebraicGeometry.NormalizedBlowUpSeqDescent` is the predicate asserting that a sequence of
-  normalized blowups over `Spec A` has a given sequence of normalized blowups over `Spec A^` as
+  normalized blowups over `Spec A` has some sequence of normalized blowups over `Spec A^` as
   its base change, stage by stage.
+* `AlgebraicGeometry.NormalizedBlowUpTower` is a sequence of normalized blowups at closed points
+  recorded as data: its stages and the points blown up.
+* `AlgebraicGeometry.NormalizedBlowUpTowerDescent` is the predicate asserting that a sequence of
+  normalized blowups over `Spec A` has a given `NormalizedBlowUpTower` over `Spec A^` as its base
+  change, stage by stage.
 
 ## Main results
 
-* `AlgebraicGeometry.exists_normalizedBlowUpSeqDescent_of_adicCompletion`: the descent
-  statement, Tag 0BGA.
+* `AlgebraicGeometry.NormalizedBlowUpSeqDescent.exists_isPullback_normalizedBlowUp`: the step of
+  the descent; the normalized blowup of the top stage upstairs at any closed point descends.
+* `AlgebraicGeometry.exists_normalizedBlowUpTowerDescent_of_adicCompletion`: every given sequence
+  of normalized blowups of `Spec A^` descends stage by stage, for `A^` Nagata (Tag 0BGA, whose
+  unconditional form is in `NormalizedBlowUpDescentExtra`).
+* `AlgebraicGeometry.exists_normalizedBlowUpSeqDescent_of_adicCompletion`: the same for a
+  sequence known only through its top stage.
 * `AlgebraicGeometry.NormalizedBlowUpSeqDescent.seq`,
   `AlgebraicGeometry.NormalizedBlowUpSeqDescent.seqCompletion` and
   `AlgebraicGeometry.NormalizedBlowUpSeqDescent.isPullback` read off from a descent the two
@@ -231,8 +241,8 @@ private theorem exists_isPullback_blowUpToBase_of_comap_eq {X Y : Scheme.{u}} (p
 
 /-- One step of the descent. Let `X` be proper over `Spec A` with completed base change `Y`, let
 `y` be a closed point of `Y` over the closed point of `Spec A^`. Then the normalized blowup of `Y`
-at `y` is the completed base change of the normalized blowup of `X` at the image of `y`, and the
-latter is again proper over `Spec A`. -/
+at `y` is the completed base change of the normalized blowup of `X` at the image `p y` of `y`,
+which is a closed point, and the latter is again proper over `Spec A`. -/
 private theorem exists_normalizedBlowUp_isPullback_step
     (A : Type u) [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
     {X Y : Scheme.{u}} {f : X ⟶ Spec (.of A)} [IsProper f] [IsLocallyNoetherian X]
@@ -242,16 +252,16 @@ private theorem exists_normalizedBlowUp_isPullback_step
     (hYfin : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite)
     (y : Y) (hy : IsClosed ({y} : Set Y))
     (hgy : g y = closedPoint (AdicCompletion (maximalIdeal A) A)) :
-    ∃ (x : X) (hx : IsClosed ({x} : Set X))
+    ∃ (hx : IsClosed ({p y} : Set X))
       (t : Stacks.Blowup.normalizedBlowUpScheme Y hYfin y hy ⟶
-            Stacks.Blowup.normalizedBlowUpScheme X hXfin x hx),
-      IsProper (Stacks.Blowup.normalizedBlowUp X hXfin x hx ≫ f) ∧
+            Stacks.Blowup.normalizedBlowUpScheme X hXfin (p y) hx),
+      IsProper (Stacks.Blowup.normalizedBlowUp X hXfin (p y) hx ≫ f) ∧
         IsPullback t (Stacks.Blowup.normalizedBlowUp Y hYfin y hy)
-          (Stacks.Blowup.normalizedBlowUp X hXfin x hx) p := by
+          (Stacks.Blowup.normalizedBlowUp X hXfin (p y) hx) p := by
   have : Flat p := MorphismProperty.of_isPullback hsq.flip inferInstance
   obtain ⟨hx, -, hcomap⟩ := isClosed_singleton_and_comap_vanishingIdeal p hy
     (isIso_fiberToSpecResidueField_closure A hsq y hgy)
-  refine ⟨p y, hx, ?_⟩
+  refine ⟨hx, ?_⟩
   let I := Scheme.IdealSheafData.vanishingIdeal (⟨{p y}, hx⟩ : Closeds X)
   let J := Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y)
   obtain ⟨h, hsqB⟩ := exists_isPullback_blowUpToBase_of_comap_eq p I J hcomap
@@ -334,18 +344,17 @@ public theorem NormalizedBlowUpSeqDescent.isPullback {A : Type u} [CommRing A] [
   | refl => exact IsPullback.of_id_snd
   | blowUp prev hXfin hYfin x hx y hy t hcart ih => exact hcart.paste_vert ih
 
-/-- **Stacks Project, Tag 0BGA.** Let `A` be a Noetherian local domain whose completion `A^` is
-normal. Every finite sequence of normalized blowups `Yₙ → ⋯ → Y₁ → Spec A^` is the base change
-to `A^` of a finite sequence of normalized blowups `Xₙ → ⋯ → X₁ → Spec A`, stage by stage, and
-the latter sequence is proper over `Spec A`.
+/-- Let `A` be a Noetherian local domain whose completion `A^` is normal and Nagata. For every
+`Y ⟶ Spec A^` reached by *some* finite sequence of normalized blowups at closed points, there is a
+descent: a sequence of normalized blowups over `Spec A`, proper over `Spec A`, together with *a*
+sequence of normalized blowups over `Spec A^` with top stage `Y ⟶ Spec A^` of which it is the
+base change, stage by stage.
 
-The hypothesis that `A^` is a Nagata ring is Tag 0335 for a Noetherian complete local ring; it is
-carried explicitly because that case of Tag 0335 is not available here. It is what makes every
-stage of the given sequence normal and proper over `Spec A^`, hence makes the centre of each
-normalized blowup lie over the closed point. -/
-@[stacks 0BGA "the whole statement, under the additional hypothesis that the completion is a \
-Nagata ring; that is Tag 0335 item (2) for a Noetherian complete local ring, which is not \
-available here"]
+The hypothesis `NormalizedBlowUpSeq` only records the top stage, so this does not say that the
+intermediate stages and the centres of the descended sequence upstairs are those of a sequence
+given in advance. That is the content of Tag 0BGA, and it is
+`exists_normalizedBlowUpTowerDescent_of_adicCompletion`, which takes the sequence as data
+(`NormalizedBlowUpTower`). -/
 public theorem exists_normalizedBlowUpSeqDescent_of_adicCompletion
     (A : Type u) [CommRing A] [IsDomain A] [IsNoetherianRing A] [IsLocalRing A]
     (hnormal : IsNormalRing (AdicCompletion (maximalIdeal A) A))
@@ -372,11 +381,153 @@ public theorem exists_normalizedBlowUpSeqDescent_of_adicCompletion
     let := hZnormal
     let := hhproper
     let : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
-    obtain ⟨x, hx, t, hproper, hsqstep⟩ :=
+    obtain ⟨hx, t, hproper, hsqstep⟩ :=
       exists_normalizedBlowUp_isPullback_step A hdesc.isPullback
         (finite_irreducibleComponents_of_locallyNoetherian X) hZfin z hz
         (apply_eq_closedPoint_of_isProper h hz)
-    exact ⟨_, _, t, hdesc.blowUp _ hZfin x hx z hz t hsqstep, hproper⟩
+    exact ⟨_, _, t, hdesc.blowUp _ hZfin _ hx z hz t hsqstep, hproper⟩
+
+/-! ### Descending a given sequence, stage by stage -/
+
+/-- A finite sequence of normalized blowups at closed points over a base `S`,
+`Yₙ → ⋯ → Y₁ → S`, recorded as data: unlike the predicate `NormalizedBlowUpSeq`, it remembers
+every intermediate stage and the closed point blown up at each step. The indexed morphism is the
+composite down to `S`. -/
+public inductive NormalizedBlowUpTower (S : Scheme.{u}) :
+    (Y : Scheme.{u}) → (Y ⟶ S) → Type (u + 1) where
+  | refl : NormalizedBlowUpTower S S (CategoryTheory.CategoryStruct.id S)
+  | blowUp {Y : Scheme.{u}} {g : Y ⟶ S} (prev : NormalizedBlowUpTower S Y g)
+      (hY : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite)
+      (y : Y) (hy : IsClosed ({y} : Set Y)) :
+      NormalizedBlowUpTower S (Stacks.Blowup.normalizedBlowUpScheme Y hY y hy)
+        (Stacks.Blowup.normalizedBlowUp Y hY y hy ≫ g)
+
+/-- The top stage of a recorded sequence of normalized blowups is reached by a sequence of
+normalized blowups. -/
+public theorem NormalizedBlowUpTower.normalizedBlowUpSeq {S Y : Scheme.{u}} {g : Y ⟶ S}
+    (T : NormalizedBlowUpTower S Y g) : NormalizedBlowUpSeq S Y g := by
+  induction T with
+  | refl => exact NormalizedBlowUpSeq.refl
+  | blowUp prev hY y hy ih => exact ih.blowUp hY y hy
+
+/-- Every sequence of normalized blowups can be recorded as data. -/
+public theorem NormalizedBlowUpSeq.nonempty_normalizedBlowUpTower {S Y : Scheme.{u}}
+    {g : Y ⟶ S} (hseq : NormalizedBlowUpSeq S Y g) : Nonempty (NormalizedBlowUpTower S Y g) := by
+  induction hseq with
+  | refl => exact ⟨NormalizedBlowUpTower.refl⟩
+  | blowUp prev hX x hx ih => exact ⟨ih.some.blowUp hX x hx⟩
+
+/-- A sequence of normalized blowups over `Spec A` which descends a *given* sequence
+`T : NormalizedBlowUpTower` of normalized blowups over `Spec A^`, stage by stage: `p` compares the
+two top stages, and at every step the normalized blowup of the current stage of `T` at the closed
+point `y` recorded in `T` is the base change, along the comparison of the stage below, of the
+normalized blowup of the current stage over `Spec A` at the image `p y` of `y`. -/
+public inductive NormalizedBlowUpTowerDescent (A : Type u) [CommRing A] [IsLocalRing A] :
+    {Y : Scheme.{u}} → {g : Y ⟶ Spec (.of (AdicCompletion (maximalIdeal A) A))} →
+      NormalizedBlowUpTower (Spec (.of (AdicCompletion (maximalIdeal A) A))) Y g →
+      (X : Scheme.{u}) → (X ⟶ Spec (.of A)) → (Y ⟶ X) → Prop where
+  | refl : NormalizedBlowUpTowerDescent A NormalizedBlowUpTower.refl (Spec (.of A))
+      (CategoryTheory.CategoryStruct.id (Spec (.of A))) (specMapAdicCompletion A)
+  | blowUp {Y : Scheme.{u}} {g : Y ⟶ Spec (.of (AdicCompletion (maximalIdeal A) A))}
+      {T : NormalizedBlowUpTower (Spec (.of (AdicCompletion (maximalIdeal A) A))) Y g}
+      {X : Scheme.{u}} {f : X ⟶ Spec (.of A)} {p : Y ⟶ X}
+      (prev : NormalizedBlowUpTowerDescent A T X f p)
+      (hXfin : ∀ U : X.Opens, IsCompact (U : Set X) → (irreducibleComponents U).Finite)
+      (hYfin : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite)
+      (y : Y) (hy : IsClosed ({y} : Set Y)) (hx : IsClosed ({p y} : Set X))
+      (t : Stacks.Blowup.normalizedBlowUpScheme Y hYfin y hy ⟶
+            Stacks.Blowup.normalizedBlowUpScheme X hXfin (p y) hx)
+      (hcart : IsPullback t (Stacks.Blowup.normalizedBlowUp Y hYfin y hy)
+        (Stacks.Blowup.normalizedBlowUp X hXfin (p y) hx) p) :
+      NormalizedBlowUpTowerDescent A (T.blowUp hYfin y hy)
+        (Stacks.Blowup.normalizedBlowUpScheme X hXfin (p y) hx)
+        (Stacks.Blowup.normalizedBlowUp X hXfin (p y) hx ≫ f) t
+
+/-- A descent of a given sequence is in particular a descent in the sense of
+`NormalizedBlowUpSeqDescent`. -/
+public theorem NormalizedBlowUpTowerDescent.normalizedBlowUpSeqDescent {A : Type u} [CommRing A]
+    [IsLocalRing A] {X Y : Scheme.{u}} {f : X ⟶ Spec (.of A)}
+    {g : Y ⟶ Spec (.of (AdicCompletion (maximalIdeal A) A))} {p : Y ⟶ X}
+    {T : NormalizedBlowUpTower (Spec (.of (AdicCompletion (maximalIdeal A) A))) Y g}
+    (hdesc : NormalizedBlowUpTowerDescent A T X f p) :
+    NormalizedBlowUpSeqDescent A X f Y g p := by
+  induction hdesc with
+  | refl => exact NormalizedBlowUpSeqDescent.refl
+  | blowUp prev hXfin hYfin y hy hx t hcart ih => exact ih.blowUp hXfin hYfin _ hx y hy t hcart
+
+/-- The top stage of the given sequence is the base change to `A^` of the top stage of a
+descent of it. -/
+public theorem NormalizedBlowUpTowerDescent.isPullback {A : Type u} [CommRing A] [IsLocalRing A]
+    {X Y : Scheme.{u}} {f : X ⟶ Spec (.of A)}
+    {g : Y ⟶ Spec (.of (AdicCompletion (maximalIdeal A) A))} {p : Y ⟶ X}
+    {T : NormalizedBlowUpTower (Spec (.of (AdicCompletion (maximalIdeal A) A))) Y g}
+    (hdesc : NormalizedBlowUpTowerDescent A T X f p) :
+    IsPullback p g f (specMapAdicCompletion A) :=
+  hdesc.normalizedBlowUpSeqDescent.isPullback
+
+/-- **The step of the descent.** Let `A` be a Noetherian local ring whose completion `A^` is
+normal and Nagata, and let `X ⟶ Spec A`, proper, be a descent of a sequence of normalized blowups
+ending in `Y ⟶ Spec A^`. For every closed point `y` of `Y`, its image `p y` is a closed point of
+`X`, the normalized blowup of `X` at `p y` is again proper over `Spec A`, and its base change along
+`p` is the normalized blowup of `Y` at `y`. -/
+public theorem NormalizedBlowUpSeqDescent.exists_isPullback_normalizedBlowUp
+    {A : Type u} [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
+    (hnormal : IsNormalRing (AdicCompletion (maximalIdeal A) A))
+    (hnagata : IsNagataRing (AdicCompletion (maximalIdeal A) A))
+    {X Y : Scheme.{u}} {f : X ⟶ Spec (.of A)}
+    {g : Y ⟶ Spec (.of (AdicCompletion (maximalIdeal A) A))} {p : Y ⟶ X}
+    (hdesc : NormalizedBlowUpSeqDescent A X f Y g p) [IsProper f]
+    (hXfin : ∀ U : X.Opens, IsCompact (U : Set X) → (irreducibleComponents U).Finite)
+    (hYfin : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite)
+    (y : Y) (hy : IsClosed ({y} : Set Y)) :
+    ∃ (hx : IsClosed ({p y} : Set X))
+      (t : Stacks.Blowup.normalizedBlowUpScheme Y hYfin y hy ⟶
+            Stacks.Blowup.normalizedBlowUpScheme X hXfin (p y) hx),
+      IsProper (Stacks.Blowup.normalizedBlowUp X hXfin (p y) hx ≫ f) ∧
+        IsPullback t (Stacks.Blowup.normalizedBlowUp Y hYfin y hy)
+          (Stacks.Blowup.normalizedBlowUp X hXfin (p y) hx) p := by
+  have hnagataScheme : IsNagataScheme (Spec (.of (AdicCompletion (maximalIdeal A) A))) :=
+    isNagataScheme_spec_of_isNagataRing _ hnagata
+  let : IsNormal (Spec (.of (AdicCompletion (maximalIdeal A) A))) :=
+    isNormal_spec_of_isNormalRing hnormal
+  let : IsLocallyNoetherian (Spec (.of (AdicCompletion (maximalIdeal A) A))) :=
+    ((isNagataScheme_iff_isLocallyNoetherian_and_isUniversallyJapaneseScheme _).mp
+      hnagataScheme).1
+  obtain ⟨-, -, hYnormal, hgproper⟩ := hdesc.seqCompletion.properties hnagataScheme
+  let := hYnormal
+  let := hgproper
+  let : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
+  exact exists_normalizedBlowUp_isPullback_step A hdesc.isPullback hXfin hYfin y hy
+    (apply_eq_closedPoint_of_isProper g hy)
+
+/-- Let `A` be a Noetherian local domain whose completion `A^` is normal and Nagata. Every given
+finite sequence of normalized blowups `T : Yₙ → ⋯ → Y₁ → Spec A^` descends, stage by stage, to a
+sequence of normalized blowups `Xₙ → ⋯ → X₁ → Spec A` which is proper over `Spec A`: at every
+step the normalized blowup of `Yᵢ` at the closed point recorded in `T` is the base change of the
+normalized blowup of `Xᵢ` at the corresponding closed point.
+
+The hypothesis that `A^` is Nagata is discharged in
+`exists_normalizedBlowUpTowerDescent_of_adicCompletion_unconditional`. -/
+public theorem exists_normalizedBlowUpTowerDescent_of_adicCompletion
+    (A : Type u) [CommRing A] [IsDomain A] [IsNoetherianRing A] [IsLocalRing A]
+    (hnormal : IsNormalRing (AdicCompletion (maximalIdeal A) A))
+    (hnagata : IsNagataRing (AdicCompletion (maximalIdeal A) A))
+    {Y : Scheme.{u}} {g : Y ⟶ Spec (.of (AdicCompletion (maximalIdeal A) A))}
+    (T : NormalizedBlowUpTower (Spec (.of (AdicCompletion (maximalIdeal A) A))) Y g) :
+    ∃ (X : Scheme.{u}) (f : X ⟶ Spec (.of A)) (p : Y ⟶ X),
+      NormalizedBlowUpTowerDescent A T X f p ∧ IsProper f := by
+  induction T with
+  | refl =>
+    exact ⟨Spec (.of A), CategoryStruct.id _, specMapAdicCompletion A,
+      NormalizedBlowUpTowerDescent.refl, inferInstance⟩
+  | blowUp prev hZfin z hz ih =>
+    obtain ⟨X, f, p, hdesc, hfproper⟩ := ih
+    let := hfproper
+    let : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
+    obtain ⟨hx, t, hproper, hsqstep⟩ :=
+      hdesc.normalizedBlowUpSeqDescent.exists_isPullback_normalizedBlowUp hnormal hnagata
+        (finite_irreducibleComponents_of_locallyNoetherian X) hZfin z hz
+    exact ⟨_, _, t, hdesc.blowUp _ hZfin z hz hx t hsqstep, hproper⟩
 
 end AlgebraicGeometry
 

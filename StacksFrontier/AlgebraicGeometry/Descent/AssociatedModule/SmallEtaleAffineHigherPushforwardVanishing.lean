@@ -46,11 +46,10 @@ and this file is what makes such a term acyclic once it has been identified with
 along the affine composite.  In degree zero the corresponding statement is
 `AlgebraicGeometry.SmallEtale.isQuasicoherentOnSite_pushforward`.
 
-It is also the small-étale-site analogue, for schemes, of [Stacks, Tag 073H]: the algebraic
-spaces statement `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`
-carries its affine case as the unproved hypothesis `h03DW`, whereas here the affine acyclicity
-is the theorem `AlgebraicGeometry.SmallEtale.isZero_rightDerived_evaluation_of_isAffine` and
-nothing is withheld.
+It is also the small-étale-site analogue, for schemes, of [Stacks, Tag 073H], whose algebraic
+spaces statement is `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_isAffineHom`;
+here the affine acyclicity is the theorem
+`AlgebraicGeometry.SmallEtale.isZero_rightDerived_evaluation_of_isAffine`.
 
 ## Main results
 
@@ -87,7 +86,8 @@ presieve with no further work;  destructing membership in it names the index, wh
 affineness of the member comes from.
 
 **No `@[stacks]` attribute is placed.**  [Stacks, Tag 073H] is stated for algebraic spaces and
-is registered in `StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean`;
+is registered in
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishingUnconditional.lean`;
 the statement here is about a morphism of the small étale sites of two schemes, which is not an
 instance of it in this development.
 

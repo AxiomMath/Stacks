@@ -54,8 +54,11 @@ only place where it enters the argument of the source; it is retained so that th
 the statement of the source.
 
 Both `Rf_!` functors take an explicit compactification, as in
-`Stacks.EtaleCohomology.derivedLowerShriek`: Stacks Tag 0F7I, the independence of the choice, is
-not available, so a compactification of `f` and one of `f'` are separate arguments.
+`Stacks.EtaleCohomology.derivedLowerShriek`, so a compactification of `f` and one of `f'` are
+separate arguments. Stacks Tag 0F7I, the independence of the choice, is proved separately as
+`Stacks.EtaleCohomology.derivedLowerShriek_independent_of_compactification` (in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactificationIndependence.Independence`) and is
+not used here.
 
 ## References
 

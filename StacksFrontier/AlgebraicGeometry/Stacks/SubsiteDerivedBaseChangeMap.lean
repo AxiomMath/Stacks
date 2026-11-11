@@ -42,8 +42,10 @@ abelian sheaves as complexes concentrated in degree zero.
   `AlgebraicGeometry.Stack.FlatFppf.isIso_baseChangeMapPlus`: the base change map is an
   isomorphism of functors on `D⁺`.
 * `AlgebraicGeometry.Stack.LisseEtale.isIso_baseChangeMapPlus_app` and
-  `AlgebraicGeometry.Stack.FlatFppf.isIso_baseChangeMapPlus_app`: **Stacks 0GR3**, the base
-  change map at an abelian sheaf is an isomorphism.
+  `AlgebraicGeometry.Stack.FlatFppf.isIso_baseChangeMapPlus_app`: the base change map at an
+  abelian sheaf is an isomorphism, in each case.
+* `AlgebraicGeometry.Stack.isIso_baseChangeMapPlus_app_lisseEtale_and_flatFppf`: **Stacks 0GR3**,
+  both cases together.
 
 ## References
 
@@ -174,15 +176,6 @@ is an isomorphism in the bounded below derived category of abelian sheaves on th
 site of `𝒴`, for any model of the derived categories. The map is
 `Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus` at the canonical map
 `g⁻¹f_* ⟶ f'_*(g')⁻¹` of Sites, Section 06UM, evaluated at `ℱ` placed in degree zero. -/
-@[stacks 0GR3 "the lisse-étale case: the canonical base change map g⁻¹ Rf_* ℱ ⟶ Rf'_* (g')⁻¹ ℱ \
-is an isomorphism for every abelian sheaf ℱ on 𝒳_étale, in D⁺ for any model of the derived \
-categories. The map is Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus (the \
-identification g⁻¹ ∘ Rf_* = R(g⁻¹ ∘ f_*) for the exact g⁻¹, the derived map of the canonical map \
-g⁻¹f_* ⟶ f'_*(g')⁻¹ of Sites 06UM, and the canonical comparison R(f'_* ∘ (g')⁻¹) ⟶ Rf'_* ∘ (g')⁻¹ \
-of 05T2) at ℱ in degree zero. Nothing is assumed: the degree-zero isomorphism is 07AT \
-(AlgebraicGeometry.Stack.LisseEtale.isIso_abelianSheafBaseChange) and the acyclicity of \
-restricted injectives for f'_* is proved by descent \
-(AlgebraicGeometry.Stack.LisseEtale.isZero_rightDerived_restriction_of_injective)"]
 theorem isIso_baseChangeMapPlus_app
     (ℱ : Sheaf (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B)) AddCommGrpCat.{u + 1}) :
     haveI := isCocontinuous_subsiteFunctor.{u, w} B S hS f hf
@@ -318,15 +311,6 @@ is an isomorphism in the bounded below derived category of abelian sheaves on th
 site of `𝒴`, for any model of the derived categories. The map is
 `Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus` at the canonical map
 `g⁻¹f_* ⟶ f'_*(g')⁻¹` of Sites, Section 06UM, evaluated at `ℱ` placed in degree zero. -/
-@[stacks 0GR3 "the flat-fppf case: the canonical base change map g⁻¹ Rf_* ℱ ⟶ Rf'_* (g')⁻¹ ℱ \
-is an isomorphism for every abelian sheaf ℱ on 𝒳_fppf, in D⁺ for any model of the derived \
-categories. The map is Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus (the \
-identification g⁻¹ ∘ Rf_* = R(g⁻¹ ∘ f_*) for the exact g⁻¹, the derived map of the canonical map \
-g⁻¹f_* ⟶ f'_*(g')⁻¹ of Sites 06UM, and the canonical comparison R(f'_* ∘ (g')⁻¹) ⟶ Rf'_* ∘ (g')⁻¹ \
-of 05T2) at ℱ in degree zero. Nothing is assumed: the degree-zero isomorphism is 07AT \
-(AlgebraicGeometry.Stack.FlatFppf.isIso_abelianSheafBaseChange) and the acyclicity of \
-restricted injectives for f'_* is proved by descent \
-(AlgebraicGeometry.Stack.FlatFppf.isZero_rightDerived_restriction_of_injective)"]
 theorem isIso_baseChangeMapPlus_app
     (ℱ : Sheaf (associatedTopology B S hS 𝒳.val.val.p B.topology) AddCommGrpCat.{u + 1}) :
     haveI := isCocontinuous_subsiteFunctor B S hS f hf
@@ -357,5 +341,107 @@ theorem isIso_baseChangeMapPlus_app
   infer_instance
 
 end FlatFppf
+
+attribute [local instance] LisseEtale.instIsContinuousInclusion
+  LisseEtale.instIsCocontinuousInclusion LisseEtale.instAdditiveRestriction
+  LisseEtale.instPreservesFiniteColimitsRestriction LisseEtale.instPreservesFiniteLimitsRestriction
+  LisseEtale.isGrothendieckAbelian_sheaf_associatedTopology
+  LisseEtale.isGrothendieckAbelian_sheaf_inclusionTopology FlatFppf.instIsContinuousInclusion
+  FlatFppf.instIsCocontinuousInclusion FlatFppf.instAdditiveRestriction
+  FlatFppf.instPreservesFiniteColimitsRestriction FlatFppf.instPreservesFiniteLimitsRestriction
+
+/-- **Stacks 0GR3.** Let `f : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks, and as in **Stacks 07AT**
+let `f'` be its restriction to the lisse-étale sites when `f` is smooth (respectively to the
+flat-fppf sites when `f` is flat), and `g`, `g'` the inclusions of the lisse-étale (respectively
+flat-fppf) sites of `𝒴` and of `𝒳`. Then for every abelian sheaf `ℱ` on `𝒳_étale`
+(respectively `𝒳_fppf`) the canonical base change map
+
+`g⁻¹ Rf_* ℱ ⟶ Rf'_* (g')⁻¹ ℱ`
+
+is an isomorphism, in the bounded below derived categories, for any model of the derived
+categories. The map is `Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus` at the
+canonical map `g⁻¹f_* ⟶ f'_*(g')⁻¹` of Sites, Section 06UM, evaluated at `ℱ` placed in degree
+zero. The first conjunct is the lisse-étale case, the second the flat-fppf case. -/
+@[stacks 0GR3 "both cases: for f smooth (lisse-étale sites, ℱ on 𝒳_étale) and for f flat \
+(flat-fppf sites, ℱ on 𝒳_fppf), the canonical base change map g⁻¹ Rf_* ℱ ⟶ Rf'_* (g')⁻¹ ℱ is an \
+isomorphism for every abelian sheaf ℱ, in D⁺ for any model of the derived categories. The map is \
+Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus (the identification \
+g⁻¹ ∘ Rf_* = R(g⁻¹ ∘ f_*) for the exact g⁻¹, the derived map of the canonical map \
+g⁻¹f_* ⟶ f'_*(g')⁻¹ of Sites 06UM, and the canonical comparison R(f'_* ∘ (g')⁻¹) ⟶ Rf'_* ∘ (g')⁻¹ \
+of 05T2) at ℱ in degree zero. The degree-zero isomorphism is 07AT and the acyclicity of \
+restricted injectives for f'_* is proved by descent"]
+theorem isIso_baseChangeMapPlus_app_lisseEtale_and_flatFppf :
+    (open LisseEtale in ∀ {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
+      (hf : AlgebraicStacks.IsSmooth B S hS f)
+      [HasDerivedCategory.{w₁} (Sheaf (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))
+        AddCommGrpCat.{u + 1})]
+      [HasDerivedCategory.{w₂} (Sheaf (inclusionTopology.{u, w} B S hS 𝒳) AddCommGrpCat.{u + 1})]
+      [HasDerivedCategory.{w₃} (Sheaf (associatedTopology B S hS 𝒴.val.val.p (etaleTopology B))
+        AddCommGrpCat.{u + 1})]
+      [HasDerivedCategory.{w₄} (Sheaf (inclusionTopology.{u, w} B S hS 𝒴) AddCommGrpCat.{u + 1})]
+      (ℱ : Sheaf (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))
+        AddCommGrpCat.{u + 1}),
+      haveI := isCocontinuous_subsiteFunctor.{u, w} B S hS f hf
+      haveI := (isContinuous_and_isCocontinuous_homFunctor_associatedTopology B S hS f
+        (etaleTopology B)).2
+      letI := Functor.sheafPushforwardCocontinuous_additive.{u + 1, u + 1, u, u, u + 1}
+        f.hom.hom.toFunctor (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))
+        (associatedTopology B S hS 𝒴.val.val.p (etaleTopology B))
+      letI := Functor.sheafPushforwardCocontinuous_additive.{u + 1, u + 1, u, u, u + 1}
+        (SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor (smoothObject.{u, w} B S hS 𝒳)
+          (smoothObject_map.{u, w} B S hS f hf))
+        (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴)
+      IsIso ((Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus
+        (subsiteRestriction B S hS 𝒳.val.val.p (etaleTopology B) (smoothObject.{u, w} B S hS 𝒳))
+        (subsiteRestriction B S hS 𝒴.val.val.p (etaleTopology B) (smoothObject.{u, w} B S hS 𝒴))
+        (f.hom.hom.toFunctor.sheafPushforwardCocontinuous AddCommGrpCat.{u + 1}
+          (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))
+          (associatedTopology B S hS 𝒴.val.val.p (etaleTopology B)))
+        ((SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor (smoothObject.{u, w} B S hS 𝒳)
+          (smoothObject_map.{u, w} B S hS f hf)).sheafPushforwardCocontinuous AddCommGrpCat.{u + 1}
+            (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴))
+        (SubsitePushforward.subsiteAbelianSheafBaseChange.{_, _, _, _, u + 1}
+          f.hom.hom.toFunctor (smoothObject.{u, w} B S hS 𝒳) (smoothObject_map.{u, w} B S hS f hf)
+          (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))
+          (associatedTopology B S hS 𝒴.val.val.p (etaleTopology B))
+          (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴))).app
+        ((DerivedCategory.Plus.singleFunctor _ 0).obj ℱ))) ∧
+    (open FlatFppf in ∀ {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
+      (hf : AlgebraicStacks.IsFlat B S hS f)
+      [HasDerivedCategory.{w₁} (Sheaf (associatedTopology B S hS 𝒳.val.val.p B.topology)
+        AddCommGrpCat.{u + 1})]
+      [HasDerivedCategory.{w₂} (Sheaf (FlatFppf.inclusionTopology B S hS 𝒳)
+        AddCommGrpCat.{u + 1})]
+      [HasDerivedCategory.{w₃} (Sheaf (associatedTopology B S hS 𝒴.val.val.p B.topology)
+        AddCommGrpCat.{u + 1})]
+      [HasDerivedCategory.{w₄} (Sheaf (FlatFppf.inclusionTopology B S hS 𝒴)
+        AddCommGrpCat.{u + 1})]
+      (ℱ : Sheaf (associatedTopology B S hS 𝒳.val.val.p B.topology) AddCommGrpCat.{u + 1}),
+      haveI := isCocontinuous_subsiteFunctor B S hS f hf
+      haveI := (isContinuous_and_isCocontinuous_homFunctor B S hS f).2
+      letI := Functor.sheafPushforwardCocontinuous_additive.{u + 1, u + 1, u, u, u + 1}
+        f.hom.hom.toFunctor (associatedTopology B S hS 𝒳.val.val.p B.topology)
+        (associatedTopology B S hS 𝒴.val.val.p B.topology)
+      letI := Functor.sheafPushforwardCocontinuous_additive.{u + 1, u + 1, u, u, u + 1}
+        (SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor (flatObject B S hS 𝒳.val)
+          (flatObject_map B S hS f hf))
+        (inclusionTopology B S hS 𝒳) (inclusionTopology B S hS 𝒴)
+      IsIso ((Stacks.Cohomology.BoundedBelowComplexes.baseChangeMapPlus
+        (subsiteRestriction B S hS 𝒳.val.val.p B.topology (flatObject B S hS 𝒳.val))
+        (subsiteRestriction B S hS 𝒴.val.val.p B.topology (flatObject B S hS 𝒴.val))
+        (f.hom.hom.toFunctor.sheafPushforwardCocontinuous AddCommGrpCat.{u + 1}
+          (associatedTopology B S hS 𝒳.val.val.p B.topology)
+          (associatedTopology B S hS 𝒴.val.val.p B.topology))
+        ((SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor (flatObject B S hS 𝒳.val)
+          (flatObject_map B S hS f hf)).sheafPushforwardCocontinuous AddCommGrpCat.{u + 1}
+            (inclusionTopology B S hS 𝒳) (inclusionTopology B S hS 𝒴))
+        (SubsitePushforward.subsiteAbelianSheafBaseChange.{_, _, _, _, u + 1}
+          f.hom.hom.toFunctor (flatObject B S hS 𝒳.val) (flatObject_map B S hS f hf)
+          (associatedTopology B S hS 𝒳.val.val.p B.topology)
+          (associatedTopology B S hS 𝒴.val.val.p B.topology)
+          (inclusionTopology B S hS 𝒳) (inclusionTopology B S hS 𝒴))).app
+        ((DerivedCategory.Plus.singleFunctor _ 0).obj ℱ))) :=
+  ⟨fun f hf _ _ _ _ ℱ => LisseEtale.isIso_baseChangeMapPlus_app B S hS f hf ℱ,
+    fun f hf _ _ _ _ ℱ => FlatFppf.isIso_baseChangeMapPlus_app B S hS f hf ℱ⟩
 
 end AlgebraicGeometry.Stack

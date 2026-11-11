@@ -12,4 +12,4 @@ import StacksCore.Tactic.StacksAttribute
 @[expose] public section
 
 add_to_stacks 09FR Subfield.bot_eq_of_charZero
-add_to_stacks 09FR Subfield.bot_eq_of_zMod_algebra
+add_to_stacks 09FR Subfield.bot_eq_of_zmod_algebra

@@ -647,8 +647,13 @@ presentation over `𝒪_{S', s'}`, `g^*F` is of finite presentation, and `Γ(X',
 
 The two inputs are Tag 05ID,
 `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`, and
-Tag 05I5, `AlgebraicGeometry.existsElementaryEtaleNeighborhoodFinitePresentationFlatOver`. -/
-@[stacks 05KY]
+Tag 05I5, `AlgebraicGeometry.existsElementaryEtaleNeighborhoodFinitePresentationFlatOver`. The
+flatness of `F` at `x` is used only through Tag 05I5, and projectivity of the sections becomes
+freeness over the local ring `𝒪_{S', s'}` by Tag 0593. -/
+@[stacks 05KY "f locally of finite presentation, F quasi-coherent of finite type, F flat at x \
+  over S: an elementary étale neighbourhood (S', s') of (S, s) and (X', x') over Spec O_{S',s'} \
+  with X' → X ×_S Spec O_{S',s'} étale, κ(x) = κ(x'), X' affine of finite presentation over \
+  O_{S',s'}, g^*F of finite presentation and Γ(X', g^*F) free over O_{S',s'}"]
 theorem exists_etale_neighborhood_with_free_globalSections_of_isFiniteType
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
     (F : X.Modules) [F.IsQuasicoherent] [F.IsFiniteType]

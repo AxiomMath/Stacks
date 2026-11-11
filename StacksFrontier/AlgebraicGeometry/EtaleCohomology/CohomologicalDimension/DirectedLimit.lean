@@ -16,8 +16,8 @@ public import StacksFrontier.AlgebraicGeometry.Topologies.Etale.Existence
 system of quasi-compact and quasi-separated schemes with affine transition morphisms, then
 `cd(X) ≤ max cd(X_i)`.
 
-`AlgebraicGeometry.Scheme.etaleCohomologicalDimension_le_iSup_of_isLimit` states this with the
-transport of vanishing supplied by Tags 0EYN and 09YQ as a hypothesis `h09YQ`. Here that
+`AlgebraicGeometry.Scheme.etaleCohomologicalDimension_le_iSup_of_isLimit` derives the bound for a
+cofiltered limit from the transport of vanishing that Tags 0EYN and 09YQ supply. Here that
 transport is proved on Mathlib's small étale sites, giving the lemma with no hypothesis beyond the
 source's, for a directed set `I` and a diagram `D : Iᵒᵖ ⥤ Scheme`.
 
@@ -25,7 +25,7 @@ source's, for a directed set `I` and a diagram `D : Iᵒᵖ ⥤ Scheme`.
 
 * `AlgebraicGeometry.Scheme.subsingleton_sheafH_of_isLimit_of_forall_subsingleton` — the
   transport of vanishing: if `H^q(X_i, f_{i,*}𝓕)` vanishes at every level then `H^q(X, 𝓕)`
-  vanishes. This is the hypothesis `h09YQ` of
+  vanishes. This is the hypothesis `htransport` of
   `AlgebraicGeometry.Scheme.etaleCohomologicalDimension_le_iSup_of_isLimit`.
 * `AlgebraicGeometry.Scheme.etaleCohomologicalDimension_le_iSup_of_isLimit_of_isDirected` —
   the statement of Tag 0F0R, with no hypothesis beyond the source's.
@@ -107,6 +107,8 @@ attained because a directed set is nonempty. The instances on `c.pt` are what ma
 defined and are consequences of `hc`
 (`AlgebraicGeometry.Scheme.compactSpace_of_isLimit'`,
 `AlgebraicGeometry.Scheme.quasiSeparatedSpace_pt_of_isLimit`). -/
+@[stacks 0F0R "cd(lim X_i) ≤ max cd(X_i) for a directed limit of qcqs schemes with affine \
+transition morphisms"]
 theorem etaleCohomologicalDimension_le_iSup_of_isLimit_of_isDirected
     [CompactSpace c.pt] [QuasiSeparatedSpace c.pt] (hc : IsLimit c) :
     etaleCohomologicalDimension c.pt ≤ ⨆ i : Iᵒᵖ, etaleCohomologicalDimension (D.obj i) := by

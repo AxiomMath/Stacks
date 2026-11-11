@@ -39,7 +39,15 @@ source's own hypotheses and with both derived completion functors produced rathe
   reflector onto a class of objects, in the elementary form that
   `CategoryTheory.ObjectProperty.isoOfReflection` consumes.
 * `AlgebraicGeometry.RingedSite.exists_iso_and_pages_derivedCompletion_globalSections`:
-  **[Stacks, Tag 0BLX].**
+  **[Stacks, Tag 0BLX].** It is the only declaration carrying that tag's attribute: the statements
+  it assembles, each one assertion of the tag or a special case of one, are untagged —
+  `exists_spectralSequence_derivedCompletion_globalSections` and
+  `exists_pages_derivedCompletion_globalSections` of `GlobalSectionsCompletion.lean`,
+  `exists_pages_derivedCompletion_globalSections_generatedIdealSheaf` of
+  `GlobalSectionsCompletionGenerated.lean`, and the nilpotent-regime
+  `exists_iso_derivedCompletion_derivedGlobalSections` of `UnboundedGlobalSections.lean` and
+  `exists_pages_derivedCompletion_globalSections_of_forall_isNilpotent` of
+  `UnboundedGlobalSectionsSpectralSequence.lean`.
 
 ## The assembly
 

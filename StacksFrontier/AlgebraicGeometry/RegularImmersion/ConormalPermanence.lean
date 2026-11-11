@@ -22,6 +22,8 @@ run over the image of `Z`.  If `I` and `J` are Koszul-regular and the map of cot
 `I_x/𝔪_x I_x ⟶ J_x/𝔪_x J_x` is injective, then the ideal of `Z` in `Y` is Koszul-regular.  This
 is part (3) of [Stacks Project, Tag 068Z] with the injectivity — the one consequence the source
 draws from exactness and local splitness of the conormal sequence — taken as the hypothesis.
+Part (3) as stated, from exactness and local splitness of the conormal sequence, is
+`Stacks.AlgebraicGeometry.isKoszulRegularImmersion_of_comp_of_isSplitExactConormalSequence`.
 
 ## Main definitions
 
@@ -404,11 +406,11 @@ sheaf of `i` is Koszul-regular.
 Over an affine open `U` of `X` around the image of the point, local generators `f` of the ideal
 of `Y` extend to local generators `f, g` of the ideal of `Z`, both Koszul-regular, and the
 images of the `g` under `j` on sections generate the ideal of `Z` in `Y` and are Koszul-regular
-by [Stacks Project, Tag 068M]. -/
-@[stacks 068Z "part (3) for closed immersions: Koszul-regularity of `j` and of `i ≫ j` together \
-with injectivity of the cotangent-fibre map `I_x/𝔪_x I_x ⟶ J_x/𝔪_x J_x` gives Koszul-regularity \
-of `i`. That injectivity is a hypothesis here, not derived from exactness and local splitness of \
-the conormal sequence"]
+by [Stacks Project, Tag 068M].
+
+Part (3) of [Stacks Project, Tag 068Z] as stated, for immersions with an exact and locally split
+conormal sequence, is
+`Stacks.AlgebraicGeometry.isKoszulRegularImmersion_of_comp_of_isSplitExactConormalSequence`. -/
 theorem isKoszulRegularIdealSheaf_of_comp (i : Z ⟶ Y) (j : Y ⟶ X)
     [IsClosedImmersion i] [IsClosedImmersion j]
     (hinj : ∀ z : Z, Function.Injective (conormalFibreMap i j z))

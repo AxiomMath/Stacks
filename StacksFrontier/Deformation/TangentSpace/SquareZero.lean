@@ -128,8 +128,9 @@ def SquareZeroPoint.precomp
     ext t
     exact (AlgHom.congr_fun f.2 (g t)).trans (AlgHom.congr_fun hg t)⟩
 
-/-- **Stacks Project, Tag 06IC.** Evaluation of the functor prorepresented by `S` on
-`k[V]` is canonically equivalent to the type of `Λ`-derivations `S → V`. -/
+/-- The first component of a square-zero point `f : S → k[V]` is the residue map `q`, i.e.
+`f(s) = (q(s), _)`. This is the augmentation condition used in Stacks 06IC; the
+identification of square-zero points with derivations is `squareZeroPointsDerivationsEquiv`. -/
 theorem squareZeroPoint_fst
     (S : CompleteLocalAlgCat.{u, v, w} Λ k) (V : Type x)
     [AddCommGroup V] [Module k V] (f : SquareZeroPoint S V) (s : S) :

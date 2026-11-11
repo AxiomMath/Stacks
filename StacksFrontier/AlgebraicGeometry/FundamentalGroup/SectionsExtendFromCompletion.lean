@@ -619,16 +619,20 @@ reverse inclusion. Assume the completion functor `colim_𝒱 Coh(𝒪_V) ⟶ Coh
 fully faithful on the full subcategory of finite locally free objects. Then the restriction
 functor `colim_𝒱 FÉt_V ⟶ FÉt_Y` is fully faithful.
 
-The hypothesis is condition (4) of [Stacks, Tag 0EK2],
+The completion condition is the source's, condition (4) of [Stacks, Tag 0EK2],
 `Stacks.Algebraization.NeighbourhoodCompletion.CompletionFullyFaithfulComplete`, at the closed
-immersion of `Y`; the conclusion is `Stacks.FundamentalGroup.FiniteEtaleColimitFullyFaithful`,
+immersion of `Y`: for every neighbourhood `V` and all finite locally free `𝒪_V`-modules `𝒢`, `ℱ`,
+the map `colim_{W ⊆ V} Hom(𝒢|_W, ℱ|_W) ⟶ lim_n Hom(𝒢|_{Y_n}, ℱ|_{Y_n})` is bijective, which is
+full faithfulness of `ℱ ↦ ℱ^∧` on these objects since a morphism of `Coh(X, I)` between
+completions is a compatible family of morphisms on the `Y_n`. The conclusion is
+`Stacks.FundamentalGroup.FiniteEtaleColimitFullyFaithful`,
 full faithfulness spelled through the directed-colimit description of the hom sets of
 `colim_𝒱 FÉt_V`. The proof is the source's: the internal hom reduces the statement to the
 extension of sections of one finite étale cover
 (`finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme`), and that extension is
 `sectionsExtendNearSubscheme_of_completionFullyFaithfulComplete`. -/
-@[stacks 0ELA "proved from full faithfulness of completion on the finite locally free objects \
-of the neighbourhood colimit, the tag's own hypothesis"]
+@[stacks 0ELA "the full statement: full faithfulness of completion on the finite locally free \
+objects of the neighbourhood colimit gives full faithfulness of restriction of finite étale covers"]
 theorem finiteEtaleColimitFullyFaithful_of_completionFullyFaithfulComplete [IsNoetherian X]
     (h : NeighbourhoodCompletion.CompletionFullyFaithfulComplete Y.subschemeι) :
     FiniteEtaleColimitFullyFaithful X Y :=

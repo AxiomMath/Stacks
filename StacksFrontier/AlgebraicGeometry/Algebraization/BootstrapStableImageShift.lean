@@ -20,7 +20,7 @@ based at `0` for the module `I^{m₀}M`, because `Iⁿ(I^{m₀}M) = I^{n+m₀}M`
 (`Stacks.Algebraization.map_subtype_pow_smul_top`). That identification of towers is what this
 module supplies, and with it parts (3) and (5) hold at a general specialization-stable `T`, for
 the tower of adic quotients of `I^{m₀}M` — which is the source's system `{I^{m₀}M/IⁿM}_{n ≥ m₀}`
-along the cofinal shift `n ↦ n + m₀`, exactly as for the registrants at `T = {𝔪}`.
+along the cofinal shift `n ↦ n + m₀`, exactly as for the statements at `T = {𝔪}`.
 
 ## Main definitions
 
@@ -177,7 +177,7 @@ condition for every `i ≤ s`.
 The source indexes the system by `n ≥ r` and writes its terms `H^i_T(IʳM/IⁿM)`; the index here
 runs over all of `ℕ`, which replaces `IⁿM` by `Iⁿ(IʳM) = I^{n+r}M`
 (`Stacks.Algebraization.map_subtype_pow_smul_top`) and so gives the same family of modules and the
-same transition maps along the cofinal shift `n ↦ n + r` — the same reading as the registrant at
+same transition maps along the cofinal shift `n ↦ n + r` — the same reading as the statement at
 `T = {𝔪}`,
 `Stacks.LocalCohomology.isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology_smul`.
 
@@ -242,15 +242,14 @@ The last two items are the source's statements for the module `I^{m₀}M`: the `
 tower of adic quotients is `I^{m₀}M/I^{n+m₀}M`
 (`Stacks.Algebraization.map_subtype_pow_smul_top`), so the tower is the source's system
 `{I^{m₀}M/IⁿM}_{n ≥ m₀}` along the cofinal shift `n ↦ n + m₀` and the limits agree — the reading
-the registrants at `T = {𝔪}` use as well.
+the statements at `T = {𝔪}` use as well.
 
 Stating the three at a common `m₀` matters: `∃ m₀, part (5) at m₀` alone is satisfiable at
 `m₀ = 0`, where part (5) degenerates into part (4) read in degree `s`. The `m₀` exhibited here is
 a bound for part (1) and for the base of the stable-image assertion of [Stacks, Tag 0EFX]
-simultaneously. Nothing beyond the data of Situation [Stacks, Tag 0EFU] is assumed. -/
-@[stacks 0EFY "parts (1), (3) and (5) at a general specialization-stable T in Situation 0EFU, at \
-one and the same m₀: the projections are injective from m₀ on, {Hⁱ_T(I^{m₀}M/IⁿM)} is \
-Mittag-Leffler for i ≤ s, and Hˢ_T(I^{m₀}M) ⟶ lim Hˢ_T(I^{m₀}M/IⁿM) is an isomorphism"]
+simultaneously. Nothing beyond the data of Situation [Stacks, Tag 0EFU] is assumed. All seven
+parts of Tag 0EFY at one `m₀` are
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 theorem exists_forall_injective_and_isMittagLeffler_and_isIso_limitLift :
     ∃ m₀ : ℕ,
       (∀ i ≤ S.s, ∀ n : ℕ, m₀ ≤ n →

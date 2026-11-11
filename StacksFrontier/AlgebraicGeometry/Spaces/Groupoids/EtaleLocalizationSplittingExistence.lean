@@ -162,7 +162,6 @@ rather than one of its assertions.
 
 This repository distinguishes the two cases, and the distinction is what decides this file. A
 qualified attribute is used where a declaration proves one of a tag's separable assertions, as in
-`@[stacks 0FSC "condition (1) only — flatness of the underlying right graded module"]` or
 `@[stacks 0BGY "the base-change functor is faithful"]`. The attribute is *withheld* where what is
 proved is an input or a strictly weaker statement: see
 `StacksFrontier/AlgebraicGeometry/ProjTwists/Basic.lean`, whose implementation notes say that

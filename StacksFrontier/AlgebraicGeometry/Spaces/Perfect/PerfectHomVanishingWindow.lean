@@ -91,7 +91,7 @@ The model of the derived category is arbitrary.  The window is the one produced 
 model by the induction `AlgebraicGeometry.Space.hasHomWindow_of_isPerfect_of_affine`, whose affine
 case is `AlgebraicGeometry.Space.hasHomWindow_of_isAffineSpace`, carried across the comparison of
 the two models. -/
-@[stacks 09MB "part (1)"]
+@[stacks 09MB "part (1)", stacks 09M9 "Lemma 09MB of the section, part (1)"]
 theorem exists_window_subsingleton_hom_of_isPerfect
     (hqc : IsQuasiCompactSpace B S hS X) (hqs : IsAbsolutelyQuasiSeparated B S hS hZ X)
     [hD : HasDerivedCategory.{w} (Modules.{u, u} B S hS X hX)]
@@ -131,7 +131,7 @@ all but finitely many `n`.
 
 Outside a bounded range of `n` the shift `L⟦n⟧` has no cohomology at all in the window of part
 (1), because `L` is bounded. -/
-@[stacks 09MB "part (2)"]
+@[stacks 09MB "part (2)", stacks 09M9 "Lemma 09MB of the section, part (2)"]
 theorem finite_setOf_not_subsingleton_hom_shift_of_isPerfect
     (hqc : IsQuasiCompactSpace B S hS X) (hqs : IsAbsolutelyQuasiSeparated B S hS hZ X)
     [HasDerivedCategory.{w} (Modules.{u, u} B S hS X hX)]

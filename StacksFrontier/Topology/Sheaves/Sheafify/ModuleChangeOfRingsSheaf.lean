@@ -20,9 +20,14 @@ where `O' ⊗_O G := (O' ⊗_{p,O} G)^#` is the sheafification
 
 * `Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafHomEquiv`: the presheaf-level universal
   property `Hom_{O'}(O' ⊗_{p,O} G, M) ≃ Hom_O(G, M_O)`.
+* `Stacks.Sheafify.ChangeOfRingsAdjunction.tensorPresheafAdjunction`: the change of rings functor
+  `O' ⊗_{p,O} (-)` on the sectionwise tensor product presheaf is left adjoint to restriction of
+  scalars (Stacks 006R).
 * `Stacks.Sheafify.ChangeOfRingsAdjunction.tensorSheafHomEquiv`: the bijection
   `Hom_{O'}(O' ⊗_O G, F) ≃ Hom_O(G, F_O)` for sheaves of modules.
 * `Stacks.Sheafify.ChangeOfRingsAdjunction.nonempty_tensorSheafHomEquiv`: existence form.
+* `Stacks.Sheafify.ChangeOfRingsAdjunction.tensorSheafHomEquiv'`: the same bijection for a space,
+  rings and modules in an arbitrary universe; `tensorSheafHomEquiv` is stated in universe `0`.
 -/
 
 @[expose] public section
@@ -143,7 +148,12 @@ theorem liftLin_naturality (g : F ⟶ restrictPresheaf O O' α M)
 `α : O ⟶ O'` on `X`, a presheaf of `O`-modules `F` and a presheaf of `O'`-modules `M`, the
 morphisms `O' ⊗_{p,O} F ⟶ M` of presheaves of `O'`-modules are in canonical bijection with the
 morphisms `F ⟶ M_O` of presheaves of `O`-modules. The bijection sends `Φ` to `m ↦ Φ(1 ⊗ m)` and its
-inverse sends `g` to the sectionwise lift `s ⊗ m ↦ s • g(m)`. -/
+inverse sends `g` to the sectionwise lift `s ⊗ m ↦ s • g(m)`. This is Stacks 006R
+(Lemma 6.6.2); the bijection is natural in both variables, being the hom-set bijection of the
+adjunction `tensorPresheafAdjunction`. -/
+@[stacks 006R "hom-set bijection `Hom_{O'}(O' ⊗_{p,O} G, F) ≃ Hom_O(G, F_O)` on the explicit \
+  sectionwise tensor product presheaf, presheaves on a topological space; natural in both \
+  variables via `tensorPresheafAdjunction`"]
 noncomputable def tensorPresheafHomEquiv :
     (tensorPresheafOfModules O O' α F ⟶ M) ≃ (F ⟶ restrictPresheaf O O' α M) where
   toFun Φ :=
@@ -171,6 +181,60 @@ noncomputable def tensorPresheafHomEquiv :
 theorem nonempty_tensorPresheafHomEquiv :
     Nonempty ((tensorPresheafOfModules O O' α F ⟶ M) ≃ (F ⟶ restrictPresheaf O O' α M)) :=
   ⟨tensorPresheafHomEquiv O O' α F M⟩
+
+/-- Naturality of `tensorPresheafHomEquiv` in the presheaf of `O'`-modules: postcomposing with
+`g : M₁ ⟶ M₂` corresponds to postcomposing with its restriction of scalars `g_O`. -/
+theorem tensorPresheafHomEquiv_naturality_right {M₁ M₂ : PresheafOfModules (ringPresheaf O')}
+    (Φ : tensorPresheafOfModules O O' α F ⟶ M₁) (g : M₁ ⟶ M₂) :
+    tensorPresheafHomEquiv O O' α F M₂ (Φ ≫ g) =
+      tensorPresheafHomEquiv O O' α F M₁ Φ ≫
+        (PresheafOfModules.restrictScalars (ringPresheafMap O O' α)).map g :=
+  rfl
+
+/-- **The change of rings functor** `PMod(O) ⥤ PMod(O')`, `G ↦ O' ⊗_{p,O} G`, on the explicit
+sectionwise tensor product presheaf: its value on `G` is `tensorPresheafOfModules O O' α G`,
+`U ↦ O'(U) ⊗_{O(U)} G(U)`, by definition (`tensorPresheafFunctor_obj`), and its value on a
+morphism `f` is sectionwise `s ⊗ m ↦ s ⊗ f(m)` (`tensorPresheafFunctor_map_app_tmul`). -/
+noncomputable def tensorPresheafFunctor :
+    PresheafOfModules (ringPresheaf O) ⥤ PresheafOfModules (ringPresheaf O') :=
+  Adjunction.leftAdjointOfEquiv (G := PresheafOfModules.restrictScalars (ringPresheafMap O O' α))
+    (F_obj := fun G => tensorPresheafOfModules O O' α G)
+    (fun G N => tensorPresheafHomEquiv O O' α G N)
+    (fun G _ _ g Φ => tensorPresheafHomEquiv_naturality_right O O' α G Φ g)
+
+theorem tensorPresheafFunctor_obj :
+    (tensorPresheafFunctor O O' α).obj F = tensorPresheafOfModules O O' α F :=
+  rfl
+
+/-- The change of rings functor acts on a morphism `f : F₁ ⟶ F₂` sectionwise by
+`s ⊗ m ↦ s ⊗ f(m)`. -/
+theorem tensorPresheafFunctor_map_app_tmul {F₁ F₂ : PresheafOfModules (ringPresheaf O)}
+    (f : F₁ ⟶ F₂) (U : (TopologicalSpace.Opens X)ᵒᵖ) (s : O'.obj U) (m : F₁.obj U) :
+    letI := (α.app U).hom.toAlgebra
+    (((tensorPresheafFunctor O O' α).map f).app U).hom (s ⊗ₜ[O.obj U] m) =
+      s ⊗ₜ[O.obj U] (f.app U).hom m := by
+  let := (α.app U).hom.toAlgebra
+  change s • ((1 : O'.obj U) ⊗ₜ[O.obj U] (f.app U).hom m) = _
+  rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+
+/-- **Stacks 006R (Lemma 6.6.2), adjunction form.** For a morphism `α : O ⟶ O'` of presheaves of
+commutative rings on a topological space `X`, the change of rings functor
+`O' ⊗_{p,O} (-) : PMod(O) ⥤ PMod(O')` on the sectionwise tensor product presheaf is left adjoint
+to restriction of scalars `(-)_O : PMod(O') ⥤ PMod(O)`. Its hom-set bijection is
+`tensorPresheafHomEquiv` (`tensorPresheafAdjunction_homEquiv`). -/
+@[stacks 006R "adjunction form: `O' ⊗_{p,O} (-) ⊣ (-)_O` on the explicit sectionwise tensor \
+  product presheaf `U ↦ O'(U) ⊗_{O(U)} G(U)`, presheaves on a topological space; its hom-set \
+  bijection is `tensorPresheafHomEquiv`"]
+noncomputable def tensorPresheafAdjunction :
+    tensorPresheafFunctor O O' α ⊣ PresheafOfModules.restrictScalars (ringPresheafMap O O' α) :=
+  Adjunction.adjunctionOfEquivLeft _ _
+
+theorem tensorPresheafAdjunction_homEquiv :
+    (tensorPresheafAdjunction O O' α).homEquiv F M = tensorPresheafHomEquiv O O' α F M := by
+  refine Equiv.ext fun f => ?_
+  rw [Adjunction.homEquiv_unit, tensorPresheafAdjunction, Adjunction.adjunctionOfEquivLeft_unit_app]
+  exact (tensorPresheafHomEquiv_naturality_right O O' α F (𝟙 _) f).symm.trans
+    (congrArg (tensorPresheafHomEquiv O O' α F M) (Category.id_comp f))
 
 end Presheaf
 
@@ -209,5 +273,32 @@ theorem nonempty_tensorSheafHomEquiv :
   ⟨tensorSheafHomEquiv O O' α G F⟩
 
 end Sheaf
+
+section SheafUniverse
+
+universe u
+
+variable {X : TopCat.{u}} (O O' : TopCat.Sheaf CommRingCat.{u} X) (α : O ⟶ O')
+
+/-- The morphism `ringSheaf O ⟶ ringSheaf O'` of sheaves of (not necessarily commutative)
+rings underlying a morphism `α : O ⟶ O'` of sheaves of commutative rings, for a space and rings
+in an arbitrary universe `u`; `ringSheafMap` is its case `u = 0`. -/
+noncomputable abbrev ringSheafMap' : ringSheaf O ⟶ ringSheaf O' :=
+  (CategoryTheory.sheafCompose _ (forget₂ CommRingCat.{u} RingCat.{u})).map α
+
+variable (G : SheafOfModules.{u} (ringSheaf O)) (F : SheafOfModules.{u} (ringSheaf O'))
+
+/-- The bijection `Hom_{O'}(O' ⊗_O G, F) ≃ Hom_O(G, F_O)` of `tensorSheafHomEquiv` for a space,
+rings and modules in an arbitrary universe `u`; `tensorSheafHomEquiv` is its case `u = 0`. -/
+noncomputable def tensorSheafHomEquiv' :
+    (tensorSheaf O O' α G ⟶ F) ≃
+      (G ⟶ (SheafOfModules.restrictScalars (ringSheafMap' O O' α)).obj F) :=
+  (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf O').obj)).trans
+    ((tensorPresheafHomEquiv O.presheaf O'.presheaf (αp O O' α) G.val
+        ((PresheafOfModules.restrictScalars (𝟙 (ringSheaf O').obj)).obj F.val)).trans
+      ((SheafOfModules.fullyFaithfulForget (ringSheaf O)).homEquiv (X := G)
+        (Y := (SheafOfModules.restrictScalars (ringSheafMap' O O' α)).obj F)).symm)
+
+end SheafUniverse
 
 end Stacks.Sheafify.ChangeOfRingsAdjunction

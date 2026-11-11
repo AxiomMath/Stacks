@@ -159,8 +159,6 @@ morphism whose restriction to every connected component `X_a` of `X` has pure re
 `r_a`, the flat-pullback class in the completed bivariant group of Stacks 0FE0: on `X_a` it is the
 class of Stacks 0B78 of the restriction `X_a ⟶ Y_{a'}` of `f`, placed in degree `-r_a`. Every input
 of Stacks 0B78 is discharged. -/
-@[stacks 0B78 "flat pullback along a flat morphism whose relative dimension is constant on each \
-connected component, in the completed bivariant group A^*(X → Y)^∧"]
 def completedFlatPullback [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
     (hrel : ∀ a : _root_.ConnectedComponents X,
       ∃ r : ℕ, AlgebraicGeometry.RelativeDimension (f.resConnectedComponent a) r) :

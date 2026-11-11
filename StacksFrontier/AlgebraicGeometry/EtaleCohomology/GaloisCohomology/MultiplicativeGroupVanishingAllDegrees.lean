@@ -50,20 +50,18 @@ theorem isProfiniteTop_galGroup (K Ω : Type u) [Field K] [Field Ω] [Algebra K 
 every finite extension `K'/K`. Then `H^q(Gal(Ω/K), Ωˣ) = 0` for every `q ≥ 1`, the group being
 the continuous group cohomology of the discrete Galois module
 `Stacks.GaloisCohomology.unitsContinuousGModule`. -/
-@[stacks 03R8 "part (1) IN FULL, for the DERIVED-FUNCTOR groups continuousGroupCohomology of
-Stacks 04JR: H^q(Gal(Ω/K), Ωˣ) = 0 for EVERY q ≥ 1, where Ω is any separably closed field Galois
-over K, so at Ω = K^sep this is exactly the tag's part (1). The Brauer hypothesis is the source's
-own -- Br(K') = 0 for every finite extension K'/K -- and the degree range is the source's.
-Degrees one and two are the two earlier registrations in
-MultiplicativeGroupVanishingCriterion (Hilbert 90 through the degree-one comparison, and the
-crossed-product argument through the degree-two comparison, the latter needing only Br(K) = 0).
-Degrees q ≥ 3 are part (2), the registration in TorsionGaloisVanishing, through
+@[stacks 03R8 "part (1) in full, for the derived-functor groups continuousGroupCohomology of
+Stacks 04JR: H^q(Gal(Ω/K), Ωˣ) = 0 for every q ≥ 1, where Ω is any separably closed field Galois
+over K, so at Ω = K^sep this is exactly the tag's part (1). The hypothesis is the source's own,
+Br(K') = 0 for every finite extension K'/K, and the degree range is the source's. Degree one is
+isZero_continuousGroupCohomology_units_one (Hilbert 90), degree two is
+isZero_continuousGroupCohomology_units_two (the crossed-product argument, from Br(K) = 0), and the
+degrees q ≥ 3 come from part (2), isZero_continuousGroupCohomology_of_isAddTorsion, through
 isZero_continuousGroupCohomology_of_forall_isAddTorsion: multiplication by a positive integer n
 on a discrete module has kernel and cokernel killed by n, so part (2) and two passes of the long
 exact sequence of the δ-functor of Stacks 010Q make it injective on H^q for q ≥ 3, while every
-class is killed by some positive integer by Stacks 0DV3 part (1). This registration is part (1);
-part (2) is the registration in TorsionGaloisVanishing and the degree-one and degree-two
-statements keep their own registrations in MultiplicativeGroupVanishingCriterion",
+class is killed by some positive integer by Stacks 0DV3 part (1). Both parts together, at
+Ω = K^sep, are isZero_continuousGroupCohomology_units_and_torsion_of_forall_brauer",
   sga "4½ Arcata 3.1.6"]
 theorem isZero_continuousGroupCohomology_units_of_forall_brauer (K Ω : Type u) [Field K]
     [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]

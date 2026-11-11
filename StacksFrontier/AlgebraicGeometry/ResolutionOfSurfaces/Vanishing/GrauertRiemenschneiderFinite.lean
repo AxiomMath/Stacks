@@ -91,9 +91,9 @@ in which a nonzero `R¹f_*ω_X → κ` is dualized by `RHom_A(-, ω_A^•)` into
 `ω_A` is used by the source only inside that step and is subsumed in `hvanish`.
 
 **No `@[stacks 0AXD]` attribute is placed here.** This form still carries `hvanish`, the
-source's duality step, so it is not an unconditional statement of the tag; the registration
-stays on `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule` of
-`GrauertRiemenschneider.lean`, where it has stood all along. -/
+source's duality step, so it is not an unconditional statement of the tag; the registration is
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`
+of `GrauertRiemenschneiderUnconditional.lean`. -/
 public theorem isZero_firstCohomology_dualizingModule_of_forall_linearMap_eq_zero
     [IsNormal V.X] [IsLocallyNoetherian V.X]
     (hnag : IsNagataRing V.A)

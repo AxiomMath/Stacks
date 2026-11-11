@@ -17,6 +17,9 @@ isomorphic to a free sheaf of modules on a finite index type.
 
 ## Main results
 
+* `AlgebraicGeometry.exists_restrict_relativeDifferentials_iso_free`:
+  over an affine chart on which the map of coordinate rings is standard smooth of relative
+  dimension `n`, the sheaf of relative differentials is free on an index type with `n` elements.
 * `AlgebraicGeometry.Scheme.Hom.isFiniteLocallyFree_relativeDifferentials`: the sheaf of
   relative differentials of a smooth morphism is finite locally free.
 
@@ -40,12 +43,14 @@ namespace AlgebraicGeometry
 variable {X S : Scheme.{u}}
 
 /-- If `f` maps the affine open `U` into the affine open `V` and the induced map
-`Γ(S, V) → Γ(X, U)` is standard smooth, then the restriction of the sheaf of relative differentials
-of `f` to `U` is isomorphic to a free sheaf of modules on a finite index type. -/
-private theorem exists_restrict_iso_free_of_isStandardSmooth (f : X ⟶ S) {U : X.Opens}
-    (hU : IsAffineOpen U) {V : S.Opens} (hV : IsAffineOpen V) (hUV : U ≤ f ⁻¹ᵁ V)
-    (hstd : (f.appLE V U hUV).hom.IsStandardSmooth) :
-    ∃ ρ : Type u, Finite ρ ∧
+`Γ(S, V) → Γ(X, U)` is standard smooth of relative dimension `n`, then the restriction of the sheaf
+of relative differentials of `f` to `U` is isomorphic to a free sheaf of modules on a finite index
+type with `n` elements. -/
+theorem exists_restrict_relativeDifferentials_iso_free
+    (f : X ⟶ S) {U : X.Opens} (hU : IsAffineOpen U) {V : S.Opens} (hV : IsAffineOpen V)
+    (hUV : U ≤ f ⁻¹ᵁ V) {n : ℕ}
+    (hstd : (f.appLE V U hUV).hom.IsStandardSmoothOfRelativeDimension n) :
+    ∃ ρ : Type u, Finite ρ ∧ Nat.card ρ = n ∧
       Nonempty ((Scheme.Hom.relativeDifferentials f).restrict U.ι ≅
         SheafOfModules.free.{u} ρ) := by
   classical
@@ -53,12 +58,17 @@ private theorem exists_restrict_iso_free_of_isStandardSmooth (f : X ⟶ S) {U : 
     Scheme.Hom.isQuasicoherent_relativeDifferentials f
   have hUaff : IsAffine (U : Scheme.{u}) := hU
   let _ : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
-  have hsm : Algebra.IsStandardSmooth Γ(S, V) Γ(X, U) := hstd
-  obtain ⟨ι, σ, _, _, ⟨P⟩⟩ := hsm.out
+  have hsm : Algebra.IsStandardSmoothOfRelativeDimension n Γ(S, V) Γ(X, U) := hstd
+  obtain ⟨ι, σ, _, _, P, hP⟩ := hsm.out
   let ρ : Type u := ULift.{u} ((Set.range P.map)ᶜ : Set ι)
   let b : Module.Basis ρ Γ(X, U) Ω[Γ(X, U)⁄Γ(S, V)] :=
     P.basisKaehler.reindex Equiv.ulift.symm
-  refine ⟨ρ, inferInstance, ?_⟩
+  refine ⟨ρ, inferInstance, ?_, ?_⟩
+  · have hsum := Nat.card_congr (Equiv.Set.sumCompl (Set.range P.map))
+    rw [Nat.card_sum, Nat.card_range_of_injective P.map_inj] at hsum
+    have hdim : P.dimension = Nat.card ι - Nat.card σ := rfl
+    rw [Nat.card_ulift, ← hP, hdim]
+    omega
   let eAff := (Stacks.AlgebraicGeometry.AffineDifferentialsIso.existsUnique_affineDifferentialsIso
     f hU hUV hV).choose
   let eSections : ModuleCat.of Γ(X, U) Γ(Scheme.Hom.relativeDifferentials f, U) ≅
@@ -88,7 +98,12 @@ theorem Scheme.Hom.isFiniteLocallyFree_relativeDifferentials (f : X ⟶ S) [Smoo
       (Scheme.Hom.relativeDifferentials f) := by
   refine (Stacks.Modules.isFiniteLocallyFree_iff_localGenerators _).mp fun x => ?_
   obtain ⟨V, hV, U, hU, hxU, hUV, hstd⟩ := Smooth.exists_isStandardSmooth f x
-  obtain ⟨ρ, hρ, hiso⟩ := exists_restrict_iso_free_of_isStandardSmooth f hU hV hUV hstd
+  let _ : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
+  have hsm : Algebra.IsStandardSmooth Γ(S, V) Γ(X, U) := hstd
+  obtain ⟨ι, σ, _, _, ⟨P⟩⟩ := hsm.out
+  have hdim : (f.appLE V U hUV).hom.IsStandardSmoothOfRelativeDimension P.dimension :=
+    P.isStandardSmoothOfRelativeDimension rfl
+  obtain ⟨ρ, hρ, -, hiso⟩ := exists_restrict_relativeDifferentials_iso_free f hU hV hUV hdim
   exact ⟨U, hxU, ρ, hρ, hiso⟩
 
 end AlgebraicGeometry

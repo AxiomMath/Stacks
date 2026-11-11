@@ -55,10 +55,13 @@ The pointwise flatness predicate is `AlgebraicGeometry.Space.flatLocus`, the som
 Stacks 05VV part (1); Stacks 05VU, in the form
 `AlgebraicGeometry.Space.isFlatOverAt_exists_chartDiagram_iff_isFlatOverAtGeometricPoint`,
 shows that it does not depend on the chart, and that independence is what the proof below needs.
-Quasi-coherence and finite type of the module are assumed both on the small étale site, as
-Stacks 05VU requires, and chartwise, as the scheme-level Stacks 05M9 requires; the implication
-from the site-local predicates to the chartwise ones (Tag 060Q) is not formalized, so both
-readings of the hypothesis are assumed.
+Quasi-coherence of the module is assumed on the small étale site, as Stacks 05VU requires, and
+the chartwise quasi-coherence that the scheme-level Stacks 05M9 needs is derived from it by
+`AlgebraicGeometry.Space.isQuasicoherent_restrictToChart`. Finite type is assumed chartwise, as
+`AlgebraicGeometry.Space.IsFiniteTypeOnCharts`; for a quasi-coherent module this is equivalent
+to finite type on the small étale site by
+`AlgebraicGeometry.Space.isFiniteTypeOnSite_iff_isFiniteTypeOnCharts`, so the hypotheses are
+those of the source.
 
 The topological step of the source's proof is that `|U_v| → f^{-1}({y})` is an open map for a
 scheme `U` surjective and étale over `V ×_Y X`, and that step does not hold for an arbitrary

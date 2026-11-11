@@ -27,7 +27,9 @@ Stacks 07UQ.  This file discharges all three.
   `AlgebraicGeometry.Space.forall_property_idealPushforward_of_coherentWitness`: the step at a
   minimal subspace and the Noetherian induction of the source's proof, with Stacks 07UQ taken in
   the form `AlgebraicGeometry.Space.ExistsIdealInjectionDevissageStep`.
-* `AlgebraicGeometry.Space.property_of_isCoherent_of_devissage`: **Stacks 08AN.**
+* `AlgebraicGeometry.Space.property_of_isCoherent_of_devissage`: the dévissage of Stacks 08AN
+  for a property holding on zero modules.  Stacks 08AN itself, with the errata's correction,
+  is registered at `AlgebraicGeometry.Space.property_of_isCoherent_of_integralWitness`.
 
 ## Implementation notes
 
@@ -157,7 +159,7 @@ theorem forall_property_idealPushforward_of_coherentWitness
       intro N hN hNlt
       have hNT : moduleSupportSet B S hS X N ⊂ (T : Set (points B S hS X.1)) :=
         hNlt.trans_le hsub
-      exact property_of_moduleSupportSet_subset B S hS X hdev P hzero hext
+      exact property_of_moduleSupportSet_subset B S hS hZtop X hX hdev P hzero hext
         (moduleSupportSet B S hS X N)
         (IH ⟨moduleSupportSet B S hS X N, isClosed_moduleSupportSet B S hS X N hN⟩
           (SetLike.coe_ssubset_coe.mp hNT))
@@ -197,8 +199,9 @@ theorem existsIdealInjectionDevissageStep_of_isNoetherian (hZt : B.Contains (⊤
   exact lt_of_le_of_lt hQ (image_ssubset_image_univ
     (pointsMap_hom_injective_of_isClosedImmersion B S hS i hZ'.2) hTne)
 
-/-- **Stacks Project, Tag 08AN.**  Let `X` be a Noetherian algebraic space over a scheme `S`
-and let `P` be a property of coherent `𝒪_X`-modules such that
+/-- **The dévissage of Stacks 08AN for a property holding on zero modules.**  Let `X` be a
+Noetherian algebraic space over a scheme `S` and let `P` be a property of coherent
+`𝒪_X`-modules such that
 
 1. for a short exact sequence of coherent modules, if two out of three terms have `P` then so
    does the third;
@@ -213,8 +216,6 @@ documentation.  Nothing else is carried: the conclusion of Stacks 07UR is
 `AlgebraicGeometry.Space.hasIdealDevissage_of_isCoherent`, the coherence of the direct image of
 a sheaf of ideals is `AlgebraicGeometry.Space.idealPushforwardCoherent`, and Stacks 07UQ is
 `AlgebraicGeometry.Space.existsIdealInjectionDevissageStep_of_isNoetherian`. -/
-@[stacks 08AN "with the hypothesis that P holds for zero modules added: without it the \
-statement fails on an algebraic space with no points, for the property False"]
 theorem property_of_isCoherent_of_devissage (hZtop : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hZtop X.1)
     (P : Modules.{u, u} B S hS X.1 X.2 → Prop)

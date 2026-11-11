@@ -47,8 +47,10 @@ form `AlgebraicGeometry.DescentData.isFamilyEffective_of_isAffineHom`.
 
 ## Main results
 
-* `Stacks.Flatness.isomorphismFunctor_representableBy_closedImmersion`: the first assertion of
-  Tag 05PF.
+* `Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor`: the first
+  assertion of Tag 05PF, which
+  `Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`
+  completes with the second.
 
 ## Implementation notes
 
@@ -625,7 +627,7 @@ end Stacks.Flatness.ModuleMapBaseChangeSituation
 
 namespace Stacks.Flatness
 
-/-- **Stacks Project, Tag 05PF, first assertion.** Let `f : X ⟶ S` be of finite presentation and
+/-- **The first assertion of Tag 05PF.** Let `f : X ⟶ S` be of finite presentation and
 let `u : F ⟶ G` be a surjection of quasi-coherent modules on `X` with `F` of finite presentation,
 flat over `S` and pure relative to `S`.  Then the locus where `u` becomes an isomorphism after
 base change is represented by a closed immersion into `S`.
@@ -633,8 +635,9 @@ base change is represented by a closed immersion into `S`.
 The source's devissage: purity reduces the question, étale locally on `S`, to an affine situation
 whose module of sections is projective, where the locus is cut out by the flattening ideal of Tag
 05PE; the étale base changes cover `S` in the fpqc topology and the functor is an fpqc sheaf, so
-the local closed subschemes glue. -/
-@[stacks 05PF "representability by a closed immersion"]
+the local closed subschemes glue.  Tag 05PF with both of its assertions, the second being finite
+presentation of the closed immersion when `G` is of finite presentation, is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`. -/
 theorem exists_closedImmersion_representableBy_isomorphismFunctor
     (D : ModuleMapBaseChangeSituation.{u})
     [LocallyOfFinitePresentation D.f] [QuasiCompact D.f] [QuasiSeparated D.f]

@@ -761,7 +761,7 @@ condition (1) of Stacks 03JU, which is equivalent to condition (4): a monomorphi
 spectrum of a field `L` representing the point. The composite `Spec(L) ⟶ Spec(K)` is
 universally injective, a monomorphism being universally injective, so `K ⊂ L` is purely
 inseparable, exactly as in the proof of Stacks 0484. -/
-@[stacks 049E "analogue of 0484: (β) + universally injective + surjective ⇒ weakly radicial"]
+@[stacks 049E "corrected form of the analogue of 0484, with surjectivity added"]
 theorem isWeaklyRadicial_of_universallyInjective_of_hasPropertyBeta
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)

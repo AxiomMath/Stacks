@@ -39,6 +39,8 @@ those models (named in their statements), the others for any models.
 
 All in the namespace `AlgebraicGeometry.Stack.FlatFppf`.
 
+* `exists_sheafParasiticColocalizationTriangle_unique`: the whole lemma, the triangle together
+  with its canonicity.
 * `exists_sheafParasiticColocalizationTriangle`: the triangle, with `E'` left orthogonal to
   `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` and `P` in it.
 * `leftOrthogonal_sheafParasiticFreePart`: the orthogonality.
@@ -283,6 +285,57 @@ theorem exists_sheafParasiticColocalizationTriangle :
   let := HasDerivedCategory.standard (flatFppfModules B S hS 𝒳)
   exact exists_sheafParasiticColocalizationTriangle_of_single B E h S hS 𝒳
     (locallyQuasicoherentSheafFlatBaseChange_homology_derivedModuleLowerShriek B E h S hS 𝒳)
+
+/-- **Stacks 07BA**: every `E` in `D_{LQCoh^fbc}(𝒪_𝒳)` sits in a canonical distinguished triangle
+`E' ⟶ E ⟶ P ⟶ E'[1]` of `D_{LQCoh^fbc}(𝒪_𝒳)`, `E' ⟶ E` the canonical morphism
+`Lg_! g^* E ⟶ E`, with `P` in `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` and
+`Hom_{D(𝒪_𝒳)}(E', P') = 0` for every `P'` in `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`; canonical in the
+sense of the source: every distinguished triangle `E'' ⟶ E ⟶ P'' ⟶ E''[1]` with these two
+properties is isomorphic to it by an isomorphism of triangles which is the identity on `E`
+([Stacks, Tag 0CQP]). -/
+@[stacks 07BA "the whole lemma: every E in D_LQCoh^fbc(𝒪_𝒳) sits in a distinguished triangle \
+E' ⟶ E ⟶ P ⟶ E'[1] of D_LQCoh^fbc(𝒪_𝒳), E' = Lg_! g^* E and E' ⟶ E the counit, with P in \
+D_(Parasitic ∩ LQCoh^fbc)(𝒪_𝒳) and Hom(E', P') = 0 for every P' in it, canonical: any other such \
+triangle is isomorphic to it by an isomorphism which is the identity on E (Stacks 0CQP); for the \
+faithful class LQCoh^fbc of Stacks 0762 and the derived lower shriek of Stacks 07AS (4), at the \
+standard models of the derived categories"]
+theorem exists_sheafParasiticColocalizationTriangle_unique :
+    letI := HasDerivedCategory.standard (fppfModules B S hS 𝒳)
+    letI := HasDerivedCategory.standard (flatFppfModules B S hS 𝒳)
+    ∀ (K : DerivedCategory (fppfModules B S hS 𝒳)),
+      DerivedCategoryB.derivedCategoryB
+        (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳) K →
+      ∃ (P : DerivedCategory (fppfModules B S hS 𝒳)) (b : K ⟶ P)
+        (c : P ⟶ (sheafParasiticFreePart B S hS 𝒳 K)⟦(1 : ℤ)⟧),
+        Triangle.mk (sheafParasiticFreePartHom B S hS 𝒳 K) b c ∈
+            distTriang (DerivedCategory (fppfModules B S hS 𝒳)) ∧
+          DerivedCategoryB.derivedCategoryB
+            (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳)
+            (sheafParasiticFreePart B S hS 𝒳 K) ∧
+          DerivedCategoryB.derivedCategoryB
+            (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳) P ∧
+          ParasiticQuotient.derivedParasitic B S hS 𝒳
+            (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳) P ∧
+          (ParasiticQuotient.derivedParasitic B S hS 𝒳
+            (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳)).leftOrthogonal
+            (sheafParasiticFreePart B S hS 𝒳 K) ∧
+          ∀ {E'' P'' : DerivedCategory (fppfModules B S hS 𝒳)} (f'' : E'' ⟶ K) (g'' : K ⟶ P'')
+            (h'' : P'' ⟶ E''⟦(1 : ℤ)⟧),
+            Triangle.mk f'' g'' h'' ∈ distTriang (DerivedCategory (fppfModules B S hS 𝒳)) →
+            (ParasiticQuotient.derivedParasitic B S hS 𝒳
+              (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳)).leftOrthogonal E'' →
+            ParasiticQuotient.derivedParasitic B S hS 𝒳
+              (lqcohSheafFbcFppfModules.{u, _, u} B E h S hS 𝒳) P'' →
+            ∃ e : Triangle.mk (sheafParasiticFreePartHom B S hS 𝒳 K) b c ≅
+                Triangle.mk f'' g'' h'', e.hom.hom₂ = 𝟙 K := by
+  let := HasDerivedCategory.standard (fppfModules B S hS 𝒳)
+  let := HasDerivedCategory.standard (flatFppfModules B S hS 𝒳)
+  intro K hK
+  obtain ⟨P, b, c, hT, hE', hPB, hP, hO⟩ :=
+    exists_sheafParasiticColocalizationTriangle B E h S hS 𝒳 K hK
+  exact ⟨P, b, c, hT, hE', hPB, hP, hO, fun f'' g'' h'' hT'' hE'' hP'' =>
+    exists_iso_sheafParasiticColocalizationTriangle B E h S hS 𝒳 K P b c hT hP f'' g'' h''
+      hT'' hE'' hP''⟩
 
 /-- **Stacks 07BA**, in the form of the colocalization hypothesis of the Verdier quotient
 `D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` (`D_QCoh(𝒪_𝒳)` of **Stacks 07B6**). -/

@@ -25,8 +25,11 @@ stage `B_i` is already an isomorphism.
 * `AlgebraicGeometry.Space.isIso_of_isEtale_of_universallyInjective_of_isSurjective`: a
   morphism of algebraic spaces which is étale, universally injective and surjective is an
   isomorphism.
-* `AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt`: **Stacks 0852**, the
-  isomorphism descends to a stage of the inverse system.
+* `MorphismDescentSituation.exists_isIso_mapAt_of_siteContainsBaseChangeLimits` (in
+  `AlgebraicGeometry.Space`): **Stacks 0852** (and 084S), the isomorphism descends to a stage
+  of the inverse system, under the chapter's convention 07SD.
+* `AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt`: the same for a system
+  whose index is bounded by the cofinality of the site's cutoff.
 
 ## Implementation notes
 
@@ -301,6 +304,8 @@ isomorphism is decomposed all descend without it.
 
 This is the statement under the chapter's convention of Section 70.2 (tag 07SD), which asks
 nothing of the index. -/
+@[stacks 0852 "under the convention 07SD (hconv)", stacks 084S "without hypothesis (a)",
+  ega "IV 8.8.2.5" "f iso ⇒ f_i iso"]
 theorem exists_isIso_mapAt_of_siteContainsBaseChangeLimits
     (hconv : SiteContainsBaseChangeLimits B S hS D.base) (hf : IsIso D.mapLimit)
     (hfp : IsLocallyOfFinitePresentation B S hS D.map₀) :
@@ -352,15 +357,17 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
   (D : MorphismDescentSystem B S hS hZ I)
 
-/-- **Stacks 0852**, and **Stacks 084S**. In the situation of Stacks 084W, if the base change
-`f` of `f₀` to the limit `B` is an isomorphism and `f₀` is locally of finite presentation, then
-the base change `f_i` of `f₀` to some stage `B_i` is an isomorphism.
+/-- **Isomorphisms descend to a stage, for an index bounded by the site's cutoff.** For a
+morphism descent system, if the base change `f` of `f₀` to the limit `B` is an isomorphism and
+`f₀` is locally of finite presentation, then the base change `f_i` of `f₀` to some stage `B_i`
+is an isomorphism.
 
-This is Stacks 0852. Stacks 084S draws the same conclusion in the limit situation of Stacks
-084R, with the source and the target in addition assumed representable over the stage;
-hypothesis (a) of that tag is not needed here, since the three properties into which being an
-isomorphism is decomposed all descend without it. -/
-@[stacks 084S, stacks 0852, ega "IV 8.8.2.5" "f iso ⇒ f_i iso"]
+This is the conclusion of Stacks 0852 (and of Stacks 084S), but a morphism descent system
+carries the bound `MorphismDescentSystem.indexSize`, `#I < cof(cutoff.ord)`, on the index, which
+is stronger than the chapter's convention of Section 70.2 (tag 07SD). The statement of Stacks
+0852 under exactly that convention, with no condition on the index, is
+`exists_isIso_mapAt_of_siteContainsBaseChangeLimits` in the namespace
+`AlgebraicGeometry.Space.MorphismDescentSituation`, which carries both tags. -/
 theorem exists_isIso_mapAt (hf : IsIso D.mapLimit)
     (hfp : IsLocallyOfFinitePresentation B S hS D.map₀) :
     ∃ (i : I) (hi : D.initial ≤ i), IsIso (D.mapAt i hi) :=

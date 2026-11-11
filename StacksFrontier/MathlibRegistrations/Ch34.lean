@@ -27,6 +27,22 @@ add_to_stacks 021O "(2) composition"
 add_to_stacks 021O "(3) base change"
   AlgebraicGeometry.Scheme.instIsStableUnderBaseChangeFppfPrecoverage
 
+/-! ### fpqc coverings (Tag 022B)
+
+Mathlib's own `@[stacks 022B]` sits on `AlgebraicGeometry.QuasiCompactCover`, which is only the
+quasi-compactness condition of the definition (every affine open of the target is a finite union
+of images of quasi-compact opens), with no flatness; an upstream attribute cannot be relabelled
+from here.  The fpqc coverings themselves are the families in
+`AlgebraicGeometry.Scheme.fpqcPrecoverage`: flat, jointly surjective and quasi-compact.
+`AlgebraicGeometry.ofArrows_mem_fpqcPrecoverage_iff` identifies membership with the source's
+condition (flat, and every affine open a finite union of images of affine opens), and carries
+the tag as well. -/
+
+add_to_stacks 022B "fpqc coverings: the families that are flat, jointly surjective and \
+  quasi-compact (QuasiCompactCover, which carries Mathlib's own 022B attribution, is the \
+  quasi-compactness condition alone)"
+  AlgebraicGeometry.Scheme.fpqcPrecoverage
+
 /-! ### Further tags of this chapter covered by Mathlib
 
 Where a Mathlib declaration is more general than the tag, the note says how the tag is the

@@ -11,19 +11,30 @@ public import StacksCore.Tactic.StacksAttribute
 /-!
 # Descent data in terms of sheaves
 
-Let `(C, J)` be a site, let `S : C` and let `{f i : X i ⟶ S}` be a covering of `S`. Stacks 02W5
-identifies two categories: on one side the descent data for the covering whose components are
-objects of the site, on the other the sheaves `G` on the slice site `C/S` for which every product
-`h_{X i} ⨯ G` is representable. Moreover the object representing `h_{X i} ⨯ G` is the `i`-th
-component of the corresponding descent datum, and `G` is representable exactly when that descent
-datum is effective.
+Let `(C, J)` be a site, let `S : C` and let `{f i : X i ⟶ S}` be a covering of `S`. This file
+proves an analogue of Stacks 02W5 for an abstract site: on one side the descent data for the
+covering, in sheaves on the slice sites, whose components are representable, on the other the
+sheaves `G` on the slice site `C/S` for which every product `h_{X i} ⨯ G` is representable.
+Moreover the object representing `h_{X i} ⨯ G` is the `i`-th component of the corresponding
+descent datum, and `G` is representable exactly when that descent datum is effective.
+
+Stacks 02W5 itself is a statement about descent data of *schemes* (Stacks 023W), and it is proved
+as such in `StacksFrontier.AlgebraicGeometry.Descent.DescentDataSheaves`:
+`AlgebraicGeometry.DescentData.sheafEquivalence` is the equivalence between the category
+`AlgebraicGeometry.DescentData f` and those sheaves on `(Sch/S)_J`, for any subcanonical topology
+`J` on schemes, and `AlgebraicGeometry.DescentData.isRepresentable_sheafEquivalence_functor_iff`
+is part (2) with Stacks' notion of effectivity. The statements of this file are not instances of
+it: their descent data are glueing data of sheaves rather than of objects, and their hypothesis
+`HasLimitsOfSize.{max u v, max u v} (Type v)` fails for the category of schemes.
 
 Both sides are read inside the category of sheaves. The ambient identification is Stacks 04TS,
 `CategoryTheory.GrothendieckTopology.isEquivalence_toDescentData_pseudofunctorOver`: sheaves on
 `C/S` are the same thing as glueing data for the covering, a sheaf on each `C/X i` together with
-isomorphisms over the overlaps. Stacks 02W5 is that equivalence restricted to the objects whose
-components are representable, and a descent datum of representable sheaves is, by the Yoneda
-lemma, exactly a descent datum of objects of the site.
+isomorphisms over the overlaps. The abstract analogue of Stacks 02W5 proved here is that
+equivalence restricted to the objects whose components are representable. That a descent datum of
+representable sheaves amounts, by the Yoneda lemma, to a descent datum of objects of the site is
+not formalized in this file; for schemes, the equivalence with Stacks' descent data of schemes is
+proved directly as `AlgebraicGeometry.DescentData.sheafEquivalence`.
 
 The translation between the two ways of saying that a sheaf is representable over one member of
 the covering — that `h_{X i} ⨯ G` is representable, and that the restriction of `G` to `C/X i` is
@@ -50,14 +61,14 @@ on a slice category.
 
 ## Main results
 
-* `CategoryTheory.GrothendieckTopology.locallyRepresentableEquivalence` is Stacks 02W5: the
-  sheaves on `C/S` which are representable over every member of the covering are equivalent to
-  the descent data for the covering with representable components.
-* `CategoryTheory.GrothendieckTopology.representableByProdYoneda` is part (1): the object
-  representing `h_{X i} ⨯ G` is the object over `X i` representing the `i`-th component of the
-  descent datum of `G`, viewed over `S`.
-* `CategoryTheory.GrothendieckTopology.effectiveDescentData_toDescentData_iff` is part (2): the
-  descent datum of `G` is effective if and only if `G` is representable.
+* `CategoryTheory.GrothendieckTopology.locallyRepresentableEquivalence`, the abstract analogue of
+  Stacks 02W5: the sheaves on `C/S` which are representable over every member of the covering are
+  equivalent to the descent data for the covering with representable components.
+* `CategoryTheory.GrothendieckTopology.representableByProdYoneda`, the analogue of its part (1):
+  the object representing `h_{X i} ⨯ G` is the object over `X i` representing the `i`-th component
+  of the descent datum of `G`, viewed over `S`.
+* `CategoryTheory.GrothendieckTopology.effectiveDescentData_toDescentData_iff`, the analogue of its
+  part (2): the descent datum of `G` is effective if and only if `G` is representable.
 * `CategoryTheory.isRepresentable_overMap_iff` is Stacks 02W6, and
   `CategoryTheory.isRepresentable_overForget_iff` is its absolute form.
 * `CategoryTheory.isRepresentable_whiskerLeft_op_iff`: representability of a presheaf of types is
@@ -66,7 +77,7 @@ on a slice category.
 ## Implementation notes
 
 The source's two sides are a category of descent data of *schemes* and a category of *sheaves*.
-Here both are categories of sheaves, the first being the full subcategory
+In this abstract version both are categories of sheaves, the first being the full subcategory
 `descentDataRepresentable` of `CategoryTheory.Pseudofunctor.DescentData` for the pseudofunctor
 `J.pseudofunctorOver (Type v)` cut out by representability of the components. By the Yoneda lemma
 this is the source's category, and the dictionary is spelled out in three statements. An object of
@@ -376,8 +387,12 @@ lemma descentDataRepresentable_inverseImage :
 /-- Let `(C, J)` be a site, let `{f i : X i ⟶ S}` be a covering of an object `S` of `C`, and let
 `G` range over the sheaves of types on the slice site `C/S`. The sheaves for which every product
 `h_{X i} ⨯ G` is representable are equivalent to the descent data for the covering with
-representable components, via the functor sending a sheaf to its canonical descent datum. -/
-@[stacks 02W5 "the equivalence of categories", sga "3 IV 4.6.8"]
+representable components, via the functor sending a sheaf to its canonical descent datum.
+
+This is an analogue of Stacks 02W5 for an abstract site, with descent data of representable
+sheaves in place of descent data of objects. Stacks 02W5 for descent data of schemes is
+`AlgebraicGeometry.DescentData.sheafEquivalence`. -/
+@[sga "3 IV 4.6.8"]
 noncomputable def locallyRepresentableEquivalence
     [HasLimitsOfSize.{max u v, max u v} (Type v)] (hf : Sieve.ofArrows X f ∈ J S) :
     (locallyRepresentable J f).FullSubcategory ≌
@@ -388,8 +403,9 @@ noncomputable def locallyRepresentableEquivalence
     (descentDataRepresentable_inverseImage J f)
 
 /-- The object representing the product `h_{X i} ⨯ G` is the object over `X i` representing the
-`i`-th component of the canonical descent datum of `G`, viewed as an object over `S`. -/
-@[stacks 02W5 "part (1): the representing objects are the components of the descent datum"]
+`i`-th component of the canonical descent datum of `G`, viewed as an object over `S`. This is the
+analogue of Stacks 02W5 part (1) for `locallyRepresentableEquivalence`; for schemes it is
+`AlgebraicGeometry.DescentData.representableBy_sheafEquivalence_functor`. -/
 noncomputable def representableByProdYoneda (G : Sheaf (J.over S) (Type v)) (i : ι)
     {Z : Over (X i)}
     (r : ((((J.pseudofunctorOver (Type v)).toDescentData f).obj G).obj i).obj.RepresentableBy Z) :
@@ -407,8 +423,10 @@ def effectiveDescentData [J.Subcanonical] :
   ((J.over S).yoneda ⋙ (J.pseudofunctorOver (Type v)).toDescentData f).essImage
 
 /-- The canonical descent datum of a sheaf `G` on `C/S` relative to a covering `{f i : X i ⟶ S}` is
-effective if and only if `G` is representable. -/
-@[stacks 02W5 "part (2): representable if and only if effective", sga "3 IV 4.6.8" "partial"]
+effective if and only if `G` is representable. This is the analogue of Stacks 02W5 part (2) for
+`locallyRepresentableEquivalence`; for descent data of schemes it is
+`AlgebraicGeometry.DescentData.isRepresentable_sheafEquivalence_functor_iff`. -/
+@[sga "3 IV 4.6.8" "partial"]
 theorem effectiveDescentData_toDescentData_iff [J.Subcanonical]
     [HasLimitsOfSize.{max u v, max u v} (Type v)] (hf : Sieve.ofArrows X f ∈ J S)
     (G : Sheaf (J.over S) (Type v)) :

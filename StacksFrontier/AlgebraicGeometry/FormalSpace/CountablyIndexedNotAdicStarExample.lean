@@ -686,12 +686,11 @@ private lemma gabberCompletion_bounded_generators_le_evaluationKernel.{v}
     gabberCompletionEvaluation_eq_zero_of_bounded_topologicallyNilpotent g γ n
       (hbound g hg) (htn g (hspan ▸ Ideal.subset_span hg))
 
-/-- **Stacks 0APW (2).** The completion `lim A ⧸ J_n` of Gabber's ring has no finitely
-generated weak ideal of definition, hence no finitely generated ideal of definition: it is not
-adic with a finitely generated ideal of definition. -/
-@[stacks 0APW "clause (2), the example is not adic*, at the level of the ring; the \
-sheaf-level form of clause (2) is \
-`AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_gabberCompletionSheaf`"]
+/-- **The ring-level half of Stacks 0APW (2).** The completion `lim A ⧸ J_n` of Gabber's ring
+has no finitely generated weak ideal of definition, hence no finitely generated ideal of
+definition: it is not adic with a finitely generated ideal of definition. Stacks 0APW (2) itself
+is `AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_zeroLocusCompletion_gabber`.
+-/
 theorem gabberCompletion_no_fg_isWeakIdealOfDefinition.{v} :
     ¬ ∃ I : Ideal GabberCompletion.{v},
       I.FG ∧ TopologicalRing.IsWeakIdealOfDefinition I := by
@@ -720,12 +719,10 @@ theorem gabberCompletion_no_fg_isWeakIdealOfDefinition.{v} :
   rw [map_pow, hevalX] at hzero
   exact gabberPolynomialTruncation_X_pow_ne_zero n hzero
 
-/-- **Stacks 0APW (2).** The ideals `J_n = (x_α^(n+1))` decrease, all cut out
-`T = V(x_α : α ∈ ω₁)`, and are cofinal among the ideals cutting out `T`; so the completion of
-`Spec A` along `T` is countably indexed. -/
-@[stacks 0APW "clause (2), the example is countably indexed, as cofinality of the ideal \
-sequence; the sheaf-level form of clause (2) is \
-`AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_gabberCompletionSheaf`"]
+/-- **The ideal-theoretic half of Stacks 0APW (2).** The ideals `J_n = (x_α^(n+1))` decrease,
+all cut out `T = V(x_α : α ∈ ω₁)`, and are cofinal among the ideals cutting out `T`; so the
+completion of `Spec A` along `T` is countably indexed. Stacks 0APW (2) itself is
+`AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_zeroLocusCompletion_gabber`. -/
 theorem isCofinalVanishingSequence_gabberPowerIdeal.{v} :
     IsCofinalVanishingSequence GabberRing.{v}
       (PrimeSpectrum.zeroLocus (gabberVanishingIdeal.{v} : Set GabberRing.{v}))

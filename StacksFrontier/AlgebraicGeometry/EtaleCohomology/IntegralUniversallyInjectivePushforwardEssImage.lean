@@ -140,7 +140,7 @@ variable {X Y : Scheme.{u}} (f : X ⟶ Y) [IsIntegralHom f] [UniversallyInjectiv
 /-- An abelian sheaf on `Y_étale` lies in the essential image of direct image along an integral
 universally injective morphism exactly when its restriction to the open complement of `f(X)`
 vanishes. -/
-@[stacks 04FZ "part (2): essential image, with the closed-immersion case supplied by Tag 04CA"]
+@[stacks 04FZ "part (2): essential image, as vanishing of the restriction away from f(X)"]
 public theorem smallEtalePushforwardAb_essImage_iff_of_integral_universallyInjective'
     (F : Sheaf (smallEtaleTopology Y) Ab.{u + 1}) :
     (smallEtalePushforwardAb f).essImage F ↔
@@ -152,6 +152,7 @@ public theorem smallEtalePushforwardAb_essImage_iff_of_integral_universallyInjec
 
 /-- An abelian sheaf on `Y_étale` is a direct image along an integral universally injective
 morphism exactly when its support is contained in `f(X)`. -/
+@[stacks 04FZ "part (2): essential image"]
 public theorem smallEtalePushforwardAb_essImage_iff_support_of_integral_universallyInjective
     (F : Sheaf (smallEtaleTopology Y) Ab.{u + 1}) :
     (smallEtalePushforwardAb f).essImage F ↔ smallEtaleSupportAb F ⊆ Set.range f.base := by

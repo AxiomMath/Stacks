@@ -198,10 +198,12 @@ This is `Stacks.Algebraization.isIso_cohomologyToLimit` with its three hypothese
 the finiteness of the cohomology by [Stacks, Tag 02O6], and the two uniform Artin-Rees bounds
 by [Stacks, Tag 02OB] over the unconditional [Stacks, Tag 02O8].
 
-No `@[stacks 087U]` attribute: the tag is registered in
+This is the declaration [Stacks, Tag 087U] is registered on; the conditional statements of
 `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/FormalFunctions.lean`, where the
-comparison map and the reduction are built. -/
-@[sga "2 IX 1.3" "The edge φ'_i"]
+comparison map and the reduction are built, are untagged. -/
+@[stacks 087U "for all p ≥ 0: A Noetherian and J-adically complete, f : X ⟶ Spec A proper, \
+F coherent; 02O6 and 02OB are proved theorems used in the proof",
+  sga "2 IX 1.3" "The edge φ'_i"]
 public theorem isIso_cohomologyToLimit_of_isProper_of_isAdicComplete
     (F : AlgebraicGeometry.SheafOfModules.CoherentModules X.ringCatSheaf) (p : ℕ) :
     letI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f

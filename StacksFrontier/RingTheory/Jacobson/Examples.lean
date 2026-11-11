@@ -65,6 +65,7 @@ spectrum to the generic point of `Spec ℤ`, which is not closed.
 * `nonempty_ringEquiv_rat`: `ℤ_{(2)}[1/2] ≃+* ℚ`.
 * `comap_closedPoint_eq_genericPoint`: `Spec ℚ ⟶ Spec ℤ_{(2)}[1/2] ⟶ Spec ℤ_{(2)}` sends the closed
   point to the generic point.
+* `comap_closedPoint_not_isClosed`: that image is not closed in `Spec ℤ_{(2)}`.
 * `specMapZQ_specQPoint_eq_genericPoint`: `Spec ℚ ⟶ Spec ℤ` sends the point of `Spec ℚ` to the
   generic point.
 * `specMapLoc_specLocPoint_not_isClosed`: the image of the closed point of `Spec ((ℤ ∖ {0})⁻¹ ℤ)`
@@ -266,6 +267,28 @@ theorem isField_of_isDomain_finite_maximalIdeal
   rw [hjac] at hp_mem
   exact hp_ne (Ideal.mem_bot.mp hp_mem)
 
+/-- A local ring with at least two prime ideals is not a Jacobson ring: in a local ring the
+Jacobson radical of every proper ideal is the maximal ideal, so a Jacobson local ring has the
+maximal ideal as its only prime. -/
+@[stacks 00G5 "local ring with at least two prime ideals"]
+theorem not_isJacobsonRing_of_isLocalRing_of_isPrime_ne
+    {R : Type*} [CommRing R] [IsLocalRing R] {p q : Ideal R} [p.IsPrime] [q.IsPrime]
+    (hpq : p ≠ q) : ¬ IsJacobsonRing R := by
+  intro hR
+  have hp := isJacobsonRing_iff_prime_eq.mp hR p inferInstance
+  have hq := isJacobsonRing_iff_prime_eq.mp hR q inferInstance
+  rw [IsLocalRing.jacobson_eq_maximalIdeal p ‹p.IsPrime›.ne_top] at hp
+  rw [IsLocalRing.jacobson_eq_maximalIdeal q ‹q.IsPrime›.ne_top] at hq
+  exact hpq (hp.symm.trans hq)
+
+/-- A discrete valuation ring is not a Jacobson ring: its prime ideals `(0)` and the maximal
+ideal are distinct. -/
+@[stacks 00G5 "discrete valuation ring"]
+theorem not_isJacobsonRing_of_isDiscreteValuationRing
+    {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] : ¬ IsJacobsonRing R :=
+  not_isJacobsonRing_of_isLocalRing_of_isPrime_ne (p := ⊥) (q := IsLocalRing.maximalIdeal R)
+    (IsDiscreteValuationRing.not_a_field R).symm
+
 end
 
 @[expose] public section
@@ -369,13 +392,14 @@ instance isFractionRing_stacksR_at_2 : IsFractionRing ℤ StacksR_at_2 := by
       (mem_nonZeroDivisors_iff_ne_zero.mp hx)⟩
 
 /-- `ℤ_{(2)}[1/2]` is isomorphic to `ℚ` as a ring. -/
-@[stacks 00G7]
+@[stacks 00G7 "R_2 ≅ ℚ"]
 theorem nonempty_ringEquiv_rat : Nonempty (StacksR_at_2 ≃+* ℚ) :=
   ⟨(IsLocalization.algEquiv (nonZeroDivisors ℤ) StacksR_at_2 ℚ).toRingEquiv⟩
 
 /-- For any ring isomorphism `e : ℤ_{(2)}[1/2] ≃+* ℚ`, the composite
 `Spec ℚ → Spec ℤ_{(2)}[1/2] → Spec ℤ_{(2)}` sends the closed point of `Spec ℚ` to the generic point
 `⟨⊥, _⟩` of `Spec ℤ_{(2)}`. -/
+@[stacks 00G7 "R → R_2 maps the closed point of Spec(ℚ) to the generic point of Spec(R)"]
 theorem comap_closedPoint_eq_genericPoint (e : StacksR_at_2 ≃+* ℚ) :
     PrimeSpectrum.comap (algebraMap StacksZ2loc StacksR_at_2)
       (PrimeSpectrum.comap (e : StacksR_at_2 →+* ℚ) (IsLocalRing.closedPoint ℚ)) =
@@ -388,6 +412,31 @@ theorem comap_closedPoint_eq_genericPoint (e : StacksR_at_2 ≃+* ℚ) :
     Ideal.comap_bot_of_injective (e : StacksR_at_2 →+* ℚ) e.injective,
     Ideal.comap_bot_of_injective (algebraMap StacksZ2loc StacksR_at_2)
       (IsLocalization.injective StacksR_at_2 powers_two_le_nonZeroDivisors_stacksZ2loc)]
+
+/-- The zero ideal of `ℤ_{(2)}` is the generic point of `Spec ℤ_{(2)}`. -/
+theorem isGenericPoint_bot_stacksZ2loc :
+    IsGenericPoint (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum StacksZ2loc) Set.univ := by
+  show closure _ = _
+  rw [PrimeSpectrum.closure_singleton]
+  exact PrimeSpectrum.zeroLocus_bot
+
+/-- For any ring isomorphism `e : ℤ_{(2)}[1/2] ≃+* ℚ`, the image of the closed point of `Spec ℚ`
+in `Spec ℤ_{(2)}` is not closed, so the conclusion of Lemma 00G6 fails for the non-Jacobson ring
+`ℤ_{(2)}`. -/
+@[stacks 00G7 "the image of the closed point of Spec(ℚ) is not closed in Spec(R)"]
+theorem comap_closedPoint_not_isClosed (e : StacksR_at_2 ≃+* ℚ) :
+    ¬ IsClosed ({(PrimeSpectrum.comap (algebraMap StacksZ2loc StacksR_at_2)
+      (PrimeSpectrum.comap (e : StacksR_at_2 →+* ℚ) (IsLocalRing.closedPoint ℚ)))} :
+        Set (PrimeSpectrum StacksZ2loc)) := by
+  rw [comap_closedPoint_eq_genericPoint, PrimeSpectrum.isClosed_singleton_iff_isMaximal]
+  intro h
+  have hbot : IsLocalRing.maximalIdeal StacksZ2loc = ⊥ := (IsLocalRing.eq_maximalIdeal h).symm
+  have hcomap := IsLocalization.AtPrime.comap_maximalIdeal StacksZ2loc twoIdeal
+  rw [hbot, Ideal.under, Ideal.comap_bot_of_injective _
+    (IsLocalization.injective StacksZ2loc twoIdeal.primeCompl_le_nonZeroDivisors)] at hcomap
+  have h2 : (2 : ℤ) ∈ twoIdeal := Ideal.subset_span rfl
+  rw [← hcomap, Ideal.mem_bot] at h2
+  exact absurd h2 (by norm_num)
 
 end
 

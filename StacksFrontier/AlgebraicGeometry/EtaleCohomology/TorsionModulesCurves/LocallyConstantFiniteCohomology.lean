@@ -49,8 +49,8 @@ The form of 0GJ1 needed here, for sheaves of `Λ`-modules, is derived from the a
 `Λ`-linear and commute with forgetting the module structure, so a natural isomorphism of the
 abelian functors commutes with the scalars and lifts.
 
-Lemma 0GJ0 is `Stacks.EtaleCohomology.exists_primeToEll_finiteEtale_finiteModuleFiltration`,
-used here with no further input. Nothing here carries a `@[stacks]` attribute, because of the
+Lemma 0GJ0 is `Stacks.EtaleCohomology.exists_finiteEtale_primeToEll_constantModuleFiltration`.
+Nothing here carries a `@[stacks]` attribute, because of the
 named arguments above.
 
 ## References

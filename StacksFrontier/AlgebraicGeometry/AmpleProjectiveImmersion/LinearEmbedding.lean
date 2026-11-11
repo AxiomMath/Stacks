@@ -59,9 +59,12 @@ rather than `T_k ↦ 0`, which makes the image of `ℙⁿ` a linear subspace of 
 coordinates but is equally good for every purpose here, and keeps the map a `rename` so that
 `Stacks.AlgebraicGeometry.ProjPoly.renameGradedHom` supplies the graded structure.
 
-**No `stacks` attribute is attached.** Tag 01N0's parts (1) and (2) for a surjection are carried
-where they are proved, and part (3) is not proved in the generality the tag states — only at this
-one homomorphism. The consumer of this file is [Stacks, Tag 01VT], whose attributes are in
+**No `stacks` attribute is attached.** Tag 01N0 is carried in the generality it states where it
+is proved: parts (1) and (2) in
+`StacksFrontier/AlgebraicGeometry/RelativeProjChain/EventualSurjective.lean`, part (3) in
+`StacksFrontier/AlgebraicGeometry/ProjTwistEpi/Basic.lean` and
+`StacksFrontier/AlgebraicGeometry/ProjTwistCompare/NotIsoExample.lean`; this file applies it at one
+homomorphism. The consumer of this file is [Stacks, Tag 01VT], whose attributes are in
 `StacksFrontier/AlgebraicGeometry/AmpleRelativeFiniteType/`.
 
 ## References

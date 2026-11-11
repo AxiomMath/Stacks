@@ -34,13 +34,16 @@ carrying the 007M tag, in
 counterpart of this lemma (Stacks 00AH) is proved over the same structure in
 `StacksFrontier/Topology/Sheaves/ClosedImmersion/PushforwardAlgStruct.lean`.
 
-Note the `[HasColimits S.C]` in the statements below. 007L asks only for *filtered*
-colimits; realizing `j_{p!}` as the left Kan extension `(opensFunctor X U).op.lan`
-needs arbitrary ones, because the indexing comma category is empty at opens `V ⊄ U`
-and the empty category is not filtered. So the results here are proved under a
-hypothesis slightly stronger than 007L, and it is written into the statements rather
-than hidden inside the bundle. Defining `j_{p!}` by the source's explicit formula
-(`F(V)` for `V ⊆ U`, the initial object otherwise) would remove the hypothesis.
+The statements here take `AlgebraicStructureType.{u, u}` with `[HasColimits S.C]` and
+assumed sheafification. Such a `C` is small with all small colimits, hence thin (Freyd), so
+they cover only a degenerate case and cannot be applied to `Type u`, `Ab.{u}` or
+`CommRingCat.{u}`. Stacks 00AA itself is
+`AlgebraicStructureType.extendByInitialSheaf_full_faithful_and_mem_essImage_iff` in
+`StacksFrontier/Topology/Sheaves/AlgebraicStructure/ExtensionByInitial.lean`: it takes
+`S : AlgebraicStructureType.{v, u}` (homs in the universe of `X`, objects in any universe)
+and assumes only 007L and an initial object, with `j_{p!}` given by the source's explicit
+formula (`F(V)` for `V ⊆ U`, the initial object otherwise), sheafification by the plus
+construction and stalks by Stacks 007H.
 -/
 
 @[expose] public section
@@ -547,12 +550,18 @@ lemma jLowerShriek_essImage_iff (S : AlgebraicStructureType.{u, u}) [HasColimits
       ∀ x : X, x ∉ (U : Set X) → Nonempty (IsInitial (G.presheaf.stalk x)) :=
   ⟨essImage_imp_stalks_initial S X U G, stalks_initial_imp_essImage S X U G⟩
 
-/-- **Stacks 00AA.** For `S = (C, F)` a type of algebraic structure whose category
+/-- For `S = (C, F)` an `AlgebraicStructureType.{u, u}` with all colimits whose category
 `C` has an initial object, and `j : U → X` the inclusion of an open subset, the
-extension-by-initial functor `j_! : Sh(U, C) ⥤ Sh(X, C)` is full and faithful, and
-a sheaf `G ∈ Sh(X, C)` lies in its essential image exactly when the stalk `G_x` is
-an initial object of `C` for every `x ∈ X ∖ U`. -/
-@[stacks 00AA]
+extension-by-initial functor `j_! : Sh(U, C) ⥤ Sh(X, C)` (here the sheafified left Kan
+extension) is full and faithful, and a sheaf `G ∈ Sh(X, C)` lies in its essential image
+exactly when the stalk `G_x` is an initial object of `C` for every `x ∈ X ∖ U`.
+
+Objects and homs of `C` both live in `Type u` here, and a small category with all small
+colimits is thin (Freyd), so this covers only a degenerate case and cannot be applied to
+`Type u`, `Ab.{u}` or `CommRingCat.{u}`; it also assumes all colimits and sheafification.
+Stacks 00AA itself, for `AlgebraicStructureType.{v, u}` with objects in any universe and
+with no hypothesis beyond 007L and the initial object, is
+`AlgebraicStructureType.extendByInitialSheaf_full_faithful_and_mem_essImage_iff`. -/
 theorem full_and_faithful_and_essImage_jLowerShriek (S : AlgebraicStructureType.{u, u})
     [HasColimits S.C] [HasInitial S.C] (X : TopCat.{u}) (U : Opens X)
     [HasWeakSheafify (Opens.grothendieckTopology X) S.C]

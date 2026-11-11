@@ -497,9 +497,10 @@ public theorem hasProduct_of_pow_eq_zero {ι : Type w} {S : AffineCrystallineSit
   have hnil : IsNilpotent (S.p : piRing X) := ⟨N, funext hN⟩
   exact HasLimit.mk ⟨Fan.mk (piObject X hnil) (piProjectionThickening X hnil), piIsLimit X hnil⟩
 
-/-- **Stacks Project, Tag 07HN, infinite-products caveat.** If the base ring has
-characteristic `p`, the category `CRIS(C/A)` has arbitrary products. -/
-@[stacks 07HN "infinite_products_caveat"]
+/-- **If the base ring has characteristic `p`, the category `CRIS(C/A)` has arbitrary
+products.** This complements [Stacks, Tag 07HN, part (1)], which only asserts finite products:
+infinite products fail in general (see `Crystalline.not_hasProductsOfShape_of_infinite`), but
+exist when `p = 0` in `A`, since then `p` vanishes in every thickening. -/
 public instance hasProducts_of_charP (S : AffineCrystallineSituation.{u, v}) [CharP S.A S.p] :
     HasProducts.{w} (DividedPowerThickening.{u, v, w} S) := by
   classical
@@ -528,7 +529,9 @@ public theorem exists_pow_natCast_eq_zero_of_fan {ι : Type w}
   exact ⟨N, fun i => pow_natCast_eq_zero_of_hom (c.proj i) hN⟩
 
 /-- **A family of divided power thickenings on which no single power of `p` vanishes has no
-product in `CRIS(C/A)`.** This is the infinite-products caveat of [Stacks, Tag 07HN]. -/
+product in `CRIS(C/A)`.** This is the obstruction behind the infinite-products caveat of
+[Stacks, Tag 07HN, part (1)]; `Crystalline.not_hasProductsOfShape_of_infinite` uses it to show
+that `CRIS(C/A)` has no infinite products in general. -/
 public theorem not_hasProduct_of_forall_exists_pow_natCast_ne_zero {ι : Type w}
     {S : AffineCrystallineSituation.{u, v}} (X : ι → DividedPowerThickening.{u, v, w} S)
     (h : ∀ N : ℕ, ∃ i, (S.p : (X i).ring) ^ N ≠ 0) : ¬ HasProduct X := by

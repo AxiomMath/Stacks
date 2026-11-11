@@ -17,6 +17,8 @@ import StacksFrontier.Homology.TorAmplitude.CompositionCanonical
 import StacksFrontier.Homology.TorAmplitude.GlobalDimension
 import StacksFrontier.Homology.TorAmplitude.Local
 import StacksFrontier.Homology.TorAmplitude.ProjectiveResolutionModel
+import StacksFrontier.RingTheory.PseudoCoherentMap.Locality
+import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # Perfectness of a morphism of schemes is affine-local
@@ -40,6 +42,11 @@ preimages, and then holds on *every* compatible pair of affine opens.
   of its conditions (1) and (2).
 * `AlgebraicGeometry.perfect_iff_exists_affine_openCover`: the same equivalence read against
   `AlgebraicGeometry.Perfect`, which Stacks 0687 defines by condition (2).
+* `RingHom.Perfect.propertyIsLocal`: perfectness of a ring homomorphism is a local property of
+  ring maps in the sense of `RingHom.PropertyIsLocal`.
+* `AlgebraicGeometry.hasRingHomProperty_perfect`: perfectness of a morphism of schemes is the
+  affine-local property attached to `RingHom.Perfect`, so it is Zariski local on the source and on
+  the target.
 
 ## Implementation notes
 
@@ -57,6 +64,21 @@ Finite Tor dimension is recorded against the canonical derived tensor product, w
 `RingHom.IsPerfectRingMap` quantifies over an arbitrary certified one; the two agree, by
 `StacksDraft.TorAmplitude.hasTorAmplitudeIn_canonicalCertified_iff`, so the quantified form is
 reached from the canonical one at the end of the argument.
+
+The defining condition of `AlgebraicGeometry.Perfect` quantifies over every certified derived
+tensor product on the source (`RingHom.IsPerfectRingMap` takes the derived tensor product as
+data), so it is not literally `affineLocally` of a property of ring maps. The property of ring
+maps is `RingHom.Perfect`, which mentions no derived category. Inside the proof of
+`RingHom.Perfect.propertyIsLocal` it is split into its two halves, pseudo-coherence of the ring
+map and finite Tor dimension of the target, each of which is a local property of ring maps —
+`RingHom.pseudoCoherent_isLocal` and `AlgebraicGeometry.finiteTorDimensionRingHom_propertyIsLocal`
+— so their conjunction is one by `RingHom.PropertyIsLocal.and`. The split, and the defining
+condition of `AlgebraicGeometry.Perfect`, agree with `RingHom.Perfect` by
+`Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension`, at any certificate, and
+`AlgebraicGeometry.hasFiniteTorDimensionRingHom_iff_forall`. Finite type, the remaining field of
+`AlgebraicGeometry.Perfect`, is implied by pseudo-coherence. Proofs read the chart property of a
+perfect morphism through Mathlib's `AlgebraicGeometry.HasRingHomProperty.appLE` at the instance
+`AlgebraicGeometry.hasRingHomProperty_perfect`.
 
 The derived categories of modules come from `HasDerivedCategory.standard`, which is only ever a
 local instance, so it is re-declared here.
@@ -648,6 +670,69 @@ theorem perfect_iff_exists_affine_openCover {X S : Scheme.{u}} (f : X ⟶ S)
       (@Perfect.perfect_appLE _ _ f h),
     fun h => { perfect_appLE := (exists_affine_openCover_perfect_iff_forall f).mp h }⟩
 
+/-! ### Perfectness is the affine-local property attached to `RingHom.Perfect` -/
+
+/-- Perfectness of a ring homomorphism is a local property of ring maps in the sense of
+Stacks 01SR: it is pseudo-coherence together with finite Tor dimension of the target, and each is
+local (`RingHom.pseudoCoherent_isLocal`,
+`AlgebraicGeometry.finiteTorDimensionRingHom_propertyIsLocal`). -/
+public theorem _root_.RingHom.Perfect.propertyIsLocal :
+    RingHom.PropertyIsLocal @RingHom.Perfect.{u, u} := by
+  convert RingHom.pseudoCoherent_isLocal.and finiteTorDimensionRingHom_propertyIsLocal using 1
+  funext A B _ _ f
+  let : Algebra A B := f.toAlgebra
+  let D := canonicalCertifiedDerivedTensoring A
+  exact propext ⟨fun h => ⟨Algebra.Perfect.pseudoCoherent (h := h),
+      (hasFiniteTorDimensionRingHom_iff_forall f).mpr fun D' =>
+        Algebra.Perfect.moduleHasFiniteTorDimension (h := h) D'.comparison D'.isLeftDerived⟩,
+    fun ⟨hpc, hD⟩ => (Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension
+      D.comparison D.isLeftDerived).mpr ⟨hpc, (hasFiniteTorDimensionRingHom_iff_forall f).mp hD D⟩⟩
+
+/-- Perfectness of a morphism of schemes is the affine-local property attached to perfectness of
+ring homomorphisms. -/
+public theorem perfect_eq_affineLocally :
+    (@Perfect.{u} : MorphismProperty Scheme.{u}) = affineLocally @RingHom.Perfect.{u, u} := by
+  ext X S f
+  rw [affineLocally_iff_forall_isAffineOpen]
+  refine ⟨fun hf U hU V hV e => ?_, fun h => ?_⟩
+  · algebraize [(f.appLE U V e).hom]
+    let D := canonicalCertifiedDerivedTensoring Γ(S, U)
+    exact (Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension D.comparison
+      D.isLeftDerived).mpr (Perfect.perfect_appLE f V hV U hU e D)
+  · have hft : LocallyOfFiniteType f := by
+      rw [HasRingHomProperty.eq_affineLocally (P := @LocallyOfFiniteType),
+        affineLocally_iff_forall_isAffineOpen]
+      intro U hU V hV e
+      have := h hU hV e
+      algebraize [(f.appLE U V e).hom]
+      exact RingHom.finiteType_algebraMap.mpr inferInstance
+    refine { toLocallyOfFiniteType := hft, perfect_appLE := fun U hU V hV hUV => ?_ }
+    algebraize [(f.appLE V U hUV).hom]
+    exact fun D => (Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension
+      D.comparison D.isLeftDerived).mp (h hV hU hUV)
+
+/-- Perfectness of a morphism of schemes is the affine-local property attached to perfectness of
+ring homomorphisms, in the form `AlgebraicGeometry.HasRingHomProperty`. -/
+public instance hasRingHomProperty_perfect :
+    HasRingHomProperty (@Perfect.{u}) @RingHom.Perfect.{u, u} where
+  isLocal_ringHomProperty := RingHom.Perfect.propertyIsLocal
+  eq_affineLocally' := perfect_eq_affineLocally
+
+/-- Perfectness of a morphism of schemes is Zariski local on the source. -/
+public instance perfect_isZariskiLocalAtSource :
+    IsZariskiLocalAtSource (@Perfect.{u}) :=
+  HasRingHomProperty.instIsZariskiLocalAtSource (Q := @RingHom.Perfect.{u, u})
+
+/-- Perfectness of a morphism of schemes is Zariski local on the target. -/
+public instance perfect_isZariskiLocalAtTarget :
+    IsZariskiLocalAtTarget (@Perfect.{u}) :=
+  HasRingHomProperty.instIsZariskiLocalAtTarget _ (Q := @RingHom.Perfect.{u, u})
+
+/-- Perfectness of a morphism of schemes is invariant under isomorphisms of the source and of the
+target. -/
+public instance perfect_respectsIso :
+    MorphismProperty.RespectsIso (@Perfect.{u}) :=
+  perfect_isZariskiLocalAtTarget.{u}.toRespects
 
 end AlgebraicGeometry
 

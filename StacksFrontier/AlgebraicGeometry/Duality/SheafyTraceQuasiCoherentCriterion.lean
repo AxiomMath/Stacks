@@ -47,49 +47,50 @@ The two sufficient conditions of [Stacks, Tag 0GEV] put the two derived internal
 * `Stacks.Duality.isIso_of_isIso_rightAdjoint_map` — a morphism between two objects at which the
   counit of such an adjunction is invertible is invertible as soon as the right adjoint sends it
   to an isomorphism.
-* `Stacks.Duality.isIso_sheafyTrace_of_derivedCategoryB` — **[Stacks, Tag 0GEV], the
-  quasi-coherence criterion**: the trace is an isomorphism when both derived internal Homs have
+* `Stacks.Duality.isIso_sheafyTrace_of_derivedCategoryB` — the quasi-coherence criterion of
+  [Stacks, Tag 0GEV]: the trace is an isomorphism when both derived internal Homs have
   quasi-coherent cohomology.
-* `Stacks.Duality.isIso_sheafyTrace_of_isPerfect` — **[Stacks, Tag 0GEV] (1)**, the perfect case.
-* `Stacks.Duality.isIso_sheafyTrace_of_isPseudoCoherent` — **[Stacks, Tag 0GEV] (2)**, the
-  bounded-below pseudo-coherent case.
+* `Stacks.Duality.isIso_sheafyTrace_of_isPerfect` — clause (1) of [Stacks, Tag 0GEV], the
+  perfect case.
+* `Stacks.Duality.isIso_sheafyTrace_of_isPseudoCoherent` — clause (2) of [Stacks, Tag 0GEV],
+  the bounded-below pseudo-coherent case.
 
 ## Implementation notes
 
-*The coherator is data.* The existence of a right adjoint `DQ_Y` of
-`D_QCoh(𝒪_Y) ⥤ D(𝒪_Y)` is [Stacks, Tag 0CR0], which is not part of this development; the
-functor and the adjunction are therefore arguments, exactly as they are of
-`Stacks.Duality.coheratorDerivedPushforwardIso`. Nothing below uses anything about
-`DQ_Y` other than the adjunction, so this restricts the statements to the schemes on which the
-coherator exists and weakens nothing else.
+*The coherator is data.* The statements here take a right adjoint `DQ_Y` of
+`D_QCoh(𝒪_Y) ⥤ D(𝒪_Y)` as an argument, so that they apply to any choice of it; nothing below
+uses anything about `DQ_Y` other than the adjunction. For quasi-compact quasi-separated schemes
+the coherator of [Stacks, Tag 0CR0] is constructed in this development, and
+`Stacks.Duality.sheafyTrace_quasiCoherent_criteria` (in
+`StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceQuasiCoherentCriterionUnconditional.lean`)
+instantiates these criteria there.
 
-*The right adjoint of `Rf_*` is a hypothesis*, as it is for the trace map itself; see the
+*The right adjoint of `Rf_*` is an argument*, as it is for the trace map itself; see the
 implementation notes of `StacksFrontier/AlgebraicGeometry/Duality/SheafyTrace.lean`.
 
-*The three results the source cites are hypotheses, named for the tags they are.* None is proved
-in this development, and each is an input to the argument, never its conclusion:
+*The inputs the source cites are arguments, named for the tags they are.* This makes the
+criteria reusable beyond the qcqs case:
 
-* `h0A9Q` is [Stacks, Tag 0A9Q]: the trace becomes an isomorphism after `DQ_Y`. This is strictly
-  weaker than the conclusion — `DQ_Y` is not conservative, and the whole content of
-  [Stacks, Tag 0GEV] is the extra input needed to pass from one to the other.
-* `h0A6HX` and `h0A6HY` are the perfect part of [Stacks, Tag 0A6H] — the one that puts
-  `R𝓗om(M, N)` in `D_QCoh` for `M` perfect and `N` in `D_QCoh`, with no bound on `N` — taken
-  separately on `X` and on `Y`. Its bounded-below pseudo-coherent companion is proved in this
-  development, as `AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPseudoCoherent`, and
-  `Stacks.Duality.isIso_sheafyTrace_of_isPseudoCoherent` therefore needs no hypothesis of this
-  kind; the perfect part, whose second argument is unbounded, is not available and stays a
-  hypothesis of `Stacks.Duality.isIso_sheafyTrace_of_isPerfect`.
-* `h0A9I` is [Stacks, Tag 0A9I] at the single object `K`: `a(K)` is bounded below when `K` is.
+* `h0A9Q` is [Stacks, Tag 0A9Q]: the trace becomes an isomorphism after `DQ_Y`. For qcqs
+  schemes this is `Stacks.Duality.isIso_coherator_map_sheafyTrace_of_qcqs`.
+* `h0A6HX` and `h0A6HY` are the perfect part of [Stacks, Tag 0A6H], taken separately on `X` and
+  on `Y`; for schemes this is `InternalHom.derivedCategoryB_derivedSheafHom_of_isPerfect`. The
+  bounded-below pseudo-coherent part is
+  `AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPseudoCoherent`, used directly.
+* `h0A9I` is [Stacks, Tag 0A9I] at the single object `K`: `a(K)` is bounded below when `K` is;
+  at the standard model for qcqs schemes this is
+  `Stacks.Duality.isBoundedBelow_twistedInverseImage_obj_standard`.
+
+The registration of [Stacks, Tag 0GEV] is `Stacks.Duality.sheafyTrace_quasiCoherent_criteria`,
+together with the erasure statements of
+`StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceCoheratorErasure.lean`.
 
 *Why `Rf_*` replaces [Stacks, Tag 0CR1].* The source erases `DQ_Y` on the left of the trace by
 rewriting `DQ_Y(Rf_*−)` as `Rf_*(DQ_X−)`. What that rewriting is used for is the single
 conclusion that `Rf_*R𝓗om_{𝒪_X}(L, a(K))` has quasi-coherent cohomology once
-`R𝓗om_{𝒪_X}(L, a(K))` does, and that is exactly the hypothesis `hpush` already carried
+`R𝓗om_{𝒪_X}(L, a(K))` does, and that is exactly the argument `hpush` already carried
 throughout the `Stacks.Duality` namespace, which is [Stacks, Tag 08D5] part (1). The natural
-isomorphism itself is `Stacks.Duality.coheratorDerivedPushforwardIso`, stated at the locally
-small model of the derived categories; the trace map is stated at
-`CategoryTheory.HasDerivedCategory.standard`, and a statement for one model says nothing about
-the other, so it is the hypothesis and not the isomorphism that is used.
+isomorphism itself, at the standard model, is `Stacks.Duality.coheratorDerivedPushforwardIsoStd`.
 
 ## References
 
@@ -190,9 +191,6 @@ Both sides then lie in `D_QCoh(𝒪_Y)` — the left one because `Rf_*` preserve
 cohomology, which is the content of the source's `DQ_Y ∘ Rf_* = Rf_* ∘ DQ_X` — so the counit of
 the coherator adjunction is invertible at both, and the trace is an isomorphism because
 [Stacks, Tag 0A9Q] makes it one after `DQ_Y`. -/
-@[stacks 0GEV "the quasi-coherence criterion: the trace is an isomorphism once both derived \
-internal Homs have quasi-coherent cohomology, granted Tag 0A9Q (the trace is an isomorphism \
-after the coherator) as the explicit hypothesis h0A9Q, and the coherator of Tag 0CR0 as data"]
 theorem isIso_sheafyTrace_of_derivedCategoryB
     (hsrc : DerivedCategoryB.derivedCategoryB (SheafOfModules.isQuasicoherent X.ringCatSheaf)
       (((Stacks.SheafOfModules.derivedSheafHom X.sheaf).obj (op L.obj)).obj (a.obj K).obj))
@@ -216,8 +214,6 @@ Since `a(K)` and `K` have quasi-coherent cohomology, the part of [Stacks, Tag 0A
 perfect first argument puts `R𝓗om_{𝒪_X}(L, a(K))` in `D_QCoh(𝒪_X)` and `R𝓗om_{𝒪_Y}(Rf_*L, K)`
 in `D_QCoh(𝒪_Y)`, and the quasi-coherence criterion applies. No hypothesis on `K` beyond
 quasi-coherence of its cohomology is needed. -/
-@[stacks 0GEV "clause (1), the perfect case, granted Tag 0A9Q as the explicit hypothesis h0A9Q, \
-the perfect half of Tag 0A6H as h0A6HX and h0A6HY, and the coherator of Tag 0CR0 as data"]
 theorem isIso_sheafyTrace_of_isPerfect
     (h0A6HX : ∀ (M N : DerivedCategory X.Modules),
       RingedSpace.IsPerfect (X := X.toRingedSpace) M →
@@ -251,8 +247,6 @@ The right adjoint `a` carries bounded-below complexes to bounded-below complexes
 pseudo-coherent first argument and a bounded-below second argument, then puts
 `R𝓗om_{𝒪_X}(L, a(K))` in `D_QCoh(𝒪_X)` and `R𝓗om_{𝒪_Y}(Rf_*L, K)` in `D_QCoh(𝒪_Y)`, and the
 quasi-coherence criterion applies. -/
-@[stacks 0GEV "clause (2), the bounded-below pseudo-coherent case, granted Tag 0A9Q as the \
-explicit hypothesis h0A9Q, Tag 0A9I as h0A9I, and the coherator of Tag 0CR0 as data"]
 theorem isIso_sheafyTrace_of_isPseudoCoherent
     (h0A9I : DerivedCategoryB.IsBoundedBelow K.obj →
       DerivedCategoryB.IsBoundedBelow (a.obj K).obj)

@@ -26,8 +26,10 @@ The category structure on the objects is a parameter.
 
 * `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids_schemesOver'`: the projection
   of `Coh_{X/Y}` to the test schemes over `Y` is fibred in groupoids.
-* `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids'`: **Stacks 08W5** for a given
-  category structure on the objects.
+* `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids'`: the assertion of
+  Stacks 08W5 for any value of `AlgebraicGeometry.Space.CoherentCategoryData`; Stacks 08W5 at the
+  constructed category is
+  `AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids`.
 
 ## Implementation notes
 
@@ -171,10 +173,13 @@ theorem coherentProjection_isFiberedInGroupoids_schemesOver'
 
 /-! ### Stacks 08W5 -/
 
-/-- **Stacks 08W5.**  In the situation of Stacks 08KB the projection
-`p : Coh_{X/Y} ⟶ (Sch/S)_fppf`, which sends an object `(T, g, F)` to its test scheme `T`, is
-fibred in groupoids. -/
-@[stacks 08W5 "for a given category structure on the objects"]
+/-- In the situation of Stacks 08KB the projection `p : Coh_{X/Y} ⟶ (Sch/S)_fppf`, which sends
+an object `(T, g, F)` to its test scheme `T`, is fibred in groupoids, for any value `cd` of the
+specification `AlgebraicGeometry.Space.CoherentCategoryData` of the category of Stacks 08KB.
+
+Stacks 08W5 at the constructed category
+`AlgebraicGeometry.Space.CoherentSituation.categoryData` is
+`AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids`. -/
 theorem coherentProjection_isFiberedInGroupoids'
     (hc : ModulePushforwardCoherence B S hS) {D : CoherentSituation B S hS}
     (cd : CoherentCategoryData hc D) :

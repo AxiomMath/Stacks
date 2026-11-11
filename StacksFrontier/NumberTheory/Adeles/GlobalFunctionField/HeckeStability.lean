@@ -525,18 +525,25 @@ public theorem mul_comm_of_isCentralDataAt {w : Place K} {a : GL (Fin 2) (AdeleR
   ext i j
   simp [diagonal_mul, mul_diagonal, _root_.mul_comm]
 
+/-- `T_v f` satisfies the central condition `c · U_w f = f` when `f` does. -/
+public theorem heckeOperator_central_withChar {Λ : Type w} [CommRing Λ]
+    {f : GL (Fin 2) (AdeleRing K) → Λ} {w : Place K} {a : GL (Fin 2) (AdeleRing K)}
+    (ha : IsCentralDataAt w a) {c : Λ} (hf : ∀ x, c * centralOperator a f x = f x)
+    (x : GL (Fin 2) (AdeleRing K)) :
+    c * centralOperator a (heckeOperator g₀ g f) x = heckeOperator g₀ g f x := by
+  simp only [centralOperator, heckeOperator, mul_add, Finset.mul_sum]
+  have key : ∀ y : GL (Fin 2) (AdeleRing K), c * f (y * (a * x)) = f (y * x) := fun y => by
+    rw [← mul_assoc, ← mul_comm_of_isCentralDataAt ha y, mul_assoc]; exact hf (y * x)
+  simp only [key]
+
 /-- `T_v f` satisfies the central condition when `f` does. -/
 public theorem heckeOperator_central {Λ : Type w} [CommRing Λ] {f : GL (Fin 2) (AdeleRing K) → Λ}
     {w : Place K} {a : GL (Fin 2) (AdeleRing K)} (ha : IsCentralDataAt w a)
     (hf : ∀ x, (Place.residueCard w : Λ) * centralOperator a f x = f x)
     (x : GL (Fin 2) (AdeleRing K)) :
     (Place.residueCard w : Λ) * centralOperator a (heckeOperator g₀ g f) x =
-      heckeOperator g₀ g f x := by
-  simp only [centralOperator, heckeOperator, mul_add, Finset.mul_sum]
-  have key : ∀ y : GL (Fin 2) (AdeleRing K), (Place.residueCard w : Λ) * f (y * (a * x)) =
-      f (y * x) := fun y => by
-    rw [← mul_assoc, ← mul_comm_of_isCentralDataAt ha y, mul_assoc]; exact hf (y * x)
-  simp only [key]
+      heckeOperator g₀ g f x :=
+  heckeOperator_central_withChar ha hf x
 
 /-- `T_v` is additive in `f`. -/
 public theorem heckeOperator_add {Λ : Type w} [AddCommMonoid Λ]
@@ -625,30 +632,61 @@ public theorem heckeOperator_isUnramifiedCuspForm {Λ : Type w} [CommRing Λ]
   have hW : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ U,
       heckeOperator g₀ g f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         heckeOperator g₀ g f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup hR x hinv z hy
+    fun z y hy => integrand_add_mem_sup k hR x hinv z hy
   have hle : (principalAdeles K).toAddSubgroup ⊔ U' ≤ (principalAdeles K).toAddSubgroup ⊔ U :=
     sup_le_sup_left inf_le_left _
-  exact sum_eq_zero_of_finer (ringChar_nsmul_adele k (K := K)) hp hle le_rfl
+  exact sum_eq_zero_of_finer k (ringChar_nsmul_adele k (K := K)) hp hle le_rfl
     (index_principal_sup_ne_zero k hU') hW (fun z y hy => hW z y (hle hy)) hZ hs
+
+/-- `T_v` preserves the unramified cusp forms with central character `φ`. -/
+public theorem isCuspFormWithChar_heckeOperator {Λ : Type w} [CommRing Λ] {φ : Place K → Λ}
+    (hp : IsUnit (ringChar k : Λ)) (hd : IsHeckeDataAt v π lam g₀ g)
+    {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : IsCuspFormWithChar Λ φ f) :
+    IsCuspFormWithChar Λ φ (heckeOperator g₀ g f) :=
+  ⟨heckeOperator_isUnramifiedCuspForm k hp hd hf.1,
+    fun _ _ ha x => heckeOperator_central_withChar ha (hf.2 _ _ ha) x⟩
+
+/-- `T_v` maps `C(Λ)` with central character `φ` to itself. -/
+public theorem heckeOperator_mem_cuspFormsWithChar {Λ : Type w} [CommRing Λ] {φ : Place K → Λ}
+    (hp : IsUnit (ringChar k : Λ)) (hd : IsHeckeDataAt v π lam g₀ g)
+    {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : f ∈ cuspFormsWithChar K Λ φ) :
+    heckeOperator g₀ g f ∈ cuspFormsWithChar K Λ φ := by
+  induction hf using Submodule.span_induction with
+  | mem f hf => exact mem_cuspFormsWithChar (isCuspFormWithChar_heckeOperator k hp hd hf)
+  | zero => rw [heckeOperator_zero]; exact zero_mem _
+  | add f₁ f₂ _ _ h₁ h₂ => rw [heckeOperator_add]; exact add_mem h₁ h₂
+  | smul c f _ h => rw [heckeOperator_smul]; exact Submodule.smul_mem _ _ h
+
+/-- The Hecke operator `T_v` as a `Λ`-linear endomorphism of `C(Λ)` with central character
+`φ`. -/
+public def cuspFormsHeckeWithChar (Λ : Type w) [CommRing Λ] (φ : Place K → Λ)
+    (hp : IsUnit (ringChar k : Λ)) (hd : IsHeckeDataAt v π lam g₀ g) :
+    cuspFormsWithChar K Λ φ →ₗ[Λ] cuspFormsWithChar K Λ φ where
+  toFun f := ⟨heckeOperator g₀ g f, heckeOperator_mem_cuspFormsWithChar k hp hd f.2⟩
+  map_add' _ _ := Subtype.ext (heckeOperator_add _ _)
+  map_smul' c _ := Subtype.ext (heckeOperator_smul c _)
+
+/-- The underlying function of `cuspFormsHeckeWithChar k Λ φ hp hd f` is `T_v f`. -/
+@[simp]
+public theorem coe_cuspFormsHeckeWithChar (Λ : Type w) [CommRing Λ] (φ : Place K → Λ)
+    (hp : IsUnit (ringChar k : Λ)) (hd : IsHeckeDataAt v π lam g₀ g)
+    (f : cuspFormsWithChar K Λ φ) :
+    ((cuspFormsHeckeWithChar k Λ φ hp hd f : cuspFormsWithChar K Λ φ) :
+      GL (Fin 2) (AdeleRing K) → Λ) = heckeOperator g₀ g f := rfl
 
 /-- `T_v` preserves the unramified cusp forms with central character. -/
 public theorem isCuspFormCentralChar_heckeOperator {Λ : Type w} [CommRing Λ]
     (hp : IsUnit (ringChar k : Λ)) (hd : IsHeckeDataAt v π lam g₀ g)
     {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : IsCuspFormCentralChar Λ f) :
     IsCuspFormCentralChar Λ (heckeOperator g₀ g f) :=
-  ⟨heckeOperator_isUnramifiedCuspForm k hp hd hf.1,
-    fun _ _ ha x => heckeOperator_central ha (hf.2 _ _ ha) x⟩
+  isCuspFormWithChar_heckeOperator k hp hd hf
 
 /-- `T_v` maps `C(Λ)` to itself. -/
 public theorem heckeOperator_mem_cuspFormsCentralChar {Λ : Type w} [CommRing Λ]
     (hp : IsUnit (ringChar k : Λ)) (hd : IsHeckeDataAt v π lam g₀ g)
     {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : f ∈ cuspFormsCentralChar K Λ) :
-    heckeOperator g₀ g f ∈ cuspFormsCentralChar K Λ := by
-  induction hf using Submodule.span_induction with
-  | mem f hf => exact mem_cuspFormsCentralChar (isCuspFormCentralChar_heckeOperator k hp hd hf)
-  | zero => rw [heckeOperator_zero]; exact zero_mem _
-  | add f₁ f₂ _ _ h₁ h₂ => rw [heckeOperator_add]; exact add_mem h₁ h₂
-  | smul c f _ h => rw [heckeOperator_smul]; exact Submodule.smul_mem _ _ h
+    heckeOperator g₀ g f ∈ cuspFormsCentralChar K Λ :=
+  heckeOperator_mem_cuspFormsWithChar k hp hd hf
 
 /-- The Hecke operator `T_v` as a `Λ`-linear endomorphism of `C(Λ)`. -/
 public def cuspFormsHecke (Λ : Type w) [CommRing Λ] (hp : IsUnit (ringChar k : Λ))
@@ -667,23 +705,39 @@ public theorem coe_cuspFormsHecke (Λ : Type w) [CommRing Λ] (hp : IsUnit (ring
 
 variable {F Λ : Type w} [Field F] [Field Λ] [Algebra F Λ]
 
-/-- The base change map `Λ ⊗_F C(F) → C(Λ)` intertwines `id ⊗ T_v` and `T_v`. -/
-public theorem cuspFormsBaseChange_comp_baseChange_hecke (hp : IsUnit (ringChar k : Λ))
-    (hd : IsHeckeDataAt v π lam g₀ g) :
-    (cuspFormsBaseChange K F Λ).comp
-        (LinearMap.baseChange Λ (cuspFormsHecke k F (isUnit_ringChar_of_algebra k hp) hd)) =
-      (cuspFormsHecke k Λ hp hd).comp (cuspFormsBaseChange K F Λ) := by
+section WithChar
+
+variable {φ : Place K → F} {ψ : Place K → Λ}
+
+/-- The base change map `Λ ⊗_F C(F) → C(Λ)` for the central characters `φ` and `ψ` intertwines
+`id ⊗ T_v` and `T_v`. -/
+public theorem cuspFormsBaseChangeWithChar_comp_baseChange_hecke (hp : IsUnit (ringChar k : Λ))
+    (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) (hd : IsHeckeDataAt v π lam g₀ g) :
+    (cuspFormsBaseChangeWithChar K F Λ hψ).comp
+        (LinearMap.baseChange Λ
+          (cuspFormsHeckeWithChar k F φ (isUnit_ringChar_of_algebra k hp) hd)) =
+      (cuspFormsHeckeWithChar k Λ ψ hp hd).comp (cuspFormsBaseChangeWithChar K F Λ hψ) := by
   refine LinearMap.ext fun t => ?_
   induction t using TensorProduct.inductionOn with
   | tmul c f =>
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearMap.baseChange_tmul,
-      cuspFormsBaseChange_tmul, cuspFormsBaseChange_tmul, map_smul]
+      cuspFormsBaseChangeWithChar_tmul, cuspFormsBaseChangeWithChar_tmul, map_smul]
     congr 1
     refine Subtype.ext (funext fun x => ?_)
     exact (heckeOperator_mapCoeffs (algebraMap F Λ) g₀ g _ x).symm
   | add a b ha hb =>
     exact (LinearMap.map_add _ a b).trans ((congrArg₂ (· + ·) ha hb).trans
       (LinearMap.map_add _ a b).symm)
+
+end WithChar
+
+/-- The base change map `Λ ⊗_F C(F) → C(Λ)` intertwines `id ⊗ T_v` and `T_v`. -/
+public theorem cuspFormsBaseChange_comp_baseChange_hecke (hp : IsUnit (ringChar k : Λ))
+    (hd : IsHeckeDataAt v π lam g₀ g) :
+    (cuspFormsBaseChange K F Λ).comp
+        (LinearMap.baseChange Λ (cuspFormsHecke k F (isUnit_ringChar_of_algebra k hp) hd)) =
+      (cuspFormsHecke k Λ hp hd).comp (cuspFormsBaseChange K F Λ) :=
+  cuspFormsBaseChangeWithChar_comp_baseChange_hecke k hp (fun _ => map_natCast _ _) hd
 
 /-- The base change isomorphism `Λ ⊗_F C(F) ≃ C(Λ)`, `c ⊗ f ↦ c · (ι ∘ f)`, when `p` is
 invertible in `Λ`. -/
@@ -706,6 +760,40 @@ public theorem cuspFormsBaseChangeEquiv_tmul (hp : IsUnit (ringChar k : Λ)) (c 
 public theorem cuspFormsBaseChangeEquiv_toLinearMap (hp : IsUnit (ringChar k : Λ)) :
     (cuspFormsBaseChangeEquiv k hp (F := F) (K := K)).toLinearMap = cuspFormsBaseChange K F Λ :=
   LinearMap.ext fun _ => rfl
+
+section WithChar
+
+variable {φ : Place K → F} {ψ : Place K → Λ}
+
+/-- The base change isomorphism `Λ ⊗_F C(F) ≃ C(Λ)`, `c ⊗ f ↦ c · (ι ∘ f)`, for the central
+characters `φ` and `ψ`, when `p` is invertible in `Λ`, every `φ_v` is a unit and `ψ_v` is the
+image of `φ_v`. -/
+public def cuspFormsBaseChangeEquivWithChar (hp : IsUnit (ringChar k : Λ))
+    (hφ : ∀ v, IsUnit (φ v)) (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) :
+    TensorProduct F Λ (cuspFormsWithChar K F φ) ≃ₗ[Λ] cuspFormsWithChar K Λ ψ :=
+  LinearEquiv.ofBijective (cuspFormsBaseChangeWithChar K F Λ hψ)
+    ⟨cuspFormsBaseChangeWithChar_injective hψ, cuspFormsBaseChangeWithChar_surjective k hp hφ hψ⟩
+
+/-- The base change isomorphism sends `c ⊗ f` to `c · (ι ∘ f)`. -/
+public theorem cuspFormsBaseChangeEquivWithChar_tmul (hp : IsUnit (ringChar k : Λ))
+    (hφ : ∀ v, IsUnit (φ v)) (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) (c : Λ)
+    (f : cuspFormsWithChar K F φ) :
+    ((cuspFormsBaseChangeEquivWithChar k hp hφ hψ (c ⊗ₜ f) : cuspFormsWithChar K Λ ψ) :
+      GL (Fin 2) (AdeleRing K) → Λ) = c • mapCoeffs (algebraMap F Λ) f := by
+  change ((cuspFormsBaseChangeWithChar K F Λ hψ (c ⊗ₜ f) : cuspFormsWithChar K Λ ψ) :
+    GL (Fin 2) (AdeleRing K) → Λ) = _
+  rw [cuspFormsBaseChangeWithChar_tmul]
+  rfl
+
+/-- The underlying linear map of `cuspFormsBaseChangeEquivWithChar` is
+`cuspFormsBaseChangeWithChar`. -/
+public theorem cuspFormsBaseChangeEquivWithChar_toLinearMap (hp : IsUnit (ringChar k : Λ))
+    (hφ : ∀ v, IsUnit (φ v)) (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) :
+    (cuspFormsBaseChangeEquivWithChar k hp hφ hψ (K := K)).toLinearMap =
+      cuspFormsBaseChangeWithChar K F Λ hψ :=
+  LinearMap.ext fun _ => rfl
+
+end WithChar
 
 end WithK
 

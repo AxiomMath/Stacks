@@ -48,9 +48,10 @@ spelled `(Ideal.span {π} ^ (e + 1)).mkQ.compLeft (Fin r)`, which sidesteps the 
 No `@[stacks 0EXF]` attribute is attached to anything here, and nothing below states any part of
 that tag: Tag 0EXF is a statement about proper morphisms with geometrically connected fibres over
 the spectrum of a discrete valuation ring, and only its final module-theoretic steps appear here.
-The tag itself is carried by
-`exists_thickening_exponent_free_of_free_generic_and_thickening` (same namespace), which consumes
-the results below. The torsion-exponent result needs no valuation ring at all,
+The results below are consumed by
+`exists_thickening_exponent_free_of_free_generic_and_thickening` (same namespace), which derives
+the tag's conclusion from `TrivialityInput`; the tag itself is carried by
+`exists_thickening_exponent_free`. The torsion-exponent result needs no valuation ring at all,
 only a Noetherian module.
 
 ## References

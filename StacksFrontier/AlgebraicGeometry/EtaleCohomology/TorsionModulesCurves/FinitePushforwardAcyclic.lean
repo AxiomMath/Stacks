@@ -174,8 +174,9 @@ of `f` vanish (`isZero_rightDerived_modulePushforward_of_isIntegralHom`, Stacks 
 Leray spectral sequence collapses to `H^q_étale(X, ℱ) ≅ H^q_étale(Y, f_*ℱ)`
 (`moduleCohomologyPushforwardIso`, Stacks 0733), and finiteness transports along it. -/
 @[stacks 0GJD "stated for an arbitrary ring Λ and an arbitrary finite morphism f of the big étale \
-  site; the source's further hypotheses (Λ Noetherian, k algebraically closed, X and Y separated \
-  of finite type over k of dimension at most one) are unused by its proof and dropped"]
+  site, for sheaves of Λ-modules on the small étale sites of Tag 021B; the source's further \
+  hypotheses (Λ Noetherian, k algebraically closed, X and Y separated of finite type over k of \
+  dimension at most one) are unused by its proof and dropped"]
 theorem module_finite_cohomology_pushforward_of_isFinite [IsFinite (B.inclusion.map f)]
     (ℱ : Sheaf (SmallEtale.topology B X.obj X.property) (ModuleCat.{max (u + 1) w r} Λ))
     (q : ℕ)

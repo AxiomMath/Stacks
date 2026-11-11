@@ -126,7 +126,8 @@ perfect object of `D(𝒪_V)` supported on `j^{-1}T`.  Then `Rj_*E` is a perfect
 
 Perfectness is local on `X_étale` along the two morphisms of the square, and `Rj_*E` is `j_!E`,
 whose restriction to `U` vanishes and whose restriction to `V` is the perfect `E`. -/
-@[stacks 08HK]
+@[stacks 08HK "Rj_*E is perfect in D(O_X) for an elementary distinguished square and \
+E perfect on V supported on j^{-1}T"]
 theorem isPerfect_derivedModulePushforward_of_cohomologySupportedOn
     (E : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).1
       (edsEtale B S hS hsq).2))

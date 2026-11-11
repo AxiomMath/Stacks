@@ -47,7 +47,7 @@ characterisation it carries is that the chain sends it to the identity
 characterisation for `χ` out of the ones for `φ` and `ψ` needs each of the six steps to have a
 composition law, and all six now have one: `Stacks.SheafOfModules.pullbackTensorStep1_comp'`
 through `…Step5_comp`, in the five files
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PullbackTensorStep⟨i⟩CompositionLaw.lean`, and
+`StacksDraft/Algebra/Category/ModuleCat/Sheaf/PullbackTensorStep⟨i⟩CompositionLaw.lean`, and
 for the sixth step `Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso_hom_eq_comp` in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExtendScalarsTensorCompositionLaw.lean`. The
 three paragraphs below describe what shape each of them takes and what they rest on.

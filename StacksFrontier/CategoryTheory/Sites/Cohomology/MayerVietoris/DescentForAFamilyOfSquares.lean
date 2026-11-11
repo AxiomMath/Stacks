@@ -156,7 +156,7 @@ variable {𝒜 : Type*} [Category 𝒜] [Abelian 𝒜] [IsGrothendieckAbelian �
 /-- The identity of the image of a K-injective complex is a terminal object of the category of
 arrows from the localization functor to it: by K-injectivity every derived morphism out of the
 homotopy category into it is the image of a homotopy class, uniquely. -/
-private def isTerminalCostructuredArrowOfIsKInjective (I : CochainComplex 𝒜 ℤ)
+def isTerminalCostructuredArrowOfIsKInjective (I : CochainComplex 𝒜 ℤ)
     [I.IsKInjective] :
     IsTerminal (CostructuredArrow.mk
       (𝟙 (DerivedCategory.Qh.obj
@@ -177,7 +177,7 @@ variable {H : Type*} [Category H] (F : HomotopyCategory 𝒜 (ComplexShape.up �
 
 /-- A K-injective complex computes any right derived functor on the unbounded homotopy
 category. -/
-private theorem isIso_unit_app_of_isKInjective' (I : CochainComplex 𝒜 ℤ) [I.IsKInjective] :
+theorem isIso_unit_app_of_isKInjective' (I : CochainComplex 𝒜 ℤ) [I.IsKInjective] :
     IsIso (unit.app ((HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).obj I)) :=
   isIso_unit_app_of_isKInjective F
     (exists_quasiIso_isKInjective 𝒜) DerivedCategory.Qh RF unit I
@@ -185,7 +185,7 @@ private theorem isIso_unit_app_of_isKInjective' (I : CochainComplex 𝒜 ℤ) [I
 /-- Postcomposing a right derived functor with an arbitrary functor again gives a right derived
 functor. The pointwise universal property is checked at a K-injective resolution, where the
 indexing category of the colimit has a terminal object. -/
-private theorem isRightDerivedFunctor_postcomp {H' : Type*} [Category H'] (G : H ⥤ H') :
+theorem isRightDerivedFunctor_postcomp {H' : Type*} [Category H'] (G : H ⥤ H') :
     (RF ⋙ G).IsRightDerivedFunctor
       (Functor.whiskerRight unit G ≫ (Functor.associator _ _ _).hom)
       (HomotopyCategory.quasiIso 𝒜 (ComplexShape.up ℤ)) := by
@@ -223,7 +223,7 @@ variable {𝒜 : Type*} [Category 𝒜] [Abelian 𝒜] [HasDerivedCategory 𝒜]
 
 /-- In a distinguished triangle whose third vertex has vanishing cohomology one degree below,
 the degree-`n` cohomology sequence of the first two maps is left exact. -/
-private theorem mono_and_exact_homology_of_distTriang (T : Triangle (DerivedCategory 𝒜))
+theorem mono_and_exact_homology_of_distTriang (T : Triangle (DerivedCategory 𝒜))
     (hT : T ∈ distTriang (DerivedCategory 𝒜)) (n : ℤ)
     (h₀ : IsZero ((DerivedCategory.homologyFunctor 𝒜 (n - 1)).obj T.obj₃)) :
     Mono ((DerivedCategory.homologyFunctor 𝒜 n).map T.mor₁) ∧
@@ -238,7 +238,7 @@ variable {ℬ : Type*} [Category ℬ] [Abelian ℬ] [HasDerivedCategory ℬ]
 
 /-- An object of the derived category whose cohomology vanishes below `n` is represented by a
 K-injective complex of injectives concentrated in degrees `≥ n`. -/
-private theorem exists_isKInjective_isStrictlyGE_of_isZero_homology [IsGrothendieckAbelian 𝒜]
+theorem exists_isKInjective_isStrictlyGE_of_isZero_homology [IsGrothendieckAbelian 𝒜]
     (M : DerivedCategory 𝒜) (n : ℤ)
     (hM : ∀ i : ℤ, i < n → IsZero ((DerivedCategory.homologyFunctor 𝒜 i).obj M)) :
     ∃ I : CochainComplex 𝒜 ℤ, I.IsKInjective ∧ I.IsStrictlyGE n ∧ IsZero (I.sc n).X₁ ∧
@@ -263,7 +263,7 @@ private theorem exists_isKInjective_isStrictlyGE_of_isZero_homology [IsGrothendi
 below `n` as well. The right derived functor is computed on a complex of injectives placed in
 degrees `≥ n`, where `F` preserves the homology at `n` because the incoming differential comes
 from a zero object. -/
-private theorem exists_bottomDegreeIso_of_rightDerived [IsGrothendieckAbelian 𝒜]
+theorem exists_bottomDegreeIso_of_rightDerived [IsGrothendieckAbelian 𝒜]
     (F : 𝒜 ⥤ ℬ) [F.Additive] [PreservesFiniteLimits F]
     (RF : DerivedCategory 𝒜 ⥤ DerivedCategory ℬ)
     (unit : F.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ DerivedCategory.Q ⟶
@@ -315,7 +315,7 @@ variable {𝒜 : Type*} [Category 𝒜] [Abelian 𝒜] {ℬ : Type*} [Category �
 /-- A left exact functor preserves the homology of a short complex whose first term is zero: the
 induced map out of the kernel of the second differential is then zero, hence preserved, and the
 two kernels defining the homology are preserved because the functor is left exact. -/
-private theorem preservesHomologyOf_of_isZero_X₁ (F : 𝒜 ⥤ ℬ) [F.Additive]
+theorem preservesHomologyOf_of_isZero_X₁ (F : 𝒜 ⥤ ℬ) [F.Additive]
     [PreservesFiniteLimits F] (S : ShortComplex 𝒜) (hzero : IsZero S.X₁) :
     F.PreservesLeftHomologyOf S ∧ F.PreservesRightHomologyOf S := by
   have : S.leftHomologyData.IsPreservedBy F :=
@@ -329,7 +329,7 @@ private theorem preservesHomologyOf_of_isZero_X₁ (F : 𝒜 ⥤ ℬ) [F.Additiv
 
 /-- The identification of the homology of the image with the image of the homology, for a short
 complex with zero first term, is natural in the left exact functor. -/
-private theorem mapHomologyIso_naturality_of_isZero_X₁ {F G : 𝒜 ⥤ ℬ} [F.Additive] [G.Additive]
+theorem mapHomologyIso_naturality_of_isZero_X₁ {F G : 𝒜 ⥤ ℬ} [F.Additive] [G.Additive]
     [PreservesFiniteLimits F] [PreservesFiniteLimits G] (S : ShortComplex 𝒜)
     (hzero : IsZero S.X₁) (τ : F ⟶ G) :
     letI := (preservesHomologyOf_of_isZero_X₁ F S hzero).1
@@ -356,7 +356,7 @@ difference of the two restrictions — is distinguished, and whose fourth vertex
 cohomology one degree below, becomes a pullback square on degree-`n` cohomology. The
 cohomology functor preserves the biproduct in the middle, so the left exact cohomology
 sequence of the triangle is the short complex of the square. -/
-private theorem isPullback_map_homologyFunctor_of_distTriang (square : Square (DerivedCategory 𝒜))
+theorem isPullback_map_homologyFunctor_of_distTriang (square : Square (DerivedCategory 𝒜))
     (boundary : square.X₄ ⟶ square.X₁⟦(1 : ℤ)⟧)
     (htriangle : Triangle.mk (biprod.lift square.f₁₂ square.f₁₃)
       (biprod.desc square.f₂₄ (-square.f₃₄)) boundary ∈ distTriang (DerivedCategory 𝒜))
@@ -685,7 +685,7 @@ variable {𝒞 : Type*} [Category 𝒞] [Preadditive 𝒞] {𝒟 : Type*} [Categ
 /-- An adjunction between additive functors induces an adjunction between the induced functors
 on homotopy categories. The unit and counit are degreewise those of the given adjunction; both
 triangle identities hold already on complexes, hence after passing to homotopy classes. -/
-private def mapHomotopyCategoryAdjunction {F : 𝒞 ⥤ 𝒟} {G : 𝒟 ⥤ 𝒞} [F.Additive] [G.Additive]
+def mapHomotopyCategoryAdjunction {F : 𝒞 ⥤ 𝒟} {G : 𝒟 ⥤ 𝒞} [F.Additive] [G.Additive]
     (adj : G ⊣ F) (c : ComplexShape ℤ) :
     G.mapHomotopyCategory c ⊣ F.mapHomotopyCategory c := by
   let adjC : G.mapHomologicalComplex c ⊣ F.mapHomologicalComplex c :=
@@ -730,7 +730,7 @@ variable {𝒞 : Type*} [Category 𝒞] [Abelian 𝒞] [HasDerivedCategory 𝒞]
 functor `L.mapDerivedCategory` is left adjoint to any right derived functor of `R`. The left-hand
 side is its own left derived functor, because an exact functor inverts quasi-isomorphisms, and
 both composites are again derived functors, so `Adjunction.derived` applies. -/
-private def mapDerivedCategoryAdjunction : L.mapDerivedCategory ⊣ RR := by
+def mapDerivedCategoryAdjunction : L.mapDerivedCategory ⊣ RR := by
   let Wc := HomotopyCategory.quasiIso 𝒟 (ComplexShape.up ℤ)
   let Wd := HomotopyCategory.quasiIso 𝒞 (ComplexShape.up ℤ)
   let adjH := mapHomotopyCategoryAdjunction adj (ComplexShape.up ℤ)
@@ -759,7 +759,7 @@ how `ε^{-1} R ε_* = id` is expressed. The counit of the underlying adjunction 
 the composite `R.mapHomotopyCategory ⋙ Qh ⋙ L.mapDerivedCategory` inverts quasi-isomorphisms;
 being a right derived functor of itself, its comparison with `RR ⋙ L.mapDerivedCategory` is
 invertible, which exhibits `RR ⋙ L.mapDerivedCategory ≅ 𝟭`. -/
-private def fullyFaithfulOfDerivedAdjunction [R.Full] [R.Faithful]
+def fullyFaithfulOfDerivedAdjunction [R.Full] [R.Faithful]
     (derivedAdj : L.mapDerivedCategory ⊣ RR) : RR.FullyFaithful := by
   let homotopyR := R.mapHomotopyCategory (ComplexShape.up ℤ)
   let homotopyL := L.mapHomotopyCategory (ComplexShape.up ℤ)
@@ -800,7 +800,7 @@ variable {𝒞 : Type*} [Category 𝒞] [Abelian 𝒞] [HasDerivedCategory 𝒞]
 /-- **A right derived functor of a left exact functor preserves boundedness below.** This is the
 vanishing half of `exists_bottomDegreeIso_of_rightDerived`, transported from the unit on
 complexes to the unit on the homotopy category. -/
-private theorem isGE_rightDerived_obj (F : 𝒞 ⥤ 𝒟) [F.Additive] [PreservesFiniteLimits F]
+theorem isGE_rightDerived_obj (F : 𝒞 ⥤ 𝒟) [F.Additive] [PreservesFiniteLimits F]
     (RF : DerivedCategory 𝒞 ⥤ DerivedCategory 𝒟)
     (unit : F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh ⟶
       DerivedCategory.Qh ⋙ RF)
@@ -993,6 +993,123 @@ theorem isPullback_sections_homology (sq : Square S.C)
   exact hpullback.flip.of_iso ((Square.mapFunctor.flip.obj sq.op).mapIso sectionIso)
 
 end Site
+
+/-! ### Sections of the lowest cohomology object over a square, for a system of section functors -/
+
+section GeneralSystem
+
+variable {ι : Type*} [Category* ι] {𝒜 : Type*} [Category* 𝒜] [Abelian 𝒜]
+  {ℬ : Type*} [Category* ℬ] [Abelian ℬ]
+  (S : ιᵒᵖ ⥤ (𝒜 ⥤ ℬ)) [∀ X : ιᵒᵖ, (S.obj X).Additive]
+  [∀ X : ιᵒᵖ, PreservesFiniteLimits (S.obj X)]
+
+/-- **The sections of the lowest cohomology object over a square form a pullback square**, for
+an arbitrary contravariant system `S` of additive left exact section functors on a Grothendieck
+abelian category. Let `K` be an object of `D(𝒜)` whose cohomology vanishes below the degree
+`n`, and let the canonical comparison map of [Stacks, Tag 0F16] for a commutative square be
+invertible at `K`. Then the sections of `Hⁿ K` over the square form a pullback square.
+
+This is `isPullback_sections_homology` with the sections of a sheaf of modules replaced by the
+section functors of `S`; the proof is the same. -/
+theorem General.isPullback_sections_homology [IsGrothendieckAbelian.{v} 𝒜] (sq : Square ι)
+    (D : CanonicalMapOfComplexes.General.DerivedCSquareData S sq)
+    (K : DerivedCategory 𝒜) (n : ℤ)
+    (hvanish : ∀ i : ℤ, i < n → IsZero ((DerivedCategory.homologyFunctor 𝒜 i).obj K))
+    (hsquare : D.IsCSquareIso K) :
+    (sq.op.map (S.flip.obj ((DerivedCategory.homologyFunctor 𝒜 n).obj K))).IsPullback := by
+  let homology := DerivedCategory.homologyFunctor ℬ n
+  let data := D.sectionsData
+  obtain ⟨complex, _, -, hzero, ⟨isoComplex⟩⟩ :=
+    exists_isKInjective_isStrictlyGE_of_isZero_homology K n hvanish
+  have hleft (U : ιᵒᵖ) : (S.obj U).PreservesLeftHomologyOf (complex.sc n) :=
+    (preservesHomologyOf_of_isZero_X₁ (S.obj U) (complex.sc n) hzero).1
+  have hright (U : ιᵒᵖ) : (S.obj U).PreservesRightHomologyOf (complex.sc n) :=
+    (preservesHomologyOf_of_isZero_X₁ (S.obj U) (complex.sc n) hzero).2
+  have := hleft
+  have := hright
+  let factorsB := DerivedCategory.homologyFunctorFactors ℬ n
+  let factorsA := DerivedCategory.homologyFunctorFactors 𝒜 n
+  let tailIso : (complex.sc n).homology ≅ (DerivedCategory.homologyFunctor 𝒜 n).obj K :=
+    (factorsA.app complex).symm ≪≫
+      (DerivedCategory.homologyFunctor 𝒜 n).mapIso isoComplex
+  let comparison (U : ιᵒᵖ) :
+      homology.obj ((data.functor.obj U).obj K) ⟶
+        (S.obj U).obj ((DerivedCategory.homologyFunctor 𝒜 n).obj K) :=
+    homology.map ((data.functor.obj U).map isoComplex.inv) ≫
+      homology.map (inv ((data.unit U.unop).app complex)) ≫
+      factorsB.hom.app ((CanonicalMapOfComplexes.General.complexFunctor S U.unop).obj complex) ≫
+      ((complex.sc n).mapHomologyIso (S.obj U)).hom ≫
+      (S.obj U).map tailIso.hom
+  let comparisonIso (U : ιᵒᵖ) :
+      homology.obj ((data.functor.obj U).obj K) ≅
+        (S.obj U).obj ((DerivedCategory.homologyFunctor 𝒜 n).obj K) :=
+    homology.mapIso ((data.functor.obj U).mapIso isoComplex).symm ≪≫
+      homology.mapIso (asIso ((data.unit U.unop).app complex)).symm ≪≫
+      factorsB.app ((CanonicalMapOfComplexes.General.complexFunctor S U.unop).obj complex) ≪≫
+      (complex.sc n).mapHomologyIso (S.obj U) ≪≫
+      (S.obj U).mapIso tailIso
+  have hcomparisonIso (U : ιᵒᵖ) : (comparisonIso U).hom = comparison U := rfl
+  have hnatural {U V : ιᵒᵖ} (restriction : U ⟶ V) :
+      homology.map ((data.functor.map restriction).app K) ≫ comparison V =
+        comparison U ≫
+          (S.map restriction).app ((DerivedCategory.homologyFunctor 𝒜 n).obj K) := by
+    have hunit : (data.functor.map restriction).app (DerivedCategory.Q.obj complex) ≫
+        inv ((data.unit V.unop).app complex) =
+      inv ((data.unit U.unop).app complex) ≫
+        DerivedCategory.Q.map
+          ((CanonicalMapOfComplexes.General.restrictionComplex S restriction.unop).app
+            complex) := by
+      apply (cancel_mono ((data.unit V.unop).app complex)).1
+      simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
+      rw [data.unit_restriction]
+      simp
+    have hfactor := factorsB.hom.naturality
+      ((CanonicalMapOfComplexes.General.restrictionComplex S restriction.unop).app complex)
+    have hbase :
+        (HomologicalComplex.homologyFunctor ℬ (ComplexShape.up ℤ) n).map
+            ((CanonicalMapOfComplexes.General.restrictionComplex S restriction.unop).app
+              complex) ≫
+            ((complex.sc n).mapHomologyIso (S.obj V)).hom =
+          ((complex.sc n).mapHomologyIso (S.obj U)).hom ≫
+            (S.map restriction).app (complex.sc n).homology :=
+      mapHomologyIso_naturality_of_isZero_X₁ (complex.sc n) hzero (S.map restriction)
+    have hhomology {X : ℬ} (x : (S.obj V).obj (complex.sc n).homology ⟶ X) :
+        (HomologicalComplex.homologyFunctor ℬ (ComplexShape.up ℤ) n).map
+            ((CanonicalMapOfComplexes.General.restrictionComplex S restriction.unop).app
+              complex) ≫
+            ((complex.sc n).mapHomologyIso (S.obj V)).hom ≫ x =
+          ((complex.sc n).mapHomologyIso (S.obj U)).hom ≫
+            (S.map restriction).app (complex.sc n).homology ≫ x :=
+      (Category.assoc _ _ x).symm.trans
+        ((congrArg (fun y ↦ y ≫ x) hbase).trans (Category.assoc _ _ x))
+    have hrestriction := (S.map restriction).naturality tailIso.hom
+    have hderived := congrArg homology.map
+      ((data.functor.map restriction).naturality isoComplex.inv).symm
+    have hunitHomology := congrArg homology.map hunit
+    simp only [Functor.map_comp] at hderived hunitHomology
+    dsimp only [comparison]
+    simp only [Category.assoc] at *
+    rw [reassoc_of% hderived, reassoc_of% hunitHomology, reassoc_of% hfactor, hhomology,
+      hrestriction]
+  let presheaf := data.functor ⋙ (evaluation _ _).obj K
+  let sectionIso : presheaf ⋙ homology ≅
+      S.flip.obj ((DerivedCategory.homologyFunctor 𝒜 n).obj K) :=
+    NatIso.ofComponents comparisonIso (fun restriction ↦ by
+      simp only [hcomparisonIso]
+      exact hnatural restriction)
+  have : D.IsCSquareIso K := hsquare
+  have htriangle := D.cSquareTriangle_distinguished K
+  obtain ⟨-, hbottom⟩ := exists_bottomDegreeIso_of_rightDerived
+    (S.obj (op sq.X₁)) (data.functor.obj (op sq.X₁)) (data.unit sq.X₁)
+    (fun I _ ↦ data.isIso_unit_app sq.X₁ I)
+    K n hvanish
+  have hpullback := isPullback_map_homologyFunctor_of_distTriang (sq.op.map presheaf).flip
+    ((D.cSquareTriangle K).mor₃)
+    (by convert htriangle using 1; rfl)
+    n (hbottom (n - 1) (by omega))
+  exact hpullback.flip.of_iso ((Square.mapFunctor.flip.obj sq.op).mapIso sectionIso)
+
+end GeneralSystem
 
 /-! ### Descent along the comparison of two topologies -/
 

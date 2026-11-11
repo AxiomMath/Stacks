@@ -470,7 +470,6 @@ private theorem ordFrac_algebraMap_eq_length
 
 /-- A map between modules with equally long filtrations by `R / q` is injective exactly when
 its localization at `q` is an isomorphism. -/
-@[stacks 02QB "injectivity criterion"]
 theorem injective_iff_localizedMap_bijective_of_prime_filtrations
     {R : Type u} {M : Type v} {N : Type w} [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] [AddCommGroup M] [Module R M] [Module.Finite R M]

@@ -93,8 +93,9 @@ theorem isUnramified_fst_of_isUnramifiedOnEveryEtaleDiagram
 /-- A base change of an unramified 1-morphism of algebraic stacks over `S` is unramified: if
 `f : 𝒳 ⟶ 𝒴` is unramified, `g : 𝒴' ⟶ 𝒴` is any 1-morphism and `R` is any 2-fibre product of
 `(g, f)`, then the projection `R.fst : R.pt ⟶ 𝒴'` is unramified in the sense of Stacks 0CIT. -/
-@[stacks 0CIV "unconditional: f is unramified in the sense of Stacks 0CIT and R is an arbitrary \
-2-fibre product of (g, f); the route through condition (2) of Stacks 0CIY is internal to the proof"]
+@[stacks 0CIV "f : X -> Y is unramified in the sense of Stacks 0CIT, g : Y' -> Y is any \
+1-morphism of algebraic stacks over S and R is any 2-fibre product of (g, f); the base change \
+R.fst : R.pt -> Y' is unramified in the sense of Stacks 0CIT"]
 theorem isUnramified_baseChange_of_isUnramifiedOnEveryEtaleDiagram
     {𝒳 𝒴 𝒴' : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
     (g : 𝒴' ⟶ 𝒴) (R : Bicategory.TwoCommSq g f) (hR : Bicategory.IsTwoFibreProduct R)
@@ -105,8 +106,8 @@ theorem isUnramified_baseChange_of_isUnramifiedOnEveryEtaleDiagram
 
 /-- If `f : 𝒳 ⟶ 𝒴` is unramified, `g : 𝒴' ⟶ 𝒴` is any 1-morphism and `R` is any 2-fibre product
 of `(f, g)`, then the projection `R.snd : R.pt ⟶ 𝒴'` is unramified in the sense of Stacks 0CIT. -/
-@[stacks 0CIV "unconditional, for a 2-fibre product of (f, g), the base change being its second \
-projection R.snd"]
+@[stacks 0CIV "the same statement with the 2-fibre product written as a square of (f, g): for f \
+unramified in the sense of Stacks 0CIT and any g, the second projection R.snd is unramified"]
 theorem isUnramified_snd_of_isTwoFibreProduct
     {𝒳 𝒴 𝒴' : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
     (g : 𝒴' ⟶ 𝒴) (R : Bicategory.TwoCommSq f g) (hR : Bicategory.IsTwoFibreProduct R)

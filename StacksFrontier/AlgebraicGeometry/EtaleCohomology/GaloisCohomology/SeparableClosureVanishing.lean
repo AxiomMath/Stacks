@@ -63,24 +63,16 @@ and assume that `Br(K') = 0` for every finite extension `K'/K`. Then
 the groups being this library's continuous group cohomology of Stacks 04JR, and the module of
 the first conjunct being the discrete Galois module
 `Stacks.GaloisCohomology.unitsContinuousGModule`. -/
-@[stacks 03R8 "the WHOLE proposition at Ω = K^sep: part (1) and part (2) together, as one
-statement, under exactly the source's hypothesis -- Br(K') = 0 for every finite extension K'/K.
-The first conjunct is H^q(Gal(K^sep/K), (K^sep)ˣ) = 0 for every q ≥ 1, at the discrete Galois
-module unitsContinuousGModule; the second is H^q(Gal(K^sep/K), M) = 0 for every torsion discrete
-Galois module M and every q ≥ 2. Both are values of the derived-functor groups
-continuousGroupCohomology of Stacks 04JR. This is an assembly of the two theorems of this chapter
-that each prove one part in full: isZero_continuousGroupCohomology_units_of_forall_brauer, in
-StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisCohomology.\
-MultiplicativeGroupVanishingAllDegrees,
-which takes the same Brauer hypothesis verbatim and gives every degree q ≥ 1; and
-isZero_continuousGroupCohomology_of_isAddTorsion, in
-StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisCohomology.TorsionGaloisVanishing, which
-gives every degree q ≥ 2 for every torsion discrete module, and whose hypothesis -- Br(L) = 0 for
-the intermediate fields L of K^sep/K finite over K -- is an instance of the source's at K' = ↥L,
-every such L being a finite extension of K. Every clause of the proposition is established here.
-The per-part registrations elsewhere in the chapter are retained: part (1) in every degree in
-MultiplicativeGroupVanishingAllDegrees, part (2) in TorsionGaloisVanishing, and the degree-one
-and degree-two statements of part (1) in MultiplicativeGroupVanishingCriterion",
+@[stacks 03R8 "the whole proposition, parts (1) and (2) together in one statement, under the
+source's hypothesis Br(K') = 0 for every finite extension K'/K. The first conjunct is
+H^q(Gal(K^sep/K), (K^sep)ˣ) = 0 for every q ≥ 1, at the discrete Galois module
+unitsContinuousGModule; the second is H^q(Gal(K^sep/K), M) = 0 for every torsion discrete Galois
+module M and every q ≥ 2. Both are values of the derived-functor groups continuousGroupCohomology
+of Stacks 04JR. The first conjunct is isZero_continuousGroupCohomology_units_of_forall_brauer at
+Ω = K^sep, which takes the same Brauer hypothesis verbatim; the second is
+isZero_continuousGroupCohomology_of_isAddTorsion at Ω = K^sep, whose hypothesis -- Br(L) = 0 at
+the intermediate fields L of K^sep/K finite over K -- is the source's at K' = ↥L. Every clause of
+the proposition is established here",
   sga "4½ Arcata 3.1.6"]
 theorem isZero_continuousGroupCohomology_units_and_torsion_of_forall_brauer (K : Type u)
     [Field K]

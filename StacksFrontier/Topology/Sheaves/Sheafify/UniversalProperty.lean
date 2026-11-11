@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.CategoryTheory.Sites.Sheafification
+public import Mathlib.CategoryTheory.Sites.LocallyBijective
+public import Mathlib.Topology.Sheaves.Sheafify
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
@@ -38,17 +40,22 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-!
 # Universal property of sheafification (Stacks tag 0080)
 
-Let `F` be a presheaf on a site `(C, J)` and let `G` be a sheaf. Then any morphism
-`η : F ⟶ G` factors uniquely as `F → F^# → G`, where `F → F^#` is the canonical
-map from `F` to its sheafification. This is the universal property of the
-sheafification, packaged here as an existence-and-uniqueness statement using
-Mathlib's `CategoryTheory.sheafifyLift`, `CategoryTheory.toSheafify_sheafifyLift`,
-and `CategoryTheory.sheafifyLift_unique`.
+Let `F` be a presheaf of sets on a topological space `X` and let `G` be a sheaf of sets. Stacks
+tag 0080 says that any morphism `η : F ⟶ G` factors uniquely as `F → F^# → G`, where `F^#` is the
+sheafification of tag 007Y: the sections of `F^#` over `U` are the functions `U → ∐ₓ F_x` that
+are locally germs of sections of `F`, and `F → F^#` sends a section to its germs. In Mathlib this
+is `TopCat.Presheaf.sheafify` with the map `TopCat.Presheaf.toSheafify`, and the tag is
+`TopCat.Presheaf.existsUnique_toSheafify_comp_eq`.
 
-The Stacks tag is stated for presheaves of sets on a topological space, but the
-statement and proof go through verbatim for any site `(C, J)` (whenever
-sheafification is available); the topological case is recovered by taking `C` to
-be `(Opens X)ᵒᵖ` with its canonical Grothendieck topology and `D := Type _`.
+The proof shows that `F.toSheafify` is locally injective and locally surjective for the
+Grothendieck topology of open covers (two sections with the same germs agree near each point, and
+a locally-germ section is near each point the germ of a section of `F`). A locally bijective
+morphism of presheaves of sets becomes invertible after sheafification
+(`GrothendieckTopology.WEqualsLocallyBijective`), so precomposition with it is a bijection on
+morphisms into any sheaf.
+
+The same factorization for the abstract sheafification `CategoryTheory.sheafify` on an arbitrary
+site is `sheafify_universal_property`.
 -/
 
 @[expose] public section
@@ -58,10 +65,11 @@ open CategoryTheory
 
 universe v₁ v₂ u₁ u₂
 
-/-- **Stacks tag 0080.** Any morphism from a presheaf `F` to a sheaf `G`
-factors uniquely as `F → F^# → G`, where `F → F^#` is the canonical
-morphism from `F` to its sheafification. -/
-@[stacks 0080, ega "0 3.5.3" "partial, special case", ega "0 3.5.6" "more general"]
+/-- Any morphism `η : F ⟶ G` from a presheaf to a sheaf on a site `(C, J)` factors uniquely as
+`F → sheafify J F → G` through the abstract sheafification `CategoryTheory.sheafify J F`. For the
+locally-germ sheafification of a presheaf of sets on a topological space (Stacks tag 0080) see
+`TopCat.Presheaf.existsUnique_toSheafify_comp_eq`. -/
+@[ega "0 3.5.3" "partial, special case", ega "0 3.5.6" "more general"]
 theorem sheafify_universal_property
     {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C)
     {D : Type u₂} [Category.{v₂} D] [HasWeakSheafify J D]
@@ -69,3 +77,55 @@ theorem sheafify_universal_property
     ∃! γ : sheafify J F ⟶ G, toSheafify J F ≫ γ = η :=
   ⟨sheafifyLift J η hG, toSheafify_sheafifyLift J η hG,
     fun γ h => sheafifyLift_unique J η hG γ h⟩
+
+namespace TopCat.Presheaf
+
+open Opposite TopologicalSpace
+
+universe v
+
+variable {X : TopCat.{v}} (F : Presheaf (Type v) X)
+
+/-- Two sections of `F` with the same image in the sheafification `F^#` have the same germ at
+every point, hence agree on a neighbourhood of every point: `F.toSheafify` is locally injective
+for the topology of open covers. -/
+instance isLocallyInjective_toSheafify :
+    CategoryTheory.Presheaf.IsLocallyInjective (Opens.grothendieckTopology X) F.toSheafify where
+  equalizerSieve_mem {U} s t h := by
+    intro x hx
+    have hgerm : F.germ U.unop x hx s = F.germ U.unop x hx t :=
+      congrFun (congrArg Subtype.val h) ⟨x, hx⟩
+    obtain ⟨W, hxW, iU, iV, e⟩ := F.germ_eq x hx hx s t hgerm
+    refine ⟨W, iU, ?_, hxW⟩
+    have : iV = iU := Subsingleton.elim _ _
+    subst this
+    exact e
+
+/-- A section of the sheafification `F^#` is, near each point, the family of germs of a section
+of `F`: `F.toSheafify` is locally surjective for the topology of open covers. -/
+instance isLocallySurjective_toSheafify :
+    CategoryTheory.Presheaf.IsLocallySurjective (Opens.grothendieckTopology X) F.toSheafify where
+  imageSieve_mem {U} t := by
+    intro x hx
+    obtain ⟨V, hxV, i, g, hg⟩ := t.2 ⟨x, hx⟩
+    refine ⟨V, i, ⟨g, ?_⟩, hxV⟩
+    apply Subtype.ext
+    funext y
+    exact (hg y).symm
+
+/-- **Stacks tag 0080.** Let `F` be a presheaf of sets on a topological space `X`. Any morphism
+`η : F ⟶ G` into a sheaf of sets `G` factors uniquely as `F → F^# → G`, where `F^#` is the
+sheafification `TopCat.Presheaf.sheafify` of tag 007Y (sections that are locally germs) and
+`F → F^#` is `TopCat.Presheaf.toSheafify`. -/
+@[stacks 0080 "The sheafification `F^#` is Mathlib's `TopCat.Presheaf.sheafify`, built from \
+locally-germ sections as in 007Y, with `toSheafify` the map to it. The factorization is \
+obtained from local injectivity and local surjectivity of `toSheafify` for open covers."]
+theorem existsUnique_toSheafify_comp_eq (G : Sheaf (Type v) X) (η : F ⟶ G.presheaf) :
+    ∃! γ : F.sheafify.presheaf ⟶ G.presheaf, F.toSheafify ≫ γ = η := by
+  have hW : (Opens.grothendieckTopology X).W F.toSheafify :=
+    (Opens.grothendieckTopology X).W_of_isLocallyBijective F.toSheafify
+  have hb := hW G.presheaf G.2
+  obtain ⟨γ, hγ⟩ := hb.2 η
+  exact ⟨γ, hγ, fun γ' h => hb.1 (h.trans hγ.symm)⟩
+
+end TopCat.Presheaf

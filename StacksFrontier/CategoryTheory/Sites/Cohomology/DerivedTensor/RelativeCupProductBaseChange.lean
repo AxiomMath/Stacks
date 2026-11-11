@@ -46,7 +46,7 @@ vertical arrows are the base change map of [Stacks, Tag 07A7] and the comparison
 **[Stacks, Tag 0H9A]** itself is
 `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_baseChange_square` of
 the module `RelativeCupProductBaseChangeOfToposHom` in the directory
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor`:
+`StacksDraft.CategoryTheory.Sites.Cohomology.DerivedTensor`:
 that lemma instantiated at the derived tensor products of [Stacks, Tag 06YU], the comparisons of
 [Stacks, Tag 07A4] and the base change map of [Stacks, Tag 07A7].
 
@@ -69,12 +69,13 @@ equality of objects here: each is the forward map of the bifunctorial isomorphis
 the source draws its `@{=}` edges, and nothing is absorbed into a transport.  This is the
 opposite choice from the one `relativeCupProduct_comp` of
 `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/RelativeCupProductCoherence.lean` had
-to make for [Stacks, Tag 0FPN]: there the source's `@{=}` edge was an identification of
-*functors* (`R(f' ∘ f)_* = Rf'_*Rf_*`) and had to be realized as a literal composite to avoid a
-silent transport, whereas here both `@{=}` edges are maps between objects of one category that
-this development already has, so they can simply be written down.  There is no composite
-morphism of ringed topoi in the statement and so no analogue of that choice arises for the
-functors: `Lg^*`, `L(g')^*`, `Rf_*` and `R(f')_*` all appear as themselves.
+to make for the composite-adjunction step of [Stacks, Tag 0FPN]: there the source's `@{=}` edge
+is an identification of *functors* (`R(f' ∘ f)_* = Rf'_*Rf_*`), realized first as a literal
+composite and then transported along `derivedPushforwardCompIso` in
+`relativeCupProduct_comp_pushforwardCompIso`, whereas here both `@{=}` edges are maps between
+objects of one category that this development already has, so they can simply be written down.
+There is no composite morphism of ringed topoi in the statement and so no analogue of that
+choice arises for the functors: `Lg^*`, `L(g')^*`, `Rf_*` and `R(f')_*` all appear as themselves.
 
 *The one hypothesis of the abstract lemma beyond the source.*  The source's proof is
 "Omitted."  The two iterated derived pullbacks around the square, `L(f')^* ∘ Lg^*` and

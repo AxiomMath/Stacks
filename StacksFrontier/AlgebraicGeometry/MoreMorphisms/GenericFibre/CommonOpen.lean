@@ -19,7 +19,9 @@ there are isomorphic as extensions of the residue field of `s`.
 ## Main results
 
 * `AlgebraicGeometry.birationalOver_tfae_of_isIntegral` is the equivalence of the three
-  conditions, which is Stacks Tag 0552.
+  conditions, with `S`-birationality read as `AlgebraicGeometry.Scheme.BirationalOver`. Stacks
+  Tag 0552, with Stacks' own notion of `S`-birationality, is
+  `AlgebraicGeometry.tfae_dominantBirationalOver_residueField_genericPoint`.
 * `AlgebraicGeometry.birationalOver_of_residueFieldIso` is the implication from the
   isomorphism of generic residue fields to birationality over the base.
 * `AlgebraicGeometry.exists_nonempty_open_iso_of_residueFieldIso` is the implication from the
@@ -198,11 +200,10 @@ public theorem birationalOver_of_residueFieldIso {S X Y : Scheme.{u}}
   let ⟨e', he'⟩ := exists_genericStalkIso_of_residueFieldIso sX sY h e he
   birationalOver_of_genericStalkIso sX sY h e' he'
 
-/-- **Stacks Project, Tag 0552.** For integral schemes locally of finite type over a base,
-birationality over the base, the existence of isomorphic nonempty open subschemes over the
-base, and the existence of an isomorphism of the residue fields at the generic points over the
-base are equivalent. -/
-@[stacks 0552]
+/-- For integral schemes locally of finite type over a base, birationality over the base (an
+isomorphism of dense open subschemes over the base), the existence of isomorphic nonempty open
+subschemes over the base, and the existence of an isomorphism of the residue fields at the
+generic points over the base are equivalent. -/
 public theorem birationalOver_tfae_of_isIntegral {S X Y : Scheme.{u}}
     (sX : X ⟶ S) (sY : Y ⟶ S) [IsIntegral X] [IsIntegral Y]
     [LocallyOfFiniteType sX] [LocallyOfFiniteType sY] :

@@ -17,8 +17,12 @@ the quasi-coherent modules on the action groupoid scheme.
 
 * `AlgebraicGeometry.successiveAction` and `AlgebraicGeometry.identityAction` are the two sides
   of the cocycle and normalization conditions, written in the coordinates of the action.
-* `AlgebraicGeometry.EquivariantModule` is an equivariant quasi-coherent module, and
-  `AlgebraicGeometry.EquivariantModule.Hom` a morphism of such.
+* `AlgebraicGeometry.EquivariantModule` is an equivariant quasi-coherent module with its
+  cocycle read on the object of composable pairs of the action, and
+  `AlgebraicGeometry.EquivariantModule.Hom` a morphism of such.  Stacks' notion (Tag 03LF), with
+  its cocycle on `G ×_Y G ×_Y X`, is `AlgebraicGeometry.EquivariantQuasicoherentModule` in
+  `StacksFrontier.AlgebraicGeometry.Groupoids.GroupSchemeProperties.EquivariantQuasicoherentModule`,
+  where Stacks 03LL is proved.
 * `Stacks.Groupoids.IsDescentCocycle` is the cocycle condition for a descent morphism along a
   span of schemes, stated for an arbitrary scheme of composable pairs.
 
@@ -49,6 +53,7 @@ pairs.
 
 ## References
 
+* [Stacks Project, Tag 03LF](https://stacks.math.columbia.edu/tag/03LF)
 * [Stacks Project, Tag 03LL](https://stacks.math.columbia.edu/tag/03LL)
 -/
 
@@ -177,9 +182,14 @@ noncomputable def identityAction {F : X.left.Modules}
     (Scheme.Modules.pullbackCongr (actionIdentity_source_left Y G X)).hom.app F ≫
     (Scheme.Modules.pullbackId X.left).hom.app F
 
-/-- A quasi-coherent module on `X` equivariant for a given action of `G`, written directly in
-terms of the action map and the projection. -/
-@[stacks_fixed 03LF, sga "3 I 6.5.1" "equivariant module", sga "3 I 6.5"]
+/-- A quasi-coherent module on `X` equivariant for a given action of `G`, with its cocycle
+condition read on the object `pullback (snd G X) γ[G,X]` of composable pairs of the action
+rather than on `G ×_Y G ×_Y X`: a quasi-coherent module `F` with a map `α : a^*F ⟶ pr_1^*F`
+satisfying that cocycle condition and restricting to the identity along the unit section.
+Stacks' own notion (Tag 03LF), with its cocycle on `G ×_Y G ×_Y X`, is
+`AlgebraicGeometry.EquivariantQuasicoherentModule`, and
+`AlgebraicGeometry.equivariantQuasicoherentModuleEquivEquivariantModule` identifies the two. -/
+@[sga "3 I 6.5"]
 structure EquivariantModule where
   /-- The underlying module on the scheme acted on. -/
   module : X.left.Modules
@@ -330,9 +340,11 @@ noncomputable def ofActionGroupoidModule :
   map_id _ := EquivariantModule.Hom.ext rfl
   map_comp _ _ := EquivariantModule.Hom.ext rfl
 
-/-- **Stacks Project, Tag 03LL.** Equivariant quasi-coherent modules for an action of a group
-scheme are the same as quasi-coherent modules on the associated action groupoid scheme. -/
-@[stacks 03LL "the canonical equivalence"]
+/-- Equivariant modules for an action of a group scheme, with the cocycle read on composable
+pairs, are the same as quasi-coherent modules on the associated action groupoid scheme.  The two
+cocycle conditions are read on isomorphic presentations of the same scheme of composable pairs,
+so this is close to definitional; Stacks 03LL, starting from the cocycle on `G ×_Y G ×_Y X`, is
+`AlgebraicGeometry.equivariantQuasicoherentModuleEquivalence`. -/
 noncomputable def equivariantModuleEquivalence :
     EquivariantModule Y G X ≌
       GroupoidScheme.QuasicoherentModule (groupoidSchemeOfAction Y G X).groupoid :=
@@ -349,23 +361,18 @@ theorem equivariantModuleEquivalence_functor :
     (equivariantModuleEquivalence Y G X).functor = toActionGroupoidModule Y G X :=
   rfl
 
-/-- **Stacks Project, Tag 03LL.** The canonical comparison leaves the underlying quasi-coherent
-module unchanged. -/
-@[stacks 03LL "underlying module"]
+/-- The canonical comparison leaves the underlying quasi-coherent module unchanged. -/
 theorem equivariantModuleEquivalence_functor_obj_module (M : EquivariantModule Y G X) :
     ((toActionGroupoidModule Y G X).obj M).module = M.module :=
   rfl
 
-/-- **Stacks Project, Tag 03LL.** The canonical comparison leaves the descent morphism
-unchanged. -/
-@[stacks 03LL "descent morphism"]
+/-- The canonical comparison leaves the descent morphism unchanged. -/
 theorem equivariantModuleEquivalence_functor_obj_alpha (M : EquivariantModule Y G X) :
     ((toActionGroupoidModule Y G X).obj M).alpha = M.alpha :=
   rfl
 
-/-- **Stacks Project, Tag 03LL.** On morphisms the canonical comparison is the identity on the
-underlying morphism of modules. -/
-@[stacks 03LL "morphisms"]
+/-- On morphisms the canonical comparison is the identity on the underlying morphism of
+modules. -/
 theorem equivariantModuleEquivalence_functor_map_hom {M N : EquivariantModule Y G X}
     (f : M ⟶ N) :
     ((toActionGroupoidModule Y G X).map f).hom = f.hom :=

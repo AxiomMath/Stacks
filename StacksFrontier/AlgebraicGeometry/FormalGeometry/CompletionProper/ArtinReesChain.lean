@@ -100,7 +100,7 @@ Parts (1), (2) and (3) are the Artin-Rees argument for Rees systems,
 compatibility laws are `cohomologyIdealPowerSystem_isTrMulCompatible`. Parts (4) and (5) are
 `Stacks.Cohomology.FormalFunctions.exists_comparison_cohomology`, whose hypotheses are those
 three parts. -/
-@[stacks 02OA]
+@[stacks 02OA "all five parts, for a proper scheme over a Noetherian ring and a coherent module"]
 theorem exists_uniform_bound_cohomology_of_isProper [IsNoetherianRing A]
     (hX : AlgebraicGeometry.IsProper X.hom) [F.IsCoherent] (p : ℕ) :
     ∃ c : ℕ,
@@ -175,7 +175,11 @@ variable (A : Type u) [CommRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) (J 
 This is
 `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8`
 with its hypothesis, [Stacks, Tag 02O8] in general form, discharged by
-`Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem`. -/
+`Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem`. It is the only registration of
+[Stacks, Tag 02OB]: the two statements it is assembled from,
+`exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8` and
+`exists_uniform_bound_cohomology_idealPowerQuotient`, take [Stacks, Tag 02O8] and two clauses of
+[Stacks, Tag 02OA] as inputs and carry no registration. -/
 @[stacks 02OB, sga "2 IX 1.1" "Clause (3), special case", sga "2 IX 2.1" "(iii)"]
 theorem exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper [IsNoetherianRing A]
     (hf : AlgebraicGeometry.IsProper f) [G.IsCoherent] (p : ℕ) :
@@ -231,7 +235,10 @@ with `formalFunctionsEquiv_proj_of`, and the homeomorphism is
 `Stacks.IntertwinedFiltration.isHomeomorph_adicCompletionEquivTowerLimit_limitTopology` for the
 same map; the hypotheses of all three are clauses (1) and (3) of [Stacks, Tag 02OB], which come
 from `exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper`, together with the
-finite generation of `I` that `IsNoetherianRing A` supplies. -/
+finite generation of `I` that `IsNoetherianRing A` supplies. Those three declarations carry no
+registration under [Stacks, Tag 02OC]: each takes clauses (1) and (3) of [Stacks, Tag 02OB] as
+inputs and states one component of the theorem, and this theorem, which states all three
+components with the source's hypotheses, is the registered form of [Stacks, Tag 02OC]. -/
 @[stacks 02OC, ega "III 4.1.7"]
 theorem exists_formalFunctionsEquiv_of_isProper [IsNoetherianRing A]
     (hf : AlgebraicGeometry.IsProper f) [F.IsCoherent] (p : ℕ) :
@@ -266,7 +273,9 @@ end Stacks.Cohomology.FormalFunctions
 /- [Stacks, Tag 087U] for every `p ≥ 0` — for `A` Noetherian and `J`-adically complete,
 `f : X ⟶ Spec A` proper and `ℱ` coherent, `Hᵖ(X, ℱ) ⟶ limₙ Hᵖ(X, ℱ/Jⁿℱ)` is an isomorphism — is
 `Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper_of_isAdicComplete`, proved with no
-hypothesis beyond the tag's own. It is registered here. -/
-add_to_stacks 087U Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper_of_isAdicComplete
+hypothesis beyond the tag's own, which carries the registration. The conditional statements
+`Stacks.Algebraization.isIso_cohomologyToLimit` and
+`Stacks.Algebraization.isIso_cohomologyToLimit_of_isProper`, which take the finiteness of
+[Stacks, Tag 02O6] and the two bounds of [Stacks, Tag 02OB] as hypotheses, carry no tag. -/
 
 end

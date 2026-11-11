@@ -36,23 +36,27 @@ the existence of the fibre products is instead assumed of the whole category.
 
 ## Main results
 
-* `CategoryTheory.Functor.isStronglyCartesian_of_isPullback` and
-  `CategoryTheory.Functor.map_isPullback_of_isPullback`, the base-change content of Stacks 06N5 in
-  the form the axioms need: in a fibred category the base change of a strongly cartesian morphism
-  is strongly cartesian, and `p` carries a fibre product square with one side strongly cartesian to
-  a fibre product square.
+* `CategoryTheory.Functor.isStronglyCartesian_of_isPullback_of_hasPullback` and
+  `CategoryTheory.Functor.map_isPullback_of_isPullback_of_hasPullback`, the base-change content of
+  Stacks 06N5 in the form the axioms need: in a fibred category the base change of a strongly
+  cartesian morphism, along a morphism whose image admits the fibre product in `𝒞`, is strongly
+  cartesian, and `p` carries such a fibre product square to a fibre product square.
 * `CategoryTheory.Functor.inheritedPrecoverage_hasIsos`,
   `CategoryTheory.Functor.inheritedPrecoverage_isStableUnderComposition`,
-  `CategoryTheory.Functor.inheritedPrecoverage_hasPullbacks` and
-  `CategoryTheory.Functor.inheritedPrecoverage_isStableUnderBaseChange`: **Stacks 06NU**, the three
-  axioms of a site.
+  `CategoryTheory.Functor.inheritedPrecoverage_hasPullbacks_of_hasPullbacks` and
+  `CategoryTheory.Functor.inheritedPrecoverage_isStableUnderBaseChange_of_hasPullbacks`:
+  **Stacks 06NU**, the three axioms of a site, for any site `(𝒞, K)` in the sense of Stacks 00VH.
 
 ## Implementation notes
 
-The base `𝒞` is assumed to have all pullbacks. Stacks' notion of site only asks for the fibre
-products appearing in axiom (3), but Mathlib's `CategoryTheory.Pretopology` — its rendering of
-Stacks 00VH — makes the same assumption, and it is what supplies the fibre products in `𝒞` that
-Stacks 06N5 needs in order to produce the fibre products in `𝒮`. No pullbacks are assumed in `𝒮`:
+The base `𝒞` is not assumed to have all pullbacks: as in Stacks 00VH, the site `(𝒞, K)` only has
+the fibre products along its coverings, `CategoryTheory.Precoverage.HasPullbacks K`, and these are
+the fibre products in `𝒞` that Stacks 06N5 needs in order to produce the fibre products in `𝒮`.
+The variants `CategoryTheory.Functor.inheritedPrecoverage_hasPullbacks`,
+`CategoryTheory.Functor.inheritedPrecoverage_isStableUnderBaseChange`,
+`CategoryTheory.Functor.isStronglyCartesian_of_isPullback` and
+`CategoryTheory.Functor.map_isPullback_of_isPullback` assume instead that `𝒞` has all pullbacks.
+No pullbacks are assumed in `𝒮`:
 those in axiom (3) are produced by Stacks 06N5, and this is why the collection is a
 `CategoryTheory.Precoverage` with the four stability conditions rather than a
 `CategoryTheory.Pretopology`, whose base-change axiom refers to chosen pullbacks that `𝒮` need not
@@ -80,18 +84,20 @@ variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {𝒮 : Type u₂} [Category.
 
 section BaseChange
 
-variable (p : 𝒮 ⥤ 𝒞) [p.IsFibered] [HasPullbacks 𝒞]
+variable (p : 𝒮 ⥤ 𝒞) [p.IsFibered]
 
 /-- In a fibred category the base change of a strongly cartesian morphism along an arbitrary
-morphism is again strongly cartesian: if `φ : x ⟶ z` is strongly cartesian and the square with
-sides `q₁ : w ⟶ y`, `q₂ : w ⟶ x` exhibits `w` as `y ×_z x`, then `q₁` is strongly cartesian.
+morphism is again strongly cartesian: if `φ : x ⟶ z` is strongly cartesian, the fibre product
+`p x ×_{p z} p y` of the images exists in `𝒞`, and the square with sides `q₁ : w ⟶ y`,
+`q₂ : w ⟶ x` exhibits `w` as `y ×_z x`, then `q₁` is strongly cartesian.
 
 This is Stacks 06N5 stated for an arbitrary fibre product square instead of the chosen pullback:
 the square is canonically isomorphic to the chosen one, and composing with an isomorphism preserves
-strong cartesianness. -/
-lemma isStronglyCartesian_of_isPullback {x y z w : 𝒮} {φ : x ⟶ z}
-    (hφ : p.IsStronglyCartesian (p.map φ) φ) (g : y ⟶ z) {q₁ : w ⟶ y} {q₂ : w ⟶ x}
-    (hq : IsPullback q₁ q₂ g φ) : p.IsStronglyCartesian (p.map q₁) q₁ := by
+strong cartesianness. Only the one fibre product of the images is assumed to exist in `𝒞`. -/
+lemma isStronglyCartesian_of_isPullback_of_hasPullback {x y z w : 𝒮} {φ : x ⟶ z}
+    (hφ : p.IsStronglyCartesian (p.map φ) φ) (g : y ⟶ z) [HasPullback (p.map φ) (p.map g)]
+    {q₁ : w ⟶ y} {q₂ : w ⟶ x} (hq : IsPullback q₁ q₂ g φ) :
+    p.IsStronglyCartesian (p.map q₁) q₁ := by
   have := hφ
   have : HasPullback φ g := IsFibered.hasPullback_of_isStronglyCartesian p φ g
   have := IsFibered.snd_isStronglyCartesian p φ g
@@ -99,12 +105,14 @@ lemma isStronglyCartesian_of_isPullback {x y z w : 𝒮} {φ : x ⟶ z}
   rw [← he, p.map_comp]
   infer_instance
 
-/-- Under the hypotheses of `CategoryTheory.Functor.isStronglyCartesian_of_isPullback`, the functor
-`p` carries the fibre product square to a fibre product square in `𝒞`: `p w` is `p y ×_{p z} p x`.
-This is Stacks 06N5 again, stated for an arbitrary fibre product square. -/
-lemma map_isPullback_of_isPullback {x y z w : 𝒮} {φ : x ⟶ z}
-    (hφ : p.IsStronglyCartesian (p.map φ) φ) (g : y ⟶ z) {q₁ : w ⟶ y} {q₂ : w ⟶ x}
-    (hq : IsPullback q₁ q₂ g φ) :
+/-- Under the hypotheses of
+`CategoryTheory.Functor.isStronglyCartesian_of_isPullback_of_hasPullback`, the functor `p` carries
+the fibre product square to a fibre product square in `𝒞`: `p w` is `p y ×_{p z} p x`.
+This is Stacks 06N5 again, stated for an arbitrary fibre product square; only the one fibre
+product of the images is assumed to exist in `𝒞`. -/
+lemma map_isPullback_of_isPullback_of_hasPullback {x y z w : 𝒮} {φ : x ⟶ z}
+    (hφ : p.IsStronglyCartesian (p.map φ) φ) (g : y ⟶ z) [HasPullback (p.map φ) (p.map g)]
+    {q₁ : w ⟶ y} {q₂ : w ⟶ x} (hq : IsPullback q₁ q₂ g φ) :
     IsPullback (p.map q₁) (p.map q₂) (p.map g) (p.map φ) := by
   have := hφ
   have : HasPullback φ g := IsFibered.hasPullback_of_isStronglyCartesian p φ g
@@ -116,6 +124,21 @@ lemma map_isPullback_of_isPullback {x y z w : 𝒮} {φ : x ⟶ z}
       ← p.map_comp, hq.flip.isoPullback_hom_fst]
   · rw [Iso.trans_hom, Functor.mapIso_hom, Category.assoc, hmap.isoPullback_hom_snd,
       ← p.map_comp, hq.flip.isoPullback_hom_snd]
+
+/-- `CategoryTheory.Functor.isStronglyCartesian_of_isPullback_of_hasPullback` when `𝒞` has all
+pullbacks. -/
+lemma isStronglyCartesian_of_isPullback [HasPullbacks 𝒞] {x y z w : 𝒮} {φ : x ⟶ z}
+    (hφ : p.IsStronglyCartesian (p.map φ) φ) (g : y ⟶ z) {q₁ : w ⟶ y} {q₂ : w ⟶ x}
+    (hq : IsPullback q₁ q₂ g φ) : p.IsStronglyCartesian (p.map q₁) q₁ :=
+  isStronglyCartesian_of_isPullback_of_hasPullback p hφ g hq
+
+/-- `CategoryTheory.Functor.map_isPullback_of_isPullback_of_hasPullback` when `𝒞` has all
+pullbacks. -/
+lemma map_isPullback_of_isPullback [HasPullbacks 𝒞] {x y z w : 𝒮} {φ : x ⟶ z}
+    (hφ : p.IsStronglyCartesian (p.map φ) φ) (g : y ⟶ z) {q₁ : w ⟶ y} {q₂ : w ⟶ x}
+    (hq : IsPullback q₁ q₂ g φ) :
+    IsPullback (p.map q₁) (p.map q₂) (p.map g) (p.map φ) :=
+  map_isPullback_of_isPullback_of_hasPullback p hφ g hq
 
 end BaseChange
 
@@ -166,36 +189,59 @@ instance inheritedPrecoverage_isStableUnderComposition
       · rw [← Presieve.map_ofArrows]; exact (hg i).2
 
 /-- **Stacks 06NU**, the existence half of axiom (3) of a site: given a covering `{ x i ⟶ x }` of
-`𝒮` and a morphism `y ⟶ x`, the fibre products `x i ×_x y` exist. This is Stacks 06N5, applied to
-the strongly cartesian morphism `x i ⟶ x` and the fibre product of the images, which exists in `𝒞`.
--/
-@[stacks 06NU "Axiom (3), existence of the fibre products."]
-instance inheritedPrecoverage_hasPullbacks [p.IsFibered] [HasPullbacks 𝒞] :
+`𝒮` and a morphism `y ⟶ x`, the fibre products `x i ×_x y` exist. The site `(𝒞, K)` is only
+assumed to have the fibre products of its own axiom (3), `K.HasPullbacks`: as `{ p (x i) ⟶ p x }`
+is a covering of `𝒞`, the fibre product `p (x i) ×_{p x} p y` exists, and Stacks 06N5, applied to
+the strongly cartesian morphism `x i ⟶ x`, produces `x i ×_x y`. -/
+@[stacks 06NU "Axiom (3), existence of the fibre products, for a site with `K.HasPullbacks`."]
+instance inheritedPrecoverage_hasPullbacks_of_hasPullbacks [p.IsFibered] [K.HasPullbacks] :
     (p.inheritedPrecoverage K).HasPullbacks where
   hasPullbacks_of_mem f hR :=
     { hasPullback := fun {_} {u} hu ↦
         have := hR.1 u hu
+        have : HasPullback (p.map u) (p.map f) :=
+          (K.hasPullbacks_of_mem (p.map f) hR.2).hasPullback (Presieve.map_map hu)
         IsFibered.hasPullback_of_isStronglyCartesian p u f }
 
 /-- **Stacks 06NU**, the covering half of axiom (3) of a site: the family of projections
-`{ x i ×_x y ⟶ y }` of a covering `{ x i ⟶ x }` along `y ⟶ x` is again a covering. Both conditions
-transfer from `{ x i ⟶ x }` by the two base-change lemmas above. -/
-@[stacks 06NU "Axiom (3), the base change of a covering is a covering."]
-instance inheritedPrecoverage_isStableUnderBaseChange [p.IsFibered] [HasPullbacks 𝒞]
-    [Precoverage.IsStableUnderBaseChange K] :
+`{ x i ×_x y ⟶ y }` of a covering `{ x i ⟶ x }` along `y ⟶ x` is again a covering. The site
+`(𝒞, K)` is only assumed to have the fibre products along its coverings, `K.HasPullbacks`; both
+conditions transfer from `{ x i ⟶ x }` by the two base-change lemmas above, applied to the fibre
+products `p (x i) ×_{p x} p y`, which exist because `{ p (x i) ⟶ p x }` is a covering. -/
+@[stacks 06NU "Axiom (3), base change of a covering is a covering, given `K.HasPullbacks`."]
+instance inheritedPrecoverage_isStableUnderBaseChange_of_hasPullbacks [p.IsFibered]
+    [K.HasPullbacks] [Precoverage.IsStableUnderBaseChange K] :
     Precoverage.IsStableUnderBaseChange (p.inheritedPrecoverage K) where
   mem_coverings_of_isPullback := by
     intro ι x X f hR y g P q₁ q₂ h
     have hcart : ∀ i, p.IsStronglyCartesian (p.map (f i)) (f i) := fun i ↦
       hR.1 (f i) (Presieve.ofArrows.mk i)
+    have hpb : ∀ i, HasPullback (p.map (f i)) (p.map g) := fun i ↦
+      (K.hasPullbacks_of_mem (p.map g) hR.2).hasPullback
+        (Presieve.map_map (Presieve.ofArrows.mk i))
     refine ⟨?_, ?_⟩
     · rintro _ _ ⟨i⟩
-      exact isStronglyCartesian_of_isPullback p (hcart i) g (h i)
+      exact isStronglyCartesian_of_isPullback_of_hasPullback p (hcart i) g (h i)
     · rw [Presieve.map_ofArrows]
       refine Precoverage.mem_coverings_of_isPullback (fun i ↦ p.map (f i)) ?_ (p.map g)
         (fun i ↦ p.map (q₁ i)) (fun i ↦ p.map (q₂ i)) fun i ↦ ?_
       · rw [← Presieve.map_ofArrows]; exact hR.2
-      · exact map_isPullback_of_isPullback p (hcart i) g (h i)
+      · exact map_isPullback_of_isPullback_of_hasPullback p (hcart i) g (h i)
+
+/-- The existence half of axiom (3) of Stacks 06NU when `𝒞` has all pullbacks; the tagged form,
+which only asks for the fibre products along coverings of `K`, is
+`CategoryTheory.Functor.inheritedPrecoverage_hasPullbacks_of_hasPullbacks`. -/
+instance inheritedPrecoverage_hasPullbacks [p.IsFibered] [HasPullbacks 𝒞] :
+    (p.inheritedPrecoverage K).HasPullbacks :=
+  inheritedPrecoverage_hasPullbacks_of_hasPullbacks p K
+
+/-- The covering half of axiom (3) of Stacks 06NU when `𝒞` has all pullbacks; the tagged form,
+which only asks for the fibre products along coverings of `K`, is
+`CategoryTheory.Functor.inheritedPrecoverage_isStableUnderBaseChange_of_hasPullbacks`. -/
+instance inheritedPrecoverage_isStableUnderBaseChange [p.IsFibered] [HasPullbacks 𝒞]
+    [Precoverage.IsStableUnderBaseChange K] :
+    Precoverage.IsStableUnderBaseChange (p.inheritedPrecoverage K) :=
+  inheritedPrecoverage_isStableUnderBaseChange_of_hasPullbacks p K
 
 /-! ### The inherited topology -/
 

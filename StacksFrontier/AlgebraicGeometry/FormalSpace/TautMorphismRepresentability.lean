@@ -39,8 +39,11 @@ following are equivalent:
 * `AlgebraicGeometry.FormalSpace.hasPropertyAfterSourceCover_of_afterTargetCover`:
   **Stacks 0ANG**, the implication from condition (2) to condition (3), for an arbitrary class
   of rings and property of ring maps.
-* `AlgebraicGeometry.FormalSpace.isTaut_tfae_isRepresentableByAlgebraicSpaces`:
-  **Stacks 0ANK**.
+* `AlgebraicGeometry.FormalSpace.isTaut_tfae_isRepresentableByAlgebraicSpaces`: the
+  equivalence of the four conditions of Stacks 0ANK, deduced from five inputs passed as
+  arguments. Stacks 0ANK itself, with each of those inputs proved, is
+  `tfae_isTautOnEveryAffineEtaleDiagram_isRepresentableByAlgebraicSpaces`
+  in `StacksFrontier/AlgebraicGeometry/FormalSpace/TautMorphismRepresentabilityUnconditional.lean`.
 
 ## Implementation notes
 
@@ -61,33 +64,34 @@ which needs neither the implication (3) ⟹ (1) of Stacks 0ANG nor its locality 
 step (3) ⟹ (4) is Stacks 0AN5 followed by Stacks 0AN4, and the step (4) ⟹ (1) is Stacks 0AN4
 followed by Stacks 0AN5.
 
-Five inputs of the source are explicit hypotheses because the library does not carry them, in
-the same shape as for Stacks 0ANG and Stacks 0AN4 themselves.
+The cycle is proved here from five inputs passed as arguments, in the same shape as for Stacks
+0ANG and Stacks 0AN4 themselves, so that it does not import the modules proving them. Each is
+proved elsewhere in the library, and
+`tfae_isTautOnEveryAffineEtaleDiagram_isRepresentableByAlgebraicSpaces`
+of `StacksFrontier/AlgebraicGeometry/FormalSpace/TautMorphismRepresentabilityUnconditional.lean`
+states Stacks 0ANK with all of them discharged.
 
-* `h0AJ3` is Stacks 0AJ3, that the fibre product of a chart of the target with `f` is a formal
-  algebraic space; it is the hypothesis `hpb` of
-  `AlgebraicGeometry.FormalSpace.hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram`.
-* `h0AKX` is the implication (2) ⟹ (1) of Stacks 0AKX for the countably indexed property: an
-  affine formal algebraic space representable étale over a locally countably indexed formal
-  algebraic space is countably indexed. The library takes condition (2) as the definition of
-  "locally countably indexed" precisely because that equivalence is missing, so the charts
-  appearing in (1), (2) and (3) are not known to be countably indexed without it.
-* `h0AN5` is Stacks 0AN5, the equivalence of its conditions (1) and (3), read on countably
-  indexed affine formal algebraic spaces: a map of charts is representable by algebraic spaces
-  exactly when the continuous homomorphism presenting it is taut. The library carries only the
-  implication (2) ⟹ (1) of Stacks 0AN5. Reading the equivalence on charts rather than on
-  formal spectra uses that a countably indexed affine formal algebraic space is a formal
-  spectrum (Stacks 0AIK) and that a map of formal spectra comes from a continuous
-  homomorphism (Stacks 0AN0); restricting it to countably indexed charts is what keeps it
-  faithful, since an affine formal algebraic space which is not a formal spectrum has no
-  presentation at all and the condition on its chart maps is then vacuous.
-* `h0AQ0` is Stacks 0AQ0; it is the hypothesis of the same name of
-  `AlgebraicGeometry.FormalSpace.isRepresentableOnEverySquare_of_isRepresentable`.
-* `h0AN4` is the implication (5) ⟹ (1) of Stacks 0AN4: a morphism of formal algebraic spaces
-  admitting a covering of its source by charts which factor through charts of the target by
-  morphisms representable by algebraic spaces is itself representable by algebraic spaces. The
-  library carries the implications (1) ⟹ (2), (1) ⟹ (3) and (3) ⟹ (4) of Stacks 0AN4, none of
-  which returns representability of `f`.
+* `h0AJ3`: the fibre product of a chart of the target with `f` is a formal algebraic space
+  (Stacks 0AJ3); it is the hypothesis `hpb` of
+  `AlgebraicGeometry.FormalSpace.hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram`, and
+  is proved as `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_etale`.
+* `h0AKX`: the implication (2) ⟹ (1) of Stacks 0AKX for the countably indexed property, that
+  an affine formal algebraic space representable étale over a locally countably indexed formal
+  algebraic space is countably indexed; it is proved as
+  `hasAffineEtaleChartProperty_iff_hasAffineEtaleAtlasWithProperty_of_mem`.
+* `h0AN5`: the equivalence of conditions (1) and (3) of Stacks 0AN5 read on countably indexed
+  affine formal algebraic spaces, that a map of such charts is representable by algebraic spaces
+  exactly when the continuous homomorphism presenting it is taut; it is proved as
+  `AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_iff_hasTautOnAffineChartMap`.
+* `h0AQ0`: Stacks 0AQ0; it is the hypothesis of the same name of
+  `AlgebraicGeometry.FormalSpace.isRepresentableOnEverySquare_of_isRepresentable`, and the step
+  (4) ⟹ (1) it serves is proved outright as
+  `isTautOnEveryAffineEtaleDiagram_of_isRepresentableByAlgebraicSpaces`.
+* `h0AN4`: the implication (5) ⟹ (1) of Stacks 0AN4, that a morphism of formal algebraic
+  spaces admitting a covering of its source by charts which factor through charts of the target
+  by morphisms representable by algebraic spaces is itself representable by algebraic spaces;
+  its étale-cover form is proved as
+  `AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_of_etaleCover_comp`.
 
 ## References
 
@@ -127,7 +131,6 @@ variable (C : ∀ (R : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalR
 with coverings of the fibre products of its members with the source compose to a covering of
 the source whose members factor through the chart of the target they came from, by the map
 condition (2) puts `P` on. -/
-@[stacks 0ANG "condition (2) implies condition (3)"]
 theorem hasPropertyAfterSourceCover_of_afterTargetCover {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hf : HasPropertyAfterTargetCover B S hS C P f) :
     HasPropertyAfterSourceCover B S hS C P f := by
@@ -196,8 +199,9 @@ abbrev IsTautAfterSourceCover {X Y : FppfSheaf B S hS} (f : X ⟶ Y) : Prop :=
   HasPropertyAfterSourceCover B S hS TopologicalRing.IsCountablyWeaklyAdmissible
     TautChartProperty f
 
-/-- **Stacks 0ANK.** Let `f : X ⟶ Y` be a morphism of locally countably indexed formal
-algebraic spaces over `S`. The following are equivalent:
+/-- Let `f : X ⟶ Y` be a morphism of locally countably indexed formal algebraic spaces over
+`S`. Given the five inputs `h0AJ3`, `h0AKX`, `h0AN5`, `h0AQ0` and `h0AN4` (see the module
+documentation), the following are equivalent:
 
 1. every commutative square with affine formal algebraic spaces `U`, `V` and representable
    étale maps `U ⟶ X`, `V ⟶ Y` has `U ⟶ V` given by a taut continuous homomorphism of
@@ -211,12 +215,9 @@ algebraic spaces over `S`. The following are equivalent:
 
 The cycle runs `(1) ⟹ (2) ⟹ (3) ⟹ (4) ⟹ (1)`: the first step is Stacks 0ANG, the second is
 proved here, and the last two pass between tautness and representability on charts through
-Stacks 0AN5 and between charts and `f` through Stacks 0AN4. -/
-@[stacks 0ANK "the equivalence, with the five inputs this library does not carry as named \
-hypotheses: Stacks 0AJ3 as h0AJ3, the implication (2) implies (1) of Stacks 0AKX for the \
-countably indexed property as h0AKX, the equivalence of conditions (1) and (3) of Stacks 0AN5 \
-read on countably indexed affine charts as h0AN5, Stacks 0AQ0 as h0AQ0, and the implication \
-(5) implies (1) of Stacks 0AN4 as h0AN4"]
+Stacks 0AN5 and between charts and `f` through Stacks 0AN4. Stacks 0ANK itself, with the five
+inputs proved, is
+`tfae_isTautOnEveryAffineEtaleDiagram_isRepresentableByAlgebraicSpaces`. -/
 theorem isTaut_tfae_isRepresentableByAlgebraicSpaces {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyCountablyIndexed B S hS X) (hY : IsLocallyCountablyIndexed B S hS Y)
     (h0AJ3 : ∀ (V : FppfSheaf B S hS) (v : V ⟶ Y), IsAffineFormalAlgebraicSpace B S hS V →

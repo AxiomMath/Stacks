@@ -2,15 +2,15 @@ module
 
 public import Mathlib.CategoryTheory.Sites.Sheafification
 
-/-! # The stalk of a presheaf agrees with the stalk of its sheafification
+/-! # The stalk of a presheaf agrees with the stalk of its sheafification, abstractly
 
 ## Main results
 
-* `main_theorem00Y8`: for a stalk functor `L` with right adjoint `R` whose values are sheaves,
-  precomposition by `L.map (toSheafify J F)` is a bijection on maps out of `L.obj (sheafify J F)`;
-  by Yoneda this says `F_p ≅ (F^#)_p` (Stacks 00Y8, statement (3)).
-
-Tags covered: 00Y8.
+* `main_theorem00Y8`: for a functor `L` with right adjoint `R` whose values are sheaves,
+  precomposition by `L.map (toSheafify J F)` is a bijection on maps out of `L.obj (sheafify J F)`.
+  This is the abstract categorical core of the proof of Stacks 00Y8 (3); the lemma itself, for a
+  functor `u : C ⥤ Type w` satisfying the covering conditions (a) and (b), is in
+  `StacksFrontier.CategoryTheory.Sites.Point.StalkOfCoveringFunctor`.
 -/
 
 @[expose] public section
@@ -20,26 +20,26 @@ open CategoryTheory Limits Opposite
 universe v u
 
 /--
-**Stacks 00Y8, statement (3), narrow form.**
+The abstract categorical core of the proof of Stacks 00Y8 (3).
 
 Let `C` be a small category equipped with a Grothendieck topology `J`, let
 `L : (Cᵒᵖ ⥤ Type v) ⥤ Type v` be the "stalk-at-a-point" functor on presheaves,
 and let `R : Type v ⥤ (Cᵒᵖ ⥤ Type v)` be the "point-pushforward" functor.
 Assume:
 
-* `L ⊣ R` (this packages tag 00Y8 statement (2) at the presheaf level: the
-  stalk functor is left adjoint to the point-pushforward functor), and
-* for every set `E`, the presheaf `R.obj E` is a sheaf for `J` (this is tag
-  00Y8 statement (1): `u^p E` is a sheaf).
+* `L ⊣ R` (for the stalk functor of a functor `u : C ⥤ Type v` this is Stacks 00Y7), and
+* for every set `E`, the presheaf `R.obj E` is a sheaf for `J`.
 
 Then for every presheaf `F` and every set `E`, precomposition by
 `L.map (toSheafify J F)` is a bijection
-`(L.obj (sheafify J F) ⟶ E) → (L.obj F ⟶ E)`. By Yoneda this is the abstract
-content of tag 00Y8 statement (3): the canonical map `F_p → (F^#)_p` from the
-stalk of a presheaf to the stalk of its sheafification is an isomorphism in
-`Type v`.
+`(L.obj (sheafify J F) ⟶ E) → (L.obj F ⟶ E)`. This is a general fact about adjunctions and
+does not by itself state Stacks 00Y8: the lemma itself, for a functor `u` satisfying the
+covering conditions (a) and (b), is
+`PresheafPushforwardStalkAdjunction.isSheaf_presheafPushforward`,
+`PresheafPushforwardStalkAdjunction.sheafStalk_adjoint_skyscraper` and
+`PresheafPushforwardStalkAdjunction.isIso_presheafStalk_map_toSheafify` in
+`StacksFrontier.CategoryTheory.Sites.Point.StalkOfCoveringFunctor`.
 -/
-@[stacks 00Y8]
 theorem main_theorem00Y8
     {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
     [HasWeakSheafify J (Type v)]

@@ -24,9 +24,8 @@ containment of **kernels**
 
 (that the transition image inject into the zeroth term is this containment, the zeroth term of the
 ideal-power tower being `M` itself). Neither of the two available local-duality transports speaks of
-a
-kernel: both carry the vanishing of a map on local cohomology to and from the vanishing of a map of
-Ext modules. The containment above is nevertheless **reformulated as one vanishing**, and that is
+a kernel: both carry the vanishing of a map on local cohomology to and from the vanishing of a map
+of Ext modules. The containment above is nevertheless **reformulated as one vanishing**, and that is
 the content of `Dualizing.LocalDuality.ker_le_ker_localCohomologyModuleFunctor_iff_range_le_range`:
 the long exact sequence turns the left-hand kernel into the image of the connecting morphism of
 `0 → IᵏM → M → M/IᵏM → 0`, so the containment is the vanishing of **one** morphism of `D(A_𝔮)`,
@@ -322,8 +321,6 @@ This is `Stacks.LocalCohomology.exists_injective_limitLift_and_smul_mem_range` w
 hypotheses — the two assertions of [Stacks, Tag 0EFX] — discharged by
 `Stacks.Algebraization.isProZeroIdealPowerCohomology` and
 `Stacks.Algebraization.exists_hasStableImageIdealPowerCohomology`. -/
-@[stacks 0EFY "part (6) at a general specialization-stable T in Situation 0EFU: Hˢ_T(M) ⟶ \
-lim Hˢ_T(M/IⁿM) is injective with cokernel killed by I^{m₀}"]
 theorem exists_injective_limitLift_and_smul_mem_range (S : BootstrapSituation.{u, u, u}) :
     ∃ m₀ : ℕ,
       Function.Injective (limit.lift

@@ -12,9 +12,14 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPushforwardMo
 # Adic models of a constructible complex with locally constant reduction
 
 Let `X` be a weakly contractible affine scheme, `Λ` a Noetherian ring and `I ⊆ Λ` an ideal.
-This file formalizes Stacks 09C5 of the section "A suitable derived category" of the chapter on
-pro-étale cohomology, and supplies the vocabulary in which the adic local structure used there
-is phrased.
+This file supplies vocabulary for the section "A suitable derived category" of the chapter on
+pro-étale cohomology (the adic local structure of Stacks 09C3, the sections modules of Stacks
+09C5) and the pro-domination step of the source's proof of Stacks 09C5. Stacks 09C5 itself is
+`AlgebraicGeometry.ProEtale.isMittagLefflerCategorical_derivedReductionSectionsSystem`
+(`StacksFrontier/AlgebraicGeometry/ProEtale/ConstructibleReductionSections.lean`) and
+`isMittagLefflerCategorical_derivedReductionSectionsSystem_of_isConstructibleViaDerivedReduction`
+(`StacksFrontier/AlgebraicGeometry/ProEtale/AdicModelReductionSections.lean`), stated for the
+inverse system with its canonical transition maps.
 
 Stacks 09C5 says: if `K` is an object of `D_cons(X, Λ)` and every `K ⊗_Λ^L Λ/Iⁿ` is isomorphic
 to a complex of constant sheaves of `Λ/Iⁿ`-modules, then the inverse system
@@ -45,8 +50,9 @@ proved later and to be cited as a hypothesis in the meantime.
   Stacks 09C3, a finite disjoint open covering carrying such models. The predicate only; the
   statement that it holds is not proved here.
 * `AlgebraicGeometry.ProEtale.reductionSectionsObj`: the `Λ`-module `H⁰(X, K ⊗_Λ^L Λ/Iⁿ)`.
-* `AlgebraicGeometry.ProEtale.reductionSectionsSystem`: the inverse system
-  `n ↦ H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` of Stacks 09C5, assembled from a given family of transition maps.
+* `AlgebraicGeometry.ProEtale.reductionSectionsSystem`: an inverse system with terms
+  `H⁰(X, K ⊗_Λ^L Λ/Iⁿ)`, assembled from an arbitrary family of transition maps. The system with
+  the canonical transition maps is `AlgebraicGeometry.ProEtale.derivedReductionSectionsSystem`.
 
 ## Main results
 
@@ -58,8 +64,10 @@ proved later and to be cited as a hypothesis in the meantime.
   the adic quotient system `n ↦ N/IⁿN` are surjective.
 * `AlgebraicGeometry.ProEtale.isMittagLefflerCategorical_of_proDominated_adicQuotient`: an
   inverse system of `Λ`-modules pro-dominated by an adic quotient system is Mittag-Leffler.
-* `AlgebraicGeometry.ProEtale.isMittagLefflerCategorical_reductionSectionsSystem`:
-  Stacks 09C5, for the inverse system over `n` of the sections modules themselves.
+* `AlgebraicGeometry.ProEtale.isMittagLefflerCategorical_reductionSectionsSystem`: the
+  pro-domination step of the source's proof of Stacks 09C5: a system with terms
+  `H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` pro-dominated by an adic quotient system is Mittag-Leffler. It is not
+  Stacks 09C5 and is untagged.
 
 ## Implementation notes
 
@@ -109,7 +117,7 @@ and the only thing the lemma adds is to forget that the differentials were the i
 ones. It is the step reconciling the library's `IsAdicLisseDerivedSheaf` shape with the shape
 09C3 asserts, and it is what a future proof of 09C3 composes with.
 
-### No unrestricted `@[stacks 09C5]`
+### Stacks 09C5 is not stated here
 
 The source's proof of 09C5 has six steps. Steps (1)–(5) produce, out of 09C3, Stacks 0658
 (perfectness of the reduction), Stacks 09BE (local constancy of a map of complexes of constant
@@ -117,22 +125,33 @@ sheaves) and Stacks 09AW (the complex `M^•` of finite projective `Λ^∧`-modu
 `M^•/IⁿM^• ≅ E_n`), an identification of the inverse system `n ↦ H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` with the
 system `n ↦ H⁰(M^•/IⁿM^•)` of `Λ`-modules. Step (6) then compares that system, through the Tor
 spectral sequence and the strict pro-vanishing of Tor of Stacks 0911, with the adic quotient
-system `n ↦ H⁰(M^•)/IⁿH⁰(M^•)`, whose transition maps are surjective. That chain is not
-available in the library, so it is taken below as an explicit hypothesis, in the form of the
-pro-domination data which is what it ultimately delivers, and the tags it rests on are named in
-the attribute string.
+system `n ↦ H⁰(M^•)/IⁿH⁰(M^•)`, whose transition maps are surjective.
 
-What *is* proved is step (6)'s mechanism together with its conclusion for the system of Stacks
-09C5 itself: `surjective_adicQuotientModuleSystem_map` and
-`isMittagLefflerCategorical_of_proDominated` give the Mittag-Leffler condition for
-`reductionSectionsSystem`, whose terms are the sections modules `H⁰(X, K ⊗_Λ^L Λ/Iⁿ)`, from
-that data and nothing else.
+`isMittagLefflerCategorical_reductionSectionsSystem` below is the last step of that argument:
+given pro-domination data for a system with terms `H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` and arbitrary
+transition maps, the system is Mittag-Leffler. The pro-domination data is an input of the
+theorem, so it does not state 09C5 and carries no tag. Stacks 09C5 is proved, from exactly the
+source's setting and with the canonical transition maps, in
+`StacksFrontier/AlgebraicGeometry/ProEtale/ConstructibleReductionSections.lean` and
+`StacksFrontier/AlgebraicGeometry/ProEtale/AdicModelReductionSections.lean`, along a different
+route (an adic model through Stacks 0CQF and the Artin–Rees lemma).
 
-The one further thing assumed is the family of transition maps of that system. The source's are
-induced by the reductions `Λ/Iⁿ⁺¹ → Λ/Iⁿ`, and producing them means comparing the derived base
-change along `Λ → Λ/Iⁿ⁺¹ → Λ/Iⁿ` with the one along `Λ → Λ/Iⁿ`, which the library does not do;
-so the family enters `reductionSectionsSystem` as a datum and the theorem is proved for every
-choice of it, the source's included.
+### The reading of "a complex of constant sheaves" in 09C5
+
+`IsConstantSheafComplexModel` (constant terms, arbitrary differentials) is the literal reading
+of the hypothesis of 09C5, and under it the statement fails. Let `X = Spec C(βℕ, k)` with `k`
+algebraically closed, a weakly contractible affine scheme with `π₀(X) = βℕ`; let `Λ = ℤ_p`,
+`I = (p)`, and let `f : βℕ → ℤ_p` be the continuous extension of `j ↦ p^(j+1)`. The complex
+`K = [\underline{Λ}^∧ --f--> \underline{Λ}^∧]` in degrees `0, 1` is derived complete, and
+`K ⊗_Λ^L Λ/I = \underline{𝔽_p} ⊕ \underline{𝔽_p}[-1]`, so `K` lies in `D_cons(X, Λ)`; every
+`K ⊗_Λ^L Λ/pⁿ = [\underline{ℤ/pⁿ} --f--> \underline{ℤ/pⁿ}]` is a complex of constant
+sheaves. But `H⁰(X, K ⊗_Λ^L Λ/pⁿ) = {g ∈ C(βℕ, ℤ/pⁿ) | f g = 0}`, and for `m ≥ 1`, `N ≥ m` the
+function supported on the isolated point `j = N - m` with value `p^(m-1)` lies in the image of
+level `N` in level `m` but not in that of level `N + 1`; so the system is not Mittag-Leffler.
+The source's proof begins "Say `K ⊗_Λ^L \underline{Λ/Iⁿ}` is isomorphic to `\underline{E_n}`
+for some object `E_n` of `D(Λ/Iⁿ)`", which fixes the intended reading: the complex of
+constant sheaves is the constant complex of an object of `D(Λ/Iⁿ)`. That is the hypothesis of
+the tagged statements.
 
 ## References
 
@@ -195,7 +214,12 @@ def constantSheafOverCoefficients :
 
 /-- An object of `D(X_proét, Λ)` is isomorphic to a complex of constant sheaves of
 `Λ`-modules: there is a complex of sheaves of coefficient modules, with arbitrary
-differentials, each of whose terms is the constant sheaf of a `Λ`-module. -/
+differentials, each of whose terms is the constant sheaf of a `Λ`-module.
+
+This is weaker than being the constant complex of an object of `D(Λ)`: on a weakly contractible
+affine scheme with infinitely many connected components the differentials can vary over
+`π₀(X)`. With this reading in place of the constant complex, Stacks 09C5 fails; see the module
+docstring. -/
 def IsConstantSheafComplexModel (L : DerivedSheaves.{u, r, w} X Λ) : Prop :=
   ∃ C : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) r w}
       (constantCoefficientRingedSite.{u, r, w} X Λ)) ℤ,
@@ -246,11 +270,10 @@ def reductionSectionsObj (Tn : ∀ n : ℕ, DerivedReduction.{u, r, w} X Λ (I ^
             (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I ^ n))) 0).obj
           ((Tn n).baseChange.obj K))))
 
-/-- The inverse system `n ↦ H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` of `Λ`-modules, assembled from a family `t` of
-transition maps. The source's transition maps are those induced by the reductions
-`Λ/Iⁿ⁺¹ → Λ/Iⁿ`; the family is taken as a datum because the comparison of the derived base
-changes along `Λ → Λ/Iⁿ⁺¹ → Λ/Iⁿ` and along `Λ → Λ/Iⁿ` is not constructed in the library, and
-quantifying over `t` makes the statement below cover whichever family a client supplies. -/
+/-- An inverse system of `Λ`-modules with terms `H⁰(X, K ⊗_Λ^L Λ/Iⁿ)`, assembled from an
+arbitrary family `t` of transition maps. The system with the canonical transition maps,
+induced by the reductions `Λ/Iⁿ⁺¹ → Λ/Iⁿ`, is
+`AlgebraicGeometry.ProEtale.derivedReductionSectionsSystem`. -/
 def reductionSectionsSystem (Tn : ∀ n : ℕ, DerivedReduction.{u, r, w} X Λ (I ^ n))
     (K : DerivedSheaves.{u, r, w} X Λ)
     (t : ∀ n : ℕ, reductionSectionsObj.{u, r, w} X Λ I Tn K (n + 1) ⟶
@@ -333,39 +356,17 @@ theorem hasFiniteDisjointCompletedConstantModel_of_constantDifferentialModel [Is
 
 omit [∀ U : X.ProEt,
   HasWeakSheafify ((Scheme.ProEt.topology X).over U) (ModuleCat.{max (u + 1) r w} (Λ ⧸ I))] in
-/-- **Stacks 09C5**, for the inverse system over `n`, from the pro-domination data that the
-source's steps (1)–(6) supply.
+/-- **The pro-domination step of the proof of Stacks 09C5.** Let `X` be an affine scheme, `K`
+an object of `D(X_proét, Λ)` and `t` any family of transition maps for the modules
+`H⁰(X, K ⊗_Λ^L Λ/Iⁿ)`. If the resulting inverse system is pro-dominated, with shift `c`, by the
+adic quotient system `n ↦ N/IⁿN` of a `Λ`-module `N` (the maps `β`, `α` and the
+compatibilities `hβ`, `hαβ`), then it is Mittag-Leffler.
 
-Let `X` be a weakly contractible affine scheme, `Λ` a Noetherian ring, `I ⊆ Λ` an ideal and `K`
-a constructible object of `D(X_proét, Λ)` such that every reduction `K ⊗_Λ^L Λ/Iⁿ` is
-isomorphic, in `D(X_proét, Λ/Iⁿ)`, to a complex of constant sheaves of `Λ/Iⁿ`-modules. Then the
-inverse system `n ↦ H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` of `Λ`-modules satisfies the Mittag-Leffler condition.
-
-The conclusion is the Mittag-Leffler condition of Stacks Tag 02N0 for the system indexed by
-`n`, not a statement about any single `n`, and it is stated about the concrete system
-`reductionSectionsSystem X Λ I Tn K t` whose terms are the sections modules
-`H⁰(X, K ⊗_Λ^L Λ/Iⁿ)` themselves.
-
-The setting hypotheses `_hX`, `_hK` and `_hconstant` are not used in the proof: pro-domination
-of the sections system by an adic quotient system already forces the Mittag-Leffler condition,
-without weak contractibility of `X` and without constructibility of `K`. They are retained,
-underscore-prefixed, so that the statement reads as the source's; the result is therefore more
-general than the source, which this charter permits. -/
-@[stacks 09C5 "the Mittag-Leffler conclusion for the INVERSE SYSTEM over n, stated about the \
-concrete system of sections modules H^0(X, K ⊗_Λ^L Λ/I^n) and proved from the pro-domination \
-of that system by the adic quotient system n ↦ N/I^nN of a Λ-module N. Two things are assumed \
-rather than proved. First, the transition maps of the system are taken as a datum t: the \
-source's are those induced by Λ/I^(n+1) → Λ/I^n, and the comparison of the derived base \
-changes along Λ → Λ/I^(n+1) → Λ/I^n and along Λ → Λ/I^n is not constructed in the library, so \
-the statement is proved for every family t. Second, the pro-domination itself is the output of \
-the source's steps (1)-(6): steps (1)-(5) rest on 09C3 (the local adic model, also not \
-formalized), 0658 (perfectness of the reduction E_1), 09BE (local constancy of a map of \
-complexes of constant sheaves) and 09AW (the complex M^• of finite projective Λ^∧-modules \
-with M^•/I^nM^• ≅ E_n), and step (6) on the Tor spectral sequence together with 0911 (strict \
-pro-vanishing of Tor); that chain is not assembled. What is proved outright is the \
-Mittag-Leffler condition for the sections system from that data, including the surjectivity of \
-the transition maps of the adic quotient system. The source's weak contractibility of X and \
-constructibility of K are not needed for this implication and are carried unused"]
+This is step (6) of the source's proof once steps (1)–(5) have produced the pro-domination; the
+data `N`, `c`, `α`, `β` is an input, and the transition maps are arbitrary, so this is not
+Stacks 09C5. The hypotheses `_hX`, `_hK` and `_hconstant` are not used. Stacks 09C5 itself, with
+the canonical transition maps and no pro-domination input, is
+`AlgebraicGeometry.ProEtale.isMittagLefflerCategorical_derivedReductionSectionsSystem`. -/
 theorem isMittagLefflerCategorical_reductionSectionsSystem [IsAffine X]
     (_hX : ProetaleWContractible.IsWeaklyContractibleObj X)
     (T : DerivedReduction.{u, r, w} X Λ I)

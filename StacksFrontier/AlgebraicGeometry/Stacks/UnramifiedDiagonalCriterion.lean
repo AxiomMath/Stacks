@@ -83,8 +83,8 @@ locality on the source. These are `AlgebraicGeometry.Stack.hasRelativeProperty_i
 and `AlgebraicGeometry.Stack.hasRelativeProperty_of_comp_of_cover`, but neither applies to a chart
 as it is: the first consumes surjectivity, flatness and local finite presentation of the cover in
 the smooth-diagram form of **Stacks 04ZS**, **06PW** and **06Q2** while a chart is recorded in
-the Section 04XB relative form (the same passage between the two forms is what the hypothesis
-`AlgebraicGeometry.Stack.IsAbsolutelyDMOfExistsEtalePresentation` stands for), and the second
+the Section 04XB relative form (the same passage between the two forms, for an étale chart, is
+made in `AlgebraicGeometry.Stack.isAbsolutelyDMOfExistsEtalePresentation`), and the second
 needs the 1-morphism `U ×_V U ⟶ (𝒳 ×_𝒴 V) ×_V (𝒳 ×_𝒴 V)`. The clause is stated for an arbitrary
 property and mentions neither unramifiedness nor local finite type.
 

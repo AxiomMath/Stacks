@@ -30,13 +30,14 @@ Let `f : Y ⟶ X` be a quasi-compact, quasi-separated morphism of algebraic spac
 
 ## Implementation notes
 
-**The corrected form.**  The relative spectrum is
+**The relative spectrum.**  The relative spectrum is
 `AlgebraicGeometry.Space.boundedRelativeSpec`, defined for quasi-coherent algebras whose sections
-over every étale chart are fewer than the cutoff of the big fppf site: the unbounded form of
-Stacks 081V is refuted in this development by
-`AlgebraicGeometry.Space.not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart`,
-since algebraic spaces live on a site with a cardinal cutoff while algebra sheaves do not.  The
-size condition costs nothing here: `f_* 𝒪_Y` satisfies it for *every* morphism `f`
+over every étale chart are fewer than the cutoff of the big fppf site, since algebraic spaces live
+on a site with a cardinal cutoff while algebra sheaves do not (the anti-equivalence of Stacks 081V
+against all quasi-coherent algebras is empty here by
+`AlgebraicGeometry.Space.not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart`).
+This changes nothing in Stacks 081X, which is proved as stated: `f_* 𝒪_Y` satisfies the size
+condition for *every* morphism `f`
 (`AlgebraicGeometry.Space.sectionsBelowCutoff_pushforwardAlgebra`), so it is proved, not assumed.
 
 **Canonicity.**  Stacks obtains the morphism from the counit `f^* f_* 𝒪_Y ⟶ 𝒪_Y` through the
@@ -91,13 +92,12 @@ quasi-coherent `𝒪_X`-algebra, and `f` factors as `Y ⟶ \underline{Spec}_X(f_
 the canonical morphism `AlgebraicGeometry.Space.toDirectImageSpec`, which is the unique morphism
 over `X` whose direct-image map is the identification `\underline{Spec}_X(f_* 𝒪_Y)_* 𝒪 ≅ f_* 𝒪_Y`.
 
-The relative spectrum is the bounded one of `AlgebraicGeometry.Space.boundedRelativeSpec`: the
-unbounded form of Stacks 081V is refuted here by
-`AlgebraicGeometry.Space.not_nonempty_affineAlgebraAntiEquivalence_of_hasNonzeroAffineChart`, and
-the size condition it needs is proved for `f_* 𝒪_Y` by
-`AlgebraicGeometry.Space.sectionsBelowCutoff_pushforwardAlgebra`. -/
-@[stacks 081X "corrected (bounded) form: quasi-coherence of f_* 𝒪_Y, the factorization \
-Y → Spec_X(f_* 𝒪_Y) → X, and its canonicity", sga "3 VIB 11.1" "partial"]
+The relative spectrum is that of `AlgebraicGeometry.Space.boundedRelativeSpec`, and the size
+condition it needs is proved for `f_* 𝒪_Y` by
+`AlgebraicGeometry.Space.sectionsBelowCutoff_pushforwardAlgebra`, so nothing beyond the
+hypotheses of Stacks 081X is assumed. -/
+@[stacks 081X "quasi-coherence of f_* 𝒪_Y, the factorization Y → Spec_X(f_* 𝒪_Y) → X, and its \
+canonicity", sga "3 VIB 11.1" "partial"]
 theorem directImageSpec_factorization :
     (pushforwardAlgebra B S hS (Over.mk f)).IsQuasicoherent ∧
       (toDirectImageSpec B S hS f hfqc hfqs).left ≫ (directImageSpec B S hS f hfqc hfqs).obj.hom =

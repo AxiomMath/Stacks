@@ -67,8 +67,9 @@ identifying the two comparisons is still open, so neither registration subsumes 
   proof of **Stacks 0BPV**. It takes as a parameter the proof that the comparison
   `AlgebraicGeometry.Stack.selfProductDiagonalMap` is a thickening, which every call site can now
   supply from `AlgebraicGeometry.Stack.isThickening_selfProductDiagonalMap`.
-* `AlgebraicGeometry.Stack.isSurjective_relativeDiagonal_iff`: **Stacks 0BPV** at the
-  surjectivity property, on the same parameter.
+* `AlgebraicGeometry.Stack.isSurjective_relativeDiagonal_iff`: the surjectivity property of
+  **Stacks 0BPV**, on the same parameter; the full statement of the tag is
+  `AlgebraicGeometry.Stack.thickeningMorphism_relativeDiagonal_inner_iff_outer`.
 
 ## Implementation notes
 
@@ -137,31 +138,20 @@ the comparison isomorphism of an object through `j` and the restriction 2-isomor
 morphism of thickenings. For that 1-morphism the filler is the identity on both components, and
 the cartesian assertion is the statement cited above.
 
-**Stacks 0BPV is carried here at two of its seventeen properties only.** The source lists
-representability by schemes, affineness, surjectivity, quasi-compactness, universal closedness,
-integrality, quasi-separatedness, separatedness, universal injectivity, universal openness, local
-quasi-finiteness, finiteness, unramifiedness, being a monomorphism, being an immersion, being a
-closed immersion and properness, and asserts for each that it holds for `Δ` exactly when it holds
-for `Δ'`. Each such equivalence is the corresponding part of **Stacks 0CJ9** applied to the
-morphism of thickenings `(Δ, Δ')` of `AlgebraicGeometry.Stack.diagonalThickeningMorphism`, and
-this library carries exactly two parts of 0CJ9 — part (2), surjectivity
-(`AlgebraicGeometry.Stack.isSurjective_inner_iff_outer`), and part (6), universal injectivity
-(`AlgebraicGeometry.Stack.universallyInjective_inner_iff_outer`). The other fifteen need the
-invariance of their property under a cartesian morphism of thickenings of algebraic *spaces*,
-**Stacks 09ZY** and **Stacks 0BPJ**, of which
-`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.Morphisms` carries only the surjectivity clause
-and `StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningMorphism.EtaleLocalProperties` only
-local quasi-finiteness and the vanishing of the relative differentials, in a shape stated for the
-two horizontal morphisms of the square rather than for the §04XB point test that the stack-level
-statement needs.
+**Stacks 0BPV in full** — all seventeen properties, for an arbitrary morphism of thickenings — is
+`AlgebraicGeometry.Stack.thickeningMorphism_relativeDiagonal_inner_iff_outer` in
+`StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDiagonalProperties`, which assembles the
+per-property equivalences proved in `…Stacks.ThickeningDiagonalClauses`,
+`…Stacks.ThickeningDiagonalRepresentable`, `…Stacks.ThickeningDiagonalAffine`,
+`…Stacks.ThickeningSeparationConverse` and `…Stacks.ThickeningDiagonalPointTest`. Every one of
+those uses the first assertion of Stacks 0BPU in its proved form,
+`AlgebraicGeometry.Stack.isThickening_selfProductDiagonalMap`, and assumes nothing.
 
-Both properties carried here take the hypothesis of
-`AlgebraicGeometry.Stack.diagonalThickeningMorphism` as a parameter. That hypothesis — the first
-assertion of Stacks 0BPU for `AlgebraicGeometry.Stack.selfProductDiagonalMap` rather than for
-`AlgebraicGeometry.Stack.diagonalComparison` — is now proved, by
-`AlgebraicGeometry.Stack.isThickening_selfProductDiagonalMap`, so every call site can discharge
-it; it is left as a parameter here rather than inlined, which would change three signatures for
-no mathematical gain.
+`AlgebraicGeometry.Stack.isSurjective_relativeDiagonal_iff` below is the surjectivity clause in
+an older shape, taking the hypothesis of `AlgebraicGeometry.Stack.diagonalThickeningMorphism` as a
+parameter; that hypothesis is supplied at every call site by
+`AlgebraicGeometry.Stack.isThickening_selfProductDiagonalMap`, and the parameter-free form is
+`AlgebraicGeometry.Stack.isSurjective_relativeDiagonal_inner_iff_outer`.
 
 ## References
 
@@ -1006,7 +996,6 @@ The two diagonals are a morphism of thickenings
 `AlgebraicGeometry.Stack.selfProductDiagonalMap` is a thickening. That is the first assertion of
 **Stacks 0BPU**, proved in `AlgebraicGeometry.Stack.isThickening_selfProductDiagonalMap`; see
 `AlgebraicGeometry.Stack.diagonalThickeningMorphism`. -/
-@[stacks 0BPV "surjective (granted: the diagonal comparison is a thickening)"]
 theorem isSurjective_relativeDiagonal_iff
     (hk : IsThickening (selfProductDiagonalMap B S hS m)) :
     IsSurjective B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner) ↔

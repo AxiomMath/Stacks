@@ -36,6 +36,9 @@ with its `R`-module structure. The subset `Spec(S⁻¹R) ⊆ Spec(R)` is the ima
   from `S` is an associated prime of `S⁻¹M`.
 * `Stacks.AssociatedPrimes.assPrimes_inter_image_comap_subset` (part (2)).
 * `Stacks.AssociatedPrimes.assPrimes_inter_image_comap_eq` (part (3)).
+* `Stacks.AssociatedPrimes.map_mem_assPrimes_atPrime_and_converse_of_fg` (Tag 0310): for a
+  prime `p`, `p ∈ Ass_R(M)` implies `pR_p ∈ Ass_{R_p}(M_p)`, with the converse when `p` is
+  finitely generated.
 
 ## References
 
@@ -153,5 +156,79 @@ theorem assPrimes_inter_image_comap_eq [IsNoetherianRing R] :
     S f J (mem_associatedPrimes_of_mem_assPrimes hJ) ((isNoetherianRing_iff_ideal_fg R).mp ‹_› _)
 
 end Localization
+
+section AtPrime
+
+private theorem disjoint_primeCompl (p : Ideal R) [p.IsPrime] :
+    Disjoint (p.primeCompl : Set R) p :=
+  Set.disjoint_left.mpr fun _ hx hxp => hx hxp
+
+variable (p : Ideal R) [p.IsPrime] (Rp : Type*) [CommRing Rp] [Algebra R Rp]
+  [IsLocalization.AtPrime Rp p]
+  {M Mp : Type*} [AddCommGroup M] [Module R M] [AddCommGroup Mp] [Module R Mp] [Module Rp Mp]
+  [IsScalarTower R Rp Mp] (f : M →ₗ[R] Mp) [IsLocalizedModule p.primeCompl f]
+
+include f in
+/-- If `p ∈ Ass_R(M)`, then `pR_p ∈ Ass_{R_p}(M_p)`. -/
+theorem map_mem_assPrimes_atPrime (hp : p ∈ assPrimes R M) :
+    p.map (algebraMap R Rp) ∈ assPrimes Rp Mp := by
+  have h := mem_assPrimes_of_disjoint p.primeCompl f hp (disjoint_primeCompl p)
+  rw [assPrimes_eq_image_comap_assPrimes p.primeCompl Rp] at h
+  obtain ⟨J, hJ, hJp⟩ := h
+  rwa [← hJp, IsLocalization.map_under p.primeCompl Rp J]
+
+include f in
+/-- If `p` is finitely generated and `pR_p ∈ Ass_{R_p}(M_p)`, then `p ∈ Ass_R(M)`. -/
+theorem mem_assPrimes_of_map_mem_assPrimes_atPrime (hfg : p.FG)
+    (hp : p.map (algebraMap R Rp) ∈ assPrimes Rp Mp) : p ∈ assPrimes R M := by
+  have hpMp : p ∈ assPrimes R Mp := by
+    rw [assPrimes_eq_image_comap_assPrimes p.primeCompl Rp]
+    exact ⟨_, hp, IsLocalization.under_map_of_isPrime_disjoint p.primeCompl Rp ‹_›
+      (disjoint_primeCompl p)⟩
+  obtain ⟨hpr, x, hx⟩ := hpMp
+  obtain ⟨⟨m, s⟩, hms⟩ := IsLocalizedModule.surj p.primeCompl f x
+  -- `f m = s • x` has the same annihilator `p` as `x`, since `s` acts invertibly on `M_p`.
+  have hfm : ∀ r : R, r • f m = 0 ↔ r ∈ p := by
+    intro r
+    rw [← hx, Ideal.mem_torsionOf_iff, ← hms, smul_comm, Submonoid.smul_def,
+      ← algebraMap_smul Rp (s : R) (r • x)]
+    exact (IsLocalization.map_units Rp s).smul_eq_zero
+  -- the annihilator of `m` lies in `p`
+  have hle : ∀ r : R, r • m = 0 → r ∈ p := fun r hr =>
+    (hfm r).mp (by rw [← map_smul, hr, map_zero])
+  obtain ⟨G, hG⟩ := hfg
+  have hkill : ∀ g : G, ∃ c : p.primeCompl, (c : R) • (g : R) • m = 0 := by
+    intro g
+    have hg : (g : R) ∈ p := hG ▸ Ideal.subset_span g.2
+    have : f ((g : R) • m) = 0 := by rw [map_smul]; exact (hfm g).mpr hg
+    obtain ⟨c, hc⟩ := (IsLocalizedModule.eq_zero_iff p.primeCompl f).mp this
+    exact ⟨c, hc⟩
+  choose c hc using hkill
+  set t : R := ∏ g : G, (c g : R) with ht
+  have htp : t ∈ p.primeCompl := Submonoid.prod_mem _ fun g _ => (c g).2
+  refine ⟨hpr, t • m, le_antisymm (fun r hr => ?_) ?_⟩
+  · rw [Ideal.mem_torsionOf_iff, smul_smul] at hr
+    exact (hpr.mem_or_mem (hle _ hr)).resolve_right htp
+  · rw [← hG, Ideal.span_le]
+    intro g hg
+    obtain ⟨k, hk⟩ := Finset.dvd_prod_of_mem (fun g : G => (c g : R))
+      (Finset.mem_univ ⟨g, hg⟩)
+    rw [SetLike.mem_coe, Ideal.mem_torsionOf_iff, smul_smul, ht, hk,
+      show g * ((c ⟨g, hg⟩ : R) * k) = k * ((c ⟨g, hg⟩ : R) * g) by ring, mul_smul, mul_smul,
+      hc ⟨g, hg⟩, smul_zero]
+
+include f in
+/-- **Stacks 0310.** Let `R` be a ring, `M` an `R`-module and `p ⊆ R` a prime, with `R_p` and
+`M_p` the localizations at `p` (given by `IsLocalization.AtPrime` and `IsLocalizedModule`).
+Associated primes are those of Tag 00LA, `p = Ann(m)`.
+1. If `p ∈ Ass(M)`, then `pR_p ∈ Ass(M_p)`.
+2. If `p` is finitely generated, the converse holds as well. -/
+@[stacks 0310]
+theorem map_mem_assPrimes_atPrime_and_converse_of_fg :
+    (p ∈ assPrimes R M → p.map (algebraMap R Rp) ∈ assPrimes Rp Mp) ∧
+      (p.FG → p.map (algebraMap R Rp) ∈ assPrimes Rp Mp → p ∈ assPrimes R M) :=
+  ⟨map_mem_assPrimes_atPrime p Rp f, mem_assPrimes_of_map_mem_assPrimes_atPrime p Rp f⟩
+
+end AtPrime
 
 end Stacks.AssociatedPrimes

@@ -169,7 +169,7 @@ class `b ∈ H^m_{dR}(X/S)` restricts to zero on `Y`, then
 
 in `H^{2 + m}_{dR}(X/S)`. The restriction of `b` is its image under the pullback map
 `H^m_{dR}(X/S) ⟶ H^m_{dR}(Y/S)` of the closed immersion `Y ⟶ X`. -/
-@[stacks 0FMX]
+@[stacks 0FMX "b|_Y is the pullback along the closed immersion Y ⟶ X; 𝒪_X(Y) is the dual of ℐ_Y"]
 theorem deRhamCohomologyCup_firstChernClass_eq_zero (hlog : p.HasLogPolesDeRhamComplex Y)
     (m : ℤ)
     (b : SheafOfModules.deRhamCohomology (deRhamAlgebras p)

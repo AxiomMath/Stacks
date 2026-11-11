@@ -5,8 +5,9 @@ public import StacksFrontier.Deformation.InfinitesimalAutomorphism.Basic.Indepen
 /-!
 # Infinitesimal automorphisms of a localization
 
-The identification of the infinitesimal automorphism group of a predeformation category with
-that of its localization at an object (Tag 06JS).
+For a category cofibred in groupoids over `𝒞_Λ` and an object `x₀` over `k`, the identification
+of the infinitesimal automorphism group of the localization `F_{x₀}` with the infinitesimal
+automorphisms of `F` at `x₀`: `Inf(F_{x₀}) = Inf_{x₀}(F)` (Tag 06JS).
 -/
 
 @[expose] public section
@@ -94,7 +95,7 @@ private lemma canonicalRetraction_objectsOverFunctor_left
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : Type u₁} [Category.{v₁} F]
     {p : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k}
-    (hp : IsPredeformationCategory p)
+    (hp : IsCofiberedInGroupoids p)
     {Aε : ArtinianLocalAlgCat.{u, max v w, w} Λ k}
     {x₀ : p.Fiber (residueFieldObject Λ k)} {xε : p.Fiber Aε}
     (g : residueFieldObject Λ k ⟶ Aε)
@@ -109,14 +110,14 @@ private lemma canonicalRetraction_objectsOverFunctor_left
     (h₀ : y₀.1.left = x₀.1) (hε : yε.1.left = xε.1)
     (h₀hom : y₀.1.hom = eqToHom h₀)
     (hεhom : yε.1.hom = eqToHom hε ≫
-      (canonicalRetraction hp.cofibered g e hpair.split i hi).1)
+      (canonicalRetraction hp g e hpair.split i hi).1)
     (hjleft : j.left ≫ eqToHom hε = eqToHom h₀ ≫ i) :
-    (canonicalRetraction (isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀).cofibered
+    (canonicalRetraction (isPredeformationCategory_objectsOverFunctor p hp x₀).cofibered
       g e hpair.split j hj).1.left =
-      eqToHom hε ≫ (canonicalRetraction hp.cofibered g e hpair.split i hi).1 ≫
+      eqToHom hε ≫ (canonicalRetraction hp g e hpair.split i hi).1 ≫
         eqToHom h₀.symm := by
-  let hpq := isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀
-  let r := (canonicalRetraction hp.cofibered g e hpair.split i hi).1
+  let hpq := isPredeformationCategory_objectsOverFunctor p hp x₀
+  let r := (canonicalRetraction hp g e hpair.split i hi).1
   let rQ := (canonicalRetraction hpq.cofibered g e hpair.split j hj).1
   let he : yε.1.left ⟶ xε.1 := eqToHom hε
   let h0i : x₀.1 ⟶ y₀.1.left := eqToHom h₀.symm
@@ -146,7 +147,7 @@ private lemma mem_infinitesimalAutomorphisms_objectsOverFunctor_iff
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : Type u₁} [Category.{v₁} F]
     {p : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k}
-    (hp : IsPredeformationCategory p)
+    (hp : IsCofiberedInGroupoids p)
     {Aε : ArtinianLocalAlgCat.{u, max v w, w} Λ k}
     {x₀ : p.Fiber (residueFieldObject Λ k)} {xε : p.Fiber Aε}
     (g : residueFieldObject Λ k ⟶ Aε)
@@ -161,14 +162,14 @@ private lemma mem_infinitesimalAutomorphisms_objectsOverFunctor_iff
     (h₀ : y₀.1.left = x₀.1) (hε : yε.1.left = xε.1)
     (h₀hom : y₀.1.hom = eqToHom h₀)
     (hεhom : yε.1.hom = eqToHom hε ≫
-      (canonicalRetraction hp.cofibered g e hpair.split i hi).1)
+      (canonicalRetraction hp g e hpair.split i hi).1)
     (hjleft : j.left ≫ eqToHom hε = eqToHom h₀ ≫ i)
     (a : Aut yε) :
     a ∈ infinitesimalAutomorphisms
-        (isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀).cofibered g e hpair j hj ↔
+        (isPredeformationCategory_objectsOverFunctor p hp x₀).cofibered g e hpair j hj ↔
       (eqToHom hε.symm ≫ a.asIso.hom.val.left ≫ eqToHom hε) ≫
-          (canonicalRetraction hp.cofibered g e hpair.split i hi).1 =
-        (canonicalRetraction hp.cofibered g e hpair.split i hi).1 := by
+          (canonicalRetraction hp g e hpair.split i hi).1 =
+        (canonicalRetraction hp g e hpair.split i hi).1 := by
   rw [mem_infinitesimalAutomorphisms_iff, ← eqToHom_conj_comp_eq_iff hε h₀,
     ← canonicalRetraction_objectsOverFunctor_left hp g e hpair i hi j hj h₀ hε h₀hom hεhom hjleft]
   constructor
@@ -184,7 +185,7 @@ private lemma exists_conjAut_objectsOverFiberForget_mapAut_eq
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : Type u₁} [Category.{v₁} F]
     {p : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k}
-    (hp : IsPredeformationCategory p)
+    (hp : IsCofiberedInGroupoids p)
     {Aε : ArtinianLocalAlgCat.{u, max v w, w} Λ k}
     {x₀ : p.Fiber (residueFieldObject Λ k)} {xε : p.Fiber Aε}
     (g : residueFieldObject Λ k ⟶ Aε)
@@ -193,8 +194,8 @@ private lemma exists_conjAut_objectsOverFiberForget_mapAut_eq
     (i : x₀.1 ⟶ xε.1) (hi : p.IsHomLift g i)
     {yε : (objectsOverFunctor p x₀.1).Fiber Aε} (hε : yε.1.left = xε.1)
     (hεhom : yε.1.hom = eqToHom hε ≫
-      (canonicalRetraction hp.cofibered g e hpair.split i hi).1)
-    (a : Aut xε) (ha : a ∈ infinitesimalAutomorphisms hp.cofibered g e hpair i hi) :
+      (canonicalRetraction hp g e hpair.split i hi).1)
+    (a : Aut xε) (ha : a ∈ infinitesimalAutomorphisms hp g e hpair i hi) :
     ∃ b : Aut yε,
       (eqToIso (show (objectsOverFiberForget p x₀.1 Aε).obj yε = xε from Subtype.ext hε)).conjAut
         ((objectsOverFiberForget p x₀.1 Aε).mapAut yε b) = a := by
@@ -212,16 +213,86 @@ private lemma exists_conjAut_objectsOverFiberForget_mapAut_eq
     simpa [Category.assoc] using congrArg (fun z => eqToHom hε ≫ z) hmhom'
   have hw : b.asIso.hom.val ≫ yε.1.hom = yε.1.hom := by
     rw [hεhom, ← Category.assoc, hb, Category.assoc,
-      (mem_infinitesimalAutomorphisms_iff hp.cofibered g e hpair i hi a).mp ha]
+      (mem_infinitesimalAutomorphisms_iff hp g e hpair i hi a).mp ha]
   obtain ⟨αQ, hαQ⟩ := exists_objectsOverFiberForget_mapAut_eq yε b hw
   refine ⟨αQ, ?_⟩
   change (eqToIso hx).conjAut (G.mapAut yε αQ) = a
   rw [hαQ]
   simp [b]
 
-/-- Infinitesimal automorphisms of objects over `x₀` are the infinitesimal
-automorphisms of `x₀`. -/
+/-- **Stacks Project, Tag 06JS (localization).** For a category `p` cofibred in groupoids over
+`𝒞_Λ` and an object `x₀` over `k`, the infinitesimal automorphism group `Inf(F_{x₀})` of the
+predeformation category `F_{x₀} = objectsOverFunctor p x₀` (formed at an object `y₀` lying over
+`x₀` and its pushforward `yε` to the dual numbers) is identified with the pointwise
+infinitesimal automorphism group `Inf_{x₀}(F)` of Tag 06JQ, formed at the pushforward `xε`
+of `x₀` underlying `yε`. The identification is the unique group isomorphism that forgets the
+arrow to `x₀`, i.e. sends an automorphism of `yε` to its underlying automorphism of `xε`.
+Compare `tangentSpaceAtPoint`, Tag 06IK. -/
 @[stacks 06JS "infinitesimal_automorphisms_of_localization"]
+public theorem existsUnique_infinitesimalAutomorphismGroup_objectsOverFunctor_mulEquiv
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    {F : Type u₁} [Category.{v₁} F]
+    {p : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k}
+    (hp : IsCofiberedInGroupoids p)
+    {Aε : ArtinianLocalAlgCat.{u, max v w, w} Λ k}
+    {x₀ : p.Fiber (residueFieldObject Λ k)} {xε : p.Fiber Aε}
+    (g : residueFieldObject Λ k ⟶ Aε)
+    (e : Aε ⟶ residueFieldObject Λ k)
+    (hpair : IsCanonicalDualNumberPair g e)
+    (i : x₀.1 ⟶ xε.1) (hi : p.IsHomLift g i)
+    {y₀ : (objectsOverFunctor p x₀.1).Fiber
+      (residueFieldObject Λ k)}
+    {yε : (objectsOverFunctor p x₀.1).Fiber Aε}
+    (j : y₀.1 ⟶ yε.1)
+    (hj : (objectsOverFunctor p x₀.1).IsHomLift g j)
+    (h₀ : y₀.1.left = x₀.1) (hε : yε.1.left = xε.1)
+    (h₀hom : y₀.1.hom = eqToHom h₀)
+    (hεhom : yε.1.hom = eqToHom hε ≫
+      (canonicalRetraction hp g e hpair.split i hi).1)
+    (hjleft : j.left ≫ eqToHom hε = eqToHom h₀ ≫ i) :
+    ∃! E :
+      infinitesimalAutomorphismGroup
+        (isPredeformationCategory_objectsOverFunctor p hp x₀)
+        g e hpair j hj ≃* ↥(infinitesimalAutomorphisms hp g e hpair i hi),
+      ∀ a, (E a).val.asIso.hom.val =
+        eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε := by
+  let hpq := isPredeformationCategory_objectsOverFunctor p hp x₀
+  let G := objectsOverFiberForget p x₀.1 Aε
+  have hx : G.obj yε = xε := Subtype.ext hε
+  let φ : Aut yε →* Aut xε := (eqToIso hx).conjAut.toMonoidHom.comp (G.mapAut yε)
+  have hφ (a : Aut yε) :
+      (φ a).asIso.hom.val = eqToHom hε.symm ≫ a.asIso.hom.val.left ≫ eqToHom hε := by
+    change (Functor.Fiber.fiberInclusion.mapIso
+      ((eqToIso hx).conjAut (G.mapAut yε a)).asIso).hom = _
+    rw [Functor.map_conjAut, fiberInclusion_mapIso_eqToIso hx hε]
+    rfl
+  let S : Subgroup (Aut xε) := infinitesimalAutomorphisms hp g e hpair i hi
+  let T : Subgroup (Aut yε) := infinitesimalAutomorphisms hpq.cofibered g e hpair j hj
+  have hmem (a : Aut yε) : a ∈ T ↔ φ a ∈ S := by
+    rw [mem_infinitesimalAutomorphisms_iff hp g e hpair i hi, hφ]
+    exact mem_infinitesimalAutomorphisms_objectsOverFunctor_iff hp g e hpair i hi j hj h₀ hε
+      h₀hom hεhom hjleft a
+  have hφ_injective : Function.Injective φ := fun a b hab =>
+    objectsOverFiberForget_mapAut_injective yε ((eqToIso hx).conjAut.injective hab)
+  have hmap : T.map φ = S := by
+    ext a
+    refine ⟨fun ⟨b, hb, hba⟩ => hba ▸ (hmem b).mp hb, fun ha => ?_⟩
+    obtain ⟨b, rfl⟩ :=
+      exists_conjAut_objectsOverFiberForget_mapAut_eq hp g e hpair i hi hε hεhom a ha
+    exact ⟨b, (hmem b).mpr ha, rfl⟩
+  let E : T ≃* S := (T.equivMapOfInjective φ hφ_injective).trans (MulEquiv.subgroupCongr hmap)
+  have hE (a : T) : (E a).1 = φ a.1 := rfl
+  have hEval (a : T) :
+      (E a).val.asIso.hom.val = eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε :=
+    (congrArg (fun z => z.asIso.hom.val) (hE a)).trans (hφ a.1)
+  exact ⟨E, hEval, fun E' hE' => MulEquiv.ext fun a => Subtype.ext <| Aut.ext <| Iso.ext <|
+    Functor.Fiber.hom_ext <| (hE' a).trans (hEval a).symm⟩
+
+/-- The special case of
+`existsUnique_infinitesimalAutomorphismGroup_objectsOverFunctor_mulEquiv` (Tag 06JS) in which
+`p` is itself a predeformation category, so that the right-hand side is its infinitesimal
+automorphism group `infinitesimalAutomorphismGroup hp`. Only `hp.cofibered` is used; the
+general statement assumes just that `p` is cofibred in groupoids. -/
 public theorem infinitesimalAutomorphismGroup_objectsOverFunctor
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : Type u₁} [Category.{v₁} F]
@@ -248,39 +319,9 @@ public theorem infinitesimalAutomorphismGroup_objectsOverFunctor
         (isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀)
         g e hpair j hj ≃* infinitesimalAutomorphismGroup hp g e hpair i hi,
       ∀ a, (E a).val.asIso.hom.val =
-        eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε := by
-  let hpq := isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀
-  let G := objectsOverFiberForget p x₀.1 Aε
-  have hx : G.obj yε = xε := Subtype.ext hε
-  let φ : Aut yε →* Aut xε := (eqToIso hx).conjAut.toMonoidHom.comp (G.mapAut yε)
-  have hφ (a : Aut yε) :
-      (φ a).asIso.hom.val = eqToHom hε.symm ≫ a.asIso.hom.val.left ≫ eqToHom hε := by
-    change (Functor.Fiber.fiberInclusion.mapIso
-      ((eqToIso hx).conjAut (G.mapAut yε a)).asIso).hom = _
-    rw [Functor.map_conjAut, fiberInclusion_mapIso_eqToIso hx hε]
-    rfl
-  let S : Subgroup (Aut xε) := infinitesimalAutomorphisms hp.cofibered g e hpair i hi
-  let T : Subgroup (Aut yε) := infinitesimalAutomorphisms hpq.cofibered g e hpair j hj
-  have hmem (a : Aut yε) : a ∈ T ↔ φ a ∈ S := by
-    rw [mem_infinitesimalAutomorphisms_iff hp.cofibered g e hpair i hi, hφ]
-    exact mem_infinitesimalAutomorphisms_objectsOverFunctor_iff hp g e hpair i hi j hj h₀ hε
-      h₀hom hεhom hjleft a
-  have hφ_injective : Function.Injective φ := fun a b hab =>
-    objectsOverFiberForget_mapAut_injective yε ((eqToIso hx).conjAut.injective hab)
-  have hmap : T.map φ = S := by
-    ext a
-    refine ⟨fun ⟨b, hb, hba⟩ => hba ▸ (hmem b).mp hb, fun ha => ?_⟩
-    obtain ⟨b, rfl⟩ :=
-      exists_conjAut_objectsOverFiberForget_mapAut_eq hp g e hpair i hi hε hεhom a ha
-    exact ⟨b, (hmem b).mpr ha, rfl⟩
-  let E : T ≃* S := (T.equivMapOfInjective φ hφ_injective).trans (MulEquiv.subgroupCongr hmap)
-  have hE (a : T) : (E a).1 = φ a.1 := rfl
-  have hEval (a : T) :
-      (E a).val.asIso.hom.val = eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε :=
-    (congrArg (fun z => z.asIso.hom.val) (hE a)).trans (hφ a.1)
-  exact ⟨E, hEval, fun E' hE' => MulEquiv.ext fun a => Subtype.ext <| Aut.ext <| Iso.ext <|
-    Functor.Fiber.hom_ext <| (hE' a).trans (hEval a).symm⟩
-
+        eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε :=
+  existsUnique_infinitesimalAutomorphismGroup_objectsOverFunctor_mulEquiv hp.cofibered g e hpair
+    i hi j hj h₀ hε h₀hom hεhom hjleft
 end
 
 end Deformation

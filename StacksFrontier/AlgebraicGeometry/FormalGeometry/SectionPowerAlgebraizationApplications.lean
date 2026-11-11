@@ -66,31 +66,19 @@ documentation of
 dichotomy of the punctured cone, the section ring data and the algebraization square cannot be
 produced in this library.
 
-Beyond those, [Stacks, Tag 0EL2] carries one further named fact and [Stacks, Tag 0EL3] carries
-nothing.
+Beyond those, the conditional form of [Stacks, Tag 0EL2] below carries one further named fact
+and [Stacks, Tag 0EL3] carries nothing.
 
-* **[Stacks, Tag 0EL2]** carries
+* The conditional form of [Stacks, Tag 0EL2],
+  `Stacks.Algebraization.isIso_openNeighbourhoodComparison_of_depthAddDim_gt`, carries
   `Stacks.Algebraization.OpenNeighbourhoodSections.isIso_Hrestrict`: that restriction of sections
-  `Γ(X, 𝓕) ⟶ Γ(V, 𝓕)` along an open `V ⊇ Y` is bijective. This is the whole content of the
-  lemma over the proposition. The source gets it from the depth hypothesis: the complement
-  `T = X ∖ V` is closed in `X` and misses `Y`, so it is proper over `k` and closed in the affine
-  scheme `X ∖ Y` of [Stacks, Tag 0EKE]
-  (`Stacks.AmpleNonvanishingUniversallyClosed.isAffineHom_nonvanishingOpen`), hence
-  finite over `k`; so `T` is a finite set of closed points, where `dim({x}‾) = 0` and the
-  hypothesis forces `depth(𝓕_x) ≥ 2`; and depth at least two along a closed set is exactly the
-  bijectivity of restriction across it, which is [Stacks, Tag 0E9I] and *is* proved, as
-  `AlgebraicGeometry.restriction_bijective_of_depth_ge_two`. Two links of that chain are not
-  available here, and the field is their single joint consequence.
-  - "Proper and affine over a field implies finite" — `IsFinite.iff_isProper_and_isAffineHom` is
-    in Mathlib, but the step from there to `dim({x}‾) = 0` for `x ∈ T`, that is [Stacks, Tag
-    01WN] and [Stacks, Tag 0A28] for the closed subscheme `T`, is not in this library; the
-    nearest statement, `topologicalKrullDim_eq_zero_of_isAffine`, assumes `X` itself affine.
-  - The degree-zero comparison of the two spellings of sections, *naturally in the open*. The
-    statement of [Stacks, Tag 0E9I] is about `F.presheaf.map`, the presheaf restriction, whereas
-    `Hrestrict` is `CategoryTheory.NatTrans.rightDerived` of the restriction of the sections
-    functor. Identifying the two needs the naturality square for
-    `CategoryTheory.Functor.toRightDerivedZero` against `NatTrans.rightDerived _ 0`, which
-    neither Mathlib nor this library has in any degree-zero form.
+  `Γ(X, 𝓕) ⟶ Γ(V, 𝓕)` along an open `V ⊇ Y` is bijective. It is not the registration of that
+  tag. The lemma is proved unconditionally, for `𝓕` coherent, as
+  `Stacks.Algebraization.isIso_openComparison_of_depthAddDim_gt` in
+  `StacksFrontier/AlgebraicGeometry/FormalGeometry/ZeroSchemeOpenNeighbourhood.lean`, which also
+  proves the bijectivity of restriction from the depth hypothesis
+  (`Stacks.Algebraization.isIso_Hrestrict_zero_of_depthAddDim_gt`) and constructs the comparison
+  map over `V` (`Stacks.Algebraization.IdealTower.openComparison`).
 * **[Stacks, Tag 0EL3]** carries nothing beyond that. The displayed identity
   `depth(𝓔_x) + dim({x}‾) = d` is proved, in the form of the lower bound that
   [Stacks, Tag 0EL1] consumes, as
@@ -107,15 +95,17 @@ nothing.
 
 * `Stacks.Algebraization.ZeroSchemeAlgebraizationInput` — the carried input of
   [Stacks, Tag 0EL1], bundled.
-* `Stacks.Algebraization.OpenNeighbourhoodSections` — the carried input of [Stacks, Tag 0EL2]:
-  that `V` contains `Y`, and that restriction of sections from `X` to `V` is bijective.
+* `Stacks.Algebraization.OpenNeighbourhoodSections` — the carried input of the conditional form
+  of [Stacks, Tag 0EL2]: that `V` contains `Y`, and that restriction of sections from `X` to `V`
+  is bijective.
 
 ## Main results
 
 * `Stacks.Algebraization.ZeroSchemeAlgebraizationInput.isIso_zeroSchemeComparison` —
   [Stacks, Tag 0EL1] read off the bundled input.
-* `Stacks.Algebraization.isIso_openNeighbourhoodComparison_of_depthAddDim_gt` —
-  **[Stacks, Tag 0EL2]**.
+* `Stacks.Algebraization.isIso_openNeighbourhoodComparison_of_depthAddDim_gt` — a conditional
+  form of [Stacks, Tag 0EL2]; the tag is registered on the unconditional
+  `Stacks.Algebraization.isIso_openComparison_of_depthAddDim_gt`.
 * `Stacks.Algebraization.isIso_zeroSchemeComparison_of_cohenMacaulayDepthDimBound` — the general
   pattern of [Stacks, Tag 0EL3]: a Cohen–Macaulay proper variety of dimension at least `d` gives
   every degree `i < d - 1`.
@@ -232,23 +222,15 @@ theorem ZeroSchemeAlgebraizationInput.isIso_zeroSchemeComparison
 
 /-! ### Stacks 0EL2 -/
 
-/-- **The carried input of [Stacks, Tag 0EL2].** For `X` proper over a field `k`, `L` an ample
-invertible `𝒪_X`-module, `s` a global section of `L` with zero scheme `Y = Z(s)` and `𝓕` a
-coherent `𝒪_X`-module satisfying `depth(𝓕_x) + dim({x}‾) > 1` off `Y`, this holds for every open
-`V ⊇ Y`.
+/-- **The carried input of the conditional form of [Stacks, Tag 0EL2].** For `X` proper over a
+field `k`, `L` an ample invertible `𝒪_X`-module, `s` a global section of `L` with zero scheme
+`Y = Z(s)` and `𝓕` an `𝒪_X`-module, an open `V` such that `V ⊇ Y` and restriction
+`Γ(X, 𝓕) ⟶ Γ(V, 𝓕)` is bijective.
 
-The second field is the geometric content of the lemma over [Stacks, Tag 0EL1] and is not proved
-here. The source's argument for it: the complement `T = X ∖ V` is closed in `X` and misses `Y`,
-so it is proper over `k` and closed in the affine scheme `X ∖ Y` of [Stacks, Tag 0EKE], hence
-finite over `k`; thus `T` is a finite set of closed points, where `dim({x}‾) = 0` and the
-hypothesis gives `depth(𝓕_x) ≥ 2`; and depth at least two along a closed set is exactly the
-bijectivity of restriction across it, which is [Stacks, Tag 0E9I] and is proved as
-`AlgebraicGeometry.restriction_bijective_of_depth_ge_two` (for `𝓕` coherent on a locally
-Noetherian scheme, which is the source's situation). What is missing is the vanishing
-`dim({x}‾) = 0` on `T`, that is [Stacks, Tag 01WN] and [Stacks, Tag 0A28] for the closed
-subscheme `T`, and the identification of `Hrestrict` — the derived-functor restriction in degree
-zero — with the presheaf restriction that [Stacks, Tag 0E9I] is stated for; see the module
-documentation for both. -/
+For `𝓕` coherent with `depth(𝓕_x) + dim({x}‾) > 1` off `Y`, the second field holds for every
+open `V ⊇ Y`: that is `Stacks.Algebraization.isIso_Hrestrict_zero_of_depthAddDim_gt`, and
+[Stacks, Tag 0EL2] itself is proved unconditionally as
+`Stacks.Algebraization.isIso_openComparison_of_depthAddDim_gt`. -/
 structure OpenNeighbourhoodSections (k : Type u) [Field k] {X : Scheme.{u}}
     (fX : X ⟶ Spec (CommRingCat.of k)) [IsProper fX] (L : X.Modules)
     [Stacks.Ample.IsInvertibleModule X L] (hL : Stacks.Ample.IsAmple X L) (s : Γ(L, ⊤))
@@ -258,29 +240,19 @@ structure OpenNeighbourhoodSections (k : Type u) [Field k] {X : Scheme.{u}}
   /-- Restriction of sections `Γ(X, 𝓕) ⟶ Γ(V, 𝓕)` along `V ⊆ X` is bijective. -/
   isIso_Hrestrict : IsIso (Hrestrict X.ringCatSheaf (le_top : V ≤ ⊤) 0 F)
 
-/-- **Stacks Project, Tag 0EL2 (Lemma 52.28.2).** Let `k` be a field, `X` a scheme proper over
-`k`, `L` an ample invertible `𝒪_X`-module, `s` a global section of `L`, `Y = Z(s)` its zero
-scheme with `n`-th infinitesimal neighbourhood `Yₙ = Z(sⁿ)`, and `𝓕` a coherent `𝒪_X`-module
-with
+/-- **A conditional form of [Stacks, Tag 0EL2] (Lemma 52.28.2).** Let `k` be a field, `X` a
+scheme proper over `k`, `L` an ample invertible `𝒪_X`-module, `s` a global section of `L`,
+`Y = Z(s)` its zero scheme with `n`-th infinitesimal neighbourhood `Yₙ = Z(sⁿ)`, and `𝓕` a
+quasi-coherent `𝒪_X`-module with `depth(𝓕_x) + dim({x}‾) > 1` at every `x ∈ X ∖ Y`. Given the
+input `hin` of the conditional form of [Stacks, Tag 0EL1] and an open `V ⊇ Y` across which
+restriction `Γ(X, 𝓕) ⟶ Γ(V, 𝓕)` is bijective (`hV`), every map `c : Γ(V, 𝓕) ⟶ lim Γ(Yₙ, 𝓕ₙ)`
+whose composite with restriction from `X` is the comparison map over `X` is an isomorphism.
 
-`depth(𝓕_x) + dim({x}‾) > 1`
-
-at every `x ∈ X ∖ Y`. Then `Γ(V, 𝓕) ⟶ lim Γ(Yₙ, 𝓕ₙ)` is an isomorphism for every open subscheme
-`V ⊆ X` containing `Y`.
-
-The displayed hypothesis is the hypothesis of [Stacks, Tag 0EL1] at `σ = 1`, and the conclusion
-for `V = X` is that tag in degree `i = 0 < 1`. The map on `V` is `c`, characterized — uniquely,
-restriction being bijective — by its composite with restriction from `X` being the comparison
-map of [Stacks, Tag 0EL1].
-
-Two things are carried: the input `hin` of [Stacks, Tag 0EL1], and the bijectivity of
-`Γ(X, 𝓕) ⟶ Γ(V, 𝓕)`, which is the field
-`Stacks.Algebraization.OpenNeighbourhoodSections.isIso_Hrestrict` and is the whole content of
-this lemma beyond the proposition; see that structure for the source's argument and for the two
-library gaps it runs through. -/
-@[stacks 0EL2 "Gamma(V,F) -> lim Gamma(Y_n,F_n) is an isomorphism for every open V containing \
-Y = Z(s), from depth(F_x) + dim(closure{x}) > 1 off Y; carried: the input of 0EL1 (hin) and the \
-bijectivity of Gamma(X,F) -> Gamma(V,F) (hV.isIso_Hrestrict)"]
+This is not the registration of the tag. [Stacks, Tag 0EL2] is proved unconditionally, for `𝓕`
+coherent and every open `V ⊇ Y`, with the comparison map constructed, as
+`Stacks.Algebraization.isIso_openComparison_of_depthAddDim_gt`; there the bijectivity carried by
+`hV` is proved from the depth hypothesis
+(`Stacks.Algebraization.isIso_Hrestrict_zero_of_depthAddDim_gt`). -/
 theorem isIso_openNeighbourhoodComparison_of_depthAddDim_gt
     {k : Type u} [Field k] {X : Scheme.{u}} (fX : X ⟶ Spec (CommRingCat.of k)) [IsProper fX]
     {L : X.Modules} [Stacks.Ample.IsInvertibleModule X L] (hL : Stacks.Ample.IsAmple X L)

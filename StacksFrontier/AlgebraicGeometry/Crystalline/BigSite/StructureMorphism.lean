@@ -83,11 +83,14 @@ information is lost.  In each case the underlying square of sites commutes on th
 what `Crystalline.GlobalCrystallineSituation.changeBase_comp_forget` and
 `Crystalline.GlobalCrystallineSituation.changeBase_comp_structureFunctor` record.
 
-[Stacks, Tag 07IE] and [Stacks, Tag 07MG] say *ringed* topoi, and **that is an error in the
-source**, which is why every attribute below says "as topoi" instead.  A morphism of ringed topoi
-would need `τ^{-1} 𝒪 ⟶ 𝒪_{X/S}`, and the canonical comparison runs the other way: it is the
-surjection `𝒪_{X/S} ↠ \underline{𝐆_a} = τ^{-1}𝒪` with kernel `J_{X/S}` that the source itself
-displays in its section on the structure sheaf.  A map in the required direction would be a
+[Stacks, Tag 07IE] and [Stacks, Tag 07MG] say *ringed* topoi.  With the structure sheaf
+`𝒪_{X/S}` on the crystalline side **that is an error in the source**, which is why the squares in
+this file are squares of topoi; their ringed forms, for the structure sheaf `\underline{𝐆_a}`
+under which the assertion does hold, are recorded in the two files named below.  A morphism of
+ringed topoi `((X/S)_CRIS, 𝒪_{X/S}) ⟶ (Sh((Sch/S)_Zar), 𝒪)` would need
+`τ^{-1} 𝒪 ⟶ 𝒪_{X/S}`, and the canonical comparison runs the other way: it is the surjection
+`𝒪_{X/S} ↠ \underline{𝐆_a} = τ^{-1}𝒪` with kernel `J_{X/S}` that the source itself displays in
+its section on the structure sheaf.  A map in the required direction would be a
 canonical splitting of a divided power thickening, and there is none: with `S = Spec 𝐙_p`,
 `I = (p)`, `X = Spec 𝐅_p`, the object `(Spec 𝐅_p, Spec 𝐙/p², δ)` and `V = 𝐀¹_S`, the
 `S`-automorphism `t ↦ t + p` of `V` fixes the map `U → V` given by `t ↦ 0`, so naturality together
@@ -111,9 +114,13 @@ scheme is a ringed topos, `AlgebraicGeometry.zariskiOverRingedTopos`.  The ringe
 diagram of [Stacks, Tag 07IE] -- its corners as ringed topoi, and `U_{X/S}` and the structure
 morphism as morphisms of ringed topoi -- is
 `StacksFrontier.AlgebraicGeometry.Crystalline.BigSite.RingedStructureMorphism`, which imports this
-file.  Note that the structure sheaf it puts on `(X/S)_CRIS` is `U_{X/S}⁻¹𝒪`, the sheaf
+file, and the ringed form of the square of [Stacks, Tag 07MG] -- `f_CRIS` as a morphism of ringed
+topoi and the square commuting as a diagram of ringed topoi -- is
+`Crystalline.GlobalCrystallineSituation.changeBaseStructureSquareRinged` in
+`StacksFrontier.AlgebraicGeometry.Crystalline.BigSite.RingedChangeBase`.  Note that the structure
+sheaf they put on `(X/S)_CRIS` is `U_{X/S}⁻¹𝒪`, the sheaf
 `\underline{𝐆_a} : (U, T, δ) ↦ Γ(U, 𝒪_U)` of [Stacks, Tag 07IN], and not `𝒪_{X/S}`; the reason
-is recorded there.
+is recorded in the first of them.
 
 ## References
 
@@ -445,7 +452,7 @@ compatible with change of divided power base: the composite
 `(X/S)_CRIS ⟶ (Y/S')_CRIS ⟶ Sh((Sch/S')_Zar)` is isomorphic to
 `(X/S)_CRIS ⟶ Sh((Sch/S)_Zar) ⟶ Sh((Sch/S')_Zar)`, the square of sites underlying it commuting on
 the nose. -/
-@[stacks 07MG "the square of structure morphisms, as topoi"]
+@[stacks 07MG "the square of structure morphisms: its underlying square of topoi"]
 noncomputable def changeBaseStructureSquare (S S' : GlobalCrystallineSituation.{u})
     (f : S.S ⟶ S'.S) (g : S.X ⟶ S'.X)
     (h : S.toClosedFiber ≫ DividedPowerScheme.closedFiberMap f = g ≫ S'.toClosedFiber) :

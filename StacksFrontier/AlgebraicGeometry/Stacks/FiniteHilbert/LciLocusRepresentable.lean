@@ -214,7 +214,8 @@ end FiniteHilbert
 representable: every 2-fibre product of it with a scheme-valued point of `ℋ_d(𝒳/𝒴)` is
 represented by an object of the big fppf site of the base which is an open subscheme of it, namely
 the open subscheme cut out by the locus. This is "representable" in the sense of Stacks 04ST, by a
-scheme. -/
+scheme. The forms in `LciLocusOpen.lean` that take the open locus and its isomorphism-invariance as
+arguments carry no registration. -/
 @[stacks 06CL "the inclusion ℋ_{d,lci}(𝒳/𝒴) ⊂ ℋ_d(𝒳/𝒴) is representable, by an open subscheme \
 of the base"]
 theorem exists_isOpenImmersion_representing_lciFiniteHilbertInclusion_of_flat

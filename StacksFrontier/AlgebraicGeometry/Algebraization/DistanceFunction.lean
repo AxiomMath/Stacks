@@ -176,7 +176,8 @@ public def DistanceSystem.weight {Y : Scheme.{u}} [IsNoetherian Y]
 /-- **Stacks Project, Tag 0EIX.** The distance from a closed subset of a Noetherian scheme.
 It is the minimum weight of all systems of integral closed subschemes from `Z` to `y`, or
 infinity if there is no system. -/
-@[stacks 0EIX "the distance function"]
+@[stacks 0EIX "δ_Z(y): the minimal weight of a zigzag from Z to the closure of y, and ∞ when \
+the connected component of y misses Z"]
 public def distanceFunction (Y : Scheme.{u}) [IsNoetherian Y] (Z : Closeds Y)
     (y : Y) : ℕ∞ := by
   classical

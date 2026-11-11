@@ -32,7 +32,12 @@ the canonical one, together with the properties of `LQCoh^fbc(𝒪_𝒳)` they c
   `preservesLimitsOfSize_lqcohSheafFbc_ι_comp_coherator` and
   `preservesColimitsOfShape_lqcohSheafFbc_ι_comp_coherator`: **Stacks 0779** (3), `Q` is exact
   and commutes with all limits and colimits on `LQCoh^fbc(𝒪_𝒳)`. All are in the namespace
-  `AlgebraicGeometry.Stack.AlgebraicStacks`.
+  `AlgebraicGeometry.Stack.AlgebraicStacks`. They take no hypothesis beyond `𝓕` lying in
+  `LQCoh^fbc(𝒪_𝒳)`, the category of **Stacks 0762** with the sheaf-level flat base change
+  property. The declarations of
+  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.CoheratorParasiticKernel`, about the
+  presheaf-level variant `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator`, are not
+  **Stacks 0779**.
 * `isMonoidal_lqcohSheafFbc`, `lqcohSheafFbcInclusionBraided`,
   `quasicoherentToLqcohSheafFbcBraided`, `coheratorBraided`, `isIso_coheratorTensorComparison` and
   `coheratorTensorIso`: **Stacks 0GQM** (ii)–(iv), for the monoidal structure of Tag 01CA on
@@ -90,7 +95,8 @@ variable (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 /-- **Stacks 0779** (1). An object of `LQCoh^fbc(𝒪_𝒳)` is killed by the coherator
 `Q : Mod(𝒪_𝒳) → QCoh(𝒪_𝒳)` of **Stacks 0778** exactly when it is parasitic: the kernel of `Q` on
 `LQCoh^fbc(𝒪_𝒳)` is exactly the collection of its parasitic objects. -/
-@[stacks 0779 "part (1): the kernel of Q on LQCoh^fbc(𝒪_𝒳) is exactly its parasitic objects"]
+@[stacks 0779 "part (1): for F in LQCoh^fbc(𝒪_𝒳), Q(F) = 0 if and only if F is parasitic, so \
+  the kernel of Q is exactly the parasitic objects of LQCoh^fbc(𝒪_𝒳)"]
 theorem isZero_coherator_obj_iff_isParasitic (F : Stack.fppfModules B S hS 𝒳)
     (hF : lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳 F) :
     IsZero ((coherator B S hS 𝒳).obj F) ↔ IsParasitic B S hS 𝒳 .fppf F.val :=
@@ -98,8 +104,8 @@ theorem isZero_coherator_obj_iff_isParasitic (F : Stack.fppfModules B S hS 𝒳)
 
 /-- **Stacks 0779** (2). For `𝓕` in `LQCoh^fbc(𝒪_𝒳)` both the kernel and the cokernel of the
 adjunction map `Q(𝓕) ⟶ 𝓕` are parasitic. -/
-@[stacks 0779 "part (2): the kernel and the cokernel of the adjunction map Q(F) → F are \
-  parasitic, for F in LQCoh^fbc(𝒪_𝒳)"]
+@[stacks 0779 "part (2): for F in LQCoh^fbc(𝒪_𝒳), the kernel and the cokernel of the \
+  adjunction map Q(F) → F, computed in Mod(𝒪_𝒳), are parasitic"]
 theorem isParasitic_kernel_and_cokernel_coheratorAdjunction_counit
     (F : Stack.fppfModules B S hS 𝒳) (hF : lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳 F) :
     IsParasitic B S hS 𝒳 .fppf (kernel ((coheratorAdjunction B S hS 𝒳).counit.app F)).val ∧
@@ -144,7 +150,7 @@ theorem ι_map_lqcohSheafFbcCoheratorAdjunction_counit_app
 
 /-- **Stacks 0779** (3), limits: the coherator `Q : LQCoh^fbc(𝒪_𝒳) → QCoh(𝒪_𝒳)` commutes with all
 limits, being right adjoint to the inclusion `QCoh(𝒪_𝒳) → LQCoh^fbc(𝒪_𝒳)`. -/
-@[stacks 0779 "part (3): Q on LQCoh^fbc(𝒪_𝒳) commutes with all limits"]
+@[stacks 0779 "part (3): Q on LQCoh^fbc(𝒪_𝒳) commutes with all u-small limits"]
 theorem preservesLimitsOfSize_lqcohSheafFbc_ι_comp_coherator :
     PreservesLimitsOfSize.{u, u}
       ((lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).ι ⋙ coherator B S hS 𝒳) :=
@@ -152,7 +158,7 @@ theorem preservesLimitsOfSize_lqcohSheafFbc_ι_comp_coherator :
 
 /-- **Stacks 0779** (3), colimits: the coherator `Q : LQCoh^fbc(𝒪_𝒳) → QCoh(𝒪_𝒳)` commutes with
 all colimits of `u`-small shapes, which are computed in `Mod(𝒪_𝒳)`. -/
-@[stacks 0779 "part (3): Q on LQCoh^fbc(𝒪_𝒳) commutes with all colimits"]
+@[stacks 0779 "part (3): Q on LQCoh^fbc(𝒪_𝒳) commutes with all u-small colimits"]
 theorem preservesColimitsOfShape_lqcohSheafFbc_ι_comp_coherator (J : Type u) [Category.{u} J] :
     PreservesColimitsOfShape J
       ((lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).ι ⋙ coherator B S hS 𝒳) :=
@@ -160,7 +166,8 @@ theorem preservesColimitsOfShape_lqcohSheafFbc_ι_comp_coherator (J : Type u) [C
 
 /-- **Stacks 0779** (3), exactness: the coherator `Q : LQCoh^fbc(𝒪_𝒳) → QCoh(𝒪_𝒳)` is exact, it
 preserves finite limits and finite colimits. -/
-@[stacks 0779 "part (3): Q is exact on LQCoh^fbc(𝒪_𝒳)"]
+@[stacks 0779 "part (3): Q on LQCoh^fbc(𝒪_𝒳) is exact, preserving finite limits and finite \
+  colimits"]
 theorem preservesFiniteLimits_and_preservesFiniteColimits_lqcohSheafFbc_ι_comp_coherator :
     PreservesFiniteLimits
         ((lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).ι ⋙ coherator B S hS 𝒳) ∧

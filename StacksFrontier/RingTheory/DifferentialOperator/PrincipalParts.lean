@@ -884,16 +884,17 @@ open TensorProduct
 
 namespace LinearMap.IsDifferentialOperatorOfOrderLE
 
-/-- **Stacks 09CN.** Let `R → S` be a ring map and let `M` be an `S`-module. Let `D : M → P` be a
-universal differential operator of order at most `1` on `M`, i.e. `D` has order at most `1` and
-every order-`≤ 1` operator out of `M` factors uniquely through `D` by an `S`-linear map, so that
-`P` is a module of principal parts `P¹_{S/R}(M)`. Then there is a short exact sequence
-`0 → Ω[S⁄R] ⊗[S] M → P → M → 0`, the *sequence of principal parts*, whose first map sends
-`d b ⊗ₜ m` to `D (b • m) - b • D m` and whose second map is the retraction of `D`. -/
-@[stacks 09CN "Stated for an arbitrary universal order-≤ 1 differential operator `D : M → P` rather
-than for a chosen construction of `P¹_{S/R}(M)`, whose existence is Lemma 09CK; both maps of the
-sequence are pinned by equations, from which functoriality in `M` is formal. See the module
-docstring.", sga "6 II AppII.1.2.4" "n = 1, ring setting"]
+/-- **The sequence of principal parts, for any universal operator.** This is the general form for
+an arbitrary universal differential operator of order at most `1`; Stacks 09CN itself, for the
+module `P¹_{S/R}(M)` constructed in the proof of Lemma 09CK, is
+`PrincipalPartsOne.shortExact_symbol_proj`. Let `R → S` be a ring map and let `M` be an
+`S`-module. Let `D : M → P` be a universal differential operator of order at most `1` on `M`,
+i.e. `D` has order at most `1` and every order-`≤ 1` operator out of `M` factors uniquely through
+`D` by an `S`-linear map, so that `P` is a module of principal parts `P¹_{S/R}(M)`. Then there is
+a short exact sequence `0 → Ω[S⁄R] ⊗[S] M → P → M → 0`, the *sequence of principal parts*, whose
+first map sends `d b ⊗ₜ m` to `D (b • m) - b • D m` and whose second map is the retraction of
+`D`. -/
+@[sga "6 II AppII.1.2.4" "n = 1, ring setting"]
 public theorem exists_shortExact_principalParts {R : Type*} {S : Type u} {M : Type v} {P : Type w}
     [CommRing R] [CommRing S] [Algebra R S]
     [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
@@ -1346,12 +1347,7 @@ that map is a differential operator of order at most `k` relative to `R → S` a
 operator out of `M` factors uniquely `S`-linearly through it. Equivalently, there is a canonical
 isomorphism `Pᵏ_{S/R}(M) → (S ⊗[R] M)/J^{k + 1}(S ⊗[R] M)` carrying the universal differential
 operator of order `k` to `m ↦ class of 1 ⊗ₜ m`. -/
-@[stacks 0H90 "Stated as: the quotient, with the map `m ↦ class of 1 ⊗ₜ m`, is a module of
-principal parts of order `k` (Definition 09CL), which supplies the source's canonical isomorphism
-by uniqueness of a representing pair and pins the map. The `S ⊗[R] S`-action on `S ⊗[R] M` is the
-hypothesis `hsmul`, which determines it; it cannot be an instance, as it restricts to two
-different `Module S (S ⊗[R] M)` structures. See the module docstring.",
-  ega "IV 16.8.2" "factorization of D",
+@[ega "IV 16.8.2" "factorization of D",
   sga "3 VIIA 1.4.1" "affine case",
   ega "IV 16.8.1" "special case"]
 public theorem isUniversalDifferentialOperatorOfOrderLE_mkQ_comp_mk_one
@@ -1361,6 +1357,92 @@ public theorem isUniversalDifferentialOperatorOfOrderLE_mkQ_comp_mk_one
           (⊤ : Submodule (S ⊗[R] S) (S ⊗[R] M))).restrictScalars S).mkQ.restrictScalars R ∘ₗ
         TensorProduct.mk R S M 1).IsUniversalDifferentialOperatorOfOrderLE S k :=
     by exact Stacks.PrincipalParts.DiagonalQuotient.solution hsmul k
+
+end LinearMap
+
+namespace TensorProduct
+
+variable (R : Type u) (S : Type v) (M : Type w) [CommRing R] [CommRing S] [Algebra R S]
+  [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+
+/-- The `R`-algebra map `S ⊗[R] S → End_R(S ⊗[R] M)` sending `a ⊗ₜ b` to
+`t ⊗ₜ m ↦ (a * t) ⊗ₜ (b • m)`: the left factor acts on `S`, the right factor on `M`. -/
+noncomputable def diagonalActionHom : S ⊗[R] S →ₐ[R] Module.End R (S ⊗[R] M) :=
+  Algebra.TensorProduct.lift (Algebra.lsmul R R (S ⊗[R] M))
+    ((Module.End.lTensorAlgHom R M S).comp (Algebra.lsmul R R M)) fun a b => by
+      refine LinearMap.ext fun e => ?_
+      induction e using TensorProduct.induction_on with
+      | zero => simp
+      | tmul t m =>
+        change a • (t ⊗ₜ[R] (b • m)) =
+          (Module.End.lTensorAlgHom R M S (Algebra.lsmul R R M b)) (a • (t ⊗ₜ[R] m))
+        rw [smul_tmul', smul_tmul']
+        rfl
+      | add x y hx hy =>
+        simp only [Module.End.mul_apply, map_add] at hx hy ⊢
+        rw [hx, hy]
+
+theorem diagonalActionHom_tmul_tmul (a b t : S) (m : M) :
+    diagonalActionHom R S M (a ⊗ₜ[R] b) (t ⊗ₜ[R] m) = (a * t) ⊗ₜ[R] (b • m) := by
+  change a • (t ⊗ₜ[R] (b • m)) = _
+  rw [smul_tmul', smul_eq_mul]
+
+/-- The `S ⊗[R] S`-module structure on `S ⊗[R] M` with `(a ⊗ₜ b) • (t ⊗ₜ m) = (a * t) ⊗ₜ (b • m)`.
+It is not an instance: its restrictions along the two factors are the two different
+`S`-module structures on `S ⊗[R] M`, through `S` and through `M`. -/
+@[instance_reducible]
+noncomputable def diagonalModule : Module (S ⊗[R] S) (S ⊗[R] M) :=
+  Module.compHom (S ⊗[R] M) (diagonalActionHom R S M).toRingHom
+
+theorem diagonalModule_tmul_smul_tmul (a b t : S) (m : M) :
+    letI := diagonalModule R S M
+    (a ⊗ₜ[R] b) • (t ⊗ₜ[R] m) = (a * t) ⊗ₜ[R] (b • m) :=
+  diagonalActionHom_tmul_tmul R S M a b t m
+
+/-- Under `TensorProduct.diagonalModule`, the left-factor action of `S` on `S ⊗[R] M` is the
+action through `S ⊗[R] S`. -/
+theorem diagonalModule_isScalarTower :
+    letI := diagonalModule R S M
+    IsScalarTower S (S ⊗[R] S) (S ⊗[R] M) := by
+  let this := diagonalModule R S M
+  refine ⟨fun s x e => ?_⟩
+  change diagonalActionHom R S M (s • x) e = s • diagonalActionHom R S M x e
+  rw [_root_.Algebra.smul_def, map_mul, Module.End.mul_apply,
+    _root_.Algebra.TensorProduct.algebraMap_apply, _root_.Algebra.algebraMap_self,
+    RingHom.id_apply]
+  conv_lhs => rw [diagonalActionHom, _root_.Algebra.TensorProduct.lift_tmul, map_one, mul_one]
+  rfl
+
+end TensorProduct
+
+namespace LinearMap
+
+variable {R : Type u} {S : Type v} {M : Type w} [CommRing R] [CommRing S] [Algebra R S]
+  [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+
+/-- **Stacks 0H90.** Let `R → S` be a ring map, let `M` be an `S`-module, let `k : ℕ` and let
+`J = Ker(S ⊗[R] S → S)` be the kernel of the multiplication map. Make `S ⊗[R] M` a module over
+`S ⊗[R] S` by `(a ⊗ₜ b) • (t ⊗ₜ m) = (a * t) ⊗ₜ (b • m)` (`TensorProduct.diagonalModule`). Then the
+`S`-module `(S ⊗[R] M)/J^{k + 1}(S ⊗[R] M)`, with `s` acting as multiplication by `s ⊗ₜ 1`,
+together with the `R`-linear map `m ↦ class of 1 ⊗ₜ m`, is a module of principal parts of order
+`k` of `M`: that map is a differential operator of order at most `k` relative to `R → S` and every
+such operator out of `M` into an `S`-module factors uniquely `S`-linearly through it. Equivalently
+there is a canonical isomorphism `Pᵏ_{S/R}(M) → (S ⊗[R] M)/J^{k + 1}(S ⊗[R] M)` carrying the
+universal differential operator of order `k` to `m ↦ class of 1 ⊗ₜ m`. -/
+@[stacks 0H90 "Stated as: the quotient `(S ⊗[R] M)/J^{k + 1}(S ⊗[R] M)`, with the map
+`m ↦ class of 1 ⊗ₜ m`, is a module of principal parts of order `k` (Definition 09CL), which gives
+the source's canonical isomorphism with `Pᵏ_{S/R}(M)` by uniqueness of a representing pair and
+pins the map. The `S ⊗[R] S`-action on `S ⊗[R] M` is the explicit `TensorProduct.diagonalModule`."]
+public theorem isUniversalDifferentialOperatorOfOrderLE_diagonalQuotient (k : ℕ) :
+    letI := TensorProduct.diagonalModule R S M
+    haveI := TensorProduct.diagonalModule_isScalarTower R S M
+    (((KaehlerDifferential.ideal R S ^ (k + 1) •
+          (⊤ : Submodule (S ⊗[R] S) (S ⊗[R] M))).restrictScalars S).mkQ.restrictScalars R ∘ₗ
+        TensorProduct.mk R S M 1).IsUniversalDifferentialOperatorOfOrderLE S k :=
+  letI := TensorProduct.diagonalModule R S M
+  haveI := TensorProduct.diagonalModule_isScalarTower R S M
+  isUniversalDifferentialOperatorOfOrderLE_mkQ_comp_mk_one
+    (TensorProduct.diagonalModule_tmul_smul_tmul R S M) k
 
 end LinearMap
 

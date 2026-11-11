@@ -20,14 +20,20 @@ In Situation 08AV — a Noetherian ring `A` with an ideal `I`, a proper morphism
 that it is a homeomorphism for the limit topologies.  [Stacks, Tag 08B0] says that when `A` is
 moreover `I`-adically complete, `M` itself is `lim Mₙ`.
 
-The proof is the source's.  By [Stacks, Tag 08AY] the kernels of `M ⟶ Mₙ` are intertwined with
-the `I`-adic filtration of `M`, and the images of the transition maps into `Mₙ` are eventually
-the image of `M`; the comparison is then
+The proof is the source's, with nothing assumed beyond Situation 08AV.  By [Stacks, Tag 08AY]
+(`AlgebraicGeometry.Space.C1573.exists_ker_cohomologyIdealQuotientProj_le` and
+`AlgebraicGeometry.Space.C1573.exists_range_cohomologyIdealQuotientTr_eq`, both proved) the
+kernels of `M ⟶ Mₙ` are intertwined with the `I`-adic filtration of `M`, and the images of the
+transition maps into `Mₙ` are eventually the image of `M`; the comparison is then
 `Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange`.  For 08B0, `M` is
 a finite module over the complete Noetherian ring `A` ([Stacks, Tag 08AS]), hence `I`-adically
 complete.
 
 ## Main definitions
+
+The `C1573` declarations are in the module of the same name under
+`GrothendieckExistence.HomBijection`; this file restates their Situation 08AV results in the
+namespace `AlgebraicGeometry.Space`.
 
 * `AlgebraicGeometry.Space.C1573.cohomologyIdealQuotientLimit`: the limit `lim_n Hᵖ(X, F / Iⁿ F)`.
 * `AlgebraicGeometry.Space.formalFunctionsEquiv`: the comparison `Hᵖ(X, F)^∧ ≃ lim_n Mₙ`.
@@ -75,29 +81,6 @@ universe u
 namespace AlgebraicGeometry.Space
 
 attribute [local instance] hasInjectiveResolutions_modules
-
-section Tower
-
-variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
-  {X : AlgebraicSpaces B S hS} {A : Type u} [CommRing A]
-  (φ : A →+* ↥(GlobalSectionRing
-    ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))))
-  (F : Modules.{u, u} B S hS X.1 X.2) (I : Ideal A) (p : ℕ)
-
-end Tower
-
-section OverAffine
-
-variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {V : BigFppfOver B S hS}
-  [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] {A : Type u} [CommRing A] [IsNoetherianRing A]
-  (α : A ≃+* Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) {X : AlgebraicSpaces B S hS}
-  (f : X ⟶ schemeSpace V) (hf : IsProper B S hS f.hom)
-  (φ : A →+* ↥(GlobalSectionRing
-    ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))))
-  (hφ : ∀ a, φ a = pullbackToGlobalFunctions B S hS X V f (α a))
-  (F : Modules.{u, u} B S hS X.1 X.2) [IsCoherent B S hS X.1 X.2 F] (I : Ideal A) (p : ℕ)
-
-end OverAffine
 
 section Situation
 

@@ -64,6 +64,12 @@ The third case of Stacks 00AM, sheaves of `O`-modules for a sheaf of rings `O` o
 treated here: there the `F i` are `O|_{U i}`-modules with semilinear restriction maps, which is a
 genuinely different development. It is carried out by
 `TopCat.Sheaf.OModuleGlueData` and its `gluedPresheafOfModules`.
+
+The second case, sheaves with values in an arbitrary type of algebraic structure (Stacks 007L),
+is `TopCat.Sheaf.AlgGlueData` and its `gluedPresheaf_isSheaf`, in
+`StacksFrontier/Topology/Sheaves/Glueing/OfAlgebraicStructureType.lean`. The constructions here are
+the concrete instances for `AddCommGrpCat` and `ModuleCat R`, whose sections are literally the
+compatible families of Stacks 00AL.
 -/
 
 @[expose] public section

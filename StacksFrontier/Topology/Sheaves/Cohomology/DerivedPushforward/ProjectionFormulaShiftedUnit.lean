@@ -321,15 +321,9 @@ of [Stacks, Tag 0B53] is an isomorphism.
 
 This is
 `Stacks.Cohomology.ProjectionFormulaPerfect.isIso_projectionFormulaMap_of_isStrictlyPerfect` with
-its hypothesis `hunit` supplied by `isIso_projectionFormulaMap_single_shift`. -/
-@[stacks 0B54 "the dévissage from the structure sheaf to a strictly perfect complex, now with \
-NO hypothesis: the case K = O_Y[i] shifted by any amount, which \
-Stacks.Cohomology.ProjectionFormulaPerfect.isIso_projectionFormulaMap_of_isStrictlyPerfect \
-carries as the hypothesis hunit, is discharged here. What is still not covered of the tag is \
-the reduction of a PERFECT complex to a strictly perfect one, which is local on the base and \
-needs the base-change square of Tag 0B6B along an open immersion composed with a locality \
-statement for invertibility of the map; so this is the tag for a strictly perfect complex, not \
-for a perfect one"]
+its base case supplied by `isIso_projectionFormulaMap_single_shift`.  The whole of the tag, for a
+perfect complex, is
+`Stacks.Cohomology.ProjectionFormulaPerfect.isIso_projectionFormulaMap_of_isPerfect`. -/
 theorem isIso_projectionFormulaMap_isStrictlyPerfect
     (E : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :

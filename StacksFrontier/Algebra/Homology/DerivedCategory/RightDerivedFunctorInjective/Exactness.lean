@@ -106,16 +106,22 @@ monomorphism into an object that is right acyclic for `F`.
 * `CategoryTheory.Functor.isZero_rightDerivedPlus_obj_injective`: `R ⁱ F (I) = 0` for `I`
   injective and `i ≠ 0`.
 * `CategoryTheory.Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits`:
-  `R ⁱ F = 0` for `i < 0`, the functor `R ⁰ F` is left exact, and `F ⟶ R ⁰ F` is an isomorphism
-  if and only if `F` is left exact.
+  when `𝒜` has enough injectives, `R ⁱ F = 0` for `i < 0`, the functor `R ⁰ F` is left exact, and
+  `F ⟶ R ⁰ F` is an isomorphism if and only if `F` is left exact; [Stacks, Tag 05TD] for an
+  everywhere defined `RF` is
+  `CategoryTheory.Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_of_isRightDerivable`.
 * `CategoryTheory.Functor.rightAcyclic_iff_isIso_and_isZero_rightDerivedPlus`: right acyclicity
   of `A` is the invertibility of `F(A) ⟶ R ⁰ F(A)` together with `R ⁱ F(A) = 0` for `i > 0`, the
-  first condition being automatic for a left exact `F`.
+  first condition being automatic for a left exact `F`; this is the enough-injectives case of
+  [Stacks, Tag 015C], proved for an everywhere defined `RF` in
+  `CategoryTheory.Functor.rightAcyclic_iff_isIso_and_isZero_totalRightDerivedPlusHomology`.
 * `CategoryTheory.Functor.rightAcyclic_and_shortExact_map_of_shortExact`: two right acyclic
   objects in a short exact sequence force the third, and `F` takes the sequence to a short exact
   sequence.
 * `CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic`: Leray's acyclicity
-  lemma, a bounded below complex of right `F`-acyclic objects computes `RF`.
+  lemma under enough injectives, a bounded below complex of right `F`-acyclic objects computes
+  `RF`; the lemma with `RF` only defined at the complex is
+  `CategoryTheory.Functor.isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt`.
 * `CategoryTheory.Functor.rightDerivedPlus_isDeltaFunctor_and_isUniversal`: the higher right
   derived functors form a cohomological `δ`-functor, universal when enough right acyclic objects
   are available.
@@ -192,7 +198,7 @@ the criterion is used downstream.
 ## References
 
 * [Stacks, Tag 05TH], part (1)
-* [Stacks, Tag 0159], part (1)
+* [Stacks, Tag 0159], the exactness of `RF` (all four parts in `DeltaFunctorPlus`)
 * [Stacks, Tag 015B], part (3)
 * [Stacks, Tag 05TD], right deriving is for left exact functors
 * [Stacks, Tag 015C], right acyclicity as the vanishing of `R ⁱ F` in positive degrees
@@ -334,16 +340,16 @@ private lemma isIso_whiskerLeft_injectiveObjectι
     fun _ ↦ by dsimp; infer_instance
   NatIso.isIso_of_isIso_app _
 
-/-- **Stacks 0159**, part (1). Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian
-categories, where `𝒜` has enough injectives. Then any right derived functor
-`RF : D⁺(𝒜) ⥤ D⁺(ℬ)` of `K⁺(F) ⋙ Q⁺_ℬ` along the localization `Q⁺_𝒜 : K⁺(𝒜) ⥤ D⁺(𝒜)` at the
-quasi-isomorphisms, with unit `α`, is an exact functor of triangulated categories.
+/-- Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, where `𝒜` has enough
+injectives. Then any right derived functor `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` of `K⁺(F) ⋙ Q⁺_ℬ` along the
+localization `Q⁺_𝒜 : K⁺(𝒜) ⥤ D⁺(𝒜)` at the quasi-isomorphisms, with unit `α`, is an exact functor
+of triangulated categories.
 
 The source's `RF` is the case `RF := F.rightDerivedFunctorPlus` and
 `α := F.rightDerivedFunctorPlusUnith`, with the commutation with the shift induced by the
-universal property. The induced exact functor `K⁺(𝒜) ⥤ D⁺(ℬ)` of part (2) is then
-`DerivedCategory.Plus.Qh ⋙ RF`. -/
-@[stacks 0159 "part (1)", sga "4 XVII 1.2.2" "(ii), special case"]
+universal property. All four statements of [Stacks, Tag 0159] are
+`CategoryTheory.Functor.isTriangulated_and_deltaFunctorStructure_of_isRightDerivedFunctor`. -/
+@[sga "4 XVII 1.2.2" "(ii), special case"]
 public theorem isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus
     [RF.IsRightDerivedFunctor α (HomotopyCategory.Plus.quasiIso C)]
     [RF.CommShift ℤ] [NatTrans.CommShift α ℤ] :
@@ -369,11 +375,16 @@ variable {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
   (F : C ⥤ D) [F.Additive] [EnoughInjectives C]
 
 /-- The `i`-th right derived functor `R^i F = H^i ∘ RF : 𝒜 ⥤ ℬ` of an additive functor
-`F : 𝒜 ⥤ ℬ` between abelian categories, where `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` is the right derived
-functor of `F` on bounded below derived categories and `𝒜 → D⁺(𝒜)` sends an object to the
-complex concentrated in degree `0`. -/
-@[stacks 015A,
-  ega "0 13.6.1",
+`F : 𝒜 ⥤ ℬ` between abelian categories, in the enough-injectives construction: `𝒜` is assumed
+to have enough injectives, `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` is Mathlib's right derived functor
+`CategoryTheory.Functor.rightDerivedFunctorPlus` built from injective resolutions, and
+`𝒜 → D⁺(𝒜)` sends an object to the complex concentrated in degree `0`.
+
+The definition of [Stacks, Tag 015A] assumes only that `RF` is everywhere defined; it is
+`CategoryTheory.Functor.rightDerivedOfIsRightDerivable`, which agrees with this functor when `𝒜`
+has enough injectives (`CategoryTheory.Functor.rightDerivedOfIsRightDerivable_eq_rightDerivedPlus`,
+with `CategoryTheory.Functor.isRightDerivable_mapHomotopyCategoryPlus_comp_Qh`). -/
+@[ega "0 13.6.1",
   sga "4½ Etat_0 4.1" "right derived R^iF",
   sga "4½ Etat_0 4.1.5" "R^i f"]
 public noncomputable def rightDerivedPlus (i : ℤ) : C ⥤ D :=
@@ -440,9 +451,9 @@ object of `𝒜`, then the higher right derived functors of `F` vanish on `I` ou
 `R ⁱ F (I) = 0` for `i ≠ 0`.
 
 The source states this for `i > 0` and a left exact `F`; neither restriction is needed, as
-`RF(I[0])` is `F(I)[0]`. -/
-@[stacks 015B "part (3), for i ≠ 0 and an arbitrary additive functor",
-  ega "0 17.2.2" "(ii), special case"]
+`RF(I[0])` is `F(I)[0]`. The complete statement of [Stacks, Tag 015B] is
+`CategoryTheory.Functor.rightDerivedPlus_properties`. -/
+@[ega "0 17.2.2" "(ii), special case"]
 public theorem isZero_rightDerivedPlus_obj_injective {A B : Type*} [Category* A] [Category* B]
     [Abelian A] [Abelian B] [HasDerivedCategory A] [HasDerivedCategory B]
     (F : A ⥤ B) [F.Additive] [EnoughInjectives A] (i : ℤ) (hi : i ≠ 0) (I : A) [Injective I] :
@@ -814,15 +825,19 @@ private lemma isIso_homologyFunctor_map_α_app_iff
 
 end
 
-/-- **Right deriving is for left exact functors**, [StacksProject 05TD].
+/-- **Right deriving is for left exact functors, with enough injectives.**
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, where `𝒜` has enough
-injectives, and let `RF : D⁺(𝒜) ⥤ D⁺(ℬ)`, with unit `α`, be a right derived functor of `F`
-(which is then defined everywhere), so that `R ⁱ F = H ⁱ ∘ RF ∘ (·[0])`. Then
+injectives, and let `RF : D⁺(𝒜) ⥤ D⁺(ℬ)`, with unit `α`, be a right derived functor of `F`,
+so that `R ⁱ F = H ⁱ ∘ RF ∘ (·[0])`. Then
 1. `R ⁱ F = 0` for `i < 0`,
 2. `R ⁰ F` is left exact, and
 3. the canonical map `F ⟶ R ⁰ F`, that is `H ⁰(α)` at the complexes `X[0]`, is an
-   isomorphism if and only if `F` is left exact. -/
-@[stacks 05TD "T_05TD", sga "2 IV 1.1"]
+   isomorphism if and only if `F` is left exact.
+
+This is the case of enough injectives, proved through injective resolutions; [Stacks, Tag 05TD]
+itself, which assumes that `RF` is everywhere defined and nothing about injectives, is
+`CategoryTheory.Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_of_isRightDerivable`. -/
+@[sga "2 IV 1.1"]
 public theorem isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
     {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
     [HasDerivedCategory A] [HasDerivedCategory B] (F : A ⥤ B) [F.Additive]
@@ -849,7 +864,7 @@ variable {C D : Type*} [Category* C] [Category* D] [Abelian C] [Abelian D]
 
 /-- The homology of `Qh(F(A[0]))` vanishes outside degree `0`, that complex being concentrated
 in degree `0`. -/
-private lemma isZero_homologyFunctor_obj_map_singleFunctor_obj (A : C) (i : ℤ) (hi : i ≠ 0) :
+lemma isZero_homologyFunctor_obj_map_singleFunctor_obj (A : C) (i : ℤ) (hi : i ≠ 0) :
     IsZero ((Plus.homologyFunctor D i).obj ((F.mapHomotopyCategoryPlus ⋙ Plus.Qh).obj
       ((HomotopyCategory.Plus.singleFunctor C 0).obj A))) :=
   (isZero_homologyFunctor_obj_singleFunctor_obj i 0 hi (F.obj A)).of_iso
@@ -916,15 +931,20 @@ private lemma rightAcyclic_iff_of_preservesFiniteLimits (A : C)
 
 end
 
-/-- **Characterization of right acyclic objects**, [StacksProject 015C].
+/-- **Characterization of right acyclic objects, the enough-injectives case** of
+[StacksProject 015C].
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, where `𝒜` has enough
 injectives, so that the right derived functor `RF : D⁺(𝒜) ⥤ D⁺(ℬ)`, with unit `α`, is
 everywhere defined and `R ⁱ F = H ⁱ ∘ RF ∘ (·[0])`. Let `A` be an object of `𝒜`. Then
 1. `A` is right acyclic for `F` if and only if the canonical map `F(A) ⟶ R ⁰ F(A)`, that is
    `H ⁰(α)` at `A[0]`, is an isomorphism and `R ⁱ F(A) = 0` for all `i > 0`, and
 2. if `F` is left exact, then `A` is right acyclic for `F` if and only if `R ⁱ F(A) = 0` for
-   all `i > 0`. -/
-@[stacks 015C, sga "4 V 0.4"]
+   all `i > 0`.
+
+The source assumes no injectives, only that `RF` is everywhere defined; that statement is
+`CategoryTheory.Functor.rightAcyclic_iff_isIso_and_isZero_totalRightDerivedPlusHomology`, the
+registration of that tag. -/
+@[sga "4 V 0.4"]
 public theorem rightAcyclic_iff_isIso_and_isZero_rightDerivedPlus
     {C D : Type*} [Category* C] [Category* D] [Abelian C] [Abelian D]
     [HasDerivedCategory C] [HasDerivedCategory D] (F : C ⥤ D) [F.Additive]

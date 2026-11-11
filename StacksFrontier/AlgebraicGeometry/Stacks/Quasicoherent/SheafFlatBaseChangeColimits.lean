@@ -256,8 +256,9 @@ In order: `LQCoh^fbc(𝒪_𝒳)`, read inside `Mod(𝒪_𝒳)`, has small colimi
 preserves them; read inside `Mod(𝒳_étale, 𝒪_𝒳)` the same holds; and restricting a colimit
 cocone in `Mod(𝒪_𝒳)` of objects of `LQCoh^fbc(𝒪_𝒳)` to the étale site gives a colimit cocone in
 `Mod(𝒳_étale, 𝒪_𝒳)`, so the two readings compute the same colimits. -/
-@[stacks 0771 "part (5): LQCoh^fbc(𝒪_𝒳) has small colimits, agreeing with those of Mod(𝒪_𝒳) \
-  and of Mod(𝒳_étale, 𝒪_𝒳)"]
+@[stacks 0771 "part (5): LQCoh^fbc(𝒪_𝒳) has u-small colimits, preserved by its inclusions into \
+  Mod(𝒪_𝒳) and into Mod(𝒳_étale, 𝒪_𝒳), and a colimit in Mod(𝒪_𝒳) of members restricts to a \
+  colimit in Mod(𝒳_étale, 𝒪_𝒳); flat base change property of 0762 read on sheaves"]
 theorem lqcohSheafFbc_hasColimits_and_agree :
     HasColimitsOfSize.{u, u} (lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).FullSubcategory ∧
       PreservesColimitsOfSize.{u, u} (lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).ι ∧

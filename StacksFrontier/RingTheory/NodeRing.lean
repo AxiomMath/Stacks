@@ -39,13 +39,14 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-!
 # The node ring `R = {f ∈ k[x] ∣ f(0) = f(1)}`
 
-The Stacks example records the ring `R` cut out from `k[x]` by the affine
-condition `f(0) = f(1)` and asserts a computation of its Grothendieck groups
-`K₀(R) ≅ k^× ⊕ ℤ` and `K'₀(R) = ℤ`. Mathlib does not formalize `K₀` or `K'₀`
-of a commutative ring, so the K-group statement is not yet expressible in
-Lean. We record the ring data faithfully: the subring `R` itself together
-with the membership characterization, and a concrete witness `x · (x - 1) ∈ R`
-showing the subring properly contains the scalars.
+The ring `R` cut out from `k[x]` by the condition `f(0) = f(1)`: the affine line with the points
+`0` and `1` glued to a node. We record the subring `R` itself together with the membership
+characterization, and a concrete witness `x · (x - 1) ∈ R` showing the subring properly contains
+the scalars.
+
+Stacks, Example 10.55.5 (tag `00JG`) computes the Grothendieck groups of this ring:
+`K₀(R) ≅ k^* ⊕ ℤ` and `K'₀(R) ≅ ℤ`. That computation is
+`nodeRing_K0_addEquiv_and_K0prime_addEquiv` in `StacksFrontier.KTheory.Grothendieck.NodeRing`.
 -/
 
 @[expose] public section
@@ -54,8 +55,9 @@ showing the subring properly contains the scalars.
 open Polynomial
 
 /-- The "node" ring `R = {f ∈ k[x] ∣ f(0) = f(1)}`, the subring of polynomials
-agreeing at `0` and `1`. -/
-@[stacks 00JG, ega "IV 6.5.5"]
+agreeing at `0` and `1`. This is the ring of Stacks, Example 10.55.5; the example itself
+(`K₀(R) ≅ k^* ⊕ ℤ`, `K'₀(R) ≅ ℤ`) is `nodeRing_K0_addEquiv_and_K0prime_addEquiv`. -/
+@[ega "IV 6.5.5"]
 def nodeRing (k : Type*) [Field k] : Subring (Polynomial k) where
   carrier := {f | f.eval 0 = f.eval 1}
   mul_mem' {a b} ha hb := by

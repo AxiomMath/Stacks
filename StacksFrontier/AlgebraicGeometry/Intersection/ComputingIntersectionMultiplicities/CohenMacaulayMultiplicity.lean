@@ -91,7 +91,7 @@ from the depth of one summand through the short exact sequences splitting off it
 The source's final sentence, that `V · W = [V ∩ W]_{dim V + dim W - dim X}` when `V` and `W` are
 Cohen-Macaulay, is a statement about algebraic cycles and is carried in the sibling module
 `CohenMacaulayCycle` of
-`StacksFrontier.AlgebraicGeometry.Intersection.ComputingIntersectionMultiplicities`
+`StacksDraft.AlgebraicGeometry.Intersection.ComputingIntersectionMultiplicities`
 by `cycleAssociatedToClosedSubscheme_eq_intersectionProductCycle_of_isCohenMacaulay` in the
 namespace `AlgebraicGeometry.TorFormula`, which applies the multiplicity formula below at each
 point of the expected dimension.

@@ -64,7 +64,9 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 /-- **Stacks Tag 0EL1.** Let `k` be a field, `P` a proper scheme over `k`, `𝓛` an ample invertible
 `𝒪_P`-module, `s ∈ Γ(P, 𝓛)` with zero scheme `Q` and `𝓕` a coherent `𝒪_P`-module. If
 `depth(𝓕_p) + dim({p}‾) > σ` at every `p ∈ P ∖ Q`, then the comparison map
-`Hⁱ(P, 𝓕) → lim Hⁱ(Qₙ, 𝓕ₙ)` is an isomorphism for `0 ≤ i < σ`. -/
+`Hⁱ(P, 𝓕) → lim Hⁱ(Qₙ, 𝓕ₙ)` is an isomorphism for `0 ≤ i < σ`. Here `Qₙ` is the closed
+subscheme cut out by the `n`-th power of the ideal sheaf of `Q`, that is `Z(sⁿ)`, and `𝓕ₙ` is the
+restriction of `𝓕` to it. -/
 @[stacks 0EL1 "The tower Qₙ is indexed from n = 0 and Qₙ is cut out by the n-th power of the ideal \
 sheaf of Q = Z(s), which is the ideal sheaf of Z(sⁿ); the zeroth term is empty and does not change \
 the limit. Depth and dimension are compared in the extended integers."]

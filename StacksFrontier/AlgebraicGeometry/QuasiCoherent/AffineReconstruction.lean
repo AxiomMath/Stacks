@@ -172,16 +172,6 @@ noncomputable def affineTensorFunctor (Y : Scheme.{u}) [IsAffine Y] (L : ModuleC
 `F : QCoh(𝒪_X) ⥤ QCoh(𝒪_Y)` is an equivalence, then there are an isomorphism of schemes
 `f : Y ≅ X` and an invertible `Γ(Y, ⊤)`-module `L` such that `F` is inverse image along `f`
 followed by tensoring with `L`. -/
-@[stacks 0GPJ "affine case: for `X` and `Y` affine, with the tensoring by the invertible module
-  read on `ModuleCat Γ(Y, ⊤)` through the affine comparison
-  `AlgebraicGeometry.affineQuasicoherentModulesEquiv` rather than as the tensor product of
-  sheaves of `𝒪_Y`-modules.  This is the form in which the Tag 0GP0 argument produces the
-  conclusion; the source's own sheaf-level form is
-  `AlgebraicGeometry.exists_schemeIso_invertibleSheaf_of_quasicoherentEquivalence`, proved from
-  this one in the same file.  What is NOT proved here is the general quasi-compact
-  quasi-separated case; its local form, steps 3 to 8 of the source's argument, is
-  `AlgebraicGeometry.exists_isAffineOpen_schemeIso_invertibleSheaf_of_isFinitePresentation`, and
-  what remains beyond that is step 2 and the gluing step 9 that the source itself omits"]
 theorem exists_schemeIso_invertible_of_quasicoherentEquivalence
     (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory ⥤
       (SheafOfModules.isQuasicoherent Y.ringCatSheaf).FullSubcategory) [F.IsEquivalence] :
@@ -421,20 +411,6 @@ noncomputable def pullbackTensorFunctor {X Y : Scheme.{u}} (f : Y ⟶ X)
 /-- If `X` and `Y` are affine schemes and `F : QCoh(𝒪_X) ⥤ QCoh(𝒪_Y)` is an equivalence, then there
 are an isomorphism of schemes `f : Y ≅ X` and an invertible sheaf `L` of `𝒪_Y`-modules such
 that `F` is inverse image along `f` followed by `- ⊗_{𝒪_Y} L`. -/
-@[stacks 0GPJ "affine case: for `X` and `Y` affine.  The invertible object is a sheaf of
-  `𝒪_Y`-modules, invertible in the sense of Tag 01CS
-  (`Stacks.SheafOfModules.IsInvertible`), and the tensoring is `- ⊗_{𝒪_Y} L`.  Two deviations
-  from the source statement.  First, the general quasi-compact quasi-separated case is not
-  proved; its local form, steps 3 to 8 of the source's argument, is
-  `AlgebraicGeometry.exists_isAffineOpen_schemeIso_invertibleSheaf_of_isFinitePresentation`,
-  which quotes this theorem for its affine input, and what remains beyond that is step 2 (the
-  existence of a finitely presented module supported on the complement of a given affine open)
-  and the gluing step 9 that the source itself omits.  Second, the comparison of functors is
-  stated after
-  forgetting quasi-coherence, i.e. between functors into all `𝒪_Y`-modules, so that the
-  statement does not depend on quasi-coherence being stable under inverse image and tensor
-  product; since the inclusion of the quasi-coherent modules is fully faithful and
-  quasi-coherence is invariant under isomorphism, nothing of the source's content is lost"]
 theorem exists_schemeIso_invertibleSheaf_of_quasicoherentEquivalence
     (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory ⥤
       (SheafOfModules.isQuasicoherent Y.ringCatSheaf).FullSubcategory) [F.IsEquivalence] :

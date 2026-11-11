@@ -84,7 +84,8 @@ This is the global form of Tag 05IH, and the source's proof of it is the pointwi
 plus the passage to sets. Both are already in
 `StacksFrontier.AlgebraicGeometry.Flatness.WeaklyAssociatedTensorPullbackGlobal`, up to the same
 algebraic input that Tag 05IH needed; supplying it here removes the hypothesis. -/
-@[stacks 05IJ]
+@[stacks 05IJ "the set equality for f locally of finite type, F quasi-coherent of finite type and \
+flat over S, G quasi-coherent; unconditional"]
 theorem weaklyAssociatedPoints_tensorPullback_eq
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f]
     (F : X.Modules) (G : S.Modules)

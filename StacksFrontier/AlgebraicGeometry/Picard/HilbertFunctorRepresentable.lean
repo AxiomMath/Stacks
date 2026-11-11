@@ -20,12 +20,12 @@ hypothesis — and once under the **set form** of the fibrewise affineness hypot
 discharges both and is what all seven cases of Stacks Tag 0B9B establish.
 
 **Nothing in this file carries the `@[stacks 0B9A]` attribute**: the tag is registered on
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
 in `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`, which supplies
 the footnote from separatedness of `X ⟶ S` and so runs under the affine-open hypothesis the tag
-itself states, for every `d ≠ 1`, where the tag holds. The set form is strictly stronger than
-the tag's `d`-tuple form — the footnote needs `d + 1` points of one fibre — so the theorem in
-this file is not the tag; see the module docstring of
+itself states, together with separatedness at `d = 1`, the correction recorded in `errata.md`. The
+set form is strictly stronger than the tag's `d`-tuple form — the footnote needs `d + 1` points of
+one fibre — so the theorem in this file is not the tag; see the module docstring of
 `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorOpenAmbient.lean`.
 
 ## Main definitions
@@ -757,9 +757,9 @@ the subfunctor of families supported in `U` with the Hilbert functor of `U` — 
 (2)(c) is `Stacks.Hilbert.locallySurjective_baseChart`. Indexing the charts by pairs is what
 makes the source's reduction to an affine base unnecessary.
 
-The proposition of Tag 0B9A itself, under the hypothesis the tag states and for every `d ≠ 1`,
-where the tag holds, is
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
+The proposition of Tag 0B9A itself, under the hypothesis the tag states and, at `d = 1`, with
+separatedness of `X ⟶ S` (the correction recorded in `errata.md`), is
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
 in `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`, which is where
 the `@[stacks 0B9A]` attribute lives; **no declaration in this file carries it**, each being one
 of the inputs to that proposition rather than the proposition. -/
@@ -789,7 +789,7 @@ This is the proposition of Stacks Tag 0B9A under the *set* form
 is the form all seven cases of Stacks Tag 0B9B establish. That form is strictly stronger than
 the `d`-tuple form the tag states — it is what the footnote to the source's proof consumes — so
 **no declaration in this file carries the `@[stacks 0B9A]` attribute**; the tag is registered on
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
 in `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`. -/
 theorem nonempty_representsHilbertFunctorOfRank_of_hasAffineFinitePointsInFibres {X : Over S}
     (hX : HasAffineFinitePointsInFibres X.hom) (d : ℕ) :

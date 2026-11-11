@@ -147,9 +147,6 @@ theorem exists_isFiniteTypePoint_mem_of_isLocallyClosed (𝒳 : AlgebraicStacks.
 
 /-- For a closed subset `T` of the point space of an algebraic stack `𝒳`, the closure of the set
 of finite type points lying in `T` is `T` itself; that is, `T ∩ 𝒳_{ft-pts}` is dense in `T`. -/
-@[stacks 06G2 "closed subsets, in the spelling of the scheme-level Stacks 02J4 and the \
-algebraic-space-level Stacks 06EK: for a closed subset of the point space, the closure of its \
-intersection with the set of finite type points is the subset itself"]
 theorem closure_inter_finiteTypePoints (𝒳 : AlgebraicStacks.{u, w} B S hS) :
     letI := pointTopology B S hS 𝒳.val
     ∀ T : Set (points B S hS 𝒳.val.val 𝒳.val.property), IsClosed T →
@@ -166,7 +163,8 @@ theorem closure_inter_finiteTypePoints (𝒳 : AlgebraicStacks.{u, w} B S hS) :
   is, `T ∩ 𝒳_{ft-pts}` is dense in `T`. -/
 @[stacks 06G2 "both assertions: for a locally closed subset T of the point space of an algebraic \
 stack, T nonempty implies that T meets the set of finite type points; and in particular, for a \
-closed subset T, the intersection of T with the set of finite type points is dense in T"]
+closed subset T, the intersection of T with the set of finite type points is dense in T, stated \
+as closure (T ∩ ft-pts) = T"]
 theorem nonempty_inter_and_closure_inter_finiteTypePoints
     (𝒳 : AlgebraicStacks.{u, w} B S hS) :
     letI := pointTopology B S hS 𝒳.val

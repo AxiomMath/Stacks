@@ -7,32 +7,40 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.EtalePresentation
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuotientSheafPresentationUnconditional
 
 /-!
-# Descent data for the relative Proj of an algebraic space
+# Étale descent of a scheme over a presentation of an algebraic space
 
-The relative Proj of a quasi-coherent graded algebra on an algebraic space is built from an
-étale presentation `(U, R)` of the base together with the relative Projs `P_U` and `P_R` over
-the presenting scheme and the relation scheme, and the descent datum exhibiting `P_R` as the
-base change of `P_U` along each of the two maps of the relation. The relative Proj is the
-quotient sheaf of the étale equivalence relation `P_R ⇉ P_U`.
+This file gives a generic étale-descent quotient construction. The input is an étale
+presentation `(U, R)` of an algebraic space `X`, objects `P_U` over `U` and `P_R` over `R` of
+the site, two maps `P_R ⇉ P_U` exhibiting `P_R` as the base change of `P_U` along each of the
+two maps `R ⇉ U`, and the condition that these two maps form an equivalence relation. The output
+is the quotient sheaf of the étale equivalence relation `P_R ⇉ P_U`, which is an algebraic space,
+together with its morphism to `X`.
+
+Nothing here refers to a graded algebra: `P_U` and `P_R` are arbitrary. The construction is the
+glueing description of the relative Proj that follows Stacks 084C when `P_U` and `P_R` are the
+relative Projs over `U` and `R`, which is where the names come from. The relative Proj
+`Proj_X(𝒜)` of Stacks 084C itself, the algebraic space `F` of Stacks 084B, is
+`AlgebraicGeometry.Space.RelativeProjSituation.Proj`.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.ProjDescentData`: the descent datum.
-* `AlgebraicGeometry.Space.ProjDescentData.relativeProj`: the relative Proj, the quotient of `P_U`
-  by `P_R`.
-* `AlgebraicGeometry.Space.ProjDescentData.toBase`: its structure morphism to the base.
+* `AlgebraicGeometry.Space.ProjDescentData.relativeProj`: the quotient of `P_U` by `P_R`.
+* `AlgebraicGeometry.Space.ProjDescentData.toBase`: its morphism to the base.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.ProjDescentData.isAlgebraicSpace_relativeProj`: the relative Proj is
-  an algebraic space.
-* `AlgebraicGeometry.Space.ProjDescentData.chart_comp_toBase`: the structure morphism restricted
-  to the chart is `P_U ⟶ U ⟶ X`.
-* `AlgebraicGeometry.Space.ProjDescentData.chart_isKernelPair`: `P_U ×_{Proj_X(𝒜)} P_U = P_R`.
+* `AlgebraicGeometry.Space.ProjDescentData.isAlgebraicSpace_relativeProj`: the quotient is an
+  algebraic space.
+* `AlgebraicGeometry.Space.ProjDescentData.chart_comp_toBase`: the morphism to the base
+  restricted to the chart is `P_U ⟶ U ⟶ X`.
+* `AlgebraicGeometry.Space.ProjDescentData.chart_isKernelPair`: `P_U ×_Q P_U = P_R` for the
+  quotient `Q`.
 
 ## References
 
-* [Stacks Project, Tag 084C](https://stacks.math.columbia.edu/tag/084C)
+* [Stacks Project, Tag 084C](https://stacks.math.columbia.edu/tag/084C), the glueing description
+  following the definition
 -/
 
 @[expose] public noncomputable section
@@ -47,25 +55,26 @@ open Stacks.Groupoids
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Descent data for the relative Proj of an algebraic space.** An étale presentation `(U, R)`
-of `X`, objects `P_U` and `P_R` of the site over the presenting scheme and the relation scheme,
-and the descent datum exhibiting `P_R` as the base change of `P_U` along each of the two maps of
-the relation. -/
+/-- **Étale descent data over a presentation of an algebraic space.** An étale presentation
+`(U, R)` of `X`, objects `P_U` and `P_R` of the site over the presenting scheme and the relation
+scheme, and the descent datum exhibiting `P_R` as the base change of `P_U` along each of the two
+maps of the relation. The objects are arbitrary; for the relative Projs `P_U` and `P_R` this is
+the glueing datum following Stacks 084C. -/
 structure ProjDescentData (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (hX : IsAlgebraicSpace B S hS X) where
   /-- An étale presentation of the base. -/
   presentation : Presentation B S hS X hX
-  /-- The relative Proj over the chart, as an object of the site. -/
+  /-- The object `P_U` over the chart, as an object of the site. -/
   projChart : BigFppfOver B S hS
   /-- Its structure morphism to the chart. -/
   projChartHom : projChart ⟶ presentation.U
-  /-- The relative Proj over the relation scheme, as an object of the site. -/
+  /-- The object `P_R` over the relation scheme, as an object of the site. -/
   projRelation : BigFppfOver B S hS
   /-- Its structure morphism to the relation scheme. -/
   projRelationHom : projRelation ⟶ presentation.R
-  /-- The target projection of the relation of relative Projs. -/
+  /-- The target projection `P_R ⟶ P_U`. -/
   projTarget : projRelation ⟶ projChart
-  /-- The source projection of the relation of relative Projs. -/
+  /-- The source projection `P_R ⟶ P_U`. -/
   projSource : projRelation ⟶ projChart
   /-- `P_R` is the base change of `P_U` along the target map of the relation. -/
   isPullback_projTarget :
@@ -159,21 +168,19 @@ section Quotient
 
 variable [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
-/-- The relative homogeneous spectrum `Proj_X(𝒜)` of a quasi-coherent graded
-`𝒪_X`-algebra on an algebraic space `X`: the quotient of the relative Proj `P_U` of the algebra
-on an étale chart of `X` by the étale equivalence relation `P_R ⇉ P_U` that the descent datum
-provides. -/
-@[stacks 084C "the relative Proj as an algebraic space over the base"]
+/-- The étale-descent quotient: the quotient sheaf of `P_U` by the étale equivalence relation
+`P_R ⇉ P_U` that the descent datum provides. When `P_U` and `P_R` are the relative Projs over
+`U` and `R` this is the glueing description of the relative Proj following Stacks 084C; the
+relative Proj itself is `AlgebraicGeometry.Space.RelativeProjSituation.Proj`. -/
 noncomputable def relativeProj : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u :=
   (quotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
     (relation B S hS d.projSource d.projTarget)).obj
 
-/-- The relative Proj of an algebraic space is an algebraic space over the base scheme. -/
-@[stacks 084C "the relative Proj is an algebraic space"]
+/-- The étale-descent quotient is an algebraic space over the base scheme. -/
 theorem isAlgebraicSpace_relativeProj : IsAlgebraicSpace B S hS d.relativeProj :=
   isAlgebraicSpace_quotient_unconditional B S hS d.projSource d.projTarget
 
-/-- The étale chart `P_U ⟶ Proj_X(𝒜)` of the relative Proj. -/
+/-- The étale chart `P_U ⟶ Q` of the étale-descent quotient `Q`. -/
 noncomputable def chart : yoneda.obj d.projChart ⟶ d.relativeProj :=
   quotientMap B S hS d.projSource d.projTarget
 
@@ -196,22 +203,21 @@ theorem sourceMap_comp :
     Category.assoc, Category.assoc, IsIso.hom_inv_id_assoc]
   exact d.map_comp_toSpace
 
-/-- The structure morphism `π : Proj_X(𝒜) ⟶ X` of the relative Proj: the
-descent of `P_U ⟶ U ⟶ X` along the quotient map. -/
-@[stacks 084C "the structure morphism of the relative Proj"]
+/-- The morphism `Q ⟶ X` from the étale-descent quotient `Q` to the base: the descent of
+`P_U ⟶ U ⟶ X` along the quotient map. -/
 noncomputable def toBase : d.relativeProj ⟶ X :=
   (quotientSheafDesc (BigFppfOver.topology B S hS) (Over.post B.inclusion)
     (relation B S hS d.projSource d.projTarget) ⟨X, hX.isSheaf⟩
     (inv (yonedaToPoints (Over.post B.inclusion) d.projChart) ≫
       yoneda.map d.projChartHom ≫ d.presentation.toSpace) d.sourceMap_comp).hom
 
-/-- The chart of the relative Proj, read through the comparison between the presheaf
+/-- The chart of the quotient, read through the comparison between the presheaf
 represented by `P_U` and its restricted functor of points. -/
 theorem chart_eq : d.chart = yonedaToPoints (Over.post B.inclusion) d.projChart ≫
     toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion) d.pre :=
   yonedaEquiv_symm_app_toQuotientSheaf _ _ _ _
 
-/-- The structure morphism of the relative Proj is the descent of `P_U ⟶ U ⟶ X` along
+/-- The morphism of the quotient to the base is the descent of `P_U ⟶ U ⟶ X` along
 `toQuotientSheaf`. -/
 theorem toBase_eq : d.toBase = (quotientSheafDesc (BigFppfOver.topology B S hS)
     (Over.post B.inclusion) d.pre ⟨X, hX.isSheaf⟩
@@ -219,7 +225,7 @@ theorem toBase_eq : d.toBase = (quotientSheafDesc (BigFppfOver.topology B S hS)
       yoneda.map d.projChartHom ≫ d.presentation.toSpace) d.sourceMap_comp).hom :=
   rfl
 
-/-- The structure morphism of the relative Proj restricts along the chart to the structure
+/-- The morphism of the quotient to the base restricts along the chart to the structure
 morphism of `P_U` over `U` followed by the atlas of the base. -/
 theorem chart_comp_toBase :
     d.chart ≫ d.toBase = yoneda.map d.projChartHom ≫ d.presentation.toSpace := by
@@ -227,20 +233,20 @@ theorem chart_comp_toBase :
   exact (Category.assoc _ _ _).trans ((yonedaToPoints (Over.post B.inclusion) d.projChart ≫=
     toQuotientSheaf_quotientSheafDesc _ _ _ _ _ _).trans (IsIso.hom_inv_id_assoc _ _))
 
-/-- The chart `P_U ⟶ Proj_X(𝒜)` is surjective after every representable base change. -/
+/-- The chart `P_U ⟶ Q` is surjective after every representable base change. -/
 theorem chart_surjective : (MorphismProperty.presheaf (MorphismProperty.inverseImage
     (@Surjective.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS))) d.chart :=
   quotientMap_surjective_unconditional B S hS d.projSource d.projTarget
 
-/-- The chart `P_U ⟶ Proj_X(𝒜)` is étale after every representable base change. -/
+/-- The chart `P_U ⟶ Q` is étale after every representable base change. -/
 theorem chart_etale : (MorphismProperty.presheaf (MorphismProperty.inverseImage
     (@Etale.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS))) d.chart :=
   quotientMap_etale_unconditional B S hS d.projSource d.projTarget
 
 /-- The two projections `P_R ⇉ P_U` form the kernel pair of the chart:
-`P_U ×_{Proj_X(𝒜)} P_U = P_R`. -/
+`P_U ×_Q P_U = P_R`. -/
 theorem chart_isKernelPair :
     IsPullback (yoneda.map d.projTarget) (yoneda.map d.projSource) d.chart d.chart :=
   quotientMap_isPullback B S hS d.projSource d.projTarget

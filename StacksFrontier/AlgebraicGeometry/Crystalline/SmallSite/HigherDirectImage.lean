@@ -313,10 +313,8 @@ def pullbackStructureToposMorphism :
 
 /-- **Stacks Project, Tag 07MJ.**  The pullback `F_U` to `Cris(U/T)` of a sheaf `F` on
 `Cris(X/S)`. -/
-@[stacks 07MJ "the pullback F_U of a sheaf on Cris(X/S) to Cris(U/T), completing the data of the
-  remark's recipe.  NOT covered, here or elsewhere: the displayed equation 07MK
-  (Rf_{cris,*}F)_{T'} = R(T → T')_*(R τ_{U/T,*} F_U), which the source states without proof, and
-  the hint that Cris(U/T) is the localization of Cris(X/S) at f_cris^{-1} h_{(U',T',δ')}"]
+@[stacks 07MJ "the pullback F_U of a sheaf on Cris(X/S) to Cris(U/T); the displayed equation
+  (07MK) is Crystalline.GlobalCrystallineSituation.SmallSite.computes07MK"]
 def pullbackSheaf (F : smallTopos S) : smallTopos (pullbackSituation S S' fS fX hf A') :=
   (pullbackCrisMorphism S S' fS fX hf A').inverseImage.obj F
 

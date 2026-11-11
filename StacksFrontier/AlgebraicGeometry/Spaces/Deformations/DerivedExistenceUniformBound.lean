@@ -20,15 +20,18 @@ In Situation [Stacks, Tag 0DIK] the objects `Kₙ` of `D(𝒪_{Xₙ})` are pseud
 
 ## Main results
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_isZero_homology_K_gt`: each `Kₙ` is
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.exists_isZero_homology_K_gt`: each `Kₙ`
+  is
   bounded above.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isFiniteTypeOnSite_homology_K`: the top
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.isFiniteTypeOnSite_homology_K`: the top
   cohomology of `Kₙ` is of finite type.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isZero_homology_K_succ`: if `Kₙ₊₁` lives in
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.isZero_homology_K_succ`: if `Kₙ₊₁` lives
+  in
   degrees `≤ c` and `Kₙ` in degrees `< c`, then `Hᶜ(Kₙ₊₁) = 0`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_isZero_homology_K_gt_uniform`: the objects
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.exists_isZero_homology_K_gt_uniform`: the
+  objects
   `Kₙ` are uniformly bounded above.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_isZero_homology_towerObj_gt_uniform`: the
+* `SeparatedDerivedExistenceSystem.exists_isZero_homology_towerObj_gt_uniform`: the
   same bound for the tower `Rjₙ,* Kₙ` in `D(𝒪_X)`.
 
 ## References
@@ -83,9 +86,9 @@ namespace AlgebraicGeometry.Space
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The inverse-limit base `Spec A` is affine. -/
 theorem isAffine_limitBaseObject :
@@ -106,7 +109,8 @@ theorem isQuasiCompactSpace_stage (n : ℕ) :
     IsQuasiCompactSpace D.B (limitBase D.system) D.containsLimitBase (D.stage n).1 :=
   isQuasiCompactSpace_of_isClosedImmersion _ _ _ D.isQuasiCompactSpace_X
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom
-    (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
 
 /-- **Each `Kₙ` is bounded above**: a pseudo-coherent object on the quasi-compact algebraic space
 `Xₙ` has vanishing cohomology in all large degrees. -/
@@ -155,7 +159,8 @@ theorem homology_K_succ_hom_toposPushforward_eq_zero (n : ℕ) (c : ℤ)
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   have := D.preservesFiniteColimits_toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedTransitionSpace n)
+    ((isClosedImmersion_transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   have := D.φ_isIso n
   exact DerivedCategory.homology_hom_eq_zero_of_adjunction (D.toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n))
@@ -224,6 +229,6 @@ theorem exists_isZero_homology_towerObj_gt_uniform :
   D.exists_isZero_homology_K_gt_uniform.imp fun _ hb n j hj =>
     D.isZero_homology_towerObj n j (hb n j hj)
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space

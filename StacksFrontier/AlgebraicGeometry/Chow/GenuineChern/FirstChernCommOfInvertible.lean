@@ -59,7 +59,9 @@ whose Stacks 02TI input is supplied by `Stacks.Chow.firstChernCapKillsPrincipalD
 the two degrees, and Stacks 02TH enters through
 `Stacks.Chow.GenuineChern.firstChernCapCommutesOnIntegralComponents`; see the implementation
 notes of `StacksFrontier.AlgebraicGeometry.Chow.ChernCapCommutativityInvertible`. -/
-@[stacks 02TJ "the commutativity itself, with no hypotheses beyond the source's. The four \
+@[stacks 02TJ "the commutativity itself, with no hypotheses beyond the source's: it is \
+`Stacks.Chow.firstChernClassCapOnChowOfInvertible_comm` with both of its inputs supplied by the \
+theorems named below, and it is the one registration of this tag. The four \
 descended cap products are `Stacks.Chow.firstChernClassCapOnChowOfInvertible`, and the Stacks \
 02TI input each of them needs — the reduced form \
 `Stacks.Chow.FirstChernCapKillsPrincipalDivisor`, the vanishing of the cap product on one \

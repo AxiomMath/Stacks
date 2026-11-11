@@ -13,8 +13,10 @@ and the second is that the deformation category of a fixed morphism `X ⟶ Y` of
 residue field is then a deformation category.
 
 This file proves the first assertion with no hypothesis.  The second then follows from
-`Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategory` and is stated
-beside it, in `StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessinger`,
+`Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategory` and is stated,
+with no hypothesis, as
+`Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategoryProjection` in
+`StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessingerUnconditional`,
 which imports this file.
 
 A cospan of families whose second leg is surjective

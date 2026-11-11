@@ -34,8 +34,11 @@ identifying the structure map with `IsLocalization.map`.
 * `CommAlgCat.nonempty_cotangentComplexDerived_iso_localizationBase`:
   `L_{T⁻¹B/A} = L_{T⁻¹B/S⁻¹A}` in `D(T⁻¹B)`, the conclusion [Stacks, Tag 08QZ] draws from the
   flatness of `A → S⁻¹A`.
-* `CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization`:
-  **[Stacks, Tag 08SF]**.
+* `CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization`: the isomorphism of
+  [Stacks, Tag 08SF] from a given distinguished fundamental triangle of `A → B → T⁻¹B`. The
+  lemma itself, with the triangle of Proposition 08QX supplied, is
+  `CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization_unconditional` of
+  `StacksFrontier.Cotangent.LocalizationUnconditional`.
 
 ## The proof
 
@@ -65,14 +68,14 @@ hand, obtained from [Stacks, Tag 08QQ] rather than from Tag 08QZ itself: the lib
 `CommAlgCat.midCotangentComplexHomologyIso`, is an isomorphism on each homology module and not an
 isomorphism in the derived category, which is what the conclusion in `D(T⁻¹B)` requires.
 
-**What is carried.** The distinguished triangle of Proposition 08QX for the tower
-`A → B → T⁻¹B` is the hypothesis `hT` of the main theorem. Proposition 08QX is not formalized in
-this library, so [Stacks, Tag 08R3],
-`CommAlgCat.nonempty_fundamentalVertex₁_iso_fundamentalVertex₂_of_isZero`, carries that triangle
-as a hypothesis, and it is passed through unchanged. This is the pattern of
-`CommAlgCat.isZero_cotangentComplexDerived_of_weaklyEtale` for Tag 08R2 and of
-`CommAlgCat.exists_tensorProduct_nine_diagram` for Tag 09D9. The other form of Tag 08R3 in this
-library, `CommAlgCat.nonempty_derivedBaseChange_iso_cotangentComplexDerived_of_isZero_obj₃`,
+**The fundamental triangle.** The distinguished triangle of Proposition 08QX for the tower
+`A → B → T⁻¹B` is the hypothesis `hT` of the main theorem of this file, passed unchanged to
+[Stacks, Tag 08R3], `CommAlgCat.nonempty_fundamentalVertex₁_iso_fundamentalVertex₂_of_isZero`.
+Proposition 08QX is proved in the library, as
+`CommAlgCat.productFundamentalTriangle_distinguished` of
+`StacksFrontier.Cotangent.Triangle.ProductDescent`, which is downstream of this file;
+`StacksFrontier.Cotangent.LocalizationUnconditional` supplies it. The other form of Tag 08R3 in
+this library, `CommAlgCat.nonempty_derivedBaseChange_iso_cotangentComplexDerived_of_isZero_obj₃`,
 carries no triangle but assumes `B ⟶ T⁻¹B` injective, which fails as soon as `T` contains a
 zerodivisor, so it is of no use here.
 
@@ -86,7 +89,7 @@ in a single universe, so all four rings are taken in `Type u`.
   vertex.
 * [Stacks Project, Tag 08QS](https://stacks.math.columbia.edu/tag/08QS), the displayed triangle.
 * [Stacks Project, Tag 08QX](https://stacks.math.columbia.edu/tag/08QX), that it is
-  distinguished; carried as `hT`.
+  distinguished.
 * [Stacks Project, Tag 08QQ](https://stacks.math.columbia.edu/tag/08QQ), base change along a
   derived pushout square.
 * [Stacks Project, Tag 08QZ](https://stacks.math.columbia.edu/tag/08QZ), the source's second
@@ -180,29 +183,22 @@ theorem nonempty_cotangentComplexDerived_iso_localizationBase
       (B' := CommAlgCat.of A' B') (AlgHom.id A B') (torIndependent_of_flat A A' B')
       (bijective_baseChangeUnit_of_isPushout _ fun _ => rfl)⟩
 
-/-- **[Stacks, Tag 08SF].** Let `A → B` be a ring map and let `S ⊆ A` and `T ⊆ B` be
-multiplicative subsets such that `S` maps into `T`. Then
+/-- **Localization and the cotangent complex, from a given fundamental triangle.** Let `A → B`
+be a ring map and let `S ⊆ A` and `T ⊆ B` be multiplicative subsets such that `S` maps into `T`.
+For any distinguished triangle on the vertices of the display 92.7.0.1 of the tower
+`A → B → T⁻¹B`,
 
 `L_{T⁻¹B/S⁻¹A} = L_{B/A} ⊗^𝐋_B T⁻¹B`
 
 in `D(T⁻¹B)`.
 
-The distinguished triangle of Proposition 08QX for the tower `A → B → T⁻¹B` is the hypothesis
-`hT`, as Proposition 08QX is not formalized in this library; it is the hypothesis that
-[Stacks, Tag 08R3] carries in this library. The two remaining steps are proved outright:
-`L_{T⁻¹B/B} = 0`, which is the vanishing third vertex Tag 08R3 asks for, and
-`L_{T⁻¹B/A} = L_{T⁻¹B/S⁻¹A}`. -/
-@[stacks 08SF "granted the distinguished fundamental triangle of Proposition 08QX as the \
-hypothesis `hT`, carried unchanged from Tag 08R3 \
-`CommAlgCat.nonempty_fundamentalVertex₁_iso_fundamentalVertex₂_of_isZero`, which carries it for \
-the same reason because Stacks 08QX is not formalized in this library. Everything else is proved \
-outright and carries nothing: `L_{T⁻¹B/B} = 0` is `isZero_cotangentComplexDerived_localization` \
-from Tag 08R2 item (2), and `L_{T⁻¹B/A} ≅ L_{T⁻¹B/S⁻¹A}` is \
-`nonempty_cotangentComplexDerived_iso_localizationBase` from Tag 08QQ at the identity \
-base change — the D(T⁻¹B)-level upgrade of the library's Tag 08QZ, which is only degreewise. \
-The source's equality is read as an isomorphism in D(T⁻¹B) without naming the arrow, as the \
-library's Tag 08R3 and Tag 08QQ do, no canonical arrow being available to pin. All four rings are \
-in a single universe, which is the generality of the library's Tag 08QQ"]
+This file is upstream of Proposition 08QX, which supplies such a triangle,
+`CommAlgCat.productFundamentalTriangle_distinguished` of
+`StacksFrontier.Cotangent.Triangle.ProductDescent`; [Stacks, Tag 08SF] itself is
+`CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization_unconditional` of
+`StacksFrontier.Cotangent.LocalizationUnconditional`, which applies this theorem to that triangle.
+The two remaining steps are proved here: `L_{T⁻¹B/B} = 0`, which is the vanishing third vertex
+Tag 08R3 asks for, and `L_{T⁻¹B/A} = L_{T⁻¹B/S⁻¹A}`. -/
 theorem nonempty_cotangentComplexDerivedBaseChange_iso_localization
     (hST : ∀ s ∈ S, algebraMap A B s ∈ T)
     {α : fundamentalVertex₁.{u, u} A B B' ⟶ fundamentalVertex₂.{u, u} A B'}

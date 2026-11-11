@@ -36,11 +36,11 @@ hypothesis at all.
 ## Main results
 
 * `FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`:
-  **Stacks 0AN7**, first sense, on condition (1) of Stacks 0AN5 and with no hypothesis whatever:
-  the formal spectrum of the inclusion of constants `k → k⟦t⟧` is not representable by algebraic
+  the first sense of Stacks 0AN7, on condition (1) of Stacks 0AN5 and with no hypothesis
+  whatever: the formal spectrum of the inclusion of constants `k → k⟦t⟧` is not representable by algebraic
   spaces, over any base and any quotient systems presenting the two formal spectra.
 * `AlgebraicGeometry.FormalSpace.not_relativelyRepresentable_formalSpectrumMap_constants`:
-  **Stacks 0AN7**, first sense, on condition (2) of Stacks 0AN5 and with no hypothesis
+  the first sense of Stacks 0AN7, on condition (2) of Stacks 0AN5 and with no hypothesis
   whatever: the same morphism is not representable.
 * `AlgebraicGeometry.FormalSpace.exists_formalSpectrumMap_constants_not_representable`:
   **Stacks 0AN7 (1)**.
@@ -85,7 +85,7 @@ section ReadingsOfZeroAN5
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 0AN7**, its first sense, read on condition (2) of **Stacks 0AN5** and with no
+/-- The first sense of **Stacks 0AN7**, read on condition (2) of **Stacks 0AN5** and with no
 hypothesis whatever. Let `k` be a field with the discrete topology, let `k⟦t⟧` carry the
 `t`-adic topology and let `Spf (φ) : Spf k⟦t⟧ ⟶ Spf k` be the formal spectrum of the inclusion
 of constants. Then `Spf (φ)` is not representable: some base change of it along a point of
@@ -100,18 +100,6 @@ step from (1) to (2), which is Stacks 0AKN; that is
 `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`,
 and it is unconditional too, the library's Stacks 0AKN consuming of a formal spectrum only its
 presentation by affine thickenings. -/
-@[stacks 0AN7 "first sense, the non-representability itself in the reading of condition (2) of
-  Stacks 0AN5 — representable, i.e. every base change along a point of `Spf k` out of an object
-  of the site is again such an object — and with no hypothesis whatever: the implication
-  (2) ⟹ (3) of Stacks 0AN5,
-  `AlgebraicGeometry.FormalSpace.isTaut_of_relativelyRepresentable_formalSpectrumMap`, carries
-  no side condition, so the non-tautness of the example
-  (`TopologicalRing.not_isTaut_constantsToTAdicPowerSeries`) rules condition (2) out directly.
-  The reading on condition (1), representability by algebraic spaces, is
-  `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`,
-  which is unconditional as well. The concrete instance and the second sense of the remark are
-  `AlgebraicGeometry.FormalSpace.exists_formalSpectrumMap_constants_not_representable` and
-  `AlgebraicGeometry.FormalSpace.exists_representable_formalSpectrum_not_mcQuillan`"]
 theorem not_relativelyRepresentable_formalSpectrumMap_constants
     (k : Type u) [Field k] [TopologicalSpace k] [DiscreteTopology k]
     (D : QuotientSystem B S hS k)

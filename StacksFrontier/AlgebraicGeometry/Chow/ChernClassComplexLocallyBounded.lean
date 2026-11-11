@@ -31,10 +31,11 @@ matter.
 
 ## Main definitions
 
-* `Stacks.Chow.totalChernClassComplexLocallyBounded` — **Stacks 0ESZ**, the total Chern class
-  `c(ℰ^•)` of a locally bounded complex of finite locally free modules on a quasi-compact scheme.
-* `Stacks.Chow.powerSumClassComplexLocallyBounded` — **Stacks 0ESZ**, the class `P_p(ℰ^•)` of such
-  a complex.
+* `Stacks.Chow.totalChernClassComplexLocallyBounded` — the total Chern class `c(ℰ^•)` of a
+  locally bounded complex of finite locally free modules on a quasi-compact scheme, in the carried
+  form of `StacksFrontier.AlgebraicGeometry.Chow.ChernClassComplex`.
+* `Stacks.Chow.powerSumClassComplexLocallyBounded` — the class `P_p(ℰ^•)` of such a complex, in
+  the same carried form.
 
 ## Main results
 
@@ -63,7 +64,12 @@ first enlarged to the window spanned by their union, which contains each of them
 The quasi-compactness hypothesis is `CompactSpace` on the underlying space of `X`, which is what
 `Stacks.Chow.exists_bounds_of_isLocallyBoundedFiniteLocallyFree` consumes; no separation is
 assumed. The truly local case of Stacks 0ESZ, where `X` is not quasi-compact and the classes are
-assembled over a decomposition by Stacks 0FDZ, is still not delivered.
+assembled over a decomposition by Stacks 0FDZ, is not treated in this file.
+
+Nothing in this file carries `@[stacks 0ESZ]`. The tag is registered on the constructed classes
+of an arbitrary locally bounded complex, `Stacks.Chow.complexChern` and
+`Stacks.Chow.complexPowerSumComponent`, and on their independence of the representative in
+`D(𝒪_X)`, `Stacks.Chow.complexChern_eq_of_iso` and `Stacks.Chow.powerSumComplex_eq_of_iso`.
 
 ## References
 
@@ -125,15 +131,10 @@ open ChowCohomologySeriesRing
 variable (C : ChowSituation.{u}) (Gy : GysinSystem C) {X : Scheme.{u}} (sX : X ⟶ C.S)
   [LocallyOfFiniteType sX] [CompactSpace X] {R : ChowCohomologySeriesRing C Gy sX}
 
-/-- **Stacks 0ESZ.** The total Chern class `c(ℰ^•) = ∏_n c(ℰ^n)^{(-1)^n}` of a *locally bounded*
+/-- **Carried form.** The total Chern class `c(ℰ^•) = ∏_n c(ℰ^n)^{(-1)^n}` of a *locally bounded*
 complex of finite locally free modules on a quasi-compact scheme, as an element of the group of
 series with constant term `1` inside `∏_{p ≥ 0} A^p(X)`. Such a complex vanishes outside a single
 global window of degrees, and the class is the bounded-window class of Stacks 0ESZ on one. -/
-@[stacks 0ESZ "the locally bounded case, on a quasi-compact scheme: the total Chern class of a \
-locally bounded complex of finite locally free modules, which the bounded-window construction of \
-this tag in Stacks.Chow.ChernClassComplex does not deliver; the total Chern class of a module \
-(Tag 0B7H) and the multiplication of A^*(X) (Tag 0FE0) are carried as the parameters R and D \
-exactly as there"]
 def totalChernClassComplexLocallyBounded (D : TotalChernClassSeries C Gy sX R)
     (P : CochainComplex X.Modules ℤ) (hP : IsLocallyBoundedFiniteLocallyFree P) :
     UnitalSeries R :=
@@ -163,14 +164,10 @@ section PowerSum
 variable (C : ChowSituation.{u}) (Gy : GysinSystem C) {X : Scheme.{u}} (sX : X ⟶ C.S)
   [LocallyOfFiniteType sX] [CompactSpace X]
 
-/-- **Stacks 0ESZ.** The class `P_p(ℰ^•) = ∑_n (-1)^n P_p(ℰ^n) ∈ A^p(X)` of a *locally bounded*
+/-- **Carried form.** The class `P_p(ℰ^•) = ∑_n (-1)^n P_p(ℰ^n) ∈ A^p(X)` of a *locally bounded*
 complex of finite locally free modules on a quasi-compact scheme. Such a complex vanishes outside
 a single global window of degrees, and the class is the bounded-window class of Stacks 0ESZ on
 one. -/
-@[stacks 0ESZ "the locally bounded case, on a quasi-compact scheme: the class P_p of a locally \
-bounded complex of finite locally free modules, which the bounded-window construction of this \
-tag in Stacks.Chow.ChernClassComplex does not deliver; the constant-rank power sums P_p(E) of \
-Tag 0F9B and their additivity, Tag 0F9C, are carried as the parameter W exactly as there"]
 def powerSumClassComplexLocallyBounded (W : PowerSumClassRule C Gy sX)
     (P : CochainComplex X.Modules ℤ) (hP : IsLocallyBoundedFiniteLocallyFree P) (p : ℕ) :
     chowCohomologyComponent C Gy sX (p : ℤ) :=

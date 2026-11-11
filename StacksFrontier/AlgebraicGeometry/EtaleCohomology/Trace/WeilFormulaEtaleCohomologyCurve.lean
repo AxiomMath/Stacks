@@ -22,6 +22,30 @@ traces are computed degree by degree in
 `Tr_J(φ^*) mod ℓ^n` and `deg φ`), and the alternating sum is `V(φ)` by Weil's formula
 [Stacks, Tag 03U1].
 
+## Main results
+
+* `Stacks.EtaleCohomology.sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection` —
+  every `H^i(C, ℤ/ℓ^n)` is free of finite rank over `ℤ/ℓ^n`, and the alternating sum of the traces
+  of `φ^*` is `V(φ)` modulo `ℓ^n`.
+
+## Implementation notes
+
+The situation of Tag 03U1 is stated for a scheme `C` with a structure morphism
+`f : C ⟶ Spec k` such that `C` is a curve over `k` (`AlgebraicGeometry.IsCurve`: an integral
+separated scheme of finite type over `k` of dimension one) and `f` is smooth and proper. Over a
+field a smooth curve is nonsingular, and a proper curve is projective
+(`AlgebraicGeometry.isProjectiveMorphism_of_isProper_of_isCurve`), so these are the source's
+hypotheses. A `k`-endomorphism is a morphism `φ : C ⟶ C` with `φ ≫ f = f`.
+
+The source's remark that the traces make sense, because each `H^i(C, ℤ/ℓ^n)` is a free
+`ℤ/ℓ^n`-module, is the first conjunct of the conclusion. The traces are taken of `φ^*` regarded
+as a `ℤ/ℓ^n`-linear endomorphism, and the equality holds in `ℤ/ℓ^n`, which is the source's
+congruence modulo `ℓ^n`.
+
+The abstract computation of the alternating sum from three prescribed degreewise traces is
+`Stacks.EtaleCohomology.JacobianCorrespondence.EtaleFrobeniusAction.alternatingTrace_eq`; the
+theorem here concerns the étale cohomology of an actual curve and proves those traces.
+
 ## References
 
 * [Stacks Project, Tag 03U3](https://stacks.math.columbia.edu/tag/03U3)
@@ -52,7 +76,9 @@ The degreewise traces are `1`, `Tr_J(φ^*) mod ℓ^n` and `deg φ`
 (`Stacks.EtaleCohomology.sum_trace_etaleConstantCohomologyPullback_eq_toZModPow`), and Weil's
 formula `V(φ) = 1 - Tr_J(φ^*) + deg φ` ([Stacks, Tag 03U1],
 `AlgebraicGeometry.CurveGraph.fixedPointIntersection_eq`) concludes. -/
-@[stacks 03U3]
+@[stacks 03U3 "the étale cohomology H^i(C, Z/ℓ^n Z) of a smooth proper curve over an \
+algebraically closed field is free of finite rank, and the alternating sum of the traces of φ^* \
+is the intersection number V(φ) = Δ_C · Γ_φ modulo ℓ^n"]
 theorem sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection
     {k : Type u} [Field k] [IsAlgClosed k] {C : Scheme.{u}} (f : C ⟶ Spec (.of k))
     [IsCurve k f] [Smooth f] [IsProper f] (φ : C ⟶ C) (w : φ ≫ f = f)

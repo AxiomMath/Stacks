@@ -35,6 +35,12 @@ statement here has *locally bounded*, which is what tag 0GU0 (cited in the proof
 an isomorphism and `Q ≅ M` (here `η_t 𝒪[n] = t⁻ⁿ𝒪[n]`), whose cohomology is nonzero in infinitely
 many degrees, so no bounded complex represents it.
 
+The partial statements in `ModificationProperties.lean` and `ModificationPropertiesOfRep.lean`
+(clauses (1), (5) and (9) for an arbitrary `b` with the properties of tag 0GTY) are no longer
+registered under tag 0F9Y; this declaration and
+`AlgebraicGeometry.ComplexAndDivisorSituation.exists_isProper_modification` carry the tag.  The
+erratum for clause (9) is recorded in `errata.md` (entry 0F9Y, last sentence, 2026-10-27).
+
 ## References
 
 * [Stacks Project, Tag 0F9Y](https://stacks.math.columbia.edu/tag/0F9Y)
@@ -90,14 +96,13 @@ which the cohomology sheaves of `M` are locally free, `b : X' ⟶ X` the morphis
 
 Clause (9) is printed with "bounded"; see the module docstring for why that is false and
 "locally bounded" is the correct form. -/
-@[stacks 0F9Y "the whole statement, for `b` the morphism of tag 0GTY \
-(AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase) and the concrete \
-`Q = Lη_{I'} Lb^* M` (etaDerivedPullbackObject, with Lη the derived décalage \
-Stacks.Divisors.Eta.derivedEtaData): properness and clauses (1)--(9). `T` is the closed \
-subscheme glued from the obstruction ideals J(N^•, g) of tag 0F81. Correction: clause (9) as \
-printed asks for a BOUNDED complex representing Q, which is false (X = ⊔ₙ A¹, D the origins, \
-M = O[n] on the n-th copy: then W = X, b is an isomorphism and Q ≅ M has unbounded cohomology); \
-it is stated with LOCALLY BOUNDED, the form tag 0GU0 gives"]
+@[stacks 0F9Y "the full statement, with the morphism b of tag 0GTY \
+(AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase) as the witness and \
+Q = Lη_{I'} Lb^* M: b proper and clauses (1)--(9), with T the closed subscheme of D' glued from \
+the obstruction ideals J(N^•, g) of tag 0F81. Clause (9) is stated in its corrected form, Q \
+represented by a LOCALLY BOUNDED complex of finite locally free modules (as tag 0GU0 gives): \
+the printed 'bounded' is false for X = ⊔ₙ A¹, D the origins, M = O[n] on the n-th copy; see \
+errata.md, entry 0F9Y (last sentence), 2026-10-27"]
 theorem goodBlowupToBase_modification :
     IsProper S.goodBlowupToBase ∧
     IsIso (S.goodBlowupToBase ∣_ S.divisorComplement) ∧

@@ -41,7 +41,10 @@ right graded `A`-module *is* the internal hom of a bimodule together with its `A
   homomorphisms `M|_U → L|_U`, additively, `R`-linearly and compatibly with restriction.
 * `SheafOfModules.IsGradedInternalHom` says that a right graded `A`-module `H` is
   `SheafHom^gr_B(N, L)` for a graded `(A, B)`-bimodule `N`: its underlying graded sheaf is that
-  internal hom and its right `A`-action is `SheafOfModules.GradedLocalHom.actRight`.
+  internal hom and its right `A`-action is `SheafOfModules.GradedLocalHom.actRight`. The right
+  graded `A`-module `SheafHom^gr_B(N, L)` of [Stacks, Tag 0FR4] is constructed as
+  `SheafOfModules.gradedSheafHomModule` in
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedInternalHomModule.lean`.
 
 ## Main results
 
@@ -56,15 +59,16 @@ right graded `A`-module *is* the internal hom of a bimodule together with its `A
 
 ## Implementation notes
 
-There is no internal hom for sheaves of modules available to build on: the monoidal structure on
-presheaves of modules is defined only over a presheaf of *commutative* rings, and sheaves of
-modules carry limits, colimits, abelianness and change of rings but nothing monoidal. So the
-internal hom cannot be written down by a formula and is instead pinned by a universal property:
+This file provides the vocabulary only. The internal hom itself is constructed in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedInternalHomSheaf.lean`, over a base whose
+rings of sections are commutative, where the degree-`n` local homomorphisms are shown to form a
+sheaf of modules (`SheafOfModules.gradedLocalHomSheaf`); that file also gives the composition
+map and the identification of `Hom_{Mod^gr(A)}` with global sections, which together are the
+content of [Stacks, Tag 0FR3]. The predicate `SheafOfModules.IsGradedSheafHom` below says that
 a graded sheaf of `R`-modules *is* the internal hom when its local sections are the local
-homomorphisms, additively and `R`-linearly and compatibly with restriction. This determines it
-up to canonical isomorphism, and it pins the sheaf-of-modules structure as well as the
-underlying sheaves of sets, since the identification of local sections is required to be
-additive and `R`-linear. This is the same device as in
+homomorphisms, additively and `R`-linearly and compatibly with restriction; this determines it
+up to canonical isomorphism, and the constructed sheaf satisfies it
+(`SheafOfModules.isGradedSheafHom_gradedSheafHom`). This is the same device as in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedInternalHom.lean`, of which the
 material below is the undifferentiated analogue.
 
@@ -152,8 +156,10 @@ theorem GradedBimodule.toGradedModule_smul (N : GradedBimodule.{t, a, z} A B) (n
 
 /-- A local section of `SheafHom^n_A(M, L)` over an object `U` of the site: a map
 `M|_U → L|_U` of right graded `A|_U`-modules homogeneous of degree `n`, written out as a family
-of maps on sections over the objects `V ⟶ U` of the slice site. -/
-@[stacks 0FR3 "local sections of the graded internal hom"]
+of maps on sections over the objects `V ⟶ U` of the slice site. This is only the type of local
+sections; the sheaf of `O`-modules they form, with the rest of Stacks 0FR3, is
+`SheafOfModules.gradedLocalHomSheaf` and its companions in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedInternalHomSheaf.lean`. -/
 structure GradedLocalHom (M : GradedModule.{t, a, w} A) (L : GradedModule.{t, a, z} A) (n : ℤ)
     (U : C) where
   /-- The map on sections over an object `V ⟶ U` of the slice site, from degree `i` to degree
@@ -238,8 +244,15 @@ theorem restrict_app {n : ℤ} {U U' : C} (g : U' ⟶ U) (f : GradedLocalHom M L
 end GradedLocalHom
 
 /-- Right multiplication of a local section `f` of `SheafHom^n_B(N, L)` over `U` by a section
-`a` of `A^m` over `U`, defined by `(f a)(y) = f (a y)`. This involves no signs. -/
-@[stacks 0FR4 "the right A-action on the local sections of the graded internal hom"]
+`a` of `A^m` over `U`, defined by `(f a)(y) = f (a y)`. This involves no signs.
+
+These are the multiplication maps of [Stacks, Tag 0FR4] on local sections only. The statement of
+Stacks 0FR4 that they make `SheafHom^gr_B(N, L)` a right graded `A`-module is
+`SheafOfModules.gradedSheafHomModule`, with the laws of the action proved in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedInternalHomModule.lean`; the functors
+`SheafHom^gr_B(N, -)` are there too, and the right graded `B`-module `M ⊗_A N` with its functors
+is `SheafOfModules.RelativeTensor.gradedTensorRight` and
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedBimoduleTensorFunctor.lean`. -/
 noncomputable def GradedLocalHom.actRight {N : GradedBimodule.{t, a, z} A B}
     {L : GradedModule.{t, a, s} B} {n : ℤ} {U : C}
     (f : GradedLocalHom N.toGradedModule L n U) (m : ℤ)
@@ -412,8 +425,10 @@ end GradedHomOfDegree
 
 /-- A graded sheaf of `R`-modules `G` is the graded internal hom `SheafHom^gr_A(M, L)` of two
 right graded `A`-modules when its degree-`n` sections over `U` are the degree-`n` local
-homomorphisms `M|_U → L|_U`, additively, `R`-linearly and compatibly with restriction. -/
-@[stacks 0FR3 "the graded internal hom of two right graded modules"]
+homomorphisms `M|_U → L|_U`, additively, `R`-linearly and compatibly with restriction. This is
+a characterising property; the internal hom of Stacks 0FR3 is constructed as
+`SheafOfModules.gradedSheafHom`, which satisfies it by
+`SheafOfModules.isGradedSheafHom_gradedSheafHom`. -/
 structure IsGradedSheafHom (M : GradedModule.{t, a, w} A) (L : GradedModule.{t, a, z} A)
     (G : ℤ → SheafOfModules.{h} R) where
   /-- Sections of `G` in degree `n` over `U` are the degree-`n` local homomorphisms
@@ -498,8 +513,10 @@ end IsGradedSheafHom
 
 /-- A right graded `A`-module `H` is the graded internal hom `SheafHom^gr_B(N, L)` of a graded
 `(A, B)`-bimodule `N` and a right graded `B`-module `L` when its underlying graded sheaf of
-`R`-modules is that internal hom and its right `A`-action is `(f a)(y) = f (a y)`. -/
-@[stacks 0FR4 "SheafHom^gr_B(N, L) as a right graded A-module"]
+`R`-modules is that internal hom and its right `A`-action is `(f a)(y) = f (a y)`. This is a
+characterising property; the right graded `A`-module of Stacks 0FR4 is constructed as
+`SheafOfModules.gradedSheafHomModule`, which satisfies it by
+`SheafOfModules.isGradedInternalHom_gradedSheafHomModule`. -/
 structure IsGradedInternalHom (N : GradedBimodule.{t, a, z} A B) (L : GradedModule.{t, a, s} B)
     (H : GradedModule.{t, a, h} A) extends IsGradedSheafHom N.toGradedModule L H.piece where
   /-- The right `A`-action on `H` is right multiplication of local homomorphisms. -/

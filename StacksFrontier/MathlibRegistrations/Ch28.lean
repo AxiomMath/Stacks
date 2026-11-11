@@ -30,7 +30,8 @@ This file records Stacks tags of Chapter 28 on the Mathlib declarations that sta
 @[expose] public section
 
 add_to_stacks 01OK "Mathlib asks Γ(X, U) to be a domain for every nonempty open U; this is \
-  equivalent to the affine-open condition" AlgebraicGeometry.IsIntegral
+  equivalent to the affine-open condition by `AlgebraicGeometry.isIntegral_iff_forall_affineOpens`"
+  AlgebraicGeometry.IsIntegral
 add_to_stacks 01OL "(4): the definition of `IsReduced`, every Γ(X, U) is reduced"
   AlgebraicGeometry.IsReduced.component_reduced
 add_to_stacks 01OL "(1) ⇒ (4): reduced local rings give reduced rings of sections"
@@ -42,7 +43,10 @@ add_to_stacks 01OL "(2) ⇒ (4): reducedness can be checked on an open cover"
 add_to_stacks 01OL "(2) ⇒ (4): an affine piece with reduced global sections is reduced"
   AlgebraicGeometry.isReduced_of_isAffine_isReduced
 
-add_to_stacks 01ON "the equivalence" AlgebraicGeometry.isIntegral_iff_irreducibleSpace_and_isReduced
+add_to_stacks 01ON "the equivalence for Mathlib's `IsIntegral`, which matches Stacks 01OK by \
+  `AlgebraicGeometry.isIntegral_iff_forall_affineOpens`; the statement with the affine-open \
+  condition is `AlgebraicGeometry.nonempty_and_forall_isDomain_iff_isReduced_and_irreducibleSpace`"
+  AlgebraicGeometry.isIntegral_iff_irreducibleSpace_and_isReduced
 
 add_to_stacks 01OV "part (1): Mathlib's definition is the equivalent condition 01OW (2)"
   AlgebraicGeometry.IsLocallyNoetherian
@@ -63,14 +67,6 @@ add_to_stacks 01P2 "a Jacobson scheme is `JacobsonSpace` of its underlying space
 
 add_to_stacks 01P3 "the equivalence, on the underlying space of Spec R"
   PrimeSpectrum.isJacobsonRing_iff_jacobsonSpace
-
--- In a quasi-separated scheme, quasi-compact opens are closed under intersection and are
--- retrocompact.
-add_to_stacks 054D
-  "(1) the intersection of two quasi-compact opens is quasi-compact; Stacks' quasi-separated \
-  scheme is `QuasiSeparatedSpace X` by `AlgebraicGeometry.quasiSeparatedSpace_iff_quasiSeparated`"
-  QuasiSeparatedSpace.inter_isCompact
-add_to_stacks 054D "(2) every quasi-compact open is retrocompact" IsCompact.isRetrocompact
 
 -- On a quasi-compact and quasi-separated scheme, locally constructible subsets are constructible.
 add_to_stacks 054E

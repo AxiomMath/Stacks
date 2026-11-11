@@ -46,7 +46,8 @@ the locally bijective map from the image presheaf `A/I` to the target sheaf of r
 
 * [Stacks Project, Tag 00XO](https://stacks.math.columbia.edu/tag/00XO), the morphism of topoi
   attached to a continuous and cocontinuous functor.
-* [Stacks Project, Tag 00WW](https://stacks.math.columbia.edu/tag/00WW), sheafification.
+* [Stacks Project, Tag 00WW](https://stacks.math.columbia.edu/tag/00WW), restriction along a
+  continuous functor carries sheaves to sheaves.
 -/
 
 @[expose] public section

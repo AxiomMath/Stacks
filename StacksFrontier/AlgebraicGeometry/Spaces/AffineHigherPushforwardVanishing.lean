@@ -15,15 +15,16 @@ representable, so Equation 69.3.0.1 (Stacks 071Z) identifies the restriction `(R
 an étale scheme chart `V` of `Y` with `R^i f'_*(𝓕|_U)` for the base change `f' : U ⟶ V`; and
 `U = V ×_Y X` is then affine over the scheme `V`, so that higher direct image vanishes.
 
-This file supplies the first step in full and reduces Stacks 073H to the second, which is
-carried as the explicit named hypothesis `h03DW`.  The `@[stacks 073H]` attribute below is
-therefore **qualified**: it claims the reduction, not the affine case, and Stacks 073H without
-any qualifier is exactly the conclusion below with `h03DW` discharged.  The arrangement, and the
-naming of the hypothesis, follow
-`AlgebraicGeometry.Space.moduleHigherPushforwardEtaleBaseChangeIso_of_preservesInjectives`
-(`StacksFrontier/AlgebraicGeometry/Spaces/ModuleHigherPushforwardEtaleBaseChange.lean`), which
-names its carried input `h03F3` in the same way — there the input has since been proved, and the
-`@[stacks 03LX]` attribute sits on the unqualified form.
+This file supplies the first step: the reduction of the vanishing of `R^n f_*𝓕` to the
+vanishing over the chart base changes of `f`, phrased with the chartwise condition `h03DW`.
+Stacks 073H itself, with no hypothesis beyond the source's, is
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_isAffineHom`
+(`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishingUnconditional.lean`), and
+for an affine `f` and a quasi-coherent `𝓕` the condition `h03DW` is discharged by
+`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom`
+(`StacksFrontier/AlgebraicGeometry/Spaces/AffineMorphismCohomologyIso.lean`).  The declarations
+here are kept because many consumers apply the reduction to morphisms and modules other than
+the source's.
 
 ## Main definitions
 
@@ -40,38 +41,24 @@ names its carried input `h03F3` in the same way — there the input has since be
 * `AlgebraicGeometry.Space.relativelyRepresentable_of_isAffineHom`: the first sentence of the
   source's proof — an affine morphism of algebraic spaces is representable.
 * `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_chartwise` and
-  `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`: **Stacks 073H
-  with `h03DW` carried**, for a representable and for an affine morphism respectively.  The
-  second carries the qualified `@[stacks 073H]` attribute.
+  `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`: the vanishing
+  of `R^n f_*𝓕` from the chartwise condition `h03DW`, for a representable and for an affine
+  morphism respectively.
 
 ## Implementation notes
 
-*What `h03DW` is, and why it is not bounded side-work.*  After the reduction the goal is that
-`R^n f'_*` vanishes for an affine morphism `f' : U ⟶ V` of *affine schemes*.  The source cites
-Cohomology of Schemes, Lemma 30.2.3 (Stacks 01XC) here, and that lemma is proved in this
-repository as `Stacks.Cohomology.Affine.isZero_rightDerived_pushforward_of_isAffineHom`
-(`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/Basic.lean`) — but entirely on
-the **Zariski** site: its modules are `AlgebraicGeometry.Scheme.Modules` and its vanishing input
-is Serre's criterion on an affine open (Stacks 01XB).  The direct images of Stacks 073H live on
-the *small étale* sites, so the citation silently uses the comparison of étale with Zariski
-cohomology for quasi-coherent modules, that is Stacks 03DW, equivalently Descent, Proposition
-03DX(2) and Étale Cohomology, Theorem 03OJ.  None of those three tags is carried anywhere in
-this repository, and two files say so about themselves:
-`StacksFrontier/AlgebraicGeometry/Spaces/ChartSections.lean` (lines 77–95, including a dated
-correction about which of 03DW and 03DX(2) is the input) and
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleAffinePresentationSurjectivity.lean` (line 724,
-"surjectivity half of the vanishing statement which Stacks 03DW rests on").  Discharging
-`h03DW` therefore unlocks much more than this tag: the same keystone blocks Stacks 03M9 and the
-family of statements that reduce quasi-coherence on a small étale site to sections over one
-affine chart.  `StacksFrontier/AlgebraicGeometry/Spaces/ShortExactQuasicoherent.lean` is another
-consumer and is where the name `h03DW` used below comes from; it carries the degree-one case of
-the same input, in the form "the epimorphism of a short exact sequence is surjective on the
-sections over every affine étale chart".  What the repository does hold is the first-cohomology
-half — Čech vanishing on
-cofinal coverings, `@[stacks 03F9]` in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Cech/VanishingOnCofinalCoverings.lean`, and
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/BigSiteColimits/H1Vanishing.lean` — whereas
-03DW's own proof routes through 03F9, 03FJ, 03F7, 01XD and 013P.
+*What `h03DW` is.*  After the reduction the goal is that `R^n f'_*` vanishes for the base
+change `f' : V ×_Y X ⟶ V` of `f` along an étale scheme chart `V` of `Y`.  The source cites
+Cohomology of Schemes, Lemma 30.2.3 (Stacks 01XC) here, which this repository proves on the
+Zariski site as `Stacks.Cohomology.Affine.isZero_rightDerived_pushforward_of_isAffineHom`
+(`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/Basic.lean`); the direct images here
+live on the small étale sites, where the input is the étale-site vanishing of the cohomology of
+a quasi-coherent module over an affine chart,
+`AlgebraicGeometry.Space.isZero_rightDerived_evaluation_of_isAffineChart`.  The unconditional
+route of `StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishingUnconditional.lean`
+uses that vanishing through Stacks 072W, and
+`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom` reads the result back as
+`h03DW`.
 
 *Why Stacks 071Z's caveat does not propagate here.*
 `AlgebraicGeometry.Space.moduleHigherPushforwardChartBaseChangeIso` is an isomorphism with the
@@ -82,7 +69,7 @@ transports along `CategoryTheory.Limits.IsZero.of_iso` for an arbitrary isomorph
 canonical about the comparison is used, and no caveat is inherited.
 
 *Quasi-coherence is not a hypothesis.*  The source states Stacks 073H for a quasi-coherent
-`𝓕`, and quasi-coherence is what would discharge `h03DW`; the reduction itself uses none of it,
+`𝓕`, and quasi-coherence is what discharges `h03DW`; the reduction itself uses none of it,
 so the statements below quantify over an arbitrary `𝒪_X`-module.  The degree runs over `ℕ` in
 the injective-resolution convention `CategoryTheory.Functor.rightDerived`, as in Stacks 071Z.
 
@@ -195,14 +182,15 @@ theorem relativelyRepresentable_of_isAffineHom {X Y : AlgebraicSpaces B S hS} (f
     (hf : IsAffineHom B S hS f.hom) : yoneda.relativelyRepresentable f.hom :=
   (presheaf_isAffineHom_of_isAffineHom_of_isAlgebraicSpace B S hS X.property Y.property hf).1
 
-/-! ### Stacks 073H, reduced to the affine case on the small étale site -/
+/-! ### The reduction to the chart base changes -/
 
 /-- The hypothesis `h03DW` of the two theorems below: for every étale scheme chart `V` of `Y`
 the base change `f' : V ×_Y X ⟶ V` of a representable `f` has vanishing degree-`n` higher
 direct image on the restriction `𝓕|_{V ×_Y X}`.
 
-For an affine `f` and a quasi-coherent `𝓕` this is the étale-site analogue of Stacks 01XC, that
-is Stacks 03DW; see the implementation notes of this file. -/
+For an affine `f` and a quasi-coherent `𝓕` and `n > 0` it holds, by
+`AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom`; see the implementation
+notes of this file. -/
 def ChartwiseIsZeroHigherDirectImage {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
     (hf : yoneda.relativelyRepresentable f.hom)
     (F : Modules.{u, u} B S hS X.obj X.property) (n : ℕ) : Prop :=
@@ -216,7 +204,7 @@ def ChartwiseIsZeroHigherDirectImage {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y
           (chartToSpace B S hS X ((smallBaseChange B S hS f hf).obj V))
           (isEtale_chartToSpace B S hS X ((smallBaseChange B S hS f hf).obj V))).obj F))
 
-/-- **Stacks 073H for a representable morphism, with the affine case carried as `h03DW`.**
+/-- **The vanishing of `R^n f_*𝓕` from the chartwise condition, for a representable morphism.**
 
 If `f : X ⟶ Y` is a representable morphism of algebraic spaces over `S` whose chart base
 changes have vanishing degree-`n` higher direct images, then `R^n f_* 𝓕 = 0`.
@@ -240,18 +228,15 @@ theorem isZero_rightDerived_modulePushforward_of_chartwise {X Y : AlgebraicSpace
     (chartSpace B S hS X ((smallBaseChange B S hS f hf).obj V)).property
   exact (h03DW V).of_iso ((moduleHigherPushforwardChartBaseChangeIso B S hS f hf V n).app F).symm
 
-/-- **Stacks 073H with the affine case carried as `h03DW`.**
+/-- **The vanishing of `R^n f_*𝓕` from the chartwise condition, for an affine morphism.**
 
 If `f : X ⟶ Y` is an affine morphism of algebraic spaces over `S` whose chart base changes have
 vanishing degree-`n` higher direct images, then `R^n f_* 𝓕 = 0`.
 
 This is the previous theorem with representability supplied by
-`AlgebraicGeometry.Space.relativelyRepresentable_of_isAffineHom`.  The source's statement is
-this one for `n > 0` and quasi-coherent `𝓕` with `h03DW` discharged; neither restriction on `n`
-nor on `𝓕` is used by the reduction, and `h03DW` is not available in this repository. -/
-@[stacks 073H "the reduction of the source's statement along étale scheme charts, by Stacks 071Z;
-the affine case of the source's proof — the étale-site analogue of Stacks 01XC, that is
-Stacks 03DW — is carried as the hypothesis `h03DW` and is not proved"]
+`AlgebraicGeometry.Space.relativelyRepresentable_of_isAffineHom`; neither a restriction on `n`
+nor on `𝓕` is used.  Stacks 073H, for `n > 0` and a quasi-coherent `𝓕` with no further
+hypothesis, is `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_isAffineHom`. -/
 theorem isZero_rightDerived_modulePushforward_of_isAffineHom {X Y : AlgebraicSpaces B S hS}
     (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom)
     (F : Modules.{u, u} B S hS X.obj X.property) (n : ℕ)

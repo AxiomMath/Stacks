@@ -1,7 +1,6 @@
 module
 
 public import Mathlib.Algebra.MonoidAlgebra.Defs
-public import Mathlib.Data.NNRat.Defs
 public import Mathlib.RingTheory.AdicCompletion.Algebra
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
@@ -16,13 +15,11 @@ of `t` is the monoid algebra `k[ℚ≥0]` of the additive monoid of nonnegative 
 element at `q` being `t^q`; let `A = (⋃_{n ≥ 1} k[t^{1/n}])^∧` be its `t`-adic completion. The
 image of `t` in `A` is nonzero and has an `n`-th root for every `n ≥ 1`.
 
-**Stacks 0AQZ** observes that there are no adic morphisms `Spf R ⟶ Spf A` with `R` a complete
-discrete valuation ring, so that the lifting condition of **Stacks 0AQQ** holds vacuously for
-every morphism `X ⟶ Spf A`, even for `X = ∅`, although `A` is a domain in which `t` is nonzero
-and so ought to carry a rig-point. A morphism `Spf R ⟶ Spf A` of affine formal algebraic spaces
-is `Spf` of a continuous ring map `A → R` (Stacks 0AN0), and such a morphism is adic exactly
-when that ring map is adic in the sense of `RingHom.IsAdic` (Stacks 0GBR); the assertion is
-therefore that no ring map `A → R` is adic, and that is what is proved here.
+Stacks 0AQZ observes that there are no adic morphisms `Spf R ⟶ Spf A` with `R` a complete
+discrete valuation ring, so that every morphism `X ⟶ Spf A` is rig-surjective (Stacks 0AQQ),
+although `A` is a domain in which `t` is nonzero. This file proves the ring-theoretic heart of
+that: no ring map `A → R` is adic. The statement about formal spectra, and Stacks 0AQZ itself,
+are in `StacksFrontier.AlgebraicGeometry.FormalSpace.NoAdicDiscreteValuationPointsRigSurjective`.
 
 The obstruction is divisibility in the value group. An adic map `φ : A → R` carries the ideal
 of definition `(t)` of `A` into the maximal ideal of `R` and some power of that maximal ideal
@@ -39,31 +36,21 @@ valuation of `φ t` to be divisible by every `n ≥ 1`, hence to be `0` or `⊤`
 ## Main results
 
 * `AlgebraicGeometry.FormalSpace.FractionalPowers.not_isAdic_toDiscreteValuationRing`:
-  **Stacks 0AQZ**, no ring map from `A` to a complete discrete valuation ring is adic.
+  no ring map from `A` to a complete discrete valuation ring is adic.
 * `AlgebraicGeometry.FormalSpace.not_isAdic_of_forall_exists_pow`: the same conclusion for any
   topological ring whose topology is the adic topology of a principal ideal whose generator
   admits roots of all orders.
 
 ## Implementation notes
 
-Adicness of a morphism `Spf R ⟶ Spf A` is rendered by adicness of the corresponding ring map,
-which is `RingHom.IsAdic`, the definition of Stacks 0GBR: some ideal defining the topology of
-the source extends to an ideal defining the topology of the target. Quantifying over all ring
-maps `A → R` rather than over morphisms of formal spectra over a base makes the statement no
-weaker, since every such morphism gives rise to a ring map; what it avoids is the
-identification, at the affine level, of adic morphisms of formal algebraic spaces with adic
-ring maps, which the library does not yet have.
+Adicness of a ring map is `RingHom.IsAdic`, the definition of Stacks 0GBR: some ideal defining
+the topology of the source extends to an ideal defining the topology of the target.
 
 As in `AlgebraicGeometry.FormalSpace.IsRigSurjective`, the topologies are parameters subject to
 hypotheses naming the ideals that define them, namely `Ideal.span {t}` for `A` and the maximal
 ideal for `R`; both hypotheses are satisfied by `Ideal.adicTopology` of the ideal in question,
 so neither statement is vacuous. Completeness of `R` is recorded in the main result to match the
 source although the argument does not use it.
-
-The source also calls `A` a domain; what is recorded here instead is
-`AlgebraicGeometry.FormalSpace.FractionalPowers.completionGenerator_ne_zero`, which is the use
-the source makes of that, namely that the element `t` whose rig-points are wanted is nonzero in
-`A`.
 
 ## References
 
@@ -215,13 +202,10 @@ theorem completionGenerator_ne_zero : completionGenerator k ≠ 0 := by
       norm_num at h4)] at h3
   simp at h3
 
-/-- **Stacks 0AQZ.** No ring map from `A = (⋃_{n ≥ 1} k[t^{1/n}])^∧`, carrying its `t`-adic
-topology, to a complete discrete valuation ring `R`, carrying its maximal-adic topology, is
-adic. Since a morphism `Spf R ⟶ Spf A` of affine formal algebraic spaces is `Spf` of a
-continuous ring map `A → R` by Stacks 0AN0, there are therefore no adic morphisms
-`Spf R ⟶ Spf A`, and every morphism `X ⟶ Spf A` satisfies the lifting condition of
-Stacks 0AQQ vacuously, although `t` is a nonzero element of `A`. -/
-@[stacks 0AQZ]
+/-- No ring map from `A = (⋃_{n ≥ 1} k[t^{1/n}])^∧`, carrying its `t`-adic topology, to a
+complete discrete valuation ring `R`, carrying its maximal-adic topology, is adic. This is the
+ring-theoretic input to Stacks 0AQZ, which is
+`AlgebraicGeometry.FormalSpace.FractionalPowers.noAdicPoints_isRigSurjective_isDomain`. -/
 theorem not_isAdic_toDiscreteValuationRing [TopologicalSpace (Completion k)]
     [IsTopologicalRing (Completion k)]
     (hA : _root_.IsAdic (Ideal.span {completionGenerator k})) (R : Type*) [CommRing R]

@@ -35,8 +35,9 @@ restricting scalars along `f`, which is exactly the module structure for which t
 * `AlgebraicGeometry.Space.liftDifferenceDerivation`: the four equations of
   `AlgebraicGeometry.Space.liftDifference`, bundled.
 * `AlgebraicGeometry.Space.liftPairDerivation`: the same at the pair of structure maps of two
-  morphisms of a thickening agreeing on its closed subspace, which is the derivation `D` of
-  [Stacks Project, Tag 0618].
+  morphisms of a thickening agreeing on its closed subspace: the derivation of the proof of
+  [Stacks Project, Tag 0618] before it is descended to `𝒪_Y`.  The descended derivation `D` of
+  that tag is `AlgebraicGeometry.Space.exists_derivation_restrictedSharpThroughThickening_sub`.
 
 ## Main results
 
@@ -123,8 +124,6 @@ Its four fields are `AlgebraicGeometry.Space.liftDifference_add`,
 `AlgebraicGeometry.Space.liftDifference_smul_add_smul`,
 `AlgebraicGeometry.Space.liftDifference_naturality` and
 `AlgebraicGeometry.Space.liftDifference_app_eq_zero`. -/
-@[stacks 0618 "the derivation D of the source, bundled as a \
-`PresheafOfModulesOfCommRing.Derivation'`, for two abstract algebra maps"]
 noncomputable def liftDifferenceDerivation (hZ : IsFirstOrderThickening B S hS X Z.1)
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -167,7 +166,8 @@ variable {X' Y' : AlgebraicSpaces B S hS} {G : Subfunctor X'.1}
 variable {Rc₀ : Sheaf (SmallEtale.topology B S hS X'.1) CommRingCat.{u}}
   (φc : Rc₀ ⟶ inverseImageStructureSheaf B S hS b')
 
-/-- **The derivation `D` of [Stacks Project, Tag 0618].**  Let `G ⊂ X'` be a first-order
+/-- **The difference of the two structure maps of two morphisms of a thickening, as a
+derivation.**  Let `G ⊂ X'` be a first-order
 thickening of algebraic spaces with inclusion `i : X ⟶ X'` and let `a', b' : X' ⟶ Y'` be two
 morphisms with `i ≫ a' = i ≫ b'`, both of them maps of `R₀`-algebras for a sheaf of commutative
 rings `R₀` on the small étale site of `X'` — for two morphisms of thickenings over `B` the last
@@ -177,9 +177,10 @@ condition is that both are maps of `𝒪_B`-algebras.  Then the difference of th
 `(b')^{-1}𝒪_{Y'}` over `R₀` with values in the defining ideal of the thickening.
 
 This is `AlgebraicGeometry.Space.liftDifferenceDerivation` at the pair of structure maps supplied
-by `AlgebraicGeometry.Space.inverseImageStructureSharpOfRestrictEq_comp_structureSharp`. -/
-@[stacks 0618 "the derivation D of the source, bundled, for the two structure maps of two \
-morphisms of a thickening agreeing on its closed subspace"]
+by `AlgebraicGeometry.Space.inverseImageStructureSharpOfRestrictEq_comp_structureSharp`.  It is
+the derivation of the proof of [Stacks Project, Tag 0618] before the descent to `𝒪_Y`; the
+statement of that tag, with `D` a derivation of `𝒪_Y` into `a_*𝒞_{X/X'}`, is
+`AlgebraicGeometry.Space.exists_derivation_restrictedSharpThroughThickening_sub`. -/
 noncomputable def liftPairDerivation (hZ : IsFirstOrderThickening B S hS X' G)
     (hφ : (sheafCompose (SmallEtale.topology B S hS X'.1)
             (forget₂ CommRingCat.{u} RingCat.{u})).map φc ≫
@@ -198,8 +199,8 @@ noncomputable def liftPairDerivation (hZ : IsFirstOrderThickening B S hS X' G)
   liftDifferenceDerivation B S hS ⟨G, hG.1⟩ φc _ _ hZ
     (inverseImageStructureSharpOfRestrictEq_comp_structureSharp B S hS hG a' b' h) hφ
 
-/-- The derivation of [Stacks Project, Tag 0618] differentiates a section of `(b')^{-1}𝒪_{Y'}` to
-the difference of the two structure maps on it, which is
+/-- The derivation `AlgebraicGeometry.Space.liftPairDerivation` differentiates a section of
+`(b')^{-1}𝒪_{Y'}` to the difference of the two structure maps on it, which is
 `AlgebraicGeometry.Space.liftPairDifference`. -/
 theorem liftPairDerivation_d (hZ : IsFirstOrderThickening B S hS X' G)
     (hφ : (sheafCompose (SmallEtale.topology B S hS X'.1)

@@ -28,7 +28,11 @@ set.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.QuasicoherentModule.exists_generating_family` is **Stacks 0780**.
+* `AlgebraicGeometry.Space.QuasicoherentModule.exists_generating_family`: the same conclusion
+  with a class-sized family, indexed by a type of the universe `u + 1` of the objects of the
+  category.  It is not Stacks 0780, whose content is that the family is a set; that is
+  `AlgebraicGeometry.Space.QuasicoherentModule.exists_small_generating_family` in
+  `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/QuasicoherentGeneratingSet.lean`.
 
 ## Implementation notes
 
@@ -82,11 +86,15 @@ def isomorphicGeneratorSubobjectCocone (T : Type v) (F : T → QuasicoherentModu
     { app := fun N => N.obj.arrow
       naturality := fun {_ _} f => Subobject.underlying_arrow f.hom }
 
-/-- **Stacks 0780.**  For a groupoid in algebraic spaces with flat source and target there is a
-family of quasi-coherent modules on the groupoid, independent of the module, such that every
-quasi-coherent module on the groupoid is the directed colimit of those of its submodules that
-are isomorphic to a member of the family. -/
-@[stacks 0780]
+/-- **A class-sized generating family.**  There is a family of quasi-coherent modules on the
+groupoid, independent of the module, such that every quasi-coherent module on the groupoid is the
+directed colimit of those of its submodules that are isomorphic to a member of the family.
+
+The index type lives in `Type (u + 1)`, the universe of the objects of the category, so the
+family may be taken to be every module, and the proof does that: each module is a member of the
+family and is the terminal subobject of itself.  The flatness hypotheses are not used.  This is
+not Stacks 0780, which asks for a *set*: the set-indexed statement is
+`AlgebraicGeometry.Space.QuasicoherentModule.exists_small_generating_family`. -/
 theorem exists_generating_family (G : GroupoidInAlgebraicSpaces B S hS A)
     (_hs : IsFlat B S hS G.source.hom) (_ht : IsFlat B S hS G.target.hom) :
     ∃ (T : Type (u + 1)) (F : T → QuasicoherentModule B S hS G),

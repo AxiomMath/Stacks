@@ -27,11 +27,11 @@ used only to produce quasi-coherence of the sheaf of meromorphic functions, whic
 both as part
 (1) of Tag 02OW and the corresponding clause of Tag 0EMH.
 
-The last three declarations of this file restate the two tagged results in the binder
-order of the reference statements, with every reference constant replaced by its own defining
-expression. The six `card…` abbreviations above them transcribe, one by one, the bodies of the
-reference constants the two statements use — the sheaf of total quotient rings and its structure map
-(Tag 01X4, by
+The last three declarations of this file restate the two results above (the first tagged 02OW
+part (2), the second one clause of Tag 0EMH) in the binder order of the reference statements,
+with every reference constant replaced by its own defining expression. The six `card…`
+abbreviations above them transcribe, one by one, the bodies of the reference constants the two
+statements use — the sheaf of total quotient rings and its structure map (Tag 01X4, by
 sheafifying `AlgebraicGeometry.TopCat.Presheaf.totalQuotientPresheaf` and its unit), the
 `RingCat`-valued form of a sheaf of commutative rings (Tag 03ER/04BR), the extension-of-scalars
 functor (Tag 03CZ, whose body is
@@ -47,10 +47,10 @@ written down. Each abbreviation is the reference statement's own text.
 As for `Stacks.AlgebraicGeometry.GenericPointCoproduct`
 `.meromorphicFunctions_iso_coproduct_of_noEmbeddedPoints`, the embedded-point
 predicate is inlined down to `Stacks.Divisors.IsAssociatedPoint`, which is the
-associated-point predicate of Tag 02OJ with the same module structure on the stalk; the reference
-statement supplies that structure by a `letI` because typeclass resolution does not find it for an
-`X.Modules`. The reference statement's `x' ⤳ x` is the specialization relation, which is how
-`AlgebraicGeometry.IsEmbeddedAssociatedPoint` states it.
+associated-point predicate of Tag 02OJ with the same module structure on the stalk; the
+reference statement supplies that structure by a `letI` because typeclass resolution does not
+find it for an `X.Modules`. The reference statement's `x' ⤳ x` is the specialization relation,
+which is how `AlgebraicGeometry.IsEmbeddedAssociatedPoint` states it.
 
 ## References
 
@@ -85,8 +85,9 @@ theorem meromorphicSections_isQuasicoherent (X : Scheme.{u}) [IsReduced X]
 
 /-- **Stacks Project, Tag 0EMH, quasi-coherence of meromorphic sections.** On a locally Noetherian
 scheme without embedded points, the sheaf of meromorphic sections of a quasi-coherent
-`𝒪_X`-module is quasi-coherent. -/
-@[stacks 0EMH "quasi-coherence of meromorphic sections"]
+`𝒪_X`-module is quasi-coherent.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem meromorphicSections_isQuasicoherent_of_noEmbeddedPoints (X : Scheme.{u})
     [IsLocallyNoetherian X] (hX : AlgebraicGeometry.HasNoEmbeddedPoints X) (F : X.Modules)
     (hF : F.IsQuasicoherent) :
@@ -145,7 +146,7 @@ example (X : Scheme.{u}) [IsReduced X]
     (cardMeromorphicSections X F).IsQuasicoherent :=
   meromorphicSections_isQuasicoherent X hfinite F
 
-/-- Stacks Tag 0EMH, label `quasi-coherence of meromorphic sections`, in the reference binder
+/-- The quasi-coherence clause of Stacks Tag 0EMH as stated above, in the reference binder
 order and with every reference constant replaced by its own defining expression. -/
 example (X : Scheme.{u}) [IsLocallyNoetherian X]
     (hX : ∀ x : X, ¬ (Stacks.Divisors.IsAssociatedPoint

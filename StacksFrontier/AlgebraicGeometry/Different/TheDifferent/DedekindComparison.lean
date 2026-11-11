@@ -39,8 +39,12 @@ annihilator sheaf are the annihilator of the module of sections.  On the chart t
 `Γ(Y, V) → Γ(ω_{Y/X}, V)` becomes `B → Hom_A(B, A)`, `1 ↦ Tr_{B/A}`: the identification of
 `Γ(ω_{Y/X}, V)` with `Hom_A(B, A)` is the factorization of `A → B` through itself
 (`Stacks.Discriminant.selfFactorization`), and the image of the trace element is the ordinary
-trace by uniqueness of trace elements (Tag 0BT7) together with Tag 0BT8.  Tag 0BW3 then says
-that the annihilator of `Hom_A(B, A) / B·Tr_{B/A}` is the Dedekind different ideal.
+trace by uniqueness of trace elements (Tag 0BT7) together with Tag 0BT8; under the trace-pairing
+identification of the complementary module this is the image of `1`
+(`Stacks.Discriminant.selfFactorizationDualEquiv_finiteFlatTraceElement`), which is Tag 0BW3 (1)
+(`Stacks.Discriminant.complementaryModuleEquivDualizingModule_one_eq_traceElement`).  Tag 0BW3
+(2) then says that the annihilator of `Hom_A(B, A) / B·Tr_{B/A}` is the Dedekind different
+ideal.
 
 ## References
 
@@ -178,7 +182,7 @@ def selfFactorizationDualEquiv [Module.Finite A B] :
 /-- The trace element of a finite flat algebra becomes, under the canonical identification of
 the relative dualizing module with `Hom_A(B, A)`, the image of `1` under the trace-pairing
 identification of the complementary module. -/
-private theorem selfFactorizationDualEquiv_finiteFlatTraceElement
+theorem selfFactorizationDualEquiv_finiteFlatTraceElement
     (setup : DedekindDifferentSetup A B) [Module.Flat A B] :
     letI : IsNoetherianRing A := setup.isNoetherianRing
     letI : Module.Finite A B := setup.finite

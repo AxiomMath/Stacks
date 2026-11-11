@@ -17,7 +17,7 @@ following are equivalent:
 3. the residual gerbe `𝒵_x` of `𝒳` at `x` exists and the inclusion `𝒵_x ⟶ 𝒳` is locally of
    finite type.
 
-## What is proved and what is carried
+## The three implications
 
 * **(3) ⟹ (2)** is proved. The source calls it clear, and it is: the residual gerbe is by
   definition (`AlgebraicGeometry.Stack.IsResidualGerbeAt`, the specification of **Stacks 06MT**)
@@ -30,37 +30,32 @@ following are equivalent:
   Stacks 06G2 the argument actually uses — that the unique point of a nonempty algebraic stack
   is a finite type point of it. No hypothesis is carried for this direction.
 
-* **(1) ⟹ (3)** is carried, as
-  `AlgebraicGeometry.Stack.ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint`. This is
-  the substantial direction. The source builds the groupoid in algebraic spaces
-  `R = u ×_𝒳 u` on the residue field `u` of a closed point of a smooth affine chart, shows
-  `s, t : R ⟶ u` are flat and locally of finite presentation, and forms `𝒵 = [u/R]`, which is an
-  algebraic stack by **Stacks 06FI** (Criteria for Representability,
-  `theorem-flat-groupoid-gives-algebraic-stack`); the canonical 1-morphism `𝒵 ⟶ 𝒳` is fully
-  faithful, hence representable by algebraic spaces and a monomorphism by **Stacks 04ZZ**, so the
-  residual gerbe exists and `𝒵 → 𝒵_x` is an equivalence by **Stacks 06MX** (Properties of
-  Stacks, `lemma-residual-gerbe-unique`); local finite type then descends along the fppf covering
-  `u ×_𝒳 U → 𝒵 ×_𝒳 U` by **Stacks 06EV**.
-
-  Of these, **Stacks 06FI**, **Stacks 04ZZ** and **Stacks 06MX** are carried nowhere in this
-  library — in particular the library has no construction of a residual gerbe at all, only the
-  specification `AlgebraicGeometry.Stack.IsResidualGerbeAt` and two of the implications of
-  Stacks 06MT. **Stacks 06EV** *is* available. Since the whole of (1) ⟹ (3) rests on the three
-  absent tags, it is carried as a single named hypothesis rather than decomposed.
+* **(1) ⟹ (3)** is stated here as the proposition
+  `AlgebraicGeometry.Stack.ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint` and proved
+  in `StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointResidualGerbeExistence`, as
+  `AlgebraicGeometry.Stack.existsLocallyOfFiniteTypeResidualGerbe`. This is the substantial
+  direction. The source builds the groupoid in algebraic spaces `R = u ×_𝒳 u` on the residue
+  field `u` of a closed point of a smooth affine chart and forms `𝒵 = [u/R]`, an algebraic stack
+  by **Stacks 06FI**; that file instead cuts the one-point algebraic stack out of `𝒳` as the
+  strictly full subcategory of the objects fppf-locally in the image of the field-valued point.
+  That proof imports this file, so here the implication is the hypothesis of
+  `AlgebraicGeometry.Stack.isFiniteTypePoint_tfae`; the tag itself, with nothing assumed, is
+  `AlgebraicGeometry.Stack.isFiniteTypePoint_tfae_unconditional` there.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Stack.HasSingletonLocallyOfFiniteTypeCoverAt`: condition (2).
 * `AlgebraicGeometry.Stack.HasLocallyOfFiniteTypeResidualGerbeAt`: condition (3).
 * `AlgebraicGeometry.Stack.ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint`: the
-  carried implication (1) ⟹ (3).
+  implication (1) ⟹ (3), as a proposition.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.hasSingletonLocallyOfFiniteTypeCoverAt_of_residualGerbe`: (3) ⟹ (2).
 * `AlgebraicGeometry.Stack.isFiniteTypePoint_of_hasSingletonLocallyOfFiniteTypeCoverAt`:
   (2) ⟹ (1).
-* `AlgebraicGeometry.Stack.isFiniteTypePoint_tfae`: **Stacks 06G3**.
+* `AlgebraicGeometry.Stack.isFiniteTypePoint_tfae`: the equivalence of the three conditions of
+  **Stacks 06G3**, given the implication (1) ⟹ (3).
 
 ## Implementation notes
 
@@ -126,15 +121,13 @@ abbrev HasLocallyOfFiniteTypeResidualGerbeAt (𝒳 : AlgebraicStacks.{u, w} B S 
     IsResidualGerbeAt B S hS 𝒳 x P ∧
       AlgebraicStacks.IsLocallyOfFiniteType B S hS (fullSubcategoryInclusion 𝒳 P hP)
 
-/-- **The substantial direction of Stacks 06G3, carried.** That a finite type point of an
-algebraic stack has a residual gerbe whose inclusion is locally of finite type.
+/-- **The implication (1) ⟹ (3) of Stacks 06G3, as a proposition.** That every finite type point
+of an algebraic stack has a residual gerbe whose inclusion is locally of finite type.
 
-The source's proof forms the quotient `[u/R]` of the groupoid in algebraic spaces on the residue
-field of a closed point of a smooth affine chart, which is an algebraic stack by **Stacks 06FI**,
-identifies it with the residual gerbe using the monomorphism criterion **Stacks 04ZZ** and the
-uniqueness **Stacks 06MX**, and descends local finite type along an fppf covering. **Stacks
-06FI**, **04ZZ** and **06MX** are all carried nowhere in this library, and the library has no
-construction of a residual gerbe, so this implication is carried whole. -/
+It is proved as `AlgebraicGeometry.Stack.existsLocallyOfFiniteTypeResidualGerbe` in
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointResidualGerbeExistence`, which cuts the
+one-point algebraic stack out of `𝒳` as a strictly full subcategory rather than forming the
+quotient `[u/R]` of the source's proof. -/
 abbrev ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint
     (𝒳 : AlgebraicStacks.{u, w} B S hS) : Prop :=
   ∀ x : points B S hS 𝒳.val.val 𝒳.val.property, IsFiniteTypePoint.{u, w} B S hS 𝒳 x →
@@ -172,20 +165,14 @@ theorem isFiniteTypePoint_of_hasSingletonLocallyOfFiniteTypeCoverAt
     exact Set.mem_range_self z
   exact hmem ▸ mapsTo_finiteTypePoints.{u, w} B S hS f hlft hz
 
-/-- **Stacks 06G3.** For a point `x` of the point space of an algebraic stack `𝒳` over `S`, the
-following are equivalent: `x` is a finite type point; there is a one-point algebraic stack with a
-locally-of-finite-type 1-morphism to `𝒳` whose image on points is `{x}`; the residual gerbe of
-`𝒳` at `x` exists and its inclusion is locally of finite type.
+/-- **Stacks 06G3, relative to the implication (1) ⟹ (3).** For a point `x` of the point space of
+an algebraic stack `𝒳` over `S`, the three conditions of Stacks 06G3 are equivalent once the
+implication (1) ⟹ (3) is supplied as `hForward`; the other two implications are proved here.
 
-The implication (1) ⟹ (3) is carried as the hypothesis `hForward`; see
-`AlgebraicGeometry.Stack.ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint` for what it
-stands for and why. The other two implications are proved. -/
-@[stacks 06G3 "the equivalence of (1) being a finite type point, (2) admitting a \
-locally-of-finite-type 1-morphism from a one-point algebraic stack with image the point, and \
-(3) the residual gerbe existing with locally-of-finite-type inclusion. The implications \
-(3) => (2) and (2) => (1) are proved; (1) => (3) is carried as the hypothesis `hForward`, since \
-Stacks 06FI, 04ZZ and 06MX are absent from this library and it has no construction of a \
-residual gerbe"]
+The library proves `hForward` as
+`AlgebraicGeometry.Stack.existsLocallyOfFiniteTypeResidualGerbe`, and **Stacks 06G3** itself,
+with nothing assumed, is `AlgebraicGeometry.Stack.isFiniteTypePoint_tfae_unconditional`, both in
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypePointResidualGerbeExistence`. -/
 theorem isFiniteTypePoint_tfae (𝒳 : AlgebraicStacks.{u, w} B S hS)
     (hForward : ExistsLocallyOfFiniteTypeResidualGerbeOfIsFiniteTypePoint.{u, w} B S hS 𝒳)
     (x : points B S hS 𝒳.val.val 𝒳.val.property) :

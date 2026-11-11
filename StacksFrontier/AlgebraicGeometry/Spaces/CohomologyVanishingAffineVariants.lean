@@ -68,7 +68,8 @@ theorem isZero_firstCohomology_of_isAffineHom' (T : CohomologyVanishingSituation
   exact IsZero.of_iso
     (h07UY _ (isQuasicoherentOnSite_modulePushforward_of_isAffineHom_unconditional T.site T.base
       T.containsBase f hf F hF))
-    (cohomologyCollapseIsoOfIsAffineHom T.site T.base T.containsBase f hf F h03DW h072Z 1)
+    (cohomologyCollapseIsoOfIsAffineHomOfChartwise T.site T.base T.containsBase f hf F h03DW h072Z
+      1)
 
 end CohomologyVanishingSituation
 

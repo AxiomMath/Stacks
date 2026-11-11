@@ -31,32 +31,14 @@ dimension.
 proof establishes the two halves separately. The pseudo-coherence half is what is proved below:
 [Stacks, Tag 08E2] puts `Rf_*E` in `D^b_Coh(𝒪_S)` and [Stacks, Tag 08E8] identifies the
 pseudo-coherent objects of `D_QCoh(𝒪_S)` on a Noetherian scheme with `D⁻_Coh(𝒪_S)`, which
-contains it. The Tor-dimension half is **not** proved: `Rf_*E` is not asserted anywhere here to
-be of locally finite Tor dimension, and the conclusion `Rf_*E` is perfect is reached only from
-that statement as an explicit hypothesis, in
-`isPerfect_derivedPushforward_of_locallyHasFiniteTorDimension`.
-
-What the missing half needs, and why none of it is available. The source tensors `Rf_*E` with an
-arbitrary quasi-coherent `𝒪_S`-module `ℱ`, rewrites
-`Rf_*E ⊗^𝐋_{𝒪_S} ℱ = Rf_*(E ⊗^𝐋_{f^{-1}𝒪_S} f^{-1}ℱ)` by [Stacks, Tag 08EU] and
-[Stacks, Tag 08DE], bounds the cohomology of the right-hand side using the finite Tor dimension
-of `E` over `f^{-1}𝒪_S`, and converts the resulting vanishing on quasi-coherent test modules
-into genuine Tor amplitude by [Stacks, Tag 08EA]. Of those three steps:
-
-* [Stacks, Tag 08EA] is in the tree only as its clause `(1) implies (2)`, which is the direction
-  that is not needed; the direction the proof uses, `(2) implies (1)`, is not formalized, and
-  `StacksFrontier/AlgebraicGeometry/Perfect/TorAmplitudeQuasiCoherentTests.lean` records what it
-  lacks — the essential surjectivity of `QCoh(𝒪_S) → QCoh(𝒪_U)` for `U` an open of a
-  quasi-separated scheme. The transport of Tor amplitude along an isomorphism of ringed spaces
-  that that file also recorded as missing is in fact available, as
-  `Stacks.Cohomology.TransportAlongIso.hasTorAmplitude_derivedPullback_iff`.
-* [Stacks, Tag 08EU] is in the tree only at `K = 𝒪_S[0]`, and even there with the unitors of the
-  two derived tensor products and the right-unitor coherence of the [Stacks, Tag 079U]
-  comparison as explicit hypotheses; the dévissage to a general `K` in `D_QCoh(𝒪_S)` is absent,
-  so the projection formula is unavailable at the `ℱ` the proof needs.
-
-Accordingly the Tor-dimension half is beyond what the tree supports, and the bare label is not
-attached.
+contains it. The Tor-dimension half, and with it the tag, is proved downstream, in
+`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/TorDimensionDirectImage.lean`: there
+`AlgebraicGeometry.locallyHasFiniteTorDimension_derivedPushforward_of_isProperOver` gives the
+locally finite Tor dimension of `Rf_*E` by reducing to an affine base and an open quasi-compact
+neighbourhood of the cohomological support and running a Mayer--Vietoris induction from the
+affine case, in place of the source's appeal to [Stacks, Tag 08EU] and [Stacks, Tag 08EA], and
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.isPerfect_derivedPushforward_of_isProperOver_supp`
+is [Stacks, Tag 08EV].
 
 `Rf_*` is `AlgebraicGeometry.derivedPushforwardModules`, and pseudo-coherence is
 `AlgebraicGeometry.RingedSpace.IsPseudoCoherent`, the spelling of [Stacks, Tag 08CB] part (3)

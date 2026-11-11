@@ -807,7 +807,8 @@ the morphism `normalConeToExceptionalDivisor : C_ZX ⟶ E` is an open immersion 
 `E ∖ (X' ∩ E)`, which is the inverse image `E ∖ X'` of `W ∖ X'`, and it is a morphism over `X`
 (so the identification is one of schemes over `Z`). -/
 @[stacks 0FBH "E ∖ X' = E ∖ (X' ∩ E) = Spec_Z(C_{Z/X,*}) = C_ZX: an open immersion C_ZX → E \
-with image E ∖ (X' ∩ E) = E ∖ X', over X"]
+with image E ∖ (X' ∩ E) = E ∖ X', over X",
+  stacks 0FBG "(7): E ∖ X' = E ∖ (X' ∩ E) = Spec_Z(C_{Z/X,*}) = C_ZX"]
 theorem normalConeToExceptionalDivisor_spec :
     IsOpenImmersion (normalConeToExceptionalDivisor i) ∧
       (normalConeToExceptionalDivisor i).opensRange =

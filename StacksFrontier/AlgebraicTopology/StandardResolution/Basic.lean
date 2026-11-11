@@ -28,7 +28,8 @@ morphisms of simplicial objects `1_V ⋆ ε : V ∘ X ⟶ V` of `Fun(𝒜, 𝒮)
 whose two composites with it are homotopic to the identities. In degree `n` the two homotopy
 inverses are `η ⋆ 1_V`, resp. `1_U ⋆ η`, iterated `n + 1` times.
 
-For the free/forget adjunction between `A`-algebras and sets the tower is `X_n(B) = A[A[⋯[B]⋯]]`
+For the free/forget adjunction between (not necessarily commutative) `A`-algebras and sets, whose
+free functor is `FreeAlgebra`, the tower is `X_n(B) = A[A[⋯[B]⋯]]`
 with `n + 1` brackets, its faces and degeneracies are substitutions of variables, and the two
 homotopy inverses are the iterated inclusions of the variables, `b ↦ [⋯[b]⋯]` and
 `∑ a [e₁]⋯[e_p] ↦ ∑ a [⋯[e₁]⋯]⋯[⋯[e_p]⋯]`. For the free/forget adjunction between `R`-modules and
@@ -50,13 +51,20 @@ the resolution.
   whiskerings `1_V ⋆ ε` and `ε ⋆ 1_U` of the augmentation of the standard resolution are homotopy
   equivalences of simplicial objects of `A ⥤ S`, resp. of `S ⥤ A`.
 * `AlgCat.face_eq_lift_and_degeneracy_eq_lift`: the faces and degeneracies of the standard
-  resolution of an `A`-algebra by free `A`-algebras, as maps out of a free algebra, are four
-  `FreeAlgebra.lift`s: `d^n_0` substitutes for each variable `[z]` the element `z`, `s^n_0`
-  replaces `[z]` by `[[z]]`, and `d^{n+1}_{j+1}`, `s^{n+1}_{j+1}` send `[z]` to `[d^n_j(z)]`,
-  resp. `[s^n_j(z)]`.
+  resolution of an `A`-algebra by noncommutative free `A`-algebras (the noncommutative analogue of
+  Stacks 09CB, whose commutative form is `CommAlgCat.face_eq_aeval_and_degeneracy_eq_rename`), as
+  maps out of a free algebra, are four `FreeAlgebra.lift`s: `d^n_0` substitutes for each variable
+  `[z]` the element `z`, `s^n_0` replaces `[z]` by `[[z]]`, and `d^{n+1}_{j+1}`, `s^{n+1}_{j+1}`
+  send `[z]` to `[d^n_j(z)]`, resp. `[s^n_j(z)]`.
 * `AlgCat.exists_homotopyInverse_whiskered_standardResolution`: the same homotopy equivalences for
-  the free/forget adjunction of `A`-algebras, with their homotopy inverses displayed as the
-  iterated inclusions of the variables.
+  the free/forget adjunction of not necessarily commutative `A`-algebras, with their homotopy
+  inverses displayed as the iterated inclusions of the variables. The commutative case of Stacks
+  08NE, with polynomial algebras, is
+  `CommAlgCat.exists_homotopyInverse_whiskered_standardResolution` in
+  `StacksFrontier.Cotangent.StandardResolution`, through
+  `CategoryTheory.Godement.exists_homotopyInverse_whiskerRight_eq` and
+  `CategoryTheory.Godement.exists_homotopyInverse_whiskerLeft_eq`: the homotopy inverses of the
+  whiskered augmentations extending a prescribed family compatible with `d⁰₀` and `sⁿ₀`.
 * `AlgebraicTopology.homotopyEquivalences_forget_iff_quasiIso_of_surjective`: for a degreewise
   surjective morphism `f` of simplicial `R`-modules, the underlying morphism of simplicial sets is
   a homotopy equivalence if and only if `s(f)` is a quasi-isomorphism.
@@ -593,17 +601,15 @@ end FreeAlgebras
 
 namespace AlgCat
 
-/-- **Stacks 09CB**.
-Let `A` be a ring and let `X` be an `A`-algebra. In the tower `Xₙ = A[A[⋯[X]⋯]]` (`n + 1` brackets)
-of the standard resolution of `X` for the free/forget adjunction, each stage being the free algebra
-on the previous one, the faces `dⁿⱼ` and degeneracies `sⁿⱼ` are described on the variables by:
+/-- The noncommutative analogue of Stacks Example 09CB. Let `A` be a ring and let `X` be an
+object of `AlgCat A`, the category of all, not necessarily commutative, `A`-algebras. In the tower
+`Xₙ = A⟨A⟨⋯⟨X⟩⋯⟩⟩` (`n + 1` brackets) of the standard resolution of `X` for the free/forget
+adjunction `AlgCat.adj`, each stage being the noncommutative free algebra `FreeAlgebra` on the
+previous one, the faces `dⁿⱼ` and degeneracies `sⁿⱼ` are described on the variables by:
 `dⁿ₀` substitutes for the variable `[z]` the element `z`, so it is `FreeAlgebra.lift A id` and
-`d⁰₀ : A[X] ⟶ X` is the augmentation; `sⁿ₀` sends `[z]` to `[[z]]`; and `dⁿ⁺¹ⱼ₊₁`, `sⁿ⁺¹ⱼ₊₁` send
-`[z]` to `[dⁿⱼ(z)]`, resp. `[sⁿⱼ(z)]`. In degree `1`, for
-`x = ∑ a_k [b_{k,1}] ⋯ [b_{k,n_k}] ∈ A[X]`, this is `d₀([x]) = x`,
-`d₁([x]) = [∑ a_k b_{k,1} ⋯ b_{k,n_k}]`, `s₀([x]) = [[x]]` and
-`s₁([x]) = [∑ a_k [[b_{k,1}]] ⋯ [[b_{k,n_k}]]]`. -/
-@[stacks 09CB]
+`d⁰₀ : A⟨X⟩ ⟶ X` is the augmentation; `sⁿ₀` sends `[z]` to `[[z]]`; and `dⁿ⁺¹ⱼ₊₁`, `sⁿ⁺¹ⱼ₊₁` send
+`[z]` to `[dⁿⱼ(z)]`, resp. `[sⁿⱼ(z)]`. Stacks works instead with commutative `A`-algebras and
+polynomial algebras; that statement is `CommAlgCat.face_eq_aeval_and_degeneracy_eq_rename`. -/
 public theorem face_eq_lift_and_degeneracy_eq_lift {A : Type u} [CommRing A] (X : AlgCat.{u} A)
     (n : ℕ) :
     ((Godement.face (adj (R := A)).toComonad.ε n 0).app X).hom = FreeAlgebra.lift A id ∧
@@ -947,11 +953,94 @@ private theorem freeIteratedι_comp_degeneracy_zero {A : Type u} [CommRing A]
 
 end Variables
 
+namespace CategoryTheory.Godement
+
+/-- Let `X` be an augmented simplicial object of `C ⥤ C` whose terms, faces, degeneracies and
+augmentation are pinned to the powers of `Y`, `Godement.face dd`, `Godement.degeneracy ss` and
+`d⁰₀`, and let `a = 1_G ⋆ ε : G ∘ X ⟶ G` be its augmentation whiskered on the outside by a functor
+`G`. Let `p n : G ⟶ G ∘ Y^{n+1}` be a family with `(1_G ⋆ d⁰₀) ∘ p 0 = 1_G` and
+`(1_G ⋆ sⁿ₀) ∘ p n = p (n + 1)`. Then `a` is a homotopy equivalence whose homotopy inverse is
+`p n` in degree `n`: both composites with it are related to the identity by the equivalence
+relation generated by the existence of a simplicial homotopy. -/
+public theorem exists_homotopyInverse_whiskerRight_eq
+    {C : Type u₁} [Category.{v₁} C] {B : Type u₂} [Category.{v₂} B]
+    {Y : C ⥤ C} (dd : Y ⟶ 𝟭 C) (ss : Y ⟶ Y ⋙ Y) (G : C ⥤ B)
+    (X : SimplicialObject.Augmented (C ⥤ C))
+    (h : ∀ n : ℕ, X.left.obj (op ⦋n⦌) = Y.iterate (n + 1)) (hX : X.right = 𝟭 C)
+    (hδ : ∀ (n : ℕ) (j : Fin (n + 2)), X.left.δ j =
+      eqToHom (h (n + 1)) ≫ Godement.face dd (n + 1) j ≫ eqToHom (h n).symm)
+    (hσ : ∀ (n : ℕ) (j : Fin (n + 1)), X.left.σ j =
+      eqToHom (h n) ≫ Godement.degeneracy ss n j ≫ eqToHom (h (n + 1)).symm)
+    (hε : X.hom.app (op ⦋0⦌) = eqToHom (h 0) ≫ Godement.face dd 0 0 ≫ eqToHom hX.symm)
+    (a : X.left ⋙ (Functor.whiskeringRight C C B).obj G ⟶
+      (Functor.const SimplexCategoryᵒᵖ).obj (X.right ⋙ G))
+    (ha : ∀ n : SimplexCategoryᵒᵖ, a.app n = Functor.whiskerRight (X.hom.app n) G)
+    (p : ∀ n : ℕ, G ⟶ Y.iterate (n + 1) ⋙ G)
+    (hp₀ : p 0 ≫ Functor.whiskerRight (Godement.face dd 0 0) G = 𝟙 G)
+    (hp : ∀ n : ℕ, p n ≫ Functor.whiskerRight (Godement.degeneracy ss n 0) G = p (n + 1)) :
+    ∃ r : (Functor.const SimplexCategoryᵒᵖ).obj (X.right ⋙ G) ⟶
+        X.left ⋙ (Functor.whiskeringRight C C B).obj G,
+      (∀ n : ℕ, r.app (op ⦋n⦌) =
+        eqToHom (congrArg (fun F => F ⋙ G) hX) ≫ p n ≫
+          eqToHom (congrArg (fun F => F ⋙ G) (h n)).symm) ∧
+      Relation.EqvGen (fun f g => Nonempty (SimplicialObject.Homotopy f g)) (a ≫ r) (𝟙 _) ∧
+      Relation.EqvGen (fun f g => Nonempty (SimplicialObject.Homotopy f g)) (r ≫ a) (𝟙 _) := by
+  obtain ⟨e₁, er₁, eδ₁, eσ₁, ehom₁⟩ := exists_map_pinning dd ss
+    ((Functor.whiskeringRight C C B).obj G) X h hX hδ hσ hε a (ha (op ⦋0⦌))
+  obtain ⟨r, hr0, hh₁, hh₂⟩ := key_whiskerRight dd ss G
+    ⟨X.left ⋙ (Functor.whiskeringRight C C B).obj G, X.right ⋙ G, a⟩
+    e₁ er₁ eδ₁ eσ₁ ehom₁ _ (conj_comp_eq_id (e₁ 0) er₁ ehom₁ hp₀)
+  exact ⟨r, fun n => const_app_eq_of_degeneracy_step ss
+    ((Functor.whiskeringRight C C B).obj G) r e₁ eσ₁ er₁ p hr0 hp n, hh₁, hh₂⟩
+
+/-- Let `X` be an augmented simplicial object of `C ⥤ C` whose terms, faces, degeneracies and
+augmentation are pinned to the powers of `Y`, `Godement.face dd`, `Godement.degeneracy ss` and
+`d⁰₀`, and let `b = ε ⋆ 1_F : X ∘ F ⟶ F` be its augmentation whiskered on the inside by a functor
+`F`. Let `p n : F ⟶ Y^{n+1} ∘ F` be a family with `(d⁰₀ ⋆ 1_F) ∘ p 0 = 1_F` and
+`(sⁿ₀ ⋆ 1_F) ∘ p n = p (n + 1)`. Then `b` is a homotopy equivalence whose homotopy inverse is
+`p n` in degree `n`: both composites with it are related to the identity by the equivalence
+relation generated by the existence of a simplicial homotopy. -/
+public theorem exists_homotopyInverse_whiskerLeft_eq
+    {A : Type u₁} [Category.{v₁} A] {C : Type u} [Category.{v} C]
+    {Y : C ⥤ C} (dd : Y ⟶ 𝟭 C) (ss : Y ⟶ Y ⋙ Y) (F : A ⥤ C)
+    (X : SimplicialObject.Augmented (C ⥤ C))
+    (h : ∀ n : ℕ, X.left.obj (op ⦋n⦌) = Y.iterate (n + 1)) (hX : X.right = 𝟭 C)
+    (hδ : ∀ (n : ℕ) (j : Fin (n + 2)), X.left.δ j =
+      eqToHom (h (n + 1)) ≫ Godement.face dd (n + 1) j ≫ eqToHom (h n).symm)
+    (hσ : ∀ (n : ℕ) (j : Fin (n + 1)), X.left.σ j =
+      eqToHom (h n) ≫ Godement.degeneracy ss n j ≫ eqToHom (h (n + 1)).symm)
+    (hε : X.hom.app (op ⦋0⦌) = eqToHom (h 0) ≫ Godement.face dd 0 0 ≫ eqToHom hX.symm)
+    (b : X.left ⋙ (Functor.whiskeringLeft A C C).obj F ⟶
+      (Functor.const SimplexCategoryᵒᵖ).obj (F ⋙ X.right))
+    (hb : ∀ n : SimplexCategoryᵒᵖ, b.app n = Functor.whiskerLeft F (X.hom.app n))
+    (p : ∀ n : ℕ, F ⟶ F ⋙ Y.iterate (n + 1))
+    (hp₀ : p 0 ≫ Functor.whiskerLeft F (Godement.face dd 0 0) = 𝟙 F)
+    (hp : ∀ n : ℕ, p n ≫ Functor.whiskerLeft F (Godement.degeneracy ss n 0) = p (n + 1)) :
+    ∃ r : (Functor.const SimplexCategoryᵒᵖ).obj (F ⋙ X.right) ⟶
+        X.left ⋙ (Functor.whiskeringLeft A C C).obj F,
+      (∀ n : ℕ, r.app (op ⦋n⦌) =
+        eqToHom (congrArg (fun T => F ⋙ T) hX) ≫ p n ≫
+          eqToHom (congrArg (fun T => F ⋙ T) (h n)).symm) ∧
+      Relation.EqvGen (fun f g => Nonempty (SimplicialObject.Homotopy f g)) (b ≫ r) (𝟙 _) ∧
+      Relation.EqvGen (fun f g => Nonempty (SimplicialObject.Homotopy f g)) (r ≫ b) (𝟙 _) := by
+  obtain ⟨e₂, er₂, eδ₂, eσ₂, ehom₂⟩ := exists_map_pinning dd ss
+    ((Functor.whiskeringLeft A C C).obj F) X h hX hδ hσ hε b (hb (op ⦋0⦌))
+  obtain ⟨r, hr0, hh₁, hh₂⟩ := key_whiskerLeft dd ss F
+    ⟨X.left ⋙ (Functor.whiskeringLeft A C C).obj F, F ⋙ X.right, b⟩
+    e₂ er₂ eδ₂ eσ₂ ehom₂ _ (conj_comp_eq_id (e₂ 0) er₂ ehom₂ hp₀)
+  exact ⟨r, fun n => const_app_eq_of_degeneracy_step ss
+    ((Functor.whiskeringLeft A C C).obj F) r e₂ eσ₂ er₂ p hr0 hp n, hh₁, hh₂⟩
+
+end CategoryTheory.Godement
+
 namespace AlgCat
 
-/-- **Stacks 08NE**.
-Let `A` be a ring, let `U : Sets → Alg_A` be the free algebra functor and `V` the forgetful
-functor, and let `X` be the standard resolution of the comonad `Y = U ∘ V`: the augmented
+/-- The analogue of Stacks 08NE for the free/forget adjunction of *not necessarily commutative*
+`A`-algebras (`AlgCat`, whose free functor is `FreeAlgebra`, the non-commutative free algebra);
+Stacks 08NE itself concerns commutative `A`-algebras and polynomial algebras `A[E]`, and is
+`CommAlgCat.exists_homotopyInverse_whiskered_standardResolution`.
+Let `A` be a ring, let `U : Sets → Alg_A` be the free associative algebra functor and `V` the
+forgetful functor, and let `X` be the standard resolution of the comonad `Y = U ∘ V`: the augmented
 simplicial object of `Fun(Alg_A, Alg_A)` with terms the iterates `Xₙ = Y^{n+1}`, so that
 `Xₙ(B) = A[A[⋯[B]⋯]]` with `n + 1` brackets, faces `Godement.face`, degeneracies
 `Godement.degeneracy`, point `𝟭` and augmentation `d⁰₀`. Then the whiskered augmentations
@@ -962,8 +1051,8 @@ variable `[e]` to `[⋯[e]⋯]` (`n + 2` brackets), and both composites of each 
 are homotopic to the identity, homotopic meaning related by the equivalence relation generated by
 the existence of a simplicial homotopy. Evaluating the first clause at an `A`-algebra `B` gives
 the homotopy equivalence of the underlying simplicial sets of `X(B) ⟶ B`, and the second at a set
-`E` the homotopy equivalence of simplicial `A`-algebras `X(A[E]) ⟶ A[E]`. -/
-@[stacks 08NE]
+`E` the homotopy equivalence of simplicial `A`-algebras `X(A⟨E⟩) ⟶ A⟨E⟩`, where `A⟨E⟩` is the free
+non-commutative algebra. -/
 public theorem exists_homotopyInverse_whiskered_standardResolution {A : Type u} [CommRing A]
     (X : SimplicialObject.Augmented (AlgCat.{u} A ⥤ AlgCat.{u} A))
     (h : ∀ n : ℕ, X.left.obj (op ⦋n⦌) =

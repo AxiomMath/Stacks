@@ -29,12 +29,15 @@ cohomology modules are all finite is the `I`-adic completion of its cohomology (
 Tag 0A06]). The last is the only place where finiteness of `H^p(X, ℱ)` over `A` is used.
 
 The identification of `RΓ(X, lim ℱ/𝓘ⁿℱ)` with the derived `I`-adic completion of `RΓ(X, ℱ)` is
-[Stacks, Tag 0BLX]; it is not available in this library and is carried as the hypothesis `hBLX`
-below. That hypothesis is an isomorphism between two objects of `D(A)`, and asserts nothing about
-any exact sequence: the three terms of the conclusion and the exactness relating them come from
-Tags 0A0K, 08U1, 07KZ and 0A06.
+[Stacks, Tag 0BLX]; it is carried as the hypothesis `hBLX` below, and proved at an arbitrary
+ideal downstream, by `Stacks.Algebraization.hBLX_baseIdealSheaf` of
+`Completion/GeneralCohomologyAdicCompletion.lean`. That hypothesis is an isomorphism between two
+objects of `D(A)`, and asserts nothing about any exact sequence: the three terms of the
+conclusion and the exactness relating them come from Tags 0A0K, 08U1, 07KZ and 0A06.
 
-The vanishing of the `R¹lim` term for a proper `f` is not proved here. It rests on the
+The vanishing of the `R¹lim` term for a proper `f` is not proved in this file (it is
+`Stacks.Algebraization.isZero_firstDerivedLimit_cohomology_adicQuotients_of_isProper` of
+`Completion/CohomologyAdicCompletionWhole.lean`). It rests on the
 Mittag-Leffler condition for the tower `n ↦ H^{p-1}(X, ℱ/𝓘ⁿℱ)`, which is [Stacks, Tag 02OB]; for
 a countable tower of modules the Mittag-Leffler condition is equivalent to the vanishing of
 `R¹lim`, so the properness clause cannot be reduced to a hypothesis on the tower that is weaker
@@ -104,7 +107,8 @@ private lemma exists_shortExact_of_iso_middle
   exact ShortComplex.shortExact_of_iso
     (ShortComplex.isoMk (Iso.refl L) e (Iso.refl R) (by simp) (by simp)) hs
 
-/-- **Stacks Project, Tag 0A0M**, the short exact sequence, granted [Stacks, Tag 0BLX].
+/-- **The short exact sequence of [Stacks, Tag 0A0M], transported along a given identification
+of [Stacks, Tag 0BLX].**
 
 Let `A` be a Noetherian ring, `I ⊆ A` an ideal, `f : X ⟶ Spec A` a Noetherian scheme over `A`
 and `ℱ` a coherent `𝒪_X`-module whose cohomology modules `H^p(X, ℱ)` are finite over `A`. Write
@@ -117,10 +121,12 @@ tower and whose right term is the inverse limit of the degree-`p` cohomology tow
 Derived `I`-adic completion is represented by an arbitrary left adjoint `C` to the inclusion of
 the derived-complete objects of `D(A)`. The hypothesis `hBLX` is [Stacks, Tag 0BLX] for `f`: the
 derived global sections of the formal completion `lim ℱ/𝓘ⁿℱ` are the derived `I`-adic completion
-of the derived global sections of `ℱ`. -/
-@[stacks 0A0M "the exact sequence, granted the identification of [Stacks, Tag 0BLX] of the \
-derived global sections of the formal completion with the derived I-adic completion of the \
-derived global sections, carried as the hypothesis hBLX"]
+of the derived global sections of `ℱ`.
+
+This is a step of the proof, not the tag: `hBLX` is proved at an arbitrary ideal by
+`Stacks.Algebraization.hBLX_baseIdealSheaf`, and the whole of [Stacks, Tag 0A0M] is
+`Stacks.Algebraization.exists_shortExact_adicCompletion_cohomology_whole` of
+`Completion/GeneralCohomologyAdicCompletion.lean`, which carries the tag. -/
 public theorem exists_shortExact_adicCompletion_cohomology
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     {X : Scheme.{u}} [IsNoetherian X] (f : X ⟶ Spec (.of A))

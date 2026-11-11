@@ -38,7 +38,9 @@ singularity and whose completion `A^` is normal. Then
 1. `A^` defines a rational singularity, and
 2. if `X ⟶ Spec(A)` is the blowup in `𝔪`, then for a closed point `x ∈ X` the completion of
    `𝒪_{X, x}` is normal (indeed a normal domain). -/
-@[stacks 0BG7]
+@[stacks 0BG7 "both clauses: the completion A^ defines a rational singularity, and at every \
+closed point of the blowup of Spec(A) in the maximal ideal the completed local ring is a normal \
+domain"]
 theorem definesRationalSingularity_adicCompletion_and_isNormalDomain_stalk_blowUp
     (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A] (hNagata : IsNagataRing A)
     [IsNormalDomain (AdicCompletion (maximalIdeal A) A)]

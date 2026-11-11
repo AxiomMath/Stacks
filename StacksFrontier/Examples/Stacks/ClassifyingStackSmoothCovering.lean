@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleSite
 public import StacksFrontier.AlgebraicGeometry.Stacks.AlgebraicStack
 
 /-!
-# An affine group with a smooth classifying-stack covering is of finite type (Stacks 04AH)
+# An affine group with a smooth classifying-stack covering is of finite type
 
 Let `k` be a field and let `G` be an affine group scheme over `k`. If the classifying stack
 `[Spec(k)/G]` admits a smooth surjective covering by a scheme, then `G` is of finite type
@@ -23,8 +23,9 @@ over `k`.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isFiniteType_of_smoothSchemeCovering_classifyingStack`:
-  **Stacks 04AH**.
+* `AlgebraicGeometry.Stack.isFiniteType_of_smoothSchemeCovering_classifyingStack`: the
+  conclusion of Stacks 04AH, given the representability of the diagonal and the local finite
+  presentation of an algebraic classifying stack's group.
 
 ## Implementation notes
 
@@ -45,16 +46,16 @@ algebraic spaces, every algebraic space representing whose base change along a s
 point of the stack has surjective and smooth structural morphism. Only that clause is assumed,
 not algebraicity of the stack.
 
-Two inputs the library does not have are carried as hypotheses and named in the tag clause.
-**Stacks 04WZ**, representability of the diagonal of a quotient stack, is available here only
-through `AlgebraicGeometry.Stack.hasRepresentableDiagonal_quotientStack_of_isomPresheafAlgebraic`,
-which rests on **Stacks 04TB**; its conclusion is taken as the hypothesis `hdiag`. The implication
-of **Stacks 06PL** that an algebraic classifying stack has a group locally of finite presentation
-over the base is taken as the hypothesis `hfp`. The remaining two clauses of Stacks 026O are
-discharged from the library: the quotient stack is fibred in groupoids and is a stack for the fppf
-topology by `AlgebraicGeometry.Stack.isFiberedInGroupoids_quotientStack`,
+The theorem here, `isFiniteType_of_smoothSchemeCovering_classifyingStack`, takes besides the
+covering two hypotheses: representability of the diagonal of the classifying stack (`hdiag`) and
+the implication from algebraicity of the classifying stack to local finite presentation of `G`
+(`hfp`). With these the three clauses of Stacks 026O hold: the quotient stack is fibred in
+groupoids and is a stack for the fppf topology by
+`AlgebraicGeometry.Stack.isFiberedInGroupoids_quotientStack`,
 `AlgebraicGeometry.Stack.isStack_quotientStack` and
-`AlgebraicGeometry.Stack.isStackInGroupoids_quotientStack`.
+`AlgebraicGeometry.Stack.isStackInGroupoids_quotientStack`. Both hypotheses are discharged, by
+**Stacks 04WZ** and the converse half of **Stacks 06PL**, in
+`StacksFrontier.Examples.Stacks.ClassifyingStackFiniteType`, which carries **Stacks 04AH**.
 
 Quasi-compactness of the structure morphism is derived from its affineness rather than assumed:
 by **Stacks 03WF** every base change of it to an affine object of the site is represented by an
@@ -112,16 +113,18 @@ noncomputable def classifyingStack
       (Space.terminalSpace C (Spec (.of k)) hk).property).groupoid)
     (isFiberedInGroupoids_quotientStack _)
 
-/-- **Stacks 04AH.** Let `k` be a field and let `G` be an affine group scheme over `k`. If the
-classifying stack `[Spec(k)/G]` has a smooth surjective covering by a scheme, then `G` is of
-finite type over `k`.
+/-- **An affine group with a smooth classifying-stack covering is of finite type, given the
+diagonal and the finite presentation.** Let `k` be a field and let `G` be an affine group scheme
+over `k`, and suppose the classifying stack `[Spec(k)/G]` has a smooth surjective covering by a
+scheme, its diagonal is representable by algebraic spaces (`hdiag`), and algebraicity of it makes
+`G` locally of finite presentation over `k` (`hfp`). Then `G` is of finite type over `k`.
 
-The covering hypothesis is the third clause of Stacks 026O for the classifying stack. The
-hypotheses `hdiag` and `hfp` are Stacks 04WZ and the forward implication of Stacks 06PL, which
-this library does not have. -/
-@[stacks 04AH "conditional on Stacks 04WZ, that the diagonal of a quotient stack is representable \
-by algebraic spaces, and on the implication of Stacks 06PL that an algebraic classifying stack \
-has a group locally of finite presentation over the base"]
+Both extra hypotheses are theorems of the library: `hdiag` is Stacks 04WZ,
+`AlgebraicGeometry.Stack.hasRepresentableDiagonal_quotientStack`, and `hfp` follows from the
+converse half of Stacks 06PL,
+`isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction`.
+**Stacks 04AH** itself, with neither, is
+`AlgebraicGeometry.Stack.isFiniteType_classifyingStack_of_smoothSchemeCovering`. -/
 theorem isFiniteType_of_smoothSchemeCovering_classifyingStack
     (G : Space.GroupAlgebraicSpace C (Spec (.of k)) hk
       (Space.terminalSpace C (Spec (.of k)) hk).obj

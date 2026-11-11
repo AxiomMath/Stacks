@@ -78,7 +78,7 @@ whose étale topology `AlgebraicGeometry.BigFppfOver.baseOverTopology B S hS .et
 localisation of `AlgebraicGeometry.etaleTopology` at `S` by definition.
 
 The étale topology on the common underlying category is `AlgebraicGeometry.etaleTopology`
-localised at `S`, as in `AlgebraicGeometry.Stack.isAlgebraicStack_of_isStackInGroupoids_etale`.
+localised at `S`.
 The étale stack hypothesis is the family-indexed `CategoryTheory.Functor.IsStackInGroupoids` of
 Stacks 02ZI at the index universe `u + 1` of the families of the site, which is equivalent to the
 sieve-indexed stack condition (`CategoryTheory.Functor.isStack_of_isStackInGroupoids`).

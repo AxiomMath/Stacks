@@ -34,9 +34,13 @@ under one `∃` and the finiteness of `g` inside the conjunction, whereas the co
 `exists_finite_algebraization_of_adicFiniteSystem` binds `k` under a second `∃` nested to the
 right of `IsFinite`/`IsProper`; so the identification is the term below, not `rfl`.
 
-No `@[stacks]` attribute is attached here: both statements are conditional on `halg`, and
-Stacks 09ZT is registered on the content that is proved *from* `halg`, not on a repackaging of
-`halg` itself.
+No `@[stacks]` attribute is attached here: these are repackagings, and Stacks 09ZT, 0A42 and 0899
+are registered in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AdicFiniteAlgebraizationTags.lean`,
+on `exists_finite_algebraization_of_adicFiniteSystem_holds`,
+`existsUnique_algebraization_adicBaseChangeMap_holds` and
+`exists_closedImmersion_algebraization_of_isPullback_holds`, where `halg` is discharged by
+`adicFiniteAlgebraAlgebraization_holds`.
 
 ## References
 

@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Crystalline.ModuleDifferentials.Thickening.ExtensionCoproductMap
 
 /-!
-# Divided power differentials as the diagonal conormal module
+# Divided power differentials as the diagonal conormal module, in `Cris(C/A)`
 
 The two mutually inverse linear maps between the diagonal conormal module and the module of
 divided power differentials of `X`, and the resulting canonical identification
@@ -643,8 +643,8 @@ private theorem diagonalConormalMaps_rightInverse
   rfl
 
 /-- The canonical identification of divided power differentials with the diagonal
-conormal module on the affine crystalline site, carrying `db` to the difference of the
-two coprojections. -/
+conormal module for an object of `Cris(C/A)` and its self-coproduct in `Cris(C/A)`, carrying
+`db` to the difference of the two coprojections. -/
 public theorem exists_dividedPowerDifferentialsEquivDiagonalConormal
     (h : IsColimit (BinaryCofan.mk s₀ s₁)) :
     Nonempty (letI : Algebra S.A X.1.ring := X.1.fromBase.toRingHom.toAlgebra
@@ -667,8 +667,11 @@ public theorem exists_dividedPowerDifferentialsEquivDiagonalConormal
   exact dividedPowerDifferentialsToDiagonalConormal_apply h b
 
 /-- A chosen identification of the divided power differentials of `X` with the diagonal
-conormal module, carrying `db` to `diagonalDifference h b`. -/
-@[stacks 07HV "canonical identification"]
+conormal module, carrying `db` to `diagonalDifference h b`, for an object of `Cris(C/A)` and its
+self-coproduct in `Cris(C/A)`.  This is the special case of part (2) of Stacks Tag 07HV for
+`Cris(C/A)`; the statement for `CRIS(C/A)` is
+`Crystalline.DividedPowerThickening.isSubDPIdeal_and_existsUnique_dividedPowerDifferentialsEquiv`.
+-/
 public noncomputable def dividedPowerDifferentialsEquivDiagonalConormal
     (h : IsColimit (BinaryCofan.mk s₀ s₁)) :
     letI : Algebra S.A X.1.ring := X.1.fromBase.toRingHom.toAlgebra

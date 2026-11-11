@@ -7,7 +7,7 @@ public import StacksFrontier.Homology.TorAmplitude.CanonicalCertificate
 public import StacksFrontier.RingTheory.Dualizing.TrivialDuality.BaseChangeIsomorphism
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.TorIndependentBaseChange
 public import StacksFrontier.RingTheory.PseudoCoherentMap.Flat
-public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectAnyPresentation
+public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBound
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.FlatBaseChangeIso
 
@@ -19,7 +19,8 @@ Let `R → R'` be a homomorphism of Noetherian rings, let `φ : R → A` be of f
 algebraic upper shriek at the base ring in degree zero.  This file proves that it commutes with
 base change — there is an isomorphism `ω^•_{A/R} ⊗_A^L A' ≅ ω^•_{A'/R'}` in `D(A')` — in each of
 three cases: `R → R'` flat, `R → A` flat, and `R → A` perfect with `A` and `R'` Tor independent
-over `R`.
+over `R`.  Cases (1) and (2) do not use that `R'` is Noetherian, and case (3) uses neither
+Noetherian hypothesis.
 
 ## Main definitions
 
@@ -32,7 +33,7 @@ over `R`.
   compatibility `Dualizing.KFlatAlgebraActionEq` implies it at every presentation.
 * `Dualizing.relativeDualizingComplexBaseChange_of_flatBaseChange` — case (1).
 * `Dualizing.relativeDualizingComplexBaseChange_of_flatAlgebra` — case (2).
-* `Dualizing.relativeDualizingComplexBaseChange_of_isPerfect` — case (3).
+* `Dualizing.relativeDualizingComplexBaseChange_of_perfect` — case (3).
 
 ## Implementation notes
 
@@ -216,32 +217,14 @@ private theorem relativeDualizingBaseChange_core
               derivedExtensionScalarsRegularIso (algebraMap P P'))) ≪≫ (eH.app _).symm ≪≫
             HT.mapIso p'.derivedExtensionUnitIso.symm)
 
-/-- Let `R` and `R'` be Noetherian rings, let `φ : R → A` be a perfect
-homomorphism presented by `p`, and let `A` and `R'` be Tor independent over `R`.  Then the
-relative dualizing complex commutes with base change to `R'`: there is an isomorphism
-`ω^•_{A/R} ⊗_A^L A' ≅ ω^•_{A'/R'}` in `D(A')`, where `A' = R' ⊗_R A` and the derived tensor
-product is read at the given left-derived model of extension of scalars.
-
-Perfectness of `φ` is `RingHom.IsPerfectRingMap` at the given certified derived tensor product. -/
+/-- Let `R → R'` be a ring homomorphism, let `φ : R → A` be a perfect homomorphism presented by
+`p`, and let `A` and `R'` be Tor independent over `R`.  Then the relative dualizing complex
+commutes with base change to `R'`: there is an isomorphism `ω^•_{A/R} ⊗_A^L A' ≅ ω^•_{A'/R'}` in
+`D(A')`, where `A' = R' ⊗_R A` and the derived tensor product is read at the given left-derived
+model of extension of scalars.  The Noetherian hypotheses of the source are not needed. -/
 @[stacks 0BZV "case (3), R → A perfect and A, R' Tor independent"]
-theorem relativeDualizingComplexBaseChange_of_isPerfect
-    [IsNoetherianRing R] [IsNoetherianRing R']
+theorem relativeDualizingComplexBaseChange_of_perfect [Algebra.Perfect R A]
     (p : PolynomialPresentation (algebraMap R A))
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hperf : RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived)
     (hTor : TorIndependent R A R')
     (bcT : DerivedCategory (ModuleCat.{u} A) ⥤
       DerivedCategory (ModuleCat.{u} (TensorProduct R R' A)))
@@ -264,8 +247,9 @@ theorem relativeDualizingComplexBaseChange_of_isPerfect
   have hPerfModule : let : Module (MvPolynomial (Fin p.variableCount) R) A :=
         Module.compHom A p.toRingHom
       StacksDraft.Perfect.IsPerfectModule (R := MvPolynomial (Fin p.variableCount) R) A :=
-    RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived hperf
-      p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective
+    (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
   let DP := derivedExtensionScalarsGeneral.{u, u, u}
     (algebraMap (MvPolynomial (Fin p.variableCount) R) (MvPolynomial (Fin p.variableCount) R'))
   let DA := derivedExtensionScalarsGeneral.{u, u, u}
@@ -277,14 +261,13 @@ theorem relativeDualizingComplexBaseChange_of_isPerfect
     hTorP DP.functor DP.comparison DP.isLeftDerived DA.functor DA.comparison DA.isLeftDerived
     hPerfModule) _
 
-/-- Let `R → R'` be a flat homomorphism of Noetherian rings and let
-`φ : R → A` be of finite type, presented by `p`.  Then the relative dualizing complex commutes
-with base change to `R'`: there is an isomorphism `ω^•_{A/R} ⊗_A^L A' ≅ ω^•_{A'/R'}` in `D(A')`,
-where `A' = R' ⊗_R A` and the derived tensor product is read at the given left-derived model of
-extension of scalars. -/
+/-- Let `R` be a Noetherian ring, `R → R'` a flat ring homomorphism, and let `φ : R → A` be of
+finite type, presented by `p`.  Then the relative dualizing complex commutes with base change to
+`R'`: there is an isomorphism `ω^•_{A/R} ⊗_A^L A' ≅ ω^•_{A'/R'}` in `D(A')`, where
+`A' = R' ⊗_R A` and the derived tensor product is read at the given left-derived model of
+extension of scalars.  The source's Noetherian hypothesis on `R'` is not needed. -/
 @[stacks 0BZV "case (1), R → R' flat"]
-theorem relativeDualizingComplexBaseChange_of_flatBaseChange
-    [IsNoetherianRing R] [IsNoetherianRing R']
+theorem relativeDualizingComplexBaseChange_of_flatBaseChange [IsNoetherianRing R]
     (p : PolynomialPresentation (algebraMap R A))
     (hflat : (algebraMap R R').Flat)
     (bcT : DerivedCategory (ModuleCat.{u} A) ⥤
@@ -324,14 +307,13 @@ theorem relativeDualizingComplexBaseChange_of_flatBaseChange
     (p.baseChange (R' := R')).upperShriekFunctor.{u, 0}.mapIso
       (e₃.app R0 ≪≫ derivedExtensionScalarsRegularIso (algebraMap R R'))⟩
 
-/-- Let `R` and `R'` be Noetherian rings and let `φ : R → A` be flat
+/-- Let `R` be a Noetherian ring, `R → R'` a ring homomorphism, and let `φ : R → A` be flat
 and of finite type, presented by `p`.  Then the relative dualizing complex commutes with base
 change to `R'`: there is an isomorphism `ω^•_{A/R} ⊗_A^L A' ≅ ω^•_{A'/R'}` in `D(A')`, where
 `A' = R' ⊗_R A` and the derived tensor product is read at the given left-derived model of
-extension of scalars. -/
+extension of scalars.  The source's Noetherian hypothesis on `R'` is not needed. -/
 @[stacks 0BZV "case (2), R → A flat"]
-theorem relativeDualizingComplexBaseChange_of_flatAlgebra
-    [IsNoetherianRing R] [IsNoetherianRing R']
+theorem relativeDualizingComplexBaseChange_of_flatAlgebra [IsNoetherianRing R]
     (p : PolynomialPresentation (algebraMap R A))
     (hflat : (algebraMap R A).Flat)
     (bcT : DerivedCategory (ModuleCat.{u} A) ⥤
@@ -355,10 +337,8 @@ theorem relativeDualizingComplexBaseChange_of_flatAlgebra
     exact isZero_Tor_succ_of_flat (ModuleCat.of R A) (ModuleCat.of R R') k
   have hft : Algebra.FiniteType R A := RingHom.finiteType_algebraMap.mp p.finiteType
   have hfp : Algebra.FinitePresentation R A := Algebra.FinitePresentation.of_finiteType.mp hft
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  exact relativeDualizingComplexBaseChange_of_isPerfect p D.tensor D.comparison D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2 D.tensor D.comparison
-      D.isLeftDerived) hTor bcT cmpT ldT
+  have := Algebra.Perfect.of_flat_of_finitePresentation R A
+  exact relativeDualizingComplexBaseChange_of_perfect p hTor bcT cmpT ldT
 
 end Dualizing
 

@@ -29,10 +29,16 @@ distinguished triangle in `D_QCoh(𝒪_X)`
   `DQ_X(Rj_{U,*}(K|_U) ⊕ Rj_{V,*}(K|_V)) ≅ Rj_{U,*}DQ_U(K|_U) ⊕ Rj_{V,*}DQ_V(K|_V)`.
 * `Stacks.Duality.Coherator.mayerVietorisThirdIso`: the isomorphism
   `DQ_X(Rj_{U ∩ V,*}(K|_{U ∩ V})) ≅ Rj_{U ∩ V,*}DQ_{U ∩ V}(K|_{U ∩ V})`.
-* `Stacks.Duality.Coherator.mayerVietorisTriangle`: the canonical triangle above, as data.
+* `Stacks.Duality.Coherator.mayerVietorisTriangle`: the image under `DQ_X` of a triangle
+  `K ⟶ Rj_{U,*}(K|_U) ⊕ Rj_{V,*}(K|_V) ⟶ Rj_{U ∩ V,*}(K|_{U ∩ V}) ⟶ K⟦1⟧` whose first map is the
+  pair of units, read through the identifications above; its last two maps are parameters.
 
 ## Main results
 
+* `Stacks.Duality.Coherator.mayerVietorisTriangle_mem_distTriang`: **[Stacks, Tag 0CR2]**, the
+  canonical triangle, i.e. `Stacks.Duality.Coherator.mayerVietorisTriangle` at the last two maps
+  of the Mayer--Vietoris triangle `Stacks.Duality.Coherator.mayerVietorisDerivedTriangle` of
+  [Stacks, Tag 08BV], is distinguished.
 * `Stacks.Duality.Coherator.mayerVietorisTriangle_distinguished`: a distinguished triangle on the
   three terms above exists.
 
@@ -168,13 +174,16 @@ def mayerVietorisThirdIso :
 
 /-! ### The triangle -/
 
-/-- The canonical triangle
+/-- The triangle
 
 `DQ_X(K) ⟶ Rj_{U,*}DQ_U(K|_U) ⊕ Rj_{V,*}DQ_V(K|_V) ⟶ Rj_{U ∩ V,*}DQ_{U ∩ V}(K|_{U ∩ V}) ⟶`
 
 attached to a scheme `X`, two opens `U`, `V` of `X`, coherators `DQ_X`, `DQ_U`, `DQ_V`,
-`DQ_{U ∩ V}` with `DQ_X` commuting with the shift, an object `K` of `D(𝒪_X)`, and the last two maps
-`mor₂`, `mor₃` of the Mayer--Vietoris triangle of [Stacks, Tag 08BV] for the cover `X = U ∪ V`.
+`DQ_{U ∩ V}` with `DQ_X` commuting with the shift, an object `K` of `D(𝒪_X)`, and two maps
+`mor₂`, `mor₃` completing the pair of units `K ⟶ Rj_{U,*}(K|_U) ⊕ Rj_{V,*}(K|_V)` to a triangle.
+The triangle of [Stacks, Tag 0CR2] is the one at the last two maps of the Mayer--Vietoris
+triangle `Stacks.Duality.Coherator.mayerVietorisDerivedTriangle` of [Stacks, Tag 08BV], see
+`Stacks.Duality.Coherator.mayerVietorisTriangle_mem_distTriang`.
 
 It is the image under `DQ_X` of that Mayer--Vietoris triangle, conjugated by
 `Stacks.Duality.Coherator.mayerVietorisMiddleIso` and
@@ -182,7 +191,6 @@ It is the image under `DQ_X` of that Mayer--Vietoris triangle, conjugated by
 `biprod.lift` of the two units of `j_W^* ⊣ Rj_{W,*}` followed by the middle identification, the
 second is `DQ_X(mor₂)` read through both identifications, and the third is `DQ_X(mor₃)` read
 through the third identification and the commutation of `DQ_X` with the shift. -/
-@[stacks 0CR2 "the canonical triangle, as data"]
 def mayerVietorisTriangle [DQX.CommShift ℤ]
     (mor₂ : restrictPushforward U K ⊞ restrictPushforward V K ⟶ restrictPushforward (U ⊓ V) K)
     (mor₃ : restrictPushforward (U ⊓ V) K ⟶ K⟦(1 : ℤ)⟧) :
@@ -237,8 +245,8 @@ triangle
 
 `DQ_X(K) ⟶ Rj_{U,*}DQ_U(K|_U) ⊕ Rj_{V,*}DQ_V(K|_V) ⟶ Rj_{U ∩ V,*}DQ_{U ∩ V}(K|_{U ∩ V}) ⟶`
 
-in `D_QCoh(𝒪_X)`. -/
-@[stacks 0CR2 "the distinguished triangle of the tag, over arbitrary coherators"]
+in `D_QCoh(𝒪_X)`. The triangle with the canonical maps of the tag is
+`Stacks.Duality.Coherator.mayerVietorisTriangle_mem_distTriang`. -/
 theorem mayerVietorisTriangle_distinguished (hUV : U ⊔ V = ⊤) :
     ∃ (f : DQX.obj K ⟶
           coheratorPushforwardOpens U DQU K ⊞ coheratorPushforwardOpens V DQV K)
@@ -261,6 +269,47 @@ theorem mayerVietorisTriangle_distinguished (hUV : U ⊔ V = ⊤) :
   exact Triangle.isoMk _ _ (Iso.refl _) eM eT
     (by simp [Functor.mapTriangle]) (by simp [Functor.mapTriangle])
     (by simp [Functor.mapTriangle])
+
+/-- **[Stacks, Tag 0CR2].** Let `X` be a quasi-compact and quasi-separated scheme, let
+`X = U ∪ V` with `U` and `V` quasi-compact open, and let `DQ_X`, `DQ_U`, `DQ_V`, `DQ_{U ∩ V}` be
+coherators — right adjoints of the inclusions `D_QCoh ⥤ D`. Then for every object `K` of
+`D(𝒪_X)` the canonical triangle
+
+`DQ_X(K) ⟶ Rj_{U,*}DQ_U(K|_U) ⊕ Rj_{V,*}DQ_V(K|_V) ⟶ Rj_{U ∩ V,*}DQ_{U ∩ V}(K|_{U ∩ V}) ⟶`
+
+is distinguished in `D_QCoh(𝒪_X)`. The triangle is `DQ_X` applied to the Mayer--Vietoris
+triangle `Stacks.Duality.Coherator.mayerVietorisDerivedTriangle` of [Stacks, Tag 08BV] (the pair
+of units, the difference of the restriction maps `Stacks.Duality.Coherator.restrictPushforwardRes`,
+and the connecting map `Stacks.Duality.Coherator.mayerVietorisDerivedδ`), read through the three
+identifications `DQ_X ∘ Rj_{W,*} ≅ Rj_{W,*} ∘ DQ_W` of [Stacks, Tag 0CR1]; the shift structure
+of `DQ_X` is the one it inherits as a right adjoint of the exact inclusion. -/
+@[stacks 0CR2 "the canonical triangle: `DQ_X` of the Mayer--Vietoris triangle of Tag 08BV with \
+  its maps, through the identifications of Tag 0CR1, for coherators given as right adjoints"]
+theorem mayerVietorisTriangle_mem_distTriang (hUV : U ⊔ V = ⊤) :
+    letI : DQX.CommShift ℤ := adjX.rightAdjointCommShift ℤ
+    mayerVietorisTriangle U V DQX DQU DQV DQUV adjX adjU adjV adjUV
+        (isQuasicoherent_homology_derivedPushforward_opens U)
+        (isQuasicoherent_homology_derivedPushforward_opens V)
+        (isQuasicoherent_homology_derivedPushforward_opens (U ⊓ V)) K
+        (biprod.desc (restrictPushforwardRes (inf_le_left : U ⊓ V ≤ U) K)
+          (-restrictPushforwardRes (inf_le_right : U ⊓ V ≤ V) K))
+        (mayerVietorisDerivedδ U V hUV K) ∈
+      distTriang (quasiCoherentDerivedCategory X) := by
+  let : DQX.CommShift ℤ := adjX.rightAdjointCommShift ℤ
+  let : adjX.CommShift ℤ := adjX.commShift_of_leftAdjoint ℤ
+  let : adjX.IsTriangulated := Adjunction.IsTriangulated.mk' adjX
+  refine isomorphic_distinguished _
+    (DQX.map_distinguished _ (mayerVietorisDerivedTriangle_distinguished U V hUV K)) _
+    (Iso.symm ?_)
+  exact Triangle.isoMk _ _ (Iso.refl _)
+    (mayerVietorisMiddleIso U V DQX DQU DQV adjX adjU adjV
+      (isQuasicoherent_homology_derivedPushforward_opens U)
+      (isQuasicoherent_homology_derivedPushforward_opens V) K)
+    (mayerVietorisThirdIso U V DQX DQUV adjX adjUV
+      (isQuasicoherent_homology_derivedPushforward_opens (U ⊓ V)) K)
+    (by simp [Functor.mapTriangle, mayerVietorisTriangle, mayerVietorisDerivedTriangle])
+    (by simp [Functor.mapTriangle, mayerVietorisTriangle, mayerVietorisDerivedTriangle])
+    (by simp [Functor.mapTriangle, mayerVietorisTriangle, mayerVietorisDerivedTriangle])
 
 end
 

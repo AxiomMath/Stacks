@@ -37,6 +37,8 @@ construction.
 * `TorFormula.cycleAssociatedToClosedSubscheme_eq_intersectionProductCycle_of_isCohenMacaulay`
   — the same identity with the left-hand side the cycle `[V ∩ W]_k` of the closed subscheme
   `V ∩ W`.
+* `TorFormula.localIntersectionMultiplicity_stalk_eq_length_stalk_sup_of_isCohenMacaulay` —
+  **Tag 0B02**, the first clause at one component, with hypotheses at its generic point alone.
 * `TorFormula.cohenMacaulayIntersectionFormula` — **Tag 0B02**, both clauses: the multiplicity
   formula at the generic point of each component of `V ∩ W` and the cycle identity.
 
@@ -378,6 +380,54 @@ theorem cycleAssociatedToClosedSubscheme_eq_intersectionProductCycle_of_tor_subs
     (Stacks.Chow.schemeDeltaDimension_reducedSupport_pushforwardStructureSheaf_le C f
       (V ⊔ W).subschemeι hVW) hFk hTor
 
+/-! ### The multiplicity formula at one component -/
+
+/-- **Stacks Project, Tag 0B02, the multiplicity formula at one component.** Let `Y` be a
+locally Noetherian regular scheme and `V`, `W` sheaves of ideals, and let `ξ` be a point lying
+on both of them which is a generic point of `V ∩ W` and at which `V` and `W` intersect
+properly. If `𝒪_{V, ξ}`
+and `𝒪_{W, ξ}` are Cohen-Macaulay, then
+
+`e(X, V · W, Z) = length_{𝒪_{X, ξ}}(𝒪_{V ∩ W, ξ})`,
+
+where `Z` is the component of `V ∩ W` with generic point `ξ` and `V ∩ W` is the
+scheme-theoretic intersection, cut out by `V ⊔ W`. Every hypothesis is imposed at `ξ` alone. -/
+@[stacks 0B02 "the first clause, at one component: \
+`e(X, V · W, Z) = length_{𝒪_{X, ξ}}(𝒪_{V ∩ W, ξ})` for an irreducible component `Z` of \
+`V ∩ W` with generic point `ξ`, assuming only that `𝒪_{V, ξ}` and `𝒪_{W, ξ}` are \
+Cohen-Macaulay. The nonsingular variety is a locally Noetherian regular scheme `Y`, the \
+closed subvarieties are sheaves of ideals `V` and `W`, and every hypothesis is read at `ξ` \
+alone: `ξ` lies on `V` and on `W`, that `ξ` is a generic point of a component of `V ∩ W` is \
+the radical condition `√(V_ξ ⊔ W_ξ) = 𝔪_ξ`, and proper intersection at `Z` is the \
+dimension inequality `dim 𝒪_{X, ξ} ≤ dim 𝒪_{V, ξ} + dim 𝒪_{W, ξ}` of Tag 0B1I (for a \
+variety, `dim Z ≤ dim V + dim W - dim X`). `e(X, V · W, Z)` is \
+`Ideal.localIntersectionMultiplicity`, the alternating sum of lengths of `Tor` modules by which \
+Section 43.14 defines the coefficient of `Z` in `V · W`, and `𝒪_{V ∩ W, ξ}` is the stalk at `ξ` \
+of the scheme-theoretic intersection, cut out by `V ⊔ W`. The final `In particular` clause is \
+`AlgebraicGeometry.TorFormula.cohenMacaulayIntersectionFormula`."]
+theorem localIntersectionMultiplicity_stalk_eq_length_stalk_sup_of_isCohenMacaulay
+    [IsLocallyNoetherian Y] (hY : IsRegular Y) (V W : Y.IdealSheafData) (z : Y)
+    (hzV : z ∈ V.support) (hzW : z ∈ W.support)
+    (hCMV : haveI := isLocalRing_quotient_stalk V z hzV
+      IsCohenMacaulayLocalRing (Y.presheaf.stalk z ⧸ IdealSheafData.stalk V z))
+    (hCMW : haveI := isLocalRing_quotient_stalk W z hzW
+      IsCohenMacaulayLocalRing (Y.presheaf.stalk z ⧸ IdealSheafData.stalk W z))
+    (hproper : ringKrullDim (Y.presheaf.stalk z) ≤
+      ringKrullDim (Y.presheaf.stalk z ⧸ IdealSheafData.stalk V z) +
+        ringKrullDim (Y.presheaf.stalk z ⧸ IdealSheafData.stalk W z))
+    (hcomponent : (IdealSheafData.stalk V z ⊔ IdealSheafData.stalk W z).radical =
+      IsLocalRing.maximalIdeal (Y.presheaf.stalk z)) :
+    (IdealSheafData.stalk V z).localIntersectionMultiplicity
+        (Y.presheaf.stalk z ⧸ IdealSheafData.stalk W z) =
+      ((Module.length (Y.presheaf.stalk z)
+        (Y.presheaf.stalk z ⧸ IdealSheafData.stalk (V ⊔ W) z)).toNat : ℚ) := by
+  have := AlgebraicGeometry.IsRegular.isRegularLocalRing_stalk hY z
+  have := isLocalRing_quotient_stalk V z hzV
+  have := isLocalRing_quotient_stalk W z hzW
+  rw [AlgebraicGeometry.IdealSheafData.stalk_sup]
+  exact Ideal.localIntersectionMultiplicity_eq_length_of_isCohenMacaulayLocalRing
+    (IdealSheafData.stalk V z) (IdealSheafData.stalk W z) hCMV hCMW hproper hcomponent
+
 /-! ### The whole of Stacks 0B02 -/
 
 /-- **Stacks Project, Tag 0B02.** Let `X` be a nonsingular variety and `V`, `W ⊆ X` closed
@@ -414,7 +464,10 @@ the alternating sum of lengths of `Tor` modules by which Section 43.14 computes 
 multiplicity, and `𝒪_{V ∩ W, ξ}` is the stalk at `z` of the scheme-theoretic intersection, cut \
 out by `V ⊔ W`. `WithBot ℕ∞` has no subtraction, so the source's dimension index \
 `dim V + dim W - dim X` is generalised to an arbitrary `k`, the index at which the two cycles \
-are formed and whose relation to `V ∩ W` is the delta-dimension bound `hVW`."]
+are formed and whose relation to `V ∩ W` is the delta-dimension bound `hVW`. Here the \
+hypotheses are imposed at every such generic point at once, as the `In particular` clause \
+needs; the first clause at a single component, with hypotheses at its generic point alone, is \
+`TorFormula.localIntersectionMultiplicity_stalk_eq_length_stalk_sup_of_isCohenMacaulay`."]
 theorem cohenMacaulayIntersectionFormula
     (C : Stacks.Chow.ChowSituation.{u}) (f : Y ⟶ C.S) [LocallyOfFiniteType f]
     [IsLocallyNoetherian Y] (hY : IsRegular Y) (V W : Y.IdealSheafData) (k : ℤ)
@@ -451,13 +504,9 @@ theorem cohenMacaulayIntersectionFormula
   refine ⟨fun z hz hzV hzW => ?_,
     cycleAssociatedToClosedSubscheme_eq_intersectionProductCycle_of_isCohenMacaulay C f hY V W k
       d hd hVW hFk hpt⟩
-  have := AlgebraicGeometry.IsRegular.isRegularLocalRing_stalk hY z
-  have := isLocalRing_quotient_stalk V z hzV
-  have := isLocalRing_quotient_stalk W z hzW
   obtain ⟨hCMV, hCMW, hproper, hcomponent⟩ := hpt z hz hzV hzW
-  rw [AlgebraicGeometry.IdealSheafData.stalk_sup]
-  exact Ideal.localIntersectionMultiplicity_eq_length_of_isCohenMacaulayLocalRing
-    (IdealSheafData.stalk V z) (IdealSheafData.stalk W z) hCMV hCMW hproper hcomponent
+  exact localIntersectionMultiplicity_stalk_eq_length_stalk_sup_of_isCohenMacaulay hY V W z hzV
+    hzW hCMV hCMW hproper hcomponent
 
 end AlgebraicGeometry.TorFormula
 

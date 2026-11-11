@@ -38,10 +38,13 @@ re-checking the statement once per binder.
 * `Stacks.EtaleCohomology.bijective_strictHenselizationFiberRestriction_iff`,
   `Stacks.EtaleCohomology.bijective_strictHenselizationPointRestriction_iff`: the restriction maps
   of the statement are bijective exactly when those of the example are.
+* `Stacks.EtaleCohomology.bijective_strictHenselizationFiberRestriction_iff_forall_lift`: the
+  corrected form of the tag for the restriction maps of the statement, condition (1) if and only
+  if condition (2) at every lift of `Spec K ⟶ S` to the strict henselization.
 * `Stacks.EtaleCohomology.isEmpty_sepClosedFiberLocallyConstantPresentation`: where condition (2)
   holds and condition (1) fails, the datum
-  `Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation` of the conditional form of
-  the tag is empty.
+  `Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation` of the printed equivalence
+  is empty.
 * `Stacks.EtaleCohomology.not_nonempty_sepClosedFiberLocallyConstantPresentation_onBranchSpecPoint`
   states that at the data of the example, condition (2) holds, condition (1) fails, and that
   datum cannot be constructed, over any index space.
@@ -91,7 +94,7 @@ public theorem bijective_strictHenselizationPointRestriction_iff
       Function.Bijective (strictHenselizationPointCohomologyPullback B hX hS f x k F q) :=
   bijective_etaleCohomologyRestrictionMap_iff _ F q
 
-/-- **The datum of the conditional form of Tag 0EZV is empty where the tag fails.** If condition
+/-- **The presentation of the printed form of Tag 0EZV is empty where the tag fails.** If condition
 (2) holds and condition (1) fails for the restriction maps of the statement, then
 `Stacks.EtaleCohomology.SepClosedFiberLocallyConstantPresentation` is empty for every
 topological space `A`, since by
@@ -107,6 +110,33 @@ public theorem isEmpty_sepClosedFiberLocallyConstantPresentation [IsSepClosed K]
     IsEmpty (SepClosedFiberLocallyConstantPresentation.{u, 0, u + 1} B hX hS f x k A F q) :=
   ⟨fun P => h₁ ((bijective_strictHenselizationFiberRestriction_iff_of_presentation B hX hS f x k
     A F q P).2 h₂)⟩
+
+/-- **[Stacks, Tag 0EZV], corrected, for the restriction maps of the statement.** Let `f : X ⟶ S`
+be a morphism of schemes, `x̄` a geometric point of `X` with image `s̄`,
+`k : Spec K ⟶ Spec(𝒪^{sh}_{S,s̄})` with `K` separably closed, `ℱ` an abelian sheaf on `Spec K` and
+`q ≥ 0`. The restriction map
+`H^q(Spec(𝒪^{sh}_{S,s̄}) ×_S Spec K, ℱ) ⟶ H^q(Spec(𝒪^{sh}_{X,x̄}) ×_S Spec K, ℱ)` is bijective if
+and only if the restriction map
+`H^q(Spec K, ℱ) ⟶ H^q(Spec(𝒪^{sh}_{X,x̄}) ×_{Spec(𝒪^{sh}_{S,s̄}), k'} Spec K, ℱ)` is bijective
+for every lift `k'` of the composite `Spec K ⟶ S` to the strict henselization. This is
+`Stacks.EtaleCohomology.bijective_strictHenselizationFiberCohomologyPullback_iff` read through
+`Stacks.EtaleCohomology.bijective_strictHenselizationFiberRestriction_iff` and
+`Stacks.EtaleCohomology.bijective_strictHenselizationPointRestriction_iff`. -/
+@[stacks 0EZV "corrected, for the restriction maps `strictHenselizationFiberRestriction` and
+`strictHenselizationPointRestriction`: condition (1) is equivalent to condition (2) at every lift
+`k'` of `Spec K ⟶ S` to the strict henselization"]
+public theorem bijective_strictHenselizationFiberRestriction_iff_forall_lift [IsSepClosed K]
+    (F : Sheaf (Spec (CommRingCat.of K)).smallEtaleTopology Ab.{u + 1}) (q : ℕ) :
+    Function.Bijective (strictHenselizationFiberRestriction.{u, 0, u + 1} B hX hS f x k F q) ↔
+      ∀ k' : Spec (CommRingCat.of K) ⟶ strictHenselization B S hS (x.map f),
+        k' ≫ strictHenselizationToBase B S hS (x.map f) =
+            k ≫ strictHenselizationToBase B S hS (x.map f) →
+          Function.Bijective
+            (strictHenselizationPointRestriction.{u, 0, u + 1} B hX hS f x k' F q) := by
+  rw [bijective_strictHenselizationFiberRestriction_iff,
+    bijective_strictHenselizationFiberCohomologyPullback_iff]
+  exact forall_congr' fun k' => imp_congr_right fun _ =>
+    (bijective_strictHenselizationPointRestriction_iff B hX hS f x k' F q).symm
 
 end Comparison
 
@@ -215,8 +245,8 @@ public abbrev onBranchSpecPoint :
 end NodeCounterexample
 
 open NodeCounterexample in
-/-- **At the data of the nodal cubic example the datum of the conditional form of Tag 0EZV does
-not exist.** For `S` the nodal cubic over `ℚ̄`, `X` a branch of its node, `x̄` the point of `X`
+/-- **At the data of the nodal cubic example no presentation for the printed form of Tag 0EZV
+exists.** For `S` the nodal cubic over `ℚ̄`, `X` a branch of its node, `x̄` the point of `X`
 over the node, `K` algebraically closed, `k = κ` a `K`-point of `Spec(𝒪^{sh}_{S,s̄})` on the
 branch, `ℱ = ℤ` and `q = 0`, the data constructed in
 `Stacks.EtaleCohomology.exists_bijective_pointRestriction_and_not_bijective_fiberRestriction`:
@@ -277,12 +307,12 @@ public theorem not_nonempty_sepClosedFiberLocallyConstantPresentation_onBranchSp
     (isEmpty_sepClosedFiberLocallyConstantPresentation B hX hS f x k A _ 0 h₂' h₁')⟩
 
 open NodeCounterexample in
-/-- **Tag 0EZV as stated is false** for base's maps (coefficients `Ab.{u + 1}`, `Sheaf.H.{u + 1}`).
-`S`: nodal cubic `y² = x²(1 + x)` over `ℚ̄`, node `s̄`; `X = Spec(𝒪^{sh}_{S,s̄}/(y - x√(1 + x)))`,
-`x̄` over `s̄`; `K` algebraically closed, `K`-points `κ` on, `τ` off the branch, over one point of
-`S`; `k = κ`, `ℱ = ℤ`, `q = 0`: (2) sees only the fibre `Spec K` over `κ`, (1) the empty one at
-`τ`. This refutes the tag itself; the companion lemma above: base's datum is empty at this same
-data. -/
+/-- **Tag 0EZV as printed is false**, for the restriction maps of the statement at coefficients
+`Ab.{u + 1}` and cohomology `Sheaf.H.{u + 1}`. Let `S` be the nodal cubic `y² = x²(1 + x)` over
+`ℚ̄`, `s̄` its node, `X = Spec(𝒪^{sh}_{S,s̄}/(y - x√(1 + x)))` one branch with `x̄` over `s̄`, `K`
+algebraically closed with `K`-points `κ` on and `τ` off the branch over one point of `S`, `k = κ`,
+`ℱ = ℤ` and `q = 0`. Condition (2) sees only the fibre `Spec K` over `κ` and holds; condition (1)
+also sees the empty fibre over `τ` and fails. -/
 public theorem not_forall_bijective_strictHenselizationFiberRestriction_iff :
     ¬ ∀ (B : BigEtaleSite.{u}) (X S : Scheme.{u}) (hX : B.Contains X) (hS : B.Contains S)
       (f : X ⟶ S) (x : GeometricPoint X) (K : Type u) [Field K] [IsSepClosed K]

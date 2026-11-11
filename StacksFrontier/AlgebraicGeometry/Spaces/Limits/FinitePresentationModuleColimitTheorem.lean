@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationModuleEssSurj
 public import StacksFrontier.AlgebraicGeometry.Quot.CoherentStackSpanIso
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleModulePullbackId
+public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.SiteConventionAlgebraicLimit
 
 /-!
 # Stacks 07V7: finitely presented modules on a limit of algebraic spaces
@@ -24,9 +25,12 @@ presented `𝒪_{X_i}`-modules: the comparison functor, inverse image along the 
 
 ## Main results
 
-* `AlgebraicGeometry.Space.finitePresentationModule_isColimit_of_isLimit`: **Stacks 07V7**, the
-  three clauses for a given limit `X` of the system, as an algebraic space with a limiting cone,
-  whose affine charts have their limits inside the site.
+* `AlgebraicGeometry.Space.finitePresentationModule_isColimit_of_isLimit_of_baseChangeLimits`:
+  **Stacks 07V7**, the three clauses for any limiting cone over the system whose affine charts
+  have their limits inside the site; its cone point is an algebraic space by
+  `AlgebraicGeometry.Space.isAlgebraicSpace_conePt_of_isLimit` (Stacks 07SF).
+* `AlgebraicGeometry.Space.finitePresentationModule_isColimit_of_isLimit`: the same three clauses
+  with the cone point given as an algebraic space.
 * `AlgebraicGeometry.Space.finitePresentationModule_isColimit_of_hasSiteLimit`: the same for the
   chosen limit `lim D` of presheaves.
 * `AlgebraicGeometry.Space.finitePresentationModule_isColimit`: the case of an index category
@@ -159,12 +163,6 @@ presented `𝒪_X`-modules is the colimit of the categories of finitely presente
 
 The index category is any cofiltered category in the universe of the site; no size bound is
 imposed on it. -/
-@[stacks 07V7 "the category of finitely presented modules on the limit is the colimit of the \
-categories of finitely presented modules on the stages: faithfulness, fullness through the \
-canonical identification of iterated inverse images, and essential surjectivity of the comparison; \
-for a given limit of the system at any cofiltered index category, under the source's own standing \
-convention 07SD that the limits of its affine charts lie in the site; without that convention the \
-statement fails in a size-bounded site (see the notes of ChartLimitsInSite)"]
 theorem finitePresentationModule_isColimit_of_isLimit [IsCofiltered I]
     (hAffine : ∀ {i j : I} (f : i ⟶ j), IsAffineHom B S hS (D.map f))
     (hQc : ∀ i, IsQuasiCompactSpace B S hS (D.obj i))
@@ -243,6 +241,81 @@ theorem finitePresentationModule_isColimit_of_isLimit [IsCofiltered I]
     exact i₁ ≪≫ i₂ ≪≫ i₃ ≪≫ i₄ ≪≫ i₅ ≪≫ i₆
 
 end GivenLimit
+
+section ConeLimit
+
+variable {I : Type u} [Category.{u} I] [IsCofiltered I] (D : I ⥤ (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
+  (hD : ∀ i, IsAlgebraicSpace B S hS (D.obj i)) (c : Cone D)
+
+include hD in
+/-- **The limit of the system is an algebraic space** (Stacks 07SF under the convention 07SD):
+the cone point of a limiting cone over a cofiltered inverse system of quasi-compact algebraic
+spaces with affine transition morphisms whose affine charts have their limits in the site. -/
+theorem isAlgebraicSpace_conePt_of_isLimit
+    (hAffine : ∀ {i j : I} (f : i ⟶ j), IsAffineHom B S hS (D.map f))
+    (hQc : ∀ i, IsQuasiCompactSpace B S hS (D.obj i))
+    (hc : IsLimit c) (hL : SiteContainsBaseChangeLimits B S hS D) :
+    IsAlgebraicSpace B S hS c.pt :=
+  (isAlgebraicSpace_limit_of_siteContainsBaseChangeLimits B S hS D hL hD hAffine hQc).of_iso
+    ((limit.isLimit D).conePointUniqueUpToIso hc)
+
+/-- **Stacks 07V7.** Let `X = lim X_i` be the limit of a cofiltered inverse system of
+quasi-compact and quasi-separated algebraic spaces over `S` with affine transition morphisms:
+`X = c.pt` for a cone `c` over the system that is limiting in presheaves on the big fppf site of
+`S`, the affine charts `X_j ×_{X_i} U` of the system having their limits, in schemes, inside the
+site (the chapter's convention, Stacks 07SD). Then `X` is an algebraic space
+(`AlgebraicGeometry.Space.isAlgebraicSpace_conePt_of_isLimit`, Stacks 07SF), and the category of
+finitely presented `𝒪_X`-modules is the colimit of the categories of finitely presented
+`𝒪_{X_i}`-modules: inverse image along the projections `X ⟶ X_i` is
+
+1. faithful in the colimit sense: two morphisms on a stage with equal inverse images to `X` have
+   equal inverse images to a later stage;
+2. full in the colimit sense: a morphism between inverse images to `X` is, at a later stage, the
+   restriction along `X ⟶ X_j` of a morphism between the inverse images to `X_j`;
+3. essentially surjective in the colimit sense: every finitely presented `𝒪_X`-module is the
+   inverse image of a finitely presented module on some stage.
+
+The index category is any cofiltered category in the universe of the site. -/
+@[stacks 07V7 "the category of finitely presented modules on the limit is the colimit of the \
+categories of finitely presented modules on the stages: faithfulness, fullness through the \
+canonical identification of iterated inverse images, and essential surjectivity of the comparison; \
+for any limiting cone over the system, its cone point being an algebraic space by Stacks 07SF, \
+indexed by any cofiltered category in the universe of the site, under the chapter's standing \
+convention 07SD that the limits of its affine charts lie in the site; without that convention the \
+statement fails in a size-bounded site (see the notes of ChartLimitsInSite)"]
+theorem finitePresentationModule_isColimit_of_isLimit_of_baseChangeLimits
+    (hAffine : ∀ {i j : I} (f : i ⟶ j), IsAffineHom B S hS (D.map f))
+    (hQc : ∀ i, IsQuasiCompactSpace B S hS (D.obj i))
+    (hQs : ∀ i, IsAbsolutelyQuasiSeparated B S hS hZ (D.obj i))
+    (hc : IsLimit c) (hL : SiteContainsBaseChangeLimits B S hS D) :
+    let hX := isAlgebraicSpace_conePt_of_isLimit B S hS D hD c hAffine hQc hc hL
+    (∀ (i : I) (M N : Modules.{u, u} B S hS (stageAlgebraicSpace B S hS D hD i).1
+        (stageAlgebraicSpace B S hS D hD i).2),
+      M.IsFinitePresentationOnSite → N.IsFinitePresentationOnSite → ∀ φ ψ : M ⟶ N,
+        (modulePullback B S hS (coneProjection B S hS D hD c hX i)).map φ =
+          (modulePullback B S hS (coneProjection B S hS D hD c hX i)).map ψ →
+        ∃ (j : I) (e : j ⟶ i),
+          (modulePullback B S hS (stageTransition B S hS D hD e)).map φ =
+            (modulePullback B S hS (stageTransition B S hS D hD e)).map ψ) ∧
+    (∀ (i : I) (M N : Modules.{u, u} B S hS (stageAlgebraicSpace B S hS D hD i).1
+        (stageAlgebraicSpace B S hS D hD i).2),
+      M.IsFinitePresentationOnSite → N.IsFinitePresentationOnSite →
+      ∀ φ : (modulePullback B S hS (coneProjection B S hS D hD c hX i)).obj M ⟶
+        (modulePullback B S hS (coneProjection B S hS D hD c hX i)).obj N,
+        ∃ (j : I) (e : j ⟶ i)
+          (ψ : (modulePullback B S hS (stageTransition B S hS D hD e)).obj M ⟶
+            (modulePullback B S hS (stageTransition B S hS D hD e)).obj N),
+          moduleHomRestrict M N (coneProjection B S hS D hD c hX j)
+            (stageTransition B S hS D hD e) (coneProjection B S hS D hD c hX i)
+            (coneProjection_comp B S hS D hD c hX e) ψ = φ) ∧
+    (∀ P : Modules.{u, u} B S hS c.pt hX, P.IsFinitePresentationOnSite →
+        ∃ (k : I) (Q : Modules.{u, u} B S hS (stageAlgebraicSpace B S hS D hD k).1
+            (stageAlgebraicSpace B S hS D hD k).2),
+          Q.IsFinitePresentationOnSite ∧
+            Nonempty (P ≅ (modulePullback B S hS (coneProjection B S hS D hD c hX k)).obj Q)) :=
+  finitePresentationModule_isColimit_of_isLimit B S hS hZ D hD c _ hAffine hQc hQs hc hL
+
+end ConeLimit
 
 /-- **Stacks 07V7 for an index category small compared to the cutoff.** For a cofiltered inverse
 system of quasi-compact and quasi-separated algebraic spaces with affine transition morphisms,

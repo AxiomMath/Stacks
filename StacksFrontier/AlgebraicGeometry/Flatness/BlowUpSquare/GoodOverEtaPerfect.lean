@@ -48,8 +48,9 @@ is available in this library.
 
 Tag 0F8U rests on two inputs: the existence of the morphism `b` of tag 0GTY, and tag 0GTW.
 
-* The existence half of tag 0GTY is not formalized — see the discussion in
-  `GoodTripleBlowup.lean` — so `b` is carried here as a morphism together with
+* The morphism of tag 0GTY is constructed elsewhere
+  (`AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase`); here `b` is carried as a
+  morphism together with
   `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodOver`, which is exactly condition (1) of
   that tag.  This is a generalization, not a weakening: the morphism of tag 0GTY satisfies
   `IsGoodOver` by `AlgebraicGeometry.ComplexAndDivisorSituation.IsGoodBlowup.isGoodOver`, so

@@ -1165,6 +1165,7 @@ end Functoriality
 
 /-- **The tensor product functor `- ⊗_A N`** from right differential graded `A`-modules to
 right differential graded `B`-modules. -/
+@[stacks 0FRP "the functor - ⊗_A N : Mod(A, d) ⥤ Mod(B, d) for a dg (A, B)-bimodule N"]
 noncomputable def dgTensorRightFunctor
     (N : DifferentialGradedBimodule.{t, max u v, max u v} A B) :
     DifferentialGradedModule.{t, max u v, max u v} A ⥤

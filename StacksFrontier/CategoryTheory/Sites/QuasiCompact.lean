@@ -71,7 +71,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 /-- An object `F` of the topos `Sh(C)` of sheaves of sets on a site is *quasi-compact* if for
 every locally surjective map `∐_{i ∈ I} G i ⟶ F` of sheaves there is a finite subset `T ⊆ I` for
 which `∐_{i ∈ T} G i ⟶ F` is still locally surjective. -/
-@[sga "4 IV 8.7" "more general", sga "4 IX 1.2"]
+@[stacks 0D07 "A quasi-compact object of the topos of sheaves of sets on a site.",
+  sga "4 IV 8.7" "more general", sga "4 IX 1.2"]
 def IsQuasiCompact (F : Sheaf J (Type max v u)) : Prop :=
   ∀ (I : Type max v u) (G : I → Sheaf J (Type max v u)) (f : ∀ i, G i ⟶ F),
     Sheaf.IsLocallySurjective (Sigma.desc f) →
@@ -87,20 +88,9 @@ variable {C : Type u} [Category.{v} C]
 
 /-- The topos `Sh(C)` of sheaves of sets on a site is *quasi-compact* if its final object is a
 quasi-compact object. -/
-@[sga "4 IV 8.7"]
+@[stacks 0D07 "A quasi-compact topos: its final object is a quasi-compact object.",
+  sga "4 IV 8.7"]
 def IsQuasiCompactTopos (J : GrothendieckTopology C) : Prop :=
   Sheaf.IsQuasiCompact (⊤_ (Sheaf J (Type max v u)))
 
 end CategoryTheory.GrothendieckTopology
-
-namespace CategoryTheory
-
-attribute [stacks_fixed 0D07
-  "The definition of a quasi-compact object of the topos of sheaves of sets on a site."]
-  Sheaf.IsQuasiCompact
-
-attribute [stacks_fixed 0D07
-  "The definition of a quasi-compact topos: its final object is a quasi-compact object."]
-  GrothendieckTopology.IsQuasiCompactTopos
-
-end CategoryTheory

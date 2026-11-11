@@ -9,45 +9,28 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.UniversallyClosed
 public import StacksFrontier.RingTheory.AdicCompletion.IntertwinedFiltrationEventualRange
 
 /-!
-# The theorem on formal functions at a geometric point of an algebraic space
+# Towers of quotients, and the stalk of a higher direct image at a geometric point
 
 Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S`, let `ℱ` be an
 `𝒪_X`-module and let `ȳ` be a geometric point of `Y`.  Write `A = 𝒪_{Y, ȳ}` for the étale
-local ring at `ȳ` and `𝔪 = 𝔪_ȳ` for its maximal ideal, and put
+local ring at `ȳ` and `𝔪 = 𝔪_ȳ` for its maximal ideal.  This file sets up the vocabulary in which
+the theorem on formal functions at a geometric point, [Stacks, Tag 08B1], is stated: the stalk
+`M = (R ᵖ f_* ℱ)_ȳ` of a higher direct image, and the property
+`Stacks.AdicTowerComparison.CompletionIsoLimitOfQuotients` of a tower `P` of `A`-modules with
+maps `π n : M ⟶ P n`, that the `π n` assemble into an isomorphism `M ^∧_𝔪 ≅ lim_n P n` — the
+shape of the conclusion of [Stacks, Tag 08AZ].
 
-* `M = (R ᵖ f_* ℱ)_ȳ`, the stalk at `ȳ` of the `p`-th higher direct image, an `A`-module;
-* `P n = H ᵖ (X_n, ℱ_n)`, the cohomology of `ℱ_n = i_n ^* ℱ` on the `n`-th infinitesimal
-  neighbourhood `X_n = Spec (A/𝔪 ⁿ) ×_Y X` of the geometric fibre, with transition maps `T`
-  induced by the closed immersions `X_n ⟶ X_k` and restriction maps `π n : M ⟶ P n`.
-
-[Stacks, Tag 08B1] says that the `π n` assemble into an isomorphism `M ^∧_𝔪 ≅ lim_n P n`.  That
-property of a tower-with-projections is
-`Stacks.AdicTowerComparison.CompletionIsoLimitOfQuotients`, and it is also the shape of the
-conclusion of [Stacks, Tag 08AZ], the theorem on formal functions for algebraic spaces, which
-08B1 is a reformulation of.
-
-Two routes to it are given, differing in which input is carried:
-
-* `AlgebraicGeometry.Space.completionIsoLimitOfQuotients_geometricStalk_of_towerIso` carries
-  [Stacks, Tag 08AZ] itself as one named hypothesis `h08AZ`, for the tower
-  `Q n = H ᵖ (X', ℱ'/𝔪 ⁿ ℱ')` on the base change `X' = Spec A ×_Y X` that 08AZ is stated for,
-  together with the identification of that tower with the source's own tower `P` — which is the
-  combination of [Stacks, Tag 073K] and [Stacks, Tag 07UH] used by the last two sentences of the
-  source's proof — and proves 08B1 from them.
-* `AlgebraicGeometry.Space.completionIsoLimitOfQuotients_geometricStalk_of_bounds` instead
-  carries clauses (1) and (3) of [Stacks, Tag 08AY] for the tower `P` and *derives* the
-  comparison, through
-  `Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange`.
-
-Only the isomorphism of `A`-modules is in question.  [Stacks, Tag 08AZ], and hence
-[Stacks, Tag 08B1], also asserts it to be a homeomorphism for the limit topologies and the
-module structure to be one over `A ^∧`; no statement below claims either refinement.
+[Stacks, Tag 08B1] itself is
+`AlgebraicGeometry.Space.completionIsoLimitOfQuotientsOverCompletion_geometricStalk`, in
+`StacksFrontier/AlgebraicGeometry/Spaces/FormalFunctionsGeometricStalkLimit.lean`, where the
+infinitesimal neighbourhoods `X_n = Spec (A/𝔪 ⁿ) ×_Y X` are constructed and the isomorphism is
+proved, linear over `A ^∧`, from [Stacks, Tag 08AZ]
+(`AlgebraicGeometry.Space.C1573.formalFunctionsEquivOfIsAffine`).
 
 ## Main definitions
 
 * `Stacks.AdicTowerComparison.CompletionIsoLimitOfQuotients` — the shape of the conclusion of
-  [Stacks, Tag 08AZ] and of [Stacks, Tag 08B1]: the maps `ρ n : M ⟶ Q n` assemble into an
-  isomorphism `M ^∧_I ≅ lim_n Q n`.
+  [Stacks, Tag 08AZ]: the maps `ρ n : M ⟶ Q n` assemble into an isomorphism `M ^∧_I ≅ lim_n Q n`.
 * `AlgebraicGeometry.Space.moduleHigherPushforward` — `R ᵖ f_* ℱ`, the `p`-th higher direct
   image of an `𝒪_X`-module along a morphism of algebraic spaces.
 * `AlgebraicGeometry.Space.moduleHigherPushforwardGeometricStalk` — its stalk `(R ᵖ f_* ℱ)_ȳ`
@@ -60,91 +43,21 @@ module structure to be one over `A ^∧`; no statement below claims either refin
   isomorphism of their limits.
 * `Stacks.AdicTowerComparison.CompletionIsoLimitOfQuotients.of_towerIso` — the property
   transports along an isomorphism of towers compatible with the projections.
+* `Stacks.AdicTowerComparison.completionIsoLimitOfQuotients_of_bounds` — the property follows
+  from bounds on the kernels of the projections and the stabilization of the images of the
+  transition maps, the shape of [Stacks, Tag 08AY].
 * `AlgebraicGeometry.Space.pow_smul_top_le_ker_of_pow_smul_top_eq_bot` — if `𝔪 ⁿ` annihilates
-  `P n`, then `𝔪 ⁿ M ⊆ ker (π n)`.  This is the sentence "`𝔪 ⁿ M ⊆ K n` because the `n`-th term
-  is killed by `𝔪 ⁿ`" of the source's argument, and `𝔪 ⁿ` does annihilate `H ᵖ (X_n, ℱ_n)`
-  because `X_n` lives over `Spec (A/𝔪 ⁿ)`.
+  `P n`, then `𝔪 ⁿ M ⊆ ker (π n)`.
 * `AlgebraicGeometry.Space.completionIsoLimitOfQuotients_geometricStalk_of_towerIso` and
   `AlgebraicGeometry.Space.completionIsoLimitOfQuotients_geometricStalk_of_bounds` — the two
-  routes to [Stacks, Tag 08B1] described above.
-
-## Implementation notes
-
-### What is carried, and why
-
-The source's proof is a reformulation.  Flat base change along `Spec 𝒪_{Y, ȳ} ⟶ Y`
-([Stacks, Tag 073K], clause (1)) identifies `M` with `H ᵖ (X', ℱ')` for the base change
-`X' = Spec 𝒪_{Y, ȳ} ×_Y X`; the Leray spectral sequence for the closed immersions `X_n ⟶ X'`
-together with [Stacks, Tag 07UH] identifies `P n = H ᵖ (X_n, ℱ_n)` with
-`Q n = H ᵖ (X', ℱ'/𝔪 ⁿ ℱ')`; and the theorem on formal functions for algebraic spaces,
-[Stacks, Tag 08AZ], computes the completion of `H ᵖ (X', ℱ')` as `lim_n Q n`.  None of the three
-is available in this repository:
-
-* [Stacks, Tag 08AZ] is not formalized — no declaration in the library carries that tag —
-  and neither is its input [Stacks, Tag 08AY] nor the coherence [Stacks, Tag 08AR];
-* of [Stacks, Tag 073K] only the base change map whose invertibility clause (1) asserts is
-  constructed, in `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyFlatBaseChange.lean`, whose own
-  implementation notes record that neither clause is proved;
-* [Stacks, Tag 07UH] is formalized in
-  `StacksFrontier/AlgebraicGeometry/Spaces/FiniteDirectImageCoherence.lean` only with its
-  étale-affine case carried as the hypothesis `h03DW`, and the Leray comparison for a closed
-  immersion that the source combines it with has no formalization here.
-
-Accordingly the first route carries [Stacks, Tag 08AZ] as the single named hypothesis `h08AZ`,
-in the shape of its own conclusion — `Stacks.AdicTowerComparison.CompletionIsoLimitOfQuotients`
-for the tower `Q` and the projections `ρ` — and carries the identification of `Q` with `P` as a
-levelwise isomorphism compatible with the transitions and the projections.  What is proved is
-the transport of the conclusion along that identification, which is the content of the last two
-sentences of the source's proof.  The second route carries instead clauses (1) and (3) of
-[Stacks, Tag 08AY], in the very shape that tag is formalized in as
-`Stacks.AdicCohomologyBound.ker_le_pow_smul_top` and
-`Stacks.AdicCohomologyBound.exists_range_transition_eq_range_proj`, and *derives* the comparison
-from the limit argument
-`Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange`, with the third
-hypothesis of that engine proved here from the annihilation of `P n` by `𝔪 ⁿ`.
-
-### Why the tower is data
-
-The system `P` is data rather than a construction because the infinitesimal neighbourhoods `X_n`
-cannot be formed in this development: `AlgebraicGeometry.Space.etaleLocalRing` is a colimit over
-the category of small étale neighbourhoods, whose objects live in `Type (u + 1)`, so it is a
-`CommRingCat.{u + 1}` and `Spec (𝒪_{Y, ȳ}/𝔪 ⁿ)` is a `Scheme.{u + 1}` — not an object of a
-`BigFppfSite.{u}`, hence not a base for an algebraic space over `S`.  Building the `X_n` needs
-[Stacks, Tag 04KF] to replace `𝒪_{Y, ȳ}` by an isomorphic ring in `Type u` presented by a scheme
-chart, which is `AlgebraicGeometry.Space.strictHenselizationEquivEtaleLocalRing`, and then the
-membership of each `Spec (A/𝔪 ⁿ)` in the site; that is a separate piece of work and is not done
-here.  The same obstruction is why no `𝒪_{Y, ȳ} ^∧`-module structure on `lim_n P n` is
-available: it would have to come from the action of the functions on `Spec (A/𝔪 ⁿ)` on
-`H ᵖ (X_n, ℱ_n)` through `f_n`.  The scheme-level [Stacks, Tag 02OC] in this repository,
-`Stacks.Cohomology.FormalFunctions.formalFunctionsEquiv`, is stated with the same restriction.
-
-### The standing hypotheses of the source
-
-The situation of [Stacks, Tag 08AZ] is [Stacks, Tag 08AV]: a Noetherian ring `A`, an ideal
-`I ⊆ A`, a proper morphism `X ⟶ Spec A` of algebraic spaces and a coherent `𝒪_X`-module.  The
-hypotheses of [Stacks, Tag 08B1] — `Y` locally Noetherian, `f` proper, `ℱ` coherent — are
-exactly what puts the base change `X' ⟶ Spec 𝒪_{Y, ȳ}` in that situation: the étale local ring
-of a locally Noetherian algebraic space at a geometric point is Noetherian and local by
-[Stacks, Tag 08AH], properness is stable under base change, and coherence is preserved by the
-pullback along `X' ⟶ X`.  That is the whole role of the three hypotheses in the source's proof,
-so, as in the scheme-level `Stacks.Cohomology.FormalFunctions.formalFunctionsEquiv`, properness
-and coherence appear below only as the unused arguments `_hf` and `_hF`, recording which
-statement is being proved, and Noetherianness of `Y` does not appear at all — the Noetherian
-local ring step is already available as
-`AlgebraicGeometry.Space.isNoetherianRing_etaleLocalRing` and
-`AlgebraicGeometry.Space.isLocalRing_etaleLocalRing` and is not restated here.
+  lemmas above specialized to an arbitrary tower under the stalk `(R ᵖ f_* ℱ)_ȳ`.
 
 ## References
 
 * [Stacks Project, Tag 08B1](https://stacks.math.columbia.edu/tag/08B1)
-* [Stacks Project, Tag 08AV](https://stacks.math.columbia.edu/tag/08AV)
 * [Stacks Project, Tag 08AY](https://stacks.math.columbia.edu/tag/08AY)
 * [Stacks Project, Tag 08AZ](https://stacks.math.columbia.edu/tag/08AZ)
 * [Stacks Project, Tag 08AH](https://stacks.math.columbia.edu/tag/08AH)
-* [Stacks Project, Tag 073K](https://stacks.math.columbia.edu/tag/073K)
-* [Stacks Project, Tag 07UH](https://stacks.math.columbia.edu/tag/07UH)
-* [Stacks Project, Tag 02OC](https://stacks.math.columbia.edu/tag/02OC)
-* [Stacks Project, Tag 04KF](https://stacks.math.columbia.edu/tag/04KF)
 -/
 
 @[expose] public section
@@ -324,30 +237,14 @@ theorem pow_smul_top_le_ker_of_pow_smul_top_eq_bot {M : Type*} [AddCommGroup M]
   rw [hann] at hmem
   simpa using hmem
 
-/-- **[Stacks, Tag 08B1]**, granted [Stacks, Tag 08AZ], and for the `𝒪_{Y, ȳ}`-module
-isomorphism only.
+/-- **Transport of the comparison along an isomorphism of towers, under the stalk
+`(R ᵖ f_* ℱ)_ȳ`.**
 
-Let `f : X ⟶ Y` be a proper morphism of algebraic spaces over a scheme `S` with `Y` locally
-Noetherian, let `ℱ` be a coherent `𝒪_X`-module and let `ȳ` be a geometric point of `Y`.  Write
-`𝔪` for the maximal ideal of `𝒪_{Y, ȳ}` and `M = (R ᵖ f_* ℱ)_ȳ`.  Let `P` be the tower
-`n ↦ H ᵖ (X_n, ℱ_n)` of the source, with transition maps `T` and restriction maps `π`.  Then the
-`π n` assemble into an isomorphism `M ^∧_𝔪 ≅ lim_n H ᵖ (X_n, ℱ_n)`.
-
-Carried: the tower `Q` of [Stacks, Tag 08AZ] — the cohomology `H ᵖ (X', ℱ'/𝔪 ⁿ ℱ')` on the base
-change `X' = Spec 𝒪_{Y, ȳ} ×_Y X` — with its projections `ρ` out of `M`, the conclusion of
-[Stacks, Tag 08AZ] for it as the single hypothesis `h08AZ`, and the identification `e` of `Q`
-with `P`, which is the combination of [Stacks, Tag 073K] and [Stacks, Tag 07UH] that the
-source's last two sentences perform.  Proved: that these give the statement.  See the
-implementation notes of this file for why each of the three is unavailable here, and for the two
-refinements of the source's conclusion — the homeomorphism of limit topologies and
-`𝒪_{Y, ȳ} ^∧`-linearity — that are **not** claimed. -/
-@[stacks 08B1 "the restriction maps assemble into an isomorphism (R^p f_* ℱ)_ȳ^∧ ≅ \
-lim_n H^p(X_n, ℱ_n) of 𝒪_{Y,ȳ}-modules, granted Tag 08AZ, which is absent from this \
-repository: 08AZ's own conclusion for the tower H^p(X', ℱ'/𝔪^n ℱ') is the hypothesis h08AZ, \
-and its identification with the tower H^p(X_n, ℱ_n) -- Tag 073K clause (1) plus Tag 07UH and \
-Leray, none of them proved here -- is the hypothesis e. The tower is data because the X_n need \
-Tag 04KF to be formed at the universe of the site. Neither the homeomorphism of limit \
-topologies nor 𝒪_{Y,ȳ}^∧-linearity is asserted"]
+Let `M = (R ᵖ f_* ℱ)_ȳ` and `𝔪` the maximal ideal of `𝒪_{Y, ȳ}`.  If the maps `ρ n : M ⟶ Q n`
+assemble into an isomorphism `M ^∧_𝔪 ≅ lim_n Q n`, and `e` is an isomorphism of towers `Q ≅ P`
+carrying `ρ n` to `π n`, then the `π n` assemble into an isomorphism `M ^∧_𝔪 ≅ lim_n P n`.  The
+theorem on formal functions at `ȳ`, [Stacks, Tag 08B1], is
+`AlgebraicGeometry.Space.completionIsoLimitOfQuotientsOverCompletion_geometricStalk`. -/
 theorem completionIsoLimitOfQuotients_geometricStalk_of_towerIso
     {X : AlgebraicSpaces B S hS} (f : X ⟶ Y) (_hf : IsProper B S hS f.hom)
     (F : Modules.{u, u} B S hS X.obj X.property)
@@ -362,7 +259,7 @@ theorem completionIsoLimitOfQuotients_geometricStalk_of_towerIso
     (T : ∀ m n : ℕ, m ≤ n → P n →ₗ[etaleLocalRing B S hS Y.obj y] P m)
     (π : ∀ n, moduleHigherPushforwardGeometricStalk B S hS f F p y
       →ₗ[etaleLocalRing B S hS Y.obj y] P n)
-    (h08AZ : CompletionIsoLimitOfQuotients (geometricMaximalIdeal B S hS Y y)
+    (hQ : CompletionIsoLimitOfQuotients (geometricMaximalIdeal B S hS Y y)
       (moduleHigherPushforwardGeometricStalk B S hS f F p y) Q U ρ)
     (e : ∀ n, Q n ≃ₗ[etaleLocalRing B S hS Y.obj y] P n)
     (he : ∀ (m n : ℕ) (h : m ≤ n) (x : Q n), T m n h (e n x) = e m (U m n h x))
@@ -370,28 +267,18 @@ theorem completionIsoLimitOfQuotients_geometricStalk_of_towerIso
       π n x = e n (ρ n x)) :
     CompletionIsoLimitOfQuotients (geometricMaximalIdeal B S hS Y y)
       (moduleHigherPushforwardGeometricStalk B S hS f F p y) P T π :=
-  h08AZ.of_towerIso e he hπ
+  hQ.of_towerIso e he hπ
 
-/-- **[Stacks, Tag 08B1]**, granted the bounds of [Stacks, Tag 08AY] for the tower of the
-source, and for the `𝒪_{Y, ȳ}`-module isomorphism only.
+/-- **The comparison from bounds on a tower under the stalk `(R ᵖ f_* ℱ)_ȳ`.**
 
-The second route of this file: rather than carrying the conclusion of [Stacks, Tag 08AZ] and
-transporting it, carry for the tower `P = H ᵖ (X_n, ℱ_n)` itself the two bounds that
-[Stacks, Tag 08AY] provides — clause (1), a bound `ker (π n) ⊆ 𝔪 ^ (n - c) M` for `n ≥ c`, and
-clause (3), that for each `n` the images of the transition maps into `P n` are the image of
-`π n` from some level `c₂ ≥ n` on — and derive the comparison from the commutative-algebra core
-`Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange`.  The two carried
-hypotheses are exactly those two clauses, in the shape
-`Stacks.AdicCohomologyBound.ker_le_pow_smul_top` and
-`Stacks.AdicCohomologyBound.exists_range_transition_eq_range_proj` state them; in particular the
-level in clause (3) depends on `n` and is not tied to `c`.  The remaining hypothesis of the core,
-`𝔪 ⁿ M ⊆ ker (π n)`, is deduced here from the annihilation `hann` of `H ᵖ (X_n, ℱ_n)` by `𝔪 ⁿ`,
-which holds because `X_n` lives over `Spec (𝒪_{Y, ȳ}/𝔪 ⁿ)`. -/
-@[stacks 08B1 "the same conclusion by the second route: the bounds Tag 08AY supplies for the \
-tower H^p(X_n, ℱ_n) are carried as h08AY_ker and h08AY_range, which are now exactly 08AY \
-clauses (1) and (3) -- clause (3) with the per-n level the source states, not a uniform shift \
--- and the comparison is DERIVED from them; the annihilation hypothesis hann discharges the \
-third input of the limit argument. Same two refinements not asserted as in the first route"]
+Let `M = (R ᵖ f_* ℱ)_ȳ`, `𝔪` the maximal ideal of `𝒪_{Y, ȳ}`, and `P` a tower with compatible
+maps `π n : M ⟶ P n` such that `𝔪 ⁿ` annihilates `P n`, `ker (π n) ⊆ 𝔪 ^ (n - c) M` for `n ≥ c`,
+and for each `n` the images of the transition maps into `P n` equal the image of `π n` from some
+level `c₂ ≥ n` on (the shape of clauses (1) and (3) of [Stacks, Tag 08AY]).  Then the `π n`
+assemble into an isomorphism `M ^∧_𝔪 ≅ lim_n P n`, by
+`Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimitOfEventualRange`.  The theorem on formal
+functions at `ȳ`, [Stacks, Tag 08B1], is
+`AlgebraicGeometry.Space.completionIsoLimitOfQuotientsOverCompletion_geometricStalk`. -/
 theorem completionIsoLimitOfQuotients_geometricStalk_of_bounds
     {X : AlgebraicSpaces B S hS} (f : X ⟶ Y) (_hf : IsProper B S hS f.hom)
     (F : Modules.{u, u} B S hS X.obj X.property)
@@ -404,16 +291,16 @@ theorem completionIsoLimitOfQuotients_geometricStalk_of_bounds
     (hπ : ∀ (m n : ℕ) (h : m ≤ n), (T m n h).comp (π n) = π m)
     (hann : ∀ n, geometricMaximalIdeal B S hS Y y ^ n •
       (⊤ : Submodule (etaleLocalRing B S hS Y.obj y) (P n)) = ⊥)
-    (h08AY_ker : ∀ n : ℕ, c ≤ n → LinearMap.ker (π n) ≤
+    (hker : ∀ n : ℕ, c ≤ n → LinearMap.ker (π n) ≤
       geometricMaximalIdeal B S hS Y y ^ (n - c) •
         (⊤ : Submodule (etaleLocalRing B S hS Y.obj y)
           (moduleHigherPushforwardGeometricStalk B S hS f F p y)))
-    (h08AY_range : ∀ n : ℕ, ∃ c₂ : ℕ, n ≤ c₂ ∧ ∀ (k : ℕ) (h : n ≤ k), c₂ ≤ k →
+    (hrange : ∀ n : ℕ, ∃ c₂ : ℕ, n ≤ c₂ ∧ ∀ (k : ℕ) (h : n ≤ k), c₂ ≤ k →
       LinearMap.range (T n k h) = LinearMap.range (π n)) :
     CompletionIsoLimitOfQuotients (geometricMaximalIdeal B S hS Y y)
       (moduleHigherPushforwardGeometricStalk B S hS f F p y) P T π :=
   completionIsoLimitOfQuotients_of_bounds (geometricMaximalIdeal B S hS Y y) c P T π hπ
-    (fun n => pow_smul_top_le_ker_of_pow_smul_top_eq_bot P π n (hann n)) h08AY_ker h08AY_range
+    (fun n => pow_smul_top_le_ker_of_pow_smul_top_eq_bot P π n (hann n)) hker hrange
 
 end FormalFunctions
 

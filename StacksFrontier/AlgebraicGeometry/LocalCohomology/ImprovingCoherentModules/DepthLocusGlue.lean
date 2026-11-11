@@ -215,10 +215,6 @@ public theorem exists_isClosed_subset_depth_lt_two
 under specialization and let `F` be a coherent `𝒪_X`-module such that `depth(F_x) ≥ 1` whenever
 some point of `T` is an immediate specialization of `x ∉ T`.  Then `F` admits a depth-two
 extension along `T`. -/
-@[stacks 0EI3 "existence along a specialization-stable subset, at exactly the source's two \
-hypotheses — the dualizing hypothesis and the depth hypothesis on immediate specializations — \
-with no hypothesis about extensions, colimits, a closed subset of T, or finiteness of an \
-exceptional locus"]
 public theorem exists_isDepthTwoExtension_of_stableUnderSpecialization
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent] (hdual : LocallyHasDualizingComplex X)

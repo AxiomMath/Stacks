@@ -21,49 +21,26 @@ they generate a covering sieve.  Consequently the sections of any sheaf on `Cris
 four corners form a cartesian square; for a sheaf of abelian groups that square is the exactness
 of `0 ⟶ F(U, T, δ) ⟶ F' ⊕ F'' ⟶ F'''`, the Mayer--Vietoris sequence of the covering.
 
-## What of [Stacks, Tag 07ML] is formalized
+## Relation to [Stacks, Tag 07ML]
 
 The tag asserts, in the situation of [Stacks, Tag 07MJ], a distinguished triangle
 `Rf_{cris,*}F ⟶ Rf'_{cris,*}F' ⊕ Rf''_{cris,*}F'' ⟶ Rf'''_{cris,*}F''' ⟶ Rf_{cris,*}F[1]`
-in `D(𝒪_{X'/S'})`, and says of it only that it "is a formal consequence of the fact that the
-subcategories `Cris(X'/S)`, `Cris(X''/S)`, `Cris(X'''/S)` correspond to open subobjects of the
-final sheaf on `Cris(X/S)` and that the last is the intersection of the first two".
+in `D(𝒪_{X'/S'})`, where `f'`, `f''`, `f'''` are the restrictions of `f : X ⟶ X'` to the three
+opens and `F'`, `F''`, `F'''` the restrictions of the `𝒪_{X/S}`-module `F` to their crystalline
+sites; its hint is that `Cris(X'/S)`, `Cris(X''/S)`, `Cris(X'''/S)` correspond to open subobjects
+of the final sheaf on `Cris(X/S)`, the last the intersection of the first two.
 
-It is that geometric input which is formalized here, in the form the standard Mayer--Vietoris
-idiom takes on a site: `CrystallineThickening.isPullback_sections_openCoverSquare`.  For an
-abelian sheaf the square is upgraded to a *short exact* sequence, at an injective sheaf, in
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisShortExact.lean`
-(`CrystallineThickening.openCoverShortComplex_shortExact`), which is the form a derived functor
-consumes; that is a separate module because it reaches the generic site lemmas of the étale
-cohomology tree, which this file declines to import.
-
-The triangle is formalized at a *fixed object* of the site, in
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisTriangle.lean`: the per-object
-sequences above are assembled there into a short exact sequence of *functors* on
-`Ab(Cris(X/S))`, short exact at every injective, and fed to the derived machinery
-(`...CrystallineThickening.openCoverTriangle_distinguished`, and the long exact sequence
-`...longExact_openCoverFunctorComplex`).  The comparison the remark takes for granted,
-identifying `Cris(X'/S)` with the localization of `Cris(X/S)` at the open subobject `X'` of the
-final sheaf — clause (d) of [Stacks, Tag 07KL] — is also formalized, as
-`Crystalline.GlobalCrystallineSituation.openSubspaceSliceEquivalence` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectLocalization.lean`.  What is
-**not** formalized is the remark's own
-statement, whose terms are the derived *global* sections of the four crystalline sites: the
-functors of the triangle above are sections at a fixed object, and `Cris(X/S)` has no terminal
-object for the two to coincide, so the sequence would have to be redone for global sections.
-
-Three further ingredients are available, and no claim to the contrary should be read into the
-paragraph above.  The abelian derived direct image `Rf_{cris, *}` is formalized, as
-`Crystalline.GlobalCrystallineSituation.SmallSite.derivedCrisDirectImageFunctor` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrisDirectImage.lean`, together with
-`...preservesInjectiveObjects_crisDirectImage`; the module-valued `R^i f_{cris, *}` is formalized as
-`...higherCrisModuleDirectImage` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrisModuleDirectImage.lean`; and the
-situation
-`X'/S` attached to an open `X'` of `X` is formalized as
-`Crystalline.GlobalCrystallineSituation.restrict` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/SituationRestrict.lean`.  So the triangle does
-not want a derived pushforward or a restricted situation; it wants the localization.
+The remark itself is
+`...SmallSite.exists_distinguished_triangle_derivedCrisModuleDirectImage` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisDirectImage.lean`, which
+carries the Stacks attribute for tag 07ML.  This file supplies an object-level input of its proof:
+the Mayer--Vietoris square of restrictions of an object of `Cris(X/S)` is cartesian, with
+monomorphic lower edges generating a covering sieve, and consequently the sections of any sheaf
+over it form a cartesian square, `CrystallineThickening.isPullback_sections_openCoverSquare`.
+The sheaf-level Mayer--Vietoris sequence of sheaves of modules that the remark's proof uses is
+`...SmallSite.mayerVietorisShortComplex_shortExact` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisSequence.lean`, whose sections
+are read through `CrystallineThickening.isPullback_op_map_of_cover` below.
 
 ## Main definitions
 
@@ -78,9 +55,8 @@ not want a derived pushforward or a restricted situation; it wants the localizat
   `X'''` is the intersection of the restrictions to `X'` and `X''`.
 * `CrystallineThickening.ofTwoArrows_openCoverSquare_mem_smallTopology` — the two restrictions
   generate a covering sieve when `X = X' ∪ X''`.
-* `CrystallineThickening.isPullback_sections_openCoverSquare` — **[Stacks, Tag 07ML]**, the
-  geometric input of the remark: the sections of a sheaf on `Cris(X/S)` over the square form a
-  cartesian square.
+* `CrystallineThickening.isPullback_sections_openCoverSquare` — the sections of a sheaf on
+  `Cris(X/S)` over the square form a cartesian square, an input of [Stacks, Tag 07ML].
 
 ## Implementation notes
 
@@ -305,25 +281,16 @@ theorem isPullback_op_map_of_cover {𝒜 : Type v} [Category.{w} 𝒜]
     · rwa [F.property.amalgamateOfArrows_map _ _ _ _ WalkingPair.left]
     · rwa [F.property.amalgamateOfArrows_map _ _ _ _ WalkingPair.right]
 
-/-- **Stacks Project, Tag 07ML.**  Mayer--Vietoris for an open covering `X = X' ∪ X''` on the small
-crystalline site: for every sheaf `F` on `Cris(X/S)` and every object `(U, T, δ)`, the sections of
-`F` over `(U, T, δ)` and over its restrictions to `X'`, `X''` and `X''' = X' ∩ X''` form a
+/-- **Mayer--Vietoris for the sections of a sheaf, for an open covering `X = X' ∪ X''` of the small
+crystalline site**: for every sheaf `F` on `Cris(X/S)` and every object `(U, T, δ)`, the sections
+of `F` over `(U, T, δ)` and over its restrictions to `X'`, `X''` and `X''' = X' ∩ X''` form a
 cartesian square.  For a sheaf of abelian groups this is exactness of
 `0 ⟶ F(U, T, δ) ⟶ F' ⊕ F'' ⟶ F'''`.
 
-This is the geometric input the remark reduces its distinguished triangle to.  The short exact
-form of this square at an injective abelian sheaf is
-`CrystallineThickening.openCoverShortComplex_shortExact` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisShortExact.lean`, and the
-triangle it yields, at a fixed object of the site, is
-`CrystallineThickening.openCoverTriangle_distinguished` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisTriangle.lean`.  What the
-remark's own statement still wants is the same sequence for the derived *global* sections of the
-four crystalline sites; see the module documentation. -/
-@[stacks 07ML "the Mayer-Vietoris square of the covering on Cris(X/S), the fact the remark's
-  triangle is a formal consequence of.  The triangle at a fixed object of the site is
-  openCoverTriangle_distinguished of SmallSite/MayerVietorisTriangle.lean; the remark's own
-  statement, about the derived global sections of the four crystalline sites, is not stated"]
+This is an object-level ingredient of [Stacks, Tag 07ML], not the remark: the remark is the
+distinguished triangle of the derived direct images `Rf_{cris, *}` in `D(𝒪_{X'/S'})`,
+`...SmallSite.exists_distinguished_triangle_derivedCrisModuleDirectImage` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisDirectImage.lean`. -/
 theorem isPullback_sections_openCoverSquare {𝒜 : Type v} [Category.{w} 𝒜]
     (A : CrystallineThickening S) {V₁ V₂ : S.X.Opens} (hV : V₁ ⊔ V₂ = ⊤)
     (F : Sheaf (smallTopology S) 𝒜) :

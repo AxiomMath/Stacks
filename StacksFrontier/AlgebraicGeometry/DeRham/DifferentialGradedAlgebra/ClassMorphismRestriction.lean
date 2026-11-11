@@ -546,7 +546,9 @@ of the de Rham complex (a sheaf of differential graded algebras over the slice s
 `ξ`. A morphism `f : Ω^•_{U/S} ⟶ Ω^•_{U/S}[n]` of `D(f^{-1}𝒪_S|_U)` is the map corresponding to
 `ξ|_U` (it lifts to the derived category of right differential graded `Ω^•_{U/S}`-modules, and
 its value `f(1)` at the unit is `ξ|_U`) if and only if it is the restriction `ξ'|_U`. -/
-@[stacks 0FU7 "property (4): the construction commutes with restriction to opens"]
+@[stacks 0FU7 "property (4): for an open U, the morphism corresponding to xi|_U (it lifts to the
+  derived category of right differential graded Omega^bullet|_U-modules and its value at the unit is
+  xi|_U) is the restriction xi'|_U"]
 theorem lift_and_unit_iff_eq_restrictShiftedHom_deRhamClassMorphism (n : ℤ)
     (ξ : deRhamCohomology B D n) (U : Opens X.carrier)
     (f : DerivedCategory.Q.obj (_root_.SheafOfModules.DifferentialGradedModule.regularModule

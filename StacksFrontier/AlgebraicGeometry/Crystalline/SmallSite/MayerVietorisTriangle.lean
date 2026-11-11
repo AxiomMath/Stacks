@@ -48,40 +48,30 @@ Everything below lives in the namespace
 
 * `shortExact_openCoverAppComplex` — the short complex of section functors is short exact at
   every injective abelian sheaf.
-* `openCoverTriangle_distinguished` — **[Stacks, Tag 07ML]**, the Mayer--Vietoris triangle is
+* `openCoverTriangle_distinguished` — the Mayer--Vietoris triangle at a fixed object is
   distinguished.  Its three terms are read off by `openCoverTriangle_obj₁`,
   `openCoverTriangle_obj₂` and `openCoverTriangle_obj₃`.
 * `longExact_openCoverFunctorComplex` — the long exact sequence of right derived functors of the
-  three section functors, the second assertion of the remark.
+  three section functors.
 
-## What is and is not proved
+## Relation to [Stacks, Tag 07ML]
 
-What is proved is the remark's triangle **at a fixed object `(U, T, δ)` of `Cris(X/S)` and a
-fixed pair of opens of `X`**, with the three terms the derived sections of a complex of
-injective abelian sheaves over `(U, T, δ)` and over its three restrictions.  Identifying those
-terms with the `RΓ(Cris(X/S), F)`, `RΓ(Cris(X'/S), F)`, `RΓ(Cris(X''/S), F)`,
-`RΓ(Cris(X'''/S), F)` that the remark writes down is a *further* step, and nothing in this file
-supplies it; no claim to have it should be read into the attribute below.
-
-What that step needs, and what is now available for it.  The comparison the remark takes for
-granted — that `Cris(X'/S)`, `Cris(X''/S)` and `Cris(X'''/S)` are the localizations of
-`Cris(X/S)` at the corresponding open subobjects of its final sheaf — is clause (d) of
-[Stacks, Tag 07KL], and it **is** formalized:
-`Crystalline.GlobalCrystallineSituation.openSubspaceSliceEquivalence` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectLocalization.lean` is exactly
-that statement for an open `V` of `X` over the same divided power base.  What is still missing
-is the other half: the three functors of this file are sections at a *fixed object* of the
-site, whereas the remark's are global sections of the four sites, and `Cris(X/S)` has no
-terminal object for the two to coincide.  Replacing them by global sections means redoing the
-short exact sequence of `MayerVietorisShortExact.lean` for `Γ(Cris(X/S), -)` and the `Γ` of the
-three restricted sites — which clause (d) now reduces to the sheaf condition for the covering
-of the final sheaf by `h_{X'}` and `h_{X''}` — and that is not done.
+What is proved here is a triangle **at a fixed object `(U, T, δ)` of `Cris(X/S)` and a fixed pair
+of opens of `X`**: its three terms are the sections of a complex of injective abelian sheaves over
+`(U, T, δ)` and over its three restrictions.  It is a local, object-level relative of the remark,
+not the remark.  The remark of [Stacks, Tag 07ML] is a distinguished triangle of the derived
+direct images `Rf_{cris, *}F`, `Rf'_{cris, *}F' ⊕ Rf''_{cris, *}F''`, `Rf'''_{cris, *}F'''` in
+`D(𝒪_{X'/S'})`, for `f : X ⟶ X'` in the situation of [Stacks, Tag 07MJ]; it is proved as
+`...SmallSite.exists_distinguished_triangle_derivedCrisModuleDirectImage` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisDirectImage.lean`, which
+carries the Stacks attribute for tag 07ML.  That proof does not go through the section functors of
+this file: it uses the sheaf-level Mayer--Vietoris sequence of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisSequence.lean` and the
+identification of the direct image along `f|_V` with that along `f` of `j_{V, *}` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrisModuleDirectImageOpenSubspace.lean`.
 
 The complex `K` is required to consist of injective sheaves, which is what the general machinery
-of `StacksFrontier/Algebra/Homology/DerivedFunctorLongExact.lean` consumes; turning the triangle
-into one for the *total* right derived functors of the three section functors on the unbounded
-derived category of `Ab(Cris(X/S))` would additionally need a functorial K-injective resolution,
-which that file does not provide either.
+of `StacksFrontier/Algebra/Homology/DerivedFunctorLongExact.lean` consumes.
 
 ## Implementation notes
 
@@ -250,19 +240,14 @@ theorem shortExact_openCoverAppComplex (A : CrystallineThickening S) {V₁ V₂ 
   ShortComplex.shortExact_of_iso (openCoverAppComplexIso A V₁ V₂ I).symm
     (openCoverShortComplex_shortExact A hV I)
 
-/-- **Stacks Project, Tag 07ML.**  The long exact sequence of the Mayer--Vietoris short complex
-of section functors of an open covering `X = X' ∪ X''`, at a fixed object `(U, T, δ)` of
-`Cris(X/S)`: the right derived functors of sections over `(U, T, δ)`, of the sum of sections over
-the `X'`- and `X''`-parts, and of sections over the `X'''`-part fit into a long exact sequence,
-natural in the abelian sheaf.
+/-- **The long exact sequence of the Mayer--Vietoris short complex of section functors** of an open
+covering `X = X' ∪ X''`, at a fixed object `(U, T, δ)` of `Cris(X/S)`: the right derived functors
+of sections over `(U, T, δ)`, of the sum of sections over the `X'`- and `X''`-parts, and of
+sections over the `X'''`-part fit into a long exact sequence, natural in the abelian sheaf.
 
-The same scope caveat as for `openCoverTriangle_distinguished` applies: this is the sequence at a
-fixed object of the site, and identifying its terms with the derived global sections of the four
-crystalline sites of the remark needs clause (d) of [Stacks, Tag 07KL]. -/
-@[stacks 07ML "the long exact sequence of the same Mayer-Vietoris short complex of section \
-  functors, at a fixed object of Cris(X/S).  NOT the identification of its terms with RGamma of \
-  the four crystalline sites: that needs the same sequence for GLOBAL sections, see the module \
-  docstring"]
+This is an object-level relative of [Stacks, Tag 07ML], not the remark, which is the
+distinguished triangle of the derived direct images `Rf_{cris, *}` in `D(𝒪_{X'/S'})`,
+`...SmallSite.exists_distinguished_triangle_derivedCrisModuleDirectImage`. -/
 theorem longExact_openCoverFunctorComplex (A : CrystallineThickening S) {V₁ V₂ : S.X.Opens}
     (hV : V₁ ⊔ V₂ = ⊤) :
     ∃ delta : ∀ n : ℕ, (openCoverFunctorComplex A V₁ V₂).X₃.rightDerived n ⟶
@@ -329,22 +314,19 @@ theorem openCoverTriangle_obj₃ (A : CrystallineThickening S) {V₁ V₂ : S.X.
           (ComplexShape.up ℤ)).obj K) :=
   rfl
 
-/-- **Stacks Project, Tag 07ML.**  The Mayer--Vietoris triangle of an open covering
-`X = X' ∪ X''` on the small crystalline site is distinguished: for every object `(U, T, δ)` of
-`Cris(X/S)` and every cochain complex `K` of injective abelian sheaves on `Cris(X/S)`,
+/-- **The Mayer--Vietoris triangle of an open covering `X = X' ∪ X''` at a fixed object of the
+small crystalline site is distinguished**: for every object `(U, T, δ)` of `Cris(X/S)` and every
+cochain complex `K` of injective abelian sheaves on `Cris(X/S)`,
 
 `Γ((U, T, δ), K) ⟶ Γ(X'-part, K) ⊕ Γ(X''-part, K) ⟶ Γ(X'''-part, K) ⟶ [1]`
 
 is a distinguished triangle of `D(Ab)`.
 
-This is the remark's triangle at a *fixed* object of the site and a fixed pair of opens of `X`.
-Identifying its three terms with `RΓ(Cris(X/S), F)`, `RΓ(Cris(X'/S), F)`, `RΓ(Cris(X''/S), F)`
-and `RΓ(Cris(X'''/S), F)` is a further step, which the module docstring describes; it is not
-claimed here. -/
-@[stacks 07ML "the remark's distinguished triangle, at a fixed object (U, T, delta) of \
-  Cris(X/S) and a fixed pair of opens of X, for a cochain complex of injective abelian sheaves. \
-  NOT the identification of the three terms with RGamma(Cris(X'/S), F) etc., which needs the \
-  same short exact sequence for GLOBAL sections of the four sites; see the module docstring"]
+This is an object-level relative of [Stacks, Tag 07ML], not the remark: the remark is the
+distinguished triangle of the derived direct images `Rf_{cris, *}F`,
+`Rf'_{cris, *}F' ⊕ Rf''_{cris, *}F''`, `Rf'''_{cris, *}F'''` in `D(𝒪_{X'/S'})`, which is
+`...SmallSite.exists_distinguished_triangle_derivedCrisModuleDirectImage` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/MayerVietorisDirectImage.lean`. -/
 theorem openCoverTriangle_distinguished (A : CrystallineThickening S) {V₁ V₂ : S.X.Opens}
     (hV : V₁ ⊔ V₂ = ⊤) (K : CochainComplex (Sheaf (smallTopology S) AddCommGrpCat.{u + 1}) ℤ)
     (hK : ∀ n, Injective (K.X n)) :

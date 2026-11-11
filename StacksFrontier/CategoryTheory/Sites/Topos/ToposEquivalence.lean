@@ -6,13 +6,14 @@ public import Mathlib.CategoryTheory.Sites.Over
 
 ## Main results
 
-* `DenseSubsiteOverSheafEquivalence`: the three conclusions of Stacks 03CH for a special
-  cocontinuous functor
-  `u : C ⥤ D` localized at an object `U : C`, packaged as a `Prop`.
+* `DenseSubsiteOverSheafEquivalence`: an earlier packaging of the conclusions as a `Prop`,
+  with the equivalences only asserted to exist; not a proof of anything.
 * `sheafEquivOfIsDenseSubsite`: the right-vertical equivalence
   `Sheaf J A ≌ Sheaf K A` of the diagram of topoi.
 
-Tags covered: 03CH.
+The formalization of Stacks 03CH is
+`CategoryTheory.Sites.LocalizedToposSquare.isSpecialCocontinuous_overPost_and_isEquivalence`, in
+`StacksFrontier.CategoryTheory.Sites.Topos.LocalizedToposSquare`.
 -/
 
 @[expose] public section
@@ -21,7 +22,10 @@ open CategoryTheory
 
 universe w v u v' u' w'
 
-/-- **Stacks 03CH.**
+/-- A proposition packaging conclusions of Stacks 03CH; it is a definition, not a theorem,
+and nothing here proves it.  It also only asserts that *some* equivalences of sheaf
+categories exist, and says nothing about the square of topoi.  The formalization of
+Stacks 03CH is `CategoryTheory.Sites.LocalizedToposSquare.isSpecialCocontinuous_overPost_and_isEquivalence`.
 
 Let `(C, J)` and `(D, K)` be sites and let `u : C ⥤ D` be a *special
 cocontinuous functor*, formalized in Mathlib as
@@ -40,8 +44,7 @@ cocontinuous functor*, formalized in Mathlib as
      `Sheaf J A ≌ Sheaf K A` (right vertical), and
      `Sheaf (J.over U) A ≌ Sheaf (K.over (u.obj U)) A` (left vertical).
 
-The Prop below packages all three conclusions. -/
-@[stacks 03CH]
+The Prop below packages these conclusions. -/
 def DenseSubsiteOverSheafEquivalence
     (C : Type u) [Category.{v} C] (D : Type u') [Category.{v'} D]
     (J : GrothendieckTopology C) (K : GrothendieckTopology D)

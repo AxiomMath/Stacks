@@ -203,7 +203,7 @@ theorem infinityChartSectionsEquiv_X_mem :
 
 /-- `centreGradedTransport` on a class `[e p]` in degree `n` is the class `[p]` read in
 `Gr_{(I, s)}(A[s])`, transported to `Gr_I(A)[T]`. -/
-private theorem centreGradedTransport_classOfPow (n : ℕ) (p : Polynomial Γ(X, U.1))
+theorem centreGradedTransport_classOfPow (n : ℕ) (p : Polynomial Γ(X, U.1))
     (hp : infinityChartSectionsEquiv U p ∈
       (infinityCentreIdeal i.ker).ideal (infinityChartAffineOpen U) ^ n)
     (hp' : p ∈ infinityChartIdeal (Stacks.Conormal.chartIdeal i U) ^ n) :
@@ -214,7 +214,7 @@ private theorem centreGradedTransport_classOfPow (n : ℕ) (p : Polynomial Γ(X,
   exact congrArg _ (classOfPow_congr _ rfl (by simp))
 
 /-- `centreGradedTransport` on the class of a constant `x ∈ I ^ n` in degree `n`. -/
-private theorem centreGradedTransport_classOfPow_C (n : ℕ) {x : Γ(X, U.1)}
+theorem centreGradedTransport_classOfPow_C (n : ℕ) {x : Γ(X, U.1)}
     (hx : x ∈ Stacks.Conormal.chartIdeal i U ^ n)
     (hx' : infinityChartSectionsEquiv U (Polynomial.C x) ∈
       (infinityCentreIdeal i.ker).ideal (infinityChartAffineOpen U) ^ n) :

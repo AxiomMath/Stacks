@@ -59,8 +59,12 @@ This is the flat base-change argument
 `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_baseChange`, with the smooth
 source-and-target locality of the Koszul property of morphisms of algebraic spaces (Stacks 06FC
 at that property) supplied by
-`AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`. -/
-@[stacks 0CJ5]
+`AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`. The
+statement has exactly the source's data: the cospan leg `g` is flat in the sense of Stacks 06PW
+(`IsFlat`), `f` is a local complete intersection 1-morphism in the sense of Stacks 0CJ3
+(`IsLocalCompleteIntersection`), and `Q` is any 2-fibre product of the cospan. -/
+@[stacks 0CJ5 "registered form: flat base change of a local complete intersection 1-morphism of \
+algebraic stacks, along any 2-fibre product of the cospan"]
 theorem isLocalCompleteIntersection_baseChange_of_isFlat
     {𝒳 𝒴 𝒴' : Stack.AlgebraicStacks.{u, w} B S hS}
     (f : 𝒳 ⟶ 𝒴) (g : 𝒴' ⟶ 𝒴) (hg : IsFlat B S hS g)

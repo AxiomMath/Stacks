@@ -580,7 +580,9 @@ in the case `f = 1`: for an admissible topological ring the canonical map
 
 The global sections of `𝒪_{Spf A} = lim 𝒪_λ` are the limit of the discrete rings
 `Γ(Spec (A/I_λ), 𝒪) = A/I_λ`, and an admissible ring is precisely the limit of its quotients by
-its ideals of definition. -/
+its ideals of definition. The identification for a general `f` is
+`AlgebraicGeometry.spfBasicOpenGammaIso`, and the facts of the section about `Spf A` are collected
+in `AlgebraicGeometry.spf_isThickening_isIso_isSheaf_isLocalRing_basicOpen`. -/
 @[stacks 0AHY "Γ(Spf A, 𝒪_{Spf A}) = A for an admissible topological ring"]
 theorem isIso_spfGammaHom [IsLinearTopology A A] (hA : IsAdmissible A) :
     IsIso (spfGammaHom A) :=

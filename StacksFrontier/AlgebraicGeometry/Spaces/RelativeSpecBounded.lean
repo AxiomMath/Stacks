@@ -38,8 +38,9 @@ spectrum at all is excluded
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.boundedRelativeSpec`: the bounded case of **Stacks 081W**, the relative
-  spectrum `\underline{Spec}_X(𝒜)` as an algebraic space affine over `X` in the site of `X`.
+* `AlgebraicGeometry.Space.boundedRelativeSpec`: the bounded case of Stacks 081W (not
+  registered as the tag), the relative spectrum `\underline{Spec}_X(𝒜)` as an algebraic space
+  affine over `X` in the site of `X`.
   Its functor of points is
   `AlgebraicGeometry.Space.relativeSpecPoints 𝒜`: a point with values in `T` is a point `x ∈ X(T)`
   with a morphism of `𝒪_X`-algebras `𝒜 ⟶ x_* 𝒪_T`.
@@ -73,9 +74,10 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 variable {X : AlgebraicSpaces B S hS}
 
-/-- **Stacks 081W, the bounded case.** The relative spectrum `\underline{Spec}_X(𝒜)` of a
-quasi-coherent `𝒪_X`-algebra `𝒜` with fewer than `B.cutoff` sections over every étale chart, as an
-algebraic space affine over `X` in the big fppf site of `X`: the object whose direct image
+/-- **The relative spectrum in the bounded case.** The relative spectrum
+`\underline{Spec}_X(𝒜)` of a quasi-coherent `𝒪_X`-algebra `𝒜` with fewer than `B.cutoff`
+sections over every étale chart, as an algebraic space affine over `X` in the big fppf site of
+`X`: the object whose direct image
 `π_* 𝒪` is `𝒜` (`AlgebraicGeometry.Space.pushforwardAlgebraBoundedRelativeSpecIso`), unique up to
 isomorphism over `X` (`AlgebraicGeometry.Space.nonempty_iso_boundedRelativeSpec`).
 
@@ -83,19 +85,13 @@ The size condition is the bound that every direct image of an affine morphism *i
 satisfies: an algebra violating it is the direct image of no algebraic space of the site affine
 over `X`
 (`AlgebraicGeometry.Space.not_essSurj_affinePushforwardAlgebraFunctor_of_cutoff_le_mk_sections`).
-The relative spectrum of an arbitrary quasi-coherent algebra is
-`AlgebraicGeometry.Space.relativeSpectrum`, which carries the full registration of the tag and is
-this construction applied over an enlargement of the site.
+This declaration is not registered as Stacks 081W: the relative spectrum of an arbitrary
+quasi-coherent algebra, with no size condition, is `AlgebraicGeometry.Space.relativeSpectrum`,
+which carries that registration and is this construction applied over an enlargement of the site.
 
 The construction is the functor of points `AlgebraicGeometry.Space.relativeSpecPoints 𝒜`; that it
 is an algebraic space affine over `X` is
 `AlgebraicGeometry.Space.isAlgebraicSpace_and_presheaf_isAffineHom_relativeSpecPoints`. -/
-@[stacks 081W "the bounded case only: the relative spectrum of a quasi-coherent O_X-algebra A \
-with fewer than the big fppf site's cutoff many sections at every etale chart, built inside the \
-site of X from its functor of points relativeSpecPoints A, with \
-pushforwardAlgebraBoundedRelativeSpecIso and nonempty_iso_boundedRelativeSpec identifying it as \
-the object corresponding to A under 081V. The tag for an arbitrary quasi-coherent algebra is \
-relativeSpectrum (RelativeSpectrum), which applies this construction over an enlarged site"]
 def boundedRelativeSpec (A : QuasicoherentAlgebra B S hS X)
     (hA : AlgebraSheaf.SectionsBelowCutoff B S hS A.obj) : AffineOver B S hS X :=
   relativeSpecAffineOverOf B S hS A.obj hA (isSheaf_relativeSpecPoints B S hS A.obj) A.property

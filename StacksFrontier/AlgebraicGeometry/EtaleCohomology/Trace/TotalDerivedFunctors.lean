@@ -59,7 +59,8 @@ The injective equivalence `K⁺(I) ≌ D⁺(A)`, part (3) of the same tag, is
 
 * `CategoryTheory.HomotopyCategory.MinusProjective.isEquivalence_toDerivedMinus`
   ([Stacks, Tag 03T6] part (4)): the canonical functor `K⁻(Proj A) ⥤ D⁻(A)` is an equivalence
-  when `A` has enough projectives.
+  of categories when `A` has enough projectives; that it is one of triangulated categories is
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.BoundedAboveProjectiveTriangulated`.
 * `CategoryTheory.Functor.rightDerivedFunctorPlusOfInjectivesIsoRightDerivedFunctorPlus`:
   the total right derived functor built from `K⁺(I)` is isomorphic to Mathlib's abstract
   right derived functor `CategoryTheory.Functor.rightDerivedFunctorPlus`.
@@ -150,8 +151,11 @@ private lemma essSurj_toDerivedMinus [EnoughProjectives A] :
 /-- **Stacks 03T6, part (4).** If `A` has enough projectives and `P ⊆ A` is the additive
 subcategory of projectives, then `D⁻(A) ≅ K⁻(P)`: the canonical functor from the bounded above
 homotopy category of complexes of projective objects to the bounded above derived category is
-an equivalence. -/
-@[stacks 03T6 "projective_equivalence", sga "4½ Etat_0 3.2.3" "(4) proj. analogue"]
+an equivalence of categories. That it is an equivalence of triangulated categories is
+`isEquivalence_toDerivedMinus_and_isTriangulated` and
+`isTriangulated_toDerivedMinusEquivalence`. -/
+@[stacks 03T6 "(4): the equivalence of categories K⁻(P) ⥤ D⁻(A)",
+  sga "4½ Etat_0 3.2.3" "(4) proj. analogue"]
 theorem isEquivalence_toDerivedMinus [EnoughProjectives A] :
     (toDerivedMinus A).IsEquivalence := by
   let hff := (Classical.choice (nonempty_fullyFaithful_toDerivedMinus A)).ofCompFaithful

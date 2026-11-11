@@ -52,7 +52,8 @@ of `s, t` in the category of algebraic spaces over `S`; the morphism `X₁ ⟶ X
 universal homeomorphism, it is an isomorphism over `U` (its base change along `U ⟶ X` is an
 isomorphism), and `Z ⟶ X` lifts to `X₁`. Everything is proved: Stacks 0AGG is
 `AlgebraicGeometry.Space.properKernelPairCoequalizers_holds`. -/
-@[stacks 0AGI]
+@[stacks 0AGI "the coequalizer X₁ exists, X₁ ⟶ X is finite, a universal homeomorphism and an \
+isomorphism over U, and Z ⟶ X lifts to X₁"]
 theorem exists_glueCoequalizer :
     ∃ D : KernelPairCoequalizer T.B T.S T.hS T.glueMap,
       IsFinite T.B T.S T.hS D.toTarget.hom ∧

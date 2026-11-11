@@ -283,8 +283,12 @@ presentation.
 
 The general case is reduced to the locally Noetherian case
 `AlgebraicGeometry.hasFlatAlmostBlowUpSquarePair` by absolute Noetherian approximation; see the
-module docstring. -/
-@[stacks 0EVC]
+module docstring. The input that Noetherian case asks for, the affine case of the flatness
+assertion of [Stacks, Tag 0815], is proved at each Noetherian stage by
+`AlgebraicGeometry.finitePresentationHasAffineChartFlatteningCentre`, so the statement assumes
+exactly the hypotheses of the tag. -/
+@[stacks 0EVC "the full statement under the source's hypotheses; the flatness of `X_V ⟶ V` is \
+read as flatness of the projection `X ×_Y V ⟶ V`"]
 public theorem hasFlatAlmostBlowUpSquarePair_of_flat {X Y : Scheme.{u}}
     [CompactSpace Y] [QuasiSeparatedSpace Y] (f : X ⟶ Y) (hf : FinitePresentation f)
     (V : Y.Opens) (hV : IsCompact (V : Set Y)) (hflat : Flat (pullback.snd f V.ι)) :
@@ -316,9 +320,8 @@ public theorem hasFlatAlmostBlowUpSquarePair_of_flat {X Y : Scheme.{u}}
   -- The quasi-compact open at that stage.
   let W : (D.obj j).Opens := D.map v ⁻¹ᵁ W₁
   have hWcpt : IsCompact (W : Set (D.obj j)) := Scheme.Hom.isCompact_preimage (D.map v) hW₁
-  have hWV : c.π.app j ⁻¹ᵁ W = V := by
-    change c.π.app j ⁻¹ᵁ (D.map v ⁻¹ᵁ W₁) = V
-    rw [← Scheme.Hom.comp_preimage, c.w v, hW₁V]
+  have hWV : c.π.app j ⁻¹ᵁ W = V :=
+    (by rw [← Scheme.Hom.comp_preimage, c.w v, hW₁V] : c.π.app j ⁻¹ᵁ (D.map v ⁻¹ᵁ W₁) = V)
   -- `f` is the base change of the model of `f`, hence of its base change to that stage.
   let eL₀ : X ≅ pullback X₀.hom (c.π.app i₀) := (Over.forget Y).mapIso e₀
   have hew₀ : eL₀.hom ≫ pullback.snd X₀.hom (c.π.app i₀) = f := Over.w e₀.hom

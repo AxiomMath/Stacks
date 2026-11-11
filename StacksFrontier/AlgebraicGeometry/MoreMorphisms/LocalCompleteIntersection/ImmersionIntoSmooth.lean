@@ -35,7 +35,7 @@ factorization chosen. This is **Stacks 069G**.
   unconditional statement that carries `@[stacks 069G]` is
   `AlgebraicGeometry.isKoszulRegularImmersion_of_koszul` in
   the module `LocalCompleteIntersectionAffine` under
-  `StacksFrontier.AlgebraicGeometry.Descent.LocalOnSourceTopologies`.
+  `StacksDraft.AlgebraicGeometry.Descent.LocalOnSourceTopologies`.
 
 ## Implementation notes
 
@@ -214,7 +214,7 @@ untagged: a declaration taking a stand-in for part of a tag's content must not c
 The hypothesis is discharged by
 `AlgebraicGeometry.koszulRegularCompSmooth` in
 the module `LocalCompleteIntersection.ImmersionIntoSmooth` under
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent`,
+`StacksDraft.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent`,
 and the resulting unconditional statement, which is where `@[stacks 069G]` sits, is
 `AlgebraicGeometry.isKoszulRegularImmersion_of_koszul` in
 `LocalCompleteIntersectionAffine.lean:122` in the directory

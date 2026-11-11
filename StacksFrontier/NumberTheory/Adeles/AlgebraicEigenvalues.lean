@@ -24,17 +24,22 @@ nonzero finitely generated submodule is integral over the base, hence algebraic.
 
 * `Stacks.Adeles.isAlgebraic_of_isHeckeEigenvalueAt` — a Hecke eigenvalue of a nonzero element
   of `C(Λ)` is algebraic over the prime subfield of `Λ`.
-* `Stacks.Adeles.IsEigenform.isAlgebraic_heckeEigenvalue` — Lemma 03VX, the same statement for
-  the eigenvalues `t_v` of an eigenform `f ∈ C(Λ)`.
+* `Stacks.Adeles.IsEigenform.isAlgebraic_heckeEigenvalue` — the same statement for the
+  eigenvalues `t_v` of an eigenform `f ∈ C(Λ)`. Lemma 03VX itself is
+  `Stacks.Adeles.GlobalFunctionField.isAlgebraic_eigenvalues_of_isEigenform`, proved
+  unconditionally for a function field over a finite field.
 
 ## Implementation notes
 
-**Proposition 03VW is carried as a hypothesis.** The Stacks source proves Lemma 03VX by citing
-Proposition 03VW, which it in turn proves by citing de Jong, so 03VW cannot be discharged here.
-It is already carried in `StacksFrontier.NumberTheory.Adeles.SwitchingEll` as the hypothesis
-`Stacks.Adeles.CuspFormsFinite`, and that is the hypothesis reused here; discharging it later
-discharges this file too, with no edit to either statement. Only its base-change clause is
-used. The prime subfield of `Λ` is the bottom subfield `⊥`, as in `CuspFormsFinite`.
+**Proposition 03VW is carried as a hypothesis.** This file works over an arbitrary field `K`,
+where Proposition 03VW is not available, so it is carried as the hypothesis
+`Stacks.Adeles.CuspFormsFinite` of `StacksFrontier.NumberTheory.Adeles.SwitchingEll`. For a function
+field over a finite field, the source's setting, 03VW is proved as
+`Stacks.Adeles.GlobalFunctionField.cuspFormsCentralChar_fg_and_baseChange`, and Lemma 03VX is
+proved unconditionally in
+`StacksFrontier.NumberTheory.Adeles.GlobalFunctionField.AlgebraicEigenvalues`. Only the
+base-change clause of `CuspFormsFinite` is used. The prime subfield of `Λ` is the bottom
+subfield `⊥`, as in `CuspFormsFinite`.
 
 **Hecke data at `v`.** `Stacks.Adeles.IsHeckeEigenvalueAt v f t` quantifies over the data of
 the source's explicit formula for `T_v` — a uniformizer, a system of representatives of `κ_v`,
@@ -133,15 +138,17 @@ public theorem isAlgebraic_of_isHeckeEigenvalueAt {K : Type u} [Field K] {Λ : T
   exact (isIntegral_of_smul_mem_submodule V hne hfg t
     fun z hz => by simpa only [smul_eq_mul] using hmul z hz).isAlgebraic
 
-/-- **Stacks Project, Tag 03VX.** Algebraicity of eigenvalues: if `Λ` is a field then the
-eigenvalues `t_v` of an eigenform `f ∈ C(Λ)` are algebraic over the prime subfield `F ⊂ Λ`,
-the subfield `⊥`, which is `𝔽_p` or `ℚ` according to the characteristic of `Λ`.
+/-- Algebraicity of eigenvalues over a general field `K`, from the hypothesis `hVW`: if `Λ`
+is a field then the eigenvalues `t_v` of an eigenform `f ∈ C(Λ)` are algebraic over the prime
+subfield `F ⊂ Λ`, the subfield `⊥`, which is `𝔽_p` or `ℚ` according to the characteristic of
+`Λ`.
 
-Proposition 03VW is carried as the hypothesis `hVW`, and `hdata` is the data of the source's
-formula for `T_v` at `v`, without which the eigenvalue equation is vacuous; see the
-implementation notes of `StacksFrontier.NumberTheory.Adeles.AlgebraicEigenvalues`. -/
-@[stacks 03VX "conditional on cited 03VW, carried as a hypothesis; assumes T_v has \
-data at v, without which the eigenvalue equation is vacuous"]
+The base-change clause of Proposition 03VW is the hypothesis `hVW`, and `hdata` is the data of
+the source's formula for `T_v` at `v`, without which the eigenvalue equation is vacuous; see the
+implementation notes of `StacksFrontier.NumberTheory.Adeles.AlgebraicEigenvalues`. Stacks Lemma
+03VX itself, in the source's setting of a function field over a finite field, is proved
+unconditionally as
+`Stacks.Adeles.GlobalFunctionField.isAlgebraic_eigenvalues_of_isEigenform`. -/
 public theorem IsEigenform.isAlgebraic_heckeEigenvalue {K : Type u} [Field K] {Λ : Type w}
     [Field Λ] (hVW : CuspFormsFinite.{u, w} K) {f : GL (Fin 2) (AdeleRing K) → Λ}
     {t u : Place K → Λ} (hf : IsEigenform f t u) (hfC : f ∈ cuspFormsCentralChar K Λ)

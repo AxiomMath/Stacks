@@ -31,10 +31,15 @@ for `ℱ` quasi-coherent on `S`, compatible with boundary maps.
 
 ## Main results
 
-* `Stacks.Cohomology.ExtProjectionFormulaQuasiCoherent.extCohomologyIsoSheafHom` is
-  **[Stacks, Tag 08ID]**: for every `i` an isomorphism
-  `H^i(S, K ⊗^L_{𝒪_S} ℱ) ≅ H^i(X, RSheafHom_{𝒪_X}(E, 𝒢 ⊗_{𝒪_X} f^*ℱ))`, as a natural
-  isomorphism of functors in `ℱ`.
+* `Stacks.Cohomology.ExtProjectionFormulaQuasiCoherent.extCohomologyIsoSheafHom`: given a dual
+  `DualSheafHomData E` and the input bundle of [Stacks, Tag 0A1F] at that dual, for every `i` an
+  isomorphism `H^i(S, K ⊗^L_{𝒪_S} ℱ) ≅ H^i(X, RSheafHom_{𝒪_X}(E, 𝒢 ⊗_{𝒪_X} f^*ℱ))`, as a
+  natural isomorphism of functors in `ℱ`.
+
+[Stacks, Tag 08ID] itself, under exactly the source's hypotheses and with the compatibility with
+boundary maps, is `Stacks.Cohomology.ExtPerfectProjection.extIso_qcoh_boundary`
+(`StacksFrontier.AlgebraicGeometry.Perfect.ExtPerfectProjectionBoundary`), which builds the dual by
+[Stacks, Tag 08DQ] and applies the boundary form of [Stacks, Tag 0A1F].
 * `Stacks.Cohomology.ExtProjectionFormulaQuasiCoherent.extCohomologyIsoQuasicoherent` is its
   restriction to the quasi-coherent `𝒪_S`-modules, the shape in which the source states it.
 
@@ -56,12 +61,14 @@ associativity of the derived tensor product, the identification of
 bundle `Stacks.Cohomology.ExtProjectionFormula.ExtProjectionInput` is taken here unchanged at
 `E^∨`.  In particular the two assumptions that tag carries, and only those, pass through.
 
-**What is carried here beyond [Stacks, Tag 0A1F].**  One thing: `DualSheafHomData`, which is
-[Stacks, Tag 08DQ] for `E`, asked for as a function of perfectness of `E` so that the tag's
-hypothesis on `E` is what produces the dual rather than sitting unused.  It is the same statement
-`Stacks.Cohomology.PerfectInternalHomPushforward.DualTensorData` carries for
-[Stacks, Tag 0DJR], and the implementation notes of that file say why neither of its assertions
-is available in this repository at this spelling.  Two differences: the perfectness of `E^∨` is
+**The extra input of this file.**  One thing beyond the input bundle of [Stacks, Tag 0A1F]:
+`DualSheafHomData`, the conclusion of [Stacks, Tag 08DQ] for `E`, asked for as a function of
+perfectness of `E`.  [Stacks, Tag 08DQ] is proved in this repository
+(`Stacks.SheafOfModules.derivedTensorDualNatIsoOfIsPerfectSpace` and
+`Stacks.SheafOfModules.isPerfect_derivedDual_of_isPerfectSpace`); that proof is what
+`Stacks.Cohomology.ExtPerfectProjection.extIso_qcoh_boundary` uses, whereas the construction here
+keeps the dual abstract.  Two differences from
+`Stacks.Cohomology.PerfectInternalHomPushforward.DualTensorData`: the perfectness of `E^∨` is
 not a field here, because it is already the `isPerfect` field of the input bundle of
 [Stacks, Tag 0A1F] at `E^∨`; and the isomorphism is asked for as a natural isomorphism of
 functors `E^∨ ⊗^L_{𝒪_X} - ≅ RSheafHom_{𝒪_X}(E, -)` on all of `D(𝒪_X)`, because the source uses
@@ -73,17 +80,19 @@ the canonical map of [Stacks, Tag 08I1] is the isomorphism.
 `ShiftedHom E N i` is proved in this repository in degree zero over the whole space
 (`Stacks.SheafOfModules.derivedSheafHomGlobalSectionsEquiv`) and in every degree over an open
 for the chosen K-injective model
-(`Stacks.SheafOfModules.homSheafComplexSectionHomologyEquiv`), but not in every degree for the
-unbounded derived sections functor that the left-hand side of this tag is read with, so the
-right-hand side below is the hypercohomology and not a group of shifted morphisms.
+(`Stacks.SheafOfModules.homSheafComplexSectionHomologyEquiv`).  The right-hand side below is the
+hypercohomology; the reading as shifted morphisms `Hom_{D(𝒪_X)}(E, -[i])`, for perfect `E`, is the
+one taken in `Stacks.Cohomology.ExtPerfectProjection.extIso_qcoh_boundary`, through
+`Stacks.Cohomology.PerfectDualExt.extIso`.
 
 **The hypotheses that are not needed.**  `S` is not assumed Noetherian: that assumption enters
 [Stacks, Tag 0DJR] only to make `K` perfect, and perfectness of `K` is not used in the
 construction of the isomorphisms.  Perfectness of `E` is used, as the source uses it, solely to
 produce the dual.
 
-**Boundary maps.**  The compatibility with boundary maps is *not* delivered.  It asks that for a
-short exact sequence `0 → ℱ₁ → ℱ₂ → ℱ₃ → 0` of quasi-coherent `𝒪_S`-modules the square
+**Boundary maps.**  The compatibility with boundary maps is not part of the statements of this
+file; it is proved in `Stacks.Cohomology.ExtPerfectProjection.extIso_qcoh_boundary`.  It asks
+that for a short exact sequence `0 → ℱ₁ → ℱ₂ → ℱ₃ → 0` of quasi-coherent `𝒪_S`-modules the square
 
 `H^i(S, K ⊗^L_{𝒪_S} ℱ₃) → Ext^i_{𝒪_X}(E, 𝒢 ⊗_{𝒪_X} f^*ℱ₃)`,
 `H^{i+1}(S, K ⊗^L_{𝒪_S} ℱ₁) → Ext^{i+1}_{𝒪_X}(E, 𝒢 ⊗_{𝒪_X} f^*ℱ₁)`
@@ -94,8 +103,7 @@ is the connecting map of the triangle of the short exact sequence of complexes
 `0 → 𝒢 ⊗_{𝒪_X} f^*ℱ₁ → 𝒢 ⊗_{𝒪_X} f^*ℱ₂ → 𝒢 ⊗_{𝒪_X} f^*ℱ₃ → 0`, which is exact because the
 terms of `𝒢` are flat over `S`.  Naturality in `ℱ` gives the squares on the first two legs of
 those two triangles, but in a triangulated category such a pair of squares always admits *some*
-fill-in on the third leg, and that the fill-in is the isomorphism below is exactly the
-verification the source omits.  The clause string of the tag records this.
+fill-in on the third leg, so the compatibility needs the separate argument made there.
 
 ## References
 
@@ -187,7 +195,8 @@ structure DualSheafHomData where
 
 variable [LocallyOfFiniteType f]
 
-/-- **[Stacks, Tag 08ID].**  In the situation of [Stacks, Tag 0DJR], with
+/-- **The isomorphisms of [Stacks, Tag 08ID] from a given dual.**  In the situation of
+[Stacks, Tag 0DJR], with
 `K = Rf_*RSheafHom_{𝒪_X}(E, 𝒢)`, there are isomorphisms
 
 `H^i(S, K ⊗^L_{𝒪_S} ℱ) ≅ Ext^i_{𝒪_X}(E, 𝒢 ⊗_{𝒪_X} f^*ℱ)`,
@@ -208,20 +217,9 @@ in between the assertion is [Stacks, Tag 0A1F] at `E^∨`.
 Beyond `hdual` nothing is carried here: `h` is the input bundle of [Stacks, Tag 0A1F] at `E^∨`,
 whose two carried fields are the projection formula [Stacks, Tag 08EU] at `ℱ` and the flat
 identification [Stacks, Tag 08DE], and whose other two fields are the source's assumptions on
-`E^∨` and `𝒢`.  The compatibility with boundary maps is **not** part of this statement; see the
-module docstring for what it asks and why naturality does not give it. -/
-@[stacks 08ID "the functorial isomorphisms for every i, as a natural isomorphism in ℱ ranging \
-over all 𝒪_S-modules rather than only the quasi-coherent ones (the restriction to the \
-quasi-coherent ones is extCohomologyIsoQuasicoherent), and Γ(S, 𝒪_S)-linear, with \
-Ext^i_{𝒪_X}(E, -) read as the i-th hypercohomology on X of the derived internal Hom out of E, \
-which is Tag 08DK; the source's reduction to Tag 0A1F is carried out, that tag being applied \
-here and not assumed, so the only thing granted beyond its own input bundle is Tag 08DQ for E, \
-as hdual: a dual E-dual with a natural isomorphism from its derived tensor product to the \
-derived internal Hom out of E, which this tree lacks at this spelling, exactly as \
-PerfectInternalHomPushforward records for Tag 0DJR; S is not assumed Noetherian, that \
-assumption serving in Tag 0DJR only to make K perfect, which is not used; the compatibility \
-with boundary maps is NOT carried -- the source omits that verification and naturality in ℱ \
-gives only the squares on the first two legs of the two distinguished triangles"]
+`E^∨` and `𝒢`.  The compatibility with boundary maps is not part of this statement; the tag in full,
+unconditional and with boundary maps, is
+`Stacks.Cohomology.ExtPerfectProjection.extIso_qcoh_boundary`. -/
 def extCohomologyIsoSheafHom (hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
     (hdual : RingedSpace.IsPerfect (X := X.toRingedSpace) E → DualSheafHomData E)
     (h : ExtProjectionInput f (hdual hE).dual G) (i : ℤ) :
@@ -246,7 +244,7 @@ abbrev quasicoherentInclusion (Z : Scheme.{u}) :
       OXMod.{u, u} Z.toRingedSpace :=
   (SheafOfModules.isQuasicoherent (structureSheafOfRings Z.toRingedSpace)).ι
 
-/-- **[Stacks, Tag 08ID] for `ℱ` quasi-coherent**, the shape the source states: the isomorphisms
+/-- **The isomorphisms of `extCohomologyIsoSheafHom` for `ℱ` quasi-coherent**: the isomorphisms
 `H^i(S, K ⊗^L_{𝒪_S} ℱ) ≅ Ext^i_{𝒪_X}(E, 𝒢 ⊗_{𝒪_X} f^*ℱ)` of `extCohomologyIsoSheafHom`,
 restricted along the inclusion of the quasi-coherent `𝒪_S`-modules.  The restriction carries no
 information beyond `extCohomologyIsoSheafHom`, which holds for every `𝒪_S`-module; it is

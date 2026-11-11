@@ -18,11 +18,11 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.SurjectiveBaseChange
 /-!
 # Shrinking a chart to a locally quasi-finite or étale one, unconditionally (Stacks 06ME, 06N2)
 
-`StacksFrontier/AlgebraicGeometry/Stacks/ChartShrinkingQuasiFiniteEtale.lean` states **Stacks 06ME**
-and **Stacks 06N2** with the open locus `W(f)` of **Stacks 06M5** and its compatibility with the
-base change along the field-valued point carried as hypotheses. This file proves both with
-nothing carried: the locus is produced inside the proof as the locus `W(𝒫, f)` of assertion (A)
-of **Stacks 06M3**
+`StacksFrontier/AlgebraicGeometry/Stacks/ChartShrinkingQuasiFiniteEtale.lean` deduces
+**Stacks 06ME** from the open locus `W(f)` of **Stacks 06M5** and its compatibility with the
+base change along the field-valued point, taken as arguments. This file proves Stacks 06ME and
+**Stacks 06N2** with nothing carried: the locus is produced inside the proof as the locus
+`W(𝒫, f)` of assertion (A) of **Stacks 06M3**
 (`AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_of_hasRelativePropertyLocusOnSpaces`),
 at `𝒫 = ` locally quasi-finite for Stacks 06ME and at `𝒫 = ` unramified for Stacks 06N2, and the
 membership of the image of the given point of the fibre is the maximality half of assertion (B),
@@ -205,8 +205,7 @@ spaces: `AlgebraicGeometry.Stack.hasRelativeProperty_unramified_of_isUnramified`
 `AlgebraicGeometry.Stack.isUnramified_of_hasRelativeProperty_unramified`, whose étale-smooth
 diagram comes from
 `AlgebraicGeometry.Stack.hasSurjectiveEtaleSmoothDiagram_of_isRepresentableByAlgebraicSpaces`
-and not from **Stacks 0CIA**. Given that comparison, an open `W` with `hW` and the base-change
-containment `hBaseChange` are not needed as hypotheses.
+and not from **Stacks 0CIA**.
 
 Étaleness of `f|_W` is **Stacks 06LU** for 1-morphisms of algebraic stacks,
 `AlgebraicGeometry.Stack.isEtale_fullSubcategoryInclusion_comp_of_isUnramified`, applied to the

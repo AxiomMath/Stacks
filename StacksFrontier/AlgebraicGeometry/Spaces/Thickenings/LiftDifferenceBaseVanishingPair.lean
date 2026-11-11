@@ -105,8 +105,6 @@ sheaf of rings descends to one vanishing on the sections that morphism accounts 
 
 This is the pair-of-morphisms counterpart of
 `AlgebraicGeometry.Space.derivationFamilyOfHom_app_inverseImage_eq_zero`. -/
-@[stacks 0618 "the descended difference of two morphisms over a base kills the functions read \
-from that base, which is what makes it a derivation over the base"]
 theorem descend_restrictedLiftDifferenceData_app_inverseImage_eq_zero
     [HasSheafify (SmallEtale.topology B S hS
       (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS).1) AddCommGrpCat.{u}]
@@ -147,8 +145,6 @@ Taking `b := j ≫ qb` for the base datum of
 `AlgebraicGeometry.Space.liftDifferenceDifferentialsHom`, this is the hypothesis `hz` of that
 descent — the second of the two vanishing conditions, the first being hypothesis (2) of
 [Stacks Project, Tag 0618]. -/
-@[stacks 0618 "the hypothesis hz of the descent, discharged: the descended difference of two \
-morphisms over a base kills the sections read from that base along the composite"]
 theorem descend_restrictedLiftDifferenceData_structureSharpInverseImage_eq_zero
     [HasSheafify (SmallEtale.topology B S hS
       (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS).1) AddCommGrpCat.{u}]

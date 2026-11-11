@@ -19,11 +19,13 @@ the Poincaré duality of a curve used in the purity half of
 [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH). It sends the image of the class of an
 invertible module `ℒ` to `deg ℒ mod n`, which is what makes it compatible with Frobenius.
 
-The degree map and the two facts about it are inputs from the Jacobian
-(`Stacks.Picard.ofSchemeDegree`, which is not in this library). Here the degree is an
-argument `deg` with the hypotheses `hdeg` (onto) and `hdiv` (`n`-divisible kernel), so the
-declarations below become unconditional when instantiated at that degree map. No declaration of
-this file is registered.
+Here the degree is an argument `deg` with the hypotheses `hdeg` (onto) and `hdiv` (`n`-divisible
+kernel), so the declarations below become unconditional when instantiated at a degree map with
+those two properties. The library has one: the degree `Stacks.Picard.picardDegree`, onto by
+`Stacks.Picard.picardDegree_surjective` and with `n`-divisible kernel by
+`Stacks.Picard.exists_nsmul_eq_of_picardDegree_eq_zero`; `Stacks.Kummer.smoothProperCurveTrace`
+(in `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Duality.CurveTraceNaturality`) is `curveTrace`
+instantiated there. No declaration of this file is registered.
 
 ## Main definitions
 

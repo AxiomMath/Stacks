@@ -29,6 +29,9 @@ of small étale ringed topoi induced by `iₙ`; no derived functor is part of th
 * `AlgebraicGeometry.Space.DerivedExistenceSystem.toDerivedExistenceSituation`: the
   `AlgebraicGeometry.Space.DerivedExistenceSituation` with `transitionLeftDerivedPullback` as its
   derived pullback.
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem`: the same data with `X` only
+  separated, flat and of finite presentation over `A`, and
+  `AlgebraicGeometry.Space.DerivedExistenceSystem.toSeparated`, the underlying such system.
 
 ## Main results
 
@@ -100,8 +103,8 @@ pseudo-coherent objects `Kₙ` of `D(𝒪_{Xₙ})` on the infinitesimal base cha
 `Xₙ = X ×_{Spec A} Spec Aₙ`, with maps `Liₙ^* Kₙ₊₁ ⟶ Kₙ` that are isomorphisms, `Liₙ^*` being
 the derived pullback along `Xₙ ⟶ Xₙ₊₁` constructed in `transitionDerivedPullback`. -/
 @[stacks 0DIK "the situation as stated, with the derived pullback along each Xₙ → Xₙ₊₁ \
-constructed by Stacks 06YY rather than given; nothing is granted or assumed beyond the source's \
-data and a big fppf site containing Spec A and every Spec Aₙ"]
+constructed by Stacks 06YY; its fields are the data and hypotheses of the source, together with \
+a big fppf site containing Spec A and every Spec Aₙ in which the algebraic spaces are taken"]
 structure DerivedExistenceSystem where
   /-- The inverse system of rings `(Aₙ)`. -/
   system : ℕᵒᵖ ⥤ CommRingCat.{u}
@@ -138,9 +141,71 @@ structure DerivedExistenceSystem where
   /-- The comparison map is an isomorphism `Kₙ₊₁ ⊗^L 𝒪_{Xₙ} ≅ Kₙ`. -/
   φ_isIso (n : ℕ) : IsIso (φ n)
 
+/-- The data of Grothendieck's existence theorem in its derived form with the algebraic space only
+separated: an inverse system of rings `(Aₙ)` with surjective transitions whose kernels are locally
+nilpotent, an algebraic space `X` separated, flat and of finite presentation over `A = lim Aₙ`, and
+pseudo-coherent objects `Kₙ` of `D(𝒪_{Xₙ})` with maps `Liₙ^* Kₙ₊₁ ⟶ Kₙ` that are isomorphisms.
+
+This is the setting of the generalization proposed in Stacks 0DIR (with `X` flat over `A`); the
+proof of Stacks 0DIQ is carried out for it, properness entering only through the
+pseudo-coherence of `RΓ(Xₙ, Lpₙ^*E ⊗^L Kₙ)` for perfect `E`. -/
+structure SeparatedDerivedExistenceSystem where
+  /-- The inverse system of rings `(Aₙ)`. -/
+  system : ℕᵒᵖ ⥤ CommRingCat.{u}
+  /-- Its consecutive transition maps are surjective. -/
+  transition_surjective (n : ℕ) :
+    Function.Surjective (system.map (homOfLE (Nat.le_succ n)).op).hom
+  /-- The kernels of those transition maps are locally nilpotent. -/
+  transition_locallyNilpotent (n : ℕ) :
+    (RingHom.ker (system.map (homOfLE (Nat.le_succ n)).op).hom).LocallyNilpotent
+  /-- The big fppf site in which the algebraic spaces are taken. -/
+  B : BigFppfSite.{u}
+  /-- The inverse-limit base `Spec A` belongs to the site. -/
+  containsLimitBase : B.Contains (limitBase system)
+  /-- Every affine base `Spec Aₙ` belongs to the site. -/
+  containsBaseAt (n : ℕ) : B.Contains (baseAt system n)
+  /-- The algebraic space `X` over `Spec A`. -/
+  X : Over (schemeSpace (limitBaseObject system B containsLimitBase))
+  /-- `X` is separated over `Spec A`. -/
+  separated : IsSeparated B (limitBase system) containsLimitBase X.hom.hom
+  /-- `X` is flat over `Spec A`. -/
+  flat : IsFlat B (limitBase system) containsLimitBase X.hom.hom
+  /-- `X` is of finite presentation over `Spec A`. -/
+  finitePresentation :
+    IsFinitePresentation B (limitBase system) containsLimitBase X.hom.hom
+  /-- The object `Kₙ` of `D(𝒪_{Xₙ})`. -/
+  K (n : ℕ) : derivedCategoryAt system B containsLimitBase containsBaseAt X n
+  /-- Each `Kₙ` is pseudo-coherent. -/
+  pseudoCoherent (n : ℕ) :
+    IsPseudoCoherentOn system B containsLimitBase containsBaseAt X n (K n)
+  /-- The comparison map `Liₙ^* Kₙ₊₁ ⟶ Kₙ`, the adjoint of the map `Kₙ₊₁ ⟶ Riₙ,* Kₙ`. -/
+  φ (n : ℕ) :
+    (transitionDerivedPullback system B containsLimitBase containsBaseAt X n).obj (K (n + 1)) ⟶
+      K n
+  /-- The comparison map is an isomorphism `Kₙ₊₁ ⊗^L 𝒪_{Xₙ} ≅ Kₙ`. -/
+  φ_isIso (n : ℕ) : IsIso (φ n)
+
 namespace DerivedExistenceSystem
 
 variable (D : DerivedExistenceSystem.{u})
+
+/-- The `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem` underlying a
+`DerivedExistenceSystem`: a proper algebraic space is separated. -/
+def toSeparated : SeparatedDerivedExistenceSystem.{u} where
+  system := D.system
+  transition_surjective := D.transition_surjective
+  transition_locallyNilpotent := D.transition_locallyNilpotent
+  B := D.B
+  containsLimitBase := D.containsLimitBase
+  containsBaseAt := D.containsBaseAt
+  X := D.X
+  separated := D.proper.1
+  flat := D.flat
+  finitePresentation := D.finitePresentation
+  K := D.K
+  pseudoCoherent := D.pseudoCoherent
+  φ := D.φ
+  φ_isIso := D.φ_isIso
 
 /-- The `AlgebraicGeometry.Space.DerivedExistenceSituation` underlying a
 `DerivedExistenceSystem`: its derived pullback datum is `transitionLeftDerivedPullback`, whose

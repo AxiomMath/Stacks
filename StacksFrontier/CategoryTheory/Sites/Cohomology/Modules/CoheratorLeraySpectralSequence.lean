@@ -45,8 +45,12 @@ The source's proof is two steps, and both are carried out here.
 * `Stacks.Cohomology.isIso_rightDerivedPlus_map_of_isZero_kernel_cokernel`: **a morphism with
   acyclic kernel and cokernel is an isomorphism on every higher right derived functor.**  No
   tag; it is a plain lemma of homological algebra, the formal step of the source's proof.
-* `Stacks.Cohomology.Leray.exists_quasicoherentLeraySpectralSequence`: **Stacks 0782**, the
-  spectral sequence with second page `H^p(𝒴, R^q f_{QCoh,*} ℱ)` abutting to `H^{p+q}(𝒳, ℱ)`.
+* `Stacks.Cohomology.Leray.exists_quasicoherentLeraySpectralSequence`: the argument of
+  **Stacks 0782** for a morphism of ringed topoi and an abstract coreflection: the spectral
+  sequence with second page `H^p(𝒴, Q(R^q f_* K))` abutting to `H^{p+q}(𝒳, K)`.  Stacks 0782
+  itself, for algebraic stacks, is
+  `AlgebraicGeometry.Stack.AlgebraicStacks.exists_quasicoherentLeraySpectralSequence` in
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/QuasicoherentLeraySpectralSequence.lean`.
 
 ## What is instantiated, and what is carried
 
@@ -64,39 +68,19 @@ coherator and the parasitic modules supplied as data and hypotheses.  Concretely
 * `hvanish`, that a parasitic module has vanishing cohomology — this is [Stacks, Tag 0775]
   part (1).
 
-**Why the geometry is carried rather than instantiated.**  Every piece named above is present
-in this development for an algebraic stack, and none of them can be plugged in, because they
-are stated over mutually incompatible categories of modules:
+**Relation to algebraic stacks.**  This version lives at `RingedTopos.{u, u, u}` — a site whose
+objects and morphisms live in `Type u` — whereas the ringed topos of an algebraic stack,
+`AlgebraicGeometry.Stack.FlatFppf.fppfRingedTopos`, is a `RingedTopos.{u, u + 1, u}`, so the
+theorem here does not specialise to a morphism of algebraic stacks.  The statement of
+[Stacks, Tag 0782] for algebraic stacks is proved separately, with the coherator of
+[Stacks, Tag 0778], the higher direct images of [Stacks, Tag 077A] and the inputs
+[Stacks, Tag 0779] part (2) and [Stacks, Tag 0775] part (1) all instantiated, as
+`AlgebraicGeometry.Stack.AlgebraicStacks.exists_quasicoherentLeraySpectralSequence` in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/QuasicoherentLeraySpectralSequence.lean`.
 
-* [Stacks, Tag 0732] is formalized at `RingedTopos.{u, u, u}` — a site whose objects *and*
-  morphisms live in `Type u` — whereas the ringed topos of an algebraic stack is
-  `AlgebraicGeometry.Stack.FlatFppf.fppfRingedTopos`, of type `RingedTopos.{u, u + 1, u}`:
-  its site has objects in `Type (u + 1)`.  So the Leray spectral sequence of this development
-  cannot be evaluated at a morphism of algebraic stacks at all.
-* the coherator `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` ([Stacks, Tag 0778]) is
-  a functor `LQCoh^fbc(𝒪_𝒴) ⥤ QCoh(𝒪_𝒴)` with `LQCoh^fbc` taken inside
-  `SheafOfModules.{u}` on the *étale* site, while the higher direct images
-  `AlgebraicGeometry.Stack.moduleSheafHigherDirectImage` of a 1-morphism of algebraic stacks
-  land in `SheafOfModules.{u + 1}`, and the cohomology of [Stacks, Tag 0775],
-  `AlgebraicGeometry.Stack.FlatFppf.fppfModuleCohomology`, is taken on the *fppf* site.  The
-  transports between these three presentations are exactly the comparisons this development
-  records as unavailable — see the implementation notes of
-  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/ParasiticCohomologyVanishing.lean`.
-
-Carrying the coherator as an abstract coreflection and the two cited lemmas as hypotheses
-about it is therefore the honest form.  It is the whole of the source's input and nothing
-more: the hypotheses are named after the tags they are, and the conclusion is the tag's
-conclusion.
-
-**[Stacks, Tag 077A] is not proved here.**  That proposition constructs `f_{QCoh,*}` as a right
-adjoint of quasi-coherent pullback for a quasi-compact quasi-separated morphism and shows the
-`R^i f_{QCoh,*}` form a `δ`-functor; this development does not have it, and the
-quasi-compactness and quasi-separatedness of `f` enter 0782 only through it.  What is used
-here is only its *definition* of `R^q f_{QCoh,*}` as `Q ∘ R^q f_*`, reproduced as
-`Stacks.Cohomology.Leray.quasicoherentHigherDirectImage`; the hypothesis that `Q` is defined
-on all of `Mod(𝒪_𝒴)` is what stands in for the fact, proved there from
-quasi-compactness and quasi-separatedness, that `R^q f_* ℱ` lies in the domain of the
-coherator.
+The definition `Stacks.Cohomology.Leray.quasicoherentHigherDirectImage` below is the composite
+`Q ∘ R^q f_*` for a coherator `Q` supplied as data; the algebraic-stack higher direct images of
+[Stacks, Tag 077A] are `AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImage`.
 
 ## Reading the statements
 
@@ -290,9 +274,10 @@ variable {X Y : RingedTopos.{u, u, u}}
 /-- **The quasi-coherent higher direct image `R ^q f_{QCoh,*}`**, the composite
 [Stacks, Tag 077A] prescribes: take the ordinary higher direct image `H ^q ∘ Rf_*` and apply
 the coherator `coherator` of [Stacks, Tag 0778].  The coherator is supplied as data, so this
-names the recipe rather than proving anything about it; in particular it does **not** prove
-[Stacks, Tag 077A], which asserts that this is a right adjoint of quasi-coherent pullback and
-that these functors form a `δ`-functor. -/
+names the recipe rather than proving anything about it.  The higher direct images of
+[Stacks, Tag 077A] for a 1-morphism of algebraic stacks, with their properties, are
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImage` and the declarations
+of `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/QuasicoherentPushforward.lean`. -/
 def quasicoherentHigherDirectImage {𝒬 : Type u₁} [Category.{v₁} 𝒬]
     (coherator : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤ 𝒬) (q : ℤ) :
     DerivedCategory.Plus (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⥤ 𝒬 :=
@@ -301,9 +286,14 @@ def quasicoherentHigherDirectImage {𝒬 : Type u₁} [Category.{v₁} 𝒬]
         Y.O)) q ⋙
       coherator
 
-/-- **Stacks 0782, the Leray spectral sequence for the quasi-coherent direct image**, read in
-abelian groups.  Let `f : (Sh(C), 𝒪_C) → (Sh(D), 𝒪_D)` be a morphism of ringed topoi standing
-for a quasi-compact quasi-separated morphism `f : 𝒳 → 𝒴` of algebraic stacks, and let `K` be a
+/-- **The Leray spectral sequence for a coherator-type direct image, for a morphism of ringed
+topoi**, read in abelian groups: the argument of **Stacks 0782** over an abstract coreflection.
+The statement of Stacks 0782 for a quasi-compact quasi-separated 1-morphism of algebraic
+stacks is `AlgebraicGeometry.Stack.AlgebraicStacks.exists_quasicoherentLeraySpectralSequence`,
+which does not use this theorem.
+
+Let `f : (Sh(C), 𝒪_C) → (Sh(D), 𝒪_D)` be a morphism of ringed topoi, in the role of a
+quasi-compact quasi-separated morphism `f : 𝒳 → 𝒴` of algebraic stacks, and let `K` be a
 bounded below complex of `𝒪_C`-modules, standing for the quasi-coherent module `ℱ` placed in
 degree zero.  Suppose given
 
@@ -330,24 +320,11 @@ theorem's abutment clause unchanged.  What is added is the identification of its
 `hvanish`, into an isomorphism `H^p(𝒴, Q(R^q f_* ℱ)) ≅ H^p(𝒴, R^q f_* ℱ)` in every degree.
 That is precisely the step the source performs and calls formal.
 
-See the module documentation for why the coherator and the two cited lemmas are carried as
-hypotheses rather than instantiated: the Leray spectral sequence of this development is
-available only at `RingedTopos.{u, u, u}`, while the ringed topos of an algebraic stack has
-its site one universe up, and the coherator, the higher direct images and the cohomology of an
-algebraic stack are formalized over three mutually incomparable categories of modules. -/
-@[stacks 0782 "the spectral sequence H^p(𝒴, R^q f_{QCoh,*} ℱ) ⟹ H^{p+q}(𝒳, ℱ), read in \
-abelian groups FOR A MORPHISM OF RINGED TOPOI, NOT for a morphism of algebraic stacks as the \
-source states it. This is NOT a generalization of the tag: it does not instantiate to the \
-source's setting, because the Leray sequence of 0732 here lives at RingedTopos.{u, u, u} \
-while the ringed topos of an algebraic stack is RingedTopos.{u, u+1, u}, so the two cannot be \
-matched up; the three universe blockers are set out in this module's docstring. The tag's own \
-statement, over algebraic stacks, therefore remains undelivered. Further carried here: the \
-coherator Q of 0778, as a coreflection, and the two lemmas the proof cites — 0779 part (2), \
-that the kernel and cokernel of Q 𝓖 ⟶ 𝓖 are parasitic, and 0775 part (1), that a parasitic \
-module has vanishing cohomology — as the hypotheses `hker`, `hcoker` and `hvanish`. 077A, \
-which builds f_{QCoh,*} and is where quasi-compactness and quasi-separatedness enter, is not \
-proved and is absent from the library: only its definition R^q f_{QCoh,*} = Q ∘ R^q f_* is \
-reproduced", sga "4 V 5.3" "more general", sga "4 V 5.4" "special case"]
+This theorem lives at `RingedTopos.{u, u, u}`, while the ringed topos of an algebraic stack has
+its site one universe up, so it does not specialise to algebraic stacks; the algebraic-stack
+statement is proved directly in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/QuasicoherentLeraySpectralSequence.lean`. -/
+@[sga "4 V 5.3" "more general", sga "4 V 5.4" "special case"]
 theorem exists_quasicoherentLeraySpectralSequence {𝒬 : Type u₁} [Category.{v₁} 𝒬]
     (incl : 𝒬 ⥤ SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
     (coherator : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤ 𝒬)

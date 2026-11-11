@@ -43,6 +43,9 @@ Koszul braiding exponent `r(a-r)` and the evaluation exponent `r + (-a)r` have t
   projective terms, `J` is bounded below and `I` is bounded above.
 * `ChainEvaluation.homComplex_braiding_sign_eq_evaluation_sign`: the Koszul braiding sign on the
   relevant summand equals the evaluation sign of `chainEvaluation_tmul`.
+  The equality of the monoidal and direct constructions (Stacks 0A61) is
+  `ChainEvaluation.chainEvaluation_eq_tensorHomEquiv_symm`, in
+  `StacksFrontier.Homology.HomComplex.DerivedAdjunction`.
 
 Boundedness is expressed through Mathlib's `CochainComplex.IsStrictlyGE` and
 `CochainComplex.IsStrictlyLE` classes, and termwise finite projectivity through
@@ -1040,13 +1043,13 @@ theorem chainEvaluation_isIso_of_boundedAbove_boundedBelow
       omega
   exact HomologicalComplex.Hom.isIso_of_components _
 
-/-- **Stacks 0A61**.
+/-- Sign comparison behind Stacks 0A61, whose statement is
+`ChainEvaluation.chainEvaluation_eq_tensorHomEquiv_symm`.
 For any Koszul symmetric structure on cochain complexes — one whose braiding restricts on the
 summand `A^p ⊗ B^q` to `(-1)^{pq}` times the symmetry of `ModuleCat R` — the braiding on the
 summand `K^r ⊗ Hom^{a-r}(K, J)` carries the sign `(-1)^{r + (-a) r}` that occurs in the direct
-construction of evaluation into an iterated Hom complex (`chainEvaluation_tmul`). So the
-monoidal construction of the map of Stacks 0A60 and the direct one use the same sign. -/
-@[stacks 0A61]
+construction of evaluation into an iterated Hom complex (`chainEvaluation_tmul`): the sign
+introduced by the braiding is the sign of the direct construction. -/
 theorem homComplex_braiding_sign_eq_evaluation_sign
     (s : SymmetricCategory (CochainComplex (ModuleCat.{u} R) ℤ))
     (hKoszul : ∀ (A B : CochainComplex (ModuleCat.{u} R) ℤ) (p q n : ℤ) (h : p + q = n),

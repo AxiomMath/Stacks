@@ -48,7 +48,7 @@ development does not have, together with one compatibility of an input it does h
   isomorphism only through the assumed `Deformation.Artin.TangentHomRepresentation`, so it says
   nothing about lifts and cannot serve as the equivariance hypothesis above.
 * The compatibility of the [Stacks, Tag 07YA] *ring* base-change transitions with the action on
-  lifts. The transitions themselves are proved and tagged: the tangent one is
+  lifts. The transitions themselves are proved: the tangent one is
   `Deformation.Artin.existsUnique_tangentBaseChange` of
   `StacksFrontier/Deformation/Artin/Obstruction/TangentPullback.lean`, and the companion one on
   infinitesimal automorphisms is `Deformation.Artin.existsUnique_infAutBaseChangeHom` of

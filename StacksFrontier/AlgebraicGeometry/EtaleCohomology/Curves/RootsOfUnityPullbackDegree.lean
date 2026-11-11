@@ -46,20 +46,14 @@ is projective.  A line bundle is taken to be a finite locally free module of con
 this is the same thing as an invertible module by clause (2) of [Stacks, Tag 0B8M], and
 `AlgebraicGeometry.invertibleCurveDegree_eq_curveDegree` identifies the two degrees.
 
-Two inputs of the source are carried as hypotheses rather than discharged.  Neither of them
-mentions `π`, two curves at once, or the degree of a morphism.
-
-* `RootsOfUnityH2Degree` is the `q = 2` clause of [Stacks, Tag 03RQ], for a single curve.  The
-  library has only the `q = 0` clause of that computation, as
-  `AlgebraicGeometry.baseRootsToEtaleH0_bijective_of_isIntegral`, which carries
-  [Stacks, Tag 03RR]; the `q = 2` clause rests on [Stacks, Tag 03P8] and [Stacks, Tag 03RM].  Of
-  those, [Stacks, Tag 03RM] is proved, as
-  `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_smoothCurve`;
-  [Stacks, Tag 03P8] is not, for the small étale site that this file needs.
-* `LineBundleClass` is the Picard half of [Stacks, Tag 03P8], for a single scheme and for an
-  arbitrary morphism of schemes.  The library has the torsor half, as
-  `Stacks.Kummer.multiplicativeTorsorIsoClassesEquivH1`, and nothing identifying `𝐆_m`-torsor
-  classes on a small étale site with a Picard group.
+This file states the computation relative to two structures, `LineBundleClass` and
+`RootsOfUnityH2Degree`, which record a class map from line bundles to `H¹_ét(-, 𝐆_m)` and a
+coordinate on `H²_ét(-, μ_n)` normalised by the degree of line bundles.  [Stacks, Tag 0AMB]
+itself is `Stacks.EtaleCohomology.sheafHTwoRootsOfUnityAddEquivZMod_rootsOfUnityRestriction`,
+in the coordinates `Stacks.EtaleCohomology.sheafHTwoRootsOfUnityAddEquivZMod` of the `q = 2`
+clause of [Stacks, Tag 03RQ], which are normalised by the degree on the divisor class group.  The
+étale identification `H¹_ét(X, 𝐆_m) ≃ Pic(X)` of [Stacks, Tag 03P8] is
+`Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard`.
 
 The `HasExt` hypotheses are carried rather than discharged because the universe in which the
 `Ext`-groups live is a parameter of `HasExt` and is not determined by the site, exactly as in
@@ -67,8 +61,8 @@ The `HasExt` hypotheses are carried rather than discharged because the universe 
 
 ## References
 
-* [Stacks Project, Tag 0AMB](https://stacks.math.columbia.edu/tag/0AMB): the statement proved
-  here.
+* [Stacks Project, Tag 0AMB](https://stacks.math.columbia.edu/tag/0AMB): the statement, proved
+  in `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.SecondCohomologyPullbackDegree`.
 * [Stacks Project, Tag 03RQ](https://stacks.math.columbia.edu/tag/03RQ): the cohomology of
   `μ_n` on a smooth projective curve.
 * [Stacks Project, Tag 0AYZ](https://stacks.math.columbia.edu/tag/0AYZ): the degree of a
@@ -133,13 +127,8 @@ def kummerCoboundary (X : Scheme.{u}) (n : ℕ)
 /-- **The class of a line bundle in `H¹_ét(-, 𝐆_m)`, compatibly with pullback.**  A line bundle is
 a finite locally free module of constant rank one.
 
-This is the Picard half of [Stacks, Tag 03P8], the identification of `H¹_ét(X, 𝐆_m)` with the
-Picard group of `X`: the class map in one direction, and its naturality.  The library has only the
-torsor half of that tag, `Stacks.Kummer.multiplicativeTorsorIsoClassesEquivH1`, which identifies
-`H¹_ét(X, 𝐆_m)` with the group of isomorphism classes of `𝐆_m`-torsors on the small étale site of
-`X`; nothing relates those torsor classes to invertible modules.  Carrying the data is therefore
-not a weakening of 03P8 but the statement of what remains of it, and the bijectivity of the class
-map — the rest of 03P8 — is deliberately not assumed, since it is not needed.
+This is the shape of the Picard half of [Stacks, Tag 03P8]: the class map in one direction, and its
+naturality.  The étale identification itself is `Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard`.
 
 The naturality is stated for an arbitrary morphism of schemes, and in the form in which the
 Kummer coboundary square `Stacks.Kummer.etaleCohomologyRestrictionMap_kummerExtClass` produces a
@@ -167,15 +156,9 @@ closed field, with its normalisation.**  The identification is an isomorphism of
 the normalisation says that the Kummer coboundary of the class of a line bundle is sent to the
 degree of that line bundle modulo `n`, and that every class is such a coboundary.
 
-This is the `q = 2` clause of [Stacks, Tag 03RQ], which computes `H^q_ét(X, μ_n)` for a smooth
-projective curve `X` over an algebraically closed field and `n` invertible in that field.  The
-library carries only the `q = 0` clause of that computation, as
-`AlgebraicGeometry.baseRootsToEtaleH0_bijective_of_isIntegral`, which carries
-[Stacks, Tag 03RR].  The `q = 2` clause is the
-statement that the Kummer coboundary makes `H²_ét(X, μ_n)` the quotient `Pic(X)/n·Pic(X)`, which
-the degree identifies with `ℤ/n`; it waits on [Stacks, Tag 03P8], the identification of
-`H¹_ét(X, 𝐆_m)` with `Pic(X)`, and on [Stacks, Tag 03RM], the vanishing of `H²_ét(X, 𝐆_m)`.  It
-is therefore carried here as data, and no tag is attached to it: a hypothesis is not a proof.
+This is the shape of the `q = 2` clause of [Stacks, Tag 03RQ] normalised against line bundles
+through a class map `c`.  The library proves that clause, normalised against the degree on the
+divisor class group, as `Stacks.EtaleCohomology.sheafHTwoRootsOfUnityAddEquivZMod`.
 
 The short exactness of the Kummer sequence is quantified over rather than derived from
 invertibility of `n`, so that the witness produced by any lemma may be supplied; being a
@@ -202,7 +185,8 @@ structure RootsOfUnityH2Degree (c : LineBundleClass.{u, v, w}) (k : Type u) [Fie
     ∃ (L : X.Modules) (_ : SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} L 1),
       x = (c.classOf X L).comp (kummerCoboundary.{u, v, w} X n hX) rfl
 
-/-- **[Stacks, Tag 0AMB].**  Let `k` be an algebraically closed field, let `π : X ⟶ Y` be a
+/-- **Pullback on `H²_ét(-, μ_n)` is multiplication by the degree, relative to
+`RootsOfUnityH2Degree`.**  Let `k` be an algebraically closed field, let `π : X ⟶ Y` be a
 nonconstant morphism of smooth proper curves over `k`, and let `n ≥ 1` be invertible in `k`.  In
 the coordinates of `Stacks.EtaleCohomology.RootsOfUnityH2Degree`, which identify both
 `H²_ét(Y, μ_n)` and `H²_ét(X, μ_n)` with `ℤ/n`, the pullback
@@ -210,19 +194,17 @@ the coordinates of `Stacks.EtaleCohomology.RootsOfUnityH2Degree`, which identify
 `π^* : H²_ét(Y, μ_n) ⟶ H²_ét(X, μ_n)`
 
 is multiplication by the degree of `π`, the degree `deg(X/Y) = [R(X) : R(Y)]` of the extension of
-function fields ([Stacks, Tag 02NY]).
+function fields ([Stacks, Tag 02NY]).  [Stacks, Tag 0AMB] in the coordinates of
+`Stacks.EtaleCohomology.sheafHTwoRootsOfUnityAddEquivZMod` is
+`Stacks.EtaleCohomology.sheafHTwoRootsOfUnityAddEquivZMod_rootsOfUnityRestriction`.
 
-The proof is the source's.  A class in `H²_ét(Y, μ_n)` is the Kummer coboundary of the class of a
+A class in `H²_ét(Y, μ_n)` is the Kummer coboundary of the class of a
 line bundle `L` on `Y`.  Restriction along `π` commutes with the Kummer coboundary, by
 `Stacks.Kummer.etaleCohomologyRestrictionMap_kummerExtClass`, and carries the class of `L` to the
 class of `π^*L`, so the coordinate of the restricted class is the degree of `π^*L`.  That degree
 is `deg(X/Y)` times the degree of `L` by
 `AlgebraicGeometry.curveDegree_pullback_eq_degreeOver_mul`, which is where nonconstancy of `π` is
 used, and the degree of `L` is the coordinate of the original class. -/
-@[stacks 0AMB "with two inputs carried as hypotheses, neither of them about the conclusion: \
-`SX`/`SY`, the q = 2 clause of Stacks 03RQ with its normalisation, since the library has only \
-the q = 0 clause and the q = 2 clause needs Stacks 03P8 and 03RM; and `c`, the class of a line \
-bundle in `H¹_ét(-, 𝐆_m)` with its naturality, which is the Picard half of Stacks 03P8"]
 theorem equiv_rootsOfUnityPullbackMap_eq_degreeOver_mul (c : LineBundleClass.{u, v, w})
     (k : Type u) [Field k] [IsAlgClosed k] {X Y : Scheme.{u}} (πX : X ⟶ Spec (.of k))
     (πY : Y ⟶ Spec (.of k)) [IsCurve k πX] [IsCurve k πY] [IsProper πX] [IsProper πY]

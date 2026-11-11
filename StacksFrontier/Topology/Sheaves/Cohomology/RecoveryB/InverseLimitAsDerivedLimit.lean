@@ -208,7 +208,7 @@ private def singleExtendIso (A : Type*) [Category A] [Abelian A] :
     Category.id_comp]
   exact (invHomCancel₁ _ _ _ _).trans (invHomCancel₂ _ _ _).symm
 
-private lemma preservesProduct_single_of_isBasis (X : RingedSpace.{u, u})
+public lemma preservesProduct_single_of_isBasis (X : RingedSpace.{u, u})
     (M : ℕ → SheafOfModules.{u} (structureSheafRing X))
     (B : Set (Opens X.carrier)) (hB : Opens.IsBasis B)
     (hcoh : ∀ U ∈ B, ∀ n p : ℕ, 0 < p → IsZero (Hgroup (structureSheafRing X) U p (M n))) :

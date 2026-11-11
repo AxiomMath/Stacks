@@ -202,7 +202,6 @@ quotient spectra of `C`, under which `Spf C` is an affine formal algebraic space
 as the uniform size bound on those quotient spectra which puts the base change over a
 non-quasi-compact point of `Spf A` back in the site. Nothing is assumed about the stages of
 `Spf A`. -/
-@[stacks 0AN5 "(3) implies (1)"]
 theorem isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (hE : E.HasLargeSite)

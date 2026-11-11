@@ -79,11 +79,11 @@ def openCoverShortComplex (A : CrystallineThickening S) (V₁ V₂ : S.X.Opens)
 /-- **The Mayer--Vietoris sequence of an injective abelian sheaf on `Cris(X/S)` for an open
 covering `X = X' ∪ X''` is short exact**:
 
-`0 ⟶ I(U, T, δ) ⟶ I' ⊕ I'' ⟶ I''' ⟶ 0`. -/
-@[stacks 07ML "the Mayer-Vietoris sequence of the covering on Cris(X/S), short exact at an \
-  injective sheaf, which is the form a derived functor consumes.  NOT the remark's triangle: \
-  that is openCoverTriangle_distinguished of SmallSite/MayerVietorisTriangle.lean, at a fixed \
-  object of the site, and identifying its terms with RGamma of the four sites is still open"]
+`0 ⟶ I(U, T, δ) ⟶ I' ⊕ I'' ⟶ I''' ⟶ 0`.
+
+This is a sections-level statement at one object of the site, an input of the object-level
+triangle `openCoverTriangle_distinguished`; the remark of [Stacks, Tag 07ML] itself is
+`...SmallSite.exists_distinguished_triangle_derivedCrisModuleDirectImage`. -/
 theorem openCoverShortComplex_shortExact (A : CrystallineThickening S) {V₁ V₂ : S.X.Opens}
     (hV : V₁ ⊔ V₂ = ⊤) (I : Sheaf (smallTopology S) AddCommGrpCat.{u + 1}) [Injective I] :
     (openCoverShortComplex A V₁ V₂ I).ShortExact :=

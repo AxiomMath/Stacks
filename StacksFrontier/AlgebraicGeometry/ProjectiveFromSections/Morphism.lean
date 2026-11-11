@@ -1,7 +1,6 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.ProjGlobalSectionsAppTop.Consumers
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The morphism `φ_{(L, (s₀, …, sₙ))}` to projective space
@@ -37,6 +36,10 @@ morphisms agree on the overlaps, so `AlgebraicGeometry.Scheme.Cover.glueMorphism
   `Stacks.ProjectiveFromSections.ι_toProjectiveSpaceOver`: the glued morphism restricted to the
   `i`-th chart is the chart morphism. This is what pins the morphism down.
 * `Stacks.ProjectiveFromSections.toProjectiveSpaceOver_fst`: the morphism lies over `S`.
+
+The characterisation of `φ_{(L, (s₀, …, sₙ))}` by `L = φ^* 𝒪(1)` and `sᵢ = φ^* Tᵢ` is
+`Stacks.ProjectiveSpaceModuli.eq_toProjectiveSpaceOver_iff`, in
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpaceModuli/OverBase.lean`.
 
 ## Implementation notes
 
@@ -106,15 +109,9 @@ theorem ι_toProjectiveSpaceAtUniverse (i : Fin (n + 1)) :
 /-- **The morphism `φ_{(L, (s₀, …, sₙ))} : X ⟶ ℙⁿ_S` of Section 27.13**, attached to a structure
 morphism `f : X ⟶ S`, an invertible `𝒪_X`-module `L` and a generating family of `n + 1` global
 sections of `L`. It is the morphism to the integral model paired with `f`; no compatibility has
-to be checked, `ℙⁿ_S` being a fibre product over the terminal scheme. -/
-@[stacks 01ND "the notation phi_(L, (s_0, ..., s_n)) of the section, as data: the morphism to \
-P^n_S attached to an invertible module with n + 1 generating global sections, pinned on each \
-standard chart. The scheme P^n_S itself is Tag 01NF \
-(AlgebraicGeometry.projectiveSpaceOver). The section's characterisation of the morphism by \
-L = phi^* O(1) and s_i = phi^* T_i is NOT proved: the comparison of L with the pullback of the \
-hyperplane sheaf is the twist identification recorded as missing in \
-StacksFrontier/AlgebraicGeometry/AmpleProjectiveImmersion/Basic.lean. The representability \
-statement Tag 01NE is likewise not proved, only this direction of it"]
+to be checked, `ℙⁿ_S` being a fibre product over the terminal scheme. Its characterisation as the
+unique `S`-morphism with `L = φ^* 𝒪(1)` and `sᵢ = φ^* Tᵢ` is
+`Stacks.ProjectiveSpaceModuli.eq_toProjectiveSpaceOver_iff`. -/
 def toProjectiveSpaceOver {S : Scheme.{u}} (f : X ⟶ S) : X ⟶ projectiveSpaceOver n S :=
   Stacks.AmpleProjectiveImmersion.liftOver f (toProjectiveSpaceAtUniverse s hs)
 

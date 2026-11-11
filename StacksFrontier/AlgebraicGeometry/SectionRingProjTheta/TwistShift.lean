@@ -89,10 +89,12 @@ piece, to be hit, and for `-m ≤ i < 0` it is a nonzero group with nothing mapp
 exactly the discrepancy, and `N₀ = 0` in the eventual-bijectivity hypothesis.
 
 **No `@[stacks]` attribute is attached here.** The identification is a parenthetical step inside
-Stacks Tag 01QK, not one of that Remark's two assertions; assertion (ii) is registered once, at
-`Stacks.SectionRingProjTheta.pullbackComparison_tensorHom` of
-`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistSquare.lean`, and nothing here is a
-second registration of it.
+Stacks Tag 01QK, not one of that Remark's two assertions; assertion (ii) is registered at
+`Stacks.SectionRingProjTheta.twistSquareInt` of
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistRemarkSquareInt.lean` and assertion (i)
+at `Stacks.SectionRingProjTheta.projTheta_app_eq_twistThetaInt` of
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistRemarkNormalization.lean`, and nothing
+here is a second registration of either.
 
 ## References
 

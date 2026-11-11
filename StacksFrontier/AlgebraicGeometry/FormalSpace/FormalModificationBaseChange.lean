@@ -12,10 +12,14 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.RigSurjectiveBaseChan
 Let `S` be a scheme contained in a big fppf site `B`, let `f : X ⟶ Y` be a formal modification
 of locally Noetherian formal algebraic spaces over `S` (**Stacks 0GDK**) and let `g : Z ⟶ Y` be
 an adic morphism (**Stacks 0AQ3**) with `Z` locally Noetherian. **Stacks 0GDN** says that the
-base change `X ×_Y Z ⟶ Z` is again a formal modification.
+base change `X ×_Y Z ⟶ Z` is again a formal modification. The library's statement of Stacks 0GDN
+is `AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd_of_isAdicMorphism` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.FormalModificationBaseChangeAdic`, whose hypotheses
+are those of the source; this module supplies the categorical lemmas it uses.
 
 `AlgebraicGeometry.FormalSpace.IsFormalModification` is a structure with six fields, and the
-proof is field by field, exactly as in the source:
+proof of the earlier form `AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd`
+kept below is field by field, as in the source:
 
 * `isLocallyNoetherian_source`, that `X ×_Y Z` is locally Noetherian, is **Stacks 0AQ8**;
 * `isLocallyNoetherian_target`, that `Z` is locally Noetherian, is the hypothesis `hZ`;
@@ -44,7 +48,9 @@ proof is field by field, exactly as in the source:
   comparison. This is the categorical content of the last step of Stacks 0GDN.
 * `AlgebraicGeometry.FormalSpace.IsProper.isLocallyOfFiniteType`: a proper morphism of formal
   algebraic spaces over `S` is locally of finite type.
-* `AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd`: **Stacks 0GDN**.
+* `AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd`: an earlier form of
+  Stacks 0GDN with extra hypotheses, kept for its downstream users; Stacks 0GDN itself is
+  `AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd_of_isAdicMorphism`.
 
 ## Implementation notes
 
@@ -61,32 +67,32 @@ along. The existing lemma `CategoryTheory.Limits.isPullback_diagonal_of_isPullba
 describes a *kernel pair* of a morphism into the source of `f` as a base change of `Δ_f`, and
 instantiating it here would demand that `pullback.fst f g` be a monomorphism.
 
-Five hypotheses are carried, each a theorem of the source that this library does not have, and
-each stated for all of its own data rather than for the `f` and `g` of the conclusion:
+The earlier form `AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd` carries five
+further hypotheses, each stated for all of its own data rather than for the `f` and `g` of the
+conclusion:
 
-* `h0AQ8` is **Stacks 0AQ8**. The library proves it as
-  `AlgebraicGeometry.FormalSpace.isLocallyNoetherian_of_isPullback`, but only modulo the four
-  open inputs of Stacks 0AQ7 recorded there — Stacks 0ANL, Stacks 0AKP part (6), Stacks 0AIU
-  and the set-theoretic condition of Stacks 0AIS. Carrying the conclusion of Stacks 0AQ8 in
-  full generality is shorter than carrying those four, and keeps every carried hypothesis a
-  single named tag.
+* `h0AQ8` is **Stacks 0AQ8** quantified over every cartesian square
+  (`AlgebraicGeometry.FormalSpace.FibreProductIsLocallyNoetherian`). The library proves it:
+  every instance is
+  `AlgebraicGeometry.FormalSpace.isLocallyNoetherian_of_isPullback_of_isLocallyOfFiniteType`.
 * `hcond`, `hiso` and `h31` are the three inputs that
-  `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism` itself carries for
-  Stacks 0GD1: the locality of the cohomology-annihilation half of rig-étaleness, which is the
-  only input of Stacks 0AQL; the invariance of rig-étaleness under isomorphism of targets
-  implied by Stacks 0ANI; and the implication (3) ⟹ (1) of Stacks 0ANG. They are reproduced
-  verbatim.
-* `hcover` is its fourth, the geometric half of Stacks 0GBD — the covering of a fibre product
-  by fibre products of charts — quantified over all pairs of morphisms, so that it does not
-  mention `f` and `g`.
+  `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism` carries for
+  Stacks 0GD1: the locality of the cohomology-annihilation condition `Rig.RigEtaleCondition`,
+  the invariance of rig-étaleness under isomorphism of targets, and the implication
+  (3) ⟹ (1) of Stacks 0ANG. The first of these is false:
+  `Rig.not_propertyIsLocalNoetherian_rigEtaleCondition` in
+  `StacksFrontier.RingTheory.Rig.RigEtaleConditionCounterexample` refutes it, so no caller can
+  supply `hcond` and this form has no instance.
+* `hcover` is the geometric half of Stacks 0GBD — the covering of a fibre product by fibre
+  products of charts — quantified over all pairs of morphisms.
 
-None of the five is vacuous: each is a true statement of the Stacks project, so the hypothesis
-set is satisfiable, and the theorem is therefore not empty. Each is also load-bearing in the
-proof: `h0AQ8` supplies the first field, `hcond`, `hiso`, `h31` and `hcover` together supply
-the fourth and no other route to it exists in the library, and deleting any one of them makes
-the file fail to elaborate.
+Stacks 0GD1 itself is proved without these inputs, as
+`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isLocallyNoetherian`, and that is what
+the statement of Stacks 0GDN uses.
 
-Three hypotheses are made on the data beyond those the source displays. `hgft`, that `g` is
+The earlier form makes three hypotheses on the data beyond those the source displays, and
+takes its adic morphism `g` in the chart-wise form
+`AlgebraicGeometry.FormalSpace.IsAdicOnEveryAffineEtaleDiagramNoetherian`. `hgft`, that `g` is
 locally of finite type, is a hypothesis of Stacks 0AQS, which the source invokes twice;
 adicness in the sense of Stacks 0AQ3 is a condition on chart maps and does not imply it.
 `hdiag`, that the relative diagonal of `f` is locally of finite type, is needed for the same
@@ -198,27 +204,32 @@ theorem IsProper.isLocallyOfFiniteType {X Y : FppfSheaf B S hS} {f : X ⟶ Y}
   obtain ⟨hrep, hprop⟩ := h
   exact ⟨hrep, fun U ξ => (hprop U ξ).2.1.1⟩
 
-/-! ### Stacks 0AQ8 as a carried hypothesis -/
+/-! ### Stacks 0AQ8 for every cartesian square -/
 
-/-- **Stacks 0AQ8** for every cartesian square at once: whenever `p : W ⟶ Z` and `q : W ⟶ X`
+/-- Stacks 0AQ8 for every cartesian square at once: whenever `p : W ⟶ Z` and `q : W ⟶ X`
 are the legs of a cartesian square over `g : Z ⟶ Y` and `f : X ⟶ Y`, with `Z` locally
 Noetherian and `f` locally of finite type, the fibre product `W` is locally Noetherian.
 
-`AlgebraicGeometry.FormalSpace.isLocallyNoetherian_of_isPullback` proves each instance of this
-from the four open inputs of Stacks 0AQ7 that it records; the statement is carried in this
-form so that the hypothesis is quantified over its own data. -/
+`AlgebraicGeometry.FormalSpace.isLocallyNoetherian_of_isPullback_of_isLocallyOfFiniteType`
+proves each instance of this (Stacks 0AQ8); the earlier statements that take it as a hypothesis
+keep this form so that the hypothesis is quantified over its own data. -/
 abbrev FibreProductIsLocallyNoetherian : Prop :=
   ∀ {W X Y Z : FppfSheaf B S hS} {p : W ⟶ Z} {q : W ⟶ X} {g : Z ⟶ Y} {f : X ⟶ Y},
     IsPullback p q g f → IsLocallyNoetherian B S hS Z →
       IsLocallyOfFiniteType B S hS f → IsLocallyNoetherian B S hS W
 
-/-! ### Stacks 0GDN -/
+/-! ### An earlier form of Stacks 0GDN -/
 
-/-- **Stacks 0GDN.** Let `f : X ⟶ Y` be a formal modification of locally Noetherian formal
-algebraic spaces over `S` and let `g : Z ⟶ Y` be an adic morphism, `Z` locally Noetherian.
-Then the base change `X ×_Y Z ⟶ Z` of `f` along `g` is a formal modification. -/
-@[stacks 0GDN "granting Stacks 0AQ8 as h0AQ8 and the four open inputs of Stacks 0GD1 as \
-hcond, hiso, h31, hcover; see the module docstring for these and for hgft, hdiag"]
+/-- An earlier form of Stacks 0GDN with extra hypotheses. Let `f : X ⟶ Y` be a formal
+modification of locally Noetherian formal algebraic spaces over `S`, let `g : Z ⟶ Y` be
+locally of finite type and adic on every affine étale diagram, `Z` locally Noetherian, and let
+the relative diagonal of `f` be locally of finite type. Given the hypotheses `hcond`, `hiso`,
+`h31`, `hcover` and `h0AQ8` described in the module docstring, the base change `X ×_Y Z ⟶ Z`
+of `f` along `g` is a formal modification.
+
+The hypothesis `hcond` is refuted by `Rig.not_propertyIsLocalNoetherian_rigEtaleCondition`, so
+this form has no instance. Stacks 0GDN, with the hypotheses of the source, is
+`AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd_of_isAdicMorphism`. -/
 theorem isFormalModification_pullback_snd
     (hcond : TopologicalRing.PropertyIsLocalNoetherian.{u}
       (fun {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]

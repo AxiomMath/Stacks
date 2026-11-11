@@ -144,7 +144,10 @@ of [Stacks, Tag 0EI4]) satisfies
 3. `(ℱ''ₙ)` is pro-isomorphic to an object `(ℋₙ)` of `Coh(X, ℐ)`,
 4. the induced morphism `σ : (ℱₙ) ⟶ (ℋₙ)` of `Coh(X, ℐ)` has kernel and cokernel annihilated by
    a power of `ℐ` (both in `Coh(X, ℐ)` and levelwise). -/
-@[stacks 0EJF]
+@[stacks 0EJF "the full lemma: under (a)-(e), the canonical map (ℱₙ) ⟶ (ℱ''ₙ), levelwise the \
+improvement along T' ⊆ T, has depth(ℱ''_{n,y}) ≥ 1 for y ∈ T and depth(ℱ''_{n,y'}) ≥ 2 for \
+y' ∈ T', (ℱ''ₙ) is pro-isomorphic to an object (ℋₙ) of Coh(X, ℐ), and the induced \
+σ : (ℱₙ) ⟶ (ℋₙ) has kernel and cokernel annihilated by a power of ℐ: conclusions (1)-(4)"]
 theorem exists_proIso_coherentAdicSystem_canonicalImprovedSystem {X : Scheme.{u}}
     [IsNoetherian X] {I : X.IdealSheafData} (hdual : HasDualizingComplexOnAffineCover X)
     (F : Stacks.Coherent.CoherentAdicSystems I) {T T' : Set X}

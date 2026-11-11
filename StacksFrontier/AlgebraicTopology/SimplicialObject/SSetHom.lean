@@ -9,6 +9,7 @@ public import Mathlib.Basic.Finite.Sigma
 public import Mathlib.CategoryTheory.Limits.Final
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import StacksFrontier.AlgebraicTopology.SimplicialObject.Copower
+import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Basic
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -255,7 +256,6 @@ noncomputable def simpHomFamilyEquiv
   right_inv θ :=
     SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => Sigma.ι_comp_desc _ _
 
-set_option backward.isDefEq.respectTransparency false in
 /-- The bijection assembled from `simpHomLimitEquiv` and `simpHomFamilyEquiv` is natural in `X`:
 precomposing `g : X' ⟶ lim 𝒱` with `α : X ⟶ X'` corresponds to precomposing the unwound
 simplicial morphism with `α × U`. -/
@@ -319,6 +319,10 @@ morphism `X × U ⟶ V` of simplicial objects is exactly a cone with vertex `X` 
 
 * `SSet.hasLimitsOfShape_elements`: every diagram indexed by the simplices of a finite
   simplicial set has a limit in a category with finite limits.
+* `CategoryTheory.SimplicialObject.simpHomFromSSet_isRepresentable_of_finite`: for `C` with
+  binary coproducts and finite limits, `U` with `U_n` finite nonempty and finitely many
+  nondegenerate simplices, and `V` a simplicial object of `C`, the functor
+  `X ↦ Mor_{Simp(C)}(X × U, V)` is representable.
 
 ### References
 
@@ -517,12 +521,11 @@ private lemma initial_ι : (dimLE U (2 * d)).ι.Initial where
 
 end
 
-/-- **Stacks 017K**.
-Let `U` be a simplicial set with finitely many nondegenerate simplices, i.e. with `U_n`
+/-- Let `U` be a simplicial set with finitely many nondegenerate simplices, i.e. with `U_n`
 finite for all `n` and with all `n`-simplices degenerate for `n ≫ 0`, and let `C` be a
 category with finite limits. Then every diagram indexed by the category `U.Elements` of
-simplices of `U` has a limit in `C`. -/
-@[stacks 017K]
+simplices of `U` has a limit in `C`. This is the main step of the proof of [Stacks, Tag 017K],
+whose statement is `CategoryTheory.SimplicialObject.simpHomFromSSet_isRepresentable_of_finite`. -/
 public instance hasLimitsOfShape_elements (U : SSet.{w}) [U.Finite] (C : Type u)
     [Category.{v} C] [HasFiniteLimits C] : HasLimitsOfShape U.Elements C := by
   obtain ⟨d, hd⟩ := U.hasDimensionLT_of_finite
@@ -533,6 +536,67 @@ public instance hasLimitsOfShape_elements (U : SSet.{w}) [U.Finite] (C : Type u)
   exact Functor.Initial.hasLimitsOfShape_of_initial (dimLE U (2 * d)).ι
 
 end SSet
+
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits
+
+universe v u
+
+namespace CategoryTheory.SimplicialObject
+
+variable {C : Type u} [Category.{v} C]
+
+/-- Morphisms `X ⟶ lim 𝒱` into a chosen limit of `simpHomDiagram U V` correspond bijectively to
+compatible families with apex `X`, by the universal property of the limit. -/
+public noncomputable def simpHomLimitEquivOfHasLimit (U : SSet.{0}) (V : SimplicialObject C)
+    [HasLimit (simpHomDiagram U V)] (X : C) :
+    (X ⟶ limit (simpHomDiagram U V)) ≃ SimpHomConeFamily U V X where
+  toFun g :=
+    { leg := fun p => g ≫ limit.π (simpHomDiagram U V) p
+      leg_comp := fun {_ _} f => by rw [Category.assoc, limit.w] }
+  invFun s := limit.lift (simpHomDiagram U V) ⟨X, ⟨s.leg, fun {_ _} f => by
+    simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp]
+    exact (s.leg_comp f).symm⟩⟩
+  left_inv g := limit.hom_ext fun p => by simp
+  right_inv s := by ext p; simp
+
+/-- Whenever the diagram `simpHomDiagram U V` has a limit, that limit represents
+`simpHomFromSSet U V`, i.e. the functor `X ↦ Mor_{Simp(C)}(X × U, V)`. -/
+public noncomputable def simpHomRepresentableByOfHasLimit [HasBinaryCoproducts C]
+    (U : SSet.{0}) [∀ n, Finite (U.obj n)] [∀ n, Nonempty (U.obj n)]
+    (V : SimplicialObject C) [HasLimit (simpHomDiagram U V)] :
+    (simpHomFromSSet U V).RepresentableBy (limit (simpHomDiagram U V)) where
+  homEquiv {X} := (simpHomLimitEquivOfHasLimit U V X).trans (simpHomFamilyEquiv U V X)
+  homEquiv_comp {X X'} α g := by
+    rw [simpHomFromSSet_map]
+    refine SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => ?_
+    dsimp only [Equiv.trans_apply, simpHomFamilyEquiv, simpHomLimitEquivOfHasLimit,
+      Equiv.coe_fn_mk, NatTrans.comp_app]
+    rw [← Category.assoc, Sigma.ι_desc]
+    dsimp only [Functor.comp_map, prodSSetFunctor]
+    rw [Functor.ι_copowerMap_app, Category.assoc (((const C).map α).app n), Sigma.ι_desc]
+    simp
+
+/-- **Stacks 017K**. Let `C` be a category with coproducts of any two objects and with finite
+limits, let `U` be a simplicial set with `U_n` finite and nonempty for all `n ≥ 0` and with all
+`n`-simplices of `U` degenerate for `n ≫ 0` (`[U.Finite]`: finitely many nondegenerate
+simplices), and let `V` be a simplicial object of `C`. Then the functor `Cᵒᵖ ⥤ Sets`,
+`X ↦ Mor_{Simp(C)}(X × U, V)`, is representable. It is represented by the limit of
+`simpHomDiagram U V` over the simplices of `U`, which exists by
+`SSet.hasLimitsOfShape_elements`. -/
+@[stacks 017K "C with binary coproducts and finite limits; U_n finite nonempty, U with finitely \
+many nondegenerate simplices; the functor X ↦ Mor(X × U, V) is representable"]
+public theorem simpHomFromSSet_isRepresentable_of_finite
+    [HasBinaryCoproducts C] [HasFiniteLimits C]
+    (U : SSet.{0}) [∀ n, Finite (U.obj n)] [∀ n, Nonempty (U.obj n)] [U.Finite]
+    (V : SimplicialObject C) :
+    (simpHomFromSSet U V).IsRepresentable :=
+  (simpHomRepresentableByOfHasLimit U V).isRepresentable
+
+end CategoryTheory.SimplicialObject
 
 end
 
@@ -975,6 +1039,8 @@ An `X`-point of the fibre product is a pair of morphisms `V ⟶ T ⋙ coyoneda.o
   simplicial sets and a simplicial object `T`, the objects representing
   `X ↦ Mor(X × K, T)` for the four simplicial sets `K` in the square form a pullback square,
   along the canonically induced morphisms.
+* `CategoryTheory.SimplicialObject.isPullback_homFromSSet_of_isPushout`: under the hypotheses
+  of [Stacks, Tag 017N], the simplicial objects `Hom(K, T)` exist and form a pullback square.
 
 ### References
 
@@ -1076,7 +1142,8 @@ end IsPushout
 
 end InducedHom
 
-/-- **Stacks 017N**.
+/-- The degree-`0` form of [Stacks, Tag 017N], whose complete statement, as simplicial objects,
+is `isPullback_homFromSSet_of_isPushout`.
 Let `T` be a simplicial object of a category `C`, let `a : U ⟶ V` and `b : U ⟶ W` be morphisms
 of simplicial sets, and let `P = V ⨿_U W` be their pushout, with structure morphisms
 `f : V ⟶ P`, `g : W ⟶ P`. Assume that for each of the four simplicial sets `K = U, V, W, P` the
@@ -1086,7 +1153,6 @@ coproducts of any two objects and finite limits, the `U_n`, `V_n`, `W_n` are fin
 all simplices of `U`, `V`, `W` in high enough degree are degenerate. Then
 `Hom(P, T)₀ = Hom(V, T)₀ ×_{Hom(U, T)₀} Hom(W, T)₀`
 via the morphisms induced by `f`, `g`, `a` and `b`. -/
-@[stacks 017N "stated in degree 0, for the representing objects of `X ↦ Mor(X × K, T)`"]
 public theorem isPullback_hom_of_isPushout {C : Type u} [Category.{v} C]
     (T : SimplicialObject C) {U V W P : SSet.{v}}
     {a : U ⟶ V} {b : U ⟶ W} {f : V ⟶ P} {g : W ⟶ P} (h : IsPushout a b f g)
@@ -1105,6 +1171,111 @@ public theorem isPullback_hom_of_isPushout {C : Type u} [Category.{v} C]
       (hU.homEquiv.symm (b ≫ hW.homEquiv (𝟙 HW))) :=
   isPullback_inducedHom_of_isPushout
     (coyoneda ⋙ (Functor.whiskeringLeft SimplexCategoryᵒᵖ C (Type v)).obj T) h hU hV hW hP
+
+end CategoryTheory.SimplicialObject
+
+end
+
+/-!
+## The complete statement of Tag 017N
+
+Under the hypotheses of [Stacks, Tag 017N] the four simplicial objects `Hom(U, T)`, `Hom(V, T)`,
+`Hom(W, T)` and `Hom(V ⨿_U W, T)` exist (by [Stacks, Tag 017L], which needs the pushout
+`V ⨿_U W` to be a finite simplicial set as well), and for any choice of them the square of
+simplicial objects induced by the pushout square is cartesian in `Simp(C)`.
+-/
+
+section
+
+open CategoryTheory CategoryTheory.Limits Opposite Simplicial
+
+universe w v u
+
+namespace SSet
+
+/-- A simplicial set `X` with `X_n` finite for all `n` and all of whose `n`-simplices are
+degenerate for `n ≫ 0` is finite, i.e. has finitely many nondegenerate simplices. -/
+private lemma finite_of_degenerate (X : SSet.{w}) [∀ n : ℕ, Finite (X _⦋n⦌)]
+    (hX : ∃ d : ℕ, ∀ n : ℕ, d ≤ n → ∀ x : X _⦋n⦌, x ∈ X.degenerate n) : X.Finite := by
+  obtain ⟨d, hd⟩ := hX
+  have : X.HasDimensionLT d := ⟨fun n hn ↦ Set.eq_univ_of_forall (hd n hn)⟩
+  exact X.finite_of_hasDimensionLT d fun _ _ ↦ inferInstance
+
+/-- The pushout `V ⨿_U W` of two finite simplicial sets `V`, `W` is finite: it is the union of
+the images of `V` and `W`. -/
+private lemma finite_of_isPushout {U V W P : SSet.{w}} {a : U ⟶ V} {b : U ⟶ W} {f : V ⟶ P}
+    {g : W ⟶ P} (h : IsPushout a b f g) [V.Finite] [W.Finite] : P.Finite := by
+  have htop : (⊤ : P.Subcomplex) =
+      ⨆ i : Bool, cond i (Subcomplex.range f) (Subcomplex.range g) := by
+    refine le_antisymm (fun n x _ ↦ ?_) le_top
+    obtain ⟨j, y, rfl⟩ :=
+      Types.jointly_surjective_of_isColimit (h.map ((evaluation _ _).obj n)).isColimit x
+    obtain (_ | _ | _) := j
+    · exact (le_iSup (fun i : Bool ↦ cond i (Subcomplex.range f) (Subcomplex.range g)) true) n
+        ⟨a.app n y, by simp; rfl⟩
+    · exact (le_iSup (fun i : Bool ↦ cond i (Subcomplex.range f) (Subcomplex.range g)) true) n
+        ⟨y, rfl⟩
+    · exact (le_iSup (fun i : Bool ↦ cond i (Subcomplex.range f) (Subcomplex.range g)) false) n
+        ⟨y, rfl⟩
+  rw [← finite_subcomplex_top_iff, htop, finite_iSup_iff]
+  rintro (_ | _) <;> dsimp only [cond] <;> infer_instance
+
+end SSet
+
+namespace CategoryTheory.SimplicialObject
+
+/-- Under the hypotheses of `exists_representableBy_sHom` ([Stacks, Tag 017L]), the simplicial
+object `Hom(U, T)` exists. -/
+private lemma exists_isHomFromSSet {C : Type u} [Category.{v} C] [HasFiniteLimits C]
+    (U : SSet.{v}) [U.Finite] (T : SimplicialObject C) :
+    ∃ H : SimplicialObject C, Nonempty (IsHomFromSSet U T H) := by
+  obtain ⟨H, ⟨e⟩, -⟩ := exists_representableBy_sHom U T
+  exact ⟨H, ⟨e⟩⟩
+
+/-- **Stacks 017N**.
+Let `C` be a category with finite limits, let `a : U ⟶ V` and `b : U ⟶ W` be morphisms of
+simplicial sets with `U_n`, `V_n`, `W_n` finite for all `n ≥ 0` and all `n`-simplices of `U`,
+`V`, `W` degenerate for `n ≫ 0`, let `P = V ⨿_U W` be their pushout, with structure morphisms
+`f : V ⟶ P` and `g : W ⟶ P`, and let `T` be a simplicial object of `C`. Then
+1. the simplicial objects `Hom(U, T)`, `Hom(V, T)`, `Hom(W, T)` and `Hom(V ⨿_U W, T)` of
+   [Stacks, Tag 017I] exist (`IsHomFromSSet K T H`: `H` represents `X ↦ Mor(X × K, T)` on
+   `Simp(C)`), and
+2. for any choice of them,
+   `Hom(V, T) ×_{Hom(U, T)} Hom(W, T) = Hom(V ⨿_U W, T)`: the square of simplicial objects formed
+   by the morphisms induced by `f`, `g`, `a` and `b` is a pullback square in `Simp(C)`, i.e. the
+   fibre product on the left is represented by the `Hom` object on the right.
+
+The source also assumes that `C` has coproducts of any two objects and that the `U_n`, `V_n`,
+`W_n` are nonempty, so that the products `X × K` of [Stacks, Tag 017C] are defined; here
+`Mor(X × K, T)` is expressed as `K ⟶ sHom X T` (see `IsHomFromSSet`), which needs neither, so
+those hypotheses are not needed. The degree-`0` form of part 2, for objects of `C`
+representing `X ↦ Mor(X × K, T)`, is `isPullback_hom_of_isPushout`. -/
+@[stacks 017N "both the existence of the four `Hom` objects (via 017L) and the identification \
+of `Hom(V ⨿_U W, T)` with the fibre product, as simplicial objects; the source's binary \
+coproducts and nonemptiness of `U_n`, `V_n`, `W_n` are not needed"]
+public theorem isPullback_homFromSSet_of_isPushout {C : Type u} [Category.{v} C]
+    [HasFiniteLimits C] (T : SimplicialObject C) {U V W P : SSet.{v}}
+    [∀ n : ℕ, Finite (U _⦋n⦌)] [∀ n : ℕ, Finite (V _⦋n⦌)] [∀ n : ℕ, Finite (W _⦋n⦌)]
+    (hUdeg : ∃ d : ℕ, ∀ n : ℕ, d ≤ n → ∀ x : U _⦋n⦌, x ∈ U.degenerate n)
+    (hVdeg : ∃ d : ℕ, ∀ n : ℕ, d ≤ n → ∀ x : V _⦋n⦌, x ∈ V.degenerate n)
+    (hWdeg : ∃ d : ℕ, ∀ n : ℕ, d ≤ n → ∀ x : W _⦋n⦌, x ∈ W.degenerate n)
+    {a : U ⟶ V} {b : U ⟶ W} {f : V ⟶ P} {g : W ⟶ P} (h : IsPushout a b f g) :
+    ((∃ H, Nonempty (IsHomFromSSet U T H)) ∧ (∃ H, Nonempty (IsHomFromSSet V T H)) ∧
+      (∃ H, Nonempty (IsHomFromSSet W T H)) ∧ (∃ H, Nonempty (IsHomFromSSet P T H))) ∧
+    ∀ {HU HV HW HP : SimplicialObject C} (hU : IsHomFromSSet U T HU)
+      (hV : IsHomFromSSet V T HV) (hW : IsHomFromSSet W T HW) (hP : IsHomFromSSet P T HP),
+      IsPullback (hV.homEquiv.symm (f ≫ hP.homEquiv (𝟙 HP)))
+        (hW.homEquiv.symm (g ≫ hP.homEquiv (𝟙 HP)))
+        (hU.homEquiv.symm (a ≫ hV.homEquiv (𝟙 HV)))
+        (hU.homEquiv.symm (b ≫ hW.homEquiv (𝟙 HW))) := by
+  have := U.finite_of_degenerate hUdeg
+  have := V.finite_of_degenerate hVdeg
+  have := W.finite_of_degenerate hWdeg
+  have := SSet.finite_of_isPushout h
+  exact ⟨⟨exists_isHomFromSSet U T, exists_isHomFromSSet V T, exists_isHomFromSSet W T,
+    exists_isHomFromSSet P T⟩, fun hU hV hW hP ↦
+      isPullback_inducedHom_of_isPushout
+        ((SimplicialCategory.sHomFunctor (SimplicialObject C)).flip.obj T) h hU hV hW hP⟩
 
 end CategoryTheory.SimplicialObject
 

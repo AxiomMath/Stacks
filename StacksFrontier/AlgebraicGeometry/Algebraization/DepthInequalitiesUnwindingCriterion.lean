@@ -440,10 +440,6 @@ prime `𝔭 ⊆ 𝒪_{X,y}^∧` with `𝔭 ∉ V(I𝒪_{X,y}^∧)`.
 
 Without the catenarity of `A/I` and the hypotheses on the completed stalks the statement is false:
 see `Stacks.NonCatenaryExample.not_stacks0EJA`. -/
-@[stacks 0EJA "corrected form: the published statement, at hypotheses (1) and (2) alone, is \
-false, by Stacks.NonCatenaryExample.not_stacks0EJA, an example in which A/I is not catenary; \
-this is the equivalence with A/I catenary and the completed local rings of U at the points of \
-U ∩ Y of dimension one universally catenary with Cohen-Macaulay formal fibres"]
 public theorem satisfiesDepthInequalities_two_three_iff_two_lt_depth_add_dim
     (S : AlgebraizationSituation.{u}) [IsLocalRing S.A]
     (ha : S.a = maximalIdeal S.A)
@@ -513,10 +509,6 @@ public theorem satisfiesDepthInequalities_two_three_iff_two_lt_depth_add_dim
 that `A` has a dualizing complex, and that `cd(A, I) = 1`. Then `(ℱ_n)` satisfies the
 `(2, 3)`-inequalities if and only if `depth((ℱ_y^∧)_𝔭) + dim(𝒪_{X,y}^∧/𝔭) > 2` for every
 `y ∈ U ∩ Y` with `dim({y}‾) = 1` and every prime `𝔭 ⊆ 𝒪_{X,y}^∧` with `𝔭 ∉ V(I𝒪_{X,y}^∧)`. -/
-@[stacks 0EJA "corrected form: the published statement, at hypotheses (1) and (2) alone, is \
-false, by Stacks.NonCatenaryExample.not_stacks0EJA, an example in which A/I is not catenary; \
-this is the equivalence for A with a dualizing complex, the standing hypothesis of the \
-neighbouring 0EJ9 and 0EJB"]
 public theorem satisfiesDepthInequalities_two_three_iff_two_lt_depth_add_dim_of_isDualizingComplex
     (S : AlgebraizationSituation.{u}) [IsLocalRing S.A]
     (ha : S.a = maximalIdeal S.A)

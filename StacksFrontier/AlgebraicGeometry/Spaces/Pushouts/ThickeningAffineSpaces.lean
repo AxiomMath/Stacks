@@ -45,8 +45,7 @@ chart `U ⟶ X` and an affine `U ⟶ V` over a chart `V ⟶ Y`, together with th
 The quotient is formed with `AlgebraicGeometry.Space.quotientMap` and is an algebraic space by
 Stacks 02WW; its universal property comes from Stacks 07SY applied twice, to the chart span and
 to the relation span, together with the descent of morphisms along a surjective étale atlas
-(Stacks 0262).  The étale clause of Stacks 07RX that Stacks 07SY carries as a hypothesis is
-discharged here from `Stacks.Pushout.etale_gluingFunctor_obj_iff`.
+(Stacks 0262).
 
 That the morphism from the affine target is a thickening is read off the chart `V ⟶ P`, which
 is the right leg of a pushout of schemes and hence a thickening by Stacks 07RT; the étale-local
@@ -75,10 +74,11 @@ faithfulness is available
 essential surjectivity is not: that is Stacks 07VW, and it needs that the lifted space `V'` is
 a scheme whenever `V = X ×_{X'} V'` is, which is Stacks 05ZR.  In this library Stacks 05ZR
 rests on Stacks 07VT, an algebraic space admitting a surjective universally closed morphism
-from an affine scheme being affine, and that in turn on Stacks 09YA and Stacks 07SQ, neither of
-which is proved here.  So the gap is a chain of source results, not a missing piece of
-substrate, and it is not closed by restricting to first-order thickenings either, since
-Stacks 05ZR is needed at first order too.
+from an affine scheme being affine, which is proved outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+though the library's form of Stacks 05ZR still goes through the conditional form of 07VT.  So
+the gap is a chain of source results, not a missing piece of substrate, and it is not closed by
+restricting to first-order thickenings either, since Stacks 05ZR is needed at first order too.
 
 ## References
 
@@ -112,19 +112,6 @@ private instance (priority := high) hasPullback_presheaf_thickeningAffineSpaces
     {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
-
-/-- The étale clause of Stacks 07RX, in the shape in which Stacks 07SY takes it as a
-hypothesis. -/
-private theorem etale_gluingFunctor_obj_iff_forall :
-    ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : Stacks.Thickenings.IsThickening k)
-      [_root_.AlgebraicGeometry.IsAffineHom g] [HasPushout k g]
-      (T : Stacks.Pushout.gluingData k g),
-      Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
-        (Etale T.obj.left.hom ∧ Etale T.obj.right.hom) := by
-  intro Z Z' W k g hk hg hpo T
-  have := hg
-  have := hpo
-  exact Stacks.Pushout.etale_gluingFunctor_obj_iff k g hk T
 
 /-- A compatible pair of étale scheme charts for a thickening `i : X ⟶ X'` and an affine
 morphism `f : X ⟶ Y` of algebraic spaces over `S`, together with the pushouts of schemes they
@@ -296,9 +283,9 @@ theorem isPushout_quotient_of_thickeningAffineAtlas
     (BigFppfOver.toScheme B S hS).map_injective
       (by simpa only [Functor.map_comp] using A.isPushout_chart.w)
   have hAB := isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
-    etale_gluingFunctor_obj_iff_forall B S hS A.k A.g A.a A.b A.isThickening_k A.isPushout_chart
+    B S hS A.k A.g A.a A.b A.isThickening_k A.isPushout_chart
   have hRR := isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
-    etale_gluingFunctor_obj_iff_forall B S hS A.kR A.gR A.aR A.bR A.isThickening_kR
+    B S hS A.kR A.gR A.aR A.bR A.isThickening_kR
     A.isPushout_relation
   let a : X' ⟶ E := ObjectProperty.homMk a₀
   let b : Y ⟶ E := ObjectProperty.homMk b₀

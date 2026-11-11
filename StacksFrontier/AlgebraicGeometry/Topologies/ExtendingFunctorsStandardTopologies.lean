@@ -69,13 +69,16 @@ that the value at the target be the equalizer of the two maps between the produc
 members and over their pairwise fibre products.
 
 The sheaf condition for the standard `τ`-coverings of the affine objects of `Sch/S` lying over an
-affine open of `S` is carried as a hypothesis of
-`AlgebraicGeometry.ExtendingFunctors.isCoveringSheaf_extension` rather than deduced from
-condition (c): the source's deduction writes such an affine object as a directed limit of affines
-of finite presentation over an affine open of `S` (Stacks 00QN,
-`AlgebraicGeometry.ExtendingFunctors.exists_lfpPresentation`), descends the standard covering to a
-stage of that limit (Stacks 049N) and passes to the filtered colimit, and that argument is not
-formalized here.
+affine open of `S` is a hypothesis of
+`AlgebraicGeometry.ExtendingFunctors.isCoveringSheaf_extension` here. Its deduction from
+condition (c) — writing such an affine object as a directed limit of affines of finite
+presentation over an affine open of `S` (Stacks 00QN), descending the standard covering to a stage
+of that limit (Stacks 049N) and passing to the filtered colimit — is
+`AlgebraicGeometry.ExtendingFunctors.isStandardAffineSheaf_extension`, in
+`StacksFrontier.AlgebraicGeometry.Topologies.ExtendingFunctorsStandardAffineInterchange`, which sits
+above this file in the import order. Stacks 0GDW itself, under exactly the hypotheses of the
+source, is `ExtendingFunctors.isCoveringSheaf_extension_of_isStandardAffineSheafOnSubcategory`
+in that file, in the namespace `AlgebraicGeometry`.
 
 ## References
 
@@ -374,9 +377,6 @@ standard `τ`-covering, which produces a local section
 sections agree on the pairwise intersections because both restrictions are computed by the given
 family over the base change of the covering to the intersection, and they glue by the Zariski
 sheaf condition. -/
-@[stacks 0GDW "the general case of the source's proof: a Zariski sheaf on Sch/S which is a sheaf
-for the standard τ-coverings of the affine objects lying over an affine open of the base is a
-sheaf for every τ-covering"]
 theorem isCoveringSheaf_of_isStandardAffineSheaf (τ : CoveringTopology)
     {G : (Over S)ᵒᵖ ⥤ Type w} (haG : IsZariskiSheaf G)
     (hG : IsStandardAffineSheaf.{w, u, v} τ G) : IsCoveringSheaf.{w, u, v} τ G := by
@@ -436,7 +436,7 @@ theorem isStandardAffineSheaf_of_isCoveringSheaf (τ : CoveringTopology)
 
 /-! ### The extension of a functor from a full subcategory -/
 
-/-- **Stacks 0GDW, the general case of the source's proof, at the extension.** Let `S` be a
+/-- **The general case of the proof of Stacks 0GDW, at the extension.** Let `S` be a
 scheme, let `𝒞` be a full subcategory of `Sch/S` satisfying conditions (1) and (2) of Stacks
 0EUW and let `F : 𝒞ᵒᵖ ⥤ Set` satisfy condition (a). Then the extension
 `F' = AlgebraicGeometry.ExtendingFunctors.extension` of `F` to `Sch/S` satisfies the sheaf
@@ -446,11 +446,11 @@ condition for every `τ`-covering as soon as it satisfies the sheaf condition fo
 The source deduces the latter from its condition (c) by writing such an affine object as a
 directed limit of affines of finite presentation over an affine open of `S` (Stacks 00QN),
 descending the standard covering to a stage of that limit (Stacks 049N) and passing to the
-filtered colimit; that deduction is not formalized here, so the restricted sheaf condition is
-carried as the hypothesis `hstd`. -/
-@[stacks 0GDW "the general case: the extension is a sheaf for every τ-covering once it is one for
-the standard τ-coverings of the affine objects lying over an affine open of the base, which is
-carried as a hypothesis"]
+filtered colimit. That deduction is
+`AlgebraicGeometry.ExtendingFunctors.isStandardAffineSheaf_extension`, which lives above this file
+in the import order; combining the two gives Stacks 0GDW,
+`ExtendingFunctors.isCoveringSheaf_extension_of_isStandardAffineSheafOnSubcategory`, in the
+namespace `AlgebraicGeometry`. -/
 theorem isCoveringSheaf_extension (τ : CoveringTopology) (P : ObjectProperty (Over S))
     (F : P.FullSubcategoryᵒᵖ ⥤ Type (max w (u + 1))) (hP1 : HasAffineOpens P)
     (hP2 : HasFinitePresentationAffines P) (haF : IsZariskiSheafOnSubcategory P F)

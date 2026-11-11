@@ -20,9 +20,12 @@ morphism over `X`, and completion along `T` is functorial on the presheaves over
 
 ## Main definitions
 
-* `AlgebraicGeometry.FormalSpace.completionFiniteTypeModificationFunctor`: **Stacks 0AR5** as a
-  functor from the category of finite-type modifications of `X` outside `U` to the category of
-  rig-étale morphisms with locally Noetherian source over `X_{/T}`.
+* `AlgebraicGeometry.FormalSpace.completionFiniteTypeModificationFunctor`: the functor of Stacks
+  0AR5 from the category of finite-type modifications of `X` outside `U` to the category of
+  rig-étale morphisms with locally Noetherian source over `X_{/T}`, with its three target
+  conditions as hypotheses. The same functor with no hypotheses beyond the source's is
+  `AlgebraicGeometry.FormalSpace.completionModificationFunctor`, which carries the Stacks 0AR5
+  attribute.
 
 ## Main results
 
@@ -33,7 +36,7 @@ morphism over `X`, and completion along `T` is functorial on the presheaves over
   the inclusion of the right-hand collection it is completion along `T`, on arrows as well as
   on objects.
 * `AlgebraicGeometry.FormalSpace.completionFiniteTypeModificationFunctorBaseChangeIso`: the
-  square of **Stacks 0GDQ** for these categories, conditional on its right vertical arrow:
+  square of Stacks 0GDQ for these categories, with its right vertical arrow given as data:
   base change on finite-type modifications followed by the functor for `X₁` and `T₁` agrees
   with the functor for `X` and `T` followed by any functor restricting base change along
   `X_{1, /T_1} ⟶ X_{/T}`.
@@ -45,16 +48,17 @@ Exactly the three hypotheses of
 the third made uniform in the object:
 
 * `AlgebraicGeometry.FormalSpace.IsFormalAlgebraicSpaceCompletionSheaf`, that is Stacks 0AIZ
-  for the algebraic spaces over `X`, of which this library carries only the affine case Stacks
-  0AIY;
+  for the algebraic spaces over `X`, proved as
+  `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpaceCompletionSheaf`;
 * `AlgebraicGeometry.FormalSpace.IsLocallyNoetherianCompletionSheaf`, the locally Noetherian
-  half of Stacks 0AQ1 in the form Stacks 0AR5 uses it;
+  half of Stacks 0AQ1 in the form Stacks 0AR5 uses it, proved as
+  `AlgebraicGeometry.FormalSpace.isLocallyNoetherianCompletionSheaf`;
 * the reduction of Stacks 0AR2 to the affine case, which
   `AlgebraicGeometry.FormalSpace.completionOfFiniteTypeModification` carries for the one object
   it is applied to and which is carried here for every object of the source category, as
-  `AlgebraicGeometry.FormalSpace.ChartSquareReducesToIsEtaleOutsideModifications`. A functor
-  needs its target condition at every object, so this is the only form in which that hypothesis
-  can appear.
+  `AlgebraicGeometry.FormalSpace.ChartSquareReducesToIsEtaleOutsideModifications`. Stacks 0AR2
+  itself is proved without it, as
+  `AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap_of_isEtale`.
 
 The first two are already stated uniformly in the object — they quantify over all algebraic
 spaces over `X` — so nothing about them changes here. No hypothesis is added: what makes the
@@ -65,11 +69,12 @@ assignment a functor is the arrow map, which is
 
 The square of Stacks 0GDQ is stated here with its right vertical arrow, base change along
 `X_{1, /T_1} ⟶ X_{/T}` on the rig-étale morphisms with locally Noetherian source, as data:
-such a functor is not constructed in this library. Base change of the three defining conditions
-needs the base change of a rig-étale morphism to be rig-étale, which is Stacks 0GD1 and is
-carried here with four open inputs of its own, together with a formal algebraic space and a
-locally Noetherian condition on the fibre product, neither of which this library proves. No
-attribute for Stacks 0GDQ is therefore placed.
+no such functor is constructed for the categories of this file. Base change of the three
+defining conditions needs the base change of a rig-étale morphism to be rig-étale (Stacks 0GD1),
+together with a formal algebraic space and a locally Noetherian condition on the fibre product.
+These are proved, and the right vertical arrow constructed, for the functor with no hypotheses
+`AlgebraicGeometry.FormalSpace.completionModificationFunctor`: the square of Stacks 0GDQ for it
+is `AlgebraicGeometry.FormalSpace.completionModificationFunctorBaseChangeIso`.
 
 ## References
 
@@ -104,19 +109,14 @@ abbrev ChartSquareReducesToIsEtaleOutsideModifications
   ∀ M : Space.FiniteTypeModification B S hS (Space.openSubspaceOfPoints B S hS X Tᶜ),
     ChartSquareReducesToIsEtaleOutside B S hS M.obj.hom T
 
-/-- **Stacks 0AR5, as a functor.** Sending a finite-type modification `f : X' ⟶ X` of `X`
-outside `U` to `f_{/T} : X'_{/T'} ⟶ X_{/T}` is a functor to the rig-étale morphisms with
-locally Noetherian source over `X_{/T}`. -/
-@[stacks 0AR5 "the displayed assignment as a FUNCTOR, not only on objects: the object map is \
-`AlgebraicGeometry.FormalSpace.completionOfFiniteTypeModification`, which is what this \
-library already carried for Stacks 0AR5, and the arrow map is the completion along `T` of a \
-morphism over `X`, which is `AlgebraicGeometry.Space.completionOverFunctor` and carries no \
-hypotheses. The three conditions placing the value in the right-hand collection are the \
-hypotheses of the object map, unchanged except that the reduction of Stacks 0AR2 to the \
-affine case is asked of every object of the source category rather than of one, which is the \
-only form in which a functor can carry it: Stacks 0AIZ for the algebraic spaces over `X` as \
-`h0AIZ`, its locally Noetherian refinement from Stacks 0AQ1 as `hnoeth`, and the reduction of \
-Stacks 0AR2 as `hred`"]
+/-- The functor of Stacks 0AR5 with its three target conditions supplied as hypotheses: sending
+a finite-type modification `f : X' ⟶ X` of `X` outside `U` to `f_{/T} : X'_{/T'} ⟶ X_{/T}` is a
+functor to the rig-étale morphisms with locally Noetherian source over `X_{/T}`.
+
+The three hypotheses are proved in this library, and Stacks 0AR5 itself is
+`AlgebraicGeometry.FormalSpace.completionModificationFunctor`, which takes none of them; the two
+functors are equal by
+`completionFiniteTypeModificationFunctor_eq_completionModificationFunctor`. -/
 def completionFiniteTypeModificationFunctor {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (T : Set (Space.points B S hS X)) (hT : IsClosed T)
     (hX : Space.IsLocallyNoetherian B S hS X)
@@ -164,23 +164,18 @@ theorem completionFiniteTypeModificationFunctor_comp_ι
 
 /-! ### Base change of the functor of Stacks 0AR5 -/
 
-/-- **The square of Stacks 0GDQ**, for the categories of Stacks 0AS2 and 0AR5 and conditional
-on its right vertical arrow. Base change along `g : X₁ ⟶ X` on finite-type modifications
-followed by the functor of Stacks 0AR5 for `X₁` and `T₁ = |g|⁻¹T` agrees with the functor of
-Stacks 0AR5 for `X` and `T` followed by any functor restricting base change along
-`X_{1, /T_1} ⟶ X_{/T}`.
+/-- The square of Stacks 0GDQ for the functor with hypotheses
+`AlgebraicGeometry.FormalSpace.completionFiniteTypeModificationFunctor`, with its right vertical
+arrow given as data `D`. Stacks 0GDQ itself is
+`AlgebraicGeometry.FormalSpace.completionModificationFunctorBaseChangeIso`. Base change along
+`g : X₁ ⟶ X` on finite-type modifications followed by the functor of Stacks 0AR5 for `X₁` and
+`T₁ = |g|⁻¹T` agrees with the functor of Stacks 0AR5 for `X` and `T` followed by any functor
+restricting base change along `X_{1, /T_1} ⟶ X_{/T}`.
 
 The commutativity is the one the source's proof gives: the completion functor
 `(h : Y ⟶ X) ↦ Y_{/T}` commutes with fibre products, which is
 `AlgebraicGeometry.Space.completionBaseChangeIso` and, after restriction to the two
 subcategories, `AlgebraicGeometry.Space.restrictedCompletionBaseChangeSquareIso`. -/
-@[stacks 0GDQ "the commutativity of the square, as an isomorphism of the two composite functors \
-rather than an equality, the two completion functors being defined by a sheafification; and \
-conditional on the right vertical arrow, which is the hypothesis `D` together with `hD` saying \
-that `D` restricts base change along `X_{1, /T_1} ⟶ X_{/T}`: the categories of Stacks 0AS2 are \
-realized here as full subcategories of an over-category, and base change on them is not \
-available in this repository without the fibre products of formal algebraic spaces that Stacks \
-0AS2 provides"]
 def completionFiniteTypeModificationFunctorBaseChangeIso
     {X₁ X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : X₁ ⟶ X)
     (hX₁sp : IsAlgebraicSpace B S hS X₁) (hXsp : IsAlgebraicSpace B S hS X)

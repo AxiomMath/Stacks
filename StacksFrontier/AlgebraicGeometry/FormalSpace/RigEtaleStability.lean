@@ -13,8 +13,11 @@ public import StacksFrontier.RingTheory.Rig.RigSmoothStableUnderComposition
 # Stability properties of rig-étale morphisms of formal algebraic spaces
 
 Let `S` be a scheme contained in a big fppf site `B`. Rig-étaleness (Stacks 0AQM) of morphisms
-of locally Noetherian formal algebraic spaces over `S` cancels on the right (**Stacks 0GD3**)
-and is stable under base change by an adic morphism (**Stacks 0GD1**).
+of locally Noetherian formal algebraic spaces over `S`, conditionally, cancels on the right
+(Stacks 0GD3, proved unconditionally in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleCompositionCharts`) and is stable under base
+change by an adic morphism (Stacks 0GD1, proved unconditionally in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleBaseChangeCharts`).
 
 ## Main definitions
 
@@ -25,8 +28,12 @@ and is stable under base change by an adic morphism (**Stacks 0GD1**).
 
 * `AlgebraicGeometry.FormalSpace.isRigEtale_iff_hasPropertyOnEveryAffineEtaleDiagram`:
   conditions (1) and (2) of Stacks 0GCZ.
-* `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp`: **Stacks 0GD3**.
-* `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism`: **Stacks 0GD1**.
+* `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp`: right cancellation of rig-étaleness
+  through the transfer of Stacks 0GBP; Stacks 0GD3 itself is
+  `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isLocallyNoetherian`.
+* `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism`: a conditional
+  variant of Stacks 0GD1; Stacks 0GD1 is
+  `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isLocallyNoetherian`.
 
 ## Implementation notes
 
@@ -38,25 +45,34 @@ the passage between the predicate of Stacks 0AQM and the generic machinery of St
 At the ring level the two inputs are Stacks 0GCY
 (`Rig.rigEtale_hasNoetherianCancellationProperty`) and Stacks 0GCW
 (`TopologicalRing.rigEtale_completedTensorProduct_of_isAdic`). One of the bundles that the
-transfers consume also carries the locality of rig-étaleness, which is Stacks 0AQL; the library
-proves it from the locality of its cohomology-annihilation half `Rig.RigEtaleCondition`, which
-is the hypothesis `hcond` below and the only input of `Rig.rigEtale_isLocalNoetherian`. The
+transfers consume also carries the locality of rig-étaleness, which is Stacks 0AQL. The
+statements below obtain it through `Rig.rigEtale_isLocalNoetherian` from the locality of the
+cohomology-annihilation half `Rig.RigEtaleCondition`, the hypothesis `hcond`; that hypothesis
+is refuted by `Rig.not_propertyIsLocalNoetherian_rigEtaleCondition`, so both statements are
+vacuous as they stand. Stacks 0AQL itself is proved without it, as
+`Rig.rigEtale_propertyIsLocalNoetherian`. The
 cancellation predicate `TopologicalRing.HasNoetherianCancellationProperty` has no locality
 field, so locality is asked of the transfer of Stacks 0GBP separately, as in the statement of
 Remark 0GBP.
 
-The geometric transfer of Remark 0GBP — the Noetherian variant of Stacks 0GBM — is not in the
-library: its proof passes through conditions (2) and (3) of Stacks 0ANG, and the implication
-(2) ⟹ (3) is not carried. It is therefore the hypothesis
-`TransfersCancellationOnAffineEtaleDiagrams`,
-quantified over *all* properties admitting the relevant bundle; it is a statement about the
-generic machinery of the remark and not a restatement of the conclusion below. The transfer of
-Remark 0GBG, on the other hand, is carried by
-`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_pullback_snd`, so for
-Stacks 0GD1 only its own three inputs are assumed: the covering of `X ×_Y Z` by fibre products
-of charts coming from Stacks 0GBD and 0AN0, the implication (3) ⟹ (1) of Stacks 0ANG, and the
-invariance of rig-étaleness under isomorphism of targets implied by the locality of Stacks
-0ANI.
+The transfer of Remark 0GBP is the hypothesis `TransfersCancellationOnAffineEtaleDiagrams` of
+`isRigEtale_of_comp`, quantified over *all* properties admitting the relevant bundle; it is a
+statement about the generic machinery of the remark and not a restatement of the conclusion
+below. The library proves the transfer for locally Noetherian formal algebraic spaces as
+`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_comp_of_isLocallyNoetherian`,
+and proves Stacks 0GD3 directly on charts, with the source's hypotheses exactly, as
+`AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isLocallyNoetherian` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleCompositionCharts`. The transfer of
+Remark 0GBG is carried by
+`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_pullback_snd`, so the
+conditional variant of Stacks 0GD1 below assumes only its three inputs: the covering of
+`X ×_Y Z` by fibre products of charts coming from Stacks 0GBD and 0AN0, the implication
+(3) ⟹ (1) of Stacks 0ANG, and the invariance of rig-étaleness under isomorphism of targets
+implied by the locality of Stacks 0ANI. Stacks 0GD1 is proved with none of these inputs, and
+with the source's hypotheses exactly, as
+`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isLocallyNoetherian` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleBaseChangeCharts`, which works with the
+charts of Stacks 0GBD directly and condition (4) of Stacks 0GCZ.
 
 The locally Noetherian hypotheses of Stacks 0AKY on the spaces involved are supplied by each
 statement, since the predicate of Stacks 0AQM does not build them in; they are carried in the
@@ -128,12 +144,13 @@ abbrev TransfersCancellationOnAffineEtaleDiagrams (B : BigFppfSite.{u}) (S : Sch
           HasPropertyOnEveryAffineEtaleDiagram B S hS
             (fun R ↦ TopologicalRing.IsAdic R ∧ IsNoetherianRing R) P f
 
-/-- **Stacks 0GD3.** Rig-étaleness of morphisms of locally Noetherian formal algebraic spaces
-over `S` cancels on the right: if `g ∘ f` and `g` are rig-étale, for `f : X ⟶ Y` and
-`g : Y ⟶ Z`, then `f` is rig-étale. -/
-@[stacks 0GD3 "granting the locality of the cohomology-annihilation half of rig-étaleness, \
-which is the hypothesis hcond and the only input of Stacks 0AQL, and the transfer to formal \
-algebraic spaces of Remark 0GBP, which is the hypothesis htransfer"]
+/-- Rig-étaleness of morphisms of locally Noetherian formal algebraic spaces over `S` cancels
+on the right, derived from the ring-level cancellation of Stacks 0GCY through a transfer
+`htransfer` of Remark 0GBP and a locality statement `hcond` for `Rig.RigEtaleCondition`: if
+`g ∘ f` and `g` are rig-étale, for `f : X ⟶ Y` and `g : Y ⟶ Z`, then `f` is rig-étale. Stacks
+0GD3 itself is `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isLocallyNoetherian`, which
+takes exactly the hypotheses of the source. The hypothesis `hcond` here can never be supplied:
+`Rig.not_propertyIsLocalNoetherian_rigEtaleCondition` refutes it. -/
 theorem isRigEtale_of_comp (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hcond : TopologicalRing.PropertyIsLocalNoetherian.{u}
       (fun {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
@@ -151,15 +168,15 @@ theorem isRigEtale_of_comp (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contai
       ((isRigEtale_iff_hasPropertyOnEveryAffineEtaleDiagram B S hS (f ≫ g)).mp hfg)
       ((isRigEtale_iff_hasPropertyOnEveryAffineEtaleDiagram B S hS g).mp hg))
 
-/-- **Stacks 0GD1.** The base change of a rig-étale morphism of locally Noetherian formal
-algebraic spaces over `S` by an adic morphism is rig-étale: if `f : X ⟶ Y` is rig-étale and
-`g : Z ⟶ Y` is adic, then `X ×_Y Z ⟶ Z` is rig-étale. -/
-@[stacks 0GD1 "granting the locality of the cohomology-annihilation half of rig-étaleness, \
-which is the hypothesis hcond and the only input of Stacks 0AQL, together with the three \
-inputs of Remark 0GBG that the library leaves open: the covering of X ×_Y Z by fibre products \
-of charts of Stacks 0GBD and 0AN0 (hcover), the implication (3) ⟹ (1) of Stacks 0ANG (h31), \
-and the invariance of rig-étaleness under isomorphism of targets implied by Stacks 0ANI \
-(hiso)"]
+/-- A conditional variant of Stacks 0GD1, assembled from the generic transfer of Remark 0GBG:
+if `f : X ⟶ Y` is rig-étale and `g : Z ⟶ Y` satisfies the chart condition
+`IsAdicOnEveryAffineEtaleDiagramNoetherian`, then `X ×_Y Z ⟶ Z` is rig-étale, given the inputs
+`hcond`, `hiso`, `h31` and `hcover`.
+
+Stacks 0GD1 itself is
+`AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isLocallyNoetherian`, which takes
+exactly the hypotheses of the source. The hypothesis `hcond` here can never be supplied:
+`Rig.not_propertyIsLocalNoetherian_rigEtaleCondition` refutes it. -/
 theorem isRigEtale_pullback_snd_of_isAdicMorphism (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S)
     (hcond : TopologicalRing.PropertyIsLocalNoetherian.{u}

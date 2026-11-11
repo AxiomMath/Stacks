@@ -45,8 +45,11 @@ not assumed invertible anywhere below.
 
 ## Main results
 
-* `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_perfect`: **Stacks 08IE case (1)**,
-  for `E` perfect and `𝒢^•` bounded above.
+* `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_perfect`: the argument of Stacks 08IE
+  case (1), for `E` perfect and `𝒢^•` bounded above, through Stacks 0DJ9 and Stacks 0DJA (2), given
+  the two `D_QCoh` memberships Stacks 0DJ9 asks for. Case (1) with no further hypothesis is
+  `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPerfect`, and the corrected case (2) is
+  `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`.
 
 ## Implementation notes
 
@@ -205,10 +208,11 @@ public def PointwiseBaseChangeSheafHomOfPseudoCoherent : Prop :=
 
 /-! ### Stacks 08IE -/
 
-/-- **Stacks 08IE, case (1).** Let `f : X ⟶ S` be a quasi-compact and quasi-separated morphism
-of schemes, let `E` be a perfect object of `D(𝒪_X)` and let `𝒢^•` be a bounded-above complex of
-quasi-coherent `𝒪_X`-modules flat over `S`. For every cartesian base-change square the
-canonical map
+/-- **Stacks 08IE, case (1), given the two `D_QCoh` memberships Stacks 0DJ9 asks for.** Let
+`f : X ⟶ S` be a quasi-compact and quasi-separated morphism of schemes, let `E` be a perfect object
+of `D(𝒪_X)` and let `𝒢^•` be a bounded-above complex of quasi-coherent `𝒪_X`-modules flat over
+`S`. For every cartesian base-change square, if the two derived internal homs have quasi-coherent
+cohomology (`hK`, `hK'`), the canonical map
 
 `Lg^*Rf_*R𝓗om_{𝒪_X}(E, 𝒢^•) ⟶ Rf'_*R𝓗om_{𝒪_{X'}}(L(g')^*E, (g')^*𝒢^•)`
 
@@ -221,24 +225,11 @@ Stacks 0DJ8 for `L(g')^*𝒢^• ⟶ (g')^*𝒢^•`
 (`AlgebraicGeometry.isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_isPerfect`)
 propagates it to the comparison for `R𝓗om_{𝒪_X}(E, 𝒢^•)`, and Stacks 0DJ9
 (`AlgebraicGeometry.globalBaseChangeIsIsoOfPointwise`) turns it into the invertibility of the
-displayed map. -/
-@[stacks 08IE "case (1) of the tag -- E perfect, 𝒢^• bounded above, each 𝒢^n flat over S -- for \
-the canonical map `sheafHomFlatBaseChangeMap`, with the ORDINARY pullback (g')^*𝒢^• on the right \
-as the source's boldface demands, the derived-to-ordinary comparison L(g')^*𝒢^• ⟶ (g')^*𝒢^• never \
-being assumed invertible. The three steps the source cites are all proved in this library and none \
-of them is assumed: the conclusion of Stacks 0DJ9, in the spelling \
-`globalBaseChangeIsIsoOfPointwise` (reused verbatim from the Stacks 0A1D module, where it serves \
-the same purpose); conclusion (2) of Stacks 0DJA, \
-`isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_isPerfect`, at the cartesian \
-square; and the stalk check performed inside the proof of Stacks 0A1D, \
-`pointwiseBaseChangeOfFlatOver`, that flatness of the terms of 𝒢^• over S gives the condition of \
-Stacks 0DJ8 for L(g')^*𝒢^• ⟶ (g')^*𝒢^•. With those three, the qcqs hypothesis on f and the \
-cartesian square, the displayed map is an isomorphism. The equivalent conditions of Stacks 0DJ8 \
-are used only in form (1), the pointwise condition: forms (2) and (3) are carried in this library \
-at the locally small model of D(𝒪_X) rather than at the standard model the map of Stacks 08HY \
-lives at, and no implication between them is available. The two D_QCoh memberships Stacks 0DJ9 \
-asks of the two derived internal homs are the statement's own conditions hK and hK', at a spelling \
-of the derived internal hom that does not line up with the one the comparison map is written at"]
+displayed map.
+
+Case (1) of Stacks 08IE itself, with no hypothesis beyond the source's, is
+`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPerfect`; the corrected case (2) is
+`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`. -/
 public theorem isIso_sheafHomFlatBaseChangeMap_of_perfect
     {X X' S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
     (hsq : IsPullback g' f' f g) (hqc : QuasiCompact f) (hqs : QuasiSeparated f)

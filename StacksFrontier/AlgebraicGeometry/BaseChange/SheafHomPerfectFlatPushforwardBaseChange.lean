@@ -56,8 +56,9 @@ flat over `S`. Take `S = X = Spec ℤ/4`, `f = id`, `E = (ℤ/2)~`, `𝒢^• = 
 source is `(ℤ/2 ⊗^L_{ℤ/4} ℤ/2)~`, whose `H^{-1}` is `Tor_1^{ℤ/4}(ℤ/2, ℤ/2) = ℤ/2 ≠ 0`; the target
 `R𝓗om(L(g')^*E, 𝒪_{X'})` lies in `D^{≥ 0}`. The step of the proof of Stacks 0DJA (3) that fails
 is the computation of `L(g')^*` of `𝓗om^•(P, 𝒢^•)`, a bounded below complex of flat modules,
-degreewise. See `AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_flat`
-for the corrected statement and
+degreewise. See
+`AlgebraicGeometry.isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`
+for the corrected statement (`errata.md`, entry **08IE(2)**: `g` of finite Tor dimension) and
 `not_forall_isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent` (in
 `Stacks.Examples.SheafHomCounterexample`) for the counterexample.
 
@@ -114,8 +115,8 @@ commutes with arbitrary base change. -/
 @[stacks 08IE "case (1): E perfect, 𝒢^• bounded above with terms quasi-coherent and flat over \
 S, f quasi-compact and quasi-separated, an arbitrary cartesian square; the canonical map of the \
 source's proof, with the ORDINARY pullback (g')^*𝒢^• on the right, is an isomorphism. Case (2) \
-is false as stated (see the module documentation); its corrected form is \
-`isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_flat`"]
+is false as stated (errata.md, entry 08IE(2)); its corrected form, for g of finite Tor dimension, \
+is `isIso_sheafHomFlatBaseChangeMap_of_isPseudoCoherent_of_hasFiniteTorDimension`"]
 public theorem isIso_sheafHomFlatBaseChangeMap_of_isPerfect
     {X X' S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
     (hsq : IsPullback g' f' f g) (hqc : QuasiCompact f) (hqs : QuasiSeparated f)

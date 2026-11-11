@@ -23,7 +23,14 @@ presheaves, and sheafification of an abelian presheaf does not change its stalk.
 
 ## Implementation notes
 
-A point of the site is Mathlib's `CategoryTheory.GrothendieckTopology.Point`, as in Stacks 04EN
+The statements of Stacks 04EP for points of a site in the sense of Stacks 00Y5 are in
+`StacksFrontier/CategoryTheory/Sites/Point/SitePoint.lean`
+(`CategoryTheory.GrothendieckTopology.SitePoint.exactFunctor_abelianSheafStalk` and its
+siblings); they are deduced from the ones here through the point `SitePoint.toPoint` of the site
+in Mathlib's sense with the same fibre functor, whose category of neighbourhoods is cofiltered by
+condition (3) of Stacks 00Y5.
+
+Here a point of the site is Mathlib's `CategoryTheory.GrothendieckTopology.Point`, as in Stacks 04EN
 (`StacksFrontier/CategoryTheory/Sites/Point/StalkPreservesFiniteLimits.lean`) and in the module
 version Stacks 04EQ (`StacksFrontier/CategoryTheory/Sites/Point/ModuleStalkSheafExact.lean`). Its
 stalk functor is a filtered colimit over the category of elements of the fibre functor, so it
@@ -48,17 +55,19 @@ universe w v u
 variable {C : Type u} [Category.{v} C] [LocallySmall.{w} C] {J : GrothendieckTopology C}
   (Φ : J.Point.{w})
 
-/-- **Stacks Project, Tag 04EP, part (1).** Taking the stalk at a point of a site is an exact
-functor from abelian sheaves to abelian groups. -/
-@[stacks 04EP "part (1)"]
+/-- **Stacks Project, Tag 04EP, part (1).** Taking the stalk at a point of a site in
+Mathlib's sense (`GrothendieckTopology.Point`) is an exact functor from abelian sheaves to
+abelian groups. -/
+@[stacks 04EP "(1) for Mathlib's points of a site (SGA 4 IV 6.3 fibre functors)"]
 theorem exactFunctor_abelianSheafFiber :
     exactFunctor (Sheaf J AddCommGrpCat.{w}) AddCommGrpCat.{w}
       (Φ.sheafFiber (A := AddCommGrpCat.{w})) :=
   (exactFunctor_iff _).mpr ⟨inferInstance, inferInstance⟩
 
-/-- **Stacks Project, Tag 04EP, part (2).** Taking the stalk at a point of a site is an exact
-functor from abelian presheaves to abelian groups. -/
-@[stacks 04EP "part (2)"]
+/-- **Stacks Project, Tag 04EP, part (2).** Taking the stalk at a point of a site in
+Mathlib's sense (`GrothendieckTopology.Point`) is an exact functor from abelian presheaves to
+abelian groups. -/
+@[stacks 04EP "(2) for Mathlib's points of a site (SGA 4 IV 6.3 fibre functors)"]
 theorem exactFunctor_abelianPresheafFiber :
     exactFunctor (Cᵒᵖ ⥤ AddCommGrpCat.{w}) AddCommGrpCat.{w}
       (Φ.presheafFiber (A := AddCommGrpCat.{w})) :=
@@ -69,7 +78,7 @@ omit [LocallySmall.{w} C] in
 /-- **Stacks Project, Tag 04EP, part (3).** Sheafification of an abelian presheaf `F` does not
 change its stalk: the stalk at `Φ` of the canonical map `F ⟶ F^#` is an isomorphism
 `F_p ≅ (F^#)_p`. -/
-@[stacks 04EP "part (3)"]
+@[stacks 04EP "(3) for Mathlib's points of a site (SGA 4 IV 6.3 fibre functors)"]
 theorem isIso_abelianPresheafFiber_map_toSheafify [HasWeakSheafify J AddCommGrpCat.{w}]
     (F : Cᵒᵖ ⥤ AddCommGrpCat.{w}) :
     IsIso ((Φ.presheafFiber (A := AddCommGrpCat.{w})).map (toSheafify J F)) :=

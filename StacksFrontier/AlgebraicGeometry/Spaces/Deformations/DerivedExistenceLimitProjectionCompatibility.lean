@@ -20,9 +20,11 @@ definition of the tower.
 
 * `AlgebraicGeometry.Space.homEquiv_symm_comp_conjugateEquiv_app`: for conjugate `α` and `β`,
   `adj₂.homEquiv.symm (f ≫ β) = α ≫ adj₁.homEquiv.symm f`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageAdjoint_comp_towerMap`: the adjoint of
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.stageAdjoint_comp_towerMap`: the adjoint
+  of
   `f ≫ (Eₙ₊₁ ⟶ Eₙ)` in terms of the adjoint of `f`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.coheratorLimitPullbackMap_eq`: the compatibility
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.coheratorLimitPullbackMap_eq`: the
+  compatibility
   of the `τₙ`.
 
 ## References
@@ -50,9 +52,9 @@ theorem homEquiv_symm_comp_conjugateEquiv_app {C D : Type*} [Category* C] [Categ
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit, Functor.map_comp, Category.assoc,
     conjugateEquiv_counit, ← Category.assoc, α.naturality, Category.assoc]
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The composition isomorphism `Ljₙ₊₁^* ⋙ Liₙ^* ≅ Ljₙ^*` (Stacks 0D6D), read through
 `iₙ ≫ jₙ₊₁ = jₙ`. -/
@@ -122,6 +124,19 @@ theorem coheratorLimitPullbackMap_eq (n : ℕ)
   exact stageAdjoint_comp_towerMap n e he _
 
 end Coherator
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+variable (D : DerivedExistenceSystem.{u})
+
+/-- The composition isomorphism `Ljₙ₊₁^* ⋙ Liₙ^* ≅ Ljₙ^*`, in Situation 0DIK. -/
+abbrev stageDerivedPullbackCompIso (n : ℕ) :
+    D.stageDerivedPullback (n + 1) ⋙
+        transitionDerivedPullback D.system D.B D.containsLimitBase D.containsBaseAt D.X n ≅
+      D.stageDerivedPullback n :=
+  D.toSeparated.stageDerivedPullbackCompIso n
 
 end DerivedExistenceSystem
 

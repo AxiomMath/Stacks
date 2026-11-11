@@ -5,7 +5,7 @@ public import StacksFrontier.Deformation.ToposThickening.ExtensionPushoutCompari
 public import StacksFrontier.Deformation.ToposThickening.ObstructionCompatibility
 
 /-!
-# Stacks 08VY at the two lifts the tag is about
+# Stacks 08VY in the pushout form
 
 Situation **Stacks 08VX** is the diagram of
 `StacksFrontier/Deformation/ToposThickening/FlatThickeningBoundary.lean`, and **Stacks 08VY** says
@@ -39,8 +39,13 @@ satisfies, now supplied by
   `.coefficientComparisonMap_comp_g`: the canonical map `ℱ'₂ ⟶ h^*ℱ'₂` is `(I₂ ⟶ I₁) ⊗ ℱ` on
   kernel modules and the identity on `ℱ`, which is the pushout square of Stacks 08MJ.
 * `Deformation.ToposThickening.FirstOrderThickeningComplex`
-  `.boundary_underlyingExtensionClass_eq_obstruction_pushout`: **Stacks 08VY** at `π^*ℱ` and
-  `h^*ℱ'₂`.
+  `.boundary_underlyingExtensionClass_eq_obstruction_pushout`: the boundary statement of
+  Stacks 08VY at `π^*ℱ` and `h^*ℱ'₂`, read as extensions with coefficients `Iₖ ⊗_O ℱ`. The tag
+  itself, with coefficients `f^*𝒥ₖ ⊗_O ℱ`, for an `O'₂`-module `ℱ'₂` flat over `O_{ℬ'₂}` and the
+  difference taken in the principal homogeneous space of Stacks 08VW (2), is
+  `Deformation.ToposThickening.FlatThickeningComplexSituation`
+  `.boundary_difference_trivialLift_pulledLift_eq_obstruction`
+  (`StacksFrontier/Deformation/ToposThickening/FlatThickeningComplexBoundaryObstruction.lean`).
 
 ## Implementation notes
 
@@ -54,21 +59,21 @@ The readings of the two lifts are the ones under which the library states Stacks
   term is the pushout `ℱ'₂ ⊔_{I₂ ⊗ ℱ} (I₁ ⊗ ℱ)` with the `O'₁`-module structure descended along
   `O'₂ ⋉ I₁ ⟶ O'₁`.
 
-Two things are inherited from the general form and are not repaired here. The coefficient
-modules are written through the defining ideals `Iₖ` rather than as `f^*𝒥ₖ`, the comparison
-being an isomorphism by Stacks 08MQ; this is the reading under which the library states
-Stacks 08VW and Stacks 0CYE, so the obstruction class below is the class those tags are about.
-And the one consequence of Stacks 08MQ that the proof still consumes is carried as the hypothesis
-`hMQ`, stated with 08MQ's own hypotheses as antecedents, since Stacks 08MQ
-is not in the library; see the scope section of
-`StacksFrontier/Deformation/ToposThickening/FlatThickeningBoundary.lean`. Three others are no longer
-hypotheses: the identification `I = f^*J` of Situation 08VV is proved without 08MQ by
-`Deformation.ToposThickening.isIdealComparisonIsoOfFlat`, the third column's flat-lift
-dictionary is proved by `Deformation.ToposThickening.isFlatLiftCorrespondence`, and the first
-column's flatness criterion by
-`Deformation.ToposThickening.isFlatOfFixedActionIdentity`; the last two are supplied here
+The coefficient modules are written through the defining ideals `Iₖ` rather than as
+`f^*𝒥ₖ`, the comparison being an isomorphism by Stacks 08MQ; this is the reading under which
+`Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero` states Stacks 08VW, so the
+obstruction class below is the class that tag is about. The statement carries no stand-in
+hypothesis: every consequence of Stacks 08MQ the general form consumes is proved and supplied
 through `Deformation.ToposThickening.FirstOrderThickeningComplex`
-`.boundary_underlyingExtensionClass_eq_obstruction'`.
+`.boundary_underlyingExtensionClass_eq_obstruction'` — the short exactness of the coefficient
+sequence by `Deformation.ToposThickening.FirstOrderThickeningComplex.isIdealTensorShortExact`,
+the third column's flat-lift dictionary by `Deformation.ToposThickening.isFlatLiftCorrespondence`
+and the first column's flatness criterion by
+`Deformation.ToposThickening.isFlatOfFixedActionIdentity`. The reading through `f^*𝒥ₖ`, with
+`ℱ'₂` a flat `O'₂`-module rather than an extension, is the registered statement
+`Deformation.ToposThickening.FlatThickeningComplexSituation`
+`.boundary_difference_trivialLift_pulledLift_eq_obstruction`, which consumes the general form
+the same way.
 
 The construction of the `O'₁`-module structure on the pushout narrows the universe of sections
 to `max v₂ u₂` (see the implementation notes of
@@ -182,7 +187,7 @@ variable (T : FirstOrderThickeningComplex t) (f : RingedToposHom X B)
     (reshapeHom t T.lower.O₂ T.lower.fSharp₂).comp f)
   (commf₃ : f₃.comp S.thirdHom = T.thirdHom.comp f)
 
-/-- **Stacks Project, Tag 08VY.** In Situation 08VX the modules `π^*ℱ` and `h^*ℱ'₂` are
+/-- **Stacks 08VY in the pushout form.** In Situation 08VX the modules `π^*ℱ` and `h^*ℱ'₂` are
 `O'₁`-modules flat over `O_{ℬ'₁}` restricting to `ℱ` on `(Sh(C), O)`. Their difference
 (Stacks 08VW) is an element `θ` of `Ext¹_O(ℱ, f^*𝒥₁ ⊗_O ℱ)` whose boundary in
 `Ext²_O(ℱ, f^*𝒥₃ ⊗_O ℱ)` equals the obstruction (Stacks 08VW) to lifting `ℱ` to an `O'₃`-module
@@ -202,22 +207,11 @@ seven clauses of the conclusion are, in order: the canonical action map of `h^*�
 obstruction to lifting `ℱ` to an `O'₃`-module flat over `O_{ℬ'₃}`; and the boundary of `θ` for
 the coefficient sequence equals that obstruction class.
 
-See the implementation notes for the two readings inherited from the general form: the
-coefficient modules are written through the ideals `Iₖ`, which are `f^*𝒥ₖ` by Stacks 08MQ, and
-every consequence of Stacks 08MQ that the proof consumes is now supplied rather than
-assumed: this statement carries no stand-in hypothesis. -/
-@[stacks 08VY "the tag's own statement, at the two lifts the source names: the trivial \
-extension of 08MI for π^*ℱ and the 08MJ pushout of ℱ'₂ for h^*ℱ'₂. UNCONDITIONAL on Stacks \
-08MQ: this declaration assumes none of 08MQ's consequences. All of them that it needs are \
-proved and supplied -- `IsIdealTensorShortExact` by \
-`FirstOrderThickeningComplex.isIdealTensorShortExact`, `IsFlatOfFixedActionIdentity` by \
-`isFlatOfFixedActionIdentity`, `IsFlatLiftCorrespondence` by `isFlatLiftCorrespondence`, and \
-`IsIdealComparisonIsoOfFlat` by `isIdealComparisonIsoOfFlat`. `IsIdealTensorShortExact` was \
-FALSE as first stated -- refuted -- and is repaired \
-with Situation 08VX's two horizontal squares, which its proof consumes twice each. The general \
-form `boundary_underlyingExtensionClass_eq_obstruction` in `FlatThickeningBoundary.lean` still \
-carries the binders, because the producer's module imports that file and discharging there \
-would cycle; coefficients are written through the ideals Iₖ, which are f^*𝒥ₖ by 08MQ."]
+The coefficient modules are written through the ideals `Iₖ`, which are `f^*𝒥ₖ` by Stacks 08MQ,
+and every consequence of Stacks 08MQ that the proof consumes is supplied: this statement carries
+no stand-in hypothesis. The tag's statement with coefficients `f^*𝒥ₖ ⊗_O ℱ` and `ℱ'₂` a flat
+`O'₂`-module is `Deformation.ToposThickening.FlatThickeningComplexSituation`
+`.boundary_difference_trivialLift_pulledLift_eq_obstruction`. -/
 theorem boundary_underlyingExtensionClass_eq_obstruction_pushout
     [HasExt.{e} (SheafOfModules.{max v₂ u₂} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))]
     [HasExt.{e} (SheafOfModules.{max v₂ u₂} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]

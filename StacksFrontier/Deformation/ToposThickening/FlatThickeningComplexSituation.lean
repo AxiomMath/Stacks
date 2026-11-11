@@ -91,7 +91,19 @@ topos `(Sh(B), O_ℬ)`, by three strict flat deformations `f'₁, f'₂, f'₃` 
 
 The first thickening of each row is `i : (Sh(C), O) ⟶ (Sh(C'₁), O'₁)`, respectively
 `t : (Sh(B), O_ℬ) ⟶ (Sh(B'₁), O_{ℬ'₁})`, and the other two are presented on its site, as in
-`Deformation.ToposThickening.FirstOrderThickeningComplex`. -/
+`Deformation.ToposThickening.FirstOrderThickeningComplex`.
+
+Short exactness of each row is that of Stacks 08ML: the maps `I₃ ⟶ I₂ ⟶ I₁` of defining ideals
+are the restrictions of the ring maps `O'₃ ⟶ O'₂ ⟶ O'₁`, and `0 ⟶ I₃ ⟶ I₂ ⟶ I₁ ⟶ 0` is a short
+exact sequence of `O`-modules, read through the equivalence of topoi of the thickening as
+modules over `i_*O` (respectively `t_*O_ℬ`) on the common underlying site. The squares of the
+diagram are equalities of morphisms of ringed topoi: the horizontal arrows are the identity on
+underlying topoi, so this is the source's identification of the underlying topoi of a
+thickening and of its base (Stacks 08M7, `f = f'` on underlying topoi). -/
+@[stacks 08VX "the situation: both rows short exact sequences of first order thickenings in the
+sense of 08ML (exactness of `0 ⟶ I₃ ⟶ I₂ ⟶ I₁ ⟶ 0` of defining ideals as modules over the
+base), each `f'ᵢ` restricting to `f`, each `(f, f'ᵢ)` strict, each `f'ᵢ` flat, and `ℱ'₂` an
+`O'₂`-module flat over `O_{ℬ'₂}`"]
 structure FlatThickeningComplexSituation (i : RingedToposHom X Y) (t : RingedToposHom B B') where
   /-- The upper row `O'₃ ⟶ O'₂ ⟶ O'₁`, a sequence of first order thickenings of `(Sh(C), O)`. -/
   upper : FirstOrderThickeningComplex i
@@ -215,6 +227,7 @@ theorem lower_isComplex : D.lower.IsComplex := D.lower_shortExact.choose
 /-- **The canonical splitting `π : (Sh(C'₁), O'₁) ⟶ (Sh(C), O)` of Remark Stacks 08ML**, the
 trivialization of the first thickening of the upper row through which the composite
 `(Sh(C'₁), O'₁) ⟶ (Sh(C'₃), O'₃)` factors. -/
+@[stacks 08VX "the canonical splitting `π` of the upper row (Remark 08ML)"]
 noncomputable def π : Trivialization i := D.upper.canonicalTrivialization D.upper_isComplex
 
 omit [HasSheafify Y.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
@@ -228,6 +241,7 @@ theorem π_spec :
 
 /-- **The `O`-module `ℱ = ℱ'₂ ⊗ O` of Stacks 08VX**: the pullback `i₂^*ℱ'₂` of `ℱ'₂` along the
 second thickening of the upper row. -/
+@[stacks 08VX "the module `ℱ = ℱ'₂ ⊗ O`"]
 noncomputable def reduction : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   (pullbackModules D.i₂.toRingedToposModulesHom).obj D.F'
 

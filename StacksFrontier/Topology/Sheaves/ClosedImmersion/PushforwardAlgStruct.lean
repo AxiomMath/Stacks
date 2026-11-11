@@ -39,13 +39,19 @@ morphism `a → b` be an isomorphism as soon as `F a → F b` is bijective.
   presheaf `(Opens X)ᵒᵖ ⥤ C`; the stalk of `G` at `y` is
   `TopCat.Presheaf.stalk G.obj y` and the pushforward along `f : Y ⟶ X` is
   `TopCat.Sheaf.pushforward C f`, acting by `(f_* G)(U) = G(f⁻¹ U)`.
-* Stacks 007L asks only for filtered colimits in `C`. We assume `HasColimits C`,
-  which is what Mathlib's stalk API consumes and which holds for every standard
-  type of algebraic structure (groups, rings, modules, …); Mathlib's `stalk` still
-  only uses the filtered colimit over the category of open neighbourhoods.
+* Stacks 007L asks only for filtered colimits in `C`, and that is all the main
+  statements use: the stalk `G_x` is written as the filtered colimit
+  `colimit ((OpenNhds.inclusion x).op ⋙ G.obj)`, which is the definition of Mathlib's
+  `TopCat.Presheaf.stalk` without that API's `HasColimits C` requirement.
+* The objects of `C` live in a universe `w` independent of the universe `u` of `X` (the
+  homs of `C` live in `u`), so that `CommRingCat.{u}`, `Ab.{u}`, … on `X : TopCat.{u}`
+  are covered. The older statements `full_and_faithful_pushforward_subsetInclusion` and
+  `essImage_pushforward_subsetInclusion_iff` take `AlgebraicStructureType.{u, u}` with
+  `HasColimits C`; such a `C` is small and complete, hence thin, so they only cover a
+  degenerate case and are kept as corollaries.
 * "Fully faithful" is the conjunction of `Functor.Full` and `Functor.Faithful`,
   and the essential image is `Functor.essImage`.
-* Full faithfulness (`full_and_faithful_pushforward_subsetInclusion`) needs no
+* Full faithfulness (`full_and_faithful_sheafPushforward_subsetInclusion`) needs no
   hypothesis on `Z` at all — it holds for an arbitrary subset, because the only
   input is that `Opens.map i` is surjective on opens and cover-dense. Closedness
   of `Z` is used only for the essential-image description, where it makes `Zᶜ`
@@ -140,12 +146,26 @@ private instance instIsContinuous (X : TopCat.{u}) (Z : Set X) :
       (Opens.grothendieckTopology ↑(TopCat.of Z)) :=
   Functor.IsCoverDense.isContinuous _ _ _ (coverPreserving_opensMap_subsetInclusion X Z)
 
-/-- **Stacks 00AH, Part 1.** The pushforward functor `i_* : Sh(Z, C) ⥤ Sh(X, C)`
-along the inclusion `i : Z ↪ X` is full and faithful, for any type of algebraic
-structure `(C, F)`. The proof only uses that `Opens.map i` is surjective on
-opens, so `Z` may be an arbitrary subset; closedness is needed only for
-`essImage_pushforward_subsetInclusion_iff`. -/
-@[stacks 00AH]
+/-- **Stacks 00AH, part 1, in its general form.** For `X : TopCat.{u}`, any subset
+`Z ⊆ X` with inclusion `i : Z ↪ X`, and any type of algebraic structure `(C, F)`
+whose objects live in an arbitrary universe `w` (so that `CommRingCat.{u}`, `Ab.{u}`,
+… are instances), the pushforward functor `i_* : Sh(Z, C) ⥤ Sh(X, C)` is full and
+faithful. The proof only uses that `Opens.map i` is surjective on opens, so `Z` may
+be an arbitrary subset (Stacks takes `Z` closed); closedness is needed only for
+`essImage_sheafPushforward_subsetInclusion_iff`. -/
+@[stacks 00AH "fully faithful part; holds for any subset `Z`"]
+theorem full_and_faithful_sheafPushforward_subsetInclusion (X : TopCat.{u}) (Z : Set X)
+    (S : AlgebraicStructureType.{u, w}) :
+    (TopCat.Sheaf.pushforward S.C (subsetInclusion X Z)).Full ∧
+      (TopCat.Sheaf.pushforward S.C (subsetInclusion X Z)).Faithful :=
+  ⟨Functor.IsCoverDense.full_sheafPushforwardContinuous _ _ _,
+    Functor.IsCoverDense.faithful_sheafPushforwardContinuous _ _ _⟩
+
+/-- The special case of `full_and_faithful_sheafPushforward_subsetInclusion` for an
+`AlgebraicStructureType.{u, u}` with all colimits. Objects and homs of `C` both live in
+`Type u` here, so by Freyd's theorem `C` is thin; the statement therefore covers only a
+degenerate case, and cannot be applied to `CommRingCat` or `Ab`. Stacks 00AH itself is
+`full_and_faithful_sheafPushforward_subsetInclusion`. -/
 theorem full_and_faithful_pushforward_subsetInclusion (X : TopCat.{u}) (Z : Set X)
     (S : AlgebraicStructureType.{u, u}) [HasColimits S.C] :
     (TopCat.Sheaf.pushforward S.C (subsetInclusion X Z)).Full ∧
@@ -159,9 +179,11 @@ Since `Z` is closed, `Zᶜ` is an open neighbourhood of `x`, and every open
 condition on the empty cover. Such `U` are cofinal among the open neighbourhoods
 of `x`, so the filtered colimit computing the stalk is terminal too. -/
 private noncomputable def isTerminalStalkPushforwardOfNotMem (X : TopCat.{u}) (Z : Set X)
-    (hZ : IsClosed Z) (S : AlgebraicStructureType.{u, u}) [HasColimits S.C]
+    (hZ : IsClosed Z) (S : AlgebraicStructureType.{u, w})
     (F : TopCat.Sheaf S.C (TopCat.of Z)) (x : ↑X) (hx : x ∉ Z) :
-    IsTerminal (Presheaf.stalk ((Sheaf.pushforward S.C (subsetInclusion X Z)).obj F).obj x) := by
+    IsTerminal
+      (colimit ((OpenNhds.inclusion x).op ⋙
+        ((Sheaf.pushforward S.C (subsetInclusion X Z)).obj F).obj)) := by
   set P := ((Sheaf.pushforward S.C (subsetInclusion X Z)).obj F).obj
   set D := (OpenNhds.inclusion x).op ⋙ P with hD_def
   have hZc_open : IsOpen (Zᶜ : Set X) := hZ.isOpen_compl
@@ -221,9 +243,10 @@ sheaf of sets `G ⋙ F` — legitimate because `F` reflects isomorphisms, hence
 terminal objects — where it is the unique-gluing characterisation of a sheaf all
 of whose stalks are singletons. -/
 private noncomputable def isTerminalSectionsOfIsTerminalStalks (X : TopCat.{u})
-    (S : AlgebraicStructureType.{u, u}) [HasColimits S.C] (Sfinal : S.WithFinal)
+    (S : AlgebraicStructureType.{u, w}) (Sfinal : S.WithFinal)
     (G : TopCat.Sheaf S.C X) (W : Opens X)
-    (hW : ∀ x : X, x ∈ W → Nonempty (TopCat.Presheaf.stalk G.obj x ≅ Sfinal.zero)) :
+    (hW : ∀ x : X, x ∈ W →
+      Nonempty (colimit ((OpenNhds.inclusion x).op ⋙ G.obj) ≅ Sfinal.zero)) :
     IsTerminal (G.obj.obj (Opposite.op W)) := by
   haveI : ReflectsLimit (Functor.empty S.C) S.F := reflectsLimit_of_reflectsIsomorphisms _ _
   refine IsTerminal.isTerminalOfObj S.F _ ?_
@@ -260,8 +283,8 @@ private noncomputable def isTerminalSectionsOfIsTerminalStalks (X : TopCat.{u})
 `G(U ⊓ W)` are terminal: the sheaf square for the cover `{U, W}` of `U ⊔ W` is a
 pullback, and a pullback of `𝟙` along a map of terminal objects is an
 isomorphism. Applied with `W = Zᶜ`. -/
-private theorem isIsoResOfIsTerminal (X : TopCat.{u}) (S : AlgebraicStructureType.{u, u})
-    [HasColimits S.C] (G : TopCat.Sheaf S.C X) (U : Opens X) (W : Opens X)
+private theorem isIsoResOfIsTerminal (X : TopCat.{u}) (S : AlgebraicStructureType.{u, w})
+    (G : TopCat.Sheaf S.C X) (U : Opens X) (W : Opens X)
     (hW_term : IsTerminal (G.obj.obj (Opposite.op W)))
     (hUW_term : IsTerminal (G.obj.obj (Opposite.op (U ⊓ W)))) :
     IsIso (G.obj.map (homOfLE (le_sup_left : U ≤ U ⊔ W)).op) := by
@@ -293,9 +316,10 @@ well defined because `W ⊔ Zᶜ` does not depend on the choice of `W`, and it i
 sheaf because `V ↦ W ⊔ Zᶜ` preserves meets and nonempty sups and sends `⊥` to
 `Zᶜ`, where `G` has terminal sections. -/
 private lemma essImage_of_stalks_vanish (X : TopCat.{u}) (Z : Set X) (hZ : IsClosed Z)
-    (S : AlgebraicStructureType.{u, u}) [HasColimits S.C] (Sfinal : S.WithFinal)
+    (S : AlgebraicStructureType.{u, w}) (Sfinal : S.WithFinal)
     (G : TopCat.Sheaf S.C X)
-    (hstalk : ∀ x : X, x ∉ Z → Nonempty (TopCat.Presheaf.stalk G.obj x ≅ Sfinal.zero)) :
+    (hstalk : ∀ x : X, x ∉ Z →
+      Nonempty (colimit ((OpenNhds.inclusion x).op ⋙ G.obj) ≅ Sfinal.zero)) :
     (TopCat.Sheaf.pushforward S.C (subsetInclusion X Z)).essImage G := by
   set i := subsetInclusion X Z
   set Gi := Opens.map i
@@ -499,22 +523,46 @@ private lemma essImage_of_stalks_vanish (X : TopCat.{u}) (Z : Set X) (hZ : IsClo
       exact congr_arg G.obj.map (Subsingleton.elim _ _)
   exact ⟨F, ⟨(Sheaf.forget S.C X).preimageIso natIso⟩⟩
 
-/-- **Stacks 00AH, Part 2.** A sheaf `G ∈ Sh(X, C)` lies in the essential image
-of `i_* : Sh(Z, C) ⥤ Sh(X, C)`, for `i` the inclusion of a closed subset `Z`,
-exactly when its stalk at every point `x ∉ Z` is isomorphic in `C` to the final
-object `0`. -/
-@[stacks 00AH]
+/-- **Stacks 00AH, part 2, in its general form.** Let `X : TopCat.{u}`, let `Z ⊆ X`
+be closed with inclusion `i : Z ↪ X`, and let `(C, F)` be a type of algebraic structure
+with a final object `0`, whose objects live in an arbitrary universe `w` (so that
+`CommRingCat.{u}`, `Ab.{u}`, … are instances). A sheaf `G ∈ Sh(X, C)` lies in the
+essential image of `i_* : Sh(Z, C) ⥤ Sh(X, C)` exactly when its stalk `G_x` at every
+point `x ∉ Z` is isomorphic in `C` to `0`.
+
+The stalk `G_x` is written as the colimit of `G` over the open neighbourhoods of `x`,
+which is a filtered colimit and so exists by 007L. This is literally the definition of
+Mathlib's `TopCat.Presheaf.stalk G.obj x`; that API is not used directly because it
+requires `HasColimits C`, more than 007L provides. Whenever `C` has all colimits the two
+are definitionally equal (see `essImage_pushforward_subsetInclusion_iff`). -/
+@[stacks 00AH "essential image part"]
+theorem essImage_sheafPushforward_subsetInclusion_iff (X : TopCat.{u}) (Z : Set X)
+    (hZ : IsClosed Z) (S : AlgebraicStructureType.{u, w}) (Sfinal : S.WithFinal)
+    (G : TopCat.Sheaf S.C X) :
+    (TopCat.Sheaf.pushforward S.C (subsetInclusion X Z)).essImage G ↔
+      ∀ x : X, x ∉ Z →
+        Nonempty (colimit ((OpenNhds.inclusion x).op ⋙ G.obj) ≅ Sfinal.zero) := by
+  refine ⟨fun ⟨F, ⟨iso⟩⟩ x hx => ?_, essImage_of_stalks_vanish X Z hZ S Sfinal G⟩
+  have stalk_iso :
+      colimit ((OpenNhds.inclusion x).op ⋙ G.obj) ≅
+        colimit ((OpenNhds.inclusion x).op ⋙
+          ((Sheaf.pushforward S.C (subsetInclusion X Z)).obj F).obj) :=
+    HasColimit.isoOfNatIso
+      (Functor.isoWhiskerLeft (OpenNhds.inclusion x).op ((Sheaf.forget S.C X).mapIso iso).symm)
+  exact ⟨((isTerminalStalkPushforwardOfNotMem X Z hZ S F x hx).ofIso
+    stalk_iso.symm).uniqueUpToIso Sfinal.isTerminal⟩
+
+/-- The special case of `essImage_sheafPushforward_subsetInclusion_iff` for an
+`AlgebraicStructureType.{u, u}` with all colimits, phrased with `TopCat.Presheaf.stalk`.
+Objects and homs of `C` both live in `Type u` here, so by Freyd's theorem `C` is thin;
+the statement therefore covers only a degenerate case, and cannot be applied to
+`CommRingCat` or `Ab`. Stacks 00AH itself is
+`essImage_sheafPushforward_subsetInclusion_iff`. -/
 theorem essImage_pushforward_subsetInclusion_iff (X : TopCat.{u}) (Z : Set X) (hZ : IsClosed Z)
     (S : AlgebraicStructureType.{u, u}) [HasColimits S.C] (Sfinal : S.WithFinal)
     (G : TopCat.Sheaf S.C X) :
     (TopCat.Sheaf.pushforward S.C (subsetInclusion X Z)).essImage G ↔
-      ∀ x : X, x ∉ Z → Nonempty (TopCat.Presheaf.stalk G.obj x ≅ Sfinal.zero) := by
-  refine ⟨fun ⟨F, ⟨iso⟩⟩ x hx => ?_, essImage_of_stalks_vanish X Z hZ S Sfinal G⟩
-  have stalk_iso :
-      Presheaf.stalk G.obj x ≅
-        Presheaf.stalk ((Sheaf.pushforward S.C (subsetInclusion X Z)).obj F).obj x :=
-    (Presheaf.stalkFunctor S.C x).mapIso ((Sheaf.forget S.C X).mapIso iso).symm
-  exact ⟨((isTerminalStalkPushforwardOfNotMem X Z hZ S F x hx).ofIso
-    stalk_iso.symm).uniqueUpToIso Sfinal.isTerminal⟩
+      ∀ x : X, x ∉ Z → Nonempty (TopCat.Presheaf.stalk G.obj x ≅ Sfinal.zero) :=
+  essImage_sheafPushforward_subsetInclusion_iff X Z hZ S Sfinal G
 
 end Stacks

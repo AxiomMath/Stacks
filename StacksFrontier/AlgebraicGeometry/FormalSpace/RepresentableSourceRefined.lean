@@ -47,8 +47,7 @@ outright for a base which is a formal algebraic space:
 asks only that `X`, `Y` and the chart `V` be formal algebraic spaces, which `hX`, `hY` and the
 atlas of `Y` give. It therefore supplies the hypothesis `hpb` of
 `AlgebraicGeometry.FormalSpace.hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram` with no
-standing hypothesis of its own, and nothing is assumed here beyond the setting of the tag. -/
-@[stacks 0ANG "condition (1) implies condition (2)"]
+standing hypothesis of its own. -/
 theorem hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram_of_formal'
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)

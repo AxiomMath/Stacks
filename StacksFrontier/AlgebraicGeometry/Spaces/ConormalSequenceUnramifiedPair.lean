@@ -85,9 +85,9 @@ shape those statements carry them, so discharging them there discharges them her
 reformulation.
 
 * `he : IsIso (thickeningSheafOfDifferentialsMap …)` — the isomorphism of Stacks 060E.  This is
-  proved: `AlgebraicGeometry.Space.isIso_thickeningSheafOfDifferentialsMap` discharges it,
-  granting the étale localization of Stacks 04CU and 060D as its own `hetale` hypothesis.  It
-  is the identical carry of Stacks 060F.
+  proved, with no carried input:
+  `AlgebraicGeometry.Space.IsUniversalFirstOrderThickening.isIso_thickeningSheafOfDifferentialsMap`
+  discharges it.  It is the identical carry of Stacks 060F.
 * `hzero` and `h05ZA` — the composite of the two arrows of the sequence of Stacks 05ZA for
   `Z ⊂ Z'` over `Y` being zero, and exactness of that sequence at its middle term.  These are
   the two clauses that `StacksFrontier/AlgebraicGeometry/Spaces/ConormalSequenceDifferentials.lean`

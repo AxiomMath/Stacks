@@ -20,9 +20,9 @@ in a distinguished triangle
 ```
 τ^{≤a} E ⟶ τ^{≤a+1} E ⟶ H^{a+1}(E)[-a-1] ⟶ (τ^{≤a} E)[1]
 ```
-whose first map is `TStructure.natTransTruncLEOfLE a (a+1)`. Together with Mathlib's
-`CategoryTheory.Triangulated.TStructure.triangleLEGE_distinguished` these are the three canonical
-triangles of Stacks 08J5.
+whose first map is `TStructure.natTransTruncLEOfLE a (a+1)`. These are the t-structure forms of
+the canonical triangles of Stacks 08J5, which are formalized for the truncations of a complex,
+with all their maps, in `StacksFrontier.Algebra.Homology.DerivedCategory.TruncationTriangles`.
 
 The triangle of truncations from below is the step that turns the tower `n ↦ τ^{≥-n} E` of
 `truncGETower` into something a cohomological functor can analyse one degree at a time: applying
@@ -70,8 +70,6 @@ namespace DerivedCategory
 
 variable {C : Type u} [Category.{v} C] [Abelian C] [HasDerivedCategory.{w} C]
 
-add_to_stacks 08J5 "(1)" CategoryTheory.Triangulated.TStructure.triangleLEGE_distinguished
-
 /-- An object that is both `≥ a` and `≤ a` is isomorphic to `Y` placed in degree `a` as soon as its
 cohomology in degree `a` is isomorphic to `Y`. -/
 private theorem nonempty_iso_singleFunctor_obj_of_iso_homology
@@ -82,12 +80,11 @@ private theorem nonempty_iso_singleFunctor_obj_of_iso_homology
     (((homologyFunctor C a).mapIso eM ≪≫
       (singleFunctorCompHomologyFunctorIso C a).app M).symm ≪≫ e)⟩
 
-/-- **Stacks Project, Tag 08J5** (second triangle). Two successive truncations from above of an
+/-- The t-structure form of the second triangle of Stacks 08J5. Two successive truncations from above of an
 object of the derived category differ by its cohomology in the newly retained degree, placed in
 that degree: there is a distinguished triangle
 `τ^{≤a} E ⟶ τ^{≤a+1} E ⟶ H^{a+1}(E)[-a-1] ⟶ (τ^{≤a} E)[1]` whose first map is the canonical
 comparison of truncations. -/
-@[stacks 08J5 "(2)"]
 public theorem exists_truncLESucc_triangle (E : DerivedCategory C) (a : ℤ) :
     ∃ (g : (TStructure.t.truncLE (a + 1)).obj E ⟶
         (singleFunctor C (a + 1)).obj ((homologyFunctor C (a + 1)).obj E))
@@ -151,12 +148,11 @@ public theorem exists_truncLESucc_triangle (E : DerivedCategory C) (a : ℤ) :
   · exact (Category.id_comp _).symm
   · exact (eZ.hom_inv_id_assoc _).symm
 
-/-- **Stacks Project, Tag 08J5** (third triangle).  Two successive truncations from below of an
+/-- The t-structure form of the third triangle of Stacks 08J5.  Two successive truncations from below of an
 object of the derived category differ by its cohomology in the lower degree, placed in that
 degree: there is a distinguished triangle
 `H^a(E)[-a] ⟶ τ^{≥a} E ⟶ τ^{≥a+1} E ⟶ (H^a(E)[-a])[1]` whose second map is the canonical
 comparison of truncations. -/
-@[stacks 08J5 "(3)"]
 public theorem exists_truncGESucc_triangle (E : DerivedCategory C) (a : ℤ) :
     ∃ (f : (singleFunctor C a).obj ((homologyFunctor C a).obj E) ⟶
         (TStructure.t.truncGE a).obj E)

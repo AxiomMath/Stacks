@@ -24,7 +24,9 @@ statements below, which have no input beyond the hypotheses of Stacks 0B0Y.
 * `Stacks.Intersection.FlatPullback.schemeDeltaDimension_torSheaf_flatPullback_le`
   — the support of `Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)` has delta-dimension at most `k + e`.
 * `Stacks.Intersection.FlatPullback.flatPullback_intersectionProductCycleGroup_eq_pullbackSheaves`
-  — **Tag 0B0Y**, flat pullback commutes with the intersection product.
+  — flat pullback commutes with the intersection product, the identity of Tag 0B0Y with the
+  product read as the Tor formula. The whole of Tag 0B0Y is
+  `Stacks.Intersection.CycleFlatPullback.flatPullback_coherentSheafCycleProduct_integerDimension`.
 
 ## References
 
@@ -70,8 +72,8 @@ theorem schemeDeltaDimension_torSheaf_flatPullback_le (K : Type u) [Field K]
   schemeDeltaDimension_reducedSupport_torSheaf_pullback_le K sX sY hX hY f hbase e he F G hF hG
     k hFk (fun i => pullbackTorSheafIso f F G i) i
 
-/-- **Stacks Project, Tag 0B0Y.** Let `f : X ⟶ Y` be a flat morphism of nonsingular varieties
-over a field and let `e = dim X - dim Y`. For coherent `𝒪_Y`-modules `ℱ` and `𝒢` the flat
+/-- **Flat pullback of the intersection product.** Let `f : X ⟶ Y` be a flat morphism of nonsingular
+varieties over a field and let `e = dim X - dim Y`. For coherent `𝒪_Y`-modules `ℱ` and `𝒢` the flat
 pullback of their intersection product is the intersection product of their pullbacks:
 
 `f^*(∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_Y}(ℱ, 𝒢)]_k) = ∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)]_{k+e}`.
@@ -81,16 +83,8 @@ Taking `k = r + s - dim Y`, for supports of dimension at most `r` and `s`, this 
 
 This is `Stacks.Intersection.FlatPullback.flatPullback_intersectionProductCycleGroup` with the
 comparison `f^*Torᵢ^{𝒪_Y}(ℱ, 𝒢) ≅ Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)` supplied by
-`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`. -/
-@[stacks 0B0Y "the intersection-product identity \
-`f^*([ℱ]_r · [𝒢]_s) = [f^*ℱ]_{r+e} · [f^*𝒢]_{s+e}`, with the product read as the Tor formula \
-`∑ᵢ (-1)ⁱ [Torᵢ(ℱ, 𝒢)]_{r+s-dim Y}` of Stacks 0AZR, which is how this library defines it. As \
-in the source, flat pullback passes through the alternating sum, on each summand it is the \
-cycle identity `f^*[Torᵢ]_k = [f^*Torᵢ]_{k+e}` of Stacks 0AZF, and the Tor comparison \
-`f^*Torᵢ^{𝒪_Y}(ℱ, 𝒢) = Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)` is \
-`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`, which runs the source's argument from \
-Stacks 079U on K-flat representatives. The properness clause of the tag is \
-`Stacks.Intersection.FlatPullback.intersectProperly_coherentSheafCycle_pullback`"]
+`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`. The whole of Stacks 0B0Y is
+`Stacks.Intersection.CycleFlatPullback.flatPullback_coherentSheafCycleProduct_integerDimension`. -/
 theorem flatPullback_intersectionProductCycleGroup_eq_pullbackSheaves (K : Type u) [Field K]
     {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of K)) (sY : Y ⟶ Spec (.of K)) [IsVariety K sX]
     [IsVariety K sY] (hX : AlgebraicGeometry.IsRegular X) (hY : AlgebraicGeometry.IsRegular Y)

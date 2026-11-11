@@ -26,9 +26,9 @@ Lemma 02HX.
 
 ## Main results
 
-* `Deformation.Artin.smooth_of_isSmoothOnPredeformationCategories` — **Stacks 07XX** for a
-  morphism of schemes: if `W` and `V` are locally of finite type over a locally Noetherian `S`
-  and the induced functor on slices satisfies Stacks 07XS, then `g` is smooth.
+* `Deformation.Artin.smooth_of_isSmoothOnPredeformationCategories` — the case of **Stacks 07XX**
+  for a morphism of schemes: if `W` and `V` are locally of finite type over a locally Noetherian
+  `S` and the induced functor on slices satisfies Stacks 07XS, then `g` is smooth.
 
 ## Implementation notes
 
@@ -54,10 +54,11 @@ only on syntactically equal endpoints, so these casts are discharged either by m
 `Deformation.Artin.mapDeformationObject` reducible for unification, or in term mode, where the
 endpoints are compared at default transparency.
 
-What is *not* here is the reduction of the general 1-morphism of Stacks 07XX to this case. That
-reduction needs the 2-fibre product `𝒳 ×_𝒴 (Sch/V)_fppf` to be represented by an algebraic
-space locally of finite presentation over `S`, which is part (3) of Stacks 07XN; the library
-carries only the implication (2) ⟹ (1) of that lemma.
+The reduction of the general 1-morphism of Stacks 07XX to this case — through an étale atlas
+of the algebraic space representing the 2-fibre product `𝒳 ×_𝒴 (Sch/V)_fppf`, which is locally
+of finite presentation over `S` by Stacks 06CX — is carried out in
+`StacksFrontier.AlgebraicGeometry.Stacks.TwoFibreProductSliceAtlas`, as
+`AlgebraicGeometry.Stack.isRelativelySmooth_of_isSmoothOnPredeformationCategories`.
 
 ## References
 
@@ -701,16 +702,9 @@ schemes over `S`. It is the step the source calls the key ingredient of its proo
 appeal to More on Morphisms, Lemma 02HX; here that appeal is routed through the scheme-level
 criterion `Deformation.Artin.smoothAt_iff_isVersalAt` (Stacks 0CXL), which is 02HX in versality
 form, together with openness of the smooth locus and density of finite type points
-(Stacks 02J4). -/
-@[stacks 07XX "the case of the 1-morphism induced by a morphism g : W ⟶ V of schemes over S. \
-Hypothesis (2) is the hypothesis `hs`; hypothesis (1) is automatic for such a 1-morphism; and \
-hypotheses (3) and (4) are replaced by `W` and `V` being locally of finite type over `S`, which \
-over a locally Noetherian base is the finite-presentation content of limit preservation. The \
-conclusion is smoothness of the morphism of schemes `g` -- what the relative property of \
-Stacks 03YK amounts to for this 1-morphism, though that identification is not formalized here. \
-The bookkeeping that reduces the general statement to this case (the 2-fibre product, its \
-etale atlas, and part (3) of Stacks 07XN, which the library does not have) is NOT carried out, \
-so the general 1-morphism of 07XX is not covered"]
+(Stacks 02J4). The general statement of Stacks 07XX, for an arbitrary 1-morphism, is
+`AlgebraicGeometry.Stack.isRelativelySmooth_of_isSmoothOnPredeformationCategories`, which reduces
+to this lemma through an étale atlas of the 2-fibre product. -/
 public theorem smooth_of_isSmoothOnPredeformationCategories
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     [IsLocallyNoetherian S]

@@ -86,8 +86,8 @@ correspondence between ideals of definition and thickenings. -/
 @[stacks 0AIW "we do NOT get the same correspondence between ideals of definition and \
 thickenings as in Stacks 0AIV: the residue-field stage of Spf A is a thickening while the weak \
 ideal of definition it corresponds to is not an ideal of definition (Stacks 0CB8); the \
-presentation `D` of the formal spectrum over a big fppf site is an input, as it is throughout \
-the statements of Stacks 0CB8 combined here"]
+formal spectrum is taken over a big fppf site through its presentation `D` (site membership and \
+structure morphisms to `S`), as in the statements of Stacks 0CB8 combined here"]
 theorem isThickening_residueField_and_not_isIdealOfDefinition [IsDomain A]
     (hval : IsValuationRing A) (hπm : π ∈ maximalIdeal A)
     (hadic : IsAdic (Ideal.span ({π} : Set A)))
@@ -138,7 +138,7 @@ of `ℂ_[p]` is a thickening whose weak ideal of definition, the maximal ideal, 
 definition. -/
 @[stacks 0AIW "the negative clause on the example of Stacks 0CB8: a thickening of the formal \
 spectrum of the ring of integers of ℂ_[p] whose weak ideal of definition is not an ideal of \
-definition; the presentation `D` of the formal spectrum over a big fppf site is an input"]
+definition; the formal spectrum is taken over a big fppf site through its presentation `D`"]
 theorem isThickening_residueField_not_from_idealOfDefinition
     {B : BigFppfSite.{0}} {S : Scheme.{0}} {hS : B.Contains S}
     (D : QuotientSystem B S hS (PadicComplexInt p)) :

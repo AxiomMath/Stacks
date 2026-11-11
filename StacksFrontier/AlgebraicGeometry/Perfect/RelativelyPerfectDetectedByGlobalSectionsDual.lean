@@ -23,19 +23,17 @@ for a perfect object at a free universe:
 
 `eventually_subsingleton_ext_of_derivedGlobalSections_isPerfect'` below is that theorem with both
 arguments discharged; its hypotheses are those of the source together with the perfect generator
-`G`, whose existence is Stacks 09IS.
+`G`, whose existence is Stacks 09IS (`Stacks.SheafOfModules.exists_isPerfect_generator`). The
+full statement of Stacks 0GET is
+`AlgebraicGeometry.Scheme.Hom.isRelativelyPerfect_of_isPerfect_derivedGlobalSectionsOver_tensor`.
 
 ## Implementation notes
 
-What the library lacks for 09IS is narrower than the whole tag: a *compact* generator at a
-quasi-compact quasi-separated scheme **is** in the library, as
-`Stacks.Duality.QcqsGeneration.isCompactlyGenerated_quasiCoherentDerivedCategory` of
-`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/QcqsCompactGeneration.lean`, by
-induction
-over a finite affine cover. What is missing is only its *perfectness*, which is Stacks 09M1 — one
-property of an object that has already been constructed, and not a construction. That
-generator is at the locally small derived category, while this file is pinned to
-`HasDerivedCategory.standard`.
+A perfect generator of `D_QCoh(𝒪_X)` at a quasi-compact quasi-separated scheme, Stacks 09IS, is
+`Stacks.SheafOfModules.exists_isPerfect_generator` of
+`StacksFrontier/AlgebraicGeometry/Perfect/QcqsPerfectGenerator.lean`, stated at
+`HasDerivedCategory.standard` like this file; the generator is an argument here so that the lemma
+applies to any chosen one.
 
 **A further obstruction on the way to Stacks 0FYH: 0FYG cannot be applied where 0FYD lives.**
 The abstract representability theorem Stacks 0FYG,
@@ -111,14 +109,9 @@ about `G` discharged by [Stacks, Tag 08DQ]: the dual `G^∨` is perfect by the f
 `K⟦i⟧ ⊗^L G^∨` is invertible for every `i` by the third,
 `Stacks.SheafOfModules.isIso_derivedTensorDualToSheafHom_of_isPerfect`.
 
-That `K` is `Spec(A)`-perfect, the conclusion of the source, is not proved; the implementation
-notes of `StacksFrontier/AlgebraicGeometry/Perfect/RelativelyPerfectDetectedByGlobalSections.lean`
-list the three results it rests on. -/
-@[stacks 0GET "ONLY the vanishing the tag's hypothesis produces: `Ext^i_X(G, K)` and \
-`Hom(G⟦-i⟧, K)` vanish for `i ≪ 0`, for a perfect generator `G`, with perfectness of the dual \
-and invertibility of the Stacks 08I1 map proved by Stacks 08DQ. That `K` is `Spec(A)`-perfect \
-is NOT proved here; it needs Stacks 0GES, the implication (2) ⇒ (1) of Stacks 0GEH, and \
-condition (1) of Stacks 0GEQ."]
+That `K` is `Spec(A)`-perfect, the conclusion of Stacks 0GET, is
+`AlgebraicGeometry.Scheme.Hom.isRelativelyPerfect_of_isPerfect_derivedGlobalSectionsOver_tensor`
+of `StacksFrontier/AlgebraicGeometry/Perfect/RelativelyPerfectFromGlobalSections.lean`. -/
 public theorem eventually_subsingleton_ext_of_derivedGlobalSections_isPerfect'
     (f : X ⟶ Spec (CommRingCat.of A)) [IsSeparated f] [QuasiCompact f] [Flat f]
     [LocallyOfFinitePresentation f]

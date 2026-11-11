@@ -13,8 +13,8 @@ assertion of Stacks Tag 0E3U granting condition (RS) for the category of all fla
 morphisms of schemes, the first assertion. That condition is
 `Deformation.Examples.satisfiesRS_schemeMorphismFamilyFunctor`, proved in
 `StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessingerSquares` by gluing the
-sources and the targets over one cocartesian square of spectra; this file records the assertion
-with no hypothesis.
+sources and the targets over one cocartesian square of spectra; this file records the second
+assertion with no hypothesis. Together with that theorem it is the whole of Stacks Tag 0E3U.
 
 ## Main results
 

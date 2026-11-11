@@ -43,9 +43,9 @@ is the statement that produces the instance from a compact generating family.
   for every base and every `ω_Y^•`, with no properness and no dualizing hypothesis: it is read
   off the defining property of `D_QCoh(𝒪_X)`, in which `ω_X^•` lives by construction. It is the
   part of the assertion of [Stacks, Tag 0AWI] that `ω_X` is a coherent sheaf which the
-  construction alone supplies; coherence needs the dualizing half of the example, and is
-  `Stacks.Duality.isCoherent_relativeDualizingModule` in
-  `StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/ModuleCoherence.lean`.
+  construction alone supplies; coherence uses that `ω_X^•` is dualizing, and the whole example
+  is `Stacks.Duality.isDualizingModuleOf_relativeDualizingModule` in
+  `StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingModuleProperCharts.lean`.
 
 ## Implementation notes
 
@@ -61,7 +61,8 @@ instance that specialises everything here to `w = u`, and it is the one under wh
 The base is a general morphism of schemes, where [Stacks, Tag 0AWI] takes `Y = Spec(A)` for a
 Noetherian local ring `A`: nothing in the *construction* of `ω_X^•` or `ω_X` uses the base, and
 the properties the example asserts — that `ω_X^•` is dualizing, that `ω_X` is coherent, and the
-location of the first nonvanishing cohomology — are separate statements which are not proved here.
+location of the first nonvanishing cohomology — are separate statements, proved in
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingModuleProperCharts.lean`.
 For a proper `f : X ⟶ Spec(A)` over a Noetherian ring the three instances that the definitions
 below need beyond the two explicit arguments are `QuasiCompact.compactSpace_of_compactSpace f`,
 `quasiSeparatedSpace_of_quasiSeparated f` and `LocallyOfFiniteType.isLocallyNoetherian f`.
@@ -70,16 +71,15 @@ below need beyond the two explicit arguments are `QuasiCompact.compactSpace_of_c
 agrees with `dim(X)` whenever that is finite, and is `0` on the empty scheme, all of whose
 cohomology sheaves vanish.
 
-Tag 0AWI asserts four things beyond the definition of `ω_X` — that `ω_X^• = f^! ω_S^•` is a
-dualizing complex, that `ω_X` is coherent, and that `ω_X` is the first nonvanishing cohomology
-sheaf from both sides. None of those four is proved here, so the tag attribute on
-`Stacks.Duality.relativeDualizingModule` carries the clause label "relative dualizing module:
-definition only": it claims the definitional clause of the example and nothing else. The
-scheme-level notion of a dualizing complex is
-`Stacks.Duality.IsDualizingComplex` of
+Tag 0AWI asserts, beyond the definition of `ω_X`, that `ω_X^• = f^! ω_S^•` is a dualizing
+complex, that `ω_X` is coherent, and that `ω_X` is the first nonvanishing cohomology sheaf of
+`ω_X^•`, so that it is a dualizing module. These are proved, under exactly the hypotheses of the
+example, as `Stacks.Duality.isDualizingModuleOf_relativeDualizingModule` in
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingModuleProperCharts.lean`, which
+carries the tag attribute; the definition here carries none. The scheme-level notion of a
+dualizing complex is `Stacks.Duality.IsDualizingComplex` of
 `StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingComplexScheme.lean`
-([Stacks, Tag 0A87]), so the remaining three clauses can be *stated* in this repository; what is
-missing is their proofs, which in the source rest on [Stacks, Tag 0AU3].
+([Stacks, Tag 0A87]).
 
 No attribute is attached for Tag 0A9E on `Stacks.Duality.twistedInverseImage`: the adjointness
 that tag asserts is a hypothesis here, not a theorem, so no clause of it is discharged.
@@ -134,7 +134,6 @@ def relativeDualizingComplex (ωY : quasiCoherentDerivedCategory Y) :
 
 /-- **The relative dualizing module `ω_X = H^{-dim(X)}(ω_X^•)`** of [Stacks, Tag 0AWI]: the
 cohomology sheaf of the relative dualizing complex in degree minus the dimension of `X`. -/
-@[stacks 0AWI "relative dualizing module: definition only"]
 def relativeDualizingModule (ωY : quasiCoherentDerivedCategory Y) : X.Modules :=
   (DerivedCategory.homologyFunctor X.Modules
     (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ))).obj

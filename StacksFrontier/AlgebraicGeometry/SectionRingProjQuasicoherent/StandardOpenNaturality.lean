@@ -85,8 +85,9 @@ twisted-section development states its localizations over
 
 ## What is not done
 
-**This does not produce Stacks Tag 0B5I's morphism `M̃ ⟶ f_* ℱ`**, and therefore not Tag 01QJ's
-family `c` either. Of the two inputs of
+**This does not produce Stacks Tag 0B5I's morphism `M̃ ⟶ f_* ℱ`.** (A family `M̃ ⟶ f_* ℱ` for Tag
+01QJ is constructed independently, from the division map of Stacks Tag 01PW, as
+`Stacks.SectionRingProjQuasicoherent.tildeToPushforward`.) Of the two inputs of
 `Stacks.AlgebraicGeometry.ProjTwistComparison.StandardOpenHomData`, one is now available and one
 is not; neither is naturality.
 
@@ -305,8 +306,9 @@ by the local comparisons at `D₊(a)`, the morphism `(Γ_*(X, L, φ))~` on the s
 associated sheaves, and `φ` on the sections over `X_a`, commutes.
 
 This is the local half of the functoriality Stacks Tag 0B5I asserts, and hence of clause (b) of
-Stacks Tag 01QJ. The glued morphism `M̃ ⟶ f_* ℱ` it is the local datum of is not available; see
-`## What is not done` in the module documentation. -/
+Stacks Tag 01QJ. A glued morphism `M̃ ⟶ f_* ℱ` is
+`Stacks.SectionRingProjQuasicoherent.tildeToPushforward`, built from the division map of Stacks Tag
+01PW rather than from the local datum here. -/
 theorem standardOpenComparison_naturality {F G : X.Modules} (φ : F ⟶ G) {d : ℕ}
     (a : powSections L d) (hd : 0 < d)
     (z : ((tildeFunctor L).obj F).val.obj

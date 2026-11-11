@@ -83,12 +83,11 @@ from exhibiting an algebraic space affine over `X` which is representable and wh
 algebra is `𝒪'`.  Exhibiting it is the source's computation `ν^{-1}(U) = \Spec` of the integral
 closure of `𝒪_X(U)` in `𝒪_Y(f^{-1}U)`.
 
-That computation is **not** Descent, Proposition 03DX(2).  Proposition 03DX(2) for the small
-étale site of an algebraic space is proved in
-this library, unconditionally, by
+That computation is **not** the chart criterion for quasi-coherence on the small étale site of
+an algebraic space, which is proved in this library, unconditionally, by
 `AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite` and
-`AlgebraicGeometry.Space.isQuasicoherentOnSite_iff_isCartesianOnAffineCharts`, both of which
-carry `@[stacks 03DX]`; what it says is that a quasi-coherent module is cartesian between two
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_iff_isCartesianOnAffineCharts`; what it says is
+that a quasi-coherent module is cartesian between two
 affine charts, which is a statement about the restriction maps of one sheaf and not a
 computation of the sections of another.  Four separate inputs stand between it and `hcmp`, and
 none of them is available:

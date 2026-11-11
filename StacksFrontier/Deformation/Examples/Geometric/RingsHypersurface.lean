@@ -28,9 +28,9 @@ those derivations. So all this file does is transport the criterion along the id
 
 ## Implementation notes
 
-The statement is shaped like the finite-dimensionality half of Tag 0DVZ, namely
-`Deformation.Examples.ProjectiveGradedAlgebra`'s
-`gradedAlgebra_infinitesimalAutomorphisms_finiteDimensional`: the automorphism group is a
+The statement is shaped like `Deformation.Examples.ProjectiveGradedAlgebra`'s
+`gradedAlgebra_infinitesimalAutomorphisms_finiteDimensional` (the weak form beside Tag 0DVZ's
+`exists_module_finiteDimensional_infinitesimalAutomorphismGroup`): the automorphism group is a
 multiplicative group, so its vector-space structure is produced inside the statement through
 `Additive`, which is why `a + b = a * b` holds by `rfl` and has to be recorded for the structure
 to pin down the group it came from. The predeformation-category property is produced from

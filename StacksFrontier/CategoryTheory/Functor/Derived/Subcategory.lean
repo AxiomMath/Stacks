@@ -28,6 +28,11 @@ of `S^{-1}𝒟` and is exact there.
 * `CategoryTheory.Functor.isTriangulated_and_exists_rightDerivedFunctor` (Tag 05SE): the eight
   assertions of the tag, as one conjunction over the subcategory `ℰ` and one right derived
   functor `RF` on it.
+* `DerivedFunctorSubcategory.isSaturated_inverseImage_ι`,
+  `DerivedFunctorSubcategory.isCompatibleWithTriangulation_inverseImage_ι`,
+  `DerivedFunctorSubcategory.full_and_faithful_of_lifting_inverseImage_ι`: parts (5) and (6) for
+  any subcategory closed along `W`, shared with the statement for `LF`
+  (`CategoryTheory.Functor.isTriangulated_and_exists_leftDerivedFunctor`).
 
 ## Implementation notes
 
@@ -101,14 +106,13 @@ subcategory" is `ObjectProperty.IsSaturated` (Tag 05RB): a direct summand of an 
 again in `ℰ`. This conjunct is Tag 05SD(2) transported to `ℰ`.
 
 *The dual statement for `LF`.* The source closes with "a similar result holds for `LF`", the
-same eight assertions for the pro-object notion `IsLeftDerivedValueAt` of Tag 05S9. It is this
-statement applied to `Cᵒᵖ`, `Hᵒᵖ`, `F.op` and `W.op` — `W.op` being again a saturated
-multiplicative system compatible with the triangulated structure of the opposite
-pre-triangulated category — through the duality between the pro-object of Tag 05S9 at `X` and
-the ind-object of Tag 05S9 at `Opposite.op X`, which rests on the equivalence
-`(W.Over ⊤ X)ᵒᵖ ≌ W.op.Under ⊤ (Opposite.op X)`; that equivalence is a separate lemma, as
-recorded already in Tag 05S9. Nothing here is specialized to the right derived functor beyond
-that dualization, so the statement is not weakened by being written in the `RF` direction only.
+same eight assertions for the pro-object notion `IsLeftDerivedValueAt` of Tag 05S9. That
+statement is `CategoryTheory.Functor.isTriangulated_and_exists_leftDerivedFunctor`, also
+registered for Tag 05SE, in `StacksFrontier.CategoryTheory.Functor.Derived.LeftDerivedSubcategory`;
+the two assertions about a subcategory closed along `W` that both statements use (parts (5) and
+(6)) are the public lemmas `DerivedFunctorSubcategory.isSaturated_inverseImage_ι`,
+`DerivedFunctorSubcategory.isCompatibleWithTriangulation_inverseImage_ι` and
+`DerivedFunctorSubcategory.full_and_faithful_of_lifting_inverseImage_ι` of this file.
 
 ## Proof outline
 
@@ -509,6 +513,68 @@ private lemma isInvertedBy :
 
 end Derived
 
+/-! ### The multiplicative system of a subcategory closed along `W` -/
+
+section Closed
+
+variable {C : Type u₁} [Category.{v₁} C] (W : MorphismProperty C) (E : ObjectProperty C)
+
+/-- Let `W` be a saturated multiplicative system in `C` (Stacks 05Q8) and `E` a full subcategory
+such that an element of `W` with source or target in `E` has both in `E`. Then
+`S_E = Arrows(E) ∩ W` is a saturated multiplicative system in `E`: the object produced by the Ore
+condition MS2, resp. by the cancellation MS3, in `C` is joined to an object of `E` by a morphism
+of `W`, so it lies in `E`. This is the content of Stacks 05SE(5), first half, for `RF` and for
+`LF` alike. -/
+public lemma isSaturated_inverseImage_ι (hW : W.IsSaturated)
+    (hEW : ∀ {X Y : C} (s : X ⟶ Y), W s → (E X ↔ E Y)) :
+    (W.inverseImage E.ι).IsSaturated := by
+  have hmul : (W.inverseImage E.ι).IsMultiplicative :=
+    { id_mem := fun X => by simpa using hW.isMultiplicative.id_mem X.obj
+      comp_mem := fun f g hf hg => by
+        simpa using hW.isMultiplicative.comp_mem (E.ι.map f) (E.ι.map g) hf hg }
+  have hleft : (W.inverseImage E.ι).HasLeftCalculusOfFractions := by
+    let := hW.hasLeftCalculusOfFractions
+    constructor
+    · intro X Y φ
+      obtain ⟨ψ, hψ⟩ := (MorphismProperty.RightFraction.mk (W := W) φ.s.hom
+        (by simpa using φ.hs) φ.f.hom).exists_leftFraction
+      refine ⟨MorphismProperty.LeftFraction.mk (W := W.inverseImage E.ι)
+        (Y' := ⟨ψ.Y', (hEW _ ψ.hs).1 Y.property⟩) ⟨ψ.f⟩ ⟨ψ.s⟩
+        (by simpa using ψ.hs), ?_⟩
+      apply E.ι.map_injective
+      simpa using hψ
+    · intro X' X Y f₁ f₂ s hs h
+      obtain ⟨Y', t, ht, hft⟩ := MorphismProperty.HasLeftCalculusOfFractions.ext
+        (W := W) f₁.hom f₂.hom s.hom (by simpa using hs) (by simpa using E.ι.congr_map h)
+      refine ⟨⟨Y', (hEW _ ht).1 Y.property⟩, ⟨t⟩, by simpa using ht, ?_⟩
+      apply E.ι.map_injective
+      simpa using hft
+  have hright : (W.inverseImage E.ι).HasRightCalculusOfFractions := by
+    let := hW.hasRightCalculusOfFractions
+    constructor
+    · intro X Y φ
+      obtain ⟨ψ, hψ⟩ := (MorphismProperty.LeftFraction.mk (W := W) φ.f.hom φ.s.hom
+        (by simpa using φ.hs)).exists_rightFraction
+      refine ⟨MorphismProperty.RightFraction.mk (W := W.inverseImage E.ι)
+        (X' := ⟨ψ.X', (hEW _ ψ.hs).2 X.property⟩) ⟨ψ.s⟩
+        (by simpa using ψ.hs) ⟨ψ.f⟩, ?_⟩
+      apply E.ι.map_injective
+      simpa using hψ
+    · intro X Y Y' f₁ f₂ s hs h
+      obtain ⟨X', t, ht, hft⟩ := MorphismProperty.HasRightCalculusOfFractions.ext
+        (W := W) f₁.hom f₂.hom s.hom (by simpa using hs) (by simpa using E.ι.congr_map h)
+      refine ⟨⟨X', (hEW _ ht).2 X.property⟩, ⟨t⟩, by simpa using ht, ?_⟩
+      apply E.ι.map_injective
+      simpa using hft
+  exact
+    { hasLeftCalculusOfFractions := hleft
+      hasRightCalculusOfFractions := hright
+      mem_of_comp_mem_comp := fun f g h hfg hgh =>
+        hW.mem_of_comp_mem_comp (E.ι.map f) (E.ι.map g) (E.ι.map h)
+          (by simpa using hfg) (by simpa using hgh) }
+
+end Closed
+
 /-! ### The multiplicative system of `ℰ` -/
 
 section System
@@ -533,48 +599,18 @@ by the Ore condition MS2, resp. by the cancellation MS3, in `𝒟` receives a mo
 an object of `ℰ`, so it lies in `ℰ` by part (3), i.e. by `prop_iff_of_mem`. -/
 private lemma inverseImage_hasLeftCalculusOfFractions (hW : W.IsSaturated)
     (hE : ∀ X, E X ↔ ∃ c, F.IsRightDerivedValueAt W X c) :
-    (W.inverseImage E.ι).HasLeftCalculusOfFractions := by
-  let := hW.hasLeftCalculusOfFractions
-  let := inverseImage_isMultiplicative W E hW
-  constructor
-  · intro X Y φ
-    obtain ⟨ψ, hψ⟩ := (MorphismProperty.RightFraction.mk (W := W) φ.s.hom
-      (by simpa using φ.hs) φ.f.hom).exists_leftFraction
-    refine ⟨MorphismProperty.LeftFraction.mk (W := W.inverseImage E.ι)
-      (Y' := ⟨ψ.Y', (prop_iff_of_mem F W E hW hE ψ.hs).1 Y.property⟩) ⟨ψ.f⟩ ⟨ψ.s⟩
-      (by simpa using ψ.hs), ?_⟩
-    apply E.ι.map_injective
-    simpa using hψ
-  · intro X' X Y f₁ f₂ s hs h
-    obtain ⟨Y', t, ht, hft⟩ := MorphismProperty.HasLeftCalculusOfFractions.ext
-      (W := W) f₁.hom f₂.hom s.hom (by simpa using hs) (by simpa using E.ι.congr_map h)
-    refine ⟨⟨Y', (prop_iff_of_mem F W E hW hE ht).1 Y.property⟩, ⟨t⟩, by simpa using ht, ?_⟩
-    apply E.ι.map_injective
-    simpa using hft
+    (W.inverseImage E.ι).HasLeftCalculusOfFractions :=
+  (isSaturated_inverseImage_ι W E hW fun _ hs =>
+    prop_iff_of_mem F W E hW hE hs).hasLeftCalculusOfFractions
 
 /-- **Stacks 05SE(5)**, first half: `S_ℰ` has a calculus of right fractions. Dually to
 `inverseImage_hasLeftCalculusOfFractions`, the object produced maps into an object
 of `ℰ` by a morphism of `S`, so part (3) puts it in `ℰ`. -/
 private lemma inverseImage_hasRightCalculusOfFractions (hW : W.IsSaturated)
     (hE : ∀ X, E X ↔ ∃ c, F.IsRightDerivedValueAt W X c) :
-    (W.inverseImage E.ι).HasRightCalculusOfFractions := by
-  let := hW.hasRightCalculusOfFractions
-  let := inverseImage_isMultiplicative W E hW
-  constructor
-  · intro X Y φ
-    obtain ⟨ψ, hψ⟩ := (MorphismProperty.LeftFraction.mk (W := W) φ.f.hom φ.s.hom
-      (by simpa using φ.hs)).exists_rightFraction
-    refine ⟨MorphismProperty.RightFraction.mk (W := W.inverseImage E.ι)
-      (X' := ⟨ψ.X', (prop_iff_of_mem F W E hW hE ψ.hs).2 X.property⟩) ⟨ψ.s⟩
-      (by simpa using ψ.hs) ⟨ψ.f⟩, ?_⟩
-    apply E.ι.map_injective
-    simpa using hψ
-  · intro X Y Y' f₁ f₂ s hs h
-    obtain ⟨X', t, ht, hft⟩ := MorphismProperty.HasRightCalculusOfFractions.ext
-      (W := W) f₁.hom f₂.hom s.hom (by simpa using hs) (by simpa using E.ι.congr_map h)
-    refine ⟨⟨X', (prop_iff_of_mem F W E hW hE ht).2 X.property⟩, ⟨t⟩, by simpa using ht, ?_⟩
-    apply E.ι.map_injective
-    simpa using hft
+    (W.inverseImage E.ι).HasRightCalculusOfFractions :=
+  (isSaturated_inverseImage_ι W E hW fun _ hs =>
+    prop_iff_of_mem F W E hW hE hs).hasRightCalculusOfFractions
 
 /-- **Stacks 05SE(5)**: `S_ℰ` is a saturated multiplicative system in `ℰ`. Saturation (MS4) is
 `W`'s, the two calculi of fractions are
@@ -582,12 +618,8 @@ private lemma inverseImage_hasRightCalculusOfFractions (hW : W.IsSaturated)
 `inverseImage_hasRightCalculusOfFractions`. -/
 private lemma inverseImage_isSaturated (hW : W.IsSaturated)
     (hE : ∀ X, E X ↔ ∃ c, F.IsRightDerivedValueAt W X c) :
-    (W.inverseImage E.ι).IsSaturated where
-  hasLeftCalculusOfFractions := inverseImage_hasLeftCalculusOfFractions F W E hW hE
-  hasRightCalculusOfFractions := inverseImage_hasRightCalculusOfFractions F W E hW hE
-  mem_of_comp_mem_comp f g h hfg hgh :=
-    hW.mem_of_comp_mem_comp (E.ι.map f) (E.ι.map g) (E.ι.map h)
-      (by simpa using hfg) (by simpa using hgh)
+    (W.inverseImage E.ι).IsSaturated :=
+  isSaturated_inverseImage_ι W E hW fun _ hs => prop_iff_of_mem F W E hW hE hs
 
 end System
 
@@ -614,12 +646,12 @@ private lemma inverseImage_isCompatibleWithShift (hW : W.IsSaturated) :
     change W (E.ι.map ((shiftFunctor E.FullSubcategory a).map f)) ↔ W (E.ι.map f)
     exact h.trans (MorphismProperty.IsCompatibleWithShift.iff W (E.ι.map f) a)
 
-/-- **Stacks 05SE(5)**, second half: `S_ℰ` is compatible with the triangulated structure of `ℰ`.
-A triangle of `ℰ` is distinguished when its image under `E.ι` is, so the third morphism is the
-one `W`'s own compatibility produces in `𝒟`; it is a morphism of `ℰ` because `E.ι` is full, and
-it lies in `S_ℰ` because it lies in `W`. Compatibility with the shift is
-`inverseImage_isCompatibleWithShift`. -/
-private lemma inverseImage_isCompatibleWithTriangulation (hW : W.IsSaturated) :
+/-- Let `W` be a saturated multiplicative system in `C` compatible with the triangulation and
+`E` a triangulated subcategory. Then `S_E = Arrows(E) ∩ W` is compatible with the triangulated
+structure of `E`: the third morphism produced by `W`'s compatibility in `C` is a morphism of `E`
+because `E.ι` is full, and lies in `S_E` because it lies in `W`. This is Stacks 05SE(5), second
+half, for `RF` and for `LF` alike. -/
+public lemma isCompatibleWithTriangulation_inverseImage_ι (hW : W.IsSaturated) :
     (W.inverseImage E.ι).IsCompatibleWithTriangulation := by
   let := inverseImage_isCompatibleWithShift W E hW
   constructor
@@ -634,6 +666,15 @@ private lemma inverseImage_isCompatibleWithTriangulation (hW : W.IsSaturated) :
     Category.assoc, Category.assoc, E.ι.commShiftIso_hom_naturality, ← Category.assoc]
   exact hc₃
 
+/-- **Stacks 05SE(5)**, second half: `S_ℰ` is compatible with the triangulated structure of `ℰ`.
+A triangle of `ℰ` is distinguished when its image under `E.ι` is, so the third morphism is the
+one `W`'s own compatibility produces in `𝒟`; it is a morphism of `ℰ` because `E.ι` is full, and
+it lies in `S_ℰ` because it lies in `W`. Compatibility with the shift is
+`inverseImage_isCompatibleWithShift`. -/
+private lemma inverseImage_isCompatibleWithTriangulation (hW : W.IsSaturated) :
+    (W.inverseImage E.ι).IsCompatibleWithTriangulation :=
+  isCompatibleWithTriangulation_inverseImage_ι W E hW
+
 end Compatible
 
 /-! ### The localization of `ℰ` sits fully faithfully in the localization of `𝒟` -/
@@ -643,12 +684,13 @@ section FullyFaithful
 variable {C : Type u₁} [Category.{v₁} C] (W : MorphismProperty C)
   [W.HasLeftCalculusOfFractions] (E : ObjectProperty C)
 
-/-- **Stacks 05SE(6)**, fully faithfulness: `S_ℰ^{-1}ℰ ⟶ S^{-1}𝒟` is fully faithful. Both
-categories have their morphisms computed by left fractions, and part (3) — the hypothesis `hEW`,
-that a morphism of `W` with source in `ℰ` has its target in `ℰ` — says that every left fraction
-of `𝒟` between objects of `ℰ` is a left fraction of `ℰ`, and that two morphisms of `ℰ`
-identified in `S^{-1}𝒟` are already identified in `S_ℰ^{-1}ℰ`. -/
-private lemma full_and_faithful_of_lifting
+/-- Let `W` have a left calculus of fractions and let `E` be a full subcategory such that an
+element of `W` with source or target in `E` has both in `E`, and such that `S_E = Arrows(E) ∩ W`
+has a left calculus of fractions. Then any lift `S_E⁻¹E ⥤ W⁻¹C` of `E.ι` through localization
+functors is fully faithful: every left fraction of `C` between objects of `E` is one of `E`, and
+two morphisms of `E` identified in `W⁻¹C` are already identified in `S_E⁻¹E`. This is the fully
+faithfulness of Stacks 05SE(6), for `RF` and for `LF` alike. -/
+public lemma full_and_faithful_of_lifting_inverseImage_ι
     (hSE : (W.inverseImage E.ι).HasLeftCalculusOfFractions)
     (hEW : ∀ {X Y : C} (s : X ⟶ Y), W s → (E X ↔ E Y))
     {D : Type u₃} [Category.{v₃} D] (L : C ⥤ D) [L.IsLocalization W]
@@ -690,6 +732,21 @@ private lemma full_and_faithful_of_lifting
     refine (MorphismProperty.map_eq_iff_postcomp LE (W.inverseImage E.ι) f g).2
       ⟨⟨Z, (hEW s hs).1 X₂.property⟩, E.homMk s, hs, E.ι.map_injective ?_⟩
     simpa using fac
+
+/-- **Stacks 05SE(6)**, fully faithfulness: `S_ℰ^{-1}ℰ ⟶ S^{-1}𝒟` is fully faithful. Both
+categories have their morphisms computed by left fractions, and part (3) — the hypothesis `hEW`,
+that a morphism of `W` with source in `ℰ` has its target in `ℰ` — says that every left fraction
+of `𝒟` between objects of `ℰ` is a left fraction of `ℰ`, and that two morphisms of `ℰ`
+identified in `S^{-1}𝒟` are already identified in `S_ℰ^{-1}ℰ`. -/
+private lemma full_and_faithful_of_lifting
+    (hSE : (W.inverseImage E.ι).HasLeftCalculusOfFractions)
+    (hEW : ∀ {X Y : C} (s : X ⟶ Y), W s → (E X ↔ E Y))
+    {D : Type u₃} [Category.{v₃} D] (L : C ⥤ D) [L.IsLocalization W]
+    (EL : Type u₄) [Category.{v₄} EL] (LE : E.FullSubcategory ⥤ EL)
+    [LE.IsLocalization (W.inverseImage E.ι)] (Φ : EL ⥤ D)
+    [Localization.Lifting LE (W.inverseImage E.ι) (E.ι ⋙ L) Φ] :
+    Φ.Full ∧ Φ.Faithful :=
+  full_and_faithful_of_lifting_inverseImage_ι W E hSE hEW L EL LE Φ
 
 end FullyFaithful
 
@@ -1177,9 +1234,11 @@ morphisms of `E` lying in `W`:
 The functor `RF` is pinned by its values: `RF.obj X` is the vertex of a value cocone `ι X` of
 the ind-object at `X` (Stacks 05S9), and `RF.map f` is the unique map compatible with the
 coprojections along every commutative square with sides in `W` (Stacks 05SA). The functors of
-(6) and (7) are pinned as lifts through a localization functor `LE` of `E` at `S_E`. A similar
-result holds for `LF`, by this statement in the opposite categories. -/
-@[stacks 05SE]
+(6) and (7) are pinned as lifts through a localization functor `LE` of `E` at `S_E`. The
+similar result for `LF` with which the source closes is
+`isTriangulated_and_exists_leftDerivedFunctor`. -/
+@[stacks 05SE "RF: items (1)-(8) for the subcategory on which the right derived functor is \
+  defined; the LF statement is isTriangulated_and_exists_leftDerivedFunctor"]
 public theorem isTriangulated_and_exists_rightDerivedFunctor
     (F : C ⥤ H) [F.CommShift ℤ] [F.IsTriangulated]
     (W : MorphismProperty C) (hW : W.IsSaturated) [W.IsCompatibleWithTriangulation]

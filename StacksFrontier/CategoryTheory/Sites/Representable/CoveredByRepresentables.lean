@@ -35,15 +35,19 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
 
 /-!
-# Every sheaf of sets is covered by sheafified representables
+# Every sheaf of sets is a coequalizer of coproducts of sheafified representables
 
-Stacks tag 00WS, narrowed to the substantive first step of the Stacks proof. Call `E ⊆ Ob(C)`
-a *covering subset* of a site `(C, J)` if every object admits a `J`-covering sieve all of
-whose arrows have domain in `E`. For a sheaf of sets `F` the canonical map
-`π : (∐_{(U, s) : E × F(U)} h_U)^♯ ⟶ F` is then locally surjective, hence an epimorphism of
-sheaves. The full Stacks statement — that `F` is a coequalizer `F₁ ⇉ F₀ → F` of two
-coproducts of sheafified representables `h_U^♯` with `U ∈ E` — follows by applying tag 086K
-to `π` and to the analogous epimorphism onto the kernel pair `F₀ ×_F F₀`.
+Stacks tag 00WS. Call `E ⊆ Ob(C)` a *covering subset* of a site `(C, J)` if every object admits
+a `J`-covering sieve all of whose arrows have domain in `E`. For a sheaf of sets `F` the
+canonical map `π : (∐_{(U, s) : E × F(U)} h_U)^♯ ⟶ F` is then locally surjective, hence an
+epimorphism of sheaves (`isLocallySurjective_π`, the first step of the Stacks proof).
+
+Applying this to `F` and to the kernel pair `F₀ ×_F F₀` of `F₀ ⟶ F`, and using that an
+epimorphism of sheaves of sets is the coequalizer of its kernel pair
+(`CategoryTheory.Sheaf.isColimitCoforkOfEpiOfEpi`), gives the full statement
+`exists_isColimit_cofork_sigma_sheafifiedYoneda` (in
+`StacksFrontier.CategoryTheory.Sites.Representable.CoequalizerPresentation`): `F` is a coequalizer `F₁ ⇉ F₀ → F` where
+`F₀` and `F₁` are coproducts, in the category of sheaves, of sheaves `h_U^♯` with `U ∈ E`.
 -/
 
 @[expose] public section
@@ -158,21 +162,15 @@ noncomputable def π (E : Set C) (F00WS : Sheaf J (Type max v u)) :
     F00WS₀ J E F00WS ⟶ F00WS :=
   ((sheafificationAdjunction J (Type max v u)).homEquiv _ F00WS).symm (πPre J E F00WS)
 
-/-- **Stacks 00WS** (narrowed to the substantive first step of the Stacks
-proof). Let `J` be a Grothendieck topology on `C`, let `E ⊆ Ob(C)` be a
-covering subset of the site (Definition `IsCoveringSubset`), and let `F00WS` be a
-sheaf of sets on `C`.
+/-- The first step of the proof of Stacks 00WS (the full statement is
+`exists_isColimit_cofork_sigma_sheafifiedYoneda`). Let `J` be a Grothendieck topology on `C`,
+let `E ⊆ Ob(C)` be a covering subset of the site (Definition `IsCoveringSubset`), and let
+`F00WS` be a sheaf of sets on `C`.
 
 Then the canonical map
 `π : F00WS₀ := a(∐_{(U, s) : E × F00WS(U)} y(U)) ⟶ F00WS`
-into `F00WS` is an *epimorphism* in `Sheaf J (Type max v u)`, where `a` denotes
-sheafification. Equivalently, `π` is locally surjective.
-
-The full Stacks 00WS statement — that `F00WS` is a coequalizer
-`F00WS₁ ⇉ F00WS₀ → F00WS` of two such coproducts — follows by combining this lemma with
-Stacks 086K applied to `π` (existence of `F00WS₁`) and to the analogous epimorphism
-onto the kernel pair `F00WS₀ ×_F F00WS₀` (faithfulness of the coequalizer cofork). -/
-@[stacks 00WS]
+into `F00WS` is locally surjective, equivalently an epimorphism in
+`Sheaf J (Type max v u)`, where `a` denotes sheafification. -/
 theorem isLocallySurjective_π {E : Set C} (hE : IsCoveringSubset J E)
     (F00WS : Sheaf J (Type max v u)) :
     Sheaf.IsLocallySurjective (π J E F00WS) := by
@@ -211,4 +209,3 @@ theorem isLocallySurjective_π {E : Set C} (hE : IsCoveringSubset J E)
   exact (Sheaf.isLocallySurjective_iff_epi _).mpr hCompEpi
 
 end Stacks.Sites.CoveredByRepresentables
-

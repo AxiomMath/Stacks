@@ -48,8 +48,8 @@ obstruction: after this, the carrier universe of `Crystalline.envelopeStructureD
 the universe the reduction asks for.  A `Crystalline.CosimplicialCompletedPair` for a general
 crystal now exists, as `...SmallSite.crystalCosimplicialPair` of
 `SmallSite/CrystalCosimplicialPair.lean`, and [Stacks, Tag 07LG] itself is proved from it, as
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`, without going through this reduction.
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`, without going through this reduction.
 
 ## Main result
 
@@ -62,7 +62,7 @@ crystal now exists, as `...SmallSite.crystalCosimplicialPair` of
   for a general crystal, being constant in `ℱ`.
 
 No tag attribute is placed: this is a reduction with named hypotheses, exactly as the original
-is; the tag is on `...SmallSite.crystalPairDeRhamComplex_computesCohomology`.
+is; the tag is on `...SmallSite.crystalPairDeRhamDerivedPlusIso`.
 
 ## References
 

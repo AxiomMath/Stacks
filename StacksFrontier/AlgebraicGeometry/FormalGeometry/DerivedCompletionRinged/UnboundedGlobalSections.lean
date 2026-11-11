@@ -67,7 +67,9 @@ below are therefore formed with one and the same `RΓ(𝒞, -) : D(𝒪) ⥤ D(A
 The comparison of this functor with the bounded-below
 `AlgebraicGeometry.RingedSite.derivedGlobalSectionsOver` — both are right derived functors of
 `Γ(𝒞, -)`, so they agree on `D⁺(𝒪)` — is not proved here; the statements below do not use it,
-being stated throughout with the unbounded functor.
+being stated throughout with the unbounded functor. It is proved, on bounded below complexes, as
+`AlgebraicGeometry.RingedSite.nonempty_iso_derivedGlobalSectionsOverUnbounded_of_plus` of
+`GlobalSectionsCompletionWhole.lean`.
 
 *The regime of the identity.* The derived completion functor on `D(𝒪)` is [Stacks, Tag 099F],
 which this library has only for a sheaf of ideals whose local sections are nilpotent
@@ -91,7 +93,11 @@ sections over an object. The general case is the one the source proves in a line
 has the comparison map and a criterion for its invertibility
 (`PushforwardCommutesCompletion.lean`) but not the invertibility, and there is no morphism of
 ringed sites or ringed topoi from a general ringed site to the ringed point, so that route is not
-available — see the "What remains for Tag 0BLX" section of `GlobalSectionsCompletion.lean`.
+available — see the "How Tag 0BLX is completed" section of `GlobalSectionsCompletion.lean`. The
+general case is proved by another route, through the Koszul formula
+(`nonempty_iso_derivedCompletion_derivedGlobalSections` of
+`GlobalSectionsCompletionKoszulIdentity.lean`), and the whole tag is
+`exists_iso_and_pages_derivedCompletion_globalSections` of `GlobalSectionsCompletionWhole.lean`.
 
 *The route that is open, and the one thing it still needs.* [Stacks, Tag 0A0E] is now proved,
 `AlgebraicGeometry.RingedSite.isDerivedLimit_koszulTower_completionFunctor` of
@@ -374,7 +380,8 @@ theorem isDerivedComplete_derivedGlobalSectionsOverUnbounded
   exact smul_id_derivedGlobalSectionsOverUnbounded_eq_zero A X ρ (a ^ n)
     (by rw [map_pow, hn]) K
 
-/-- **[Stacks, Tag 0BLX], the identity `RΓ(𝒞, ℱ)^∧ = RΓ(𝒞, ℱ^∧)`.** Let `A` be a ring, `I ⊂ A` a
+/-- **The identity `RΓ(𝒞, ℱ)^∧ = RΓ(𝒞, ℱ^∧)` of [Stacks, Tag 0BLX], in the nilpotent regime.**
+Let `A` be a ring, `I ⊂ A` a
 finitely generated ideal, `(𝒞, 𝒪)` a ringed site with `𝒪` a sheaf of `A`-algebras, `𝓘 = I𝒪` the
 ideal sheaf `I` generates and `ℱ` a sheaf of `𝒪`-modules. Then the derived completion of
 `RΓ(𝒞, ℱ)` along `I` is `RΓ(𝒞, ℱ^∧)`, the derived completion of `ℱ` being taken along `I𝒪`. The
@@ -394,13 +401,15 @@ The two halves are `isIso_map_derivedCompletionUnit_derivedGlobalSections`, whic
 `RΓ(𝒞, ℱ^∧)` with `RΓ(𝒞, ℱ)`, and `isDerivedComplete_derivedGlobalSectionsOverUnbounded`, which
 identifies `RΓ(𝒞, ℱ)^∧` with `RΓ(𝒞, ℱ)` — the same assembly as [Stacks, Tag 0CQI] in
 `LocalCalculation.lean`. The source's one-line proof of the general case applies
-[Stacks, Tag 0A0G] to the morphism of ringed topoi `(𝒞, 𝒪) ⟶ (pt, A)`; neither the invertibility
-of Tag 0A0G's comparison map nor that morphism is available here, and the module documentation
-says what is. -/
-@[stacks 0BLX "the identity `RΓ(𝒞,ℱ)^∧ = RΓ(𝒞,ℱ^∧)`, as an isomorphism in `D(A)`, for an ideal
-  sheaf `I𝒪` with nilpotent local sections and an `I` with `ρ(I)` nilpotent — the regime in which
-  [Stacks, Tag 099F] gives `(-)^∧` on `D(𝒪)` at all; the general case needs [Stacks, Tag 0A0G] at
-  the morphism to the punctual site, which is not available here"]
+[Stacks, Tag 0A0G] to the morphism of ringed topoi `(𝒞, 𝒪) ⟶ (pt, A)`; that route is not
+available here, and the module documentation says what is. The general case is proved through the
+Koszul formula, as `nonempty_iso_derivedCompletion_derivedGlobalSections` of
+`GlobalSectionsCompletionKoszulIdentity.lean`.
+
+This is one part of the tag and carries no `@[stacks 0BLX]` attribute: the whole lemma, at the
+source's own hypotheses, is
+`AlgebraicGeometry.RingedSite.exists_iso_and_pages_derivedCompletion_globalSections` of
+`GlobalSectionsCompletionWhole.lean`, which is registered. -/
 theorem exists_iso_derivedCompletion_derivedGlobalSections
     (hI : I.FG) (h𝓘 : IsIdealSheafGeneratedBy A I X ρ 𝓘)
     (hρnil : ∀ a ∈ I, IsNilpotent (ρ a))

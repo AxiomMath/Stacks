@@ -5,22 +5,20 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SchemeOfSchemeReduction
 public import StacksFrontier.AlgebraicGeometry.Spaces.ThickeningSchemeRepresentable
 
 /-!
-# The ambient space of a thickening of a scheme is a scheme, with nothing granted
+# The ambient space of a thickening of a scheme is a scheme, with no hypotheses
 
 Let `S` be a scheme and let `X ⊂ X'` be a thickening of algebraic spaces over `S`. If `X` is
 (representable by) a scheme, then so is `X'`. This is Stacks 05ZR, and
-`StacksFrontier/AlgebraicGeometry/Spaces/ThickeningSchemeRepresentable.lean` proves it granted the
+`StacksFrontier/AlgebraicGeometry/Spaces/ThickeningSchemeRepresentable.lean` proves it with the
 three hypotheses of Stacks 07VT. This file proves the same two forms with no hypotheses beyond
-the source's, and records Stacks 07VU.
+the source's, and registers Stacks 05ZR on them.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.isRepresentable_of_isThickening_of_isRepresentable` and
   `AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom_of_isRepresentable`: Stacks 05ZR
-  in the subspace form and in the morphism form, with no hypotheses, through the
-  closed-immersion form of Stacks 07VV.
-* The registration of Stacks 07VU, an algebraic space whose reduction is a scheme is a scheme,
-  on `AlgebraicGeometry.IsAlgebraicSpace.isRepresentable_of_isRepresentable_reduction`.
+  in the subspace form and in the morphism form, with no hypotheses beyond the source's, through
+  the closed-immersion form of Stacks 07VV.
 
 ## Implementation notes
 
@@ -30,15 +28,14 @@ from the thickening case of Stacks 07VT,
 `AlgebraicGeometry.Space.isAffineSpace_of_isClosedImmersion_of_isSurjective`, which is proved
 with no hypotheses.
 
-*Why Stacks 07VT does not enter.* Stacks 07VV is stated for an integral morphism, and for one
-the affineness step of its proof is Stacks 07VT, whose library form
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed` grants the three
-hypotheses `h09YA`, `h07SQ` and `hFinitePresentation`. The inclusion of a thickening is more
-than integral: it is a *closed immersion*, so the projection of its base change along the open
-subspace cut out in that proof is a closed immersion again, hence finite by Stacks 081Y, and
-the affineness step is the affineness of the target of a surjective closed immersion with
-affine source, the thickening case of Stacks 07VT, which holds with no hypotheses; that
-narrowing is `AlgebraicGeometry.Space.isRepresentable_of_isClosedImmersion_of_bijective`.
+*The affineness step.* Stacks 07VV is stated for an integral morphism, and for one the
+affineness step of its proof is Stacks 07VT, proved with no hypotheses as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`.
+The inclusion of a thickening is more than integral: it is a *closed immersion*, so the
+projection of its base change along the open subspace cut out in that proof is a closed
+immersion again, and the affineness step is the affineness of the target of a surjective closed
+immersion with affine source, the thickening case of Stacks 07VT; that narrowing is
+`AlgebraicGeometry.Space.isRepresentable_of_isClosedImmersion_of_bijective`.
 
 The inclusion `G.ι` of a thickening is injective on points because it is a monomorphism and
 surjective on points by definition, which together give the bijectivity that Stacks 07VV
@@ -54,7 +51,6 @@ from `AlgebraicGeometry.Space.IsThickeningHom.mono`,
 * [Stacks Project, Tag 05ZR](https://stacks.math.columbia.edu/tag/05ZR)
 * [Stacks Project, Tag 07VS](https://stacks.math.columbia.edu/tag/07VS)
 * [Stacks Project, Tag 07VT](https://stacks.math.columbia.edu/tag/07VT)
-* [Stacks Project, Tag 07VU](https://stacks.math.columbia.edu/tag/07VU)
 * [Stacks Project, Tag 07VV](https://stacks.math.columbia.edu/tag/07VV)
 * [Stacks Project, Tag 081Y](https://stacks.math.columbia.edu/tag/081Y)
 -/
@@ -79,6 +75,7 @@ hypotheses of Stacks 07VT, the closed-immersion form of Stacks 07VV being uncond
 The inclusion `G.ι` is a closed immersion, injective on points because it is a monomorphism,
 and surjective on points by the definition of a thickening, so Stacks 07VV applies in the
 direction that goes from the source, in its closed-immersion form. -/
+@[stacks 05ZR]
 theorem isRepresentable_of_isThickening_of_isRepresentable {X' : AlgebraicSpaces B S hS}
     {G : Subfunctor X'.1} (hG : IsThickening B S hS X' G)
     (hGrep : G.toFunctor.IsRepresentable) :
@@ -95,6 +92,7 @@ hypotheses of Stacks 07VT, the closed-immersion form of Stacks 07VV being uncond
 A thickening is a closed immersion, it is a monomorphism and therefore injective on points,
 and it is surjective on points, so Stacks 07VV applies in the direction that goes from the
 source, in its closed-immersion form. -/
+@[stacks 05ZR "the morphism form"]
 theorem isRepresentable_of_isThickeningHom_of_isRepresentable {X X' : AlgebraicSpaces B S hS}
     (i : X ⟶ X') (hi : IsThickeningHom B S hS i) (hXrep : X.1.IsRepresentable) :
     X'.1.IsRepresentable := by
@@ -104,16 +102,5 @@ theorem isRepresentable_of_isThickeningHom_of_isRepresentable {X X' : AlgebraicS
     ⟨pointsMap_injective_of_mono B S hS i.hom, hi.surjective_pointsMap⟩ hXrep
 
 end AlgebraicGeometry.Space
-
-/-! ### Stacks 07VU
-
-Stacks 07VU: let `X` be an algebraic space over `S`; if `X_red` is a scheme, then `X` is a
-scheme. That is exactly the statement of
-`AlgebraicGeometry.IsAlgebraicSpace.isRepresentable_of_isRepresentable_reduction` in
-`StacksFrontier/AlgebraicGeometry/Spaces/SchemeOfSchemeReduction.lean`, with nothing granted:
-`AlgebraicGeometry.Space.reduction` is the reduction `X_red` of Stacks 047X, and being a scheme
-is `CategoryTheory.Functor.IsRepresentable`. -/
-
-add_to_stacks 07VU AlgebraicGeometry.IsAlgebraicSpace.isRepresentable_of_isRepresentable_reduction
 
 end

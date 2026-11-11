@@ -66,7 +66,7 @@ a retract: for `r ≥ 1` the module `𝓕` is a retract of `⨁_{i < r} 𝓕` th
 `CategoryTheory.Limits.biproduct.ι` and `CategoryTheory.Limits.biproduct.π`, an additive
 functor carries that retraction to a retraction, and a retract of a zero object is zero.
 
-### What is still missing for Tag 07VP
+### What this route to Tag 07VP still lacks
 
 [Stacks, Tag 07VP] asserts that a Noetherian algebraic space receiving a finite surjective
 morphism from an affine scheme is affine, and its proof has three steps. The result of this
@@ -107,26 +107,17 @@ missing, and the second of them is missing from the development entirely.
   and `Stacks.Cohomology.rightDerived_comp_iso_of_preservesHomology`; no lemma in the library
   composes those two.
 * Finally [Stacks, Tag 07V6], Serre's criterion for affineness of an algebraic space, which
-  turns the vanishing of `H¹` on all quasi-coherent modules into affineness. **It has no
-  carrier in this development at all.** Its own proof needs [Stacks, Tag 07V5] — present as
-  `AlgebraicGeometry.Space.CohomologyVanishingSituation.isSeparated_toSpecGlobalFunctions` but
-  with [Stacks, Tag 09YB] and [Stacks, Tag 07V0] as named hypotheses — and
-  [Stacks, Tag 07V4] — present as
-  `AlgebraicGeometry.Space.universallyInjective_toSpecGlobalFunctions` but with two unproved
-  inputs named `hclosed` and `hfaithful` — together with [Stacks, Tag 073K],
-  [Stacks, Tag 06RW], [Stacks, Tag 0418] and Serre's criterion for schemes
-  [Stacks, Tag 01XF]. Of those four the last three are proved unconditionally, as
-  `Stacks.SerreCriterion.isAffine_of_forall_isZero_H1_ideal`,
-  `AlgebraicGeometry.Space.isLocallyQuasiFinite_iff_forall_discreteTopology_fibre` and
-  `AlgebraicGeometry.Space.relativelyRepresentable_of_isLocallyQuasiFinite_isSeparated`; and of
-  073K the degree the proof of 07V6 uses — part (1) at `i = 0`, which is the identification
-  `φ^*φ_*𝒪_U = t_*𝒪_R` for an étale chart and its kernel pair — is proved unconditionally as
-  `AlgebraicGeometry.Space.flatBaseChangeZero`, although in the derived-category shape of
-  `AlgebraicGeometry.Space.BaseChangeDiagram.baseChangeMap` only the base change map itself is
-  constructed. Since 07V5 and 07V4 are conditional here, 07V6 cannot be proved unconditionally
-  either, and so 07VP cannot be registered. What of 07V6's proof *is* available is assembled in
-  `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyVanishingAffineScheme.lean`: its last two
-  paragraphs, from separatedness, universal injectivity and finite type to affineness.
+  turns the vanishing of `H¹` on all quasi-coherent modules into affineness. It is proved, in
+  the situation of [Stacks, Tag 07UY], as
+  `AlgebraicGeometry.Space.CohomologyVanishingSituation.isAffineSpace`
+  (`StacksFrontier/AlgebraicGeometry/Spaces/AffinenessCriteria.lean`), and its neighbours
+  [Stacks, Tag 07V4] and [Stacks, Tag 07V5] are proved unconditionally as
+  `…CohomologyVanishingSituation.universallyInjective_toSpecGlobalFunctionsOverIntegers` and
+  `…CohomologyVanishingSituation.isSeparated_toSpecGlobalFunctions`.
+  [Stacks, Tag 07VP] itself is proved by another route, as
+  `AlgebraicGeometry.Space.isAffineSpace_of_isFinite_of_isSurjective`
+  (`StacksFrontier/AlgebraicGeometry/Spaces/FiniteSurjectiveAffineSource.lean`), and not through
+  this file.
 
 ## References
 

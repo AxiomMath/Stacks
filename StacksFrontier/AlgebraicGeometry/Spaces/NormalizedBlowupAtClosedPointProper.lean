@@ -129,7 +129,8 @@ The proof is the source's.  The blowing up `X' ⟶ X` is proper,
 locally Noetherian); hence `X'` is Nagata (Stacks 0BAU), the normalization `X'' ⟶ X'` is finite
 (Stacks 0BB5), hence proper (Stacks 04NZ), and the composite is proper (Stacks 04XY); `X''` is
 normal by Stacks 0BB4 and Nagata by Stacks 0BAU again. -/
-@[stacks 0BHK]
+@[stacks 0BHK "the lemma in full, with NOTHING carried: for a Nagata X, every normalized \
+blowing up of X at a closed point is an algebraic space, normal, Nagata, and proper over X"]
 theorem isNormal_and_isNagata_and_isProper_of_isNagata
     (hNagata : HasEtaleLocalProperty B S hS X.obj (fun T : Scheme.{u} => IsNagataScheme T)) :
     IsAlgebraicSpace B S hS N.space.obj ∧

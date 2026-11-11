@@ -52,8 +52,12 @@ defines a morphism of sites `f : C → D`, i.e. `v` is continuous and the induce
 Indeed a right adjoint is representably flat (`RepresentablyFlat.of_isRightAdjoint`: the comma
 category `StructuredArrow X v` has an initial object, namely the unit of the adjunction), so this
 is the criterion of Stacks 00X5 recorded as
-`CategoryTheory.Functor.isMorphismOfSites_of_representablyFlat`. -/
-@[stacks 09VR, sga "4 III 2.5" "u^s left exact"]
+`CategoryTheory.Functor.isMorphismOfSites_of_representablyFlat`.
+
+This is also the first assertion of Stacks 00XY, where the left adjoint `u` is assumed
+cocontinuous: that hypothesis is not needed for it. -/
+@[stacks 09VR, stacks 00XY "v defines a morphism of sites (cocontinuity of u is not needed)",
+  sga "4 III 2.5" "u^s left exact"]
 theorem isMorphismOfSites_of_isLeftAdjoint (adj : u ⊣ v) [v.IsContinuous K J] :
     v.IsMorphismOfSites K J :=
   have : v.IsRightAdjoint := adj.isRightAdjoint

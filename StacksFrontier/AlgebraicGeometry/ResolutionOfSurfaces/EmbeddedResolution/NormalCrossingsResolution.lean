@@ -50,7 +50,11 @@ The conclusion is that of
 source's hypotheses alone. The source's "proper closed subscheme" is taken as
 `IsNowhereDense (Z.support : Set X)`, as for [Stacks, Tag 0BIB]: the literal reading is not enough
 when `X` is disconnected, since for `X` a disjoint union of two affine planes and `Z` one of them
-the ideal sheaf of `Z` vanishes on that copy and stays zero under every inverse image. The
+the ideal sheaf of `Z` vanishes on that copy and stays zero under every inverse image. `X` is
+taken Noetherian rather than only locally Noetherian, again as for [Stacks, Tag 0BIB]: for `X` a
+disjoint union of countably many affine planes and `Z` the set of their origins, no finite
+sequence of blowups at closed points makes `Zₙ` a Cartier divisor. Both corrections are recorded
+in `errata.md`. The
 conclusion records that the support of `Zₙ` *equals* the support of the strict normal crossings
 divisor, which is what the source's argument gives and is stronger than "supported on".
 

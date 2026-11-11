@@ -138,17 +138,6 @@ variable {A B : Sheaf J CommRingCat.{max u v w}} (a : A ⟶ B)
 /-- The stalk of the cotangent complex of a homomorphism of sheaves of commutative rings on a site
 at a point of the site is the cotangent complex of the induced homomorphism of stalks:
 `(L_{B/A})_p = L_{B_p/A_p}`. -/
-@[stacks 08T0 "for a point whose universe of sets is the universe of the sections of the two
-sheaves of rings, as in 08SV, and with the point read as a morphism of topoi out of the
-sheaves for the trivial topology on the one-point site, taken in the universes of the objects
-and the morphisms of the site. Both sides are cotangent complexes of a homomorphism of sheaves
-of commutative rings, the right-hand one on the one-point site rather than of the homomorphism
-of stalk rings itself: the identification of sheaves of modules on the one-point site with
-modules over the stalk ring is not used. The identification of that topos with sets is
-pointToposEquiv, of the inverse image along it with the stalk functor is
-pointToposMorphismInverseImageIso, of the inverse image of the sheaves of rings with the stalk
-rings is pointInverseImageRingIso, and of the terms of the left-hand side with the stalks of
-the terms of the cotangent complex is pointStalkModuleSheafIso"]
 noncomputable def stalkCotangentComplexIso :
     ((inverseImageTargetModules.{u, v, w, u, v, w}
             (⊥ : GrothendieckTopology (PointSite.{v, u})) J

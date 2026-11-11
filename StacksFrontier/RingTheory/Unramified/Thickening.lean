@@ -387,6 +387,63 @@ abbrev conormal : Type (max u v) :=
 
 end FormallyUnramified
 
+namespace Extension.IsUniversalFirstOrderThickening
+
+variable {R : Type u} {S : Type v} [CommRing R] [CommRing S] [Algebra R S]
+  {P Q : Extension.{w} R S}
+
+/-- A hom of extensions `P → Q` lifts `S ≃ Q.Ring ⧸ Q.ker` along `P.Ring → S`. -/
+private lemma mkₐ_comp_toAlgHom (f : P.Hom Q) :
+    (Ideal.Quotient.mkₐ R (RingHom.ker (IsScalarTower.toAlgHom R Q.Ring S))).comp f.toAlgHom =
+      (Ideal.quotientKerAlgEquivOfSurjective (f := IsScalarTower.toAlgHom R Q.Ring S)
+        Q.algebraMap_surjective).symm.toAlgHom.comp (IsScalarTower.toAlgHom R P.Ring S) := by
+  refine AlgHom.ext fun x => (Ideal.quotientKerAlgEquivOfSurjective
+    (f := IsScalarTower.toAlgHom R Q.Ring S) Q.algebraMap_surjective).injective ?_
+  simp only [AlgHom.comp_apply]
+  exact (f.algebraMap_toRingHom x).trans (AlgEquiv.apply_symm_apply _ _).symm
+
+/-- Out of a universal first order thickening there is at most one hom of extensions into an
+extension with square-zero kernel. -/
+theorem hom_ext (hP : P.IsUniversalFirstOrderThickening) (hQ : Q.ker ^ 2 = ⊥)
+    (f g : P.Hom Q) : f = g := by
+  have h := (hP.existsUnique_lift (RingHom.ker (IsScalarTower.toAlgHom R Q.Ring S)) hQ
+    (Ideal.quotientKerAlgEquivOfSurjective
+    (f := IsScalarTower.toAlgHom R Q.Ring S) Q.algebraMap_surjective).symm.toAlgHom).unique
+      (mkₐ_comp_toAlgHom f) (mkₐ_comp_toAlgHom g)
+  ext x
+  exact AlgHom.congr_fun h x
+
+/-- Out of a universal first order thickening there is a hom of extensions into every extension
+with square-zero kernel. -/
+theorem nonempty_hom (hP : P.IsUniversalFirstOrderThickening) (hQ : Q.ker ^ 2 = ⊥) :
+    Nonempty (P.Hom Q) := by
+  obtain ⟨a', ha', -⟩ := hP.existsUnique_lift (RingHom.ker (IsScalarTower.toAlgHom R Q.Ring S)) hQ
+    (Ideal.quotientKerAlgEquivOfSurjective
+      (f := IsScalarTower.toAlgHom R Q.Ring S) Q.algebraMap_surjective).symm.toAlgHom
+  refine ⟨Hom.ofAlgHom a' (AlgHom.ext fun x => ?_)⟩
+  have h := congrArg (Ideal.quotientKerAlgEquivOfSurjective
+    (f := IsScalarTower.toAlgHom R Q.Ring S) Q.algebraMap_surjective) (AlgHom.congr_fun ha' x)
+  simp only [AlgHom.comp_apply] at h
+  exact h.trans (AlgEquiv.apply_symm_apply _ _)
+
+/-- Two universal first order thickenings of `S` over `R` have isomorphic kernels: their
+cotangent modules, the conormal modules they define, are isomorphic as `S`-modules. -/
+noncomputable def cotangentEquiv (hP : P.IsUniversalFirstOrderThickening)
+    (hQ : Q.IsUniversalFirstOrderThickening) : P.Cotangent ≃ₗ[S] Q.Cotangent :=
+  let f := (hP.nonempty_hom hQ.ker_sq_eq_bot).some
+  let g := (hQ.nonempty_hom hP.ker_sq_eq_bot).some
+  LinearEquiv.ofLinearMap (Cotangent.map f) (Cotangent.map g)
+    (LinearMap.ext fun x => by
+      have h := LinearMap.congr_fun (Cotangent.map_comp (f := g) (g := f)) x
+      rw [hQ.hom_ext hQ.ker_sq_eq_bot (f.comp g) (Hom.id Q), Cotangent.map_id] at h
+      exact h.symm)
+    (LinearMap.ext fun x => by
+      have h := LinearMap.congr_fun (Cotangent.map_comp (f := f) (g := g)) x
+      rw [hP.hom_ext hP.ker_sq_eq_bot (g.comp f) (Hom.id P), Cotangent.map_id] at h
+      exact h.symm)
+
+end Extension.IsUniversalFirstOrderThickening
+
 end Algebra
 
 section Localization
@@ -1166,8 +1223,8 @@ square-zero ideal `J ⊆ A`, and ring homomorphisms `b : R → A`,
 by `A → A/J`), there exists a **unique** `R`-algebra homomorphism
 `a' : R/I² → A`, encoded as a unique ring homomorphism with
 `a' ∘ (R → R/I²) = b` (the `R`-algebra condition), such that
-`(A → A/J) ∘ a' = a ∘ π`. -/
-@[stacks 04ED]
+`(A → A/J) ∘ a' = a ∘ π`. Tag 04ED in the language of Tag 04EC is
+`UniversalThickening.isUniversalFirstOrderThickening_pi`. -/
 theorem universal_property
     {A : Type*} [CommRing A] (J : Ideal A) (hJ : IsSquareZero J)
     (b : R →+* A) (a : (R ⧸ I) →+* (A ⧸ J))
@@ -1214,14 +1271,106 @@ universal first order thickening of `R/I` over `R` is the surjection
 (Statement 1b), and the conormal module `Ideal.Cotangent I` (the `R`-module
 `I/I²`) is `R`-linearly isomorphic to this kernel via
 `Ideal.cotangentEquivIdeal`. We record both facts:
-the kernel description and the existence of such an `R`-linear equivalence. -/
-@[stacks 04ED, ega "0 20.5.12" "kernel of E → C is R/R²"]
+the kernel description and the existence of such an `R`-linear equivalence. The conormal module
+of Tag 04EC itself is identified with `I/I²` in
+`UniversalThickening.nonempty_conormal_linearEquiv_cotangent`. -/
+@[ega "0 20.5.12" "kernel of E → C is R/R²"]
 theorem conormal_module :
     RingHom.ker (pi I : (R ⧸ I ^ 2) →+* (R ⧸ I)) = I.cotangentIdeal ∧
     Nonempty (I.Cotangent ≃ₗ[R] (RingHom.ker (pi I : (R ⧸ I ^ 2) →+* (R ⧸ I)))) := by
   refine ⟨ker_pi I, ?_⟩
   rw [ker_pi]
   exact ⟨I.cotangentEquivIdeal⟩
+
+/-- The surjection `π : R/I² → R/I` as an extension of `R/I` by `R`-algebras. -/
+noncomputable abbrev piExtension : Algebra.Extension R (R ⧸ I) :=
+  .ofSurjective (pi I) (pi_surjective I)
+
+/-- The surjection `π : R/I² → R/I` is the universal first order
+thickening of `R/I` over `R`: its kernel has square zero and every square-zero situation over
+`R/I` lifts uniquely through it. -/
+theorem isUniversalFirstOrderThickening_pi :
+    (piExtension I).IsUniversalFirstOrderThickening where
+  ker_sq_eq_bot := ker_pi_isSquareZero I
+  existsUnique_lift := by
+    intro A _ _ J hJ a
+    obtain ⟨a', ⟨h1, h2⟩, huniq⟩ := universal_property I J hJ (algebraMap R A)
+      (a : (R ⧸ I) →+* (A ⧸ J)) (RingHom.ext fun x => by
+        have h := a.commutes x
+        rw [Ideal.Quotient.algebraMap_eq, ← Ideal.Quotient.mk_algebraMap] at h
+        exact h)
+    let a'' : (R ⧸ I ^ 2) →ₐ[R] A :=
+      ⟨a', fun r => by rw [Ideal.Quotient.algebraMap_eq]; exact RingHom.congr_fun h1 r⟩
+    refine ⟨a'', AlgHom.ext fun x => RingHom.congr_fun h2 x, fun g hg =>
+      AlgHom.coe_ringHom_injective (huniq g.toRingHom
+        ⟨RingHom.ext fun r => ?_, RingHom.ext fun x => AlgHom.congr_fun hg x⟩)⟩
+    exact g.commutes r
+
+/-- The conormal module `C_{(R/I)/R}` of `R → R/I`, the kernel of
+the universal first order thickening of `R/I` over `R` as an `R/I`-module (Tag 04EC), is
+`I/I²`. -/
+theorem nonempty_conormal_linearEquiv_cotangent :
+    Nonempty (Algebra.FormallyUnramified.conormal R (R ⧸ I) ≃ₗ[R ⧸ I] I.Cotangent) := by
+  let E : Algebra.Extension R (R ⧸ I) :=
+    .ofSurjective (Ideal.Quotient.mkₐ R I) Ideal.Quotient.mk_surjective
+  let K : Ideal R := E.ker
+  have hE : K = I := by
+    change RingHom.ker (Ideal.Quotient.mk I) = I
+    exact Ideal.mk_ker
+  let h : E.Hom (piExtension I) := .ofAlgHom (Ideal.Quotient.mkₐ R (I ^ 2))
+    (AlgHom.ext fun x => pi_apply_mk I x)
+  have hsurj : Function.Surjective h := fun y => Ideal.Quotient.mk_surjective (I := I ^ 2) y
+  have hcomap : (piExtension I).ker.comap h.toRingHom = RingHom.ker h.toRingHom ⊔ E.ker := by
+    change (RingHom.ker (pi I : (R ⧸ I ^ 2) →+* (R ⧸ I))).comap (Ideal.Quotient.mk (I ^ 2)) =
+      RingHom.ker (Ideal.Quotient.mk (I ^ 2)) ⊔ E.ker
+    rw [ker_pi, Ideal.comap_cotangentIdeal, Ideal.mk_ker]
+    have key : ∀ L : Ideal R, L = I → I = I ^ 2 ⊔ L := by
+      rintro L rfl
+      exact (sup_eq_right.2 (pow_two_le L)).symm
+    exact key K hE
+  have hinj : Function.Injective (Algebra.Extension.Cotangent.map h) := by
+    refine (injective_iff_map_eq_zero _).2 fun x hx => ?_
+    have hmem : x ∈ (LinearMap.ker (Algebra.Extension.Cotangent.map h)).restrictScalars E.Ring :=
+      hx
+    rw [Algebra.Extension.Cotangent.map_ker_of_surjective hsurj hcomap] at hmem
+    obtain ⟨⟨y, hy⟩, hy', rfl⟩ := Submodule.mem_map.1 hmem
+    have h0 : Ideal.Quotient.mk (I ^ 2) (show R from y) = 0 :=
+      (Submodule.mem_inf.1 (Submodule.mem_comap.1 hy')).1
+    rw [Algebra.Extension.Cotangent.mk_eq_zero_iff]
+    have hy2 : (show R from y) ∈ I ^ 2 := Ideal.Quotient.eq_zero_iff_mem.1 h0
+    have key : ∀ L : Ideal R, L = I → y ∈ L ^ 2 := by
+      rintro L rfl
+      exact hy2
+    exact key K hE
+  let e₁ := (Algebra.FormallyUnramified.isUniversalFirstOrderThickening R (R ⧸ I)).cotangentEquiv
+    (isUniversalFirstOrderThickening_pi I)
+  let e₂ := LinearEquiv.ofBijective (Algebra.Extension.Cotangent.map h)
+    ⟨hinj, Algebra.Extension.Cotangent.map_surjective_of_comap_eq hsurj hcomap⟩
+  let c : K.Cotangent ≃ₗ[R] I.Cotangent := Ideal.Cotangent.equivOfEq K I hE
+  let e₃ : E.Cotangent ≃ₗ[R] I.Cotangent :=
+    { toFun x := c x.val
+      invFun y := .of (c.symm y)
+      map_add' x y := map_add c x.val y.val
+      map_smul' r x := by
+        change c (r • x).val = r • c x.val
+        rw [Algebra.Extension.Cotangent.val_smul'']
+        exact map_smul c r x.val
+      left_inv x := c.symm_apply_apply x.val
+      right_inv y := c.apply_symm_apply y }
+  exact ⟨e₁.trans (e₂.symm.trans
+    (e₃.extendScalarsOfSurjective (S := R ⧸ I) Ideal.Quotient.mk_surjective))⟩
+
+/-- **Stacks 04ED.** Let `I ⊆ R` be an ideal. The universal first order thickening of `R/I` over
+`R` is the surjection `π : R/I² → R/I`, and the conormal module `C_{(R/I)/R}` of `R/I` over `R`
+is `I/I²`. -/
+@[stacks 04ED "The surjection `R/I² → R/I` is packaged as an `Algebra.Extension R (R ⧸ I)`, and
+being the universal first order thickening is `Algebra.Extension.IsUniversalFirstOrderThickening`
+(Tag 04EC); the conormal module is `Algebra.FormallyUnramified.conormal`, and `I/I²` is
+`Ideal.Cotangent I`, both as `R/I`-modules."]
+theorem isUniversalFirstOrderThickening_pi_and_nonempty_conormal_linearEquiv :
+    (piExtension I).IsUniversalFirstOrderThickening ∧
+      Nonempty (Algebra.FormallyUnramified.conormal R (R ⧸ I) ≃ₗ[R ⧸ I] I.Cotangent) :=
+  ⟨isUniversalFirstOrderThickening_pi I, nonempty_conormal_linearEquiv_cotangent I⟩
 
 end UniversalThickening
 

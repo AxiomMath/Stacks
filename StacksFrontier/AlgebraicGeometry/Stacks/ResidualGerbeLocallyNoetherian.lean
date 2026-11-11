@@ -34,9 +34,8 @@ then the substack of objects lifting locally to `f`, of
 `AlgebraicGeometry.Stack.exists_isResidualGerbeAt_of_fieldSpectrum`.
 
 The source obtains the algebraicity of that substack, `[u/R']`, from Stacks 06FI and its
-monomorphy into `𝒳` from Stacks 046S and 04ZZ. The library's Stacks 06FI carries Artin's theorem
-Stacks 06DC as a hypothesis, so the substack is shown algebraic directly instead, through the
-bootstrap theorem Stacks 04S6 and Stacks 05UM, in
+monomorphy into `𝒳` from Stacks 046S and 04ZZ. Here the substack is shown algebraic directly
+instead, through the bootstrap theorem Stacks 04S6 and Stacks 05UM, in
 `StacksFrontier.AlgebraicGeometry.Stacks.LocallyLiftingSubstack`.
 
 ## Main results

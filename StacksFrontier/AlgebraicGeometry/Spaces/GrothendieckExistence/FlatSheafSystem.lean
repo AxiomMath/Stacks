@@ -80,9 +80,8 @@ transition maps whose kernels are locally nilpotent; an algebraic space `X` sepa
 presentation over `A = lim Aₙ`; and a system `(Fₙ, φₙ)` of finitely presented `𝒪_{Xₙ}`-modules on
 the infinitesimal base changes `Xₙ = X ×_{Spec A} Spec Aₙ`, each flat over `Aₙ` with support proper
 over `Aₙ`, together with isomorphisms `φₙ` from the restriction of `Fₙ₊₁` to `Xₙ` to `Fₙ`. -/
-@[stacks 0CX4 "the situation as stated: nothing is granted or assumed beyond the source's data \
-and hypotheses; the two containment fields only say that Spec A and Spec Aₙ are schemes of the \
-chosen big fppf site"]
+@[stacks 0CX4 "the situation as stated, with exactly the source's data and hypotheses; the two \
+containment fields say that Spec A and Spec Aₙ are schemes of the chosen big fppf site"]
 structure FlatSheafExistenceSituation where
   /-- The inverse system of rings `(Aₙ)`. -/
   system : ℕᵒᵖ ⥤ CommRingCat.{u}

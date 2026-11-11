@@ -38,17 +38,18 @@ public import Mathlib.Topology.Sheaves.Init
 public import StacksFrontier.CategoryTheory.Sites.Cocontinuous.AlmostCocontinuousDefs
 
 /-!
-# The formal core of Stacks tag 04B8
+# A morphism with the universal property of the sheafification
 
-Stacks tag 04B8 asserts `(u^p G)^# ≅ u^p (G^#)` for a continuous, almost cocontinuous
-functor of sites `u : C ⥤ D`.  Proved here is the formal step it reduces to: if a sheaf `E`
-and a presheaf morphism `η₀ : F ⟶ E` satisfy the universal property of the sheafification
-of `F`, then the transpose `F^# ⟶ E` of `η₀` under the sheafification adjunction is an
-isomorphism.  The Čech-cohomology verification of that universal property is not
-formalized.  Also defined are the two notions the tag needs and Mathlib lacks: sheaf
-theoretic emptiness (tag 04B6) and almost cocontinuity (tag 04B7).
+If a sheaf `E` and a presheaf morphism `η₀ : F ⟶ E` satisfy the universal property of the
+sheafification of `F`, then the transpose `F^# ⟶ E` of `η₀` under the sheafification adjunction
+is an isomorphism. This is the general fact that two solutions of one universal problem are
+isomorphic, and holds on any site.
+
+Stacks 04B8 itself, `(u^p G)^# = u^p(G^#)` for a continuous, almost cocontinuous functor of sites
+`u` and a presheaf `G` with a single section over every sheaf theoretically empty object, is
+`CategoryTheory.Functor.isIso_homEquiv_symm_whiskerLeft_toSheafify_of_isAlmostCocontinuous` in
+`StacksFrontier.CategoryTheory.Sites.Cocontinuous.AlmostCocontinuousFunctors`.
 -/
-
 @[expose] public section
 
 open CategoryTheory CategoryTheory.Limits Opposite
@@ -57,22 +58,15 @@ universe v u
 
 variable {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D]
 
-/-- **Formal core of Stacks 04B8.** Suppose a sheaf `E` together with a
-presheaf morphism `η₀ : F ⟶ (sheafToPresheaf J _).obj E` satisfies the
-universal property of the sheafification of `F`: every presheaf morphism
-from `F` into the underlying presheaf of any sheaf `H` lifts uniquely
-through `η₀`. Then the canonical morphism
-`(presheafToSheaf J).obj F ⟶ E` obtained from `η₀` via the sheafification
-adjunction's `homEquiv` is an isomorphism.
+/-- **A solution of the universal problem of sheafification is the sheafification.** Suppose a
+sheaf `E` together with a presheaf morphism `η₀ : F ⟶ (sheafToPresheaf J _).obj E` satisfies the
+universal property of the sheafification of `F`: every presheaf morphism from `F` into the
+underlying presheaf of any sheaf `H` lifts uniquely through `η₀`. Then the canonical morphism
+`(presheafToSheaf J).obj F ⟶ E` obtained from `η₀` via the sheafification adjunction's `homEquiv`
+is an isomorphism.
 
-The Stacks 04B8 conclusion `(u^p G)^# ≅ u^p (G^#)` reduces to this
-purely formal statement once one verifies, using continuity and almost
-cocontinuity of `u` together with the "singleton on empty" hypothesis
-on `G`, that `u.sheafPushforwardContinuous` applied to `G^#` provides a
-solution to the universal property of the sheafification of `u^p G`.
-The Čech-cohomology argument establishing that universal property is
-the Stacks-side content of 04B8 and is not formalized here. -/
-@[stacks 04B8]
+This is a general fact about adjunctions, on a single site. It is not Stacks 04B8, which is
+`CategoryTheory.Functor.isIso_homEquiv_symm_whiskerLeft_toSheafify_of_isAlmostCocontinuous`. -/
 theorem isIso_sheafificationAdjunction_homEquiv_symm
     (J : GrothendieckTopology C)
     [HasWeakSheafify J (Type v)]

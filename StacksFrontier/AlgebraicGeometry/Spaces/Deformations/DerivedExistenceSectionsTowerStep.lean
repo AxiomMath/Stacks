@@ -14,8 +14,8 @@ the small étale spelling.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageRingHom_comp`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageToposDerivedPushforward_map_homEquiv_eq`:
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.stageRingHom_comp`.
+* `SeparatedDerivedExistenceSystem.stageToposDerivedPushforward_map_homEquiv_eq`:
   the middle factor of `towerMap_eq` in the small étale spelling.
 
 ## References
@@ -37,9 +37,9 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 attribute [local instance] HasDerivedCategory.standard
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The ring maps `A → Aₙ₊₁ → Aₙ` compose to `A → Aₙ`. -/
 theorem stageRingHom_comp (n : ℕ) :
@@ -67,7 +67,7 @@ theorem stageToposDerivedPushforward_map_homEquiv_eq (n : ℕ) :
           (D.K (n + 1)) (D.K n) (D.φ n)) :=
   rfl
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

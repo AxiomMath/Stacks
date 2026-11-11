@@ -20,19 +20,24 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.UniversalThickeningUnramif
 Let `f : X ⟶ Y` be a local complete intersection morphism of algebraic spaces over a scheme `S`
 which is formally unramified, and let `X ⊂ X'` be a universal first-order thickening of `X`
 over `Y`.  The conormal sheaf `𝒞_{X/Y}` of Stacks 0607 is then finite locally free on the small
-étale site of `X`.  This is the second clause of Stacks 06CB.
+étale site of `X`.  This is the second clause of Stacks 06CB, proved here relative to a
+comparison with the scheme-level conormal sheaf; that comparison is proved, and Stacks 06CB
+stated in full, in `ConormalFiniteLocallyFree.lean` beside this file.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.RepresentableConormalSheafComparison`: the comparison between the
   conormal sheaf of a formally unramified morphism of *representable* algebraic spaces and the
-  conormal sheaf of the corresponding morphism of schemes, which this development does not have;
-  the section *What is not proved here* below says exactly what is missing.
+  conormal sheaf of the corresponding morphism of schemes.  It is proved as
+  `AlgebraicGeometry.Space.representableConormalSheafComparison`, downstream of this file.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_conormalSheaf_of_isLocalCompleteIntersection`:
-  **Stacks 06CB, second clause**, granted that comparison.
+  the second clause of Stacks 06CB, reduced to that comparison.  The full statement of
+  Stacks 06CB is
+  `AlgebraicGeometry.Space.unramified_iff_formallyUnramified_and_isFiniteLocallyFreeOnSite_\
+  conormalSheaf`.
 
 ## Implementation notes
 
@@ -63,10 +68,10 @@ reduces to the representable case, where the scheme-level statement
 `AlgebraicGeometry.isFiniteLocallyFree_universalConormalSheaf_of_isLocalCompleteIntersection`
 (Stacks 06B9) supplies the mathematics.
 
-## What is not proved here
+## The comparison with schemes
 
 What separates the representable case from the scheme-level statement is a comparison of two
-kinds, and **neither half exists in this library**:
+kinds:
 
 1. finite local freeness of a module on the small étale site of a representable algebraic space
    against `AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree` of the corresponding module on
@@ -75,27 +80,22 @@ kinds, and **neither half exists in this library**:
    algebraic spaces against `Stacks.Thickenings.universalConormalSheaf` of Stacks 04F4 of the
    corresponding morphism of schemes.
 
-For (1) the comparison functor `AlgebraicGeometry.SmallEtale.associatedModule` (Stacks 03DU (4)
-at `τ = étale`) and its adjunction are available, and the property transfer across it is proved
-only for finite type, in
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleFiniteType.lean`; the
-implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/FiniteLocallyFreeFpqcDescent.lean` and of
-`StacksFrontier/AlgebraicGeometry/Spaces/FiniteLocallyFreeOfRankEtaleLocal.lean` both record that
-reflecting finite local freeness along it is not done, and
-`StacksFrontier/AlgebraicGeometry/Spaces/FiniteLocallyFreeRepresentable.lean` carries the same
-comparison as a named hypothesis rather than proving it, for Stacks 03ZU.  For (2) every
-co-occurrence of `AlgebraicGeometry.Space.conormalModule` with the scheme-level conormal sheaves
-in the tree is prose: `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModule.lean` compares the two
-*conventions* and states nothing, and the identification of the two universal first-order
-thickenings of a representable morphism, which clause (2) would need first, is nowhere stated.
+Both are supplied by
+`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_conormalSheaf_of_scheme`
+(`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/RepresentableConormal.lean`): the
+scheme-level universal first-order thickening of a morphism of the site has its ambient scheme
+in the site, so it represents a universal first-order thickening of algebraic spaces, whose
+conormal module is the module associated to the scheme-level conormal sheaf.
 
-So the two are carried together as the single named hypothesis
+They are carried in this file as the single named statement
 `AlgebraicGeometry.Space.RepresentableConormalSheafComparison` below, quantified over arbitrary
-representable algebraic spaces and arbitrary universal first-order thickenings.  It is a
-comparison and not the conclusion: its antecedent is the scheme-level finite local freeness,
-which is discharged here by Stacks 06B9, and it says nothing about local complete
-intersections.
+representable algebraic spaces and arbitrary universal first-order thickenings, because its
+proof imports more than this file does.  It is a comparison and not the conclusion: its
+antecedent is the scheme-level finite local freeness, which is discharged here by Stacks 06B9,
+and it says nothing about local complete intersections.  It is proved as
+`AlgebraicGeometry.Space.representableConormalSheafComparison` in
+`ConormalFiniteLocallyFree.lean`, which feeds it to the theorem below to state Stacks 06CB
+without hypotheses beyond the source's.
 
 ## References
 
@@ -118,18 +118,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-! ### The missing comparison with the scheme-level conormal sheaf -/
+/-! ### The comparison with the scheme-level conormal sheaf -/
 
-/-- The comparison this development lacks: for a formally unramified morphism `g : V ⟶ U` of
+/-- The comparison with schemes: for a formally unramified morphism `g : V ⟶ U` of
 algebraic spaces over `S` whose source and target are both representable by schemes, finite
 local freeness of the conormal sheaf of Stacks 04F4 of the corresponding morphism of schemes
 implies finite local freeness, on the small étale site, of the conormal sheaf of Stacks 0607 of
 `g` relative to any universal first-order thickening.
 
 Nothing about local complete intersections enters, and the conclusion of Stacks 06CB is not
-granted: the antecedent carries the whole mathematical content.  The section *What is not proved
-here* of this file says which two identifications are missing and which files record their
-absence. -/
+granted: the antecedent carries the whole mathematical content.  It is proved as
+`AlgebraicGeometry.Space.representableConormalSheafComparison`, downstream of this file; the
+section *The comparison with schemes* of this file says what it consists of. -/
 public abbrev RepresentableConormalSheafComparison : Prop :=
   ∀ {V U : AlgebraicSpaces B S hS} [V.1.IsRepresentable] [U.1.IsRepresentable] {g : V ⟶ U}
       (s : UniversalFirstOrderThickening B S hS g)
@@ -244,14 +244,17 @@ private theorem isFiniteLocallyFreeOnSite_conormalSheaf_of_chart
 
 /-! ### The second clause of Stacks 06CB -/
 
-/-- **Stacks 06CB, second clause.**  For a local complete intersection morphism `f : X ⟶ Y` of
+/-- **The second clause of Stacks 06CB, relative to the comparison with schemes.**  For a
+local complete intersection morphism `f : X ⟶ Y` of
 algebraic spaces over `S` which is formally unramified, the conormal sheaf `𝒞_{X/Y}` of
 Stacks 0607 is finite locally free on the small étale site of `X`.
 
 Formal unramifiedness is a field of the universal first-order thickening, and the statement is
 about an arbitrary one.  The hypothesis `hcmp` is the comparison with the scheme-level
-Stacks 06B9 which this library lacks; see the section *What is not proved here* of this file. -/
-@[stacks 06CB "the conormal sheaf is finite locally free"]
+conormal sheaf, which `AlgebraicGeometry.Space.representableConormalSheafComparison` proves;
+Stacks 06CB in full, with no such hypothesis, is
+`AlgebraicGeometry.Space.unramified_iff_formallyUnramified_and_isFiniteLocallyFreeOnSite_\
+conormalSheaf`. -/
 public theorem isFiniteLocallyFreeOnSite_conormalSheaf_of_isLocalCompleteIntersection
     {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (t : UniversalFirstOrderThickening B S hS f)

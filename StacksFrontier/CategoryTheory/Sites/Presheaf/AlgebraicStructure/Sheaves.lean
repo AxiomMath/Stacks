@@ -455,25 +455,31 @@ functors are pinned as postcomposition, so a structure `M` is sent to `M ⋙ f�
 
 ## Main results
 
-* `CategoryTheory.Adjunction.leftExactWhiskerRight`: Stacks 00YV — an adjunction between left exact
+* `CategoryTheory.Adjunction.leftExactWhiskerRight`: an adjunction between left exact
   functors `E ⥤ₗ E'`, `E' ⥤ₗ E` induces, by postcomposition, an adjunction between the categories
-  `T ⥤ₗ E` and `T ⥤ₗ E'` of structures of an arbitrary theory `T`.
+  `T ⥤ₗ E` and `T ⥤ₗ E'` of structures of an arbitrary theory `T`. This is the abstract form of
+  the method behind Stacks 00YV; it is not that proposition, which is about sheaves with values in
+  the seven listed categories (`Sheaf J GrpCat`, `Sheaf J (ModuleCat R)`, …), and which is
+  `Stacks.Topos.toposAlgebraicStructureAdjunctions`.
 
 ## Implementation notes
 
 * The source states the conclusion for the seven types of algebraic structure listed in Stacks 00YV
   rather than for a general espèce, saying that formalizing the construction is avoided by listing
-  the cases; the statement here is the construction, so it is the seven cases at once, each
-  obtained by instantiating `T` at the theory of that structure as above. The bridges
-  `T ⥤ₗ E ≌ Grp E` and the like — Gabriel–Ulmer duality for the seven listed categories — are not
-  part of this statement; for monoid, group and commutative group objects in a cartesian monoidal
-  category the conclusion in the internal-object presentation is already Mathlib's
-  `CategoryTheory.Adjunction.mapMon`, `.mapGrp` and `.mapCommGrp`, for a finite-product-preserving
-  (there: braided) `f⁻¹`, and those are the same statement read through the bridge.
+  the cases. The statement here is the construction for a general theory `T`; it yields a
+  statement about sheaves with values in one of the seven categories only through a bridge
+  `T ⥤ₗ Sh(C) ≌ Sh(C, A)` — Gabriel–Ulmer duality for that category — and no such bridge is
+  proved here. The seven cases themselves, for the categories `Sheaf J A`, are
+  `Stacks.Topos.toposAlgebraicStructureAdjunctions`. For monoid, group and commutative group
+  objects in a cartesian monoidal category the conclusion in the internal-object presentation
+  is already Mathlib's `CategoryTheory.Adjunction.mapMon`, `.mapGrp` and `.mapCommGrp`, for a
+  finite-product-preserving (there: braided) `f⁻¹`, and those are the same statement read through
+  the bridge.
 * A morphism of topoi is taken to be its adjoint pair with the left adjoint left exact, as
   elsewhere in this development (Stacks 00XO, 00XS): no `Topos` structure is used, and no site data
-  is available to a bare morphism of topoi, which is exactly why the structures have to be
-  described internally rather than as `A`-valued sheaves. Contrast Stacks 00YT, where a functor of
+  is available to a bare morphism of topoi, which is why the structures are described here
+  internally; for the seven categories of the source, `A`-valued sheaves are reached instead by
+  reading the transported operations off on sections. Contrast Stacks 00YT, where a functor of
   sites is given and the algebraic structure is a concrete category `(A, s)`.
 * Both functors are bundled as objects of `E ⥤ₗ E'` and `E' ⥤ₗ E`. Left exactness of `f⁻¹` is the
   hypothesis of the proposition; left exactness of `f_*` is automatic
@@ -537,14 +543,12 @@ for free).
 Then postcomposition with `f⁻¹` and with `f_*` are functors on structures of type `T`, and they
 form an adjoint pair. Since they are postcomposition, they commute with taking the underlying
 object — for `E`, `E'` categories of sheaves of sets, the underlying sheaf of sets — on the nose.
+
+This is the abstract method behind Stacks 00YV, not that proposition: the proposition is about
+sheaves with values in seven concrete categories of algebraic structures, and is
+`Stacks.Topos.toposAlgebraicStructureAdjunctions`.
 -/
 @[no_expose,
-  stacks 00YV "Stated for an arbitrary theory `T` of algebraic structures defined by
-  finite projective limits — structures of type `T` in `E` being the left exact functors `T ⥤ E` —
-  rather than for the seven listed types of algebraic structure separately, and for an arbitrary
-  adjunction between left exact functors rather than for a morphism of topoi: postcomposition with
-  `f⁻¹` and with `f_*` is an adjoint pair on structures, compatible with taking the underlying
-  sheaf of sets by construction.",
   sga "4 IV 3.1.2" "finite proj lim structs",
   sga "4 III 1.7" "special case"]
 public noncomputable def leftExactWhiskerRight (T : Type u₁) [Category.{v₁} T] {E : Type u₂}

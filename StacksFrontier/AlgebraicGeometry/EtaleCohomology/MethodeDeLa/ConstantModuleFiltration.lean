@@ -57,17 +57,23 @@ transporting that filtration back through the dictionary gives the filtration of
   ring the stalk is a finite *module* and need not be a finite set, so finiteness of `G` cannot be
   read off the automorphism group of the stalk as it is for a prime field; compactness of
   `π₁(S, s̄)` is used instead.
-* `Stacks.EtaleCohomology.exists_primeToEll_finiteEtale_finiteModuleFiltration`: Tag 0GJ0.
+* `Stacks.EtaleCohomology.exists_primeToEll_finiteEtale_finiteModuleFiltration`: the conclusion
+  of Tag 0GJ0 from a monodromy dictionary `FiniteModuleMonodromyDictionary` for `F`.
 
-## The dictionary hypothesis
+Tag 0GJ0 itself is
+`Stacks.EtaleCohomology.exists_finiteEtale_primeToEll_constantModuleFiltration`
+(`StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.UnibranchConstantModuleFiltration`) and
+`Stacks.EtaleCohomology.exists_primeToEll_finiteEtale_finiteModuleFiltration_general`
+(`StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.ConstantModuleFiltrationUnconditional`),
+which follow the same proof with the trivialization of `F` by pointed Galois covers and Galois
+descent along them, and so need no dictionary.
 
-The translation between sheaves and modules is Stacks Tag 0GIY, which this library has only in the
-restricted form `AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModule`: that
-declaration carries the topological invariance of the small étale site (Tag 04DZ), the equivalence
-of finite étale covers along a universal homeomorphism (Tag 0BQN) and the tag itself for an
-integral normal scheme as hypotheses. None of those is available here either, so the translation is
-carried by the hypothesis `FiniteModuleMonodromyDictionary`, whose fields are exactly the
-statements the proof consumes:
+## The dictionary
+
+The translation between sheaves and modules is Stacks Tag 0GIY, which this library proves as
+`AlgebraicGeometry.finiteTypeLocallyConstantEquivContinuousModuleUniv`. The theorem of this file
+consumes it through the structure `FiniteModuleMonodromyDictionary`, whose fields are exactly the
+statements the proof uses:
 
 * `V`, `ρ`, `isOpen_rho_eq` and `annihilated` are **Tag 0GIY** at the base point: the finite
   `Λ`-module attached to `F`, its continuous monodromy action of `π₁(S, s̄)`, continuity being the
@@ -85,10 +91,9 @@ statements the proof consumes:
   `CategoryTheory.Functor.additive_of_preserves_binary_products`.
 
 The irreducibility and geometric unibranchness of `S` are the hypotheses under which Tag 0GIY
-holds, and they are stated here because the source states them; they are not used again once the
-dictionary is granted. The Noetherian hypothesis on `Λ` is used directly, and is what makes the
-successive quotients finite `Λ`-modules: a submodule of a finite module over a Noetherian ring is
-finite, hence so is every subquotient of the stalk.
+holds; the proof from the dictionary does not use them again. The Noetherian hypothesis on `Λ` is
+used directly, and is what makes the successive quotients finite `Λ`-modules: a submodule of a
+finite module over a Noetherian ring is finite, hence so is every subquotient of the stalk.
 
 ## Implementation notes
 
@@ -544,22 +549,20 @@ structure FiniteModuleMonodromyDictionary (Λ : Type v) [CommRing Λ] (ℓ n : �
                 (constantSheaf (smallEtaleTopology T.left)
                   (ModuleCat.{max (u + 1) v} Λ)).obj M)
 
-/-- **Stacks Project, Tag 0GJ0.** Let `S` be an irreducible, geometrically unibranch scheme, let
-`ℓ` be a prime number, let `n ≥ 1`, let `Λ` be a Noetherian ring and let `F` be a finite type
-locally constant sheaf of `Λ`-modules on `S_étale` annihilated by `ℓ ^ n`. Then there is a finite
-étale morphism `f : T → S` of degree prime to `ℓ` such that `f⁻¹F` has a finite filtration whose
-successive quotients are of the form `M_T` for finite `Λ`-modules `M`.
+/-- **The conclusion of Stacks Tag 0GJ0 from a monodromy dictionary.** Let `S` be an irreducible,
+geometrically unibranch scheme, let `ℓ` be a prime number, let `n ≥ 1`, let `Λ` be a Noetherian
+ring and let `F` be a finite type locally constant sheaf of `Λ`-modules on `S_étale` annihilated by
+`ℓ ^ n`, given together with a dictionary `D` (the content of Tag 0GIY and Remark 0DV6 for `F`).
+Then there is a finite étale morphism `f : T → S` of degree prime to `ℓ` such that `f⁻¹F` has a
+finite filtration whose successive quotients are of the form `M_T` for finite `Λ`-modules `M`.
+
+This is the source's proof read through the dictionary. Tag 0GJ0 itself, with no dictionary, is
+`Stacks.EtaleCohomology.exists_finiteEtale_primeToEll_constantModuleFiltration`.
 
 The filtration is a chain of subobjects of `f⁻¹F` running from the zero subobject to the whole
-sheaf, each step having the constant sheaf of a finite `Λ`-module as its quotient.
-
-The irreducibility and geometric unibranchness of `S` and the local constancy of `F` are the
-hypotheses under which the dictionary `D` of Stacks Tag 0GIY is available. The annihilation of `F`
-by `ℓ ^ n` is stated twice: on the sections of `F`, as `_hann`, because the source states it there,
-and on the module the dictionary attaches to `F`, as the field `D.annihilated`, because that is the
-form Tag 0GIZ consumes. Transporting the first to the second is part of Tag 0GIY and so is part of
-what `D` carries; nothing here derives one from the other. -/
-@[stacks 0GJ0 "granted hypothesis D, the Stacks 0GIY dictionary in finite-module form"]
+sheaf, each step having the constant sheaf of a finite `Λ`-module as its quotient. The annihilation
+of `F` by `ℓ ^ n` is stated on the sections of `F`, as `_hann`, and on the module the dictionary
+attaches to `F`, as the field `D.annihilated`, which is the form Tag 0GIZ consumes. -/
 theorem exists_primeToEll_finiteEtale_finiteModuleFiltration {ℓ n : ℕ} (hℓ : ℓ.Prime)
     (_hn : 1 ≤ n) {Λ : Type v} [CommRing Λ] [IsNoetherianRing Λ]
     {S : Scheme.{u}} [IrreducibleSpace S] (_hS : IsGeometricallyUnibranch S)

@@ -23,8 +23,12 @@ there because that quotient of the dual numbers is `ℚ[ε]` itself.
 
 ## Main results
 
-* `Stacks.Examples.exists_distinguished_triangle_trace_nonadditive`: the triangle, its
-  endomorphism, and the failure of trace additivity.
+* `Stacks.Examples.ulift_dualNumber_distinguished_triangle_trace_nonadditive`: the triangle, its
+  endomorphism, and the failure of trace additivity over the dual numbers, traces in `R/[R,R]`.
+* `Stacks.Examples.exists_distinguished_triangle_trace_nonadditive`: the same, quantified over
+  rings that need not be commutative. Stacks 087L itself, over a commutative ring with traces in
+  `R`, is `exists_commRing_distinguished_triangle_trace_nonadditive` in
+  `StacksFrontier.Examples.Algebra.NonAdditivityOfTracesCommRing`.
 
 ## Implementation notes
 
@@ -486,17 +490,17 @@ private lemma dualTrace_add_ne.{u₁}
     (additiveCommutatorQuotientMk_injective dualRing (neg_add_eq_zero.mp heq))
   norm_num at hh
 
-/-- **Stacks 087L.** Trace need not be additive on an endomorphism of a distinguished
-triangle of perfect complexes in the homotopy category. -/
-@[stacks 087L]
-public theorem exists_distinguished_triangle_trace_nonadditive :
-    ∃ (R : Type u) (hR : Ring R),
-      letI : Ring R := hR
-      ∃ (P Q S : CochainComplex (ModuleCat.{v} R) ℤ)
+/-- Over `ULift (DualNumber ℚ)` there are a distinguished triangle of perfect complexes in the
+homotopy category and an endomorphism of it whose alternating traces in `R/[R,R]` are not
+additive. This is the witness of Stacks 087L; see
+`exists_commRing_distinguished_triangle_trace_nonadditive`. -/
+public theorem ulift_dualNumber_distinguished_triangle_trace_nonadditive.{u₁, v₁} :
+    let R := ULift.{u₁} (DualNumber ℚ)
+      ∃ (P Q S : CochainComplex (ModuleCat.{v₁} R) ℤ)
         (hP : CategoryTheory.FilteredDerived.finiteProjectiveComplex R P)
         (hQ : CategoryTheory.FilteredDerived.finiteProjectiveComplex R Q)
         (hS : CategoryTheory.FilteredDerived.finiteProjectiveComplex R S),
-        let q := HomotopyCategory.quotient (ModuleCat.{v} R) (ComplexShape.up ℤ)
+        let q := HomotopyCategory.quotient (ModuleCat.{v₁} R) (ComplexShape.up ℤ)
         ∃ (f : q.obj P ⟶ q.obj Q) (g : q.obj Q ⟶ q.obj S)
           (h : q.obj S ⟶ (q.obj P)⟦(1 : ℤ)⟧)
           (a : P ⟶ P) (b : Q ⟶ Q) (c : S ⟶ S),
@@ -507,12 +511,11 @@ public theorem exists_distinguished_triangle_trace_nonadditive :
             CategoryTheory.FilteredDerived.alternatingTrace R S hS c ≠
             CategoryTheory.FilteredDerived.alternatingTrace R Q hQ b := by
   classical
-  refine ⟨dualRing, inferInstance, ?_⟩
-  let F : (DualNumberModuleCat ℚ) ⥤ ModuleCat.{v} dualRing.{u} := dualModuleFunctor.{u, v}
+  let F : (DualNumberModuleCat ℚ) ⥤ ModuleCat.{v₁} dualRing.{u₁} := dualModuleFunctor.{u₁, v₁}
   let G := F.mapHomologicalComplex (ComplexShape.up ℤ)
   let H := F.mapHomotopyCategory (ComplexShape.up ℤ)
   let q₀ := HomotopyCategory.quotient.{0, 1, 0} (DualNumberModuleCat.{0, 0} ℚ) (ComplexShape.up ℤ)
-  let q₁ := HomotopyCategory.quotient (ModuleCat.{v} dualRing.{u}) (ComplexShape.up ℤ)
+  let q₁ := HomotopyCategory.quotient (ModuleCat.{v₁} dualRing.{u₁}) (ComplexShape.up ℤ)
   obtain ⟨i₀, p₀, a₀, hi₁, -, hp₀, -, ha₁, ha_other, hsq, hip⟩ :=
     dualNumber_diagram_commutes_up_to_homotopy ℚ
   let S₀ : ShortComplex (CochainComplex (DualNumberModuleCat ℚ) ℤ) := ShortComplex.mk i₀ p₀ hip
@@ -556,6 +559,30 @@ public theorem exists_distinguished_triangle_trace_nonadditive :
     exact Functor.mapHomotopyCategory_map F _
   · exact dualTrace_add_ne (alternatingTrace_dualLeft a₀ ha₁ ha_other _)
       (alternatingTrace_dualRight _) (alternatingTrace_dualMiddle _)
+
+/-- Trace need not be additive on an endomorphism of a distinguished triangle of perfect
+complexes in the homotopy category, for a ring `R` that is not required to be commutative and
+traces in the additive commutator quotient `R/[R,R]`. This is weaker than Stacks 087L, whose rings
+are commutative: see `exists_commRing_distinguished_triangle_trace_nonadditive` in
+`StacksFrontier.Examples.Algebra.NonAdditivityOfTracesCommRing`. -/
+public theorem exists_distinguished_triangle_trace_nonadditive :
+    ∃ (R : Type u) (hR : Ring R),
+      letI : Ring R := hR
+      ∃ (P Q S : CochainComplex (ModuleCat.{v} R) ℤ)
+        (hP : CategoryTheory.FilteredDerived.finiteProjectiveComplex R P)
+        (hQ : CategoryTheory.FilteredDerived.finiteProjectiveComplex R Q)
+        (hS : CategoryTheory.FilteredDerived.finiteProjectiveComplex R S),
+        let q := HomotopyCategory.quotient (ModuleCat.{v} R) (ComplexShape.up ℤ)
+        ∃ (f : q.obj P ⟶ q.obj Q) (g : q.obj Q ⟶ q.obj S)
+          (h : q.obj S ⟶ (q.obj P)⟦(1 : ℤ)⟧)
+          (a : P ⟶ P) (b : Q ⟶ Q) (c : S ⟶ S),
+          (Triangle.mk f g h ∈ distTriang _) ∧
+          (∃ t : Triangle.mk f g h ⟶ Triangle.mk f g h,
+            t.hom₁ = q.map a ∧ t.hom₂ = q.map b ∧ t.hom₃ = q.map c) ∧
+          CategoryTheory.FilteredDerived.alternatingTrace R P hP a +
+            CategoryTheory.FilteredDerived.alternatingTrace R S hS c ≠
+            CategoryTheory.FilteredDerived.alternatingTrace R Q hQ b :=
+  ⟨dualRing.{u}, inferInstance, ulift_dualNumber_distinguished_triangle_trace_nonadditive.{u, v}⟩
 
 end Stacks.Examples
 

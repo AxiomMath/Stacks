@@ -39,6 +39,13 @@ Rees algebra `⨁ₙ Iⁿ`, carried in the general form in which
   isomorphism of [Stacks, Tag 02OC], with its projection normalisation, granted
   [Stacks, Tag 02O8].
 
+Both tags are registered on the statements in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`, which
+discharge the hypothesis [Stacks, Tag 02O8] — proved in the library, as
+`Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem` — and carry the source's
+hypotheses and nothing more;
+[Stacks, Tag 02OC] there includes the homeomorphism for the limit topologies.
+
 ## Implementation notes
 
 The conclusion of [Stacks, Tag 02OA] and the hypotheses of [Stacks, Tag 02OB] are the same
@@ -179,21 +186,25 @@ public lemma ker_cohomology_idealPowerMultiple_eq {q k m : ℕ} (h : m ≤ k)
 
 /-! ### The wired statements -/
 
-/-- **Stacks Project, Tag 02OB**, granted [Stacks, Tag 02O8].
+/-- **The three clauses of [Stacks, Tag 02OB], from [Stacks, Tag 02O8].**
 
 This is `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient`
 with its two hypotheses discharged by
 `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology`, applied in each degree `q`
 and transported along the identifications described in the implementation notes of this file.
 Nothing of the mathematics is new: the content is that the affine side of the theorem on formal
-functions rests on [Stacks, Tag 02O8] alone, which is carried here as the hypothesis `h02O8` in
-the same general form `exists_uniform_bound_cohomology` consumes it. -/
-@[stacks 02OB "granted Tag 02O8, carried as the hypothesis h02O8"]
+functions rests on [Stacks, Tag 02O8] alone, which is taken here as the hypothesis `hReesFinite`
+in the same general form `exists_uniform_bound_cohomology` consumes it. That hypothesis is proved
+in the library, as `Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem`, and the
+statement of [Stacks, Tag 02OB] under the source's own hypotheses, with it discharged, is
+`Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper`
+in `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`, where the
+tag is registered. -/
 public theorem exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8
     (A : Type u) [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
     (hX : AlgebraicGeometry.IsProper f) (I : Ideal A) (F : X.Modules)
     (hF : SheafOfModules.IsCoherent F) (p : ℕ)
-    (h02O8 : ∀ (A' : Type u) [CommRing A'] [IsNoetherianRing A'] (I' : Ideal A')
+    (hReesFinite : ∀ (A' : Type u) [CommRing A'] [IsNoetherianRing A'] (I' : Ideal A')
       (X' : Over (Spec (.of A'))) (_ : AlgebraicGeometry.IsProper X'.hom)
       (F' : X'.left.Modules) (_ : SheafOfModules.IsCoherent F') (p' : ℕ),
       (cohomologyIdealPowerSystem I' X' F' p').IsReesFinite) :
@@ -213,36 +224,36 @@ public theorem exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8
             LinearMap.range (((moduleGlobalSections X).rightDerived p).map
               (cokernel.π (C := X.Modules)
                 (idealPowerMultiple (baseIdealSheaf A I f) n F).ι)).hom :=
-  have key := fun q => exists_uniform_bound_cohomology I (Over.mk f) F hX hF q h02O8
+  have key := fun q => exists_uniform_bound_cohomology I (Over.mk f) F hX hF q hReesFinite
   exists_uniform_bound_cohomology_idealPowerQuotient A f I F p
     (fun q => (key q).imp fun _ h k hk =>
       range_cohomologyOverBaseMap_le_pow_smul_top A f I F q (h.1 k hk))
     (fun q => (key q).imp fun c h k hk =>
       ker_cohomology_idealPowerMultiple_eq A f I F (Nat.sub_le k c) (h.2 (k - c) k (by omega)))
 
-/-- **Stacks Project, Tag 02OC**, granted [Stacks, Tag 02O8], and for the `A`-module
-isomorphism only.
+/-- **The module isomorphism of the theorem on formal functions, from [Stacks, Tag 02O8].**
 
 With `𝓘 = I · 𝒪_X`, the `I`-adic completion of `Hᵖ(X, ℱ)` is the limit of the tower
 `n ↦ Hᵖ(X, ℱ / 𝓘ⁿℱ)`, by *the* comparison map: the projection normalisation says that the
 `n`-th component of the equivalence carries the image of a class `x ∈ Hᵖ(X, ℱ)` to the image of
-`x` in `Hᵖ(X, ℱ / 𝓘ⁿℱ)`.
+`x` in `Hᵖ(X, ℱ / 𝓘ⁿℱ)`. The constant `c` is existentially bound because
+`Stacks.Cohomology.FormalFunctions.formalFunctionsEquiv` is indexed by it.
 
 [Stacks, Tag 02OC] further asserts that the comparison is a homeomorphism for the limit
-topologies; that is **not** proved here, exactly as in
-`Stacks.Cohomology.FormalFunctions.formalFunctionsEquiv`, and this statement does not claim it.
+topologies; this statement does not claim it. The complete statement of [Stacks, Tag 02OC],
+homeomorphism included and with no hypothesis beyond the source's, is
+`Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_isProper`.
 
 Quasi-coherence of `ℱ` is not assumed: it follows from `hF`. -/
-@[stacks 02OC "granted Tag 02O8, carried as the hypothesis h02O8"]
 public theorem exists_formalFunctionsEquiv_of_02O8
     (A : Type u) [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
     (hX : AlgebraicGeometry.IsProper f) (I : Ideal A) (F : X.Modules)
     (hF : SheafOfModules.IsCoherent F) (p : ℕ)
-    (h02O8 : ∀ (A' : Type u) [CommRing A'] [IsNoetherianRing A'] (I' : Ideal A')
+    (hReesFinite : ∀ (A' : Type u) [CommRing A'] [IsNoetherianRing A'] (I' : Ideal A')
       (X' : Over (Spec (.of A'))) (_ : AlgebraicGeometry.IsProper X'.hom)
       (F' : X'.left.Modules) (_ : SheafOfModules.IsCoherent F') (p' : ℕ),
       (cohomologyIdealPowerSystem I' X' F' p').IsReesFinite) :
-    ∃ (e : AdicCompletion I (cohomologyOverBase A f p F) ≃ₗ[A]
+    ∃ (_c : ℕ) (e : AdicCompletion I (cohomologyOverBase A f p F) ≃ₗ[A]
         towerLimit (adicCohomologyTower A f I F p) (adicCohomologyTowerMap A f I F p)),
       ∀ (n : ℕ) (x : cohomologyOverBase A f p F),
         towerLimit.proj n (e (AdicCompletion.of I (cohomologyOverBase A f p F) x)) =
@@ -250,8 +261,8 @@ public theorem exists_formalFunctionsEquiv_of_02O8
   have : _root_.SheafOfModules.IsCoherent F := ⟨hF.1, hF.2⟩
   have : F.IsQuasicoherent := isQuasicoherent_of_isCoherent F
   obtain ⟨c, hker, -, hrange⟩ :=
-    exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8 A f hX I F hF p h02O8
-  exact ⟨formalFunctionsEquiv A f I F p c hker hrange,
+    exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8 A f hX I F hF p hReesFinite
+  exact ⟨c, formalFunctionsEquiv A f I F p c hker hrange,
     formalFunctionsEquiv_proj_of A f I F p c hker hrange⟩
 
 end Stacks.Cohomology.FormalFunctions

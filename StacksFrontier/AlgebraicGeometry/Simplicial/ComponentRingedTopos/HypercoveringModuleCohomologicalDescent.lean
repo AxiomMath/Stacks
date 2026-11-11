@@ -25,23 +25,22 @@ is an isomorphism.
 
 The source's proof is a two-line reduction: since `a⁻¹O_C = O` one has `La^* = a^* = a⁻¹`, the
 derived direct image of modules agrees with that of abelian sheaves by Stacks 0D6J, and the
-assertion is Stacks 0DA0's abelian counterpart Stacks 0D8G. Neither of the two steps is
-available unconditionally in this library:
+assertion is Stacks 0DA0's abelian counterpart Stacks 0D8G.
 
-* the clause of Stacks 0D6J about the unbounded derived direct image along a morphism of ringed
-  sites is explicitly *not* carried by the module
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.ForgettingTheModuleStructure`,
-  which has only the two sections clauses; and
-* `Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering`,
-  this library's Stacks 0D8G, is itself conditional on two inputs — Stacks 0D8E in its abelian
-  form and the `Ra_*`-acyclicity of `a⁻¹` of a K-injective complex.
+This file takes the source's *first* observation, `a^* = a⁻¹`, directly on sheaves of modules,
+and carries out the argument of Stacks 0D8G one level up, for `Mod(O)` in place of
+`Ab(C_total)`. The result, `AlgebraicGeometry.RingedToposHom.isIso_derivedPullbackPushforwardUnit`,
+reduces the module statement of Stacks 0DA0 to two inputs, `hunit` and `hacyclic`, the module
+forms of the two facts about the augmentation that drive Stacks 0D8G. No K-flat machinery
+(Stacks 06YY, 0G6R, 05VD) is used, because the structure map of `a` is invertible and therefore
+`a^*` is exact.
 
-So the reduction is not taken. Instead the source's *first* observation, `a^* = a⁻¹`, is used
-directly on sheaves of modules, and the argument of Stacks 0D8G is carried out one level up, for
-`Mod(O)` in place of `Ab(C_total)`. The result is the module statement of Stacks 0DA0 carrying
-exactly the two hypotheses that Stacks 0D8G carries, in their module form, and **nothing else**:
-no form of Stacks 0D6J is used, and no K-flat machinery (Stacks 06YY, 0G6R, 05VD) is used
-either, because the structure map of `a` is invertible and therefore `a^*` is exact.
+Both inputs are proved for a hypercovering in
+`HypercoveringModuleCohomologicalDescentUnconditional.lean`, in this directory:
+`hunit` is the module form of Stacks 0D8E, from Stacks 0D9Z, and `hacyclic` is the source's
+reduction to abelian sheaves, through Stacks 0D6J and Stacks 0D8G. Stacks 0DA0 itself is
+`CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_derivedPullbackPushforwardUnit_of_hypercoveringOfTerminal` there.
 
 ## Main definitions
 
@@ -68,11 +67,13 @@ either, because the structure map of `a` is invertible and therefore `a^*` is ex
   `E ⟶ Ra_*La^*E` is an isomorphism, granted that the underived unit `M ⟶ a_*a^*M` is one and
   that `a^*` of a K-injective complex computes `Ra_*`.
 * `Stacks.CategoryTheory.Hypercovering.isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`:
-  **Stacks 0DA0** with those two hypotheses, for the ringed augmentation of a hypercovering.
-* `isIso_derivedPullbackPushforwardUnit_app_of_hypercovering_over`, in that same namespace:
-  **Stacks 0DA5**, the same statement for a hypercovering of an object `X`, over the slice site
-  `C/X` with `O_X = O_C|_{C/X}`. It carries the same two hypotheses, and needs only fibre
-  products on `C`, the slice site having all finite limits.
+  the statement of Stacks 0DA0 from those two inputs, for the ringed augmentation of a
+  hypercovering.
+* `isIso_derivedPullbackPushforwardUnit_app_of_hypercovering_over`, in that same namespace: the
+  same reduction for a hypercovering of an object `X`, over the slice site `C/X` with
+  `O_X = O_C|_{C/X}`. Stacks 0DA5 itself, with both inputs proved, is
+  `isIso_derivedPullbackPushforwardUnit_app_of_isHypercovering` in the namespace
+  `CategoryTheory.SimplicialSemiRepresentable`.
 
 ## Implementation notes
 
@@ -108,10 +109,10 @@ modules on a ringed topos form a Grothendieck abelian category. That is why the 
 
 *The two hypotheses are the two of Stacks 0D8G, in module form.* `hunit` is Stacks 0D8E for
 modules, that the underived unit `M ⟶ a_*a^*M` is an isomorphism; `hacyclic` is the module form
-of the derived content of the source's computation of `Ra_*a^*` on an injective sheaf, which
-rests on the spectral sequence of Stacks 0D7A that this library does not build. Neither is used
-by the construction of `La^*`, of `Ra_*`, of their adjunction or of its unit: those are
-unconditional.
+of the derived content of the source's computation of `Ra_*a^*` on an injective sheaf. Neither is
+used by the construction of `La^*`, of `Ra_*`, of their adjunction or of its unit. For a
+hypercovering both are theorems of
+`HypercoveringModuleCohomologicalDescentUnconditional.lean`, in this directory.
 
 *The hypercovering is the one of Stacks 0D8G.* The simplicial-site situation and the
 augmentation are `Stacks.CategoryTheory.Hypercovering.hypercoveringSituation` and
@@ -126,7 +127,6 @@ equalizers and fibre products appear as the instance arguments `[HasEqualizers C
 ## References
 
 * [Stacks Project, Tag 0DA0](https://stacks.math.columbia.edu/tag/0DA0)
-* [Stacks Project, Tag 0DA5](https://stacks.math.columbia.edu/tag/0DA5)
 * [Stacks Project, Tag 0D8G](https://stacks.math.columbia.edu/tag/0D8G)
 * [Stacks Project, Tag 0D8E](https://stacks.math.columbia.edu/tag/0D8E)
 * [Stacks Project, Tag 0D6J](https://stacks.math.columbia.edu/tag/0D6J)
@@ -181,10 +181,8 @@ This is the source's observation `a^* = a⁻¹` for the ringed augmentation of S
 @[sga "4 IV 13.7" "partial"]
 theorem pullbackModules_preservesFiniteLimits_of_isIso_fSharp :
     PreservesFiniteLimits f.toModulesHom.pullbackModules := by
-  have :=
-    Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-  have :=
-    Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+  have := Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+  have := Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
   have := f.toToposHom.preservesFiniteLimits
   have : PreservesFiniteLimits (f.toModulesHom.pullbackModules ⋙
       Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
@@ -207,18 +205,15 @@ attribute [local instance] pullbackModules_preservesFiniteLimits_of_isIso_fSharp
 /-- Every complex is its own resolution by the class of all objects, so that class resolves the
 quasi-isomorphisms. -/
 theorem exists_top_resolution
-    (M : HomotopyCategory
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+    (M : HomotopyCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
       (ComplexShape.up ℤ)) :
-    ∃ (N : HomotopyCategory
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+    ∃ (N : HomotopyCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
       (ComplexShape.up ℤ)) (_ : (⊤ : ObjectProperty _) N) (s : N ⟶ M), targetQuasiIso Y s :=
   ⟨M, trivial, 𝟙 M, MorphismProperty.id_mem _ _⟩
 
 /-- Degreewise pullback inverts every quasi-isomorphism, `f^*` being exact. -/
 theorem pullbackOnHomotopy_inverts_quasiIso
-    {M N : HomotopyCategory
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+    {M N : HomotopyCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
       (ComplexShape.up ℤ)} (s : M ⟶ N) (hs : targetQuasiIso Y s) :
     IsIso ((pullbackOnHomotopy f).map s) :=
   Stacks.DerivedFunctor.HigherDerivedOfExact.mapHomotopyCategory_inverts_quasiIso
@@ -246,8 +241,7 @@ def derivedAdjunctionOfIsIsoFSharp :
 
 /-- The canonical map `E ⟶ Rf_*Lf^*E`, the unit of the derived adjunction. -/
 abbrev derivedPullbackPushforwardUnit :
-    𝟭 (DerivedCategory
-        (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) ⟶
+    𝟭 (DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) ⟶
       (leftDerivedPullbackOfIsIsoFSharp f).functor ⋙
         derivedPushforward (X := X) (Y := Y) f :=
   (derivedAdjunctionOfIsIsoFSharp f).unit
@@ -256,14 +250,11 @@ abbrev derivedPullbackPushforwardUnit :
 `O_D`-modules the degreewise pullback `f^*I` computes the derived direct image, that is, the
 canonical map `f_*f^*I ⟶ Rf_*f^*I` is an isomorphism. -/
 def PullbackComputesDerivedPushforward : Prop :=
-  ∀ I : CochainComplex
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) ℤ,
-    I.IsKInjective →
+  ∀ I : CochainComplex (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) ℤ, I.IsKInjective →
     IsIso (((pushforwardOnHomotopy (X := X) (Y := Y) f).totalRightDerivedUnit
       DerivedCategory.Qh (sourceQuasiIso X)).app
       ((pullbackMapHomotopy f).obj
-        ((HomotopyCategory.quotient
-          (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+        ((HomotopyCategory.quotient (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
           (ComplexShape.up ℤ)).obj I)))
 
 /-- **The canonical map `E ⟶ Rf_*Lf^*E` is an isomorphism**, granted two inputs: that the
@@ -283,8 +274,7 @@ theorem isIso_derivedPullbackPushforwardUnit
   have := hunit
   refine Stacks.Cohomology.Localization.natTrans_isIso_of_kInjectives _ (fun I hI => ?_)
   have := hacyclic I hI
-  set M := (HomotopyCategory.quotient
-    (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+  set M := (HomotopyCategory.quotient (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
     (ComplexShape.up ℤ)).obj I with hM
   have : IsIso ((pullbackAdjPushforwardMapHomotopy f).unit.app M) :=
     Adjunction.isIso_mapHomotopyCategoryAdjunction_unit_app _ _ _
@@ -341,43 +331,29 @@ theorem hypercoveringRingedAugmentation_augmentationRingedTopos_O :
     (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.O = OC :=
   rfl
 
-/-- **Stacks 0DA0**, granted the two inputs this library's Stacks 0D8G is granted, in their
-module form. Let `C` be a site with equalizers and fibre products, let `O_C` be a sheaf of
-commutative rings on it and let `K` be a hypercovering of `C`. With `O = a⁻¹O_C` on the total
-site and `a : (Sh((C/K)_total), O) ⟶ (Sh(C), O_C)` the ringed augmentation of Stacks 0D9W, the
-canonical map
+/-- The statement of Stacks 0DA0 at an object, from the two inputs of
+`AlgebraicGeometry.RingedToposHom.isIso_derivedPullbackPushforwardUnit`. Let `C` be a site with
+equalizers and fibre products, let `O_C` be a sheaf of commutative rings on it and let `K` be a
+hypercovering of `C`. With `O = a⁻¹O_C` on the total site and
+`a : (Sh((C/K)_total), O) ⟶ (Sh(C), O_C)` the ringed augmentation of Stacks 0D9W, the canonical
+map `E ⟶ R a_* L a^* E` is an isomorphism for every object `E` of `D(O_C)`, given that the
+underived unit `M ⟶ a_*a^*M` is an isomorphism (`hunit`, the module form of Stacks 0D8E) and that
+`a^*` of a K-injective complex of `O_C`-modules computes `Ra_*` (`hacyclic`).
 
-`E ⟶ R a_* L a^* E`
-
-is an isomorphism for every object `E` of the unbounded derived category `D(O_C)` of sheaves of
-`O_C`-modules.
-
-`E` is arbitrary: no boundedness is assumed and the coefficients are the full category of
-sheaves of modules. `La^*` is the degreewise pullback, which is the source's first observation,
-and nothing of Stacks 06YY, 0G6R or 05VD enters.
-
-The two hypotheses are the two of
-`Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering`, read
-for sheaves of modules instead of abelian sheaves. `hunit` is Stacks 0D8E in its module form,
-that the underived unit `M ⟶ a_*a^*M` is an isomorphism; it is not available here because its
-proof needs the abelian form of Stacks 0D86, which this library has for sheaves of sets only.
-`hacyclic` says that `a^*` of a K-injective complex of `O_C`-modules computes `Ra_*`; it is the
-derived content of the source's computation of `Ra_*a^*` by the Čech complex, which rests on the
-spectral sequence of Stacks 0D7A that this library does not build. The source's own route — the
-abelian statement of Stacks 0D8G together with Stacks 0D6J — would carry the same two
-hypotheses through Stacks 0D8G *and* in addition the clause of Stacks 0D6J about the derived
-direct image, which this library does not have; so that route is not taken and the count of
-deferred inputs is exactly two. -/
-@[stacks 0DA0 "granted the module form of Tag 0D8E as hunit and the Ra_*-acyclicity of a^* of a \
-K-injective complex as hacyclic -- the two inputs that this library's Tag 0D8G, \
-`isIso_derivedAugmentationUnit_app_of_hypercovering`, is itself granted"]
+Both inputs hold for every hypercovering: they are
+`CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_pullbackAdjPushforwardModules_unit_of_hypercoveringOfTerminal` and
+`.pullbackComputesDerivedPushforward_of_hypercoveringOfTerminal`, and Stacks 0DA0 with no input is
+`CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_derivedPullbackPushforwardUnit_of_hypercoveringOfTerminal`, in
+`HypercoveringModuleCohomologicalDescentUnconditional.lean`, which imports this file. This form
+is kept for the developments that take the two inputs as arguments. -/
 theorem isIso_derivedPullbackPushforwardUnit_app_of_hypercovering
     (hunit : IsIso (AlgebraicGeometry.RingedToposHom.pullbackAdjPushforwardModules
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).unit)
     (hacyclic : AlgebraicGeometry.RingedToposHom.PullbackComputesDerivedPushforward.{u}
       (hypercoveringRingedAugmentation J H OC).totalRingedHom)
-    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
-      (J := (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.J))
+    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.J))
       (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.O))) :
     IsIso ((AlgebraicGeometry.RingedToposHom.derivedPullbackPushforwardUnit
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).app E) :=
@@ -392,29 +368,25 @@ variable {X : C} (P : Pretopology C)
   (O : Sheaf P.toGrothendieck CommRingCat.{u})
 
 omit [HasEqualizers C] in
-/-- **Stacks 0DA5.** Let `C` be a site with fibre products, `X` an object of it, `O_C` a sheaf of
-rings and `K` a hypercovering of `X`. Writing `O_X = O_C|_{C/X}` and `a` for the augmentation of
-the total site of `K` over the slice site `C/X`, the canonical map `E ⟶ Ra_*La^*E` is an
-isomorphism for every `E` in the derived category of `O_X`-modules.
+/-- **The derived unit along a hypercovering of an object, from the underived unit and the
+acyclicity of `a^*`.** Let `C` be a site with fibre products, `X` an object of it, `O_C` a sheaf of
+rings and `K` a hypercovering of `X`. Writing `O_X = O_C|_{C/X}` and `a` for the ringed
+augmentation of Stacks 0D9X of the total site of `K` over the slice site `C/X`, the canonical map
+`E ⟶ Ra_*La^*E` is an isomorphism for every `E` in the derived category of `O_X`-modules as soon
+as the underived unit `M ⟶ a_*a^*M` is an isomorphism (`hunit`) and `a^*` of a K-injective
+complex computes `Ra_*` (`hacyclic`).
 
-The slice site `C/X` has a terminal object and inherits fibre products from `C`, so it has all
-finite limits; this is why the source asks only for fibre products on `C` here, where Stacks
-0DA0 asks for equalizers as well. The augmentation is the ringed one of Stacks 0D9X, and the two
-pinning lemmas `hypercoveringObjectRingedAugmentation_augmentationRingedTopos_J` and `_O` certify
-that the coefficients are the sheaves of `O_X`-modules on `C/X`. The hypercovering condition on
-`K` is recorded as `hK`, and, exactly as in Stacks 0DA0, it is absorbed into the two deferred
-inputs rather than consumed directly. -/
-@[stacks 0DA5 "granted the module form of Tag 0D8E as hunit and the Ra_*-acyclicity of a^* of a \
-K-injective complex as hacyclic -- the same two inputs this library's Tag 0DA0, \
-`isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`, is itself granted"]
+For a hypercovering both are theorems of this library, in the namespace
+`CategoryTheory.SimplicialSemiRepresentable`: `isIso_pullbackAdjPushforwardModules_unit_over`
+(Stacks 0DA4) and `pullbackComputesDerivedPushforward_of_isHypercovering`. Stacks 0DA5 itself is
+`isIso_derivedPullbackPushforwardUnit_app_of_isHypercovering` in that namespace. -/
 theorem isIso_derivedPullbackPushforwardUnit_app_of_hypercovering_over
     (_hK : IsHypercovering P K)
     (hunit : IsIso (AlgebraicGeometry.RingedToposHom.pullbackAdjPushforwardModules
       (hypercoveringObjectRingedAugmentation P K O).totalRingedHom).unit)
     (hacyclic : AlgebraicGeometry.RingedToposHom.PullbackComputesDerivedPushforward.{u}
       (hypercoveringObjectRingedAugmentation P K O).totalRingedHom)
-    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
-      (J := (hypercoveringObjectRingedAugmentation P K O).augmentationRingedTopos.J))
+    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (hypercoveringObjectRingedAugmentation P K O).augmentationRingedTopos.J))
       (hypercoveringObjectRingedAugmentation P K O).augmentationRingedTopos.O))) :
     IsIso ((AlgebraicGeometry.RingedToposHom.derivedPullbackPushforwardUnit
       (hypercoveringObjectRingedAugmentation P K O).totalRingedHom).app E) :=

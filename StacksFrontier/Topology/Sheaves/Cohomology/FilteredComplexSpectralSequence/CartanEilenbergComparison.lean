@@ -75,6 +75,11 @@ All in the namespace `Stacks.Cohomology.FilteredComplex`.
   [Stacks, Tag 0FLK].
 * `exists_stupidTruncationSpectralSequence_iso_cartanEilenbergFirst`: the same, in the existential
   shape of clauses (1) and (2).
+* `exists_filteredKInjectiveResolution_stupidTruncation_iso_cartanEilenbergFirst`: the bounded
+  below clauses of [Stacks, Tag 0FLK] for the spectral sequence of [Stacks, Tag 0BKK]: it can be
+  computed by a filtered K-injective resolution as in Remark [Stacks, Tag 0BKL], and that
+  resolution's spectral sequence is bounded, converges to `H^{i + j}(X, F^•)` and is the first
+  spectral sequence of every Cartan-Eilenberg resolution.
 
 ## Implementation notes
 
@@ -271,17 +276,18 @@ theorem nonempty_spectralSequence_iso_cartanEilenbergFirst
   exact nonempty_spectralSequence_iso_cartanEilenbergFirst_of_quasiIso_augmentation X a S hge hinj
     I (fun p => quasiIso_filteredTotalAugmentation_natTrans_app I ⟨a, hF⟩ p)
 
-/-- **Clause (3) of [Stacks, Tag 0FLK] in the existential shape of clauses (1) and (2).** For a
-bounded below complex of module sheaves there is a brutal-truncation package whose spectral
-sequence is bounded, converges to `H^{i + j}(X, F^•)`, *and* is isomorphic to the first spectral
-sequence of every Cartan-Eilenberg resolution of `F^•`.
+/-- For a bounded below complex of module sheaves there is a brutal-truncation package whose
+spectral sequence is bounded, converges to `H^{i + j}(X, F^•)`, *and* is isomorphic to the first
+spectral sequence of every Cartan-Eilenberg resolution of `F^•`.
 
 This is `exists_boundedBelowStupidTruncationSpectralSequence` with the comparison
-`nonempty_spectralSequence_iso_cartanEilenbergFirst` added for the package it produces. -/
-@[stacks 0FLK "bounded below: boundedness, convergence to H^{i + j}(X, F) and the identification \
-with the first spectral sequence of Cartan-Eilenberg (Tag 015J) for one and the same package — \
-the tag's three bounded-below assertions together",
-  ega "0 11.4.3" "'E, T = RΓ, bdd below",
+`nonempty_spectralSequence_iso_cartanEilenbergFirst` added for the package it produces. It is a
+statement about a package (`StupidTruncationSpectralSequence`), whose replacement need not be a
+filtered K-injective resolution; the bounded below clauses of [Stacks, Tag 0FLK] for the spectral
+sequence of [Stacks, Tag 0BKK] are
+`exists_filteredKInjectiveResolution_stupidTruncation_iso_cartanEilenbergFirst` and
+`stupidTruncation_filteredKInjectiveResolution_spectralSequence`. -/
+@[ega "0 11.4.3" "'E, T = RΓ, bdd below",
   ega "0 12.4.1" "'E abutment, absolute",
   ega "0 12.1.7" "boundedness"]
 theorem exists_stupidTruncationSpectralSequence_iso_cartanEilenbergFirst
@@ -295,6 +301,65 @@ theorem exists_stupidTruncationSpectralSequence_iso_cartanEilenbergFirst
   obtain ⟨S, hge, -, hinj, hbdd, habuts⟩ :=
     exists_boundedBelowStupidTruncationSpectralSequence X F a hF
   exact ⟨S, hbdd, habuts, fun I =>
+    nonempty_spectralSequence_iso_cartanEilenbergFirst X a hF S hge hinj I⟩
+
+/-- **Stacks 0FLK, the bounded below case.** Let `F^•` be a bounded below complex of
+`O_X`-modules. Then
+
+1. the spectral sequence of [Stacks, Tag 0BKK] for the brutal truncation filtration
+   `σ_{≥ p}F^•` can be constructed through Remark [Stacks, Tag 0BKL]: there is a filtered
+   K-injective resolution `R` of `σ_{≥ •}F^•` which is bounded below, has a filtration finite in
+   every degree and is filtered injective in every degree;
+2. its spectral sequence `R.spectralSequence` (the 0BKK spectral sequence) has
+   `E_1^{p, q} = H^{p + q}(X, F^p[-p]) = H^q(X, F^p)`, is bounded and converges to
+   `H^{i + j}(X, F^•)`;
+3. it is isomorphic to the first spectral sequence of [Stacks, Tag 015J] of every
+   Cartan-Eilenberg resolution of `F^•`.
+
+Clause 2 holds for every filtered K-injective resolution of `σ_{≥ •}F^•`, by
+`stupidTruncation_filteredKInjectiveResolution_spectralSequence`, and is restated here for the
+resolution of clause 1. -/
+@[stacks 0FLK "bounded below: the 0BKK spectral sequence of a filtered K-injective resolution of \
+(F, σ_{≥p}F) built via Remark 0BKL has E_1^{p, q} = H^{p + q}(X, F^p[-p]) = H^q(X, F^p), is \
+bounded, converges to H^{p + q}(X, F), and is isomorphic to the first spectral sequence (Tag \
+015J) of every Cartan-Eilenberg resolution of F"]
+theorem exists_filteredKInjectiveResolution_stupidTruncation_iso_cartanEilenbergFirst
+    (F : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) (a : ℤ)
+    (hF : F.IsStrictlyGE a)
+    (RΓ : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)) ⥤
+      DerivedCategory (ModuleCat.{u} ((structureSheafRing X).obj.obj (op ⊤))))
+    (α : Stacks.Cohomology.HypercohomologyEdge.HomologyComparison.homotopySections
+      (structureSheafRing X) (⊤ : Opens X.carrier) ⟶ DerivedCategory.Qh ⋙ RΓ)
+    (hRΓ : RΓ.IsRightDerivedFunctor α
+      (HomotopyCategory.quasiIso (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ))) :
+    ∃ R : FilteredKInjectiveResolution X (CochainComplex.stupidTruncationFiltration F),
+      R.obj.X.IsStrictlyGE a ∧ R.obj.filtration.IsDegreewiseFinite ∧
+      (∀ n : ℤ, (CochainComplex.evalFil R.obj n).IsFilteredInjective) ∧
+      (∀ p q : ℤ, Nonempty ((R.spectralSequence.page 1 (by omega)).X (p, q) ≅
+        (DerivedCategory.homologyFunctor
+            (ModuleCat.{u} ((structureSheafRing X).obj.obj (op ⊤))) (p + q)).obj
+          (RΓ.obj (((DerivedCategory.singleFunctor
+            (SheafOfModules.{u} (structureSheafRing X)) 0).obj (F.X p))⟦(-p : ℤ)⟧)))) ∧
+      (∀ p q : ℤ, Nonempty ((R.spectralSequence.page 1 (by omega)).X (p, q) ≅
+        (DerivedCategory.homologyFunctor
+            (ModuleCat.{u} ((structureSheafRing X).obj.obj (op ⊤))) q).obj
+          (RΓ.obj ((DerivedCategory.singleFunctor
+            (SheafOfModules.{u} (structureSheafRing X)) 0).obj (F.X p))))) ∧
+      IsBounded R.spectralSequence ∧
+      SpectralSequence.AbutsTo R.spectralSequence (fun n => hypercohomology X RΓ F n) ∧
+      ∀ I : F.CartanEilenbergResolution,
+        Nonempty (R.spectralSequence ≅ cartanEilenbergFirstSpectralSequence X I) := by
+  have := hRΓ
+  obtain ⟨R, hge, hfin, hinj⟩ := exists_boundedBelow_filteredKInjectiveResolution X
+    (CochainComplex.stupidTruncationFiltration F) a hF
+    (CochainComplex.stupidTruncationFiltration_isDegreewiseFinite F)
+  obtain ⟨-, hR⟩ := stupidTruncation_filteredKInjectiveResolution_spectralSequence X F RΓ α hRΓ
+  obtain ⟨hshift, he₁, hconv⟩ := hR R
+  obtain ⟨hbdd, habuts⟩ := hconv a hF
+  let S : StupidTruncationSpectralSequence X F :=
+    .ofFirstPageIso hRΓ R.map R.quasiIso R.quasiIso_step R.quasiIso_gr
+      (R.nonempty_firstPageIso RΓ α)
+  exact ⟨R, hge, hfin, hinj, hshift, he₁, hbdd, habuts, fun I =>
     nonempty_spectralSequence_iso_cartanEilenbergFirst X a hF S hge hinj I⟩
 
 end Stacks.Cohomology.FilteredComplex

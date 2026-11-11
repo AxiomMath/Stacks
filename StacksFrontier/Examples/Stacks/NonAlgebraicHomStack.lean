@@ -25,9 +25,10 @@ of fppf `A₀`-torsors on `X ×_S T`, so that the isomorphism classes of `𝒳(T
 
   `H¹_fppf(X, A) ⟶ lim H¹_fppf(Xₙ, A)`,   `Xₙ = X ×_S Sₙ`,
 
-and that is what this file proves, from the three inputs the source isolates: `H¹(X, A)`
+and this file proves that reduction, from the three inputs the source isolates: `H¹(X, A)`
 is torsion, the maps `H¹(X_{n+1}, A) ⟶ H¹(Xₙ, A)` are surjective, and `H¹(X₀, A)` is not
-torsion.
+torsion. It also proves the deduction of non-algebraicity from the failure of essential
+surjectivity, through Stacks 07X8.
 
 ## Main results
 
@@ -36,19 +37,43 @@ torsion.
   receiving compatible maps from a torsion group, a non-torsion element of the bottom group
   lifts to a compatible system that is in the image of no element.
 * `Stacks.Examples.NonAlgebraicHomStack.exists_compatible_ne_restrictTotal` and
-  `Stacks.Examples.NonAlgebraicHomStack.not_surjective_toCompatibleSystems` are **Stacks
-  0AFB** in the shape the source reduces it to: a compatible system of classes on the
-  thickenings `Xₙ` which is not the restriction of a class on `X`, and the resulting failure
-  of surjectivity of the comparison map onto the inverse limit.
+  `Stacks.Examples.NonAlgebraicHomStack.not_surjective_toCompatibleSystems` are the source's
+  reduction of Stacks 0AFB: from the three inputs above, a compatible system of classes on the
+  thickenings `Xₙ` which is not the restriction of a class on `X`, and the resulting failure of
+  surjectivity of the comparison map onto the inverse limit.
 * `Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_of_not_essSurj_approximationFunctor`,
   `Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_of_exists_not_isEffective` and
-  `Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_powerSeriesBase`
-  are **Stacks 0AFC** as a deduction: with Stacks 07X8 as a named hypothesis, a category over
-  the big fppf site of a locally Noetherian base whose approximation functor of Stacks 07X6
-  fails to be essentially surjective — equivalently, which has a formal object that is not
-  effective — is not an algebraic stack. See the discussion of the subject below.
+  `Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_powerSeriesBase` are the source's
+  deduction of Stacks 0AFC, for a category over the big fppf site with arbitrary universes, with
+  Stacks 07X8 at those universes as the hypothesis `h07X8`. The same deductions at the universes
+  of the 2-category of algebraic stacks, where 07X8 is proved
+  (`Deformation.Artin.isEquivalence_approximationFunctor_algebraicStacks`), are in
+  `StacksFrontier.Examples.Stacks.HomStackAlgebraicStackUniverses`.
 
-## The witness, and what is assumed
+## Where Stacks 0AFB and 0AFC are proved
+
+The three inputs are proved for the standing data of Section 0AF8
+(`Stacks.Examples.NonAlgebraicHomStack.Situation`):
+
+* `htorsion` is `Stacks.Examples.NonAlgebraicHomStack.isAddTorsion_H1_totalObj`, from Stacks 0AF9
+  and Stacks 0AFA, `X` being a regular integral Noetherian surface
+  (`StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.SituationGeometry`);
+* `hsurjective`, the source's part (b), is
+  `Stacks.Examples.NonAlgebraicHomStack.surjective_restrictSucc_pointsSheaf`;
+* `hnotTorsion`, the source's part (a), is
+  `Stacks.Examples.NonAlgebraicHomStack.not_isAddTorsion_H1_specialFibre`.
+
+The Hom-stack `Mor_S(X, 𝒵)` is `AlgebraicGeometry.Stack.homStack`, and the passage from the
+non-surjectivity on `H¹` to a formal object of `Mor_S(X, 𝒵)` which is not effective is
+`StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.FormalObjects`, for any `𝒵` fibred in groupoids
+with a classifying invariant with values in `H¹(-, A)`; for `[S/A]` that invariant is
+`StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.ClassifyingStack`. Stacks 0AFB and Stacks 0AFC
+themselves, for `Mor_S(X, [S/A])` in the situation of Section 0AF8, are
+`Stacks.Examples.NonAlgebraicHomStack.Situation.exists_not_restriction_homStackClassifyingStack`
+and `Stacks.Examples.NonAlgebraicHomStack.Situation.not_isAlgebraicStack_homStackClassifyingStack`
+in `StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.Main`.
+
+## The witness
 
 The compatible system produced by `exists_compatible_ne_restrictTotal` is *constructed*: its
 level `0` is the given non-torsion class, and each next level is a chosen preimage under the
@@ -56,71 +81,10 @@ surjection of the level below it, so the whole tower is built by recursion out o
 hypotheses. The obstruction to it coming from `X` is then that its level `0` has infinite
 order while the restriction of any class on `X` has finite order.
 
-Three inputs of the source's proof are hypotheses here, and none of them is available in this
-library in a form that would discharge them:
-
-* `htorsion`, that `H¹(X, A)` is torsion. The source gets this from Stacks 0AF9 (injectivity
-  of `H¹_fppf(W, G) ⟶ H¹_fppf(Spec K, G)` for an abelian scheme over a two-dimensional
-  regular integral Noetherian base) together with Stacks 0AFA (first fppf cohomology of a
-  smooth commutative group algebraic space over a field is torsion). 0AFA is carried by
-  `AlgebraicGeometry.Space.fppfH1_isAddTorsion`, itself conditional on fppf descent for
-  algebraicity (Stacks 04S6 part (3)); 0AF9 is carried in the draft tree, itself conditional
-  on a hypothesis standing for the geometric conclusion of its sketch of proof. Neither is
-  combined into the torsion statement here: that combination runs through the function field
-  of `X` and the identification of its `A`-torsors, which is not formalized.
-* `hsurjective`, the source's part (b): the maps `H¹(X_{n+1}, A) ⟶ H¹(Xₙ, A)` are surjective.
-  The source proves this by deformation theory, the obstruction lying in an `H²` of a curve;
-  that argument is not formalized here.
-* `hnotTorsion`, the source's part (a): `H¹(X₀, A)` is not torsion. The source constructs the
-  non-torsion class by glueing trivial `A₀`-torsors along the components of a rational loop in
-  the dual graph of `X₀` using a non-torsion point of `A₀(k)`, and shows it is non-torsion
-  using Stacks 0AEN (a morphism from a rational curve to a torsor under a group algebraic
-  space is constant). 0AEN is carried by
-  `AlgebraicGeometry.Space.morphism_projectiveLine_eq_constant`, conditional on the contraction
-  step of Stacks 0AEM (a factorization through a coordinate projection whose second morphism
-  has finite fibres on points); the glueing construction and the existence of a non-torsion
-  point of `A₀(k)` are not formalized here.
-
-Since the example's geometric conditions on `k`, `X` and `A₀` enter the source's argument only
-through these three facts, they are not repeated as hypotheses below; the data that *is* fixed
-is the base `S = Spec k⟦t⟧`, the family `f : X ⟶ S`, the tower of thickenings `Xₙ = X ×_S Sₙ`
-with its maps to `X`, and the abelian sheaf `A` on the big fppf site over `S`.
-
-The passage from this statement to the literal assertion of the tag — that the comparison
-functor `𝒳(S) ⟶ lim 𝒳(Sₙ)` of the Hom-stack is not essentially surjective — is the source's
-displayed identification of `𝒳_T` with the groupoid of fppf `A₀`-torsors on `X ×_S T`, which
-requires the Hom-stack `Mor_S(X, [S/A])`. That Hom-stack is not available: while the quotient
-stack `[S/A]` is `AlgebraicGeometry.Stack.quotientStack` of Stacks 044Q for the groupoid in
-algebraic spaces given by `A` acting trivially on `S`, nothing in this library defines the
-stack `Mor_S(𝒴, 𝒵)` of 1-morphisms between two algebraic stacks over a base. (What the library
-does have under the name `Mor_S` is the relative morphism *functor* of two schemes,
-`AlgebraicGeometry.relativeHom` of Stacks 0BL2, a presheaf of sets; `[S/A]` is not a scheme, so
-that is not the object the source needs.) The identification is therefore not formalized and
-the tag attributes carry a clause string saying so.
-
-## Stacks 0AFC, and what its subject would have to be
-
-The source deduces Stacks 0AFC — that `𝒳 = Mor_S(X, [S/A])` is not algebraic — from Stacks
-07X8 together with the lemma above, by contraposition: 07X8 says that for an algebraic stack
-over a locally Noetherian base the comparison functor of Stacks 07X6, from objects over a
-Noetherian complete local base to compatible systems over its infinitesimal thickenings, is an
-equivalence; the lemma says that for this `𝒳` it is not essentially surjective. That
-contraposition is the entire content of 0AFC over its two inputs, and it is what the three
-theorems in the last section of this file state, for a `CategoryTheory.BasedCategory` over the
-big fppf site of a locally Noetherian base in place of `𝒳`.
-
-The subject of the tag's sentence cannot be named: as explained above, `Mor_S(X, [S/A])` does
-not exist in this library, so 0AFC cannot be asserted of it. Nor is the implication instantiated
-at the example: the hypothesis the theorems take is the failure of essential surjectivity of
-`Deformation.Artin.approximationFunctor`, while the 0AFB available above is the failure of
-surjectivity of `H¹_fppf(X, A) ⟶ lim H¹_fppf(Xₙ, A)`, and the bridge between the two is exactly
-the unformalized identification of the Hom-stack's fibre categories with groupoids of torsors.
-Stacks 07X8 itself is a hypothesis `h07X8` of each theorem, stated for the ambient site and
-universes in the form 07X8 asserts it.
-
-The theorems are implications whose conclusion is a negation, so they are not vacuous in the
-sense of asserting something trivially true of their subject; what they do not do is exhibit a
-subject. Both hypotheses are used: the proof is `fun h𝒳 => h0AFB (h07X8 𝒳 h𝒳 hp).essSurj`.
+The theorems of this file are stated for an arbitrary family `X ⟶ S` and abelian sheaf `A`,
+with the three inputs as hypotheses; the fixed data is the base `S = Spec k⟦t⟧`, the family
+`f : X ⟶ S`, the tower of thickenings `Xₙ = X ×_S Sₙ` with its maps to `X`, and the abelian sheaf
+`A` on the big fppf site over `S`.
 
 ## Implementation notes
 
@@ -302,20 +266,17 @@ public def toCompatibleSystems
 
 /-! ### Stacks 0AFB -/
 
-/-- **Stacks 0AFB**, in the shape to which the source reduces it. For the example of a
-non-algebraic Hom-stack over `S = Spec k⟦t⟧`, with `Xₙ = X ×_S Sₙ` the thickenings of the
+/-- **The source's reduction of Stacks 0AFB.** For the example of a non-algebraic Hom-stack
+over `S = Spec k⟦t⟧`, with `Xₙ = X ×_S Sₙ` the thickenings of the
 special fibre and `A` the constant abelian scheme, there is a compatible system of classes
 in `H¹_fppf(Xₙ, A)` which is the restriction of no class in `H¹_fppf(X, A)`.
 
 The system is constructed: its level `0` is a class of infinite order, supplied by
 `hnotTorsion`, and each next level is a preimage of the level below under the surjection of
 `hsurjective`. No class on `X` restricts to it, because a class on `X` has finite order by
-`htorsion` and hence so does its restriction to `X₀`. -/
-@[stacks 0AFB "the source's own reduction of the tag to the non-surjectivity of \
-  H¹(X, A) → lim H¹(Xₙ, A), with the three inputs of its proof as the hypotheses \
-  htorsion (0AF9 and 0AFA), hsurjective (part (b)) and hnotTorsion (part (a)); the \
-  identification of the Hom-stack's fibre categories with groupoids of torsors, by \
-  which the tag's essential surjectivity is this surjectivity, is not formalized"]
+`htorsion` and hence so does its restriction to `X₀`. In the situation of Section 0AF8 the three
+inputs are proved, see
+`Stacks.Examples.NonAlgebraicHomStack.Situation.not_surjective_toCompatibleSystems`. -/
 public theorem exists_compatible_ne_restrictTotal
     (htorsion : IsAddTorsion (Sheaf.H' 𝒜 1 (totalObj B hS fX hX)))
     (hsurjective : ∀ n, Function.Surjective (restrictSucc B hS fX hXn 𝒜 n))
@@ -332,13 +293,10 @@ public theorem exists_compatible_ne_restrictTotal
       (restrictTotal B hS fX hX hXn 𝒜) hsurjective htorsion hx₀
   exact ⟨s, hs0 ▸ hx₀, hstep, hout⟩
 
-/-- **Stacks 0AFB**, in the shape to which the source reduces it: the comparison map
-`H¹_fppf(X, A) ⟶ lim H¹_fppf(Xₙ, A)` is not surjective. -/
-@[stacks 0AFB "the source's own reduction of the tag to the non-surjectivity of \
-  H¹(X, A) → lim H¹(Xₙ, A), with the three inputs of its proof as the hypotheses \
-  htorsion (0AF9 and 0AFA), hsurjective (part (b)) and hnotTorsion (part (a)); the \
-  identification of the Hom-stack's fibre categories with groupoids of torsors, by \
-  which the tag's essential surjectivity is this surjectivity, is not formalized"]
+/-- **The source's reduction of Stacks 0AFB**: under the three inputs of its proof, the comparison
+map `H¹_fppf(X, A) ⟶ lim H¹_fppf(Xₙ, A)` is not surjective. In the situation of Section 0AF8 the
+inputs are proved, see
+`Stacks.Examples.NonAlgebraicHomStack.Situation.not_surjective_toCompatibleSystems`. -/
 public theorem not_surjective_toCompatibleSystems
     (htorsion : IsAddTorsion (Sheaf.H' 𝒜 1 (totalObj B hS fX hX)))
     (hsurjective : ∀ n, Function.Surjective (restrictSucc B hS fX hXn 𝒜 n))
@@ -354,12 +312,12 @@ public theorem not_surjective_toCompatibleSystems
 
 end Site
 
-/-! ### Stacks 0AFC -/
+/-! ### The deduction of Stacks 0AFC from Stacks 07X8 -/
 
 section Algebraicity
 
-/-- **Stacks 0AFC**, as the deduction the source makes, for a hypothesised subject. Let `B` be a
-big fppf site, `S` a locally Noetherian scheme in it and `𝒳` a category over the big fppf site
+/-- **The deduction of Stacks 0AFC**, as the source makes it, for an arbitrary category. Let `B`
+be a big fppf site, `S` a locally Noetherian scheme in it and `𝒳` a category over the big fppf site
 over `S` which is fibred in groupoids. Assume Stacks 07X8, as the hypothesis `h07X8`: every
 algebraic stack over `S` has an equivalence for its comparison functor of Stacks 07X6, from
 objects over a Noetherian complete local base to compatible systems over the infinitesimal
@@ -367,18 +325,14 @@ thickenings of its closed point. If that comparison functor is *not* essentially
 `𝒳` — which is Stacks 0AFB for the source's `𝒳 = Mor_S(X, [S/A])` — then `𝒳` is not an
 algebraic stack.
 
-The source's `𝒳` cannot be named here: this library has no Hom-stack of two algebraic stacks.
-See the module documentation. -/
-@[stacks 0AFC "the deduction of the tag from Stacks 07X8 and Stacks 0AFB only, and not about \
-  the tag's subject: for a category fibred in groupoids over the big fppf site of a locally \
-  Noetherian base, 07X8 as the named hypothesis h07X8 together with the failure of essential \
-  surjectivity of the comparison functor of Stacks 07X6 for that category give \
-  non-algebraicity. The tag's subject, the Hom-stack Mor_S(X, [S/A]), cannot be named — this \
-  library defines no Hom-stack of two algebraic stacks — so 0AFC is not asserted of it, and \
-  the implication is not instantiated at the example: the 0AFB available in this file is the \
-  non-surjectivity of H¹(X, A) → lim H¹(Xₙ, A), and its identification with the failure of \
-  essential surjectivity hypothesised here is the source's unformalized computation of the \
-  Hom-stack's fibre categories. 07X8 is a hypothesis, not a result of this library"]
+For the source's `𝒳`, Stacks 0AFC is
+`Stacks.Examples.NonAlgebraicHomStack.Situation.not_isAlgebraicStack_homStackClassifyingStack`.
+Stacks 07X8 is proved in this library,
+`Deformation.Artin.isEquivalence_approximationFunctor_algebraicStacks`, for the objects of the
+2-category `AlgebraicGeometry.Stack.AlgebraicStacks`, whose total categories have the universes
+`{u, u + 1}`; here `𝒳` has arbitrary universes `{v, t}`, so 07X8 at those universes is the
+hypothesis `h07X8`. At the universes `{u, u + 1}` the hypothesis is discharged in
+`Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_of_not_essSurj`. -/
 public theorem not_isAlgebraicStack_of_not_essSurj_approximationFunctor
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     [IsLocallyNoetherian S]
@@ -393,24 +347,21 @@ public theorem not_isAlgebraicStack_of_not_essSurj_approximationFunctor
     ¬ AlgebraicGeometry.Stack.IsAlgebraicStack.{u, w} B S hS 𝒳 :=
   fun h𝒳 => h0AFB (h07X8 𝒳 h𝒳 hp).essSurj
 
-/-- **Stacks 0AFC**, in the vocabulary of effective formal objects. Under Stacks 07X8 as the
+/-- **The deduction of Stacks 0AFC**, in the vocabulary of effective formal objects. Under
+Stacks 07X8 as the
 hypothesis `h07X8`, a category fibred in groupoids over the big fppf site of a locally
 Noetherian base which has a formal object that is not effective, in the sense of Stacks 07X7,
 is not an algebraic stack. This is the form in which the source's Remark 0AFD diagnoses the
 example: "the problem is the non-effectivity of formal objects for `Mor_S(X, [S/A])`".
 
-The source's `𝒳` cannot be named here: this library has no Hom-stack of two algebraic stacks.
-See the module documentation. -/
-@[stacks 0AFC "the deduction of the tag from Stacks 07X8 and Stacks 0AFB only, and not about \
-  the tag's subject: for a category fibred in groupoids over the big fppf site of a locally \
-  Noetherian base, 07X8 as the named hypothesis h07X8 together with a formal object of that \
-  category that is not effective give non-algebraicity. The tag's subject, the Hom-stack \
-  Mor_S(X, [S/A]), cannot be named — this library defines no Hom-stack of two algebraic \
-  stacks — so 0AFC is not asserted of it, and the implication is not instantiated at the \
-  example: the 0AFB available in this file is the non-surjectivity of \
-  H¹(X, A) → lim H¹(Xₙ, A), and its identification with the non-effective formal object \
-  hypothesised here is the source's unformalized computation of the Hom-stack's fibre \
-  categories. 07X8 is a hypothesis, not a result of this library"]
+For the source's `𝒳`, Stacks 0AFC is
+`Stacks.Examples.NonAlgebraicHomStack.Situation.not_isAlgebraicStack_homStackClassifyingStack`.
+Stacks 07X8 is proved in this library,
+`Deformation.Artin.isEquivalence_approximationFunctor_algebraicStacks`, for the objects of the
+2-category `AlgebraicGeometry.Stack.AlgebraicStacks`, whose total categories have the universes
+`{u, u + 1}`; here `𝒳` has arbitrary universes `{v, t}`, so 07X8 at those universes is the
+hypothesis `h07X8`. At the universes `{u, u + 1}` the hypothesis is discharged in
+`Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_of_not_essSurj`. -/
 public theorem not_isAlgebraicStack_of_exists_not_isEffective
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     [IsLocallyNoetherian S]
@@ -429,20 +380,14 @@ public theorem not_isAlgebraicStack_of_exists_not_isEffective
   have := (h07X8 𝒳 h𝒳 hp).essSurj
   exact hξ (CategoryTheory.Functor.EssSurj.mem_essImage _ ξ)
 
-/-- **Stacks 0AFC** over the section's own base `S = Spec k⟦t⟧`. Under Stacks 07X8 as the
-hypothesis `h07X8`, a category fibred in groupoids over the big fppf site over `S` which has a
-formal object that is not effective is not an algebraic stack. Only the base of the source's
-example is pinned down here; its `𝒳 = Mor_S(X, [S/A])` still cannot be named, so `𝒳` remains a
-hypothesis. See the module documentation. -/
-@[stacks 0AFC "the deduction of the tag from Stacks 07X8 and Stacks 0AFB only, over the \
-  section's base S = Spec k⟦t⟧ but not about the tag's subject: 07X8 as the named hypothesis \
-  h07X8 together with a formal object that is not effective give non-algebraicity. The tag's \
-  subject, the Hom-stack Mor_S(X, [S/A]), cannot be named — this library defines no Hom-stack \
-  of two algebraic stacks — so 0AFC is not asserted of it, and the implication is not \
-  instantiated at the example: the 0AFB available in this file is the non-surjectivity of \
-  H¹(X, A) → lim H¹(Xₙ, A), and its identification with the non-effective formal object \
-  hypothesised here is the source's unformalized computation of the Hom-stack's fibre \
-  categories. 07X8 is a hypothesis, not a result of this library"]
+/-- **The deduction of Stacks 0AFC** over the section's own base `S = Spec k⟦t⟧`. Under
+Stacks 07X8 as the hypothesis `h07X8`, a category fibred in groupoids over the big fppf site over
+`S` which has a formal object that is not effective is not an algebraic stack. For the source's
+`𝒳 = Mor_S(X, [S/A])` this is
+`Stacks.Examples.NonAlgebraicHomStack.Situation.not_isAlgebraicStack_homStackClassifyingStack`.
+At the universes `{u, u + 1}` the hypothesis `h07X8` is discharged in
+`Stacks.Examples.NonAlgebraicHomStack.not_isAlgebraicStack_powerSeriesBase_of_not_isEffective`.
+See the module documentation. -/
 public theorem not_isAlgebraicStack_powerSeriesBase
     {k : Type u} [Field k] (B : AlgebraicGeometry.BigFppfSite.{u})
     (hS : B.Contains (base k))

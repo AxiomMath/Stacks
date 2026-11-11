@@ -330,7 +330,9 @@ constructed using `𝒩 = i^*ℒ` viewed as a virtual normal sheaf for `D` in `X
 
 This is `Stacks.Chow.gysinBivariantClass_eq_virtualNormalBundleClass_of_iso`, which holds for any
 surjection `(i^*ℒ)^∨ ⟶ 𝒞_{D/X}`, at the canonical one. -/
-@[stacks 0FBN]
+@[stacks 0FBN "unconditional: the constructed Gysin class of Tag 0B79 equals the constructed \
+class c(D → X, 𝒩) of Tag 0FBK for 𝒩 = i^*L with the canonical surjection onto the conormal \
+sheaf, as bivariant classes, so on every test scheme and in every degree"]
 theorem gysinBivariantClass_eq_virtualNormalBundleClass :
     (gysinBivariantClass C sX L s).1 =
       virtualNormalBundleClass C (gysinTripleInclusion L s ≫ sX) sX (gysinTripleInclusion L s)

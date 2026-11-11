@@ -23,13 +23,14 @@ map `A_{φ⁻¹(𝔮)} → B_𝔮` is an isomorphism.
 
 ## Implementation notes
 
-Part (1) of Stacks 096E, the *local isomorphism* property, is Mathlib's `Algebra.IsLocalIso`;
-part (2) is `Algebra.IdentifiesLocalRings` below.
+Part (1) of Stacks 096E, the *local isomorphism* property, is `Algebra.IsLocalIsomorphism` in
+`StacksFrontier.RingTheory.LocalIso.SpecOpenImmersion`, stated as in the source; part (2) is
+`Algebra.IdentifiesLocalRings` below.
 
-Mathlib's part (1) asks each `B_g` to be a *standard* open immersion over `A`, where the
-source asks only that `Spec(B_g) → Spec(A)` be an open immersion. The two agree: an open
-immersion of affines is standard after a further localization of the source, and the
-`∀ 𝔮, ∃ g ∉ 𝔮` in front absorbs that localization.
+Mathlib's `Algebra.IsLocalIso` asks each `B_g` to be a *standard* open immersion over `A`, where
+the source asks only that `Spec(B_g) → Spec(A)` be an open immersion. The two agree, by
+`Algebra.isLocalIsomorphism_iff_isLocalIso`: an open immersion of affines is standard after a
+further localization of the source, and the `∀ 𝔮, ∃ g ∉ 𝔮` in front absorbs that localization.
 
 "Isomorphism" is expressed as `Function.Bijective` of Mathlib's
 `Localization.localRingHom`, which is the canonical map on localizations at a prime and its

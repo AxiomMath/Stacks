@@ -22,6 +22,19 @@ open and closed subscheme `W ⊆ X` which is proper over `Spec A`.
   with the closed fibre of `W` recorded as an equality of subsets.
 * `AlgebraicGeometry.exists_isClopen_isProper_of_henselianPair`: [Stacks, Tag 0CT9].
 
+## Implementation notes
+
+`AlgebraicGeometry.exists_isClopen_isProper_of_henselianPair_of_compactification` in
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair` takes a compactification
+of `f` and the connectedness of the first Stein factor of proper morphisms to `Spec A` as
+arguments.  Both are supplied here:  Chow's lemma
+(`AlgebraicGeometry.hasChowModification_of_compactSpace_quasiSeparatedSpace`) gives a proper
+surjective `X' ⟶ X` with an immersion of `X'` into projective space, whose scheme theoretic image
+compactifies `X'`, and the connectedness is
+`Stacks.SteinFactorization.geometricallyConnected_toNormalization_of_isProper`.  They are kept out
+of `ProperPartOverHenselianPair` itself, whose importers would otherwise see the large import
+closure of both results.
+
 ## References
 
 * [Stacks Project, Tag 0CT9](https://stacks.math.columbia.edu/tag/0CT9)

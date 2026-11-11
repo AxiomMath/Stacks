@@ -47,17 +47,12 @@ the supported section is natural in `F`.
 
 ### The coefficient universe
 
-Everything here happens at the single coefficient universe `AddCommGrpCat.{u + 1}` for the
-scheme universe `u`, rather than at the universe `max (u + 1) v` at which
-`AlgebraicGeometry.SmallEtale.finiteSupportPushforward` is available. That is forced from both
-ends and is not a restriction of the mathematics: extension by zero
-`AlgebraicGeometry.abelianExtensionByZero` and the whole stalk development of Stacks 03S5 are
-stated at `u + 1`, and so is the criterion
-`AlgebraicGeometry.isIso_of_isIso_etaleStalkMap` by which the sheafified map is shown to be an
-isomorphism — the points of the small étale site live relative to `Type u`, and the germ
-calculus delivers an isomorphism of sheaves only when the coefficient universe is `u + 1`.
-Instantiating the finite-support side at `max u v = u + 1` costs nothing, since the supports
-indexing the colimit are already small at `u + 1`.
+The graph-supported sections are constructed for abelian sheaves with coefficients in an
+arbitrary universe `AddCommGrpCat.{w}`. The finite-support direct image presheaf of this file is
+taken at the coefficient universe `AddCommGrpCat.{u + 1}`, the universe of extension by zero
+`AlgebraicGeometry.abelianExtensionByZero`; its counterpart at `AddCommGrpCat.{max (u + 1) v}`
+for every `v` is in
+`StacksFrontier.AlgebraicGeometry.Etale.FiniteSupportExtensionByZero.CoefficientUniverse`.
 
 ### The graph and its two opens
 
@@ -85,7 +80,7 @@ what pins the construction down.
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe u
+universe u w
 
 namespace AlgebraicGeometry.SmallEtale
 
@@ -337,7 +332,7 @@ public theorem etaleGraphOpen_le_finiteSupportOpen
 section GraphSection
 
 variable (F : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
-  AddCommGrpCat.{u + 1})
+  AddCommGrpCat.{w})
 
 /-- A section of `F` over `W`, read on the open image of the graph of `W → U` through the
 identification of `W` with that image. It is supported on the graph because the graph is all
@@ -543,7 +538,7 @@ end GraphSection
 determined by a section of the source to the one determined by its image. -/
 public theorem etaleGraphSection_naturality
     {F G : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
-      AddCommGrpCat.{u + 1}} (φ : F ⟶ G)
+      AddCommGrpCat.{w}} (φ : F ⟶ G)
     (W : SmallEtale B U.obj.left.1 U.obj.left.property) (s : F.obj.obj (op W)) :
     supportedSectionsSheafMap B U.obj.left.1 U.obj.left.property φ
         (baseChange B U.obj.hom ((smallEtalePostcompose B X hX U).obj W))

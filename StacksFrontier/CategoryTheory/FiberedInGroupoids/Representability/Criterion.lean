@@ -54,9 +54,11 @@ import StacksCore.Tactic.EgaSgaAttribute
 Stacks 02Y3: a category fibred in groupoids `p : 𝒮 ⥤ 𝒞` is *representable*, i.e. equivalent
 over `𝒞` to a slice category `𝒞/X`, if and only if it is fibred in setoids (every fibre
 `𝒮_U` is a thin groupoid, `CategoryTheory.Functor.IsFiberedInSetoids`) and its presheaf of
-isomorphism classes `𝒮̄ : U ↦ Ob(𝒮_U)/≅` is representable (`IsoClassRepresentable`); and the
-representing object is then unique up to isomorphism in `𝒞`. These are `representable_iff` and
-`representing_object_unique`.
+isomorphism classes `𝒮̄ : U ↦ Ob(𝒮_U)/≅` is representable (`IsoClassRepresentable`). This is
+`representable_iff`. The canonical isomorphism `representing_object_unique : X' ≅ X` between
+two representing objects is defined here; the uniqueness of the representing pair `(X, j)`
+(Stacks 02Y3 (2)) is `representing_pair_unique` in
+`StacksFrontier.CategoryTheory.FiberedInGroupoids.Representability.RepresentingPairUnique`.
 
 The forward direction transports both conditions along an equivalence over `𝒞`, since a slice
 satisfies them. The converse builds the equivalence by hand: `toOver` sends `x : 𝒮` to the
@@ -236,7 +238,19 @@ and the slice `C/X = Over X` (with its structure functor `Over.forget X`). -/
 def RepresentableBy (p : 𝒮 ⥤ 𝒞) (X : 𝒞) : Type _ :=
   EquivalenceOver (𝒞 := 𝒞) p (Over.forget X)
 
-/-- `p : S ⥤ C` is *representable* if it is representable by some object `X` of `C`. -/
+/-- **Stacks 0046.** `p : S ⥤ C` is *representable* if it is representable by some object `X` of
+`C`: there are an object `X` of `C` and an equivalence `j : S → C/X` over `C`
+(`StacksRepresentableCFG.RepresentableBy`), i.e. strict 1-morphisms over `C` in both directions
+with unit and counit 2-isomorphisms over `C`.
+
+The predicate is stated for an arbitrary category `p : S ⥤ C` over `C`; Stacks applies it to
+categories fibred in groupoids. For those it is exactly the source's notion: `C/X` is fibred in
+groupoids, and the 2-category of categories fibred in groupoids over `C` (Stacks 02XS) has as
+1-morphisms the functors strictly over `C` and as 2-morphisms the transformations lying over
+identities, as in the 2-category of categories over `C` (Stacks 003Y), so an equivalence in it
+is exactly an equivalence over `C` between `S` and `C/X`. -/
+@[stacks 0046 "stated for any category over C; Stacks' case is p fibred in groupoids, where an \
+equivalence over C is an equivalence in the 2-category of groupoids over C (02XS)"]
 def IsRepresentable (p : 𝒮 ⥤ 𝒞) : Prop :=
   ∃ X : 𝒞, Nonempty (RepresentableBy p X)
 
@@ -832,12 +846,12 @@ theorem representable_iff (p : 𝒮 ⥤ 𝒞) :
       X, ⟨isoClassRepresentableBy_of_equivalenceOver j⟩⟩,
     fun ⟨hset, X, ⟨hrep⟩⟩ ↦ ⟨X, ⟨representableBy_of_setoid_and_isoClassRepr hset hrep⟩⟩⟩
 
-/-- **Stacks 02Y3** (part 2). If `p : S ⥤ C` is representable by both `X` (via `j`) and `X'`
-(via `j'`), then the representing objects are **canonically isomorphic** in `C`: this is
-the isomorphism `X' ≅ X` induced by the composite equivalence over `C`, obtained by
+/-- If `p : S ⥤ C` is representable by both `X` (via `j`) and `X'` (via `j'`), this is the
+canonical isomorphism `X' ≅ X` in `C` induced by the composite equivalence over `C`, obtained by
 transporting the terminal object `(X', 𝟙 X')` of `Over X'` to the terminal object
-`(X, 𝟙 X)` of `Over X`. -/
-@[stacks 02Y3 "(2)"]
+`(X, 𝟙 X)` of `Over X`. Its compatibility with `j` and `j'` (the slice functor `Over.map` of
+this isomorphism carries `j'` to `j` up to a 2-isomorphism over `C`), which is Stacks 02Y3 (2),
+is `StacksRepresentableCFG.representing_pair_unique`. -/
 noncomputable def representing_object_unique (p : 𝒮 ⥤ 𝒞)
     {X X' : 𝒞} (j : RepresentableBy p X) (j' : RepresentableBy p X') :
     X' ≅ X := by

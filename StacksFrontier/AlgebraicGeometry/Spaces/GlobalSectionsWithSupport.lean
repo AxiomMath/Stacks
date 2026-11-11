@@ -21,7 +21,7 @@ global sections of that subsheaf and derives the result:
   `Γ_Z(X, F) = {s ∈ F(X) : Supp(s) ⊆ Z}`.
 * `H^q_T(X, -)` is the `q`-th right derived functor of `Γ_T(X, -)`.
 * `R H_Z` and `H^q_Z` on abelian sheaves of `Z_étale` are the derived functors of the functor
-  `H_Z` of Stacks 0A4L, which this development already has.
+  `H_Z` of Stacks 0A4L.
 
 Specialised to the point set of a closed immersion `i : Z ⟶ X` these are the `Γ_Z(X, -)`,
 `H^q_Z(X, -)`, `R H_Z` and `H^q_Z` of Stacks 0A4L, and in particular they make the vanishing
@@ -89,45 +89,21 @@ comparison of `H^q_T` for `T = Set.univ` with `H^q` a one-liner through
 `StacksFrontier/Algebra/Homology/DerivedCategory/RightDerivedFunctorInjective.lean`, because that is
 the spelling Stacks 0A4N is already stated in.
 
-Three things the source also states are **not** proved here, each for a named reason.
+The remaining assertions of Stacks 0A4L about these functors are proved in files that build on
+this one: the left exactness of `Γ_Z(X, -)` and of `𝓗_Z`, with `H^0_Z(X, -) = Γ_Z(X, -)` and
+`𝓗^0_Z = 𝓗_Z`, in `StacksFrontier/AlgebraicGeometry/Spaces/SectionsWithSupportLeftExact.lean`; the
+derived functor `RΓ_Z(X, -)` on the unbounded derived category `D(X_étale)`, the distinguished
+triangle `RΓ_Z(X, K) ⟶ RΓ(X, K) ⟶ RΓ(U, K) ⟶ RΓ_Z(X, K)[1]` and its long exact cohomology
+sequence in `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyWithSupportTriangle.lean`; and the
+spectral sequence `E_2^{p,q} = H^p(Z, 𝓗^q_Z(F)) ⇒ H^{p+q}_Z(X, F)` in
+`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyWithSupportSpectralSequence.lean`.
 
-The degree-zero identification `H^0_T(X, -) ≅ Γ_T(X, -)`:
-`CategoryTheory.Functor.rightDerivedZeroIsoSelf` asks for `Γ_T(X, -)` to preserve finite limits.
-`Sheaf.Γ` does, being a right adjoint, but left exactness of the subsheaf functor
-`AlgebraicGeometry.Space.sectionsWithSupport` is not available — preservation of kernels would
-need the support of a section of a subsheaf to agree with its support in the ambient sheaf, and
-only one inclusion of that, for the subsheaf of sections with support itself, is proved
-(`AlgebraicGeometry.Space.supportOfSection_sectionsWithSupportSheaf_subset`).
-
-The long exact sequence of the pair, that is the triangle
-`RΓ_Z(X, -) ⟶ RΓ(X, -) ⟶ RΓ(U, -) ⟶ RΓ_Z(X, -)[1]` with `U` the open complement: the open
-complement of a closed subspace is available
-(`AlgebraicGeometry.Space.isOpenSubspace_openComplement`) and so is restriction of abelian
-sheaves along an étale, hence an open, immersion
-(`AlgebraicGeometry.Space.etaleAbelianRestriction`), but the short exact sequence
-`0 ⟶ Γ_Z(X, I) ⟶ Γ(X, I) ⟶ Γ(U, I) ⟶ 0` on an injective abelian sheaf `I` is not: it is the
-surjectivity of `I(X) ⟶ I(U)`, Stacks 093X, and the general-site form of that statement,
-`Stacks.EtaleCohomology.RelativeMayerVietoris.injective_sections_map_surjective`, needs `U` to be
-an *object* of the site with `U ⟶ X` a monomorphism there.  An open subspace of an algebraic
-space is not an object of the small étale site, so it cannot be instantiated; what would be
-needed instead is exactness of `etaleAbelianRestriction` together with the left adjoint `j_!`,
-which this development does not construct.
-
-The Grothendieck spectral sequence `E_2^{p,q} = H^p(Z, H^q_Z(F)) ⇒ H^{p+q}_Z(X, F)`: its two
-inputs are present — `CategoryTheory.Functor.exists_abutsTo_homology_rightDerivedFunctorPlus_comp`
-and, for the acyclicity hypothesis, `Functor.rightAcyclic_obj_of_preservesInjectiveObjects`
-applied to Stacks 0A4M in the form of the functorial statement
-`…preservesInjectiveObjects_sectionsWithSupportInClosedSubspace_of_isClosedImmersion`
-of `StacksFrontier/AlgebraicGeometry/Spaces/InjectiveSectionsWithSupport.lean`
-— but they produce a spectral sequence abutting to the derived functors of the *composite*
-`H_Z ⋙ Γ(Z, -)`, global sections on `Z_étale`.  Identifying that with `H^q_Z(X, -)` as defined
-here needs `Γ(Z, i⁻¹G) ≅ Γ(X, G)` for a `G` supported on `Z`, which is the global-sections half
-of the equivalence of Morphisms of Spaces, Lemma 67.13.5 that the source uses silently; that
-comparison is absent, and defining `Γ_Z(X, -)` as the composite instead would be a different
-functor from the source's.
-
-No `@[stacks]` attribute is carried: this is substrate for Stacks 0A4L and 0A4R, and no tag is
-claimed.
+The tag Stacks 0A4L is carried by the specialisations to a closed immersion,
+`AlgebraicGeometry.Space.closedGlobalSectionsWithSupport`,
+`AlgebraicGeometry.Space.closedCohomologyWithSupport`,
+`AlgebraicGeometry.Space.derivedSectionsWithSupportInClosedSubspace` and
+`AlgebraicGeometry.Space.higherSectionsWithSupportInClosedSubspace`; the constructions for an
+arbitrary set of points are substrate for those and for Stacks 0A4R.
 
 ## References
 
@@ -391,8 +367,14 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- **The sections with support `Γ_Z(X, -)` of Stacks 0A4L**, for a closed immersion
 `i : Z ⟶ X` of algebraic spaces over `S`: the global sections of an abelian sheaf on the small
-étale site of `X` whose support maps into the point set of `i`. -/
-@[sga "2 XIV 1.0" "more general"]
+étale site of `X` whose support maps into the point set of `i`.
+
+That its value at `F` is the source's group `{s ∈ F(X) : Supp(s) ⊆ Z}` is
+`AlgebraicGeometry.Space.sectionSupportedOn_ΓRes_globalSectionsWithSupportι`,
+`AlgebraicGeometry.Space.exists_globalSectionsWithSupport` and
+`AlgebraicGeometry.Space.globalSectionsWithSupportι_mono`. -/
+@[stacks 0A4L "the sections with support Γ_Z(X, F) = {s ∈ F(X) : Supp(s) ⊆ Z}",
+  sga "2 XIV 1.0" "more general"]
 abbrev closedGlobalSectionsWithSupport (i : Z ⟶ X) :
     Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1} ⥤ AddCommGrpCat.{u + 1} :=
   globalSectionsWithSupport B S hS X.1 (Set.range (pointsMap B S hS Z.1 i.hom))
@@ -402,7 +384,10 @@ abbrev closedGlobalSectionsWithSupport (i : Z ⟶ X) :
 `AlgebraicGeometry.Space.closedGlobalSectionsWithSupport`.
 
 Its vanishing in degrees `> d` is clause (3) of Stacks 0A4R, for `X` of dimension at most `d`
-and `Z` with quasi-compact complement. -/
+and `Z` with quasi-compact complement. That it is the cohomology in degree `q` of the derived
+functor `RΓ_Z(X, -)` on the unbounded derived category, applied to `F` placed in degree `0`, is
+`AlgebraicGeometry.Space.derivedCohomologyWithSupportSingleIso`. -/
+@[stacks 0A4L "the cohomology with support H^q_Z(X, F) = R^q Γ_Z(X, F)"]
 abbrev closedCohomologyWithSupport (i : Z ⟶ X) (q : ℕ) :
     Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1} ⥤ AddCommGrpCat.{u + 1} :=
   cohomologyWithSupport B S hS X.1 (Set.range (pointsMap B S hS Z.1 i.hom)) q
@@ -417,7 +402,11 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Z X : AlgebraicSpaces B S hS}
 
 /-- **The derived functor `R H_Z` of Stacks 0A4L**, from the bounded below derived category of
-abelian sheaves on the small étale site of `X` to that of `Z`. -/
+abelian sheaves on the small étale site of `X` to that of `Z`.
+
+The same derived functor on the unbounded derived categories is
+`AlgebraicGeometry.Space.derivedSectionsWithSupportOnClosedSubspace`. -/
+@[stacks 0A4L "the derived functor R𝓗_Z on bounded below derived categories"]
 def derivedSectionsWithSupportInClosedSubspace (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) :
     DerivedCategory.Plus (Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1}) ⥤
@@ -429,7 +418,10 @@ functor of `H_Z`, with values in abelian sheaves on the small étale site of `Z`
 
 This is the functor whose vanishing on a direct image of an injective sheaf is Stacks 0A4N,
 `AlgebraicGeometry.Space.isZero_rightDerivedPlus_sectionsWithSupportInClosedSubspace`, and
-whose values are the `E_2`-terms of the spectral sequence of Stacks 0A4L. -/
+whose values are the `E_2`-terms of the spectral sequence of Stacks 0A4L,
+`AlgebraicGeometry.Space.exists_abutsTo_sectionsWithSupportSpectralSequence`. In degree `0` it is
+`H_Z` itself, by `AlgebraicGeometry.Space.higherSectionsWithSupportZeroIso`. -/
+@[stacks 0A4L "the higher sections with support 𝓗^q_Z(F) = R^q 𝓗_Z(F)"]
 def higherSectionsWithSupportInClosedSubspace (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (q : ℤ) :
     Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1} ⥤

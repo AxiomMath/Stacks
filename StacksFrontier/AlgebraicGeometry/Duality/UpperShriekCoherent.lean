@@ -261,12 +261,9 @@ theorem derivedCategoryBBounded_upperShriek {S : Scheme.{u}} [AlgebraicGeometry.
       exact ⟨⟨a, fun n hn => isZero_homology_of_tildeModel hω n (ha n hn)⟩,
         ⟨b, fun n hn => isZero_homology_of_tildeModel hω n (hb n hn)⟩⟩
     obtain ⟨p⟩ := Dualizing.nonempty_polynomialPresentation _ (f.left.finiteType_appLE hV hU hUV)
-    let D : StacksDraft.TorAmplitude.CertifiedDerivedTensoring.{u, u} Γ(Y.left, V) :=
-      StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring Γ(Y.left, V)
     exact ⟨U, hU, hxU, p.upperShriekFunctor.{u, u}.obj ω,
-      Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap.{u, u} p
-        D.tensor D.comparison D.isLeftDerived
-        (AlgebraicGeometry.Perfect.perfect_appLE f.left U hU V hV hUV D) ⟨hωb, hωfin⟩,
+      Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect.{u, u} p
+        (HasRingHomProperty.appLE @Perfect f.left ‹_› ⟨V, hV⟩ ⟨U, hU⟩ hUV) ⟨hωb, hωfin⟩,
       hcharts V hV U hU hUV p ω hω⟩
   exact ⟨isBounded_of_tildeModels hmodels, fun i => isCoherent_homology_of_tildeModels hmodels i⟩
 

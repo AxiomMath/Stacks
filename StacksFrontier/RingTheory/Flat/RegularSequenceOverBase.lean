@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.Flat.LocalCriterionNonNoetherian
+public import StacksFrontier.RingTheory.Sequence.QuotientByMinimalGenerator
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section
@@ -13,12 +14,15 @@ Let `R → S` be a local homomorphism of local rings with `S` essentially of fin
 is flat over `R`. Stacks 046Z says that an `f ∈ S` which is a nonzerodivisor on the fibre `M/𝔪M`
 is a nonzerodivisor on `M`, with `M/fM` again flat over `R`; Stacks 0470 says the same for a
 sequence `f₁, …, f_c`, every partial quotient being flat over `R`. Both are stated in module form,
-the source's case being `M = S`.
+the source's case being `M = S`, which is stated separately for 0470 in the source's words.
 
 ## Main results
 
 * `Module.Flat.isSMulRegular_and_flat_quotient_smul_of_isSMulRegular_maximalIdeal`: Tag 046Z.
-* `Module.Flat.isRegular_and_flat_quotient_ofList_smul_of_isRegular_maximalIdeal`: Tag 0470.
+* `Module.Flat.isRegular_and_flat_quotient_ofList_smul_of_isRegular_maximalIdeal`: the module form
+  of Tag 0470.
+* `Module.Flat.isRegular_and_flat_quotient_ofList_of_isRegular_map_maximalIdeal`: Tag 0470, for the
+  ring `S` itself.
 
 ## Implementation notes
 
@@ -35,6 +39,9 @@ The cokernel: 046Y produces `M ⧸ LinearMap.range (LinearMap.lsmul S M f)` and 
 `M` with `M/fM` flat over `R`, and the induction hypothesis applies to `M/fM`, whose fibre is
 `(M/𝔪M)/f(M/𝔪M)` — that commutation of the two reductions is
 `quotSMulTopQuotIdealSMulTopEquivComm`, Noether's third isomorphism theorem read in both orders.
+The source's statement is the case `M = S`, with the hypothesis read on the images
+`f̄₁, …, f̄_c` in the ring `S/𝔪S` (`isRegular_map_algebraMap_iff_self`) and `(f₁, …, f_i)S` being
+the ideal `(f₁, …, f_i)` itself.
 
 ## References
 
@@ -151,22 +158,16 @@ private lemma flat_quotient_ofList_take_cons_smul_top {R S M : Type*} [CommRing 
     .of_linearEquiv
       ((Submodule.quotOfListConsSMulTopEquivQuotSMulTopInner M f (l.take i)).restrictScalars R)
 
-/-- **Stacks 0470.** Let `R → S` be a local homomorphism of local rings with `S` essentially of
-finite presentation over `R`, let `𝔪` be the maximal ideal of `R`, and let `M` be an `S`-module of
-finite presentation which is flat over `R`. If a sequence `f₁, …, f_c` of elements of `S` is
-regular on the fibre `M/𝔪M`, then it is regular on `M` and every partial quotient
+/-- **Stacks 0470, module form.** Let `R → S` be a local homomorphism of local rings with `S`
+essentially of finite presentation over `R`, let `𝔪` be the maximal ideal of `R`, and let `M` be an
+`S`-module of finite presentation which is flat over `R`. If a sequence `f₁, …, f_c` of elements
+of `S` is regular on the fibre `M/𝔪M`, then it is regular on `M` and every partial quotient
 `M/(f₁, …, f_i)M` is flat over `R`.
 
-The source is the case `M = S`: `f₁, …, f_c` is a regular sequence in `S` and each `S/(f₁, …, f_i)`
-is flat over `R`. Here `𝔪M` is `𝔪S • ⊤` and `M/(f₁, …, f_i)M` is
-`M ⧸ Ideal.ofList (fs.take i) • ⊤`; see the module docstring. -/
-@[stacks 0470 "Stated in module form (the source's case is `M := S`), with the sequence a `List S`,
-`𝔪M` spelled `Ideal.map (algebraMap R S) (maximalIdeal R) • (⊤ : Submodule S M)` and the partial
-quotients spelled `M ⧸ Ideal.ofList (fs.take i) • ⊤`. \"Regular sequence\" is Mathlib's
-`RingTheory.Sequence.IsRegular`, which is Definition 00LF verbatim (nonvanishing clause included).
-Hypothesis (1) is `RingHom.EssentiallyOfFinitePresentation` (Definition 00QM (2)), Mathlib having
-no such predicate. The two conclusions are conjoined; see the module docstring.",
-  ega "0 15.1.16" "c)=>a), ess fin pres",
+The source is the case `M = S`, stated as
+`Module.Flat.isRegular_and_flat_quotient_ofList_of_isRegular_map_maximalIdeal`. Here `𝔪M` is
+`𝔪S • ⊤` and `M/(f₁, …, f_i)M` is `M ⧸ Ideal.ofList (fs.take i) • ⊤`; see the module docstring. -/
+@[ega "0 15.1.16" "c)=>a), ess fin pres",
   ega "0 15.1.17" "(f_i) is M-regular",
   ega "IV 11.3.8" "c) ⇒ a)"]
 public theorem Module.Flat.isRegular_and_flat_quotient_ofList_smul_of_isRegular_maximalIdeal
@@ -198,3 +199,40 @@ public theorem Module.Flat.isRegular_and_flat_quotient_ofList_smul_of_isRegular_
       ih (M := QuotSMulTop f M)
         (((quotSMulTopQuotIdealSMulTopEquivComm _ f).isRegular_congr l).mpr hfs.2)
     exact ⟨.cons hreg hregl, flat_quotient_ofList_take_cons_smul_top f l hflatl⟩
+
+/-- **Stacks 0470.** Let `R → S` be a local homomorphism of local rings, essentially of finite
+presentation and flat, and let `𝔪` be the maximal ideal of `R`. If `f₁, …, f_c ∈ S` are such that
+their images `f̄₁, …, f̄_c` form a regular sequence in `S/𝔪S`, then `f₁, …, f_c` is a regular
+sequence in `S` and each quotient `S/(f₁, …, f_i)` is flat over `R`.
+
+This is the case `M = S` of
+`Module.Flat.isRegular_and_flat_quotient_ofList_smul_of_isRegular_maximalIdeal`. -/
+@[stacks 0470 "The sequence is a `List S` and `(f₁, …, f_i)` is `Ideal.ofList (fs.take i)`, for
+every `i` (beyond the length `c` the quotient is `S/(f₁, …, f_c)`). \"Regular sequence\" is
+Mathlib's `RingTheory.Sequence.IsRegular`, which is Definition 00LF verbatim (nonvanishing clause
+included), and the images `f̄_i` in `S/𝔪S` are `fs.map (Ideal.Quotient.mk _)`. Hypothesis (1) is
+`RingHom.EssentiallyOfFinitePresentation`, Definition 00QM (2). The two conclusions are
+conjoined."]
+public theorem Module.Flat.isRegular_and_flat_quotient_ofList_of_isRegular_map_maximalIdeal
+    {R S : Type*} [CommRing R] [CommRing S] [IsLocalRing R] [IsLocalRing S] [Algebra R S]
+    [IsLocalHom (algebraMap R S)] [Module.Flat R S]
+    (hS : (algebraMap R S).EssentiallyOfFinitePresentation) (fs : List S)
+    (hfs :
+      RingTheory.Sequence.IsRegular (S ⧸ (maximalIdeal R).map (algebraMap R S))
+        (fs.map (Ideal.Quotient.mk ((maximalIdeal R).map (algebraMap R S))))) :
+    RingTheory.Sequence.IsRegular S fs ∧ ∀ i, Module.Flat R (S ⧸ Ideal.ofList (fs.take i)) := by
+  -- The hypothesis, read over `S` rather than over `S/𝔪S`.
+  have hfs' :
+      RingTheory.Sequence.IsRegular
+        (S ⧸ (Ideal.map (algebraMap R S) (maximalIdeal R) • (⊤ : Submodule S S))) fs := by
+    rw [Ideal.smul_eq_mul, Ideal.mul_top]
+    exact (RingTheory.Sequence.isRegular_map_algebraMap_iff_self (R := S)
+      (T := S ⧸ (maximalIdeal R).map (algebraMap R S)) fs).mp
+        (by rwa [Ideal.Quotient.algebraMap_eq])
+  obtain ⟨hreg, hflat⟩ :=
+    Module.Flat.isRegular_and_flat_quotient_ofList_smul_of_isRegular_maximalIdeal (M := S) hS fs
+      hfs'
+  refine ⟨hreg, fun i => ?_⟩
+  have h := hflat i
+  rw [Ideal.smul_eq_mul, Ideal.mul_top] at h
+  exact h

@@ -17,6 +17,11 @@ over a morphism of schemes `a : U ⟶ V`. Stacks 06WJ restricts `F` to the small
 compatible with the map `a_{small}^♯` of structure sheaves, and therefore induces a map
 `c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}` of `𝒪_{U_ét}`-modules.
 
+This file builds the presheaf-level ingredients of that map, with `a_{small}^*` the pullback of
+presheaves of modules. The source's `F` is an étale sheaf and its `a_{small}^*` the pullback of
+sheaves of modules; that map is `AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`,
+which carries the tag.
+
 The map `a_{small}^♯` is the comparison of Stacks 06W2 applied to the structure sheaf itself:
 both restrictions of the structure sheaf of `𝒳` are identified with the structure sheaves of
 the small étale sites by Stacks 06W9, and conjugating by those identifications turns the
@@ -29,8 +34,10 @@ comparison into a morphism of presheaves of rings on the small étale site of `V
 * `AlgebraicGeometry.Stack.restrictModulePushforwardComparison`: the comparison of Stacks 06W2
   for a presheaf of modules, as a morphism of presheaves of modules over `a_{small}^♯`. This is
   the compatibility asserted by Stacks 06WC.
-* `AlgebraicGeometry.Stack.restrictModulePullbackComparison`: **Stacks 06WC**, the induced map
-  `c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}`.
+* `AlgebraicGeometry.Stack.restrictModulePullbackComparison`: the induced map
+  `c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}` with `a_{small}^*` the pullback of presheaves of
+  modules. The map of Stacks 06WC itself, on étale sheaves of modules, is
+  `AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`.
 
 ## Main results
 
@@ -51,9 +58,11 @@ That left adjoint exists because the small étale site is essentially small in t
 its structure sheaf, by `AlgebraicGeometry.SmallEtale.essentiallySmall`; the sections of the
 module must then lie in that same universe, which is why the pullback comparison fixes the
 module universe while the direct-image comparison does not. No sheafification and no sheaf
-condition on the module enter, so the statement is about presheaves of modules throughout; the
-source states it for an étale sheaf only because that is the hypothesis under which it reads
-the comparison in the inverse-image form.
+condition on the module enter here, so this comparison is about presheaves of modules
+throughout. The source's `c_φ` (Stacks 0761, 06WC) is stated for an étale sheaf and goes out of
+the pullback of *sheaves* of modules, the sheafification of the pullback used here; that map is
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`, and the map here is it
+precomposed with the sheafification unit.
 
 Semilinearity of the comparison is the one piece of content. It holds because the comparison of
 Stacks 06W2 is, at each small étale object, restriction of the presheaf along an arrow of `𝒳`
@@ -85,8 +94,11 @@ variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 /-- The map `a_{small}^♯ : 𝒪_{V_ét} ⟶ a_{small, *}𝒪_{U_ét}` of structure sheaves below an arrow
 `φ : x ⟶ y` of `𝒳`: the comparison of Stacks 06W2 for the structure sheaf of `𝒳`, conjugated by
 the identifications of Stacks 06W9 of its restrictions with the structure sheaves of the small
-étale sites. -/
-@[stacks 06WC "the map of structure sheaves below an arrow"]
+étale sites.
+
+This is a presheaf-level ingredient of Stacks 06WC, not its statement: the comparison map of
+étale sheaves of modules the source defines is
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`. -/
 noncomputable def smallEtaleStructureComparison {𝒳 : Type v} [Category.{w} 𝒳]
     (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids) {x y : 𝒳} (φ : x ⟶ y)
     (τ : GrothendieckTopology B.Schemes) (hτ : τ ≤ B.topology) :
@@ -99,12 +111,13 @@ noncomputable def smallEtaleStructureComparison {𝒳 : Type v} [Category.{w} �
     Functor.whiskerLeft (smallEtaleBaseChange E (smallEtaleBaseMorphism B E h S hS p φ)).op
       (localStructurePresheafIso B E h S hS p hp x τ hτ).inv
 
-/-- **Stacks 06WC.** The comparison of Stacks 06W2 for a presheaf of modules on `𝒳` is a
-morphism of presheaves of modules over the map `a_{small}^♯` of structure sheaves: the
-restriction at `y` maps to the direct image of the restriction at `x`.
+/-- The comparison of Stacks 06W2 for a presheaf of modules on `𝒳` is a morphism of presheaves
+of modules over the map `a_{small}^♯` of structure sheaves: the restriction at `y` maps to the
+direct image of the restriction at `x`.
 
-This is the compatibility of the comparison map with `a_{small}^♯` asserted by the source. -/
-@[stacks 06WC "compatibility of the comparison map with the map of structure sheaves"]
+This is the compatibility of the comparison map with `a_{small}^♯` that the source uses, a
+presheaf-level ingredient of Stacks 06WC; the comparison map of étale sheaves of modules the
+source defines is `AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`. -/
 noncomputable def restrictModulePushforwardComparison {𝒳 : Type v} [Category.{w} 𝒳]
     (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids) {x y : 𝒳} (φ : x ⟶ y)
     (τ : GrothendieckTopology B.Schemes) (hτ : τ ≤ B.topology)
@@ -189,12 +202,18 @@ instance isRightAdjoint_pushforward_smallEtaleStructureComparison :
   PresheafOfModules.isRightAdjoint_pushforward_of_essentiallySmall.{u}
     (smallEtaleStructureComparison B E h S hS p hp φ τ hτ)
 
-/-- **Stacks 06WC.** The comparison map
+/-- The presheaf-level comparison map
 `c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}` of `𝒪_{U_ét}`-modules below an arrow `φ : x ⟶ y` of
 `𝒳` lying over a morphism of schemes `a : U ⟶ V`: the mate, under the
 pullback–direct image adjunction along `a_{small}^♯`, of the comparison of Stacks 06W2 for the
-presheaf of modules `F`. -/
-@[stacks 06WC]
+presheaf of modules `F`.
+
+Here `a_{small}^*` is the pullback of *presheaves* of modules, with no sheafification, so this
+is the presheaf-level ingredient of Stacks 06WC and of Stacks 0761, not their statement. For an
+étale sheaf `F` the source's `a_{small}^*` is the pullback of sheaves of modules, and the
+comparison map of the source is
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`; the map here is it
+precomposed with the sheafification unit. -/
 noncomputable def restrictModulePullbackComparison
     (F : PresheafOfModules.{u} (ringStructureSheafCore B S hS p hp τ hτ).obj) :
     (PresheafOfModules.pullback.{u}
@@ -206,9 +225,9 @@ noncomputable def restrictModulePullbackComparison
     (smallEtaleStructureComparison B E h S hS p hp φ τ hτ)).homEquiv _ _).symm
       (restrictModulePushforwardComparison B E h S hS p hp φ τ hτ F)
 
-/-- The comparison map of Stacks 06WC is characterized by its mate being the comparison of
-Stacks 06W2 for the presheaf of modules. -/
-@[stacks 06WC "the adjoint characterization"]
+/-- The presheaf-level comparison map, an ingredient of Stacks 06WC (whose sheaf-level map is
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`), is characterized by its mate
+being the comparison of Stacks 06W2 for the presheaf of modules. -/
 theorem restrictModulePullbackComparison_adjunct
     (F : PresheafOfModules.{u} (ringStructureSheafCore B S hS p hp τ hτ).obj) :
     (PresheafOfModules.pullbackPushforwardAdjunction.{u}

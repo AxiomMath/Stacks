@@ -169,13 +169,21 @@ relative homogeneous spectrum of a quasi-coherent graded `𝒪_X`-algebra: the u
 of the sets of quadruples `(d, f : T → X, ℒ, ψ)` of degree `d`, modulo strict equivalence inside
 a degree and the equivalence of Tag 01NW across degrees.
 
-The identifications relate only quadruples over the same `T`-point of `X`, so the set is fibred
-over the `T`-points of `X`, which is the morphism a quadruple records. -/
+The identifications relate quadruples over one and the same `T`-point of `X`, so the set is
+fibred over the `T`-points of `X`, which is the morphism a quadruple records. Two quadruples of
+positive degree over one `T`-point have the same class exactly when they are equivalent in the
+sense of 084A (a common multiple `m = a d = a' d'` and an isomorphism
+`β : ℒ^{⊗ a} ≅ ℒ'^{⊗ a'}` matching the restrictions of `ψ` and `ψ'` to `f^*𝒜^{(m)}`):
+`Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.F.mk_eq_mk_iff_equivalent`, the relation
+`UnionRel` being cofinal equality (`unionRel_iff_cofinallyEqual`).
+
+The functor `F : Sch^{opp} → Sets` of Stacks 084A, built from these sets for the restriction
+datum of Situation 0849, is `AlgebraicGeometry.Space.RelativeProjSituation.relativeProjFunctor`. -/
 @[stacks 084A "the value F(T) of the functor on a test object, as the union over d ≥ 1 of the \
 quadruples (d, f : T → X, L, psi) modulo strict equivalence inside a degree and the \
 equivalence of Tag 01NW across degrees, the restriction of the graded algebra to the scheme \
-points of X being a datum; the functoriality in the test object and the inverse limit over \
-the quasi-compact opens are not constructed, the pullback of a quadruple not being available"]
+points of X being a datum; the functor F itself, with its restriction maps and the limit over \
+the quasi-compact opens, is AlgebraicGeometry.Space.RelativeProjSituation.relativeProjFunctor"]
 def F (T : BigFppfOver B S hS) : Type (u + 1) :=
   Σ f : yoneda.obj T ⟶ X,
     Quot (UnionRel (f := 𝟙 ((BigFppfOver.toScheme B S hS).obj T)) (A := r.algebra T f))

@@ -46,7 +46,12 @@ namespace AlgebraicGeometry
 /-- Let `f : X ⟶ Y` be a surjective integral morphism of a big étale site. The functor from sheaves
 of sets on the small étale site of `Y` to descent data for `{X ⟶ Y}` is an equivalence of
 categories. -/
-@[stacks 0GEZ]
+@[stacks 0GEZ "The functor is the canonical descent functor
+`AlgebraicGeometry.smallEtaleSheafDescentFunctorGeneral`, sending a sheaf on `Y_etale` to its
+inverse image on `X_etale` with the canonical descent isomorphism. Sheaves take values in
+`Type (u + 1)`, the universe of the big étale site. Proved from the base-change isomorphism for
+small étale sheaves along integral morphisms [Stacks, Tag 0EYP], applied to `X ×_Y X ⟶ X` and to
+`X ×_Y X ×_Y X ⟶ X ×_Y X`."]
 public theorem smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_integral_unconditional
     (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
     [Surjective (B.inclusion.map f)] [IsIntegralHom (B.inclusion.map f)] :

@@ -162,9 +162,11 @@ private theorem exists_symbol_eq_smul_of_prime_filtration
   exact ⟨hl, eX, eY, g, by rintro rfl; exact hXne (by rw [← hg, zero_smul]), fun _ => rfl,
     fun _ => rfl, hg.symm⟩
 
-/-- For an injective map as above, the length of its cokernel is the order of the nonzero
-scalar comparing the determinant symbols of the localized filtrations. -/
-@[stacks 02QB "length formula"]
+/-- For an injective map as above, the natural-number truncation of the length of its cokernel
+is the order of the nonzero scalar comparing the determinant symbols of the localized
+filtrations. That the cokernel has finite length is
+`isFiniteLength_quotient_range_of_prime_filtrations`, and Tag 02QB in full is
+`injective_iff_bijective_and_length_quotient_range_eq_order`. -/
 theorem length_coker_eq_order_determinant_scalar
     {R : Type u} {M : Type v} {N : Type w} [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] [AddCommGroup M] [Module R M] [Module.Finite R M]

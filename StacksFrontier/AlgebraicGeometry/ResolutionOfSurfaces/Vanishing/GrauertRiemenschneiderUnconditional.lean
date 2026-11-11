@@ -64,7 +64,10 @@ isomorphism descends to the standard model. That is
 * `AlgebraicGeometry.VanishingSituation.exists_isDualizingModule_properRightAdjoint_isoShiftTwo`
   — `f^×(ω̃_A^•) ≅ ω_X[2]` at the standard model, with `ω_X` coherent.
 * `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_normalizedDualizingModule` —
-  **[Stacks, Tag 0AXD]**: `R¹f_*ω_X = 0`.
+  `R¹f_*ω_X = 0` for some normalized `ω_A^•` and the `ω_X` it determines.
+* `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`
+  — **[Stacks, Tag 0AXD]**: `R¹f_*ω_X = 0` for every normalized `ω_A^•` and every `ω_X` with
+  `f^×(ω̃_A^•) ≅ ω_X[2]`.
 
 ## Implementation notes
 
@@ -357,14 +360,20 @@ theorem isDualizingComplex_derivedTilde_base (V : VanishingSituation.{u})
     preservesFiniteLimits_extendScalars_ΓSpecIso_inv (CommRingCat.of V.A)
   exact Dualizing.isDualizingComplex_of_ringEquiv e ωA hωA
 
-/-- **Stacks Project, Tag 0AXD** (Grauert-Riemenschneider). Let `(A, 𝔪, κ)` be a
-two-dimensional Noetherian normal local domain, `f : X ⟶ S = Spec(A)` a modification with `X`
-normal, and suppose `A` is Nagata and has a dualizing complex. Then there are a normalized
+/-- **Grauert-Riemenschneider, with the normalizations exhibited** ([Stacks, Tag 0AXD]). Let
+`(A, 𝔪, κ)` be a two-dimensional Noetherian normal local domain, `f : X ⟶ S = Spec(A)` a
+modification with `X` normal, and suppose `A` is Nagata and has a dualizing complex. Then there
+are a normalized
 dualizing complex `ω_A^•` over `A` and a dualizing module `ω_X` on `X` normalized with respect to
 it — that is, with `f^×(ω̃_A^•) ≅ ω_X[2]`, the dualizing module of [Stacks, Remark 0B4R] — whose
 first cohomology vanishes: `H¹(X, ω_X) = 0`, which over the affine base `S` is `R¹f_*ω_X = 0`.
 
-The dualizing module is exhibited rather than quantified over, because that is what the source's
+The registered form of the tag, for every normalized `ω_A^•` and every `ω_X` normalized with
+respect to it, is
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`.
+
+The dualizing module is exhibited here rather than quantified over, because that is what the
+source's
 `ω_X` is: a dualizing complex on `X` is determined only up to shift and twist by an invertible
 object, and the normalization `f^×(ω̃_A^•) ≅ ω_X[2]` is what picks out the one the statement is
 about.
@@ -401,18 +410,6 @@ The spurious report disappears with a three-line change in that one base file: i
 publicly instead of `import all` on `DerivedExtensionScalars`, and call the already-public twin
 `CochainComplex.DerivedTensor.KFlatDerived.isLeftDerivedFunctor_of_isIso_on_kFlat`, which has the
 same signature and whose body lives in its own module. It is mathematically a no-op. -/
-@[stacks 0AXD "the conclusion R^1 f_* omega_X = 0 of Proposition 54.7.8, read over the affine \
-base S = Spec(A) as the vanishing of H^1(X, omega_X) as an A-module, with no hypothesis beyond \
-the Proposition's own: the Situation of Tag 0AX8, X normal, A Nagata, and A having a dualizing \
-complex in the form of the bare existential. The dualizing module omega_X of Remark 0B4R is \
-exhibited together with the normalization f^times(omega_A^bullet-tilde) = omega_X[2] that \
-singles it out, a dualizing complex being determined only up to shift and twist. The source's \
-proof is carried out in full: omega_X^bullet = omega_X[2] (Tags 0B3D, 0AWT, 0AWI), a nonzero \
-R^1 f_* omega_X -> kappa gives a nonzero alpha : Rf_* omega_X^bullet -> kappa[1], and \
-RHom_A(-, omega_A^bullet) carries it to a nonzero beta : kappa[-1] -> Rf_* O_X, using \
-RHom_A(kappa[1], omega_A^bullet) = kappa[-1] for a normalized omega_A^bullet (Tag 0A7M) and \
-RHom_A(Rf_* omega_X^bullet, omega_A^bullet) = Rf_* O_X (Tags 0GEW, 0AA3), contradicting \
-Tag 0AXC; Nakayama then gives the vanishing"]
 theorem isZero_firstCohomology_normalizedDualizingModule (V : VanishingSituation.{u})
     [IsNormal V.X]
     (hnag : IsNagataRing V.A)
@@ -449,6 +446,79 @@ theorem isZero_firstCohomology_normalizedDualizingModule (V : VanishingSituation
     (isDualizingComplex_properRightAdjoint_obj V.f _ hK)⟩
   exact ⟨K₀⟦-m⟧, ωX, hm, hdm, ⟨e⟩,
     V.isZero_firstCohomology_dualizingModule_of_isTildeDualizing hnag (K₀⟦-m⟧) hm hK ωX hdm ⟨e⟩⟩
+
+/-- **Stacks Project, Tag 0AXD** (Grauert-Riemenschneider), for every normalized `ω_A^•` and
+every `ω_X` normalized with respect to it. Let `(A, 𝔪, κ)` be a two-dimensional Noetherian
+normal local domain, `f : X ⟶ S = Spec(A)` a modification with `X` normal, and suppose `A` is
+Nagata. Let `ω_A^•` be a normalized dualizing complex over `A`, and let `ω_X` be an
+`𝒪_X`-module with `f^×(ω̃_A^•) ≅ ω_X[2]` — the dualizing module of [Stacks, Remark 0B4R],
+normalized with respect to `ω_A^•`. Then `H¹(X, ω_X) = 0`, which over the affine base `S` is
+`R¹f_*ω_X = 0`.
+
+The source's hypothesis that `A` has a dualizing complex is carried by `ω_A^•` itself, which the
+source may and does take normalized ([Stacks, Tag 0A7M]). That `ω_X` is coherent and a dualizing
+module is not assumed: the isomorphism `f^×(ω̃_A^•) ≅ ω_X[2]` determines `ω_X` up to isomorphism,
+and `AlgebraicGeometry.VanishingSituation.exists_isDualizingModule_properRightAdjoint_isoShiftTwo`
+supplies a coherent such module, which is a dualizing module because `f^×` preserves dualizing
+complexes ([Stacks, Tag 0AA3]).
+
+The vanishing for that module is the source's argument,
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule_of_isTildeDualizing`;
+it passes to `ω_X` along the isomorphism `ω_X ≅ H⁰(ω_X[2][-2])` of the two modules. -/
+@[stacks 0AXD "the conclusion R^1 f_* omega_X = 0 read over the affine base \
+S = Spec(A) as the vanishing of H^1(X, omega_X) as an A-module, for every normalized \
+dualizing complex omega_A^bullet over A and every O_X-module omega_X with \
+f^times(omega_A^bullet-tilde) = omega_X[2], which is the dualizing module of Remark 0B4R \
+normalized with respect to omega_A^bullet; the hypotheses are the Proposition's own: the \
+Situation of Tag 0AX8, X normal, A Nagata, and the dualizing complex omega_A^bullet, taken \
+normalized as the source does (Tag 0A7M). The source's proof is carried out in full: \
+omega_X^bullet = omega_X[2] (Tags 0B3D, 0AWT, 0AWI), a nonzero R^1 f_* omega_X -> kappa gives \
+a nonzero alpha : Rf_* omega_X^bullet -> kappa[1], and RHom_A(-, omega_A^bullet) carries it to \
+a nonzero beta : kappa[-1] -> Rf_* O_X (Tags 0A7M, 0GEW, 0AA3), contradicting Tag 0AXC"]
+theorem isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo (V : VanishingSituation.{u})
+    [IsNormal V.X]
+    (hnag : IsNagataRing V.A)
+    (ωA : DerivedCategory (ModuleCat.{u} V.A))
+    (hωA : Dualizing.IsNormalizedDualizingComplex.{u, u} ωA) (ωX : V.X.Modules) :
+    letI : IsProper V.f := V.modification.isProper
+    letI : CompactSpace V.X := QuasiCompact.compactSpace_of_compactSpace V.f
+    letI : QuasiSeparatedSpace V.X := quasiSeparatedSpace_of_quasiSeparated V.f
+    Nonempty (((properRightAdjoint V.f).obj
+          ((derivedTilde (CommRingCat.of V.A)).obj ωA)).obj ≅
+        ((DerivedCategory.singleFunctor V.X.Modules 0).obj ωX)⟦(2 : ℤ)⟧) →
+      IsZero (firstCohomologySheafAsBaseModule V.X V.f ωX) := by
+  intro he
+  obtain ⟨e⟩ := he
+  let : IsProper V.f := V.modification.isProper
+  let : CompactSpace V.X := QuasiCompact.compactSpace_of_compactSpace V.f
+  let : QuasiSeparatedSpace V.X := quasiSeparatedSpace_of_quasiSeparated V.f
+  let : IsLocallyNoetherian V.X := LocallyOfFiniteType.isLocallyNoetherian V.f
+  have : AlgebraicGeometry.IsNoetherian V.X := isNoetherian_of_locallyOfFiniteType V.f
+  have : AlgebraicGeometry.IsNoetherian V.base := isNoetherian_of_isAffine_of_isNoetherianRing
+  have := preservesFiniteLimits_extendScalars_ΓSpecIso_inv (CommRingCat.of V.A)
+  have hK := V.isDualizingComplex_derivedTilde_base ωA hωA.1
+  obtain ⟨ωX', hcoh, ⟨e'⟩⟩ := V.exists_isDualizingModule_properRightAdjoint_isoShiftTwo
+    ((ModuleCat.extendScalars
+      (Scheme.ΓSpecIso (CommRingCat.of V.A)).inv.hom).mapDerivedCategory.obj ωA)
+    (Dualizing.isNormalizedDualizingComplex_globalSectionsSpec V.A ωA hωA)
+    ((derivedTilde (CommRingCat.of V.A)).obj ωA)
+    (V.isTildeModelOnAnyModel_derivedTilde_base ωA)
+  have hdm : IsDualizingModule ωX' := ⟨hcoh, -2, isDualizingComplex_of_iso
+    (e' ≪≫ ((DerivedCategory.singleFunctors V.X.Modules).shiftIso 2 (-2) 0 (by omega)).app ωX')
+    (isDualizingComplex_properRightAdjoint_obj V.f _ hK)⟩
+  have hz := V.isZero_firstCohomology_dualizingModule_of_isTildeDualizing hnag ωA hωA hK ωX' hdm
+    ⟨e'⟩
+  let E₀ : (DerivedCategory.singleFunctor V.X.Modules 0).obj ωX ≅
+      (DerivedCategory.singleFunctor V.X.Modules 0).obj ωX' :=
+    (shiftFunctor (DerivedCategory V.X.Modules) (2 : ℤ)).preimageIso (e.symm ≪≫ e')
+  let i : ωX ≅ ωX' :=
+    (DerivedCategory.singleFunctorCompHomologyFunctorIso V.X.Modules 0).symm.app ωX ≪≫
+      (DerivedCategory.homologyFunctor V.X.Modules 0).mapIso E₀ ≪≫
+      (DerivedCategory.singleFunctorCompHomologyFunctorIso V.X.Modules 0).app ωX'
+  let : (SheafOfModules.evaluation V.X.ringCatSheaf (.op ⊤)).Additive := {}
+  exact hz.of_iso ((ModuleCat.restrictScalars
+    ((Scheme.ΓSpecIso (.of V.A)).inv ≫ V.f.appTop).hom).mapIso
+      (((SheafOfModules.evaluation V.X.ringCatSheaf (.op ⊤)).rightDerived 1).mapIso i))
 
 end AlgebraicGeometry.VanishingSituation
 

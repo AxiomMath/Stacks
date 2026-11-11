@@ -85,8 +85,9 @@ rather than at `Γ(X, ω_X)` — those being the same module, by the isomorphism
 
 The theorem
 `isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero` (in the namespace
-`Stacks.ResolutionOfSurfaces`) of `Boundedness/TraceCokernelReduction.lean` carries [Stacks, Tag
-0B4S] as well, with the duality of the source's proof supplied as a *parameter*: its hypothesis
+`Stacks.ResolutionOfSurfaces`) of `Boundedness/TraceCokernelReduction.lean` is the argument of
+[Stacks, Tag 0B4S] with the duality of the source's proof supplied as a *parameter*, and does not
+carry the tag: its hypothesis
 `D` is a `Stacks.ResolutionOfSurfaces.TraceCokernelDuality`, whose fields are the dualizing
 modules `ω_X`, their trace maps `Γ(X, ω_X) ⟶ ω_A`, and the presentation of the Matlis dual of
 `H¹(X, 𝒪_X)` as a quotient of the cokernel of the trace. The statement below takes none of that:

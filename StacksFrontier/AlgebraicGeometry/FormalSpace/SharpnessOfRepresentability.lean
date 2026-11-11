@@ -16,20 +16,25 @@ topological rings need not have `Spf (φ) : Spf B → Spf A` representable. Seco
 a representable morphism of affine formal algebraic spaces whose target is a McQuillan formal
 spectrum need not be McQuillan.
 
-This file treats the first sense, by the example the source gives for it: `A = k` is a field
+This file supplies the ring-theoretic half of the example the source gives for the first sense: `A = k` is a field
 with the discrete topology and `B = k⟦t⟧` carries the `t`-adic topology. Both rings are weakly
 admissible, the inclusion of constants is continuous because the source is discrete, and it is
 *not taut*: the zero ideal is a weak ideal of definition of `k`, its extension to `k⟦t⟧` is
 closed and equal to the zero ideal, and the zero ideal of `k⟦t⟧` is not open because `tⁿ ≠ 0`
 for every `n`. By the equivalence of conditions (1) and (3) of Stacks 0AN5 the formal spectrum
-of a non-taut homomorphism is not representable, which is the assertion of the remark.
+of a non-taut homomorphism is not representable, which is the assertion of the remark. The
+complete remark, both senses and with no hypothesis, is
+`AlgebraicGeometry.FormalSpace.exists_formalSpectrumMap_constants_not_representable` and
+`AlgebraicGeometry.FormalSpace.exists_representable_formalSpectrum_not_mcQuillan` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.SharpnessOfRepresentabilityExamples`.
 
 ## Main definitions
 
 * `TopologicalRing.TAdicPowerSeries`: the ring `k⟦t⟧` carrying the `t`-adic topology.
 * `TopologicalRing.constantsToTAdicPowerSeries`: the homomorphism `k → k⟦t⟧` of the example.
 * `AlgebraicGeometry.FormalSpace.IsTautOfRepresentableFormalSpectrumMap`: the implication
-  (1) ⟹ (3) of Stacks 0AN5, which this library does not carry.
+  (1) ⟹ (3) of Stacks 0AN5 at all quotient systems, with no condition on the site, as a
+  proposition.
 
 ## Main results
 
@@ -38,12 +43,15 @@ of a non-taut homomorphism is not representable, which is the assertion of the r
   weakly admissible.
 * `TopologicalRing.continuous_constantsToTAdicPowerSeries`: the homomorphism of the example is
   continuous.
-* `TopologicalRing.not_isTaut_constantsToTAdicPowerSeries`: **Stacks 0AN7**, first sense, at the
-  level of rings: the homomorphism of the example is not taut.
+* `TopologicalRing.not_isTaut_constantsToTAdicPowerSeries`: the homomorphism of the example is
+  not taut.
 * `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants`:
-  **Stacks 0AN7**, first sense: the formal spectrum of the homomorphism of the example is not
-  representable by algebraic spaces. The implication (1) ⟹ (3) of Stacks 0AN5 is an explicit
-  hypothesis.
+  the formal spectrum of the homomorphism of the example is not representable by algebraic
+  spaces, from the implication (1) ⟹ (3) of Stacks 0AN5 in the form
+  `IsTautOfRepresentableFormalSpectrumMap`. The unconditional statement, which uses the proved
+  implication `AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`
+  instead, is
+  `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`.
 
 ## Implementation notes
 
@@ -62,14 +70,10 @@ separated, so tautness would make `{0}` a neighbourhood of zero in `k⟦t⟧` an
 some `(t)ⁿ` vanish.
 
 The second sense of the remark is not treated here. Its example is the lemma of Stacks 0CBE,
-the existence of a representable morphism `f : Y ⟶ X` of affine formal algebraic spaces with
-`X` McQuillan and `Y` not; that existence rests on a system which this library does not build,
-and the two halves of its argument that are available carry the tag `0CBE` with a qualifier in
-`StacksFrontier.AlgebraicGeometry.FormalSpace.McQuillanSectionProjections`. What is available of
-the underlying example is Stacks 0CBC in
-`StacksFrontier.AlgebraicGeometry.FormalSpace.NotMcQuillanExample`, an affine formal algebraic
-space which is not McQuillan; it comes with no morphism to a McQuillan formal spectrum, so it
-does not give the second sense of the remark.
+`AlgebraicGeometry.FormalSpace.exists_representable_hasSomeSurjectivePresentation_not`, and the
+second sense is
+`AlgebraicGeometry.FormalSpace.exists_representable_formalSpectrum_not_mcQuillan` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.SharpnessOfRepresentabilityExamples`.
 
 ## References
 
@@ -171,18 +175,11 @@ theorem continuous_constantsToTAdicPowerSeries (k : Type u) [CommRing k] [Topolo
     [DiscreteTopology k] : Continuous (constantsToTAdicPowerSeries k) :=
   continuous_of_discreteTopology
 
-/-- **Stacks 0AN7**, the example for its first sense, at the level of rings. Let `k` be a field
+/-- The example for the first sense of **Stacks 0AN7**, at the level of rings. Let `k` be a field
 with the discrete topology and let `k⟦t⟧` carry the `t`-adic topology. The inclusion of
 constants is a continuous homomorphism of weakly admissible topological rings which is not
 taut: the zero ideal of `k` is open, its extension to `k⟦t⟧` is the zero ideal and is closed
 because `k⟦t⟧` is separated, and the zero ideal of `k⟦t⟧` is not open. -/
-@[stacks 0AN7 "first sense, the example only: for `A = k` a field with the discrete topology
-  and `B = k⟦t⟧` with the `t`-adic topology, the inclusion of constants is a continuous
-  homomorphism of weakly admissible topological rings (`isWeaklyAdmissible_discreteTopology`,
-  `isWeaklyAdmissible_tAdicPowerSeries`, `continuous_constantsToTAdicPowerSeries`) which is not
-  taut. That `Spf` of it is therefore not representable is the implication (1) ⟹ (3) of Stacks
-  0AN5, which this library does not prove; it is an explicit hypothesis of
-  `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants`"]
 theorem not_isTaut_constantsToTAdicPowerSeries (k : Type u) [Field k] [TopologicalSpace k]
     [DiscreteTopology k] : ¬ RingHom.IsTaut (constantsToTAdicPowerSeries k) := by
   rintro ⟨hopen, -⟩
@@ -206,12 +203,15 @@ universe u
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- The implication (1) ⟹ (3) of **Stacks 0AN5**: a continuous homomorphism of weakly
-admissible topological rings over `S` whose formal spectrum is representable by algebraic
-spaces is taut. This library carries only the implication (2) ⟹ (1) of Stacks 0AN5,
-`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`, whose
-converse rests on Stacks 0AKN; no declaration in this library concludes `RingHom.IsTaut` from
-representability, so the implication is carried as a hypothesis. -/
+/-- The implication (1) ⟹ (3) of **Stacks 0AN5**, as a proposition quantified over all quotient
+systems with no condition on the site: a continuous homomorphism of weakly admissible
+topological rings over `S` whose formal spectrum is representable by algebraic spaces is taut.
+The library proves this implication when both quotient systems satisfy the set-theoretic
+condition of Stacks 0AIS,
+`AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`,
+and when both formal spectra are affine formal algebraic spaces,
+`AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isAffine`.
+-/
 abbrev IsTautOfRepresentableFormalSpectrumMap : Prop :=
   ∀ (A C : Type u) (_ : CommRing A) (_ : TopologicalSpace A) (_ : IsTopologicalRing A)
     (_ : IsLinearTopology A A) (_ : CommRing C) (_ : TopologicalSpace C)
@@ -222,21 +222,14 @@ abbrev IsTautOfRepresentableFormalSpectrumMap : Prop :=
         (formalSpectrumMap hA f).hom →
       RingHom.IsTaut f.toRingHom
 
-/-- **Stacks 0AN7**, its first sense. Let `k` be a field with the discrete topology, let `k⟦t⟧`
-carry the `t`-adic topology, and let `Spf (φ) : Spf k⟦t⟧ ⟶ Spf k` be the formal spectrum of the
-inclusion of constants, taken over any base and any quotient systems presenting the two formal
-spectra. Then `Spf (φ)` is not representable by algebraic spaces, granted the implication
-(1) ⟹ (3) of Stacks 0AN5: the inclusion of constants is not taut. Both rings are weakly
-admissible, by `TopologicalRing.isWeaklyAdmissible_discreteTopology` and
-`TopologicalRing.isWeaklyAdmissible_tAdicPowerSeries`. -/
-@[stacks 0AN7 "first sense, the non-representability itself, conditional on the explicit
-  hypothesis `IsTautOfRepresentableFormalSpectrumMap`, which is the implication (1) ⟹ (3) of
-  Stacks 0AN5 and is not proved in this library. The example is the one of the source: `k` a
-  field with the discrete topology, `k⟦t⟧` with the `t`-adic topology, and the inclusion of
-  constants, whose non-tautness is
-  `TopologicalRing.not_isTaut_constantsToTAdicPowerSeries`. The second sense of the remark, that
-  the source of a representable morphism onto a McQuillan formal spectrum need not be
-  McQuillan, is not proved here"]
+/-- Let `k` be a field with the discrete topology, let `k⟦t⟧` carry the `t`-adic topology, and
+let `Spf (φ) : Spf k⟦t⟧ ⟶ Spf k` be the formal spectrum of the inclusion of constants. Given the
+implication (1) ⟹ (3) of Stacks 0AN5 in the form `IsTautOfRepresentableFormalSpectrumMap`,
+`Spf (φ)` is not representable by algebraic spaces: the inclusion of constants is not taut.
+The same conclusion with no hypothesis is
+`AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`,
+and the first sense of **Stacks 0AN7** is
+`AlgebraicGeometry.FormalSpace.exists_formalSpectrumMap_constants_not_representable`. -/
 theorem not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants
     (k : Type u) [Field k] [TopologicalSpace k] [DiscreteTopology k]
     (h0AN5 : IsTautOfRepresentableFormalSpectrumMap B S hS)

@@ -231,7 +231,7 @@ theorem openU_eq_iSup_sigma :
 equality on the left of the diagram of [Stacks, Tag 0EKG]: being an isomorphism over an open is
 local on that open, and over each standard open of a positive-degree homogeneous element the
 morphism is an isomorphism. -/
-@[stacks 0EKG "L → X is an isomorphism over U"]
+@[stacks 0EKG "L → X is an isomorphism over U", stacks 0EKF "L → X is an isomorphism over U"]
 theorem isIso_toSpecA_restrict : IsIso (toSpecA 𝒜 ∣_ ProjAndSpec.openU 𝒜) := by
   have hle : ∀ i : (k : ℕ) × ↥(𝒜 (k + 1)),
       ProjAndSpec.specBasicOpen ((i.2 : A)) ≤ ProjAndSpec.openU 𝒜 := fun i => by

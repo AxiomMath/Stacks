@@ -14,7 +14,10 @@ sheafy trace map of [Stacks, Tag 0B6H],
 `Rf_*R𝓗om_{𝒪_X}(L, a(K)) ⟶ R𝓗om_{𝒪_Y}(Rf_*L, K)`,
 
 induces an isomorphism `R Hom_X(L, a(K)) ⟶ R Hom_Y(Rf_*L, K)` of global derived Homs. This is
-[Stacks, Tag 0B6I].
+[Stacks, Tag 0B6I]; this file proves it from the two inputs of [Stacks, Tag 0A9Q] as hypotheses,
+and `StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceGlobalHomQcqs.lean` proves those inputs for
+a quasi-compact quasi-separated `f` and states the tag there, as
+`Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf_of_qcqs`.
 
 The source proves it exactly as follows. Global derived Hom is derived global sections of derived
 internal Hom, so by Leray ([Stacks, Tag 0D5W])
@@ -48,29 +51,32 @@ last reading: the cohomology of a global derived Hom *is* the morphism group it 
   sends to an isomorphism induces a bijection on morphisms out of every object of
   `D_QCoh(𝒪_Y)`. This is the step of the source's proof which turns Tag 0A9Q into a statement
   about the cohomology of global derived Homs.
-* `Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf` — **[Stacks, Tag 0B6I]**, granted
-  the right adjoint and the two inputs of Tag 0A9Q: in every degree `n` the sheafy trace map
-  induces a bijection on the morphism groups out of `𝒪_Y⟦-n⟧`, that is on the degree-`n`
-  cohomology of the two global derived Homs.
+* `Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf` — the bijection of
+  [Stacks, Tag 0B6I] for a morphism along which `Rf_*` preserves quasi-coherence, with the two
+  inputs of Tag 0A9Q as hypotheses: in every degree `n` the sheafy trace map induces a bijection
+  on the morphism groups out of `𝒪_Y⟦-n⟧`, that is on the degree-`n` cohomology of the two global
+  derived Homs.
 * `Stacks.Duality.bijective_derivedPullbackHom_comp_sheafyTrace` — the same bijection with its
   source transported to a morphism group on `X` by the adjunction `Lf^* ⊣ Rf_*`, which is the
   first step of the source's chain ([Stacks, Tag 079W]).
 
 ## Implementation notes
 
-*What is granted.* The right adjoint `a` and the adjunction `Rf_* ⊣ a` are hypotheses, exactly
-as they are for the trace map itself in
-`StacksFrontier/AlgebraicGeometry/Duality/SheafyTrace.lean`: their existence is
-[Stacks, Tag 0A9E], which is not available in this development. The projection formula of
+*The parameters and hypotheses.* The right adjoint `a` and the adjunction `Rf_* ⊣ a` are
+parameters, exactly as they are for the trace map itself in
+`StacksFrontier/AlgebraicGeometry/Duality/SheafyTrace.lean`; their existence, [Stacks, Tag 0A9E], is
+`Stacks.Duality.AnyModel.isLeftAdjoint_quasiCoherentDerivedPushforward_of_qcqs` for a morphism
+between quasi-compact quasi-separated schemes, at this model too. The projection formula of
 [Stacks, Tag 08EU] and the quasi-coherence of `Lf^*M ⊗^L_{𝒪_X} L` of [Stacks, Tag 08DX] part (1)
-are the hypotheses `h08EU` and `hten` of Tag 0A9Q, carried here in the same spellings. The
-attribute description records all of this.
+are the hypotheses `h08EU` and `hten` of Tag 0A9Q, in the same spellings, here because `f` is
+arbitrary; for a quasi-compact quasi-separated `f` the needed instances of both are proved in
+`StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceGlobalHomQcqs.lean`.
 
 *What is not plugged in.* Two identifications the source performs silently are not formalized
-here, and the attribute description says so. First, the degree-`n` cohomology of a global derived
-Hom is read as the morphism group `Hom_{D(𝒪_Y)}(𝒪_Y⟦-n⟧, -)` it corepresents rather than as the
-cohomology of an object of `D(Γ(Y, 𝒪_Y))`; the identification is [Stacks, Tag 08DK], available
-as `Stacks.SheafOfModules.derivedSheafHomGlobalSectionsEquiv`, but at the derived global sections
+here. First, the degree-`n` cohomology of a global derived Hom is read as the morphism group
+`Hom_{D(𝒪_Y)}(𝒪_Y⟦-n⟧, -)` it corepresents rather than as the cohomology of an object of
+`D(Γ(Y, 𝒪_Y))`; the identification is [Stacks, Tag 08DK], available as
+`Stacks.SheafOfModules.derivedSheafHomGlobalSectionsEquiv`, but at the derived global sections
 of a ringed site rather than at
 `Stacks.Cohomology.DerivedSectionsLeray.derivedSectionsOverOpen`, the functor the Leray
 isomorphism of [Stacks, Tag 0D5W] is stated at, and the comparison of those two models is not
@@ -243,11 +249,11 @@ variable {X Y : Scheme.{u}} (f : X ⟶ Y)
   (DY : TensorHomAdjunction (derivedTensorProductFunctor Y.sheaf)
     (Stacks.SheafOfModules.derivedSheafHom Y.sheaf))
 
-/-- **[Stacks, Tag 0B6I].** Let `f : X ⟶ Y` be a morphism of schemes along which derived direct
-image preserves quasi-coherence of cohomology, let `a` be a right adjoint of
-`Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`, and let `L` be an object of `D_QCoh(𝒪_X)` and `K` one of
-`D_QCoh(𝒪_Y)`. Then in every degree `n` the sheafy trace map of [Stacks, Tag 0B6H] induces a
-bijection
+/-- **The bijection of [Stacks, Tag 0B6I], from the inputs of Tag 0A9Q.** Let `f : X ⟶ Y` be a
+morphism of schemes along which derived direct image preserves quasi-coherence of cohomology,
+let `a` be a right adjoint of `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`, and let `L` be an object of
+`D_QCoh(𝒪_X)` and `K` one of `D_QCoh(𝒪_Y)`. Then in every degree `n` the sheafy trace map of
+[Stacks, Tag 0B6H] induces a bijection
 
 `Hom_{D(𝒪_Y)}(𝒪_Y⟦-n⟧, Rf_*R𝓗om_{𝒪_X}(L, a K)) ⟶ Hom_{D(𝒪_Y)}(𝒪_Y⟦-n⟧, R𝓗om_{𝒪_Y}(Rf_*L, K))`,
 
@@ -256,17 +262,11 @@ by degree through `H^n(Y, E) = Ext^n_Y(𝒪_Y, E) = Hom(𝒪_Y⟦-n⟧, E)`.
 
 The projection formula of [Stacks, Tag 08EU] is the hypothesis `h08EU` and the quasi-coherence of
 `Lf^*M ⊗^L_{𝒪_X} L` of [Stacks, Tag 08DX] part (1) is the hypothesis `hten`, exactly as for
-[Stacks, Tag 0A9Q]; the right adjoint of [Stacks, Tag 0A9E] is the hypothesis `a` with its
-adjunction `adj`, exactly as for the trace map itself. No coherator is needed in this form: the
-chain of five bijections of Tag 0A9Q is already a statement about morphisms out of the
-quasi-coherent objects, and `𝒪_Y⟦-n⟧` is one of them. -/
-@[stacks 0B6I "granted the right adjoint of Tag 0A9E, carried as the functor a with its \
-adjunction adj, the projection formula of Tag 08EU, carried as the explicit hypothesis h08EU, \
-and the quasi-coherence of the derived tensor product of Tag 08DX part (1), carried as the \
-explicit hypothesis hten; and with the two global derived homs read degreewise as the morphism \
-groups Hom(O_Y[-n], -) they corepresent by Tags 0B6A and 08DK, the left-hand one on Y after \
-Rf_*, the Leray identification of Tag 0D5W with derived global sections on X not being plugged \
-in"]
+[Stacks, Tag 0A9Q]; the right adjoint `a` with its adjunction `adj` is a parameter, exactly as for
+the trace map itself. For a quasi-compact quasi-separated `f` both hypotheses are discharged in
+`Stacks.Duality.bijective_comp_sheafyTrace_structureSheaf_of_qcqs`. No coherator is needed in
+this form: the chain of five bijections of Tag 0A9Q is already a statement about morphisms out of
+the quasi-coherent objects, and `𝒪_Y⟦-n⟧` is one of them. -/
 public theorem bijective_comp_sheafyTrace_structureSheaf
     (L : quasiCoherentDerivedCategory X) (K : quasiCoherentDerivedCategory Y)
     (hten : ∀ (M : quasiCoherentDerivedCategory Y) (i : ℤ),

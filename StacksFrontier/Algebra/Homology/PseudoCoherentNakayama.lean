@@ -91,6 +91,7 @@ theorem isPseudoCoherent_totalDerivedExtensionScalars_obj
 first two objects are pseudo-coherent, the third object is pseudo-coherent. -/
 @[sga "6 I 2.6" "partial"]
 theorem isPseudoCoherent_obj₃_of_distinguished {R : Type u} [Ring R]
+    [HasDerivedCategory (ModuleCat.{v} R)]
     (T : Triangle (DerivedCategory (ModuleCat.{v} R))) (hT : T ∈ distTriang _)
     (h₁ : IsPseudoCoherent T.obj₁) (h₂ : IsPseudoCoherent T.obj₂) :
     IsPseudoCoherent T.obj₃ :=

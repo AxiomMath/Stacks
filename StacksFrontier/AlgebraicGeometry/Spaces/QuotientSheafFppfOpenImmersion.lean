@@ -188,8 +188,9 @@ theorem restrictQuotientSheafMap_property_of_extendsRelation
 
 /-- **Stacks 02WU.** Let `j = (t, s) : R ⟶ U ×_S U` be an equivalence relation of schemes over
 `S` whose source and target maps are surjective, flat and locally of finite presentation, and
-let `g : U' ⟶ U` be flat and locally of finite presentation. The induced map `U'/R' ⟶ U/R` of
-quotient sheaves on the big fppf site over `S` is representable and an open immersion. -/
+let `g : U' ⟶ U` be flat and locally of finite presentation, and let `R' = R|_{U'}` be the
+restriction of `j` along `g`. The induced map `U'/R' ⟶ U/R` of quotient sheaves on the big fppf
+site over `S` is representable and an open immersion. -/
 @[stacks 02WU]
 theorem isOpenImmersion_restrictedQuotientMap (B : BigFppfSite.{u}) (hS : B.Contains S)
     [HasSheafify (BigFppfOver.topology B S hS) (Type u)]

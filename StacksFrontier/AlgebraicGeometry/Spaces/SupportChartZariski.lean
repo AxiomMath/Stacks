@@ -20,10 +20,13 @@ asserts that the second is the inverse image of the first,
 Its proof has exactly two inputs: the comparison `(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} = F_{x̄}` of
 Stacks 05VP, and faithful flatness of the ring map that comparison base changes along.  The
 second is available here as
-`AlgebraicGeometry.Space.faithfullyFlat_chartLocalRingToEtaleLocalRing`; the first is not
-available in this development — see the implementation notes — and is carried as a hypothesis
-by the main result.  Everything else is supplied below with no hypotheses beyond those of
-Stacks 07TY.
+`AlgebraicGeometry.Space.faithfullyFlat_chartLocalRingToEtaleLocalRing`.  The first is proved
+for a quasi-coherent module in
+`StacksFrontier/AlgebraicGeometry/Spaces/ChartStalkTensorIsomorphism.lean`, not imported here;
+so the support equality is proved here for every module for which the comparison holds,
+and Stacks 07TY itself, for a quasi-coherent module, is
+`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf_of_isQuasicoherent` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SupportGeometricStalkCriterion.lean`.
 
 ## Main definitions
 
@@ -53,9 +56,10 @@ Stacks 07TY.
 * `AlgebraicGeometry.Space.nontrivial_chartStalkTensorEtaleLocalRing_iff_mem_supp`: the two
   previous results combined — the left-hand side of Stacks 05VP is nonzero exactly when the
   chart point lies in the support of the chart restriction.
-* `AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf`: **Stacks 07TY**,
-  the equality of the Zariski support of the chart restriction with the inverse image of the
-  support on the space, given the comparison isomorphism of Stacks 05VP.
+* `AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf`: the equality of
+  the Zariski support of the chart restriction with the inverse image of the support on the
+  space, for a module satisfying the comparison isomorphism of Stacks 05VP; Stacks 07TY follows
+  from it once that comparison is proved for quasi-coherent modules.
 
 ## Implementation notes
 
@@ -65,22 +69,15 @@ is stated for a sheaf of modules whose sections, coefficient rings and space sha
 `Modules.{u, m}`, so taking `m = u` is what makes the ordinary support of the restriction
 expressible at all.
 
-**What is carried, and why it is upstream.**  The hypothesis of
-`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf` is Stacks 05VP, the
-isomorphism `(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} ≅ F_{x̄}` of modules over the étale local ring.  It
-is a different Stacks lemma in a different chapter — Properties of Spaces, Lemma 66.29.4 — and
-its statement mentions no support at all, so it is not the conclusion restated.  Both of its
-sides are already constructed here, `AlgebraicGeometry.Space.chartStalkTensorEtaleLocalRing` and
-`AlgebraicGeometry.Space.geometricModuleStalk`, precisely so that the equation is well formed as
-it stands; what is missing is only the isomorphism between them, whose proof needs Stacks 03LZ
-(quasi-coherence of the chart restriction in the form identifying the restriction to a
-refinement with a base change), which this development does not have.  Nothing in the library
-discharges it: no declaration in the library carries Stacks 05VP beyond the pieces
-in `StacksFrontier/AlgebraicGeometry/Spaces/GeometricStalkBaseChange.lean`, whose own
-implementation notes record that no isomorphism is stated there, and Stacks 03LZ and 03M3 have
-no carriers at all.  Quasi-coherence of `F`, the hypothesis of Stacks 07TY, enters only through
-this comparison, so it does not appear separately in the statement; taking the comparison as the
-hypothesis makes the result apply to every module for which it holds.
+**The comparison hypothesis.**  The hypothesis of
+`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf` is the isomorphism
+`(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} ≅ F_{x̄}` of Stacks 05VP, a lemma of a different chapter whose
+statement mentions no support at all.  Both of its sides are constructed here,
+`AlgebraicGeometry.Space.chartStalkTensorEtaleLocalRing` and
+`AlgebraicGeometry.Space.geometricModuleStalk`.  For a quasi-coherent `F` the isomorphism is
+`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`, in a module not imported here;
+quasi-coherence of `F` enters the proof of Stacks 07TY only through it, so stating the
+equality under the comparison makes it apply to every module for which the comparison holds.
 
 The support of Stacks 04KA is nonvanishing of a *geometric* stalk, which
 `AlgebraicGeometry.Space.mem_supportOfSheaf_iff_nontrivial_geometricModuleStalk` expresses as
@@ -259,7 +256,8 @@ theorem nontrivial_chartStalkTensorEtaleLocalRing_iff
 
 /-- **The left-hand side of Stacks 05VP is nonzero exactly when the chart point lies in the
 support of the chart restriction.**  This is the whole of the proof of Stacks 07TY except for
-the comparison asserted by Stacks 05VP itself: with that comparison, the right-hand side is the
+the comparison asserted by Stacks 05VP itself
+(`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`): with that comparison, the right-hand side is the
 geometric stalk, whose nonvanishing is membership in the support of Stacks 04KA by
 `AlgebraicGeometry.Space.mem_supportOfSheaf_iff_nontrivial_geometricModuleStalk`. -/
 theorem nontrivial_chartStalkTensorEtaleLocalRing_iff_mem_supp
@@ -320,28 +318,31 @@ theorem chartPoint_ofChartGeometricPoint
       pointsToScheme B S hS ((SmallEtale.toOver B S hS X.1).obj U) y.image :=
   rfl
 
-/-! ### Stacks 07TY -/
+/-! ### The support equality of Stacks 07TY under the comparison of Stacks 05VP -/
 
-/-- **Stacks 07TY.** Let `X` be an algebraic space over `S`, let `F` be an `𝒪_X`-module and let
-`φ : U ⟶ X` be an étale morphism from a scheme, that is, an object of the small étale site of
+/-- **The support of a chart restriction is the inverse image of the support, given the
+comparison of Stacks 05VP.** Let `X` be an algebraic space over `S`, let `F` be an `𝒪_X`-module
+satisfying the comparison isomorphism of Stacks 05VP and let `φ : U ⟶ X` be an étale morphism from a scheme, that is, an object of the small étale site of
 `X`.  Then the support of `φ^* F` as a module on the *scheme* `U` is the inverse image under
 `|φ|` of the support of `F` on `X`:
 `Supp(φ^* F) = |φ|^{-1}(Supp(F))`.
 
-The hypothesis `h05VP` is the comparison of Stacks 05VP,
-`(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} ≅ F_{x̄}`, which this development does not prove; it holds for
-a quasi-coherent `F`, which is the hypothesis Stacks 07TY carries, and it is the only place
-quasi-coherence is used in the proof.  Everything else is unconditional: faithful flatness of
-the base change turns the comparison into the equivalence of the two vanishings
+The hypothesis `hcomp` is the comparison of Stacks 05VP,
+`(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} ≅ F_{x̄}`.  It holds for a quasi-coherent `F`
+(`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`), and Stacks 07TY in exactly its
+own hypotheses is
+`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf_of_isQuasicoherent`,
+which is this result with the comparison supplied.  Beyond the comparison the proof uses:
+faithful flatness of the base change, which turns the comparison into the equivalence of the
+two vanishings
 (`AlgebraicGeometry.Space.nontrivial_chartStalkTensorEtaleLocalRing_iff_mem_supp`), a geometric
-representative of a point of the chart gives one inclusion
+representative of a point of the chart for one inclusion
 (`AlgebraicGeometry.Space.exists_geometricRepresentative`), and the étale lift of a geometric
-point, Stacks 05VN, gives the other
+point, Stacks 05VN, for the other
 (`AlgebraicGeometry.Space.exists_geometricPoint_lift_of_isEtale`). -/
-@[stacks 07TY "the support equality, given the comparison isomorphism of Stacks 05VP"]
 theorem supp_restrictToChart_eq_preimage_supportOfSheaf
     (F : Modules.{u, u} B S hS X.1 X.2)
-    (h05VP : ∀ (x : GeometricPoint B S hS X.1) (V : SmallEtaleNeighborhood x),
+    (hcomp : ∀ (x : GeometricPoint B S hS X.1) (V : SmallEtaleNeighborhood x),
       Nonempty (chartStalkTensorEtaleLocalRing.{u, u} B S hS X.1 X.2 V F ≅
         geometricModuleStalk B S hS X x F)) :
     SheafOfModules.supp (restrictToChart B S hS X.2 F U) =
@@ -359,7 +360,7 @@ theorem supp_restrictToChart_eq_preimage_supportOfSheaf
       (nontrivial_chartStalkTensorEtaleLocalRing_iff_mem_supp B S hS X.1 X.2
         (SmallEtaleNeighborhood.ofChartGeometricPoint B S hS X U y) F)
     exact (Equiv.ofBijective _ (ConcreteCategory.bijective_of_isIso
-      (h05VP (geometricPointMap U.obj.hom y)
+      (hcomp (geometricPointMap U.obj.hom y)
           (SmallEtaleNeighborhood.ofChartGeometricPoint B S hS X U y)).some.hom)
       ).nontrivial_congr.symm
   ext u

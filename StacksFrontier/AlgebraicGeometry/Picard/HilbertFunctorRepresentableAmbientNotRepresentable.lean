@@ -48,9 +48,11 @@ rewrite whose motive abstracts such a term cannot re-typecheck it at its own tra
 every statement here is phrased with it; the two spellings meet only where a statement from
 elsewhere is applied, which costs nothing because they are definitionally equal.
 
-No declaration here carries a Stacks attribute: the file refutes the degree-one case of Tag 0B9A
-rather than proving any of its statements, and the tag is registered in
-`StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`.
+No declaration here carries a Stacks attribute: the file refutes the degree-one case of Tag 0B9A as
+printed rather than proving any of its statements, and the tag is registered on its corrected
+statement,
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`,
+in `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`.
 
 ## References
 
@@ -360,17 +362,16 @@ morphism of the affine line with doubled origin and `d = 1`, the tag's hypothesi
 holds vacuously, every single point of a scheme lying in an affine open -- while the tag's
 conclusion FAILS.
 
-The two halves are
-`Stacks.Hilbert.exists_isAffineOpen_forall_mem_of_le_one`, which proves the `d`-tuple hypothesis
-for every morphism of schemes once `d ≤ 1`, and
+The two halves are `Stacks.Hilbert.exists_isAffineOpen_forall_mem_of_le_one`, which proves the
+`d`-tuple hypothesis for every morphism of schemes once `d ≤ 1`, and
 `Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`.  This is the erratum that the
-tag's registration is scoped against:
-`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one` carries
-`@[stacks 0B9A]` and states the tag under the source's own `d`-tuple hypothesis for every `d ≠ 1`,
-the range this statement leaves intact.  The generalisation to every `d`,
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem`, asks
-for the affine-open condition at `max d 2` points, which for `2 ≤ d` is again the source's own
-`d` points and at `d ≤ 1` is the minimal repair. -/
+tag's registration is corrected against:
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
+carries `@[stacks 0B9A]` and states the tag under the source's own `d`-tuple hypothesis, adding
+separatedness of `X ⟶ S` at `d = 1` alone, as recorded in `errata.md`.  The generalisation
+`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem` asks
+instead for the affine-open condition at `max d 2` points, which for `2 ≤ d` is again the source's
+own `d` points and at `d ≤ 1` is another repair. -/
 theorem exists_isAffineOpen_forall_mem_and_not_representable_one (k : Type u) [Field k] :
     (∀ (s : Spec (.of (MvPolynomial (Fin 1) k)))
         (x : Fin 1 → (Over.mk (AlgebraicGeometry.coordinateMorphism k 1)).left),

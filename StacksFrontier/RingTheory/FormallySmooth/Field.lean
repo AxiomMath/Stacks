@@ -40,6 +40,9 @@ characteristic zero is separable, and every extension of a perfect field is form
 * `Algebra.isSeparableExtension_of_charZero_and_tfae`: six characterizations of separability of a
   field extension are equivalent, and in characteristic zero every field extension is separable.
 * `Algebra.formallySmooth_of_perfectField`: every extension of a perfect field is formally smooth.
+* `Algebra.FormallySmooth.of_charZero_and_iff_isSeparableExtension_of_charP`: every extension of
+  a field of characteristic zero is formally smooth, and in characteristic `p > 0` a field
+  extension is formally smooth if and only if it is separable.
 
 ## References
 
@@ -158,7 +161,7 @@ private lemma subsingleton_h1Cotangent_of_forall_adjoin_finset
     (subsingleton_h1Cotangent_iff_forall_mem_ker_sq k K').mp (H F.vars) G hGker fun j =>
       (aeval_id_rename_algebraMap_eq_zero_iff hinj _).mp
         (by rw [← pderiv_rename hinj, hGF]; exact hpd _)
-  change F ∈ (RingHom.ker ((aeval (_root_.id : K → K)).toRingHom) : Ideal (MvPolynomial K k)) ^ 2
+  show F ∈ (RingHom.ker ((aeval (_root_.id : K → K)).toRingHom) : Ideal (MvPolynomial K k)) ^ 2
   rw [← hGF]
   exact map_rename_ker_pow_le 2 (Ideal.mem_map_of_mem _ hG2)
 
@@ -215,6 +218,8 @@ the Mathlib sibling `Algebra.FormallySmooth.of_algebraicIndependent`; separable 
 `Algebra.IsSeparable`; separable is `Algebra.IsSeparableExtension`, Definition 030O(2), which does
 not presuppose algebraicity. See the module docstring.",
   ega "0 19.6.1" "sufficiency",
+  ega
+  "0 21.5.1" "more general",
   ega "0 21.5.1" "more general",
   ega "0 19.0.2" "sufficiency",
   ega "0 22.2.1" "special case"]
@@ -282,13 +287,7 @@ end
 
 /-- A field extension `K/k` is formally smooth over `k` if and only if it is separable over `k` in
 the sense of `Algebra.IsSeparableExtension`. -/
-@[stacks 0321 "Separability is `Algebra.IsSeparableExtension`, Definition 030O (2), which does not
-presuppose algebraicity and so is not `Algebra.IsSeparable`; formal smoothness is
-`Algebra.FormallySmooth`, Definition 00TI. The characteristic split is dropped: both implications
-hold in every characteristic (the source's proof is `combine Lemmas 031Y and 0320`, neither of
-which mentions the characteristic), so part (2) is this equivalence and part (1) is it together
-with the characteristic-zero case of Lemma 030Z. See the module docstring.", ega "0 19.6.1", ega
-  "0 21.5.1" "more general", ega "0 19.0.2"]
+@[ega "0 19.6.1", ega "0 21.5.1" "more general", ega "0 19.0.2"]
 public theorem Algebra.FormallySmooth.iff_isSeparableExtension (k K : Type*) [Field k] [Field K]
     [Algebra k K] : Algebra.FormallySmooth k K ↔ Algebra.IsSeparableExtension k K :=
   Stacks.FormallySmooth.SeparableIff.solution k K
@@ -528,5 +527,44 @@ public theorem Algebra.formallySmooth_of_perfectField (k K : Type*) [Field k] [F
   refine ⟨fun L _ => ⟨?_⟩⟩
   obtain ⟨t, ht, hs⟩ := exists_isTranscendenceBasis_and_isSeparable_of_perfectField k L
   exact ⟨t, ht, hs⟩
+
+end
+
+@[expose] public section
+
+namespace Stacks.FormallySmooth.CharacterizeSeparable
+
+/-- Let `k` be a field and `K/k` a field extension. If the characteristic of `k` is zero, then `K`
+is formally smooth over `k`. If the characteristic of `k` is `p > 0`, then `K` is formally smooth
+over `k` if and only if `K` is separable over `k`. -/
+public theorem solution (k K : Type*) [Field k] [Field K] [Algebra k K] :
+    (CharZero k → Algebra.FormallySmooth k K) ∧
+      ∀ p : ℕ, 0 < p → CharP k p →
+        (Algebra.FormallySmooth k K ↔ Algebra.IsSeparableExtension k K) :=
+  ⟨fun _ => Algebra.formallySmooth_of_perfectField k K,
+    fun _ _ _ => Algebra.FormallySmooth.iff_isSeparableExtension k K⟩
+
+end Stacks.FormallySmooth.CharacterizeSeparable
+
+end
+
+@[expose] public section
+
+/-- Let `k` be a field and `K/k` a field extension. If the characteristic of `k` is zero, then `K`
+is formally smooth over `k`. If the characteristic of `k` is `p > 0`, then `K` is formally smooth
+over `k` if and only if `K` is separable over `k`. -/
+@[stacks 0321 "Separability is `Algebra.IsSeparableExtension`, Definition 030O (2), which does not
+presuppose algebraicity and so is not `Algebra.IsSeparable`; formal smoothness is
+`Algebra.FormallySmooth`, Definition 00TI. A characteristic `p > 0` is `CharP k p` with `0 < p`.
+Part (1) uses Mathlib's instance `PerfectField.ofCharZero` (a field of characteristic zero is
+perfect, Lemma 030Z) and `Algebra.formallySmooth_of_perfectField`. Part (2) is
+`Algebra.FormallySmooth.iff_isSeparableExtension`, which combines Lemmas 031Y and 0320 as the
+source's proof does and holds in every characteristic. See the module docstring."]
+public theorem Algebra.FormallySmooth.of_charZero_and_iff_isSeparableExtension_of_charP
+    (k K : Type*) [Field k] [Field K] [Algebra k K] :
+    (CharZero k → Algebra.FormallySmooth k K) ∧
+      ∀ p : ℕ, 0 < p → CharP k p →
+        (Algebra.FormallySmooth k K ↔ Algebra.IsSeparableExtension k K) :=
+  Stacks.FormallySmooth.CharacterizeSeparable.solution k K
 
 end

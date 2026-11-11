@@ -20,10 +20,10 @@ category fibred in groupoids `𝒳` over the big fppf category of `S` whose tota
 essentially small, that `Hom_𝒳(𝒢, -)` commutes with filtered colimits for `𝒢` of finite
 presentation, granted the condition `hX` of **Stacks 0GMR** part (4) for the equi-universe model
 of the fppf site of `𝒳`.
-This file discharges `hX` when `𝒳` is a quasi-compact algebraic stack which is quasi-separated over
-a quasi-separated base, exactly as the source does: through **Stacks 0GMS** case (2), with the
-objects of the model lying over affine schemes as the collection `B` of that case. The result is
-**Stacks 0GQZ** with no hypothesis beyond the tag's own.
+This file discharges `hX` when `𝒳` is a quasi-compact and quasi-separated algebraic stack
+(Stacks 04YB, Stacks 050D part (8)), exactly as the source does: through **Stacks 0GMS** case (2),
+with the objects of the model lying over affine schemes as the collection `B` of that case. The
+result is **Stacks 0GQZ** with no hypothesis beyond the tag's own.
 
 ## Main definitions
 
@@ -448,7 +448,8 @@ The proof is the source's. The equality is the case of Stacks 0GN0 for the fppf 
 at the site hypothesis of Stacks 0GN0. That hypothesis is discharged by
 `AlgebraicGeometry.Stack.FppfModel.exists_set_isLocallySurjective_and_isQuasiCompact_prod_self`
 through Stacks 0GMS case (2), which is where quasi-compactness and quasi-separatedness are used. -/
-@[stacks 0GQZ "the displayed colimit equality, for all 𝒪_𝒳-modules"]
+@[stacks 0GQZ "the displayed colimit equality, for all 𝒪_𝒳-modules; the directed index set is a \
+small filtered category"]
 theorem isIso_colimit_post_hom_of_isQuasiCompactStack
     (hqc : IsQuasiCompactStack.{u, w} B S hS 𝒳.val 𝒳.property)
     (h𝒳 : IsQuasiSeparatedAbs.{u, w, w'} B S hS 𝒳)
@@ -478,7 +479,8 @@ quasi-coherence of `𝒢` is asked for. This is not a restatement of the display
 colimit is the one of `QCoh(𝒪_𝒳)`, and the source's argument is the one used here, that the
 inclusion of `QCoh(𝒪_𝒳)` preserves colimits by the colimit clause of **Stacks 06WV (4)**,
 `AlgebraicGeometry.FibredSite.preservesColimitsOfSize_quasicoherentInclusion'`. -/
-@[stacks 0GQZ "the 'in particular' clause: filtered colimits in QCoh(𝒪_𝒳)"]
+@[stacks 0GQZ "the 'in particular' clause: filtered colimits in QCoh(𝒪_𝒳), indexed by a small \
+filtered category"]
 theorem isIso_colimit_post_hom_quasicoherent_of_isQuasiCompactStack
     (hqc : IsQuasiCompactStack.{u, w} B S hS 𝒳.val 𝒳.property)
     (h𝒳 : IsQuasiSeparatedAbs.{u, w, w'} B S hS 𝒳)

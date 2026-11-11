@@ -715,7 +715,7 @@ stated at each coefficient. -/
   m_{X',X} is the length of O_X at the generic point of X' (0EE9 part (1) for the space X),
   g ∘ f|_{X'} is the image of g under the extension of function fields of the dominant
   f|_{X'} (0EML), and every cycle is the one of this chapter: f^* is 0EP8, div is 0EQ1 at the
-  canonical embeddings of 0ENK, (X' → X)_* is 0EP1"]
+  canonical embeddings of 0ENK, (X' → X)_* is 0EP1; the hypotheses are exactly the tag's"]
 theorem flatPullbackMap_rationalFunctionPrincipalDivisorCycle_eq_finsum_components {k : ℤ}
     (hk : deltaDimensionClosed D sY hY Set.univ isClosed_univ = (k : EInt))
     (g : (rationalFunctions D.site D.base D.base_mem hY.1)ˣ)

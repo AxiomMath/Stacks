@@ -24,7 +24,9 @@ This file supplies the right-hand side of that identification over an arbitrary 
 conditions of Stacks 082M read there, and the pairs themselves — and proves the identification
 in the case where `T` is a scheme of the site.  That case is the base of the source's induction:
 the source's proof chooses a scheme `U` with a surjective étale morphism `U ⟶ T` and descends
-the pair obtained over `U`, so the pair over a scheme is what it descends *from*.
+the pair obtained over `U`, so the pair over a scheme is what it descends *from*.  The
+identification for an arbitrary algebraic space `T`, for both sheaves, is proved in
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSpaceDescent.lean`.
 
 ## Main definitions
 
@@ -53,7 +55,8 @@ the pair obtained over `U`, so the pair over a scheme is what it descends *from*
   algebraic space are the same fibre product, so the two descriptions agree with no transport.
 * `AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceQuotient`: **Stacks 0D3U for a
   representable algebraic space.**  The morphisms from a scheme of the site into `Q_{F/X/Y}` are
-  the pairs `(h, Q)` over it.
+  the pairs `(h, Q)` over it.  The general case is in
+  `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSpaceDescent.lean`.
 
 ## Implementation notes
 
@@ -68,23 +71,15 @@ algebraic space is the same construction at a different second argument.  This i
 transport: for `h` out of a test scheme the two fibre products are literally the same object,
 and the quasi-coherence and flatness conditions are then the same conditions.
 
-**Which clause of Stacks 0D3U is proved and which is not.**  The identification is proved here
-for `T` a scheme of the big fppf site, where it is the Yoneda lemma applied to the sheaf of
-Stacks 082P.  For a general algebraic space `T` it is not proved, and the obstruction is a
-descent input rather than a bookkeeping one.  The source's proof chooses a scheme `U` with a
-surjective étale morphism `p : U ⟶ T`, reads a transformation at `p` as a pair over `U`, and then
-descends: the morphism `h` descends because `T = U/R` for `R = U ×_T U` (Spaces, Lemma 0262) and
-the quotient descends by the fpqc descent of quasi-coherent modules (Descent on Spaces,
-Proposition 04W8), after which the descended quotient is flat over `T` because `U ⟶ T` is
-surjective and flat (Morphisms of Spaces, Lemma 05VY) and of finite presentation by Descent on
-Spaces, Lemma 060V.  Of those inputs this development carries only the *faithfulness* half of
-Stacks 04W8, as
-`AlgebraicGeometry.Space.QuasiCoherentDescent.faithful_canonicalDescentFunctor_of_isFpqcCovering`,
-whose own attribute says as much, while the fullness and effectivity clauses are absent:
-`AlgebraicGeometry.Space.QuasiCoherentDescent.IsEffective` is defined and is concluded for no
-covering.  So the descent of the quotient, which is the whole forward direction for a general
-`T`, has no engine here, and nothing is claimed for it; the tag attributes say which case they
-cover.
+**Where the general case is proved.**  The identification is proved here for `T` a scheme of
+the big fppf site, where it is the Yoneda lemma applied to the sheaf of Stacks 082P.  The case of
+a general algebraic space `T`, which the source proves by choosing a surjective étale chart
+`U ⟶ T` and descending the pair read at it, is proved in
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSpaceDescent.lean`, as
+`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceQuotientOfAlgebraicSpace` for
+`Q_{F/X/Y}` and
+`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceFinitePresentationQuotientOfAlgebraicSpaceUnconditional`
+for `Q^{fp}_{F/X/Y}`.
 
 **The universe of the identification.**  An algebraic space is a presheaf of `Type u` on the big
 fppf site, whereas the functor of quotients takes values in `Type (u + 1)`: its value at a test
@@ -343,26 +338,20 @@ def totalQuotientEquivSpaceFinitePresentationQuotient {U : BigFppfOver B S hS} :
   left_inv _ := rfl
   right_inv _ := rfl
 
-/-- **Stacks 0D3U for a representable algebraic space.**  The morphisms of sheaves on the big
-fppf site of `S` from a scheme `U` of the site into `Q_{F/X/Y}` are the pairs `(h, Q)`
-consisting of a morphism `h : U ⟶ Y` of algebraic spaces and a quotient of `F_U`, quasi-coherent
-and flat over `U`, where `F_U` is the pullback of `F` to `X ×_{Y, h} U`.
+/-- **Stacks 0D3U for a representable algebraic space.**  For any proof `hc` of the
+pseudofunctoriality of inverse images, the morphisms of sheaves on the big fppf site of `S` from a
+scheme `U` of the site into `Q_{F/X/Y}` are the pairs `(h, Q)` consisting of a morphism
+`h : U ⟶ Y` of algebraic spaces and a quotient of `F_U`, quasi-coherent and flat over `U`, where
+`F_U` is the pullback of `F` to `X ×_{Y, h} U`.
 
 This is the source's displayed identification in the case where the algebraic space `T` is a
-scheme of the site, which is the base of the source's proof: that proof chooses a scheme `U`
-with a surjective étale morphism `U ⟶ T`, reads the transformation at it as a pair over `U`, and
-descends.  The identification here is the Yoneda lemma for the sheaf of Stacks 082P, whose value
-at `U` is the set of those pairs; the sheaf of the algebraic space of `U` is lifted to the
-universe of the functor of quotients, which adds and loses no morphism. -/
-@[stacks 0D3U "the displayed identification for Q_{F/X/Y}, in the case where the algebraic \
-space is a scheme of the big fppf site: the morphisms of sheaves into the functor of quotients \
-of Stacks 082P are the pairs of a morphism to Y and a quotient, quasi-coherent and flat over \
-the base, of the pullback of F to the base change along it.  Conditional on the one hypothesis \
-of Stacks 082N still carried, the pseudofunctoriality of the inverse images of Stacks 03LU.  \
-The case of a general algebraic space is not covered: it needs \
-the descent of the quotient along a surjective étale chart, which is the fullness and \
-effectivity clauses of Stacks 04W8 together with Stacks 0262, 05VY and 060V, none of which \
-this development carries"]
+scheme of the site, and is the Yoneda lemma for the sheaf of Stacks 082P, whose value at `U` is
+the set of those pairs; the sheaf of the algebraic space of `U` is lifted to the universe of the
+functor of quotients, which adds and loses no morphism.  The full Stacks 0D3U, for an arbitrary
+algebraic space and for both `Q_{F/X/Y}` and `Q^{fp}_{F/X/Y}`, is
+`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceQuotientOfAlgebraicSpace` and
+`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceFinitePresentationQuotientOfAlgebraicSpaceUnconditional`
+of `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSpaceDescent.lean`, which carry the tag. -/
 def morEquivSpaceQuotient (hc : ModulePushforwardCoherence B S hS)
     (U : BigFppfOver B S hS) :
     (uliftYoneda.{u + 1}.obj U ⟶ D.totalQuotientsFunctor hc) ≃

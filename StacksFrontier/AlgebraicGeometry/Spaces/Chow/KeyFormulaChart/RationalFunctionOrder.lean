@@ -385,11 +385,13 @@ theorem PrimeDivisor.ord_eq_ordTotalFracInt_genericEtaleChart (hInt : IsIntegral
 
 /-! ### The order of vanishing on an arbitrary affine étale chart -/
 
-/-- **Stacks 0ENM at an arbitrary affine étale chart.** Let `Z` be a prime divisor of a decent,
-locally Noetherian, integral algebraic space `X`, let `V` be an affine étale chart of `X` and
-`v` a point of its scheme over the generic point of `Z`. Then the order of vanishing along `Z` of
-an invertible rational function `f` is the order of vanishing at `v` of the reading of `f` in
-the total ring of fractions of `𝒪_{V, v}`.
+/-- **The order of vanishing read at an arbitrary affine étale chart.** A chart variant of the
+comparison of Stacks 0ENM, whose statement on the schematic locus is
+`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`. Let `Z` be a prime divisor of a
+decent, locally Noetherian, integral algebraic space `X`, let `V` be an affine étale chart of `X`
+and `v` a point of its scheme over the generic point of `Z`. Then the order of vanishing along `Z`
+of an invertible rational function `f` is the order of vanishing at `v` of the reading of `f` in the
+total ring of fractions of `𝒪_{V, v}`.
 
 Unlike `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_scheme_ord_of_chart` the chart need not be
 an elementary étale neighbourhood, nor integral: `𝒪_{V, v}` is a reduced one-dimensional local
@@ -402,9 +404,6 @@ neighbourhood with the henselian local ring
 
 The dimension hypothesis on `𝒪_{V, v}`, needed to state the right-hand side, is
 `AlgebraicGeometry.Space.PrimeDivisor.krullDimLE_chartStalk`. -/
-@[stacks 0ENM "at an arbitrary affine étale chart, not necessarily integral, through a point
-  over the generic point of the prime divisor: the order of vanishing is the one of the total
-  ring of fractions of the local ring of the chart at the point"]
 theorem PrimeDivisor.ord_eq_ordTotalFracInt_chartPointRationalFunctionMap
     (hInt : IsIntegralSpace B S hS X)
     (hN : HasEtaleLocalProperty B S hS X (fun Y : Scheme.{u} => IsLocallyNoetherian Y))

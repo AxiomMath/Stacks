@@ -33,6 +33,8 @@ statement that the image of a proper scheme is proper.
 * `AlgebraicGeometry.universallyClosed_of_universallyClosed_of_surjective` and
   `AlgebraicGeometry.isProper_of_isProper_of_surjective`: the image of a universally closed,
   respectively proper, scheme under a surjection is universally closed, respectively proper.
+  The properness clause of Stacks 03GN, assuming universal closedness of the source, is
+  `AlgebraicGeometry.isProper_of_comp_surjective`.
 
 ## References
 
@@ -117,15 +119,14 @@ lemma universallyClosed_of_universallyClosed_of_surjective (h : g ≫ q = p) [Su
   subst h
   exact UniversallyClosed.of_comp_surjective g q
 
-/-- **[Stacks, Tag 03GN].** The image of a proper scheme is proper: in a commutative triangle
-`X ⟶ Y ⟶ S` with `X ⟶ Y` surjective and `X` proper over `S`, the morphism `Y ⟶ S` is proper as
-soon as it is separated and locally of finite type.
+/-- The image of a proper scheme is proper: in a commutative triangle `X ⟶ Y ⟶ S` with
+`X ⟶ Y` surjective and `X` proper over `S`, the morphism `Y ⟶ S` is proper as soon as it is
+separated and locally of finite type.
 
-Universal closedness is the previous lemma; separatedness and locally-of-finite-typeness are
-hypotheses, exactly as in the source, since neither descends along a bare surjection. -/
-@[stacks 03GN "the image of a proper scheme is proper, in the triangle form of the source: \
-separatedness and locally-of-finite-typeness of the image are hypotheses, as they are there",
-  ega "II 5.4.3" "more general"]
+This is a special case of the properness clause of [Stacks, Tag 03GN], which assumes `X`
+universally closed over `S` rather than proper; that clause, under exactly the source's
+hypotheses, is `AlgebraicGeometry.isProper_of_comp_surjective`. -/
+@[ega "II 5.4.3" "more general"]
 lemma isProper_of_isProper_of_surjective (h : g ≫ q = p) [Surjective g] [IsProper p]
     [IsSeparated q] [LocallyOfFiniteType q] : IsProper q :=
   (isProper_iff q).2

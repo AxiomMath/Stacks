@@ -141,7 +141,7 @@ public theorem isConstructibleSetSheaf_pushforward_of_compactSpace_unconditional
 /-- Let `p : T ⟶ S` be a finite étale morphism of a big étale site and let `ℱ` be a
 constructible sheaf of sets on `T_étale`. Then `p_*ℱ` is a constructible sheaf of sets on
 `S_étale`. -/
-@[stacks 095H "sheaves of sets; nothing granted, no hypothesis on S or T",
+@[stacks 095H "sheaves of sets; no hypothesis on S or T",
   sga "4 IX 2.14" "(i), special case",
   sga "4 XIV 1.1" "special case",
   sga "4 XIV 1.11" "partial",
@@ -222,7 +222,7 @@ public theorem isConstructibleAbelianSheaf_pushforward_of_compactSpace_unconditi
 /-- Let `p : T ⟶ S` be a finite étale morphism of a big étale site and let `ℱ` be a
 constructible abelian sheaf on `T_étale`. Then `p_*ℱ` is a constructible abelian sheaf on
 `S_étale`. -/
-@[stacks 095H "sheaves of abelian groups; nothing granted, no hypothesis on S or T"]
+@[stacks 095H "sheaves of abelian groups; no hypothesis on S or T, no torsion hypothesis"]
 public theorem isConstructibleAbelianSheaf_pushforward_unconditional
     [IsFinite (B.inclusion.map p)] [Etale (B.inclusion.map p)]
     (F : Sheaf (SmallEtale.topology B T.1 T.property) AddCommGrpCat.{u + 1})

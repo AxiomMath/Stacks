@@ -24,7 +24,12 @@ file proves it at the source's hypotheses, by the source's proof: the equivalenc
   property (`hasAffineEtaleChartProperty_iff_hasAffineEtaleAtlasWithProperty_of_mem`) and
   Stacks 0AIC.
 * `AlgebraicGeometry.FormalSpace.isLocallyOfFiniteType_tfae_of_isLocallyAdicStar`:
-  **Stacks 0GC0**.
+  **Stacks 0GC0**. It supersedes
+  `AlgebraicGeometry.FormalSpace.isLocallyOfFiniteType_adicStar_tfae'` of
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.AdicFiniteTypeCharacterizationRefined`, which takes
+  as `hchart` the statement that every ring presenting an affine chart is adic\*; only the
+  weakly admissible presentations are needed, and for those it is
+  `chartPresentationIsAdicStarOfWeaklyAdmissible`.
 
 ## References
 

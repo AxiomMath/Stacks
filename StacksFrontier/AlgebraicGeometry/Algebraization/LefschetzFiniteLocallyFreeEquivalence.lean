@@ -74,7 +74,8 @@ finite locally free objects: it lands in the finite locally free objects, it is 
 finite locally free objects, and every finite locally free object of `Coh(X, 𝓘)` is the
 completion of a finite locally free coherent module on some `V ∈ 𝒱`. See the module documentation
 for how each half is written. -/
-@[stacks 0EL7]
+@[stacks 0EL7 "full faithfulness as colim_W Hom = lim_n Hom for each V in 𝒱 (0EK2 (4)); \
+  the preimage is given on X and is finite locally free on V"]
 public theorem completionEquivalence_finiteLocallyFree_of_two_lt_depth_add_dimClosure
     (k : Type u) [Field k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) [IsProper f]
     (L : X.Modules) [Stacks.Ample.IsInvertibleModule X L] (hL : Stacks.Ample.IsAmple X L)

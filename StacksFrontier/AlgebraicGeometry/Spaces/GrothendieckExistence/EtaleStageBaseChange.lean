@@ -56,7 +56,7 @@ isomorphism. -/
 @[stacks 0CX8 "the full statement: for every coherator DQ_X and every presentation of \
 L = R lim F_n in D(O_X), every n and every etale U → X with U quasi-compact and \
 quasi-separated, the canonical map RΓ(U, K) ⊗^L_A A_n → RΓ(U_n, F_n) in D(A_n) induced by \
-K = DQ_X(L) → F_n is an isomorphism, U_n = U ×_X X_n; nothing is granted or assumed"]
+K = DQ_X(L) → F_n is an isomorphism, U_n = U ×_X X_n, under exactly the source's hypotheses"]
 theorem isIso_etaleStageBaseChangeMap
     {DQ : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left ⥤
       (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).FullSubcategory}

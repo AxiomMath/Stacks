@@ -34,7 +34,12 @@ vanishing of the higher direct image into the vanishing of the cohomology upstai
   **[Stacks, Tag 0897] part (1).**
 * `Stacks.AlgebraicGeometry.GradedProperCohomology.exists_isZero_pieceTwistCohomology_pullback`:
   **[Stacks, Tag 0897] part (2).**
-* `moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology`: **the whole tag.**
+* `moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology`: **the whole tag**,
+  and the one declaration registered to Tag 0897. The forms of the two parts that take the
+  base change `X'`, `f'`, `F'` and the cohomology comparison as arguments
+  (`exists_isZero_pieceTwistCohomology` in `Basic`, `moduleFinite_gradedCohomologySum` in
+  `ProperCohomologyFiniteness`, `moduleFinite_gradedCohomologySum_gradedPullback` in
+  `ProperCohomologyFinitenessSupplement`) are not registered.
 
 ## Implementation notes
 
@@ -47,14 +52,15 @@ covering-family predicate of [Stacks, Tag 03DL] part (5). The tag has **one** fi
 hypothesis, so the whole statement must carry one; it is the latter, because it is the one that
 does work, namely in making `F'` coherent.
 
-The implication from the affine-local predicate to the covering-family one is **unwritten** in
-this tree; so is its converse, and nothing needs that one. The argument the first takes is
-quasi-coherence: the sections of a quasi-coherent homogeneous piece on a basic open of an affine
-open are the sections over that affine open localized ([Stacks, Tag 01P7]), so generation over
-an affine open descends to the opens below it, which is all
-`SheafOfModules.GradedModule.Generates` asks for beyond the affine-local statement. It would
-consume quasi-coherence of the homogeneous pieces, which this statement already has in `hqc`, so
-a caller holding only `Stacks.Coherent.IsFiniteTypeOnAffine` would then be able to meet `hft`.
+Neither predicate is proved to imply the other in this tree. The implication from the
+affine-local predicate to the covering-family one holds for a graded module with
+quasi-coherent pieces, by this argument: the sections of a quasi-coherent homogeneous piece on a
+basic open of an affine open are the sections over that affine open localized
+([Stacks, Tag 01P7]), so generation over an affine open descends to the opens below it, which is
+what `SheafOfModules.GradedModule.Generates` asks for beyond the affine-local statement. Once
+that implication is written, a caller holding `Stacks.Coherent.IsFiniteTypeOnAffine` together
+with `hqc` meets `hft`, and the theorems here apply to it. The choice of `hft` does not weaken
+the statement: the covering-family predicate is the source's definition of finite type.
 
 ## References
 
@@ -216,7 +222,10 @@ to the degree-`n + k` summand by `Hᵖ(X, −)` of multiplication by the global 
 `b` names. -/
 @[stacks 0897 "both parts, at the hypotheses of the source: A Noetherian, B a finitely \
 generated graded A-algebra, f : X → Spec A proper, F a quasi-coherent graded f^* B-tilde-module \
-of finite type, and L ample invertible in part (2)", sga "2 XII 5.8" "(i), special case"]
+of finite type, and L ample invertible in part (2); (1) is finiteness of ⨁_n H^p(X, F_n) over B \
+for the degreewise B-action, (2) is H^p(X, F_n ⊗ L^d) = 0 for p > 0, d ≥ d_0 and every \
+degree n, which is H^p(X, F ⊗ L^d) = 0 since cohomology on X commutes with direct sums",
+  sga "2 XII 5.8" "(i), special case"]
 theorem moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology
     [IsNoetherianRing A] [Algebra.FiniteType A B] [_root_.AlgebraicGeometry.IsProper f]
     (F : _root_.SheafOfModules.GradedModule.{u, u, u} (pullbackGradedAlg 𝒜 f))

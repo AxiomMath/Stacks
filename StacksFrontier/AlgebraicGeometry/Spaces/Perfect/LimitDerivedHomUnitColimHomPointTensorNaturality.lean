@@ -101,24 +101,6 @@ theorem kFlat_spacesEtaleModelPointTensor_of_isStrictlyLE
     fun q => Stacks.SheafOfModules.KFlatResolution.kFlat_single_of_isFlat _ _
       (isFlat_spacesEtaleModelPointTensor_mapHomologicalComplex_X B S hS ψ C hflat q) q
 
-/-- **A flat module placed in a single degree gives a complex of flat modules**: the term in
-degree `j` is the module and every other term is zero.
-
-The same statement is proved as `flat_single_X` in the course of
-`StacksFrontier/Homology/HomComplex/RHom/BaseChange.lean`, where it is `private` and so cannot be
-used from another module; the proof here is its proof. -/
-theorem flat_single_obj_X (M : ModuleCat.{u} A) (hM : Module.Flat A M) (j i : ℤ) :
-    Module.Flat A
-      (((HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) j).obj M).X i) := by
-  by_cases h : i = j
-  · subst h
-    have := hM
-    exact Module.Flat.of_linearEquiv
-      (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) i M).toLinearEquiv
-  · have := ModuleCat.isZero_iff_subsingleton.mp
-      (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) j M i h)
-    infer_instance
-
 /-- **The structure sheaf is the point tensor of the single complex `A`**, in the derived
 category: `T_ψ` carries `A` to `𝒪_X` (`spacesEtaleModelPointTensorObjSelfIso`) and commutes with
 placing a module in a single degree.
@@ -158,7 +140,7 @@ theorem kFlat_spacesEtaleModelPointTensor_single :
     (inferInstanceAs (CochainComplex.IsStrictlyLE
       ((HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) 0).obj
         (ModuleCat.of A A)) 0))
-    (flat_single_obj_X (ModuleCat.of A A) inferInstance 0)
+    (HomologicalComplex.flat_single_obj_X (ModuleCat.of A A) (ComplexShape.up ℤ) 0)
 
 variable {X' : AlgebraicSpaces B S hS} (g : X' ⟶ X) {A' : Type u} [CommRing A']
   (ψ' : A' →+* (SpacesEtale.structurePresheaf B S hS X').obj (op (SpacesEtale.idObj B S hS X')))

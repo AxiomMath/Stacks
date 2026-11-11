@@ -43,9 +43,9 @@ asking that a morphism `f : X ⟶ Y` of formal algebraic spaces over `S` have `P
   `AlgebraicGeometry.FormalSpace.isRepresentableEtale_pullback_snd`: representable étale
   morphisms of fppf sheaves are closed under composition and stable under base change.
 * `AlgebraicGeometry.FormalSpace.hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram`:
-  **Stacks 0ANG**, the implication from condition (1) to condition (2).
+  the implication from condition (1) to condition (2) of Stacks 0ANG.
 * `AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover`:
-  **Stacks 0ANG**, the implication from condition (3) to condition (1).
+  the implication from condition (3) to condition (1) of Stacks 0ANG.
 
 ## Implementation notes
 
@@ -57,9 +57,11 @@ class of rings is a parameter, so that the countably indexed weakly admissible v
 source and the Noetherian adic variant of Remark 0ANI share one definition.
 
 Condition (2) refers to the fibre product `Vⱼ ×_Y X`, which is formed in the category of fppf
-sheaves; that it is a formal algebraic space is the assertion of Stacks 0AJ3, which this
-library does not yet carry, so the implication below takes it as a hypothesis for the fibre
-products it needs. Everything else in that implication is proved here: the charts of `Vⱼ ×_Y X`
+sheaves; that it is a formal algebraic space is the assertion of Stacks 0AJ3, which the
+implication below asks of the fibre products it needs through its argument `hpb`, supplied for
+formal algebraic spaces by
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace`.
+Everything else in that implication is proved here: the charts of `Vⱼ ×_Y X`
 map to `X` by a representable étale morphism, because the second projection is a base change of
 `Vⱼ ⟶ Y`, and the square they form with `f` and `Vⱼ ⟶ Y` commutes by the universal property of
 the fibre product.
@@ -67,14 +69,14 @@ the fibre product.
 The implication from condition (3) to condition (1) splits into a geometric half and a
 ring-theoretic half. The geometric half refines a covering as in condition (3) against a
 diagram as in condition (1): it uses that the fibre products `Yᵢ ×_Y V` are formal algebraic
-spaces (Stacks 0AJ2) and that an affine formal algebraic space is quasi-compact, neither of
-which this library carries, so it is the hypothesis `HasEtaleRefinementOfSourceCover`, which
-mentions neither `C` nor `P`. The ring-theoretic half applies the locality axioms of Situation
-0CBA to the resulting charts; translating those axioms from continuous ring maps to morphisms
-of affine formal algebraic spaces is the equivalence of Stacks 0AN8 together with Stacks 0AN9,
-which this library carries only for a morphism already presented by an étale ring map, so the
-translated axioms are the hypotheses `ChartPropertyAscendsAlongAffineEtale` and
-`ChartPropertyDescendsAlongFiniteAffineEtaleCover`.
+spaces (Stacks 0AJ2) and that an affine formal algebraic space is quasi-compact; it is the
+argument `HasEtaleRefinementOfSourceCover`, which mentions neither `C` nor `P`, and which
+`AlgebraicGeometry.FormalSpace.hasEtaleRefinementOfSourceCover_of_etale` proves. The
+ring-theoretic half applies the locality axioms of Situation 0CBA to the resulting charts, read
+on affine formal algebraic spaces through Stacks 0AN8 and Stacks 0AN9 as the arguments
+`ChartPropertyAscendsAlongAffineEtale` and `ChartPropertyDescendsAlongFiniteAffineEtaleCover`.
+For `WAdm^count` the full statement of Stacks 0ANG, with the axioms of Situation 0CBA on rings,
+is `AlgebraicGeometry.FormalSpace.hasProperty_tfae_of_isLocallyCountablyIndexed_of_isLocal`.
 
 ## References
 
@@ -187,10 +189,10 @@ abbrev HasPropertyAfterSourceCover {X Y : FppfSheaf B S hS} (f : X ⟶ Y) : Prop
 diagram over `f`, then the atlas of the target and the atlases of the fibre products of its
 members with the source witness condition (2).
 
-The hypothesis `hpb` is the assertion of Stacks 0AJ3 that the fibre product of the chart
-`V ⟶ Y` with `f` is a formal algebraic space; the library does not yet carry Stacks 0AJ3, so it
-is carried here as a hypothesis for the fibre products the statement needs. -/
-@[stacks 0ANG "condition (1) implies condition (2), with Stacks 0AJ3 as a hypothesis"]
+The argument `hpb` says that the fibre product of each chart `V ⟶ Y` with `f` is a formal
+algebraic space (Stacks 0AJ3); for formal algebraic spaces `X` and `Y` it is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace`.
+-/
 theorem hasPropertyAfterTargetCover_of_everyAffineEtaleDiagram
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hpb : ∀ (V : FppfSheaf B S hS) (v : V ⟶ Y), IsAffineFormalAlgebraicSpace B S hS V →
@@ -268,9 +270,6 @@ representable étale over the target, then `P` holds on every affine étale diag
 Given a diagram as in condition (1), the covering is refined against it by `href`; axiom (1)
 of locality carries `P` from the members of the covering to the refined charts, and axioms (2)
 and (3) descend it along the finite covering of the chart `U₀` so obtained. -/
-@[stacks 0ANG "condition (3) implies condition (1), with the refinement of the covering \
-(Stacks 0AJ2 and quasi-compactness of an affine formal algebraic space) and the locality axioms \
-of Situation 0CBA read through Stacks 0AN8 and Stacks 0AN9 carried as hypotheses"]
 theorem hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hasc : ChartPropertyAscendsAlongAffineEtale B S hS C P)

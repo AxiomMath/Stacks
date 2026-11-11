@@ -22,8 +22,8 @@ propositions of Descent, Chapter 35 written out at every use:
 **Both are now discharged, and this file states those clauses with nothing assumed.**
 
 * The residue of `hEss` was always only the implication "quasi-coherent ⟹ cartesian on affine
-  charts", and that is proved unconditionally as `@[stacks 03DX "quasi-coherent implies
-  cartesian"] AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite`.  `hEss`
+  charts", and that is proved unconditionally as
+  `AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite`.  `hEss`
   itself is *not* proved anywhere, and the statements below do not need it: each of the three
   conditional files uses its `hEss` only to form that implication.  Other `hEss` binders in the
   tree, in `StacksFrontier.AlgebraicGeometry.Spaces.SliceAssociatedModuleEssSurj`, are not claimed

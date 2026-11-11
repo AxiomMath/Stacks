@@ -46,6 +46,11 @@ namespace Stacks.Cohomology.DerivedKunnethExt
 
 attribute [local instance] HasDerivedCategory.standard
 
+-- As in `StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethExtIsomorphism`: the
+-- derived categories of this file are those of `SheafOfModules.instAbelian`.
+attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
+  Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
+
 attribute [local implicit_reducible] CategoryTheory.sheafCompose
 
 attribute [local instance_reducible] Stacks.SheafOfModules.Tensor.ringSheaf

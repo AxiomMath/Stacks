@@ -150,16 +150,16 @@ conclusion — on the nose it is a formula in `CH_*(N ×_X Y)`, one bundle level
 being proved.
 
 The top Chern class is carried as the additive map `cTop` rather than constructed, but not for
-want of Stacks 0FA4, which is formalized: `Stacks.Chow.topChernClass`
-(`Chow/TopChernClass.lean:205`) assembles `c_top(ℰ) = Σ_r c_r(ℰ|_{X_r})` in the completed
-bivariant group of Stacks 0FE0. That definition takes the family of higher Chern classes as a
-parameter, because the higher Chern classes themselves exist here only as the characterization
-`Stacks.Chow.IsChernClassBivariant` and the carried cap datum
-`Stacks.Chow.HigherChernCapRule` — the existence half of Stacks 0B7H is not formalized. So
-carrying `cTop` directly carries one level less than carrying that family and then applying
-`Stacks.Chow.topChernClass` to it. Only `c_top(ℰ)`'s degree enters the formula, and that is fixed
-by the typing: it takes `CH_{n-r}(Z ×_X Y)` to `CH_{n-m}(Z ×_X Y)`, so it has degree `m - r`, the
-rank of the excess sheaf.
+want of Stacks 0FA4, which is formalized: `Stacks.Chow.topChernClassOfInvertible`
+(`Chow/TopChernClassOfInvertible.lean`) defines `c_top(ℰ) = Σ_r c_r(ℰ|_{X_r})` in the completed
+bivariant group of Stacks 0FE0 from the Chern classes of Stacks 0ESW, for the Gysin system
+`Stacks.Chow.gysinSystemOfInvertible`. The statements here are for an arbitrary Gysin system, for
+which the higher Chern classes are only the characterization `Stacks.Chow.IsChernClassBivariant`
+and the carried cap datum `Stacks.Chow.HigherChernCapRule`. So carrying `cTop` directly carries
+one level less than carrying a family of such classes and assembling it with
+`Stacks.Chow.topChernClass`, which takes the family as a parameter. Only `c_top(ℰ)`'s degree
+enters the formula, and that is fixed by the typing: it takes `CH_{n-r}(Z ×_X Y)` to
+`CH_{n-m}(Z ×_X Y)`, so it has degree `m - r`, the rank of the excess sheaf.
 
 ### The letters
 
@@ -472,8 +472,9 @@ does not discharge the hypothesis as stated here; see the implementation notes. 
 `Z ⟶ X`. -/
 @[stacks 0FBM "with excess: `c(Z ⟶ X, 𝒩) ∩ [Y]_n = c_top(ℰ) ∩ [Z ×_X Y]_{n-r}`, the normal cone \
 given as a rank-`r` sub-bundle `CN` (063M) and `c_top(ℰ)` as the map `cTop` — `Stacks.Chow.\
-topChernClass` of 0FA4 is proved, but assembled from the higher Chern classes, which are carried \
-here as elsewhere in this directory; carried also: Stacks 0FAA for `CN ⟶ N ×_X Y`, proved at the \
+topChernClassOfInvertible` of 0FA4 is proved, but at the Gysin system of the first Chern class, \
+while the higher Chern classes for the Gysin system here are carried as elsewhere in this \
+directory; carried also: Stacks 0FAA for `CN ⟶ N ×_X Y`, proved at the \
 constructed bundles of a short exact sequence but not at an arbitrary sub-bundle"]
 theorem virtualNormalGysinCap_fundamentalChowClass_excess
     (hinj : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),

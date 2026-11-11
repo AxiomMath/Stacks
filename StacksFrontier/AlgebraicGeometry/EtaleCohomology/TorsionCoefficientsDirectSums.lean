@@ -565,7 +565,9 @@ Here `cd(f)` is `AlgebraicGeometry.Scheme.Hom.etaleCohomologicalDimension`, [Sta
 and `Rf_*` is any unbounded right derived functor `RF` of the direct image of sheaves of
 `Λ`-modules on the small étale sites, with derivation unit `α`, in any model of the two derived
 categories. -/
-@[stacks 0F11 "(1)"]
+@[stacks 0F11 "(1): Rf_* : D(X_étale, Λ) ⟶ D(Y_étale, Λ) commutes with direct sums for f
+quasi-compact and quasi-separated with cd(f) < ∞, for every commutative ring Λ with n = 0 in Λ
+for some n ≥ 1 (the source's case is Λ = ℤ/nℤ)"]
 theorem preservesColimitsOfShape_derivedDirectImage_of_natCast_eq_zero
     {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f]
     (hcd : f.etaleCohomologicalDimension < ⊤)
@@ -592,7 +594,9 @@ Here `cd(X)` is `AlgebraicGeometry.Scheme.etaleCohomologicalDimension`, [Stacks,
 `RΓ(X, -)` is any unbounded right derived functor `RF` of the global sections of sheaves of
 `Λ`-modules on the small étale site, with derivation unit `α`, in any model of the two derived
 categories. -/
-@[stacks 0F11 "(2)"]
+@[stacks 0F11 "(2): RΓ(X, -) : D(X_étale, Λ) ⟶ D(Λ) commutes with direct sums for X
+quasi-compact and quasi-separated with cd(X) < ∞, for every commutative ring Λ with n = 0 in Λ
+for some n ≥ 1 (the source's case is Λ = ℤ/nℤ)"]
 theorem preservesColimitsOfShape_derivedGlobalSections_of_natCast_eq_zero
     (X : Scheme.{u}) [CompactSpace X] [QuasiSeparatedSpace X]
     (hcd : Scheme.etaleCohomologicalDimension X < ⊤)

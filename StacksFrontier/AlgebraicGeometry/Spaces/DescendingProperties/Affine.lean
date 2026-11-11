@@ -57,7 +57,8 @@ present: the system of affine charts with its limiting cone of schemes is
 of the global sections of a limit of affine schemes is
 `AlgebraicGeometry.exists_appTop_eq_of_isAffine_of_isLimit_of_directed` with its vanishing
 counterpart; descent of an isomorphism to a finite stage is
-`AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt`, which carries Stacks 084S;
+`AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt`, the bounded form of Stacks
+084S;
 and the concluding descent step, that affineness of a morphism of algebraic spaces is fpqc
 local on the base, is `AlgebraicGeometry.Space.isLocalAtTarget_isAffineHom_fpqc`, which carries
 Stacks 041Z with no hypothesis left.

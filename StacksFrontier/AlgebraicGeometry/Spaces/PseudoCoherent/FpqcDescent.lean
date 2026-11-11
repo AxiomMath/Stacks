@@ -457,7 +457,7 @@ Stacks 0419 refines the covering by morphisms `e_i : T_i ⟶ X_i` out of schemes
 `m`-pseudo-coherent by the forward implication, as `Lf_i^*E` has quasi-coherent cohomology
 (Stacks 08F4), and
 `AlgebraicGeometry.Space.isPseudoCoherentFrom_of_isFpqcCovering_representable` applies. -/
-@[stacks 0DL1]
+@[stacks 0DL1 "the full statement, for an arbitrary fpqc covering of algebraic spaces"]
 theorem isPseudoCoherentFrom_iff_forall_derivedPullback_of_isFpqcCovering {I : Type v}
     {X : AlgebraicSpaces B S hS} {Xi : I → AlgebraicSpaces B S hS}
     (f : ∀ i, Xi i ⟶ X) (hf : IsFpqcCovering B S hS fun i => (f i).hom)

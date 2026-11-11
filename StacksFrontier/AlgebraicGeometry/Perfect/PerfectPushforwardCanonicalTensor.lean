@@ -29,6 +29,12 @@ direct image of the morphism of ringed spaces underlying `f`.
 tensor product of [Stacks, Tag 06YU], as
 `Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensor_of_isPerfect`.
 
+The tag is registered here and not on
+`Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensor`
+(`StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforward.lean`), an untagged conditional form
+which takes two residues of [Stacks, Tag 08EV] and its Tor-dimension clause as hypotheses; the
+statement here takes none of them.
+
 A flat proper morphism to a Noetherian scheme is of finite presentation, hence perfect
 (`AlgebraicGeometry.perfect_of_flat_of_locallyOfFinitePresentation`), so [Stacks, Tag 0B6F] is the
 case of [Stacks, Tag 0B6G],

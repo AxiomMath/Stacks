@@ -59,8 +59,10 @@ K-injective complex representing `R lim τ_{≥ -n} K`, which is how the result 
   commutativity of the ladder.
 * `CochainComplex.exists_sequence_quasiIso_truncGE`: the dual ladder under the truncations
   `τ_{≥ -n} K`, stated dually arrow for arrow.
+* `CategoryTheory.Functor.isLeftDerivable_of_acyclic_mapHomologicalComplex`: **Stacks 0794**
+  itself, `LF` is defined on all of `D(A)` in the sense of Tags 05S9/05SV.
 * `CategoryTheory.Functor.hasPointwiseLeftDerivedFunctor_of_acyclic_mapHomologicalComplex`:
-  **Stacks 0794** itself, the existence of the left derived functor.
+  under the same hypotheses, the pointwise left derived functor exists in Mathlib's sense.
 * `CategoryTheory.Functor.isLeftDerivedFunctor_comp_of_acyclic_mapHomologicalComplex`: that
   left derived functor is *absolute*, which is what a derived adjunction requires of it.
 

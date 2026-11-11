@@ -3,8 +3,8 @@ module
 public import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModule
-public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.StructureSheafCohomology
-import StacksCore.Tactic.StacksAttribute
+public import
+  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.StructureSheafCohomology
 
 /-!
 # The dualizing module of a rational surface singularity
@@ -13,6 +13,13 @@ In Situation [Stacks, Tag 0B4W] — a two-dimensional local normal Nagata domain
 rational singularity and a modification `f : X ⟶ Spec(A)` with `X` normal — and for `A` carrying a
 dualizing module `ω_A`, [Stacks, Tag 0BBU] asserts that the trace map `H⁰(X, ω_X) ⟶ ω_A` on the
 dualizing module of `X` is an isomorphism.
+
+**[Stacks, Tag 0BBU] itself is not proved here.** It is
+`AlgebraicGeometry.RationalSingularitySituation.bijective_normalizedTrace`
+(`NormalizedDualizingTrace.lean`), for the dualizing module normalized relative to `ω_A`
+([Stacks, Remark 0B4R]) and the trace of Grothendieck duality, with nothing carried. This file
+keeps the duality-sequence form of the argument, `bijective_trace`, whose hypothesis `D` is
+equivalent to the conclusion (`nonempty_dualizingTraceSequence_iff`); it carries no tag.
 
 ## Main definitions
 
@@ -29,7 +36,9 @@ dualizing module of `X` is an isomorphism.
   `H¹(X, 𝒪_X) = 0`, because `A` defines a rational singularity.
 * `AlgebraicGeometry.RationalSingularitySituation.surjective_trace`: the trace of a
   `DualizingTraceSequence` is surjective, the obstruction group being zero.
-* `AlgebraicGeometry.RationalSingularitySituation.bijective_trace`: [Stacks, Tag 0BBU].
+* `AlgebraicGeometry.RationalSingularitySituation.bijective_trace`: the trace of a
+  `DualizingTraceSequence` is bijective. This is the last step of the source's proof of
+  [Stacks, Tag 0BBU], not the tag, which is `bijective_normalizedTrace`.
 
 ## Implementation notes
 
@@ -45,10 +54,12 @@ argument of [Stacks, Tag 0B4S] — then places the trace in a short exact sequen
 and `R¹f_*𝒪_X = 0` because `A` defines a rational singularity, so the trace is an isomorphism.
 The output of the first two steps is the data of a `DualizingTraceSequence`: the injectivity of
 the trace together with exactness of `H⁰(X, ω_X) ⟶ ω_A ⟶ Ext²_A(H¹(X, 𝒪_X), ω_A)`. Tag 0AXD is
-`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule`, and Tag 0B4S is
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`,
+proved in the vanishing situation of [Stacks, Tag 0AX8] for `ω_X` normalized by
+`f^×(ω̃_A^•) ≅ ω_X[2]`, and Tag 0B4S is
 `isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero` in the namespace
-`Stacks.ResolutionOfSurfaces`, each under hypotheses of its own; neither is stated at the sheaf
-level nor with `ω_X` normalized relative to `ω_A`, so neither produces the datum. Nothing in the
+`Stacks.ResolutionOfSurfaces`, under hypotheses of its own; neither is stated in this situation,
+so neither produces the datum. Nothing in the
 datum mentions the vanishing of `H¹(X, 𝒪_X)`, which is proved here.
 
 **For the `ω_X` the source names, the datum is a theorem.** The source's `ω_X` is the dualizing
@@ -163,23 +174,26 @@ public theorem surjective_trace (ωA : ModuleCat.{u} S.A) (ωX : S.X.Modules)
     simpa using h
   exact (D.exact z).mp (Subsingleton.elim _ _)
 
-/-- **Stacks Project, Tag 0BBU.** In Situation [Stacks, Tag 0B4W] with a dualizing module `ω_A`
-for `A` and a dualizing module `ω_X` on `X`, the trace map `H⁰(X, ω_X) ⟶ ω_A` is an isomorphism.
+/-- **The last step of the source's proof of [Stacks, Tag 0BBU].** In Situation
+[Stacks, Tag 0B4W] with a dualizing module `ω_A` for `A`, a dualizing module `ω_X` on `X` and a
+`DualizingTraceSequence` `D`, the map `D.trace : H⁰(X, ω_X) ⟶ ω_A` is an isomorphism.
+
+This is not [Stacks, Tag 0BBU]: `D.trace` is any injective map fitting in the duality sequence,
+not the trace of duality, `ω_X` is any dualizing module, not the one normalized relative to
+`ω_A`, and `D` exists exactly when `H⁰(X, ω_X) ≅ ω_A` (`nonempty_dualizingTraceSequence_iff`).
+The tag is `AlgebraicGeometry.RationalSingularitySituation.bijective_normalizedTrace`, proved
+unconditionally for the normalized `ω_X` and its genuine trace.
 
 `H¹(X, 𝒪_X)` vanishes because `A` defines a rational singularity, so it is a projective
 `A`-module and `Ext²_A(H¹(X, 𝒪_X), ω_A)` vanishes; the trace is then surjective by exactness and
 injective by hypothesis. The two results the source quotes are Grauert–Riemenschneider vanishing
 [Stacks, Tag 0AXD] and the duality exact sequence [Stacks, Tag 0B4S], and they enter here
 together as the hypothesis `D`. Tag 0AXD is
-`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule`, in the vanishing
-situation of [Stacks, Tag 0AX8] and under its hypotheses `hfin` and `hvanish`, and Tag 0B4S is
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`,
+in the vanishing situation of [Stacks, Tag 0AX8], and Tag 0B4S is
 `isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero` in the namespace
 `Stacks.ResolutionOfSurfaces`, under a `TraceCokernelDuality` datum and a uniform bound. Neither
 is stated in this situation, so neither produces `D`. -/
-@[stacks 0BBU "the trace on global sections of the dualizing module is an isomorphism; \
-Grauert–Riemenschneider vanishing (Tag 0AXD) and the duality exact sequence (Tag 0B4S) are the \
-carried hypothesis D; the consequent canonical map f^*ω_A ⟶ ω_X that this isomorphism induces is \
-dualizingPullbackMap of DualizingPullback.lean"]
 public theorem bijective_trace [IsLocallyNoetherian S.X] (ωA : ModuleCat.{u} S.A)
     (_hωA : Stacks.Duality.IsDualizingRingModule S.A ωA) (ωX : S.X.Modules)
     (_hωX : Stacks.Duality.IsDualizingModule ωX) (D : S.DualizingTraceSequence ωA ωX) :

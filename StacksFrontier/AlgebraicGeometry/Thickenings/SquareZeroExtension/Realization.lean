@@ -582,7 +582,10 @@ private theorem toΓSpec_stalkMap_isIso_of_isLocalization
   rw [he]
   exact e.bijective
 
-private theorem squareZero_affineChartToSpec_isIso
+/-- **The affine charts of the ringed space of a square-zero extension are affine schemes**: over
+an affine open `U` of `X`, the canonical map of the chart to the spectrum of its global sections
+is an isomorphism. -/
+theorem squareZero_affineChartToSpec_isIso
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
     (U : X.Opens) (hU : IsAffineOpen U) :
     IsIso (thickenedAffineChartToSpec E U) := by
@@ -626,7 +629,10 @@ private theorem squareZero_affineChartToSpec_isIso
     ((thickenedLocallyRingedSpace E).restrictStalkIso
       U.ι.isOpenEmbedding x).inv_hom_id _).symm
 
-private noncomputable def squareZeroExtensionScheme
+/-- **The scheme of a square-zero extension**: the locally ringed space `(|X|, A)` of a
+square-zero extension, which is a scheme once its affine charts are. Its underlying sheafed space
+is `thickenedSpace X E.A` on the nose. -/
+noncomputable def squareZeroExtensionScheme
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
     (hchart : ∀ (U : X.Opens), IsAffineOpen U →
       IsIso (thickenedAffineChartToSpec E U)) : Scheme.{u} := by
@@ -641,14 +647,17 @@ private noncomputable def squareZeroExtensionScheme
     LocallyRingedSpace.Γ.obj (Opposite.op (thickenedAffineChart E U)),
     ⟨@CategoryTheory.asIso _ _ _ _ (thickenedAffineChartToSpec E U) hiso⟩⟩
 
-private noncomputable def squareZeroExtensionImmersion
+/-- The canonical immersion of `X` into the scheme of a square-zero extension: the identity on
+spaces and the quotient map `A ⟶ 𝒪_X` on sheaves. -/
+noncomputable def squareZeroExtensionImmersion
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
     (hchart : ∀ (U : X.Opens), IsAffineOpen U →
       IsIso (thickenedAffineChartToSpec E U)) :
     X ⟶ squareZeroExtensionScheme E hchart :=
   Scheme.Hom.mk (canonicalInclusionLocallyRingedSpace E)
 
-private theorem squareZeroExtensionImmersion_isClosedImmersion
+/-- The canonical immersion into the scheme of a square-zero extension is a closed immersion. -/
+theorem squareZeroExtensionImmersion_isClosedImmersion
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
     (hchart : ∀ (U : X.Opens), IsAffineOpen U →
       IsIso (thickenedAffineChartToSpec E U)) :
@@ -662,7 +671,8 @@ private theorem squareZeroExtensionImmersion_isClosedImmersion
     rw [canonicalInclusionLocallyRingedSpace_stalkMap]
     exact squareZero_stalkMap_surjective E x
 
-private theorem squareZeroExtensionImmersion_app
+/-- On sections, the canonical immersion is the quotient map of the extension. -/
+theorem squareZeroExtensionImmersion_app
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
     (hchart : ∀ (U : X.Opens), IsAffineOpen U →
       IsIso (thickenedAffineChartToSpec E U)) (U : X.Opens) :
@@ -670,7 +680,9 @@ private theorem squareZeroExtensionImmersion_app
       ((E.π.hom.app (Opposite.op U)).hom) := by
   rfl
 
-private theorem squareZeroExtensionImmersion_ker_sq
+/-- The ideal of the canonical immersion into the scheme of a square-zero extension has square
+zero. -/
+theorem squareZeroExtensionImmersion_ker_sq
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
     (hchart : ∀ (U : X.Opens), IsAffineOpen U →
       IsIso (thickenedAffineChartToSpec E U)) :
@@ -699,6 +711,24 @@ private theorem squareZeroExtensionImmersion_ker_sq
     obtain ⟨y, rfl⟩ := hker b hb
     exact E.square_zero (Opposite.op (U : Y.Opens)) x y
   · exact bot_le
+
+/-- The structure morphism of the scheme of a square-zero extension to the base. -/
+noncomputable def squareZeroExtensionToBase
+    {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
+    (hchart : ∀ (U : X.Opens), IsAffineOpen U →
+      IsIso (thickenedAffineChartToSpec E U)) :
+    squareZeroExtensionScheme E hchart ⟶ S :=
+  Scheme.Hom.mk (thickenedToBaseLocallyRingedSpace E)
+
+/-- The canonical immersion followed by the structure morphism is `f`. -/
+theorem squareZeroExtensionImmersion_comp_toBase
+    {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f)
+    (hchart : ∀ (U : X.Opens), IsAffineOpen U →
+      IsIso (thickenedAffineChartToSpec E U)) :
+    squareZeroExtensionImmersion E hchart ≫ squareZeroExtensionToBase E hchart = f := by
+  apply congrArg Scheme.Hom.mk
+  apply LocallyRingedSpace.Hom.ext'
+  exact congrArg (fun q => q.hom) (canonicalInclusionSheafedSpace_toBase E)
 
 /-- A scheme realizing the specified extension as a first-order thickening over `S`. -/
 public structure Realization {X S : Scheme.{u}} {f : X ⟶ S}

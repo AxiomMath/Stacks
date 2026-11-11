@@ -688,7 +688,16 @@ factors through the chart `(Spec A_k)_{/T}` of `X_{/T}` by the completion of
 `Spec C_kl ⟶ Spec A_k`, and that completion corresponds to a rig-étale map by the affine case
 (`correspondsToRigEtaleMap_completionSheafMap_of_etaleAt`, which is part (1) of Stacks 0ALQ):
 the chart map `Spec C_kl ⟶ Spec A_k` is locally of finite type, `A_k` is Noetherian, and the
-chart map is étale over the complement of `T` because `U' ⟶ U` is. -/
+chart map is étale over the complement of `T` because `U' ⟶ U` is.
+
+No reduction to the affine case is assumed: the affine data that
+`AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap` takes as its hypothesis
+`AlgebraicGeometry.FormalSpace.ChartSquareReducesToIsEtaleOutside` is built here from the étale
+charts of `X` and `X'`. That conditional form stays in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtale`, which this module imports
+through `StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionAlgebraicSpaceAtlas`, and it is
+stated for arbitrary presheaves `X'`, `X` and an arbitrary set `T`, where the charts used here
+need not exist. -/
 @[stacks 0AR2]
 theorem isRigEtale_completionSheafMap_of_isEtale {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX' : IsAlgebraicSpace B S hS X') (hX : IsAlgebraicSpace B S hS X) (f : X' ⟶ X)

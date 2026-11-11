@@ -2,12 +2,20 @@ module
 
 public import Mathlib.CategoryTheory.Sites.Sheafification
 
-/-! # The iso `(u^p G)^# ≅ (u^p G^#)^#` for a cocontinuous functor
+/-! # The iso `(u^p G)^# ≅ (u^p G^#)^#` from a transfer property
 
-In the situation of Stacks Lemma 00XL — a cocontinuous functor `u : C ⥤ D` between sites
-`(C, J)` and `(D, K)`, with values in a category `A` admitting sheafification on both sides —
-for any presheaf `G : Dᵒᵖ ⥤ A` there is a canonical isomorphism `(u^p G)^# ≅ (u^p (G^#))^#`
-between sheafifications on the `(C, J)`-side.
+For a functor `u : C ⥤ D` between sites `(C, J)` and `(D, K)`, with values in a category `A`
+admitting sheafification on both sides, this file packages the (one-line) implication from the
+transfer property `IsStacks00XLTransfer` (whiskering by `u.op` carries morphisms that become isos
+after sheafification on `D` to morphisms that become isos after sheafification on `C`) to the
+canonical isomorphism `(u^p G)^# ≅ (u^p (G^#))^#` between sheafifications on the `(C, J)`-side.
+
+This is not Stacks 00XM itself: here `u` is an arbitrary functor and the transfer property, which
+contains the conclusion, is a hypothesis. Stacks 00XM, for a cocontinuous `u`, is
+`CategoryTheory.Functor.sheafifyRestrictionIsoOfIsCocontinuous` in
+`StacksFrontier.CategoryTheory.Sites.Cocontinuous.CocontinuousTransferUnconditional`, which also
+proves the transfer property for cocontinuous `u`
+(`CategoryTheory.Functor.isStacks00XLTransfer_of_isCocontinuous`).
 
 In Mathlib notation:
 * `u^p G` is `u.op ⋙ G`, the precomposition of presheaves;
@@ -16,21 +24,11 @@ In Mathlib notation:
 * the canonical morphism between the two presheaves is
   `Functor.whiskerLeft u.op (toSheafify K G)`.
 
-The Stacks proof goes through the adjunction `(u^p (-))^# ⊣ _s u` of Lemma 00XL together with
-the Yoneda lemma. Mathlib delivers the `(D, K)`-side fact for free: the right adjoint
-`sheafToPresheaf K A` is fully faithful, so the left adjoint `presheafToSheaf K A` sends the
-unit `toSheafify K G` to an isomorphism in `Sheaf K A`. The remaining content — transferring
-this iso along the cocontinuous pullback to the `(C, J)`-side — is the statement of Stacks 00XL
-specialised to `α := toSheafify K G`, taken here as the hypothesis
-`IsStacks00XLTransfer`.
-
 ## Main results
 
-* `IsStacks00XLTransfer`: the transfer property supplied by Stacks 00XL.
+* `IsStacks00XLTransfer`: the transfer property.
 * `sheafifyRestrictionIsoSheafifyRestrictionSheafify`: the canonical isomorphism `(u^p G)^# ≅ (u^p
-  G^#)^#` (Stacks 00XM).
-
-Tags covered: 00XM.
+  G^#)^#`, given the transfer property.
 -/
 
 @[expose] public section
@@ -39,14 +37,11 @@ open CategoryTheory
 
 universe v₁ v₂ v u₁ u₂ u
 
-/-- The **Stacks 00XL transfer property** specialised to a single
-morphism: for the cocontinuous functor `u : C ⥤ D` and the morphism
-`α : F ⟶ F'` of presheaves on `D`, if `(presheafToSheaf K A).map α`
-is an iso in `Sheaf K A`, then
-`(presheafToSheaf J A).map (whiskerLeft u.op α)` is an iso in
-`Sheaf J A`. This is the substantive content of Stacks 00XL
-("cocontinuous pullback transports iso-after-sheafification") that
-the Stacks proof of 00XM invokes via the adjunction. -/
+/-- The transfer property for a functor `u : C ⥤ D`: for every morphism `α : F ⟶ F'` of
+presheaves on `D`, if `(presheafToSheaf K A).map α` is an iso in `Sheaf K A`, then
+`(presheafToSheaf J A).map (whiskerLeft u.op α)` is an iso in `Sheaf J A`. It holds for
+cocontinuous `u` (`CategoryTheory.Functor.isStacks00XLTransfer_of_isCocontinuous`, from the
+adjunction of Stacks 00XL); for an arbitrary `u` it is an assumption. -/
 def IsStacks00XLTransfer
     {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
     (J : GrothendieckTopology C) (K : GrothendieckTopology D)
@@ -57,12 +52,12 @@ def IsStacks00XLTransfer
     IsIso ((presheafToSheaf K A).map α) →
     IsIso ((presheafToSheaf J A).map (Functor.whiskerLeft u.op α))
 
-/-- **Stacks 00XM (canonical iso form).** In the situation of Stacks
-Lemma 00XL — i.e. assuming the 00XL transfer property `h00XL` — for
-any presheaf `G` on `D` we have a canonical isomorphism
-`(u^p G)^# ≅ (u^p G^#)^#` of sheaves on `(C, J)`, namely the
-sheafification of the whiskered unit `whiskerLeft u.op (toSheafify K G)`. -/
-@[stacks 00XM]
+/-- Given the transfer property `h00XL`, for any presheaf `G` on `D` we have a canonical
+isomorphism `(u^p G)^# ≅ (u^p G^#)^#` of sheaves on `(C, J)`, namely the
+sheafification of the whiskered unit `whiskerLeft u.op (toSheafify K G)`.
+The transfer property is proved for cocontinuous `u` in
+`CategoryTheory.Functor.isIso_presheafToSheaf_map_whiskerLeft`, and the unconditional
+iso (Stacks 00XM) is `CategoryTheory.Functor.sheafifyRestrictionIsoOfIsCocontinuous`. -/
 noncomputable def sheafifyRestrictionIsoSheafifyRestrictionSheafify
     {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
     (J : GrothendieckTopology C) (K : GrothendieckTopology D)

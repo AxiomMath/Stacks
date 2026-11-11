@@ -26,9 +26,12 @@ back to a bounded below one. This file proves exactly those two statements over 
 condition beyond the source's own, and assembles the two restricted functors and the restricted
 adjunction between them.
 
-The equivalence itself is **not** proved here, and no declaration below asserts it. It rests on
-the invertibility of the canonical map `E ⟶ Ra_*a⁻¹E` of Stacks 0D8L, which this library does
-not have for the augmentation of a hypercovering; see "What is still missing" below.
+The equivalence itself is
+`CategoryTheory.SimplicialSemiRepresentable.derivedTotalInverseImageEquivalenceOverOfHypercovering`
+(module
+`StacksFrontier.CategoryTheory.Sites.Simplicial.HypercoveringObjectDerivedDescentUnconditional`),
+which uses the invertibility of the canonical map `E ⟶ Ra_*a⁻¹E` of Stacks 0D8L for the
+augmentation of a hypercovering; see "Relation to the equivalence" below.
 
 ## Main definitions
 
@@ -50,28 +53,28 @@ not have for the augmentation of a hypercovering; see "What is still missing" be
   `.isCartesianAbSheaf_homology_derivedTotalInverseImageOver_obj`: every cohomology sheaf of
   `a⁻¹E` is cartesian, which is Stacks 0D7H read over `C/X`.
 * `CategoryTheory.SimplicialSemiRepresentable`
-  `.derivedCategoryBPlus_derivedTotalInverseImageOver_obj`: **the first half of the
-  well-definedness clause of Stacks 0D8M** — `a⁻¹` sends `D⁺(C/X)` into `D⁺_𝒜((C/K)_total)`.
+  `.derivedCategoryBPlus_derivedTotalInverseImageOver_obj`: `a⁻¹` sends `D⁺(C/X)` into
+  `D⁺_𝒜((C/K)_total)`.
 * `CategoryTheory.SimplicialSemiRepresentable`
-  `.derivedCategoryBPlus_derivedTotalPushforwardOver_obj`: **the second half** — `Ra_*` sends
-  `D⁺_𝒜((C/K)_total)` into `D⁺(C/X)`.
+  `.derivedCategoryBPlus_derivedTotalPushforwardOver_obj`: `Ra_*` sends `D⁺_𝒜((C/K)_total)` into
+  `D⁺(C/X)`.
 
-## What is still missing
+## Relation to the equivalence
 
 Everything below is unconditional: the only binders are the source's own — `C` a site with
 fibre products, `X` an object of `C`, and `K` a simplicial semi-representable object over `X`.
 Nothing constrains `K`, so in particular the statements hold for a hypercovering of `X`, which
 is the case Stacks 0D8M treats.
 
-The remaining content of Stacks 0D8M — that the restricted adjunction is an adjoint equivalence
-— needs the canonical map `E ⟶ Ra_*a⁻¹E` of Stacks 0D8L to be invertible, and that in turn needs
-two inputs this library does not prove for the augmentation of a hypercovering: the underived
-identification `F = a_*a⁻¹F`, which is the abelian form of Stacks 0D8E and rests on the abelian
-form of Stacks 0D86, available here for sheaves of sets only; and the `Ra_*`-acyclicity of `a⁻¹`
-of a K-injective complex, which the source gets from the spectral sequence of Stacks 0D7A. See
-the module docstrings of
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringCohomologicalDescent.lean` and
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedPushforward.lean`.
+That the restricted adjunction is an adjoint equivalence for a hypercovering of `X` needs the
+canonical map `E ⟶ Ra_*a⁻¹E` of Stacks 0D8L to be invertible, which rests on the underived
+identification `F = a_*a⁻¹F` (`isIso_situationAbelianTotalAdjunctionUnit_over`) and on the
+`Ra_*`-acyclicity of `a⁻¹` of a K-injective complex
+(`inverseImageComputesDerivedPushforward_over_of_isHypercovering`), together with the essential
+surjectivity clause of Stacks 0D8K (2)
+(`essImage_situationTotalInverseImageAb_of_isCartesianAbSheaf_over`). All three are proved in the
+library, and the equivalence, registered as Stacks 0D8M, is
+`derivedTotalInverseImageEquivalenceOverOfHypercovering`.
 
 ## Implementation notes
 
@@ -92,7 +95,7 @@ well-definedness clause a statement about boundedness alone.
 The two restrictions are formed with `ObjectProperty.lift`, so each is the ambient derived
 functor on the nose, and the adjunction between them is the restriction of the derived
 adjunction rather than one assembled by hand. That is what will make `Ra_*` the quasi-inverse,
-on the nose, once the equivalence becomes available.
+on the nose, in `derivedTotalInverseImageEquivalenceOverOfHypercovering_inverse`.
 
 ## References
 
@@ -174,17 +177,16 @@ theorem isCartesianAbSheaf_homology_derivedTotalInverseImageOver_obj
 
 /-! ### The well-definedness clause of Stacks 0D8M -/
 
-/-- **Stacks Project, Tag 0D8M, the first half of the well-definedness clause.** For a site `C`
+/-- **`a⁻¹` sends `D⁺(C/X)` into `D⁺_𝒜((C/K)_total)`.** For a site `C`
 with fibre products, an object `X` of `C`, a simplicial semi-representable object `K` over `X` —
 in particular a hypercovering of `X` — and the augmentation `a : Sh((C/K)_total) ⟶ Sh(C/X)` of
 Stacks 0D8B read over the slice site, the derived inverse image sends `D⁺(C/X)` into
 `D⁺_𝒜((C/K)_total)`: it preserves boundedness below, and its cohomology sheaves are cartesian by
 `isCartesianAbSheaf_homology_derivedTotalInverseImageOver_obj`.
 
-This is the clause of Stacks 0D8M which says that the functor whose invertibility the source
-asserts is defined at all. The invertibility is not proved here. -/
-@[stacks 0D8M "the first half of the well-definedness clause only: a⁻¹ sends D⁺(C/X) into
-D⁺_𝒜((C/K)_total); the equivalence itself is not proved"]
+This is the step of Stacks 0D8M which says that the functor the source asserts to be an
+equivalence is defined at all; the equivalence is
+`derivedTotalInverseImageEquivalenceOverOfHypercovering`. -/
 theorem derivedCategoryBPlus_derivedTotalInverseImageOver_obj
     (E : DerivedCategory (Sheaf (P.toGrothendieck.over X) AddCommGrpCat.{u}))
     (hE : DerivedCategoryB.IsBoundedBelow E) :
@@ -194,14 +196,13 @@ theorem derivedCategoryBPlus_derivedTotalInverseImageOver_obj
   Augmentation.derivedCategoryBPlus_derivedTotalInverseImage_obj (situationOver P K)
     (Cat.of (Over X)) (P.toGrothendieck.over X) (augmentationOver P K) E hE
 
-/-- **Stacks Project, Tag 0D8M, the second half of the well-definedness clause.** In the same
+/-- **`Ra_*` sends `D⁺_𝒜((C/K)_total)` into `D⁺(C/X)`.** In the same
 situation the derived direct image sends `D⁺_𝒜((C/K)_total)` into `D⁺(C/X)`. Only boundedness
 below is at stake, the weak Serre subcategory on `C/X` being all of `Ab(C/X)`.
 
-This is the clause of Stacks 0D8M which says that the quasi-inverse the source names is defined
-at all. That it *is* a quasi-inverse is not proved here. -/
-@[stacks 0D8M "the second half of the well-definedness clause only: Ra_* sends
-D⁺_𝒜((C/K)_total) into D⁺(C/X); the equivalence itself is not proved"]
+This is the step of Stacks 0D8M which says that the quasi-inverse the source names is defined
+at all; that it is a quasi-inverse is
+`derivedTotalInverseImageEquivalenceOverOfHypercovering_inverse`. -/
 theorem derivedCategoryBPlus_derivedTotalPushforwardOver_obj
     (E : DerivedCategory (Sheaf (situationOver P K).totalTopology AddCommGrpCat.{u}))
     (hE : DerivedCategoryB.IsBoundedBelow E) :
@@ -228,8 +229,9 @@ abbrev derivedTotalPushforwardPlusOver :
     (P.toGrothendieck.over X) (augmentationOver P K)
 
 /-- The adjunction `a⁻¹ ⊣ Ra_*` between `D⁺(C/X)` and `D⁺_𝒜((C/K)_total)`, obtained by
-restricting the derived adjunction on the unbounded derived categories. Stacks 0D8M asserts that
-this adjunction is an adjoint equivalence; that assertion is not proved here. -/
+restricting the derived adjunction on the unbounded derived categories. For a hypercovering of
+`X` its functors are those of the equivalence of Stacks 0D8M,
+`derivedTotalInverseImageEquivalenceOverOfHypercovering`. -/
 def derivedTotalAdjunctionBoundedBelowOver :
     derivedTotalInverseImagePlusOver P K ⊣ derivedTotalPushforwardPlusOver P K :=
   Augmentation.derivedTotalAdjunctionBoundedBelow (situationOver P K) (Cat.of (Over X))

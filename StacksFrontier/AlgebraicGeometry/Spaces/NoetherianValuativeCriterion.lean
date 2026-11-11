@@ -565,8 +565,8 @@ false. This is
 `AlgebraicGeometry.Space.not_forall_exists_discreteValuationSpecialization_residueField`
 (in `StacksFrontier.AlgebraicGeometry.Spaces.NoetherianValuativeCriterionCounterexample`), whose
 statement is the conclusion of this theorem with the guard `f x ≠ y →` removed from the
-residue-field clause (the clause guaranteeing `f x ≠ y` is left out, which only strengthens the
-refutation):
+residue-field clause and the clause guaranteeing `f x ≠ y` left out (leaving it out weakens the
+refuted statement, so the refutation is the stronger one):
 ```
 ¬ ∀ (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (f : X ⟶ Y), IsAlgebraicSpace B S hS X →
@@ -599,8 +599,18 @@ residue field of a scheme étale over `Spec k` is algebraically closed, being a 
 extension of `k`, while the fraction field of a discrete valuation ring is not, since a
 uniformizer has no square root in it. The same proof gives the stronger
 `AlgebraicGeometry.Space.not_forall_exists_etale_residueFieldEquiv`, in which `K` is only asked
-to be abstractly isomorphic to such a residue field. -/
-@[stacks 0CMC]
+to be abstractly isomorphic to such a residue field.
+
+This theorem is therefore the corrected form of Stacks 0CMC, recorded in `errata.md`. The fault
+is inherited from the scheme case, Stacks 0CM2, to which the source's proof reduces: its proof
+applies Stacks 00PH to the image `R` of the local ring at `y` in the residue field at the chosen
+generic point, and 00PH needs `R` not to be a field, which is the case exactly when that generic
+point does not lie over `y`. The guard `f x ≠ y` suffices for the residue-field clause but is not
+necessary: for the affine line over a field `k` mapping to `Spec k`, the generic point lies over
+the only point `y`, and its residue field `k(t)` is the fraction field of `k[t]` localized at
+`(t)`, a discrete valuation ring over `k`. -/
+@[stacks 0CMC "corrected: the residue-field clause is asserted when f x ≠ y; as printed it is \
+false (the identity of Spec of an algebraically closed field), see errata.md"]
 theorem exists_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : X ⟶ Y) (X_isAlgebraicSpace : IsAlgebraicSpace B S hS X)
     (Y_isAlgebraicSpace : IsAlgebraicSpace B S hS Y) (f_finiteType : IsFiniteType B S hS f)

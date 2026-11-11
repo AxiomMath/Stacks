@@ -143,7 +143,6 @@ It takes as hypothesis `hsing`: there is a nonempty open `U` of `𝔸^r_k` whose
 `q : H_univ → 𝔸^r_k` lies in the smooth locus of `q`. It also takes the instance argument
 `LocallyOfFinitePresentation q`, which `locallyOfFinitePresentation_universalFamilyMap` supplies
 from the smoothness of `X` over `k`. -/
-@[stacks 0FD6 "carrying the Tag 0B2L dimension bound on the singular locus of q"]
 public theorem smooth_specializedDivisor_forGeneral [Smooth D.toBase]
     [LocallyOfFinitePresentation D.universalFamilyMap]
     (U : D.parameterBase.Opens) (hU : (U : Set D.parameterBase).Nonempty)

@@ -18,6 +18,16 @@ change `f' : U ⟶ V` of `f`,
 Here `Rⁱf_*` is the higher direct image of `Mod(𝒪_𝒳)`, the fppf topology,
 `AlgebraicGeometry.Stack.fppfModulesHigherDirectImage`.
 
+`Mod(𝒪_𝒳)` is `AlgebraicGeometry.Stack.StackModules`, the sheaves of `𝒪_𝒳`-modules whose modules
+of sections lie in the universe `u` of the schemes of the site. That is the source's setting: a
+sheaf on `(Sch/S)_{fppf}` is a sheaf of sets, read here as sets of the universe `u` the site is
+built in, and `Rⁱf_*` is defined on that category. The membership `ℱ ∈ LQCoh^{fbc}(𝒪_𝒳)` is
+accordingly read at that universe.
+
+`AlgebraicGeometry.Space.restrictedHigherDirectImageChartIso` is an earlier form of the identity,
+for total derived direct images, which takes the base change isomorphism of Stacks 075H as an
+argument; the statement here does not.
+
 The proof is the source's. **Stacks 0771 (4)(a)**,
 `AlgebraicGeometry.Stack.nonempty_etaleComparison_fppfModulesHigherDirectImage_iso`, says that
 `Rⁱf_*ℱ` may be computed in the étale topology. The étale identity is
@@ -60,8 +70,9 @@ an fppf module on the étale site (`stackModulesEtaleComparison`), pulls it back
 restricts it to the small étale site of `V` (`π_{V,*}`, Stacks 073M). `(-)|_{U_étale}` does the
 same along the projection `U ⟶ 𝒳`. `f'_{small,*}` is the direct image of the small étale sites
 of the algebraic spaces `U` and `V`. -/
-@[stacks 0GQH "the whole lemma, at the module universe u of the schemes: for f : X -> Y \
-  quasi-compact, quasi-separated and representable by algebraic spaces, F in LQCoh^fbc(O_X) \
+@[stacks 0GQH "the whole lemma, with Mod(O_X) the sheaves of modules at the universe u of the \
+  schemes (the source's setting): for f : X -> Y quasi-compact, quasi-separated and \
+  representable by algebraic spaces, F in LQCoh^fbc(O_X) \
   (the flat base change property read on sheaves, Stacks 0762) and an object y : V -> Y over a \
   scheme V, the 2-fibre product U = V x_Y X is an algebraic space, and for every presentation \
   of it and every i, (R^i f_* F)|_{V_etale} = R^i f'_{small,*}(F|_{U_etale}), with R^i f_* the \

@@ -38,6 +38,11 @@ tacitly identifies the two embeddings; since `U` has a single point both embeddi
 base changes are kept apart here and the conclusion is an isomorphism between them rather than
 an automorphism of one.
 
+This is the corrected form of Tag 04LP.  As printed, with one base change on both sides, the
+statement is false: `Stacks.Groupoids.not_groupoidOnFieldHomogeneousStatement` refutes it with
+the coarse groupoid of `Spec ℚ(T)` over `Spec ℚ` (see
+`StacksFrontier/AlgebraicGeometry/Groupoids/FieldExtensionCounterexample.lean`).
+
 The chosen arrow is obtained from the upper cartesian square of the composition diagram
 (Tag 02YE): its first projection is the first point and its composite is the second.  The two
 base changes are then exhibited by pasting the pullback square of the second projection along
@@ -80,8 +85,12 @@ of the arrow scheme along the source map which are carried to one another by an 
 over `Spec k'`.
 
 The two base changes are taken along the two `k`-algebra structures on `k'` that Tag 02YF
-produces, namely the ones induced by the target and by the source of a chosen arrow. -/
-@[stacks 04LP]
+produces, namely the ones induced by the target and by the source of a chosen arrow.  This is
+the corrected form of Tag 04LP: the printed form, an automorphism of a single base change, is
+false (`Stacks.Groupoids.not_groupoidOnFieldHomogeneousStatement`). -/
+@[stacks 04LP "corrected form: the printed statement, with one base change on both sides of the
+isomorphism, is false (refuted by Stacks.Groupoids.not_groupoidOnFieldHomogeneousStatement);
+this is what its proof via 02YF (1), (2) establishes, with two embeddings of k into k'"]
 theorem exists_fieldExtension_sourceFiber_iso_mapping_points
     {S : Scheme.{u}} (G : GroupoidScheme S)
     (k : Type u) [Field k] (e : G.objects.left ≅ Spec (.of k))

@@ -34,7 +34,10 @@ public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
 
-/-! # Stacks 003F: the interchange law for natural transformations
+/-! # The interchange law for natural transformations
+
+This is part (4) of Stacks Lemma 003F; the full lemma is
+`CategoryTheory.NatTrans.vcomp_hcomp_formal_properties`.
 
 Horizontal composition `◫` and vertical composition `≫` of natural transformations commute:
 for `t : F ⟶ F'`, `t' : F' ⟶ F''` in `A ⥤ B` and `s : G ⟶ G'`, `s' : G' ⟶ G''` in `B ⥤ C`,
@@ -49,10 +52,10 @@ open CategoryTheory
 
 namespace CategoryTheory.NatTrans
 
-/-- **Stacks 003F** (interchange law). The horizontal (`◫`) and vertical (`≫`)
+/-- Part (4) of Stacks Lemma 003F (interchange law). The horizontal (`◫`) and vertical (`≫`)
 compositions of natural transformations satisfy
-`(t ≫ t') ◫ (s ≫ s') = (t ◫ s) ≫ (t' ◫ s')`. -/
-@[stacks 003F]
+`(t ≫ t') ◫ (s ≫ s') = (t ◫ s) ≫ (t' ◫ s')`. The full lemma is
+`CategoryTheory.NatTrans.vcomp_hcomp_formal_properties`. -/
 theorem horiz_vert_interchange
     {A : Type u₁} {B : Type u₂} {C : Type u₃}
     [Category.{v₁} A] [Category.{v₂} B] [Category.{v₃} C]

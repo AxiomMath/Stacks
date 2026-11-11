@@ -73,10 +73,11 @@ The proof has two steps.
 * `AlgebraicGeometry.Space.exists_isUniformHigherDirectImageBound_of_isAffineSpace`: the case of
   an affine base.
 * `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`:
-  **[Stacks, Tag 073G]**, with nothing carried.  A form of it,
+  **[Stacks, Tag 073G]**.  Step (2) of the source's proof, the reduction of an arbitrary base
+  to a scheme base, is
   `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward` of
-  `StacksFrontier/AlgebraicGeometry/Spaces/UniformHigherDirectImageVanishing.lean`, holds under a
-  carried scheme-base bound; the proof here is unconditional.
+  `StacksFrontier/AlgebraicGeometry/Spaces/UniformHigherDirectImageVanishing.lean`; it is not used
+  here.
 
 ## Implementation notes
 
@@ -499,7 +500,8 @@ algebraic spaces over `S`, with `Y` quasi-compact.  There is a single degree `n(
 for every algebraic space `Y'`, every morphism `Y' ⟶ Y`, every algebraic space `X'` making
 `X' ⟶ X`, `X' ⟶ Y'` a cartesian square over `f`, and every quasi-coherent `𝒪_{X'}`-module `𝓕'`,
 the higher direct images `R^q f'_*𝓕'` vanish for `q ≥ n(X → Y)`. -/
-@[stacks 073G]
+@[stacks 073G "n(X -> Y) is a natural number, chosen before the base change, the module and \
+the degree; X' is any algebraic space completing a cartesian square over f"]
 theorem exists_forall_isZero_rightDerived_modulePushforward_of_qcqs {X Y : AlgebraicSpaces B S hS}
     (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (hYqc : IsQuasiCompactSpace B S hS Y.1) :

@@ -15,10 +15,16 @@ import StacksCore.Algebra.Homology.HomologicalComplexAbelian
 Let `(A, d)` be a differential graded algebra. The canonical functor
 `Mod_{(A, d)} ⥤ D(A, d)` — the quotient by homotopy followed by the localization at the
 quasi-isomorphisms — carries the structure of a `δ`-functor: to a short exact sequence
-`0 → K → L → M → 0` of differential graded modules one attaches the connecting morphism
-`δ = - p ∘ q⁻¹`, where `q : C(f) → M` is the comparison of the mapping cone of `f : K ⟶ L` with
-the quotient `M` (a quasi-isomorphism, hence invertible in `D(A, d)`) and `p : C(f) → K[1]` is the
-cone projection; the image of the sequence is then a distinguished triangle and `δ` is natural.
+`0 → K → L → M → 0` of differential graded modules one attaches a connecting morphism built from
+`q : C(f) → M`, the comparison of the mapping cone of `f : K ⟶ L` with the quotient `M` (a
+quasi-isomorphism, hence invertible in `D(A, d)`), and `p : C(f) → K[1]`, the cone projection; the
+image of the sequence is then a distinguished triangle and the connecting morphism is natural.
+
+Which sign the connecting morphism carries depends on the triangulation. In the Stacks project's
+convention, where `(K, L, C(f), f, i, -p)` is distinguished (Tag 09KF), it is `δ = - p ∘ q⁻¹`;
+in the library's default convention, where the unsigned cone triangle `(K, L, C(f), f, i, p)` is
+distinguished, it is `p ∘ q⁻¹`. This file proves the latter; the former is
+`StacksFrontier.Algebra.DifferentialGraded.Module.CanonicalDeltaFunctorStacksSign`.
 
 ## Main definitions
 
@@ -32,9 +38,14 @@ cone projection; the image of the sequence is then a distinguished triangle and 
 
 * `DifferentialGradedModule.quasiIso_coneDescShortComplex`: for a short exact sequence the
   comparison `C(f) ⟶ M` is a quasi-isomorphism.
+* `DifferentialGradedModule.exists_deltaFunctorStructure_δ_eq_neg`: **Stacks 09L0** — against
+  the triangulation of Tag 09KH (`DifferentialGradedModule.derivedCategory'`), in which
+  `(K, L, C(f), f, i, -p)` is distinguished, the canonical functor carries a `δ`-functor structure
+  whose connecting morphism is `- p ∘ q⁻¹`.
 * `DifferentialGradedModule.canonicalDeltaFunctorStructure` and
-  `DifferentialGradedModule.canonicalDeltaFunctorStructure_δ_eq`: **Stacks 09L0** — the canonical
-  functor carries a `δ`-functor structure, and its connecting morphism is `- p ∘ q⁻¹`.
+  `DifferentialGradedModule.canonicalDeltaFunctorStructure_δ_eq`: the same in the library's default
+  sign convention (`DifferentialGradedModule.derivedCategory`, cone triangles distinguished), where
+  the connecting morphism is `p ∘ q⁻¹`.
 
 ## Implementation notes
 
@@ -50,11 +61,24 @@ needs no comparison of the differential graded cone with the mapping cone of com
 
 *A `δ`-functor structure is data, and the source pins it.* The statement is therefore the
 existence of a `CategoryTheory.Functor.DeltaFunctorStructure` *together with* the equation
-identifying its connecting morphism with `- p ∘ q⁻¹`; since the two remaining fields of such a
-structure are `Prop`-valued, that equation determines the structure. The third morphism of
-`DifferentialGradedModule.coneTriangle` is the *signed* cone projection, so the connecting
-morphism below is literally `inv (Q q)` followed by that morphism and by the commutation of the
-localization functor with the shift — the source's `- p ∘ q⁻¹`, sign included.
+identifying its connecting morphism; since the two remaining fields of such a structure are
+`Prop`-valued, that equation determines the structure.
+
+*Signs.* The third morphism of `DifferentialGradedModule.coneTriangle` is the *unsigned* cone
+projection `p` (composed with `DifferentialGradedModule.quotientShiftIso`), and the default
+triangulation `DifferentialGradedModule.instPretriangulatedHomotopyCategory` declares those
+triangles distinguished; against it, `canonicalDeltaFunctorStructure` has connecting morphism
+`inv (Q q)` followed by `Q p` and the commutation of the localization with the shift, i.e.
+`p ∘ q⁻¹`, *not* the source's `- p ∘ q⁻¹`. The Stacks project instead declares
+`(K, L, C(f), f, i, -p)` distinguished (Tag 09KF); that is the triangulation
+`DifferentialGradedModule.instPretriangulatedHomotopyCategory'` of Tag 09KH, whose distinguished
+triangles are those of admissible short exact sequences, and its localization
+`DifferentialGradedModule.derivedCategory'`. Against it the connecting morphism is built from the
+third morphism of `DifferentialGradedModule.mappingConeTriangle`, the class of `-p`, and is the
+source's `- p ∘ q⁻¹` literally: `DifferentialGradedModule.exists_deltaFunctorStructure_δ_eq_neg`,
+which carries Tag 09L0. The two triangulations differ exactly by negating third arrows
+(`DifferentialGradedModule.mem_distinguishedConeTriangles_iff_isDistinguishedTriangle_negMor₃`),
+so the two statements are the same result read through that sign dictionary.
 
 *Naturality.* A morphism `φ` of short complexes induces `C(φ.τ₁, φ.τ₂) : C(f₁) ⟶ C(f₂)`
 (`DifferentialGradedModule.coneMapOfHomotopy` applied to the commuting square, whose homotopy is
@@ -263,9 +287,11 @@ end Comparison
 
 section DeltaFunctor
 
-/-- The connecting morphism `δ = - p ∘ q⁻¹` of a short exact sequence of differential graded
-modules: the inverse in `D(A, d)` of the comparison `q : C(f) ⟶ M`, followed by the third
-morphism of the cone triangle of `f` (which is the signed cone projection) read in `D(A, d)`. -/
+/-- The connecting morphism `p ∘ q⁻¹` of a short exact sequence of differential graded modules,
+in the library's default sign convention: the inverse in `D(A, d)` of the comparison
+`q : C(f) ⟶ M`, followed by the third morphism of the cone triangle of `f` (the class of the
+unsigned cone projection `p`) read in `D(A, d)`. The Stacks project's `- p ∘ q⁻¹`, for its own
+triangulation, is `DifferentialGradedModule.shortExactδ'`. -/
 def shortExactδ {S : ShortComplex (DifferentialGradedModule A)} (hS : S.ShortExact) :
     (toDerivedCategory A).obj S.X₃ ⟶ ((toDerivedCategory A).obj S.X₁)⟦(1 : ℤ)⟧ :=
   have := isIso_toDerivedCategory_map_coneDescShortComplex S hS
@@ -296,11 +322,12 @@ theorem coneMapOfShortComplexHom_comp_coneDescShortComplex
   have h2 := LinearMap.congr_fun (congrArg Hom.toFun φ.comm₂₃) x.1
   rwa [Hom.comp_toFun_apply, Hom.comp_toFun_apply] at h2
 
-/-- *"Let `(A, d)` be a differential graded algebra. The functor `Mod_{(A, d)} → D(A, d)` has the
-natural structure of a `δ`-functor."* The connecting morphism is
-`DifferentialGradedModule.shortExactδ`, identified with `- p ∘ q⁻¹` in
-`DifferentialGradedModule.canonicalDeltaFunctorStructure_δ_eq`. -/
-@[stacks 09L0 "the delta-functor structure"]
+/-- The canonical functor `Mod_{(A, d)} → D(A, d)` has the structure of a `δ`-functor, for the
+library's default triangulation of `D(A, d)` (cone triangles `(K, L, C(f), f, i, p)`
+distinguished). The connecting morphism is `DifferentialGradedModule.shortExactδ`, identified
+with `p ∘ q⁻¹` in `DifferentialGradedModule.canonicalDeltaFunctorStructure_δ_eq`. This is
+Tag 09L0 read through the sign dictionary; the statement in the Stacks project's own convention,
+with `δ = - p ∘ q⁻¹`, is `DifferentialGradedModule.exists_deltaFunctorStructure_δ_eq_neg`. -/
 def canonicalDeltaFunctorStructure (A : DifferentialGradedAlgebra R) :
     (toDerivedCategory A).DeltaFunctorStructure (DifferentialGradedModule A)
       (derivedCategory A) where
@@ -363,12 +390,13 @@ def canonicalDeltaFunctorStructure (A : DifferentialGradedAlgebra R) :
       ← Functor.map_comp, hp, Functor.map_comp, Category.assoc]
     rfl
 
-/-- The formula for the connecting morphism of the canonical `δ`-functor structure:
-*"`δ_{K → L → M} = - p ∘ q⁻¹` with `p` and `q` as explained above"*. Here `q` is the comparison
-`C(f) ⟶ M`, which on the underlying module `L × K` is `(l, k) ↦ g l` and restricts along the
-inclusion of `L` to `g`, and which is invertible in `D(A, d)`; and `- p` is the third morphism of
-the cone triangle, the *signed* cone projection `C(f) ⟶ K[1]`. -/
-@[stacks 09L0 "the connecting morphism"]
+/-- The formula for the connecting morphism of the canonical `δ`-functor structure in the
+library's default sign convention: it is `p ∘ q⁻¹`. Here `q` is the comparison `C(f) ⟶ M`, which
+on the underlying module `L × K` is `(l, k) ↦ g l` and restricts along the inclusion of `L` to
+`g`, and which is invertible in `D(A, d)`; and `p` is the third morphism of the cone triangle, the
+*unsigned* cone projection `C(f) ⟶ K[1]`. The Stacks project's `δ = - p ∘ q⁻¹`, against its own
+triangulation in which `(K, L, C(f), f, i, -p)` is distinguished, is
+`DifferentialGradedModule.exists_deltaFunctorStructure_δ_eq_neg`. -/
 theorem canonicalDeltaFunctorStructure_δ_eq
     {S : ShortComplex (DifferentialGradedModule A)} (hS : S.ShortExact) :
     (∀ x : (coneObject S.f).M, (coneDescShortComplex S).toFun x = S.g.toFun x.1) ∧

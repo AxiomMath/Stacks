@@ -69,11 +69,11 @@ isomorphism in `D(Ab)`; the degreewise statement about `H^n(𝒞, 𝓕)` is its 
 
 The source deduces the lemma from [Stacks, Tag 079Z], the Čech spectral sequence of the
 surjection `h_X → *`. That route is not taken here: the library's form of 079Z
-(`Stacks.Cohomology.exists_abutsTo_cechNerveSpectralSequence`) produces a spectral sequence whose
-first page has the right terms but whose differentials are not identified, so it cannot yield the
-cohomology of one named complex. Instead the resolution 079Z is proved from is used directly. The
-free abelian sheaves on the terms of the Čech nerve of `h_X → *` form a resolution of the free
-abelian sheaf on `*` — this is [Stacks, Tag 01GC],
+(`Stacks.Cohomology.exists_firstQuadrant_cechNerveSpectralSequence`) produces a spectral
+sequence whose first page has the right terms but whose differentials are not identified, so it
+cannot yield the cohomology of one named complex. Instead the resolution 079Z is proved from is
+used directly. The free abelian sheaves on the terms of the Čech nerve of `h_X → *` form a
+resolution of the free abelian sheaf on `*` — this is [Stacks, Tag 01GC],
 `CategoryTheory.Presheaf.quasiIso_cechNerveSheafAugmentation`, whose hypothesis holds because
 every object of `𝒞` has a morphism to `X` — and on the chaotic site those sheaves are
 *projective*, because sections over an object of the site are an exact functor there. So the Čech

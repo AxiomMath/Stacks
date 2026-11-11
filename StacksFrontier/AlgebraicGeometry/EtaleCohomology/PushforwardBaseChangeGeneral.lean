@@ -95,16 +95,17 @@ evaluated, bridged by `eqToHom (Functor.comp_obj ..)`, and every statement below
 that each definitional question the kernel meets is one delta step followed by syntactic
 equality.
 
-Beyond conclusion (1) and its levelwise input, both proved here, the general case of Stacks
-0EZY still needs two things, so no declaration here carries Stacks 0EZY. First, the two colimit
-presentations of Stacks 0EYM, which are the hypotheses of conclusion (1). Second, the
+No declaration here carries Stacks 0EZY: its general case is proved by a stalkwise argument, as
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_of_quasiCompact` in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/PushforwardBaseChangeSepClosedFieldGeneral.lean`,
+not through conclusion (1). Reaching it through conclusion (1), as the source does, would use the
+two colimit presentations of Stacks 0EYM, which are the hypotheses of conclusion (1), and the
 presentation of an affine scheme over `Spec k` as a cofiltered limit of affine schemes of finite
 type over `Spec k`, together with the Zariski-locality of the assertion on `X`, which is how the
-source produces the system. The levelwise input moreover inherits the declared hypothesis
-`hlocal` of Stacks 0EZX — bijectivity of the base change map on sections over an étale
-`X_i`-scheme carrying a flat quasi-compact factorization with geometrically connected fibres,
-which rests on Tag 0A3H read through Tag 03EF — and Stacks 0EZX is owned elsewhere in this
-project and is not proved here.
+source produces the system. The levelwise input keeps the hypothesis `hlocal` of Stacks 0EZX —
+bijectivity of the base change map on sections over an étale `X_i`-scheme carrying a flat
+quasi-compact factorization with geometrically connected fibres — which is proved as
+`Stacks.EtaleCohomology.local_baseChange_compatible`.
 
 ## References
 

@@ -952,10 +952,9 @@ residual action of `π₁(X)/π₁(X_{k̄}) = Aut(k̄/k)`
 (`Stacks.GroupCohomology.derivedKernelInvariants`), and `RΓ^{Gal}(X_{k̄}, -)` that of global
 sections on `X_{k̄}` with their Galois action
 (`Stacks.EtaleCohomology.galoisDerivedGlobalSections`). The degree-zero identification is the
-canonical one of Tag 03VL. -/
-@[stacks 03VM "sixth assertion (the derived version of the cohomological half) with the Galois \
-action: `RH⁰(π₁(X_k̄, η̄), M) ≅ RΓ^{Gal}(X_k̄, ℱ_ρ)` in the derived category of discrete \
-`Λ`-modules with continuous `Aut(k̄/k)`-action, natural in `(M, ρ)`"]
+canonical one of Tag 03VL. The case of an arbitrary field `k`, where `k̄` need not be separable
+over `k`, is `AlgebraicGeometry.geometricGaloisDerivedInvariantsIsoOfAlgClosure`, which reduces to
+this one over the perfect closure of `k` in `k̄`. -/
 def geometricGaloisDerivedInvariantsIso
     (y : GeometricPoint (Stacks.Frobenius.fieldBaseChange (Over.mk f) K))
     (hΛ : IsUnit ((Nat.card Λ : ℕ) : k))

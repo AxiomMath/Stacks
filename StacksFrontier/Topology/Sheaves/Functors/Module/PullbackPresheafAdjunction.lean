@@ -48,8 +48,10 @@ here from `PresheafOfModules.ModuleColimit.jointly_surjective₂`.
   restrictions of unit images from a single `V`.
 * `Stacks.PresheafOfModules.Pullback.pullbackModuleHomEquiv`: the hom-set bijection
   `Hom_{f_p O}(f_p M, N) ≃ Hom_O(M, η_* N)`.
-* `Stacks.PresheafOfModules.Pullback.pullbackModuleAdjunction`: `f_p ⊣ η_*` on presheaves of
-  modules.
+* `Stacks.PresheafOfModules.Pullback.pullbackModuleAdjunction`: **Stacks 008U**, `f_p ⊣ η_*` on
+  presheaves of modules, for the explicit `f_p` of Stacks 008T.
+* `Stacks.PresheafOfModules.Pullback.toPresheaf_map_pullbackModuleAdjunction_homEquiv`: the
+  bijection of 008U restricts the one on presheaves of abelian groups.
 * `Stacks.PresheafOfModules.Pullback.pullbackIsoPullbackModuleFunctor`: **the concrete model.**
   `PresheafOfModules.pullback η ≅ Stacks.PresheafOfModules.Pullback.pullbackModuleFunctor f O`.
 
@@ -384,8 +386,14 @@ noncomputable def pullbackModuleHomEquiv :
 
 end Adjunction
 
-/-- **Stacks 008T (3), adjoint form.**  The explicit pullback functor of presheaves of modules
-is left adjoint to the pushforward along the Kan-extension unit `η : O ⟶ f_*(f_p O)`. -/
+/-- **Stacks 008U.**  Let `f : X ⟶ Y` be continuous and `O` a presheaf of rings on `Y`.  The
+explicit pullback `f_p` of presheaves of modules (with the `f_p O`-module structure of
+Stacks 008T) is left adjoint to the pushforward `f_*` (Stacks 008S), where `f_* F` is an
+`O`-module through the Kan-extension unit `i_O : O ⟶ f_*(f_p O)`.  Its hom-set bijection is
+`Mor_{PMod(f_p O)}(f_p G, F) ≃ Mor_{PMod(O)}(G, f_* F)`, natural in `G` and `F`; on underlying
+presheaves of abelian groups it is the bijection of `TopCat.Presheaf.pullbackPushforwardAdjunction`
+(`toPresheaf_map_pullbackModuleAdjunction_homEquiv`). -/
+@[stacks 008U]
 noncomputable def pullbackModuleAdjunction :
     pullbackModuleFunctor f O ⊣ PresheafOfModules.pushforward (pullbackRingUnitHom f O) :=
   Adjunction.mkOfHomEquiv
@@ -416,6 +424,19 @@ noncomputable def pullbackModuleAdjunction :
               ((PresheafOfModules.toPresheaf (pullbackRing f O)).map h)
         exact (abAdjunction f).homEquiv_naturality_right (abMap f O φ)
           ((PresheafOfModules.toPresheaf (pullbackRing f O)).map h) }
+
+/-- **Stacks 008U, compatibility with abelian presheaves.**  The bijection of
+`pullbackModuleAdjunction` is the restriction to module maps of the bijection
+`Mor_{PAb(X)}(f_p G, F) ≃ Mor_{PAb(Y)}(G, f_* F)` of the adjunction `f_p ⊣ f_*` on presheaves
+of abelian groups: the underlying morphism of abelian presheaves of the transpose of `φ` is the
+abelian-level transpose of the underlying morphism of `φ`. -/
+@[stacks 008U "the bijection is the restriction of the one on presheaves of abelian groups"]
+theorem toPresheaf_map_pullbackModuleAdjunction_homEquiv {M : PresheafOfModules.{u} O}
+    {N : PresheafOfModules.{u} (pullbackRing f O)} (φ : (pullbackModuleFunctor f O).obj M ⟶ N) :
+    (PresheafOfModules.toPresheaf O).map ((pullbackModuleAdjunction f O).homEquiv M N φ) =
+      (abAdjunction f).homEquiv M.presheaf N.presheaf
+        ((PresheafOfModules.toPresheaf (pullbackRing f O)).map φ) :=
+  rfl
 
 /-- The pushforward of presheaves of modules along the Kan-extension unit
 `η : O ⟶ f_*(f_p O)` is a right adjoint. -/

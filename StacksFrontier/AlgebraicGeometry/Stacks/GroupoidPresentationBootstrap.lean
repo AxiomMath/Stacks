@@ -17,9 +17,9 @@ by algebraic spaces, surjective and smooth is itself an algebraic stack.
 
 * `AlgebraicGeometry.Stack.isAlgebraicStack_of_smoothSurjectiveAlgebraicCover`: the assembly —
   an algebraic cover transports the scheme atlas.
-* `AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation`: **Stacks 06DC**, Artin's
-  theorem on representability of flat groupoids, with the two inputs the source draws from the
-  presentation carried as hypotheses.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation`: the assembly step of the proof
+  of **Stacks 06DC**, taking the diagonal and the smooth surjective cover as inputs. The theorem
+  itself, with both inputs proved, is `AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`.
 
 ## Implementation notes
 
@@ -35,19 +35,18 @@ relative surjectivity-and-smoothness is **Stacks 045B** at the meet of
 from those of the two factors (**Stacks 03MG**, **Stacks 03MH**, **Stacks 03ZD**, **Stacks
 03ZE**, **Stacks 041Q** and **Stacks 0429**).
 
-Of the proof of Stacks 06DC two inputs are **not** in the library and are carried as hypotheses
-of `isAlgebraicStack_of_flatPresentation`.
+The assembly `isAlgebraicStack_of_flatPresentation` takes two inputs of the proof of Stacks
+06DC as arguments.
 
 * `hdiagonal`, representability of the diagonal of `𝒴` by algebraic spaces, which the source
-  gets from **Stacks 05XW** applied to `F`.
+  gets from **Stacks 05XW** applied to `F`; the library proves it as
+  `AlgebraicGeometry.Stack.hasRepresentableDiagonal_of_flatPresentation`.
 * `hcover`, the existence of an algebraic stack with a 1-morphism to `𝒴` that is representable
   by algebraic spaces, surjective and smooth, which the source gets by taking
   `∐_{d ≥ 1} 𝓗_{d, lci}(𝒳/𝒴)` — the locally-complete-intersection locus of the relative Hilbert
-  stack of `F`. That it is an algebraic stack is **Stacks 06CI** with **Stacks 06CL** and
-  **Stacks 05UN**, and that its 1-morphism to `𝒴` is smooth and surjective is **Stacks 06CH**,
-  **Stacks 06D9** and **Stacks 06DA** combined with **Stacks 06CX**, **Stacks 06CW**, **Stacks
-  06D2**, **Stacks 06D6** and the infinitesimal lifting criterion **Stacks 04AM**. None of those
-  tags is in the library.
+  stack of `F` (**Stacks 06CI**, **Stacks 06CL**, **Stacks 06CH**, **Stacks 06D9**, **Stacks
+  06DA**). The library carries out that construction in
+  `AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`, which proves Stacks 06DC outright.
 
 Hypothesis (2) of the source — that `F` is surjective, flat and locally of finite presentation —
 is written out longhand rather than as `AlgebraicGeometry.Stack.HasRelativeProperty` at a meet of
@@ -111,21 +110,15 @@ theorem isAlgebraicStack_of_smoothSurjectiveAlgebraicCover
     (Bicategory.InducedBicategory.mkHom
       (X := schemeFibredCategory B S hS U) (Y := 𝒲) a) q ha' hq hAtlas hqP
 
-/-- **Stacks 06DC, Artin's theorem on representability of flat groupoids.** Let `F : 𝒳 ⟶ 𝒴` be a
+/-- **The assembly step of Stacks 06DC.** Let `F : 𝒳 ⟶ 𝒴` be a
 1-morphism of stacks in groupoids over the big fppf site of `S`. If `𝒳` is representable by an
 algebraic space and `F` is representable by algebraic spaces, surjective, flat and locally of
 finite presentation, then `𝒴` is an algebraic stack.
 
-Two inputs of the source's proof are not in the library and are carried as hypotheses:
-representability of the diagonal of `𝒴`, which the source gets from Stacks 05XW, and the
-existence of a smooth surjective cover of `𝒴` by an algebraic stack, which the source gets from
-the locally-complete-intersection locus of the relative Hilbert stack of `F`. -/
-@[stacks 06DC "the bootstrap assembly. Stacks 05XW (representability of the diagonal of the \
-target) and the Hilbert-stack cover of Stacks 06CI, 06CL, 06D9 and 06DA (an algebraic stack with \
-a representable surjective smooth 1-morphism to the target) are carried as the hypotheses \
-`hdiagonal` and `hcover`; neither is in the library. Clause (1) and the flatness and local \
-finite presentation of clause (2) are stated but not used, the carried inputs being exactly what \
-the source draws from them"]
+This version takes as arguments representability of the diagonal of `𝒴`, which the source gets
+from Stacks 05XW, and a smooth surjective cover of `𝒴` by an algebraic stack, which the source
+gets from the locally-complete-intersection locus of the relative Hilbert stack of `F`. Stacks
+06DC with both proved is `AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`. -/
 theorem isAlgebraicStack_of_flatPresentation
     {𝒳 𝒴 : CatFiberedInGroupoids.{u, u, u + 1, u + 1} (BigFppfOver B S hS)}
     (F : 𝒳 ⟶ 𝒴)

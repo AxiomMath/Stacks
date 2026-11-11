@@ -29,10 +29,17 @@ things:
 2. `G ⟶ Z` is flat and locally of finite presentation;
 3. `x` is surjective, flat and locally of finite presentation.
 
-This file assembles all three.
+This file proves parts (2) and (3) and an existential form of part (1). The statement of
+Stacks 06QG, with `G` carrying the group law of Stacks 06PP and with the canonical 1-morphism
+`x_can : [Z/G] ⟶ 𝒳`, is
+`AlgebraicStacks.exists_equivalenceOver_gerbeSectionClassifyingFunctor_of_isGerbeOver` of
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionCanonicalEquivalence`.
 
 ## Main results
 
+* `exists_grpObj_nonempty_equivalenceOver_quotientStackOfAction_of_section_of_isGerbeOver`:
+  the existential form of Stacks 06QG: some group structure on an algebraic space isomorphic to
+  `Isom_𝒳(x, x)` over `Z` has a trivial-action quotient stack equivalent to `𝒳`.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.hasRelativeProperty_isFlat_of_isFlat` and
   `…hasRelativeProperty_isLocallyOfFinitePresentation_of_isLocallyOfFinitePresentation`:
   **Stacks 06FM** for a representable 1-morphism, read at flatness of **Stacks 06PW** and at
@@ -66,6 +73,8 @@ identification of that groupoid with the groupoid of the trivial action of its s
 (**Stacks 0447**) on the object space — which is available because the source and the target of
 the self-intersection groupoid of a section agree
 (`AlgebraicGeometry.Stack.SelfIntersection.source_eq_target_selfIntersectionPresentation`).
+The identification of that stabilizer with `Isom_𝒳(x, x)` *as a group*, and the canonical
+1-morphism, are in `StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionCanonicalEquivalence`.
 
 That `Isom_𝒳(x, x)` is an algebraic space closes the gap recorded in the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionIsomSelfIntersection` and of
@@ -326,28 +335,25 @@ theorem isLocallyOfFinitePresentation_isomSpaceOverSpaceProj_of_section_of_isGer
       isLocallyOfFinitePresentation_source_selfIntersectionPresentation_of_section_of_isGerbeOver
         B S hS eR π hx hπ
 
-/-! ### Stacks 06QG -/
+/-! ### An existential form of Stacks 06QG -/
 
-/-- **Stacks 06QG.** Let `π : 𝒳 ⟶ 𝒰` be a 1-morphism from an algebraic stack `𝒳` over `S` to the
-algebraic stack `𝒰` of an algebraic space `Z` over `S`, let `x : 𝒰 ⟶ 𝒳` be a section of `π` — a
-1-morphism together with a 2-isomorphism `x ≫ π ≅ 𝟙 𝒰` — and let `π` make `𝒳` a gerbe over `𝒰`.
-Write `G = Isom_𝒳(x, x)` for the automorphism sheaf of the section, an algebraic space over `Z`
-through `AlgebraicGeometry.Stack.isomSpaceOverSpaceProj`. Then
+/-- **An existential form of Stacks 06QG**, for a section `x` of a 1-morphism `π : 𝒳 ⟶ 𝒰` making
+the algebraic stack `𝒳` a gerbe over the algebraic stack `𝒰` of an algebraic space `Z`. Write
+`G = Isom_𝒳(x, x)` for the automorphism sheaf of the section, an algebraic space over `Z` through
+`AlgebraicGeometry.Stack.isomSpaceOverSpaceProj`. Then some group algebraic space `G'` over `Z`,
+isomorphic to `G` as an object over `Z`, has a trivial-action quotient stack `[Z/G']` equivalent
+to `𝒳` over the big fppf site of `S`; `G ⟶ Z` is flat and locally of finite presentation; and `x`
+is surjective, flat and locally of finite presentation.
 
-1. `G` carries the structure of a group algebraic space over `Z`, and the quotient stack of its
-   *trivial* action on `Z` is equivalent, over the big fppf site of `S`, to `𝒳`;
-2. `G ⟶ Z` is flat and locally of finite presentation;
-3. `x` is surjective, flat and locally of finite presentation.
-
-Part (1) is stated as the existence of a group algebraic space `G'` over `Z` together with an
-isomorphism of `G'` with `G` *over `Z`*; that `G'` is the stabilizer of the self-intersection
-groupoid of **Stacks 04T4** (4), whose group law is groupoid composition — composition of
-automorphisms of `x` — by **Stacks 0447**
-(`AlgebraicGeometry.GroupoidInAlgebraicSpaces.stabilizer_mul_comp_arrow`), and which is all of
-the arrow space of that groupoid because for a section its source and target agree. The
-equivalence is the canonical 1-morphism of Stacks 04T4 (5), carried across the identification of
-the self-intersection groupoid with the trivial-action groupoid of its stabilizer. -/
-@[stacks 06QG]
+This does not pin down the group law of `G'` against the one of `G`, nor the equivalence. The
+statement of Stacks 06QG, with `G` carrying the composition law of Stacks 06PP and with the
+canonical 1-morphism `x_can : [Z/G] ⟶ 𝒳`, is
+`AlgebraicStacks.exists_equivalenceOver_gerbeSectionClassifyingFunctor_of_isGerbeOver`.
+Here `G'` is the stabilizer of the self-intersection groupoid of **Stacks 04T4** (4), with the
+group law of **Stacks 0447**, which is all of the arrow space of that groupoid because for a
+section its source and target agree; the equivalence is the canonical 1-morphism of Stacks 04T4
+(5), carried across the identification of the self-intersection groupoid with the trivial-action
+groupoid of its stabilizer. -/
 theorem exists_grpObj_nonempty_equivalenceOver_quotientStackOfAction_of_section_of_isGerbeOver
     (π : 𝒳 ⟶ Stack.algebraicSpaceStack.{u, w} B S hS Z hZ)
     (hx : x ≫ π ≅ 𝟙 (Stack.algebraicSpaceStack.{u, w} B S hS Z hZ))

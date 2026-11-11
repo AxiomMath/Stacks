@@ -47,6 +47,9 @@ and the fibre products used for it are the fibre products of schemes.
 The sheaf assertions here assume that `C` has all fibre products and that they are fibre products
 of schemes.
 
+No `@[stacks]` attribute is claimed here: Tag 03OJ is registered on
+`Stacks.Sites.isSheaf_structurePresheaf_and_exists_iso_siteAssociatedModule`.
+
 ## References
 
 * [Stacks Project, Tag 03OJ](https://stacks.math.columbia.edu/tag/03OJ)
@@ -127,8 +130,10 @@ public theorem functorPushforward_toOver_mem_fpqcOver ⦃T : C⦄ (R : Presieve 
 variable [K.HasPullbacks] [K.IsStableUnderBaseChange]
 
 /-- **The presheaf `𝒪` is a sheaf on a site of schemes over `S` whose coverings are fpqc
-coverings of schemes.** -/
-@[stacks 03OJ "the structure presheaf is a sheaf"]
+coverings of schemes**, when `C` has all fibre products and they are fibre products of schemes.
+Tag 03OJ, both of its assertions, is
+`Stacks.Sites.isSheaf_structurePresheaf_and_exists_iso_siteAssociatedModule`, which asks only
+for the fibre products of the site along coverings. -/
 public theorem isSheaf_structurePresheaf_of_mem_fpqcPrecoverage :
     Presheaf.IsSheaf K.toGrothendieck (structurePresheaf S toOver) :=
   isSheaf_structurePresheaf S K.toGrothendieck toOver

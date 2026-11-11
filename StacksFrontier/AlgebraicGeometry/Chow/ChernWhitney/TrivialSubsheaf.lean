@@ -6,105 +6,47 @@ public import StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.GeneralRational
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Chern classes of a module containing the structure sheaf as a subbundle
+# The projective-bundle step of Stacks 02UG, on cap-product families
 
-Let `(S, δ)` be the base situation of chapter 42 of the Stacks Project, let `X` be a scheme
-locally of finite type over `S`, and let
+[Stacks, Tag 02UG](https://stacks.math.columbia.edu/tag/02UG) asserts, for a short exact
+sequence `0 ⟶ O_X ⟶ ℰ ⟶ ℱ ⟶ 0` of finite locally free `O_X`-modules of ranks `r` and `r - 1` on
+`X` locally of finite type over the base, that `c_r(ℰ) = 0` and `c_j(ℰ) = c_j(ℱ)` for
+`j = 0, …, r - 1` in `A^*(X)`. **This file does not formalize that lemma.** Stacks 02UG is stated
+and proved, unconditionally and in `A^*(X)`, as
+`Stacks.Chow.chernClass_eq_of_shortExact_of_iso_unit` in
+`StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.InvertibleSubsheaf`, which carries the tag; its
+cap-product form is `Stacks.Chow.GenuineChern.chernCap_eq_of_shortExact_of_iso_unit` in
+`StacksFrontier.AlgebraicGeometry.Chow.GenuineChern.WhitneyInvertible`.
 
-  `0 ⟶ O_X ⟶ ℰ ⟶ ℱ ⟶ 0`
+What this file proves is the formal, index-shifting step of the source's proof, for abstract
+projective-bundle data. Let `π : P ⟶ X` and `ϖ : Q ⟶ X` be flat of relative dimensions `r + 1`
+and `r`, with arbitrary first Chern class cap operators standing for `O_P(1)` and `O_Q(1)`, and let
+`ι : Q ⟶ P` be proper. If proper pushforward along `ι` carries the `i`-th summand of the relation
+of Stacks 02U6 over `Q` to the `(i+1)`-st summand over `P` (the hypothesis
+`Stacks.Chow.ChernTermsCompatibleWithTrivialSubbundle`, which in the source is supplied by
+Stacks 02TR and 02SU for the projective bundles of `ℰ` and `ℱ`), and the relation over `P` has
+unique solutions (the injectivity half of Stacks 02TX, a hypothesis), then any family satisfying
+the relation over `Q`, extended by zero in the top degree, is the family over `P`.
 
-be a short exact sequence of finite locally free `O_X`-modules, with `ℰ` of rank `r` and `ℱ` of
-rank `r - 1`. [Stacks, Tag 02UG](https://stacks.math.columbia.edu/tag/02UG) asserts
+None of `P`, `Q`, `π`, `ϖ`, the twists, `ι` or the families is tied to a short exact sequence,
+and the geometric content of Stacks 02UG (the closed immersion of projective bundles, Stacks 02TR,
+02SU and 02TX) is carried by the hypotheses. The two final theorems also take a short exact
+sequence `0 ⟶ O_X ⟶ ℰ ⟶ ℱ ⟶ 0` with ranks `r + 2` and `r + 1` as arguments `_S`, `_hunit`,
+`_hexact` and two rank instances, but these are not used and are not related to the other data.
+Those theorems are therefore conditional structural lemmas, not statements of Stacks 02UG, and
+carry no `@[stacks]` registration.
 
-  `c_r(ℰ) = 0`  and  `c_j(ℰ) = c_j(ℱ)` for `j = 0, …, r - 1`,
-
-as an identity in `A^*(X)`. This file states and proves that identity **on cap products**: for
-every degree `k` and every class `α ∈ A_k(X)`,
-
-  `c_r(ℰ) ∩ α = 0`  and  `c_j(ℰ) ∩ α = c_j(ℱ) ∩ α` in `A_{k-j}(X)`.
-
-## Why on cap products, and not in `A^*(X)`
-
-The source's `A^*(X)` is not available in this repository, and neither is anything that would let
-an identity be asserted in it:
-
-* `Stacks.Chow.nonhomogeneousBivariantGroup` of
-  `StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.TotalChernClass`, the graded group
-  `⊕_p A^p(X ⟶ X)`, carries no `Mul`, no `Monoid` and no `Ring` instance, and the composition
-  that would supply one is unproved, blocked on Stacks 0B6Y and through it Stacks 02OR, as
-  `StacksFrontier.AlgebraicGeometry.Chow.BivariantComposition.Basic` records;
-* there is no total Chern class *function*: `Stacks.Chow.IsTotalChernClass` is a predicate on an
-  element of that group, and `Stacks.Chow.bivariantFormalSum` receives the homogeneous classes as
-  an argument.
-
-The Chern classes themselves are present only as the cap products of Stacks 02U5 and 02U6, so a
-per-degree identity between those operators is the strongest form the statement can take here.
-Nothing of Stacks 02UG is lost in the passage: the source's two conclusions are each an identity
-between homogeneous components, and a homogeneous bivariant class on `X ⟶ X` is determined by its
-cap products, so the statements below say what the source says, degree by degree, on every class
-of every degree.
-
-## The inputs of the two theorems
-
-The proof is the proof of the source. Write the ranks as `r + 2` and `r + 1`. Let
-`(π : P ⟶ X, O_P(1))` be the projective bundle of `ℰ` and `(ϖ : Q ⟶ X, O_Q(1))` that of `ℱ`. The
-surjection `ℰ ⟶ ℱ` gives a closed immersion `ι : Q ⟶ P` over `X`; the section of `O_P(1)`
-corresponding to `1 ∈ Γ(X, O_X)` vanishes exactly along `Q`, so `Q` is an effective Cartier
-divisor on `P` with `O_P(Q) ≅ O_P(1)`, and therefore
-`c₁(O_P(1)) ∩ π^*β = ι_*(ϖ^*β)` by Stacks 02TR. Combining that with Stacks 02SU — proper
-pushforward commutes with the first Chern class cap — turns the `i`-th summand of the relation
-of Stacks 02U6 over `Q` into the `(i+1)`-st summand of the relation over `P`. That single
-identity, summand by summand, is the hypothesis
-`Stacks.Chow.ChernTermsCompatibleWithTrivialSubbundle`: neither Stacks 02TR nor the instance of
-Stacks 02SU needed here is available for the Chow groups and the unrelated first Chern class cap
-operators occurring here, exactly as in
-`StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.ProjectiveBundleProperPushforward`, whose
-hypothesis `Stacks.Chow.ChernTermsCompatibleWithPushforward` this one is the index-shifted
-analogue of.
-
-Everything else is proved: the family of `ℱ` extended by zero in the top degree satisfies the
-relation over `P` and has `α` in degree `k`, so the uniqueness of Stacks 02U6 identifies it with
-the family of `ℰ`, and its top member is zero while its lower members are those of `ℱ`.
-
-As in the two files named above, the projective bundles, their twists and the injectivity half of
-Stacks 02TX are parameters, because Stacks 02TX and the representability of the twists (Stacks
-01O4) are not in this repository. Of Stacks 02TX only injectivity enters, and only over `P`.
-
-That a flat pullback factors through rational equivalence, Stacks 02S1, is **not** a parameter of
-the two theorems of Stacks 02UG below: for an arbitrary flat morphism of relative dimension `r`
-it is the theorem `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general`, and both
-theorems supply it from there for `π` and for `ϖ`. The intermediate declarations of this file
-still take it as an argument, because they are stated for an arbitrary such datum.
-
-### The short exact sequence, and where it acts
-
-`ℰ`, `ℱ`, the sequence, its exactness, the ranks `r + 2` and `r + 1`, and the identification of
-its subsheaf with `O_X` are explicit hypotheses of the two theorems of Stacks 02UG below, named
-`_S`, `_hexact`, `_hunit` and the two rank instances. They are not used in the proofs: in the
-source they serve exactly to produce the closed immersion `ι` and the vanishing of the section of
-`O_P(1)`, which is to say exactly to produce `ι` and
-`Stacks.Chow.ChernTermsCompatibleWithTrivialSubbundle`, and those are arguments here. Keeping
-them is what makes the statements statements *about a short exact sequence with trivial
-subsheaf*, rather than about an arbitrary pair of bundles with a proper morphism between them.
-
-### The source's rank `r = 1` is excluded
-
-The ranks are written `r + 2` and `r + 1`, so the source's rank is at least `2`. The degenerate
-case `r = 1` — where `ℱ` has rank `0`, hence is zero, and `ℰ ≅ O_X` — cannot be stated in the
-spelling of `Stacks.Chow.projectiveBundleChernTerm`, whose summands land in degree
-`k + (r - 1) - r` with `r - 1` computed in `ℕ`: for a rank-`0` quotient that degree is `k`, not
-`k - 1`, so the summands over `Q` and over `P` live in degrees that differ by one and no
-pushforward relates them. The projective bundle of a rank-`0` module is empty, which is where the
-degeneration comes from. This is a restriction of the source's generality and is named in the
-`@[stacks 02UG]` clauses.
+Stacks 02S1 (that a flat pullback factors through rational equivalence) is supplied for `π` and
+`ϖ` by `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general` in the final two
+theorems; the intermediate declarations take it as an argument.
 
 ## Main definitions
 
 * `Stacks.Chow.chernFamilyExtendByZero` — a family `(α_j)_{j ≤ r+1}` of Chow classes on `X`,
   extended by `0` in degree `r + 2`.
-* `Stacks.Chow.ChernTermsCompatibleWithTrivialSubbundle` — **Stacks 02TR and 02SU, assembled**:
-  proper pushforward along `ι : Q ⟶ P` carries the `i`-th summand of the relation of Stacks 02U6
-  over `Q` to the `(i+1)`-st summand over `P`.
+* `Stacks.Chow.ChernTermsCompatibleWithTrivialSubbundle` — the summandwise identity that
+  Stacks 02TR and 02SU give in the source: proper pushforward along `ι : Q ⟶ P` carries the
+  `i`-th summand of the relation of Stacks 02U6 over `Q` to the `(i+1)`-st summand over `P`.
 
 ## Main results
 
@@ -112,11 +54,11 @@ degeneration comes from. This is a restriction of the source's generality and is
   a family satisfying the relation over `Q` satisfies the relation over `P`.
 * `Stacks.Chow.isChernCapFamily_chernFamilyExtendByZero` — the same for the characterization of
   Stacks 02U6.
-* `Stacks.Chow.eq_chernFamilyExtendByZero` — the family of `ℰ` is the family of `ℱ` extended by
-  zero.
-* `Stacks.Chow.chernCap_top_eq_zero` — **Stacks 02UG**, the vanishing `c_r(ℰ) ∩ α = 0`.
-* `Stacks.Chow.chernCap_castSucc_eq` — **Stacks 02UG**, the agreement
-  `c_j(ℰ) ∩ α = c_j(ℱ) ∩ α` for `j ≤ r - 1`.
+* `Stacks.Chow.eq_chernFamilyExtendByZero` — under injectivity over `P`, the family over `P` is
+  the family over `Q` extended by zero.
+* `Stacks.Chow.chernCap_top_eq_zero`, `Stacks.Chow.chernCap_castSucc_eq` — the top member of the
+  family over `P` vanishes and its lower members are those of the family over `Q`, under the
+  hypotheses above.
 
 ## References
 
@@ -309,32 +251,19 @@ theorem eq_chernFamilyExtendByZero
     (isChernCapFamily_chernFamilyExtendByZero C sX sP sQ π hsP ϖ hsQ r hπ hϖ hfacP hfacQ twistP
       twistQ ι hι hcompat k α e he)
 
-/-! ### Stacks 02UG -/
+/-! ### The conclusions of the index-shifting step -/
 
-/-- **Stacks 02UG, the vanishing of the top Chern class, on cap products.** Let
+/-- **The top member of the family over `P` vanishes.** Given flat `π : P ⟶ X` and
+`ϖ : Q ⟶ X` of relative dimensions `r + 1` and `r`, first Chern class cap operators `twistP` and
+`twistQ`, a proper `ι : Q ⟶ P` satisfying `ChernTermsCompatibleWithTrivialSubbundle`, and
+injectivity `hinj` of the relation over `P`: if `c` and `e` satisfy the characterization of
+Stacks 02U6 for `α ∈ A_k(X)` over `P` and over `Q`, then `c_{r+2} = 0`.
 
-  `0 ⟶ O_X ⟶ ℰ ⟶ ℱ ⟶ 0`
-
-be a short exact sequence of finite locally free modules on `X` with `ℰ` of rank `r + 2` and `ℱ`
-of rank `r + 1`. Then for every `k` and every class `α ∈ A_k(X)`,
-
-  `c_{r+2}(ℰ) ∩ α = 0`  in  `A_{k-r-2}(X)`.
-
-The cap products are the members of families satisfying the characterization of Stacks 02U6,
-which is how they exist in this repository at all: `hc` and `he` are those families for `ℰ` and
-for `ℱ`. The proof is the proof of the source: the family of `ℱ` extended by zero satisfies the
-relation over the bundle of `ℰ`, by Stacks 02TR and 02SU, and the uniqueness of Stacks 02U6
-identifies it with the family of `ℰ`, whose top member is therefore zero.
-
-Stacks 02S1 for the two projections is supplied from
-`Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general` and is not an argument. The
-projective bundles themselves, their twists `O_P(1)` and `O_Q(1)`, the closed immersion `ι`, the
-injectivity half of Stacks 02TX over `P` and the summandwise form `hcompat` of Stacks 02TR and
-02SU are arguments, because Stacks 02TX and the representability of the twists (Stacks 01O4) are
-not in this repository; see the module documentation. -/
-@[stacks 02UG "the vanishing c_{r+2}(E) cap alpha = 0, stated degreewise on the cap products of \
-  02U5 rather than in A^*(X), which has no multiplication here; ranks r + 2 and r + 1, so the \
-  source's r = 1 is excluded; bundles, twists, iota, 02TX injectivity and 02TR+02SU are inputs"]
+This is the formal step of the source's proof of Stacks 02UG, not Stacks 02UG itself: the
+arguments `_S`, `_hunit`, `_hexact` and the two rank instances describe a short exact sequence
+`0 ⟶ O_X ⟶ ℰ ⟶ ℱ ⟶ 0` but are unused and unrelated to `P`, `Q`, the twists, `ι`, `c` and `e`,
+and the geometric inputs (Stacks 02TR, 02SU, 02TX) are hypotheses. Stacks 02UG is
+`Stacks.Chow.chernClass_eq_of_shortExact_of_iso_unit`. -/
 theorem chernCap_top_eq_zero
     (hinj : ProjectiveBundleRelationInjective C sX sP π hsP (r + 2) hπ
       (flatPullbackFactorsThroughRationalEquivalence_general C sP sX π hsP (r + 2 - 1) hπ)
@@ -363,23 +292,13 @@ theorem chernCap_top_eq_zero
     twistP twistQ ι hι hinj hcompat k α c e hc he]
   exact chernFamilyExtendByZero_last C sX r k e
 
-/-- **Stacks 02UG, the agreement of the lower Chern classes, on cap products.** Let
+/-- **The lower members of the family over `P` are those over `Q`.** Under the hypotheses of
+`Stacks.Chow.chernCap_top_eq_zero`, `c_j = e_j` for every `j ≤ r + 1`.
 
-  `0 ⟶ O_X ⟶ ℰ ⟶ ℱ ⟶ 0`
-
-be a short exact sequence of finite locally free modules on `X` with `ℰ` of rank `r + 2` and `ℱ`
-of rank `r + 1`. Then for every `k`, every class `α ∈ A_k(X)` and every `j ≤ r + 1`,
-
-  `c_j(ℰ) ∩ α = c_j(ℱ) ∩ α`  in  `A_{k-j}(X)`.
-
-As for the vanishing above, the cap products are the members of families satisfying the
-characterization of Stacks 02U6, and the proof is the uniqueness of that characterization applied
-to the family of `ℱ` extended by zero. The inputs are the ones listed at
-`Stacks.Chow.chernCap_top_eq_zero`, Stacks 02S1 for the two projections again being supplied from
-`Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general`. -/
-@[stacks 02UG "the agreement c_j(E) cap alpha = c_j(F) cap alpha for j <= r + 1, stated \
-  degreewise on the cap products of 02U5 rather than in A^*(X), which has no multiplication \
-  here; ranks r + 2 and r + 1; bundles, twists, iota, 02TX and 02TR+02SU are inputs"]
+As for `Stacks.Chow.chernCap_top_eq_zero`, this is the formal step of the source's proof of
+Stacks 02UG, not Stacks 02UG itself: the short exact sequence arguments are unused and unrelated
+to the other data, and the geometric inputs are hypotheses. Stacks 02UG is
+`Stacks.Chow.chernClass_eq_of_shortExact_of_iso_unit`. -/
 theorem chernCap_castSucc_eq
     (hinj : ProjectiveBundleRelationInjective C sX sP π hsP (r + 2) hπ
       (flatPullbackFactorsThroughRationalEquivalence_general C sP sX π hsP (r + 2 - 1) hπ)

@@ -46,8 +46,9 @@ The distinction matters, and three results combine to remove it.
 
 ## Implementation notes
 
-The two main statements register parts (1) and (4) of [Stacks, Tag 0EFY] at `T = {𝔪}`, each a
-whole numbered part of that tag; the clause strings record the locus. Neither registers
+The two main statements are parts (1) and (4) of [Stacks, Tag 0EFY] at `T = {𝔪}`. They carry no
+attribute: the complete Tag 0EFY, at a general specialization-stable `T`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. Neither registers
 [Stacks, Tag 0EFR], which has two assertions and is registered in
 `StacksFrontier/AlgebraicGeometry/Algebraization/CompletionUnitDescent.lean`;
 `isIso_homology_completedLocalCohomologyUnit_closedPoint` is a step of its proof and so carries
@@ -127,16 +128,14 @@ individual projections needs; `Stacks.Algebraization.localCohomologyToAdicQuotie
 arrow Tag 0EFR is registered on, is instead built from an unpinned derived-limit witness.
 
 This is also **part (4) of [Stacks, Tag 0EFY]** at `T = {𝔪}`, in the wider range `i ≤ s` that
-contains that part's range `i < s`. It improves the registration of that part carried by
+contains that part's range `i < s`. It improves
 `Stacks.Algebraization.isIso_localCohomologyToAdicQuotientLimit_of_isAdicComplete`
 (`StacksFrontier/AlgebraicGeometry/Algebraization/BootstrapLocalCohomologyLimit.lean`) in two ways:
 the `I`-adic completeness of `A` is not assumed, and the arrow is the canonical comparison.
 The source's `T` is an arbitrary specialization-stable subset of `V(I)`; `T = {𝔪}` over a local
-ring is one such, and the general case rests on [Stacks, Tag 0EFX], whose state in the library
-is recorded in `StacksFrontier/RingTheory/LocalCohomology/IdealPowerProZero.lean`. -/
-@[stacks 0EFY "part (4) at T = {𝔪} over a Noetherian local ring in Situation 0EFU, read at the \
-canonical comparison Hⁱ_𝔪(M) ⟶ lim Hⁱ_𝔪(M/IⁿM), in the range i ≤ s and with no completeness \
-assumption on A"]
+ring is one such. The complete [Stacks, Tag 0EFY], at a general specialization-stable `T` and with
+one `m₀` for all seven parts, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 public theorem isIso_localCohomologyAdicQuotientToLimit_closedPoint
     [IsLocalRing S.A] (hT : S.T = {closedPoint S.A}) (i : ℤ) (hi : i ≤ S.s) :
     IsIso (localCohomologyAdicQuotientToLimit S.A S.I (maximalIdeal S.A)
@@ -156,9 +155,6 @@ isomorphism, hence injective and surjective, so the cokernel is zero and `m₀` 
 source asserts the two halves separately because at a general specialization-stable `T` the
 comparison in the top degree `s` need not be surjective; what makes the top degree accessible
 here is that `T = {𝔪}` puts it inside the range of [Stacks, Tag 0EFR]. -/
-@[stacks 0EFY "part (6) at T = {𝔪} over a Noetherian local ring in Situation 0EFU: the canonical \
-map Hˢ_𝔪(M) ⟶ lim Hˢ_𝔪(M/IⁿM) is injective and each element of I^{m₀} carries the limit into \
-its image, for every m₀"]
 public theorem injective_and_smul_mem_range_localCohomologyAdicQuotientToLimit_closedPoint
     [IsLocalRing S.A] (hT : S.T = {closedPoint S.A}) (m₀ : ℕ) :
     Function.Injective (localCohomologyAdicQuotientToLimit S.A S.I (maximalIdeal S.A)
@@ -187,11 +183,9 @@ This improves
 dropping both its `[IsAdicComplete]` instance and its `hproj` hypothesis.
 
 The source's `T` is an arbitrary specialization-stable subset of `V(I)`; `T = {𝔪}` over a local
-ring is one such, and the general case rests on the pro-zero assertion of
-[Stacks, Tag 0EFX], whose state in the library is recorded in
-`StacksFrontier/RingTheory/LocalCohomology/IdealPowerProZero.lean`. -/
-@[stacks 0EFY "part (1) at T = {𝔪} over a Noetherian local ring in Situation 0EFU: a single m₀ \
-beyond which Hⁱ_𝔪(M) ⟶ Hⁱ_𝔪(M/IⁿM) is injective for every i ≤ s at once"]
+ring is one such. The complete [Stacks, Tag 0EFY], at a general specialization-stable `T` and with
+one `m₀` for all seven parts, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 public theorem exists_forall_injective_localCohomologyAdicQuotientMap_closedPoint
     [IsLocalRing S.A] (hT : S.T = {closedPoint S.A}) :
     ∃ m₀ : ℕ, ∀ i : ℤ, i ≤ S.s → ∀ n : ℕ, m₀ ≤ n →

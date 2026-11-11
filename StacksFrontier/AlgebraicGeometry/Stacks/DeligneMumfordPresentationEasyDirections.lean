@@ -9,16 +9,13 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.UnramifiedFlatPresentation
 /-!
 # The easy directions of Stacks 06N3 and Stacks 06MF
 
-`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationTheorem` states both tags in the
-shape the source gives them, as an equivalence carrying each implication as an explicit
-hypothesis, because the substantial direction of each rests on a structure theorem this library
-does not have. The *easy* direction of each is available, and is proved here: a
-Deligne-Mumford algebraic stack is DM, and a stack with a quasi-DM presentation is
-absolutely quasi-DM.
+`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationTheorem` names each implication
+of both tags as a proposition. The *easy* direction of each is proved here: a Deligne-Mumford
+algebraic stack is DM, and a stack with a quasi-DM presentation is absolutely quasi-DM.
 
-Neither carries a `@[stacks ...]` attribute. Each is one implication of an equivalence whose
-other implication is unproved, so registering a clause key on it would claim the tag on the
-strength of its easy half; the registrations stay where they are, on the equivalences.
+Neither carries a `@[stacks ...]` attribute: each is one implication of an equivalence, and the
+registrations sit on the equivalences; that of **Stacks 06N3** is
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`.
 
 ## Main results
 

@@ -23,9 +23,12 @@ is a formal sum of integral closed subspaces.
 
 ## Main results
 
-There are no propositional results. Both definitions are abbreviations, so
-`AlgebraicGeometry.Space.IsClosedSubspace`, `AlgebraicGeometry.Space.IsIntegralSpace`,
-`irreducibleComponents` and `IsGenericPoint` are available to consumers directly.
+There are no propositional results here; the one-to-one correspondences of Stacks 0EE8 between
+irreducible components of `|Y|`, their generic points and irreducible components of `Y` are in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.IrreducibleComponentCorrespondence`. Both
+definitions are abbreviations, so `AlgebraicGeometry.Space.IsClosedSubspace`,
+`AlgebraicGeometry.Space.IsIntegralSpace`, `irreducibleComponents` and `IsGenericPoint` are
+available to consumers directly.
 
 ## Implementation notes
 
@@ -60,7 +63,7 @@ attribute [local instance] pointTopology
 /-- **Stacks 0EE8.** An *irreducible component* of an algebraic space `Y` over `S` is a closed
 subspace which is an integral algebraic space and whose set of points is an irreducible
 component of `|Y|`. -/
-@[stacks 0EE8 "irreducible_component_of_closed_subspace"]
+@[stacks 0EE8 "the terminology: an irreducible component of Y"]
 abbrev IsIrreducibleComponent (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (_hY : IsAlgebraicSpace B S hS Y)
     (Z : Subfunctor Y) : Prop :=
@@ -69,7 +72,7 @@ abbrev IsIrreducibleComponent (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Con
 
 /-- **Stacks 0EE8.** A point of an algebraic space `Y` over `S` is the *generic point* of a
 subspace `Z` when it is the generic point of the set of points of `Z`. -/
-@[stacks 0EE8 "irreducible_component_of_closed_subspace"]
+@[stacks 0EE8 "the terminology: the generic point of an irreducible component"]
 abbrev IsGenericPointOf (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (_hY : IsAlgebraicSpace B S hS Y)
     (Z : Subfunctor Y) (ξ : points B S hS Y) : Prop :=

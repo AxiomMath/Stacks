@@ -501,7 +501,8 @@ end Closure
 structure coming from the sheafification of abelian presheaves on the associated étale site
 (`AlgebraicGeometry.Stack.hasSheafify_etaleAssociatedTopology`). -/
 @[stacks 0771 "part (2), the étale half: LQCoh^fbc is a weak Serre subcategory of \
-  Mod(𝒳_ét, 𝒪_𝒳), with the flat base change property of 0762 read on sheaves"]
+  Mod(𝒳_ét, 𝒪_𝒳), with the flat base change property of 0762 read on sheaves; modules at the \
+  module universe u"]
 theorem isWeakSerreClass_lqcohSheafFbcEtaleModules (𝒳 : AlgebraicStacks.{u, w} B S hS) :
     letI := hasSheafify_etaleAssociatedTopology B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
     letI := wEqualsLocallyBijective_etaleAssociatedTopology B S hS 𝒳.val.val.p

@@ -16,9 +16,9 @@ Part (1) is the case of a field of
 functions of an algebraic space proper over any Noetherian ring `A` form a finite `A`-module
 (Stacks 08AS in degree zero for the structure sheaf); it is registered for Tag 0DMY below.
 
-The two remaining parts are the corresponding statements of
-`StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctions`, there conditional on Stacks 08AS,
-now with the finiteness supplied.
+The two remaining parts follow from part (1) together with the factorization and reducedness
+results of `StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctions`.  Parts (4) to (8) of the
+tag are in `StacksFrontier.AlgebraicGeometry.Spaces.ProperGlobalFunctionsGeometric`.
 
 ## Main results
 

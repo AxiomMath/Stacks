@@ -17,11 +17,10 @@ type. This file shows that it is **not** a local property in the sense of Situat
 statement that passes it on, among them
 `AlgebraicGeometry.FormalSpace.isRigEtale_of_comp`,
 `AlgebraicGeometry.FormalSpace.isRigEtale_pullback_snd_of_isAdicMorphism`,
-`AlgebraicGeometry.FormalSpace.isRigEtale_diagonal_of_isRigEtale`,
-`AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd` and
-`AlgebraicGeometry.FormalSpace.isRigEtale_of_comp_of_isAdicMorphism_of_mono` — can never be
-supplied. The locality of rig-étaleness itself, Stacks 0AQL, is
-`Rig.rigEtale_propertyIsLocalNoetherian`, and needs no such input.
+`AlgebraicGeometry.FormalSpace.isRigEtale_diagonal_of_isRigEtale` and
+`AlgebraicGeometry.FormalSpace.isFormalModification_pullback_snd` — can never be supplied.
+The locality of rig-étaleness itself, Stacks 0AQL, is `Rig.rigEtale_propertyIsLocalNoetherian`,
+and needs no such input.
 
 ## The counterexample
 

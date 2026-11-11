@@ -234,7 +234,10 @@ finite presentation, and let `E ∈ D(𝒪_X)` be `S`-perfect. Then `Rf_*E` is a
 `D(𝒪_S)` and its formation commutes with arbitrary base change: for every cartesian square
 `X' = X ×_S S'` the base change map `Lg^*Rf_*E ⟶ Rf'_*L(g')^*E` of [Stacks, Tag 08HY] is an
 isomorphism. -/
-@[stacks 0DJT]
+@[stacks 0DJT "f flat, proper and locally of finite presentation (finite presentation, as \
+IsProper gives quasi-compact and quasi-separated) over an arbitrary base, E S-perfect: Rf_*E is \
+perfect, and for every cartesian square X' = X ×_S S' the base change map \
+Lg^*Rf_*E → Rf'_*L(g')^*E of Tag 08HY is an isomorphism"]
 theorem isPerfect_derivedPushforward_and_isIso_derivedBaseChangeMap {X S : Scheme.{u}}
     (f : X ⟶ S) [Flat f] [IsProper f] [LocallyOfFinitePresentation f]
     (E : DerivedCategory (StrictlyPerfect.OXMod.{u, u} X.toRingedSpace))

@@ -26,11 +26,14 @@ constants. This file supplies the two things that turn that into the tag.
 * The passage from an open *subscheme* given by an open immersion `j : X ⟶ Z` to the open
   `j ''ᵁ ⊤` of `Z`, through the isomorphism `AlgebraicGeometry.Scheme.Hom.appIso` on sections.
 
-What remains for Tag 04L4 is the reduction to a *normal* proper variety, which is Tag 0BXR: the
-normalization `ν : Xbar^ν ⟶ Xbar` is finite with `Xbar^ν` a normal variety, and `ν` restricts to
-an isomorphism over the normal open `X`. It appears below as the hypothesis `hmodel` of
-`AlgebraicGeometry.fg_units_quotient_of_exists_normal_model`, which is in all other respects
-exactly the statement of the tag.
+The remaining step of Tag 04L4 is the reduction to a *normal* proper variety, which is Tag 0BXR:
+the normalization `ν : Xbar^ν ⟶ Xbar` is finite with `Xbar^ν` a normal variety, and `ν` restricts
+to an isomorphism over the normal open `X`. In this file it appears as the hypothesis `hmodel` of
+`AlgebraicGeometry.fg_units_quotient_of_exists_normal_model`. The library proves that hypothesis,
+as `AlgebraicGeometry.exists_normal_properVariety_model`
+(`StacksFrontier/AlgebraicGeometry/NormalProperModel/Basic.lean`), and the tag itself, with only `X`
+normal, is `AlgebraicGeometry.fg_units_quotient_of_isOpenImmersion_into_properVariety`
+(`StacksFrontier/AlgebraicGeometry/InvertibleFunctions/NormalModel.lean`).
 
 ## Main results
 
@@ -176,7 +179,9 @@ the invertible functions on `X` modulo the constants form a finitely generated g
 
 The hypothesis `hmodel` is what Tag 0BXR provides, with `Z` the normalization of `Xbar`: it is
 finite over `Xbar`, hence proper over `k`, it is a normal variety, and it restricts to an
-isomorphism over the normal open `X`. Everything else in this statement is the tag. -/
+isomorphism over the normal open `X`. Everything else in this statement is the tag. The hypothesis
+is proved as `AlgebraicGeometry.exists_normal_properVariety_model`, and the tag without it is
+`AlgebraicGeometry.fg_units_quotient_of_isOpenImmersion_into_properVariety`. -/
 theorem fg_units_quotient_of_exists_normal_model (k : Type u) [Field k] [IsAlgClosed k]
     {X Xbar : Scheme.{u}} (f : Xbar ⟶ Spec (.of k)) [IsProperVariety k f]
     (i : X ⟶ Xbar) [IsOpenImmersion i] [IsNormal X]

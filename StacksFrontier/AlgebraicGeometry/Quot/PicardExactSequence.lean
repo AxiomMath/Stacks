@@ -94,7 +94,7 @@ scheme `T` over the base, then for every such `T` the sequence
 `0 ⟶ Pic(T) ⟶ Pic(X_T) ⟶ Pic_{X/B}(T)` is exact: pullback along `f_T` is injective, and a class
 of `X_T` maps to the trivial element of the relative Picard functor exactly when it is pulled
 back from `T`. -/
-@[stacks 0D27]
+@[stacks 0D27 "the exact sequence 0 → Pic(T) → Pic(X_T) → Pic_{X/B}(T)"]
 theorem exact_picardSequence (h : s.StructureSheafMapIso) (T : s.SchemesOver) :
     Function.Injective (s.basePicardPullback T) ∧
       ∀ x : s.picardAt T, s.picardClassMap T x = s.picardClassMap T 0 ↔

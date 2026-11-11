@@ -24,17 +24,17 @@ about the ideals `Iⁿ` alone.
 
 ## Main definitions
 
-* `Ideal.IsIntegrallyClosed`: every element integral over the ideal (in the sense of the library's
-  `IsIntegralOverIdeal`, along the identity) lies in it.
+* `Ideal.IsIntegrallyClosed`: every element integral over the ideal (in the sense of
+  `RingHom.IsIntegralElemOverIdeal`, along the identity) lies in it.
 
 ## Main results
 
-* `Ideal.isIntegralOverIdeal_id_iff`: over a nontrivial ring, integrality over `I` is a monic
+* `Ideal.isIntegralElemOverIdeal_id_iff`: integrality over `I` is a monic
   equation of positive degree `k` whose coefficient in degree `j` lies in `I ^ (k - j)`.
-* `Ideal.isIntegralOverIdeal_id_of_mem`: every element of `I` is integral over `I`, so
+* `Ideal.isIntegralElemOverIdeal_id_of_mem`: every element of `I` is integral over `I`, so
   `Ideal.IsIntegrallyClosed` says that the integral closure of `I` is exactly `I` and not that it
   is contained in something larger.
-* `IsIntegralOverIdeal.exists_pow_mem`, `Ideal.isIntegrallyClosed_of_isRadical` and
+* `RingHom.IsIntegralElemOverIdeal.exists_pow_mem`, `Ideal.isIntegrallyClosed_of_isRadical` and
   `Ideal.IsPrime.isIntegrallyClosed`: an element integral over `I` has a positive power in `I`, so
   every radical ideal — in particular every prime ideal, and so by
   `Ideal.isIntegrallyClosed_maximalIdeal` the maximal ideal of a local ring — is integrally closed.
@@ -54,8 +54,8 @@ about the ideals `Iⁿ` alone.
   monic expression in `y` with coefficients `γ j`, times `t^(nk)`, is the degree-`k` monic
   expression in `X` with coefficients `C j`; `mul_pow_eq_zero_of_monic_relation` is the
   consequence that a monic relation over the base divides up to one over a chart.
-* `IsIntegralOverIdeal.isIntegral_affineBlowup`: an element of `A` integral over `Iⁿ` has
-  `x / aⁿ` integral over `A[I/a]`, on every chart and with no hypothesis on `A`, `I` or `a`;
+* `RingHom.IsIntegralElemOverIdeal.isIntegral_affineBlowup`: an element of `A` integral over `Iⁿ`
+  has `x / aⁿ` integral over `A[I/a]`, on every chart and with no hypothesis on `A`, `I` or `a`;
   `Ideal.isIntegral_affineBlowup_of_mem_pow` is the converse inclusion for elements of `Iⁿ`.
 * `Ideal.isIntegrallyClosed_pow_of_isIntegral_affineBlowup`: hence a *single* chart certifies
   that `Iⁿ` is an integrally closed ideal, namely as soon as the elements of `A` whose fraction
@@ -71,8 +71,9 @@ about the ideals `Iⁿ` alone.
 The hypothesis on the powers of `I` is used only for the single exponent `N` produced by the
 proof, but `N` depends on the element being tested, so all powers are needed.
 
-`Ideal.isIntegralOverIdeal_id_iff` indexes the coefficients by the power of `x` they multiply, so
-the condition reads `c j ∈ I ^ (k - j)`; the usual indexing by the codegree is this one reversed.
+`Ideal.isIntegralElemOverIdeal_id_iff` indexes the coefficients by the power of `x` they
+multiply, so the condition reads `c j ∈ I ^ (k - j)`; the usual indexing by the codegree is this
+one reversed.
 -/
 
 @[expose] public section
@@ -128,52 +129,70 @@ variable {R : Type*} [CommRing R]
 
 /-- **An element integral over an ideal satisfies an explicit monic relation**
 `x ^ k + ∑_{j < k} c j · x ^ j = 0` of positive degree `k` whose coefficient in degree `j` lies in
-`I ^ (k - j)`: the coefficients of the monic polynomial witnessing `IsIntegralOverIdeal`. -/
-theorem _root_.IsIntegralOverIdeal.exists_sum_eq_zero {I : Ideal R} {x : R}
-    (hx : IsIntegralOverIdeal (RingHom.id R) I x) :
+`I ^ (k - j)`: the coefficients of the monic polynomial witnessing
+`RingHom.IsIntegralElemOverIdeal`. A witness of degree zero is `1`, which vanishes only over the
+zero ring, where `x ^ 1 = 0` is such a relation. -/
+theorem _root_.RingHom.IsIntegralElemOverIdeal.exists_sum_eq_zero {I : Ideal R} {x : R}
+    (hx : (RingHom.id R).IsIntegralElemOverIdeal I x) :
     ∃ (k : ℕ) (c : ℕ → R), 0 < k ∧ (∀ j < k, c j ∈ I ^ (k - j)) ∧
       x ^ k + ∑ j ∈ Finset.range k, c j * x ^ j = 0 := by
-  obtain ⟨p, hmon, hdeg, hcoeff, heval⟩ := hx
-  refine ⟨p.natDegree, p.coeff, hdeg, hcoeff, ?_⟩
-  rw [hmon.as_sum] at heval
-  simpa only [eval₂_X_pow_add_sum_C_mul, RingHom.id_apply] using heval
+  obtain ⟨p, hmon, hcoeff, heval⟩ := hx
+  rcases Nat.eq_zero_or_pos p.natDegree with h0 | hk
+  · rw [hmon.natDegree_eq_zero.mp h0, Polynomial.eval₂_one] at heval
+    have := subsingleton_of_zero_eq_one heval.symm
+    exact ⟨1, fun _ => 0, Nat.one_pos, fun j _ => Submodule.zero_mem _, Subsingleton.elim _ _⟩
+  · refine ⟨p.natDegree, p.coeff, hk, fun j _ => hcoeff j, ?_⟩
+    rw [hmon.as_sum] at heval
+    simpa only [eval₂_X_pow_add_sum_C_mul, RingHom.id_apply] using heval
 
-/-- **Integrality over an ideal, as an explicit monic relation.** Over a nontrivial ring, an
-element `x` of `R` is integral over `I` in the sense of `IsIntegralOverIdeal` (along the identity
-of `R`) exactly when it satisfies a monic equation `x ^ k + ∑_{j < k} c j · x ^ j = 0` of positive
-degree `k` whose coefficient in degree `j` lies in `I ^ (k - j)`. (Over the zero ring every
-polynomial has degree `0`, so no element is integral over an ideal in the sense of
-`IsIntegralOverIdeal`, while `x - x = 0` is such a relation.) -/
-theorem isIntegralOverIdeal_id_iff [Nontrivial R] {I : Ideal R} {x : R} :
-    IsIntegralOverIdeal (RingHom.id R) I x ↔
+/-- **Integrality over an ideal, as an explicit monic relation.** An element `x` of `R` is
+integral over `I` in the sense of `RingHom.IsIntegralElemOverIdeal` (along the identity of `R`)
+exactly when it satisfies a monic equation `x ^ k + ∑_{j < k} c j · x ^ j = 0` of positive degree
+`k` whose coefficient in degree `j` lies in `I ^ (k - j)`.
+
+The reverse direction assembles the monic witness `X ^ k + ∑_{j < k} C (c j) · X ^ j`, of degree
+`k`, and reads its coefficients: `c j` below `k`, the leading `1 ∈ I ^ 0` at `k`, and `0`
+above. -/
+theorem isIntegralElemOverIdeal_id_iff {I : Ideal R} {x : R} :
+    (RingHom.id R).IsIntegralElemOverIdeal I x ↔
       ∃ (k : ℕ) (c : ℕ → R), 0 < k ∧ (∀ j < k, c j ∈ I ^ (k - j)) ∧
         x ^ k + ∑ j ∈ Finset.range k, c j * x ^ j = 0 := by
   classical
-  refine ⟨IsIntegralOverIdeal.exists_sum_eq_zero, ?_⟩
-  · rintro ⟨k, c, hk, hc, hrel⟩
-    have hlt := Polynomial.degree_sum_range_C_mul_X_pow_lt c k
-    have hnat : (Polynomial.X ^ k
-        + ∑ j ∈ Finset.range k, Polynomial.C (c j) * Polynomial.X ^ j).natDegree = k := by
-      rw [Polynomial.natDegree_add_eq_left_of_degree_lt (by rwa [Polynomial.degree_X_pow]),
-        Polynomial.natDegree_X_pow]
-    refine ⟨_, Polynomial.monic_X_pow_add hlt, by rwa [hnat], fun i hi => ?_, ?_⟩
-    · rw [hnat] at hi ⊢
-      simp only [Polynomial.coeff_add, Polynomial.coeff_X_pow, ite_eq_right hi.ne,
+  refine ⟨RingHom.IsIntegralElemOverIdeal.exists_sum_eq_zero, ?_⟩
+  rintro ⟨k, c, hk, hc, hrel⟩
+  rcases subsingleton_or_nontrivial R with _ | _
+  · exact ⟨Polynomial.X, Polynomial.monic_X, fun j => by
+      rw [Subsingleton.elim ((Polynomial.X : Polynomial R).coeff j) 0]
+      exact Submodule.zero_mem _, Subsingleton.elim _ _⟩
+  have hlt := Polynomial.degree_sum_range_C_mul_X_pow_lt c k
+  have hnat : (Polynomial.X ^ k
+      + ∑ j ∈ Finset.range k, Polynomial.C (c j) * Polynomial.X ^ j).natDegree = k := by
+    rw [Polynomial.natDegree_add_eq_left_of_degree_lt (by rwa [Polynomial.degree_X_pow]),
+      Polynomial.natDegree_X_pow]
+  refine ⟨_, Polynomial.monic_X_pow_add hlt, fun i => ?_, ?_⟩
+  · rw [hnat]
+    rcases lt_trichotomy i k with hi | rfl | hi
+    · simp only [Polynomial.coeff_add, Polynomial.coeff_X_pow, ite_eq_right hi.ne,
         Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, zero_add,
         Finset.sum_ite_eq, Finset.mem_range, ite_eq_left hi]
       exact hc i hi
-    · simpa only [eval₂_X_pow_add_sum_C_mul, RingHom.id_apply] using hrel
+    · -- at the leading degree the ambient ideal is `I ^ 0 = ⊤`
+      rw [Nat.sub_self, pow_zero, Ideal.one_eq_top]
+      exact Submodule.mem_top
+    · rw [Polynomial.coeff_eq_zero_of_natDegree_lt (by omega)]
+      exact Submodule.zero_mem _
+  · simpa only [eval₂_X_pow_add_sum_C_mul, RingHom.id_apply] using hrel
 
 /-- **An integrally closed ideal:** every element of `R` integral over `I` (in the sense of
-`IsIntegralOverIdeal`, along the identity of `R`) lies in `I`. -/
+`RingHom.IsIntegralElemOverIdeal`, along the identity of `R`) lies in `I`. -/
 def IsIntegrallyClosed (I : Ideal R) : Prop :=
-  ∀ x : R, IsIntegralOverIdeal (RingHom.id R) I x → x ∈ I
+  ∀ x : R, (RingHom.id R).IsIntegralElemOverIdeal I x → x ∈ I
 
 /-- Every element of an ideal is integral over it, by the equation `x - x = 0`. So
 `Ideal.IsIntegrallyClosed` says that the set of elements integral over `I` is exactly `I`. -/
-theorem isIntegralOverIdeal_id_of_mem [Nontrivial R] {I : Ideal R} {x : R} (hx : x ∈ I) :
-    IsIntegralOverIdeal (RingHom.id R) I x := by
-  refine isIntegralOverIdeal_id_iff.2 ⟨1, fun _ => -x, Nat.one_pos, fun j hj => ?_, by simp⟩
+theorem isIntegralElemOverIdeal_id_of_mem {I : Ideal R} {x : R} (hx : x ∈ I) :
+    (RingHom.id R).IsIntegralElemOverIdeal I x := by
+  refine isIntegralElemOverIdeal_id_iff.2 ⟨1, fun _ => -x, Nat.one_pos, fun j hj => ?_, by simp⟩
   obtain rfl : j = 0 := Nat.lt_one_iff.mp hj
   simpa using neg_mem hx
 
@@ -183,8 +202,8 @@ theorem isIntegrallyClosed_top : (⊤ : Ideal R).IsIntegrallyClosed := fun _ _ =
 /-- **An element integral over `I` has a positive power in `I`.** The monic relation exhibits
 `x ^ k` as minus a combination of the coefficients, and each coefficient lies in `I ^ (k - j)`
 with `k - j ≥ 1`, hence in `I`. -/
-theorem _root_.IsIntegralOverIdeal.exists_pow_mem {I : Ideal R} {x : R}
-    (hx : IsIntegralOverIdeal (RingHom.id R) I x) : ∃ k, 0 < k ∧ x ^ k ∈ I := by
+theorem _root_.RingHom.IsIntegralElemOverIdeal.exists_pow_mem {I : Ideal R} {x : R}
+    (hx : (RingHom.id R).IsIntegralElemOverIdeal I x) : ∃ k, 0 < k ∧ x ^ k ∈ I := by
   obtain ⟨k, c, hk, hc, hrel⟩ := hx.exists_sum_eq_zero
   refine ⟨k, hk, ?_⟩
   rw [eq_neg_of_add_eq_zero_left hrel]
@@ -219,7 +238,7 @@ theorem isIntegrallyClosed_map_of_inverse {S : Type*} [CommRing S] (f : R →+* 
   have hmem : g y ∈ I := by
     rcases subsingleton_or_nontrivial R with hR | hR
     · exact Subsingleton.elim 0 (g y) ▸ I.zero_mem
-    refine hI _ (isIntegralOverIdeal_id_iff.2 ⟨k, fun j => g (c j), hk, fun j hj => ?_, ?_⟩)
+    refine hI _ (isIntegralElemOverIdeal_id_iff.2 ⟨k, fun j => g (c j), hk, fun j hj => ?_, ?_⟩)
     · have h1 : c j ∈ Ideal.map f (I ^ (k - j)) := by rw [Ideal.map_pow]; exact hc j hj
       have h2 : Ideal.map f (I ^ (k - j)) ≤ Ideal.comap g (I ^ (k - j)) :=
         Ideal.map_le_iff_le_comap.2 fun x hx => by
@@ -398,7 +417,7 @@ theorem exists_algebraMap_eq_of_isIntegral_affineBlowup [IsIntegrallyClosed A]
       simpa only [map_zero, map_add, map_pow, map_sum, map_mul, hw] using hrel)
   -- so `w` lies in `Iᴺ`
   have hwmem : w ∈ I ^ N := by
-    refine hclosed N w (Ideal.isIntegralOverIdeal_id_iff.2
+    refine hclosed N w (Ideal.isIntegralElemOverIdeal_id_iff.2
       ⟨m + 1, fun j => dd j * a ^ (N * (m - j)), Nat.succ_pos m, fun j hj => ?_, hwrel⟩)
     rw [show m + 1 - j = 1 + (m - j) by omega, pow_add, pow_one, ← pow_mul]
     exact Ideal.mul_mem_mul (hddmem j (Finset.mem_range.2 hj)) (Ideal.pow_mem_pow haI _)
@@ -507,7 +526,7 @@ theorem mul_pow_eq_zero_of_monic_relation {k n : ℕ} {t y X : R} {γ C : ℕ �
   (add_sum_mul_pow_eq hy hγ).trans hX
 
 /-- **An element of `Iⁿ` has `x / aⁿ` in the chart `R[I/a]`**, hence integral over it. Together
-with `IsIntegralOverIdeal.isIntegral_affineBlowup` this makes the hypothesis of
+with `RingHom.IsIntegralElemOverIdeal.isIntegral_affineBlowup` this makes the hypothesis of
 `Ideal.isIntegrallyClosed_pow_of_isIntegral_affineBlowup` an exact description of `Iⁿ`. -/
 theorem Ideal.isIntegral_affineBlowup_of_mem_pow {n : ℕ} {x : R} (hx : x ∈ I ^ n) :
     IsIntegral ↥(affineBlowup I a)
@@ -522,9 +541,9 @@ No hypothesis is placed on `R`, on `I` or on `a`. The monic relation
 relation for `x / aⁿ` whose coefficient in degree `j` is `c j / a^(n(k-j))`, and that fraction is
 an element of `R[I/a]` by `mk_mem_affineBlowup_of_mem_pow`. The division is legitimate because
 `a` is invertible in `Localization.Away a`. -/
-theorem IsIntegralOverIdeal.isIntegral_affineBlowup {n : ℕ} {x : R}
-    (hx : IsIntegralOverIdeal (RingHom.id R) (I ^ n) x) :
-    IsIntegral ↥(affineBlowup I a)
+theorem RingHom.IsIntegralElemOverIdeal.isIntegral_affineBlowup {n : ℕ} {x : R}
+    (hx : (RingHom.id R).IsIntegralElemOverIdeal (I ^ n) x) :
+    _root_.IsIntegral ↥(affineBlowup I a)
       (Localization.mk x ⟨a ^ n, n, rfl⟩ : Localization.Away a) := by
   classical
   obtain ⟨k, c, hk, hc, hrel⟩ := hx.exists_sum_eq_zero
@@ -557,7 +576,7 @@ theorem IsIntegralOverIdeal.isIntegral_affineBlowup {n : ℕ} {x : R}
     (IsLocalization.map_units S (⟨a, 1, pow_one a⟩ : Submonoid.powers a)).pow _
   have hrelS : y ^ k + ∑ j ∈ Finset.range k, (γ j : S) * y ^ j = 0 :=
     (hunit.mul_left_eq_zero).mp hzero
-  exact IsIntegral.of_pow_add_sum_eq_zero (c := γ) hrelS
+  exact _root_.IsIntegral.of_pow_add_sum_eq_zero (c := γ) hrelS
 
 /-- **A single affine blowup chart certifies that `Iⁿ` is an integrally closed ideal.** If every
 `x` in `R` whose fraction `x / aⁿ` is integral over `R[I/a]` already lies in `Iⁿ`, then `Iⁿ` is
@@ -641,7 +660,7 @@ theorem Ideal.mem_pow_span_singleton_of_isIntegral_affineBlowup {A : Type u} [Co
       ← add_sum_mul_pow_eq (mk_pow_mul_algebraMap_pow_eq t n x) hγ, hvanish, zero_mul]
   -- so `x` is integral over `(t)ⁿ`, which is an integrally closed ideal
   refine Ideal.isIntegrallyClosed_pow_span_singleton t n x
-    (Ideal.isIntegralOverIdeal_id_iff.2
+    (Ideal.isIntegralElemOverIdeal_id_iff.2
       ⟨k, fun j => r j * t ^ (n * (k - j)), hk, fun j _ => ?_, hrelA⟩)
   rw [← pow_mul, Ideal.span_singleton_pow]
   exact Ideal.mem_span_singleton'.2 ⟨r j, rfl⟩

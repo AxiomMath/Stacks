@@ -31,7 +31,8 @@ decent space `X'` has no proper generization, so `f'(y₀) = x'`;  finally `y₀
 No `@[stacks 0AYG]` attribute is placed: the tag asks only that `f` be quasi-compact and
 quasi-separated, and assumes nothing on `X`, so universal closedness of `f` and decency of `X`
 are hypotheses the source does not make.  This is the case Stacks 0AYI uses: there `f` is
-proper and `X` is integral, hence decent.
+proper and `X` is integral, hence decent.  Stacks 0AYG itself, at the source's hypotheses, is
+`AlgebraicGeometry.Space.exists_localRingDimension_eq_zero_pointsMap_toNormalizationInQcqs`.
 
 ## References
 

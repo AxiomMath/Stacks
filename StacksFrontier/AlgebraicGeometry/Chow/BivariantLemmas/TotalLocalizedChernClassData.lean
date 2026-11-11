@@ -6,8 +6,9 @@ public import StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedChe
 /-!
 # The total localized Chern class of the data of a localized Chern class
 
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.TotalLocalizedChernClass` builds the class
-`c⁽ᵖ⁾(Z ⟶ X, E) ∈ A⁽ᵖ⁾(Z ⟶ X)` of Stacks 0FBC for a `Stacks.Chow.LocalizedChernSituation`. The
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.TotalLocalizedChernClass` packages given
+families of classes into an element of `A⁽ᵖ⁾(Z ⟶ X)` of the shape of the display of Stacks 0FBC,
+for a `Stacks.Chow.LocalizedChernSituation`. The
 construction uses nothing of the finiteness condition of a situation, so it is stated here for
 the bare data `Stacks.Chow.LocalizedChernData`.
 
@@ -15,8 +16,9 @@ the bare data `Stacks.Chow.LocalizedChernData`.
 
 * `Stacks.Chow.LocalizedChernData.ofLe`, `Stacks.Chow.LocalizedSituation.ofLe` — the same data,
   resp. situation, at a larger cutoff.
-* `Stacks.Chow.LocalizedChernData.totalLocalizedChernClass` — the class `c⁽ᵖ⁾(Z ⟶ X, E)`,
-  Stacks 0FBC, for the data of a localized Chern class.
+* `Stacks.Chow.LocalizedChernData.totalLocalizedChernClass` — the element of `A⁽ᵖ⁾(Z ⟶ X)` with
+  given components, for the data of a localized Chern class. The class of Stacks 0FBC itself is
+  `Stacks.Chow.LocalizedSituation.totalLocalizedChern`.
 
 ## References
 
@@ -49,14 +51,11 @@ def LocalizedSituation.ofLe (T : LocalizedSituation.{u}) {q : ℕ} (hq : T.p ≤
     LocalizedSituation.{u} :=
   { T.toLocalizedChernData.ofLe hq with finiteness := T.finiteness }
 
-/-- The total localized Chern class
-
-  `c⁽ᵖ⁾(Z ⟶ X, E) = 1 + c₁(E) + … + c_{p-1}(E) + c_p(Z ⟶ X, E) + c_{p+1}(Z ⟶ X, E) + …`
-
-of the data of a localized Chern class: the element of `A⁽ᵖ⁾(Z ⟶ X)` whose component in a
-degree `0 ≤ i < p` is the ordinary Chern class `c i` of `E`, whose component in a degree `i ≥ p`
-is the localized Chern class `cloc i`, and whose components in the negative degrees vanish. -/
-@[stacks 0FBC]
+/-- The element of `A⁽ᵖ⁾(Z ⟶ X)` assembled from given families of classes, for the data of a
+localized Chern class: its component in a degree `0 ≤ i < p` is `c i ∈ Aⁱ(X)`, its component in a
+degree `i ≥ p` is `cloc i ∈ Aⁱ(Z ⟶ X)`, and its components in the negative degrees vanish. This is
+a generic packager; the specific class `c⁽ᵖ⁾(Z ⟶ X, E)` of Stacks 0FBC is
+`Stacks.Chow.LocalizedSituation.totalLocalizedChern`. -/
 def LocalizedChernData.totalLocalizedChernClass (T : LocalizedChernData.{u})
     (G : GysinSystem T.base)
     (c : (i : {i : ℤ // 0 ≤ i}) →
@@ -72,24 +71,19 @@ variable (T : LocalizedChernData.{u}) (G : GysinSystem T.base)
   (cloc : (i : {i : ℤ // (T.p : ℤ) ≤ i}) →
     BivariantClass T.base G (T.i ≫ T.a) T.a T.i rfl i.1)
 
-/-- In a degree `0 ≤ i < p` the component of `c⁽ᵖ⁾(Z ⟶ X, E)` is the ordinary Chern class
-`c_i(E)` of `E`; in degree `0` that is `c₀(E) = 1`. -/
-@[stacks 0FBC "the graded pieces in the degrees below the cutoff"]
+/-- In a degree `0 ≤ i < p` the component of the packaged class is `c i`. -/
 theorem LocalizedChernData.totalLocalizedChernClass_fst_of_nonneg {i : ℤ} (hi : i < (T.p : ℤ))
     (h0 : 0 ≤ i) :
     (LocalizedChernData.totalLocalizedChernClass T G c cloc).1 ⟨i, hi⟩ = c ⟨i, h0⟩ :=
   dite_eq_left h0
 
-/-- In a negative degree the component of `c⁽ᵖ⁾(Z ⟶ X, E)` vanishes. -/
-@[stacks 0FBC "the vanishing of the graded pieces in the negative degrees"]
+/-- In a negative degree the component of the packaged class vanishes. -/
 theorem LocalizedChernData.totalLocalizedChernClass_fst_of_neg {i : ℤ} (hi : i < (T.p : ℤ))
     (h0 : i < 0) :
     (LocalizedChernData.totalLocalizedChernClass T G c cloc).1 ⟨i, hi⟩ = 0 :=
   dite_eq_right (not_le.mpr h0)
 
-/-- In a degree `i ≥ p` the component of `c⁽ᵖ⁾(Z ⟶ X, E)` is the localized Chern class
-`c_i(Z ⟶ X, E)`. -/
-@[stacks 0FBC "the graded pieces in the degrees from the cutoff onward"]
+/-- In a degree `i ≥ p` the component of the packaged class is `cloc i`. -/
 theorem LocalizedChernData.totalLocalizedChernClass_snd (i : {i : ℤ // (T.p : ℤ) ≤ i}) :
     (LocalizedChernData.totalLocalizedChernClass T G c cloc).2 i = cloc i :=
   rfl

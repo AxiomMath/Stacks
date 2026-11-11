@@ -8,11 +8,13 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Support.GroupSpaceTranslat
 public import StacksFrontier.AlgebraicGeometry.Stacks.AlgebraicStack
 
 /-!
-# Algebraicity of the quotient by a trivial action (Stacks 06PL)
+# Algebraicity of the quotient by a trivial action
 
 Let `G` be a group algebraic space over an algebraic space `B` over a scheme `S` of a big fppf
-site, and endow `B` with the trivial action of `G`. The quotient stack `[B/G]` is an algebraic
-stack as soon as `G` is flat and locally of finite presentation over `B`.
+site, and endow `B` with the trivial action of `G`. This file transfers flatness and local finite
+presentation between `G ⟶ B` and the source and target of the action groupoid, and so reduces
+algebraicity of the quotient stack `[B/G]`, for `G` flat and locally of finite presentation over
+`B`, to Stacks 06FI.
 
 ## Main results
 
@@ -20,9 +22,9 @@ stack as soon as `G` is flat and locally of finite presentation over `B`.
   scheme morphisms, tested on every commuting square of étale charts, holds on a structure
   morphism over `B` of the action groupoid of the trivial action exactly when it holds on the
   structural morphism `G ⟶ B`.
-* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction`: **Stacks 06PL**, the
-  implication from flatness and local finite presentation of `G ⟶ B` to algebraicity of
-  `[B/G]`.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction`: the reduction of the
+  implication of Stacks 06PL from flatness and local finite presentation of `G ⟶ B` to
+  algebraicity of `[B/G]` to the statement of Stacks 06FI for groupoids over `B`.
 
 ## Implementation notes
 
@@ -42,11 +44,12 @@ identifications of the structure morphisms are heterogeneous, so the conjugation
 `CategoryTheory.eqToHom` is transported by `CategoryTheory.conj_eqToHom_iff_heq`, exactly as in
 `AlgebraicGeometry.Stack.isGerbeOver_quotientStackToBase_trivialAction` of Stacks 06PF.
 
-Stacks 06FI — the quotient stack of a groupoid in algebraic spaces whose source and target are
-flat and locally of finite presentation is an algebraic stack — is not in the library, so it is
-carried as an explicit hypothesis, and the part string of the `@[stacks 06PL]` attribute records
-this. Only the forward implication is proved: the converse rests on Stacks 06PK, which is not in
-the library either, and on the descent arguments of Stacks 06NR, Stacks 041T and Stacks 041W.
+The statement of Stacks 06FI for the groupoids over `B` is an argument `h06FI` of
+`isAlgebraicStack_quotientStack_trivialAction`, so that this file need not import the proof of
+Stacks 06FI. That proof is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_flat`, and
+**Stacks 06PL** itself, both implications with nothing assumed, is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_iff` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.TrivialActionAlgebraicIff`.
 
 ## References
 
@@ -54,7 +57,6 @@ the library either, and on the descent arguments of Stacks 06NR, Stacks 041T and
 * [Stacks Project, Tag 044Q](https://stacks.math.columbia.edu/tag/044Q)
 * [Stacks Project, Tag 06FI](https://stacks.math.columbia.edu/tag/06FI)
 * [Stacks Project, Tag 06PF](https://stacks.math.columbia.edu/tag/06PF)
-* [Stacks Project, Tag 06PK](https://stacks.math.columbia.edu/tag/06PK)
 * [Stacks Project, Tag 06PL](https://stacks.math.columbia.edu/tag/06PL)
 -/
 
@@ -117,14 +119,16 @@ theorem holdsOnEveryEtaleChart_trivialActionGroupoid_iff
   exact (Space.holdsOnEveryEtaleChart_precomp_iso C S hS P
     ((Over.forget B.obj).mapIso (ρ_ G)) G.hom).symm
 
-/-- **Stacks 06PL**, the implication from flatness and local finite presentation to
-algebraicity. Let `G` be a group algebraic space over an algebraic space `B` over `S` and endow
-`B` with the trivial action of `G`. If `G` is flat and locally of finite presentation over `B`,
-then the quotient stack `[B/G]` is an algebraic stack.
+/-- **The implication of Stacks 06PL towards algebraicity, from Stacks 06FI.** Let `G` be a group
+algebraic space over an algebraic space `B` over `S` and endow `B` with the trivial action of `G`.
+If every groupoid in algebraic spaces over `B` with flat, locally finitely presented source and
+target has an algebraic quotient stack (the statement of Stacks 06FI, the argument `h06FI`), and
+`G` is flat and locally of finite presentation over `B`, then the quotient stack `[B/G]` is an
+algebraic stack.
 
-Stacks 06FI, which is not in the library, is carried as the hypothesis `h06FI`. -/
-@[stacks 06PL "the implication from flat and locally of finite presentation to algebraic, with \
-Stacks 06FI carried as a hypothesis; the converse, which rests on Stacks 06PK, is not proved"]
+The library proves Stacks 06FI as
+`AlgebraicGeometry.Stack.forall_isAlgebraicStack_quotientStack_of_flat`, and Stacks 06PL is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_iff`. -/
 theorem isAlgebraicStack_quotientStack_trivialAction
     (B : AlgebraicSpaces C S hS) (G : Over B.obj) [GrpObj G]
     (hG : IsAlgebraicSpace C S hS G.left)

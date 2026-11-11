@@ -127,9 +127,18 @@ only homotopies and connecting morphisms occur, together with `HasBinaryBiproduc
 are built, and with `HasZeroObject 𝒜` in addition where the pretriangulated structure of `K(𝒜)`
 is used.
 
-"Termwise split injection" and "termwise split surjection" are
-`HomologicalComplex.Hom.IsDegreewiseSplitMono` and `HomologicalComplex.Hom.IsDegreewiseSplitEpi`,
-and "is a homotopy equivalence" is either Mathlib's morphism property
+"Termwise split injection" and "termwise split surjection" in the sense of [Stacks, Tag 014G]
+(each component is isomorphic to the inclusion of, resp. the projection onto, a direct summand)
+are `HomologicalComplex.Hom.IsDegreewiseSummandInclusion` and
+`HomologicalComplex.Hom.IsDegreewiseSummandProjection`. The statements below mostly use the
+weaker predicates `HomologicalComplex.Hom.IsDegreewiseSplitMono` and
+`HomologicalComplex.Hom.IsDegreewiseSplitEpi` (each component is a split monomorphism, resp.
+epimorphism), which agree with the Stacks notions when idempotents split, e.g. in an abelian
+category, but are strictly weaker in a general additive category: there a split monomorphism
+need not have a complementary summand. In particular the factorization lemmas below conclude
+only that the improved morphism is degreewise split mono, resp. epi.
+
+"Is a homotopy equivalence" is either Mathlib's morphism property
 `HomologicalComplex.homotopyEquivalences` or, for a morphism of `K(𝒜)`, invertibility, the two
 readings agreeing by `HomologicalComplex.isIso_quotient_map_iff_homotopyEquivalences`.
 
@@ -164,21 +173,130 @@ open CategoryTheory
 variable {C : Type*} [Category C] [Limits.HasZeroMorphisms C] {ι : Type*}
   {c : ComplexShape ι} {K L : HomologicalComplex C c}
 
-/-- A morphism of complexes `α : K ⟶ L` is a *termwise split injection*, in the terminology
-of [Stacks, Tag 014G], if each component `α.f n` is a split monomorphism, i.e. admits a
-retraction. The retractions are not required to be compatible with the differentials, so
-that such an `α` need not be a split monomorphism of complexes. -/
-@[stacks 014G]
+/-- A morphism of complexes `α : K ⟶ L` is a *degreewise split monomorphism* if each component
+`α.f n` is a split monomorphism, i.e. admits a retraction. The retractions are not required to be
+compatible with the differentials, so that such an `α` need not be a split monomorphism of
+complexes.
+
+This is weaker than a termwise split injection in the sense of [Stacks, Tag 014G]
+(`HomologicalComplex.Hom.IsDegreewiseSummandInclusion`), which also asks for the complementary
+direct summand to exist in the category; the two notions agree when idempotents split
+(`HomologicalComplex.Hom.isDegreewiseSummandInclusion_iff_isDegreewiseSplitMono`). -/
 public def IsDegreewiseSplitMono (α : K ⟶ L) : Prop :=
   ∀ n, IsSplitMono (α.f n)
 
-/-- A morphism of complexes `β : K ⟶ L` is a *termwise split surjection*, in the terminology
-of [Stacks, Tag 014G], if each component `β.f n` is a split epimorphism, i.e. admits a
-section. The sections are not required to be compatible with the differentials, so that such
-a `β` need not be a split epimorphism of complexes. -/
-@[stacks 014G]
+/-- A morphism of complexes `β : K ⟶ L` is a *degreewise split epimorphism* if each component
+`β.f n` is a split epimorphism, i.e. admits a section. The sections are not required to be
+compatible with the differentials, so that such a `β` need not be a split epimorphism of
+complexes.
+
+This is weaker than a termwise split surjection in the sense of [Stacks, Tag 014G]
+(`HomologicalComplex.Hom.IsDegreewiseSummandProjection`), which also asks for the complementary
+direct summand to exist in the category; the two notions agree when idempotents split
+(`HomologicalComplex.Hom.isDegreewiseSummandProjection_iff_isDegreewiseSplitEpi`). -/
 public def IsDegreewiseSplitEpi (β : K ⟶ L) : Prop :=
   ∀ n, IsSplitEpi (β.f n)
+
+end HomologicalComplex.Hom
+
+/-! ### Termwise split injections and surjections in the sense of Stacks -/
+
+namespace CategoryTheory.Limits
+
+variable {C : Type*} [Category C] [Preadditive C] [HasBinaryBiproducts C]
+
+/-- A morphism `f : X ⟶ Y` is isomorphic, as an arrow, to the inclusion `X' ⟶ X' ⊞ Z` of a
+direct summand if and only if there are an object `Z` and an isomorphism `Y ≅ X ⊞ Z` under which
+`f` becomes `biprod.inl`. -/
+public lemma exists_nonempty_arrow_iso_biprod_inl_iff {X Y : C} (f : X ⟶ Y) :
+    (∃ (X' Z : C), Nonempty (Arrow.mk f ≅ Arrow.mk (biprod.inl : X' ⟶ X' ⊞ Z))) ↔
+      ∃ (Z : C) (e : Y ≅ X ⊞ Z), f ≫ e.hom = biprod.inl := by
+  constructor
+  · rintro ⟨X', Z, ⟨e⟩⟩
+    refine ⟨Z, Arrow.rightFunc.mapIso e ≪≫
+      biprod.mapIso (Arrow.leftFunc.mapIso e).symm (Iso.refl Z), ?_⟩
+    have h : f ≫ e.hom.right = e.hom.left ≫ biprod.inl := (Arrow.w_mk_right e.hom).symm
+    change f ≫ e.hom.right ≫ biprod.map e.inv.left (𝟙 Z) = biprod.inl
+    rw [reassoc_of% h, biprod.inl_map, Arrow.hom_inv_id_left_assoc]
+    rfl
+  · rintro ⟨Z, e, h⟩
+    exact ⟨X, Z, ⟨Arrow.isoMk (Iso.refl X) e (by simp [h])⟩⟩
+
+/-- A morphism `f : Y ⟶ X` is isomorphic, as an arrow, to the projection `X' ⊞ Z ⟶ X'` onto a
+direct summand if and only if there are an object `Z` and an isomorphism `Y ≅ X ⊞ Z` under which
+`f` becomes `biprod.fst`. -/
+public lemma exists_nonempty_arrow_iso_biprod_fst_iff {X Y : C} (f : Y ⟶ X) :
+    (∃ (X' Z : C), Nonempty (Arrow.mk f ≅ Arrow.mk (biprod.fst : X' ⊞ Z ⟶ X'))) ↔
+      ∃ (Z : C) (e : Y ≅ X ⊞ Z), e.hom ≫ biprod.fst = f := by
+  constructor
+  · rintro ⟨X', Z, ⟨e⟩⟩
+    refine ⟨Z, Arrow.leftFunc.mapIso e ≪≫
+      biprod.mapIso (Arrow.rightFunc.mapIso e).symm (Iso.refl Z), ?_⟩
+    have h : e.hom.left ≫ biprod.fst = f ≫ e.hom.right := Arrow.w_mk_right e.hom
+    change (e.hom.left ≫ biprod.map e.inv.right (𝟙 Z)) ≫ biprod.fst = f
+    rw [Category.assoc, biprod.map_fst, reassoc_of% h]
+    simp
+  · rintro ⟨Z, e, h⟩
+    exact ⟨X, Z, ⟨Arrow.isoMk e (Iso.refl X) (by simp [h])⟩⟩
+
+end CategoryTheory.Limits
+
+namespace HomologicalComplex.Hom
+
+open CategoryTheory Limits
+
+variable {C : Type*} [Category C] [Preadditive C] [HasBinaryBiproducts C] {ι : Type*}
+  {c : ComplexShape ι} {K L : HomologicalComplex C c}
+
+/-- A morphism of complexes `α : K ⟶ L` is a *termwise split injection* in the sense of
+[Stacks, Tag 014G] if each component `α.f n : K.X n ⟶ L.X n` is isomorphic, as an arrow, to the
+inclusion `biprod.inl : X ⟶ X ⊞ Z` of a direct summand, for some objects `X` and `Z` of the
+category. The complementary summand `Z` is required to exist in the category; this is stronger
+than `IsDegreewiseSplitMono` unless idempotents split
+(`isDegreewiseSummandInclusion_iff_isDegreewiseSplitMono`, in
+`StacksFrontier.Algebra.Homology.HomotopyCategory.DegreewiseSummand`). -/
+@[stacks 014G "termwise split injection: each component is isomorphic, as an arrow, to the
+inclusion `X ⟶ X ⊞ Z` of a direct summand"]
+public def IsDegreewiseSummandInclusion (α : K ⟶ L) : Prop :=
+  ∀ n, ∃ (X Z : C), Nonempty (Arrow.mk (α.f n) ≅ Arrow.mk (biprod.inl : X ⟶ X ⊞ Z))
+
+/-- A morphism of complexes `β : K ⟶ L` is a *termwise split surjection* in the sense of
+[Stacks, Tag 014G] if each component `β.f n : K.X n ⟶ L.X n` is isomorphic, as an arrow, to the
+projection `biprod.fst : X ⊞ Z ⟶ X` onto a direct summand, for some objects `X` and `Z` of the
+category. The complementary summand `Z` is required to exist in the category; this is stronger
+than `IsDegreewiseSplitEpi` unless idempotents split
+(`isDegreewiseSummandProjection_iff_isDegreewiseSplitEpi`, in
+`StacksFrontier.Algebra.Homology.HomotopyCategory.DegreewiseSummand`). -/
+@[stacks 014G "termwise split surjection: each component is isomorphic, as an arrow, to the
+projection `X ⊞ Z ⟶ X` onto a direct summand"]
+public def IsDegreewiseSummandProjection (β : K ⟶ L) : Prop :=
+  ∀ n, ∃ (X Z : C), Nonempty (Arrow.mk (β.f n) ≅ Arrow.mk (biprod.fst : X ⊞ Z ⟶ X))
+
+/-- `α` is a termwise split injection iff in each degree there are an object `Z` and an
+isomorphism `L.X n ≅ K.X n ⊞ Z` under which `α.f n` is `biprod.inl`. -/
+public lemma isDegreewiseSummandInclusion_iff (α : K ⟶ L) :
+    α.IsDegreewiseSummandInclusion ↔
+      ∀ n, ∃ (Z : C) (e : L.X n ≅ K.X n ⊞ Z), α.f n ≫ e.hom = biprod.inl :=
+  forall_congr' fun n => exists_nonempty_arrow_iso_biprod_inl_iff (α.f n)
+
+/-- `β` is a termwise split surjection iff in each degree there are an object `Z` and an
+isomorphism `K.X n ≅ L.X n ⊞ Z` under which `β.f n` is `biprod.fst`. -/
+public lemma isDegreewiseSummandProjection_iff (β : K ⟶ L) :
+    β.IsDegreewiseSummandProjection ↔
+      ∀ n, ∃ (Z : C) (e : K.X n ≅ L.X n ⊞ Z), e.hom ≫ biprod.fst = β.f n :=
+  forall_congr' fun n => exists_nonempty_arrow_iso_biprod_fst_iff (β.f n)
+
+/-- A termwise split injection is degreewise a split monomorphism. -/
+public lemma IsDegreewiseSummandInclusion.isDegreewiseSplitMono {α : K ⟶ L}
+    (hα : α.IsDegreewiseSummandInclusion) : α.IsDegreewiseSplitMono := fun n => by
+  obtain ⟨Z, e, h⟩ := (isDegreewiseSummandInclusion_iff α).1 hα n
+  exact IsSplitMono.mk' ⟨e.hom ≫ biprod.fst, by rw [← Category.assoc, h, biprod.inl_fst]⟩
+
+/-- A termwise split surjection is degreewise a split epimorphism. -/
+public lemma IsDegreewiseSummandProjection.isDegreewiseSplitEpi {β : K ⟶ L}
+    (hβ : β.IsDegreewiseSummandProjection) : β.IsDegreewiseSplitEpi := fun n => by
+  obtain ⟨Z, e, h⟩ := (isDegreewiseSummandProjection_iff β).1 hβ n
+  exact IsSplitEpi.mk' ⟨biprod.inl ≫ e.inv, by rw [← h]; simp⟩
 
 end HomologicalComplex.Hom
 
@@ -957,13 +1075,17 @@ open CategoryTheory
 
 variable {𝒜 : Type*} [Category 𝒜] [Preadditive 𝒜]
 
-/-- A morphism of cochain complexes is a *termwise split injection*
-if every degree-`n` component admits a retraction (left inverse). -/
+/-- A morphism of cochain complexes is a *termwise split injection* in the weak sense used by
+the lemmas below if every degree-`n` component admits a retraction (left inverse). This is
+weaker than [Stacks, Tag 014G] (`HomologicalComplex.Hom.IsDegreewiseSummandInclusion`), which
+also asks for a complementary summand, so lemmas assuming it are more general. -/
 def IsTermwiseSplitInjection {C D : CochainComplex 𝒜 ℤ} (f : C ⟶ D) : Prop :=
   ∀ n : ℤ, IsSplitMono (f.f n)
 
-/-- A morphism of cochain complexes is a *termwise split surjection*
-if every degree-`n` component admits a section (right inverse). -/
+/-- A morphism of cochain complexes is a *termwise split surjection* in the weak sense used by
+the lemmas below if every degree-`n` component admits a section (right inverse). This is
+weaker than [Stacks, Tag 014G] (`HomologicalComplex.Hom.IsDegreewiseSummandProjection`), which
+also asks for a complementary summand, so lemmas assuming it are more general. -/
 def IsTermwiseSplitSurjection {C D : CochainComplex 𝒜 ℤ} (g : C ⟶ D) : Prop :=
   ∀ n : ℤ, IsSplitEpi (g.f n)
 

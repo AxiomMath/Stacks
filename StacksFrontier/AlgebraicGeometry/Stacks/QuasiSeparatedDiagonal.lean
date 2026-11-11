@@ -17,7 +17,10 @@ site `B`, representable by algebraic spaces. Then the following are equivalent:
 2. the relative diagonal `Δ_f` is quasi-compact, and
 3. `Δ_f` is of finite type,
 
-each condition on `Δ_f` being read in the sense of Properties of Stacks, Section 04XB.
+all three conditions being read in the sense of Properties of Stacks, Section 04XB. This is
+Stacks 04YT, proved in `StacksFrontier.AlgebraicGeometry.Stacks.QuasiSeparatedDiagonalTFAE`;
+condition (1) is `AlgebraicGeometry.Stack.IsQuasiSeparated B S hS f.hom`, every
+algebraic space representing a base change of `f` to a scheme being quasi-separated over it.
 
 ## Main definitions
 
@@ -31,11 +34,19 @@ each condition on `Δ_f` being read in the sense of Properties of Stacks, Sectio
 * `AlgebraicGeometry.Space.isQuasiSeparated_of_mono`: a monomorphism of algebraic spaces over `S`
   is quasi-separated.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparated_iff_isQuasiCompact_relativeDiagonal`:
-  `f` is quasi-separated if and only if `Δ_f` is quasi-compact.
+  `f` is quasi-separated in the sense of Definition 04YW (`Δ_f` quasi-compact and
+  quasi-separated) if and only if `Δ_f` is quasi-compact.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiCompact_relativeDiagonal_of_isFiniteType`:
   if `Δ_f` is of finite type, it is quasi-compact.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isFiniteType_relativeDiagonal_of_isQuasiCompact`:
   if `Δ_f` is quasi-compact, it is of finite type.
+
+## Implementation notes
+
+Stacks 04YT itself, with condition (1) read in the sense of Section 04XB, is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparated_relativeDiagonal_tfae` in
+`StacksFrontier.AlgebraicGeometry.Stacks.QuasiSeparatedDiagonalTFAE`; the implications (2) ⇒ (3) and
+(3) ⇒ (2) proved here are two of its inputs.
 
 ## References
 
@@ -103,8 +114,13 @@ namespace AlgebraicStacks
 variable {𝒵 𝒯 : Stack.AlgebraicStacks.{u, w} B S hS}
 
 /-- A 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over `S` which is representable by algebraic
-spaces is quasi-separated if and only if its relative diagonal `Δ_f` is quasi-compact. -/
-@[stacks 04YT "the equivalence of parts (1) and (2)"]
+spaces is quasi-separated in the sense of Definition 04YW — its relative diagonal `Δ_f` is
+quasi-compact and quasi-separated — if and only if `Δ_f` is quasi-compact. The second conjunct is
+automatic because `Δ_f` is a monomorphism.
+
+This is not condition (1) of Stacks 04YT, which reads quasi-separatedness of `f` in the sense of
+Section 04XB; that equivalence is `isQuasiSeparated_relativeDiagonal_tfae`. Stacks cites 04YT to
+show that the two readings agree for a representable `f`. -/
 theorem isQuasiSeparated_iff_isQuasiCompact_relativeDiagonal (f : 𝒵 ⟶ 𝒯)
     (hf : IsRepresentableByAlgebraicSpaces B S hS f.hom.hom) :
     IsQuasiSeparated B S hS f ↔

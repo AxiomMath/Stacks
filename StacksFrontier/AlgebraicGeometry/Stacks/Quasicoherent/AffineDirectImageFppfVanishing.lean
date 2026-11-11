@@ -426,7 +426,7 @@ direct image restricts to a functor `f_* : LQCoh^fbc(𝒪_𝒳) ⥤ LQCoh^fbc(�
 
 Modules are on the fppf sites at the module universe `u` of the schemes; `LQCoh^fbc` is
 `AlgebraicGeometry.Stack.lqcohSheafFbcFppfModules`. -/
-@[stacks 0GQI "all three assertions, unconditionally, for an affine 1-morphism f, on the fppf \
+@[stacks 0GQI "all three assertions, for an affine 1-morphism f, on the fppf \
   sites at module universe u: f_* restricts to LQCoh^fbc(O_X) -> LQCoh^fbc(O_Y); (1) it is exact \
   (short exact sequences of LQCoh^fbc, read in Mod, go to short exact sequences); (2) it \
   commutes with direct sums; (3) R^i f_* F = 0 for i > 0 and F in LQCoh^fbc(O_X)"]

@@ -13,12 +13,14 @@ public import StacksFrontier.RingTheory.GradedAlgebra.WeightedHomogeneousPresent
 
 Let `P` be a graded `k`-algebra which is of finite type over the field `k` and
 finite-dimensional in each degree. This file shows that the infinitesimal automorphism
-group of its deformation category, at an arbitrary dual-number lift, carries the structure
-of a finite-dimensional `k`-vector space whose addition is composition of automorphisms.
+group of its deformation category, at an arbitrary dual-number lift, is finite-dimensional for
+its natural `k`-vector-space structure: addition is composition of automorphisms and a scalar
+`c` acts by pushforward along the rescaling `ε ↦ cε` of the dual numbers.
 
-The group is identified with the degree-preserving derivations of `P` by
-`ProjectiveGradedAlgebra.infinitesimalAutomorphismGroupEquivDegreeZeroDerivations`, so the
-content is that `degreeZeroDerivations grading` is a finite-dimensional `k`-vector space.
+The group is identified with the degree-preserving derivations of `P`, compatibly with these
+rescalings, by
+`ProjectiveGradedAlgebra.exists_infinitesimalAutomorphismGroupMulEquiv_pushforward_eq_smul`,
+so the content is that `degreeZeroDerivations grading` is a finite-dimensional `k`-vector space.
 A degree-preserving derivation is determined by its values on algebra generators, and such an
 algebra has a finite generating family of homogeneous elements by
 `GradedAlgebra.exists_fin_homogeneous_adjoin_eq_top`. Evaluation at that finite family is
@@ -27,9 +29,15 @@ product of the finite-dimensional graded pieces.
 
 ## Main results
 
-* `gradedAlgebra_infinitesimalAutomorphisms_finiteDimensional`, in the namespace
-  `Deformation.Examples.ProjectiveGradedAlgebra`: **Stacks 0DVZ**, the
-  finite-dimensionality part.
+* `exists_module_finiteDimensional_infinitesimalAutomorphismGroup`, in the namespace
+  `Deformation.Examples.ProjectiveGradedAlgebra`: **Stacks 0DVZ**, the finite-dimensionality of
+  `Inf(Def_P)` for its natural vector-space structure, in which `c` acts by pushforward along
+  `ε ↦ cε`; the structure is carried from the degree-preserving derivations along the
+  identification `id + εD ↦ D`, which
+  `ProjectiveGradedAlgebra.exists_infinitesimalAutomorphismGroupMulEquiv_pushforward_eq_smul`
+  shows to be compatible with these rescalings.
+* `gradedAlgebra_infinitesimalAutomorphisms_finiteDimensional`: the weaker statement that some
+  finite-dimensional structure with addition composition exists.
 
 ## Implementation notes
 
@@ -107,10 +115,12 @@ private theorem degreeZeroDerivations_finiteDimensional
 
 namespace ProjectiveGradedAlgebra
 
-/-- **Stacks 0DVZ.** The infinitesimal automorphisms of the deformation category of a graded
-algebra of finite type over a field, with finite-dimensional graded pieces, form a
-finite-dimensional vector space whose addition is composition of automorphisms. -/
-@[stacks 0DVZ "graded_inf_finite"]
+/-- The infinitesimal automorphisms of the deformation category of a graded algebra of finite
+type over a field, with finite-dimensional graded pieces, carry some finite-dimensional
+`k`-vector-space structure whose addition is composition of automorphisms. The scalar action is
+not tied to the natural one here; the finite-dimensionality part of Stacks 0DVZ, for the natural
+structure in which `c` acts by pushforward along `ε ↦ cε`, is
+`exists_module_finiteDimensional_infinitesimalAutomorphismGroup`. -/
 public theorem gradedAlgebra_infinitesimalAutomorphisms_finiteDimensional
     {Λ : Type u} {k : Type w} [CommRing Λ] [IsNoetherianRing Λ]
     [Field k] [Algebra Λ k] [Module.Finite Λ k]
@@ -156,6 +166,102 @@ public theorem gradedAlgebra_infinitesimalAutomorphisms_finiteDimensional
     degreeZeroDerivations_finiteDimensional (k := k) (P := P) grading
   exact ⟨hA, hM, fun _ _ => rfl,
     FiniteDimensional.of_injective (E.linearEquiv k).toLinearMap E.injective⟩
+
+/-- **Stacks 0DVZ, the infinitesimal automorphisms.** Let `P` be a graded algebra of finite type
+over the field `k`, finite-dimensional in each degree. Then `Inf(Def_P)` is a finite-dimensional
+`k`-vector space: at every lift `i : x₀ ⟶ xε` of the special fibre along a canonical dual-number
+pair `k → Aε → k`, the infinitesimal automorphism group carries a `k`-vector-space structure
+
+* whose addition is composition of infinitesimal automorphisms, and
+* in which a scalar `c` acts by pushforward along `ε ↦ cε`: for every endomorphism `s` of `Aε`
+  which is `ε ↦ cε` in a dual-number coordinate of `Aε` compatible with its residue field, and
+  every arrow `j : xε ⟶ xε` over `s` fixing `i`, `c • a` is the pushforward of `a` along `j`,
+
+which is the natural structure of Stacks 06JV / 06JX, and this vector space is finite
+dimensional. -/
+@[stacks 0DVZ "graded_inf_finite: for P of finite type over k, Inf(Def_P) with its natural \
+vector space structure (addition is composition; c acts by pushforward along eps -> c eps) is \
+finite dimensional over k, at every lift x0 -> x_eps along a canonical dual-number pair"]
+public theorem exists_module_finiteDimensional_infinitesimalAutomorphismGroup
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    (P : Type (max w m)) [CommRing P] [Algebra k P]
+    (grading : ℕ → Submodule k P) [GradedAlgebra grading]
+    [∀ d, Module.Finite k (grading d)] [Algebra.FiniteType k P]
+    {Aε : ArtinianLocalAlgCat.{u, w, w} Λ k}
+    {x₀ : (objectsOverFunctor
+      (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+      (specialFiber (Λ := Λ) P grading)).Fiber (residueFieldObject.{u, w, w} Λ k)}
+    {xε : (objectsOverFunctor
+      (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+      (specialFiber (Λ := Λ) P grading)).Fiber Aε}
+    (g : residueFieldObject.{u, w, w} Λ k ⟶ Aε)
+    (e : Aε ⟶ residueFieldObject.{u, w, w} Λ k)
+    (hpair : IsCanonicalDualNumberPair g e)
+    (i : x₀.1 ⟶ xε.1)
+    (hi : (objectsOverFunctor
+      (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+      (specialFiber (Λ := Λ) P grading)).IsHomLift g i) :
+    ∃ hA : AddCommGroup (infinitesimalAutomorphismGroup
+        (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+        g e hpair i hi),
+      letI := hA
+      ∃ hM : Module k (infinitesimalAutomorphismGroup
+          (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+          g e hpair i hi),
+        letI := hM
+        (∀ a b : infinitesimalAutomorphismGroup
+          (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+          g e hpair i hi, a + b = a * b) ∧
+        (∀ (c : k) (s : Aε ⟶ Aε),
+          (∃ φ : Aε ≃ₐ[Λ] DualNumber k,
+            (∀ t : Aε, (φ t).1 = Aε.residueEquiv (IsLocalRing.residue Aε t)) ∧
+            (∀ t : k, φ (s.hom (φ.symm (TrivSqZeroExt.inl t))) = TrivSqZeroExt.inl t) ∧
+            φ (s.hom (φ.symm DualNumber.eps)) = c • DualNumber.eps) →
+          ∀ (j : xε.1 ⟶ xε.1) (hj : (objectsOverFunctor
+              (ProjectiveGradedAlgebra.projection.{u, w, w, max w m} (Λ := Λ) (k := k))
+              (specialFiber (Λ := Λ) P grading)).IsHomLift s j),
+            i ≫ j = i →
+            ∀ a : infinitesimalAutomorphismGroup
+                (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+                g e hpair i hi,
+              ∃ b : infinitesimalAutomorphismGroup
+                  (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+                  g e hpair i hi,
+                b.val = pushforwardAutomorphismHom
+                  (isDeformationCategory_deformationCategory (Λ := Λ) P
+                    grading).predeformation.cofibered s j hj a.val ∧ c • a = b) ∧
+        FiniteDimensional k (infinitesimalAutomorphismGroup
+          (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+          g e hpair i hi) := by
+  obtain ⟨Φ, hΦ⟩ := exists_infinitesimalAutomorphismGroupMulEquiv_pushforward_eq_smul
+    (Λ := Λ) P grading g e hpair i hi
+  let H := degreeZeroDerivations grading
+  let : Module k H := (degreeZeroDerivationsAddEquivSubmodule (k := k) (P := P) grading).module k
+  have : FiniteDimensional k H :=
+    degreeZeroDerivations_finiteDimensional (k := k) (P := P) grading
+  let eD : infinitesimalAutomorphismGroup
+      (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+      g e hpair i hi ≃ H :=
+    Φ.toEquiv.trans Multiplicative.toAdd
+  let hA : AddCommGroup (infinitesimalAutomorphismGroup
+      (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+      g e hpair i hi) := eD.addCommGroup
+  let hM : Module k (infinitesimalAutomorphismGroup
+      (isDeformationCategory_deformationCategory (Λ := Λ) P grading).predeformation
+      g e hpair i hi) := eD.addEquiv.module k
+  refine ⟨hA, hM, fun a b => ?_, fun c s hs j hj hij a => ?_, ?_⟩
+  · have h : eD (a * b) = eD a + eD b := by
+      change Multiplicative.toAdd (Φ (a * b)) =
+        Multiplicative.toAdd (Φ a) + Multiplicative.toAdd (Φ b)
+      rw [map_mul]
+      rfl
+    rw [Equiv.add_def, ← h, Equiv.symm_apply_apply]
+  · obtain ⟨b, hb, hΦb⟩ := hΦ c s hs j hj hij a
+    refine ⟨b, hb, ?_⟩
+    change eD.symm (c • eD a) = b
+    rw [Equiv.symm_apply_eq]
+    exact Subtype.ext hΦb.symm
+  · exact Module.Finite.equiv (eD.addEquiv.linearEquiv k).symm
 
 end ProjectiveGradedAlgebra
 

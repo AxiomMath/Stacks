@@ -2751,8 +2751,14 @@ theorem finiteDimensional_fractionRing_of_finite
 -- different definition (residue fields of localizations), equal only under `LiesOver` plus
 -- maximality, so migrating would change this statement.
 set_option linter.deprecated false in
-/-- **Stacks 02MJ.** The order of vanishing of the norm of `b` is the sum, over the maximal
-ideals `v` of `B`, of the inertia degree of `v` times the order of vanishing of `b` in `B_v`.
+/-- **The norm formula of Stacks 02MJ, with the data on `B` supplied.** The order of vanishing
+of the norm of `y` is the sum, over the maximal ideals `v` of `B`, of the inertia degree of `v`
+times the order of vanishing of `y` in `B_v`.
+
+Stacks 02MJ itself, under the source's hypotheses only and with "`B` is semi-local" among its
+conclusions, is `finite_maximalSpectrum_and_ordInt_norm_eq_finsum_inertiaDeg_mul_ordInt` in
+`StacksFrontier/RingTheory/OrderOfVanishing/Degree.lean`, which derives the instance hypotheses
+below and applies this theorem.
 
 The localization data for each maximal ideal of `B` is supplied as instance hypotheses: for
 each `v : MaximalSpectrum B` the localization `Localization.AtPrime v.asIdeal` is a Noetherian
@@ -2760,7 +2766,6 @@ ring of Krull dimension at most `1`, carries an algebra structure to `L` compati
 `B → L`, the `IsScalarTower` hypothesis pinning it down as the canonical localization map, and
 is a fraction ring of `L`. These say exactly that each `B_{mᵢ}` is a one-dimensional Noetherian
 local domain with fraction field `L`. -/
-@[stacks 02MJ]
 theorem ord_norm_eq_sum_inertiaDeg_mul_ord
     (A B : Type*) [CommRing A] [CommRing B] [IsDomain A] [IsDomain B]
     [Algebra A B] [Module.Finite A B]

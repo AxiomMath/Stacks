@@ -303,7 +303,13 @@ theorem relativelyRepresentable_yoneda_map_snd_comp
 
 /-- **Stacks 02WR.** An fppf sheaf with a jointly surjective family of representable open
 algebraic-space subfunctors is an algebraic space, when the coproduct of the family is itself
-an algebraic space. -/
+an algebraic space.
+
+The index type `I` is arbitrary, in any universe `v`, with no bound on its cardinality: the
+existence of the coproduct `G` in the sheaf category and its being an algebraic space are
+hypothesis (2)(e) of the source, given here as `hcoprod` and `hG`. The members are sheaves with
+maps `ι i ≫ g` to `F` rather than subfunctors of `F`; these maps are open immersions, hence
+monomorphisms, so this covers the source's subfunctors. -/
 @[stacks 02WR]
 theorem isAlgebraicSpace_of_open_cover
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -460,7 +466,7 @@ theorem isAlgebraicSpace_of_open_cover
         (yoneda.preimage ((hw x).lift (yoneda.map b)
           (yoneda.map β ≫ yonedaEquiv.symm ζ) hc)), ?_⟩
       change ((Sigma.ι (fun y => yoneda.obj (Wc y)) x ≫ Sigma.desc w).app (op V')) _ = _
-      rw [Sigma.ι_comp_desc]
+      rw [Sigma.ι_desc]
       have hzz : yoneda.map (yoneda.preimage ((hw x).lift (yoneda.map b)
           (yoneda.map β ≫ yonedaEquiv.symm ζ) hc)) ≫ w x =
           yoneda.map β ≫ yonedaEquiv.symm ζ := by

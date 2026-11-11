@@ -20,9 +20,10 @@ type exactly when `φ` is taut and `B` is topologically of finite type over `A`.
   if `Spf (φ)` is of finite type and `φ` is taut, then `A ⧸ I → B ⧸ J(I)` is of finite type
   for every weak ideal of definition `I` of `A`.
 * `AlgebraicGeometry.FormalSpace.isTopologicallyOfFiniteType_of_isFiniteType_formalSpectrumMap`:
-  **Stacks 0ANT**, the implication (1) ⟹ (2) granted tautness.
+  the implication (1) ⟹ (2) of Stacks 0ANT for a taut homomorphism.
 * `AlgebraicGeometry.FormalSpace.exists_isPullback_isFiniteTypeULift_formalSpectrumMap_stage`:
-  **Stacks 0ANT**, the stage half of the implication (2) ⟹ (1).
+  the base change of `Spf (φ)` along a thickening stage, a step of the implication (2) ⟹ (1)
+  of Stacks 0ANT.
 
 ## Implementation notes
 
@@ -43,41 +44,14 @@ finite type condition along that square and reading it on the identity étale ch
 `Spec (B ⧸ J(I)) → Spec (A ⧸ I)` gives that this morphism of affine schemes is locally of
 finite type, i.e. that `A ⧸ I → B ⧸ J(I)` is a finite type ring map.
 
-### Which implications of Stacks 0ANT are proved
+### Where Stacks 0ANT is proved
 
-The implication (1) ⟹ (2) is proved with tautness carried as a hypothesis rather than
-deduced, and of (2) ⟹ (1) only the stage half is proved. Neither equivalence is asserted.
-
-Tautness cannot be deduced from condition (1) because that is the implication (1) ⟹ (3) of
-Stacks 0AN5, and the only part of Stacks 0AN5 this library carries is
-`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`, the
-implication (2) ⟹ (1) of that lemma. Its proof of (1) ⟹ (3) uses two results which are
-absent here: **Stacks 0AKN**, that a morphism of affine formal algebraic spaces representable
-by algebraic spaces is representable by schemes and affine — needed to see the base change
-`Spec (A ⧸ I) ×_{Spf A} Spf C` as a scheme, so that the thickening classification of Stacks
-0AIC applies to it. The identification `C ⧸ J(I) = C ⊗̂_A A ⧸ I`, which sees that the weak
-ideal of definition classifying that base change is the closure of `φ(I)C`, is **Stacks
-0AMZ** and is available, as
-`TopologicalRing.closure_map_eq_ker_completedTensorProduct`; so Stacks 0AKN is the only
-missing input. (Stacks 0AMS is a different lemma — the closure of a submodule of a linearly
-topologized module is the intersection of its sums with a fundamental system of open
-submodules.)
-
-For (2) ⟹ (1) the obstruction is that condition (1) quantifies over every scheme-valued point
-of `Spf A`, whereas the proof of Stacks 0ANT factors such a point through a thickening stage,
-which Stacks 0AIA does only for quasi-compact sources; passing from the quasi-compact points
-to all of them is the locality of representability and of quasi-compactness on the target,
-which this library does not have for the universe-lifted conditions. What is proved is the
-statement at a stage: the base change along the point cut out by `Spec (A ⧸ I)` is represented
-by an object of the site and is of finite type.
-
-The hypothesis used for the stage half is condition (a) of Stacks 0ANU,
-`TopologicalRing.FiniteTypeModuloEveryWeakIdeal`, rather than condition (2) of Stacks 0ANT
-verbatim. Condition (2) implies it: that implication is
-`TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType`, which is
-`private` in `StacksFrontier.Topology.Algebra.AdicTopology.FiniteType` and publicly reachable
-only through `TopologicalRing.finiteType_tfae`, which adds countable generation of the
-neighbourhood filters of zero.
+The two results of this file are the stagewise pieces of Stacks 0ANT: the implication
+(1) ⟹ (2) for a homomorphism already known to be taut, and the base change of `Spf (φ)` along
+a thickening stage. The equivalence itself, with both conditions read verbatim and tautness
+deduced from condition (1), is
+`FormalSpace.isFiniteType_formalSpectrumMap_iff_isTaut_and_isTopologicallyOfFiniteType`
+in `StacksFrontier.AlgebraicGeometry.FormalSpace.SpectrumFiniteTypeRepresentable`.
 
 ## References
 
@@ -371,15 +345,10 @@ theorem finiteType_quotientMap_of_isFiniteType_formalSpectrumMap
     (show AlgebraicGeometry.LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
       (Ideal.quotientMap (Ideal.closure (I.map f.toRingHom)) f.toRingHom hIK))) from hk')
 
-/-- **Stacks 0ANT, (1) ⟹ (2), granted tautness.** Let `φ : A ⟶ C` be a taut continuous
-homomorphism of weakly admissible topological rings over `S`. If `Spf (φ)` is of finite type,
-then `C` is topologically of finite type over `A`. Tautness is a hypothesis rather than a
-conclusion because this library has only one implication of Stacks 0AN5; the implication
-(2) ⟹ (1) is not asserted. -/
-@[stacks 0ANT "the implication (1) ⟹ (2) with tautness carried as a hypothesis: for a taut \
-continuous homomorphism of weakly admissible topological rings over `S` whose formal spectrum \
-map is of finite type, the homomorphism is topologically of finite type. Tautness is not \
-deduced from (1), and (2) ⟹ (1) is not asserted; see the module docstring."]
+/-- Let `φ : A ⟶ C` be a taut continuous homomorphism of weakly admissible topological rings
+over `S`. If `Spf (φ)` is of finite type, then `C` is topologically of finite type over `A`.
+This is a step of Stacks 0ANT; the equivalence, with tautness deduced, is
+`isFiniteType_formalSpectrumMap_iff_isTaut_and_isTopologicallyOfFiniteType`. -/
 theorem isTopologicallyOfFiniteType_of_isFiniteType_formalSpectrumMap
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -396,23 +365,17 @@ factors as `Y → A^r_X → X` with the first arrow a closed immersion: the conc
 `TopologicalRing.IsTopologicallyOfFiniteType` produces the integer `r` together with a \
 homomorphism `A[x_1, ..., x_r] → B` restricting to `φ` on constants and having dense image, \
 which is that factorization and the dense image of its first arrow. Tautness of `φ`, part \
-(4)'s other conclusion, is carried here as a hypothesis rather than deduced, as the clause of \
-Stacks 0ANT on this declaration records. Part (4) closes by observing that questions (1) and \
-(2) are then in force for `Y → A^r_X`; those are questions and are asserted nowhere."
+(4)'s other conclusion, is carried here as a hypothesis rather than deduced. Part (4) closes \
+by observing that questions (1) and (2) are then in force for `Y → A^r_X`; those are \
+questions and are asserted nowhere."
   isTopologicallyOfFiniteType_of_isFiniteType_formalSpectrumMap
 
-/-- **Stacks 0ANT, the stage half of (2) ⟹ (1).** Let `φ : A ⟶ C` be a continuous
+/-- A step of the implication (2) ⟹ (1) of Stacks 0ANT. Let `φ : A ⟶ C` be a continuous
 homomorphism of weakly admissible topological rings over `S` which is taut and of finite type
 modulo every weak ideal of definition, and let `I` be a weak ideal of definition of `A`. Then
 the base change of `Spf (φ)` along the point of `Spf A` cut out by the thickening stage
 `Spec (A ⧸ I)` is represented by an object of the site, and the representing morphism is of
 finite type. -/
-@[stacks 0ANT "the stage half of the implication (2) ⟹ (1): for a homomorphism satisfying \
-condition (a) of Stacks 0ANU — tautness together with finite type modulo every weak ideal of \
-definition, which condition (2) implies — the base change of the formal spectrum map along \
-the point cut out by a thickening stage is represented by an object of the site and is of \
-finite type. Condition (1) itself quantifies over every scheme-valued point of `Spf A`, not \
-only those factoring through a stage, and is not asserted; see the module docstring."]
 theorem exists_isPullback_isFiniteTypeULift_formalSpectrumMap_stage
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)

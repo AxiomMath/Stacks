@@ -44,7 +44,11 @@ derived global sections of a space over `Spec A`, respectively over `Spec Aₙ`.
 * `…isIso_etaleSectionsBaseChangeMap_of_forall`: the canonical map is invertible given the two
   inputs of the source's proof, [Stacks, Tag 0CRW] for `j` (vanishing of every
   `RΓ_A(X, E ⊗^L M)` with `E` perfect forces `RΓ_A(U, M|_U) = 0`) and [Stacks, Tag 0DIM] (every
-  `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` with `E` perfect is invertible).
+  `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` with `E` perfect is invertible). Both inputs are proved in the
+  library, downstream of this file (0DIM as
+  `…isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`, the form used here as
+  `…isIso_stageSections_map_tensor_coheratorLimitPullbackMap`), and the unconditional canonical
+  map statement is `…isIso_etaleSectionsBaseChangeMap` ([Stacks, Tag 0DIP]).
 * `…isIso_etaleSectionsBaseChangeMap_of_isZero`: the canonical map is invertible as soon as
   `RΓ_A(U, (Rpₙ,* Cₙ)|_U) = 0` for the cone `Cₙ` of `τₙ`.
 
@@ -76,9 +80,9 @@ instance isAffine_toScheme_limitBaseObject (F : ℕᵒᵖ ⥤ CommRingCat.{u}) (
     IsAffine ((BigFppfOver.toScheme B (limitBase F) hS).obj (limitBaseObject F B hS)) :=
   inferInstanceAs (IsAffine (limitBase F))
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable {D : DerivedExistenceSystem.{u}}
+variable {D : SeparatedDerivedExistenceSystem.{u}}
   {U : AlgebraicSpaces D.B (limitBase D.system) D.containsLimitBase} {j : U ⟶ D.X.left}
 
 /-! ### Tor independence -/
@@ -187,7 +191,7 @@ theorem isZero_etaleStageSections_of_isZero
 `E ∈ D_QCoh(𝒪_X)` and `C ∈ D_QCoh(𝒪_{Xₙ})`: by the projection formula (Stacks 08IN) for the
 quasi-compact quasi-separated `pₙ`, `E ⊗^L Rpₙ,* C = Rpₙ,*(Lpₙ^*E ⊗^L C)`, and `RΓ_A(X, Rpₙ,* -)`
 is `RΓ_{Aₙ}(Xₙ, -)` with scalars restricted to `A`. -/
-theorem isZero_sections_tensor_stagePushforward_of_isZero (D : DerivedExistenceSystem.{u})
+theorem isZero_sections_tensor_stagePushforward_of_isZero (D : SeparatedDerivedExistenceSystem.{u})
     (n : ℕ) (E : DerivedCategory (SheafOfModules.{u}
       (ringedToposStructureRingSheaf D.B (limitBase D.system) D.containsLimitBase D.X.left)))
     (hE : QcohDerived D.B (limitBase D.system) D.containsLimitBase D.X.left E)
@@ -382,8 +386,15 @@ every perfect `E` then `RΓ_A(U, M|_U) = 0`. Let `h0DIM` be [Stacks, Tag 0DIM]: 
 This is the source's proof. For the cone `Cₙ` of `τₙ`, `h0DIM` gives
 `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L Cₙ) = 0`, hence `RΓ_A(X, E ⊗^L Rpₙ,* Cₙ) = 0` by the projection formula,
 for every perfect `E`; so `RΓ_A(U, (Rpₙ,* Cₙ)|_U) = 0` by `hCRW`, and
-`AlgebraicGeometry.Space.DerivedExistenceSystem.isIso_etaleSectionsBaseChangeMap_of_isZero`
-applies. -/
+`AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.isIso_etaleSectionsBaseChangeMap_of_isZero`
+applies.
+
+Both hypotheses are proved in the library, in files importing this one: `h0DIM` is
+`isIso_stageSections_map_tensor_coheratorLimitPullbackMap` (part of [Stacks, Tag 0DIM],
+`isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`), and `hCRW` is
+`isZero_etaleSections_of_forall_isPerfect`; the unconditional form is
+`isIso_etaleSectionsBaseChangeMap` ([Stacks, Tag 0DIP]); for `SeparatedDerivedExistenceSystem`
+`h0DIM` holds given the pseudo-coherence of the `Mₙ`. -/
 theorem isIso_etaleSectionsBaseChangeMap_of_forall
     (hj : IsEtale D.B (limitBase D.system) D.containsLimitBase j.hom)
     (hUqc : IsQuasiCompactSpace D.B (limitBase D.system) D.containsLimitBase U.1)
@@ -454,6 +465,6 @@ theorem isIso_etaleSectionsBaseChangeMap_of_forall
 
 end Coherator
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space

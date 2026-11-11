@@ -214,9 +214,9 @@ theorem isIso_derivedBaseChangeComparison_transitionTensorSectionsTranspose
 
 end Spaces
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **`Γ(Spec A, 𝒪) = lim Γ(Spec Aₙ, 𝒪)`** for the tower of rings given by the transitions and
 projections of the affine bases. -/
@@ -300,7 +300,7 @@ theorem isIso_derivedBaseChangeComparison_stageTensorSectionsTranspose
       (D.φ_isIso n))
 
 /-- **`Mₙ` is pseudo-coherent** for `E` perfect, in the spelling of `towerTensorSectionsHom`. -/
-theorem isPseudoCoherent_stageTensorSections
+theorem isPseudoCoherent_stageTensorSections (hpc : D.StageSectionsPseudoCoherent)
     (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E) (n : ℕ) :
     StacksDraft.PseudoCoherence.IsPseudoCoherent
       ((affineBaseToposSections D.B (limitBase D.system) D.containsLimitBase
@@ -310,14 +310,14 @@ theorem isPseudoCoherent_stageTensorSections
           ((smallEtaleDerivedModulePullback D.B (limitBase D.system) D.containsLimitBase
             (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)).obj E)).obj
           (D.K n))) :=
-  D.isPseudoCoherent_stageSections E hE n
+  hpc E hE n
 
 /-- **[Stacks, Tag 0CQF] applied to the tower `RΓ(X, E ⊗^L Rpₙ,* Kₙ)`.** For `E` perfect, let
 `(Yₙ, sₙ)` be a tower of `D(A)` with isomorphisms `eₙ : Yₙ ⟶ res Mₙ` carrying `sₙ` to the
 restricted transposes of `Mₙ₊₁ ⊗^L Aₙ ⟶ Mₙ`, and `M` a derived limit of `(Yₙ, sₙ)` with
 structure map `p`. Then `M` is pseudo-coherent, and the map `M ⊗^L_A Aₙ ⟶ Mₙ` adjoint to
 `p ≫ πₙ ≫ eₙ` is an isomorphism. -/
-theorem isPseudoCoherent_and_isIso_of_distTriang
+theorem isPseudoCoherent_and_isIso_of_distTriang (hpc : D.StageSectionsPseudoCoherent)
     (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E)
     (Y : ℕ → DerivedCategory (ModuleCat.{u} Γ((BigFppfOver.toScheme D.B (limitBase D.system)
       D.containsLimitBase).obj (limitBaseObject D.system D.B D.containsLimitBase), ⊤)))
@@ -386,7 +386,7 @@ theorem isPseudoCoherent_and_isIso_of_distTriang
       (D.transition_surjective n))
     (fun n ↦ isLocallyNilpotent_ker_baseSectionsSystem_map D.system (homOfLE (Nat.le_succ n)).op
       (D.transition_locallyNilpotent n))
-    (fun n ↦ D.isPseudoCoherent_stageTensorSections E hE n)
+    (fun n ↦ D.isPseudoCoherent_stageTensorSections E hpc hE n)
     (fun n ↦ D.isIso_derivedBaseChangeComparison_stageTensorSectionsTranspose E hq n)
     Y s e (he' := he') he M p δ hT
 
@@ -420,7 +420,7 @@ theorem limitTensorSections_map_towerTensorSectionsHom (n : ℕ) :
   rw [h]
   exact D.tensorSections_towerStep E n
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 
@@ -433,14 +433,15 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.ModulesOnACategory.ChaoticComparison.sheafOfModules_hasDerivedCategory
 attribute [local instance] HasDerivedCategory.standard SheafOfModules.instAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **[Stacks, Tag 0DIM], first half, for every derived limit in `D_QCoh(𝒪_X)`.** In Situation
 0DIK, for every derived limit `K` of the tower `(Rpₙ,* Kₙ)` in `D_QCoh(𝒪_X)` and every perfect `E`,
 `RΓ(X, E ⊗^L K)` is pseudo-coherent in `D(A)`. -/
 theorem isPseudoCoherent_limitTensorSections_of_isDerivedLimit
+    (hpc : D.StageSectionsPseudoCoherent)
     (_ : HasProduct fun n : ℕ => D.quasicoherentTower.obj ⟨n⟩)
     (K : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
       D.X.left).FullSubcategory)
@@ -507,7 +508,7 @@ theorem isPseudoCoherent_limitTensorSections_of_isDerivedLimit
       D.limitTensorSections E)
     D.quasicoherentTower K hK
   have hq := qcohDerived_of_isPerfect _ _ _ _ _ hE
-  exact (D.isPseudoCoherent_and_isIso_of_distTriang E hE
+  exact (D.isPseudoCoherent_and_isIso_of_distTriang E hpc hE
     (fun n ↦ (D.quasicoherentTower ⋙ ((spaceQuasicoherentProp D.B (limitBase D.system)
         D.containsLimitBase D.X.left).ι ⋙
       D.limitTensorSections E)).obj ⟨n⟩)
@@ -520,7 +521,7 @@ theorem isPseudoCoherent_limitTensorSections_of_isDerivedLimit
       D.limitTensorSections E).obj K) p δ hT).1
 
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

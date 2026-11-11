@@ -32,13 +32,17 @@ replaced by étale and rig-smooth by rig-étale.
   above.
 * `AlgebraicGeometry.FormalSpace.ChartSquareReducesToSmoothAwayFrom` and
   `AlgebraicGeometry.FormalSpace.ChartSquareReducesToIsEtaleOutside`: the reduction to the
-  affine case, which is the input this library does not carry, once for each of the two
-  lemmas.
+  affine case in the form of the source's proof, once for each of the two lemmas.
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isRigSmooth_completionSheafMap`: **Stacks 0GDH**.
-* `AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap`: **Stacks 0AR2**.
+* `AlgebraicGeometry.FormalSpace.isRigSmooth_completionSheafMap` and
+  `AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap`: Stacks 0GDH and Stacks 0AR2
+  from the reduction to the affine case. The two lemmas themselves, with no such hypothesis,
+  are `AlgebraicGeometry.FormalSpace.isRigSmooth_completionSheafMap_of_isLocallyNoetherian` and
+  `AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap_of_isEtale`.
+* `AlgebraicGeometry.FormalSpace.RigEtaleOverCompletion`: the right-hand category of Stacks
+  0AR5, whose functor is `AlgebraicGeometry.FormalSpace.completionModificationFunctor`.
 
 ## Implementation notes
 
@@ -72,9 +76,11 @@ condition on `g`. The source builds that data from: Properties of Spaces, Lemma 
 Stacks 0APV, which identify `(W_i)_{/T_i}` with `W_i ×_X X_{/T}`; the identification
 `X_{/T} = Spf(A^∧)` of the proof of Stacks 0AQ1; and the fact that local finite type,
 smoothness and étaleness of a morphism and local Noetherianity of an algebraic space are étale
-local on source and target. None of these is carried here in the form the reduction needs,
-which is why it is a hypothesis; and it is a statement about the charts of `f_{/T}` and the
-rings presenting them, not the assertion of the lemma.
+local on source and target. The reduction is a statement about the charts of `f_{/T}` and the
+rings presenting them, not the assertion of the lemma. The two lemmas are proved without it,
+from compatible affine étale atlases, in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtaleCharts` and
+`StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigSmoothCover`.
 
 The hypothesis that `X` is locally Noetherian is read as local Noetherianity of every scheme
 étale over `X`, which is the form Properties of Spaces, Definition 03E2 takes after Lemma
@@ -209,7 +215,9 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### The reduction to the affine case -/
 
-/-- The reduction of **Stacks 0GDH** to the affine case, which this library does not carry.
+/-- The reduction of **Stacks 0GDH** to the affine case, in the form of the source's proof.
+Stacks 0GDH itself is proved without it, as
+`AlgebraicGeometry.FormalSpace.isRigSmooth_completionSheafMap_of_isLocallyNoetherian`.
 
 Granted that `X` is locally Noetherian, `f` is locally of finite type and `U' → U` is smooth,
 it produces for every affine representable étale square over `f_{/T}` presented by an arrow
@@ -251,7 +259,9 @@ abbrev ChartSquareReducesToSmoothAwayFrom (f : X' ⟶ X) (T : Set (Space.points 
                         (I : Ideal A) (hI : TopologicalRing.IsIdealOfDefinition I),
                         Rig.IsRigSmooth (Rig.adicFiniteTypeAlgebra g.toRingHom hft I hI))
 
-/-- The reduction of **Stacks 0AR2** to the affine case, which this library does not carry.
+/-- The reduction of **Stacks 0AR2** to the affine case, in the form of the source's proof.
+Stacks 0AR2 itself is proved without it, by another route, as
+`AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap_of_isEtale`.
 
 It is `AlgebraicGeometry.FormalSpace.ChartSquareReducesToSmoothAwayFrom` with smoothness of
 `U' → U` replaced by étaleness, smoothness of `Spec C₀ → Spec A₀` over `Spec A₀ ∖ V(I₀)`
@@ -288,22 +298,12 @@ abbrev ChartSquareReducesToIsEtaleOutside (f : X' ⟶ X) (T : Set (Space.points 
 
 variable {B S hS}
 
-/-- **Stacks 0GDH.** In the situation of Stacks 0GDB, if `X` is locally Noetherian, `f` is
-locally of finite type and `U' → U` is smooth, then `f_{/T}` is rig-smooth.
+/-- In the situation of Stacks 0GDB, if `X` is locally Noetherian, `f` is locally of finite
+type, `U' → U` is smooth and the reduction to the affine case `hred` holds, then `f_{/T}` is
+rig-smooth: part (1) of Stacks 0GAK applied to the affine data that reduction produces.
 
-Granted the reduction to the affine case, the lemma is part (1) of Stacks 0GAK applied to the
-affine data that reduction produces, exactly as in the source. -/
-@[stacks 0GDH "the affine case, which is part (1) of Stacks 0GAK \
-(`Rig.isRigSmooth_adicCompletionObj_of_smoothAwayFrom`), applied through the reduction to the \
-affine case carried as the hypothesis `hred`: granted the three hypotheses of the lemma it \
-produces, for each affine representable étale square over `f_{/T}`, the Noetherian ring `A₀`, \
-the ideal `I₀` and the finite type `A₀`-algebra `C₀` smooth over `Spec A₀` minus `V(I₀)` of \
-the source's proof, together with the comparison of rig-smoothness of `C₀` completed with \
-rig-smoothness of the arrow of `WAdm^{Noeth}` presenting the square. The source assembles \
-that reduction from Properties of Spaces, Lemma 03FX, the cartesian completion squares of \
-Stacks 0APV, the identification of a chart of the completion with a formal spectrum in the \
-proof of Stacks 0AQ1, and the étale locality of local finite type, of smoothness and of local \
-Noetherianity, none of which this library carries in that combination"]
+Stacks 0GDH itself, without `hred`, is
+`AlgebraicGeometry.FormalSpace.isRigSmooth_completionSheafMap_of_isLocallyNoetherian`. -/
 theorem isRigSmooth_completionSheafMap {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X' ⟶ X)
     (T : Set (Space.points B S hS X))
     (hX : Space.IsLocallyNoetherian B S hS X)
@@ -317,25 +317,12 @@ theorem isRigSmooth_completionSheafMap {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
     hred hX hf hsm U V a b t hU hV ⟨ha, hae⟩ ⟨hb, hbe⟩ hcomm A C hAadic hCadic hA D E eU eV g hg
   exact hcomp (Rig.isRigSmooth_adicCompletionObj_of_smoothAwayFrom I₀ hsmooth)
 
-/-- **Stacks 0AR2.** In the situation of Stacks 0GDB, if `X` is locally Noetherian, `f` is
-locally of finite type and `U' → U` is étale, then `f_{/T}` is rig-étale.
+/-- In the situation of Stacks 0GDB, if `X` is locally Noetherian, `f` is locally of finite
+type, `U' → U` is étale and the reduction to the affine case `hred` holds, then `f_{/T}` is
+rig-étale: part (1) of Stacks 0ALQ applied to the affine data that reduction produces.
 
-Granted the reduction to the affine case, the lemma is part (1) of Stacks 0ALQ applied to the
-affine data that reduction produces; this is the proof of Stacks 0GDH with Lemmas 0GAK and
-0GCQ replaced by Lemmas 0ALQ and 0GCZ, as the source says. -/
-@[stacks 0AR2 "the affine case, which is part (1) of Stacks 0ALQ \
-(`Rig.isRigEtale_adicCompletionObj_of_isEtaleOutside`), applied through the reduction to the \
-affine case carried as the hypothesis `hred`: granted the three hypotheses of the lemma it \
-produces, for each affine representable étale square over `f_{/T}`, the Noetherian ring `A₀`, \
-the ideal `I₀` and the finite type `A₀`-algebra `C₀` étale over `Spec A₀` minus `V(I₀)` of \
-the source's proof, together with the comparison of rig-étaleness of `C₀` completed with \
-rig-étaleness of the arrow of `WAdm^{Noeth}` presenting the square. This is the substitution \
-of Lemmas 0ALQ and 0GCZ for Lemmas 0GAK and 0GCQ that the source's proof prescribes; the \
-reduction itself is assembled in the source from Properties of Spaces, Lemma 03FX, the \
-cartesian completion squares of Stacks 0APV, the identification of a chart of the completion \
-with a formal spectrum in the proof of Stacks 0AQ1, and the étale locality of local finite \
-type, of étaleness and of local Noetherianity, none of which this library carries in that \
-combination"]
+Stacks 0AR2 itself, without `hred`, is
+`AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap_of_isEtale`. -/
 theorem isRigEtale_completionSheafMap {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X' ⟶ X)
     (T : Set (Space.points B S hS X))
     (hX : Space.IsLocallyNoetherian B S hS X)
@@ -381,12 +368,12 @@ abbrev RigEtaleOverCompletion (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
       IsFormalAlgebraicSpace B S hS W.left ∧ IsLocallyNoetherian B S hS W.left ∧
         IsRigEtale B S hS W.hom)
 
-/-- **Stacks 0AIZ**, which this library does not carry: the completion of an algebraic space
+/-- **Stacks 0AIZ** for the algebraic spaces over `X`: the completion of an algebraic space
 over `S` along a closed set of points is a formal algebraic space. Stated for the algebraic
 spaces over `X` appearing in the left-hand collection of Stacks 0AR5, whose own closed set is
-the inverse image of `T`. The library defines the completion for an arbitrary presheaf and an
-arbitrary set of points and proves only the affine case of Stacks 0AIZ, which is Stacks 0AIY,
-as `AlgebraicGeometry.FormalSpace.hasSomeSurjectivePresentation_completionSheaf`. -/
+the inverse image of `T`. It holds for every `X` and `T`, by
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpaceCompletionSheaf`, from Stacks 0AIZ
+(`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionSheaf_of_isClosed`). -/
 abbrev IsFormalAlgebraicSpaceCompletionSheaf (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (T : Set (Space.points B S hS X)) : Prop :=
   IsClosed T → ∀ {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (h : Z ⟶ X),
@@ -394,13 +381,13 @@ abbrev IsFormalAlgebraicSpaceCompletionSheaf (X : (BigFppfOver B S hS)ᵒᵖ ⥤
       IsFormalAlgebraicSpace B S hS
         (Space.completionSheaf B S hS Z (Space.pointsMap B S hS Z h ⁻¹' T))
 
-/-- The local Noetherianity half of the right-hand collection of Stacks 0AR5, which this
-library does not carry: the completion of an algebraic space locally of finite type over a
-locally Noetherian algebraic space along the inverse image of a closed set is locally
-Noetherian in the sense of **Stacks 0AKY**. It packages Properties of Spaces, Lemma 01T6, that
-an algebraic space locally of finite type over a locally Noetherian one is locally Noetherian,
-with the identification of a chart of the completion with the formal spectrum of a Noetherian
-adic ring from the proof of **Stacks 0AQ1**. -/
+/-- The local Noetherianity half of the right-hand collection of Stacks 0AR5: the completion of an
+algebraic space locally of finite type over a locally Noetherian algebraic space along the inverse
+image of a closed set is locally Noetherian in the sense of **Stacks 0AKY**. It packages Properties
+of Spaces, Lemma 01T6, that an algebraic space locally of finite type over a locally Noetherian one
+is locally Noetherian, with the identification of a chart of the completion with the formal spectrum
+of a Noetherian adic ring from the proof of **Stacks 0AQ1**. It holds for every algebraic space `X`,
+by `AlgebraicGeometry.FormalSpace.isLocallyNoetherianCompletionSheaf`. -/
 abbrev IsLocallyNoetherianCompletionSheaf (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (T : Set (Space.points B S hS X)) : Prop :=
   IsClosed T → Space.IsLocallyNoetherian B S hS X →
@@ -411,23 +398,14 @@ abbrev IsLocallyNoetherianCompletionSheaf (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
 
 variable {B S hS}
 
-/-- **Stacks 0AR5.** The arrow of the displayed equation: a morphism `f : X' ⟶ X` of algebraic
-spaces over `S` which is locally of finite type and an isomorphism over `U` is sent to
-`f_{/T} : X'_{/T'} ⟶ X_{/T}`, a rig-étale morphism with locally Noetherian source.
+/-- The object map of Stacks 0AR5 with its target conditions supplied as hypotheses: a morphism
+`f : X' ⟶ X` of algebraic spaces over `S` which is locally of finite type and an isomorphism over
+`U` is sent to `f_{/T} : X'_{/T'} ⟶ X_{/T}`, a rig-étale morphism with locally Noetherian source.
+Stacks 0AR5 itself, with no hypotheses beyond the source's, is
+`AlgebraicGeometry.FormalSpace.completionModificationFunctor`.
 
 That `f_{/T}` is rig-étale is Stacks 0AR2 applied to `U' ⟶ U`, which is an isomorphism — and
 hence étale — because `U'` is the fibre product of `U` with `f`. -/
-@[stacks 0AR5 "the arrow of the displayed equation, that is the assignment sending a morphism \
-locally of finite type which is an isomorphism over `U` to its completion along `T`, together \
-with the three conditions placing the result in the right-hand collection. The rig-étaleness, \
-which is what the source says makes the arrow well defined, is Stacks 0AR2 \
-(`AlgebraicGeometry.FormalSpace.isRigEtale_completionSheafMap`) applied through the proof \
-here that `U'` is the fibre product of `U` with `f`, so that the modification condition makes \
-`U' ⟶ U` an isomorphism and therefore étale. The two conditions on the source `X'_{/T'}` are \
-hypotheses: Stacks 0AIZ, that a completion along a closed set is a formal algebraic space, as \
-`h0AIZ`, and its locally Noetherian refinement as `hnoeth`; neither is carried by this \
-library, which proves only the affine case Stacks 0AIY of the first. The reduction of Stacks \
-0AR2 to the affine case is forwarded as `hred`"]
 def completionOfFiniteTypeModification {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (T : Set (Space.points B S hS X)) (hT : IsClosed T)
     (hX : Space.IsLocallyNoetherian B S hS X)

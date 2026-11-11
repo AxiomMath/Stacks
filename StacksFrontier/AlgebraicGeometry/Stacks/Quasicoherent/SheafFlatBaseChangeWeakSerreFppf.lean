@@ -287,7 +287,8 @@ instance isClosedUnderExtensions_lqcohSheafFbcFppfModules :
 coming from the sheafification of abelian presheaves on the fppf site
 (`AlgebraicGeometry.Stack.FlatFppf.hasSheafify_fppf_addCommGrpCat`): it contains `0` and is
 closed under isomorphisms, kernels, cokernels and extensions (**Stacks 0754**). -/
-@[stacks 0771 "part (2), fppf half: LQCoh^fbc is a weak Serre subcategory of Mod(𝒪_𝒳)"]
+@[stacks 0771 "part (2), fppf half: LQCoh^fbc is a weak Serre subcategory of Mod(𝒪_𝒳), with the \
+  flat base change property of 0762 read on sheaves; modules at the module universe u"]
 instance isWeakSerreClass_lqcohSheafFbcFppfModules :
     (lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).IsWeakSerreClass where
 

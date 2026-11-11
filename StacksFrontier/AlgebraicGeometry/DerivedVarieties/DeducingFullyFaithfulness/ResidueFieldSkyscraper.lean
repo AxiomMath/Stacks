@@ -1090,14 +1090,11 @@ public theorem stalkHomology_isZero_iff_hom_residueFieldSkyscraper_subsingleton
 
 /-- A complex with no nonzero map to any shift of the residue-field skyscraper at `x` is zero on
 an open neighbourhood of `x`: every cohomology sheaf has vanishing stalk at every point of that
-neighbourhood. -/
-@[stacks 0G03 "part (4), with the source's hypotheses `X` regular of finite type over a field \
-and `K` in `D_perf(𝒪_X)` replaced by `X` Noetherian and `K` bounded with coherent cohomology, \
-that is `K` in `D^b_Coh(𝒪_X)`.  The source's class of pairs sits inside this one, but the \
-containment — a perfect object of `D(𝒪_X)` in the sense of \
-`Stacks.Cohomology.PerfectComplexes.IsPerfect` is bounded with coherent cohomology, Tags 0BCJ \
-and 08E8 — is not bridged in the library, so that is what is granted here.  `K` being zero near \
-`x` is read as the vanishing of every cohomology stalk at every point of the neighbourhood"]
+neighbourhood. Here `X` is Noetherian and `K` is bounded with coherent cohomology, that is `K` lies
+in `D^b_Coh(𝒪_X)`; a perfect object of `D(𝒪_X)` on a Noetherian scheme is one, by
+`Stacks.AlgebraicGeometry.PerfectCohomology.isBoundedCoherent_of_isPerfect`, and this is how
+[Stacks, Tag 0G03] part (4) is proved in
+`exists_mem_forall_isZero_stalkHomology_of_subsingleton_hom_to_residueFieldSkyscraper`. -/
 public theorem exists_mem_forall_stalkHomology_isZero_of_hom_residueFieldSkyscraper
     (X : Scheme.{u}) [IsNoetherian X] (x : X)
     [HasDerivedCategory (SheafOfModules.{u} X.ringCatSheaf)]

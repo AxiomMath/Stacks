@@ -284,7 +284,8 @@ pair by Stacks 0ALJ (`IsAdicComplete.henselianRing` and `henselianPair_of_hensel
 henselian pair feeds Stacks 09ZS, lifting `Y₀` to a finite étale `Y → X`, and is also hypothesis
 (2) of Stacks 0BM6, which supplies the full faithfulness of restriction that the descent step
 needs, as `fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian`. -/
-@[stacks 0BLS]
+@[stacks 0BLS "Hⁱ_𝔪(A) is local cohomology in the coreflection model of Stacks 0A6Q; \
+V₀ = Y₀ ×_{X₀} U₀ and V = Y ×_X U are recorded as cartesian squares"]
 public theorem exists_finiteEtale_extension_of_localCohomology_annihilated
     (S : LocalLefschetzSituation.{u})
     (h1 : ∃ n, ∀ x : localCohomologyModule S.A (maximalIdeal S.A)

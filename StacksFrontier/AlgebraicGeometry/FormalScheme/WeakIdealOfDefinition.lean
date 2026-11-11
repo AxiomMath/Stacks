@@ -35,7 +35,8 @@ formal opens refining the members of an affine open covering.
 * `AlgebraicGeometry.LocallyTopologicallyRingedSpace.IdealSheaf.isWeakIdealOfDefinitionOn_of_cover`
   and `AlgebraicGeometry.LocallyTopologicallyRingedSpace`
   `.isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_cover`: the two conditions may be checked on
-  the opens of the class refining the members of a covering.
+  the opens of the class refining the members of a covering (used for the locality sentence of
+  Stacks 0AIV in `WeakIdealOfDefinitionLocalityMcQuillan`).
 
 ## Implementation notes
 
@@ -208,18 +209,17 @@ theorem isWeakIdealOfDefinition_of_isCompact (I : IdealSheaf X) (V : Opens X)
   rw [← hsup]
   exact I.isWeakIdealOfDefinition_iSup (fun x : s => W x) fun x => hW x
 
-/-- **Stacks 0AIV**, the locality of the weak ideal-of-definition condition. Let `𝒰` be a
-covering of `X` and let `𝒜` be a class of quasi-compact opens — the affine formal open
-subschemes — whose members contained in an open cover that open. Then an ideal sheaf is a weak
-ideal of definition over `𝒜` as soon as its ideals of sections over the members of `𝒜`
-contained in a member of `𝒰` are weak ideals of definition.
+/-- The locality of the weak ideal-of-definition condition over an arbitrary class of opens. Let
+`𝒰` be a covering of `X` and let `𝒜` be a class of quasi-compact opens whose members contained in
+an open cover that open. Then an ideal sheaf is a weak ideal of definition over `𝒜` as soon as its
+ideals of sections over the members of `𝒜` contained in a member of `𝒰` are weak ideals of
+definition.
 
-Checking the members of `𝒰` alone would not do: an ideal sheaf can have the zero ideal of
-global sections and the unit ideal on an open avoiding one point. -/
-@[stacks 0AIV "it suffices to check on an affine open covering, CORRECTED: the condition is \
-checked on the members of the class contained in a covering member, not on the covering members \
-themselves, which is false as the source states it; granted the quasi-compactness `hcompact` \
-and the refinement `hrefine` of the class of affine formal opens"]
+For the weak affine formal opens of a formal scheme in the sense of McQuillan both geometric
+hypotheses hold, and this gives the locality sentence of Stacks 0AIV in its corrected form,
+`IdealSheaf.isWeakIdealOfDefinitionOn_of_cover_of_isMcQuillanFormalScheme`. Checking the members
+of `𝒰` alone would not do: an ideal sheaf can have the zero ideal of global sections and the unit
+ideal on an open avoiding one point. -/
 theorem isWeakIdealOfDefinitionOn_of_cover (I : IdealSheaf X) (𝒜 : Opens X → Prop)
     (𝒰 : Set (Opens X)) (hcover : sSup 𝒰 = ⊤)
     (hcompact : ∀ U : Opens X, 𝒜 U → IsCompact (U : Set X))
@@ -252,14 +252,12 @@ example (X : LTRS.{u}) [Finite ↥X] (I : IdealSheaf X) (V₁ V₂ : Opens X) (h
 
 end IdealSheaf
 
-/-- **Stacks 0AIV**, the locality of the fundamental-system condition: the neighbourhood-basis
-half is a condition on the individual opens of `𝒜`, so only the weak ideal-of-definition half has
-to be transported along the covering, by `IdealSheaf.isWeakIdealOfDefinitionOn_of_cover`. -/
-@[stacks 0AIV "it suffices to check the fundamental-system condition on an affine open covering, \
-CORRECTED in the same way as the weak ideal-of-definition condition — the condition is checked on \
-the members of the class contained in a covering member, not on the covering members themselves — \
-and granting `hbasis`: the neighbourhood-basis half is a condition on each individual affine \
-formal open and there is nothing about it to transport along a covering"]
+/-- The weak ideal-of-definition half of a fundamental system transported along a covering, over
+an arbitrary class of opens, with the neighbourhood-basis half given on every open of `𝒜`, by
+`IdealSheaf.isWeakIdealOfDefinitionOn_of_cover`. The locality sentence of Stacks 0AIV for
+fundamental systems, where the neighbourhood-basis half is also checked on the opens inside the
+covering members, is
+`isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_cover_of_isMcQuillanFormalScheme`. -/
 theorem isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_cover {X : LTRS.{u}}
     (𝒮 : Set (IdealSheaf X)) (𝒜 : Opens X → Prop)
     (𝒰 : Set (Opens X)) (hcover : sSup 𝒰 = ⊤)

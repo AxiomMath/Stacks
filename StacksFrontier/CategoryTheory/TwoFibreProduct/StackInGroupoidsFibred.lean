@@ -16,7 +16,8 @@ Stacks 02ZK) and the 2-category of categories fibred in groupoids over `𝒞`
 groupoids, so the first is a full sub-2-category of the second as well.
 
 A 2-commutative square of stacks in groupoids whose reading as a square of categories fibred in
-groupoids is a 2-fibre product (Stacks 003Q) is a 2-fibre product of stacks in groupoids.
+groupoids is a 2-fibre product (Stacks 003Q, or its 1-truncated form) is a 2-fibre product of
+stacks in groupoids.
 
 ## Main definitions
 
@@ -32,7 +33,10 @@ groupoids is a 2-fibre product (Stacks 003Q) is a 2-fibre product of stacks in g
   a square of categories fibred in groupoids are equal.
 * `CategoryTheory.StackInGroupoids.isTwoFibreProduct_of_toFibred`: a 2-commutative square of
   stacks in groupoids whose reading as a square of categories fibred in groupoids is a 2-fibre
-  product is a 2-fibre product of stacks in groupoids (Stacks 003Q).
+  product is a 2-fibre product of stacks in groupoids, for the 1-truncated notion
+  `CategoryTheory.Bicategory.IsTwoFibreProduct`.
+* `CategoryTheory.StackInGroupoids.isFinalTwoCommSq_of_toFibred`: the same for 2-fibre products in
+  the sense of Stacks 003Q (`CategoryTheory.Bicategory.IsFinalTwoCommSq`).
 
 ## References
 
@@ -90,7 +94,10 @@ theorem underlying_toFibredSquare (P : Bicategory.TwoCommSq f g) :
     (toFibredSquare P).underlying = P.underlying := rfl
 
 /-- A 2-commutative square of stacks in groupoids whose reading as a square of categories fibred
-in groupoids is a 2-fibre product is a 2-fibre product of stacks in groupoids (Stacks 003Q). -/
+in groupoids is a 1-truncated 2-fibre product (terminal in the quotient category of 2-commutative
+squares, `CategoryTheory.Bicategory.IsTwoFibreProduct`) is one of stacks in groupoids. The
+version for 2-fibre products in the sense of Stacks 003Q is
+`CategoryTheory.StackInGroupoids.isFinalTwoCommSq_of_toFibred`. -/
 noncomputable def isTwoFibreProduct_of_toFibred {P : Bicategory.TwoCommSq f g}
     (hP : Bicategory.IsTwoFibreProduct (toFibredSquare P)) :
     Bicategory.IsTwoFibreProduct P := by
@@ -112,6 +119,28 @@ noncomputable def isTwoFibreProduct_of_toFibred {P : Bicategory.TwoCommSq f g}
       (hP.from (toFibredSquare T)))
   rw [← Bicategory.TwoCommSq.homOfUnderlying_homUnderlying m]
   exact congrArg (Bicategory.TwoCommSq.homOfUnderlying (T := T) (S := P)) (hround.symm.trans h)
+
+/-- A 2-commutative square of stacks in groupoids whose reading as a square of categories fibred
+in groupoids is a 2-fibre product in the sense of Stacks 003Q (a final object of the 2-category of
+2-commutative diagrams) is a 2-fibre product of stacks in groupoids in the same sense. Both
+2-categories are full on 1-morphisms and 2-morphisms over the 2-category of categories over `𝒞`,
+so the 1-morphisms and the 2-morphisms of Stacks 003O into `P` are those into its reading. -/
+noncomputable def isFinalTwoCommSq_of_toFibred {P : Bicategory.TwoCommSq f g}
+    (hP : Bicategory.IsFinalTwoCommSq (toFibredSquare P)) : Bicategory.IsFinalTwoCommSq P where
+  preHom T := Bicategory.TwoCommSq.PreHom.ofUnderlying (T := T) (S := P)
+    (hP.preHom (toFibredSquare T)).underlying
+  uniqueHom₂ {T} a b :=
+    letI := hP.uniqueHom₂
+      (Bicategory.TwoCommSq.PreHom.ofUnderlying (T := toFibredSquare T) (S := toFibredSquare P)
+        a.underlying)
+      (Bicategory.TwoCommSq.PreHom.ofUnderlying (T := toFibredSquare T) (S := toFibredSquare P)
+        b.underlying)
+    ((Bicategory.TwoCommSq.PreHom.hom₂UnderlyingEquiv a b).trans
+      (Bicategory.TwoCommSq.PreHom.hom₂UnderlyingEquiv
+        (Bicategory.TwoCommSq.PreHom.ofUnderlying (T := toFibredSquare T) (S := toFibredSquare P)
+          a.underlying)
+        (Bicategory.TwoCommSq.PreHom.ofUnderlying (T := toFibredSquare T) (S := toFibredSquare P)
+          b.underlying)).symm).unique
 
 end CategoryTheory.StackInGroupoids
 

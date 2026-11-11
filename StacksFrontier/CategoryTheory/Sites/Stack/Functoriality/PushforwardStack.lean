@@ -5,33 +5,41 @@ public import StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.Pushforwar
 public import StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.PushforwardMorSheaf
 
 /-!
-# The pushforward of a stack along a continuous functor of sites
+# The pushforward of a stack along a functor preserving all fibre products
 
 Let `u : 𝒞 ⥤ 𝒟` be a continuous functor of sites and `p : 𝒮 ⥤ 𝒟` a category over `𝒟`. This file
 proves that the pushforward `u^p𝒮 ⥤ 𝒞` of `StacksDraft.CategoryTheory.Sites.Stack.Functoriality`
-is a stack over `𝒞` when `p` is a stack over `𝒟`, and a stack in groupoids when `p` is one.
+is a stack over `𝒞` when `p` is a stack over `𝒟`, and a stack in groupoids when `p` is one, in the
+special case where `𝒞` has all fibre products and `u` preserves them.
 
 The three conditions of Stacks 026F are discharged in three different places: condition (1) is
 Stacks 04WB, `CategoryTheory.StrictPullback.isFibered_structureFunctor`; condition (2) is
 `CategoryTheory.StrictPullback.isMorSheaf_structureFunctor`; condition (3) is
 `CategoryTheory.StrictPullback.hasEffectiveDescent_structureFunctor`.
 
+Stacks 04WC and 04WD themselves, for a site in the sense of Stacks 00VH and a continuous functor
+in the sense of Stacks 00WU, which ask for the fibre products of the members of a covering only
+and for their preservation by `u` only, are
+`CategoryTheory.StrictPullback.isStack_structureFunctor_toGrothendieck` and
+`CategoryTheory.StrictPullback.isStack_isFiberedInGroupoids_structureFunctor_toGrothendieck`, in
+`StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.PushforwardStackCovering`.
+
 ## Main results
 
-* `CategoryTheory.StrictPullback.isStack_structureFunctor`, Stacks 04WC;
+* `CategoryTheory.StrictPullback.isStack_structureFunctor`, the pushforward of a stack is a stack,
+  over a base with all fibre products preserved by `u`;
 * `CategoryTheory.StrictPullback.isFiberedInGroupoids_structureFunctor`, the fibres of `u^p𝒮` are
   groupoids as soon as those of `𝒮` are;
-* `CategoryTheory.StrictPullback.isStack_isFiberedInGroupoids_structureFunctor`, Stacks 04WD.
+* `CategoryTheory.StrictPullback.isStack_isFiberedInGroupoids_structureFunctor`, the same for
+  stacks in groupoids.
 
 ## Implementation notes
 
-Stacks 00WU asks of a continuous functor of sites both that it send coverings to coverings and that
-it commute with the fibre products appearing in them; Mathlib's `Functor.IsContinuous` is the
-sheaf-theoretic condition, which gives the first (`CoverPreserving.of_isContinuous`) but not the
-second. The commutation with fibre products is genuinely used — see
-`CategoryTheory.StrictPullback.glue` — so it is assumed here, in the form `[HasPullbacks 𝒞]` and
-`[PreservesLimitsOfShape WalkingCospan u]`. Both hold for the functor underlying a morphism of
-sites in the source's sense.
+Mathlib's `Functor.IsContinuous` is the sheaf-theoretic condition, which gives that `u` sends
+covering sieves to covering sieves (`CoverPreserving.of_isContinuous`) but not that it commutes
+with fibre products. The commutation with fibre products is genuinely used — see
+`CategoryTheory.StrictPullback.glue` — and is assumed here in the form `[HasPullbacks 𝒞]` and
+`[PreservesLimitsOfShape WalkingCospan u]`, which is stronger than what Stacks 00WU asks.
 
 "Stack in groupoids" is read here as the conjunction of `CategoryTheory.Functor.IsStack`
 (Stacks 026F) and `CategoryTheory.Functor.IsFiberedInGroupoids` (Stacks 003S), which is how the
@@ -55,14 +63,13 @@ variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {𝒟 : Type u₂} [Category.
 
 namespace StrictPullback
 
-/-- **Stacks 04WC**.
-If `p : 𝒮 ⥤ 𝒟` is a stack over the site `(𝒟, K)`, then the pushforward `u^p𝒮 ⥤ 𝒞` along a
-continuous functor of sites `u : 𝒞 ⥤ 𝒟` is a stack over `(𝒞, J)`.
+/-- The pushforward `u^p𝒮 ⥤ 𝒞` of a stack `p : 𝒮 ⥤ 𝒟` over `(𝒟, K)` is a stack over `(𝒞, J)`,
+for a continuous functor `u : 𝒞 ⥤ 𝒟` from a category with all fibre products that preserves them.
 
-Continuity of `u` in the sense of Stacks 00WU is `[u.IsContinuous J K]` together with the
-commutation with fibre products, `[HasPullbacks 𝒞]` and `[PreservesLimitsOfShape WalkingCospan u]`;
-see the implementation notes. -/
-@[stacks 04WC]
+This is a special case of Stacks 04WC, which is
+`CategoryTheory.StrictPullback.isStack_structureFunctor_toGrothendieck`: Stacks 00VH and 00WU
+ask for the fibre products of the members of a covering only, and for their preservation by `u`
+only. -/
 theorem isStack_structureFunctor (J : GrothendieckTopology 𝒞) (K : GrothendieckTopology 𝒟)
     (u : 𝒞 ⥤ 𝒟) [u.IsContinuous J K] [HasPullbacks 𝒞] [PreservesLimitsOfShape WalkingCospan u]
     (p : 𝒮 ⥤ 𝒟) (hp : Functor.IsStack p K) :
@@ -99,10 +106,12 @@ theorem isFiberedInGroupoids_structureFunctor (u : 𝒞 ⥤ 𝒟) (p : 𝒮 ⥤ 
     have hb : χ'.base = (f : Z.base ⟶ Y.base) := hχ'₁
     exact Hom.ext hχ'₁ (hχuniq χ'.fib ⟨by rw [χ'.over, hb], congrArg Hom.fib hχ'₂⟩)
 
-/-- **Stacks 04WD**.
-If `p : 𝒮 ⥤ 𝒟` is a stack in groupoids over the site `(𝒟, K)`, then the pushforward `u^p𝒮 ⥤ 𝒞`
-along a continuous functor of sites `u : 𝒞 ⥤ 𝒟` is a stack in groupoids over `(𝒞, J)`. -/
-@[stacks 04WD]
+/-- The pushforward `u^p𝒮 ⥤ 𝒞` of a stack in groupoids `p : 𝒮 ⥤ 𝒟` over `(𝒟, K)` is a stack in
+groupoids over `(𝒞, J)`, for a continuous functor `u : 𝒞 ⥤ 𝒟` from a category with all fibre
+products that preserves them.
+
+This is a special case of Stacks 04WD, which is
+`CategoryTheory.StrictPullback.isStack_isFiberedInGroupoids_structureFunctor_toGrothendieck`. -/
 theorem isStack_isFiberedInGroupoids_structureFunctor (J : GrothendieckTopology 𝒞)
     (K : GrothendieckTopology 𝒟) (u : 𝒞 ⥤ 𝒟) [u.IsContinuous J K] [HasPullbacks 𝒞]
     [PreservesLimitsOfShape WalkingCospan u] (p : 𝒮 ⥤ 𝒟) (hp : Functor.IsStack p K)
@@ -110,6 +119,7 @@ theorem isStack_isFiberedInGroupoids_structureFunctor (J : GrothendieckTopology 
     Functor.IsStack (structureFunctor u p) J ∧
       (structureFunctor u p).IsFiberedInGroupoids :=
   ⟨isStack_structureFunctor J K u p hp, isFiberedInGroupoids_structureFunctor u p hp'⟩
+
 
 end StrictPullback
 

@@ -21,9 +21,10 @@ public import StacksFrontier.CategoryTheory.TwoFibreProduct.CospanReindex
 
 `StacksFrontier.AlgebraicGeometry.Stacks.LocallyQuasiFiniteRelativePresentation` states the four
 clauses of **Stacks 06UF** for a 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over `S` and
-proves the chain (1) ⟹ (2) ⟹ (3) ⟹ (4), with (2) ⟹ (3) taking the substantial direction of
-**Stacks 06MF** as a hypothesis, together with the quasi-DM conjunct of (4) ⟹ (1). This file
-supplies the rest, so that the whole equivalence is a theorem:
+proves the chain (1) ⟹ (2) ⟹ (3) ⟹ (4), with (2) ⟹ (3) stated over the substantial direction of
+**Stacks 06MF**, together with the quasi-DM conjunct of (4) ⟹ (1). This file discharges that
+hypothesis and proves the remaining conjuncts of (4) ⟹ (1), so that the whole equivalence is the
+theorem `isLocallyQuasiFinite_tfae`:
 
 1. `f` is locally quasi-finite (**Stacks 06PU**);
 2. `f` is quasi-DM (**Stacks 04YW**) and for every algebraic space `𝒱` over `𝒴` every locally
@@ -156,7 +157,6 @@ This is
 `...AlgebraicStacks.locallyQuasiFiniteCoverOnEverySpaceBaseChange_of_isQuasiDM_of_transfers`
 with its hypothesis, the substantial direction of **Stacks 06MF**, discharged by
 `AlgebraicGeometry.Stack.hasQuasiDMPresentation_of_isAbsolutelyQuasiDM`. -/
-@[stacks 06UF "the implication (2) => (3)"]
 theorem locallyQuasiFiniteCoverOnEverySpaceBaseChange_of_isQuasiDM_of_transfers_unconditional
     (f : 𝒳 ⟶ 𝒴) (hf : IsQuasiDM B S hS f)
     (htr : TransfersLocalQuasiFinitenessOnSpaceBaseChanges B S hS f) :
@@ -236,7 +236,6 @@ The composite `𝒰 ⟶ 𝒱` is locally quasi-finite, hence locally of finite t
 `𝒳 ×_𝒴 𝒱` by a surjective flat 1-morphism locally of finite presentation, so the projection
 `𝒳 ×_𝒴 𝒱 ⟶ 𝒱` is locally of finite type by **Stacks 06U8**; that projection is the base change
 of `f` along `𝒱 ⟶ 𝒴`, so **Stacks 06U7** descends local finite type to `f`. -/
-@[stacks 06UF "the local finite type conjunct of the conclusion of (4) => (1)"]
 theorem isLocallyOfFiniteType_of_locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange (f : 𝒳 ⟶ 𝒴)
     (hf : LocallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange B S hS f) :
     IsLocallyOfFiniteType B S hS f := by
@@ -347,7 +346,6 @@ stack of the spectrum of a field (**Stacks 06DN** through
 No finiteness of `k'/k` is needed: the source gets openness from flatness and local finite
 presentation of a *finite* extension, and universal openness over a field spectrum gives it for
 an arbitrary one. -/
-@[stacks 06UF "the field-valued-fibre conjunct of the conclusion of (4) => (1)"]
 theorem discreteTopology_points_of_locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange (f : 𝒳 ⟶ 𝒴)
     (hf : LocallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange B S hS f)
     (k : Type u) [Field k] (hk : B.Contains (Spec (.of k))) (toBase : Spec (.of k) ⟶ S)
@@ -415,7 +413,6 @@ change `𝒳 ×_𝒴 𝒱` has a surjective, flat, locally finitely presented an
 cover by an algebraic space locally quasi-finite over `𝒱` is locally quasi-finite.
 
 The three conjuncts of **Stacks 06PU** are the three preceding theorems. -/
-@[stacks 06UF "the implication (4) => (1)"]
 theorem isLocallyQuasiFinite_of_locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange (f : 𝒳 ⟶ 𝒴)
     (hf : LocallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange B S hS f) :
     IsLocallyQuasiFinite B S hS f :=

@@ -764,7 +764,8 @@ of `U` swept out by the open subspace Stacks 06LW returns — open because the p
 `U ×_𝒳 𝒲 ⟶ 𝒲` is a base change of the smooth chart, hence flat and locally of finite
 presentation, hence open on points — and read flatness back point by point through the chart
 independence of **Stacks 0CIC**. -/
-@[stacks 06MD]
+@[stacks 06MD "the full statement: an open V ∋ p(z) with V(f₁,…,f_r) ∩ V ⟶ 𝒳 flat and locally of \
+  finite presentation"]
 theorem exists_openSubspace_isFlat_isLocallyOfFinitePresentation_zeroLocus_of_isRegular
     (hflat : AlgebraicStacks.IsFlat B S hS f)
     (hfp : AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f)

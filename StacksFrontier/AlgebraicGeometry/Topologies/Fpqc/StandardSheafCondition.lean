@@ -15,6 +15,10 @@ equivalent to the sheaf property for a single faithfully flat morphism of affine
 
 ## Main results
 
+* `AlgebraicGeometry.isSheaf_fpqcTopology_iff_and_standardCovering_iff_faithfullyFlat` — Stacks
+  022H in full: the fpqc sheaf condition is the conjunction of the sheaf property for Zariski
+  coverings and for standard fpqc coverings, and under the first, the second is the sheaf
+  property for faithfully flat morphisms of affine schemes.
 * `AlgebraicGeometry.isSheaf_fpqcTopology_iff_zariski_and_standardCovering` — the fpqc sheaf
   condition as the conjunction of the Zariski condition and the standard-covering condition.
 * `AlgebraicGeometry.isSheafFor_standardCovering_iff_affine_singleton` — in the presence of the
@@ -102,13 +106,11 @@ public lemma sieve_generate_presieve₀_mem_fpqcTopology {T : Scheme.{u}} [IsAff
   Precoverage.generate_mem_toGrothendieck
     (presieve₀_mem_fpqcPrecoverage_of_finite_affineCover 𝒱)
 
-/-- **Stacks 022H, condition (2).** A presheaf of sets on the category of schemes is a sheaf for
-the fpqc topology if and only if it is a sheaf for the Zariski topology and satisfies the sheaf
-property for every standard fpqc covering: every finite jointly surjective family of flat
-morphisms with affine sources over an affine base. -/
-@[stacks 022H "condition (2): the sheaf property for an arbitrary standard fpqc covering, the \
-clause Mathlib's isSheaf_type_propQCTopology_iff does not state; conditions (1) and (2') are \
-Mathlib's, tagged there", sga "3 XI 3.4" "special case"]
+/-- A presheaf of sets on the category of schemes is a sheaf for the fpqc topology if and only if
+it is a sheaf for the Zariski topology and satisfies the sheaf property for every standard fpqc
+covering: every finite jointly surjective family of flat morphisms with affine sources over an
+affine base. This is the first statement of Stacks 022H; the whole lemma is
+`AlgebraicGeometry.isSheaf_fpqcTopology_iff_and_standardCovering_iff_faithfullyFlat`. -/
 public theorem isSheaf_fpqcTopology_iff_zariski_and_standardCovering
     (F : Scheme.{u}ᵒᵖ ⥤ Type v) :
     Presieve.IsSheaf Scheme.fpqcTopology.{u} F ↔
@@ -140,6 +142,62 @@ public theorem isSheafFor_standardCovering_iff_affine_singleton (F : Scheme.{u}�
   rw [Scheme.fpqcTopology_eq_propQCTopology,
     isSheaf_type_propQCTopology_iff (P := flatProperty.{u}) F] at h
   exact ⟨fun h₂ ↦ (h.mpr ⟨hzar, h₂⟩).2, fun h₂' ↦ (h.mp ⟨hzar, h₂'⟩).2⟩
+
+/-- The sheaf property for every Zariski covering, a jointly surjective family of open immersions,
+is the sheaf condition for the Zariski topology. -/
+public lemma isSheaf_zariskiTopology_iff_forall_zariskiPrecoverage (F : Scheme.{u}ᵒᵖ ⥤ Type v) :
+    Presieve.IsSheaf Scheme.zariskiTopology.{u} F ↔
+      ∀ {T : Scheme.{u}} (R : Presieve T), R ∈ Scheme.zariskiPrecoverage T →
+        Presieve.IsSheafFor F R :=
+  ⟨fun h _ R hR ↦ (Precoverage.isSheaf_toGrothendieck_iff_of_isStableUnderBaseChange F).mp h R hR,
+    fun h ↦ (Precoverage.isSheaf_toGrothendieck_iff_of_isStableUnderBaseChange F).mpr
+      fun _ R hR ↦ h R hR⟩
+
+/-- A faithfully flat morphism of affine schemes is a one-member fpqc covering, so an fpqc sheaf
+satisfies the sheaf property for it. -/
+public lemma isSheafFor_singleton_of_isSheaf_fpqcTopology {F : Scheme.{u}ᵒᵖ ⥤ Type v}
+    (hF : Presieve.IsSheaf Scheme.fpqcTopology.{u} F) {V U : Scheme.{u}} [IsAffine V]
+    [IsAffine U] (g : V ⟶ U) (hf : Flat g) (hs : Surjective g) :
+    Presieve.IsSheafFor F (Presieve.singleton g) := by
+  have := hf
+  have := hs
+  exact hF.isSheafFor _ (Precoverage.generate_mem_toGrothendieck g.singleton_mem_fpqcPrecoverage)
+
+/-- **Stacks 022H.** A presheaf of sets `F` on the category of schemes satisfies the sheaf
+property for the fpqc topology if and only if it satisfies
+(1) the sheaf property for every Zariski covering, that is, every jointly surjective family of
+open immersions, and
+(2) the sheaf property for every standard fpqc covering, that is, every finite jointly surjective
+family of flat morphisms with affine sources over an affine base.
+Moreover, in the presence of (1), property (2) is equivalent to
+(2') the sheaf property for `{V ⟶ U}` with `V` and `U` affine and `V ⟶ U` faithfully flat. -/
+@[stacks 022H "both statements of the lemma: the fpqc sheaf condition is equivalent to \
+(1) ∧ (2), and under (1), (2) is equivalent to (2')", sga "3 XI 3.4" "special case"]
+public theorem isSheaf_fpqcTopology_iff_and_standardCovering_iff_faithfullyFlat
+    (F : Scheme.{u}ᵒᵖ ⥤ Type v) :
+    (Presieve.IsSheaf Scheme.fpqcTopology.{u} F ↔
+      (∀ {T : Scheme.{u}} (R : Presieve T), R ∈ Scheme.zariskiPrecoverage T →
+          Presieve.IsSheafFor F R) ∧
+        ∀ {T : Scheme.{u}} [IsAffine T] (𝒱 : T.AffineCover.{w} (@Flat.{u})), Finite 𝒱.I₀ →
+          Presieve.IsSheafFor F 𝒱.cover.presieve₀) ∧
+    ((∀ {T : Scheme.{u}} (R : Presieve T), R ∈ Scheme.zariskiPrecoverage T →
+        Presieve.IsSheafFor F R) →
+      ((∀ {T : Scheme.{u}} [IsAffine T] (𝒱 : T.AffineCover.{w} (@Flat.{u})), Finite 𝒱.I₀ →
+          Presieve.IsSheafFor F 𝒱.cover.presieve₀) ↔
+        ∀ {V U : Scheme.{u}} [IsAffine V] [IsAffine U] (g : V ⟶ U), Flat g → Surjective g →
+          Presieve.IsSheafFor F (Presieve.singleton g))) := by
+  have hZ := isSheaf_zariskiTopology_iff_forall_zariskiPrecoverage F
+  have hmain := isSheaf_fpqcTopology_iff_zariski_and_standardCovering.{u, v, w} F
+  refine ⟨by rw [hmain, hZ], fun hz ↦ ⟨fun hstd ↦ ?_, fun haff ↦ ?_⟩⟩
+  · exact fun g hf hs ↦
+      isSheafFor_singleton_of_isSheaf_fpqcTopology (hmain.mpr ⟨hZ.mpr hz, hstd⟩) g hf hs
+  · -- The case `V = Spec S`, `U = Spec R` of (2') is Mathlib's single-morphism condition.
+    have hsh : Presieve.IsSheaf Scheme.fpqcTopology.{u} F := by
+      rw [Scheme.fpqcTopology_eq_propQCTopology,
+        isSheaf_type_propQCTopology_iff (P := flatProperty.{u}) F]
+      exact ⟨hZ.mpr hz, fun f hf hs ↦ haff (Spec.map f) hf hs⟩
+    intro T _ 𝒱 hfin
+    exact (hmain.mp hsh).2 𝒱 hfin
 
 end AlgebraicGeometry
 

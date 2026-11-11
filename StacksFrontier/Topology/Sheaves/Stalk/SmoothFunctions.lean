@@ -56,7 +56,7 @@ The sheaf condition for `C^∞_{ℝ^n}`, and its `ℝ`-vector space structure, a
 @[expose] public section
 
 
-open Topology Filter TopologicalSpace CategoryTheory Opposite
+open Topology Filter TopologicalSpace CategoryTheory Opposite ContDiff
 open CategoryTheory.Limits
 
 /-- Euclidean space `ℝ^n` (as a metric / topological space). -/
@@ -68,7 +68,7 @@ structure SmoothFun (n : ℕ) (U : Set (RealN n)) where
   /-- The underlying real-valued function on `ℝ^n`. -/
   toFun : RealN n → ℝ
   /-- The function `toFun` is `C^∞` on `U`. -/
-  smooth : ContDiffOn ℝ ⊤ toFun U
+  smooth : ContDiffOn ℝ ∞ toFun U
 
 /-- Two `SmoothFun n U` are equivalent if they agree pointwise on `U`. -/
 def SmoothFun.eqOnU (n : ℕ) (U : Set (RealN n)) (f g : SmoothFun n U) : Prop :=
@@ -115,7 +115,7 @@ a `C^∞` function on some open neighbourhood of `x`. This is the Stacks notion 
 a "germ of a `C^∞`-function at `x`". -/
 def IsSmoothGerm (n : ℕ) (x : RealN n) (g : Filter.Germ (𝓝 x) ℝ) : Prop :=
   ∃ U : Set (RealN n), IsOpen U ∧ x ∈ U ∧ ∃ f : RealN n → ℝ,
-    ContDiffOn ℝ ⊤ f U ∧ g = (f : Filter.Germ (𝓝 x) ℝ)
+    ContDiffOn ℝ ∞ f U ∧ g = (f : Filter.Germ (𝓝 x) ℝ)
 
 /-- The type of smooth germs at `x`. -/
 def SmoothGerm (n : ℕ) (x : RealN n) : Type :=
@@ -295,7 +295,7 @@ contains `x` and on which `f` is `C^∞`. -/
 theorem isSmoothGerm_iff (n : ℕ) (x : RealN n) (g : Filter.Germ (𝓝 x) ℝ) :
     IsSmoothGerm n x g ↔
       ∃ f : RealN n → ℝ, ∃ s : Set (RealN n), x ∈ interior s ∧
-        ContDiffOn ℝ ⊤ f s ∧ g = (f : Filter.Germ (𝓝 x) ℝ) := by
+        ContDiffOn ℝ ∞ f s ∧ g = (f : Filter.Germ (𝓝 x) ℝ) := by
   constructor
   · rintro ⟨U, hU, hxU, f, hf, hg⟩
     exact ⟨f, U, by rwa [hU.interior_eq], hf, hg⟩

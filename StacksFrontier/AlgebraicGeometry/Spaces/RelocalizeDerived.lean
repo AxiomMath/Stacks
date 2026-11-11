@@ -34,7 +34,6 @@ universe u
 namespace AlgebraicGeometry.Space
 
 attribute [local instance 5000] SheafOfModules.instAbelian
-attribute [local instance 10000] HasDerivedCategory.standard
 
 variable (B : BigFppfSite.{u}) {T S : Scheme.{u}} (hT : B.Contains T) (hS : B.Contains S)
   (g : B.obj hT ⟶ B.obj hS) (X : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u)
@@ -49,6 +48,10 @@ instance relocalizeModulesEquivalence_functor_additive :
 instance relocalizeModulesEquivalence_inverse_additive :
     (relocalizeModulesEquivalence B hT hS g X hX).inverse.Additive :=
   Functor.additive_of_preserves_binary_products _
+
+variable [HasDerivedCategory (Modules.{u, u} B T hT X hX)]
+  [HasDerivedCategory (Modules.{u, u} B S hS ((OverShriek.relocalizePresheafFunctor g).obj X)
+    (isAlgebraicSpace_relocalize' B hT hS g X hX))]
 
 /-- **The derived functor of the relocalization of modules**, `D(𝒪_X) ⥤ D(𝒪_{Λ X})`. -/
 abbrev relocalizeDerivedFunctor :

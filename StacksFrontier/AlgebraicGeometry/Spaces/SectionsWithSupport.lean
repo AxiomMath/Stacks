@@ -72,10 +72,14 @@ image of Stacks 04K2. At the wider universe `max (u + 1) v` of
 `AlgebraicGeometry.Space.smallEtalePushforward_isRightAdjoint_abelian` the inverse image is only
 available as `Classical.choice` of a `Nonempty`, which is why that universe is not used.
 
-Only the subsheaf construction carries a tag. Stacks 0A4L also introduces the sections with
-support `Γ_Z(X, -)`, its right derived functor, the higher cohomology with support, the derived
-functor `R H_Z` and the spectral sequence relating them; none of those is defined here, so the
-tag is carried with a note naming the single entity that is.
+Stacks 0A4L also introduces the sections with support `Γ_Z(X, -)`, its right derived functor,
+the cohomology with support, the derived functor `R 𝓗_Z` and the spectral sequence relating them;
+those are in `StacksFrontier/AlgebraicGeometry/Spaces/GlobalSectionsWithSupport.lean`,
+`StacksFrontier/AlgebraicGeometry/Spaces/SectionsWithSupportLeftExact.lean`,
+`StacksFrontier/AlgebraicGeometry/Spaces/DerivedSectionsWithSupportEquivalence.lean`,
+`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyWithSupportTriangle.lean` and
+`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyWithSupportSpectralSequence.lean`, each carrying
+the tag with a note naming the part of the section it formalizes.
 
 ## References
 

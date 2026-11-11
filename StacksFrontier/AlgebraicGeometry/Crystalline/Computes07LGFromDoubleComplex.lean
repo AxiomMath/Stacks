@@ -20,8 +20,8 @@ algebra is `Crystalline.cosimplicialDoubleComplexRowComparisonHomologyIso`, whic
 degeneration of `StacksFrontier/Algebra/Homology/TotalDegeneration.lean` and the second one from a
 *rowwise comparison* rather than a rowwise vanishing; what remains are its four inputs, kept as
 named hypotheses.  [Stacks, Tag 07LG] itself is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`, which supplies those inputs for the cosimplicial
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`, which supplies those inputs for the cosimplicial
 pair `...SmallSite.crystalCosimplicialPair` of a crystal.
 
 ## The named hypotheses, and what each is
@@ -207,8 +207,8 @@ cosimplicial object on `rowTarget` identifies it with the cohomology of its row 
 them is the comparison `hcomp` asked for.
 
 **No tag attribute is placed**: the statement below is a reduction with named hypotheses.
-[Stacks, Tag 07LG] is `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`, proved through the cosimplicial pair
+[Stacks, Tag 07LG] is `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`, proved through the cosimplicial pair
 `...SmallSite.crystalCosimplicialPair` of a general crystal.
 
 ## Main result

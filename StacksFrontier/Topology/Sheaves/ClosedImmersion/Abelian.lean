@@ -12,24 +12,28 @@ Let `i : Z ⟶ X` be a closed embedding of topological spaces. Stacks 00AG state
 pushforward `i_* : Ab(Z) → Ab(X)` on sheaves of abelian groups is fully faithful, with essential
 image the sheaves whose stalks vanish at every point outside the range of `i`.
 
-Two parts of the tag are proved, both by specialising the general statements of
-`StacksFrontier.Topology.Sheaves.ClosedImmersion.Pushforward`, which are proved for an
-arbitrary value category:
+The declarations here, proved by specialising the general statements of
+`StacksFrontier.Topology.Sheaves.ClosedImmersion.Pushforward` (which hold for an arbitrary value
+category), are the ingredients of the tag:
 
 * `closedInclusion_pushforward_faithful` and `closedInclusion_pushforward_full`: `i_*` is fully
-  faithful, by `ClosedImmersionSheaves.sheafPushforwardFullyFaithful`. Only inducingness is used:
-  every open `V ⊆ Z` is the preimage of an open of `X`, so a morphism of sheaves on `Z` is already
-  determined by — and reconstructible from — the components of its pushforward.
-* `closedInclusion_pushforward_essImage_stalk_isZero`: the forward direction of the
-  essential-image description. It rests on
+  faithful, by `ClosedImmersionSheaves.sheafPushforwardFullyFaithful`. Inducingness of `i`
+  suffices: every open `V ⊆ Z` is the preimage of an open of `X`, so a morphism of sheaves on
+  `Z` is determined by — and reconstructible from — the components of its pushforward.
+* `closedInclusion_pushforward_essImage_stalk_isZero`: a sheaf in the essential image has
+  vanishing stalks off the range of `i`. It rests on
   `closedInclusion_pushforward_stalk_isZero_of_not_mem_range`, the vanishing of `(i_* 𝒜)_x` for
   `x` outside the range of `i`, which is
   `ClosedImmersionSheaves.isTerminalStalkPushforwardOfNotMemRange` — the stalk there is a terminal
   object — combined with the fact that a terminal object of `AddCommGrpCat` is a zero object.
 
-The reverse direction of the essential-image description is **not** proved here. It requires
-infrastructure beyond Mathlib's present sheaf API for closed embeddings — the pullback along a
-closed embedding, and the stalkwise behaviour of the counit of the resulting adjunction.
+The converse inclusion of the essential image, which uses the pullback `i^{-1}` and
+sheafification, is
+`Stacks.ClosedImmersion.essImage_closedInclusionPushforward_iff_forall_stalk_isZero` in
+`StacksFrontier.Topology.Sheaves.ClosedImmersion.AbelianExact`, and the complete statement of
+Stacks 00AG — fully faithful, with essential image exactly the sheaves whose stalks vanish off
+the image of `i` — is
+`Stacks.ClosedImmersion.closedInclusionPushforward_full_faithful_and_essImage_iff` there.
 -/
 
 @[expose] public section
@@ -102,9 +106,10 @@ noncomputable def stalk_iso_of_sheaf_iso
 
 /-! ### Essential image: forward direction (members have vanishing stalks off range) -/
 
-/-- **Stacks 00AG, essential image, forward direction.** If a sheaf `G` of abelian groups on
-`X` lies in the essential image of the pushforward along a closed embedding `i`, then the stalk
-of `G` vanishes at every point outside the range of `i`. -/
+/-- **Stacks 00AG, essential image.** If a sheaf `G` of abelian groups on `X` lies in the
+essential image of the pushforward along a closed embedding `i`, then the stalk of `G` vanishes
+at every point outside the range of `i`. The converse is
+`Stacks.ClosedImmersion.essImage_closedInclusionPushforward_iff_forall_stalk_isZero`. -/
 @[stacks 00AG,
   ega "0 3.4.6" "(F)",
   ega "0 4.2.5" "Ψ_*M is zero outside X",

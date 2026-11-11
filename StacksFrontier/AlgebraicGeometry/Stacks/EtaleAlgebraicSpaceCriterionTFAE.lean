@@ -148,13 +148,13 @@ theorem isEtale_of_hasEtaleAlgebraicSpaceCoverAfterFppfBaseChange
 1-morphism of algebraic stacks is Deligne–Mumford and every étale algebraic-space chart of every
 algebraic-space base change of it is étale over the base. -/
 theorem etaleOnEveryAlgebraicSpaceDiagram_of_isEtale_of_forward
-    (hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS B.contains_terminal)
+    (_hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS B.contains_terminal)
     {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} {f : 𝒳 ⟶ 𝒴} (hf : IsEtale B S hS f) :
     EtaleOnEveryAlgebraicSpaceDiagram B S hS f := by
   classical
   refine ⟨hf.1, fun U V hU hV a b h η hk => ?_⟩
   have hbc := hasEtaleSmoothLocalProperty_baseChange B S hS (Space.etaleMorphisms B S hS)
-    (Space.isEtale_isEtaleSmoothLocalOnSourceAndTarget B S hS) B.contains_terminal hForward f b hf
+    (Space.isEtale_isEtaleSmoothLocalOnSourceAndTarget B S hS) f b hf
   have hQ₀ : Bicategory.IsTwoFibreProduct
       (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} f.hom b.hom).swap :=
     Bicategory.isTwoFibreProduct_swap

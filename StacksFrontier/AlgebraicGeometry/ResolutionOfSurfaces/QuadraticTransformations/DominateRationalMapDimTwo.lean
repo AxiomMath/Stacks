@@ -12,18 +12,26 @@ import all
 # Dominating a rational map on a regular surface, with the inputs of Tag 0C5H discharged
 
 `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap` of
-`ResolutionOfSurfaces/QuadraticTransformations/DominateRationalMap.lean` is [Stacks, Tag 0C5H]
-granted three inputs: `descent`, the local splitting of [Stacks, Tag 0AGT]; `domination`,
-[Stacks, Tag 0AHI]; and `reduction`, the enlargement of the domain of the rational map to a
-cofinite open. On a regular Noetherian scheme of dimension two all three are available in this
-development, and the resulting form of the tag is stated here.
+`ResolutionOfSurfaces/QuadraticTransformations/DominateRationalMap.lean` is the argument of
+[Stacks, Tag 0C5H] with three inputs taken as arguments: `descent`, the local splitting of
+[Stacks, Tag 0AGT]; `domination`, [Stacks, Tag 0AHI]; and `reduction`, the enlargement of the
+domain of the rational map to a cofinite open. On a regular Noetherian scheme of dimension two all
+three are proved in this development, and the tag is stated and proved here.
 
 ## Main results
 
 * `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap_of_dim_two` —
-  [Stacks, Tag 0C5H] for a regular Noetherian scheme of dimension two, with no granted inputs.
+  [Stacks, Tag 0C5H], for a regular Noetherian scheme of dimension two.
 
 ## Implementation notes
+
+The source assumes `X` regular of dimension two, not quasi-compact, and the statement is false
+without quasi-compactness (`errata.md`, entry 0C5H): on a disjoint union of infinitely many copies
+of the affine plane over a field, the rational map to the projective line given by `(x : y)` on
+every copy is undefined at infinitely many points, while a finite sequence of blowups at closed
+points is an isomorphism away from finitely many. A regular scheme is locally Noetherian, so the
+added hypothesis `[IsNoetherian X]` is exactly quasi-compactness, and it is also what the source's
+proof uses, through [Stacks, Tag 0BX7], [Stacks, Tag 0C4V] and [Stacks, Tag 0AHI].
 
 Enlarging the domain is the valuative extension of
 [Stacks, Tag 0BX7](https://stacks.math.columbia.edu/tag/0BX7) across the codimension-one points
@@ -33,8 +41,8 @@ all of whose points are closed is a finite set of points. The chain dominating t
 is `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_factorization_of_isProper`, the library's
 [Stacks, Tag 0AHI], which discharges `descent` and `domination` together.
 
-The declaration in `DominateRationalMap.lean` keeps its three granted inputs: it is the form the
-rest of the development was compiled against, and the statement below is an addition to it, not
+The declaration in `DominateRationalMap.lean` keeps its three inputs as arguments: it is the form
+the rest of the development was compiled against, and the statement below is an addition to it, not
 a replacement. That file's two private glue lemmas, `pointBlowupChain_mono` and
 `isIso_morphismRestrict_of_isIso_pullback_snd`, are reached through `import all` rather than
 copied.
@@ -139,8 +147,12 @@ private theorem exists_extension_finite_compl {S X Y : Scheme.{u}} [X.Over S] [Y
 over `S` of dimension two, and let `Y` be proper over `S`. Given an `S`-rational map from `X` to
 `Y`, displayed on the dense open `f.domain`, there is a chain of blowups at closed points not
 lying over `f.domain`, with composite `p : Z ⟶ X`, and an `S`-morphism `h : Z ⟶ Y` which agrees
-with the rational map over `f.domain`. -/
-@[stacks 0C5H]
+with the rational map over `f.domain`.
+
+The source does not assume `X` quasi-compact, and without that the statement is false (see
+`errata.md`, entry 0C5H); `[IsNoetherian X]` adds exactly quasi-compactness to regularity. -/
+@[stacks 0C5H "corrected: X is also assumed quasi-compact ([IsNoetherian X], regularity giving \
+local Noetherianity); the source's statement is false without it, see errata.md entry 0C5H"]
 public theorem exists_pointBlowupChain_resolving_partialMap_of_dim_two
     {S X Y : Scheme.{u}} [X.Over S] [Y.Over S] [AlgebraicGeometry.IsNoetherian X]
     [IsProper (Y ↘ S)] (hreg : ∀ x : X, IsRegularLocalRing (X.presheaf.stalk x))

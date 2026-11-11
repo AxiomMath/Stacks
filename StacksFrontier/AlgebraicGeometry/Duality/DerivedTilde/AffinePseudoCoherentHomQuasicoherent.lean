@@ -82,7 +82,7 @@ and the degree-`n` cohomology of `Q(P̃^•)` is `H^n(P^•)^~` because `~` is e
 This is `AlgebraicGeometry.isQuasicoherent_homology_mapDerivedCategory_obj`, restated at the
 standard model of the derived category because the file carrying that statement also installs the
 locally small model as a global instance. -/
-private theorem isQuasicoherent_homology_tildeDerived (R : CommRingCat.{u})
+theorem isQuasicoherent_homology_tildeDerived (R : CommRingCat.{u})
     (M : DerivedCategory (ModuleCat.{u} R)) (n : ℤ) :
     SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf
       ((DerivedCategory.homologyFunctor (Spec R).Modules n).obj

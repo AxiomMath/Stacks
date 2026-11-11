@@ -25,8 +25,8 @@ adjunction is the canonical map
 
 Stacks 0D8G asserts that this map is an isomorphism when the site has equalizers and fibre
 products and the simplicial site is the one of Stacks 0D8B attached to a hypercovering. What is
-proved here is the reduction of that assertion to two inputs, both of which this library does
-not yet have; see "What Stacks 0D8G still lacks here" below.
+proved here is the reduction of that assertion to two inputs, both of which are proved further
+up the import order; see "The two inputs of Stacks 0D8G" below.
 
 ## Main definitions
 
@@ -43,7 +43,7 @@ not yet have; see "What Stacks 0D8G still lacks here" below.
 * `CategoryTheory.SimplicialSiteSituation.Augmentation.derivedAugmentationUnit`: the canonical
   map `E ⟶ R a_* a⁻¹ E`, the unit of that adjunction.
 * `CategoryTheory.SimplicialSiteSituation.Augmentation.InverseImageComputesDerivedPushforward`:
-  the second of the two assumed inputs, that `a⁻¹` of a K-injective complex computes `R a_*`.
+  the second of the two inputs, that `a⁻¹` of a K-injective complex computes `R a_*`.
 * `Stacks.CategoryTheory.Hypercovering.hypercoveringSituation` and `.hypercoveringAugmentation`:
   the simplicial-site situation and the augmentation of Stacks 0D8B attached to a
   hypercovering.
@@ -60,37 +60,32 @@ not yet have; see "What Stacks 0D8G still lacks here" below.
   K-injective complex computes `R a_*`.
 * `Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering`: the
   same statement in the situation of Stacks 0D8G — a site with equalizers and fibre products and
-  the simplicial site of Stacks 0D8B attached to a hypercovering of it.
+  the simplicial site of Stacks 0D8B attached to a hypercovering of it — with the two inputs
+  still as hypotheses.
 * `CategoryTheory.Adjunction.isIso_mapHomotopyCategoryAdjunction_unit_app`: an adjunction of
   additive functors whose unit is invertible induces one whose unit is invertible on the
   unbounded homotopy categories.
 
-## What Stacks 0D8G still lacks here
+## The two inputs of Stacks 0D8G
 
 The source's proof has three steps: the injective case, the bounded below case by Leray
-acyclicity, and the unbounded case by a product total complex. Two of its inputs are missing in
-this library, and they enter
+acyclicity, and the unbounded case by a product total complex. Here they are split into the
+reduction proved in this module and two inputs, which enter
 `Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering` as the
-hypotheses `hunit` and `hacyclic`.
+hypotheses `hunit` and `hacyclic`. Both are proved for a hypercovering in modules that import
+this one.
 
 * `hunit` is **Stacks 0D8E** in its abelian form: the unit `F ⟶ a_*a⁻¹F` of the underived
-  adjunction is an isomorphism. The source proves it from the equalizer description of `a_*a⁻¹F`
-  — which is available here, as
-  `CategoryTheory.SimplicialSiteSituation.Augmentation.augmentedCechComplex_exactAt_zero` and
-  `.augmentedCechComplex_exactAt_one` — together with the identification
-  `a_{n,*}a_n⁻¹F = ℋom(F(K_n)^#, F)`. The latter is available, cosimplicially and in abelian
-  form, as
-  `CategoryTheory.SimplicialSemiRepresentable.cechCosimplicialObjectIsoSheafHomCosimplicialObject`,
-  and with it Stacks 0D8F,
-  `CategoryTheory.SimplicialSemiRepresentable.cechComplexIsoSheafHomComplex`; the passage from it
-  to the invertibility of the unit is not carried out here.
+  adjunction is an isomorphism. It is
+  `CategoryTheory.SimplicialSemiRepresentable.isIso_situationAbelianTotalAdjunctionUnit`.
 * `hacyclic` is the derived-level content of the source's steps 1 and 3: for a K-injective
   complex `I` of abelian sheaves on `(D, K)`, the complex `a⁻¹I` on the total site computes
-  `R a_*`. The source gets it for an injective sheaf from the spectral sequence of Stacks 0D7A,
-  which is available, with its convergence, as
-  `CategoryTheory.SimplicialSiteSituation.Augmentation.higherDirectImageSpectralSequence`, and in
-  the unbounded case from the product total complex of Cohomology on Sites, Section 21.35; the
-  passage from these to `hacyclic` is not carried out here.
+  `R a_*`. It is `CategoryTheory.SimplicialSemiRepresentable`
+  `.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`, proved from the
+  resolution of Stacks 0D78 and Stacks 01GE.
+
+With both discharged, Stacks 0D8G itself is `CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_derivedAugmentationUnit_app_of_hypercovering_unconditional`.
 
 Nothing of either input is assumed in the general machinery: the construction of `R a_*`, of
 `a⁻¹` on derived categories, of the derived adjunction and of its unit is unconditional.
@@ -447,7 +442,7 @@ def hypercoveringAugmentation :
     Augmentation (hypercoveringSituation J H) (Cat.of C) J.toGrothendieck :=
   situationAugmentation J.toGrothendieck H.toSimplicialObject
 
-/-- **Stacks 0D8G**, granted the two inputs the library does not have. For a site `C` with
+/-- The form of Stacks 0D8G taking both of its inputs as hypotheses. For a site `C` with
 equalizers and fibre products, a hypercovering `K` of it, and the augmentation
 `a : Sh((C/K)_total) ⟶ Sh(C)` of Stacks 0D8B, the canonical map `E ⟶ R a_* a⁻¹ E` is an
 isomorphism for every object `E` of the unbounded derived category of abelian sheaves on `C`.
@@ -460,8 +455,15 @@ its abelian form, that the underived unit `F ⟶ a_*a⁻¹F` is an isomorphism. 
 `a⁻¹` of a K-injective complex of abelian sheaves on `C` computes `R a_*`; it is the derived
 content of the source's computation of `R a_*a⁻¹` by the Čech complex, which rests on the
 spectral sequence of Stacks 0D7A and the product total complex. Neither hypothesis is used by
-the construction of `a⁻¹`, of `R a_*`, of their adjunction or of its unit. -/
-@[stacks 0D8G "granted Tag 0D8E and the Ra_*-acyclicity of a⁻¹ of a K-injective complex"]
+the construction of `a⁻¹`, of `R a_*`, of their adjunction or of its unit.
+
+Both hypotheses are proved for a hypercovering further up the import order, `hunit` by
+`CategoryTheory.SimplicialSemiRepresentable.isIso_situationAbelianTotalAdjunctionUnit` and
+`hacyclic` by `CategoryTheory.SimplicialSemiRepresentable`
+`.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`; the statement with both
+discharged, which carries the Stacks 0D8G registration, is
+`CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_derivedAugmentationUnit_app_of_hypercovering_unconditional`. -/
 theorem isIso_derivedAugmentationUnit_app_of_hypercovering
     (hunit : IsIso (Augmentation.abelianTotalAdjunction (hypercoveringSituation J H) (Cat.of C)
       J.toGrothendieck (hypercoveringAugmentation J H)).unit)

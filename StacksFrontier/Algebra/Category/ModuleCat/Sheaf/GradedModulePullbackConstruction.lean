@@ -41,10 +41,14 @@ source alone: `f_*` **has a left adjoint**, and the pullback is its value.
   sheaves of graded modules preserves all limits** of the size of the module universe.
 * `SheafOfModules.GradedModule.isRightAdjoint_pushforwardFunctor`: **the direct image of sheaves
   of graded modules has a left adjoint.**
-* `SheafOfModules.GradedModule.pullbackHomOfDegreeEquiv` is **Tag 0FR8**:
+* `SheafOfModules.GradedModule.pullbackHomOfDegreeEquiv`:
   `Hom^n(f^*N, M) = Hom^n(N, f_*M)` in every homogeneous degree `n`, for the pullback built
-  here; `SheafOfModules.GradedModule.pullbackPushforwardAdjunction` is its degree-zero case read
-  as an adjunction `f^* ⊣ f_*`.
+  here as the left adjoint of `f_*`; `SheafOfModules.GradedModule.pullbackPushforwardAdjunction`
+  is its degree-zero case read as an adjunction `f^* ⊣ f_*`. Both are the defining adjunction
+  of that left adjoint read in every degree; the statement of Tag 0FR8 itself, for the explicit
+  pullback `f^*N = f⁻¹N ⊗_{f⁻¹B, φ} A`, is
+  `SheafOfModules.GradedTensorPullback.tensorPullbackHomOfDegreeEquiv` of
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullbackTensor.lean`.
 
 ## Implementation notes
 
@@ -71,10 +75,18 @@ limits of the size of the module universe, `SheafOfModules.preservesLimitsOfSize
 because limits of sheaves of modules are computed in `AddCommGrpCat`-valued sheaves, where the
 direct image is restriction along `u.op`.
 
-**The identification of the pullback with `f^{-1}N ⊗_{f^{-1}B, φ} A`** is a separate statement,
-and it is the route the source's own proof suggests; the development has no inverse image of a
-sheaf of graded modules to form that tensor product with. What the source's lemma asserts, and
-what is established here, is the identification of the two hom-sets.
+**The explicit pullback `f^{-1}N ⊗_{f^{-1}B, φ} A`** is not used here: the pullback of this
+file is whatever left adjoint `f_*` has, so the identification of hom-sets below holds by
+construction. The explicit construction of the source, the inverse image `f⁻¹N` tensored with
+`A` over `f⁻¹B`, together with the identification of Tag 0FR8 for it, is
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullbackTensor.lean`, at a continuous,
+representably flat and final functor of small sites in one universe, the setting in which the
+inverse image of sheaves of modules is formed in this development.
+The same composite along a morphism of ringed topoi, the inverse image `f⁻¹N` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModuleInverseImage.lean` tensored with `A`
+over `f⁻¹B` and read as a right graded `A`-module over `O_C`, is
+`Stacks.Sheaves.GradedModuleToposPullback.pullbackFunctor` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModuleToposPullback.lean`.
 
 **Universes.** The module universe is `max u v a u' v' a' w` for sites `C : Type u` with
 `Category.{v} C` and `C' : Type u'` with `Category.{v'} C'` and algebra pieces in
@@ -201,19 +213,18 @@ noncomputable def pullbackFunctor (φ : GradedAlgebra.SemilinearHom u σ B A) :
       GradedModule.{t, a, max u v a u' v' a' w} A :=
   (pullbackData.{t, a, w, v, u, a', v', u'} φ).functor
 
-/-- **Tag 0FR8**: for a morphism of ringed sites `f`, a sheaf of graded `R`-algebras `A` on the
-source, a sheaf of graded `R'`-algebras `B` on the target and a homomorphism `φ : B ⟶ f_*A` of
-sheaves of graded algebras, the homomorphisms `f^*N ⟶ M` of right graded `A`-modules homogeneous
-of degree `n` are exactly the homomorphisms `N ⟶ f_*M` of right graded `B`-modules homogeneous
-of degree `n`:
+/-- For a morphism of ringed sites `f`, a sheaf of graded `R`-algebras `A` on the source, a sheaf
+of graded `R'`-algebras `B` on the target and a homomorphism `φ : B ⟶ f_*A` of sheaves of graded
+algebras, the homomorphisms `f^*N ⟶ M` of right graded `A`-modules homogeneous of degree `n` are
+exactly the homomorphisms `N ⟶ f_*M` of right graded `B`-modules homogeneous of degree `n`, for
+the pullback `f^*` obtained as the left adjoint of the direct image:
 
 `Hom_{Mod^gr(B)}(N, f_*M) = Hom_{Mod^gr(A)}(f^*N, M)`
 
-Both sides of the source's identification are taken in the graded categories, so the statement
-is the identification in every homogeneous degree at once. -/
-@[stacks 0FR8 "Hom_{Mod^gr(B)}(N, f_*M) = Hom_{Mod^gr(A)}(f^*N, M), in every homogeneous \
-degree, for the pullback f^* of sheaves of graded modules obtained as the left adjoint of the \
-direct image"]
+Since `f^*` is defined here as the left adjoint of `f_*`, this is the defining adjunction read
+in every homogeneous degree. Tag 0FR8 is the same identification for the explicit pullback
+`f^*N = f⁻¹N ⊗_{f⁻¹B, φ} A`, which is
+`SheafOfModules.GradedTensorPullback.tensorPullbackHomOfDegreeEquiv`. -/
 noncomputable def pullbackHomOfDegreeEquiv (φ : GradedAlgebra.SemilinearHom u σ B A)
     (N : GradedModule.{t, a', max u v a u' v' a' w} B)
     (M : GradedModule.{t, a, max u v a u' v' a' w} A) (n : ℤ) :
@@ -222,7 +233,7 @@ noncomputable def pullbackHomOfDegreeEquiv (φ : GradedAlgebra.SemilinearHom u �
   (pullbackData.{t, a, w, v, u, a', v', u'} φ).homOfDegreeEquiv N M n
 
 /-- **The pullback of sheaves of graded modules is left adjoint to the direct image**, which is
-the degree-zero case of the identification of Tag 0FR8 read as an adjunction. -/
+the degree-zero case of `pullbackHomOfDegreeEquiv` read as an adjunction. -/
 noncomputable def pullbackPushforwardAdjunction (φ : GradedAlgebra.SemilinearHom u σ B A) :
     pullbackFunctor.{t, a, w, v, u, a', v', u'} φ ⊣
       pushforwardFunctor.{t, a, max u v a u' v' a' w} φ :=

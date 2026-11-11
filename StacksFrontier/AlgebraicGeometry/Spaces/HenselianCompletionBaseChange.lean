@@ -71,8 +71,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 include hXdec in
 /-- The category of elementary étale neighborhoods of a point of a decent algebraic space is
 cofiltered. -/
-@[stacks 0BGV "cofilteredness for a decent space, with the nonemptiness hypothesis of the \
-  existing carrier discharged by Tag 0BBP"]
+@[stacks 0BGV "the category of elementary étale neighbourhoods of a point of a decent \
+  space is cofiltered; nonemptiness by Tag 0BBP"]
 theorem isCofiltered_elementaryEtaleNeighborhood :
     IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX x) :=
   ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX x

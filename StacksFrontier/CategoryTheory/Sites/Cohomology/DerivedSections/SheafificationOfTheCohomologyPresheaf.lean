@@ -168,29 +168,29 @@ abbrev cohomologyPresheaf (X : RingedSite.{u, v, w})
 
 /-- Sheafification of presheaves of modules along the identity is additive. -/
 instance additive_sheafification {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-    (R : Sheaf J RingCat.{w}) [HasSheafify J AddCommGrpCat.{w}]
-    [J.WEqualsLocallyBijective AddCommGrpCat.{w}] :
+    (R : Sheaf J RingCat.{w}) [HasSheafify J AddCommGrpCat.{g}]
+    [J.WEqualsLocallyBijective AddCommGrpCat.{g}] :
     (PresheafOfModules.sheafification (𝟙 R.obj) :
-      PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R).Additive := by
+      PresheafOfModules.{g} R.obj ⥤ SheafOfModules.{g} R).Additive := by
   have hbig := (PresheafOfModules.sheafificationAdjunction
     (𝟙 R.obj)).leftAdjoint_preservesColimits
   have : PreservesFiniteColimits (PresheafOfModules.sheafification (𝟙 R.obj) :
-      PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R) :=
+      PresheafOfModules.{g} R.obj ⥤ SheafOfModules.{g} R) :=
     ⟨fun _ _ _ => hbig.preservesColimitsOfShape⟩
   have : (PresheafOfModules.sheafification (𝟙 R.obj) :
-      PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R).PreservesZeroMorphisms :=
+      PresheafOfModules.{g} R.obj ⥤ SheafOfModules.{g} R).PreservesZeroMorphisms :=
     Functor.preservesZeroMorphisms_of_preserves_terminal_object
   have : PreservesBinaryBiproducts (PresheafOfModules.sheafification (𝟙 R.obj) :
-      PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R) :=
+      PresheafOfModules.{g} R.obj ⥤ SheafOfModules.{g} R) :=
     preservesBinaryBiproducts_of_preservesBinaryCoproducts _
   exact Functor.additive_of_preservesBinaryBiproducts _
 
 /-- Sheafification of presheaves of modules along the identity preserves finite colimits. -/
 instance preservesFiniteColimits_sheafification {C : Type u} [Category.{v} C]
     {J : GrothendieckTopology C} (R : Sheaf J RingCat.{w})
-    [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] :
+    [HasSheafify J AddCommGrpCat.{g}] [J.WEqualsLocallyBijective AddCommGrpCat.{g}] :
     PreservesFiniteColimits (PresheafOfModules.sheafification (𝟙 R.obj) :
-      PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R) :=
+      PresheafOfModules.{g} R.obj ⥤ SheafOfModules.{g} R) :=
   ⟨fun _ _ _ => (PresheafOfModules.sheafificationAdjunction
     (𝟙 R.obj)).leftAdjoint_preservesColimits.preservesColimitsOfShape⟩
 

@@ -33,9 +33,6 @@ homology sequence.
 
 @[expose] public section
 
-add_to_stacks 011V "object" CategoryTheory.DifferentialObject
-add_to_stacks 011V "morphism" CategoryTheory.DifferentialObject.Hom
-
 section
 
 /-!
@@ -48,7 +45,12 @@ For any abelian category `C`, the category of differential objects of `C`
 open CategoryTheory
 
 /-- A differential object of a category `C` with zero morphisms is a pair
-`(X, d)` where `X : C` and `d : X ⟶ X` satisfies `d ≫ d = 0`. -/
+`(X, d)` where `X : C` and `d : X ⟶ X` satisfies `d ≫ d = 0`.
+
+This is the Stacks notion, with an endomorphism rather than a map to a shift; Mathlib's
+`CategoryTheory.DifferentialObject` takes `d : X ⟶ X⟦1⟧`, and the two are identified for the
+trivial shift in `StacksFrontier.CategoryTheory.DifferentialObjectTrivialShift`. -/
+@[stacks 011V "object"]
 structure StacksDifferentialObject (C : Type*) [Category C] [Limits.HasZeroMorphisms C] where
   /-- The underlying object. -/
   X : C
@@ -63,7 +65,7 @@ variable {C : Type*} [Category C] [Limits.HasZeroMorphisms C]
 
 /-- A morphism of differential objects: a morphism in `C` that commutes with
 the differentials. -/
-@[ext]
+@[ext, stacks 011V "morphism"]
 structure Hom (M N : StacksDifferentialObject C) where
   /-- The underlying morphism in `C`. -/
   f : M.X ⟶ N.X

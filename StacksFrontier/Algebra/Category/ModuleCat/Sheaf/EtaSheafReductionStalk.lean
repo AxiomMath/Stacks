@@ -115,10 +115,11 @@ not syntactically so.
 ### Why nothing here carries the attribute
 
 Everything here is a step of the *proof* of Tag 0GT9, not a clause of its statement, so no
-declaration below carries `@[stacks 0GT9]`.  The tag's own conclusion is proved in Situation
-0GT4 in `EtaSheafReductionDerivedIsoRegular.lean`, as
+declaration below carries `@[stacks 0GT9]`.  The chain-level comparison is proved invertible in
+Situation 0GT4 in `EtaSheafReductionDerivedIsoRegular.lean`, as
 `Reduction.isIso_reductionComparisonQ_of_isLocallyGeneratedByRegular` and
-`Reduction.reductionComparisonQIsoOfRegular`.
+`Reduction.reductionComparisonQIsoOfRegular`, and the tag's own conclusion, for every object of
+`D(O_X)` and the source's objects, is `ReductionDerived.reductionDerivedTensorIso`.
 
 `HasStalkModelComparison` names the source's step "on stalks this construction matches the maps
 built in More on Algebra, Lemma 15.97.6": the two model isomorphisms at each stalk, compatibly

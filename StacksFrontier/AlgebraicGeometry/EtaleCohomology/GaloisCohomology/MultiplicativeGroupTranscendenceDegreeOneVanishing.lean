@@ -105,8 +105,8 @@ theorem subsingleton_sheafH_multiplicativeSheaf_spec_functionField (k : Type u) 
 be an algebraically closed field and `K/k` a field extension of transcendence degree one. Then
 `H^q_étale(Spec K, 𝐆_m) = 0` for every `q ≥ 1`. -/
 @[stacks 03RG "vanishing of the positive-degree étale cohomology of 𝐆_m over a
-transcendence-degree-one extension of an algebraically closed field, over Tag 03R8 and Tag 03QU
-as the hypothesis h03RG"]
+transcendence-degree-one extension of an algebraically closed field, proved from Tag 03R8 and
+Tag 03QU with no hypothesis beyond the tag's"]
 alias subsingleton_sheafH_multiplicativeSheaf_of_trdeg_eq_one :=
   subsingleton_sheafH_multiplicativeSheaf_spec_of_trdeg_eq_one
 

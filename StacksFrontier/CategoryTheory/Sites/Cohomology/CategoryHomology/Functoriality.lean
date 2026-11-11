@@ -392,7 +392,9 @@ def categoryHomologyMapData (F : Cᵒᵖ ⥤ AddCommGrpCat.{max u u' v})
       map_iso := fun f g e t s h => homologyMapAux_iso.{u, u', v} f g e t s h n }
 
 /-- The canonical map on homology induced by a functor `f : C' ⥤ C` and a
-morphism `t : F' ⟶ f.op ⋙ F` to the inverse-image presheaf. -/
+morphism `t : F' ⟶ f.op ⋙ F` to the inverse-image presheaf, computed on projective resolutions.
+It is the map that Remark 08PD produces on `H_n(C, F) = L_nπ_!F`, by
+`Stacks.ChaoticSite.map_homologyFunctor_map_canonicalDerivedLowerShriekMap'`. -/
 @[stacks 08PH "homology_map"]
 def categoryHomologyMap (f : C' ⥤ C) {F : Cᵒᵖ ⥤ AddCommGrpCat.{max u u' v}}
     {F' : C'ᵒᵖ ⥤ AddCommGrpCat.{max u u' v}} (t : F' ⟶ f.op ⋙ F) (n : ℕ) :

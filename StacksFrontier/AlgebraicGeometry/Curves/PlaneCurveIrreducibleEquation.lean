@@ -114,7 +114,7 @@ variable {A : Type u} {σ : Type w} [CommRing A] [SetLike σ A] [AddSubgroupClas
 prime, so it is a generic point and `Proj 𝒜` is irreducible; and every stalk is a graded
 localization of a domain, so `Proj 𝒜` is reduced. -/
 @[ega "II 2.3.17" "special case"]
-private theorem isIntegral_proj_of_isDomain [IsDomain A]
+theorem isIntegral_proj_of_isDomain [IsDomain A]
     [Nonempty (AlgebraicGeometry.Proj 𝒜)] : IsIntegral (AlgebraicGeometry.Proj 𝒜) := by
   let p : ProjectiveSpectrum 𝒜 := ⟨⊥, by simpa using (inferInstance : (⊥ : Ideal A).IsPrime), by
     obtain ⟨x⟩ := ‹Nonempty (AlgebraicGeometry.Proj 𝒜)›

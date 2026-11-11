@@ -11,9 +11,14 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ProperClosedImmersion
 /-!
 # Vanishing of a bivariant class on the fundamental classes of integral spaces
 
-In the situation of Stacks 0EDT let `X/B` be good and let `c ∈ A^p(X)`. **Stacks 0ERS** says
+In the situation of Stacks 0EDT let `X/B` be good and let `c ∈ A^p(X)`. Stacks 0ERS says
 that `c` is zero if and only if `c ∩ [Y] = 0` in `CH_*(Y)` for every integral algebraic space
-`Y` locally of finite type over `X`.
+`Y` locally of finite type over `X`. This file proves that statement for the bivariant classes of
+an abstract Chow-group system `AlgebraicGeometry.Space.ChowGroupSystem`, under extra hypotheses
+on the system and for Chow classes of cycles of finite support. Stacks 0ERS itself, over the
+constructed Chow groups of Stacks 0EQ6 and with no extra hypothesis, is
+`AlgebraicGeometry.Space.ChowCohomologyClass.eq_zero_iff_capsFundamentalClassesToZero` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChowCohomologyVanishing`, which carries the tag.
 
 The forward implication is the vanishing of the zero bivariant class. For the converse, a class
 `α ∈ CH_k(X')` on a good test space is written as the class of a cycle `∑ n_i [Z_i]` over the
@@ -38,12 +43,13 @@ integral space `Z_i`.
 
 * `AlgebraicGeometry.Space.eq_sum_integralClosedSubspaceCycle` — a cycle with finite support is
   the sum of its coefficients times the cycles of the subspaces in its support.
-* `AlgebraicGeometry.Space.zero_capsFundamentalClassesToZero` — **Stacks 0ERS**, the forward
-  implication.
-* `AlgebraicGeometry.Space.cap_integralClosedSubspaceCycle_eq_zero` — **Stacks 0ERS**, the
-  content of the converse: capping with `c` kills the cycle of every integral closed subspace of
-  every good test space.
-* `AlgebraicGeometry.Space.eq_zero_iff_capsFundamentalClassesToZero` — **Stacks 0ERS**.
+* `AlgebraicGeometry.Space.zero_capsFundamentalClassesToZero` — the forward implication of
+  Stacks 0ERS for a Chow-group system.
+* `AlgebraicGeometry.Space.cap_integralClosedSubspaceCycle_eq_zero` — the converse of Stacks 0ERS
+  on cycles of integral closed subspaces, for a Chow-group system: capping with `c` kills the
+  cycle of every integral closed subspace of every good test space.
+* `AlgebraicGeometry.Space.eq_zero_iff_capsFundamentalClassesToZero` — Stacks 0ERS for a
+  Chow-group system, for Chow classes of cycles of finite support.
 
 ## Implementation notes
 
@@ -64,8 +70,7 @@ at every degree `k` and is zero when the δ-dimension of the subspace is not `k`
 
 ### What the converse is assumed, and what it proves
 
-Rational equivalence on an algebraic space is not available in this repository, so the Chow
-groups and their three operations are the parameter
+Here the Chow groups and their three operations are the parameter
 `AlgebraicGeometry.Space.ChowGroupSystem`, which carries no axiom relating them to cycles; see
 the implementation notes of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.Bivariant`. The step of
 the source proof which computes `c ∩ [Z]` by proper pushforward from `Z` therefore needs the
@@ -74,10 +79,8 @@ class of a cycle pushed forward along a closed immersion is the pushforward of i
 is how the proper pushforward of Stacks 82.15 is constructed, and it is not derivable from the
 fields of a `ChowGroupSystem`. Goodness of the fibre products that the naturality axiom of
 Stacks 0ERJ quantifies over, and properness of the base change of a closed immersion, are
-likewise hypotheses, bundled as
-`AlgebraicGeometry.Space.BaseSpaceDimensionSituation.HasGoodSubspaceBaseChanges`; they are
-hypotheses throughout this development, the theorems supplying them for algebraic spaces not
-being available.
+likewise hypotheses here, bundled as
+`AlgebraicGeometry.Space.BaseSpaceDimensionSituation.HasGoodSubspaceBaseChanges`.
 
 Given those, `AlgebraicGeometry.Space.cap_integralClosedSubspaceCycle_eq_zero` is the content of
 the converse: `c ∩ [Z] = 0` for every integral closed subspace `Z` of every good test space. It
@@ -85,13 +88,12 @@ upgrades to `c = 0` for a class `α ∈ CH_k(X')` which is the class of a cycle 
 support, since such a cycle is a finite sum of the cycles `[Z]`. The source handles an arbitrary,
 merely locally finite, cycle `∑ n_i [Z_i]` by passing to `X'' = ∐ Z_i`, using that `X'' ⟶ X'` is
 proper, that `CH_{k-p}(X'') = ∏ CH_{k-p}(Z_i)` and that the projections of that product are flat
-pullbacks. None of the coproduct `∐ Z_i` as a good algebraic space over the base, the properness
-of `∐ Z_i ⟶ X'`, nor the product decomposition of the Chow groups is available here — the last
-is Stacks 0ES2, which
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ClopenDecomposition` has for cycles only, again for
-want of rational equivalence. So `AlgebraicGeometry.Space.eq_zero_iff_capsFundamentalClassesToZero`
-carries the hypothesis that every Chow class on a good test space over `X` is the class of a
-cycle with finite support, and the `@[stacks 0ERS]` attribute says so.
+pullbacks. For an abstract system nothing ties the Chow group of `∐ Z_i` to those of the `Z_i`,
+so `AlgebraicGeometry.Space.eq_zero_iff_capsFundamentalClassesToZero` here carries the hypothesis
+that every Chow class on a good test space over `X` is the class of a cycle with finite support.
+Over the constructed Chow groups that argument is carried out in full, with
+`AlgebraicGeometry.Space.closedSubspacesCoproduct` for `∐ Z_i`, in
+`AlgebraicGeometry.Space.ChowCohomologyClass.eq_zero_iff_capsFundamentalClassesToZero`.
 
 ## References
 
@@ -396,19 +398,22 @@ def BivariantClass.CapsFundamentalClassesToZero (c : chowCohomologyComponent D G
     c.cap g hg hpb k
       (G.cycleClass (g ≫ sX) hg k (integralClosedSubspaceCycle D (g ≫ sX) W k)) = 0
 
-/-- **Stacks 0ERS, the forward implication.** The zero class of `A^p(X)` caps the fundamental
-class of every integral algebraic space locally of finite type over `X` to zero. -/
-@[stacks 0ERS "the forward implication"]
+/-- The forward implication of Stacks 0ERS for a Chow-group system: the zero class of `A^p(X)`
+caps the fundamental class of every integral algebraic space locally of finite type over `X` to
+zero. Over the constructed Chow groups this is
+`AlgebraicGeometry.Space.ChowCohomologyClass.zero_capsFundamentalClassesToZero`. -/
 theorem zero_capsFundamentalClassesToZero :
     BivariantClass.CapsFundamentalClassesToZero D G sX hX p 0 := by
   intro Y g hg hpb W _hW k _hk
   exact BivariantClass.zero_cap D G sX hX sX hX (𝟙 X) (Category.id_comp sX) p g hg hpb _ _
 
-/-- **Stacks 0ERS, the content of the converse.** If `c ∈ A^p(X)` caps the fundamental class of
-every integral algebraic space locally of finite type over `X` to zero, then it caps the cycle
-of every integral closed subspace of every good test space over `X` to zero: push forward along
-the inclusion of the subspace, where the hypothesis applies. -/
-@[stacks 0ERS "the converse on the cycle of an integral closed subspace"]
+/-- The converse of Stacks 0ERS on cycles of integral closed subspaces, for a Chow-group system
+whose pushforward is induced by the pushforward of cycles and under
+`AlgebraicGeometry.Space.BaseSpaceDimensionSituation.HasGoodSubspaceBaseChanges`: if
+`c ∈ A^p(X)` caps the fundamental class of every integral algebraic space locally of finite type
+over `X` to zero, then it caps the cycle of every integral closed subspace of every good test
+space over `X` to zero: push forward along the inclusion of the subspace, where the hypothesis
+applies. -/
 theorem cap_integralClosedSubspaceCycle_eq_zero
     (hpp : G.IsInducedByClosedCyclePushforward) (hbc : D.HasGoodSubspaceBaseChanges sX)
     (c : chowCohomologyComponent D G sX hX p)
@@ -452,9 +457,13 @@ theorem cap_integralClosedSubspaceCycle_eq_zero
       (D.isDecentSpace_of_isGood (g ≫ sX) hg) _ hassoc] at hnat
   rw [hnat, hvanish, map_zero]
 
-/-- **Stacks 0ERS.** A class `c ∈ A^p(X)` is zero if and only if `c ∩ [Y] = 0` in `CH_*(Y)` for
-every integral algebraic space `Y` locally of finite type over `X`. -/
-@[stacks 0ERS "for Chow classes of cycles of finite support, over a cycle-induced pushforward"]
+/-- Stacks 0ERS for a Chow-group system, under the hypotheses of
+`AlgebraicGeometry.Space.cap_integralClosedSubspaceCycle_eq_zero` and the hypothesis that every
+Chow class on a good test space over `X` is the class of a cycle with finite support: a class
+`c ∈ A^p(X)` is zero if and only if `c ∩ [Y] = 0` in `CH_*(Y)` for every integral algebraic space
+`Y` locally of finite type over `X`. Stacks 0ERS itself, over the constructed Chow groups and
+with no extra hypothesis, is
+`AlgebraicGeometry.Space.ChowCohomologyClass.eq_zero_iff_capsFundamentalClassesToZero`. -/
 theorem eq_zero_iff_capsFundamentalClassesToZero
     (hpp : G.IsInducedByClosedCyclePushforward) (hbc : D.HasGoodSubspaceBaseChanges sX)
     (hfin : ∀ {X' : D.Ambient} (g : X' ⟶ X) (hg : D.IsGood (g ≫ sX)) (k : ℤ)

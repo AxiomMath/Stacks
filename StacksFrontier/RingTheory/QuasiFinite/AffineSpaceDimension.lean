@@ -97,9 +97,10 @@ the dimensions of the local rings of `S`.
 *Quasi-finiteness.* `Algebra.QuasiFinite R S` (tagged 00PL) asks that the fibre `κ(𝔭) ⊗_R S` be a
 finite `κ(𝔭)`-module for every prime `𝔭` of `R`, without the source's finite type hypothesis.
 Under `Algebra.FiniteType R S` it is exactly the source's quasi-finite ring map, by
-`Algebra.QuasiFinite.iff_finite_primesOver` and
-`Algebra.QuasiFinite.iff_finite_comap_preimage_singleton` (tag 00PM: for a finite type map,
-quasi-finite means finite fibres, equivalently quasi-finite at every prime).
+`forall_quasiFiniteAt_iff_quasiFinite` (tag 00PM: for a finite type map, quasi-finite at every
+prime means finite fibres); `Algebra.QuasiFinite.iff_finite_primesOver` and
+`Algebra.QuasiFinite.iff_finite_comap_preimage_singleton` restate it as finitely many primes in
+each fibre.
 
 *Two hypotheses of the source are dropped, so the statement below implies the tag.* Neither the
 finite type hypothesis on `S` nor injectivity of `k[t_1, …, t_n] → S` (the source writes

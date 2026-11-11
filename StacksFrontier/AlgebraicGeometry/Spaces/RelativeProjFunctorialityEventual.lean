@@ -118,8 +118,10 @@ theorem isDefinedOn_of_eventually_epi
     (relativeMapDomain_eq_top_of_eventually_epi (ψ T f) (hsurj T f)) r u hu
 
 /-- If every restriction of `ψ` is an isomorphism in all sufficiently large degrees then every
-point of `Q = Proj_X(ℬ)` lies in the domain of definition of `ψ`. -/
-@[stacks 085I "part (1): every point of Q lies in the domain of definition"]
+point of `Q = Proj_X(ℬ)` lies in the domain of definition of `ψ`. This is the per-point step of
+Stacks 085I (1); the assertion for an actual map of graded algebras `ψ` with `ψ_d` an isomorphism
+for `d ≫ 0` is
+`AlgebraicGeometry.Space.RelativeProjSituation.relativeMapSubfunctor_homPoints_eq_top_of_isIso`. -/
 theorem isDefinedOn_of_eventually_isIso
     (hiso : ∀ (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X),
       ∀ᶠ d : ℕ in atTop, IsIso ((ψ T f).app (d : ℤ)))
@@ -293,8 +295,10 @@ theorem relativeMapSubfunctor_eq_top_of_eventually_epi
     isDefinedOn_of_eventually_epi hsurj Y.unop _ (𝟙 Y.unop) _ _
 
 /-- If every restriction of `ψ` is an isomorphism in all sufficiently large degrees then the open
-subspace `U(ψ)` of Stacks 085F is all of `Q = Proj_X(ℬ)`. -/
-@[stacks 085I "part (1): U(ψ) = Q"]
+subspace `U(ψ)` of Stacks 085F is all of `Q = Proj_X(ℬ)`. This is the form for an abstract
+`RelativeProjHomPoints`, under a hypothesis on each restriction of `ψ`; Stacks 085I (1) for an
+actual map of graded algebras is
+`AlgebraicGeometry.Space.RelativeProjSituation.relativeMapSubfunctor_homPoints_eq_top_of_isIso`. -/
 theorem relativeMapSubfunctor_eq_top_of_eventually_isIso
     (hiso : ∀ (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X),
       ∀ᶠ d : ℕ in atTop, IsIso ((hψ.hom T f).app (d : ℤ))) :
@@ -349,8 +353,10 @@ theorem bijective_app_relativeMapSpaceHom
       hp, Equiv.apply_symm_apply]
 
 /-- If every restriction of `ψ` is an isomorphism in all sufficiently large degrees then
-`r_ψ : U(ψ) ⟶ P` is an isomorphism of algebraic spaces. -/
-@[stacks 085I "part (2): the morphism r_ψ is an isomorphism"]
+`r_ψ : U(ψ) ⟶ P` is an isomorphism of algebraic spaces. This is the form for an abstract
+`RelativeProjHomPoints`, under a hypothesis on each restriction of `ψ`; Stacks 085I (2) for an
+actual map of graded algebras is
+`AlgebraicGeometry.Space.RelativeProjSituation.isIso_relativeMapSpaceHom_homPoints`. -/
 theorem isIso_relativeMapSpaceHom
     (hiso : ∀ (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X),
       ∀ᶠ d : ℕ in atTop, IsIso ((hψ.hom T f).app (d : ℤ))) :
@@ -360,10 +366,9 @@ theorem isIso_relativeMapSpaceHom
 
 /-- If every restriction of `ψ` is an isomorphism in all sufficiently large degrees then the maps
 `θ : r_ψ^*𝒪_P(n) ⟶ 𝒪_Q(n)` of Stacks 085F are isomorphisms, over every scheme point `(T, f)` of the
-base. -/
-@[stacks 085I "part (3): the maps θ_n : r_ψ^*𝒪_P(n) ⟶ 𝒪_Q(n) on the twists of the two relative
-Projs are isomorphisms, over every scheme point of the base — which is the assertion for θ
-itself, θ being characterized by Tag 085F as having exactly those restrictions"]
+base. This is the per-point form; Stacks 085I (3) for the glued map `θ_n` of an actual map of
+graded algebras is
+`AlgebraicGeometry.Space.RelativeProjSituation.isIso_twistMap_of_eventually_isIso`. -/
 theorem isIso_relativeTwistSpaceMap_of_eventually_isIso
     (hiso : ∀ (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X),
       ∀ᶠ d : ℕ in atTop, IsIso ((hψ.hom T f).app (d : ℤ)))

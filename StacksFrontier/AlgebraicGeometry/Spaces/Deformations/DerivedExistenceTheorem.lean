@@ -21,19 +21,24 @@ This file states that property and reads it off the maps `τₙ : Ljₙ^* K ⟶ 
 
 ## Main definitions
 
-* `DerivedExistenceSystem.IsPseudoCoherentOnLimit`: pseudo-coherence, in the sense of Stacks 08FT,
+* `SeparatedDerivedExistenceSystem.IsPseudoCoherentOnLimit`: pseudo-coherence, in the sense of
+  Stacks 08FT,
   of an object of `D(𝒪_X)`.
-* `DerivedExistenceSystem.IsCompatibleRestriction`: a family of maps `Ljₙ^* K ⟶ Kₙ` satisfies
+* `SeparatedDerivedExistenceSystem.IsCompatibleRestriction`: a family of maps `Ljₙ^* K ⟶ Kₙ`
+  satisfies
   `ψₙ = (Ljₙ^* ≅ Liₙ^* Ljₙ₊₁^*) ≫ Liₙ^* ψₙ₊₁ ≫ φₙ` for every `n`.
 
 ## Main results
 
-* `DerivedExistenceSystem.isCompatibleRestriction_coheratorLimitPullbackMap`: the maps `τₙ` are
+* `SeparatedDerivedExistenceSystem.isCompatibleRestriction_coheratorLimitPullbackMap`: the maps `τₙ`
+  are
   compatible with the `φₙ`, given that the composition isomorphism of derived pullbacks is
   conjugate to the composition isomorphism of the tower.
-* `DerivedExistenceSystem.exists_iso_isCompatibleRestriction_of_isIso`: if moreover every `τₙ` is
+* `SeparatedDerivedExistenceSystem.exists_iso_isCompatibleRestriction_of_isIso`: if moreover every
+  `τₙ` is
   invertible, then `Kₙ = K ⊗^L 𝒪_{Xₙ}` compatibly with the `φₙ`.
-* `DerivedExistenceSystem.exists_isPseudoCoherent_of_isIso`: if moreover `K` is pseudo-coherent,
+* `SeparatedDerivedExistenceSystem.exists_isPseudoCoherent_of_isIso`: if moreover `K` is
+  pseudo-coherent,
   the conclusion of Stacks 0DIQ holds.
 
 ## References
@@ -56,9 +61,9 @@ namespace AlgebraicGeometry.Space
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **Pseudo-coherence on `X`**, in the sense of Stacks 08FT, of an object of `D(𝒪_X)`: the
 counterpart on `X` of `AlgebraicGeometry.Space.IsPseudoCoherentOn` on the `Xₙ`, at the same
@@ -130,6 +135,19 @@ theorem exists_isPseudoCoherent_of_isIso
   exact ⟨_, ψ, hK, hψ⟩
 
 end Coherator
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+variable (D : DerivedExistenceSystem.{u})
+
+/-- **Pseudo-coherence on `X`**, in the sense of Stacks 08FT, in Situation 0DIK. -/
+abbrev IsPseudoCoherentOnLimit (K : D.limitDerivedCategory) : Prop :=
+  letI : HasDerivedCategory.{u + 1} (D.toposModules D.X.left) := HasDerivedCategory.standard _
+  RingedSite.IsPseudoCoherent.{u + 1, u, u, u, u + 1}
+    (RingedTopos.toRingedSite
+      (smallEtaleRingedTopos D.B (limitBase D.system) D.containsLimitBase D.X.left)) K
 
 end DerivedExistenceSystem
 

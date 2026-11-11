@@ -45,16 +45,20 @@ are the identity; that datum is Mathlib's `CategoryTheory.ExactPairing X Y`, whi
 
 **Where the statement lives.** The category `M_k` of motives of Stacks 0FGA is
 `Stacks.WeilCohomology.CorrespondenceStructure.Motive`, the Karoubi envelope of the category of
-correspondences. Its symmetric monoidal structure is Stacks 0FGC, which is *not* constructed in
-this repository, so `h(X) ⊗ 1(m)` cannot be written there at all. Accordingly the result is
+correspondences over an abstract `CorrespondenceStructure`, which carries no monoidal structure
+on its Karoubi envelope, so `h(X) ⊗ 1(m)` cannot be written there at all. (The symmetric
+monoidal structure of Stacks 0FGC is constructed on the concrete category of Chow motives, as
+`Stacks.WeilCohomology.ChowMotiveCat.monoidalCategory`.) Accordingly the result is
 stated in an arbitrary monoidal category `Mot` — to be read as `M_k` — with a family
 `h : D → Mot` of the motives of the smooth projective schemes over `k`, untwisted, and with the
 Tate objects `1(m)` supplied separately as a family `T : ℤ → Mot`. This is the setting of
 `StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.ManinIdentityPrinciple`, and the
 hypotheses below are written to match it verbatim: `T` is its
 `Stacks.WeilCohomology.ChowRepresentability.unitTwist`, `hT` its `tateExactPairing`, and `hgen`
-its own generation hypothesis. The statement specialises to the source's setting the moment
-0FGC lands. No motive, no `h(X)`, no tensor product of motives is redefined here.
+its own generation hypothesis. The statement specialises to the source's setting by taking
+`Mot` to be `Stacks.WeilCohomology.ChowMotiveCat k` with its monoidal structure
+`Stacks.WeilCohomology.ChowMotiveCat.monoidalCategory`. No motive, no `h(X)`, no tensor product
+of motives is redefined here.
 
 **The carried hypotheses.** Three inputs of the source's proof are unavailable in this
 repository and are carried as explicit hypotheses.
@@ -64,7 +68,9 @@ repository and are carried as explicit hypotheses.
 * The *generating property* of the motives of smooth projective schemes: every object of `M_k`
   is a direct summand of some twist `h(X)(m)`, the hypothesis `hgen`. For the Karoubi envelope
   this is immediate — `(X, p, m)` is cut out of `(X, 1, m)` by `p` — but it is a statement about
-  the monoidal structure of 0FGC, which is absent. "Direct summand" is taken in the weakest
+  the monoidal structure of 0FGC, which the abstract `CorrespondenceStructure.Motive` does not
+  carry (on the concrete category it is `Stacks.WeilCohomology.ChowMotiveCat.monoidalCategory`).
+  "Direct summand" is taken in the weakest
   useful sense, as `CategoryTheory.Retract`: a pair `i : L ⟶ L'`, `r : L' ⟶ L` with
   `i ≫ r = 𝟙 L`, which makes the theorem stronger.
 * *Stacks 0FGI*, duality for the motive of a smooth projective scheme, the hypothesis `hh`. The

@@ -45,8 +45,8 @@ The fourth is taken as an input: `...SmallSite.Annihilation07Q9`, the conclusion
 so that the bounds hold for any annihilator.  For a crystal in quasi-coherent modules it is
 [Stacks, Tag 07Q9] itself, `...SmallSite.annihilation07Q9_of_isIteratedAlphaPCover` of
 `SmallSite/AlphaPCover07Q9Main.lean`, whose mathematical content is [Stacks, Proposition 07LG],
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.
 
 The cokernel half takes one further hypothesis, `hmono`, in the form the bound consumes it: that
 `ℋ^0` of the comparison map is a monomorphism.  The module documentation of

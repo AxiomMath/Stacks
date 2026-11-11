@@ -33,12 +33,12 @@ make representability by algebraic spaces an étale-local condition on the targe
 
 *Why the étale case and not Stacks 0AMP.* The source closes locality on the target with Stacks
 0AMP, which asks of the covering morphism only that it be representable by algebraic spaces,
-surjective, flat and locally of finite presentation. This library does not have Stacks 0AMP:
-`AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective` proves it
-from the bootstrap theorem Stacks 04S6, part (3), and
-`AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection_iff` shows the two
-statements are equivalent, so nothing short of the bootstrap theorem discharges that input. The
-étale case is not in that situation, because Stacks 0BGR is proved outright — but only for a
+surjective, flat and locally of finite presentation. This library's Stacks 0AMP,
+`Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`,
+is stated for presheaves valued in `Type u` and rests on the whole bootstrap theorem Stacks 04S6,
+part (3), to which it is equivalent by
+`AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection_iff`. The étale case
+needs neither, because Stacks 0BGR is proved outright — but only for a
 morphism representable by *objects of the site*. That is a genuine strengthening and not a
 convenience: a base change of a morphism representable by algebraic spaces and étale along a
 scheme-valued point is an algebraic space étale over a scheme, which need not be a scheme, so
@@ -157,8 +157,9 @@ base change of `a ≫ b`, and `T ×_H G` is a sheaf; the morphism between them i
 
 This is the étale case of Stacks 0AMP with the hypothesis on `a` strengthened from
 representability by algebraic spaces to representability by objects of the site, and it carries
-no attribute for that tag: Stacks 0AMP in its own generality is equivalent to the bootstrap
-theorem Stacks 04S6, part (3), which this library does not prove. -/
+no attribute for that tag: Stacks 0AMP in its own generality is
+`Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`,
+for presheaves valued in `Type u`. -/
 theorem isRepresentableByAlgebraicSpacesULift_of_comp_of_surjective_etale
     {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (max w u)} (a : F ⟶ G) (b : G ⟶ H)
     (hG : Presheaf.IsSheaf (BigFppfOver.topology B S hS) G)

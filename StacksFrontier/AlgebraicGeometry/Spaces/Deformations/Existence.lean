@@ -34,8 +34,9 @@ situation for schemes.
 * `AlgebraicGeometry.Space.QuasicoherentSheavesAt`: the quasi-coherent `𝒪_{Xₙ}`-modules on the
   infinitesimal base change at a level, and `AlgebraicGeometry.Space.supportAt` the support of
   such a module as a subset of the points of that base change.
-* `AlgebraicGeometry.Space.InverseSystemExistenceSituation`: **Stacks 0CX4**, the rings, the
-  and the compatible family of finitely presented flat modules with proper support.
+* `AlgebraicGeometry.Space.InverseSystemExistenceSituation`: the data of Stacks 0CX4, the rings,
+  the space and the compatible family of finitely presented flat modules with proper support,
+  together with three consequences of those data carried as fields (see below).
 
 ## Implementation notes
 
@@ -111,12 +112,17 @@ abbrev supportAt (n : ℕ) (G : QuasicoherentSheavesAt A B hS hSn X n) :
   supportOfSheaf B (limitBase A) hS (spaceAt A B hS hSn X n).1
     ((SheafOfModules.toSheaf _).obj G.obj)
 
-/-- **Stacks 0CX4.** The standing data of Grothendieck's existence theorem for algebraic spaces:
+/-- The standing data of Grothendieck's existence theorem for algebraic spaces (Stacks 0CX4):
 an inverse system of rings with surjective, locally nilpotent transitions, a separated algebraic
 space of finite presentation over the inverse-limit ring, and a compatible system of finitely
 presented quasi-coherent modules on its infinitesimal base changes which are flat over, and have
-support proper over, the affine base at their level. -/
-@[stacks 0CX4]
+support proper over, the affine base at their level.
+
+Besides the source's data and hypotheses this structure carries three fields that follow from
+them: `closedSpaceProjection` (the projection `Xₙ ⟶ X` is a closed immersion, which follows from
+the surjectivity of the transitions), `closed_support` (part of support proper over `Aₙ`) and
+`locallyOfFiniteType` (which follows from the finite presentation of `X`). The Situation exactly
+as stated is `AlgebraicGeometry.Space.FlatSheafExistenceSituation`. -/
 structure InverseSystemExistenceSituation where
   /-- The inverse system of rings `(Aₙ)`. -/
   system : ℕᵒᵖ ⥤ CommRingCat.{u}

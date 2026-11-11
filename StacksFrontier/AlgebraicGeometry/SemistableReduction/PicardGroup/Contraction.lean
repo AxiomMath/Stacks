@@ -764,8 +764,8 @@ public theorem picardMap_mk (h : IsMinusOneIndex T (lastIndex T))
 
 /-- **The injectivity of Tag 0C7J holds for smaller weights.** If `T'` is the contraction of a
 minus-one index of `T` in every datum except that its weights `w'ᵢ` are only divisors of `wᵢ`,
-the homomorphism `Pic(T) → Pic(T')` induced by `p` is still injective. -/
-@[stacks 0CA9 "the injectivity of Pic(T) → Pic(T') of Tag 0C7J works as well for smaller w'_i"]
+the homomorphism `Pic(T) → Pic(T')` induced by `p` is still injective. This is the last clause
+of [Stacks, Tag 0CA9] (see `associatedNumericalType_contraction_comparison`). -/
 public theorem picardMap_injective (h : IsMinusOneIndex T (lastIndex T)) :
     Function.Injective (hT.picardMap h) := by
   exact mapQ_range_injective (hT.picardRelation_compatibility h) hT.projectionLinearMap_surjective

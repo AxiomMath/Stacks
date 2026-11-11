@@ -18,8 +18,13 @@ exhibiting an affine open as the union of two standard opens.
 
 ## Main results
 
-* `AlgebraicGeometry.SmallAffineZariski.essImage_iff_isZero_derivedSections_and_isCSquareIso` —
-  **Stacks 0F1L.**
+* `AlgebraicGeometry.SmallAffineZariski.essImage_iff_isZero_derivedSections_and_isCSquareIso` — a
+  ringed variant of Stacks 0F1L, for modules over a Zariski sheaf of rings.
+
+Stacks 0F1L itself concerns abelian presheaves, for which the empty-set condition is a genuine
+condition; it is `AlgebraicGeometry.SmallAffineZariski.abelian_fullyFaithful_and_essImage_iff`.
+Here the structure sheaf vanishes over an empty affine open, so the first of the two conditions
+holds for every object and the statement does not specialize to the abelian one.
 
 ## Implementation notes
 
@@ -196,14 +201,18 @@ private lemma essImage_almostChaotic_iff_isCSquareIso
     (fun K' hK' a => isCSquareIso_almostChaotic_of_essImage B S hS O Rε η K' hK' _ a.2) K hK
 
 include η in
-/-- **Stacks 0F1L.** Let `𝒪` be a sheaf of rings for the Zariski topology on the affine opens of a
-scheme `S` and let `ε` be the comparison from the Zariski topology to the chaotic topology, in
-which every presheaf is a sheaf. A bounded-below object `K` of `D(𝒪_chaotic)` lies in the
-essential image of the derived direct image `Rε_*` if and only if the derived sections of `K` over
-every empty affine open vanish and the canonical map `c^K_{U,V,W,V ∩ W}` of Stacks 0F16 is an
-isomorphism for every square exhibiting an affine open `U` as the union of two standard opens `V`
-and `W` with intersection `V ∩ W`. -/
-@[stacks 0F1L]
+/-- **A ringed variant of Stacks 0F1L.** Let `𝒪` be a sheaf of rings for the Zariski topology on
+the affine opens of a scheme `S` and let `ε` be the comparison from the Zariski topology to the
+chaotic topology, in which every presheaf is a sheaf. A bounded-below object `K` of `D(𝒪_chaotic)`
+lies in the essential image of the derived direct image `Rε_*` if and only if the derived sections
+of `K` over every empty affine open vanish and the canonical map `c^K_{U,V,W,V ∩ W}` of Stacks
+0F16 is an isomorphism for every square exhibiting an affine open `U` as the union of two standard
+opens `V` and `W` with intersection `V ∩ W`.
+
+This is not Stacks 0F1L, which is about abelian presheaves: since `𝒪` vanishes over an empty
+affine open, so does every `𝒪`-module, and the first condition holds for every `K`
+(`isZero_derivedSections_of_isEmpty`). Stacks 0F1L is
+`AlgebraicGeometry.SmallAffineZariski.abelian_fullyFaithful_and_essImage_iff`. -/
 theorem essImage_iff_isZero_derivedSections_and_isCSquareIso
     (K : DerivedCategory (SheafOfModules.{u + 1}
       (Stacks.SheafOfModules.Tensor.ringSheaf (trivialRingedSite B S hS O).O)))

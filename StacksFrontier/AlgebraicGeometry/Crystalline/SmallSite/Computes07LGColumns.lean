@@ -37,8 +37,8 @@ in each cosimplicial degree together with the identification of the row `b = 0`.
 ## Implementation notes
 
 No tag attribute is placed here: [Stacks, Tag 07LG] itself is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`. This module serves an earlier reduction of it
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`. This module serves an earlier reduction of it
 with named hypotheses, and discharges the column half of the double complex hypotheses, for a
 general quasi-coherent crystal.
 

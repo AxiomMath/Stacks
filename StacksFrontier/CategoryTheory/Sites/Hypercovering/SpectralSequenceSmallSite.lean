@@ -391,7 +391,7 @@ hypercovering (contravariantly) and in the sheaf. It is the restriction of
 `hypercoverSpectralSequenceFunctor` along the inclusion of the full subcategory of
 hypercoverings, since nothing in the construction of the sequence itself uses the hypercovering
 condition -- that is needed only for the abutment, which is not here. -/
-@[stacks 01GY "spectral_sequence", sga "4 V 7.4.0" "(7.4.0.3)"]
+@[sga "4 V 7.4.0" "(7.4.0.3)"]
 def hypercoveringSpectralSequence :
     (HypercoveringCat X J)ᵒᵖ × Sheaf J.toGrothendieck AddCommGrpCat.{v} ⥤
       E₂CohomologicalSpectralSequenceNat AddCommGrpCat.{v} :=

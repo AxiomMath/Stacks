@@ -2,7 +2,6 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.ArtinApproximationScheme
 public import StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.IsomorphismApproximation
-public import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Artin approximation over a second base
@@ -34,6 +33,10 @@ This file proves the two halves of that conclusion which Tag 0CAU gives:
   `V ⟶ S`. Here the `W` of the source appears as an elementary étale neighbourhood of
   `(Y ×_{T, τ} V, y_τ)` and the morphism `f : W ⟶ X ×_S V` of the source is recovered from the
   morphism `W ⟶ X` which 0CAU returns together with `W ⟶ Y ×_{T, τ} V ⟶ V`.
+
+Neither stage is registered for Tag 0CAW: the complete statement, under the source's own
+hypotheses, is `StacksDraft.ArtinApproximation.exists_relativeMapApproximation` in
+`CompletedBaseChangeMapApproximation.lean`.
 
 ## Main results
 
@@ -120,14 +123,6 @@ commutes modulo `𝔪_v ^ N`.
 This is Tag 0CAU for the pointed diagram `(S, s) ← (S, s)`, `(T, t) → (S, s)` and the map `σ`:
 the source's own proof of 0CAW ends by applying 0CAU "one more time to `Spec C` and `Spec R` over
 `Spec R` and the map `C → R^∧`", and that application is this statement. -/
-@[stacks 0CAW "the FIRST STAGE of the conclusion: clause (1) for `v` and `τ` (`v ↦ s` and \
-`τ(v) = t`), clause (2) (`(V, v) → (S, s)` is an elementary étale neighbourhood) and clause (3) \
-(the square relating `σ` to `τ^♯_v` commutes modulo `𝔪_v ^ N`), with `τ` a morphism over `S`. \
-This is the source's own last step, Tag 0CAU applied to `(S, s) ← (S, s)`, `(T, t) → (S, s)` \
-and `σ`. Clauses (4) and (5) are NOT established by this declaration; see \
-`StacksDraft.ArtinApproximation.exists_elementaryEtaleNeighborhood_relativeApproximation`. There \
-is NO hypothesis beyond the source's: the Tag 0CAU used here is unconditional, Theorem \
-07QZ being proved as `StacksDraft.ArtinApproximation.localApproximationProperty`"]
 theorem exists_elementaryEtaleNeighborhood_baseApproximation
     {S T : Scheme.{u}} (h : T ⟶ S)
     [IsLocallyNoetherian S] [LocallyOfFiniteType h]
@@ -177,27 +172,6 @@ the map `𝒪^∧_{Y ×_{T, τ} V, y_τ} → 𝒪^∧_{W, w}` agrees modulo `�
 
 This is Tag 0CAU for the pointed diagram `(Y ×_{T, τ} V, y_τ) → (S, s)`, `(X, x) → (S, s)`, the
 first leg being read over `S` through `V ⟶ S`. -/
-@[stacks 0CAW "the SECOND STAGE of the conclusion, for a first stage supplied as hypotheses: \
-the remaining part of clause (1) — `w ↦ (y, v)`, which is `W.map_point`, and the morphism \
-`f : W ⟶ X ×_S V` with `f(w) = (x, v)`, delivered as the two projection identities of `f` \
-together with `F w = x` and the hypothesis placing `y_τ` over `v` — clause (4) (`(W, w) → \
-(Y ×_{T, τ} V, (y, v))` is an elementary étale neighbourhood), and clause (5) in the form of \
-the congruence modulo `𝔪_w ^ N` in `𝒪^∧_{W, w}` that the source's square expresses once the \
-identification `𝒪_{Y_σ, y_σ}/𝔪^N = 𝒪_{Y ×_{T, τ} V, (y, v)}/𝔪^N` is removed from both sides. \
-HYPOTHESES BEYOND THE SOURCE'S, all stated explicitly — Theorem 07QZ is NOT among them, the \
-Tag 0CAU used here being unconditional: (a) the first stage itself, i.e. the elementary \
-étale neighbourhood `(V, v)` of `(S, s)` with the morphism `τ : V ⟶ T`, which \
-`StacksDraft.ArtinApproximation.exists_elementaryEtaleNeighborhood_baseApproximation` produces \
-from the source's hypotheses; (b) the point `y_τ` of `Y ×_{T, τ} V` over `v`; (c) the local \
-`𝒪_{S, s}`-algebra map `φ : 𝒪_{X, x} → 𝒪^∧_{Y ×_{T, τ} V, y_τ}` in place of the source's \
-`φ : 𝒪_{X, x} → 𝒪^∧_{Y_σ, y_σ}`, the bridge between the two being the canonical isomorphism of \
-`Y_σ` with `Y ×_{T, τ} V` over `𝒪_{V, v}/𝔪_v ^ N = 𝒪_{S, s}/𝔪_s ^ N` which clauses (2) and (3) \
-make available. That identification IS constructed, as \
-`StacksDraft.ArtinApproximation.exists_truncationEquiv_stalk_relativeBaseChange`, but only as an \
-isomorphism of the local rings TRUNCATED at `𝔪 ^ N`, which is the shape clause (5) uses it in; \
-it does not produce a map into the COMPLETED local ring `𝒪^∧_{Y ×_{T, τ} V, (y, v)}` out of the \
-source's `φ`, and no isomorphism of the completions exists, so hypothesis (c) is not discharged \
-by it"]
 theorem exists_elementaryEtaleNeighborhood_relativeApproximation
     {S T X Y : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ T)
     [IsLocallyNoetherian S] [LocallyOfFiniteType f] [LocallyOfFiniteType g]

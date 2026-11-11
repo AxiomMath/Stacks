@@ -181,13 +181,17 @@ whose stalk at a geometric point `η̄` above `η` is zero. Then `ℱ` is a filt
 constructible abelian sheaves, each of whose supports is contained in a closed subset of `X` —
 equivalently a closed subscheme of `X` — not containing `η`.
 
-Torsion is the local condition of Stacks 0DD7, `Stacks.Torsion.torsionSheafProperty`. This is
+Torsion is `Stacks.Torsion.torsionSheafProperty`: every local section of `ℱ` is, locally on
+`X_étale`, annihilated by a positive integer, that is `ℱ` is the union of its subsheaves `ℱ[n]`.
+This is the notion of torsion abelian sheaf of the source (Stacks 0DD7, 03SA (2)), and it is
+implied by asking every section over every étale `U → X` to be torsion. This is
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem` with its
 two inputs proved: Stacks 03SA (2) is
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs`, and Stacks 095P
 in the form the source uses is
 `AlgebraicGeometry.exists_smallEtaleGeometricStalkFunctor_map_eq_zero`. -/
-@[stacks 0F0M "part (1), torsion abelian sheaves, torsion in the local sense of Stacks 0DD7"]
+@[stacks 0F0M "part (1), torsion abelian sheaves: every local section is locally annihilated by \
+a positive integer"]
 public theorem exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem_of_torsion
     [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
     (η : X.obj) (hη : η ∈ genericPoints X.obj)

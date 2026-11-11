@@ -296,10 +296,10 @@ global dimension and `Ext²_P(M, −)` need not vanish on a finite `A`-flat `M`.
 hypothesis is what makes the remark go through, and it is a hypothesis on `M`, not on `P'`.
 
 **The 0DZ2 registration is not touched.** `@[stacks 0DZ2]` sits in
-`StacksFrontier.Deformation.FlatModuleLift` and
-`StacksFrontier.Deformation.FlatModuleLiftLocalization` and stays there. No attribute is added,
-moved or removed by this file, and the tag is *not* claimed for the smooth form: the tag's statement
-is the source's general one, which is false, and
+`StacksFrontier.Deformation.FlatModuleLift` (the implication (1) ⇒ (2)) and
+`StacksFrontier.Deformation.FlatModuleLiftBaseChangeAbstract` (the corrected equivalence) and stays
+there. No attribute is added, moved or removed by this file, and the tag is *not*
+claimed for the smooth form: the tag's statement is the source's general one, which is false, and
 `Deformation.FlatModuleLiftBaseChangeStatementSmooth` is a different, strictly weaker statement.
 
 ## References
@@ -415,8 +415,12 @@ unconditionally. -/
 theorem flatModuleLiftBaseChangeStatementSmooth_of_faithful
     (h : FlatModuleLiftBaseChangeStatementFaithful.{u}) :
     FlatModuleLiftBaseChangeStatementSmooth.{u} := by
-  intro A' A P' P Q' Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ hfAP _hsm
+  intro A' A P' P Q' Q
+  intro _ _ _ _ _ _
+  intro _ _ _ _ _ _
+  intro _ _ _ _ _ _ _ _ _ _ _ _
+  intro _ _ _ _ _ _ _
+  intro hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ hfAP _hsm
   exact h A' A P' P Q' Q hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ hfAP
 
 /-! ### Clause (1) of the smooth form does not depend on the smooth lift of `P`
@@ -882,7 +886,8 @@ theorem ker_splitTensorHom :
       z - (1 : A') ⊗ₜ[A] (splitTensorHom A' A P z) ∈
         (RingHom.ker (algebraMap A' A)).map (algebraMap A' (A' ⊗[A] P)) := by
     intro z
-    induction z using TensorProduct.inductionOn with
+    induction z using TensorProduct.induction_on with
+    | zero => simp
     | tmul x p =>
         have hxp : (1 : A') ⊗ₜ[A] (splitTensorHom A' A P (x ⊗ₜ[A] p)) =
             (algebraMap A A' (algebraMap A' A x)) ⊗ₜ[A] p := by
@@ -964,7 +969,8 @@ theorem splitTensorEndHom_algebraMap (x : A') (n : A' ⊗[A] M) :
       (Algebra.lsmul A A M : P →ₐ[A] Module.End A M)
         (algebraMap A' (A' ⊗[A] P) x)) n = _
   rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.map_tmul]
-  induction n using TensorProduct.inductionOn with
+  induction n using TensorProduct.induction_on with
+  | zero => simp
   | tmul y m => simp [LinearMap.tensorProductEnd, LinearMap.tensorProduct,
       TensorProduct.smul_tmul', smul_eq_mul]
   | add z w hz hw => rw [map_add, hz, hw, smul_add]
@@ -980,9 +986,11 @@ theorem splitReduce_splitTensorEndHom (z : A' ⊗[A] P) (n : A' ⊗[A] M) :
     (IsScalarTower.algebraMap_smul P a w).symm
   have hmap : ∀ x : A', algebraMap A P (algebraMap A' A x) = algebraMap A' P x := fun x =>
     (IsScalarTower.algebraMap_apply A' A P x).symm
-  induction z using TensorProduct.inductionOn with
+  induction z using TensorProduct.induction_on with
+  | zero => simp
   | tmul x p =>
-      induction n using TensorProduct.inductionOn with
+      induction n using TensorProduct.induction_on with
+      | zero => simp
       | tmul y m =>
           rw [splitTensorEndHom_tmul_tmul, splitReduce_tmul, splitReduce_tmul,
             splitTensorHom_tmul, map_mul, hsm (algebraMap A' A x * algebraMap A' A y),
@@ -1041,7 +1049,8 @@ theorem exists_flatModuleLift_of_split [Algebra.FormallySmooth A' P']
   have hkey : ∀ v : A' ⊗[A] M, v - (1 : A') ⊗ₜ[A] splitReduce A' A M v ∈
       (RingHom.ker (algebraMap A' A)) • (⊤ : Submodule A' (A' ⊗[A] M)) := by
     intro v
-    induction v using TensorProduct.inductionOn with
+    induction v using TensorProduct.induction_on with
+    | zero => simp
     | tmul x m =>
       rw [splitReduce_tmul, ← TensorProduct.smul_tmul, Algebra.smul_def, mul_one,
         ← TensorProduct.sub_tmul, show (x - algebraMap A A' (algebraMap A' A x)) ⊗ₜ[A] m =
@@ -1227,7 +1236,11 @@ theorem flatModuleLiftBaseChangeStatementSmooth_of_ringHom_section :
         (∃ (N' : Type u) (_ : AddCommGroup N') (_ : Module Q' N') (_ : Module A' N')
           (_ : IsScalarTower A' Q' N'), Module.Flat A' N' ∧
           Nonempty ((Q ⊗[Q'] N') ≃ₗ[Q] N))) := by
-  intro A' A P' P Q' Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  intro A' A P' P Q' Q
+  intro _ _ _ _ _ _
+  intro _ _ _ _ _ _
+  intro _ _ _ _ _ _ _ _ _ _ _ _
+  intro _ _ _ _ _ _ _
   rintro ⟨s, hs⟩ _hsurjA hnilA hsurjP hkerP _hsurjQ _hkerQ _hfAP' _hfAQ' hfPQ' _hfPQ _hfAP hsm
   intro _J' _hquot M _ _ _ _ _ _ N _ _ hN _hlocal
   have := hsm.formallySmooth

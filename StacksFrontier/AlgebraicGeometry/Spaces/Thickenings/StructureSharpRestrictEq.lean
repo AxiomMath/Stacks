@@ -15,12 +15,12 @@ maps `(a')^♯` and `(b')^♯` in parallel as homomorphisms `𝒪_{Y'} ⟶ (b')_
 them being `AlgebraicGeometry.Space.structureSharpOfRestrictEq`.
 
 This file proves that the two become **equal** after `(b')_*(i^♯)`, the direct image along `b'`
-of the structure map of the inclusion.  That is the first of the two things which the "Partial
-coverage" section of `StacksFrontier.AlgebraicGeometry.Spaces.LiftDifferenceDerivation` lists as
-owed between the general fact proved there and [Stacks Project, Tag 0618] for two morphisms of
-thickenings: it is the hypothesis `hfg` of `AlgebraicGeometry.Space.liftDifference`, read
-through the direct image, and it is what makes the difference of the two structure maps take
-its values in the defining ideal of the thickening.
+of the structure map of the inclusion.  That is the first step from the general fact proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.LiftDifferenceDerivation` towards
+[Stacks Project, Tag 0618] for two morphisms of thickenings: it is the hypothesis `hfg` of
+`AlgebraicGeometry.Space.liftDifference`, read through the direct image, and it is what makes
+the difference of the two structure maps take its values in the defining ideal of the
+thickening.
 
 ## Main definitions
 
@@ -293,8 +293,6 @@ defining ideal of the thickening.
 It is the set-level statement with the ring operations carried along: the forgetful functor on
 sheaves of rings is faithful, and both the comparison and the direct image of a homomorphism are
 known on underlying sheaves of sets. -/
-@[stacks 0618 "the two structure maps of two lifts of one morphism become equal after the \
-  structure map of the thickening, so their difference lands in the defining ideal"]
 theorem structureSharpOfRestrictEq_comp_pushforward_structureSharp :
     structureSharpOfRestrictEq B S hS hG a' b' h ≫
         pullbackRingSheafMap.{u, u, u, u + 1, u, u + 1} (SmallEtale.topology B S hS Y'.1)

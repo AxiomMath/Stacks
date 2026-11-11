@@ -10,9 +10,6 @@ Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` contained 
 site `B`.  If `f` is quasi-compact and quasi-separated then every higher direct image `R^i f_*`
 carries a quasi-coherent `𝒪_X`-module to a quasi-coherent `𝒪_Y`-module, for every `i`.  This is
 Stacks 0720, and it is the statement below.
-`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward` is the source's
-reduction to an affine base, with the affine case and part (1) of Stacks 03F3 as hypotheses;
-here both are discharged.
 
 The source's proof has two steps, and both are proved in this development.  The first is the
 reduction to the case of an affine base: quasi-coherence of an `𝒪_Y`-module is tested on the

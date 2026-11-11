@@ -288,12 +288,7 @@ isomorphism.
 Perfectness is `isPerfect_derivedPushforward_of_flat_of_isProper`. For base change, `f` is flat, so
 `X` and `S'` are Tor independent over `S`, and `E` has quasi-coherent cohomology, so the canonical
 map is invertible by [Stacks, Tag 08IB]. -/
-@[stacks 0B91 "clause (1) in full: perfectness of Rf_*E, and invertibility of the canonical base \
-change map Lg^*Rf_*E --> Rf'_*L(g')^*E of Tag 08HY for every cartesian square, which is what 'its \
-formation commutes with arbitrary base change' means; finite presentation of the \
-proper f is spelled LocallyOfFinitePresentation, the quasi-compactness and quasi-separation \
-it adds being part of properness",
-  sga "6 IV 3.1.1" "special case"]
+@[sga "6 IV 3.1.1" "special case"]
 theorem isPerfect_derivedPushforward_and_isIso_derivedBaseChangeMap_of_flat_of_isProper
     {X S : Scheme.{u}} (f : X ⟶ S) [Flat f] [IsProper f] [LocallyOfFinitePresentation f]
     (E : DerivedCategory X.Modules) (hE : IsPerfect (X := X.toRingedSpace) E) :

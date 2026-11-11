@@ -540,6 +540,24 @@ private lemma ringKrullDim_eq_height_irrelevant (k' : Type*) [Field k'] [Algebra
     (PrimeSpectrum.localKrullDim_eq_iSup_irreducibleComponents_and_eq_iInf_height k' x).2, hset]
   simp [hx]
 
+/-- **Stacks 00P6 (3), the point `x`.** For a graded algebra of finite type over a field whose
+irrelevant ideal `m` is maximal, the local dimension `dim_x Spec(S)` at the closed point `x` given
+by `m` is the height of `m`: by Stacks 00OT it is the smallest height of a maximal ideal containing
+`m`, and no maximal ideal other than `m` contains it. -/
+private lemma localKrullDim_irrelevant_eq_height (k' : Type*) [Field k'] [Algebra k' S]
+    [Algebra.FiniteType k' S] (hm : (𝒜₊).toIdeal.IsMaximal) :
+    TopologicalSpace.localKrullDim (PrimeSpectrum S) ⟨(𝒜₊).toIdeal, hm.isPrime⟩ =
+      (𝒜₊).toIdeal.height := by
+  have hset : {𝔪 : Ideal S | 𝔪.IsMaximal ∧ (𝒜₊).toIdeal ≤ 𝔪} = {(𝒜₊).toIdeal} := by
+    ext 𝔪
+    refine ⟨fun h => (hm.eq_of_le h.1.ne_top h.2).symm, ?_⟩
+    rintro rfl
+    exact ⟨hm, le_rfl⟩
+  rw [(PrimeSpectrum.localKrullDim_eq_iSup_irreducibleComponents_and_eq_iInf_height k' _).2]
+  dsimp only
+  rw [hset]
+  simp
+
 /-! ### The Hilbert function of the localization at the irrelevant ideal -/
 
 section Localized
@@ -864,8 +882,10 @@ field and so is unaffected by the localization.
 
 ## Main results
 
-* `GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_natDegree_add_one`: items (1)–(4) of
-  the source, as a single conjunction.
+* `GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_localKrullDim`:
+  items (1)–(4) of the source, as a single conjunction, with `dim_x Spec(S)` the local dimension.
+* `GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_natDegree_add_one`: the same with
+  `dim_x Spec(S)` read as the height of the irrelevant ideal.
 
 ## Implementation notes
 
@@ -887,7 +907,9 @@ existence is Tag 00K1. The source's convention `deg(0) = -1` is unfolded into th
 absorbs `+ 1` and would force `dim(S) = ⊥`, a value `ringKrullDim` takes only on the zero ring.
 
 The local dimension `dim_x Spec(S)` at the closed point `x` corresponding to `m = S_+` is
-`Ideal.height m`: for a prime `m` the height is the Krull dimension of `S_m`
+`TopologicalSpace.localKrullDim (PrimeSpectrum S) x` (Topology Definition 0055 (4)), and the
+registered statement shows that `dim(S)` equals both it and `Ideal.height m`: for a prime `m`
+the height is the Krull dimension of `S_m`
 (`IsLocalization.AtPrime.ringKrullDim_eq_height`), which is what `dim_x Spec(S)` equals for a
 closed point of the spectrum of a finite type algebra over a field (Tag 00OU, a special case of
 Tag 00OT). Item (4) is stated for the concrete local ring `Localization.AtPrime m`, with its
@@ -936,10 +958,12 @@ generated over `k` by finitely many elements of degree `1`. Let `P ∈ ℚ[T]` b
 with `deg(0) = -1`, and this equals the dimension `dim_x Spec(S) = dim(S_m) = height(m)` of
 `Spec(S)` at the closed point `x` given by `m`; (4) the Hilbert function
 `d ↦ length_{S_m} (m^d S_m / m^{d + 1} S_m)` of the local ring `S_m` is the Hilbert function
-`d ↦ dim_k S_d` of `S`. -/
-@[stacks 00P6 "Items (1)-(4). `dim_x Spec(S)` is the height of the irrelevant ideal, and the
-convention `deg 0 = -1` is unfolded into the cases `P = 0`, `P ≠ 0`. See the module docstring.",
-  ega "IV 6.10.5" "special case"]
+`d ↦ dim_k S_d` of `S`.
+
+Here `dim_x Spec(S)` is read as `height(m)`; the registered form of the tag,
+`GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_localKrullDim`, also
+states `dim(S) = dim_x Spec(S)` with `dim_x` the local dimension
+`TopologicalSpace.localKrullDim`. -/
 public theorem GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_natDegree_add_one
     {k S : Type*} [Field k] [CommRing S] [Nontrivial S] [Algebra k S]
     (𝒜 : ℕ → Submodule k S) [GradedAlgebra 𝒜] (h0 : 𝒜 0 = 1)
@@ -957,3 +981,45 @@ public theorem GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_natDegree_
               (IsLocalRing.maximalIdeal (Localization.AtPrime (𝒜₊).toIdeal) ^ d))
         = Module.finrank k ↥(𝒜 d) :=
           by apply Stacks.GradedAlgebra.HilbertDimension.solution <;> assumption
+
+open HomogeneousIdeal Polynomial in
+/-- **Stacks 00P6.** Let `k` be a field and let `S` be a graded `k`-algebra with `S_0 = k` that is
+generated over `k` by finitely many elements of degree `1`. Let `P ∈ ℚ[T]` be the polynomial with
+`dim_k S_d = P(d)` for all `d ≫ 0`. Then: (1) the irrelevant ideal `m = S_+` is maximal;
+(2) every minimal prime of `S` is homogeneous and contained in `S_+`; (3) `dim(S) = deg(P) + 1`,
+with `deg(0) = -1`, and `dim(S) = dim_x Spec(S)`, the local dimension of `Spec(S)` at the closed
+point `x` given by `m`, which is also `height(m) = dim(S_m)`; (4) the Hilbert function
+`d ↦ length_{S_m} (m^d S_m / m^{d + 1} S_m)` of the local ring `S_m` is the Hilbert function
+`d ↦ dim_k S_d` of `S`.
+
+The source's `S_0 = k` is `𝒜 0 = 1` together with `Nontrivial S`: `𝒜 0 = 1` alone says that
+`𝒜 0` is the image of `k`, which the zero ring also satisfies, and `Nontrivial S` makes `k → S`
+injective, so that `S_0 ≅ k`. -/
+@[stacks 00P6 "Items (1)-(4). `S_0 = k` is `𝒜 0 = 1` with `Nontrivial S`; `dim_x Spec(S)` is
+`TopologicalSpace.localKrullDim` at the point given by `S_+`, also shown equal to its height
+`dim(S_m)`; the convention `deg 0 = -1` is unfolded into the cases `P = 0`, `P ≠ 0`. See the
+module docstring.",
+  ega "IV 6.10.5" "special case"]
+public theorem GradedAlgebra.irrelevant_isMaximal_and_ringKrullDim_eq_localKrullDim
+    {k S : Type*} [Field k] [CommRing S] [Nontrivial S] [Algebra k S]
+    (𝒜 : ℕ → Submodule k S) [GradedAlgebra 𝒜] (h0 : 𝒜 0 = 1)
+    [Module.Finite k ↥(𝒜 1)] (hgen : Algebra.adjoin k (𝒜 1 : Set S) = ⊤)
+    (P : ℚ[X]) (hP : ∀ᶠ d : ℕ in Filter.atTop, P.eval (d : ℚ) = Module.finrank k ↥(𝒜 d)) :
+    ∃ hm : 𝒜₊.toIdeal.IsMaximal,
+      letI := hm.isPrime
+      (∀ p ∈ minimalPrimes S, Ideal.IsHomogeneous 𝒜 p ∧ p ≤ 𝒜₊.toIdeal) ∧
+      (P = 0 → ringKrullDim S = 0) ∧
+      (P ≠ 0 → ringKrullDim S = (P.natDegree + 1 : ℕ)) ∧
+      ringKrullDim S = TopologicalSpace.localKrullDim (PrimeSpectrum S) ⟨𝒜₊.toIdeal, hm.isPrime⟩ ∧
+      ringKrullDim S = 𝒜₊.toIdeal.height ∧
+      ∀ d : ℕ, Module.length (Localization.AtPrime (𝒜₊).toIdeal)
+          (↥(IsLocalRing.maximalIdeal (Localization.AtPrime (𝒜₊).toIdeal) ^ d) ⧸
+            (IsLocalRing.maximalIdeal (Localization.AtPrime (𝒜₊).toIdeal) ^ (d + 1)).submoduleOf
+              (IsLocalRing.maximalIdeal (Localization.AtPrime (𝒜₊).toIdeal) ^ d))
+        = Module.finrank k ↥(𝒜 d) := by
+  obtain ⟨hm, h2, h3, h3', hdim, hHilb⟩ :=
+    Stacks.GradedAlgebra.HilbertDimension.solution 𝒜 h0 hgen P hP
+  have : Algebra.FiniteType k S :=
+    Stacks.GradedAlgebra.HilbertDimension.finiteType_of_adjoin_eq_top 𝒜 hgen
+  refine ⟨hm, h2, h3, h3', ?_, hdim, hHilb⟩
+  rw [hdim, Stacks.GradedAlgebra.HilbertDimension.localKrullDim_irrelevant_eq_height 𝒜 k hm]

@@ -94,7 +94,8 @@ subcategories of finite locally free objects, then the restriction functor
 `FiniteEtaleColimitFullyFaithful`, and every finite étale cover of `Y` is the restriction of a
 finite étale cover of some `V ∈ 𝒱`. -/
 @[stacks 0EK1 "the colimit functor is an equivalence: fully faithful, and every finite étale \
-cover of Y extends to a neighbourhood"]
+cover of Y extends to a neighbourhood, assuming as in the tag that completion is an \
+equivalence on finite locally free modules"]
 public theorem restriction_isEquivalence_of_completionEquivalence [IsNoetherian X]
     (h : CompletionEquivalenceFiniteLocallyFree X Y) :
     FiniteEtaleColimitFullyFaithful X Y ∧

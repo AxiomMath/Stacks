@@ -51,8 +51,8 @@ the subscript `T` now meaning pullback to the algebraic space `X ×_{base, h} T`
   morphism of presheaves `T ⟶ Hom(F, G)`**, obtained by composing with the canonical morphism
   to the base.
 * `AlgebraicGeometry.Space.HomSituation.EtaleHomDescent`: the fullness clause of Stacks 04W8
-  for the relative Hom functor over the algebraic spaces over the base, carried as a
-  hypothesis.
+  for the relative Hom functor over the algebraic spaces over the base, proved for every Hom
+  situation by `AlgebraicGeometry.Space.HomSituation.etaleHomDescent`.
 * `AlgebraicGeometry.Space.HomSituation.morOver` and
   `AlgebraicGeometry.Space.HomSituation.morOverEquiv`: the morphism of presheaves over a fixed
   `h : T ⟶ base` determined by a homomorphism over `h`, and **the identification of
@@ -86,23 +86,24 @@ the subscript `T` now meaning pullback to the algebraic space `X ×_{base, h} T`
 
 ## Implementation notes
 
-**How Stacks 0D3S is split here.**  Stacks 0D3S asserts an identification
+**How Stacks 0D3S is assembled.**  Stacks 0D3S asserts an identification
 `Mor(T, Hom(F, G)) = {(h, u)}`.  This file supplies both sides of it — the morphisms of
 presheaves on the left, the pairs `SpaceHomPair` on the right — the map from right to left
-(`morOfSpaceHom`) and the map `baseOfMor` recovering the first component on the left.  The
-identification is then proved in two pieces, which together are its covering set and which
-carry the tag between them: `baseOfMor_morOfSpaceHom`, that the first component is recovered,
-and `bijective_morOver`, that for a fixed first component the second components correspond
-bijectively to the morphisms of presheaves lying over it.
+(`morOfSpaceHom`) and the map `baseOfMor` recovering the first component on the left, and
+proves the two steps the identification is made of: `baseOfMor_morOfSpaceHom`, that the first
+component is recovered, and `bijective_morOver`, that for a fixed first component the second
+components correspond bijectively to the morphisms of presheaves lying over it.  The
+identification itself, `AlgebraicGeometry.Space.HomSituation.bijective_morOfSpaceHom`, is in
+`StacksFrontier/AlgebraicGeometry/Hom/HomFunctorEtaleDescent.lean`.
 
-The second piece is the descent step of the source's proof.  Injectivity is faithfulness of
+The second step is the descent step of the source's proof.  Injectivity is faithfulness of
 descent of homomorphisms of modules along the covering `X_U ⟶ X_T` of base changes cut out by
-a scheme atlas `U ⟶ T` of Stacks 0262; it is unconditional here, being
+a scheme atlas `U ⟶ T` of Stacks 0262, which is
 `AlgebraicGeometry.Space.QuasiCoherentDescent.modulePullback_map_injective_of_isEtaleCovering`.
-Surjectivity is fullness of that descent, which is carried by the explicit hypothesis
-`AlgebraicGeometry.Space.HomSituation.EtaleHomDescent`; that hypothesis' own docstring says
-what of Stacks 04W8 it is and what remains between it and
-`AlgebraicGeometry.Space.QuasiCoherentDescent.exists_modulePullback_map_eq`.  The route takes
+Surjectivity is fullness of that descent, which is named here as
+`AlgebraicGeometry.Space.HomSituation.EtaleHomDescent` and proved for every Hom situation by
+`AlgebraicGeometry.Space.HomSituation.etaleHomDescent` in
+`StacksFrontier/AlgebraicGeometry/Hom/HomFunctorEtaleDescent.lean`.  The route takes
 the first component through the projection to the base rather than by descent, so it does not
 use the sheaf property of `Hom(F, G)` (Stacks 08JV).
 
@@ -772,10 +773,9 @@ theorem morApp_toBase (hc : ModulePushforwardCoherence B S hS) {T : AlgebraicSpa
     (Equiv.apply_symm_apply yonedaEquiv x).symm
 
 /-- **The morphism to the base is recovered from the morphism of presheaves**: for a pair
-`(h, u)` the morphism underlying `morOfSpaceHom (h, u)` is `h`.  This is the half of
-Stacks 0D3S that needs no descent. -/
-@[stacks 0D3S "the first component of the pair is recovered from the morphism of sheaves, \
-conditional on the pseudofunctoriality of the direct images of Stacks 03LU"]
+`(h, u)` the morphism underlying `morOfSpaceHom (h, u)` is `h`, for any inhabitant `hc` of the
+coherence data.  This is the step of Stacks 0D3S that needs no descent; the identification
+itself is `AlgebraicGeometry.Space.HomSituation.bijective_morOfSpaceHom`. -/
 theorem baseOfMor_morOfSpaceHom (hc : ModulePushforwardCoherence B S hS)
     {T : AlgebraicSpaces B S hS} (p : s.SpaceHomPair T) :
     s.baseOfMor hc (s.morOfSpaceHom hc p) = p.toBase := by
@@ -795,16 +795,13 @@ spaces over the base.**  Along a surjective étale morphism `g : U ⟶ T` of alg
 over the base, a homomorphism `w : F_U ⟶ G_U` whose two restrictions along a kernel pair of
 `g` agree is the restriction of a homomorphism `F_T ⟶ G_T`.
 
-This is descent of homomorphisms of quasi-coherent modules along the one-member étale covering
-`X_U ⟶ X_T` of base changes, which is the fullness half of Stacks 04W8 for that covering; the
-faithfulness half is `AlgebraicGeometry.Space.HomSituation.homOverSpaceMap_injective` and needs
-no hypothesis.  In this development the fullness half is available for an étale covering as
-`AlgebraicGeometry.Space.QuasiCoherentDescent.exists_modulePullback_map_eq`, granted the
-coherence `AlgebraicGeometry.Space.QuasiCoherentDescent.ModulePullbackCompIsoEtaleRestriction`;
-what is not carried out here is the identification of the kernel pair of `g` with the fibre
-product of that covering with itself, which is what turns the condition below into the pairwise
-condition of Stacks 04W3 that lemma asks for.  It is therefore a hypothesis, named and
-quantified over all data, and not an assumption about the situation `s`. -/
+This is descent of homomorphisms of modules along the one-member étale covering `X_U ⟶ X_T` of
+base changes, which is the fullness half of Stacks 04W8 for that covering; the faithfulness half
+is `AlgebraicGeometry.Space.HomSituation.homOverSpaceMap_injective`.  Every Hom situation
+satisfies it: `AlgebraicGeometry.Space.HomSituation.etaleHomDescent`, in
+`StacksFrontier/AlgebraicGeometry/Hom/HomFunctorEtaleDescent.lean`, proves it by identifying the
+kernel pair of `g` with the fibre product of the covering with itself.  It is named here so that
+the descent step below can be stated in this file, before that proof. -/
 structure EtaleHomDescent : Prop where
   /-- Descent of a homomorphism over a chart which is invariant under a kernel pair. -/
   exists_homOverSpaceMap_eq : ∀ {U T : Over s.base} (g : U ⟶ T),
@@ -958,22 +955,18 @@ theorem surjective_morOver (hc : ModulePushforwardCoherence B S hS) (hd : s.Etal
       _ = s.morApp hc v (T.1.map π.op z) := by rw [hptz]
       _ = HomOver.restrict s (s.morApp hc v z) π := s.morApp_map_eq_restrict hc v π z
 
-/-- **Stacks 0D3S, the fibres of the identification.**  For a fixed morphism `h : T ⟶ base` of
-algebraic spaces over `S`, the assignment `u ↦ morOfSpaceHom (h, u)` is a *bijection* from the
-homomorphisms `u : F_T ⟶ G_T` of the two modules pulled back to `X ×_{base, h} T` onto the
+/-- **The fibres of the identification of Stacks 0D3S.**  For a fixed morphism `h : T ⟶ base`
+of algebraic spaces over `S`, the assignment `u ↦ morOfSpaceHom (h, u)` is a *bijection* from
+the homomorphisms `u : F_T ⟶ G_T` of the two modules pulled back to `X ×_{base, h} T` onto the
 morphisms of presheaves `T ⟶ Hom(F, G)` lying over `h`.
 
-Together with `AlgebraicGeometry.Space.HomSituation.baseOfMor_morOfSpaceHom`, which recovers
-the first component, this is the identification
-`Mor(T, Hom(F, G)) = {(h, u) | h : T ⟶ base, u : F_T ⟶ G_T}` of Stacks 0D3S.
-
 Injectivity is faithfulness of descent of homomorphisms of modules along the étale covering
-`X_U ⟶ X_T` cut out by a scheme atlas `U ⟶ T` of Stacks 0262, and is unconditional here.
-Surjectivity is fullness of that descent, carried by the hypothesis `hd`. -/
-@[stacks 0D3S "the identification is a bijection on the fibres over a fixed morphism to the \
-base; carries two hypotheses: `hc`, the pseudofunctoriality of the direct images of \
-Stacks 03LU, and `hd`, the fullness clause of Stacks 04W8 for a one-member etale covering \
-(the faithfulness clause of Stacks 04W8 is proved here and not assumed)"]
+`X_U ⟶ X_T` cut out by a scheme atlas `U ⟶ T` of Stacks 0262.  Surjectivity is fullness of that
+descent, stated here for any proof `hd` of it; every Hom situation has one,
+`AlgebraicGeometry.Space.HomSituation.etaleHomDescent`.  The identification
+`Mor(T, Hom(F, G)) = {(h, u) | h : T ⟶ base, u : F_T ⟶ G_T}` of Stacks 0D3S that this gives is
+`AlgebraicGeometry.Space.HomSituation.bijective_morOfSpaceHom`, in
+`StacksFrontier/AlgebraicGeometry/Hom/HomFunctorEtaleDescent.lean`. -/
 theorem bijective_morOver (hc : ModulePushforwardCoherence B S hS) (hd : s.EtaleHomDescent)
     {T : AlgebraicSpaces B S hS} (h : T ⟶ s.base) : Function.Bijective (s.morOver hc h) :=
   ⟨s.injective_morOver hc h, s.surjective_morOver hc hd h⟩

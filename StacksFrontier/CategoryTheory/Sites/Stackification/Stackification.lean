@@ -75,8 +75,10 @@ such that
    of the functor induced by `G` on fibres.
 
 The objects and morphisms of `𝒴'` live in `Type (max t₁ t₂ w vb)`, the morphism universe of
-`𝒴`. -/
-@[stacks 02ZN]
+`𝒴`.
+
+This is the existence half of Stacks 02ZN; the complete statement, with the determinacy of `𝒴'` up
+to unique 2-isomorphism, is `CategoryTheory.Functor.exists_isStackification_and_unique`. -/
 theorem exists_isStackification :
     ∃ (𝒴' : Type (max t₁ t₂ w vb)) (inst : Category.{max t₁ t₂ w vb} 𝒴'),
       letI := inst

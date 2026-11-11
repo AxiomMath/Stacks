@@ -57,6 +57,10 @@ the chain itself, when the `γ_i^c` are strictly standard.
   chain `R → R ⊗_{k[x_1, …, x_d]} C → Λ` itself, with `a_j ⊗ 1 ∈ H_{(R ⊗ C)/R}` discharged from
   `H_{A/k} ⊆ H_{B/k[x_1, …, x_d]}`.
 
+Stacks 07G0 itself, the first reduction for `R = k[y_1, …, y_m, t_1, …, t_d]` with the maps of
+steps (14)–(15), is `Stacks.Smoothing.canBeResolved_of_canBeResolved_twistedBase_tensorProduct` in
+`StacksFrontier.RingTheory.Smoothing.TwistedBaseChangeReduction`.
+
 ## Implementation notes
 
 The variables of `R` are indexed by `Fin m ⊕ Fin d`, with `y_j = X (Sum.inl j)` and
@@ -248,8 +252,9 @@ theorem singularIdeal_le_singularIdeal_of_smooth (k R T : Type*) [CommRing k] [C
 /-- Let `k → A → Λ ⊃ q` be a chain with `H_{A/k} = (a_1, …, a_t)`, and let `R → D → Λ` be a chain
 through the same `Λ` with `R` smooth over `k`, where `A → D` is an intermediate `k`-algebra map. If
 every `a_j` maps into `H_{D/R}`, then resolving `R → D → Λ ⊃ q` resolves `k → A → Λ ⊃ q`. Applied
-to `D = C ⊗_{k[x_1, …, x_d]} R`, this is the reduction of step (16) of Stacks 07FJ. -/
-@[stacks 07G0 "for an arbitrary R-algebra D in place of C ⊗_{k[x_1, …, x_d]} R"]
+to `D = C ⊗_{k[x_1, …, x_d]} R`, this is the reduction of step (16) of Stacks 07FJ; Stacks 07G0
+itself, in the situation of steps (1)–(15), is
+`Stacks.Smoothing.canBeResolved_of_canBeResolved_twistedBase_tensorProduct`. -/
 theorem canBeResolved_of_canBeResolved_of_smooth_base {k : Type u} {R : Type u} {A : Type v}
     {D : Type v} {Λ : Type w} [CommRing k] [CommRing R] [CommRing A] [CommRing D] [CommRing Λ]
     [Algebra k R] [Algebra k A] [Algebra k D] [Algebra k Λ] [Algebra A Λ] [Algebra R D]
@@ -378,9 +383,9 @@ theorem mem_singularIdeal_includeRight_algebraMap {k : Type u} {A : Type v} {R :
 
 /-- Stacks 07G0 at the chain of step (16) itself: `R → R ⊗_{k[x_1, …, x_d]} C → Λ`, with the
 membership `a_j ⊗ 1 ∈ H_{(R ⊗ C)/R}` discharged from `H_{A/k} ⊆ H_{B/k[x_1, …, x_d]}` and the
-conclusion of Stacks 07FP. The tag is carried by
-`Stacks.Smoothing.canBeResolved_of_canBeResolved_of_smooth_base`, of which this is an
-instantiation. -/
+conclusion of Stacks 07FP. It is an instantiation of
+`Stacks.Smoothing.canBeResolved_of_canBeResolved_of_smooth_base`; Stacks 07G0 with the maps of
+steps (14)–(15) is `Stacks.Smoothing.canBeResolved_of_canBeResolved_twistedBase_tensorProduct`. -/
 theorem canBeResolved_of_canBeResolved_tensorProduct {k : Type u} {A : Type u} {Λ : Type w}
     {R : Type u} {C : Type u} [Field k] [CommRing A] [CommRing Λ] [CommRing R] [CommRing C]
     [Algebra k A] [Algebra A Λ] [Algebra k Λ] [IsScalarTower k A Λ] [Algebra.FiniteType k A]

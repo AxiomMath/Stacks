@@ -322,6 +322,7 @@ homotopic.  Stacks 07D4 gives injectivity of the whole degree-`1` component for 
 `β.comp α` induced by the canonical presentation `α` of `B` over `A` and a finite presentation
 `β` of `C` over `B`; the comparison of that presentation with the canonical presentation of `C`
 over `A` is a quasi-isomorphism by Stacks 00S1 (4), and injectivity on `H₁` is inherited. -/
+@[stacks 07D4 "the zero on the left of the 00S2 sequence, over the canonical presentations"]
 theorem injective_onH₁_nlExtensionBaseChangeMap_of_isLocalCompleteIntersection
     (h : RingHom.IsLocalCompleteIntersection (algebraMap B C))
     (hom : (Generators.self A B).toExtension.Hom (Generators.self A C).toExtension) :

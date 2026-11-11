@@ -486,7 +486,10 @@ equivalence together with the 2-commutative triangle is
 `AlgebraicGeometry.Stack.exists_equivalenceOver_quotientStack_restrict`, whose two inputs are
 full faithfulness of `i` (**Stacks 05UK** at the monomorphism **Stacks 042R** supplies, which is
 **Stacks 0504**) and the pointwise description of `Z`. -/
-@[stacks 0505]
+@[stacks 0505 "for i an immersion (representable by algebraic spaces with the 04XB immersion \
+property, Stacks 04YL part (3)) out of a stack, a 1-morphism into the quotient stack of a smooth \
+groupoid: the R-invariant locally closed Z, the presentation [Z/R_Z] ≃ 𝒵 with its 2-commutative \
+triangle over [U/R], and Z closed (resp. open) when i is a closed (resp. open) immersion"]
 theorem exists_isInvariantLocallyClosed_groupoidPresentation_of_isImmersion
     (G : GroupoidInAlgebraicSpaces C S hS (baseSpace C S hS))
     (hG : GroupoidInAlgebraicSpaces.IsSmooth C S hS G)

@@ -17,13 +17,13 @@ be *represented by* a differential graded `A`-module `P` which is *finite projec
 source's own [Stacks, Tag 09R5], and the refutation is machine-checked in
 `StacksFrontier/Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean`.
 
-This file registers the statement the source's proof does establish, and proves it
-unconditionally: a compact object is a **direct summand** in `D(A, d)` of the image of a
-differential graded `A`-module `P` which is **finite free** as a graded `A`-module and satisfies
-the condition of [Stacks, Tag 09R0]. The two differences from the literal statement — direct
-summand rather than representative, finite free rather than finite projective — are exactly what
-the argument of [Stacks, Tag 09R3] delivers, and the counterexample is consistent with them: its
-compact object `Ker(x)` is a direct summand of the regular module, which is finite free.
+This file proves the statement the source's proof does establish, unconditionally, and registers the
+tag on the resulting corrected equivalence: a compact object is a **direct summand** in `D(A, d)` of
+the image of a differential graded `A`-module `P` which is **finite free** as a graded `A`-module
+and satisfies the condition of [Stacks, Tag 09R0]. The two differences from the literal statement —
+direct summand rather than representative, finite free rather than finite projective — are exactly
+what the argument of [Stacks, Tag 09R3] delivers, and the counterexample is consistent with them:
+its compact object `Ker(x)` is a direct summand of the regular module, which is finite free.
 
 ## Errata: Tag 09RB's implication (1) ⟹ (2)
 
@@ -47,11 +47,11 @@ boundedness hypothesis with `c = 2`, and its compact object `Ker(x)` has no fini
 graded-projective model at all; that is [Stacks, Tag 09R5]. Over that algebra, 09RB's (1) ⟹ (2)
 asserts precisely the model 09R5 denies. The machine-checked refutation is
 `Stacks.Examples.not_forall_exists_finite_gradedProjective_of_isCompactObject`
-(`StacksFrontier/Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean:1192`), whose
+(`StacksFrontier/Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean`), whose
 compactness hypothesis is `IsCompactObject.{w}` for a universe `w` that is a parameter of the
 theorem, together with the universe-free variant
-`Stacks.Examples.not_forall_exists_finite_gradedProjective_of_retract_regularModule` (same file,
-line 1123), whose hypothesis is that `E` is a retract of the image of the regular module and
+`Stacks.Examples.not_forall_exists_finite_gradedProjective_of_retract_regularModule` (same file),
+whose hypothesis is that `E` is a retract of the image of the regular module and
 so implies compactness under every reading of the word.
 
 *What is actually true.* The equivalence is restored once condition (2) is read as the source's own
@@ -61,15 +61,18 @@ directions in this file:
 
 * (1) ⟹ (2), corrected:
   `DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`
-  (this file, line 627), with no boundedness hypothesis of any kind;
+  (this file), with no boundedness hypothesis of any kind;
 * (2) ⟹ (1), corrected:
-  `DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule` (this file,
-  line 574).
+  `DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule` (this file);
+* the equivalence, corrected:
+  `DifferentialGradedModule.isCompactObject_tfae_exists_retract`
+  (this file), which carries the registration of the tag; its third condition is the source's
+  condition (2) with "represented by" corrected to "a direct summand of".
 
 The source's own spelling of (2) ⟹ (1) — with finite projective, and a representative rather than
-a summand — is true as it stands, and is proved and registered separately at
+a summand — is true as it stands, and is proved separately at
 `DifferentialGradedModule.isCompactObject_of_exists_finite_projective_representative`
-(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteProjective.lean:293`).
+(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteProjective.lean`), without a tag.
 
 *Where the source's error must lie.* The corrected form is what 09RB's proof has in hand once it
 has applied Proposition 22.36.4 ([Stacks, Tag 09R3]) and Lemma 22.22.3: `E` is a direct summand of
@@ -79,12 +82,10 @@ not stop there — it goes on to build, by a cone construction, a finite graded 
 honest representative. It is that remainder, which is *not* formalized here, that the
 counterexample shows cannot be right.
 
-*Registration.* The tag stays on the two implications that are true, with the departure from the
-source's sentence written into the attribute's note string. That is the house pattern for a tag
-registered clause by clause rather than as one sentence, used for [Stacks, Tag 0AW0] in Chapter 47
-(`StacksFrontier/RingTheory/Dualizing/TorsionQuotient.lean:273` and the registrations below it,
-whose implementation notes likewise record how the registered statement departs from the
-source's). No attribute anywhere in the library claims the literal (1) ⟹ (2).
+*Registration.* The tag is registered once, on the corrected equivalence
+`DifferentialGradedModule.isCompactObject_tfae_exists_retract`, with
+the departure from the source's sentence written into the attribute's note string. No attribute
+anywhere in the library claims the literal (1) ⟹ (2).
 
 The engine is [Stacks, Tag 09R3],
 `DifferentialGradedModule.isCompactObject_iff_exists_retract_hasFiniteCellFiltration`: a compact
@@ -113,11 +114,15 @@ the left to them, and morphisms out of a left-orthogonal object are not changed 
 * `DifferentialGradedModule.isFinite_of_isFiniteFreeAsGradedModule`: a module finite free as a
   graded module is finitely generated as a right `A`-module.
 * `DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`:
-  **[Stacks, Tag 09RB], the implication (1) ⟹ (2) in its corrected form**.
-* `DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule`: the converse,
-  so that the tag's equivalence does hold once condition (2) is corrected. The registration of
-  (2) ⟹ (1) stays on the source's own spelling of condition (2), in
-  `StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteProjective.lean`.
+  the implication (1) ⟹ (2) of [Stacks, Tag 09RB] in its corrected form.
+* `DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule`: the converse.
+* `DifferentialGradedModule.isCompactObject_iff_exists_retract_isFiniteFreeAsGradedModule`: the
+  equivalence of the two.
+* `DifferentialGradedModule.isProjectiveAsGradedModule_of_isFiniteFreeAsGradedModule`: a module
+  finite free as a graded module is projective as a graded module ([Stacks, Tag 09K0]).
+* `DifferentialGradedModule.isCompactObject_tfae_exists_retract`: **[Stacks, Tag 09RB],
+  corrected**: compact objects are the direct summands of finite free, equivalently of finite
+  graded-projective, modules computing their derived morphisms.
 
 ## Implementation notes
 
@@ -312,7 +317,7 @@ private theorem coproductInl_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂
         (Sum.inl j)).toFun x := by
   have hdesc : Sigma.ι (fun j => shift (regularModule A) (k₁ j)) j ≫ coproductInl k₁ k₂ =
       Sigma.ι (fun t : J₁ ⊕ J₂ => shift (regularModule A) (Sum.elim k₁ k₂ t)) (Sum.inl j) :=
-    Sigma.ι_comp_desc _ _
+    Sigma.ι_desc _ _
   rw [← Hom.comp_toFun_apply, hdesc]
 
 private theorem coproductInr_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂ : J₂ → ℤ) (j : J₂)
@@ -323,7 +328,7 @@ private theorem coproductInr_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂
         (Sum.inr j)).toFun x := by
   have hdesc : Sigma.ι (fun j => shift (regularModule A) (k₂ j)) j ≫ coproductInr k₁ k₂ =
       Sigma.ι (fun t : J₁ ⊕ J₂ => shift (regularModule A) (Sum.elim k₁ k₂ t)) (Sum.inr j) :=
-    Sigma.ι_comp_desc _ _
+    Sigma.ι_desc _ _
   rw [← Hom.comp_toFun_apply, hdesc]
 
 /-- The map into a direct sum indexed by a sum type attached to a pair of maps of graded modules
@@ -576,8 +581,9 @@ theorem isFinite_of_isFiniteFreeAsGradedModule {P : DifferentialGradedModule.{u,
 derived morphisms is a compact object. This is the source's own (2) ⟹ (1), with condition (2)
 read in the corrected form: finite freeness enters only through the finiteness it implies
 (`DifferentialGradedModule.isCompactObject_q_of_isFinite`, Tag 09R1), and a retract of a compact
-object is compact (Tag 09QH). The registration of (2) ⟹ (1) stays on the source's own spelling,
-`DifferentialGradedModule.isCompactObject_of_exists_finite_projective_representative`. -/
+object is compact (Tag 09QH). It is one half of
+`DifferentialGradedModule.isCompactObject_iff_exists_retract_isFiniteFreeAsGradedModule`, and
+enters the registered `DifferentialGradedModule.isCompactObject_tfae_exists_retract`. -/
 theorem isCompactObject_of_retract_isFiniteFreeAsGradedModule
     (A : DifferentialGradedAlgebra.{u, u} R) (E : derivedCategory' A)
     (P : DifferentialGradedModule.{u, u, u} A) (hP : IsFiniteFreeAsGradedModule P)
@@ -592,7 +598,7 @@ theorem isCompactObject_of_retract_isFiniteFreeAsGradedModule
 
 /-! ### Tag 09RB, the corrected implication from compactness to a finite free model -/
 
-/-- **[Stacks, Tag 09RB], the implication (1) ⟹ (2), in the corrected form that the source's own
+/-- **The implication (1) ⟹ (2) of [Stacks, Tag 09RB], in the corrected form that the source's own
 proof establishes.** A compact object `E` of `D(A, d)` is a *direct summand* in `D(A, d)` of the
 image of a differential graded `A`-module `P` which is *finite free* as a graded `A`-module and
 satisfies `Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` for every differential graded `A`-module
@@ -623,14 +629,10 @@ localization (`DifferentialGradedModule.bijective_q_map_of_hasFiniteCellFiltrati
 which is the condition of [Stacks, Tag 09R0].
 
 The converse holds too, as
-`DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule`, so the tag's
-equivalence is restored by the correction; the registration of (2) ⟹ (1) stays on the source's own
-spelling of condition (2), namely
-`DifferentialGradedModule.isCompactObject_of_exists_finite_projective_representative`. -/
-@[stacks 09RB "(1) ⟹ (2), corrected: a compact object is a DIRECT SUMMAND of (the image of) a \
-differential graded module which is finite FREE as a graded module and satisfies Hom_K = Hom_D; \
-the literal statement, with 'represented by' and 'finite projective', is a mistake in the source \
-— see the refutation in Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean"]
+`DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule`, and the two are
+assembled into the tag's corrected equivalence,
+`DifferentialGradedModule.isCompactObject_tfae_exists_retract`, which carries the registration of
+[Stacks, Tag 09RB]. -/
 theorem exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject
     (A : DifferentialGradedAlgebra.{u, u} R) (E : derivedCategory' A)
     (hE : IsCompactObject.{u} E) :
@@ -644,6 +646,229 @@ theorem exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject
     (isCompactObject_iff_exists_retract_hasFiniteCellFiltration A E).1 hE
   exact ⟨P, isFiniteFreeAsGradedModule_of_hasFiniteCellFiltration hP,
     fun M => bijective_q_map_of_hasFiniteCellFiltration hP M, i, r, hir⟩
+
+/-! ### Finite freeness implies graded projectivity -/
+
+/-- A surjective map of lawful graded modules is surjective on each homogeneous piece: the
+homogeneous component of degree `n` of a preimage of a homogeneous element of degree `n` is again
+a preimage. -/
+private theorem exists_mem_grading_apply_eq_of_surjective
+    {M N : Stacks.DifferentialGraded.DGModule.{u, u, u} (Unbundled.algebra A)}
+    (hM : M.IsGradedLawful) (hN : N.IsGradedLawful)
+    (f : Stacks.DifferentialGraded.DGModule.GradedHom M N) (hf : Function.Surjective f.toFun)
+    {n : ℤ} {y : N.carrier} (hy : y ∈ N.grading n) :
+    ∃ x : M.carrier, x ∈ M.grading n ∧ f.toFun x = y := by
+  classical
+  let := hM.isInternal.chooseDecomposition
+  let := hN.isInternal.chooseDecomposition
+  obtain ⟨x, rfl⟩ := hf y
+  refine ⟨DirectSum.decompose M.grading x n, (DirectSum.decompose M.grading x n).2, ?_⟩
+  have hsum := DirectSum.sum_support_decompose M.grading x
+  rw [← DirectSum.decompose_of_mem_same N.grading hy,
+    ← DirectSum.decompose_of_mem_same N.grading
+      (f.map_grading n _ (DirectSum.decompose M.grading x n).2)]
+  conv_rhs => rw [← hsum]
+  rw [map_sum, DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubgroup.val_finsetSum]
+  symm
+  refine Finset.sum_eq_single n (fun i _ hin => ?_) (fun hn => ?_)
+  · exact DirectSum.decompose_of_mem_ne N.grading
+      (f.map_grading i _ (DirectSum.decompose M.grading x i).2) hin
+  · rw [DFinsupp.notMem_support_iff.1 hn]
+    simp
+
+/-- The image of `a` in a summand of a direct sum of shifts of the regular module is `a` acting on
+the image of `1`. -/
+private theorem coproduct_shifts_ι_eq_op_smul {J : Type u} (k : J → ℤ) (j : J) (a : A.A) :
+    (Sigma.ι (fun j => shift (regularModule A) (k j)) j).toFun a =
+      MulOpposite.op a • (Sigma.ι (fun j => shift (regularModule A) (k j)) j).toFun (1 : A.A) := by
+  rw [← (Sigma.ι (fun j => shift (regularModule A) (k j)) j).map_smul]
+  congr 1
+  exact (one_mul a).symm
+
+/-- A point of a finite direct sum of differential graded modules is the sum of its components. -/
+private theorem sum_ι_π_apply {J : Type u} [Fintype J] [DecidableEq J]
+    (G : J → DifferentialGradedModule.{u, u, u} A) (y : (∐ G).M) :
+    ∑ j, (Sigma.ι G j).toFun ((Sigma.π G j).toFun y) = y := by
+  have h : (∑ j, (Sigma.ι G j).toFun ∘ₗ (Sigma.π G j).toFun) = LinearMap.id := by
+    refine coproduct_linearMap_ext G fun i x => ?_
+    rw [LinearMap.sum_apply, LinearMap.id_apply,
+      Finset.sum_eq_single i (fun j _ hji => ?_) (fun h => absurd (Finset.mem_univ i) h)]
+    · have h := congrArg (fun f : G i ⟶ G i => f.toFun x) (Sigma.ι_π_eq_id G i)
+      change (Sigma.π G i).toFun ((Sigma.ι G i).toFun x) = x at h
+      rw [LinearMap.comp_apply, h]
+    · have h := congrArg (fun f : G i ⟶ G j => f.toFun x) (Sigma.ι_π_of_ne G (Ne.symm hji))
+      change (Sigma.π G j).toFun ((Sigma.ι G i).toFun x) = 0 at h
+      rw [LinearMap.comp_apply, h, map_zero]
+  simpa using LinearMap.congr_fun h y
+
+/-- **A finite direct sum of shifts of the algebra is projective as a graded module** ([Stacks,
+Tag 09K0], `Stacks.DifferentialGraded.DGModule.IsProjectiveAsGradedModule`): a surjection of
+graded modules onto it is split by sending the generator `1` of each summand to a homogeneous
+preimage of the same degree. -/
+theorem isProjectiveAsGradedModule_coproduct_shifts {J : Type u} [Finite J] (k : J → ℤ) :
+    Stacks.DifferentialGraded.DGModule.IsProjectiveAsGradedModule.{u, u, u, u}
+      (Unbundled.module (∐ fun j => shift (regularModule A) (k j))) := by
+  classical
+  let _ := Fintype.ofFinite J
+  let G := fun j => shift (regularModule A) (k j)
+  have hlaw := Unbundled.module_isLawful (∐ G)
+  refine ⟨⟨hlaw.isInternal, hlaw.grading_smul⟩, fun M hM f hf => ?_⟩
+  have hgen (j : J) : (Sigma.ι G j).toFun (1 : A.A) ∈ (∐ G).grading (-k j) := by
+    apply (Sigma.ι G j).map_grading
+    change (1 : A.A) ∈ A.grading (-k j + k j)
+    simpa using SetLike.one_mem_graded A.grading
+  choose m hm hfm using fun j => exists_mem_grading_apply_eq_of_surjective hM
+    ⟨hlaw.isInternal, hlaw.grading_smul⟩ f hf (y := (Sigma.ι G j).toFun (1 : A.A)) (hgen j)
+  let c (j : J) (y : (∐ G).M) : A.A := (Sigma.π G j).toFun y
+  have hc_smul (j : J) (y : (∐ G).M) (a : A.A) :
+      c j (MulOpposite.op a • y) = c j y * a :=
+    (Sigma.π G j).map_smul y a
+  let σ : (∐ G).M →ₗ[(Unbundled.algebra A).carrierᵐᵒᵖ] M.carrier :=
+    { toFun := fun y => ∑ j, MulOpposite.op (c j y) • m j
+      map_add' := fun y z => by
+        simp only [c, map_add, MulOpposite.op_add, add_smul, Finset.sum_add_distrib]
+      map_smul' := fun a y => by
+        rw [← MulOpposite.op_unop a, Finset.smul_sum]
+        refine Finset.sum_congr rfl fun j _ => ?_
+        rw [hc_smul, MulOpposite.op_mul, mul_smul]
+        rfl }
+  refine ⟨⟨σ, fun n y hy => ?_⟩, fun y => ?_⟩
+  · refine AddSubgroup.sum_mem _ fun j _ => ?_
+    have hcj : c j y ∈ A.grading (n + k j) := (Sigma.π G j).map_grading n y hy
+    have := hM.grading_smul (-k j) (n + k j) (m j) (c j y) (hm j) hcj
+    rwa [show -k j + (n + k j) = n by ring] at this
+  · change f.toFun (∑ j, MulOpposite.op (c j y) • m j) = y
+    rw [map_sum]
+    conv_rhs => rw [← sum_ι_π_apply G y]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    rw [f.toFun.map_smul, hfm j]
+    exact (coproduct_shifts_ι_eq_op_smul k j (c j y)).symm
+
+/-- **A module which is finite free as a graded module is projective as a graded module**
+([Stacks, Tag 09K0]): graded projectivity of the direct sum of shifts
+(`DifferentialGradedModule.isProjectiveAsGradedModule_coproduct_shifts`) transfers along the
+graded isomorphism. -/
+theorem isProjectiveAsGradedModule_of_isFiniteFreeAsGradedModule
+    {P : DifferentialGradedModule.{u, u, u} A} (hP : IsFiniteFreeAsGradedModule P) :
+    Stacks.DifferentialGraded.DGModule.IsProjectiveAsGradedModule.{u, u, u, u}
+      (Unbundled.module P) := by
+  obtain ⟨J, hJ, k, φ, ψ, hψφ, hφψ⟩ := hP
+  have hproj := isProjectiveAsGradedModule_coproduct_shifts (A := A) k
+  have hlaw := Unbundled.module_isLawful P
+  refine ⟨⟨hlaw.isInternal, hlaw.grading_smul⟩, fun M hM f hf => ?_⟩
+  obtain ⟨σ, hσ⟩ := hproj.2 M hM
+    { toFun := φ.opLinearMap ∘ₗ f.toFun
+      map_grading := fun n x hx => φ.map_grading n _ (f.map_grading n x hx) }
+    (fun y => by
+      obtain ⟨x, hx⟩ := hf (ψ.toFun y)
+      exact ⟨x, by simp [hx, hφψ]⟩)
+  refine ⟨{ toFun := σ.toFun ∘ₗ φ.opLinearMap
+            map_grading := fun n x hx => σ.map_grading n _ (φ.map_grading n x hx) }, fun y => ?_⟩
+  have h := congrArg ψ.toFun (hσ (φ.toFun y))
+  simp only [LinearMap.comp_apply, GradedHom.opLinearMap_apply, hψφ] at h
+  simpa using h
+
+/-! ### Tag 09RB, the corrected equivalence -/
+
+/-- **Compact objects of `D(A, d)` are the direct summands of finite free models.** An object `E`
+of `D(A, d)` is compact if and only if it is a direct summand in `D(A, d)` of the image of a
+differential graded `A`-module `P` which is finite free as a graded `A`-module and satisfies
+`Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` for every differential graded `A`-module `M`. This
+assembles `DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`
+and `DifferentialGradedModule.isCompactObject_of_retract_isFiniteFreeAsGradedModule`; it is part
+of `DifferentialGradedModule.isCompactObject_tfae_exists_retract`, [Stacks, Tag 09RB]. -/
+theorem isCompactObject_iff_exists_retract_isFiniteFreeAsGradedModule
+    (A : DifferentialGradedAlgebra.{u, u} R) (E : derivedCategory' A) :
+    IsCompactObject.{u} E ↔
+      ∃ P : DifferentialGradedModule.{u, u, u} A, IsFiniteFreeAsGradedModule P ∧
+        (∀ M : DifferentialGradedModule.{u, u, u} A, Function.Bijective
+          (((quasiIsomorphisms' A).Q).map :
+            ((toHomotopyCategory A).obj P ⟶ (toHomotopyCategory A).obj M) → _)) ∧
+        ∃ (i : E ⟶ (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P)
+          (r : (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P ⟶ E), i ≫ r = 𝟙 E := by
+  refine ⟨exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject A E, ?_⟩
+  rintro ⟨P, hP, hD, i, r, hir⟩
+  exact isCompactObject_of_retract_isFiniteFreeAsGradedModule A E P hP hD i r hir
+
+/-- **[Stacks, Tag 09RB], corrected.** *"Let `(A, d)` be a differential graded algebra. Assume
+that `A^n = 0` for `|n| ≫ 0`. Let `E` be an object of `D(A, d)`. The following are equivalent:
+(1) `E` is a compact object, and (2) `E` can be represented by a differential graded `A`-module
+`P` which is finite projective as a graded `A`-module and satisfies
+`Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` for every differential graded `A`-module `M`."*
+
+As printed, (1) ⟹ (2) is false: it is contradicted by the source's own [Stacks, Tag 09R5], over
+the bounded algebra `A = k[x, y]/(y²)` of Tag 09R4, and the refutation is
+`Stacks.Examples.not_forall_exists_finite_gradedProjective_of_isCompactObject` in
+`StacksFrontier/Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean` (recorded in
+`errata.md`, entry 09RB). The correction is to replace "can be represented by" in (2) by "is a
+direct summand in `D(A, d)` of (the image of)". With that change the statement holds, and the
+graded module may moreover be taken finite free. So the following are equivalent, for every
+differential graded algebra (the boundedness of `A` is not needed in any direction, and is
+dropped, which makes the statement more general):
+
+1. `E` is a compact object;
+2. `E` is a direct summand in `D(A, d)` of the image of a differential graded `A`-module `P` which
+   is finite free as a graded `A`-module (`DifferentialGradedModule.IsFiniteFreeAsGradedModule`)
+   and satisfies `Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` for every `M`;
+3. `E` is a direct summand in `D(A, d)` of the image of a differential graded `A`-module `P` which
+   is finite (`DifferentialGradedModule.IsFinite`, Tag 09R1) and projective as a graded `A`-module
+   (`Stacks.DifferentialGraded.DGModule.IsProjectiveAsGradedModule`, Tag 09K0) and satisfies
+   `Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` for every `M`.
+
+The condition `Hom_{K(A, d)}(P, M) = Hom_{D(A, d)}(P, M)` is read as: the localization functor is
+bijective on morphisms from the class of `P` to the class of `M` (Tag 09R0). Condition (3) is the
+source's condition (2) with "represented by" corrected to "a direct summand of"; the second
+conjunct is the source's implication (2) ⟹ (1) as printed, which is true.
+
+Proof: (1) ⟹ (2) is
+`DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`
+(Tag 09R3 and Tag 09KY); (2) ⟹ (3) holds because a finite free graded module is finite
+(`DifferentialGradedModule.isFinite_of_isFiniteFreeAsGradedModule`) and graded projective
+(`DifferentialGradedModule.isProjectiveAsGradedModule_of_isFiniteFreeAsGradedModule`); and
+(3) ⟹ (1) because the image of a finite `P` with `Hom_K = Hom_D` is compact
+(`DifferentialGradedModule.isCompactObject_q_of_isFinite`, Tag 09R1) and a direct summand of a
+compact object is compact (Tag 09QH). -/
+@[stacks 09RB "Corrected form. As printed, (1) ⟹ (2) is false (refuted by the source's own Tag \
+09R5; see errata.md and Examples/Algebra/CompactObjectNoFiniteProjectiveModel.lean). The \
+correction replaces 'E can be represented by P' with 'E is a direct summand in D(A, d) of the \
+image of P'. Proved: (1) compact ⟺ (2) summand of a finite FREE graded P with Hom_K(P, -) = \
+Hom_D(P, -) ⟺ (3) summand of a finite graded-projective P with Hom_K(P, -) = Hom_D(P, -); and \
+the source's (2) as printed ⟹ (1). The boundedness of A is not needed and is dropped."]
+theorem isCompactObject_tfae_exists_retract
+    (A : DifferentialGradedAlgebra.{u, u} R) (E : derivedCategory' A) :
+    List.TFAE
+      [IsCompactObject.{u} E,
+        ∃ P : DifferentialGradedModule.{u, u, u} A, IsFiniteFreeAsGradedModule P ∧
+          (∀ M : DifferentialGradedModule.{u, u, u} A, Function.Bijective
+            (((quasiIsomorphisms' A).Q).map :
+              ((toHomotopyCategory A).obj P ⟶ (toHomotopyCategory A).obj M) → _)) ∧
+          ∃ (i : E ⟶ (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P)
+            (r : (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P ⟶ E), i ≫ r = 𝟙 E,
+        ∃ P : DifferentialGradedModule.{u, u, u} A, IsFinite P ∧
+          Stacks.DifferentialGraded.DGModule.IsProjectiveAsGradedModule.{u, u, u, u}
+            (Unbundled.module P) ∧
+          (∀ M : DifferentialGradedModule.{u, u, u} A, Function.Bijective
+            (((quasiIsomorphisms' A).Q).map :
+              ((toHomotopyCategory A).obj P ⟶ (toHomotopyCategory A).obj M) → _)) ∧
+          ∃ (i : E ⟶ (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P)
+            (r : (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P ⟶ E), i ≫ r = 𝟙 E] ∧
+      ((∃ P : DifferentialGradedModule.{u, u, u} A, IsFinite P ∧
+          Stacks.DifferentialGraded.DGModule.IsProjectiveAsGradedModule.{u, u, u, u}
+            (Unbundled.module P) ∧
+          (∀ M : DifferentialGradedModule.{u, u, u} A, Function.Bijective
+            (((quasiIsomorphisms' A).Q).map :
+              ((toHomotopyCategory A).obj P ⟶ (toHomotopyCategory A).obj M) → _)) ∧
+          Nonempty (E ≅ (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj P)) →
+        IsCompactObject.{u} E) := by
+  refine ⟨?_, fun ⟨P, hP, _, hD, ⟨e⟩⟩ => isCompactObject_of_iso e
+    (isCompactObject_q_of_isFinite A hP hD)⟩
+  tfae_have 1 → 2 := (isCompactObject_iff_exists_retract_isFiniteFreeAsGradedModule A E).1
+  tfae_have 2 → 3 := fun ⟨P, hP, hD, i, r, hir⟩ =>
+    ⟨P, isFinite_of_isFiniteFreeAsGradedModule hP,
+      isProjectiveAsGradedModule_of_isFiniteFreeAsGradedModule hP, hD, i, r, hir⟩
+  tfae_have 3 → 1 := fun ⟨P, hP, _, hD, i, r, hir⟩ =>
+    isCompactObject_of_retract (isCompactObject_q_of_isFinite A hP hD) i r hir
+  tfae_finish
 
 end DifferentialGradedModule
 

@@ -113,8 +113,8 @@ gap** of this development — see the "What this file does not contain" section 
 the naturality of [Stacks, Tag 0A94] in both variables — so they are proved here only at the
 abstract `TensorHomAdjunction`, where the naturality is part of the data, and are **not**
 asserted of `derivedPushforwardSheafHomMap`.  That abstract layer is also what
-`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.PushforwardTrace`
-([Stacks, Tag 0E57]) is stated over.
+`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.PushforwardTrace` (a variant, on the full
+derived categories, of the map of [Stacks, Tag 0E57]) is stated over.
 
 ## References
 

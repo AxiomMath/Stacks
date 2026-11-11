@@ -60,6 +60,11 @@ algebra.
   presentation `β : P[x] → B_g`, `x ↦ 1/g`, obtained from `α` by adjoining one variable,
   `NL(β) ≅ NL(α) ⊗_B B_g ⊕ NL(B[x] → B_g)` as two term complexes, compatibly with the canonical
   maps.
+* `Algebra.Generators.naiveCotangentComplex_localizationAway`: Stacks 08JZ in full, for the
+  presentation `β : P[x] → B_g`: its kernel, the splittings of `J/J²` and of
+  `Ω_{P[x]/A} ⊗ B_g`, `NL(β) ≅ NL(α) ⊗_B B_g ⊕ (B_g --g--> B_g)`, and the homotopy equivalence
+  `NL_{B/A} ⊗_B B_g → NL_{B_g/A}`
+  (`Algebra.Generators.exists_homotopyEquiv_liftBaseChange_of_isLocalizationAway`).
 * `Algebra.Generators.nonempty_cotangent_baseChange_prod_linearEquiv_of_isLocalizationAway`: for
   presentations of `S` by `n` and of `S_g` by `m` variables, with kernels `I` and `J`,
   `(I/I²)_g ⊕ S_g^{⊕m} ≅ J/J² ⊕ S_g^{⊕n}`.
@@ -69,7 +74,8 @@ algebra.
 * `naiveCotangentComplex_localization_base_homotopyEquiv`: for a localization `Aₘ` of `A` and a
   ring map `Aₘ → B`, the canonical map `NL_{B/A} → NL_{B/Aₘ}` is a homotopy equivalence.
 * `natExt_cotangent_subsingleton` and `natExt_toKaehler_bijective`: for a polynomial algebra
-  `B = A[x_i]` presented by its own variables, `NL_{B/A} = (0 → Ω_{B/A})`.
+  `B = A[x_i]` presented by its own variables, the complex of that presentation is
+  `(0 → Ω_{B/A})` on the nose.
 
 ## References
 
@@ -514,10 +520,8 @@ of `B_g` over `B`. Then there are splittings
 `Ω_{P[x]/A} ⊗ B_g ≅ (Ω_{P/A} ⊗_P B) ⊗_B B_g ⊕ Ω_{B[x]/B} ⊗ B_g`
 of the two canonical exact rows which are compatible with the differentials, i.e. which
 identify the two term complex `NL(β)` with the direct sum of `NL(α) ⊗_B B_g` and of the
-complex `NL(B[x] → B_g) = (B_g --g--> B_g)`. -/
-@[stacks 08JZ "Item (3), which contains items (1) and (2): splittings of both rows of the
-source's diagram that are simultaneously compatible with the differentials. Mathlib has each
-row separately, but not compatibly. See the module docstring."]
+complex `NL(B[x] → B_g) = (B_g --g--> B_g)`. This is the splitting of item (3) of Stacks 08JZ;
+the whole of 08JZ is `Algebra.Generators.naiveCotangentComplex_localizationAway`. -/
 public theorem exists_cotangentComplex_comp_localizationAway_eq_prodMap
     (g : S) [IsLocalization.Away g T] (P : Generators R S ι) :
     ∃ (e : ((localizationAway T g).comp P).toExtension.Cotangent ≃ₗ[T]
@@ -828,6 +832,300 @@ public theorem nonempty_cotangent_baseChange_prod_linearEquiv_of_isLocalizationA
   exact ⟨((LinearEquiv.refl T _).prodCongr Q.cotangentSpaceBasis.equivFun.symm).trans
     (E.prodEquiv.trans ((LinearEquiv.refl T _).prodCongr
       (P.cotangentSpaceBasis.baseChange T).equivFun))⟩
+
+end Algebra.Generators
+
+end
+
+/-!
+## The complete statement of Stacks 08JZ
+
+Let `A → B` be a ring map, let `g ∈ B`, let `α : P → B` be a presentation with kernel `I` and let
+`f ∈ P` map to `g`. The presentation `β : P[x] → B_g`, `x ↦ 1/g`, of the localization has kernel
+`J = (I, f x - 1)`, there are splittings `J/J² = (I/I²)_g ⊕ B_g (f x - 1)` and
+`Ω_{P[x]/A} ⊗ B_g = Ω_{P/A} ⊗ B_g ⊕ B_g dx`, and `NL(β) ≅ NL(α) ⊗_B B_g ⊕ (B_g --g--> B_g)`.
+The last isomorphism exhibits the map `NL(α) ⊗_B B_g → NL(β)` induced by `P → P[x]` as a homotopy
+equivalence, the second summand being contractible. Composing with the homotopy equivalence
+between any two presentations of `B_g` shows that the canonical map
+`NL_{B/A} ⊗_B B_g → NL_{B_g/A}` is a homotopy equivalence; since any two maps of presentations
+are homotopic (`Algebra.Extension.Cotangent.map_sub_map`,
+`Algebra.Extension.CotangentSpace.map_sub_map`), this holds for the map induced by any morphism of
+presentations, whichever presentations of `B` and of `B_g` are used.
+-/
+
+section
+
+open TensorProduct MvPolynomial Algebra Algebra.Generators
+
+section TwoTermHomotopic
+
+variable {T : Type*} [CommRing T] {A₁ A₀ B₁ B₀ : Type*}
+  [AddCommGroup A₁] [Module T A₁] [AddCommGroup A₀] [Module T A₀]
+  [AddCommGroup B₁] [Module T B₁] [AddCommGroup B₀] [Module T B₀]
+  {dA : A₁ →ₗ[T] A₀} {dB : B₁ →ₗ[T] B₀}
+
+/-- A chain map homotopic to a homotopy equivalence is a homotopy equivalence: if `(f₁, f₀)`
+differs from the chain map of `E` by the null homotopic map `(k ∘ dA, dB ∘ k)`, then `(f₁, f₀)`,
+with the homotopy inverse of `E`, is again a homotopy equivalence. -/
+private def TwoTermHomotopyEquiv.ofHomotopic (E : TwoTermHomotopyEquiv dA dB)
+    (f₁ : A₁ →ₗ[T] B₁) (f₀ : A₀ →ₗ[T] B₀) (k : A₀ →ₗ[T] B₁)
+    (h₁ : ∀ x, f₁ x = E.f₁ x + k (dA x)) (h₀ : ∀ x, f₀ x = E.f₀ x + dB (k x)) :
+    TwoTermHomotopyEquiv dA dB where
+  f₁ := f₁
+  f₀ := f₀
+  g₁ := E.g₁
+  g₀ := E.g₀
+  h := E.h - E.g₁ ∘ₗ k
+  h' := E.h' - k ∘ₗ E.g₀
+  commf x := by rw [h₁, h₀, map_add, E.commf]
+  commg := E.commg
+  sub_comp₁ x := by
+    rw [h₁, map_add, LinearMap.sub_apply, LinearMap.comp_apply, ← E.sub_comp₁]
+    abel
+  sub_comp₀ x := by
+    rw [h₀, map_add, LinearMap.sub_apply, LinearMap.comp_apply, map_sub, E.commg,
+      ← E.sub_comp₀]
+    abel
+  sub_comp₁' x := by
+    rw [h₁, E.commg, LinearMap.sub_apply, LinearMap.comp_apply, ← E.sub_comp₁']
+    abel
+  sub_comp₀' x := by
+    rw [h₀, LinearMap.sub_apply, LinearMap.comp_apply, map_sub, ← E.sub_comp₀']
+    abel
+
+end TwoTermHomotopic
+
+namespace Algebra.Generators
+
+variable {R S T : Type*} [CommRing R] [CommRing S] [CommRing T]
+  [Algebra R S] [Algebra R T] [Algebra S T] [IsScalarTower R S T]
+
+/-- **The naive cotangent complex commutes with localization at an element**, at the level of the
+complexes: let `A → B` be a ring map, let `g ∈ B` and let `B_g` be a localization of `B` away from
+`g`. For presentations `α` of `B` and `β'` of `B_g` over `A` and any morphism `φ` from `α` to `β'`,
+the induced map `(φ₁, φ₀) : NL(α) ⊗_B B_g → NL(β')` is a homotopy equivalence of two term
+complexes of `B_g`-modules: it is a chain map, and there are a chain map `(ψ₁, ψ₀)` in the other
+direction and homotopies `s`, `t` from both composites to the identity. For `α` and `β'` the
+canonical presentations `Generators.self` this is the statement that the canonical map
+`NL_{B/A} ⊗_B B_g → NL_{B_g/A}` is a homotopy equivalence. -/
+public theorem exists_homotopyEquiv_liftBaseChange_of_isLocalizationAway
+    (g : S) [IsLocalization.Away g T] {ι κ : Type*} (P : Generators R S ι)
+    (Q : Generators R T κ) (φ : P.toExtension.Hom Q.toExtension) :
+    Q.toExtension.cotangentComplex ∘ₗ (Extension.Cotangent.map φ).liftBaseChange T =
+        (Extension.CotangentSpace.map φ).liftBaseChange T ∘ₗ
+          P.toExtension.cotangentComplex.baseChange T ∧
+      ∃ (ψ₁ : Q.toExtension.Cotangent →ₗ[T] T ⊗[S] P.toExtension.Cotangent)
+        (ψ₀ : Q.toExtension.CotangentSpace →ₗ[T] T ⊗[S] P.toExtension.CotangentSpace)
+        (s : T ⊗[S] P.toExtension.CotangentSpace →ₗ[T] T ⊗[S] P.toExtension.Cotangent)
+        (t : Q.toExtension.CotangentSpace →ₗ[T] Q.toExtension.Cotangent),
+        P.toExtension.cotangentComplex.baseChange T ∘ₗ ψ₁ =
+            ψ₀ ∘ₗ Q.toExtension.cotangentComplex ∧
+          LinearMap.id - ψ₁ ∘ₗ (Extension.Cotangent.map φ).liftBaseChange T =
+            s ∘ₗ P.toExtension.cotangentComplex.baseChange T ∧
+          LinearMap.id - ψ₀ ∘ₗ (Extension.CotangentSpace.map φ).liftBaseChange T =
+            P.toExtension.cotangentComplex.baseChange T ∘ₗ s ∧
+          LinearMap.id - (Extension.Cotangent.map φ).liftBaseChange T ∘ₗ ψ₁ =
+            t ∘ₗ Q.toExtension.cotangentComplex ∧
+          LinearMap.id - (Extension.CotangentSpace.map φ).liftBaseChange T ∘ₗ ψ₀ =
+            Q.toExtension.cotangentComplex ∘ₗ t := by
+  obtain ⟨e, e', hd, he, -, he', -⟩ :=
+    exists_cotangentComplex_comp_localizationAway_eq_prodMap (T := T) g P
+  let E : TwoTermHomotopyEquiv (P.toExtension.cotangentComplex.baseChange T)
+      Q.toExtension.cotangentComplex :=
+    (TwoTermHomotopyEquiv.ofProdOfBijective _ _ _ e e' hd
+      (cotangentComplexEquivAway_toLinearMap (T := T) g ▸
+        (cotangentComplexEquivAway (T := T) g).bijective)).trans
+      (homotopyEquivOfGenerators _ Q)
+  let ψ : P.toExtension.Hom Q.toExtension :=
+    (defaultHom ((localizationAway T g).comp P) Q).toExtensionHom.comp
+      ((localizationAway T g).toComp P).toExtensionHom
+  have hE₁ (a : T) (m : P.toExtension.Cotangent) :
+      E.f₁ (a ⊗ₜ m) = a • Extension.Cotangent.map ψ m := by
+    have h := DFunLike.congr_fun he (a ⊗ₜ m)
+    simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply, LinearMap.inl_apply,
+      LinearMap.liftBaseChange_tmul] at h
+    change Extension.Cotangent.map _ (e.symm (a ⊗ₜ m, 0)) = _
+    rw [h, map_smul]
+    exact congrArg (a • ·) (DFunLike.congr_fun (Extension.Cotangent.map_comp
+      (f := ((localizationAway T g).toComp P).toExtensionHom)
+      (g := (defaultHom ((localizationAway T g).comp P) Q).toExtensionHom)) m).symm
+  have hE₀ (a : T) (m : P.toExtension.CotangentSpace) :
+      E.f₀ (a ⊗ₜ m) = a • Extension.CotangentSpace.map ψ m := by
+    have h := DFunLike.congr_fun he' (a ⊗ₜ m)
+    simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply, LinearMap.inl_apply,
+      LinearMap.liftBaseChange_tmul] at h
+    change Extension.CotangentSpace.map _ (e'.symm (a ⊗ₜ m, 0)) = _
+    rw [h, map_smul]
+    exact congrArg (a • ·) (Extension.CotangentSpace.map_comp_apply _ _ m).symm
+  have h₁ (x : T ⊗[S] P.toExtension.Cotangent) :
+      (Extension.Cotangent.map φ).liftBaseChange T x =
+        E.f₁ x + (φ.sub ψ).liftBaseChange T (P.toExtension.cotangentComplex.baseChange T x) := by
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | add x y hx hy => rw [map_add, hx, hy, map_add, map_add, map_add]; abel
+    | tmul a m =>
+      have h := DFunLike.congr_fun (Extension.Cotangent.map_sub_map φ ψ) m
+      rw [LinearMap.sub_apply, sub_eq_iff_eq_add'] at h
+      rw [LinearMap.liftBaseChange_tmul, hE₁, LinearMap.baseChange_tmul,
+        LinearMap.liftBaseChange_tmul, h, smul_add, LinearMap.comp_apply]
+  have h₀ (x : T ⊗[S] P.toExtension.CotangentSpace) :
+      (Extension.CotangentSpace.map φ).liftBaseChange T x =
+        E.f₀ x + Q.toExtension.cotangentComplex ((φ.sub ψ).liftBaseChange T x) := by
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | add x y hx hy => rw [map_add, hx, hy, map_add, map_add, map_add]; abel
+    | tmul a m =>
+      have h := DFunLike.congr_fun (Extension.CotangentSpace.map_sub_map φ ψ) m
+      rw [LinearMap.sub_apply, sub_eq_iff_eq_add'] at h
+      rw [LinearMap.liftBaseChange_tmul, hE₀, LinearMap.liftBaseChange_tmul, map_smul, h,
+        smul_add, LinearMap.comp_apply, LinearMap.restrictScalars_apply]
+  let F := E.ofHomotopic _ _ _ h₁ h₀
+  exact ⟨LinearMap.ext fun x ↦ F.commf x, F.g₁, F.g₀, F.h, F.h',
+    LinearMap.ext fun x ↦ F.commg x, LinearMap.ext fun x ↦ F.sub_comp₁ x,
+    LinearMap.ext fun x ↦ F.sub_comp₀ x, LinearMap.ext fun x ↦ F.sub_comp₁' x,
+    LinearMap.ext fun x ↦ F.sub_comp₀' x⟩
+
+/-- **Stacks 08JZ, the formation of the naive cotangent complex commutes with localization at an
+element.** Let `A → B` be a ring map, let `g ∈ B`, let `B_g` be a localization of `B` away from
+`g`, let `α : P = A[x_i, i ∈ ι] → B` be a presentation with kernel `I` and let `f ∈ P` be an
+element mapped to `g` by `α`. Then `β = (localizationAway T g).comp P : P[x] → B_g` is a
+presentation of `B_g` over `A` extending `α` and sending `x` to `1/g`, and
+
+* its kernel `J` is generated by `I` and `f x - 1`;
+* (1) `J/J² = (I/I²)_g ⊕ B_g (f x - 1)`: there is an isomorphism `J/J² ≅ (I/I²) ⊗_B B_g ⊕ B_g`
+  restricting to the canonical map on the first summand and sending `(0, 1)` to the class of
+  `f x - 1`;
+* (2) `Ω_{P[x]/A} ⊗ B_g = Ω_{P/A} ⊗ B_g ⊕ B_g dx`: there is an isomorphism
+  `Ω_{P[x]/A} ⊗ B_g ≅ (Ω_{P/A} ⊗_P B) ⊗_B B_g ⊕ B_g` restricting to the canonical map on the first
+  summand and sending `(0, 1)` to `dx`;
+* (3) `NL(β) ≅ NL(α) ⊗_B B_g ⊕ (B_g --g--> B_g)`: isomorphisms in both degrees which intertwine
+  the differential of `NL(β)` with the direct sum of the base changed differential of `NL(α)` and
+  multiplication by `g` on `B_g`, and restrict to the canonical maps on the first summands;
+* hence, for any presentations `P'` of `B` and `Q` of `B_g` over `A` (for example the canonical
+  ones, whose complexes are `NL_{B/A}` and `NL_{B_g/A}`) and any morphism `φ` of presentations,
+  the induced map `NL(P') ⊗_B B_g → NL(Q)` is a homotopy equivalence: a chain map with a chain
+  homotopy inverse `(ψ₁, ψ₀)` and homotopies `s`, `t`. -/
+@[stacks 08JZ "The whole statement: the presentation `β` (its values on the variables), the
+generators `I`, `f x - 1` of its kernel (Mathlib's `Algebra.Generators.comp_localizationAway_ker`),
+items (1) (from Mathlib's `Algebra.Generators.cotangentCompLocalizationAwayEquiv` and
+`Algebra.Generators.basisCotangentAway`), (2) (from Mathlib's
+`Algebra.Generators.CotangentSpace.compEquiv`) and (3), and the homotopy equivalence
+`NL_{B/A} ⊗_B B_g → NL_{B_g/A}`, for the map induced by any morphism between any presentations."]
+public theorem naiveCotangentComplex_localizationAway
+    (g : S) [IsLocalization.Away g T] {ι : Type*} (P : Generators R S ι) (f : P.Ring)
+    (hf : algebraMap P.Ring S f = g) :
+    (∀ i, ((localizationAway T g).comp P).val (Sum.inr i) = algebraMap S T (P.val i)) ∧
+      ((localizationAway T g).comp P).val (Sum.inl ()) = IsLocalization.Away.invSelf g ∧
+      ((localizationAway T g).comp P).ker =
+        Ideal.map ((localizationAway T g).toComp P).toAlgHom P.ker ⊔
+          Ideal.span {rename Sum.inr f * X (Sum.inl ()) - 1} ∧
+      (∃ e : ((localizationAway T g).comp P).toExtension.Cotangent ≃ₗ[T]
+          T ⊗[S] P.toExtension.Cotangent × T,
+        e.symm.toLinearMap ∘ₗ LinearMap.inl T _ _ =
+            (Extension.Cotangent.map
+              ((localizationAway T g).toComp P).toExtensionHom).liftBaseChange T ∧
+          ∃ h : rename Sum.inr f * X (Sum.inl ()) - 1 ∈ ((localizationAway T g).comp P).ker,
+            e.symm (0, 1) = Extension.Cotangent.mk ⟨_, h⟩) ∧
+      (∃ e : ((localizationAway T g).comp P).toExtension.CotangentSpace ≃ₗ[T]
+          T ⊗[S] P.toExtension.CotangentSpace × T,
+        e.symm.toLinearMap ∘ₗ LinearMap.inl T _ _ =
+            (Extension.CotangentSpace.map
+              ((localizationAway T g).toComp P).toExtensionHom).liftBaseChange T ∧
+          e.symm (0, 1) = ((1 : T) ⊗ₜ[((localizationAway T g).comp P).Ring]
+            KaehlerDifferential.D R ((localizationAway T g).comp P).Ring (X (Sum.inl ())) :)) ∧
+      (∃ (e₁ : ((localizationAway T g).comp P).toExtension.Cotangent ≃ₗ[T]
+          T ⊗[S] P.toExtension.Cotangent × T)
+        (e₀ : ((localizationAway T g).comp P).toExtension.CotangentSpace ≃ₗ[T]
+          T ⊗[S] P.toExtension.CotangentSpace × T),
+        e₀.toLinearMap ∘ₗ ((localizationAway T g).comp P).toExtension.cotangentComplex =
+            (P.toExtension.cotangentComplex.baseChange T).prodMap
+              (algebraMap S T g • LinearMap.id) ∘ₗ e₁.toLinearMap ∧
+          e₁.symm.toLinearMap ∘ₗ LinearMap.inl T _ _ =
+            (Extension.Cotangent.map
+              ((localizationAway T g).toComp P).toExtensionHom).liftBaseChange T ∧
+          e₀.symm.toLinearMap ∘ₗ LinearMap.inl T _ _ =
+            (Extension.CotangentSpace.map
+              ((localizationAway T g).toComp P).toExtensionHom).liftBaseChange T) ∧
+      ∀ {ι' κ : Type*} (P' : Generators R S ι') (Q : Generators R T κ)
+        (φ : P'.toExtension.Hom Q.toExtension),
+        Q.toExtension.cotangentComplex ∘ₗ (Extension.Cotangent.map φ).liftBaseChange T =
+            (Extension.CotangentSpace.map φ).liftBaseChange T ∘ₗ
+              P'.toExtension.cotangentComplex.baseChange T ∧
+          ∃ (ψ₁ : Q.toExtension.Cotangent →ₗ[T] T ⊗[S] P'.toExtension.Cotangent)
+            (ψ₀ : Q.toExtension.CotangentSpace →ₗ[T] T ⊗[S] P'.toExtension.CotangentSpace)
+            (s : T ⊗[S] P'.toExtension.CotangentSpace →ₗ[T] T ⊗[S] P'.toExtension.Cotangent)
+            (t : Q.toExtension.CotangentSpace →ₗ[T] Q.toExtension.Cotangent),
+            P'.toExtension.cotangentComplex.baseChange T ∘ₗ ψ₁ =
+                ψ₀ ∘ₗ Q.toExtension.cotangentComplex ∧
+              LinearMap.id - ψ₁ ∘ₗ (Extension.Cotangent.map φ).liftBaseChange T =
+                s ∘ₗ P'.toExtension.cotangentComplex.baseChange T ∧
+              LinearMap.id - ψ₀ ∘ₗ (Extension.CotangentSpace.map φ).liftBaseChange T =
+                P'.toExtension.cotangentComplex.baseChange T ∘ₗ s ∧
+              LinearMap.id - (Extension.Cotangent.map φ).liftBaseChange T ∘ₗ ψ₁ =
+                t ∘ₗ Q.toExtension.cotangentComplex ∧
+              LinearMap.id - (Extension.CotangentSpace.map φ).liftBaseChange T ∘ₗ ψ₀ =
+                Q.toExtension.cotangentComplex ∘ₗ t := by
+  have hker := comp_localizationAway_ker (T := T) g P f hf
+  have hmem : rename Sum.inr f * X (Sum.inl ()) - 1 ∈ ((localizationAway T g).comp P).ker := by
+    rw [hker]
+    exact Submodule.mem_sup_right (Ideal.mem_span_singleton_self _)
+  have hx : Extension.Cotangent.map ((localizationAway T g).ofComp P).toExtensionHom
+      (Extension.Cotangent.mk ⟨_, hmem⟩) = cMulXSubOneCotangent T g := by
+    rw [Extension.Cotangent.map_mk]
+    congr 1
+    refine Subtype.ext ?_
+    change ((localizationAway T g).ofComp P).toAlgHom (rename Sum.inr f * X (Sum.inl ()) - 1) =
+      C g * X () - 1
+    rw [map_sub, map_mul, map_one, Hom.toAlgHom_X, toAlgHom_ofComp_rename, hf, ofComp_val,
+      Sum.elim_inl]
+  let u : (localizationAway T g).toExtension.Cotangent ≃ₗ[T] T :=
+    (basisCotangentAway T g).equivFun.trans (LinearEquiv.funUnique Unit T T)
+  let v : (localizationAway T g).toExtension.CotangentSpace ≃ₗ[T] T :=
+    (localizationAway T g).cotangentSpaceBasis.equivFun.trans (LinearEquiv.funUnique Unit T T)
+  have hu : u.symm 1 = cMulXSubOneCotangent T g := by
+    rw [LinearEquiv.symm_apply_eq, ← basisCotangentAway_apply g ()]
+    simp [u]
+  have hv : v.toLinearMap ∘ₗ (localizationAway T g).toExtension.cotangentComplex =
+      (algebraMap S T g • LinearMap.id) ∘ₗ u.toLinearMap := by
+    refine (basisCotangentAway T g).ext fun i ↦ ?_
+    obtain ⟨⟩ := i
+    have hdK : (localizationAway T g).toExtension.cotangentComplex (basisCotangentAway T g ()) =
+        algebraMap S T g • (localizationAway T g).cotangentSpaceBasis () := by
+      rw [basisCotangentAway_apply]
+      exact cotangentComplex_cMulXSubOneCotangent g
+    simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply, hdK, map_smul,
+      LinearMap.smul_apply, LinearMap.id_apply]
+    simp [u, v]
+  obtain ⟨e, e', hd, he, -, he', -⟩ :=
+    exists_cotangentComplex_comp_localizationAway_eq_prodMap (T := T) g P
+  refine ⟨fun i ↦ rfl, rfl, hker, ⟨(cotangentCompLocalizationAwayEquiv g P hx).trans
+      ((LinearEquiv.refl T _).prodCongr u), ?_, hmem, ?_⟩,
+    ⟨(cotangentSpaceCompEquiv g P).trans ((LinearEquiv.refl T _).prodCongr v), ?_, ?_⟩,
+    ⟨e.trans ((LinearEquiv.refl T _).prodCongr u), e'.trans ((LinearEquiv.refl T _).prodCongr v),
+      ?_, ?_, ?_⟩,
+    fun P' Q φ ↦ exists_homotopyEquiv_liftBaseChange_of_isLocalizationAway g P' Q φ⟩
+  · refine LinearMap.ext fun a ↦ ?_
+    simp
+  · simp [hu, cotangentCompLocalizationAwayEquiv_symm_inr]
+  · rw [← cotangentSpaceCompEquiv_symm_comp_inl g P]
+    refine LinearMap.ext fun a ↦ ?_
+    simp
+  · rw [← cotangentSpaceBasis_apply, LinearEquiv.trans_symm, LinearEquiv.trans_apply,
+      LinearEquiv.symm_apply_eq]
+    simp [cotangentSpaceCompEquiv, CotangentSpace.compEquiv, v]
+  · refine LinearMap.ext fun z ↦ ?_
+    have h1 := DFunLike.congr_fun hd z
+    have h2 := DFunLike.congr_fun hv (e z).2
+    simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
+      LinearMap.prodMap_apply] at h1 h2 ⊢
+    simp only [LinearEquiv.trans_apply, LinearEquiv.prodCongr_apply, LinearEquiv.refl_apply, h1,
+      h2]
+  · rw [← he]
+    refine LinearMap.ext fun a ↦ ?_
+    simp
+  · rw [← he']
+    refine LinearMap.ext fun a ↦ ?_
+    simp
 
 end Algebra.Generators
 
@@ -1193,7 +1491,9 @@ end
 Let `A` be a commutative ring and `ι` an arbitrary index type. The polynomial algebra
 `B = MvPolynomial ι A` has the presentation `natGen A ι` by its own variables, with no relations.
 For it the naive cotangent complex `NL_{B/A}` is `(0 → Ω_{B/A})`: the degree one term vanishes, the
-differential is zero, and the augmentation `P.toKaehler` to `Ω[B⁄A]` is bijective.
+differential is zero, and the augmentation `P.toKaehler` to `Ω[B⁄A]` is bijective. The homotopy
+equivalence of the canonical `NL_{B/A}` with `(0 → Ω_{B/A})` for any polynomial algebra (Stacks
+08Q1) is `NaiveCotangent.isHomotopyEquiv_toKaehlerChainMap_of_algEquiv_mvPolynomial`.
 -/
 
 /-- The natural (zero-relations) presentation of the polynomial algebra
@@ -1223,8 +1523,6 @@ private theorem natExt_ker_eq_bot (A : Type*) [CommRing A] (ι : Type*) :
 
 /-- The degree one module of `NL_{B/A}` vanishes for the presentation `natExt A ι` of
 `B = MvPolynomial ι A`. -/
-@[stacks 08Q1 "Ingredient only, and only for the variables presentation B = MvPolynomial ι A: \
-the degree-1 term vanishes. The homotopy equivalence NL_{B/A} ≃ (0 → Ω_{B/A}) is not stated."]
 theorem natExt_cotangent_subsingleton (A : Type*) [CommRing A] (ι : Type*) :
     Subsingleton ((natExt A ι).Cotangent) := by
   change Subsingleton (natExt A ι).ker.Cotangent
@@ -1240,9 +1538,6 @@ theorem natExt_cotangentComplex_eq_zero (A : Type*) [CommRing A] (ι : Type*) :
 
 /-- The augmentation `P.toKaehler` is a `B`-linear isomorphism of `P.CotangentSpace` onto
 `Ω[B⁄A]` for the presentation `P = natExt A ι`. -/
-@[stacks 08Q1 "Ingredient only, and only for the variables presentation B = MvPolynomial ι A: \
-the degree-0 term is Ω via the augmentation. The homotopy equivalence NL_{B/A} ≃ (0 → Ω_{B/A}) \
-is not stated."]
 theorem natExt_toKaehler_bijective (A : Type*) [CommRing A] (ι : Type*) :
     Function.Bijective (natExt A ι).toKaehler := by
   refine ⟨?_, Algebra.Extension.toKaehler_surjective⟩

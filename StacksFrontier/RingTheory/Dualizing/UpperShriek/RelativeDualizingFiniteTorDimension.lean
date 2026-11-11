@@ -6,7 +6,7 @@ public import StacksFrontier.Homology.TorAmplitude.CanonicalCertificate
 public import StacksFrontier.RingTheory.Dualizing.DerivedHomothety.DiagonalModelHom
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBound
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativePerfection
-public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectAnyPresentation
+public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -29,7 +29,7 @@ There are no new definitions.
   perfect when `K` is.  This is [stacks 07VI] for that bifunctor.
 * `Dualizing.PolynomialPresentation.relativeDualizingComplex_restrictScalars_isPerfect` —
   `ω^•_{A/R}` is a perfect object of `D(P)` for the polynomial algebra `P` of the presentation.
-* `PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap` —
+* `PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_perfect` —
   **[stacks 0BZW] (1)(b)**.
 * `Dualizing.PolynomialPresentation.relativeDualizingComplex_isRelativelyPerfect` —
   **[stacks 0BZW] (2)(a)**: for a flat `φ`, `ω^•_{A/R}` is perfect relative to `R`.
@@ -430,7 +430,7 @@ the relative dualizing complex `ω^•_{A/R} = φ^!(R)` of a homomorphism of fin
 polynomial algebra `P` of the presentation — which by [stacks 068Y] is exactly perfectness of `φ`.
 
 The form of Tag 0BZW itself, with `φ` a perfect ring map, is
-`relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap`.
+`relativeDualizingComplex_hasFiniteTorDimension_of_perfect`.
 
 `ω^•_{A/R}` is perfect in `D(P)` by
 `Dualizing.PolynomialPresentation.relativeDualizingComplex_restrictScalars_isPerfect`, and `P` is
@@ -452,36 +452,19 @@ theorem relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectModule
     (p.relativeDualizingComplex_restrictScalars_isPerfect hperf) Module.Flat.of_free
     (restrictScalarsDerivedCompIsoOfEq _ _ _ p.algebraMap_eq_comp _)
 
-/-- **[Stacks, Tag 0BZW] (1)(b).**  Let `φ : R →+* A` be a perfect homomorphism of finite type of
-Noetherian rings, presented by `p`.  Then the relative dualizing complex `ω^•_{A/R} = φ^!(R)` has
-finite Tor dimension as a complex of `R`-modules.
+/-- **[Stacks, Tag 0BZW] (1)(b).**  Let `φ : R →+* A` be a perfect homomorphism, presented by `p`.
+Then the relative dualizing complex `ω^•_{A/R} = φ^!(R)` has finite Tor dimension as a complex of
+`R`-modules.  The Noetherian hypotheses of the source are not needed.
 
 Perfectness of `φ` is perfectness of `A` over the polynomial algebra of any presentation
-([stacks 068Y], `RingHom.isPerfectModule_of_isPerfectRingMap`), and that is the hypothesis of
-`relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectModule`.
+([stacks 068Y], `Algebra.Perfect.exists_finite_projective_resolution` read through [stacks 066Q]),
+and that is the hypothesis of `relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectModule`.
 
-Perfectness of `φ` is `RingHom.IsPerfectRingMap`, which carries the derived tensor product it is
-stated with, as in [stacks 0BZK]; finite Tor dimension over `R` is read at the canonical
-certified derived tensor product, which is the one the definition of relative perfection
-([stacks 0DHS]) is written with. -/
+Finite Tor dimension over `R` is read at the canonical certified derived tensor product, which is
+the one the definition of relative perfection ([stacks 0DHS]) is written with. -/
 @[stacks 0BZW "(1)(b)", sga "5 III 6.2" "partial"]
-theorem relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap
-    (p : PolynomialPresentation (algebraMap R A))
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+theorem relativeDualizingComplex_hasFiniteTorDimension_of_perfect [Algebra.Perfect R A]
+    (p : PolynomialPresentation (algebraMap R A)) :
     StacksDraft.TorAmplitude.HasFiniteTorDimension
       (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct R).tensor
       (StacksDraft.TorAmplitude.canonicalTensorComparison R)
@@ -489,20 +472,20 @@ theorem relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap
       ((ModuleCat.restrictScalars (algebraMap R A)).mapDerivedCategory.obj
         (p.upperShriekFunctor.{u, 0}.obj
           ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj (ModuleCat.of R R)))) :=
+  letI : Module p.Poly A := Module.compHom A p.toRingHom
   p.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectModule
-    (RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived hf
-      p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
+    ((StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective))
 
 /-- **[Stacks, Tag 0BZW] (1)(b), under the flatness hypothesis of (2).**  For a flat homomorphism
 of finite type of Noetherian rings, `ω^•_{A/R} = φ^!(R)` has finite Tor dimension as a complex of
 `R`-modules.
 
 Over a Noetherian ring finite type is finite presentation, so a flat `φ` is a perfect ring map by
-[stacks 067J]; that discharges the hypothesis `hf` of
-`relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap`, together with the derived
-tensor product it is stated with, for which the canonical certified tensoring of the base is taken.
-Finite type of `φ` is not a hypothesis: a polynomial presentation exists only for a map of finite
-type, so `p` supplies it. -/
+[stacks 067J], which is the hypothesis of
+`relativeDualizingComplex_hasFiniteTorDimension_of_perfect`.  Finite type of `φ` is not a
+hypothesis: a polynomial presentation exists only for a map of finite type, so `p` supplies it. -/
 @[sga "5 III 6.2" "partial"]
 theorem relativeDualizingComplex_hasFiniteTorDimension_of_flat
     [IsNoetherianRing R] (p : PolynomialPresentation (algebraMap R A))
@@ -517,11 +500,8 @@ theorem relativeDualizingComplex_hasFiniteTorDimension_of_flat
   have : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
   have : Algebra.FinitePresentation R A :=
     Algebra.FinitePresentation.of_finiteType.mp (RingHom.finiteType_algebraMap.mp p.finiteType)
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  exact p.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap
-    D.tensor D.comparison D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2 D.tensor D.comparison
-      D.isLeftDerived)
+  have := Algebra.Perfect.of_flat_of_finitePresentation R A
+  exact p.relativeDualizingComplex_hasFiniteTorDimension_of_perfect
 
 /-- **[Stacks, Tag 0BZW] (2)(a).**  Let `φ : R → A` be a flat homomorphism of finite type of
 Noetherian rings, presented by `p`.  Then `ω^•_{A/R} = φ^!(R)` is perfect relative to `R` in the

@@ -193,3 +193,46 @@ theorem real_punctured_uOpens_not_cocontinuous :
       have ha : (1 : ℝ) / (n + 1) < a := key a ha_neg.ne ha_mem
       have hpos' : (0 : ℝ) < 1 / ((n : ℝ) + 1) := by positivity
       linarith
+
+/-- The necessary condition in Stacks Tag 00XV (Example 7.21.9): if `u : X_Zar → Z_Zar`,
+`U ↦ Z ∩ U`, is cocontinuous, then every nonempty open `U` of `X` meets `Z`. If `Z ∩ U` were
+empty, the empty family would cover `u U`, and the only coverings of `U` refining it are
+empty, which forces `U = ∅`. -/
+theorem CocontinuousZar.inter_nonempty {Z : Set X} (h : CocontinuousZar Z) (U : Opens X)
+    (hU : (U : Set X).Nonempty) : (Z ∩ U).Nonempty := by
+  by_contra hZU
+  rw [Set.not_nonempty_iff_eq_empty] at hZU
+  have hbot : (⨆ j, (PEmpty.elim j : Opens (↥Z))) = uOpens Z U := by
+    rw [iSup_of_empty]
+    refine (SetLike.ext fun z => ?_)
+    simp only [mem_uOpens]
+    refine ⟨fun hz => hz.elim, fun hz => ?_⟩
+    have : (z : X) ∈ Z ∩ U := ⟨z.2, hz⟩
+    rw [hZU] at this
+    exact this.elim
+  obtain ⟨I, W, hWsup, hWref⟩ := h U (fun j : PEmpty => PEmpty.elim j) hbot
+  have : IsEmpty I := ⟨fun i => (hWref i).choose.elim⟩
+  rw [iSup_of_empty] at hWsup
+  obtain ⟨x, hx⟩ := hU
+  rw [← hWsup] at hx
+  exact hx
+
+/-- Every nonempty open subset of `ℝ` meets `ℝ \ {0}`. -/
+theorem real_punctured_inter_nonempty (U : Opens ℝ) (hU : (U : Set ℝ).Nonempty) :
+    ({x : ℝ | x ≠ 0} ∩ U).Nonempty := by
+  have hd : Dense ({x : ℝ | x ≠ 0}) := dense_compl_singleton (0 : ℝ)
+  exact Set.inter_comm (U : Set ℝ) _ ▸ hd.inter_open_nonempty U U.isOpen hU
+
+/-- Stacks Tag 00XV (Example 7.21.9), both claims. For a topological space `X` and a subset
+`Z ⊆ X` with the induced topology, if the functor `u : X_Zar → Z_Zar`, `U ↦ Z ∩ U`, is
+cocontinuous then every nonempty open `U` of `X` has nonempty intersection with `Z`. This
+condition is not sufficient: for `X = ℝ` and `Z = ℝ \ {0}` every nonempty open of `ℝ` meets `Z`,
+yet `u` is not cocontinuous. -/
+@[stacks 00XV]
+theorem uOpens_cocontinuous_inter_nonempty_and_not_sufficient :
+    (∀ (X : Type*) [TopologicalSpace X] (Z : Set X), CocontinuousZar Z →
+        ∀ U : Opens X, (U : Set X).Nonempty → (Z ∩ U).Nonempty) ∧
+      (∀ U : Opens ℝ, (U : Set ℝ).Nonempty → ({x : ℝ | x ≠ 0} ∩ U).Nonempty) ∧
+      ¬ CocontinuousZar (X := ℝ) {x : ℝ | x ≠ 0} :=
+  ⟨fun _ _ _ h U hU => h.inter_nonempty U hU, real_punctured_inter_nonempty,
+    real_punctured_uOpens_not_cocontinuous⟩

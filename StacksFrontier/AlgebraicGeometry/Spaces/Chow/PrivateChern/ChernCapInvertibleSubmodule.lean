@@ -34,8 +34,10 @@ and the relation is
 
 ## Main results
 
-* `AlgebraicGeometry.Space.PrivateChern.chernCap_succ_eq_of_shortExact`: Stacks 0ES8,
-  `c_{n+1}(ℰ) = c_{n+1}(ℱ) + c₁(ℒ) c_n(ℱ)`.
+* `AlgebraicGeometry.Space.PrivateChern.chernCap_succ_eq_of_shortExact`: the degree-wise
+  relation `c_{n+1}(ℰ) = c_{n+1}(ℱ) + c₁(ℒ) c_n(ℱ)` on `CH_*(X)`, from which Stacks 0ES8 in
+  `A^*(X)` is deduced
+  (`AlgebraicGeometry.Space.ChowCohomologyAlgebra.totalChernClass_eq_mul_of_shortExact`).
 * `AlgebraicGeometry.Space.PrivateChern.chernCap_succ_eq_of_shortComplex`: the same for a short
   exact short complex.
 * `AlgebraicGeometry.Space.PrivateChern.segreCapOfModule_succ_of_shortExact`: the relation
@@ -293,16 +295,21 @@ theorem segreCapOfModule_succ_of_shortExact_rank_zero
     firstChernCapChow_congr_iso D sX hX T.X₂ T.X₁ h₂' h₁ e.symm]
   exact (zero_add _).symm
 
-/-- **Stacks 0ES8.** Let `X/B` be a good algebraic space (Situation 0EDT) and
-`0 ⟶ ℒ ⟶ ℰ ⟶ ℱ ⟶ 0` a short exact sequence of `𝒪_X`-modules with `ℒ` invertible and `ℰ`, `ℱ`
-finite locally free of ranks `r + 1` and `r`. Then `c(ℰ) = c(ℒ) c(ℱ)`, degree by degree:
+/-- **The degree-wise relation of Stacks 0ES8 on `CH_*(X)`.** Let `X/B` be a good algebraic space
+(Situation 0EDT) and `0 ⟶ ℒ ⟶ ℰ ⟶ ℱ ⟶ 0` a short exact sequence of `𝒪_X`-modules with `ℒ`
+invertible and `ℰ`, `ℱ` finite locally free of ranks `r + 1` and `r`. Then, for the operations
+`c_n(-) ∩ -` on `CH_*(X)` of `AlgebraicGeometry.Space.PrivateChern.chernCap`,
 
   `c_{n+1}(ℰ) ∩ - = c_{n+1}(ℱ) ∩ - + c₁(ℒ) ∩ (c_n(ℱ) ∩ -)` on `CH_*(X)`.
 
-A relation between bivariant classes in `A^*(X)` is equality of the operations on `CH_*(Y)` for
-every good `Y ⟶ X` (Section 0ES3); since the pullback of the sequence to `Y` is again such a
-sequence, the statement over every good `X` is the relation in `A^*(X)`. -/
-@[stacks 0ES8]
+This is an identity of operations on the Chow homology of `X` itself, not yet the statement of
+Stacks 0ES8 in `A^*(X)`. That statement, `c(ℰ) = c(ℒ) c(ℱ)` for the total Chern classes in the
+Chow cohomology ring, is
+`AlgebraicGeometry.Space.ChowCohomologyAlgebra.totalChernClass_eq_mul_of_shortExact`, which
+applies this relation on every good test space `g : Y ⟶ X` to the inverse image of the sequence
+(`AlgebraicGeometry.Space.shortExact_map_modulePullback_of_isFiniteLocallyFreeOfRank`), after
+identifying the cap operations of the bivariant Chern classes on `CH_*(Y)` with these operations
+for `g^*ℰ` (`AlgebraicGeometry.Space.chowGroupCanonicalToChowHomology_chernCap`). -/
 theorem chernCap_succ_eq_of_shortExact {L E F : Modules.{u, u} D.site D.base D.base_mem X hX.1}
     (i : L ⟶ E) (q : E ⟶ F) (hiq : i ≫ q = 0) (hC : (ShortComplex.mk i q hiq).ShortExact)
     (hL : IsInvertibleModule (goodSpace hX) L) (r : ℕ)

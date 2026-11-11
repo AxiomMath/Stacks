@@ -45,6 +45,7 @@ conditions.
 ## References
 
 * [Stacks Project, Tag 0D8L](https://stacks.math.columbia.edu/tag/0D8L)
+* [Stacks Project, Tag 0D8N](https://stacks.math.columbia.edu/tag/0D8N)
 * [Stacks Project, Tag 0D8G](https://stacks.math.columbia.edu/tag/0D8G)
 * [Stacks Project, Tag 0D88](https://stacks.math.columbia.edu/tag/0D88)
 * [Stacks Project, Tag 0D78](https://stacks.math.columbia.edu/tag/0D78)
@@ -136,7 +137,8 @@ variable {C : Type u} [SmallCategory C] [HasPullbacks C]
 /-- For a hypercovering `K` of an object `X` of a site `C` with fibre products, the canonical map
 `E ⟶ Ra_* a⁻¹ E` is invertible at every object `E` of the unbounded derived category of abelian
 sheaves on `C/X`. -/
-@[stacks 0D8L]
+@[stacks 0D8L "for a hypercovering K of X, the map E → Ra_*a⁻¹E is an isomorphism for every
+E in D(C/X)"]
 theorem isIso_derivedAugmentationUnitOver_app_of_isHypercovering_unconditional
     (P : Pretopology C) {X : C} (K : SimplicialObject (FormalCoproduct.{u} (Over X)))
     (hK : IsHypercovering P K)
@@ -145,8 +147,13 @@ theorem isIso_derivedAugmentationUnitOver_app_of_isHypercovering_unconditional
   isIso_derivedAugmentationUnitOver_app_of_isHypercovering_of_quasiIso_freeYoneda_chain P K hK
     (quasiIso_map_resolutionChainAugmentation_freeYoneda_over P K hK) E
 
-/-- For a hypercovering augmentation `a : U ⟶ X` of a simplicial object of `C`, the canonical map
-`E ⟶ Ra_* a⁻¹ E` is invertible at every object `E` of `D(C/X)`. -/
+/-- For a site `C` with fibre products given by a pretopology `P`, an object `X` of `C` and a
+hypercovering `a : U ⟶ X` of `X` in `C` by a simplicial object `U` of `C`, in the sense of
+Stacks 09X8, the canonical map `E ⟶ Ra_* a⁻¹ E` is invertible at every object `E` of the
+unbounded derived category `D(C/X)` of abelian sheaves on `C/X`.
+
+As in the source, this is Stacks 0D8L for the associated simplicial semi-representable object
+`n ↦ {U_n ⟶ X}` over `X`. -/
 @[stacks 0D8N]
 theorem isIso_derivedAugmentationUnitAugmented_app_unconditional (P : Pretopology C) {X : C}
     (U : SimplicialObject C) (a : U ⟶ (SimplicialObject.const C).obj X)
@@ -170,7 +177,14 @@ variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (P : 
 
 /-- For a site `C` with equalizers and fibre products, a hypercovering `K` of it and the
 augmentation `a : Sh((C/K)_total) ⟶ Sh(C)` of Stacks 0D8B, the canonical map `E ⟶ Ra_* a⁻¹ E` is
-an isomorphism at every object `E` of the unbounded derived category of abelian sheaves on `C`. -/
+an isomorphism at every object `E` of the unbounded derived category of abelian sheaves on `C`.
+
+No boundedness is assumed on `E`, as in the source. The untagged forms
+`Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering'` and
+`Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering` take the
+`Ra_*`-acyclicity of `a⁻¹` of a K-injective complex (and, for the latter, Stacks 0D8E) as
+hypotheses; here the acyclicity is
+`inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`. -/
 @[stacks 0D8G]
 theorem isIso_derivedAugmentationUnit_app_of_hypercovering_unconditional
     (E : DerivedCategory (Sheaf P.toGrothendieck AddCommGrpCat.{u})) :

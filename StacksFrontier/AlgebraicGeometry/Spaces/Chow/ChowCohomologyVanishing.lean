@@ -500,8 +500,14 @@ theorem ChowCohomologyClass.cap_chowClassCanonical_eq_zero (c : ChowCohomologyCl
 
 /-- **Stacks 0ERS.** In Situation 0EDT let `X/B` be good and let `c ∈ A^p(X)`. Then `c` is zero if
 and only if `c ∩ [Y] = 0` in `CH_*(Y)` for every integral algebraic space `Y` locally of finite
-type over `X`. -/
-@[stacks 0ERS]
+type over `X`.
+
+Here `A^p(X)` is `AlgebraicGeometry.Space.ChowCohomologyClass` over the constructed Chow groups
+`AlgebraicGeometry.Space.chowGroupCanonical` of Stacks 0EQ6, and the integral spaces `Y` are the
+good test spaces `g : Y ⟶ X` with `Y` integral (the cap product `c ∩ [Y]` being defined exactly
+for good `Y`). Both directions are proved, with no further hypothesis. -/
+@[stacks 0ERS "both directions, for c ∈ A^p(X) over the constructed Chow groups of Stacks 0EQ6; \
+Y ranges over the integral algebraic spaces Y → X good over the base"]
 theorem ChowCohomologyClass.eq_zero_iff_capsFundamentalClassesToZero
     (c : ChowCohomologyClass D sX hX p) : c = 0 ↔ c.CapsFundamentalClassesToZero D sX hX := by
   refine ⟨fun h => h ▸ ChowCohomologyClass.zero_capsFundamentalClassesToZero D sX hX,

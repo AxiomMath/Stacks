@@ -54,6 +54,7 @@ pullbacks for the target fibred category.
 ## References
 
 * [Stacks Project, Tag 07Y7](https://stacks.math.columbia.edu/tag/07Y7)
+* [Stacks Project, Tag 07YA](https://stacks.math.columbia.edu/tag/07YA)
 -/
 
 @[expose] public section
@@ -796,5 +797,10 @@ public noncomputable def liftFunctorOfHom_comp {Z : Type*} [Category Z]
       (ψ ≫ G.map φ) (comp_comparison_isHomLift q r F G hG b x y z φ hφ ψ hψ))
 
 end
+
+/-! ### Pullback of lifts along a morphism of deformation situations (Stacks 07YA) -/
+
+add_to_stacks 07YA "pullback_of_lifts" Deformation.Artin.liftOutFunctorOfPullback
+add_to_stacks 07YA "pullback_of_lifts" Deformation.Artin.liftOutFunctor_unique
 
 end Deformation.Artin

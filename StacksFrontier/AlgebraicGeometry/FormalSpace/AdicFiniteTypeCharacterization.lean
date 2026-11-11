@@ -46,8 +46,10 @@ conditions themselves are identified in
 * `AlgebraicGeometry.FormalSpace.IsCountablyIndexedOfIsAdicStar`: the affine implication from
   adic\* to countably indexed of the list of Stacks 0AKY, proved by
   `AlgebraicGeometry.FormalSpace.isCountablyIndexedOfIsAdicStar`.
-* `AlgebraicGeometry.FormalSpace.ChartPresentationIsAdicStar`: the one input about the type of
-  an affine chart which this library does not carry, named with the Stacks tag it is.
+* `AlgebraicGeometry.FormalSpace.ChartPresentationIsAdicStar`: every ring presenting an affine
+  chart of a locally adic\* space, weakly admissible or not, is adic\*. The library proves the
+  weakly admissible form,
+  `AlgebraicGeometry.FormalSpace.chartPresentationIsAdicStarOfWeaklyAdmissible`.
 
 ## Main results
 
@@ -78,8 +80,10 @@ are different: every adic\* ring is countably indexed weakly admissible, by
 `Rig.weaklyAdmissible_of_isAdicRing` and `Rig.countablyGenerated_nhds_of_isAdicRing`, which
 makes the condition for countably indexed weakly admissible rings quantify over strictly more
 presentations. Both directions therefore need to know that *every* weakly admissible
-topological ring presenting such a chart is already adic\*, which is the hypothesis
-`ChartPresentationIsAdicStar` below.
+topological ring presenting such a chart is already adic\*. The comparisons of this file take
+this as the hypothesis `hchart : ChartPresentationIsAdicStar`, which asks it of every presenting
+ring; the weakly admissible form is proved, and used, in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.AdicFiniteTypeCharacterizationWeaklyAdmissible`.
 
 Two facts about the type of an affine chart are needed, and neither is a conjunct of any of
 the four conditions. Only one of them is a hypothesis.
@@ -92,16 +96,17 @@ fundamental system of open ideals `Iⁿ` of an adic topological ring together wi
 (`AlgebraicGeometry.FormalSpace.IsCountablyIndexedOfIsNoetherian` is still a hypothesis in the
 Noetherian case.)
 
-The one that is a hypothesis, because the library does not carry it:
+The other is a hypothesis of the comparisons in this file:
 
-* `hchart` is **Stacks 0AKX** in the adic\* form of **Stacks 0AKT**, together with the
-  uniqueness up to isomorphism of the presenting ring of a McQuillan affine formal algebraic
-  space (**Stacks 0AIC**): every weakly admissible topological ring presenting an affine
-  formal algebraic space representable étale over a locally adic\* formal algebraic space is
-  adic\* with a finitely generated ideal of definition. The library takes the atlas of Stacks
-  0AKY as the definition of "locally adic\*", so without this the charts appearing in the four
-  conditions are not known to be objects of `WAdm^{adic*}`. It is the same hypothesis as
-  `AlgebraicGeometry.FormalSpace.ChartPresentationIsNoetherianAdic` in the Noetherian case.
+* `hchart : ChartPresentationIsAdicStar` asks that every topological ring, weakly admissible or
+  not, presenting an affine formal algebraic space representable étale over a locally adic\*
+  formal algebraic space be adic\* with a finitely generated ideal of definition. The library
+  does not prove this form. It proves the form for weakly admissible presenting rings,
+  `AlgebraicGeometry.FormalSpace.chartPresentationIsAdicStarOfWeaklyAdmissible`, from
+  **Stacks 0AKX** for the adic\* property and **Stacks 0AIC**; the comparisons restated with
+  that form, and Stacks 0GC0 itself, are in
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.AdicFiniteTypeCharacterizationWeaklyAdmissible`
+  and `StacksFrontier.AlgebraicGeometry.FormalSpace.AdicFiniteTypeCharacterizationUnconditional`.
 
 ## References
 
@@ -179,13 +184,15 @@ theorem isCountablyIndexedOfIsAdicStar : IsCountablyIndexedOfIsAdicStar B S hS :
   exact isCountablyIndexed_of_isPresentingRing B S hS U A hApres
     (Rig.countablyGenerated_nhds_of_isAdicRing hAadic)
 
-/-- **Stacks 0AKX** in the adic\* form of **Stacks 0AKT**, together with the uniqueness up to
-isomorphism of the presenting ring of a McQuillan affine formal algebraic space (**Stacks
-0AIC**): every weakly admissible topological ring presenting an affine formal algebraic space
-representable étale over a locally adic\* formal algebraic space over `S` is adic and has a
-finitely generated ideal of definition. The library takes the atlas of Stacks 0AKY as the
-definition of "locally adic\*", so without this the charts appearing in a chart-tested
-condition are not known to be objects of `WAdm^{adic*}`. -/
+/-- Every topological ring, weakly admissible or not, presenting (through a quotient system) an
+affine formal algebraic space representable étale over a locally adic\* formal algebraic space
+over `S` is adic and has a finitely generated ideal of definition. No weak admissibility is asked
+of the presenting ring.
+
+The library does not prove this. It proves the form for weakly admissible presenting rings,
+which is all that **Stacks 0GC0** needs:
+`AlgebraicGeometry.FormalSpace.chartPresentationIsAdicStarOfWeaklyAdmissible`, from **Stacks
+0AKX** for the adic\* property and **Stacks 0AIC**. -/
 abbrev ChartPresentationIsAdicStar : Prop :=
   ∀ (Z : FppfSheaf B S hS), IsLocallyAdicStar B S hS Z →
     ∀ (U : FppfSheaf B S hS) (a : U ⟶ Z), IsAffineFormalAlgebraicSpace B S hS U →

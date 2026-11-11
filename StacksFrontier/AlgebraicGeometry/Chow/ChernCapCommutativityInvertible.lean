@@ -43,7 +43,10 @@ second.
 * `Stacks.Chow.exists_isRationallyEquivalentToZero_comm_component` — the component step: granted
   Stacks 02TH on `W`, the difference of the two iterated cap product cycles attached to `W` is the
   pushforward from `W` of a cycle rationally equivalent to zero.
-* `Stacks.Chow.firstChernClassCapOnChowOfInvertible_comm` — **Stacks 02TJ**.
+* `Stacks.Chow.firstChernClassCapOnChowOfInvertible_comm` — Stacks 02TJ out of its two inputs.
+  Both inputs are theorems of this repository, and Stacks 02TJ itself is
+  `Stacks.Chow.firstChernClassCapOnChowOfInvertible_comm_unconditional` of
+  `StacksFrontier.AlgebraicGeometry.Chow.GenuineChern.FirstChernCommOfInvertible`.
 
 ## Implementation notes
 
@@ -387,25 +390,18 @@ theorem exists_isRationallyEquivalentToZero_comm_component
 
 /-! ### Stacks 02TJ -/
 
-/-- **Stacks 02TJ.** For two invertible modules `ℒ` and `𝒩` on a scheme `X` locally of finite type
-over the base, intersecting successively with the two first Chern classes is independent of the
-order: `c₁(ℒ) ∩ c₁(𝒩) ∩ α = c₁(𝒩) ∩ c₁(ℒ) ∩ α` in `A_k(X)` for `α ∈ A_{k+1+1}(X)`.
+/-- **Stacks 02TJ, from its two inputs.** For two invertible modules `ℒ` and `𝒩` on a scheme `X`
+locally of finite type over the base, intersecting successively with the two first Chern classes
+is independent of the order: `c₁(ℒ) ∩ c₁(𝒩) ∩ α = c₁(𝒩) ∩ c₁(ℒ) ∩ α` in `A_k(X)` for
+`α ∈ A_{k+1+1}(X)`.
 
 The four descended operations are those of `Stacks.Chow.firstChernClassCapOnChowOfInvertible`, so
 Stacks 02TI enters only through its reduced input `hkills`, and Stacks 02TH only through the
 class-level hypothesis `hcomm`; see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernCapCommutativityInvertible`. -/
-@[stacks 02TJ "granted `hkills`, Stacks 02TI in the reduced form \
-`Stacks.Chow.FirstChernCapKillsPrincipalDivisor` — the vanishing of the cap product on one \
-principal divisor on an integral scheme, to which \
-`Stacks.Chow.firstChernCapFactorsEverywhere_iff_killsPrincipalDivisor` shows Stacks 02TI is \
-equivalent with no hypothesis — in each of the two degrees the composite uses; and `hcomm`, \
-Stacks 02TH for the restrictions of the two modules to the integral closed subschemes of `X` of \
-delta-dimension `k + 2`, as an equality of classes in `A_k(W)`, which is the case the source \
-reduces to. Those are the only two inputs: the four component rules of Stacks 02SO and the four \
-separate instances of Stacks 02TI carried by `Stacks.Chow.firstChernClassCapOnChow_comm` are all \
-discharged here, and the passage from the integral components to every class is proved rather \
-than assumed"]
+`StacksFrontier.AlgebraicGeometry.Chow.ChernCapCommutativityInvertible`. Both inputs are theorems
+here (`Stacks.Chow.firstChernCapKillsPrincipalDivisor` and
+`Stacks.Chow.GenuineChern.firstChernCapCommutesOnIntegralComponents`), and the statement with them
+supplied is `Stacks.Chow.firstChernClassCapOnChowOfInvertible_comm_unconditional`. -/
 theorem firstChernClassCapOnChowOfInvertible_comm
     (hkills : ∀ j : ℤ, FirstChernCapKillsPrincipalDivisor C j)
     (hcomm : FirstChernCapCommutesOnIntegralComponents C p k L N)

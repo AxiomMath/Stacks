@@ -37,7 +37,7 @@ is a family of curves over the affine line.
 ## Main results
 
 * `Stacks.Examples.CurveFamilyNotScheme.not_exists_scheme_of_no_dominating_closed_avoiding`:
-  **Stacks 0D5E**, the obstruction. No *scheme* admits a proper morphism to an affine base with
+  the obstruction used in Stacks 0D5E. No *scheme* admits a proper morphism to an affine base with
   infinite fibres together with a point `x` such that no closed subset avoiding `x` surjects onto
   the base. This is why the total space `X` above is not a scheme.
 * `Stacks.Examples.CurveFamilyNotScheme.exists_isClosed_notMem_surjective`: the engine of that
@@ -49,11 +49,16 @@ is a family of curves over the affine line.
 
 ## Implementation notes
 
-What is proved here is the obstruction, and what is carried as hypotheses is the construction.
-The reason for the split is that the construction rests on Artin's contraction theorem for
-algebraic spaces, which this library does not have; the obstruction, by contrast, is the
-statement that the geometry the construction produces is incompatible with being a scheme, and
-that is proved outright.
+This file proves the obstruction: the geometry that the construction of Section 0D5D produces is
+incompatible with being a scheme. The construction itself, and the complete statement of Stacks
+0D5E, are in the files under `StacksFrontier/Examples/Spaces/CurveFamilyNotScheme/`: the cubic
+surface (`CubicSurface/`), the choice of `y` (`PointChoice.lean`), the blowup and the strict
+transform (`Blowup/`), the formal contraction `W` of the formal neighbourhood of `C` and the proof
+that `Z_{/C} ⟶ W` is a formal modification (the input the source takes from Artin's paper; files
+`StacksDraft/AlgebraicGeometry/Surfaces/NegativeCurve*.lean`), Artin's contraction theorem
+`AlgebraicGeometry.Artin.ContractionSituation.exists_solution_of_isSeparated` (Stacks 0GIB), and
+the final theorem `Stacks.Examples.CurveFamilyNotScheme.exists_curveFamily_total_not_scheme`
+(`Main.lean`).
 
 Concretely, if `X` were a scheme then `x` would have an affine open neighbourhood `U`, and
 `T = X \ U` would be a closed subset avoiding `x` and surjecting onto the affine line — the
@@ -61,7 +66,8 @@ Concretely, if `X` were a scheme then `x` would have an affine open neighbourhoo
 subscheme of `Z` disjoint from `C`, and then down to `Y`, produces a proper closed subscheme of
 `Y` dominating the affine line and meeting `Y₀` only at `y`, contradicting (2). It is exactly the
 negation of the conclusion of `exists_isClosed_notMem_surjective` that the construction delivers,
-and it is that negation which appears as the last hypothesis of the tagged statement.
+and it is that negation which appears as the last hypothesis of
+`not_exists_scheme_of_no_dominating_closed_avoiding`.
 
 Three further points about the hypotheses. Relative dimension one enters only through the fibres
 being infinite, which is weaker, so the statement is correspondingly stronger; flatness and
@@ -171,29 +177,19 @@ theorem exists_isClosed_notMem_surjective [IsProper f] [IsAffine S]
   obtain ⟨y, hys, hyU⟩ := exists_notMem_of_infinite_preimage f s (hfibres s) hU
   exact ⟨y, hyU, hys⟩
 
-/-- **Stacks 0D5E.** There exists a field `k` and a family of curves `X → A¹_k` such that `X` is
-not a scheme.
-
-What is proved is the obstruction: no *scheme* carries the geometry that the construction
-produces. Explicitly, there is no scheme `X` with a proper morphism `f : X ⟶ S` to an affine base
-whose fibres are all infinite, together with a point `x` of `X` such that no closed subset of `X`
-avoiding `x` surjects onto `S`.
+/-- **The obstruction in Stacks 0D5E**: no *scheme* carries the geometry that the construction
+of Stacks, Section 0D5D produces. Explicitly, there is no scheme `X` with a proper morphism
+`f : X ⟶ S` to an affine base whose fibres are all infinite, together with a point `x` of `X`
+such that no closed subset of `X` avoiding `x` surjects onto `S`.
 
 The total space of the source's family satisfies the three hypotheses with `S = A¹_k`: it is
 proper over the affine line with one-dimensional, hence infinite, fibres, and the point `x` to
 which the strict transform of the central fibre is contracted is avoided by no dominating closed
-subset, because such a subset would push down to a proper closed subscheme of the cubic surface
-`Y` dominating the affine line and meeting `Y₀` only in the chosen point `y`. So the total space
-is not a scheme.
-
-What is *not* proved is that the family exists. Its construction needs Artin's contraction
-theorem for algebraic spaces, which this library does not have, and the point `y` on the Fermat
-cubic is chosen by a countability argument against the Picard group of the rational surface `Y`;
-both are inputs rather than conclusions here, and what they deliver is precisely the third
-hypothesis below. -/
-@[stacks 0D5E "the obstruction: no scheme carries the geometry of the construction, \
-conditional on Artin's contraction theorem and on the choice of the point on the central fibre, \
-whose outputs are the hypotheses"]
+subset. The complete statement of Stacks 0D5E, with the family constructed by Artin's
+contraction, is `Stacks.Examples.CurveFamilyNotScheme.exists_curveFamily_total_not_scheme`
+(`StacksFrontier/Examples/Spaces/CurveFamilyNotScheme/Main.lean`), whose proof uses this
+obstruction in the space-level form
+`Stacks.Examples.CurveFamilyNotScheme.not_exists_iso_yoneda_of_transport`. -/
 theorem not_exists_scheme_of_no_dominating_closed_avoiding (S : Scheme.{u}) [IsAffine S] :
     ¬ ∃ (X : Scheme.{u}) (f : X ⟶ S) (_ : IsProper f) (x : X),
         (∀ s : S, ¬ (f ⁻¹' {s}).Finite) ∧

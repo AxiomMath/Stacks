@@ -33,9 +33,9 @@ a `d₀` with `R^p f_*(F ⊗ L^{⊗ d}) = 0` for all `d ≥ d₀` and all `p > 0
 
 The diagram, the twist and the tensor powers are those of
 `StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveTwistHigherDirectImageVanishing.lean`, whose
-`AlgebraicGeometry.Space.exists_isZero_rightDerived_modulePushforward_tensor_twist` performs the
-étale-local reduction of the source's proof and carries the scheme case as a hypothesis.  Here the
-scheme case is proved, so the statement holds with exactly the source's hypotheses.
+`AlgebraicGeometry.Space.exists_isZero_rightDerived_modulePushforward_tensor_twist` is the
+étale-local reduction of the source's proof, from vanishing over every étale scheme chart.  Here
+the scheme case is proved, so the statement holds with exactly the source's hypotheses.
 
 ## Main results
 
@@ -441,8 +441,12 @@ attribute [local instance 5000] CategoryTheory.IsGrothendieckAbelian.enoughInjec
 `Y` Noetherian, let `f : X ⟶ Y` be the composite with the projection and let
 `L = i^* O_{P^n_Y}(1)`. For a coherent `𝒪_X`-module `F` there is a `d₀` such that
 
-`R^p f_*(F ⊗ L^{⊗ d}) = 0` for all `d ≥ d₀` and all `p > 0`. -/
-@[stacks 08AQ]
+`R^p f_*(F ⊗ L^{⊗ d}) = 0` for all `d ≥ d₀` and all `p > 0`.
+
+The proof is the source's: over one surjective étale chart of `Y` with Noetherian affine scheme,
+the restriction of `F ⊗ L^{⊗ d}` is a coherent module twisted by an ample invertible module on a
+scheme proper over that affine scheme, and Serre's vanishing theorem (Stacks 02O1) applies. -/
+@[stacks 08AQ "the complete statement, for Y Noetherian and F coherent"]
 theorem exists_twistBound_isZero_rightDerived_modulePushforward
     (hZ : B.Contains (⊤_ Scheme.{u})) (n : ℕ)
     (hP : B.Contains (projectiveSpaceOver n S)) {X Y : AlgebraicSpaces B S hS}

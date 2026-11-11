@@ -17,9 +17,9 @@ Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` contained 
 `B`, and let `𝓘` be an injective `𝒪_X`-module. This file proves that `f_*𝓘` has no higher
 cohomology on `Y`: it is acyclic for the global sections functor of `𝒪_Y`-modules on the small
 étale site of `Y`. That is Stacks 072Z read through part (3) of Stacks 0731, and it is exactly
-the hypothesis `h072Z` — `AlgebraicGeometry.Space.AcyclicPushforwardOfInjective` — carried by
-the library's form of Stacks 0D2U. With it and Stacks 073H, Stacks 0D2U holds
-unconditionally.
+`AlgebraicGeometry.Space.AcyclicPushforwardOfInjective`, the second input of the Leray collapse
+`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise`. With it and Stacks 073H,
+Stacks 0D2U holds unconditionally.
 
 ## Main results
 
@@ -32,8 +32,9 @@ unconditionally.
   hypothesis `h03DW`, discharged** for an affine morphism and a quasi-coherent module.
 * `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfIsQuasicoherent`: the collapse
   isomorphism `H^i(X, 𝓕) = H^i(Y, f_*𝓕)` for an affine morphism `f` and a quasi-coherent `𝓕`,
-  in every degree, with no hypothesis: `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`
-  with `h03DW` and `h072Z` discharged.
+  in every degree, with no hypothesis:
+  `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise` with both inputs
+  discharged.
 
 ## Implementation notes
 
@@ -124,7 +125,8 @@ def toSheafModulePushforwardIso (f : X ⟶ Y) :
   exact @Stacks.Cohomology.abelianSheafNatIsoOfUnderlying _ _ _ _ _ _
     (smallEtaleRingedSite B S hS Y.1 Y.2).J _ _ hF hG (Iso.refl _)
 
-/-- **The hypothesis `h03DW` of `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`
+/-- **The hypothesis `hvanish` of
+`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise`
 and `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`, discharged**
 for a quasi-coherent module. Let `f : X ⟶ Y` be an affine morphism of algebraic spaces over `S`
 and `𝓕` a quasi-coherent `𝒪_X`-module. For every étale scheme chart `V` of `Y`, the base change
@@ -147,7 +149,7 @@ of algebraic spaces over `S` and `𝓕` a quasi-coherent `𝒪_X`-module. Then t
 on `X` — computed as the derived functor of `Γ(Y, f_* −)` — is the cohomology of `f_*𝓕` on `Y`,
 in every degree.
 
-This is `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom` with both of its carried
+This is `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHomOfChartwise` with both of its
 hypotheses discharged: the vanishing of the higher direct images is Stacks 073H,
 `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom_of_isQuasicoherent`,
 and the acyclicity of the direct image of an injective is

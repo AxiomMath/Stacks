@@ -512,8 +512,13 @@ theorem nonempty_quadraticAlgebra_algEquiv_prod_iff_numberOfBranches_eq_two
 `κ' = Stacks.Curves.quadraticAlgebra A` be the associated separable `κ`-algebra of degree two.
 Then the following are equivalent: `κ'` is `κ × κ`; the nondegenerate quadratic form of Stacks
 Tag 0C49 can be chosen to be `x y`; `A` has two branches; the integral closure of `A` in its
-total ring of fractions has two maximal ideals. -/
-@[stacks 0CBU "conditions (1)-(4); the completion condition (5) is not formalized"]
+total ring of fractions has two maximal ideals.
+
+The completion condition (5) is
+`Stacks.Curves.nonempty_algEquiv_adicCompletion_quotient_X_mul_X_iff_numberOfBranches_eq_two`, and
+the closing assertion of the remark, on the fibre of the normalization of a locally Noetherian
+`k`-scheme, is `Stacks.Curves.nonempty_quadraticAlgebra_algEquiv_prod_iff_normalizationFiber`. -/
+@[stacks 0CBU "conditions (1)-(4)"]
 public theorem isSplitNode_tfae
     (k : Type u) (A : Type v) [Field k] [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
     [Algebra k A] (hA : IsNodalAlgebra k A) :

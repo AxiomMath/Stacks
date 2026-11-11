@@ -28,8 +28,10 @@ import StacksFrontier.AlgebraicGeometry.Modules.AlternatingCechModuleFlat
 Let `R → A` be flat. If `K` is pseudo-coherent and `L` has finite Tor-dimension over `R`, then
 `K` and `L` admit representatives `P` and `F` such that `P` is bounded above with finite free
 terms and `F` is bounded with terms flat over `R`. The complex `Homᴬ(P, F)` is bounded below,
-termwise flat over `R`, computes derived Hom, and continues to do so after arbitrary base change
-on `R`.
+termwise flat over `R` and computes derived Hom; after an arbitrary base change on `R` it is the
+Hom complex of the base-changed representatives, which again computes derived Hom. That these
+base-changed representatives are the derived base changes of `K` and `L` is proved in
+`StacksFrontier/Homology/RelativelyPerfect/RepresentativeBaseChange.lean`.
 
 ## Main definitions
 
@@ -39,9 +41,13 @@ on `R`.
 
 ## Main results
 
-* `StacksDraft.RelativelyPerfect.exists_homComplex_representation` (Stacks 0E1U): simultaneous
-  choice of the two representatives, computation of derived Hom, compatibility with arbitrary
-  base change, and the finite-presentation refinement for a relatively perfect second argument.
+* `StacksDraft.RelativelyPerfect.exists_homComplex_representation`: simultaneous choice of the
+  two representatives, computation of derived Hom, the canonical identification of the base
+  changed Hom complex, and the finite-presentation refinement for a relatively perfect second
+  argument. The complete Stacks 0E1U, which also identifies the base-changed representatives
+  with the derived base changes, is
+  `StacksDraft.RelativelyPerfect.relativeHomComplex_represents_RHom` in
+  `StacksFrontier/Homology/RelativelyPerfect/RepresentativeBaseChange.lean`.
 
 ## Implementation notes
 
@@ -564,13 +570,18 @@ private lemma exists_bounded_flat_with_finitePresentation
 
 /-! ### The main statement -/
 
-/-- **Stacks 0E1U.** For a flat map `R → A`, a pseudo-coherent complex `K` and a
-complex `L` of finite Tor-dimension over `R` admit representatives `P` and `F` for which
-`Homᴬ(P, F)` is a bounded-below complex of `R`-flat `A`-modules computing derived Hom.
-The construction commutes with every base change `R → R'`. If `A` is finitely presented
-over `R` and `L` is perfect relative to `R`, the terms of `F` and of the Hom complex may moreover
-be chosen finitely presented over `A`. -/
-@[stacks 0E1U]
+/-- For a flat map `R → A`, a pseudo-coherent complex `K` and a complex `L` of finite
+Tor-dimension over `R` admit representatives `P` and `F` for which `Homᴬ(P, F)` is a bounded-below
+complex of `R`-flat `A`-modules computing derived Hom. For every `R → R'`, the termwise base change
+of `Homᴬ(P, F)` along `A → A ⊗[R] R'` is canonically the Hom complex of the termwise base changes,
+which computes derived Hom between those. If `A` is finitely presented over `R` and `L` is perfect
+relative to `R`, the terms of `F` and of the Hom complex may moreover be chosen finitely presented
+over `A`.
+
+This is the existence half of Stacks 0E1U, in independent universes. It does not identify the
+base-changed representatives with the derived base changes `K ⊗ᴸ_A A'` and `L ⊗ᴸ_A A'`, and it
+speaks of one choice of `P` and `F` only. The full statement, for every choice and with those
+identifications, is `StacksDraft.RelativelyPerfect.relativeHomComplex_represents_RHom`. -/
 public theorem exists_homComplex_representation
     (R : Type uR) (A : Type uA) [CommRing R] [CommRing A] [Algebra R A] [Module.Flat R A]
     (K L : CochainComplex (ModuleCat.{max uR uA uM} A) ℤ) :

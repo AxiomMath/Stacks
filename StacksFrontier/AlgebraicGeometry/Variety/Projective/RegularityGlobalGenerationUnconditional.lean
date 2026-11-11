@@ -91,7 +91,7 @@ of the hyperplane sheaf; the surjectivity of the multiplication map on global se
 `AlgebraicGeometry.span_mulSections_eq_top_of_isMRegular_field`; and the regularity at each \
 twist the descent passes through is Tag 08A6, `AlgebraicGeometry.isMRegular_add_one`. The \
 descent is organized as a sequence of single-twist steps rather than the source's one-shot use \
-of degree-`d-m` forms, so that only the degree-one multiplication of Tag 08A7 is needed. \
+of degree-`d-m` forms, each step using the degree-one multiplication of Tag 08A7. \
 Globally generated is `SheafOfModules.IsGeneratedByGlobalSections`, Stacks 03DE (3).",
   sga "6 XIII 1.3" "(iii), special case"]
 theorem isGeneratedByGlobalSections_projectiveTwist_of_isMRegular_field (k : Type u) [Field k]

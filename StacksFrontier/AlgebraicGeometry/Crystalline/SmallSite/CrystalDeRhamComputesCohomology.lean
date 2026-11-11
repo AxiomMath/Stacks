@@ -5,15 +5,17 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.Cosimplicial.Envelope
 public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.CrystalDeRhamCohomology07LG
 
 /-!
-# [Stacks, Proposition 60.21.3, Tag 07LG]: the de Rham complex of a crystal computes its
-crystalline cohomology
+# The de Rham complex of a crystal computes its crystalline cohomology, degreewise
 
 In the situation of [Stacks, Proposition 60.20.1, Tag 07JN] — `X = Spec(C)` over `S = Spec(A)`,
 both affine, with `p` nilpotent on `X` — let `ℱ` be a crystal in quasi-coherent
 `𝒪_{X/S}`-modules on `Cris(X/S)` and `(M, ∇)` the module with connection over `D` corresponding to
 it ([Stacks, Lemma 60.17.3, Tag 07JG], `...SmallSite.crystalPairFunctor`).  Then the complex
-`M ⊗^∧_D Ω^*_D` (`...SmallSite.crystalPairDeRhamComplex`) computes `RΓ(Cris(X/S), ℱ)`: its
-cohomology in every degree `j` is `H^j(Cris(X/S), ℱ)`.
+`M ⊗^∧_D Ω^*_D` (`...SmallSite.crystalPairDeRhamComplex`) computes `RΓ(Cris(X/S), ℱ)`.  This
+file proves the consequence on cohomology: in every degree `j`, `H^j(M ⊗^∧_D Ω^*_D)` is
+`H^j(Cris(X/S), ℱ)`.  The statement of the tag itself, the canonical isomorphism
+`M ⊗^∧_D Ω^*_D ≅ RΓ(Cris(X/S), ℱ)` in `D⁺(Ab)`, is `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.
 
 ## The proof, following the source
 
@@ -32,7 +34,9 @@ complex are assembled in `...SmallSite.crystalPairDeRhamCohomologyIsoOfQuasiIso`
 * `...SmallSite.quasiIso_crystalCosimplicialPair_rowFromZeroHom` — the rows of the double complex
   of the crystal are quasi-isomorphic to the row zero.
 * `...SmallSite.crystalPairDeRhamCohomologyIso` — `H^j(M ⊗^∧_D Ω^*_D) ≅ H^j(Cris(X/S), ℱ)`.
-* `...SmallSite.crystalPairDeRhamComplex_computesCohomology` — **[Stacks, Tag 07LG].**
+* `...SmallSite.crystalPairDeRhamComplex_computesCohomology` — the cohomology of
+  `M ⊗^∧_D Ω^*_D` in every degree, the degreewise consequence of [Stacks, Tag 07LG]
+  (`...SmallSite.crystalPairDeRhamDerivedPlusIso`).
 
 ## References
 
@@ -74,19 +78,15 @@ def crystalPairDeRhamCohomologyIso (j : ℕ) :
   crystalPairDeRhamCohomologyIsoOfQuasiIso hp Fc
     (quasiIso_crystalCosimplicialPair_rowFromZeroHom hp Fc) j
 
-/-- **[Stacks, Proposition 60.21.3, Tag 07LG]**: in the situation of
-[Stacks, Proposition 60.20.1, Tag 07JN] (`X` and `S` affine, `p` nilpotent on `X`, and `D` the
-completed envelope of any surjective polynomial presentation `A[x_i : i ∈ ι] → C`, supplied as the
-instance `...SmallSite.WholeSpacePresentation S hp`, by default the tautological one), let `ℱ` be a
-crystal in quasi-coherent `𝒪_{X/S}`-modules and `(M, ∇)` the module with connection over `D`
-corresponding to it under [Stacks, Lemma 60.17.3, Tag 07JG] (`...SmallSite.crystalPairFunctor`).
-Then the complex `M ⊗^∧_D Ω^*_D` (`...SmallSite.crystalPairDeRhamComplex`) computes
-`RΓ(Cris(X/S), ℱ)`: for every `j`, `H^j(M ⊗^∧_D Ω^*_D) ≅ H^j(Cris(X/S), ℱ)`
+/-- **The complex `M ⊗^∧_D Ω^*_D` computes `H^j(Cris(X/S), ℱ)` in every degree**, the degreewise
+consequence of [Stacks, Proposition 60.21.3, Tag 07LG], whose statement — the isomorphism
+`M ⊗^∧_D Ω^*_D ≅ RΓ(Cris(X/S), ℱ)` in `D⁺(Ab)` — is `...SmallSite.crystalPairDeRhamDerivedPlusIso`.
+In the situation of [Stacks, Proposition 60.20.1, Tag 07JN] (`X` and `S` affine, `p` nilpotent on
+`X`, and `D` the completed envelope of the presentation of the
+`...SmallSite.WholeSpacePresentation S hp` instance), for `ℱ` a crystal in quasi-coherent
+`𝒪_{X/S}`-modules and `(M, ∇)` its pair under [Stacks, Lemma 60.17.3, Tag 07JG]
+(`...SmallSite.crystalPairFunctor`): for every `j`, `H^j(M ⊗^∧_D Ω^*_D) ≅ H^j(Cris(X/S), ℱ)`
 (`...SmallSite.crystalPairDeRhamCohomologyIso`). -/
-@[stacks 07LG "for any surjective polynomial presentation g : A[x_i : i ∈ ι] → C, supplied as \
-the WholeSpacePresentation instance (the default instance is the tautological one): the \
-complex M ⊗^∧_D Ω*_D of the pair (M, ∇) of a crystal in quasi-coherent \
-modules computes RΓ(Cris(X/S), F): its cohomology in every degree j is H^j(Cris(X/S), F)"]
 theorem crystalPairDeRhamComplex_computesCohomology :
     ∀ j : ℕ, Nonempty (AddCommGrpCat.uliftFunctor.{u + 1, u}.obj
         ((crystalPairDeRhamComplex hp Fc).homology j) ≅

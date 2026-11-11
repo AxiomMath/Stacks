@@ -77,7 +77,13 @@ declaration.
 
 ## What this leaves owed
 
-This is the dictionary, not the kernel step of clause (2) of `Conormal.lean` in
+The comparison `AlgebraicGeometry.Space.RepresentableConormalSheafComparison` itself is proved,
+by another route, as `AlgebraicGeometry.Space.representableConormalSheafComparison`, from
+`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_conormalSheaf_of_scheme` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/RepresentableConormal.lean`; what follows is
+what this file's own route would still need.
+
+This is the dictionary, not the kernel step of clause (2) of `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/Conormal.lean` in
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`.
 `AlgebraicGeometry.Space.definingIdealSheafIsoKernel` presents the defining ideal sheaf of `Z` as
 the kernel of `AlgebraicGeometry.Space.structureProjection`, which is

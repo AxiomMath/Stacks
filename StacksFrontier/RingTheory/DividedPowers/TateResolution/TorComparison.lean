@@ -71,9 +71,12 @@ homology algebra that carries the `n`-th summand onto the degree-`n` graded piec
 Tag 09PQ asks for the divided power structure *on* `⨁ n, Tor_n^R(S, T)`. The comparisons here
 are its input; the transport itself is
 `DividedPowers.TateResolution.exists_dividedPowerStructure_torDirectSum` in
-`StacksFrontier.RingTheory.DividedPowers.TateResolution.TorDividedPowerAlgebra`, which carries the
-tag. Nothing in this file does, the comparisons being statements about homology and `Tor` and
-not about divided powers.
+`StacksFrontier.RingTheory.DividedPowers.TateResolution.TorDividedPowerAlgebra`, and the tag, with
+the independence of the Tate resolution, is carried by
+`DividedPowers.TateResolution.exists_dividedPowerStructure_torDirectSum_forall_resolution` in
+`StacksFrontier.RingTheory.DividedPowers.TateResolution.TorIndependence`. Nothing in this file
+carries it, the comparisons being statements about homology and `Tor` and not about divided
+powers.
 
 The transport does not go through `torDirectSumEquivHomology` as an isomorphism of rings. It
 cannot: `DividedPowers.TateResolution.HasInducedDividedPowers` quantifies the ring and algebra

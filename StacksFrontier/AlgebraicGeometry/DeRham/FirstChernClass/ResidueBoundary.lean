@@ -37,10 +37,16 @@ in `D(f^{-1}𝒪_S)`. **Tag 0FUG identifies `δ` with the morphism of Tag 0FU7 a
 ## Main results
 
 * `AlgebraicGeometry.SheafOfModules.DeRhamResidueSequence.boundary_eq_deRhamClassDerivedMorphism`:
-  **Stacks Tag 0FUG.** The boundary map of the residue sequence is the morphism of Tag 0FU7
-  attached to `c₁^{dR}(ℒ)`.
-* `AlgebraicGeometry.SheafOfModules.DeRhamResidueSequence.boundary_eq_boundary`: consequently the
-  boundary map does not depend on the chosen residue sequence.
+  the final step of the proof of Tag 0FUG for an abstract residue sequence: a boundary map which
+  lifts to differential graded modules and takes the value `c₁^{dR}(ℒ)` at the unit is the
+  morphism of Tag 0FU7 attached to `c₁^{dR}(ℒ)`.
+* `AlgebraicGeometry.SheafOfModules.DeRhamResidueSequence.boundary_eq_boundary`: consequently such
+  a boundary map does not depend on the chosen residue sequence.
+
+Tag 0FUG itself, for the concrete residue sequence of the complement of the zero section of a
+line bundle and the concrete de Rham first Chern class, is
+`Stacks.LineBundle.Situation.residueShiftedSequence_boundary_eq_deRhamClassMorphism` in
+`StacksFrontier.AlgebraicGeometry.DeRham.LineBundle.ResidueBoundaryChernClass`.
 
 ## Implementation notes
 
@@ -56,39 +62,18 @@ using the canonical isomorphisms `Ω^• ≅ (Ω^•[-1])[1]` and `(Ω^•[1])[1
 being introduced; this is exactly the passage to "the shifted version of the short exact
 sequence" with which the proof of Tag 0FUG begins.
 
-**The hypotheses carried.** Four inputs of the proof of Tag 0FUG are not available in the library
-and are carried as explicit, named hypotheses.
-
-* `AlgebraicGeometry.SheafOfModules.DeRhamResidueSequence` itself is Tag 0FUF in its global form.
-  What the library proves is the affine local computation,
-  `LaurentDeRham.shortExact_residueShortComplex`: the residue sequence of a Laurent polynomial
-  algebra `A[T;T⁻¹]` over `R`. Globalizing it over the complement of the zero section is not
-  done, so the sequence is a hypothesis rather than a construction.
-* `hlift`, that the boundary map lifts to the derived category of right differential graded
-  `Ω^•`-modules. In Stacks this is the first half of the proof of Tag 0FUG: the inclusion is a
-  homomorphism of differential graded algebras, the residue is a morphism of right differential
-  graded modules, and the connecting morphism then descends by Differential Graded Sheaves,
-  Section 24.32. That descent is the same input as
-  `AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence`, which Tag 0FU7 already
-  carries as a parameter, and it is not in the library.
-* `hev`, that the value of the boundary map at the unit is `c₁^{dR}(ℒ)`. This is the second half
-  of the proof of Tag 0FUG, proved there by mapping the short exact sequence of abelian sheaves
-  `0 → 𝒪_X^* → E → ℤ → 0` into the translated residue sequence; neither the sheaf `E` nor the
-  comparison of the resulting boundary map with the Čech description of `Pic(X) = H¹(X, 𝒪_X^*)`
-  is in the library.
-* `realizationComparison`, the comparison of the two realizations of de Rham cohomology that the
-  library carries. The de Rham first Chern class
-  `AlgebraicGeometry.SheafOfModules.deRhamFirstChernClassAbelian` of Tag 0FLE is constructed in
-  the abelian-sheaf realization `AlgebraicGeometry.SheafOfModules.deRhamCohomologyAbelian`,
-  because `d log` is additive but not `𝒪_X`-linear, while the classes of Tag 0FU7 live in the
-  sheaf-of-`A`-modules realization `AlgebraicGeometry.SheafOfModules.deRhamCohomology`. The
-  comparison of the two is an artifact of having two realizations rather than a result of the
-  Stacks project, and it is not in the library.
-
-Given those, the content of this file is the construction of `δ` and the final step of the proof
-of Tag 0FUG: the uniqueness in Tag 0FU7,
-`AlgebraicGeometry.SheafOfModules.eq_deRhamClassDerivedMorphism`, which says that a morphism
-`Ω^• ⟶ Ω^•[2]` with those two properties is *the* morphism attached to `c₁^{dR}(ℒ)`.
+**The abstract form.** The declarations of this file take the residue sequence `S`, the lift
+`hlift` of its boundary map to right differential graded modules, its value `hev` at the unit,
+and a comparison `realizationComparison` of the two realizations of de Rham cohomology as
+arguments, and what they prove is the last step of the proof of Tag 0FUG: the uniqueness in
+Tag 0FU7, `AlgebraicGeometry.SheafOfModules.eq_deRhamClassDerivedMorphism`. The library
+constructs all of these inputs for a line bundle on a scheme:
+`Stacks.LineBundle.Situation.residueBaseSequence` is the residue sequence of Tag 0FUF,
+`Stacks.LineBundle.Situation.exists_deRhamForgetHom_eq_residueShiftedSequence_boundary` is the
+lift, `Stacks.LineBundle.Situation.deRhamEvalOne_residueBoundary_eq_of_cech` the value at the
+unit, and `AlgebraicGeometry.SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology` the
+comparison of realizations; they are assembled into Tag 0FUG in
+`Stacks.LineBundle.Situation.residueShiftedSequence_boundary_eq_deRhamClassMorphism`.
 
 **Universe pinning.** The category has to be given explicitly in
 `DerivedCategory.Q (C := _root_.SheafOfModules.{u} (underlyingRingSheaf A))`: without it the
@@ -122,16 +107,15 @@ variable {X : RingedSpace.{u, u}} {A : TopCat.Sheaf CommRingCat.{u} X.carrier} {
 
 /-! ### The residue sequence and its boundary map -/
 
-/-- **The residue sequence of Stacks Tag 0FUF**, as a hypothesis: a short exact sequence
+/-- **A residue sequence in the shape of Stacks Tag 0FUF**: a short exact sequence
 
 `0 → Ω^•_{𝒪_X/A} → M → Ω^•_{𝒪_X/A}[-1] → 0`
 
 of complexes of sheaves of `A`-modules. For the complement `L^⋆` of the zero section of an
 invertible module `ℒ` the middle term is the weight-zero part `Ω^•_{L^⋆/S,0}` of the de Rham
 complex of `L^⋆`, the first map is the pullback of forms and the second is the residue
-`ω' + d log s ∧ ω ↦ ω`. The library has the affine local computation of that sequence,
-`LaurentDeRham.shortExact_residueShortComplex`, but not its globalization, which is why the
-sequence enters here as data. -/
+`ω' + d log s ∧ ω ↦ ω`. That sequence is constructed in
+`Stacks.LineBundle.Situation.residueBaseSequence`. -/
 structure DeRhamResidueSequence where
   /-- The middle term `Ω^•_{L^⋆/S,0}` of the residue sequence. -/
   middle : CochainComplex (_root_.SheafOfModules.{u} (underlyingRingSheaf A)) ℤ
@@ -182,38 +166,16 @@ section Chern
 
 variable [∀ x : X, IsLocalRing (X.presheaf.stalk x)]
 
-/-- **Stacks Project, Tag 0FUG.** **The boundary map
+/-- **The final step of the proof of Stacks Tag 0FUG, for an abstract residue sequence.** If the
+boundary map `δ : Ω^•_{X/S} ⟶ Ω^•_{X/S}[2]` of a residue sequence `S` lifts to the derived
+category of right differential graded `Ω^•_{X/S}`-modules (`hlift`) and its value at the unit is
+the image of the de Rham first Chern class `c₁^{dR}(ℒ)` under a map `realizationComparison` of
+realizations (`hev`), then `δ` is the morphism of Tag 0FU7 attached to that class. This is the
+uniqueness in Tag 0FU7, `AlgebraicGeometry.SheafOfModules.eq_deRhamClassDerivedMorphism`.
 
-`δ : Ω^•_{X/S} ⟶ Ω^•_{X/S}[2]`
-
-of the residue sequence of Tag 0FUF is the morphism of Tag 0FU7 attached to the de Rham first
-Chern class `c₁^{dR}(ℒ)`**, that is, cup product by `c₁^{dR}(ℒ)`.
-
-Four inputs of the Stacks proof are hypotheses, because the library does not have them; see the
-implementation notes of this file.
-
-* `S`, the residue sequence of Tag 0FUF in its global form: only its affine local computation
-  `LaurentDeRham.shortExact_residueShortComplex` is in the library.
-* `hlift`, that `δ` lifts to the derived category of right differential graded
-  `Ω^•_{X/S}`-modules. In Stacks this comes from the residue sequence being one of right
-  differential graded modules together with the descent of Differential Graded Sheaves, Section
-  24.32, the same input that
-  `AlgebraicGeometry.SheafOfModules.DeRhamDerivedModuleCorrespondence` carries for Tag 0FU7.
-* `hev`, that `δ(1) = c₁^{dR}(ℒ)`, which Stacks proves by mapping the short exact sequence of
-  abelian sheaves `0 → 𝒪_X^* → E → ℤ → 0` into the translated residue sequence.
-* `realizationComparison`, which transports the de Rham first Chern class of Tag 0FLE,
-  `AlgebraicGeometry.SheafOfModules.deRhamFirstChernClassAbelianOf`, from the abelian-sheaf
-  realization of de Rham cohomology, in which it is constructed because `d log` is not
-  `𝒪_X`-linear, to the sheaf-of-`A`-modules realization, in which the classes of Tag 0FU7 live.
-
-What is proved is the last step of the Stacks proof: by the uniqueness in Tag 0FU7,
-`AlgebraicGeometry.SheafOfModules.eq_deRhamClassDerivedMorphism`, a morphism with those two
-properties is the morphism attached to `c₁^{dR}(ℒ)`. -/
-@[stacks 0FUG "the boundary map of the residue sequence of 0FUF is the map of 0FU7 for the de
-Rham first Chern class; the global form of 0FUF, the lift of the boundary map to right
-differential graded modules, its value at the unit, and the comparison of the two realizations of
-de Rham cohomology are carried as the explicit named hypotheses S, hlift, hev and
-realizationComparison"]
+Tag 0FUG itself, where the sequence, the lift and the value at the unit are constructed for the
+complement of the zero section of a line bundle, is
+`Stacks.LineBundle.Situation.residueShiftedSequence_boundary_eq_deRhamClassMorphism`. -/
 theorem boundary_eq_deRhamClassDerivedMorphism (c : DeRhamDerivedModuleCorrespondence B D)
     (realizationComparison : deRhamCohomologyAbelian B D 2 →+ deRhamCohomology B D 2)
     (L : _root_.SheafOfModules.{u} (structureSheaf X.sheaf))
@@ -226,11 +188,10 @@ theorem boundary_eq_deRhamClassDerivedMorphism (c : DeRhamDerivedModuleCorrespon
       (realizationComparison (deRhamFirstChernClassAbelianOf B D L hL)) :=
   eq_deRhamClassDerivedMorphism B D c 2 _ hlift hev
 
-/-- **Stacks Project, Tag 0FUG.** The boundary map of the residue sequence does not depend on the
-choice of the residue sequence: two residue sequences whose boundary maps both lift to the derived
-category of right differential graded `Ω^•_{X/S}`-modules and both take the value `c₁^{dR}(ℒ)` at
-the unit have the same boundary map, both being cup product by `c₁^{dR}(ℒ)`. -/
-@[stacks 0FUG "the boundary map is independent of the chosen residue sequence"]
+/-- Two residue sequences whose boundary maps both lift to the derived category of right
+differential graded `Ω^•_{X/S}`-modules and both take the value `c₁^{dR}(ℒ)` at the unit have the
+same boundary map, both being the morphism of Tag 0FU7 attached to `c₁^{dR}(ℒ)`, by
+`AlgebraicGeometry.SheafOfModules.DeRhamResidueSequence.boundary_eq_deRhamClassDerivedMorphism`. -/
 theorem boundary_eq_boundary (S' : DeRhamResidueSequence B D)
     (c : DeRhamDerivedModuleCorrespondence B D)
     (realizationComparison : deRhamCohomologyAbelian B D 2 →+ deRhamCohomology B D 2)

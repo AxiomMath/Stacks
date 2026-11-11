@@ -26,25 +26,26 @@ The geometric vocabulary — `adicThickening`, `adicBaseChange`, `adicBaseChange
 `StacksFrontier.AlgebraicGeometry.Algebraization`; this file adds the lemmas that the base change
 maps satisfy and then proves the theorem.
 
-## Two inputs that this library does not carry
+## Two inputs taken as hypotheses here
 
-The source's proof has two deep ingredients, and neither is available here, so both enter as
-explicit named hypotheses on the main theorem; the tag attribute records the restriction.
+The source's proof has two deep ingredients. In this file both enter as explicit named
+hypotheses on `AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap`, which keeps the
+file below the formal-geometry library that proves them; both are discharged downstream.
 
-* `AlgebraicGeometry.AdicFiniteAlgebraization` is **Stacks 09ZT**, the algebraization of a
-  cartesian system of finite morphisms over the adic thickenings of a separated finite-type base
-  whose closed member is proper. The source invokes it (as Lemma 30.28.1) to produce the closed
-  subscheme `Z ⊆ X ×_S Y` algebraizing the graphs of the `gₙ`. Nothing in this library carries
-  09ZT.
+* `AlgebraicGeometry.AdicFiniteAlgebraization` is **Stacks 09ZT** in the shape the proof uses,
+  the algebraization of a cartesian system of finite morphisms over the adic thickenings of a
+  separated finite-type base whose closed member is proper. The source invokes it (as Lemma
+  30.28.1) to produce the closed subscheme `Z ⊆ X ×_S Y` algebraizing the graphs of the `gₙ`. It
+  is proved as `AlgebraicGeometry.adicFiniteAlgebraization_holds`.
 * `AlgebraicGeometry.AdicRigidity` is the rigidity consequence of Grothendieck existence
   (**Stacks 088C**, through **Stacks 0883**) that the source uses at the last step: a closed
   immersion `i : Z ⟶ W` into a scheme `W` proper over `S` through which every `Wₙ ⟶ W` factors
-  is an isomorphism. Equivalently `⋂ₙ (I · 𝒪_W)ⁿ = 0` on `𝒪_W`. The library's 0883
-  (`Stacks.Algebraization.fullyFaithful_completionFunctor`) is itself conditional on the theorem
-  on formal functions (**Stacks 087U**), so this cannot be discharged here either.
+  is an isomorphism. Equivalently `⋂ₙ (I · 𝒪_W)ⁿ = 0` on `𝒪_W`. It is proved as
+  `Stacks.AdicClosedSubschemeRigidity.adicRigidity`, from the faithfulness half of 0883.
 
 Everything else — the graph construction, the identification of the algebraized subscheme with
-`X`, and the uniqueness clause — is proved.
+`X`, and the uniqueness clause — is proved here. Stacks 0A42 at the source's hypotheses, with
+both inputs discharged, is `AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap_holds`.
 
 ## Main definitions
 
@@ -63,7 +64,9 @@ Everything else — the graph construction, the identification of the algebraize
   `Spec A` whose base changes are all isomorphisms is an isomorphism.
 * `AlgebraicGeometry.exists_properGraph_of_adicSystem` — the graph construction and the
   algebraization of the graphs.
-* `AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap` — Stacks 0A42.
+* `AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap` — Stacks 0A42 from the two
+  inputs above; `AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap_holds` discharges
+  them.
 
 ## Implementation notes
 
@@ -154,7 +157,7 @@ public lemma isPullback_adicBaseChangeSucc (f : X ⟶ Spec (.of A)) (n : ℕ) :
   simpa [adicBaseChangeSucc, adicThickeningSucc_ι, pullback.lift_fst] using
     IsPullback.of_hasPullback f (adicThickeningι A I n)
 
-/-! ### The two inputs the library does not carry -/
+/-! ### The two inputs, as hypotheses -/
 
 /-- **Stacks 09ZT**, in the shape in which the proof of Stacks 0A42 uses it: let
 `fP : P ⟶ Spec A` be separated, locally of finite type and quasi-compact and let `(Zₙ)` be a
@@ -167,7 +170,8 @@ proper, and maps `Zₙ ⟶ Z` exhibiting each `Zₙ` as the base change of `Z` t
 `a`. (The source also records that `a` is finite and that the maps `Zₙ ⟶ Z` are compatible with
 the transitions; neither is needed here, so neither is assumed.)
 
-Nothing in this library carries Stacks 09ZT, which is why this is a hypothesis. -/
+It is proved, at every Noetherian `I`-adically complete `A`, as
+`AlgebraicGeometry.adicFiniteAlgebraization_holds`. -/
 public def AdicFiniteAlgebraization : Prop :=
   ∀ {P : Scheme.{u}} (fP : P ⟶ Spec (.of A)), IsSeparated fP → LocallyOfFiniteType fP →
     QuasiCompact fP → ∀ (Zn : ℕ → Scheme.{u}) (zToP : ∀ n, Zn n ⟶ adicBaseChange A I fP n)
@@ -187,9 +191,9 @@ over `Spec A`, through which every adic base change `Wₙ ⟶ W` factors, is an 
 The kernel ideal sheaf of such an `i` is contained in `(I · 𝒪_W) ^ (n + 1)` for every `n`, so this
 says exactly that `⋂ₙ (I · 𝒪_W)ⁿ = 0` on a scheme proper over a Noetherian `I`-adically complete
 ring. That is the consequence of Grothendieck existence (Stacks 088C, via the full faithfulness of
-completion, Stacks 0883) which the source uses at the final step of the proof of Stacks 0A42. The
-library's 0883 is itself conditional on the theorem on formal functions (Stacks 087U), so this is
-a hypothesis here. -/
+completion, Stacks 0883) which the source uses at the final step of the proof of Stacks 0A42. It
+is proved, at every Noetherian `I`-adically complete `A`, as
+`Stacks.AdicClosedSubschemeRigidity.adicRigidity`. -/
 public def AdicRigidity : Prop :=
   ∀ {W Z : Scheme.{u}} (fW : W ⟶ Spec (.of A)), IsProper fW → ∀ i : Z ⟶ W,
     IsClosedImmersion i →
@@ -359,12 +363,12 @@ public lemma exists_properGraph_of_adicSystem (halg : AdicFiniteAlgebraization A
 
 /-! ### Stacks 0A42 -/
 
-/-- **Stacks Project, Tag 0A42.** Let `A` be a Noetherian ring complete with respect to an ideal
-`I`, write `S = Spec A` and `Sₙ = Spec (A / Iⁿ)`, and let `fX : X ⟶ S` be proper and
-`fY : Y ⟶ S` separated of finite type. A compatible system of morphisms `gₙ : Xₙ ⟶ Yₙ` over `Sₙ`
-— one for every `n ≥ 1`, with every composite `Xₙ ⟶ X_{n+1} ⟶ Y_{n+1}` equal to
-`Xₙ ⟶ Yₙ ⟶ Y_{n+1}` — comes from a unique morphism `g : X ⟶ Y` over `S` whose base change to
-each `Sₙ` is `gₙ`.
+/-- **Stacks 0A42, from Stacks 09ZT and adic rigidity.** Let `A` be a Noetherian ring complete
+with respect to an ideal `I`, write `S = Spec A` and `Sₙ = Spec (A / Iⁿ)`, and let
+`fX : X ⟶ S` be proper and `fY : Y ⟶ S` separated of finite type. A compatible system of
+morphisms `gₙ : Xₙ ⟶ Yₙ` over `Sₙ` — one for every `n ≥ 1`, with every composite
+`Xₙ ⟶ X_{n+1} ⟶ Y_{n+1}` equal to `Xₙ ⟶ Yₙ ⟶ Y_{n+1}` — comes from a unique morphism
+`g : X ⟶ Y` over `S` whose base change to each `Sₙ` is `gₙ`.
 
 The proof is the source's: the graphs of the `gₙ` are closed immersions `Xₙ ⟶ (X ×_S Y)ₙ` because
 `fY` is separated, Stacks 09ZT algebraizes them to a closed subscheme `Z ⊆ X ×_S Y` proper over
@@ -373,11 +377,11 @@ isomorphisms and is therefore an isomorphism, and `g` is `inv p ≫ q`. Both tha
 uniqueness clause rest on adic rigidity over a proper base (the hypothesis `hrig`), the
 consequence of Grothendieck existence used by the source.
 
-Neither `halg` (Stacks 09ZT) nor `hrig` is carried by this library; see the module documentation.
-The Noetherian and completeness hypotheses on `A` are exactly the ones under which `halg` and
-`hrig` hold, and are kept in the statement for that reason. -/
-@[stacks 0A42 "with Stacks 09ZT as the hypothesis halg and the rigidity consequence of \
-Grothendieck existence (088C, via 0883) as the hypothesis hrig"]
+Both hypotheses are proved downstream, `halg` as
+`AlgebraicGeometry.adicFiniteAlgebraization_holds` and `hrig` as
+`Stacks.AdicClosedSubschemeRigidity.adicRigidity`; the statement with both discharged, which
+carries the Stacks 0A42 registration, is
+`AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap_holds`. -/
 public theorem existsUnique_algebraization_adicBaseChangeMap
     [IsNoetherianRing A] (hcomplete : IsAdicComplete I A)
     (halg : AdicFiniteAlgebraization A I) (hrig : AdicRigidity A I)

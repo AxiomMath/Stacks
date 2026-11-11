@@ -8,9 +8,8 @@ public import StacksFrontier.Topology.Sheaves.RecoveryExtend.FiniteLocallyFreeRe
 # Perfectness on a space with local stalks
 
 On a ringed space all of whose structure-sheaf stalks are local rings, an object of the derived
-category of `𝒪_X`-modules is perfect exactly when it has a finite locally free representation:
-some complex representing it receives, on an open covering, quasi-isomorphisms from bounded
-complexes with finite locally free terms.
+category of `𝒪_X`-modules is perfect exactly when some complex representing it receives, on an
+open covering, quasi-isomorphisms from bounded complexes with finite locally free terms.
 
 One direction is the general fact that a bounded complex with finite free terms is strictly
 perfect, which is
@@ -22,13 +21,15 @@ module is finite locally free, which is [Stacks, Tag 0BCI].
 
 ## Main results
 
-* `AlgebraicGeometry.RingedSpace.isPerfect_iff_hasFiniteLocallyFreeRepresentation`:
-  [Stacks, Tag 0BCJ].
+* `AlgebraicGeometry.RingedSpace.isPerfect_iff_hasFiniteLocallyFreeRepresentation`: perfectness
+  is equivalent to the existence of local bounded finite locally free complexes mapping
+  quasi-isomorphically to the restrictions of a fixed representative.
 
-The other half of [Stacks, Tag 0BCJ], the equivalence of local finite locally free and local
-finite free representations, is
-`AlgebraicGeometry.RingedSpace.hasFiniteLocallyFreeRepresentation_iff_hasFiniteFreeRepresentation`,
-which this file records against the tag.
+This asks for actual quasi-isomorphisms of complexes, whereas [Stacks, Tag 0BCJ] only asks the
+restrictions to be isomorphic in the derived category to such complexes. The statement of
+[Stacks, Tag 0BCJ] is `AlgebraicGeometry.RingedSpace.isPerfect_tfae`, in
+`StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.LocalFiniteFreeModels`, which is proved
+from the result here.
 
 ## Implementation notes
 
@@ -52,9 +53,14 @@ universe u d
 
 variable {X : RingedSpace.{u, u}}
 
-/-- **Stacks 0BCJ.** On a ringed space whose structure-sheaf stalks are local rings, a derived
-object is perfect exactly when it has local bounded finite locally free representatives. -/
-@[stacks 0BCJ "perfect iff locally finite locally free"]
+/-- On a ringed space whose structure-sheaf stalks are local rings, a derived object is perfect
+exactly when some complex representing it receives, on an open covering, quasi-isomorphisms from
+bounded complexes with finite locally free terms.
+
+The local models here map to the restrictions of the representative by actual
+quasi-isomorphisms of complexes. [Stacks, Tag 0BCJ] only asks for isomorphisms in the derived
+categories of the members of the covering; that statement is
+`AlgebraicGeometry.RingedSpace.isPerfect_tfae`. -/
 theorem isPerfect_iff_hasFiniteLocallyFreeRepresentation
     [∀ x : X.carrier, IsLocalRing (ToType (X.presheaf.stalk x))]
     [HasDerivedCategory.{d} (OXMod.{u, u} X)] (K : DerivedCategory (OXMod.{u, u} X)) :
@@ -77,8 +83,5 @@ theorem isPerfect_iff_hasFiniteLocallyFreeRepresentation
     (X := Y.carrier) (O := Y.sheaf) hret (isFiniteLocallyFree_finiteFree Y n)
 
 end AlgebraicGeometry.RingedSpace
-
-add_to_stacks 0BCJ "finite locally free iff finite free locally"
-  AlgebraicGeometry.RingedSpace.hasFiniteLocallyFreeRepresentation_iff_hasFiniteFreeRepresentation
 
 end

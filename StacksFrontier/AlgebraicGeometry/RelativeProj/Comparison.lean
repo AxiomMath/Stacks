@@ -28,8 +28,12 @@ laws that Tag 01NP asks for, and is what a functor `S.AffineZariskiSite ⥤ Sche
 * `Stacks.AlgebraicGeometry.RelativeProj.mapHomOfTop_eq_map`: the glued morphism agrees with
   `AlgebraicGeometry.Proj.map`.
 * `Stacks.AlgebraicGeometry.RelativeProj.GradedAlgebra.transition_comp` and
-  `Stacks.AlgebraicGeometry.RelativeProj.GradedAlgebra.resMap_comp`: **Tag 01NP**, transitivity
-  of the transition morphisms.
+  `Stacks.AlgebraicGeometry.RelativeProj.GradedAlgebra.resMap_comp`: transitivity of the
+  transition morphisms over this file's `GradedAlgebra` substrate, under the hypotheses that the
+  restriction maps satisfy Mathlib's condition and induce everywhere-defined morphisms. These are
+  not Tag 01NP's statement; that tag, with both of its assertions and no extra hypothesis, is
+  `Stacks.RelativeProj.Situation.projInclusionMap_and_twistMap_trans` in
+  `StacksFrontier.AlgebraicGeometry.RelativeProjSituation.Transitive`.
 
 ## Implementation notes
 
@@ -59,11 +63,14 @@ irrelevance: `AlgebraicGeometry.Proj.map` takes the hypothesis as an explicit ar
 
 ## Not done here
 
-The identity law of Tag 01NP is `GradedAlgebra.transition_id` in
-`StacksFrontier.AlgebraicGeometry.RelativeProj.Local`; the two together are the functoriality
-needed for a functor into `Scheme`, but that functor is not assembled, because the relative
-glueing datum it feeds also needs the squares to be cartesian, which is not proved. The
-isomorphisms `θ` on the twists `𝒪(n)` of Tags 01NO and 01NP are not constructed.
+The identity law is `GradedAlgebra.transition_id` in
+`StacksFrontier.AlgebraicGeometry.RelativeProj.Local`; the functor into `Scheme` that the two laws
+give, and the cartesian squares of Tag 01NO, are in
+`StacksFrontier.AlgebraicGeometry.RelativeProjGlue.Basic`. The isomorphisms `θ` on the twists `𝒪(n)`
+are not built over this substrate: over Situation 01NN they are
+`Stacks.ProjTwistComparison.twistMap`, invertible by
+`Stacks.RelativeProj.Situation.isIso_twistMap_gradedSectionRestriction`, and their transitivity
+is part of `Stacks.RelativeProj.Situation.projInclusionMap_and_twistMap_trans`.
 -/
 
 @[expose] public noncomputable section
@@ -177,8 +184,10 @@ public theorem resMap_eq_map (U : S.AffineZariskiSite) (f : Γ(S, U.toOpens)) :
     𝒜.resMap U f = Proj.map (𝒜.res (S.basicOpen_le f)) (𝒜.irrelevant_le_map_res U f) :=
   𝒜.transition_eq_map (U := U.basicOpen f) (V := U) (S.basicOpen_le f) _ _
 
-/-- **Tag 01NP.** The transition morphisms compose: the transition for a composite inclusion of
-affine opens is the composite of the transitions. -/
+/-- The transition morphisms compose: the transition for a composite inclusion of affine opens is
+the composite of the transitions, given Mathlib's hypothesis and everywhere-definedness for each
+restriction map. Tag 01NP itself, without these hypotheses and with its `θ` assertion, is
+`Stacks.RelativeProj.Situation.projInclusionMap_and_twistMap_trans`. -/
 public theorem transition_comp {U V W : S.AffineZariskiSite} (hUV : U.toOpens ≤ V.toOpens)
     (hVW : V.toOpens ≤ W.toOpens)
     (hiUV : HomogeneousIdeal.irrelevant (𝒜.grading U) ≤
@@ -197,7 +206,8 @@ public theorem transition_comp {U V W : S.AffineZariskiSite} (hUV : U.toOpens �
   congr 1
   exact (𝒜.res_comp hUV hVW).symm
 
-/-- **Tag 01NP** for basic open inclusions, where no hypothesis is needed. -/
+/-- `GradedAlgebra.transition_comp` for iterated basic open inclusions, where Mathlib's hypothesis
+holds for both steps; everywhere-definedness of the composite is still an argument. -/
 public theorem resMap_comp (U : S.AffineZariskiSite) (f : Γ(S, U.toOpens))
     (g : Γ(S, (U.basicOpen f).toOpens))
     (hUWdom : mapDomain (𝒜.grading U) (𝒜.grading ((U.basicOpen f).basicOpen g))

@@ -7,8 +7,9 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.SheafFroben
 # The L-function of a constructible flat module on the étale site
 
 Let `X` be a scheme locally of finite type over a finite field `k` and let `Λ` be a local
-coefficient ring. The L-function of a constructible flat `Λ`-module `ℱ` on `X_étale` is the
-Euler product
+coefficient ring (for an arbitrary coefficient ring see
+`Stacks.EtaleCohomology.constructibleFlatLFunction`). The L-function of a constructible flat
+`Λ`-module `ℱ` on `X_étale` is the Euler product
 
 `L(X, ℱ) = ∏_{x ∈ |X|} det(1 - π_x^* T ^ (deg x) |_{ℱ_x̄}) ⁻¹ ∈ Λ⟦T⟧`
 
@@ -121,13 +122,14 @@ public def frobeniusMatricesOfConstructibleFlat : FrobeniusMatrices f Λ :=
     (finite_etaleModuleStalk_of_isConstructibleFlatModuleSheaf B X Λ F hF)
     (projective_etaleModuleStalk_of_isConstructibleFlatModuleSheaf B X Λ F hF)
 
-/-- **The L-function of a constructible flat `Λ`-module.** It is the Euler product over the
-closed points of `X` of the inverse local factors `det(1 - π_x^* T ^ (deg x) |_{ℱ_x̄}) ⁻¹` of the
-geometric Frobenius acting on the stalks of `ℱ`. -/
-@[stacks 03UV "the definition of L(X, F) for a constructible flat Λ-module F: the local \
-factors are the local factors of the geometric Frobenius on the stalks of F, whose finiteness \
-and projectivity are derived from constructible flatness rather than supplied",
-  sga "4½ Rapport 1.6" "L-function of a sheaf"]
+/-- **The L-function of a constructible flat `Λ`-module over a local coefficient ring.** It is
+the Euler product over the closed points of `X` of the inverse local factors
+`det(1 - π_x^* T ^ (deg x) |_{ℱ_x̄}) ⁻¹` of the geometric Frobenius acting on the stalks of `ℱ`,
+computed from the matrices of the Frobenius in bases of the (free) stalks. The L-function of
+Tag 03UV for an arbitrary coefficient ring, not necessarily local, is
+`Stacks.EtaleCohomology.constructibleFlatLFunction`, which agrees with this one when `Λ` is local
+(`Stacks.EtaleCohomology.constructibleFlatLFunction_eq_lFunctionOfConstructibleFlat`). -/
+@[sga "4½ Rapport 1.6" "L-function of a sheaf"]
 public def lFunctionOfConstructibleFlat [QuasiCompact f] : PowerSeries Λ :=
   (frobeniusMatricesOfConstructibleFlat B X Λ F f hF).lFunction
 

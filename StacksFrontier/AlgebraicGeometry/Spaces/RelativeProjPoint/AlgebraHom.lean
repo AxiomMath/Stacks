@@ -316,6 +316,46 @@ theorem smallPresentationMap_comp {D : GradedAlgebra.{t, a} R}
       ((smallPieceEquiv B n U).symm ((g.app n).val.app U (smallPieceEquiv A n U x)))))
   rw [LinearEquiv.apply_symm_apply]
 
+/-- **`smallPresentationMap` keeps isomorphisms**: if the degree-`n` component of `g` is an
+isomorphism of sheaves of modules, so is the degree-`n` component of the homomorphism of the small
+presentations, its inverse being the inverse of `g.app n` conjugated by the same identifications
+of sections. -/
+theorem isIso_smallPresentationMap_app (g : UnitalHom A B) (n : ℤ) (hg : IsIso (g.app n)) :
+    IsIso ((smallPresentationMap.{t, a, w} g).app n) := by
+  have hinv : ∀ (U : Cᵒᵖ) (y : (B.piece n).val.obj U),
+      (g.app n).val.app U ((inv (g.app n)).val.app U y) = y := fun U y =>
+    congrArg (fun k : B.piece n ⟶ B.piece n => k.val.app U y) (IsIso.inv_hom_id (g.app n))
+  have hhom : ∀ (U : Cᵒᵖ) (x : (A.piece n).val.obj U),
+      (inv (g.app n)).val.app U ((g.app n).val.app U x) = x := fun U x =>
+    congrArg (fun k : A.piece n ⟶ A.piece n => k.val.app U x) (IsIso.hom_inv_id (g.app n))
+  let φ : (smallPresentation.{t, a, w} B).piece n ⟶ (smallPresentation.{t, a, w} A).piece n :=
+    ⟨{
+      app := fun U => ModuleCat.ofHom
+        ((smallPieceEquiv A n U).symm.toLinearMap ∘ₗ ((inv (g.app n)).val.app U).hom ∘ₗ
+          (smallPieceEquiv B n U).toLinearMap)
+      naturality := fun {U V} f => by
+        ext x
+        change (smallPieceEquiv A n V).symm ((inv (g.app n)).val.app V (smallPieceEquiv B n V
+            ((smallPiece B n).val.map f x))) =
+          (smallPiece A n).val.map f ((smallPieceEquiv A n U).symm
+            ((inv (g.app n)).val.app U (smallPieceEquiv B n U x)))
+        refine ((congrArg (fun z => (smallPieceEquiv A n V).symm ((inv (g.app n)).val.app V z))
+          (smallPieceEquiv_naturality B n f x)).trans ?_).trans
+            ((smallPresentationEquiv A).map_symm n f _).symm
+        exact congrArg (smallPieceEquiv A n V).symm
+          (PresheafOfModules.naturality_apply (inv (g.app n)).val f _) }⟩
+  refine ⟨φ, ?_, ?_⟩
+  · ext U x
+    change (smallPieceEquiv A n U).symm ((inv (g.app n)).val.app U (smallPieceEquiv B n U
+        ((smallPieceEquiv B n U).symm ((g.app n).val.app U (smallPieceEquiv A n U x))))) = x
+    rw [LinearEquiv.apply_symm_apply, hhom]
+    exact (smallPieceEquiv A n U).symm_apply_apply x
+  · ext U x
+    change (smallPieceEquiv B n U).symm ((g.app n).val.app U (smallPieceEquiv A n U
+        ((smallPieceEquiv A n U).symm ((inv (g.app n)).val.app U (smallPieceEquiv B n U x))))) = x
+    rw [LinearEquiv.apply_symm_apply, hinv]
+    exact (smallPieceEquiv B n U).symm_apply_apply x
+
 end SheafOfModules.GradedAlgebra
 
 namespace AlgebraicGeometry.Space.RelativeProjSituation

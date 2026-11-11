@@ -52,34 +52,33 @@ finite product of constructible sheaves by
   `AlgebraicGeometry.isConstructibleAbelianSheaf_pushforward_of_compactSpace` and
   `AlgebraicGeometry.isConstructibleModuleSheaf_pushforward_of_compactSpace` — the tag over a
   quasi-compact quasi-separated base.
-* `AlgebraicGeometry.isConstructibleModuleSheaf_pushforward` — **Stacks 095H**, with no
-  hypothesis on `S` or `T`. For sheaves of sets and of abelian groups, with nothing granted, it is
+* `AlgebraicGeometry.isConstructibleModuleSheaf_pushforward` — **Stacks 095H** for sheaves of
+  modules over a Noetherian ring, with no hypothesis on `S` or `T`. The cases of sheaves of sets
+  and of abelian groups are
   `AlgebraicGeometry.isConstructibleSetSheaf_pushforward_unconditional` and
-  `AlgebraicGeometry.isConstructibleAbelianSheaf_pushforward_unconditional`.
-* `AlgebraicGeometry.isConstructibleAbelianSheaf_pushforward` — the special case for sheaves of
-  abelian groups with no hypothesis on `S` or `T`, granted Stacks 095Q (2).
+  `AlgebraicGeometry.isConstructibleAbelianSheaf_pushforward_unconditional`, in the module
+  `FiniteEtalePushforwardConstructibleUnconditional` of this directory.
+* `AlgebraicGeometry.isConstructibleAbelianSheaf_pushforward` — the same reduction for sheaves of
+  abelian groups, with the descent statement Stacks 095Q (2) taken as an argument.
 
-## What is granted, and what is not
+## The descent step
 
-The sheaves-of-modules statement grants **nothing**: the library's Stacks 095Q for sheaves of
-modules, `AlgebraicGeometry.isConstructibleModuleSheaf_pullback_iff_of_surjective`, assumes
-nothing beyond surjectivity and quasi-compactness and quasi-separatedness of source and target,
-and those are supplied here. The Noetherian hypothesis on `Λ` and the finiteness and étaleness of
-`p` are assumed in full and are never dropped.
+The sheaves-of-modules statements use the library's Stacks 095Q for sheaves of modules,
+`AlgebraicGeometry.isConstructibleModuleSheaf_pullback_iff_of_surjective`, which needs only
+surjectivity and quasi-compactness and quasi-separatedness of source and target, and those are
+supplied here. The Noetherian hypothesis on `Λ` and the finiteness and étaleness of `p` are
+assumed in full and are never dropped.
 
-The sheaves-of-sets and sheaves-of-abelian-groups statements carry **one** hypothesis each,
-`AlgebraicGeometry.SetConstructibilityDescendsAlongSurjective` and
-`AlgebraicGeometry.AbelianConstructibilityDescendsAlongSurjective`: the converse halves of
-Stacks 095Q (1) and Stacks 095Q (2). Neither mentions `p` or `ℱ` — each quantifies over the
-surjective morphisms of quasi-compact quasi-separated schemes of `B` and over sheaves on their
-targets — so neither can supply the content of the statements below, which is the reduction of
-Stacks 095H to Stacks 095Q. They are discharged in the library by
-`AlgebraicGeometry.isConstructibleSetSheaf_of_isConstructibleSetSheaf_pullback` and
-`AlgebraicGeometry.isConstructibleAbelianSheaf_of_isConstructibleAbelianSheaf_pullback`, which are
-themselves stated with granted hypotheses (Stacks 0245 for sets; Stacks 093C for torsion abelian
-sheaves, Stacks 03S8 (2) and Stacks 095N for `ℤ`-modules for abelian groups); carrying the descent
-statement itself rather than importing those files keeps this file's dependencies to modules that
-build, and makes the single thing that is assumed visible in each statement.
+The sheaves-of-sets and sheaves-of-abelian-groups reductions in this file take the descent
+statements `AlgebraicGeometry.SetConstructibilityDescendsAlongSurjective` and
+`AlgebraicGeometry.AbelianConstructibilityDescendsAlongSurjective` (the converse halves of
+Stacks 095Q (1) and Stacks 095Q (2)) as arguments. Neither mentions `p` or `ℱ`: each quantifies
+over the surjective morphisms of quasi-compact quasi-separated schemes of `B` and over sheaves on
+their targets. Both are proved in the library, as
+`AlgebraicGeometry.setConstructibilityDescendsAlongSurjective` and
+`AlgebraicGeometry.abelianConstructibilityDescendsAlongSurjective`, and the versions of
+Stacks 095H for sets and for abelian groups without these arguments are the two
+`_unconditional` theorems named above.
 
 ## Implementation notes
 
@@ -416,7 +415,7 @@ quasi-separated base.** Let `p : T ⟶ S` be a finite étale morphism of a big �
 quasi-compact and quasi-separated, let `Λ` be a Noetherian ring and let `ℱ` be a constructible
 sheaf of `Λ`-modules on `T_étale`. Then `p_*ℱ` is constructible.
 
-Nothing is granted. By Stacks 04HN, in the form
+By Stacks 04HN, in the form
 `AlgebraicGeometry.exists_affine_smallEtale_isSplitOver`, every point of `S` has an affine étale
 neighbourhood `V` in the small étale site of `S` over which `p` becomes split; finitely many of
 those cover `S`, and their disjoint union `Z` is an affine object of the site surjecting onto `S`
@@ -462,7 +461,7 @@ public theorem isConstructibleModuleSheaf_pushforward_of_compactSpace
 /-- **Stacks 095H for sheaves of modules over a Noetherian ring.** Let `p : T ⟶ S` be a finite
 étale morphism of a big étale site, let `Λ` be a Noetherian ring and let `ℱ` be a constructible
 sheaf of `Λ`-modules on `T_étale`. Then `p_*ℱ` is a constructible sheaf of `Λ`-modules on
-`S_étale`. No hypothesis is imposed on `S` or `T`, and nothing is granted.
+`S_étale`. No hypothesis is imposed on `S` or `T`.
 
 By Stacks 095F constructibility may be checked on an open covering of `S`, and the affine opens
 of `S` are such a covering; the restriction of `p_*ℱ` to an affine open `U` is the direct image,
@@ -471,7 +470,7 @@ along the base change of `p` to `U`, of the restriction of `ℱ`
 finite étale, the restriction of `ℱ` is constructible by Stacks 095G, and `U` is quasi-compact
 and quasi-separated, so
 `AlgebraicGeometry.isConstructibleModuleSheaf_pushforward_of_compactSpace` applies. -/
-@[stacks 095H "sheaves of modules over a Noetherian ring; nothing granted, no hypothesis on S or T",
+@[stacks 095H "sheaves of modules over a Noetherian ring; no hypothesis on S or T",
   sga "4 IX 2.14" "(i), special case",
   sga "5 I 1.14" "b)"]
 public theorem isConstructibleModuleSheaf_pushforward

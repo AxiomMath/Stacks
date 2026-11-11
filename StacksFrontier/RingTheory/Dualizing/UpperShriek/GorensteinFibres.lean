@@ -127,8 +127,8 @@ theorem isNoetherianRing_baseChange {R A : Type u} [CommRing R] [CommRing A]
 homomorphism of finite type of Noetherian rings, the derived base change of `ω^•_{A/R}` along
 `R → R'` is `ω^•_{A'/R'}`, where `A' = R' ⊗_R A`. -/
 private theorem nonempty_iso_relativeDualizing_baseChange {R A : Type u} [CommRing R]
-    [CommRing A] [IsNoetherianRing R] [Algebra R A] (R' : Type u) [CommRing R']
-    [IsNoetherianRing R'] [Algebra R R'] (p : PolynomialPresentation (algebraMap R A))
+    [CommRing A] [IsNoetherianRing R] [Algebra R A] (R' : Type u) [CommRing R'] [Algebra R R']
+    (p : PolynomialPresentation (algebraMap R A))
     (hflat : (algebraMap R A).Flat) :
     Nonempty ((totalDerivedExtensionScalars.{u, u, u}
           (Algebra.TensorProduct.includeRight :

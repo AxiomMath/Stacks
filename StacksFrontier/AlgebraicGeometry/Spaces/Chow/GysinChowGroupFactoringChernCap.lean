@@ -69,7 +69,7 @@ the whole of `V` — does not suffice, and that is the reason Stacks 0ER9 exists
   **the descent of a rational equivalence together with its carrier.**  If `i_*β` is rationally
   equivalent to zero at the canonical embeddings within a subset `S` of `|Y|`, then `β` is
   rationally equivalent to zero at the canonical embeddings within `i^{-1}(S)`.  This
-  refines the descent of `StacksFrontier.AlgebraicGeometry.`
+  refines the descent of `StacksDraft.AlgebraicGeometry.`
   `Spaces.Chow.ClosedPushforwardRationalEquivalenceDescentCanonical`,
   which is the case `S = |Y|` with the carrier of the conclusion forgotten.
 * `AlgebraicGeometry.Space.gysinCycleMapFactorsThroughRationalEquivalenceCanonical_of_within`:

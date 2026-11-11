@@ -437,13 +437,15 @@ public lemma lift_eqToHom_of_lift_id
 
 /-- A commuting square of arrows whose horizontal sides are isomorphisms stays commutative
 after inverting those sides. -/
-private lemma comp_inv_eq_inv_comp_of_comp_eq
+public lemma comp_inv_eq_inv_comp_of_comp_eq
     {C : Type*} [Category C] {A B A' B' : C} (i : A ≅ B) (j : A' ≅ B')
     (u : A ⟶ A') (v : B ⟶ B') (h : u ≫ j.hom = i.hom ≫ v) :
     v ≫ j.inv = i.inv ≫ u := by
   rw [Iso.comp_inv_eq, Category.assoc, h, Iso.inv_hom_id_assoc]
 
-private lemma quotientTruncation_nilpotent
+/-- The maximal ideal of the `n`-th adic truncation `R/𝔪_R^(n+1)` has vanishing
+`(n + 1)`-st power. -/
+public lemma maximalIdeal_adicTruncation_pow_succ_eq_bot
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) (n : ℕ) :
     IsLocalRing.maximalIdeal (AdicTruncation.obj R n) ^ (n + 1) = ⊥ := by
@@ -465,13 +467,12 @@ private lemma quotientTruncation_nilpotent
   rw [← hm, ← Ideal.map_pow]
   simp [I]
 
-/-- The represented morphism associated to a formal object evaluates back to that formal
-object, up to an isomorphism over its complete local base.
-
-This is the generic form, stated for an arbitrary datum `E` presenting the equivalence of
-Tag 06SK; the assertion of Tag 06HC is its instance at the constructed datum, recorded in
-`associatedMorphism_maps_to_canonicalEquivalence`. -/
-public theorem associatedMorphism_maps_to
+/-- The isomorphism, over the complete local base of a formal object `ξ`, from the formal
+object that the equivalence `E` of Tag 06SK assigns to the associated represented morphism of
+`ξ` back to `ξ`. At level `n` it inverts the canonical arrow from `ξ_n` to the value of the
+associated morphism at the `n`-th quotient point, composed with the evaluation isomorphism of
+`E`; see `associatedMorphismEvaluationIso_hom_app`. -/
+public noncomputable def associatedMorphismEvaluationIso
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : Type uF} [Category.{vF} F]
     {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
@@ -479,10 +480,9 @@ public theorem associatedMorphism_maps_to
     (ξ : FormalObject p)
     (E : RepresentableMorphismFormalObjectEquivalence p ξ.base)
     (pushforwards : ChosenPushforwards p) :
-    Nonempty
-      (E.equivalence.functor.obj
+    E.equivalence.functor.obj
         (associatedMorphism hp ξ pushforwards).toBasedFunctor ≅
-          (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber ξ.base)) := by
+      (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber ξ.base) := by
   classical
   let a := associatedMorphism hp ξ pushforwards
   let xFiber := E.equivalence.functor.obj a.toBasedFunctor
@@ -500,7 +500,7 @@ public theorem associatedMorphism_maps_to
   let assocMap (n : ℕ) : assocObj (n + 1) ⟶ assocObj n :=
     a.toBasedFunctor.map (edge n)
   have hm (n : ℕ) : a.level (qpt n) ≤ n :=
-    (a.factor_spec (qpt n)).2.1 n (quotientTruncation_nilpotent ξ.base n)
+    (a.factor_spec (qpt n)).2.1 n (maximalIdeal_adicTruncation_pow_succ_eq_bot ξ.base n)
   let w (n : ℕ) : ξ.level n ⟶ assocObj n :=
     transitionTo ξ (hm n) ≫ a.pointInclusion (qpt n)
   have hw_lift (n : ℕ) :
@@ -651,11 +651,55 @@ public theorem associatedMorphism_maps_to
   have hg : (FormalObject.projection (p := p)).IsHomLift (𝟙 ξ.base) g := by
     apply IsHomLift.of_fac' (FormalObject.projection (p := p)) (𝟙 ξ.base) g rfl xFiber.2
     simp [FormalObject.projection_map, g]
-  exact ⟨{
+  exact {
     hom := ⟨f, hf⟩
     inv := ⟨g, hg⟩
     hom_inv_id := Functor.Fiber.hom_ext hfg
-    inv_hom_id := Functor.Fiber.hom_ext hgf }⟩
+    inv_hom_id := Functor.Fiber.hom_ext hgf }
+
+/-- The level components of `associatedMorphismEvaluationIso` invert the canonical arrows: at
+level `n`, the transition of `ξ` down to the level the associated morphism selects at the
+`n`-th quotient point, followed by its point inclusion there and the evaluation isomorphism of
+`E`, is inverted by the `n`-th component. -/
+public theorem associatedMorphismEvaluationIso_hom_app
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    {F : Type uF} [Category.{vF} F]
+    {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
+    (hp : IsCofiberedInGroupoids p)
+    (ξ : FormalObject p)
+    (E : RepresentableMorphismFormalObjectEquivalence p ξ.base)
+    (pushforwards : ChosenPushforwards p) (n : ℕ)
+    (h : (associatedMorphism hp ξ pushforwards).level
+      (Functor.elementsMk _ (AdicTruncation.obj ξ.base n) (E.quotientPoint n)) ≤ n) :
+    transitionTo ξ h ≫ (associatedMorphism hp ξ pushforwards).pointInclusion
+        (Functor.elementsMk _ (AdicTruncation.obj ξ.base n) (E.quotientPoint n)) ≫
+      (E.levelIso (associatedMorphism hp ξ pushforwards).toBasedFunctor n).hom ≫
+        (associatedMorphismEvaluationIso hp ξ E pushforwards).hom.1.app n = 𝟙 _ := by
+  have key : ∀ {X X' Y Z : F} (t : X ⟶ X') (c : X' ⟶ Y) (hi : IsIso (t ≫ c)) (L : Y ≅ Z),
+      t ≫ c ≫ L.hom ≫ L.inv ≫ @CategoryTheory.inv F _ X Y (t ≫ c) hi = 𝟙 X := by
+    intro X X' Y Z t c _ L
+    rw [Iso.hom_inv_id_assoc, ← Category.assoc, IsIso.hom_inv_id]
+  exact key _ _ _ _
+
+/-- The represented morphism associated to a formal object evaluates back to that formal
+object, up to an isomorphism over its complete local base.
+
+This is the generic form, stated for an arbitrary datum `E` presenting the equivalence of
+Tag 06SK; the assertion of Tag 06HC is its instance at the constructed datum, recorded in
+`associatedMorphism_maps_to_canonicalEquivalence`. -/
+public theorem associatedMorphism_maps_to
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    {F : Type uF} [Category.{vF} F]
+    {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
+    (hp : IsCofiberedInGroupoids p)
+    (ξ : FormalObject p)
+    (E : RepresentableMorphismFormalObjectEquivalence p ξ.base)
+    (pushforwards : ChosenPushforwards p) :
+    Nonempty
+      (E.equivalence.functor.obj
+        (associatedMorphism hp ξ pushforwards).toBasedFunctor ≅
+          (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber ξ.base)) :=
+  ⟨associatedMorphismEvaluationIso hp ξ E pushforwards⟩
 
 /-- The explicit morphism `ξ̲` associated to a formal object `ξ` maps to `ξ` under the Yoneda
 equivalence: evaluating the equivalence constructed in Tag 06SK on

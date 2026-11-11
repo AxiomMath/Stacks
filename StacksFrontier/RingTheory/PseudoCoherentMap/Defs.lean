@@ -1,8 +1,10 @@
 module
 
+public import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 public import StacksFrontier.Algebra.Homology.Resolution.Defs.Comparison
 public import StacksFrontier.Homology.PseudoCoherent.Relative.Defs
 public import StacksFrontier.Homology.TorAmplitude.Defs
+import StacksFrontier.Algebra.Homology.Resolution.ProjectiveDimensionTruncation
 import StacksFrontier.Homology.PseudoCoherent.Relative.Module
 import StacksFrontier.Homology.PseudoCoherent.Relative.Presentation
 import StacksCore.Tactic.EgaSgaAttribute
@@ -20,7 +22,7 @@ modules; it is *perfect* when in addition `B` has finite Tor dimension as an `A`
 
 * `Algebra.PseudoCoherent` (Stacks 067H (1)), and `RingHom.PseudoCoherent`, the same notion for a
   ring homomorphism and the algebra structure it induces;
-* `RingHom.IsPerfectRingMap` (Stacks 067H (2)).
+* `Algebra.Perfect` (Stacks 067H (2)) and `RingHom.Perfect`, in the same way.
 
 ## Main results
 
@@ -52,14 +54,12 @@ category which `PseudoCoherence.IsModuleRelativelyPseudoCoherent` fixes
 `Algebra.pseudoCoherent_iff_isModulePseudoCoherent` reads pseudo-coherence over a single
 presentation in any model.
 
-Finite Tor dimension of a module is `StacksDraft.TorAmplitude.ModuleHasFiniteTorDimension`, tag
-0652 (4). There is no canonical derived tensor product here, so that notion carries its bifunctor,
-comparison transformation and universal property as arguments — a datum certified as a *total left
-derived* functor of termwise tensoring — and this definition passes them through unchanged, exactly
-as `PseudoCoherence.IsRelativelyPerfect` does. The model of `D(A)` is an instance argument of
-`RingHom.IsPerfectRingMap`, so the definition can be read at any model;
-`RingHom.isPerfectRingMap_iff_exists_flat_roof` shows that its truth depends neither on the model
-nor on the certificate.
+`Algebra.Perfect` (Stacks 067H (2), in the form of Stacks 068Y) is the resolution by finite free
+modules of `Algebra.PseudoCoherent`, over the same quotient and in two universes, together with
+Mathlib's `HasProjectiveDimensionLE`; pseudo-coherence is a projection (an instance). Its
+comparisons with Stacks 067H (2) and 068Y as worded, whose proofs read the standard model of a
+derived category, are in `RingTheory/PseudoCoherentMap/PerfectPresentation.lean`;
+`RingHom.IsPerfectRingMap` is kept for the statements that still take a certificate.
 
 ## References
 
@@ -67,7 +67,7 @@ nor on the certificate.
 * [The Stacks Project, Lemma 15.82.7 (0675)](https://stacks.math.columbia.edu/tag/0675)
 -/
 
-open CategoryTheory
+open CategoryTheory CategoryTheory.Limits
 
 universe u v w
 
@@ -106,11 +106,11 @@ public theorem pseudoCoherent_algebraMap {A : Type u} {B : Type v} [CommRing A] 
     [Algebra A B] : PseudoCoherent (algebraMap A B) ↔ Algebra.PseudoCoherent A B := by
   rw [PseudoCoherent, toAlgebra_algebraMap]
 
-/-- A ring map `A → B` is perfect if it is pseudo-coherent and `B`, regarded as an `A`-module, has
-finite Tor dimension, read off the certified derived tensor product `derivedTensor` on a model of
-`D(A)`. Neither the model nor the certificate matters
-(`RingHom.isPerfectRingMap_iff_exists_flat_roof`). -/
-@[stacks 067H "(2)", sga "6 III 4.1" "affine case"]
+/-- Stacks 067H (2) as worded, in certificate form: `A → B` is pseudo-coherent and `B`, regarded as
+an `A`-module, has finite Tor dimension, read off the certified derived tensor product
+`derivedTensor` on a model of `D(A)`. At every model and certificate it is `Algebra.Perfect A B`
+(`Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension`); it is kept for the
+statements that still take a certificate. -/
 public def IsPerfectRingMap
     (A : Type u) (B : Type u) [CommRing A] [CommRing B] [Algebra A B]
     [HasDerivedCategory.{w} (ModuleCat.{u} A)]
@@ -131,6 +131,52 @@ public def IsPerfectRingMap
   Algebra.PseudoCoherent A B ∧
     StacksDraft.TorAmplitude.ModuleHasFiniteTorDimension derivedTensor comparison isLeftDerived
       (ModuleCat.of A B)
+
+end RingHom
+
+/-- An `A`-algebra `B` is *perfect* if `B` is a quotient `A[x₁, …, xₙ] ⧸ I` of a polynomial
+algebra such that the `A[x₁, …, xₙ]`-module `A[x₁, …, xₙ] ⧸ I` has a resolution by finite free
+modules and finite projective dimension.
+
+This is Stacks 067H (2) in the form of Stacks 068Y, with `B` replaced by the isomorphic
+`A[x₁, …, xₙ]`-module `A[x₁, …, xₙ] ⧸ I`, which lives in the universe of `A`, as for
+`Algebra.PseudoCoherent`. The resolution by finite free modules is the field of
+`Algebra.PseudoCoherent`, and finite projective dimension is Mathlib's `HasProjectiveDimensionLE`.
+Stacks 067H (2) asks for `A → B` to be pseudo-coherent with `B` of finite Tor dimension as an
+`A`-module. Stacks 068Y is the comparison
+(`Algebra.perfect_iff_pseudoCoherent_and_exists_flat_roof`, where finite Tor dimension is a bounded
+complex of flat `A`-modules joined to `B[0]` by a roof of quasi-isomorphisms, Stacks 0654), and
+`Algebra.perfect_iff_pseudoCoherent_and_moduleHasFiniteTorDimension` reads it in any model of
+`D(A)`. When `A` and `B` live in one universe, `B` is perfect exactly when, for some presentation,
+`B` itself, made an `A[x₁, …, xₙ]`-module through it, has a finite resolution by finite projective
+modules, as Stacks 068Y words it (`Algebra.perfect_iff_exists_finite_projective_resolution`; with
+pseudo-coherence on the right-hand side,
+`Algebra.perfect_iff_pseudoCoherent_and_exists_finite_projective_resolution`).
+
+The terminology is that of Stacks and of SGA 6 (*morphisme parfait*); it is unrelated to perfect
+rings in the sense of `PerfectRing` (Frobenius). -/
+@[stacks 067H "(2)", sga "6 III 4.1" "affine case", mk_iff]
+public class Algebra.Perfect (A : Type u) (B : Type v) [CommRing A] [CommRing B] [Algebra A B] :
+    Prop where
+  out : ∃ (n : ℕ) (α : MvPolynomial (Fin n) A →ₐ[A] B), Function.Surjective α ∧
+    Nonempty (FiniteFreeModuleResolution (MvPolynomial (Fin n) A)
+      (MvPolynomial (Fin n) A ⧸ RingHom.ker α)) ∧
+    ∃ d : ℕ, HasProjectiveDimensionLE
+      (ModuleCat.of (MvPolynomial (Fin n) A) (MvPolynomial (Fin n) A ⧸ RingHom.ker α)) d
+
+namespace RingHom
+
+/-- A ring homomorphism `f : A →+* B` is *perfect* if `B`, with the algebra structure induced by
+`f`, is a perfect `A`-algebra in the sense of Stacks 067H (2). -/
+@[algebraize]
+public def Perfect {A : Type u} {B : Type v} [CommRing A] [CommRing B] (f : A →+* B) : Prop :=
+  @Algebra.Perfect A B _ _ f.toAlgebra
+
+/-- For the structure map of an algebra, `RingHom.Perfect` is perfectness of the algebra in the
+sense of Stacks 067H (2). -/
+public theorem perfect_algebraMap {A : Type u} {B : Type v} [CommRing A] [CommRing B]
+    [Algebra A B] : Perfect (algebraMap A B) ↔ Algebra.Perfect A B := by
+  rw [Perfect, toAlgebra_algebraMap]
 
 end RingHom
 
@@ -291,5 +337,68 @@ public theorem pseudoCoherent_iff_exists_isModuleRelativelyPseudoCoherent
         PseudoCoherence.IsModuleRelativelyPseudoCoherent (R := A) (A := B) B :=
   ⟨fun h => ⟨inferInstance, pseudoCoherent_iff_isModuleRelativelyPseudoCoherent.mp h⟩,
     fun ⟨_, h⟩ => pseudoCoherent_iff_isModuleRelativelyPseudoCoherent.mpr h⟩
+
+end Algebra
+
+namespace Algebra.Perfect
+
+variable {A : Type u} {B : Type v} [CommRing A] [CommRing B] [Algebra A B]
+
+-- see Note [lower instance priority]
+/-- A perfect algebra is pseudo-coherent: the presentation of the definition carries a resolution
+by finite free modules. -/
+public instance (priority := 100) pseudoCoherent [h : Perfect A B] : PseudoCoherent A B := by
+  obtain ⟨n, α, hα, hF, -⟩ := h
+  exact ⟨n, α, hα, hF⟩
+
+/-- If `e : B ≃ₐ[A] B'` and `B` is perfect over `A`, then so is `B'`. -/
+public theorem equiv {B' : Type*} [CommRing B'] [Algebra A B'] (h : Perfect A B)
+    (e : B ≃ₐ[A] B') : Perfect A B' := by
+  obtain ⟨n, α, hα, hF⟩ := h
+  refine ⟨n, e.toAlgHom.comp α, e.surjective.comp hα, ?_⟩
+  rwa [show RingHom.ker (e.toAlgHom.comp α) = RingHom.ker α by ext; simp]
+
+end Algebra.Perfect
+
+namespace Algebra
+
+/-- **Perfectness through a finite projective resolution of `B`, with pseudo-coherence.** When `A`
+and `B` live in one universe, `B` is perfect over `A` exactly when it is pseudo-coherent and, for
+some presentation `α : A[x₁, …, xₙ] → B`, `B` itself, made an `A[x₁, …, xₙ]`-module through `α`,
+has a finite resolution by finite projective modules. A resolution by finite free modules and a
+bound on the projective dimension shorten to such a resolution
+(`ModuleResolution.exists_finite_projective_resolution_of_hasProjectiveDimensionLE`), which in turn
+bounds the projective dimension (`ModuleResolution.hasProjectiveDimensionLE`); pseudo-coherence
+provides the resolution by finite free modules over every presentation
+(`Algebra.PseudoCoherent.nonempty_finiteFreeModuleResolution`). Without pseudo-coherence on the
+right-hand side this is Stacks 068Y as worded,
+`Algebra.perfect_iff_exists_finite_projective_resolution`, whose proof reads Stacks 068X in the
+standard model of a derived category. -/
+public theorem perfect_iff_pseudoCoherent_and_exists_finite_projective_resolution {A B : Type u}
+    [CommRing A] [CommRing B] [Algebra A B] :
+    Perfect A B ↔ PseudoCoherent A B ∧
+      ∃ (n : ℕ) (α : MvPolynomial (Fin n) A →ₐ[A] B), Function.Surjective α ∧
+        letI : Module (MvPolynomial (Fin n) A) B := Module.compHom B α.toRingHom
+        ∃ (d : ℕ) (F : ModuleResolution (MvPolynomial (Fin n) A) B),
+          (∀ i, Module.Finite (MvPolynomial (Fin n) A) (F.complex.X i) ∧
+            Module.Projective (MvPolynomial (Fin n) A) (F.complex.X i)) ∧
+          ∀ i, d < i → IsZero (F.complex.X i) := by
+  constructor
+  · rintro ⟨n, α, hα, ⟨F⟩, d, hd⟩
+    let : Module (MvPolynomial (Fin n) A) B := Module.compHom B α.toRingHom
+    let e : (MvPolynomial (Fin n) A ⧸ RingHom.ker α) ≃ₗ[MvPolynomial (Fin n) A] B :=
+      PseudoCoherent.quotientKerLinearEquiv hα AlgEquiv.refl
+    obtain ⟨G, hG, hGd⟩ :=
+      (F.ofLinearEquiv e).exists_finite_projective_resolution_of_hasProjectiveDimensionLE
+        (fun i => ⟨(F.ofLinearEquiv e).finite i, have := (F.ofLinearEquiv e).free i; inferInstance⟩)
+        (hasProjectiveDimensionLT_of_iso e.toModuleIso (d + 1))
+    exact ⟨⟨n, α, hα, ⟨F⟩⟩, n, α, hα, d, G, hG, hGd⟩
+  · rintro ⟨h, n, α, hα, d, F, hF, hFd⟩
+    let : Module (MvPolynomial (Fin n) A) B := Module.compHom B α.toRingHom
+    let e : (MvPolynomial (Fin n) A ⧸ RingHom.ker α) ≃ₗ[MvPolynomial (Fin n) A] B :=
+      PseudoCoherent.quotientKerLinearEquiv hα AlgEquiv.refl
+    have := F.hasProjectiveDimensionLE (fun i => (hF i).2) hFd
+    exact ⟨n, α, hα, h.nonempty_finiteFreeModuleResolution α hα, d,
+      hasProjectiveDimensionLT_of_iso e.toModuleIso.symm (d + 1)⟩
 
 end Algebra

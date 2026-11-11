@@ -9,10 +9,15 @@ public import StacksFrontier.RingTheory.DedekindDomain.PrimeFactorization
 
 The Stacks project defines a Dedekind domain (tag 034W) as a domain in which every nonzero ideal
 is a product of nonzero prime ideals, uniquely up to permutation; this is
-`HasUniquePrimeIdealFactorization`. This file shows that the definition agrees with Mathlib's
-`IsDedekindDomain` and proves the characterizations of tag 034X.
+`IsStacksDedekindDomain`, the conjunction of `IsDomain` and the factorization condition
+`HasUniquePrimeIdealFactorization` (which on its own does not force `R` to be a domain). This
+file shows that the definition agrees with Mathlib's `IsDedekindDomain` and proves the
+characterizations of tag 034X.
 
 ## Main results
+
+* `isStacksDedekindDomain_iff_isDedekindDomain`: the Stacks definition (tag 034W) agrees with
+  Mathlib's `IsDedekindDomain`.
 
 * `HasUniquePrimeIdealFactorization.isDedekindDomain`: a domain with unique factorization of
   nonzero ideals into nonzero primes is a Dedekind domain in the sense of Mathlib.
@@ -180,6 +185,13 @@ theorem isDedekindDomain [IsDomain R] : IsDedekindDomain R := by
     (H.isUnit_coeIdeal hJ)
 
 end HasUniquePrimeIdealFactorization
+
+/-- A ring is a Dedekind domain in the sense of the Stacks project (tag 034W) if and only if it is
+a Dedekind domain in the sense of Mathlib. -/
+theorem isStacksDedekindDomain_iff_isDedekindDomain (R : Type*) [CommRing R] :
+    IsStacksDedekindDomain R ↔ IsDedekindDomain R :=
+  ⟨fun ⟨_, H⟩ => H.isDedekindDomain,
+    fun _ => ⟨inferInstance, hasUniquePrimeIdealFactorization_of_isDedekindDomain R⟩⟩
 
 namespace Stacks
 

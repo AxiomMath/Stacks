@@ -90,6 +90,8 @@ vertex has homology in `[a + 1, b]`.
   `[X] ↦ [X[0]]`.
 * `DerivedCategory.exists_addEquiv_K0_of_isWeakSerreClass`: `K₀(B) ≃+ K₀(D^b_B(A))` for a weak
   Serre subcategory `B` of `A`, characterised by `[X] ↦ [X[0]]`.
+* `DerivedCategory.exists_addEquiv_K0_symm_eq_finsum_of_isWeakSerreClass`: the same isomorphism
+  together with its inverse `[X] ↦ ∑ᶠ i, (-1)ⁱ [Hⁱ(X)]`.
 
 ## Implementation notes
 
@@ -950,8 +952,9 @@ abelian group on the objects of `B` modulo `[X₂] - [X₁] - [X₃]` for every 
 `0 ⟶ X₁ ⟶ X₂ ⟶ X₃ ⟶ 0` of `B`) to the zeroth `K`-group of the triangulated subcategory
 `D^b_B(A) ⊆ D(A)` of bounded objects with all cohomology objects in `B`, sending the class of `X`
 to the class of `X` viewed as a complex in degree `0`. Such an isomorphism is unique, since the
-classes of objects generate `K₀(B)`. -/
-@[stacks 0FCS]
+classes of objects generate `K₀(B)`. The description of its inverse as the Euler characteristic
+`[X] ↦ ∑ (-1)ⁱ [Hⁱ(X)]`, the rest of [Stacks, Tag 0FCS], is
+`DerivedCategory.exists_addEquiv_K0_symm_eq_finsum_of_isWeakSerreClass`. -/
 theorem DerivedCategory.exists_addEquiv_K0_of_isWeakSerreClass
     {A : Type u} [Category.{v} A] [Abelian A] [HasDerivedCategory.{w} A]
     (B : ObjectProperty A) [B.IsWeakSerreClass]
@@ -971,5 +974,43 @@ theorem DerivedCategory.exists_addEquiv_K0_of_isWeakSerreClass
     ⟨Function.LeftInverse.injective (ofK0B_comp_toK0B B), surjective_toK0B B⟩,
     fun X => ⟨sngB B X, ⟨Iso.refl _⟩⟩, fun X Y e => ?_⟩
   exact (toK0B_mk B X).trans (clsT_eq_of_iso (ObjectProperty.isoMk _ e)).symm
+
+open DerivedCategory in
+/-- **The zeroth `K`-group of `D^b_B(A)` is that of `B`, with the inverse given by the Euler
+characteristic**: for a weak Serre subcategory `B` of an abelian category `A` there is a group
+isomorphism `e` from the zeroth `K`-group of `B` to the zeroth `K`-group of the triangulated
+subcategory `D^b_B(A) ⊆ D(A)` of bounded objects with all cohomology objects in `B`, sending the
+class `[X]` of an object of `B` to the class `[X[0]]` of `X` viewed as a complex in degree `0`,
+and its inverse sends the class `[Y]` of an object of `D^b_B(A)` to the alternating sum
+`∑ (-1)ⁱ [Hⁱ(Y)]` of the classes of its cohomology objects, a finite sum because `Y` is bounded. -/
+@[stacks 0FCS "isomorphism `[B] ↦ [B[0]]` with inverse `[X] ↦ ∑ (-1)ⁱ [Hⁱ(X)]`"]
+theorem DerivedCategory.exists_addEquiv_K0_symm_eq_finsum_of_isWeakSerreClass
+    {A : Type u} [Category.{v} A] [Abelian A] [HasDerivedCategory.{w} A]
+    (B : ObjectProperty A) [B.IsWeakSerreClass]
+    {P : ObjectProperty (DerivedCategory A)}
+    (hP : P = (DerivedCategory.TStructure.t (C := A)).bounded ⊓
+      fun X ↦ ∀ n : ℤ, B ((DerivedCategory.homologyFunctor A n).obj X))
+    [P.IsTriangulated] :
+    ∃ e : KZero B.FullSubcategory ≃+ Pretriangulated.K0 P.FullSubcategory,
+      (∀ X : B.FullSubcategory, ∃ Y : P.FullSubcategory,
+          Nonempty (P.ι.obj Y ≅ (DerivedCategory.singleFunctor A 0).obj (B.ι.obj X))) ∧
+        (∀ (X : B.FullSubcategory) (Y : P.FullSubcategory),
+          (P.ι.obj Y ≅ (DerivedCategory.singleFunctor A 0).obj (B.ι.obj X)) →
+            e (KZero.mk B.FullSubcategory X) =
+              QuotientAddGroup.mk (FreeAbelianGroup.of Y)) ∧
+        ∀ Y : P.FullSubcategory,
+          e.symm (QuotientAddGroup.mk (FreeAbelianGroup.of Y)) =
+            ∑ᶠ i : ℤ, (i.negOnePow : ℤ) • KZero.mk B.FullSubcategory
+              ⟨(DerivedCategory.homologyFunctor A i).obj Y.obj, (hP.le _ Y.property).2 i⟩ := by
+  subst hP
+  let e := AddEquiv.ofBijective (toK0B B)
+    ⟨Function.LeftInverse.injective (ofK0B_comp_toK0B B), surjective_toK0B B⟩
+  refine ⟨e, fun X => ⟨sngB B X, ⟨Iso.refl _⟩⟩,
+    fun X Y i => (toK0B_mk B X).trans (clsT_eq_of_iso (ObjectProperty.isoMk _ i)).symm,
+    fun Y => ?_⟩
+  obtain ⟨y, hy⟩ := surjective_toK0B B (clsT Y)
+  calc e.symm (clsT Y) = e.symm (e y) := congrArg e.symm hy.symm
+    _ = ofK0B B (toK0B B y) := by rw [AddEquiv.symm_apply_apply, ofK0B_comp_toK0B]
+    _ = eulerCharB B Y := by rw [hy, ofK0B_clsT]
 
 end

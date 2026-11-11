@@ -19,7 +19,7 @@ quasi-compact quasi-separated schemes. Tag 03S8 asserts three constructibility s
 
 Each part is already a theorem of this library, stating that part alone. This file conjoins the
 three into the single statement of the tag, forwarding each conjunct to the theorem that proves
-it; all six existing registrations of the tag are retained.
+it; the single-part registrations of the tag are kept.
 
 ## Main results
 
@@ -69,8 +69,8 @@ This is the whole tag in one statement, under the source's quasi-compactness and
 quasi-separatedness of `X` and of `U` and no other hypothesis. Each part is proved by the theorem
 that states it alone: `AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda_of_qcqs` for
 part (1), `AlgebraicGeometry.isConstructibleAbelianSheaf_abelianShriekConstant` for part (2), and
-`AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriek` for part (3). All six existing
-registrations of the tag are retained, each stating its own part or a case of one.
+`AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriek` for part (3). The other registrations
+of the tag each state one part, or a case of one, without further hypotheses.
 
 The ring `R`, its commutativity and its Noetherianness are hypotheses of part (3) alone: parts
 (1) and (2) do not mention `R` and are proved without it. Part (1) is used in proving parts (2)
@@ -83,10 +83,10 @@ four families of them; see the implementation notes above. -/
 quasi-separated etale object is constructible, part (2) an extension by zero of the constant \
 sheaf at a finite abelian group is a constructible abelian sheaf, part (3) an extension by zero \
 of the constant sheaf at a finite module over a Noetherian commutative ring is a constructible \
-sheaf of modules. Unconditional: only the source's quasi-compactness and quasi-separatedness of \
-X and of U, and part (3)'s own Noetherian commutative ring. No IsRightAdjoint or HasWeakSheafify \
-assumption is carried, those being inferable here although the elaborated signatures of parts \
-(2) and (3) assume them. All six component registrations are retained."]
+sheaf of modules. Assumed, as in the source: quasi-compactness and quasi-separatedness of \
+X and of U, and for part (3) a Noetherian commutative ring. No IsRightAdjoint or HasWeakSheafify \
+assumption is carried, those instances being inferred here. The single-part registrations of \
+the tag are kept beside it."]
 public theorem isConstructible_sheafifiedYoneda_and_abelianShriekConstant_and_moduleShriek_of_qcqs
     (B : BigEtaleSite.{u}) (X : B.Scheme) (R : Type (u + 1)) [CommRing R] [IsNoetherianRing R]
     [CompactSpace X.obj] [QuasiSeparatedSpace X.obj] (U : SmallEtale B X.obj X.property)

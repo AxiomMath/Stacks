@@ -31,7 +31,9 @@ Tag 04L4 for a normal scheme whose invertible global functions are constants.
 
 What is *not* here is the identification of the invertible global functions with `k^*`, which for a
 proper variety over an algebraically closed field is Tag 04L2, and the reduction of a proper
-variety to a normal one, which is Tag 0BXR.
+variety to a normal one, which is Tag 0BXR.  Both are proved elsewhere in the library, and the full
+tag is `AlgebraicGeometry.fg_units_quotient_of_isOpenImmersion_into_properVariety`
+(`StacksFrontier/AlgebraicGeometry/InvertibleFunctions/NormalModel.lean`).
 
 ## Main results
 

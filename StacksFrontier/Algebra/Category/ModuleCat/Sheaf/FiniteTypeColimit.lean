@@ -118,7 +118,9 @@ variable {X : TopCat.{u}}
 
 omit [∀ U, HasWeakSheafify ((Opens.grothendieckTopology X).over U) AddCommGrpCat.{u}]
   [∀ U, ((Opens.grothendieckTopology X).over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
-private lemma exists_local_lift_from_stage (F : I ⥤ SheafOfModules.{u} R)
+/-- A section of the colimit of a directed system of sheaves of modules over `V` lifts, near any
+point `x ∈ V`, to a section of some stage of the system. -/
+lemma exists_local_lift_from_stage (F : I ⥤ SheafOfModules.{u} R)
     (V : Opens X) (x : X) (hxV : x ∈ V)
     (s : (colimit F).val.presheaf.obj (op V)) :
     ∃ (W : Opens X) (hWV : W ≤ V) (_hxW : x ∈ W) (i : I)

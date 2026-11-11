@@ -50,7 +50,10 @@ fibre.
 All in the namespace `Deformation.Examples.FiniteProjectiveRepresentation`.
 
 * `continuousInfinitesimalAutomorphismsEquivH0`: the infinitesimal automorphisms of the
-  deformation category of a finite-dimensional continuous representation are `H⁰(Γ, End_k(V))`.
+  deformation category of a finite-dimensional continuous representation are `H⁰(Γ, End_k(V))`,
+  as groups. The `Inf` clauses of Stacks 0DVW, for the natural `k`-vector space structure of
+  Stacks 06JX, are in
+  `StacksFrontier.Deformation.Examples.Linear.ContinuousRepresentationsNaturalInf`.
 * `continuousAutEquivInvariants`: the underlying computation of the automorphism group of a
   first-order continuous deformation.
 * `finiteDimensional_continuousTangentSpace`: the tangent space of that deformation category is
@@ -143,21 +146,19 @@ public theorem continuousInfinitesimalAutomorphisms_eq_top
   rw [mem_infinitesimalAutomorphisms_iff]
   exact hterm.hom_ext _ _
 
-/-- A continuous deformation of `(V, ρ₀)` over a coefficient algebra isomorphic to the dual
-numbers exhibits `V` as a first-order reduction of its module. -/
-public theorem exists_isFirstOrderReduction_continuousDeformation
+/-- A continuous deformation of `(V, ρ₀)` exhibits `V` as a first-order reduction of its module
+along any element `ε` of the coefficient algebra whose multiples are exactly the kernel of the
+reduction to the residue field and which annihilates exactly its own multiples. -/
+public theorem isFirstOrderReduction_continuousDeformation_of_eps
     (V : Type w) [AddCommGroup V] [Module k V] [Module.Finite k V]
     (ρ₀ : Representation k Γ V) (hρ₀ : IsContinuousRepresentation ρ₀)
     {Aε : ArtinianLocalAlgCat.{u, w, w} Λ k}
     (xε : (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀).Fiber Aε)
-    (hNE : Nonempty (xε.1.left.obj.base ≃ₐ[Λ] DualNumber k)) :
-    ∃ eps : xε.1.left.obj.base,
-      IsFirstOrderReduction (κ := k) (V := V) eps
-        xε.1.hom.hom.base.hom.toRingHom xε.1.hom.hom.map := by
+    (eps : xε.1.left.obj.base) (hpi : ∀ a, xε.1.hom.hom.base.hom a = 0 ↔ eps ∣ a)
+    (hmul : ∀ a, eps * a = 0 ↔ eps ∣ a) :
+    IsFirstOrderReduction (κ := k) (V := V) eps
+      xε.1.hom.hom.base.hom.toRingHom xε.1.hom.hom.map := by
   classical
-  obtain ⟨eps, hpi, hmul⟩ := ArtinianLocalAlgCat.exists_eps hNE
-    (IsLocalRing.maximalIdeal_eq_bot (R := k)) xε.1.hom.hom.base
-  refine ⟨eps, ?_⟩
   have : Module.Free xε.1.left.obj.base xε.1.left.obj.carrier :=
     Module.free_of_flat_of_isLocalRing
   let bM := Module.Free.chooseBasis xε.1.left.obj.base xε.1.left.obj.carrier
@@ -183,6 +184,21 @@ public theorem exists_isFirstOrderReduction_continuousDeformation
     (ArtinianLocalAlgCat.hom_surjective _ _
       (IsLocalRing.maximalIdeal_eq_bot (R := k)) xε.1.hom.hom.base)
     xε.1.hom.hom.map_smul hbV
+
+/-- A continuous deformation of `(V, ρ₀)` over a coefficient algebra isomorphic to the dual
+numbers exhibits `V` as a first-order reduction of its module. -/
+public theorem exists_isFirstOrderReduction_continuousDeformation
+    (V : Type w) [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (ρ₀ : Representation k Γ V) (hρ₀ : IsContinuousRepresentation ρ₀)
+    {Aε : ArtinianLocalAlgCat.{u, w, w} Λ k}
+    (xε : (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀).Fiber Aε)
+    (hNE : Nonempty (xε.1.left.obj.base ≃ₐ[Λ] DualNumber k)) :
+    ∃ eps : xε.1.left.obj.base,
+      IsFirstOrderReduction (κ := k) (V := V) eps
+        xε.1.hom.hom.base.hom.toRingHom xε.1.hom.hom.map := by
+  obtain ⟨eps, hpi, hmul⟩ := ArtinianLocalAlgCat.exists_eps hNE
+    (IsLocalRing.maximalIdeal_eq_bot (R := k)) xε.1.hom.hom.base
+  exact ⟨eps, isFirstOrderReduction_continuousDeformation_of_eps V ρ₀ hρ₀ xε eps hpi hmul⟩
 
 /-- The automorphism group of a first-order continuous deformation of `(V, ρ₀)` in its fibre is
 the multiplicative presentation of the `Γ`-equivariant endomorphisms of `V`: an automorphism is
@@ -298,9 +314,13 @@ public noncomputable def continuousAutEquivInvariants
   exact (MulEquiv.ofBijective F ⟨hinj, hsurj⟩).symm
 
 /-- The infinitesimal automorphisms of the deformation category of a finite-dimensional
-continuous representation `ρ₀` of a topological group are the degree-zero cohomology of the
-conjugation action on its endomorphisms, `H⁰(Γ, End_k(V))`. -/
-@[stacks 0DVW "Inf"]
+continuous representation `ρ₀` of a topological group, as the group of infinitesimal
+automorphisms of Stacks 06JQ at a pushforward along a dual-number pair, are the degree-zero
+cohomology of the conjugation action on its endomorphisms, `H⁰(Γ, End_k(V))`, as groups.
+
+This is a group isomorphism only. The `Inf` clause of Stacks 0DVW is an identification of
+`k`-vector spaces for the natural structure of Stacks 06JX, and is
+`localizedAutomorphismTangentLinearEquivH0`. -/
 public noncomputable def continuousInfinitesimalAutomorphismsEquivH0
     (V : Type w) [AddCommGroup V] [Module k V] [Module.Finite k V]
     (ρ₀ : Representation k Γ V) (hρ₀ : IsContinuousRepresentation ρ₀)
@@ -329,15 +349,15 @@ public noncomputable def continuousInfinitesimalAutomorphismsEquivH0
       (Classical.choose_spec hfo))).trans
     (AddEquiv.toMultiplicative L.toAddEquiv).symm
 
-/-- **Stacks 0DVW**, the clause that the infinitesimal automorphisms are *always* finite
-dimensional: the infinitesimal automorphism group of the deformation category of a
-finite-dimensional continuous representation `ρ₀` carries a `k`-vector space structure whose
-addition is composition of automorphisms, and that vector space is finite dimensional.
+/-- The infinitesimal automorphism group of the deformation category of a finite-dimensional
+continuous representation `ρ₀`, at a pushforward along a dual-number pair, carries *some*
+`k`-vector space structure whose addition is composition of automorphisms and which is finite
+dimensional: the structure transported from `H⁰(Γ, End_k(V))` along
+`continuousInfinitesimalAutomorphismsEquivH0`.
 
-No hypothesis on `Γ` is needed. The group is `H⁰(Γ, End_k(V))` by
-`continuousInfinitesimalAutomorphismsEquivH0`, and degree-zero cohomology is the subspace of
-`Γ`-invariants of `End_k(V)`, which is finite dimensional because `V` is. -/
-@[stacks 0DVW "Inf is always finite dimensional"]
+The scalar action here is only existentially quantified, so this is weaker than the finiteness
+clause of Stacks 0DVW, which is about the natural structure of Stacks 06JX; that clause is
+`finiteDimensional_continuousLocalizedAutomorphismTangent`. -/
 public theorem finiteDimensional_continuousInfinitesimalAutomorphisms
     (V : Type w) [AddCommGroup V] [Module k V] [Module.Finite k V]
     (ρ₀ : Representation k Γ V) (hρ₀ : IsContinuousRepresentation ρ₀)

@@ -26,15 +26,17 @@ the punctured spectrum.
 * `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating_of_locallyOfFinitePresentation`: a
   proper morphism, locally of finite presentation, which is an isomorphism over a quasi-compact
   open `U`, is dominated by a `U`-admissible blowup.
-* `AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating_of_noetherian`: the
-  modification of a `VanishingSituation` is dominated by an admissible blowup of the punctured
-  spectrum.
+* `AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating_of_noetherian`:
+  [Stacks, Tag 0B4M], the modification of Situation [Stacks, Tag 0AX8] is dominated by an
+  admissible blowup of the punctured spectrum.
 
 ## References
 
 * [Stacks Project, Tag 081S](https://stacks.math.columbia.edu/tag/081S)
 * [Stacks Project, Tag 081T](https://stacks.math.columbia.edu/tag/081T)
 * [Stacks Project, Tag 0B4M](https://stacks.math.columbia.edu/tag/0B4M)
+* [Stacks Project, Tag 0AX8](https://stacks.math.columbia.edu/tag/0AX8)
+* [Stacks Project, Tag 080Y](https://stacks.math.columbia.edu/tag/080Y)
 * [Stacks Project, Tag 0815](https://stacks.math.columbia.edu/tag/0815)
 * [Stacks Project, Tag 081M](https://stacks.math.columbia.edu/tag/081M)
 -/
@@ -118,8 +120,11 @@ theorem exists_isAdmissibleBlowup_dominating_of_locallyOfFinitePresentation [Com
 
 namespace VanishingSituation
 
-/-- In a `VanishingSituation` the strict transform of `X` is an open subscheme of some
-admissible blowup of the punctured spectrum. -/
+/-- In Situation [Stacks, Tag 0AX8] the conclusion of [Stacks, Tag 081S] holds for the
+modification `f` and the punctured spectrum `U = S ∖ {s}`: there is a `U`-admissible blowup of
+`S` in which the strict transform of `X` is an open subscheme. The modification is proper and an
+isomorphism over `U` (`isIso_morphismRestrict_puncturedSpectrumOpen`), and `U` is quasi-compact
+because `S = Spec(A)` is Noetherian. -/
 theorem strictTransformOpenImmersion (V : VanishingSituation.{u}) :
     StrictTransformOpenImmersion V.f V.puncturedSpectrumOpen := by
   have : IsIso (V.f ∣_ V.puncturedSpectrumOpen) := V.isIso_morphismRestrict_puncturedSpectrumOpen
@@ -128,9 +133,17 @@ theorem strictTransformOpenImmersion (V : VanishingSituation.{u}) :
   exact strictTransformOpenImmersion_of_isIso_morphismRestrict V.f V.puncturedSpectrumOpen
     (NoetherianSpace.isCompact _)
 
-/-- In a `VanishingSituation` there is a `U`-admissible blowup `b : S' ⟶ S` of the punctured
-spectrum `U = S ∖ {s}` which dominates `X`: it factors as `S' ⟶ X ⟶ S`. -/
-@[stacks 0B4M]
+/-- **Stacks Project, Tag 0B4M.** In Situation [Stacks, Tag 0AX8] — `A` a Noetherian normal
+local domain of dimension two, `S = Spec(A)`, `U = S ∖ {s}` its punctured spectrum and
+`f : X ⟶ S` a modification — there is a `U`-admissible blowup `b : S' ⟶ S` which dominates `X`:
+it factors as `S' ⟶ X ⟶ S`.
+
+As in the source this is the case of [Stacks, Tag 081T] at `f`. Both results 081T cites are
+proved here for this situation: [Stacks, Tag 080Y] by `AlgebraicGeometry.cartierBoundaryReduction`
+and [Stacks, Tag 081S] by `strictTransformOpenImmersion`. The hypothesis of the source's
+discussion that the special fibre has positive dimension is not needed. -/
+@[stacks 0B4M "the full statement in Situation 0AX8: the inputs 080Y and 081S of 081T are \
+proved, by `cartierBoundaryReduction` and `VanishingSituation.strictTransformOpenImmersion`"]
 theorem exists_isAdmissibleBlowup_dominating_of_noetherian (V : VanishingSituation.{u}) :
     ∃ (S' : Scheme.{u}) (b : S' ⟶ V.base),
       Stacks.Blowup.IsAdmissibleBlowup V.puncturedSpectrumOpen b ∧

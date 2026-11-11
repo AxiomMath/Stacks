@@ -126,7 +126,7 @@ the stable subgroups equal to them.
 
 Nothing in this tree discharges `HasCohomologyIdentityLaw` for a general system, and that is a
 statement about the tree, not a gap in this file: `EtaleSheafSystem`
-(`Colimits/SheafSystems.lean:112`, `@[stacks 0EZL]`) has fields `obj`, `map` and `map_comp` and no
+(`Colimits/SheafSystems.lean`, `@[stacks 0EZL]`) has fields `obj`, `map` and `map_comp` and no
 `map_id`, and the sheaf-level identity law that would imply this one is *refuted* for a legitimate
 system by `id_eq_zero_of_isIso_systemTransitionMap_zeroTransitionSystem`. The one system of the
 development for which the sheaf-level law is proved is the direct-image system

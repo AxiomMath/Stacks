@@ -6,7 +6,14 @@ public import StacksFrontier.Topology.Dimension.Equidimensional
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# The Künneth coordinates of the diagonal class are a signed dual basis
+# The dual-basis step of Stacks 0FHH, with the Künneth expansion carried
+
+This file proves the linear-algebra step of Stacks 0FHH; Stacks 0FHH itself, for the actual
+cycle class of the diagonal and the actual Künneth decomposition, under (D0)–(D3), (A), (B) and
+(C), is `Stacks.WeilCohomology.WeilData.pairing_kunnethComponentTw_diagonal` and
+`Stacks.WeilCohomology.WeilData.pairing_diagonalKunnethCoordinates`
+(`StacksFrontier/AlgebraicGeometry/WeilCohomology/Concrete/DiagonalDualBasis.lean`), which derive
+the identity `hdecomp` assumed here.
 
 Let `X` be a nonempty smooth projective scheme over `k`, equidimensional of dimension `d`, and
 choose a basis `e_{i, 1}, …, e_{i, β_i}` of `H^i(X)` over `F`. Writing the cycle class of the
@@ -18,12 +25,13 @@ the classes `e'_{2d - i, j}` form the dual basis up to the sign `(-1)^i`:
 
 `∫_X e_{i, j} ∪ e'_{2d - i, j'} = (-1)^i δ_{jj'}`.
 
-The argument is the source's. Because `γ([Δ]) = Δ_*1` and pullback along the diagonal is the cup
-product, the diagonal class pairs two classes by `∫_{X × X} γ([Δ]) ∪ (a ⊗ b) = ∫_X a ∪ b`, while
-the Künneth expansion of `γ([Δ])` evaluates the same pairing as
-`∑_j (∫_X a ∪ e_{i, j}) (∫_X e'_{2d - i, j} ∪ b)`. Comparing the two identifies
+The source's argument runs as follows. Because `γ([Δ]) = Δ_*1` and pullback along the diagonal
+is the cup product, the diagonal class pairs two classes by
+`∫_{X × X} γ([Δ]) ∪ (a ⊗ b) = ∫_X a ∪ b`, while the Künneth expansion of `γ([Δ])` evaluates
+the same pairing as `∑_j (∫_X a ∪ e_{i, j}) (∫_X e'_{2d - i, j} ∪ b)`. Comparing the two identifies
 `e'_{2d - i, j}` as the dual basis vector of `e_{i, j}` for the trace pairing, and graded
-commutativity then contributes the sign `(-1)^{i(2d - i)} = (-1)^i`.
+commutativity then contributes the sign `(-1)^{i(2d - i)} = (-1)^i`. This file proves only the
+last step, the comparison: the expansion through `e` and `e'` is the hypothesis `hdecomp`.
 
 ## Main results
 
@@ -31,7 +39,9 @@ commutativity then contributes the sign `(-1)^{i(2d - i)} = (-1)^i`.
   pairing with injective flip is expanded through a basis `e` and a family `e'`, then `e'` is the
   dual basis of `e`.
 * `Stacks.WeilCohomology.PoincareDualityPushforwardSetup.integration_mul_dualBasis`: the
-  conclusion `∫_X e_{i, j} ∪ e'_{2d - i, j'} = (-1)^i δ_{jj'}` of the source.
+  conclusion `∫_X e_{i, j} ∪ e'_{2d - i, j'} = (-1)^i δ_{jj'}` of the source, for any family
+  `e'` satisfying the expansion `hdecomp`, which is assumed rather than derived from the diagonal
+  class.
 
 ## Implementation notes
 
@@ -106,11 +116,11 @@ private theorem gradedSign_mul_two_mul_sub (F : Type v) [Ring F] (i m : ℤ) :
   have h : i * (2 * m - i) = i + 2 * (i * m - s) := by linear_combination -hs
   rw [h, DifferentialGraded.gradedSign_add, gradedSign_two_mul, mul_one]
 
-/-- **Stacks Project, Tag 0FHH.** The linear-algebra core of the lemma. Let `pair` be a pairing
-of `U` with `V` whose flip is injective, let `e` be a finite basis of `V` and `e' : J → U` a
-family indexed by the same set. If `pair` expands as `pair a b = ∑ j pair a (e j) * pair (e' j) b`
-then `e'` is the dual basis of `e`, that is `pair (e' j) (e j') = δ_{jj'}`. -/
-@[stacks 0FHH "expanding a pairing through a basis exhibits the dual basis"]
+/-- The linear-algebra core of Stacks 0FHH (used in its proof, not the lemma itself). Let `pair`
+be a pairing of `U` with `V` whose flip is injective, let `e` be a finite basis of `V` and
+`e' : J → U` a family indexed by the same set. If `pair` expands as
+`pair a b = ∑ j pair a (e j) * pair (e' j) b` then `e'` is the dual basis of `e`, that is
+`pair (e' j) (e j') = δ_{jj'}`. -/
 theorem dualBasis_of_pairing_decomposition {F : Type v} [Field F] {U V : Type w}
     [AddCommGroup U] [Module F U] [AddCommGroup V] [Module F V]
     (pair : U →ₗ[F] V →ₗ[F] F) (hpair : Function.Injective pair.flip)
@@ -226,12 +236,17 @@ namespace PoincareDualityPushforwardSetup
 variable {k : Type u} [Field k] [IsAlgClosed k] {F : Type v} [Field F] [CharZero F]
   (S : PoincareDualityPushforwardSetup.{u, v, w} k F)
 
-/-- **Stacks Project, Tag 0FHH.** Let `X` be a nonempty smooth projective scheme over `k`,
-equidimensional of dimension `d = S.dimension X`, let `e` be a basis of `H^i(X)` over `F`, and
-let `e' : J → H^{2d - i}(X)(d)` be the Künneth coordinates of the cycle class of the diagonal in
-degree `i`, so that `∫_X a ∪ b = ∑_j (∫_X a ∪ e_j)(∫_X e'_j ∪ b)`. Then
-`∫_X e_{i, j} ∪ e'_{2d - i, j'} = (-1)^i δ_{jj'}`. -/
-@[stacks 0FHH "the Künneth coordinates of the diagonal class are the signed dual basis"]
+/-- **The dual-basis step of Stacks 0FHH, with the Künneth expansion carried.** Let `X` be a
+nonempty smooth projective scheme over `k`, equidimensional of dimension `d = S.dimension X`, let
+`e` be a basis of `H^i(X)` over `F`, and let `e' : J → H^{2d - i}(X)(d)` be any family satisfying
+the expansion `hdecomp`: `∫_X a ∪ b = ∑_j (∫_X a ∪ e_j)(∫_X e'_j ∪ b)`. Then
+`∫_X e_{i, j} ∪ e'_{2d - i, j'} = (-1)^i δ_{jj'}`.
+
+This is not Stacks 0FHH: the package `PoincareDualityPushforwardSetup` has no cycle class map,
+diagonal or Künneth isomorphism, and `hdecomp` is the consequence of the Künneth decomposition of
+`γ([Δ])` that the source's proof derives (from Stacks 0FHG, 0FHD, 0FHB and axiom (B)(b)). Stacks
+0FHH, with `e'` the Künneth coordinates of the actual `γ([Δ])` and that identity derived, is
+`Stacks.WeilCohomology.WeilData.pairing_kunnethComponentTw_diagonal`. -/
 theorem integration_mul_dualBasis (X : (SmoothProjective k).FullSubcategory)
     (_hne : Nonempty X.obj.left)
     (_hequi : TopologicalSpace.Equidimensional X.obj.left) (i : ℤ)

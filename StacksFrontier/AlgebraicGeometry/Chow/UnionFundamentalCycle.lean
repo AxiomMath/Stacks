@@ -124,6 +124,16 @@ theorem exists_genericPoints_subschemeι_eq_iff {X : Scheme.{u}} (I : X.IdealShe
     (∃ ξ : genericPoints I.subscheme, I.subschemeι.base ξ.1 = x) ↔
       x ∈ (I.support : Set X) ∧
         ∀ y : X, y ∈ (I.support : Set X) → x ∈ closure ({y} : Set X) → y = x := by
+  have hgen : ∀ y : I.subscheme,
+      y ∈ genericPoints I.subscheme ↔ ∀ y' : I.subscheme, y' ⤳ y → y' = y :=
+    fun y ↦ ⟨fun hy y' hy'y ↦ (hy'y.antisymm (specializes_iff_closure_subset.mpr
+      ((genericPoints.component ⟨y, hy⟩).2.2 isIrreducible_singleton.closure
+        hy'y.closure_subset))).eq, fun h ↦ by
+      let Z : irreducibleComponents I.subscheme :=
+        ⟨irreducibleComponent y, irreducibleComponent_mem_irreducibleComponents y⟩
+      let ξ := genericPoints.ofComponent Z
+      exact h ξ.1 ((genericPoints.isGenericPoint_ofComponent Z).specializes
+        mem_irreducibleComponent) ▸ ξ.2⟩
   have hrange : Set.range I.subschemeι.base = (I.support : Set X) := I.range_subschemeι
   have hind : Topology.IsInducing I.subschemeι.base :=
     I.subschemeι.isClosedEmbedding.isEmbedding.isInducing
@@ -136,13 +146,13 @@ theorem exists_genericPoints_subschemeι_eq_iff {X : Scheme.{u}} (I : X.IdealShe
       rw [hζ, hξ]
       exact specializes_iff_mem_closure.mpr hxy
     have hzeta : ζ = ξ.1 :=
-      (mem_genericPoints_iff_no_strict_generalization ξ.1).mp ξ.2 ζ
+      (hgen ξ.1).mp ξ.2 ζ
         (hind.specializes_iff.mp hspec)
     rw [← hζ, hzeta, hξ]
   · rintro ⟨hxI, hmax⟩
     rw [← hrange] at hxI
     obtain ⟨ξ, hξ⟩ := hxI
-    refine ⟨⟨ξ, (mem_genericPoints_iff_no_strict_generalization ξ).mpr fun ζ hζ ↦ ?_⟩, hξ⟩
+    refine ⟨⟨ξ, (hgen ξ).mpr fun ζ hζ ↦ ?_⟩, hξ⟩
     have hspec : I.subschemeι.base ζ ⤳ I.subschemeι.base ξ := hind.specializes_iff.mpr hζ
     have hmem : I.subschemeι.base ζ ∈ (I.support : Set X) := by
       rw [← hrange]; exact ⟨ζ, rfl⟩

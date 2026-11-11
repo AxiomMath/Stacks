@@ -32,9 +32,12 @@ For `k = r + s - dim Y` the two sides are `f^*([ℱ]_r · [𝒢]_s)` and `[f^*�
 * `AlgebraicGeometry.TorFormula.intersectionProductCycle_mem_cyclesOfDimension` — the
   intersection product is a `k`-cycle.
 * `Stacks.Intersection.FlatPullback.intersectProperly_coherentSheafCycle_pullback` —
-  **Tag 0B0Y**, the pulled-back cycles intersect properly.
-* `Stacks.Intersection.FlatPullback.flatPullback_intersectionProductCycleGroup` — **Tag 0B0Y**,
-  flat pullback commutes with the intersection product.
+  the properness clause of Tag 0B0Y, the pulled-back cycles intersect properly.
+* `Stacks.Intersection.FlatPullback.flatPullback_intersectionProductCycleGroup` — flat pullback
+  commutes with the intersection product, given the Tor comparison `hTor`.
+
+The whole of Tag 0B0Y is
+`Stacks.Intersection.CycleFlatPullback.flatPullback_coherentSheafCycleProduct_integerDimension`.
 
 ## Implementation notes
 
@@ -50,11 +53,13 @@ finite because the `Tor` sheaves vanish above the dimension of the ambient schem
 is the homomorphism `Z_k(Y) ⟶ Z_{k+e}(X)` of `Stacks.Chow.flatPullback`, so it passes through
 that finite sum, and on each summand it is the cycle identity
 `Stacks.Chow.flatPullback_cycleAssociatedToCoherentSheaf_of_isVariety`. What remains after those
-two steps is the comparison of `f^*Torᵢ^{𝒪_Y}(ℱ, 𝒢)` with `Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)`, which is
-carried as the hypothesis `hTor`: it is the monoidality of derived pullback together with the
-exactness of `f^*` for flat `f`, and the library has the first of those but not the second.
-Granted the comparison, the cycles of the two sheaves agree because the cycle of a coherent sheaf
-depends only on its support and on the lengths of its stalks, both invariant under isomorphism.
+two steps is the comparison of `f^*Torᵢ^{𝒪_Y}(ℱ, 𝒢)` with `Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)`, which is an
+input `hTor` here: it is the monoidality of derived pullback together with the exactness of `f^*`
+for flat `f`, proved as `AlgebraicGeometry.TorFormula.pullbackTorSheafIso` in
+`StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.FlatPullbackTorSheaf` and supplied in
+`StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.FlatPullbackTorComparison`. Given the
+comparison, the cycles of the two sheaves agree because the cycle of a coherent sheaf depends only
+on its support and on the lengths of its stalks, both invariant under isomorphism.
 
 The relative dimension `e` is a natural number together with `dim X = dim Y + e`, as in
 `Stacks.Chow.flatPullback_cycleAssociatedToCoherentSheaf_of_isVariety`, so that no subtraction of
@@ -197,16 +202,11 @@ theorem exists_natCast_eq_of_le_natCast {x : WithBot ℕ∞} {m : ℕ} (hbot : x
 
 /-! ### Tag 0B0Y: proper intersection after pullback -/
 
-/-- **Stacks Project, Tag 0B0Y.** Let `f : X ⟶ Y` be a flat morphism of varieties over a field
-with `dim X = dim Y + e`, and let `ℱ` and `𝒢` be coherent `𝒪_Y`-modules whose supports have
+/-- **The properness clause of Stacks 0B0Y.** Let `f : X ⟶ Y` be a flat morphism of varieties over a
+field with `dim X = dim Y + e`, and let `ℱ` and `𝒢` be coherent `𝒪_Y`-modules whose supports have
 dimension at most `r` and `s` and meet in dimension at most `r + s - dim Y`. Then the cycles
-`[f^*ℱ]_{r+e}` and `[f^*𝒢]_{s+e}` intersect properly. -/
-@[stacks 0B0Y "the clause that `[f^*ℱ]_{r+e}` and `[f^*𝒢]_{s+e}` intersect properly, proved \
-unconditionally. It is the source's \"immediate from the fact that `f` has relative dimension \
-`e`\": the supports of the pullbacks are the inverse images of the supports, and the inverse \
-image of a closed subset of dimension `n` has dimension at most `n + e`, which is the \
-topological form of Stacks 02RE part (1) proved above. Nonsingularity is not used, only that \
-`X` and `Y` are varieties over the field"]
+`[f^*ℱ]_{r+e}` and `[f^*𝒢]_{s+e}` intersect properly. The whole of Tag 0B0Y is
+`Stacks.Intersection.CycleFlatPullback.flatPullback_coherentSheafCycleProduct_integerDimension`. -/
 theorem intersectProperly_coherentSheafCycle_pullback (K : Type u) [Field K] {X Y : Scheme.{u}}
     (sX : X ⟶ Spec (.of K)) (sY : Y ⟶ Spec (.of K)) [IsVariety K sX] [IsVariety K sY]
     (f : X ⟶ Y) [Flat f] (hbase : f ≫ sY = sX) (e : ℕ)
@@ -316,25 +316,17 @@ theorem schemeDeltaDimension_reducedSupport_torSheaf_pullback_le (K : Type u) [F
     (schemeDeltaDimension_support_pullback_le (fieldChowSituation K) sX sY f hbase e
       (relativeDimension_of_flat_of_isVariety K sX sY f hbase e he) (torSheaf Y F G i) k (hFk i))
 
-/-- **Stacks Project, Tag 0B0Y.** Let `f : X ⟶ Y` be a flat morphism of nonsingular varieties
-over a field and let `e = dim X - dim Y`. For coherent `𝒪_Y`-modules `ℱ` and `𝒢` the flat
-pullback of their intersection product is the intersection product of their pullbacks:
+/-- **Flat pullback of the intersection product, from the Tor comparison.** Let `f : X ⟶ Y` be a
+flat morphism of nonsingular varieties over a field and let `e = dim X - dim Y`. For coherent
+`𝒪_Y`-modules `ℱ` and `𝒢`, given the comparison `hTor`, the flat pullback of their intersection
+product is the intersection product of their pullbacks:
 
 `f^*(∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_Y}(ℱ, 𝒢)]_k) = ∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)]_{k+e}`.
 
 Taking `k = r + s - dim Y`, for supports of dimension at most `r` and `s`, this is
-`f^*([ℱ]_r · [𝒢]_s) = [f^*ℱ]_{r+e} · [f^*𝒢]_{s+e}`. -/
-@[stacks 0B0Y "the intersection-product identity \
-`f^*([ℱ]_r · [𝒢]_s) = [f^*ℱ]_{r+e} · [f^*𝒢]_{s+e}`, with the product read as the Tor formula \
-`∑ᵢ (-1)ⁱ [Torᵢ(ℱ, 𝒢)]_{r+s-dim Y}` of Stacks 0AZR, which is how this library defines it. What \
-is discharged here is the half of the source's proof that reduces the identity to the Tor \
-comparison: that flat pullback passes through the alternating sum, and that on each summand it \
-is the cycle identity `f^*[Torᵢ]_k = [f^*Torᵢ]_{k+e}` of Stacks 0AZF. The comparison itself, \
-`f^*Torᵢ^{𝒪_Y}(ℱ, 𝒢) = Torᵢ^{𝒪_X}(f^*ℱ, f^*𝒢)`, is carried as the hypothesis `hTor`: the source \
-gets it from Stacks 079U together with the exactness of `f^*` for flat `f`, and this library has \
-079U but not the identification `Lf^*ℱ = f^*ℱ` that exactness supplies. It is not an instance of \
-the conclusion below, which is a statement about cycles. The properness clause of the tag is \
-`Stacks.Intersection.FlatPullback.intersectProperly_coherentSheafCycle_pullback`"]
+`f^*([ℱ]_r · [𝒢]_s) = [f^*ℱ]_{r+e} · [f^*𝒢]_{s+e}`. The comparison is
+`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`, and the identity with it supplied is
+`Stacks.Intersection.FlatPullback.flatPullback_intersectionProductCycleGroup_eq_pullbackSheaves`. -/
 theorem flatPullback_intersectionProductCycleGroup (K : Type u) [Field K] {X Y : Scheme.{u}}
     (sX : X ⟶ Spec (.of K)) (sY : Y ⟶ Spec (.of K)) [IsVariety K sX] [IsVariety K sY]
     (hX : AlgebraicGeometry.IsRegular X) (hY : AlgebraicGeometry.IsRegular Y) (f : X ⟶ Y)

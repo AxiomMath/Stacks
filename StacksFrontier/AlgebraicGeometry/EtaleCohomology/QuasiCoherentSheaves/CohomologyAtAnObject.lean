@@ -13,8 +13,8 @@ one of `(Sch/S)_τ` for `τ` among fppf, syntomic, smooth, étale and Zariski, o
 site.  Theorem 03P2 compares the Zariski cohomology of `F` on `S` with the `τ`-cohomology of
 the associated sheaf `F^a` of Proposition 03OG.  Its right-hand side is cohomology over the
 object `S` of `C`, and `S` is a final object there, so those groups are the right derived
-functors of the global sections functor; this is the first assertion of Remark 03P3 and is
-`cohomologyAtFinalObjectIso` below.
+functors of the global sections functor; this is the first assertion of Remark 03P3, and
+`cohomologyAtFinalObjectIso` below is its form over a final object of an arbitrary site.
 
 The substance of the remark is its second assertion: the proof of Theorem 03P2 gives the
 comparison not only at the final object but at **every** object `f : U ⟶ S` of the site,
@@ -22,16 +22,24 @@ comparison not only at the final object but at **every** object `f : U ⟶ S` of
 `H^p(U, f^*F) = H^p_τ(U, F^a)`,
 
 the left-hand side being Zariski cohomology on `U` of the pullback module and the right-hand
-side the cohomology of `F^a` over the object `f` of `C`.  That is
-`zariskiCohomologyIsoCohomologyAtObject`.
+side the cohomology of `F^a` over the object `f` of `C`.  Over an arbitrary site,
+`zariskiCohomologyIsoCohomologyAtObject` reduces it to the comparison at a final object.
 
-## The reduction this file carries out
+## Where Remark 03P3 itself is proved
 
-Theorem 03P2 itself is **not** available in this repository, so it is carried as the explicit
-named hypothesis `h03P2`: the comparison at the final object of a site `D` of schemes over `U`.
-What is proved here is the passage from that final-object statement to the statement at the
-object `f` of `C`, which is exactly what Remark 03P3 asserts the proof of Theorem 03P2 gives.
-It has two ingredients, and neither is formal:
+The two assertions of Remark 03P3 are proved, for the sites of the source, in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.QuasiCoherentSheaves.CohomologyAtAnObjectCollapse`:
+`AlgebraicGeometry.bigOverAssociatedSheafGlobalCohomologyIso` and
+`AlgebraicGeometry.smallEtaleAssociatedSheafGlobalCohomologyIso` (first assertion), and
+`AlgebraicGeometry.bigOverQuasiCoherentCohomologyIsoAtObject` and
+`AlgebraicGeometry.smallEtaleQuasiCoherentCohomologyIsoAtObject` (second assertion), for
+`𝒞 = (Sch/S)_τ` with all five `τ` and for `𝒞 = S_étale`.  Those carry `@[stacks 03P3]`.
+
+This file works instead over an arbitrary small site `(C, K)` presented by a functor
+`πC : C ⥤ Over S`, where no comparison with Zariski cohomology is available in general.  It
+proves the passage from a comparison at the final object of a site `D` of schemes over `U`
+(the input `hFinal` of `zariskiCohomologyIsoCohomologyAtObject`) to the comparison at the object
+`f` of `C`.  It has two ingredients, and neither is formal:
 
 * **the associated sheaf restricts to the associated sheaf of the pullback.**  Restricting the
   presheaf of Tag 03DS of `(S, F)` along the inclusion `u : D ⥤ C` of the schemes over `U` in
@@ -45,7 +53,7 @@ It has two ingredients, and neither is formal:
 
 Composing the two identifies `H^p_τ(U, F^a)` — cohomology of `F^a` over the object `f` of the
 site over `S` — with the cohomology of `(f^*F)^a` over the final object of the site over `U`,
-which is where `h03P2` applies.
+which is where `hFinal` applies.
 
 ## Main definitions
 
@@ -57,11 +65,11 @@ which is where `h03P2` applies.
 
 * `objAtFinalObjectIso`: the object `u t` of `C` reached by the final object `t` of `D` is the
   object `f : U ⟶ S`.  This is what makes the conclusion a statement about `f`.
-* `cohomologyAtFinalObjectIso`: **Remark 03P3, first assertion** — over a final object the
-  `τ`-cohomology of `F^a` is the right derived functor of global sections.
-* `zariskiCohomologyIsoCohomologyAtObject`: **Remark 03P3, second assertion** —
-  `H^p(U, f^*F) ≅ H^p_τ(U, F^a)` at an arbitrary object `f : U ⟶ S` of the site, from
-  Theorem 03P2 at the final object of the site over `U`.
+* `cohomologyAtFinalObjectIso`: over a final object of an arbitrary site the cohomology of
+  `F^a` is the right derived functor of global sections.
+* `zariskiCohomologyIsoCohomologyAtObject`: `H^p(U, f^*F) ≅ H^p(U, F^a)` at an object
+  `f : U ⟶ S` of an arbitrary site, from the comparison at the final object of the site over
+  `U`.
 
 ## Implementation notes
 
@@ -207,43 +215,40 @@ def cohomologyAtObjectIso (e : u ⋙ πC ≅ πD ⋙ Over.map f) (p : ℕ) (t : 
 
 /-! ### Remark 03P3 -/
 
-/-- **Stacks 03P3, first assertion.**  The scheme `S` is a final object of the site `C` of
-schemes over `S`, so the groups `H^p_τ(S, F^a)` on the right-hand side of Theorem 03P2 are the
+/-- **Cohomology of `F^a` over a final object is derived global sections**, on an arbitrary
+site `C` of schemes over `S`: over a final object `T` of `C` the groups `H^p(T, F^a)` are the
 right derived functors of the global sections functor of the site, that is Mathlib's global
-`CategoryTheory.Sheaf.H`. -/
-@[stacks 03P3 "since S is final in C, the right-hand side of 03P2 is derived global sections"]
+`CategoryTheory.Sheaf.H`.
+
+For the sites of [Stacks, Tag 03P3] this is
+`AlgebraicGeometry.bigOverAssociatedSheafGlobalCohomologyIso` and
+`AlgebraicGeometry.smallEtaleAssociatedSheafGlobalCohomologyIso`. -/
 def cohomologyAtFinalObjectIso (p : ℕ) (T : C) (hT : IsTerminal T) :
     Sheaf.H' (associatedSheaf F πC K hFa) p T ≅
       AddCommGrpCat.of (Sheaf.H (associatedSheaf F πC K hFa) p) :=
   Stacks.Cohomology.TerminalCohomology.h'IsoH K (associatedSheaf F πC K hFa) p T hT
 
-/-- **Stacks 03P3, second assertion.**  For **any** object `f : Y ⟶ S` of the site `C` of
-schemes over `S`,
+/-- **From the final object to an arbitrary object**, on an arbitrary site `C` of schemes over
+`S`: given, for the scheme `Y`, the module `f^*F` and the final object `t` of a site `D` of
+schemes over `Y`, an isomorphism `hFinal : H^p(Y, f^*F) ≅ H^p(t, (f^*F)^a)`, one gets
 
-`H^p(Y, f^*F) = H^p_τ(Y, F^a)`,
+`H^p(Y, f^*F) ≅ H^p(Y, F^a)`
 
-the left-hand side being the Zariski cohomology on `Y` of the pullback module `f^*F` and the
-right-hand side the `τ`-cohomology of the associated sheaf `F^a` over the object `f` of `C`.
-The object of `C` in question is `u t`, and `objAtFinalObjectIso` identifies it with
-`f : Y ⟶ S`.
+over the object `u t` of `C`, which `objAtFinalObjectIso` identifies with `f : Y ⟶ S`.
+`cohomologyAtObjectIso` moves the right-hand side of `hFinal` from `t` to `u t`.
 
-Theorem 03P2 is not available in this repository and is carried as the hypothesis `h03P2`, in
-the form in which that theorem is stated: the comparison for the scheme `Y`, the quasi-coherent
-module `f^*F` on it and the final object `t` of a site `D` of schemes over `Y`.  Everything
-else is proved: `cohomologyAtObjectIso` moves the right-hand side of `h03P2` from the final
-object of `D` to the object `u t` of `C`. -/
-@[stacks 03P3 "H^p(U, f^*F) = H^p_tau(U, F^a) at an arbitrary object f : U ⟶ S of the site, \
-with Theorem 03P2 at the final object carried as the hypothesis h03P2 and the sheaf conditions \
-of 03OG as hFa and hFaPullback"]
+For the sites of [Stacks, Tag 03P3] the statement is proved outright, with no input, as
+`AlgebraicGeometry.bigOverQuasiCoherentCohomologyIsoAtObject` and
+`AlgebraicGeometry.smallEtaleQuasiCoherentCohomologyIsoAtObject`. -/
 def zariskiCohomologyIsoCohomologyAtObject (e : u ⋙ πC ≅ πD ⋙ Over.map f) (p : ℕ) (t : D)
-    (h03P2 :
+    (hFinal :
       Sheaf.H'.{u, u, u} ((SheafOfModules.toSheaf Y.ringCatSheaf).obj
           ((Scheme.Modules.pullback f).obj F)) p (⊤ : Y.Opens) ≅
         Sheaf.H' (associatedSheafPullback f F πD J hFaPullback) p t) :
     Sheaf.H'.{u, u, u} ((SheafOfModules.toSheaf Y.ringCatSheaf).obj
         ((Scheme.Modules.pullback f).obj F)) p (⊤ : Y.Opens) ≅
       Sheaf.H' (associatedSheaf F πC K hFa) p (u.obj t) :=
-  h03P2 ≪≫ (cohomologyAtObjectIso f F πC πD u J K hFa hFaPullback e p t).symm
+  hFinal ≪≫ (cohomologyAtObjectIso f F πC πD u J K hFa hFaPullback e p t).symm
 
 end Comparison
 

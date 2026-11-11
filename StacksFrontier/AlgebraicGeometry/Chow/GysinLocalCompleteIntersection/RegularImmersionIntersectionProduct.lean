@@ -353,8 +353,22 @@ source's chain `i_*(i^!(c ∩ [X_d]_d)) = i_*(c ∩ i^![X_d]_d) = i_*(c ∩ [Y_d
 (`Stacks.Chow.regularImmersionPartGysinClass_commutesWithEveryClass`), Stacks 0FF7
 (`Stacks.Chow.regularImmersionPartGysinClass_capTargetHom_fundamentalChowClass`), the projection
 formula of a bivariant class (`Stacks.Chow.chowCohomologyCap_properChowPushforward_restriction`)
-and Stacks 0FC2 (`Stacks.WeilCohomology.canonicalDiagonalClassFamily_capEqProduct`). See the
-module documentation for the grading. -/
+and Stacks 0FC2 (`Stacks.WeilCohomology.canonicalDiagonalClassFamily_capEqProduct`).
+
+The hypotheses are exactly the source's: `[Field k]` and `[Smooth sX]` say that `X` is smooth over
+`k`; `[IsClosedImmersion i]` and `hreg` say that `i` is a regular closed immersion; `hY` says that
+`Y`, the fibre of `i ≫ sX` over the point of `Spec k`, is equidimensional of dimension `e`.
+Nothing else is assumed, and every proper pushforward is formed with
+`Stacks.Chow.properPushforwardDescends`.
+
+The source reduces to `X` equidimensional by decomposing `X` into connected components. Here the
+decomposition is into the parts `X_d`, and both sides are compared after restriction to each
+`X_d` (`Stacks.Chow.chowGroupDimPartEquiv` is injective). A class of `CH_n(X)` restricts on `X_d`
+to a class of codimension `d - n`, so it is the sum, part by part, of classes each in a single
+`CH^j(X)`; since both sides are additive and determined part by part, the statement for every
+`j` and every `α ∈ CH^j(X)` is the source's statement for every `α ∈ CH_*(X)`. When `X` is
+equidimensional of dimension `d`, `CH^j(X) = CH_{d-j}(X)` and the two gradings agree. See the
+module documentation. -/
 @[stacks 0FFE "the whole statement for a regular closed immersion i : Y → X with X smooth over a \
 field, of arbitrary dimension, and Y equidimensional of dimension e: α · [Y]_e = i_*(i^!(α)) \
 for every j and every α ∈ CH^j(X), the classes graded by codimension on the open and closed parts \

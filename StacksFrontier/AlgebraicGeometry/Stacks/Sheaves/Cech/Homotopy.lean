@@ -274,6 +274,7 @@ variable [Preadditive A]
 /-- The map `Γ(X, F) ⟶ Γ(U_0, f_0⁻¹F)` lies in the kernel of the differential `d⁰` of the Čech
 complex: its two composites with the coface pullbacks `δ⁰` and `δ¹` agree, so their alternating
 sum vanishes. -/
+@[stacks 06X3 "Γ(X, F) → Γ(U_0, f_0⁻¹F) lies in the kernel of d⁰"]
 public theorem augmentation_comp_d :
     augmentation p f F 0 ≫ (complex p f F).d 0 1 = 0 := by
   have hd : (complex p f F).d 0 1
@@ -296,6 +297,7 @@ variable [HasZeroObject A]
 
 /-- The extended Čech complex `… ⟶ 0 ⟶ Γ(X, F) ⟶ Γ(U_0, f_0⁻¹F) ⟶ Γ(U_1, f_1⁻¹F) ⟶ …`, with
 `Γ(X, F)` in degree `-1`. -/
+@[stacks 06X3 "the extended Čech complex"]
 public def extendedComplex : CochainComplex A ℤ :=
   (extendedComplexNat p f F).extend (ComplexShape.embeddingUpIntGE (-1))
 

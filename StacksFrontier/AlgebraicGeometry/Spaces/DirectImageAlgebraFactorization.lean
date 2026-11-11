@@ -17,7 +17,9 @@ module along a quasi-compact quasi-separated morphism, Stacks 03M9, which is a h
 `AlgebraicGeometry.Space.isQuasicoherent_pushforwardAlgebra`: the content proved here is that
 the module underlying the algebra `f_* 𝒪_Y` is the direct image of `𝒪_Y`.  The factorization is
 read off the anti-equivalence of Stacks 081V and its base-change compatibility, which are the
-parameters `E` and `C`.
+parameters `E` and `C`.  Stacks 081X itself is proved, with neither `E`, `C` nor Stacks 03M9
+assumed, by `AlgebraicGeometry.Space.directImageSpec_factorization` of
+`StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`.
 
 ## Main definitions
 
@@ -136,8 +138,8 @@ theorem underlyingModule_pushforwardAlgebra (f : Y ⟶ X) :
 
 /-- **The direct image of the structure sheaf along a quasi-compact, quasi-separated morphism of
 algebraic spaces is a quasi-coherent algebra.**  The hypothesis `h03M9` is Stacks 03M9, that such
-a direct image preserves quasi-coherence of modules. -/
-@[stacks 081X "quasi-coherence of the pushforward algebra"]
+a direct image preserves quasi-coherence of modules; the form with Stacks 03M9 supplied is
+`AlgebraicGeometry.Space.isQuasicoherent_pushforwardAlgebra_of_qcqs`. -/
 theorem isQuasicoherent_pushforwardAlgebra (f : Y ⟶ X)
     (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (h03M9 : IsQuasiCompact B S hS f.hom → IsQuasiSeparated B S hS f.hom →
@@ -161,7 +163,6 @@ def directImageFactorizationMap (f : Y ⟶ X)
 
 /-- **The canonical factorization `Y ⟶ \underline{Spec}_X(f_* 𝒪_Y) ⟶ X`.**  The canonical
 morphism composed with the structure morphism of the relative spectrum of `f_* 𝒪_Y` is `f`. -/
-@[stacks 081X "the canonical factorization"]
 theorem directImageFactorizationMap_factorization (f : Y ⟶ X)
     (hqc : (pushforwardAlgebra B S hS (Over.mk f)).IsQuasicoherent) :
     (directImageFactorizationMap B S hS E C f hqc).left ≫
@@ -196,9 +197,12 @@ def qcqsDirectImageFactorizationMap :
   directImageFactorizationMap B S hS E C f
     (isQuasicoherent_pushforwardAlgebra B S hS f hfqc hfqs h03M9)
 
-/-- **Stacks 081X.** A quasi-compact, quasi-separated morphism `f : Y ⟶ X` of algebraic spaces
-factors canonically as `Y ⟶ \underline{Spec}_X(f_* 𝒪_Y) ⟶ X`. -/
-@[stacks 081X "the canonical factorization of a quasi-compact quasi-separated morphism"]
+/-- A quasi-compact, quasi-separated morphism `f : Y ⟶ X` of algebraic spaces factors as
+`Y ⟶ \underline{Spec}_X(f_* 𝒪_Y) ⟶ X`, read off the anti-equivalence `E` and its base-change
+compatibility `C`.  Stacks 081X is registered on
+`AlgebraicGeometry.Space.directImageSpec_factorization` of
+`StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`, which proves it with nothing
+missing from the library. -/
 theorem qcqsDirectImageFactorizationMap_factorization :
     (qcqsDirectImageFactorizationMap B S hS E C f hfqc hfqs h03M9).left ≫
         (qcqsRelativeSpecDirectImage B S hS E f hfqc hfqs h03M9).obj.hom = f :=

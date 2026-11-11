@@ -15,25 +15,24 @@ diagonal and let `pr_i : X ×_Y X ⟶ X` be the two projections. Stacks 0FBS ass
 
   `Δ^! ∘ pr_i^! = 1`   in `A^0(X)`.
 
-Three things make that statement, and this file supplies all of them that this repository can
-support.
+The lemma itself, with `Δ^!` and `pr_i^!` the Gysin maps of Stacks 0FF3 in the completed groups
+of Stacks 0FE0, is `Stacks.Chow.diagonalGysinMap_comp_eq_completedIdentityClass` in
+`StacksFrontier.AlgebraicGeometry.Chow.DiagonalGysinMap`; at constant relative dimension it is also
+`Stacks.Chow.diagonalGysinClass_compFlatPullback_eq_one` in
+`StacksFrontier.AlgebraicGeometry.Chow.DiagonalGysinClassUnit`. Both are at the Gysin system of the
+first Chern class of an invertible module. This file supplies general pieces about the unit and
+about composites read in `A^0(X)`, for an arbitrary Gysin system.
 
-* The **right-hand side**, the unit `1 ∈ A^0(X) = A^0(X ⟶ X)`. It is built here: the bivariant
-  class of degree `0` for `𝟙 X` whose operation on each test scheme `g : T ⟶ X` is the identity
-  of `A_k(T)`, carried to the chosen pullback `X ×_X T` along the canonical isomorphism
-  `X ×_X T ≅ T`.
-* The **geometric inputs** of the source proof: `Δ ≫ pr_i = 𝟙 X` (which is
-  `CategoryTheory.Limits.pullback.diagonal_fst` and
-  `CategoryTheory.Limits.pullback.diagonal_snd` in Mathlib, and is used as such below) and the
-  availability of the Gysin maps of Stacks 0FF3 for `Δ` and for the two projections — the
-  diagonal is an immersion by Stacks 0FBR, and the projections are smooth by base change.
-* The **identity itself**, reduced to what the repository can state: a class in `A^0(X ⟶ X)`
-  equals `1` exactly when the operation it induces on every test scheme is the identity, and
-  the cap operation of a class witnessing the composition of a class for `Δ` with a class for
-  `pr_i`, transported along `Δ ≫ pr_i = 𝟙 X`, *is* the composite operation
-  `a ∩ (b ∩ -)`. Together: the composite of the two Gysin classes is `1` precisely when it acts
-  as the identity on Chow groups, and by `Stacks.Chow.eq_of_isBivariantClassComposition` there is
-  at most one class that composes them.
+* The unit `1 ∈ A^0(X) = A^0(X ⟶ X)`: the bivariant class of degree `0` for `𝟙 X` whose
+  operation on each test scheme `g : T ⟶ X` is the identity of `A_k(T)`, carried to the chosen
+  pullback `X ×_X T` along the canonical isomorphism `X ×_X T ≅ T`.
+* The availability of the Gysin maps of Stacks 0FF3 for the two projections, which are smooth by
+  base change; and `Δ ≫ pr_i = 𝟙 X` is `CategoryTheory.Limits.pullback.diagonal_fst` and
+  `CategoryTheory.Limits.pullback.diagonal_snd` in Mathlib.
+* A class in `A^0(X ⟶ X)` equals `1` exactly when the operation it induces on every test scheme
+  is the identity, and the cap operation of a class witnessing the composition of a class for
+  `Δ` with a class for `pr_i`, transported along `Δ ≫ pr_i = 𝟙 X`, is the composite operation
+  `a ∩ (b ∩ -)`.
 
 ## Main definitions
 
@@ -58,31 +57,21 @@ support.
   Gysin maps of the two projections are available, the projections being smooth by base change.
 * `Stacks.Chow.copy_cap_heq_bivariantCompositeCap` — for a class witnessing the composition of a
   class for `Δ` with one for `pr_i` in total degree `0`, the transport along `Δ ≫ pr_i = 𝟙 X`
-  caps by the composite operation. This is the left-hand side of Stacks 0FBS, read in
-  `A^0(X ⟶ X)`.
+  caps by the composite operation.
 
 ## Implementation notes
 
-### What is missing, and what it blocks
+### Where the classes `Δ^!` and `pr_i^!` live
 
-The classes `Δ^!` and `pr_i^!` themselves cannot be written down in this repository. The Gysin
-map of Stacks 0FF3 is `f^! = i^! ∘ g^*`, and all three of its inputs are absent: the
-higher-codimension class `c(Z ⟶ X, 𝒩)` of Stacks 0FBK, the flat-pullback bivariant class of
-Stacks 0B78, and a *construction* — as opposed to the characterization
-`Stacks.Chow.IsBivariantClassComposition` — of the composition of bivariant classes of
-Stacks 0B75, which is itself blocked on Stacks 0B6Y. See the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection` and of
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantComposition.Basic`.
+The Gysin class `Δ^!` is `Stacks.Chow.diagonalGysinClass` (Stacks 0FBR), the flat pullback class
+is `Stacks.Chow.flatPullbackBivariantClassOfInvertible` (Stacks 0B78), and their composite is
+`Stacks.Chow.bivariantCompositeOfInvertible` (Stacks 0B75), all at the Gysin system
+`Stacks.Chow.gysinSystemOfInvertible`. The statements of this file hold for any Gysin system, so
+there the factors are arbitrary bivariant classes `a` for `Δ` and `b` for `pr_i`, and the
+composite an arbitrary class witnessing `Stacks.Chow.IsBivariantClassComposition`; by
+`Stacks.Chow.eq_of_isBivariantClassComposition` there is at most one such class.
 
-So the two factors are carried as arbitrary bivariant classes `a` for `Δ` and `b` for `pr_i`,
-and the composite as an arbitrary class witnessing
-`Stacks.Chow.IsBivariantClassComposition`. Nothing is lost by that at the level of the
-conclusion: the composition formula pins the composite down
-(`Stacks.Chow.eq_of_isBivariantClassComposition`), so the content of Stacks 0FBS that remains
-once the composite exists is the identification of it with `1`, and that identification is the
-equivalence proved here.
-
-### The one hypothesis the identity class carries
+### The Gysin axiom of the identity class
 
 `Stacks.Chow.bivariantIdentityClass` is built from `Stacks.Chow.IdentityCapRule.toBivariantClass`
 and discharges two of the three naturality axioms of Stacks 0B76 outright. The proper axiom is
@@ -90,22 +79,16 @@ and discharges two of the three naturality axioms of Stacks 0B76 outright. The p
 projection formula is the transport lemma `Stacks.Chow.properChowPushforward_cast`. The flat axiom
 is the isomorphism case of Stacks 02RG,
 `Stacks.Chow.flatPullbackChow_chowPushforwardOfIso`, applied to the square formed by the two
-base-change isomorphisms `X ×_X T ≅ T` and `X ×_X T' ≅ T'`; that case *is* in this repository,
-so unlike the situation recorded in the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.Basic` the flat axiom is no obstruction
-here.
+base-change isomorphisms `X ×_X T ≅ T` and `X ×_X T' ≅ T'`.
 
-The Gysin axiom is a hypothesis, `hgysin`, stated as
+The Gysin axiom is an argument, `hgysin`, stated as
 `Stacks.Chow.IdentityCapRule.TransportGysinNaturality`, which is literally the `gysin_naturality`
-field of `Stacks.Chow.BivariantClass` for the transported identity rule, hence the weakest
-hypothesis that yields the class. It cannot be discharged: the axiom compares the Gysin map of a
-`Stacks.Chow.GysinSystem` on `T` with its Gysin map on `X ×_X T`, and the first Chern class rules
-a Gysin system supplies at two isomorphic schemes are unrelated data — the same obstruction that
-`Stacks.Chow.GysinSystem.IsNaturalUnderBaseChangeIso` resolves for Stacks 0F9Z in
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Restriction`. That hypothesis does not apply here
-unchanged, because one of the two modules compared would be the pullback of `L` along `𝟙 T`
-rather than `L` itself. Being a `Prop`, `hgysin` is proof-irrelevant: two values of
-`Stacks.Chow.bivariantIdentityClass` differing only in it are definitionally equal.
+field of `Stacks.Chow.BivariantClass` for the transported identity rule. It depends on the Gysin
+system: it compares the Gysin map of a `Stacks.Chow.GysinSystem` on `T` with its Gysin map on
+`X ×_X T`. At the Gysin system of the first Chern class of an invertible module it is proved, by
+`Stacks.Chow.IdentityCapRule.transportGysinNaturality`, and the resulting unit is
+`Stacks.Chow.bivariantIdentityClassOfInvertible`. Being a `Prop`, `hgysin` is proof-irrelevant:
+two values of `Stacks.Chow.bivariantIdentityClass` differing only in it are definitionally equal.
 
 ### Degrees
 
@@ -267,7 +250,7 @@ theorem identityCapRule_transportFlatNaturality :
 
 /-! ### The identity class `1 ∈ A^0(X)` -/
 
-/-- **Stacks 0FBS, the right-hand side.** The *identity bivariant class* `1 ∈ A^0(X)`: the
+/-- **The unit `1 ∈ A^0(X)`.** The *identity bivariant class* `1 ∈ A^0(X)`: the
 bivariant class of degree `0` for `𝟙 X` whose operation on every test scheme `g : T ⟶ X` is the
 identity of `A_k(T)`, carried to the chosen pullback `X ×_X T` along the canonical isomorphism.
 
@@ -276,11 +259,6 @@ The Gysin axiom of Stacks 0B76 is the hypothesis `hgysin`; it is literally the
 weakest hypothesis that produces the class, and it is a `Prop`, so the class does not depend on
 which proof is supplied. See the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Chow.DiagonalGysinIdentity`. -/
-@[stacks 0FBS "the right-hand side: the unit 1 ∈ A^0(X) of Stacks 0B76, built with the \
-proper and flat axioms discharged and the Gysin axiom of Stacks 0B76 for its cap operation \
-carried as a hypothesis; the Gysin classes Δ^! and pr_i^! of the left-hand side cannot be \
-written down here, their three inputs — Stacks 0FBK, 0B78 and a construction of the \
-composition of Stacks 0B75 — all being absent from this repository"]
 def bivariantIdentityClass (G : GysinSystem C)
     (hgysin : IdentityCapRule.TransportGysinNaturality C sX 0 (identityCapRule C sX) G) :
     BivariantClass C G sX sX (𝟙 X) (Category.id_comp sX) 0 :=
@@ -319,7 +297,7 @@ theorem bivariantIdentityClass_cap_pushforward_heq (G : GysinSystem C)
   rw [bivariantIdentityClass_cap_pushforward, identityCapRule_apply]
   exact chowGroup_cast_heq _ (sub_zero k).symm α
 
-/-- **Stacks 0FBS, the identification with `1`.** A bivariant class of degree `0` for `𝟙 X` is
+/-- **Identification with `1`.** A bivariant class of degree `0` for `𝟙 X` is
 the identity class exactly when the operation it induces on every test scheme is the identity.
 
 This is what the conclusion of Stacks 0FBS asserts of `Δ^! ∘ pr_i^!`, and the direction that
@@ -327,10 +305,6 @@ matters for the tag is the one from right to left: a composite acting as the ide
 groups *is* the class `1`. Uniqueness comes from
 `Stacks.Chow.BivariantClass.eq_of_pushforward_cap_eq`, pushforward along the base-change
 isomorphism being a bijection of Chow groups. -/
-@[stacks 0FBS "the conclusion, reduced to an identification: a degree-0 class for 𝟙 X equals \
-the unit 1 ∈ A^0(X) exactly when it acts as the identity on every test scheme; the composite \
-Δ^! ∘ pr_i^! itself is not constructed, the Gysin classes needing Stacks 0FBK, 0B78 and a \
-construction of the composition of Stacks 0B75"]
 theorem eq_bivariantIdentityClass_iff (G : GysinSystem C)
     (hgysin : IdentityCapRule.TransportGysinNaturality C sX 0 (identityCapRule C sX) G)
     (c : BivariantClass C G sX sX (𝟙 X) (Category.id_comp sX) 0) :
@@ -378,29 +352,23 @@ theorem BivariantClass.copy_cap (C : ChowSituation.{u}) (G : GysinSystem C) {X Y
 
 /-! ### The diagonal and the projections -/
 
-/-- **Stacks 0FBS, the geometric input for the first projection.** The Gysin map of Stacks 0FF3
+/-- **The Gysin map of the first projection exists.** The Gysin map of Stacks 0FF3
 is available for `pr_1 : X ×_Y X ⟶ X`, which is smooth because `f` is and smoothness is stable
 under base change. Together with `CategoryTheory.Limits.pullback.diagonal_fst`, which says
 `Δ ≫ pr_1 = 𝟙 X`, and `Stacks.Chow.gysinMapExists_diagonal_of_smooth`, this is the geometric
 content the source proof of Stacks 0FBS uses. -/
-@[stacks 0FBS "a geometric input: the Gysin map of the first projection X ×_Y X ⟶ X is \
-available, the projection being smooth by base change; the class pr_1^! itself is not \
-constructed, needing Stacks 0FBK, 0B78 and a construction of the composition of Stacks 0B75"]
 theorem gysinMapExists_fst_of_smooth {X Y : Scheme.{u}} (f : X ⟶ Y) [Smooth f] :
     GysinMapExists (pullback.fst f f) :=
   GysinMapExists.of_smooth _
 
-/-- **Stacks 0FBS, the geometric input for the second projection.** The Gysin map of Stacks 0FF3
+/-- **The Gysin map of the second projection exists.** The Gysin map of Stacks 0FF3
 is available for `pr_2 : X ×_Y X ⟶ X`, which is smooth by base change; and
 `CategoryTheory.Limits.pullback.diagonal_snd` says `Δ ≫ pr_2 = 𝟙 X`. -/
-@[stacks 0FBS "a geometric input: the Gysin map of the second projection X ×_Y X ⟶ X is \
-available, the projection being smooth by base change; the class pr_2^! itself is not \
-constructed, needing Stacks 0FBK, 0B78 and a construction of the composition of Stacks 0B75"]
 theorem gysinMapExists_snd_of_smooth {X Y : Scheme.{u}} (f : X ⟶ Y) [Smooth f] :
     GysinMapExists (pullback.snd f f) :=
   GysinMapExists.of_smooth _
 
-/-! ### The left-hand side of Stacks 0FBS, read in `A^0(X)` -/
+/-! ### A composite for the diagonal and a projection, read in `A^0(X)` -/
 
 section Composite
 
@@ -410,22 +378,18 @@ variable (G : GysinSystem C) {Y : Scheme.{u}} (f : X ⟶ Y) (sP : pullback f f �
   (hdiag : pullback.diagonal f ≫ pr = 𝟙 X) (hΔ : pullback.diagonal f ≫ sP = sX)
   (hpr : pr ≫ sX = sP) (hpp : ProperPushforwardDescends C) {p q : ℤ} (hpq : p + q = 0)
 
-/-- **Stacks 0FBS, the left-hand side.** Let `pr : X ×_Y X ⟶ X` be a projection, so that
-`Δ ≫ pr = 𝟙 X`, let `a ∈ A^p(X ⟶ X ×_Y X)` be a bivariant class for the diagonal — the slot
-`Δ^!` occupies — and let `b ∈ A^q(X ×_Y X ⟶ X)` be one for the projection, the slot `pr^!`
-occupies, with `p + q = 0`. If `c` witnesses that it is the composition of `a` and `b`, then the
-class in `A^0(X ⟶ X)` that `c` becomes under `Δ ≫ pr = 𝟙 X` caps by the composite operation
-`a ∩ (b ∩ -)`.
+/-- **A composite for `Δ` and a projection, read in `A^0(X)`.** Let `pr : X ×_Y X ⟶ X` be a
+projection, so that `Δ ≫ pr = 𝟙 X`, let `a ∈ A^p(X ⟶ X ×_Y X)` be a bivariant class for the
+diagonal — the slot `Δ^!` occupies — and let `b ∈ A^q(X ×_Y X ⟶ X)` be one for the projection,
+the slot `pr^!` occupies, with `p + q = 0`. If `c` witnesses that it is the composition of `a`
+and `b`, then the class in `A^0(X ⟶ X)` that `c` becomes under `Δ ≫ pr = 𝟙 X` caps by the
+composite operation `a ∩ (b ∩ -)`.
 
 With `Stacks.Chow.eq_bivariantIdentityClass_iff` this says that `Δ^! ∘ pr^! = 1` holds exactly
 when the composite operation acts as the identity on the Chow groups of every test scheme; and
 by `Stacks.Chow.eq_of_isBivariantClassComposition` there is at most one class `c` witnessing the
-composition, so no generality is lost by carrying it as a hypothesis. -/
-@[stacks 0FBS "the left-hand side, read in A^0(X): the transport along Δ ≫ pr_i = 𝟙 X of a \
-bivariant class witnessing the composition of one for Δ with one for pr_i in total degree 0 \
-caps by the composite operation; the Gysin classes Δ^! and pr_i^! are carried as arbitrary \
-bivariant classes, since Stacks 0FBK, 0B78 and a construction of the composition of \
-Stacks 0B75 are all absent from this repository"]
+composition. For the Gysin maps themselves the identity is
+`Stacks.Chow.diagonalGysinMap_comp_eq_completedIdentityClass`. -/
 theorem copy_cap_heq_bivariantCompositeCap
     (a : BivariantClass C G sX sP (pullback.diagonal f) hΔ p)
     (b : BivariantClass C G sP sX pr hpr q)

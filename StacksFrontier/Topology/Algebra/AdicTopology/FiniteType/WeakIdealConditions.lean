@@ -40,6 +40,7 @@ image.
 
 ## References
 
+* [Stacks Project, Tag 0ANJ](https://stacks.math.columbia.edu/tag/0ANJ)
 * [Stacks Project, Tag 0ANT](https://stacks.math.columbia.edu/tag/0ANT)
 * [Stacks Project, Tag 0ANU](https://stacks.math.columbia.edu/tag/0ANU)
 * [Stacks Project, Tag 07RD](https://stacks.math.columbia.edu/tag/07RD)
@@ -504,6 +505,29 @@ theorem exists_fundamental_weak_ideal_sequence
     · rintro ⟨m, _, hm⟩
       exact Filter.mem_of_superset ((hJopen m).mem_nhds (J m).zero_mem) hm
   exact ⟨J, hJweak, hJanti, hJbasis⟩
+
+/-- **Stacks 0ANJ**, (a) ⇔ (b) as stated: for a continuous arrow `B → A` of weakly admissible
+linearly topologized rings with `B` having a countable fundamental system of neighbourhoods of
+zero, `B → A` is taut if and only if for every decreasing fundamental sequence `J n` of weak
+ideals of definition of `B` there is a commutative diagram of discrete rings `Aₙ` over
+`B → B ⧸ J n` with `Aₙ₊₁ ⧸ J n Aₙ₊₁ = Aₙ` and `A = lim Aₙ` as topological rings. -/
+@[stacks 0ANJ "(a) ⇔ (b)"]
+theorem isTaut_iff_forall_exists_isQuotientDiagram {A B : Type u}
+    [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
+    [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
+    (f : B →+* A) (hf : Continuous f)
+    (hA : TopologicalRing.IsWeaklyAdmissible A) (hB : TopologicalRing.IsWeaklyAdmissible B)
+    (hBcount : (nhds (0 : B)).IsCountablyGenerated) :
+    RingHom.IsTaut f ↔
+      ∀ (J : ℕ → Ideal B) (hJ : RingHom.QuotientDiagram.IsFundamentalSequence J),
+        ∃ (Aₙ : ℕ → Type u) (_ : ∀ n, CommRing (Aₙ n)) (_ : ∀ n, TopologicalSpace (Aₙ n))
+          (π : ∀ n, A →+* Aₙ n) (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (σ : ∀ n, B ⧸ J n →+* Aₙ n),
+          RingHom.QuotientDiagram.IsQuotientDiagram f J hJ.2.1 π t σ := by
+  refine ⟨fun ht J hJ ↦
+    (RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram f hf hA hB J hJ).mp ht,
+    fun h ↦ ?_⟩
+  obtain ⟨J, hJ⟩ := exists_fundamental_weak_ideal_sequence B hB hBcount
+  exact (RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram f hf hA hB J hJ).mpr (h J hJ)
 
 theorem finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType
     (φ : B →+* A)

@@ -26,7 +26,7 @@ spectra.
 * `AlgebraicGeometry.ProEtale.primeSpectrum_isProfinite_of_weaklyEtale`: a weakly étale algebra
   over a ring with profinite spectrum has profinite spectrum.
 * `AlgebraicGeometry.ProEtale.primeSpectrum_isProfinite_of_isLocalIso`: the same for a local
-  isomorphism.
+  isomorphism in Mathlib's spelling `Algebra.IsLocalIso`.
 * `AlgebraicGeometry.ProEtale.primeSpectrum_isProfinite_of_identifiesLocalRings`: the same for
   an algebra that identifies local rings.
 * `AlgebraicGeometry.ProEtale.primeSpectrum_isProfinite_of_directLimit`: the direct limit of a
@@ -40,22 +40,18 @@ is the canonical one induced by the ring homomorphism. In the weakly étale case
 homomorphism is presented by an algebra structure and weak étaleness by Mathlib's
 `Algebra.WeaklyEtale`.
 
-The local isomorphism and identifies-local-rings cases both reduce to the algebraic residue
-field case through `RingHom.SurjectiveOnStalks`: if `A_{𝔭} → B_𝔮` is surjective for every prime
-`𝔮` of `B` with `𝔭 = 𝔮 ∩ A`, then `κ(𝔭) → κ(𝔮)` is bijective by
+The variant for `Algebra.IsLocalIso` and the identifies-local-rings case both reduce to the
+algebraic residue field case through `RingHom.SurjectiveOnStalks`: if `A_{𝔭} → B_𝔮` is
+surjective for every prime `𝔮` of `B` with `𝔭 = 𝔮 ∩ A`, then `κ(𝔭) → κ(𝔮)` is bijective by
 `RingHom.SurjectiveOnStalks.residueFieldMap_bijective`, so the residue field extension is
 trivial and in particular algebraic. That is the source's own route, which derives both cases
-from the algebraic residue field case. Local isomorphisms are taken in Mathlib's spelling
-`Algebra.IsLocalIso` (Tag 096E part (1)) and "identifies local rings" in the spelling
+from the algebraic residue field case. "Identifies local rings" is taken in the spelling
 `Algebra.IdentifiesLocalRings` (Tag 096E part (2)).
 
 `Algebra.IsLocalIso` asks, for every prime `𝔮` of `B`, for some `g ∉ 𝔮` making `B_g` a
 localization of `A` away from an element of `A`, where the source asks only that
-`Spec(B_g) → Spec(A)` be an open immersion. The two agree: a localization away from an element
-is an open immersion, and conversely the image of an open immersion contains a basic open
-`D(r)` around the point of `𝔮`, whose preimage is `D(gr)`, so replacing `g` by `gr` makes the
-comparison a localization of `A` away from `r`. Both conditions are local at `𝔮`, which is what
-licenses the shrinking.
+`Spec(B_g) → Spec(A)` be an open immersion; the source's case is stated with its own hypothesis
+in `StacksFrontier.AlgebraicGeometry.ProEtale.WLocal.ProfiniteSpectrumOpenImmersion`.
 
 The filtered colimit case is stated for a directed system over a nonempty directed preorder with
 `Ring.DirectLimit` as the colimit, matching the spelling of `IsFilteredColimitOfEtale`, and the
@@ -184,8 +180,7 @@ theorem primeSpectrum_isProfinite_of_identifiesLocalRings
     (surjectiveOnStalks_of_identifiesLocalRings hid) hA
 
 /-- A local isomorphism over a ring with profinite prime spectrum has target with profinite
-prime spectrum. -/
-@[stacks 0978 "local_isomorphism"]
+prime spectrum, with local isomorphisms in Mathlib's spelling `Algebra.IsLocalIso`. -/
 theorem primeSpectrum_isProfinite_of_isLocalIso
     (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] [Algebra.IsLocalIso A B]
     (hA : CompactSpace (PrimeSpectrum A) ∧ T2Space (PrimeSpectrum A) ∧

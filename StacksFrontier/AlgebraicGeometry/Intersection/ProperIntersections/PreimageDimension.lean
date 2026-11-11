@@ -33,20 +33,27 @@ dimension at least `d + r`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`: a morphism is a local
-  complete intersection morphism of relative dimension `r` when it locally factors through a
-  relative affine space by a Koszul-regular immersion, and every such factorization through
-  `𝐀^J_Y` has conormal sheaf of rank `#J - r`.
+* `AlgebraicGeometry.IsLocalCompleteIntersectionMorphismOfRelativeDimension`: a morphism is a
+  local complete intersection morphism of relative dimension `r` when near every point it factors
+  through a relative affine space `𝐀^J_Y` by a Koszul-regular immersion whose conormal sheaf has
+  rank `#J - r`.
+* `AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`: an earlier variant that
+  imposes the rank condition on every factorization over every open, including the empty one,
+  and is therefore unsatisfiable for `r ≥ 1`; it implies the former.
 
 ## Main results
 
-* `AlgebraicGeometry.topologicalKrullDim_component_pullback_bounds`: **Stacks tag 0AZN**, both
-  bounds in one statement, each under the hypotheses the source gives it.
+* `AlgebraicGeometry.topologicalKrullDim_component_pullback_lower_bounds`: **Stacks tag 0AZN**,
+  both bounds in one statement, each under the hypotheses the source gives it.
 * `AlgebraicGeometry.topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion`:
   **Stacks tag 0AZN, part (1)**, the codimension bound for a regular immersion.
-* `AlgebraicGeometry.exists_add_relativeDimension_le_topologicalKrullDim_component_pullback`:
+* `IsLocalCompleteIntersectionMorphismOfRelativeDimension.exists_add_le_topologicalKrullDim`:
   **Stacks tag 0AZN, part (2)**, the relative-dimension bound for a local complete intersection
-  morphism.
+  morphism of relative dimension `r`.
+* `AlgebraicGeometry.topologicalKrullDim_component_pullback_bounds` and
+  `AlgebraicGeometry.exists_add_relativeDimension_le_topologicalKrullDim_component_pullback`: the
+  same bounds with part (2) for `AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`,
+  vacuous for `r ≥ 1`.
 * `AlgebraicGeometry.topologicalKrullDim_le_topologicalKrullDim_component_add`: the bound for an
   immersion whose stalk kernels need at most `c` generators, which is the local heart of both.
 * `AlgebraicGeometry.spanFinrank_ker_stalkMap_le_of_conormal_rank`: an immersion whose conormal
@@ -616,10 +623,11 @@ satisfies `dim Z ≤ dim W + c`, that is, has dimension at least `dim Z - c`.
 
 This is the first of the two bounds of Tag 0AZN, under the hypotheses the source gives that
 bound. The tag is registered on the statement of both bounds,
-`AlgebraicGeometry.topologicalKrullDim_component_pullback_bounds`. -/
+`AlgebraicGeometry.topologicalKrullDim_component_pullback_lower_bounds`. -/
 theorem topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) [IsImmersion f] (c : ℕ)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) [IsImmersion f] (hf : f ≫ sY = sX)
+    (hreg : Stacks.AlgebraicGeometry.RegularIdealSheaf.IsRegularImmersion f) (c : ℕ)
     [SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} (Stacks.Conormal.conormalSheaf f) c]
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
@@ -711,12 +719,19 @@ private lemma exists_topologicalKrullDim_eq_natCast_of_irreducible (k : Type u) 
 
 /-! ### Local complete intersection morphisms of a given relative dimension -/
 
-/-- A morphism `f : X ⟶ Y` is a **local complete intersection morphism of relative dimension
-`r`** if every point of `X` has an open neighbourhood `U` over which `f` factors as a
-Koszul-regular immersion `i : U ⟶ 𝐀^J_Y` followed by the projection, and if in every such
-factorization the conormal sheaf of `i` is finite locally free of rank `#J - r`.
+/-- Every point of `X` has an open neighbourhood `U` over which `f` factors as a Koszul-regular
+immersion `i : U ⟶ 𝐀^J_Y` followed by the projection, and in every such factorization, over any
+open `U` whatsoever, the conormal sheaf of `i` is finite locally free of some rank `c` with
+`#J = r + c`.
 
-The relative dimension is an integer, negative for a regular immersion. -/
+This is **not** the source's notion of a local complete intersection morphism of relative
+dimension `r`, and it is unsatisfiable for every `r ≥ 1`: its second clause also quantifies over
+the empty open `U = ⊥`, where the unique morphism `∅ ⟶ 𝐀^∅_Y` is a Koszul-regular immersion
+(the support of its quotient is empty) and the factorization holds trivially, so it demands
+`0 = r + c` for some `c : ℕ`; this is
+`AlgebraicGeometry.not_isLocalCompleteIntersectionOfRelativeDimension_of_pos`. The source's
+notion is `AlgebraicGeometry.IsLocalCompleteIntersectionMorphismOfRelativeDimension`, which this
+condition implies (`IsLocalCompleteIntersectionOfRelativeDimension.of_relativeDimension`). -/
 def IsLocalCompleteIntersectionOfRelativeDimension {X Y : Scheme.{u}} (f : X ⟶ Y) (r : ℤ) :
     Prop :=
   (∀ x : X, ∃ (J : Type u) (_ : Fintype J) (U : X.Opens) (_ : x ∈ U)
@@ -732,6 +747,41 @@ def IsLocalCompleteIntersectionOfRelativeDimension {X Y : Scheme.{u}} (f : X ⟶
           ∃ c : ℕ, SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
             (Stacks.Conormal.conormalSheaf i) c ∧ ((Fintype.card J : ℤ) = r + c))
 
+/-- A morphism `f : X ⟶ Y` is a **local complete intersection morphism of relative dimension
+`r`** if every point `x` of `X` has an open neighbourhood `U` over which `f` factors as a
+Koszul-regular immersion `i : U ⟶ 𝐀^J_Y` into a finite-dimensional affine space over `Y`
+followed by the projection, where the conormal sheaf of `i` is finite locally free of a rank `c`
+with `#J - c = r`.
+
+This is the factorization of a local complete intersection morphism (Stacks 069F, with the
+smooth `P` taken to be `𝐀^n_Y`, as in the discussion following that definition) together with
+the bookkeeping `n - c = r` of the relative dimension: `n = #J` is the relative dimension of the
+smooth part and `c`, the rank of the conormal sheaf, is the codimension of the Koszul-regular
+part. The relative dimension is an integer, negative for a regular immersion. The projection
+`𝐀^n_Y ⟶ Y` has relative dimension `n`, by
+`AlgebraicGeometry.isLocalCompleteIntersectionMorphismOfRelativeDimension_affineSpace`. -/
+def IsLocalCompleteIntersectionMorphismOfRelativeDimension {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (r : ℤ) : Prop :=
+  ∀ x : X, ∃ (J : Type u) (_ : Fintype J) (U : X.Opens) (_ : x ∈ U)
+    (i : U.toScheme ⟶ AffineSpace J Y) (hi : IsImmersion i),
+    letI : IsImmersion i := hi
+    Stacks.AlgebraicGeometry.RegularIdealSheaf.IsKoszulRegularImmersion i ∧
+      U.ι ≫ f = i ≫ ((AffineSpace J Y) ↘ Y) ∧
+      ∃ c : ℕ, SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+        (Stacks.Conormal.conormalSheaf i) c ∧ (Fintype.card J : ℤ) = r + c
+
+/-- The condition `AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension` implies
+`AlgebraicGeometry.IsLocalCompleteIntersectionMorphismOfRelativeDimension`: the rank condition
+it imposes on every factorization holds in particular on the chosen one. -/
+theorem IsLocalCompleteIntersectionOfRelativeDimension.of_relativeDimension
+    {X Y : Scheme.{u}} {f : X ⟶ Y} {r : ℤ}
+    (h : IsLocalCompleteIntersectionOfRelativeDimension f r) :
+    IsLocalCompleteIntersectionMorphismOfRelativeDimension f r := by
+  intro x
+  obtain ⟨J, hJ, U, hxU, i, hi, hkos, hfac⟩ := h.1 x
+  let : Fintype J := hJ
+  exact ⟨J, hJ, U, hxU, i, hi, hkos, hfac, h.2 J U i hi hkos hfac⟩
+
 /-- **Stacks Project, Tag 0AZN, part (2).** Let `f : X ⟶ Y` be a morphism of varieties over a
 field which is a local complete intersection morphism of relative dimension `r`, and let
 `Z ⊆ Y` be a closed subvariety, of dimension `d`. Then every irreducible component `W` of the
@@ -740,11 +790,11 @@ are natural numbers.
 
 This is the second of the two bounds of Tag 0AZN, under the hypotheses the source gives that
 bound. The tag is registered on the statement of both bounds,
-`AlgebraicGeometry.topologicalKrullDim_component_pullback_bounds`. -/
-theorem exists_add_relativeDimension_le_topologicalKrullDim_component_pullback
+`AlgebraicGeometry.topologicalKrullDim_component_pullback_lower_bounds`. -/
+theorem IsLocalCompleteIntersectionMorphismOfRelativeDimension.exists_add_le_topologicalKrullDim
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (r : ℤ)
-    (hlci : IsLocalCompleteIntersectionOfRelativeDimension f r)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (_hf : f ≫ sY = sX) (r : ℤ)
+    (hlci : IsLocalCompleteIntersectionMorphismOfRelativeDimension f r)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
     (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
@@ -764,10 +814,10 @@ theorem exists_add_relativeDimension_le_topologicalKrullDim_component_pullback
   have : IsNoetherian X := isNoetherian_of_compact_ofFiniteType sX
   obtain ⟨x, -, hxW, -⟩ :=
     exists_closed_point_mem_unique_irreducibleComponent k T sT W hW
-  obtain ⟨J, hJ, U, hxU, i, hi, hkos, hfac⟩ := hlci.1 ((pullback.fst f I.subschemeι).base x)
+  obtain ⟨J, hJ, U, hxU, i, hi, hkos, hfac, c, hc, hcard⟩ :=
+    hlci ((pullback.fst f I.subschemeι).base x)
   let : Fintype J := hJ
   have : IsImmersion i := hi
-  obtain ⟨c, hc, hcard⟩ := hlci.2 J U i hi hkos hfac
   have : SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
     (Stacks.Conormal.conormalSheaf i) c := hc
   let o : (pullback U.ι (pullback.fst f I.subschemeι) : Scheme.{u}) ⟶ T :=
@@ -817,6 +867,22 @@ theorem exists_add_relativeDimension_le_topologicalKrullDim_component_pullback
   have hnat : d + Fintype.card J ≤ m + c := by exact_mod_cast key
   omega
 
+/-- The bound of Tag 0AZN, part (2), for a morphism satisfying the condition
+`AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`. That condition is
+unsatisfiable for `r ≥ 1` (see its docstring), so this is not the source's part (2), which is
+`IsLocalCompleteIntersectionMorphismOfRelativeDimension.exists_add_le_topologicalKrullDim`; it is
+deduced from it. -/
+theorem exists_add_relativeDimension_le_topologicalKrullDim_component_pullback
+    (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX) (r : ℤ)
+    (hlci : IsLocalCompleteIntersectionOfRelativeDimension f r)
+    (I : Y.IdealSheafData) [IsIntegral I.subscheme]
+    (W : Set (pullback f I.subschemeι : Scheme.{u}))
+    (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
+    ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
+      topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ) := by
+  exact hlci.of_relativeDimension.exists_add_le_topologicalKrullDim k sX sY f hf r I W hW
+
 /-! ### The whole of Stacks 0AZN -/
 
 /-- **Stacks Project, Tag 0AZN.** Let `f : X ⟶ Y` be a morphism of varieties over a field, let
@@ -839,19 +905,47 @@ of the scheme-theoretic inverse image `f⁻¹(Z) = X ×_Y Z`. (1) when `f` is a 
 whose conormal sheaf is finite locally free of rank `c` — the source's codimension — \
 `dim Z ≤ dim W + c`; (2) when `f` is a local complete intersection morphism of relative \
 dimension `r`, in the sense of \
-`AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`, `d + r ≤ m` for `d = dim Z` \
-and `m = dim W`. The regular-immersion data of (1) and the local complete intersection data of \
-(2) are the source's own, and each binds inside its own clause, as in the source. Dimensions are \
+`AlgebraicGeometry.IsLocalCompleteIntersectionMorphismOfRelativeDimension`, `d + r ≤ m` for \
+`d = dim Z` and `m = dim W`. The regular-immersion data of (1) and the local complete \
+intersection data of (2) are the source's own, and each binds inside its own clause, as in the \
+source. Dimensions are \
 `topologicalKrullDim`, valued in `WithBot ℕ∞`, which has no subtraction, so the source's \
 `dim W ≥ d - c` is spelled as the relation `dim Z ≤ dim W + c`; in (2) the relative dimension is \
 an integer and may be negative, so the two dimensions are produced as the natural numbers they \
 are — both are transcendence degrees of residue fields over the base field — and `d + r ≤ m` is \
 an inequality in `ℤ`. The two bounds are \
 `AlgebraicGeometry.topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion` and \
-`AlgebraicGeometry.exists_add_relativeDimension_le_topologicalKrullDim_component_pullback`."]
+`AlgebraicGeometry.IsLocalCompleteIntersectionMorphismOfRelativeDimension.\
+exists_add_le_topologicalKrullDim`. The relative-dimension condition here replaces \
+`AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`, which imposes its rank \
+condition also over the empty open and is therefore unsatisfiable for `r ≥ 1`."]
+theorem topologicalKrullDim_component_pullback_lower_bounds
+    (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX)
+    (I : Y.IdealSheafData) [IsIntegral I.subscheme]
+    (W : Set (pullback f I.subschemeι : Scheme.{u}))
+    (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
+    (∀ [IsImmersion f], Stacks.AlgebraicGeometry.RegularIdealSheaf.IsRegularImmersion f →
+        ∀ (c : ℕ) [SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+          (Stacks.Conormal.conormalSheaf f) c],
+          topologicalKrullDim I.subscheme ≤ topologicalKrullDim W + (c : WithBot ℕ∞)) ∧
+      (∀ r : ℤ, IsLocalCompleteIntersectionMorphismOfRelativeDimension f r →
+        ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
+          topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ)) := by
+  refine ⟨fun hreg c => ?_, fun r hlci => ?_⟩
+  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f hf hreg c
+      I W hW
+  · exact hlci.exists_add_le_topologicalKrullDim k sX sY f hf r I W hW
+
+/-- The two bounds of Tag 0AZN in one statement, with part (2) stated for the condition
+`AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`. That condition is
+unsatisfiable for every `r ≥ 1` (see its docstring), so the second clause is not the source's
+part (2) and this is not the statement of Tag 0AZN, which is
+`AlgebraicGeometry.topologicalKrullDim_component_pullback_lower_bounds`; the first clause is the
+source's part (1). -/
 theorem topologicalKrullDim_component_pullback_bounds
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
     (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
@@ -862,9 +956,10 @@ theorem topologicalKrullDim_component_pullback_bounds
       (∀ r : ℤ, IsLocalCompleteIntersectionOfRelativeDimension f r →
         ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
           topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ)) := by
-  refine ⟨fun _ c => ?_, fun r hlci => ?_⟩
-  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f c I W hW
-  · exact exists_add_relativeDimension_le_topologicalKrullDim_component_pullback k sX sY f r
+  refine ⟨fun hreg c => ?_, fun r hlci => ?_⟩
+  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f hf hreg c
+      I W hW
+  · exact exists_add_relativeDimension_le_topologicalKrullDim_component_pullback k sX sY f hf r
       hlci I W hW
 
 end AlgebraicGeometry

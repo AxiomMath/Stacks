@@ -21,11 +21,14 @@ Cartier, hence a regular immersion of codimension one, and both classes send `[Y
 `c(D ⟶ X, 𝒩)` by Stacks 0FBM; while for `Y` contained in `D` both send `[Y]_n` to
 `c_1(𝒩) ∩ [Y]_n`, again by Definition 02T8 and by Stacks 0FBM.
 
-All three steps are carried out here. The reduction is proved from Stacks 02UC, and
-the value of `c(D ⟶ X, 𝒩)` in the first case is Stacks 0FBM. What is carried are the
-values of the *Gysin* homomorphism on a fundamental class in the two cases, and the value of
-`c(D ⟶ X, 𝒩)` in the second; see the implementation notes for exactly which statements those are
-and why none of them is the conclusion.
+This file carries out the reduction, proved from Stacks 02UC, and the value of `c(D ⟶ X, 𝒩)`
+in the first case, Stacks 0FBM. What is carried are the values of the *Gysin* homomorphism on a
+fundamental class in the two cases, and the value of `c(D ⟶ X, 𝒩)` in the second; see the
+implementation notes for exactly which statements those are. The statement proved here is
+therefore a conditional form of Stacks 0FBN and is not registered as it. Stacks 0FBN itself, for
+the constructed classes and with no hypotheses beyond the source's, is
+`Stacks.Chow.gysinBivariantClass_eq_virtualNormalBundleClass` in
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.DivisorVirtualNormalBundleClass`.
 
 ## Main definitions
 
@@ -44,9 +47,8 @@ and why none of them is the conclusion.
   every integral test scheme are equal.
 * `Stacks.Chow.gysinBivariantCap_eq_virtualNormalGysinCap_of_offDivisor` — the first case of the
   source's proof: off the divisor both operations give `[D ×_X Y]_{n-1}`.
-* `Stacks.Chow.gysinBivariantClass_eq_virtualNormalGysinClass` — **Stacks 0FBN**: the Gysin
-  class of the triple and the virtual normal class of `i^*ℒ` are the same element of
-  `A^1(D ⟶ X)`.
+* `Stacks.Chow.gysinBivariantClass_eq_virtualNormalGysinClass` — a conditional form of
+  Stacks 0FBN, under carried hypotheses; see its docstring.
 
 ## Implementation notes
 
@@ -74,7 +76,8 @@ sheaf. For `𝒩 = i^*ℒ` the tag's surjection is the canonical isomorphism
 zero scheme of a section to its conormal sheaf, or to a regular immersion of codimension one.
 So the virtual normal bundle and its bundle projection are data, as they are in every other
 consumer of Stacks 0FBK here, and the identification of the underlying module with `i^*ℒ` is
-the hypothesis `_hbundle`. The same choice is made in the statement of Stacks 0FBN.
+the hypothesis `_hbundle`. The same choice is made in the statement of
+`Stacks.Chow.gysinBivariantClass_eq_virtualNormalGysinClass`.
 
 ### What is carried in each case, and why
 
@@ -182,8 +185,8 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {X NB : Scheme.{u}} (sX : X
 test scheme contained in `D`.
 
 It is carried rather than constructed because the cap product with the Chern classes is
-`chernClassCapOnChow` of Stacks 0B7G, which is not formalized; only its degree, one, enters below,
-and that is fixed by the typing. -/
+`chernClassCapOnChow` of Stacks 0B7G, which is not formalized; only its degree, one, enters
+below, and that is fixed by the typing. -/
 abbrev DivisorTopChernCapFamily : Type (u + 1) :=
   ∀ {Y : Scheme.{u}} (g : Y ⟶ X) [LocallyOfFiniteType g] (n : ℤ),
     chowGroup C (pullback.fst (gysinTripleInclusion L s) g ≫
@@ -248,18 +251,19 @@ def VirtualNormalCapFundamentalOnDivisor (cTop : DivisorTopChernCapFamily C sX L
       cTop g n (fundamentalChowClass C
         (pullback.fst (gysinTripleInclusion L s) g ≫ (gysinTripleInclusion L s ≫ sX)) n)
 
-/-- **The first case of the proof of Stacks 0FBN.** On an integral test scheme `Y` not contained
-in the divisor, the Gysin cap operation and the cap operation of `c(D ⟶ X, 𝒩)` both send `[Y]_n`
-to the fundamental class of `D ×_X Y` in degree `n - 1`.
+/-- **The first case of the source's proof of Stacks 0FBN, conditionally.** On an integral test
+scheme `Y` not contained in the divisor, the Gysin cap operation and the cap operation of
+`c(D ⟶ X, 𝒩)` both send `[Y]_n` to the fundamental class of `D ×_X Y` in degree `n - 1`.
 
 The Gysin value is the carried `Stacks.Chow.GysinCapFundamentalOffDivisor`; the value of
 `c(D ⟶ X, 𝒩)` is Stacks 0FBM at vanishing excess,
 `Stacks.Chow.virtualNormalGysinCap_fundamentalChowClass`, whose three hypotheses — the
 injectivity of Stacks 02TY, the value of `ι_* ∘ j^* ∘ C` on the fundamental class, and the
-δ-dimension bound — appear here as `hinj`, `hcone` and `hdim`. -/
-@[stacks 0FBN "the case of a test scheme not contained in D: the value of the virtual
-normal class there, which is Tag 0FBM at vanishing excess. The Gysin side of this
-case is carried; see `Stacks.Chow.gysinBivariantClass_eq_virtualNormalGysinClass`"]
+δ-dimension bound — appear here as `hinj`, `hcone` and `hdim`.
+
+This is not registered as Stacks 0FBN: the Gysin value `hoff` is carried. The unconditional case
+is `Stacks.Chow.gysinBivariantCap_fundamentalChowClass_of_ne_zero` together with
+`Stacks.Chow.virtualNormalBundleClass_cap_fundamentalChowClass_of_ne_zero`. -/
 theorem gysinBivariantCap_eq_virtualNormalGysinCap_of_offDivisor
     (hinj : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),
       Function.Injective
@@ -290,31 +294,23 @@ theorem gysinBivariantCap_eq_virtualNormalGysinCap_of_offDivisor
   exact (virtualNormalGysinCap_fundamentalChowClass C G (gysinTripleInclusion L s ≫ sX) sX sNB
     (gysinTripleInclusion L s) rfl q hq 1 E P hdesc hinj hc g n hdim hcone).symm
 
-/-- **Stacks 0FBN.** Let `(S, δ)` be the base situation of chapter 42, let `X` be locally of
-finite type over `S` and let `(ℒ, s, i : D ⟶ X)` be a triple as in Definition 02T8. Let
-`𝒩 = i^*ℒ`, a virtual normal sheaf of rank one for `D` in `X`. Then the Gysin homomorphism `i^*`,
-viewed as an element of `A^1(D ⟶ X)` by Stacks 0B79, is the bivariant class `c(D ⟶ X, 𝒩)` of
-Stacks 0FBK.
+/-- **A conditional form of Stacks 0FBN; not the tag.** Let `(S, δ)` be the base situation of
+chapter 42, let `X` be locally of finite type over `S` and let `(ℒ, s, i : D ⟶ X)` be a triple as in
+Definition 02T8. For a bivariant class `gys` characterized as the Gysin class of Stacks 0B79 and a
+class `c` characterized by the relation of Stacks 0FBK against a given virtual normal sheaf whose
+module is `i^*ℒ`, this concludes `gys = c` from carried hypotheses: the Gysin values `hoff`, `hon`,
+the virtual normal value `hvn` (pinned to the arbitrary family `cTop`), the injectivity `hinj` of
+Stacks 02TY, and `hdim`, `hcone`.
 
-The proof is the source's: by Stacks 02UC it is enough to compare the two classes on the
-fundamental class of every integral test scheme, and there the two cases of the source are
-`Stacks.Chow.gysinBivariantCap_eq_virtualNormalGysinCap_of_offDivisor` and the pair of carried
-values `hon`, `hvn` on an integral test scheme contained in `D`. See the implementation notes
-for what is carried in each case. -/
-@[stacks 0FBN "the Gysin homomorphism i^* of a triple (L, s, i : D -> X) as in Definition
-02T8 and the virtual normal class c(D -> X, i^*L) of Tag 0FBK agree in A^1(D -> X). Both
-classes are the ones CHARACTERIZED by their tags (Tag 0B79 via `IsGysinBivariantClass`, Tag
-0FBK via `IsVirtualNormalGysinClass`), neither being constructed here; the virtual normal
-sheaf is data with its module identified with i^*L, the canonical surjection C_{D/X} = (i^*L)^v
-being absent. THE TAG IS NOT FULLY CLOSED. Proved: the Tag 02UC reduction to integral test
-schemes, and for a test scheme NOT contained in D the value of the virtual normal class, which
-is Tag 0FBM at vanishing excess. CARRIED: the value of the Gysin homomorphism on a
-fundamental class in BOTH cases (Definition 02T8 and Tag 02TB are proved only at a closed
-subscheme of the test scheme against an intersection cycle, not at the fundamental class of
-the base change D x_X Y), and the value of the virtual normal class in the case Y contained in
-D (Tag 0FBM at full excess). THE CONTAINED CASE IS THEREFORE DOCUMENTED BUT NOT DISCHARGED.
-Also carried: Tag 02TY injectivity and Tag 02S1 descent. The Tag 02UC used for the
-reduction to integral test schemes is unconditional"]
+As stated, `hdim` is quantified over every integer `n` and every test scheme `Y` not contained in
+`D`, so it is satisfiable only in degenerate cases: at `Y = X`, `g = 𝟙 X` it forces `D = ∅` unless
+`X` factors through `D`. The source needs the bound only for an integral `Y` with
+`dim_δ(Y) = n`. The theorem is kept for its reduction argument and is not registered as Stacks
+0FBN.
+
+Stacks 0FBN itself, for the constructed classes `Stacks.Chow.gysinBivariantClass` (0B79) and
+`Stacks.Chow.virtualNormalBundleClass` (0FBK) with `𝒩 = i^*ℒ` and the canonical surjection, and
+with no further hypotheses, is `Stacks.Chow.gysinBivariantClass_eq_virtualNormalBundleClass`. -/
 theorem gysinBivariantClass_eq_virtualNormalGysinClass
     (cTop : DivisorTopChernCapFamily C sX L s)
     (hinj : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),

@@ -36,6 +36,9 @@ tensoring with its value at a rank-one module, which is the tangent space of Tag
 * `Deformation.infinitesimalAutomorphismLinearLift`: its canonical `k`-linear lift.
 * `Deformation.tangentCarrierLinearEquiv`: the value of the lift at the rank-one module is the
   tangent space at the identity of the automorphism functor.
+* `Deformation.tensorEquivInfinitesimalAutomorphismKernel`,
+  `Deformation.infinitesimalAutomorphismKernelMulEquivTensor`: the identification
+  `T_{id_{x_0}} Aut(x) ⊗_k M = Inf(x[M]/x_0)` itself, in both directions.
 
 ## Main results
 
@@ -874,18 +877,45 @@ public noncomputable def tangentCarrierLinearEquiv (hp : SatisfiesRS p) :
     rw [h1, h3]
     exact cast_lift_smul P hp (FGModuleCat.of k (ULift.{v} k)) r a
 
-/-- **Stacks Project, Tag 06IA for the automorphism functor.** The infinitesimal
-automorphisms, relative to the special fibre, of the pushforward of `x` to the square-zero
-extension of the residue field by a finite-dimensional vector space `M` are the tangent space
-at the identity of the automorphism functor of `x`, tensored over the residue field with `M`.
-The identification carries addition of tangent vectors to composition of automorphisms. -/
-public theorem exists_tensorEquiv_infinitesimalAutomorphismKernel (hp : SatisfiesRS p)
+/-- **The identification of Tag 06IA for the automorphism functor, as an equivalence.** The
+tangent space at the identity of the automorphism functor of `x`, tensored over the residue
+field with `M`, is the value at `M` of the canonical linear lift
+`Deformation.infinitesimalAutomorphismLinearLift` (the lift is tensoring with its value at the
+rank-one module, and that value is the tangent space by
+`Deformation.tangentCarrierLinearEquiv`), and the underlying set of that value is the group of
+infinitesimal automorphisms of `x[M]` relative to the special fibre. -/
+public noncomputable def tensorEquivInfinitesimalAutomorphismKernel (hp : SatisfiesRS p)
     (M : FGModuleCat.{max v w} k) :
     letI := naturalLocalizedTangentAddCommGroup P hp
     letI := naturalLocalizedTangentModule P hp
-    ∃ e : TensorProduct k (localizedAutomorphismFunctorTangent P) M ≃
-        infinitesimalAutomorphismKernel P (squareZeroUnderRed p x M),
-      ∀ s t, e (s + t) = e s * e t := by
+    TensorProduct k (localizedAutomorphismFunctorTangent P) M ≃
+      infinitesimalAutomorphismKernel P (squareZeroUnderRed p x M) := by
+  let _ : AddCommGroup (localizedAutomorphismFunctorTangent P) :=
+    naturalLocalizedTangentAddCommGroup P hp
+  let _ : Module k (localizedAutomorphismFunctorTangent P) :=
+    naturalLocalizedTangentModule P hp
+  let Q := (infinitesimalAutomorphismLinearLift P hp).functor
+  let _ : Q.Additive := (infinitesimalAutomorphismLinearLift P hp).additive
+  let _ : Q.Linear k := (infinitesimalAutomorphismLinearLift P hp).linear
+  let T₀ : Type v₁ :=
+    ((Q.obj (FGModuleCat.of k (ULift.{v} k)) : ModuleCat.{v₁} k) : Type v₁)
+  let R : TensorProduct k T₀ ↥M ≃ₗ[k] ((Q.obj M : ModuleCat.{v₁} k) : Type v₁) :=
+    rankOneTensorEquiv k (uliftRankOneCoord.{w, v} k) Q T₀ (LinearEquiv.refl k T₀) M
+  let C : TensorProduct k (localizedAutomorphismFunctorTangent P) ↥M ≃ₗ[k]
+      TensorProduct k T₀ ↥M :=
+    TensorProduct.congr (tangentCarrierLinearEquiv P hp).symm (LinearEquiv.refl k ↥M)
+  exact (C.trans R).toEquiv.trans (Equiv.cast
+    (infinitesimalAutomorphismLinearLift_carrier P hp M))
+
+/-- The identification `Deformation.tensorEquivInfinitesimalAutomorphismKernel` carries
+addition of tangent vectors to composition of infinitesimal automorphisms. -/
+public theorem tensorEquivInfinitesimalAutomorphismKernel_add (hp : SatisfiesRS p)
+    (M : FGModuleCat.{max v w} k) :
+    letI := naturalLocalizedTangentAddCommGroup P hp
+    letI := naturalLocalizedTangentModule P hp
+    ∀ s t, tensorEquivInfinitesimalAutomorphismKernel P hp M (s + t) =
+      tensorEquivInfinitesimalAutomorphismKernel P hp M s *
+        tensorEquivInfinitesimalAutomorphismKernel P hp M t := by
   let _ : AddCommGroup (localizedAutomorphismFunctorTangent P) :=
     naturalLocalizedTangentAddCommGroup P hp
   let _ : Module k (localizedAutomorphismFunctorTangent P) :=
@@ -901,14 +931,49 @@ public theorem exists_tensorEquiv_infinitesimalAutomorphismKernel (hp : Satisfie
       TensorProduct k T₀ ↥M :=
     TensorProduct.congr (tangentCarrierLinearEquiv P hp).symm (LinearEquiv.refl k ↥M)
   let RR := C.trans R
-  refine ⟨RR.toEquiv.trans (Equiv.cast
-    (infinitesimalAutomorphismLinearLift_carrier P hp M)), fun s t => ?_⟩
+  intro s t
   change cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR (s + t)) =
     cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR s) *
       cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR t)
   rw [RR.map_add]
   exact cast_lift_add P hp M (RR s) (RR t)
 
+/-- **Stacks Project, Tag 06IA for the automorphism functor.** The infinitesimal
+automorphisms, relative to the special fibre, of the pushforward of `x` to the square-zero
+extension of the residue field by a finite-dimensional vector space `M` are the tangent space
+at the identity of the automorphism functor of `x`, tensored over the residue field with `M`.
+The identification carries addition of tangent vectors to composition of automorphisms. -/
+public theorem exists_tensorEquiv_infinitesimalAutomorphismKernel (hp : SatisfiesRS p)
+    (M : FGModuleCat.{max v w} k) :
+    letI := naturalLocalizedTangentAddCommGroup P hp
+    letI := naturalLocalizedTangentModule P hp
+    ∃ e : TensorProduct k (localizedAutomorphismFunctorTangent P) M ≃
+        infinitesimalAutomorphismKernel P (squareZeroUnderRed p x M),
+      ∀ s t, e (s + t) = e s * e t :=
+  ⟨tensorEquivInfinitesimalAutomorphismKernel P hp M,
+    tensorEquivInfinitesimalAutomorphismKernel_add P hp M⟩
+
+/-- **The identification of Tag 06IA for the automorphism functor, read multiplicatively.**
+Composition of infinitesimal automorphisms of `x[M]` relative to the special fibre is addition
+in the tangent space at the identity of the automorphism functor of `x`, tensored with `M`:
+the inverse of `Deformation.tensorEquivInfinitesimalAutomorphismKernel` as an isomorphism of
+groups onto the multiplicative group of the tensor product. -/
+public noncomputable def infinitesimalAutomorphismKernelMulEquivTensor (hp : SatisfiesRS p)
+    (M : FGModuleCat.{max v w} k) :
+    letI := naturalLocalizedTangentAddCommGroup P hp
+    letI := naturalLocalizedTangentModule P hp
+    infinitesimalAutomorphismKernel P (squareZeroUnderRed p x M) ≃*
+      Multiplicative (TensorProduct k (localizedAutomorphismFunctorTangent P) M) := by
+  let _ : AddCommGroup (localizedAutomorphismFunctorTangent P) :=
+    naturalLocalizedTangentAddCommGroup P hp
+  let _ : Module k (localizedAutomorphismFunctorTangent P) :=
+    naturalLocalizedTangentModule P hp
+  let e := tensorEquivInfinitesimalAutomorphismKernel P hp M
+  have he : ∀ s t, e (s + t) = e s * e t := tensorEquivInfinitesimalAutomorphismKernel_add P hp M
+  refine { toEquiv := e.symm.trans Multiplicative.ofAdd, map_mul' := fun a b => ?_ }
+  change Multiplicative.ofAdd (e.symm (a * b)) = Multiplicative.ofAdd (e.symm a + e.symm b)
+  refine congrArg Multiplicative.ofAdd (e.injective ?_)
+  rw [he, e.apply_symm_apply, e.apply_symm_apply, e.apply_symm_apply]
 
 /-- **Stacks Project, Tag 06IA for the automorphism functor.** The identification of Tag 06IA
 read in the other direction: composition of infinitesimal automorphisms over the square-zero

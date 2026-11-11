@@ -51,8 +51,10 @@ presentation is made, so both statements are the ones for an arbitrary presentat
 object they speak about is the same one, the upper shriek of the presentation at the unit of
 `D(R)`.
 
-Perfectness of a local complete intersection homomorphism is [Stacks, Tag 07EN], read at the
-canonical certified derived tensoring, and the tensor formula for a perfect homomorphism is
+Perfectness of a local complete intersection homomorphism is [Stacks, Tag 07EN]
+(`RingHom.IsLocalCompleteIntersection.perfect`); [Stacks, Tag 068Y] at the presentation
+(`Algebra.Perfect.exists_finite_projective_resolution`, read through [Stacks, Tag 066Q]) makes `A`
+a perfect module over its polynomial algebra, and the tensor formula for a perfect homomorphism is
 [Stacks, Tag 0BZU].  The latter carries the conclusion of [Stacks, Tag 0BZE] for the surjection
 of the presentation as an explicit hypothesis, which the library does not prove; it is passed
 along here unchanged.
@@ -494,8 +496,9 @@ theorem isInvertible_upperShriekFunctor_obj_unit_of_isLocalCompleteIntersection
 intersection homomorphism and let `p` be a polynomial presentation of `φ`.
 Then `φ^!(K) = K ⊗_R^L ω_{A/R}` with `ω_{A/R} = φ^!(R)`, naturally in `K` in `D(R)`.
 
-A local complete intersection homomorphism is perfect by [Stacks, Tag 07EN], which is what the
-tensor formula of [Stacks, Tag 0BZU] asks for, and that formula asks for nothing else: the
+A local complete intersection homomorphism is perfect by [Stacks, Tag 07EN], so `A` is a perfect
+module over the polynomial algebra of `p` by [Stacks, Tag 068Y], which is what the tensor formula
+of [Stacks, Tag 0BZU] asks for, and that formula asks for nothing else: the
 conclusion of [Stacks, Tag 0BZE] for the surjection of the presentation holds at the arbitrary
 module universe `max v u` of this statement, by
 `Dualizing.nonempty_derivedHom_iso_canonicalDerivedTensor_of_perfect_anyModuleUniverse`. -/
@@ -512,11 +515,13 @@ theorem upperShriekFunctor_iso_derivedTensorProduct_of_lci
       (MonoidalCategoryStruct.tensorUnit (ModuleCat.{max v u} R))
     Nonempty (p.upperShriekFunctor.{u, v} ≅
       derivedTensorProductOver.{u, v} f (p.upperShriekFunctor.{u, v}.obj R₀)) :=
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  p.upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap.{u, v}
-    D.tensor D.comparison D.isLeftDerived
-    (RingHom.IsLocalCompleteIntersection.isPerfectRingMap f hf
-      D.tensor D.comparison D.isLeftDerived)
+  p.upperShriekFunctor_iso_derivedTensorProduct.{u, v} (by
+    have := hf.perfect
+    algebraize [f]
+    let : Module p.Poly A := Module.compHom A p.toRingHom
+    exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective))
 
 end PolynomialPresentation
 

@@ -25,10 +25,11 @@ perfect as an object of `D(𝒪_X)`.
 * `Stacks.Rouquier.hasPerfectGeneratorSupportedOn_sup`: the property passes from a quasi-compact
   open `U` and an affine open `V` to `U ⊔ V`.
 * `Stacks.Rouquier.exists_isPerfect_isWeakTriangulatedGenerator_supported`: `D_{QCoh,T}(𝒪_X)` has
-  a weak triangulated generator which is perfect as an object of `D(𝒪_X)`.
+  a weak triangulated generator which is perfect as an object of `D(𝒪_X)` ([Stacks, Tag 0A9A]).
 * `Stacks.Rouquier.exists_isPerfect_isZero_iff_forall_hom_eq_zero_supported`: there is a perfect
   object `P` of `D(𝒪_X)` such that an object `E` of `D_{QCoh,T}(𝒪_X)` is zero if and only if
-  every morphism `P⟦n⟧ ⟶ E` is zero.
+  every morphism `P⟦n⟧ ⟶ E` is zero. This drops the clause that `P` lies in `D_{QCoh,T}(𝒪_X)`,
+  so it is a consequence of [Stacks, Tag 0A9A] and is not registered under it.
 
 ## References
 
@@ -124,7 +125,8 @@ theorem hasPerfectGeneratorSupportedOn_sup {X : Scheme.{u}} [QuasiSeparatedSpace
 /-- **The theorem of Rouquier.** Let `X` be a quasi-compact quasi-separated
 scheme and let `T ⊆ X` be closed with quasi-compact complement. Then `D_{QCoh,T}(𝒪_X)` has a weak
 triangulated generator which is perfect as an object of `D(𝒪_X)`. -/
-@[stacks 0A9A "the generator, in the ObjectProperty.IsWeakTriangulatedGenerator spelling"]
+@[stacks 0A9A "the generator is an object of D_{QCoh,T}(O_X), perfect in D(O_X); generation \
+  in the sense of 09SJ, as ObjectProperty.IsWeakTriangulatedGenerator"]
 theorem exists_isPerfect_isWeakTriangulatedGenerator_supported (X : Scheme.{u}) [CompactSpace X]
     [QuasiSeparatedSpace X] (T : Set X) (hT : IsClosed T) (hTc : IsCompact Tᶜ) :
     ∃ G : Stacks.Duality.QuasiCoherentSupportedDerivedCategory X T,
@@ -137,11 +139,19 @@ theorem exists_isPerfect_isWeakTriangulatedGenerator_supported (X : Scheme.{u}) 
     X (𝟙 X) inferInstance (by simp)
   rwa [show ⇑(𝟙 X : X ⟶ X).base ⁻¹' T = T from by simp] at hgen
 
-/-- **The theorem of Rouquier, with the generator condition spelled out.** Let `X` be a
+/-- **A perfect object detecting the zero objects of `D_{QCoh,T}(𝒪_X)`.** Let `X` be a
 quasi-compact quasi-separated scheme and let `T ⊆ X` be closed with quasi-compact complement.
 There is a perfect object `P` of `D(𝒪_X)` such that for every object `E` of `D_{QCoh,T}(𝒪_X)` the
-following are equivalent: `E = 0`, and `Hom_{D(𝒪_X)}(P⟦n⟧, E) = 0` for all `n : ℤ`. -/
-@[stacks 0A9A]
+following are equivalent: `E = 0`, and `Hom_{D(𝒪_X)}(P⟦n⟧, E) = 0` for all `n : ℤ`.
+
+This is a consequence of [Stacks, Tag 0A9A], not a statement of it, and carries no `@[stacks]`
+attribute: it does not say that `P` lies in `D_{QCoh,T}(𝒪_X)`, which is part of the tag. Without
+that clause the statement already follows from [Stacks, Tag 09IS], since a perfect generator of
+`D_QCoh(𝒪_X)` detects the zero objects of the smaller subcategory. The full statement of the tag
+is `Stacks.Rouquier.exists_isPerfect_isWeakTriangulatedGenerator_supported` above, and, with the
+generator condition written out, the theorem
+`Stacks.Duality.SupportedGeneration.exists_isPerfect_quasiCoherentSupported_isWeakGenerator_of_qcqs`
+of `StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/QcqsPerfectGenerator.lean`. -/
 theorem exists_isPerfect_isZero_iff_forall_hom_eq_zero_supported (X : Scheme.{u}) [CompactSpace X]
     [QuasiSeparatedSpace X] (T : Set X) (hT : IsClosed T) (hTc : IsCompact Tᶜ) :
     ∃ P : DerivedCategory X.Modules, IsPerfect (X := X.toRingedSpace) P ∧

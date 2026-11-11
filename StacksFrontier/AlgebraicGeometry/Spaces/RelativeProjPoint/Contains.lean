@@ -67,7 +67,7 @@ pullback.
 * [Stacks Project, Tag 0849](https://stacks.math.columbia.edu/tag/0849)
 * [Stacks Project, Tag 084B](https://stacks.math.columbia.edu/tag/084B)
 * [Stacks Project, Tag 03FX](https://stacks.math.columbia.edu/tag/03FX)
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public noncomputable section

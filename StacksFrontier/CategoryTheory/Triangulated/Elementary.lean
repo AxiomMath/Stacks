@@ -266,14 +266,27 @@ private lemma isIso_of_comp_mor₂_eq_snd (T : Triangle C) (hT : T ∈ distTrian
 /-- Let `T = (X, Y, Z, f, g, h)` be a distinguished triangle in a
 pre-triangulated category. For any right inverse `s : Z ⟶ Y` of `g`, the map
 `f ⊕ s : X ⊕ Z ⟶ Y` is an isomorphism. -/
-@[stacks 05QT]
+@[stacks 05QT "(2): for any right inverse `s` of `g`, the map `f ⊕ s : X ⊕ Z ⟶ Y` is an
+  isomorphism."]
 theorem isIso_biprod_desc_of_distTriang (T : Triangle C) (hT : T ∈ distTriang C)
     (s : T.obj₃ ⟶ T.obj₂) (hs : s ≫ T.mor₂ = 𝟙 T.obj₃) :
     IsIso (biprod.desc T.mor₁ s) :=
   isIso_of_comp_mor₂_eq_snd T hT _ (by simp)
     (by ext <;> simp [hs, comp_distTriang_mor_zero₁₂ _ hT])
 
+/-- Let `T = (X, Y, Z, f, g, h)` be a distinguished triangle in a pre-triangulated category.
+If `h = 0`, then `g` has a right inverse `s : Z ⟶ Y`. -/
+@[stacks 05QT "(1): if `h = 0`, then `g` has a right inverse `s : Z ⟶ Y`."]
+theorem exists_section_mor₂_of_mor₃_eq_zero (T : Triangle C) (hT : T ∈ distTriang C)
+    (h : T.mor₃ = 0) : ∃ s : T.obj₃ ⟶ T.obj₂, s ≫ T.mor₂ = 𝟙 T.obj₃ := by
+  obtain ⟨s, hs⟩ := Triangle.coyoneda_exact₃ T hT (𝟙 T.obj₃) (by rw [h, comp_zero])
+  exact ⟨s, hs.symm⟩
+
 end Split
+
+add_to_stacks 05QT "(3): for any objects `X'`, `Z'` the triangle
+  `(X', X' ⊕ Z', Z', (1, 0), (0, 1), 0)` is distinguished."
+  CategoryTheory.Pretriangulated.binaryBiproductTriangle_distinguished
 
 /-! ### Countable (co)products make a pre-triangulated category Karoubian -/
 

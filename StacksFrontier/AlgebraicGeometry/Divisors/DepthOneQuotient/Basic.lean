@@ -845,8 +845,10 @@ private lemma depthOneQuotientCandidate_lift {X : Scheme.{u}} [IsNoetherian X]
   apply (cancel_epi (depthOneQuotientCandidateMap T F)).mp
   exact hl.trans (cokernel.π_desc _ _ _).symm
 
-/-- A quotient of a sheaf of modules which is unchanged outside `T` and has depth
-at least one at each point of `T`. -/
+/-- The conditions of [Stacks, Tag 0DX3] on a map `f : F ⟶ G` of `𝒪_X`-modules: `G` is coherent,
+`f` is surjective (an epimorphism of sheaves of modules, equivalently surjective on every stalk),
+the stalk map `F_x ⟶ G_x` is an isomorphism for `x ∉ T`, and
+`depth_{𝒪_{X,x}}(G_x) ≥ 1` (depth along the maximal ideal of the local ring) for `x ∈ T`. -/
 public def IsDepthOneQuotient {X : Scheme.{u}} (T : Set X)
     {F G : X.Modules} (f : F ⟶ G) : Prop :=
   G.IsCoherent ∧ Epi f ∧
@@ -973,8 +975,8 @@ public theorem depthOneQuotient_lift (X : Scheme.{u}) [IsNoetherian X]
     (Classical.choose_spec (exists_depthOneQuotient X T hT F))).2 G inferInstance g hG
 
 /-- Every other quotient satisfying the defining properties is uniquely
-isomorphic to the canonical one over its source. -/
-@[stacks 0DX3 "depth_one_quotient"]
+isomorphic to the canonical one over its source. The form with the conditions of
+[Stacks, Tag 0DX3] spelled out is `AlgebraicGeometry.depthOneQuotient_unique_of_epi_of_depth`. -/
 public theorem depthOneQuotient_unique (X : Scheme.{u}) [IsNoetherian X]
     (T : Set X) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent]
@@ -1006,6 +1008,30 @@ public theorem depthOneQuotient_unique (X : Scheme.{u}) [IsNoetherian X]
   intro e he
   apply Iso.ext
   exact hluniq e.hom he
+
+/-- **Stacks Project, Tag 0DX3**, uniqueness. Let `X` be a Noetherian scheme, `T ⊆ X` stable under
+specialization and `F` a coherent `𝒪_X`-module. If `g : F ⟶ G` is a surjection onto a coherent
+module `G` such that the stalk map `F_x ⟶ G_x` is an isomorphism for `x ∉ T` and
+`depth_{𝒪_{X,x}}(G_x) ≥ 1` for `x ∈ T`, then `G` is identified with the canonical depth-one
+quotient `depthOneQuotient X T hT F` by a unique isomorphism over `F`. -/
+@[stacks 0DX3 "depth_one_quotient"]
+public theorem depthOneQuotient_unique_of_epi_of_depth (X : Scheme.{u}) [IsNoetherian X]
+    (T : Set X) (hT : StableUnderSpecialization T)
+    (F : X.Modules) [F.IsCoherent]
+    (G : X.Modules) [G.IsCoherent] (g : F ⟶ G) [Epi g]
+    (hstalk : ∀ x : X, x ∉ T → IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
+      g.mapPresheaf))
+    (hdepth : ∀ x : X, x ∈ T →
+      letI : Module (X.presheaf.stalk x)
+          (TopCat.Presheaf.stalk (C := Ab.{u}) G.val.presheaf x) :=
+        PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
+          (R := X.presheaf) G.val x
+      (1 : ℕ∞) ≤ Module.depth (X.presheaf.stalk x)
+        (IsLocalRing.maximalIdeal (X.presheaf.stalk x))
+        (TopCat.Presheaf.stalk (C := Ab.{u}) G.val.presheaf x)) :
+    ∃! e : depthOneQuotient X T hT F ≅ G,
+      toDepthOneQuotient X T hT F ≫ e.hom = g :=
+  depthOneQuotient_unique X T hT F G g ⟨inferInstance, inferInstance, hstalk, hdepth⟩
 
 end AlgebraicGeometry
 

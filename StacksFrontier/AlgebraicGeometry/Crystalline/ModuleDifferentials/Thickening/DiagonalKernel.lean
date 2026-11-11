@@ -12,10 +12,11 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.ModuleDifferentials.U
 /-!
 # The diagonal of a coproduct of crystalline thickenings, and differentials
 
-Fix an affine crystalline situation with base `(A, I, γ)` and target `C`, and let `X` be a
-crystalline thickening of `C` over `A`.  Let `Y` be a coproduct of `X` with itself in the
-crystalline category `CRIS(C/A)`, with coprojections `s₀, s₁ : X → Y`, and let `Y → X` be the
-diagonal, the map inverting both coprojections.  Write `K` for the kernel of the diagonal on
+Fix an affine crystalline situation with base `(A, I, γ)` and target `C`, and let `X` be an
+object of the little crystalline category `Cris(C/A)` (the full subcategory of `CRIS(C/A)` where
+`C → B/J` is an isomorphism).  Let `Y` be a coproduct of `X` with itself in `Cris(C/A)`, with
+coprojections `s₀, s₁ : X → Y`, and let `Y → X` be the diagonal, the map inverting both
+coprojections.  Write `K` for the kernel of the diagonal on
 underlying rings.
 
 The intersection of `K` with the divided power ideal of `Y` is stable under the divided powers of
@@ -44,7 +45,12 @@ The canonical identification of divided power differentials with the diagonal co
 
 ## Implementation notes
 
-The coproduct is taken in `CRIS(C/A)` rather than in the category of all divided power rings, so
+This is the special case of Stacks Tag 07HV for objects of `Cris(C/A)`.  The lemma itself, for an
+arbitrary object of the big category `CRIS(C/A)` and its coproduct in `CRIS(C/A)`, is
+`Crystalline.DividedPowerThickening.isSubDPIdeal_and_existsUnique_dividedPowerDifferentialsEquiv`
+in `StacksFrontier.AlgebraicGeometry.Crystalline.ModuleDifferentials.Thickening.CRISConormalEquiv`.
+
+The coproduct is taken in `Cris(C/A)` rather than in the category of all divided power rings, so
 the diagonal is obtained from the colimit property of the crystalline category while the conormal
 module is built from the underlying rings.  The conormal module is regarded as a module over the
 ring of `X` through the first coprojection; modulo the square of the diagonal ideal either
@@ -564,8 +570,9 @@ theorem diagonalClass_dpow
   exact Submodule.mem_sup_right htail
 
 /-- The intersection of the diagonal ideal with the crystalline divided power ideal is
-stable under divided powers. -/
-@[stacks 07HV "stability under divided powers"]
+stable under divided powers, for an object of `Cris(C/A)` and its self-coproduct in `Cris(C/A)`.
+This is the special case of part (1) of Stacks Tag 07HV for `Cris(C/A)`; the statement for
+`CRIS(C/A)` is `Crystalline.DividedPowerThickening.diagonalKernel_isSubDPIdeal`. -/
 public theorem diagonalKernel_isSubDPIdeal
     (h : IsColimit (BinaryCofan.mk s₀ s₁)) :
     Y.1.ring.dividedPowers.IsSubDPIdeal (diagonalKernel h ⊓ Y.1.ring.ideal) :=

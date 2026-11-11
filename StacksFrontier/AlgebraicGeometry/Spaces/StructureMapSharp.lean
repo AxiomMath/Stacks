@@ -565,10 +565,10 @@ restriction of scalars along the structure map.
 The inverse-image half of Stacks 03LU is
 `AlgebraicGeometry.Space.modulePullback`, and the adjunction is
 `AlgebraicGeometry.Space.modulePullbackAdjunction`
-(`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullback.lean`).  That adjunction is
-stated for the direct image of Stacks 03D6, part (1) attached to the morphism of ringed topoi,
-which is this functor up to a comparison that is not yet supplied; see the implementation notes
-of that file. -/
+(`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullback.lean`), whose right adjoint is
+this functor itself: the direct image of Stacks 03D6, part (1) attached to the morphism of small
+étale ringed topoi of Stacks 03G8 is identified with it by
+`AlgebraicGeometry.Space.modulePushforwardIso`. -/
 @[stacks 03LU "pushforward"]
 noncomputable def modulePushforward (f : X ⟶ Y) :
     Modules.{u, u} B S hS X.1 X.2 ⥤ Modules.{u, u} B S hS Y.1 Y.2 :=

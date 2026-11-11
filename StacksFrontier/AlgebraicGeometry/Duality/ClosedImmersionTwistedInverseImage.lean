@@ -198,9 +198,8 @@ produced for every object of `FTS S` and no affineness or quasi-affineness hypot
 `Stacks.Duality.LocallySmall.upperShriek_closedImmersion_of_fts` in
 `StacksFrontier/AlgebraicGeometry/Duality/ClosedImmersionTwistedInverseImageQcqs.lean`.
 
-This reduction form carries the conclusion of [stacks 0A9X] as the hypothesis `h0A9X`, so it is not
-registered under [stacks 0AU3]; it is superseded by
-`Stacks.Duality.isDerivedSheafHomRightAdjoint_of_fts_closedImmersion`. -/
+This reduction form carries the conclusion of [Stacks, Tag 0A9X] as the hypothesis `h0A9X`; it
+is superseded by `Stacks.Duality.isDerivedSheafHomRightAdjoint_of_fts_closedImmersion`. -/
 theorem isDerivedSheafHomRightAdjoint_of_fts (h0A9X : Tag0A9XHypothesis.{u})
     {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S} (i : X ⟶ Y)
     [IsClosedImmersion i.left]
@@ -225,22 +224,15 @@ the conclusion of [Stacks, Tag 0A9X], and the preservation of quasi-coherent coh
 
 What remains a parameter is `i^!` itself, the functor `a` together with the adjunction `adj`
 characterising it, exactly as in `Stacks.Duality.isDerivedSheafHomRightAdjoint_of_pseudoCoherent`
-([Stacks, Tag 0A9X]) and in `Stacks.Duality.sheafyTrace`. Its existence is [Stacks, Tag 0A9E],
-which is not proved unconditionally in this tree —
-`Stacks.Duality.DerivedPushforward.isLeftAdjoint_qcqsRestrictedDerivedPushforward` carries
-[Stacks, Tag 08DZ] at the locally small model and [Stacks, Tag 09IS]; a right adjoint being
-unique up to canonical isomorphism, the
-statement about an arbitrary one says the same thing as the statement about the one that tag
+([Stacks, Tag 0A9X]) and in `Stacks.Duality.sheafyTrace`. Its existence is [Stacks, Tag 0A9E]; a right adjoint being unique up to canonical isomorphism,
+the statement about an arbitrary one says the same thing as the statement about the one that tag
 produces.
 
-This declaration is not registered as [Stacks, Tag 0AA2]: the full statement, with `i^!`
-produced for every object of `FTS S` and no affineness or quasi-affineness hypothesis, is
+This declaration is not registered as [Stacks, Tag 0AA2] or as clause (5) of
+[Stacks, Section 0AU3]: the full statement, with `i^!` produced for every object of `FTS S` and
+no affineness or quasi-affineness hypothesis, is
 `Stacks.Duality.LocallySmall.upperShriek_closedImmersion_of_fts` in
 `StacksFrontier/AlgebraicGeometry/Duality/ClosedImmersionTwistedInverseImageQcqs.lean`. -/
-@[stacks 0AU3 "clause (5) of Section 48.19: for a closed immersion f^! is derived sheaf Hom out \
-  of the structure sheaf, with the conclusion of Tag 0A9X discharged by \
-  Stacks.Duality.tag0A9XHypothesis; i^! is the explicit parameter a with its adjunction, the \
-  existence statement being Tag 0A9E"]
 theorem isDerivedSheafHomRightAdjoint_of_fts_closedImmersion
     {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S} (i : X ⟶ Y)
     [IsClosedImmersion i.left]

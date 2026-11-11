@@ -63,8 +63,20 @@ The source's proof: `RΓ(X, G)` is a perfect object of `D(R)` by [Stacks, Tag 0A
 (`…ProperSupportGlobalSectionsPerfect.isPerfect_derivedGlobalSectionsOverBase_of_properSupport`),
 and over a coherent ring the cohomology modules of a perfect complex are coherent by
 [Stacks, Tag 0658] and [Stacks, Tag 0EWZ]
-(`isCoherent_cohomology_of_isPerfect_derivedGlobalSections`). -/
-@[stacks 0EX6]
+(`isCoherent_cohomology_of_isPerfect_derivedGlobalSections`).
+
+This is the complete statement of [Stacks, Tag 0EX6], hypothesis by hypothesis:
+* "`R` is a coherent ring" is `[IsCoherentRing R]`;
+* "`X` is of finite presentation over `R`" is `LocallyOfFinitePresentation f`, `QuasiCompact f`
+  and `QuasiSeparated f` ([Stacks, Tag 01TP] (3));
+* "`𝒢` is of finite presentation" is `[G.IsFinitePresentation]`;
+* "flat over `R`" is `hflat`: every stalk of `G` is flat over the corresponding local ring of
+  `Spec R` ([Stacks, Tag 08KT]);
+* "with support proper over `R`" is `hsupp`: the support of `G` is a closed subset of `X`
+  proper over `R` ([Stacks, Tag 0CYM]);
+* "`Hⁱ(X, 𝒢)` is a coherent `R`-module" is the conclusion, for every `i : ℕ`; in negative
+  degrees the cohomology vanishes. -/
+@[stacks 0EX6 "Hⁱ(X, G) as the right derived functors of global sections, i ≥ 0"]
 theorem isCoherent_rightDerived_moduleGlobalSections
     {R : Type u} [CommRing R] [IsCoherentRing R] {X : Scheme.{u}} (f : X ⟶ Spec (.of R))
     [LocallyOfFinitePresentation f] [QuasiCompact f] [QuasiSeparated f]

@@ -713,12 +713,16 @@ conditions (1) and (2) of Stacks 0EUW and let `F : 𝒞ᵒᵖ ⥤ Set` satisfy c
 (c). Then the extension `F' = AlgebraicGeometry.ExtendingFunctors.extension` of `F` to `Sch/S` is
 a sheaf for each of the five topologies — Zariski, étale, smooth, syntomic and fppf.
 
-This is the unconditional form of
-`AlgebraicGeometry.ExtendingFunctors.isCoveringSheaf_extension`, whose hypothesis `hstd` is
-supplied by `AlgebraicGeometry.ExtendingFunctors.isStandardAffineSheaf_extension`. -/
-@[stacks 0GDW "the extension of a functor satisfying conditions (a), (b) and (c) from a full
-subcategory satisfying conditions (1) and (2) of Tag 0EUW is a sheaf for every τ-covering of
-Sch/S, for each of the five topologies"]
+The proof follows the source: the restricted sheaf condition for the extension, on the standard
+`τ`-coverings of the affine objects of `Sch/S` lying over an affine open of `S`, is deduced from
+condition (c) by `AlgebraicGeometry.ExtendingFunctors.isStandardAffineSheaf_extension` (the
+special case of the source's proof), and the general case is
+`AlgebraicGeometry.ExtendingFunctors.isCoveringSheaf_of_isStandardAffineSheaf`, applied to the
+extension, which is a Zariski sheaf by condition (a). -/
+@[stacks 0GDW "for each of the five topologies Zariski, étale, smooth, syntomic and fppf: the
+extension F' of a functor F satisfying conditions (a), (b) and (c), from a full subcategory of
+Sch/S satisfying conditions (1) and (2) of Tag 0EUW, satisfies the sheaf condition for every
+τ-covering of Sch/S"]
 theorem isCoveringSheaf_extension_of_isStandardAffineSheafOnSubcategory (τ : CoveringTopology)
     (P : ObjectProperty (Over S)) (F : P.FullSubcategoryᵒᵖ ⥤ Type (max w (u + 1)))
     (hP1 : HasAffineOpens P) (hP2 : HasFinitePresentationAffines P)

@@ -7,12 +7,15 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Chow.PrivateChern.ChernCap
 # The Whitney formula
 
 In Situation 0EDT let `X/B` be good and let `0 ⟶ ℰ₁ ⟶ ℰ ⟶ ℰ₂ ⟶ 0` be a short exact sequence of
-finite locally free `𝒪_X`-modules, `ℰ_i` of rank `r_i`. Then the total Chern classes satisfy
-`c(ℰ) = c(ℰ₁) c(ℰ₂)` (Stacks 0ES9).
+finite locally free `𝒪_X`-modules, `ℰ_i` of rank `r_i`. Then the total Chern classes, as
+operations on `CH_*(X)`, satisfy `c(ℰ) = c(ℰ₁) c(ℰ₂)`; this is the input on every test space for
+Stacks 0ES9 in `A^*(X)` (`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChernClassWhitneyAlgebra`).
 
 ## Main results
 
-* `AlgebraicGeometry.Space.totalChernCap_shortExact`: Stacks 0ES9.
+* `AlgebraicGeometry.Space.totalChernCap_shortExact`: `c(ℰ) = c(ℰ₁) c(ℰ₂)` as operations on
+  `CH_*(X)`; Stacks 0ES9 in `A^*(X)` is
+  `AlgebraicGeometry.Space.ChowCohomologyAlgebra.totalChernClass_shortExact`.
 
 ## References
 
@@ -29,19 +32,17 @@ namespace AlgebraicGeometry.Space
 
 variable {D : BaseSpaceDimensionSituation.{u}}
 
-/-- **Stacks 0ES9, the Whitney formula.** In Situation 0EDT let `X/B` be good and let
+/-- **The Whitney formula on `CH_*(X)`.** In Situation 0EDT let `X/B` be good and let
 `0 ⟶ ℰ₁ ⟶ ℰ ⟶ ℰ₂ ⟶ 0` be a short exact sequence `T` of finite locally free `𝒪_X`-modules, `ℰ₁` of
 rank `r₁` and `ℰ₂` of rank `r₂`; then `ℰ` is finite locally free of rank `r₁ + r₂`
-(`AlgebraicGeometry.RingedSite.IsFiniteLocallyFreeOfRank.of_shortExact`). The total Chern classes
-satisfy `c(ℰ) = c(ℰ₁) c(ℰ₂)`.
+(`AlgebraicGeometry.RingedSite.IsFiniteLocallyFreeOfRank.of_shortExact`), and the total Chern
+classes, as operations on `CH_*(X) = ⨁_k CH_k(X)` (`PrivateChern.totalChernCap`), satisfy
+`c(ℰ) = c(ℰ₁) c(ℰ₂)`.
 
-The Chern classes are those of Stacks 0ERZ, `c_n(ℰ) ∩ -` on `CH_*(X)` (`chernCap`), and
-`c(ℰ) = c_0(ℰ) + ⋯ + c_r(ℰ)` (`totalChernCap`). An identity in `A^*(X)` is an identity of the
-operations on `CH_*(Y)` for every good `Y ⟶ X`; the operation of `c_n(ℰ)` on `CH_*(Y)` is
-`c_n(f^*ℰ) ∩ -`, and the inverse image along `f` of a short exact sequence of finite locally free
-modules is again one, of modules of the same ranks, so the statement for all good `X` is the
-statement in `A^*(X)`. -/
-@[stacks 0ES9]
+This is an identity of operations on the Chow homology of `X` alone. Stacks 0ES9, the identity in
+the Chow cohomology ring `A^*(X)`, is
+`AlgebraicGeometry.Space.ChowCohomologyAlgebra.totalChernClass_shortExact`, derived from this
+statement on every good test space `X' ⟶ X`. -/
 theorem totalChernCap_shortExact {X : D.Ambient} {sX : X ⟶ D.space} (hX : D.IsGood sX)
     {T : ShortComplex (Modules.{u, u} D.site D.base D.base_mem X hX.1)} (hT : T.ShortExact)
     {r₁ r₂ : ℕ} (h₁ : PrivateChern.IsFiniteLocallyFreeOfRank D sX hX T.X₁ r₁)

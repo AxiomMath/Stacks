@@ -89,7 +89,9 @@ ringed space of `X`, and `Spec(A)`-perfectness is
 `AlgebraicGeometry.Scheme.Hom.IsRelativelyPerfect` (Stacks 0DI0). Of finite presentation is
 `[QuasiCompact f] [LocallyOfFinitePresentation f]` together with quasi-separatedness, which
 separatedness implies. -/
-@[stacks 0GET]
+@[stacks 0GET "The full lemma: for `X` separated, of finite presentation and flat over `A`, an \
+object `K` of `D_QCoh(𝒪_X)` with `RΓ(X, E ⊗^L K)` perfect in `D(A)` for every perfect `E` is \
+`Spec(A)`-perfect (Stacks 0DI0)."]
 theorem Scheme.Hom.isRelativelyPerfect_of_isPerfect_derivedGlobalSectionsOver_tensor
     (f : X ⟶ Spec (CommRingCat.of A)) [IsSeparated f] [QuasiCompact f]
     [LocallyOfFinitePresentation f] [Flat f]

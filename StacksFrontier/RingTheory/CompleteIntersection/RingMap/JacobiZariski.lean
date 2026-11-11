@@ -244,7 +244,7 @@ conormal/differential diagram and the Jacobi--Zariski exactness lemmas, this giv
 sequence
 `0 → H₁(NL_{B/A} ⊗_B C) → H₁(L_{C/A}) → H₁(L_{C/B}) →
 C ⊗_B Ω[B⁄A] → Ω[C⁄A] → Ω[C⁄B] → 0`. -/
-@[stacks 07D4]
+@[stacks 07D4 "the injectivity of C ⊗_B I/I² → K/K²"]
 public theorem cotangentMap_toComp_injective_of_isLocalCompleteIntersection
     {A : Type u₁} {B : Type u₂} [CommRing A] [CommRing B] [Algebra A B]
     {C : Type u₃} [CommRing C] [Algebra A C] [Algebra B C] [IsScalarTower A B C]
@@ -787,7 +787,9 @@ the directed system's colimit map with `B → C`. For presentations `α : A[x_s]
 and `β : B[y_t] → C`, the canonical map
 `C ⊗_B (I / I²) → K / K²` from the conormal module of `α` to that of the induced
 presentation `β.comp α` is injective. -/
-@[stacks 07D5]
+@[stacks 07D5 "The conormal form: injectivity of `C ⊗_B I/I² → K/K²`, the one assertion of the
+source beyond Stacks 00S2. The complete statement, both exact rows and the seven-term sequence, is
+`RingHom.jacobiZariski_exact_of_isFilteredColimit_isLocalCompleteIntersection`."]
 public theorem cotangentMap_toComp_injective_of_isFilteredColimit_isLocalCompleteIntersection
     {A : Type u₁} {B : Type u₂} [CommRing A] [CommRing B] [Algebra A B]
     {C : Type u₃} [CommRing C] [Algebra A C] [Algebra B C] [IsScalarTower A B C]

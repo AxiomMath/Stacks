@@ -249,7 +249,6 @@ Read at a point of `X'` in the inverse image both sides are the coefficient of `
 point times a flat pullback multiplicity, and the two multiplicities agree by
 `Stacks.Chow.flatPullbackWeight_comapRestrict`; off the inverse image both sides vanish, the left
 one because the support of `i_* γ` misses the image of the point. -/
-@[stacks 02RG "the case of a closed immersion base change, on cycles"]
 theorem flatPullback_properPushforward_comap (C : ChowSituation.{u}) {X' X : Scheme.{u}}
     (sX' : X' ⟶ C.S) [LocallyOfFiniteType sX'] (sX : X ⟶ C.S) [LocallyOfFiniteType sX]
     (f : X' ⟶ X) [LocallyOfFiniteType f] [Flat f] (hbase : f ≫ sX = sX') (r : ℕ)

@@ -121,9 +121,10 @@ change to each `Sₙ` is `gₙ`. -/
 @[stacks 0A42 "at the source's hypotheses and with no further input: A Noetherian and I-adically \
 complete, fX : X -> Spec A proper (source hypothesis 1), fY : Y -> Spec A separated of finite \
 type (source hypothesis 2), and a compatible system of morphisms over the adic thickenings, \
-concluding that it comes from a unique morphism X -> Y over Spec A. The halg binder of \
-AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap is discharged here, by \
-AlgebraicGeometry.adicFiniteAlgebraization_holds"]
+concluding that it comes from a unique morphism X -> Y over Spec A. The halg and hrig binders \
+of AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap are discharged here, by \
+AlgebraicGeometry.adicFiniteAlgebraization_holds and \
+Stacks.AdicClosedSubschemeRigidity.adicRigidity"]
 public theorem existsUnique_algebraization_adicBaseChangeMap_holds
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     (hcomplete : IsAdicComplete I A) {X Y : Scheme.{u}}
@@ -157,7 +158,8 @@ a closed immersion g : W -> X with W proper over Spec A recovering the system by
 halg binder of AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback is \
 discharged here, by \
 AlgebraicGeometry.adicFiniteSystemAlgebraization_of_adicFiniteAlgebraAlgebraization at \
-AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds"]
+AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds, and its hrig binder by \
+AlgebraicGeometry.adicMorphismRigidity"]
 public theorem exists_closedImmersion_algebraization_of_isPullback_holds
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     (hcomplete : IsAdicComplete I A) {X : Scheme.{u}} (f : X ⟶ Spec (.of A))

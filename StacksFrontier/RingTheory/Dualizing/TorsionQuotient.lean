@@ -50,13 +50,14 @@ The two degree-zero statements and all of part (2) hold over an arbitrary ring w
 finitely generated. The two higher-degree statements of part (1) carry the additional
 hypothesis that `A` is Noetherian, which the source does not have.
 
-**This is a suspected mistake in the Stacks Project, flagged pending review.** The hypothesis
+**This is an error in the Stacks Project** (entry 0AW0(1) of `errata.md`). The hypothesis
 cannot be dropped: without it the source's assertion is false, by the argument below, which
-reduces it to a statement that part (3) of [Stacks, Tag 0A6P] refutes. The deviation is
-therefore recorded here rather than repaired, and it is the one place in this chapter where a
-declaration carries a hypothesis its source lacks. Should the review conclude that the source
-is right and this argument wrong, the hypothesis comes out; nothing else in the file depends on
-which way that goes.
+reduces it to a statement that part (3) of [Stacks, Tag 0A6P] refutes. The counterexample is
+formalized in `StacksFrontier.RingTheory.Dualizing.TorsionQuotientCounterexample`, as
+`Stacks.Duality.exists_not_isZero_idealLocalCohomology_primaryComponent` and
+`Stacks.Duality.exists_not_isIso_idealLocalCohomology_map_mkQ`; the corrected statement together
+with the counterexample is
+`Stacks.Duality.localCohomology_divide_by_torsion_corrected_and_counterexample` there.
 
 `RΓ_I` is the right adjoint of the inclusion `D(I^∞-torsion) ⟶ D(A)` of [Stacks, Tag 0A6L], so
 `H^p_I(N) = 0` for all `p > 0` and an `I`-power-torsion module `N` says exactly that the counit
@@ -82,11 +83,11 @@ cites Tag 0A6L — the bare adjunction, which carries no vanishing — for `RΓ_
 Tag 0A6P, three lemmas earlier in the same section, refutes that step for a finitely generated
 ideal of a non-Noetherian ring. 0A6P(3) is formalized in this library, as
 `Dualizing.exists_not_surjective_mapExt_two_powerTorsionModule` of
-`StacksFrontier.RingTheory.Dualizing.TorsionExtCounterexample`, so the refutation is a theorem here
-and not merely a citation. That declaration is existential, and its witness is the square-zero
-extension `ℤ ⋉ (ℚ/ℤ)` with `f = 2` rather than the source's
-`ℤ[f, x, xₙ]/(f x, fⁿ xₙ - x)`; either serves, the only input being a nonzero `x` with `f x = 0`
-lying in every `fⁿ A`.
+`StacksFrontier.RingTheory.Dualizing.TorsionExtCounterexample`, and the deduction of the failure
+of Tag 0AW0 from it is `Stacks.Duality.bijective_mapExt_of_isZero_idealLocalCohomology`. The
+0A6P(3) declaration is existential, and its witness is the square-zero extension `ℤ ⋉ (ℚ/ℤ)`
+with `f = 2` rather than the source's `ℤ[f, x, xₙ]/(f x, fⁿ xₙ - x)`; either serves, the only
+input being a nonzero `x` with `f x = 0` lying in every `fⁿ A`.
 
 Both theories are read off the functors `Stacks.Duality.idealLocalCohomology` and
 `Stacks.Duality.supportLocalCohomology`, and `N` is Mathlib's `Ideal.primaryComponent M I`.
@@ -116,7 +117,7 @@ namespace Stacks.Duality
 /-! ### Generalities on derived categories -/
 
 /-- An exact functor does not raise the amplitude of an object of the derived category. -/
-private lemma exactFunctor_isLE
+lemma exactFunctor_isLE
     {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
     (F : C ⥤ D) [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
     (X : DerivedCategory C) (n : ℤ) [X.IsLE n] :
@@ -127,7 +128,7 @@ private lemma exactFunctor_isLE
     ((Dualizing.mapDerivedCategoryHomologyIso F i).app X)
 
 /-- A right adjoint of the derived functor of an exact functor does not lower connectivity. -/
-private lemma derived_rightAdjoint_isGE
+lemma derived_rightAdjoint_isGE
     {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
     (F : C ⥤ D) [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
     {G : DerivedCategory D ⥤ DerivedCategory C} (adj : F.mapDerivedCategory ⊣ G)
@@ -339,7 +340,8 @@ theorem idealLocalCohomology_quotient_zero
 
 The source states this for an arbitrary ring. The Noetherian hypothesis added here cannot be
 removed: for a finitely generated ideal of a non-Noetherian ring the assertion is false, by
-part (3) of [Stacks, Tag 0A6P]. See the module docstring. -/
+part (3) of [Stacks, Tag 0A6P]; the counterexample is
+`Stacks.Duality.exists_not_isZero_idealLocalCohomology_primaryComponent`. -/
 @[stacks 0AW0 "part (1), higher cohomology of the torsion submodule"]
 theorem idealLocalCohomology_torsion_higher
     (A : Type u) [CommRing A] [IsNoetherianRing A]
@@ -368,7 +370,8 @@ an isomorphism `H^p_I(M) ≅ H^p_I(M/M[I^∞])` in every positive degree.
 The source states this for an arbitrary ring. The Noetherian hypothesis added here cannot be
 removed: taking an `I`-power-torsion `M`, so that `M/M[I^∞] = 0`, turns the assertion into the
 vanishing of `Stacks.Duality.idealLocalCohomology_torsion_higher`, which part (3) of
-[Stacks, Tag 0A6P] refutes over a non-Noetherian ring. See the module docstring. -/
+[Stacks, Tag 0A6P] refutes over a non-Noetherian ring; the counterexample is
+`Stacks.Duality.exists_not_isIso_idealLocalCohomology_map_mkQ`. -/
 @[stacks 0AW0 "part (1), higher cohomology of the quotient"]
 theorem idealLocalCohomology_quotient_map_higher
     (A : Type u) [CommRing A] [IsNoetherianRing A]
@@ -466,9 +469,11 @@ non-Noetherian ring, by the argument in the module docstring. Everything else he
 preamble and the whole of part (2) — holds over an arbitrary ring, and is stated that way by the
 eight declarations this conjoins, each of which carries the tag for its own clause; they are
 listed in the module docstring and in that of
-`StacksFrontier.AlgebraicGeometry.Duality.DivideByTorsion`. -/
-@[stacks 0AW0 "the preamble and both parts conjoined, with the Noetherian hypothesis that the \
-two higher-degree clauses of part (1) require and the source lacks"]
+`StacksFrontier.AlgebraicGeometry.Duality.DivideByTorsion`. The same statement over an arbitrary
+ring, with the Noetherian hypothesis attached to those two clauses alone, conjoined with the
+counterexamples to them, is
+`Stacks.Duality.localCohomology_divide_by_torsion_corrected_and_counterexample`. -/
+@[stacks 0AW0 "the preamble and both parts conjoined, over a Noetherian ring"]
 theorem localCohomology_divide_by_torsion
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) (hI : I.FG)
     (M : ModuleCat.{max u v} A) :

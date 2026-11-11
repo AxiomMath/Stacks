@@ -20,19 +20,21 @@ presentation over `Spec A` when it is quasi-compact and quasi-separated.
 
 ## Main definitions
 
-* `DerivedExistenceSystem.etaleStage`: the space `Uₙ = Xₙ ×_X U`.
-* `DerivedExistenceSystem.etaleStageToStage`, `DerivedExistenceSystem.etaleStageToSpace`,
-  `DerivedExistenceSystem.etaleStageBaseProjection`: its projections to `Xₙ`, to `U` and to
+* `SeparatedDerivedExistenceSystem.etaleStage`: the space `Uₙ = Xₙ ×_X U`.
+* `SeparatedDerivedExistenceSystem.etaleStageToStage`,
+  `SeparatedDerivedExistenceSystem.etaleStageToSpace`,
+  `SeparatedDerivedExistenceSystem.etaleStageBaseProjection`: its projections to `Xₙ`, to `U` and to
   `Spec Aₙ`.
 
 ## Main results
 
-* `DerivedExistenceSystem.isPullback_etaleStage`: `Uₙ` is the fibre product `Xₙ ×_X U`.
-* `DerivedExistenceSystem.isPullback_etaleStage_base`: `Uₙ` is also the fibre product
+* `SeparatedDerivedExistenceSystem.isPullback_etaleStage`: `Uₙ` is the fibre product `Xₙ ×_X U`.
+* `SeparatedDerivedExistenceSystem.isPullback_etaleStage_base`: `Uₙ` is also the fibre product
   `U ×_{Spec A} Spec Aₙ`.
-* `DerivedExistenceSystem.isEtale_etaleStageToStage`: `Uₙ ⟶ Xₙ` is étale.
-* `DerivedExistenceSystem.isFlat_structure_of_isEtale` and
-  `DerivedExistenceSystem.isFinitePresentation_structure_of_isEtale`: `U` is flat over `Spec A`,
+* `SeparatedDerivedExistenceSystem.isEtale_etaleStageToStage`: `Uₙ ⟶ Xₙ` is étale.
+* `SeparatedDerivedExistenceSystem.isFlat_structure_of_isEtale` and
+  `SeparatedDerivedExistenceSystem.isFinitePresentation_structure_of_isEtale`: `U` is flat over
+  `Spec A`,
   and of finite presentation over `Spec A` when it is quasi-compact and quasi-separated.
 
 ## References
@@ -49,9 +51,9 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
   {U : AlgebraicSpaces D.B (limitBase D.system) D.containsLimitBase} (j : U ⟶ D.X.left)
 
 /-- The `n`-th infinitesimal stage `Uₙ = Xₙ ×_X U` of a space `U` over `X`. -/
@@ -148,7 +150,7 @@ theorem isFinitePresentation_structure_of_isEtale
     isQuasiSeparated_of_isAbsolutelyQuasiSeparated_source D.B (limitBase D.system)
       D.containsLimitBase (BigFppfSite.contains_terminal D.B) U.2 hUqs _⟩
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

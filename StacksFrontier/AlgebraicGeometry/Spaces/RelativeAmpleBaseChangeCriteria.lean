@@ -46,7 +46,9 @@ Parts (1) and (2) are therefore equivalent by unfolding, as in the source.
 **The full equivalence.** Two implications of Stacks 0D36 are not proved in this file: the
 ampleness half of part (3) implies part (2), and part (4) implies part (3). They need Stacks 01VJ
 (relative ampleness is local on the base) and Stacks 0D35 (descent of relative ampleness along a
-surjective étale morphism of affine schemes), and are proved for an invertible module in
+surjective étale morphism of affine schemes, proved unconditionally as
+`AlgebraicGeometry.Space.isRelativelyAmple_iff_isRelativelyAmple_baseChange_etale`), and are
+proved for an invertible module in
 `StacksFrontier/AlgebraicGeometry/Spaces/RelativeAmpleBaseChangeCriteriaComplete.lean`, which
 assembles the four parts into `AlgebraicGeometry.Space.isRelativelyAmple_tfae_of_isInvertible`.
 

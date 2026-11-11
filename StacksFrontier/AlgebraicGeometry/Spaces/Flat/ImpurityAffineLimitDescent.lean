@@ -37,8 +37,12 @@ three points along the limit projections is again an impurity of `ℱ` above `y`
 ## Main results
 
 * `AlgebraicGeometry.Space.AffineLimitPresentation.exists_isImpurity_stageDiagram`:
-  **Stacks 0CV9**: for some stage `i` the triple `(Tᵢ ⟶ Y, t'ᵢ ⤳ tᵢ, ξᵢ)` is an impurity of
-  `ℱ` above `y`.
+  Stacks 0CV9 for a presentation carrying the cardinality clause
+  `AlgebraicGeometry.Space.SiteLimitBound`: for some stage `i` the triple
+  `(Tᵢ ⟶ Y, t'ᵢ ⤳ tᵢ, ξᵢ)` is an impurity of `ℱ` above `y`. The clause is not in the source;
+  Stacks 0CV9 itself, for an arbitrary directed system, is
+  `AlgebraicGeometry.Space.AffineLimitSystem.exists_isImpurity_stageDiagram` in
+  `StacksFrontier.AlgebraicGeometry.Spaces.Flat.ImpurityAffineLimitDescentGeneral`.
 * `AlgebraicGeometry.Space.AffineLimitPresentation.isRelativeWeakAssassinPoint_stageDiagram`:
   the relative-assassin half of the conclusion, which in fact holds at **every** stage.
 * `AlgebraicGeometry.Space.AffineLimitPresentation.isLimitBaseChangeCone`: `X_T` is the limit
@@ -156,7 +160,7 @@ private theorem range_pointsMap_iso_comp {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤
 
 /-- A morphism of fibre products `T₁ ×_Y X ⟶ T₂ ×_Y X` induced by a morphism `T₁ ⟶ T₂` over `Y`
 exhibits the source as the base change of the target. -/
-private theorem isPullback_of_comp_fst_snd {C : Type*} [Category C] [HasPullbacks C]
+theorem isPullback_of_comp_fst_snd {C : Type*} [Category C] [HasPullbacks C]
     {T₁ T₂ Y X P : C} {g₁ : T₁ ⟶ Y} {g₂ : T₂ ⟶ Y} {f : X ⟶ Y} {p : P ⟶ T₁} {q : P ⟶ X}
     {u : T₁ ⟶ T₂} (h₁ : IsPullback p q g₁ f) (hu : u ≫ g₂ = g₁) (h : P ⟶ pullback g₂ f)
     (hfst : h ≫ pullback.fst g₂ f = p ≫ u) (hsnd : h ≫ pullback.snd g₂ f = q) :
@@ -200,8 +204,10 @@ def SiteLimitBound {J : Type u} [Category.{u} J] (stage : J ⥤ BigFppfOver B S 
       ∃ μ : Cardinal.{u}, μ < B.cutoff ∧
         ∀ i : J, ((BigFppfOver.toScheme B S hS).obj (stage.obj i)).size ≤ μ)
 
-/-- **The hypothesis of Stacks 0CV9.** A presentation of the test scheme `T` of an impurity
-diagram as a directed limit `T = lim_{i} Tᵢ` of affine schemes over the target: a cofiltered
+/-- **The hypothesis of Stacks 0CV9, with a cardinality clause.** A presentation of the test
+scheme `T` of an impurity diagram as a directed limit `T = lim_{i} Tᵢ` of affine schemes over the
+target, as in `AlgebraicGeometry.Space.AffineLimitSystem`, together with the clause
+`AlgebraicGeometry.Space.SiteLimitBound`, which the source does not have: a cofiltered
 index category small enough for the site, a diagram `stage` of affine objects of the site with
 compatible morphisms `base i : Tᵢ ⟶ Y` to the target, and compatible projections
 `proj i : T ⟶ Tᵢ` over the target which exhibit `yoneda T` as the limit of the `yoneda Tᵢ`. -/
@@ -1011,11 +1017,16 @@ namespace AffineLimitPresentation
 variable {P : PrePureSituation.{u, u} B S hS} {D : ImpurityDiagram P}
   (A : AffineLimitPresentation D)
 
-/-- **Stacks 0CV9.** In Situation 0CV6, let `(g : T ⟶ Y, t' ⤳ t, ξ)` be an impurity of `ℱ`
-above `y` and let `T = lim_{i} Tᵢ` be a directed limit of affine schemes over `Y`. Then for
-some stage `i` the triple `(Tᵢ ⟶ Y, t'ᵢ ⤳ tᵢ, ξᵢ)` is an impurity of `ℱ` above `y`, where the
-three points are the images of `t'`, `t` and `ξ` under the canonical projections. -/
-@[stacks 0CV9]
+/-- **Stacks 0CV9, for a presentation carrying the cardinality clause.** In Situation 0CV6, let
+`(g : T ⟶ Y, t' ⤳ t, ξ)` be an impurity of `ℱ` above `y` and let `T = lim_{i} Tᵢ` be a directed
+limit of affine schemes over `Y` whose index category and stages satisfy
+`AlgebraicGeometry.Space.SiteLimitBound`. Then for some stage `i` the triple
+`(Tᵢ ⟶ Y, t'ᵢ ⤳ tᵢ, ξᵢ)` is an impurity of `ℱ` above `y`.
+
+The cardinality clause is not a hypothesis of Stacks 0CV9. The statement of the source, for an
+arbitrary directed system, is
+`AlgebraicGeometry.Space.AffineLimitSystem.exists_isImpurity_stageDiagram`, which carries the
+tag and is proved from this one by replacing the system with a bounded one. -/
 theorem exists_isImpurity_stageDiagram (hD : D.IsImpurity) :
     ∃ i : A.J, (A.stageDiagram i).IsImpurity := by
   classical

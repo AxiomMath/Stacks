@@ -39,17 +39,17 @@ the base-changed simplicial algebra `Q_• = A' ⊗_A P_•`, compatibly with th
 the hypothesis `B ⊗_A^L A' = B'` makes the base-changed augmentation `Q_• ⟶ B'` a resolution of
 `B'` over `A'`, which is the first half of Tag 08QP.
 
-## The one carried hypothesis
+## Remark 08QI as a parameter
 
 Comparing the complex attached to `Q_•` with the one attached to the *standard* resolution of `B'`
 over `A'` is Remark 08QI, the assertion that every simplicial polynomial resolution computes the
-cotangent complex. That remark is not available here — see the implementation note
-on Remark 08QI in `StacksFrontier/Cotangent/ResolutionComplex.lean`, which records that
-resolution-independence is unproved — so it is carried as the explicit hypothesis
+cotangent complex. In this file it is taken as the parameter
 `CommAlgCat.CotangentComputedByEveryResolution A' B'`: for every simplicial polynomial resolution
 of `B'` over `A'` and every morphism from it to the standard resolution, the induced map of the
-complexes `Ω[−⁄A'] ⊗ B'` is a quasi-isomorphism. It is the only hypothesis beyond the source's
-own, and Tag 08QI is what discharges it.
+complexes `Ω[−⁄A'] ⊗ B'` is a quasi-isomorphism. That remark is proved for every ring map, as
+`CommAlgCat.cotangentComputedByEveryResolution` of `StacksFrontier.Cotangent.AnyResolutionQuasiIso`,
+which imports this file; `StacksFrontier.Cotangent.BaseChangeQuasiIsoUnconditional` supplies it and
+states Tag 08QQ under the source's own hypothesis alone.
 
 ## Main definitions
 
@@ -70,7 +70,7 @@ own, and Tag 08QI is what discharges it.
   complexes.
 * `CommAlgCat.cotangentBaseChangeComparisonIso`: the identification of `L_{B/A} ⊗_B B'` with the
   complex of the base-changed simplicial algebra.
-* `CommAlgCat.CotangentComputedByEveryResolution`: Remark 08QI, in the form carried here.
+* `CommAlgCat.CotangentComputedByEveryResolution`: Remark 08QI, in the form used here.
 * `CommAlgCat.cotangentBaseChangeIso`: the base-change isomorphism in `D(B')`, as data.
 
 ## Main results
@@ -82,8 +82,9 @@ own, and Tag 08QI is what discharges it.
   identification of `L_{B/A} ⊗_B B'` with the complex of `Q_• = A' ⊗_A P_•` followed by the map
   induced by `Q_• ⟶ P'_•`.
 * `CommAlgCat.quasiIso_cotangentExtendScalarsMooreMap` and
-  `CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap`: **Tag 08QQ** — the functoriality map is
-  a quasi-isomorphism.
+  `CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap`: **Tag 08QQ** given Remark 08QI as the
+  parameter `hQI` — the functoriality map is a quasi-isomorphism. The forms without `hQI` are in
+  `StacksFrontier.Cotangent.BaseChangeQuasiIsoUnconditional`.
 * `CommAlgCat.isIso_Q_map_cotangentExtendScalarsComplexMap`: the same read in `D(B')`.
 
 ## Implementation notes
@@ -244,9 +245,6 @@ theorem overDifferentialsBaseChange_hom_mk (X : Over B) (p : (X.left : Type u)) 
 Extension of scalars along `B → B'` of the `B`-module of differentials `B ⊗_P Ω[P⁄A]` is the
 `B'`-module of differentials of the base-changed algebra `A' ⊗_A P`, naturally in the `A`-algebra
 `P` augmented to `B`. -/
-@[stacks 08QQ "the step of the proof the source performs by inspection: extension of scalars \
-  along B → B' of i^*Ω_{𝒪/A} is the restriction of i^*Ω_{𝒪'/A'} along the base-change functor \
-  of sites of Tag 08QN"]
 def overDifferentialsBaseChangeNatIso :
     overDifferentialsFunctor (A := A) (B := B) ⋙ ModuleCat.extendScalars b.toRingHom ≅
       baseChangeOver b ⋙ overDifferentialsFunctor (A := A') (B := B') :=
@@ -481,7 +479,7 @@ theorem cotangentBaseChangeComparisonIso_hom_f_mk (n : ℕ)
   exact overDifferentialsBaseChange_hom_mk b
     ((resolutionOver (standardResolution.{u, u} A B).hom).obj (op ⦋n⦌)) p
 
-/-! ### Remark 08QI, carried as a hypothesis -/
+/-! ### Remark 08QI, as a parameter -/
 
 /-- **Remark 08QI, in the form in which it is used here:** for every simplicial polynomial
 resolution `δ : Q_• ⟶ B'` of `B'` over `A'` and every morphism from it to the standard resolution,
@@ -555,11 +553,8 @@ theorem free_kaehlerDifferential_standardResolution (A : Type u) [CommRing A]
 The hypothesis `B ⊗_A^L A' = B'` makes the base change `A' ⊗_A P_• ⟶ B'` of the standard
 resolution a resolution of `B'` over `A'`, and the functoriality map is the map induced by
 `A' ⊗_A P_• ⟶ P'_•` read through the identification of `L_{B/A} ⊗_B B'` with the complex of
-`A' ⊗_A P_•`; Remark 08QI, carried as `CommAlgCat.CotangentComputedByEveryResolution`, inverts
-that map. -/
-@[stacks 08QQ "on the alternating-face-map complexes, under ONE carried hypothesis: Remark 08QI \
-  as CommAlgCat.CotangentComputedByEveryResolution, which Tag 08QI discharges; the source's own \
-  hypothesis and its conclusion on THE functoriality map of Tag 08PN are kept"]
+`A' ⊗_A P_•`; Remark 08QI, the parameter `hQI`, inverts that map. The form without `hQI` is
+`CommAlgCat.quasiIso_cotangentExtendScalarsMooreMap_unconditional`. -/
 theorem quasiIso_cotangentExtendScalarsMooreMap
     (hTor : RingTheory.TorIndependence.TorIndependent A A' (B : Type u))
     (hpush : Function.Bijective (baseChangeUnit b))
@@ -599,10 +594,9 @@ def cotangentExtendScalarsComplexMap :
 /-- **Stacks 08QQ.** If the commutative square `A → B`, `A → A'`, `B → B'`, `A' → B'` induces a
 quasi-isomorphism `B ⊗_A^L A' = B'`, then the functoriality map
 `L_{B/A} ⊗_B B' ⟶ L_{B'/A'}` of Tag 08PN is a quasi-isomorphism of cotangent complexes. The terms
-of `L_{B/A}` are free `B`-modules, so the left-hand side computes `L_{B/A} ⊗_B^L B'`. -/
-@[stacks 08QQ "on the cotangent complexes, under ONE carried hypothesis: Remark 08QI as \
-  CommAlgCat.CotangentComputedByEveryResolution, which Tag 08QI discharges; the source's own \
-  hypothesis B ⊗_A^L A' = B' and its conclusion on THE functoriality map of 08PN are kept"]
+of `L_{B/A}` are free `B`-modules, so the left-hand side computes `L_{B/A} ⊗_B^L B'`. Remark 08QI
+enters as the parameter `hQI`; the form without it is
+`CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap_unconditional`. -/
 theorem quasiIso_cotangentExtendScalarsComplexMap
     (hTor : RingTheory.TorIndependence.TorIndependent A A' (B : Type u))
     (hpush : Function.Bijective (baseChangeUnit b))
@@ -620,10 +614,9 @@ theorem quasiIso_cotangentExtendScalarsComplexMap
   exact quasiIso_comp _ _ (hφ := h3) (hφ' := h2)
 
 /-- **Stacks 08QQ in the derived category.** Under the hypothesis `B ⊗_A^L A' = B'` the
-functoriality map becomes an isomorphism `L_{B/A} ⊗_B^L B' ⟶ L_{B'/A'}` in `D(B')`. -/
-@[stacks 08QQ "the lemma as an isomorphism in D(B'): the image of the functoriality map of \
-  Tag 08PN under the localization D(B') is invertible. Carries the same single hypothesis, \
-  Remark 08QI as CommAlgCat.CotangentComputedByEveryResolution, discharged by Tag 08QI"]
+functoriality map becomes an isomorphism `L_{B/A} ⊗_B^L B' ⟶ L_{B'/A'}` in `D(B')`, given
+Remark 08QI as `hQI`; the form without it is
+`CommAlgCat.isIso_Q_map_cotangentExtendScalarsComplexMap_unconditional`. -/
 theorem isIso_Q_map_cotangentExtendScalarsComplexMap
     (hTor : RingTheory.TorIndependence.TorIndependent A A' (B : Type u))
     (hpush : Function.Bijective (baseChangeUnit b))
@@ -635,10 +628,8 @@ theorem isIso_Q_map_cotangentExtendScalarsComplexMap
 
 /-- **Stacks 08QQ, the base-change isomorphism.** The isomorphism
 `L_{B/A} ⊗_B^L B' ≅ L_{B'/A'}` in `D(B')` whose underlying morphism is the functoriality map of
-the square. -/
-@[stacks 08QQ "the base-change isomorphism itself, as data: an isomorphism in D(B') whose \
-  underlying morphism is the functoriality map of Tag 08PN. Carries the same single hypothesis, \
-  Remark 08QI as CommAlgCat.CotangentComputedByEveryResolution, discharged by Tag 08QI"]
+the square, given Remark 08QI as `hQI`; the form without it is
+`CommAlgCat.cotangentBaseChangeIsoUnconditional`. -/
 def cotangentBaseChangeIso
     (hTor : RingTheory.TorIndependence.TorIndependent A A' (B : Type u))
     (hpush : Function.Bijective (baseChangeUnit b))

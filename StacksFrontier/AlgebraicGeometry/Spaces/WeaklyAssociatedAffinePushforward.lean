@@ -31,7 +31,9 @@ changes of one module of sections over an affine étale chart.
 * `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_of_hasAffineStalkSquare`: such a square
   carries weak association at `x̄` to weak association at the image point.
 * `AlgebraicGeometry.Space.weaklyAssociatedPoints_modulePushforward_eq_image_of_isAffineHom`:
-  the equality of sets of points, from the stalk squares and the inclusion `⊆`.
+  the equality of sets of points, from the stalk squares and the inclusion `⊆`. Stacks 0CU8
+  without these inputs is
+  `weaklyAssociatedPoints_modulePushforward_eq_image_of_isAffineHom_locallyNoetherian`.
 
 ## Implementation notes
 
@@ -330,15 +332,12 @@ theorem isWeaklyAssociatedPoint_of_hasAffineStalkSquare {F : Modules.{u, u} B S 
   exact (IsWeaklyAssociatedPrime.of_linearEquiv eX.symm hx).tensorProduct_of_flat_square
     (maximalIdeal.isMaximal _).isPrime hmap |>.of_linearEquiv eY
 
-/-- **Stacks 0CU8.** Let `f : X → Y` be an affine morphism of algebraic spaces with `X` locally
-Noetherian and let `F` be a quasi-coherent `𝒪_X`-module. Then the weakly associated points of
-the direct image `f_*F` are exactly the images of the weakly associated points of `F`.
-
-The inclusion `h0CU2` is Stacks 0CU2, and `h05VP` is the affine chart presentation of the two
-geometric stalks of Stacks 05VP, which also carries the quasi-coherence of the direct image of
-Stacks 03M9; both are assumed here in the affine, locally Noetherian, quasi-coherent situation
-in which they are asserted. -/
-@[stacks 0CU8]
+/-- Let `f : X → Y` be an affine morphism of algebraic spaces with `X` locally Noetherian and
+let `F` be a quasi-coherent `𝒪_X`-module. Given the inclusion `h0CU2` of the weakly associated
+points of `f_*F` in the image of those of `F`, and the affine chart presentations `h05VP` of the
+geometric stalks of `F` and `f_*F` at every geometric point of `X`, the two sets of points are
+equal. Stacks 0CU8 itself, with neither input assumed, is
+`weaklyAssociatedPoints_modulePushforward_eq_image_of_isAffineHom_locallyNoetherian`. -/
 theorem weaklyAssociatedPoints_modulePushforward_eq_image_of_isAffineHom
     (hf : IsAffineHom B S hS f.hom)
     (hX : HasEtaleLocalProperty B S hS X.1 (fun T : Scheme.{u} => IsLocallyNoetherian T))

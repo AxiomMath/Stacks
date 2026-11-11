@@ -22,9 +22,11 @@ killed by `L` with no morphism from `K⟦-n⟧` for `n ≤ a` has vanishing homo
 then (2) at `a + 1` implies (1) at `a`.
 
 For `j : U ⟶ X = Spec A` the inclusion of `U = ⋃ᵢ D(fᵢ)`, `L = j^*`, `R = Rj_*` and `K` the
-sheafified Koszul complex of `f₁, …, f_r`, this gives [Stacks, Tag 0GEK] for `E ∈ D_QCoh(𝒪_X)`:
-(2) at `a + 1` implies (1) at `a`, and (1) at `a` implies (2) at `a - 1`. The published "(2)
-implies (1)" at the same index `a` is false.
+sheafified Koszul complex of `f₁, …, f_r`, this gives [Stacks, Tag 0GEK] for `E ∈ D_QCoh(𝒪_X)`,
+corrected per `errata.md`: (1) at `a` implies (2) at `a`, and (2) at `a + 1` implies (1) at `a`.
+The published "(2) implies (1)" at the same index `a` is false
+(`Stacks.Koszul.Errata.erratum_0GEK`); the published "(1) implies (2) with `a` replaced by
+`a - 1`" follows from (1) at `a` implies (2) at `a`.
 
 Both indices are sharp. Take `A = k[x]`, `f = (x)`, so that `U = D(x)` and `K = (A --x--> A)` is
 concentrated in degrees `-1, 0`.
@@ -57,10 +59,13 @@ concentrated in degrees `-1, 0`.
   `a` for the sheafified Koszul complex on an affine scheme and an arbitrary `E`.
 * `Stacks.Koszul.Truncation.truncLE_restriction_of_hom_koszul_eq_zero_of_detection`: (2) at
   `a + 1` gives (1) at `a` on an affine scheme, under the detection hypothesis.
-* `Stacks.Koszul.Truncation.truncLE_restriction_of_hom_koszul_eq_zero` and
-  `Stacks.Koszul.Truncation.hom_koszul_eq_zero_of_truncLE_restriction_sub_one`: the two
-  implications of [Stacks, Tag 0GEK], `(2) at a + 1 ⟹ (1) at a` and `(1) at a ⟹ (2) at a - 1`,
-  for `E ∈ D_QCoh(𝒪_X)`.
+* `Stacks.Koszul.Truncation.truncLE_restriction_of_hom_koszul_eq_zero`: `(2) at a + 1 ⟹ (1) at
+  a` for `E ∈ D_QCoh(𝒪_X)`.
+* `Stacks.Koszul.Truncation.hom_koszul_eq_zero_of_truncLE_restriction_sub_one`: the printed
+  `(1) at a ⟹ (2) at a - 1`.
+* `Stacks.Koszul.Truncation.truncLE_restriction_koszul_criterion`: [Stacks, Tag 0GEK] corrected
+  per `errata.md`, both directions for `E ∈ D_QCoh(𝒪_X)`: `(1) at a ⟹ (2) at a` and
+  `(2) at a + 1 ⟹ (1) at a`.
 
 ## References
 
@@ -270,10 +275,8 @@ variable {A : Type u} [CommRing A] {r : ℕ} (f : Fin r → A)
 let `K` be the sheafified Koszul complex of the sequence. Let `E` be an object of `D_QCoh(𝒪_X)`,
 that is one whose cohomology sheaves are quasi-coherent. If every morphism `K⟦-n⟧ ⟶ E` vanishes
 for `n ≤ a + 1`, then the canonical map `E ⟶ Rj_*(E|_U)` is invertible after truncation in
-degrees `≤ a`. -/
-@[stacks 0GEK "(2) at a+1 implies (1) at a, for E in D_QCoh. This is the corrected reverse
-implication; the published '(2) at a implies (1) at a' is false: for A = k[x], f = (x),
-E = 𝒪_X and a = 0 condition (2) holds and (1) fails, see the module documentation"]
+degrees `≤ a`. This is the second half of `truncLE_restriction_koszul_criterion`, which
+carries [Stacks, Tag 0GEK] in its corrected form. -/
 theorem truncLE_restriction_of_hom_koszul_eq_zero
     (E : DerivedCategory (Spec (CommRingCat.of A)).Modules)
     (hE : DerivedCategoryB.derivedCategoryB (A := (Spec (CommRingCat.of A)).Modules)
@@ -301,9 +304,9 @@ theorem truncLE_restriction_of_hom_koszul_eq_zero
 let `K` be the sheafified Koszul complex of the sequence. Let `E` be an object of `D_QCoh(𝒪_X)`,
 that is one whose cohomology sheaves are quasi-coherent. If the canonical map `E ⟶ Rj_*(E|_U)` is
 invertible after truncation in degrees `≤ a`, then every morphism `K⟦-n⟧ ⟶ E` vanishes for
-`n ≤ a - 1`. -/
-@[stacks 0GEK "(1) implies (2) with a replaced by a-1, at the source's own index, for E in
-D_QCoh"]
+`n ≤ a - 1`. This is the printed implication "(1) implies (2) with `a` replaced by `a - 1`"
+of [Stacks, Tag 0GEK]; the sharper `(1) at a ⟹ (2) at a` is the first half of
+`truncLE_restriction_koszul_criterion`. -/
 theorem hom_koszul_eq_zero_of_truncLE_restriction_sub_one
     (E : DerivedCategory (Spec (CommRingCat.of A)).Modules)
     (_hE : DerivedCategoryB.derivedCategoryB (A := (Spec (CommRingCat.of A)).Modules)
@@ -313,6 +316,35 @@ theorem hom_koszul_eq_zero_of_truncLE_restriction_sub_one
       ((derivedRestrictPushforwardAdjunction (openComplement f).ι).unit.app E))) :
     ∀ n : ℤ, n ≤ a - 1 → Subsingleton ((koszulObject f)⟦-n⟧ ⟶ E) :=
   fun n hn ↦ hom_koszul_eq_zero_of_truncLE_restriction f E a h n (by omega)
+
+/-- Let `f₁, …, f_r ∈ A`, let `U = ⋃ᵢ D(f_i) ⊆ X = Spec A`, let `j : U ⟶ X` be the inclusion, let
+`K` be the sheafified Koszul complex of the sequence, let `E` be an object of `D_QCoh(𝒪_X)` and let
+`a ∈ ℤ`. Write (1) at `a` for "the canonical map `τ_{≤a}E ⟶ τ_{≤a}Rj_*(E|_U)` is an isomorphism"
+and (2) at `a` for "every morphism `K⟦-n⟧ ⟶ E` with `n ≤ a` vanishes". Then (1) at `a` implies
+(2) at `a`, and (2) at `a + 1` implies (1) at `a`.
+
+This is [Stacks, Tag 0GEK] corrected per `errata.md` (entry 0GEK, false statement, wrong index):
+the printed "(2) implies (1)" at the same `a` is false (`Stacks.Koszul.Errata.erratum_0GEK`, with
+`A = k[x]`, `f = (x)`, `E = 𝒪_X`, `a = 0`, proved on the affine side `D(A) ≌ D_QCoh(𝒪_X)`),
+and the printed "(1) implies (2) with `a` replaced by `a - 1`" is contained in the first
+conjunct. -/
+@[stacks 0GEK "Corrected per errata.md (0GEK, wrong index): for E in D_QCoh, (1) at a implies
+(2) at a, and (2) at a+1 implies (1) at a. The printed '(2) implies (1)' at the same a is false
+(Stacks.Koszul.Errata.erratum_0GEK: A = k[x], f = (x), E = 𝒪_X, a = 0); the printed
+'(1) implies (2) with a replaced by a-1' follows from the first conjunct"]
+theorem truncLE_restriction_koszul_criterion
+    (E : DerivedCategory (Spec (CommRingCat.of A)).Modules)
+    (hE : DerivedCategoryB.derivedCategoryB (A := (Spec (CommRingCat.of A)).Modules)
+      (SheafOfModules.isQuasicoherent (Spec (CommRingCat.of A)).ringCatSheaf) E)
+    (a : ℤ) :
+    (IsIso ((DerivedCategory.TStructure.t.truncLE a).map
+        ((derivedRestrictPushforwardAdjunction (openComplement f).ι).unit.app E)) →
+      ∀ n : ℤ, n ≤ a → Subsingleton ((koszulObject f)⟦-n⟧ ⟶ E)) ∧
+    ((∀ n : ℤ, n ≤ a + 1 → Subsingleton ((koszulObject f)⟦-n⟧ ⟶ E)) →
+      IsIso ((DerivedCategory.TStructure.t.truncLE a).map
+        ((derivedRestrictPushforwardAdjunction (openComplement f).ι).unit.app E))) :=
+  ⟨hom_koszul_eq_zero_of_truncLE_restriction f E a,
+    truncLE_restriction_of_hom_koszul_eq_zero f E hE a⟩
 
 end LocallySmall
 

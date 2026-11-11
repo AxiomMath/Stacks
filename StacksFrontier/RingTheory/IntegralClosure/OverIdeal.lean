@@ -85,15 +85,19 @@ end
 /-!
 # Characterization of elements integral over an ideal
 
-Let `φ : R →+* S` be a ring map and `I ⊂ R` an ideal. An element `s : S` is
-*integral over the ideal `I`* (with respect to `φ`) if there is a monic
-polynomial `p ∈ R[X]` of natural degree `n ≥ 1` whose `i`-th coefficient lies
-in `I ^ (n - i)` for every `i < n`, and such that `p.eval₂ φ s = 0`.
+Let `φ : R →+* S` be a ring map and `I ⊂ R` an ideal, and let `A = reesAlgebra I ⊂ R[t]` be the
+Rees algebra `∑ Iⁿ tⁿ`, viewed inside `S[t]` via the coefficientwise extension of `φ`.
+[Stacks, Tag 00H3] characterizes the elements of `S` integral over `I`
+(`RingHom.IsIntegralElemOverIdeal`): `s` is integral over `I` if and only if `C s · t ∈ S[t]` is
+integral over `A`.
 
-A standard equivalent characterization is that `C s · X ∈ S[X]` is integral
-over the Rees algebra `A = reesAlgebra I ⊂ R[X]`, viewed inside `S[X]` via
-the coefficient-wise extension of `φ`. This file formalizes the definition
-and the forward direction of this equivalence.
+## Main results
+
+* `isIntegralElem_of_isIntegralOverIdeal`: if `s` is integral over `I`, then `C s · t` is
+  integral over `A`.
+* `isIntegralElemOverIdeal_of_isIntegralElem`: if `C s · t` is integral over `A`, then `s` is
+  integral over `I`.
+* `isIntegralElemOverIdeal_iff_isIntegralElem`: [Stacks, Tag 00H3], the equivalence.
 -/
 
 @[expose] public section
@@ -101,15 +105,6 @@ and the forward direction of this equivalence.
 open Polynomial
 
 variable {R S : Type*} [CommRing R] [CommRing S]
-
-/-- An element `s : S` is *integral over the ideal* `I ⊂ R` (with respect to a
-ring map `φ : R →+* S`) iff there exists a monic polynomial `p ∈ R[X]` of
-natural degree `n ≥ 1` whose `i`-th coefficient lies in `I ^ (n - i)` for every
-`i < n`, and such that `p.eval₂ φ s = 0`. -/
-def IsIntegralOverIdeal (φ : R →+* S) (I : Ideal R) (s : S) : Prop :=
-  ∃ p : R[X], p.Monic ∧ 1 ≤ p.natDegree ∧
-    (∀ i, i < p.natDegree → p.coeff i ∈ I ^ (p.natDegree - i)) ∧
-    p.eval₂ φ s = 0
 
 /-- The image of the Rees algebra of `I` inside `S[X]` under the
 coefficient-wise extension of `φ : R →+* S`. -/
@@ -218,39 +213,109 @@ lemma forwardWitness_eval₂_factor (φ : R →+* S) (I : Ideal R) (p : R[X]) (s
       (fun i => C (φ (p.coeff i) * s ^ i) * X ^ p.natDegree), C_mul_X_pow]
   simp only [forward_summand_eq]
 
-/-- If `s : S` is integral over the ideal `I ⊂ R` (with respect to `φ : R →+* S`),
-then `C s · X ∈ S[X]` is integral over the Rees subalgebra `reesAlgebra I`
-viewed inside `S[X]` via the coefficient-wise extension of `φ`. -/
-@[stacks 00H3 "Forward implication only: integral over I implies C s * X integral over \
-reesAlgebra I. The converse half of the equivalence is not formalized."]
+/-- If `s : S` is integral over the ideal `I ⊆ R` with respect to `φ : R →+* S`, then
+`C s · X ∈ S[X]` is integral over the Rees subalgebra `reesAlgebra I`, viewed inside `S[X]` along
+the coefficientwise extension of `φ`.
+
+A monic witness of degree zero is `1`, whose vanishing at `s` makes `s = 0`, and then `C s · X`
+is zero and `X` is a witness; otherwise `forwardWitness` multiplies the `i`-th coefficient by
+`X ^ (n - i)` to land in the Rees algebra. -/
 theorem isIntegralElem_of_isIntegralOverIdeal (φ : R →+* S) (I : Ideal R) (s : S)
-    (h : IsIntegralOverIdeal φ I s) :
+    (h : φ.IsIntegralElemOverIdeal I s) :
     (reesToPolyS φ I).IsIntegralElem (C s * X) := by
-  obtain ⟨p, hp, hn, hcoeff, heval⟩ := h
-  refine ⟨forwardWitness I p hcoeff, forwardWitness_monic I p hcoeff hn, ?_⟩
-  rw [forwardWitness_eval₂_factor φ I p s hp hcoeff, heval, Polynomial.C_0, zero_mul]
+  obtain ⟨p, hp, hcoeff, heval⟩ := h
+  have hc : ∀ i, i < p.natDegree → p.coeff i ∈ I ^ (p.natDegree - i) := fun i _ => hcoeff i
+  rcases Nat.eq_zero_or_pos p.natDegree with h0 | hn
+  · rw [hp.natDegree_eq_zero.mp h0, Polynomial.eval₂_one] at heval
+    have hs : s = 0 := by rw [← mul_one s, heval, mul_zero]
+    refine ⟨X, monic_X, ?_⟩
+    rw [Polynomial.eval₂_X, hs, Polynomial.C_0, zero_mul]
+  · refine ⟨forwardWitness I p hc, forwardWitness_monic I p hc hn, ?_⟩
+    rw [forwardWitness_eval₂_factor φ I p s hp hc, heval, Polynomial.C_0, zero_mul]
+
+/-! ### Converse direction -/
+
+/-- If `C s · X ∈ S[X]` is integral over the Rees subalgebra `reesAlgebra I`, viewed inside `S[X]`
+along the coefficientwise extension of `φ`, then `s` is integral over `I`.
+
+Let `Q` be a monic witness of degree `d` with coefficients `Q_i ∈ reesAlgebra I`. The
+coefficient of `X ^ d` in `Q (C s · X) = 0` is `∑_{i ≤ d} φ (Q_i)_{d - i} · s ^ i = 0`, and
+`(Q_i)_{d - i} ∈ I ^ (d - i)` by definition of the Rees algebra, while `(Q_d)_0 = 1`. So
+`∑_{i ≤ d} (Q_i)_{d - i} X ^ i` witnesses that `s` is integral over `I`. -/
+theorem isIntegralElemOverIdeal_of_isIntegralElem (φ : R →+* S) (I : Ideal R) (s : S)
+    (h : (reesToPolyS φ I).IsIntegralElem (C s * X)) :
+    φ.IsIntegralElemOverIdeal I s := by
+  rcases subsingleton_or_nontrivial R with _ | _
+  · exact ⟨0, Subsingleton.elim _ _, fun j => by rw [coeff_zero]; exact Submodule.zero_mem _,
+      Polynomial.eval₂_zero _ _⟩
+  obtain ⟨p, hp, e⟩ := h
+  let q : R[X] := ∑ i ∈ Finset.range (p.natDegree + 1),
+    C ((p.coeff i : R[X]).coeff (p.natDegree - i)) * X ^ i
+  have hqc : ∀ i, q.coeff i =
+      if i ≤ p.natDegree then (p.coeff i : R[X]).coeff (p.natDegree - i) else 0 := by
+    intro i
+    simp only [q, finsetSum_coeff, coeff_C_mul_X_pow, Finset.sum_ite_eq, Finset.mem_range,
+      Nat.lt_succ_iff]
+  have hq1 : q.coeff p.natDegree = 1 := by
+    rw [hqc, ite_eq_left le_rfl, Nat.sub_self, hp.coeff_natDegree]
+    simp
+  have hq : q.natDegree = p.natDegree := by
+    refine natDegree_eq_of_le_of_coeff_ne_zero (natDegree_sum_le_of_forall_le _ _ ?_) ?_
+    · exact fun i hi => (natDegree_C_mul_X_pow_le _ _).trans
+        (Nat.lt_succ_iff.mp (Finset.mem_range.mp hi))
+    · rw [hq1]
+      exact one_ne_zero
+  refine ⟨q, ?_, fun j => ?_, ?_⟩
+  · rw [Monic, leadingCoeff, hq, hq1]
+  · rw [hq, hqc]
+    split_ifs
+    · exact (p.coeff j).2 (p.natDegree - j)
+    · exact Submodule.zero_mem _
+  · replace e := congr(($e).coeff p.natDegree)
+    rw [eval₂_eq_sum_range, finsetSum_coeff, coeff_zero] at e
+    rw [eval₂_eq_sum_range, hq]
+    refine (Finset.sum_congr rfl fun i hi => ?_).trans e
+    have hi : i ≤ p.natDegree := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
+    rw [hqc, ite_eq_left hi, mul_pow, ← mul_assoc, ← Polynomial.C_pow, coeff_mul_X_pow',
+      ite_eq_left hi, coeff_mul_C]
+    simp [reesToPolyS, coeff_map]
+
+/-- **[Stacks, Tag 00H3].** Let `φ : R →+* S` be a ring map and `I ⊆ R` an ideal, and let
+`A = reesAlgebra I = ∑ Iⁿ Xⁿ ⊆ R[X]`, mapped to `S[X]` along the coefficientwise extension of `φ`.
+An element `s : S` is integral over `I` if and only if `C s · X ∈ S[X]` is integral over `A`.
+
+Both directions are proved: `isIntegralElem_of_isIntegralOverIdeal` (forward) and
+`isIntegralElemOverIdeal_of_isIntegralElem` (converse, by taking the `X ^ d` coefficient). -/
+@[stacks 00H3]
+theorem isIntegralElemOverIdeal_iff_isIntegralElem (φ : R →+* S) (I : Ideal R) (s : S) :
+    φ.IsIntegralElemOverIdeal I s ↔ (reesToPolyS φ I).IsIntegralElem (C s * X) :=
+  ⟨isIntegralElem_of_isIntegralOverIdeal φ I s,
+    isIntegralElemOverIdeal_of_isIntegralElem φ I s⟩
 
 end
 
 /-!
-# Elements integral over an ideal form a submodule (partial)
+# Elements integral over an ideal form a submodule
 
-Let `φ : R → S` be a ring map and let `I ⊂ R` be an ideal. The Stacks lemma
-`00H4` asserts that the set of elements of `S` that are integral over `I` forms
-an `R`-submodule of `S`.
+Let `φ : R → S` be a ring map and let `I ⊂ R` be an ideal. [Stacks, Tag 00H4] asserts that the
+set of elements of `S` integral over `I` (`RingHom.IsIntegralElemOverIdeal`) is an
+`R`-submodule of `S`, and that it is stable under multiplication by the elements of `S` integral
+over `R`.
 
-The full statement decomposes into three closure properties:
+## Main definitions
 
-* `0` is integral over `I`,
-* if `g` is integral over `I` and `r ∈ R`, then `φ r * g` is integral over `I`,
-* if `g, g'` are integral over `I`, then `g + g'` is integral over `I`.
+* `Ideal.integralClosureSubmodule`: for an `R`-algebra `S`, the `R`-submodule of `S` of elements
+  integral over `I`.
 
-The first two follow directly from witness manipulation: use `X` for the zero element, and
-scale roots by `r` for the scalar multiplication. Closure under addition requires the
-determinant / Cayley–Hamilton argument inside the module-finite subalgebra `R[g, g']` and is
-not treated here.
+## Main results
 
-Integrality over an ideal is `RingHom.IsIntegralElemOverIdeal`.
+* `zero_isIntegralElemOverIdeal`, `mul_left_isIntegralElemOverIdeal`: `0` is integral over `I`,
+  and so is `φ r * g` whenever `g` is.
+* `add_isIntegralElemOverIdeal`: the sum of two elements integral over `I` is integral over `I`,
+  through the Rees algebra characterization `isIntegralElemOverIdeal_iff_isIntegralElem`.
+* `mul_isIntegralElemOverIdeal_of_isIntegralElem`: if `s` is integral over `R` and `g` is
+  integral over `I`, then `s * g` is integral over `I`.
+* `Ideal.exists_submodule_and_mul_isIntegralElemOverIdeal`: [Stacks, Tag 00H4].
 -/
 
 @[expose] public section
@@ -258,9 +323,7 @@ Integrality over an ideal is `RingHom.IsIntegralElemOverIdeal`.
 open Polynomial
 
 /-- The zero element of `S` is integral over any ideal `I ⊂ R`, witnessed by
-the polynomial `X`. (Partial component of Stacks `00H4`.) -/
-@[stacks 00H4 "Partial: only that 0 is integral over I. Closure under addition, and hence \
-the submodule conclusion of 00H4, is not formalized."]
+the polynomial `X`. -/
 theorem zero_isIntegralElemOverIdeal
     {R : Type*} {S : Type*} [CommRing R] [Ring S]
     (φ : R →+* S) (I : Ideal R) :
@@ -282,11 +345,7 @@ theorem zero_isIntegralElemOverIdeal
   · simp
 
 /-- If `g ∈ S` is integral over the ideal `I` and `r ∈ R`, then `φ r * g` is
-integral over `I`. (Partial component of Stacks `00H4`: closure under
-`R`-scalar multiplication, with the action expressed through the ring map
-`φ`.) -/
-@[stacks 00H4 "Partial: only closure under R-scalar multiplication. Closure under addition, \
-and hence the submodule conclusion of 00H4, is not formalized."]
+integral over `I`, by scaling the roots of a witness by `r`. -/
 theorem mul_left_isIntegralElemOverIdeal
     {R : Type*} {S : Type*} [CommRing R] [CommRing S]
     (φ : R →+* S) (I : Ideal R) (r : R) (g : S)
@@ -303,6 +362,72 @@ theorem mul_left_isIntegralElemOverIdeal
     exact Ideal.mul_mem_right _ _ (hCoeff j)
   · -- `scaleRoots_eval₂_eq_zero` : `eval₂ φ r P = 0 → eval₂ φ (φ r * g) (P.scaleRoots r) = 0`.
     exact scaleRoots_eval₂_eq_zero φ hEval
+
+section Closure
+
+variable {R S : Type*} [CommRing R] [CommRing S]
+
+/-- The sum of two elements integral over `I` is integral over `I`: by
+`isIntegralElemOverIdeal_iff_isIntegralElem`, `C g · X` and `C g' · X` are integral over the
+Rees algebra of `I`, hence so is their sum `C (g + g') · X`. -/
+theorem add_isIntegralElemOverIdeal (φ : R →+* S) (I : Ideal R) {g g' : S}
+    (hg : φ.IsIntegralElemOverIdeal I g) (hg' : φ.IsIntegralElemOverIdeal I g') :
+    φ.IsIntegralElemOverIdeal I (g + g') := by
+  rw [isIntegralElemOverIdeal_iff_isIntegralElem] at hg hg' ⊢
+  rw [C_add, add_mul]
+  exact RingHom.IsIntegralElem.add _ hg hg'
+
+/-- An element `s` of `S` integral over `R` gives the degree-zero element `C s` of `S[X]`
+integral over the Rees algebra of `I`, which contains `R`. -/
+theorem isIntegralElem_C_of_isIntegralElem (φ : R →+* S) (I : Ideal R) {s : S}
+    (hs : φ.IsIntegralElem s) : (reesToPolyS φ I).IsIntegralElem (C s) := by
+  obtain ⟨P, hP, hPs⟩ := hs
+  refine ⟨P.map (algebraMap R (reesAlgebra I)), hP.map _, ?_⟩
+  have hcomp : (reesToPolyS φ I).comp (algebraMap R (reesAlgebra I)) = C.comp φ :=
+    RingHom.ext fun r => by simp [reesToPolyS]
+  rw [eval₂_map, hcomp, ← Polynomial.hom_eval₂, hPs, map_zero]
+
+/-- If `s` is integral over `R` and `g` is integral over `I`, then `s * g` is integral over `I`:
+`C (s * g) · X = C s · (C g · X)` is a product of two elements of `S[X]` integral over the Rees
+algebra of `I`. -/
+theorem mul_isIntegralElemOverIdeal_of_isIntegralElem (φ : R →+* S) (I : Ideal R) {s g : S}
+    (hs : φ.IsIntegralElem s) (hg : φ.IsIntegralElemOverIdeal I g) :
+    φ.IsIntegralElemOverIdeal I (s * g) := by
+  rw [isIntegralElemOverIdeal_iff_isIntegralElem] at hg ⊢
+  rw [C_mul, mul_assoc]
+  exact RingHom.IsIntegralElem.mul _ (isIntegralElem_C_of_isIntegralElem φ I hs) hg
+
+variable (S) [Algebra R S]
+
+/-- The `R`-submodule of the `R`-algebra `S` consisting of the elements integral over the ideal
+`I ⊆ R` along `algebraMap R S`. -/
+def Ideal.integralClosureSubmodule (I : Ideal R) : Submodule R S where
+  carrier := {g | (algebraMap R S).IsIntegralElemOverIdeal I g}
+  add_mem' := add_isIntegralElemOverIdeal _ I
+  zero_mem' := zero_isIntegralElemOverIdeal _ I
+  smul_mem' r g hg := by
+    rw [Set.mem_ofPred_eq, Algebra.smul_def]
+    exact mul_left_isIntegralElemOverIdeal _ I r g hg
+
+variable {S}
+
+/-- Membership in `Ideal.integralClosureSubmodule` is integrality over the ideal. -/
+theorem Ideal.mem_integralClosureSubmodule {I : Ideal R} {g : S} :
+    g ∈ I.integralClosureSubmodule S ↔ (algebraMap R S).IsIntegralElemOverIdeal I g :=
+  Iff.rfl
+
+/-- **[Stacks, Tag 00H4].** Let `S` be an `R`-algebra and `I ⊆ R` an ideal. The elements of `S`
+integral over `I` form an `R`-submodule of `S`; furthermore, if `s ∈ S` is integral over `R` and
+`g ∈ S` is integral over `I`, then `s * g` is integral over `I`. -/
+@[stacks 00H4]
+theorem Ideal.exists_submodule_and_mul_isIntegralElemOverIdeal (I : Ideal R) :
+    (∃ M : Submodule R S, ∀ g, g ∈ M ↔ (algebraMap R S).IsIntegralElemOverIdeal I g) ∧
+      ∀ s g : S, IsIntegral R s → (algebraMap R S).IsIntegralElemOverIdeal I g →
+        (algebraMap R S).IsIntegralElemOverIdeal I (s * g) :=
+  ⟨⟨I.integralClosureSubmodule S, fun _ => Iff.rfl⟩,
+    fun _ _ hs hg => mul_isIntegralElemOverIdeal_of_isIntegralElem _ I hs hg⟩
+
+end Closure
 
 end
 

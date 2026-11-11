@@ -38,21 +38,20 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Stacks 008Y — adjointness of `f^{-1}` and `f_*` for sheaves of modules
+# Adjointness of Mathlib's abstract pullback and the pushforward of sheaves of modules
 
 Let `f : X ⟶ Y` be a continuous map of topological spaces and `O` a sheaf of rings on `Y`.
-Tag 008Y says that the pullback functor `Mod(O) ⥤ Mod(f^{-1}O)` is left adjoint to the
-pushforward `Mod(f^{-1}O) ⥤ Mod(O)`, so that
-`Mor_{Mod(f^{-1}O)}(f^{-1}G, F) ≃ Mor_{Mod(O)}(G, f_*F)` for all `G` and `F`.
+This file records Mathlib's adjunction `SheafOfModules.pullbackPushforwardAdjunction` over
+the ring `f⁻¹O = (TopCat.Sheaf.pullback RingCat f).obj O`, where the `O`-module structure on
+`f_*F` comes by restriction of scalars along the unit `O ⟶ f_*f⁻¹O` of the corresponding
+adjunction on sheaves of rings (`adjunctionUnit`).
 
-Here `f^{-1}O` is the sheafification of `U ↦ colim_{V ⊇ f(U)} O(V)`, Mathlib's
-`TopCat.Sheaf.pullback`, and the `O`-module structure on `f_*F` comes by restriction of
-scalars along the unit `O ⟶ f_*f^{-1}O` of the corresponding adjunction on sheaves of rings
-(`adjunctionUnit`). The adjunction is Mathlib's
-`SheafOfModules.pullbackPushforwardAdjunction` at that unit: `adjointPullbackPushforward`,
-which carries the tag, and `homEquivPullbackPushforward` is the bijection read off its
-`Adjunction.homEquiv`. Both are recorded as the data they are, so that the unit, the counit
-and the bijection itself are available to consumers.
+Mathlib's `SheafOfModules.pullback` is defined as the left adjoint of the pushforward, chosen
+abstractly; it is not the concrete inverse image `f⁻¹G` of Stacks Tag 008X. Stacks Tag 008Y
+for the concrete inverse image is
+`InverseImageModules.inverseImageModulesHomEquiv` in
+`StacksFrontier.Topology.Sheaves.Functors.Module.InverseImageAdjunction`; here
+`adjointPullbackPushforward` and `homEquivPullbackPushforward` are the abstract counterparts.
 -/
 
 @[expose] public section
@@ -109,11 +108,12 @@ noncomputable abbrev pullbackModules008Y :
 
 -- isDefEq transparency bump: `TopCat.Sheaf` against `Sheaf J RingCat`
 set_option backward.isDefEq.respectTransparency.types false in
-/-- **Stacks Project tag `008Y`** (Adjointness of `f⁻¹` and `f_*` for sheaves of modules).
+/-- Adjointness of Mathlib's abstract pullback and the pushforward of sheaves of modules.
 
 For a continuous map `f : X → Y` of topological spaces and a sheaf of rings `O` on `Y`,
-the pullback functor on sheaves of modules
-`f⁻¹ : SheafOfModules O ⥤ SheafOfModules (f⁻¹O)` is left adjoint to the pushforward
+Mathlib's pullback functor on sheaves of modules
+`SheafOfModules.pullback : SheafOfModules O ⥤ SheafOfModules (f⁻¹O)`, defined as the
+(abstractly chosen) left adjoint of the pushforward, is left adjoint to the pushforward
 functor `f_* : SheafOfModules (f⁻¹O) ⥤ SheafOfModules O`, where:
 
 * `f⁻¹O = (TopCat.Sheaf.pullback RingCat f).obj O` is the canonical pullback sheaf of
@@ -122,10 +122,9 @@ functor `f_* : SheafOfModules (f⁻¹O) ⥤ SheafOfModules O`, where:
   obtained by restriction of scalars along the canonical adjunction unit
   `O → f_*f⁻¹O` for sheaves of rings (i.e. `adjunctionUnit f O`).
 
-The adjunction is Mathlib's `SheafOfModules.pullbackPushforwardAdjunction` at that unit,
-recorded here with its unit and counit rather than only its existence; the hom-set formula
-of the tag is read off it as `homEquivPullbackPushforward`. -/
-@[stacks 008Y]
+This is Mathlib's `SheafOfModules.pullbackPushforwardAdjunction` at that unit. Stacks
+Tag 008Y, for the concrete inverse image `f⁻¹G` of Tag 008X, is
+`InverseImageModules.inverseImageModulesHomEquiv`. -/
 noncomputable def adjointPullbackPushforward :
     SheafOfModules.pullback.{u} (adjunctionUnit f O) ⊣
       SheafOfModules.pushforward.{u} (adjunctionUnit f O) :=
@@ -147,7 +146,7 @@ theorem adjoint_pullback_pushforward :
 
 -- isDefEq transparency bump: `TopCat.Sheaf` against `Sheaf J RingCat`
 set_option backward.isDefEq.respectTransparency.types false in
-/-- **Stacks Project tag `008Y`**, Hom-set form: the natural bijection
+/-- Hom-set form of `adjointPullbackPushforward`: the natural bijection
 ```
   Mor_{Mod(f⁻¹O)}(f⁻¹G, F) ≃ Mor_{Mod(O)}(G, f_*F)
 ```
@@ -155,7 +154,9 @@ for a sheaf of `O`-modules `G` on `Y` and a sheaf of `f⁻¹O`-modules `F` on `X
 where `f_*F` is viewed as an `O`-module by restriction of scalars along
 `O → f_*f⁻¹O`. It is the hom-set bijection of `adjointPullbackPushforward`, so it is
 bifunctorial in `G` and `F` by `Adjunction.homEquiv_naturality_left` and
-`Adjunction.homEquiv_naturality_right`. -/
+`Adjunction.homEquiv_naturality_right`. Here the pullback is Mathlib's abstract left
+adjoint; for Stacks Tag 008Y with the concrete inverse image of Tag 008X see
+`InverseImageModules.inverseImageModulesHomEquiv`. -/
 noncomputable def homEquivPullbackPushforward
     (G : SheafOfModules.{u} O) (F : SheafOfModules.{u} (invImageRings f O)) :
     ((SheafOfModules.pullback.{u} (adjunctionUnit f O)).obj G ⟶ F) ≃

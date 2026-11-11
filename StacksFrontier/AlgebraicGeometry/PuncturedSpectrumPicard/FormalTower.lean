@@ -219,8 +219,10 @@ arbitrary scheme over `U`.
 group is `Stacks.Picard.ofScheme` and the pullback is `Stacks.Picard.schemePullbackClass`, as in
 [Stacks, Tag 0F2G] and [Stacks, Tag 0FIX].
 
-**No declaration in this file proves this.**  It is stated so that the inputs the tag still needs
-are legible; see `Stacks.PuncturedSpectrumPicard.exists_isCompatible` for what is proved. -/
+It is proved, under the hypotheses of [Stacks, Tag 0F2D], as
+`Stacks.PuncturedSpectrumPicard.picardColimitSurjective` (in `FormalPicardAlgebraization`); this
+file supplies the formal tower it is built from, see
+`Stacks.PuncturedSpectrumPicard.exists_isCompatible`. -/
 def PicardColimitSurjective (A : Type u) [CommRing A] [IsLocalRing A] (f : A) : Prop :=
   ∀ c : Stacks.Picard.ofScheme (Stacks.Algebraization.puncturedClosedFibre A f).toScheme,
     ∃ (V : (Stacks.Divisors.puncturedSpectrum A).toScheme.Opens)

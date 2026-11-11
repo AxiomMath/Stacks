@@ -58,7 +58,8 @@ from Stacks 069G.
 * `Stacks.Chow.SmoothFactorization.exists_refines_both` — the first step of the proof of
   Stacks 0FF2: any two factorizations of `f` are refined by a common one.
 * `Stacks.Chow.SmoothFactorization.isKoszulRegularImmersion` — the immersion of a factorization
-  of a local complete intersection morphism is Koszul-regular, by Stacks 069G.
+  of a local complete intersection morphism is Koszul-regular, by Stacks 069G, from the Koszul
+  case of Stacks 0693 taken as an argument.
 * `Stacks.Chow.SmoothFactorization.isPullback_refinement`,
   `Stacks.Chow.SmoothFactorization.refinementSection_comp_retraction`,
   `Stacks.Chow.SmoothFactorization.refinementSection_comp_proj`,
@@ -69,24 +70,15 @@ from Stacks 069G.
 
 ## Implementation notes
 
-### What is covered and what is not
+### What is covered here
 
-The bivariant class `f^!` itself is *not* constructed in this repository, so the conclusion of
-Stacks 0FF2 cannot be stated here. Its two inputs are both missing. The flat pullback class
-`g^*` is `Stacks.Chow.flatPullbackBivariantClass` (Stacks 0B78) and is available, but the Gysin
-class `i^! = c(X ⟶ P, 𝒩_{X/P})` of section 42.54 of the Stacks Project is constructed in the
-proof of Stacks 0FBK out of the localized Chern classes of a perfect object, which are not in the
-repository — `Stacks.Chow.totalLocalizedChernClass` takes them as parameters — and neither
-Stacks 0FBK nor Stacks 0FBJ's bivariant class is present. Composition of bivariant classes is
-available only as the characterizing predicate
-`Stacks.Chow.IsBivariantClassComposition` (Stacks 0FE0), with no identity class and no
-associativity, so the Stacks Project's chain
-`(i')^! ∘ p^* = s^! ∘ j^! ∘ p^* = s^! ∘ p̄^* ∘ i^! = i^!` — which uses Stacks 0FF0, Stacks 0FBK,
-Stacks 0F9Z and Stacks 0FF1 — cannot be written down either.
-
-What *is* complete is the geometry those lemmas are applied to, and that is what is proved below.
-Nothing here assumes any form of the conclusion of Stacks 0FF2: no bivariant class occurs in this
-file at all.
+This file contains only the geometry of the proof of Stacks 0FF2; no bivariant class occurs in
+it. The bivariant classes `g^*`, `i^!` and the chain
+`(i')^! ∘ p^* = s^! ∘ j^! ∘ p^* = s^! ∘ p̄^* ∘ i^! = i^!` of the Stacks Project, which uses
+Stacks 0FF0, Stacks 0FBK, Stacks 0F9Z and Stacks 0FF1, are in
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.FactorizationIndependenceClass`,
+and Stacks 0FF2 itself is `Stacks.Chow.SmoothFactorization.gysinMap_eq` in
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.LciGysinMapComposition`.
 
 ### The reduction principle
 
@@ -115,9 +107,13 @@ because composing it with the projection to `P` returns `i`.
 Stacks 069G enters as
 `AlgebraicGeometry.isKoszulRegularImmersion_of_isLocalCompleteIntersectionMorphism`,
 whose immersion is one of an *open* of the source; it is applied to the top open and transported
-back along `AlgebraicGeometry.Scheme.topIso`. That statement carries the Koszul case of
-Stacks 0693 as the hypothesis `AlgebraicGeometry.KoszulRegularCompSmooth`, which is therefore a
-hypothesis of `Stacks.Chow.SmoothFactorization.isKoszulRegularImmersion` as well.
+back along `AlgebraicGeometry.Scheme.topIso`. That statement takes the Koszul case of
+Stacks 0693 as the argument `AlgebraicGeometry.KoszulRegularCompSmooth`, and so does
+`Stacks.Chow.SmoothFactorization.isKoszulRegularImmersion`. The Koszul case of Stacks 0693 is
+proved in the repository
+(`Stacks.AlgebraicGeometry.RegularIdealSheaf.isKoszulRegularImmersion_comp_of_smooth`), and the
+statements with it discharged are in
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.FactorizationRegularImmersion`.
 
 Regularity of `j` is the Koszul-regular part of Stacks 067P, applied to the flat morphism `p`;
 regularity of `s` is Stacks 067R, applied to the smooth morphism `p̄` of which `s` is a section.
@@ -205,11 +201,11 @@ Koszul-regular immersion. This is what makes the Gysin class `i^!` of section 42
 Project available, and it is the reason Stacks 0FF2 need not assume regularity of the immersion.
 
 Stacks 069G is stated for an immersion of an open of the source; it is applied here to the top
-open and transported back along `AlgebraicGeometry.Scheme.topIso`. The Koszul case of Stacks 0693
-is a hypothesis of Stacks 069G in this repository, hence of this statement. -/
-@[stacks 0FF2 "regularity of the immersion of a factorization of an lci morphism, which the \
-statement of Stacks 0FF2 leaves implicit; Stacks 069G enters through its repository form, so the \
-Koszul case of Stacks 0693 is carried as `hcompSmooth`", sga "6 VIII 1.2"]
+open and transported back along `AlgebraicGeometry.Scheme.topIso`. This form takes the Koszul case
+of Stacks 0693 as the argument `hcompSmooth`; that case is proved in the repository
+(`Stacks.AlgebraicGeometry.RegularIdealSheaf.isKoszulRegularImmersion_comp_of_smooth`), and
+`Stacks.Chow.SmoothFactorization.isKoszulRegularImmersion_of_lci` is the statement with it
+discharged. -/
 theorem SmoothFactorization.isKoszulRegularImmersion
     (hcompSmooth : AlgebraicGeometry.KoszulRegularCompSmooth.{u}) (F : SmoothFactorization f)
     (hf : IsLocalCompleteIntersectionMorphism f) : IsKoszulRegularImmersion F.imm := by
@@ -381,11 +377,9 @@ instance SmoothFactorization.isImmersion_refinementProj :
 /-- **Stacks 0FF2, second step: regularity of `j`.** The base change `j : X ×_P P' ⟶ P'` of the
 immersion `i` of `F` along the refinement `p` is a Koszul-regular immersion, by the Koszul-regular
 part of Stacks 067P: `p` is smooth, hence flat. For a local complete intersection morphism `f` the
-hypothesis on `i` is automatic, by
-`Stacks.Chow.SmoothFactorization.isKoszulRegularImmersion`. -/
-@[stacks 0FF2 "the second step of the proof: the base change `j` of the immersion along the \
-refinement is a Koszul-regular immersion, the Koszul-regular part of Stacks 067P; the regularity \
-of `i` is the prerequisite `hreg`, supplied for an lci morphism by Stacks 069G"]
+hypothesis on `i` is automatic, and
+`Stacks.Chow.SmoothFactorization.isKoszulRegularImmersion_refinementProj_of_lci` is the statement
+without it. -/
 theorem SmoothFactorization.isKoszulRegularImmersion_refinementProj
     (hreg : IsKoszulRegularImmersion F.imm) :
     IsKoszulRegularImmersion (F.refinementProj p) :=
@@ -409,10 +403,6 @@ immersion of the coarser one Koszul-regular, the diagram of the second step of t
 Stacks 0FF2 exists: a scheme `W = X ×_P P'`, a smooth retraction `p̄ : W ⟶ X`, the base change
 `j : W ⟶ P'` of `i` along the refinement, and a section `s : X ⟶ W` of `p̄` with `s ≫ j = i'`,
 where `j` is a Koszul-regular immersion and `s` a regular immersion. -/
-@[stacks 0FF2 "the second step of the proof, packaged for a refining pair: the cartesian square \
-`W = X ×_P P'` with its smooth retraction `p̄`, the base change `j` of the immersion, and the \
-section `s` of `p̄` satisfying `i' = s ≫ j`, with `j` Koszul-regular and `s` regular; the \
-regularity of the coarser immersion is the prerequisite `hreg`"]
 theorem SmoothFactorization.exists_refinement_diagram {F F' : SmoothFactorization f}
     (h : F'.Refines F) (hreg : IsKoszulRegularImmersion F.imm) :
     ∃ (W : Scheme.{u}) (pbar : W ⟶ X) (j : W ⟶ F'.ambient) (s : X ⟶ W),

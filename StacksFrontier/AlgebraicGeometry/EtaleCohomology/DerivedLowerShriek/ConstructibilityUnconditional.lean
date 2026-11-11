@@ -124,8 +124,9 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isConstructibl
 `f = ι ≫ (𝔸¹_Y ⟶ Y)` the structure morphism, `j` a compactification of `f`, and `F` a
 constructible sheaf of `Λ`-modules on `X = 𝔸¹_Y` which is torsion. Then every cohomology sheaf of
 `Rf_! F` is constructible. -/
-@[stacks 0GKZ "A¹_Y given as X with an isomorphism ι : X ≅ A¹_Y; Rf_! through any \
-compactification j of f"]
+@[stacks 0GKZ "Y affine, Λ Noetherian, F constructible and torsion, with no condition on the \
+torsion order or the residue characteristics of Y; A¹_Y given as X with an isomorphism \
+ι : X ≅ A¹_Y; Rf_! through any compactification j of f"]
 theorem isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine
     (Y : B.Scheme) [IsAffine Y.obj] (X : B.Scheme)
     (ι : X.obj ⟶ AffineSpace (ULift.{u} (Fin 1)) Y.obj) [IsIso ι]

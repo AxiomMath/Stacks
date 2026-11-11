@@ -49,8 +49,8 @@ therefore stated here unconditionally, and this is where the two tag attributes 
 
 ## References
 
-* [Stacks Project, Lemma 37.24.1 (Tag 06LI)](https://stacks.math.columbia.edu/tag/06LI)
-* [Stacks Project, Lemma 37.24.6 (Tag 0570)](https://stacks.math.columbia.edu/tag/0570)
+* [Stacks Project, Lemma 37.23.2 (Tag 06LI)](https://stacks.math.columbia.edu/tag/06LI)
+* [Stacks Project, Lemma 37.23.4 (Tag 0570)](https://stacks.math.columbia.edu/tag/0570)
 -/
 
 @[expose] public section
@@ -63,7 +63,7 @@ namespace Stacks.AlgebraicGeometry
 
 universe u
 
-/-- **Stacks Project, Lemma 37.24.1 (Tag 06LI).**  Let `f : X ⟶ S` be locally of finite
+/-- **Stacks Project, Lemma 37.23.2 (Tag 06LI).**  Let `f : X ⟶ S` be locally of finite
 presentation and flat at `x : X`, and let `h : Fin r → 𝒪_{X, x}` be a family whose image in the
 local ring of the fibre `X_{f x}` at `x` is a regular sequence.  Then there is an affine open `U`
 containing `x` and global sections `a : Fin r → Γ(U, ⊤)` whose germs at `x` are the `h i`, such
@@ -101,7 +101,7 @@ theorem relativeRegularSliceStatement : RelativeRegularSliceStatement.{u} := by
   intro X S f x r h _ hflat hregular
   exact exists_affineOpen_regularImmersion_flat_of_isRegular_fiber f x h hflat hregular
 
-/-- **Stacks Project, Lemma 37.24.6 (Tag 0570).**  Let `f : X ⟶ S` be locally of finite
+/-- **Stacks Project, Lemma 37.23.4 (Tag 0570).**  Let `f : X ⟶ S` be locally of finite
 presentation, let `x : X` be a point at which `f` is Cohen–Macaulay, and assume `x` is closed in
 its fibre `X_{f x}`.  Then there is a regular immersion `i : Z ⟶ X` through `x` such that `Z` is
 flat, locally of finite presentation and locally quasi-finite over `S`, and such that the fibre

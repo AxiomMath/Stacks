@@ -269,11 +269,10 @@ equation 0CWV read on the big fppf site of `S` as a subfunctor of `Y`. Purity of
 `Y` is purity above every point of `Y`, Stacks 0CVD part (5), for the situation of Stacks 0CV6
 which `f` and `F` determine; that situation is formed from the hypotheses of the theorem, since a
 morphism of finite presentation is of finite type and decent. -/
-@[stacks 0CX1 "the full statement under exactly the source's hypotheses, nothing granted or \
-assumed: F_n is the subfunctor of Y of the maps T ⟶ Y along which F_T is flat in dimensions ≥ n \
-(equation 0CWV); purity relative to Y is purity above every point of Y (Stacks 0CVD (5)); \
-finite presentation of f is local finite presentation, quasi-compactness and \
-quasi-separatedness (Stacks 03XP (3))"]
+@[stacks 0CX1 "the full statement under exactly the source's hypotheses: F_n is the subfunctor \
+of Y of the maps T ⟶ Y along which F_T is flat in dimensions ≥ n (equation 0CWV); purity \
+relative to Y is purity above every point of Y (Stacks 0CVD (5)); finite presentation of f is \
+local finite presentation, quasi-compactness and quasi-separatedness (Stacks 03XP (3))"]
 theorem isAlgebraicSpace_flatDimensionSubfunctor (n : ℕ)
     (hf : IsFinitePresentation B S hS D.f.hom)
     (hF : SheafOfModules.IsFinitePresentationOnSite D.F)

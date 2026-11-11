@@ -48,10 +48,12 @@ instance formallySmoothEtaleChartDescent (B : BigFppfSite.{u}) (S : Scheme.{u})
       (Stacks.Smooth.formallySmooth_of_formallySmooth_appLE _ fun W hW V₀ hV₀ e =>
         (Stacks.Smooth.formallySmoothAffineLocally_iff_appLE _).mp hψ ⟨V₀, hV₀⟩ ⟨W, hW⟩ e)
 
-/-- Formal smoothness of morphisms of algebraic spaces over `S` is local on the base for the fpqc
-topology of Stacks 03YH: for every fpqc covering `{Yᵢ ⟶ Y}` of algebraic spaces, a morphism
-`f : X ⟶ Y` is formally smooth if and only if every base change `X ×_Y Yᵢ ⟶ Yᵢ` is. -/
-@[stacks 06CS]
+/-- **[Stacks Project, Tag 06CS].** Formal smoothness of morphisms of algebraic spaces over `S`
+is local on the base for the fpqc topology of Stacks 03YH: for every fpqc covering `{Yᵢ ⟶ Y}` of
+algebraic spaces, a morphism `f : X ⟶ Y` is formally smooth if and only if every base change
+`X ×_Y Yᵢ ⟶ Yᵢ` is. The descent input along étale charts is proved above, as the instance
+`formallySmoothEtaleChartDescent`. -/
+@[stacks 06CS "formal smoothness of morphisms of algebraic spaces is fpqc local on the base"]
 theorem formallySmooth_isLocalAtTarget_fpqc' (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) :
     (formallySmoothProperty B S hS).IsLocalAtTarget

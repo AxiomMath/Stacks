@@ -230,7 +230,7 @@ Stacks 08MF vanishes.
 This is `Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero` with its
 `Deformation.ToposThickening.IsFlatLiftCorrespondence` hypothesis supplied by
 `Deformation.ToposThickening.isFlatLiftCorrespondence`. -/
-@[stacks 08MV]
+@[stacks 08MV "in Situation 08M7, for a strict morphism and F flat over O_B"]
 theorem hasFlatLift_iff_isIso_and_obstruction_eq_zero'
     [HasExt.{e} (SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))]

@@ -58,10 +58,9 @@ complexes joins two zero cohomology objects and is therefore an isomorphism on c
 
 Only condition (2) of a good differential graded module is treated here. Condition (1) is
 exactness of `N ↦ P ⊗_A N` in the *other* variable and is in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedAdmissibleFlat.lean`; condition
-(3) would need the graded splitting to be transported through the pullback, which the pullback
-of differential graded modules cannot do: the retraction and the section are not morphisms of
-differential graded modules.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedAdmissibleFlat.lean`, and
+Tag 0FSC itself, with condition (3) of Tag 0FSA over morphisms of ringed topoi, is
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GoodDifferentialGradedAdmissibleTopos.lean`.
 
 ## References
 
@@ -173,28 +172,25 @@ end GradedSplitting
 namespace IsAdmissibleShortExact
 
 /-- **Two out of three for K-flatness**: if the two outer terms of an admissible short exact
-sequence are K-flat, so is the middle one. -/
-@[stacks 0FSC "condition (2) only — K-flatness, two out of three along an admissible short \
-exact sequence; condition (1) is the `isGradedFlat_*` lemmas and condition (3) the `isGood_*` \
-lemmas, which together give the tag"]
+sequence are K-flat, so is the middle one. This is
+condition (2) of goodness in Tag 0FSC; the tag itself, with all three conditions of Tag 0FSA, is
+`IsAdmissibleShortExact.isGoodToposBaseChange_middle`. -/
 theorem isKFlat_middle (h : IsAdmissibleShortExact f g) (hK : RelativeTensor.IsKFlat K)
     (hM : RelativeTensor.IsKFlat M) : RelativeTensor.IsKFlat L :=
   Nonempty.elim h fun S ↦ S.isKFlat_middle hK hM
 
 /-- **Two out of three for K-flatness**: if the middle and the third term of an admissible short
-exact sequence are K-flat, so is the first one. -/
-@[stacks 0FSC "condition (2) only — K-flatness, two out of three along an admissible short \
-exact sequence; condition (1) is the `isGradedFlat_*` lemmas and condition (3) the `isGood_*` \
-lemmas, which together give the tag"]
+exact sequence are K-flat, so is the first one. This is
+condition (2) of goodness in Tag 0FSC; the tag itself, with all three conditions of Tag 0FSA, is
+`IsAdmissibleShortExact.isGoodToposBaseChange_left`. -/
 theorem isKFlat_left (h : IsAdmissibleShortExact f g) (hL : RelativeTensor.IsKFlat L)
     (hM : RelativeTensor.IsKFlat M) : RelativeTensor.IsKFlat K :=
   Nonempty.elim h fun S ↦ S.isKFlat_left hL hM
 
 /-- **Two out of three for K-flatness**: if the first and the middle term of an admissible short
-exact sequence are K-flat, so is the third one. -/
-@[stacks 0FSC "condition (2) only — K-flatness, two out of three along an admissible short \
-exact sequence; condition (1) is the `isGradedFlat_*` lemmas and condition (3) the `isGood_*` \
-lemmas, which together give the tag"]
+exact sequence are K-flat, so is the third one. This is
+condition (2) of goodness in Tag 0FSC; the tag itself, with all three conditions of Tag 0FSA, is
+`IsAdmissibleShortExact.isGoodToposBaseChange_right`. -/
 theorem isKFlat_right (h : IsAdmissibleShortExact f g) (hK : RelativeTensor.IsKFlat K)
     (hL : RelativeTensor.IsKFlat L) : RelativeTensor.IsKFlat M :=
   Nonempty.elim h fun S ↦ S.isKFlat_right hK hL

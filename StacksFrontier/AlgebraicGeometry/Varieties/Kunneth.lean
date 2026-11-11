@@ -27,7 +27,9 @@ direct sum of the products `Hᵖ(X, F) ⊗_k Hᑫ(Y, G)` over the pairs with `p 
   is K-flat.
 * `CochainComplex.Kunneth.nonempty_derivedTensorHomologyIso`: the Künneth isomorphism for the
   derived tensor product of two complexes of vector spaces.
-* `AlgebraicGeometry.nonempty_kunnethIso`: the Künneth isomorphism for sheaf cohomology.
+* `AlgebraicGeometry.nonempty_kunnethIso`: the Künneth isomorphism for sheaf cohomology, from a
+  datum `AlgebraicGeometry.KunnethDerivedData`. The canonical Künneth isomorphism of
+  [Stacks, Tag 0BEF] itself is `AlgebraicGeometry.KunnethQcqs.isIso_kunnethMap`.
 
 ## Implementation notes
 
@@ -376,9 +378,12 @@ structure KunnethDerivedData (k : Type u) [Field k] {X Y : Scheme.{u}}
 
 /-- **The Künneth formula.** For quasi-coherent modules on quasi-compact, quasi-separated
 schemes over a field, the cohomology of the external tensor product on `X ×_k Y` is the direct
-sum of the tensor products `Hᵖ(X, F) ⊗_k Hᑫ(Y, G)` over the pairs with `p + q = n`. -/
-@[stacks 0BEF "granted the derived global Künneth isomorphism of Tag 0FLQ, carried as \
-KunnethDerivedData"]
+sum of the tensor products `Hᵖ(X, F) ⊗_k Hᑫ(Y, G)` over the pairs with `p + q = n`, given a
+datum `AlgebraicGeometry.KunnethDerivedData` of derived global sections.
+
+This is not the library's form of [Stacks, Tag 0BEF]: that is
+`AlgebraicGeometry.KunnethQcqs.isIso_kunnethMap`, which proves the canonical Künneth map an
+isomorphism under the tag's own assumptions, with no such datum. -/
 theorem nonempty_kunnethIso (k : Type u) [Field k] {X Y : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) (g : Y ⟶ Spec (.of k))
     [CompactSpace X] [QuasiSeparatedSpace X] [CompactSpace Y] [QuasiSeparatedSpace Y]

@@ -41,8 +41,13 @@ carries in this repository.
   `AlgebraicGeometry.Scheme.Hom.isIso_deRhamBoxTotalExtendHom`: in each degree the comparison of
   the `ℤ`-indexed total complex with the extension of the `ℕ`-indexed one is invertible, so the
   comparison of complexes is.
-* `Stacks.Cohomology.BoxKunneth.isIso_deRhamGlobalKunnethMap`: **[Stacks, Tag 0FMB]**, granted
-  the three inputs of [Stacks, Tag 0FLT].
+* `Stacks.Cohomology.BoxKunneth.isIso_deRhamGlobalKunnethMap`: the de Rham Künneth map at a
+  global cup product `κ` is invertible, granted the three inputs of [Stacks, Tag 0FLT]. This is a
+  conditional reduction, not [Stacks, Tag 0FMB] itself: Tag 0FMB is proved, at exactly the
+  source's hypotheses and with nothing assumed, as
+  `Stacks.Cohomology.BoxKunneth.isIso_deRhamGlobalKunnethMap_canonical` in
+  `StacksFrontier/AlgebraicGeometry/DeRham/KunnethFormulaAffineSmooth.lean`, for the map at the
+  canonical global cup product `Stacks.Cohomology.GlobalKunneth.globalCupProductCanonical`.
 
 ## Implementation notes
 
@@ -74,6 +79,9 @@ both sides.
   complexes, and the invertibility of steps (4) and (5). The implementation notes of
   `StacksFrontier/AlgebraicGeometry/DeRham/BoxTotalKunnethIsomorphism.lean` say why none of the
   three is available in this library; this file adds nothing to that discussion and carries them.
+  The unconditional [Stacks, Tag 0FMB] does not discharge them: it goes through the relative
+  statement [Stacks, Tag 0FMC] instead, in
+  `StacksFrontier/AlgebraicGeometry/DeRham/KunnethFormulaAffineSmooth.lean`.
 *Boundedness above is not needed here.* [Stacks, Tag 0FLT] states its left-hand complex to be
 bounded, but `Stacks.Cohomology.BoxKunneth.isIso_globalBoxKunnethMap` does not consume the bound
 either — it is the carried `hstep` that stands in for the part of the argument that uses it — so
@@ -585,11 +593,15 @@ sections of the isomorphism `Tot(Ω^•_{X/S} ⊠ Ω^•_{Y/S}) ≅ Ω^•_{X ×
 [Stacks, Tag 0FMA]. The complexes whose derived global sections are taken are the complexes of
 inverse-image modules underlying the de Rham complexes; the global cup product `κ` is the one
 parameter that the map of [Stacks, Tag 0FLR] carries, its step-(5) comparison being constructed
-as `Stacks.Cohomology.BoxKunneth.boxTotalComparison`. -/
+as `Stacks.Cohomology.BoxKunneth.boxTotalComparison`. The map of the source is this one at the
+canonical global cup product `Stacks.Cohomology.GlobalKunneth.globalCupProductCanonical` of
+[Stacks, Section 0FKU]. -/
 @[stacks 0FMB "the map: the global Künneth map of Tag 0FLR at the two de Rham complexes, read as \
 ℤ-indexed complexes by extension by zero, followed by derived global sections of the Tag 0FMA \
 isomorphism; it carries the one parameter of the Tag 0FLR map, the global cup product on the \
-base. The step-(5) comparison is not carried, being constructed"]
+base, and the map of the source is this at the canonical global cup product \
+globalCupProductCanonical of Section 0FKU. The step-(5) comparison is not carried, being \
+constructed"]
 def deRhamGlobalKunnethMap (κ : GlobalCupProduct S.toRingedSpace) :
     ((tensorBase S.toRingedSpace).obj
           ((sectionsOverBase (inverseImageBaseProjection a)).obj
@@ -607,13 +619,16 @@ def deRhamGlobalKunnethMap (κ : GlobalCupProduct S.toRingedSpace) :
         (((toInverseImageModules (pullback.fst a b ≫ a)).mapHomologicalComplex
           (ComplexShape.up ℤ)).map (deRhamBoxTotalKunnethIso a b).hom))
 
-/-- **[Stacks, Tag 0FMB].** Let `a : X ⟶ S` and `b : Y ⟶ S` be smooth morphisms of schemes with
-`S = Spec A` affine and `X` and `Y` quasi-compact with affine diagonal. Then the de Rham Künneth
-map
+/-- **A conditional reduction of [Stacks, Tag 0FMB].** Let `a : X ⟶ S` and `b : Y ⟶ S` be
+smooth morphisms of schemes with `S = Spec A` affine and `X` and `Y` quasi-compact with affine
+diagonal, and let `κ` be a global cup product on `S`. If the three inputs `hκ`, `hrel` and `hstep`
+of [Stacks, Tag 0FLT] hold, then the de Rham Künneth map at `κ`
 
 `RΓ(X, Ω^•_{X/S}) ⊗^𝐋_A RΓ(Y, Ω^•_{Y/S}) ⟶ RΓ(X ×_S Y, Ω^•_{X ×_S Y/S})`
 
-is an isomorphism in `D(A)`.
+is an isomorphism in `D(A)`. This is not Tag 0FMB, whose content is that these inputs hold: Tag
+0FMB itself, with nothing assumed and for the map at the canonical global cup product, is
+`Stacks.Cohomology.BoxKunneth.isIso_deRhamGlobalKunnethMap_canonical`.
 
 What is proved is the specialization of [Stacks, Tag 0FLT] to the two relative de Rham complexes
 together with the transport of [Stacks, Tag 0FMA] across the extension by zero, which identifies
@@ -621,12 +636,6 @@ the target of the Künneth map with `RΓ(X ×_S Y, Ω^•_{X ×_S Y/S})`. The th
 [Stacks, Tag 0FLT] are carried as `hκ`, `hrel` and `hstep`, so the geometric hypotheses are not
 consumed. The implementation notes of this file say what each carried input is and why the
 library does not supply it. -/
-@[stacks 0FMB "the isomorphism, with the identification of the target with RΓ(X ×_S Y, Ω^•) by \
-Tag 0FMA transported across the extension by zero. Carried, so that the geometric hypotheses are \
-not consumed: the three inputs of Tag 0FLT, namely hκ, the invertibility of the global cup \
-product on the affine base, hrel, Tag 0FLQ at the two inverse-image complexes, and hstep, steps \
-(4) and (5), in which the source consumes the flatness of the terms. The termwise S-flatness of \
-Ω^• is stated and, as in Tag 0FLT, not consumed"]
 theorem isIso_deRhamGlobalKunnethMap [IsAffine S] [CompactSpace X] [CompactSpace Y]
     [AlgebraicGeometry.Smooth a] [AlgebraicGeometry.Smooth b]
     [IsAffineHom (pullback.diagonal (terminal.from X))]

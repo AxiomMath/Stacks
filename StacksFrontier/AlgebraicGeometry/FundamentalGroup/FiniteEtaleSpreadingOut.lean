@@ -19,10 +19,12 @@ hypothesis `AlgebraicGeometry.FiniteEtaleDescendsToHenselianPoint`: every scheme
 `X_{k'}` is already the base change of one finite étale over `X_R`, for `R` a henselian local
 `k`-algebra with residue field `k` mapping to `k'` (an `AlgebraicGeometry.HenselianPoint`).
 
-Discharging that hypothesis turns the conditional Tag 0A49 of that file into Tag 0A49 carrying
-only the *proper* case of Tag 0A48 — `AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence`,
-which needs Grothendieck existence over a complete Noetherian ring together with Artin
-approximation and is not treated here.
+Supplying that hypothesis leaves only the *proper* case of Tag 0A48,
+`AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence`, as an argument; it is proved as
+`AlgebraicGeometry.properHenselianFiniteEtaleEquivalence`, and
+`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_isAlgClosed`
+(`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleAlgClosedEquivalence`) supplies it,
+giving Tag 0A49.
 
 ## The argument
 
@@ -52,8 +54,8 @@ approximation and is not treated here.
   hypothesis of Tag 0A49, with nothing carried, for `k ⊆ k'` algebraically closed and `X` proper
   over `k`.
 * `isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian_of_isAlgClosed`, in
-  the same namespace — Tag 0A49 for such an extension, carrying only
-  `AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence`.
+  the same namespace — the conclusion of Tag 0A49 for such an extension, from
+  `AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence` taken as an argument.
 
 ## Implementation notes
 
@@ -556,18 +558,17 @@ theorem finiteEtaleDescendsToHenselianPoint_of_isAlgClosed [IsProper f] :
     ((finiteEtaleBaseChangeComp σ.hom σ.inv (𝟙 _) σ.hom_inv_id.symm).app Q).symm ≪≫
     finiteEtaleBaseChangeId.app Q
 
-/-- **Stacks Project, Tag 0A49 for an extension of algebraically closed fields**, granted only
-the proper case of Tag 0A48. Let `k ⊆ k'` be algebraically closed fields and let `X` be proper
-over `k`.  Then base change `U ↦ U_{k'}` is an equivalence between the category of schemes finite
-étale over `X` and the category of schemes finite étale over `X_{k'}`.
+/-- **The conclusion of Stacks Tag 0A49 for an extension of algebraically closed fields**, from the
+proper case of Tag 0A48 taken as an argument. Let `k ⊆ k'` be algebraically closed fields and let
+`X` be proper over `k`.  Then base change `U ↦ U_{k'}` is an equivalence between the category of
+schemes finite étale over `X` and the category of schemes finite étale over `X_{k'}`.
 
 This is `isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian` with its
 spreading-out hypothesis discharged by
 `AlgebraicGeometry.finiteEtaleDescendsToHenselianPoint_of_isAlgClosed`, applied to each finite
-étale cover `P` of `X`, which is again proper over `k`. -/
-@[stacks 0A49 "for `k ⊆ k'` algebraically closed, with one input of the source proof carried: \
-`ProperHenselianFiniteEtaleEquivalence`, Tag 0A48 for a proper — not merely finite — scheme over \
-a henselian local ring. The source's filtered-colimit spreading out is proved here."]
+étale cover `P` of `X`, which is again proper over `k`. Tag 0A49 itself is
+`isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_isAlgClosed`, which supplies the
+argument by `properHenselianFiniteEtaleEquivalence`. -/
 theorem isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_properHenselian_of_isAlgClosed
     [IsProper f] (h0A48 : ProperHenselianFiniteEtaleEquivalence.{u}) :
     (finiteEtaleBaseChange (pullback.fst f

@@ -38,12 +38,28 @@ corrected complex `H = F ×_{F₀} G₀` of `Deformation.ComplexLift.correctedCo
   resolution `E` of the corrected complex is a quasi-isomorphism.
 * `Deformation.ComplexLift.nonempty_derivedLift_of_flatComplex`: a bounded above complex of flat
   `O`-modules whose reduction represents `K₀` is a lift of `K₀`.
-* `Deformation.ComplexLift.nonempty_derivedLift_of_omega_eq_zero`: **Tag 0DIW, `(1) ⇒ (2)`**.
-* `Deformation.ComplexLift.omega_eq_zero_iff_nonempty_derivedLift`: **Tag 0DIW**.
+* `Deformation.ComplexLift.nonempty_derivedLift_of_omega_eq_zero` and
+  `Deformation.ComplexLift.omega_eq_zero_iff_nonempty_derivedLift`: the criterion for the class
+  `omega` stated against a supplied `Deformation.ComplexLift.DerivedIdealTensor`, a datum that
+  exists only when `I` is flat over `O₀`.
 
 ## Implementation notes
 
-An object of `D⁻(O₀)` is given as `E : DerivedCategory.Minus` together with a complex `K₀` and an
+The tagged statement of Tag 0DIW, in
+`StacksFrontier.Deformation.ToposThickening.ObstructionLiftCriterionDerivedTensor`, is
+`Deformation.ComplexLift.tensorOmegaMinus_eq_zero_iff_nonempty_derivedLift`:
+there `ω(K₀)` is `Deformation.ComplexLift.tensorOmegaMinus`, with values in the derived tensor
+product `Deformation.ComplexLift.derivedTensorRight I` constructed from flat resolutions, `K₀` is
+an arbitrary object of `D⁻(O₀)`, and `- ⊗^L_O O₀` is the constructed derived base change
+`Deformation.ComplexLift.derivedExtensionOfScalarsData`; nothing is assumed of `I` beyond being a
+square-zero kernel.
+
+The older form below, `Deformation.ComplexLift.omega_eq_zero_iff_nonempty_derivedLift`, states
+`ω` against a supplied `Deformation.ComplexLift.DerivedIdealTensor`, whose comparison is natural
+on all complexes; such a datum exists only when `I` is flat over `O₀` (see the implementation
+notes of `StacksFrontier.Deformation.ToposThickening.CurvatureClassDerivedTensor`), so that form is
+the lemma for flat `I` only. An object of `D⁻(O₀)` is given as `E : DerivedCategory.Minus`
+together with a complex `K₀` and an
 isomorphism `Q(K₀) ≅ E`: the canonical class `ω` of Tag 0DIU is defined on complexes
 (`Deformation.ComplexLift.omega`), every object of `D(O₀)` is of the form `Q(K₀)`, and `ω` is
 natural along isomorphisms of `D(O₀)` (`Deformation.ComplexLift.omega_natural_derived`), so its
@@ -299,14 +315,19 @@ theorem nonempty_derivedLift_of_flatComplex (T : DerivedExtensionOfScalars f)
         e }
   exact ⟨L'.transport⟩
 
-/-- **Stacks 0DIW, `(1) ⇒ (2)`.** Let `K₀ ∈ D⁻(O₀)`, represented by a complex `K₀'` of
+/-- **`(1) ⇒ (2)` of Stacks 0DIW, at a supplied derived ideal tensor datum.** Let `K₀ ∈ D⁻(O₀)`,
+represented by a complex `K₀'` of
 `O₀`-modules. If the canonical class `ω(K₀')` of Tag 0DIU vanishes, there is `K ∈ D⁻(O)` with
 `K ⊗^L_O O₀ ≅ K₀` in `D(O₀)`, for any derived base change `T` along `f`.
 
 The construction is the one of the source: the curvature of a bounded above flat lift `F` of
 `K₀'` is null-homotopic after a quasi-isomorphism `α : G₀ ⟶ F₀`; the homotopy corrects the
 differential of `F ×_{F₀} G₀`; and a bounded above flat resolution `E` of the corrected complex
-has reduction quasi-isomorphic to `G₀`, by the descending induction using Tag 0DIV. -/
+has reduction quasi-isomorphic to `G₀`, by the descending induction using Tag 0DIV.
+
+The class is stated against `D : DerivedIdealTensor I`, which exists only when `I` is flat over
+`O₀`; the implication for every square-zero `I` is
+`Deformation.ComplexLift.nonempty_derivedLift_of_tensorOmegaMinus_eq_zero`. -/
 theorem nonempty_derivedLift_of_omega_eq_zero (hf : Sheaf.IsLocallySurjective f)
     (S : SquareZeroIdeal f I) (D : DerivedIdealTensor I) (T : DerivedExtensionOfScalars f)
     (E : DerivedCategory.Minus (SheafMod O₀)) (K₀ : CochainComplex (SheafMod O₀) ℤ)
@@ -340,9 +361,10 @@ theorem homology_boundedAbove_of_iso (E : DerivedCategory.Minus (SheafMod O₀))
   have h2 : K₀.IsLE b := (DerivedCategory.isLE_Q_obj_iff K₀ b).1 h1
   exact ⟨b + 1, fun n hn => (K₀.exactAt_of_isLE b n (by omega)).isZero_homology⟩
 
-/-- **Stacks 0DIW.** Let `C` be a site and `f : O ⟶ O₀` a surjection of sheaves of commutative
-rings whose kernel is an ideal sheaf `I` of square zero. For every object `K₀` of `D⁻(O₀)`,
-represented by a complex `K₀'` of `O₀`-modules, the following are equivalent:
+/-- **Stacks 0DIW for a flat ideal, at a supplied derived ideal tensor datum.** Let `C` be a site
+and `f : O ⟶ O₀` a surjection of sheaves of commutative rings whose kernel is an ideal sheaf `I`
+of square zero. For every object `K₀` of `D⁻(O₀)`, represented by a complex `K₀'` of `O₀`-modules,
+the following are equivalent:
 
 1. the canonical class `ω(K₀) : K₀ ⟶ (K₀ ⊗^L_{O₀} I)[2]` of Tag 0DIU, computed on `K₀'`, is
    zero;
@@ -351,8 +373,13 @@ represented by a complex `K₀'` of `O₀`-modules, the following are equivalent
 Here `T` is any derived base change `- ⊗^L_O O₀` (all are canonically isomorphic) and `D` the
 derived tensor product with `I` against which the base states `ω`. The bound on the cohomology
 of `K₀'` that `ω` is stated with is the one `K₀ ∈ D⁻(O₀)` provides,
-`Deformation.ComplexLift.homology_boundedAbove_of_iso`. -/
-@[stacks 0DIW]
+`Deformation.ComplexLift.homology_boundedAbove_of_iso`.
+
+A datum `D : DerivedIdealTensor I` exists only when `I` is flat over `O₀`: its comparison
+`K ⊗_{O₀} I ⟶ K ⊗^L_{O₀} I` is natural on all complexes, which forces `Tor₁(-, I) = 0`. So this
+is Tag 0DIW for flat `I` only. The lemma for every square-zero ideal `I`, with `ω` the class
+`Deformation.ComplexLift.tensorOmegaMinus` with values in the derived tensor product, is
+`Deformation.ComplexLift.tensorOmegaMinus_eq_zero_iff_nonempty_derivedLift`. -/
 theorem omega_eq_zero_iff_nonempty_derivedLift (hf : Sheaf.IsLocallySurjective f)
     (S : SquareZeroIdeal f I) (D : DerivedIdealTensor I) (T : DerivedExtensionOfScalars f)
     (E : DerivedCategory.Minus (SheafMod O₀)) (K₀ : CochainComplex (SheafMod O₀) ℤ)

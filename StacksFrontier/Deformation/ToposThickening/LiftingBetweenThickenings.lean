@@ -255,17 +255,24 @@ public theorem incl_mul_incl (S : LiftSquare J) {U : Cᵒᵖ} (m n : S.G.val.obj
 
 end LiftSquare
 
-/-- **Stacks Project, Tag 08UH and Tag 08UI.** The displayed commutative diagram of morphisms of
-ringed topoi of [Stacks Project, Tag 08UG] together with its diagram of exact ideal rows: two
-layers, the comparison morphisms `g`, `gB`, `gB'` running from the index `1` layer to the index
-`2` layer (the direction of `g^{-1}` in the source, the underlying topoi being identified), and
-the comparison `ν` of the two ideal modules. The comparison of the two *thickened* sources is
-absent: producing it is the lifting problem of Tag 08UG. -/
-@[stacks 08UH "the displayed commutative diagram of morphisms of ringed topoi, with the \
-underlying topoi identified as in the source's convention and its own reduction",
-  stacks 08UI "the displayed diagram of exact ideal rows: the two exact rows of each layer are \
-the ideal sequences of its two first order thickenings, and the comparison ν of the two upper \
-ideals is `nu`, compatible by `nu_base` with the two maps from the base ideals"]
+/-- **The one-site form of the diagram (08UH) of [Stacks Project, Tag 08UG]**, together with a
+diagram of exact ideal rows. This is a special case of (08UH): all structure sheaves live on one
+site `C`, so the morphisms of ringed topoi `g`, `h`, `h'` of (08UH) have identity underlying topoi
+and are recorded by their comorphisms `g`, `gB`, `gB'`, running from the index `1` layer to the
+index `2` layer (the direction of `g^{-1}` in the source); `nu` is the comparison `ν` of the two
+ideal modules. The comparison of the two *thickened* sources is absent: producing it is the
+lifting problem of Tag 08UG. The diagram (08UH) for genuine morphisms of ringed topoi `f₁`, `f₂`,
+`g`, `h` between four arbitrary ringed topoi is
+`Deformation.ToposThickening.RingedToposLiftDiagram`, which carries Tag 08UH.
+
+The field `nu_base` is *stronger* than the diagram (08UI) of the source: it asks
+`f'₂(gB'(a)) = ν(m)` for every section `a` of the thickened base with `f'₁(a)` in `𝒢₁`, while
+(08UI) asks only that its left square commute, i.e. the identity for sections `a` of the base
+ideal `𝒥₁`. Stacks' own diagram (08UI) is `Deformation.ToposThickening.RingedToposLiftDiagram`
+(for genuine morphisms of ringed topoi) and, on one site,
+`Deformation.ToposThickening.FirstOrderLiftDiagram`; see the implementation notes of
+`StacksFrontier/Deformation/ToposThickening/FirstOrderLiftDiagram.lean` for a situation satisfying
+(08UI) that is not a `LiftDiagram`. -/
 public structure LiftDiagram where
   /-- The front layer, index `1` in the source. -/
   front : LiftSquare J

@@ -85,7 +85,7 @@ Because the submodule is defined by a case distinction on `m₀ ≤ n`, and the 
 the defining map does not vary with `n`, the definition involves no transport along an equality
 of indices.
 
-*Where the general locus is.* Part (7) is registered here at `T = {𝔪}` over a Noetherian local
+*Where the general locus is.* Part (7) is proved here at `T = {𝔪}` over a Noetherian local
 ring, where the Mittag-Leffler condition is a theorem. At a general specialization-stable `T` the
 hypothesis of the main result — that `{Aₙ}` satisfies the Mittag-Leffler condition — is proved in
 `StacksFrontier/AlgebraicGeometry/Algebraization/BootstrapFirstDerivedLimitAnnihilation.lean`
@@ -93,7 +93,9 @@ directly from the stable-image assertion of [Stacks, Tag 0EFX], by the kernel de
 `{Aₙ}` together with the long exact sequence; so neither the truncated tower
 `n ↦ H^s_T(I^{m₀}M/IⁿM)` nor its identification with `{Aₙ}` is needed, and the source's appeal to
 part (3) and to Homology Lemma 12.31.3 is replaced. Part (7) at that locus is
-`Stacks.Algebraization.exists_smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero`.
+`Stacks.Algebraization.exists_smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero`, and the
+complete Tag 0EFY, all seven parts at one `m₀`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`.
 
 The hypothesis is deliberately *not* the Mittag-Leffler condition for `{H^s_T(M/IⁿM)}` itself.
 Part (2) of the tag asserts that condition only in degrees `i < s`, and part (3) asserts it in
@@ -404,8 +406,6 @@ Mittag-Leffler condition only for the subsystem `Aₙ` of part (3), and the cont
 then genuinely the annihilation and not a vanishing; that route is
 `smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero_of_isMittagLeffler` above, run on
 `Stacks.LocalCohomology.isMittagLefflerCategorical_adicTowerCollapseKernelTower_of_stableImage`. -/
-@[stacks 0EFY "part (7) at T = {𝔪} over a Noetherian local ring: I^{m₀} annihilates \
-R¹lim Hˢ_𝔪(M/IⁿM), for every m₀ and in every degree"]
 theorem smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero_closedPoint (A : Type u)
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (J : Ideal A) (N : ModuleCat.{u} A)
     [Module.Finite A N] (i : ℤ) (a : A) :

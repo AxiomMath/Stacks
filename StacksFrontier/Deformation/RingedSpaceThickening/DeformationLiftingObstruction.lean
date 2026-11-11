@@ -270,7 +270,13 @@ ideal rows of **Stacks 08UA** commute (`D : DeformationIdealDiagram`):
 The other two spellings of the acting group in the source's display are identified with this
 one by `actingGroupPullbackAddEquiv` (`Hom_{𝒪_{X₂}}(g^*Ω_{X₁/S₁}, 𝒢₂)`) and
 `extZeroDerivedPullbackNaiveCotangentAddEquiv` (`Ext⁰_{𝒪_{X₂}}(Lg^*NL_{X₁/S₁}, 𝒢₂)`). -/
-@[stacks 08U8, ega "0 20.1.3" "more general", ega "IV 16.5.14" "more general"]
+@[stacks 08U8 "both clauses, for the source's diagram of ringed spaces: the canonical class in \
+Ext^1(Lg^*NL_{X_1/S_1}, G_2) vanishes iff a morphism X'_2 -> X'_1 fitting into the diagram \
+compatibly with nu exists, and the set of such morphisms is a principal homogeneous space under \
+Hom(Omega_{X_1/S_1}, g_*G_2), which actingGroupPullbackAddEquiv and \
+extZeroDerivedPullbackNaiveCotangentAddEquiv identify with Hom(g^*Omega_{X_1/S_1}, G_2) and \
+Ext^0(Lg^*NL_{X_1/S_1}, G_2)",
+  ega "0 20.1.3" "more general", ega "IV 16.5.14" "more general"]
 theorem lifting_obstruction_and_torsor :
     (D.obstructionClass = 0 ↔ Nonempty D.Lifts) ∧
       (∀ φ : D.Lifts, D.liftAct 0 φ = φ) ∧

@@ -5,19 +5,21 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.L
 public import StacksFrontier.AlgebraicGeometry.Stacks.LocalCompleteIntersectionComposition
 
 /-!
-# Composition of local complete intersection 1-morphisms of algebraic stacks, with nothing assumed
+# Composition of local complete intersection 1-morphisms of algebraic stacks (Stacks 0CJ4)
 
 **Stacks 0CJ4** says that a composition of local complete intersection 1-morphisms of algebraic
 stacks over `S` is a local complete intersection 1-morphism: if `f : 𝒳 ⟶ 𝒴` and `g : 𝒴 ⟶ 𝒵` are
 Koszul, so is `f ≫ g`.
 
-`StacksFrontier.AlgebraicGeometry.Stacks.LocalCompleteIntersectionComposition` proves this from one
-hypothesis beyond the source's: that the Koszul property of morphisms of algebraic spaces over
-`S` is smooth local on the source-and-target. That hypothesis is discharged here by
+The composition argument of the source, Stacks 06FP at the Koszul property of morphisms of
+algebraic spaces together with Stacks 06C8, is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_comp`, stated for a given
+smooth locality on the source-and-target of the Koszul property of morphisms of algebraic spaces
+over `S`. That locality is
 `AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`, which feeds
 syntomic locality on the source (**Stacks 0CHN**) and on the target (the syntomic case of
 **Stacks 0CHM**) of the Koszul property of morphisms of algebraic spaces through the criterion
-**Stacks 06FB**; it carries no hypothesis, so the statement below is the source's.
+**Stacks 06FB**, so the statement below has exactly the source's hypotheses.
 
 ## Main results
 
@@ -53,7 +55,7 @@ algebraic spaces, which is stable under composition by **Stacks 06C8**, as in
 `AlgebraicGeometry.Stack.AlgebraicStacks.isLocalCompleteIntersection_comp`; the smooth locality
 on the source-and-target that argument consumes is
 `AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`. -/
-@[stacks 0CJ4]
+@[stacks 0CJ4 "composition of local complete intersection 1-morphisms of algebraic stacks"]
 theorem IsLocalCompleteIntersection.comp
     {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS} {f : 𝒳 ⟶ 𝒴} {g : 𝒴 ⟶ 𝒵}
     (hf : IsLocalCompleteIntersection B S hS f)

@@ -18,7 +18,7 @@ derived pullback `L(h ≫ g)^*`:
   derived-pullback pseudofunctor (Stacks 0D6D), which
   `AlgebraicGeometry.Space.smallEtaleDerivedModulePullbackSquareIso` is built from;
 * `AlgebraicGeometry.Space.edsDerivedRestrictCompOpen` and `…edsDerivedRestrictCompEtale`, which
-  Stacks 08HB (`AlgebraicGeometry.Space.exists_hom_of_glueData`) is stated with, and which are
+  Stacks 08HB (`AlgebraicGeometry.Space.exists_glued_object_and_hom`) is stated with, and which are
   the *degreewise* descent of the underived comparison of iterated étale restriction with
   restriction along the composite.
 

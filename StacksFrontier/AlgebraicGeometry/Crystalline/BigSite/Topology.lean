@@ -49,8 +49,10 @@ rests on the unique extension of a divided power structure along a flat ring map
 here; consequently the covering families of `topology` are a priori larger than the Zariski
 families themselves.
 
-Syntomic coverings are omitted because the property of being a syntomic morphism of schemes is not
-available.
+The syntomic coverings of part (1) are
+`Crystalline.GlobalCrystallineSituation.Thickening.IsSyntomicCovering`, in
+`StacksFrontier.AlgebraicGeometry.Crystalline.BigSite.SyntomicCovering`, which imports this module
+together with the syntomic precoverage of schemes.
 
 ## References
 

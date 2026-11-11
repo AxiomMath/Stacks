@@ -54,7 +54,8 @@ This is `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_comp` with its argu
 discharged by the unconditional forward direction of **Stacks 06N3**,
 `AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`, at
 `AlgebraicGeometry.BigFppfSite.contains_terminal`. -/
-@[stacks 0CIH]
+@[stacks 0CIH "P etale-smooth local on the source-and-target (Stacks 0CFZ) and stable under \
+composition; the composite of two DM 1-morphisms having the property of Stacks 0CIG has it"]
 theorem hasEtaleSmoothLocalProperty_comp_of_isEtaleSmoothLocal
     (P : MorphismProperty (AlgebraicSpaces B S hS))
     (hP : Space.IsEtaleSmoothLocalOnSourceAndTarget B S hS P)

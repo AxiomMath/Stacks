@@ -693,6 +693,7 @@ theorem sheafHomMul_app (M : DifferentialGradedModule.{t, a, s} A') (n p : ℤ) 
 /-- **The internal hom `SheafHom^dg_{A'}(N, M)` of a differential graded `(A, A')`-bimodule `N`
 and a right differential graded `A'`-module `M`**, as a right differential graded `A`-module: the
 complex of sheaves of local homomorphisms `N|_U → M|_U`, with `(q a)(x) = q (a x)`. -/
+@[stacks 0FRP "SheafHom^dg_B(N, L) is a right differential graded A-module"]
 noncomputable abbrev sheafHomModule (M : DifferentialGradedModule.{t, a, s} A') :
     DifferentialGradedModule.{t, a, max u v z s} A where
   complex := sheafHomComplex N.toRightModule M
@@ -781,8 +782,9 @@ theorem sheafHomMap_f_app {L L' : DifferentialGradedModule.{t, a, s} A'} (g : L 
         (add_zero n) := rfl
 
 variable (N) in
-/-- **The functor `SheafHom^dg_{A'}(N, -) : Mod^dg(A', d) ⥤ Mod^dg(A, d)`** of a differential
+/-- **The functor `SheafHom^dg_{A'}(N, -) : Mod(A', d) ⥤ Mod(A, d)`** of a differential
 graded `(A, A')`-bimodule `N`. -/
+@[stacks 0FRP "the functor SheafHom^dg_B(N, -) : Mod(B, d) ⥤ Mod(A, d), constructed"]
 noncomputable def sheafHomFunctor :
     DifferentialGradedModule.{t, a, s} A' ⥤ DifferentialGradedModule.{t, a, max u v z s} A where
   obj M := sheafHomModule N M

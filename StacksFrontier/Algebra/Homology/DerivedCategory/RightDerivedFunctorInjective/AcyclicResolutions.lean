@@ -36,13 +36,18 @@ If every object of `𝒜` embeds into an object acyclic for `RF` in the partial 
 [Stacks, Tag 05SX], then `RF` is defined on all of `K⁺(𝒜)`, is exact, and is computed by bounded
 below complexes of acyclic objects ([Stacks, Tag 05TA]); dually for `LF` on `D⁻`.
 
+It also proves Leray's acyclicity lemma ([Stacks, Tag 015E]) in the same pointwise setting: a
+bounded below complex of acyclic objects at which `RF` is defined computes `RF`.
+
 ## Main results
 
 * `CategoryTheory.Functor.hasDerivedFunctors_of_enough_acyclic_objects`
+* `CategoryTheory.Functor.isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt`
 
 ## References
 
 * [Stacks, Tag 05TA]
+* [Stacks, Tag 015E]
 -/
 
 @[expose] public section
@@ -209,7 +214,10 @@ variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
   [HasDerivedCategory.{w} C] [HasDerivedCategory.{w'} D]
 
 omit [HasDerivedCategory C] in
-private lemma quasiIsoPlus_isSaturated :
+/-- The quasi-isomorphisms of `K⁺(𝒜)` form a saturated multiplicative system: they admit a left
+and a right calculus of fractions, and a morphism `g` is a quasi-isomorphism as soon as `f ≫ g`
+and `g ≫ h` are. -/
+lemma quasiIsoPlus_isSaturated :
     (HomotopyCategory.Plus.quasiIso C).IsSaturated := by
   have hleft : (HomotopyCategory.Plus.quasiIso C).HasLeftCalculusOfFractions := by
     rw [HomotopyCategory.Plus.quasiIso_eq_subcategoryAcyclic_trW]
@@ -438,6 +446,100 @@ private lemma source_computes_of_bounded (F : C ⥤ D) [F.Additive]
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
         (HomotopyCategory.Plus.quasiIso C) (plusObj K hK) :=
   source_computes_of_bounded_aux F (b - a).toNat a K hK (fun i hi => hz i (by omega)) ha
+
+omit [HasDerivedCategory C] in
+/-- In a commutative square `a ≫ v = b ≫ d` of `D⁺(D)` with `d` invertible, if `H ⁱ` inverts `v`
+and `b` then it inverts `a`. -/
+private lemma isIso_homologyFunctor_map_of_comp_eq {X Y Y' Z : DerivedCategory.Plus D} (i : ℤ)
+    (a : X ⟶ Y) (v : Y ⟶ Z) (b : X ⟶ Y') (d : Y' ⟶ Z) (h : a ≫ v = b ≫ d)
+    (hv : IsIso ((DerivedCategory.Plus.homologyFunctor D i).map v))
+    (hb : IsIso ((DerivedCategory.Plus.homologyFunctor D i).map b))
+    (hd : IsIso d) :
+    IsIso ((DerivedCategory.Plus.homologyFunctor D i).map a) := by
+  have : IsIso ((DerivedCategory.Plus.homologyFunctor D i).map a ≫
+      (DerivedCategory.Plus.homologyFunctor D i).map v) := by
+    rw [← Functor.map_comp, h, Functor.map_comp]
+    infer_instance
+  exact IsIso.of_isIso_comp_right _ ((DerivedCategory.Plus.homologyFunctor D i).map v)
+
+omit [HasDerivedCategory C] in
+/-- **Leray's acyclicity lemma**, [Stacks, Tag 015E], in Stacks' generality: `RF` is assumed to be
+defined at `K` alone; no global existence of `RF` and no injectives are assumed.
+
+Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, and write
+`G : K⁺(𝒜) ⥤ D⁺(ℬ)` for `F` applied termwise followed by the localization, and `W` for the
+quasi-isomorphisms of `K⁺(𝒜)`. Let `K` be a bounded below complex all of whose terms `Kⁿ` are
+right `F`-acyclic in the sense of [Stacks, Tag 0157]: `RF` is defined at `Kⁿ[0]` and `Kⁿ[0]`
+computes `RF` ([Stacks, Tag 05SX]). Suppose `RF` is defined at `K` ([Stacks, Tag 05S9]: the
+ind-object `(s : K ⟶ K') ↦ G(K')` is essentially constant). Then the canonical map
+`F(K) ⟶ RF(K)` — the coprojection at the index `𝟙 K` of any value `RF(K)` — is an isomorphism
+in `D⁺(ℬ)`; in particular `K` computes `RF`.
+
+The proof is the source's: the bounded case is the induction along stupid truncations
+(`source_computes_of_bounded`); in general, for each `i` the triangle
+`(σ_{≥ i + 2}K, K, σ_{≤ i + 1}K)` has `RF` defined at its last two vertices, hence at the first,
+with a distinguished triangle of values ([Stacks, Tag 05SC]), and `H ⁱ` of the canonical map at
+`K` is compared with that at `σ_{≤ i + 1}K`, both `σ_{≥ i + 2}F(K)` and `RF(σ_{≥ i + 2}K)` being
+concentrated in degrees `≥ i + 2`. -/
+@[stacks 015E "`RF` defined at `K` in the sense of Tag 05S9, terms right `F`-acyclic in the sense \
+  of Tag 0157; conclusion: the canonical map `F(K) ⟶ RF(K)` is an isomorphism"]
+public theorem isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt
+    (F : C ⥤ D) [F.Additive] (K : CochainComplex C ℤ) (hK : CochainComplex.plus C K)
+    (hacyclic : ∀ n, (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
+      (HomotopyCategory.Plus.quasiIso C) ((HomotopyCategory.Plus.singleFunctor C 0).obj (K.X n)))
+    (hdef : ∃ c, (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).IsRightDerivedValueAt
+      (HomotopyCategory.Plus.quasiIso C) (plusObj K hK) c) :
+    (∀ c, (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).IsRightDerivedValueAt
+        (HomotopyCategory.Plus.quasiIso C) (plusObj K hK) c →
+      IsIso (c.ι.app (MorphismProperty.Under.mk ⊤ (𝟙 (plusObj K hK))
+        (MorphismProperty.id_mem _ _)))) ∧
+    (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
+      (HomotopyCategory.Plus.quasiIso C) (plusObj K hK) := by
+  have := quasiIsoPlus_compatible (C := C)
+  have hall : ∀ c, (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).IsRightDerivedValueAt
+      (HomotopyCategory.Plus.quasiIso C) (plusObj K hK) c →
+      IsIso (c.ι.app (MorphismProperty.Under.mk ⊤ (𝟙 (plusObj K hK))
+        (MorphismProperty.id_mem _ _))) := by
+    intro c hc
+    obtain ⟨b, hb⟩ : ∃ b, CochainComplex.IsStrictlyGE K b := id hK
+    refine (DerivedCategory.Plus.isIso_iff _).2 fun i ↦ ?_
+    have hT := stupidTruncTrianglehPlus_distinguished K (i + 1) hK
+    -- the last vertex `σ_{≤ i + 1}K` is bounded, so it computes `RF`
+    obtain ⟨cZ, hcZ, hcZι⟩ := source_computes_of_bounded F _
+      (plus_stupidTruncLE K hK (i + 1)) b (i + 1) (fun n hn ↦ by
+        rcases hn with hn | hn
+        · exact isZero_stupidTrunc_X_of_isZero K _ n
+            ((CochainComplex.isStrictlyGE_iff K b).1 hb n hn)
+        · exact isZero_stupidTruncLE_X_of_lt K (i + 1) n hn)
+      (source_acyclic_stupidTrunc F _ K hacyclic)
+    have hsol := exists_isRightDerivedValueAt_and_isLeftDerivedValueAt_and_triangle_distinguished
+      (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) (HomotopyCategory.Plus.quasiIso C)
+      quasiIsoPlus_isSaturated _ hT
+    -- so `RF` is defined at the first vertex `σ_{≥ i + 2}K`, with a triangle of values
+    obtain ⟨cX, hcX⟩ := hsol.1.2.1 ⟨c, hc⟩ ⟨cZ, hcZ⟩
+    obtain ⟨u, v, w, hdist, -, hv, -⟩ := hsol.1.2.2.2 cX hcX c hc cZ hcZ
+    have hcomm := hv (MorphismProperty.Under.mk ⊤ (𝟙 _) (MorphismProperty.id_mem _ _))
+      (MorphismProperty.Under.mk ⊤ (𝟙 _) (MorphismProperty.id_mem _ _))
+      (stupidTruncTrianglehPlus K (i + 1) hK).mor₂ (by simp)
+    have hge : CochainComplex.IsStrictlyGE
+        (K.stupidTrunc (ComplexShape.embeddingUpIntGE (i + 1 + 1))) (i + 1 + 1) :=
+      isStrictlyGE_stupidTruncGE K (i + 1 + 1)
+    -- `RF(σ_{≥ i + 2}K)` lies in degrees `≥ i + 2`, being a retract of `F` of a resolution
+    have hcX_ge : cX.pt.IsGE (i + 1 + 1) := by
+      obtain ⟨s, r, hr, -⟩ := hcX
+      exact isGE_of_retraction F _ (i + 1 + 1) (inferInstanceAs (CochainComplex.IsGE
+        (K.stupidTrunc (ComplexShape.embeddingUpIntGE (i + 1 + 1))) (i + 1 + 1))) cX s r hr
+    have h₁ : IsIso ((DerivedCategory.Plus.homologyFunctor D i).map v) :=
+      isIso_homologyFunctor_map_mor₂_of_isGE (Pretriangulated.Triangle.mk u v w) hdist i hcX_ge
+    have h₂ : IsIso ((DerivedCategory.Plus.homologyFunctor D i).map
+        ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map
+          (stupidTruncTrianglehPlus K (i + 1) hK).mor₂)) :=
+      isIso_homologyFunctor_map_mor₂_of_isGE _
+        ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map_distinguished _ hT) i
+        (isGE_Phi_obj F _ (plus_stupidTruncGE K (i + 1 + 1)) (i + 1 + 1) hge)
+    exact isIso_homologyFunctor_map_of_comp_eq i _ v _ _ hcomm h₁ h₂ hcZι
+  obtain ⟨c, hc⟩ := hdef
+  exact ⟨hall, c, hc, hall c hc⟩
 
 omit [HasDerivedCategory C] [HasDerivedCategory D] in
 private lemma quasiIsoAt_of_isIso_f {K L : CochainComplex C ℤ} (f : K ⟶ L) (n : ℤ)
@@ -869,6 +971,29 @@ public theorem computesRightDerived_iff_isIso_unit_of_enough_source_acyclic_obje
   obtain ⟨a, ha⟩ := plus_obj_as K
   obtain ⟨I, s, hs, hI, _⟩ := source_acyclic_resolution F h K a inferInstance
   exact ⟨I, s, hs, (isIso_unit_and_isGE_of_enough_source_acyclic_objects F h RF α).1 I hI⟩
+
+omit [HasDerivedCategory C] in
+/-- The quasi-isomorphisms of `K⁺(C)` form a saturated multiplicative system compatible with the
+triangulation ([Stacks, Tag 05RT]). -/
+public theorem isSaturated_and_isCompatibleWithTriangulation_quasiIsoPlus :
+    (HomotopyCategory.Plus.quasiIso C).IsSaturated ∧
+      (HomotopyCategory.Plus.quasiIso C).IsCompatibleWithTriangulation :=
+  ⟨quasiIsoPlus_isSaturated, quasiIsoPlus_compatible⟩
+
+omit [HasDerivedCategory C] in
+/-- **Right derived functors move to the right, on `K⁺`** ([Stacks, Tag 05TC] part (1)). If the
+right derived functor of `K⁺(F) ⋙ Q : K⁺(C) ⥤ D⁺(D)` is defined at `X` with value `c.pt`, and
+`H ⁱ(X) = 0` for `i < a`, then `H ⁱ(c.pt) = 0` for `i < a`: the value is a retract of `F` applied
+to a resolution of `X`, which good truncation makes termwise `≥ a`. -/
+public theorem isGE_of_isRightDerivedValueAt_plus (F : C ⥤ D) [F.Additive]
+    (X : HomotopyCategory.Plus C) (a : ℤ) (hX : CochainComplex.IsGE X.obj.as a)
+    (c : Cocone (MorphismProperty.Under.forget (HomotopyCategory.Plus.quasiIso C) ⊤ X ⋙
+      Under.forget X ⋙ (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)))
+    (hc : (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).IsRightDerivedValueAt
+      (HomotopyCategory.Plus.quasiIso C) X c) :
+    c.pt.IsGE a := by
+  obtain ⟨s, r, hr, -⟩ := hc
+  exact isGE_of_retraction F X a hX c s r hr
 
 variable [HasDerivedCategory.{w} Cᵒᵖ] [HasDerivedCategory.{w'} Dᵒᵖ]
 

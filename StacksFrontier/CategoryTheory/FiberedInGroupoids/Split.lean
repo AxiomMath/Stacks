@@ -58,9 +58,11 @@ groupoids, and the source's construction of `𝒮_F` is verbatim the same; accor
 `presheafOfGroupoids F` is `presheafOfCategories (F ⋙ Grpd.forgetToCat)`, with `Grpd.forgetToCat`
 the inclusion of groupoids into categories. Its being a fibred category is Mathlib's
 `Pseudofunctor.CoGrothendieck.instIsFiberedForget`; that its fibre categories are groupoids, so
-that it is fibred in groupoids, is the extra content of Stacks 0049 and is not proved here, which
-is why the definition below carries the source's hypothesis that `p` is fibred in groupoids as an
-explicit conjunct rather than deriving it.
+that it is fibred in groupoids, is the extra content of Stacks 0049. That is proved downstream of
+this file, as `CategoryTheory.isFiberedInGroupoids_presheafOfGroupoids` in
+`StacksFrontier.CategoryTheory.FiberedInGroupoids.OfPresheaf`, which imports this one; the definition
+below carries the source's hypothesis that `p` is fibred in groupoids as an explicit conjunct, as
+Stacks 04TL states it, rather than deriving it.
 
 See `StacksFrontier/CategoryTheory/FiberedCategory/Split.lean` for the universe conventions, which
 are the same here.
@@ -76,7 +78,8 @@ variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {𝒮 : Type u₂} [Category.
 
 /-- **Stacks 0049**, as a category over `𝒞`: the category `p_F : 𝒮_F ⥤ 𝒞` attached to a presheaf
 of groupoids `F : 𝒞ᵒᵖ ⥤ Grpd`, viewed as an object of the 2-category of categories over `𝒞`. It is
-the category attached by Stacks 02XV to `F` regarded as a presheaf of categories. -/
+the category attached by Stacks 02XV to `F` regarded as a presheaf of categories. This is the
+category `𝒮_F` of Stacks 04SU (a). -/
 abbrev presheafOfGroupoids (F : 𝒞ᵒᵖ ⥤ Grpd.{v₂, u₂}) : BasedCategory 𝒞 :=
   presheafOfCategories (F ⋙ Grpd.forgetToCat)
 

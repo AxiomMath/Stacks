@@ -221,23 +221,12 @@ end StalkAction
 
 /-! ### Section 59.56, the Galois action on stalks
 
-Tag 03QW is the section constructing the action of `Aut(κ(s̄)/κ(s))` on the stalk at a geometric
-point `s̄` over a point `s` of a scheme, and checking that it is a left action. For a rational
-point of a scheme over `k`, so that the residue field is `k` itself, that is
-`galoisStalkAction` together with `galoisStalkAction_one` and `galoisStalkAction_mul`, and the
-tag is recorded against them below. What the section says beyond that — that the action is
-functorial in the sheaf, factors through the absolute Galois group and makes the stalk a
-continuous Galois set — is carried, for the spectrum of a field, in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/StalkEquivalence/SheafStalk.lean`; and the case
-of a point whose residue field is a proper extension of the base is not available.
+`galoisStalkAction`, with `galoisStalkAction_one` and `galoisStalkAction_mul`, is the action of
+Section 03QW at the geometric point over a rational point of a scheme over `k`, on the stalk
+functor of Mathlib's small étale site. Section 03QW itself, the action of `Aut(κ(s̄)/κ(s))` and of
+`Gal_{κ(s)}` on the stalk at a geometric point of an arbitrary scheme, is
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisActionStalks.SchemeStalkAction`.
 -/
-
-add_to_stacks 03QW "the action of Aut(K/k) on the stalk at a rational point of a scheme over k"
-  galoisStalkAction
-add_to_stacks 03QW "the identity acts trivially, at a rational point of a scheme over k"
-  galoisStalkAction_one
-add_to_stacks 03QW "multiplicativity of the action, at a rational point of a scheme over k"
-  galoisStalkAction_mul
 
 end Stacks.Frobenius
 

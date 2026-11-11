@@ -34,6 +34,7 @@ public import Mathlib.Tactic.NormNum.Parity
 public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
+public import StacksFrontier.RingTheory.Ideal.AssociatedPrime.Defs
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -52,6 +53,10 @@ prime of `S` associated to `N / 𝔭N`, for `𝔭` an associated prime of `M` ov
 
 ## Main results
 
+* `assStacks_subset_of_shortExact`, `assStacks_subset_union_of_shortExact` and `assStacks_prod`
+  (Stacks 02M3): for a short exact sequence `0 → M' → M → M'' → 0` of modules over an arbitrary
+  commutative ring, `Ass(M') ⊆ Ass(M) ⊆ Ass(M') ∪ Ass(M'')`, and
+  `Ass(M' × M'') = Ass(M') ∪ Ass(M'')`, for `Ass = assStacks` (Stacks 00LA).
 * `Stacks.AssociatedPrimes.FlatBaseChange.associatedPrimes_tensorProduct_subset_of_flat`: for `P`
   flat over a Noetherian ring `R` and `M` a finite `R`-module, `Ass_R(P ⊗_R M) ⊆ Ass_R(M)`.
 * `Stacks.AssociatedPrimes.FlatBaseChange.solution` and `associatedPrimes.tensorProduct_of_flat`:
@@ -103,25 +108,32 @@ private theorem colon_singleton_smul {q : Ideal S} (hq : q.IsPrime) {w : Y}
   rw [mem_colon_bot_singleton, smul_smul, ← mem_colon_bot_singleton, hw]
   exact ⟨fun h => (hq.mem_or_mem h).resolve_right hs, fun h => Ideal.mul_mem_right _ _ h⟩
 
-private theorem assStacks_subset_of_injective {f : X →ₗ[S] Y} (hf : Function.Injective f) :
-    assStacks S X ⊆ assStacks S Y := by
-  rintro q ⟨hq, w, hw⟩
-  exact ⟨hq, f w, (colon_singleton_apply hf w).trans hw⟩
+/-- Membership in `assStacks`, with the annihilator of an element written as a colon ideal
+against a singleton set. -/
+theorem _root_.mem_assStacks_iff_colon_singleton {q : Ideal S} :
+    q ∈ _root_.assStacks S X ↔ q.IsPrime ∧ ∃ w : X, (⊥ : Submodule S X).colon {w} = q := by
+  simp only [mem_assStacks_iff, Submodule.colon_span]
 
-private theorem assStacks_congr (e : X ≃ₗ[S] Y) : assStacks S X = assStacks S Y :=
-  (assStacks_subset_of_injective e.injective).antisymm
-    (assStacks_subset_of_injective e.symm.injective)
+/-- The local spelling `assStacks` of this file is the set `_root_.assStacks` of Stacks 00LA. -/
+private theorem assStacks_eq_assStacks : assStacks S X = _root_.assStacks S X :=
+  Set.ext fun _ => mem_assStacks_iff_colon_singleton.symm
 
-private theorem assStacks_eq_empty [Subsingleton X] : assStacks S X = ∅ :=
-  Set.eq_empty_of_forall_notMem fun _ ⟨hq, w, hw⟩ => hq.ne_top (hw.symm.trans (eq_top_iff.mpr
-    fun _ _ => mem_colon_bot_singleton.mpr (by rw [Subsingleton.elim w 0, smul_zero])))
+/-- An injective linear map `X → Y` gives `Ass(X) ⊆ Ass(Y)`, for `Ass` in the sense of Stacks 00LA
+over an arbitrary commutative ring. -/
+theorem _root_.assStacks_subset_of_injective {f : X →ₗ[S] Y} (hf : Function.Injective f) :
+    _root_.assStacks S X ⊆ _root_.assStacks S Y := by
+  intro q hq
+  obtain ⟨hq, w, hw⟩ := mem_assStacks_iff_colon_singleton.mp hq
+  exact mem_assStacks_iff_colon_singleton.mpr ⟨hq, f w, (colon_singleton_apply hf w).trans hw⟩
 
-/-- Associated primes of the middle term of a left exact sequence are associated primes of one of
-the ends. -/
-private theorem assStacks_subset_union_of_exact {f : X →ₗ[S] Y} {g : Y →ₗ[S] Z}
+/-- Associated primes, in the sense of Stacks 00LA over an arbitrary commutative ring, of the
+middle term of a left exact sequence `0 → X → Y → Z` are associated primes of one of the ends. -/
+theorem _root_.assStacks_subset_union_of_exact {f : X →ₗ[S] Y} {g : Y →ₗ[S] Z}
     (hf : Function.Injective f) (h : Function.Exact f g) :
-    assStacks S Y ⊆ assStacks S X ∪ assStacks S Z := by
-  rintro q ⟨hq, w, hw⟩
+    _root_.assStacks S Y ⊆ _root_.assStacks S X ∪ _root_.assStacks S Z := by
+  intro q hq
+  obtain ⟨hq, w, hw⟩ := mem_assStacks_iff_colon_singleton.mp hq
+  rw [Set.mem_union, mem_assStacks_iff_colon_singleton, mem_assStacks_iff_colon_singleton]
   by_cases hcase : ∃ s : S, s • w ∈ Set.range f ∧ s • w ≠ 0
   · obtain ⟨s, ⟨y, hy⟩, hne⟩ := hcase
     have hs : s ∉ q := fun hsq =>
@@ -136,6 +148,67 @@ private theorem assStacks_subset_union_of_exact {f : X →ₗ[S] Y} {g : Y →�
     · rw [← hw]
       exact mem_colon_bot_singleton.mpr (hcase t ((h (t • w)).mp ht))
     · rw [show t • w = 0 from mem_colon_bot_singleton.mp (by rw [hw]; exact ht), map_zero]
+
+/-- **Stacks 02M3, first inclusion.** Let `0 → X → Y → Z → 0` be a short exact sequence of modules
+over a commutative ring `S`. Then `Ass(X) ⊆ Ass(Y)`, where `Ass = assStacks` is the set of primes
+that are the annihilator of an element (Stacks 00LA). Mathlib's `associatedPrimes` asks instead that
+a prime be the radical of such an annihilator, which is the same notion over a Noetherian ring;
+the statement here is for `assStacks` and for an arbitrary ring. -/
+@[stacks 02M3 "(1) Ass(M') ⊆ Ass(M) for a short exact sequence 0 → M' → M → M'' → 0 over any \
+  commutative ring, with Ass the set of primes equal to the annihilator of an element (00LA)"]
+theorem _root_.assStacks_subset_of_shortExact {f : X →ₗ[S] Y} {g : Y →ₗ[S] Z}
+    (hf : Function.Injective f) (_hg : Function.Surjective g) (_h : Function.Exact f g) :
+    _root_.assStacks S X ⊆ _root_.assStacks S Y :=
+  _root_.assStacks_subset_of_injective hf
+
+/-- **Stacks 02M3, second inclusion.** Let `0 → X → Y → Z → 0` be a short exact sequence of
+modules over a commutative ring `S`. Then `Ass(Y) ⊆ Ass(X) ∪ Ass(Z)`, where `Ass = assStacks` is
+the set of primes that are the annihilator of an element (Stacks 00LA). Mathlib's
+`associatedPrimes` asks instead that a prime be the radical of such an annihilator, which is the
+same notion over a Noetherian ring; the statement here is for `assStacks` and for an arbitrary
+ring. -/
+@[stacks 02M3 "(2) Ass(M) ⊆ Ass(M') ∪ Ass(M'') for a short exact sequence 0 → M' → M → M'' → 0 \
+  over any commutative ring, with Ass the set of primes equal to the annihilator of an element \
+  (00LA)"]
+theorem _root_.assStacks_subset_union_of_shortExact {f : X →ₗ[S] Y} {g : Y →ₗ[S] Z}
+    (hf : Function.Injective f) (_hg : Function.Surjective g) (h : Function.Exact f g) :
+    _root_.assStacks S Y ⊆ _root_.assStacks S X ∪ _root_.assStacks S Z :=
+  _root_.assStacks_subset_union_of_exact hf h
+
+/-- **Stacks 02M3, direct sum.** For modules `X` and `Z` over a commutative ring `S`,
+`Ass(X ⊕ Z) = Ass(X) ∪ Ass(Z)`, where `Ass = assStacks` is the set of primes that are the
+annihilator of an element (Stacks 00LA) and the direct sum is the product `X × Z`. Mathlib's
+`associatedPrimes` asks instead that a prime be the radical of such an annihilator, which is the
+same notion over a Noetherian ring; the statement here is for `assStacks` and for an arbitrary
+ring. -/
+@[stacks 02M3 "(3) Ass(M' ⊕ M'') = Ass(M') ∪ Ass(M'') over any commutative ring, the direct sum \
+  being the product M' × M'' and Ass the set of primes equal to the annihilator of an element \
+  (00LA)"]
+theorem _root_.assStacks_prod :
+    _root_.assStacks S (X × Z) = _root_.assStacks S X ∪ _root_.assStacks S Z :=
+  (_root_.assStacks_subset_union_of_exact (g := LinearMap.snd S X Z) LinearMap.inl_injective
+      fun y => ⟨fun hy => ⟨y.1, Prod.ext rfl hy.symm⟩, by rintro ⟨x, rfl⟩; rfl⟩).antisymm
+    (Set.union_subset (_root_.assStacks_subset_of_injective LinearMap.inl_injective)
+      (_root_.assStacks_subset_of_injective LinearMap.inr_injective))
+
+private theorem assStacks_subset_of_injective {f : X →ₗ[S] Y} (hf : Function.Injective f) :
+    assStacks S X ⊆ assStacks S Y := by
+  simpa only [assStacks_eq_assStacks] using _root_.assStacks_subset_of_injective hf
+
+private theorem assStacks_congr (e : X ≃ₗ[S] Y) : assStacks S X = assStacks S Y :=
+  (assStacks_subset_of_injective e.injective).antisymm
+    (assStacks_subset_of_injective e.symm.injective)
+
+private theorem assStacks_eq_empty [Subsingleton X] : assStacks S X = ∅ :=
+  Set.eq_empty_of_forall_notMem fun _ ⟨hq, w, hw⟩ => hq.ne_top (hw.symm.trans (eq_top_iff.mpr
+    fun _ _ => mem_colon_bot_singleton.mpr (by rw [Subsingleton.elim w 0, smul_zero])))
+
+/-- Associated primes of the middle term of a left exact sequence are associated primes of one of
+the ends. -/
+private theorem assStacks_subset_union_of_exact {f : X →ₗ[S] Y} {g : Y →ₗ[S] Z}
+    (hf : Function.Injective f) (h : Function.Exact f g) :
+    assStacks S Y ⊆ assStacks S X ∪ assStacks S Z := by
+  simpa only [assStacks_eq_assStacks] using _root_.assStacks_subset_union_of_exact hf h
 
 end AssStacks
 

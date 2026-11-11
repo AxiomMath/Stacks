@@ -10,9 +10,16 @@ public import StacksFrontier.AlgebraicGeometry.Adequate.AdequateModules.DerivedR
 Let `S` be a scheme and let `f : ((Sch/S)_τ, 𝒪) ⟶ (S_Zar, 𝒪_S)` be the morphism of ringed sites
 of [Stacks, Tag 070U]. Write `𝒞` for the parasitic adequate `𝒪`-modules and `D_𝒞(𝒪)` for the
 complexes in `D_Adeq(𝒪)` with parasitic cohomology, which is the kernel of `Rf_*`. This file
-carries [Stacks, Tag 070X]: the equivalence of derived categories
+proves the argument of [Stacks, Tag 070X], the equivalence of derived categories
 
-  `D_Adeq(𝒪)/D_𝒞(𝒪) ⟶ D_QCoh(S)`.
+  `D_Adeq(𝒪)/D_𝒞(𝒪) ⟶ D_QCoh(S)`,
+
+for an arbitrary ambient derived adjunction `L ⊣ R` preserving the two subcategories with unit
+invertible on `D_QCoh(S)`. The statement for the derived functors of the morphism of
+[Stacks, Tag 070U] themselves is
+`Stacks.Adequate.BigSite.isLocalization_trW_derivedParasitic_derivedAdequateDirectImage` and
+`Stacks.Adequate.BigSite.derivedAdequateParasiticQuotientEquivalence`, in
+`StacksFrontier.AlgebraicGeometry.Adequate.AdequateModules.DerivedQuotientUnconditional`.
 
 The source deduces it from the derived adjunction `Lf^* ⊣ Rf_*` with `Rf_* Lf^* ≅ id` of
 [Stacks, Tag 070W] in three steps: `D_𝒞(𝒪)` is the kernel of `Rf_*`, so the functor descends;
@@ -26,12 +33,11 @@ fully faithful left adjoint.
 
 * `Stacks.Adequate.BigSite.fullyFaithfulDerivedAdequatePullback` — `Lf^*` is fully faithful,
   which is `Rf_* Lf^* ≅ id` of [Stacks, Tag 070W] read on the unit of the adjunction.
-* `Stacks.Adequate.BigSite.derivedAdequateQuotientEquivalence` — [Stacks, Tag 070X], the
-  equivalence of the localization of `D_Adeq(𝒪)` at the morphisms inverted by `Rf_*` with
+* `Stacks.Adequate.BigSite.derivedAdequateQuotientEquivalence` — for a given adjunction `L ⊣ R`,
+  the equivalence of the localization of `D_Adeq(𝒪)` at the morphisms inverted by `R` with
   `D_QCoh(S)`.
-* `Stacks.Adequate.BigSite.derivedParasiticQuotientEquivalence` — [Stacks, Tag 070X] in the
-  source's own form `D_Adeq(𝒪)/D_𝒞(𝒪) ≌ D_QCoh(S)`, the quotient being taken at the morphisms
-  whose cone lies in the kernel of `Rf_*`.
+* `Stacks.Adequate.BigSite.derivedParasiticQuotientEquivalence` — the same, with the quotient
+  taken at the morphisms whose cone lies in the kernel of `R`.
 
 ## Main results
 
@@ -45,34 +51,36 @@ fully faithful left adjoint.
 * `Stacks.Adequate.BigSite.isIso_map_derivedAdequateAdjunction_counit` — the middle step of
   [Stacks, Tag 070X]: `Rf_*` carries `Lf^*Rf_*X ⟶ X` to an isomorphism.
 * `Stacks.Adequate.BigSite.isLocalization_derivedAdequatePushforward` and
-  `Stacks.Adequate.BigSite.isLocalization_trW_kernel_derivedAdequatePushforward` —
-  [Stacks, Tag 070X], that `Rf_*` is a localization functor, in the two descriptions of the
-  class of morphisms.
+  `Stacks.Adequate.BigSite.isLocalization_trW_kernel_derivedAdequatePushforward` — for a given
+  adjunction `L ⊣ R`, that the restricted `R` is a localization functor, in the two descriptions
+  of the class of morphisms.
 
 ## Implementation notes
 
-**What is assumed and why.** The ambient derived adjunction `L ⊣ R` for the morphism of
-[Stacks, Tag 070U], the two landing assertions `hL` and `hR`, and the invertibility `hunit` of
-the ambient unit on `D_QCoh(S)` are hypotheses, exactly as they are for the [Stacks, Tag 070W]
-declarations of `StacksFrontier.AlgebraicGeometry.Adequate.AdequateModules.DerivedRestriction` that
-this file consumes; see the implementation notes there for why the adjunction of
-[Stacks, Tag 07A6] does not apply to that morphism at the universes in which it is stated.
+**The ambient adjunction is a parameter.** The declarations of this file take an ambient
+derived adjunction `L ⊣ R`, the two landing assertions `hL` and `hR`, and the invertibility
+`hunit` of the ambient unit on `D_QCoh(S)` as arguments, so that they apply to any model of the
+derived categories at any universe. For the derived functors of the morphism of
+[Stacks, Tag 070U] on the standard models, all of these are proved
+(`Stacks.Adequate.BigSite.derivedZariskiAdjunction`,
+`Stacks.Adequate.BigSite.isIso_derivedZariskiAdjunction_unit_app`), and
+`StacksFrontier.AlgebraicGeometry.Adequate.AdequateModules.DerivedQuotientUnconditional` states
+[Stacks, Tag 070X] for them, with the pretriangulated structures of the two subcategories and the
+triangulated structure of the restricted `Rf_*` constructed there.
 
-**Full faithfulness of `Lf^*` needs the unit, not merely `Rf_* Lf^* ≅ id`.** The
-[Stacks, Tag 070W] declaration `BigSite.derivedAdequateCompIso` produces an abstract isomorphism
-`Lf^* ⋙ Rf_* ≅ 𝟭`, and an abstract isomorphism of that shape does not make a left adjoint fully
-faithful. What does is the invertibility of the *unit* of the restricted adjunction, which is
-`DerivedCategoryB.isIso_restrictAdjunction_unit_app` from the same hypothesis `hunit`; that is
-the route taken here.
+**Full faithfulness of `Lf^*` needs the unit, not merely `Rf_* Lf^* ≅ id`.** An abstract
+isomorphism `Lf^* ⋙ Rf_* ≅ 𝟭` does not make a left adjoint fully faithful. What does is the
+invertibility of the *unit* of the restricted adjunction, which is
+`DerivedCategoryB.isIso_restrictAdjunction_unit_app` from the hypothesis `hunit`; that is the
+route taken here.
 
 **Two descriptions of the class of morphisms.** The source quotients `D_Adeq(𝒪)` by the
 triangulated subcategory `D_𝒞(𝒪) = ker Rf_*`, i.e. localizes at the morphisms whose cone lies
 in that kernel. For a triangulated functor that class is the class of morphisms the functor
 inverts, which is `Functor.trW_kernel_eq_inverseImage_isomorphisms`. Both descriptions are
 carried: the statements at the inverted morphisms need no triangulated structure, while the
-statements in the source's own `D_𝒞(𝒪)` form carry the pretriangulated structures of the two
-subcategories and the triangulatedness of the restricted `Rf_*` as instance arguments, those
-not being constructed for the restricted functors in the library.
+statements at the kernel take the pretriangulated structures of the two subcategories and the
+triangulatedness of the restricted `R` as instance arguments.
 
 ## References
 
@@ -199,8 +207,9 @@ private theorem BigSite.full_and_faithful_derivedAdequatePullback
   ⟨h.full, h.faithful⟩
 
 include hL hR adj hunit in
-/-- **The middle step of [Stacks, Tag 070X].** The map `Lf^*Rf_*X ⟶ X` is carried by `Rf_*` to an
-isomorphism of `D_QCoh(S)`, hence becomes an isomorphism in `D_Adeq(𝒪)/D_𝒞(𝒪)`. -/
+/-- **The middle step of the argument of [Stacks, Tag 070X], for a given adjunction.** The map
+`Lf^*Rf_*X ⟶ X` is carried by `Rf_*` to an isomorphism of `D_QCoh(S)`, hence becomes an
+isomorphism in `D_Adeq(𝒪)/D_𝒞(𝒪)`. -/
 public theorem BigSite.isIso_map_derivedAdequateAdjunction_counit
     (X : (BigSite.derivedAdequate.{u, u, d} B).FullSubcategory) :
     IsIso ((BigSite.derivedAdequatePushforward B R hR).map
@@ -210,16 +219,11 @@ public theorem BigSite.isIso_map_derivedAdequateAdjunction_counit
     |>.functorCategory_inverseImage_isomorphisms_counit X
 
 include hL hR adj hunit in
-/-- **[Stacks, Tag 070X].** `Rf_* : D_Adeq(𝒪) ⥤ D_QCoh(S)` is a localization functor for the
-morphisms of `D_Adeq(𝒪)` that it carries to isomorphisms of `D_QCoh(S)`, so that
-`D_Adeq(𝒪)/D_𝒞(𝒪) ⟶ D_QCoh(S)` is an equivalence. -/
-@[stacks 070X "the equivalence `D_Adeq(𝒪)/D_𝒞(𝒪) ⟶ D_QCoh(S)`, with the quotient described as
-the localization at the morphisms `Rf_*` inverts; the description by the subcategory
-`D_𝒞(𝒪) = ker Rf_*` is the companion
-`BigSite.isLocalization_trW_kernel_derivedAdequatePushforward`. The ambient derived adjunction
-`adj`, both landing assertions `hL` and `hR`, and the invertibility `hunit` of the ambient unit
-on `D_QCoh(S)` are hypotheses, exactly as for the Tag 070W declarations this consumes; none of
-them is proved here"]
+/-- **The argument of [Stacks, Tag 070X], for a given adjunction.** The restricted
+`R : D_Adeq(𝒪) ⥤ D_QCoh(S)` is a localization functor for the morphisms of `D_Adeq(𝒪)` that it
+carries to isomorphisms of `D_QCoh(S)`. For the derived functors of the morphism of
+[Stacks, Tag 070U] the statement is
+`BigSite.isLocalization_trW_derivedParasitic_derivedAdequateDirectImage`. -/
 public theorem BigSite.isLocalization_derivedAdequatePushforward :
     (BigSite.derivedAdequatePushforward B R hR).IsLocalization
       ((MorphismProperty.isomorphisms _).inverseImage
@@ -228,11 +232,9 @@ public theorem BigSite.isLocalization_derivedAdequatePushforward :
   exact (BigSite.derivedAdequateAdjunction B L R hL hR adj).isLocalization_rightAdjoint'
 
 include hL hR adj hunit in
-/-- **[Stacks, Tag 070X], the equivalence.** The localization of `D_Adeq(𝒪)` at the morphisms
-inverted by `Rf_*` is equivalent to `D_QCoh(S)`. -/
-@[stacks 070X "the equivalence of categories itself, for the quotient described as the
-localization at the morphisms `Rf_*` inverts; the hypotheses are those of
-`BigSite.isLocalization_derivedAdequatePushforward`"]
+/-- For a given adjunction `L ⊣ R` as above, the localization of `D_Adeq(𝒪)` at the morphisms
+inverted by the restricted `R` is equivalent to `D_QCoh(S)`. For the derived functors of the
+morphism of [Stacks, Tag 070U] see `BigSite.derivedAdequateParasiticQuotientEquivalence`. -/
 public def BigSite.derivedAdequateQuotientEquivalence :
     ((MorphismProperty.isomorphisms _).inverseImage
         (BigSite.derivedAdequatePushforward B R hR)).Localization ≌
@@ -264,14 +266,10 @@ variable [HasZeroObject (BigSite.derivedAdequate.{u, u, d} B).FullSubcategory]
   [(BigSite.derivedAdequatePushforward B R hR).IsTriangulated]
 
 include hL hR adj hunit in
-/-- **[Stacks, Tag 070X] in the source's own form.** `Rf_* : D_Adeq(𝒪) ⥤ D_QCoh(S)` is a
-localization functor for the morphisms whose cone lies in `D_𝒞(𝒪)`, the kernel of `Rf_*`. -/
-@[stacks 070X "the equivalence `D_Adeq(𝒪)/D_𝒞(𝒪) ⟶ D_QCoh(S)` with the quotient taken, as in the
-source, at the morphisms whose cone lies in the subcategory `D_𝒞(𝒪)`, realised as the kernel of
-`Rf_*`, which is the source's own description of it. Beyond the hypotheses of
-`BigSite.isLocalization_derivedAdequatePushforward`, the pretriangulated structures of the two
-subcategories and the triangulatedness of the restricted `Rf_*` are instance arguments; the
-library does not construct them for the restricted functors"]
+/-- For a given adjunction `L ⊣ R` as above, with `R` triangulated, the restricted
+`R : D_Adeq(𝒪) ⥤ D_QCoh(S)` is a localization functor for the morphisms whose cone lies in its
+kernel. For the derived functors of the morphism of [Stacks, Tag 070U] see
+`BigSite.isLocalization_trW_derivedParasitic_derivedAdequateDirectImage`. -/
 public theorem BigSite.isLocalization_trW_kernel_derivedAdequatePushforward :
     (BigSite.derivedAdequatePushforward B R hR).IsLocalization
       (ObjectProperty.trW (BigSite.derivedAdequatePushforward B R hR).kernel) := by
@@ -280,12 +278,9 @@ public theorem BigSite.isLocalization_trW_kernel_derivedAdequatePushforward :
     (BigSite.derivedAdequateAdjunction B L R hL hR adj)
 
 include hL hR adj hunit in
-/-- **[Stacks, Tag 070X], the equivalence `D_Adeq(𝒪)/D_𝒞(𝒪) ≌ D_QCoh(S)`.** The quotient of
-`D_Adeq(𝒪)` by the complexes with parasitic cohomology, the kernel of `Rf_*`, is equivalent to
-`D_QCoh(S)`. -/
-@[stacks 070X "the equivalence of categories itself, in the source's own form: the quotient of
-`D_Adeq(𝒪)` by `D_𝒞(𝒪) = ker Rf_*`. The hypotheses are those of
-`BigSite.isLocalization_trW_kernel_derivedAdequatePushforward`"]
+/-- For a given adjunction `L ⊣ R` as above, with `R` triangulated, the quotient of `D_Adeq(𝒪)`
+by the kernel of the restricted `R` is equivalent to `D_QCoh(S)`. For the derived functors of the
+morphism of [Stacks, Tag 070U] see `BigSite.derivedAdequateParasiticQuotientEquivalence`. -/
 public def BigSite.derivedParasiticQuotientEquivalence :
     (ObjectProperty.trW
         (BigSite.derivedAdequatePushforward B R hR).kernel).Localization ≌

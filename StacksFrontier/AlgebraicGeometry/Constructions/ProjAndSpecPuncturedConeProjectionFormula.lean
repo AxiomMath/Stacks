@@ -68,6 +68,14 @@ preserves colimits ([Stacks, Tag 05NB]), so the direct sum passes out of the ten
   two for the cone of the truncation algebra, **with nothing assumed** — the latter is
   `RΓ(U, 𝓕_U) = ⨁_{m ∈ ℤ} RΓ(P, 𝓕 ⊗_{𝒪_P} 𝒪_P(m))`, the equation of [Stacks, Tag 0EKH].
 
+The two further assertions of [Stacks, Tag 0EKH] — that the decomposition is functorial in `𝓕`,
+and that the `A`-module structure it induces on the right agrees with the one on the left coming
+from `U ⊆ X` — are
+`Stacks.AlgebraicGeometry.ProjAndSpec.derivedPushforwardPuncturedConeIsoTruncation_hom_naturality`
+in `StacksFrontier.AlgebraicGeometry.Constructions.ProjAndSpecPuncturedConeFunctorial` and
+`Stacks.AlgebraicGeometry.ProjAndSpec.derivedPushforwardPuncturedConeIsoTruncation_hom_smul` in
+`StacksFrontier.AlgebraicGeometry.Constructions.ProjAndSpecPuncturedConeModuleStructure`.
+
 ## Implementation notes
 
 *Which spelling of the tensor product.* The twist
@@ -261,8 +269,14 @@ ring, `P = Proj A` quasi-compact, `π : L ⟶ P` the cone of the truncation alge
 `B = ⨁_{d ≥ 0} A_{≥ d}` and `U ⊆ L` the punctured cone. For a quasi-coherent `𝒪_P`-module `𝓕`
 with pullback `𝓕_U = (π|_U)^*𝓕`, the derived global sections of `𝓕_U` decompose as the direct
 sum, over all integers `m`, of the derived global sections of the `m`-th twist of `𝓕`; both sides
-are read as derived direct images to `Z = Spec A₀`. -/
-@[stacks 0EKH "the direct-sum decomposition, with RΓ read as derived direct image to Spec A₀"]
+are read as derived direct images to `Z = Spec A₀`.
+
+Its functoriality in `𝓕` is
+`Stacks.AlgebraicGeometry.ProjAndSpec.derivedPushforwardPuncturedConeIsoTruncation_hom_naturality`
+and its compatibility with the `A`-module structures is
+`Stacks.AlgebraicGeometry.ProjAndSpec.derivedPushforwardPuncturedConeIsoTruncation_hom_smul`. -/
+@[stacks 0EKH "the direct-sum decomposition, with RΓ read as derived direct image to Spec A₀; \
+its functoriality and its A-linearity are the _hom_naturality and _hom_smul theorems"]
 def derivedPushforwardPuncturedConeIsoTruncation
     [CompactSpace (AlgebraicGeometry.Proj 𝒜)] (F : (AlgebraicGeometry.Proj 𝒜).Modules)
     [F.IsQuasicoherent] :

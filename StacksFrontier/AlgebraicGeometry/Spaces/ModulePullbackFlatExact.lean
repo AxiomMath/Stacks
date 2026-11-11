@@ -35,7 +35,6 @@ site, so exactness of a short complex and injectivity of a map may be read off t
 
 * [Stacks Project, Tag 05VQ](https://stacks.math.columbia.edu/tag/05VQ)
 * [Stacks Project, Tag 05V5](https://stacks.math.columbia.edu/tag/05V5)
-* [Stacks Project, Tag 03MK](https://stacks.math.columbia.edu/tag/03MK)
 * [Stacks Project, Tag 03LU](https://stacks.math.columbia.edu/tag/03LU)
 -/
 
@@ -55,7 +54,7 @@ morphism `g : X' ⟶ X` of algebraic spaces and a geometric point `x̄` of `X'`,
 `(𝒪_X)_{g ∘ x̄} ⟶ (𝒪_{X'})_{x̄}` along which Stacks 05V5 extends scalars is flat.
 
 It is conjugate, by the comparisons of Stacks 05VQ with the étale local rings, to the
-homomorphism `𝒪_{X, g ∘ x̄} ⟶ 𝒪_{X', x̄}` of étale local rings, which is flat by Stacks 03MK. -/
+homomorphism `𝒪_{X, g ∘ x̄} ⟶ 𝒪_{X', x̄}` of étale local rings, which is flat by Stacks 04NG. -/
 theorem flat_smallEtaleStalkPullbackRingMap (g : X' ⟶ X) (hg : IsFlat B S hS g.hom)
     (x : GeometricPoint B S hS X'.1) :
     (smallEtaleStalkPullbackRingMap B S hS g x).Flat := by

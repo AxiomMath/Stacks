@@ -20,8 +20,9 @@ Let `(C, O)` be a ringed site with a final object `X₀` and let `K` be a perfec
 
 functorially in `N`, where `K^∨ ⊗^L_O -` commutes with direct sums. In
 `StacksFrontier.CategoryTheory.Sites.Cohomology.CompactObjects.PerfectObjectsAreCompact` that
-replacement is an explicit hypothesis `hreduce` of both clauses. This file **produces it**, so
-that clause (b) of Stacks 09JC becomes unconditional.
+replacement is an explicit hypothesis `hreduce` of both clauses. This file **produces it**; the
+complete statement of Stacks 09JC is assembled from it in
+`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectObjectsOnAQuasiCompactSite`.
 
 Three inputs are already in the library and are only assembled here: the bijectivity of the map of
 Stacks 08JD for a perfect source (`bijective_derivedTensorDualGlobalSectionsMap_of_isPerfect`,
@@ -42,9 +43,10 @@ of `- ⊗^L_O K^∨` with direct sums, and it is proved below as
   universe of the site.
 * `AlgebraicGeometry.RingedSite.derivedDualHomEquivOfIsoStructureSheaf` and
   `…_naturality`: the reduction, with any object isomorphic to `O[0]` as the source.
-* `AlgebraicGeometry.RingedSite.isCompactObject_of_isPerfect_of_isTerminal`: **Stacks 09JC (b)
-  with the reduction discharged** — a perfect object of `D(O)` is compact as soon as cohomology
-  over the final object has finite cohomological dimension and commutes with direct sums.
+* `AlgebraicGeometry.RingedSite.isCompactObject_of_isPerfect_of_isTerminal`: the reduction
+  applied to clause (b) of Stacks 09JC — a perfect object of `D(O)` is compact as soon as
+  cohomology over the final object has finite cohomological dimension and commutes with direct
+  sums.
 
 ## Implementation notes
 
@@ -217,7 +219,8 @@ local instance perfectDualModulesEnoughInjectives :
 attribute [local instance] Stacks.Cohomology.perfectCompactEvaluationAdditive
 
 omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
-/-- **Stacks 09JC (b).** Let `(C, O)` be a ringed site with a final object `X₀` and let `K` be a
+/-- **A perfect object is compact once cohomology over the final object is bounded and commutes
+with direct sums.** Let `(C, O)` be a ringed site with a final object `X₀` and let `K` be a
 perfect object of `D(O)`. If `(C, O)` has finite cohomological dimension, that is
 `H^p(X₀, F) = 0` for every `O`-module `F` and every `p` beyond a fixed bound, and if the
 functors `F ↦ H^p(X₀, F)` commute with direct sums, then `K` is a compact object of `D(O)`.
@@ -228,14 +231,13 @@ product of Stacks 06YU, it commutes with direct sums by
 `preservesColimitsOfShape_derivedTensorFlip`, and the natural bijection is
 `derivedDualHomEquivOfIsoStructureSheaf` at the identification
 `derivedExtensionByZeroUnitIsoStructureSheaf` of `j_{X₀!}O_{X₀}[0]` with `O[0]`. Perfectness of
-`K` is used exactly where the source uses it, to produce that bijection. What is still a
-hypothesis, as in the conditional form, is the commutation `hsums` of the higher cohomology
-functors with direct sums, which the source supplies from Stacks 0739. -/
-@[stacks 09JC "(b) unbounded compactness of a perfect object, with the 08JJ reduction DISCHARGED \
-rather than assumed; the 0739 commutation of the cohomology functors with direct sums is still a \
-hypothesis here, and is discharged from hypotheses (2) and (3) of the tag in \
-Stacks.Cohomology.QuasiCompactSite.hom_coproduct_bijective_and_isCompactObject_of_isPerfect, \
-which states both clauses"]
+`K` is used exactly where the source uses it, to produce that bijection. The commutation `hsums`
+of the higher cohomology functors with direct sums is the input of Stacks 094D; under hypotheses
+(2) and (3) of Stacks 09JC it is
+`Stacks.Cohomology.QuasiCompactSite.preservesCoproducts_rightDerived_evaluation_of_covers`, and
+the tag itself is
+`hom_coproduct_bijective_and_isCompactObject_of_isPerfect_of_isQuasiCompactObject` in the
+namespace `Stacks.Cohomology.QuasiCompactSite`. -/
 theorem isCompactObject_of_isPerfect_of_isTerminal (X₀ : X.C) (hX₀ : IsTerminal X₀)
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (hK : X.IsPerfect K)
@@ -312,15 +314,11 @@ composition are `derivedDualHomEquivOfIsoStructureSheaf` and `…_naturality` at
 and the source's own hypothesis that `⨁ Mᵢ` is bounded below.
 
 `hdual` is what the source gets from Stacks 08G8 for a perfect `K`: a perfect object has finite
-Tor amplitude. In this library perfectness yields that amplitude only *locally*
-(`Stacks.SheafOfModules.DerivedTensorProduct.locallyHasFiniteTorDimension_of_isPerfect`, itself
-pinned to `Type 0`), and the local-to-global passage — which on a quasi-compact site with a
-cofinal system of finite coverings is the step the source does not comment on — is not available at
-this spelling of Tor amplitude; `Stacks.Cohomology.TorAmplitude.hasTorAmplitude_of_iSup_eq_top`
-proves exactly that locality, but for the ringed-space predicate
-`Stacks.Cohomology.TorAmplitude.HasTorAmplitude` and no bridge between the two predicates
-exists. So `hdual` is left as a hypothesis and nothing here is tagged: this is not the clause,
-it is the clause minus one input. Perfectness of `K` *is* consumed, for the bijection.
+Tor amplitude. Perfectness yields that amplitude locally, and when the final object is
+quasi-compact the local amplitudes merge into a global one; that is
+`Stacks.Cohomology.QuasiCompactSite.hasFiniteTorDimension_derivedDual_of_isPerfect`, which
+supplies `hdual` in the proof of Stacks 09JC (a). Perfectness of `K` is consumed here as well,
+for the bijection.
 
 The index type lies in the universe of the site, which is where
 `preservesColimitsOfShape_derivedTensorFlip` is available. The index universe of the covering

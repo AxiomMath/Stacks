@@ -204,8 +204,8 @@ the quasi-compactness and quasi-separatedness of `X`
 The index category is the category of triples `(i, j, α)` that the source's proof constructs,
 whose objects carry a morphism of `𝒪_X`-modules, and so lives in `Type (u + 1)` with Hom-types in
 `Type u`. -/
-@[stacks 07UW "every quasi-coherent 𝒪_X-module is a filtered colimit of finitely presented \
-𝒪_X-modules, for f : X ⟶ Y affine with Y Noetherian"]
+@[stacks 07UW "for an affine morphism f : X ⟶ Y of algebraic spaces over S with Y Noetherian, \
+every quasi-coherent 𝒪_X-module is a filtered colimit of finitely presented 𝒪_X-modules"]
 theorem exists_isFiltered_isColimit_isFinitePresentation_of_isAffineHom_of_isNoetherian
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom)
     (hY : IsNoetherian B S hS hZ Y.1)

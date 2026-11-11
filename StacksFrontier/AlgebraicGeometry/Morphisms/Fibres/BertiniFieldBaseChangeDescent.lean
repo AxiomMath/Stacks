@@ -44,7 +44,10 @@ of `k̄`. Three things turn it into the assertion over `k`.
 * `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor`: **[Stacks, Tag 0FD6]**,
   the two cases together — the conclusion of the tag for an arbitrary finite dimensional linear
   system over an arbitrary base field, from the data of [Stacks, Tag 0G47] and hypotheses (1),
-  (2) and (3) and nothing else. This is where the tag is closed.
+  (2) and (3) and nothing else, (3) read at every basis of `V`. The tag is registered on
+  `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+  `canonicalMorphism`, which states (3) on the canonical
+  morphism `φ_{L,ψ}` of [Stacks, Tag 0FCY] and is proved from this one.
 
 ## Implementation notes
 
@@ -278,25 +281,13 @@ This is the statement with **no hypothesis that `k` be algebraically closed**: t
 `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_forGeneral_`
 `baseChangeAlgebraicClosure`.
 
-The registration stays **qualified** for one reason only: hypothesis (3) is spelled as the
-immersiveness of `φ` read at a basis of `V` indexed by `Fin (m + 1)` rather than on the intrinsic
-morphism `φ_{L,ψ}`. Carrying a basis so indexed is an input the source does not make — it forces
-`dim_k V = m + 1`, in particular `V ≠ 0` — and the two readings of (3) agree only up to an
-identity the repository cannot yet prove. Everything else is the source's: (1) is the instance
-`[Smooth D.toBase]`, (2) is `hgen`, quasi-compactness of `X` is derived rather than assumed, and
-no dimension datum or proof obligation is taken. -/
-@[stacks 0FD6 "the conclusion from hypotheses (1), (2) and (3) over an ARBITRARY base field -- \
-the algebraically closed case is no longer assumed, the reduction of Tag 02FY to it being \
-carried out by forGeneral_smooth_specializedDivisor_of_forGeneral_baseChangeAlgebraicClosure. \
-No proof obligation and no dimension datum is assumed, and quasi-compactness of X is derived \
-from hypothesis (3) rather than assumed. Carrying a basis of the linear system is NOT a \
-deviation: Situation 0G47 itself says 'Say dim(V) = r and we have a basis v_1, ..., v_r of V', \
-so the basis is the source's own datum, and by isImmersive_congr_basis' the hypothesis does not \
-depend on which basis it is read at. ONE deviation survives, and it is only this: the index type \
-Fin (m + 1) forces dim V >= 1, where the source allows the degenerate r = 0 (there H_univ = X \
-and the conclusion holds trivially by hypothesis (1)). Separately, (3) is spelled through the \
-morphism built from that basis rather than through the source's canonical phi_(L, psi) \
-characterised by theta : phi^*O(1) = L -- the same input Tag 01ND is registered without"]
+Hypothesis (3) is read at a basis of `V` indexed by `Fin (m + 1)`, which forces `dim_k V ≥ 1`;
+the degenerate case is added in
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor`, and the statement with (3)
+on the canonical morphism `φ_{L,ψ}` of [Stacks, Tag 0FCY] is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`. (1) is the instance `[Smooth D.toBase]`, (2) is `hgen`, quasi-compactness
+of `X` is derived rather than assumed, and no dimension datum or proof obligation is taken. -/
 theorem forGeneral_smooth_specializedDivisor_of_basis [Smooth D.toBase] (hgen : D.Generates)
     {m : ℕ} (b : Module.Basis (Fin (m + 1)) D.k D.V)
     (himm : D.IsImmersive b (D.generatesBy_basis hgen b)) :
@@ -367,12 +358,11 @@ that is not a strengthening, because by
 exactly when it holds at all of them, and when `dim V = 0` there are none and `himm` says
 nothing — which is what lets the degenerate case be covered at all.
 
-One caveat on hypothesis (3). It is spelled through the morphism built from a basis rather than
-through the source's canonical `φ_{L,ψ}` characterised by `θ : φ^*𝒪(1) ≅ L`; that is the same
-input [Stacks, Tag 01ND] is itself registered without, and
-`Stacks.Bertini.FamilyDivisors.isImmersive_congr_basis'` shows the hypothesis does not depend on
-which basis it is read at. -/
-@[stacks 0FD6]
+Hypothesis (3) is spelled through the morphism built from a basis; the same statement with (3)
+on the canonical morphism `φ_{L,ψ}` of [Stacks, Tag 0FCY] is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`, which is how the tag is
+registered. -/
 theorem forGeneral_smooth_specializedDivisor [Smooth D.toBase] (hgen : D.Generates)
     (himm : ∀ (m : ℕ) (b : Module.Basis (Fin (m + 1)) D.k D.V),
       D.IsImmersive b (D.generatesBy_basis hgen b)) :

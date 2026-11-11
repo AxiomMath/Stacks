@@ -23,7 +23,9 @@ a basis of `Sym^n M` is given by the monomials indexed by the multisets `s : Sym
 * `exteriorPower_free`: The exterior powers of a free module are free.
 * `symMonomial_linearIndependent`: The monomial family is linearly independent.
 * `symMonomial_span_eq_top`: The monomial family spans the symmetric power.
-* `symmetricPower_free`: The symmetric powers of a free module are free.
+* `symmetricPower_free_of_finite`: The symmetric powers `Sym[R] ι M`, `ι` finite, of a free
+  module over a commutative ring in any universe are free.
+* `symmetricPower_free`: The same for `Sym[R]^n M`, over a ring `R : Type`.
 -/
 
 @[expose] public section
@@ -293,9 +295,9 @@ theorem symmetricPower_free_of_basis (R : Type) [CommSemiring R] {M : Type*}
     Module.Free R (SymmetricPower R (Fin n) M) :=
   .of_basis (.mk (symMonomial_linearIndependent R b n) (symMonomial_span_eq_top R b n))
 
-/-- If `M` is a free `R`-module, then for every `n ≥ 0` the `n`-th symmetric power `Sym^n(M)` is
-a free `R`-module. -/
-@[stacks 00DN]
+/-- If `M` is a free `R`-module over a ring `R : Type`, then for every `n ≥ 0` the `n`-th
+symmetric power `Sym^n(M)` is a free `R`-module. The statement for a ring in an arbitrary universe
+is `symmetricPower_free_of_finite`. -/
 theorem symmetricPower_free
     (R : Type) [CommSemiring R] (M : Type*) [AddCommMonoid M] [Module R M]
     [Module.Free R M] (n : ℕ) :
@@ -303,5 +305,99 @@ theorem symmetricPower_free
   obtain ⟨κ, b⟩ := (inferInstance : Module.Free R M).exists_basis
   let := (exists_wellFoundedLT κ).choose
   exact symmetricPower_free_of_basis R n b
+
+section FiniteIndex
+
+variable (R : Type u) [CommSemiring R] {ι : Type u} {M : Type*} [AddCommMonoid M] [Module R M]
+  {κ : Type*} [LinearOrder κ] (b : Module.Basis κ R M) {n : ℕ} (e : ι ≃ Fin n)
+
+/-- The monomial family `symMonomial` for the symmetric power indexed by a type `ι` whose
+elements are numbered by `e : ι ≃ Fin n`. -/
+noncomputable def symMonomialOfEquiv (s : Sym κ n) : SymmetricPower R ι M :=
+  SymmetricPower.tprod R fun i => b (Sym.sortedFn s (e i))
+
+/-- A pure word-tensor `tprod (b ∘ w)` equals the monomial indexed by the content multiset of the
+word `w ∘ e.symm`. -/
+theorem tprod_eq_symMonomialOfEquiv (w : ι → κ) :
+    SymmetricPower.tprod R (fun i => b (w i)) =
+      symMonomialOfEquiv R b e (contentOf fun j => w (e.symm j)) := by
+  rw [symMonomialOfEquiv, Sym.sortedFn_ofFn]
+  exact (SymmetricPower.tprod_equiv
+    (e.trans ((Tuple.sort fun j => w (e.symm j)).trans e.symm)) fun i => b (w i)).symm
+
+/-- The coordinate functional dual to the monomial `symMonomialOfEquiv R b e t`. -/
+noncomputable def dualFunctionalOfEquiv (t : Sym κ n) : SymmetricPower R ι M →ₗ[R] R :=
+  SymmetricPower.lift ((permanentMultilinearMap R b t).domDomCongr e.symm) fun σ v => by
+    have h := permanentMultilinearMap_apply_perm R b t (e.symm.trans (σ.trans e))
+      fun j => v (e.symm j)
+    simp only [Equiv.trans_apply, Equiv.symm_apply_apply] at h
+    exact h
+
+/-- Duality: `dualFunctionalOfEquiv t` evaluated on the monomial indexed by `s` is the Kronecker
+delta `δ_{s,t}`. -/
+theorem dualFunctionalOfEquiv_symMonomialOfEquiv (s t : Sym κ n) :
+    dualFunctionalOfEquiv R b e t (symMonomialOfEquiv R b e s) = if s = t then 1 else 0 := by
+  rw [dualFunctionalOfEquiv, symMonomialOfEquiv, SymmetricPower.lift_tprod]
+  change permanentMultilinearMap R b t (fun j => b (Sym.sortedFn s (e (e.symm j)))) = _
+  simp only [Equiv.apply_symm_apply]
+  exact permanentMultilinearMap_eval R b s t
+
+/-- The monomial family `symMonomialOfEquiv R b e` is linearly independent. -/
+theorem symMonomialOfEquiv_linearIndependent :
+    LinearIndependent R (symMonomialOfEquiv R b e) := by
+  refine LinearIndependent.of_comp (LinearMap.pi fun t => dualFunctionalOfEquiv R b e t) ?_
+  have h : ⇑(LinearMap.pi fun t => dualFunctionalOfEquiv R b e t) ∘ symMonomialOfEquiv R b e =
+      fun s => Pi.single s (1 : R) := by
+    ext s t
+    rw [Function.comp_apply, LinearMap.pi_apply, dualFunctionalOfEquiv_symMonomialOfEquiv,
+      Pi.single_apply]
+    exact if_congr eq_comm rfl rfl
+  rw [h]
+  exact Pi.linearIndependent_single_one (Sym κ n) R
+
+/-- The monomial family `symMonomialOfEquiv R b e` spans the symmetric power. -/
+theorem symMonomialOfEquiv_span_eq_top :
+    ⊤ ≤ Submodule.span R (Set.range (symMonomialOfEquiv R b e)) := by
+  classical
+  let := Fintype.ofEquiv (Fin n) e.symm
+  rw [← SymmetricPower.span_tprod_eq_top R ι M, Submodule.span_le, Set.range_subset_iff]
+  intro m
+  have hm : m = fun i => ∑ k ∈ (b.repr (m i)).support, (b.repr (m i)) k • b k := by
+    funext i
+    conv_lhs => rw [← b.linearCombination_repr (m i)]
+    rw [Finsupp.linearCombination_apply, Finsupp.sum]
+  rw [SetLike.mem_coe, hm, MultilinearMap.map_sum_finset]
+  refine Submodule.sum_mem _ fun r _ => ?_
+  rw [MultilinearMap.map_smul_univ (m := fun j => b (r j)), tprod_eq_symMonomialOfEquiv R b e r]
+  exact Submodule.smul_mem _ _ (Submodule.mem_span_of_mem (Set.mem_range_self _))
+
+include b e in
+/-- If `M` has a basis indexed by a linearly ordered type and `ι` is numbered by `Fin n`, then the
+symmetric power `Sym[R] ι M` is free. -/
+theorem symmetricPower_free_of_basis_of_equiv : Module.Free R (SymmetricPower R ι M) :=
+  .of_basis (.mk (symMonomialOfEquiv_linearIndependent R b e)
+    (symMonomialOfEquiv_span_eq_top R b e))
+
+end FiniteIndex
+
+/-- **Symmetric powers of a free module are free.** Let `R` be a commutative ring in any universe
+and `M` a free `R`-module. For every finite index type `ι` the symmetric power `Sym[R] ι M` is a
+free `R`-module; with `ι = ULift (Fin n)` this is the `n`-th symmetric power `Symⁿ(M)` for every
+`n ≥ 0`. The exterior powers are `exteriorPower_free`. -/
+@[stacks 00DN]
+theorem symmetricPower_free_of_finite (R ι : Type u) [CommSemiring R] [Finite ι] (M : Type*)
+    [AddCommMonoid M] [Module R M] [Module.Free R M] :
+    Module.Free R (SymmetricPower R ι M) := by
+  obtain ⟨κ, b⟩ := (inferInstance : Module.Free R M).exists_basis
+  let := (exists_wellFoundedLT κ).choose
+  obtain ⟨n, ⟨e⟩⟩ := Finite.exists_equiv_fin ι
+  exact symmetricPower_free_of_basis_of_equiv R b e
+
+/-- If `M` is a free module over a commutative ring `R : Type u`, then for every `n ≥ 0` the
+`n`-th symmetric power `Symⁿ(M) = Sym[R] (ULift (Fin n)) M` is a free `R`-module. -/
+theorem symmetricPower_ulift_fin_free (R : Type u) [CommSemiring R] (M : Type*)
+    [AddCommMonoid M] [Module R M] [Module.Free R M] (n : ℕ) :
+    Module.Free R (SymmetricPower R (ULift.{u} (Fin n)) M) :=
+  symmetricPower_free_of_finite R _ M
 
 end

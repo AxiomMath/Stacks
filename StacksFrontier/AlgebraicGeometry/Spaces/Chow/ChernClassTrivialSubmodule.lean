@@ -20,8 +20,9 @@ the splitting principle).
 
 ## Main results
 
-* `AlgebraicGeometry.Space.chernCap_eq_of_shortExact_tensorUnit`: Stacks 0ES7,
-  `c_{r+1}(ℰ) = 0` and `c_j(ℰ) = c_j(ℱ)` for `j = 0, …, r`.
+* `AlgebraicGeometry.Space.chernCap_eq_of_shortExact_tensorUnit`: the identities of Stacks 0ES7
+  on `CH_*(X)`, `c_{r+1}(ℰ) ∩ - = 0` and `c_j(ℰ) ∩ - = c_j(ℱ) ∩ -` for `j = 0, …, r`; the relations
+  in `A^*(X)` are `AlgebraicGeometry.Space.chernClass_eq_of_shortExact_tensorUnit`.
 * `AlgebraicGeometry.Space.chernCap_tensorUnit_one`: `c₁(𝒪_X) = 0`.
 * `AlgebraicGeometry.Space.chernCap_eq_chernCap_of_shortExact_tensorUnit`: `c_n(ℰ) = c_n(ℱ)` for
   every `n`.
@@ -65,18 +66,19 @@ theorem chernCap_eq_chernCap_of_shortExact_tensorUnit (hX : D.IsGood sX)
     rw [chernCap_succ_eq_of_shortExact i q hiq hC (isInvertibleModule_tensorUnit hX) r hE hF n,
       chernCap_tensorUnit_one hX, zero_mul, add_zero]
 
-/-- **Stacks 0ES7.** In Situation 0EDT let `X/B` be good and let `ℰ`, `ℱ` be finite locally free
-`𝒪_X`-modules of ranks `r + 1` and `r` fitting into a short exact sequence
-`0 ⟶ 𝒪_X ⟶ ℰ ⟶ ℱ ⟶ 0`. Then
+/-- **The identities of Stacks 0ES7 on `CH_*(X)`.** In Situation 0EDT let `X/B` be good and let
+`ℰ`, `ℱ` be finite locally free `𝒪_X`-modules of ranks `r + 1` and `r` fitting into a short exact
+sequence `0 ⟶ 𝒪_X ⟶ ℰ ⟶ ℱ ⟶ 0`. Then, as operations on `CH_*(X)`,
 
-  `c_{r+1}(ℰ) = 0`   and   `c_j(ℰ) = c_j(ℱ)` for `j = 0, …, r`.
+  `c_{r+1}(ℰ) ∩ - = 0`   and   `c_j(ℰ) ∩ - = c_j(ℱ) ∩ -` for `j = 0, …, r`,
 
-The Chern classes are those of Stacks 0ERZ, `c_n(ℰ) ∩ -` on `CH_*(X)` (`chernCap`), and `𝒪_X` is
-the unit of the tensor product of `𝒪_X`-modules (`AlgebraicGeometry.Space.modulesTensorUnit_eq`).
-A relation in `A^*(X)` is equality of the operations on `CH_*(Y)` for every good `Y ⟶ X`
-(Section 0ES3); the pullback of the sequence to `Y` is again such a sequence (with `𝒪_Y` as first
-term and the same ranks), so the statement over every good `X` is the relation in `A^*(X)`. -/
-@[stacks 0ES7]
+for the operations `c_n(ℰ) ∩ -` on `CH_*(X)` (`AlgebraicGeometry.Space.PrivateChern.chernCap`)
+and `𝒪_X` the unit of the tensor product of `𝒪_X`-modules
+(`AlgebraicGeometry.Space.modulesTensorUnit_eq`). This is the statement on one good space; the
+relations of Stacks 0ES7 in `A^*(X)`, between the bivariant classes
+`AlgebraicGeometry.Space.chernClass`, are
+`AlgebraicGeometry.Space.chernClass_eq_of_shortExact_tensorUnit`, which applies this on every
+good test space to the inverse image of the sequence. -/
 theorem chernCap_eq_of_shortExact_tensorUnit (hX : D.IsGood sX)
     {E F : Modules.{u, u} D.site D.base D.base_mem X hX.1}
     (i : 𝟙_ (Modules.{u, u} D.site D.base D.base_mem X hX.1) ⟶ E) (q : E ⟶ F) (hiq : i ≫ q = 0)

@@ -94,7 +94,9 @@ private lemma chartContained_isBasis :
   refine ⟨U ⊓ (d.cover.f i).opensRange, ⟨i, inf_le_right⟩, ?_, inf_le_left⟩
   exact ⟨hx, hxi⟩
 
-private lemma hom_ext_of_chart_pullbacks
+/-- Two morphisms of modules on the relatively glued scheme agree once their inverse images on
+every chart agree. -/
+lemma hom_ext_of_chart_pullbacks
     {M N : d.glued.Modules} (φ ψ : M ⟶ N)
     (h : ∀ i, (Scheme.Modules.pullback (d.cover.f i)).map φ =
       (Scheme.Modules.pullback (d.cover.f i)).map ψ) : φ = ψ := by

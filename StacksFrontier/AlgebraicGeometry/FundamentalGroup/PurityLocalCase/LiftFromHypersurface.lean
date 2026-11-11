@@ -47,7 +47,10 @@ inherited restrictions are:
   that case by replacing `A` by its `𝔪`-adic completion `Â` — Stacks 0BLL, available here as
   `AlgebraicGeometry.exists_finiteEtale_extension_iff_completion`, together with Stacks 0ALJ for
   the henselianness of the complete pair — and the reduction is not carried out, neither here
-  nor in the two full-faithfulness carriers.
+  nor in the two full-faithfulness carriers used. (The two full-faithfulness tags themselves are
+  proved without this restriction, as
+  `…fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian` and
+  `…fullyFaithful_finiteEtaleRestriction_of_dualizingComplex`.)
 * For Tag 0EK6 only branch (ii) of the source's hypothesis (c) is treated, exactly as in the
   Stacks 0EK5 carrier; branch (c)(i) is not reduced to (ii).
 * `hEKP`, `h0GN2` and `halgebra` are the three general hypotheses carried by the two

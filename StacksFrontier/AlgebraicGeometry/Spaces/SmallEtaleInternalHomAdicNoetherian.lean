@@ -130,13 +130,11 @@ This is `AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquiv` with its assume
 quasi-coherence of `𝓘`, coherence of `M` and of `N`.
 
 The tag is registered here, bare, because this is where the source's identity is proved outright
-under the source's own hypotheses and nothing else.  The two registrations on
-`StacksFrontier/AlgebraicGeometry/Spaces/CoherentAdicInternalHom.lean` carry clause strings naming
-the two steps proved there — the pro-isomorphism step and the morphism step — and stay as they
-are; by the covering-set rule they and this one together carry the tag.  No registration is
-placed on `AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquiv` itself, which still takes
-`h0882` as an assumed input: a tag may not sit on a declaration that assumes the thing it
-asserts. -/
+under the source's own hypotheses and nothing else.  The two step registrations in
+`StacksFrontier/AlgebraicGeometry/Spaces/CoherentAdicInternalHomProIso.lean` carry clause strings
+naming the pro-isomorphism step and the morphism step.  No registration is placed on
+`AlgebraicGeometry.Space.smallEtaleInternalHomAdicEquiv` itself, which takes `h0882` as a
+hypothesis; this declaration is that one with `h0882` proved. -/
 @[stacks 08B6]
 def smallEtaleInternalHomAdicEquivOfNoetherian
     (hZ : B.Contains (⊤_ Scheme.{u})) (hFN : IsNoetherian B S hS hZ X.1)

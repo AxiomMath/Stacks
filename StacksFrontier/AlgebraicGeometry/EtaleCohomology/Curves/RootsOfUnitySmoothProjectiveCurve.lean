@@ -98,9 +98,10 @@ complete accounting. In brief:
 
 * `q = 2`, `H²_ét(X, μ_n) = 𝐙/n𝐙`, and `q ≥ 3`, `H^q_ét(X, μ_n) = 0`, both need Stacks Tag
   03RM, the vanishing of `H^q_ét(X, 𝐆_m)` for `q ≥ 2` on a smooth curve. That tag is proved as
-  `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_smoothCurve`, but over the
-  unrestricted Stacks Tag 03Q9 as an explicit hypothesis, and the library has that tag only over
-  a strictly henselian base, so it cannot discharge a clause here. The sheaf-level fundamental
+  `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_smoothCurve`, but over an
+  explicit hypothesis `h03Q9` which bundles Stacks Tag 03Q9 with two further steps of the source's
+  proof; the library has Tag 03Q9 itself, as `AlgebraicGeometry.stalkHigherDirectImageIso`, but
+  does not discharge that bundled hypothesis from it, so it cannot discharge a clause here. The sheaf-level fundamental
   exact sequence of Stacks Tag 03RI and Stacks Tag 03RJ are not hypotheses of it: they are
   proved as `Stacks.EtaleCohomology.fundamentalSequence_shortExact` and
   `Stacks.EtaleCohomology.isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf`. It is

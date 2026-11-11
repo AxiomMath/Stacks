@@ -122,9 +122,7 @@ fraction `s⁻¹ f`, is a colimit cocone.
 The index category `Y/S` is filtered by
 `MorphismProperty.isFiltered_under_of_hasLeftCalculusOfFractions`, so this exhibits the morphisms
 of `W⁻¹C` as a filtered colimit of morphisms of `C`. -/
-@[stacks 05Q0 "the displayed formula 05Q1: the morphisms X ⟶ Y of the localization are the \
-filtered colimit of the sets Mor_C(X, Y') over the objects (s : Y ⟶ Y') of Y/S, at the \
-tautological cocone whose leg at s sends f to the left fraction s⁻¹ f", sga "4 VI 6.5"]
+@[sga "4 VI 6.5"]
 noncomputable def isColimitUnderHomCocone (X Y : C) : IsColimit (W.underHomCocone L X Y) where
   desc c := ↾fun g =>
     c.ι.app (Under.mk ⊤ (Localization.exists_leftFraction L W g).choose.s

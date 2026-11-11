@@ -23,6 +23,7 @@ surjective.
 ## References
 
 * [Stacks Project, Tag 03ME](https://stacks.math.columbia.edu/tag/03ME)
+* [Stacks Project, Tag 03MK](https://stacks.math.columbia.edu/tag/03MK)
 * [Stacks Project, Tag 03ML](https://stacks.math.columbia.edu/tag/03ML)
 -/
 
@@ -36,7 +37,9 @@ namespace AlgebraicGeometry.Space
 
 /-- A morphism of algebraic spaces over `S` is *flat* when the morphism of schemes underlying every
 commuting square of étale scheme charts of it is flat. -/
-@[stacks 03ML "part (1)"]
+@[stacks 03ML "part (1)", stacks 03MK "the section's definition of a flat morphism of algebraic \
+  spaces, through Lemma 03MJ with the property `flat`; its agreement with the representable \
+  notion is `AlgebraicGeometry.Space.isFlat_iff_presheaf`"]
 abbrev IsFlat (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ G) : Prop :=
   HoldsOnEveryEtaleChart B S hS

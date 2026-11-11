@@ -6,22 +6,27 @@ public import StacksFrontier.AlgebraicGeometry.Flatness.Flattening.LimitPreservi
 public import StacksFrontier.AlgebraicGeometry.Quot.QuotientFunctorPullback
 
 /-!
-# The functor of finitely presented quotients is limit preserving
+# Limit preservation of the functor of finitely presented quotients, from descent
 
-Let `f : X ⟶ Y` and `F` be the data of an `AlgebraicGeometry.Space.QuotientSituation`, and assume
-in addition that `f` is quasi-compact and quasi-separated and that `F` is of finite presentation.
-Then the functor `Q^{fp}_{F/X/Y}` of finitely presented quotients is *limit preserving*: whenever
-an affine test scheme `T` over `Y` is written as a directed limit `T = lim T_i` of affine schemes
-over `Y`, the comparison
+Let `f : X ⟶ Y` and `F` be the data of an `AlgebraicGeometry.Space.QuotientSituation` with `f`
+quasi-compact and quasi-separated and `F` of finite presentation. This file shows that the
+functor `Q^{fp}_{F/X/Y}` of finitely presented quotients is *limit preserving* as soon as
+finitely presented flat quotients, their isomorphisms and homomorphisms of finitely presented
+modules descend along directed limits `T = lim T_i` of affine test schemes over `Y`: the
+comparison
 
 `colim Q^{fp}_{F/X/Y}(T_i) ⟶ Q^{fp}_{F/X/Y}(T)`
 
-is a bijection. This is the predicate `AlgebraicGeometry.LimitPreserving` for the functor
+is then a bijection. This is the predicate `AlgebraicGeometry.LimitPreserving` for the functor
 `AlgebraicGeometry.Space.QuotientSituation.finitePresentationQuotientsFunctor`.
 
-The descent of finitely presented modules and of their homomorphisms along such a limit, and the
-passage from a descended homomorphism to a surjection with flat target, are hypotheses of the main
-result, stated for modules on the base changes `X_{T_i}` and homomorphisms between them.
+The three descent statements are the predicates below, stated for modules on the base changes
+`X_{T_i}` and homomorphisms between them, and they are hypotheses of the main result. Without
+them the conclusion fails in general: Stacks 082Q as written (no finiteness on `f`) is false,
+see `not_forall_finitePresentationQuotientsFunctor_limitPreserving`. Stacks 082Q, corrected by
+also asking `f` to be locally of finite presentation, is
+`finitePresentationQuotientsFunctor_limitPreserving_of_isLocallyOfFinitePresentation`. Both are in
+the namespace `AlgebraicGeometry.Space.QuotientSituation`.
 
 ## Main definitions
 
@@ -48,7 +53,7 @@ result, stated for modules on the base changes `X_{T_i}` and homomorphisms betwe
   agree after a further conjugation as soon as an isomorphism intertwines their projections
   after the further inverse image.
 * `AlgebraicGeometry.Space.QuotientSituation.finitePresentationQuotientsFunctor_limitPreserving`:
-  the functor `Q^{fp}_{F/X/Y}` is limit preserving.
+  the functor `Q^{fp}_{F/X/Y}` is limit preserving, given the three descent statements.
 
 ## Implementation notes
 
@@ -300,22 +305,18 @@ def EventualModuleMapEqOverBaseChangeSystem (I : Type (max w w')) [Category.{w'}
 /-! ### Limit preservation -/
 
 /-- Assume that `f` is quasi-compact and quasi-separated and that `F` is of finite presentation.
-Then the functor `Q^{fp}_{F/X/Y}` of finitely presented quotients is limit preserving: for every
-directed system of affine test schemes over `Y` with affine limit `T = lim T_i`, the comparison
-`colim Q^{fp}_{F/X/Y}(T_i) ⟶ Q^{fp}_{F/X/Y}(T)` is a bijection, that is, the cocone of values at
-the stages exhibits the value at `T` as their filtered colimit. -/
-@[stacks 082Q "limit preservation of the finite-presentation quotient functor. The three \
-clauses of Stacks 07V7 are carried separately. The faithfulness clause is \
-`EventualModuleMapEqOverBaseChangeSystem`, which is the conclusion of \
-`AlgebraicGeometry.Space.eventually_eq_of_modulePullback_limitProjection_eq` written out for \
-the system of base changes; it is a hypothesis here only because that theorem is phrased for a \
-canonical presheaf limit and presenting the system of base changes as one is Stacks 07SF and \
-07SH, which this development has in a different shape. The essential surjectivity and fullness \
-clauses are carried as genuinely missing, as the notes of \
-`StacksFrontier/AlgebraicGeometry/Spaces/Limits/FinitePresentationModuleColimit.lean` record: both \
-need the equivalence of Stacks 03M3, of which only one direction exists. The passage from a \
-descended homomorphism to a surjection with flat target on an affine chart (Stacks 03H6, 05LI \
-and 02JO) is carried too"]
+Assume also the coherence of module pushforwards (`ModulePushforwardCoherence`), that inverse
+images preserve modules of finite presentation, and that along directed limits of affine test
+schemes over `Y` finitely presented flat quotients (`FlatQuotientsDescendToStage`), isomorphisms
+between them (`FlatQuotientIsosDescendToStage`) and equality of homomorphisms of finitely
+presented modules (`EventualModuleMapEqOverBaseChangeSystem`) descend to a stage. Then the functor
+`Q^{fp}_{F/X/Y}` of finitely presented quotients is limit preserving: for every directed system of
+affine test schemes over `Y` with affine limit `T = lim T_i`, the comparison
+`colim Q^{fp}_{F/X/Y}(T_i) ⟶ Q^{fp}_{F/X/Y}(T)` is a bijection.
+
+The finiteness conditions on `f` and `F` alone do not give the conclusion
+(`not_forall_finitePresentationQuotientsFunctor_limitPreserving`). Stacks 082Q, corrected, is
+`finitePresentationQuotientsFunctor_limitPreserving_of_isLocallyOfFinitePresentation`. -/
 theorem finitePresentationQuotientsFunctor_limitPreserving
     (hc : ModulePushforwardCoherence B S hS)
     (hfpall : PullbackPreservesFinitePresentationEverywhere B S hS)

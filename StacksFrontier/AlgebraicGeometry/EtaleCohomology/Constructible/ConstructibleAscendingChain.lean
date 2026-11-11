@@ -10,7 +10,7 @@ public import StacksFrontier.CategoryTheory.Subobject.NoetherianObjectOfEssentia
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Ascending chains of subsheaves of a constructible étale sheaf
+# Ascending chains of subsheaves of a constructible étale sheaf: the reduction
 
 Let `X` be a Noetherian scheme and `Λ` a Noetherian ring. Every ascending chain
 `F₁ ⊂ F₂ ⊂ F₃ ⊂ ⋯ ⊂ F` of subsheaves of a constructible sheaf on the small étale site of `X`
@@ -22,11 +22,12 @@ groups, and sheaves of `Λ`-modules.
 
 ## Main results
 
-* `AlgebraicGeometry.isNoetherianObject_of_isConstructibleSetSheaf` — sheaves of sets.
+* `AlgebraicGeometry.isNoetherianObject_of_isConstructibleSetSheaf` — sheaves of sets, from
+  Stacks 09BH and Stacks 095P.
 * `AlgebraicGeometry.isNoetherianObject_of_isConstructibleAbelianSheaf` — sheaves of abelian
-  groups.
+  groups, from Stacks 09BH and Stacks 095P.
 * `AlgebraicGeometry.isNoetherianObject_of_isConstructibleModuleSheaf` — sheaves of modules over
-  a Noetherian ring.
+  a Noetherian ring, from Stacks 09BH and Stacks 095P.
 
 ## Implementation notes
 
@@ -35,11 +36,15 @@ The three proofs are one categorical argument, `Stacks.Subobject`
 predicate; what each case supplies is AB5 for its coefficient category, which transfers to the
 sheaf category.
 
-Two inputs of the argument are themselves Stacks results that this library does not yet prove,
-and each is carried as an explicit hypothesis rather than reproved: `hsub` is Stacks 09BH, that
-a subsheaf of a constructible sheaf is constructible, and `hess` is Stacks 095P, that a filtered
-system of constructible sheaves whose colimit is constructible is essentially constant. Only the
-countable case of `hess` is asked for, since only chains indexed by `ℕ` occur.
+The argument takes two further inputs, `hsub` and `hess`, which are themselves Stacks results:
+`hsub` is Stacks 09BH, that a subsheaf of a constructible sheaf is constructible, and `hess` is
+Stacks 095P, that a filtered system of constructible sheaves whose colimit is constructible is
+essentially constant, read at chains indexed by `ℕ`. Both are proved in this library, and the
+statements of Stacks 09YV with them supplied are
+`AlgebraicGeometry.isNoetherianObject_of_isConstructibleSetSheaf'`,
+`AlgebraicGeometry.isNoetherianObject_of_isConstructibleAbelianSheaf'` and
+`AlgebraicGeometry.isNoetherianObject_of_isConstructibleModuleSheaf'`. The theorems here are the
+categorical reduction those three are proved from.
 
 For abelian coefficients the sheafification needed for AB5 is the instance
 `AlgebraicGeometry.hasSheafify_smallEtale_addCommGrp`; for module coefficients it is a
@@ -71,12 +76,11 @@ public theorem SmallEtale.hasSheafify_type (B : BigEtaleSite.{u}) (X : B.Scheme)
       (Type (u + 1)) := inferInstance
   exact hasSheafifyEssentiallySmallSite.{u, u + 1, u + 1, u + 2, u + 1} J _
 
-/-- **Stacks Project, Tag 09YV** for sheaves of sets. On a Noetherian scheme every ascending
-chain of subsheaves of a constructible sheaf of sets stabilizes. -/
-@[stacks 09YV "sheaves of sets, carrying Stacks 09BH (a subsheaf of a constructible sheaf of \
-sets is constructible) as the explicit hypothesis hsub and Stacks 095P (a filtered system of \
-constructible sheaves of sets whose colimit is constructible is essentially constant) as the \
-explicit hypothesis hess"]
+/-- The proof of Stacks 09YV for sheaves of sets, from its two inputs. On a Noetherian scheme,
+given that subsheaves of constructible sheaves of sets are constructible (`hsub`, Stacks 09BH)
+and that chains of constructible sheaves of sets with constructible colimit are essentially
+constant (`hess`, Stacks 095P), a constructible sheaf of sets is a Noetherian object. Both inputs
+are supplied in `AlgebraicGeometry.isNoetherianObject_of_isConstructibleSetSheaf'`. -/
 public theorem isNoetherianObject_of_isConstructibleSetSheaf
     (B : BigEtaleSite.{u}) (X : B.Scheme) [IsNoetherian X.obj]
     (hsub : ∀ {G H : Sheaf (SmallEtale.topology B X.obj X.property) (Type (u + 1))}
@@ -95,12 +99,10 @@ public theorem isNoetherianObject_of_isConstructibleSetSheaf
   exact isNoetherianObject_of_subobject_essentiallyConstant F
     (IsConstructibleSetSheaf B X) (fun _ _ => hsub) (fun M => hess (monoOverDiagram M)) hF
 
-/-- **Stacks Project, Tag 09YV** for sheaves of abelian groups. On a Noetherian scheme every
-ascending chain of subsheaves of a constructible sheaf of abelian groups stabilizes. -/
-@[stacks 09YV "sheaves of abelian groups, carrying Stacks 09BH (a subsheaf of a constructible \
-sheaf of abelian groups is constructible) as the explicit hypothesis hsub and Stacks 095P (a \
-filtered system of constructible sheaves of abelian groups whose colimit is constructible is \
-essentially constant) as the explicit hypothesis hess"]
+/-- The proof of Stacks 09YV for sheaves of abelian groups, from its two inputs. On a Noetherian
+scheme, given Stacks 09BH (`hsub`) and Stacks 095P (`hess`) for abelian sheaves, a constructible
+abelian sheaf is a Noetherian object. Both inputs are supplied in
+`AlgebraicGeometry.isNoetherianObject_of_isConstructibleAbelianSheaf'`. -/
 public theorem isNoetherianObject_of_isConstructibleAbelianSheaf
     (B : BigEtaleSite.{u}) (X : B.Scheme) [IsNoetherian X.obj]
     [∀ (S T : B.Scheme) (f : T ⟶ S),
@@ -126,13 +128,10 @@ public theorem isNoetherianObject_of_isConstructibleAbelianSheaf
   exact isNoetherianObject_of_subobject_essentiallyConstant F
     (IsConstructibleAbelianSheaf B X) (fun _ _ => hsub) (fun M => hess (monoOverDiagram M)) hF
 
-/-- **Stacks Project, Tag 09YV** for sheaves of modules. On a Noetherian scheme, and over a
-Noetherian coefficient ring, every ascending chain of subsheaves of a constructible sheaf of
-modules stabilizes. -/
-@[stacks 09YV "sheaves of modules over a Noetherian ring, carrying Stacks 09BH (a subsheaf of \
-a constructible sheaf of modules is constructible) as the explicit hypothesis hsub and Stacks \
-095P (a filtered system of constructible sheaves of modules whose colimit is constructible is \
-essentially constant) as the explicit hypothesis hess"]
+/-- The proof of Stacks 09YV for sheaves of modules, from its two inputs. On a Noetherian scheme
+and over a Noetherian coefficient ring, given Stacks 09BH (`hsub`) and Stacks 095P (`hess`) for
+sheaves of modules, a constructible sheaf of modules is a Noetherian object. Both inputs are
+supplied in `AlgebraicGeometry.isNoetherianObject_of_isConstructibleModuleSheaf'`. -/
 public theorem isNoetherianObject_of_isConstructibleModuleSheaf
     (B : BigEtaleSite.{u}) (X : B.Scheme) [IsNoetherian X.obj]
     (R : Type r) [CommRing R] [IsNoetherianRing R]

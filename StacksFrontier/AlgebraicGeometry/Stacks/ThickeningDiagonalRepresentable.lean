@@ -155,7 +155,6 @@ theorem isRepresentableMorphism_relativeDiagonal_outer_of_inner
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is representable by schemes (**Stacks 02Y7**) if and only if
 `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (a) of seventeen: representable by schemes"]
 theorem isRepresentableMorphism_relativeDiagonal_inner_iff_outer :
     Stacks.RepresentableMorphism.IsRepresentableMorphism 𝒳.val.val.p
         (AlgebraicStacks.twoFibreProduct B S hS m.inner m.inner).val.val.p

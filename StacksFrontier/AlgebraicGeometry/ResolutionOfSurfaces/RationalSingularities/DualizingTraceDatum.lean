@@ -6,7 +6,9 @@ public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSing
 # What the dualizing trace datum of Tag 0BBU contains
 
 `AlgebraicGeometry.RationalSingularitySituation.DualizingTraceSequence` is the hypothesis that
-`AlgebraicGeometry.RationalSingularitySituation.bijective_trace` — [Stacks, Tag 0BBU] — carries:
+`AlgebraicGeometry.RationalSingularitySituation.bijective_trace` carries — the duality-sequence
+form of the last step of the source's proof of [Stacks, Tag 0BBU], which is why that declaration
+carries no tag; the tag is `bijective_normalizedTrace` (`NormalizedDualizingTrace.lean`):
 a trace map `H⁰(X, ω_X) ⟶ ω_A`, its injectivity, an obstruction map
 `ω_A ⟶ Ext²_A(H¹(X, 𝒪_X), ω_A)`, and exactness of the two. It stands for the two results the
 source's proof quotes: Grauert–Riemenschneider vanishing [Stacks, Tag 0AXD] and the duality
@@ -121,7 +123,8 @@ public def dualizingTraceSequenceOfIso (ωA : ModuleCat.{u} S.A) (ωX : S.X.Modu
   exact b := iff_of_true (AddMonoidHom.zero_apply b)
     ((ConcreteCategory.bijective_of_isIso e.hom).2 b)
 
-/-- **The dualizing trace datum is exactly [Stacks, Tag 0BBU].** Forwards it is
+/-- **The dualizing trace datum is exactly the conclusion `H⁰(X, ω_X) ≅ ω_A` of
+[Stacks, Tag 0BBU]**, so a declaration taking it as hypothesis is not that tag. Forwards it is
 `bijective_trace` with the two dualizing hypotheses dropped, both being unused there: the trace
 is injective by hypothesis and surjective because the obstruction group vanishes, hence
 invertible. Backwards it is `dualizingTraceSequenceOfIso`. -/

@@ -40,7 +40,12 @@ which is the conclusion the principal case obtains by dividing by `a ^ c`. The p
 
 ## Main results
 
-* `Rig.exists_algHom_lift_of_dualSituation`: **Stacks 0GAQ**.
+* `Rig.exists_algHom_lift_of_dualSituation'`: Stacks 0GAQ with the blowup cohomology carried as
+  a family of `DualSituation`s and the duality input of Tag 0GAC carried as `hdual`, at the level
+  `n - (2+D)c`. The registration of Stacks 0GAQ, unconditional and at the source's precision, is
+  `Rig.exists_algHom_lift` in `StacksFrontier/RingTheory/Rig/LiftingUniformitySource.lean`.
+* `Rig.exists_algHom_lift_of_dualSituation`: the same with the family indexed by every `m : ℕ`,
+  which is an empty type for `c ≥ 1` (see the implementation notes).
 
 Auxiliary, and reusable:
 
@@ -682,7 +687,15 @@ public theorem exists_algHom_lift_of_extension
     simpa using
       ((I.map (algebraMap A C)) ^ (n - o)).neg_mem (hφdiff z)
 
-/-- **Stacks 0GAQ**, with the precision of the conclusion corrected as in the library's Tag 0GAD.
+/-- **A conditional form of Stacks 0GAQ**, with the family of `DualSituation`s indexed by every
+`m : ℕ`. This is not the registration of Stacks 0GAQ: that is `Rig.exists_algHom_lift`
+(`StacksFrontier/RingTheory/Rig/LiftingUniformitySource.lean`), which states the source's lemma at
+the source's precision with `d` and `q₀` computed from the blowup and no carried input.
+
+**This form has content only for `c = 0`.** A `DualSituation C (I C) m c` carries
+`ModuleSituation.exponent_le : c ≤ m`, so for `c ≥ 1` the hypothesis `S` would at `m = 0`
+prove `c ≤ 0`: its type is empty and the statement asserts nothing. The form indexed by the
+thicknesses `m ≥ c` is `Rig.exists_algHom_lift_of_dualSituation'`, from which this one follows.
 
 Let `A` be a Noetherian ring, `I ⊆ A` an ideal, `B` an object of the category of Stacks 0AL4 for
 `(A, I)` with a completed polynomial presentation `P`, and suppose `I ^ c` annihilates
@@ -800,11 +813,6 @@ carries the blowup cohomology of Tag 0GAA, which the library does not build from
 the section of `p^*(M^∨)` at level `m - 2c` obtained by factoring through
 `can : p^*(M^∨) → (p^*M)^∨`, whose kernel and cokernel being scheme theoretically supported on
 `Y_c` is not available. Nothing else is assumed. -/
-@[stacks 0GAQ "with the conclusion at precision I^{n-(2+D)c}, D = max(d,1) -- the level the \
-library's Tag 0GAD reaches -- in place of the source's I^{n-(1+d)c}, and with n > 2(2+D)c for the \
-source's n > 2(1+d)c; the Ext hypothesis is used through Tag 0GAP's cokernel form and Tag 0GAC, \
-so Tags 0E1W, 0G9G and 0GAD are not invoked; carries 0GAC's open duality input as `hdual`, and \
-d, q₀ as a family `S` of DualSituations with m-independent invariants"]
 public theorem exists_algHom_lift_of_dualSituation
     {I : Ideal A} (B : AdicFiniteTypeAlgebra.{u, v} A I)
     (P : CompletedPolynomialPresentation I B) (c : ℕ)

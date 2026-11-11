@@ -48,9 +48,11 @@ Mathlib's chosen derived category.
 Fully faithfulness needs no hypothesis on `A`: it is part (1) of the tag, which holds for
 every abelian category. Only essential surjectivity consumes `EnoughInjectives A`.
 
-As with part (4) of the tag, `CategoryTheory.HomotopyCategory.MinusProjective`, the
-equivalence is recorded as `Functor.IsEquivalence` of the canonical functor; the source's
-parenthetical "as triangulated categories" is not part of the conclusion formalized here.
+This file records the equivalence of categories, as `Functor.IsEquivalence` of the canonical
+functor. The source's "as triangulated categories" — `K⁺(I)` is a triangulated subcategory of
+`K(A)`, the canonical functor is triangulated, and the equivalence is a triangulated
+equivalence — is
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.BoundedBelowInjectiveTriangulated`.
 
 ## References
 
@@ -115,8 +117,11 @@ private lemma essSurj_toDerivedPlus [EnoughInjectives A] :
 /-- **Stacks 03T6, part (3).** If `A` has enough injectives and `I ⊆ A` is the additive
 subcategory of injectives, then `D⁺(A) ≅ K⁺(I)`: the canonical functor from the bounded below
 homotopy category of complexes of injective objects to the bounded below derived category is
-an equivalence. -/
-@[stacks 03T6 "injective_equivalence", sga "4½ Etat_0 3.2.3" "(3)", sga "4½ Etat_0 3.1.4"]
+an equivalence of categories. That it is an equivalence of triangulated categories is
+`isEquivalence_toDerivedPlus_and_isTriangulated` and
+`isTriangulated_toDerivedPlusEquivalence`. -/
+@[stacks 03T6 "(3): the equivalence of categories K⁺(I) ⥤ D⁺(A)",
+  sga "4½ Etat_0 3.2.3" "(3)", sga "4½ Etat_0 3.1.4"]
 theorem isEquivalence_toDerivedPlus [EnoughInjectives A] :
     (toDerivedPlus A).IsEquivalence := by
   let hff := (Classical.choice (nonempty_fullyFaithful_toDerivedPlus A)).ofCompFaithful

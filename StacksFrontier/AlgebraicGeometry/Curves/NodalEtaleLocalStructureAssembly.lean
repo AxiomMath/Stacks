@@ -329,7 +329,11 @@ S ←———————— V ——————————→ Spec ℤ[a]
 ```
 in which `U ⟶ X`, `V ⟶ S` and `U ⟶ W` are étale, the right-hand square is cartesian, and some
 point of `U` maps to `x`. The diagram is packaged as
-`Stacks.NodalEtaleLocalStructure.StandardNodalDiagram`.
+`Stacks.NodalEtaleLocalStructure.StandardNodalDiagram`; its right-hand vertical arrow is
+`Stacks.NodalEtaleLocalStructure.standardNodalFamily`, the spectrum of the parameter map
+`Stacks.Curves.nodalParam : ℤ[a] ⟶ ℤ[u, v, a]/(uv - a)`, where the ring
+`Stacks.Curves.nodalQuotient` is `ℤ[u, v, a]` modulo the relation `Stacks.Curves.nodalRelation`,
+namely `uv - a`.
 
 The whole content is `nonempty_standardNodalDiagram_of_mem_relativeSingular`, which is the same
 statement with the singular point read on the relative singular subscheme `Sing(f)`; the two

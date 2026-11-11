@@ -113,8 +113,8 @@ Three disciplines keep every step inside the budget, and all three are forced.
 `Crystalline.isZero_homology_alternatingCofaceMapComplex_doubleComplex_X`.
 
 **No `@[stacks 07LG]` attribute is placed**: [Stacks, Proposition 60.21.3, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  The earlier reduction
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  The earlier reduction
 `...SmallSite.computes07LG_of_doubleComplex` that this column statement serves has four further
 hypotheses — the double complex `K` for a general crystal, `hker`, the second half of `hcolumn0` and
 the rowwise `hrows`.

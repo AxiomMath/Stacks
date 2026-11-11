@@ -1,10 +1,10 @@
 module
 
+public import Mathlib.RingTheory.SimpleRing.Congr
+public import Mathlib.RingTheory.SimpleRing.Matrix
 public import StacksCore.Data.Matrix.Composition
 public import StacksCore.RingTheory.Finiteness.Basic
 public import StacksCore.RingTheory.Morita.End
-public import Mathlib.RingTheory.SimpleRing.Congr
-public import Mathlib.RingTheory.SimpleRing.Matrix
 import StacksCore.Tactic.StacksAttribute
 
 /-!

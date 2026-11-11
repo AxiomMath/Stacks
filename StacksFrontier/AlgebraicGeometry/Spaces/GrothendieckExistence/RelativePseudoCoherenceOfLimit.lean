@@ -38,7 +38,8 @@ variable (D : FlatSheafExistenceSituation.{u})
 `D_QCoh(𝒪_X) ⟶ D(𝒪_X)`) and `L` is a derived limit `R lim_{D(𝒪_X)} Fₙ` of the system `(iₙ,* Fₙ)`.
 Then `K` is pseudo-coherent relative to `A`. -/
 @[stacks 0CX7 "the full statement: for every coherator DQ_X and every derived limit L of (F_n) in \
-D(O_X), the K = DQ_X(L) of 0CX5 is pseudo-coherent relative to A; nothing is granted or assumed"]
+D(O_X), the K = DQ_X(L) of 0CX5 is pseudo-coherent relative to A, with no hypotheses beyond \
+Situation 0CX4; 0CX6, 0CWH and 0CTT are all proved in the library"]
 theorem isRelativelyPseudoCoherent_coheratorObj
     {DQ : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left ⥤
       (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).FullSubcategory}

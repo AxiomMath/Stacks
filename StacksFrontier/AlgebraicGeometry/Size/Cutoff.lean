@@ -24,7 +24,9 @@ Here `Sch_α` is modelled by the cardinal invariant `AlgebraicGeometry.Scheme.si
 is an object of `Sch_κ` when `size S < κ`. Since `size` is an isomorphism invariant
 (`Scheme.size_congr`), "there exists `S' ∈ Ob(Sch_α)` with `T ≅ S'`" becomes `size T < κ`, and
 since `Sch_κ` is a full subcategory of `Sch`, a limit formed in `Sch` whose size is below `κ` is
-a limit in `Sch_κ`. The conditions on `κ` are `ℵ₀ < κ`, `Cardinal.IsStrongPrelimit κ` (closure
+a limit in `Sch_κ`. The comparison of countable limits and colimits in items (3) and (4) of 000J
+needs a cardinal chosen with more care and is in `StacksFrontier.AlgebraicGeometry.Size.CutoffLimits`.
+The conditions on `κ` are `ℵ₀ < κ`, `Cardinal.IsStrongPrelimit κ` (closure
 under `Bound`) and `ℵ₀ < κ.ord.cof` (closure under countable suprema); each result assumes only
 the ones it uses.
 
@@ -32,7 +34,9 @@ the ones it uses.
 
 * `AlgebraicGeometry.exists_size_cutoff`: for every set `S₀` of schemes there is a cardinal `κ`
   with `ℵ₀ < κ`, `Cardinal.IsStrongPrelimit κ` and `ℵ₀ < κ.ord.cof` such that `Sch_κ` contains
-  `S₀`.
+  `S₀`. The complete Stacks 000J, with countable limits and colimits, is
+  `AlgebraicGeometry.exists_schemeBelow_countable_limits_colimits` in
+  `StacksFrontier.AlgebraicGeometry.Size.CutoffLimits`.
 * `AlgebraicGeometry.Scheme.size_lt_of_le_stacksBound`: a scheme of size at most
   `Bound(size S)` for some `S ∈ Sch_κ` lies in `Sch_κ`.
 * `AlgebraicGeometry.Scheme.size_lt_of_le_stacksBound_iSup`: a scheme of size at most
@@ -77,8 +81,10 @@ namespace AlgebraicGeometry
 
 /-- For every set `S₀` of schemes there is an uncountable strong limit cardinal `κ` of uncountable
 cofinality such that every member of `S₀` has size below `κ`, that is, the collection
-`Sch_κ = {S | size S < κ}` contains `S₀`. -/
-@[stacks 000J]
+`Sch_κ = {S | size S < κ}` contains `S₀`. This is item (1) of Stacks 000J; the complete statement,
+with the countable limits and colimits of items (3) and (4), is
+`AlgebraicGeometry.exists_schemeBelow_countable_limits_colimits`. -/
+@[stacks 000J "(1)"]
 theorem exists_size_cutoff (S₀ : Set Scheme.{u}) [Small.{u} S₀] :
     ∃ κ : Cardinal.{u}, ℵ₀ < κ ∧ Cardinal.IsStrongPrelimit κ ∧ ℵ₀ < κ.ord.cof ∧
       ∀ S ∈ S₀, S.size < κ := by
@@ -98,8 +104,10 @@ theorem Scheme.size_lt_of_le_stacksBound {κ : Cardinal.{u}} (hκ : ℵ₀ < κ)
   lt_of_le_of_lt hT (Cardinal.stacksBound_lt_of_isStrongPrelimit hκ hsl hS)
 
 /-- Let `F` be an at most countable family of objects of `Sch_κ`. Then every scheme of size at most
-`Bound(⨆ i, size (F i))` is an object of `Sch_κ`. -/
-@[stacks 000J "(3), (4)"]
+`Bound(⨆ i, size (F i))` is an object of `Sch_κ`.
+
+This is cardinal arithmetic only; it says nothing about limits or colimits. Items (3) and (4) of
+Stacks 000J are in `AlgebraicGeometry.exists_schemeBelow_countable_limits_colimits`. -/
 theorem Scheme.size_lt_of_le_stacksBound_iSup {κ : Cardinal.{u}} (hκ : ℵ₀ < κ)
     (hsl : Cardinal.IsStrongPrelimit κ) (hcof : ℵ₀ < κ.ord.cof) {ι : Type u}
     (hι : #ι ≤ ℵ₀) (F : ι → Scheme.{u}) (hF : ∀ i, (F i).size < κ) {X : Scheme.{u}}
