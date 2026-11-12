@@ -4,33 +4,54 @@
 
 * [Website](https://stacks.axiommath.ai/)
 
-A Lean 4 (v4.34.0-rc2) formalization of [the Stacks Project](https://stacks.math.columbia.edu/), the open-source reference work on algebraic geometry, built on [Mathlib](https://github.com/leanprover-community/mathlib4). We have formalized every tag of the Stacks Project with formalizable content, and declarations are also tagged with the items of Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA) that they prove (see §[EGA and SGA references](#ega-and-sga-references)). Examples, exercises and remarks that are not yet formalized are left as tasks for contributors (see §[Contributing](#contributing)). Lean's kernel checks every proof. There is no `sorry` and no `native_decide`.
+A Lean 4 formalization of [the Stacks Project](https://stacks.math.columbia.edu/), the open-source reference work on algebraic geometry, built on [Mathlib](https://github.com/leanprover-community/mathlib4). The compiler version is pinned in [lean-toolchain](lean-toolchain).
+
+Coverage includes every Stacks tag with formalizable content. A tag may be partially formalized: inspect the declaration's statement and the tag comment to see what part it covers. Declarations also carry references to Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA).
+
+**Start here:** [find a tag](#finding-a-tag) · [choose an import](#structure) · [check a result](#checking-a-result) · [contribute](#contributing)
+
+Coverage, human review, and proof status are independent. The trust boundary for a declaration is Lean's kernel: its proof must use only the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`), no `sorry`, and no `native_decide`. This is a verification requirement, not a claim about the mathematical statement; see [Checking a result](#checking-a-result).
 
 ## Structure
 
-`import Stacks` brings in both tiers. Every proof in either tier is kernel-checked; the tiers differ in who has reviewed the code.
+`import Stacks` brings in both tiers; `import StacksCore` restricts imports to the human-reviewed tier. For a focused dependency, import the individual module containing the declaration instead of either umbrella. The tiers describe review provenance, not different proof-checking standards.
 
 * [StacksCore](StacksCore/): human-reviewed formalizations, checked against the Stacks Project and brought to Mathlib standards of naming, generality and style.
 * [StacksFrontier](StacksFrontier/): formalizations written by AI agents. This is where coverage grows fastest, and where review is most needed before code moves into StacksCore.
 
 ## Finding a tag
 
-A declaration that formalizes all or part of a Stacks tag carries the attribute `@[stacks TAG]`, for example `@[stacks 00DS]`; a tag that Mathlib already covers is registered on the Mathlib declaration with `add_to_stacks TAG`. A tag can be carried by several declarations, and a comment in the attribute records which part of the tag a declaration covers when it covers only part. After `import Stacks`, the command `#stacks_tags` lists every tagged declaration with its tag, and `#stacks_tags!` also prints each statement. The [website](https://stacks.axiommath.ai/) links each tag to its Lean code, its dependencies and the Stacks Project's own statement.
+A declaration carrying `@[stacks TAG]` formalizes all or part of that Stacks tag. A tag that Mathlib already covers is registered on the Mathlib declaration with `add_to_stacks TAG DECL`, or `add_to_stacks TAG "comment" DECL`. A single tag may appear on multiple declarations; when a declaration covers only part of the tag, the attribute's comment explains which part. Example: `@[stacks 00DS "part (1)"]` or `@[stacks 00DS "affine case"]`. The command `#stacks_tags?` lists the stacks tags introduced in the current file. The [website](https://stacks.axiommath.ai/) links each tag to its Lean code, dependencies, and the Stacks Project text.
 
 ## EGA and SGA references
 
-Declarations are also tagged with the numbered items of Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA) that they prove, with `@[ega "IV 7.8.3"]` or `@[sga "4 IV 4.9.4"]`, or with `add_to_ega` / `add_to_sga` for a Mathlib declaration. A declaration carries a reference exactly when it proves one of the following, and the attribute's comment says which:
+Declarations proving content from Grothendieck's works carry `@[ega "IV 7.8.3"]` or `@[sga "4 IV 4.9.4"]` (or `add_to_ega` / `add_to_sga` for Mathlib declarations). A reference means the declaration proves exactly one of:
 
-* the whole item: no comment;
-* a more general statement than the item: `"more general"`;
-* some of the item's clauses: the clauses, for example `"(ii)"`;
-* a special case of the item: the restriction, for example `"affine case"`.
+* the whole numbered item (no comment);
+* a more general result (comment: `"more general"`);
+* specific clauses of a multi-part item (comment: `"(ii)"` or `"(ii), (iii)"`);
+* a special case (comment: `"affine case"` or similar).
 
-A declaration that is only related to an item, without proving any of these, is not tagged with it. Numbers follow the original installments: Publ. Math. IHÉS for EGA, and the standard Springer Lecture Notes editions for SGA.
+Declarations only tangentially related to an item are not tagged with it. Theorem numbers use the original publication: Publ. Math. IHÉS for EGA, standard Springer Lecture Notes for SGA.
 
-## Axioms
+## Checking a result
 
-Proofs use only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. After `import Stacks`, `#print axioms` on any declaration lists exactly what it rests on.
+Use the version in `lean-toolchain` and the dependencies in `lake-manifest.json`. Check the current source of the module you intend to consume, then use a small probe importing that module:
+
+```lean
+import StacksCore.Order.DirectedInverseSystem
+
+set_option pp.fullNames true
+#check DirectedSystem
+```
+
+Run a probe with `lake env lean path/to/Probe.lean` once its dependencies are built. `#check` confirms the imported declaration's type, not its proof dependencies. For a theorem, add `#print axioms Fully.Qualified.theoremName`, replacing the name with the exact theorem being reused, and retain the raw output together with the compiler exit status, source revision and any local modifications.
+
+### Axioms
+
+The axiom receipt is the output of `#print axioms DeclarationName` for each declaration you reuse. A proof is clean when its axiom set is exactly a subset of `{propext, Classical.choice, Quot.sound}`. An empty set is valid; sorries, sorryAx, custom axioms, and native-decision trust are not. A successful compile does not establish this by itself: Lean can compile `sorry` with a warning, and a precompiled file does not certify its source.
+
+The receipt is specific: it covers the named declaration, not a tag, module, or tier. It does not establish that the statement formalizes the mathematical claim: you must verify the hypotheses, conclusion, the objects it operates on, and any partial-coverage note separately. Explicit hypotheses in a theorem statement are assumptions regardless of axiom status.
 
 ## Building
 
