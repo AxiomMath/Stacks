@@ -278,67 +278,7 @@ namespace Stacks.RingTheory.ConductorRadicalCoeffs
 
 open Polynomial
 
-/-- If a product of a power of `a` and a power of `b` lies in `I`, then `a * b` lies in the radical
-of `I`. -/
-private lemma mul_mem_radical_of_pow_mul_pow_mem {S : Type*} [CommRing S] {I : Ideal S} {a b : S}
-    {m n : ℕ} (h : a ^ m * b ^ n ∈ I) : a * b ∈ I.radical :=
-  ⟨m + n, by
-    rw [show (a * b) ^ (m + n) = a ^ m * b ^ n * (a ^ n * b ^ m) by ring]
-    exact Ideal.mul_mem_right _ _ h⟩
-
-section Coefficients
-
-variable {R S : Type*} [CommRing R] [CommRing S] (φ : R[X] →+* S) (u : S) {K : Ideal S} (p : R[X])
-
-/-- Erasing the leading term of `p` subtracts `φ p.leadingCoeff * φ x ^ p.natDegree` from
-`φ p`. -/
-private lemma map_eraseLead :
-    φ p.eraseLead = φ p - (φ.comp C) p.leadingCoeff * φ X ^ p.natDegree := by
-  rw [← self_sub_C_mul_X_pow p, map_sub, map_mul, map_pow]
-  rfl
-
-/-- An ideal containing both `φ p * u` and `φ p.leadingCoeff * u` contains
-`φ p.eraseLead * u`. -/
-private lemma eraseLead_mul_mem (hp : φ p * u ∈ K)
-    (hlc : (φ.comp C) p.leadingCoeff * u ∈ K) : φ p.eraseLead * u ∈ K := by
-  rw [show φ p.eraseLead * u
-      = φ p * u - ((φ.comp C) p.leadingCoeff * u) * φ X ^ p.natDegree by
-    rw [map_eraseLead]; ring]
-  exact sub_mem hp (Ideal.mul_mem_right _ _ hlc)
-
-/-- An ideal that absorbs `u` times the image of the *leading* coefficient of every `q` with
-`φ q * u ∈ K` absorbs `u` times the image of *every* coefficient of such a `q`. -/
-private lemma coeff_mul_mem_of_leadingCoeff_mul_mem
-    (H : ∀ q : R[X], φ q * u ∈ K → (φ.comp C) q.leadingCoeff * u ∈ K) (hp : φ p * u ∈ K) (i : ℕ) :
-    (φ.comp C) (p.coeff i) * u ∈ K := by
-  induction hd : p.natDegree using Nat.strong_induction_on generalizing p with
-  | _ d IH =>
-    rcases eq_or_ne i p.natDegree with rfl | hi
-    · exact H p hp
-    · rw [← eraseLead_coeff_of_ne i hi]
-      rcases eraseLead_natDegree_lt_or_eraseLead_eq_zero p with hlt | h0
-      · exact IH _ (hd ▸ hlt) p.eraseLead (eraseLead_mul_mem φ u p hp (H p hp)) rfl
-      · simp [h0]
-
-end Coefficients
-
-/-- If `φ p * u` lies in `√J`, where `J` is the conductor of `φ x` over the image `φ(R)` of the
-constants, then so does `φ a * u` for `a = p.leadingCoeff`. -/
-private lemma leadingCoeff_mul_mem_radical_conductor {R S : Type*} [CommRing R] [CommRing S]
-    (φ : R[X] →+* S) (u : S) (p : R[X])
-    (hRS : IsIntegrallyClosedIn (φ.comp C).range S) (hφ : φ.Finite)
-    (hu : φ p * u ∈ (conductor (φ.comp C).range (φ X)).radical) :
-    (φ.comp C) p.leadingCoeff * u ∈ (conductor (φ.comp C).range (φ X)).radical := by
-  obtain ⟨n, hn⟩ := hu
-  by_cases hpn : p.leadingCoeff ^ n = 0
-  · have h0 : (φ.comp C) p.leadingCoeff ^ n * u ^ 0 ∈ conductor (φ.comp C).range (φ X) := by
-      rw [← map_pow, hpn, map_zero, zero_mul]
-      exact zero_mem _
-    exact mul_mem_radical_of_pow_mul_pow_mem h0
-  obtain ⟨k, hk⟩ := RingHom.exists_leadingCoeff_pow_mul_mem_conductor φ (u ^ n) (p ^ n) hRS hφ
-    (by simpa [mul_pow] using hn)
-  rw [leadingCoeff_pow' hpn, map_pow, ← pow_mul] at hk
-  exact mul_mem_radical_of_pow_mul_pow_mem hk
+open Stacks.RingTheory.ConductorLeadingCoeff
 
 /-- Let `R` be a ring, let `φ : R[x] → S` be a finite ring map whose subring `φ(R)` of images of
 the constants is integrally closed in `S`, and let `J` be the conductor ideal
@@ -348,9 +288,16 @@ public theorem solution
     {R S : Type*} [CommRing R] [CommRing S] (φ : R[X] →+* S) (u : S) (p : R[X])
     (hRS : IsIntegrallyClosedIn (φ.comp C).range S) (hφ : φ.Finite)
     (hu : φ p * u ∈ (conductor (φ.comp C).range (φ X)).radical) (i : ℕ) :
-    (φ.comp C) (p.coeff i) * u ∈ (conductor (φ.comp C).range (φ X)).radical :=
-  coeff_mul_mem_of_leadingCoeff_mul_mem φ u p
-    (fun q hq ↦ leadingCoeff_mul_mem_radical_conductor φ u q hRS hφ hq) hu i
+    (φ.comp C) (p.coeff i) * u ∈ (conductor (φ.comp C).range (φ X)).radical := by
+  let _ : Algebra R S := (φ.comp (C : R →+* R[X])).toAlgebra
+  have hcond : conductor R (φ X) = conductor (φ.comp C).range (φ X) :=
+    conductor_eq_of_coe_adjoin_eq <| by
+      rw [coe_adjoin_singleton_map_X_eq_range φ rfl,
+        coe_adjoin_singleton_map_X_eq_range φ
+          (by rw [Algebra.coe_algebraMap_ofSubsemiring, Subtype.range_val, RingHom.coe_range])]
+  have hm := exists_leadingCoeff_pow_smul_mem_radical_conductor (toAlgHom R φ) u p
+    (integralClosure_eq_bot_of_isIntegrallyClosedIn_range hRS) hφ (hcond ▸ hu) i
+  simpa only [Algebra.smul_def] using hcond ▸ hm
 
 end Stacks.RingTheory.ConductorRadicalCoeffs
 
