@@ -44,7 +44,8 @@ That algebraization step is the deep input. It is named here as the predicate
 alone — it knows nothing of the schemes `Yₙ`, of finite morphisms or of cartesian squares — and it
 is proved over a complete Noetherian base as
 `AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`
-(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AdicFiniteAlgebraizationTags.lean`).
+(`AdicFiniteAlgebraizationTags.lean` of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/`).
 Stacks 09ZT with that input discharged is
 `AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem_holds`, in the same file,
 which carries the tag.

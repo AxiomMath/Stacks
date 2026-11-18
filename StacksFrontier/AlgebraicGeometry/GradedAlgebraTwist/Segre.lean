@@ -39,8 +39,7 @@ open CategoryTheory CategoryTheory.Limits MonoidalCategory Opposite
 open Stacks.SheafOfModules
 open Stacks.SheafOfModules.Invertible (tensorProductAssociator tensorProductLeftUnitor
   tensorProductRightUnitor)
-open Stacks.SheafOfModules.TensorSheafification (sheafify toSheafify sheafifyAdjunction
-  structureSheaf structureRingPresheaf)
+open Stacks.SheafOfModules.TensorSheafification (structureSheaf structureRingPresheaf)
 open scoped TensorProduct
 
 universe v u w
@@ -67,10 +66,11 @@ variable {O hO} (A : _root_.SheafOfModules.GradedAlgebra.{w, w} (structureSheaf 
 
 /-- **The product of a sheaf of graded algebras, as a morphism out of the tensor product
 sheaf**: the bilinear map on sections extends uniquely over the sheafification. -/
-def mulHomOf (i j : ℤ) : (((Stacks.SheafOfModules.Tensor.sheafTensor
-    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
-      ((A.piece i))).obj ((A.piece j))) ⟶ A.piece (i + j) :=
-  ((sheafifyAdjunction O hO).homEquiv
+def mulHomOf (i j : ℤ) :
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+        ((A.piece i))).obj ((A.piece j))) ⟶ A.piece (i + j) :=
+  ((Invertible.structureSheafificationAdjunction O hO).homEquiv
     ((PresheafOfModules.tensorObj (O := O) ((A.piece i).val) ((A.piece j).val)))
       (A.piece (i + j))).symm
       (PresheafOfModules.ofBilinear (A.mul i j))
@@ -82,7 +82,7 @@ theorem mulHomOf_app (i j : ℤ) (U : Cᵒᵖ) (x : (A.piece i).val.obj U)
       (A.mul i j).app U x y :=
   (congrArg
       (fun φ => φ.app U (ptmul O hO (A.piece i).val (A.piece j).val U x y))
-      (((sheafifyAdjunction O hO).homEquiv
+      (((Invertible.structureSheafificationAdjunction O hO).homEquiv
         ((PresheafOfModules.tensorObj (O := O) ((A.piece i).val) ((A.piece j).val)))
           (A.piece (i + j))).apply_symm_apply
           (PresheafOfModules.ofBilinear (A.mul i j)))).trans

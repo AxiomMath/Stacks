@@ -302,7 +302,9 @@ instance mixedSheafTensor_additive : (mixedSheafTensor f).Additive where
 sheaves of modules: for `γ : G ⟶ G'` and a sheaf `H` of `O₂`-modules, the isomorphism
 `H ⊗_{O₂} (O₂ ⊗_{O₁} G) ≅ H ⊗_{O₁} G` commutes with the maps induced by `γ`.
 
-Two squares are pasted: the naturality of the unit of sheafification at the sectionwise
+Three squares are pasted: the naturality of the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` between the sealed sheafification inside
+`sheafTensor` and Mathlib's, the naturality of the unit of sheafification at the sectionwise
 extension of scalars, and the presheaf-level `mixedBaseChange_naturality_snd`. -/
 lemma mixedSheafBaseChange_naturality_snd
     {G G' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁)} (γ : G ⟶ G')
@@ -326,8 +328,11 @@ lemma mixedSheafBaseChange_naturality_snd
       (moduleSheafification O₂).map (mixedBaseChange f H.val G.val).hom ≫
         (moduleSheafification O₂).map (mixedMapRight f H.val γ.val) :=
     map_comp_eq_map_comp _ (mixedBaseChange_naturality_snd f H.val γ.val)
-  exact paste_squares (conj_square ((tensorRightExtendScalarsIso f G).app H.val)
-    ((tensorRightExtendScalarsIso f G').app H.val) hA) hB
+  exact paste_squares
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso O₂).inv.naturality
+      (tensorMapRight H.val ((extendScalars f).map γ).val))
+    (paste_squares (conj_square ((tensorRightExtendScalarsIso f G).app H.val)
+      ((tensorRightExtendScalarsIso f G').app H.val) hA) hB)
 
 end Sheaf
 

@@ -53,7 +53,9 @@ to the other spellings of the tensor product of sheaves of modules on this branc
   preimage of the corresponding sieve over `Z.left`.
 * `Stacks.TensorCoherence.isIso_sheafificationHomEquiv_symm`: **a locally bijective morphism
   from a presheaf of modules into a sheaf of modules exhibits the latter as the sheafification
-  of the former.**
+  of the former.** `isIso_sheafificationAdjunction_homEquiv_symm` and
+  `isIso_sheafificationForgetAdjunction_homEquiv_symm` are its forms for the sealed
+  sheafification `Stacks.SheafOfModules.Tensor.sheafification` underlying the tensor product.
 * `Stacks.TensorCoherence.tensorSheafOverIso`: **the tensor product of sheaves of modules
   commutes with restriction to a slice site**, `(F ⊗ G)|_U ≅ F|_U ⊗ G|_U`. This is the
   comparison that the previous two results produce: the objectwise tensor product commutes with
@@ -220,6 +222,84 @@ theorem isIso_sheafificationHomEquiv_symm {P : PresheafOfModules.{w} R₀}
 
 end Uniqueness
 
+section SealedUniqueness
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+  {O : Sheaf J CommRingCat.{w}} [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasWeakSheafify J AddCommGrpCat.{w}]
+
+/-- **A locally bijective morphism from a presheaf of modules into a sheaf of modules exhibits
+the latter as the sealed sheafification of the former:** the form of
+`isIso_sheafificationHomEquiv_symm` for `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
+theorem isIso_sheafificationAdjunction_homEquiv_symm
+    {P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
+    {T : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
+    (u : P ⟶ (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).obj T)
+    (hinj : Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf _).map u))
+    (hsurj : Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf _).map u)) :
+    IsIso (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).homEquiv P T).symm u) := by
+  have := hinj
+  have := hsurj
+  refine isIso_homEquiv_symm _ u ?_
+  rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf.{w} _), ← Functor.comp_map,
+    NatIso.isIso_map_iff (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O) u]
+  exact (J.W_iff _).1 (J.W_of_isLocallyBijective _)
+
+/-- The morphism out of the sealed sheafification adjoint to `u` along
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is the one adjoint to `u` along
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, after restricting scalars along the
+identity. -/
+lemma sheafificationForgetAdjunction_homEquiv_symm_apply
+    {P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
+    {T : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
+    (u : P ⟶ (SheafOfModules.forget _).obj T) :
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv P T).symm u =
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).homEquiv P T).symm
+        (u ≫ (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso O).inv.app T) :=
+  Adjunction.homEquiv_ofNatIsoRight_symm_apply _ _ u
+
+/-- **A locally bijective morphism from a presheaf of modules into a sheaf of modules exhibits
+the latter as the sealed sheafification of the former:** the form of
+`isIso_sheafificationAdjunction_homEquiv_symm` for
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, whose right adjoint is the plain
+forgetful functor. -/
+theorem isIso_sheafificationForgetAdjunction_homEquiv_symm
+    {P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
+    {T : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
+    (u : P ⟶ (SheafOfModules.forget _).obj T)
+    (hinj : Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf _).map u))
+    (hsurj : Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf _).map u)) :
+    IsIso (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv P T).symm
+      u) := by
+  have := hinj
+  have := hsurj
+  rw [sheafificationForgetAdjunction_homEquiv_symm_apply]
+  refine isIso_sheafificationAdjunction_homEquiv_symm _ ?_ ?_ <;>
+  · rw [Functor.map_comp]
+    infer_instance
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is locally
+injective. -/
+theorem isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallyInjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app M) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallyInjective, Functor.map_comp]
+  infer_instance
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is locally
+surjective. -/
+theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app M) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
+
+end SealedUniqueness
+
 section TensorOver
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
@@ -257,14 +337,12 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 unit of the objectwise tensor product, restricted to the slice site over `U`. -/
 noncomputable def tensorOverUnit (U : C) :
     Stacks.tensorObj ((presheafOver U).obj F.val) ((presheafOver U).obj G.val) ⟶
-      (SheafOfModules.forget (Stacks.commRingSheafToRingSheaf (O.over U)) ⋙
-          PresheafOfModules.restrictScalars
-            (𝟙 (Stacks.commRingSheafToRingSheaf (O.over U)).obj)).obj
+      (SheafOfModules.forget _).obj
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj
           F).over U) :=
   (tensorOverPresheafIso U F.val G.val).hom ≫
-    (presheafOver U).map ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.commRingSheafToRingSheaf O).obj)).unit.app (Stacks.tensorObj F.val G.val))
+    (presheafOver U).map ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+      (Stacks.tensorObj F.val G.val))
 
 /-- **The tensor product of sheaves of modules commutes with restriction to a slice site.**
 The comparison morphism, adjoint to the restricted sheafification unit. -/
@@ -272,10 +350,11 @@ noncomputable def tensorSheafOverHom (U : C) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, w, w} (O.over U)).flip.obj
         (G.over U)).obj (F.over U) ⟶
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj F).over U :=
-  (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.commRingSheafToRingSheaf (O.over U)).obj)).symm (tensorOverUnit F G U)
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (O.over U)).homEquiv _ _).symm
+    (tensorOverUnit F G U)
 
-omit [∀ U : C, (J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
+omit [∀ U : C, (J.over U).HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [∀ U : C, (J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ U : C, HasWeakSheafify (J.over U) AddCommGrpCat.{w}] in
 /-- The factorization of the restricted sheafification unit through the comparison of the two
 objectwise tensor products. -/
@@ -283,10 +362,12 @@ lemma toPresheaf_map_tensorOverUnit (U : C) :
     (PresheafOfModules.toPresheaf (Stacks.ringPresheaf ((Over.forget U).op ⋙ O.obj))).map
         (tensorOverPresheafIso U F.val G.val).hom ≫
       overWhisker ((PresheafOfModules.toPresheaf (Stacks.commRingSheafToRingSheaf O).obj).map
-        ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.commRingSheafToRingSheaf O).obj)).unit.app
-            (Stacks.tensorObj F.val G.val))) U =
-      (PresheafOfModules.toPresheaf _).map (tensorOverUnit F G U) := rfl
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+          (Stacks.tensorObj F.val G.val))) U =
+      (PresheafOfModules.toPresheaf _).map (tensorOverUnit F G U) :=
+  ((PresheafOfModules.toPresheaf _).map_comp (tensorOverPresheafIso U F.val G.val).hom
+    ((presheafOver U).map ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+      (Stacks.tensorObj F.val G.val)))).symm
 
 instance isIso_tensorSheafOverHom (U : C) : IsIso (tensorSheafOverHom F G U) := by
   have h₁ : Presheaf.IsLocallyInjective (J.over U)
@@ -295,16 +376,15 @@ instance isIso_tensorSheafOverHom (U : C) : IsIso (tensorSheafOverHom F G U) := 
   have h₂ : Presheaf.IsLocallySurjective (J.over U)
       ((PresheafOfModules.toPresheaf (Stacks.ringPresheaf ((Over.forget U).op ⋙ O.obj))).map
         (tensorOverPresheafIso U F.val G.val).hom) := inferInstance
-  exact isIso_sheafificationHomEquiv_symm
-    (α := 𝟙 (Stacks.commRingSheafToRingSheaf (O.over U)).obj) _
+  exact isIso_sheafificationForgetAdjunction_homEquiv_symm (O := O.over U) (tensorOverUnit F G U)
     (isLocallyInjective_of_fac (J.over U) _ (toPresheaf_map_tensorOverUnit F G U) h₁
       (isLocallyInjective_overWhisker' J _ U
-        (PresheafOfModules.isLocallyInjective_sheafificationAdjunction_unit_app
-          (𝟙 (Stacks.commRingSheafToRingSheaf O).obj) (Stacks.tensorObj F.val G.val))))
+        (isLocallyInjective_sheafificationForgetAdjunction_unit_app
+          (Stacks.tensorObj F.val G.val))))
     (isLocallySurjective_of_fac (J.over U) _ (toPresheaf_map_tensorOverUnit F G U) h₂
       (isLocallySurjective_overWhisker' J _ U
-        (PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app
-          (𝟙 (Stacks.commRingSheafToRingSheaf O).obj) (Stacks.tensorObj F.val G.val))))
+        (isLocallySurjective_sheafificationForgetAdjunction_unit_app
+          (Stacks.tensorObj F.val G.val))))
 
 /-- **The tensor product of sheaves of modules commutes with restriction to a slice site.** -/
 noncomputable def tensorSheafOverIso (U : C) :
@@ -344,7 +424,8 @@ noncomputable def tensorSheafUnitIso
     (G : SheafOfModules.{w} (Stacks.commRingSheafToRingSheaf O)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G)).obj
         (SheafOfModules.unit (Stacks.commRingSheafToRingSheaf O)) ≅ G :=
-  (Stacks.moduleSheafification O).mapIso (tensorObjUnitIso G.val) ≪≫ Stacks.sheafifyValIso O G
+  Stacks.SheafOfModules.Tensor.sheafTensorObjIso O _ G ≪≫
+    (Stacks.moduleSheafification O).mapIso (tensorObjUnitIso G.val) ≪≫ Stacks.sheafifyValIso O G
 
 end Unitor
 

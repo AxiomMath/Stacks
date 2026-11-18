@@ -425,17 +425,12 @@ private theorem tensorProductIso_scalar_first (S : Scheme.{u})
     let g : MV ⟶ MV := (SheafOfModules.forget
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf S.presheaf (ringSheafCond S))).map
         (scalarEnd S a.val M)
-    change (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map
-        (g ⊗ₘ (𝟙 NV)) ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map (β_
-          MV NV).hom =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map (β_ MV
-        NV).hom ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map ((𝟙
-          NV) ⊗ₘ g)
+    change (structureSheafification S.presheaf (ringSheafCond S)).map (g ⊗ₘ (𝟙 NV)) ≫
+        (structureSheafification S.presheaf (ringSheafCond S)).map (β_ MV NV).hom =
+      (structureSheafification S.presheaf (ringSheafCond S)).map (β_ MV NV).hom ≫
+        (structureSheafification S.presheaf (ringSheafCond S)).map ((𝟙 NV) ⊗ₘ g)
     rw [← Functor.map_comp, ← Functor.map_comp]
-    exact congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond
-      S)).map
+    exact congrArg (structureSheafification S.presheaf (ringSheafCond S)).map
       (BraidedCategory.braiding_naturality
         (C := PresheafOfModules (ringSheaf S).obj)
         (scalarEnd S a.val M).val (𝟙 N.val))

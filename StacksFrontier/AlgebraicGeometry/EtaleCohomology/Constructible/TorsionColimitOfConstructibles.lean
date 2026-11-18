@@ -14,7 +14,8 @@ abelian spelling of Stacks 093C described below, and at the pointwise torsion co
 
 Stacks 03SA (2) itself is
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs` of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.LocalTorsionColimitOfConstructibles`,
+`LocalTorsionColimitOfConstructibles` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible`,
 with no binder beyond the tag's and at the local torsion condition of Stacks 0DD7,
 `Stacks.Torsion.torsionSheafProperty`, which the pointwise condition implies
 (`AlgebraicGeometry.torsionSheafProperty_of_isTorsionAbelianSheaf`). Parts (1) and (3) are

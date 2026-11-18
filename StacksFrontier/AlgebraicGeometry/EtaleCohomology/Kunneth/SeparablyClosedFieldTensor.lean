@@ -167,17 +167,24 @@ def sepClosedTensorUnit :
       sepClosedPointSections k Λ
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u + 1, u + 1, u + 1, u + 1}
           (ringedTopos Λ (Spec (.of k))).O).obj A).obj B) :=
-  ((PresheafOfModules.sheafificationAdjunction.{u + 1}
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Λ (Spec (.of k))).O).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction.{_, _, _, u + 1}
+      (ringedTopos Λ (Spec (.of k))).O).unit.app
     (PresheafOfModules.tensorObj (O := (ringedTopos Λ (Spec (.of k))).O.obj) A.val B.val)).app
       (op (sepClosedPoint k))
 
 /-- The sheafification unit of the presheaf tensor product is bijective at the terminal object. -/
 theorem bijective_sepClosedTensorUnit : Function.Bijective (sepClosedTensorUnit k Λ A B).hom :=
+  haveI := Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+    (ringedTopos Λ (Spec (.of k))).O
+    (PresheafOfModules.tensorObj (O := (ringedTopos Λ (Spec (.of k))).O.obj) A.val B.val)
+  haveI := Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+    (ringedTopos Λ (Spec (.of k))).O
+    (PresheafOfModules.tensorObj (O := (ringedTopos Λ (Spec (.of k))).O.obj) A.val B.val)
   bijective_app_of_forall_id_mem (J := topology (Spec (.of k)))
-    (CategoryTheory.toSheafify (topology (Spec (.of k)))
-      (PresheafOfModules.tensorObj (O := (ringedTopos Λ (Spec (.of k))).O.obj)
-        A.val B.val).presheaf)
+    ((PresheafOfModules.toPresheaf _).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction.{_, _, _, u + 1}
+        (ringedTopos Λ (Spec (.of k))).O).unit.app
+          (PresheafOfModules.tensorObj (O := (ringedTopos Λ (Spec (.of k))).O.obj) A.val B.val)))
     (id_mem_of_mem_topology_terminal k)
 
 /-- The ring map `Λ ⟶ Λ̲(pt)`. -/
@@ -300,21 +307,19 @@ theorem sepClosedTensorUnit_naturality {A' B' : SheafOfModules.{u + 1}
       (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Λ (Spec (.of k))).O)}
     (f : A ⟶ A') (g : B ⟶ B') (x : sepClosedPointSections k Λ A)
     (y : sepClosedPointSections k Λ B) :
-    (((PresheafOfModules.sheafification.{u + 1} (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          (ringedTopos Λ (Spec (.of k))).O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Λ (Spec (.of k))).O).obj)).map
+    (((Stacks.SheafOfModules.Tensor.sheafification.{_, _, _, u + 1}
+        (ringedTopos Λ (Spec (.of k))).O).map
           (PresheafOfModules.tensorHom (O := (ringedTopos Λ (Spec (.of k))).O.obj)
             f.val g.val)).val.app
             (op (sepClosedPoint k))).hom ((sepClosedTensorUnit k Λ A B).hom (x ⊗ₜ y)) =
       (sepClosedTensorUnit k Λ A' B').hom
         ((show sepClosedPointSections k Λ A' from (f.val.app (op (sepClosedPoint k))).hom x) ⊗ₜ
-          (show sepClosedPointSections k Λ B' from (g.val.app (op (sepClosedPoint k))).hom y)) := by
-  have h := NatTrans.naturality (PresheafOfModules.sheafificationAdjunction.{u + 1}
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Λ (Spec (.of k))).O).obj)).unit
-    (PresheafOfModules.tensorHom (O := (ringedTopos Λ (Spec (.of k))).O.obj) f.val g.val)
-  have h' := congrArg (fun m => (m.app (op (sepClosedPoint k))).hom (x ⊗ₜ y)) h
-  exact h'.symm.trans (congrArg (sepClosedTensorUnit k Λ A' B').hom
-    (PresheafOfModules.tensorHom_tmul f.val g.val (op (sepClosedPoint k)) x y))
+          (show sepClosedPointSections k Λ B' from (g.val.app (op (sepClosedPoint k))).hom y)) :=
+  (Stacks.SheafOfModules.Tensor.unit_naturality_apply
+      (PresheafOfModules.tensorHom (O := (ringedTopos Λ (Spec (.of k))).O.obj) f.val g.val)
+      (op (sepClosedPoint k)) (x ⊗ₜ y)).trans
+    (congrArg (sepClosedTensorUnit k Λ A' B').hom
+      (PresheafOfModules.tensorHom_tmul f.val g.val (op (sepClosedPoint k)) x y))
 
 end Tensor
 

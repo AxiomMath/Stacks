@@ -16,11 +16,13 @@ computation shows that the localized tensorator cancels.
 
 ## Main results
 
-* `Stacks.SliceRestrictionTensorSections.delta_overFunctorMonoidal_eq`: the oplax tensorator of
-  `overFunctorMonoidal` is the comparison of restriction with sheafification followed by the
-  sheafification of a morphism of presheaves of modules.
-* `Stacks.SliceRestrictionTensorSections.mu_overFunctorMonoidal_shSec_tmul`: **the tensorator of
-  `overFunctorMonoidal` on a local pure tensor**.
+* `Stacks.SliceRestrictionTensorSections.delta_overFunctorMonoidal_eq`: up to the comparisons
+  `Stacks.SheafOfModules.sheafifyIsoSheafTensor` of the tensor product sheaves with Mathlib's
+  sheafifications, the oplax tensorator of `overFunctorMonoidal` is the comparison of restriction
+  with sheafification followed by the sheafification of a morphism of presheaves of modules.
+* `Stacks.SliceRestrictionTensorSections.mu_overFunctorMonoidal_toSheafTensor_tmul`: **the
+  tensorator of `overFunctorMonoidal` on a local pure tensor**, read through the units
+  `Stacks.SheafOfModules.toSheafTensor` of the tensor product sheaves.
 
 ## Implementation notes
 
@@ -206,6 +208,29 @@ theorem map_preDelta_comp (P Q : PresheafOfModules.{u} (structureRingPresheaf �
     shDelta_comp_tensorComparisonIso_hom, ← Functor.map_comp,
     MonoidalCategory.tensorHom_comp_tensorHom, ← Functor.map_comp]
 
+/-- **The localization tensorator cancels, conjugated by `tensorComparisonIso`.** The oplax
+tensorator of `overFunctorMonoidalLocalized`, conjugated by the comparisons `tensorComparisonIso`
+of the localized tensor products with Mathlib's sheafifications of the objectwise tensor products,
+is the comparison of restriction with sheafification followed by the sheafification of the
+presheaf-level oplax tensorator and of the tensor product of the two canonical maps `overLeg`. -/
+@[reassoc]
+theorem map_tensorComparisonIso_inv_comp_delta_comp_hom
+    (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
+    (overFunctor 𝒪 h𝒪 U).map (tensorComparisonIso 𝒪 h𝒪 A B).inv ≫
+        Functor.OplaxMonoidal.δ (self := (overFunctorMonoidalLocalized 𝒪 h𝒪 U).toOplaxMonoidal)
+            (overFunctor 𝒪 h𝒪 U) A B ≫
+          (tensorComparisonIso (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
+            ((overFunctor 𝒪 h𝒪 U).obj A) ((overFunctor 𝒪 h𝒪 U).obj B)).hom =
+      (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom ≫
+        (sliceSheafify 𝒪 h𝒪 U).map
+          (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) ≫
+            (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B)) := by
+  rw [← Category.assoc, map_tensorComparisonIso_inv_comp_delta,
+    Category.assoc, Category.assoc, tensorComparisonIso_naturality, sliceDelta_eq,
+    Category.assoc]
+  exact congrArg (fun z => (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom ≫ z)
+    (map_preDelta_comp 𝒪 h𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) _ _)
+
 end Localized
 
 
@@ -214,18 +239,19 @@ section Strict
 attribute [local instance] Stacks.SheafOfModules.Strict.monoidalCategory
 
 /-- **The oplax tensorator of `overFunctorMonoidal`** is the tensorator of the localized monoidal
-structure conjugated by `tensorComparisonIso`. -/
+structure conjugated by `Stacks.SheafOfModules.tensorObjIso`. -/
 theorem delta_overFunctorMonoidal (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
     Functor.OplaxMonoidal.δ (self := (overFunctorMonoidal 𝒪 h𝒪 U).toOplaxMonoidal)
         (overFunctor 𝒪 h𝒪 U) A B =
-      (overFunctor 𝒪 h𝒪 U).map (tensorComparisonIso 𝒪 h𝒪 A B).inv ≫
+      (overFunctor 𝒪 h𝒪 U).map (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A B).inv ≫
         (Functor.OplaxMonoidal.δ (self := (overFunctorMonoidalLocalized 𝒪 h𝒪 U).toOplaxMonoidal)
             (overFunctor 𝒪 h𝒪 U) A B ≫
-          (tensorComparisonIso (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
+          (Stacks.SheafOfModules.tensorObjIso (sliceRingPresheaf 𝒪 U)
+            (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
             ((overFunctor 𝒪 h𝒪 U).obj A) ((overFunctor 𝒪 h𝒪 U).obj B)).hom) := by
   have h : Functor.OplaxMonoidal.δ (self := (overFunctorMonoidal 𝒪 h𝒪 U).toOplaxMonoidal)
         (overFunctor 𝒪 h𝒪 U) A B =
-      (overFunctor 𝒪 h𝒪 U).map (tensorComparisonIso 𝒪 h𝒪 A B).inv ≫
+      (overFunctor 𝒪 h𝒪 U).map (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A B).inv ≫
         (Functor.OplaxMonoidal.δ (self := (overFunctorMonoidalLocalized 𝒪 h𝒪 U).toOplaxMonoidal)
             (overFunctor 𝒪 h𝒪 U) A B ≫
           Functor.OplaxMonoidal.δ
@@ -236,21 +262,26 @@ theorem delta_overFunctorMonoidal (A B : SheafOfModules.{u} (structureSheaf 𝒪
   rw [h, delta_fromLoc]
   rfl
 
-/-- **The oplax tensorator of `overFunctorMonoidal`, computed**: the comparison of restriction
-with sheafification followed by the sheafification of the presheaf-level oplax tensorator and of
-the tensor product of the two canonical maps `overLeg`. -/
+/-- **The oplax tensorator of `overFunctorMonoidal`, computed**: up to the comparisons
+`Stacks.SheafOfModules.sheafifyIsoSheafTensor` of the tensor product sheaves with Mathlib's
+sheafifications of the objectwise tensor products, it is the comparison of restriction with
+sheafification followed by the sheafification of the presheaf-level oplax tensorator and of the
+tensor product of the two canonical maps `overLeg`. -/
 theorem delta_overFunctorMonoidal_eq (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
     Functor.OplaxMonoidal.δ (self := (overFunctorMonoidal 𝒪 h𝒪 U).toOplaxMonoidal)
         (overFunctor 𝒪 h𝒪 U) A B =
-      (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom ≫
-        (sliceSheafify 𝒪 h𝒪 U).map
-          (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) ≫
-            (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B)) := by
-  rw [delta_overFunctorMonoidal, ← Category.assoc, map_tensorComparisonIso_inv_comp_delta,
-    Category.assoc, Category.assoc, tensorComparisonIso_naturality, sliceDelta_eq,
-    Category.assoc]
-  exact congrArg (fun z => (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom ≫ z)
-    (map_preDelta_comp 𝒪 h𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) _ _)
+      (overFunctor 𝒪 h𝒪 U).map (Stacks.SheafOfModules.sheafifyIsoSheafTensor 𝒪 h𝒪 A B).inv ≫
+        (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom ≫
+          (sliceSheafify 𝒪 h𝒪 U).map
+            (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) ≫
+              (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B)) ≫
+            (Stacks.SheafOfModules.sheafifyIsoSheafTensor (sliceRingPresheaf 𝒪 U)
+              (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U) ((overFunctor 𝒪 h𝒪 U).obj A)
+              ((overFunctor 𝒪 h𝒪 U).obj B)).hom := by
+  rw [delta_overFunctorMonoidal, tensorObjIso_inv_eq_comp, tensorObjIso_hom_eq_comp]
+  exact ((overFunctor 𝒪 h𝒪 U).map_comp _ _ =≫ _).trans ((Category.assoc _ _ _).trans
+    ((overFunctor 𝒪 h𝒪 U).map (Stacks.SheafOfModules.sheafifyIsoSheafTensor 𝒪 h𝒪 A B).inv ≫=
+      map_tensorComparisonIso_inv_comp_delta_comp_hom_assoc 𝒪 h𝒪 U A B _))
 
 end Strict
 
@@ -302,37 +333,45 @@ section StrictSections
 
 attribute [local instance] Stacks.SheafOfModules.Strict.monoidalCategory
 
-/-- **The oplax tensorator of `overFunctorMonoidal` on a local pure tensor**: it carries the pure
-tensor of two sections over the underlying object of `V`, formed on `C`, to the pure tensor of
-the same two sections formed on the slice site. -/
-theorem delta_overFunctorMonoidal_shSec_tmul (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪))
+/-- **The oplax tensorator of `overFunctorMonoidal` on a local pure tensor**: it carries the image
+of the pure tensor of two sections over the underlying object of `V` in the tensor product sheaf
+on `C` to the image of the pure tensor of the same two sections in the tensor product sheaf on
+the slice site. -/
+theorem delta_overFunctorMonoidal_toSheafTensor_tmul
+    (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪))
     (V : (Over U)ᵒᵖ) (a : (valp 𝒪 h𝒪 A).obj (Opposite.op V.unop.left))
     (b : (valp 𝒪 h𝒪 B).obj (Opposite.op V.unop.left)) :
     (Functor.OplaxMonoidal.δ (self := (overFunctorMonoidal 𝒪 h𝒪 U).toOplaxMonoidal)
           (overFunctor 𝒪 h𝒪 U) A B).val.app V
-        (shSec 𝒪 h𝒪 (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B) (Opposite.op V.unop.left) (a ⊗ₜ b)) =
-      shSec (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-        (valp (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-            ((overFunctor 𝒪 h𝒪 U).obj A) ⊗
-          valp (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-            ((overFunctor 𝒪 h𝒪 U).obj B)) V (a ⊗ₜ b) := by
+        (Hom.app (Stacks.SheafOfModules.toSheafTensor 𝒪 h𝒪 A B) (Opposite.op V.unop.left)
+          (a ⊗ₜ b)) =
+      Hom.app (Stacks.SheafOfModules.toSheafTensor (sliceRingPresheaf 𝒪 U)
+          (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U) ((overFunctor 𝒪 h𝒪 U).obj A)
+          ((overFunctor 𝒪 h𝒪 U).obj B)) V (a ⊗ₜ b) := by
   refine Eq.trans (SheafOfModules.hom_congr_app_apply
-    (delta_overFunctorMonoidal_eq 𝒪 h𝒪 U A B) V
-    (shSec 𝒪 h𝒪 (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B) (Opposite.op V.unop.left) (a ⊗ₜ b))) ?_
+    (delta_overFunctorMonoidal_eq 𝒪 h𝒪 U A B) V _) ?_
   refine Eq.trans (SheafOfModules.comp_val_app_apply
-    (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom
+    ((overFunctor 𝒪 h𝒪 U).map (Stacks.SheafOfModules.sheafifyIsoSheafTensor 𝒪 h𝒪 A B).inv) _
+    V _) ?_
+  refine Eq.trans (congrArg _
+    (sheafifyIsoSheafTensor_inv_toSheafTensor 𝒪 h𝒪 A B (Opposite.op V.unop.left) (a ⊗ₜ b))) ?_
+  refine Eq.trans (SheafOfModules.comp_val_app_apply
+    (lift 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B)).hom _ V _) ?_
+  refine Eq.trans (congrArg _
+    (lift_hom_shSec 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B) V (a ⊗ₜ b))) ?_
+  refine Eq.trans (SheafOfModules.comp_val_app_apply
     ((sliceSheafify 𝒪 h𝒪 U).map
       (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) ≫
-        (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B))) V
-    (shSec 𝒪 h𝒪 (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B) (Opposite.op V.unop.left) (a ⊗ₜ b))) ?_
-  refine Eq.trans (congrArg (fun z => ((sliceSheafify 𝒪 h𝒪 U).map
-      (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) ≫
-        (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B))).val.app V z)
-    (lift_hom_shSec 𝒪 h𝒪 U (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B) V (a ⊗ₜ b))) ?_
-  refine Eq.trans (map_shSec (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
+        (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B))) _ V _) ?_
+  refine Eq.trans (congrArg _ (map_shSec (sliceRingPresheaf 𝒪 U)
+    (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
     (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B) ≫
-      (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B)) V (a ⊗ₜ b)) ?_
-  refine congrArg (shSec (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U) _ V) ?_
+      (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B)) V (a ⊗ₜ b))) ?_
+  refine Eq.trans ?_ (sheafifyIsoSheafTensor_hom_shSec (sliceRingPresheaf 𝒪 U)
+    (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U) ((overFunctor 𝒪 h𝒪 U).obj A)
+    ((overFunctor 𝒪 h𝒪 U).obj B) V (a ⊗ₜ b))
+  refine congrArg _ (congrArg
+    (shSec (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U) _ V) ?_)
   refine Eq.trans (PresheafOfModules.comp_app_apply
     (preDelta 𝒪 U (valp 𝒪 h𝒪 A) (valp 𝒪 h𝒪 B))
     (overLeg 𝒪 h𝒪 U A ⊗ₘ overLeg 𝒪 h𝒪 U B) V (a ⊗ₜ b)) ?_
@@ -341,19 +380,20 @@ theorem delta_overFunctorMonoidal_shSec_tmul (A B : SheafOfModules.{u} (structur
     (congrArg₂ _ (overLeg_app 𝒪 h𝒪 U A V a) (overLeg_app 𝒪 h𝒪 U B V b))
 
 /-- **The tensorator of `overFunctorMonoidal` on a local pure tensor**: restriction to the slice
-site carries the pure tensor `a ⊗ b` formed on the slice to the pure tensor formed on `C`. -/
-theorem mu_overFunctorMonoidal_shSec_tmul (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪))
+site carries the image of the pure tensor `a ⊗ b` in the tensor product sheaf on the slice to its
+image in the tensor product sheaf on `C`. -/
+theorem mu_overFunctorMonoidal_toSheafTensor_tmul
+    (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪))
     (V : (Over U)ᵒᵖ) (a : (valp 𝒪 h𝒪 A).obj (Opposite.op V.unop.left))
     (b : (valp 𝒪 h𝒪 B).obj (Opposite.op V.unop.left)) :
     (Functor.LaxMonoidal.μ (self := (overFunctorMonoidal 𝒪 h𝒪 U).toLaxMonoidal)
           (overFunctor 𝒪 h𝒪 U) A B).val.app V
-        (shSec (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-          (valp (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-              ((overFunctor 𝒪 h𝒪 U).obj A) ⊗
-            valp (sliceRingPresheaf 𝒪 U) (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-              ((overFunctor 𝒪 h𝒪 U).obj B)) V (a ⊗ₜ b)) =
-      shSec 𝒪 h𝒪 (valp 𝒪 h𝒪 A ⊗ valp 𝒪 h𝒪 B) (Opposite.op V.unop.left) (a ⊗ₜ b) := by
-  rw [← delta_overFunctorMonoidal_shSec_tmul 𝒪 h𝒪 U A B V a b]
+        (Hom.app (Stacks.SheafOfModules.toSheafTensor (sliceRingPresheaf 𝒪 U)
+          (isSheaf_sliceRingPresheaf 𝒪 h𝒪 U) ((overFunctor 𝒪 h𝒪 U).obj A)
+          ((overFunctor 𝒪 h𝒪 U).obj B)) V (a ⊗ₜ b)) =
+      Hom.app (Stacks.SheafOfModules.toSheafTensor 𝒪 h𝒪 A B) (Opposite.op V.unop.left)
+        (a ⊗ₜ b) := by
+  rw [← delta_overFunctorMonoidal_toSheafTensor_tmul 𝒪 h𝒪 U A B V a b]
   exact SheafOfModules.hom_congr_app_apply
     (Functor.Monoidal.δ_μ (self := overFunctorMonoidal 𝒪 h𝒪 U) (overFunctor 𝒪 h𝒪 U) A B) V _
 

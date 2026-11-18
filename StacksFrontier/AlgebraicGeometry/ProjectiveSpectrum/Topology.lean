@@ -158,7 +158,7 @@ theorem basicOpen_eq_iSup_basicOpen_mul_of_mem_zero {g₀ : A} (_hg₀ : g₀ �
   rw [HomogeneousIdeal.irrelevant_le] at hirr
   push Not at hirr
   obtain ⟨d, hd, hdx⟩ := hirr
-  obtain ⟨f, hf, hfx⟩ := SetLike.not_le_iff_exists.mp hdx
+  obtain ⟨f, hf, hfx⟩ := IsConcreteLE.not_le_iff_exists.mp hdx
   simp only [TopologicalSpace.Opens.mem_iSup]
   exact ⟨d, hd, f, hf, x.isPrime.mul_notMem hx hfx⟩
 

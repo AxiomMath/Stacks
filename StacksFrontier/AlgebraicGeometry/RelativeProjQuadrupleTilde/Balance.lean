@@ -84,14 +84,10 @@ theorem tmul_restrict (A B : SheafOfModules.{u} (structureRingSheaf Z))
     (b : B.val.obj V) :
     (A ⊗ B).val.map e (tmul Z A B V a b) = tmul Z A B V' (A.val.map e a) (B.val.map e b) :=
   (PresheafOfModules.naturality_apply
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf (Z))
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := (Z).presheaf) (A).val (B).val)) e (a ⊗ₜ b)).symm.trans
-    (congrArg (fun w => ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf (Z))
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app
-          (PresheafOfModules.tensorObj (O := (Z).presheaf) (A).val (B).val)).app V' w)
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
+        (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)) e (a ⊗ₜ b)).symm.trans
+    (congrArg (fun w => ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
+          (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app V' w)
       (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul e a b))
 
 /-- **The comparison of Tag 01CD on the pullbacks of a pure tensor of sections over an open**,

@@ -496,8 +496,7 @@ exist discrete rings `Aₙ` forming a commutative diagram over `B → B ⧸ J n`
 public theorem isTaut_iff_exists_isQuotientDiagram.{u} {A B : Type u}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
-    (f : B →+* A) (_hf : Continuous f)
-    (hA : TopologicalRing.IsWeaklyAdmissible A) (_hB : TopologicalRing.IsWeaklyAdmissible B)
+    (f : B →+* A) (hA : TopologicalRing.IsWeaklyAdmissible A)
     (J : ℕ → Ideal B) (hJ : IsFundamentalSequence J) :
     RingHom.IsTaut f ↔
       ∃ (Aₙ : ℕ → Type u) (_ : ∀ n, CommRing (Aₙ n)) (_ : ∀ n, TopologicalSpace (Aₙ n))

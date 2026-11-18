@@ -87,8 +87,7 @@ theorem pullbackTensorHomEquiv_eq_iff_pairingApp_unit
       ∀ (W : X.Cᵒᵖ) (a : ((f.pullbackModules).obj F).val.obj W)
         (b : ((f.pullbackModules).obj G).val.obj W),
         t.val.app W
-            (((PresheafOfModules.sheafificationAdjunction
-                    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O) (𝟙 _)).unit.app
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
                   (((f.pullbackModules).obj F).val ⊗
                     ((f.pullbackModules).obj G).val)).app W
               (a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj W] b)) =
@@ -96,8 +95,7 @@ theorem pullbackTensorHomEquiv_eq_iff_pairingApp_unit
             (pullbackTensorBilinEquiv f F G N
               ⟨pairingOfTensorHom
                   (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-                  ((PresheafOfModules.sheafificationAdjunction
-                        (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (𝟙 _)).unit.app
+                  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
                       (F.val ⊗ G.val) ≫
                     ((pullbackAdjPushforwardModules f).unit.app
                         (((Functor.uncurry.obj

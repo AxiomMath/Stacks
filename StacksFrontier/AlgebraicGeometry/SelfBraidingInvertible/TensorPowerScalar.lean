@@ -31,11 +31,13 @@ construction.
 ## Implementation notes
 
 `Stacks.SheafOfModules.braidingVal O hO M N` is by definition `β_ N.val M.val` for the monoidal
-structure on presheaves of modules, and `tensorSheafBraiding` is
-  `(Stacks.SheafOfModules.TensorSheafification.sheafify O hO)`
-applied to it; so the statement here is exactly what
-`Stacks.SelfBraidingInvertible.braiding_comp_toSheafify` and
-`Stacks.SectionRingGeometric.map_eq_of_unit_comp_eq` produce, and no identification of the
+structure on presheaves of modules, and `tensorSheafBraiding` is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` applied to it. The vanishing of the self-braiding
+after Mathlib's sheafification unit (`Stacks.SelfBraidingInvertible.braiding_comp_toSheafify`)
+transfers to the sealed unit through
+`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`
+(`braiding_comp_sheafificationAdjunction_unit`), and
+`Stacks.SectionRingGeometric.map_eq_of_unit_comp_eq` finishes; no identification of the
 braiding on `SheafOfModules` with the localized one
 (`Stacks.SheafInternalHom.braidedCategory`) is needed.
 
@@ -63,6 +65,22 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 variable (L : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
   [Stacks.SheafOfModules.IsInvertible 𝒪 h𝒪 L]
 
+/-- The self-braiding of a presheaf of modules with locally symmetric tensor square dies after the
+unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`: the
+sealed analogue of `Stacks.SelfBraidingInvertible.braiding_comp_toSheafify`. -/
+theorem braiding_comp_sheafificationAdjunction_unit (P : PresheafOfModulesOfCommRing.{w} 𝒪)
+    (hP : HasLocallySymmetricSquare 𝒪 J P) :
+    (β_ P P).hom ≫ (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+          (P ⊗ P) =
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+          (P ⊗ P) := by
+  have hunit := Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ (P ⊗ P)
+  exact (congrArg ((β_ P P).hom ≫ ·) hunit.symm).trans <| (assoc _ _ _).symm.trans <|
+    (congrArg (· ≫ _) (braiding_comp_toSheafify h𝒪 P hP)).trans hunit
+
 /-- **The braiding of a tensor power of an invertible sheaf of modules with itself is the
 identity.** The tensor power is again invertible, hence has locally symmetric tensor square, and
 `Stacks.SheafOfModules.tensorSheafBraiding` is the sheafification of the presheaf braiding. -/
@@ -74,11 +92,9 @@ theorem tensorSheafBraiding_self_eq_refl (n : ℤ) :
   set K := Stacks.SheafOfModules.TensorPower.tensorPower 𝒪 h𝒪 L n
   have hK : HasLocallySymmetricSquare 𝒪 J K.val :=
     hasLocallySymmetricSquare_of_isInvertible h𝒪 K
-  refine Iso.ext ?_
-  exact (Stacks.SectionRingGeometric.map_eq_of_unit_comp_eq (sheafifyAdjunction 𝒪 h𝒪)
-        (β_ K.val K.val).hom (𝟙 (K.val ⊗ K.val))
-        ((braiding_comp_toSheafify h𝒪 K.val hK).trans (id_comp _).symm)).trans
-      ((sheafify 𝒪 h𝒪).map_id _)
+  exact Iso.ext ((Stacks.SectionRingGeometric.map_eq_of_unit_comp_eq _ _ _
+    ((braiding_comp_sheafificationAdjunction_unit h𝒪 K.val hK).trans (id_comp _).symm)).trans
+      (CategoryTheory.Functor.map_id _ _))
 
 /-- **The braiding scalar of a tensor power of an invertible sheaf of modules is the identity**,
 in every degree. By `Stacks.SheafOfModules.TensorPower.tensorSheafBraiding_self_eq_refl_iff` this

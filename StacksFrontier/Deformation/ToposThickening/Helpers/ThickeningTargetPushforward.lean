@@ -363,9 +363,7 @@ noncomputable def idealTensorMap :
 theorem idealTensorMap_val_app_unit (U : Y₁.Cᵒᵖ) (a : hi₁.I.val.obj U)
     (y : (D.basePushforward.obj F).val.obj U) :
     (D.idealTensorMap hi₁ hi₂ F).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i₁))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i₁)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (baseRing i₁)).unit.app
             (PresheafOfModules.tensorObj hi₁.I.val (D.basePushforward.obj F).val)).app U
           (a ⊗ₜ[(baseRing i₁).obj.obj U] y)) =
       (D.j.toToposHom.pushforward ⋙ Sheaf.sectionsFunctor Y₁.J U).map

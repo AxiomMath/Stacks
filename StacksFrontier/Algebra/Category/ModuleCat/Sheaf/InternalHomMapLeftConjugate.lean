@@ -183,7 +183,7 @@ theorem tensorLeftAdjunction_homEquiv_val
       curryGlobal R.obj G.val F.val H.val
         ((tensoringRightIsoTensorLeft R.obj F.val).hom.app G.val ≫
           (sheafifyForgetAdjunction R).homEquiv _ H
-            ((_root_.SheafOfModules.sheafTensorIso R F G).inv ≫ f)) :=
+            ((_root_.SheafOfModules.sheafTensorIsoApp R F).inv.app G ≫ f)) :=
   rfl
 
 /-- **Currying commutes with precomposition on the internal Hom sheaf.** For `k : F' ⟶ F`,
@@ -196,16 +196,10 @@ theorem homEquiv_comp_sheafInternalHomMapLeft
     (f : (tensorLeft F).obj G ⟶ H) :
     (tensorLeftAdjunction R F).homEquiv G H f ≫ sheafInternalHomMapLeft J R k =
       (tensorLeftAdjunction R F').homEquiv G H (((tensoringLeft _).map k).app G ≫ f) := by
-  have h3 : (PresheafOfModules.sheafification
-      (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map
-          ((_root_.SheafOfModules.forget _).map k ▷
-            (_root_.SheafOfModules.forget _).obj G) ≫
-        (_root_.SheafOfModules.sheafTensorIso R F G).inv =
-      (_root_.SheafOfModules.sheafTensorIso R F' G).inv ≫ k ▷ G := by
-    rw [Iso.comp_inv_eq, Category.assoc,
-      _root_.SheafOfModules.sheafTensorIso_naturality_left R k G, Iso.inv_hom_id_assoc]
+  have h3 : ((Stacks.SheafOfModules.Tensor.sheafTensor R).map k).app G ≫
+        (_root_.SheafOfModules.sheafTensorIsoApp R F).inv.app G =
+      (_root_.SheafOfModules.sheafTensorIsoApp R F').inv.app G ≫ k ▷ G :=
+    NatTrans.congr_app ((_root_.SheafOfModules.sheafTensorNatIso R).inv.naturality k) G
   refine _root_.SheafOfModules.hom_ext ?_
   have e1 : ∀ a : G ⟶ (internalHomSecondFunctor.{v, u, max u v, u} J R F).obj H,
       (a ≫ sheafInternalHomMapLeft J R k).val =
@@ -216,7 +210,7 @@ theorem homEquiv_comp_sheafInternalHomMapLeft
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (congrArg (fun z ↦ z ≫
       (sheafifyForgetAdjunction R).homEquiv _ H
-        ((_root_.SheafOfModules.sheafTensorIso R F G).inv ≫ f))
+        ((_root_.SheafOfModules.sheafTensorIsoApp R F).inv.app G ≫ f))
     (whiskerLeft_comp_tensoringRightIsoTensorLeft R.obj G.val k.val)) ?_
   refine Eq.trans (Category.assoc _ _ _) ?_
   refine congrArg

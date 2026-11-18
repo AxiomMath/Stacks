@@ -294,7 +294,7 @@ def indexTwoSquare07MK :
   TwoSquare.mk _ _ _ _ (NatIso.ofComponents (fun _ => Iso.refl _) (fun _ => rfl)).hom
 
 /-- The `2`-cell of `indexTwoSquare07MK` is invertible. -/
-instance isIso_indexTwoSquare07MK_natTrans : IsIso (indexTwoSquare07MK S S' fS fX hf A').natTrans :=
+instance isIso_indexTwoSquare07MK_natTrans : IsIso (indexTwoSquare07MK S S' fS fX hf A') :=
   inferInstanceAs (IsIso (NatIso.ofComponents _ _).hom)
 
 /-- The presheaf underlying the left-hand side of the base case of (07MK), as a right Kan

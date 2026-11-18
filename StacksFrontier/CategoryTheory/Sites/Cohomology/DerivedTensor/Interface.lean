@@ -77,7 +77,7 @@ on `Mod(O)`, the latter being the only thing in sight that needs `w = max u v`.
 `Stacks.DerivedTensor.RingedSite.DerivedTensorProduct` of
 `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.OnARingedSite` has the same
 sixteen fields in the same order, at a *small* site with all four universes tied to one `u`
-and with K-flatness spelled `Stacks.SheafOfModules.KFlat.KFlat` rather than
+and with K-flatness spelled `Stacks.SheafOfModules.KFlat` rather than
 `Stacks.SheafOfModules.IsKFlat`. The structure here is the more general statement; the other is
 not a redundant copy of it, because the narrowing there is what makes K-flat resolutions exist
 (`Stacks.SheafOfModules.KFlatResolution.exists_kFlatResolution`, which needs the ring universe

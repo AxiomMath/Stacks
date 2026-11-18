@@ -97,7 +97,7 @@ theorem factors_imageOfFamily {G X : C} {n : ℕ} (f : Fin n → (G ⟶ X)) (i :
     (imageOfFamily f).Factors (f i) := by
   have h : f i = (Sigma.ι _ i ≫ factorThruImageSubobject (Sigma.desc f)) ≫
       (imageSubobject (Sigma.desc f)).arrow := by
-    rw [Category.assoc, imageSubobject_arrow_comp, Sigma.ι_desc]
+    rw [Category.assoc, imageSubobject_arrow_comp, Sigma.ι_comp_desc]
   rw [h]
   exact Subobject.factors_comp_arrow _
 

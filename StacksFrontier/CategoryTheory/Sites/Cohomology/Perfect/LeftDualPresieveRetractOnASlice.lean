@@ -36,9 +36,13 @@ The restricted pairing is `CategoryTheory.ExactPairing.map` along the strong mon
 tensorator is obtained by localization and is given by no formula. Its value at two K-flat
 complexes is computed by `CategoryTheory.Functor.mapDerivedCategoryMonoidal_μ_Q` in terms
 of the tensorator of restriction of complexes, and that one is computed on local pure tensors by
-`Stacks.SliceRestrictionTensorSections.mu_overFunctorMonoidal_shSec_tmul`. With both in hand the
-coevaluation of the restricted pairing is the morphism attached to the restricted section, read
-through the K-flat comparison of the slice.
+`Stacks.SliceRestrictionTensorSections.mu_overFunctorMonoidal_toSheafTensor_tmul`. With both in
+hand the coevaluation of the restricted pairing is the morphism attached to the restricted
+section, read through the K-flat comparison of the slice.
+
+Local pure tensors of a tensor product sheaf are images of pure tensors under the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the sealed sheafification with
+the plain forgetful functor as right adjoint.
 
 Several steps are taken as terms of abstract composition lemmas: the module categories of the
 slice have two spellings, `SheafOfModules ((ringSheaf O).over W)` and
@@ -60,6 +64,8 @@ namespace AlgebraicGeometry.RingedSite
 
 open Stacks.SheafOfModules.DerivedMonoidal
 open Stacks.DerivedTensor.ExtensionByZero (restriction)
+open Stacks.SheafOfModules.Tensor (sheafificationForgetAdjunction
+  sheafificationForgetAdjunction_unit_app_app_apply)
 
 attribute [local instance] Stacks.hasSheafCompose_forget₂_commRingCat
 attribute [local instance 10000] HasDerivedCategory.standard
@@ -149,14 +155,12 @@ theorem mu_sheafRestrictionMonoidal_unit_tmul (W : X.C)
     (a : A.val.obj (op V.unop.left)) (b : B.val.obj (op V.unop.left)) :
     letI := Stacks.Cohomology.DerivedRestriction.sheafRestrictionMonoidal X W
     (Functor.LaxMonoidal.μ (restriction X W) A B).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+        (((sheafificationForgetAdjunction (X.O.over W)).unit.app
           (((restriction X W).obj A).val ⊗ ((restriction X W).obj B).val)).app V (a ⊗ₜ b)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((sheafificationForgetAdjunction X.O).unit.app
         (A.val ⊗ B.val)).app (op V.unop.left) (a ⊗ₜ b) := by
   rw [mu_sheafRestrictionMonoidal]
-  exact Stacks.SliceRestrictionTensorSections.mu_overFunctorMonoidal_shSec_tmul X.O.obj
+  exact Stacks.SliceRestrictionTensorSections.mu_overFunctorMonoidal_toSheafTensor_tmul X.O.obj
     (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf X.O) W A B V a b
 
 
@@ -175,20 +179,17 @@ theorem mu_restriction_ιTensorObj_unit_tmul (W : X.C)
             (((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj A)
             (((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj B)
             t r c htr).val.app (op V)
-          (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+          (((sheafificationForgetAdjunction (X.O.over W)).unit.app
             (((restriction X W).obj (A.X t)).val ⊗ ((restriction X W).obj (B.X r)).val)).app
               (op V) (a ⊗ₜ b))) =
       (HomologicalComplex.ιTensorObj A B t r c htr).val.app (op V.left)
-        (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((sheafificationForgetAdjunction X.O).unit.app
           ((A.X t).val ⊗ (B.X r).val)).app (op V.left) (a ⊗ₜ b)) := by
   let := Stacks.Cohomology.DerivedRestriction.sheafRestrictionMonoidal X W
   have hι := Functor.ι_mapHomologicalComplexTensorator_hom (restriction X W) A B t r c htr
   have hμ := mu_sheafRestrictionMonoidal_unit_tmul X W (A.X t) (B.X r) (op V) a b
   exact (congrArg (fun φ => φ.val.app (op V)
-      (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+      (((sheafificationForgetAdjunction (X.O.over W)).unit.app
           (((restriction X W).obj (A.X t)).val ⊗ ((restriction X W).obj (B.X r)).val)).app
         (op V) (a ⊗ₜ b))) hι).trans
     (congrArg (fun z => ((restriction X W).map
@@ -325,14 +326,11 @@ theorem whiskerRight_val_app_unit_tmul (W : X.C)
     (B : Stacks.SheafOfModules.DerivedMonoidal.Mod (X.O.over W)) (V : (Over W)ᵒᵖ)
     (y : A.val.obj V) (x : B.val.obj V) :
     (φ ▷ B).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+        (((sheafificationForgetAdjunction (X.O.over W)).unit.app
           (A.val ⊗ B.val)).app V (y ⊗ₜ x)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+      ((sheafificationForgetAdjunction (X.O.over W)).unit.app
         (A'.val ⊗ B.val)).app V (φ.val.app V y ⊗ₜ x) := by
-  have h2 := (PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.naturality
+  have h2 := (sheafificationForgetAdjunction (X.O.over W)).unit.naturality
       (MonoidalCategory.whiskerRight φ.val B.val)
   exact (congrArg (fun k => (ConcreteCategory.hom (k.app V)) (y ⊗ₜ x)) h2).symm
 
@@ -356,13 +354,11 @@ theorem mu_whiskerRight_sum_unit_tmul (W : X.C)
         (∑ i, (HomologicalComplex.ιTensorObj K
             (((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj Nc)
             (tdeg i) (rdeg i) 0 (hdeg i)).val.app (op (Over.mk (𝟙 W)))
-          (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+          (((sheafificationForgetAdjunction (X.O.over W)).unit.app
             ((K.X (tdeg i)).val ⊗ ((restriction X W).obj (Nc.X (rdeg i))).val)).app
               (op (Over.mk (𝟙 W))) (y i ⊗ₜ b i)))) =
       ∑ i, (HomologicalComplex.ιTensorObj Mc Nc (tdeg i) (rdeg i) 0 (hdeg i)).val.app (op W)
-        (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((sheafificationForgetAdjunction X.O).unit.app
           ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val)).app (op W)
             ((j.f (tdeg i)).val.app (op (Over.mk (𝟙 W))) (y i) ⊗ₜ b i)) := by
   let := Stacks.Cohomology.DerivedRestriction.sheafRestrictionMonoidal X W
@@ -375,8 +371,7 @@ theorem mu_whiskerRight_sum_unit_tmul (W : X.C)
       ((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)) Mc Nc).f 0).val.app
         (op (Over.mk (𝟙 W))) z)
     ((congrArg (fun φ => φ.val.app (op (Over.mk (𝟙 W)))
-      (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+      (((sheafificationForgetAdjunction (X.O.over W)).unit.app
         ((K.X (tdeg i)).val ⊗ ((restriction X W).obj (Nc.X (rdeg i))).val)).app
           (op (Over.mk (𝟙 W))) (y i ⊗ₜ b i))) hw).trans
       (congrArg (fun z => (HomologicalComplex.ιTensorObj
@@ -757,8 +752,7 @@ theorem exists_presieve_sliceRetract (V : X.C)
       y₀ = ∑ i, (HomologicalComplex.ιTensorObj K
           (((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj Nc)
           (tdeg i) (rdeg i) 0 (hdeg i)).val.app (op (Over.mk (𝟙 W)))
-        (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over W)).obj)).unit.app
+        (((sheafificationForgetAdjunction (X.O.over W)).unit.app
           ((K.X (tdeg i)).val ⊗ ((restriction X W).obj (Nc.X (rdeg i))).val)).app
             (op (Over.mk (𝟙 W))) (y i ⊗ₜ b i)) := ⟨_, rfl⟩
   have hy' : ∀ i, ((j.f (tdeg i)).val.app (op (Over.mk (𝟙 W))) (y i) :
@@ -766,24 +760,24 @@ theorem exists_presieve_sliceRetract (V : X.C)
   have hyt₁ := mu_whiskerRight_sum_unit_tmul X W Mc Nc K j tdeg rdeg hdeg y b
   rw [← hy₀] at hyt₁
   have hsum : (∑ i, (HomologicalComplex.ιTensorObj Mc Nc (tdeg i) (rdeg i) 0 (hdeg i)).val.app
-        (op W) (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (op W) (((sheafificationForgetAdjunction X.O).unit.app
         ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val)).app (op W)
           ((j.f (tdeg i)).val.app (op (Over.mk (𝟙 W))) (y i) ⊗ₜ b i))) =
       ∑ i, (HomologicalComplex.ιTensorObj Mc Nc (tdeg i) (rdeg i) 0 (hdeg i)).val.app
-        (op W) (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (op W) (((sheafificationForgetAdjunction X.O).unit.app
         ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val)).app (op W) (a i ⊗ₜ b i)) :=
     Finset.sum_congr rfl fun i _ => congrArg (fun x =>
       (HomologicalComplex.ιTensorObj Mc Nc (tdeg i) (rdeg i) 0 (hdeg i)).val.app
-        (op W) (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (op W) (((sheafificationForgetAdjunction X.O).unit.app
         ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val)).app (op W) (x ⊗ₜ b i))) (hy' i)
   have hab' : ((Mc ⊗ Nc : Stacks.SheafOfModules.DerivedMonoidal.Complexes X.O).X 0).val.map
       g.op t = ∑ i, (HomologicalComplex.ιTensorObj Mc Nc (tdeg i) (rdeg i) 0 (hdeg i)).val.app
-        (op W) (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
-        ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val)).app (op W) (a i ⊗ₜ b i)) := hab
+        (op W) (((sheafificationForgetAdjunction X.O).unit.app
+        ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val)).app (op W) (a i ⊗ₜ b i)) :=
+    hab.trans (Finset.sum_congr rfl fun i _ => congrArg
+      ((HomologicalComplex.ιTensorObj Mc Nc (tdeg i) (rdeg i) 0 (hdeg i)).val.app (op W))
+      (sheafificationForgetAdjunction_unit_app_app_apply X.O
+        ((Mc.X (tdeg i)).val ⊗ (Nc.X (rdeg i)).val) (op W) (a i ⊗ₜ b i)).symm)
   have hyt : ((Functor.LaxMonoidal.μ ((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ))
         Mc Nc).f 0).val.app (op (Over.mk (𝟙 W)))
         (((j ▷ ((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj Nc).f 0).val.app

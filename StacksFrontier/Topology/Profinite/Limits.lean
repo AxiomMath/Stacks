@@ -11,7 +11,8 @@ underlying spaces is compact, Hausdorff and totally disconnected.
 
 This module holds the faithful statement of the tag, with the limit taken in `TopCat`. The
 reviewed tree also registers 0ET8 on Mathlib's `Profinite.hasLimits` (in
-`StacksCore.Topology.Profinite.Limits`); that is the weaker categorical statement, which only provides
+`StacksCore.Topology.Profinite.Limits`); that is the weaker categorical statement, which only
+provides
 some limit object inside the category `Profinite` and by itself says nothing about the limit in
 `TopCat`. Here the tag is registered on
 `Profinite.compactSpace_t2Space_totallyDisconnectedSpace_of_isLimit`, which is stated for an

@@ -27,7 +27,8 @@ own universe while both module universes are raised.
 ## Implementation notes
 
 Both sides are sheafifications of presheaves of modules, and both receive a locally bijective
-map from one: the raised-universe tensor product receives its own sheafification unit, and the
+map from one: the raised-universe tensor product receives its own sheafification unit (the unit
+of the sealed `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`), and the
 lift of the tensor product receives the universe lift of the sheafification unit, which is
 locally bijective because `ULift.up` is injective and hits every lifted section.  The two
 sources are identified by `presheafUliftTensorIso`, so `isoOfLocallyBijective` applies.
@@ -35,7 +36,8 @@ sources are identified by `presheafUliftTensorIso`, so `isoOfLocallyBijective` a
 The universe arguments of `Stacks.SheafOfModules.Tensor.sheafTensor` are written out: the
 unlifted bifunctor is used at the module universe of the sheaves and the lifted one at the
 raised universe, and the instance arguments of the two differ, so leaving the levels to
-inference picks up the wrong sheafification instances.
+inference picks up the wrong sheafification instances; for the same reason the module universe
+of `sheafificationForgetAdjunction` is written out.
 
 ## References
 
@@ -47,9 +49,38 @@ inference picks up the wrong sheafification instances.
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe u v w t
+universe u v w t z
 
 namespace Stacks.SheafOfModules.UliftTensor
+
+section SealedUnit
+
+open Stacks.SheafOfModules.Tensor
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{z}] [HasWeakSheafify J AddCommGrpCat.{z}]
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally injective. -/
+lemma isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{z} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallyInjective J
+      ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallyInjective,
+    Functor.map_comp]
+  infer_instance
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally surjective. -/
+lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{z} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+end SealedUnit
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
@@ -58,6 +89,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [HasWeakSheafify J AddCommGrpCat.{max t w}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max t w}]
 
+open Stacks.SheafOfModules.Tensor in
 /-- Raising the universe of the sections commutes with the tensor product of sheaves of
 modules. -/
 noncomputable def uliftTensorSheafIso
@@ -67,18 +99,20 @@ noncomputable def uliftTensorSheafIso
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max t w, max t w} Osharp).obj
           (SheafOfModules.uliftForPresentation.{u, v, w, w, t} A)).obj
           (SheafOfModules.uliftForPresentation.{u, v, w, w, t} B) :=
-  let S := CategoryTheory.Sheaf.toRingCat J Osharp
-  let u₁ := sheafifyUnit.{u, v, w, w} (R := S) (PresheafOfModules.tensorObj A.val B.val)
-  let u₂ := sheafifyUnit.{u, v, w, max t w} (R := S)
+  let u₁ := (sheafificationForgetAdjunction.{_, _, _, w} Osharp).unit.app
+    (PresheafOfModules.tensorObj A.val B.val)
+  let u₂ := (sheafificationForgetAdjunction.{_, _, _, max t w} Osharp).unit.app
     (PresheafOfModules.tensorObj (SheafOfModules.uliftForPresentation.{u, v, w, w, t} A).val
       (SheafOfModules.uliftForPresentation.{u, v, w, w, t} B).val)
   isoOfLocallyBijective (presheafUliftMap.{u, v, w, w, t} u₁) u₂
     (isLocallyInjective_presheafUliftMap.{u, v, w, w, t} (J := J) u₁
-      (isLocallyInjective_sheafifyUnit.{u, v, w, w} (R := S) _))
+      (isLocallyInjective_sheafificationForgetAdjunction_unit_app Osharp
+        (PresheafOfModules.tensorObj A.val B.val)))
     (isLocallySurjective_presheafUliftMap.{u, v, w, w, t} (J := J) u₁
-      (isLocallySurjective_sheafifyUnit.{u, v, w, w} (R := S) _))
-    (isLocallyInjective_sheafifyUnit.{u, v, w, max t w} (R := S) _)
-    (isLocallySurjective_sheafifyUnit.{u, v, w, max t w} (R := S) _)
+      (isLocallySurjective_sheafificationForgetAdjunction_unit_app Osharp
+        (PresheafOfModules.tensorObj A.val B.val)))
+    (isLocallyInjective_sheafificationForgetAdjunction_unit_app Osharp _)
+    (isLocallySurjective_sheafificationForgetAdjunction_unit_app Osharp _)
     (presheafUliftTensorIso.{u, v, w, w, w, t} A.val B.val)
 
 end Stacks.SheafOfModules.UliftTensor

@@ -124,7 +124,7 @@ theorem exists_eq_comp_of_projectiveSpace_to_grpObj (k : Type u) [Field k]
       hc
     have hl : Pi.lift (fun _ : Fin 1 => (Space.projectiveLineRestrictedYonedaIso k B hk).inv) ≫
         fl = yoneda.map φ ≫ e.hom := by
-      simp only [fl, Pi.lift_π_assoc, Iso.inv_hom_id_assoc]
+      simp only [fl, Pi.lift_comp_π_assoc, Iso.inv_hom_id_assoc]
     rw [← hl]
     exact h.trans ((Category.assoc _ _ _).symm.trans
       (congrArg (fun f => f ≫ c) (Space.terminalSpace_obj_isTerminal.hom_ext _ _)))

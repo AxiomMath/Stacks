@@ -168,9 +168,7 @@ theorem smul_unit_eq_zero_of_constantTensorAction_comp_eq_zero {M : ModuleCat.{w
             ((constantSheaf J (ModuleCat.{w} R)).obj M),
           sheafOfModulesOfConstantRing J (associatedRingMap J a) F) ⟶ Z =>
       (k.val.app U).hom
-        (((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
             (PresheafOfModules.tensorObj
               (sheafOfModulesOfConstantRing J (associatedRingMap J a)
                 ((constantSheaf J (ModuleCat.{w} R)).obj M)).val

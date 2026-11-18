@@ -282,8 +282,8 @@ lemma isIso_stalkFunctor_map_twistMultiplication_left
   rw [h4] at h3
   have hηiso : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u}
       (U.inclusion' ⟨x, hx⟩)).map (TwistTensor.twistUnitAb 𝒮 c b)) :=
-    Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap_sheafifyUnit_isIso (AlgebraicGeometry.Proj
-      𝒮).toRingedSpace _ _
+    isIso_stalkFunctor_map_sheafificationForgetAdjunction_unit
+      (AlgebraicGeometry.Proj 𝒮).toRingedSpace _ _
   exact (@isIso_comp_left_iff _ _ _ _ _ _ _ hηiso).mp h3
 
 /-- The multiplication map `𝒪(nd) ⊗ 𝒪(m) → 𝒪(nd+m)` is bijective on the sections over every

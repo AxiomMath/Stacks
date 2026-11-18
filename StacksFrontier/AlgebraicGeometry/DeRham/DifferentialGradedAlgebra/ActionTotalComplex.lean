@@ -32,34 +32,31 @@ noncomputable def dgActionPresheafMap (n i : ℤ) :
 right differential graded module, on the tensor product of sheaves of modules. -/
 noncomputable def dgActionComponent (n i : ℤ) :
     ((sheafTensor A).obj (M.complex.X n)).obj (𝒜.complex.X i) ⟶ M.complex.X (n + i) :=
-  (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf A).obj)).symm
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv _ _).symm
     (dgActionPresheafMap M n i)
 
 /-- The action on a local pure tensor is the action of the module. -/
 theorem dgActionComponent_unit_apply (n i : ℤ) (U : (Opens X.carrier)ᵒᵖ)
     (x : (M.complex.X n).val.obj U) (y : (𝒜.complex.X i).val.obj U) :
     (dgActionComponent M n i).val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj (M.complex.X n).val (𝒜.complex.X i).val)).app U
             (x ⊗ₜ[A.obj.obj U] y)) =
       (M.mul n i).app U x y :=
-  lift_unit_apply (Opens.grothendieckTopology X.carrier) (𝟙 (ringSheaf A).obj)
-    (PresheafOfModules.tensorObj (O := A.obj) (M.complex.X n).val (𝒜.complex.X i).val)
-    (M.complex.X (n + i)) (dgActionPresheafMap M n i) U (x ⊗ₜ[A.obj.obj U] y)
+  PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm (R := A)
+      (N := M.complex.X (n + i)) (dgActionPresheafMap M n i)) U _
 
 /-- Two morphisms out of a tensor product of sheaves of modules agree as soon as they agree on
 the sheafification-unit images of local pure tensors. -/
 theorem sheafTensor_hom_ext {P Q N : _root_.SheafOfModules.{u} (ringSheaf A)}
     {f g : ((sheafTensor A).obj P).obj Q ⟶ N}
     (h : ∀ (U : (Opens X.carrier)ᵒᵖ) (x : P.val.obj U) (y : Q.val.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app (PresheafOfModules.tensorObj P.val Q.val)).app U
-            (x ⊗ₜ[A.obj.obj U] y)) =
-        g.val.app U (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app (PresheafOfModules.tensorObj P.val Q.val)).app U
-            (x ⊗ₜ[A.obj.obj U] y))) : f = g := by
-  refine (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf A).obj)).injective ?_
+      f.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
+          (PresheafOfModules.tensorObj P.val Q.val)).app U (x ⊗ₜ[A.obj.obj U] y)) =
+        g.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
+          (PresheafOfModules.tensorObj P.val Q.val)).app U (x ⊗ₜ[A.obj.obj U] y))) : f = g := by
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv _ _).injective ?_
   refine PresheafOfModules.hom_ext fun U => ModuleCat.MonoidalCategory.tensor_ext fun x y => ?_
   exact (sheafificationHomEquiv_apply _ U _).trans
     ((h U x y).trans (sheafificationHomEquiv_apply _ U _).symm)

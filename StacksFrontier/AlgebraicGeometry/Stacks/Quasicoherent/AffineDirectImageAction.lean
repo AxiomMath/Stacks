@@ -62,21 +62,25 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {𝒰 𝒳 : AlgebraicStacks.{u, w} B S hS} (g : 𝒰 ⟶ 𝒳) (hg : IsAffineHom B S hS g)
 
-/-- The sheafification adjunction of presheaves of modules on the fppf site of `𝒳`. -/
-local notation "𝔰" => Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
+/-- The sealed sheafification of presheaves of modules on the fppf site of `𝒳`, the last factor
+of the tensor product sheaf. -/
+local notation "𝔖" => Stacks.SheafOfModules.Invertible.structureSheafification
+  (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
+
+/-- The sealed sheafification adjunction of presheaves of modules on the fppf site of `𝒳`, with
+the plain forgetful functor as right adjoint. -/
+local notation "𝔰" => Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction
   (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
 
 /-- **The action `g_*N ⊗ g_*𝒪_𝒰 ⟶ g_*N`** in `Mod(𝒪_𝒳)`, for the direct image
 `g_* = affinePushforward g` (`(g_*N)(x) = N(r x)`): the sheafification of the objectwise action
-`n ⊗ s ↦ s • n`, followed by the counit. -/
+`n ⊗ s ↦ s • n` (by the sealed sheafification building the tensor product sheaf), followed by
+the counit. -/
 def directImageAct (N : Stack.fppfModules B S hS 𝒰) :
     (affinePushforward.{u, w, u} g hg).obj N ⊗ affinePushforwardStructureSheaf g hg ⟶
       (affinePushforward.{u, w, u} g hg).obj N :=
-  (Stacks.SheafOfModules.sheafifyFunctor (fppfStructurePresheaf B S hS 𝒳)
-      (fppfStructurePresheaf_isSheaf B S hS 𝒳)).map
-      (PresheafOfModules.pushforwardAct (pushforwardCommRingHom g hg) N.val) ≫
-    (Stacks.SheafOfModules.sheafifyValIso (fppfStructurePresheaf B S hS 𝒳)
-      (fppfStructurePresheaf_isSheaf B S hS 𝒳) ((affinePushforward.{u, w, u} g hg).obj N)).hom
+  (𝔖).map (PresheafOfModules.pushforwardAct (pushforwardCommRingHom g hg) N.val) ≫
+    (𝔰).counit.app ((affinePushforward.{u, w, u} g hg).obj N)
 
 variable {g hg} in
 /-- The objectwise action is natural in the module. -/
@@ -115,13 +119,31 @@ theorem tensorObjIso_inv_comp_mul_eq_directImageAct :
   (Stacks.SheafOfModules.tensorObjIso_inv_comp_mul (fppfStructurePresheaf B S hS 𝒳)
     (fppfStructurePresheaf_isSheaf B S hS 𝒳) (affinePushforwardStructureSheaf g hg)
     (hG := PresheafOfModules.monObjAlgebraPresheaf (pushforwardCommRingHom g hg))).trans
-    (congrArg (fun k => (Stacks.SheafOfModules.sheafifyFunctor (fppfStructurePresheaf B S hS 𝒳)
-      (fppfStructurePresheaf_isSheaf B S hS 𝒳)).map k ≫
-        (Stacks.SheafOfModules.sheafifyValIso (fppfStructurePresheaf B S hS 𝒳)
-          (fppfStructurePresheaf_isSheaf B S hS 𝒳) (affinePushforwardStructureSheaf g hg)).hom)
+    (congrArg (fun k => (𝔖).map k ≫ (𝔰).counit.app (affinePushforwardStructureSheaf g hg))
       (PresheafOfModules.pushforwardAct_unit (pushforwardCommRingHom g hg)).symm)
 
 section Projection
+
+open Stacks.SheafOfModules.Tensor in
+/-- On sections, the unit of the sealed sheafification into the underlying presheaf is bijective
+as soon as Mathlib's sheafification unit is: the two differ by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem bijective_unit_app_of_bijective
+    (P : PresheafOfModules.{u} (ringSheaf (fppfStructureCommRingSheaf B S hS 𝒳)).obj)
+    {y : 𝒳.val.val.obj}
+    (h : Function.Bijective (((PresheafOfModules.sheafificationAdjunction
+      (𝟙 (ringSheaf (fppfStructureCommRingSheaf B S hS 𝒳)).obj)).unit.app P).app (op y))) :
+    Function.Bijective (((𝔰).unit.app P).app (op y)) := by
+  have e : ⇑(((𝔰).unit.app P).app (op y)) =
+      ⇑((((sheafificationIso (fppfStructureCommRingSheaf B S hS 𝒳)).hom.app P).val.app (op y))) ∘
+        ⇑(((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (ringSheaf (fppfStructureCommRingSheaf B S hS 𝒳)).obj)).unit.app P).app (op y)) :=
+    funext fun x ↦ (sheafificationForgetAdjunction_unit_app_app_apply _ P (op y) x).trans
+      (PresheafOfModules.hom_congr_apply' (unit_comp_sheafificationIso_hom_app _ P) (op y) x).symm
+  rw [e]
+  exact (ConcreteCategory.bijective_of_isIso ((PresheafOfModules.evaluation _ (op y)).mapIso
+    ((SheafOfModules.forget _).mapIso ((sheafificationIso (fppfStructureCommRingSheaf B S hS 𝒳)).app
+      P))).hom).comp h
 
 /-- The objectwise projection map `M(x) ⊗ 𝒪_𝒰(r x) ⟶ M(g(r x))`, `m ⊗ s ↦ s • m|_{g(r x)}`: the
 objectwise unit followed by the objectwise action. -/
@@ -224,11 +246,9 @@ def directImageProjection (M : Stack.fppfModules B S hS 𝒳) :
 theorem isIso_directImageProjection (M : quasicoherentModules B S hS 𝒳) :
     IsIso (directImageProjection g hg M.obj) := by
   refine isIso_of_bijective_app_of_isAffine 𝒳 _ (fun y hy => ?_)
-  have h2 : (𝔰).unit.app _ ≫ (SheafOfModules.forget _ ⋙
-      PresheafOfModules.restrictScalars _).map (directImageProjection g hg M.obj) =
-        directImageProjectionPresheaf g hg M.obj :=
-    ((𝔰).homEquiv_unit (f := directImageProjection g hg M.obj)).symm.trans
-      (Equiv.apply_symm_apply _ _)
+  have h2 : (𝔰).unit.app _ ≫ (SheafOfModules.forget _).map (directImageProjection g hg M.obj) =
+      directImageProjectionPresheaf g hg M.obj :=
+    ((𝔰).homEquiv_unit _ _ _).symm.trans (Equiv.apply_symm_apply _ _)
   have hO : (affinePushforwardStructureSheaf g hg).IsQuasicoherentOnSite :=
     SheafOfModules.IsQuasicoherentOnSite.of_iso
       ((affinePushforwardIsoFppfModulesPushforward g hg).app (SheafOfModules.unit _)).symm
@@ -239,7 +259,7 @@ theorem isIso_directImageProjection (M : quasicoherentModules B S hS 𝒳) :
     (fun φ hz hx _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite M.obj
       M.property φ hz hx)
     (fun φ hz hx _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite _ hO φ hz hx)
-    hy
+    hy |> bijective_unit_app_of_bijective _
   have hb := bijective_directImageProjectionPresheaf_app g hg M hy
   rw [← h2] at hb
   exact (Function.Bijective.of_comp_iff _ hu).1 hb
@@ -249,11 +269,9 @@ theorem whiskerRight_unit_comp_directImageAct (M : Stack.fppfModules B S hS 𝒳
     (affinePullbackPushforwardAdjunction.{u, w, u} g hg).unit.app M ▷
         affinePushforwardStructureSheaf g hg ≫
       directImageAct g hg ((stackModulePullback.{u, w, u} g).obj M) =
-      ((Stacks.SheafOfModules.sheafifyFunctor (fppfStructurePresheaf B S hS 𝒳)
-          (fppfStructurePresheaf_isSheaf B S hS 𝒳)).map (directImageProjectionPresheaf g hg M) ≫
-        (Stacks.SheafOfModules.sheafifyValIso (fppfStructurePresheaf B S hS 𝒳)
-          (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-          ((affinePushforward.{u, w, u} g hg).obj ((stackModulePullback.{u, w, u} g).obj M))).hom) ≫
+      ((𝔖).map (directImageProjectionPresheaf g hg M) ≫
+        (𝔰).counit.app
+          ((affinePushforward.{u, w, u} g hg).obj ((stackModulePullback.{u, w, u} g).obj M))) ≫
         𝟙 _ :=
   Stacks.SheafOfModules.whiskerRight_comp_sheafify_map_comp (fppfStructurePresheaf B S hS 𝒳)
     (fppfStructurePresheaf_isSheaf B S hS 𝒳)
@@ -266,9 +284,7 @@ theorem isIso_whiskerRight_unit_comp_directImageAct (M : quasicoherentModules B 
         affinePushforwardStructureSheaf g hg ≫
       directImageAct g hg ((stackModulePullback.{u, w, u} g).obj M.obj)) := by
   rw [whiskerRight_unit_comp_directImageAct]
-  have e2 := Adjunction.homEquiv_counit
-    (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-      (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳))
+  have e2 := Adjunction.homEquiv_counit 𝔰
     (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳) M.obj.val
       (affinePushforwardStructureSheaf g hg).val)
     ((affinePushforward.{u, w, u} g hg).obj ((stackModulePullback.{u, w, u} g).obj M.obj))

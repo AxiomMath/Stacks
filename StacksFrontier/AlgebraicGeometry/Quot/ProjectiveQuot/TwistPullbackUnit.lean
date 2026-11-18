@@ -50,17 +50,18 @@ theorem leftUnitor_hom_eq_tensorLeftUnitor_hom {Y : Scheme.{u}} (A : Y.Modules) 
   exact (Stacks.PullbackTensorCoherence.leftUnitor_hom_tmul U r b).trans
     (Stacks.SheafOfModules.tensorProductLeftUnitor_hom_val_app_tmul _ _ A U r b).symm
 
-/-- The sheafification of `PresheafOfModules.tensorHom u v` acts on a local pure tensor
-factorwise. -/
+/-- The sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` of
+`PresheafOfModules.tensorHom u v` acts on a local pure tensor factorwise. -/
 private theorem sheafification_map_tensorHom_tmul {X : Scheme.{u}} {A A' B B' : X.Modules}
     (u : A ⟶ A') (v : B ⟶ B') (U : (TopologicalSpace.Opens X)ᵒᵖ) (a : A.val.obj U)
     (b : B.val.obj U) :
-    ((PresheafOfModules.sheafification (R := X.ringCatSheaf) (𝟙 X.ringCatSheaf.obj)).map
+    ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨X.toSheafedSpace.presheaf, X.toSheafedSpace.IsSheaf⟩).map
         (PresheafOfModules.tensorHom u.val v.val)).val.app U
       (Stacks.PullbackTensorCoherence.tmul X.toSheafedSpace A B U a b) =
       Stacks.PullbackTensorCoherence.tmul X.toSheafedSpace A' B' U (u.val.app U a)
         (v.val.app U b) :=
-  (PresheafOfModules.unit_naturality_apply (α := 𝟙 X.ringCatSheaf.obj)
+  (Stacks.SheafOfModules.Tensor.unit_naturality_apply
       (PresheafOfModules.tensorHom u.val v.val) U (a ⊗ₜ b)).trans
     (congrArg ((PresheafOfModules.tensorSheafUnit A' B').app U)
       (PresheafOfModules.tensorHom_tmul u.val v.val U a b))

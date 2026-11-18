@@ -240,11 +240,9 @@ public def IsMultiplicativeOnSections (m n : ℤ) : Prop :=
           (((GluedTwistAlgebra.twistDataOfGradedAlgebra A).algebra.mul m n).app (op V) s t)) =
       Hom.app (pullbackRelativeTwistMul B ψ.relativeMapDomain.ι m n).val
           (op (relativeMapHom ψ ⁻¹ᵁ V))
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf
-            (ψ.relativeMapDomain.toScheme.toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf
-            (ψ.relativeMapDomain.toScheme.toRingedSpace)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨(ψ.relativeMapDomain.toScheme.toRingedSpace).presheaf,
+             (ψ.relativeMapDomain.toScheme.toRingedSpace).IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj
             (O := (ψ.relativeMapDomain.toScheme.toRingedSpace).presheaf)
             (((Scheme.Modules.pullback ψ.relativeMapDomain.ι).obj (relativeTwist B m))).val
@@ -269,10 +267,9 @@ public theorem relativeTwistMap_mul_lhs_pullbackUnit (m n : ℤ) (V : (relativeP
               ⟨(((relativeProj A).scheme.toRingedSpace)).presheaf,
               (((relativeProj A).scheme.toRingedSpace)).IsSheaf⟩))).obj
             (relativeTwist A m, relativeTwist A n)) (op V)
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf ((relativeProj A).scheme.toRingedSpace))
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf
-              ((relativeProj A).scheme.toRingedSpace)).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨((relativeProj A).scheme.toRingedSpace).presheaf,
+             ((relativeProj A).scheme.toRingedSpace).IsSheaf⟩).unit.app
               (PresheafOfModules.tensorObj (O := ((relativeProj A).scheme.toRingedSpace).presheaf)
               ((relativeTwist A m)).val ((relativeTwist A n)).val)) (op V) (s ⊗ₜ t))) =
       Hom.app (relativeTwistMap ψ (m + n)).val (op (relativeMapHom ψ ⁻¹ᵁ V))
@@ -281,10 +278,9 @@ public theorem relativeTwistMap_mul_lhs_pullbackUnit (m n : ℤ) (V : (relativeP
   Eq.trans
     (congrArg (Hom.app (relativeTwistMap ψ (m + n)).val (op (relativeMapHom ψ ⁻¹ᵁ V)))
       (pullbackUnit_naturality (relativeMapHom ψ).toLRSHom.toShHom (relativeTwistMul A m n)
-        (op V) (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf ((relativeProj A).scheme.toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf
-            ((relativeProj A).scheme.toRingedSpace)).obj)).unit.app
+        (op V) (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨((relativeProj A).scheme.toRingedSpace).presheaf,
+             ((relativeProj A).scheme.toRingedSpace).IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj (O := ((relativeProj A).scheme.toRingedSpace).presheaf)
             ((relativeTwist A m)).val ((relativeTwist A n)).val)) (op V) (s ⊗ₜ t))))
     (congrArg (fun z => Hom.app (relativeTwistMap ψ (m + n)).val
@@ -313,19 +309,16 @@ public theorem relativeTwistMap_mul_rhs_pullbackUnit (m n : ℤ) (V : (relativeP
               ⟨(((relativeProj A).scheme.toRingedSpace)).presheaf,
               (((relativeProj A).scheme.toRingedSpace)).IsSheaf⟩))).obj
             (relativeTwist A m, relativeTwist A n)) (op V)
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf ((relativeProj A).scheme.toRingedSpace))
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf
-              ((relativeProj A).scheme.toRingedSpace)).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨((relativeProj A).scheme.toRingedSpace).presheaf,
+             ((relativeProj A).scheme.toRingedSpace).IsSheaf⟩).unit.app
               (PresheafOfModules.tensorObj (O := ((relativeProj A).scheme.toRingedSpace).presheaf)
               ((relativeTwist A m)).val ((relativeTwist A n)).val)) (op V) (s ⊗ₜ t))) =
       Hom.app (pullbackRelativeTwistMul B ψ.relativeMapDomain.ι m n).val
           (op (relativeMapHom ψ ⁻¹ᵁ V))
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf
-            (ψ.relativeMapDomain.toScheme.toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf
-            (ψ.relativeMapDomain.toScheme.toRingedSpace)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨(ψ.relativeMapDomain.toScheme.toRingedSpace).presheaf,
+             (ψ.relativeMapDomain.toScheme.toRingedSpace).IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj
             (O := (ψ.relativeMapDomain.toScheme.toRingedSpace).presheaf)
             (((Scheme.Modules.pullback ψ.relativeMapDomain.ι).obj (relativeTwist B m))).val

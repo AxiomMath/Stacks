@@ -204,7 +204,10 @@ noncomputable def tensorRightFunctorObjIso
         (tensorLeftIsoTensorRight O hO X)
 
 /-- Tensoring on the right by the structure sheaf is the identity functor: the right unit
-constraint of the presheaf tensor product, followed by the counit of sheafification. -/
+constraint of the presheaf tensor product, sheafified by
+`Stacks.SheafOfModules.Tensor.sheafification`, followed by the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. Its components are
+`Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso`. -/
 noncomputable def tensorRightUnitIso :
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
@@ -215,8 +218,10 @@ noncomputable def tensorRightUnitIso :
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
         (rightUnitorNatIso (PresheafOfModules.{w}
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)))
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO) ≪≫
-    Stacks.SheafOfModules.forgetSheafifyIso O hO
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩) ≪≫
+    (asIso (Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).counit :)
 
 /-- Cancellation of an equivalence composed on the right: two functors which agree after
 composing with an equivalence are isomorphic. -/
@@ -326,7 +331,8 @@ noncomputable def tensorSheafMapIso
       CommRingCat RingCat) (hO)⟩).obj (M)).obj (N)) ≅
       (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
         (forget₂ CommRingCat RingCat) (hO)⟩).obj (M')).obj (N')) :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso
+  (Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).mapIso
     (tensorIso ((SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)).mapIso i)
       ((SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
@@ -357,7 +363,8 @@ theorem tensorPowerMulIso_one_right (n : ℤ) :
   have hA : (((powFunctorIsoTensorRight O hO L 1).app (tensorPower O hO L n)).symm).hom =
       (tensorSheafMapIso O hO (Iso.refl (tensorPower O hO L n))
         (tensorPowerOneIso O hO L)).hom :=
-    congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+    congrArg (Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).map
       (MonoidalCategory.id_tensorHom (tensorPower O hO L n).val
         ((SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
           hO)).map

@@ -18,7 +18,8 @@ Tag 03VI is the whole of Section 64.28, "Profinite groups, cohomology and homolo
 a single statement. The attributes in this file carry its two assertions about a normal subgroup
 on the side of cohomology: that `H⁰(N, -)` takes discrete `Γ`-modules to discrete `Γ ⧸ N`-modules,
 and that it has a right derived functor between bounded below derived categories. The side of
-homology is in `StacksFrontier/AlgebraicGeometry/EtaleCohomology/GroupHomology/`: the anti-equivalence
+homology is in `StacksFrontier/AlgebraicGeometry/EtaleCohomology/GroupHomology/`: the
+anti-equivalence
 of compact and discrete modules (`Stacks.GroupHomology.discreteDualEquivalence`), the homology
 `H_i(G, -) = L_i H₀(G, -)` (`Stacks.GroupHomology.groupHomologyFunctor`), the derived functor
 `LH₀(N, -)` (`Stacks.GroupHomology.derivedNormalCoinvariantsFunctor`) and the trivial duality

@@ -67,11 +67,8 @@ private noncomputable def idealTensorUnit (D : TwoExtensions i)
     (M : SheafOfModules.{w'}
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))
     (V : Y.Cᵒᵖ) (a : D.thickening.I.val.obj V) (y : M.val.obj V) :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf
-      ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj
-      X.O)).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
     (PresheafOfModules.tensorObj D.thickening.I.val M.val)).app V
     (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj V] y)
 

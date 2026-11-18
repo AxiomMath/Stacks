@@ -18,7 +18,7 @@ The canonical theorem
 `Stacks.SheafOfModules.TensorLocalProperties.tensorSheaf_isQuasicoherentOnSite` treats factors
 whose sections lie in the universe of the coefficient rings. To keep the coefficient and
 factor universes independent here, the proof transports the tensor product to one common
-universe containing the site, rings and sections, then descends. It uses four existing
+universe containing the site, rings and sections, then descends. It uses five existing
 comparisons, none of which computes a sheafification:
 
 * raising the universe of the *sections* of a sheaf of modules by an arbitrary amount preserves
@@ -32,11 +32,13 @@ comparisons, none of which computes a sheafification:
   which is `Stacks.Modules.tensorPresheafRingULiftDownIso`;
 * lowering the universe of the coefficient rings, and raising the universe of the sections,
   commute with sheafification, which are `Stacks.Modules.sheafificationRingULiftDownIso` and
-  `PresheafOfModules.sheafificationUliftObjIso`.
+  `PresheafOfModules.sheafificationUliftObjIso`;
+* the tensor product of two sheaves of modules is the sheafification of the objectwise tensor
+  product, which is `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`.
 
 After the first two steps the two factors are sheaves of modules over the universe lift of the
 coefficient rings with sections in the universe of those lifted rings, so the single-universe
-theorem applies to them; the inverse of the second comparison and the last two carry the
+theorem applies to them; the inverse of the second comparison and the last three carry the
 conclusion back.
 
 ## Main results
@@ -116,7 +118,8 @@ The proof transports the pair into the regime in which the coefficient universe 
 site and the sections, where
 `Stacks.SheafOfModules.TensorLocalProperties.tensorSheaf_isQuasicoherentOnSite` applies:
 the sections of each factor are raised so that both lie in one universe, the coefficient rings
-are raised to that universe, and the three comparisons
+are raised to that universe, and the four comparisons
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`,
 `Stacks.Modules.tensorPresheafRingULiftDownIso`,
 `Stacks.Modules.sheafificationRingULiftDownIso` and
 `PresheafOfModules.sheafificationUliftObjIso` identify the tensor product formed there with the
@@ -186,7 +189,8 @@ theorem isQuasicoherentOnSite_sheafificationTensorObjUlift
     (𝟙 (SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj)
     ((PresheafOfModules.tensorObj (O := 𝒪) F.val G.val).uliftSections.{r})
   exact SheafOfModules.IsQuasicoherentOnSite.of_uliftForPresentation.{so, sm, r, max r m n}
-    (SheafOfModules.IsQuasicoherentOnSite.of_iso (e₁.symm ≪≫ e₂ ≪≫ e₃) hD)
+    (SheafOfModules.IsQuasicoherentOnSite.of_iso ((sheafRingULiftDown h𝒪 hset).mapIso
+      (SheafOfModules.Tensor.sheafTensorObjIso _ _ _) ≪≫ e₁.symm ≪≫ e₂ ≪≫ e₃) hD)
 
 end Stacks.Modules
 

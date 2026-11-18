@@ -305,9 +305,11 @@ while the projection formula and the unitors are stated for its uncurried bifunc
 `Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨_, _⟩)`. The two are
 definitionally equal, but the kernel pays tens of seconds for the comparison, and pays it again
 at every place where a term in one spelling is checked against a type in the other. The
-comparison is therefore made exactly twice, in `tensorSheafFunctor_eq_comp` and
-`eqToHom_comp_tensorSheafFunctorObjSelf_hom`; everything after them is stated with explicit
-`eqToHom` transports, so that every later check is syntactic. -/
+comparison is therefore made once, in `tensorSheafFunctor_eq_comp`; the unitor is read in the
+bifunctor spelling in `eqToHom_comp_tensorSheafFunctorObjSelf_hom` through
+`tensorSheafFunctorObjSelf_hom` (not by `rfl`: the unitor takes its counit from the sealed
+sheafification). Everything after them is stated with explicit `eqToHom` transports, so that
+every later check is syntactic. -/
 
 section Spelling
 
@@ -355,7 +357,8 @@ theorem eqToHom_comp_tensorSheafFunctorObjSelf_hom :
             ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩)).map
           ((modulePullbackObjUnitIso π.toLRSHom.toShHom).hom ×ₘ 𝟙 F) ≫
         (tensorSheafUnitLeftIso X.toRingedSpace F).hom :=
-  rfl
+  (congrArg (· ≫ _) (eqToHom_tensorSheafFunctor_obj_eq_symm π F _)).trans
+    ((Category.id_comp _).trans (tensorSheafFunctorObjSelf_hom π F))
 
 end Spelling
 

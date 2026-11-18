@@ -707,9 +707,7 @@ theorem sheafifiedTensorPieceIso_add_two_unit_of_eq (n : ℕ) (U : Cᵒᵖ)
     (sheafifiedTensorPieceIso J F (n + 2)).hom.val.app U
         (Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
             (tensorAlgebraPiece ((n + 2 : ℕ) : ℤ) F.val)) U z) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) U
         ((sheafifiedTensorPieceOneIso J F).hom.val.app U
             (Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
@@ -731,9 +729,7 @@ theorem sheafifiedTensorPieceIso_add_two_unit (n : ℕ) (U : Cᵒᵖ)
         (Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
             (tensorAlgebraPiece ((n + 2 : ℕ) : ℤ) F.val)) U
           (Hom.app (tensorAlgebraPieceRecursion F.val n).inv U (x₀ ⊗ₜ y₀))) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) U
         ((sheafifiedTensorPieceOneIso J F).hom.val.app U
             (Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
@@ -779,9 +775,7 @@ theorem tensorMulLeftSection_of_lift (n : ℕ) (U : Cᵒᵖ) (s : F.val.obj U)
       Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
         (tensorAlgebraPiece ((n + 1 : ℕ) : ℤ) F.val)) U y₀) :
     tensorMulLeftSection J F n U s x =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) U
         (s ⊗ₜ[Osharp.obj.obj U] x) := by
   have hmul : ((sheafifiedTensorAlgebra J F).mul 1 ((n + 1 : ℕ) : ℤ)).app U
@@ -819,26 +813,18 @@ theorem tensorMulLeftSection_map (n : ℕ) (U V : Cᵒᵖ) (f : U ⟶ V) (s : F.
 theorem map_tensorSheafificationUnit_tmul (n : ℕ) (U V : Cᵒᵖ) (f : U ⟶ V) (s : F.val.obj U)
     (x : (tensorPower J F (n + 1)).val.obj U) :
     (tensorPower J F (n + 2)).val.map f
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-            Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) U
           (s ⊗ₜ[Osharp.obj.obj U] x)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) V
         (F.val.map f s ⊗ₜ[Osharp.obj.obj V] (tensorPower J F (n + 1)).val.map f x) := by
   refine (PresheafOfModules.naturality_apply
-    ((PresheafOfModules.sheafificationAdjunction (R :=
-        Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) f
     (s ⊗ₜ x)).symm.trans ?_
   exact congrArg
-    (fun t => Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-        Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+    (fun t => Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) V t)
     (PresheafOfModules.tensorObj_restrictₛₗ_tmul f s x)
 
@@ -846,9 +832,7 @@ theorem map_tensorSheafificationUnit_tmul (n : ℕ) (U V : Cᵒᵖ) (f : U ⟶ V
 theorem tensorMulLeftSection_eq (n : ℕ) (U : Cᵒᵖ) (s : F.val.obj U)
     (x : (tensorPower J F (n + 1)).val.obj U) :
     tensorMulLeftSection J F n U s x =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) U
         (s ⊗ₜ[Osharp.obj.obj U] x) := by
   refine Stacks.eq_of_isSeparated (tensorPower J F (n + 2))
@@ -876,9 +860,7 @@ theorem sheafifiedTensorPieceIso_mul_left (n : ℕ) (U : Cᵒᵖ) (s : F.val.obj
           (((sheafifiedTensorAlgebra J F).mul 1 ((n + 1 : ℕ) : ℤ)).app U
             ((sheafifiedTensorGenerator J F).val.app U s)
             ((sheafifiedTensorPieceIso J F (n + 1)).inv.val.app U x))) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) U
         (s ⊗ₜ[Osharp.obj.obj U] x) :=
   tensorMulLeftSection_eq J F n U s x

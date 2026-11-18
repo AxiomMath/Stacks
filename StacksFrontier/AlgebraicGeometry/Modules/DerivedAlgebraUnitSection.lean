@@ -167,8 +167,7 @@ theorem inv_comp_map_unitModuleMap_comp_mul :
           (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).property (moduleOfAlgebra A) V x
   replace h1 := (congrArg (fun i => i.inv.val.app V x)
     (SheafOfModules.rightUnitor_sheafTensor_eq_iso X.sheaf (moduleOfAlgebra A))).trans h1
-  have h2 := Stacks.SheafOfModules.sheafify_map_toSheafify_apply X.sheaf.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).property
+  have h2 := Stacks.SheafOfModules.Tensor.unit_naturality_apply (R := X.sheaf)
           (@MonoidalCategoryStruct.whiskerLeft
             (PresheafOfModules (X.sheaf.obj ⋙ forget₂ CommRingCat RingCat)) _ _
             (moduleOfAlgebra A).val _ _ (unitModuleMap A).val) V (x ⊗ₜ (1 : X.sheaf.obj.obj V))

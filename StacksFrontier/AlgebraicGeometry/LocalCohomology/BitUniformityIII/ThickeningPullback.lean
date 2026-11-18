@@ -467,15 +467,12 @@ theorem blowupΓmod_map_thickeningPullbackUnitIso_hom_section_one (n : ℕ) :
           (show resModule I n (ModuleCat.of (A ⧸ I ^ n) (A ⧸ I ^ n)) from (1 : A ⧸ I ^ n))) =
       ((thickeningProj I n).val.app (op ⊤)).hom
         (1 : (blowupScheme I).ringCatSheaf.obj.obj (op ⊤)) := by
-  have h1 := congrArg (fun φ => (blowupΓmod I).map ((thickeningFactor I n).map φ ≫
-    (thickeningPullbackUnitIso I n).hom) (thickeningBaseSection I n)) (resModulePointMap_one I n)
-  have h2 : (thickeningFactorObjSelfIso I n).inv ≫ (thickeningFactor I n).map (quotPowMap I n) ≫
+  have h : (thickeningFactorObjSelfIso I n).inv ≫ (thickeningFactor I n).map (quotPowMap I n) ≫
       (thickeningPullbackUnitIso I n).hom = 𝟙 _ := by
     rw [thickeningPullbackUnitIso_hom, IsIso.hom_inv_id_assoc, Iso.inv_hom_id]
-  exact h1.trans (congrArg (fun φ : thickeningSheaf I n ⟶ thickeningSheaf I n =>
-    (blowupΓmod I).map φ (show (blowupΓmod I).obj (thickeningSheaf I n) from
-      ((thickeningProj I n).val.app (op ⊤)).hom
-        (1 : (blowupScheme I).ringCatSheaf.obj.obj (op ⊤)))) h2)
+  rw [thickeningPullbackSection_apply, resModulePointMap_one, thickeningBaseSection]
+  refine (blowupΓmod_map_map I _ _ _).trans ((blowupΓmod_map_map I _ _ _).trans ?_)
+  exact (congrArg (fun φ => (blowupΓmod I).map φ _) h).trans rfl
 
 end Stacks.LocalCohomology.UniformityIII
 

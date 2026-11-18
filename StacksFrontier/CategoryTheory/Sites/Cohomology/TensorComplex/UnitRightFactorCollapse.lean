@@ -134,8 +134,7 @@ theorem sheafRightUnitor_inv_val_app
     (P : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (W : X.C)
     (a : P.val.obj (op W)) :
     (ρ_ P).inv.val.app (op W) a =
-      ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
         (P.val ⊗ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).val)).app (op W)
           (a ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)]
             (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W))) := by

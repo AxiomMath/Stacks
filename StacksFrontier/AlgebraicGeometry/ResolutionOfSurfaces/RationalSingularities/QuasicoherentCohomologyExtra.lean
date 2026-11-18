@@ -24,7 +24,8 @@ Let `f : X → Spec(A)` be as in Situation [Stacks, Tag 0B4W]. For a quasi-coher
 ## Implementation notes
 
 `CategoryTheory.HasDerivedCategory.standard` is given local priority `2000`, as in
-`StacksFrontier/AlgebraicGeometry/HigherDirectImageFibreDimension/GeneralDimensionQuasicoherent.lean`:
+`GeneralDimensionQuasicoherent.lean` of
+`StacksFrontier/AlgebraicGeometry/HigherDirectImageFibreDimension/`:
 that import brings another `HasDerivedCategory` instance into scope, and without the raised
 priority the `rightDerivedPlus` of these statements would use a different derived-category
 universe from the rest of the chapter, so they would not compose.

@@ -46,13 +46,16 @@ site-level counterpart of the restriction comparison available for an open of a 
 * `Stacks.SheafOfModules.sliceStructurePresheaf` and
   `Stacks.SheafOfModules.sliceRestriction`: the structure presheaf of a ringed site and its
   presheaves of modules, restricted to a slice.
-* `Stacks.SheafOfModules.sliceTensorUnit`: the restriction to a slice of the sheafification unit
-  of an objectwise tensor product.
+* `Stacks.SheafOfModules.sliceTensorUnit`: the restriction to a slice of the unit of the sealed
+  sheafification `Stacks.SheafOfModules.Tensor.sheafification` of an objectwise tensor product.
 * `Stacks.SheafOfModules.tensorSheafSliceIso`: restriction to a slice commutes with the tensor
   product of sheaves of modules.
 
 ## Main results
 
+* `Stacks.SheafOfModules.isLocallyInjective_sliceRestriction_map` and
+  `Stacks.SheafOfModules.isLocallySurjective_sliceRestriction_map`: restriction to a slice
+  preserves local injectivity and local surjectivity.
 * `SheafOfModules.hasGlobalPresentation_iff_nonempty_presentation`: a global presentation in the
   sense of Stacks 03DE(6) is the same thing as a presentation by generators and relations.
 * `SheafOfModules.HasGlobalPresentation.overMap`: having a global presentation is stable under
@@ -323,6 +326,24 @@ theorem sliceRestriction_tensorPresheaf (𝒪 : Cᵒᵖ ⥤ CommRingCat.{max u v
         (((sliceRestriction 𝒪 Z).obj P)) (((sliceRestriction 𝒪 Z).obj Q))) :=
   rfl
 
+/-- Restriction to a slice preserves local injectivity: `CategoryTheory.Over.forget` is
+cocontinuous. -/
+theorem isLocallyInjective_sliceRestriction_map {𝒪 : Cᵒᵖ ⥤ CommRingCat.{max u v w}} (Z : C)
+    {P Q : PresheafOfModules.{max u v w} (TensorSheafification.structureRingPresheaf 𝒪)}
+    (φ : P ⟶ Q) [hφ : PresheafOfModules.IsLocallyInjective J φ] :
+    PresheafOfModules.IsLocallyInjective (J.over Z) ((sliceRestriction 𝒪 Z).map φ) :=
+  Presheaf.isLocallyInjective_whisker (J.over Z) J (Over.forget Z)
+    ((PresheafOfModules.toPresheaf _).map φ)
+
+/-- Restriction to a slice preserves local surjectivity: `CategoryTheory.Over.forget` is
+cocontinuous. -/
+theorem isLocallySurjective_sliceRestriction_map {𝒪 : Cᵒᵖ ⥤ CommRingCat.{max u v w}} (Z : C)
+    {P Q : PresheafOfModules.{max u v w} (TensorSheafification.structureRingPresheaf 𝒪)}
+    (φ : P ⟶ Q) [hφ : PresheafOfModules.IsLocallySurjective J φ] :
+    PresheafOfModules.IsLocallySurjective (J.over Z) ((sliceRestriction 𝒪 Z).map φ) :=
+  Presheaf.isLocallySurjective_whisker (J.over Z) J (Over.forget Z)
+    ((PresheafOfModules.toPresheaf _).map φ)
+
 section Slice
 
 variable [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})]
@@ -340,8 +361,9 @@ theorem sliceRestriction_val (Z : C)
     (sliceRestriction 𝒪 Z).obj M.val = (M.over Z).val :=
   rfl
 
-/-- The restriction to a slice of the sheafification unit of the objectwise tensor product of
-two sheaves of modules. -/
+/-- The restriction to a slice of the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the objectwise tensor product of two sheaves of
+modules. -/
 noncomputable def sliceTensorUnit (Z : C)
     (F G : SheafOfModules.{max u v w} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     PresheafOfModules.tensorObj (O := sliceStructurePresheaf 𝒪 Z)
@@ -354,9 +376,8 @@ noncomputable def sliceTensorUnit (Z : C)
             ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪
               (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G)) :=
   (sliceRestriction 𝒪 Z).map
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := TensorSheafification.structureSheaf 𝒪 h𝒪)
-      (𝟙 (TensorSheafification.structureSheaf 𝒪 h𝒪).obj)).unit.app
+    ((Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
         (PresheafOfModules.tensorObj (O := 𝒪) F.val G.val))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})] in
@@ -369,8 +390,10 @@ theorem isLocallyInjective_sliceTensorUnit (Z : C)
       ((PresheafOfModules.toPresheaf
         (TensorSheafification.structureRingPresheaf (sliceStructurePresheaf 𝒪 Z))).map
           (sliceTensorUnit h𝒪 Z F G)) :=
-  Presheaf.isLocallyInjective_whisker (J.over Z) J (Over.forget Z)
-    (CategoryTheory.toSheafify J ((PresheafOfModules.tensorObj (O := 𝒪) (F.val) (G.val))).presheaf)
+  (isLocallyInjective_sliceRestriction_map Z _
+    (hφ := Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩
+      (PresheafOfModules.tensorObj (O := 𝒪) F.val G.val)) :)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})] in
 /-- The restricted sheafification unit is locally surjective for the slice topology:
@@ -382,15 +405,19 @@ theorem isLocallySurjective_sliceTensorUnit (Z : C)
       ((PresheafOfModules.toPresheaf
         (TensorSheafification.structureRingPresheaf (sliceStructurePresheaf 𝒪 Z))).map
           (sliceTensorUnit h𝒪 Z F G)) :=
-  Presheaf.isLocallySurjective_whisker (J.over Z) J (Over.forget Z)
-    (CategoryTheory.toSheafify J ((PresheafOfModules.tensorObj (O := 𝒪) (F.val) (G.val))).presheaf)
+  (isLocallySurjective_sliceRestriction_map Z _
+    (hφ := Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩
+      (PresheafOfModules.tensorObj (O := 𝒪) F.val G.val)) :)
 
 /-- **The tensor product of sheaves of modules commutes with restriction to a slice site.**
 Both sides are sheafifications of one and the same objectwise tensor product: the restriction
 of the sheafification unit is still locally bijective, because restriction along the
 cocontinuous functor `CategoryTheory.Over.forget` preserves local injectivity and local
 surjectivity, and sheafification of presheaves of modules is the localization at the locally
-bijective morphisms.  No sheafification is computed. -/
+bijective morphisms.  The slice tensor product is first identified with Mathlib's
+sheafification by `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`.  No sheafification is
+computed. -/
 noncomputable def tensorSheafSliceIso (Z : C)
     [(J.over Z).HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})]
     [(J.over Z).WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
@@ -423,7 +450,10 @@ noncomputable def tensorSheafSliceIso (Z : C)
     exact (GrothendieckTopology.W_iff_isLocallyBijective (J.over Z) _).2
       ⟨isLocallyInjective_sliceTensorUnit h𝒪 Z F G,
         isLocallySurjective_sliceTensorUnit h𝒪 Z F G⟩
-  Localization.isoOfHom sheafificationFunctor
+  Tensor.sheafTensorObjIso ⟨sliceStructurePresheaf 𝒪 Z, Presheaf.isSheaf_of_isSheaf_comp _
+      (sliceStructurePresheaf 𝒪 Z) (forget₂ CommRingCat RingCat)
+      (isSheaf_sliceStructurePresheaf h𝒪 Z)⟩ (F.over Z) (G.over Z) ≪≫
+    Localization.isoOfHom sheafificationFunctor
       (localIso (J := J.over Z) (sliceStructurePresheaf 𝒪 Z)) (sliceTensorUnit h𝒪 Z F G)
       locallyBijective ≪≫
     sheafificationFunctor.mapIso pointwise ≪≫

@@ -23,6 +23,9 @@ vector spaces has `β = -𝟙`.
   covering, are equal.
 * `Stacks.SheafOfModules.sheafify_map_eq_id_of_comp_toSheafify`: a presheaf endomorphism which
   fixes the sheafification unit sheafifies to the identity.
+* `Stacks.SheafOfModules.sheafification_map_eq_id_of_comp_unit`: the same for the sealed
+  sheafification `Stacks.SheafOfModules.Tensor.sheafification` through which
+  `Stacks.SheafOfModules.Tensor.sheafTensor`, and hence `tensorSheafBraiding`, is built.
 * `Stacks.SheafOfModules.tensorSheafBraiding_self_eq_refl_of_locally_eq`: the braiding of `M`
   with itself is the identity as soon as the presheaf braiding fixes every section locally.
 * `Stacks.SheafOfModules.tensorSheafBraiding_self_eq_refl_of_locally_span_singleton`: the
@@ -119,6 +122,17 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
 
+/-- The sealed sheafification of a presheaf endomorphism `f` is the identity if `f` fixes the
+unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
+theorem sheafification_map_eq_id_of_comp_unit {R : Sheaf J CommRingCat.{w}}
+    {P : PresheafOfModules.{w} (Tensor.ringSheaf R).obj} (f : P ⟶ P)
+    (h : f ≫ (Tensor.sheafificationAdjunction R).unit.app P =
+      (Tensor.sheafificationAdjunction R).unit.app P) :
+    (Tensor.sheafification R).map f = 𝟙 _ :=
+  Tensor.sheafification_hom_ext (by
+    rw [Tensor.unit_comp_map, h, CategoryTheory.Functor.map_id]
+    exact (Category.comp_id _).symm)
+
 /-- The sections of the structure sheaf form a commutative ring. -/
 local instance commRingStructureSheafObjBraiding (X : Cᵒᵖ) :
     CommRing ((Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj.obj X) :=
@@ -143,6 +157,16 @@ theorem sheafify_map_eq_id_of_comp_toSheafify
   conv_rhs => rw [← h']
   exact hnat.symm
 
+/-- The underlying morphism of `tensorSheafBraiding`: the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the presheaf braiding. -/
+private theorem tensorSheafBraiding_hom_eq
+    (M N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (tensorSheafBraiding O hO M N).hom =
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (braidingVal O hO N M).hom :=
+  rfl
+
 /-- The braiding of a sheaf of modules with itself is the identity as soon as the braiding of
 the underlying presheaf fixes every section locally. -/
 theorem tensorSheafBraiding_self_eq_refl_of_locally_eq
@@ -152,18 +176,15 @@ theorem tensorSheafBraiding_self_eq_refl_of_locally_eq
         (braidingVal O hO M M).hom.app (op V) ((M.val ⊗ M.val).map f.op t) =
           (M.val ⊗ M.val).map f.op t) :
     tensorSheafBraiding O hO M M = Iso.refl _ := by
-  refine Iso.ext ?_
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (braidingVal O hO M M).hom =
-    𝟙 _
-  refine sheafify_map_eq_id_of_comp_toSheafify O hO _ ?_
-  refine hom_ext_of_locally_eq
-    ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗
-      M.val)).isSheaf.isSeparated _ _ fun X t => ?_
+  refine Iso.ext ((tensorSheafBraiding_hom_eq O hO M M).trans
+    (sheafification_map_eq_id_of_comp_unit _ ?_))
+  refine hom_ext_of_locally_eq ((Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
+      _).isSheaf.isSeparated _ _ fun X t => ?_
   obtain ⟨S, hS, hloc⟩ := hM X.unop t
-  refine ⟨S, hS, fun V f hf => ?_⟩
-  exact congrArg
-    (fun z => (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ M.val)).app
-      (op V) z) (hloc f hf)
+  exact ⟨S, hS, fun V f hf => congrArg
+    (fun z => ((Tensor.sheafificationAdjunction _).unit.app _).app (op V) z)
+      (hloc f hf)⟩
 
 /-- The braiding of a locally cyclic sheaf of modules with itself is the identity. Here
 *locally cyclic* means that every object of the site has a covering on whose members the module
@@ -210,6 +231,22 @@ section Monoidal
 
 attribute [local instance] monoidalCategory braidedCategory
 
+/-- Mathlib's sheafification of the presheaf braiding is `tensorSheafBraiding`, conjugated by the
+comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the
+sealed one. -/
+private theorem sheafifyFunctor_map_braiding
+    (F G : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (sheafifyFunctor O hO).map (β_ F.val G.val).hom =
+      ((Tensor.sheafificationIso
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).app
+            (F.val ⊗ G.val)).hom ≫ (tensorSheafBraiding O hO F G).hom ≫
+        ((Tensor.sheafificationIso
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).app
+            (G.val ⊗ F.val)).inv :=
+  (NatIso.naturality_2 (Tensor.sheafificationIso
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)
+      (β_ F.val G.val).hom).symm
+
 /-- The braiding of the monoidal structure on sheaves of modules is the sheafification
 `tensorSheafBraiding` of the presheaf braiding, conjugated by the identifications
 `tensorObjIso` of the monoidal tensor product with the tensor product sheaf. -/
@@ -226,12 +263,19 @@ theorem braiding_hom_eq_tensorSheafBraiding
       MonoidalCategory.id_tensorHom_id, Category.id_comp]
   have hβ : (β_ ((sheafifyFunctor O hO).obj F.val) ((sheafifyFunctor O hO).obj G.val)).hom =
       (sheafifyTensorIso O hO F.val G.val).hom ≫
-        (sheafifyFunctor O hO).map (β_ F.val G.val).hom ≫
+        (((Tensor.sheafificationIso
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).app
+            (F.val ⊗ G.val)).hom ≫ (tensorSheafBraiding O hO F G).hom ≫
+          ((Tensor.sheafificationIso
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).app
+              (G.val ⊗ F.val)).inv) ≫
           (sheafifyTensorIso O hO G.val F.val).inv :=
-    Localization.Monoidal.β_hom_app (sheafifyFunctor O hO) (localIso (J := J) O)
-      (sheafifyUnitIso O hO) F.val G.val
+    (Localization.Monoidal.β_hom_app (sheafifyFunctor O hO) (localIso (J := J) O)
+      (sheafifyUnitIso O hO) F.val G.val).trans
+      (congrArg (fun φ => (sheafifyTensorIso O hO F.val G.val).hom ≫ φ ≫
+        (sheafifyTensorIso O hO G.val F.val).inv) (sheafifyFunctor_map_braiding O hO F G))
   rw [hnat, hβ]
-  simp only [tensorObjIso, Category.assoc]
+  simp only [tensorObjIso_def, Category.assoc]
   rfl
 
 /-- The braiding `β_ M M` is the identity if `tensorSheafBraiding O hO M M` is. -/

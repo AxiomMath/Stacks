@@ -120,21 +120,57 @@ theorem sheafifyCounit_toSheafify_app
   congrArg (fun f => (f.app U) x)
     ((TensorSheafification.sheafifyAdjunction O hO).right_triangle_components M)
 
+omit [HasTerminal C] in
+/-- The unit of the sealed sheafification adjunction `Invertible.structureSheafificationAdjunction`
+is natural in the presheaf of modules, on sections. -/
+private theorem structureSheafification_map_unit_app_apply
+    {P Q : PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj}
+    (f : P ⟶ Q) (U : Cᵒᵖ) (x : P.obj U) :
+    (((Invertible.structureSheafification O hO).map f).val.app U)
+        (((Invertible.structureSheafificationAdjunction O hO).unit.app P).app U x) =
+      ((Invertible.structureSheafificationAdjunction O hO).unit.app Q).app U ((f.app U) x) :=
+  (congrArg (fun k => (k.app U) x)
+    ((Invertible.structureSheafificationAdjunction O hO).unit.naturality f)).symm
 
+omit [HasTerminal C] in
+/-- The triangle identity of the sealed sheafification adjunction
+`Invertible.structureSheafificationAdjunction`, on sections. -/
+private theorem structureSheafificationCounit_unit_app_apply
+    (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))
+    (U : Cᵒᵖ) (x : M.val.obj U) :
+    ((Invertible.structureSheafificationAdjunction O hO).counit.app M).val.app U
+      (((Invertible.structureSheafificationAdjunction O hO).unit.app M.val).app U x) = x :=
+  congrArg (fun f => (f.app U) x)
+    ((Invertible.structureSheafificationAdjunction O hO).right_triangle_components M)
+
+omit [HasTerminal C] in
+/-- If the sealed sheafification inverts `f : P ⟶ Q`, its inverse sends the unit of the image
+under `f` of a section of `P` to the unit of that section. -/
+private theorem inv_structureSheafification_map_unit_app_apply
+    {P Q : PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj}
+    (f : P ⟶ Q) [IsIso ((Invertible.structureSheafification O hO).map f)] (U : Cᵒᵖ)
+    (x : P.obj U) :
+    (inv ((Invertible.structureSheafification O hO).map f)).val.app U
+        (((Invertible.structureSheafificationAdjunction O hO).unit.app Q).app U ((f.app U) x)) =
+      ((Invertible.structureSheafificationAdjunction O hO).unit.app P).app U x := by
+  rw [← structureSheafification_map_unit_app_apply]
+  exact congrArg (fun k => k.val.app U
+    (((Invertible.structureSheafificationAdjunction O hO).unit.app P).app U x))
+    (IsIso.hom_inv_id ((Invertible.structureSheafification O hO).map f))
 
 section
 
 omit [HasTerminal C]
 
 /-- The section of the tensor product sheaf `F ⊗ G` over `U` determined by a section of `F`
-and a section of `G` over `U`: the image of the pure tensor under the unit of the
-sheafification adjunction. -/
+and a section of `G` over `U`: the image of the pure tensor under the unit of the sealed
+sheafification adjunction `Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction`. -/
 noncomputable def tensorSectionsAt (U : Cᵒᵖ)
     (F G : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))
     (s : F.val.obj U) (t : G.val.obj U) :
     ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
         (forget₂ CommRingCat RingCat) (hO)⟩).obj (F)).obj (G))).val.obj U :=
-  (TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U
+  ((Invertible.structureSheafificationAdjunction O hO).unit.app (F.val ⊗ G.val)).app U
     (s ⊗ₜ[(O.obj U)] t)
 
 /-- The tensor product of two morphisms of sheaves of modules sends the section determined by
@@ -148,16 +184,8 @@ theorem tensorSections_tensorMapAt (U : Cᵒᵖ)
       U)
       (tensorSectionsAt O hO U F G s t) =
         tensorSectionsAt O hO U F' G' (f.val.app U s)
-          (g.val.app U t) := by
-  change (((TensorSheafification.sheafify O hO).map (f.val ⊗ₘ g.val)).val.app U)
-      ((TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U (s ⊗ₜ t)) = _
-  refine (toSheafify_app_map_obj (O := O) (hO := hO) (f := f.val ⊗ₘ g.val) U
-    (s ⊗ₜ t)).trans ?_
-  change (TensorSheafification.toSheafify O hO (F'.val ⊗ G'.val)).app U
-      (((f.val ⊗ₘ g.val).app U) (s ⊗ₜ t)) =
-    (TensorSheafification.toSheafify O hO (F'.val ⊗ G'.val)).app U
-      ((f.val.app U s) ⊗ₜ (g.val.app U t))
-  congr 1
+          (g.val.app U t) :=
+  structureSheafification_map_unit_app_apply O hO (f.val ⊗ₘ g.val) U (s ⊗ₜ t)
 
 /-- The left unitor sends the section determined by the unit section `1` of the structure sheaf
 and a section `t` back to `t`. -/
@@ -167,17 +195,11 @@ theorem tensorSections_leftUnitorAt (U : Cᵒᵖ)
     (((Invertible.tensorProductLeftUnitor O hO M).hom.val.app U)
       (tensorSectionsAt O hO U (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) M
         (1 : O.obj U) t)) = t := by
-  change ((TensorSheafification.sheafifyAdjunction O hO).counit.app M).val.app U
-      ((((TensorSheafification.sheafify O hO).map (λ_ M.val).hom).val.app U)
-        ((TensorSheafification.toSheafify O hO
-          (𝟙_ (PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj)
-            ⊗ M.val)).app U
-          ((1 : O.obj U) ⊗ₜ t))) = t
   refine Eq.trans (congrArg
-    (fun y => ((TensorSheafification.sheafifyAdjunction O hO).counit.app M).val.app U y)
-    (toSheafify_app_map_obj (O := O) (hO := hO) (f := (λ_ M.val).hom)
+    (fun y => ((Invertible.structureSheafificationAdjunction O hO).counit.app M).val.app U y)
+    (structureSheafification_map_unit_app_apply (O := O) (hO := hO) (f := (λ_ M.val).hom)
       U ((1 : O.obj U) ⊗ₜ t))) ?_
-  refine Eq.trans (sheafifyCounit_toSheafify_app (O := O) (hO := hO) M U
+  refine Eq.trans (structureSheafificationCounit_unit_app_apply (O := O) (hO := hO) M U
     (((λ_ M.val).hom.app U) ((1 : O.obj U) ⊗ₜ t))) ?_
   let _i : CommRing ↑(((TensorSheafification.structureSheaf O hO).obj).obj U) :=
     inferInstanceAs (CommRing (O.obj U))
@@ -194,17 +216,11 @@ theorem tensorSections_rightUnitorAt (U : Cᵒᵖ)
       (tensorSectionsAt O hO U M (SheafOfModules.unit (TensorSheafification.structureSheaf O hO))
         t (1 : O.obj U))) = t := by
   unfold TensorSheafification.structureSheaf at *
-  change ((TensorSheafification.sheafifyAdjunction O hO).counit.app M).val.app U
-      ((((TensorSheafification.sheafify O hO).map (ρ_ M.val).hom).val.app U)
-        ((TensorSheafification.toSheafify O hO
-          (M.val
-            ⊗ 𝟙_ (PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj))).app U
-          (t ⊗ₜ (1 : O.obj U)))) = t
   refine Eq.trans (congrArg
-    (fun y => ((TensorSheafification.sheafifyAdjunction O hO).counit.app M).val.app U y)
-    (toSheafify_app_map_obj (O := O) (hO := hO) (f := (ρ_ M.val).hom)
+    (fun y => ((Invertible.structureSheafificationAdjunction O hO).counit.app M).val.app U y)
+    (structureSheafification_map_unit_app_apply (O := O) (hO := hO) (f := (ρ_ M.val).hom)
       U (t ⊗ₜ (1 : O.obj U)))) ?_
-  refine Eq.trans (sheafifyCounit_toSheafify_app (O := O) (hO := hO) M U
+  refine Eq.trans (structureSheafificationCounit_unit_app_apply (O := O) (hO := hO) M U
     (((ρ_ M.val).hom.app U) (t ⊗ₜ (1 : O.obj U)))) ?_
   let _i : CommRing ↑(((TensorSheafification.structureSheaf O hO).obj).obj U) :=
     inferInstanceAs (CommRing (O.obj U))
@@ -225,12 +241,9 @@ theorem tensorSections_braidingAt (U : Cᵒᵖ)
   have hβApp : (ConcreteCategory.hom ((β_ F.val G.val).hom.app U))
       (s ⊗ₜ t) = t ⊗ₜ s := by
     exact ModuleCat.MonoidalCategory.braiding_hom_apply s t
-  change (((TensorSheafification.sheafify O hO).map (β_ F.val G.val).hom).val.app
-      U)
-      ((TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U (s ⊗ₜ t)) = _
-  exact (toSheafify_app_map_obj (O := O) (hO := hO)
-    (f := (β_ F.val G.val).hom) U (s ⊗ₜ t)).trans
-    (congrArg (fun y => (TensorSheafification.toSheafify O hO (G.val ⊗ F.val)).app U y) hβApp)
+  exact (structureSheafification_map_unit_app_apply O hO (β_ F.val G.val).hom U (s ⊗ₜ t)).trans
+    (congrArg (((Invertible.structureSheafificationAdjunction O hO).unit.app (G.val ⊗ F.val)).app U)
+      hβApp)
 
 /-- The associator reassociates the three sections determining a section of an iterated tensor
 product. -/
@@ -248,86 +261,27 @@ theorem tensorSections_associatorAt (U : Cᵒᵖ)
           (H))) s
         (tensorSectionsAt O hO U G H t u) := by
   unfold TensorSheafification.structureSheaf at *
-  let fLeft := TensorSheafification.toSheafify O hO (F.val ⊗ G.val) ▷ H.val
-  let fRight := F.val ◁ TensorSheafification.toSheafify O hO (G.val ⊗ H.val)
-  let _iL : IsIso ((TensorSheafification.sheafify O hO).map fLeft) :=
-    TensorSheafification.isIso_sheafify_map_whiskerRight O hO
-      (TensorSheafification.toSheafify O hO (F.val ⊗ G.val)) H.val
-      (TensorSheafification.isIso_sheafify_map_toSheafify O hO (F.val ⊗ G.val))
-  let _iR : IsIso ((TensorSheafification.sheafify O hO).map fRight) :=
-    TensorSheafification.isIso_sheafify_map_whiskerLeft O hO F.val
-      (TensorSheafification.toSheafify O hO (G.val ⊗ H.val))
-      (TensorSheafification.isIso_sheafify_map_toSheafify O hO (G.val ⊗ H.val))
-  let eLeft := asIso ((TensorSheafification.sheafify O hO).map fLeft)
-  let eRight := asIso ((TensorSheafification.sheafify O hO).map fRight)
   let _i : CommRing ↑(((TensorSheafification.structureSheaf O hO).obj).obj U) :=
     inferInstanceAs (CommRing (O.obj U))
-  let x : ((F.val ⊗ G.val) ⊗ H.val).obj U := (s ⊗ₜ t) ⊗ₜ u
-  let y : ((((TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val)).val ⊗ H.val).obj U) :=
-      (TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U (s ⊗ₜ t) ⊗ₜ u
-  let z : (F.val ⊗ (G.val ⊗ H.val)).obj U := s ⊗ₜ (t ⊗ₜ u)
-  let x' : (F.val ⊗ ((TensorSheafification.sheafify O hO).obj (G.val ⊗ H.val)).val).obj U := s ⊗ₜ
-      (TensorSheafification.toSheafify O hO (G.val ⊗ H.val)).app U
-        (t ⊗ₜ u)
-  have hLeftMap : (eLeft.hom.val.app U)
-      ((TensorSheafification.toSheafify O hO
-        (((F.val ⊗ G.val) ⊗ H.val))).app U x) =
-      (TensorSheafification.toSheafify O hO
-        (((TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val)).val ⊗ H.val)).app U y := by
-    change (((TensorSheafification.sheafify O hO).map fLeft).val.app U)
-        ((TensorSheafification.toSheafify O hO ((F.val ⊗ G.val) ⊗ H.val)).app U x) = _
-    calc
-      _ = (TensorSheafification.toSheafify O hO
-          (((TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val)).val ⊗ H.val)).app U
-          ((fLeft.app U) x) :=
-        toSheafify_app_map_obj (O := O) (hO := hO) (f := fLeft) U x
-      _ = (TensorSheafification.toSheafify O hO
-          (((TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val)).val ⊗ H.val)).app U y := by
-        rfl
-  have hLeftInv : (eLeft.inv.val.app U)
-      ((TensorSheafification.toSheafify O hO
-        (((TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val)).val ⊗ H.val)).app U y) =
-      (TensorSheafification.toSheafify O hO ((F.val ⊗ G.val) ⊗ H.val)).app U x := by
-    rw [← hLeftMap]
-    change ((eLeft.hom ≫ eLeft.inv).val.app U)
-      ((TensorSheafification.toSheafify O hO ((F.val ⊗ G.val) ⊗ H.val)).app U x) = _
-    rw [eLeft.hom_inv_id]
-    rfl
-  have hAlphaApp : ((α_ F.val G.val H.val).hom.app U) x = z := by
-    change ((CategoryTheory.MonoidalCategoryStruct.associator F.val G.val H.val).hom.app U) x = z
-    exact ModuleCat.MonoidalCategory.associator_hom_apply s t u
-  have hAlpha : (((TensorSheafification.sheafify O hO).map (α_ F.val G.val H.val).hom).val.app U)
-      ((TensorSheafification.toSheafify O hO ((F.val ⊗ G.val) ⊗ H.val)).app U x) =
-      (TensorSheafification.toSheafify O hO (F.val ⊗ (G.val ⊗ H.val))).app U z := by
-    calc
-      _ = (TensorSheafification.toSheafify O hO (F.val ⊗ (G.val ⊗ H.val))).app U
-          ((α_ F.val G.val H.val).hom.app U x) :=
-        toSheafify_app_map_obj (O := O) (hO := hO)
-          (f := (α_ F.val G.val H.val).hom) U x
-      _ = (TensorSheafification.toSheafify O hO (F.val ⊗ (G.val ⊗ H.val))).app U z := by
-        rw [hAlphaApp]
-  have hRightMap : (eRight.hom.val.app U)
-      ((TensorSheafification.toSheafify O hO (F.val ⊗ (G.val ⊗ H.val))).app U z) =
-      (TensorSheafification.toSheafify O hO
-        (F.val ⊗ ((TensorSheafification.sheafify O hO).obj (G.val ⊗ H.val)).val)).app U x' := by
-    change (((TensorSheafification.sheafify O hO).map fRight).val.app U)
-        ((TensorSheafification.toSheafify O hO (F.val ⊗ (G.val ⊗ H.val))).app U z) = _
-    calc
-      _ = (TensorSheafification.toSheafify O hO
-          (F.val ⊗ ((TensorSheafification.sheafify O hO).obj (G.val ⊗ H.val)).val)).app U
-          ((fRight.app U) z) :=
-        toSheafify_app_map_obj (O := O) (hO := hO) (f := fRight) U z
-      _ = (TensorSheafification.toSheafify O hO
-          (F.val ⊗ ((TensorSheafification.sheafify O hO).obj (G.val ⊗ H.val)).val)).app U x' := by
-        rfl
-  change (eRight.hom.val.app U)
-      (((TensorSheafification.sheafify O hO).map (α_ F.val G.val H.val).hom).val.app U
-        ((eLeft.inv.val.app U)
-          ((TensorSheafification.toSheafify O hO
-            (((TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val)).val ⊗ H.val)).app U y))) =
-    (TensorSheafification.toSheafify O hO
-      (F.val ⊗ ((TensorSheafification.sheafify O hO).obj (G.val ⊗ H.val)).val)).app U x'
-  rw [hLeftInv, hAlpha, ← hRightMap]
+  have : IsIso ((Invertible.structureSheafification O hO).map
+      ((Invertible.structureSheafificationAdjunction O hO).unit.app (F.val ⊗ G.val) ▷ H.val)) :=
+    Invertible.isIso_structureSheafification_map_whiskerRight O hO _ H.val inferInstance
+  have hAlpha : ((α_ F.val G.val H.val).hom.app U) ((s ⊗ₜ t) ⊗ₜ u) = s ⊗ₜ (t ⊗ₜ u) :=
+    ModuleCat.MonoidalCategory.associator_hom_apply s t u
+  exact (congrArg (fun y => ((Invertible.structureSheafification O hO).map
+      (F.val ◁ (Invertible.structureSheafificationAdjunction O hO).unit.app
+        (G.val ⊗ H.val))).val.app U y)
+    (((congrArg (fun y => ((Invertible.structureSheafification O hO).map
+        (α_ F.val G.val H.val).hom).val.app U y)
+      (inv_structureSheafification_map_unit_app_apply O hO
+        ((Invertible.structureSheafificationAdjunction O hO).unit.app (F.val ⊗ G.val) ▷ H.val) U
+        ((s ⊗ₜ t) ⊗ₜ u))).trans
+      (structureSheafification_map_unit_app_apply O hO (α_ F.val G.val H.val).hom U _)).trans
+      (congrArg (((Invertible.structureSheafificationAdjunction O hO).unit.app
+        (F.val ⊗ (G.val ⊗ H.val))).app U) hAlpha))).trans
+    (structureSheafification_map_unit_app_apply O hO
+      (F.val ◁ (Invertible.structureSheafificationAdjunction O hO).unit.app (G.val ⊗ H.val)) U
+      (s ⊗ₜ (t ⊗ₜ u)))
 
 /-- The tensor product of two isomorphisms of sheaves of modules sends the section determined
 by a pair of sections to the section determined by their images. -/
@@ -805,7 +759,7 @@ private theorem tensorSheaf_hom_ext
       f.val.app U (tensorSectionsAt O hO U F G s t) =
         g.val.app U (tensorSectionsAt O hO U F G s t)) : f = g := by
   unfold TensorSheafification.structureSheaf at *
-  apply ((TensorSheafification.sheafifyAdjunction O hO).homEquiv (F.val ⊗ G.val) H).injective
+  apply ((Invertible.structureSheafificationAdjunction O hO).homEquiv (F.val ⊗ G.val) H).injective
   apply PresheafOfModules.hom_ext
   intro U
   apply ModuleCat.hom_ext
@@ -815,10 +769,10 @@ private theorem tensorSheaf_hom_ext
   induction x using TensorProduct.inductionOn with
   | tmul s t => exact h U s t
   | add x y hx hy =>
-      exact ((((TensorSheafification.sheafifyAdjunction O hO).homEquiv
+      exact ((((Invertible.structureSheafificationAdjunction O hO).homEquiv
         (F.val ⊗ G.val) H f).app U).hom.map_add x y).trans
         ((congrArg₂ (· + ·) hx hy).trans
-          ((((TensorSheafification.sheafifyAdjunction O hO).homEquiv
+          ((((Invertible.structureSheafificationAdjunction O hO).homEquiv
             (F.val ⊗ G.val) H g).app U).hom.map_add x y).symm)
 
 /-- Insert a factor `A` on the left of `M`, along a morphism `O ⟶ A`: write `M` as `O ⊗ M` and

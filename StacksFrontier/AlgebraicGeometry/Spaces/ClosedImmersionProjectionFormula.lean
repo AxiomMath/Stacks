@@ -66,12 +66,48 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [HasWeakSheafify J AddCommGrpCat.{w}]
   {Osharp : Sheaf J CommRingCat.{w}}
 
+/-- Membership in the image sieve of a morphism of presheaves of modules, read on sections. -/
+private lemma mem_imageSieve_toPresheaf_map_iff {R : Cᵒᵖ ⥤ RingCat.{w}}
+    {P Q : PresheafOfModules.{w} R} (φ : P ⟶ Q) {U : C} (s : Q.obj (op U)) {V : C} (g : V ⟶ U) :
+    Presheaf.imageSieve ((PresheafOfModules.toPresheaf R).map φ) s g ↔
+      ∃ z : P.obj (op V), φ.app (op V) z = Q.map g.op s :=
+  Iff.rfl
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
+/-- **A section killed by a scalar on a locally surjective source.** If `φ : P ⟶ M` is locally
+surjective and the restrictions of `a` kill the sections of `P`, then `a` kills the sections of the
+sheaf `M`. -/
+private theorem smul_eq_zero_of_isLocallySurjective {R : Sheaf J RingCat.{w}}
+    {P : PresheafOfModules.{w} R.obj} {M : _root_.SheafOfModules.{w} R} (φ : P ⟶ M.val)
+    [hφ : PresheafOfModules.IsLocallySurjective J φ] {U : Cᵒᵖ} (a : R.obj.obj U)
+    (h : ∀ {V : C} (g : V ⟶ U.unop) (z : P.obj (op V)), R.obj.map g.op a • z = 0)
+    (s : M.val.obj U) : a • s = 0 := by
+  refine Stacks.SheafOfModules.eq_zero_of_locally_eq_zero (J := J) _
+    (Presheaf.imageSieve_mem J ((PresheafOfModules.toPresheaf _).map φ) s) fun V g hg => ?_
+  obtain ⟨z, hz⟩ := (mem_imageSieve_toPresheaf_map_iff φ s g).1 hg
+  rw [PresheafOfModules.map_smul, ← hz]
+  exact ((φ.app (op V)).hom.map_smul _ z).symm.trans (by rw [h]; exact map_zero _)
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally surjective. -/
+private lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Osharp).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
+
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **A section of the structure sheaf annihilating the left factor annihilates the tensor
 product sheaf.** If `a` over `U` kills the sections of `M` over every object mapping to `U`, then
 it kills every section of `M ⊗_{Osharp} N` over `U`. This is
 `Stacks.SheafOfModules.smul_tensorSheafBifunctor_eq_zero` with the roles of the two factors
-exchanged, and has the same proof. -/
+exchanged, and has the same proof: a section of the tensor product sheaf is locally the image
+under the (locally surjective) sheafification unit of a section of the tensor product presheaf,
+which the restriction of `a` kills, and a sheaf is separated. -/
 theorem smul_tensorSheafBifunctor_eq_zero_of_left
     (M N : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)) (U : Cᵒᵖ)
     (a : (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.obj U)
@@ -79,27 +115,13 @@ theorem smul_tensorSheafBifunctor_eq_zero_of_left
       (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.map g a • y = 0)
     (s : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} Osharp).obj M).obj N).val.obj
         U) :
-    a • s = 0 := by
-  let η := (PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj M.val N.val)
-  refine Stacks.SheafOfModules.eq_zero_of_locally_eq_zero (J := J) _
-    (Presheaf.imageSieve_mem J
-      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj).map η)
-      s) ?_
-  intro V g hg
-  obtain ⟨z, hz⟩ := hg
-  change (PresheafOfModules.tensorObj M.val N.val).obj (op V) at z
-  change η.app (op V) z =
-    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} Osharp).obj M).obj N).val.map g.op s
-      at hz
-  have hz0 : (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.map g.op a • z = 0 :=
-    smul_presheafTensorObj_eq_zero_of_left (R := Osharp.obj) _ _ (op V) _ (fun y => hM g.op y) z
-  rw [PresheafOfModules.map_smul, ← hz]
-  exact ((η.app (op V)).hom.map_smul
-    ((Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.map g.op a) z).symm.trans
-      (by rw [hz0]; exact map_zero _)
+    a • s = 0 :=
+  smul_eq_zero_of_isLocallySurjective J
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Osharp).unit.app
+      (PresheafOfModules.tensorObj M.val N.val))
+    (hφ := isLocallySurjective_sheafificationForgetAdjunction_unit_app J _) a
+    (fun g z => smul_presheafTensorObj_eq_zero_of_left (R := Osharp.obj) _ _ _ _
+      (fun y => hM g.op y) z) s
 
 end Stacks.SheafOfModules
 

@@ -247,7 +247,8 @@ def sectionTensorPresentation (M : ModuleCat.{max u r} (GlobalFunctionRing O)) :
     (isColimitSectionTensorPresentation O M)
 
 /-- **`M ⊗_A 𝒪` is quasi-coherent on the site for every module `M` over the global functions.**
-It is the cokernel of a map of free sheaves of `O`-modules, which is a global presentation.  This is a step towards Stacks 07UZ, which is proved in full,
+It is the cokernel of a map of free sheaves of `O`-modules, which is a global presentation.  This is
+a step towards Stacks 07UZ, which is proved in full,
 and registered, as
 `AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf` and
 `AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`. -/

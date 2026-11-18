@@ -157,13 +157,16 @@ theorem eq_of_comp_id_comp {E : Type*} [Category E] {V W : E} {a : W ⟶ V} {k :
     (h2 : k ≫ b = CategoryStruct.id V) : a = b := by
   rw [← Category.comp_id a, ← h2, ← Category.assoc, h1, Category.id_comp]
 
-/-- **The localized tensor product of two sheaves of modules is the tensor product sheaf of Tag
-01CA**: `Stacks.SheafOfModules.tensorObjIso`, with its target written as a sheafification of an
-objectwise tensor product at the spelling of `valp`. -/
+/-- **The localized tensor product of two sheaves of modules is the sheafification of their
+objectwise tensor product**, Mathlib's sheafification at the spelling of `valp`: the two
+sheafification counit isomorphisms followed by the tensorator of sheafification.
+`tensorObjIso_hom_eq_comp` relates it to `Stacks.SheafOfModules.tensorObjIso`, whose target is
+the tensor product sheaf of Tag 01CA built with the sealed sheafification. -/
 noncomputable def tensorComparisonIso (M N : SheafOfModules.{u} (structureSheaf O hO)) :
     M ⊗ N ≅
       (Stacks.SheafOfModules.sheafifyFunctor O hO).obj (valp O hO M ⊗ valp O hO N) :=
-  Stacks.SheafOfModules.tensorObjIso O hO M N
+  ((valIso O hO M).symm ⊗ᵢ (valIso O hO N).symm) ≪≫
+    Stacks.SheafOfModules.sheafifyTensorIso O hO (valp O hO M) (valp O hO N)
 
 /-- `tensorComparisonIso` is the tensorator of sheafification, precomposed with the two
 sheafification counit isomorphisms. -/
@@ -198,13 +201,39 @@ theorem shMu_natural {Pp Pp' Qq Qq' : PresheafOfModules.{u} (structureRingPreshe
       shMu O hO Pp Qq ≫ (Stacks.SheafOfModules.sheafifyFunctor O hO).map (g ⊗ₘ h) :=
   Functor.LaxMonoidal.μ_natural (Stacks.SheafOfModules.sheafifyFunctor O hO) g h
 
+/-- Naturality of the inverse of the sheafification counit isomorphism `valIso`. -/
+theorem valIso_inv_naturality {M M' : SheafOfModules.{u} (structureSheaf O hO)} (g : M ⟶ M') :
+    g ≫ (valIso O hO M').inv =
+      (valIso O hO M).inv ≫ (Stacks.SheafOfModules.sheafifyFunctor O hO).map (valHom O hO g) := by
+  rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
+  exact Stacks.SheafOfModules.sheafifyValIso_hom_naturality O hO g
+
 /-- Naturality of `tensorComparisonIso`. -/
 theorem tensorComparisonIso_naturality {M M' N N' : SheafOfModules.{u} (structureSheaf O hO)}
     (g : M ⟶ M') (h : N ⟶ N') :
     (g ⊗ₘ h) ≫ (tensorComparisonIso O hO M' N').hom =
       (tensorComparisonIso O hO M N).hom ≫
-        (Stacks.SheafOfModules.sheafifyFunctor O hO).map (valHom O hO g ⊗ₘ valHom O hO h) :=
-  Stacks.SheafOfModules.tensorObjIso_naturality O hO g h
+        (Stacks.SheafOfModules.sheafifyFunctor O hO).map (valHom O hO g ⊗ₘ valHom O hO h) := by
+  rw [tensorComparisonIso_hom, tensorComparisonIso_hom, ← Category.assoc,
+    MonoidalCategory.tensorHom_comp_tensorHom, valIso_inv_naturality, valIso_inv_naturality,
+    ← MonoidalCategory.tensorHom_comp_tensorHom, Category.assoc, shMu_natural, Category.assoc]
+
+/-- `Stacks.SheafOfModules.tensorObjIso`, the comparison of the localized tensor product with the
+tensor product sheaf of Tag 01CA, is `tensorComparisonIso` followed by the comparison
+`Stacks.SheafOfModules.sheafifyIsoSheafTensor` of Mathlib's sheafification with the sealed one. -/
+theorem tensorObjIso_hom_eq_comp (M N : SheafOfModules.{u} (structureSheaf O hO)) :
+    (Stacks.SheafOfModules.tensorObjIso O hO M N).hom =
+      (tensorComparisonIso O hO M N).hom ≫
+        (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO M N).hom :=
+  (Stacks.SheafOfModules.tensorObjIso_hom_eq O hO M N).trans (Category.assoc _ _ _).symm
+
+/-- The inverse of `Stacks.SheafOfModules.tensorObjIso` is the inverse of the comparison
+`Stacks.SheafOfModules.sheafifyIsoSheafTensor` followed by the inverse of `tensorComparisonIso`. -/
+theorem tensorObjIso_inv_eq_comp (M N : SheafOfModules.{u} (structureSheaf O hO)) :
+    (Stacks.SheafOfModules.tensorObjIso O hO M N).inv =
+      (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO M N).inv ≫
+        (tensorComparisonIso O hO M N).inv :=
+  Stacks.SheafOfModules.tensorObjIso_inv_eq O hO M N
 
 /-- **The tensorator of the localized monoidal structure on sheaves of modules, computed.** The
 oplax tensorator of sheafification, followed by the comparison of the localized tensor product
@@ -247,6 +276,35 @@ theorem valIso_hom_shSec (M : SheafOfModules.{u} (structureSheaf O hO)) (V : C�
     ((PresheafOfModules.sheafificationAdjunction
       (CategoryStruct.id (structureSheaf O hO).obj)).right_triangle_components M) V x
 
+/-- The comparison `Stacks.SheafOfModules.sheafifyIsoSheafTensor` of Mathlib's sheafification of
+an objectwise tensor product with the tensor product sheaf carries the unit image of a local
+section to its image under the sealed unit `Stacks.SheafOfModules.toSheafTensor`. -/
+theorem sheafifyIsoSheafTensor_hom_shSec (M N : SheafOfModules.{u} (structureSheaf O hO))
+    (V : Cᵒᵖ) (t : (valp O hO M ⊗ valp O hO N).obj V) :
+    Hom.app (valHom O hO (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO M N).hom) V
+        (shSec O hO (valp O hO M ⊗ valp O hO N) V t) =
+      Hom.app (Stacks.SheafOfModules.toSheafTensor O hO M N) V t := by
+  refine (PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+      (valp O hO M ⊗ valp O hO N)) V t).trans ?_
+  exact (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+    (valp O hO M ⊗ valp O hO N) V t).symm
+
+/-- The inverse of `Stacks.SheafOfModules.sheafifyIsoSheafTensor` carries the image of a local
+section under the sealed unit `Stacks.SheafOfModules.toSheafTensor` to its unit image in Mathlib's
+sheafification. -/
+theorem sheafifyIsoSheafTensor_inv_toSheafTensor (M N : SheafOfModules.{u} (structureSheaf O hO))
+    (V : Cᵒᵖ) (t : (valp O hO M ⊗ valp O hO N).obj V) :
+    Hom.app (valHom O hO (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO M N).inv) V
+        (Hom.app (Stacks.SheafOfModules.toSheafTensor O hO M N) V t) =
+      shSec O hO (valp O hO M ⊗ valp O hO N) V t :=
+  (congrArg (Hom.app (valHom O hO (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO M N).inv) V)
+      (sheafifyIsoSheafTensor_hom_shSec O hO M N V t).symm).trans
+    (SheafOfModules.iso_inv_hom_app_apply (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO M N)
+      V (shSec O hO (valp O hO M ⊗ valp O hO N) V t))
+
 /-- The tensor product of two morphisms of presheaves of modules, on a pure tensor of local
 sections. -/
 theorem presheafTensorHom_tmul {Pp Pp' Qq Qq' : PresheafOfModules.{u} (structureRingPresheaf O)}
@@ -269,19 +327,19 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategory
 attribute [local instance] Stacks.SheafOfModules.sheafifyFunctor_monoidal
 
 /-- The oplax tensorator of the identity functor into the localized spelling is the inverse of
-`tensorComparisonIso`. -/
+`Stacks.SheafOfModules.tensorObjIso`. -/
 theorem delta_toLoc (M N : SheafOfModules.{u} (structureSheaf O hO)) :
     Functor.OplaxMonoidal.δ (self := (toLocalizedMonoidalMonoidal O hO).toOplaxMonoidal)
         (Stacks.SheafOfModules.Strict.toLocalizedMonoidal O hO) M N =
-      (tensorComparisonIso O hO M N).inv :=
+      (Stacks.SheafOfModules.tensorObjIso O hO M N).inv :=
   rfl
 
 /-- The lax tensorator of the identity functor out of the localized spelling is the inverse of
-`tensorComparisonIso`: the two identity functors are inverse monoidal functors. -/
+`Stacks.SheafOfModules.tensorObjIso`: the two identity functors are inverse monoidal functors. -/
 theorem mu_fromLoc (M N : SheafOfModules.{u} (structureSheaf O hO)) :
     Functor.LaxMonoidal.μ (self := (fromLocalizedMonoidalMonoidal O hO).toLaxMonoidal)
         (fromLocalizedMonoidal O hO) M N =
-      (tensorComparisonIso O hO M N).inv := by
+      (Stacks.SheafOfModules.tensorObjIso O hO M N).inv := by
   have h : Functor.LaxMonoidal.μ (self := (fromLocalizedMonoidalMonoidal O hO).toLaxMonoidal)
         (fromLocalizedMonoidal O hO) M N =
       CategoryStruct.id _ ≫ (Functor.OplaxMonoidal.δ
@@ -294,11 +352,11 @@ theorem mu_fromLoc (M N : SheafOfModules.{u} (structureSheaf O hO)) :
   exact Category.comp_id _
 
 /-- The oplax tensorator of the identity functor out of the localized spelling is
-`tensorComparisonIso`. -/
+`Stacks.SheafOfModules.tensorObjIso`. -/
 theorem delta_fromLoc (M N : SheafOfModules.{u} (structureSheaf O hO)) :
     Functor.OplaxMonoidal.δ (self := (fromLocalizedMonoidalMonoidal O hO).toOplaxMonoidal)
         (fromLocalizedMonoidal O hO) M N =
-      (tensorComparisonIso O hO M N).hom := by
+      (Stacks.SheafOfModules.tensorObjIso O hO M N).hom := by
   have h := Functor.Monoidal.μ_δ (self := fromLocalizedMonoidalMonoidal O hO)
     (fromLocalizedMonoidal O hO) M N
   rw [mu_fromLoc] at h
@@ -610,22 +668,47 @@ theorem pullbackLeg_preSec (A : SheafOfModules.{u} (structureSheaf O hO)) (U : C
   exact (pullSec_naturality α hO hP (valIso O hO A).hom U (shSec O hO (valp O hO A) U x)).trans
     (congrArg (pullSec α hO hP A U) (valIso_hom_shSec O hO A U x))
 
+/-- **The localization tensorator cancels, conjugated by `tensorComparisonIso`.** The oplax
+tensorator of `Stacks.PullbackMonoidalSite.pullbackMonoidal`, conjugated by the comparisons
+`tensorComparisonIso` of the localized tensor products with Mathlib's sheafifications of the
+objectwise tensor products, is the lifting isomorphism of the localization followed by the
+sheafification of the oplax tensorator of the presheaf-level inverse image and of the tensor
+product of the two canonical maps `pullbackLeg`. -/
+@[reassoc]
+theorem map_tensorComparisonIso_inv_comp_delta_comp_hom
+    (A B : SheafOfModules.{u} (structureSheaf O hO)) :
+    (pull α hO hP).map (tensorComparisonIso O hO A B).inv ≫
+        Functor.OplaxMonoidal.δ (self := (pullbackMonoidal α hO hP).toOplaxMonoidal)
+            (pull α hO hP) A B ≫
+          (tensorComparisonIso P hP ((pull α hO hP).obj A) ((pull α hO hP).obj B)).hom =
+      (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom ≫
+        (Stacks.SheafOfModules.sheafifyFunctor P hP).map
+          (preDelta α (valp O hO A) (valp O hO B) ≫
+            (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B)) := by
+  rw [← Category.assoc, map_tensorComparisonIso_inv_comp_delta,
+    Category.assoc, Category.assoc, tensorComparisonIso_naturality, pullDelta_eq,
+    Category.assoc]
+  exact congrArg (fun z => (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom ≫ z)
+    (map_preDelta_comp α hP (valp O hO A) (valp O hO B) _ _)
+
 section Strict
 
 attribute [local instance] Stacks.SheafOfModules.Strict.monoidalCategory
 
 /-- **The oplax tensorator of the monoidal structure of Tag 01CA on the inverse image** is the
-tensorator of the localized monoidal structure conjugated by `tensorComparisonIso`. -/
+tensorator of the localized monoidal structure conjugated by
+`Stacks.SheafOfModules.tensorObjIso`. -/
 theorem delta_pullbackStrictMonoidal (A B : SheafOfModules.{u} (structureSheaf O hO)) :
     Functor.OplaxMonoidal.δ (self := (pullbackStrictMonoidal α hO hP).toOplaxMonoidal)
         (pullbackStrict α hO hP) A B =
-      (pull α hO hP).map (tensorComparisonIso O hO A B).inv ≫
+      (pull α hO hP).map (Stacks.SheafOfModules.tensorObjIso O hO A B).inv ≫
         (Functor.OplaxMonoidal.δ (self := (pullbackMonoidal α hO hP).toOplaxMonoidal)
             (pull α hO hP) A B ≫
-          (tensorComparisonIso P hP ((pull α hO hP).obj A) ((pull α hO hP).obj B)).hom) := by
+          (Stacks.SheafOfModules.tensorObjIso P hP ((pull α hO hP).obj A)
+            ((pull α hO hP).obj B)).hom) := by
   have h : Functor.OplaxMonoidal.δ (self := (pullbackStrictMonoidal α hO hP).toOplaxMonoidal)
         (pullbackStrict α hO hP) A B =
-      (pull α hO hP).map (tensorComparisonIso O hO A B).inv ≫
+      (pull α hO hP).map (Stacks.SheafOfModules.tensorObjIso O hO A B).inv ≫
         (Functor.OplaxMonoidal.δ (self := (pullbackMonoidal α hO hP).toOplaxMonoidal)
             (pull α hO hP) A B ≫
           Functor.OplaxMonoidal.δ
@@ -636,22 +719,26 @@ theorem delta_pullbackStrictMonoidal (A B : SheafOfModules.{u} (structureSheaf O
   rfl
 
 /-- **The oplax tensorator of the monoidal structure of Tag 01CA on the inverse image,
-computed.** It is the lifting isomorphism of the localization followed by the sheafification of a
-morphism of presheaves of modules: the oplax tensorator of the *presheaf*-level inverse image —
-the comparison of Tag 01CD at the presheaf level — followed by the tensor product of the two
+computed.** Up to the comparisons `Stacks.SheafOfModules.sheafifyIsoSheafTensor` of the tensor
+product sheaves with Mathlib's sheafifications of the objectwise tensor products, it is the
+lifting isomorphism of the localization followed by the sheafification of a morphism of
+presheaves of modules: the oplax tensorator of the *presheaf*-level inverse image — the
+comparison of Tag 01CD at the presheaf level — followed by the tensor product of the two
 canonical maps `pullbackLeg`. No tensorator of the localized monoidal structure appears. -/
 theorem delta_pullbackStrictMonoidal_eq (A B : SheafOfModules.{u} (structureSheaf O hO)) :
     Functor.OplaxMonoidal.δ (self := (pullbackStrictMonoidal α hO hP).toOplaxMonoidal)
         (pullbackStrict α hO hP) A B =
-      (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom ≫
-        (Stacks.SheafOfModules.sheafifyFunctor P hP).map
-          (preDelta α (valp O hO A) (valp O hO B) ≫
-            (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B)) := by
-  rw [delta_pullbackStrictMonoidal, ← Category.assoc, map_tensorComparisonIso_inv_comp_delta,
-    Category.assoc, Category.assoc, tensorComparisonIso_naturality, pullDelta_eq,
-    Category.assoc]
-  exact congrArg (fun z => (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom ≫ z)
-    (map_preDelta_comp α hP (valp O hO A) (valp O hO B) _ _)
+      (pull α hO hP).map (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO A B).inv ≫
+        (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom ≫
+          (Stacks.SheafOfModules.sheafifyFunctor P hP).map
+            (preDelta α (valp O hO A) (valp O hO B) ≫
+              (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B)) ≫
+            (Stacks.SheafOfModules.sheafifyIsoSheafTensor P hP ((pull α hO hP).obj A)
+              ((pull α hO hP).obj B)).hom := by
+  rw [delta_pullbackStrictMonoidal, tensorObjIso_inv_eq_comp, tensorObjIso_hom_eq_comp]
+  exact ((pull α hO hP).map_comp _ _ =≫ _).trans ((Category.assoc _ _ _).trans
+    ((pull α hO hP).map (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO A B).inv ≫=
+      map_tensorComparisonIso_inv_comp_delta_comp_hom_assoc α hO hP A B _))
 
 /-- **The oplax tensorator of the monoidal structure of Tag 01CA on the inverse image, on a local
 pure tensor.** It carries the unit image of `a ⊗ b` to the pure tensor of the two unit images —
@@ -663,25 +750,32 @@ theorem delta_pullbackStrictMonoidal_pullSec_tmul
           (self := (pullbackStrictMonoidal α hO hP).toOplaxMonoidal)
           (pullbackStrict α hO hP) A B)) (F.op.obj U)
         (pullSec α hO hP (A ⊗ B) U
-          (shSec O hO (valp O hO A ⊗ valp O hO B) U (a ⊗ₜ b))) =
-      shSec P hP (valp P hP ((pull α hO hP).obj A) ⊗ valp P hP ((pull α hO hP).obj B))
-        (F.op.obj U) (pullSec α hO hP A U a ⊗ₜ pullSec α hO hP B U b) := by
+          (Hom.app (Stacks.SheafOfModules.toSheafTensor O hO A B) U (a ⊗ₜ b))) =
+      Hom.app (Stacks.SheafOfModules.toSheafTensor P hP ((pull α hO hP).obj A)
+          ((pull α hO hP).obj B)) (F.op.obj U)
+        (pullSec α hO hP A U a ⊗ₜ pullSec α hO hP B U b) := by
   refine Eq.trans (SheafOfModules.hom_congr_app_apply
-    (delta_pullbackStrictMonoidal_eq α hO hP A B) (F.op.obj U)
-    (pullSec α hO hP (A ⊗ B) U
-      (shSec O hO (valp O hO A ⊗ valp O hO B) U (a ⊗ₜ b)))) ?_
+    (delta_pullbackStrictMonoidal_eq α hO hP A B) (F.op.obj U) _) ?_
   refine Eq.trans (SheafOfModules.comp_val_app_apply
-    (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom
+    ((pull α hO hP).map (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO A B).inv) _
+    (F.op.obj U) _) ?_
+  refine Eq.trans (congrArg _ ((pullSec_naturality α hO hP
+    (Stacks.SheafOfModules.sheafifyIsoSheafTensor O hO A B).inv U _).trans
+      (congrArg (pullSec α hO hP _ U)
+        (sheafifyIsoSheafTensor_inv_toSheafTensor O hO A B U (a ⊗ₜ b))))) ?_
+  refine Eq.trans (SheafOfModules.comp_val_app_apply
+    (lift α hO hP (valp O hO A ⊗ valp O hO B)).hom _ (F.op.obj U) _) ?_
+  refine Eq.trans (SheafOfModules.comp_val_app_apply
     ((Stacks.SheafOfModules.sheafifyFunctor P hP).map
       (preDelta α (valp O hO A) (valp O hO B) ≫
-        (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B))) (F.op.obj U)
-    (pullSec α hO hP (A ⊗ B) U
-      (shSec O hO (valp O hO A ⊗ valp O hO B) U (a ⊗ₜ b)))) ?_
-  refine Eq.trans (map_lift_hom_pullSec_shSec α hO hP (valp O hO A ⊗ valp O hO B)
+        (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B))) _ (F.op.obj U) _) ?_
+  refine Eq.trans (congrArg _ (map_lift_hom_pullSec_shSec α hO hP (valp O hO A ⊗ valp O hO B)
     (preDelta α (valp O hO A) (valp O hO B) ≫
-      (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B)) U (a ⊗ₜ b)) ?_
-  refine congrArg (shSec P hP
-    (valp P hP ((pull α hO hP).obj A) ⊗ valp P hP ((pull α hO hP).obj B)) (F.op.obj U)) ?_
+      (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B)) U (a ⊗ₜ b))) ?_
+  refine Eq.trans ?_ (sheafifyIsoSheafTensor_hom_shSec P hP ((pull α hO hP).obj A)
+    ((pull α hO hP).obj B) (F.op.obj U) (pullSec α hO hP A U a ⊗ₜ pullSec α hO hP B U b))
+  refine congrArg _ (congrArg (shSec P hP
+    (valp P hP ((pull α hO hP).obj A) ⊗ valp P hP ((pull α hO hP).obj B)) (F.op.obj U)) ?_)
   refine Eq.trans (PresheafOfModules.comp_app_apply
     (preDelta α (valp O hO A) (valp O hO B))
     (pullbackLeg α hO hP A ⊗ₘ pullbackLeg α hO hP B) (F.op.obj U)

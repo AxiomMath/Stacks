@@ -87,9 +87,8 @@ theorem sheafTensorLeft_map_globalSmul
     let r : ((ringPresheaf O.obj).obj U) := f.val U
     change x ⊗ₜ[(ringPresheaf O.obj).obj U] (r • y) = r • (x ⊗ₜ[(ringPresheaf O.obj).obj U] y)
     rw [TensorProduct.tmul_smul]
-  exact (congrArg (fun ψ => (PresheafOfModules.sheafification
-    (𝟙 (commRingSheafToRingSheaf O).obj)).map ψ) h1).trans
-      (sheafification_map_presheafSmul (commRingSheafToRingSheaf O) f _)
+  exact (congrArg (SheafOfModules.Tensor.sheafification O).map h1).trans
+    (SheafOfModules.Tensor.sheafification_map_presheafSmul f _)
 
 end Sheaf
 

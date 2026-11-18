@@ -161,7 +161,7 @@ abbrev tensorUnit (F G : Modules X) :
     ((PresheafOfModules.tensorBifunctor X.presheaf).obj F.val).obj G.val ⟶
       (PresheafOfModules.restrictScalars (𝟙 (ringSheaf X.sheaf).obj)).obj
         ((SheafOfModules.forget _).obj (((sheafTensor X.sheaf).obj F).obj G)) :=
-  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf X.sheaf).obj)).unit.app _
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app _
 
 variable {X}
 
@@ -248,8 +248,7 @@ theorem tmulSection_map_left {F' : Modules X} (f : F ⟶ F')
   (congrArg
     (fun k => (PresheafOfModules.Hom.app k (op W)).hom
       (s ⊗ₜ[(ringSheaf X.sheaf).obj.obj (op W)] t))
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (ringSheaf X.sheaf).obj)).unit.naturality
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.naturality
         (((PresheafOfModules.tensorBifunctor X.presheaf).map f.val).app G.val))).symm
 
 /-- The pairing of sections is natural in the second sheaf of modules. -/
@@ -260,8 +259,7 @@ theorem tmulSection_map_right {G' : Modules X} (g : G ⟶ G')
   (congrArg
     (fun k => (PresheafOfModules.Hom.app k (op W)).hom
       (s ⊗ₜ[(ringSheaf X.sheaf).obj.obj (op W)] t))
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (ringSheaf X.sheaf).obj)).unit.naturality
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.naturality
         (((PresheafOfModules.tensorBifunctor X.presheaf).obj F.val).map g.val))).symm
 
 /-- Restricting the pairing of two sections restricts the two sections. -/

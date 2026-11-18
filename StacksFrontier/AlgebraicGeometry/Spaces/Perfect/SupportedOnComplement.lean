@@ -28,9 +28,11 @@ the two objects `j_!F` and `Rj_*F`, to clause (c).
 The deductions here take their inputs (the Mayer–Vietoris statements, the vanishing of the
 restrictions of a supported object, the other clauses) as explicit arguments.  All of those
 inputs are theorems of the library, and every clause of Stacks 08GG is proved unconditionally,
-and registered, in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplementClauses.lean`
+and registered, in
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplementClauses.lean`
 (see `AlgebraicGeometry.Space.isIso_of_cohomologySupportedOn_edsEtale` there for all five
-clauses together), in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedExtensionByZero.lean`
+clauses together), in
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedExtensionByZero.lean`
 and in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedPushforwardPerfect.lean`.
 
 ## Main definitions
@@ -108,7 +110,8 @@ normalized comparison on all of `D(𝒪_V)` need not exist for a nonseparated é
 where `j` acquires a section.  The library proves them without that reduction:
 `j_!F` is supported on `T` (Stacks 08HA), so clause (1)(b) at `j_!F`, the triangle identity
 and the conservativity of `j_!` give clause (2)(a), and clause (1)(a) at `j_!F` then gives
-clause (2)(b); see `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplementClauses.lean`.
+clause (2)(b); see
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplementClauses.lean`.
 
 ## References
 

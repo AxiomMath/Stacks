@@ -344,7 +344,8 @@ source asserts, see `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIs
 -- an isomorphism between the two objects, with no claim about which morphism realizes it.
 -- Tag 08QQ is carried by `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIso` and
 -- `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIso_hom` below, which state the
--- lemma with the source's own arrow, and in `StacksFrontier.Cotangent.BaseChangeQuasiIsoUnconditional`
+-- lemma with the source's own arrow, and in
+-- `StacksFrontier.Cotangent.BaseChangeQuasiIsoUnconditional`
 -- by `CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap_unconditional` and
 -- `CommAlgCat.cotangentBaseChangeIsoUnconditional`.
 def derivedCotangentComplexBaseChangeIso

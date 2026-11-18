@@ -42,7 +42,8 @@ is independent of the choice on `D⁺_QCoh` by [Stacks, Tag 0AA0]
 assertion of clause (2), the duality isomorphism `Rf_*R𝓗om_{𝒪_X}(K, f^!M) ⟶ R𝓗om_{𝒪_Y}(Rf_*K, M)`
 for `K ∈ D⁻_Coh(𝒪_X)` and `M ∈ D⁺_QCoh(𝒪_Y)` ([Stacks, Tag 0GEW]), is
 `Stacks.Duality.upperShriek_rightAdjoint_and_duality_of_isProper` in
-`StacksFrontier/AlgebraicGeometry/Duality/TwistedInverseImage/DualityTheoryProperDuality.lean`, which
+`StacksFrontier/AlgebraicGeometry/Duality/TwistedInverseImage/DualityTheoryProperDuality.lean`,
+which
 carries the clause; nothing here is registered.
 
 *The base.* The source takes `S` Noetherian. Everything below uses only that `S` is

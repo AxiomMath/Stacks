@@ -615,14 +615,15 @@ variable [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}]
 /-- **The canonical rank-one morphism `F ⊗ F^∨ ⟶ SheafHom(F, F)`** of sheaves of modules. The
 tensor product of sheaves of modules is the sheafification of the pointwise one (Tag 05NA), so
 this is the morphism which `Stacks.SheafOfModules.endPresheaf` induces through the
-sheafification adjunction. -/
+sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 noncomputable def tensorDualToEndomorphism
     (F : SheafOfModules.{max u v} (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))
       :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, max u v, max u v, max u v}
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj
         (dualSheaf 𝒪 h𝒪 F) ⟶ sheafHom 𝒪 h𝒪 F F :=
-  ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv
+  ((Tensor.sheafificationForgetAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).homEquiv
     ((_root_.PresheafOfModules.tensorObj (O := 𝒪) (F.val) ((dualSheaf 𝒪 h𝒪 F).val)))
     (sheafHom 𝒪 h𝒪 F F)).symm (endPresheaf 𝒪 h𝒪 F)
 
@@ -634,8 +635,20 @@ noncomputable def toTensorSheafSection
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, max u v, max u v, max u v}
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj
         G).val.obj V :=
-  (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+  ((Tensor.sheafificationForgetAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
     ((_root_.PresheafOfModules.tensorObj (O := 𝒪) (F.val) (G.val)))).app V t
+
+/-- The canonical morphism `F ⊗ F^∨ ⟶ SheafHom(F, F)` composed with the sheafification unit is
+`Stacks.SheafOfModules.endPresheaf`. -/
+theorem unit_comp_tensorDualToEndomorphism_val
+    (F : SheafOfModules.{max u v}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
+    (Tensor.sheafificationForgetAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+        (_root_.PresheafOfModules.tensorObj (O := 𝒪) F.val (dualSheaf 𝒪 h𝒪 F).val) ≫
+      (tensorDualToEndomorphism 𝒪 h𝒪 F).val = endPresheaf 𝒪 h𝒪 F :=
+  (Adjunction.homEquiv_unit _ _ _ _).symm.trans (Equiv.apply_symm_apply _ _)
 
 /-- **The canonical morphism on a local pure tensor is the rank-one operator.** This pins the
 morphism down: its value on the image of `f ⊗ lam` is the endomorphism `g ↦ lam(g) • f`. -/
@@ -651,11 +664,8 @@ theorem tensorDualToEndomorphism_toTensorSheafSection
         (toTensorSheafSection 𝒪 h𝒪 F (dualSheaf 𝒪 h𝒪 F) U
           (f ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] lam)) =
       rankOneSection 𝒪 h𝒪 (U := U.unop) f lam :=
-  congrArg (fun φ => ((φ.app U).hom (f
-    ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] lam)))
-    (((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv
-      ((_root_.PresheafOfModules.tensorObj (O := 𝒪) (F.val) ((dualSheaf 𝒪 h𝒪 F).val)))
-      (sheafHom 𝒪 h𝒪 F F)).apply_symm_apply (endPresheaf 𝒪 h𝒪 F))
+  (PresheafOfModules.comp_app_apply _ _ U _).symm.trans
+    (PresheafOfModules.hom_congr_apply' (unit_comp_tensorDualToEndomorphism_val 𝒪 h𝒪 F) U _)
 
 /-- **Sheafification inverts the rank-one map**, when `F` has finite dual bases on a family
 covering the final object. -/
@@ -685,22 +695,14 @@ pins the map down, which is carried by `tensorDualToEndomorphism_toTensorSheafSe
 theorem isIso_tensorDualToEndomorphism {K : Type*} {X : K → C} (hX : J.CoversTop X)
     {I : K → Type*} [∀ k, Fintype (I k)]
     (b : ∀ k, FiniteDualBasis 𝒪 h𝒪 F (X k) (I k)) :
-    IsIso (tensorDualToEndomorphism 𝒪 h𝒪 F) := by
-  have hm : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify 𝒪 h𝒪).map (endPresheaf 𝒪 h𝒪
-    F)) :=
-    isIso_sheafify_map_endPresheaf 𝒪 h𝒪 hX b
-  have hc : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit.app
-    (sheafHom 𝒪 h𝒪 F F)) :=
-    inferInstanceAs (IsIso ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj)).counit.app (sheafHom
-        𝒪 h𝒪 F F)))
-  have h := Adjunction.homEquiv_counit
-    (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪)
-    ((_root_.PresheafOfModules.tensorObj (O := 𝒪) (F.val) ((dualSheaf 𝒪 h𝒪 F).val)))
-      (sheafHom 𝒪 h𝒪 F F)
-    (endPresheaf 𝒪 h𝒪 F)
-  rw [tensorDualToEndomorphism, h]
-  exact @IsIso.comp_isIso _ _ _ _ _ _ _ hm hc
+    IsIso (tensorDualToEndomorphism 𝒪 h𝒪 F) :=
+  (congrArg IsIso (Adjunction.homEquiv_counit _ _ _ _)).mpr
+    (IsIso.comp_isIso'
+      ((Tensor.isIso_sheafification_map_iff
+        (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩) _).mpr
+        (isIso_sheafify_map_endPresheaf 𝒪 h𝒪 hX b))
+      (NatIso.isIso_app_of_isIso (Tensor.sheafificationForgetAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).counit _))
 
 /-- **The canonical coevaluation `𝒪 ⟶ F ⊗ F^∨`** of a sheaf of modules which is locally a
 direct summand of a finite free sheaf of modules: the inverse image of the identity

@@ -163,8 +163,7 @@ lemma tensorHomEquivPresheafTensorHom_naturality
     (t : ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj A).obj B ⟶ N) (k : N ⟶ N') :
     tensorHomEquivPresheafTensorHom (t ≫ k) =
       tensorHomEquivPresheafTensorHom t ≫ k.val :=
-  (PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).homEquiv_naturality_right t k
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).homEquiv_naturality_right t k
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.HasSheafCompose (forget RingCat.{w})] [J.HasSheafCompose (forget AddCommGrpCat.{w})] in

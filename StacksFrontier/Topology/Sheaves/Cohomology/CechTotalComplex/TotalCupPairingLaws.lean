@@ -869,6 +869,7 @@ theorem tensorBraiding_tensorComplexSection
   refine congrArg (((i * j).negOnePow : ℤˣ) • ·) ?_
   have e2 := Stacks.SheafOfModules.Tensor.braiding_hom_app_sheafifyUnit_tmul S.sheaf (K.X i)
     (L.X j) (op ⊤) a b
+  rw [AlgebraicGeometry.RingedSite.tensorComplexSection_eq_ι]
   exact congrArg (fun x => ((HomologicalComplex.ιTensorObj L K j i n
     (by simpa [add_comm] using h)).val.app (op ⊤)) x) e2
 

@@ -26,8 +26,8 @@ because the right adjoint of the composite already takes values in sheaves on th
 
 ## Main definitions
 
-* `Stacks.SheafOfModules.InternalHom.sheafifyForgetAdjunction`: the sheafification adjunction
-  for modules, with the restriction of scalars along an identity erased from the right adjoint.
+* `Stacks.SheafOfModules.InternalHom.sheafifyForgetAdjunction`: the sealed sheafification
+  adjunction for modules, with the plain forgetful functor as right adjoint.
 * `Stacks.SheafOfModules.InternalHom.tensorLeftAdjunction`: the adjunction re-seated so that
   its left adjoint is the tensor product of the monoidal structure on sheaves of modules.
 
@@ -50,24 +50,24 @@ because the right adjoint of the composite already takes values in sheaves on th
 
 ## Implementation notes
 
-The three defeq identifications the construction rests on are each a single `rfl`:
+The construction uses the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification R` (the last factor of
+`Stacks.SheafOfModules.Tensor.sheafTensor R`) and rests on two defeq identifications, each a
+single `rfl`:
 
-* the right adjoint of `PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)` is
-  `SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj)`, and
-  `restrictScalars (𝟙 _)` is the identity functor definitionally — Mathlib relies on exactly
-  this in its own `Full` instance for that functor. `sheafifyForgetAdjunction` performs that
-  identification once, at the functor level, so no other declaration here crosses the
-  `restrictScalars` spelling: the comparison is cheap at the object level and expensive at the
-  morphism level.
 * `(Stacks.SheafOfModules.Tensor.sheafTensor R).obj F` is
-  `SheafOfModules.forget _ ⋙ tensorLeft F.val ⋙
-  PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)`,
+  `SheafOfModules.forget _ ⋙ tensorLeft F.val ⋙ Stacks.SheafOfModules.Tensor.sheafification R`,
   which is the `comm1` of `Adjunction.restrictFullyFaithful`.
 * the right adjoint of the composite adjunction,
   `SheafOfModules.forget _ ⋙ internalHomSecondFunctor R.obj F.val`, *equals*
   `internalHomSecondFunctor J R F ⋙ SheafOfModules.forget _`, which is the `comm2`. Both
   `comm1` and `comm2` are therefore `Iso.refl`, and nothing about either construction is
   unfolded beyond that.
+
+The sheafification adjunction enters as `sheafifyForgetAdjunction`, the sealed adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` whose right adjoint is the plain
+forgetful functor, so no declaration here crosses the `restrictScalars (𝟙 _)` spelling of the
+right adjoint of Mathlib's `PresheafOfModules.sheafificationAdjunction`.
 
 Two monoidal structures on sheaves of modules are in play, as in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalSheafTensor.lean`: the localized one,
@@ -108,17 +108,22 @@ variable (R : Sheaf J CommRingCat.{max u v})
   [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}]
 
 /-- **The sheafification adjunction for sheaves of modules, in the forgetful spelling.** The
-right adjoint of `PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)` is the forgetful
-functor composed with restriction of scalars along an identity; that restriction of scalars is
-the identity functor definitionally, and this declaration is the one place where the
-identification is made. -/
+sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification R`, the last factor of
+`Stacks.SheafOfModules.Tensor.sheafTensor R`, is left adjoint to the plain forgetful functor:
+this is `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, which erases the
+restriction of scalars along an identity from the right adjoint of Mathlib's adjunction once, at
+the functor level. -/
 def sheafifyForgetAdjunction :
-    PresheafOfModules.sheafification
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) ⊣
+    Stacks.SheafOfModules.Tensor.sheafification.{_, _, _, max u v} R ⊣
       _root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R) :=
-  PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+  Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R
+
+/-- `sheafifyForgetAdjunction` is the sealed adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, so the latter's unit lemmas
+apply to it after rewriting. -/
+lemma sheafifyForgetAdjunction_eq :
+    sheafifyForgetAdjunction R = Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R :=
+  rfl
 
 variable (F : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R))
 
@@ -159,8 +164,6 @@ section Displayed
 
 variable (G H : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R))
 
-set_option maxHeartbeats 1600000 in
--- elaborating the composite of the presheaf currying and sheafification adjunctions is slow
 /-- **Stacks 03EO, sheaf case, in the handedness Stacks 03EO displays.** Tensoring on the right
 by `G` is left adjoint to the internal-Hom functor with source `G`.
 
@@ -188,10 +191,7 @@ def sheafTensorHomEquiv :
 the given morphism of sheaves. -/
 lemma sheafifyForgetAdjunction_homEquiv
     (P : PresheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-    (f : (PresheafOfModules.sheafification
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).obj P ⟶ H) :
+    (f : (Stacks.SheafOfModules.Tensor.sheafification R).obj P ⟶ H) :
     (sheafifyForgetAdjunction R).homEquiv P H f =
       (sheafifyForgetAdjunction R).unit.app P ≫ f.val :=
   (sheafifyForgetAdjunction R).homEquiv_unit P H f

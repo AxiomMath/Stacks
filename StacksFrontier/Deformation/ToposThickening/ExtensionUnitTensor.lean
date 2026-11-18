@@ -33,26 +33,30 @@ asks for the unit of the base-change adjunction.
 ## Implementation notes
 
 **Everything in sight is sheafified, so the proof is a computation on local sections.** Each of
-the four morphisms involved is the sheafification of a morphism of presheaves of modules
-composed with the sheafification unit, and the three section formulas the tree already carries
-are exactly what is needed:
+the four morphisms involved is a sheafification of a morphism of presheaves of modules composed
+with a sheafification unit, and the section formulas the tree already carries are exactly what is
+needed:
 `Stacks.Sheaves.RingedToposModules.extendRestrictScalarsAdjunction_unit_app_val_app_apply`
-(the adjunction unit is `n ↦ 1 ⊗ n`),
+(the adjunction unit is `n ↦ 1 ⊗ n`, read through Mathlib's sheafification unit),
 `Stacks.SheafOfModules.tensorSheafUnitRightIso_inv_app` (the inverse right unitor is
-`n ↦ n ⊗ 1`) and `Stacks.SheafOfModules.sheafify_map_toSheafify_apply` (naturality of the
-sheafification unit, which moves a sheafified morphism past it). What is left after those is
-the presheaf level, where the braiding and the whiskering are the braiding and the whiskering
-of `ModuleCat`: both compute on a pure tensor by `rfl`, and the only remaining content is that
-the structure map sends `1` to `1`,
+`n ↦ n ⊗ 1`, read through the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`) and
+`Stacks.SheafOfModules.Tensor.unit_naturality_apply` (naturality of the sealed unit, which moves a
+sheafified morphism past it). What is left after those is the presheaf level, where the braiding
+and the whiskering are the braiding and the whiskering of `ModuleCat`: both compute on a pure
+tensor by `rfl`, and the only remaining content is that the structure map sends `1` to `1`,
 `Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit_val_app_one`.
 
-**The first factor of `restrictExtensionIsoTensorRight` never appears.** That factor,
-`Deformation.ComplexLift.restrictExtensionIsoLeftTensor`, is
-`PresheafOfModules.homMk` applied to the identity of the common underlying abelian presheaf, so
-on sections it is the identity and the composite is definitionally the sheafification of the
-braiding alone; `hbraid` below is `sheafify_map_toSheafify_apply` with nothing added. For the
-same reason the sheafification unit of the presheaf extension of scalars and the sheafification
-unit of `O₀|_O ⊗_O N` are the same term, which is what lets the two section formulas meet.
+**Where the two sheafifications meet.** `restrictExtensionIsoTensorRight` is
+`Deformation.ComplexLift.restrictExtensionIsoSheafifyLeftTensor`, then the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the sealed one
+inside the tensor product, then the braiding. The first factor is `PresheafOfModules.homMk`
+applied to the identity of the common underlying abelian presheaf, so on sections it is the
+identity, and the sheafification unit of the presheaf extension of scalars is Mathlib's
+sheafification unit of `O₀|_O ⊗_{p, O} N`. The comparison carries that unit to the sealed one
+(`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`), which is where the
+adjunction-unit formula meets the unitor formula; `restrictExtensionIsoTensorRight_toSheafify_apply`
+below records this, followed by naturality of the sealed unit for the braiding.
 
 **Why the proof is in term form.** `rw` cannot be used on the goal at
 all: it mentions both spellings `Deformation.ComplexLift.Stacks.SheafOfModules.Tensor.ringSheaf O`
@@ -89,35 +93,26 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable {O O₀ : Sheaf J CommRingCat.{u}} (f : O ⟶ O₀)
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
-/-- The comparison `(O₀ ⊗_O N)|_O ≅ N ⊗_O O₀|_O` acts on sections as the braiding. -/
+/-- The comparison `(O₀ ⊗_O N)|_O ≅ N ⊗_O O₀|_O` on the image of a local section under the
+sheafification unit of the presheaf extension of scalars: the unit of the sealed sheafification
+of `N ⊗_O O₀|_O` at the braided section. The comparison `sheafificationIso` carries Mathlib's
+sheafification unit to the sealed one, and the braiding moves past the sealed unit by its
+naturality. -/
 private theorem restrictExtensionIsoTensorRight_toSheafify_apply
     (N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (V : Cᵒᵖ)
     (y : ((restrictUnitOf f).val ⊗ N.val).obj V) :
     (((restrictExtensionIsoTensorRight f).hom.app N).val.app V)
         ((CategoryTheory.toSheafify J (PresheafOfModules.presheaf
           ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings f.hom).obj N.val))).app V y) =
-      ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app
-          (restrictUnitOf f)).hom.app N).val.app V)
-        ((CategoryTheory.toSheafify J (PresheafOfModules.presheaf
-          ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings f.hom).obj N.val))).app V y) := rfl
-
-/-- The braiding of sheaves of modules on the image of a local section under the
-sheafification unit. -/
-private theorem sheafTensorBraiding_toSheafify_apply
-    (N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (V : Cᵒᵖ)
-    (y : ((restrictUnitOf f).val ⊗ N.val).obj V) :
-      ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app
-          (restrictUnitOf f)).hom.app N).val.app V)
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj
-          (Stacks.SheafOfModules.structureRingIsSheaf O)
-            ((restrictUnitOf f).val ⊗ N.val)).app V y) =
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj
-          (Stacks.SheafOfModules.structureRingIsSheaf O)
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
           (N.val ⊗ (restrictUnitOf f).val)).app V
         ((β_ (restrictUnitOf f).val N.val).hom.app V y) :=
-  Stacks.SheafOfModules.sheafify_map_toSheafify_apply O.obj
-      (Stacks.SheafOfModules.structureRingIsSheaf O) (β_ (restrictUnitOf f).val N.val).hom V y
+  (congrArg (fun z ↦ ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app
+          (restrictUnitOf f)).hom.app N).val.app V) z)
+      (PresheafOfModules.hom_congr_apply'
+        (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app O
+          ((restrictUnitOf f).val ⊗ N.val)) V y)).trans
+    (Stacks.SheafOfModules.Tensor.unit_naturality_apply (β_ (restrictUnitOf f).val N.val).hom V y)
 
 /-- **The unit of extension of scalars is the tensor product with the structure map.** Read
 through the identification `(O₀ ⊗_O N)|_O ≅ N ⊗_O O₀|_O` of
@@ -146,42 +141,20 @@ theorem unit_comp_restrictExtensionIsoTensorRight
   -- The structure map `O ⟶ O₀|_O` sends `1` to `1`.
   have hone := Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit_val_app_one
     (ringSheafMapOf J f) V
-  -- Naturality of the sheafification unit, for the braiding `O₀|_O ⊗_O N ⟶ N ⊗_O O₀|_O`.
-  have hbraid : ∀ y : ((restrictUnitOf f).val ⊗ N.val).obj V,
-      (((restrictExtensionIsoTensorRight f).hom.app N).val.app V)
-        ((CategoryTheory.toSheafify J (PresheafOfModules.presheaf
-          ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings f.hom).obj N.val))).app V y) =
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj hsheaf
-          (N.val ⊗ (restrictUnitOf f).val)).app V
-        ((β_ (restrictUnitOf f).val N.val).hom.app V y) :=
-    fun y ↦ (restrictExtensionIsoTensorRight_toSheafify_apply f N V y).trans
-      (sheafTensorBraiding_toSheafify_apply f N V y)
-  -- Naturality of the sheafification unit, for `N ⊗_O -` applied to the structure map.
-  have hwhisker : ∀ y :
-    (N.val ⊗ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj V,
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', u, u, u} O).obj N).map
-          (Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit
-            (ringSheafMapOf J f))).val.app V)
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj hsheaf
-          (N.val ⊗ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val)).app V y) =
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj hsheaf
-          (N.val ⊗ (restrictUnitOf f).val)).app V
-        ((N.val ◁ (Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit
-          (ringSheafMapOf J f)).val).app V y) :=
-    fun y ↦ Stacks.SheafOfModules.sheafify_map_toSheafify_apply O.obj hsheaf
-      (N.val ◁ (Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit
-        (ringSheafMapOf J f)).val) V y
   -- The braiding takes `1 ⊗ x` to `x ⊗ 1`, and the whiskering takes `x ⊗ 1` to `x ⊗ f 1`.
   have htmul := congrArg (fun z ↦ x ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj V] z)
     hone.symm
   exact (congrArg (fun y ↦ ((restrictExtensionIsoTensorRight f).hom.app N).val.app V y)
-      hunit).trans ((hbraid _).trans ((congrArg (fun z ↦
-        (Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj hsheaf
+      hunit).trans ((restrictExtensionIsoTensorRight_toSheafify_apply f N V _).trans
+      ((congrArg (fun z ↦ ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
           (N.val ⊗ (restrictUnitOf f).val)).app V z) htmul).trans
-      ((hwhisker _).symm.trans (congrArg (fun y ↦
-        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', u, u, u} O).obj N).map
-          (Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit
-            (ringSheafMapOf J f))).val.app V y) hunitor.symm))))
+      ((Stacks.SheafOfModules.Tensor.unit_naturality_apply
+          (N.val ◁ (Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit
+            (ringSheafMapOf J f)).val) V _).symm.trans
+        (congrArg (fun y ↦
+          (((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', u, u, u} O).obj N).map
+            (Stacks.SheafOfModules.ChangeOfRings.unitToRestrictScalarsUnit
+              (ringSheafMapOf J f))).val.app V y) hunitor.symm))))
 
 end Deformation.ComplexLift
 

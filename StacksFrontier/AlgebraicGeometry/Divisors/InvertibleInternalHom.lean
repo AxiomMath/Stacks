@@ -492,13 +492,14 @@ def valPresheafMap {M N : _root_.SheafOfModules.{w} (structureSheaf O hO)} (φ :
     valPresheaf O hO M ⟶ valPresheaf O hO N := φ.val
 
 /-- The pairing `M ⊗_𝒪 G ⟶ H` of presheaves of modules attached to an isomorphism
-`ev : M ⊗_𝒪 G ≅ H` of sheaves of modules: the unit of sheafification followed by `ev`. -/
+`ev : M ⊗_𝒪 G ≅ H` of sheaves of modules: the unit of the sealed sheafification
+`structureSheafification` (the last factor of the sheaf tensor product) followed by `ev`. -/
 def tensorPairing (G M H : _root_.SheafOfModules.{w} (structureSheaf O hO))
     (ev : (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
         (M)).obj (G)) ≅ H) :
     valPresheaf O hO M ⊗ valPresheaf O hO G ⟶ valPresheaf O hO H :=
-  toSheafify O hO (M.val ⊗ G.val) ≫ ev.hom.val
+  (structureSheafificationAdjunction O hO).unit.app (M.val ⊗ G.val) ≫ ev.hom.val
 
 /-- For an invertible `G` and an isomorphism `ev : M ⊗_𝒪 G ≅ H`, precomposing with the pairing
 `M ⊗ G ⟶ H` is a bijection from the morphisms of presheaves of modules `A ⟶ M` onto the
@@ -510,21 +511,21 @@ theorem tensorHom_bijective_of_isInvertible
         (M)).obj (G)) ≅ H)
     (A : _root_.PresheafOfModules.{w} (structureSheaf O hO).obj) :
     Function.Bijective (fun f : A ⟶ M.val ↦
-      (f ▷ G.val) ≫ toSheafify O hO (M.val ⊗ G.val) ≫ ev.hom.val) := by
-  let a := sheafify O hO
-  let adj := sheafifyAdjunction O hO
+      (f ▷ G.val) ≫ (structureSheafificationAdjunction O hO).unit.app (M.val ⊗ G.val) ≫
+        ev.hom.val) := by
+  let a := structureSheafification O hO
+  let adj := structureSheafificationAdjunction O hO
   let T := (Stacks.SheafOfModules.Tensor.sheafTensor.{u, w, w, w, w}
     ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj G
-  let η := toSheafify O hO A
+  let η := adj.unit.app A
   let q := a.map (η ▷ G.val)
-  have : IsIso q :=
-    isIso_sheafify_map_whiskerRight O hO η G.val (isIso_sheafify_map_toSheafify O hO A)
+  have : IsIso q := isIso_structureSheafification_map_whiskerRight O hO η G.val inferInstance
   let e : (A ⟶ M.val) ≃ (A ⊗ G.val ⟶ H.val) :=
     (adj.homEquiv A M).symm.trans
       ((Functor.FullyFaithful.ofFullyFaithful T).homEquiv.trans
         ((Iso.homCongr (asIso q).symm ev).trans (adj.homEquiv (A ⊗ G.val) H)))
   have he (f : A ⟶ M.val) :
-      e f = (f ▷ G.val) ≫ toSheafify O hO (M.val ⊗ G.val) ≫ ev.hom.val := by
+      e f = (f ▷ G.val) ≫ adj.unit.app (M.val ⊗ G.val) ≫ ev.hom.val := by
     let g := (adj.homEquiv A M).symm f
     have hg : η ≫ g.val = f := (adj.homEquiv A M).apply_symm_apply f
     have hwhisker : (η ▷ G.val) ≫ (g.val ▷ G.val) = f ▷ G.val :=
@@ -543,7 +544,7 @@ theorem tensorHom_bijective_of_isInvertible
           rw [hcomp]; exact (Category.assoc _ _ _).symm
       _ = ((f ▷ G.val) ≫ adj.unit.app (M.val ⊗ G.val)) ≫ ev.hom.val :=
           congrArg (fun z ↦ z ≫ ev.hom.val) hn.symm
-      _ = (f ▷ G.val) ≫ toSheafify O hO (M.val ⊗ G.val) ≫ ev.hom.val :=
+      _ = (f ▷ G.val) ≫ adj.unit.app (M.val ⊗ G.val) ≫ ev.hom.val :=
           Category.assoc _ _ _
   convert e.bijective using 1
   exact funext fun f ↦ (he f).symm

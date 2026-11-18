@@ -49,6 +49,13 @@ exhausts the heartbeat budget at `whnf`. For the same reason the ringed-space ad
 `Stacks.RingedSpace.pullbackAdjunction` is used throughout rather than
 `AlgebraicGeometry.Scheme.Modules.pullbackPushforwardAdjunction`, its definitional equal.
 
+The tensor product sheaves are sheafified by the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so the units of pure tensors are those of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, as in
+`Stacks.RingedSpace.comparisonTranspose_unit_tmul`; the pairing of the characterization of
+Stacks 03EL is stated with `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the
+two units agreeing on sections definitionally (`sheafificationForgetAdjunction_unit_app_app_apply`).
+
 ## References
 
 * [Stacks Project, Tag 03EL](https://stacks.math.columbia.edu/tag/03EL)
@@ -80,17 +87,17 @@ theorem sheafTensor_uncurry_map_val_app_unit_tmul
     (x : A₁.val.obj U) (y : B₁.val.obj U) :
     _root_.PresheafOfModules.Hom.app ((Functor.uncurry.obj (sheafTensor R)).map
         ((f₁, f₂) : ((A₁, B₁) : _ × _) ⟶ (A₂, B₂))).val U
-      (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := R.obj) A₁.val B₁.val)) U (x ⊗ₜ y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := R.obj) A₂.val B₂.val)) U
+      (_root_.PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app
+          (PresheafOfModules.tensorObj (O := R.obj) A₁.val B₁.val)) U (x ⊗ₜ y)) =
+      _root_.PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app
+          (PresheafOfModules.tensorObj (O := R.obj) A₂.val B₂.val)) U
         (_root_.PresheafOfModules.Hom.app f₁.val U x ⊗ₜ Hom.app f₂.val U y) := by
   refine (_root_.PresheafOfModules.hom_congr_apply'
     (congrArg (fun morphism => SheafOfModules.Hom.val morphism)
       (sheafTensor_uncurry_map R f₁ f₂)) U _).trans ?_
-  exact (_root_.PresheafOfModules.unit_naturality_apply (α := 𝟙 (ringSheaf R).obj)
+  exact (Stacks.SheafOfModules.Tensor.unit_naturality_apply
     (_root_.PresheafOfModules.tensorHom (O := R.obj) f₁.val f₂.val) U (x ⊗ₜ y)).trans
     (congrArg _ (_root_.PresheafOfModules.tensorHom_tmul (O := R.obj) f₁.val f₂.val U x y))
 
@@ -211,14 +218,11 @@ the modules development. -/
 theorem comparisonTranspose_val_app_unit_tmul (F G : Y.Modules) (V : Y.Opensᵒᵖ)
     (x : F.val.obj V) (y : G.val.obj V) :
     (Stacks.RingedSpace.comparisonTranspose g.toLRSHom.toShHom F G).val.app V
-      (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.zariskiRingedSite.toRingedTopos.O)
-            (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          Y.zariskiRingedSite.toRingedTopos.O).unit.app (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(Y.zariskiRingedSite.toRingedTopos.O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.zariskiRingedSite.toRingedTopos.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            X.zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          X.zariskiRingedSite.toRingedTopos.O).unit.app
         (PresheafOfModules.tensorObj (O := X.zariskiRingedSite.toRingedTopos.O.obj)
           ((Stacks.RingedSpace.pullbackFunctor g.toLRSHom.toShHom).obj F).val
           ((Stacks.RingedSpace.pullbackFunctor g.toLRSHom.toShHom).obj G).val))
@@ -246,14 +250,11 @@ theorem zariskiComparisonTransport_transpose_unit_tmul (F G : Y.Modules) (V : Y.
             Y.zariskiRingedSite.toRingedTopos.O))).obj (F, G)) ≫
         (pushforwardModules g.zariskiRingedToposModulesHom).map
           (g.zariskiComparisonTransport F G)).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.zariskiRingedSite.toRingedTopos.O)
-            (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          Y.zariskiRingedSite.toRingedTopos.O).unit.app (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(Y.zariskiRingedSite.toRingedTopos.O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.zariskiRingedSite.toRingedTopos.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            X.zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          X.zariskiRingedSite.toRingedTopos.O).unit.app
         (PresheafOfModules.tensorObj (O := X.zariskiRingedSite.toRingedTopos.O.obj)
           (g.zariskiRingedToposModulesHom.pullbackModules.obj F).val
           (g.zariskiRingedToposModulesHom.pullbackModules.obj G).val))
@@ -273,10 +274,8 @@ theorem zariskiComparisonTransport_transpose_unit_tmul (F G : Y.Modules) (V : Y.
     (((Stacks.RingedSpace.pullbackAdjunction g.toLRSHom.toShHom).unit.app G).val.app V y)
   refine (congrArg ((g.zariskiPullbackModulesIsoInvTensor F G).val.app
     ((Opens.map g.base).op.obj V)) hB).trans (hC.trans ?_)
-  exact congrArg (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.zariskiRingedSite.toRingedTopos.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            X.zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+  exact congrArg (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          X.zariskiRingedSite.toRingedTopos.O).unit.app
         (PresheafOfModules.tensorObj (O := X.zariskiRingedSite.toRingedTopos.O.obj)
           (g.zariskiRingedToposModulesHom.pullbackModules.obj F).val
           (g.zariskiRingedToposModulesHom.pullbackModules.obj G).val))
@@ -297,18 +296,15 @@ theorem pairingApp_zariskiComparisonTransport_transpose (F G : Y.Modules) (V : Y
         (Stacks.SheafOfModules.pairingOfTensorHom
           (hO := (Stacks.SheafOfModules.Tensor.ringSheaf
             Y.zariskiRingedSite.toRingedTopos.O).property)
-          ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.zariskiRingedSite.toRingedTopos.O)
-                (𝟙 _)).unit.app (F.val ⊗ G.val) ≫
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              Y.zariskiRingedSite.toRingedTopos.O).unit.app (F.val ⊗ G.val) ≫
             ((pullbackAdjPushforwardModules g.zariskiRingedToposModulesHom).unit.app
                 (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
                   Y.zariskiRingedSite.toRingedTopos.O))).obj (F, G)) ≫
               (pushforwardModules g.zariskiRingedToposModulesHom).map
                 (g.zariskiComparisonTransport F G)).val)) V x y =
-      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.zariskiRingedSite.toRingedTopos.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            X.zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          X.zariskiRingedSite.toRingedTopos.O).unit.app
         (PresheafOfModules.tensorObj (O := X.zariskiRingedSite.toRingedTopos.O.obj)
           (g.zariskiRingedToposModulesHom.pullbackModules.obj F).val
           (g.zariskiRingedToposModulesHom.pullbackModules.obj G).val))

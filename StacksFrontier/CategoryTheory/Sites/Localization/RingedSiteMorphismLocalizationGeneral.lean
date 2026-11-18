@@ -76,7 +76,8 @@ namespace HomGeneral
 
 variable {X : RingedSite.{uX, vX, w}} {Y : RingedSite.{uY, vY, w}} (f : HomGeneral X Y) (V : Y.C)
 
-/-- **The construction of Stacks 04J0 at independent site universes.** The localization of a morphism of ringed
+/-- **The construction of Stacks 04J0 at independent site universes.** The localization of a
+morphism of ringed
 sites at an object `V` of the target, with the object and morphism universes of the source
 independent of those of the target: the underlying functor is `Over.post u` and the structure map
 is the restriction `j_V^{-1}(f^♯)` of the structure map of `f`.

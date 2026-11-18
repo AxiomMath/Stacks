@@ -21,7 +21,9 @@ universe u
 variable {T : Scheme.{u}}
 
 /-- **Tensoring a module by the structure sheaf returns the module.** The tensor functor of `L`
-evaluated at the unit sheaf of modules is the sheafification of `L.val ⊗ 𝒪`, which the right unit
+evaluated at the unit sheaf of modules is the sheafification of `L.val ⊗ 𝒪`
+(`Stacks.SheafOfModules.tensorLeftFunctorIsoTensorLeftSheafifyFunctor` identifies the sealed
+sheafification of `sheafTensor` with `TensorSheafification.sheafify`), which the right unit
 constraint of the presheaf tensor product identifies with the sheafification of `L.val`, and that
 is `L` again because `L` is a sheaf. -/
 public def zeroNotInvertible_tensorLeftFunctorObjUnitIso
@@ -32,7 +34,9 @@ public def zeroNotInvertible_tensorLeftFunctorObjUnitIso
           (T.ringCatSheaf.2)⟩).obj (L))).obj
         (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf T.presheaf
           T.ringCatSheaf.2)) ≅ L :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify T.presheaf T.ringCatSheaf.2).mapIso
+  (Stacks.SheafOfModules.tensorLeftFunctorIsoTensorLeftSheafifyFunctor T.presheaf
+      T.ringCatSheaf.2 L).app _ ≪≫
+    (Stacks.SheafOfModules.TensorSheafification.sheafify T.presheaf T.ringCatSheaf.2).mapIso
       (MonoidalCategory.rightUnitor (C := PresheafOfModules
         (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf T.presheaf)) L.val) ≪≫
     (Stacks.SheafOfModules.forgetSheafifyIso T.presheaf T.ringCatSheaf.2).app L

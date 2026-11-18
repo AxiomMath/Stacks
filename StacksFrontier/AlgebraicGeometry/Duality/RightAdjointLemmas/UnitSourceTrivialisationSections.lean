@@ -72,15 +72,20 @@ The three structural steps (`sheafTensorHomAdjunction_counit_eq_comp`,
 `internalHomEvaluation_eq_comp`, `sheafTensorHomAdjunction_counit_app`) are stated and proved
 over the plain adjunction API, using the canonical coefficient sheaf
 `Stacks.SheafOfModules.Tensor.ringSheaf 𝒪` and its underlying presheaf `Oforget 𝒪.obj`.
-The composites are split on sections by the private `comp_val_app_apply` applied as a term
-with one factor given explicitly, rather than by `rw`: left to itself the unifier splits the
+The sheafification throughout is the sealed `Stacks.SheafOfModules.Tensor.sheafification`, the
+last factor of `Stacks.SheafOfModules.Tensor.sheafTensor`. The composites are split on sections
+by the private `comp_val_app_apply` applied as a term, rather than by `rw`: a `rw` splits the
 inverse left unitor of the re-seated monoidal structure into *its* two factors instead.
 
-The passage between the `Stacks.SheafOfModules.Tensor.*` spelling, in which the adjunctions are
-written, and the `Stacks.SheafOfModules.TensorSheafification.*` spelling, in which the section
-formulas for the unitors and for the sheafification unit are written, is by `rfl`: their
-underlying presheaf is `𝒪.obj ⋙ forget₂ CommRingCat RingCat`, and the sheaf-condition witnesses
-are proofs of a proposition.
+The section formula for the inverse left unitor is written with the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, and the local pure tensors
+`Stacks.SheafOfModules.tensorSectionsAt` with the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`; the two agree on sections by
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply`. The passage
+between the `Stacks.SheafOfModules.Tensor.*` and `Stacks.SheafOfModules.TensorSheafification.*`
+spellings of the coefficient sheaf is definitional: their underlying presheaf is
+`𝒪.obj ⋙ forget₂ CommRingCat RingCat`, and the sheaf-condition witnesses are proofs of a
+proposition.
 
 **The identification is not stated at a general ringed site.**
 `Stacks.SheafOfModules.internalHomSheafUnitIso` is only constructed on a topological space,
@@ -172,8 +177,9 @@ theorem internalHomEvaluation_eq_comp :
 omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 open Stacks.PresheafOfModules.InternalHom in
 /-- **The left-handed counit of [Stacks, Tag 03EO] is the sheafified braiding followed by the
-evaluation morphism.** The counit of `𝒪 ⊗_𝒪 - ⊣ ℰom_𝒪(F, -)` at `A` is the sheafification of the
-braiding `F ⊗ ℰom_𝒪(F, A) ⟶ ℰom_𝒪(F, A) ⊗ F` of presheaves of modules, followed by
+evaluation morphism.** The counit of `𝒪 ⊗_𝒪 - ⊣ ℰom_𝒪(F, -)` at `A` is the (sealed)
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` of the braiding
+`F ⊗ ℰom_𝒪(F, A) ⟶ ℰom_𝒪(F, A) ⊗ F` of presheaves of modules, followed by
 `Stacks.SheafOfModules.InternalHom.internalHomEvaluation`.
 
 Both adjunctions are the presheaf clause of [Stacks, Tag 03EO] composed with sheafification and
@@ -182,10 +188,7 @@ restricted along the forgetful functor, and the left-handed presheaf clause
 this is `CategoryTheory.Adjunction.comp_ofNatIsoLeft_counit_app` between the two readings. -/
 theorem sheafTensorHomAdjunction_counit_app :
     (sheafTensorHomAdjunction.{u, u} O F).counit.app A =
-      (PresheafOfModules.sheafification.{u}
-          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification O).map
           ((tensoringRightIsoTensorLeft.{u, u, u} O.obj F.val).inv.app
             ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u}
               O.obj F.val).obj
@@ -195,10 +198,7 @@ theorem sheafTensorHomAdjunction_counit_app :
     (Adjunction.comp_ofNatIsoLeft_counit_app (presheafTensorHomAdjunction.{u, u, u} O.obj F.val)
       (tensoringRightIsoTensorLeft.{u, u, u} O.obj F.val)
       (sheafifyForgetAdjunction.{u, u} O) A)).trans
-    (congrArg (fun t => (PresheafOfModules.sheafification.{u}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map
+    (congrArg (fun t => (Stacks.SheafOfModules.Tensor.sheafification O).map
         ((tensoringRightIsoTensorLeft.{u, u, u} O.obj F.val).inv.app
           ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
             F.val).obj A.val))
@@ -251,7 +251,8 @@ The two factors of
 inverse left unitor of the re-seated monoidal structure is the inverse left unitor
 `Stacks.SheafOfModules.tensorSheafUnitLeftIso` of the tensor product sheaf by
 `SheafOfModules.leftUnitor_sheafTensor_eq_iso`, hence `s ↦ 1 ⊗ s` on sections; and the counit is
-the sheafified braiding followed by evaluation by `sheafTensorHomAdjunction_counit_app`, so the
+the sheafified braiding followed by evaluation by `sheafTensorHomAdjunction_counit_app`, so by
+naturality of the sheafification unit (`Stacks.SheafOfModules.Tensor.unit_naturality_apply`) the
 braiding exchanges the two factors. -/
 theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒᵖ)
     (s : ((internalHomSecondFunctor.{u, u, u, u} K O
@@ -267,51 +268,15 @@ theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒ�
           (1 : O.obj.obj V)) := by
   rw [internalHomSecondFunctorUnitIso_hom_app_eq_leftUnitor_inv_comp_counit K O A,
     sheafTensorHomAdjunction_counit_app K O _ A]
-  refine Eq.trans (comp_val_app_apply K _
-    ((PresheafOfModules.sheafification.{u}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map
-        ((Stacks.PresheafOfModules.InternalHom.tensoringRightIsoTensorLeft.{u, u} O.obj
-          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).inv.app
-            ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
-              (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj
-                A.val)) ≫
-      internalHomEvaluation O
-        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) V s) ?_
-  refine Eq.trans (comp_val_app_apply K _
-    (internalHomEvaluation O
-      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) V _) ?_
-  refine congrArg _ ?_
-  refine Eq.trans (congrArg (fun y => (ConcreteCategory.hom
-      (((PresheafOfModules.sheafification.{u}
-          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map
-        ((Stacks.PresheafOfModules.InternalHom.tensoringRightIsoTensorLeft.{u, u} O.obj
-          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).inv.app
-            ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
-              (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj
-                A.val))).val.app V)) y)
+  refine (comp_val_app_apply K _ _ V s).trans ?_
+  refine (comp_val_app_apply K _ (internalHomEvaluation O _ A) V _).trans (congrArg _ ?_)
+  refine (congrArg (ConcreteCategory.hom
+      (((Stacks.SheafOfModules.Tensor.sheafification O).map _).val.app V))
     ((congrArg (fun (i : _ ≅ _) => (ConcreteCategory.hom (i.inv.val.app V)) s)
-        (_root_.SheafOfModules.leftUnitor_sheafTensor_eq_iso O
-          ((internalHomSecondFunctor.{u, u, u, u} K O
-            (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A))).trans
-      (Stacks.SheafOfModules.tensorSheafUnitLeftIso_inv_app O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf O).property _ V s))) ?_
-  refine Eq.trans (Stacks.SheafOfModules.toSheafify_app_map_obj (O := O.obj)
-    (hO := (Stacks.SheafOfModules.Tensor.ringSheaf O).property)
-    ((Stacks.PresheafOfModules.InternalHom.tensoringRightIsoTensorLeft.{u, u} O.obj
-      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).inv.app
-        ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
-          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj
-            A.val)) V _) ?_
-  refine congrArg (fun y => (Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf O).property
-      (((internalHomSecondFunctor.{u, u, u, u} K O
-        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val ⊗
-        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val)).app V y) ?_
-  rfl
+        (_root_.SheafOfModules.leftUnitor_sheafTensor_eq_iso O _)).trans
+      (Stacks.SheafOfModules.tensorSheafUnitLeftIso_inv_app O.obj _ _ V s))).trans ?_
+  exact (Stacks.SheafOfModules.Tensor.unit_naturality_apply _ V _).trans
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply O _ V _).symm
 
 omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Evaluation at the unit section.** The evaluation morphism of `ℰom_𝒪(𝒪, A)` carries the

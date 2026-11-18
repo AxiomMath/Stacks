@@ -93,7 +93,7 @@ The two resulting instances are seated here because they are otherwise available
 *K-flatness spellings.*  `Stacks.Cohomology.KFlatDerivedPullback.KFlatComplex` is
 `CochainComplex.KFlatBifunctor.KFlat` at the tensor product of sheaves of modules, while the
 stalk criterion `Stacks.SheafOfModules.KFlatStalkCriterion.kFlat_iff_stalkwise` is stated for
-`Stacks.SheafOfModules.KFlat.KFlat`; the two are the same proposition
+`Stacks.SheafOfModules.KFlat`; the two are the same proposition
 (`Stacks.SheafOfModules.KFlat.kFlat_iff_kFlatBifunctor` is `Iff.rfl`), and likewise
 `structureSheafRing Y` and `Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf`
 are equal by `rfl` but invisibly so.  Every crossing below therefore happens in term position,

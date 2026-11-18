@@ -659,7 +659,9 @@ variable (F K : SheafOfModules.{u} (structureSheafRing X))
 
 /-- The prescribed map `c : i^* ℐ ⊗_{𝒪_X} ℱ ⟶ 𝒦`, read on sections over an open of `X'` as a
 single `𝒪_{X'}(U)`-linear map out of `ℐ(U) ⊗ (i_* ℱ)(U)`: the comparison of **Stacks 08L4**
-followed by `i_* c`, precomposed with the sheafification unit.
+followed by `i_* c`, precomposed with the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the sheafification `sheafTensor` is
+built from.
 
 Keeping this a *single* linear map, rather than an iterated `LinearMap`, is what lets the
 construction below need no commutativity hypothesis on the sheaf of rings: an iterated
@@ -671,9 +673,11 @@ noncomputable def extensionPairingHom (U : (Opens X'.carrier)ᵒᵖ) :
       ((AlgebraicGeometry.SheafOfModules.idealSheaf i).val)
       (((modulePushforward i).obj F).val))).obj U ⟶
       ((modulePushforward i).obj K).val.obj U :=
-  (sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
-    ((AlgebraicGeometry.SheafOfModules.idealSheaf i).val)
-    (((modulePushforward i).obj F).val)))).app U ≫
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X'.presheaf)
+        (AlgebraicGeometry.SheafOfModules.idealSheaf i).val
+        ((modulePushforward i).obj F).val)).app U ≫
     (extensionTensorComparison i F ≫ (modulePushforward i).map c).val.app U
 
 /-- The value of `c` on a pure tensor of local sections. -/
@@ -749,14 +753,15 @@ theorem extensionPairing_naturality {U V : (Opens X'.carrier)ᵒᵖ} (f : U ⟶ 
         ((AlgebraicGeometry.SheafOfModules.idealSheaf i).val.map f a)
         (((modulePushforward i).obj F).val.map f m) := by
   have ht := PresheafOfModules.naturality_apply
-    (sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
-      ((AlgebraicGeometry.SheafOfModules.idealSheaf i).val)
-      (((modulePushforward i).obj F).val)))) f (a ⊗ₜ[X'.presheaf.obj U] m)
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X'.presheaf)
+        (AlgebraicGeometry.SheafOfModules.idealSheaf i).val
+        ((modulePushforward i).obj F).val)) f (a ⊗ₜ[X'.presheaf.obj U] m)
   have hE := PresheafOfModules.naturality_apply
     (extensionTensorComparison i F ≫ (modulePushforward i).map c).val f
-    (((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
-      ((AlgebraicGeometry.SheafOfModules.idealSheaf i).val)
-      (((modulePushforward i).obj F).val)))).app U).hom (a ⊗ₜ[X'.presheaf.obj U] m))
+    (toTensorSheafSection X' (AlgebraicGeometry.SheafOfModules.idealSheaf i)
+      ((modulePushforward i).obj F) U (a ⊗ₜ[X'.presheaf.obj U] m))
   exact hE.symm.trans (congrArg
     (((extensionTensorComparison i F ≫ (modulePushforward i).map c).val.app V).hom) ht.symm)
 

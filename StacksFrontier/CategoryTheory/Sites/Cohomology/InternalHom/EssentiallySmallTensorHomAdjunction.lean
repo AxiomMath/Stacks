@@ -320,24 +320,20 @@ def internalHomSheafSmallAdjunction
     (Stacks.SheafOfModules.Tensor.sheafTensor X.O).flip.obj L ⊣ internalHomSheafSmallFunctor X L :=
   Adjunction.mkOfHomEquiv
     { homEquiv := fun Z K ↦
-        ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv
           ((valOf X Z ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj))) K).trans
           (internalHomSheafSmallTensorHomEquiv X Z L K)
       homEquiv_naturality_left_symm := by
         intro Z₁ Z₂ K f g
-        exact (congrArg ((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv
+        exact (congrArg ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv
             ((valOf X Z₁ ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj))) K).symm
             (internalHomSheafSmallUncurry_comp X Z₂ L K f g)).trans
-          ((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv_naturality_left_symm
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv_naturality_left_symm
             (homOf X f ▷ valOf X L) (internalHomSheafSmallUncurry X Z₂ L K g))
       homEquiv_naturality_right := by
         intro Z K K' b h
         exact (congrArg (internalHomSheafSmallCurry X Z L K')
-            ((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv_naturality_right
+            ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv_naturality_right
               b h)).trans (internalHomSheafSmallCurry_comp X Z L K _ h) }
 
 /-- **The counit on sheafified pure tensors** is evaluation: `φ ⊗ l ↦ φ(l)`, the value at the
@@ -346,17 +342,14 @@ theorem internalHomSheafSmallAdjunction_counit_app_val_app
     (L K : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (U : X.C)
     (φ : (valOf X (internalHomSheafSmall X L K)).obj (op U)) (l : (valOf X L).obj (op U)) :
     (((internalHomSheafSmallAdjunction X L).counit.app K).val.app (op U)).hom
-        ((((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           ((valOf X (internalHomSheafSmall X L K) ⊗ valOf X L :
             PresheafOfModules (Oforget X.O.obj)))).app (op U)).hom (φ ⊗ₜ l)) =
       AnyUniverse.sectionOfRestr X.O.obj (valOf X K) U (𝟙 U)
         (((internalHomSheafSmallSectionEquiv X L K U φ).app (op (Over.mk (𝟙 U)))).hom
           (AnyUniverse.restrSection X.O.obj (valOf X L) U (𝟙 U) l)) := by
-  have h := ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv_unit
-    (f := ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv
+  have h := ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv_unit
+    (f := ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv
       ((valOf X (internalHomSheafSmall X L K) ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj)))
         K).symm
           (internalHomSheafSmallUncurry X (internalHomSheafSmall X L K) L K (𝟙 _)))).symm.trans
@@ -373,20 +366,17 @@ theorem internalHomSheafSmallAdjunction_homEquiv_app
           ((internalHomSheafSmallAdjunction X L).homEquiv Z K g) U z)).app (op (Over.mk q))).hom
             (AnyUniverse.restrSection X.O.obj (valOf X L) U q y)) =
       (g.val.app (op T)).hom
-        ((((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           ((valOf X Z ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj)))).app (op T)).hom
             ((valOf X Z).restrictₛₗ q.op z ⊗ₜ y)) := by
   have h0 : (internalHomSheafSmallAdjunction X L).homEquiv Z K g =
       internalHomSheafSmallCurry X Z L K
-      ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv
         ((valOf X Z ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj))) K g) := by
     unfold internalHomSheafSmallAdjunction
     rw [Adjunction.mkOfHomEquiv_homEquiv]
     rfl
-  have h1 := (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv_unit
+  have h1 := (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv_unit
     (X := (valOf X Z ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj))) (Y := K) (f := g)
   refine (congrArg (fun α ↦ AnyUniverse.sectionOfRestr X.O.obj (valOf X K) U q
     (((internalHomSheafSmallSectionEquiv X L K U
@@ -395,8 +385,7 @@ theorem internalHomSheafSmallAdjunction_homEquiv_app
   refine (congrArg (fun α ↦ AnyUniverse.sectionOfRestr X.O.obj (valOf X K) U q
     ((α.app (op (Over.mk q))).hom (AnyUniverse.restrSection X.O.obj (valOf X L) U q y)))
       (internalHomSheafSmallSectionEquiv_curry X Z L K
-        ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).homEquiv
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).homEquiv
           ((valOf X Z ⊗ valOf X L : PresheafOfModules (Oforget X.O.obj))) K g) U z)).trans ?_
   refine (AnyUniverse.curryGlobalMap_apply X.O.obj (valOf X Z) (valOf X L) (valOf X K) _ U z q
     y).trans ?_

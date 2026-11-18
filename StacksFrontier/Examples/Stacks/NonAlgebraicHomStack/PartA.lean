@@ -722,7 +722,7 @@ theorem exists_relation_of_isAddTorsion (sit : Situation k) (B : BigFppfSite.{u}
     have h := congrArg (Additive.toMul (α := openOverBase sit B hS hXn (V₀ ⊓ V₁) ⟶
       sit.abelianScheme)) hA
     rw [pointsSheaf_toMul_sub, pointsSheaf_toMul_map, pointsSheaf_toMul_map] at h
-    letI : CommGroup (openOverBase sit B hS hXn (V₀ ⊓ V₁) ⟶ sit.abelianScheme) :=
+    let : CommGroup (openOverBase sit B hS hXn (V₀ ⊓ V₁) ⟶ sit.abelianScheme) :=
       CategoryTheory.Hom.commGroup
     exact div_eq_iff_eq_mul'.mp (h.trans (pointsSheaf_toMul_nsmul _ _ σ N))
   have hk := congrArg (sectionMulEquiv sit (hS := hS) (hXn := hXn) (V₀ ⊓ V₁)) hmul

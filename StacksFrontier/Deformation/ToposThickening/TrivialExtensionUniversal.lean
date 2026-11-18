@@ -209,11 +209,8 @@ noncomputable def trivialExtensionDescKernel (g : F ⟶ (splitRestriction i hi �
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I ⟶
           (splitRestriction i hi π).obj N //
       ∀ (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (m : F.val.obj U),
-        l.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+        l.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
           (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] m)) =
         trivialExtensionDescPairing hi π F g U a m } :=
@@ -236,19 +233,13 @@ theorem idealSection_smul_descKernel (g : F ⟶ (splitRestriction i hi π).obj N
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I).val.obj U) :
     (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U from idealSection hi U b) •
       (show N.val.obj U from (trivialExtensionDescKernel hi π F g).1.val.app U k) = 0 := by
-  let p := (PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf
-      ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+  let p := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
     (PresheafOfModules.tensorObj hi.I.val F.val)
   let τ := (trivialExtensionDescKernel hi π F g).1
   have : Presheaf.IsLocallySurjective Y.J ((PresheafOfModules.toPresheaf _).map p) :=
-    PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app (J := Y.J)
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)
+    isLocallySurjective_sheafificationForgetAdjunction_unit_app (J := Y.J)
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)
       (PresheafOfModules.tensorObj hi.I.val F.val)
   apply N.isSheaf.isSeparated _ _ (Presheaf.imageSieve_mem Y.J
     ((PresheafOfModules.toPresheaf _).map p) k)

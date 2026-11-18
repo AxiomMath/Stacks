@@ -177,7 +177,7 @@ theorem tensorSheafLeftUnitor_hom_eq_unitTensorHom (Y : AlgebraicSpaces B S hS)
       (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf
           (Space.smallEtaleRingedTopos B S hS Y).O)
       (Space.idealSheafOfModules B S hS Y D)).hom = Space.unitTensorHom B S hS Y D :=
-  rfl
+  congrArg (_ ≫ ·) (Stacks.SheafOfModules.sheafificationForgetAdjunction_counit_app _ _).symm
 
 /-- **The canonical section `1_D` curries to the inclusion `𝓘_D ⟶ 𝒪_Y`** under the evaluation
 pairing `𝒪_Y(D) ⊗ 𝓘_D ≅ 𝒪_Y`, in the strict monoidal structure of Tag 01CA. -/
@@ -270,9 +270,8 @@ theorem tensorHomAt_pairing_eq_of_curries (V : (Space.SmallEtale B S hS W.1)ᵒ�
           W).property
         ι).app V).hom t := by
   have h := congrArg (fun m => (m.val.app V).hom
-    ((Stacks.SheafOfModules.TensorSheafification.toSheafify (Space.smallEtaleRingedTopos B S hS
-        W).O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf (Space.smallEtaleRingedTopos B S hS W).O).property
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction.{_, _, _, u}
+        (Space.smallEtaleRingedTopos B S hS W).O).unit.app
       ((𝟙_ (SheafOfModules.{u} (Space.structureRingSheaf B S hS W))).val ⊗ G.val)).app V
       ((1 : (Space.structureRingSheaf B S hS W).obj.obj V) ⊗ₜ t))) hs
   have h1 := whiskerRight_val_app_toSheafify (X := Space.smallEtaleRingedTopos B S hS W)
@@ -280,21 +279,23 @@ theorem tensorHomAt_pairing_eq_of_curries (V : (Space.SmallEtale B S hS W.1)ᵒ�
         W).obj.obj V) t
   have h2 := CategoryTheory.Sheaf.unitHomEquiv_symm_val_app_one K s V
   have h3 : ∀ x : G.val.obj V, ((λ_ G).hom.val.app V).hom
-      ((Stacks.SheafOfModules.TensorSheafification.toSheafify (Space.smallEtaleRingedTopos B S hS
-          W).O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf (Space.smallEtaleRingedTopos B S hS W).O).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction.{_, _, _, u}
+          (Space.smallEtaleRingedTopos B S hS W).O).unit.app
         ((𝟙_ (SheafOfModules.{u} (Space.structureRingSheaf B S hS W))).val ⊗ G.val)).app V
         ((1 : (Space.structureRingSheaf B S hS W).obj.obj V) ⊗ₜ x)) = x := by
     intro x
+    refine (congrArg (fun z => ((λ_ G).hom.val.app V).hom z)
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ V
+        _)).trans ?_
     rw [leftUnitor_hom_eq_tensorSheafLeftUnitor B S hS W G]
     exact (Stacks.SheafOfModules.tensorSheafLeftUnitor_hom_val_app_tmul _ _ G V 1 x).trans
       (one_smul ((Space.structureRingSheaf B S hS W).obj.obj V) x)
   refine Eq.trans ?_ (h.trans ?_)
   · refine congrArg (fun z => (ev.hom.val.app V).hom z) ?_
     refine Eq.trans ?_ h1.symm
-    exact congrArg (fun z => ((Stacks.SheafOfModules.TensorSheafification.toSheafify
-      (Space.smallEtaleRingedTopos B S hS W).O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf (Space.smallEtaleRingedTopos B S hS W).O).property
+    exact congrArg (fun z =>
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction.{_, _, _, u}
+      (Space.smallEtaleRingedTopos B S hS W).O).unit.app
       (K.val ⊗ G.val)).app V).hom (z ⊗ₜ t)) h2.symm
   · exact congrArg (fun z => (ι.val.app V).hom z) (h3 t)
 

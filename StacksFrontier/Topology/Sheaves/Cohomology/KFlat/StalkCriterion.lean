@@ -322,29 +322,26 @@ section Bridge
 variable {F F' G G' : SheafOfModules.{u}
   (structureSheafRing Y)}
 
-/-- Tag 01CB's induced map on the tensor product, in the sheafification spelling of Tag 06YM. -/
+/-- Tag 01CB's induced map on the tensor product, in the sheafification spelling of Tag 06YM:
+the sealed `Stacks.SheafOfModules.Tensor.sheafification` of the tensor product of the underlying
+maps of presheaves. -/
 theorem tensorSheafMap_eq (f : F ⟶ F') (g : G ⟶ G') :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.presheaf, Y.IsSheaf⟩).map f).app G ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           ⟨Y.presheaf, Y.IsSheaf⟩).obj F').map g =
-      (PresheafOfModules.sheafification
-          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification ⟨Y.presheaf, Y.IsSheaf⟩).map
         (PresheafOfModules.tensorHom f.val g.val) :=
   Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map ⟨Y.presheaf, Y.IsSheaf⟩ f g
 
-/-- The map `f ⊗ 𝟙 G` on sheaf tensor products is the sheafification of the right whiskering
-`f.val ▷ G.val` of presheaves of modules. -/
+/-- The map `f ⊗ 𝟙 G` on sheaf tensor products is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the right whiskering `f.val ▷ G.val` of
+presheaves of modules. -/
 theorem sheafTensor_map_app_eq (f : F ⟶ F')
     (G : SheafOfModules.{u} (structureSheafRing Y)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.presheaf, Y.IsSheaf⟩).map f).app G =
-      (PresheafOfModules.sheafification
-          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification ⟨Y.presheaf, Y.IsSheaf⟩).map
         (MonoidalCategory.whiskerRight f.val G.val) := rfl
 
 /-- The sheafification of the right whiskering `f.val ▷ G.val` equals the sheafification of the
@@ -363,16 +360,14 @@ theorem whiskerRight_eq (f : F ⟶ F')
         (PresheafOfModules.tensorHom f.val
           (CategoryTheory.CategoryStruct.id G).val) := rfl
 
-/-- The map `𝟙 F ⊗ g` on sheaf tensor products is the sheafification of the left whiskering
-`F.val ◁ g.val` of presheaves of modules. -/
+/-- The map `𝟙 F ⊗ g` on sheaf tensor products is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the left whiskering `F.val ◁ g.val` of
+presheaves of modules. -/
 theorem sheafTensor_obj_map_eq (g : G ⟶ G')
     (F : SheafOfModules.{u} (structureSheafRing Y)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.presheaf, Y.IsSheaf⟩).obj F).map g =
-      (PresheafOfModules.sheafification
-          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification ⟨Y.presheaf, Y.IsSheaf⟩).map
         (MonoidalCategory.whiskerLeft F.val g.val) := rfl
 
 /-- The sheafification of the left whiskering `F.val ◁ g.val` equals the sheafification of the
@@ -449,9 +444,12 @@ theorem stalkTensorIso_naturality_left (f : F ⟶ F')
             (structureSheafRing Y) x).map f)).app
           ((AlgebraicGeometry.SheafOfModules.stalkFunctor
             (structureSheafRing Y) x).obj G) := by
-  rw [sheafTensor_map_app_eq, whiskerRight_eq, ← tensorSheafMap_eq]
-  exact stalkTensorIso_naturality_aux Y x f (CategoryTheory.CategoryStruct.id G) _ LinearMap.id
-    (fun _ => rfl) (stalkMapL_id Y x G)
+  rw [← Category.comp_id (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨Y.presheaf, Y.IsSheaf⟩).map f).app G),
+    ← CategoryTheory.Functor.map_id ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨Y.presheaf, Y.IsSheaf⟩).obj F') G]
+  exact stalkTensorIso_naturality_aux Y x f (𝟙 G) _ LinearMap.id (fun _ => rfl)
+    (stalkMapL_id Y x G)
 
 /-- `ε` is natural in the right variable. -/
 theorem stalkTensorIso_naturality_right
@@ -470,9 +468,14 @@ theorem stalkTensorIso_naturality_right
             (structureSheafRing Y) x).obj F)).map
           ((AlgebraicGeometry.SheafOfModules.stalkFunctor
             (structureSheafRing Y) x).map g) := by
-  rw [sheafTensor_obj_map_eq, whiskerLeft_eq, ← tensorSheafMap_eq]
-  exact stalkTensorIso_naturality_aux Y x (CategoryTheory.CategoryStruct.id F) g LinearMap.id _
-    (stalkMapL_id Y x F) (fun _ => rfl)
+  rw [← Category.id_comp (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨Y.presheaf, Y.IsSheaf⟩).obj F).map g),
+    ← NatTrans.id_app ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨Y.presheaf, Y.IsSheaf⟩).obj F) G,
+    ← CategoryTheory.Functor.map_id (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨Y.presheaf, Y.IsSheaf⟩) F]
+  exact stalkTensorIso_naturality_aux Y x (𝟙 F) g LinearMap.id _ (stalkMapL_id Y x F)
+    (fun _ => rfl)
 
 end Bridge
 

@@ -253,13 +253,6 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
 
 /-! ### The two variables of the tensor product, as endofunctors at one spelling -/
 
-/-- Sheafification of presheaves of modules in the spelling
-`Stacks.SheafOfModules.Tensor.sheafTensor` uses. -/
-noncomputable abbrev moduleSheafifyToRingCat :
-    PresheafOfModules.{w} (Osharp.obj ⋙ forget₂ CommRingCat RingCat) ⥤
-      _root_.SheafOfModules.{w} (toRingCat J Osharp) :=
-  PresheafOfModules.sheafification (R := toRingCat J Osharp) (𝟙 (toRingCat J Osharp).obj)
-
 /-- **Tensoring on the right by a fixed sheaf of modules**, as an endofunctor of
 `SheafOfModules (CategoryTheory.Sheaf.toRingCat J O♯)`. This is `Stacks.sheafTensorRight`, whose
 source and target are spelled over `Stacks.commRingSheafToRingSheaf O♯`; the retyping is a `def`
@@ -294,7 +287,7 @@ noncomputable instance preservesZeroMorphisms_tensorSheafRight
     (M : _root_.SheafOfModules.{w} (toRingCat J Osharp)) :
     Functor.PreservesZeroMorphisms (tensorSheafRight J M) where
   map_zero A B :=
-    (congrArg (moduleSheafifyToRingCat J).map
+    (congrArg (Tensor.sheafification Osharp).map
       (PresheafOfModules.tensorRight_map_zero M.val A.val B.val)).trans
       (Functor.map_zero _ _ _)
 
@@ -308,12 +301,13 @@ noncomputable def tensorSheafLeft (M : _root_.SheafOfModules.{w} (toRingCat J Os
 
 /-! ### The symmetry of the tensor product of sheaves of modules -/
 
-/-- **The symmetry of the tensor product of sheaves of modules**: the sheafification of the
-symmetry of the objectwise tensor product. -/
+/-- **The symmetry of the tensor product of sheaves of modules**: the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the symmetry of the objectwise tensor
+product. -/
 noncomputable def tensorSheafCommIso
     (M N : _root_.SheafOfModules.{w} (toRingCat J Osharp)) :
     (tensorSheafLeft J M).obj N ≅ (tensorSheafRight J M).obj N :=
-  (moduleSheafifyToRingCat J).mapIso (Stacks.tensorObjComm M.val N.val)
+  (Tensor.sheafification Osharp).mapIso (Stacks.tensorObjComm M.val N.val)
 
 /-- Naturality of `Stacks.SheafOfModules.tensorSheafCommIso`: it exchanges the two variables of
 the tensor product. -/
@@ -322,10 +316,10 @@ lemma tensorSheafLeft_map_comp_tensorSheafCommIso
     {N N' : _root_.SheafOfModules.{w} (toRingCat J Osharp)} (g : N ⟶ N') :
     (tensorSheafLeft J M).map g ≫ (tensorSheafCommIso J M N').hom =
       (tensorSheafCommIso J M N).hom ≫ (tensorSheafRight J M).map g :=
-  ((moduleSheafifyToRingCat J).map_comp _ _).symm.trans
-    ((congrArg (moduleSheafifyToRingCat J).map
+  ((Tensor.sheafification Osharp).map_comp _ _).symm.trans
+    ((congrArg (Tensor.sheafification Osharp).map
       (PresheafOfModules.tensorHom_tensorCommHom (𝟙 M.val) g.val)).trans
-      ((moduleSheafifyToRingCat J).map_comp _ _))
+      ((Tensor.sheafification Osharp).map_comp _ _))
 
 /-- Tensoring on the left is naturally isomorphic to tensoring on the right, by the symmetry. -/
 noncomputable def tensorSheafLeftIso (M : _root_.SheafOfModules.{w} (toRingCat J Osharp)) :

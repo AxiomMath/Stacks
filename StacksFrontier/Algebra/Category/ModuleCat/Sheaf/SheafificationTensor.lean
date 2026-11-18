@@ -153,6 +153,40 @@ universe siteUniverse morphismUniverse coefficientUniverse leftUniverse rightUni
 variable {C : Type siteUniverse} [Category.{morphismUniverse} C] {J : GrothendieckTopology C}
   (R : Sheaf J CommRingCat.{coefficientUniverse})
 
+section Sheafification
+
+universe moduleUniverse
+
+variable [J.WEqualsLocallyBijective AddCommGrpCat.{moduleUniverse}]
+  [HasWeakSheafify J AddCommGrpCat.{moduleUniverse}]
+
+/-- Sheafification of presheaves of modules over `ringSheaf R`: Mathlib's
+`PresheafOfModules.sheafification` along the identity of `(ringSheaf R).obj`, the last factor of
+`sheafTensor`. It is sealed with `irreducible_def`; `sheafification_def` is the defining
+equation. -/
+noncomputable irreducible_def sheafification :
+    PresheafOfModules.{moduleUniverse} (ringSheaf R).obj ⥤
+      SheafOfModules.{moduleUniverse} (ringSheaf R) :=
+  PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)
+
+/-- The sheafification adjunction of `sheafification R`: Mathlib's
+`PresheafOfModules.sheafificationAdjunction` along the identity of `(ringSheaf R).obj`,
+transported along `sheafification_def`. -/
+noncomputable def sheafificationAdjunction :
+    sheafification R ⊣ SheafOfModules.forget.{moduleUniverse} (ringSheaf R) ⋙
+      PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj) :=
+  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).ofNatIsoLeft
+    (eqToIso (sheafification_def R).symm)
+
+/-- `sheafification R` is additive, as Mathlib's sheafification is. -/
+instance sheafification_additive
+    [HasBinaryBiproducts (SheafOfModules.{moduleUniverse} (ringSheaf R))] :
+    (sheafification R).Additive := by
+  rw [sheafification_def]
+  infer_instance
+
+end Sheafification
+
 section Tensor
 
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{max leftUniverse rightUniverse}]
@@ -178,7 +212,7 @@ noncomputable def sheafTensor :
       (SheafOfModules.{rightUniverse} (ringSheaf R))
       (PresheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R).obj)
       (SheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R))).obj
-        (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj))
+        (sheafification R)
 
 /-- The tensor product of two sheaves of modules is the sheafification of the objectwise
 tensor product of their underlying presheaves. -/
@@ -187,14 +221,15 @@ lemma sheafTensor_obj_obj (left : SheafOfModules.{leftUniverse} (ringSheaf R))
     (right : SheafOfModules.{rightUniverse} (ringSheaf R)) :
     ((sheafTensor R).obj left).obj right =
       (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).obj
-        (PresheafOfModules.tensorObj (O := R.obj) left.val right.val) := rfl
+        (PresheafOfModules.tensorObj (O := R.obj) left.val right.val) :=
+  Functor.congr_obj (sheafification_def R) _
 
 /-- The tensor product sheaf, on a morphism in the second variable. -/
 @[simp]
 lemma sheafTensor_obj_map (left : SheafOfModules.{leftUniverse} (ringSheaf R))
     {right right' : SheafOfModules.{rightUniverse} (ringSheaf R)} (rightHom : right ⟶ right') :
     ((sheafTensor R).obj left).map rightHom =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
+      (sheafification R).map
         (PresheafOfModules.tensorHom (O := R.obj) (𝟙 left.val) rightHom.val) := rfl
 
 /-- The tensor product sheaf, on a morphism in the first variable. -/
@@ -202,7 +237,7 @@ lemma sheafTensor_obj_map (left : SheafOfModules.{leftUniverse} (ringSheaf R))
 lemma sheafTensor_map_app {left left' : SheafOfModules.{leftUniverse} (ringSheaf R)}
     (leftHom : left ⟶ left') (right : SheafOfModules.{rightUniverse} (ringSheaf R)) :
     ((sheafTensor R).map leftHom).app right =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
+      (sheafification R).map
         (PresheafOfModules.tensorHom (O := R.obj) leftHom.val (𝟙 right.val)) := rfl
 
 /-- The tensor product sheaf, on a pair of morphisms: the sheafification of their objectwise
@@ -213,15 +248,12 @@ lemma sheafTensor_uncurry_map {left left' : SheafOfModules.{leftUniverse} (ringS
     (leftHom : left ⟶ left') (rightHom : right ⟶ right') :
     (Functor.uncurry.obj (sheafTensor R)).map
         ((leftHom, rightHom) : (left, right) ⟶ (left', right')) =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-        (PresheafOfModules.tensorHom (O := R.obj) leftHom.val rightHom.val) := by
-  let sheafificationFunctor : PresheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R).obj ⥤
-      SheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R) :=
-    PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)
-  exact (sheafificationFunctor.map_comp
+      (sheafification R).map
+        (PresheafOfModules.tensorHom (O := R.obj) leftHom.val rightHom.val) :=
+  ((sheafification R).map_comp
     (PresheafOfModules.tensorHom (O := R.obj) leftHom.val (𝟙 right.val))
     (PresheafOfModules.tensorHom (O := R.obj) (𝟙 left'.val) rightHom.val)).symm.trans
-    (congrArg (sheafificationFunctor.map
+    (congrArg ((sheafification R).map
       (X := PresheafOfModules.tensorObj (O := R.obj) left.val right.val)
       (Y := PresheafOfModules.tensorObj (O := R.obj) left'.val right'.val))
       (PresheafOfModules.tensorBifunctor_uncurry_map (O := R.obj) leftHom.val rightHom.val))
@@ -233,20 +265,14 @@ instance sheafTensor_additive :
     (sheafTensor.{siteUniverse, morphismUniverse, coefficientUniverse,
       leftUniverse, rightUniverse} R).Additive where
   map_add {left left'} leftHom leftHom' := by
-    let sheafificationFunctor :
-        PresheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R).obj ⥤
-          SheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R) :=
-      PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)
-    let : sheafificationFunctor.Additive :=
-      PresheafOfModules.sheafification_additive (ringSheaf R) (𝟙 (ringSheaf R).obj)
     apply NatTrans.ext
     funext right
-    exact (congrArg (sheafificationFunctor.map
+    exact (congrArg ((sheafification R).map
       (X := PresheafOfModules.tensorObj (O := R.obj) left.val right.val)
       (Y := PresheafOfModules.tensorObj (O := R.obj) left'.val right.val))
       (PresheafOfModules.tensorHom_add_left (O := R.obj)
         leftHom.val leftHom'.val (𝟙 right.val))).trans
-      (sheafificationFunctor.map_add
+      ((sheafification R).map_add
         (f := PresheafOfModules.tensorHom (O := R.obj) leftHom.val (𝟙 right.val))
         (g := PresheafOfModules.tensorHom (O := R.obj) leftHom'.val (𝟙 right.val)))
 
@@ -254,19 +280,13 @@ instance sheafTensor_additive :
 instance sheafTensor_obj_additive (left : SheafOfModules.{leftUniverse} (ringSheaf R)) :
     ((sheafTensor.{siteUniverse, morphismUniverse, coefficientUniverse,
       leftUniverse, rightUniverse} R).obj left).Additive where
-  map_add {right right'} rightHom rightHom' := by
-    let sheafificationFunctor :
-        PresheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R).obj ⥤
-          SheafOfModules.{max leftUniverse rightUniverse} (ringSheaf R) :=
-      PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)
-    let : sheafificationFunctor.Additive :=
-      PresheafOfModules.sheafification_additive (ringSheaf R) (𝟙 (ringSheaf R).obj)
-    exact (congrArg (sheafificationFunctor.map
+  map_add {right right'} rightHom rightHom' :=
+    (congrArg ((sheafification R).map
       (X := PresheafOfModules.tensorObj (O := R.obj) left.val right.val)
       (Y := PresheafOfModules.tensorObj (O := R.obj) left.val right'.val))
       (PresheafOfModules.tensorHom_add_right (O := R.obj)
         (𝟙 left.val) rightHom.val rightHom'.val)).trans
-      (sheafificationFunctor.map_add
+      ((sheafification R).map_add
         (f := PresheafOfModules.tensorHom (O := R.obj) (𝟙 left.val) rightHom.val)
         (g := PresheafOfModules.tensorHom (O := R.obj) (𝟙 left.val) rightHom'.val))
 
@@ -487,6 +507,218 @@ end Unit
 
 end PresheafOfModules
 
+namespace Stacks.SheafOfModules.Tensor
+
+section SealedSheafification
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{z}] [HasWeakSheafify J AddCommGrpCat.{z}]
+
+/-- Mathlib's sheafification of presheaves of modules along the identity of `(ringSheaf R).obj` is
+the sealed `sheafification R`: the canonical isomorphism of two left adjoints of one functor.
+
+It is sealed as well, with `sheafificationIso_def`: its body, `Adjunction.leftAdjointUniq`, is built
+from `mateEquiv` and would otherwise be unfolded by the elaborator and the kernel wherever a section
+of a tensor sheaf is compared in two spellings. Use the characterisations below instead of the
+body. -/
+noncomputable irreducible_def sheafificationIso :
+    PresheafOfModules.sheafification.{z} (𝟙 (ringSheaf R).obj) ≅ sheafification.{_, _, _, z} R :=
+  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).leftAdjointUniq
+    (sheafificationAdjunction R)
+
+/-- Read through Mathlib's sheafification adjunction, `sheafificationIso R` is the unit of
+`sheafificationAdjunction R`. -/
+lemma homEquiv_sheafificationIso_hom_app (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).homEquiv M _
+        ((sheafificationIso R).hom.app M) =
+      (sheafificationAdjunction R).unit.app M := by
+  rw [sheafificationIso_def]
+  exact Adjunction.homEquiv_leftAdjointUniq_hom_app _ _ M
+
+/-- `sheafificationIso R` is the isomorphism of the defining equation `sheafification_def` of the
+seal: the sealed adjunction is Mathlib's, transported along that equation. This is the bridge for
+constructions that still carry `eqToIso (sheafification_def R).symm`; new code should use
+`sheafificationIso` and its characterisations directly. -/
+lemma sheafificationIso_eq_eqToIso :
+    sheafificationIso.{_, _, _, z} R = eqToIso (sheafification_def R).symm := by
+  refine Iso.ext (NatTrans.ext (funext fun M ↦ ?_))
+  apply ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).homEquiv _ _).injective
+  rw [homEquiv_sheafificationIso_hom_app, Adjunction.homEquiv_unit]
+  rfl
+
+/-- The unit of `sheafificationAdjunction R` is Mathlib's sheafification unit followed by
+`sheafificationIso R`. -/
+lemma unit_comp_sheafificationIso_hom_app (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app M ≫
+        (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((sheafificationIso R).hom.app M) =
+      (sheafificationAdjunction R).unit.app M := by
+  rw [sheafificationIso_def]
+  exact Adjunction.unit_leftAdjointUniq_hom_app _ _ M
+
+/-- Mathlib's sheafification unit is the unit of `sheafificationAdjunction R` followed by the
+inverse of `sheafificationIso R`. -/
+lemma unit_comp_sheafificationIso_inv_app (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    (sheafificationAdjunction R).unit.app M ≫
+        (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((sheafificationIso R).inv.app M) =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app M := by
+  rw [sheafificationIso_def, Adjunction.leftAdjointUniq_inv_app]
+  exact Adjunction.unit_leftAdjointUniq_hom_app _ _ M
+
+/-- `sheafificationIso R` followed by the counit of `sheafificationAdjunction R` is the counit of
+Mathlib's sheafification adjunction. -/
+lemma sheafificationIso_hom_app_counit (N : SheafOfModules.{z} (ringSheaf R)) :
+    (sheafificationIso R).hom.app
+        ((SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).obj N) ≫
+        (sheafificationAdjunction R).counit.app N =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).counit.app N := by
+  rw [sheafificationIso_def]
+  exact Adjunction.leftAdjointUniq_hom_app_counit _ _ N
+
+/-- The tensor product of two sheaves of modules is Mathlib's sheafification of the objectwise
+tensor product of the underlying presheaves: the isomorphism form of `sheafTensor_obj_obj`. -/
+noncomputable def sheafTensorObjIso (left right : SheafOfModules.{z} (ringSheaf R)) :
+    ((sheafTensor.{u, v, w, z, z} R).obj left).obj right ≅
+      (PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj
+        (PresheafOfModules.tensorObj (O := R.obj) left.val right.val) :=
+  (sheafificationIso R).symm.app _
+
+instance sheafification_isLeftAdjoint : (sheafification.{_, _, _, z} R).IsLeftAdjoint :=
+  (sheafificationAdjunction R).isLeftAdjoint
+
+instance isIso_sheafificationAdjunction_counit :
+    IsIso (sheafificationAdjunction.{_, _, _, z} R).counit :=
+  inferInstanceAs (IsIso ((PresheafOfModules.sheafificationAdjunction
+    (𝟙 (ringSheaf R).obj)).ofNatIsoLeft (eqToIso (sheafification_def R).symm)).counit)
+
+/-- The unit of the sealed sheafification is locally surjective. -/
+instance isLocallySurjective_sheafificationAdjunction_unit_app
+    (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J ((sheafificationAdjunction R).unit.app M) := by
+  rw [← unit_comp_sheafificationIso_hom_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+/-- The unit of the sealed sheafification is locally injective. -/
+instance isLocallyInjective_sheafificationAdjunction_unit_app
+    (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallyInjective J ((sheafificationAdjunction R).unit.app M) := by
+  rw [← unit_comp_sheafificationIso_hom_app, PresheafOfModules.IsLocallyInjective,
+    Functor.map_comp]
+  infer_instance
+
+/-- The sealed sheafification inverts its unit. -/
+instance sheafification_map_unit_isIso (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    IsIso ((sheafification R).map ((sheafificationAdjunction R).unit.app M)) := by
+  have inverseEquation : (sheafification R).map ((sheafificationAdjunction R).unit.app M) =
+      inv ((sheafificationAdjunction R).counit.app ((sheafification R).obj M)) := by
+    rw [← cancel_mono ((sheafificationAdjunction R).counit.app ((sheafification R).obj M)),
+      IsIso.inv_hom_id]
+    exact (sheafificationAdjunction R).left_triangle_components M
+  rw [inverseEquation]
+  infer_instance
+
+/-- Forgetting that a sheaf of modules over `ringSheaf R` is a sheaf and restricting scalars along
+the identity of `(ringSheaf R).obj` is the forgetful functor. -/
+noncomputable def forgetCompRestrictScalarsIdIso :
+    SheafOfModules.forget.{z} (ringSheaf R) ⋙
+        PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj) ≅
+      SheafOfModules.forget (ringSheaf R) :=
+  NatIso.ofComponents
+    (fun M ↦ PresheafOfModules.isoMk
+      (fun X ↦ ModuleCat.restrictScalarsId'App _ rfl (M.val.obj X))
+      (fun {_ _} _ ↦ by ext x; rfl))
+    (fun _ ↦ by ext X x; rfl)
+
+/-- The sealed sheafification is left adjoint to the forgetful functor from sheaves of modules to
+presheaves of modules. -/
+noncomputable def sheafificationForgetAdjunction :
+    sheafification.{_, _, _, z} R ⊣ SheafOfModules.forget (ringSheaf R) :=
+  (sheafificationAdjunction R).ofNatIsoRight (forgetCompRestrictScalarsIdIso R)
+
+/-- The unit of `sheafificationForgetAdjunction R` is the unit of `sheafificationAdjunction R`
+followed by `forgetCompRestrictScalarsIdIso R`. -/
+lemma sheafificationForgetAdjunction_unit_app (M : PresheafOfModules.{z} (ringSheaf R).obj) :
+    (sheafificationForgetAdjunction R).unit.app M =
+      (sheafificationAdjunction R).unit.app M ≫
+        (forgetCompRestrictScalarsIdIso R).hom.app ((sheafification R).obj M) := by
+  rw [← Adjunction.homEquiv_id, sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_apply, Adjunction.homEquiv_id]
+
+/-- On sections, the unit of `sheafificationForgetAdjunction R` is that of
+`sheafificationAdjunction R`. -/
+lemma sheafificationForgetAdjunction_unit_app_app_apply
+    (M : PresheafOfModules.{z} (ringSheaf R).obj) (X : Cᵒᵖ) (x : M.obj X) :
+    PresheafOfModules.Hom.app ((sheafificationForgetAdjunction R).unit.app M) X x =
+      PresheafOfModules.Hom.app ((sheafificationAdjunction R).unit.app M) X x := by
+  rw [sheafificationForgetAdjunction_unit_app]
+  rfl
+
+/-- The sealed sheafification commutes with the functors to sheaves of abelian groups. -/
+noncomputable def sheafificationCompToSheaf :
+    sheafification.{_, _, _, z} R ⋙ SheafOfModules.toSheaf (ringSheaf R) ≅
+      PresheafOfModules.toPresheaf (ringSheaf R).obj ⋙ presheafToSheaf J AddCommGrpCat :=
+  Functor.isoWhiskerRight (sheafificationIso R).symm _ ≪≫
+    PresheafOfModules.sheafificationCompToSheaf (𝟙 (ringSheaf R).obj)
+
+variable {R} in
+/-- A morphism of presheaves of modules becomes an isomorphism under the sealed sheafification iff
+it does under Mathlib's sheafification. -/
+lemma isIso_sheafification_map_iff {M N : PresheafOfModules.{z} (ringSheaf R).obj} (f : M ⟶ N) :
+    IsIso ((sheafification R).map f) ↔
+      IsIso ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).map f) :=
+  (NatIso.isIso_map_iff (sheafificationIso R) f).symm
+
+variable {R}
+
+/-- The defining property of the morphism out of the sealed sheafification associated with a
+morphism out of the presheaf. -/
+lemma sheafificationAdjunction_unit_comp_homEquiv_symm
+    {M : PresheafOfModules.{z} (ringSheaf R).obj} {N : SheafOfModules.{z} (ringSheaf R)}
+    (φ : M ⟶
+      (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).obj N) :
+    (sheafificationAdjunction R).unit.app M ≫
+        (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          (((sheafificationAdjunction R).homEquiv M N).symm φ) = φ := by
+  have h := ((sheafificationAdjunction R).homEquiv M N).apply_symm_apply φ
+  rw [Adjunction.homEquiv_unit] at h
+  exact h
+
+/-- Two morphisms out of the sealed sheafification of a presheaf of modules are equal as soon as
+their composites with the unit agree. -/
+lemma sheafification_hom_ext {M : PresheafOfModules.{z} (ringSheaf R).obj}
+    {N : SheafOfModules.{z} (ringSheaf R)} {f g : (sheafification R).obj M ⟶ N}
+    (h : (sheafificationAdjunction R).unit.app M ≫
+          (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map f =
+        (sheafificationAdjunction R).unit.app M ≫
+          (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map g) :
+    f = g := by
+  refine ((sheafificationAdjunction R).homEquiv M N).injective ?_
+  rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
+  exact h
+
+/-- Naturality of the unit of the sealed sheafification. -/
+lemma unit_comp_map {M N : PresheafOfModules.{z} (ringSheaf R).obj} (φ : M ⟶ N) :
+    (sheafificationAdjunction R).unit.app M ≫
+        (SheafOfModules.forget (ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((sheafification R).map φ) =
+      φ ≫ (sheafificationAdjunction R).unit.app N :=
+  ((sheafificationAdjunction R).unit.naturality φ).symm
+
+/-- Naturality of the unit of the sealed sheafification, on sections. -/
+lemma unit_naturality_apply {M N : PresheafOfModules.{z} (ringSheaf R).obj} (φ : M ⟶ N)
+    (X : Cᵒᵖ) (x : M.obj X) :
+    PresheafOfModules.Hom.app ((sheafification R).map φ).val X
+        (PresheafOfModules.Hom.app ((sheafificationAdjunction R).unit.app M) X x) =
+      PresheafOfModules.Hom.app ((sheafificationAdjunction R).unit.app N) X
+        (PresheafOfModules.Hom.app φ X x) :=
+  PresheafOfModules.hom_congr_apply' (unit_comp_map φ) X x
+
+end SealedSheafification
+
+end Stacks.SheafOfModules.Tensor
+
 namespace PresheafOfModules
 
 section OfBilinear
@@ -647,13 +879,11 @@ lemma tensorSheafBifunctor_map
     {N₁ N₂ : SheafOfModules.{z₁} (toRingCat J Osharp)} (fg : (M₁, N₁) ⟶ (M₂, N₂)) :
     ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z₁}
         Osharp))).map fg =
-      (sheafification (𝟙 (toRingCat J Osharp).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification Osharp).map
         ((Functor.prod (SheafOfModules.forget.{z} (toRingCat J Osharp))
           (SheafOfModules.forget.{z₁} (toRingCat J Osharp)) ⋙
             (Functor.uncurry.obj (tensorBifunctor Osharp.obj))).map fg) :=
-  (Functor.map_comp
-    (sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj))
+  (Functor.map_comp (Stacks.SheafOfModules.Tensor.sheafification Osharp)
     (tensorHom fg.1.val (𝟙 N₁.val)) (tensorHom (𝟙 M₂.val) fg.2.val)).symm
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{z}] [HasWeakSheafify J AddCommGrpCat.{z}]
@@ -684,9 +914,7 @@ noncomputable abbrev tensorSheafUnitRestrict :
   tensorBaseChange (toRingCatMap J a) ((moduleSheafification.{v, u, w, z} J a).obj F).val
       ((moduleSheafification.{v, u, w, z₁} J a).obj G).val ≫
     (restrictScalars (toRingCatMap J a)).map
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
           (tensorObj (((moduleSheafification.{v, u, w, z} J a).obj F)).val
             (((moduleSheafification.{v, u, w, z₁} J a).obj G)).val))
 
@@ -721,9 +949,7 @@ lemma tensorSheafifyComparison_unit_tmul (X : Cᵒᵖ) (x : F.obj X) (y : G.obj 
     Hom.app (tensorSheafifyComparison J a F G).val X
         (Hom.app (moduleSheafificationUnit.{v, u, w, max z z₁} J a (tensorObj F G)) X
           (x ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
           (tensorObj (((moduleSheafification.{v, u, w, z} J a).obj F)).val
             (((moduleSheafification.{v, u, w, z₁} J a).obj G)).val)) X
         (Hom.app (moduleSheafificationUnit.{v, u, w, z} J a F) X x ⊗ₜ
@@ -825,7 +1051,7 @@ noncomputable def tensorSheafifyDesc :
         ((moduleSheafification.{v, u, w, z} J a).obj F,
           (moduleSheafification.{v, u, w, z₁} J a).obj G) ⟶
       (moduleSheafification.{v, u, w, max z z₁} J a).obj (tensorObj F G) :=
-  ((sheafificationAdjunction (𝟙 (toRingCat J Osharp).obj)).homEquiv
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
       (tensorObj ((moduleSheafification.{v, u, w, z} J a).obj F).val
         ((moduleSheafification.{v, u, w, z₁} J a).obj G).val)
       ((moduleSheafification.{v, u, w, max z z₁} J a).obj (tensorObj F G))).symm
@@ -838,16 +1064,15 @@ lemma tensorSheafifyDesc_unit_tmul (X : Cᵒᵖ)
     (A : ((moduleSheafification.{v, u, w, z} J a).obj F).val.obj X)
     (B : ((moduleSheafification.{v, u, w, z₁} J a).obj G).val.obj X) :
     Hom.app (tensorSheafifyDesc J a F G).val X
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
             (tensorObj (((moduleSheafification.{v, u, w, z} J a).obj F)).val
               (((moduleSheafification.{v, u, w, z₁} J a).obj G)).val)) X (A ⊗ₜ B)) =
       (tensorSheafifyBilinear J a F G).app X A B :=
-  hom_congr_apply (sheafificationAdjunction_unit_comp_homEquiv_symm
-    (𝟙 (toRingCat J Osharp).obj)
-    (N := (moduleSheafification.{v, u, w, max z z₁} J a).obj (tensorObj F G))
-    (tensorSheafifyDescUnit J a F G)) X (A ⊗ₜ B)
+  hom_congr_apply
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv_unit _ _ _).symm.trans
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv _
+        ((moduleSheafification.{v, u, w, max z z₁} J a).obj (tensorObj F G))).apply_symm_apply
+        (tensorSheafifyDescUnit J a F G))) X (A ⊗ₜ B)
 
 /-- The comparison morphism is a section of the descended morphism. -/
 lemma tensorSheafifyComparison_desc :
@@ -897,7 +1122,10 @@ lemma tensorSheafifyDesc_comparison :
           Osharp))).obj
         ((moduleSheafification.{v, u, w, z} J a).obj F,
           (moduleSheafification.{v, u, w, z₁} J a).obj G)) := by
-  refine sheafification_hom_ext (tensorObj_hom_ext (fun X A B ↦ ?_))
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv _ _).injective
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv_unit _ _ _).trans
+      ((tensorObj_hom_ext (fun X A B ↦ ?_)).trans
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv_unit _ _ _).symm))
   exact (congrArg (fun t ↦ Hom.app (tensorSheafifyComparison J a F G).val X t)
       (tensorSheafifyDesc_unit_tmul J a F G X A B)).trans
     (BilinearMap.congr_app (tensorSheafifyBilinear_postcomp_comparison J a F G) X A B)
@@ -948,25 +1176,25 @@ lemma tensorSheafifyComparison_naturality_apply (X : Cᵒᵖ) (x : F.obj X) (y :
   have e1 := unit_naturality_apply (α := toRingCatMap J a) (tensorHom f g) X (x ⊗ₜ y)
   have e2 := tensorSheafifyComparison_unit_tmul J a F₂ G₂ X (Hom.app f X x) (Hom.app g X y)
   have e3 := tensorSheafifyComparison_unit_tmul J a F G X x y
-  have e4 := unit_naturality_apply (α := 𝟙 (toRingCat J Osharp).obj)
-    ((Functor.prod (SheafOfModules.forget.{z} (toRingCat J Osharp))
-      (SheafOfModules.forget.{z₁} (toRingCat J Osharp)) ⋙ (Functor.uncurry.obj
-          (tensorBifunctor Osharp.obj))).map
-        (sheafifyPairMap J a F G f g)) X
+  have e4 := hom_congr_apply'
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.naturality
+      ((Functor.prod (SheafOfModules.forget.{z} (toRingCat J Osharp))
+        (SheafOfModules.forget.{z₁} (toRingCat J Osharp)) ⋙
+          (Functor.uncurry.obj (tensorBifunctor Osharp.obj))).map
+        (sheafifyPairMap J a F G f g))).symm X
     (unrestrict (toRingCatMap J a) ((moduleSheafification.{v, u, w, z} J a).obj F).val
         (Hom.app (moduleSheafificationUnit.{v, u, w, z} J a F) X x) ⊗ₜ
       unrestrict (toRingCatMap J a) ((moduleSheafification.{v, u, w, z₁} J a).obj G).val
         (Hom.app (moduleSheafificationUnit.{v, u, w, z₁} J a G) X y))
   refine ((congrArg (fun t ↦ Hom.app (tensorSheafifyComparison J a F₂ G₂).val X t) e1).trans
     e2).trans ?_
-  refine (((congrArg (fun t ↦ Hom.app ((sheafification (𝟙 (toRingCat J Osharp).obj)).map
+  refine (((congrArg (fun t ↦ Hom.app ((Stacks.SheafOfModules.Tensor.sheafification Osharp).map
       ((Functor.prod (SheafOfModules.forget.{z} (toRingCat J Osharp))
         (SheafOfModules.forget.{z₁} (toRingCat J Osharp)) ⋙ (Functor.uncurry.obj
             (tensorBifunctor Osharp.obj))).map
           (sheafifyPairMap J a F G f g))).val X t) e3).trans e4).trans ?_).symm
-  refine congrArg (fun t ↦ Hom.app ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+  refine congrArg (fun t ↦ Hom.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (tensorObj (((moduleSheafification.{v, u, w, z} J a).obj F₂)).val
         (((moduleSheafification.{v, u, w, z₁} J a).obj G₂)).val)) X t) ?_
   rw [prodForget_comp_tensorBifunctor_map]
@@ -1018,9 +1246,7 @@ sheafification-unit image of the original pure tensor. -/
 @[stacks 0GMW]
 lemma sheafificationTensorIso_hom_unit_tmul (U : Cᵒᵖ) (x : F.obj U) (y : G.obj U) :
     Hom.app ((sheafificationTensorIso.{v, u, w, z, z₁} J a).hom.app (F, G)).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
             (tensorObj (((moduleSheafification.{v, u, w, z} J a).obj F)).val
               (((moduleSheafification.{v, u, w, z₁} J a).obj G)).val)) U
           (Hom.app (moduleSheafificationUnit.{v, u, w, z} J a F) U x ⊗ₜ

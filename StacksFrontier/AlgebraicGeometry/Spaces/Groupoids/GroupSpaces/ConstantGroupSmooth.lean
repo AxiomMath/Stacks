@@ -47,7 +47,7 @@ instance etale_terminal_from_constantSchemeOverIntegers :
     Etale (terminal.from (constantSchemeOverIntegers.{u} G)) := by
   rw [show terminal.from (constantSchemeOverIntegers.{u} G) =
     Sigma.desc (fun _ : G => 𝟙 (⊤_ Scheme.{u})) from terminal.hom_ext _ _]
-  haveI := HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale)
+  have := HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale)
   exact IsZariskiLocalAtSource.sigmaDesc (fun _ => inferInstance)
 
 /-- **The constant group scheme `G_S ⟶ S` is étale**, as a base change of the étale morphism

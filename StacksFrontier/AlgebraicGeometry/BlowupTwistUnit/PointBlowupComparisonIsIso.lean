@@ -366,6 +366,7 @@ section OffExceptional
 
 variable {W : Scheme.{u}} [AlgebraicGeometry.IsIntegral W] [AlgebraicGeometry.IsNoetherian W]
 
+omit [AlgebraicGeometry.IsIntegral W] in
 /-- **An endomorphism of an invertible module on a surface is invertible as soon as its pullback
 to the blowing up of a closed point is invertible at the stalks off the exceptional divisor.**
 Off the centre the blowing up is an isomorphism, so the endomorphism is invertible there; at the
@@ -382,10 +383,10 @@ theorem isIso_of_bijective_mapFun_pullback_blowUp (w : W) (hw : IsClosed ({w} : 
   set I := pointIdeal w hw with hI
   set b := AlgebraicGeometry.blowUpToBase I with hb
   let V : W.Opens := ⟨I.supportᶜ, I.support.isClosed.isOpen_compl⟩
-  haveI : IsIso (b ∣_ V) := isIso_blowUp_restrict_compl_support I
+  have : IsIso (b ∣_ V) := isIso_blowUp_restrict_compl_support I
   have hsupp : ((AlgebraicGeometry.exceptionalIdeal I).support : Set _) =
       b.base ⁻¹' (I.support : Set W) := by
-    show ((I.comap b).support : Set (AlgebraicGeometry.blowUp I)) = _
+    change ((I.comap b).support : Set (AlgebraicGeometry.blowUp I)) = _
     rw [Scheme.IdealSheafData.support_comap]
     rfl
   have h1 : IsIso ((Scheme.Modules.pullback (b ⁻¹ᵁ V).ι).map
@@ -409,11 +410,11 @@ theorem isIso_of_bijective_mapFun_pullback_blowUp (w : W) (hw : IsClosed ({w} : 
     (NatIso.isIso_map_iff (Scheme.Modules.restrictFunctorIsoPullback V.ι) a).mpr h3
   have hVw : ∀ y : W, y ≠ w → y ∈ V := by
     intro y hy
-    show y ∉ (I.support : Set W)
+    change y ∉ (I.support : Set W)
     rw [hI, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact hy
   have hdim : 2 ≤ ringKrullDim (W.presheaf.stalk w) := by rw [hstalkdim]
-  letI := Stacks.ModuleStalkSpecialization.stalkModule L w
+  let := Stacks.ModuleStalkSpecialization.stalkModule L w
   obtain ⟨g, hg, hg0⟩ := Stacks.StalkOrder.exists_generator L w
   let d : L.presheaf.stalk w ≃ₗ[W.presheaf.stalk w] W.presheaf.stalk w :=
     (LinearEquiv.ofBijective (LinearMap.toSpanSingleton (W.presheaf.stalk w) _ g)
@@ -543,12 +544,12 @@ theorem surjective_mapFun_detMap_blowUp (hreg : AlgebraicGeometry.IsRegular W)
       (Scheme.Hom.relativeDifferentialsMap (AlgebraicGeometry.blowUpToBase (pointIdeal w hw)) q
         (AlgebraicGeometry.blowUpToBase (pointIdeal w hw) ≫ q) (𝟙 S₀)
         (Category.comp_id _).symm) (r : ℤ)) x) := by
-  haveI : AlgebraicGeometry.IsIntegral (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
+  have : AlgebraicGeometry.IsIntegral (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
     AlgebraicGeometry.isIntegral_blowUp _
       (Stacks.ResolutionOfSurfaces.vanishingIdeal_singleton_ne_bot hdim w hw)
-  haveI : IsNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
+  have : IsNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
     Stacks.ResolutionOfSurfaces.isNoetherian_blowUp _
-  haveI : IsLocallyNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) := inferInstance
+  have : IsLocallyNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) := inferInstance
   have hE : Stacks.Divisors.IsEffectiveCartierDivisor
       (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw)) :=
     Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal _
@@ -675,37 +676,37 @@ theorem exists_isIso_comparison_blowUp (hreg : AlgebraicGeometry.IsRegular W)
       (DerivedCategory.singleFunctor W.Modules 0).map
         ((toReflexiveHull (Scheme.Hom.relativeDifferentialForms (h ≫ p) (r : ℤ))).1 ≫ a) := by
   subst hq'
-  haveI : IsRegularLocalRing (W.presheaf.stalk w) := hreg.isRegularLocalRing_stalk w
-  haveI : AlgebraicGeometry.IsIntegral (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
+  have : IsRegularLocalRing (W.presheaf.stalk w) := hreg.isRegularLocalRing_stalk w
+  have : AlgebraicGeometry.IsIntegral (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
     AlgebraicGeometry.isIntegral_blowUp _
       (Stacks.ResolutionOfSurfaces.vanishingIdeal_singleton_ne_bot hdim w hw)
-  haveI : IsNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
+  have : IsNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) :=
     Stacks.ResolutionOfSurfaces.isNoetherian_blowUp _
-  haveI : IsLocallyNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) := inferInstance
+  have : IsLocallyNoetherian (AlgebraicGeometry.blowUp (pointIdeal w hw)) := inferInstance
   obtain ⟨hregX, hdimX⟩ :=
     AlgebraicGeometry.isRegular_and_topologicalKrullDim_blowUp_vanishingIdeal_singleton
       W hreg hdim w hw
-  haveI hEc : Stacks.Divisors.IsEffectiveCartierDivisor
+  have hEc : Stacks.Divisors.IsEffectiveCartierDivisor
       (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw)) :=
     Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal _
   -- The four invertible modules.
-  haveI hL1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+  have hL1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (hullForms p (r : ℤ) h) 1 :=
     (Stacks.InvertibleRankOneScheme.stacksIsInvertible_iff_isFiniteLocallyFreeOfRank_one W
       _).mp (isInvertible_hullForms hreg hdim.le p h r V hV)
-  haveI hB1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+  have hB1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (pullbackHullFormsObj p h r w hw) 1 :=
     AlgebraicGeometry.isFiniteLocallyFreeOfRank_pullback _ _ 1
-  haveI hM1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+  have hM1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (pullbackHullExterior p h r w hw) 1 :=
     (Stacks.InvertibleRankOneScheme.stacksIsInvertible_iff_isFiniteLocallyFreeOfRank_one _
       _).mp (AlgebraicGeometry.isInvertible_reflexiveHull_exteriorPower_of_genericRank _ hregX
         hdimX.le _ r U hU)
-  haveI hO1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+  have hO1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (Stacks.Divisors.invertibleSheaf'
         (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw))) 1 :=
     Stacks.InvertibleRankOneScheme.isFiniteLocallyFreeOfRank_one_of_isInvertibleModule _ _
-  haveI hN1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+  have hN1 : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (Scheme.Modules.tensorObj (pullbackHullFormsObj p h r w hw)
         (Stacks.Divisors.invertibleSheaf'
           (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw)))) 1 := by
@@ -715,7 +716,7 @@ theorem exists_isIso_comparison_blowUp (hreg : AlgebraicGeometry.IsRegular W)
       1 1 hB1 hO1
     rw [mul_one] at h1
     exact h1
-  haveI hLs : Stacks.SheafOfModules.IsInvertible W.presheaf
+  have hLs : Stacks.SheafOfModules.IsInvertible W.presheaf
       (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf W) (hullForms p (r : ℤ) h) :=
     (Stacks.InvertibleRankOneScheme.stacksIsInvertible_iff_isFiniteLocallyFreeOfRank_one W
       _).mpr hL1
@@ -728,37 +729,37 @@ theorem exists_isIso_comparison_blowUp (hreg : AlgebraicGeometry.IsRegular W)
       (Stacks.Divisors.invertibleSheaf' (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw))))
   have hMrefl := isReflexive_of_isInvertible.{u}
     (X := AlgebraicGeometry.blowUp (pointIdeal w hw)) (pullbackHullExterior p h r w hw)
-  haveI : IsIso (toReflexiveHull (hullForms p (r : ℤ) h)).1 :=
+  have : IsIso (toReflexiveHull (hullForms p (r : ℤ) h)).1 :=
     (isReflexive_iff_isIso_toReflexiveHull _).mp hLrefl
-  haveI : IsIso (toDoubleDual (dualSheaf (dualSheaf
+  have : IsIso (toDoubleDual (dualSheaf (dualSheaf
       (Scheme.Hom.relativeDifferentialForms (h ≫ p) (r : ℤ))))) :=
     (isReflexive_iff_isIso_toReflexiveHull _).mp hLrefl
-  haveI : IsIso (toDoubleDual (dualSheaf (dualSheaf (Scheme.Modules.exteriorPower
+  have : IsIso (toDoubleDual (dualSheaf (dualSheaf (Scheme.Modules.exteriorPower
       ((Scheme.Modules.pullback (AlgebraicGeometry.blowUpToBase (pointIdeal w hw))).obj
         (Scheme.Hom.relativeDifferentials (h ≫ p))) (r : ℤ))))) :=
     (isReflexive_iff_isIso_toReflexiveHull _).mp hMrefl
-  haveI : (hullForms p (r : ℤ) h).IsQuasicoherent := hL
-  haveI : (Scheme.Modules.tensorObj (pullbackHullFormsObj p h r w hw)
+  have : (hullForms p (r : ℤ) h).IsQuasicoherent := hL
+  have : (Scheme.Modules.tensorObj (pullbackHullFormsObj p h r w hw)
       (Stacks.Divisors.invertibleSheaf'
         (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw)))).IsQuasicoherent :=
     Stacks.AmpleGlobalGeneration.isQuasicoherent_of_isInvertibleModule _
-  haveI : (pullbackHullFormsObj p h r w hw).IsQuasicoherent :=
+  have : (pullbackHullFormsObj p h r w hw).IsQuasicoherent :=
     Stacks.AmpleGlobalGeneration.isQuasicoherent_of_isInvertibleModule _
   -- The two comparisons.
-  haveI hτ : IsIso (Stacks.DeRham.TwistDerived.twistUnderivedMap
+  have hτ : IsIso (Stacks.DeRham.TwistDerived.twistUnderivedMap
       (AlgebraicGeometry.blowUpToBase (pointIdeal w hw))
       (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw)) (hullForms p (r : ℤ) h)) :=
     haveI := AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.isFiniteLocallyFree
       (hullForms p (r : ℤ) h) 1
     Stacks.DeRham.TwistDerived.isIso_twistUnderivedMap _ _ _
       (isIso_exceptionalTwistComparison_pointIdeal w hw hstalkdim)
-  haveI := isQuasicoherent_exceptionalTwistPullbackHullForms hreg hdim.le w hw p h r V hV
-  haveI hN' : IsIso (singleToDerivedPushforward (AlgebraicGeometry.blowUpToBase (pointIdeal w hw))
+  have := isQuasicoherent_exceptionalTwistPullbackHullForms hreg hdim.le w hw p h r V hV
+  have hN' : IsIso (singleToDerivedPushforward (AlgebraicGeometry.blowUpToBase (pointIdeal w hw))
       ((exceptionalTwistFunctor w hw).obj (pullbackHullFormsObj p h r w hw))) :=
     isIso_singleToDerivedPushforward_blowUp hdim w hw _
       (isZeroFirstDirectImageBlowUp_exceptionalTwistPullback w hw hstalkdim
         (hullForms p (r : ℤ) h))
-  haveI : IsIso (singleToDerivedPushforward (AlgebraicGeometry.blowUpToBase (pointIdeal w hw))
+  have : IsIso (singleToDerivedPushforward (AlgebraicGeometry.blowUpToBase (pointIdeal w hw))
       (Scheme.Modules.tensorObj (pullbackHullFormsObj p h r w hw)
         (Stacks.Divisors.invertibleSheaf'
           (AlgebraicGeometry.exceptionalIdeal (pointIdeal w hw))))) := by
@@ -897,13 +898,13 @@ theorem exists_isIso_comparison_blowUp (hreg : AlgebraicGeometry.IsRegular W)
     exact id_ne_zero_of_isInvertibleModule (hullForms p (r : ℤ) h) w
       (hom_ext_reflexiveHull (F := Scheme.Hom.relativeDifferentialForms (h ≫ p) (r : ℤ)) hLrefl
         (by rw [Category.comp_id, comp_zero]; exact h5))
-  haveI : Stacks.SheafOfModules.IsInvertible
+  have : Stacks.SheafOfModules.IsInvertible
       (AlgebraicGeometry.blowUp (pointIdeal w hw)).presheaf
       (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf _)
       (pullbackHullExterior p h r w hw) :=
     (Stacks.InvertibleRankOneScheme.stacksIsInvertible_iff_isFiniteLocallyFreeOfRank_one _
       _).mpr hM1
-  haveI : Mono (pullbackHullForms_hom p h hreg hdim w hw r V hV) :=
+  have : Mono (pullbackHullForms_hom p h hreg hdim w hw r V hV) :=
     AlgebraicGeometry.mono_of_ne_zero_of_isTorsionFree (isTorsionFree_of_isReflexive _ hBrefl)
       _ hι0
   -- The stalks off the exceptional divisor.

@@ -208,7 +208,7 @@ theorem isFlatMap_of_isIso {C : Type u} [Category.{v, u} C]
   unfold IsFlat
   let T : _root_.PresheafOfModules R.obj ⥤ _root_.PresheafOfModules R.obj :=
     PresheafOfModules.tensorRight (O := O.obj) F.val
-  let S := _root_.PresheafOfModules.sheafification (𝟙 R.obj)
+  let S := Stacks.SheafOfModules.Tensor.sheafification O
   change exactFunctor _ _ (_root_.SheafOfModules.forget R ⋙ T ⋙ S)
   let : MonoidalCategory (_root_.PresheafOfModules R.obj) := by
     change MonoidalCategory (_root_.PresheafOfModules (ringPresheaf O.obj))
@@ -228,7 +228,9 @@ theorem isFlatMap_of_isIso {C : Type u} [Category.{v, u} C]
       change MonoidalCategory.tensorUnitRight (_root_.PresheafOfModules R.obj) ≅ _
       exact MonoidalCategory.rightUnitorNatIso (_root_.PresheafOfModules R.obj)
     exact hTF.trans (hU.trans (presheafRestrictScalarsIdIso R.obj).symm)
-  have hid : _root_.SheafOfModules.forget R ⋙ T ⋙ S ≅ 𝟭 _ := forgetCompSheafificationIso hT
+  have hid : _root_.SheafOfModules.forget R ⋙ T ⋙ S ≅ 𝟭 _ :=
+    (Functor.isoWhiskerLeft _ (Functor.isoWhiskerLeft T
+      (Stacks.SheafOfModules.Tensor.sheafificationIso O))).symm ≪≫ forgetCompSheafificationIso hT
   exact (exactFunctor_iff _).mpr ⟨preservesFiniteLimits_of_natIso hid.symm,
     preservesFiniteColimits_of_natIso hid.symm⟩
 

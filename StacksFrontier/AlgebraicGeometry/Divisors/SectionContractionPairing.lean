@@ -28,10 +28,13 @@ pairings against one invertible module it is what turns the existence of an isom
 
 The three coherence constraints of the sheaf tensor product entering the contraction — the left
 unitor, the braiding, and the functoriality in one factor — are all of the shape "sheafify a
-morphism of presheaves of modules, then apply the counit of sheafification".  So each of them is
-computed on the image of a pure tensor under the unit of sheafification by
-`Stacks.SheafOfModules.sheafify_map_toSheafify_app`, which is the naturality of that unit, and
-`Stacks.SheafOfModules.counit_toSheafify_app`, which is a triangle identity.  No description of
+morphism of presheaves of modules, then apply the counit of sheafification", for the sealed
+sheafification `Stacks.SheafOfModules.Invertible.structureSheafification` that is the last factor
+of the sheaf tensor product and its adjunction `structureSheafificationAdjunction`.  So each of
+them is computed on the image of a pure tensor under the unit of that adjunction by
+`structureSheafification_map_unit_apply`, which is the naturality of that unit, and
+`structureSheafificationAdjunction_counit_unit_apply`, which is a triangle identity.  No
+description of
 the sections of a sheafified tensor product is needed: the unit of sheafification carries enough
 pure tensors to pin the composite down, because the contraction is read at the *one* section
 `1 ⊗ x` of `𝒪 ⊗ L^{⊗ -1}`.
@@ -56,8 +59,7 @@ each side because the identity is the unique morphism whose image is the pairing
 open CategoryTheory MonoidalCategory Opposite
 open scoped TensorProduct
 open Stacks.PresheafOfModules.TensorInternalHom
-open Stacks.SheafOfModules.TensorSheafification
-  (structureRingPresheaf structureSheaf sheafify sheafifyAdjunction toSheafify)
+open Stacks.SheafOfModules.TensorSheafification (structureRingPresheaf structureSheaf)
 
 universe u w
 
@@ -84,18 +86,37 @@ local instance symmetricCategoryStructureSheaf :
 
 /-! ### The coherence constraints of the sheaf tensor product on pure tensors -/
 
+/-- Naturality of the unit of `structureSheafificationAdjunction`, on sections. -/
+private theorem structureSheafification_map_unit_apply
+    {A B : _root_.PresheafOfModules.{w} (structureSheaf O hO).obj} (f : A ⟶ B) (W : Cᵒᵖ)
+    (a : A.obj W) :
+    ((structureSheafification O hO).map f).val.app W
+        (((structureSheafificationAdjunction O hO).unit.app A).app W a) =
+      ((structureSheafificationAdjunction O hO).unit.app B).app W (f.app W a) :=
+  congrArg (fun φ ↦ φ.app W a) ((structureSheafificationAdjunction O hO).unit.naturality f).symm
+
+/-- The counit of `structureSheafificationAdjunction` undoes its unit on the sections of a
+sheaf: a triangle identity. -/
+private theorem structureSheafificationAdjunction_counit_unit_apply
+    (M : _root_.SheafOfModules.{w} (structureSheaf O hO)) (W : Cᵒᵖ) (x : M.val.obj W) :
+    ((structureSheafificationAdjunction O hO).counit.app M).val.app W
+        (((structureSheafificationAdjunction O hO).unit.app M.val).app W x) = x :=
+  congrArg (fun φ ↦ φ.app W x)
+    ((structureSheafificationAdjunction O hO).right_triangle_components M)
+
 /-- **The left unit constraint of the sheaf tensor product on a pure tensor.**  It is the
 presheaf-level unitor followed by the counit of sheafification. -/
 theorem tensorProductLeftUnitor_hom_toSheafify_tmul
     (M : _root_.SheafOfModules.{w} (structureSheaf O hO)) (W : Cᵒᵖ)
     (r : (structureSheaf O hO).obj.obj W) (x : M.val.obj W) :
     ((tensorProductLeftUnitor O hO M).hom.val.app W).hom
-        ((toSheafify O hO (valPresheaf O hO
+        (((structureSheafificationAdjunction O hO).unit.app (valPresheaf O hO
             (_root_.SheafOfModules.unit (structureSheaf O hO)) ⊗ valPresheaf O hO M)).app W
           (r ⊗ₜ x)) = r • x :=
-  (congrArg (fun z ↦ ((sheafifyAdjunction O hO).counit.app M).val.app W z)
-      (Stacks.SheafOfModules.sheafify_map_toSheafify_app O hO (λ_ M.val).hom W (r ⊗ₜ x))).trans
-    ((Stacks.SheafOfModules.counit_toSheafify_app O hO M W ((λ_ M.val).hom.app W (r ⊗ₜ x))).trans
+  (congrArg (fun z ↦ ((structureSheafificationAdjunction O hO).counit.app M).val.app W z)
+      (structureSheafification_map_unit_apply O hO (λ_ M.val).hom W (r ⊗ₜ x))).trans
+    ((structureSheafificationAdjunction_counit_unit_apply O hO M W
+      ((λ_ M.val).hom.app W (r ⊗ₜ x))).trans
       (ModuleCat.MonoidalCategory.leftUnitor_hom_apply r x))
 
 /-- **The braiding of the sheaf tensor product on a pure tensor**, read off the pairing it
@@ -112,7 +133,7 @@ theorem tensorPairing_braiding_tmul
       tensorHomAt O (valPresheaf O hO M) (valPresheaf O hO G) (valPresheaf O hO H)
         (tensorPairing O hO G M H ev) W (x ⊗ₜ y) :=
   congrArg (fun z ↦ (ev.hom.val.app W).hom z)
-    (Stacks.SheafOfModules.sheafify_map_toSheafify_app O hO (β_ G.val M.val).hom W (y ⊗ₜ x))
+    (structureSheafification_map_unit_apply O hO (β_ G.val M.val).hom W (y ⊗ₜ x))
 
 /-- **Moving an isomorphism of the second tensor factor across the pairing.**  The pairing
 attached to `M ⊗ G ≅ M ⊗ G' ≅ H` evaluates the pairing of `M ⊗ G' ≅ H` on the image of the
@@ -128,7 +149,7 @@ theorem tensorPairing_tensorProductIso_tmul
       tensorHomAt O (valPresheaf O hO M) (valPresheaf O hO G') (valPresheaf O hO H)
         (tensorPairing O hO G' M H ev) W (x ⊗ₜ (e.hom.val.app W).hom t) :=
   congrArg (fun z ↦ (ev.hom.val.app W).hom z)
-    (Stacks.SheafOfModules.sheafify_map_toSheafify_app O hO
+    (structureSheafification_map_unit_apply O hO
       ((Iso.refl M).hom.val ⊗ₘ e.hom.val) W (x ⊗ₜ t))
 
 /-! ### Contraction with a section -/
@@ -150,7 +171,8 @@ theorem sectionContraction_app (s : L.sections) (W : Cᵒᵖ)
           (_root_.SheafOfModules.unit (structureSheaf O hO)) (inverseSheafEvaluation O hO L)) W
         (x ⊗ₜ s.eval W) := by
   have hunit : ((inverseSheafUnitIso O hO L).hom.val.app W).hom
-      ((toSheafify O hO (valPresheaf O hO (_root_.SheafOfModules.unit (structureSheaf O hO)) ⊗
+      (((structureSheafificationAdjunction O hO).unit.app
+        (valPresheaf O hO (_root_.SheafOfModules.unit (structureSheaf O hO)) ⊗
           valPresheaf O hO (inverseSheaf O hO L))).app W
         ((1 : (structureSheaf O hO).obj.obj W) ⊗ₜ x)) = x :=
     (tensorProductLeftUnitor_hom_toSheafify_tmul O hO (inverseSheaf O hO L) W 1 x).trans
@@ -170,7 +192,8 @@ theorem sectionContraction_app (s : L.sections) (W : Cᵒᵖ)
   refine Eq.trans
     (congrArg (fun z ↦ ((sectionContraction O hO L s).val.app W).hom z) hunit.symm) ?_
   change (((inverseSheafUnitIso O hO L).hom ≫ sectionContraction O hO L s).val.app W).hom
-      ((toSheafify O hO (valPresheaf O hO (_root_.SheafOfModules.unit (structureSheaf O hO)) ⊗
+      (((structureSheafificationAdjunction O hO).unit.app
+        (valPresheaf O hO (_root_.SheafOfModules.unit (structureSheaf O hO)) ⊗
         valPresheaf O hO (inverseSheaf O hO L))).app W
           ((1 : (structureSheaf O hO).obj.obj W) ⊗ₜ x)) = _
   rw [hfac]
@@ -186,7 +209,7 @@ theorem sectionContraction_app (s : L.sections) (W : Cᵒᵖ)
         inverseSheafEvaluation O hO L)) W (z ⊗ₜ x)) hmul)
   exact congrArg (fun z ↦ ((tensorProductBraiding O hO L (inverseSheaf O hO L) ≪≫
       inverseSheafEvaluation O hO L).hom.val.app W).hom z)
-    (Stacks.SheafOfModules.sheafify_map_toSheafify_app O hO
+    (structureSheafification_map_unit_apply O hO
       ((L.unitHomEquiv.symm s).val ▷ valPresheaf O hO (inverseSheaf O hO L)) W
       ((1 : (structureSheaf O hO).obj.obj W) ⊗ₜ x))
 

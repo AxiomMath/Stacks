@@ -200,7 +200,7 @@ theorem tensorObjTmul_smul_left (A B : Mod X) (U : (TopologicalSpace.Opens X.car
         (MonoidalCategory.tensorObj (C := Mod X) A B).val.obj U) :=
   (congrArg (SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace A B U)
     (TensorProduct.smul_tmul' (show X.presheaf.obj U from r) z y).symm).trans
-    (((SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace
+    ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (R X)).unit.app
       (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val)).app U).hom.map_smul
       (show (SheafOfModules.TensorStalkRingedSpace.O X.toRingedSpace).obj U from r) (z ⊗ₜ y))
 
@@ -321,7 +321,8 @@ theorem twistAdjunction_unit_dualMap (g : E₁ ⟶ E₂) (A : Mod X) :
   let := hasRightDual E₂
   rw [twistAdjunction_unit_app, twistAdjunction_unit_app, twistMap_app, twistMap_app]
   refine Eq.trans ?_ (congrArg (fun z => _ ≫ z) (twist_map_eq (dual E₁) (A ◁ g)).symm)
-  exact unit_whisker_square (dualMap g) g (coevaluation_comp_rightAdjointMate (C := Mod X) g)
+  exact unit_whisker_square (A := A) (Y₁ := E₁) (Y₂ := E₂) (dualMap g) g
+    (coevaluation_comp_rightAdjointMate (C := Mod X) g)
 
 end Naturality
 

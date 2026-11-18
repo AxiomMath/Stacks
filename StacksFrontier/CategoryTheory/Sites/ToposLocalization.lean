@@ -59,7 +59,8 @@ In this file:
   and an object `F`, given a right adjoint of `toOver F` (which a general such `E` need not have),
   with `overLocalization_inverseImage_obj` and `overLocalizationShriek`.
 
-The `@[stacks 04GZ]` registrations are in `StacksFrontier.CategoryTheory.Sites.ToposLocalizationSheaf`.
+The `@[stacks 04GZ]` registrations are in
+`StacksFrontier.CategoryTheory.Sites.ToposLocalizationSheaf`.
 -/
 
 @[expose] public section

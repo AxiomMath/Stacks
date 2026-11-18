@@ -71,10 +71,8 @@ followed by the counit of the sheafification adjunction at `F`. -/
 def unitSheafTensorIso (F : SheafOfModules.{w} (SheafOfModules.Tensor.ringSheaf O)) :
     ((SheafOfModules.Tensor.sheafTensor O).obj
         (SheafOfModules.unit (SheafOfModules.Tensor.ringSheaf O))).obj F ≅ F :=
-  (PresheafOfModules.sheafification (𝟙 (SheafOfModules.Tensor.ringSheaf O).obj)).mapIso
-      (unitTensorObjIso (O := O.obj) F.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (SheafOfModules.Tensor.ringSheaf O).obj)).counit).app F
+  (SheafOfModules.Tensor.sheafification O).mapIso (unitTensorObjIso (O := O.obj) F.val) ≪≫
+    (asIso (SheafOfModules.Tensor.sheafificationAdjunction O).counit).app F
 
 end Sheaf
 

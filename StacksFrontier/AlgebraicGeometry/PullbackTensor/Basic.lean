@@ -161,9 +161,7 @@ lemma tensorStalkEquiv_germ (U : Opens X.carrier) (hx : x ∈ U)
         (grpGerm X (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           ⟨(X).presheaf, (X).IsSheaf⟩).obj A).obj B).val
           x U hx
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
             (PresheafOfModules.tensorObj A.val B.val)) (op U) (m ⊗ₜ n))) =
       grpGerm X A.val x U hx m ⊗ₜ[ringStalk X x] grpGerm X B.val x U hx n :=
   tensorStalkIso_germ X x A B U hx m n
@@ -178,16 +176,12 @@ lemma tensorStalk_addHom_ext {P : Type u} [AddCommGroup P]
       l (grpGerm X (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨(X).presheaf, (X).IsSheaf⟩).obj A).obj B).val
         x U hx
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
             (PresheafOfModules.tensorObj A.val B.val)) (op U) (m ⊗ₜ n))) =
         r (grpGerm X (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           ⟨(X).presheaf, (X).IsSheaf⟩).obj A).obj
           B).val x U hx
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
             (PresheafOfModules.tensorObj A.val B.val)) (op U) (m ⊗ₜ n)))) :
     l = r := by
   refine AddMonoidHom.ext fun z ↦ ?_
@@ -209,9 +203,7 @@ lemma tensorStalk_addHom_ext {P : Type u} [AddCommGroup P]
           grpGerm X (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
             ⟨(X).presheaf, (X).IsSheaf⟩).obj A).obj B).val
             x (Up ⊓ Uq) hxU
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
               (PresheafOfModules.tensorObj A.val B.val)) (op (Up ⊓ Uq)) (m ⊗ₜ n)) := by
         refine (tensorStalkEquiv x A B).injective ?_
         rw [LinearEquiv.apply_symm_apply, tensorStalkEquiv_germ, hgm, hgn]
@@ -282,13 +274,9 @@ lemma comparison_pullbackUnit_tmul (A B : SheafOfModules.{u} (structureRingSheaf
     Hom.app (comparison f A B).val ((opensMap f).op.obj U)
         (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj B) U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
             (PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y))) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
         (PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
           ((pullbackFunctor f).obj B).val))
         ((opensMap f).op.obj U) (pullbackUnit f A U x ⊗ₜ pullbackUnit f B U y) :=
@@ -384,16 +372,12 @@ private lemma comparisonStalkEquiv_germ (x : X.carrier) (V : Opens Y.carrier)
           (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
             ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj
             B) (op V)
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
               (PresheafOfModules.tensorObj A.val B.val)) (op V) (m ⊗ₜ n)))) =
       grpGerm X (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨(X).presheaf, (X).IsSheaf⟩).obj
         ((pullbackFunctor f).obj A)).obj ((pullbackFunctor f).obj B)).val x ((opensMap f).obj V) hx
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
             ((pullbackFunctor f).obj B).val))
           (op ((opensMap f).obj V))
@@ -409,10 +393,9 @@ private lemma comparisonStalkEquiv_germ (x : X.carrier) (V : Opens Y.carrier)
     ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj B with hT
   let _ : Module (ringStalk Y (f.hom.base x)) (grpStalk Y T.val (f.hom.base x)) :=
     stalkModuleStructureRingSheaf (X := Y) T (f.hom.base x)
-  set u : T.val.obj (op V) := Hom.app ((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
-    (PresheafOfModules.tensorObj A.val B.val)) (op V) (m ⊗ₜ n) with hu
+  set u : T.val.obj (op V) :=
+    Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
+      (PresheafOfModules.tensorObj A.val B.val)) (op V) (m ⊗ₜ n) with hu
   set gT := grpGerm Y T.val (f.hom.base x) V hx u with hgT
   set gA := grpGerm Y A.val (f.hom.base x) V hx m with hgA
   set gB := grpGerm Y B.val (f.hom.base x) V hx n with hgB
@@ -460,16 +443,12 @@ private lemma comparisonStalkLinearMap_germ (x : X.carrier) (V : Opens Y.carrier
           (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
             ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj
             B) (op V)
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
               (PresheafOfModules.tensorObj A.val B.val)) (op V) (m ⊗ₜ n)))) =
       grpGerm X (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨(X).presheaf, (X).IsSheaf⟩).obj
         ((pullbackFunctor f).obj A)).obj ((pullbackFunctor f).obj B)).val x ((opensMap f).obj V) hx
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
             ((pullbackFunctor f).obj B).val))
           (op ((opensMap f).obj V))
@@ -515,9 +494,7 @@ private lemma comparisonStalkLinearMap_eq (x : X.carrier) :
     have hsym : g (grpGerm Y (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
               ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj
               B).val (f.hom.base x) V hy
-              (Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+              (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
                 (PresheafOfModules.tensorObj A.val B.val)) (op V) (m ⊗ₜ n))) =
         grpGerm X ((pullbackFunctor f).obj
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -526,9 +503,7 @@ private lemma comparisonStalkLinearMap_eq (x : X.carrier) :
           (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
             ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj
             B) (op V)
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
               (PresheafOfModules.tensorObj A.val B.val)) (op V) (m ⊗ₜ n))) :=
       (LinearEquiv.symm_apply_eq _).mpr
         (chosenStalkEquiv_germ f hf (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}

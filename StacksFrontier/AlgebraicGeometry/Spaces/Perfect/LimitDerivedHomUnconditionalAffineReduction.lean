@@ -55,8 +55,8 @@ directions — is not done in this file.  No `@[stacks 09RI]` attribute is place
 statements here are conditional, and the tag belongs only on an unconditional one.  The affine
 case is proved, and Stacks 09RI with it, in
 `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`; the tag is
-registered on
-`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_smallEtale`
+registered on `AlgebraicGeometry.Space.DescentSituation`'s
+`isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_smallEtale`
 of `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomSmallEtaleTensor.lean`.
 
 Nothing else is assumed.  No universe restriction is incurred here; both of the tag's live in the

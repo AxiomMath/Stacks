@@ -55,6 +55,7 @@ namespace WeilRealization
 
 attribute [local instance] GradedObject.koszulSymmetricCategory TwistedKaroubi.symmetricCategory
 
+omit [IsAlgClosed k] in
 /-- **Stacks 0FGH, uniqueness, with the isomorphism.** If the restrictions of two realizations
 `G` and `G'` along `X ↦ (X, 1, 0)` are monoidally isomorphic, by `φ` and `φ'`, to the same
 symmetric monoidal functor `F₀` on correspondences of degree zero, there is a monoidal isomorphism
@@ -203,12 +204,14 @@ theorem exists_iso_of_iso :
   WeilRealization.exists_iso_of_untwisted R.toWeilRealization R'.toWeilRealization _
     (untwistedIsoData φ) _
 
+omit [IsAlgClosed k] in
 /-- A vector of a Tate line is its coordinate times the basis vector. -/
 theorem eq_coord_smul_tateBasis (G : WeilRealization k F) (v : G.tateLine) :
     v = tateLineCoordinate G.finrank_tateLine v • G.tateBasis := by
   apply (tateLineCoordinate G.finrank_tateLine).injective
   rw [map_smul, WeilRealization.tateBasis, LinearEquiv.apply_symm_apply, smul_eq_mul, mul_one]
 
+omit [IsAlgClosed k] in
 /-- The trace of a realization in the basis `e₁⁰` of `WeilRealization.toWeilData` is the trace
 of its data, in coordinates. -/
 theorem gradedTrace_baseGen (G : WeilRealization k F)
@@ -312,6 +315,7 @@ theorem app_tateVec (θ : R.toWeilRealization.functor ≅ R'.toWeilRealization.f
     TwistedKaroubi.tateGen_one R'.toWeilRealization.tate_degree R'.tateVec_ne_zero
   exact (congrArg (θ.hom.app (tate k 1) (-2)) h1.symm).trans (hmain.trans h1')
 
+omit [IsAlgClosed k] in
 /-- A morphism of graded objects out of `F[2]` is determined by the image of `1`. -/
 theorem tateIso_hom_comp_eq (θ : R.toWeilRealization.functor ≅ R'.toWeilRealization.functor)
     (hv : θ.hom.app (tate k 1) (-2) R.tateVec = R'.tateVec) :

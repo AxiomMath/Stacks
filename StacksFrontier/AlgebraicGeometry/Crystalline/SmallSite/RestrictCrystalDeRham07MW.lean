@@ -186,14 +186,8 @@ theorem tensorFormsSectionsEquiv_smallExtendTensorModuleIso (i : ℕ)
       smallExtendTensorMap W V hVW F B (smallExtendFormsMap W V hVW B i)
         (tensorFormsSectionsEquiv F i ((GlobalCrystallineSituation.smallExtend S W V hVW).obj B)
           y) := by
-  induction y using TensorProduct.induction_on with
+  induction y using TensorProduct.inductionOn with
   | tmul m ω => exact tensorFormsSectionsEquiv_smallExtendTensorModuleIso_tmul W V hVW i B m ω
-  | zero =>
-    exact ((congrArg (tensorFormsSectionsEquiv (smallExtendSheafRestriction S W V hVW F) i B)
-      (map_zero ((smallExtendTensorModuleIso W V hVW F i).hom.app (op B)).hom)).trans
-        (map_zero _)).trans ((congrArg (smallExtendTensorMap W V hVW F B
-          (smallExtendFormsMap W V hVW B i)) (map_zero (tensorFormsSectionsEquiv F i
-            ((GlobalCrystallineSituation.smallExtend S W V hVW).obj B)))).trans (map_zero _)).symm
   | add a b ha hb =>
     exact ((congrArg (tensorFormsSectionsEquiv (smallExtendSheafRestriction S W V hVW F) i B)
       (map_add ((smallExtendTensorModuleIso W V hVW F i).hom.app (op B)).hom a b)).trans

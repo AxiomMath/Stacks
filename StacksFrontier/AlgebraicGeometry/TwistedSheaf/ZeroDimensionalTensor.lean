@@ -162,7 +162,8 @@ theorem toTensorSheafSection_map (F H : SheafOfModules.{u} (structureSheafRing X
       = ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
           (F)).obj (H))).val.map f (toTensorSheafSection X F H U t) :=
   PresheafOfModules.naturality_apply
-    (sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (H.val)))) f t
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val H.val)) f t
 
 /-! ### The stalk of the comparison morphism -/
 

@@ -47,6 +47,7 @@ namespace CategoryTheory.Sheaf
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [HasWeakSheafify J (Type max u v)]
 
+omit [HasWeakSheafify J (Type max u v)] in
 /-- If every object `X` of the site has a covering `{U_j ⟶ X}` by objects satisfying `E`, then
 the inclusion of the full subcategory of `E` is cover-dense. -/
 theorem isCoverDense_ι_of_forall_exists_covering (E : ObjectProperty C)
@@ -64,8 +65,9 @@ variable (F : Sheaf J (Type max u v)) (E : ObjectProperty C)
 `F` to the full subcategory of `E`: its objects are the pairs `(U, s)` with `U` in `E` and
 `s ∈ F(U)`. -/
 def restrictedIndexingDiagram : (E.ι.op ⋙ F.obj).Elementsᵒᵖ ⥤ C :=
-  (CategoryOfElements.π (E.ι.op ⋙ F.obj)).leftOp ⋙ E.ι
+  (Functor.Elements.π (E.ι.op ⋙ F.obj)).leftOp ⋙ E.ι
 
+omit [HasWeakSheafify J (Type max u v)] in
 /-- Every object of the restricted diagram satisfies `E`. -/
 theorem restrictedIndexingDiagram_obj_mem (i : (E.ι.op ⋙ F.obj).Elementsᵒᵖ) :
     E ((restrictedIndexingDiagram J F E).obj i) :=
@@ -155,7 +157,7 @@ theorem exists_isColimit_sheafifiedYoneda (F : Sheaf J (Type max u v)) :
           (∀ i, E (D.obj i)) ∧ Nonempty (IsColimit (Cocone.mk F ι)) := by
   refine ⟨⟨_, inferInstance, indexingDiagram J F, (coconeOfRepresentable J F).ι,
     ⟨colimitOfRepresentable J F⟩⟩, fun E hE => ?_⟩
-  haveI := isCoverDense_ι_of_forall_exists_covering J E hE
+  have := isCoverDense_ι_of_forall_exists_covering J E hE
   exact ⟨_, inferInstance, restrictedIndexingDiagram J F E, (restrictedCocone J F E).ι,
     restrictedIndexingDiagram_obj_mem J F E, ⟨isColimitRestrictedCocone⟩⟩
 

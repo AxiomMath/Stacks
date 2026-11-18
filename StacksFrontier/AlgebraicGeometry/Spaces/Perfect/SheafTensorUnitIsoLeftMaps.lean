@@ -49,13 +49,8 @@ theorem sheafTensorUnitIsoLeft_unit :
   have h : (λ_ (SheafOfModules.unit (ringSheaf R)).val).hom =
       (ρ_ (SheafOfModules.unit (ringSheaf R)).val).hom :=
     MonoidalCategory.unitors_equal
-  apply Iso.ext
-  change (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-      (λ_ (SheafOfModules.unit (ringSheaf R)).val).hom ≫ _ =
-    (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-      (ρ_ (SheafOfModules.unit (ringSheaf R)).val).hom ≫ _
-  rw [h]
-  rfl
+  exact Iso.ext (congrArg (fun φ => (sheafification R).map φ ≫
+    (sheafificationForgetAdjunction R).counit.app (SheafOfModules.unit (ringSheaf R))) h)
 
 /-- **An endomorphism of the structure sheaf commutes with the left unit constraint at the
 structure sheaf**, tensored in the left factor: `(e ⊗ 1) ≫ λ_O = λ_O ≫ e`. -/

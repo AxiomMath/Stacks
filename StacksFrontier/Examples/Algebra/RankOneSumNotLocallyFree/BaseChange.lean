@@ -81,8 +81,7 @@ noncomputable def tensorPointGen (k : σ) : B →ₗ[B] B ⊗[torus σ] ↥(poin
 theorem surjective_tensorPointGen {k : σ} (hu : algebraMap (torus σ) B (u k) = 1)
     (hv : algebraMap (torus σ) B (v k) = 0) : Function.Surjective (tensorPointGen (B := B) k) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
     obtain ⟨a, c, hac⟩ := Ideal.mem_span_pair.mp
       (show (x : torus σ) ∈ Ideal.span {u k - 1, v k} from x.2)
@@ -143,8 +142,7 @@ noncomputable def tensorPointMap {k : σ} {j : τ}
     (((Algebra.linearMap (torus σ) (torus τ)).comp (pointIdeal k).subtype).liftBaseChange
       (torus τ))
     (fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => rw [map_zero]; exact Submodule.zero_mem _
+      induction z using TensorProduct.inductionOn with
       | tmul b x =>
         rw [LinearMap.liftBaseChange_tmul]
         exact Submodule.smul_mem _ b (algebraMap_mem_pointIdeal hu hv x)
@@ -253,8 +251,7 @@ large degrees. -/
 theorem exists_baseChange_extend_truncate (A : Type*) [CommRing A] [Algebra R A]
     (z : A ⊗[R] DirectSum ℕ L) :
     ∃ N₀, ∀ N, N₀ ≤ N → (extend R L N).baseChange A ((truncate R L N).baseChange A z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, fun N _ => by rw [map_zero, map_zero]⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a x =>
     obtain ⟨N₀, h⟩ := exists_extend_truncate R L x
     exact ⟨N₀, fun N hN => by

@@ -56,13 +56,11 @@ structure PushforwardTensorCompat : Prop where
       (s : (valOf X ((SheafOfModules.pushforward.{w} φ).obj A)).obj (op U))
       (t : (valOf X ((SheafOfModules.pushforward.{w} φ).obj M)).obj (op U)),
       ((μ.inv.app (A, M)).val.app (op U)).hom
-          ((((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+          ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
             ((valOf X ((SheafOfModules.pushforward.{w} φ).obj A) ⊗
               valOf X ((SheafOfModules.pushforward.{w} φ).obj M) :
                 PresheafOfModules (Oforget X.O.obj)))).app (op U)).hom (s ⊗ₜ t)) =
-        (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.O).unit.app
             ((valOf Y A ⊗ valOf Y M : PresheafOfModules (Oforget Y.O.obj)))).app
               (op (u.obj U))).hom (s ⊗ₜ t)
 

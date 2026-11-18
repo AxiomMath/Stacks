@@ -120,8 +120,10 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 fibred category whose sections already lie in the universe of the coefficient rings is the
 equi-universe tensor product.  Both are sheafifications of the same objectwise tensor product —
 `PresheafOfModules.MixedTensor.tensorObj_eq` — and differ only by a universe lift of the
-sections that lifts nothing, which `PresheafOfModules.uliftSectionsSelfIso` undoes.  No
-sheafification is computed. -/
+sections that lifts nothing, which `PresheafOfModules.uliftSectionsSelfIso` undoes; the
+equi-universe tensor product is the sealed sheafification, which
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` identifies with Mathlib's.  No sheafification
+is computed. -/
 def tensorSheafMixedIsoTensorSheaf (τ : SiteKind)
     (F G : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp τ)) :
     letI := hasWeakSheafify_associatedTopology B S hS p τ
@@ -133,7 +135,8 @@ def tensorSheafMixedIsoTensorSheaf (τ : SiteKind)
   have := hasWeakSheafify_associatedTopology B S hS p τ
   have := wEqualsLocallyBijective_associatedTopology B S hS p τ
   (PresheafOfModules.sheafification (structureComparison B S hS p hp τ)).mapIso
-    (PresheafOfModules.uliftSectionsSelfIso _)
+      (PresheafOfModules.uliftSectionsSelfIso _) ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso (structureSheaf B S hS p hp τ) F G).symm
 
 /-- **The tensor product of two quasi-coherent sheaves of modules on an associated site of the
 fibred category is quasi-coherent.**  The tensor product is

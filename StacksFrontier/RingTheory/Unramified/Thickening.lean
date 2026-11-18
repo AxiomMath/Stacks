@@ -1302,7 +1302,7 @@ theorem isUniversalFirstOrderThickening_pi :
     let a'' : (R ⧸ I ^ 2) →ₐ[R] A :=
       ⟨a', fun r => by rw [Ideal.Quotient.algebraMap_eq]; exact RingHom.congr_fun h1 r⟩
     refine ⟨a'', AlgHom.ext fun x => RingHom.congr_fun h2 x, fun g hg =>
-      AlgHom.coe_ringHom_injective (huniq g.toRingHom
+      AlgHom.toRingHom_injective (huniq g.toRingHom
         ⟨RingHom.ext fun r => ?_, RingHom.ext fun x => AlgHom.congr_fun hg x⟩)⟩
     exact g.commutes r
 

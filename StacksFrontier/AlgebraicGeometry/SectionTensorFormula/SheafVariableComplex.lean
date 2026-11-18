@@ -37,7 +37,7 @@ available. This file proves that square and assembles the complex-level statemen
   comparison on sections** in both sheaf variables at once, from the first-variable naturality
   `Stacks.SectionTensorFormula.toTensorSection_comp_whiskerRight_val` of
   `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormulaLeft.lean`
-  (itself resting on `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj_hom_whiskerRight`
+  (itself resting on `Stacks.SectionTensorFormula.sheafifyIsoTensorObj_hom_whiskerRight`
   there) and the second-variable one.
 * `Stacks.SectionTensorFormula.tensorSection_whiskerLeft`: the same on an element, over a scheme,
   in the second variable; the first-variable form
@@ -64,7 +64,7 @@ available. This file proves that square and assembles the complex-level statemen
 `(E.d i j ≫ E.d j k) ▷ M = 0 ▷ M`, and `0 ▷ M = 0` is not available: the monoidal structure of
 `Stacks.SheafInternalHom.monoidalCategory` is a localization of the sectionwise one and carries no
 `MonoidalPreadditive` instance in this repository. The first-variable naturality proved here
-transports the question across `tensorSheafIsoTensorObj` to the sheafified sectionwise tensor
+transports the question across `sheafifyIsoTensorObj` to the sheafified sectionwise tensor
 product, where it splits into two facts that *are* reachable: `0 ▷ R = 0` for presheaves of
 modules, which is `ModuleCat`'s own `MonoidalPreadditive.zero_whiskerRight` read sectionwise, and
 `sheafify.map 0 = 0`, which the hom-equivalence of the sheafification adjunction gives since
@@ -223,7 +223,7 @@ theorem sheafify_map_zero {P Q : PresheafOfModules.{w} (structureSheaf 𝒪 h�
 /-- **A zero morphism of sheaves of modules stays zero after tensoring with a fixed sheaf.** This
 is `0 ▷ G = 0` for the localized monoidal structure of
 `Stacks.SheafInternalHom.monoidalCategory`, which carries no additivity of its own: the
-first-variable naturality of `tensorSheafIsoTensorObj` transports the question to the sheafified
+first-variable naturality of `sheafifyIsoTensorObj` transports the question to the sheafified
 sectionwise tensor product, where `presheaf_zero_whiskerRight` and `sheafify_map_zero` answer it.
 No affineness and no quasi-coherence. -/
 theorem zero_whiskerRight {F F' G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)} :
@@ -231,12 +231,12 @@ theorem zero_whiskerRight {F F' G : SheafOfModules.{w} (structureSheaf 𝒪 h�
   have h0 : (sheafify 𝒪 h𝒪).map ((0 : F ⟶ F').val ▷ G.val) = 0 :=
     (congrArg (sheafify 𝒪 h𝒪).map (presheaf_zero_whiskerRight 𝒪 h𝒪)).trans
       (sheafify_map_zero 𝒪 h𝒪)
-  have key : (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom ≫ (0 : F ⟶ F') ▷ G =
-      (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom ≫ (0 : F ⊗ G ⟶ F' ⊗ G) :=
-    (tensorSheafIsoTensorObj_hom_whiskerRight 𝒪 h𝒪 G (0 : F ⟶ F')).trans
-      ((eq_whisker h0 (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G).hom).trans
+  have key : (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom ≫ (0 : F ⟶ F') ▷ G =
+      (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom ≫ (0 : F ⊗ G ⟶ F' ⊗ G) :=
+    (sheafifyIsoTensorObj_hom_whiskerRight 𝒪 h𝒪 G (0 : F ⟶ F')).trans
+      ((eq_whisker h0 (sheafifyIsoTensorObj 𝒪 h𝒪 F' G).hom).trans
         (zero_comp.trans comp_zero.symm))
-  (cancel_epi (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom).1 key
+  (cancel_epi (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom).1 key
 
 end Zero
 

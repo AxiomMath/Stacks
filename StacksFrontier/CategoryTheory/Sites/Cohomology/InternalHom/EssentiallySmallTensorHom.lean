@@ -26,7 +26,8 @@ clause of Stacks 03EO at a module universe not tied to the universes of the site
 The correspondence is assembled from four bijections, none of which is new:
 
 * a morphism out of the sheafified tensor product is a morphism out of the objectwise tensor
-  product (`PresheafOfModules.sheafificationHomEquiv`), that is a bilinear map of sections
+  product (the adjunction `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` of the
+  sealed sheafification), that is a bilinear map of sections
   (`PresheafOfModules.ofBilinear`, `PresheafOfModules.toBilinear`);
 * a bilinear map `H × F → G` is a bilinear map `ULift H × F → G`;
 * such a bilinear map is a morphism `ULift H ⟶ Hom(F, G)` into the internal Hom presheaf
@@ -71,8 +72,7 @@ def tensorHomEquivInternalHomSheafSmall
     (H F G : SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, m, m} X.O).obj H).obj F ⟶ G) ≃
       (H ⟶ internalHomSheafSmall X F G) :=
-  (PresheafOfModules.sheafificationHomEquiv
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).trans <|
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).homEquiv _ _).trans <|
     tensorObjHomEquivBilinear.trans <|
     Stacks.BilinearMap.uliftEquiv.trans <|
     Stacks.PresheafOfModules.bilinearEquivHomInternalHom.trans <|
@@ -104,9 +104,8 @@ theorem tensorHomEquivInternalHomSheafSmall_apply
         (K := (Stacks.SheafOfModules.presheafULift.{max u v}
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).obj H.val)
         (G := valOf X F) (H := valOf X G) (Stacks.BilinearMap.ulift
-        (PresheafOfModules.toBilinear (show PresheafOfModules.tensorObj (O := X.O.obj) H.val F.val ⟶
-          G.val from PresheafOfModules.sheafificationHomEquiv
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) b))) := by
+        (PresheafOfModules.toBilinear
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).homEquiv _ _ b))) := by
   have key : ∀ g : (Stacks.SheafOfModules.moduleULift.{max u v}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj H ⟶ internalHomSheaf X F G,
       (Stacks.SheafOfModules.moduleULift.{max u v}

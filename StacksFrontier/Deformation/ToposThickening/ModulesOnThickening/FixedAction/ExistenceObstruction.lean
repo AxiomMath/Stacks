@@ -50,24 +50,17 @@ private lemma idealTensorHom_id (hi : FirstOrderThickening i)
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
         i.toToposHom).obj X.O))) :
     idealTensorHom hi (𝟙 F) = 𝟙 _ := by
-  let R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-    i.toToposHom).obj X.O)
-  have hval : (SheafOfModules.forget R).map (𝟙 F) = 𝟙 F.val :=
-    CategoryTheory.Functor.map_id (SheafOfModules.forget R) F
-  have h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
-        ((SheafOfModules.forget R).map (𝟙 F)) =
+  have h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) (𝟙 F : F ⟶ F).val =
       𝟙 (PresheafOfModulesOfCommRing.Monoidal.tensorObj hi.I.val F.val) := by
-    rw [hval]
+    rw [SheafOfModules.id_val]
     apply PresheafOfModules.hom_ext
     intro U
     apply ModuleCat.MonoidalCategory.tensor_ext
     intro a x
     rfl
-  change (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
-    (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
-      ((SheafOfModules.forget R).map (𝟙 F))) = 𝟙 _
-  rw [h]
-  exact CategoryTheory.Functor.map_id _ _
+  rw [idealTensorHom]
+  exact (congrArg (Stacks.SheafOfModules.Tensor.sheafification _).map h).trans
+    (CategoryTheory.Functor.map_id _ _)
 
 /-- A map of middle terms over the identity on the quotient module and a map `k` of kernel
 modules intertwines the two action maps: the action of the source extension followed by `k` is
@@ -157,9 +150,7 @@ private noncomputable def idealMultiplication (hi : FirstOrderThickening i)
         ((SheafOfModules.restrictScalars
           (structureRingMap i)).obj hi.I) ⟶ H //
       ∀ (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : H.val.obj U),
-        l.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+        l.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (PresheafOfModules.tensorObj (((SheafOfModules.restrictScalars
               (structureRingMap i)).obj hi.I)).val H.val)).app U (a ⊗ₜ[Y.O.obj.obj U] x)) =
           (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U
@@ -253,9 +244,7 @@ private lemma ideal_annihilates_of_epi (hi : FirstOrderThickening i)
   change hi.incl.val.app _ (hi.I.val.map t.op a) =
     Y.O.obj.map t.op (hi.incl.val.app U a) at ha
   have h := congrArg (fun g => g.val.app (Opposite.op V)
-    (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
       (PresheafOfModules.tensorObj (((SheafOfModules.restrictScalars
         (structureRingMap i)).obj hi.I)).val H.val)).app _
           (hi.I.val.map t.op a ⊗ₜ[Y.O.obj.obj _] y))) hq
@@ -364,14 +353,10 @@ private lemma extensionActionMap_mono_of_flat_presentation (hi : FirstOrderThick
     have : Mono E.f.val := (SheafOfModules.forget _).map_mono E.f
     apply PresheafOfModules.injective_of_mono E.f.val U
     have hl' := congrArg (fun f => f.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
         (PresheafOfModules.tensorObj ((R.obj hi.I)).val H.val)).app U (a ⊗ₜ[Y.O.obj.obj U] x))) hl
     have hu' := congrArg (fun f => f.val.app U
-      (l.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+      (l.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
         (PresheafOfModules.tensorObj ((R.obj hi.I)).val H.val)).app U
         (a ⊗ₜ[Y.O.obj.obj U] x)))) hu
     have hp' := congrArg (fun f => f.val.app U x) hp

@@ -81,7 +81,11 @@ totalised, whereas `AlgebraicGeometry.RingedSite.compositionMap` is defined out 
 `AlgebraicGeometry.RingedSite.tensorTotal`, which totalises the presheaf tensor products and
 sheafifies afterwards. The two are identified by
 `AlgebraicGeometry.RingedSite.tensorTotalIsoTensorComplex`, and that isomorphism is the only
-transport in the definition below.
+transport in the definition below. The sheaf tensor product sheafifies with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, `tensorTotal` with Mathlib's
+`PresheafOfModules.sheafification`; on local pure tensors the two are compared through the
+defining equation `Stacks.SheafOfModules.Tensor.sheafification_def`, which carries the unit of
+the one to the unit of the other.
 
 **How the three laws are proved, and why not by cancelling an epimorphism.** Each law is first
 proved on *classes of cocycles*, where the product is computed by `homologyMul_app_homologyπ`,
@@ -178,15 +182,55 @@ local instance preservesFiniteColimitsTensorLeftSite'
     PreservesFiniteColimits (tensorLeft N) :=
   preservesFiniteColimits_of_natIso (BraidedCategory.tensorLeftIsoTensorRight N).symm
 
-/-- Sheafification of presheaves of modules is additive, at the spelling in which the
-total-complex comparison is stated. The universes of the site and of the sections of `O`
-coincide, so instance search would have to solve `max ?u ?v =?= u` with both unknown; this is a
-named local instance for the same reason as the monoidal ones above. -/
+/-- The sheafification inside `⊗_O`, `Stacks.SheafOfModules.Tensor.sheafification`, is
+additive, at the spelling in which the total-complex comparison is stated. The universes of the
+site and of the sections of `O` coincide, so instance search would have to solve
+`max ?u ?v =?= u` with both unknown; this is a named local instance for the same reason as the
+monoidal ones above. -/
 local instance sheafificationAdditive' :
-    (PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).Additive :=
-  PresheafOfModules.sheafification_additive (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+    (Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} X.O).Additive :=
+  Stacks.SheafOfModules.Tensor.sheafification_additive X.O
+
+/-- The unit of the sheafification inside `⊗_O` is natural, on sections: the sheafification of a
+morphism of presheaves of modules agrees with it on sections coming from the presheaf level. -/
+private lemma sheafificationForgetAdjunction_unit_naturality_apply
+    {P Q : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj} (h : P ⟶ Q)
+    (U : X.Cᵒᵖ) (x : P.obj U) :
+    ((Stacks.SheafOfModules.Tensor.sheafification X.O).map h).val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P).app U x) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app Q).app U
+        (h.app U x) :=
+  PresheafOfModules.hom_congr_apply'
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.naturality h).symm U x
+
+/-- The comparison `Stacks.SheafOfModules.Tensor.sheafification_def` of the sheafification
+inside `⊗_O` with Mathlib's carries the unit of the one to the unit of the other. -/
+private lemma unit_comp_map_eqToHom_sheafification_def_app
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app P ≫
+        (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
+          PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def X.O)).app P) =
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app P := by
+  rw [← Adjunction.homEquiv_id, Stacks.SheafOfModules.Tensor.sheafificationAdjunction,
+    Adjunction.homEquiv_ofNatIsoLeft_apply, Adjunction.homEquiv_unit, Category.assoc,
+    ← Functor.map_comp]
+  simp only [eqToIso.hom, Category.comp_id, eqToHom_app, eqToHom_trans, eqToHom_refl,
+    CategoryTheory.Functor.map_id]
+  exact Category.comp_id _
+
+/-- The comparison `Stacks.SheafOfModules.Tensor.sheafification_def`, on a section coming from
+the presheaf level: it sends the unit of the sheafification inside `⊗_O` to Mathlib's unit. -/
+private lemma eqToHom_sheafification_def_app_unit_apply
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+    (U : X.Cᵒᵖ) (x : P.obj U) :
+    ((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def X.O)).app P).val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P).app U x) =
+      ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app P).app U x := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply]
+  exact PresheafOfModules.hom_congr_apply' (unit_comp_map_eqToHom_sheafification_def_app X P) U x
 
 /-- The composition morphism of internal Hom complexes of Stacks 0A91, read on the total tensor
 product of `SheafHom^•(L, M)` and `SheafHom^•(K, L)` in the spelling
@@ -253,8 +297,7 @@ def homologyMul
       ((sheafHomComplex X K L).obj.homology j).val
       ((sheafHomComplex X K M).obj.homology (i + j)).val :=
   PresheafOfModules.toBilinear
-    ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
         (((sheafHomComplex X L M).obj.homology i).val ⊗
           ((sheafHomComplex X K L).obj.homology j).val) ≫
       (homologyComposition X K L M i j).val)
@@ -274,7 +317,7 @@ comparison of the two total complexes is stated. It is the monoidal summand incl
 `HomologicalComplex.ιTensorObj`. -/
 abbrev ιTensorPair (i j : ℤ) :=
   (HomologicalComplex₂.TotalMap.mapBicomplex
-      (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
+      (Stacks.SheafOfModules.Tensor.sheafification X.O)
       (tensorPairBicomplex X K L M)).ιTotal (ComplexShape.up ℤ) i j (i + j) rfl
 
 /-- The monoidal summand inclusion `HomologicalComplex.ιTensorObj` of the total tensor product
@@ -290,24 +333,28 @@ theorem ιTensorObj_eq_ιTensorPair (i j : ℤ) :
 theorem compositionTotalMap_f (n : ℤ) :
     (compositionTotalMap X K L M).f n =
       HomologicalComplex₂.TotalMap.totalMapf
-          (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
+          (Stacks.SheafOfModules.Tensor.sheafification X.O)
           (tensorPairBicomplex X K L M) n ≫
-        (compositionMap X K L M).f n :=
+        (eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def X.O)).app _ ≫
+          (compositionMap X K L M).f n :=
   rfl
 
 /-- On the degree-`(i, j)` summand, the composition morphism read on the total tensor product is
-the sheafification of the presheaf-level summand inclusion followed by the composition morphism
-of Stacks 0A91. This is the summand compatibility of the comparison of the two total tensor
-complexes, which is `HomologicalComplex₂.TotalMap.ι_totalMapf`. -/
+the sheafification of the presheaf-level summand inclusion, followed by the comparison
+`Stacks.SheafOfModules.Tensor.sheafification_def` of the sheafification inside `⊗_O` with
+Mathlib's and by the composition morphism of Stacks 0A91. This is the summand compatibility of
+the comparison of the two total tensor complexes, which is
+`HomologicalComplex₂.TotalMap.ι_totalMapf`. -/
 theorem ι_compositionTotalMap (i j : ℤ) :
     ιTensorPair X K L M i j ≫ (compositionTotalMap X K L M).f (i + j) =
-      (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification X.O).map
           ((tensorPairBicomplex X K L M).ιTotal (ComplexShape.up ℤ) i j (i + j) rfl) ≫
-        (compositionMap X K L M).f (i + j) := by
+        (eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def X.O)).app _ ≫
+          (compositionMap X K L M).f (i + j) := by
   rw [compositionTotalMap_f]
   exact HomologicalComplex₂.TotalMap.ι_totalMapf_assoc
-    (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
-    (tensorPairBicomplex X K L M) (i + j) i j rfl ((compositionMap X K L M).f (i + j))
+    (Stacks.SheafOfModules.Tensor.sheafification X.O)
+    (tensorPairBicomplex X K L M) (i + j) i j rfl _
 
 /-- **The local pure tensor in the degree-`(i, j)` summand of the total tensor product of
 `SheafHom^•(L, M)` and `SheafHom^•(K, L)`.** These sections generate the total tensor product,
@@ -318,8 +365,7 @@ def tensorPairSection (i j : ℤ) (U : X.C)
     ((HomologicalComplex.tensorObj (sheafHomComplex X L M).obj
       (sheafHomComplex X K L).obj).X (i + j)).val.obj (op U) :=
   (ιTensorPair X K L M i j).val.app (op U)
-    (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
         (((sheafHomComplex X L M).obj.X i).val ⊗
           ((sheafHomComplex X K L).obj.X j).val)).app (op U)
       (β ⊗ₜ[X.O.obj.obj (op U)] γ))
@@ -328,8 +374,9 @@ def tensorPairSection (i j : ℤ) (U : X.C)
 composite of its factors.** This is the bridge between the two spellings of the total tensor
 product: the monoidal one, in which the cohomology product of `CochainComplex.tensorHomology` is
 stated, and `AlgebraicGeometry.RingedSite.tensorTotal`, in which the composition morphism of
-Stacks 0A91 is defined. Its three ingredients are the summand compatibility of the comparison,
-the naturality of the sheafification unit, and the characterisation
+Stacks 0A91 is defined. Its ingredients are the summand compatibility of the comparison, the
+naturality of the sheafification unit, the comparison of the units of the sheafification inside
+`⊗_O` and of Mathlib's, and the characterisation
 `AlgebraicGeometry.RingedSite.compositionMap_tensorTotalSection` of the composition morphism on
 local pure tensors. -/
 theorem compositionTotalMap_tensorPairSection (i j : ℤ) (U : X.C)
@@ -340,18 +387,22 @@ theorem compositionTotalMap_tensorPairSection (i j : ℤ) (U : X.C)
       compositionSection X U i j (i + j) rfl β γ :=
   (congrArg
       (fun z => (SheafOfModules.Hom.val z).app (op U)
-        (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
             (((sheafHomComplex X L M).obj.X i).val ⊗
               ((sheafHomComplex X K L).obj.X j).val)).app (op U)
           (β ⊗ₜ[X.O.obj.obj (op U)] γ)))
       (ι_compositionTotalMap X K L M i j)).trans
     ((congrArg
-        (fun y => ((compositionMap X K L M).f (i + j)).val.app (op U) y)
-        (sheafification_map_unit_apply X
+        (fun y => ((compositionMap X K L M).f (i + j)).val.app (op U)
+          (((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def X.O)).app _).val.app
+            (op U) y))
+        (sheafificationForgetAdjunction_unit_naturality_apply X
           ((tensorPairBicomplex X K L M).ιTotal (ComplexShape.up ℤ) i j (i + j) rfl) (op U)
           (β ⊗ₜ[X.O.obj.obj (op U)] γ))).trans
-      (compositionMap_tensorTotalSection X K L M U i j β γ))
+      ((congrArg
+          (fun y => ((compositionMap X K L M).f (i + j)).val.app (op U) y)
+          (eqToHom_sheafification_def_app_unit_apply X _ (op U) _)).trans
+        (compositionMap_tensorTotalSection X K L M U i j β γ)))
 
 /-- **The tensor product of two morphisms, on a local pure tensor.** The sheaf tensor product is
 the sheafification of the objectwise one and the re-seated whiskerings are the sheafifications of
@@ -361,18 +412,16 @@ theorem tensorHom_pureSection
     {M N M' N' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (f : M ⟶ M')
     (g : N ⟶ N') (U : X.Cᵒᵖ) (a : M.val.obj U) (b : N.val.obj U) :
     ((f ⊗ₘ g).val.app U)
-        (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
             (M.val ⊗ N.val)).app U (a ⊗ₜ[X.O.obj.obj U] b)) =
-      ((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (M'.val ⊗ N'.val)).app U
         ((f.val.app U a) ⊗ₜ[X.O.obj.obj U] (g.val.app U b)) := by
   rw [MonoidalCategory.tensorHom_def]
   exact (congrArg (fun y => ((M' ◁ g).val.app U) y)
-      (sheafification_map_unit_apply X (f.val ▷ N.val) U
+      (sheafificationForgetAdjunction_unit_naturality_apply X (f.val ▷ N.val) U
         (a ⊗ₜ[X.O.obj.obj U] b))).trans
-    (sheafification_map_unit_apply X (M'.val ◁ g.val) U
+    (sheafificationForgetAdjunction_unit_naturality_apply X (M'.val ◁ g.val) U
       ((f.val.app U a) ⊗ₜ[X.O.obj.obj U] b))
 
 /-- **The composition pairing at the level of cycles.** Tensoring a cycle of `SheafHom^•(L, M)`
@@ -391,8 +440,7 @@ theorem iCycles_cycleComposition_pureSection (i j : ℤ) (U : X.C)
     (y : ((sheafHomComplex X K L).obj.cycles j).val.obj (op U)) :
     (((sheafHomComplex X K M).obj.iCycles (i + j)).val.app (op U))
         ((cycleComposition X K L M i j).val.app (op U)
-          (((PresheafOfModules.sheafificationAdjunction
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (((sheafHomComplex X L M).obj.cycles i).val ⊗
                 ((sheafHomComplex X K L).obj.cycles j).val)).app (op U)
             (x ⊗ₜ[X.O.obj.obj (op U)] y))) =
@@ -409,8 +457,7 @@ theorem iCycles_cycleComposition_pureSection (i j : ℤ) (U : X.C)
     rw [cycleComposition, Category.assoc, HomologicalComplex.cyclesMap_i,
       ← Category.assoc, CochainComplex.tensorCycles_i, Category.assoc]
   refine (congrArg (fun z => (SheafOfModules.Hom.val z).app (op U)
-      (((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((sheafHomComplex X L M).obj.cycles i).val ⊗
             ((sheafHomComplex X K L).obj.cycles j).val)).app (op U)
         (x ⊗ₜ[X.O.obj.obj (op U)] y))) hmor).trans ?_
@@ -434,8 +481,7 @@ theorem homologyMul_app_homologyπ (i j : ℤ) (U : X.C)
         (((sheafHomComplex X K L).obj.homologyπ j).val.app (op U) y) =
       ((sheafHomComplex X K M).obj.homologyπ (i + j)).val.app (op U)
         ((cycleComposition X K L M i j).val.app (op U)
-          (((PresheafOfModules.sheafificationAdjunction
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (((sheafHomComplex X L M).obj.cycles i).val ⊗
                 ((sheafHomComplex X K L).obj.cycles j).val)).app (op U)
             (x ⊗ₜ[X.O.obj.obj (op U)] y))) := by
@@ -451,8 +497,7 @@ theorem homologyMul_app_homologyπ (i j : ℤ) (U : X.C)
       ((sheafHomComplex X L M).obj.homologyπ i)
       ((sheafHomComplex X K L).obj.homologyπ j) (op U) x y).symm).trans ?_
   exact congrArg (fun z => (SheafOfModules.Hom.val z).app (op U)
-    (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
         (((sheafHomComplex X L M).obj.cycles i).val ⊗
           ((sheafHomComplex X K L).obj.cycles j).val)).app (op U)
       (x ⊗ₜ[X.O.obj.obj (op U)] y))) h1

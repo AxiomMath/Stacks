@@ -76,7 +76,9 @@ noncomputable def tensorLeftFunctorSwap
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj L ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L).obj N :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (β_ N.val L.val)
+  (Stacks.SheafOfModules.Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
+      (β_ N.val L.val :)
 
 /-- If `L ⊗ N` is isomorphic to the structure sheaf, then `N` is invertible. -/
 theorem isInvertible_of_tensor_iso_unit_right

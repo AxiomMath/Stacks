@@ -80,10 +80,8 @@ private theorem tensorSheafMapIso_tensorSectionsAt (Z : RingedSpace.{u, u})
         (tensorSectionsAt Z.presheaf (isSheafStructure Z) U M N s t) =
       tensorSectionsAt Z.presheaf (isSheafStructure Z) U M' N' (Hom.app i.hom.val U s)
         (Hom.app j.hom.val U t) := by
-  refine (Stacks.SheafOfModules.toSheafify_app_map_obj (O := Z.presheaf) (hO := isSheafStructure Z)
-    (f := PresheafOfModules.tensorHom (O := Z.presheaf) i.hom.val j.hom.val) _ _).trans ?_
-  exact congrArg (ConcreteCategory.hom ((Stacks.SheafOfModules.TensorSheafification.toSheafify
-    Z.presheaf (isSheafStructure Z) _).app _)) (PresheafOfModules.tensorHom_tmul _ _ _ _ _)
+  exact Stacks.SheafOfModules.tensorSections_tensorMapAt Z.presheaf (isSheafStructure Z) U M M' N N'
+    i.hom j.hom s t
 
 /-- The comparison of the integral tensor powers carries the pullback-unit image of a local
 product to the product of the pullback-unit images, over one arbitrary open and in every pair of

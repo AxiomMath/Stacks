@@ -85,13 +85,15 @@ def mul :
     ((Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf).obj (moduleOfAlgebra A)).obj
         (moduleOfAlgebra A) ⟶
       moduleOfAlgebra A :=
-  (PresheafOfModules.sheafificationHomEquiv (𝟙 X.ringCatSheaf.obj)).symm (presheafMul A)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).homEquiv _ _).symm
+    (presheafMul A)
 
 /-- The multiplication restricts along the sheafification unit of the presheaf tensor product
 to multiplication of sections. -/
 theorem sheafificationHomEquiv_mul :
-    PresheafOfModules.sheafificationHomEquiv (𝟙 X.ringCatSheaf.obj) (mul A) = presheafMul A :=
-  (PresheafOfModules.sheafificationHomEquiv _).apply_symm_apply _
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).homEquiv _ _ (mul A) =
+      presheafMul A :=
+  Equiv.apply_symm_apply _ _
 
 /-! ### The derived multiplication
 

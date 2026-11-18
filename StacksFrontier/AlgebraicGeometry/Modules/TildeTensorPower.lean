@@ -106,9 +106,8 @@ noncomputable def tildeTensorPowerSection (R : CommRingCat.{u}) (M : ModuleCat.{
         ((specTildeAlgebras R M).tensor.one.eval (specGlobalOpen R))
   | 1, a => (tilde.toOpen M ⊤).hom (a 0)
   | n + 2, a =>
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ((Spec R).toRingedSpace.sheaf)).unit.app
         (PresheafOfModules.tensorObj ((tilde M)).val ((specTildeTensorPower R M (n + 1))).val)).app
           (specGlobalOpen R)
         ((tilde.toOpen M ⊤).hom (a 0) ⊗ₜ[
@@ -197,20 +196,21 @@ private lemma tildeMap_toOpen_top_apply {R : CommRingCat.{u}} {X Y : ModuleCat.{
       (tilde.toOpen Y ⊤).hom (f.hom x) :=
   congrArg (fun g => g.hom x) (tilde.toOpen_map_app f ⊤)
 
-/-- The affine tensor comparison of tag 01I8, with the sheafification unit spelled as the
-unit of the tensor product of sheaves of modules. -/
+/-- The affine tensor comparison of tag 01I8, with the sheafification unit spelled as the unit
+of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the one the tensor-algebra bundle's
+multiplication equation uses. -/
 private lemma tildeTensorIso_app_tmul (R : CommRingCat.{u}) (M N : ModuleCat.{u} R) (m : M)
     (n : N) :
     (tildeTensorIso R M N).hom.val.app (specGlobalOpen R)
         ((tilde.toOpen (M ⊗ N) ⊤).hom (TensorProduct.tmul R m n)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ((Spec R).toRingedSpace.sheaf)).unit.app
         (PresheafOfModules.tensorObj ((tilde M)).val ((tilde N)).val)).app (specGlobalOpen R)
         ((tilde.toOpen M ⊤).hom m ⊗ₜ[
             (Spec R).toRingedSpace.sheaf.obj.obj (specGlobalOpen R)]
           (tilde.toOpen N ⊤).hom n) :=
-  tildeTensorIso_hom_tmul R M N m n
+  (tildeTensorIso_hom_tmul R M N m n).trans
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _ _)
 
 /-- Naturality of the sheafification unit of the tensor product of sheaves of modules. -/
 private lemma tensorSheafificationUnit_natural {C : Type u} [Category.{v} C]
@@ -224,24 +224,16 @@ private lemma tensorSheafificationUnit_natural {C : Type u} [Category.{v} C]
     (z : (PresheafOfModules.tensorObj F.val G.val).obj U) :
     ((Functor.uncurry.obj
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} Osharp)).map φ).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
           (PresheafOfModules.tensorObj F.val G.val)).app U z) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
         (PresheafOfModules.tensorObj F'.val G'.val)).app U
         ((PresheafOfModules.tensorHom φ.1.val φ.2.val).app U z) :=
   (congrArg (fun tensorMap => tensorMap.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
         (PresheafOfModules.tensorObj F.val G.val)).app U z))
     (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map Osharp φ.1 φ.2)).trans
-      (PresheafOfModules.unit_naturality_apply
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)
+      (Stacks.SheafOfModules.Tensor.unit_naturality_apply
         (PresheafOfModules.tensorHom φ.1.val φ.2.val) U z)
 
 private lemma sheafIso_inv_app_hom_app {C : Type u} [Category.{v} C]
@@ -286,17 +278,14 @@ private lemma tildeTensorIso_tensorSheaf_step (R : CommRingCat.{u}) (M P : Modul
       (tilde M)).map e.hom).val.app (specGlobalOpen R)
         ((tildeTensorIso R M P).hom.val.app (specGlobalOpen R)
           ((tilde.toOpen (M ⊗ P) ⊤).hom (TensorProduct.tmul R m p))) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ((Spec R).toRingedSpace.sheaf)).unit.app
         (PresheafOfModules.tensorObj ((tilde M)).val Q.val)).app (specGlobalOpen R)
         ((tilde.toOpen M ⊤).hom m ⊗ₜ[
             (Spec R).toRingedSpace.sheaf.obj.obj (specGlobalOpen R)]
           e.hom.val.app (specGlobalOpen R) ((tilde.toOpen P ⊤).hom p)) := by
   rw [tildeTensorIso_app_tmul]
-  refine (PresheafOfModules.unit_naturality_apply
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf (Spec R).toRingedSpace.sheaf)
-    (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (Spec R).toRingedSpace.sheaf).obj)
+  refine (Stacks.SheafOfModules.Tensor.unit_naturality_apply
     (PresheafOfModules.tensorHom (𝟙 (tilde M).val) e.hom.val)
     (specGlobalOpen R) _).trans ?_
   exact congrArg _ (PresheafOfModules.tensorHom_tmul _ _ _ _ _)
@@ -308,9 +297,8 @@ private lemma tildeTensorPowerStepIso_hom_tprod (R : CommRingCat.{u}) (M : Modul
     (tildeTensorPowerStepIso R M k e).hom.val.app (specGlobalOpen R)
         ((tilde.toOpen (ModuleCat.of R (TensorPower R (k + 2) M)) ⊤).hom
           (PiTensorProduct.tprod R a)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((Spec R).toRingedSpace.sheaf)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ((Spec R).toRingedSpace.sheaf)).unit.app
         (PresheafOfModules.tensorObj ((tilde M)).val ((specTildeTensorPower R M (k + 1))).val)).app
           (specGlobalOpen R)
         ((tilde.toOpen M ⊤).hom (a 0) ⊗ₜ[

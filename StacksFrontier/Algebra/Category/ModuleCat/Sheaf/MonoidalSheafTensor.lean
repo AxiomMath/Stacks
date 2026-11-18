@@ -25,13 +25,22 @@ one, so that `curriedTensor (Mod(O))` *is* `Stacks.SheafOfModules.Tensor.sheafTe
 `((ℱ ⊗_{pre} 𝒢)^# ≅ ℱ^# ⊗ 𝒢^# ≅ ℱ ⊗ 𝒢` for `ℱ`, `𝒢` already sheaves: the first map is the
 monoidality of sheafification, the second is the counit of the sheafification adjunction, which
 is an isomorphism because the forgetful functor to presheaves of modules is fully faithful.
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies with
+`Stacks.SheafOfModules.Tensor.sheafification`, an `irreducible_def` over Mathlib's
+`PresheafOfModules.sheafification`, so the isomorphism is computed for Mathlib's sheafification,
+whose monoidality the localized structure provides, and is then carried over by
+`Stacks.SheafOfModules.Tensor.sheafificationIso`, the canonical isomorphism between the two
+sheafifications.
 
 ## Main definitions
 
 * `SheafOfModules.sheafifyCounitIso`: the counit isomorphism `(ℱ^♭)^# ≅ ℱ`.
-* `SheafOfModules.sheafTensorIso`: `ℱ ⊗ 𝒢 ≅ (Stacks.SheafOfModules.Tensor.sheafTensor R).obj ℱ
-  |>.obj 𝒢`, and
-  `SheafOfModules.sheafTensorNatIso`, its bifunctor form.
+* `SheafOfModules.sheafTensorIso`: `ℱ ⊗ 𝒢 ≅ (ℱ^♭ ⊗_{pre} 𝒢^♭)^#`, for Mathlib's sheafification.
+* `SheafOfModules.sheafTensorNatIso`: `curriedTensor (Mod(O)) ≅
+  Stacks.SheafOfModules.Tensor.sheafTensor R`, whose component at `(ℱ, 𝒢)` is
+  `SheafOfModules.sheafTensorIso` followed by the inverse of
+  `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` (`SheafOfModules.sheafTensorNatIso_hom_app_app`),
+  and `SheafOfModules.sheafTensorIsoApp`, its value at `ℱ`.
 * `SheafOfModules.monoidalCategorySheafTensor`,
   `SheafOfModules.symmetricCategorySheafTensor`: the re-seated symmetric monoidal structure.
 
@@ -61,6 +70,18 @@ specialized, rather than proved for `Stacks.SheafOfModules.Tensor.ringSheaf R` d
   specialized
 spelling the elaborator has to unfold `Stacks.SheafOfModules.Tensor.ringSheaf` to see that the
 adjunction's counit has the stated type, which is expensive.
+
+`SheafOfModules.sheafTensorNatIso` is assembled from
+`SheafOfModules.sheafTensorIsoAppSheafification`, which identifies `ℱ ⊗ -` with
+`𝒢 ↦ (ℱ ⊗_{pre} 𝒢)^#` for Mathlib's sheafification, and the whiskering of
+`Stacks.SheafOfModules.Tensor.sheafificationIso`.  The comparison of Mathlib's monoidal product of
+presheaves of modules, in which `SheafOfModules.sheafTensorIso` is stated, with
+`PresheafOfModules.tensorObj`, in which `Stacks.SheafOfModules.Tensor.sheafTensor` is stated, is
+definitional, and it is crossed only at the components and the naturality squares of
+`SheafOfModules.sheafTensorIso`: identifying the two products as bifunctors costs the kernel
+about nine seconds.  The naturality in `𝒢` is a declaration of its own,
+`SheafOfModules.sheafTensorIsoAppSheafification`: inlined into the bifunctor, it makes the kernel
+check `SheafOfModules.sheafTensorNatIso` about a second more slowly.
 
 **Universes.** The module universe is always equal to the universe of the sheaf of rings, as it
 is for `SheafOfModules.monoidalCategory`: Mathlib's monoidal structure on presheaves of modules
@@ -246,19 +267,62 @@ lemma sheafTensorIso_naturality_left
       (counitIso R M₁) (counitIso R M₂) (counitIso R N) f
       ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).map f) (comp_counitIso_inv R f)
 
+/-- `ℱ ⊗ -` is `𝒢 ↦ (ℱ ⊗_{pre} 𝒢)^#` for Mathlib's sheafification
+`PresheafOfModules.sheafification`.  The target is the composite defining
+`Stacks.SheafOfModules.Tensor.sheafTensor R`, with Mathlib's sheafification in place of the sealed
+`Stacks.SheafOfModules.Tensor.sheafification R`, evaluated at `ℱ`; the components are
+`SheafOfModules.sheafTensorIso`. -/
+def sheafTensorIsoAppSheafification
+    (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (curriedTensor (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R))).obj M ≅
+      (forget (Stacks.SheafOfModules.Tensor.ringSheaf R) ⋙
+        PresheafOfModules.tensorBifunctor R.obj ⋙
+          (Functor.whiskeringLeft _ _ _).obj (forget (Stacks.SheafOfModules.Tensor.ringSheaf R)) ⋙
+            (Functor.whiskeringRight _ _ _).obj (PresheafOfModules.sheafification
+              (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+              (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj))).obj M :=
+  NatIso.ofComponents (sheafTensorIso R M) (sheafTensorIso_naturality_right R M)
+
+/-- **The tensor product of `Mod(O)` is `Stacks.SheafOfModules.Tensor.sheafTensor R`**, as
+bifunctors.  Its component at `(ℱ, 𝒢)` is `SheafOfModules.sheafTensorIso`, which lands in Mathlib's
+sheafification of the presheaf tensor product, followed by the component of
+`Stacks.SheafOfModules.Tensor.sheafificationIso`, which identifies Mathlib's sheafification with
+the sealed `Stacks.SheafOfModules.Tensor.sheafification R` that
+`Stacks.SheafOfModules.Tensor.sheafTensor R` ends with. -/
+def sheafTensorNatIso :
+    curriedTensor (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ≅
+      Stacks.SheafOfModules.Tensor.sheafTensor R :=
+  NatIso.ofComponents (sheafTensorIsoAppSheafification R)
+      (fun f ↦ NatTrans.ext (funext fun N ↦ sheafTensorIso_naturality_left R f N)) ≪≫
+    Functor.isoWhiskerLeft (forget (Stacks.SheafOfModules.Tensor.ringSheaf R))
+      (Functor.isoWhiskerLeft (PresheafOfModules.tensorBifunctor R.obj)
+        (Functor.isoWhiskerLeft
+          ((Functor.whiskeringLeft _ _ _).obj (forget (Stacks.SheafOfModules.Tensor.ringSheaf R)))
+          ((Functor.whiskeringRight _ _ _).mapIso
+            (Stacks.SheafOfModules.Tensor.sheafificationIso R))))
+
+/-- The component of `SheafOfModules.sheafTensorNatIso` at `(ℱ, 𝒢)`:
+`SheafOfModules.sheafTensorIso` followed by the inverse of
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`. -/
+lemma sheafTensorNatIso_hom_app_app
+    (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    ((sheafTensorNatIso R).hom.app M).app N =
+      (sheafTensorIso R M N).hom ≫ (Stacks.SheafOfModules.Tensor.sheafTensorObjIso R M N).inv :=
+  rfl
+
+/-- The component of the inverse of `SheafOfModules.sheafTensorNatIso` at `(ℱ, 𝒢)`. -/
+lemma sheafTensorNatIso_inv_app_app
+    (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    ((sheafTensorNatIso R).inv.app M).app N =
+      (Stacks.SheafOfModules.Tensor.sheafTensorObjIso R M N).hom ≫ (sheafTensorIso R M N).inv :=
+  rfl
+
 /-- `ℱ ⊗ -` is `(Stacks.SheafOfModules.Tensor.sheafTensor R).obj ℱ`. -/
 def sheafTensorIsoApp (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
     (curriedTensor (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R))).obj M ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor R).obj M :=
-  NatIso.ofComponents (sheafTensorIso R M) (sheafTensorIso_naturality_right R M)
-
-/-- **The tensor product of `Mod(O)` is `Stacks.SheafOfModules.Tensor.sheafTensor R`**, as
-  bifunctors. -/
-def sheafTensorNatIso :
-    curriedTensor (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ≅
-      Stacks.SheafOfModules.Tensor.sheafTensor R :=
-  NatIso.ofComponents (sheafTensorIsoApp R)
-    (fun f ↦ NatTrans.ext (funext fun N ↦ sheafTensorIso_naturality_left R f N))
+  (sheafTensorNatIso R).app M
 
 /-- **The unit of `Mod(O)` is the structure sheaf**, viewed as a sheaf of modules over
 itself. -/

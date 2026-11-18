@@ -74,6 +74,7 @@ variable {R : Type u} [CommRing R] (A : Type u) [CommRing A] [Algebra R A] [Modu
   {K₁ K₀ : Type u} [AddCommGroup K₁] [Module R K₁] [Module.Finite R K₁] [Module.Projective R K₁]
   [AddCommGroup K₀] [Module R K₀] [Module.Finite R K₀] [Module.Projective R K₀]
 
+omit [Module.Flat R A] in
 /-- Along the canonical base changes `m ↦ 1 ⊗ m`, the base change of determinant lines
 `TwoTermComplex.detLineMap` is the comparison `TwoTermComplex.determinantLineBaseChange` on
 `1 ⊗ φ`. -/

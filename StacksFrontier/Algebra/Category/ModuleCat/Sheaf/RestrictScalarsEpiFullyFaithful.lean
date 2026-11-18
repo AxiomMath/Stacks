@@ -50,7 +50,8 @@ this morphism agrees with the diagonal one after composition with `α`, so `Epi 
   scalars along an epimorphism of sheaves of not necessarily commutative rings is fully
   faithful. This is the noncommutative variant of [Stacks, Tag 0930]; Stacks' statement, for an
   epimorphism of sheaves of commutative rings, is
-  `AlgebraicGeometry.RingedSite.restrictScalars_fullyFaithful_of_epi`. `full_restrictScalars_of_epi` is the fullness half.
+  `AlgebraicGeometry.RingedSite.restrictScalars_fullyFaithful_of_epi`. `full_restrictScalars_of_epi`
+  is the fullness half.
 * `Stacks.NoncommChangeOfRings.Silver.derivSection_mul`: the Leibniz rule, and
   `derivSection_eq_zero_of_epi`: the vanishing of the obstruction.
 * `Stacks.NoncommChangeOfRings.Silver.isSheaf_forget_of_isSheaf`: the underlying presheaf of

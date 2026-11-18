@@ -109,7 +109,8 @@ from `𝒜` to all of `D⁺_𝒜`.
 `O`-modules as a weak Serre subcategory of `Mod(O)`, citing Stacks 0D7J part (2); that property is
 proved in `HypercoveringModuleBoundedBelowEquivalenceUnconditional.lean`
 (`Stacks.CategoryTheory.Hypercovering.isWeakSerreClass_hypercoveringCartesianModules`), but the
-argument of this file does not need it: `D⁺_𝒜(O)` is `DerivedCategoryB.derivedCategoryBPlus` of the class of cartesian
+argument of this file does not need it: `D⁺_𝒜(O)` is `DerivedCategoryB.derivedCategoryBPlus` of the
+class of cartesian
 modules, the full subcategory of bounded below objects all of whose cohomology modules are
 cartesian, and the equivalence below is about exactly that subcategory. The weak Serre property
 is what would make it a *triangulated* subcategory, and no step of the argument needs it — which

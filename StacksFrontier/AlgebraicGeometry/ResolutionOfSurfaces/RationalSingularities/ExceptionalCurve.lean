@@ -31,7 +31,8 @@ Let `(A, 𝔪, κ)` be a two-dimensional Noetherian local domain, let `X` be the
 in `𝔪` and let `E ⊆ X` be the exceptional divisor. Then `E` is a proper curve over `κ`, and it is
 Cohen–Macaulay as soon as `X` is normal. In Situation [Stacks, Tag 0B4W] the blowup is normal
 ([Stacks, Tag 0B4Z]), and clause (1) of [Stacks, Tag 0B63] is assembled from these results in
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/RationalSingularities/ExceptionalCurveCohenMacaulay.lean`.
+`ExceptionalCurveCohenMacaulay.lean`, beside this file in
+`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/RationalSingularities/`.
 
 ## Main definitions
 

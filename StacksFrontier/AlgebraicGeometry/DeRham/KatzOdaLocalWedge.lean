@@ -91,9 +91,7 @@ private theorem sheafTensor_map_app_tensorSheafUnit {A A' : Modules Y.toRingedSp
         (Stacks.PullbackTensorCoherence.tmul Y.toRingedSpace A B W a b) =
       Stacks.PullbackTensorCoherence.tmul Y.toRingedSpace A' B W c b := by
   subst hc
-  exact (PresheafOfModules.unit_naturality_apply
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-    (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)
+  exact (Stacks.SheafOfModules.Tensor.unit_naturality_apply (R := Y.sheaf)
     (PresheafOfModules.tensorHom θ.val (𝟙 B.val)) W (a ⊗ₜ b)).trans
     (congrArg (fun t ↦ (PresheafOfModules.tensorSheafUnit (Osharp := Y.sheaf) A' B).app W t)
       (PresheafOfModules.tensorHom_tmul θ.val (𝟙 B.val) W a b))
@@ -202,6 +200,20 @@ def restrictedFormsTensorWedge (q : ℤ) {p : ℤ}
         (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g (p + k))) :=
   restrictedLeftMul (X := inverseImageBase g) U (formsTensorWedgeBilinear f g q p k) ω
 
+/-- Over an open `W ⊆ U`, `restrictedFormsTensorWedge` is `y ↦ ω|_W ∧ y`. -/
+theorem restrictedFormsTensorWedge_app (q : ℤ) {p : ℤ}
+    (ω : (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g p).val.obj (op U)) (k : ℤ)
+    (W : Opens ((Opens.toTopCat (inverseImageBase g : TopCat)).obj U))
+    (z : ((coefficientFirstPageFlat f g q).obj
+      (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g k)).val.obj
+        (op (openOfRestrict U W))) :
+    (restrictedFormsTensorWedge f g U q ω k).val.app (op W) z =
+      AlgebraicGeometry.Scheme.Hom.formsTensorWedgeSection g (deRhamCohomologySheaf f q) p k
+        (op (openOfRestrict U W))
+        ((AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g p).val.map
+          (homOfLE (openOfRestrict_le U W)).op ω) z :=
+  restrictedLeftMul_app (X := inverseImageBase g) U (formsTensorWedgeBilinear f g q p k) ω W z
+
 section Ext
 
 attribute [local instance] AlgebraicGeometry.SheafOfModules.hasSheafifyOpens
@@ -215,12 +227,11 @@ theorem localTensorMap_restrictedFormsWedge (q : ℤ) {p : ℤ}
       restrictedFormsTensorWedge f g U q ω k := by
   refine sub_eq_zero.mp ?_
   refine @restricted_hom_eq_zero_of_isLocallySurjective (inverseImageBase g) U _ _ _ _
-    (CategoryTheory.toSheafify (Opens.grothendieckTopology (inverseImageBase g))
-      (PresheafOfModules.tensorObj
-        (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g k).val
-        (deRhamCohomologySheaf f q).val).presheaf)
-    (Presheaf.isLocallySurjective_toSheafify'
-      (Opens.grothendieckTopology (inverseImageBase g)) _) ?_
+    ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj).map
+      (PresheafOfModules.tensorSheafUnit (Osharp := Y.sheaf)
+        (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g k) (deRhamCohomologySheaf f q)))
+    (Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+      (R := Y.sheaf) _) ?_
   intro W r
   induction r using TensorProduct.inductionOn with
   | add a b ha hb => exact (congrArg _ (map_add _ a b)).trans ((map_add _ _ _).trans
@@ -231,13 +242,8 @@ theorem localTensorMap_restrictedFormsWedge (q : ℤ) {p : ℤ}
       (deRhamCohomologySheaf f q) p k (op (openOfRestrict U W))
       ((AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g p).val.map
         (homOfLE (openOfRestrict_le U W)).op ω) x y
-    change (localTensorMap f g U q (restrictedFormsWedge g U ω k (p + k) rfl)).val.app (op W)
-        (Stacks.PullbackTensorCoherence.tmul Y.toRingedSpace _ (deRhamCohomologySheaf f q)
-          (op (U.isOpenEmbedding.functor.obj W)) x y) -
-      (restrictedFormsTensorWedge f g U q ω k).val.app (op W)
-        (Stacks.PullbackTensorCoherence.tmul Y.toRingedSpace _ (deRhamCohomologySheaf f q)
-          (op (U.isOpenEmbedding.functor.obj W)) x y) = 0
-    exact Eq.trans (congrArg (fun t ↦ t - _) h1) (sub_eq_zero.mpr h2.symm)
+    exact Eq.trans (congrArg (fun t ↦ t - _) h1)
+      (sub_eq_zero.mpr ((restrictedFormsTensorWedge_app f g U q ω k W _).trans h2).symm)
 
 end Ext
 

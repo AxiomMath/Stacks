@@ -68,7 +68,8 @@ too, as `AlgebraicGeometry.Space.PrimeDivisor.isNoetherianRing_genericHenselianL
 The rational function is presented through the comparison map rather than through the embedding
 `R(X) → Q(𝒪^h_{X, ξ})` of Stacks 0ENK, which is
 `AlgebraicGeometry.Space.PrimeDivisor.rationalFunctionsToGenericTotalFractionRing`. The two are
-identified in `StacksFrontier/AlgebraicGeometry/Spaces/OrderOfVanishingSchematicLocus.lean`, on the way
+identified in `StacksFrontier/AlgebraicGeometry/Spaces/OrderOfVanishingSchematicLocus.lean`, on the
+way
 to the full statement of Stacks 0ENM,
 `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus`; what that needs is the
 independence of the embedding of the affine elementary étale neighbourhood it is computed on, which

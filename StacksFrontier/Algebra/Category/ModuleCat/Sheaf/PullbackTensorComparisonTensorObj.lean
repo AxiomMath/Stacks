@@ -68,15 +68,11 @@ lemma tensorComparison_unique
       (pullbackFunctor f).obj A ⊗ (pullbackFunctor f).obj B)
     (hθ : ∀ (U : (Opens Y.carrier)ᵒᵖ) (x : A.val.obj U) (y : B.val.obj U),
       Hom.app ((pullbackAdjunction f).homEquiv _ _ θ).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf (Y))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf (Y)).obj)).unit.app
-              (PresheafOfModules.tensorObj (O := (Y).presheaf) (A).val (B).val)) U (x ⊗ₜ y)) =
-        Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf (X))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
-              (PresheafOfModules.tensorObj (O := (X).presheaf) (((pullbackFunctor f).obj A)).val
-                (((pullbackFunctor f).obj B)).val))
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
+            (PresheafOfModules.tensorObj (O := Y.sheaf.obj) A.val B.val)) U (x ⊗ₜ y)) =
+        Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
+          (PresheafOfModules.tensorObj (O := X.sheaf.obj) ((pullbackFunctor f).obj A).val
+            ((pullbackFunctor f).obj B).val))
           ((opensMap f).op.obj U) (pullbackUnit f A U x ⊗ₜ pullbackUnit f B U y)) :
     θ = pullbackTensorComparison f A B :=
   comparison_unique f A B θ hθ

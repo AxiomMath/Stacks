@@ -41,10 +41,12 @@ no such description. The direction stated here is therefore the one that needs n
 a consumer wanting the other direction applies the isomorphism to both sides.
 
 The whole proof is the summand description of that comparison, followed by the naturality of the
-sheafification unit, which is `AlgebraicGeometry.RingedSite.sheafification_map_unit_apply`. The
-two bicomplexes involved are definitionally equal, by
-`AlgebraicGeometry.RingedSite.mapBicomplex_presheafTensorBicomplex`, so nothing has to be
-transported.
+unit of `Stacks.SheafOfModules.Tensor.sheafification`, the sheafification inside
+`Stacks.SheafOfModules.Tensor.sheafTensor`, which is
+`Stacks.SheafOfModules.Tensor.unit_naturality_apply`. What is left is the passage from that
+sealed sheafification to Mathlib's `PresheafOfModules.sheafification`, the one `tensorTotal` uses:
+the comparison of the two that the defining equation
+`Stacks.SheafOfModules.Tensor.sheafification_def` provides carries the sealed unit to Mathlib's.
 
 ## References
 
@@ -63,6 +65,37 @@ namespace AlgebraicGeometry.RingedSite
 
 attribute [local instance] ringSheafSectionsCommRing presheafOfModulesMonoidalCategory
   curriedTensorPreservesZeroMorphisms curriedTensorObjPreservesZeroMorphisms
+
+section SheafificationComparison
+
+variable (X : RingedSite.{u, u, u})
+  [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+
+/-- The comparison of `Stacks.SheafOfModules.Tensor.sheafification` with Mathlib's
+`PresheafOfModules.sheafification` given by the defining equation
+`Stacks.SheafOfModules.Tensor.sheafification_def` carries the sealed sheafification unit to
+Mathlib's. -/
+private lemma unit_comp_map_eqToIso_sheafification_def_hom_app
+    (M : PresheafOfModules.{u} (ringSheaf X.O).obj) :
+    (sheafificationAdjunction X.O).unit.app M ≫
+        (SheafOfModules.forget (ringSheaf X.O) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((eqToIso (sheafification_def X.O)).hom.app M) =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf X.O).obj)).unit.app M := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationAdjunction, Adjunction.ofNatIsoLeft,
+    NatTrans.comp_app, Category.assoc, Functor.whiskerRight_app, ← Functor.map_comp,
+    ← NatTrans.comp_app, eqToIso.hom, eqToIso.hom, eqToHom_trans, eqToHom_refl, NatTrans.id_app,
+    CategoryTheory.Functor.map_id]
+  exact Category.comp_id _
+
+/-- `unit_comp_map_eqToIso_sheafification_def_hom_app` on sections. -/
+private lemma eqToIso_sheafification_def_hom_app_unit_apply
+    (M : PresheafOfModules.{u} (ringSheaf X.O).obj) (U : X.Cᵒᵖ) (x : M.obj U) :
+    ((eqToIso (sheafification_def X.O)).hom.app M).val.app U
+        (((sheafificationAdjunction X.O).unit.app M).app U x) =
+      ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf X.O).obj)).unit.app M).app U x :=
+  PresheafOfModules.hom_congr_apply' (unit_comp_map_eqToIso_sheafification_def_hom_app X M) U x
+
+end SheafificationComparison
 
 variable (X : RingedSite.{u, u, u})
   [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
@@ -88,17 +121,14 @@ lemma tensorTotalIsoTensorComplex_inv_tensorComplexSection
         (tensorComplexSection X t r c h a b) =
       tensorTotalSectionAt X A B W t r c h a b := by
   have e := HomologicalComplex₂.TotalMap.ι_totalMapf
-    (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
-    (presheafTensorBicomplex X A B) c t r
+    (Stacks.SheafOfModules.Tensor.sheafification X.O) (presheafTensorBicomplex X A B) c t r
     (show ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (t, r) = c
       by simpa using h)
-  have key := congrArg
-    (fun z => z.val.app (op W)
-      (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
-        _).app (op W) (a ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] b))) e
-  refine Eq.trans key ?_
-  exact sheafification_map_unit_apply X _ (op W) _
+  exact (congrArg (fun z ↦ ((eqToIso (sheafification_def X.O)).hom.app _).val.app (op W)
+      (z.val.app (op W) (((sheafificationAdjunction X.O).unit.app _).app (op W)
+        (a ⊗ₜ[(ringSheaf X.O).obj.obj (op W)] b)))) e).trans <|
+    (congrArg _ (unit_naturality_apply _ (op W) _)).trans
+      (eqToIso_sheafification_def_hom_app_unit_apply X _ (op W) _)
 
 end AlgebraicGeometry.RingedSite
 

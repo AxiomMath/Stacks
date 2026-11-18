@@ -11,7 +11,8 @@ public import StacksFrontier.Topology.Algebra.AdicTopology.EquivTransport
 
 Clause (1) of **Stacks 0APW** says that the completion of `Spec A` along a closed set `T` cut
 out by *countably many* equations is adic\* as soon as it is countably indexed; it is
-`AlgebraicGeometry.FormalSpace.isAdicStar_zeroLocusCompletion_of_isCountablyIndexed`. Clause (2) says that the
+`AlgebraicGeometry.FormalSpace.isAdicStar_zeroLocusCompletion_of_isCountablyIndexed`. Clause (2)
+says that the
 countability of the equations cannot be dropped, and Gabber's example — the `ℚ`-algebra on
 `x_α`, `α ∈ ω₁`, and `y_{αβ}`, modulo `x_α = y_{αβ} x_β`, completed along
 `T = V(x_α : α ∈ ω₁)` — witnesses it. The ring-theoretic halves of the example are in
@@ -155,7 +156,8 @@ def gabberCompletionSheaf (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contain
   countableCompletion B S hS f hA gabberPowerIdeal.{u} gabberPowerIdeal_antitone.{u}
 
 /-- **Clause (2) of Stacks 0APW, for the colimit along the cofinal sequence.** Gabber's
-completion is a countably indexed affine formal algebraic space which is not adic\*: so the hypothesis of clause (1) that the closed set be cut out by
+completion is a countably indexed affine formal algebraic space which is not adic\*: so the
+hypothesis of clause (1) that the closed set be cut out by
 countably many functions cannot be dropped.
 
 Both halves are the ring-theoretic ones of

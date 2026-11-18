@@ -109,16 +109,16 @@ theorem evaluation_tmul (X : Scheme.{u}) (M : X.Modules) (U : X.Opens)
     (s : (dualSheaf M).val.obj (op U)) (m : M.val.obj (op U)) :
     (dualEvaluationMap X M).val.app (op U)
         (tensorSheafPure X (dualSheaf M) M U (s ⊗ₜ[X.presheaf.obj (op U)] m)) =
-      (s.app (op (Over.mk (𝟙 U)))).hom m := by
-  have h := (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.sheaf.obj
-      (structureSheafRing X.toRingedSpace).property).homEquiv
-    ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((dualSheaf M).val) (M.val)))
-    (SheafOfModules.unit X.ringCatSheaf) |>.apply_symm_apply
-      (Stacks.SheafOfModules.evaluationPresheaf X.sheaf.obj
-        (structureSheafRing X.toRingedSpace).property M)
-  exact congrArg (fun q => q.app (op U)
+      (s.app (op (Over.mk (𝟙 U)))).hom m :=
+  congrArg (fun q => q.app (op U)
     (s ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf
-      X.sheaf.obj).obj (op U)] m)) h
+      X.sheaf.obj).obj (op U)] m))
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+      (R := ⟨X.presheaf, X.IsSheaf⟩)
+      (M := PresheafOfModules.tensorObj (O := X.sheaf.obj) (dualSheaf M).val M.val)
+      (N := SheafOfModules.unit X.ringCatSheaf)
+      (Stacks.SheafOfModules.evaluationPresheaf X.sheaf.obj
+        (structureSheafRing X.toRingedSpace).property M))
 
 /-- **[Stacks Project, Tag 01CD]** for a morphism of schemes: pulling back a tensor product
 of modules is the tensor product of the pullbacks, `g^*(A ⊗ B) ≅ g^*A ⊗ g^*B`. -/

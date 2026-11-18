@@ -63,15 +63,11 @@ theorem adjunctionTensorMap_val_app_tensorSheafUnit (G : X.Modules)
               ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩))
         (comparisonNatTrans p.toLRSHom.toShHom) G F).val V
       (PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := W.toRingedSpace.sheaf.obj)
               ((Scheme.Modules.pushforward p).obj G).val F.val)) V (x ⊗ₜ y)) =
     PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSpace.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := X.toRingedSpace.sheaf.obj) G.val
               ((Scheme.Modules.pullback p).obj F).val))
         ((opensMap p.toLRSHom.toShHom).op.obj V)
@@ -86,9 +82,7 @@ theorem adjunctionTensorMap_val_app_tensorSheafUnit (G : X.Modules)
               (G, (Scheme.Modules.pullback p).obj F)) =>
       PresheafOfModules.Hom.app θ.val V
         (PresheafOfModules.Hom.app
-          ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf).obj)).unit.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W.toRingedSpace.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := W.toRingedSpace.sheaf.obj)
                 ((Scheme.Modules.pushforward p).obj G).val F.val)) V (x ⊗ₜ y)))
     (adjunctionTensorMap_eq_projectionFormulaMap p F G)).trans
@@ -130,9 +124,7 @@ theorem reductionMapGen_val_app_smul (V : (TopologicalSpace.Opens W.carrier)ᵒ�
         (PresheafOfModules.Hom.app ((Scheme.Modules.pushforward p).map
           (tensorSheafUnitLeftIso X.toRingedSpace ((Scheme.Modules.pullback p).obj F)).hom).val V
           (PresheafOfModules.Hom.app
-            ((PresheafOfModules.sheafificationAdjunction
-                  (R := Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSpace.sheaf)
-                  (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSpace.sheaf).obj)).unit.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.toRingedSpace.sheaf).unit.app
                 (PresheafOfModules.tensorObj (O := X.toRingedSpace.sheaf.obj) (unitObj X).val
                   ((Scheme.Modules.pullback p).obj F).val))
             ((opensMap p.toLRSHom.toShHom).op.obj V)
@@ -175,15 +167,12 @@ private theorem adjunctionTensorMap_map_prod_id_val_app {Y : Scheme.{u}} (q : Y 
           (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
                 ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩))
           (comparisonNatTrans q.toLRSHom.toShHom) G F).val V
-      (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf).obj)).unit.app
+      (PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := W.toRingedSpace.sheaf.obj) H.val F.val)) V
         (x ⊗ₜ y)) =
       PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.toRingedSpace.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := Y.toRingedSpace.sheaf.obj) G.val
               ((Scheme.Modules.pullback q).obj F).val))
         ((opensMap q.toLRSHom.toShHom).op.obj V)
@@ -218,9 +207,7 @@ theorem adjunctionTensorMap_structureUnitHom_val_app (V : (TopologicalSpace.Open
                   ⟨W.toRingedSpace.presheaf, W.toRingedSpace.IsSheaf⟩)).map
             ((Scheme.Modules.pushforward p).map (structureUnitHom β) ×ₘ 𝟙 F)).val V
           (PresheafOfModules.Hom.app
-            ((PresheafOfModules.sheafificationAdjunction
-                  (R := Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf)
-                  (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf).obj)).unit.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W.toRingedSpace.sheaf).unit.app
                 (PresheafOfModules.tensorObj (O := W.toRingedSpace.sheaf.obj)
                   ((Scheme.Modules.pushforward p).obj (unitObj X)).val F.val)) V
             (x ⊗ₜ y)))) =
@@ -264,7 +251,8 @@ theorem adjunctionTensorMap_unitObj_comp_reductionMapGen :
       (Scheme.Modules.pushforward p).map
         (tensorSheafUnitLeftIso X.toRingedSpace ((Scheme.Modules.pullback p).obj F)).hom ≫
       (Scheme.Modules.pushforward p).map (reductionMapGen p (β ≫ p) F β rfl) :=
-  PresheafOfModules.sheafification_hom_ext (PresheafOfModules.tensorObj_hom_ext fun V x y =>
+  Stacks.SheafOfModules.Tensor.sheafification_hom_ext
+    (PresheafOfModules.tensorObj_hom_ext fun V x y =>
     (adjunctionTensorMap_structureUnitHom_val_app p β F V x y).trans
       ((congrArg (fun z => PresheafOfModules.Hom.app ((Scheme.Modules.pushforward p).map
           (reductionMapGen p (β ≫ p) F β rfl)).val V
@@ -291,17 +279,14 @@ theorem adjunctionTensorMap_comp_val_app (G : X'.Modules)
                   ⟨X'.toRingedSpace.presheaf, X'.toRingedSpace.IsSheaf⟩))
             (comparisonNatTrans β.toLRSHom.toShHom) G ((Scheme.Modules.pullback p).obj F)).val
           ((opensMap p.toLRSHom.toShHom).op.obj V)
-        (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSpace.sheaf)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.toRingedSpace.sheaf).obj)).unit.app
+        (PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.toRingedSpace.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := X.toRingedSpace.sheaf.obj)
                 ((Scheme.Modules.pushforward β).obj G).val ((Scheme.Modules.pullback p).obj F).val))
           ((opensMap p.toLRSHom.toShHom).op.obj V)
           (x ⊗ₜ pullbackUnit p.toLRSHom.toShHom F V y))) =
       PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X'.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := X'.toRingedSpace.sheaf.obj) G.val
               ((Scheme.Modules.pullback (β ≫ p)).obj F).val))
         ((opensMap (β ≫ p).toLRSHom.toShHom).op.obj V)
@@ -320,9 +305,8 @@ theorem adjunctionTensorMap_comp_val_app (G : X'.Modules)
         ((opensMap p.toLRSHom.toShHom).op.obj V) (pullbackUnit p.toLRSHom.toShHom F V y))).trans ?_
   exact congrArg (fun z : ((pullbackFunctor (β ≫ p).toLRSHom.toShHom).obj F).val.obj
         ((opensMap (β ≫ p).toLRSHom.toShHom).op.obj V) =>
-      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf).obj)).unit.app
+      PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X'.toRingedSpace.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := X'.toRingedSpace.sheaf.obj) G.val
             ((Scheme.Modules.pullback (β ≫ p)).obj F).val))
         ((opensMap (β ≫ p).toLRSHom.toShHom).op.obj V) (x ⊗ₜ z))
@@ -354,17 +338,14 @@ theorem adjunctionTensorMap_comp_val_app' (G : X'.Modules)
           ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
                   ⟨X'.toRingedSpace.presheaf, X'.toRingedSpace.IsSheaf⟩)).obj
               (G, (Scheme.Modules.pullback (β ≫ p)).obj F))).val V
-      (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf).obj)).unit.app
+      (PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := W.toRingedSpace.sheaf.obj)
               ((Scheme.Modules.pushforward p).obj ((Scheme.Modules.pushforward β).obj G)).val
               F.val)) V
         (x ⊗ₜ y)) =
       PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X'.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := X'.toRingedSpace.sheaf.obj) G.val
               ((Scheme.Modules.pullback (β ≫ p)).obj F).val))
         ((opensMap (β ≫ p).toLRSHom.toShHom).op.obj V)
@@ -401,17 +382,14 @@ theorem adjunctionTensorMap_pushforwardComp_val_app (G : X'.Modules)
           (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
                 ⟨X'.toRingedSpace.presheaf, X'.toRingedSpace.IsSheaf⟩))
           (comparisonNatTrans (β ≫ p).toLRSHom.toShHom) G F).val V
-      (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W.toRingedSpace.sheaf).obj)).unit.app
+      (PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := W.toRingedSpace.sheaf.obj)
               ((Scheme.Modules.pushforward p).obj ((Scheme.Modules.pushforward β).obj G)).val
               F.val)) V
         (x ⊗ₜ y)) =
       PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X'.toRingedSpace.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X'.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := X'.toRingedSpace.sheaf.obj) G.val
               ((Scheme.Modules.pullback (β ≫ p)).obj F).val))
         ((opensMap (β ≫ p).toLRSHom.toShHom).op.obj V)
@@ -455,7 +433,8 @@ theorem adjunctionTensorMap_comp_eq (G : X'.Modules) :
           ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
                   ⟨X'.toRingedSpace.presheaf, X'.toRingedSpace.IsSheaf⟩)).obj
               (G, (Scheme.Modules.pullback (β ≫ p)).obj F)) :=
-  PresheafOfModules.sheafification_hom_ext (PresheafOfModules.tensorObj_hom_ext fun V x y =>
+  Stacks.SheafOfModules.Tensor.sheafification_hom_ext
+    (PresheafOfModules.tensorObj_hom_ext fun V x y =>
     (adjunctionTensorMap_pushforwardComp_val_app p β F G V x y).trans
       (adjunctionTensorMap_comp_val_app' p β F G V x y).symm)
 

@@ -57,6 +57,29 @@ theorem evSheafificationIso_hom_naturality
     ((PresheafOfModules.sheafificationAdjunction
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (site A).O).obj)).unit.naturality f)).symm
 
+/-- `Stacks.PointRingedSite.evSheafificationIso` for the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, through
+`Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+def evSealedSheafificationIso
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (site A).O).obj) :
+    (ev A).obj ((Stacks.SheafOfModules.Tensor.sheafification (site A).O).obj P) ≅
+      P.obj (op (pt A)) :=
+  (ev A).mapIso ((Stacks.SheafOfModules.Tensor.sheafificationIso (site A).O).app P).symm ≪≫
+    evSheafificationIso A P
+
+/-- `Stacks.PointRingedSite.evSealedSheafificationIso` is natural in the presheaf of modules. -/
+@[reassoc]
+theorem evSealedSheafificationIso_hom_naturality
+    {P P' : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (site A).O).obj}
+    (f : P ⟶ P') :
+    (ev A).map ((Stacks.SheafOfModules.Tensor.sheafification (site A).O).map f) ≫
+        (evSealedSheafificationIso A P').hom =
+      (evSealedSheafificationIso A P).hom ≫ f.app (op (pt A)) := by
+  simp only [evSealedSheafificationIso, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom,
+    Iso.app_inv]
+  rw [← Functor.map_comp_assoc, NatTrans.naturality, Functor.map_comp_assoc,
+    evSheafificationIso_hom_naturality, Category.assoc]
+
 /-- **The sections over the point of a tensor product are the tensor product of the sections**:
 `Γ(pt, M ⊗ N) ≅ Γ(pt, M) ⊗ Γ(pt, N)`, the sheafification being invisible on the point. -/
 def evSheafTensorIso
@@ -64,7 +87,7 @@ def evSheafTensorIso
     (ev A).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (site A).O).obj M).obj N) ≅
       (ev A).obj M ⊗ (ev A).obj N :=
-  evSheafificationIso A _
+  evSealedSheafificationIso A _
 
 /-- `Stacks.PointRingedSite.evSheafTensorIso` is natural in the first variable. -/
 @[reassoc]
@@ -75,7 +98,7 @@ theorem evSheafTensorIso_hom_naturality_left
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (site A).O).map g).app N) ≫
         (evSheafTensorIso A M' N).hom =
       (evSheafTensorIso A M N).hom ≫ (ev A).map g ▷ (ev A).obj N := by
-  refine (evSheafificationIso_hom_naturality A _).trans ?_
+  refine (evSealedSheafificationIso_hom_naturality A _).trans ?_
   congr 1
 
 /-- `Stacks.PointRingedSite.evSheafTensorIso` is natural in the second variable. -/
@@ -87,7 +110,7 @@ theorem evSheafTensorIso_hom_naturality_right
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (site A).O).obj M).map g) ≫
         (evSheafTensorIso A M N').hom =
       (evSheafTensorIso A M N).hom ≫ (ev A).obj M ◁ (ev A).map g := by
-  refine (evSheafificationIso_hom_naturality A _).trans ?_
+  refine (evSealedSheafificationIso_hom_naturality A _).trans ?_
   congr 1
 
 /-- **`Γ(pt, - ⊗ -) ≅ Γ(pt, -) ⊗ Γ(pt, -)` as an isomorphism of bifunctors.** -/

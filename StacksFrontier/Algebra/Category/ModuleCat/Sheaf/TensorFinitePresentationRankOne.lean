@@ -79,10 +79,8 @@ def sheafTensorUnitIso (O : Sheaf J CommRingCat.{w})
     (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).obj M).obj
         (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))) ≅ M :=
-  (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).mapIso
-      (ρ_ M.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit).app M
+  (Stacks.SheafOfModules.Tensor.sheafification O).mapIso (ρ_ M.val) ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).counit).app M
 
 /-- A sheaf of modules is *locally trivial* when every object has a covering family over each
 member of which the module is isomorphic to the structure sheaf. -/

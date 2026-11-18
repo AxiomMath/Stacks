@@ -21,23 +21,20 @@ ones.  This file assembles those comparisons.
   `F|_U ⟶ G|_U`.  Specialised to `G = 𝒪_X` its underlying module is the dual `F^∨` on the nose
   (`sheafHomPackage_obj`).
 * `dualIso e`: the dual of an isomorphism, contravariantly.
-* `tensorSheafComparison X F G`: the two constructions of `F ⊗_{𝒪_X} G` in the library — as the
-  sheafification of the sectionwise tensor product and as the sheafification of the monoidal
-  product of presheaves of modules — agree.
+* `tensorSheafComparison X F G`: `F ⊗_{𝒪_X} G` built over the structure sheaf of the underlying
+  ringed space agrees with `F ⊗_{𝒪_X} G` built over `X.presheaf`.
 * `tensorSheafIso e e'`: functoriality of `F ⊗_{𝒪_X} G` in both arguments.
 * `tensorSheafTildeIso R M N`: **the affine tensor comparison**
   `M~ ⊗_{𝒪_{Spec R}} N~ ≅ (M ⊗_R N)~`.
 
 ## Implementation notes
 
-The library carries two spellings of the tensor product of sheaves of modules:
-`Stacks.SheafOfModules.TensorStalkRingedSpace.tensorSheaf`, used by the category of coherent
-reflexive modules, and `Stacks.SheafOfModules.TensorSheafification.tensorSheaf`, for which the
-affine comparison `AlgebraicGeometry.tildeTensorIso` is available.  Both sheafify a presheaf
-whose sections over `U` are `F(U) ⊗_{𝒪_X(U)} G(U)` by the same sheafification functor; only the
-description of the restriction maps differs, and they agree on pure tensors.
-`tensorSheafComparison` is that identification, and it is what lets the affine comparison be
-used in the reflexive setting.
+The tensor product is `Stacks.SheafOfModules.Tensor.sheafTensor`, taken over two spellings of
+the structure sheaf: `⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩`, used by the category
+of coherent reflexive modules, and `⟨X.presheaf, _⟩`, for which the affine comparison
+`AlgebraicGeometry.tildeTensorIso` is available.  The two sheaves of rings are definitionally
+equal, so `tensorSheafComparison` is the identity; it is what lets the affine comparison be used
+in the reflexive setting.
 
 The `SheafHom` package of `sheafHomPackage` is the shape in which the affine internal-Hom
 comparison `AlgebraicGeometry.internalHomTildeIso` takes its input.
@@ -96,40 +93,28 @@ noncomputable def dualIso {X : Scheme.{u}} {F G : X.Modules} (e : F ≅ G) :
     dualSheaf G ≅ dualSheaf F :=
   (dualFunctor X).mapIso e.op
 
-/-- The two constructions of the tensor product of `𝒪_X`-modules — as the sheafification of
-the sectionwise tensor product and as the sheafification of the monoidal product of presheaves
-of modules — agree.  Both sheafify a presheaf whose sections are `F(U) ⊗_{𝒪_X(U)} G(U)`; only
-the description of the restriction maps differs, and that difference is invisible on pure
-tensors. -/
+/-- The tensor product of `𝒪_X`-modules over the structure sheaf of the underlying ringed space
+agrees with the one over `X.presheaf`: the two sheaves of rings are definitionally equal, so this
+is the identity. -/
 noncomputable def tensorSheafComparison (X : Scheme.{u}) (F G : X.Modules) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor
-      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) ≅
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) ≅
       (((Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
-          (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) := by
-  apply (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).mapIso
-  refine PresheafOfModules.isoMk (fun _ => Iso.refl _) ?_
-  intro V W f
-  apply ModuleCat.hom_ext
-  apply TensorProduct.ext'
-  intro x y
-  rfl
+          (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) :=
+  Iso.refl _
 
-/-- The monoidal tensor product of presheaves of modules, sheafified, is functorial in both
-arguments. -/
+/-- The tensor product of `𝒪_X`-modules over `X.presheaf` is functorial in both arguments. -/
 noncomputable def tensorSheafificationIso (X : Scheme.{u}) {F F' G G' : X.Modules}
     (e : F ≅ F') (e' : G ≅ G') :
     (((Stacks.SheafOfModules.Tensor.sheafTensor
-      ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
-        (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) ≅
+        ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
+          (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) ≅
       (((Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
           (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F')).obj (G')) :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf X.ringCatSheaf.2).mapIso
-    (MonoidalCategory.tensorIso
-      (C := PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat))
-      ((SheafOfModules.forget X.ringCatSheaf).mapIso e)
-      ((SheafOfModules.forget X.ringCatSheaf).mapIso e'))
+  (((Stacks.SheafOfModules.Tensor.sheafTensor _).mapIso e).app G) ≪≫
+    ((Stacks.SheafOfModules.Tensor.sheafTensor _).obj F').mapIso e'
 
 /-- The tensor product of `𝒪_X`-modules is functorial in both arguments. -/
 noncomputable def tensorSheafIso (X : Scheme.{u}) {F F' G G' : X.Modules}

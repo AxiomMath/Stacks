@@ -163,15 +163,6 @@ theorem restrictedExtension_actionMap :
   refine extensionActionMap_unique D.second (D.restrictedExtension E) _ ?_
   intro U b x
   let x' : E.Z.left.val.obj U := x
-  change E.f.val.app U
-      ((extensionActionMap D.first E).1.val.app U
-        (((((Stacks.SheafOfModules.Tensor.sheafTensor (baseRing i)).flip.obj F)).map
-            D.idealMap).val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
-            (PresheafOfModules.tensorObj D.second.I.val F.val)).app U
-            (b ⊗ₜ[(baseRing i).obj.obj U] E.g.val.app U x')))) = _
   refine Eq.trans (congrArg
     (fun z => E.f.val.app U ((extensionActionMap D.first E).1.val.app U z))
     (tensorSheaf_map_unit_tmul (baseRing i) (H := F) D.idealMap U b (E.g.val.app U x'))) ?_

@@ -57,6 +57,12 @@ at `𝓘_D`, an equivalence by `Stacks.SheafOfModules.TensorPower.isEquivalence_
 so its full faithfulness is used directly. Uniqueness follows by cancelling the evaluation
 isomorphism.
 
+The presheaf tensor product maps into the sheaf tensor product by
+`AlgebraicGeometry.Space.sheafTensorUnit`, the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`; the isomorphism criteria on presheaves are phrased
+with Mathlib's sheafification `Stacks.SheafOfModules.TensorSheafification.sheafify`, which inverts
+that unit (`AlgebraicGeometry.Space.isIso_sheafify_map_sheafTensorUnit`).
+
 ## References
 
 * [Stacks Project, Tag 0842](https://stacks.math.columbia.edu/tag/0842)
@@ -72,8 +78,37 @@ isomorphism.
 open CategoryTheory MonoidalCategory Opposite
 open Stacks.PresheafOfModules.TensorInternalHom
 open Stacks.SheafOfModules.Invertible
-open Stacks.SheafOfModules.TensorSheafification (sheafify toSheafify sheafifyAdjunction)
+open Stacks.SheafOfModules.TensorSheafification (sheafify)
 
+
+universe w
+
+namespace Stacks.SheafOfModules.Tensor
+
+variable {C : Type*} [Category C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+
+/-- Mathlib's sheafification inverts the unit of `sheafificationForgetAdjunction R`. -/
+private theorem isIso_sheafification_map_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{w} (ringSheaf R).obj) :
+    IsIso ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).map
+      ((sheafificationForgetAdjunction R).unit.app M)) := by
+  rw [← isIso_sheafification_map_iff, sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+/-- A morphism out of the sealed sheafification, adjoint to a morphism of presheaves which
+Mathlib's sheafification inverts, is an isomorphism. -/
+private theorem isIso_sheafificationForgetAdjunction_homEquiv_symm
+    {P : PresheafOfModules.{w} (ringSheaf R).obj} {N : SheafOfModules.{w} (ringSheaf R)}
+    (φ : P ⟶ (SheafOfModules.forget (ringSheaf R)).obj N)
+    (hφ : IsIso ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).map φ)) :
+    IsIso (((sheafificationForgetAdjunction R).homEquiv P N).symm φ) := by
+  have := (isIso_sheafification_map_iff φ).2 hφ
+  have := (sheafificationForgetAdjunction R).counit_isIso_of_R_fully_faithful
+  rw [Adjunction.homEquiv_counit]
+  infer_instance
+
+end Stacks.SheafOfModules.Tensor
 
 namespace AlgebraicGeometry.Space
 
@@ -81,6 +116,39 @@ universe u
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (X : AlgebraicSpaces B S hS)
 
+
+/-- Mathlib's sheafification inverts the unit of the sealed sheafification
+`Stacks.SheafOfModules.Invertible.structureSheafification`, the last factor of the sheaf tensor
+product. -/
+theorem isIso_sheafify_map_structureSheafificationUnit
+    (P : PresheafOfModules.{u} (Oforget (structureCommRings B S hS X))) :
+    IsIso ((sheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property).map
+      ((structureSheafificationAdjunction (structureCommRings B S hS X)
+        (structureRingSheaf B S hS X).property).unit.app P)) :=
+  Stacks.SheafOfModules.Tensor.isIso_sheafification_map_sheafificationForgetAdjunction_unit_app
+    ⟨structureCommRings B S hS X, Presheaf.isSheaf_of_isSheaf_comp _ (structureCommRings B S hS X)
+      (forget₂ CommRingCat RingCat) (structureRingSheaf B S hS X).property⟩ P
+
+/-- The unit of the sealed sheafification on the tensor product of the underlying presheaves of
+two sheaves of `𝒪_X`-modules, landing in their sheaf tensor product. -/
+def sheafTensorUnit (M N : SheafOfModules.{u} (structureRingSheaf B S hS X)) :
+    modulePresheaf B S hS X M ⊗ modulePresheaf B S hS X N ⟶
+      modulePresheaf B S hS X
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+          ⟨structureCommRings B S hS X, Presheaf.isSheaf_of_isSheaf_comp _
+            (structureCommRings B S hS X) (forget₂ CommRingCat RingCat)
+            (structureRingSheaf B S hS X).property⟩).obj M).obj N) :=
+  (structureSheafificationAdjunction (structureCommRings B S hS X)
+    (structureRingSheaf B S hS X).property).unit.app
+      (modulePresheaf B S hS X M ⊗ modulePresheaf B S hS X N :
+        PresheafOfModules.{u} (Oforget (structureCommRings B S hS X)))
+
+/-- Mathlib's sheafification inverts `AlgebraicGeometry.Space.sheafTensorUnit`. -/
+theorem isIso_sheafify_map_sheafTensorUnit
+    (M N : SheafOfModules.{u} (structureRingSheaf B S hS X)) :
+    IsIso ((sheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property).map
+      (sheafTensorUnit B S hS X M N)) :=
+  isIso_sheafify_map_structureSheafificationUnit B S hS X _
 
 /-! ### The evaluation pairing of the tensor product of the two invertible sheaves -/
 
@@ -152,7 +220,7 @@ theorem isIso_sheafify_map_tensorEvaluationPresheafPairing :
           (SheafOfModules.unit (structureRingSheaf B S hS X))
           (associatedInvertibleSheafEvaluation B S hS X D hD))) := fun D hD =>
     Stacks.SheafOfModules.isIso_sheafify_map_comp _ _ _ _
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify _ _ _)
+      (isIso_sheafify_map_structureSheafificationUnit B S hS X _)
       (Stacks.SheafOfModules.isIso_sheafify_map_of_isIso _ _ _
         (Stacks.SheafOfModules.isIso_val_of_iso _))
   have htμ : IsIso (MonoidalCategory.tensorμ
@@ -183,7 +251,7 @@ theorem isIso_sheafify_map_idealMulToSumPresheaf :
   rw [← toSheafify_comp_sumIdealHom B S hS X D₁ D₂]
   have := isIso_sumIdealHom B S hS X D₁ D₂ hD₂
   exact Stacks.SheafOfModules.isIso_sheafify_map_comp _ _ _ _
-    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify _ _ _)
+    (isIso_sheafify_map_structureSheafificationUnit B S hS X _)
     (Stacks.SheafOfModules.isIso_sheafify_map_of_isIso _ _ _
       (Stacks.SheafOfModules.isIso_val_of_iso (asIso (sumIdealHom B S hS X D₁ D₂))))
 
@@ -240,22 +308,20 @@ def sumInvertibleEvaluationPresheafPairing :
       modulePresheaf B S hS X (SheafOfModules.unit (structureRingSheaf B S hS X)) :=
   Stacks.SheafOfModules.liftAlongSheafifyIso (structureCommRings B S hS X)
     (structureRingSheaf B S hS X).property
-    (toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-        (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁) ⊗
-          modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂)) ▷
+    (sheafTensorUnit B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁)
+        (associatedInvertibleSheaf B S hS X D₂ hD₂) ▷
       modulePresheaf B S hS X
         (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)))
     (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight _ _ _ _
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify _ _ _))
+      (isIso_sheafify_map_sheafTensorUnit B S hS X _ _))
     (SheafOfModules.unit (structureRingSheaf B S hS X))
     (idealSumEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)
 
 /-- The pairing on the sheafified tensor product restricts, along the unit of sheafification, to
 the pairing on the tensor product of presheaves. -/
 theorem whiskerRight_comp_sumInvertibleEvaluationPresheafPairing :
-    (toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-        (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁) ⊗
-          modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂)) ▷
+    (sheafTensorUnit B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁)
+        (associatedInvertibleSheaf B S hS X D₂ hD₂) ▷
       modulePresheaf B S hS X
         (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂))) ≫
       sumInvertibleEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂ =
@@ -268,13 +334,12 @@ theorem isIso_sheafify_map_sumInvertibleEvaluationPresheafPairing :
       (sumInvertibleEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)) :=
   Stacks.SheafOfModules.isIso_sheafify_map_liftAlongSheafifyIso (structureCommRings B S hS X)
     (structureRingSheaf B S hS X).property
-    (toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-        (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁) ⊗
-          modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂)) ▷
+    (sheafTensorUnit B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁)
+        (associatedInvertibleSheaf B S hS X D₂ hD₂) ▷
       modulePresheaf B S hS X
         (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)))
     (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight _ _ _ _
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify _ _ _))
+      (isIso_sheafify_map_sheafTensorUnit B S hS X _ _))
     (SheafOfModules.unit (structureRingSheaf B S hS X))
     (idealSumEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)
     (isIso_sheafify_map_idealSumEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)
@@ -294,7 +359,7 @@ def sumInvertibleEvaluationHom :
         ((associatedInvertibleSheaf B S hS X D₂ hD₂)))))).obj
         ((idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)))) ⟶
       SheafOfModules.unit (structureRingSheaf B S hS X) :=
-  ((sheafifyAdjunction (structureCommRings B S hS X)
+  ((structureSheafificationAdjunction (structureCommRings B S hS X)
     (structureRingSheaf B S hS X).property).homEquiv _
       (SheafOfModules.unit (structureRingSheaf B S hS X))).symm
       (sumInvertibleEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)
@@ -304,7 +369,9 @@ the two evaluation pairings `𝒪_X(Dᵢ) ⊗ 𝓘_{Dᵢ} ≅ 𝒪_X` is one and
 `𝓘_{D₁} ⊗ 𝓘_{D₂} ≅ 𝓘_{D₁+D₂}`. -/
 theorem isIso_sumInvertibleEvaluationHom :
     IsIso (sumInvertibleEvaluationHom B S hS X D₁ D₂ hD₁ hD₂) :=
-  Stacks.SheafOfModules.isIso_of_isIso_sheafify_map_homEquiv _ _ _
+  Stacks.SheafOfModules.Tensor.isIso_sheafificationForgetAdjunction_homEquiv_symm
+    ⟨structureCommRings B S hS X, Presheaf.isSheaf_of_isSheaf_comp _ (structureCommRings B S hS X)
+      (forget₂ CommRingCat RingCat) (structureRingSheaf B S hS X).property⟩ _
     (isIso_sheafify_map_sumInvertibleEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)
 
 /-- **The evaluation pairing `(𝒪_X(D₁) ⊗ 𝒪_X(D₂)) ⊗ 𝓘_{D₁+D₂} ≅ 𝒪_X`.** -/
@@ -338,10 +405,9 @@ theorem tensorPairing_sumInvertibleEvaluation :
         (SheafOfModules.unit (structureRingSheaf B S hS X))
         (sumInvertibleEvaluation B S hS X D₁ D₂ hD₁ hD₂) =
       sumInvertibleEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂ :=
-  ((sheafifyAdjunction (structureCommRings B S hS X)
-    (structureRingSheaf B S hS X).property).homEquiv _
-      (SheafOfModules.unit (structureRingSheaf B S hS X))).apply_symm_apply
-    (sumInvertibleEvaluationPresheafPairing B S hS X D₁ D₂ hD₁ hD₂)
+  ((structureSheafificationAdjunction (structureCommRings B S hS X)
+    (structureRingSheaf B S hS X).property).homEquiv_unit _ _ _).symm.trans
+      (Equiv.apply_symm_apply _ _)
 
 /-- The restriction maps of `𝒪_X` as a module over itself are the restriction maps of the
 structure sheaf. -/
@@ -371,21 +437,17 @@ def tensorCanonicalSection :
           ((structureRingSheaf B S hS X).property)⟩).obj
           ((associatedInvertibleSheaf B S hS X D₁ hD₁))).obj
           ((associatedInvertibleSheaf B S hS X D₂ hD₂)))))
-    (fun U ↦ ((toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-        (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁) ⊗
-          modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂))).app U).hom
+    (fun U ↦ ((sheafTensorUnit B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁)
+        (associatedInvertibleSheaf B S hS X D₂ hD₂)).app U).hom
       ((canonicalSection B S hS X D₁ hD₁).val U ⊗ₜ (canonicalSection B S hS X D₂ hD₂).val U))
     (fun {U V} f ↦ by
       refine Eq.trans (PresheafOfModules.naturality_apply
-        (toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-          (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁) ⊗
-            modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂))) f
+        (sheafTensorUnit B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁)
+            (associatedInvertibleSheaf B S hS X D₂ hD₂)) f
         ((canonicalSection B S hS X D₁ hD₁).val U ⊗ₜ
           (canonicalSection B S hS X D₂ hD₂).val U)).symm ?_
-      refine congrArg ((toSheafify (structureCommRings B S hS X)
-        (structureRingSheaf B S hS X).property
-        (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁) ⊗
-          modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂))).app V).hom ?_
+      refine congrArg ((sheafTensorUnit B S hS X (associatedInvertibleSheaf B S hS X D₁ hD₁)
+          (associatedInvertibleSheaf B S hS X D₂ hD₂)).app V).hom ?_
       have h1 : (modulePresheaf B S hS X
             (associatedInvertibleSheaf B S hS X D₁ hD₁)).restrictₛₗ f
             ((canonicalSection B S hS X D₁ hD₁).val U) =
@@ -655,21 +717,16 @@ def whiskerSumIdeal
 sheafification gives the tensor product of the morphism of underlying presheaves. -/
 theorem toSheafify_comp_tensorSheafMapOnSite
     {N N' : SheafOfModules.{u} (structureRingSheaf B S hS X)} (θ : N ⟶ N') :
-    toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-          (modulePresheaf B S hS X N ⊗
-            modulePresheaf B S hS X
-              (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂))) ≫
+    sheafTensorUnit B S hS X N (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)) ≫
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
             ⟨(structureCommRings B S hS X), Presheaf.isSheaf_of_isSheaf_comp _
             (structureCommRings B S hS X) (forget₂ CommRingCat RingCat)
             (structureRingSheaf B S hS X).property⟩).map θ).app
             (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)))).val =
       whiskerSumIdeal B S hS X D₁ D₂ θ ≫
-        toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-          (modulePresheaf B S hS X N' ⊗
-            modulePresheaf B S hS X
-              (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂))) :=
-  ((sheafifyAdjunction (structureCommRings B S hS X)
+        sheafTensorUnit B S hS X N'
+            (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)) :=
+  ((structureSheafificationAdjunction (structureCommRings B S hS X)
     (structureRingSheaf B S hS X).property).unit.naturality
       (whiskerSumIdeal B S hS X D₁ D₂ θ)).symm
 
@@ -693,14 +750,10 @@ private theorem whiskerSumIdeal_comp_toSheafify_comp
         ((structureRingSheaf B S hS X).property)⟩).map θ).app
         (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂))) ≫ ψ = φ) :
     whiskerSumIdeal B S hS X D₁ D₂ θ ≫
-        toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-          (modulePresheaf B S hS X N' ⊗
-            modulePresheaf B S hS X
-              (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂))) ≫ ψ.val =
-      toSheafify (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-          (modulePresheaf B S hS X N ⊗
-            modulePresheaf B S hS X
-              (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂))) ≫ φ.val := by
+        sheafTensorUnit B S hS X N'
+            (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)) ≫ ψ.val =
+      sheafTensorUnit B S hS X N
+          (idealSheafOfModules B S hS X (sumClosedSubspaces B S hS X D₁ D₂)) ≫ φ.val := by
   subst h
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ ψ.val) (toSheafify_comp_tensorSheafMapOnSite B S hS X D₁ D₂ θ).symm).trans

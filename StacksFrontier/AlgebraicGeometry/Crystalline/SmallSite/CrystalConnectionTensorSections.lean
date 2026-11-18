@@ -70,14 +70,11 @@ theorem tensor_sections_ext {W : X.Opens}
       φ V hV (Stacks.PullbackTensorCoherence.tmul X.toRingedSpace M N (op V) a b) =
         ψ V hV (Stacks.PullbackTensorCoherence.tmul X.toRingedSpace M N (op V) a b))
     (z : (M ⊗ N).val.obj (op W)) : φ W le_rfl z = ψ W le_rfl z := by
-  set u := (PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf X.toRingedSpace)
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) M.val N.val)
+  set u := PresheafOfModules.tensorSheafUnit (J := Opens.grothendieckTopology X)
+    (Osharp := X.sheaf) M N
   have : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
       ((PresheafOfModules.toPresheaf _).map u) :=
-    Stacks.SheafOfModules.isLocallySurjective_tensorSheafificationUnit
-      (Opens.grothendieckTopology X) (Osharp := X.sheaf) M N
+    Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app _ _
   refine sub_eq_zero.1 (Stacks.SheafOfModules.eq_zero_of_locally_eq_zero
     (J := Opens.grothendieckTopology X) _ (Presheaf.imageSieve_mem _
       ((PresheafOfModules.toPresheaf _).map u) z) ?_)
@@ -105,10 +102,7 @@ theorem tmul_restrict {V V' : X.Opens} (h : V' ≤ V) (a : M.val.obj (op V))
       Stacks.PullbackTensorCoherence.tmul X.toRingedSpace M N (op V')
         (M.val.map (homOfLE h).op a) (N.val.map (homOfLE h).op b) :=
   (PresheafOfModules.naturality_apply
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf X.toRingedSpace)
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app
-      (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) M.val N.val))
+    (PresheafOfModules.tensorSheafUnit (J := Opens.grothendieckTopology X) (Osharp := X.sheaf) M N)
     (homOfLE h).op (a ⊗ₜ b)).symm
 
 /-- **A local pure tensor is additive in its first factor.** -/

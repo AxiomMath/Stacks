@@ -125,8 +125,8 @@ public theorem exists_formalFunctionsEquiv_unconditional
     (A : Type u) [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
     (hX : AlgebraicGeometry.IsProper f) (I : Ideal A) (F : X.Modules)
     (hF : SheafOfModules.IsCoherent F) (p : ℕ) :
-    ∃ (_c : ℕ) (e : AdicCompletion I (cohomologyOverBase A f p F) ≃ₗ[A]
-        towerLimit (adicCohomologyTower A f I F p) (adicCohomologyTowerMap A f I F p)),
+    ∃ e : AdicCompletion I (cohomologyOverBase A f p F) ≃ₗ[A]
+        towerLimit (adicCohomologyTower A f I F p) (adicCohomologyTowerMap A f I F p),
       ∀ (n : ℕ) (x : cohomologyOverBase A f p F),
         towerLimit.proj n (e (AdicCompletion.of I (cohomologyOverBase A f p F) x)) =
           adicCohomologyProj A f I F p n x :=

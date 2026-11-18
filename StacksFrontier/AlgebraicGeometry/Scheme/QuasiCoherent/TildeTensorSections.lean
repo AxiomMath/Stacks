@@ -109,7 +109,7 @@ lemma toTensorSheafSection_add (X) (F G : SheafOfModules.{u} (structureSheafRing
     (t t' : TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U)) :
     toTensorSheafSection X F G U (t + t')
       = toTensorSheafSection X F G U t + toTensorSheafSection X F G U t' :=
-  map_add ((sheafifyUnit X
+  map_add (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
     (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom t t'
 
 /-- `toTensorSheafSection` is `𝒪_X(U)`-linear.  The scalar acting on the right is ascribed at
@@ -125,15 +125,16 @@ lemma toTensorSheafSection_smul (X) (F G : SheafOfModules.{u} (structureSheafRin
         (⟨X.presheaf, X.IsSheaf⟩ :
           Sheaf (Opens.grothendieckTopology X.carrier) CommRingCat.{u})).obj.obj U from c) •
         toTensorSheafSection X F G U t :=
-  map_smul ((sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom c t
+  (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom.map_smul c t
 
 /-- **A morphism out of a tensor product of sheaves of modules is determined by its effect on
 the images of pure tensors of sections.**  The tensor product is a sheafification, and
 `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` is the unit of the
-  sheafification adjunction, so
-precomposition with it is injective on morphisms into a sheaf; the reduction from a general
-element of the presheaf tensor product to pure tensors is `TensorProduct.induction_on`.
+sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, so
+precomposition with it is injective on morphisms into a sheaf
+(`Stacks.SheafOfModules.Tensor.sheafification_hom_ext`); on each open, a linear map out of the
+presheaf tensor product is determined by its values on pure tensors (`TensorProduct.ext'`).
 
 This is the uniqueness principle a diagram chase ending in `tensorSheaf` needs: it replaces
 proving an equality of morphisms by a computation on sections. -/
@@ -144,17 +145,9 @@ lemma tensorSheaf_hom_ext {F G K : SheafOfModules.{u} (structureSheafRing X)}
       (α.val.app U).hom (toTensorSheafSection X F G U (m ⊗ₜ[X.presheaf.obj U] n))
         = (β.val.app U).hom (toTensorSheafSection X F G U (m ⊗ₜ[X.presheaf.obj U] n))) :
     α = β := by
-  apply ((PresheafOfModules.sheafificationAdjunction (R := structureSheafRing X)
-    (𝟙 (structureSheafRing X).obj)).homEquiv
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) K).injective
-  apply PresheafOfModules.Hom.ext
-  ext U t
-  change (ModuleCat.Hom.hom (α.val.app U)) (toTensorSheafSection X F G U t)
-      = (ModuleCat.Hom.hom (β.val.app U)) (toTensorSheafSection X F G U t)
-  induction t using TensorProduct.inductionOn with
-  | tmul m n => exact h U m n
-  | add a b ha hb =>
-      rw [toTensorSheafSection_add X F G U a b, map_add, map_add, ha, hb]
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext
+    (PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (TensorProduct.ext' fun m n => ?_))
+  exact h U m n
 
 end Stacks.SheafOfModules.TensorStalkRingedSpace
 

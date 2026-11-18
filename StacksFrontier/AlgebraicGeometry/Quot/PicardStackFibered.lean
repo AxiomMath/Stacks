@@ -57,7 +57,9 @@ Section 0372 names `Picardstack_{X/B}` a category by designation and verifies no
 with its projection and the identification of its hom-sets, identities, composition and
 projection as the *specification* `AlgebraicGeometry.Space.PicardCategoryData`; a value of it is
 constructed downstream, as `AlgebraicGeometry.Space.picardCategoryData` of
-`StacksFrontier/AlgebraicGeometry/Quot/PicardStackCategory.lean`.  A statement about the functor `p` of Stacks 04WN is therefore a statement about
+`StacksFrontier/AlgebraicGeometry/Quot/PicardStackCategory.lean`.  A statement about the functor `p`
+of
+Stacks 04WN is therefore a statement about
 `AlgebraicGeometry.Space.PicardCategoryData.projection`, for a value of that specification
 supplied as a hypothesis, over the coherence data
 `AlgebraicGeometry.Space.ModulePushforwardCoherence` of Stacks 03LU that the identities and the

@@ -203,7 +203,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_epi_comp_of_qcqs {X : Scheme.{u}
       refine hc.hom_ext fun S => ?_
       rw [← Category.assoc, hc.fac d S]
       exact ht S
-    have : Epi (hc.desc d ≫ Msup.arrow) := by rw [hgf]; assumption
+    have : Epi (hc.desc d ≫ Msup.arrow) := by rwa [hgf]
     have : Epi Msup.arrow := epi_of_epi (hc.desc d) Msup.arrow
     have : IsIso Msup.arrow := isIso_of_mono_of_epi Msup.arrow
     simpa [Msup] using (Subobject.isIso_iff_mk_eq_top Msup.arrow).mp inferInstance

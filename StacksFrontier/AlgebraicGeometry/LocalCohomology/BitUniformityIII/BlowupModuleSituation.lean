@@ -278,6 +278,14 @@ def pullbackTwistUnitEquiv (i : ℕ) (t : ℤ) :
     (MonoidalCategory.whiskerRightIso (thickeningPullbackUnitIso I n)
       (blowupTwistInt I t))).toLinearEquiv
 
+/-- The defining formula of `pullbackTwistUnitEquiv`. -/
+theorem pullbackTwistUnitEquiv_apply (i : ℕ) (t : ℤ)
+    (y : blowupHmod I i ((thickeningPullback I n).obj (ModuleCat.of (A ⧸ I ^ n) (A ⧸ I ^ n)) ⊗
+      blowupTwistInt I t)) :
+    pullbackTwistUnitEquiv I n i t y =
+      blowupHmodMap I i ((thickeningPullbackUnitIso I n).hom ▷ blowupTwistInt I t) y :=
+  Iso.toLinearEquiv_apply _ _
+
 /-- The `j`-th inclusion followed by the `k`-th projection of `(A/Iⁿ)^{⊕r}`. -/
 theorem finFreeIncl_comp_finFreeProj (r : ℕ) (j k : Fin r) :
     finFreeIncl (A ⧸ I ^ n) r j ≫ finFreeProj (A ⧸ I ^ n) r k = if j = k then 𝟙 _ else 0 := by
@@ -614,38 +622,70 @@ theorem blowupSecM_tmul (n : ℕ) {q₀ : ℕ} (h : IsBaseThreshold I q₀)
       ((pullbackTwistUnitEquiv I n 0 q).symm (blowupCdiv I h n q x)) :=
   rfl
 
+/-- **`Hⁱ(X, p^*K(q)) → Hⁱ(X, 𝒢(q))` is natural in the twist**, at the presentation chosen by
+`blowupModuleSituation`: the field `kernelToImage_tr` of `blowupTwistedModuleSituation`. -/
+theorem blowupModuleSituation_kernelToImage_tr (n c : ℕ) {q₀ : ℕ} (h : IsBaseThreshold I q₀)
+    (hcn : c ≤ n) (M : ANCModule I n c) (i : ℕ) {q q' : ℤ} (hq : q' ≤ q)
+    (x : (blowupModuleSituation I n c h hcn).H
+      ((blowupModuleSituation I n c h hcn).pres M).kernelANC i q) :
+    (blowupHmodMap I i (blowupImage I (affinePres I n c M) ◁ blowupTwistLE I hq)).hom
+        ((blowupModuleSituation I n c h hcn).kernelToImage M i q x) =
+      (blowupModuleSituation I n c h hcn).kernelToImage M i q'
+        ((blowupHmodMap I i ((thickeningPullback I n).obj
+          ((blowupModuleSituation I n c h hcn).pres M).kernelANC.1 ◁ blowupTwistLE I hq)).hom x) :=
+  blowupHmodMap_whiskerLeft_blowupKernelLift (affinePres I n c M) i hq x
+
+/-- **The dotted arrow factors `𝒢(q) ⟶ 𝒢(q - c)` on cohomology**: the field
+`kernelToImage_dotted` of `blowupTwistedModuleSituation`. -/
+theorem blowupModuleSituation_kernelToImage_dotted (n c : ℕ) {q₀ : ℕ} (h : IsBaseThreshold I q₀)
+    (hcn : c ≤ n) (M : ANCModule I n c) (i : ℕ) (q : ℤ) (hq : q - (c : ℤ) ≤ q)
+    (x : (blowupModuleSituation I n c h hcn).HG M i q) :
+    (blowupModuleSituation I n c h hcn).kernelToImage M i (q - c)
+        ((blowupHmodMap I i (blowupDottedSheaf (affinePres I n c M) q)).hom x) =
+      (blowupHmodMap I i (blowupImage I (affinePres I n c M) ◁ blowupTwistLE I hq)).hom x :=
+  (blowupHmodMap_comp_apply I i _ _ x).symm.trans
+    (congrArg (fun φ => blowupHmodMap I i φ x) (blowupDottedSheaf_comp _ q hq))
+
+/-- **`blowupSecM` is compatible with the chosen presentation**: the field `secM_freeSections` of
+`blowupTwistedModuleSituation`. -/
+theorem blowupModuleSituation_secM_freeSections (n c : ℕ) {q₀ : ℕ} (h : IsBaseThreshold I q₀)
+    (hcn : c ≤ n) (M : ANCModule I n c) (q : ℕ)
+    (v : Fin ((blowupModuleSituation I n c h hcn).pres M).rank → powQuot I q n) :
+    blowupSecM I n h M.1 q (((blowupModuleSituation I n c h hcn).pres M).freeTensor q v) =
+      (blowupModuleSituation I n c h hcn).freeToPullback M 0 (q : ℤ)
+        (((blowupModuleSituation I n c h hcn).freeIso M 0 q).symm fun j =>
+          (blowupModuleSituation I n c h hcn).cdiv n q (v j)) := by
+  change blowupSecM I n h M.1 q _ = pullbackTwistMap I n 0 q (presProj (affinePres I n c M))
+    ((pullbackTwistFinFreeEquiv I n 0 q _).symm
+      (fun j => (pullbackTwistUnitEquiv I n 0 q).symm (blowupCdiv I h n q (v j))))
+  rw [pullbackTwistFinFreeEquiv_symm_apply, ANCPresentation.freeTensor_apply, map_sum, map_sum]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  exact (blowupSecM_tmul I n h M.1 q (v j) _).trans
+    ((congrArg (fun f => pullbackTwistMap I n 0 q f
+        ((pullbackTwistUnitEquiv I n 0 q).symm (blowupCdiv I h n q (v j))))
+      (finFreeIncl_comp_presProj I (affinePres I n c M) j).symm).trans
+      (pullbackTwistMap_comp _ _ _ _ _))
+
 /-- **The `TwistedModuleSituation` of Tag 0GAA on the blowup.** The twisting-down maps are
 induced by `𝒪_X(q) ⟶ 𝒪_X(q')`, the dotted arrow is `blowupDottedSheaf` (Tags 0GA8, 0GA9), and the
 canonical map `I^q ⊗_A M → H⁰(X, p^*M(q))` is `blowupSecM`. -/
 def blowupTwistedModuleSituation (n c : ℕ) {q₀ : ℕ} (h : IsBaseThreshold I q₀) (hcn : c ≤ n) :
     TwistedModuleSituation A I n c where
   toModuleSituation := blowupModuleSituation I n c h hcn
-  Htr M i q q' hq :=
+  Htr M i _ _ hq :=
     (blowupHmodMap I i ((thickeningPullback I n).obj M.1 ◁ blowupTwistLE I hq)).hom
-  HGtr M i q q' hq :=
+  HGtr M i _ _ hq :=
     (blowupHmodMap I i (blowupImage I (affinePres I n c M) ◁ blowupTwistLE I hq)).hom
-  HGtr_trans M i q q' q'' hq hq' hq'' x :=
+  HGtr_trans _ i _ _ _ hq hq' hq'' x :=
     blowupHmodMap_whiskerLeft_blowupTwistLE_trans _ i hq hq' hq'' x
-  pullbackToImage_tr M i q q' hq x :=
+  pullbackToImage_tr M i _ _ hq x :=
     blowupHmodMap_whiskerLeft_δ_blowupImage (affinePres I n c M) i hq x
-  kernelToImage_tr M i q q' hq x :=
-    blowupHmodMap_whiskerLeft_blowupKernelLift (affinePres I n c M) i hq x
+  kernelToImage_tr M i _ _ hq x := blowupModuleSituation_kernelToImage_tr I n c h hcn M i hq x
   dotted M i q := (blowupHmodMap I i (blowupDottedSheaf (affinePres I n c M) q)).hom
   kernelToImage_dotted M i q hq x :=
-    (blowupHmodMap_comp_apply I i _ _ x).symm.trans
-      (congrArg (fun φ => blowupHmodMap I i φ x) (blowupDottedSheaf_comp _ q hq))
+    blowupModuleSituation_kernelToImage_dotted I n c h hcn M i q hq x
   secM M q := blowupSecM I n h M.1 q
-  secM_freeSections M q v := by
-    change blowupSecM I n h M.1 q _ = pullbackTwistMap I n 0 q (presProj (affinePres I n c M))
-      ((pullbackTwistFinFreeEquiv I n 0 q _).symm
-        (fun j => (pullbackTwistUnitEquiv I n 0 q).symm (blowupCdiv I h n q (v j))))
-    rw [pullbackTwistFinFreeEquiv_symm_apply, ANCPresentation.freeTensor_apply, map_sum, map_sum]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    exact (blowupSecM_tmul I n h M.1 q (v j) _).trans
-      ((congrArg (fun f => pullbackTwistMap I n 0 q f
-          ((pullbackTwistUnitEquiv I n 0 q).symm (blowupCdiv I h n q (v j))))
-        (finFreeIncl_comp_presProj I (affinePres I n c M) j).symm).trans
-        (pullbackTwistMap_comp _ _ _ _ _))
+  secM_freeSections M q v := blowupModuleSituation_secM_freeSections I n c h hcn M q v
 
 /-! ### The `DualSituation` -/
 
@@ -657,8 +697,8 @@ theorem blowupHmodMap_whiskerRight_comp_unitIso {n : ℕ} (i : ℕ) (t : ℤ)
     blowupHmodMap I i (((thickeningPullback I n).map f ≫ (thickeningPullbackUnitIso I n).hom) ▷
         blowupTwistInt I t) y =
       pullbackTwistUnitEquiv I n i t (pullbackTwistMap I n i t f y) := by
-  rw [MonoidalCategory.comp_whiskerRight, blowupHmodMap_comp_apply]
-  rfl
+  rw [MonoidalCategory.comp_whiskerRight, blowupHmodMap_comp_apply, pullbackTwistUnitEquiv_apply,
+    pullbackTwistMap_apply]
 
 omit [IsNoetherianRing A] in
 /-- **Twisting down on the canonical sections of `𝒪_{Yₙ}(q)`**: the composite
@@ -670,9 +710,8 @@ theorem blowupHmodMap_whiskerLeft_cdivMod (m : ℕ) {q q' : ℕ} (h : (q' : ℤ)
       cdivMod I m q' (powQuotLe I hle w) := by
   induction w using Submodule.Quotient.induction_on with
   | H x =>
-    rw [powQuotLe_mk, cdivMod_mk, cdivMod_mk]
-    exact (blowupΓmodToH0_naturality I _ _).symm.trans (congrArg (blowupΓmodToH0 I _)
-      (blowupΓMap_whiskerLeft_blowupTwistLE_thickeningSections I (m + 1) h x))
+    rw [powQuotLe_mk, cdivMod_mk, cdivMod_mk, ← blowupΓmodToH0_naturality,
+      blowupΓMap_whiskerLeft_blowupTwistLE_thickeningSections, Submodule.inclusion_apply]
 
 omit [IsNoetherianRing A] in
 /-- `1 ↦ λ` followed by evaluation at `z` is multiplication by `λ(z)`. -/

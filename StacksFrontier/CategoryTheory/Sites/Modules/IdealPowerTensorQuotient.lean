@@ -107,12 +107,29 @@ attribute [-instance] SheafOfModules.preservesColimitsOfSize_sheafTensor_obj
 variable [HasSheafify X.J AddCommGrpCat.{w}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
-/-- The unit of the sheafification of the objectwise tensor product of two sheaves of
-modules. -/
-abbrev tensorSheafifyUnit (F G : Modules.{u, v, w} X) :=
-  (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+/-- The unit `ℱ ⊗_{p, 𝒪} 𝒢 ⟶ ℱ ⊗_𝒪 𝒢` of the sheafification of the objectwise tensor product of
+two sheaves of modules: the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`,
+the sealed sheafification that `Stacks.SheafOfModules.Tensor.sheafTensor` ends with. -/
+abbrev tensorSheafifyUnit (F G : Modules.{u, v, w} X) :
+    PresheafOfModules.tensorObj (O := X.O.obj) F.val G.val ⟶
+      (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).obj G).val :=
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
     (PresheafOfModules.tensorObj (O := X.O.obj) F.val G.val)
+
+/-- The unit of the sealed sheafification, read with the plain forgetful functor, is locally
+surjective. -/
+private theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :
+    PresheafOfModules.IsLocallySurjective X.J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
+
+/-- The sheafification unit of the objectwise tensor product is locally surjective. -/
+theorem isLocallySurjective_tensorSheafifyUnit (F G : Modules.{u, v, w} X) :
+    PresheafOfModules.IsLocallySurjective X.J (tensorSheafifyUnit F G) :=
+  isLocallySurjective_sheafificationForgetAdjunction_unit_app _
 
 /-- The multiplication map `ℱ ⊗_𝒪 𝒢 ⟶ ℱ` attached to a morphism `g : 𝒢 ⟶ 𝒪`: tensor `g` into
 the second variable and read the target through the unit law `ℱ ⊗_𝒪 𝒪 ≅ ℱ`. -/
@@ -121,6 +138,23 @@ abbrev tensorSmulMap (F : Modules.{u, v, w} X) {G : Modules.{u, v, w} X}
     ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).obj G ⟶ F :=
   ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).map g ≫
     (Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections X.O F).hom
+
+/-- On the sheafification unit, the multiplication map is the objectwise one: `𝟙 ⊗ g` followed
+by the objectwise right unitor. Both the tensor product and its unit law are sheafifications of
+objectwise constructions, so this is the naturality of the sheafification unit and a triangle
+identity. -/
+theorem tensorSheafifyUnit_comp_tensorSmulMap (F : Modules.{u, v, w} X) {G : Modules.{u, v, w} X}
+    (g : G ⟶ _root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
+    tensorSheafifyUnit F G ≫ (_root_.SheafOfModules.forget _).map (tensorSmulMap F g) =
+      PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 F.val) g.val ≫ (ρ_ F.val).hom :=
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O
+  let ε := adj.counit.app F
+  (adj.unit_naturality_assoc (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 F.val) g.val)
+    ((_root_.SheafOfModules.forget _).map
+      ((Stacks.SheafOfModules.Tensor.sheafification X.O).map (ρ_ F.val).hom ≫ ε))).trans <|
+    _ ≫= ((adj.unit_naturality_assoc (ρ_ F.val).hom
+      ((_root_.SheafOfModules.forget _).map ε)).trans <|
+        (_ ≫= adj.right_triangle_components F).trans (Category.comp_id _))
 
 /-- **On a pure tensor `x ⊗ a`, the multiplication map is `g(a) · x`.** Both the tensor product
 and its unit law are sheafifications of objectwise constructions, so the value on the image of
@@ -132,36 +166,9 @@ theorem tensorSmulMap_unit_tmul (F : Modules.{u, v, w} X) {G : Modules.{u, v, w}
     (tensorSmulMap F g).val.app V
         ((tensorSheafifyUnit F G).app V
           (x ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V] a)) =
-      (show (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V from g.val.app V a) • x := by
-  let adj := PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-  let Sh := PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-  have h1 : (Sh.map (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 F.val) g.val)).val.app V
-        ((adj.unit.app (PresheafOfModules.tensorObj (O := X.O.obj) F.val G.val)).app V (x ⊗ₜ a)) =
-      (adj.unit.app (PresheafOfModules.tensorObj (O := X.O.obj) F.val
-        (_root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))).val)).app V
-          (x ⊗ₜ g.val.app V a) :=
-    (congrArg (fun ψ ↦ ψ.app V (x ⊗ₜ a))
-      (adj.unit.naturality (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 F.val) g.val))).symm
-  have h2 : (Sh.map (ρ_ F.val).hom).val.app V
-        ((adj.unit.app (PresheafOfModules.tensorObj (O := X.O.obj) F.val
-          (_root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))).val)).app V
-            (x ⊗ₜ g.val.app V a)) =
-      (adj.unit.app F.val).app V ((ρ_ F.val).hom.app V (x ⊗ₜ g.val.app V a)) :=
-    (congrArg (fun ψ ↦ ψ.app V (x ⊗ₜ g.val.app V a))
-      (adj.unit.naturality (ρ_ F.val).hom)).symm
-  have h3 : (adj.counit.app F).val.app V
-        ((adj.unit.app F.val).app V ((ρ_ F.val).hom.app V (x ⊗ₜ g.val.app V a))) =
-      (ρ_ F.val).hom.app V (x ⊗ₜ g.val.app V a) :=
-    congrArg (fun ψ ↦ ψ.app V ((ρ_ F.val).hom.app V (x ⊗ₜ g.val.app V a)))
-      (adj.right_triangle_components F)
-  change (adj.counit.app F).val.app V ((Sh.map (ρ_ F.val).hom).val.app V
-    ((Sh.map (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 F.val) g.val)).val.app V
-      ((adj.unit.app (PresheafOfModules.tensorObj (O := X.O.obj) F.val G.val)).app V
-        (x ⊗ₜ a)))) = _
-  rw [h1, h2, h3]
-  exact ModuleCat.MonoidalCategory.rightUnitor_hom_apply x _
+      (show (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V from g.val.app V a) • x :=
+  (PresheafOfModules.hom_congr_apply' (tensorSheafifyUnit_comp_tensorSmulMap F g) V
+    (x ⊗ₜ a)).trans (ModuleCat.MonoidalCategory.rightUnitor_hom_apply x _)
 
 /-! ### The image of the multiplication map is `ℐℱ` -/
 
@@ -206,10 +213,7 @@ theorem idealTensorSmulMap_mem_idealSmul (V : X.Cᵒᵖ)
     (t : (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).obj
       I.toSheafOfModules).val.obj V) :
     (idealTensorSmulMap F I).val.app V t ∈ (idealSmul I (⊤ : F.Submodule)).obj V := by
-  have : Presheaf.IsLocallySurjective X.J ((PresheafOfModules.toPresheaf _).map
-      (tensorSheafifyUnit F I.toSheafOfModules)) := by
-    change Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J _)
-    infer_instance
+  have := isLocallySurjective_tensorSheafifyUnit F I.toSheafOfModules
   refine Stacks.SheafOfModules.mem_sheafifySubmodule_of_mem
     (Presheaf.imageSieve_mem X.J ((PresheafOfModules.toPresheaf _).map
       (tensorSheafifyUnit F I.toSheafOfModules)) t) ?_

@@ -65,7 +65,7 @@ private theorem evalPoints_injective : Function.Injective evalPoints.{u} := by
   intro a b h
   obtain ⟨⟨s, x⟩, rfl⟩ := (sigmaMk _).surjective a
   obtain ⟨⟨t, y⟩, rfl⟩ := (sigmaMk _).surjective b
-  simp only [sigmaMk_mk, evalPoints, ← Scheme.Hom.comp_apply, Limits.Sigma.ι_desc] at h ⊢
+  simp only [sigmaMk_mk, evalPoints, ← Scheme.Hom.comp_apply, Limits.Sigma.ι_comp_desc] at h ⊢
   obtain rfl : s = t := by
     funext i
     have hmem : MvPolynomial.X i - MvPolynomial.C (s i) ∈ (evalPoint s x).asIdeal := by

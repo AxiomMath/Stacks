@@ -1083,21 +1083,42 @@ private theorem existsUnique_algebraizedTowerUnit
 
 open scoped TensorProduct
 
+/-- The structure sheaf of `X` as a sheaf of commutative rings on the opens of `X`, the
+coefficient sheaf of `Stacks.SheafOfModules.Tensor.sheafTensor` on `X`-modules. -/
+private abbrev commRingSheaf (X : Scheme.{u}) :
+    Sheaf (Opens.grothendieckTopology X) CommRingCat.{u} :=
+  ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩
+
+/-- The morphism out of the sheafification of `P` (the sealed sheafification behind
+`sheafTensor`) induced by a morphism `f : P ⟶ E.val` into an `X`-module. -/
 private def sheafifyDesc {X : Scheme.{u}}
     {P : PresheafOfModules.{u} X.ringCatSheaf.obj} {E : X.Modules}
     (f : P ⟶ E.val) :
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).obj P ⟶ E :=
-  (PresheafOfModules.sheafificationHomEquiv (𝟙 X.ringCatSheaf.obj)).symm f
+    (Stacks.SheafOfModules.Tensor.sheafification (commRingSheaf X)).obj P ⟶ E :=
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (commRingSheaf X)).homEquiv
+    P E).symm f
 
+/-- `sheafifyDesc f` extends `f` along the sheafification unit. -/
 private lemma sheafifyDesc_apply {X : Scheme.{u}}
     {P : PresheafOfModules.{u} X.ringCatSheaf.obj} {E : X.Modules}
     (f : P ⟶ E.val) (U : X.Opensᵒᵖ) (x : P.obj U) :
     (sheafifyDesc f).val.app U
-      ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace P).app U x) =
-        f.app U x :=
-  congrArg (fun k => k.app U x)
-    ((PresheafOfModules.sheafificationHomEquiv
-      (𝟙 X.ringCatSheaf.obj)).apply_symm_apply f)
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (commRingSheaf X)).unit.app
+        P).app U x) = f.app U x :=
+  (congrArg (fun t => (sheafifyDesc f).val.app U t)
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      _ P U x).symm).trans
+    (congrArg (fun k => k.app U x)
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (commRingSheaf X)).homEquiv_unit P E _).symm.trans (Equiv.apply_symm_apply _ f)))
+
+/-- `sheafifyDesc` commutes with composition by a morphism of `X`-modules. -/
+private lemma sheafifyDesc_comp {X : Scheme.{u}}
+    {P : PresheafOfModules.{u} X.ringCatSheaf.obj} {E F : X.Modules}
+    (f : P ⟶ E.val) (q : E ⟶ F) :
+    sheafifyDesc f ≫ q = sheafifyDesc (f ≫ q.val) :=
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    (commRingSheaf X)).homEquiv_naturality_right_symm f q).symm
 
 private def tensorMulPresheafMap {X Y : Scheme.{u}} (f : Y ⟶ X) (E : X.Modules)
     (p : E ⟶ Stacks.Morphisms.pushforwardStructureSheaf f) :
@@ -1212,7 +1233,7 @@ private lemma presheafHom_ext_of_completion
     [(finiteLocallyFreeCompletion X I).IsEquivalence]
     {P : PresheafOfModules.{u} X.ringCatSheaf.obj}
     (hP : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
-      ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).obj P))
+      ((Stacks.SheafOfModules.Tensor.sheafification (commRingSheaf X)).obj P))
     (E : FiniteLocallyFreeCoherent X) (F : Stacks.Coherent.CoherentAdicSystems I)
     (e : (Stacks.Algebraization.completionFunctor X I).obj E.obj ≅ F)
     {f g : P ⟶ E.obj.obj.val}
@@ -1227,22 +1248,21 @@ private lemma presheafHom_ext_of_completion
   have heq : sheafifyDesc f = sheafifyDesc g := by
     apply hom_ext_of_completionProjection_iso X I (E := D) F e
     intro n
-    apply (PresheafOfModules.sheafificationHomEquiv
-      (𝟙 X.ringCatSheaf.obj)).injective
-    ext U x
-    change (Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)).val.app U
-        ((sheafifyDesc f).val.app U
-          ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace P).app U x)) =
-      (Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)).val.app U
-        ((sheafifyDesc g).val.app U
-          ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace P).app U x))
-    let φ := ConcreteCategory.hom
-      ((Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)).val.app U)
-    exact (DFunLike.congr_arg φ (sheafifyDesc_apply f U x)).trans
-      ((congrArg (fun k => k.app U x) (hfg n)).trans
-        (DFunLike.congr_arg φ (sheafifyDesc_apply g U x)).symm)
-  exact (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 X.ringCatSheaf.obj)).symm.injective heq
+    exact (sheafifyDesc_comp f _).trans
+      ((congrArg sheafifyDesc (hfg n)).trans (sheafifyDesc_comp g _).symm)
+  exact ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (commRingSheaf X)).homEquiv
+    P E.obj.obj).symm.injective heq
+
+/-- The sealed sheafification behind `sheafTensor` inverts the unit of its adjunction with the
+plain forgetful functor. -/
+private lemma isIso_sheafification_map_forgetUnit {C : Type*} [Category C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification R).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
 
 private lemma finiteLocallyFree_sheafify_triple {X : Scheme.{u}}
     (E F G : X.Modules)
@@ -1250,25 +1270,25 @@ private lemma finiteLocallyFree_sheafify_triple {X : Scheme.{u}}
     (hF : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} F)
     (hG : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} G) :
     AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
-      ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).obj
+      ((Stacks.SheafOfModules.Tensor.sheafification (commRingSheaf X)).obj
         ((E.val ⊗ F.val) ⊗ G.val)) := by
-  let L := Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf X.ringCatSheaf.2
-  let q := Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf X.ringCatSheaf.2
+  let L := Stacks.SheafOfModules.Tensor.sheafification (commRingSheaf X)
+  let q := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (commRingSheaf X)).unit.app
     (E.val ⊗ F.val)
   have : IsIso (L.map (q ▷ G.val)) :=
-    Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight X.presheaf
-      X.ringCatSheaf.2 q G.val
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify X.presheaf
-        X.ringCatSheaf.2 _)
+    (Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff _).mpr
+      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight X.presheaf
+        X.ringCatSheaf.2 q G.val
+        ((Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff _).mp
+          (isIso_sheafification_map_forgetUnit (commRingSheaf X) _)))
   exact finiteLocallyFree_of_iso (asIso (L.map (q ▷ G.val))).symm
     (tensorSheaf_finiteLocallyFree _ _ (tensorSheaf_finiteLocallyFree E F hE hF) hG)
 
 private lemma finiteLocallyFree_sheafify_val {X : Scheme.{u}} (E : X.Modules)
     (hE : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} E) :
     AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
-      ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).obj
-        E.val) := by
-  let a := PresheafOfModules.sheafificationAdjunction (𝟙 X.ringCatSheaf.obj)
+      ((Stacks.SheafOfModules.Tensor.sheafification (commRingSheaf X)).obj E.val) := by
+  let a := Stacks.SheafOfModules.Tensor.sheafificationAdjunction (commRingSheaf X)
   have : IsIso (a.counit.app E) := NatIso.isIso_app_of_isIso a.counit E
   exact finiteLocallyFree_of_iso (asIso (a.counit.app E)).symm hE
 
@@ -1285,7 +1305,7 @@ private lemma algebraLaws_of_separating_homs {X : Scheme.{u}}
     (T : ℕ → Over X) (p : ∀ n, E ⟶ Stacks.Morphisms.pushforwardStructureSheaf (T n).hom)
     (hext : ∀ (P : PresheafOfModules.{u} X.ringCatSheaf.obj),
       AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
-        ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).obj P) →
+        ((Stacks.SheafOfModules.Tensor.sheafification (commRingSheaf X)).obj P) →
       ∀ f g : P ⟶ E.val, (∀ n, f ≫ (p n).val = g ≫ (p n).val) → f = g)
     (η : SheafOfModules.unit X.ringCatSheaf ⟶ E)
     (m : E.val ⊗ E.val ⟶ E.val)
@@ -1498,6 +1518,21 @@ private lemma algebraSheafOfModule_isQuasicoherent {X : Scheme.{u}}
   (SheafOfModules.isQuasicoherent X.ringCatSheaf).prop_of_iso
     (algebraSheafOfModuleIso E d).symm inferInstance
 
+/-- The morphism of presheaves `E ⊗ F ⟶ G` corresponding to a morphism `E ⊗_{O_X} F ⟶ G` out of
+the tensor product sheaf sends `x ⊗ y` to the image of the section `x ⊗ y` of `E ⊗_{O_X} F`. -/
+private lemma homEquiv_app_tmul {X : Scheme.{u}} {E F G : X.Modules}
+    (φ : ((Stacks.SheafOfModules.Tensor.sheafTensor (commRingSheaf X)).obj E).obj F ⟶ G)
+    (U : X.Opensᵒᵖ) (x : E.val.obj U) (y : F.val.obj U) :
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (commRingSheaf X)).homEquiv
+        (E.val ⊗ F.val) G φ).app U (x ⊗ₜ[Γ(X, U.unop)] y) =
+      φ.val.app U (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection
+        X.toRingedSpace E F U (x ⊗ₜ[Γ(X, U.unop)] y)) :=
+  (congrArg (fun k => k.app U (x ⊗ₜ[Γ(X, U.unop)] y))
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (commRingSheaf X)).homEquiv_unit
+      _ G φ)).trans
+    (congrArg (fun t => φ.val.app U t)
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ U _))
+
 private abbrev idealPowerTowerOver {X : Scheme.{u}} (I : X.IdealSheafData)
     (A : AlgebraicGeometry.FiniteEtaleOver (I ^ 1).subscheme) :=
   finiteEtaleTowerOver (idealPowerInclusion I) (idealPowerInclusion_isThickening I)
@@ -1523,7 +1558,8 @@ private theorem exists_algebraizedTowerData
   obtain ⟨η, hη, -⟩ := existsUnique_algebraizedTowerUnit X I A E e
   obtain ⟨μ, hμ, -⟩ := existsUnique_algebraizedTowerMul X I A E e
   let m : E.obj.obj.val ⊗ E.obj.obj.val ⟶ E.obj.obj.val :=
-    (PresheafOfModules.sheafificationHomEquiv (𝟙 X.ringCatSheaf.obj)) μ.hom
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (commRingSheaf X)).homEquiv _ _
+      μ.hom
   let T := idealPowerTowerOver I A
   let p (n : ℕ) : E.obj.obj ⟶ Stacks.Morphisms.pushforwardStructureSheaf (T.obj n).hom :=
     Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)
@@ -1540,7 +1576,8 @@ private theorem exists_algebraizedTowerData
       (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace
         E.obj.obj E.obj.obj U
         (x ⊗ₜ[Γ(X, U.unop)] y))) (hμ n)
-    exact hh.trans (tensorMulSheafMap_apply (T.obj n).hom E.obj.obj (p n) U.unop x y)
+    exact (congrArg (fun t => (p n).val.app U t) (homEquiv_app_tmul μ.hom U x y)).trans
+      (hh.trans (tensorMulSheafMap_apply (T.obj n).hom E.obj.obj (p n) U.unop x y))
   obtain ⟨hc, ha, hu⟩ := algebraLaws_of_separating_homs E.obj.obj E.property T.obj p
     (fun P hP f g hh => presheafHom_ext_of_completion X I hP E _ e hh)
     η.hom m hunit hmul

@@ -104,7 +104,8 @@ Let `x` be a finite type point of `𝒳`.
 
 The `@[stacks 06N3]` registration of the whole equivalence sits here, on
 `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`: it cannot sit in
-`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationTheorem`, which is upstream of the
+`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationTheorem`, which is upstream of
+the
 family assembly this file uses and so cannot name the implication (1) ⟹ (3). The implication
 (2) ⟹ (1) is `AlgebraicGeometry.Stack.isAbsolutelyDM_of_isDeligneMumfordStack` in
 `StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationUnconditional`.

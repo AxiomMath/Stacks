@@ -198,9 +198,7 @@ structure IdealKernel {O O₀ : Sheaf J CommRingCat.{w}} {f : O ⟶ O₀} {I : S
   makes the identification canonical rather than one of its multiples. -/
   emb_tmul (n : ℤ) (U : Cᵒᵖ) (x : (L.F.X n).val.obj U) (a : I.val.obj U) :
     (emb n).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
           (PresheafOfModules.tensorObj ((L.baseChange.complex.X n)).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj U from S.incl U a) • x

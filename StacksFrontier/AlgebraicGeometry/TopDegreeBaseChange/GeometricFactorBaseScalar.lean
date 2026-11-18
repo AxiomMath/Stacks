@@ -72,9 +72,9 @@ theorem tensorFactorMap_smul_id_app (F : W.left.Modules) (r : R) (M : W.left.Mod
         ((baseRingToSections R W U r : W.left.presheaf.obj U)) x y).trans
       (Stacks.RingedSpace.map_tmul_smul LinearMap.id
         ((baseRingToSections R W U r : W.left.presheaf.obj U)) x y).symm
-  exact congrArg
-    (Stacks.SheafOfModules.TensorSheafification.sheafify W.left.presheaf
-      (AlgebraicGeometry.ringSheafCond W.left)).map h
+  exact congrArg (Stacks.SheafOfModules.Tensor.sheafification
+    ⟨W.left.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (W.left.presheaf)
+      (forget₂ CommRingCat RingCat) ((ringSheafCond W.left))⟩).map h
 
 /-- A base scalar on the fixed factor of `F ⊗ -` is that scalar on the tensor product:
 `(r • 𝟙 F) ⊗ 𝟙 M = r • 𝟙 (F ⊗ M)`. -/

@@ -14,7 +14,8 @@ Let `k` be a field, `S` a finite type `k`-algebra, `X = Spec(S)`, `𝔮` a prime
 `dim(U)` over the open neighbourhoods `U` of `x`; in Lean this is
 `topologicalKrullDimAt (PrimeSpectrum S) x`.
 
-`noether_normalization_at_point` in `StacksFrontier.RingTheory.NoetherNormalization.Basic` states the
+`noether_normalization_at_point` in `StacksFrontier.RingTheory.NoetherNormalization.Basic` states
+the
 lemma with `localDimAtPrime k 𝔮`, the infimum of `dim(S_g)` over `g ∉ 𝔮`. Here we prove that the
 two agree (`topologicalKrullDimAt_eq_localDimAtPrime`): the standard opens `D(g)`, `g ∉ 𝔮`, form a
 basis of neighbourhoods of `x`, `dim` is monotone in the open set, and `D(g)` is homeomorphic to

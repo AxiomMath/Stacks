@@ -104,10 +104,7 @@ theorem whiskerLeft_eq_sheafTensor (D : Mod R) {A B : Mod R} (g : A ⟶ B) :
       (@MonoidalCategory.id_tensorHom _ _
         (Stacks.SheafOfModules.monoidalCategory R.obj (isSheaf_ringSheaf R)) D _ _ g).symm).trans
     ((tensorHom_eq_sheafifyMap R.obj (isSheaf_ringSheaf R) (𝟙 D) g).trans
-      (congrArg
-        (Stacks.SheafOfModules.TensorSheafification.sheafify R.obj (isSheaf_ringSheaf R)).map
-        (@MonoidalCategory.id_tensorHom _ _ _ ((_root_.SheafOfModules.forget _).obj D) _ _
-          ((_root_.SheafOfModules.forget _).map g))))
+      (Stacks.SheafOfModules.Tensor.sheafTensor_obj_map R D g).symm)
 
 /-- Right whiskering in the strict structure is the map of the sheaf tensor bifunctor. -/
 theorem whiskerRight_eq_sheafTensor {A B : Mod R} (g : A ⟶ B) (D : Mod R) :
@@ -120,10 +117,7 @@ theorem whiskerRight_eq_sheafTensor {A B : Mod R} (g : A ⟶ B) (D : Mod R) :
       (@MonoidalCategory.tensorHom_id _ _
         (Stacks.SheafOfModules.monoidalCategory R.obj (isSheaf_ringSheaf R)) _ _ g D).symm).trans
     ((tensorHom_eq_sheafifyMap R.obj (isSheaf_ringSheaf R) g (𝟙 D)).trans
-      (congrArg
-        (Stacks.SheafOfModules.TensorSheafification.sheafify R.obj (isSheaf_ringSheaf R)).map
-        (@MonoidalCategory.tensorHom_id _ _ _ _ _ ((_root_.SheafOfModules.forget _).map g)
-          ((_root_.SheafOfModules.forget _).obj D))))
+      (Stacks.SheafOfModules.Tensor.sheafTensor_map_app R g D).symm)
 
 /-- Tensoring on the left in the strict structure is the sheaf tensor bifunctor. -/
 def tensorLeftIsoSheafTensor (D : Mod R) :

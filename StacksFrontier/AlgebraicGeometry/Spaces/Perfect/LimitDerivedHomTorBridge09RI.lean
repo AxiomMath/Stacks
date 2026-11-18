@@ -13,8 +13,9 @@ hypothesis in the spelling Stacks 0DKV carries: `K₀`, read through restriction
 `𝟙⁻¹𝒪_{X₀} ⟶ 𝒪_{X₀}`, locally has finite Tor dimension.  Clause (2) of the tag asks instead
 that `K₀` have finite Tor dimension on the small étale ringed site of `X₀`, which is the
 spelling of the second disjunct of the hypothesis `hcase` of Stacks 09RI as it is stated in
-`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`
-of `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`, which
+`isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`
+(in the namespace `AlgebraicGeometry.Space.DescentSituation`) of
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`, which
 proves both clauses of the tag.
 
 This file restates the theorem with that hypothesis, the bridge being
@@ -100,7 +101,7 @@ quasi-coherent and `K₀` has finite Tor dimension.
 
 `T` is the derived tensor product the Tor condition is predicated on.  Both clauses of the tag
 together are
-`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`. -/
+`isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`. -/
 theorem isHomColimit_canonicalDerivedPullbackSystem_of_isPseudoCoherent_of_hasFiniteTorDimension
     (hI : Cardinal.mk I < B.cutoff.ord.cof)
     (T : Stacks.SheafOfModules.DerivedTensorProduct

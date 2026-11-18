@@ -62,7 +62,7 @@ contexts where those inputs are supplied in another form. Both inputs are theore
 library. The step from condition (1) to condition (3) uses Stacks 0AQ0, that a morphism of
 formal algebraic spaces whose composite with a further morphism is representable by algebraic
 spaces is itself representable by algebraic spaces; it is the argument `h0AQ0`, proved as
-`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_of_comp_of_isFormalAlgebraicSpace`.
+`FormalSpace.isRepresentableByAlgebraicSpacesULift_of_comp_of_isFormalAlgebraicSpace`.
 The step from condition (3) to condition (4) needs the fibre products `Vⱼ ×_Y X` to be formal
 algebraic spaces, which is Stacks 0AJ3; it is the argument `h0AJ3`, proved as
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace`.
@@ -78,7 +78,8 @@ identities of `X` and of `Y` is a square as in condition (3) whose upper horizon
 The implication from condition (2) to condition (1) is the one the source closes with Stacks
 0AMP, which this library proves for presheaves of the base universe as
 `AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`.
-What is proved here is the étale case with the source column representable by objects of the site rather
+What is proved here is the étale case with the source column representable by objects of the site
+rather
 than by algebraic spaces, which runs on Stacks 0BGR, a theorem of this library; the step into
 the value universe of a formal algebraic space is
 `AlgebraicGeometry.Space.isAlgebraicSpaceULift_of_relative_surjective_etale`. Locality on the
@@ -184,7 +185,7 @@ composite `U ⟶ X ⟶ Y` is representable by algebraic spaces by Stacks 0APY, a
 through `V`, so Stacks 0AQ0 applies to `U ⟶ V ⟶ Y`.
 
 The argument `h0AQ0` is Stacks 0AQ0, a theorem of this library
-(`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_of_comp_of_isFormalAlgebraicSpace`);
+(`FormalSpace.isRepresentableByAlgebraicSpacesULift_of_comp_of_isFormalAlgebraicSpace`);
 `AlgebraicGeometry.FormalSpace.isRepresentable_tfae` discharges it. -/
 theorem isRepresentableOnEverySquare_of_isRepresentable {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hY : IsFormalAlgebraicSpace B S hS Y)

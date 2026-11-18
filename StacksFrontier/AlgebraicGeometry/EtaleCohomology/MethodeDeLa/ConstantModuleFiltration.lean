@@ -62,9 +62,11 @@ transporting that filtration back through the dictionary gives the filtration of
 
 Tag 0GJ0 itself is
 `Stacks.EtaleCohomology.exists_finiteEtale_primeToEll_constantModuleFiltration`
-(`StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.UnibranchConstantModuleFiltration`) and
+(`StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.UnibranchConstantModuleFiltration`)
+and
 `Stacks.EtaleCohomology.exists_primeToEll_finiteEtale_finiteModuleFiltration_general`
-(`StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.ConstantModuleFiltrationUnconditional`),
+(`ConstantModuleFiltrationUnconditional` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa`),
 which follow the same proof with the trivialization of `F` by pointed Galois covers and Galois
 descent along them, and so need no dictionary.
 

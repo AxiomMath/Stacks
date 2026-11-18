@@ -144,6 +144,55 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
   Stacks.SheafInternalHom.monoidalCategory Stacks.SheafInternalHom.sheafifyMonoidal
   Stacks.SheafInternalHom.braidedCategory Stacks.SheafInternalHom.schemeMonoidalCategory
 
+open Stacks.SheafOfModules.Tensor in
+/-- The unit of the sealed `sheafificationForgetAdjunction` followed by the inverse of
+`sheafificationIso` is Mathlib's sheafification unit, read in the plain forgetful functor through
+`forgetCompRestrictScalarsIdIso`. -/
+private theorem sheafificationForgetAdjunction_unit_comp_sheafificationIso_inv {C : Type*}
+    [Category C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (P : PresheafOfModules.{u} (ringSheaf R).obj) :
+    (sheafificationForgetAdjunction R).unit.app P ≫
+        (SheafOfModules.forget _).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app P) =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P ≫
+        (forgetCompRestrictScalarsIdIso R).hom.app _ := by
+  rw [sheafificationForgetAdjunction_unit_app, ← unit_comp_sheafificationIso_hom_app,
+    Category.assoc, Category.assoc, ← NatTrans.naturality, ← Functor.map_comp_assoc,
+    Iso.hom_inv_id_app, CategoryTheory.Functor.map_id, Category.id_comp]
+
+/-- **The sealed unit read through `sheafTensorObjIso`.** The section
+`Stacks.SheafOfModules.tensorSectionsAt` of a pure tensor, the unit of the sealed sheafification,
+is carried by `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` to the image of the pure tensor
+under Mathlib's sheafification unit. -/
+private theorem sheafTensorObjIso_hom_tensorSectionsAt {U : X.Opens} (m : Γ(L, U))
+    (p : Γ(L', U)) :
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ L L').hom.val.app (op U)
+        (Stacks.SheafOfModules.tensorSectionsAt X.sheaf.obj X.ringCatSheaf.property (op U) L L'
+          m p) =
+      ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+          (PresheafOfModules.tensorObj (O := X.sheaf.obj) L.val L'.val)).app (op U)
+            (m ⊗ₜ p) :=
+  PresheafOfModules.hom_congr_apply'
+    (sheafificationForgetAdjunction_unit_comp_sheafificationIso_inv X.sheaf
+      (PresheafOfModules.tensorObj (O := X.sheaf.obj) L.val L'.val)) (op U) (m ⊗ₜ p)
+
+/-- `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj` sends the section
+`Stacks.SheafOfModules.tensorSectionsAt` of a pure tensor to its product
+`Stacks.SectionTensorFormula.tensorSection`. -/
+private theorem tensorSheafIsoTensorObj_hom_tensorSectionsAt {U : X.Opens} (m : Γ(L, U))
+    (p : Γ(L', U)) :
+    (Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
+        (Stacks.SectionTensorFormula.schemeSheafCondition X) L L').hom.val.app (op U)
+        (Stacks.SheafOfModules.tensorSectionsAt X.sheaf.obj X.ringCatSheaf.property (op U) L L'
+          m p) =
+      Stacks.SectionTensorFormula.tensorSection L L' m p := by
+  rw [Stacks.SectionTensorFormula.tensorSection_eq]
+  exact congrArg (fun z => (Stacks.SectionTensorFormula.sheafifyIsoTensorObj X.presheaf
+    (Stacks.SectionTensorFormula.schemeSheafCondition X) L L').hom.val.app (op U) z)
+    (sheafTensorObjIso_hom_tensorSectionsAt m p)
+
 /-- **The two products of sections detect the same equalities.** Two pure tensors of sections
 over `U` agree in the localized monoidal product `L ⊗ L'` of `Stacks.SectionTensorFormula` exactly
 when they agree in the sheafified sectionwise one: the former is the latter read through the
@@ -157,11 +206,12 @@ theorem tensorSectionsAt_eq_of_tensorSection_eq {U : X.Opens} {m m' : Γ(L, U)}
         m' p' := by
   set e := Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
     (Stacks.SectionTensorFormula.schemeSheafCondition X) L L'
-  have key : ∀ z, e.inv.val.app (op U) (e.hom.val.app (op U) z) = z := fun z => by
-    change ((e.hom ≫ e.inv).val.app (op U)) z = z
-    rw [e.hom_inv_id]
-    rfl
-  exact (key _).symm.trans ((congrArg (e.inv.val.app (op U)) h).trans (key _))
+  have key : ∀ z, e.inv.val.app (op U) (e.hom.val.app (op U) z) = z :=
+    PresheafOfModules.hom_congr_apply' (congrArg SheafOfModules.Hom.val e.hom_inv_id) (op U)
+  have h' := congrArg (e.inv.val.app (op U)) h
+  rw [← tensorSheafIsoTensorObj_hom_tensorSectionsAt,
+    ← tensorSheafIsoTensorObj_hom_tensorSectionsAt] at h'
+  exact (key _).symm.trans (h'.trans (key _))
 
 /-- **Cross-multiplication in the localized `L ⊗ L'`**: if `sᵢ ⊗ s'ⱼ = sⱼ ⊗ s'ᵢ` as global
 sections of the monoidal product of `Stacks.SectionTensorFormula`, the two families

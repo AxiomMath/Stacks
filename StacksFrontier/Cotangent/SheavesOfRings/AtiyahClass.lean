@@ -76,7 +76,8 @@ construction and make no claim about the standard resolution.
 
 The construction of Tags 09DH and 09DI at the standard resolution itself is in
 `StacksFrontier/Cotangent/SheavesOfRings/AtiyahTriangle.lean` and
-`StacksFrontier/Cotangent/SheavesOfRings/AtiyahClassDefinite.lean`: the functor `Lπ_!` of Tag 09D3 is
+`StacksFrontier/Cotangent/SheavesOfRings/AtiyahClassDefinite.lean`: the functor `Lπ_!` of Tag 09D3
+is
 `CategoryTheory.Sheaf.resolutionLowerShriek`, the short exact sequence of simplicial
 `P_•`-modules is `CategoryTheory.Sheaf.simplicialPrincipalPartsShortComplex_shortExact`, the
 identifications of the outer terms are `CategoryTheory.Sheaf.atiyahTriangleFirstTermIso` and

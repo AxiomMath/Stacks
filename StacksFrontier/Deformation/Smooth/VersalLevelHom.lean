@@ -45,11 +45,11 @@ theorem FormalObject.exists_level_hom_of_isVersal (hp : IsPredeformationCategory
     (ξ : FormalObject p) (hξ : IsVersal hp.cofibered ξ) (x : F) :
     ∃ n, Nonempty (ξ.level n ⟶ x) := by
   let H := associatedMorphism hp.cofibered ξ (chosenPushforwardsOfCofibered p hp.cofibered)
-  have hR : IsPredeformationCategory (CategoryOfElements.π (restrictedCoyoneda ξ.base)) :=
+  have hR : IsPredeformationCategory (Functor.Elements.π (restrictedCoyoneda ξ.base)) :=
     (isPredeformationCategory_iff _).2 (restrictedCoyoneda_isPredeformationFunctor ξ.base)
   have : H.toBasedFunctor.toFunctor.EssSurj :=
     essSurj_of_isSmooth (𝓕 := BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda ξ.base))) (𝓖 := BasedCategory.ofFunctor p)
+      (Functor.Elements.π (restrictedCoyoneda ξ.base))) (𝓖 := BasedCategory.ofFunctor p)
       hR hp H.toBasedFunctor (hξ _)
   let α := H.toBasedFunctor.toFunctor.objPreimage x
   exact ⟨H.level α, ⟨H.pointInclusion α ≫ (H.toBasedFunctor.toFunctor.objObjPreimageIso x).hom⟩⟩

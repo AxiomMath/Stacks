@@ -143,8 +143,7 @@ noncomputable def baseChangeToDirectLimit (i : ι) :
   toFun := TensorProduct.liftAddHom (smulOfAddHom M f i) (smulOfAddHom_balanced M f i)
   map_add' := map_add _
   map_smul' s t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul r x =>
       rw [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul,
         TensorProduct.liftAddHom_tmul, RingHom.id_apply]
@@ -185,8 +184,7 @@ noncomputable def colimitModuleToDirectLimit :
     ColimitModule M f →ₗ[ColimitRing G φ] _root_.DirectLimit M f :=
   Module.DirectLimit.lift (ColimitRing G φ) ι (baseChangedModule M) (baseChangeMap M f)
     (baseChangeToDirectLimit M f) (fun i j h t => by
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul r x =>
         have hrx : r ⊗ₜ[G i] x = r • (1 : ColimitRing G φ) ⊗ₜ[G i] x := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -213,8 +211,7 @@ noncomputable def directLimitEquivColimitModule :
       intro z
       induction z using Module.DirectLimit.induction_on with
       | ih i t =>
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul r x =>
           have hrx : r ⊗ₜ[G i] x = r • (1 : ColimitRing G φ) ⊗ₜ[G i] x := by
             rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

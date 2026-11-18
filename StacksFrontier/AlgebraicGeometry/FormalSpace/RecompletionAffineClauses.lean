@@ -27,16 +27,14 @@ needs the ring-theoretic machinery of Stacks 0GXX.
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.completionOfAffineIsAffine_of_cited`: clause (1) under the
-  hypotheses below, a corollary of `AlgebraicGeometry.FormalSpace.completionOfAffineIsAffine`
-  (**clause (1)**), in the ambient spelling
+* `AlgebraicGeometry.FormalSpace.completionOfAffineIsAffine_of_cited`: clause (1), which is
+  `AlgebraicGeometry.FormalSpace.completionOfAffineIsAffine`, in the ambient spelling
   `AlgebraicGeometry.FormalSpace.CompletionOfAffineIsAffine` — *every* completion of *every*
   affine formal algebraic space over `S` along *every* closed set of its points is affine
-  formal. This is the form Stacks 0GVR
-  (`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong`) carries as its
-  hypothesis `haff`, and
-  `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong_of_cited` is that
-  theorem with `haff` discharged by this one.
+  formal.
+* `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong_of_cited`: Stacks 0GVR
+  (`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong`), whose affine case
+  is clause (1).
 
 ## What is assumed
 
@@ -112,33 +110,15 @@ space, for every such space and every such set at once. Through the bijection
 `|Y_red| = |Y|` given by the inclusion of a reduction this is the source's statement about a
 closed subset of `|Y_red|`, and no reduction enters the statement.
 
-The two general cited inputs `haiy` (Stacks 0AIY at the affine stages) and `hcolim`
-(completion commutes with directed colimits) and the Stacks 0AIS condition `hset` are
-hypotheses; see the section "What is assumed" of this file. None of them is used: this is
-`AlgebraicGeometry.FormalSpace.completionOfAffineIsAffine` (clause (1) of Stacks 0GVV), which
-assumes nothing. -/
-theorem completionOfAffineIsAffine_of_cited
-    (haiy : ∀ (V : BigAffineFppf B S hS)
-      (V' : Set (Space.pointsULift.{u + 1} B S hS (affineStageSheaf B S hS V).obj)),
-      @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS
-        (affineStageSheaf B S hS V).obj) V' →
-      IsAffineFormalAlgebraicSpace B S hS
-        (Space.completionSheafULift B S hS (affineStageSheaf B S hS V) V'))
-    (hcolim : ∀ (K : Type (u + 1)) (pre : Preorder K), letI := pre
-      Nonempty K → IsDirected K (· ≤ ·) →
-      ∀ (F : K ⥤ FppfSheaf B S hS) (Z : FppfSheaf B S hS) (eZ : Z ≅ colimit F)
-        (V : Set (Space.pointsULift.{u + 1} B S hS Z.obj)),
-        Nonempty (Space.completionSheafULift B S hS Z V ≅
-          colimit (completionColimitDiagram B S hS F Z eZ V)))
-    (hset : ∀ (Y : FppfSheaf B S hS)
-      (W : Set (Space.pointsULift.{u + 1} B S hS Y.obj)),
-      SatisfiesSetTheoreticCondition B S hS (Space.completionSheafULift B S hS Y W)) :
+This is `AlgebraicGeometry.FormalSpace.completionOfAffineIsAffine` (clause (1) of Stacks
+0GVV), which assumes nothing; the cited inputs discussed in the section "What is assumed" of
+this file are not needed. -/
+theorem completionOfAffineIsAffine_of_cited :
     CompletionOfAffineIsAffine B S hS :=
   completionOfAffineIsAffine B S hS
 
-/-- **Stacks 0GVR** with its hypothesis `haff` discharged: the completion of a formal
-algebraic space `X` over `S` along a closed subset `T` of the points of a reduction is a formal
-algebraic space, granted only the general cited inputs of clause (1) of Stacks 0GVV.
+/-- **Stacks 0GVR**: the completion of a formal algebraic space `X` over `S` along a closed
+subset `T` of the points of a reduction is a formal algebraic space.
 
 This is `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong` (Stacks 0GVR)
 with its affine-case hypothesis supplied by
@@ -151,21 +131,6 @@ theorem isFormalAlgebraicSpace_completionAlong_of_cited {X Xred : FppfSheaf B S 
     (T : Set (Space.pointsULift.{u + 1} B S hS Xred.obj))
     (hT : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS X.obj)
       (Space.pointsMapULift.{u + 1} B S hS Xred.obj i.hom '' T))
-    (_haiy : ∀ (V : BigAffineFppf B S hS)
-      (V' : Set (Space.pointsULift.{u + 1} B S hS (affineStageSheaf B S hS V).obj)),
-      @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS
-        (affineStageSheaf B S hS V).obj) V' →
-      IsAffineFormalAlgebraicSpace B S hS
-        (Space.completionSheafULift B S hS (affineStageSheaf B S hS V) V'))
-    (_hcolim : ∀ (K : Type (u + 1)) (pre : Preorder K), letI := pre
-      Nonempty K → IsDirected K (· ≤ ·) →
-      ∀ (F : K ⥤ FppfSheaf B S hS) (Z : FppfSheaf B S hS) (eZ : Z ≅ colimit F)
-        (V : Set (Space.pointsULift.{u + 1} B S hS Z.obj)),
-        Nonempty (Space.completionSheafULift B S hS Z V ≅
-          colimit (completionColimitDiagram B S hS F Z eZ V)))
-    (_hsetAll : ∀ (Y : FppfSheaf B S hS)
-      (W : Set (Space.pointsULift.{u + 1} B S hS Y.obj)),
-      SatisfiesSetTheoreticCondition B S hS (Space.completionSheafULift B S hS Y W))
     (hset : SatisfiesSetTheoreticCondition B S hS (completionAlong i T)) :
     IsFormalAlgebraicSpace B S hS (completionAlong i T) :=
   isFormalAlgebraicSpace_completionAlong B S hS hX hi T hT hset

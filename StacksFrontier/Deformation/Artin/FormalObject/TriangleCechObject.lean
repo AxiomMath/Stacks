@@ -489,7 +489,7 @@ theorem triangleLevel_away_algHom_ext {g : triangleLevel K n} {T : Type u} [Comm
   have h := triangleLevel_algHom_ext
     (f := f₁.comp (IsScalarTower.toAlgHom K (triangleLevel K n) (Localization.Away g)))
     (g := f₂.comp (IsScalarTower.toAlgHom K (triangleLevel K n) (Localization.Away g))) hx hy
-  refine AlgHom.coe_ringHom_injective (IsLocalization.ringHom_ext (Submonoid.powers g) ?_)
+  refine AlgHom.toRingHom_injective (IsLocalization.ringHom_ext (Submonoid.powers g) ?_)
   exact RingHom.ext fun r => AlgHom.congr_fun h r
 
 variable {k : Type u} [CommRing k] [Algebra k K] (A : Over (Spec (.of k))) [GrpObj A]

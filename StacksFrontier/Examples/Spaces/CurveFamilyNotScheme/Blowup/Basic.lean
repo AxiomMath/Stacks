@@ -56,7 +56,7 @@ abbrev pointBlowupToBase : pointBlowup y hy ⟶ Y := blowUpToBase (pointIdeal y 
 instance isProper_pointBlowupToBase [IsLocallyNoetherian Y] :
     IsProper (pointBlowupToBase y hy) :=
   isProper_blowUpToBase_of_fg _ fun U => by
-    haveI := IsLocallyNoetherian.component_noetherian U
+    have := IsLocallyNoetherian.component_noetherian U
     exact IsNoetherian.noetherian _
 
 /-- The exceptional set `E = π⁻¹(y)`. -/

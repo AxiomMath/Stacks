@@ -137,9 +137,7 @@ private theorem tmul_zsmul_right (n : ℤ) (a : A.val.obj U) (b : B.val.obj U) :
 private theorem tmul_restrict {V : (TopologicalSpace.Opens Z.carrier)ᵒᵖ} (k : U ⟶ V)
     (a : A.val.obj U) (b : B.val.obj U) :
     (A ⊗ B).val.map k (tmul Z A B U a b) = tmul Z A B V (A.val.map k a) (B.val.map k b) :=
-  (PresheafOfModules.naturality_apply
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit Z
-      (PresheafOfModules.tensorObj A.val B.val)) k (a ⊗ₜ b)).symm
+  (PresheafOfModules.naturality_apply (PresheafOfModules.tensorSheafUnit A B) k (a ⊗ₜ b)).symm
 
 private theorem leftUnitor_inv_app
     (M : SheafOfModules.{u} (Stacks.RingedSpace.structureRingSheaf Z)) (x : M.val.obj U) :
@@ -433,6 +431,20 @@ theorem twistedFormsWedgeSection_restrict (q : ℕ) {U V : (Y.Opens)ᵒᵖ} (k :
   (PresheafOfModules.naturality_apply (twistedFormsWedge g H q).val k _).symm.trans
     (congrArg _ (tmul_restrict U k η ω))
 
+/-- **On a pure tensor the twisted wedge pairing is the exterior product**, read on the twisted
+wedge pairing as a morphism: `(s ⊗ α) ⊗ ω ↦ s ⊗ (α ∧ ω)`. -/
+theorem twistedFormsWedge_tmul (q : ℕ) (U : (Y.Opens)ᵒᵖ) (s : H.val.obj U)
+    (α : (relativeDifferentials g).val.obj U)
+    (ω : (relativeDifferentialForms g (q : ℤ)).val.obj U) :
+    (twistedFormsWedge g H q).val.app U
+        (tmul Y.toRingedSpace (modulesOnRing H ⊗ differentialsOnRing g) (formsOnRing g q) U
+          (tmul Y.toRingedSpace (modulesOnRing H) (differentialsOnRing g) U s α) ω) =
+      tmul Y.toRingedSpace (modulesOnRing H) (formsOnRing g ((q + 1 : ℕ) : ℤ)) U s
+        (relativeExteriorProduct g q U α ω) := by
+  rw [twistedFormsWedge, SheafOfModules.comp_val_app_apply,
+    Stacks.PullbackTensorCoherence.associator_hom_tmul,
+    Stacks.PullbackTensorCoherence.whiskerLeft_tmul, relativeExteriorProductHom_tmul]
+
 /-- **On a pure tensor the twisted wedge pairing is the exterior product**:
 `(s ⊗ α) ∧ ω = s ⊗ (α ∧ ω)`, with `α ∧ ω` the relative exterior product
 `AlgebraicGeometry.Scheme.Hom.relativeExteriorProduct`. -/
@@ -440,18 +452,8 @@ theorem twistedFormsWedgeSection_tmul (q : ℕ) (U : (Y.Opens)ᵒᵖ) (s : H.val
     (α : (relativeDifferentials g).val.obj U)
     (ω : (relativeDifferentialForms g (q : ℤ)).val.obj U) :
     twistedFormsWedgeSection g H q U (connectionTmul g H U s α) ω =
-      twistedTmul g H (q + 1) U s (relativeExteriorProduct g q U α ω) := by
-  have h₁ := Stacks.PullbackTensorCoherence.associator_hom_tmul (Z := Y.toRingedSpace)
-    (A := modulesOnRing H) (B := differentialsOnRing g) (D := formsOnRing g q) U s α ω
-  have h₂ : (twistedFormsWedge g H q).val.app U
-      (tmul Y.toRingedSpace (modulesOnRing H ⊗ differentialsOnRing g) (formsOnRing g q) U
-        (tmul Y.toRingedSpace (modulesOnRing H) (differentialsOnRing g) U s α) ω) =
-      tmul Y.toRingedSpace (modulesOnRing H) (formsOnRing g ((q + 1 : ℕ) : ℤ)) U s
-        (relativeExteriorProduct g q U α ω) :=
-    (congrArg (fun z => (modulesOnRing H ◁ relativeExteriorProductHom g q).val.app U z) h₁).trans
-      ((Stacks.PullbackTensorCoherence.whiskerLeft_tmul _ U s _).trans
-        (congrArg _ (relativeExteriorProductHom_tmul g q U α ω)))
-  exact h₂
+      twistedTmul g H (q + 1) U s (relativeExteriorProduct g q U α ω) :=
+  twistedFormsWedge_tmul g H q U s α ω
 
 /-! ### The switch `Ω^1_{Y/S} ⊗ ℱ ≅ ℱ ⊗ Ω_{Y/S}` -/
 
@@ -569,7 +571,7 @@ theorem zsmul_formsTensorWedge_comp_braiding (q : ℕ) :
           (((relativeDifferentialFormsAlgebra g).mul 1 q).app U a ω)) := by
     rw [SheafOfModules.comp_val_app_apply, Stacks.PullbackTensorCoherence.whiskerRight_tmul,
       formsTensorConnectionIso_hom_tmul_inv]
-    refine (twistedFormsWedgeSection_tmul g H q U s _ ω).trans ?_
+    refine (twistedFormsWedge_tmul g H q U s _ ω).trans ?_
     refine congrArg (tmul Y.toRingedSpace (modulesOnRing H) (formsOnRing g ((q + 1 : ℕ) : ℤ)) U s)
       (congrArg (transportDifferentialForm g _ U) ?_)
     exact congrArg (fun z => ((relativeDifferentialFormsAlgebra g).mul 1 q).app U z ω)

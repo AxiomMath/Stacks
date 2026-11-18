@@ -94,8 +94,9 @@ rewrites are therefore given their arguments explicitly, which elaborates the re
 default transparency and leaves a closed pattern to match.
 
 The tensor product is the native `Stacks.SheafOfModules.Tensor.sheafTensor`, and its map
-from the presheaf tensor is the generic sheafification-adjunction unit. The local-section
-construction `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` evaluates
+from the presheaf tensor is the unit of its sealed sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. The local-section construction
+`Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` evaluates
 that unit, so no bridge between tensor constructions is needed.
 
 The module structures on the two stalks that
@@ -171,13 +172,11 @@ lemma comparison_pullbackUnit_unit_tmul (U : (Opens Y.carrier)ᵒᵖ) (a : A.val
     Hom.app (comparison f A B).val ((opensMap f).op.obj U)
         (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           ⟨Y.presheaf, Y.IsSheaf⟩).obj A).obj B) U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
               (_root_.PresheafOfModules.tensorObj A.val B.val)) U (a ⊗ₜ b))) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
           (_root_.PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
             ((pullbackFunctor f).obj B).val))
         ((opensMap f).op.obj U) (pullbackUnit f A U a ⊗ₜ pullbackUnit f B U b) :=
@@ -592,13 +591,11 @@ lemma comparisonBifunctorIso_hom_homEquiv_unit_tmul
             ⟨X.presheaf, X.IsSheaf⟩).obj ((pullbackFunctor f).obj A)).obj
               ((pullbackFunctor f).obj B))
           ((comparisonBifunctorIso f).hom.app (A, B))).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
             (_root_.PresheafOfModules.tensorObj A.val B.val)) U (a ⊗ₜ b)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
           (_root_.PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
             ((pullbackFunctor f).obj B).val))
         ((opensMap f).op.obj U) (pullbackUnit f A U a ⊗ₜ pullbackUnit f B U b) :=

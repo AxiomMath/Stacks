@@ -176,6 +176,12 @@ theorem blowupPointSection_add (N : ModuleCat.{u} (A ⧸ I ^ n)) (z z' : resModu
   unfold blowupPointSection
   rw [resModulePointMap_add, Functor.map_add, Preadditive.comp_add]
 
+/-- A composite of morphisms of sheaves of modules on a scheme, on a section. -/
+private theorem modules_comp_val_app_apply {X : Scheme.{u}} {M M' M'' : X.Modules} (f : M ⟶ M')
+    (g : M' ⟶ M'') (U : X.Opens) (x : M.val.obj (op U)) :
+    ((f ≫ g).val.app (op U)).hom x = (g.val.app (op U)).hom ((f.val.app (op U)).hom x) :=
+  rfl
+
 /-- **Evaluation at `z`**, `e_{p^*z} : (p^*M)^∨ ⟶ 𝒪_{Yₙ}`: the dual paired with the global section
 of `p^*M` attached to `z`. -/
 def blowupDualEval (N : ModuleCat.{u} (A ⧸ I ^ n)) (z : resModule I n N) :
@@ -191,9 +197,7 @@ theorem blowupDualEval_app (N : ModuleCat.{u} (A ⧸ I ^ n)) (z : resModule I n 
       blowupPairing I (𝟙 (blowupDual I n N)) U x
         (((blowupPointSection I n N z).val.app (op U)).hom
           (Stacks.SheafOfModules.OnSpace.unitSection (blowupScheme I).toRingedSpace (op U) 1)) := by
-  change (((blowupCurry I).symm (𝟙 (blowupDual I n N))).val.app (op U)).hom
-    (((blowupDual I n N ◁ blowupPointSection I n N z).val.app (op U)).hom
-      ((((ρ_ (blowupDual I n N)).inv).val.app (op U)).hom x)) = _
+  rw [blowupDualEval, modules_comp_val_app_apply, modules_comp_val_app_apply]
   refine (congrArg (fun w => (((blowupCurry I).symm (𝟙 (blowupDual I n N))).val.app (op U)).hom
     (((blowupDual I n N ◁ blowupPointSection I n N z).val.app (op U)).hom w))
     (Stacks.SheafOfModules.OnSpace.rightUnitor_inv_apply (blowupScheme I).toRingedSpace
@@ -214,9 +218,7 @@ theorem blowupDualMap_comp_blowupDualEval {N N' : ModuleCat.{u} (A ⧸ I ^ n)} (
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  change ((blowupDualEval I n N z).val.app (op U)).hom
-      (((blowupDualMap I n f).val.app (op U)).hom x) =
-    ((blowupDualEval I n N' _).val.app (op U)).hom x
+  rw [modules_comp_val_app_apply]
   refine (blowupDualEval_app I n N z U _).trans ?_
   refine Eq.trans ?_ (blowupDualEval_app I n N' (f z) U x).symm
   refine Eq.trans ?_ (congrArg (fun ψ : blowupUnit I ⟶ (blowupModPullback I n).obj N' =>

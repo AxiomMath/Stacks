@@ -232,6 +232,41 @@ theorem sheafificationRestrictScalarsPushforwardIso_hom_naturality {C : Type u�
   exact adjS.counit_naturality (f := (⟨P.map ((PresheafOfModules.sheafification (R := R)
     (𝟙 R.obj)).map g).val⟩ : H' M ⟶ H' M'))
 
+section SheafTensorObjIso
+
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
+  (R : Sheaf J CommRingCat.{r})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{m}] [HasWeakSheafify J AddCommGrpCat.{m}]
+
+/-- `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` is natural in both factors: it carries the
+tensor product sheaf of two morphisms to Mathlib's sheafification of their objectwise tensor
+product. -/
+private theorem sheafTensorObjIso_hom_naturality
+    {F F' G G' : _root_.SheafOfModules.{m} (Tensor.ringSheaf R)} (u : F ⟶ F') (v : G ⟶ G') :
+    (((Tensor.sheafTensor R).map u).app G ≫ ((Tensor.sheafTensor R).obj F').map v) ≫
+      (Tensor.sheafTensorObjIso R F' G').hom =
+    (Tensor.sheafTensorObjIso R F G).hom ≫
+      (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
+        (PresheafOfModules.tensorHom (O := R.obj) u.val v.val) :=
+  (congrArg (· ≫ (Tensor.sheafTensorObjIso R F' G').hom)
+    (Tensor.sheafTensor_uncurry_map R u v)).trans
+    ((Tensor.sheafificationIso R).inv.naturality _)
+
+/-- The inverse of `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` is natural in both
+factors. -/
+private theorem sheafTensorObjIso_inv_naturality
+    {F F' G G' : _root_.SheafOfModules.{m} (Tensor.ringSheaf R)} (u : F ⟶ F') (v : G ⟶ G') :
+    (Tensor.sheafTensorObjIso R F G).inv ≫
+      (((Tensor.sheafTensor R).map u).app G ≫ ((Tensor.sheafTensor R).obj F').map v) =
+    (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
+        (PresheafOfModules.tensorHom (O := R.obj) u.val v.val) ≫
+      (Tensor.sheafTensorObjIso R F' G').inv :=
+  ((congrArg ((Tensor.sheafTensorObjIso R F G).inv ≫ ·)
+    (Tensor.sheafTensor_uncurry_map R u v)).trans
+    ((Tensor.sheafificationIso R).hom.naturality _).symm)
+
+end SheafTensorObjIso
+
 section PushforwardTensor
 
 variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
@@ -285,33 +320,36 @@ theorem pushforwardTensorObjIso_hom_naturality
   PresheafOfModules.tensorObj_hom_ext fun _ _ _ => rfl
 
 include hφ in
-/-- **Restriction along a continuous and cocontinuous functor of ringed sites, with an
-isomorphism of structure sheaves, commutes with the tensor product sheaf.** Both tensor products
-are sheafified objectwise tensor products: restriction commutes with the objectwise tensor
-product (`Stacks.SheafOfModules.pushforwardTensorObjIso`) and with sheafification
-(`Stacks.SheafOfModules.sheafificationRestrictScalarsPushforwardIso`). -/
-noncomputable def pushforwardSheafTensorIso
+/-- Restriction of Mathlib's sheafification of the objectwise tensor product of two sheaves of
+modules is the sheafification of the objectwise tensor product of their restrictions:
+`Stacks.SheafOfModules.sheafificationRestrictScalarsPushforwardIso` followed by the
+sheafification of `Stacks.SheafOfModules.pushforwardTensorObjIso`. -/
+noncomputable def pushforwardSheafificationTensorObjIso
     (F G : _root_.SheafOfModules.{r} (Tensor.ringSheaf RD)) :
-    (_root_.SheafOfModules.pushforward φ).obj (((Tensor.sheafTensor RD).obj F).obj G) ≅
-      ((Tensor.sheafTensor RC).obj ((_root_.SheafOfModules.pushforward φ).obj F)).obj
-        ((_root_.SheafOfModules.pushforward φ).obj G) :=
+    (_root_.SheafOfModules.pushforward φ).obj
+        ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf RD).obj)).obj
+          (PresheafOfModules.tensorObj (O := RD.obj) F.val G.val)) ≅
+      (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf RC).obj)).obj
+        (PresheafOfModules.tensorObj (O := RC.obj) ((_root_.SheafOfModules.pushforward φ).obj F).val
+          ((_root_.SheafOfModules.pushforward φ).obj G).val) :=
   (sheafificationRestrictScalarsPushforwardIso J K q (Tensor.ringSheaf RC) (Tensor.ringSheaf RD)
       φ.hom (PresheafOfModules.tensorObj (O := RD.obj) F.val G.val)).symm ≪≫
     (PresheafOfModules.sheafification (R := Tensor.ringSheaf RC)
       (𝟙 (Tensor.ringSheaf RC).obj)).mapIso
       (pushforwardTensorObjIso J K q RC RD φ hφ F.val G.val).symm
 
-/-- `Stacks.SheafOfModules.pushforwardSheafTensorIso` is natural in both factors. -/
-theorem pushforwardSheafTensorIso_hom_naturality
+/-- `Stacks.SheafOfModules.pushforwardSheafificationTensorObjIso` is natural in both factors. -/
+@[reassoc]
+theorem pushforwardSheafificationTensorObjIso_hom_naturality
     {F F' G G' : _root_.SheafOfModules.{r} (Tensor.ringSheaf RD)} (u : F ⟶ F') (v : G ⟶ G') :
     (_root_.SheafOfModules.pushforward φ).map
-        (((Tensor.sheafTensor RD).map u).app G ≫ ((Tensor.sheafTensor RD).obj F').map v) ≫
-      (pushforwardSheafTensorIso J K q RC RD φ hφ F' G').hom =
-    (pushforwardSheafTensorIso J K q RC RD φ hφ F G).hom ≫
-      (((Tensor.sheafTensor RC).map ((_root_.SheafOfModules.pushforward φ).map u)).app
-          ((_root_.SheafOfModules.pushforward φ).obj G) ≫
-        ((Tensor.sheafTensor RC).obj ((_root_.SheafOfModules.pushforward φ).obj F')).map
-          ((_root_.SheafOfModules.pushforward φ).map v)) := by
+        ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf RD).obj)).map
+          (PresheafOfModules.tensorHom (O := RD.obj) u.val v.val)) ≫
+      (pushforwardSheafificationTensorObjIso J K q RC RD φ hφ F' G').hom =
+    (pushforwardSheafificationTensorObjIso J K q RC RD φ hφ F G).hom ≫
+      (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf RC).obj)).map
+        (PresheafOfModules.tensorHom (O := RC.obj) ((_root_.SheafOfModules.pushforward φ).map u).val
+          ((_root_.SheafOfModules.pushforward φ).map v).val) := by
   let P := PresheafOfModules.pushforward₀ q (Tensor.ringSheaf RD).obj ⋙
     PresheafOfModules.restrictScalars φ.hom
   let L := PresheafOfModules.sheafification.{r} (R := Tensor.ringSheaf RC)
@@ -322,13 +360,6 @@ theorem pushforwardSheafTensorIso_hom_naturality
   let SI := fun M => sheafificationRestrictScalarsPushforwardIso J K q (Tensor.ringSheaf RC)
     (Tensor.ringSheaf RD) φ.hom M
   let TI := fun M N => pushforwardTensorObjIso J K q RC RD φ hφ M N
-  have k1 : ((Tensor.sheafTensor RD).map u).app G ≫ ((Tensor.sheafTensor RD).obj F').map v =
-      LD.map (PresheafOfModules.tensorHom u.val v.val) :=
-    Tensor.sheafTensor_uncurry_map RD u v
-  have k2 : ((Tensor.sheafTensor RC).map (A.map u)).app (A.obj G) ≫
-      ((Tensor.sheafTensor RC).obj (A.obj F')).map (A.map v) =
-      L.map (PresheafOfModules.tensorHom (P.map u.val) (P.map v.val)) :=
-    Tensor.sheafTensor_uncurry_map RC (A.map u) (A.map v)
   have hS : A.map (LD.map (PresheafOfModules.tensorHom u.val v.val)) ≫
       (SI (PresheafOfModules.tensorObj F'.val G'.val)).inv =
       (SI (PresheafOfModules.tensorObj F.val G.val)).inv ≫
@@ -343,16 +374,43 @@ theorem pushforwardSheafTensorIso_hom_naturality
       (pushforwardTensorObjIso_hom_naturality J K q RC RD φ hφ u.val v.val).symm)).trans
       (Category.assoc _ _ _).symm)
   have hLT := (L.map_comp _ _).symm.trans ((congrArg L.map hT).trans (L.map_comp _ _))
-  rw [k1, k2]
-  change A.map (LD.map (PresheafOfModules.tensorHom u.val v.val)) ≫
-      (SI (PresheafOfModules.tensorObj F'.val G'.val)).inv ≫ L.map (TI F'.val G'.val).inv =
-    ((SI (PresheafOfModules.tensorObj F.val G.val)).inv ≫ L.map (TI F.val G.val).inv) ≫
-      L.map (PresheafOfModules.tensorHom (P.map u.val) (P.map v.val))
-  refine (Category.assoc _ _ _).symm.trans ?_
-  refine (congrArg (· ≫ L.map (TI F'.val G'.val).inv) hS).trans ?_
-  refine (Category.assoc _ _ _).trans ?_
-  refine (congrArg (_ ≫ ·) hLT).trans ?_
-  exact (Category.assoc _ _ _).symm
+  exact (Category.assoc _ _ _).symm.trans
+    ((congrArg (· ≫ L.map (TI F'.val G'.val).inv) hS).trans ((Category.assoc _ _ _).trans
+      ((congrArg (_ ≫ ·) hLT).trans (Category.assoc _ _ _).symm)))
+
+include hφ in
+/-- **Restriction along a continuous and cocontinuous functor of ringed sites, with an
+isomorphism of structure sheaves, commutes with the tensor product sheaf.** Both tensor products
+are sheafified objectwise tensor products, read as Mathlib's sheafification by
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`: restriction commutes with the objectwise tensor
+product (`Stacks.SheafOfModules.pushforwardTensorObjIso`) and with sheafification
+(`Stacks.SheafOfModules.sheafificationRestrictScalarsPushforwardIso`), which is
+`Stacks.SheafOfModules.pushforwardSheafificationTensorObjIso`. -/
+noncomputable def pushforwardSheafTensorIso
+    (F G : _root_.SheafOfModules.{r} (Tensor.ringSheaf RD)) :
+    (_root_.SheafOfModules.pushforward φ).obj (((Tensor.sheafTensor RD).obj F).obj G) ≅
+      ((Tensor.sheafTensor RC).obj ((_root_.SheafOfModules.pushforward φ).obj F)).obj
+        ((_root_.SheafOfModules.pushforward φ).obj G) :=
+  (_root_.SheafOfModules.pushforward φ).mapIso (Tensor.sheafTensorObjIso RD F G) ≪≫
+    pushforwardSheafificationTensorObjIso J K q RC RD φ hφ F G ≪≫
+    (Tensor.sheafTensorObjIso RC ((_root_.SheafOfModules.pushforward φ).obj F)
+      ((_root_.SheafOfModules.pushforward φ).obj G)).symm
+
+/-- `Stacks.SheafOfModules.pushforwardSheafTensorIso` is natural in both factors. -/
+theorem pushforwardSheafTensorIso_hom_naturality
+    {F F' G G' : _root_.SheafOfModules.{r} (Tensor.ringSheaf RD)} (u : F ⟶ F') (v : G ⟶ G') :
+    (_root_.SheafOfModules.pushforward φ).map
+        (((Tensor.sheafTensor RD).map u).app G ≫ ((Tensor.sheafTensor RD).obj F').map v) ≫
+      (pushforwardSheafTensorIso J K q RC RD φ hφ F' G').hom =
+    (pushforwardSheafTensorIso J K q RC RD φ hφ F G).hom ≫
+      (((Tensor.sheafTensor RC).map ((_root_.SheafOfModules.pushforward φ).map u)).app
+          ((_root_.SheafOfModules.pushforward φ).obj G) ≫
+        ((Tensor.sheafTensor RC).obj ((_root_.SheafOfModules.pushforward φ).obj F')).map
+          ((_root_.SheafOfModules.pushforward φ).map v)) := by
+  simp only [pushforwardSheafTensorIso, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom,
+    Category.assoc]
+  rw [← Functor.map_comp_assoc, sheafTensorObjIso_hom_naturality, Functor.map_comp_assoc,
+    pushforwardSheafificationTensorObjIso_hom_naturality_assoc, sheafTensorObjIso_inv_naturality]
 
 end PushforwardTensor
 
@@ -394,6 +452,28 @@ variable {C : Type u₁} [Category.{v₁} C] {J K : GrothendieckTopology C} (h :
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
   [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})] in
+/-- `Stacks.SheafOfModules.tensorLeftFactorization` is natural: its inverse carries the
+sheafification, for the coarser topology, of the tensor product of two morphisms to their tensor
+product sheaf for the finer one. It is a component of the composite of
+`Stacks.SheafOfModules.Tensor.sheafificationIso` for both topologies and
+`Stacks.SheafOfModules.sheafificationFactorization`. -/
+theorem tensorLeftFactorization_inv_naturality
+    {F F' G G' : _root_.SheafOfModules.{m} (Tensor.ringSheaf (J := J) R)}
+    (u : F ⟶ F') (v : G ⟶ G') :
+    (comparisonPullback.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)).map
+        ((Tensor.sheafification (commRingOfLe h R)).map (PresheafOfModules.tensorHom
+          ((comparisonPushforward.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)).map u).val
+          ((comparisonPushforward.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)).map v).val)) ≫
+      (tensorLeftFactorization h R F' G').inv =
+    (tensorLeftFactorization h R F G).inv ≫
+      (Tensor.sheafification R).map (PresheafOfModules.tensorHom (O := R.obj) u.val v.val) :=
+  (Functor.whiskerRight (Tensor.sheafificationIso (commRingOfLe h R)).inv
+      (comparisonPullback.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)) ≫
+    (sheafificationFactorization.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)).inv ≫
+    (Tensor.sheafificationIso R).hom).naturality (PresheafOfModules.tensorHom u.val v.val)
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})] in
 /-- **The agreement of tensor products for two topologies is natural**:
 `Stacks.SheafOfModules.tensorLeftAgreement` carries the tensor product, for the coarser topology,
 of the readings of two morphisms to the reading of their tensor product for the finer one. -/
@@ -412,28 +492,18 @@ theorem tensorLeftAgreement_inv_naturality
         (((Tensor.sheafTensor (J := J) R).map u).app G ≫
           ((Tensor.sheafTensor (J := J) R).obj F').map v) := by
   let cP := comparisonPushforward.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)
-  let cPl := comparisonPullback.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)
-  let adj := comparisonAdjunction.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)
-  let fact := sheafificationFactorization.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)
-  let LJ := PresheafOfModules.sheafification.{m} (R := Tensor.ringSheaf (J := J) R)
-    (𝟙 (Tensor.ringSheaf (J := J) R).obj)
-  let LK := PresheafOfModules.sheafification.{m} (R := ringOfLe h (Tensor.ringSheaf (J := J) R))
-    (𝟙 (ringOfLe h (Tensor.ringSheaf (J := J) R)).obj)
-  let g := PresheafOfModules.tensorHom (O := R.obj) u.val v.val
   have k1 := Tensor.sheafTensor_uncurry_map R u v
   have k2 := Tensor.sheafTensor_uncurry_map (commRingOfLe h R) (cP.map u) (cP.map v)
   refine (congrArg (fun k => k ≫ (tensorLeftAgreement h R F' G' hunit').inv) k2).trans ?_
   refine Eq.trans ?_ (congrArg (fun k => (tensorLeftAgreement h R F G hunit).inv ≫ cP.map k)
     k1).symm
-  change LK.map g ≫ adj.unit.app (LK.obj _) ≫ cP.map (fact.inv.app _) =
-    (adj.unit.app (LK.obj _) ≫ cP.map (fact.inv.app _)) ≫ cP.map (LJ.map g)
-  have hf : cP.map (cPl.map (LK.map g)) ≫ cP.map (fact.inv.app _) =
-      cP.map (fact.inv.app _) ≫ cP.map (LJ.map g) :=
-    (cP.map_comp _ _).symm.trans ((congrArg cP.map (fact.inv.naturality g)).trans
-      (cP.map_comp _ _))
-  exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ cP.map (fact.inv.app _))
-    (adj.unit.naturality (LK.map g))).trans ((Category.assoc _ _ _).trans
-      ((congrArg (adj.unit.app (LK.obj _) ≫ ·) hf).trans (Category.assoc _ _ _).symm)))
+  have hf := (cP.map_comp _ _).symm.trans ((congrArg cP.map
+    (tensorLeftFactorization_inv_naturality h R u v)).trans (cP.map_comp _ _))
+  exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ cP.map
+      (tensorLeftFactorization h R F' G').inv)
+    ((comparisonAdjunction.{u₁, v₁, r, m} h (Tensor.ringSheaf (J := J) R)).unit.naturality
+      _)).trans ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hf).trans
+        (Category.assoc _ _ _).symm)))
 
 end TopologyAgreement
 
@@ -666,13 +736,7 @@ def spaceRestrictionTensorIso :
 theorem isLocallyQuasicoherent_etaleModulesTensor (F G : lqcohModules B S hS 𝒳) :
     Stack.isLocallyQuasicoherent B (associatedBigEtaleSite B) rfl S hS 𝒳.val.val.p
       𝒳.val.isFiberedInGroupoids (((etaleModulesTensor B S hS 𝒳).obj F.obj).obj G.obj) :=
-  letI := Stack.hasSheafify_associatedTopology_siteKind B S hS 𝒳.val.val.p
-    𝒳.val.isFiberedInGroupoids .etale
-  letI := (haveI : ∀ x : 𝒳.val.val.obj, EssentiallySmall.{u} (Over x) :=
-      FibredSite.essentiallySmall_over B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
-    GrothendieckTopology.wEqualsLocallyBijective_addCommGrpCat_of_essentiallySmall_over.{u}
-      (BigFppfOver.associatedTopology B S hS 𝒳.val.val.p .etale))
-  Stack.isLocallyQuasicoherent_etaleTensorSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+  Stack.isLocallyQuasicoherent_tensorSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
     (associatedBigEtaleSite B) rfl F.obj G.obj F.property G.property
 
 /-- The tensor product of `LQCoh(𝒪_𝒳)`: the tensor product of `Mod(𝒳_étale, 𝒪_𝒳)`, which

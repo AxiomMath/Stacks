@@ -60,7 +60,8 @@ exact.
 
 * `uShriekAb`, `uShriekAbAdjunction`: `u_p^{ab}` by the same colimits, and `u_p^{ab} ⊣ u^p`.
 * `exists_isMorphismOfSites_not_bijective_theta` (in
-  `StacksFrontier.CategoryTheory.Sites.Presheaf.AlgebraicStructure.AbelianVersusSetsMorphismOfSites`):
+  `AbelianVersusSetsMorphismOfSites` of
+  `StacksFrontier.CategoryTheory.Sites.Presheaf.AlgebraicStructure`):
   there are sites `(C, J)`, `(D, K)` and a
   continuous functor `u : C ⥤ D` defining a morphism of sites, an abelian presheaf `F` and an
   object `V` with `θ_{F,V}` not bijective (Stacks 00YU).

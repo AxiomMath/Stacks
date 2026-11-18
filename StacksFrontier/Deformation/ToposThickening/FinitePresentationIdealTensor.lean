@@ -1,6 +1,5 @@
 module
 
-public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SheafificationHomMono
 public import StacksFrontier.Deformation.ToposThickening.FinitePresentationFlatLift
 public import StacksFrontier.AlgebraicGeometry.Topologies.FinitePresentationOnSiteUniverses
 
@@ -123,6 +122,61 @@ lemma kernelSectionEquiv_restr {i : RingedToposHom X Y} (hi : FirstOrderThickeni
   exact PresheafOfModules.naturality_apply hi.incl.val g a
 
 end Kernel
+
+section SealedMono
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+  [J.HasSheafCompose (forget AddCommGrpCat.{w})]
+
+/-- A morphism `L P ⟶ F` induced by `t : P ⟶ F` through a left adjoint `L` of the forgetful
+functor from sheaves of modules, whose unit at `P` is locally surjective, is a monomorphism as
+soon as every section of `P` killed by `t` vanishes on a covering sieve. -/
+private theorem mono_homEquiv_symm_of_locally_eq_zero {R : Sheaf J RingCat.{w}}
+    {L : PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R}
+    (adj : L ⊣ SheafOfModules.forget R) {P : PresheafOfModules.{w} R.obj}
+    {F : SheafOfModules.{w} R} [PresheafOfModules.IsLocallySurjective J (adj.unit.app P)]
+    (t : P ⟶ F.val)
+    (ht : ∀ (U : Cᵒᵖ) (x : P.obj U), t.app U x = 0 →
+      ∃ S : Sieve U.unop, S ∈ J U.unop ∧ ∀ (V : C) (g : V ⟶ U.unop), S g → P.map g.op x = 0) :
+    Mono ((adj.homEquiv P F).symm t) := by
+  have hfac := (PresheafOfModules.toPresheaf R.obj).congr_map
+    ((adj.homEquiv_unit P F _).symm.trans ((adj.homEquiv P F).apply_symm_apply t))
+  rw [Functor.map_comp] at hfac
+  have : Presheaf.IsLocallyInjective J
+      ((PresheafOfModules.toPresheaf R.obj).map (adj.unit.app P) ≫
+        (PresheafOfModules.toPresheaf R.obj).map
+          ((SheafOfModules.forget R).map ((adj.homEquiv P F).symm t))) := by
+    rw [hfac]
+    refine ⟨fun {U} x y hxy => ?_⟩
+    let x' : P.obj U := x
+    let y' : P.obj U := y
+    have hxy' : t.app U x' = t.app U y' := hxy
+    obtain ⟨S, hS, hS'⟩ := ht U (x' - y') (by rw [map_sub, hxy', sub_self])
+    refine J.superset_covering (fun V g hg => ?_) hS
+    have h0 := hS' V g hg
+    rw [map_sub, sub_eq_zero] at h0
+    exact h0
+  have : Sheaf.IsLocallyInjective ((SheafOfModules.toSheaf R).map ((adj.homEquiv P F).symm t)) :=
+    Presheaf.isLocallyInjective_of_isLocallyInjective_of_isLocallySurjective J
+      ((PresheafOfModules.toPresheaf R.obj).map (adj.unit.app P))
+      ((PresheafOfModules.toPresheaf R.obj).map
+        ((SheafOfModules.forget R).map ((adj.homEquiv P F).symm t)))
+  exact (SheafOfModules.toSheaf R).mono_of_mono_map (Sheaf.mono_of_isLocallyInjective _)
+
+/-- A morphism out of the sealed sheafification of `P` induced by `t : P ⟶ F` is a monomorphism as
+soon as every section of `P` killed by `t` vanishes on a covering sieve. -/
+private theorem mono_sheafificationForgetAdjunction_homEquiv_symm
+    [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+    (R : Sheaf J CommRingCat.{w})
+    {P : PresheafOfModules.{w} (ringSheaf R).obj} {F : SheafOfModules.{w} (ringSheaf R)}
+    (t : P ⟶ F.val)
+    (ht : ∀ (U : Cᵒᵖ) (x : P.obj U), t.app U x = 0 →
+      ∃ S : Sieve U.unop, S ∈ J U.unop ∧ ∀ (V : C) (g : V ⟶ U.unop), S g → P.map g.op x = 0) :
+    Mono (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).homEquiv P F).symm t) :=
+  have := isLocallySurjective_sheafificationForgetAdjunction_unit_app R P
+  mono_homEquiv_symm_of_locally_eq_zero _ t ht
+
+end SealedMono
 
 section Main
 
@@ -248,7 +302,7 @@ theorem mono_multiplicationMap_of_idealTensor {i : RingedToposHom X Y}
     (hloc : IdealTensorLocallyVanishes i F') :
     Mono (multiplicationMap i.fSharp hi.I F' hi.incl) := by
   unfold multiplicationMap
-  apply PresheafOfModules.mono_sheafificationHomEquiv_symm_of_locally_eq_zero
+  apply mono_sheafificationForgetAdjunction_homEquiv_symm
   intro U x hx
   obtain ⟨n, a, s, hxs⟩ := TensorProduct.exists_sum_tmul_eq x
   let ε : Fin n → RingHom.ker (i.fSharp.hom.app U).hom := fun j => kernelSectionEquiv hi U (a j)

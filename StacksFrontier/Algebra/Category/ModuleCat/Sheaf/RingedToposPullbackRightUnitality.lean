@@ -446,22 +446,24 @@ omit [X.J.HasSheafCompose (forget RingCat.{w})]
 /-- Left whiskering of the monoidal structure of Tag 01CA on a local pure tensor: it acts in the
 **second** factor. This is the mirror of
 `Stacks.SheafOfModules.RingedToposPullback.whiskerRight_val_app_toSheafify`, which is what the
-left unitor needs; the right unitor whiskers on the other side. -/
+left unitor needs; the right unitor whiskers on the other side. The local pure tensor is carried
+into the tensor product sheaf by the unit of the sealed sheafification,
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 theorem whiskerLeft_val_app_toSheafify
     {A B B' : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)} (b : B ⟶ B') (U : X.Cᵒᵖ)
     (x : A.val.obj U) (y : B.val.obj U) :
     (A ◁ b).val.app U
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-          (Tensor.ringSheaf X.O).property (A.val ⊗ B.val)).app U (x ⊗ₜ y)) =
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-        (Tensor.ringSheaf X.O).property (A.val ⊗ B'.val)).app U (x ⊗ₜ b.val.app U y) :=
+        (((Tensor.sheafificationForgetAdjunction X.O).unit.app (A.val ⊗ B.val)).app U (x ⊗ₜ y)) =
+      ((Tensor.sheafificationForgetAdjunction X.O).unit.app (A.val ⊗ B'.val)).app U
+        (x ⊗ₜ b.val.app U y) :=
   (congrArg (fun m : A ⊗ B ⟶ A ⊗ B' ↦ m.val.app U
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-          (Tensor.ringSheaf X.O).property (A.val ⊗ B.val)).app U (x ⊗ₜ y)))
+        (((Tensor.sheafificationForgetAdjunction X.O).unit.app (A.val ⊗ B.val)).app U (x ⊗ₜ y)))
       (Stacks.SheafOfModules.whiskerLeft_eq_sheafify_map X.O.obj
         (Tensor.ringSheaf X.O).property A b)).trans
-    (Stacks.SheafOfModules.sheafify_map_toSheafify_app X.O.obj
-      (Tensor.ringSheaf X.O).property (A.val ◁ b.val) U (x ⊗ₜ y))
+    (((congrArg (((Tensor.sheafification X.O).map (A.val ◁ b.val)).val.app U)
+          (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ U (x ⊗ₜ y))).trans
+        (Tensor.unit_naturality_apply (A.val ◁ b.val) U (x ⊗ₜ y))).trans
+      (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ U _).symm)
 
 open Stacks.SheafOfModules in
 /-- **Steps 4 to 6 of the chain of Tag 03EL, inverted, on `(f^*F ◁ ν) ≫ ρ`**, read on a pair of
@@ -515,7 +517,8 @@ theorem step456_rightUnitor_pairingApp (F : _root_.SheafOfModules.{w'} (Tensor.r
             ((inverseImageModules f.toToposHom (Tensor.ringSheaf Y.O)).obj
               (𝟙_ (_root_.SheafOfModules.{w'} (Tensor.ringSheaf Y.O)))) U a t)).trans
         ((congrArg (fun z ↦ (ρ_ (f.pullbackModules.obj F)).hom.val.app U z)
-              (whiskerLeft_val_app_toSheafify (pullbackUnitComparison f).hom U _ _)).trans
+              ((whiskerLeft_val_app_toSheafify (pullbackUnitComparison f).hom U _ _).trans
+                (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ U _))).trans
           ((Stacks.SheafOfModules.rightUnitor_hom_val_app_tmul X.O.obj _
                 (f.pullbackModules.obj F) U _ _).trans
             ((Sheaf.sectionsFunctor_map_moduleSMulHom (Tensor.ringSheaf X.O)

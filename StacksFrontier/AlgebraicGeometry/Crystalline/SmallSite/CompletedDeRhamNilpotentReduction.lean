@@ -96,8 +96,7 @@ theorem completedTensor_addMonoidHom_ext_of_pow_eq_zero (hpk : ∃ k : ℕ, (p :
   refine AddMonoidHom.ext fun z ↦ ?_
   obtain ⟨t, rfl⟩ := (ofLinearEquivOfPowEqZero hpk (M ⊗[D] X)).surjective z
   rw [ofLinearEquivOfPowEqZero_apply]
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul m x => exact h m x
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
 
@@ -177,14 +176,12 @@ theorem bijective_reduceRaw (hθ : Function.Bijective θ) (lam : M →ₛₗ[θ]
     rw [symm_ofBijective_smul θ lam hlam, symm_ofBijective_smul θ Φ hΦ, TensorProduct.smul_tmul]
   have hinv : ∀ n y, inv (n ⊗ₜ y) = eL.symm n ⊗ₜ eΦ.symm y := fun _ _ ↦ rfl
   refine Function.bijective_iff_has_inverse.mpr ⟨inv, fun t ↦ ?_, fun t ↦ ?_⟩
-  · induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction t using TensorProduct.inductionOn with
     | tmul m x =>
       rw [reduceRaw_tmul, hinv]
       exact congrArg₂ (· ⊗ₜ ·) (eL.symm_apply_apply m) (eΦ.symm_apply_apply x)
     | add a b ha hb => rw [map_add, map_add, ha, hb]
-  · induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction t using TensorProduct.inductionOn with
     | tmul n y =>
       rw [hinv, reduceRaw_tmul]
       exact congrArg₂ (· ⊗ₜ ·) (eL.apply_symm_apply n) (eΦ.apply_symm_apply y)

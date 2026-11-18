@@ -51,9 +51,14 @@ tensors — together with the fact that sheafification preserves zero morphisms.
 
 ## Implementation notes
 
-Sheafification of presheaves of modules is a left adjoint, hence preserves zero morphisms; the
-instance `AlgebraicGeometry.sheafifyFunctor_isLeftAdjoint` records the adjunction in the form
-instance search for `CategoryTheory.Functor.PreservesZeroMorphisms` consumes.
+Sheafification of presheaves of modules is a left adjoint, hence preserves zero morphisms. The
+tensor product is built from the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, whose instance
+`Stacks.SheafOfModules.Tensor.sheafification_isLeftAdjoint` is what instance search for
+`CategoryTheory.Functor.PreservesZeroMorphisms` consumes in
+`AlgebraicGeometry.tensorSheafMap_zero_zero`; the instance
+`AlgebraicGeometry.sheafifyFunctor_isLeftAdjoint` records the same adjunction for Mathlib's
+sheafification `Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor`.
 
 `AlgebraicGeometry.Scheme.Modules X` is a `def` for `SheafOfModules X.ringCatSheaf`, and
 the uncurried `Stacks.SheafOfModules.Tensor.sheafTensor` is stated over
@@ -151,7 +156,7 @@ theorem tensorSheafMap_zero_zero (Z : RingedSpace.{u, u})
         ⟨((Z)).presheaf, ((Z)).IsSheaf⟩)).map (((0 : A ⟶ C), (0 : B ⟶ D)) : (_, _) ⟶ (_, _))) = 0 :=
   (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map
     ⟨Z.presheaf, Z.IsSheaf⟩ (0 : A ⟶ C) (0 : B ⟶ D)).trans <|
-    (congrArg (sheafifyFunctor Z).map
+    (congrArg (Stacks.SheafOfModules.Tensor.sheafification ⟨Z.presheaf, Z.IsSheaf⟩).map
       (presheafTensorMap_zero_zero Z (A := A.val) (B := B.val)
         (C := C.val) (D := D.val))).trans (Functor.map_zero _ _ _)
 
@@ -200,8 +205,9 @@ theorem tensorSheafMap_globalSmulCenter_right (Z : Scheme.{u}) (r : Γ(Z, ⊤))
         toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
           (a ⊗ₜ[Z.presheaf.obj (Opposite.op U)] b)
   rw [TensorProduct.tmul_smul]
-  exact map_smul ((sheafifyUnit Z.toRingedSpace
-    (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app (Opposite.op U)).hom _ _
+  exact map_smul (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨Z.presheaf, Z.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app (Opposite.op U)).hom _ _
 
 /-- **Multiplication by a global function on the first tensor factor is multiplication by that
 function on the tensor product.** On a local pure tensor the scalar is moved to the second factor
@@ -231,8 +237,9 @@ theorem tensorSheafMap_globalSmulCenter_left (Z : Scheme.{u}) (r : Γ(Z, ⊤))
         toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
           (a ⊗ₜ[Z.presheaf.obj (Opposite.op U)] b)
   rw [TensorProduct.smul_tmul, TensorProduct.tmul_smul]
-  exact map_smul ((sheafifyUnit Z.toRingedSpace
-    (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app (Opposite.op U)).hom _ _
+  exact map_smul (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨Z.presheaf, Z.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app (Opposite.op U)).hom _ _
 
 end GlobalScalar
 

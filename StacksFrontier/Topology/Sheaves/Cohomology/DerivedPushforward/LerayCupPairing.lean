@@ -357,16 +357,14 @@ theorem naiveCupProduct_unit_tmul
             ((pushforwardComplex f).obj K) ((pushforwardComplex f).obj M)
             (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)
             (ComplexShape.up ℤ) a b n h).val (op ⊤)
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf Y)
-              (𝟙 (structureRingSheaf Y).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := Y.presheaf)
               ((pushforwardFunctor f).obj (K.X a)).val
               ((pushforwardFunctor f).obj (M.X b)).val)) (op ⊤) (x ⊗ₜ y))) =
       Hom.app (HomologicalComplex.ιMapBifunctor K M
           (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)
           (ComplexShape.up ℤ) a b n h).val (op ⊤)
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf X)
-            (𝟙 (structureRingSheaf X).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := X.presheaf) (K.X a).val (M.X b).val))
           (op ⊤) (x ⊗ₜ y)) :=
   (hom_congr_apply' (congrArg (fun z ↦ SheafOfModules.Hom.val z)
@@ -396,8 +394,7 @@ theorem naiveCupProductEval_ι_tmul (Z : RingedSpace.{u, u})
       Hom.app (HomologicalComplex.ιMapBifunctor K M
           (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)
           (ComplexShape.up ℤ) a b n h).val (op ⊤)
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf Z)
-            (𝟙 (structureRingSheaf Z).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := Z.presheaf) (K.X a).val (M.X b).val))
           (op ⊤) (x ⊗ₜ y)) := by
   rw [Stacks.Cech.SheafTensorPairing.naiveCupProductEval_ι]

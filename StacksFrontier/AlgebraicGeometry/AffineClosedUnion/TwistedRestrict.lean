@@ -183,12 +183,10 @@ theorem projectionFormulaMap_app_unit_tmul
     (U : (Opens X.carrier)ᵒᵖ) (a : ToType (((pushforwardFunctor f).obj G).val.obj U))
     (y : ToType (H.val.obj U)) :
     Hom.app (projectionFormulaMap f G H).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf X)
-            (𝟙 (structureRingSheaf X).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := X.presheaf) ((pushforwardFunctor f).obj G).val
               H.val)) U (a ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf Z)
-          (𝟙 (structureRingSheaf Z).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := Z.presheaf) G.val ((pullbackFunctor f).obj H).val))
         ((opensMap f).op.obj U)
         (a ⊗ₜ pullbackUnit f H U y) := by
@@ -201,8 +199,8 @@ theorem projectionFormulaMap_app_unit_tmul
   refine (tensorSheaf_map_unit_tmul Z ((pullbackAdjunction f).counit.app G)
       (𝟙 ((pullbackFunctor f).obj H)) ((opensMap f).op.obj U)
       (pullbackUnit f ((pushforwardFunctor f).obj G) U a) (pullbackUnit f H U y)).trans ?_
-  exact congrArg (fun t => Hom.app ((PresheafOfModules.sheafificationAdjunction
-      (R := structureRingSheaf Z) (𝟙 (structureRingSheaf Z).obj)).unit.app
+  exact congrArg (fun t => Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      Z.sheaf).unit.app
       (PresheafOfModules.tensorObj (O := Z.presheaf) G.val ((pullbackFunctor f).obj H).val))
       ((opensMap f).op.obj U) (t ⊗ₜ pullbackUnit f H U y)) (counit_app_pullbackUnit f G U a)
 
@@ -220,8 +218,7 @@ theorem projectionFormulaMap_structureUnitor_app_unit_tmul
     (y : ToType (L.val.obj U)) :
     Hom.app (projectionFormulaMap f (structureModule Z) L ≫
           (pushforwardFunctor f).map (structureUnitor ((pullbackFunctor f).obj L)).hom).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf X)
-            (𝟙 (structureRingSheaf X).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := X.presheaf)
               ((pushforwardFunctor f).obj (structureModule Z)).val L.val)) U
           (a ⊗ₜ y)) =
@@ -387,7 +384,7 @@ theorem twistedRestrict_eq_unitRestrict [IsClosedImmersion i] [IsClosedImmersion
   refine Eq.trans (congrArg (fun tensorMap => tensorMap ≫ (twistPushforwardIso (g ≫ i) L).hom)
     (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map.{u, u, u, u, u} X.sheaf
       (pushforwardStructureSheafRestrict g i (rfl : g ≫ i = g ≫ i)) (𝟙 L)).symm) ?_
-  refine PresheafOfModules.sheafification_hom_ext
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext
     (PresheafOfModules.tensorObj_hom_ext fun U x y => ?_)
   have key : ∀ (x : ToType ((structureRingSheaf Z.toRingedSpace).obj.obj
         ((opensMap i.toLRSHom.toShHom).op.obj U)))
@@ -396,15 +393,13 @@ theorem twistedRestrict_eq_unitRestrict [IsClosedImmersion i] [IsClosedImmersion
             (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).map
             (pushforwardStructureSheafRestrict g i (rfl : g ≫ i = g ≫ i) ×ₘ 𝟙 L) ≫
           (twistPushforwardIso (g ≫ i) L).hom).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := structureRingSheaf X.toRingedSpace)
-              (𝟙 (structureRingSheaf X.toRingedSpace).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              X.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf)
                 (Stacks.Morphisms.pushforwardStructureSheaf i).val L.val)) U (x ⊗ₜ y)) =
         Hom.app ((twistPushforwardIso i L).hom ≫ unitRestrict g i L).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := structureRingSheaf X.toRingedSpace)
-              (𝟙 (structureRingSheaf X.toRingedSpace).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              X.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf)
                 (Stacks.Morphisms.pushforwardStructureSheaf i).val L.val)) U (x ⊗ₜ y)) := by
     intro x y

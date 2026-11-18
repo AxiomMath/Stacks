@@ -375,6 +375,19 @@ lemma mono_ringModSheafHom (hθ : ∀ V : Cᵒᵖ, Function.Injective (θ.app V)
   have hb : ((ringModHom θ).app V).hom b = (θ.app V).hom b := ringModHom_app_apply θ V b
   exact ha.symm.trans (hab.trans hb)
 
+/-- A morphism of presheaves of modules becomes a monomorphism under the sealed sheafification iff
+it does under Mathlib's sheafification: the two functors are isomorphic. -/
+private lemma mono_sheafification_map_iff (R : Sheaf J CommRingCat.{u})
+    {M N : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj} (f : M ⟶ N) :
+    Mono ((Stacks.SheafOfModules.Tensor.sheafification R).map f) ↔
+      Mono ((PresheafOfModules.sheafification
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map f) := by
+  constructor <;> intro
+  · rw [← NatIso.naturality_2 (Stacks.SheafOfModules.Tensor.sheafificationIso R) f]
+    infer_instance
+  · rw [← NatIso.naturality_1 (Stacks.SheafOfModules.Tensor.sheafificationIso R) f]
+    infer_instance
+
 include h₂ in
 /-- For an invertible sheaf of `A₁`-modules `L` and a morphism of sheaves of rings `θ` which is
 injective on sections, the map `x ↦ 1 ⊗ x` from `L` into the extension of scalars is locally
@@ -405,7 +418,7 @@ theorem isLocallyInjective_unitHom
   have hm2 : Mono ((Stacks.SheafOfModules.TensorSheafification.sheafify A₁ h₁).map (ringModHom θ ▷
     L.val)) := by
     rw [← forget_map_ringModSheafHom J θ h₁ h₂]
-    exact hmono
+    exact (mono_sheafification_map_iff J tensorRing _).mp hmono
   have hli := isLocallyInjective_of_mono_sheafify J h₁ (ringModHom θ ▷ L.val) hm2
   have hiso : Presheaf.IsLocallyInjective J
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorSheafification.structureSheaf A₁

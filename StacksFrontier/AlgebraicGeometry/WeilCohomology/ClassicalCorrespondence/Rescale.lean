@@ -41,6 +41,7 @@ namespace PoincarePairingSetup
 
 variable (S : PoincarePairingSetup.{u, v, w} k F) (c : Fˣ)
 
+omit [CharZero F] in
 /-- The trace pairing of a scaled trace map is the scaled trace pairing. -/
 theorem tracePairing_smul (A : ExternallyGradedAlgebra.{v, w} F) (d : ℕ)
     (integration : A.piece (2 * (d : ℤ)) →ₗ[F] F) (a : F) (i : ℤ) :

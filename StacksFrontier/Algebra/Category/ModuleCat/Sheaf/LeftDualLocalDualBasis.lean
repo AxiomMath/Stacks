@@ -89,20 +89,20 @@ Composing the two reductions leaves exactly the pure-tensor statement over the o
 dual basis is available, by `FiniteDualBasis.restrict`.
 
 **Local pure tensors are named.** `tensorPt 𝒪 h𝒪 A B V a b` is the image of `a ⊗ₜ b` under the
-sheafification unit, with its type ascribed as a section of `A ⊗ B` for the monoidal structure of
-Tag 01CA rather than of `Stacks.SheafOfModules.TensorSheafification.tensorSheaf 𝒪 h𝒪 A B`. The two
-  are definitionally equal and
+unit of the sealed sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`
+(the unit that the associator and unitor formulas of `...Sheaf.TensorAssociatorSections` are stated
+with), with its type ascribed as a section of `A ⊗ B` for the monoidal structure of Tag 01CA.
 `Stacks.SheafOfModules.toTensorSheafSection` of `...Sheaf.TensorDualEndomorphism` is the same
-construction in the second spelling (`toTensorSheafSection_tmul` records that it is `rfl`);
-naming the first fixes one spelling for every statement here, which is what keeps the chains below
-free of rewriting across the transparency boundary.
+section built from the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`
+(`toTensorSheafSection_tmul`); naming the first fixes one spelling for every statement here, which
+is what keeps the chains below free of rewriting across the transparency boundary.
 
 **Why the proofs are `Eq.trans` chains and not `rw`.** The source of a whiskering such as
 `coev ▷ F` is `𝟙_ ⊗ F` while `Stacks.SheafOfModules.whiskerRight_eq_sheafify_map` presents the
-morphism as `(Stacks.SheafOfModules.TensorSheafification.sheafify 𝒪 h𝒪).map (coev.val ▷ F.val)`,
-  whose source is spelled
-`(Stacks.SheafOfModules.TensorSheafification.sheafify 𝒪 h𝒪).obj (𝟙_.val ⊗ F.val)`. Those are
-  definitionally equal and not
+morphism as `(Stacks.SheafOfModules.Tensor.sheafification R).map (coev.val ▷ F.val)` (`R` being `𝒪`
+as a sheaf of commutative rings), whose source is spelled
+`(Stacks.SheafOfModules.Tensor.sheafification R).obj (𝟙_.val ⊗ F.val)`. Those are
+definitionally equal and not
 syntactically so, so after rewriting the morphism the goal is no longer type-correct at `implicit`
 transparency and the next `rw` fails with a message naming a pattern. Every step here is therefore
 a `congrArg`/`Eq.trans`/`exact`, which tolerate defeq. Two further points of the same
@@ -123,7 +123,7 @@ universe to equal the ring universe. Nothing here is narrowed relative to the im
 which is what the Tag 05NA sheafification functor and the tensor product sheaf need. No
 `GrothendieckTopology.HasSheafCompose` instance is used: the variable
 declared for it in `StacksDraft.Ch17.Sec16.Tag05NA` is not used by
-  `Stacks.SheafOfModules.TensorSheafification.sheafify`, so it is
+`Stacks.SheafOfModules.Tensor.sheafification`, so it is
 not a parameter of `tensorSheaf`, of `evaluation` or of anything below.
 `exactPairingDualSheafOfRetract` additionally assumes the slice-site sheafification instances for
 the members of the covering family, which is what `SheafOfModules.free` and
@@ -161,49 +161,53 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 /-! ### Local pure tensors -/
 
-/-- **A local pure tensor.** The image under the Tag 05NA sheafification unit of a pure tensor of
-local sections, read as a section of the tensor product `A ⊗ B` of the monoidal structure of
-Tag 01CA. -/
+/-- **A local pure tensor.** The image under the unit of the sealed Tag 05NA sheafification
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` of a pure tensor of local sections, read
+as a section of the tensor product `A ⊗ B` of the monoidal structure of Tag 01CA. -/
 noncomputable def tensorPt (A B : SheafOfModules.{max u v}
   (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))
     (V : Cᵒᵖ) (a : A.val.obj V) (b : B.val.obj V) : (A ⊗ B).val.obj V :=
-  (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app V (a ⊗ₜ b)
+  ((Tensor.sheafificationAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+      (A.val ⊗ B.val)).app V (a ⊗ₜ b)
 
 variable {A A' B B' : SheafOfModules.{max u v}
   (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)}
 
 /-- `Stacks.SheafOfModules.toTensorSheafSection` on a pure tensor is a local pure tensor: the
-two spellings of the construction agree on the nose. -/
+units of the two sealed sheafification adjunctions agree on sections. -/
 lemma toTensorSheafSection_tmul (V : Cᵒᵖ) (a : A.val.obj V) (b : B.val.obj V) :
-    toTensorSheafSection 𝒪 h𝒪 A B V (a ⊗ₜ b) = tensorPt 𝒪 h𝒪 A B V a b := rfl
+    toTensorSheafSection 𝒪 h𝒪 A B V (a ⊗ₜ b) = tensorPt 𝒪 h𝒪 A B V a b :=
+  Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ V _
 
 /-- Right whiskering on a local pure tensor acts on the first factor. -/
 lemma tensorPt_whiskerRight (f : A ⟶ A') (V : Cᵒᵖ) (a : A.val.obj V) (b : B.val.obj V) :
     (f ▷ B).val.app V (tensorPt 𝒪 h𝒪 A B V a b)
       = tensorPt 𝒪 h𝒪 A' B V (f.val.app V a) b :=
-  (congrArg (fun φ : A ⊗ B ⟶ A' ⊗ B =>
-      φ.val.app V ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app
-        V (a ⊗ₜ b)))
+  (congrArg (fun φ : A ⊗ B ⟶ A' ⊗ B => φ.val.app V (tensorPt 𝒪 h𝒪 A B V a b))
     (whiskerRight_eq_sheafify_map 𝒪 h𝒪 f B)).trans
-      (sheafify_map_toSheafify_app 𝒪 h𝒪 (f.val ▷ B.val) V (a ⊗ₜ b))
+      (Tensor.unit_naturality_apply
+        (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
+        (f.val ▷ B.val) V (a ⊗ₜ b))
 
 /-- Left whiskering on a local pure tensor acts on the second factor. -/
 lemma tensorPt_whiskerLeft (g : B ⟶ B') (V : Cᵒᵖ) (a : A.val.obj V) (b : B.val.obj V) :
     (A ◁ g).val.app V (tensorPt 𝒪 h𝒪 A B V a b)
       = tensorPt 𝒪 h𝒪 A B' V a (g.val.app V b) :=
-  (congrArg (fun φ : A ⊗ B ⟶ A ⊗ B' =>
-      φ.val.app V ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app
-        V (a ⊗ₜ b)))
+  (congrArg (fun φ : A ⊗ B ⟶ A ⊗ B' => φ.val.app V (tensorPt 𝒪 h𝒪 A B V a b))
     (whiskerLeft_eq_sheafify_map 𝒪 h𝒪 A g)).trans
-      (sheafify_map_toSheafify_app 𝒪 h𝒪 (A.val ◁ g.val) V (a ⊗ₜ b))
+      (Tensor.unit_naturality_apply
+        (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
+        (A.val ◁ g.val) V (a ⊗ₜ b))
 
 /-- A local pure tensor is homogeneous in its first factor. -/
 lemma tensorPt_smul_left (V : Cᵒᵖ) (r : (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
   h𝒪).obj.obj V)
     (a : A.val.obj V) (b : B.val.obj V) :
     tensorPt 𝒪 h𝒪 A B V (r • a) b = r • tensorPt 𝒪 h𝒪 A B V a b :=
-  ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app V).hom.map_smul
-    r (a ⊗ₜ b)
+  (((Tensor.sheafificationAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+      (A.val ⊗ B.val)).app V).hom.map_smul r (a ⊗ₜ b)
 
 /-- A local pure tensor is homogeneous in its second factor. -/
 lemma tensorPt_smul_right (V : Cᵒᵖ) (r : (Stacks.SheafOfModules.TensorSheafification.structureSheaf
@@ -214,10 +218,12 @@ lemma tensorPt_smul_right (V : Cᵒᵖ) (r : (Stacks.SheafOfModules.TensorSheafi
     b))
       = r • (a ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj V] b) :=
     TensorProduct.tmul_smul r a b
-  exact (congrArg ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app
-    V) h).trans
-    (((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app
-      V).hom.map_smul r (a ⊗ₜ b))
+  exact (congrArg (((Tensor.sheafificationAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+      (A.val ⊗ B.val)).app V) h).trans
+    ((((Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+        (A.val ⊗ B.val)).app V).hom.map_smul r (a ⊗ₜ b))
 
 /-- A pure tensor which is a sum of pure tensors in the objectwise tensor product gives the
 corresponding sum of local pure tensors. -/
@@ -227,9 +233,12 @@ private lemma tensorPt_eq_sum_of_tmul_eq {V : Cᵒᵖ} {ι : Type*} (s : Finset 
       = ∑ i ∈ s, (a' i ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
         h𝒪).obj.obj V] b' i)) :
     tensorPt 𝒪 h𝒪 A B V a b = ∑ i ∈ s, tensorPt 𝒪 h𝒪 A B V (a' i) (b' i) :=
-  (congrArg ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app V)
-    h).trans (map_sum ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
-      (A.val ⊗ B.val)).app V).hom _ s)
+  (congrArg (((Tensor.sheafificationAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+      (A.val ⊗ B.val)).app V) h).trans
+    (map_sum (((Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+        (A.val ⊗ B.val)).app V).hom _ s)
 
 /-- A local pure tensor is additive in its first factor. -/
 lemma tensorPt_sum_left (V : Cᵒᵖ) {ι : Type*} (s : Finset ι) (a : ι → A.val.obj V)
@@ -362,7 +371,8 @@ lemma evaluation_tensorPt (F : SheafOfModules.{max u v}
           (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)).val
             V lam x :=
   congrArg (fun φ => φ.app V (lam ⊗ₜ x))
-    (((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv
+    (((Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).homEquiv
       ((PresheafOfModules.tensorObj (O := 𝒪) ((dualSheaf 𝒪 h𝒪 F).val) (F.val)))
       (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
         h𝒪))).apply_symm_apply
@@ -566,12 +576,14 @@ lemma coevaluation_evaluation_tensorPt (U : C) {I' : Type*} [Fintype I']
         (self := Strict.monoidalCategoryStruct 𝒪 h𝒪)
         (evaluation 𝒪 h𝒪 F) (dualSheaf 𝒪 h𝒪 F)).val.app (op U)
         ((α_ (dualSheaf 𝒪 h𝒪 F) F (dualSheaf 𝒪 h𝒪 F)).inv.val.app (op U) z)) hL1) ?_
-    refine Eq.trans
-      (map_sum (((MonoidalCategoryStruct.whiskerRight
+    refine Eq.trans (congrArg ((MonoidalCategoryStruct.whiskerRight
         (self := Strict.monoidalCategoryStruct 𝒪 h𝒪)
-        (evaluation 𝒪 h𝒪 F) (dualSheaf 𝒪 h𝒪 F)).val.app (op U)).hom.comp
-        ((α_ (dualSheaf 𝒪 h𝒪 F) F (dualSheaf 𝒪 h𝒪 F)).inv.val.app (op U)).hom)
-        _ Finset.univ) ?_
+        (evaluation 𝒪 h𝒪 F) (dualSheaf 𝒪 h𝒪 F)).val.app (op U))
+      (map_sum ((α_ (dualSheaf 𝒪 h𝒪 F) F (dualSheaf 𝒪 h𝒪 F)).inv.val.app (op U)).hom
+        _ Finset.univ)) ?_
+    refine Eq.trans (map_sum ((MonoidalCategoryStruct.whiskerRight
+        (self := Strict.monoidalCategoryStruct 𝒪 h𝒪)
+        (evaluation 𝒪 h𝒪 F) (dualSheaf 𝒪 h𝒪 F)).val.app (op U)).hom _ Finset.univ) ?_
     refine Eq.trans (Finset.sum_congr rfl fun i _ => hL2 i) ?_
     refine Eq.trans (tensorPt_sum_right 𝒪 h𝒪
       (A := 𝟙_ (SheafOfModules.{max u v} (Stacks.SheafOfModules.TensorSheafification.structureSheaf
@@ -674,21 +686,10 @@ lemma hom_ext_of_coversTop_tensorPt {K : Type*} {X : K → C} (hX : J.CoversTop 
     (h : ∀ (k : K) (W : C) (_ : W ⟶ X k) (a : A.val.obj (op W)) (b : B.val.obj (op W)),
       f.val.app (op W) (tensorPt 𝒪 h𝒪 A B (op W) a b)
         = g.val.app (op W) (tensorPt 𝒪 h𝒪 A B (op W) a b)) : f = g := by
-  refine ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv (A.val ⊗
-    B.val) D).injective ?_
-  refine presheaf_hom_ext_of_coversTop 𝒪 h𝒪 hX _ _ fun k W q t => ?_
-  have hlin : ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app (op
-    W) ≫ f.val.app (op W))
-      = ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app (op W) ≫
-        g.val.app (op W)) :=
-    ModuleCat.MonoidalCategory.tensor_ext fun a c => h k W q a c
-  refine Eq.trans (congrArg (fun α : A.val ⊗ B.val ⟶ _ => α.app (op W) t)
-    (Adjunction.homEquiv_unit (adj := Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-      𝒪 h𝒪) (f := f))) ?_
-  refine Eq.trans (ConcreteCategory.congr_hom hlin t) ?_
-  exact (congrArg (fun α : A.val ⊗ B.val ⟶ _ => α.app (op W) t)
-    (Adjunction.homEquiv_unit (adj := Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-      𝒪 h𝒪) (f := g))).symm
+  refine Tensor.sheafification_hom_ext
+    (presheaf_hom_ext_of_coversTop 𝒪 h𝒪 hX _ _ fun k W q t => ?_)
+  exact ConcreteCategory.congr_hom
+    (ModuleCat.MonoidalCategory.tensor_ext fun a c => h k W q a c) t
 
 /-! ### The exact pairing -/
 

@@ -152,7 +152,7 @@ theorem exists_sitePoint_fiber_nonempty (U V : SmallEtale B S hS) (z : S)
     GeometricPoint.ofPoint_liesOver S z
   refine ⟨(geometricPointSitePoint B S hS (GeometricPoint.ofPoint S z)).ulift.{w}, ?_, ?_⟩ <;>
     exact (geometricPointFiber_nonempty_of_mem_siteEtaleImageOpen B S hS _ _
-      (by rw [hz]; assumption)).map ULift.up
+      (by rwa [hz])).map ULift.up
 
 /-! ### Flat representatives across an isomorphism of coefficient rings -/
 

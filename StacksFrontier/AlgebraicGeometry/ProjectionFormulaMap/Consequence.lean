@@ -131,16 +131,10 @@ noncomputable def unitTensorIso (Z : RingedSpace.{u, u})
     change MonoidalCategory
       (PresheafOfModules.{u} (Z.sheaf.obj ⋙ forget₂ CommRingCat RingCat))
     infer_instance
-  have : IsIso (PresheafOfModules.sheafificationAdjunction
-      (R := structureRingSheaf Z) (𝟙 (structureRingSheaf Z).obj)).counit := by
-    infer_instance
-  change (PresheafOfModules.sheafification (R := structureRingSheaf Z)
-      (𝟙 (structureRingSheaf Z).obj)).obj
-      ((SheafOfModules.unit (structureRingSheaf Z)).val ⊗ M.val) ≅ M
-  exact (PresheafOfModules.sheafification (R := structureRingSheaf Z)
-      (𝟙 (structureRingSheaf Z).obj)).mapIso (λ_ M.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (R := structureRingSheaf Z) (𝟙 (structureRingSheaf Z).obj)).counit).app M
+  exact (Stacks.SheafOfModules.Tensor.sheafification ⟨Z.presheaf, Z.IsSheaf⟩).mapIso
+      (MonoidalCategory.leftUnitor (C := PresheafOfModules (structureRingSheaf Z).obj) M.val) ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨Z.presheaf, Z.IsSheaf⟩).counit).app M
 
 /-! ### The comparison at the structure sheaf -/
 

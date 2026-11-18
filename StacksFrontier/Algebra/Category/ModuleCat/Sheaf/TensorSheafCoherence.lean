@@ -44,9 +44,14 @@ normalisation and so leaves exactly one statement about `powFunctorIsoTensorRigh
   tensor product sheaves.
 * `Stacks.SheafOfModules.tensorSheafAssociator`: **the associativity constraint of the tensor
   product sheaf**, the sheafified presheaf associator read between those two comparisons.
-* The comparisons use `Stacks.SheafOfModules.tensorObjIso` and the canonical unit
-  `Stacks.SheafOfModules.TensorSheafification.toSheafify` directly, without local forwarding
-  definitions for either datum.
+* `Stacks.SheafOfModules.toSheafTensor`: the canonical morphism `M ⊗ N ⟶ M ⊗_O N` from the
+  presheaf tensor product to the tensor product sheaf, the unit of the sealed sheafification
+  `Stacks.SheafOfModules.Tensor.sheafification`.
+* `Stacks.SheafOfModules.sheafifyIsoSheafification` and
+  `Stacks.SheafOfModules.sheafifyIsoSheafTensor`: the comparison
+  `Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the sealed
+  one, spelled over `Stacks.SheafOfModules.TensorSheafification.structureSheaf`, as a natural
+  isomorphism and at a presheaf tensor product of two sheaves.
 
 ## Main results
 
@@ -103,6 +108,14 @@ here directly, with no restating definitions standing in front of them. The same
 dictates `comp_assoc₃` (a reassociation stated in an abstract category so that it can be applied
 by `exact`).
 
+The tensor product sheaf is built with the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, the localized monoidal structure with Mathlib's.
+The two meet only through `Stacks.SheafOfModules.sheafifyIsoSheafification`, which is spelled over
+the structure sheaf so that composites through it stay in one category, and through
+`Stacks.SheafOfModules.sheafifyIsoSheafTensor`, whose target is spelled as the tensor product
+sheaf, so that `Stacks.SheafOfModules.tensorObjIso_hom_eq` and the two Tag 05NA comparisons
+cancel against each other by `rw`.
+
 ## References
 
 * [The Stacks Project, Tag 01CA](https://stacks.math.columbia.edu/tag/01CA)
@@ -137,17 +150,150 @@ theorem comp_assoc₃ {D : Type*} [Category D] {W X Y Z Z' : D}
     (a ≫ b ≫ c) ≫ d = a ≫ b ≫ c ≫ d := by
   simp
 
-/-- The left unit constraint of the tensor product sheaf. -/
+/-! ### Mathlib's sheafification and the sealed one
+
+The tensor product sheaf is built with the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, while the localized monoidal structure of
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.Monoidal` is built with Mathlib's,
+`Stacks.SheafOfModules.TensorSheafification.sheafify`. The two are compared by
+`Stacks.SheafOfModules.Tensor.sheafificationIso`, the last factor of the body
+`Stacks.SheafOfModules.tensorObjIso_def` of `Stacks.SheafOfModules.tensorObjIso`; the lemmas
+below are the two further facts about that comparison used in this file: it carries Mathlib's
+counit to the sealed one, and it is Mathlib's sheafification of the sealed unit followed by
+Mathlib's counit. -/
+
+/-- The comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification
+with the sealed one, spelled over `Stacks.SheafOfModules.TensorSheafification.structureSheaf`,
+the spelling of the localized monoidal structure. -/
+noncomputable def sheafifyIsoSheafification :
+    TensorSheafification.sheafify O hO ≅
+      (Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ :
+        PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj ⥤
+          SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :=
+  Tensor.sheafificationIso
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+
+/-- Mathlib's sheafification of the presheaf tensor product of two sheaves of modules is their
+tensor product sheaf: the component of `Stacks.SheafOfModules.sheafifyIsoSheafification`, with
+its target spelled as the tensor product sheaf. -/
+noncomputable def sheafifyIsoSheafTensor
+    (F G : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (TensorSheafification.sheafify O hO).obj (F.val ⊗ G.val) ≅
+      ((Tensor.sheafTensor.{u, v, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj F).obj G :=
+  (sheafifyIsoSheafification O hO).app (F.val ⊗ G.val)
+
+/-- On a presheaf of modules, the unit of the sealed sheafification into the underlying presheaf
+is the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
+private theorem sheafificationForgetAdjunction_unit_app_eq (R : Sheaf J CommRingCat.{w})
+    (Q : PresheafOfModules.{w} (Tensor.ringSheaf R).obj) :
+    (Tensor.sheafificationForgetAdjunction R).unit.app Q =
+      (Tensor.sheafificationAdjunction R).unit.app Q :=
+  PresheafOfModules.hom_ext fun X ↦ ModuleCat.hom_ext (LinearMap.ext fun x ↦
+    Tensor.sheafificationForgetAdjunction_unit_app_app_apply R Q X x)
+
+/-- Mathlib's sheafification of the sealed sheafification unit, followed by Mathlib's counit, is
+the comparison `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem sheafification_map_unit_comp_counit (R : Sheaf J CommRingCat.{w})
+    (Q : PresheafOfModules.{w} (Tensor.ringSheaf R).obj) :
+    (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
+        ((Tensor.sheafificationForgetAdjunction R).unit.app Q) ≫
+        (PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).counit.app
+          ((Tensor.sheafification R).obj Q) =
+      (Tensor.sheafificationIso R).hom.app Q := by
+  rw [sheafificationForgetAdjunction_unit_app_eq]
+  refine ((PresheafOfModules.sheafificationAdjunction
+    (𝟙 (Tensor.ringSheaf R).obj)).homEquiv_counit _ _ _).symm.trans ?_
+  rw [Equiv.symm_apply_eq, Adjunction.homEquiv_unit]
+  exact (Tensor.unit_comp_sheafificationIso_hom_app R Q).symm
+
+/-- The canonical morphism `M ⊗ N ⟶ M ⊗_O N` from the presheaf tensor product to the tensor
+product sheaf: the unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`
+into the underlying presheaf. -/
+noncomputable def toSheafTensor
+    (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    M.val ⊗ N.val ⟶ (((Tensor.sheafTensor.{u, v, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+          N).val :=
+  (Tensor.sheafificationForgetAdjunction
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+      (M.val ⊗ N.val)
+
+/-- Mathlib's sheafification of `Stacks.SheafOfModules.toSheafTensor`, followed by Mathlib's
+counit, is the comparison `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem sheafify_map_toSheafTensor_comp_sheafifyValIso_hom
+    (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (TensorSheafification.sheafify O hO).map (toSheafTensor O hO M N) ≫
+        (sheafifyValIso O hO (((Tensor.sheafTensor.{u, v, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+          N)).hom =
+      (sheafifyIsoSheafTensor O hO M N).hom :=
+  sheafification_map_unit_comp_counit
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ (M.val ⊗ N.val)
+
+/-- Mathlib's sheafification of `Stacks.SheafOfModules.toSheafTensor` is the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` followed by the inverse of Mathlib's counit. -/
+private theorem sheafify_map_toSheafTensor_eq
+    (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (TensorSheafification.sheafify O hO).map (toSheafTensor O hO M N) =
+      (sheafifyIsoSheafTensor O hO M N).hom ≫
+        (sheafifyValIso O hO (((Tensor.sheafTensor.{u, v, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+          N)).inv :=
+  (Iso.eq_comp_inv _).mpr (sheafify_map_toSheafTensor_comp_sheafifyValIso_hom O hO M N)
+
+/-- Mathlib's sheafification inverts `Stacks.SheafOfModules.toSheafTensor`. -/
+theorem isIso_sheafify_map_toSheafTensor
+    (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    IsIso ((TensorSheafification.sheafify O hO).map (toSheafTensor O hO M N)) := by
+  rw [sheafify_map_toSheafTensor_eq]
+  exact (sheafifyIsoSheafTensor O hO M N ≪≫ (sheafifyValIso O hO _).symm).isIso_hom
+
+/-- The comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` carries Mathlib's counit of
+sheafification to the sealed one. -/
+private theorem sheafificationIso_hom_app_comp_counit
+    (F : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (sheafifyIsoSheafification O hO).hom.app F.val ≫
+        (Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app F =
+      (sheafifyValIso O hO F).hom := by
+  rw [sheafifyIsoSheafification, Tensor.sheafificationIso_def]
+  exact Adjunction.leftAdjointUniq_hom_app_counit _ _ F
+
+/-- A morphism `P ⟶ F` into a sheaf, sheafified by the sealed sheafification and followed by the
+sealed counit, is the same morphism sheafified by Mathlib's sheafification and followed by
+Mathlib's counit, up to the comparison `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem sheafificationIso_hom_app_comp_map_comp_counit
+    {P : PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj}
+    {F : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)} (f : P ⟶ F.val) :
+    (sheafifyIsoSheafification O hO).hom.app P ≫
+        (Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map f ≫
+          (Tensor.sheafificationAdjunction
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app
+              F =
+      (TensorSheafification.sheafify O hO).map f ≫ (sheafifyValIso O hO F).hom := by
+  rw [← sheafificationIso_hom_app_comp_counit]
+  exact ((sheafifyIsoSheafification O hO).hom.naturality_assoc
+      f _).symm
+
+/-- The left unit constraint of the tensor product sheaf: the sheafified presheaf left unitor,
+followed by the counit of the sealed sheafification. -/
 noncomputable def tensorSheafLeftUnitor
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂
       CommRingCat RingCat) (hO)⟩).obj ((SheafOfModules.unit
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)))).obj (M)) ≅ M :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (λ_ M.val) ≪≫
-    sheafifyValIso O hO M
+  (Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
+      (λ_ M.val) ≪≫
+    (asIso (Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit).app M
 
 /-- The comparison identifying the sheafification of `(M ⊗ N) ⊗ P` with
-`(M ⊗_O N) ⊗_O P`. -/
+`(M ⊗_O N) ⊗_O P`: the sheafification of `Stacks.SheafOfModules.toSheafTensor` for `M ⊗ N`
+tensored with `P`, followed by `Stacks.SheafOfModules.sheafifyIsoSheafTensor`. -/
 noncomputable def tensorSheafAssocLeft
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj ((M.val ⊗ N.val) ⊗ P.val) ≅
@@ -158,16 +304,18 @@ noncomputable def tensorSheafAssocLeft
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat
           RingCat) hO⟩).obj M).obj N))).obj (P)) :=
   @asIso _ _ _ _ ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val) ▷ P.val))
-    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight O hO
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val)) P.val
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify O hO (M.val ⊗
-        N.val)))
+      (toSheafTensor O hO M N ▷ P.val))
+    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight O hO _ P.val
+      (isIso_sheafify_map_toSheafTensor O hO M N)) ≪≫
+    sheafifyIsoSheafTensor O hO
+      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+            N) P
 
-set_option maxHeartbeats 1600000 in
--- elaborating `asIso` against the nested `sheafTensor` types in the statement is expensive
 /-- The comparison identifying the sheafification of `M ⊗ (N ⊗ P)` with
-`M ⊗_O (N ⊗_O P)`. -/
+`M ⊗_O (N ⊗_O P)`: the sheafification of `M` tensored with
+`Stacks.SheafOfModules.toSheafTensor` for `N ⊗ P`, followed by
+`Stacks.SheafOfModules.sheafifyIsoSheafTensor`. -/
 noncomputable def tensorSheafAssocRight
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val ⊗ P.val) ≅
@@ -179,11 +327,36 @@ noncomputable def tensorSheafAssocRight
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj
           P))) :=
   @asIso _ _ _ _ ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-      (M.val ◁ Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (N.val ⊗ P.val)))
-    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft O hO M.val
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (N.val ⊗ P.val))
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify O hO (N.val ⊗
-        P.val)))
+      (M.val ◁ toSheafTensor O hO N P))
+    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft O hO M.val _
+      (isIso_sheafify_map_toSheafTensor O hO N P)) ≪≫
+    sheafifyIsoSheafTensor O hO M
+      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj P)
+
+/-- The comparison `Stacks.SheafOfModules.tensorSheafAssocLeft`, as a morphism. -/
+theorem tensorSheafAssocLeft_hom
+    (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (tensorSheafAssocLeft O hO M N P).hom =
+      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+          (toSheafTensor O hO M N ▷ P.val) ≫
+        (sheafifyIsoSheafTensor O hO
+          (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+            N) P).hom :=
+  rfl
+
+/-- The comparison `Stacks.SheafOfModules.tensorSheafAssocRight`, as a morphism. -/
+theorem tensorSheafAssocRight_hom
+    (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (tensorSheafAssocRight O hO M N P).hom =
+      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+          (M.val ◁ toSheafTensor O hO N P) ≫
+        (sheafifyIsoSheafTensor O hO M
+          (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj
+            P)).hom :=
+  rfl
 
 /-- The associativity constraint of the tensor product sheaf. -/
 noncomputable def tensorSheafAssociator
@@ -212,14 +385,18 @@ theorem tensorObjIso_hom_eq
     (F G : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO F G).hom =
       ((sheafifyValIso O hO F).inv ⊗ₘ (sheafifyValIso O hO G).inv) ≫
-        (sheafifyTensorIso O hO F.val G.val).hom :=
+        (sheafifyTensorIso O hO F.val G.val).hom ≫
+          (sheafifyIsoSheafTensor O hO F G).hom := by
+  rw [tensorObjIso_def]
   rfl
 
 theorem tensorObjIso_inv_eq
     (F G : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO F G).inv =
-      (sheafifyTensorIso O hO F.val G.val).inv ≫
-        ((sheafifyValIso O hO F).hom ⊗ₘ (sheafifyValIso O hO G).hom) :=
+      (sheafifyIsoSheafTensor O hO F G).inv ≫
+        (sheafifyTensorIso O hO F.val G.val).inv ≫
+          ((sheafifyValIso O hO F).hom ⊗ₘ (sheafifyValIso O hO G).hom) := by
+  rw [tensorObjIso_def]
   rfl
 
 /-- Sheafification inverts its own unit, the inverse being the counit. -/
@@ -366,46 +543,27 @@ end Braided
 /-- **Step one of the associator comparison.** -/
 theorem assoc_step_left
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-      (TensorSheafification.toSheafify O hO (M.val ⊗
-      N.val) ▷ P.val) ≫
-        (tensorObjIso O hO
-          ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val)) P).inv =
+    (tensorSheafAssocLeft O hO M N P).hom ≫
+        (tensorObjIso O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+            N)) P).inv =
       (sheafifyTensorIso O hO (M.val ⊗ N.val) P.val).inv ≫
-        ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val) ◁
-          (sheafifyValIso O hO P).hom) := by
-  let presheaf := M.val ⊗ N.val
-  let unit : presheaf ⟶ ((TensorSheafification.sheafify O hO).obj presheaf).val :=
-    TensorSheafification.toSheafify O hO presheaf
-  let comparison : (TensorSheafification.sheafify O hO).obj presheaf ⊗ P ≅
-      (TensorSheafification.sheafify O hO).obj
-        (((TensorSheafification.sheafify O hO).obj presheaf).val ⊗ P.val) :=
-    tensorObjIso O hO ((TensorSheafification.sheafify O hO).obj presheaf) P
-  have comparisonInv : comparison.inv =
-      (sheafifyTensorIso O hO ((TensorSheafification.sheafify O hO).obj presheaf).val P.val).inv ≫
-        ((sheafifyValIso O hO ((TensorSheafification.sheafify O hO).obj presheaf)).hom ⊗ₘ
-          (sheafifyValIso O hO P).hom) :=
-    tensorObjIso_inv_eq O hO _ P
-  have naturality := sheafifyTensorIso_inv_natural_left O hO unit P.val
-  have unitImage : (TensorSheafification.sheafify O hO).map unit =
-      (sheafifyValIso O hO ((TensorSheafification.sheafify O hO).obj presheaf)).inv :=
-    sheafify_map_toSheafify_eq O hO presheaf
-  change (TensorSheafification.sheafify O hO).map (unit ▷ P.val) ≫ comparison.inv = _
-  rw [comparisonInv, ← Category.assoc, ← naturality, unitImage, MonoidalCategory.tensorHom_def]
-  simp only [Category.assoc, MonoidalCategory.inv_hom_whiskerRight_assoc]
-  rfl
-
+        ((sheafifyIsoSheafTensor O hO M N).hom ⊗ₘ (sheafifyValIso O hO P).hom) := by
+  rw [tensorSheafAssocLeft_hom, tensorObjIso_inv_eq, Category.assoc, Iso.hom_inv_id_assoc]
+  rw [← reassoc_of% (sheafifyTensorIso_inv_natural_left O hO (toSheafTensor O hO M N) P.val),
+    ← MonoidalCategory.tensorHom_id,
+    MonoidalCategory.tensorHom_comp_tensorHom, Category.id_comp,
+    sheafify_map_toSheafTensor_comp_sheafifyValIso_hom]
 
 /-- **Step two of the associator comparison.** -/
 theorem assoc_step_mid
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val) ◁
-      (sheafifyValIso O hO P).hom) ≫
+    ((sheafifyIsoSheafTensor O hO M N).hom ⊗ₘ (sheafifyValIso O hO P).hom) ≫
         ((tensorObjIso O hO M N).inv ▷ P) ≫ (α_ M N P).hom ≫
           (M ◁ (tensorObjIso O hO N P).hom) ≫
-            (tensorObjIso O hO M
-              ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (N.val ⊗ P.val))).hom
-                =
+            (tensorObjIso O hO M ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj
+                N).obj P))).hom =
       ((sheafifyTensorIso O hO M.val N.val).inv ▷
             (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj P.val) ≫
         (α_ ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj M.val)
@@ -414,124 +572,55 @@ theorem assoc_step_mid
           ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj M.val ◁
             (sheafifyTensorIso O hO N.val P.val).hom) ≫
             (sheafifyTensorIso O hO M.val (N.val ⊗ P.val)).hom ≫
-              (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-                (M.val ◁ TensorSheafification.toSheafify O hO (N.val ⊗ P.val)) := by
-  let leftPresheaf := M.val ⊗ N.val
-  let rightPresheaf := N.val ⊗ P.val
-  let unit : rightPresheaf ⟶ ((TensorSheafification.sheafify O hO).obj rightPresheaf).val :=
-    TensorSheafification.toSheafify O hO rightPresheaf
-  let leftComparison : M ⊗ N ≅ (TensorSheafification.sheafify O hO).obj leftPresheaf :=
-    tensorObjIso O hO M N
-  let rightComparison : N ⊗ P ≅ (TensorSheafification.sheafify O hO).obj rightPresheaf :=
-    tensorObjIso O hO N P
-  let endComparison : M ⊗ (TensorSheafification.sheafify O hO).obj rightPresheaf ≅
-      (TensorSheafification.sheafify O hO).obj
-        (M.val ⊗ ((TensorSheafification.sheafify O hO).obj rightPresheaf).val) :=
-    tensorObjIso O hO M ((TensorSheafification.sheafify O hO).obj rightPresheaf)
-  have leftInv : leftComparison.inv = (sheafifyTensorIso O hO M.val N.val).inv ≫
-      ((sheafifyValIso O hO M).hom ⊗ₘ (sheafifyValIso O hO N).hom) :=
-    tensorObjIso_inv_eq O hO M N
-  have rightHom : rightComparison.hom =
-      ((sheafifyValIso O hO N).inv ⊗ₘ (sheafifyValIso O hO P).inv) ≫
-        (sheafifyTensorIso O hO N.val P.val).hom := tensorObjIso_hom_eq O hO N P
-  have endHom : endComparison.hom =
-      ((sheafifyValIso O hO M).inv ⊗ₘ
-        (sheafifyValIso O hO ((TensorSheafification.sheafify O hO).obj rightPresheaf)).inv) ≫
-      (sheafifyTensorIso O hO M.val
-        ((TensorSheafification.sheafify O hO).obj rightPresheaf).val).hom :=
-    tensorObjIso_hom_eq O hO M _
-  have unitImage : (TensorSheafification.sheafify O hO).map unit =
-      (sheafifyValIso O hO ((TensorSheafification.sheafify O hO).obj rightPresheaf)).inv :=
-    sheafify_map_toSheafify_eq O hO rightPresheaf
-  have naturality := sheafifyTensorIso_hom_natural_right O hO M.val unit
-  change ((TensorSheafification.sheafify O hO).obj leftPresheaf ◁ (sheafifyValIso O hO P).hom) ≫
-      (leftComparison.inv ▷ P) ≫ (α_ M N P).hom ≫ (M ◁ rightComparison.hom) ≫ endComparison.hom =
-    ((sheafifyTensorIso O hO M.val N.val).inv ▷ (TensorSheafification.sheafify O hO).obj P.val) ≫
-      (α_ ((TensorSheafification.sheafify O hO).obj M.val)
-        ((TensorSheafification.sheafify O hO).obj N.val)
-        ((TensorSheafification.sheafify O hO).obj P.val)).hom ≫
-      ((TensorSheafification.sheafify O hO).obj M.val ◁ (sheafifyTensorIso O hO N.val P.val).hom) ≫
-      (sheafifyTensorIso O hO M.val rightPresheaf).hom ≫
-      (TensorSheafification.sheafify O hO).map (M.val ◁ unit)
-  rw [leftInv, rightHom, endHom, ← unitImage, ← naturality]
+              (tensorSheafAssocRight O hO M N P).hom := by
+  rw [tensorObjIso_inv_eq, tensorObjIso_hom_eq, tensorObjIso_hom_eq, tensorSheafAssocRight_hom]
+  rw [← reassoc_of% (sheafifyTensorIso_hom_natural_right O hO M.val (toSheafTensor O hO N P)),
+    sheafify_map_toSheafTensor_eq]
   simp only [MonoidalCategory.tensorHom_def, Category.assoc,
     MonoidalCategory.comp_whiskerRight, MonoidalCategory.whiskerLeft_comp,
     MonoidalCategory.whisker_exchange_assoc,
     MonoidalCategory.associator_naturality_left_assoc,
     MonoidalCategory.associator_naturality_middle_assoc,
     MonoidalCategory.associator_naturality_right_assoc]
-  simp only [← MonoidalCategory.whiskerLeft_comp_assoc,
-    MonoidalCategory.hom_inv_whiskerRight_assoc, Iso.hom_inv_id,
-    MonoidalCategory.whiskerLeft_id, Category.id_comp]
-
+  simp only [← MonoidalCategory.whiskerLeft_comp_assoc, ← MonoidalCategory.comp_whiskerRight_assoc,
+    Iso.hom_inv_id, Iso.hom_inv_id_assoc,
+    MonoidalCategory.whiskerLeft_id, MonoidalCategory.id_whiskerRight, Category.id_comp]
 
 /-- **The associator comparison.** The sheafification-built associativity constraint of the
 tensor product sheaf is the associator of the localized monoidal structure, conjugated by
 `Stacks.SheafOfModules.tensorObjIso`. -/
 theorem assoc_key
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-      (TensorSheafification.toSheafify O hO (M.val ⊗
-      N.val) ▷ P.val) ≫
-        (tensorObjIso O hO
-            ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val)) P).inv
-              ≫
+    (tensorSheafAssocLeft O hO M N P).hom ≫
+        (tensorObjIso O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+            N)) P).inv ≫
           ((tensorObjIso O hO M N).inv ▷ P) ≫ (α_ M N P).hom ≫
             (M ◁ (tensorObjIso O hO N P).hom) ≫
-              (tensorObjIso O hO M
-                ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (N.val ⊗
-                  P.val))).hom =
+              (tensorObjIso O hO M ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj
+                  N).obj P))).hom =
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (α_ M.val N.val P.val).hom ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-          (M.val ◁ TensorSheafification.toSheafify O hO (N.val ⊗ P.val)) := by
-  refine (Category.assoc _ _ _).symm.trans ?_
-  refine (congrArg (· ≫ _) (assoc_step_left O hO M N P)).trans ?_
-  refine (Category.assoc _ _ _).trans ?_
-  refine (congrArg (_ ≫ ·) (assoc_step_mid O hO M N P)).trans ?_
-  rw [localized_associator_hom]
+        (tensorSheafAssocRight O hO M N P).hom := by
+  rw [reassoc_of% (assoc_step_left O hO M N P), assoc_step_mid, localized_associator_hom]
   simp only [Category.assoc, MonoidalCategory.inv_hom_whiskerRight_assoc,
     Iso.inv_hom_id_assoc, MonoidalCategory.whiskerLeft_inv_hom_assoc]
-  exact (sheafifyTensorIso O hO (M.val ⊗ N.val) P.val).inv_hom_id_assoc _
-
 
 section AssociatorData
 
-set_option maxHeartbeats 1600000 in
--- the `rfl` steps `leftHom` and `rightHom` unfold the sheafified associator comparisons
 /-- **The associativity constraint of the tensor product sheaf is the associator of the strict
 monoidal structure.** -/
 theorem Strict_associator_eq
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     MonoidalCategoryStruct.associator (self := Strict.monoidalCategoryStruct O hO) M N P =
       tensorSheafAssociator O hO M N P := by
-  have canonicalKey := assoc_key O hO M N P
   apply Iso.ext
-  refine (congrArg Iso.hom (Strict.associator_eq O hO M N P)).trans ?_
-  let leftTensor := (TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val)
-  let rightTensor := (TensorSheafification.sheafify O hO).obj (N.val ⊗ P.val)
-  have leftWhisker := @MonoidalCategory.tensorHom_id _ _ (monoidalCategory O hO)
-    _ _ (tensorObjIso O hO M N).inv P
-  have rightWhisker := @MonoidalCategory.id_tensorHom _ _ (monoidalCategory O hO)
-    M _ _ (tensorObjIso O hO N P).hom
-  refine (Category.assoc _ _ _).trans ?_
-  refine (congrArg₂ (fun first second =>
-      (tensorObjIso O hO leftTensor P).inv ≫ first ≫
-        (@MonoidalCategoryStruct.associator _ _ (monoidalCategory O hO).toMonoidalCategoryStruct
-          M N P).hom ≫ second ≫ (tensorObjIso O hO M rightTensor).hom)
-    leftWhisker rightWhisker).trans ?_
-  let leftComparison : (TensorSheafification.sheafify O hO).obj ((M.val ⊗ N.val) ⊗ P.val) ≅
-      (TensorSheafification.sheafify O hO).obj (leftTensor.val ⊗ P.val) :=
-    tensorSheafAssocLeft O hO M N P
-  have leftHom : leftComparison.hom =
-      (TensorSheafification.sheafify O hO).map
-        (TensorSheafification.toSheafify O hO (M.val ⊗ N.val) ▷ P.val) := rfl
-  have rightHom : ((TensorSheafification.sheafify O hO).mapIso (α_ M.val N.val P.val) ≪≫
-        tensorSheafAssocRight O hO M N P).hom =
-      (TensorSheafification.sheafify O hO).map (α_ M.val N.val P.val).hom ≫
-        (TensorSheafification.sheafify O hO).map
-          (M.val ◁ TensorSheafification.toSheafify O hO (N.val ⊗ P.val)) := rfl
-  apply (Iso.eq_inv_comp leftComparison).mpr
-  exact (congrArg (· ≫ _) leftHom).trans (canonicalKey.trans rightHom.symm)
+  rw [Strict.associator_eq]
+  simp only [tensorSheafAssociator, Iso.trans_hom, Iso.symm_hom, tensorIso_hom, Iso.refl_hom,
+    MonoidalCategory.tensorHom_id, MonoidalCategory.id_tensorHom, Functor.mapIso_hom,
+    Category.assoc]
+  rw [Iso.eq_inv_comp]
+  exact assoc_key O hO M N P
 
 end AssociatorData
 
@@ -575,7 +664,11 @@ theorem leftUnitor_hom_eq
           (sheafifyValIso O hO M).hom) := by
     rw [← h1, h2, hR]
     simp only [Category.assoc]
-  exact key
+  refine key.trans ?_
+  rw [tensorObjIso_hom_eq]
+  simp only [Category.assoc]
+  exact congrArg (_ ≫ _ ≫ ·)
+    (sheafificationIso_hom_app_comp_map_comp_counit O hO (λ_ M.val).hom).symm
 
 /-- **The right unit constraint of the tensor product sheaf is the one of the localized monoidal
 structure.** -/
@@ -616,7 +709,11 @@ theorem rightUnitor_hom_eq
           (sheafifyValIso O hO M).hom) := by
     rw [← h1, h2, hR]
     simp only [Category.assoc]
-  exact key
+  refine key.trans ?_
+  rw [tensorObjIso_hom_eq]
+  simp only [Category.assoc]
+  exact congrArg (_ ≫ _ ≫ ·)
+    (sheafificationIso_hom_app_comp_map_comp_counit O hO (ρ_ M.val).hom).symm
 
 section Braided2
 
@@ -631,13 +728,11 @@ theorem braiding_hom_eq
   have h1 := BraidedCategory.braiding_naturality
     (sheafifyValIso O hO M).inv (sheafifyValIso O hO N).inv
   have h2 := localized_braiding_hom O hO M.val N.val
-  change (β_ M N).hom ≫ ((sheafifyValIso O hO N).inv ⊗ₘ (sheafifyValIso O hO M).inv) ≫
-      (sheafifyTensorIso O hO N.val M.val).hom =
-    ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
-      (sheafifyTensorIso O hO M.val N.val).hom ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (β_ M.val N.val).hom
+  simp only [tensorObjIso_hom_eq, Category.assoc]
   rw [← Category.assoc, ← h1, h2]
-  simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+  simp only [Category.assoc, Iso.inv_hom_id_assoc]
+  exact congrArg (_ ≫ _ ≫ ·) ((sheafifyIsoSheafification O hO).hom.naturality
+      (β_ M.val N.val).hom)
 
 end Braided2
 
@@ -692,45 +787,27 @@ theorem sheafifyValIso_hom_naturality
         Y).hom :=
   ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit.naturality f).symm
 
-/-- **The tensor product of morphisms in the strict monoidal structure is the sheafification of
-the tensor product of the underlying morphisms of presheaves.** -/
+/-- **The tensor product of morphisms in the strict monoidal structure is the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` of the tensor product of the
+underlying morphisms of presheaves.** -/
 theorem Strict_tensorHom_eq
     {X₁ Y₁ X₂ Y₂ : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)}
     (f : X₁ ⟶ Y₁) (g : X₂ ⟶ Y₂) :
     MonoidalCategoryStruct.tensorHom (self := Strict.monoidalCategoryStruct O hO) f g =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (f.val ⊗ₘ g.val) := by
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (f.val ⊗ₘ g.val) := by
   have conj : ∀ {X Y : SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)} (f : X ⟶ Y),
       (sheafifyValIso O hO X).hom ≫ f ≫ (sheafifyValIso O hO Y).inv =
         (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map f.val := fun f => by
     rw [← Category.assoc, sheafifyValIso_hom_naturality, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
-  refine (Strict.tensorHom_eq O hO f g).trans ?_
-  refine (congrArg₂ (fun left right => left ≫ (f ⊗ₘ g) ≫ right)
-    (tensorObjIso_inv_eq O hO X₁ X₂) (tensorObjIso_hom_eq O hO Y₁ Y₂)).trans ?_
-  have conjugate :
-      ((sheafifyValIso O hO X₁).hom ⊗ₘ (sheafifyValIso O hO X₂).hom) ≫
-        (f ⊗ₘ g) ≫
-          ((sheafifyValIso O hO Y₁).inv ⊗ₘ (sheafifyValIso O hO Y₂).inv) =
-      (TensorSheafification.sheafify O hO).map f.val ⊗ₘ
-        (TensorSheafification.sheafify O hO).map g.val :=
-    (congrArg (((sheafifyValIso O hO X₁).hom ⊗ₘ
-        (sheafifyValIso O hO X₂).hom) ≫ ·)
-      (MonoidalCategory.tensorHom_comp_tensorHom f g
-        (sheafifyValIso O hO Y₁).inv (sheafifyValIso O hO Y₂).inv)).trans
-      ((MonoidalCategory.tensorHom_comp_tensorHom
-        (sheafifyValIso O hO X₁).hom (sheafifyValIso O hO X₂).hom
-        (f ≫ (sheafifyValIso O hO Y₁).inv)
-        (g ≫ (sheafifyValIso O hO Y₂).inv)).trans
-          (congrArg₂ (fun first second => first ⊗ₘ second) (conj f) (conj g)))
-  refine (Category.assoc _ _ _).trans ?_
-  refine (congrArg ((sheafifyTensorIso O hO X₁.val X₂.val).inv ≫ ·)
-    ((comp_assoc₃ _ _ _ _).symm.trans
-      (congrArg (· ≫ (sheafifyTensorIso O hO Y₁.val Y₂.val).hom) conjugate))).trans ?_
-  exact (congrArg ((sheafifyTensorIso O hO X₁.val X₂.val).inv ≫ ·)
-    (sheafifyTensorIso_hom_natural O hO f.val g.val)).trans
-      ((sheafifyTensorIso O hO X₁.val X₂.val).inv_hom_id_assoc _)
+  rw [Strict.tensorHom_eq, tensorObjIso_inv_eq, tensorObjIso_hom_eq]
+  simp only [Category.assoc, MonoidalCategory.tensorHom_comp_tensorHom_assoc, conj]
+  rw [reassoc_of% (sheafifyTensorIso_hom_natural O hO f.val g.val), Iso.inv_hom_id_assoc]
+  exact NatIso.naturality_1 (sheafifyIsoSheafification O hO) (f.val ⊗ₘ g.val)
 
 
 section Payoff
@@ -765,35 +842,44 @@ theorem braiding_eq_tensorSheafBraiding
     β_ M N = tensorSheafBraiding O hO M N :=
   Strict_braiding_eq O hO M N
 
-/-- The tensor product of morphisms in the strict monoidal structure is the sheafification of
-the tensor product of the underlying morphisms of presheaves. -/
+/-- The tensor product of morphisms in the strict monoidal structure is the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` of the tensor product of the
+underlying morphisms of presheaves. -/
 theorem tensorHom_eq_sheafify_map
     {X₁ Y₁ X₂ Y₂ : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)}
     (f : X₁ ⟶ Y₁) (g : X₂ ⟶ Y₂) :
-    f ⊗ₘ g = (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (f.val ⊗ₘ g.val) :=
+    f ⊗ₘ g = (Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+      (f.val ⊗ₘ g.val) :=
   Strict_tensorHom_eq O hO f g
 
-/-- Left whiskering in the strict monoidal structure is the sheafification of left whiskering of
-presheaves. -/
+/-- Left whiskering in the strict monoidal structure is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of left whiskering of presheaves. -/
 theorem whiskerLeft_eq_sheafify_map
     (X : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     {Y₁ Y₂ : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)} (f
       : Y₁ ⟶ Y₂) :
-    X ◁ f = (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (X.val ◁ f.val) := by
+    X ◁ f = (Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+      (X.val ◁ f.val) := by
   rw [← MonoidalCategory.id_tensorHom, tensorHom_eq_sheafify_map]
-  exact congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+  exact congrArg (Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
     (MonoidalCategory.id_tensorHom X.val f.val)
 
-/-- Right whiskering in the strict monoidal structure is the sheafification of right whiskering
-of presheaves. -/
+/-- Right whiskering in the strict monoidal structure is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of right whiskering of presheaves. -/
 theorem whiskerRight_eq_sheafify_map
     {X₁ X₂ : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)} (f
       : X₁ ⟶ X₂)
     (Y : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    f ▷ Y = (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (f.val ▷ Y.val) := by
+    f ▷ Y = (Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+      (f.val ▷ Y.val) := by
   rw [← MonoidalCategory.tensorHom_id, tensorHom_eq_sheafify_map]
-  exact congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+  exact congrArg (Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
     (MonoidalCategory.tensorHom_id f.val Y.val)
 
 /-- The tensor product sheaf of two isomorphisms is their tensor product in the strict monoidal

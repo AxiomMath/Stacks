@@ -75,7 +75,8 @@ def Deformation.autMulEquivNaiveCotangentExtZero (D : Deformation f) :
   (Deformation.autMulEquivAmbientSolution hZ D).trans
     (solutionAutMulEquivExtZero hZ f (D.ambientSolution hZ))
 
-/-- **The shape of [Stacks Project, Tag 0D17]**, without the actions pinned down. Let `S` be a scheme, `Y ⊂ Y'` a first order thickening of
+/-- **The shape of [Stacks Project, Tag 0D17]**, without the actions pinned down. Let `S` be a
+scheme, `Y ⊂ Y'` a first order thickening of
 algebraic spaces over `S` (`hZ`) and `f : X ⟶ Y` a flat morphism of algebraic spaces over `S`
 (`hf`). If there exists a flat `f' : X' ⟶ Y'` with an isomorphism `a : X ≅ X' ×_{Y'} Y` over `Y`
 (`hD`; a `Deformation f` is exactly such a pair, see `Deformation.ofPair`, `Deformation.pairIso`),

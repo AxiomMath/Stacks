@@ -316,10 +316,8 @@ def thickeningSectionsMod (n q : ℕ) :
 theorem thickeningSectionsMod_apply (n q : ℕ) (x : (I ^ q : Ideal A)) :
     thickeningSectionsMod I n q x =
       blowupΓmodToH0 I (thickeningTwist I n q) (thickeningSections I n q x) := by
-  change blowupHmodMap I 0 (thickeningTwistProj I n q)
-      (blowupΓmodToH0 I (blowupTwist I q) (ambientSections I q x)) = _
-  rw [← blowupΓmodToH0_naturality]
-  rfl
+  rw [thickeningSectionsMod, LinearMap.comp_apply, ambientSectionsMod_apply,
+    thickeningSections_apply, blowupΓmodToH0_naturality]
 
 /-- A class in `Iᑫ` dies in `H⁰(X, 𝒪_{Yₙ}(q))` exactly when its canonical section does. Every
 `0` here is the zero of a genuine linear or additive map, which is what keeps the two `Zero`

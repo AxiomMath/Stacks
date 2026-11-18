@@ -158,78 +158,28 @@ theorem idealAction_app_tmul
       (show ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩).obj.obj
           (op U) : Type u) from
         ((idealSheafι i).val.app (op U)).hom a) • n := by
-  classical
-  let _mon : MonoidalCategory (PresheafOfModules.{u} (O X')) :=
-    PresheafOfModulesOfCommRing.monoidalCategory
-  unfold idealAction Stacks.IdealTorsion.idealTensorMultiplication
-  set adj := PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u}
-        ⟨X'.presheaf, X'.IsSheaf⟩).obj) with hadj
+  let : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X').obj) :=
+    inferInstanceAs (MonoidalCategory
+      (PresheafOfModules.{u} (X'.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})))
+  set adj := Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X'.presheaf, X'.IsSheaf⟩
   set r : ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩).obj.obj
       (op U) : Type u) :=
-    ((idealSheafι i).val.app (op U)).hom a with hr
-  -- The presheaf left unitor is the identification `r ⊗ n = r • n`.
-  have hunitor : ((λ_ N.val).hom.app (op U)).hom
-      ((show (SheafOfModules.unit
-          (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)).val.obj
-          (op U) from r) ⊗ₜ[
-        X'.presheaf.obj (op U)] n) = r • n := rfl
-  -- The counit of sheafification undoes its unit on a sheaf.
-  have hcounit : ∀ y : N.val.obj (op U),
-      ((adj.counit.app N).val.app (op U)).hom
-        ((adj.unit.app N.val).app (op U) y) = y := fun y =>
-    congrArg (fun α : N.val ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom y)
-      (adj.right_triangle_components N)
-  -- The unit of sheafification is natural.
-  have hnat : ∀ t : ((PresheafOfModules.tensorObj (O := (X').presheaf)
-      ((SheafOfModules.unit
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)).val)
-      (N.val))).obj (op U),
-      (((sheafifyFunctor X').map (λ_ N.val).hom).val.app (op U)).hom
-          ((adj.unit.app ((PresheafOfModules.tensorObj (O := (X').presheaf)
-              ((SheafOfModules.unit
-              (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)).val)
-              (N.val)))).app (op U) t) =
-        (adj.unit.app N.val).app (op U) (((λ_ N.val).hom.app (op U)).hom t) := fun t =>
-    (congrArg (fun α : _ ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom t)
-      (adj.unit.naturality (λ_ N.val).hom)).symm
-  change ((adj.counit.app N).val.app (op U)).hom
-      ((((sheafifyFunctor X').map (λ_ N.val).hom).val.app (op U)).hom
-        (((((Functor.uncurry.obj
-            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-            ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
-            (((idealSheafι i), (𝟙 N)) : (AlgebraicGeometry.SheafOfModules.idealSheaf i, N) ⟶
-            (SheafOfModules.unit
-            (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩),
-            N)))).val.app (op U)).hom
-          (toTensorSheafSection X' (AlgebraicGeometry.SheafOfModules.idealSheaf i) N (op U)
-            (a ⊗ₜ[X'.presheaf.obj (op U)] n)))) = r • n
-  have hmap : ((((Functor.uncurry.obj
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
-      (((idealSheafι i), (𝟙 N)) : (AlgebraicGeometry.SheafOfModules.idealSheaf i, N) ⟶
-      (SheafOfModules.unit
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩), N)))).val.app
-      (op U)).hom
-      (toTensorSheafSection X' (AlgebraicGeometry.SheafOfModules.idealSheaf i) N (op U)
-        (a ⊗ₜ[X'.presheaf.obj (op U)] n)) =
-      (adj.unit.app ((PresheafOfModules.tensorObj (O := (X').presheaf)
-          ((SheafOfModules.unit
-          (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)).val)
-          (N.val)))).app (op U)
-        (r ⊗ₜ[X'.presheaf.obj (op U)] n) :=
-    (tensorSheafMap_app_toTensorSheafSection X'
-      (AlgebraicGeometry.SheafOfModules.idealSheaf i) N
-      (SheafOfModules.unit
-          (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)) N
-          (idealSheafι i) (𝟙 N) U a n).trans rfl
-  rw [hmap]
-  exact Eq.trans
-    (congrArg (fun z => ((adj.counit.app N).val.app (op U)).hom z)
-      ((hnat (r ⊗ₜ[X'.presheaf.obj (op U)] n)).trans
-        (congrArg (fun w => (adj.unit.app N.val).app (op U) w) hunitor)))
-    (hcounit (r • n))
+    ((idealSheafι i).val.app (op U)).hom a
+  -- `ι ⊗ 1` sends `a ⊗ n` to `r ⊗ n`, the left unitor sends `r ⊗ n` to `r • n`, and the
+  -- counit of sheafification undoes its unit on the sheaf `N`.
+  have hmap := tensorSheafMap_app_toTensorSheafSection X'
+    (AlgebraicGeometry.SheafOfModules.idealSheaf i) N
+    (SheafOfModules.unit
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)) N
+    (idealSheafι i) (𝟙 N) U a n
+  have hunit := Stacks.SheafOfModules.Tensor.unit_naturality_apply (λ_ N.val).hom (op U)
+    (r ⊗ₜ[X'.presheaf.obj (op U)] n)
+  have hcounit := congrArg (fun α : N.val ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom (r • n))
+    (adj.right_triangle_components N)
+  exact (congrArg (fun z => ((adj.counit.app N).val.app (op U)).hom
+      ((((Stacks.SheafOfModules.Tensor.sheafification ⟨X'.presheaf, X'.IsSheaf⟩).map
+        (λ_ N.val).hom).val.app (op U)).hom z)) hmap).trans
+    ((congrArg (fun z => ((adj.counit.app N).val.app (op U)).hom z) hunit).trans hcounit)
 
 /-- Two morphisms out of a tensor product of sheaves of modules on a ringed space which agree
 on the images of pure tensors of local sections are equal. -/

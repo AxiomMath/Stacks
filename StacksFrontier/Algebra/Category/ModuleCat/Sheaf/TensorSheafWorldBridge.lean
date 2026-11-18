@@ -17,11 +17,13 @@ computes on local sections, is stated over the sheaf of rings
 `Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO` built from a presheaf of
 commutative rings together with a sheaf condition.
 
-**The two are the same construction, and this file records that they are equal by `rfl`** — on
-the ring sheaf, on objects, on the morphism exhibiting the tensor product as a sheafification,
-and (at the level of presheaves of modules) on morphisms. So nothing has to be transported
-between the two, and the section formulas for the associator and the unitors of Tag 01CA are
-restated here in the tensor-bifunctor spelling with `:=`, not along an isomorphism.
+**The two are the same construction, and this file records how they agree** — by `rfl` on the
+ring sheaf, on objects and (at the level of presheaves of modules) on morphisms. The tensor
+product sheafifies with the sealed `Stacks.SheafOfModules.Tensor.sheafification`, so the
+morphism exhibiting it as a sheafification is the Tag 05NA unit followed by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of the two sheafifications. The section formulas
+for the associator and the unitors of Tag 01CA are restated here in the tensor-bifunctor
+spelling with `:=`, not along an isomorphism.
 
 The remainder of the file is the infrastructure that identification unlocks. The multiplication
 of a sheaf of graded algebras is recorded by `SheafOfModules.GradedAlgebra` as a bilinear map on
@@ -49,8 +51,9 @@ the tensor-bifunctor spelling.
   `Stacks.TensorSheafWorld.tensorSheafBifunctor_obj_eq`,
   `Stacks.TensorSheafWorld.tensorSheafUnit_eq` and
   `Stacks.TensorSheafWorld.tensorHom_eq_monoidalTensorHom`: **the bridge.** The two ring
-  sheaves, the two tensor products on objects, the two sheafification units and the two tensor
-  products of morphisms of presheaves of modules agree, each by `rfl`.
+  sheaves, the two tensor products on objects and the two tensor products of morphisms of
+  presheaves of modules agree by `rfl`; the two sheafification units agree up to
+  `Stacks.SheafOfModules.Tensor.sheafificationIso`.
 * `Stacks.TensorSheafWorld.tensorSheafBifunctor_map_val_app_tensorSheafUnit`: the tensor product
   bifunctor on morphisms, computed on a local pure tensor.
 * `Stacks.TensorSheafWorld.associator_hom_val_app_tensorSheafUnit`,
@@ -109,17 +112,13 @@ type, so it can be registered as a local instance, which
 condition is a proposition, this is definitionally the structure for *any* proof `hO`, which is
 why the section formulas below transfer by `:=`.
 
-**The sheaf-level morphism identification is a heartbeat hazard.** The equality of morphisms
-`((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).map f).app G ≫
-  ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F').map g =
-(Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (f.val ⊗ₘ g.val)` is true
-by `rfl` in the same sense as the others, and `rfl` *does not prove it*: it exhausts the
-heartbeat budget in `whnf`, because the two sides present the sheafification functor through
-different compositions and reduction descends into the sheafification rather than stopping at
-the congruence. The presheaf-level half, `tensorHom_eq_monoidalTensorHom`, is `rfl` in
-milliseconds, and `tensorSheafBifunctor_map_val_app_tensorSheafUnit` gives the value of the
-sheaf-level morphism on a local pure tensor; with `PresheafOfModules.tensorSheaf_hom_ext` those
-two determine the morphism, so no statement is lost and no limit is raised.
+**The sheaf-level morphism identification is not stated.** The tensor product bifunctor on a
+pair of morphisms is `(Stacks.SheafOfModules.Tensor.sheafification Osharp).map (f.val ⊗ₘ g.val)`
+(`Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map`), the sealed sheafification of the
+presheaf-level tensor product, and the presheaf-level half, `tensorHom_eq_monoidalTensorHom`, is
+`rfl`. `tensorSheafBifunctor_map_val_app_tensorSheafUnit` gives the value of the sheaf-level
+morphism on a local pure tensor; with `PresheafOfModules.tensorSheaf_hom_ext` that determines
+the morphism, so no statement is lost.
 
 **Universes.** The bridge and the section formulas keep the site `C : Type u` with
 `Category.{v} C` arbitrary and put the ring sheaf and the modules in a single universe `w`.
@@ -201,12 +200,18 @@ theorem tensorSheafBifunctor_obj_eq [J.HasSheafCompose (forget₂ CommRingCat.{w
       (((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G) := rfl
 
 /-- **The two sheafification units agree**: the morphism exhibiting the value of the tensor
-product bifunctor as a sheafification is the Tag 05NA unit of the monoidal product of the
-underlying presheaves of modules. This is what lets the section formulas of Tag 01CA be read in
-the tensor-bifunctor spelling. -/
+product bifunctor as a sheafification, the unit of the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, is the Tag 05NA unit of the monoidal product of the
+underlying presheaves of modules followed by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of the two sheafifications. -/
 theorem tensorSheafUnit_eq :
-    tensorSheafUnit F G = Stacks.SheafOfModules.TensorSheafification.toSheafify Osharp.obj hO (F.val
-      ⊗ G.val) := rfl
+    tensorSheafUnit F G =
+      Stacks.SheafOfModules.TensorSheafification.toSheafify Osharp.obj hO (F.val ⊗ G.val) ≫
+        (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf Osharp) ⋙
+            restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso Osharp).hom.app
+            (tensorObj F.val G.val)) :=
+  (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app Osharp _).symm
 
 variable {F' G' : SheafOfModules.{w} (toRingCat J Osharp)}
 
@@ -223,7 +228,7 @@ theorem tensorSheafBifunctor_map_val_app_tensorSheafUnit (f : F ⟶ F') (g : G �
       (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)).map
       (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map Osharp f g)) V
     ((tensorSheafUnit F G).app V (x ⊗ₜ y))).trans ?_
-  exact (unit_naturality_apply (α := 𝟙 (toRingCat J Osharp).obj)
+  exact (Stacks.SheafOfModules.Tensor.unit_naturality_apply
       (PresheafOfModules.tensorHom f.val g.val) V (x ⊗ₜ y)).trans
     (congrArg ((tensorSheafUnit F' G').app V)
       (PresheafOfModules.tensorHom_tmul f.val g.val V x y))
@@ -287,16 +292,17 @@ theorem rightUnitor_hom_val_app_tensorSheafUnit (m : M.val.obj V)
       r • m :=
   Stacks.SheafOfModules.rightUnitor_hom_val_app_tmul Osharp.obj hO M V m r
 
+omit hO in
 /-- A morphism of sheaves of modules which is the sheafification of a morphism `ψ` of presheaves
 acts on the image of a local section `a` under the sheafification unit by acting as `ψ` on `a`. -/
 private theorem val_app_unit_of_eq_sheafify_map
     {M₁ M₂ N₁ N₂ : SheafOfModules.{w} (toRingCat J Osharp)} (φ : M₁ ⊗ N₁ ⟶ M₂ ⊗ N₂)
     (ψ : M₁.val ⊗ N₁.val ⟶ M₂.val ⊗ N₂.val)
-    (h : φ = (Stacks.SheafOfModules.TensorSheafification.sheafify Osharp.obj hO).map ψ)
+    (h : φ = (Stacks.SheafOfModules.Tensor.sheafification Osharp).map ψ)
     (a : (M₁.val ⊗ N₁.val).obj V) :
     φ.val.app V ((tensorSheafUnit M₁ N₁).app V a) = (tensorSheafUnit M₂ N₂).app V (ψ.app V a) :=
   (congrArg (fun φ : M₁ ⊗ N₁ ⟶ M₂ ⊗ N₂ ↦ φ.val.app V ((tensorSheafUnit M₁ N₁).app V a)) h).trans
-    (Stacks.SheafOfModules.sheafify_map_toSheafify_app Osharp.obj hO ψ V a)
+    (Stacks.SheafOfModules.Tensor.unit_naturality_apply ψ V a)
 
 /-- **Right whiskering of Tag 01CA on local pure tensors**, in the tensor-bifunctor spelling. -/
 theorem whiskerRight_val_app_tensorSheafUnit {M M' : SheafOfModules.{w} (toRingCat J Osharp)}
@@ -304,7 +310,7 @@ theorem whiskerRight_val_app_tensorSheafUnit {M M' : SheafOfModules.{w} (toRingC
     (z : Z.val.obj V) :
     (f ▷ Z).val.app V ((tensorSheafUnit M Z).app V (m ⊗ₜ z)) =
       (tensorSheafUnit M' Z).app V (f.val.app V m ⊗ₜ z) :=
-  val_app_unit_of_eq_sheafify_map Osharp hO V _ _
+  val_app_unit_of_eq_sheafify_map Osharp V _ _
     (Stacks.SheafOfModules.whiskerRight_eq_sheafify_map Osharp.obj hO f Z) _
 
 /-- **Left whiskering of Tag 01CA on local pure tensors**, in the tensor-bifunctor spelling. -/
@@ -313,7 +319,7 @@ theorem whiskerLeft_val_app_tensorSheafUnit (Z : SheafOfModules.{w} (toRingCat J
     (m : M.val.obj V) :
     (Z ◁ f).val.app V ((tensorSheafUnit Z M).app V (z ⊗ₜ m)) =
       (tensorSheafUnit Z M').app V (z ⊗ₜ f.val.app V m) :=
-  val_app_unit_of_eq_sheafify_map Osharp hO V _ _
+  val_app_unit_of_eq_sheafify_map Osharp V _ _
     (Stacks.SheafOfModules.whiskerLeft_eq_sheafify_map Osharp.obj hO Z f) _
 
 end Monoidal
@@ -388,7 +394,7 @@ theorem tensorSheaf_hom_ext₂
           H).app U ((tensorSheafUnit F G).app U (x ⊗ₜ y) ⊗ₜ z))) :
     φ = ψ := by
   have : IsLocallySurjective J (tensorSheafUnit F G) :=
-    isLocallySurjective_sheafificationAdjunction_unit_app (𝟙 (toRingCat J Osharp).obj)
+    Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app Osharp
       (tensorObj F.val G.val)
   refine tensorSheaf_hom_ext fun U t z ↦ ?_
   exact hom_congr_apply' (tensorObj_hom_ext_of_isLocallySurjective Q.isSheaf.isSeparated

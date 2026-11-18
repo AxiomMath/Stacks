@@ -76,7 +76,8 @@ that class (`hK'`, the joint consequence of **Stacks 07B9** (2)(a), (2)(c)) and 
 triangulated subcategory (the instance hypotheses `[IsTriangulated]` and
 `[IsClosedUnderIsomorphisms]`).  They are not the registration of **Stacks 07BA**: the library
 proves the lemma unconditionally in
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SheafFlatBaseChangeParasiticColocalization.lean`
+`SheafFlatBaseChangeParasiticColocalization.lean` of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`
 (`AlgebraicGeometry.Stack.FlatFppf.exists_sheafParasiticColocalizationTriangle_unique`), for the
 class `LQCoh^fbc` of **Stacks 0762**, with the derived lower shriek of **Stacks 07AS** (4),
 `AlgebraicGeometry.Stack.FlatFppf.derivedModuleLowerShriek`, and with **Stacks 07B9** (2)(a), (2)(c)

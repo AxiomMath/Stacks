@@ -45,7 +45,8 @@ complete Noetherian base:
 
 Stacks 0899 with both inputs discharged is
 `AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback_holds`, in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AdicFiniteAlgebraizationTags.lean`,
+`AdicFiniteAlgebraizationTags.lean` of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/`,
 which carries the tag.
 
 Everything else is proved: that *every* member of the system is a closed immersion (hence finite,

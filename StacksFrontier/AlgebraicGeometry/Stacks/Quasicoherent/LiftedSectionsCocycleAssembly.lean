@@ -261,6 +261,7 @@ def LiftedSectionsFactorFourSquareStandIn : Prop :=
           (smallEtaleFinal B E h S hS p z')) ⟶
       (SmallEtale.toOver E (p.obj z).left.1 (contains_base B E h S hS p z)).obj
         (smallEtaleFinal B E h S hS p z)),
+    n.left = B.inclusion.map (p.map ψ).left →
     letI := h𝓕
     F.presheaf.map ψ.op ≫ liftedSectionsUpper B E h S hS p hp F hlqc (ψ ≫ φ) 𝓕 hMx eU hiso' =
       liftedSectionsUpper B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso ≫
@@ -377,7 +378,7 @@ theorem liftedSectionsCocycle_at_belowArrowSite
   rw [hfac, hfac', hmm]
   subst hφ'
   have hA := hf4 F hlqc 𝓕 h𝓕 hMx eU ψ φ hkg hiso hiso'
-    (finalBaseChangeArrow B E h S hS p ψ)
+    (finalBaseChangeArrow B E h S hS p ψ) rfl
   have hB := Stacks.Sites.baseChangeCompIso_inv_restriction_of_eq 𝓕
     (B.inclusion.map (p.map φ).left) (B.inclusion.map (p.map ψ).left)
     (B.inclusion.map (p.map (ψ ≫ φ)).left) hkg

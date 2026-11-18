@@ -161,30 +161,23 @@ lemma compTensorHom_val_app_unit_tmul (V : X.Cᵒᵖ)
     (z : ((φ.toModulesHom.pullbackModules).obj
       ((ψ.toModulesHom.pullbackModules).obj B)).val.obj V) :
     (compTensorHom φ ψ A B).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf X.J X.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
             (((φ.toModulesHom.pullbackModules).obj
                 ((ψ.toModulesHom.pullbackModules).obj A)).val ⊗
               ((φ.toModulesHom.pullbackModules).obj
                 ((ψ.toModulesHom.pullbackModules).obj B)).val)).app V
           (y ⊗ₜ[(ringPresheaf X.O.obj).obj V] z)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf X.J X.O.obj
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           ((((ψ.comp φ).toModulesHom.pullbackModules).obj A).val ⊗
             (((ψ.comp φ).toModulesHom.pullbackModules).obj B).val)).app V
         (((pullbackModulesCompAdjIso φ ψ).inv.app A).val.app V y
           ⊗ₜ[(ringPresheaf X.O.obj).obj V]
           ((pullbackModulesCompAdjIso φ ψ).inv.app B).val.app V z) := by
   unfold compTensorHom
-  rw [Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
-  exact TensorSheafification.sheafification_map_val_app_unit X.O.obj
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
-    (PresheafOfModules.tensorHom (O := X.O.obj)
-      (SheafOfModules.Hom.val ((pullbackModulesCompAdjIso φ ψ).inv.app A))
-      (SheafOfModules.Hom.val ((pullbackModulesCompAdjIso φ ψ).inv.app B))) V
-    (y ⊗ₜ[(ringPresheaf X.O.obj).obj V] z)
+  rw [Tensor.sheafTensor_uncurry_map]
+  exact (congrArg _ (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ V _)).trans
+    ((Tensor.unit_naturality_apply _ V _).trans
+      (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ V _).symm)
 
 /-- **The compositor on the tensor product of the two pullbacks, on underlying sheaves of sets, with
 both endpoints ascribed as the bottom of the chain of Tag 03EL spells them.** As for
@@ -228,9 +221,7 @@ private lemma sectionsFunctor_map_prodMap_comp_pullbackTensorBottomPairing (W : 
                 ((ψ.toModulesHom.pullbackModules).obj B))).1 ≫
             compTensorSheafHom φ ψ A B)
         (Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} X.J W) x s) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf X.J X.O.obj
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           ((((ψ.comp φ).toModulesHom.pullbackModules).obj A).val ⊗
             (((ψ.comp φ).toModulesHom.pullbackModules).obj B).val)).app W
         (((pullbackModulesCompAdjIso φ ψ).inv.app A).val.app W

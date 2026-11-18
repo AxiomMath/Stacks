@@ -202,7 +202,8 @@ abbrev gradedCohomologySum (F : _root_.SheafOfModules.GradedModule 𝓑) (p : �
 /-! ### Part (2): vanishing of the higher cohomology of the twists -/
 
 /-- **Part (2) of [Stacks, Tag 0897], read off a given base change.** Let `A` be a Noetherian
-ring, `B` a finitely generated graded `A`-algebra, `f : X ⟶ Spec A` proper, `F` a quasi-coherent graded `𝓑`-module of finite type and `L` an
+ring, `B` a finitely generated graded `A`-algebra, `f : X ⟶ Spec A` proper, `F` a quasi-coherent
+graded `𝓑`-module of finite type and `L` an
 invertible `𝒪_X`-module. Then there is a `d₀` such that
 
 `H^p(X, Fₙ ⊗ L^{⊗d}) = 0` for every `p > 0`, every `d ≥ d₀` and **every** graded degree `n`,

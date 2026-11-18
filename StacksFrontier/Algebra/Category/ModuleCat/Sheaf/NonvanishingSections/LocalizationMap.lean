@@ -328,11 +328,7 @@ public noncomputable def tensorSectionAtOpen (U : Opens X.toRingedSpace)
       ((sectionSiteSheaf X))⟩).obj (F)).obj ((TensorPower.tensorPower (sectionSiteRing X)
       (sectionSiteSheaf X) L
         (n : ℤ))))).val.obj (op U) :=
-  ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    ((PresheafOfModules.tensorObj (O := (sectionSiteRing X)) (F.val) ((TensorPower.tensorPower
-      (sectionSiteRing X) (sectionSiteSheaf X) L
-        (n : ℤ)).val)))).app (op U)).hom
-      (t ⊗ₜ[(sectionSiteRing X).obj (op U)] q)
+  tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) (op U) F _ t q
 
 private noncomputable def powerMulAt (U : Opens X.toRingedSpace) (n m : ℕ)
     (a : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
@@ -808,9 +804,9 @@ private theorem powerMulAt_basis (s : L.sections) (n m : ℕ)
   unfold powerMulAt tensorSectionsAt
   have ht := TensorProduct.smul_tmul_smul (R := (sectionSiteRing X).obj (op U))
     r q (powerBasisAt X L s n 1) (powerBasisAt X L s m 1)
-  let η := ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    ((PresheafOfModules.tensorObj (O := (sectionSiteRing X)) ((P n).val) ((P m).val)))).app (op
-      U)).hom
+  let η := (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+    (sectionSiteSheaf X)).unit.app
+      (PresheafOfModules.tensorObj (O := sectionSiteRing X) (P n).val (P m).val)).app (op U)).hom
   let e := ((TensorPower.coherentMulIso (sectionSiteRing X) (sectionSiteSheaf X) L
     (n : ℤ) (m : ℤ) ≪≫
     TensorPower.tensorPowerReindex (sectionSiteRing X) (sectionSiteSheaf X) L
@@ -836,13 +832,12 @@ private theorem moduleMulAt_basis (s : L.sections) (n m : ℕ)
       ((n + m : ℕ) : ℤ)).val.obj (op U)).isModule
   rw [tensorBasisAt_apply, moduleMulAt_tensor, powerMulAt_basis, mul_one, tensorBasisAt_apply,
     powerBasisAt_smul X L s (n + m) r]
-  unfold tensorSectionAtOpen
+  unfold tensorSectionAtOpen tensorSectionsAt
   exact congrArg
-    ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-      ((PresheafOfModules.tensorObj (O := (sectionSiteRing X)) (F.val) ((TensorPower.tensorPower
-        (sectionSiteRing X) (sectionSiteSheaf X) L
-          ((n + m : ℕ) : ℤ)).val)))).app
-        (op U)).hom
+    (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+      (sectionSiteSheaf X)).unit.app (PresheafOfModules.tensorObj (O := sectionSiteRing X) F.val
+        (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+          ((n + m : ℕ) : ℤ)).val)).app (op U)).hom
     (TensorProduct.smul_tmul (R := (sectionSiteRing X).obj (op U))
       r t (powerBasisAt X L s (n + m) 1)).symm
 

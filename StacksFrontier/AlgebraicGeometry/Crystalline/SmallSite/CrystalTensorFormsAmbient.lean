@@ -618,14 +618,7 @@ def tensorFormsAmbientUnit :
     (tensorRestriction A F i).presheaf ⟶
       ((SheafOfModules.toSheaf _).obj (ambientTensor F N)).obj :=
   tensorFormsAmbient F c ≫ (PresheafOfModules.toPresheaf _).map
-    ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf
-          (A.obj.thickening.target.scheme.toRingedSpace))
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf
-          (A.obj.thickening.target.scheme.toRingedSpace)).obj)).unit.app
-      (PresheafOfModules.tensorObj
-        (O := (A.obj.thickening.target.scheme.toRingedSpace).presheaf)
-        ((crysAmbientSchemeModules F A)).val (N).val))
+    (PresheafOfModules.tensorSheafUnit (crysAmbientSchemeModules F A) N)
 
 /-- The unit of the tensor product sheaf `F_T ⊗ N` is locally injective. -/
 theorem isLocallyInjective_tensorSheafUnit :
@@ -634,16 +627,9 @@ theorem isLocallyInjective_tensorSheafUnit :
           ((sheafToPresheaf (Opens.grothendieckTopology A.obj.thickening.target.scheme)
             CommRingCat).obj A.obj.thickening.target.scheme.sheaf ⋙
               forget₂ CommRingCat RingCat)).map
-        ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf
-              (A.obj.thickening.target.scheme.toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf
-              (A.obj.thickening.target.scheme.toRingedSpace)).obj)).unit.app
-          (PresheafOfModules.tensorObj
-            (O := (A.obj.thickening.target.scheme.toRingedSpace).presheaf)
-            ((crysAmbientSchemeModules F A)).val (N).val))) :=
-  GrothendieckTopology.W.isLocallyInjective
-    ((Opens.grothendieckTopology A.obj.thickening.target.scheme).W_toSheafify _)
+        (PresheafOfModules.tensorSheafUnit (crysAmbientSchemeModules F A) N)) :=
+  Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+    A.obj.thickening.target.scheme.sheaf _
 
 /-- The unit of the tensor product sheaf `F_T ⊗ N` is locally surjective. -/
 theorem isLocallySurjective_tensorSheafUnit :
@@ -652,16 +638,9 @@ theorem isLocallySurjective_tensorSheafUnit :
           ((sheafToPresheaf (Opens.grothendieckTopology A.obj.thickening.target.scheme)
             CommRingCat).obj A.obj.thickening.target.scheme.sheaf ⋙
               forget₂ CommRingCat RingCat)).map
-        ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf
-              (A.obj.thickening.target.scheme.toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf
-              (A.obj.thickening.target.scheme.toRingedSpace)).obj)).unit.app
-          (PresheafOfModules.tensorObj
-            (O := (A.obj.thickening.target.scheme.toRingedSpace).presheaf)
-            ((crysAmbientSchemeModules F A)).val (N).val))) :=
-  GrothendieckTopology.W.isLocallySurjective
-    ((Opens.grothendieckTopology A.obj.thickening.target.scheme).W_toSheafify _)
+        (PresheafOfModules.tensorSheafUnit (crysAmbientSchemeModules F A) N)) :=
+  Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+    A.obj.thickening.target.scheme.sheaf _
 
 /-- The comparison morphism `(F ⊗ Ω^i_{X/S})|_T ⟶ F_T ⊗ N` is locally injective. -/
 instance isLocallyInjective_tensorFormsAmbientUnit :

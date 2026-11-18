@@ -418,7 +418,7 @@ Noetherian algebraic space, by applying
 of ideals. -/
 theorem idealPushforwardSupportConstant (X : AlgebraicSpaces B S hS)
     (hN : HasEtaleLocalProperty B S hS X.1 (fun V : Scheme.{u} => IsLocallyNoetherian V)) :
-    IdealPushforwardSupportConstant B S hS X := fun _Z hZ hint I J hI hJ =>
+    IdealPushforwardSupportConstant B S hS X := fun _ hZ hint I J hI hJ =>
   (moduleSupportSet_idealPushforward_eq_image B S hS X hN hZ hint I hI).trans
     (moduleSupportSet_idealPushforward_eq_image B S hS X hN hZ hint J hJ).symm
 
@@ -693,8 +693,8 @@ This is Stacks 07US applied to the property `fun M => Supp M ⊆ W → P M`; the
 transfer because the support of a submodule and of a quotient module are contained in the
 support of the module.  The hypothesis `hdev` is the conclusion of Stacks 07UR, which is what
 07US consumes. -/
-theorem property_of_moduleSupportSet_subset (hZtop : B.Contains (⊤_ Scheme.{u}))
-    (X : AlgebraicSpaces B S hS) (_hX : IsNoetherian B S hS hZtop X.1)
+theorem property_of_moduleSupportSet_subset
+    (X : AlgebraicSpaces B S hS)
     (hdev : ∀ M : Modules.{u, u} B S hS X.1 X.2, IsCoherent B S hS X.1 X.2 M →
       HasIdealDevissage B S hS X M)
     (P : Modules.{u, u} B S hS X.1 X.2 → Prop)
@@ -824,7 +824,7 @@ theorem forall_property_idealPushforward (hZtop : B.Contains (⊤_ Scheme.{u}))
     intro N hN hNlt
     have hNT : moduleSupportSet B S hS X N ⊂ (T : Set (points B S hS X.1)) :=
       hNlt.trans_le hsub
-    exact property_of_moduleSupportSet_subset B S hS hZtop X hX hdev P hzero hext
+    exact property_of_moduleSupportSet_subset B S hS X hdev P hzero hext
       (moduleSupportSet B S hS X N)
       (IH ⟨moduleSupportSet B S hS X N, isClosed_moduleSupportSet B S hS X N hN⟩
         (SetLike.coe_ssubset_coe.mp hNT))

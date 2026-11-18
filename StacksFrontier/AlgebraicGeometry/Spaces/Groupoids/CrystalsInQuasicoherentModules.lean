@@ -446,7 +446,8 @@ end Subcrystal
 /-! ### The cardinal attached to the system -/
 
 /-- **The cardinal attached to a system of schemes.**  It is the maximum of `ℵ₀`, the
-cardinalities of the index sets `I` and `Φ`, and the sizes (Stacks Section 000H) of the schemes of the
+cardinalities of the index sets `I` and `Φ`, and the sizes (Stacks Section 000H) of the schemes of
+the
 system.  These are the bounds the source's argument asks of the cardinal: `κ` infinite and
 larger than the cardinality of `I` and of `Φ`, and, through the size of each `X i`, larger than
 the number of affine opens of each `X i` and than the cardinality of the sections of its

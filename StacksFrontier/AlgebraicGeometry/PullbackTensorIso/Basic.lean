@@ -53,10 +53,13 @@ through stalks, which is carried out in `Invertible.lean`.
 Stacks 01CB and the comparison of Stacks 01CD use the same native curried
 `Stacks.SheafOfModules.Tensor.sheafTensor`, constructed from `PresheafOfModules.tensorObj`.
 The stalk isomorphism therefore applies directly to the comparison, without a tensor spelling
-isomorphism. The section map is the generic sheafification unit
+isomorphism. The section map is the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`,
+the adjunction of the sealed sheafification `sheafTensor` is built from
 (`toTensorSheafSection_eq_tensorSheafUnit`), and
 `structureSheafRing_eq_structureRingSheaf` identifies the two spellings of the coefficient sheaf
-of rings.
+of rings. A tensor product sheaf is not definitionally Mathlib's
+`PresheafOfModules.sheafification` of the objectwise tensor product, so the germ formulas below
+are stated through that adjunction, as the comparison of Stacks 01CD is.
 
 ## Universes
 
@@ -139,13 +142,12 @@ lemma structureSheafRing_eq_structureRingSheaf :
 variable (A B : SheafOfModules.{u} (structureRingSheaf Z))
 
 /-- The map on sections into the tensor product of Stacks 01CB is the sheafification unit the
-comparison of Stacks 01CD is stated for. -/
+comparison of Stacks 01CD is stated for: the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
 lemma toTensorSheafSection_eq_tensorSheafUnit (U : (Opens Z.carrier)ᵒᵖ) (a : A.val.obj U)
     (b : B.val.obj U) :
     Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection Z A B U (a ⊗ₜ b) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf Z.sheaf)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Z.sheaf).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
         (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)) U (a ⊗ₜ b) := rfl
 
 end Identifications
@@ -193,17 +195,13 @@ lemma germ_comparison_pullbackUnit (x : X.carrier) (U : Opens Y.carrier)
           (pullbackUnit f
             (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).obj A).obj B)
             (op U)
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := Y.presheaf) A.val B.val)) (op U) (a ⊗ₜ b)))) =
       TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).obj
           ((pullbackFunctor f).obj A)).obj ((pullbackFunctor f).obj B)).val.presheaf
         ((opensMap f).obj U) x hx
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := X.presheaf) ((pullbackFunctor f).obj A).val
             ((pullbackFunctor f).obj B).val))
           ((opensMap f).op.obj (op U))
@@ -243,9 +241,7 @@ theorem tensorStalkIso_germ_comparison (x : X.carrier) (U : Opens Y.carrier)
             (pullbackUnit f
               (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).obj A).obj B)
               (op U)
-              (Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).unit.app
+              (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
                 (PresheafOfModules.tensorObj (O := Y.presheaf) A.val B.val)) (op U) (a ⊗ₜ b))))) =
       Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X (pullbackSheaf f A).val x
         ((opensMap f).obj U) hx

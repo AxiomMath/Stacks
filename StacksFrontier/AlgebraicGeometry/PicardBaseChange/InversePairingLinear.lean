@@ -54,8 +54,9 @@ lever appears anywhere below.
 `Γ(X, L) ⊗ Γ(X, L^{⊗ -1}) --(α ⊗ id)--> Γ(X, L^{⊗ 1}) ⊗ Γ(X, L^{⊗ -1})`
 `  --β--> Γ(X, T) --γ--> Γ(X, 𝒪_X)`
 
-— with `α` the identification `L ≅ L^{⊗ 1}`, `β` the sheafification unit of the tensor presheaf
-and `γ` the multiplication isomorphism `tensorPowerMulIsoNegOne` — makes bilinearity a
+— with `α` the identification `L ≅ L^{⊗ 1}`, `β` the unit of `structureSheafificationAdjunction`
+(the sealed sheafification that is the last factor of the sheaf tensor product) at the tensor
+presheaf, and `γ` the multiplication isomorphism `tensorPowerMulIsoNegOne` — makes bilinearity a
 consequence of the construction, and `globalSectionsMulNegOneLinear_tmul` is `rfl`. Proving
 bilinearity instead, from the same three maps, requires rewriting with
 `TensorProduct.tmul_add`/`tmul_smul` inside the goal, and those rewrites do not fire: the
@@ -118,7 +119,8 @@ map out of the tensor product of the two modules of global sections.** This is t
 [Stacks, Tag 0CDX] asserts to be an isomorphism.
 
 It is the composition of the identification `L ≅ L^{⊗ 1}` in the first factor, the
-sheafification unit of the tensor presheaf, and the multiplication isomorphism
+unit of the sealed sheafification `structureSheafificationAdjunction` at the tensor presheaf,
+and the multiplication isomorphism
 `Stacks.SheafOfModules.Invertible.tensorPowerMulIsoNegOne`; being a composition of linear maps,
 it needs no bilinearity verification. -/
 def globalSectionsMulNegOneLinear :
@@ -132,9 +134,9 @@ def globalSectionsMulNegOneLinear :
     ((tensorPowerMulIsoNegOne X.presheaf X.ringCatSheaf.property L).hom.val.app (.op ⊤)).hom
   let β : Γ(tensorPowerModule L 1, ⊤) ⊗[Γ(X, ⊤)] Γ(tensorPowerModule L (-1), ⊤) →ₗ[Γ(X, ⊤)]
       Γ(T, ⊤) :=
-    ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf X.ringCatSheaf.property
-      ((PresheafOfModules.tensorObj (O := X.presheaf) ((tensorPowerModule L
-        1).val) ((tensorPowerModule L (-1)).val)))).app (.op ⊤)).hom
+    (((structureSheafificationAdjunction X.presheaf X.ringCatSheaf.property).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) ((tensorPowerModule L 1).val)
+        ((tensorPowerModule L (-1)).val))).app (.op ⊤)).hom
   let α : Γ(L, ⊤) →ₗ[Γ(X, ⊤)] Γ(tensorPowerModule L 1, ⊤) :=
     ((tensorPowerOneIso X.presheaf X.ringCatSheaf.property L).inv.val.app (.op ⊤)).hom
   (γ.comp β).comp (TensorProduct.map α LinearMap.id)

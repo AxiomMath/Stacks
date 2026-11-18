@@ -772,16 +772,15 @@ noncomputable abbrev tensorDifferentials :
     O₂).obj F).obj (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ)
 
 /-- The sheafification map `F ⊗ Ω_{O₂/O₁} ⟶ (F ⊗ Ω_{O₂/O₁})^#`, as a morphism of presheaves
-of modules: the unit of the sheafification adjunction. -/
+of modules: the unit of the (sealed) sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 noncomputable def tensorDifferentialsUnit :
     PresheafOfModules.tensorObj F.val
         (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val ⟶
       (_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).obj
         (tensorDifferentials.{v, u, w, m} φ F) :=
-  (PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
-      (PresheafOfModules.tensorObj F.val
-        (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+    (PresheafOfModules.tensorObj F.val (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)
 
 /-- **The symbol of the sequence of principal parts**, as a family of maps: minus the image
 of the pure tensor `x ⊗ d b` in the sheafified tensor product. -/
@@ -1078,9 +1077,11 @@ theorem hom_ext_of_tensorDifferentialsCurry
     exact congrArg (fun k : moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ ⟶
         internalHomSheafOfModules F T ↦
       evalTerminal O₂.obj F.val T.val (X := X) ((ConcreteCategory.hom (k.val.app X)) ω) x) h
-  refine ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv _ _).injective ?_
-  exact hpre
+  exact ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv _ _).injective
+    ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv_unit _ _ g₁).trans
+      hpre).trans
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv_unit
+          _ _ g₂).symm)
 
 end Comparison
 

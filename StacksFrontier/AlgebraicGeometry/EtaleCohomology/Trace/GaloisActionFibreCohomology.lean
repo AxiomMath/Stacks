@@ -82,7 +82,8 @@ below carries both qualifications.
 The first assertion is Tag 03Q9, which this library has as
 `AlgebraicGeometry.stalkHigherDirectImageIso` (the stalk is the cohomology of the base change to
 the strict henselization, here `Spec k^sep`), followed by the passage from `k^sep` to `k̄`; that
-these assemble to the comparison of this file is not proved here.  The equivariance in degree `j > 0` needs the degree-`j` form of the comparison
+these assemble to the comparison of this file is not proved here.  The equivariance in degree
+`j > 0` needs the degree-`j` form of the comparison
 together with a composition law for restriction of sections along a composite of morphisms of
 schemes — transitivity of `Stacks.EtaleCohomology.smallEtaleSectionsPullbackAb` in the scheme
 over the base, rather than in the étale object, which

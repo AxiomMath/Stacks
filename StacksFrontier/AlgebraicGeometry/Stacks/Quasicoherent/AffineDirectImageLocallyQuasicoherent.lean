@@ -67,7 +67,8 @@ described in the implementation notes.
 `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules` and
 `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeEtaleModules` are, and as the library's
 form of **Stacks 0771** part (4)(b) in
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LocallyQuasicoherentFlatBaseChangeSummary.lean`
+`LocallyQuasicoherentFlatBaseChangeSummary.lean` of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`
 is.  The source's default topology is the fppf one, and the fppf reading is the one
 `AlgebraicGeometry.Stack.stacks0GQI` is stated in; the two readings of the higher direct images
 agree by **Stacks 0771** part (4)(a),
@@ -137,7 +138,8 @@ coproduct cocone.  The source deduces it from **Stacks 01SB**, the identificatio
 quasi-coherent modules with restriction of scalars along `𝒪_𝒴 ⟶ f_*𝒪_𝒳`; this library carries
 **Stacks 01SB** for schemes
 (`StacksFrontier/AlgebraicGeometry/QcohLimits/RestrictScalars.lean`,
-`StacksFrontier/AlgebraicGeometry/AffineQcohUnit/Equivalence.lean`), and this file does not transport
+`StacksFrontier/AlgebraicGeometry/AffineQcohUnit/Equivalence.lean`), and this file does not
+transport
 it to the étale site of an algebraic stack, so here the clause is assumed.  On the fppf sites at
 module universe `u`, `AlgebraicGeometry.Stack.stacks0GQI` proves it from the sections formula over
 objects lying over affine schemes instead.  It is stated as

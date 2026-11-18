@@ -37,8 +37,10 @@ preserves zero morphisms, is
 
 **The proof of (2) implies (1).** Flatness is exactness of `G ↦ G ⊗ F`. Right exactness is the
 unconditional input above, so only the preservation of monomorphisms is at issue, and by
-`Stacks.SheafOfModules.FlatSheafification.moduleSheafification_map_mono_of_locallyInjective`
-that is the local injectivity of the *presheaf* tensor map `G ⊗ F → H ⊗ F`.
+`Stacks.SheafOfModules.FlatSheafification.moduleSheafification_map_mono_of_locallyInjective`,
+transported to the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification O` that
+`sheafTensor` ends with along `Stacks.SheafOfModules.Tensor.sheafificationIso O`, that is the
+local injectivity of the *presheaf* tensor map `G ⊗ F → H ⊗ F`.
 
 The source argues that step by writing `F(U)` as a filtered colimit of finitely presented
 `O(U)`-modules (Algebra, Lemma 00HA) and choosing a stage at which the section and its
@@ -392,6 +394,21 @@ lemma isLocallyInjective_tensorRightOf_map_of_criterion
   intro V f hf
   exact (hzero f hf).trans (map_zero _).symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{max v w} RingCat.{max v w})] in
+/-- A morphism of presheaves of modules whose underlying morphism of presheaves of abelian groups
+is locally injective becomes a monomorphism after the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification O`: the statement
+`Stacks.SheafOfModules.FlatSheafification.moduleSheafification_map_mono_of_locallyInjective`
+transported along `Stacks.SheafOfModules.Tensor.sheafificationIso O`. -/
+private lemma mono_sheafification_map_of_isLocallyInjective
+    {M N : PresheafOfModules.{max v w} (Tensor.ringSheaf O).obj} (f : M ⟶ N)
+    (hf : Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf _).map f)) :
+    Mono ((Tensor.sheafification O).map f) := by
+  have := FlatSheafification.moduleSheafification_map_mono_of_locallyInjective J (𝟙 _) f hf
+  refine (mono_comp_iff_of_isIso ((Tensor.sheafificationIso O).hom.app M) _).1 ?_
+  rw [← (Tensor.sheafificationIso O).hom.naturality f]
+  infer_instance
+
 /-- Tensoring with a sheaf of modules satisfying the finite-matrix criterion preserves
 monomorphisms. -/
 lemma preservesMonomorphisms_sheafTensorRight_of_criterion
@@ -403,8 +420,7 @@ lemma preservesMonomorphisms_sheafTensorRight_of_criterion
   intro (G : _root_.SheafOfModules.{max v w} (commRingSheafToRingSheaf O))
     (H : _root_.SheafOfModules.{max v w} (commRingSheafToRingSheaf O))
     (φ : G ⟶ H) (_ : Mono φ)
-  exact FlatSheafification.moduleSheafification_map_mono_of_locallyInjective J (ringUnit O)
-    ((tensorRightOf O F).map φ.val)
+  exact mono_sheafification_map_of_isLocallyInjective ((tensorRightOf O F).map φ.val)
     (isLocallyInjective_tensorRightOf_map_of_criterion hF φ)
 
 /-- **Stacks 08FC, (3) implies (1).**  A sheaf of modules satisfying the finite-matrix form of

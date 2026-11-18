@@ -30,8 +30,12 @@ become statements about a single isomorphism rather than about a bundled datum.
 * `coherentMulIso_zero_left`, `coherentMulIso_zero_right`, `coherentMulIso_one_right`,
   `coherentMulIso_assoc` and `coherentMulIso_comm`: its five coherence laws, stated against the
   *fixed* structural isomorphisms `Stacks.SheafOfModules.Invertible.tensorProduct…` of the sheaf
-  tensor product. Those agree with the `tensorSheaf…` spelling of the coherence structure's own
-  fields definitionally, so each law is the corresponding field.
+  tensor product. The coherence structure's own fields use the `tensorSheaf…` spelling; the map
+  and braiding agree with the fixed ones definitionally, while the unitors and the associator are
+  identified with them by `tensorSheafLeftUnitor_eq_tensorProductLeftUnitor`,
+  `tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor` and
+  `tensorSheafAssociator_eq_tensorProductAssociator`, so each law is the corresponding field
+  rewritten along those identifications.
 * `Stacks.SheafOfModules.TensorPower.tensorSheafBraiding_tensorPower_self`: a tensor power of an
   invertible sheaf braids trivially with itself, read off from the commutativity law.
 
@@ -97,7 +101,8 @@ theorem coherentMulIso_zero_left
     [IsInvertible O hO L] (n : ℤ) :
     coherentMulIso O hO L 0 n ≪≫ tensorPowerReindex O hO L (Int.zero_add n) =
       Invertible.tensorProductLeftUnitor O hO (tensorPower O hO L n) :=
-  (tensorPowerCoherence O hO L).mul_zero_left n
+  ((tensorPowerCoherence O hO L).mul_zero_left n).trans
+    (tensorSheafLeftUnitor_eq_tensorProductLeftUnitor O hO _)
 
 /-- Multiplication by the zeroth power on the right is the canonical unitor. -/
 @[simp↓]
@@ -106,7 +111,8 @@ theorem coherentMulIso_zero_right
     [IsInvertible O hO L] (n : ℤ) :
     coherentMulIso O hO L n 0 ≪≫ tensorPowerReindex O hO L (Int.add_zero n) =
       Invertible.tensorProductRightUnitor O hO (tensorPower O hO L n) :=
-  (tensorPowerCoherence O hO L).mul_zero_right n
+  ((tensorPowerCoherence O hO L).mul_zero_right n).trans
+    (tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor O hO _)
 
 /-- Multiplication by the first power is the comparison induced by the
 successor step in the defining integer iteration. -/
@@ -119,8 +125,6 @@ theorem coherentMulIso_one_right
         tensorPowerSuccIso O hO L n :=
   (tensorPowerCoherence O hO L).mul_one_right n
 
-set_option maxHeartbeats 1000000 in
--- elaborating the statement: a long composite of tensor-product isomorphisms of sheaves
 /-- Multiplication of powers is associative for the canonical tensor associator. -/
 theorem coherentMulIso_assoc
     (L : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))
@@ -132,7 +136,8 @@ theorem coherentMulIso_assoc
         Invertible.tensorProductIso O hO (Iso.refl _) (coherentMulIso O hO L m k) ≪≫
         coherentMulIso O hO L n (m + k) ≪≫
         tensorPowerReindex O hO L (Int.add_assoc n m k).symm :=
-  (tensorPowerCoherence O hO L).mul_assoc n m k
+  ((tensorPowerCoherence O hO L).mul_assoc n m k).trans
+    (congrArg (· ≪≫ _) (tensorSheafAssociator_eq_tensorProductAssociator O hO _ _ _))
 
 /-- Multiplication of powers is commutative for the canonical tensor braiding. -/
 theorem coherentMulIso_comm

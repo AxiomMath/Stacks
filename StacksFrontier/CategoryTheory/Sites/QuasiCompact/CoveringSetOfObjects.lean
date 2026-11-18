@@ -139,7 +139,7 @@ theorem isLocallySurjective_sigmaDesc_sigmaIota {ι : Type max u v}
     (A : ι → Sheaf J (Type max u v)) :
     IsLocallySurjective (Sigma.desc (Sigma.ι A)) := by
   have h : Sigma.desc (Sigma.ι A) = 𝟙 (∐ A) :=
-    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_desc, Category.comp_id]
+    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_comp_desc, Category.comp_id]
   rw [h]
   infer_instance
 
@@ -348,8 +348,8 @@ theorem isLocallySurjective_sigmaDesc_sigma {ι : Type max u v} {κ : ι → Typ
   refine ⟨fun {Z} a b hab => Sigma.hom_ext _ _ fun i => ?_⟩
   refine (cancel_epi (Sigma.desc fun k : κ i => ψ ⟨i, k⟩)).1 (Sigma.hom_ext _ _ fun k => ?_)
   have h := congrArg (fun m => Sigma.ι A ⟨i, k⟩ ≫ m) hab
-  simp only [Sigma.ι_desc_assoc, Category.assoc] at h
-  simp only [Sigma.ι_desc_assoc]
+  simp only [Sigma.ι_comp_desc_assoc, Category.assoc] at h
+  simp only [Sigma.ι_comp_desc_assoc]
   exact h
 
 /-- A sheaf of sets surjecting onto the final sheaf has sections over a covering of every object:

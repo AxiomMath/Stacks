@@ -76,38 +76,30 @@ local instance monoidalPresheavesOfModulesUnitor :
   inferInstanceAs (MonoidalCategory
     (PresheafOfModules.{w'} (R.obj ⋙ forget₂ CommRingCat RingCat)))
 
+/-- The naturality of the left unit constraint, stated on the sheafified presheaf tensor product:
+it combines the naturality of the presheaf left unitor with that of the counit of
+`sheafificationForgetAdjunction`. -/
+private lemma sheafification_leftUnitor_counit_naturality
+    {M M' : _root_.SheafOfModules.{w'} (ringSheaf R)} (f : M ⟶ M') :
+    (sheafification R).map (𝟙_ (PresheafOfModules (ringSheaf R).obj) ◁ f.val) ≫
+        (sheafification R).map (λ_ M'.val).hom ≫ (sheafificationForgetAdjunction R).counit.app M' =
+      ((sheafification R).map (λ_ M.val).hom ≫ (sheafificationForgetAdjunction R).counit.app M) ≫
+        f :=
+  calc _ = (sheafification R).map ((λ_ M.val).hom ≫ f.val) ≫
+        (sheafificationForgetAdjunction R).counit.app M' := by
+          rw [← MonoidalCategory.leftUnitor_naturality]; exact (Functor.map_comp_assoc _ _ _ _).symm
+    _ = (sheafification R).map (λ_ M.val).hom ≫ (sheafification R).map f.val ≫
+        (sheafificationForgetAdjunction R).counit.app M' := Functor.map_comp_assoc _ _ _ _
+    _ = _ := (congrArg _ ((sheafificationForgetAdjunction R).counit.naturality f)).trans
+        (Category.assoc _ _ _).symm
+
 /-- The left unit constraint `𝒪 ⊗ M ≅ M` of the sheaf tensor product is natural in `M`. -/
 theorem sheafTensorUnitIsoLeft_naturality {M M' : _root_.SheafOfModules.{w'} (ringSheaf R)}
     (f : M ⟶ M') :
     ((sheafTensor R).obj (_root_.SheafOfModules.unit (ringSheaf R))).map f ≫
         (sheafTensorUnitIsoLeft R M').hom =
-      (sheafTensorUnitIsoLeft R M).hom ≫ f := by
-  have hM : (sheafTensorUnitIsoLeft R M).hom =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-          (λ_ M.val).hom ≫
-        (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-          (𝟙 (ringSheaf R).obj)).counit.app M := rfl
-  have hM' : (sheafTensorUnitIsoLeft R M').hom =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-          (λ_ M'.val).hom ≫
-        (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-          (𝟙 (ringSheaf R).obj)).counit.app M' := rfl
-  have hT : ((sheafTensor R).obj (_root_.SheafOfModules.unit (ringSheaf R))).map f =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-        ((_root_.SheafOfModules.unit (ringSheaf R)).val ◁ f.val) := rfl
-  rw [hM, hM', hT]
-  set SH := (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)) with hSH
-  set EP := (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-    (𝟙 (ringSheaf R).obj)).counit with hEP
-  exact (Category.assoc _ _ _).symm.trans
-    ((congrArg (fun z => z ≫ EP.app M')
-      ((SH.map_comp _ _).symm.trans
-        (congrArg (fun z => SH.map z)
-          (MonoidalCategory.leftUnitor_naturality f.val)))).trans
-      ((congrArg (fun z => z ≫ EP.app M') (SH.map_comp _ _)).trans
-        ((Category.assoc _ _ _).trans
-          ((congrArg (fun z => SH.map (λ_ M.val).hom ≫ z) (EP.naturality f)).trans
-            (Category.assoc _ _ _).symm))))
+      (sheafTensorUnitIsoLeft R M).hom ≫ f :=
+  sheafification_leftUnitor_counit_naturality R f
 
 /-- Tensoring with the structure sheaf on the left is naturally isomorphic to the identity, with
 the functor `M ↦ 𝒪 ⊗ M` read through the flipped tensor bifunctor. -/

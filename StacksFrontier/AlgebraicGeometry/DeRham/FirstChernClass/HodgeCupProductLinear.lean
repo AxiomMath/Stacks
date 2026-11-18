@@ -317,18 +317,13 @@ private theorem tensorForms_hom_ext_unit_apply (p q : ℕ) {N : _root_.SheafOfMo
     (f g : ((sheafTensor.{u, u, u, u, u} A).obj (deRhamTerm B p)).obj (deRhamTerm B q) ⟶ N)
     (h : ∀ (U : (Opens X.carrier)ᵒᵖ) (x : (B.exteriorPower p).val.obj U)
       (y : (B.exteriorPower q).val.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      f.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B q).val)).app U
             (x ⊗ₜ[A.obj.obj U] y)) =
-        g.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        g.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B q).val)).app U
             (x ⊗ₜ[A.obj.obj U] y))) : f = g := by
-  refine (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)).injective ?_
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv _ _).injective ?_
   refine tensorForms_hom_ext B p q N _ _ ?_
   intro U a b ω η _ _
   exact (sheafificationHomEquiv_apply _ U _).trans
@@ -663,8 +658,7 @@ theorem exteriorProductComponent_unitToForms (q : ℕ) :
         exteriorProductComponent B 0 q =
       (sheafTensorUnitLeft (baseRingedSpace A)).app ((deRhamComplex B D).X q) ≫
         ((deRhamComplex B D).XIsoOfEq (zero_add q).symm).hom := by
-  refine (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)).injective ?_
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv _ _).injective ?_
   refine PresheafOfModules.hom_ext fun U => ModuleCat.MonoidalCategory.tensor_ext fun r ω => ?_
   refine (sheafificationHomEquiv_apply _ U _).trans
     (Eq.trans ?_ (sheafificationHomEquiv_apply _ U _).symm)

@@ -111,9 +111,8 @@ theorem laxComparison_naturality_right (F : SheafOfModules.{u} (Tensor.ringSheaf
       laxComparison A B ρ F G ≫
         (restrictScalarsSheaf A B ρ).map
           (((Tensor.sheafTensor.{u, u, u, u, u} B).obj F).map ψ) := by
-  have h := laxComparison_naturality A B ρ (𝟙 F) ψ
-  simp only [Functor.uncurry_obj_map] at h
-  simpa using h
+  simpa only [Functor.uncurry_obj_map, CategoryTheory.Functor.map_id, NatTrans.id_app,
+    Category.id_comp] using laxComparison_naturality A B ρ (𝟙 F) ψ
 
 end Stacks.SheafOfModules.TensorRestrictScalars
 

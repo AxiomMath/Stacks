@@ -152,13 +152,29 @@ theorem sheafModuleUnitIso_eq : sheafModuleUnitIso X =
   rw [eqToHom_refl, CategoryTheory.Functor.map_id]
   exact Category.id_comp _
 
+/-- The inverse of the comparison isomorphism, unfolded one step: the inverse of
+`Stacks.SheafOfModules.Tensor.sheafificationIso` at the presheaf tensor product, followed by the
+inverse of `sheafModuleLocalizedTensorIso`. -/
+private theorem sheafModuleTensorCompareIso_inv (A B : SheafOfModules.{u} (structureSheafRing X)) :
+    (sheafModuleTensorCompareIso X A B).inv =
+      (Stacks.SheafOfModules.Tensor.sheafificationIso
+        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).inv.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val) ≫
+        (sheafModuleLocalizedTensorIso X A B).inv := rfl
+
 /-- **The comparison isomorphism of `OnSpace` is `Stacks.SheafOfModules.tensorObjIso`.**  The
-two are the same composite; they are compared on inverses because `CategoryTheory.inv`, which
-both `.hom`s contain, is not an exposed definition. -/
+two are the same composite: by `Stacks.SheafOfModules.tensorObjIso_inv_eq`, the inverse of
+`tensorObjIso` begins, as that of the comparison isomorphism does, with the inverse of the
+comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the
+sealed one.  They are compared on inverses because `CategoryTheory.inv`, which both `.hom`s
+contain, is not an exposed definition. -/
 theorem sheafModuleTensorCompareIso_eq (A B : SheafOfModules.{u} (structureSheafRing X)) :
     sheafModuleTensorCompareIso X A B =
       Stacks.SheafOfModules.tensorObjIso X.presheaf (structureSheafRing X).property A B :=
-  Iso.ext ((Iso.inv_eq_inv _ _).mp rfl)
+  Iso.ext ((Iso.inv_eq_inv _ _).mp (by
+    rw [sheafModuleTensorCompareIso_inv,
+      Stacks.SheafOfModules.tensorObjIso_inv_eq X.presheaf (structureSheafRing X).property A B]
+    rfl))
 
 /-- **The braiding of `OnSpace`'s localized structure is the braiding of
 `Stacks.SheafOfModules.braidedCategory`.** -/

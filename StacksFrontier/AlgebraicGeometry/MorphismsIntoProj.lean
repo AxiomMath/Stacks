@@ -41,7 +41,8 @@ map `S → ⨁_n Γ(X, 𝒪_X(n))` back to a graded map out of the Veronese subr
 
 The target of `psiPullbackHom` is `Γ(Y, φ⁎𝒪_X(nd))` rather than the degree-`n` piece
 `Γ(Y, (φ⁎𝒪_X(d))^{⊗ n})` of `Γ_*(Y, φ⁎𝒪_X(d))`, so the graded ring map that
-`StacksFrontier.AlgebraicGeometry.MorphismsIntoProjGradedRing` assembles from `psiPullbackVeroneseHom`
+`StacksFrontier.AlgebraicGeometry.MorphismsIntoProjGradedRing` assembles from
+`psiPullbackVeroneseHom`
 is the twist-model form of Tag 01N7. The faithful form, with target the section ring of Tag 01CV
 of `φ⁎𝒪_{U_d}(d)`, is `Stacks.AlgebraicGeometry.MorphismsIntoProj.psiPullbackSectionRing_spec` in
 `StacksFrontier.AlgebraicGeometry.MorphismsIntoProjSectionRing`, and it carries the tag.

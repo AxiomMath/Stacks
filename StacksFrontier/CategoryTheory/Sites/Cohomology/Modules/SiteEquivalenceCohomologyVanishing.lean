@@ -82,7 +82,8 @@ theorem isZero_rightDerived_reindex_iff
   have : Φ.IsEquivalence := inferInstance
   have : Φ.Additive := Functor.additive_of_preserves_binary_products Φ
   have hres := ((Functor.exact_tfae res).out 2 4).mp fun S hS => by
-    rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
+    rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
+    assumption
   have : PreservesFiniteLimits res := hres.1
   have : PreservesFiniteColimits res := hres.2
   have : res.PreservesHomology := Functor.preservesHomologyOfExact res

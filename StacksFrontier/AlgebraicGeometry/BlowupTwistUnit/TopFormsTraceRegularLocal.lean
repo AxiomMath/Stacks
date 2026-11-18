@@ -82,33 +82,33 @@ theorem ChainTopFormData.exists_isIso_comparison (D : ChainTopFormData p r T ω)
           π.hom =
       (DerivedCategory.singleFunctor W.Modules 0).map
         ((toReflexiveHull (Scheme.Hom.relativeDifferentialForms (h ≫ p) (r : ℤ))).1 ≫ a) := by
-  haveI := compactSpace_of_pointBlowupChain hc
-  haveI := quasiSeparatedSpace_of_pointBlowupChain hc
-  haveI := compactSpace_of_pointBlowupChain (hc.step w hw hwT)
-  haveI := quasiSeparatedSpace_of_pointBlowupChain (hc.step w hw hwT)
-  haveI := D.isCoherent_base
-  haveI := D.isFiniteLocallyFreeOfRank_base
-  haveI := isNoetherian_of_pointBlowupChain hc
-  haveI := isLocallyNoetherian_of_pointBlowupChain hc
+  have := compactSpace_of_pointBlowupChain hc
+  have := quasiSeparatedSpace_of_pointBlowupChain hc
+  have := compactSpace_of_pointBlowupChain (hc.step w hw hwT)
+  have := quasiSeparatedSpace_of_pointBlowupChain (hc.step w hw hwT)
+  have := D.isCoherent_base
+  have := D.isFiniteLocallyFreeOfRank_base
+  have := isNoetherian_of_pointBlowupChain hc
+  have := isLocallyNoetherian_of_pointBlowupChain hc
   have hWs := (isIntegralRegularSurface_and_isProper_of_pointBlowupChain_unconditional hc
     D.isIntegralRegularSurface).1
-  haveI := hWs.isIntegral
-  haveI := isCoherent_relativeDifferentials_of_pointBlowupChain p hc
-  haveI := isCoherent_pullback_relativeDifferentials_blowUpToBase p h w hw
-  haveI := isCoherent_relativeDifferentials_blowUpToBase_comp p h w hw
+  have := hWs.isIntegral
+  have := isCoherent_relativeDifferentials_of_pointBlowupChain p hc
+  have := isCoherent_pullback_relativeDifferentials_blowUpToBase p h w hw
+  have := isCoherent_relativeDifferentials_blowUpToBase_comp p h w hw
   obtain ⟨V, hV, hVr⟩ :=
     exists_open_isFiniteLocallyFreeOfRank_over_relativeDifferentials_of_pointBlowupChain
       p r D.isIntegralRegularSurface hc
-  haveI := hVr
+  have := hVr
   obtain ⟨U, hU, hU1, hU2⟩ := exists_open_isFiniteLocallyFreeOfRank_over_pointBlowup p h r w hw
     (exists_ne_of_topologicalKrullDim_eq_two w hWs.topologicalKrullDim_eq) V hV
-  haveI := hU1
-  haveI := hU2
-  haveI : (Scheme.Hom.relativeDifferentials
+  have := hU1
+  have := hU2
+  have : (Scheme.Hom.relativeDifferentials
       ((AlgebraicGeometry.blowUpToBase (pointIdeal w hw) ≫ h) ≫ p)).IsCoherent := by
     rw [Category.assoc]
     infer_instance
-  haveI : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
+  have : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       ((Scheme.Hom.relativeDifferentials
         ((AlgebraicGeometry.blowUpToBase (pointIdeal w hw) ≫ h) ≫ p)).over U) r := by
     rw [Category.assoc]
@@ -127,11 +127,11 @@ theorem ChainTopFormData.exists_topFormsTrace_eq (D : ChainTopFormData p r T ω)
     ∃ φ : hullForms p (r : ℤ) f ⟶ ω X f, D.topFormsTrace hf φ = D.baseIso.inv := by
   induction hf with
   | refl =>
-    haveI : IsIso (toReflexiveHull
+    have : IsIso (toReflexiveHull
         (Scheme.Hom.relativeDifferentialForms (𝟙 S ≫ p) (r : ℤ))).1 :=
       (isReflexive_iff_isIso_toReflexiveHull _).mp D.isReflexive_base
-    haveI := compactSpace_of_pointBlowupChain (PointBlowupChain.refl (X := S) (T := T))
-    haveI := quasiSeparatedSpace_of_pointBlowupChain (PointBlowupChain.refl (X := S) (T := T))
+    have := compactSpace_of_pointBlowupChain (PointBlowupChain.refl (X := S) (T := T))
+    have := quasiSeparatedSpace_of_pointBlowupChain (PointBlowupChain.refl (X := S) (T := T))
     exact exists_topFormsTraceAux_id_eq p (r : ℤ) (ω S (𝟙 S))
       (D.isQuasicoherent_dualizing PointBlowupChain.refl)
       (D.isQuasicoherent_hull PointBlowupChain.refl) (D.normalized PointBlowupChain.refl)
@@ -139,7 +139,7 @@ theorem ChainTopFormData.exists_topFormsTrace_eq (D : ChainTopFormData p r T ω)
   | @step W h hh w hw hwT ih =>
     obtain ⟨φ, hφ⟩ := ih
     obtain ⟨π, a, ha, hπ⟩ := D.exists_isIso_comparison hh w hw hwT
-    haveI := ha
+    have := ha
     exact ⟨_, (D.topFormsTrace_step hh w hw hwT (inv a ≫ φ) π a hπ).trans
       (by rw [IsIso.hom_inv_id_assoc, hφ])⟩
 

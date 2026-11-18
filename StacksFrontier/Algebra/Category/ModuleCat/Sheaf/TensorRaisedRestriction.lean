@@ -27,8 +27,9 @@ universe in which a global presentation lives.
 
 Both sides are sheafifications on the slice site: the left one of the objectwise tensor product of
 the restrictions, the right one — being a restriction of a sheafification — of the restriction of
-the objectwise tensor product.  The first receives its own sheafification unit and the second the
-restriction of the sheafification unit on the whole site, which is locally bijective because
+the objectwise tensor product.  The first receives the unit of its own sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` and the second the restriction of
+the sealed sheafification unit on the whole site, which is locally bijective because
 restriction along a cocontinuous functor preserves local injectivity and surjectivity.  The two
 sources are identified objectwise, so
 `Stacks.SheafOfModules.UliftTensor.isoOfLocallyBijective` applies.
@@ -86,20 +87,24 @@ noncomputable def tensorOverRaisedIso (R : Sheaf J CommRingCat.{w}) (V : C)
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, z, z} (R.over V)).obj (A.over V)).obj
         (B.over V) ≅
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} R).obj A).obj B).over V :=
-  let S := (Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R
   let L := presheafRestrictionRaised.{u, v, w, z} R.obj V
   let TAB : PresheafOfModules.{z} (R.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}) :=
     PresheafOfModules.tensorObj (O := R.obj) A.val B.val
+  let η :=
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app TAB
+  haveI := isLocallyInjective_sheafificationForgetAdjunction_unit_app R TAB
+  haveI := isLocallySurjective_sheafificationForgetAdjunction_unit_app R TAB
   isoOfLocallyBijective
-    (sheafifyUnit (R := S.over V)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (R.over V)).unit.app
       (PresheafOfModules.tensorObj (O := (Over.forget V).op ⋙ R.obj)
         (L.obj A.val) (L.obj B.val)))
-    (L.map (sheafifyUnit (R := S) TAB))
-    (isLocallyInjective_sheafifyUnit _) (isLocallySurjective_sheafifyUnit _)
+    (L.map η)
+    (isLocallyInjective_sheafificationForgetAdjunction_unit_app _ _)
+    (isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _)
     (Presheaf.isLocallyInjective_whisker (J.over V) J (Over.forget V)
-      (CategoryTheory.toSheafify J TAB.presheaf))
+      ((PresheafOfModules.toPresheaf _).map η))
     (Presheaf.isLocallySurjective_whisker (J.over V) J (Over.forget V)
-      (CategoryTheory.toSheafify J TAB.presheaf))
+      ((PresheafOfModules.toPresheaf _).map η))
     (presheafTensorRestrictIso.{u, v, w, z} R.obj V A.val B.val)
 
 end Stacks.SheafOfModules.TensorRaised

@@ -199,10 +199,8 @@ abbrev FormsMultiplication (p p' r : ℕ) :=
 noncomputable def multValue {p p' r : ℕ} (m : FormsMultiplication B p p' r)
     (U : (Opens X.carrier)ᵒᵖ) (ω : (deRhamTerm B p).val.obj U)
     (η : (deRhamTerm B p').val.obj U) : (deRhamTerm B r).val.obj U :=
-  m.val.app U (((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
-    (PresheafOfModules.tensorObj ((deRhamTerm B p)).val ((deRhamTerm B p')).val)).app U (ω
+  m.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
+    (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B p').val)).app U (ω
       ⊗ₜ[A.obj.obj U] η))
 
 /-- On a local pure tensor the wedge multiplication of Tag 0FM2 is the wedge product of forms. -/

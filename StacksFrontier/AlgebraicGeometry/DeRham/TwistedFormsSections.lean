@@ -92,9 +92,10 @@ theorem twistedTmul_restrict {Y S : Scheme.{u}} (f : Y ⟶ S) (M : Y.Modules) (q
     (twistedForms f M q).val.map k (twistedTmul f M q U s ω) =
       twistedTmul f M q V (M.val.map k s) ((relativeDifferentialForms f (q : ℤ)).val.map k ω) :=
   (PresheafOfModules.naturality_apply
-    (sheafifyUnit Y.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (Y.toRingedSpace).presheaf) (M.val)
-        ((relativeDifferentialForms f (q : ℤ)).val)))) k
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) M.val
+          (relativeDifferentialForms f (q : ℤ)).val)) k
     (s ⊗ₜ[Y.presheaf.obj U] ω)).symm
 
 /-- The relative de Rham differential on sections commutes with restriction. -/

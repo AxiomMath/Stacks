@@ -138,10 +138,9 @@ theorem sheafTensor {N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSh
   intro W g s
   let P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj :=
     (((PresheafOfModules.tensorBifunctor (X.O).obj)).obj S.val).obj N.val
-  let η := Stacks.SheafOfModules.TensorLocalProperties.sheafificationUnit
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O) P
+  let η := Stacks.SheafOfModules.TensorLocalProperties.tensorSheafificationUnit X.O P
   have : PresheafOfModules.IsLocallySurjective X.J η :=
-    inferInstanceAs (Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J P.presheaf))
+    Stacks.SheafOfModules.TensorLocalProperties.isLocallySurjective_tensorSheafificationUnit X.O P
   refine Stacks.SheafOfModules.eq_zero_of_locally_eq_zero (J := X.J) _
     (Presheaf.imageSieve_mem X.J ((PresheafOfModules.toPresheaf _).map η) s) ?_
   intro V k hk

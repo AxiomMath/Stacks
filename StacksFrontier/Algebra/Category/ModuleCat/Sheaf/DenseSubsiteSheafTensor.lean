@@ -10,12 +10,14 @@ commutative rings on `(C', K)`. The tensor product of sheaves of `O`-modules use
 development, `(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj N` (Stacks 03ER), is
 the composite of three functors: forget to presheaves of modules, take the objectwise tensor
 product (`PresheafOfModules.tensorBifunctor`, which is `Stacks.tensorRight` by `rfl`), and
-sheafify. Restriction of sections along `v` commutes with each of
-the three — with the first two on the nose
+sheafify with the sealed `Stacks.SheafOfModules.Tensor.sheafification`. Restriction of sections
+along `v` commutes with each of the three — with the first two on the nose
 (`Stacks.DenseSubsiteModules.moduleRestriction_comp_forget` and
 `presheafRestrict_comp_tensorRight`, both `rfl`) and with the third up to the isomorphism
 `Stacks.DenseSubsiteModules.commRingRestriction_sheafification` of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DenseSubsiteSheafification`. This file assembles
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DenseSubsiteSheafification`, transported to the
+sealed sheafification along `Stacks.SheafOfModules.Tensor.sheafificationIso`
+(`commRingRestriction_tensorSheafification`). This file assembles
 those three facts into
 
 `Stacks.DenseSubsiteModules.moduleRestriction_sheafTensorRight`:
@@ -33,6 +35,9 @@ through 03DG.
 
 * `Stacks.DenseSubsiteModules.moduleRestriction_sheafTensorRight`: the comparison isomorphism.
   This is the main result.
+* `Stacks.DenseSubsiteModules.commRingRestriction_tensorSheafification`: restriction commutes
+  with the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`.
+
 ## Main results
 
 * `Stacks.DenseSubsiteModules.forget_comp_presheafCommRingRestrict`,
@@ -49,12 +54,13 @@ through 03DG.
 ## Implementation notes
 
 **There is no mathematics in this file.** Every step is an equality of functors that holds by
-`rfl`, and the isomorphism `commRingRestriction_sheafification` supplies the only
-non-identity comparison. What the file is about is *elaboration cost*: the one-shot
+`rfl`, and the isomorphism `commRingRestriction_tensorSheafification` (that is,
+`commRingRestriction_sheafification` conjugated by `sheafificationIso` on both sites) supplies
+the only non-identity comparison. What the file is about is *elaboration cost*: the one-shot
 
 ```
 (Functor.isoWhiskerLeft (SheafOfModules.forget _ ⋙ Stacks.tensorRight N.val)
-  (commRingRestriction_sheafification J K v O).symm :
+  (commRingRestriction_tensorSheafification J K v O).symm :
     (Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj N ⋙ moduleRestriction J K v _ ≅
       moduleRestriction J K v _ ⋙ (Stacks.SheafOfModules.Tensor.sheafTensor _).flip.obj _)
 ```
@@ -78,11 +84,10 @@ scalars. The two are definitionally equal (`presheafRestrict_eq`), but the commu
 `Stacks.tensorRight` is cheap by `rfl` through `pushforward₀` and exhausts the budget through
 `pushforward (𝟙 _)`. So `presheafCommRingRestrict` is declared with the
 result type the tensor product uses on the subsite and the body the elaborator can see
-through, and `commRingRestriction_sheafification` is stated across it once and for all. For
-the same reason the two unfolding equations name the source `R₀` of each sheafification
-functor: left implicit, it is solved from the codomain of `Stacks.tensorRight`, spelled
-`Stacks.ringPresheaf`, and `𝟙` between two differently spelled presheaves of rings is not seen
-by instance search to be locally bijective.
+through, and `commRingRestriction_sheafification` is stated across it once and for all. The
+two unfolding equations use the sealed `Stacks.SheafOfModules.Tensor.sheafification`, whose
+source is fixed to `(ringSheaf O).obj`, so they hold by `rfl` with the last factor of
+`sheafTensor` and no source ring needs to be named.
 
 **3. Composing cheap `rfl`s does not give a cheap `rfl`.** This is the step that is easy to get
 wrong. `forget_comp_presheafCommRingRestrict`, `tensorRight_comp_presheafCommRingRestrict` and
@@ -218,10 +223,7 @@ theorem sheafTensorRight_comp_moduleRestriction_eq (O : Sheaf K CommRingCat.{w})
         (show PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⥤
             PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj from
           (PresheafOfModules.tensorBifunctor.{v₂, u₂, w, w, w} O.obj).flip.obj N.val)) ⋙
-        (PresheafOfModules.sheafification.{w}
-            (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) ⋙
+        (Stacks.SheafOfModules.Tensor.sheafification.{u₂, v₂, w, w} O ⋙
           moduleRestriction.{w} J K v (Stacks.SheafOfModules.Tensor.ringSheaf O)) := rfl
 
 variable [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
@@ -245,14 +247,27 @@ theorem moduleRestriction_comp_sheafTensorRight_eq
         (PresheafOfModules.tensorBifunctor.{v₁, u₁, w, w, w}
           (commRingRestriction J K v O).obj).flip.obj
             ((moduleRestriction.{w} J K v (Stacks.SheafOfModules.Tensor.ringSheaf O)).obj N).val)) ⋙
-      PresheafOfModules.sheafification.{w}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf (commRingRestriction J K v O)).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (commRingRestriction J K v O))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (commRingRestriction J K v O)).obj) =
+      Stacks.SheafOfModules.Tensor.sheafification.{u₁, v₁, w, w} (commRingRestriction J K v O) =
       moduleRestriction.{w} J K v (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
         (Stacks.SheafOfModules.Tensor.sheafTensor.{u₁, v₁, w, w, w}
           (commRingRestriction J K v O)).flip.obj
             ((moduleRestriction.{w} J K v (Stacks.SheafOfModules.Tensor.ringSheaf O)).obj N) := rfl
+
+/-- `commRingRestriction_sheafification` for the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` that ends the tensor product: restricting a
+presheaf of modules and then sheafifying on the subsite is sheafifying on the big site and then
+restricting. It is `commRingRestriction_sheafification` conjugated by `sheafificationIso` on
+both sites. -/
+noncomputable def commRingRestriction_tensorSheafification (O : Sheaf K CommRingCat.{w}) :
+    presheafCommRingRestrict J K v O ⋙
+        Stacks.SheafOfModules.Tensor.sheafification.{u₁, v₁, w, w}
+          (commRingRestriction J K v O) ≅
+      Stacks.SheafOfModules.Tensor.sheafification.{u₂, v₂, w, w} O ⋙
+        moduleRestriction.{w} J K v (Stacks.commRingSheafToRingSheaf O) :=
+  Functor.isoWhiskerLeft _
+      (Stacks.SheafOfModules.Tensor.sheafificationIso (commRingRestriction J K v O)).symm ≪≫
+    commRingRestriction_sheafification J K v O ≪≫
+    Functor.isoWhiskerRight (Stacks.SheafOfModules.Tensor.sheafificationIso O) _
 
 omit [HasWeakSheafify K AddCommGrpCat.{w}] [K.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The right-hand crossing of the comparison, assembled from
@@ -264,16 +279,14 @@ theorem forget_tensorRight_comp_presheafCommRingRestrict_sheafification
     (SheafOfModules.forget.{w} (Stacks.commRingSheafToRingSheaf O) ⋙
         Stacks.tensorRight (O := O.obj) N.val) ⋙
         (presheafCommRingRestrict J K v O ⋙
-          PresheafOfModules.sheafification.{w}
-            (R := Stacks.commRingSheafToRingSheaf (commRingRestriction J K v O))
-            (𝟙 (Stacks.commRingSheafToRingSheaf (commRingRestriction J K v O)).obj)) =
+          Stacks.SheafOfModules.Tensor.sheafification.{u₁, v₁, w, w}
+            (commRingRestriction J K v O)) =
       moduleRestriction.{w} J K v (Stacks.commRingSheafToRingSheaf O) ⋙
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u₁, v₁, w, w, w}
             (commRingRestriction J K v O)).flip.obj
           ((moduleRestriction.{w} J K v (Stacks.commRingSheafToRingSheaf O)).obj N)) :=
-  (congrArg (fun F ↦ F ⋙ PresheafOfModules.sheafification.{w}
-      (R := Stacks.commRingSheafToRingSheaf (commRingRestriction J K v O))
-      (𝟙 (Stacks.commRingSheafToRingSheaf (commRingRestriction J K v O)).obj))
+  (congrArg (fun F ↦ F ⋙ Stacks.SheafOfModules.Tensor.sheafification.{u₁, v₁, w, w}
+      (commRingRestriction J K v O))
     (forget_tensorRight_comp_presheafCommRingRestrict J K v O N)).trans
     (moduleRestriction_comp_sheafTensorRight_eq J K v O N)
 
@@ -296,7 +309,7 @@ noncomputable def moduleRestriction_sheafTensorRight (O : Sheaf K CommRingCat.{w
     Functor.isoWhiskerLeft
       (SheafOfModules.forget.{w} (Stacks.commRingSheafToRingSheaf O) ⋙
         Stacks.tensorRight (O := O.obj) N.val)
-      (commRingRestriction_sheafification J K v O).symm ≪≫
+      (commRingRestriction_tensorSheafification J K v O).symm ≪≫
     eqToIso (forget_tensorRight_comp_presheafCommRingRestrict_sheafification J K v O N)
 
 end DenseSubsite

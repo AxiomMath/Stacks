@@ -49,6 +49,7 @@ namespace ClassicalMotiveRealization
 
 variable (R : ClassicalMotiveRealization k F)
 
+omit [IsAlgClosed k] in
 /-- The trace of `R` does not depend on how the dimension is written. -/
 theorem trace_degreeCast (X : (SmoothProjective k).FullSubcategory) {d d' : ℕ} (hd : d = d')
     (hX : IsNonemptyEquidimensional ((SmoothProjective.toSchemeCat k).obj X) d)
@@ -64,13 +65,14 @@ theorem trace_degreeCast (X : (SmoothProjective k).FullSubcategory) {d d' : ℕ}
   subst hd
   rfl
 
+omit [IsAlgClosed k] in
 /-- An isomorphism of realizations carries the generators `eₙ` of `R` to those of `R'`. -/
 theorem Iso.app_tateGen {R R' : ClassicalMotiveRealization k F} (e : Iso R R') (n : ℤ) :
     e.iso.hom.app (TwistedKaroubi.tateTriple ℚ _ n) (-2 * n) (R.tateGen n) = R'.tateGen n := by
   have : NatTrans.IsMonoidal e.iso.hom := e.isMonoidal
   have he : e.iso.hom.app (tate k 1) (-2 * 1) R.tateVec = R'.tateVec := by
     have h := congr($(e.tateIso_hom_comp) (-2))
-    simp only [GradedObject.categoryOfGradedObjects_comp] at h
+    simp only at h
     exact ConcreteCategory.congr_hom h
       ((GradedObject.singleObjApplyIso (-2) (ModuleCat.of F F)).inv.hom 1)
   have he' : e.iso.hom.app (tate k 1) (-2 * 1) R.tateVec ≠ 0 := he ▸ R'.tateVec_ne_zero
@@ -85,6 +87,7 @@ theorem Iso.app_tateGen {R R' : ClassicalMotiveRealization k F} (e : Iso R R') (
     R'.toWeilRealization.tate_degree R.tateVec_ne_zero he' n).trans
     (key _ _ he' R'.tateVec_ne_zero he)
 
+omit [CharZero F] in
 /-- A morphism of graded objects commutes with the identifications of equal degrees. -/
 theorem _root_.Stacks.WeilCohomology.gradedHom_eqToHom
     {A B : GradedObject ℤ (ModuleCat.{v} F)} (f : A ⟶ B) {i j : ℤ} (hij : i = j) (x : A i) :
@@ -92,6 +95,7 @@ theorem _root_.Stacks.WeilCohomology.gradedHom_eqToHom
   subst hij
   rfl
 
+omit [IsAlgClosed k] in
 /-- An isomorphism of realizations carries the cycle classes of `R` to those of `R'`. -/
 theorem Iso.app_cycleClass {R R' : ClassicalMotiveRealization k F} (e : Iso R R')
     (X : (SmoothProjective k).FullSubcategory) (r : ℤ) (α : (chowCycleData k).group X r) :
@@ -100,6 +104,7 @@ theorem Iso.app_cycleClass {R R' : ClassicalMotiveRealization k F} (e : Iso R R'
     ((gradedHom_eqToHom (e.iso.hom.app _) (show -2 * -r = 2 * r by ring) (R.tateGen (-r))).trans
       (congrArg _ (e.app_tateGen (-r)))))
 
+omit [IsAlgClosed k] in
 /-- An isomorphism of realizations carries the traces of `R` to those of `R'`. -/
 theorem Iso.trace_app {R R' : ClassicalMotiveRealization k F} (e : Iso R R')
     (X : (SmoothProjective k).FullSubcategory) (d : ℕ)

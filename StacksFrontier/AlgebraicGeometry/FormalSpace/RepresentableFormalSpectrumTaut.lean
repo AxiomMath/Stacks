@@ -76,7 +76,8 @@ the reason that the converse implication
 carries `hE`, which is the second of them; the source states Stacks 0AN5 over an arbitrary
 scheme `S` and with no condition on the site, so this implication is not registered under the
 tag, which is recorded at
-`AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_isAffineFormalAlgebraicSpace`. No separatedness hypothesis on `Spf A` is needed: the affine-test-scheme
+`AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_isAffineFormalAlgebraicSpace`. No
+separatedness hypothesis on `Spf A` is needed: the affine-test-scheme
 case of Stacks 0AKN holds with none, by
 `AlgebraicGeometry.FormalSpace.relative_isAffineHom_of_isAffine_source`.
 

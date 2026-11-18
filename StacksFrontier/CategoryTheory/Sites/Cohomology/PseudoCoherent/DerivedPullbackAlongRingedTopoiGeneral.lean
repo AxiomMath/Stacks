@@ -212,6 +212,7 @@ private theorem isPseudoCoherentFrom_of_locally_derived_approximation_univ
   · obtain ⟨V, g, g', hg', hg, rfl⟩ := hb
     exact (key g' hg').choose_spec.2 g hg
 
+omit [∀ (U : Y.C), (Y.J.over U).HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The pullback of a strictly perfect approximation is a derived strictly perfect
 approximation over the image object.** If `K` has a strictly perfect approximation in degrees
 `> m` over `W`, then `Lf^* E` has one in the derived category over `u(W)`.
@@ -289,6 +290,7 @@ private theorem hasDerivedApproximationUniv_image
     eFlat.inv ≫ (derivedPullback (f.localized W).toRingedToposSiteHom).map
       (DerivedCategory.Q.map α ≫ eR.hom) ≫ eTot.hom, hC.1, hC.2⟩
 
+omit [∀ (U : Y.C), (Y.J.over U).HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **Stacks 08H4.** Let `f : (C, O) ⟶ (D, O')` be a morphism of ringed sites, given by a
 continuous functor `u : D ⥤ C` whose sheaf pullback `u_s` is exact, and let `E` be an
 `m`-pseudo-coherent object of `D(O')`. Then `Lf^* E` is `m`-pseudo-coherent.

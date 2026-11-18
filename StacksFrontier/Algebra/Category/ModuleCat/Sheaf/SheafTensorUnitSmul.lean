@@ -31,20 +31,21 @@ with multiplication by a compatible family of local sections of `O`.
 
 `(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj G` is the composite of the forgetful
 functor to presheaves of modules, the objectwise tensor product
-`PresheafOfModules.tensorObj` with `G`, and sheafification over `O`, so both statements are
-proved by descending to presheaves.
+`PresheafOfModules.tensorObj` with `G`, and the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification O`, so both statements are proved by descending to
+presheaves.
 
 For the first that is all there is to it: the objectwise tensor product with the unit presheaf
 is the left unitor of the monoidal structure
 `AlgebraicGeometry.SheafOfModules.monoidalCategoryAssociatedRing` on presheaves of modules, and
 the sheafification of the presheaf underlying a sheaf is that sheaf, which is the counit of
-`PresheafOfModules.sheafificationAdjunction` at it.
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` at it.
 
 For the second, both sides are morphisms out of a sheafification, so they agree as soon as their
-adjoint transposes do, and the transpose of a morphism is its composite with the unit of that
-adjunction. Against the unit the left-hand side is the objectwise statement
-`(a · x) ⊗ y = a · (x ⊗ y)` — `TensorProduct.smul_tmul'` — and the right-hand side is the
-`O`-linearity of the unit. Multiplication by a family of local sections is
+composites with the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` do
+(`Stacks.SheafOfModules.Tensor.sheafification_hom_ext`). Against the unit the left-hand side is
+the objectwise statement `(a · x) ⊗ y = a · (x ⊗ y)` — `TensorProduct.smul_tmul'` — and the
+right-hand side is the `O`-linearity of the unit. Multiplication by a family of local sections is
 `Stacks.SheafOfModules.globalSectionToEnd`, an endomorphism of the *identity* functor of
 `Mod(O)`, so no naturality square has to be checked for it: the two statements here are exactly
 the two places where that endomorphism meets a functor that is not the identity.
@@ -71,10 +72,8 @@ remains after sheafifying it is that the sheafification of the presheaf underlyi
 def sheafTensorRightUnitIso :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj
         (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) ≅ G :=
-  ((PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).mapIso (λ_ G.val)).trans
-    ((asIso ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit)).app G)
+  ((Stacks.SheafOfModules.Tensor.sheafification O).mapIso (λ_ G.val)).trans
+    ((asIso (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).counit).app G)
 
 section Smul
 
@@ -93,22 +92,13 @@ theorem sheafTensorRight_map_globalSectionToEnd
       (Stacks.SheafOfModules.globalSectionToEnd
         (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj M) := by
-  refine ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).homEquiv _ _).injective ?_
-  refine (Adjunction.homEquiv_unit _ _ _ _).trans
-    (Eq.trans ?_ (Adjunction.homEquiv_unit _ _ _ _).symm)
-  refine (((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.naturality
-    (((PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O.obj).flip.obj G.val).map
-      ((Stacks.SheafOfModules.globalSectionToEnd
-        (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app M).val)).symm).trans ?_
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext ?_
+  refine (Stacks.SheafOfModules.Tensor.unit_comp_map _).trans ?_
   refine PresheafOfModules.hom_ext fun U => ?_
   refine ModuleCat.MonoidalCategory.tensor_ext fun x y => ?_
-  exact (((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
-        (((PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O.obj).flip.obj G.val).obj
-          M.val)).app U).hom.map_smul
-    (a.val U) (x ⊗ₜ[(ringPresheaf O.obj).obj U] y)
+  exact ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
+      (((PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O.obj).flip.obj G.val).obj
+        M.val)).app U |>.hom.map_smul (a.val U) (x ⊗ₜ[(ringPresheaf O.obj).obj U] y)
 
 /-- **A global section killing a sheaf of modules kills its tensor product with anything.**
 Multiplication by `a` is an endomorphism of the *identity* functor, so `- ⊗_O G` carries its

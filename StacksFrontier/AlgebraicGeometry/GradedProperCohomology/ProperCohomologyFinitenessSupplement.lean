@@ -339,7 +339,8 @@ theorem moduleFinite_gradedCohomologySum_of_iso
       inferInstance p)
 
 /-- **Part (1) of [Stacks, Tag 0897], with `𝓑 = f^* B̃` and over the base change the proof
-constructs, for the `B`-action carried across [Stacks, Tag 089W].** Let `A` be a Noetherian ring, `B` a finitely generated graded `A`-algebra,
+constructs, for the `B`-action carried across [Stacks, Tag 089W].** Let `A` be a Noetherian ring,
+`B` a finitely generated graded `A`-algebra,
 `f : X ⟶ Spec A` proper, `𝓑 = f^* B̃`, and `F` a quasi-coherent graded `𝓑`-module of finite
 type. Then the graded `B`-module `⨁ₙ H^p(X, Fₙ)` is a finite `B`-module, for every `p`.
 

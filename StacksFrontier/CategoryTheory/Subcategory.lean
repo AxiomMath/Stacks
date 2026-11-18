@@ -102,9 +102,9 @@ instance category : Category.{v} S.Obj where
   Hom := Hom
   id X := ⟨𝟙 X.obj, S.id_mem X.property⟩
   comp f g := ⟨f.hom ≫ g.hom, S.comp_mem _ _ f.property g.property⟩
-  id_comp f := Hom.ext (Category.id_comp _)
-  comp_id f := Hom.ext (Category.comp_id _)
-  assoc f g h := Hom.ext (Category.assoc _ _ _)
+  id_comp _ := Hom.ext (Category.id_comp _)
+  comp_id _ := Hom.ext (Category.comp_id _)
+  assoc _ _ _ := Hom.ext (Category.assoc _ _ _)
 
 @[ext]
 lemma hom_ext {X Y : S.Obj} {f g : X ⟶ Y} (h : f.hom = g.hom) : f = g :=
@@ -249,7 +249,7 @@ theorem ofWide_fullHom : ofWide S.obj S.fullHom = S := by
 recovered from the subcategory they define. -/
 theorem fullHom_ofWide (P : ObjectProperty C) (Q : MorphismProperty P.FullSubcategory)
     [Q.IsMultiplicative] : (ofWide P Q).fullHom = Q :=
-  MorphismProperty.ext _ _ fun X Y f ↦
+  MorphismProperty.ext _ _ fun X Y _ ↦
     ⟨fun ⟨_, _, hf⟩ ↦ hf, fun hf ↦ ⟨X.property, Y.property, hf⟩⟩
 
 end Subcategory

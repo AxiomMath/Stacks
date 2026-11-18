@@ -136,8 +136,11 @@ variable {C : Type u₀} [Category.{v₀} C] {J : GrothendieckTopology C}
 `B ⊗_O A ≅ O`, then tensoring by `A` followed by tensoring by `B` is the identity functor.  The
 two outer steps are `Stacks.SheafOfModules.tensorLeftFunctorObjIso`, which splits the tensor
 functor of a tensor product, and `Stacks.SheafOfModules.tensorLeftSheafifyFunctorUnitIso`, which
-contracts the tensor functor of the structure sheaf; the middle step transports along the
-trivialisation. -/
+contracts the tensor functor of the structure sheaf; in between,
+`Stacks.SheafOfModules.tensorLeftFunctorIsoTensorLeftSheafifyFunctor` passes from the tensor
+functor of `B ⊗_O A`, which sheafifies through the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, to the sheafified tensor functor of its underlying
+presheaf, which is then transported along the trivialisation. -/
 def tensorLeftFunctorCompIsoId
     (A B : SheafOfModules.{w₀} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     (e : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u₀, v₀, w₀, w₀, w₀}
@@ -155,6 +158,7 @@ def tensorLeftFunctorCompIsoId
       ((SheafOfModules.forget
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).mapIso e)).isIso_hom
   (tensorLeftFunctorObjIso O hO B A).symm ≪≫
+    tensorLeftFunctorIsoTensorLeftSheafifyFunctor O hO _ ≪≫
     tensorLeftSheafifyFunctorMapIso O hO
       ((SheafOfModules.forget
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map e.hom) h ≪≫

@@ -78,6 +78,14 @@ the monoidal structure, so the general fact *is* applicable — the comparison i
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleEquivalence.lean`, already proved and
 tagged two directories away.
 
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies through the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, which equals
+`Stacks.SheafOfModules.TensorSheafification.sheafify O hO` but does not unfold to it.
+`tensorLeftFunctorObjIso` therefore reads `tensorLeftSheafifyFunctorIsoSheafify` and
+`tensorLeftSheafifyFunctorTensorIso`, which are stated with the latter, through that equality
+(an `eqToIso` of functors), and `tensorLeftFunctorUniversal` uses the sealed adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`.
+
 The site object and morphism universes `u`, `v` are independent of the section universe `w`.
 The ring and module sections share the universe `w`, as Mathlib's monoidal structure on
 presheaves of modules requires; nothing relates `w` to the size of the site.
@@ -314,7 +322,8 @@ theorem tensorLeftSheafifyFunctorMap_comp
     Functor.whiskerLeft_comp, Functor.whiskerRight_comp]
 
 /-- **Tensoring on the left by a sheaf of modules is functorial in that sheaf**: a morphism
-`L ⟶ N` of sheaves of `O`-modules induces `(L ⊗ -) ⟶ (N ⊗ -)`. -/
+`L ⟶ N` of sheaves of `O`-modules induces `(L ⊗ -) ⟶ (N ⊗ -)`, the action of the tensor
+bifunctor `Stacks.SheafOfModules.Tensor.sheafTensor` on `f`. -/
 noncomputable def tensorLeftFunctorMap
     {L N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)}
     (f : L ⟶ N) :
@@ -322,15 +331,15 @@ noncomputable def tensorLeftFunctorMap
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L) ⟶
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N) :=
-  tensorLeftSheafifyFunctorMap O hO
-    ((SheafOfModules.forget
-      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map f)
+  (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map f
 
 @[simp]
 theorem tensorLeftFunctorMap_id
     (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     tensorLeftFunctorMap O hO (𝟙 L) = 𝟙 _ :=
-  tensorLeftSheafifyFunctorMap_id O hO _
+  (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map_id L
 
 @[simp]
 theorem tensorLeftFunctorMap_comp
@@ -338,7 +347,8 @@ theorem tensorLeftFunctorMap_comp
     (f : L ⟶ N) (g : N ⟶ P) :
     tensorLeftFunctorMap O hO (f ≫ g) =
       tensorLeftFunctorMap O hO f ≫ tensorLeftFunctorMap O hO g :=
-  tensorLeftSheafifyFunctorMap_comp O hO _ _
+  (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map_comp f g
 
 /-- The sheafified tensor functor has the tensor universal property. -/
 noncomputable def tensorLeftFunctorUniversal
@@ -348,9 +358,11 @@ noncomputable def tensorLeftFunctorUniversal
   ι := Functor.whiskerLeft
     (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
       (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val)
-    (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).unit
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit
   bijective M N :=
-    ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).homEquiv
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).homEquiv
       (PresheafOfModules.tensorObj (O := O) L.val M.val)
       N).bijective
 
@@ -461,8 +473,22 @@ noncomputable def tensorLeftSheafifyFunctorTensorIso
         rfl) ≪≫
     NatIso.ofComponents (fun F => @asIso _ _ _ _ (β.app F) (h F)) fun f => β.naturality f
 
+/-- Over the sheaf of rings of `O`, the sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` through which
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies is
+`Stacks.SheafOfModules.TensorSheafification.sheafify O hO`. -/
+private theorem sheafification_eq_sheafify :
+    Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ =
+      Stacks.SheafOfModules.TensorSheafification.sheafify O hO :=
+  Stacks.SheafOfModules.Tensor.sheafification_def _
+
 /-- Tensoring by the tensor product sheaf `L ⊗ N` is the composite of tensoring by `N` and
-tensoring by `L`. -/
+tensoring by `L`. Both sides are first rewritten along the equality of the sheafification inside
+`Stacks.SheafOfModules.Tensor.sheafTensor` with
+`Stacks.SheafOfModules.TensorSheafification.sheafify O hO`; there the sheafification of
+`L.val ⊗ N.val` is erased by `tensorLeftSheafifyFunctorIsoSheafify`, and the rest is
+`tensorLeftSheafifyFunctorTensorIso`. -/
 noncomputable def tensorLeftFunctorObjIso
     (L N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
@@ -473,8 +499,23 @@ noncomputable def tensorLeftFunctorObjIso
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N) ⋙
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L) :=
-  (tensorLeftSheafifyFunctorIsoSheafify O hO (L.val ⊗ N.val)).symm ≪≫
-    tensorLeftSheafifyFunctorTensorIso O hO L.val N.val
+  eqToIso (by
+      exact congrArg (fun sheafification => SheafOfModules.forget
+          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
+            (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj
+              (sheafification.obj (L.val ⊗ N.val : PresheafOfModules.{w}
+                (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).val ⋙
+            sheafification)
+        (sheafification_eq_sheafify O hO)) ≪≫
+    (tensorLeftSheafifyFunctorIsoSheafify O hO (L.val ⊗ N.val)).symm ≪≫
+    tensorLeftSheafifyFunctorTensorIso O hO L.val N.val ≪≫
+    eqToIso (by
+      exact congrArg (fun sheafification =>
+          (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
+            (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj N.val ⋙ sheafification) ⋙
+          (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
+            (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val ⋙ sheafification))
+        (sheafification_eq_sheafify O hO).symm)
 
 /-- **Stacks Project, Tag 01CT (1), Tag 040A (1).** The tensor product of two invertible sheaves
 of modules is invertible. -/

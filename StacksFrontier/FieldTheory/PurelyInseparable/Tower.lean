@@ -29,7 +29,8 @@ The promoted library already registers single parts of 030M, which stay as they 
 * part 2: `perfectClosure`, `perfectClosure.isPurelyInseparable` and `perfectClosure.isGalois`
   (`StacksCore/FieldTheory/PurelyInseparable/PerfectClosure.lean`);
 * part 3: `separableClosure_inf_perfectClosure` and `separableClosure_sup_perfectClosure`
-  (`StacksCore/FieldTheory/PurelyInseparable/PerfectClosure.lean`), which say that `E_sep ∩ E_insep = F`
+  (`StacksCore/FieldTheory/PurelyInseparable/PerfectClosure.lean`), which say that
+  `E_sep ∩ E_insep = F`
   and `E_sep ⊔ E_insep = E`; the tensor product statement itself is proved here.
 -/
 

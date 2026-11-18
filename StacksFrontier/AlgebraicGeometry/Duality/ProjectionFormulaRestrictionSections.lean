@@ -164,21 +164,19 @@ lemma tensorSheafUnit_val_map {Z : RingedSpace.{u, u}}
     (a : A.val.obj U) (b : B.val.obj U) :
     ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨Z.presheaf, Z.IsSheaf⟩)).obj
         (A, B)).val.map g (Hom.app
-        ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf Z)
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf Z).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Z.presheaf, Z.IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)) U (a ⊗ₜ b)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf Z)
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf Z).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Z.presheaf, Z.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)) U'
           (A.val.map g a ⊗ₜ B.val.map g b) :=
   (PresheafOfModules.naturality_apply
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf Z)
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf Z).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Z.presheaf, Z.IsSheaf⟩).unit.app
       (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)) g (a ⊗ₜ b)).symm.trans
-    (congrArg (Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf Z)
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf Z).obj)).unit.app
+    (congrArg (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Z.presheaf, Z.IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)) U')
         (tensorObj_restrictₛₗ_tmul g a b))
 
@@ -317,14 +315,12 @@ lemma restrictTensorIso_hom_restrictUnit_unit_tmul (A B : Y.Modules) (U : (Opens
             ((Functor.uncurry.obj
                 (Stacks.SheafOfModules.Tensor.sheafTensor
                 ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩)).obj (A, B))).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace)
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
               (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) A.val B.val)) U
               (a ⊗ₜ b))) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf X.toRingedSpace)
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf)
           ((Scheme.Modules.restrictFunctor j).obj A).val
           ((Scheme.Modules.restrictFunctor j).obj B).val)) ((Opens.map j.base).op.obj U)
@@ -344,9 +340,8 @@ lemma restrictTensorIso_hom_restrictUnit_unit_tmul (A B : Y.Modules) (U : (Opens
     ((Functor.uncurry.obj
         (Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩)).obj (A, B)) U
-    (Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace)
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace).obj)).unit.app
+    (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) A.val B.val)) U
         (a ⊗ₜ b))).symm) ?_
   refine Eq.trans (PresheafOfModules.comp_app_apply
@@ -362,9 +357,8 @@ lemma restrictTensorIso_hom_restrictUnit_unit_tmul (A B : Y.Modules) (U : (Opens
     ((Scheme.Modules.restrictFunctorIsoPullback j).inv.app A)
     ((Scheme.Modules.restrictFunctorIsoPullback j).inv.app B) _ _ _) ?_
   exact congrArg₂ (fun p q => Hom.app
-      ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf X.toRingedSpace)
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
       (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf)
       ((Scheme.Modules.restrictFunctor j).obj A).val
       ((Scheme.Modules.restrictFunctor j).obj B).val)) ((Opens.map j.base).op.obj U) (p ⊗ₜ q))
@@ -395,23 +389,20 @@ identity on sheafification-unit images of pure tensors in that reading. -/
 lemma restrictTensorIso_hom_unit_tmul (A B : Y.Modules) (W : X.Opens)
     (a : A.val.obj (op (j ''ᵁ W))) (b : B.val.obj (op (j ''ᵁ W))) :
     Hom.app (restrictTensorIso j A B).hom.val (op W)
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace)
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) A.val B.val))
             (op (j ''ᵁ W)) (a ⊗ₜ b)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf X.toRingedSpace)
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf)
           ((Scheme.Modules.restrictFunctor j).obj A).val
           ((Scheme.Modules.restrictFunctor j).obj B).val)) (op W) (a ⊗ₜ b) := by
   refine val_map_injective _ (j.preimage_image_eq W) (eqToHom (j.preimage_image_eq W)) ?_
   refine Eq.trans (PresheafOfModules.naturality_apply (restrictTensorIso j A B).hom.val
     (eqToHom (j.preimage_image_eq W)).op
-    (Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace)
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace).obj)).unit.app
+    (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) A.val B.val)) (op (j ''ᵁ W))
         (a ⊗ₜ b))).symm ?_
   refine Eq.trans (congrArg (Hom.app (restrictTensorIso j A B).hom.val
@@ -420,16 +411,14 @@ lemma restrictTensorIso_hom_unit_tmul (A B : Y.Modules) (W : X.Opens)
         ((Functor.uncurry.obj
         (Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩)).obj (A, B)) W
-      (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace)
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf Y.toRingedSpace).obj)).unit.app
+      (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) A.val B.val)) (op (j ''ᵁ W))
           (a ⊗ₜ b))).symm) ?_
   refine Eq.trans (restrictTensorIso_hom_restrictUnit_unit_tmul j A B (op (j ''ᵁ W)) a b) ?_
   refine Eq.trans (congrArg₂
-      (fun p q => Hom.app ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf X.toRingedSpace)
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app
+      (fun p q => Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
       (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf)
       ((Scheme.Modules.restrictFunctor j).obj A).val
       ((Scheme.Modules.restrictFunctor j).obj B).val)) (op (j ⁻¹ᵁ (j ''ᵁ W))) (p ⊗ₜ q))

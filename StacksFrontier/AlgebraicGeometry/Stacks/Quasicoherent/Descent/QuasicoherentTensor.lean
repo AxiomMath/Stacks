@@ -177,11 +177,12 @@ public noncomputable def tensorSheafOverIso (V : C)
         ⟨(O.over V).obj, Presheaf.isSheaf_of_isSheaf_comp _ ((O.over V).obj)
           (forget₂ CommRingCat RingCat) ((isSheaf_structureRingPresheaf (O.over V)))⟩).obj
         ((F.over V))).obj ((G.over V))) :=
-  PresheafOfModules.sheafificationOverIso (Osharp := O) V
+  (SheafOfModules.overFunctor _ V).mapIso (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ F G) ≪≫
+    PresheafOfModules.sheafificationOverIso (Osharp := O) V
       ((PresheafOfModules.tensorObj (O := O.obj) (F.val) (G.val))) ≪≫
-    (PresheafOfModules.sheafification
-      (𝟙 ((Sheaf.toRingCat J O).over V).obj)).mapIso
-        (overRestrictionTensorPresheafIso O V F.val G.val)
+    (Stacks.SheafOfModules.Tensor.sheafificationIso _).app _ ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafification _).mapIso
+      (overRestrictionTensorPresheafIso O V F.val G.val)
 
 end Localization
 

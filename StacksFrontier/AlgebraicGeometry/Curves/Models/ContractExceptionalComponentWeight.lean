@@ -130,7 +130,8 @@ public theorem contractedComponentWeight_eq_of_inter_eq_empty
   exact h0.symm
 
 open AlgebraicGeometry.NumericalType in
-/-- **The numerical type after contracting an exceptional curve.** Let `f : X ⟶ X'` contract a component `C_n` of the special
+/-- **The numerical type after contracting an exceptional curve.** Let `f : X ⟶ X'` contract a
+component `C_n` of the special
 fibre of a regular proper model which is an exceptional curve of the first kind. Enumerate the
 components of `X_k` by `e`, with `C_n` last, and those of `X'_k` by `e'`, compatibly with
 `C'_i = f(C_i)`. Let `T` and `T'` be the numerical types associated to `X` and `X'`. Then `n` is a

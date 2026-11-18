@@ -31,7 +31,8 @@ degree-`i` cohomology of `K` vanishes on an open neighbourhood of `x`; if it has
   the derived-stalk form of part (6), all degrees at once.
 
 The forms with `H^i(X, K ⊗^𝐋_{𝒪_X} 𝒪_x)` in place of the derived stalk are in
-`StacksFrontier.AlgebraicGeometry.DerivedVarieties.DeducingFullyFaithfulness.LocalVanishingCriteria`.
+`LocalVanishingCriteria` of
+`StacksFrontier.AlgebraicGeometry.DerivedVarieties.DeducingFullyFaithfulness`.
 
 ## Implementation notes
 

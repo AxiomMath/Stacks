@@ -122,9 +122,8 @@ theorem genChartIso_hom_mul
         (((Stacks.RingedSpace.pullbackGradedAlgebra h.toLRSHom.toShHom G).mul i j).app
           (op (k ''ᵁ U)) x y) =
       (mulB i j).val.app (op U) (PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf (W.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (W.toRingedSpace)).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨(W.toRingedSpace).presheaf, (W.toRingedSpace).IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (W.toRingedSpace).presheaf) (Bt i).val (Bt j).val))
           (op U)
         ((genChartIso G h k ρ hU c ι e hρι N Bt χ tw htwIso i).hom.val.app (op U) x ⊗ₜ
@@ -139,9 +138,8 @@ theorem genChartIso_hom_mul
     (Stacks.RingedSpace.pullbackGradedAlgebra h.toLRSHom.toShHom G) i j (op (k ''ᵁ U)) x y
   have hm := congrArg (fun φ => φ.val.app (op (k ''ᵁ U))
       (PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf (Z.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z.toRingedSpace)).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨(Z.toRingedSpace).presheaf, (Z.toRingedSpace).IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (Z.toRingedSpace).presheaf)
             ((Scheme.Modules.pullback h).obj (G.piece i)).val
             ((Scheme.Modules.pullback h).obj (G.piece j)).val))

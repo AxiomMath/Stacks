@@ -111,7 +111,6 @@ theorem exists_pow_smul_eq_map_of_surjective_restrictionBaseChange
   have hρsmul : ∀ (c : R.obj X) (y : M.obj X), ρ (c • y) = (R.map f).hom c • ρ y := fun c y =>
     PresheafOfModules.map_smul M f c y
   let P : M.obj Y → Prop := fun s => ∃ (n : ℕ) (y : M.obj X), ((R.map f).hom t) ^ n • s = ρ y
-  have hP0 : P 0 := ⟨0, 0, by rw [smul_zero]; exact (map_zero (M.map f).hom).symm⟩
   have hPadd : ∀ s₁ s₂, P s₁ → P s₂ → P (s₁ + s₂) := by
     rintro s₁ s₂ ⟨n₁, y₁, h₁⟩ ⟨n₂, y₂, h₂⟩
     refine ⟨n₁ + n₂, t ^ n₂ • y₁ + t ^ n₁ • y₂, ?_⟩
@@ -126,8 +125,7 @@ theorem exists_pow_smul_eq_map_of_surjective_restrictionBaseChange
     ring
   have hPρ : ∀ y : M.obj X, P (ρ y) := fun y => ⟨0, y, by rw [pow_zero, one_smul]⟩
   obtain ⟨z, rfl⟩ := hf s
-  induction z using TensorProduct.induction_on with
-  | zero => exact (congrArg P (map_zero (restrictionBaseChange M f).hom)).mpr hP0
+  induction z using TensorProduct.inductionOn with
   | tmul a y =>
     exact (congrArg P (restrictionBaseChange_tmul M f a y)).mpr (hPsmul a (ρ y) (hPρ y))
   | add z₁ z₂ h₁ h₂ =>

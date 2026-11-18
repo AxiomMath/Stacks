@@ -36,10 +36,12 @@ normalizations and the `O`-linearity of the morphism of lifts.
 
 ## Implementation notes
 
-The two facts the discharge rests on are proved here for the first time in the tree. Local
-surjectivity of the sheafification unit defining the tensor product is read off the instance for
-`CategoryTheory.toSheafify`, which `tensorUnitTypes` exposes in the shape instance search wants;
-local surjectivity of an abstract extension of scalars is
+The discharge rests on two local surjectivity facts. That of the sealed sheafification unit
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` defining the tensor product enters
+through `Deformation.ToposThickening.tensorSheaf_restrict_hom_ext` and
+`Deformation.ToposThickening.tensorSheaf_restrict_hom_ext_of_locallySurjective_left`, of which the
+two extensionality lemmas here are the specializations to restriction along `f`; that of an
+abstract extension of scalars is
 `Stacks.SheafOfModules.ComplexLifting.IsExtensionOfScalars.isLocallySurjective`, proved in
 `StacksFrontier.CategoryTheory.Sites.Modules.FlatResolution.BaseChange` by transporting the model's
 one along the comparison isomorphism. Only `Epi` was available before, which is too weak: a
@@ -75,19 +77,10 @@ section HomExt
 
 variable {O O₀ : Sheaf J CommRingCat.{w}} (f : O ⟶ O₀)
 
-/-- The sheafification unit defining `F ⊗_{O₀} I`, read as a map of type-valued presheaves of
-sections. It is the same map as `tensorSheafificationUnit`; this spelling is the one whose
-local surjectivity instance search finds. -/
-abbrev tensorUnitTypes {O₀ : Sheaf J CommRingCat.{w}} (G I : SheafMod O₀) :=
-  Functor.whiskerRight (CategoryTheory.toSheafify J
-    (MonoidalCategoryStruct.tensorObj G.val I.val).presheaf) (forget AddCommGrpCat.{w})
-
 /-- The sheafification unit at `U`, sending a section of the presheaf tensor product to the
 corresponding section of `G ⊗_{O₀} I`. -/
 private abbrev tensorUnitApp {O₀ : Sheaf J CommRingCat.{w}} (G I : SheafMod O₀) (U : Cᵒᵖ) :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
     (PresheafOfModules.tensorObj G.val I.val)).app U
 
 /-- **A morphism out of `F ⊗_{O₀} I` is determined by its values on local pure tensors**, even
@@ -97,30 +90,12 @@ theorem restrictTensor_hom_ext {I G : SheafMod O₀} {N : SheafMod O}
     (k l : (restrict f).obj
       ((((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I)).obj G) ⟶ N)
     (h : ∀ (U : Cᵒᵖ) (x : G.val.obj U) (a : I.val.obj U),
-      k.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
-        (PresheafOfModules.tensorObj G.val I.val)).app U (x ⊗ₜ[O₀.obj.obj U] a)) =
-      l.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
-        (PresheafOfModules.tensorObj G.val I.val)).app U (x ⊗ₜ[O₀.obj.obj U] a))) : k = l := by
-  ext U s
-  refine N.isSheaf.isSeparated _ _
-    (Presheaf.imageSieve_mem J (tensorUnitTypes G I) s) _ _ ?_
-  rintro V g ⟨t, ht⟩
-  have key : ∀ m : (restrict f).obj
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I)).obj G) ⟶ N,
-      N.val.map g.op (m.val.app U s) = m.val.app (Opposite.op V) (tensorUnitApp G I _ t) :=
-    fun m => (PresheafOfModules.naturality_apply m.val g.op s).symm.trans (congrArg _ ht.symm)
-  change N.val.map g.op (k.val.app U s) = N.val.map g.op (l.val.app U s)
-  rw [key k, key l]
-  clear key ht
-  induction t using TensorProduct.inductionOn with
-  | tmul x a => exact h (Opposite.op V) x a
-  | add x y hx hy =>
-      erw [map_add, map_add, map_add]
-      rw [hx, hy]
+      k.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
+          (PresheafOfModules.tensorObj G.val I.val)).app U (x ⊗ₜ[O₀.obj.obj U] a)) =
+        l.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
+          (PresheafOfModules.tensorObj G.val I.val)).app U (x ⊗ₜ[O₀.obj.obj U] a))) :
+    k = l :=
+  Deformation.ToposThickening.tensorSheaf_restrict_hom_ext O₀ (ringSheafMap f) h
 
 /-- **A morphism out of `F ⊗_{O₀} I` is determined by its values on the pure tensors coming
 from a locally surjective map into `F`.** -/
@@ -131,40 +106,13 @@ theorem restrictTensor_hom_ext_of_unit {I G : SheafMod O₀} {X N : SheafMod O}
     (k l : (restrict f).obj
       ((((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I)).obj G) ⟶ N)
     (h : ∀ (U : Cᵒᵖ) (x : X.val.obj U) (a : I.val.obj U),
-      k.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
-        (PresheafOfModules.tensorObj G.val I.val)).app U (u.val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
-      l.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
-        (PresheafOfModules.tensorObj G.val I.val)).app U
-          (u.val.app U x ⊗ₜ[O₀.obj.obj U] a))) : k = l := by
-  refine restrictTensor_hom_ext f k l fun U y a => ?_
-  have := hu
-  refine N.isSheaf.isSeparated _ _
-    (Presheaf.imageSieve_mem J
-      ((_root_.SheafOfModules.toSheaf
-        (Stacks.SheafOfModules.Tensor.ringSheaf O)).map u).hom y) _ _ ?_
-  rintro V g ⟨m, hm⟩
-  have key : ∀ n : (restrict f).obj
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I)).obj G) ⟶ N,
-      N.val.map g.op (n.val.app U (tensorUnitApp G I U (y ⊗ₜ[O₀.obj.obj U] a))) =
-        n.val.app (Opposite.op V)
-          (tensorUnitApp G I _ (u.val.app (Opposite.op V) m ⊗ₜ[O₀.obj.obj _] I.val.map g.op a)) :=
-    fun n => by
-      rw [show u.val.app (Opposite.op V) m = G.val.map g.op y from hm]
-      exact (PresheafOfModules.naturality_apply n.val g.op _).symm.trans (congrArg _
-        (PresheafOfModules.naturality_apply ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
-          (PresheafOfModules.tensorObj G.val I.val)) g.op _).symm)
-  change N.val.map g.op (k.val.app U (tensorUnitApp G I U (y ⊗ₜ[O₀.obj.obj U] a))) =
-    N.val.map g.op (l.val.app U (tensorUnitApp G I U (y ⊗ₜ[O₀.obj.obj U] a)))
-  rw [key k, key l]
-  exact h (Opposite.op V) m (I.val.map g.op a)
+      k.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
+          (PresheafOfModules.tensorObj G.val I.val)).app U (u.val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
+        l.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
+          (PresheafOfModules.tensorObj G.val I.val)).app U (u.val.app U x ⊗ₜ[O₀.obj.obj U] a))) :
+    k = l :=
+  Deformation.ToposThickening.tensorSheaf_restrict_hom_ext_of_locallySurjective_left O₀
+    (ringSheafMap f) ((_root_.SheafOfModules.toSheaf _).map u).hom hu h
 
 end HomExt
 

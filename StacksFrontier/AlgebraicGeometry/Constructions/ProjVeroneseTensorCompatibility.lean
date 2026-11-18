@@ -426,12 +426,12 @@ public theorem toTensorSheafSection_restrict (X : _root_.AlgebraicGeometry.Ringe
         ((F.val.map (homOfLE hUV).op).hom x ⊗ₜ[X.presheaf.obj (op V)]
           (G.val.map (homOfLE hUV).op).hom y) :=
   (congrArg (fun φ => ModuleCat.Hom.hom φ (x ⊗ₜ[X.presheaf.obj (op U)] y))
-      ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-        ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).naturality
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).naturality
           (homOfLE hUV).op)).symm.trans
     (congrArg (ModuleCat.Hom.hom
-        ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).app (op V)))
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app (op V)))
       (presheafTensor_map_tmul X F G hUV x y))
 
 /-- A morphism of sheaves of modules commutes with restriction, read on an element. -/

@@ -568,6 +568,7 @@ public theorem principalAdeles_toAddSubgroup :
     (principalAdeles K).toAddSubgroup = principal k K := by
   rw [principal, range_diag]
 
+omit k [Field k] [Finite k] in
 /-- If `φ` is invariant under `W ⊇ N` and `W₀ ⊇ N`, `N` of finite index in a group of exponent
 `p`, and the sums of `φ` over the transversals of `W₀` vanish, then so do its sums over the
 transversals of `W`, provided `p` is invertible. -/
@@ -589,6 +590,8 @@ public theorem sum_eq_zero_of_finer {G : Type*} [AddCommGroup G] {Λ : Type*} [C
   rw [hn, nsmul_eq_mul, Nat.cast_pow] at e1
   exact ((hp.pow n).mul_right_eq_zero).1 e1.symm
 
+omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K]
+  [IsScalarTower k (RatFunc k) K] [FunctionField k K] in
 /-- The integrand of a right `GL₂(K)`-invariant function, invariant under `W`, is invariant under
 `K + W`. -/
 public theorem integrand_add_mem_sup {Λ : Type*} {f : GL (Fin 2) (AdeleRing K) → Λ}
@@ -626,18 +629,18 @@ public theorem isUnramifiedCuspForm_of_starCusp {Λ : Type w} [CommRing Λ]
   have hA : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ U,
       f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup k h2 x hinv z hy
+    fun z y hy => integrand_add_mem_sup h2 x hinv z hy
   have hB : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ stabSubgroup K x,
       f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup k h2 x
+    fun z y hy => integrand_add_mem_sup h2 x
       (fun z' y' hy' => left_inv_upperRight_add h1 x z' hy') z hy
   have hZ : ∀ s₀ : Finset (AdeleRing K), (∀ a, ∃! z ∈ s₀,
       a - z ∈ (principalAdeles K).toAddSubgroup ⊔ stabSubgroup K x) →
       ∑ z ∈ s₀, f (x * GeneralLinearGroup.upperRightHom z) = 0 :=
     fun s₀ hs₀ => hs x s₀ hs₀
   have hG := ringChar_nsmul_adele k (K := K)
-  exact sum_eq_zero_of_finer k hG hp (sup_le_sup_left inf_le_left _)
+  exact sum_eq_zero_of_finer hG hp (sup_le_sup_left inf_le_left _)
     (sup_le_sup_left inf_le_right _) hN hA hB hZ hsU
 
 

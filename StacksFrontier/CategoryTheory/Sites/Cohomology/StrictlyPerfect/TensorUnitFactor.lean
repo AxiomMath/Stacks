@@ -162,8 +162,7 @@ lemma tensorTotalUnitFactorIso_inv_apply (k : ℤ)
       ((sheafTensorUnitIsoLeft X.O (Y.X (c - k))).hom.val.app (op W) u) = u := fun u =>
     congrArg (fun φ => φ.val.app (op W) u) (sheafTensorUnitIsoLeft X.O (Y.X (c - k))).hom_inv_id
   have h3 : (sheafTensorUnitIsoLeft X.O (Y.X (c - k))).inv.val.app (op W) y =
-      (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      (((sheafificationForgetAdjunction X.O).unit.app
           ((SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).val ⊗
             (Y.X (c - k)).val)).app (op W)
             ((1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)) ⊗ₜ y)) :=

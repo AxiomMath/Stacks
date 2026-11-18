@@ -98,13 +98,14 @@ noncomputable local instance presheafOfModulesSymmetric' :
   PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
 
 /-- The symmetry of the tensor product of modules on a ringed space, obtained by sheafifying
+(with the sealed `Stacks.SheafOfModules.Tensor.sheafification` that `sheafTensor` is built from)
 the braiding of the objectwise tensor product of presheaves of modules. -/
 noncomputable def tensorSheafSwap (F G : SheafOfModules.{u} (structureSheafRing X)) :
     (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.presheaf, X.IsSheaf⟩)).obj (F, G) ≅
       (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.presheaf, X.IsSheaf⟩)).obj (G, F) :=
-  (sheafifyFunctor X).mapIso (β_ F.val G.val)
+  (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).mapIso (β_ F.val G.val :)
 
 /-- The symmetry of the tensor product is natural: swapping the two factors exchanges the two
 maps inducing a map of tensor products. -/
@@ -123,12 +124,12 @@ theorem tensorSheafSwap_naturality
       (tensorSheafSwap X F' G').hom)
     (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩ φ ψ).symm)
-  exact ((sheafifyFunctor X).map_comp (β_ F.val G.val).hom
-    (PresheafOfModules.tensorHom ψ.val φ.val)).symm.trans
-      ((congrArg (sheafifyFunctor X).map
+  exact ((Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).map_comp
+    (β_ F.val G.val).hom (PresheafOfModules.tensorHom ψ.val φ.val)).symm.trans
+      ((congrArg (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).map
         (BraidedCategory.braiding_naturality φ.val ψ.val).symm).trans
-        ((sheafifyFunctor X).map_comp (PresheafOfModules.tensorHom φ.val ψ.val)
-          (β_ F'.val G'.val).hom))
+        ((Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).map_comp
+          (PresheafOfModules.tensorHom φ.val ψ.val) (β_ F'.val G'.val).hom))
 
 /-- Maps of tensor products compose factorwise. -/
 theorem tensorSheafMap_comp_tensorSheafMap

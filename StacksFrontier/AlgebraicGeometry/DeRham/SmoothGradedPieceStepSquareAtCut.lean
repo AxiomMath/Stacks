@@ -493,9 +493,8 @@ theorem cutSource_comp_map_cutWedgeSourceIsoPullbackTensor_hom (k : ℕ) :
       (φ := AlgebraicGeometry.inverseImageStructureMap (f ≫ g)) ((Scheme.Hom.deRhamAlgebras (f ≫
           g)).exteriorPower 0) (pulledBackFormsIso f g k).hom
   have hnc := Stacks.CategoryTheory.map_app_comp_map_app_eq_id
-      (_root_.SheafOfModules.restrictScalars.{u} (AlgebraicGeometry.SheafOfModules.underlyingRingHom
-      (φ := AlgebraicGeometry.inverseImageStructureMap (f ≫
-      g)))) (Stacks.SheafOfModules.Tensor.sheafTensor X.toRingedSpace.sheaf)
+      (pushforward (toInverseImageBase (f ≫ g))) (Stacks.SheafOfModules.Tensor.sheafTensor
+      X.toRingedSpace.sheaf)
       ((Scheme.Hom.deRhamAlgebras (f ≫ g)).exteriorPower 0)
     (pulledBackFormsIso f g k).hom (Scheme.Modules.exteriorPowerPullbackIso f
         (Scheme.Hom.relativeDifferentials g) (k : ℤ)).inv

@@ -306,8 +306,8 @@ local instance sectionsCommRing' (U : (X.Opens)ᵒᵖ) :
 sheafification unit to `a * b`. -/
 theorem algebraSheaf_mul_unit_tmul (U : (X.Opens)ᵒᵖ) (a b : (moduleOfAlgebra A).val.obj U) :
     PresheafOfModules.Hom.app (mul A).val U
-      (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 X.ringCatSheaf.obj)).unit.app
+      (PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
         (PresheafOfModules.tensorObj (moduleOfAlgebra A).val (moduleOfAlgebra A).val)) U
         (a ⊗ₜ b)) = a * b := by
   have h2 := (PresheafOfModules.hom_congr_apply' (sheafificationHomEquiv_mul A) U (a ⊗ₜ b)).trans
@@ -465,7 +465,7 @@ theorem pullPushforwardModuleHom_mul :
   refine Eq.trans ?_ ((Adjunction.homEquiv_naturality_left _ (mul (pushforwardAlgebra Δ))
     (pullPushforwardModuleHom g j w)).trans (congrArg (fun φ => mul (pushforwardAlgebra Δ) ≫ φ)
         hψ)).symm
-  refine PresheafOfModules.sheafification_hom_ext
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext
     (PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_)
   have h1 := Stacks.RingedSpace.comparisonTranspose_unit_tmul g.toLRSHom.toShHom
     (moduleOfAlgebra (pushforwardAlgebra Δ)) (moduleOfAlgebra (pushforwardAlgebra Δ)) U x y
@@ -496,9 +496,8 @@ theorem pullPushforwardModuleHom_mul :
     ((congrArg (PresheafOfModules.Hom.app (mul (pushforwardAlgebra Δ')).val
       (op (g ⁻¹ᵁ U.unop))) h2).trans
     ((congrArg (fun t => PresheafOfModules.Hom.app (mul (pushforwardAlgebra Δ')).val
-      (op (g ⁻¹ᵁ U.unop)) (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf W'.toRingedSpace.sheaf)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf W'.toRingedSpace.sheaf).obj)).unit.app
+      (op (g ⁻¹ᵁ U.unop)) (PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction W'.toRingedSpace.sheaf).unit.app
         (PresheafOfModules.tensorObj (O := W'.toRingedSpace.sheaf.obj)
           (moduleOfAlgebra (pushforwardAlgebra Δ')).val
           (moduleOfAlgebra (pushforwardAlgebra Δ')).val)) (op (g ⁻¹ᵁ U.unop)) t))

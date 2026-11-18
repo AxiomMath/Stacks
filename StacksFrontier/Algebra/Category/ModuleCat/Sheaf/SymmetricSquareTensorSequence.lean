@@ -265,6 +265,33 @@ theorem stalkMapL_sub (a b : M ⟶ N) (x : ↥X) (t : ↑(TopCat.Presheaf.stalk 
   refine Eq.trans ?_ (map_sub _ _ _)
   rfl
 
+/-- The stalk map of a composite, with the two factors read through `Hom.val`. Stated for
+arbitrary sheaves, so that applying it to morphisms between tensor product sheaves never compares
+their sections with the `restrictScalars` spelling of `SheafOfModules.SymPresentation.valHom`. -/
+theorem stalkMapL_comp_val {P : SheafOfModules.{u}
+      (toRingCat (Opens.grothendieckTopology ↥X) Osharp)} (u : M ⟶ N) (v : N ⟶ P) (x : ↥X)
+    (t : ↑(TopCat.Presheaf.stalk M.val.presheaf x)) :
+    PresheafOfModules.stalkMapL x (SymPresentation.valHom (u ≫ v)) t =
+      PresheafOfModules.stalkMapL x v.val (PresheafOfModules.stalkMapL x u.val t) :=
+  SymSquareFiltration.stalkMapL_comp u v x t
+
+/-- The stalk map of `SheafOfModules.SymPresentation.valHom f` is that of `f.val`. Stated for
+arbitrary sheaves, for the same reason as `stalkMapL_comp_val`. -/
+theorem stalkMapL_valHom (f : M ⟶ N) (x : ↥X) (t : ↑(TopCat.Presheaf.stalk M.val.presheaf x)) :
+    PresheafOfModules.stalkMapL x (SymPresentation.valHom f) t =
+      PresheafOfModules.stalkMapL x f.val t :=
+  rfl
+
+/-- The stalk functor of sheaves of modules sends a morphism `f` to the stalk map of
+`SheafOfModules.SymPresentation.valHom f`. Stated for arbitrary sheaves, for the same reason as
+`stalkMapL_comp_val`. -/
+theorem stalkFunctor_map_apply (f : M ⟶ N) (x : ↥X)
+    (t : ↑(TopCat.Presheaf.stalk M.val.presheaf x)) :
+    ((AlgebraicGeometry.SheafOfModules.stalkFunctor
+        (toRingCat (Opens.grothendieckTopology ↥X) Osharp) x).map f).hom t =
+      PresheafOfModules.stalkMapL x (SymPresentation.valHom f) t :=
+  rfl
+
 /-- A composite of morphisms of sheaves of modules vanishes once it vanishes on every stalk. -/
 theorem comp_eq_zero_of_stalkMapL {P : SheafOfModules.{u}
       (toRingCat (Opens.grothendieckTopology ↥X) Osharp)} (p : M ⟶ N) (φ : N ⟶ P)
@@ -396,7 +423,7 @@ theorem symSymStalk_stalkMapL_cauchyπ (x : ↥X)
       SymPow.cauchyφ (symWStalk ιW hW x
         (PresheafOfModules.stalkMapL x (SymPresentation.valHom (sq ιW hW)) t)) := by
   refine Eq.trans (congrArg (symSymStalk ιE hE ιF hF x)
-    (SymSquareFiltration.stalkMapL_comp _ _ x t)) ?_
+    (stalkMapL_comp_val (middleFour E F E F) (tensorHom (sq ιE hE) (sq ιF hF)) x t)) ?_
   refine Eq.trans ?_ (congrArg SymPow.cauchyφ (symWStalk_stalkMapL_sq ιW hW x t)).symm
   refine Eq.trans ?_ (DFunLike.congr_fun (SymPow.cauchyφ_comp_sqMul (S := ↑(TopCat.Presheaf.stalk
     Osharp.obj x))) _).symm
@@ -416,18 +443,12 @@ map of `ℰ ⊗ ℱ`. -/
 def cauchyφSheaf : AW.piece ((1 + 1 : ℕ) : ℤ) ⟶
     (tens (AE.piece ((1 + 1 : ℕ) : ℤ)) (AF.piece ((1 + 1 : ℕ) : ℤ))) :=
   haveI : Epi (C := Mods Osharp) (sq ιW hW) := epi_sq ιW hW
-  Abelian.epiDesc (C := Mods Osharp) (sq ιW hW) (cauchyπ ιE hE ιF hF) (by
-    refine SymSquareFiltration.eq_of_stalkMapL_eq _ _ fun x z => ?_
-    refine (symSymStalk ιE hE ιF hF x).injective ?_
-    refine (congrArg (symSymStalk ιE hE ιF hF x)
-      (SymSquareFiltration.stalkMapL_comp _ _ x z)).trans ?_
-    refine (symSymStalk_stalkMapL_cauchyπ ιE hE ιF hF ιW hW x _).trans ?_
-    refine Eq.trans ?_ (congrArg (symSymStalk ιE hE ιF hF x)
-      (SymSquareFiltration.stalkMapL_zero x z)).symm
-    refine Eq.trans ?_ (map_zero _).symm
-    exact (congrArg (fun y => SymPow.cauchyφ (symWStalk ιW hW x y))
-      (stalkMapL_kernelι (sq ιW hW) x z)).trans
-      ((congrArg SymPow.cauchyφ (map_zero _)).trans (map_zero _)))
+  Abelian.epiDesc (C := Mods Osharp) (sq ιW hW) (cauchyπ ιE hE ιF hF)
+    (comp_eq_zero_of_stalkMapL _ _ fun x z => (symSymStalk ιE hE ιF hF x).injective <|
+      ((symSymStalk_stalkMapL_cauchyπ ιE hE ιF hF ιW hW x _).trans
+        ((congrArg (fun y => SymPow.cauchyφ (symWStalk ιW hW x y))
+          (stalkMapL_kernelι (sq ιW hW) x z)).trans
+          ((congrArg SymPow.cauchyφ (map_zero _)).trans (map_zero _)))).trans (map_zero _).symm)
 
 /-- The Segre map `φ` composed with the square map of `ℰ ⊗ ℱ` is `π`. -/
 theorem sq_comp_cauchyφSheaf :
@@ -569,6 +590,8 @@ theorem extExtStalk_stalkMapL_wedgeWedge (x : ↥X)
     extExtStalk κE hBE κF hBF x
         (PresheafOfModules.stalkMapL x (SymPresentation.valHom (wedgeWedge κE hBE κF hBF)) y) =
       TensorProduct.map SymPow.wedgeMul SymPow.wedgeMul (tensorTensorStalkEquiv E E F F x y) :=
+  (congrArg (extExtStalk κE hBE κF hBF x)
+    (stalkMapL_valHom (wedgeWedge κE hBE κF hBF) x y)).trans <|
   congr_tensorSheafStalkEquiv_stalkMapL_tensorHom (wsq κE hBE) (wsq κF hBF) x
     (exteriorPowerStalkEquiv BE κE hBE (1 + 1) x) (exteriorPowerStalkEquiv BF κF hBF (1 + 1) x)
     SymPow.wedgeMul SymPow.wedgeMul (PresheafOfModules.tensorSheafStalkEquiv Osharp E E x)
@@ -677,13 +700,16 @@ theorem shortExact_cauchy
   refine (ShortComplex.moduleCat_exact_iff _).2 fun t ht => ?_
   have ht' : SymPow.cauchyφ (symWStalk ιW hW x t) = 0 :=
     (symSymStalk_stalkMapL_cauchyφSheaf ιE hE ιF hF ιW hW x t).symm.trans
-      ((congrArg (symSymStalk ιE hE ιF hF x) ht).trans (map_zero _))
+      ((congrArg (symSymStalk ιE hE ιF hF x) ((stalkFunctor_map_apply
+        (cauchyφSheaf ιE hE ιF hF ιW hW) x t).symm.trans ht)).trans (map_zero _))
   refine ((SetLike.ext_iff.mp (SymPow.range_cauchyα (S := ↑(TopCat.Presheaf.stalk Osharp.obj x))
     (E := ↑(TopCat.Presheaf.stalk E.val.presheaf x))
     (F := ↑(TopCat.Presheaf.stalk F.val.presheaf x)))
     (symWStalk ιW hW x t)).2 ht').elim fun w hw => ?_
   refine ⟨(extExtStalk κE hBE κF hBF x).symm w, (symWStalk ιW hW x).injective ?_⟩
-  refine (symWStalk_stalkMapL_cauchyαSheaf ιW hW κE hBE κF hBF x _).trans ?_
+  refine (congrArg (symWStalk ιW hW x)
+    (stalkFunctor_map_apply (cauchyαSheaf ιW hW κE hBE κF hBF) x _)).trans
+    ((symWStalk_stalkMapL_cauchyαSheaf ιW hW κE hBE κF hBF x _).trans ?_)
   exact (congrArg SymPow.cauchyα ((extExtStalk κE hBE κF hBF x).apply_symm_apply w)).trans hw
 
 end Cauchy

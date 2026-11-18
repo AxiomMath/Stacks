@@ -329,9 +329,10 @@ def tensorGlobalSections (F : (projectiveSpaceOfModule k W).Modules) (n : ℤ) :
   LinearMap.compr₂
     (TensorProduct.mk (globalFunctions k W) (globalSections k W F)
       (globalSections k W (twistStructureSheaf k W n)))
-    (ModuleCat.Hom.hom ((toSheafify (structurePresheaf k W) (isSheaf_structurePresheaf k W)
-      ((PresheafOfModules.tensorObj (O := (structurePresheaf k W)) (F.val)
-        ((twistingSheaf (grading k W) n).val)))).app (op ⊤)))
+    (ModuleCat.Hom.hom (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      (ProjectiveSpectrum.Proj.structureSheaf (grading k W))).unit.app
+        (PresheafOfModules.tensorObj (O := structurePresheaf k W) F.val
+          (twistingSheaf (grading k W) n).val)).app (op ⊤)))
 
 /-- **A twist of a quasi-coherent module on `𝐏(W)` is quasi-coherent**, by Tag 0GQM: the twisting
 sheaf is quasi-coherent by Tag 01MB and the twist is a tensor product with it. -/

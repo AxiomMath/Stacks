@@ -125,13 +125,17 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 attribute [local instance] monoidalCategory braidedCategory
 
 /-- The tensor functor `N ↦ (L.val ⊗ N.val)^#` of `Stacks.SheafOfModules.Tensor.sheafTensor` is the
-left-tensoring functor `N ↦ L ⊗ N` of the monoidal structure on sheaves of modules. -/
+left-tensoring functor `N ↦ L ⊗ N` of the monoidal structure on sheaves of modules. The sealed
+sheafification inside `Stacks.SheafOfModules.Tensor.sheafTensor` is first replaced by
+`Stacks.SheafOfModules.TensorSheafification.sheafify` through
+`Stacks.SheafOfModules.tensorLeftFunctorIsoTensorLeftSheafifyFunctor`. -/
 noncomputable def tensorLeftFunctorIsoTensorLeft
     (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj L ≅
       (MonoidalCategory.tensorLeft L :) :=
-  Functor.isoWhiskerLeft (SheafOfModules.forget
+  tensorLeftFunctorIsoTensorLeftSheafifyFunctor 𝒪 h𝒪 L ≪≫
+    Functor.isoWhiskerLeft (SheafOfModules.forget
     (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))
       (Functor.Monoidal.commTensorLeft (sheafifyFunctor 𝒪 h𝒪) L.val).symm ≪≫
     Functor.isoWhiskerRight (forgetSheafifyIso 𝒪 h𝒪)

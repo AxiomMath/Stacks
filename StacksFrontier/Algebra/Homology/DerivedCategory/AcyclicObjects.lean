@@ -95,7 +95,7 @@ canonical map `α_{A[0]} : F(A[0]) ⟶ RF(Qh(A[0]))`, the unit of `RF` at `A[0]`
 isomorphism. -/
 @[stacks 0157 "(3), with `RF` Mathlib's `Functor.totalRightDerived` on `K⁺(C)`; the source's
   formulation, for a partially defined `RF`, is `Functor.IsRightAcyclic`", sga "4 XVII 1.2.3"
-  "(ii)", sga "4 XVII 1.2.3" "(ii)", sga "4 V 0.4"]
+  "(ii)", sga "4 V 0.4"]
 public def rightAcyclic (F : C ⥤ D) [F.Additive]
     [(F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso C)] : ObjectProperty C := fun A ↦

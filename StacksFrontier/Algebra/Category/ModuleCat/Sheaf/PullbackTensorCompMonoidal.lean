@@ -806,21 +806,25 @@ theorem id_eq_moduleSheafFunctor_map_pushforwardModulesCompAppIso_hom
         (pushforwardModulesCompAppIso φ ψ N).hom := rfl
 
 /-- **The five lower steps for `ψ` after the five lower steps for `φ`, followed by the comparison
-of direct images, read as a bilinear pairing.** It is the unit of `ψ⁻¹ ⊣ ψ_*` followed by the
-direct image of the product comparison of `ψ⁻¹`, the pairing at the bottom of the chain of Tag 03EL
-for `ψ`, and the five lower steps for `φ`: the comparison of direct images contributes nothing,
-being the identity on underlying sheaves of sets. -/
-private lemma pullbackTensorStep2_pullbackTensorLower_comp_val :
-    (pullbackTensorStep2 (ψ.comp φ).toModulesHom A B
-        (pullbackTensorTarget (ψ.comp φ).toModulesHom A B)
-        (pullbackTensorLower ψ.toModulesHom A B
-          ((pushforwardModules φ.toModulesHom).obj
-            (pullbackTensorTarget (ψ.comp φ).toModulesHom A B))
+of direct images, read as a bilinear pairing.** For a morphism `g : φ^*ψ^*A ⊗ φ^*ψ^*B ⟶ N`, it is
+the unit of `ψ⁻¹ ⊣ ψ_*` followed by the direct image of the product comparison of `ψ⁻¹`, the pairing
+at the bottom of the chain of Tag 03EL for `ψ`, and the five lower steps for `φ` at `g`: the
+comparison of direct images contributes nothing, being the identity on underlying sheaves of sets.
+
+It is stated for an arbitrary `N`, rather than only at the tensor product sheaf the coherence uses
+it at: at a variable `N` the unifier identifies the two spellings of the underlying sheaf of sets
+of `ψ_*(φ_*N)` cheaply, while at the tensor product sheaf, whose sheafification is sealed, the same
+identification exhausts the heartbeat budget. -/
+private lemma pullbackTensorStep2_pullbackTensorLower_comp_val
+    (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+    (g : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor X.O))).obj
+      ((φ.toModulesHom.pullbackModules).obj ((ψ.toModulesHom.pullbackModules).obj A),
+        (φ.toModulesHom.pullbackModules).obj ((ψ.toModulesHom.pullbackModules).obj B)) ⟶ N) :
+    (pullbackTensorStep2 (ψ.comp φ).toModulesHom A B N
+        (pullbackTensorLower ψ.toModulesHom A B ((pushforwardModules φ.toModulesHom).obj N)
           (pullbackTensorLower φ.toModulesHom ((ψ.toModulesHom.pullbackModules).obj A)
-            ((ψ.toModulesHom.pullbackModules).obj B)
-            (pullbackTensorTarget (ψ.comp φ).toModulesHom A B) (compTensorHom φ ψ A B)) ≫
-          (pushforwardModulesCompAppIso φ ψ
-            (pullbackTensorTarget (ψ.comp φ).toModulesHom A B)).hom)).1 =
+            ((ψ.toModulesHom.pullbackModules).obj B) N g) ≫
+          (pushforwardModulesCompAppIso φ ψ N).hom)).1 =
       ψ.toToposHom.adj.unit.app (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) A ⨯
           Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) B) ≫
         ψ.toToposHom.pushforward.map
@@ -836,24 +840,16 @@ private lemma pullbackTensorStep2_pullbackTensorLower_comp_val :
                 ((SheafOfModules.restrictScalars ψ.toModulesHom.fSharpInverseImage).map
                   (pullbackTensorLower φ.toModulesHom
                     ((ψ.toModulesHom.pullbackModules).obj A)
-                    ((ψ.toModulesHom.pullbackModules).obj B)
-                    (pullbackTensorTarget (ψ.comp φ).toModulesHom A B)
-                    (compTensorHom φ ψ A B))))) := by
-  refine Eq.trans (pullbackTensorStep2_comp' φ ψ
-    (pullbackTensorTarget (ψ.comp φ).toModulesHom A B) A B
-    (pullbackTensorLower ψ.toModulesHom A B
-      ((pushforwardModules φ.toModulesHom).obj (pullbackTensorTarget (ψ.comp φ).toModulesHom A B))
+                    ((ψ.toModulesHom.pullbackModules).obj B) N g)))) :=
+  (pullbackTensorStep2_comp' φ ψ N A B
+    (pullbackTensorLower ψ.toModulesHom A B ((pushforwardModules φ.toModulesHom).obj N)
       (pullbackTensorLower φ.toModulesHom ((ψ.toModulesHom.pullbackModules).obj A)
-        ((ψ.toModulesHom.pullbackModules).obj B)
-        (pullbackTensorTarget (ψ.comp φ).toModulesHom A B) (compTensorHom φ ψ A B)))) ?_
-  exact comp_eq_of_id_eq
-    (id_eq_moduleSheafFunctor_map_pushforwardModulesCompAppIso_hom φ ψ
-      (pullbackTensorTarget (ψ.comp φ).toModulesHom A B))
-    (pullbackTensorStep2_pullbackTensorLower_val ψ.toModulesHom A B
-      ((pushforwardModules φ.toModulesHom).obj (pullbackTensorTarget (ψ.comp φ).toModulesHom A B))
-      (pullbackTensorLower φ.toModulesHom ((ψ.toModulesHom.pullbackModules).obj A)
-        ((ψ.toModulesHom.pullbackModules).obj B)
-        (pullbackTensorTarget (ψ.comp φ).toModulesHom A B) (compTensorHom φ ψ A B)))
+        ((ψ.toModulesHom.pullbackModules).obj B) N g))).trans
+    (comp_eq_of_id_eq (id_eq_moduleSheafFunctor_map_pushforwardModulesCompAppIso_hom φ ψ N)
+      (pullbackTensorStep2_pullbackTensorLower_val ψ.toModulesHom A B
+        ((pushforwardModules φ.toModulesHom).obj N)
+        (pullbackTensorLower φ.toModulesHom ((ψ.toModulesHom.pullbackModules).obj A)
+          ((ψ.toModulesHom.pullbackModules).obj B) N g)))
 
 /-- **Step 3 of the chain of Tag 03EL at the five lower steps for `ψ` after the five lower steps
 for `φ`.** The pairing that step 3 for `ψ ∘ φ` produces is the pairing at the bottom of the chain
@@ -894,7 +890,8 @@ private lemma pullbackTensorStep3_pullbackTensorStep2_pullbackTensorLower :
   exact preservesLimitPair_inv_comp_homEquiv_symm_comp ψ.toToposHom.adj φ.toToposHom.adj
     (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) A)
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) B)
-    (pullbackTensorStep2_pullbackTensorLower_comp_val φ ψ A B)
+    (pullbackTensorStep2_pullbackTensorLower_comp_val φ ψ A B
+      (pullbackTensorTarget (ψ.comp φ).toModulesHom A B) (compTensorHom φ ψ A B))
     (pullbackTensorBottomPairing_comp_pullbackTensorLower φ ψ A B)
 
 /-- **The equation between the five lower steps of the chain of Tag 03EL that the coherence of the

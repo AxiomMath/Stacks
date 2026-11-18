@@ -49,9 +49,14 @@ proved here, at the generality of an arbitrary ringed site, and then composed on
 
 ## Implementation notes
 
-**Why the proofs are terms and not rewrites.** Three spellings of one object occur unavoidably:
-`Stacks.SheafOfModules.TensorSheafification.tensorSheaf 𝒪 h𝒪 F G` versus
-`(sheafify 𝒪 h𝒪).obj (F.val ⊗ G.val)`, `(structureSheaf 𝒪 h𝒪).obj` versus
+**The sheafified tensor product is taken in the `sheafify` spelling.** The native sheaf tensor
+`Stacks.SheafOfModules.Tensor.sheafTensor` seals its sheafification, so it is not definitionally
+`(sheafify 𝒪 h𝒪).obj (F.val ⊗ G.val)`; the comparison with `F ⊗ G` used throughout is therefore
+`Stacks.SectionTensorFormula.sheafifyIsoTensorObj`, whose source is the latter, and the native
+sheaf tensor does not occur.
+
+**Why the proofs are terms and not rewrites.** Two spellings of one object occur unavoidably:
+`(structureSheaf 𝒪 h𝒪).obj` versus
 `structureRingPresheaf 𝒪` — `Stacks.SheafOfModules.TensorSheafification.toSheafify` is declared at
 the second — and `𝟙_ (SheafOfModules _)` versus `(sheafify 𝒪 h𝒪).obj (𝟙_ (PresheafOfModules _))`.
 Each pair is definitionally equal at default transparency and none is equal at the *reducible*
@@ -75,7 +80,7 @@ whose source is written through the composite functor
 `SheafOfModules.forget ⋙ PresheafOfModules.restrictScalars (𝟙 _)`, and it is the same morphism as
 `(Stacks.SheafOfModules.sheafifyValIso 𝒪 h𝒪 F).hom`, whose type writes that source as
 `(sheafify 𝒪 h𝒪).obj F.val` instead. The second is the spelling used below, because it is what
-makes `tensorSheafIsoTensorObj_hom_eq` a single-spelling statement and hence `rfl`.
+makes `sheafifyIsoTensorObj_hom_eq` a single-spelling statement and hence `rfl`.
 
 **The monoidal unit of the sheaves is the sheafification of the presheaf unit by `rfl`**, the
 monoidal structure being a localization with `ε = Iso.refl`; and for the same reason
@@ -147,12 +152,12 @@ theorem map_toSheafify_comp_sheafifyCounit
         (sheafifyValIso 𝒪 h𝒪 ((sheafify 𝒪 h𝒪).obj P)).hom = 𝟙 ((sheafify 𝒪 h𝒪).obj P) :=
   (sheafifyAdjunction 𝒪 h𝒪).left_triangle_components P
 
-/-- `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj` unfolded: the comparison of the
+/-- `Stacks.SectionTensorFormula.sheafifyIsoTensorObj` unfolded: the comparison of the
 sheafified sectionwise tensor product with the localized monoidal product is the inverse
 tensorator of sheafification followed by the two counits. True by `rfl`, the whole point being
 that both sides are written in one spelling. -/
-theorem tensorSheafIsoTensorObj_hom_eq (F G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
-    (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom =
+theorem sheafifyIsoTensorObj_hom_eq (F G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
+    (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom =
       Functor.OplaxMonoidal.δ (sheafify 𝒪 h𝒪) F.val G.val ≫
         ((sheafifyValIso 𝒪 h𝒪 F).hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 G).hom) := rfl
 
@@ -211,20 +216,14 @@ section Right
 variable (F : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
   {G H : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)}
 
-/-- **Naturality of `tensorSheafIsoTensorObj` in its second variable**, which is the sheaf-level
+/-- **Naturality of `sheafifyIsoTensorObj` in its second variable**, which is the sheaf-level
 half of the naturality of the comparison on sections. It is the naturality of the tensorator
 together with the naturality of the counit; no coherence of the localized monoidal structure is
 used. -/
-theorem tensorSheafIsoTensorObj_hom_whiskerLeft (g : G ⟶ H) :
-    (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom ≫ F ◁ g =
-      ((sheafify 𝒪 h𝒪).map (F.val ◁ g.val) :
-          (((Stacks.SheafOfModules.Tensor.sheafTensor
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj
-            (F)).obj (G)) ⟶
-          (((Stacks.SheafOfModules.Tensor.sheafTensor
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj
-            (F)).obj (H))) ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F H).hom := by
+theorem sheafifyIsoTensorObj_hom_whiskerLeft (g : G ⟶ H) :
+    (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom ≫ F ◁ g =
+      (sheafify 𝒪 h𝒪).map (F.val ◁ g.val) ≫
+        (sheafifyIsoTensorObj 𝒪 h𝒪 F H).hom := by
   have hmid : ((sheafifyValIso 𝒪 h𝒪 F).hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 G).hom) ≫ F ◁ g =
       ((sheafify 𝒪 h𝒪).obj F.val ◁ (sheafify 𝒪 h𝒪).map g.val) ≫
         ((sheafifyValIso 𝒪 h𝒪 F).hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 H).hom) := by
@@ -252,13 +251,13 @@ theorem tensorSheafIsoTensorObj_hom_whiskerLeft (g : G ⟶ H) :
 theorem toTensorSection_comp_whiskerLeft_val (g : G ⟶ H) :
     toTensorSection 𝒪 h𝒪 F G ≫ (F ◁ g).val =
       (F.val ◁ g.val) ≫ toTensorSection 𝒪 h𝒪 F H :=
-  have hstep : (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom.val ≫ (F ◁ g).val =
+  have hstep : (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom.val ≫ (F ◁ g).val =
       ((sheafify 𝒪 h𝒪).map (F.val ◁ g.val)).val ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F H).hom.val :=
-    congrArg SheafOfModules.Hom.val (tensorSheafIsoTensorObj_hom_whiskerLeft 𝒪 h𝒪 F g)
+        (sheafifyIsoTensorObj 𝒪 h𝒪 F H).hom.val :=
+    congrArg SheafOfModules.Hom.val (sheafifyIsoTensorObj_hom_whiskerLeft 𝒪 h𝒪 F g)
   (whisker_eq (toSheafify 𝒪 h𝒪 (F.val ⊗ G.val)) hstep).trans
     (eq_whisker (toSheafify_comp_map_val 𝒪 h𝒪 (F.val ◁ g.val))
-      (tensorSheafIsoTensorObj 𝒪 h𝒪 F H).hom.val)
+      (sheafifyIsoTensorObj 𝒪 h𝒪 F H).hom.val)
 
 end Right
 
@@ -269,15 +268,11 @@ section Sheafify
 variable (F : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
   (P : PresheafOfModules.{w} (structureSheaf 𝒪 h𝒪).obj)
 
-/-- **`tensorSheafIsoTensorObj` against a sheafified second variable.** The left triangle
+/-- **`sheafifyIsoTensorObj` against a sheafified second variable.** The left triangle
 identity collapses the second counit, leaving a whiskering. -/
-theorem map_whiskerLeft_toSheafify_comp_tensorSheafIsoTensorObj_hom :
-    ((sheafify 𝒪 h𝒪).map (F.val ◁ toSheafify 𝒪 h𝒪 P) :
-        (sheafify 𝒪 h𝒪).obj (F.val ⊗ P) ⟶
-          (((Stacks.SheafOfModules.Tensor.sheafTensor
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj
-            (F)).obj (((sheafify 𝒪 h𝒪).obj P)))) ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F ((sheafify 𝒪 h𝒪).obj P)).hom =
+theorem map_whiskerLeft_toSheafify_comp_sheafifyIsoTensorObj_hom :
+    (sheafify 𝒪 h𝒪).map (F.val ◁ toSheafify 𝒪 h𝒪 P) ≫
+        (sheafifyIsoTensorObj 𝒪 h𝒪 F ((sheafify 𝒪 h𝒪).obj P)).hom =
       Functor.OplaxMonoidal.δ (sheafify 𝒪 h𝒪) F.val P ≫
         ((sheafifyValIso 𝒪 h𝒪 F).hom ▷ (sheafify 𝒪 h𝒪).obj P) :=
   have hmid : ((sheafify 𝒪 h𝒪).obj F.val ◁ (sheafify 𝒪 h𝒪).map (toSheafify 𝒪 h𝒪 P)) ≫
@@ -313,19 +308,15 @@ theorem toTensorSection_whiskerLeft_toSheafify :
       toSheafify 𝒪 h𝒪 (F.val ⊗ P) ≫
         (Functor.OplaxMonoidal.δ (sheafify 𝒪 h𝒪) F.val P ≫
           ((sheafifyValIso 𝒪 h𝒪 F).hom ▷ (sheafify 𝒪 h𝒪).obj P)).val :=
-  have hstep : ((sheafify 𝒪 h𝒪).map (F.val ◁ toSheafify 𝒪 h𝒪 P) :
-          (sheafify 𝒪 h𝒪).obj (F.val ⊗ P) ⟶
-            (((Stacks.SheafOfModules.Tensor.sheafTensor
-                ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj
-              (F)).obj (((sheafify 𝒪 h𝒪).obj P)))).val ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F ((sheafify 𝒪 h𝒪).obj P)).hom.val =
+  have hstep : ((sheafify 𝒪 h𝒪).map (F.val ◁ toSheafify 𝒪 h𝒪 P)).val ≫
+        (sheafifyIsoTensorObj 𝒪 h𝒪 F ((sheafify 𝒪 h𝒪).obj P)).hom.val =
       (Functor.OplaxMonoidal.δ (sheafify 𝒪 h𝒪) F.val P ≫
         ((sheafifyValIso 𝒪 h𝒪 F).hom ▷ (sheafify 𝒪 h𝒪).obj P)).val :=
     (SheafOfModules.comp_val _ _).symm.trans
       (congrArg SheafOfModules.Hom.val
-        (map_whiskerLeft_toSheafify_comp_tensorSheafIsoTensorObj_hom 𝒪 h𝒪 F P))
+        (map_whiskerLeft_toSheafify_comp_sheafifyIsoTensorObj_hom 𝒪 h𝒪 F P))
   (eq_whisker (toSheafify_comp_map_val 𝒪 h𝒪 (F.val ◁ toSheafify 𝒪 h𝒪 P)).symm
-      (tensorSheafIsoTensorObj 𝒪 h𝒪 F ((sheafify 𝒪 h𝒪).obj P)).hom.val).trans
+      (sheafifyIsoTensorObj 𝒪 h𝒪 F ((sheafify 𝒪 h𝒪).obj P)).hom.val).trans
     (whisker_eq (toSheafify 𝒪 h𝒪 (F.val ⊗ P)) hstep)
 
 end Sheafify

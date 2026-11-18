@@ -471,26 +471,23 @@ variable [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}]
 /-- **Tag 040A (2) in the form Tag 0B8K consumes.** For an invertible sheaf of modules,
 sheafification inverts the presheaf-level evaluation pairing `M^∨ ⊗ M ⟶ 𝒪`. The sheaf-level
 statement is `Stacks.SheafOfModules.Invertible.isIso_evaluation`; the two differ by the counit
-of the sheafification adjunction, which is an isomorphism because sheaves of modules are a
-reflective subcategory. -/
+of the sealed sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`,
+which is an isomorphism because sheaves of modules are a reflective subcategory, and the sealed
+sheafification inverts the same morphisms as Mathlib's
+(`Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff`). -/
 @[ega "0 5.4.3" "more general"]
 theorem isIso_sheafify_map_evaluationPresheaf_of_isInvertible
     (M : SheafOfModules.{max u v} (TensorSheafification.structureSheaf 𝒪 h𝒪))
     [IsInvertible 𝒪 h𝒪 M] :
     IsIso ((TensorSheafification.sheafify 𝒪 h𝒪).map (evaluationPresheaf 𝒪 h𝒪 M)) := by
-  have he : IsIso (evaluation 𝒪 h𝒪 M) := Invertible.isIso_evaluation 𝒪 h𝒪 M
-  rw [show evaluation 𝒪 h𝒪 M =
-      (TensorSheafification.sheafify 𝒪 h𝒪).map (evaluationPresheaf 𝒪 h𝒪 M) ≫
-        (TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit.app
-          (SheafOfModules.unit (TensorSheafification.structureSheaf 𝒪 h𝒪)) from
-    (TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv_counit _ _ _] at he
-  have hc : IsIso ((TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit) :=
-    inferInstanceAs (IsIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (TensorSheafification.structureSheaf 𝒪 h𝒪).obj)).counit)
-  have hca : IsIso ((TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit.app
-      (SheafOfModules.unit (TensorSheafification.structureSheaf 𝒪 h𝒪))) :=
-    @NatIso.isIso_app_of_isIso _ _ _ _ _ _ _ hc _
-  exact @IsIso.of_isIso_comp_right _ _ _ _ _ _ _ hca he
+  have he := (congrArg IsIso (Adjunction.homEquiv_counit _ _ _ _)).mp
+    (Invertible.isIso_evaluation 𝒪 h𝒪 M)
+  have := NatIso.isIso_app_of_isIso (Tensor.sheafificationAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).counit
+      (SheafOfModules.unit (TensorSheafification.structureSheaf 𝒪 h𝒪))
+  exact (Tensor.isIso_sheafification_map_iff
+    (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩) _).mp
+      ((@isIso_comp_right_iff _ _ _ _ _ _ _ this).mp he)
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- **Sheafification on the localized site inverts the restriction of the evaluation pairing**,

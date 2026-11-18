@@ -110,11 +110,8 @@ theorem tensorRightFunctor_map_toTensorSheafSection
         g).val.app U).hom
         (toTensorSheafSection Z M I U (m ⊗ₜ[Z.presheaf.obj U] b)) =
       toTensorSheafSection Z N I U ((g.val.app U).hom m ⊗ₜ[Z.presheaf.obj U] b) := by
-  let adj := (PresheafOfModules.sheafificationAdjunction.{u}
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf
-      (CategoryTheory.ObjectProperty.FullSubcategory.mk Z.presheaf Z.IsSheaf)))
-    (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
-      (CategoryTheory.ObjectProperty.FullSubcategory.mk Z.presheaf Z.IsSheaf))).obj))
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationAdjunction.{u}
+    (CategoryTheory.ObjectProperty.FullSubcategory.mk Z.presheaf Z.IsSheaf)
   -- The naturality square of the sheafification unit, read on the pure tensor. The goal is not
   -- type-correct at `implicit` transparency, so the section is extracted with `congrArg` and
   -- the two spellings of the tensor product are crossed by `exact`.

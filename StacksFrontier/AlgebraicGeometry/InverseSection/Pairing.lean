@@ -239,7 +239,8 @@ theorem tensorLeftSection_app (s : L.sections) (W : Opens X) (t : (powPre L (-1)
 
 /-- **Tensoring with `s` on the left, at the sheaf level**: the morphism of sheaves of modules
 `L ^⊗ (-1) ⟶ L ^⊗ 1 ⊗ L ^⊗ (-1)` into the *sheafified* tensor product, obtained from
-`tensorLeftSection` by following it with the sheafification unit. A morphism of sheaves of
+`tensorLeftSection` by following it with the unit of the sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. A morphism of sheaves of
 modules is nothing but a morphism of the underlying presheaves, so no sheaf condition is used
 here. -/
 noncomputable def tensorLeftSectionSheaf (s : L.sections) :
@@ -250,42 +251,46 @@ noncomputable def tensorLeftSectionSheaf (s : L.sections) :
           ((tensorPow X.sheaf.obj (structureSheaf X.sheaf).property L 1))).obj
         ((tensorPow X.sheaf.obj (structureSheaf X.sheaf).property L (-1)))) :=
   ⟨tensorLeftSection L s ≫
-    toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-      ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1)) ((powPre L (-1)))))⟩
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+          (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.sheaf.obj) (powPre L 1) (powPre L (-1)))⟩
 
 /-- The underlying morphism of presheaves of `tensorLeftSectionSheaf` is the composite it is
 built from. Recorded separately because the two sides are definitionally but not syntactically
-equal: the restriction of scalars along an identity morphism of rings has to be inserted, and
-elaboration puts it in a different place on the two sides. -/
+equal: the target of the unit is spelled `(SheafOfModules.forget _).obj ((sheafification _).obj _)`,
+that of `.val` through `Stacks.SheafOfModules.Tensor.sheafTensor`. -/
 theorem tensorLeftSectionSheaf_val (s : L.sections) :
     (tensorLeftSectionSheaf L s).val =
       tensorLeftSection L s ≫
-        toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-          ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1)) ((powPre L (-1))))) := rfl
+        (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+              (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.sheaf.obj) (powPre L 1) (powPre L (-1))) := rfl
 
 /-- On sections, `tensorLeftSectionSheaf` forms the elementary tensor `s|_W ⊗ t` and pushes it
 into the sheafified tensor product. -/
 theorem tensorLeftSectionSheaf_val_app (s : L.sections) (W : Opens X)
     (t : (powPre L (-1)).obj (op W)) :
     (tensorLeftSectionSheaf L s).val.app (op W) t =
-      (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-          ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
-            ((powPre L (-1)))))).app (op W)
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+            (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.sheaf.obj) (powPre L 1) (powPre L (-1)))).app (op W)
         ((sectionHom L s).val.app (op W) (1 : X.presheaf.obj (op W))
           ⊗ₜ[X.presheaf.obj (op W)] t) := by
   rw [tensorLeftSectionSheaf_val]
-  exact comp_app_apply (tensorLeftSection L s)
-    (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-      ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1)) ((powPre L (-1)))))) (op W) t
+  exact comp_app_apply (tensorLeftSection L s) _ (op W) t
 
 /-- On sections, `tensorLeftSectionSheaf` is `tensorLeftSection` followed by the sheafification
 unit. -/
 theorem tensorLeftSectionSheaf_val_app' (s : L.sections) (W : Opens X)
     (t : (powPre L (-1)).obj (op W)) :
     (tensorLeftSectionSheaf L s).val.app (op W) t =
-      (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-          ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
-            ((powPre L (-1)))))).app (op W)
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+            (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.sheaf.obj) (powPre L 1) (powPre L (-1)))).app (op W)
         ((tensorLeftSection L s).app (op W) t) := by
   rw [tensorLeftSectionSheaf_val_app, tensorLeftSection_app]
 
@@ -310,9 +315,11 @@ in the statement of the inverse-section clause of Stacks Tag 01CY. -/
 theorem pairingHom_val_app (s : L.sections) (W : Opens X) (t : (powPre L (-1)).obj (op W)) :
     (pairingHom L s).val.app (op W) t =
       (tensorPowPairingIso X.sheaf.obj (structureSheaf X.sheaf).property L).hom.val.app (op W)
-        ((toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-            ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
-              ((powPre L (-1)))))).app (op W)
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+              (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
+            (PresheafOfModules.tensorObj (O := X.sheaf.obj) (powPre L 1) (powPre L (-1)))).app
+              (op W)
           ((sectionHom L s).val.app (op W) (1 : X.presheaf.obj (op W))
             ⊗ₜ[X.presheaf.obj (op W)] t)) := by
   rw [← tensorLeftSectionSheaf_val_app, pairingHom_val]

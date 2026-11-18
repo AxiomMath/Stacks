@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Etale.EtaleUpperShriekRestriction
 # Extension by zero is the finite-support direct image, at every coefficient universe
 
 Let `j : U ⟶ X` be an étale morphism, viewed as an object of the small étale site of `X`.
-`StacksFrontier.AlgebraicGeometry.Etale.FiniteSupportExtensionByZero.Stalk` proves [Stacks, Tag 0F6Q]
+`StacksFrontier.AlgebraicGeometry.Etale.FiniteSupportExtensionByZero.Stalk` proves [Stacks, Tag
+0F6Q]
 for abelian sheaves with coefficients in `AddCommGrpCat.{u + 1}`: extension by zero `j_!` is the
 direct image with compact support `j_!` of [Stacks, Tag 0F6R]. This file proves the same at the
 coefficients `AddCommGrpCat.{max (u + 1) v}`, for every universe `v`, by the same argument.

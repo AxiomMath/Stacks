@@ -1383,6 +1383,23 @@ private lemma extensionActionTensorDescPresheaf_tmul
       (extensionActionPairing hi E).app U (a, x) := by
   rfl
 
+/-- The morphism out of a tensor product sheaf adjoint to `φ` under the sealed sheafification,
+evaluated on the image of a pure tensor under the unit, is `φ` on that pure tensor. -/
+private lemma sheafificationForgetAdjunction_homEquiv_symm_unit_tmul
+    {C : Type u'} [Category.{v'} C] {J : GrothendieckTopology C} {R : Sheaf J CommRingCat.{w'}}
+    [J.WEqualsLocallyBijective AddCommGrpCat.{w'}] [HasWeakSheafify J AddCommGrpCat.{w'}]
+    {M N K : SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf R)}
+    (φ : PresheafOfModules.tensorObj M.val N.val ⟶ K.val)
+    (U : Cᵒᵖ) (m : M.val.obj U) (n : N.val.obj U) :
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).homEquiv
+        (PresheafOfModules.tensorObj M.val N.val) K).symm φ).val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app
+          (PresheafOfModules.tensorObj M.val N.val)).app U (m ⊗ₜ[R.obj.obj U] n)) =
+      φ.app U (m ⊗ₜ[R.obj.obj U] n) :=
+  PresheafOfModules.hom_congr_apply'
+    ((Adjunction.homEquiv_unit (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R)
+      _ _ _).symm.trans (Equiv.apply_symm_apply _ φ)) U _
+
 add_to_stacks 08MB CategoryTheory.Abelian.YonedaExtension
 
 /-- The canonical map `I ⊗[O] F → K`, characterized by multiplication by an
@@ -1416,62 +1433,30 @@ public noncomputable def extensionActionMap
       ∀ (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : E.Z.left.val.obj U),
         E.f.val.app U
             (c.val.app U
-              (((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-                  i.toToposHom).obj X.O))
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-                  i.toToposHom).obj X.O)).obj)).unit.app
+              (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
                 (PresheafOfModules.tensorObj hi.I.val F.val)).app U
                 (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
                   E.g.val.app U x))) =
           (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U from
             hi.incl.val.app U a) • x } :=
-  Classical.choice (show Nonempty { c :
-      ((Stacks.SheafOfModules.Tensor.sheafTensor
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F ⟶ K //
-      ∀ (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : E.Z.left.val.obj U),
-        E.f.val.app U
-            (c.val.app U
-              (((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-                  i.toToposHom).obj X.O))
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-                  i.toToposHom).obj X.O)).obj)).unit.app
-                (PresheafOfModules.tensorObj hi.I.val F.val)).app U
-                (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
-                  E.g.val.app U x))) =
-          (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U from
-            hi.incl.val.app U a) • x } from by
-    let R :=
-      Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)
-    let t := extensionActionTensorDescPresheaf hi E
+  Classical.choice <| by
     let c : ((Stacks.SheafOfModules.Tensor.sheafTensor
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F ⟶ K := by
-      change (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).obj
-          (PresheafOfModules.tensorObj hi.I.val F.val) ⟶ K
-      exact (PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj)).symm t
-    refine ⟨⟨c, ?_⟩⟩
-    intro U a x
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F ⟶ K :=
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction _).homEquiv
+        (PresheafOfModules.tensorObj hi.I.val F.val) K).symm
+          (extensionActionTensorDescPresheaf hi E)
+    refine ⟨⟨c, fun U a x ↦ ?_⟩⟩
     have hc : c.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj
-            X.O)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
           (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
             E.g.val.app U x)) =
-        (extensionActionPairing hi E).app U (a, E.g.val.app U x) := by
-      dsimp [c]
-      change ((PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj)).symm t).val.app U
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).unit.app
-            (PresheafOfModules.tensorObj hi.I.val F.val)).app U
-            (a ⊗ₜ[R.obj.obj U] E.g.val.app U x)) = _
-      exact (congrArg (fun q ↦ q.app U
-          (a ⊗ₜ[R.obj.obj U] E.g.val.app U x))
-          ((PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj)).apply_symm_apply t)).trans
-        (extensionActionTensorDescPresheaf_tmul hi E U a (E.g.val.app U x))
-    rw [hc, extensionActionPairing_lift, extensionActionLift_spec])
+        (extensionActionPairing hi E).app U (a, E.g.val.app U x) :=
+      (sheafificationForgetAdjunction_homEquiv_symm_unit_tmul _ U a _).trans
+        (extensionActionTensorDescPresheaf_tmul hi E U a _)
+    rw [hc, extensionActionPairing_lift, extensionActionLift_spec]
 
 end Deformation.ToposThickening
 

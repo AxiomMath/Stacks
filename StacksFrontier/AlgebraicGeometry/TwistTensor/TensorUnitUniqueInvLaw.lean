@@ -55,16 +55,23 @@ recognise that endomorphism as the identity by a snake.
 
 **Two spellings of the structure maps.**  `isoOfTensorUnitIso` is built from the Picard-group
 constraints of `StacksFrontier/AlgebraicGeometry/PicardGroup/Basic.lean`, which are the
-`Stacks.SheafOfModules.Invertible.tensorProduct*` family; the monoidal structure of Stacks Tag
-01CA has `Stacks.SheafOfModules.tensorSheaf*`.  The first pair is definitionally the second, so
-`show` moves between them, but `α_` is *not* definitionally `tensorSheafAssociator` — that is the
-lemma `Stacks.SheafOfModules.associator_eq_tensorSheafAssociator`, stated at the
-`SheafOfModules (structureSheaf 𝒪 h𝒪)` spelling of the category.  The four restatements
-`schemeAssociator_eq_tensorSheafAssociator` and friends move it to the
-`AlgebraicGeometry.Scheme.Modules` spelling, which is the only spelling in which a rewrite fires
-against a goal about `X.Modules`; this is what
-`Stacks.AlgebraicGeometry.ThetaMul.tensorModulesMapIso_hom` already does for the tensor product of
-a pair of morphisms.
+`Stacks.SheafOfModules.Invertible.tensorProduct*` family, sheafified with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`; the monoidal structure of Stacks Tag 01CA has
+`Stacks.SheafOfModules.tensorSheaf*`.  The lemmas
+`tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor`,
+`tensorSheafAssociator_eq_tensorProductAssociator` and
+`tensorSheafLeftUnitor_eq_tensorProductLeftUnitor` identify the two families, and
+`Stacks.SheafOfModules.associator_eq_tensorSheafAssociator` and its siblings identify the second
+with the structure maps of `Stacks.SheafOfModules.Strict.monoidalCategory`.  Both steps are taken
+at a general ringed site, in `ι_mapIso_tensorInverseUniqueIso_isoMk_hom`, where every object is
+spelled `SheafOfModules (structureSheaf 𝒪 h𝒪)`: at the `AlgebraicGeometry.Scheme.Modules`
+spelling of a scheme the packaged objects `⟨A, _⟩` of the full subcategory are not type-correct
+at the transparency `rw` checks its motive with, so no rewrite fires there.
+`isoOfTensorUnitIso_hom` is that lemma at the scheme.  The restatements
+`schemeAssociator_eq_tensorSheafAssociator` and friends move the comparisons to the
+`AlgebraicGeometry.Scheme.Modules` spelling, the one in which a rewrite fires against a goal
+about `X.Modules`, as `Stacks.AlgebraicGeometry.ThetaMul.tensorModulesMapIso_hom` already does for
+the tensor product of a pair of morphisms.
 
 ## References
 
@@ -186,6 +193,65 @@ namespace Stacks.AlgebraicGeometry.TensorUnitInvLaw
 open Stacks.SheafOfModules
 open Stacks.AlgebraicGeometry.ProjTwistTensorPow
 
+section Picard
+
+universe v' u' w'
+
+variable {C : Type u'} [Category.{v'} C] {J : GrothendieckTopology C}
+  (O : Cᵒᵖ ⥤ CommRingCat.{w'})
+  (hO : Presheaf.IsSheaf J (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w'}] [HasWeakSheafify J AddCommGrpCat.{w'}]
+
+/-- **`Stacks.SheafOfModules.tensorInverseUniqueIso`, written out against the constraints of the
+tensor product sheaf.**  The Picard-group constraints it is built from are the
+`Stacks.SheafOfModules.Invertible.tensorProduct*` family, sheafified with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`;
+`tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor`,
+`tensorSheafAssociator_eq_tensorProductAssociator` and
+`tensorSheafLeftUnitor_eq_tensorProductLeftUnitor` identify them with the `tensorSheaf*`
+constraints, and the functoriality constraint is `TensorPower.tensorSheafMapIso`. -/
+theorem ι_mapIso_tensorInverseUniqueIso_isoMk_hom_eq_tensorSheaf
+    {A A' B : InvertibleModules O hO}
+    (e : (picardTensorObj O hO A B).obj ≅ (picardUnitObj O hO).obj)
+    (e' : (picardTensorObj O hO A' B).obj ≅ (picardUnitObj O hO).obj) :
+    ((ObjectProperty.ι _).mapIso (tensorInverseUniqueIso O hO
+        (ObjectProperty.isoMk _ e) (ObjectProperty.isoMk _ e'))).hom =
+      (tensorLeftFunctorObjUnitIso O hO A.obj).inv ≫
+        (TensorPower.tensorSheafMapIso O hO (Iso.refl A.obj) e'.symm).hom ≫
+        (TensorPower.tensorSheafMapIso O hO (Iso.refl A.obj)
+          (tensorSheafBraiding O hO A'.obj B.obj)).hom ≫
+        (tensorSheafAssociator O hO A.obj B.obj A'.obj).inv ≫
+        (TensorPower.tensorSheafMapIso O hO e (Iso.refl A'.obj)).hom ≫
+        (tensorSheafLeftUnitor O hO A'.obj).hom := by
+  rw [tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor,
+    tensorSheafAssociator_eq_tensorProductAssociator,
+    tensorSheafLeftUnitor_eq_tensorProductLeftUnitor]
+  rfl
+
+attribute [local instance] Strict.monoidalCategory Strict.braidedCategory
+
+/-- **`Stacks.SheafOfModules.tensorInverseUniqueIso`, written out against the strict monoidal
+structure of Stacks Tag 01CA**: `ι_mapIso_tensorInverseUniqueIso_isoMk_hom_eq_tensorSheaf`, read
+through the identifications of the `tensorSheaf*` constraints with the structure maps of
+`Stacks.SheafOfModules.Strict.monoidalCategory`. -/
+theorem ι_mapIso_tensorInverseUniqueIso_isoMk_hom {A A' B : InvertibleModules O hO}
+    (e : (picardTensorObj O hO A B).obj ≅ (picardUnitObj O hO).obj)
+    (e' : (picardTensorObj O hO A' B).obj ≅ (picardUnitObj O hO).obj) :
+    ((ObjectProperty.ι _).mapIso (tensorInverseUniqueIso O hO
+        (ObjectProperty.isoMk _ e) (ObjectProperty.isoMk _ e'))).hom =
+      (ρ_ A.obj).inv ≫ (𝟙 A.obj ⊗ₘ e'.inv) ≫ (𝟙 A.obj ⊗ₘ (β_ A'.obj B.obj).hom) ≫
+        (α_ A.obj B.obj A'.obj).inv ≫ (e.hom ⊗ₘ 𝟙 A'.obj) ≫ (λ_ A'.obj).hom := by
+  rw [ι_mapIso_tensorInverseUniqueIso_isoMk_hom_eq_tensorSheaf,
+    tensorSheafMapIso_hom_eq O hO (Iso.refl A.obj) e'.symm,
+    tensorSheafMapIso_hom_eq O hO (Iso.refl A.obj) (tensorSheafBraiding O hO A'.obj B.obj),
+    tensorSheafMapIso_hom_eq O hO e (Iso.refl A'.obj),
+    ← rightUnitor_eq_tensorSheafRightUnitor, ← associator_eq_tensorSheafAssociator,
+    ← leftUnitor_eq_tensorSheafLeftUnitor, ← braiding_eq_tensorSheafBraiding]
+  simp only [Iso.refl_hom, Iso.symm_hom]
+  rfl
+
+end Picard
+
 attribute [local instance] Stacks.Algebraization.strictModulesMonoidal
   Stacks.AlgebraicGeometry.ThetaMul.strictSchemeMonoidal
   Stacks.Algebraization.strictModulesBraided
@@ -234,49 +300,20 @@ local instance strictHasTrivialSelfBraiding (B : X.Modules) [IsInvertibleModule 
   ⟨congrArg Iso.hom ((schemeBraiding_eq_tensorSheafBraiding X B B).trans
     (tensorSheafBraiding_self_eq_refl X.presheaf (sheafCondition X) B))⟩
 
-set_option maxHeartbeats 1000000 in
--- large `simp only`/`change`/`rw` steps unfolding the Picard-group monoidal structure
 /-- **The comparison of two tensor inverses, written out.**  `isoOfTensorUnitIso` packages its
 three modules into the full subcategory of invertible sheaves, applies
 `Stacks.SheafOfModules.tensorInverseUniqueIso` and reads the result off the inclusion; this is the
 composite that comes out, against the structure maps of the strict monoidal structure of Stacks
-Tag 01CA.  The two unit constraints and the associator of the Picard group are definitionally
-those of the tensor product sheaf, so the four `scheme*_eq_tensorSheaf*` rewrites reach them; its
-functoriality constraint is the bifunctor's map on a pair, which is
-`Stacks.SheafOfModules.TensorPower.tensorSheafMapIso`, and
-`Stacks.SheafOfModules.tensorSheafMapIso_hom_eq` reads that as a tensor product of morphisms. -/
+Tag 01CA.  This is `ι_mapIso_tensorInverseUniqueIso_isoMk_hom` at the structure sheaf of `X`. -/
 theorem isoOfTensorUnitIso_hom (A A' B : X.Modules) [IsInvertibleModule X A]
     [IsInvertibleModule X A'] [IsInvertibleModule X B]
     (e : tensorModules X A B ≅ unitModule X) (e' : tensorModules X A' B ≅ unitModule X) :
     (isoOfTensorUnitIso X A A' B e e').hom =
       (ρ_ A).inv ≫ (𝟙 A ⊗ₘ e'.inv) ≫ (𝟙 A ⊗ₘ (β_ A' B).hom) ≫ (α_ A B A').inv ≫
-        (e.hom ⊗ₘ 𝟙 A') ≫ (λ_ A').hom := by
-  rw [isoOfTensorUnitIso, Stacks.SheafOfModules.tensorInverseUniqueIso]
-  simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Functor.map_comp,
-    Stacks.SheafOfModules.picardTensorUnitIso, Stacks.SheafOfModules.picardTensorIso,
-    Stacks.SheafOfModules.picardTensorComm, Stacks.SheafOfModules.picardTensorAssoc,
-    Stacks.SheafOfModules.picardUnitTensorIso]
-  dsimp only [ObjectProperty.ι_map, ObjectProperty.isoMk_hom, ObjectProperty.isoMk_inv,
-    ObjectProperty.homMk_hom]
-  change (tensorLeftFunctorObjUnitIso X.presheaf (sheafCondition X) A).inv ≫
-      (Stacks.SheafOfModules.TensorPower.tensorSheafMapIso X.presheaf (sheafCondition X)
-        (Iso.refl A) e'.symm).hom ≫
-      (Stacks.SheafOfModules.TensorPower.tensorSheafMapIso X.presheaf (sheafCondition X)
-        (Iso.refl A) (tensorSheafBraiding X.presheaf (sheafCondition X) A' B)).hom ≫
-      (tensorSheafAssociator X.presheaf (sheafCondition X) A B A').inv ≫
-      (Stacks.SheafOfModules.TensorPower.tensorSheafMapIso X.presheaf (sheafCondition X)
-        e (Iso.refl A')).hom ≫
-      (tensorSheafLeftUnitor X.presheaf (sheafCondition X) A').hom = _
-  rw [Stacks.SheafOfModules.tensorSheafMapIso_hom_eq X.presheaf (sheafCondition X)
-      (Iso.refl A) e'.symm,
-    Stacks.SheafOfModules.tensorSheafMapIso_hom_eq X.presheaf (sheafCondition X) (Iso.refl A)
-      (tensorSheafBraiding X.presheaf (sheafCondition X) A' B),
-    Stacks.SheafOfModules.tensorSheafMapIso_hom_eq X.presheaf (sheafCondition X) e (Iso.refl A'),
-    ← schemeRightUnitor_eq_tensorSheafRightUnitor,
-    ← schemeAssociator_eq_tensorSheafAssociator,
-    ← schemeLeftUnitor_eq_tensorSheafLeftUnitor, ← schemeBraiding_eq_tensorSheafBraiding]
-  simp only [Iso.refl_hom, Iso.symm_hom]
-  rfl
+        (e.hom ⊗ₘ 𝟙 A') ≫ (λ_ A').hom :=
+  ι_mapIso_tensorInverseUniqueIso_isoMk_hom X.presheaf (sheafCondition X)
+    (A := ⟨A, stacksIsInvertible X A⟩) (A' := ⟨A', stacksIsInvertible X A'⟩)
+    (B := ⟨B, stacksIsInvertible X B⟩) e e'
 
 /-- **The inverse-law identity for
 `Stacks.AlgebraicGeometry.ProjTwistTensorPow.isoOfTensorUnitIso`.**  The comparison of two tensor

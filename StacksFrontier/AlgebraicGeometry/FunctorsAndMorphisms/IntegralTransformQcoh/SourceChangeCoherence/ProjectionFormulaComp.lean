@@ -402,9 +402,8 @@ theorem comparison_comp (A B : SheafOfModules.{u} (structureRingSheaf X₀.toRin
       ((opensMap k.toLRSHom.toShHom).op.obj U) _ _)
     ((tensorSheaf_map_unit_tmul X₂.toRingedSpace ((pullbackCompNatIso g k).inv.app A)
         ((pullbackCompNatIso g k).inv.app B) _ _ _).trans ?_)
-  refine congrArg (Hom.app ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf (X₂.toRingedSpace)) (𝟙
-      (Stacks.RingedSpace.structureRingSheaf (X₂.toRingedSpace)).obj)).unit.app
+  refine congrArg (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (X₂.toRingedSpace).sheaf).unit.app
       (PresheafOfModules.tensorObj (O := (X₂.toRingedSpace).presheaf) (((pullbackFunctor
       (g ≫ k).toLRSHom.toShHom).obj A)).val (((pullbackFunctor
       (g ≫ k).toLRSHom.toShHom).obj B)).val))

@@ -61,8 +61,13 @@ and not as a `CategoryTheory.Functor.Monoidal` structure.
 `Γ({*}, F) ⊗ Γ({*}, G) = (F ⊗_{pre} G)({*})`, `F ⊗_{𝒪} G = (F ⊗_{pre} G)^{#}` and
 `Γ({*}, -) = Γ_{pre}({*}, -)` after forgetting the sheaf condition hold by definition, the
 presheaf tensor product being objectwise and restriction of scalars along an identity being the
-identity functor.  So the comparison *is* the sheafification unit, read on sections over the whole
-space, and its naturality in both variables is the naturality of that unit.
+identity functor; here `(-)^{#}` is the sealed `Stacks.SheafOfModules.Tensor.sheafification`, the
+last factor of `sheafTensor`.  So the comparison *is* the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, read on sections over the whole space, and
+its naturality in both variables is the naturality of that unit.  That unit is Mathlib's
+sheafification unit followed by `Stacks.SheafOfModules.Tensor.sheafificationIso`
+(`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`), which is how it is seen to be
+an isomorphism.
 -/
 
 @[expose] public noncomputable section
@@ -102,21 +107,28 @@ private theorem prod_comp_uncurry_map_prod_id_left {A C D : Type*} [Category A] 
 
 /-- Presheaves of modules on the one-point ringed space. -/
 abbrev onePointPresheafOfModules :=
-  PresheafOfModules.{u} (structureSheafRing (onePointRingedSpace R)).obj
+  PresheafOfModules.{u}
+    (ringSheaf ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj
 
-/-- The sheafification adjunction for presheaves of modules on the one-point ringed space. -/
+/-- The sheafification adjunction for presheaves of modules on the one-point ringed space: the
+sealed `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, whose left adjoint is the last
+factor of `sheafTensor`. -/
 abbrev onePointSheafificationAdjunction :=
-  PresheafOfModules.sheafificationAdjunction (𝟙 (structureSheafRing (onePointRingedSpace R)).obj)
+  sheafificationAdjunction ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩
 
 /-- **Sheafification of presheaves of modules on the one-point ringed space is trivial.**  Every
 presheaf of modules there is a sheaf, so the unit of the sheafification adjunction is an
 isomorphism. -/
 instance isIso_onePointSheafificationUnit (N : onePointPresheafOfModules R) :
-    IsIso ((onePointSheafificationAdjunction R).unit.app N) :=
+    IsIso ((onePointSheafificationAdjunction R).unit.app N) := by
   have := PresheafOfModules.isIso_toPresheaf_map_unit_app
-    (𝟙 (structureSheafRing (onePointRingedSpace R)).obj) N
+    (𝟙 (ringSheaf ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj) N
     (isSheaf_of_presheafOfModules_coefficientPoint N)
-  isIso_of_reflects_iso _ (PresheafOfModules.toPresheaf _)
+  have : IsIso ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf
+      ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj)).unit.app N) :=
+    isIso_of_reflects_iso _ (PresheafOfModules.toPresheaf _)
+  exact unit_comp_sheafificationIso_hom_app
+    ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩ N ▸ inferInstance
 
 /-! ### Sections of a tensor product on the one-point ringed space -/
 
@@ -150,13 +162,8 @@ abbrev onePointSectionsOfTensor :
 /-- Sheafifying the objectwise tensor product of the underlying presheaves of modules is the
 tensor product of sheaves of modules, written on pairs. -/
 def onePointSheafifyPresheafTensorIso :
-    onePointPresheafTensor R ⋙ PresheafOfModules.sheafification
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj) ≅
+    onePointPresheafTensor R ⋙
+        sheafification ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩ ≅
       (Functor.uncurry.obj
           (sheafTensor ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩) :
         SheafOfModules.{u} (structureSheafRing (onePointRingedSpace R)) ×
@@ -164,13 +171,8 @@ def onePointSheafifyPresheafTensorIso :
           SheafOfModules.{u} (structureSheafRing (onePointRingedSpace R))) :=
   NatIso.ofComponents (fun _ ↦ Iso.refl _) fun _ ↦ by
     simp only [Iso.refl_hom]
-    exact (PresheafOfModules.sheafification
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).obj)).map_comp _ _
+    exact (sheafification
+      ⟨(onePointRingedSpace R).presheaf, (onePointRingedSpace R).IsSheaf⟩).map_comp _ _
 
 /-- **The canonical map from the tensor product of sections to the sections of the tensor
 product** on the one-point ringed space, as a morphism of bifunctors: the sheafification unit of
@@ -201,9 +203,8 @@ space: the canonical map is an isomorphism, because sheafification there is triv
 instance isIso_onePointTensorSectionsMap : IsIso (onePointTensorSectionsMap R) :=
   have : ∀ FG, IsIso ((onePointTensorSectionsMap R).app FG) := fun FG ↦ by
     rw [onePointTensorSectionsMap_app]
-    exact inferInstanceAs (IsIso
-      ((PresheafOfModules.evaluation (structureSheafRing (onePointRingedSpace R)).obj (op ⊤)).map
-        ((onePointSheafificationAdjunction R).unit.app ((onePointPresheafTensor R).obj FG))))
+    exact Functor.map_isIso (PresheafOfModules.evaluation _ (op ⊤))
+      ((onePointSheafificationAdjunction R).unit.app ((onePointPresheafTensor R).obj FG))
   NatIso.isIso_of_isIso_app _
 
 /-- **Sections of a tensor product are the tensor product of sections** on the one-point ringed

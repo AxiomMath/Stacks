@@ -60,7 +60,8 @@ the inclusion of groupoids into categories. Its being a fibred category is Mathl
 `Pseudofunctor.CoGrothendieck.instIsFiberedForget`; that its fibre categories are groupoids, so
 that it is fibred in groupoids, is the extra content of Stacks 0049. That is proved downstream of
 this file, as `CategoryTheory.isFiberedInGroupoids_presheafOfGroupoids` in
-`StacksFrontier.CategoryTheory.FiberedInGroupoids.OfPresheaf`, which imports this one; the definition
+`StacksFrontier.CategoryTheory.FiberedInGroupoids.OfPresheaf`, which imports this one; the
+definition
 below carries the source's hypothesis that `p` is fibred in groupoids as an explicit conjunct, as
 Stacks 04TL states it, rather than deriving it.
 

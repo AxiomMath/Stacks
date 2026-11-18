@@ -100,7 +100,8 @@ are needed and all are supplied here.
 * `Stacks.SheafOfModules.mono_shf_map_tensorRightOf_map_val`: the sheaf-level tensor functor
   `(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F`, whose exactness *is* flatness,
   preserves monomorphisms; its action on a morphism `v` is `shf ∘ tensorRightOf` applied to
-  `v.val` by definition.
+  `v.val`, by definition of `Stacks.SheafOfModules.Tensor.sheafTensor` and the defining equation
+  `Stacks.SheafOfModules.Tensor.sheafification_def` of the sealed sheafification it ends with.
 
 ## Implementation notes
 
@@ -994,11 +995,31 @@ instance isIso_shf_map_tensorRightOf_map_shfUnit
   isIso_sheafification_map_tensorRight_map (O := O.obj) (R := commRingSheafToRingSheaf O)
     (N := F.val) (𝟙 (commRingSheafToRingSheaf O).obj) (shfUnit P)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- The value of the sheaf-level tensor functor
+`(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F` at a morphism `v` is a monomorphism
+exactly when the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification O` of the
+objectwise tensor product `PresheafOfModules.tensorHom v.val (𝟙 F.val)` is one. The two morphisms
+are equal by definition of `Stacks.SheafOfModules.Tensor.sheafTensor`
+(`Stacks.SheafOfModules.Tensor.sheafTensor_map_app`); the point of the restatement is that on the
+right both endpoints are spelled through the sealed functor too, so that
+`Stacks.SheafOfModules.Tensor.sheafification_def` rewrites the morphism and its endpoints at
+once. -/
+private lemma mono_sheafTensor_flip_obj_map_iff
+    (F : _root_.SheafOfModules.{w} (Tensor.ringSheaf O))
+    {M N : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)} (v : M ⟶ N) :
+    Mono (((Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F).map v) ↔
+      Mono ((Tensor.sheafification O).map
+        (PresheafOfModules.tensorHom (O := O.obj) v.val (𝟙 F.val))) :=
+  Iff.rfl
+
 /-- For a flat `F`, tensoring with `F` and sheafifying preserves monomorphisms *of sheaves* of
 modules. This is flatness used literally: the sheaf-level tensor functor
 `(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F` is exact, hence preserves finite
-limits, hence monomorphisms, and its value at `v` is `shf ∘ tensorRightOf` applied to `v.val`
-by definition. -/
+limits, hence monomorphisms. Its value at `v` is, by definition, the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification O` of the objectwise tensor product of `v.val` with
+`F.val`, and `Stacks.SheafOfModules.Tensor.sheafification_def` turns this into `shf ∘ tensorRightOf`
+applied to `v.val`. -/
 lemma mono_shf_map_tensorRightOf_map_val
     {F : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O)} (hF : IsFlat F)
     {M N : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O)} (v : M ⟶ N) [Mono v] :
@@ -1007,8 +1028,11 @@ lemma mono_shf_map_tensorRightOf_map_val
       ((Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F) := hF.1
   have : ((Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F).PreservesMonomorphisms :=
     inferInstance
-  exact @Functor.map_mono _ _ _ _ ((Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F) this
-    _ _ v ‹Mono v›
+  have h := (mono_sheafTensor_flip_obj_map_iff F v).1
+    (@Functor.map_mono _ _ _ _ ((Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F) this
+      _ _ v ‹Mono v›)
+  rw [Tensor.sheafification_def] at h
+  exact h
 
 /-- For a flat `F`, tensoring with `F` and sheafifying preserves monomorphisms *of presheaves*
 of modules. The other two edges of the naturality square of the sheafification unit are handled

@@ -103,7 +103,8 @@ of the module-level lower shriek `g'_!` of **Stacks 0797**. But neither **Stacks
 **Stacks 07AS** asserts that exactness — 07AS gives only the existence of `Lg_!`, the adjunction
 and `g^* Lg_! = id` — and it fails: for `𝒳 = 𝔸¹` the image under `g'_!` of the injective map
 `t : 𝒪 ⟶ 𝒪` of the lisse-étale structure sheaf is multiplication by `t` on `𝒪_{𝒳_{étale}}`, which
-is zero on the closed point. `StacksFrontier/AlgebraicGeometry/Stacks/LisseEtaleDerivedBaseChange.lean`
+is zero on the closed point.
+`StacksFrontier/AlgebraicGeometry/Stacks/LisseEtaleDerivedBaseChange.lean`
 calls the assertion that `(g')^*` preserves K-injectivity false. The unconditional files named
 above replace it with the true statement that restricted K-injective complexes compute `Rf'_*`.
 That is why the conditional statements here are not registered under **Stacks 07AV**.

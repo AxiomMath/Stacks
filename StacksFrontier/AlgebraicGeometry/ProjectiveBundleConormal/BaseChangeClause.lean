@@ -428,9 +428,11 @@ theorem invertibleEvaluation'_hom_eq :
 
 /-- **The right trivialisation of Tag 01CU's `(-1)`st tensor power, read at the re-seating.**
 `Stacks.ProjBundleInverseBaseChange.negOneMulIso` is `invertibleEvaluation'` conjugated by
-`SheafOfModules.sheafTensorIso` on its source and by `SheafOfModules.unitIso` on its target —
-that is, by exactly the comparisons `CategoryTheory.MonoidalCategory.reseatIso` and `ε` of the
-re-seating `SheafOfModules.monoidalCategorySheafTensor_eq_reseat` exhibits.
+`SheafOfModules.sheafTensorIso` followed by the inverse of
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` on its source and by `SheafOfModules.unitIso` on
+its target — that is, by exactly the comparisons `CategoryTheory.MonoidalCategory.reseatIso` (the
+component of `SheafOfModules.sheafTensorNatIso`, `SheafOfModules.sheafTensorNatIso_hom_app_app`)
+and `ε` of the re-seating `SheafOfModules.monoidalCategorySheafTensor_eq_reseat` exhibits.
 
 This is the hypothesis `hp₂` of `CategoryTheory.MonoidalCategory.reseat_pin` for the target of
 every `invIso`-shaped factor of Tag 0B3V's inverse-line factor. The closing `eqToHom` of
@@ -440,7 +442,10 @@ theorem negOneMulIso_eq_reseat :
     (negOneMulIso X.presheaf (isSheaf_structureRingPresheaf X) L).hom =
       (SheafOfModules.sheafTensorIso X.toRingedSpace.sheaf
           (Stacks.SheafOfModules.TensorPower.tensorPower X.presheaf
-            (isSheaf_structureRingPresheaf X) L (-1)) L).hom ≫
+            (isSheaf_structureRingPresheaf X) L (-1)) L ≪≫
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.toRingedSpace.sheaf
+          (Stacks.SheafOfModules.TensorPower.tensorPower X.presheaf
+            (isSheaf_structureRingPresheaf X) L (-1)) L).symm).hom ≫
         (invertibleEvaluation' L).hom ≫
           (SheafOfModules.unitIso X.toRingedSpace.sheaf).inv :=
   Stacks.ProjectiveBundleConormal.hpAux _ _ _ _ _ _ _ _
@@ -465,7 +470,12 @@ theorem pullbackTensorInverse_mulIso'_eq_reseat {Y : Scheme.{u}} (f : Y ⟶ X) :
           ((pullbackFunctor f).obj
             (Stacks.SheafOfModules.TensorPower.tensorPower X.presheaf
               (isSheaf_structureRingPresheaf X) L (-1)))
-          ((pullbackFunctor f).obj L)).hom ≫
+          ((pullbackFunctor f).obj L) ≪≫
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso Y.toRingedSpace.sheaf
+          ((pullbackFunctor f).obj
+            (Stacks.SheafOfModules.TensorPower.tensorPower X.presheaf
+              (isSheaf_structureRingPresheaf X) L (-1)))
+          ((pullbackFunctor f).obj L)).symm).hom ≫
         pullbackPairing f
             (Stacks.SheafOfModules.TensorPower.tensorPower X.presheaf
               (isSheaf_structureRingPresheaf X) L (-1)) L
@@ -481,7 +491,10 @@ theorem pullbackTensorInverse_mulIso'_eq_reseat {Y : Scheme.{u}} (f : Y ⟶ X) :
       (Stacks.ProjectiveBundleConormal.evalAux _ _ _ _ _ _ (Iso.inv_hom_id _)
         ((congrArg (fun k => (SheafOfModules.unitIso X.toRingedSpace.sheaf).inv ≫ k)
           (congrArg Iso.hom (unitIso_eq X))).trans (Iso.inv_hom_id _))
-        (negOneMulIso_eq_reseat L)))
+        ((negOneMulIso_eq_reseat L).trans (congrArg (· ≫ (invertibleEvaluation' L).hom ≫
+          (SheafOfModules.unitIso X.toRingedSpace.sheaf).inv)
+            (congrArg Iso.hom
+              (Stacks.ProjectiveBundleConormal.tensorIso_eq_sheafTensorIso X _ L)).symm))))
 
 section Pin
 

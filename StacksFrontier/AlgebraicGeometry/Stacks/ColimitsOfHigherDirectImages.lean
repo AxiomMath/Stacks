@@ -63,7 +63,8 @@ pullback along the first projection of the 2-fibre product) and Stacks 0GQV for 
 quasi-compact and quasi-separated 2-fibre products over affine objects. That file proves
 **Stacks 0GQW** at the source's hypotheses, as
 `AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_fppf_of_qcqs`
-and `AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_etale_of_qcqs`,
+and
+`AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_etale_of_qcqs`,
 and carries the tag.
 
 The results below take `h` for every object of `𝒴` and are stated for an arbitrary diagram

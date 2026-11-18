@@ -72,17 +72,14 @@ theorem HomGeneral.unit_comp_pushforward_pullbackTensorIso_hom_val_app_tmul (V :
           (((Functor.uncurry.obj (Tensor.sheafTensor (toRingedTopos Y).O))).obj (F, G)) ≫
         (pushforwardModules f.toRingedToposHom.toRingedToposModulesHom).map
           ((pullbackTensorIso f.toRingedToposHom.toRingedToposModulesHom).hom.app (F, G))).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.Sheaves.RingedToposModules.commRingSheaf Y.J (toRingedTopos Y).O.obj
-              (Tensor.ringSheaf (toRingedTopos Y).O).property) (𝟙 _)).unit.app
+        (((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
           (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(ringPresheaf (toRingedTopos Y).O.obj).obj V] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (toRingedTopos X).O)
-          (𝟙 (Tensor.ringSheaf (toRingedTopos X).O).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj)
-          ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj F).val
-          ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj G).val))
+      _root_.PresheafOfModules.Hom.app
+        ((Tensor.sheafificationForgetAdjunction (toRingedTopos X).O).unit.app
+          (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj)
+            ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj F).val
+            ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj G).val))
         (f.u.op.obj V)
         (((pullbackAdjPushforwardModules f.toRingedToposHom.toRingedToposModulesHom).unit.app
             F).val.app V x ⊗ₜ[((toRingedTopos X).O.obj ⋙ forget₂ CommRingCat RingCat).obj
@@ -97,7 +94,8 @@ theorem HomGeneral.unit_comp_pushforward_pullbackTensorIso_hom_val_app_tmul (V :
         ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj F)).obj
         ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj G))) q V x y) h
   exact (pairingApp_pairingOfTensorHom _ V x y).symm.trans
-    (h2.trans (f.pairingApp_prodMap_comp_pushforward_tensorSectionPairing _ _ V x y))
+    ((h2.trans (f.pairingApp_prodMap_comp_pushforward_tensorSectionPairing _ _ V x y)).trans
+      (Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _ _).symm)
 
 omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The units of the two presentations of `f^* ⊣ f_*` agree on sections.** The unit of the
@@ -166,17 +164,14 @@ theorem HomGeneral.pullbackTensorIso_hom_val_app_unit_tmul (V : Y.Cᵒᵖ)
         (f.u.op.obj V)
       (((pullbackAdjPushforwardModules f.toRingedToposHom.toRingedToposModulesHom).unit.app
           (((Functor.uncurry.obj (Tensor.sheafTensor (toRingedTopos Y).O))).obj (F, G))).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.Sheaves.RingedToposModules.commRingSheaf Y.J (toRingedTopos Y).O.obj
-              (Tensor.ringSheaf (toRingedTopos Y).O).property) (𝟙 _)).unit.app
+        (((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
           (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(ringPresheaf (toRingedTopos Y).O.obj).obj V] y))) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (toRingedTopos X).O)
-          (𝟙 (Tensor.ringSheaf (toRingedTopos X).O).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj)
-          ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj F).val
-          ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj G).val))
+      _root_.PresheafOfModules.Hom.app
+        ((Tensor.sheafificationForgetAdjunction (toRingedTopos X).O).unit.app
+          (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj)
+            ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj F).val
+            ((f.toRingedToposHom.toRingedToposModulesHom.pullbackModules).obj G).val))
         (f.u.op.obj V)
         (((pullbackAdjPushforwardModules f.toRingedToposHom.toRingedToposModulesHom).unit.app
             F).val.app V x ⊗ₜ[((toRingedTopos X).O.obj ⋙ forget₂ CommRingCat RingCat).obj

@@ -91,6 +91,42 @@ universe v u w
 
 namespace Stacks.SheafOfModules.TensorGenerator
 
+section SealedUnit
+
+variable {D : Type u} [Category.{v} D] {K : GrothendieckTopology D} (R : Sheaf K CommRingCat.{w})
+  [K.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify K AddCommGrpCat.{w}]
+  (P : PresheafOfModules.{w} (Tensor.ringSheaf R).obj) (X : Dᵒᵖ) (x : P.obj X)
+
+/-- `Stacks.SheafOfModules.Tensor.sheafificationIso` backwards carries the unit of the sealed
+sheafification to Mathlib's sheafification unit, on sections. -/
+private theorem sheafificationIso_inv_app_unit_apply :
+    (((Tensor.sheafificationIso R).inv.app P).val.app X).hom
+        ((((Tensor.sheafificationForgetAdjunction R).unit.app P).app X).hom x) =
+      (((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app P).app
+        X).hom x := by
+  have h : (PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app P ≫
+      (SheafOfModules.forget (Tensor.ringSheaf R) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+        ((Tensor.sheafificationIso R).hom.app P ≫ (Tensor.sheafificationIso R).inv.app P) =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app P := by
+    rw [Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
+    exact Category.comp_id _
+  rw [Tensor.sheafificationForgetAdjunction_unit_app_app_apply,
+    ← Tensor.unit_comp_sheafificationIso_hom_app R P]
+  exact PresheafOfModules.hom_congr_apply' h X x
+
+/-- `Stacks.SheafOfModules.Tensor.sheafificationIso` carries Mathlib's sheafification unit to the
+unit of the sealed sheafification, on sections. -/
+private theorem sheafificationIso_hom_app_unit_apply :
+    (((Tensor.sheafificationIso R).hom.app P).val.app X).hom
+        ((((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app
+          P).app X).hom x) =
+      (((Tensor.sheafificationForgetAdjunction R).unit.app P).app X).hom x := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app_app_apply,
+    ← Tensor.unit_comp_sheafificationIso_hom_app R P]
+  rfl
+
+end SealedUnit
+
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w})
   (h𝒪 : Presheaf.IsSheaf J (structureRingPresheaf 𝒪))
@@ -117,7 +153,9 @@ noncomputable def tensorPresheafSliceIso
   PresheafOfModules.isoMk (fun _ => Iso.refl _) (by intros; rfl)
 
 /-- **The tensor product sheaf of Tag 01CA commutes with restriction to a localized site**,
-`ℱ|_U ⊗ 𝒢|_U ≅ (ℱ ⊗ 𝒢)|_U`, as the morphism adjoint to the restricted sheafification unit. -/
+`ℱ|_U ⊗ 𝒢|_U ≅ (ℱ ⊗ 𝒢)|_U`, as the morphism adjoint to the restricted sheafification unit.
+Both tensor product sheaves are read as Mathlib's sheafifications of the tensor product
+presheaves through `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`. -/
 noncomputable def tensorSheafSliceIso
     (A B : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(SliceRestriction.sliceRingPresheaf 𝒪 U),
@@ -126,9 +164,16 @@ noncomputable def tensorSheafSliceIso
         ((A.over U))).obj ((B.over U))) ≅
       ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪)
         (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (A)).obj (B))).over U :=
-  (SliceRestriction.sliceSheafify 𝒪 h𝒪 U).mapIso (tensorPresheafSliceIso 𝒪 h𝒪 U A B) ≪≫
+  Tensor.sheafTensorObjIso ⟨SliceRestriction.sliceRingPresheaf 𝒪 U,
+      Presheaf.isSheaf_of_isSheaf_comp _ (SliceRestriction.sliceRingPresheaf 𝒪 U)
+        (forget₂ CommRingCat RingCat) (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)⟩
+      (A.over U) (B.over U) ≪≫
+    (SliceRestriction.sliceSheafify 𝒪 h𝒪 U).mapIso (tensorPresheafSliceIso 𝒪 h𝒪 U A B) ≪≫
     ((SliceRestriction.sliceSheafifyIso 𝒪 h𝒪 U).app
-      (PresheafOfModules.tensorObj (O := 𝒪) A.val B.val)).symm
+      (PresheafOfModules.tensorObj (O := 𝒪) A.val B.val)).symm ≪≫
+    (SliceRestriction.overFunctor 𝒪 h𝒪 U).mapIso
+      (Tensor.sheafTensorObjIso
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ A B).symm
 
 /-- **The comparison preserves pure tensors.** Over `U` itself the section `a ⊗ b` of
 `ℱ|_U ⊗ 𝒢|_U` goes to the section `a ⊗ b` of `ℱ ⊗ 𝒢`. -/
@@ -140,36 +185,41 @@ theorem tensorSheafSliceIso_hom_tensorSectionsAt
           (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
           (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b) =
       tensorSectionsAt 𝒪 h𝒪 (op U) A B a b := by
-  have h2 : (((SliceRestriction.sliceSheafify 𝒪 h𝒪 U).map
-        (tensorPresheafSliceIso 𝒪 h𝒪 U A B).hom).val.app (op (Over.mk (𝟙 U)))).hom
-        (tensorSectionsAt (SliceRestriction.sliceRingPresheaf 𝒪 U)
-          (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-          (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b) =
-      ((TensorSheafification.toSheafify (SliceRestriction.sliceRingPresheaf 𝒪 U)
-          (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-          ((SliceRestriction.sliceFunctor 𝒪 U).obj
-            (PresheafOfModules.tensorObj (O := 𝒪) A.val B.val))).app
-        (op (Over.mk (𝟙 U)))).hom
-        (a ⊗ₜ[((SliceRestriction.sliceRingPresheaf 𝒪 U).obj (op (Over.mk (𝟙 U))))] b) :=
-    toSheafify_app_map_obj (SliceRestriction.sliceRingPresheaf 𝒪 U)
-      (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-      (tensorPresheafSliceIso 𝒪 h𝒪 U A B).hom (op (Over.mk (𝟙 U))) (a ⊗ₜ b)
+  let O := SliceRestriction.sliceRingPresheaf 𝒪 U
+  let hO := SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U
+  let P := PresheafOfModules.tensorObj (O := 𝒪) A.val B.val
+  let x := a ⊗ₜ[(O.obj (op (Over.mk (𝟙 U))))] b
+  let RU : Sheaf (J.over U) CommRingCat.{w} :=
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+  let R : Sheaf J CommRingCat.{w} :=
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩
   have h1 : ((tensorSheafSliceIso 𝒪 h𝒪 U A B).hom.val.app (op (Over.mk (𝟙 U)))).hom
-        (tensorSectionsAt (SliceRestriction.sliceRingPresheaf 𝒪 U)
-          (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-          (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b) =
-      (((SliceRestriction.sliceComparison 𝒪 h𝒪 U).app
-          (PresheafOfModules.tensorObj (O := 𝒪) A.val B.val)).val.app
+        (tensorSectionsAt O hO (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b) =
+      ((((SliceRestriction.overFunctor 𝒪 h𝒪 U).map (Tensor.sheafTensorObjIso R A B).inv).val.app
         (op (Over.mk (𝟙 U)))).hom
-        ((((SliceRestriction.sliceSheafify 𝒪 h𝒪 U).map
-          (tensorPresheafSliceIso 𝒪 h𝒪 U A B).hom).val.app (op (Over.mk (𝟙 U)))).hom
-          (tensorSectionsAt (SliceRestriction.sliceRingPresheaf 𝒪 U)
-            (SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U)
-            (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b)) := rfl
-  rw [h1, h2]
-  set O := SliceRestriction.sliceRingPresheaf 𝒪 U
-  set hO := SliceRestriction.isSheaf_sliceRingPresheaf 𝒪 h𝒪 U
-  set P := PresheafOfModules.tensorObj (O := 𝒪) A.val B.val
+        ((((SliceRestriction.sliceComparison 𝒪 h𝒪 U).app P).val.app (op (Over.mk (𝟙 U)))).hom
+          ((((SliceRestriction.sliceSheafify 𝒪 h𝒪 U).map
+            (tensorPresheafSliceIso 𝒪 h𝒪 U A B).hom).val.app (op (Over.mk (𝟙 U)))).hom
+            (((Tensor.sheafTensorObjIso RU (A.over U) (B.over U)).hom.val.app
+              (op (Over.mk (𝟙 U)))).hom
+              (tensorSectionsAt O hO (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b))))) := rfl
+  have h2 : ((Tensor.sheafTensorObjIso RU (A.over U) (B.over U)).hom.val.app
+        (op (Over.mk (𝟙 U)))).hom
+        (tensorSectionsAt O hO (op (Over.mk (𝟙 U))) (A.over U) (B.over U) a b) =
+      ((TensorSheafification.toSheafify O hO
+        (PresheafOfModules.tensorObj (O := O) (A.over U).val (B.over U).val)).app
+          (op (Over.mk (𝟙 U)))).hom x :=
+    sheafificationIso_inv_app_unit_apply RU
+      (PresheafOfModules.tensorObj (O := O) (A.over U).val (B.over U).val)
+      (op (Over.mk (𝟙 U))) x
+  have h3 : (((SliceRestriction.sliceSheafify 𝒪 h𝒪 U).map
+        (tensorPresheafSliceIso 𝒪 h𝒪 U A B).hom).val.app (op (Over.mk (𝟙 U)))).hom
+        (((TensorSheafification.toSheafify O hO
+          (PresheafOfModules.tensorObj (O := O) (A.over U).val (B.over U).val)).app
+            (op (Over.mk (𝟙 U)))).hom x) =
+      ((TensorSheafification.toSheafify O hO ((SliceRestriction.sliceFunctor 𝒪 U).obj P)).app
+        (op (Over.mk (𝟙 U)))).hom x :=
+    toSheafify_app_map_obj O hO (tensorPresheafSliceIso 𝒪 h𝒪 U A B).hom (op (Over.mk (𝟙 U))) x
   let adj := TensorSheafification.sheafifyAdjunction O hO
   let e := (adj.homEquiv ((SliceRestriction.sliceFunctor 𝒪 U).obj P)
     ((SliceRestriction.overFunctor 𝒪 h𝒪 U).obj ((sheafifyFunctor 𝒪 h𝒪).obj P))).symm
@@ -180,8 +230,15 @@ theorem tensorSheafSliceIso_hom_tensorSectionsAt
           (𝟙 (TensorSheafification.structureSheaf O hO).obj)).map e =
       SliceRestriction.sliceUnit 𝒪 h𝒪 U P :=
     (adj.homEquiv_unit (f := e)).symm.trans ((adj.homEquiv _ _).apply_symm_apply _)
-  exact congrArg (fun k => (k.app (op (Over.mk (𝟙 U)))).hom
-    (a ⊗ₜ[(O.obj (op (Over.mk (𝟙 U))))] b)) he
+  have h4 : (((SliceRestriction.sliceComparison 𝒪 h𝒪 U).app P).val.app
+        (op (Over.mk (𝟙 U)))).hom
+        (((TensorSheafification.toSheafify O hO ((SliceRestriction.sliceFunctor 𝒪 U).obj P)).app
+          (op (Over.mk (𝟙 U)))).hom x) =
+      ((TensorSheafification.toSheafify 𝒪 h𝒪 P).app (op U)).hom (a ⊗ₜ b) :=
+    congrArg (fun k => (k.app (op (Over.mk (𝟙 U)))).hom x) he
+  refine h1.trans ?_
+  rw [h2, h3, h4]
+  exact sheafificationIso_hom_app_unit_apply R P (op U) (a ⊗ₜ b)
 
 /-! ### Tensoring with a trivialized factor -/
 

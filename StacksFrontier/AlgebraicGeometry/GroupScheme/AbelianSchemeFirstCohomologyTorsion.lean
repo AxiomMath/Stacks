@@ -223,8 +223,7 @@ theorem isAddTorsion_H1_pointsSheaf_of_field (K : Type u) [Field K]
       have hmap : (BigFppfOver.toScheme B (Spec (.of K)) hK).map (Over.mkIdTerminal.from U) =
           G.hom :=
         Space.toScheme_map_mkIdTerminal_from_siteObject B _ hK hG G.hom
-      rw [hmap]
-      assumption)
+      rwa [hmap])
   exact isAddTorsion_of_injective
     (Stacks.Cohomology.TerminalCohomology.h'AddEquivH _ _ 1 _ Over.mkIdTerminal).toAddMonoidHom
     (AddEquiv.injective _)

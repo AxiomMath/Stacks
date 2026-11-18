@@ -232,6 +232,31 @@ theorem chartPowMul_map {a b : ℕ} {V W : SmallEtale B S hS X.1} (g : W ⟶ V)
 
 variable {B S hS f hf I}
 
+section TensorHomEquiv
+
+variable {C : Type*} [Category C] {J : GrothendieckTopology C}
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [J.HasSheafCompose (forget RingCat.{u})] [J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+  {O : Sheaf J CommRingCat.{u}}
+  {A A' N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [J.HasSheafCompose (forget RingCat.{u})] [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
+/-- On a tensor of sections, the morphism of presheaves attached to a morphism `t` out of the
+tensor product sheaf by `Stacks.SheafOfModules.tensorHomEquivPresheafTensorHom` is `t` evaluated
+on the sheafification-unit image of that tensor. -/
+private theorem tensorHomEquivPresheafTensorHom_app_tmul
+    (t : ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj A).obj A' ⟶ N) (U : Cᵒᵖ)
+    (a : A.val.obj U) (a' : A'.val.obj U) :
+    (Stacks.SheafOfModules.tensorHomEquivPresheafTensorHom t).app U (a ⊗ₜ[O.obj.obj U] a') =
+      t.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
+        (PresheafOfModules.tensorObj A.val A'.val)).app U (a ⊗ₜ[O.obj.obj U] a')) :=
+  PresheafOfModules.hom_congr_apply'
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).homEquiv_unit _ _ t) U _
+
+end TensorHomEquiv
+
 section TensorHom
 
 variable {E E' : Modules.{u, u} B S hS X.1 X.2} {a b : ℕ}
@@ -274,19 +299,9 @@ theorem exists_chartPowTensorHom_app_eq (U : (SmallEtale B S hS X.1)ᵒᵖ) (e :
     ∃ z : (((Stacks.SheafOfModules.Tensor.sheafTensor
         (smallEtaleRingedSite B S hS X.1 X.2).O).obj E).obj E').val.obj U,
       (chartPowTensorHom p q).val.app U z =
-        chartPowMul B S hS f hf I (V := U.unop) (p.val.app U e) (q.val.app U e') := by
-  have h := congrArg (fun φ => φ.app U (e ⊗ₜ[(smallEtaleRingedSite B S hS X.1 X.2).O.obj.obj U] e'))
-    (PresheafOfModules.toPresheaf_map_sheafificationHomEquiv_def
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        (smallEtaleRingedSite B S hS X.1 X.2).O).obj) (chartPowTensorHom p q))
-  refine ⟨_, h.symm.trans ?_⟩
-  have h2 : PresheafOfModules.sheafificationHomEquiv
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        (smallEtaleRingedSite B S hS X.1 X.2).O).obj) (chartPowTensorHom p q) =
-      chartPowTensorPresheafHom p q :=
-    Equiv.apply_symm_apply Stacks.SheafOfModules.tensorHomEquivPresheafTensorHom _
-  simp only [h2]
-  rfl
+        chartPowMul B S hS f hf I (V := U.unop) (p.val.app U e) (q.val.app U e') :=
+  ⟨_, (tensorHomEquivPresheafTensorHom_app_tmul (chartPowTensorHom p q) U e e').symm.trans
+    (by rw [chartPowTensorHom, Equiv.apply_symm_apply]; rfl)⟩
 
 end TensorHom
 

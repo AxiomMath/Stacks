@@ -647,8 +647,10 @@ composite on the sheafification-unit image of a pure tensor — and `@[stacks 01
 `Stacks.RingedSpace.comparisonBifunctorIso`, the hypothesis-free form of
 `Stacks.RingedSpace.comparisonIso`.
 
-The composite is: the sheaf-level pullback of a sheafification is the sheafification of the
-presheaf-level pullback (`SheafOfModules.sheafificationCompPullback`); the presheaf-level
+The composite is: the tensor product of sheaves is the sheafification of the objectwise tensor
+product (`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`, under `f^*`); the sheaf-level pullback
+of a sheafification is the sheafification of the presheaf-level pullback
+(`SheafOfModules.sheafificationCompPullback`); the presheaf-level
 pullback commutes with the objectwise tensor product (`pullbackTensorIso`); sheafification
 commutes with the objectwise tensor product (Tag 0GMW); and the sheafification of a
 presheaf-level pullback is the sheaf-level pullback (`SheafOfModules.pullbackIso`). -/
@@ -661,7 +663,8 @@ noncomputable def pullbackTensorSheafObjIso
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.presheaf, X.IsSheaf⟩).obj ((pullbackFunctor f).obj A)).obj
           ((pullbackFunctor f).obj B) :=
-  (SheafOfModules.sheafificationCompPullback.{u} (structureSheafHom f)).app
+  (pullbackFunctor f).mapIso (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ A B) ≪≫
+    (SheafOfModules.sheafificationCompPullback.{u} (structureSheafHom f)).app
       (PresheafOfModules.tensorObj A.val B.val) ≪≫
     (PresheafOfModules.sheafification (𝟙 (structureRingSheaf X).obj)).mapIso
       ((pullbackTensorIso f.hom.c).app (A.val, B.val)) ≪≫

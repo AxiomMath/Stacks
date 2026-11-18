@@ -212,9 +212,9 @@ attribute [local instance] _root_.SheafOfModules.monoidalCategory
   Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory
 
 /-- **Re-seating the left adjoint, on hom-equivalences.**  The hom-equivalence of
-`tensorLeftAdjunction` is the hom-equivalence of `sheafTensorHomAdjunction` applied after
-`SheafOfModules.sheafTensorIso`, the two adjunctions differing exactly by re-seating the left
-adjoint along `SheafOfModules.sheafTensorIsoApp`.
+`tensorLeftAdjunction` is the hom-equivalence of `sheafTensorHomAdjunction` applied after the
+inverse component of `SheafOfModules.sheafTensorIsoApp`: the two adjunctions differ exactly by
+re-seating the left adjoint along that isomorphism.
 
 This is carried in a declaration of its own because the re-seating is checked definitionally
 against the two spellings of the tensor product, and that check is the single most expensive
@@ -224,7 +224,7 @@ private theorem homEquiv_tensorLeftAdjunction
     (f₀ : (tensorLeft F₀).obj G ⟶ H) :
     (tensorLeftAdjunction R F₀).homEquiv G H f₀ =
       (sheafTensorHomAdjunction R F₀).homEquiv G H
-        ((_root_.SheafOfModules.sheafTensorIso R F₀ G).inv ≫ f₀) :=
+        (((_root_.SheafOfModules.sheafTensorIsoApp R F₀).app G).inv ≫ f₀) :=
   Adjunction.homEquiv_ofNatIsoLeft_apply (sheafTensorHomAdjunction R F₀)
     (_root_.SheafOfModules.sheafTensorIsoApp R F₀).symm f₀
 
@@ -246,18 +246,18 @@ theorem homEquiv_comp_sheafInternalHomMapLeft_sheafTensor
       (sheafTensorHomAdjunction R F').homEquiv G H
         (((Stacks.SheafOfModules.Tensor.sheafTensor R).map k).app G ≫ f) := by
   have hnat : ((tensoringLeft _).map k).app G ≫
-        (_root_.SheafOfModules.sheafTensorIso R F G).hom =
-      (_root_.SheafOfModules.sheafTensorIso R F' G).hom ≫
+        ((_root_.SheafOfModules.sheafTensorIsoApp R F).app G).hom =
+      ((_root_.SheafOfModules.sheafTensorIsoApp R F').app G).hom ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor R).map k).app G :=
     NatTrans.congr_app ((_root_.SheafOfModules.sheafTensorNatIso R).hom.naturality k) G
   have hA : ∀ (E : _root_.SheafOfModules.{max u v} (Tensor.ringSheaf R))
       (g : ((Stacks.SheafOfModules.Tensor.sheafTensor R).obj E).obj G ⟶ H),
       (sheafTensorHomAdjunction R E).homEquiv G H g =
         (tensorLeftAdjunction R E).homEquiv G H
-          ((_root_.SheafOfModules.sheafTensorIso R E G).hom ≫ g) :=
+          (((_root_.SheafOfModules.sheafTensorIsoApp R E).app G).hom ≫ g) :=
     fun E g ↦ ((homEquiv_tensorLeftAdjunction R E G H _).trans
       (congrArg (fun z ↦ (sheafTensorHomAdjunction R E).homEquiv G H z)
-        (Iso.inv_hom_id_assoc (_root_.SheafOfModules.sheafTensorIso R E G) g))).symm
+        (Iso.inv_hom_id_assoc ((_root_.SheafOfModules.sheafTensorIsoApp R E).app G) g))).symm
   rw [hA F f, hA F', homEquiv_comp_sheafInternalHomMapLeft]
   exact congrArg (fun z ↦ (tensorLeftAdjunction R F').homEquiv G H z)
     ((Category.assoc _ _ f).symm.trans ((hnat =≫ f).trans (Category.assoc _ _ f)))

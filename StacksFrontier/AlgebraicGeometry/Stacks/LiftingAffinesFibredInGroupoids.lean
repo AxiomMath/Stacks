@@ -440,7 +440,8 @@ theorem fiber_isGroupoid
 
 /-- **Fibred in groupoids, from the two hypotheses `hiso` and `hfib`.** The category of smooth
 lifts of the étale opens of `W` along the thickening `ι`, projected to the spaces-étale site of
-`W`, is fibred in groupoids. The fibre categories are groupoids by `AlgebraicGeometry.Stack.EtaleSmoothLift.fiber_isGroupoid`, and that together with
+`W`, is fibred in groupoids. The fibre categories are groupoids by
+`AlgebraicGeometry.Stack.EtaleSmoothLift.fiber_isGroupoid`, and that together with
 the fibred-category half gives the conclusion by **Stacks 003V**.
 
 Two hypotheses are carried. The first, `hiso`, is the isomorphism clause of **Stacks 0CJC** for

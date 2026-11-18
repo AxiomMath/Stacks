@@ -44,7 +44,7 @@ the K-flat complexes, the common source bifunctor and the second descent are reu
 from the neighbouring file.
 
 K-flatness is spelled `Stacks.SheafOfModules.IsKFlat` by the structure used here and
-`Stacks.SheafOfModules.KFlat.KFlat` by the one used there. Both are the condition that
+`Stacks.SheafOfModules.KFlat` by the one used there. Both are the condition that
 `Tot(F ⊗_O K)` be acyclic for acyclic `F`, so no conversion appears below.
 
 Nothing here carries a project tag. Tag 06YU already sits on both developments, the

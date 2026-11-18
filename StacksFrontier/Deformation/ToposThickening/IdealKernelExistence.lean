@@ -116,28 +116,23 @@ def tensorSymm (O₀ : Sheaf J CommRingCat.{w}) (G I : SheafMod O₀) :
   letI : SymmetricCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := O₀.obj)
-  exact (PresheafOfModules.sheafification
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).mapIso (β_ G.val I.val)
+  exact (Stacks.SheafOfModules.Tensor.sheafification O₀).mapIso (β_ G.val I.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The symmetry `tensorSymm` sends the local pure tensor `x ⊗ a` to `a ⊗ x`. -/
 lemma tensorSymm_hom_tmul (O₀ : Sheaf J CommRingCat.{w}) (G I : SheafMod O₀)
     (U : Cᵒᵖ) (x : G.val.obj U) (a : I.val.obj U) :
     (tensorSymm O₀ G I).hom.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj G.val I.val)).app U (x ⊗ₜ[O₀.obj.obj U] a)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj I.val G.val)).app U (a ⊗ₜ[O₀.obj.obj U] x) := by
   let : SymmetricCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := O₀.obj)
-  exact AlgebraicGeometry.SheafOfModules.sheafification_map_unit J
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj) (β_ G.val I.val).hom U
-    (x ⊗ₜ[O₀.obj.obj U] a)
+  exact (congrArg (fun φ => φ.app U (x ⊗ₜ[O₀.obj.obj U] a))
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.naturality
+      (β_ G.val I.val).hom)).symm
 
 end Symm
 
@@ -184,9 +179,7 @@ theorem exists_isKernel_mu (hf : Sheaf.IsLocallySurjective f) (S : SquareZeroIde
         (L.baseChange.complex.X n))).obj I) ⟶ L.F.X n,
       (∀ (U : Cᵒᵖ) (a : I.val.obj U) (x : (L.F.X n).val.obj U),
         mu.val.app U
-            (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj I.val (L.baseChange.complex.X n).val)).app U
               (a ⊗ₜ[O₀.obj.obj U] (L.baseChange.unit n).val.app U x)) =
           (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj U from S.incl U a) • x) ∧
@@ -219,9 +212,7 @@ takes the value `a · x`. -/
 lemma idealKernelMul_tmul (hf : Sheaf.IsLocallySurjective f) (S : SquareZeroIdeal f I)
     (L : FlatLift f K₀) (n : ℤ) (U : Cᵒᵖ) (a : I.val.obj U) (x : (L.F.X n).val.obj U) :
     (idealKernelMul hf S L n).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj I.val (L.baseChange.complex.X n).val)).app U
           (a ⊗ₜ[O₀.obj.obj U] (L.baseChange.unit n).val.app U x)) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj U from S.incl U a) • x :=
@@ -264,9 +255,7 @@ takes the value `a · x`. -/
 lemma idealKernelEmb_tmul (hf : Sheaf.IsLocallySurjective f) (S : SquareZeroIdeal f I)
     (L : FlatLift f K₀) (n : ℤ) (U : Cᵒᵖ) (x : (L.F.X n).val.obj U) (a : I.val.obj U) :
     (idealKernelEmb hf S L n).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj U from S.incl U a) • x :=
@@ -315,23 +304,17 @@ lemma idealKernelEmb_d (hf : Sheaf.IsLocallySurjective f) (S : SquareZeroIdeal f
     congrArg (fun k : L.F.X n ⟶ (restrict f).obj (L.baseChange.complex.X (n + 1)) =>
       k.val.app U x) (L.baseChange.differential n)
   have hstep : ((restrict f).map ((L.idealTensor (I := I)).d n (n + 1))).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X (n + 1)).val I.val)).app U
         ((L.baseChange.unit (n + 1)).val.app U ((L.F.d n).val.app U x) ⊗ₜ[O₀.obj.obj U] a) := by
     rw [hdx]
     exact Deformation.ToposThickening.tensorSheaf_map_unit_tmul O₀
       (L.baseChange.complex.d n (n + 1)) U ((L.baseChange.unit n).val.app U x) a
   calc ((idealKernelEmb hf S L n ≫ L.F.d n).val.app U)
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a))
       = (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj U from S.incl U a) •
@@ -340,17 +323,13 @@ lemma idealKernelEmb_d (hf : Sheaf.IsLocallySurjective f) (S : SquareZeroIdeal f
           (idealKernelEmb_tmul hf S L n U x a))
           (((L.F.d n).val.app U).hom.map_smul _ _)
     _ = ((idealKernelEmb hf S L (n + 1)).val.app U)
-          (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X (n + 1)).val I.val)).app U
             ((L.baseChange.unit (n + 1)).val.app U ((L.F.d n).val.app U x) ⊗ₜ[O₀.obj.obj U]
               a)) := (idealKernelEmb_tmul hf S L (n + 1) U ((L.F.d n).val.app U x) a).symm
     _ = (((restrict f).map ((L.idealTensor (I := I)).d n (n + 1)) ≫
             idealKernelEmb hf S L (n + 1)).val.app U)
-          (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
             ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)) :=
         congrArg (fun t => ((idealKernelEmb hf S L (n + 1)).val.app U) t) hstep.symm

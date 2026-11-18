@@ -72,6 +72,17 @@ public theorem sheafTensorRight_exact_iff_preservesMonomorphisms
     let : T.PreservesHomology := Functor.preservesHomology_of_preservesMonos_and_cokernels T
     exact ⟨Functor.preservesFiniteLimits_of_preservesHomology T, inferInstance⟩
 
+/-- On the ringed space attached to a sheaf of rings `O`, the flatness `OXModule.Flat` of Tag 05ND
+(stated with Mathlib's sheafification) says that tensoring with `F` preserves monomorphisms. -/
+theorem flat_iff_sheafTensorRight_preservesMonomorphisms {X : TopCat.{u}}
+    (O : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u})
+    (F : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} O)) :
+    OXModule.Flat (X := ringedSpaceOfSheaf O) F ↔
+      ((Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F).PreservesMonomorphisms :=
+  Functor.PreservesMonomorphisms.iso_iff
+    (Functor.isoWhiskerLeft (_root_.SheafOfModules.forget _ ⋙
+      MonoidalCategory.tensorRight F.val) (Stacks.SheafOfModules.Tensor.sheafificationIso O))
+
 /-- A module sheaf on a ringed space is flat precisely when each of its
 stalks is flat over the corresponding stalk of the structure sheaf. -/
 @[stacks 05NE]
@@ -89,7 +100,8 @@ public theorem isFlat_iff_stalk_flat {X : TopCat.{u}}
         Module.Flat (TopCat.Presheaf.stalk (C := CommRingCat.{u}) (X := X) O.obj x)
           (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) (X := X) F.val.presheaf x) := by
   change IsFlat F ↔ OXModule.FlatStalkwise (X := ringedSpaceOfSheaf O) F
-  exact (sheafTensorRight_exact_iff_preservesMonomorphisms O F).trans
-    (OXModule.flat_iff_flat_stalk (X := ringedSpaceOfSheaf O) F)
+  exact (sheafTensorRight_exact_iff_preservesMonomorphisms O F).trans <|
+    (flat_iff_sheafTensorRight_preservesMonomorphisms O F).symm.trans
+      (OXModule.flat_iff_flat_stalk (X := ringedSpaceOfSheaf O) F)
 
 end AlgebraicGeometry.SheafOfModules

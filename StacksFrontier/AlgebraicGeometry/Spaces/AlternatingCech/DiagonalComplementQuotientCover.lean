@@ -85,7 +85,8 @@ whose existential `AlgebraicGeometry.Space.HasUniversallyBoundedFibers` is.
 **What is not proved here.** The *conclusion* of [Stacks, Tag 072C] — that the cohomology of
 every quasi-coherent module vanishes in degrees `≥ max(d_p + p)` — is not here but in
 `StacksFrontier.AlgebraicGeometry.Spaces.AlternatingCech.QuasiSeparatedVanishing`, as
-`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`, which takes the five choices as
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`, which
+takes the five choices as
 hypotheses and is likewise stated over an arbitrary base scheme. What this file supplies is
 that those hypotheses can always be met.
 

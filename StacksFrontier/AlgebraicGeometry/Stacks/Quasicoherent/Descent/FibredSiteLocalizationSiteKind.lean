@@ -61,7 +61,8 @@ quasi-coherence of a module read for a coarser inherited topology, and the inher
 condition of a module quasi-coherent for a coarser one; both are stated in
 `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalence` and proved, by another
 route (the affine subcategory of Stacks 0H0A), in
-`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`.  The source checks each
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`.  The source checks
+each
 after restricting to `𝒳/x` and reading `𝒳_τ/x = (Sch/U)_τ`, and that reading at a general `τ` is
 what is below.  It does **not** discharge either input, and what remains after it is not the
 same for the two;

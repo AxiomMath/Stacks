@@ -71,7 +71,7 @@ theorem exists_span_pair_eq_maximalIdeal {A : Type u} [CommRing A] [IsRegularLoc
     have h1 := finrank_span_singleton (K := ResidueField A) hv0
     rw [h, finrank_top, hrank] at h1
     omega
-  obtain ⟨w, -, hw⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hspan_ne)
+  obtain ⟨w, -, hw⟩ := IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hspan_ne)
   obtain ⟨s', rfl⟩ := (maximalIdeal A).toCotangent_surjective w
   have hlt : Submodule.span (ResidueField A) {v} <
       Submodule.span (ResidueField A) ((maximalIdeal A).toCotangent '' {s', ⟨t, ht⟩}) := by

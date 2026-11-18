@@ -326,7 +326,7 @@ theorem mono_sheafTensor_map_kernel_ι_app
 /-- **Stacks Tag 0G7C.**  Let `K` be a K-flat, acyclic complex of `O`-modules on a ringed site
 whose terms are flat.  Then the kernel of `d^n : K^n ⟶ K^{n + 1}` is a flat `O`-module.
 
-The hypothesis is K-flatness in the sense of Tag 06YN (`Stacks.SheafOfModules.KFlat.KFlat`, which
+The hypothesis is K-flatness in the sense of Tag 06YN (`Stacks.SheafOfModules.KFlat`, which
 is `Iff.rfl` to the bifunctor-relative predicate written here). -/
 @[stacks 0G7C]
 theorem isFlat_kernel_d_of_kFlat_of_acyclic

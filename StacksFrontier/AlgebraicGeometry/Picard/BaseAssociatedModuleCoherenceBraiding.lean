@@ -128,9 +128,9 @@ which the tensor product of two morphisms is the action of
 
 Both the bifunctor and the constraint are the sheafification of the corresponding presheaf datum,
 so this is the naturality of the braiding of the symmetric monoidal category of presheaves of
-modules, carried along `Stacks.SheafOfModules.TensorSheafification.sheafify` by its
-functoriality.  The presheaf braiding is where the monoidal notation is used, and there the
-instance is unambiguous. -/
+modules, carried along `Stacks.SheafOfModules.Invertible.structureSheafification` (the sealed
+sheafification that ends the sheaf tensor product) by its functoriality.  The presheaf braiding
+is where the monoidal notation is used, and there the instance is unambiguous. -/
 theorem tensorProductBraiding_naturality_bifunctorMap
     {A A' Bb Bb' : SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)}
@@ -151,10 +151,10 @@ theorem tensorProductBraiding_naturality_bifunctorMap
     change BraidedCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
     infer_instance
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (u.val ⊗ₘ v.val) ≫
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (β_ A'.val Bb'.val).hom =
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (β_ A.val Bb.val).hom ≫
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (v.val ⊗ₘ u.val)
+  change (structureSheafification O hO).map (u.val ⊗ₘ v.val) ≫
+      (structureSheafification O hO).map (β_ A'.val Bb'.val).hom =
+    (structureSheafification O hO).map (β_ A.val Bb.val).hom ≫
+      (structureSheafification O hO).map (v.val ⊗ₘ u.val)
   rw [← Functor.map_comp, ← Functor.map_comp, BraidedCategory.braiding_naturality u.val v.val]
 
 end Stacks.SheafOfModules.Invertible

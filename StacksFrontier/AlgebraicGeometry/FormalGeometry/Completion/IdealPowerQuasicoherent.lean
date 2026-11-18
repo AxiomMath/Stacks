@@ -251,26 +251,26 @@ public def idealActionPresheaf {X : Scheme.{u}}
   naturality {U V} i := ModuleCat.MonoidalCategory.tensor_ext fun a m ↦
     (F.val.map_smul i a.1 m).symm
 
-/-- Multiplication `J ⊗ F ⟶ F` by an ideal `J` of the structure sheaf. -/
+/-- Multiplication `J ⊗ F ⟶ F` by an ideal `J` of the structure sheaf: the map out of the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` adjoint to `idealActionPresheaf`. -/
 public def idealAction {X : Scheme.{u}}
     (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (J.toSheafOfModules)).obj
       (F)) ⟶
       F :=
-  (PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-    (𝟙 X.ringCatSheaf.obj)).symm
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).homEquiv _ _).symm
       (idealActionPresheaf J F)
 
-/-- The sheafification hom-equivalence undoes its inverse on maps out of the tensor presheaf. -/
-private theorem sheafificationHomEquiv_apply_symm {X : Scheme.{u}}
-    (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F G : X.Modules)
-    (g : (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (J.toSheafOfModules.val)
-      (F.val)) ⟶ G.val) :
-    PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf) (𝟙 X.ringCatSheaf.obj)
-      ((PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-        (𝟙 X.ringCatSheaf.obj)).symm g) = g :=
-  Equiv.apply_symm_apply _ _
+/-- Along the sheafification unit, the ideal action is `idealActionPresheaf`. -/
+private theorem unit_comp_idealAction {X : Scheme.{u}}
+    (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules) :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) J.toSheafOfModules.val
+          F.val) ≫ (idealAction J F).val = idealActionPresheaf J F :=
+  ((Adjunction.homEquiv_unit _ _ _ _).symm.trans (Equiv.apply_symm_apply _ _))
 
 /-- On a tensor of sections, the ideal action is multiplication. -/
 public lemma idealAction_tmul {X : Scheme.{u}}
@@ -280,8 +280,12 @@ public lemma idealAction_tmul {X : Scheme.{u}}
       (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace
         J.toSheafOfModules F U
         (a ⊗ₜ[X.presheaf.obj U] m)) = (show X.presheaf.obj U from a.1) • m :=
-  congrArg (fun k ↦ (k.app U).hom (a ⊗ₜ[X.presheaf.obj U] m))
-    (sheafificationHomEquiv_apply_symm J F F (idealActionPresheaf J F))
+  (congrArg (fun x ↦ (idealAction J F).val.app U x)
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩
+      (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) J.toSheafOfModules.val
+        F.val) U (a ⊗ₜ[X.presheaf.obj U] m)).symm).trans
+    (PresheafOfModules.hom_congr_apply' (unit_comp_idealAction J F) U _)
 
 /-- The corestriction of `idealActionPresheaf` to a submodule containing every product. -/
 public def idealActionLiftPresheaf {X : Scheme.{u}}
@@ -301,6 +305,17 @@ public def idealActionLiftPresheaf {X : Scheme.{u}}
   naturality {U V} i := ModuleCat.MonoidalCategory.tensor_ext fun a m ↦
     Subtype.ext (F.val.map_smul i a.1 m).symm
 
+/-- The corestriction `idealActionLiftPresheaf` composed with the inclusion is
+`idealActionPresheaf`. -/
+public lemma idealActionLiftPresheaf_comp_ι {X : Scheme.{u}}
+    (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules)
+    (N : F.Submodule)
+    (h : ∀ (U : (Opens X)ᵒᵖ) (a : J.toSheafOfModules.val.obj U) (m : F.val.obj U),
+      (show X.presheaf.obj U from a.1) • m ∈ N.toSubmodule.obj U) :
+    idealActionLiftPresheaf J F N h ≫ N.ι.val = idealActionPresheaf J F := by
+  ext U : 1
+  exact ModuleCat.MonoidalCategory.tensor_ext fun _ _ ↦ rfl
+
 /-- The corestriction of `idealAction` to a submodule containing every product. -/
 public def idealActionLift {X : Scheme.{u}}
     (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules)
@@ -311,8 +326,8 @@ public def idealActionLift {X : Scheme.{u}}
       ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (J.toSheafOfModules)).obj
       (F)) ⟶
       N.toSheafOfModules :=
-  (PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-    (𝟙 X.ringCatSheaf.obj)).symm
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).homEquiv _ _).symm
       (idealActionLiftPresheaf J F N h)
 
 /-- The corestriction composed with the inclusion is the action. -/
@@ -321,22 +336,9 @@ public lemma idealActionLift_fac {X : Scheme.{u}}
     (N : F.Submodule)
     (h : ∀ (U : (Opens X)ᵒᵖ) (a : J.toSheafOfModules.val.obj U) (m : F.val.obj U),
       (show X.presheaf.obj U from a.1) • m ∈ N.toSubmodule.obj U) :
-    idealActionLift J F N h ≫ N.ι = idealAction J F := by
-  apply (PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-    (𝟙 X.ringCatSheaf.obj)).injective
-  have nat : PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-        (𝟙 X.ringCatSheaf.obj) (idealActionLift J F N h ≫ N.ι) =
-      PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-        (𝟙 X.ringCatSheaf.obj) (idealActionLift J F N h) ≫ N.ι.val :=
-    (PresheafOfModules.sheafificationAdjunction (R := X.ringCatSheaf)
-      (𝟙 X.ringCatSheaf.obj)).homEquiv_naturality_right
-        (idealActionLift J F N h) N.ι
-  have key : idealActionLiftPresheaf J F N h ≫ N.ι.val = idealActionPresheaf J F := by
-    ext U : 1
-    exact ModuleCat.MonoidalCategory.tensor_ext fun _ _ ↦ rfl
-  exact nat.trans ((congrArg (fun g => g ≫ N.ι.val)
-    (sheafificationHomEquiv_apply_symm J F N.toSheafOfModules _)).trans
-    (key.trans (sheafificationHomEquiv_apply_symm J F F _).symm))
+    idealActionLift J F N h ≫ N.ι = idealAction J F :=
+  (Adjunction.homEquiv_naturality_right_symm _ _ N.ι).symm.trans
+    (congrArg _ (idealActionLiftPresheaf_comp_ι J F N h))
 
 end Stacks.Algebraization
 

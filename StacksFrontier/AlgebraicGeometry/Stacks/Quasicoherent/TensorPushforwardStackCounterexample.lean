@@ -340,7 +340,9 @@ theorem not_isZero_tensorObj_of_eval {𝒳 : AlgebraicStacks.{u, w} B S hS}
     (mF : F.obj.val.obj (op x₀)) (mG : G.obj.val.obj (op x₀)) (hF : lF mF = 1)
     (hG : lG mG = 1) : ¬ IsZero (F ⊗ G) := by
   intro hT
-  have hT' : IsZero (F ⊗ G).obj := (quasicoherentInclusion B S hS 𝒳).map_isZero hT
+  have hT' := ((quasicoherentInclusion B S hS 𝒳).map_isZero hT).of_iso
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso (FibredSite.structureSheaf B S hS
+      𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf) F.obj G.obj).symm
   have hsub := (isZero_sheafOfModules_iff_forall_subsingleton _).1 hT' (op x₀)
   let E := associatedBigEtaleSite B
   have h : E.cutoff = B.cutoff := rfl

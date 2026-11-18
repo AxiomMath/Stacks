@@ -281,16 +281,12 @@ theorem idealTensorComparisonBase_comp_reductionTensorMap_tmul (U : X'.Cᵒᵖ)
           (pullbackBaseIdealMap i t f f' hi ht comm) ≫
         reductionTensorMap i.fSharp hi.I
           ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F) F (𝟙 _)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.O) (𝟙
-              (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X'.O).unit.app
           (PresheafOfModules.tensorObj (pullbackBaseIdeal t f' ht).val
               ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F).val)).app U
           (p ⊗ₜ[X'.O.obj.obj U] b)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O)) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
         ((pullbackBaseIdealMap i t f f' hi ht comm).val.app U p
           ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] b) := by
@@ -325,18 +321,15 @@ theorem reductionTensorMapBase_comp_canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
               (((Stacks.SheafOfModules.Tensor.sheafTensor ((pushforwardCommRingFunctor
                   i.toToposHom).obj X.O)).flip.obj F).obj
                 hi.I)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageBaseRing f')) (𝟙
-              (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageBaseRing f')).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            (inverseImageBaseRing f')).unit.app
           (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars
               (ringMap (inverseImageBaseReduction t f'))).obj (inverseImageBaseIdeal t f' ht)).val
                   (baseModule f' ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj
                   F)).val)).app U
           (z ⊗ₜ[(inverseImageBaseRing f').obj.obj U] b)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O)) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
         ((inverseImageBaseIdealToIdeal i t f f' hi ht comm).val.app U z
           ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] b) := by
@@ -355,10 +348,8 @@ theorem reductionTensorMapBase_comp_canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
         (reducedBaseModule i t f f' comm F)
         (baseReductionMap i t f f' comm F
           ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F) (𝟙 _)) U z b).trans
-      (congrArg (fun y ↦ ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')) (𝟙
-              (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t
-              f')).obj)).unit.app
+      (congrArg (fun y ↦ ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (inverseImageReducedBaseRing t f')).unit.app
           (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val (reducedBaseModule i t f
               f' comm F).val)).app U
           (z ⊗ₜ[(inverseImageReducedBaseRing t f').obj.obj U] y)) hbr))) ?_
@@ -431,10 +422,8 @@ theorem cancelExtendScalarsTensorMap_comp_idealTensorComparisonBase :
       ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F) U z b)) ?_
   refine Eq.trans (idealTensorComparisonBase_comp_reductionTensorMap_tmul i t f f' hi ht comm F U
     ((pullbackBaseIdealUnit t f' ht).val.app U z) b) ?_
-  refine Eq.trans (congrArg (fun α ↦ ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O)) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+  refine Eq.trans (congrArg (fun α ↦ ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
       (α ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] b))
     (pullbackBaseIdealMap_unit_apply i t f f' hi ht comm U z)) ?_

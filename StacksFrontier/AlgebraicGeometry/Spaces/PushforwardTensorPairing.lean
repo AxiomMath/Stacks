@@ -103,15 +103,13 @@ abbrev bcSectionInv {M : Modules.{u, u} B S hS Y.1 Y.2}
     (bcPushforward B S hS π hrep M).val.obj V := x
 
 /-- The sheafification adjunction for `𝒪_X`-modules, with its right adjoint the forgetful
-functor on the nose (the restriction of scalars along the identity in
-`PresheafOfModules.sheafificationAdjunction` is the identity definitionally). -/
+functor: the sealed sheafification of `Stacks.SheafOfModules.Tensor.sheafTensor`, through
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 def modulesSheafifyForgetAdjunction (X : AlgebraicSpaces B S hS) :
-    PresheafOfModules.sheafification
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O).obj) ⊣
+    Stacks.SheafOfModules.Tensor.sheafification (smallEtaleRingedSite B S hS X.1 X.2).O ⊣
       SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS X.1 X.2).O) :=
-  PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O).obj)
+  Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction _
 
 section Pairing
 
@@ -571,10 +569,8 @@ theorem modulesTensor_hom_eq_zero {M N Z : Modules.{u, u} B S hS X.1 X.2}
   have h1 : (modulesSheafifyForgetAdjunction B S hS X).unit.app P ≫ f.val = 0 :=
     PresheafOfModules.tensorObj_hom_ext fun V x y => (h V x y).trans rfl
   have h0 : (modulesSheafifyForgetAdjunction B S hS X).unit.app P ≫
-      (SheafOfModules.forget _).map (0 : (PresheafOfModules.sheafification
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          (smallEtaleRingedSite B S hS X.1 X.2).O).obj)).obj
-          P ⟶ Z) = 0 := by
+      (SheafOfModules.forget _).map (0 : (Stacks.SheafOfModules.Tensor.sheafification
+        (smallEtaleRingedSite B S hS X.1 X.2).O).obj P ⟶ Z) = 0 := by
     rw [Functor.map_zero, comp_zero]
   have h3 : (modulesSheafifyForgetAdjunction B S hS X).homEquiv P Z f =
       (modulesSheafifyForgetAdjunction B S hS X).homEquiv P Z 0 :=

@@ -34,7 +34,8 @@ no chart and no étale morphism,
 
 That statement is `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono` below.  It is
 proved as `AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`
-(`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSquare.lean`), where
+(`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSquare.lean`),
+where
 Stacks 06BI is registered unconditionally as
 `AlgebraicGeometry.Space.triangleDifferentials_shortExact_of_formallySmooth`.  It is the
 monomorphy twin of `AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`: the square there is
@@ -53,7 +54,8 @@ restriction of the comparison map to that chart with the chart triangle's own co
 ## Main definitions
 
 * `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono`: the one statement this route to
-  Stacks 06BI needs — monomorphy of the comparison map of Stacks 04CX of a triangle of schemes of the
+  Stacks 06BI needs — monomorphy of the comparison map of Stacks 04CX of a triangle of schemes of
+  the
   site, read as a triangle of represented algebraic spaces, from monomorphy of the canonical map
   of Stacks 01UV of the same triangle of schemes.
 
@@ -104,7 +106,8 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- **The one statement this route to Stacks 06BI needs**, proved as
-`AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`.  For a composable pair `ψ : U ⟶ V`,
+`AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`.  For a composable pair
+`ψ : U ⟶ V`,
 `χ : V ⟶ W` of schemes of the big fppf site over `S`, the first map
 `(ψ)^*Ω_{V/W} ⟶ Ω_{U/W}` of the transitivity sequence of Stacks 05Z8 of the pair read as
 *represented* algebraic spaces is a monomorphism as soon as the canonical map of Stacks 01UV of

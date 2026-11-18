@@ -54,7 +54,8 @@ The reverse inclusion of Stacks 09YT — every constructible abelian sheaf has s
 presentation — is not here; Stacks 09YT with both inclusions is
 `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_hasFiniteZModShriekPresentation` and its affine
 form `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_affineZModShriekPresentation`, of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.AbelianShriekPresentation`, where the
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.AbelianShriekPresentation`, where
+the
 tag is registered.
 
 ## Main results

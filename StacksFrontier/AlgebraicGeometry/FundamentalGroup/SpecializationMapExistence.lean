@@ -37,7 +37,8 @@ respect to a separable closure of `κ(s)`, and let `g : Spec A ⟶ S` be the res
 The specialization map is then the composite `π₁(X_{s̄'}) → π₁(X_A) = π₁(X_{s̄})`, the equality
 being base change along `X_{s̄} ⟶ X_A` (Stacks 0BQA). That this base change is an equivalence on
 finite étale covers is
-`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_fiberOverGeometricPointMap`, which combines Stacks 0A48, 0BTW and
+`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_fiberOverGeometricPointMap`, which combines
+Stacks 0A48, 0BTW and
 0A49 exactly as the source does.
 
 ## Main results

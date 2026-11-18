@@ -139,7 +139,8 @@ theorem idealPartIncl_app_comp_unit
   have hfin : r • (ηg.val.app U m) = (show N.val.obj U from r' • n) :=
     (show r • (ηg.val.app U m) = (show N.val.obj U from ((ringSheafMapOf J g).hom.app U r) • n)
       from rfl).trans (congrArg (fun s => (show N.val.obj U from s • n)) hgr)
-  exact hL.trans (hfin.trans hR.symm)
+  rw [hL, hfin]
+  exact hR.symm
 
 end Deformation.ComplexLift
 

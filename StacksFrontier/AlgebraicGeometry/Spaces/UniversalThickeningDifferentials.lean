@@ -354,8 +354,8 @@ noncomputable def pushforwardDerivationRestriction
       (universalThickeningSubSpace B S hS hZ).property) :
     (sheafOfDifferentials B S hS (h' ≫ p) ⟶
         (modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F) →
-      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj ((modulePushforward B S hS
-          (universalThickeningInclusion B S hS hZ)).obj F)).val
+      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj
+          ((modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F)).val
         (structureSharpInverseImage B S hS p).hom :=
   fun x ↦ (pushforwardUniversalDerivation B S hS h' p (h' ≫ p) (𝟙 Y)
       (Category.comp_id (h' ≫ p)).symm).postcomp

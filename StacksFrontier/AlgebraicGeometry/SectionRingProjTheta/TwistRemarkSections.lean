@@ -15,8 +15,9 @@ of `Stacks.SheafInternalHom.schemeMonoidalCategory` and the sheafified tensor pr
 
 ## Main results
 
-* `Stacks.SectionRingProjTheta.tensorSheafIsoTensorObj_hom_tensorHom`: the identification
-  `tensorSheafIsoTensorObj` of the two tensor products is natural in both variables.
+* `Stacks.SectionRingProjTheta.sheafifyIsoTensorObj_hom_tensorHom`: the identification
+  `sheafifyIsoTensorObj` of the sheafified sectionwise tensor product with the monoidal one is
+  natural in both variables.
 * `Stacks.SectionRingProjTheta.toTensorSection_comp_tensorHom_val`: the comparison
   `toTensorSection` of the presheaf tensor product with the monoidal one is natural in both
   variables.
@@ -44,7 +45,8 @@ of `Stacks.SheafInternalHom.schemeMonoidalCategory` and the sheafified tensor pr
 open AlgebraicGeometry CategoryTheory MonoidalCategory TopologicalSpace Opposite
 open Stacks.SheafOfModules.TensorSheafification
 open Stacks.SheafOfModules (sheafifyValIso)
-open Stacks.SectionTensorFormula (tensorSection tensorSheafIsoTensorObj schemeSheafCondition)
+open Stacks.SectionTensorFormula (tensorSection sheafifyIsoTensorObj tensorSheafIsoTensorObj
+  schemeSheafCondition)
 open scoped TensorProduct
 
 universe u
@@ -70,17 +72,12 @@ variable {C : Type u'} [Category.{v} C] {J : GrothendieckTopology C}
   (h𝒪 : Presheaf.IsSheaf J (structureRingPresheaf 𝒪))
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
-/-- The identification `tensorSheafIsoTensorObj` of the sheafified tensor product with the
-monoidal one is natural in both variables. -/
-theorem tensorSheafIsoTensorObj_hom_tensorHom
+/-- The identification `sheafifyIsoTensorObj` of the sheafification of the sectionwise tensor
+product with the monoidal one is natural in both variables. -/
+theorem sheafifyIsoTensorObj_hom_tensorHom
     {F F' G G' : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)} (f : F ⟶ F') (g : G ⟶ G') :
-    (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom ≫ (f ⊗ₘ g : F ⊗ G ⟶ F' ⊗ G') =
-      ((sheafify 𝒪 h𝒪).map (f.val ⊗ₘ g.val) :
-          (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪)
-            (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (F)).obj (G)) ⟶
-          (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪)
-            (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (F')).obj (G'))) ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G').hom := by
+    (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom ≫ (f ⊗ₘ g : F ⊗ G ⟶ F' ⊗ G') =
+      (sheafify 𝒪 h𝒪).map (f.val ⊗ₘ g.val) ≫ (sheafifyIsoTensorObj 𝒪 h𝒪 F' G').hom := by
   have hmid : ((sheafifyValIso 𝒪 h𝒪 F).hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 G).hom) ≫ (f ⊗ₘ g) =
       ((sheafify 𝒪 h𝒪).map f.val ⊗ₘ (sheafify 𝒪 h𝒪).map g.val) ≫
         ((sheafifyValIso 𝒪 h𝒪 F').hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 G').hom) := by
@@ -115,9 +112,9 @@ theorem toTensorSection_comp_tensorHom_val
   have hunit : toSheafify 𝒪 h𝒪 (F.val ⊗ G.val) ≫ ((sheafify 𝒪 h𝒪).map (f.val ⊗ₘ g.val)).val =
       (f.val ⊗ₘ g.val) ≫ toSheafify 𝒪 h𝒪 (F'.val ⊗ G'.val) :=
     ((sheafifyAdjunction 𝒪 h𝒪).unit.naturality (f.val ⊗ₘ g.val)).symm
-  have hstep := congrArg SheafOfModules.Hom.val (tensorSheafIsoTensorObj_hom_tensorHom 𝒪 h𝒪 f g)
+  have hstep := congrArg SheafOfModules.Hom.val (sheafifyIsoTensorObj_hom_tensorHom 𝒪 h𝒪 f g)
   (whisker_eq (toSheafify 𝒪 h𝒪 (F.val ⊗ G.val)) hstep).trans
-    (eq_whisker hunit (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G').hom.val)
+    (eq_whisker hunit (sheafifyIsoTensorObj 𝒪 h𝒪 F' G').hom.val)
 
 end General
 
@@ -146,14 +143,34 @@ theorem tensorSection_unitSec {F G : X.Modules} (t : 𝟙_ X.Modules ⟶ F) (t' 
   rw [Stacks.TensorSectionNonvanishing.mulRight, ← Category.assoc, rightUnitor_inv_naturality,
     ← MonoidalCategory.unitors_inv_equal, Category.assoc, ← tensorHom_def]
 
+/-- The unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`
+followed by the inverse of `Stacks.SheafOfModules.Tensor.sheafificationIso` is Mathlib's
+sheafification unit. -/
+private lemma unit_comp_sheafificationIso_inv_app {C : Type*} [Category C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app M ≫
+        (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app M) =
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M := by
+  rw [← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app, Category.assoc,
+    ← Functor.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
+  exact Category.comp_id _
+
 /-- The identification `tensorSheafIsoTensorObj` of the sheafified tensor product with the
 monoidal one sends the section of a pure tensor `a ⊗ₜ b` to the product `tensorSection A B a b`. -/
 theorem tensorSheafIsoTensorObj_hom_toTensorSheafSection (A B : X.Modules) (U : X.Opens)
     (a : Γ(A, U)) (b : Γ(B, U)) :
     (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) A B).hom.val.app (op U)
         (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace A B
-          (op U) (a ⊗ₜ b)) = tensorSection A B a b :=
-  rfl
+          (op U) (a ⊗ₜ b)) = tensorSection A B a b := by
+  rw [Stacks.SectionTensorFormula.tensorSection_eq]
+  exact congrArg
+    ((sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) A B).hom.val.app (op U))
+    (PresheafOfModules.hom_congr_apply' (unit_comp_sheafificationIso_inv_app
+      ⟨X.presheaf, X.IsSheaf⟩ (PresheafOfModules.tensorObj A.val B.val)) (op U) (a ⊗ₜ b))
 
 /-- Two morphisms out of a sheafified tensor product are equal if they agree on the sections of
 the pure tensors `a ⊗ₜ b` of sections over each open of a basis. -/
@@ -190,7 +207,11 @@ theorem monoidal_hom_ext_of_isBasis {A B G : X.Modules} {ι : Type*} (V : ι →
     (h : ∀ (i : ι) (a : Γ(A, V i)) (b : Γ(B, V i)),
       φ.app (V i) (tensorSection A B a b) = ψ.app (V i) (tensorSection A B a b)) : φ = ψ :=
   (Iso.cancel_iso_hom_left (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) A B) _
-    _).1 (sheafTensor_hom_ext_of_isBasis V hV h)
+    _).1 (sheafTensor_hom_ext_of_isBasis V hV fun i a b ↦
+      (congrArg (φ.app (V i))
+        (tensorSheafIsoTensorObj_hom_toTensorSheafSection A B (V i) a b)).trans
+        ((h i a b).trans (congrArg (ψ.app (V i))
+          (tensorSheafIsoTensorObj_hom_toTensorSheafSection A B (V i) a b).symm)))
 
 end Stacks.SectionRingProjTheta
 

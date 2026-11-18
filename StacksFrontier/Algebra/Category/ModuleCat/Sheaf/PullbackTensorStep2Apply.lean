@@ -77,7 +77,8 @@ lemma bilinearEquivTensorSheafHom_symm_apply_coe
         N) :
     ((bilinearEquivTensorSheafHom (F := F) (G := G) (N := N)).symm t).1 =
       pairingOfTensorHom (hO := hA)
-        ((PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
           (F.val ⊗ G.val) ≫ t.val) :=
   congrArg (fun p ↦ pairingOfTensorHom (hO := hA) p)
     (tensorSheafHomEquivPresheafTensorHom_apply t)
@@ -92,7 +93,8 @@ lemma bilinearEquivTensorSheafHom_symm_id_coe :
       pairingOfTensorHom (hO := hA) (A := F) (B := G)
           (N := ((Stacks.SheafOfModules.Tensor.sheafTensor
           ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).obj F).obj G)
-        ((PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
           (F.val ⊗ G.val)) :=
   (bilinearEquivTensorSheafHom_symm_apply_coe _).trans (congrArg _ (Category.comp_id _))
 
@@ -125,8 +127,7 @@ theorem pullbackTensorStep2_apply_coe
       (pushforwardModules f).obj N) :
     (pullbackTensorStep2 f F G N g).1 =
       pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (𝟙 _)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val) ≫ g.val) :=
   bilinearEquivTensorSheafHom_symm_apply_coe
     (hA := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) g
@@ -140,8 +141,7 @@ theorem pullbackTensorStep2_apply
       (pushforwardModules f).obj N) :
     pullbackTensorStep2 f F G N g =
       ⟨pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-          ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (𝟙 _)).unit.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
               (F.val ⊗ G.val) ≫ g.val),
         isBilinearPairing_pairingOfTensorHom
           (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) _⟩ :=
@@ -181,8 +181,7 @@ theorem unit_comp_pullbackTensorStep2_symm_apply_val
           moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
             ((pushforwardModules f).obj N) //
         IsBilinearPairing (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) q }) :
-    (PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (𝟙 _)).unit.app (F.val ⊗ G.val) ≫
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app (F.val ⊗ G.val) ≫
         ((pullbackTensorStep2 f F G N).symm q).val =
       tensorHomOfPairing (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) q.2 :=
   unit_comp_bilinearEquivTensorSheafHom_val

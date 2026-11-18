@@ -138,6 +138,23 @@ noncomputable local instance stalkModuleOfSchemeModules {X : Scheme.{u}} (F : X.
 
 open Opposite TensorProduct
 
+/-- The canonical map `F(U) ⊗ G(U) → (F ⊗ G)(U)` commutes with restriction: on sections over `U`
+it is the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, a morphism of presheaves
+of modules. -/
+theorem toTensorSheafSection_map {X : Scheme.{u}} (F G : X.Modules)
+    {U V : (Opens X)ᵒᵖ} (f : U ⟶ V) (m : F.val.obj U) (n : G.val.obj U) :
+    (Invertible.tensorProduct X.toRingedSpace.presheaf
+        (structureSheafRing X.toRingedSpace).property F G).val.map f
+      (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace F G U
+        (m ⊗ₜ[X.presheaf.obj U] n)) =
+    Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace F G V
+      (F.val.map f m ⊗ₜ[X.presheaf.obj V] G.val.map f n) :=
+  (PresheafOfModules.naturality_apply
+    ((Tensor.sheafificationAdjunction
+      (⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) F.val G.val)) f
+    (m ⊗ₜ[X.presheaf.obj U] n)).symm
+
 /-- The tensor product `s ⊗ t` of a global section `s` of `F` and a global section `t` of `G`, as
 a global section of `F ⊗ G`: over each open `U` it is the image of `s|_U ⊗ t|_U` in the
 sheafified tensor product. -/
@@ -146,32 +163,12 @@ noncomputable def tensorSections {X : Scheme.{u}} (F G : X.Modules)
     (Invertible.tensorProduct X.toRingedSpace.presheaf
       (structureSheafRing X.toRingedSpace).property F G).sections := by
   classical
-  let T := Invertible.tensorProduct X.toRingedSpace.presheaf
-    (structureSheafRing X.toRingedSpace).property F G
   refine PresheafOfModules.sectionsMk (fun U =>
     Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace F G U
       ((s.eval U) ⊗ₜ[X.presheaf.obj U] (t.eval U))) ?_
   intro U V f
-  change ((T.val.map f).hom
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace F G U
-      ((s.eval U) ⊗ₜ[X.presheaf.obj U] (t.eval U)))) = _
-  have h := (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace
-    ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.val) (G.val)))).naturality f
-  have h' := congrArg (fun q => q.hom
-    ((s.eval U) ⊗ₜ[X.presheaf.obj U] (t.eval U))) h.symm
-  change ((T.val.map f).hom
-      (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace F G U
-        ((s.eval U) ⊗ₜ[X.presheaf.obj U] (t.eval U)))) =
-    Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace F G V
-      ((F.val.map f).hom (s.eval U)
-        ⊗ₜ[X.presheaf.obj V]
-        (G.val.map f).hom (t.eval U))
-    at h'
-  have hs := PresheafOfModules.sections_property s f
-  have ht := PresheafOfModules.sections_property t f
-  change (F.val.map f).hom (s.eval U) = _ at hs
-  change (G.val.map f).hom (t.eval U) = _ at ht
-  rwa [hs, ht] at h'
+  rw [toTensorSheafSection_map, PresheafOfModules.sections_property,
+    PresheafOfModules.sections_property]
 
 private noncomputable def tensorPowerSection {X : Scheme.{u}} {L : X.Modules}
     [SheafOfModules.IsInvertible X.toRingedSpace.presheaf

@@ -154,7 +154,7 @@ theorem ι_complexLeftUnitor_f
     rfl
   simp only [complexLeftUnitor, HomologicalComplex.comp_f]
   rw [reassoc_of% h₁, HomologicalComplex.id_f, CategoryTheory.Functor.map_id, Category.id_comp,
-    reassoc_of% h₂]
+    reassoc_of% h₂, Functor.map_comp, NatTrans.comp_app, Category.assoc]
   simp [sheafLeftUnitorNatIso, Functor.mapHomologicalComplexIdIso]
 
 end StandardModel

@@ -373,7 +373,10 @@ Sheafification of the presheaf-level mixed tensor product, and the base-change c
 read at it.  Nothing new is proved here: the comparison is the presheaf-level one sheafified,
 composed with `Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso`, which says that tensoring
 and sheafifying does not distinguish the sectionwise extension of scalars `O₂ ⊗_{p,O₁} G` from
-its sheafification `O₂ ⊗_{O₁} G`. -/
+its sheafification `O₂ ⊗_{O₁} G`.  Since `Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies
+through the sealed `Stacks.SheafOfModules.Tensor.sheafification`, the passage between it and
+Mathlib's sheafification `Stacks.moduleSheafification` used here is
+`Stacks.FlatChangeOfRings.sheafTensorFlipObjIso`. -/
 
 section Sheaf
 
@@ -401,7 +404,8 @@ scalars of `G`, i.e. the functor whose exactness is what Stacks 05V4 proves. -/
 noncomputable def mixedSheafBaseChangeNatIso :
     (Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj ((extendScalars f).obj G) ≅
       mixedSheafTensorRight f G :=
-  Functor.isoWhiskerLeft (SheafOfModules.forget (commRingSheafToRingSheaf O₂))
+  sheafTensorFlipObjIso O₂ ((extendScalars f).obj G) ≪≫
+    Functor.isoWhiskerLeft (SheafOfModules.forget (commRingSheafToRingSheaf O₂))
       (tensorRightExtendScalarsIso f G).symm ≪≫
     Functor.isoWhiskerLeft (SheafOfModules.forget (commRingSheafToRingSheaf O₂))
       (Functor.isoWhiskerRight (mixedBaseChangeNatIso f G.val) (moduleSheafification O₂))
@@ -420,7 +424,9 @@ noncomputable def restrictScalarsMixedSheafTensorRight
       SheafOfModules.restrictScalars.{w} (ringSheafMap f) ⋙
         (Stacks.SheafOfModules.Tensor.sheafTensor O₁).flip.obj G :=
   Functor.isoWhiskerLeft
-    (SheafOfModules.forget (commRingSheafToRingSheaf O₂) ⋙ mixedTensorRight f G.val) e.symm
+      (SheafOfModules.forget (commRingSheafToRingSheaf O₂) ⋙ mixedTensorRight f G.val) e.symm ≪≫
+    Functor.isoWhiskerLeft (SheafOfModules.restrictScalars.{w} (ringSheafMap f))
+      (sheafTensorFlipObjIso O₁ G).symm
 
 end Sheaf
 

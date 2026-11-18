@@ -98,8 +98,9 @@ public theorem exists_epi_degreePresentation_polyAlgebra (A : Type u) [CommRing 
     have := hqc k.down.1
     have := Stacks.SymmetricFree.isQuasicoherent_symmetricAlgebraPiece (X := X) (I := ι)
       (m + -k.down.1)
-    exact Stacks.AmpleFiniteSurjective.isQuasicoherent_tensorModules (N.piece k.down.1)
-      ((polyAlgebra X ι).piece (m + -k.down.1))
+    exact freeGradedModuleOn_piece (N.piece k.down.1) k.down.1 m ▸
+      Stacks.AmpleFiniteSurjective.isQuasicoherent_tensorModules (N.piece k.down.1)
+        ((polyAlgebra X ι).piece (m + -k.down.1))
   · refine isFiniteTypeOnAffine_directSum (degreeSummand N J) fun k => ?_
     have := hqc k.down.1
     exact isFiniteTypeOnAffine_freeGradedModuleOn (modPiece N k.down.1)

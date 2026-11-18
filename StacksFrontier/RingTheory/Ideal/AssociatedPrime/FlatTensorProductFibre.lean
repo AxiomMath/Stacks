@@ -154,9 +154,7 @@ private theorem exists_smul_mem_range_map (p : Ideal R) [p.IsPrime] (y : N ⊗[R
     ∃ r : R, r ∉ p ∧ ∃ x : N ⊗[R] (R ⧸ p), algebraMap R S r • y =
       AlgebraTensorModule.map (LinearMap.id : N →ₗ[S] N)
         (IsScalarTower.toAlgHom R (R ⧸ p) p.ResidueField).toLinearMap x := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨1, fun h => (Ideal.IsPrime.ne_top inferInstance)
-      ((Ideal.eq_top_iff_one _).mpr h), 0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul n k =>
     obtain ⟨⟨a, d⟩, hk⟩ := IsLocalization.surj (nonZeroDivisors (R ⧸ p)) k
     obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (d : R ⧸ p)

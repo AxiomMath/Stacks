@@ -56,9 +56,12 @@ left is the transport of the conclusion into the source's own spelling.
   the reason the "what is not done" of this file counts out.
 * `Deformation.Artin.SectionsSheaf.tensorSheafFunctorObjSelf_hom` and `..._inv` — the unitor
   `𝓕 ⊗_R R ≅ 𝓕` read in the uncurried spelling of
-  `Stacks.SheafOfModules.Tensor.sheafTensor`. Both hold by
-  `rfl`; together with `..tensorSheafFunctor_map_eq`, which is the same for the functor on
-  morphisms and already lives in
+  `Stacks.SheafOfModules.Tensor.sheafTensor`. Both follow from `..unitSheafTensorIso_eq`, which
+  identifies the unitor `Stacks.unitSheafTensorIso` that `tensorSheafFunctorObjSelf` is built
+  from with `Stacks.RingedSpace.tensorSheafUnitLeftIso` (the two take their counits from the two
+  adjunctions of the sealed sheafification, so they are not equal by `rfl`); together with
+  `..tensorSheafFunctor_map_eq`, which is the same for the functor on morphisms and already
+  lives in
   `StacksFrontier/Deformation/Artin/Obstruction/SectionsCoefficientIdentity.lean`, they are the
   dictionary between the flipped `Stacks.SheafOfModules.Tensor.sheafTensor` spelling that
   `tensorSheafFunctor` is built from and the uncurried spelling the projection formula is stated
@@ -110,17 +113,18 @@ adjunction bijection, whose round trip `Equiv.symm_apply_apply` leaves `baseChan
 opaque. This is the same effect the "implementation notes" of
 `StacksFrontier/Deformation/Artin/Obstruction/SectionsReductionMap.lean` record for statements.
 
-The three `rfl` lemmas about `tensorSheafFunctorObjSelf` are stated at a **variable** morphism
-`π : X ⟶ Spec R` and a variable module, not at the base-change projections. At the fibre products
-the same `rfl`s are not cheap, for the reason above.
+The lemmas about `tensorSheafFunctorObjSelf` and its transports are stated at a **variable**
+morphism `π : X ⟶ Spec R` and a variable module, not at the base-change projections. At the fibre
+products the same definitional comparisons are not cheap, for the reason above.
 
 ## What is not done
 
 **The transport to the source's spelling.** `reductionMap_eq_tensorProjectionFormula` is
 stated in the uncurried spelling of `Stacks.SheafOfModules.Tensor.sheafTensor`; the sequence of
 clause (2) is stated through `tensorSheafFunctor` and
-`Stacks.AffineProjectionFormula.closedImmersionProjectionFormulaIso`. The three `rfl` lemmas above
-are the dictionary for the two unitors and for the functor on morphisms, and
+`Stacks.AffineProjectionFormula.closedImmersionProjectionFormulaIso`. The three lemmas above
+about `tensorSheafFunctorObjSelf` and `tensorSheafFunctor` are the dictionary for the two
+unitors and for the functor on morphisms, and
 `immersionProjectionFormulaIso_hom` for the projection formula. What is missing is the
 corresponding *assembly*: the four dictionary lemmas above have to be composed, and the
 composites of the uncurried `Stacks.SheafOfModules.Tensor.sheafTensor` on morphisms collapsed by
@@ -264,6 +268,21 @@ section ObjSelf
 variable {R : CommRingCat.{u}} {X : Scheme.{u}} (π : X ⟶ Spec R)
   (F : SheafOfModules.{u} X.ringCatSheaf)
 
+/-- The unitor `Stacks.unitSheafTensorIso` of `TensorRightUnit` is the left unitor
+`Stacks.RingedSpace.tensorSheafUnitLeftIso`: both are the sealed sheafification of the presheaf
+left unitor followed by a counit, of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` and
+of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` respectively. -/
+theorem unitSheafTensorIso_eq :
+    Stacks.unitSheafTensorIso F = tensorSheafUnitLeftIso X.toRingedSpace F := by
+  refine Iso.ext <|
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).homEquiv_counit
+      _ _ _).symm.trans ?_).trans
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.sheaf).homEquiv_counit
+      _ _ _)
+  refine .trans ?_ (Adjunction.homEquiv_ofNatIsoRight_symm_apply _
+    (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso X.sheaf) _).symm
+  exact congrArg _ (by ext U x; rfl)
+
 /-- The unitor `𝓕 ⊗_R R ≅ 𝓕`, read in the bifunctor spelling. -/
 theorem tensorSheafFunctorObjSelf_hom :
     (tensorSheafFunctorObjSelf π F).hom =
@@ -273,7 +292,7 @@ theorem tensorSheafFunctorObjSelf_hom :
                 F) : _ × _) ⟶
               (SheafOfModules.unit (structureRingSheaf X.toRingedSpace), F)) ≫
         (tensorSheafUnitLeftIso X.toRingedSpace F).hom :=
-  rfl
+  congrArg (_ ≫ ·.hom) (unitSheafTensorIso_eq F)
 
 /-- The inverse unitor, read in the bifunctor spelling. -/
 theorem tensorSheafFunctorObjSelf_inv :
@@ -284,7 +303,7 @@ theorem tensorSheafFunctorObjSelf_inv :
           (((modulePullbackObjUnitIso π.toLRSHom.toShHom).inv ×ₘ 𝟙 F) :
             ((SheafOfModules.unit (structureRingSheaf X.toRingedSpace), F) : _ × _) ⟶
               ((Scheme.Modules.pullback π).obj ((tilde.functor R).obj (ModuleCat.of R R)), F)) :=
-  rfl
+  congrArg (·.inv ≫ _) (unitSheafTensorIso_eq F)
 
 /-- The transport between the two spellings of `𝓕 ⊗_R M` is the identity: the equality it
 transports along holds by `rfl`. Stated at a variable `π`, where the one unfolding of

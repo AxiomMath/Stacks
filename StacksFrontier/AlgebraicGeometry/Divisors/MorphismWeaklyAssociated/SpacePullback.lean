@@ -48,7 +48,8 @@ compared here with weak association of the maximal ideal of `A` to the base chan
   zero-dimensionality of the local ring of the fibre stated at the étale local rings of a
   geometric point. The tag, with that hypothesis in the form of Stacks 04NM, is
   `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_modulePullback_of_hasFiberLocalRingDimension`
-  in `StacksFrontier.AlgebraicGeometry.Divisors.MorphismWeaklyAssociated.SpacePullbackFibreDimension`.
+  in
+  `StacksFrontier.AlgebraicGeometry.Divisors.MorphismWeaklyAssociated.SpacePullbackFibreDimension`.
 
 ## Implementation notes
 

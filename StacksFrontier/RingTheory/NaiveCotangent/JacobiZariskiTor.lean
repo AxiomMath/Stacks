@@ -98,15 +98,15 @@ theorem bijective_h1BaseChangeMap_of_tor {T : Type u} [CommRing T] [Algebra S T]
   refine ⟨fun x y hxy => hinj ?_, fun y => ?_⟩
   · have h := congrArg Subtype.val hxy
     rwa [coe_h1BaseChangeMap_apply, coe_h1BaseChangeMap_apply,
-      LinearMap.baseChange_eq_ltensor] at h
+      LinearMap.baseChange_eq_lTensor] at h
   · have hy : (y : T ⊗[S] P.toExtension.Cotangent) ∈
         LinearMap.ker (P.toExtension.cotangentComplex.lTensor T) := by
-      rw [LinearMap.mem_ker, ← LinearMap.baseChange_eq_ltensor]
+      rw [LinearMap.mem_ker, ← LinearMap.baseChange_eq_lTensor]
       exact y.2
     rw [← hrange] at hy
     obtain ⟨x, hx⟩ := hy
     refine ⟨x, Subtype.ext ?_⟩
-    rw [coe_h1BaseChangeMap_apply, LinearMap.baseChange_eq_ltensor]
+    rw [coe_h1BaseChangeMap_apply, LinearMap.baseChange_eq_lTensor]
     exact hx
 
 /-- **The `Tor` clause of the Jacobi-Zariski sequence as an isomorphism**: under

@@ -70,20 +70,6 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
   Stacks.SheafInternalHom.isLocalization_sheafify Stacks.SheafInternalHom.monoidalCategory
   Stacks.SheafInternalHom.braidedCategory
 
-/-- **The identification of the localized tensor product with the tensor product sheaf, on
-components.** `AlgebraicGeometry.SheafOfModules.tensorIso` is the tensor product of the inverses
-of the two sheafification counits followed by the monoidality isomorphism
-`Stacks.SheafInternalHom.tensorSheafifyIso` of sheafification. -/
-theorem tensorIso_hom_eq (F G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
-    (AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 F G).hom
-      = ((Stacks.SheafOfModules.sheafifyValIso 𝒪 h𝒪 F).inv ⊗ₘ
-            (Stacks.SheafOfModules.sheafifyValIso 𝒪 h𝒪 G).inv) ≫
-          ((Stacks.SheafInternalHom.tensorSheafifyIso 𝒪 h𝒪 F.val).app G.val).hom := by
-  simp only [AlgebraicGeometry.SheafOfModules.tensorIso, SheafInternalHom.tensorLeftIso,
-    structureSheaf_obj, Functor.id_obj, SheafInternalHom.sheafifyCounitIso, sheafifyValIso,
-    Iso.app_inv]
-  rfl
-
 /-- **The two identifications of a tensor product of sheaves of modules with the tensor product
 sheaf of [Stacks, Tag 01CA] agree.** `AlgebraicGeometry.SheafOfModules.tensorIso` is stated for
 `Stacks.SheafInternalHom.monoidalCategory` and `Stacks.SheafOfModules.tensorObjIso` for
@@ -91,8 +77,25 @@ sheaf of [Stacks, Tag 01CA] agree.** `AlgebraicGeometry.SheafOfModules.tensorIso
 theorem tensorIso_eq_tensorObjIso (F G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
     AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 F G
       = Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 F G :=
-  Iso.ext ((tensorIso_hom_eq 𝒪 h𝒪 F G).trans
-    (Stacks.SheafOfModules.tensorObjIso_hom_eq 𝒪 h𝒪 F G).symm)
+  Iso.ext <| by
+    rw [Stacks.SheafOfModules.tensorObjIso_def,
+      Stacks.SheafOfModules.Tensor.sheafificationIso_eq_eqToIso]
+    rfl
+
+/-- **The identification of the localized tensor product with the tensor product sheaf, on
+components.** `AlgebraicGeometry.SheafOfModules.tensorIso` is the tensor product of the inverses
+of the two sheafification counits, followed by the monoidality isomorphism
+`Stacks.SheafInternalHom.tensorSheafifyIso` of sheafification and the comparison
+`Stacks.SheafOfModules.sheafifyIsoSheafTensor` of Mathlib's sheafification with the sealed one
+ending the tensor product sheaf. -/
+theorem tensorIso_hom_eq (F G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
+    (AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 F G).hom
+      = ((Stacks.SheafOfModules.sheafifyValIso 𝒪 h𝒪 F).inv ⊗ₘ
+            (Stacks.SheafOfModules.sheafifyValIso 𝒪 h𝒪 G).inv) ≫
+          ((Stacks.SheafInternalHom.tensorSheafifyIso 𝒪 h𝒪 F.val).app G.val).hom ≫
+            (Stacks.SheafOfModules.sheafifyIsoSheafTensor 𝒪 h𝒪 F G).hom :=
+  (congrArg Iso.hom (tensorIso_eq_tensorObjIso 𝒪 h𝒪 F G)).trans
+    (Stacks.SheafOfModules.tensorObjIso_hom_eq 𝒪 h𝒪 F G)
 
 variable (L : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
   [AlgebraicGeometry.SheafOfModules.IsInvertible 𝒪 h𝒪 L]

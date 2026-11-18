@@ -143,20 +143,18 @@ theorem sections_mul_of_restrict {Bm Bn Bmn : X.Modules}
         ((cm, cn) : (_, _) ⟶ (_, _))) ≫ mulT)
     (U : W.Opens) (x : Bm.val.obj (op (k ''ᵁ U))) (y : Bn.val.obj (op (k ''ᵁ U))) :
     cmn.val.app (op U) (mul.val.app (op (k ''ᵁ U))
-        (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf (X.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (X.toRingedSpace)).obj)).unit.app
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (Bm).val (Bn).val))
           (op (k ''ᵁ U)) (x ⊗ₜ y))) =
-      mulT.val.app (op U) (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf (W.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (W.toRingedSpace)).obj)).unit.app
+      mulT.val.app (op U) (PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨(W.toRingedSpace).presheaf, (W.toRingedSpace).IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (W.toRingedSpace).presheaf) (Tm).val (Tn).val))
           (op U)
         (cm.val.app (op U) x ⊗ₜ cn.val.app (op U) y)) := by
-  set z := PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.RingedSpace.structureRingSheaf (X.toRingedSpace))
-    (𝟙 (Stacks.RingedSpace.structureRingSheaf (X.toRingedSpace)).obj)).unit.app
+  set z := PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).unit.app
     (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (Bm).val (Bn).val))
     (op (k ''ᵁ U)) (x ⊗ₜ y)
   have h := congrArg

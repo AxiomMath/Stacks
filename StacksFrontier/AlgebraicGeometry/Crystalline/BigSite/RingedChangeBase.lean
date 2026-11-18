@@ -21,7 +21,8 @@ the underlying square of topoi,
 structures.
 
 The corners are ringed as in
-`StacksFrontier.AlgebraicGeometry.Crystalline.BigSite.RingedStructureMorphism`: the big Zariski topoi
+`StacksFrontier.AlgebraicGeometry.Crystalline.BigSite.RingedStructureMorphism`: the big Zariski
+topoi
 by `𝒪 : T ↦ Γ(T, 𝒪_T)` and the big crystalline topoi by `U_{X/S}⁻¹𝒪`, the sheaf
 `\underline{𝐆_a} : (U, T, δ) ↦ Γ(U, 𝒪_U)` of [Stacks, Tag 07IN] (that file records why this, and
 not `𝒪_{X/S}`, is the structure sheaf for which the structure morphisms are morphisms of ringed

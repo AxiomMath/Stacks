@@ -128,9 +128,8 @@ noncomputable def tensorSwapRaisedIso (R : Sheaf J CommRingCat.{w})
     (F G : SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} R).obj F).obj G ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} R).obj G).obj F :=
-  (PresheafOfModules.sheafification
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).mapIso
-      (presheafTensorSwapIso.{u, v, w, z} (O := R.obj) F.val G.val)
+  (Stacks.SheafOfModules.Tensor.sheafification R).mapIso
+    (presheafTensorSwapIso.{u, v, w, z} (O := R.obj) F.val G.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The symmetry of the tensor product of sheaves of modules is natural. -/
@@ -148,13 +147,10 @@ theorem tensorSwapRaised_naturality (R : Sheaf J CommRingCat.{w})
   refine Eq.trans ?_ (congrArg (fun morphism ↦
     (tensorSwapRaisedIso R F G).hom ≫ morphism)
       (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map R g f).symm)
-  exact (((PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map_comp _ _).symm.trans
-    (congrArg (PresheafOfModules.sheafification
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map
+  exact (((Stacks.SheafOfModules.Tensor.sheafification R).map_comp _ _).symm.trans
+    (congrArg (Stacks.SheafOfModules.Tensor.sheafification R).map
       (presheafTensorSwap_naturality.{u, v, w, z} (O := R.obj) f.val g.val))).trans
-    ((PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map_comp _ _)
+    ((Stacks.SheafOfModules.Tensor.sheafification R).map_comp _ _)
 
 /-- Tensoring on the right by a fixed sheaf of modules is tensoring on the left by it. -/
 noncomputable def tensorRightRaisedIso (R : Sheaf J CommRingCat.{w})

@@ -96,26 +96,8 @@ public theorem tensorSheaf_hom_ext_right_toTensorSheafSection
           ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
             ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (B)).obj (C))) U
           (x ⊗ₜ toTensorSheafSection X B C U (y ⊗ₜ z)))) :
-    φ = ψ := by
-  have hls : PresheafOfModules.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
-      (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-        ((PresheafOfModules.tensorObj (O := (X).presheaf) (B.val) (C.val)))) :=
-    PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app _ _
-  have key := @Stacks.SheafOfModules.TopWedge.tensorObj_hom_ext_of_isLocallySurjective_right
-    _ _ (Opens.grothendieckTopology X.carrier) _ _ _ _ _ _ Q.isSheaf.isSeparated
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-      ((PresheafOfModules.tensorObj (O := (X).presheaf) (B.val) (C.val)))) hls
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-      ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val)
-        (((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-          ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (B)).obj (C))).val))) ≫ φ.val)
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-      ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val)
-        (((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-          ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (B)).obj (C))).val))) ≫ ψ.val)
-    h
-  exact Stacks.SheafOfModules.TensorStalkRingedSpace.hom_ext_toTensorSheafSection X φ ψ
-    fun U x t => PresheafOfModules.hom_congr_apply' key U (x ⊗ₜ t)
+    φ = ψ :=
+  Stacks.SheafOfModules.TopWedge.tensorSheaf_hom_ext_right (φ := φ) (ψ := ψ) h
 
 variable {A B : Type u} {ςA ςB : Type*} [CommRing A] [CommRing B]
   [SetLike ςA A] [AddSubgroupClass ςA A] (𝒜 : ℕ → ςA) [GradedRing 𝒜]

@@ -42,7 +42,7 @@ geometric input of the source — the affine case of Stacks 09RE read across the
 small étale and the Zariski site — and it is where the tag's two universe restrictions live.  No
 `@[stacks 09RI]` attribute is placed: everything here is conditional on it.  The statement is
 proved, for `Lu^*K₀` in `D_QCoh(𝒪_U)`, as
-`AlgebraicGeometry.Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`
+`Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`
 in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`, where both
 clauses of Stacks 09RI are proved at the tag's own hypotheses.
 

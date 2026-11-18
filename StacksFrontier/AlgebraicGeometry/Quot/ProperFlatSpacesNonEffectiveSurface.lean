@@ -193,7 +193,7 @@ theorem exists_not_isEffective_of_surface [CharZero k] [IsProper f] [Smooth f]
         (cartesianProperFlatProjection B (Spec (.of k)) hk)
         (cartesianProperFlatProjection_isFiberedInGroupoids B (Spec (.of k)) hk) ξ := by
   have hfinite := locallyOfFiniteType_and_quasiCompact_specMap_algebraMap_self k
-  letI := HasDerivedCategory.standard (Space.modelModules (point B k hk f).obj.obj.left)
+  let := HasDerivedCategory.standard (Space.modelModules (point B k hk f).obj.obj.left)
   obtain ⟨ξ, η, n, rfl, ⟨e⟩, hmin, -⟩ :=
     ProperFlatSpaceDeformation.exists_formalObject_powerSeries_of_subsingleton_cotangentExtTwo
       B (Spec (.of k)) hk (𝟙 _) (point B k hk f) (projection_point B k hk f) hfinite

@@ -179,9 +179,7 @@ noncomputable def tensorSheafGerm (U : Opens ↥X) (hx : x ∈ U)
     (m : F.val.obj (op U)) (n : G.val.obj (op U)) :
     ↑(TopCat.Presheaf.stalk (tensorSheafVal Osharp F G).presheaf x) :=
   TopCat.Presheaf.germ (tensorSheafVal Osharp F G).presheaf U x hx
-    (Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-        Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+    (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val G.val))
       (op U) (m ⊗ₜ[Osharp.obj.obj (op U)] n))
 

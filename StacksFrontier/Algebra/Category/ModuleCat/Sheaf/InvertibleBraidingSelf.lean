@@ -196,7 +196,7 @@ theorem tensorProductBraiding_self
   let A := L.val
   let B := N.val
   let I := SheafOfModules.unit (TensorSheafification.structureSheaf O hO)
-  let e' : F.obj (A ⊗ B) ≅ I := e
+  let e' : F.obj (A ⊗ B) ≅ I := sheafifyIsoSheafTensor O hO L N ≪≫ e
   let η : A ⊗ B ⟶ (F.obj (A ⊗ B)).val := TensorSheafification.toSheafify O hO (A ⊗ B)
   let E : A ⊗ B ⟶ I.val := η ≫ e'.hom.val
   have : IsIso (F.map E) := by
@@ -261,7 +261,10 @@ theorem tensorProductBraiding_self
     (β_ _ _) ≪≫ Functor.Monoidal.μIso F _ _ ≪≫
       (F.mapIso (Stacks.IntPower.pairShuffle A B)).symm ≪≫ b
   have hβ : F.map (β_ A A).hom = 𝟙 _ := Stacks.IntPower.cancel_tensor_right i _ _ hw'
-  exact Iso.ext hβ
+  refine Iso.ext
+    ((Iso.cancel_iso_hom_left ((sheafifyIsoSheafification O hO).app (A ⊗ A)) _ _).mp ?_)
+  exact ((sheafifyIsoSheafification O hO).hom.naturality (β_ A A).hom).symm.trans
+    (by rw [hβ, Category.id_comp]; exact (Category.comp_id _).symm)
 
 end Stacks.SheafOfModules
 

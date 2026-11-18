@@ -178,12 +178,65 @@ theorem localMul_eq (n m : ℤ) {W : X.Opens} (y : Γ(tensorPowerModule X L n, W
     localMul L y z = (powMulIso L n m).hom.app W (commonSection L n m y z) :=
   rfl
 
+/-- The unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`
+followed by the inverse of `Stacks.SheafOfModules.Tensor.sheafificationIso` is Mathlib's
+sheafification unit. -/
+private lemma unit_comp_sheafificationIso_inv_app {D : Type*} [Category D]
+    {K : GrothendieckTopology D} (R : Sheaf K CommRingCat.{u})
+    [K.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify K AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app M ≫
+        (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app M) =
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M := by
+  rw [← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app, Category.assoc,
+    ← Functor.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
+  exact Category.comp_id _
+
+/-- On sections, the inverse of `Stacks.SheafOfModules.Tensor.sheafificationIso` carries the unit
+of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` to Mathlib's sheafification
+unit. -/
+private lemma sheafificationIso_inv_app_forgetUnit_apply {D : Type*} [Category D]
+    {K : GrothendieckTopology D} (R : Sheaf K CommRingCat.{u})
+    [K.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify K AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) (V : Dᵒᵖ)
+    (x : M.obj V) :
+    PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app M).val V
+        (PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app M) V x) =
+      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M) V x :=
+  (congrArg _ (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+    R M V x)).trans
+    (PresheafOfModules.hom_congr_apply' (unit_comp_sheafificationIso_inv_app R M) V x)
+
+/-- `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` sends `commonSection` to the image of the
+pure tensor under Mathlib's sheafification unit. -/
+private lemma sheafTensorObjIso_hom_commonSection (n m : ℤ) {W : X.Opens}
+    (y : Γ(tensorPowerModule X L n, W)) (z : Γ(tensorPowerModule X L m, W)) :
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+        ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
+          (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X)⟩
+        (tensorPowerModule X L n) (tensorPowerModule X L m)).hom.val.app (op W)
+        (commonSection L n m y z) =
+      (Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf
+        (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X)
+        ((tensorPowerModule X L n).val ⊗ (tensorPowerModule X L m).val)).app (op W)
+        (y ⊗ₜ[Γ(X, W)] z) :=
+  sheafificationIso_inv_app_forgetUnit_apply
+    ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
+      (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X)⟩
+    (PresheafOfModules.tensorObj (tensorPowerModule X L n).val (tensorPowerModule X L m).val)
+    (op W) (y ⊗ₜ[Γ(X, W)] z)
+
 /-- The pure tensor of two local sections is the image of `commonSection` under
 `powTensorIso`. -/
 theorem tensorSection_eq (n m : ℤ) {W : X.Opens} (y : Γ(tensorPowerModule X L n, W))
     (z : Γ(tensorPowerModule X L m, W)) :
     tensorSection (tensorPowerModule X L n) (tensorPowerModule X L m) y z =
-      (powTensorIso L n m).hom.app W (commonSection L n m y z) :=
+      (powTensorIso L n m).hom.app W (commonSection L n m y z) := by
+  rw [Stacks.SectionTensorFormula.tensorSection_eq, ← sheafTensorObjIso_hom_commonSection]
   rfl
 
 /-- The product of two local sections of integer tensor powers is the image of their pure tensor

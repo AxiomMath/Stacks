@@ -4,8 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleEquiUniverseMode
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Descent.FibredTensorHypotheses
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.InternalHom
 public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.FibreProducts
-public import
- StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
+public import StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
 
 /-!
 # Stacks 0GQZ: Hom out of a finitely presented module and filtered colimits on a stack

@@ -148,15 +148,15 @@ theorem twistZeroCancelIso_hom_val_app_toSheafify {c : ℤ} (hc : c = 0)
     (W : Opens (ProjectiveSpectrum.top 𝒮)) (t : F.val.obj (op W))
     (s : (twistingSheaf 𝒮 c).val.obj (op W)) :
     (twistZeroCancelIso 𝒮 F hc).hom.val.app (op W)
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify
-            (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj (isSheaf_proj 𝒮)
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            (ProjectiveSpectrum.Proj.structureSheaf 𝒮)).unit.app
             (F.val ⊗ (twistingSheaf 𝒮 c).val)).app (op W)
           (t ⊗ₜ[(ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj (op W)] s)) =
       twistZeroCoord 𝒮 hc W s • t := by
   refine Eq.trans (congrArg (fun z ↦ (Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso
       (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj (isSheaf_proj 𝒮) F).hom.val.app (op W) z)
-      (Stacks.SheafOfModules.sheafify_map_toSheafify_app
-        (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj (isSheaf_proj 𝒮)
+      (Stacks.SheafOfModules.Tensor.unit_naturality_apply
+        (R := ProjectiveSpectrum.Proj.structureSheaf 𝒮)
         ((SheafOfModules.forget _).map (Iso.refl F).hom ⊗ₘ
           (SheafOfModules.forget _).map (twistingSheafIsoUnitOfEq 𝒮 hc).hom) (op W)
         (t ⊗ₜ[(ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj (op W)] s))) ?_

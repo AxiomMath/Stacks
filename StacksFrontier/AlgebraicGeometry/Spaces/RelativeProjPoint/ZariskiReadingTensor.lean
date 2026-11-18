@@ -24,10 +24,11 @@ computes its two halves on pure tensors.
 * `AlgebraicGeometry.Space.representedSmallEtaleModuleInverseTensorHom` and
   `representedSmallEtaleModuleInverseTensorHom_val_app_unit_tmul`: that comparison at the
   equivalence of Stacks 04M0, on pure tensors.
-* `AlgebraicGeometry.Space.zariskiReadingTensor_comp_val_app_unit_tmul`: a composite of the
+* `AlgebraicGeometry.Space.zariskiReadingTensor_comp_val_app_unit_tmul`: the composite of the
   identifications of the reading with the Zariski restriction, the inverse of
-  `AlgebraicGeometry.SmallEtale.restrictModuleTensorIso`, and the restriction of a middle map `t`
-  sends `x ⊗ y` to `x ⊗ y` as soon as `t` does.
+  `AlgebraicGeometry.SmallEtale.restrictModuleTensorIso`, and the restriction of
+  `AlgebraicGeometry.Space.representedSmallEtaleModuleInverseTensorHom` sends `x ⊗ y` to
+  `x ⊗ y`.
 * `AlgebraicGeometry.Space.zariskiReadingTensorHom`: **the comparison
   `𝓟|_T ⊗ 𝓠|_T ⟶ (𝓟 ⊗ 𝓠)|_T` of the reading with tensor products**, for quasi-coherent modules;
   `isIso_zariskiReadingTensorHom`: it is an isomorphism;
@@ -40,12 +41,14 @@ The étale-site half of the comparison is
 structure map of the reindexing spelled `Stacks.SheafOfModules.reindexBackSharp` of the
 structure sheaf of rings of the small étale site of `T`. Its value on a pure tensor is stated
 over the structure sheaf of the algebraic space; the generic statement is over the transported
-structure sheaf `Stacks.SheafOfModules.reindexCommRing`, and the two are bridged by the `rfl`
-lemmas `tensorSheafUnit_reindexCommRing_app_tmul` and
-`sheafificationUnit_representedSmallEtaleModuleEquivalence_inverse_tmul`. The generic statement
-is instantiated before the morphism is passed
-(`Stacks.SheafOfModules.val_app_unit_tmul_of_eq_tensorCounitComposite_reindex`), so that its
-instance arguments are fixed when the morphism is unified.
+structure sheaf `Stacks.SheafOfModules.reindexCommRing`, with its value read through
+`PresheafOfModules.tensorSheafUnit`. The two structure sheaves agree definitionally
+(`tensorSheafUnit_reindexCommRing_app_tmul`), and the source of the unit is respelled through the
+reindexing equivalence by the `rfl` lemma
+`sheafificationUnit_representedSmallEtaleModuleEquivalence_inverse_tmul` before the generic
+statement (`Stacks.SheafOfModules.val_app_unit_tmul_of_eq_tensorCounitComposite_reindex`) is
+applied, its site, equivalence and ring sheaf given before the morphism, so that its instance
+arguments are fixed when the morphism is unified.
 
 The composite of the four pieces mixes morphisms of `Scheme.Modules` (whose morphisms are
 `AlgebraicGeometry.Scheme.Modules.Hom`) with morphisms of sheaves of modules over the ring sheaf
@@ -55,6 +58,11 @@ composite separately produces a term whose comparison with that one exhausts the
 So `zariskiReadingTensorHom` is the composite chosen through
 `exists_zariskiReadingTensorHom`, whose witness is assigned by unification from the statement of
 `zariskiReadingTensor_comp_val_app_unit_tmul`; it is determined by its values on pure tensors.
+That value is computed one factor at a time, each factor's value being the conclusion of a lemma,
+so that the sections in between are assigned by unification rather than compared across two
+elaborations: with the tensor products sheafified by the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, such a comparison also exhausts the heartbeat
+budget.
 
 **No `@[stacks]` attribute.** Tags 03EL, 03DU and 04M0 are registered on the declarations this
 file composes.
@@ -101,15 +109,15 @@ theorem tensorCounitComposite_reindex_val_app_unit_tmul
     ((reindexRingedSiteHom J' e O).tensorCounitComposite (pullbackModulesReindexIso J' e O)
       (φ := reindexBackSharp e (Tensor.ringSheaf O))
       (reindexEquivalence.{w, w, u, v, u, v} e (Tensor.ringSheaf O)).toAdjunction P Q).val.app V
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Tensor.ringSheaf O) (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            O).unit.app
           (PresheafOfModules.tensorObj (O := O.obj)
             ((reindexEquivalence.{w, w, u, v, u, v} e (Tensor.ringSheaf O)).inverse.obj P).val
             ((reindexEquivalence.{w, w, u, v, u, v} e (Tensor.ringSheaf O)).inverse.obj Q).val)) V
           (x ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (reindexCommRing J' e O))
-          (𝟙 (Tensor.ringSheaf (reindexCommRing J' e O)).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (reindexCommRing J' e O)).unit.app
         (PresheafOfModules.tensorObj (O := (reindexCommRing J' e O).obj) P.val Q.val))
         (e.inverse.op.obj V)
         (x ⊗ₜ[((reindexCommRing J' e O).obj ⋙ forget₂ CommRingCat RingCat).obj
@@ -125,7 +133,7 @@ theorem tensorCounitComposite_reindex_val_app_unit_tmul
 
 /-- `Stacks.SheafOfModules.tensorCounitComposite_reindex_val_app_unit_tmul` for any morphism `t`
 equal to the lax comparison, its source and target spelled through the inverse of the reindexing
-equivalence. -/
+equivalence, with the value read through `PresheafOfModules.tensorSheafUnit`. -/
 theorem val_app_unit_tmul_of_eq_tensorCounitComposite_reindex
     (P Q : _root_.SheafOfModules.{w} (Tensor.ringSheaf (reindexCommRing J' e O)))
     (t : ((Tensor.sheafTensor O).obj ((reindexEquivalence.{w, w, u, v, u, v} (J' := J') e
@@ -142,23 +150,21 @@ theorem val_app_unit_tmul_of_eq_tensorCounitComposite_reindex
     (y : ((reindexEquivalence.{w, w, u, v, u, v} (J' := J') e (Tensor.ringSheaf O)).inverse.obj
       Q).val.obj V) :
     t.val.app V
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Tensor.ringSheaf O) (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            O).unit.app
           (PresheafOfModules.tensorObj (O := O.obj)
             ((reindexEquivalence.{w, w, u, v, u, v} (J' := J') e (Tensor.ringSheaf O)).inverse.obj
               P).val
             ((reindexEquivalence.{w, w, u, v, u, v} (J' := J') e (Tensor.ringSheaf O)).inverse.obj
               Q).val)) V
           (x ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (reindexCommRing J' e O))
-          (𝟙 (Tensor.ringSheaf (reindexCommRing J' e O)).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := (reindexCommRing J' e O).obj) P.val Q.val))
+      (PresheafOfModules.tensorSheafUnit (Osharp := reindexCommRing J' e O) P Q).app
         (e.inverse.op.obj V)
-        (x ⊗ₜ[((reindexCommRing J' e O).obj ⋙ forget₂ CommRingCat RingCat).obj
-          (e.inverse.op.obj V)] y) := by
+        ((x : P.val.obj (e.inverse.op.obj V)) ⊗ₜ (y : Q.val.obj (e.inverse.op.obj V))) := by
   subst ht
-  exact tensorCounitComposite_reindex_val_app_unit_tmul J' e O P Q V x y
+  exact (tensorCounitComposite_reindex_val_app_unit_tmul J' e O P Q V x y).trans
+    (Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _ _)
 
 /-- **The lax comparison of the inverse of the reindexing is an isomorphism**: its unit and its
 two counits are those of an equivalence, and Stacks 03EL is an isomorphism. -/
@@ -256,21 +262,15 @@ theorem sheafificationUnit_representedSmallEtaleModuleEquivalence_inverse_tmul
       ((BigFppfOver.toScheme B S hS).obj U) U.left.property)ᵒᵖ)
     (a : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val.obj W)
     (b : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val.obj W) :
-    _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        (representedSchemeCommRingStructureSheaf B S hS U))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          (representedSchemeCommRingStructureSheaf B S hS U)).obj)).unit.app
+    _root_.PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (representedSchemeCommRingStructureSheaf B S hS U)).unit.app
       (PresheafOfModules.tensorObj (O := (representedSchemeCommRingStructureSheaf B S hS U).obj)
         ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val
         ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val)) W
       (a ⊗ₜ[((representedSchemeCommRingStructureSheaf B S hS U).obj ⋙
         forget₂ CommRingCat RingCat).obj W] b) =
-    _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        (representedSchemeCommRingStructureSheaf B S hS U))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          (representedSchemeCommRingStructureSheaf B S hS U)).obj)).unit.app
+    _root_.PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (representedSchemeCommRingStructureSheaf B S hS U)).unit.app
       (PresheafOfModules.tensorObj (O := (representedSchemeCommRingStructureSheaf B S hS U).obj)
         ((Stacks.SheafOfModules.reindexEquivalence.{u, u, u + 1, u, u + 1, u}
           (J' := SmallEtale.topology B S hS (yoneda.obj U))
@@ -296,11 +296,9 @@ theorem representedSmallEtaleModuleInverseTensorHom_val_app_unit_tmul
     (a : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val.obj W)
     (b : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val.obj W) :
     (representedSmallEtaleModuleInverseTensorHom B S hS U P Q).val.app W
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf
-              (representedSchemeCommRingStructureSheaf B S hS U))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              (representedSchemeCommRingStructureSheaf B S hS U)).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            (representedSchemeCommRingStructureSheaf B S hS U)).unit.app
           (PresheafOfModules.tensorObj (O := (representedSchemeCommRingStructureSheaf B S hS U).obj)
             ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val
             ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val)) W
@@ -311,20 +309,30 @@ theorem representedSmallEtaleModuleInverseTensorHom_val_app_unit_tmul
         ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W)
         ((a : P.val.obj ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W)) ⊗ₜ
           (b : Q.val.obj ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W))) := by
-  -- instantiate the generic statement with its instance arguments fixed before `t` is passed
-  have h₀ := Stacks.SheafOfModules.val_app_unit_tmul_of_eq_tensorCounitComposite_reindex
+  rw [sheafificationUnit_representedSmallEtaleModuleEquivalence_inverse_tmul]
+  exact Stacks.SheafOfModules.val_app_unit_tmul_of_eq_tensorCounitComposite_reindex
     (SmallEtale.topology B S hS (yoneda.obj U)) (representedSmallEtaleEquivalence B S hS U)
     (representedSchemeCommRingStructureSheaf B S hS U) P Q
-  have h := h₀ (representedSmallEtaleModuleInverseTensorHom B S hS U P Q) rfl W a b
-  refine Eq.trans ?_ (tensorSheafUnit_reindexCommRing_app_tmul B S hS U P Q
-    ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W) a b)
-  rw [sheafificationUnit_representedSmallEtaleModuleEquivalence_inverse_tmul]
-  exact h
+    (representedSmallEtaleModuleInverseTensorHom B S hS U P Q) rfl W a b
+
+/-- The value on a section of a composite of four morphisms of sheaves of modules, from the values
+of its four factors. -/
+private theorem comp_comp_comp_val_app_eq {C : Type*} {_ : Category C}
+    {J : GrothendieckTopology C} {R : Sheaf J RingCat.{u}}
+    {M₀ M₁ M₂ M₃ M₄ : SheafOfModules.{u} R} (f₁ : M₀ ⟶ M₁) (f₂ : M₁ ⟶ M₂) (f₃ : M₂ ⟶ M₃)
+    (f₄ : M₃ ⟶ M₄) (V : Cᵒᵖ) {z₀ : M₀.val.obj V} {z₁ : M₁.val.obj V} {z₂ : M₂.val.obj V}
+    {z₃ : M₃.val.obj V} {z₄ : M₄.val.obj V} (h₁ : f₁.val.app V z₀ = z₁)
+    (h₂ : f₂.val.app V z₁ = z₂) (h₃ : f₃.val.app V z₂ = z₃) (h₄ : f₄.val.app V z₃ = z₄) :
+    (f₁ ≫ f₂ ≫ f₃ ≫ f₄).val.app V z₀ = z₄ := by
+  subst h₁ h₂ h₃ h₄
+  rfl
 
 /-- The value on a pure tensor of the composite of the identifications of the Zariski reading
 with the Zariski restriction (`AlgebraicGeometry.Space.selfOpensPushforwardIso`), the inverse of
-`AlgebraicGeometry.SmallEtale.restrictModuleTensorIso`, and the Zariski restriction of a map
-`t : E⁻¹𝓟 ⊗ E⁻¹𝓠 ⟶ E⁻¹(𝓟 ⊗ 𝓠)` that sends `a ⊗ b` to `a ⊗ b`: it sends `x ⊗ y` to `x ⊗ y`. -/
+`AlgebraicGeometry.SmallEtale.restrictModuleTensorIso`, and the Zariski restriction of a morphism
+`t` sending `a ⊗ b` to `a ⊗ b` (`ht`), such as the lax comparison
+`AlgebraicGeometry.Space.representedSmallEtaleModuleInverseTensorHom`: it sends `x ⊗ y` to
+`x ⊗ y`. -/
 theorem zariskiReadingTensor_comp_val_app_unit_tmul
     (P Q : Modules.{u, u} B S hS (yoneda.obj U)
       (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))
@@ -339,22 +347,21 @@ theorem zariskiReadingTensor_comp_val_app_unit_tmul
         (structureSheaf B S hS (yoneda.obj U)
           (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))).obj P).obj Q))
     (ht : ∀ (W : (_root_.AlgebraicGeometry.SmallEtale (associatedBigEtaleSite B)
-    ((BigFppfOver.toScheme B S hS).obj U)
-        U.left.property)ᵒᵖ)
-          (a : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val.obj W)
-          (b : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val.obj W),
-      t.val.app W (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            (representedSchemeCommRingStructureSheaf B S hS U))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            (representedSchemeCommRingStructureSheaf B S hS U)).obj)).unit.app
-          (PresheafOfModules.tensorObj (O := (representedSchemeCommRingStructureSheaf B S hS U).obj)
-            ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val
-            ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val)) W
-          (a ⊗ₜ[((representedSchemeCommRingStructureSheaf B S hS U).obj ⋙ forget₂
-          CommRingCat RingCat).obj W] b)) =
+        ((BigFppfOver.toScheme B S hS).obj U) U.left.property)ᵒᵖ)
+        (a : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val.obj W)
+        (b : ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val.obj W),
+      t.val.app W
+          (_root_.PresheafOfModules.Hom.app
+              ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              (representedSchemeCommRingStructureSheaf B S hS U)).unit.app
+            (PresheafOfModules.tensorObj
+              (O := (representedSchemeCommRingStructureSheaf B S hS U).obj)
+              ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P).val
+              ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q).val)) W
+            (a ⊗ₜ[((representedSchemeCommRingStructureSheaf B S hS U).obj ⋙
+              forget₂ CommRingCat RingCat).obj W] b)) =
         (PresheafOfModules.tensorSheafUnit (Osharp := (structureSheaf B S hS (yoneda.obj U)
-          (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))) P Q).app
+            (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))) P Q).app
           ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W)
           ((a : P.val.obj ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W)) ⊗ₜ
             (b : Q.val.obj ((representedSmallEtaleEquivalence B S hS U).inverse.op.obj W))))
@@ -376,12 +383,9 @@ theorem zariskiReadingTensor_comp_val_app_unit_tmul
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
         (structureSheaf B S hS (yoneda.obj U)
           (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))).obj P).obj Q)).hom).val.app V
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              ((BigFppfOver.toScheme B S hS).obj
-                U).zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O).unit.app
           (PresheafOfModules.tensorObj
           (O := ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O.obj)
             ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj P).val
@@ -394,63 +398,27 @@ theorem zariskiReadingTensor_comp_val_app_unit_tmul
         ((selfOpensFunctor B S hS U).op.obj V)
         ((x : P.val.obj ((selfOpensFunctor B S hS U).op.obj V)) ⊗ₜ
           (y : Q.val.obj ((selfOpensFunctor B S hS U).op.obj V))) := by
-  have h1 := Stacks.SheafOfModules.sheafTensor_uncurry_map_val_app_unit_tmul_forget₂
-    (X := ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos)
-    (selfOpensPushforwardIso B S hS U P).inv (selfOpensPushforwardIso B S hS U Q).inv V x y
-  have h2 := _root_.AlgebraicGeometry.SmallEtale.restrictModuleTensorIso_inv_val_app_unit_tmul
-    (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U) U.left.property
-    ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P)
-    ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q)
-    hP' hQ' V ((selfOpensPushforwardIso B S hS U P).inv.val.app V x)
-    ((selfOpensPushforwardIso B S hS U Q).inv.val.app V y)
-  change (selfOpensPushforwardIso B S hS U
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
-      (structureSheaf B S hS (yoneda.obj U)
-          (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))).obj P).obj Q)).hom.val.app V
-      (t.val.app ((_root_.AlgebraicGeometry.SmallEtale.opensToSmallEtale (associatedBigEtaleSite B)
-      ((BigFppfOver.toScheme B S hS).obj U)
-        U.left.property).op.obj V)
-        ((_root_.AlgebraicGeometry.SmallEtale.restrictModuleTensorIso (associatedBigEtaleSite B)
-          ((BigFppfOver.toScheme B S hS).obj U) U.left.property
-          ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P)
-          ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q) hP' hQ').inv.val.app V
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-              ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O)).map
-              (((selfOpensPushforwardIso B S hS U P).inv,
-                (selfOpensPushforwardIso B S hS U Q).inv) : (_, _) ⟶ (_, _))).val.app V
-            (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              ((BigFppfOver.toScheme B S hS).obj
-                U).zariskiRingedSite.toRingedTopos.O).obj)).unit.app
-          (PresheafOfModules.tensorObj
-          (O := ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O.obj)
-            ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj P).val
-            ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj Q).val)) V
-          (x ⊗ₜ[(((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O.obj ⋙
-          forget₂ CommRingCat RingCat).obj V]
-            y))))) = _
-  let F := fun z => (selfOpensPushforwardIso B S hS U
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
-      (structureSheaf B S hS (yoneda.obj U)
-          (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))).obj P).obj Q)).hom.val.app V
-      (t.val.app ((_root_.AlgebraicGeometry.SmallEtale.opensToSmallEtale (associatedBigEtaleSite B)
-      ((BigFppfOver.toScheme B S hS).obj U)
-        U.left.property).op.obj V) z)
-  refine (congrArg (fun z => F ((_root_.AlgebraicGeometry.SmallEtale.restrictModuleTensorIso
-    (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U) U.left.property
-    ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P)
-    ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q) hP' hQ').inv.val.app V z))
-    h1).trans ((congrArg F h2).trans ?_)
-  exact ht _ _ _
-
+  apply comp_comp_comp_val_app_eq
+  case h₁ =>
+    exact Stacks.SheafOfModules.sheafTensor_uncurry_map_val_app_unit_tmul_forget₂
+      (X := ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos)
+      (selfOpensPushforwardIso B S hS U P).inv (selfOpensPushforwardIso B S hS U Q).inv V x y
+  case h₂ =>
+    exact _root_.AlgebraicGeometry.SmallEtale.restrictModuleTensorIso_inv_val_app_unit_tmul
+      (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U) U.left.property
+      ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj P)
+      ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q)
+      hP' hQ' V ((selfOpensPushforwardIso B S hS U P).inv.val.app V x)
+      ((selfOpensPushforwardIso B S hS U Q).inv.val.app V y)
+  case h₃ => exact ht _ _ _
+  case h₄ => rfl
 
 /-- **The comparison of the Zariski reading with tensor products exists**: for quasi-coherent
 `𝒪`-modules `𝓟`, `𝓠` on the small étale site of `yoneda.obj U` there is an isomorphism
 `𝓟|_T ⊗ 𝓠|_T ⟶ (𝓟 ⊗ 𝓠)|_T` on the Zariski site of the scheme `T` of `U` sending `x ⊗ y` to
-`x ⊗ y`. It is the composite of
-`AlgebraicGeometry.Space.zariskiReadingTensor_comp_val_app_unit_tmul` with the lax comparison
+`x ⊗ y`. It is the composite computed by
+`AlgebraicGeometry.Space.zariskiReadingTensor_comp_val_app_unit_tmul`, whose middle factor is the
+Zariski restriction of the lax comparison
 `AlgebraicGeometry.Space.representedSmallEtaleModuleInverseTensorHom`. -/
 theorem exists_zariskiReadingTensorHom
     (P Q : Modules.{u, u} B S hS (yoneda.obj U)
@@ -468,12 +436,9 @@ theorem exists_zariskiReadingTensorHom
         (x : ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj P).val.obj V)
         (y : ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj Q).val.obj V),
         c.val.app V
-            (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf
-                ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-                ((BigFppfOver.toScheme B S hS).obj
-                  U).zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+            (_root_.PresheafOfModules.Hom.app
+                ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O).unit.app
               (PresheafOfModules.tensorObj
               (O := ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O.obj)
               ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj P).val
@@ -540,11 +505,9 @@ theorem zariskiReadingTensorHom_val_app_unit_tmul
     (x : ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj P).val.obj V)
     (y : ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj Q).val.obj V) :
     (zariskiReadingTensorHom B S hS U P Q hP hQ).val.app V
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O).unit.app
           (PresheafOfModules.tensorObj
           (O := ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O.obj)
           ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS U)).obj P).val

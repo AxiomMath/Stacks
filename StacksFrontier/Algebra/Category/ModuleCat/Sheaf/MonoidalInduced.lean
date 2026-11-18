@@ -41,9 +41,23 @@ this file the two would not be about the same maps.
 The axioms are not checked by hand. `Monoidal.induced` transports them from the localized
 structure across `tensorObjIso`; what has to be checked is only that `tensorObjIso` carries each
 fixed constraint to the localized one, which is `tensorObjIso_associativity`,
-`tensorObjIso_leftUnitor`, `tensorObjIso_rightUnitor` and `tensorObjIso_braiding`, and each of
-those is one application of the corresponding law of the monoidal functor structure on
-sheafification.
+`tensorObjIso_leftUnitor`, `tensorObjIso_rightUnitor` and `tensorObjIso_braiding`. Each of those
+is the corresponding comparison of `TensorSheafCoherence` (`Strict_associator_eq`,
+`leftUnitor_hom_eq`, `rightUnitor_hom_eq`, `braiding_hom_eq`), whose constraints are built with
+Mathlib's sheafification or with the counit of `Tensor.sheafificationAdjunction`, read against the
+fixed constraints, which are built with the sealed sheafification
+`Invertible.structureSheafification` and the counit of `Tensor.sheafificationForgetAdjunction`;
+`tensorSheafAssociator_eq_tensorProductAssociator` and its companions make that translation.
+
+That translation writes the canonical map `M ⊗ N ⟶ M ⊗_O N` as `toSheafTensor` rather than as
+the unit of `Invertible.structureSheafificationAdjunction`, through which
+`Invertible.tensorProductAssociator` is defined. The two are the same morphism, but the target of
+`toSheafTensor` is spelled with `Tensor.sheafTensor`, built on `PresheafOfModules.tensorObj`, and
+that of the unit with Mathlib's monoidal structure on presheaves of modules. With the unit, an
+object such as `(M ⊗_O N) ⊗_O P` is spelled with Mathlib's tensor product at both levels of
+nesting, and Lean matches it against the `Tensor.sheafTensor` spelling at several times the cost
+of a mismatch at one level, which is all that the statements with `toSheafTensor` involve.
+`map_unit_whiskerRight_comp_tensorProductAssociator_hom` keeps the unit spelling for its users.
 
 `sheafTensorStruct` and `sheafTensorMonoidal` are `@[instance_reducible]` but are deliberately
 *not* instances, for the same reason `monoidalCategory` is not: the tensor product of sheaves of
@@ -129,34 +143,35 @@ theorem toSheafifyVal_naturality
   ((TensorSheafification.sheafifyAdjunction O hO).unit.naturality f).symm
 
 /-- The sheaf tensor product of Tag 05NA on a pair of morphisms: sheafify the tensor product of
-the two morphisms of underlying presheaves. The monoidal structure on presheaves of modules is
-fixed in the *result type* here, before the localized monoidal structure on sheaves of modules
-comes into scope; after that, elaborating `f.val ⊗ₘ g.val` from the bare notation no longer
-finds the presheaf structure. -/
+the two morphisms of underlying presheaves with the sealed sheafification
+`Invertible.structureSheafification`, the last factor of the sheaf tensor product. The monoidal
+structure on presheaves of modules is fixed in the *result type* here, before the localized
+monoidal structure on sheaves of modules comes into scope; after that, elaborating
+`f.val ⊗ₘ g.val` from the bare notation no longer finds the presheaf structure. -/
 noncomputable abbrev sheafifyTensorHom
     {M M' N N' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (g : N ⟶ N') :
-    (sheafifyFunctor O hO).obj (M.val ⊗ N.val) ⟶
-      (sheafifyFunctor O hO).obj (M'.val ⊗ N'.val) :=
-  (sheafifyFunctor O hO).map (f.val ⊗ₘ g.val)
+    (Invertible.structureSheafification O hO).obj (M.val ⊗ N.val) ⟶
+      (Invertible.structureSheafification O hO).obj (M'.val ⊗ N'.val) :=
+  (Invertible.structureSheafification O hO).map (f.val ⊗ₘ g.val)
 
 /-- Whiskering on the left in the sheaf tensor product of Tag 05NA, with the monoidal structure
 on presheaves of modules fixed in the result type as for `sheafifyTensorHom`. -/
 noncomputable abbrev sheafifyWhiskerLeft
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))
     {N N' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)} (g : N ⟶ N') :
-    (sheafifyFunctor O hO).obj (M.val ⊗ N.val) ⟶
-      (sheafifyFunctor O hO).obj (M.val ⊗ N'.val) :=
-  (sheafifyFunctor O hO).map (M.val ◁ g.val)
+    (Invertible.structureSheafification O hO).obj (M.val ⊗ N.val) ⟶
+      (Invertible.structureSheafification O hO).obj (M.val ⊗ N'.val) :=
+  (Invertible.structureSheafification O hO).map (M.val ◁ g.val)
 
 /-- Whiskering on the right in the sheaf tensor product of Tag 05NA, with the monoidal structure
 on presheaves of modules fixed in the result type as for `sheafifyTensorHom`. -/
 noncomputable abbrev sheafifyWhiskerRight
     {M M' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)} (f : M ⟶ M')
     (N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
-    (sheafifyFunctor O hO).obj (M.val ⊗ N.val) ⟶
-      (sheafifyFunctor O hO).obj (M'.val ⊗ N.val) :=
-  (sheafifyFunctor O hO).map (f.val ▷ N.val)
+    (Invertible.structureSheafification O hO).obj (M.val ⊗ N.val) ⟶
+      (Invertible.structureSheafification O hO).obj (M'.val ⊗ N.val) :=
+  (Invertible.structureSheafification O hO).map (f.val ▷ N.val)
 
 /-- At a sheafified presheaf the inverse of the counit is the sheafification of the unit. -/
 theorem sheafifyValIso_inv_sheafify
@@ -173,23 +188,159 @@ theorem tensorObjIso_naturality
     {M M' N N' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (g : N ⟶ N') :
     (f ⊗ₘ g) ≫ (tensorObjIso O hO M' N').hom =
-      (tensorObjIso O hO M N).hom ≫ sheafifyTensorHom O hO f g := by
-  change (f ⊗ₘ g) ≫
-      (((sheafifyValIso O hO M').inv ⊗ₘ (sheafifyValIso O hO N').inv) ≫
-        (sheafifyTensorIso O hO M'.val N'.val).hom) =
-    (((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
-      (sheafifyTensorIso O hO M.val N.val).hom) ≫
-        (sheafifyFunctor O hO).map (f.val ⊗ₘ g.val)
-  simp only [← Category.assoc, tensorHom_comp_tensorHom, comp_sheafifyValIso_inv]
-  rw [← tensorHom_comp_tensorHom, Category.assoc]
-  simp only [Category.assoc]
-  exact congrArg (fun k => ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫ k)
-    (Functor.LaxMonoidal.μ_natural
-      (Localization.Monoidal.toMonoidalCategory (sheafifyFunctor O hO)
-        (localIso (J := J) O) (sheafifyUnitIso O hO)) f.val g.val)
+      (tensorObjIso O hO M N).hom ≫ sheafifyTensorHom O hO f g :=
+  (Iso.inv_comp_eq _).mp ((Strict.tensorHom_eq O hO f g).symm.trans (Strict_tensorHom_eq O hO f g))
 
-set_option maxHeartbeats 1000000 in
--- the coherence proof unfolds the sheaf tensor product and the localized monoidal structure
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
+/-- The identification of the restriction of scalars along the identity with the forgetful
+functor is the identity on each sheaf of modules. -/
+private theorem forgetCompRestrictScalarsIdIso_inv_app (R : Sheaf J CommRingCat.{w})
+    (M : SheafOfModules.{w} (Tensor.ringSheaf R)) :
+    (Tensor.forgetCompRestrictScalarsIdIso R).inv.app M = 𝟙 _ := by
+  ext
+  rfl
+
+/-- The counit of `Tensor.sheafificationForgetAdjunction` is that of
+`Tensor.sheafificationAdjunction`. -/
+theorem sheafificationForgetAdjunction_counit_app (R : Sheaf J CommRingCat.{w})
+    (M : SheafOfModules.{w} (Tensor.ringSheaf R)) :
+    (Tensor.sheafificationForgetAdjunction R).counit.app M =
+      (Tensor.sheafificationAdjunction R).counit.app M := by
+  rw [← Adjunction.homEquiv_symm_id, Tensor.sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp,
+    forgetCompRestrictScalarsIdIso_inv_app]
+  exact (Tensor.sheafificationAdjunction R).homEquiv_symm_id M
+
+/-- The left unit constraint `tensorSheafLeftUnitor` of `TensorSheafCoherence` is the fixed one,
+`Invertible.tensorProductLeftUnitor`. -/
+theorem tensorSheafLeftUnitor_eq_tensorProductLeftUnitor
+    (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    tensorSheafLeftUnitor O hO M = Invertible.tensorProductLeftUnitor O hO M :=
+  Iso.ext (congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ M).symm)
+
+/-- The right unit constraint `tensorLeftFunctorObjUnitIso` is the fixed one,
+`Invertible.tensorProductRightUnitor`. -/
+theorem tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor
+    (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    tensorLeftFunctorObjUnitIso O hO M = Invertible.tensorProductRightUnitor O hO M :=
+  Iso.ext (congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ M).symm)
+
+/-- The comparison `tensorSheafAssocLeft`, with Mathlib's sheafification moved past the
+comparison `sheafifyIsoSheafification` to the sealed one. -/
+theorem tensorSheafAssocLeft_hom_eq
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (tensorSheafAssocLeft O hO M N P).hom =
+      (sheafifyIsoSheafification O hO).hom.app ((M.val ⊗ N.val) ⊗ P.val) ≫
+        (Invertible.structureSheafification O hO).map (toSheafTensor O hO M N ▷ P.val) :=
+  (sheafifyIsoSheafification O hO).hom.naturality _
+
+/-- The comparison `tensorSheafAssocRight`, with Mathlib's sheafification moved past the
+comparison `sheafifyIsoSheafification` to the sealed one. -/
+theorem tensorSheafAssocRight_hom_eq
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (tensorSheafAssocRight O hO M N P).hom =
+      (sheafifyIsoSheafification O hO).hom.app (M.val ⊗ N.val ⊗ P.val) ≫
+        (Invertible.structureSheafification O hO).map (M.val ◁ toSheafTensor O hO N P) :=
+  (sheafifyIsoSheafification O hO).hom.naturality _
+
+section TensorProductAssociator
+
+/-- The sealed sheafification inverts `toSheafTensor`, the unit of
+`Invertible.structureSheafificationAdjunction`. -/
+private theorem isIso_structureSheafification_map_toSheafTensor
+    (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    IsIso ((Invertible.structureSheafification O hO).map (toSheafTensor O hO M N)) :=
+  inferInstanceAs (IsIso ((Invertible.structureSheafification O hO).map
+    ((Invertible.structureSheafificationAdjunction O hO).unit.app (M.val ⊗ N.val))))
+
+/-- The sealed sheafification inverts `toSheafTensor M N ▷ P`. -/
+private theorem isIso_structureSheafification_map_toSheafTensor_whiskerRight
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    IsIso ((Invertible.structureSheafification O hO).map (toSheafTensor O hO M N ▷ P.val)) :=
+  Invertible.isIso_structureSheafification_map_whiskerRight O hO _ P.val
+    (isIso_structureSheafification_map_toSheafTensor O hO M N)
+
+/-- The sealed sheafification inverts `M ◁ toSheafTensor N P`. -/
+private theorem isIso_structureSheafification_map_whiskerLeft_toSheafTensor
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    IsIso ((Invertible.structureSheafification O hO).map (M.val ◁ toSheafTensor O hO N P)) :=
+  Invertible.isIso_structureSheafification_map_whiskerLeft O hO M.val _
+    (isIso_structureSheafification_map_toSheafTensor O hO N P)
+
+attribute [local instance] isIso_structureSheafification_map_toSheafTensor_whiskerRight
+  isIso_structureSheafification_map_whiskerLeft_toSheafTensor
+
+/-- The fixed associativity constraint `Invertible.tensorProductAssociator`, with the units of
+its definition written as `toSheafTensor`. It is an equation of isomorphisms rather than of their
+underlying morphisms so that `rfl` compares the two sides through the arguments of `Iso.trans`. -/
+private theorem tensorProductAssociator_eq_toSheafTensor
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    Invertible.tensorProductAssociator O hO M N P =
+      (asIso ((Invertible.structureSheafification O hO).map
+          (toSheafTensor O hO M N ▷ P.val))).symm ≪≫
+        (Invertible.structureSheafification O hO).mapIso (α_ M.val N.val P.val) ≪≫
+          asIso ((Invertible.structureSheafification O hO).map
+            (M.val ◁ toSheafTensor O hO N P)) :=
+  rfl
+
+/-- The fixed associativity constraint `Invertible.tensorProductAssociator`, after the sealed
+sheafification of `toSheafTensor M N ▷ P`, which compares `(M ⊗ N) ⊗ P` with `(M ⊗_O N) ⊗ P`, is
+the sealed sheafification of the presheaf associator followed by that of
+`M ◁ toSheafTensor N P`, which compares `M ⊗ (N ⊗ P)` with `M ⊗ (N ⊗_O P)`. -/
+theorem map_toSheafTensor_whiskerRight_comp_tensorProductAssociator_hom
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (Invertible.structureSheafification O hO).map (toSheafTensor O hO M N ▷ P.val) ≫
+        (Invertible.tensorProductAssociator O hO M N P).hom =
+      (Invertible.structureSheafification O hO).map (α_ M.val N.val P.val).hom ≫
+        (Invertible.structureSheafification O hO).map (M.val ◁ toSheafTensor O hO N P) := by
+  rw [tensorProductAssociator_eq_toSheafTensor]
+  exact Iso.hom_inv_id_assoc (asIso _) _
+
+end TensorProductAssociator
+
+/-- `map_toSheafTensor_whiskerRight_comp_tensorProductAssociator_hom`, with `toSheafTensor`
+written as the unit of `Invertible.structureSheafificationAdjunction`: the fixed associativity
+constraint, after the sealed sheafification of the unit comparing `(M ⊗ N) ⊗ P` with
+`(M ⊗_O N) ⊗ P`, is the sealed sheafification of the presheaf associator followed by that of the
+unit comparing `M ⊗ (N ⊗ P)` with `M ⊗ (N ⊗_O P)`. -/
+theorem map_unit_whiskerRight_comp_tensorProductAssociator_hom
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (Invertible.structureSheafification O hO).map
+        ((Invertible.structureSheafificationAdjunction O hO).unit.app (M.val ⊗ N.val) ▷ P.val) ≫
+        (Invertible.tensorProductAssociator O hO M N P).hom =
+      (Invertible.structureSheafification O hO).map (α_ M.val N.val P.val).hom ≫
+        (Invertible.structureSheafification O hO).map
+          (M.val ◁
+            (Invertible.structureSheafificationAdjunction O hO).unit.app (N.val ⊗ P.val)) :=
+  map_toSheafTensor_whiskerRight_comp_tensorProductAssociator_hom O hO M N P
+
+/-- The comparison `tensorSheafAssocLeft` followed by the fixed associativity constraint is the
+comparison `sheafifyIsoSheafification` followed by the sealed sheafification of the presheaf
+associator and of `M ◁ toSheafTensor N P`, which compares `M ⊗ (N ⊗ P)` with
+`M ⊗ (N ⊗_O P)`. -/
+theorem tensorSheafAssocLeft_hom_comp_tensorProductAssociator_hom
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (tensorSheafAssocLeft O hO M N P).hom ≫ (Invertible.tensorProductAssociator O hO M N P).hom =
+      (sheafifyIsoSheafification O hO).hom.app ((M.val ⊗ N.val) ⊗ P.val) ≫
+        (Invertible.structureSheafification O hO).map (α_ M.val N.val P.val).hom ≫
+          (Invertible.structureSheafification O hO).map (M.val ◁ toSheafTensor O hO N P) :=
+  (congrArg (· ≫ _) (tensorSheafAssocLeft_hom_eq O hO M N P)).trans
+    ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·)
+      (map_toSheafTensor_whiskerRight_comp_tensorProductAssociator_hom O hO M N P)))
+
+/-- The associativity constraint `tensorSheafAssociator` of `TensorSheafCoherence`, built with
+Mathlib's sheafification, is the fixed one, `Invertible.tensorProductAssociator`, built with the
+sealed one. -/
+theorem tensorSheafAssociator_eq_tensorProductAssociator
+    (M N P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    tensorSheafAssociator O hO M N P = Invertible.tensorProductAssociator O hO M N P :=
+  Iso.ext ((Iso.inv_comp_eq (tensorSheafAssocLeft O hO M N P)).mpr
+    ((congrArg (_ ≫ ·) (tensorSheafAssocRight_hom_eq O hO M N P)).trans
+      (((sheafifyIsoSheafification O hO).hom.naturality_assoc _ _).trans
+        (tensorSheafAssocLeft_hom_comp_tensorProductAssociator_hom O hO M N P).symm)))
+
 /-- The comparison carries the localized associator to the fixed associativity constraint of the
 sheaf tensor product. -/
 theorem tensorObjIso_associativity
@@ -213,8 +364,9 @@ theorem tensorObjIso_associativity
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj P)
   have constraintHom : leftComparison.inv ≫ (α_ M N P).hom ≫ rightComparison.hom =
       (Invertible.tensorProductAssociator O hO M N P).hom :=
-    congrArg Iso.hom ((Strict.associator_eq O hO M N P).symm.trans
-      (Strict_associator_eq O hO M N P))
+    congrArg Iso.hom (((Strict.associator_eq O hO M N P).symm.trans
+      (Strict_associator_eq O hO M N P)).trans
+        (tensorSheafAssociator_eq_tensorProductAssociator O hO M N P))
   have coherence := ((Iso.inv_comp_eq leftComparison).mp constraintHom).symm
   have leftHom : leftComparison.hom = (tensorObjIso O hO M N).hom ▷ P ≫
       (tensorObjIso O hO
@@ -239,47 +391,23 @@ theorem tensorObjIso_leftUnitor
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO (SheafOfModules.unit _) M).hom ≫
       (Invertible.tensorProductLeftUnitor O hO M).hom = (λ_ M).hom := by
-  change ((sheafifyUnitIso O hO).inv ⊗ₘ (sheafifyValIso O hO M).inv) ≫
-    Functor.LaxMonoidal.μ (sheafifyFunctor O hO) (𝟙_ _) M.val ≫
-    (sheafifyFunctor O hO).map (λ_ M.val).hom ≫
-    (sheafifyValIso O hO M).hom = _
-  rw [tensorHom_def', Category.assoc]
-  change _ ≫ Functor.LaxMonoidal.ε (sheafifyFunctor O hO) ▷ _ ≫ _ ≫ _ ≫ _ = _
-  rw [← Functor.LaxMonoidal.left_unitality_assoc]
-  change 𝟙_ (SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) ◁
-    (sheafifyValIso O hO M).inv ≫ _ = _
-  rw [leftUnitor_naturality_assoc (sheafifyValIso O hO M).inv]
-  rw [Iso.inv_hom_id, Category.comp_id]
+  rw [← tensorSheafLeftUnitor_eq_tensorProductLeftUnitor]
+  exact (leftUnitor_hom_eq O hO M).symm
 
 /-- The comparison carries the localized right unitor to the fixed right unit constraint. -/
 theorem tensorObjIso_rightUnitor
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO M (SheafOfModules.unit _)).hom ≫
       (Invertible.tensorProductRightUnitor O hO M).hom = (ρ_ M).hom := by
-  change ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyUnitIso O hO).inv) ≫
-    Functor.LaxMonoidal.μ (sheafifyFunctor O hO) M.val (𝟙_ _) ≫
-    (sheafifyFunctor O hO).map (ρ_ M.val).hom ≫
-    (sheafifyValIso O hO M).hom = _
-  rw [tensorHom_def, Category.assoc]
-  change _ ≫ _ ◁ Functor.LaxMonoidal.ε (sheafifyFunctor O hO) ≫ _ ≫ _ ≫ _ = _
-  rw [← Functor.LaxMonoidal.right_unitality_assoc]
-  change (sheafifyValIso O hO M).inv ▷
-    𝟙_ (SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) ≫ _ = _
-  rw [rightUnitor_naturality_assoc (sheafifyValIso O hO M).inv]
-  rw [Iso.inv_hom_id, Category.comp_id]
+  rw [← tensorLeftFunctorObjUnitIso_eq_tensorProductRightUnitor]
+  exact (rightUnitor_hom_eq O hO M).symm
 
 /-- The comparison carries the localized braiding to the fixed symmetry constraint. -/
 theorem tensorObjIso_braiding
     (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO M N).hom ≫ (Invertible.tensorProductBraiding O hO M N).hom =
-      (β_ M N).hom ≫ (tensorObjIso O hO N M).hom := by
-  change ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
-      Functor.LaxMonoidal.μ (sheafifyFunctor O hO) M.val N.val ≫
-      (sheafifyFunctor O hO).map (β_ M.val N.val).hom = _
-  rw [Functor.LaxBraided.braided (F := sheafifyFunctor O hO) M.val N.val]
-  rw [BraidedCategory.braiding_naturality_assoc (sheafifyValIso O hO M).inv
-    (sheafifyValIso O hO N).inv]
-  rfl
+      (β_ M N).hom ≫ (tensorObjIso O hO N M).hom :=
+  (braiding_hom_eq O hO M N).symm
 
 /-- The identity functor from sheaves of modules to the type synonym carrying the localized
 monoidal structure. Writing the target as the synonym is what keeps the two monoidal structures

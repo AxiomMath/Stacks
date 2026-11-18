@@ -51,6 +51,11 @@ than rewritten through at every use.
   statement is already universe-independent.
 * Sheafification commutes with the sheaf-level extension by zero, which is Mathlib's
   `SheafOfModules.sheafificationCompPullback`, also universe-independent.
+* `sheafTensor` ends with the sealed `Stacks.SheafOfModules.Tensor.sheafification`, not with
+  Mathlib's sheafification `sheafifyModules` in which the steps above are stated; the passage
+  between the two, on the slice site, is
+  `Stacks.Sites.ExtensionByZero.OfEssentiallySmall.sheafifyTensorRightIsoSheafTensorRight`,
+  built from `Stacks.SheafOfModules.Tensor.sheafificationIso`.
 
 Extension from `C/U` appears in two models: Mathlib's `PresheafOfModules.pullback`, which is
 where the adjunction and the sheaf-level comparison live, and the concrete direct sum of the
@@ -118,12 +123,21 @@ noncomputable def tensorLeftIsoSheafTensorRight (O : Sheaf J CommRingCat.{u})
     (Stacks.SheafOfModules.Tensor.sheafTensor.{c, u, u, u, u} O).obj F ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F :=
   NatIso.ofComponents
-    (fun A => (sheafifyModules J O).mapIso ((tensorCommIso J O F.val).app A.val)) (by
-      intro A B morphism
-      exact (((sheafifyModules J O).map_comp _ _).symm.trans
-        (congrArg (sheafifyModules J O).map
-          ((tensorCommIso J O F.val).hom.naturality morphism.val))).trans
-        ((sheafifyModules J O).map_comp _ _))
+    (fun A => (Stacks.SheafOfModules.Tensor.sheafification O).mapIso
+      ((tensorCommIso J O F.val).app A.val))
+    fun f => ((Functor.isoWhiskerRight (tensorCommIso J O F.val)
+      (Stacks.SheafOfModules.Tensor.sheafification O)).hom.naturality f.val)
+
+/-- Tensoring on the right by `F` is the objectwise tensor product followed by
+`sheafifyModules`; the comparison is `Stacks.SheafOfModules.Tensor.sheafificationIso`, from
+Mathlib's sheafification to the sealed one that `sheafTensor` ends with. -/
+noncomputable def sheafifyTensorRightIsoSheafTensorRight (O : Sheaf J CommRingCat.{u})
+    (F : SheafOfModules.{u} (ringSheaf O)) :
+    SheafOfModules.forget _ ⋙ tensorRight (O := O.obj) F.val ⋙ sheafifyModules J O ≅
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{c, u, u, u, u} O).flip.obj F :=
+  NatIso.ofComponents (fun _ => (Stacks.SheafOfModules.Tensor.sheafificationIso O).app _)
+    fun f => (Stacks.SheafOfModules.Tensor.sheafificationIso O).hom.naturality
+      ((tensorRight (O := O.obj) F.val).map f.val)
 
 /-- Tensoring on the right with `F` commutes with sheafification. -/
 noncomputable def tensorSheafificationIso (O : Sheaf J CommRingCat.{u})
@@ -235,7 +249,10 @@ noncomputable def restrictionTensorIso
       ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).flip.obj F) ≪≫
     Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft P δ) ≪≫
     Functor.isoWhiskerLeft I (Functor.isoWhiskerRight γ S) ≪≫
-    Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft T' ε.symm)
+    Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft T' ε.symm) ≪≫
+    Functor.isoWhiskerRight
+      (sheafifyTensorRightIsoSheafTensorRight (X.J.over U) (X.O.over U) (F.over U))
+      (extendByZero X U)
 
 end Sheaf
 

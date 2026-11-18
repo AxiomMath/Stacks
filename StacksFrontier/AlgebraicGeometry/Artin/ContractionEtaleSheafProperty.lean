@@ -48,7 +48,8 @@ locality statement and no compatibility hypothesis at all.
 ## Main definitions
 
 * `AlgebraicGeometry.Artin.ContractionSituation.CompatibilityIsLocalOnBase` and
-  `AlgebraicGeometry.Artin.ContractionSituation.AdicIsLocalOnBase`: the two fppf locality statements.
+  `AlgebraicGeometry.Artin.ContractionSituation.AdicIsLocalOnBase`: the two fppf locality
+  statements.
 
 ## Main results
 
@@ -81,7 +82,7 @@ over `S` and an arbitrary candidate datum.
   facts about adicness that the construction of `F` uses, yield adicness of a *composite*
   and never of a factor, so this does not follow from them alone. The library proves the étale
   form
-  (`AlgebraicGeometry.Space.isRepresentableByAlgebraicSpacesULift_of_etale_completionSheafRestrict`);
+  (`Space.isRepresentableByAlgebraicSpacesULift_of_etale_completionSheafRestrict`);
   the form here, over arbitrary coverings of the big fppf site, is stronger.
 
 Neither mentions the étale site of locally Noetherian schemes, the family of triples, or the
@@ -199,8 +200,8 @@ private theorem ofArrows_mem_topology_of_isEtaleCovering
 /-- **A section of `F` is determined étale locally.** Two triples over the base of an étale
 covering family of the locally Noetherian site whose pullbacks to the members agree are equal.
 
-This is the uniqueness half of Stacks 0GHG, and it needs none of the fppf locality statements: the first
-components agree by joint surjectivity
+This is the uniqueness half of Stacks 0GHG, and it needs none of the fppf locality statements:
+the first components agree by joint surjectivity
 (`AlgebraicGeometry.Artin.ContractionSituation.Z_eq_of_mapTriple_eq`), and then the second and
 third agree because a morphism out of an open subspace, resp. out of a completion, into an fppf
 sheaf is determined by its restrictions. -/
@@ -245,8 +246,8 @@ theorem eq_of_mapTriple_eq {c : ContractionSituation B S hS}
 /-- **The existence half of Stacks 0GHG.** A compatible family of triples on an étale covering
 family of the locally Noetherian site over `S` has an amalgamation: the closed subset is the
 descended one of `AlgebraicGeometry.Artin.ContractionSituation.descendZ`, and the second and
-third components are glued from the given ones. The two fppf locality statements supply the adicness of
-the glued third component and the compatibility of the glued pair; everything else is
+third components are glued from the given ones. The two fppf locality statements supply the
+adicness of the glued third component and the compatibility of the glued pair; everything else is
 proved. -/
 theorem exists_mapTriple_eq (c : ContractionSituation B S hS)
     (h0ADV : CompatibilityIsLocalOnBase B S hS) (hadic : AdicIsLocalOnBase B S hS)

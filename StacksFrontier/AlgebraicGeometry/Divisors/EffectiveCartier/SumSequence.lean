@@ -283,9 +283,7 @@ theorem tensorSheaf_hom_ext_affine
         (g.val.app (op U.val)).hom
           (toTensorSheafSection X.toRingedSpace A B (op U.val) (a ⊗ₜ b))) :
     f = g := by
-  apply ((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).homEquiv
+  apply ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).homEquiv
       (PresheafOfModules.tensorObj (O := X.sheaf.obj) A.val B.val) C).injective
   apply presheafToSheaf_hom_ext_affine
   intro U
@@ -297,24 +295,12 @@ noncomputable def tensorUnitIso
     (F : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).obj
       ((SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))).obj (F)) ≅
-        F := by
-  letI : MonoidalCategory (PresheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj) :=
-    Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory X.sheaf
-  change (PresheafOfModules.sheafification.{u}
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).obj
-    ((SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).val ⊗ F.val) ≅ F
-  letI : IsIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).counit := by infer_instance
-  exact (PresheafOfModules.sheafification.{u}
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).mapIso
+        F :=
+  (Stacks.SheafOfModules.Tensor.sheafification X.sheaf).mapIso
       (MonoidalCategoryStruct.leftUnitor
         (self := (Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory
           X.sheaf).toMonoidalCategoryStruct) F.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).counit).app F
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).counit).app F
 
 /-- The left unit constraint on a local pure tensor: a section of the structure sheaf acts on
 the second factor as a scalar. -/
@@ -329,13 +315,9 @@ lemma tensorUnitIso_hom_app_tmul
   let : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj) :=
     Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory X.sheaf
-  let a := PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)
-  have h : a.homEquiv _ _ (tensorUnitIso F).hom = (λ_ F.val).hom := by
-    change a.homEquiv _ _ ((PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).map (λ_ F.val).hom ≫
-        a.counit.app F) = _
-    exact (a.homEquiv _ _).apply_symm_apply (λ_ F.val).hom
+  let a := Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf
+  have h : a.homEquiv _ _ (tensorUnitIso F).hom = (λ_ F.val).hom :=
+    (a.homEquiv _ _).apply_symm_apply (λ_ F.val).hom
   exact congrArg (fun q => (q.app (op U)).hom (r ⊗ₜ m)) h
 
 /-- The tensor product of the ideal sheaves of two closed subschemes. -/

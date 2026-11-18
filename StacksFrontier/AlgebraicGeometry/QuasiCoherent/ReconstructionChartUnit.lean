@@ -67,6 +67,28 @@ universe v u w
 
 namespace AlgebraicGeometry.ReconstructionUnitor
 
+section Sealed
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+
+/-- The counit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` at a sheaf of
+modules is the counit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` there: the two
+adjunctions differ by `Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso`, which is the
+identity at every sheaf of modules. -/
+private lemma sheafificationForgetAdjunction_counit_app
+    (A : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).counit.app A =
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).counit.app A := by
+  have hid : (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso R).inv.app A = 𝟙 _ := by
+    ext
+    rfl
+  rw [← Adjunction.homEquiv_symm_id, Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp, hid]
+  exact Adjunction.homEquiv_symm_id _ A
+
+end Sealed
+
 section Site
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
@@ -87,6 +109,52 @@ theorem sheafifyForgetIso_hom_app (F : SheafOfModules.{w}
       (Stacks.SheafOfModules.sheafifyValIso O hO F).hom :=
   Category.id_comp _
 
+/-- `Stacks.SheafOfModules.Tensor.sheafificationIso` carries
+`Stacks.SheafOfModules.Invertible.sheafifyForgetIso`, the counit of Mathlib's sheafification
+adjunction, to the counit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
+private lemma sheafificationIso_inv_app_comp_sheafifyForgetIso_hom_app
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).inv.app
+          F.val ≫
+        (Stacks.SheafOfModules.Invertible.sheafifyForgetIso O hO).hom.app F =
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app F :=
+  (congrArg (_ ≫ ·) ((sheafifyForgetIso_hom_app O hO F).trans
+    (Stacks.SheafOfModules.Tensor.sheafificationIso_hom_app_counit
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ F).symm)).trans
+    (Iso.inv_hom_id_app_assoc _ _ _)
+
+/-- `Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso` at `F` is the sealed
+sheafification of the presheaf left unitor followed by the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` at `F`. -/
+private lemma tensorLeftFunctorUnitIso_hom_app
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.app F =
+      (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          ((leftUnitorNatIso (PresheafOfModules.{w}
+            (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).hom.app F.val) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app
+          F :=
+  congrArg (_ ≫ ·) (sheafificationIso_inv_app_comp_sheafifyForgetIso_hom_app O hO F)
+
+/-- `Stacks.SheafOfModules.tensorSheafUnitRightIso` at `F` is the sealed sheafification of the
+presheaf right unitor followed by the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` at `F`. -/
+private lemma tensorSheafUnitRightIso_hom
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (Stacks.SheafOfModules.tensorSheafUnitRightIso O hO F).hom =
+      (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (ρ_ F.val).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app
+          F :=
+  congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ F)
+
 /-- **The braiding followed by the left unitor is the right unitor**, for the sheafified tensor
 product of Tag 01CA. The composite of the sheafified presheaf braiding with
 `Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso` — which is how the right unitor
@@ -94,38 +162,27 @@ product of Tag 01CA. The composite of the sheafified presheaf braiding with
 functor — agrees with `Stacks.SheafOfModules.tensorSheafUnitRightIso`, the sheafification of the
 presheaf right unitor, which is the one carrying the section formula `x ⊗ r ↦ r • x`.
 
-Both sides are the sheafification of a presheaf-level morphism followed by the sheafification
-counit, so the statement reduces to `CategoryTheory.braiding_leftUnitor` on presheaves of
-modules. -/
+Both sides are the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` of a
+presheaf-level morphism followed by the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, so the statement reduces to
+`CategoryTheory.braiding_leftUnitor` on presheaves of modules. -/
 theorem braidedLeftUnitor_eq_tensorSheafUnitRightIso (F : SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso
+    ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
           (β_ F.val (SheafOfModules.unit
-            (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val) ≪≫
+            (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val :) ≪≫
         (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).app F).hom =
-      (Stacks.SheafOfModules.tensorSheafUnitRightIso O hO F).hom := by
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-        (β_ F.val
-          (𝟙_ (PresheafOfModules.{w}
-            (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O)))).hom ≫
-      ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (λ_ F.val).hom ≫
-        (Stacks.SheafOfModules.Invertible.sheafifyForgetIso O hO).hom.app F) =
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (ρ_ F.val).hom ≫
-      (Stacks.SheafOfModules.sheafifyValIso O hO F).hom
-  exact (Category.assoc _ _ _).symm.trans
-    ((congrArg (fun k ↦ k ≫
-          (Stacks.SheafOfModules.Invertible.sheafifyForgetIso O hO).hom.app F)
-        (((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map_comp
-            (β_ F.val
-              (𝟙_ (PresheafOfModules.{w}
-                (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O)))).hom
-            (λ_ F.val).hom).symm)).trans
-      ((congrArg (fun k ↦ (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map k ≫
-            (Stacks.SheafOfModules.Invertible.sheafifyForgetIso O hO).hom.app F)
-          (braiding_leftUnitor F.val)).trans
-        (congrArg (fun k ↦
-            (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (ρ_ F.val).hom ≫ k)
-          (sheafifyForgetIso_hom_app O hO F))))
+      (Stacks.SheafOfModules.tensorSheafUnitRightIso O hO F).hom :=
+  (congrArg (_ ≫ ·) (tensorLeftFunctorUnitIso_hom_app O hO F)).trans <|
+    (Category.assoc _ _ _).symm.trans <|
+      (congrArg (· ≫ _) (((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map_comp
+            _ _).symm.trans
+        (congrArg (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (braiding_leftUnitor F.val)))).trans
+        (tensorSheafUnitRightIso_hom O hO F).symm
 
 end Site
 
@@ -148,43 +205,31 @@ theorem swap_unitIso_naturality {C : Type u} [Category.{v} C]
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
         (X := N) (Y := N') e).hom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) ≫
-        (((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso
+        (((Stacks.SheafOfModules.Tensor.sheafification
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
               (β_ N'.val (SheafOfModules.unit
-                (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val)).hom ≫
+                (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val :)).hom ≫
           (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.app N') =
-      (((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso
+      (((Stacks.SheafOfModules.Tensor.sheafification
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
             (β_ N.val (SheafOfModules.unit
-              (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val)).hom ≫
+              (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val :)).hom ≫
         (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.app N) ≫ e.hom := by
-  have hbr := CategoryTheory.BraidedCategory.braiding_naturality_left e.hom.val
+  have hbr := BraidedCategory.braiding_naturality_left e.hom.val
     (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val
-  have key := congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map hbr
-  simp only [Functor.map_comp] at key
-  have hnat := (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.naturality e.hom
-  let sourceUnitor : (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj
-      ((SheafOfModules.unit
-        (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val ⊗ N.val) ⟶ N :=
-    (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.app N
-  let targetUnitor : (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj
-      ((SheafOfModules.unit
-        (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val ⊗ N'.val) ⟶ N' :=
-    (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.app N'
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-        ((SheafOfModules.unit
-          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val ◁ e.hom.val) ≫
-      targetUnitor = sourceUnitor ≫ e.hom at hnat
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-        (e.hom.val ▷ (SheafOfModules.unit
-          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val) ≫
-      ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-          (β_ N'.val (SheafOfModules.unit
-            (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val).hom ≫
-        targetUnitor) =
-    ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-        (β_ N.val (SheafOfModules.unit
-          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val).hom ≫
-      sourceUnitor) ≫ e.hom
-  rw [← Category.assoc, key, Category.assoc, hnat, Category.assoc]
+  exact (Category.assoc _ _ _).symm.trans <|
+    (congrArg (· ≫ _) (((Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map_comp
+          _ _).symm.trans <|
+      (congrArg (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map hbr).trans
+        ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map_comp
+            _ _))).trans <|
+      (Category.assoc _ _ _).trans <|
+        (congrArg (_ ≫ ·)
+          ((Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).hom.naturality
+            e.hom)).trans (Category.assoc _ _ _).symm
 
 end Aux
 end AlgebraicGeometry.ReconstructionUnitor

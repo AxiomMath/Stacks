@@ -121,9 +121,9 @@ plain isomorphism of towers. That is the mathematical content of each statement 
 `nonempty_iso_derivedPushforward_derivedCompletion_of_isDerivedLimit` is the display
 `Rf_*(K^∧) = (Rf_*K)^∧` for an arbitrary `K ∈ D(𝒪')`, which is the whole assertion of
 [Stacks, Tag 0A0G] and the display of [Stacks, Tag 0A0I]. It is stated at an arbitrary pair of
-finite-type ideal sheaves, `f^♯` carrying sections of `ℐ` into `ℐ'`
-(`AlgebraicGeometry.RingedSite.PushforwardIdealCompatible`, the source's own relation between
-the two ideals), with the hypotheses listed in "What is carried" above.
+finite-type ideal sheaves, with no relation between `ℐ` and `ℐ'` assumed (the source's
+`f^♯` carrying `ℐ` into `ℐ'` is not needed), and with the hypotheses listed in "What is
+carried" above.
 
 It is the display as the source writes it — an isomorphism of the two objects — and not the
 stronger assertion that the *canonical* comparison map
@@ -287,13 +287,12 @@ variable {X Y : RingedSite.{u, u, u}} (f : RingedSite.Hom X Y)
   (I' : SheafOfModules.Submodule
     (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
   [I.toSheafOfModules.IsFiniteType] [I'.toSheafOfModules.IsFiniteType]
-  (hI : PushforwardIdealCompatible f I I')
 
-include hI in
 /-- **[Stacks, Tags 0A0G and 0A0I] for an arbitrary object, at an arbitrary finite-type pair of
 sheaves of ideals; this carries no tag.** Let `f : (Sh(𝒟), 𝒪') ⟶ (Sh(𝒞), 𝒪)` be a morphism of
-ringed sites, let `ℐ ⊂ 𝒪` and `ℐ' ⊂ 𝒪'` be sheaves of ideals of finite type with `f^♯` carrying
-sections of `ℐ` into `ℐ'`, and let `K ∈ D(𝒪')` be **arbitrary**. Then
+ringed sites, let `ℐ ⊂ 𝒪` and `ℐ' ⊂ 𝒪'` be sheaves of ideals of finite type (no relation
+between them is assumed; the source's `f^♯` carrying `ℐ` into `ℐ'` is not needed), and let
+`K ∈ D(𝒪')` be **arbitrary**. Then
 `Rf_*(K^∧) ≅ (Rf_*K)^∧`: `Rf_*` commutes with derived completion. This is the whole assertion of
 [Stacks, Tag 0A0G] and the display of [Stacks, Tag 0A0I], with no hypothesis on the object.
 

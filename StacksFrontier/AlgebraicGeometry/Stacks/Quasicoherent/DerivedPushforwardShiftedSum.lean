@@ -134,7 +134,8 @@ theorem derivedCategoryB_lqcohSheafFbcFppfModules_fppfModulesShiftedUnitSum :
       (fppfModulesShiftedUnitSum B S hS 𝒳) := by
   intro n
   obtain ⟨e⟩ := Stacks.DerivedFunctor.nonempty_homologyFunctor_obj_sigma_singleFunctor_iso_standard
-    (H' := HasDerivedCategory.standard _) (fun _ : ℕ => (SheafOfModules.unit _ : fppfModules B S hS 𝒳)) n
+    (H' := HasDerivedCategory.standard _)
+    (fun _ : ℕ => (SheafOfModules.unit _ : fppfModules B S hS 𝒳)) n
   refine (lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).prop_of_iso e.symm ?_
   let := HasDerivedCategory.standard (fppfModules B S hS 𝒳)
   let F := shiftedSingleFamily B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids

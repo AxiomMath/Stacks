@@ -32,10 +32,13 @@ sheafification comparison has to be composed with itself: once as
 double objectwise tensor product `(F ⊗ G) ⊗ H` with the double tensor product sheaf, and once as
 the sheafification adjunction. The first of those two is where the content sits, and it is
 exactly Tag 05NA: sheafification inverts its own units
-(`Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify`) and the class of
-morphisms it inverts is stable under tensoring
+(`Stacks.SheafOfModules.isIso_sheafification_map_sheafificationForgetAdjunction_unit`, for the
+unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` ending the tensor
+product sheaf) and the class of morphisms it inverts is stable under tensoring
 (`Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight`), so the
-sheafified unit of `F ⊗ G` whiskered by `H` is an isomorphism. In particular the outer pure
+sheafified unit of `F ⊗ G` whiskered by `H` is an isomorphism; it is then composed with
+`Stacks.SheafOfModules.Tensor.sheafificationIso`, which identifies Mathlib's sheafification with
+the sealed one. In particular the outer pure
 tensors are only *locally* inner pure tensors, and no statement here mentions them.
 
 ## Main definitions
@@ -344,11 +347,25 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
     (Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf A)}
   {F G H N : SheafOfModules.{w} (commRingSheaf J A hA)}
 
+omit [J.HasSheafCompose (forget RingCat.{w})] [J.HasSheafCompose (forget AddCommGrpCat.{w})] in
+/-- Mathlib's sheafification inverts the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, the last factor of the tensor product sheaf. -/
+lemma isIso_sheafification_map_sheafificationForgetAdjunction_unit (R : Sheaf J CommRingCat.{w})
+    (P : _root_.PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    IsIso ((_root_.PresheafOfModules.sheafification
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [← Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff,
+    Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+omit [J.HasSheafCompose (forget RingCat.{w})] [J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- The comparison identifying the sheafification of the double objectwise tensor product
 `(F ⊗ G) ⊗ H` with the double tensor product sheaf `(F ⊗_A G) ⊗_A H`. It is the sheafification
-of the sheafification unit of `F ⊗ G` whiskered by `H`, and it is an isomorphism because
-sheafification inverts its own units and the class it inverts is stable under tensoring
-(Tag 05NA). -/
+of the sheafification unit of `F ⊗ G` whiskered by `H`, followed by the identification of
+Mathlib's sheafification with the sealed one ending the tensor product sheaf; the first factor is
+an isomorphism because sheafification inverts its own units and the class it inverts is stable
+under tensoring (Tag 05NA). -/
 def sheafifyDoubleTensorIso :
     (TensorSheafification.sheafify A hA).obj ((F.val ⊗ G.val) ⊗ H.val) ≅
       (((Stacks.SheafOfModules.Tensor.sheafTensor
@@ -357,10 +374,13 @@ def sheafifyDoubleTensorIso :
           ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ (A) (forget₂ CommRingCat RingCat) (hA)⟩).obj
             (F)).obj (G))))).obj (H)) :=
   @asIso _ _ _ _ ((TensorSheafification.sheafify A hA).map
-      (TensorSheafification.toSheafify A hA (F.val ⊗ G.val) ▷ H.val))
-    (TensorSheafification.isIso_sheafify_map_whiskerRight A hA
-      (TensorSheafification.toSheafify A hA (F.val ⊗ G.val)) H.val
-      (TensorSheafification.isIso_sheafify_map_toSheafify A hA (F.val ⊗ G.val)))
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ (A) (forget₂ CommRingCat RingCat) (hA)⟩).unit.app
+          (F.val ⊗ G.val) ▷ H.val))
+    (TensorSheafification.isIso_sheafify_map_whiskerRight A hA _ H.val
+      (isIso_sheafification_map_sheafificationForgetAdjunction_unit _ _)) ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafificationIso
+      ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ (A) (forget₂ CommRingCat RingCat) (hA)⟩).app _
 
 /-- Morphisms of sheaves of modules out of the double tensor product sheaf `(F ⊗_A G) ⊗_A H`
 are the same thing as morphisms of presheaves of modules out of the double objectwise tensor

@@ -307,8 +307,7 @@ theorem ChowCohomologyClass.cap_chernCap {p : ℤ} (c : ChowCohomologyClass D sX
   refine eq_chernCap_of_relationSumAt_eq_zero E r hE g hY (k - p) _
     (fun j => c.cap g hY (k - ((j : ℕ) : ℤ)) (k - p - ((j : ℕ) : ℤ)) (by ring)
       (chernCap D sX hX E r hE g hY j k α)) ?_ ?_ j
-  · change c.cap g hY _ _ _ (chernCap D sX hX E r hE g hY 0 k α) = _
-    rw [chernCap_zero]
+  · rw [chernCap_zero]
     exact c.cap_degreeCast g hY _ _ _ _ α
   · refine ProjectiveBundleRelation.relationSumAt_map_eq_zero _ _ _ p
       (fun m m' hm => c.cap g hY m m' hm)

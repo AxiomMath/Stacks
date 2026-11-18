@@ -111,7 +111,8 @@ theorem tensorSectionsAt_smul_right (U : Cᵒᵖ)
         (forget₂ CommRingCat RingCat) (hO)⟩).obj.obj U from r) •
         tensorSectionsAt O hO U F G s t := by
   unfold tensorSectionsAt
-  refine linearMap_congr_smul ((TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U).hom
+  refine linearMap_congr_smul
+    (((Invertible.structureSheafificationAdjunction O hO).unit.app (F.val ⊗ G.val)).app U).hom
     r _ ?_
   exact (TensorProduct.smul_tmul r s t).symm.trans (TensorProduct.smul_tmul' r s t)
 
@@ -126,7 +127,7 @@ theorem tensorPowerMulSectionAt_smul_left (U : Cᵒᵖ)
       r • tensorPowerMulSectionAt O hO U L n m s t := by
   unfold tensorPowerMulSectionAt tensorSectionsAt
   exact linearMap_congr_smul ((TensorPower.coherentMulIso O hO L n m).hom.val.app U).hom r _
-    (linearMap_congr_smul ((TensorSheafification.toSheafify O hO
+    (linearMap_congr_smul (((Invertible.structureSheafificationAdjunction O hO).unit.app
       ((TensorPower.tensorPower O hO L n).val ⊗ (TensorPower.tensorPower O hO L m).val)).app U).hom
       r _ (TensorProduct.smul_tmul' r s t))
 

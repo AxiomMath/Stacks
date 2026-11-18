@@ -148,7 +148,7 @@ theorem isIso_strictTransformι_morphismRestrict_of_disjoint {X S : Scheme.{u}} 
     exact coe_support_comap (blowUpToBase I) I
   have hle : (blowUpToBase I ⁻¹ᵁ U : (blowUp I).Opens) ≤ (exceptionalIdeal I).support.compl := by
     intro y hy
-    show y ∉ ((exceptionalIdeal I).support : Set (blowUp I))
+    change y ∉ ((exceptionalIdeal I).support : Set (blowUp I))
     rw [hs]
     exact fun hmem ↦ Set.disjoint_left.mp hdisj hy hmem
   rw [restrict_isIso_iff_comap_bot, Stacks.StrictTransform.ideal_eq_ker_ι]
@@ -223,7 +223,7 @@ theorem exists_isAdmissibleBlowup_flat_finitePresentation_support_eq_compl_of_fl
   have hKfp : FinitePresentation (I * J).subschemeι :=
     finitePresentation_mul_subschemeι I J hIfp hJft
   have hIsubJ : I.supportSet ⊆ J.supportSet := fun x hx ↦ by
-    show x ∈ (J.support : Set S)
+    change x ∈ (J.support : Set S)
     rw [hJsupp]
     exact Set.disjoint_right.mp hIdisj hx
   have hKsuppJ : (I * J).supportSet = J.supportSet := by
@@ -244,7 +244,7 @@ theorem exists_isAdmissibleBlowup_flat_finitePresentation_support_eq_compl_of_fl
         (blowUpToBase I) ((blowUpToBase Z) x) ∈ (J.support : Set S) := by
       exact (Set.ext_iff.mp (coe_support_comap (blowUpToBase Z) Z) x).trans
         (Set.ext_iff.mp (coe_support_comap (blowUpToBase I) J) _)
-    show (blowUpToBase I) ((blowUpToBase Z) x) ∈ U ↔
+    change (blowUpToBase I) ((blowUpToBase Z) x) ∈ U ↔
       x ∉ ((exceptionalIdeal Z).support : Set (blowUp Z))
     rw [h₁, hJsupp]
     simp

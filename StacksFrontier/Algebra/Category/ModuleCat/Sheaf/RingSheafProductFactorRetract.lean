@@ -42,9 +42,10 @@ restriction of scalars is load-bearing here and not bookkeeping.
 
 **Why the presheaf level.**  The source of the retract is `L`, not a sheafification, so no
 morphism has to be constructed *out of* a sheafified tensor product and no local-pure-tensor
-extensionality argument is needed; applying `Stacks.SheafOfModules.Tensor.sheafifyMod` to a
-presheaf-level retract (`CategoryTheory.Retract.map`) and composing with the counit isomorphism
-`SheafOfModules.counitIso` is the whole passage to sheaves.
+extensionality argument is needed; applying the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` to a presheaf-level retract
+(`CategoryTheory.Retract.map`) and composing with the counit isomorphism of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is the whole passage to sheaves.
 
 **The two scalar spellings.**  The section `e` acts on the sections of `L` through the ring
 homomorphism `R(U) ⟶ (factor n)(U)`, and the carrier of `(Stacks.SheafOfModules.Tensor.ringSheaf
@@ -133,9 +134,11 @@ end Presheaf
 /-- **A module over the `n`-th factor is a retract of its tensor product with that factor**, for
 the tensor product sheaf `Stacks.SheafOfModules.Tensor.sheafTensor` of [Stacks, Tag 01CA].
 
-Sheafification carries the presheaf-level retract `presheafRetractRestrictScalars` to one between
-the sheafification of `L` and the tensor product sheaf, and the counit isomorphism
-`SheafOfModules.counitIso` identifies the former with `L`.
+The sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` carries the
+presheaf-level retract `presheafRetractRestrictScalars` to one between the sheafification of `L`
+and the tensor product sheaf, and the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` (an isomorphism, the forgetful
+functor being fully faithful) identifies the former with `L`.
 
 The statement is independent of a decidable equality on the index type. -/
 public theorem nonempty_retract_sheafTensor_restrictScalars (n : ι)
@@ -144,10 +147,9 @@ public theorem nonempty_retract_sheafTensor_restrictScalars (n : ι)
       (((Tensor.sheafTensor R).obj (factorModule hp n)).obj
         ((_root_.SheafOfModules.restrictScalars (projRing hp n)).obj L))) := by
   classical
-  exact ⟨(Retract.ofIso (_root_.SheafOfModules.counitIso R
-      ((_root_.SheafOfModules.restrictScalars (projRing hp n)).obj L)).symm).trans
-    ((presheafRetractRestrictScalars hp n L).map
-      (PresheafOfModules.sheafification (R := Tensor.ringSheaf R) (𝟙 (Tensor.ringSheaf R).obj)))⟩
+  exact ⟨(Retract.ofIso (asIso ((Tensor.sheafificationForgetAdjunction R).counit.app
+      ((_root_.SheafOfModules.restrictScalars (projRing hp n)).obj L))).symm).trans
+    ((presheafRetractRestrictScalars hp n L).map (Tensor.sheafification R))⟩
 
 /-- **A module over the `n`-th factor is a retract of its tensor product with that factor**, at
 the monoidal spelling `F ⊗ G` of `SheafOfModules.monoidalCategorySheafTensor`, whose tensor

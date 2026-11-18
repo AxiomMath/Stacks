@@ -389,27 +389,19 @@ theorem emb_comp_of_unit (hf : Sheaf.IsLocallySurjective f) (TL : IdealKernel S 
   change (TM.emb n).val.app U
       (((restrict f).map (((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I).map
         r)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a))) =
     g.val.app U ((TL.emb n).val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
         ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)))
   have hmap : ((restrict f).map (((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I).map
         r)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (M.baseChange.complex.X n).val I.val)).app U
         ((M.baseChange.unit n).val.app U (g.val.app U x) ⊗ₜ[O₀.obj.obj U] a) := by
     rw [← hred]

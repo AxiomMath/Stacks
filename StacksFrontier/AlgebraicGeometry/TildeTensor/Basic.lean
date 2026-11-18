@@ -48,15 +48,9 @@ namespace AlgebraicGeometry
 /-- Tensoring sheaves of modules on `Spec R` is functorial in both arguments. -/
 noncomputable def tensorSheafCongr (R : CommRingCat.{u})
     {F F' G G' : (Spec R).Modules} (e : F ≅ F') (d : G ≅ G') :
-    specTensorSheaf R F G ≅ specTensorSheaf R F' G' := by
-  let X := (Spec R).toRingedSpace
-  letI : MonoidalCategory (PresheafOfModules (structureSheafRing X).obj) := by
-    change MonoidalCategory (PresheafOfModules (X.presheaf ⋙ forget₂ CommRingCat RingCat))
-    infer_instance
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
-      (structureSheafRing X).property).mapIso
-    (MonoidalCategory.tensorIso ((SheafOfModules.forget (structureSheafRing X)).mapIso e)
-      ((SheafOfModules.forget (structureSheafRing X)).mapIso d))
+    specTensorSheaf R F G ≅ specTensorSheaf R F' G' :=
+  ((Stacks.SheafOfModules.Tensor.sheafTensor (specRingSheaf R)).mapIso e).app G ≪≫
+    ((Stacks.SheafOfModules.Tensor.sheafTensor (specRingSheaf R)).obj F').mapIso d
 
 /-- **Global sections of a tensor product of associated sheaves.**
 `Γ(Spec R, M~ ⊗ N~) ≅ M ⊗_R N`. -/

@@ -53,10 +53,12 @@ same tensor product on objects, the same unit and the same associator by `rfl`
 (`Stacks.RingedSpace.associator_eq_strict`), but *not* the same braiding by `rfl`: the braiding
 of the re-seated structure is produced by `CategoryTheory.BraidedCategory.ofFullyFaithful` along
 the identity functor, hence is a `CategoryTheory.Functor.preimage` and not the conjugate it is
-equal to.  `CategoryTheory.MonoidalCategory.reseatSymmetric_braiding` identifies it with that
-conjugate, and the conjugate is the braiding of the other structure
-(`Stacks.SheafOfModules.Strict.braiding`) definitionally, so `braiding_eq_strict` is that lemma
-with its instances named.
+equal to.  `CategoryTheory.MonoidalCategory.reseatSymmetric_braiding` identifies it with the
+localized braiding conjugated by the re-seating isomorphism, which is the comparison
+`Stacks.SheafOfModules.tensorObjIso` (`reseatIso_sheafTensorNatIso`; the two are built through
+different but equal identifications of Mathlib's sheafification with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so they agree propositionally, not by `rfl`), and
+that conjugate is the braiding of the other structure (`Stacks.SheafOfModules.Strict.braiding_eq`).
 
 **The pinned restatements.**  `braiding_hom_eq_strict` is `braiding_eq_strict` written at exactly
 the spelling a goal presents — the braiding of the local instance `symmetricSheafTensor`, printed
@@ -116,22 +118,37 @@ not to the braiding of `Stacks.PullbackGradedAlgebra.monoidalCategory`. -/
 
 /-! ### The two monoidal structures have the same braiding -/
 
+/-- The re-seating isomorphism `CategoryTheory.MonoidalCategory.reseatIso` of
+`SheafOfModules.sheafTensorNatIso` is the comparison `Stacks.SheafOfModules.tensorObjIso` by
+which the braiding of `Stacks.PullbackGradedAlgebra.monoidalCategory` is conjugated. -/
+private theorem reseatIso_sheafTensorNatIso (Z : RingedSpace.{u, u})
+    (A B : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.sheaf)) :
+    @reseatIso _ _ (_root_.SheafOfModules.monoidalCategory Z.sheaf) _
+        (_root_.SheafOfModules.sheafTensorNatIso Z.sheaf) A B =
+      Stacks.SheafOfModules.tensorObjIso Z.presheaf (structureSheafRing Z).property A B :=
+  Iso.ext ((_root_.SheafOfModules.sheafTensorNatIso_hom_app_app Z.sheaf A B).trans
+    (Stacks.SheafOfModules.tensorObjIso_hom_eq Z.presheaf (structureSheafRing Z).property A B).symm)
+
 /-- **The two monoidal structures on `Mod(𝒪_Z)` whose tensor product is the tensor product sheaf
 of [Stacks, Tag 01CA] have the same braiding.**  The braiding of the re-seated structure is the
 braiding of the localized structure conjugated by the re-seating isomorphism, by
-`CategoryTheory.MonoidalCategory.reseatSymmetric_braiding`, and that conjugate is the braiding of
-`Stacks.PullbackGradedAlgebra.monoidalCategory` definitionally. -/
+`CategoryTheory.MonoidalCategory.reseatSymmetric_braiding`; the re-seating isomorphism is
+`Stacks.SheafOfModules.tensorObjIso`, and the conjugate by it is the braiding of
+`Stacks.PullbackGradedAlgebra.monoidalCategory` by `Stacks.SheafOfModules.Strict.braiding_eq`. -/
 theorem braiding_eq_strict (Z : RingedSpace.{u, u})
     (A B : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.sheaf)) :
     (@BraidedCategory.braiding _ _ (_root_.SheafOfModules.monoidalCategorySheafTensor Z.sheaf)
         (_root_.SheafOfModules.symmetricCategorySheafTensor Z.sheaf).toBraidedCategory A B).hom =
       (@BraidedCategory.braiding _ _ (Stacks.PullbackGradedAlgebra.monoidalCategory Z)
-        (Stacks.PullbackTensorCoherence.braidedCategory Z) A B).hom :=
-  @CategoryTheory.MonoidalCategory.reseatSymmetric_braiding
+        (Stacks.PullbackTensorCoherence.braidedCategory Z) A B).hom := by
+  rw [@CategoryTheory.MonoidalCategory.reseatSymmetric_braiding
     (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.sheaf)) _
     (_root_.SheafOfModules.monoidalCategory Z.sheaf) _ _
     (_root_.SheafOfModules.symmetricCategory Z.sheaf)
-    (_root_.SheafOfModules.sheafTensorNatIso Z.sheaf) (_root_.SheafOfModules.unitIso Z.sheaf) A B
+    (_root_.SheafOfModules.sheafTensorNatIso Z.sheaf) (_root_.SheafOfModules.unitIso Z.sheaf) A B,
+    reseatIso_sheafTensorNatIso, reseatIso_sheafTensorNatIso]
+  exact (congrArg Iso.hom
+    (Stacks.SheafOfModules.Strict.braiding_eq Z.presheaf (structureSheafRing Z).property A B)).symm
 
 /-- `braiding_eq_strict` restated at the `β_` spelling, i.e. with the braided structure left to
 the local instance `symmetricSheafTensor` rather than named by `@`-application.  This is the form

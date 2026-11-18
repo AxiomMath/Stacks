@@ -108,12 +108,12 @@ namespace CategoryTheory.SimplicialSiteSituation
 open Stacks.DerivedTensor.AbelianSheaves Stacks.SheafOfModules.Tensor PresheafOfModules
 
 /-- The unit exhibiting the tensor product of two sheaves of modules over the constant integers
-on the total site as the sheafification of the objectwise tensor product of their underlying
-presheaves. -/
+on the total site as the (sealed) sheafification of the objectwise tensor product of their
+underlying presheaves. -/
 noncomputable abbrev tensorSheafificationUnitInt (S : SimplicialSiteSituation.{u})
     (F G : SheafOfModules.{u} (intRings S.totalTopology)) :=
-  (PresheafOfModules.sheafificationAdjunction
-    (𝟙 (intRings S.totalTopology).obj)).unit.app (PresheafOfModules.tensorObj F.val G.val)
+  (sheafificationForgetAdjunction (intRingSheaf S.totalTopology)).unit.app
+    (PresheafOfModules.tensorObj F.val G.val)
 
 /-- The tensor product of two maps of sheaves of modules over the constant integers commutes with
 the sheafification units of `tensorSheafificationUnitInt`. -/
@@ -127,7 +127,7 @@ theorem tensorSheaf_map_unit_int (S : SimplicialSiteSituation.{u})
       (Hom.app (PresheafOfModules.tensorHom f.val g.val) U z) := by
   rw [Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
   exact (congrArg (fun k => Hom.app k U z)
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (intRings S.totalTopology).obj)).unit.naturality
+    ((sheafificationForgetAdjunction (intRingSheaf S.totalTopology)).unit.naturality
       (PresheafOfModules.tensorHom f.val g.val))).symm
 
 /-- `tensorSheaf_map_unit_int` for the action of the tensor product on a map of the first
@@ -142,7 +142,7 @@ theorem tensorSheaf_mapLeft_unit_int (S : SimplicialSiteSituation.{u})
     Hom.app (tensorSheafificationUnitInt S F' G) U
       (Hom.app (PresheafOfModules.tensorHom f.val (𝟙 G.val)) U z) :=
   (congrArg (fun k => Hom.app k U z)
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (intRings S.totalTopology).obj)).unit.naturality
+    ((sheafificationForgetAdjunction (intRingSheaf S.totalTopology)).unit.naturality
       (PresheafOfModules.tensorHom f.val (𝟙 G.val)))).symm
 
 variable (S : SimplicialSiteSituation.{u})

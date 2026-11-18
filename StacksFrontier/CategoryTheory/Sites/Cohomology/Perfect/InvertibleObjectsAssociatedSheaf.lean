@@ -204,7 +204,9 @@ def assocPTensorIso (M N : ModuleCat.{u} (GammaRing X)) :
           (TensorProduct.tmul (GammaRing X) b n)) h.symm
 
 /-- **`N ↦ N ⊗_R O` carries the tensor product of `R`-modules to the tensor product of sheaves
-of modules.** -/
+of modules.** It sheafifies `assocPTensorIso`, compares with the sheafified tensor product of the
+units (`tensorSheafifyIso`), and passes to the sealed sheafification through which the tensor
+product of sheaves is defined. -/
 def assocTensorIso (M N : ModuleCat.{u} (GammaRing X)) :
     (assocF X).obj (M ⊗ N) ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj ((assocF X).obj M)).obj
@@ -212,7 +214,8 @@ def assocTensorIso (M N : ModuleCat.{u} (GammaRing X)) :
   (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).mapIso
       (assocPTensorIso M N) ≪≫
     Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (assocP M) (assocP N)
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (assocP M) (assocP N) ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafificationIso X.O).app _
 
 variable (X) in
 /-- Sheafification of presheaves of `O`-modules. -/
@@ -231,6 +234,47 @@ abbrev ShVal : PresheafOfModules.{u} (X.O.obj ⋙ forget₂ CommRingCat.{u} Ring
 abbrev assocUnit (M : ModuleCat.{u} (GammaRing X)) : assocP M ⟶ (ShVal X).obj (assocP M) :=
   (PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app (assocP M)
+
+/-- `assocTensorIso` is the sheafification of `assocPTensorIso`, followed by the sheafified
+tensor product of the units and the comparison with the sealed sheafification. -/
+theorem assocTensorIso_hom (M N : ModuleCat.{u} (GammaRing X)) :
+    (assocTensorIso M N).hom = (Sh X).map (assocPTensorIso M N).hom ≫
+      (Sh X).map (PresheafOfModules.tensorHom (assocUnit M) (assocUnit N)) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.app _ :=
+  rfl
+
+/-- Reassociation of a composite of four morphisms. It is applied by unification, across the two
+spellings `(ringSheaf X.O).obj` and `X.O.obj ⋙ forget₂ _ _` of the presheaf of rings, which
+`Category.assoc` does not rewrite through. -/
+private theorem comp_comp_assoc {D : Type*} [Category D] {A B E F G : D} (a : A ⟶ B) (b : B ⟶ E)
+    (c : E ⟶ F) (d : F ⟶ G) : (a ≫ b ≫ c) ≫ d = a ≫ b ≫ c ≫ d := by
+  simp only [Category.assoc]
+
+/-- A morphism out of `assocTensorIso`, sheafified from a morphism out of the tensor product of
+the units, is the sheafification of the presheaf-level composite. -/
+theorem assocTensorIso_hom_comp (M N : ModuleCat.{u} (GammaRing X))
+    {P : PresheafOfModules.{u} (X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u})}
+    (t : PresheafOfModules.tensorObj (O := X.O.obj) ((ShVal X).obj (assocP M))
+      ((ShVal X).obj (assocP N)) ⟶ P) :
+    (assocTensorIso M N).hom ≫ (Stacks.SheafOfModules.Tensor.sheafification X.O).map t =
+      (Sh X).map ((assocPTensorIso M N).hom ≫
+          PresheafOfModules.tensorHom (assocUnit M) (assocUnit N) ≫ t) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.app P :=
+  calc
+    _ = (Sh X).map (assocPTensorIso M N).hom ≫
+          (Sh X).map (PresheafOfModules.tensorHom (assocUnit M) (assocUnit N)) ≫
+            (Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.app _ ≫
+              (Stacks.SheafOfModules.Tensor.sheafification X.O).map t := by
+      rw [assocTensorIso_hom]
+      exact comp_comp_assoc _ _ _ _
+    _ = (Sh X).map (assocPTensorIso M N).hom ≫
+          (Sh X).map (PresheafOfModules.tensorHom (assocUnit M) (assocUnit N)) ≫
+            (Sh X).map t ≫ (Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.app P :=
+      congrArg (fun z ↦ _ ≫ _ ≫ z)
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.naturality t).symm
+    _ = _ := by
+      rw [Functor.map_comp, Functor.map_comp]
+      exact (comp_comp_assoc _ _ _ _).symm
 
 omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Naturality of `assocPTensorIso` in the first variable. -/
@@ -263,16 +307,19 @@ private theorem sheafify_assocPTensorIso_square {M M' N N' : ModuleCat.{u} (Gamm
       (assocPTensorIso M N).hom ≫ PresheafOfModules.tensorHom α β)
     (hα : α ≫ assocUnit M' = assocUnit M ≫ α') (hβ : β ≫ assocUnit N' = assocUnit N ≫ β') :
     (Sh X).map φ ≫ (assocTensorIso M' N').hom =
-      (assocTensorIso M N).hom ≫ (Sh X).map (PresheafOfModules.tensorHom α' β') := by
+      (assocTensorIso M N).hom ≫ (Stacks.SheafOfModules.Tensor.sheafification X.O).map
+        (PresheafOfModules.tensorHom α' β') := by
   have key : φ ≫ (assocPTensorIso M' N').hom ≫
         PresheafOfModules.tensorHom (assocUnit M') (assocUnit N') =
       (assocPTensorIso M N).hom ≫ PresheafOfModules.tensorHom (assocUnit M) (assocUnit N) ≫
         PresheafOfModules.tensorHom α' β' := by
     rw [← Category.assoc, H, Category.assoc, PresheafOfModules.tensorHom_comp,
       PresheafOfModules.tensorHom_comp, hα, hβ]
-  have := congrArg (Sh X).map key
-  simp only [Functor.map_comp] at this
-  exact this
+  refine Eq.trans ?_ ((congrArg (fun z ↦ (Sh X).map z ≫
+      (Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.app _) key).trans
+    (assocTensorIso_hom_comp M N _).symm)
+  rw [Functor.map_comp, Functor.map_comp]
+  exact (comp_comp_assoc _ _ _ _).symm
 
 /-- **Naturality of `assocTensorIso` in the first variable.** -/
 theorem assocTensorIso_naturality_left {M M' : ModuleCat.{u} (GammaRing X)} (f : M ⟶ M')

@@ -57,7 +57,8 @@ hypercovering of `X` the library proves both (`isIso_situationAbelianTotalAdjunc
 `inverseImageComputesDerivedPushforward_over_of_isHypercovering`), as well as `hsurj` below
 (`essImage_situationTotalInverseImageAb_of_isCartesianAbSheaf_over`); the unconditional
 statements are in
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedDescentUnconditional.lean`.
+`HypercoveringObjectDerivedDescentUnconditional.lean` of
+`StacksFrontier/CategoryTheory/Sites/Simplicial/`.
 
 Stacks 09X7 carries in addition `hΓ`, the **underived** identity
 `Γ(C/X, a_*F) = Γ((C/K)_total, F)` on which the factorisation of Stacks 08J6 rests; the derived
@@ -67,7 +68,8 @@ That identity is proved, for every `K`, as `CategoryTheory.SimplicialSemiReprese
 `.abelianTotalPushforwardGammaIsoOver`. With all three inputs discharged, Stacks 09X7 under
 exactly the source's hypotheses is `CategoryTheory.SimplicialSemiRepresentable`
 `.derivedGlobalSectionsInverseImageIsoOverOfHypercovering`, in
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedDescentUnconditional.lean`,
+`HypercoveringObjectDerivedDescentUnconditional.lean` of
+`StacksFrontier/CategoryTheory/Sites/Simplicial/`,
 which carries the tag.
 
 Stacks 0D8M carries in addition `hsurj`, the remaining clause of Stacks 0D8K (2): every cartesian

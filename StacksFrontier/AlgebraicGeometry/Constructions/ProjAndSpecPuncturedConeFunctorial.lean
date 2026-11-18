@@ -337,7 +337,7 @@ section Naturality
 open MonoidalCategory
 
 attribute [local implicit_reducible]
-  TensorSheafification.structureSheaf TensorSheafification.sheafify Tensor.ringSheaf
+  TensorSheafification.structureSheaf Tensor.ringSheaf
 
 attribute [local instance] monoidalCategoryPresheafOfModules symmetricCategoryPresheafOfModules
 
@@ -356,14 +356,24 @@ theorem tensorSheafLeftUnitor_hom_naturality
   have h1 : ((Tensor.sheafTensor.{u', v', w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
         (_root_.SheafOfModules.unit (TensorSheafification.structureSheaf O hO))).map g =
-      (TensorSheafification.sheafify O hO).map (𝟙_ _ ◁ g.val) := rfl
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (𝟙_ _ ◁ g.val) := rfl
   have h2 : ∀ P : _root_.SheafOfModules.{w} (TensorSheafification.structureSheaf O hO),
       (tensorSheafLeftUnitor O hO P).hom =
-        (TensorSheafification.sheafify O hO).map (λ_ P.val).hom ≫ (sheafifyValIso O hO P).hom :=
+        (Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+            (λ_ P.val).hom ≫
+          (Tensor.sheafificationAdjunction
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app
+              P :=
     fun _ => rfl
   rw [h1, h2, h2]
   exact Stacks.AlgebraicGeometry.ProjAndSpec.Glue.map_square_comp _
-    (MonoidalCategory.leftUnitor_naturality g.val) (sheafifyValIso_hom_naturality O hO g)
+    (MonoidalCategory.leftUnitor_naturality g.val)
+    ((Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.naturality
+        g).symm
 
 /-- The inverse of the left unit constraint of the tensor product sheaf is natural. -/
 theorem tensorSheafLeftUnitor_inv_naturality
@@ -387,13 +397,20 @@ theorem tensorSheafBraiding_hom_naturality_right
           X := by
   have h1 : ((Tensor.sheafTensor.{u', v', w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj X).map g =
-      (TensorSheafification.sheafify O hO).map (X.val ◁ g.val) := rfl
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (X.val ◁ g.val) := rfl
   have h2 : ((Tensor.sheafTensor.{u', v', w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map g).app X =
-      (TensorSheafification.sheafify O hO).map (g.val ▷ X.val) := rfl
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (g.val ▷ X.val) := rfl
   have h3 : ∀ Y : _root_.SheafOfModules.{w} (TensorSheafification.structureSheaf O hO),
       (tensorSheafBraiding O hO X Y).hom =
-        (TensorSheafification.sheafify O hO).map (β_ X.val Y.val).hom := fun _ => rfl
+        (Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+            (β_ X.val Y.val).hom :=
+    fun _ => rfl
   rw [h1, h2, h3, h3]
   exact Stacks.AlgebraicGeometry.ProjAndSpec.Glue.map_square _
     (BraidedCategory.braiding_naturality_right X.val g.val)
@@ -410,13 +427,20 @@ theorem tensorSheafBraiding_hom_naturality_left
           g := by
   have h1 : ((Tensor.sheafTensor.{u', v', w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj X).map g =
-      (TensorSheafification.sheafify O hO).map (X.val ◁ g.val) := rfl
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (X.val ◁ g.val) := rfl
   have h2 : ((Tensor.sheafTensor.{u', v', w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map g).app X =
-      (TensorSheafification.sheafify O hO).map (g.val ▷ X.val) := rfl
+      (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (g.val ▷ X.val) := rfl
   have h3 : ∀ Y : _root_.SheafOfModules.{w} (TensorSheafification.structureSheaf O hO),
       (tensorSheafBraiding O hO Y X).hom =
-        (TensorSheafification.sheafify O hO).map (β_ Y.val X.val).hom := fun _ => rfl
+        (Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+            (β_ Y.val X.val).hom :=
+    fun _ => rfl
   rw [h1, h2, h3, h3]
   exact Stacks.AlgebraicGeometry.ProjAndSpec.Glue.map_square _
     (BraidedCategory.braiding_naturality_left g.val X.val)

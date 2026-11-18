@@ -205,12 +205,8 @@ theorem homToTwistedSection_restrict_eq_zero (s : L.sections) (n : ℕ)
           (homFractionClass_eq_homFraction X L F G s n f)).trans hf))
   refine hdiv.trans ?_
   rw [ht0]
-  exact (congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    ((PresheafOfModules.tensorObj (O := (sectionSiteRing X))
-        ((sheafHomSpace X.toRingedSpace F G).val)
-        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
-        (n : ℤ)).val)))).app (op (nonvanishingOpen L s))).hom
-    (TensorProduct.zero_tmul _ _)).trans (map_zero _)
+  simp only [tensorSectionAtOpen, tensorSectionsAt, TensorProduct.zero_tmul]
+  exact map_zero _
 
 /- The `Module.compHom` action under which `homAtNonvanishingOpen` is a submodule is kept out of
 instance search by Mathlib, so it has to be made available again for that submodule's additive

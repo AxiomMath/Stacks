@@ -39,7 +39,7 @@ universe v u
 
 /-! ### The braiding as the tensor product sheaf's own symmetry constraint
 
-The two comparison lemmas are proved with the localized monoidal and braided structures active as
+The comparison lemmas are proved with the localized monoidal and braided structures active as
 local instances; `SheafOfModules.braiding_sheafTensor_eq` and the instance for invertible modules
 are stated without them, at the re-seated structure.
 -/
@@ -55,17 +55,16 @@ section Localized
 
 attribute [local instance] monoidalCategory braidedCategory
 
-/-- **`SheafOfModules.sheafTensorIso` carries the localized braiding to the braiding of the
+/-- **`SheafOfModules.sheafTensorIsoApp` carries the localized braiding to the braiding of the
 re-seated structure.**  This is `CategoryTheory.MonoidalCategory.reseat_braiding_aux` at the
-re-seating that produces `SheafOfModules.monoidalCategorySheafTensor`; the one definitional
-equality crossed is that the component of `SheafOfModules.sheafTensorNatIso` is
-`SheafOfModules.sheafTensorIso`. -/
-theorem sheafTensorIso_comp_braiding :
-    (sheafTensorIso R A B).hom ≫
+re-seating that produces `SheafOfModules.monoidalCategorySheafTensor`, whose component
+isomorphism is the component of `SheafOfModules.sheafTensorNatIso`. -/
+theorem sheafTensorIsoApp_comp_braiding :
+    ((sheafTensorIsoApp R A).app B).hom ≫
         (@BraidedCategory.braiding _ _ (monoidalCategorySheafTensor R)
           (@SymmetricCategory.toBraidedCategory _ _ (monoidalCategorySheafTensor R)
             (symmetricCategorySheafTensor R)) A B).hom =
-      (β_ A B).hom ≫ (sheafTensorIso R B A).hom :=
+      (β_ A B).hom ≫ ((sheafTensorIsoApp R B).app A).hom :=
   reseat_braiding_aux (sheafTensorNatIso R) (unitIso R) A B
 
 end Localized
@@ -75,18 +74,33 @@ section Crossing
 attribute [local instance] monoidalCategory braidedCategory
   Stacks.SheafOfModules.monoidalCategory Stacks.SheafOfModules.braidedCategory
 
-/-- **`SheafOfModules.sheafTensorIso` carries the localized braiding to
+/-- **`Stacks.SheafOfModules.tensorObjIso` is the component of
+`SheafOfModules.sheafTensorIsoApp`.**  Both are the inverse tensor product of the counit
+isomorphisms, followed by the monoidality of Mathlib's sheafification and the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` with the sealed sheafification
+(`Stacks.SheafOfModules.tensorObjIso_hom_eq`, `SheafOfModules.sheafTensorNatIso_hom_app_app`);
+the two localized structures differ only in their unit comparison, so the first two factors are
+definitionally equal, and that is the crossing this declaration exists to pay. -/
+theorem tensorObjIso_hom_eq_sheafTensorIsoApp :
+    (Stacks.SheafOfModules.tensorObjIso R.obj
+        (Stacks.SheafOfModules.Tensor.ringSheaf R).property A B).hom =
+      ((sheafTensorIsoApp R A).app B).hom :=
+  (Stacks.SheafOfModules.tensorObjIso_hom_eq R.obj
+    (Stacks.SheafOfModules.Tensor.ringSheaf R).property A B).trans
+      (sheafTensorNatIso_hom_app_app R A B).symm
+
+/-- **`SheafOfModules.sheafTensorIsoApp` carries the localized braiding to
 `Stacks.SheafOfModules.tensorSheafBraiding`.**  This is
-`Stacks.SheafOfModules.braiding_hom_eq`, whose two localized structures differ from the ones here
-only in their unit comparison; the braidings and the two comparison isomorphisms are
-definitionally equal on their `hom` fields, and that is the crossing this declaration exists to
-pay. -/
-theorem braiding_comp_sheafTensorIso :
-    (β_ A B).hom ≫ (sheafTensorIso R B A).hom =
-      (sheafTensorIso R A B).hom ≫
+`Stacks.SheafOfModules.braiding_hom_eq`, read through
+`SheafOfModules.tensorObjIso_hom_eq_sheafTensorIsoApp`; the braidings of the two localized
+structures are definitionally equal on their `hom` fields. -/
+theorem braiding_comp_sheafTensorIsoApp :
+    (β_ A B).hom ≫ ((sheafTensorIsoApp R B).app A).hom =
+      ((sheafTensorIsoApp R A).app B).hom ≫
         (Stacks.SheafOfModules.tensorSheafBraiding R.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf R).property A B).hom :=
-  Stacks.SheafOfModules.braiding_hom_eq R.obj
+          (Stacks.SheafOfModules.Tensor.ringSheaf R).property A B).hom := by
+  rw [← tensorObjIso_hom_eq_sheafTensorIsoApp, ← tensorObjIso_hom_eq_sheafTensorIsoApp]
+  exact Stacks.SheafOfModules.braiding_hom_eq R.obj
     (Stacks.SheafOfModules.Tensor.ringSheaf R).property A B
 
 end Crossing
@@ -104,8 +118,8 @@ theorem braiding_sheafTensor_eq :
           (symmetricCategorySheafTensor R)) A B).hom =
       (Stacks.SheafOfModules.tensorSheafBraiding R.obj
         (Stacks.SheafOfModules.Tensor.ringSheaf R).property A B).hom :=
-  (cancel_epi (sheafTensorIso R A B).hom).mp
-    ((sheafTensorIso_comp_braiding R A B).trans (braiding_comp_sheafTensorIso R A B))
+  (cancel_epi ((sheafTensorIsoApp R A).app B).hom).mp
+    ((sheafTensorIsoApp_comp_braiding R A B).trans (braiding_comp_sheafTensorIsoApp R A B))
 
 /-- `SheafOfModules.braiding_sheafTensor_eq`, as an equality of isomorphisms. -/
 theorem braiding_sheafTensor_eq_iso :

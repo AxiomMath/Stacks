@@ -101,8 +101,10 @@ theorem toTensorSheafSection_smul (F G : SheafOfModules.{u} (structureSheafRing 
             (⟨X.presheaf, X.IsSheaf⟩ :
               Sheaf (Opens.grothendieckTopology X.carrier) CommRingCat.{u})).obj.obj U) _ _ c
           (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U z) :=
-  map_smul ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).app U).hom c z
+  (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ :
+      Sheaf (Opens.grothendieckTopology X.carrier) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom.map_smul c z
 
 /-- `toTensorSheafSection` is additive. -/
 theorem toTensorSheafSection_sub (F G : SheafOfModules.{u} (structureSheafRing X))
@@ -111,8 +113,10 @@ theorem toTensorSheafSection_sub (F G : SheafOfModules.{u} (structureSheafRing X
     Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U (z - w)
       = Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U z
         - Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U w :=
-  map_sub ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).app U).hom z w
+  map_sub (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ :
+      Sheaf (Opens.grothendieckTopology X.carrier) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom z w
 
 /-- A morphism of sheaves of modules acts linearly on sections over an open. -/
 theorem hom_app_smul {F H : SheafOfModules.{u} (structureSheafRing X)} (φ : F ⟶ H)

@@ -37,9 +37,10 @@ that tensor product is the restriction of the global one, so the same sections g
 ## Implementation notes
 
 The comparison `tensorOverIso` is what makes the two statements local. Both sheaves it compares are
-sheafifications: the one formed on the slice is the sheafification of the tensor product of
-the restricted presheaves, and the restriction of the global one receives the restriction of
-the global sheafification unit, which is locally bijective on the slice topology because
+sheafifications, by the sealed `Stacks.SheafOfModules.Tensor.sheafification`: the one formed on
+the slice is the sheafification of the tensor product of the restricted presheaves, and the
+restriction of the global one receives the restriction of the global sheafification unit
+`tensorSheafificationUnit`, which is locally bijective on the slice topology because
 `Over.forget U` is cocontinuous. The two underlying presheaves are identified by the monoidal
 structure of `PresheafOfModules.pushforward₀OfCommRingCat`, exactly as in
 `tensor_over_congr`, and `iso_of_locallyBijective` then transports the identification to the
@@ -91,9 +92,8 @@ private noncomputable def tensorUnitIso (R : Sheaf J CommRingCat.{w})
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} R).obj M).obj
         (_root_.SheafOfModules.unit
         (Stacks.SheafOfModules.Tensor.ringSheaf R))) ≅ M :=
-  let Rsh := Stacks.SheafOfModules.Tensor.ringSheaf R
-  (PresheafOfModules.sheafification (𝟙 Rsh.obj)).mapIso (ρ_ M.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction (𝟙 Rsh.obj)).counit).app M
+  (Stacks.SheafOfModules.Tensor.sheafification R).mapIso (ρ_ M.val) ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).counit).app M
 
 /-- The tensor product of the free sheaves of modules on `I` and on `K` is the free sheaf of
 modules on `I × K`. -/
@@ -130,9 +130,7 @@ private noncomputable def tensorSwapIso {R : Sheaf J CommRingCat.{w}}
   letI : SymmetricCategory (PresheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)
-  (PresheafOfModules.sheafification
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).mapIso
-      (β_ F.val G.val)
+  (Stacks.SheafOfModules.Tensor.sheafification R).mapIso (β_ F.val G.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The symmetry of the tensor product of sheaves of modules is natural. -/
@@ -149,16 +147,13 @@ private lemma tensorSwap_naturality {R : Sheaf J CommRingCat.{w}}
   let _ : SymmetricCategory (PresheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)
-  let sh := PresheafOfModules.sheafification
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
   refine (congrArg (fun morphism ↦ morphism ≫ (tensorSwapIso F' G').hom)
     (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map R f g)).trans ?_
   refine Eq.trans ?_ (congrArg (fun morphism ↦ (tensorSwapIso F G).hom ≫ morphism)
     (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map R g f).symm)
-  change sh.map (f.val ⊗ₘ g.val) ≫ sh.map (β_ F'.val G'.val).hom =
-    sh.map (β_ F.val G.val).hom ≫ sh.map (g.val ⊗ₘ f.val)
-  rw [← Functor.map_comp, ← Functor.map_comp]
-  exact congrArg sh.map (braiding_naturality f.val g.val)
+  let sh := Stacks.SheafOfModules.Tensor.sheafification R
+  exact (sh.map_comp _ _).symm.trans
+    ((congrArg sh.map (braiding_naturality f.val g.val)).trans (sh.map_comp _ _))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 private lemma tensorMap_epi (ring : Sheaf J CommRingCat.{w})
@@ -265,22 +260,21 @@ noncomputable def tensorOverIso (O : Sheaf J CommRingCat.{w}) (U : C)
   let pf := PresheafOfModules.pushforward₀OfCommRingCat.{w} (Over.forget U) O.obj
   letI : MonoidalCategory (PresheafOfModules.{w} (R.over U).obj) :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := (Over.forget U).op ⋙ O.obj)
-  let f := sheafificationUnit (R := R.over U) ((F.over U).val ⊗ (G.over U).val)
-  let g := L.map (sheafificationUnit (R := R) (F.val ⊗ G.val))
-  let e : (F.over U).val ⊗ (G.over U).val ≅ L.obj (F.val ⊗ G.val) :=
+  let P := F.val ⊗ G.val
+  let f := tensorSheafificationUnit (O.over U) ((F.over U).val ⊗ (G.over U).val)
+  let g := L.map (tensorSheafificationUnit O P)
+  let e : (F.over U).val ⊗ (G.over U).val ≅ L.obj P :=
     Functor.Monoidal.μIso pf F.val G.val
   have hfi : PresheafOfModules.IsLocallyInjective (J.over U) f :=
-    inferInstanceAs (Presheaf.IsLocallyInjective (J.over U)
-      (CategoryTheory.toSheafify (J.over U) ((F.over U).val ⊗ (G.over U).val).presheaf))
+    isLocallyInjective_tensorSheafificationUnit (O.over U) _
   have hfs : PresheafOfModules.IsLocallySurjective (J.over U) f :=
-    inferInstanceAs (Presheaf.IsLocallySurjective (J.over U)
-      (CategoryTheory.toSheafify (J.over U) ((F.over U).val ⊗ (G.over U).val).presheaf))
+    isLocallySurjective_tensorSheafificationUnit (O.over U) _
+  have := isLocallyInjective_tensorSheafificationUnit O P
+  have := isLocallySurjective_tensorSheafificationUnit O P
   have hgi : PresheafOfModules.IsLocallyInjective (J.over U) g :=
-    Presheaf.isLocallyInjective_whisker (J.over U) J (Over.forget U)
-      (CategoryTheory.toSheafify J (F.val ⊗ G.val).presheaf)
+    isLocallyInjective_presheafRestriction_map U (tensorSheafificationUnit O P)
   have hgs : PresheafOfModules.IsLocallySurjective (J.over U) g :=
-    Presheaf.isLocallySurjective_whisker (J.over U) J (Over.forget U)
-      (CategoryTheory.toSheafify J (F.val ⊗ G.val).presheaf)
+    isLocallySurjective_presheafRestriction_map U (tensorSheafificationUnit O P)
   exact iso_of_locallyBijective (hfi := hfi) (hfs := hfs) (hgi := hgi) (hgs := hgs)
     (R := R.over U) f g e
 

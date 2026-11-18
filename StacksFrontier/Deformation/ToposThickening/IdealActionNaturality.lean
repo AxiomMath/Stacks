@@ -58,9 +58,8 @@ noncomputable def idealTensorMap (D : TwoExtensions i) :
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj D.thickening.I).obj D.F ⟶
       ((Stacks.SheafOfModules.Tensor.sheafTensor
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj D.thickening.I).obj D.G :=
-  (PresheafOfModules.sheafification
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).map
+  (Stacks.SheafOfModules.Tensor.sheafification
+    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).map
       (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 D.thickening.I.val) D.quotientMap.val)
 
 /-- A map of extensions compatible with its maps on kernels and quotients commutes with
@@ -79,10 +78,9 @@ theorem idealActionMap_naturality
             D.quotientMap) :
     D.firstActionMap.val ≫ D.kernelMap =
       idealTensorMap D ≫ D.secondActionMap.val := by
-  let R := Stacks.SheafOfModules.Tensor.ringSheaf
-    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)
   let P := PresheafOfModulesOfCommRing.Monoidal.tensorObj D.thickening.I.val D.F.val
-  let adj := PresheafOfModules.sheafificationAdjunction (R := R) (𝟙 R.obj)
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)
   let left := adj.homEquiv P D.L (D.firstActionMap.val ≫ D.kernelMap)
   let right := adj.homEquiv P D.L (idealTensorMap D ≫ D.secondActionMap.val)
   have hL := (isSheaf_iff_isSheaf_of_type _ _).mp
@@ -153,11 +151,7 @@ theorem idealActionMap_naturality
   have hb := D.firstActionMap.property (Opposite.op V) aV x'
   have hk := congrArg (fun k => k.val.app (Opposite.op V)
     (D.firstActionMap.val.val.app (Opposite.op V)
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj
-          X.O)).obj)).unit.app
+      ((adj.unit.app
         (PresheafOfModules.tensorObj D.thickening.I.val D.F.val)).app (Opposite.op V)
         (aV ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj (Opposite.op V)]
           gxV)))) hkernel

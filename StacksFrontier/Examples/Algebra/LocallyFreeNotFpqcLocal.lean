@@ -32,7 +32,8 @@ source's further assumption that the sum is not locally free plays no role in it
 second statement merely carries that assumption along. The source's first sentence, that local
 freeness does not descend in the fpqc topology, needs in addition a ring and such a direct sum
 which is not locally free: that is Stacks 05WL, proved in
-`StacksFrontier.Examples.Algebra.RankOneSumNotLocallyFree.Reduction`, where the two are combined into
+`StacksFrontier.Examples.Algebra.RankOneSumNotLocallyFree.Reduction`, where the two are combined
+into
 `Stacks.Examples.CircleTorus.exists_ring_faithfullyFlat_free_baseChange_not_isLocallyFree`. Rank
 one local
 freeness is the predicate `Module.IsFiniteLocallyFreeOfRank R (L n) 1`, which is the source's

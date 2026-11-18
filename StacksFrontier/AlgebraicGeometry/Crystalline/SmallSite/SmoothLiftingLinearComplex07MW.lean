@@ -133,8 +133,7 @@ theorem twistedFormsRestrictionIso_hom_baseAction (q : ℕ) (a : Γ(S.S.scheme, 
         (T.twistedBaseAction (twistedTerm T.toBase (T.liftingModule F) q) a).asHom.hom := by
     refine NatTrans.ext (funext fun V => AddCommGrpCat.ext fun p => ?_)
     obtain ⟨t⟩ := p
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' =>
       exact (map_add _ (ULift.up t) (ULift.up t')).trans
         ((congrArg₂ (· + ·) ht ht').trans (map_add _ (ULift.up t) (ULift.up t')).symm)

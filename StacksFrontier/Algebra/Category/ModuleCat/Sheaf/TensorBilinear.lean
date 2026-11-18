@@ -511,10 +511,13 @@ variable {A B N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
 
 /-- Morphisms of sheaves of modules out of the tensor product sheaf `A ⊗_O B` of Tag 0GMW are
 the same thing as morphisms of presheaves of modules out of the objectwise tensor product of
-the underlying presheaves: the tensor product sheaf is the sheafification of the latter. -/
+the underlying presheaves: the tensor product sheaf is the sheafification of the latter, and this
+is the hom-set bijection of the adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`
+of that sheafification. -/
 def tensorHomEquivPresheafTensorHom :
     (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj A).obj B ⟶ N) ≃ (A.val ⊗ B.val ⟶ N.val) :=
-  PresheafOfModules.sheafificationHomEquiv (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).homEquiv
+    (PresheafOfModules.tensorObj A.val B.val) N
 
 /-- **The tensor product of sheaves of modules represents bilinear maps.** This is the
 identification `Hom_O(A ⊗_O B, N) = Bilin_O(A × B, N)` of bilinear pairings of `A` and `B`
@@ -539,8 +542,7 @@ def tensorSectionPairing (A B : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor
       moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O)
         (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj A).obj B) :=
   pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf O).property)
-    ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
       (PresheafOfModules.tensorObj A.val B.val))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
@@ -551,9 +553,8 @@ lemma pairingApp_tensorSectionPairing
     (A B : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
     (U : Cᵒᵖ) (a : A.val.obj U) (b : B.val.obj U) :
     pairingApp (Stacks.SheafOfModules.Tensor.ringSheaf O) (tensorSectionPairing A B) U a b =
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
-      (PresheafOfModules.tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b) :=
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
+        (PresheafOfModules.tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b) :=
   pairingApp_pairingOfTensorHom
     (hO := (Stacks.SheafOfModules.Tensor.ringSheaf O).property) _ U a b
 

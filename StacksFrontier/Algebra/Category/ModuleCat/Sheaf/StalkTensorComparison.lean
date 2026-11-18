@@ -42,8 +42,9 @@ which is what 03EL says. The tag carried here is `05VC`, on the final equivalenc
 * `Stacks.injective_moduleFiberMap_tensorRight_map` : if the stalk of `F` at `Φ` is flat, then
   tensoring with `F` keeps a stalkwise-injective morphism stalkwise injective.
 * `Stacks.mono_presheafModuleFiber_map_sheafification` : monomorphy of a stalk map is not
-  changed by sheafification, so the sheaf-level tensor product may be replaced by the
-  presheaf-level one.
+  changed by sheafification. The same argument, run for the sealed sheafification that the
+  tensor product of sheaves of modules ends with, lets the sheaf-level tensor product be
+  replaced by the presheaf-level one.
 * `Stacks.isFlat_of_forall_isFlatModuleStalk` : the **converse half of Stacks 05VC**.
 * `Stacks.isFlat_iff_forall_isFlatModuleStalk` : **Stacks 05VC** itself, the forward half being
   `Stacks.isFlatModuleStalk_of_isFlat` (Stacks 05VB) via Stacks 08FC.
@@ -106,6 +107,19 @@ so no smallness of the point family and no collapse `w = max v w` is used. In pa
 `max v w` appearing in the tagged form of Stacks 05VB
 (`Stacks.isFlatModuleStalk_of_isFlat`) is *not* inherited here; it comes from the free presheaf
 of modules used by Stacks 08FC and enters only the forward half.
+
+**The sealed sheafification.** `Stacks.SheafOfModules.Tensor.sheafTensor` ends with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, not with Mathlib's
+`PresheafOfModules.sheafification`, so the sheaf-level tensor map is not definitionally a
+Mathlib sheafification. Both are left adjoints of the forgetful functor whose units are locally
+bijective, hence inverted by the stalk functor. The stability of monomorphy under sheafification
+is therefore proved once, for an arbitrary such adjunction, and specialised to Mathlib's
+(`Stacks.mono_presheafModuleFiber_map_sheafification`) and to the sealed one (inside
+`Stacks.mono_sheafModuleFiber_map_sheafTensorRight_map`). The sheaf-level form of that statement
+differs from the presheaf-level one by `PresheafOfModules.restrictScalars (𝟙 _)`, which is the
+identity on underlying morphisms; the two are matched once, for a variable left adjoint. Matching
+them at the sealed sheafification of a tensor product instead is a long structure-eta search
+(more than `10⁵` unfoldings of `SheafOfModules.forget`).
 
 **The sheafification hypothesis.** `Stacks.isFlat_of_forall_isFlatModuleStalk` assumes
 `HasSheafify J AddCommGrpCat.{w}` and not merely `HasWeakSheafify`. That is forced and not
@@ -714,6 +728,42 @@ lemma mono_iff_injective_moduleFiberMap (Φ : J.Point.{w})
 
 variable (F : SheafOfModules.{w} (commRingSheafToRingSheaf O))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
+/-- Monomorphy of a stalk map is not changed by a left adjoint `L` of the forgetful functor from
+sheaves to presheaves of modules whose unit the stalk functor inverts. This is the argument of
+`Stacks.mono_presheafModuleFiber_map_sheafification`, stated for any such adjunction so that it
+also serves the sealed `Stacks.SheafOfModules.Tensor.sheafification` that the tensor product of
+sheaves of modules ends with. -/
+private lemma mono_presheafModuleFiber_map_of_adjunction (Φ : J.Point.{w})
+    {R : Sheaf J RingCat.{w}} {L : PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R}
+    (adj : L ⊣ SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj))
+    (hunit : ∀ P, IsIso ((presheafModuleFiber Φ R.obj).map (adj.unit.app P)))
+    {M N : PresheafOfModules.{w} R.obj} (ψ : M ⟶ N)
+    (h : Mono ((presheafModuleFiber Φ R.obj).map ψ)) :
+    Mono ((presheafModuleFiber Φ R.obj).map
+      ((L ⋙ SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj)).map ψ)) := by
+  have := hunit M
+  have := hunit N
+  rw [← mono_comp_iff_of_isIso ((presheafModuleFiber Φ R.obj).map (adj.unit.app M)),
+    ← Functor.map_comp, ← adj.unit.naturality ψ, Functor.map_comp, Functor.id_map]
+  infer_instance
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
+/-- The previous lemma for the stalk functor on sheaves of modules: the stalk at `Φ` of `L.map ψ`
+is a monomorphism. The two statements differ by `PresheafOfModules.restrictScalars (𝟙 R.obj)`,
+the identity on underlying morphisms, and are matched here for a variable `L`; see the
+implementation notes. -/
+private lemma mono_sheafModuleFiber_map_of_adjunction (Φ : J.Point.{w})
+    {R : Sheaf J RingCat.{w}} {L : PresheafOfModules.{w} R.obj ⥤ SheafOfModules.{w} R}
+    (adj : L ⊣ SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj))
+    (hunit : ∀ P, IsIso ((presheafModuleFiber Φ R.obj).map (adj.unit.app P)))
+    {M N : PresheafOfModules.{w} R.obj} (ψ : M ⟶ N)
+    (h : Mono ((presheafModuleFiber Φ R.obj).map ψ)) :
+    Mono ((sheafModuleFiber Φ R).map (L.map ψ)) :=
+  mono_presheafModuleFiber_map_of_adjunction Φ adj hunit ψ h
+
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Monomorphy of a stalk map is not changed by sheafification.** The stalk functor inverts
 the sheafification unit, so a morphism of presheaves of modules whose stalk map is a
@@ -723,18 +773,10 @@ lemma mono_presheafModuleFiber_map_sheafification (Φ : J.Point.{w}) (R : Sheaf 
     (h : Mono ((presheafModuleFiber Φ R.obj).map ψ)) :
     Mono ((presheafModuleFiber Φ R.obj).map
       ((PresheafOfModules.sheafification (R := R) (𝟙 R.obj) ⋙
-        SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj)).map ψ)) := by
-  have h₁ := isIso_presheafModuleFiber_map_sheafificationAdjunction_unit Φ R M
-  have h₂ := isIso_presheafModuleFiber_map_sheafificationAdjunction_unit Φ R N
-  have h' : Mono ((presheafModuleFiber Φ R.obj).map
-    ((𝟭 (PresheafOfModules.{w} R.obj)).map ψ)) := h
-  refine ((MorphismProperty.monomorphisms _).cancel_left_of_respectsIso
-    ((presheafModuleFiber Φ R.obj).map
-      ((PresheafOfModules.sheafificationAdjunction (R := R) (𝟙 R.obj)).unit.app M)) _).1 ?_
-  rw [← CategoryTheory.Functor.map_comp,
-    ← (PresheafOfModules.sheafificationAdjunction (R := R) (𝟙 R.obj)).unit.naturality ψ,
-    CategoryTheory.Functor.map_comp]
-  exact mono_comp _ _
+        SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj)).map ψ)) :=
+  mono_presheafModuleFiber_map_of_adjunction Φ
+    (PresheafOfModules.sheafificationAdjunction (R := R) (𝟙 R.obj))
+    (isIso_presheafModuleFiber_map_sheafificationAdjunction_unit Φ R) ψ h
 
 /-- Tensoring with `F` keeps a monomorphism of sheaves of modules a monomorphism on the stalk
 at a point where the stalk of `F` is flat. This is the content of the converse half of
@@ -758,19 +800,11 @@ lemma mono_sheafModuleFiber_map_sheafTensorRight_map (Φ : J.Point.{w})
         ((SheafOfModules.forget (commRingSheafToRingSheaf O)).map f))) :=
     (mono_iff_injective_moduleFiberMap O Φ _).2
       (injective_moduleFiberMap_tensorRight_map _ F.val _ hinj hflat)
-  -- the sheaf-level tensor map is the sheafification of the presheaf-level one
-  have hbridge : (sheafModuleFiber Φ (commRingSheafToRingSheaf O)).map
-        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F).map f) =
-      (presheafModuleFiber Φ (ringPresheaf O.obj)).map
-        ((PresheafOfModules.sheafification (R := commRingSheafToRingSheaf O)
-            (𝟙 (commRingSheafToRingSheaf O).obj) ⋙
-          SheafOfModules.forget (commRingSheafToRingSheaf O) ⋙
-            PresheafOfModules.restrictScalars (𝟙 (commRingSheafToRingSheaf O).obj)).map
-          ((tensorRight F.val).map
-            ((SheafOfModules.forget (commRingSheafToRingSheaf O)).map f))) :=
-    rfl
-  rw [hbridge]
-  exact mono_presheafModuleFiber_map_sheafification Φ (commRingSheafToRingSheaf O) _ hmono
+  -- the sheaf-level tensor map is the sealed sheafification of the presheaf-level one, whose
+  -- unit is locally bijective, so that the stalk functor inverts it
+  exact mono_sheafModuleFiber_map_of_adjunction Φ
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O)
+    (fun P ↦ isIso_presheafModuleFiber_map Φ _) _ hmono
 
 /-- **The converse half of Stacks 05VC.** A sheaf of modules whose stalks at a conservative
 family of points are flat modules over the stalks of the structure sheaf is flat. -/

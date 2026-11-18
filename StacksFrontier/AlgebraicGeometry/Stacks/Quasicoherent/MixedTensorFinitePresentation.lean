@@ -303,6 +303,11 @@ theorem isFinitePresentationOnSite_sheafificationTensorObjUlift
       ((sheafRingULiftUp.{so, sm, r, max m n, max so sm r m n} h𝒪 hset).obj
         (_root_.SheafOfModules.uliftForPresentation.{so, sm, r, n, max so sm r m} G))
       leftFP rightFP
+  have e₀ := Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.O
+    ((sheafRingULiftUp.{so, sm, r, max m n, max so sm r m n} h𝒪 hset).obj
+      (_root_.SheafOfModules.uliftForPresentation.{so, sm, r, m, max so sm r n} F))
+    ((sheafRingULiftUp.{so, sm, r, max m n, max so sm r m n} h𝒪 hset).obj
+      (_root_.SheafOfModules.uliftForPresentation.{so, sm, r, n, max so sm r m} G))
   have hD := isFinitePresentationOnSite_sheafRingULiftDown.{so, sm, r, max m n} h𝒪 hset _
     tensorFP
   have e₁ := sheafificationRingULiftDownIso.{so, sm, r, max so sm r m n, max m n} h𝒪 hset
@@ -317,7 +322,8 @@ theorem isFinitePresentationOnSite_sheafificationTensorObjUlift
     ((PresheafOfModules.tensorObj (O := 𝒪) F.val G.val).uliftSections.{r})
   exact _root_.SheafOfModules.IsFinitePresentationOnSite.of_uliftForPresentation.{so, sm, r,
     max r m n}
-    (_root_.SheafOfModules.IsFinitePresentationOnSite.of_iso (e₁.symm ≪≫ e₂ ≪≫ e₃) hD)
+    (_root_.SheafOfModules.IsFinitePresentationOnSite.of_iso
+      ((sheafRingULiftDown h𝒪 hset).mapIso e₀ ≪≫ e₁.symm ≪≫ e₂ ≪≫ e₃) hD)
 
 end Mixed
 

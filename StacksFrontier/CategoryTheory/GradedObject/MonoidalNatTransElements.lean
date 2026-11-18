@@ -31,6 +31,7 @@ universe w
 variable {D : Type*} [Category D] [MonoidalCategory D] {F : Type w} [Field F]
   {G G' : D ⥤ GradedObject ℤ (ModuleCat.{w} F)}
 
+omit [MonoidalCategory D] in
 /-- Naturality on elements: `θ(G(f)(x)) = G'(f)(θ(x))`. -/
 theorem app_map_apply (θ : G ⟶ G') {X Y : D} (f : X ⟶ Y) (k : ℤ) (x : G.obj X k) :
     θ.app Y k (G.map f k x) = G'.map f k (θ.app X k x) := by

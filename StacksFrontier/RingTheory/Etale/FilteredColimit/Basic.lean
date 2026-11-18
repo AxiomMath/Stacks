@@ -791,8 +791,7 @@ theorem ind_etale_of_comp {R A B : CommRingCat.{u}} (f : R ⟶ A) (g : A ⟶ B)
   have hqfp : q.FinitePresentation := by
     have : Algebra.FinitePresentation X.right (MvPolynomial (Fin n) X.right ⧸ I) :=
       Algebra.FinitePresentation.quotient hI
-    rw [hqalg, RingHom.finitePresentation_algebraMap]
-    assumption
+    rwa [hqalg, RingHom.finitePresentation_algebraMap]
   set bvals : Fin n → B := fun t ↦ ψ.right.hom (π (MvPolynomial.X t)) with hbvals
   have hρ : (MvPolynomial.eval₂Hom g.hom bvals : MvPolynomial (Fin n) A →+* B) =
       ψ.right.hom.comp π := by

@@ -331,8 +331,8 @@ private theorem idealTensorMultiplication_app_tmul (Y : RingedSpace.{u, u})
   let _mon : MonoidalCategory (PresheafOfModules.{u} (O Y)) :=
     PresheafOfModulesOfCommRing.monoidalCategory
   unfold Stacks.IdealTorsion.idealTensorMultiplication
-  set adj := PresheafOfModules.sheafificationAdjunction
-    (R := structureSheafRing Y) (𝟙 (structureSheafRing Y).obj) with hadj
+  set adj := Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}) with hadj
   set r : ((structureSheafRing Y).obj.obj (op U) : Type u) :=
     ((j.val.app (op U)).hom a) with hr
   have hunitor : ((λ_ N.val).hom.app (op U)).hom
@@ -345,17 +345,21 @@ private theorem idealTensorMultiplication_app_tmul (Y : RingedSpace.{u, u})
       (adj.right_triangle_components N)
   have hnat : ∀ t : ((PresheafOfModules.tensorObj (O := (Y).presheaf)
       ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val))).obj (op U),
-      (((sheafifyFunctor Y).map (λ_ N.val).hom).val.app (op U)).hom
+      (((Stacks.SheafOfModules.Tensor.sheafification
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map (λ_ N.val).hom).val.app
+        (op U)).hom
           ((adj.unit.app ((PresheafOfModules.tensorObj (O := (Y).presheaf)
             ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val)))).app (op U) t) =
         (adj.unit.app N.val).app (op U) (((λ_ N.val).hom.app (op U)).hom t) := fun t =>
     (congrArg (fun α : _ ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom t)
       (adj.unit.naturality (λ_ N.val).hom)).symm
   change ((adj.counit.app N).val.app (op U)).hom
-      ((((sheafifyFunctor Y).map (λ_ N.val).hom).val.app (op U)).hom
+      ((((Stacks.SheafOfModules.Tensor.sheafification
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map (λ_ N.val).hom).val.app
+        (op U)).hom
         (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map
-          ((j, (𝟙 N)) : (_, _) ⟶ (_, _)))).val.app (op U)).hom
+            ((j, (𝟙 N)) : (_, _) ⟶ (_, _)))).val.app (op U)).hom
           (toTensorSheafSection Y I N (op U) (a ⊗ₜ[Y.presheaf.obj (op U)] n)))) = r • n
   have hmap : ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map
@@ -2053,17 +2057,29 @@ on a ringed space, obtained by sheafifying the symmetry of the presheaf tensor p
 noncomputable def tensorSheafCommIso (Y : RingedSpace.{u, u})
     (F G : SheafOfModules.{u} (structureSheafRing Y)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (F)).obj (G)) ≅
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (F)).obj (G)) ≅
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (G)).obj (F)) where
-  hom := (sheafifyFunctor Y).map (presheafTensorCommHom F.val G.val)
-  inv := (sheafifyFunctor Y).map (presheafTensorCommHom G.val F.val)
-  hom_inv_id := ((sheafifyFunctor Y).map_comp _ _).symm.trans
-    ((congrArg (sheafifyFunctor Y).map (presheafTensorCommHom_comp F.val G.val)).trans
-      ((sheafifyFunctor Y).map_id _))
-  inv_hom_id := ((sheafifyFunctor Y).map_comp _ _).symm.trans
-    ((congrArg (sheafifyFunctor Y).map (presheafTensorCommHom_comp G.val F.val)).trans
-      ((sheafifyFunctor Y).map_id _))
+  hom := (Stacks.SheafOfModules.Tensor.sheafification
+    (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map
+      (presheafTensorCommHom F.val G.val)
+  inv := (Stacks.SheafOfModules.Tensor.sheafification
+    (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map
+      (presheafTensorCommHom G.val F.val)
+  hom_inv_id := ((Stacks.SheafOfModules.Tensor.sheafification
+    (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map_comp _ _).symm.trans
+    ((congrArg (Stacks.SheafOfModules.Tensor.sheafification
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map
+      (presheafTensorCommHom_comp F.val G.val)).trans
+      ((Stacks.SheafOfModules.Tensor.sheafification
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map_id _))
+  inv_hom_id := ((Stacks.SheafOfModules.Tensor.sheafification
+    (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map_comp _ _).symm.trans
+    ((congrArg (Stacks.SheafOfModules.Tensor.sheafification
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map
+      (presheafTensorCommHom_comp G.val F.val)).trans
+      ((Stacks.SheafOfModules.Tensor.sheafification
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).map_id _))
 
 /-- **Flatness implies the criterion of Stacks 08LI.** For a strict morphism of thickenings and
 an `𝒪_{X'}`-module flat over `S'`, the canonical map `f^* 𝒥 ⊗_{𝒪_X} ℱ ⟶ ℐℱ'` is an

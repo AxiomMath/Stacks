@@ -255,6 +255,28 @@ theorem exists_app_ambientTwistMap_eq_smul_of_mem_map (q : ℕ) (V : (blowupSche
   rw [← hfg]
   exact Finset.sum_smul.symm
 
+/-! ### Sections of `X.Modules`, for variables
+
+The tensor products of this file are taken in `X.Modules`, with the local instance
+`modulesMonoidal`, while `Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection`
+is stated for the instance `Stacks.SheafOfModules.OnSpace.monoidal` on
+`SheafOfModules (structureSheafRing X)` that `modulesMonoidal` is defined as. The lemma below
+restates it for a variable scheme and variable sheaves, so that the two spellings meet only on
+variables; instantiated at the concrete sheaves of `exists_restrict_eq_app_ambientTwistMap`, it
+saves a third of that proof's elaboration. -/
+
+/-- `Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection` in `X.Modules`:
+a section of `M ⊗ N` is, on a covering sieve, a finite sum of local pure tensors. -/
+private theorem modules_exists_sieve_sum_tensorObjTmul {X : Scheme.{u}} (M N : X.Modules)
+    (U : X.Opens) (t : (M ⊗ N).val.obj (op U)) :
+    ∃ S : Sieve U, S ∈ Stacks.SheafOfModules.TensorStalkRingedSpace.JX X.toRingedSpace U ∧
+      ∀ ⦃V : X.Opens⦄ (k : V ⟶ U), S.arrows k →
+        ∃ (n : ℕ) (a : Fin n → Γ(M, V)) (b : Fin n → Γ(N, V)),
+          (M ⊗ N).val.map k.op t =
+            ∑ j, tensorObjTmul X.toRingedSpace M N (op V) (a j) (b j) :=
+  Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection
+    (X := X.toRingedSpace) (F := M) N U t
+
 /-! ### The twisted ideal map on a pure tensor -/
 
 /-- **The first map of the twisted ideal sequence on a local pure tensor**: `a ⊗ c ↦ a·c`. -/
@@ -312,8 +334,8 @@ theorem exists_restrict_eq_app_ambientTwistMap (q : ℕ) (U : (blowupScheme I).O
   have : IsIso L := isIso_kernelLift_twistedThickeningIdealMap I 1 q
   set z := (inv L).val.app (op U) t with hzdef
   have hz : L.val.app (op U) z = t := app_eq_of_eq I (IsIso.inv_hom_id L) U t
-  obtain ⟨S, hSmem, hS⟩ := Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection
-    (X := (blowupScheme I).toRingedSpace) (F := thickeningIdealSheaf I 1) (blowupTwist I q) U z
+  obtain ⟨S, hSmem, hS⟩ :=
+    modules_exists_sieve_sum_tensorObjTmul (thickeningIdealSheaf I 1) (blowupTwist I q) U z
   obtain ⟨W, k, hSk, hxW⟩ := (Opens.mem_grothendieckTopology _).mp hSmem x hxU
   obtain ⟨V, hVaff, hxV, hVW⟩ :=
     TopologicalSpace.Opens.isBasis_iff_nbhd.mp (blowupScheme I).isBasis_affineOpens hxW

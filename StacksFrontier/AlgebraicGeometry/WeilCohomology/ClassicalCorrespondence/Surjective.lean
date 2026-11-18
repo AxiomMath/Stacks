@@ -41,6 +41,7 @@ attribute [-instance] ChowMotiveCat.monoidalCategory ChowMotiveCat.braidedCatego
 
 attribute [local instance] WeilRealization.braidedTK WeilRealization.monoidalTK
 
+omit [IsAlgClosed k] [CharZero F] in
 /-- The isomorphism `F[2] ≅ G(𝟏(1))` of a linear isomorphism `F ≅ G^{-2}(𝟏(1))` sends `1` to the
 image of `1`. -/
 theorem tateIsoOfLinearEquiv_hom_apply {G : ChowMotiveCat k ⥤ GradedObject ℤ (ModuleCat.{v} F)}

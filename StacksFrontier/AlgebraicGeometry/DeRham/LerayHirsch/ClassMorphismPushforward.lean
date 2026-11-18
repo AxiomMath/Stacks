@@ -97,9 +97,7 @@ theorem dgAction_comp_eq_of_mul
       M'.complex).X a)
     (d.f b) U ((dM.f a).val.app U x) y
   have hN := congrArg (fun φ => φ.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf S.sheaf)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf S.sheaf).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction S.sheaf).unit.app
         (PresheafOfModules.tensorObj
           (((Stacks.Cohomology.NaiveCupProductOnRingedSpaces.pushforwardComplex h).obj
             M'.complex).X a).val
@@ -111,9 +109,7 @@ theorem dgAction_comp_eq_of_mul
   have hT := Stacks.RingedSpace.pushforwardTensorMap_unit_tmul h (M'.complex.X a) (𝒜'.complex.X b) U
     ((dM.f a).val.app U x) ((d.f b).val.app U y)
   have hD := (congrArg (fun φ => φ.val.app ((Opens.map h.hom.base).op.obj U)
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf S'.sheaf)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf S'.sheaf).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction S'.sheaf).unit.app
         (PresheafOfModules.tensorObj (M'.complex.X a).val (𝒜'.complex.X b).val)).app
           ((Opens.map h.hom.base).op.obj U)
         ((dM.f a).val.app U x ⊗ₜ[S'.sheaf.obj.obj ((Opens.map h.hom.base).op.obj U)]

@@ -350,7 +350,8 @@ ideal vanishing on `C` with `A` Noetherian and `I`-adically complete, and `M` mo
 of `X` (on the members missing `C` this is automatic:
 `AlgebraicGeometry.Scheme.IdealSheafData.pow_le_comap_map_formalNeighborhoodChart_of_ideal_eq_top`).
 If `𝒪_X(-C)|_C` is ample, there are a proper `Y ⟶ Spec A`, an ample invertible `𝒪_Y`-module `𝒩`
-and morphisms `kₙ : Xₙ ⟶ Y` from the adic tower `Xₙ = C_{M n} ×_{Spec A} Spec (A ⧸ Iⁿ⁺¹)`, compatible with the
+and morphisms `kₙ : Xₙ ⟶ Y` from the adic tower `Xₙ = C_{M n} ×_{Spec A} Spec (A ⧸ Iⁿ⁺¹)`,
+compatible with the
 transition maps, exhibiting each `Xₙ` as `Y ×_{Spec A} Spec (A ⧸ Iⁿ⁺¹)`, with
 `𝒩|_{Xₙ} ≅ 𝒪_X(-C)|_{Xₙ}`
 compatibly with the transition maps. -/

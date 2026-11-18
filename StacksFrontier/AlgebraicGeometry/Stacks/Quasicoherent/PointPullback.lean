@@ -87,6 +87,14 @@ theorem fppfStructurePresheaf_isSheaf :
         (fppfStructurePresheaf B S hS 𝒳)) :=
   FibredSite.structureRingPresheaf_isSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf
 
+/-- The structure sheaf of commutative rings of the fppf site of `𝒳`, on the presheaf
+`fppfStructurePresheaf`: the sheaf of rings over which the tensor product sheaf of `QCoh(𝒪_𝒳)` is
+the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`. -/
+abbrev fppfStructureCommRingSheaf :
+    Sheaf (BigFppfOver.associatedTopology B S hS 𝒳.val.val.p .fppf) CommRingCat.{u} :=
+  ⟨fppfStructurePresheaf B S hS 𝒳, Presheaf.isSheaf_of_isSheaf_comp _ _
+    (forget₂ CommRingCat RingCat) (fppfStructurePresheaf_isSheaf B S hS 𝒳)⟩
+
 variable {R : Type u} [CommRing R]
   (e : (BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj x) ≅ Spec (CommRingCat.of R))
 
@@ -112,13 +120,26 @@ abbrev modulesPresheaf (M : quasicoherentModules B S hS 𝒳) :
       (fppfStructurePresheaf B S hS 𝒳)) :=
   M.obj.val
 
-/-- The sheafification unit at `x` of the objectwise tensor product, `M(x) ⊗ N(x) ⟶ (M ⊗ N)(x)`. -/
+/-- The sheafification unit at `x` of the objectwise tensor product, `M(x) ⊗ N(x) ⟶ (M ⊗ N)(x)`:
+the unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` inside the
+tensor product sheaf. -/
 def pointTensorMap (M N : quasicoherentModules B S hS 𝒳) :
     (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N).obj (op x) ⟶
       (M ⊗ N).obj.val.obj (op x) :=
-  (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
-    (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-    (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)).app (op x)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (fppfStructureCommRingSheaf B S hS 𝒳)).unit.app
+      (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)).app (op x)
+
+/-- The tensorator `pointTensorMap` on a pure tensor is the section of the tensor product sheaf
+determined by the two sections, `Stacks.SheafOfModules.tensorSectionsAt`. -/
+theorem pointTensorMap_tmul (M N : quasicoherentModules B S hS 𝒳)
+    (m : (modulesPresheaf B S hS 𝒳 M).obj (op x)) (n : (modulesPresheaf B S hS 𝒳 N).obj (op x)) :
+    (pointTensorMap B S hS 𝒳 x M N).hom (m ⊗ₜ n) =
+      Stacks.SheafOfModules.tensorSectionsAt (fppfStructurePresheaf B S hS 𝒳)
+        (fppfStructurePresheaf_isSheaf B S hS 𝒳) (op x) M.obj N.obj m n :=
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+    (fppfStructureCommRingSheaf B S hS 𝒳)
+    (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N) (op x) (m ⊗ₜ n)).symm
 
 /-- The tensor product of two morphisms on a pure tensor at `x`. -/
 theorem tensorHom_pointTensorMap {M M' N N' : quasicoherentModules B S hS 𝒳} (f : M ⟶ M')
@@ -129,8 +150,7 @@ theorem tensorHom_pointTensorMap {M M' N N' : quasicoherentModules B S hS 𝒳} 
   (congrArg (fun h => h.val.app (op x) ((pointTensorMap B S hS 𝒳 x M N).hom (m ⊗ₜ n)))
     (Stacks.SheafOfModules.tensorHom_eq_sheafify_map (fppfStructurePresheaf B S hS 𝒳)
       (fppfStructurePresheaf_isSheaf B S hS 𝒳) f.hom g.hom)).trans
-    (Stacks.SheafOfModules.sheafify_map_toSheafify_app (fppfStructurePresheaf B S hS 𝒳)
-      (fppfStructurePresheaf_isSheaf B S hS 𝒳) (f.hom.val ⊗ₘ g.hom.val) (op x) (m ⊗ₜ n))
+    (Stacks.SheafOfModules.Tensor.unit_naturality_apply (f.hom.val ⊗ₘ g.hom.val) (op x) (m ⊗ₜ n))
 
 /-- The associator of `QCoh(𝒪_𝒳)` on iterated pure tensors at `x`. -/
 theorem associator_pointTensorMap (M N P : quasicoherentModules B S hS 𝒳)
@@ -165,8 +185,9 @@ theorem rightUnitor_pointTensorMap (M : quasicoherentModules B S hS 𝒳)
 theorem braiding_pointTensorMap (M N : quasicoherentModules B S hS 𝒳)
     (m : (modulesPresheaf B S hS 𝒳 M).obj (op x)) (n : (modulesPresheaf B S hS 𝒳 N).obj (op x)) :
     (β_ M N).hom.hom.val.app (op x) ((pointTensorMap B S hS 𝒳 x M N).hom (m ⊗ₜ n)) =
-      (pointTensorMap B S hS 𝒳 x N M).hom (n ⊗ₜ m) :=
-  Stacks.SheafOfModules.braiding_tensorSectionsAt (fppfStructurePresheaf B S hS 𝒳)
+      (pointTensorMap B S hS 𝒳 x N M).hom (n ⊗ₜ m) := by
+  rw [pointTensorMap_tmul, pointTensorMap_tmul]
+  exact Stacks.SheafOfModules.braiding_tensorSectionsAt (fppfStructurePresheaf B S hS 𝒳)
     (fppfStructurePresheaf_isSheaf B S hS 𝒳) (op x) M.obj N.obj m n
 
 /-- The tensorator of `pointPullback`. -/
@@ -253,16 +274,28 @@ theorem isAffine_point : IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.v
 
 include e in
 /-- **Sections at a point over an affine scheme commute with tensor products** of
-quasi-coherent modules: the sheafification unit at `x` is bijective. -/
+quasi-coherent modules: the sheafification unit at `x` is bijective. The sealed unit is Mathlib's
+followed by the isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso`, and Mathlib's is
+bijective by `FibredSite.bijective_sheafTensor_unit_app_of_isAffine`. -/
 theorem bijective_pointTensorMap (M N : quasicoherentModules B S hS 𝒳) :
-    Function.Bijective (pointTensorMap B S hS 𝒳 x M N).hom :=
-  FibredSite.bijective_sheafTensor_unit_app_of_isAffine B S hS 𝒳.val.val.p
+    Function.Bijective (pointTensorMap B S hS 𝒳 x M N).hom := by
+  refine (ConcreteCategory.isIso_iff_bijective (pointTensorMap B S hS 𝒳 x M N)).1 ?_
+  rw [pointTensorMap, ← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app,
+    PresheafOfModules.comp_app]
+  refine IsIso.comp_isIso' ((ConcreteCategory.isIso_iff_bijective _).2 ?_)
+    (Functor.map_isIso (PresheafOfModules.evaluation _ (op x))
+      ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf
+          (fppfStructureCommRingSheaf B S hS 𝒳)) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso
+          (fppfStructureCommRingSheaf B S hS 𝒳)).hom.app
+          (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N))))
+  exact (FibredSite.bijective_sheafTensor_unit_app_of_isAffine B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids M.obj N.obj
     (fun φ hz hx _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite M.obj
       M.property φ hz hx)
     (fun φ hz hx _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite N.obj
       N.property φ hz hx)
-    (isAffine_point B S hS 𝒳 x e)
+    (isAffine_point B S hS 𝒳 x e) :)
 
 /-- The unit of `pointPullback` is invertible. -/
 instance isIso_ε_pointPullback : IsIso (ε (pointPullback B S hS 𝒳 x e)) := by
@@ -382,9 +415,10 @@ instance isMonoidal_pointPullbackTransport :
     simp only [ModuleCat.hom_comp, LinearMap.comp_apply, μ_pointPullback]
     rw [ModuleCat.MonoidalCategory.tensorHom_tmul, pointPullbackμ_tmul, pointPullbackμ_tmul]
     refine (PresheafOfModules.naturality_apply
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify
-      (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)) a.inv.op (m ⊗ₜ n)).symm.trans ?_
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        (fppfStructureCommRingSheaf B S hS 𝒳)).unit.app
+          (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)) a.inv.op
+        (m ⊗ₜ n)).symm.trans ?_
     exact congrArg (pointTensorMap B S hS 𝒳 y M N).hom
       (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul _ _ _)
 

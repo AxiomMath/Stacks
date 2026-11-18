@@ -28,7 +28,7 @@ twisted by `L^{⊗ n}` is its restriction to those parts.
   out of the tensor product *presheaf*.
 * `Stacks.LineBundle.Situation.twistHom`: **the multiplication map
   `(L^⋆ → X)_* Ω^p_{L^⋆/S} ⊗_{𝒪_X} L^{⊗ n} ⟶ (L^⋆ → X)_* Ω^p_{L^⋆/S}`**, out of the tensor
-  product sheaf, by the sheafification adjunction.
+  product sheaf, by the adjunction of its sealed sheafification.
 
 ## Main results
 
@@ -105,7 +105,7 @@ Three pieces of that remain, and the third was not visible until the map existed
 
 open CategoryTheory TopologicalSpace AlgebraicGeometry Opposite
 open CategoryTheory.MonoidalCategory
-open Stacks.SheafOfModules.TensorSheafification
+open Stacks.SheafOfModules.TensorSheafification Stacks.SheafOfModules.Tensor
 
 universe u
 
@@ -198,15 +198,14 @@ def Situation.twistPresheafHom (p n : ℤ) :
 /-- **The multiplication map
 `(L^⋆ → X)_* Ω^p_{L^⋆/S} ⊗_{𝒪_X} L^{⊗ n} ⟶ (L^⋆ → X)_* Ω^p_{L^⋆/S}`** of quasi-coherent
 `𝒪_X`-modules: multiplication of a relative form on `L^⋆` by the homogeneous function of a local
-section of `L^{⊗ n}`, read on the tensor product sheaf of Tag 05NA through the sheafification
-adjunction. Clause (1) of Tag 0FUH is the assertion that it carries the degree-zero part of the
-forms, twisted by `L^{⊗ n}`, isomorphically onto the degree-`n` part. -/
+section of `L^{⊗ n}`, read on the tensor product sheaf of Tag 05NA through the adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` of its sealed sheafification. Clause
+(1) of Tag 0FUH is the assertion that it carries the degree-zero part of the forms, twisted by
+`L^{⊗ n}`, isomorphically onto the degree-`n` part. -/
 def Situation.twistHom (p n : ℤ) :
-    ((Stacks.SheafOfModules.Tensor.sheafTensor D.X.sheaf).obj (D.pushforwardAt p)).obj
-        (D.tensorPowerAt n) ⟶
+    ((sheafTensor D.X.sheaf).obj (D.pushforwardAt p)).obj (D.tensorPowerAt n) ⟶
       D.pushforwardAt p :=
-  ((sheafifyAdjunction D.X.sheaf.obj D.X.ringCatSheaf.property).homEquiv
-    (D.twistTensorPresheaf p n)
+  ((sheafificationForgetAdjunction D.X.sheaf).homEquiv (D.twistTensorPresheaf p n)
     (D.pushforwardAt p)).symm (D.twistPresheafHom p n)
 
 /-- **Composing the sheafification unit with the multiplication map gives back the
@@ -214,18 +213,11 @@ multiplication of the forms by the homogeneous functions.** This is the unit tri
 sheafification adjunction at the morphism the map was defined from, and it characterizes the map
 without any choice of local generator. -/
 theorem Situation.toSheafify_comp_twistHom (p n : ℤ) :
-    toSheafify D.X.sheaf.obj D.X.ringCatSheaf.property
-          (D.twistTensorPresheaf p n) ≫
-        (_root_.SheafOfModules.forget
-              (structureSheaf D.X.sheaf.obj D.X.ringCatSheaf.property) ⋙
-            PresheafOfModules.restrictScalars
-              (𝟙 (structureSheaf D.X.sheaf.obj D.X.ringCatSheaf.property).obj)).map
-          (D.twistHom p n) =
+    (sheafificationForgetAdjunction D.X.sheaf).unit.app (D.twistTensorPresheaf p n) ≫
+        (D.twistHom p n).val =
       D.twistPresheafHom p n :=
-  ((sheafifyAdjunction D.X.sheaf.obj D.X.ringCatSheaf.property).homEquiv_unit
-    (f := D.twistHom p n)).symm.trans
-    (((sheafifyAdjunction D.X.sheaf.obj D.X.ringCatSheaf.property).homEquiv
-      (D.twistTensorPresheaf p n)
+  ((sheafificationForgetAdjunction D.X.sheaf).homEquiv_unit (f := D.twistHom p n)).symm.trans
+    (((sheafificationForgetAdjunction D.X.sheaf).homEquiv (D.twistTensorPresheaf p n)
       (D.pushforwardAt p)).apply_symm_apply (D.twistPresheafHom p n))
 
 /-- **The multiplication map is multiplication by the homogeneous function on a local pure
@@ -233,13 +225,8 @@ tensor.** This is `Stacks.LineBundle.Situation.toSheafify_comp_twistHom` read on
 it is the form in which the comparison of clause (1) of Tag 0FUH computes. -/
 theorem Situation.twistHom_toSheafify_tmul (p n : ℤ) (U : (Opens D.X)ᵒᵖ)
     (ω : (D.pushforwardAt p).val.obj U) (x : (D.tensorPowerAt n).val.obj U) :
-    ((toSheafify D.X.sheaf.obj D.X.ringCatSheaf.property
-            (D.twistTensorPresheaf p n) ≫
-          (_root_.SheafOfModules.forget
-                (structureSheaf D.X.sheaf.obj D.X.ringCatSheaf.property) ⋙
-              PresheafOfModules.restrictScalars
-                (𝟙 (structureSheaf D.X.sheaf.obj D.X.ringCatSheaf.property).obj)).map
-            (D.twistHom p n)).app U).hom (ω ⊗ₜ x) =
+    (((sheafificationForgetAdjunction D.X.sheaf).unit.app (D.twistTensorPresheaf p n) ≫
+        (D.twistHom p n).val).app U).hom (ω ⊗ₜ x) =
       D.laurentSmul p U.unop (D.laurentFunctionOfOpen n U.unop x) ω :=
   (congrArg
       (fun (φ : D.twistTensorPresheaf p n ⟶

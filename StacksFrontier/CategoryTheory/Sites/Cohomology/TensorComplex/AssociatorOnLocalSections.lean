@@ -3,6 +3,7 @@ module
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.TensorComplex.LocalSections
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.ComplexesOfModules
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalSheafTensor
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalStrictSheafTensorAgree
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorEncodings
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorSheafBraidingSections
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSections
@@ -55,10 +56,11 @@ tensor product sheaf: `Stacks.SheafOfModules.associator_eq_tensorSheafAssociator
 identifies `α_` of the strict monoidal structure of Stacks 01CA with
 `Stacks.SheafOfModules.tensorSheafAssociator`, and
 `Stacks.SheafOfModules.tensorSections_associatorAt`, which computes that associator on local pure
-tensors.  The two monoidal structures on `Mod(O)` are reconciled for free: their associators are
-**the same term**, and the two spellings of the sheaf of rings and of the tensor product sheaf
-are identified by `Stacks.SheafOfModules.TensorEncodings.ringSheaf_eq_structureSheaf`, which is
-`rfl`.  So nothing about the sheafification-localized monoidal structure has to be unfolded here.
+tensors.  The re-seated monoidal structure `SheafOfModules.monoidalCategorySheafTensor` in which
+`α_` is read here has the associator of the strict one, `SheafOfModules.associator_eq_strict`, and
+the two spellings of the sheaf of rings and of the tensor product sheaf are identified by
+`Stacks.SheafOfModules.TensorEncodings.ringSheaf_eq_structureSheaf`, which is `rfl`.  So nothing
+about the sheafification-localized monoidal structure has to be unfolded here.
 
 The passage to complexes is Mathlib's associator-against-inclusions lemma together with
 `HomologicalComplex.mapBifunctor₁₂.ι_eq` and `HomologicalComplex.mapBifunctor₂₃.ι_eq`, which
@@ -86,11 +88,12 @@ order first does not resolve it here, because only one of the two rewrites is at
 the proof term in a lemma's pattern is not the proof term in the goal, and `rw` misses even where
 the two sections are the same; `a + b + d = j` and `a + (b + d) = j` are therefore both carried.
 
-*The local pure tensor is defined at the `sheafificationAdjunction` unit spelling*, which is the
-one `AlgebraicGeometry.RingedSite.tensorComplexSection` is built from, and
-`moduleTensorSection_eq` records that it *is*
+*The local pure tensor is defined with the unit of the sealed sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`*, which is the one
+`AlgebraicGeometry.RingedSite.tensorComplexSection` is built from; it agrees definitionally with
 `Stacks.SheafOfModules.tensorSectionsAt`, which the section formulas of the Stacks 01CA
-development are stated with, by `rfl`.  No second encoding is introduced.
+development are stated with, so those formulas apply to it as they stand.  No second encoding is
+introduced.
 
 ## References
 
@@ -129,9 +132,8 @@ def moduleTensorSection (U : X.Cᵒᵖ)
     (F G : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
     (s : F.val.obj U) (t : G.val.obj U) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj F).obj G).val.obj U :=
-  ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
-    (F.val ⊗ G.val)).app U (s ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U] t)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app (F.val ⊗ G.val)).app U
+    (s ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U] t)
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- (b) The local pure tensor of the total tensor complex is the inclusion of the summand applied
@@ -204,8 +206,9 @@ theorem moduleAssociator_moduleTensorSection (U : X.Cᵒᵖ)
           (moduleTensorSection X U F G s t) u) =
       moduleTensorSection X U F
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj G).obj H) s
-        (moduleTensorSection X U G H t u) :=
-  Stacks.SheafOfModules.associator_hom_val_app_tmul X.O.obj
+        (moduleTensorSection X U G H t u) := by
+  rw [_root_.SheafOfModules.associator_eq_strict]
+  exact Stacks.SheafOfModules.associator_hom_val_app_tmul X.O.obj
     (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf X.O) F G H U s t u
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in

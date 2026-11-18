@@ -466,7 +466,7 @@ theorem isAlgebraicSpace_of_open_cover
         (yoneda.preimage ((hw x).lift (yoneda.map b)
           (yoneda.map β ≫ yonedaEquiv.symm ζ) hc)), ?_⟩
       change ((Sigma.ι (fun y => yoneda.obj (Wc y)) x ≫ Sigma.desc w).app (op V')) _ = _
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       have hzz : yoneda.map (yoneda.preimage ((hw x).lift (yoneda.map b)
           (yoneda.map β ≫ yonedaEquiv.symm ζ) hc)) ≫ w x =
           yoneda.map β ≫ yonedaEquiv.symm ζ := by

@@ -190,10 +190,10 @@ lemma toTS_smul (c : (Spec R).presheaf.obj (op ⊤))
     toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) (c • t)
       = @HSMul.hSMul _ Γ(tildeTensor M N, ⊤) _ _ c
           (toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) t) :=
-  map_smul ((sheafifyUnit (Spec R).toRingedSpace
-    ((PresheafOfModules.tensorObj (O := ((Spec R).toRingedSpace).presheaf) ((tildeSheaf M).val)
-      ((tildeSheaf N).val)))).app (op ⊤)).hom
-    c t
+  (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨(Spec R).toRingedSpace.presheaf, (Spec R).toRingedSpace.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := (Spec R).presheaf) (tildeSheaf M).val
+        (tildeSheaf N).val)).app (op ⊤)).hom.map_smul c t
 
 /-- `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` is additive. -/
 lemma toTS_add (t t' : TensorProduct ((Spec R).presheaf.obj (op ⊤))
@@ -201,10 +201,10 @@ lemma toTS_add (t t' : TensorProduct ((Spec R).presheaf.obj (op ⊤))
     toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) (t + t')
       = toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) t
         + toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) t' :=
-  map_add ((sheafifyUnit (Spec R).toRingedSpace
-    ((PresheafOfModules.tensorObj (O := ((Spec R).toRingedSpace).presheaf) ((tildeSheaf M).val)
-      ((tildeSheaf N).val)))).app (op ⊤)).hom
-    t t'
+  map_add (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨(Spec R).toRingedSpace.presheaf, (Spec R).toRingedSpace.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := (Spec R).presheaf) (tildeSheaf M).val
+        (tildeSheaf N).val)).app (op ⊤)).hom t t'
 
 /-- `topTmul` is semilinear over `cTop` in its left argument. -/
 lemma topTmul_smul_left (r : R) (m : M) (n : N) :

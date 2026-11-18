@@ -67,7 +67,8 @@ to meet the universe of `Algebra.IsPolynomialAlgebra`.
 of the display of Equation 92.7.0.1 form a distinguished triangle for arbitrary ring maps
 `A → B → C`. This file is upstream of its proof,
 `CommAlgCat.productFundamentalTriangle_distinguished` of
-`StacksFrontier.Cotangent.Triangle.ProductDescent`, which `StacksFrontier.Cotangent.SmoothUnconditional`
+`StacksFrontier.Cotangent.Triangle.ProductDescent`, which
+`StacksFrontier.Cotangent.SmoothUnconditional`
 applies. The first result takes two specific instances, as
 `CommAlgCat.isZero_cotangentComplexDerived_of_etale` already does; the second takes the
 proposition in the quantified form `CommAlgCat.HasFundamentalTriangles`, because the chart it

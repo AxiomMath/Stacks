@@ -18,7 +18,7 @@ condition (4) of the source's proof. This module derives the source's inequality
 
 * `AlgebraicGeometry.ProjectiveSpaceOfModule.add_le_add_topologicalKrullDim_inter_of_nonempty`:
   Tag 0AZP for the whole intersection, `dim Z + dim T ≤ dim X + dim (Z ∩ T)` when `Z ∩ T ≠ ∅`.
-* `AlgebraicGeometry.ProjectiveSpaceOfModule.exists_intersectProperly_torFormulaCycleIntersectionProduct_eq_and_le`:
+* `ProjectiveSpaceOfModule.exists_intersectProperly_torFormulaCycleIntersectionProduct_eq_and_le`:
   Tag 0B0E.
 
 ## Implementation notes
@@ -94,7 +94,7 @@ private theorem le_of_add_natCast_le_add_natCast {a b : WithBot ℕ∞} {n : ℕ
     | bot => simp at h
     | coe y =>
       have h' : x + (n : ℕ∞) ≤ y + (n : ℕ∞) := by exact_mod_cast h
-      exact WithBot.coe_le_coe.mpr ((ENat.add_le_add_iff_right (ENat.coe_ne_top n)).mp h')
+      exact WithBot.coe_le_coe.mpr ((ENat.add_le_add_iff_right (ENat.natCast_ne_top n)).mp h')
 
 /-- **Stacks Project, Tag 0B0E.** Let `X ⊆ 𝐏(V)` be a nonsingular closed subvariety of dimension
 `n` of the projective space of a vector space of dimension `N + 1` over an algebraically closed

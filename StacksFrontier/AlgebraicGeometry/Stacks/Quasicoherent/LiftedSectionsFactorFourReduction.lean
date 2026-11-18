@@ -195,10 +195,8 @@ sections.**  `AlgebraicGeometry.Stack.LiftedSectionsFactorFourSquareStandIn` —
 theorem liftedSectionsFactorFourSquare_of_compat
     (hc : AssociatedModuleBaseChangeFinalSectionsCompat B E h S hS p hp) :
     LiftedSectionsFactorFourSquareStandIn B E h S hS p hp := by
-  intro F hlqcF x 𝓕 h𝓕 hMx eU z' z ψ φ hkg hiso hiso' n
+  intro F hlqcF x 𝓕 h𝓕 hMx eU z' z ψ φ hkg hiso hiso' n hn
   let := h𝓕
-  have hn : n.left = B.inclusion.map (p.map ψ).left :=
-    (Category.comp_id _).symm.trans ((Over.w n).trans (Category.id_comp _))
   have hMz : Presheaf.IsSheaf (SmallEtale.topology E (p.obj z).left.1
       (contains_base B E h S hS p z))
       (restrictModuleToSmallEtale B E h S hS p hp z (etaleTopology B)

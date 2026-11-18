@@ -60,27 +60,16 @@ noncomputable def tensorSections (F G : _root_.SheafOfModules.{u} (structureShea
   PresheafOfModules.sectionsMk
     (fun U => Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U
       (s.eval U ⊗ₜ[X.presheaf.obj U] t.eval U))
-    (by
-      intro U V f
-      have hs := PresheafOfModules.sections_property s f
-      have ht := PresheafOfModules.sections_property t f
-      have h := PresheafOfModules.naturality_apply
-        (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))) f
-        (s.eval U ⊗ₜ[X.presheaf.obj U] t.eval U)
-      change Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G V
-          (((F.val).restrictₛₗ (f)) (s.eval U)
-            ⊗ₜ[X.presheaf.obj V]
-            ((G.val).restrictₛₗ (f)) (t.eval U)) =
-        ConcreteCategory.hom
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj F).obj
-            G).val.map f)
-          (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U
-            (s.eval U ⊗ₜ[X.presheaf.obj U] t.eval U)) at h
-      change ((F.val).restrictₛₗ (f)) (s.eval U) = _ at hs
-      change ((G.val).restrictₛₗ (f)) (t.eval U) = _ at ht
-      rw [hs, ht] at h
-      exact h.symm)
+    (fun U V f =>
+      (PresheafOfModules.naturality_apply
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) f
+        (s.eval U ⊗ₜ[X.presheaf.obj U] t.eval U)).symm.trans
+        (congrArg (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G V)
+          ((ModuleCat.tensorRestrictMap_tmul (X.presheaf.map f).hom (F.val.restrictₛₗ f)
+            (G.val.restrictₛₗ f) _ _).trans
+            (congrArg₂ (· ⊗ₜ[X.presheaf.obj V] ·) (PresheafOfModules.sections_property s f)
+              (PresheafOfModules.sections_property t f)))))
 
 /-- Over an open `U`, `tensorSections F G s t` is the image of `s.eval U ⊗ t.eval U` in the
 sheafified tensor product. -/

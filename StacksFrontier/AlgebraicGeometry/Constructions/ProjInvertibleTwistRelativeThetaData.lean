@@ -211,10 +211,7 @@ theorem chartPre_psi (V : trivializingOpens L) (k : ℕ) (a : 𝒜.sectionPieces
         (homOfLE h0).op _ (homOfLE hO3).op _)).trans ?_
     refine (PresheafOfModules.map_map_eq_map ((targetAlgebra L 𝒜).piece (k : ℤ)).val
       (homOfLE hO3).op _ (homOfLE hR).op _).trans ?_
-    exact Stacks.AlgebraicGeometry.GradedAlgebraTwist.tensorSectionsAt_naturality
-      (relativeProj 𝒜).scheme.sheaf.obj (relativeProj 𝒜).scheme.ringCatSheaf.property
-      (Tag07ZGTwist.relativeTwist 𝒜 k)
-      ((Scheme.Modules.pullback (relativeProj 𝒜).toBase).obj (tpMod L (k : ℤ))) _ _ _
+    exact RelativeTwistSections.gammaTmul_res _ _ hR _ _
   have hY := TwistRigidity.iso_hom_app_inv_app (chartTau L 𝒜 V k)
     (op (basisComparison L 𝒜 V ''ᵁ ((relativeProj (twist 𝒜 L)).chart (V : S.Opens) V.2.1 ⁻¹ᵁ
       ((relativeProj (twist 𝒜 L)).toBase ⁻¹ᵁ (V : S.Opens)))))

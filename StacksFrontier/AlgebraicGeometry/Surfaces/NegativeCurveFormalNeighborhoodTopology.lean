@@ -11,7 +11,8 @@ compatible functions `A = lim Γ(Cₙ, 𝒪)` and filtration `Fₙ₊₁ = ker (
 open `V` of `X` the `M`-th thickening is `Spec Γ(X, V) / I(V)^{M+1}` and `A` maps to it
 (`AlgebraicGeometry.Scheme.IdealSheafData.formalNeighborhoodChart`).
 
-`StacksFrontier/AlgebraicGeometry/Surfaces/NegativeCurveFormalNeighborhood.lean` shows that for a curve
+`StacksFrontier/AlgebraicGeometry/Surfaces/NegativeCurveFormalNeighborhood.lean` shows that for a
+curve
 with positive conormal bundle `A` is a complete Noetherian local ring with maximal ideal `𝔪 = F₁`
 and `𝔪ⁿ ⊆ Fₙ`: the `M`-th thickening lies over `Spec A / 𝔪^{M+1}`. This file proves the converse
 inclusion of thickenings, on `X`: if some power `L^N = I^N / I^{N+1}` of the conormal sheaf is

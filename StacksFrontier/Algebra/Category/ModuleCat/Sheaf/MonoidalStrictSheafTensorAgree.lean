@@ -51,9 +51,16 @@ The unitors of the re-seated structure are identified with those of the tensor p
 `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalSheafTensorUnitors`, by a computation
 inside the localized structure; the unitors of the strict structure are identified with the same
 two isomorphisms by their section formulas, both sides carrying a local pure tensor `x ⊗ r` to
-`r • x`, in `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorSheafCoherence`.  The agreement
-of the two unitors is the composite of those two identifications; no section formula is proved
-here.
+`r • x`, in `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorSheafCoherence`.  The two files
+spell the
+unitors of the tensor product sheaf slightly differently — the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the presheaf unitor followed by the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, respectively of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` — and the two counits agree.  The
+agreement of the two unitors is the composite of those identifications; no section formula is
+proved here.  Likewise the associators agree because the comparison
+`Stacks.SheafOfModules.tensorObjIso` of the strict structure is the component of
+`SheafOfModules.sheafTensorNatIso` through which the re-seated one is built.
 
 The **ringed-space** unitor statements are instances of the site-level ones, not a second proof
 of the same fact.  `Stacks.PullbackGradedAlgebra.monoidalCategory Z` and
@@ -102,19 +109,60 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 section Unitors
 
+omit [HasWeakSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
+/-- `Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso` is the identity at each sheaf
+of modules. -/
+private theorem forgetCompRestrictScalarsIdIso_inv_app
+    (M : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso R).inv.app M = 𝟙 _ := by
+  ext
+  rfl
+
+/-- The counit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is that of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
+private theorem sheafificationForgetAdjunction_counit_app
+    (M : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).counit.app M =
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).counit.app M := by
+  rw [← Adjunction.homEquiv_symm_id, Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp,
+    forgetCompRestrictScalarsIdIso_inv_app]
+  exact (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).homEquiv_symm_id M
+
 variable (A : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R))
+
+/-- The two spellings of the left unit constraint of the tensor product sheaf agree: both are the
+sealed sheafification of the presheaf left unitor followed by a counit, of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` for the first and of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` for the second. -/
+private theorem tensorSheafUnitLeftIso_eq_tensorSheafLeftUnitor :
+    Stacks.SheafOfModules.tensorSheafUnitLeftIso R.obj
+        (Stacks.SheafOfModules.Tensor.ringSheaf R).property A =
+      Stacks.SheafOfModules.tensorSheafLeftUnitor R.obj
+        (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R) A :=
+  Iso.ext (congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app R A))
+
+/-- The two spellings of the right unit constraint of the tensor product sheaf agree. -/
+private theorem tensorSheafUnitRightIso_eq_tensorLeftFunctorObjUnitIso :
+    Stacks.SheafOfModules.tensorSheafUnitRightIso R.obj
+        (Stacks.SheafOfModules.Tensor.ringSheaf R).property A =
+      Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso R.obj
+        (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R) A :=
+  Iso.ext (congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app R A))
 
 /-- **The two monoidal structures on `Mod(𝒪)` have the same left unitor.**  Each is the left
 unit constraint `𝒪 ⊗_𝒪 ℱ ≅ ℱ` of the tensor product sheaf: for the re-seated structure that is
 `SheafOfModules.leftUnitor_sheafTensor_eq_iso`, for the strict one
-`Stacks.SheafOfModules.leftUnitor_eq_tensorSheafLeftUnitor`. -/
+`Stacks.SheafOfModules.leftUnitor_eq_tensorSheafLeftUnitor`; the two spellings of that constraint
+differ only in the counit they end with, and the counits agree. -/
 theorem leftUnitor_eq_strict :
     (@MonoidalCategoryStruct.leftUnitor _ _
         (monoidalCategorySheafTensor R).toMonoidalCategoryStruct A) =
       (@MonoidalCategoryStruct.leftUnitor _ _
         (Stacks.SheafOfModules.Strict.monoidalCategory R.obj
         (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R)).toMonoidalCategoryStruct A) :=
-  (leftUnitor_sheafTensor_eq_iso R A).trans
+  ((leftUnitor_sheafTensor_eq_iso R A).trans
+    (tensorSheafUnitLeftIso_eq_tensorSheafLeftUnitor R A)).trans
     (Stacks.SheafOfModules.leftUnitor_eq_tensorSheafLeftUnitor R.obj
       (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R) A).symm
 
@@ -125,7 +173,8 @@ theorem rightUnitor_eq_strict :
       (@MonoidalCategoryStruct.rightUnitor _ _
         (Stacks.SheafOfModules.Strict.monoidalCategory R.obj
         (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R)).toMonoidalCategoryStruct A) :=
-  (rightUnitor_sheafTensor_eq_iso R A).trans
+  ((rightUnitor_sheafTensor_eq_iso R A).trans
+    (tensorSheafUnitRightIso_eq_tensorLeftFunctorObjUnitIso R A)).trans
     (Stacks.SheafOfModules.rightUnitor_eq_tensorSheafRightUnitor R.obj
       (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R) A).symm
 
@@ -134,6 +183,16 @@ end Unitors
 section Data
 
 variable (A B D : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R))
+
+/-- The comparison `Stacks.SheafOfModules.tensorObjIso` of the strict structure is the component
+of `SheafOfModules.sheafTensorNatIso` through which the re-seated structure is built. -/
+private theorem tensorObjIso_eq_sheafTensorNatIso_app_app :
+    Stacks.SheafOfModules.tensorObjIso R.obj (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R)
+        A B =
+      ((sheafTensorNatIso R).app A).app B :=
+  Iso.ext ((Stacks.SheafOfModules.tensorObjIso_hom_eq R.obj
+    (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R) A B).trans
+      (sheafTensorNatIso_hom_app_app R A B).symm)
 
 /-- The two monoidal structures on `Mod(𝒪)` have the same tensor product on objects: both are
 the tensor product sheaf of Tag 01CA. -/
@@ -173,7 +232,8 @@ theorem associator_eq_strict :
   have strictFormula := congrArg Iso.hom
     (Stacks.SheafOfModules.Strict.associator_eq R.obj
       (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf R) A B D)
-  simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc] at strictFormula
+  simp only [tensorObjIso_eq_sheafTensorNatIso_app_app, Iso.trans_hom, Category.assoc]
+    at strictFormula
   refine reseatedFormula.trans ?_
   refine Eq.trans ?_ strictFormula.symm
   simp only [Category.assoc]

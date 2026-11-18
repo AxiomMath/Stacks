@@ -40,7 +40,8 @@ An identity in `A^*(X)` is an identity of the cap operations on `CH_*(X')` for e
 `X' ⟶ X`, and the cap operation of `c_j(ℰ)` on `X'` is `c_j(ℰ|_{X'}) ∩ -`. Here this is proved
 for every finite locally free module on `X'`, not only for those pulled back from `X`.
 
-The operations `AlgebraicGeometry.Space.PrivateChern.chernCap` are polynomials in the Segre operations (Stacks 0ERY, 0ERV), so it suffices that `c` commutes with
+The operations `AlgebraicGeometry.Space.PrivateChern.chernCap` are polynomials in the Segre
+operations (Stacks 0ERY, 0ERV), so it suffices that `c` commutes with
 proper pushforward and flat pullback, axioms (1) and (2) of a bivariant class (Stacks 0ERJ), and
 with the first Chern class of every invertible module on a test space, which is Stacks 0ERR and
 follows from axiom (3) at the zero section, where the Gysin map of Stacks 0ER1 is the cap product

@@ -140,8 +140,8 @@ theorem sectionTensor_comp_tensorObjIso_hom
           (leftUnitor_inv_comp_tensorObjIso_hom O hO))))
 
 /-- **The inverse of the left unit constraint carries `1` to the pure tensor of the two unit
-sections.** The constraint itself carries that pure tensor to `1 • 1 = 1`
-(`tensorSheafLeftUnitor_hom_val_app_tmul`), and it is an isomorphism. -/
+sections.** The constraint itself carries that pure tensor to `1`
+(`tensorSections_leftUnitorAt`), and it is an isomorphism. -/
 theorem tensorProductLeftUnitor_inv_val_app_one (U : Cᵒᵖ) :
     (Invertible.tensorProductLeftUnitor O hO
           (𝟙_ (_root_.SheafOfModules.{w} (structureSheaf O hO)))).inv.val.app U
@@ -155,10 +155,7 @@ theorem tensorProductLeftUnitor_inv_val_app_one (U : Cᵒᵖ) :
         (𝟙_ (_root_.SheafOfModules.{w} (structureSheaf O hO)))
         (1 : (structureSheaf O hO).obj.obj U) (1 : (structureSheaf O hO).obj.obj U))
       = (1 : (structureSheaf O hO).obj.obj U) :=
-    (tensorSheafLeftUnitor_hom_val_app_tmul O hO
-      (𝟙_ (_root_.SheafOfModules.{w} (structureSheaf O hO))) U
-      (1 : (structureSheaf O hO).obj.obj U)
-      (1 : (structureSheaf O hO).obj.obj U)).trans (one_smul _ _)
+    tensorSections_leftUnitorAt O hO U _ _
   calc (Invertible.tensorProductLeftUnitor O hO
           (𝟙_ (_root_.SheafOfModules.{w} (structureSheaf O hO)))).inv.val.app U
           (1 : (structureSheaf O hO).obj.obj U)

@@ -1,5 +1,6 @@
 module
 
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalStrictSheafTensorAgree
 public import StacksFrontier.AlgebraicGeometry.Crystalline.SecondOrderThickeningSections
 public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.CrystalConnectionSheaf
 
@@ -31,6 +32,16 @@ retraction of the split monomorphism `F_T ⊗ Ω² ⟶ q₀_* F_{T''}`.  It is g
 * `...SmallSite.crystalConnectionExtensionApp_tmul` — the rule `∇(x ⊗ ω) = ∇(x) ∧ ω + x ⊗ d ω`.
 * `...SmallSite.eq_crystalConnectionExtensionApp` — uniqueness of a family given by the rule.
 * `...SmallSite.crystalConnection_comp_crystalConnectionExtension` — **integrability**.
+
+## Implementation notes
+
+`Crystalline.tensorWedgeHom` is sealed with `irreducible_def`.  The local pure tensors of
+`Stacks.PullbackTensorCoherence.tmul` are typed at the tensor product of
+`Stacks.PullbackGradedAlgebra.monoidalCategory`, the source of `Crystalline.tensorWedgeHom` at that
+of `Crystalline.monoidalCategorySchemeModules`.  Matching the two spellings, as in
+`...SmallSite.crystalWedge_add`, `...SmallSite.crystalWedge_restrict` and the families of
+`...SmallSite.crystalQ₁₂Action_eq`, the elaborator otherwise unfolds the associator of the second
+structure into the localized monoidal structure, past the maximal recursion depth.
 
 ## References
 
@@ -138,8 +149,14 @@ variable (N : T.scheme.Modules)
 
 /-- **The exterior multiplication `(N ⊗ Ω) ⊗ Ω ⟶ N ⊗ Ω²`**, `(x ⊗ ω) ⊗ η ↦ x ⊗ (ω ∧ η)`: the
 associator followed by `N` tensored with the exterior product.  This is the operation
-`z ↦ z ∧ ω` of [Stacks, Remark 07I0] on `N ⊗ Ω`. -/
-def tensorWedgeHom :
+`z ↦ z ∧ ω` of [Stacks, Remark 07I0] on `N ⊗ Ω`.
+
+It is sealed, with defining equation `Crystalline.tensorWedgeHom_def`: the associator is the one
+of `Crystalline.monoidalCategorySchemeModules`, conjugated from the localized monoidal structure,
+and a comparison of two spellings of a section of `(N ⊗ Ω) ⊗ Ω` would otherwise unfold that
+construction past the maximal recursion depth.  `Crystalline.tensorWedgeHom_tmul` is the handle
+on it. -/
+irreducible_def tensorWedgeHom :
     (N ⊗ dpDifferentialsSheaf T Y f) ⊗ dpDifferentialsSheaf T Y f ⟶
       N ⊗ dpSecondExteriorPower T Y f :=
   (α_ N (dpDifferentialsSheaf T Y f) (dpDifferentialsSheaf T Y f)).hom ≫
@@ -155,25 +172,22 @@ theorem tensorWedgeHom_tmul (W : (Opens ↑T.scheme)ᵒᵖ) (x : N.val.obj W)
             (dpDifferentialsSheaf T Y f) W x ω) η) =
       Stacks.PullbackTensorCoherence.tmul T.scheme.toRingedSpace N
         (dpSecondExteriorPower T Y f) W x ((dpWedge T Y f).app W ω η) := by
-  have h1 := Stacks.PullbackTensorCoherence.associator_hom_tmul (Z := T.scheme.toRingedSpace)
-    (A := N) (B := dpDifferentialsSheaf T Y f) (D := dpDifferentialsSheaf T Y f) W x ω η
-  have hmap := Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map
-    (R := (⟨T.scheme.toRingedSpace.presheaf, T.scheme.toRingedSpace.IsSheaf⟩ :
-      Sheaf (Opens.grothendieckTopology T.scheme.toRingedSpace.carrier) CommRingCat.{u}))
-    (𝟙 N) (dpWedgeSheafHom T Y f)
-  have h2 := Stacks.RingedSpace.tensorSheaf_map_unit_tmul T.scheme.toRingedSpace (𝟙 N)
-    (dpWedgeSheafHom T Y f) W x
-    (Stacks.PullbackTensorCoherence.tmul T.scheme.toRingedSpace (dpDifferentialsSheaf T Y f)
-      (dpDifferentialsSheaf T Y f) W ω η)
-  refine (Stacks.SheafOfModules.comp_val_app_apply _ _ W _).trans ?_
-  refine (congrArg _ h1).trans ?_
-  refine (congrArg (fun φ ↦ φ.val.app W
+  have e : tensorWedgeHom T Y f N = _ ≫ _ := (tensorWedgeHom_def T Y f N).trans
+    (congrArg₂ (· ≫ ·)
+      (Stacks.RingedSpace.associator_eq_strict (Z := T.scheme.toRingedSpace) N
+        (dpDifferentialsSheaf T Y f) (dpDifferentialsSheaf T Y f))
+      (Stacks.RingedSpace.whiskerLeft_eq_strict (Z := T.scheme.toRingedSpace) N
+        (dpWedgeSheafHom T Y f)))
+  refine (congrArg (fun φ ↦ φ.val.app W (Stacks.PullbackTensorCoherence.tmul T.scheme.toRingedSpace
+    (N ⊗ dpDifferentialsSheaf T Y f : T.scheme.Modules) (dpDifferentialsSheaf T Y f) W
     (Stacks.PullbackTensorCoherence.tmul T.scheme.toRingedSpace N
-      (dpDifferentialsSheaf T Y f ⊗ dpDifferentialsSheaf T Y f : T.scheme.Modules) W x
-      (Stacks.PullbackTensorCoherence.tmul T.scheme.toRingedSpace (dpDifferentialsSheaf T Y f)
-        (dpDifferentialsSheaf T Y f) W ω η))) hmap.symm).trans ?_
-  exact h2.trans (congrArg (fun w ↦ Stacks.PullbackTensorCoherence.tmul T.scheme.toRingedSpace N
-    (dpSecondExteriorPower T Y f) W x w) (dpWedgeSheafHom_tmul T Y f W ω η))
+      (dpDifferentialsSheaf T Y f) W x ω) η)) e).trans ?_
+  refine (Stacks.SheafOfModules.comp_val_app_apply _ _ W _).trans ?_
+  refine (congrArg _ (Stacks.PullbackTensorCoherence.associator_hom_tmul
+    (Z := T.scheme.toRingedSpace) (A := N) (B := dpDifferentialsSheaf T Y f)
+    (D := dpDifferentialsSheaf T Y f) W x ω η)).trans ?_
+  exact (Stacks.PullbackTensorCoherence.whiskerLeft_tmul (Z := T.scheme.toRingedSpace) (A := N)
+    (dpWedgeSheafHom T Y f) W x _).trans (congrArg _ (dpWedgeSheafHom_tmul T Y f W ω η))
 
 end Wedge
 

@@ -103,20 +103,16 @@ over differ only in their unit comparison — `Stacks.SheafOfModules.monoidalCat
 `Stacks.SheafOfModules.sheafifyUnitIso` where `Stacks.SheafInternalHom.monoidalCategory` takes
 `CategoryTheory.Iso.refl` — so the tensor products, and these crossings, agree.
 
-**The two `Iso` structures are not definitionally equal and their `inv` fields are not either**
-(`rfl` on either is rejected, and on the bare `Iso`s the kernel spends the whole
-heartbeat budget before rejecting). Their `hom` fields *are*, so
-`CategoryTheory.Iso.ext` reduces the comparison to a `rfl` that costs nothing. -/
+`Stacks.SheafOfModules.tensorObjIso` is sealed, so no `rfl` compares the two: this is
+`Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso` read backwards. -/
 theorem tensorObjIso_eq_tensorIso (A B : X.Modules) :
     Stacks.SheafOfModules.tensorObjIso X.presheaf X.ringCatSheaf.2 A B =
-      AlgebraicGeometry.SheafOfModules.tensorIso X.presheaf X.ringCatSheaf.2 A B := by
-  apply Iso.ext
-  rfl
+      AlgebraicGeometry.SheafOfModules.tensorIso X.presheaf X.ringCatSheaf.2 A B :=
+  (Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso X.presheaf X.ringCatSheaf.2 A B).symm
 
 /-- **The two spellings of "the monoidal unit of sheaves of modules is the structure sheaf" are
-the same isomorphism.** Both are the sheafification counit at
-`SheafOfModules.unit`; as with `Stacks.ProjectiveBundleConormal.tensorObjIso_eq_tensorIso` only
-the `hom` fields are definitionally equal, so `CategoryTheory.Iso.ext` is what compares them. -/
+the same isomorphism.** Both are the sheafification counit at `SheafOfModules.unit`; only the
+`hom` fields are definitionally equal, so `CategoryTheory.Iso.ext` is what compares them. -/
 theorem sheafifyUnitIso_eq_unitIso :
     Stacks.SheafOfModules.sheafifyUnitIso X.presheaf X.ringCatSheaf.2 =
       AlgebraicGeometry.SheafOfModules.unitIso X.presheaf X.ringCatSheaf.2 := by

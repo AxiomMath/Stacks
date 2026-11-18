@@ -754,7 +754,8 @@ public theorem exists_isClosed_two_le_codimension_badParameterLocus_subset
 
 /-- **Tag 0B1S, clause (2) as a dimension criterion.** Let `X, Y` be closed subvarieties of `𝐏(V)`
 which intersect properly, with `X ≠ 𝐏(V)` and `X ∩ Y ≠ ∅`. Then for a general line
-`ℓ ⊆ 𝐏 = 𝐏((End V)ᵛ)` through `[id_V]` — that is, for a line through `[id_V]` and any closed point of a nonempty
+`ℓ ⊆ 𝐏 = 𝐏((End V)ᵛ)` through `[id_V]` — that is, for a line through `[id_V]` and any closed point
+of a nonempty
 Zariski open subset of `𝐏` — every representative `g` of every closed point of `ℓ` satisfies
 
 * **clause (1)** `X ⊆ U(g)`, so that `r_g` is defined on the whole of `X`, and

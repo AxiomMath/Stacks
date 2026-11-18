@@ -602,9 +602,32 @@ attribute [local instance] hasSheafCompose_forget_ringCat
 attribute [local instance] fppfModulesMonoidal fppfModulesBraided fppfModulesSymmetric
 attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
 
-/-- The sheafification adjunction of presheaves of modules on the fppf site of `𝒳`. -/
-local notation "𝔰" => Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-  (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
+/-- The sheafification adjunction of presheaves of modules on the fppf site of `𝒳`: the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` building the tensor product sheaf,
+left adjoint to the forgetful functor. -/
+local notation "𝔰" => Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+  (fppfStructureCommRingSheaf B S hS 𝒳)
+
+open Stacks.SheafOfModules.Tensor in
+/-- On sections, the unit of the sealed sheafification into the underlying presheaf is bijective
+as soon as Mathlib's sheafification unit is: the two differ by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem bijective_unit_app_of_bijective
+    (P : PresheafOfModules.{u} (ringSheaf (fppfStructureCommRingSheaf B S hS 𝒳)).obj)
+    {y : 𝒳.val.val.obj}
+    (h : Function.Bijective (((PresheafOfModules.sheafificationAdjunction
+      (𝟙 (ringSheaf (fppfStructureCommRingSheaf B S hS 𝒳)).obj)).unit.app P).app (op y))) :
+    Function.Bijective (((𝔰).unit.app P).app (op y)) := by
+  have e : ⇑(((𝔰).unit.app P).app (op y)) =
+      ⇑((((sheafificationIso (fppfStructureCommRingSheaf B S hS 𝒳)).hom.app P).val.app (op y))) ∘
+        ⇑(((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (ringSheaf (fppfStructureCommRingSheaf B S hS 𝒳)).obj)).unit.app P).app (op y)) :=
+    funext fun x ↦ (sheafificationForgetAdjunction_unit_app_app_apply _ P (op y) x).trans
+      (PresheafOfModules.hom_congr_apply' (unit_comp_sheafificationIso_hom_app _ P) (op y) x).symm
+  rw [e]
+  exact (ConcreteCategory.bijective_of_isIso ((PresheafOfModules.evaluation _ (op y)).mapIso
+    ((SheafOfModules.forget _).mapIso ((sheafificationIso (fppfStructureCommRingSheaf B S hS 𝒳)).app
+      P))).hom).comp h
 
 variable (M : Stack.fppfModules B S hS 𝒳)
 
@@ -669,10 +692,9 @@ the objectwise tensor product of the quasi-coherent modules `M` and `g_*𝒪_�
 theorem isIso_projectionMapRan (hg : IsAffineHom B S hS g) (M : quasicoherentModules B S hS 𝒳) :
     IsIso (projectionMapRan g M.obj) := by
   refine isIso_of_bijective_app_of_isAffine 𝒳 _ (fun y hy => ?_)
-  have h2 : (𝔰).unit.app _ ≫ (SheafOfModules.forget _ ⋙
-      PresheafOfModules.restrictScalars _).map (projectionMapRan g M.obj) =
-        projectionPresheafMap g M.obj :=
-    ((𝔰).homEquiv_unit (f := projectionMapRan g M.obj)).symm.trans (Equiv.apply_symm_apply _ _)
+  have h2 : (𝔰).unit.app _ ≫ (SheafOfModules.forget _).map (projectionMapRan g M.obj) =
+      projectionPresheafMap g M.obj :=
+    ((𝔰).homEquiv_unit _ _ _).symm.trans (Equiv.apply_symm_apply _ _)
   have hO : ((ranDirectImage g).obj (SheafOfModules.unit _)).IsQuasicoherentOnSite :=
     SheafOfModules.IsQuasicoherentOnSite.of_iso ((𝔦).app (SheafOfModules.unit _))
       (isQuasicoherentOnSite_fppfModulesPushforward_of_isAffineHom B S hS g hg
@@ -682,7 +704,7 @@ theorem isIso_projectionMapRan (hg : IsAffineHom B S hS g) (M : quasicoherentMod
     (fun φ hz hx _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite M.obj
       M.property φ hz hx)
     (fun φ hz hx _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite _ hO φ hz hx)
-    hy
+    hy |> bijective_unit_app_of_bijective _
   have hb : Function.Bijective ((projectionPresheafMap g M.obj).app (op y)) :=
     bijective_projectionMapApp hg M hy
   rw [← h2] at hb

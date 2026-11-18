@@ -13,9 +13,12 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.Mix
 
 It is assembled from three isomorphisms — the sectionwise cancellation of a base change, the
 comparison of the two sheafifications and the replacement of the sectionwise extension of scalars
-by its sheafification — none of which is described on sections where it is defined. **This file
-computes it on the image of a pure tensor**: `h ⊗ x ↦ h ⊗ η(x)`, `η` the unit of the
-extension-restriction adjunction `Stacks.FlatChangeOfRings.extendScalarsAdjunction`.
+by its sheafification — conjugated by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the sealed one
+that `Stacks.SheafOfModules.Tensor.sheafTensor` ends with; none of these is described on sections
+where it is defined. **This file computes it on the image of a pure tensor** under the unit of the
+sealed sheafification: `h ⊗ x ↦ h ⊗ η(x)`, `η` the unit of the extension-restriction adjunction
+`Stacks.FlatChangeOfRings.extendScalarsAdjunction`.
 
 That is the description the underived identity of [Stacks, Tag 08DE] needs in order to be compared
 with a morphism that is not linear over the bigger ring, such as a de Rham differential.
@@ -24,10 +27,15 @@ with a morphism that is not linear over the bigger ring, such as a de Rham diffe
 
 * `Stacks.Cohomology.MixedDerivedTensor.baseChange_inv_app_tmul`: the sectionwise cancellation of
   a base change, inverted, on a pure tensor.
-* `Stacks.Cohomology.MixedDerivedTensor.sheafifyRestrictHom_val_app_unit`: the comparison of the
-  two sheafifications on the image of a section.
-* `Stacks.Cohomology.MixedDerivedTensor.tensorBaseChangeLinearIso_hom_app_unit`: **the
-  cancellation of a base change on the image of a pure tensor.**
+* `Stacks.Cohomology.MixedDerivedTensor.sheafifyRestrictHom_val_app_toSheafifyVal`: the comparison
+  of the two sheafifications on the image of a section.
+* `Stacks.Cohomology.MixedDerivedTensor.sheafificationIso_hom_app_val_app_toSheafifyVal`,
+  `Stacks.Cohomology.MixedDerivedTensor.sheafificationIso_inv_app_val_app_unit`: the comparison
+  of Mathlib's sheafification with the sealed one on the image of a section.
+* `Stacks.Cohomology.MixedDerivedTensor.tensorBaseChangeLinearIso_hom_app_val_app_toSheafifyVal`:
+  **the cancellation of a base change on the image of a pure tensor.**
+* `underivedTensorInverseImageLinearIso_hom_app_val_app_toSheafifyVal`: the underived identity
+  of [Stacks, Tag 08DE] on the image of a pure tensor.
 -/
 
 @[expose] public noncomputable section
@@ -119,6 +127,51 @@ theorem extendScalarsAdjunction_unit_app_val_app
       U).hom y)
     (Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsAdjunction_unit_app_apply α.hom G.val U x))
 
+/-- **Mathlib's sheafification unit, carried to the sealed sheafification, on a section**: the
+comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` takes the image of `z` under Mathlib's
+sheafification unit to its image under the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. This is
+`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app` read on an element. -/
+theorem sheafificationIso_hom_app_val_app_toSheafifyVal {O : Sheaf J CommRingCat.{w}}
+    (M : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) (U : Cᵒᵖ)
+    (z : M.obj U) :
+    (((Stacks.SheafOfModules.Tensor.sheafificationIso O).hom.app M).val.app U).hom
+        ((toSheafifyVal M).app U z) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app M).app U z := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply]
+  exact PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app O M) U z
+
+/-- **The sealed sheafification unit, carried back to Mathlib's sheafification, on a section**:
+the inverse of `Stacks.SheafOfModules.Tensor.sheafificationIso` takes the image of `z` under the
+unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` to its image under
+Mathlib's sheafification unit. -/
+theorem sheafificationIso_inv_app_val_app_unit {O : Sheaf J CommRingCat.{w}}
+    (M : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) (U : Cᵒᵖ)
+    (z : M.obj U) :
+    (((Stacks.SheafOfModules.Tensor.sheafificationIso O).inv.app M).val.app U).hom
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app M).app U z) =
+      (toSheafifyVal M).app U z := by
+  rw [← sheafificationIso_hom_app_val_app_toSheafifyVal]
+  exact congrArg (fun φ => (φ.val.app U).hom ((toSheafifyVal M).app U z))
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso O).hom_inv_id_app M)
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- **The sealed sheafification of a morphism of presheaves of modules, on the image of a
+section**: the image of `z` under the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is carried to the image of `ψ z`.
+This is the naturality of that unit, read on an element. -/
+theorem sheafification_map_val_app_unit {O : Sheaf J CommRingCat.{w}}
+    {M N : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (ψ : M ⟶ N)
+    (U : Cᵒᵖ) (z : M.obj U) :
+    (((Stacks.SheafOfModules.Tensor.sheafification O).map ψ).val.app U).hom
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app M).app U z) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app N).app U
+        (ψ.app U z) :=
+  (congrArg (fun φ : M ⟶ ((Stacks.SheafOfModules.Tensor.sheafification O).obj N).val =>
+    (φ.app U).hom z)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.naturality ψ)).symm
+
 open scoped TensorProduct in
 /-- **The cancellation of a base change, on the image of a pure tensor**: for a section `a` of a
 sheaf `H` of `O₂`-modules and a section `x` of a sheaf `G` of `O₁`-modules,
@@ -126,27 +179,38 @@ sheaf `H` of `O₂`-modules and a section `x` of a sheaf `G` of `O₁`-modules,
 `a ⊗_{O₁} x  ↦  a ⊗_{O₂} η(x)`,
 
 `η : G ⟶ (O₂ ⊗_{O₁} G)|_{O₁}` the unit of
-`Stacks.FlatChangeOfRings.extendScalarsAdjunction`. The three isomorphisms
+`Stacks.FlatChangeOfRings.extendScalarsAdjunction`; the images of pure tensors are taken under the
+unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`,
+which `Stacks.SheafOfModules.Tensor.sheafTensor` ends with. The isomorphisms
 `Stacks.Cohomology.MixedDerivedTensor.tensorBaseChangeLinearIso` is assembled from are crossed one
-at a time: the sectionwise cancellation of the base change carries `a ⊗ x` to `a ⊗ (1 ⊗ x)`
+at a time: the passage from the sealed sheafification to Mathlib's
+(`Stacks.Cohomology.MixedDerivedTensor.sheafificationIso_inv_app_val_app_unit`), the sectionwise
+cancellation of the base change, which carries `a ⊗ x` to `a ⊗ (1 ⊗ x)`
 (`Stacks.Cohomology.MixedDerivedTensor.baseChange_inv_app_tmul`), the comparison of the two
-sheafifications keeps the image of a section
-(`Stacks.Cohomology.MixedDerivedTensor.sheafifyRestrictHom_val_app_toSheafifyVal`), and the
-replacement of the sectionwise extension of scalars by its sheafification applies the
-sheafification unit to `1 ⊗ x`, which is `η(x)`
-(`Stacks.Cohomology.MixedDerivedTensor.extendScalarsAdjunction_unit_app_val_app`). -/
+sheafifications, which keeps the image of a section
+(`Stacks.Cohomology.MixedDerivedTensor.sheafifyRestrictHom_val_app_toSheafifyVal`), the
+replacement of the sectionwise extension of scalars by its sheafification, which applies the
+sheafification unit to `1 ⊗ x`, that is `η(x)`
+(`Stacks.Cohomology.MixedDerivedTensor.extendScalarsAdjunction_unit_app_val_app`), and the
+passage back to the sealed sheafification
+(`Stacks.Cohomology.MixedDerivedTensor.sheafificationIso_hom_app_val_app_toSheafifyVal`). -/
 theorem tensorBaseChangeLinearIso_hom_app_val_app_toSheafifyVal
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
     (H : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) (U : Cᵒᵖ)
     (a : H.val.obj U) (x : G.val.obj U) :
     (((tensorBaseChangeLinearIso α G).hom.app H).val.app U).hom
-        ((toSheafifyVal (tensorObj ((SheafOfModules.restrictScalars.{w}
-          (Stacks.FlatChangeOfRings.ringSheafMap α)).obj H).val G.val)).app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₁).unit.app
+          (tensorObj ((SheafOfModules.restrictScalars.{w}
+            (Stacks.FlatChangeOfRings.ringSheafMap α)).obj H).val G.val)).app U
           (a ⊗ₜ[O₁.obj.obj U] x)) =
-      (toSheafifyVal (tensorObj H.val ((Stacks.FlatChangeOfRings.extendScalars α).obj G).val)).app
-        U (a ⊗ₜ[O₂.obj.obj U]
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+          (tensorObj H.val ((Stacks.FlatChangeOfRings.extendScalars α).obj G).val)).app U
+        (a ⊗ₜ[O₂.obj.obj U]
           (((Stacks.FlatChangeOfRings.extendScalarsAdjunction α).unit.app G).val.app U).hom x) := by
   let := (α.hom.app U).hom.toAlgebra
+  have e0 := sheafificationIso_inv_app_val_app_unit (O := O₁)
+    (tensorObj ((SheafOfModules.restrictScalars.{w}
+      (Stacks.FlatChangeOfRings.ringSheafMap α)).obj H).val G.val) U (a ⊗ₜ[O₁.obj.obj U] x)
   have e1 := moduleSheafification_map_val_app_toSheafifyVal (O := O₁)
     ((Stacks.FlatChangeOfRings.baseChangeNatIsoOf α G).inv.app H.val) U (a ⊗ₜ[O₁.obj.obj U] x)
   have e2 := sheafifyRestrictHom_val_app_toSheafifyVal α
@@ -156,7 +220,12 @@ theorem tensorBaseChangeLinearIso_hom_app_val_app_toSheafifyVal
     ((tensorRightNatTrans (Stacks.FlatChangeOfRings.toExtendScalarsVal α G)).app H.val) U
     (a ⊗ₜ[O₂.obj.obj U] ((1 : O₂.obj.obj U) ⊗ₜ[O₁.obj.obj U] x))
   have e4 := extendScalarsAdjunction_unit_app_val_app α G U x
-  refine (congrArg _ (congrArg _ e1)).trans ((congrArg _ e2).trans (e3.trans ?_))
+  have e5 := sheafificationIso_hom_app_val_app_toSheafifyVal (O := O₂)
+    (tensorObj H.val ((Stacks.FlatChangeOfRings.extendScalars α).obj G).val) U
+    (a ⊗ₜ[O₂.obj.obj U]
+      (((Stacks.FlatChangeOfRings.extendScalarsAdjunction α).unit.app G).val.app U).hom x)
+  refine (congrArg _ (congrArg _ (congrArg _ (congrArg _ e0)))).trans ((congrArg _
+    ((congrArg _ (congrArg _ e1)).trans ((congrArg _ e2).trans (e3.trans ?_)))).trans e5)
   exact congrArg (fun y => (toSheafifyVal (tensorObj H.val
     ((Stacks.FlatChangeOfRings.extendScalars α).obj G).val)).app U (a ⊗ₜ[O₂.obj.obj U] y)) e4.symm
 
@@ -201,15 +270,18 @@ open scoped TensorProduct in
 cancellation of a base change
 (`Stacks.Cohomology.MixedDerivedTensor.tensorBaseChangeLinearIso_hom_app_val_app_toSheafifyVal`)
 followed by the identification of the extension of scalars of `f⁻¹G` with `f^*G` in the second
-factor, which acts on the image of a pure tensor through the second entry. -/
+factor, which acts on the image of a pure tensor through the second entry
+(`Stacks.Cohomology.MixedDerivedTensor.sheafification_map_val_app_unit`). -/
 theorem underivedTensorInverseImageLinearIso_hom_app_val_app_toSheafifyVal
     (G : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O))
     (F : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O))
     (U : X.Cᵒᵖ) (a : F.val.obj U) (x : ((auxHomG f).pullbackTopos.obj G).val.obj U) :
     (((underivedTensorInverseImageLinearIso f G).hom.app F).val.app U).hom
-        ((toSheafifyVal (tensorObj ((restrictToInvRing f).obj F).val
-          ((auxHomG f).pullbackTopos.obj G).val)).app U (a ⊗ₜ[(invRing f).obj.obj U] x)) =
-      (toSheafifyVal (tensorObj F.val (f.pullbackTopos.obj G).val)).app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (invRing f)).unit.app
+          (tensorObj ((restrictToInvRing f).obj F).val
+            ((auxHomG f).pullbackTopos.obj G).val)).app U (a ⊗ₜ[(invRing f).obj.obj U] x)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (tensorObj F.val (f.pullbackTopos.obj G).val)).app U
         (a ⊗ₜ[X.O.obj.obj U] ((inverseImageToPullbackTopos f G).val.app U).hom x) := by
   refine Eq.trans (congrArg (fun y =>
       (((restrictToInvRing f).map
@@ -217,7 +289,7 @@ theorem underivedTensorInverseImageLinearIso_hom_app_val_app_toSheafifyVal
           (pullbackIsoExtendInverseImage f G).hom).app F)).val.app U).hom y)
     (tensorBaseChangeLinearIso_hom_app_val_app_toSheafifyVal ((auxHomH f).fSharp)
       ((auxHomG f).pullbackTopos.obj G) F U a x)) ?_
-  exact moduleSheafification_map_val_app_toSheafifyVal (O := X.O)
+  exact sheafification_map_val_app_unit (O := X.O)
     (tensorMapRight F.val (pullbackIsoExtendInverseImage f G).hom.val) U _
 
 omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in

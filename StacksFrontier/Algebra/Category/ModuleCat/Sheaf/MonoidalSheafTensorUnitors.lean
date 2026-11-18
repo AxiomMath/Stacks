@@ -35,10 +35,14 @@ The computation runs entirely inside the localized structure.  The unit comparis
 sheafification there is the identity — the localization is performed with `Iso.refl` as its
 choice of unit — so the localized unitors at `ℱ^#` are the tensorator of sheafification followed
 by `ℱ^#` of the presheaf unitor, and the re-seated unitors are those conjugated by
-`SheafOfModules.sheafTensorIso` and the counit `SheafOfModules.unitIso` at the unit.  The counit
-cancels against the counit inside `sheafTensorIso`, leaving the sheafified presheaf unitor, which
-is the unitor of the tensor product sheaf by definition.  Nothing about the sections of the
-sheafification is used.
+`SheafOfModules.sheafTensorIso`, `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` and the counit
+`SheafOfModules.unitIso` at the unit.  The counit cancels against the counit inside
+`sheafTensorIso`, leaving Mathlib's sheafification of the presheaf unitor followed by the counit.
+The unitor of the tensor product sheaf is the same composite for the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` that `sheafTensor` ends with; the two agree by
+naturality of `Stacks.SheafOfModules.Tensor.sheafificationIso` and by
+`SheafOfModules.sheafificationIso_hom_app_comp_sheafificationCounitIso_hom`, which matches the
+two counits.  Nothing about the sections of the sheafification is used.
 
 Three spellings of the sheafified presheaf unit are in play: `𝟙_ (Mod(𝒪))` for the localized
 structure, `(SheafOfModules.forget _).obj (SheafOfModules.unit _)`, and
@@ -292,6 +296,76 @@ theorem counit_whiskerLeft_comp_sheafTensorIso_comp
   (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ g) (counit_whiskerLeft_comp_sheafTensorIso R A)).trans (Category.assoc _ _ _))
 
+/-! ### The counit of the sealed sheafification -/
+
+omit [HasWeakSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
+/-- `Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso` is the identity at each sheaf
+of modules. -/
+private lemma forgetCompRestrictScalarsIdIso_inv_app :
+    (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso R).inv.app A =
+      𝟙 ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj A) :=
+  rfl
+
+/-- The counit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` at `ℱ` is that
+of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, after
+`Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso`. -/
+private lemma sheafificationForgetAdjunction_counit_app :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).counit.app A =
+      (Stacks.SheafOfModules.Tensor.sheafification R).map
+          ((Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso R).inv.app A) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).counit.app A := by
+  rw [← Adjunction.homEquiv_symm_id, Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp, Adjunction.homEquiv_counit]
+
+/-- The counit `Stacks.SheafOfModules.sheafificationCounitIso` of the sealed sheafification at
+`ℱ`, preceded by `Stacks.SheafOfModules.Tensor.sheafificationIso`, is the counit
+`SheafOfModules.counitIso` of Mathlib's sheafification. -/
+theorem sheafificationIso_hom_app_comp_sheafificationCounitIso_hom :
+    (Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.app
+          ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj A) ≫
+        (Stacks.SheafOfModules.sheafificationCounitIso R A).hom =
+      (counitIso R A).hom := by
+  rw [Stacks.SheafOfModules.sheafificationCounitIso, Iso.app_hom, asIso_hom,
+    sheafificationForgetAdjunction_counit_app, ← NatTrans.naturality_assoc,
+    Stacks.SheafOfModules.Tensor.sheafificationIso, Adjunction.leftAdjointUniq_hom_app_counit,
+    forgetCompRestrictScalarsIdIso_inv_app]
+  exact (congrArg (· ≫ _) (CategoryTheory.Functor.map_id _ _)).trans (Category.id_comp _)
+
+/-- `Stacks.SheafOfModules.tensorSheafUnitRightIso`, read through
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` on Mathlib's sheafification, is the sheafified
+presheaf unitor followed by the counit. -/
+theorem sheafTensorObjIso_inv_comp_tensorSheafUnitRightIso_hom :
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso R A
+          (unit (Stacks.SheafOfModules.Tensor.ringSheaf R))).inv ≫
+        (Stacks.SheafOfModules.tensorSheafUnitRightIso R.obj
+          (Stacks.SheafOfModules.Tensor.ringSheaf R).property A).hom =
+      (PresheafOfModules.sheafification
+          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+          (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map
+          (ρ_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj A)).hom ≫
+        (counitIso R A).hom :=
+  (NatTrans.naturality_assoc (Stacks.SheafOfModules.Tensor.sheafificationIso R).hom
+      (ρ_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj A)).hom _).symm.trans
+    (congrArg (_ ≫ ·) (sheafificationIso_hom_app_comp_sheafificationCounitIso_hom R A))
+
+/-- The left-handed counterpart of
+`SheafOfModules.sheafTensorObjIso_inv_comp_tensorSheafUnitRightIso_hom`. -/
+theorem sheafTensorObjIso_inv_comp_tensorSheafUnitLeftIso_hom :
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso R
+          (unit (Stacks.SheafOfModules.Tensor.ringSheaf R)) A).inv ≫
+        (Stacks.SheafOfModules.tensorSheafUnitLeftIso R.obj
+          (Stacks.SheafOfModules.Tensor.ringSheaf R).property A).hom =
+      (PresheafOfModules.sheafification
+          (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+          (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map
+          (λ_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj A)).hom ≫
+        (counitIso R A).hom :=
+  (NatTrans.naturality_assoc (Stacks.SheafOfModules.Tensor.sheafificationIso R).hom
+      (λ_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj A)).hom _).symm.trans
+    (congrArg (_ ≫ ·) (sheafificationIso_hom_app_comp_sheafificationCounitIso_hom R A))
+
 /-! ### The re-seated unitors -/
 
 /-- The localized right unitor at `ℱ`, precomposed with the counit, is the tensorator of
@@ -351,9 +425,12 @@ theorem rightUnitor_sheafTensor_eq :
       (Stacks.SheafOfModules.tensorSheafUnitRightIso R.obj
         (Stacks.SheafOfModules.Tensor.ringSheaf R).property A).hom :=
   (Iso.inv_comp_eq _).mpr
-    ((cancel_epi ((counitIso R A).hom ▷ unit (Stacks.SheafOfModules.Tensor.ringSheaf R))).mp
+    (((cancel_epi ((counitIso R A).hom ▷ unit (Stacks.SheafOfModules.Tensor.ringSheaf R))).mp
       ((counit_whiskerRight_comp_rightUnitor R A).trans
-        (counit_whiskerRight_comp_sheafTensorIso_comp R A _).symm))
+        (counit_whiskerRight_comp_sheafTensorIso_comp R A _).symm)).trans
+      ((congrArg ((sheafTensorIso R A (unit (Stacks.SheafOfModules.Tensor.ringSheaf R))).hom ≫ ·)
+          (sheafTensorObjIso_inv_comp_tensorSheafUnitRightIso_hom R A).symm).trans
+        (Category.assoc _ _ _).symm))
 
 /-- **The left unitor of the re-seated monoidal structure is the left unitor
 `𝒪 ⊗_𝒪 ℱ ≅ ℱ` of the tensor product sheaf.** -/
@@ -363,9 +440,12 @@ theorem leftUnitor_sheafTensor_eq :
       (Stacks.SheafOfModules.tensorSheafUnitLeftIso R.obj
         (Stacks.SheafOfModules.Tensor.ringSheaf R).property A).hom :=
   (Iso.inv_comp_eq _).mpr
-    ((cancel_epi (unit (Stacks.SheafOfModules.Tensor.ringSheaf R) ◁ (counitIso R A).hom)).mp
+    (((cancel_epi (unit (Stacks.SheafOfModules.Tensor.ringSheaf R) ◁ (counitIso R A).hom)).mp
       ((counit_whiskerLeft_comp_leftUnitor R A).trans
-        (counit_whiskerLeft_comp_sheafTensorIso_comp R A _).symm))
+        (counit_whiskerLeft_comp_sheafTensorIso_comp R A _).symm)).trans
+      ((congrArg ((sheafTensorIso R (unit (Stacks.SheafOfModules.Tensor.ringSheaf R)) A).hom ≫ ·)
+          (sheafTensorObjIso_inv_comp_tensorSheafUnitLeftIso_hom R A).symm).trans
+        (Category.assoc _ _ _).symm))
 
 /-- `SheafOfModules.rightUnitor_sheafTensor_eq`, as an equality of isomorphisms. -/
 theorem rightUnitor_sheafTensor_eq_iso :

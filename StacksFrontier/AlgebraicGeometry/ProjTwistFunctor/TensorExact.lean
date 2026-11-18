@@ -49,11 +49,12 @@ an equivalence, and from `L` being invertible ([Stacks, Tag 01CS]).
 
 ## Implementation notes
 
-The tensor functor is, after unfolding, the composite of the forgetful functor to presheaves of
-modules, `MonoidalCategory.tensorRight` on presheaves of modules, and sheafification. Mathlib's
-additivity instance for the middle factor is stated over a
-`CategoryTheory.MonoidalPreadditive` category, which for `PresheafOfModules` is
-`Stacks.ProjTwistFunctor.monoidalPreadditive`.
+Additivity is checked on morphisms: `Stacks.SheafOfModules.Tensor.sheafTensor_map_app` writes
+the functor on a morphism `f` as the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of `PresheafOfModules.tensorHom f.val (𝟙 L.val)`,
+which is additive in `f` by `PresheafOfModules.tensorHom_add_left`, and the sealed
+sheafification is additive as a left adjoint
+(`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`).
 
 The sheaf `L` tensored with is typed over
 `Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪`, while the canonical
@@ -106,24 +107,13 @@ instance additive_tensorRightFunctor
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩))
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
-          L) := by
-  let : MonoidalCategory
-      (PresheafOfModules.{w}
-        (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) := by
-    change MonoidalCategory
-      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
-    infer_instance
-  have : Functor.Additive (Stacks.SheafOfModules.TensorSheafification.sheafify O hO) :=
-    (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).left_adjoint_additive
-  have : MonoidalPreadditive
-      (PresheafOfModules.{w}
-        (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
-    inferInstanceAs (MonoidalPreadditive
-      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O)))
-  change Functor.Additive
-    (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
-      MonoidalCategory.tensorRight L.val ⋙ Stacks.SheafOfModules.TensorSheafification.sheafify O hO)
-  infer_instance
+          L) where
+  map_add {_ _} f g :=
+    have := Adjunction.left_adjoint_additive (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)
+    (congrArg (Stacks.SheafOfModules.Tensor.sheafification _).map
+      (PresheafOfModules.tensorHom_add_left f.val g.val (𝟙 L.val))).trans
+      (Functor.map_add _)
 
 /-- **Tensoring with an invertible sheaf of modules is an equivalence**, tensoring on the
 right. -/

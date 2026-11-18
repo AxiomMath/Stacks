@@ -150,8 +150,9 @@ theorem tensorSheafMap_id_globalSmulCenter (m : ℤ) (c : (projRingSheaf 𝒮).o
     (congrArg (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection
         (AlgebraicGeometry.Proj 𝒮).toRingedSpace F (twistingSheaf 𝒮 m) (op U))
       crossScalar).trans
-      (map_smul ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit
-        (AlgebraicGeometry.Proj 𝒮).toRingedSpace
+      (map_smul (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+          (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩).unit.app
         ((PresheafOfModules.tensorObj (O := ((AlgebraicGeometry.Proj 𝒮).toRingedSpace).presheaf)
           (F.val) ((twistingSheaf 𝒮 m).val)))).app (op U)).hom _ _)
   exact key

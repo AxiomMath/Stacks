@@ -86,9 +86,7 @@ noncomputable def tensorLeftIso (N : SheafOfModules.{u} (structureRingSheaf Z)) 
               (N))).map g :=
       (Stacks.SheafOfModules.Strict.tensorHom_eq_sheafifyMap Z.presheaf
         (_root_.structureSheafRing Z).property (𝟙 N) g).trans
-        (congrArg (Stacks.SheafOfModules.sheafifyFunctor Z.presheaf
-          (_root_.structureSheafRing Z).property).map
-          (MonoidalCategory.id_tensorHom N.val g.val))
+        (Stacks.SheafOfModules.Tensor.sheafTensor_obj_map _ N g).symm
     simp only [Iso.refl_hom]
     exact (MonoidalCategory.id_tensorHom N g).symm.trans h)
 

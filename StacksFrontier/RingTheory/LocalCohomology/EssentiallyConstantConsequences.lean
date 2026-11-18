@@ -151,7 +151,8 @@ is where the Artinianness of [Stacks, Tag 0DX0] is available — is stated only 
 Theorem [Stacks, Tag 0EIE] itself, in Situation [Stacks, Tag 0EFU] at a general
 specialization-stable `T`, is
 `Stacks.LocalCohomology.Bootstrap.essentiallyConstant_and_consequences`, in
-`StacksFrontier/RingTheory/LocalCohomology/EssentiallyConstantBootstrap.lean`. In that situation both
+`StacksFrontier/RingTheory/LocalCohomology/EssentiallyConstantBootstrap.lean`. In that situation
+both
 assertions of [Stacks, Tag 0EFX] are
 `Stacks.Algebraization.isProZero_and_hasStableImage_idealPowerCohomology`, and all seven parts of
 [Stacks, Tag 0EFY], at one and the same `m₀`, are

@@ -34,10 +34,10 @@ its target restated.
 
 ## Main results
 
-* `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj_hom_whiskerRight`: **naturality of
-  `tensorSheafIsoTensorObj` in its first variable.** For `f : F ⟶ F'`,
-  `(tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom ≫ f ▷ G` is
-  `(sheafify 𝒪 h𝒪).map (f.val ▷ G.val) ≫ (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G).hom`.
+* `Stacks.SectionTensorFormula.sheafifyIsoTensorObj_hom_whiskerRight`: **naturality of
+  `sheafifyIsoTensorObj` in its first variable.** For `f : F ⟶ F'`,
+  `(sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom ≫ f ▷ G` is
+  `(sheafify 𝒪 h𝒪).map (f.val ▷ G.val) ≫ (sheafifyIsoTensorObj 𝒪 h𝒪 F' G).hom`.
 * `Stacks.SectionTensorFormula.toTensorSection_comp_whiskerRight_val`: **naturality of the
   section comparison in its first variable**, as an equality of morphisms of presheaves of
   modules.
@@ -49,14 +49,18 @@ its target restated.
 
 ## Implementation notes
 
+**The sheafified tensor product is taken in the `sheafify` spelling.** The native sheaf tensor
+`Stacks.SheafOfModules.Tensor.sheafTensor` seals its sheafification, so it is not definitionally
+`(sheafify 𝒪 h𝒪).obj (F.val ⊗ G.val)`; as in
+`StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormula.lean`, the comparison with `F ⊗ G` is
+`Stacks.SectionTensorFormula.sheafifyIsoTensorObj`, whose source is the latter.
+
 **Why the sheaf-level proofs are terms and not rewrites.** The reason is the one recorded in the
-implementation notes of `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormula.lean`: three
-spellings of one object occur unavoidably —
-`Stacks.SheafOfModules.TensorSheafification.tensorSheaf 𝒪 h𝒪 F G` versus
-`(sheafify 𝒪 h𝒪).obj (F.val ⊗ G.val)`, and `(structureSheaf 𝒪 h𝒪).obj` versus
-`structureRingPresheaf 𝒪`, at which `toSheafify` is declared — and each pair is definitionally
-equal at default transparency but not at the *reducible* transparency at which `rw`, `simp only`
-and `conv` check their motives. So `tensorSheafIsoTensorObj_hom_whiskerRight` is a `calc` chain of
+implementation notes of `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormula.lean`: the
+two spellings `(structureSheaf 𝒪 h𝒪).obj` and `structureRingPresheaf 𝒪` (at which `toSheafify`
+is declared) of one ring presheaf occur unavoidably, and they are definitionally equal at default
+transparency but not at the *reducible* transparency at which `rw`, `simp only` and `conv` check
+their motives. So `sheafifyIsoTensorObj_hom_whiskerRight` is a `calc` chain of
 `exact`s whose steps are `CategoryTheory.whisker_eq`, `CategoryTheory.eq_whisker` and
 `CategoryTheory.Category.assoc`, each of which fixes its own spelling, and
 `toTensorSection_comp_whiskerRight_val` is an `Eq.trans` of two such whiskerings. Re-bracketing is
@@ -138,21 +142,14 @@ section Left
 variable {F F' : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)}
   (G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
 
-/-- **Naturality of `tensorSheafIsoTensorObj` in its first variable**, which is the sheaf-level
+/-- **Naturality of `sheafifyIsoTensorObj` in its first variable**, which is the sheaf-level
 half of the naturality of the comparison on sections. It is the naturality of the tensorator
 together with the naturality of the counit; no coherence of the localized monoidal structure is
 used. This is the mirror image of
-`Stacks.SectionTensorFormula.tensorSheafIsoTensorObj_hom_whiskerLeft`. -/
-theorem tensorSheafIsoTensorObj_hom_whiskerRight (f : F ⟶ F') :
-    (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom ≫ f ▷ G =
-      ((sheafify 𝒪 h𝒪).map (f.val ▷ G.val) :
-          ((Stacks.SheafOfModules.Tensor.sheafTensor
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
-                (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G ⟶
-            ((Stacks.SheafOfModules.Tensor.sheafTensor
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
-                (forget₂ CommRingCat RingCat) h𝒪⟩).obj F').obj G) ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G).hom := by
+`Stacks.SectionTensorFormula.sheafifyIsoTensorObj_hom_whiskerLeft`. -/
+theorem sheafifyIsoTensorObj_hom_whiskerRight (f : F ⟶ F') :
+    (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom ≫ f ▷ G =
+      (sheafify 𝒪 h𝒪).map (f.val ▷ G.val) ≫ (sheafifyIsoTensorObj 𝒪 h𝒪 F' G).hom := by
   have hmid : ((sheafifyValIso 𝒪 h𝒪 F).hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 G).hom) ≫ f ▷ G =
       ((sheafify 𝒪 h𝒪).map f.val ▷ (sheafify 𝒪 h𝒪).obj G.val) ≫
         ((sheafifyValIso 𝒪 h𝒪 F').hom ⊗ₘ (sheafifyValIso 𝒪 h𝒪 G).hom) := by
@@ -186,12 +183,12 @@ theorem toTensorSection_comp_whiskerRight_val (f : F ⟶ F') :
   have hunit : toSheafify 𝒪 h𝒪 (F.val ⊗ G.val) ≫ ((sheafify 𝒪 h𝒪).map (f.val ▷ G.val)).val =
       (f.val ▷ G.val) ≫ toSheafify 𝒪 h𝒪 (F'.val ⊗ G.val) :=
     ((sheafifyAdjunction 𝒪 h𝒪).unit.naturality (f.val ▷ G.val)).symm
-  have hstep : (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom.val ≫ (f ▷ G).val =
+  have hstep : (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom.val ≫ (f ▷ G).val =
       ((sheafify 𝒪 h𝒪).map (f.val ▷ G.val)).val ≫
-        (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G).hom.val :=
-    congrArg SheafOfModules.Hom.val (tensorSheafIsoTensorObj_hom_whiskerRight 𝒪 h𝒪 G f)
+        (sheafifyIsoTensorObj 𝒪 h𝒪 F' G).hom.val :=
+    congrArg SheafOfModules.Hom.val (sheafifyIsoTensorObj_hom_whiskerRight 𝒪 h𝒪 G f)
   (whisker_eq (toSheafify 𝒪 h𝒪 (F.val ⊗ G.val)) hstep).trans
-    (eq_whisker hunit (tensorSheafIsoTensorObj 𝒪 h𝒪 F' G).hom.val)
+    (eq_whisker hunit (sheafifyIsoTensorObj 𝒪 h𝒪 F' G).hom.val)
 
 end Left
 

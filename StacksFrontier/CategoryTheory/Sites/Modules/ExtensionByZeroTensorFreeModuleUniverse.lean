@@ -70,7 +70,7 @@ universe a w v u
 
 open Stacks.Sites.OverModules
 open AlgebraicGeometry (RingedSite)
-open Stacks.SheafOfModules.Tensor (ringSheaf)
+open Stacks.SheafOfModules.Tensor (ringSheaf sheafification sheafificationIso)
 open AlgebraicGeometry.SheafOfModules.PresheafOfModules (tensorRight)
 open Stacks.SheafOfModules.TensorColimits (tensorCommIso
   tensorSheafificationIsoGeneral)
@@ -101,12 +101,12 @@ noncomputable def tensorLeftIsoSheafTensorRight (O : Sheaf J CommRingCat.{w})
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).obj F ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F :=
   NatIso.ofComponents
-    (fun A => (sheafifyModules J O).mapIso ((tensorCommIso J O F.val).app A.val)) (by
+    (fun A => (sheafification O).mapIso ((tensorCommIso J O F.val).app A.val)) (by
       intro A B morphism
-      exact (((sheafifyModules J O).map_comp _ _).symm.trans
-        (congrArg (sheafifyModules J O).map
+      exact (((sheafification O).map_comp _ _).symm.trans
+        (congrArg (sheafification O).map
           ((tensorCommIso J O F.val).hom.naturality morphism.val))).trans
-        ((sheafifyModules J O).map_comp _ _))
+        ((sheafification O).map_comp _ _))
 
 /-- Tensoring on the right with `F` commutes with sheafification, at the free module
 universe. -/
@@ -209,7 +209,9 @@ noncomputable def restrictionTensorIso
       ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).flip.obj F) ≪≫
     Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft P δ) ≪≫
     Functor.isoWhiskerLeft I (Functor.isoWhiskerRight γ S) ≪≫
-    Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft T' ε.symm)
+    Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft T' ε.symm) ≪≫
+    Functor.isoWhiskerLeft I (Functor.isoWhiskerLeft T'
+      (Functor.isoWhiskerRight (sheafificationIso (X.O.over U)) (extendByZero.{a} X U)))
 
 end Sheaf
 

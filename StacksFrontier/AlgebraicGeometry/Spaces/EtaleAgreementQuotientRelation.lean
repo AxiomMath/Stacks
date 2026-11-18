@@ -248,7 +248,7 @@ theorem range_lift_trans_le_etaleAgreementLocus (hE : IsAlgebraicSpace B S hS E)
   have hmV : Subfunctor.range m ≤ V := by
     rw [← Subfunctor.preimage_eq_top_iff, preimage_openSubspaceOfPoints', Set.preimage_range]
     ext T x
-    simp only [Subfunctor.top_obj, Set.top_eq_univ, Set.mem_univ, iff_true]
+    simp only [Subfunctor.top_obj, Set.mem_univ, iff_true]
     exact Set.subset_univ _
   let m' : Q ⟶ V.toFunctor := Subfunctor.lift m hmV
   have hm' : IsEtale B S hS m' :=

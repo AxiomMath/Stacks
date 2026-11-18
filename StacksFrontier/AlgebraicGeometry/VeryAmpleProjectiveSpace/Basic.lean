@@ -150,7 +150,7 @@ theorem isRelativelyVeryAmple_of_immersion_over {X S' S : Scheme.{u}} [IsAffine 
         Stacks.AmpleProjectiveImmersion.liftOver_snd]
   have himm : IsImmersion j' := by
     have hc : IsImmersion (j' ≫ AlgebraicGeometry.projectiveSpaceOverMap n g) := by
-      rw [hcomp]; assumption
+      rwa [hcomp]
     exact IsImmersion.of_comp j' (AlgebraicGeometry.projectiveSpaceOverMap n g)
   refine isRelativelyVeryAmple_of_immersion n f L j' himm ?_ ?_
   · rw [hjj']

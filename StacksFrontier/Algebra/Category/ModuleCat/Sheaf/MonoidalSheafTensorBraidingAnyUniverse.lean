@@ -18,6 +18,11 @@ namespace `SheafOfModules.AnyUniverse`.
 * `SheafOfModules.AnyUniverse.sheafifyMod_braided`: module sheafification is braided monoidal.
 * `SheafOfModules.AnyUniverse.sheafTensorIso_braiding`: `SheafOfModules.sheafTensorIso` is
   compatible with the two braidings.
+* `SheafOfModules.AnyUniverse.sheafTensorObjIso_inv_comp_sheafTensorBraiding`:
+  `Stacks.SheafOfModules.Tensor.sheafTensorBraiding`, which sheafifies with the sealed
+  `Stacks.SheafOfModules.Tensor.sheafification`, read through
+  `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` is Mathlib's sheafification of the sectionwise
+  symmetry.
 * `SheafOfModules.AnyUniverse.braiding_eq_sheafTensorBraiding`: the commutativity constraint of
   `SheafOfModules.symmetricCategorySheafTensor` is
   `Stacks.SheafOfModules.Tensor.sheafTensorBraiding`.
@@ -79,6 +84,7 @@ preceding it by the braiding of the localized structure.
 Both are `CategoryTheory.MonoidalCategory.braiding_conj_of_laxBraided` for sheafification at
 the counit isomorphisms, `sheafTensorIso` being by construction the inverse of the tensor
 product of those counits followed by the monoidality isomorphism. -/
+@[reassoc]
 theorem sheafTensorIso_braiding
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
     (sheafTensorIso R M N).hom ≫
@@ -97,22 +103,41 @@ theorem sheafTensorIso_braiding
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj))
       (counitIso R M) (counitIso R N) (Functor.LaxBraided.braided _ _)
 
+/-- `Stacks.SheafOfModules.Tensor.sheafTensorBraiding` read through
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`: it is Mathlib's sheafification of the
+sectionwise symmetry.  This is the naturality of `Stacks.SheafOfModules.Tensor.sheafificationIso`,
+since `sheafTensorBraiding` is the sealed sheafification of the sectionwise symmetry. -/
+theorem sheafTensorObjIso_inv_comp_sheafTensorBraiding
+    (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso R M N).inv ≫
+        ((Stacks.SheafOfModules.Tensor.sheafTensorBraiding R).hom.app M).app N =
+      ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf (R))
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (R)).obj))).map
+          (((Stacks.SheafOfModules.Tensor.presheafTensorBraiding R).hom.app
+            ((forget _).obj M)).app ((forget _).obj N)) ≫
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso R N M).inv :=
+  ((Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.naturality _).symm
+
 /-- **The commutativity constraint of the re-seated symmetric monoidal structure on `Mod(O)` is
 `Stacks.SheafOfModules.Tensor.sheafTensorBraiding`.**
 
 `SheafOfModules.symmetricCategorySheafTensor` is the symmetry of the localized structure
 transported along `SheafOfModules.sheafTensorNatIso`, so its braiding is the localized braiding
-conjugated by `SheafOfModules.sheafTensorIso`
-(`CategoryTheory.MonoidalCategory.reseatSymmetric_braiding`); `sheafTensorIso_braiding` says
-that conjugate is the sheafification of the sectionwise symmetry, which is
-`sheafTensorBraiding` on the nose. -/
+conjugated by `SheafOfModules.sheafTensorNatIso`
+(`CategoryTheory.MonoidalCategory.reseatSymmetric_braiding`), whose components are
+`SheafOfModules.sheafTensorIso` followed by the inverse of
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`.  `sheafTensorIso_braiding` says that conjugating
+by `sheafTensorIso` gives Mathlib's sheafification of the sectionwise symmetry, and
+`sheafTensorObjIso_inv_comp_sheafTensorBraiding` identifies that with `sheafTensorBraiding`. -/
 theorem braiding_eq_sheafTensorBraiding
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
     (@BraidedCategory.braiding _ _ (monoidalCategorySheafTensor R)
         (symmetricCategorySheafTensor R).toBraidedCategory M N).hom =
       ((Stacks.SheafOfModules.Tensor.sheafTensorBraiding R).hom.app M).app N :=
   (reseatSymmetric_braiding (sheafTensorNatIso R) (unitIso R) M N).trans
-    (Iso.inv_comp_of_hom_comp_eq _ _ _ (sheafTensorIso_braiding R M N))
+    (Iso.inv_comp_of_hom_comp_eq _ _ _ ((Category.assoc _ _ _).trans
+      ((congrArg (_ ≫ ·) (sheafTensorObjIso_inv_comp_sheafTensorBraiding R M N)).trans
+        (sheafTensorIso_braiding_assoc R M N _))))
 
 end SheafOfModules.AnyUniverse
 

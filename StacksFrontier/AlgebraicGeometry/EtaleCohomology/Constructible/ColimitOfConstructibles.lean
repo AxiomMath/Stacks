@@ -40,7 +40,8 @@ finite direct sums of the sheaves `j_{U!}(Z/nZ)_U`, at quasi-compact quasi-separ
 objects `U` and positive integers `n`, is a constructible abelian sheaf. Stacks 09YT itself, both
 inclusions, is `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_hasFiniteZModShriekPresentation`
 and `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_affineZModShriekPresentation` of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.AbelianShriekPresentation`, where the
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.AbelianShriekPresentation`, where
+the
 tag is registered.
 
 ## Inputs carried as binders

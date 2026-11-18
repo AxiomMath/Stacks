@@ -14,7 +14,8 @@ public import StacksFrontier.RingTheory.Smooth.PlaneHypersurface
 # The Fermat cubic curve is a smooth proper curve of genus one
 
 Let `k` be a field and `Y₀ = Proj (k[T₀, T₁, T₂] ⧸ (T₀ ^ 3 + T₁ ^ 3 + T₂ ^ 3))` the plane Fermat
-cubic of `StacksFrontier/Examples/Spaces/CurveFamilyNotScheme/FermatCurve.lean`, the central fibre of
+cubic of `StacksFrontier/Examples/Spaces/CurveFamilyNotScheme/FermatCurve.lean`, the central fibre
+of
 the cubic surface of [Stacks, Tag 0D5E]. This file proves that `Y₀ ⟶ Spec k` is proper, and,
 when the characteristic of `k` is not three, that it is smooth, that `Y₀` is a curve over `k`,
 and that its genus is one.

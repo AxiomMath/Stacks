@@ -61,8 +61,7 @@ theorem exists_one_tmul_D_eq (t : letI : Algebra O R := ε.toRingHom.toAlgebra; 
       intro r
       obtain ⟨a, ha⟩ := hx (o • r)
       exact ⟨a, by rw [ha, smul_tmul]⟩
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul r x => exact key x r
   | add t₁ t₂ h₁ h₂ =>
     obtain ⟨a₁, h₁⟩ := h₁

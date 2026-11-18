@@ -207,21 +207,22 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
 
-/-- The sheafification unit of the tensor presheaf is natural in both arguments: the product of
-two sections is carried to the product of their images. -/
+/-- The sheafification unit of the tensor presheaf (the unit of
+`structureSheafificationAdjunction`, the sealed sheafification that is the last factor of the
+sheaf tensor product) is natural in both arguments: the product of two sections is carried to
+the product of their images. -/
 theorem toSheafify_tensorProductIso
     {A A' B B' : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)}
     (e : A ≅ A') (f : B ≅ B') (U : Cᵒᵖ) (x : A.val.obj U) (y : B.val.obj U) :
     Hom.app (tensorProductIso O hO e f).hom.val U
-        (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+        (Hom.app ((structureSheafificationAdjunction O hO).unit.app
           ((PresheafOfModules.tensorObj (O := O) (A.val) (B.val)))) U
           (x ⊗ₜ y)) =
-      Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+      Hom.app ((structureSheafificationAdjunction O hO).unit.app
         ((PresheafOfModules.tensorObj (O := O) (A'.val) (B'.val)))) U
         (Hom.app e.hom.val U x ⊗ₜ Hom.app f.hom.val U y) :=
-  (PresheafOfModules.hom_congr_apply ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-    O hO).unit.naturality
+  (PresheafOfModules.hom_congr_apply ((structureSheafificationAdjunction O hO).unit.naturality
     (e.hom.val ⊗ₘ f.hom.val)) U (x ⊗ₜ y)).symm
 
 /-- **The left unit constraint of the sheaf tensor product, on sections**: it sends the product
@@ -230,7 +231,7 @@ theorem toSheafify_tensorProductLeftUnitor
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) (U :
       Cᵒᵖ) (m : M.val.obj U) :
     Hom.app (tensorProductLeftUnitor O hO M).hom.val U
-        (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+        (Hom.app ((structureSheafificationAdjunction O hO).unit.app
           ((PresheafOfModules.tensorObj (O := O)
             ((SheafOfModules.unit
               (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val)
@@ -239,13 +240,13 @@ theorem toSheafify_tensorProductLeftUnitor
   have leftUnitorApp : ∀ {R : CommRingCat.{w}} (N : ModuleCat.{w} R) (z : N),
       ConcreteCategory.hom (MonoidalCategory.leftUnitor N).hom ((1 : R) ⊗ₜ[R] z) = z :=
     fun N z => (ModuleCat.MonoidalCategory.leftUnitor_hom_apply 1 z).trans (one_smul _ z)
-  have key : Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+  have key : (structureSheafificationAdjunction O hO).unit.app
         ((PresheafOfModules.tensorObj (O := O)
           ((SheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val)
           (M.val))) ≫
         (tensorProductLeftUnitor O hO M).hom.val = (λ_ M.val).hom :=
-    ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).unit_comp_map_eq_iff
+    ((structureSheafificationAdjunction O hO).unit_comp_map_eq_iff
       (tensorProductLeftUnitor O hO M).hom (λ_ M.val).hom).mpr rfl
   exact (PresheafOfModules.hom_congr_apply key U (unitOne U ⊗ₜ m)).trans (leftUnitorApp _ m)
 
@@ -260,7 +261,7 @@ theorem exists_toSheafify_tmul_eq
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
         (A)).obj (B))).val.obj U) :
     ∃ (m : A.val.obj U) (n : B.val.obj U),
-      Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+      Hom.app ((structureSheafificationAdjunction O hO).unit.app
         ((PresheafOfModules.tensorObj (O := O) (A.val) (B.val)))) U
         (m ⊗ₜ n) = z := by
   set ψ : (((Stacks.SheafOfModules.Tensor.sheafTensor
@@ -300,7 +301,7 @@ theorem mulNegOneIso_toSheafify (L : SheafOfModules.{w}
     [_root_.AlgebraicGeometry.SheafOfModules.IsInvertible O hO L] (U : Cᵒᵖ) (s : L.val.obj U)
     (t : (tensorPower O hO L (-1)).val.obj U) :
     Hom.app (mulNegOneIso O hO L).hom.val U
-        (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+        (Hom.app ((structureSheafificationAdjunction O hO).unit.app
           ((PresheafOfModules.tensorObj (O := O) (L.val) ((tensorPower O hO L
             (-1)).val)))) U (s ⊗ₜ t)) =
       sectionMulNegOne O hO L U s t :=
@@ -353,8 +354,8 @@ def pullbackMulNegOneIso :
 theorem pullbackMulNegOneIso_pullbackUnitSections (s : Γ(L, ⊤))
     (t : Γ(tensorPowerModule L (-1), ⊤)) :
     Hom.app (pullbackMulNegOneIso p L).hom.val (op ⊤)
-        (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify Y.presheaf
-          Y.ringCatSheaf.property
+        (Hom.app ((structureSheafificationAdjunction Y.presheaf
+          Y.ringCatSheaf.property).unit.app
           ((PresheafOfModules.tensorObj (O := Y.presheaf)
             (((Scheme.Modules.pullback p).obj L).val)
             (((Scheme.Modules.pullback p).obj (tensorPowerModule L (-1))).val)))) (op ⊤)
@@ -363,6 +364,8 @@ theorem pullbackMulNegOneIso_pullbackUnitSections (s : Γ(L, ⊤))
       (p.app ⊤).hom (globalSectionsMulNegOne L s t) := by
   have h1 := (Stacks.RingedSpace.comparison_pullbackUnit_tmul p.toLRSHom.toShHom L
     (tensorPowerModule L (-1)) (op ⊤) s t).symm
+  refine Eq.trans (congrArg (fun z => Hom.app (pullbackMulNegOneIso p L).hom.val (op ⊤) z)
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _ _)) ?_
   refine Eq.trans (congrArg (fun z => Hom.app (pullbackMulNegOneIso p L).hom.val (op ⊤) z) h1) ?_
   refine Eq.trans (congrArg (fun z => Hom.app (pullbackUnitIso p).hom.val (op ⊤)
       (Hom.app ((Scheme.Modules.pullback p).map
@@ -372,11 +375,15 @@ theorem pullbackMulNegOneIso_pullbackUnitSections (s : Γ(L, ⊤))
   refine Eq.trans (congrArg (fun z => Hom.app (pullbackUnitIso p).hom.val (op ⊤) z)
     (pullbackUnitSections_naturality_module p
       (mulNegOneIso X.presheaf X.ringCatSheaf.property L).hom ⊤
-      (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf
-        X.ringCatSheaf.property
+      (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
         ((PresheafOfModules.tensorObj (O := X.presheaf) (L.val)
           ((tensorPowerModule L (-1)).val)))) (op ⊤)
         (s ⊗ₜ t)))) ?_
+  refine Eq.trans (congrArg (fun z => Hom.app (pullbackUnitIso p).hom.val (op ⊤)
+    (pullbackUnitSections p (SheafOfModules.unit X.ringCatSheaf) ⊤
+      (Hom.app (mulNegOneIso X.presheaf X.ringCatSheaf.property L).hom.val (op ⊤) z)))
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      _ _ _ _).symm) ?_
   refine Eq.trans (congrArg (fun z => Hom.app (pullbackUnitIso p).hom.val (op ⊤)
     (pullbackUnitSections p (SheafOfModules.unit X.ringCatSheaf) ⊤ z))
     (mulNegOneIso_toSheafify X.presheaf X.ringCatSheaf.property L (op ⊤) s t)) ?_
@@ -386,8 +393,8 @@ theorem pullbackMulNegOneIso_pullbackUnitSections (s : Γ(L, ⊤))
 def pullbackMulNegOne (m : Γ((Scheme.Modules.pullback p).obj L, ⊤))
     (n : Γ((Scheme.Modules.pullback p).obj (tensorPowerModule L (-1)), ⊤)) : Γ(Y, ⊤) :=
   Hom.app (pullbackMulNegOneIso p L).hom.val (op ⊤)
-    (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify Y.presheaf
-      Y.ringCatSheaf.property
+    (Hom.app ((structureSheafificationAdjunction Y.presheaf
+      Y.ringCatSheaf.property).unit.app
       ((PresheafOfModules.tensorObj (O := Y.presheaf)
         (((Scheme.Modules.pullback p).obj L).val)
         (((Scheme.Modules.pullback p).obj (tensorPowerModule L (-1))).val)))) (op ⊤) (m ⊗ₜ n))
@@ -406,7 +413,7 @@ def pullbackMulNegOneLinear :
     ((pullbackMulNegOneIso p L).hom.val.app (op ⊤)).hom
   let B : Γ((Scheme.Modules.pullback p).obj L, ⊤) ⊗[Γ(Y, ⊤)]
       Γ((Scheme.Modules.pullback p).obj (tensorPowerModule L (-1)), ⊤) →ₗ[Γ(Y, ⊤)] Γ(T, ⊤) :=
-    ((Stacks.SheafOfModules.TensorSheafification.toSheafify Y.presheaf Y.ringCatSheaf.property
+    (((structureSheafificationAdjunction Y.presheaf Y.ringCatSheaf.property).unit.app
       ((PresheafOfModules.tensorObj (O := Y.presheaf)
         (((Scheme.Modules.pullback p).obj L).val)
         (((Scheme.Modules.pullback p).obj (tensorPowerModule L (-1))).val)))).app (op ⊤)).hom

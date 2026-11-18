@@ -40,8 +40,7 @@ pairing against the section is the ideal asked for.
 ## Main results
 
 * `Stacks.SheafOfModules.pairingSheafHom_val_app`: pairing against `s` is, on sections, exactly
-  `Stacks.SheafOfModules.tensorPairing`. This holds by `rfl` and is the reason the construction
-  is arranged as it is.
+  `Stacks.SheafOfModules.tensorPairing`.
 * `Stacks.SheafOfModules.mem_nonvanishingLocus_iff_exists_app_pairingSheafHom_eq_one`: the local
   criterion for membership in the nonvanishing locus, read through `pairingSheafHom`.
 * `AlgebraicGeometry.coe_support_idealSheafDataOfHom_pairingSheafHom`: **the image of pairing
@@ -55,16 +54,15 @@ The three steps of the composite live in three different presentations of the te
 only the first of them is new. `tmulLeftSection` is built with
 `PresheafOfModules.homMk` from the bilinear map `TensorProduct.mk`, whose naturality in the open
 set is the compatibility of `s` with restriction
-(`PresheafOfModules.sections_property`); the second step is the unit of the sheafification
-adjunction, `Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit`, which is what
-`Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` is built from; the third is
-the trivialization. Because `tensorPairing` is literally the composite of the last two applied
-to an elementary tensor, `pairingSheafHom_val_app` is `rfl`.
-
-The intermediate type of the second step is the restriction of scalars along the identity
-morphism of `𝒪_X` of the underlying presheaf of the sheafified tensor product. That is the same
-presheaf of modules as the underlying presheaf itself, but not the same expression, so the
-composite is assembled with the structure constructor rather than with `≫` alone.
+(`PresheafOfModules.sections_property`); the second step is the unit of the sealed
+sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, whose
+target is the underlying presheaf of the tensor product sheaf itself; the third is the
+trivialization. `tensorPairing` is the composite of the last two applied to an elementary tensor,
+except that `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` uses the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` (whose target restricts scalars along
+the identity of `𝒪_X`); the two units agree on sections
+(`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply`), which is
+`pairingSheafHom_val_app`.
 
 ## References
 
@@ -121,7 +119,8 @@ noncomputable def pairingSheafHom
       _root_.SheafOfModules.unit (structureSheafRing X))
     (s : L.sections) : N ⟶ _root_.SheafOfModules.unit (structureSheafRing X) where
   val := tmulLeftSection (N := N) s ≫
-    sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val) ≫ ψ.hom.val
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val) ≫ ψ.hom.val
 
 /-- **Pairing against `s` is `Stacks.SheafOfModules.tensorPairing` on sections.** -/
 theorem pairingSheafHom_val_app
@@ -129,7 +128,9 @@ theorem pairingSheafHom_val_app
         ⟨X.presheaf, X.IsSheaf⟩).obj L).obj N ≅
       _root_.SheafOfModules.unit (structureSheafRing X))
     (s : L.sections) (W : Opens X.carrier) (b : N.val.obj (op W)) :
-    (pairingSheafHom ψ s).val.app (op W) b = tensorPairing ψ W (s.eval (op W)) b := rfl
+    (pairingSheafHom ψ s).val.app (op W) b = tensorPairing ψ W (s.eval (op W)) b :=
+  congrArg (ψ.hom.val.app (op W))
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ (op W) _)
 
 variable [∀ x : X.carrier, IsLocalRing (ringStalk X x)]
 

@@ -370,9 +370,8 @@ noncomputable def pushoutDataOfPushout
     have h := congrArg (fun z :
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u₂, v₂, max v₂ u₂, max v₂ u₂, max v₂ u₂}
           (baseRing i)).obj D.second.I).obj F ⟶ K₁ ↦
-      z.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      z.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (baseRing i)).unit.app
         (PresheafOfModules.tensorObj D.second.I.val F.val)).app U
         (b ⊗ₜ[(baseRing i).obj.obj U] y))) hγ
     exact h.trans (congrArg (fun z ↦ c₁.val.app U z) ht)

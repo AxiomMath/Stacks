@@ -263,7 +263,7 @@ end Descent
 
 section Field
 
-open Stacks.SheafOfModules.TensorStalkRingedSpace (sheafifyUnit toTensorSheafSection)
+open Stacks.SheafOfModules.TensorStalkRingedSpace (toTensorSheafSection)
 
 /-- The module structure on sections over the ring of sections spelled through
 `AlgebraicGeometry.Scheme.presheaf`, as
@@ -274,14 +274,17 @@ local instance moduleOnSectionsAtSchemePresheaf {Y : Scheme.{u}} (E : Y.Modules)
   inferInstanceAs (Module (Y.ringCatSheaf.obj.obj U) (E.val.obj U))
 
 /-- The morphism of presheaves of modules out of the pointwise tensor square of `E` attached to
-a morphism `μ` out of the sheafified tensor square: its composite with the sheafification unit.
+a morphism `μ` out of the sheafified tensor square: its composite with the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the sealed sheafification behind
+`sheafTensor`.
 This is the reverse of `Stacks.RelativeSpec.AlgebraSheaf.multiplication`, which transposes a
 presheaf-level multiplication to a sheaf-level one along the same adjunction. -/
 public def mulPresheafOfHom {Y : Scheme.{u}} (E : Y.Modules)
     (μ : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).obj (E)).obj (E)) ⟶ E) :
     (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) E.val E.val) ⟶ E.val :=
-  sheafifyUnit Y.toRingedSpace
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).unit.app
       (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) E.val E.val) ≫ μ.val
 
 /-- `AlgebraicGeometry.mulPresheafOfHom` on local sections is `μ` evaluated at the
@@ -293,7 +296,10 @@ public theorem mulPresheafOfHom_app {Y : Scheme.{u}} (E : Y.Modules)
     (t : TensorProduct (Y.presheaf.obj U) (E.val.obj U) (E.val.obj U)) :
     PresheafOfModules.Hom.app (mulPresheafOfHom E μ) U t =
       (μ.val.app U).hom (toTensorSheafSection Y.toRingedSpace E E U t) :=
-  rfl
+  congrArg (μ.val.app U).hom
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩
+      (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) E.val E.val) U t)
 
 end Field
 

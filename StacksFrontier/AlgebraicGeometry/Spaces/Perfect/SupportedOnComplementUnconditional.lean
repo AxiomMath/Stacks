@@ -36,7 +36,7 @@ companions (`AlgebraicGeometry.Space.shortExact_edsShriekMayerVietoris`) it give
 * `AlgebraicGeometry.Space.isPerfect_derivedPushforwardOfSupported`: Stacks 08HK from clause
   (2)(b) of Stacks 08GG and the vanishing of `(Rj_*E)|_U`, both taken as hypotheses (Stacks 08HK
   itself is
-  `AlgebraicGeometry.Space.isPerfect_rightAdjoint_edsDerivedRestrictEtale_of_cohomologySupportedOn`).
+  `Space.isPerfect_rightAdjoint_edsDerivedRestrictEtale_of_cohomologySupportedOn`).
 
 ## References
 

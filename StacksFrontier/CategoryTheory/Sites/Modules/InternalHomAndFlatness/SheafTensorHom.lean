@@ -150,9 +150,7 @@ noncomputable def sheafTensorHomEquivPlain
       _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) (O)).obj F).obj G ⟶ H) ≃
       (F ⟶ siteSheafInternalHom J O G H) :=
-  (_root_.PresheafOfModules.sheafificationHomEquiv
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)
-      (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O).obj)).trans
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv _ _).trans
     ((presheafTensorHomEquiv O.obj F.val G.val H.val).trans
       { toFun := fun f ↦ ⟨f⟩
         invFun := fun f ↦ f.val
@@ -170,18 +168,18 @@ theorem sheafTensorHomEquivPlain_apply
     (((sheafTensorHomEquivPlain J O F G H b).val.app (op U) x).app
       (op (Over.mk (𝟙 U)))).hom y =
     b.val.app (op U)
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-          (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
             (F.val ⊗ G.val)).app (op U)
               (x ⊗ₜ[O.obj.obj (op U)] y)) := by
   have hid : (ConcreteCategory.hom (F.val.map (𝟙 U).op)) x = x :=
     congrArg (fun φ ↦ (ConcreteCategory.hom φ) x) (F.val.map_id (op U))
-  let e := _root_.PresheafOfModules.sheafificationHomEquiv
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)
-    (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O).obj) b
+  let e := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv _ _ b
   exact (presheafTensorHomEquiv_section_apply O.obj F.val G.val H.val e U x
-    (op (Over.mk (𝟙 U))) y).trans
-    (congrArg (fun t ↦ ConcreteCategory.hom (e.app (op U)) (t ⊗ₜ[O.obj.obj (op U)] y)) hid)
+    (op (Over.mk (𝟙 U))) y).trans <|
+    (congrArg (fun t ↦ ConcreteCategory.hom (e.app (op U)) (t ⊗ₜ[O.obj.obj (op U)] y)) hid).trans
+      (congrArg (fun φ : F.val ⊗ G.val ⟶ H.val ↦
+          ConcreteCategory.hom (φ.app (op U)) (x ⊗ₜ[O.obj.obj (op U)] y))
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv_unit _ _ b))
 
 end Stacks.SheafOfModules.InternalHom
 

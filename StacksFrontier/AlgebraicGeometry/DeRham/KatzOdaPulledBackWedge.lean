@@ -178,6 +178,50 @@ theorem restricted_hom_ext_of_isLocallySurjective (V : Opens Xr)
 
 end Restricted
 
+section SealedUnit
+
+/-! ### The unit of the sealed sheafification, read with the plain forgetful functor -/
+
+universe v₁ u₁ w₁ z₁
+
+open Stacks.SheafOfModules.Tensor
+
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
+  (R : Sheaf J CommRingCat.{w₁}) [J.WEqualsLocallyBijective AddCommGrpCat.{z₁}]
+  [HasWeakSheafify J AddCommGrpCat.{z₁}]
+
+/-- The unit of `sheafificationForgetAdjunction R` is locally surjective. -/
+private theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{z₁} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J ((sheafificationForgetAdjunction R).unit.app M) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+/-- Naturality of the unit of `sheafificationForgetAdjunction R`, on sections. -/
+private theorem sheafificationForgetAdjunction_unit_naturality_apply
+    {M N : PresheafOfModules.{z₁} (ringSheaf R).obj} (φ : M ⟶ N) (X : Cᵒᵖ) (x : M.obj X) :
+    PresheafOfModules.Hom.app ((sheafification R).map φ).val X
+        (PresheafOfModules.Hom.app ((sheafificationForgetAdjunction R).unit.app M) X x) =
+      PresheafOfModules.Hom.app ((sheafificationForgetAdjunction R).unit.app N) X
+        (PresheafOfModules.Hom.app φ X x) :=
+  PresheafOfModules.hom_congr_apply' ((sheafificationForgetAdjunction R).unit.naturality φ).symm
+    X x
+
+/-- A morphism out of a sealed sheafification takes the same value on the images of a section
+under the units of `sheafificationForgetAdjunction R` and of `sheafificationAdjunction R`. -/
+private theorem val_app_sheafificationForgetAdjunction_unit_app_apply
+    {M : PresheafOfModules.{z₁} (ringSheaf R).obj} {N : _root_.SheafOfModules.{z₁} (ringSheaf R)}
+    (φ : (sheafification R).obj M ⟶ N) (X : Cᵒᵖ) (x : M.obj X) :
+    PresheafOfModules.Hom.app φ.val X
+        (PresheafOfModules.Hom.app ((sheafificationForgetAdjunction R).unit.app M) X x) =
+      PresheafOfModules.Hom.app φ.val X
+        (PresheafOfModules.Hom.app ((sheafificationAdjunction R).unit.app M) X x) :=
+  congrArg (PresheafOfModules.Hom.app φ.val X)
+    (sheafificationForgetAdjunction_unit_app_app_apply R M X x)
+
+end SealedUnit
+
 variable {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S)
 
 /-- **The pull back of forms on a pullback-unit section is the canonical map of Tag 07HX**:
@@ -545,13 +589,15 @@ theorem restrictedLeftMulCochain_comp_summand_pulledBack (p k k' q n n' : ℕ) (
                 (Scheme.Hom.deRhamAlgebras (f ≫ g)))).XIsoOfEq hn').hom ≫
           (deRhamSmoothExtendXIso f g n').inv) := by
   refine @restricted_hom_ext_of_isLocallySurjective _ (pulledBackOpen f g U) _ _ _ _ _
-    (CategoryTheory.toSheafify (Opens.grothendieckTopology X)
+    ((PresheafOfModules.toPresheaf _).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf)).unit.app
       (PresheafOfModules.tensorObj
         ((_root_.pullback (relativeBase f g)).obj ((pushforward (toInverseImageBase g)).obj E)).val
         ((AlgebraicGeometry.SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras (f ≫ g))
           (AlgebraicGeometry.SheafOfModules.deRhamDifferential
-            (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q).val).presheaf)
-    (Presheaf.isLocallySurjective_toSheafify' (Opens.grothendieckTopology X) _) ?_
+            (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q).val)))
+    (isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _) ?_
   intro W r
   induction r using TensorProduct.inductionOn with
   | add a b ha hb => exact (congrArg _ (map_add _ a b)).trans ((map_add _ _ _).trans
@@ -582,11 +628,8 @@ theorem restrictedLeftMulCochain_comp_summand_pulledBack (p k k' q n n' : ℕ) (
                 (Scheme.Hom.deRhamAlgebras (f ≫ g)))).XIsoOfEq hcm).hom ≫
             (deRhamSmoothExtendXIso f g m).inv).val.app
             (op (openOfRestrict (pulledBackOpen f g U) W))
-          (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf
-              ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf)).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf)).unit.app
             (PresheafOfModules.tensorObj
               ((_root_.pullback (relativeBase f g)).obj
                 ((pushforward (toInverseImageBase g)).obj E)).val
@@ -607,27 +650,36 @@ theorem restrictedLeftMulCochain_comp_summand_pulledBack (p k k' q n n' : ℕ) (
                   (Stacks.DeRhamPullback.deRhamPullbackChain f g).f c).val.app
                 (op (openOfRestrict (pulledBackOpen f g U) W)) x) y)) := by
       intro c m hcm d
-      have e1 := AlgebraicGeometry.SheafOfModules.tensorFunctor_map_unit_apply
-        (N := (AlgebraicGeometry.SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras (f ≫ g))
-              (AlgebraicGeometry.SheafOfModules.deRhamDifferential
-                (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q)
-        ((_root_.pullback (relativeBase f g)).map ((pushforward (toInverseImageBase g)).map d))
-        (op (openOfRestrict (pulledBackOpen f g U) W)) x y
-      have e2 := AlgebraicGeometry.SheafOfModules.tensorFunctor_map_unit_apply
-        (N := (AlgebraicGeometry.SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras (f ≫ g))
-              (AlgebraicGeometry.SheafOfModules.deRhamDifferential
-                (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q)
-        ((Stacks.DeRhamPullback.deRhamPullbackChain f g).f c)
+      have e1 := sheafificationForgetAdjunction_unit_naturality_apply
+        ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf)
+        (PresheafOfModules.tensorHom
+          ((_root_.pullback (relativeBase f g)).map
+            ((pushforward (toInverseImageBase g)).map d)).val
+          (𝟙 ((AlgebraicGeometry.SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras (f ≫ g))
+            (AlgebraicGeometry.SheafOfModules.deRhamDifferential
+              (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q).val))
+        (op (openOfRestrict (pulledBackOpen f g U) W)) (x ⊗ₜ y)
+      have e2 := sheafificationForgetAdjunction_unit_naturality_apply
+        ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf)
+        (PresheafOfModules.tensorHom ((Stacks.DeRhamPullback.deRhamPullbackChain f g).f c).val
+          (𝟙 ((AlgebraicGeometry.SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras (f ≫ g))
+            (AlgebraicGeometry.SheafOfModules.deRhamDifferential
+              (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q).val))
         (op (openOfRestrict (pulledBackOpen f g U) W))
         (((_root_.pullback (relativeBase f g)).map
           ((pushforward (toInverseImageBase g)).map d)).val.app
-          (op (openOfRestrict (pulledBackOpen f g U) W)) x) y
-      have e3 := AlgebraicGeometry.SheafOfModules.exteriorProductComponent_unit_apply
-        (Scheme.Hom.deRhamAlgebras (f ≫ g)) c q (op (openOfRestrict (pulledBackOpen f g U) W))
-        (((_root_.pullback (relativeBase f g)).map
-            ((pushforward (toInverseImageBase g)).map d) ≫
-          (Stacks.DeRhamPullback.deRhamPullbackChain f g).f c).val.app
-            (op (openOfRestrict (pulledBackOpen f g U) W)) x) y
+          (op (openOfRestrict (pulledBackOpen f g U) W)) x ⊗ₜ y)
+      have e3 := (val_app_sheafificationForgetAdjunction_unit_app_apply
+        ((TopCat.Sheaf.pullback CommRingCat.{u} (f ≫ g).base).obj S.sheaf)
+        (AlgebraicGeometry.SheafOfModules.exteriorProductComponent
+          (Scheme.Hom.deRhamAlgebras (f ≫ g)) c q)
+        (op (openOfRestrict (pulledBackOpen f g U) W)) _).trans
+        (AlgebraicGeometry.SheafOfModules.exteriorProductComponent_unit_apply
+          (Scheme.Hom.deRhamAlgebras (f ≫ g)) c q (op (openOfRestrict (pulledBackOpen f g U) W))
+          (((_root_.pullback (relativeBase f g)).map
+              ((pushforward (toInverseImageBase g)).map d) ≫
+            (Stacks.DeRhamPullback.deRhamPullbackChain f g).f c).val.app
+              (op (openOfRestrict (pulledBackOpen f g U) W)) x) y)
       refine congrArg (fun z => (deRhamSmoothExtendXIso f g m).inv.val.app
         (op (openOfRestrict (pulledBackOpen f g U) W))
         (((AlgebraicGeometry.SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras (f ≫ g))

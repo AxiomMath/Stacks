@@ -108,9 +108,10 @@ variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
   (F : SheafOfModules.{u} (targetRing J (B := B)))
   (G : SimplicialObject (SheafOfModules.{u} (targetRing J (B := B))))
 
-/-- the levelwise sheafification unit -/
+/-- the levelwise sheafification unit, the unit of the sealed sheafification that `sheafTensor`
+ends with -/
 abbrev tensorLevelUnit (n : SimplexCategoryᵒᵖ) :=
-  (PresheafOfModules.sheafificationAdjunction (R := targetRing J (B := B)) (𝟙 _)).unit.app
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction B).unit.app
     (Stacks.tensorObj (G.obj n).val F.val)
 
 /-- the levelwise tensor product, read on `Δ × C` -/
@@ -163,8 +164,8 @@ theorem tensorLevelUnit_naturality_presheaf {m n : SimplexCategoryᵒᵖ} (φ : 
         ((SheafOfModules.forget _).obj
           (((Stacks.SheafOfModules.Tensor.sheafTensor B).flip.obj F).obj (G.obj n))) =>
     ConcreteCategory.hom (k.app V) z)
-    ((PresheafOfModules.sheafificationAdjunction (R := targetRing J (B := B))
-      (𝟙 _)).unit.naturality ((Stacks.tensorRight F.val).map φ.val))).symm
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction B).unit.naturality
+      ((Stacks.tensorRight F.val).map φ.val))).symm
 
 /-- **The comparison**: swap the two tensor factors, then the levelwise sheafification unit. -/
 def tensorUncurryBilinear :
@@ -345,13 +346,13 @@ theorem tensorLevel_map_prodSnd (n : SimplexCategory) {U V : C} (ψ : V ⟶ U)
 instance isLocallySurjective_tensorLevelUnit (n : SimplexCategoryᵒᵖ) :
     Presheaf.IsLocallySurjective J
       ((PresheafOfModules.toPresheaf _).map (tensorLevelUnit J F G n)) :=
-  (J.W_toSheafify (Stacks.tensorObj (G.obj n).val F.val).presheaf).isLocallySurjective
+  Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app B _
 
 /-- The levelwise sheafification unit is locally injective. -/
 instance isLocallyInjective_tensorLevelUnit (n : SimplexCategoryᵒᵖ) :
     Presheaf.IsLocallyInjective J
       ((PresheafOfModules.toPresheaf _).map (tensorLevelUnit J F G n)) :=
-  (J.W_toSheafify (Stacks.tensorObj (G.obj n).val F.val).presheaf).isLocallyInjective
+  Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app B _
 
 omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The restriction of `tensorUncurryHom` to the fibre `{n} × C` is locally surjective. -/

@@ -34,8 +34,9 @@ the two differ by the counit of the sheafification adjunction, and that counit i
 ## Main results
 
 * `Stacks.SheafOfModules.Invertible.evaluation_eq_sheafifyMap_comp_counit`: the evaluation
-  pairing of sheaves of modules is the sheafification of the evaluation pairing of presheaves of
-  modules, followed by the counit of the sheafification adjunction at the structure sheaf. This
+  pairing of sheaves of modules is the (sealed) sheafification of the evaluation pairing of
+  presheaves of modules, followed by the counit of the sealed sheafification adjunction
+  `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` at the structure sheaf. This
   is the adjoint-transpose identity, recorded because the two sides are stated over
   definitionally but not syntactically equal presheaves of rings, so `rw` on the definition of
   `evaluation` does not type-check.
@@ -77,8 +78,8 @@ inverted by the equivalence `· ⊗ L`. That is
 form to use when a trivializing cover is what one has in hand.
 
 **Why the two-step proof.** `Stacks.SheafOfModules.evaluation` is defined as the adjoint
-transpose of `evaluationPresheaf` under
-  `Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction`, and
+transpose of `evaluationPresheaf` under the sealed sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, and
 `Adjunction.homEquiv_counit` expresses any such transpose as the left adjoint applied to the
 morphism, followed by the counit. Rewriting with the definition of `evaluation` directly fails:
 `Stacks.SheafOfModules.TensorSheafification.tensorPresheaf` takes its arguments over
@@ -122,9 +123,11 @@ adjoint-transpose identity of `Adjunction.homEquiv_counit`, stated with both sid
 applied; see the implementation notes of this file for why the unapplied rewrite fails. -/
 theorem evaluation_eq_sheafifyMap_comp_counit :
     Stacks.SheafOfModules.evaluation 𝒪 h𝒪 L =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify 𝒪 h𝒪).map
+      (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).map
         (Stacks.SheafOfModules.evaluationPresheaf 𝒪 h𝒪 L) ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit.app
+        (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).counit.app
           (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :=
   Adjunction.homEquiv_counit _ _ _ _
 
@@ -132,18 +135,19 @@ theorem evaluation_eq_sheafifyMap_comp_counit :
 This is the first paragraph of the proof of [Stacks, Tag 0B8M], and the evaluation clause of
 [Stacks, Tag 01CT] (2) under the hypothesis that `L` is trivialized on a covering rather than
 merely invertible. Sheafification inverts the pairing of presheaves of modules
-(`isIso_sheafify_map_evaluationPresheaf`), and the counit of the sheafification adjunction is
-invertible at the structure sheaf because the structure sheaf is a sheaf. -/
+(`isIso_sheafify_map_evaluationPresheaf`, transported to the sealed sheafification by
+`Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff`), and the counit of the sheafification
+adjunction is invertible at the structure sheaf because the structure sheaf is a sheaf. -/
 @[ega "0 5.4.3" "more general"]
 theorem isIso_evaluation_of_dualBasisOne {I : Type*} {X : I → C} (hX : J.CoversTop X)
     (b : ∀ i, Stacks.SheafOfModules.DualBasisOne 𝒪 h𝒪 L (X i)) :
     IsIso (Stacks.SheafOfModules.evaluation 𝒪 h𝒪 L) := by
-  have hev := Stacks.SheafOfModules.isIso_sheafify_map_evaluationPresheaf 𝒪 h𝒪 hX b
-  have hco : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit.app
-      (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))) :=
-        inferInstance
+  have := (Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+    (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
+    (Stacks.SheafOfModules.evaluationPresheaf 𝒪 h𝒪 L)).2
+    (Stacks.SheafOfModules.isIso_sheafify_map_evaluationPresheaf 𝒪 h𝒪 hX b)
   rw [evaluation_eq_sheafifyMap_comp_counit]
-  exact @IsIso.comp_isIso _ _ _ _ _ _ _ hev hco
+  exact IsIso.comp_isIso' this (NatIso.isIso_app_of_isIso _ _)
 
 /-- **The evaluation pairing of a trivialized module sheaf, as an isomorphism**
 `L^∨ ⊗_𝒪 L ≅ 𝒪`, whose underlying morphism is `Stacks.SheafOfModules.evaluation`. -/

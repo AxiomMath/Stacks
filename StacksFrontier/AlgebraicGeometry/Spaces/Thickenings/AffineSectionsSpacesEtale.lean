@@ -129,7 +129,8 @@ This is the sole 05ZQ registration. The former conditional siblings
 the hypotheses of Stacks 07VS, are unregistered steps. -/
 @[stacks 05ZQ "for a thickening of arbitrary order and an arbitrary affine object `V` of the \
 spaces-étale site of the closed subspace, with no hypothesis granted (Stacks 05ZH and the \
-closed-immersion case of Stacks 07VT are proved, not assumed). The source's `Γ(U, 𝒪_{X'})`, the sections of \
+closed-immersion case of Stacks 07VT are proved, not assumed). The source's `Γ(U, 𝒪_{X'})`, the \
+sections of \
 `𝒪_{X'}` read on the site of the closed subspace through Stacks 05ZM, is stated as \
 `Γ(U', 𝒪_{U'})` for the object `U'` of the ambient space's site with `V ≅ X ×_{X'} U'` given by \
 essential surjectivity of base change, and the map is pullback along `V ≅ X ×_{X'} U' ⟶ U'`"]

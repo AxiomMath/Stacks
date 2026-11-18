@@ -556,7 +556,7 @@ theorem firstChernShift_congr (e : A ≅ B) (hA : InvertibleChernCapDescends C p
   match i with
   | 0 => rfl
   | j + 1 =>
-      show firstChernCapStep C p n A hA j (h j) = firstChernCapStep C p n B hB j (h j)
+      change firstChernCapStep C p n A hA j (h j) = firstChernCapStep C p n B hB j (h j)
       rw [firstChernCapStep_congr C p A B n e hA hB j]
 
 /-- **Stacks 02SP for the shift operators.** The shift of a module isomorphic to `A ⊗ B` is the
@@ -569,7 +569,7 @@ theorem firstChernShift_eq_add_of_iso_tensorObj (e : D ≅ Scheme.Modules.tensor
   match i with
   | 0 => exact (zero_add (0 : chowGroup C p (n - ((0 : ℕ) : ℤ)))).symm
   | j + 1 =>
-      show firstChernCapStep C p n D hD j (h j)
+      change firstChernCapStep C p n D hD j (h j)
           = firstChernCapStep C p n A hA j (h j) + firstChernCapStep C p n B hB j (h j)
       rw [firstChernCapStep_eq_add_of_iso_tensorObj C p A B D n e hA hB hD j]
       rfl
@@ -715,7 +715,7 @@ theorem elemSymmChernCap_eq_esymRec (α : chowGroup C p n) :
       | zero => rw [esymRec_degree_zero]; rfl
       | succ k =>
           rw [esymRec_succ, firstChernShiftSeq_of_lt C p n L hfac m hm']
-          show elemSymmChernCap C p n L hfac (m + 1) hm (k + 1) α = _
+          change elemSymmChernCap C p n L hfac (m + 1) hm (k + 1) α = _
           rw [elemSymmChernCap_succ C p n L hfac m hm k]
           simp only [AddMonoidHom.add_apply, AddMonoidHom.coe_comp, Function.comp_apply]
           rw [ih (Nat.le_of_succ_le hm) (k + 1), ih (Nat.le_of_succ_le hm) k]

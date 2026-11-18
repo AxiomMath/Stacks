@@ -29,7 +29,7 @@ that of `L` vanishes above `b`, then the cohomology of `K ⊗^L_O L` vanishes ab
 Right t-exactness is proved in `Stacks.DerivedTensor.RingedSite.isLE_derivedTensorProduct`, for
 the derived tensor product datum of `Stacks.DerivedTensor.RingedSite.DerivedTensorProduct`,
 which is indexed by the structure sheaf rather than by the ringed site and whose K-flatness
-hypotheses are spelled `Stacks.SheafOfModules.KFlat.KFlat` rather than
+hypotheses are spelled `Stacks.SheafOfModules.KFlat` rather than
 `Stacks.SheafOfModules.IsKFlat`. The two spellings of K-flatness are the same abbreviation, so
 the two structures have definitionally equal fields and
 `toRingedSiteDerivedTensorProduct` copies them across; that is all that is needed to make the

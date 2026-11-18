@@ -217,15 +217,33 @@ lemma imF_obj_le {Y : TopCat} (U : Opens Y)
   exact v.2
 
 
+/-- On a topological space, the unit of the sheafification adjunction behind `sheafTensor` is an
+isomorphism on the stalks of the underlying presheaves of abelian groups: it is Mathlib's
+sheafification unit `toSheafify` followed by two isomorphisms. -/
+private lemma isIso_stalkFunctor_map_sheafificationForgetAdjunction_unit {T : TopCat.{u}}
+    (R : Sheaf (Opens.grothendieckTopology T) CommRingCat.{u}) (x : T)
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf R).obj).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P))) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    ← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app, Functor.map_comp,
+    Functor.map_comp, Functor.map_comp, Functor.map_comp,
+    PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app]
+  exact IsIso.comp_isIso' (IsIso.comp_isIso'
+    (TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso x AddCommGrpCat.{u} P.presheaf)
+    inferInstance) inferInstance
+
 /-- The sheafification unit of the presheaf tensor product of two twists, read on the underlying
 presheaves of abelian groups. -/
 noncomputable def twistUnitAb (a b : ℤ) :=
   (PresheafOfModules.toPresheaf.{u} (Stacks.SheafOfModules.TensorStalkRingedSpace.O
     (AlgebraicGeometry.Proj 𝒮).toRingedSpace)).map
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit (AlgebraicGeometry.Proj
-      𝒮).toRingedSpace ((PresheafOfModules.tensorObj
-        (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
-        (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)))
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      (⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+        (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
+        (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val))
 
 /-- The multiplication map `𝒪(a) ⊗ 𝒪(b) → 𝒪(a+b)`, read on the underlying presheaves of abelian
 groups. -/
@@ -264,8 +282,7 @@ lemma isIso_stalkFunctor_map_twistMultiplication
   rw [h4] at h3
   have hηiso : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u}
       (U.inclusion' ⟨x, hx⟩)).map (twistUnitAb 𝒮 a b)) :=
-    Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap_sheafifyUnit_isIso (AlgebraicGeometry.Proj
-      𝒮).toRingedSpace _ _
+    isIso_stalkFunctor_map_sheafificationForgetAdjunction_unit _ _ _
   exact (@isIso_comp_left_iff _ _ _ _ _ _ _ hηiso).mp h3
 
 /-- The multiplication map is bijective on the sections over every open contained in

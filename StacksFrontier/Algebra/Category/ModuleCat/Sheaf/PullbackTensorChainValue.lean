@@ -126,9 +126,7 @@ theorem pullbackTensorStep2to6_symm_val_app_unit_tmul
     ((pullbackTensorStep2 f F G N).symm ((pullbackTensorStep3 f F G N).symm
             ((pullbackTensorStep4 f F G N).symm ((pullbackTensorStep5 f F G N).symm
               ((pullbackTensorStep6 f F G N).symm k))))).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf Y.J Y.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-              (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
           (f.toToposHom.pushforward.map

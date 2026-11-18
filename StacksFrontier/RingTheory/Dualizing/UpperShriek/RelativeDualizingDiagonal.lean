@@ -194,8 +194,7 @@ The one input of [stacks 0BZJ] used here is `Dualizing.PolynomialEvalDuality`, s
 base change [stacks 0BZN], is
 `Dualizing.PolynomialPresentation.relativeDualizingComplex_diagonalDerivedHom`.
 -/
-theorem relativeDualizingComplex_diagonalDerivedHom_of_flat
-    [IsNoetherianRing R] [IsNoetherianRing A]
+theorem relativeDualizingComplex_diagonalDerivedHom_of_flat [IsNoetherianRing R]
     (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat) :
     letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
     Nonempty

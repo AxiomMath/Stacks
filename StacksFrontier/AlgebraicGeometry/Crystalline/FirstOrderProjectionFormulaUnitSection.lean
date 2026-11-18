@@ -51,7 +51,7 @@ above differ by an isomorphism which cancels.
 
 The half about sections is checked on the sheafification-unit images of pure tensors of
 sections, which determine a morphism out of a tensor product of sheaves of modules
-(`PresheafOfModules.sheafification_hom_ext` together with
+(`Stacks.SheafOfModules.Tensor.sheafification_hom_ext` together with
 `PresheafOfModules.tensorObj_hom_ext`).  Over an open `W` both sides send `r ⊗ x` to
 `(r, 0) · p₀^* x`: on the left by the description of a tensor of morphisms on a pure tensor
 (`Stacks.RingedSpace.tensorSheaf_map_unit_tmul`), the canonicality clause of the
@@ -99,6 +99,22 @@ attribute [local implicit_reducible] Stacks.SheafOfModules.Tensor.ringSheaf
 
 variable (T : DividedPowerScheme.{u}) (Y : Scheme.{u}) (f : T.scheme ⟶ Y) (N : T.scheme.Modules)
 
+/-- The left unitor of a scheme carries the sheafification-unit image of a pure tensor `r ⊗ x`
+over an open `W` to `r • x`. -/
+private lemma leftUnitor_val_app_unit_tmul (Z : Scheme.{u}) (M : Z.Modules)
+    (W : (TopologicalSpace.Opens Z.carrier)ᵒᵖ)
+    (r : (Stacks.RingedSpace.structureRingSheaf Z.toRingedSpace).obj.obj W) (x : M.val.obj W) :
+    PresheafOfModules.Hom.app (λ_ M).hom.val W
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            Z.toRingedSpace.sheaf).unit.app
+            (PresheafOfModules.tensorObj (O := Z.toRingedSpace.presheaf)
+              (SheafOfModules.unit (Stacks.RingedSpace.structureRingSheaf Z.toRingedSpace)).val
+              M.val)) W (r ⊗ₜ x)) = r • x := by
+  have h : (λ_ M).hom = (Stacks.RingedSpace.tensorSheafUnitLeftIso Z.toRingedSpace M).hom :=
+    Stacks.RingedSpace.leftUnitor_sheafTensor_eq _ _
+  rw [h]
+  exact Stacks.RingedSpace.tensorSheafUnitLeftIso_hom_tensorSheafUnit_tmul _ M W r x
+
 /-- **The projection-formula morphism of [Stacks, Tag 0FZE] at `p₀` and `𝒪_{T'}`, read on the
 summand cut out by the comorphism `g ↦ (g, 0)` of `p₀`.**  That comorphism tensored on the right
 with `N`, followed by the projection-formula morphism
@@ -117,22 +133,17 @@ theorem inlSheaf_whiskerRight_comp_projectionFormulaMap :
       (λ_ N).hom ≫
         (Scheme.Modules.pullbackPushforwardAdjunction
           (firstOrderThickeningProjHom T Y f)).unit.app N := by
-  refine PresheafOfModules.sheafification_hom_ext
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext
     (PresheafOfModules.tensorObj_hom_ext fun W r x => ?_)
-  have hlu : ∀ (Z : Scheme.{u}) (M : Z.Modules), (λ_ M).hom =
-      (Stacks.RingedSpace.tensorSheafUnitLeftIso Z.toRingedSpace M).hom := fun _ _ =>
-    Stacks.RingedSpace.leftUnitor_sheafTensor_eq _ _
   have a1 : PresheafOfModules.Hom.app (firstOrderThickeningInlSheaf T Y f ▷ N).val W
-        (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)) (𝟙
-            (Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)).obj)).unit.app
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            (T.scheme.toRingedSpace).sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (T.scheme.toRingedSpace).presheaf)
             ((SheafOfModules.unit
             (Stacks.RingedSpace.structureRingSheaf T.scheme.toRingedSpace))).val (N).val)) W
                 (r ⊗ₜ x)) =
-      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)) (𝟙
-          (Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)).obj)).unit.app
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          (T.scheme.toRingedSpace).sheaf).unit.app
           (PresheafOfModules.tensorObj (O := (T.scheme.toRingedSpace).presheaf)
           (((RingedSpaceModuleAdjunction.modulePushforward
             (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom).obj
@@ -155,11 +166,8 @@ theorem inlSheaf_whiskerRight_comp_projectionFormulaMap :
         (λ_ ((Scheme.Modules.pullback (firstOrderThickeningProjHom T Y f)).obj N)).hom.val
         ((RingedSpaceModuleAdjunction.opensMap
           (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom).op.obj W)
-        (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf
-            ((firstOrderThickeningScheme T Y f).toRingedSpace)) (𝟙
-            (Stacks.RingedSpace.structureRingSheaf
-            ((firstOrderThickeningScheme T Y f).toRingedSpace)).obj)).unit.app
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ((firstOrderThickeningScheme T Y f).toRingedSpace).sheaf).unit.app
             (PresheafOfModules.tensorObj (O :=
             ((firstOrderThickeningScheme T Y f).toRingedSpace).presheaf) ((SheafOfModules.unit
             (firstOrderThickeningScheme T Y f).ringCatSheaf)).val
@@ -177,17 +185,9 @@ theorem inlSheaf_whiskerRight_comp_projectionFormulaMap :
         PresheafOfModules.Hom.app (firstOrderThickeningInlSheaf T Y f).val W r) •
         Stacks.RingedSpace.pullbackUnit
           (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom N W x := by
-    rw [hlu]
-    exact Stacks.RingedSpace.tensorSheafUnitLeftIso_hom_tensorSheafUnit_tmul
-      (firstOrderThickeningScheme T Y f).toRingedSpace
-      ((Scheme.Modules.pullback (firstOrderThickeningProjHom T Y f)).obj N)
-      ((RingedSpaceModuleAdjunction.opensMap
-        (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom).op.obj W)
-      (PresheafOfModules.Hom.app (firstOrderThickeningInlSheaf T Y f).val W r)
-      (Stacks.RingedSpace.pullbackUnit
-        (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom N W x)
-  have a4 := Stacks.RingedSpace.tensorSheafUnitLeftIso_hom_tensorSheafUnit_tmul
-    T.scheme.toRingedSpace N W r x
+    exact leftUnitor_val_app_unit_tmul _ _ _
+      (PresheafOfModules.Hom.app (firstOrderThickeningInlSheaf T Y f).val W r) _
+  have a4 := leftUnitor_val_app_unit_tmul T.scheme N W r x
   have a5 := Stacks.RingedSpace.pullbackUnit_smul
     (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom N W r x
   have hsharp : Stacks.RingedSpace.sharp
@@ -202,9 +202,8 @@ theorem inlSheaf_whiskerRight_comp_projectionFormulaMap :
             (firstOrderThickeningProjHom T Y f)
             (SheafOfModules.unit (firstOrderThickeningScheme T Y f).ringCatSheaf) N).val W
           (PresheafOfModules.Hom.app (firstOrderThickeningInlSheaf T Y f ▷ N).val W
-            (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)) (𝟙
-                (Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)).obj)).unit.app
+            (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+                (T.scheme.toRingedSpace).sheaf).unit.app
                 (PresheafOfModules.tensorObj (O := (T.scheme.toRingedSpace).presheaf)
                 ((SheafOfModules.unit
                 (Stacks.RingedSpace.structureRingSheaf T.scheme.toRingedSpace))).val (N).val)) W
@@ -212,14 +211,13 @@ theorem inlSheaf_whiskerRight_comp_projectionFormulaMap :
       Stacks.RingedSpace.pullbackUnit
         (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom N W
         (PresheafOfModules.Hom.app (λ_ N).hom.val W
-          (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)) (𝟙
-              (Stacks.RingedSpace.structureRingSheaf (T.scheme.toRingedSpace)).obj)).unit.app
+          (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              (T.scheme.toRingedSpace).sheaf).unit.app
               (PresheafOfModules.tensorObj (O := (T.scheme.toRingedSpace).presheaf)
               ((SheafOfModules.unit
               (Stacks.RingedSpace.structureRingSheaf T.scheme.toRingedSpace))).val (N).val)) W
                   (r ⊗ₜ x)))
-  rw [a1, a2, a3, hlu, a4, a5, hsharp]
+  rw [a1, a2, a3, a4, a5, hsharp]
 
 /-- **The projection-formula map at the first-order universal thickening, on the summand
 `N ⊗_{𝒪_T} 𝒪_T`.**  The comorphism `g ↦ (g, 0)` of `p₀`, tensored on the left with `N` and

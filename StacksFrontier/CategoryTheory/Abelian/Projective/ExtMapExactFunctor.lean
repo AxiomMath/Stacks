@@ -165,8 +165,7 @@ lemma resolutionCochainMap_comp_π' (a : X' ⟶ F.obj X)
   have k2 : (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X').inv ≫
       ((CochainComplex.singleFunctor D 0).map a).f 0 =
         a ≫ (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (F.obj X)).inv := by
-    simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
-      HomologicalComplex.single_map_f_self]
+    simp [CochainComplex.singleFunctor, HomologicalComplex.single_map_f_self]
   rw [reassoc_of% key]
   congr 1
   exact (Category.assoc _ _ _).trans ((congrArg (fun x => R'.π.f 0 ≫ x) k2.symm).trans
@@ -191,7 +190,7 @@ lemma cocycleMap_toSingleMk_postcomp {K : CochainComplex C ℤ} {Y : C} {p q n :
       Cocycle.toSingleMk_coe, Cochain.toSingleMk_v, Functor.map_comp,
       Functor.mapCochainComplexSingleFunctor, Iso.app_hom,
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self, Category.assoc]
-    rw [Iso.map_inv_hom_id_assoc]
+    rw [Iso.inv_hom_id_map_assoc]
   · simp only [Cocycle.postcomp, Stacks.Cohomology.ModuleComparison.cocycleMap, Cocycle.mk_coe,
       Cochain.comp_zero_cochain_v, Cochain.ofHom_v, Cochain.map_v,
       Cocycle.toSingleMk_coe, Cochain.toSingleMk_v_eq_zero _ _ _ _ _ hr, F.map_zero, zero_comp]

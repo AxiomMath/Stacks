@@ -415,7 +415,8 @@ morphism along `S₀ ⟶ S`.  This is the route the remark takes as the definiti
 it does not assume `p` locally nilpotent on `S₀`. -/
 @[stacks 07IM "the structure morphism τ_{X/S} is the lower route of the diagram, u_{X/S} followed
   by f_small and then by the trailing arrow, as an invertible 2-morphism of topoi,
-  with no hypothesis on p.  The diagram's upper square u_{S₀/S} ∘ f_cris ≅ f_small ∘ u_{X/S} is a separate
+  with no hypothesis on p.  The diagram's upper square u_{S₀/S} ∘ f_cris ≅ f_small ∘ u_{X/S} is a \
+  separate
   clause of the remark and is registered separately, on
   Crystalline.GlobalCrystallineSituation.closedFiberCrisUpperSquare of SmallSite/UpperSquare.lean"]
 def structureToposMorphism_isoLowerRoute :

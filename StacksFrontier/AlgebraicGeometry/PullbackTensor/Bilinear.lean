@@ -82,8 +82,7 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 on sections of `A` and `B` with values in `C`. -/
 noncomputable def ofBilinearSheaf (β : SheafOfModules.BilinearMap A B C) :
     ((sheafTensor.{u, u, u, u, u} ⟨Y.presheaf, Y.IsSheaf⟩).obj A).obj B ⟶ C :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (structureRingSheaf Y).obj)).homEquiv
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨Y.presheaf, Y.IsSheaf⟩).homEquiv
       (PresheafOfModules.tensorObj A.val B.val) C).symm (PresheafOfModules.ofBilinear β)
 
 /-- `ofBilinearSheaf β` sends the sheafification-unit image of a pure tensor `x ⊗ₜ y` of
@@ -91,12 +90,11 @@ sections over `U` to `β.app U x y`. -/
 lemma ofBilinearSheaf_unit_tmul (β : SheafOfModules.BilinearMap A B C)
     (U : (Opens Y.carrier)ᵒᵖ) (x : A.val.obj U) (y : B.val.obj U) :
     Hom.app (ofBilinearSheaf β).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-          (𝟙 (ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y)) = β.app U x y :=
-  (hom_congr_apply (PresheafOfModules.sheafificationAdjunction_unit_comp_homEquiv_symm
-    (𝟙 (structureRingSheaf Y).obj) (PresheafOfModules.ofBilinear β)) U (x ⊗ₜ y)).trans
+  (hom_congr_apply (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+    (PresheafOfModules.ofBilinear β)) U (x ⊗ₜ y)).trans
     (PresheafOfModules.ofBilinear_tmul β U x y)
 
 /-- The morphism `f^*A ⊗ f^*B ⟶ f^*C` obtained by composing the inverse of the comparison
@@ -115,9 +113,8 @@ noncomputable def pullbackBilinearApp (β : SheafOfModules.BilinearMap A B C)
     (y : ((pullbackFunctor f).obj B).val.obj V) :
     ((pullbackFunctor f).obj C).val.obj V :=
   Hom.app (pullbackBilinearHom f β).val V
-    (Hom.app ((PresheafOfModules.sheafificationAdjunction
-      (R := ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-      (𝟙 (ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+    (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
           ((pullbackFunctor f).obj B).val)) V
       (x ⊗ₜ y))
@@ -129,9 +126,7 @@ noncomputable def pullbackBilinear (β : SheafOfModules.BilinearMap A B C) :
     SheafOfModules.BilinearMap ((pullbackFunctor f).obj A) ((pullbackFunctor f).obj B)
       ((pullbackFunctor f).obj C) :=
   PresheafOfModules.toBilinear (O := X.presheaf)
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-      (𝟙 (ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).homEquiv _ _
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).homEquiv _ _
         (pullbackBilinearHom f β))
 
 section Props
@@ -209,9 +204,8 @@ lemma pullbackBilinear_pullbackUnit (β : SheafOfModules.BilinearMap A B C)
       (congrArg (SheafOfModules.forget (structureRingSheaf X)).map hcomp) _ t
   have hnat := pullbackUnit_naturality (f := f) (A := ((sheafTensor.{u, u, u, u, u} ⟨Y.presheaf,
       Y.IsSheaf⟩).obj A).obj B) (A' := C)
-    (ofBilinearSheaf β) U (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-          (𝟙 (ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
+    (ofBilinearSheaf β) U (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj A.val B.val)) U (a ⊗ₜ b))
   exact (congrArg
     (fun value => Hom.app (pullbackBilinearHom f β).val ((opensMap f).op.obj U) value)

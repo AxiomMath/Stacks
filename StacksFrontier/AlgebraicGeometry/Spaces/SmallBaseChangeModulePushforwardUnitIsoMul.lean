@@ -63,14 +63,17 @@ private abbrev tensorHomPairing {A B N : SheafOfModules.{w₀} (Tensor.ringSheaf
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)]
   [J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- The morphism of presheaves out of the presheaf tensor product attached to a morphism out of
-the tensor product sheaf is its composite with the sheafification unit. -/
+the tensor product sheaf is its composite with the unit of the sheafification adjunction
+`Tensor.sheafificationForgetAdjunction`. -/
 private theorem tensorHomEquivPresheafTensorHom_eq_unit_comp
     {A B N : SheafOfModules.{w₀} (Tensor.ringSheaf O)}
     (t : ((Tensor.sheafTensor O).obj A).obj B ⟶ N) :
     tensorHomEquivPresheafTensorHom t =
-      (PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O) (𝟙 _)).unit.app
-        (A.val ⊗ B.val) ≫ t.val :=
-  (PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O) (𝟙 _)).homEquiv_unit _ _ t
+      (Tensor.sheafificationForgetAdjunction O).unit.app (A.val ⊗ B.val) ≫ t.val := by
+  refine ((Tensor.sheafificationAdjunction O).homEquiv_unit _ _ t).trans ?_
+  ext U x
+  exact congrArg (t.val.app U)
+    (Tensor.sheafificationForgetAdjunction_unit_app_app_apply O _ U x).symm
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A morphism out of a tensor product sheaf is determined by its pairing. -/
@@ -88,8 +91,7 @@ private theorem tensorHomPairing_comp {A B N N' : SheafOfModules.{w₀} (Tensor.
     tensorHomPairing (t ≫ m) =
       tensorHomPairing t ≫ (moduleSheafFunctor (Tensor.ringSheaf O)).map m :=
   (congrArg (pairingOfTensorHom (hO := (Tensor.ringSheaf O).property))
-    ((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-      (𝟙 _)).homEquiv_naturality_right t m)).trans
+    (tensorHomEquivPresheafTensorHom_naturality t m)).trans
     (pairingOfTensorHom_comp (hO := (Tensor.ringSheaf O).property) _ m)
 
 section Pairing
@@ -145,13 +147,11 @@ private theorem tensorHomPairing_map_comp_obj_map_comp
         ((Tensor.sheafTensor O).obj A').map v ≫ t) =
       PresheafOfModules.tensorHom (O := O.obj) u.val (𝟙 B.val) ≫
         tensorHomEquivPresheafTensorHom (((Tensor.sheafTensor O).obj A').map v ≫ t) :=
-    (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Tensor.ringSheaf O).obj)).homEquiv_naturality_left _ _
+    (Tensor.sheafificationAdjunction O).homEquiv_naturality_left _ _
   have h2 : tensorHomEquivPresheafTensorHom (((Tensor.sheafTensor O).obj A').map v ≫ t) =
       PresheafOfModules.tensorHom (O := O.obj) (𝟙 A'.val) v.val ≫
         tensorHomEquivPresheafTensorHom t :=
-    (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Tensor.ringSheaf O).obj)).homEquiv_naturality_left _ _
+    (Tensor.sheafificationAdjunction O).homEquiv_naturality_left _ _
   have h3 : PresheafOfModules.tensorHom (O := O.obj) u.val (𝟙 B.val) ≫
         PresheafOfModules.tensorHom (O := O.obj) (𝟙 A'.val) v.val =
       PresheafOfModules.tensorHom (O := O.obj) u.val v.val := by
@@ -266,7 +266,8 @@ private theorem tensorHomPairing_homEquiv_pullbackTensorIso_comp
           ((Tensor.sheafTensor X.O).obj F').map β ≫ μ') =
       prod.map ((moduleSheafFunctor (Tensor.ringSheaf X.O)).map β)
         ((moduleSheafFunctor (Tensor.ringSheaf X.O)).map β) ≫ tensorHomPairing μ' :=
-    (pairingOfTensorHom_comp (hO := (Tensor.ringSheaf X.O).property) _ _).symm.trans
+    (congrArg (· ≫ _) (tensorSectionPairing_eq_pairingOfTensorHom_unit _ _)).trans <|
+      (pairingOfTensorHom_comp (hO := (Tensor.ringSheaf X.O).property) _ _).symm.trans
       ((congrArg (pairingOfTensorHom (hO := (Tensor.ringSheaf X.O).property))
         (tensorHomEquivPresheafTensorHom_eq_unit_comp _).symm).trans
         (tensorHomPairing_map_comp_obj_map_comp β β μ'))

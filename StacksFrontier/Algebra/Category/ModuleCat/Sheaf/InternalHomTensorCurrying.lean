@@ -86,23 +86,44 @@ variable (O : Sheaf J CommRingCat.{max u v})
 variable (F G H :
     _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O))
 
-/-- The sheafification unit at the sectionwise tensor product. -/
+/-- The sheafification unit at the sectionwise tensor product: the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the sheafification in which the
+tensor product sheaf is computed. -/
 noncomputable def sheafTensorUnit : (F.val ⊗ G.val) ⟶
     (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj F).obj G).val :=
-  Stacks.SheafOfModules.TensorLocalProperties.sheafificationUnit
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O) (F.val ⊗ G.val)
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app (F.val ⊗ G.val)
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is locally
+injective. -/
+theorem isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : _root_.PresheafOfModules.{max u v}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O).obj) :
+    _root_.PresheafOfModules.IsLocallyInjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    _root_.PresheafOfModules.IsLocallyInjective, Functor.map_comp]
+  infer_instance
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is locally
+surjective. -/
+theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : _root_.PresheafOfModules.{max u v}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O).obj) :
+    _root_.PresheafOfModules.IsLocallySurjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    _root_.PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
 
 /-- The sheafification unit at the sectionwise tensor product is locally injective. -/
 instance sheafTensorUnit_isLocallyInjective :
     _root_.PresheafOfModules.IsLocallyInjective J (sheafTensorUnit O F G) :=
-  inferInstanceAs (Presheaf.IsLocallyInjective J
-    (CategoryTheory.toSheafify J (F.val ⊗ G.val).presheaf))
+  isLocallyInjective_sheafificationForgetAdjunction_unit_app O (F.val ⊗ G.val)
 
 /-- The sheafification unit at the sectionwise tensor product is locally surjective. -/
 instance sheafTensorUnit_isLocallySurjective :
     _root_.PresheafOfModules.IsLocallySurjective J (sheafTensorUnit O F G) :=
-  inferInstanceAs (Presheaf.IsLocallySurjective J
-    (CategoryTheory.toSheafify J (F.val ⊗ G.val).presheaf))
+  isLocallySurjective_sheafificationForgetAdjunction_unit_app O (F.val ⊗ G.val)
 
 /-- The sheafification unit of presheaves of modules is natural. -/
 theorem sheafificationUnit_naturality
@@ -142,8 +163,7 @@ theorem sheafTensorMap_eq
       _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)}
     (f : F ⟶ F') (g : G ⟶ G') :
     sheafTensorMap O f g =
-      (_root_.PresheafOfModules.sheafification
-        (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O).obj)).map (f.val ⊗ₘ g.val) := by
+      (Stacks.SheafOfModules.Tensor.sheafification O).map (f.val ⊗ₘ g.val) := by
   rw [tensorHom_def, Functor.map_comp]
   rfl
 
@@ -155,7 +175,8 @@ theorem sheafTensorUnit_naturality_left
     (f.val ⊗ₘ 𝟙 G.val) ≫ sheafTensorUnit O F G =
       sheafTensorUnit O F' G ≫ (sheafTensorMap O f (𝟙 G)).val := by
   rw [sheafTensorMap_eq, _root_.SheafOfModules.id_val]
-  exact sheafificationUnit_naturality O (f.val ⊗ₘ 𝟙 G.val)
+  exact (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.naturality
+    (f.val ⊗ₘ 𝟙 G.val)
 
 /-- Naturality of the sheafification unit in the second tensor factor. -/
 theorem sheafTensorUnit_naturality_middle
@@ -165,7 +186,8 @@ theorem sheafTensorUnit_naturality_middle
     (𝟙 F.val ⊗ₘ g.val) ≫ sheafTensorUnit O F G =
       sheafTensorUnit O F G' ≫ (sheafTensorMap O (𝟙 F) g).val := by
   rw [sheafTensorMap_eq, _root_.SheafOfModules.id_val]
-  exact sheafificationUnit_naturality O (𝟙 F.val ⊗ₘ g.val)
+  exact (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.naturality
+    (𝟙 F.val ⊗ₘ g.val)
 
 /-- Postcomposition in the second variable of the internal Hom sheaf. -/
 noncomputable def sheafInternalHomMapRight

@@ -44,7 +44,8 @@ generated in degree one (`…IsGeneratedInDegreeOne.isGeneratedInDegreeOneOnChar
 * On the atlas, `ψ₁` is `ψ` of Tag 01NR on `Proj_U(u^*𝒜)` read through Stacks 03DX (2)
   (`…modulePullback_map_psiTwistHom_comp_twistModuleChartIso_hom`), which is surjective by the
   scheme case `Stacks.AlgebraicGeometry.RelativeProjDegreeOne.epi_psiTranspose`; surjectivity
-  descends along the atlas (`AlgebraicGeometry.Space.epi_modulePullback_map_iff_of_isEtale_of_isSurjective`).
+  descends along the atlas
+  (`AlgebraicGeometry.Space.epi_modulePullback_map_iff_of_isEtale_of_isSurjective`).
 * The inverse image of `𝒪_P(n)` along the atlas is the module attached to the twist `𝒪(n)` of
   `Proj_U(u^*𝒜)` (`…twistModuleChartIso`), which is invertible by the scheme case
   (`Stacks.AlgebraicGeometry.TwistMapsInvertible.twistDataOfGradedAlgebra_isInvertible`);
@@ -164,7 +165,8 @@ theorem isEtale_fibreToSpaceHom_presentation :
 /-- The atlas `U ×_X P ⟶ P` of the presentation of `P` over a presentation of `X` is surjective. -/
 theorem isSurjective_fibreToSpaceHom_presentation :
     IsSurjective s.site s.base s.containsBase (s.fibreToSpaceHom Px.U Px.toSpace).hom :=
-  (s.relativeProjPoints.spacePresentation Px s.isAlgebraicSpace_relativeProjFunctor).isSurjective_atlas
+  (s.relativeProjPoints.spacePresentation Px
+    s.isAlgebraicSpace_relativeProjFunctor).isSurjective_atlas
 
 /-! ### Stacks 085D (2) -/
 
@@ -188,7 +190,7 @@ theorem epi_psiTwistHom_one (hgen : s.IsGeneratedInDegreeOne) : Epi (s.psiTwistH
       (epi_representedQuasicoherentSchemeEquivalence_map_hom _ _ hs)
   rw [← s.modulePullback_map_psiTwistHom_comp_fibreToSpaceTwistModuleIso Px Px.U Px.toSpace 1]
     at hc
-  haveI := Iso.isIso_hom (s.fibreToSpaceTwistModuleIso Px Px.U Px.toSpace ((1 : ℕ) : ℤ))
+  have := Iso.isIso_hom (s.fibreToSpaceTwistModuleIso Px Px.U Px.toSpace ((1 : ℕ) : ℤ))
   have h2 := (epi_comp_iff_of_isIso _ _).1 hc
   exact (epi_modulePullback_map_iff_of_isEtale_of_isSurjective s.site s.base s.containsBase
     (s.fibreToSpaceHom Px.U Px.toSpace) (s.isEtale_fibreToSpaceHom_presentation Px)
@@ -298,9 +300,9 @@ theorem isIso_mulSheaf_twistGradedAlgebra (hgen : s.IsGeneratedInDegreeOne) (n m
     IsIso (SheafOfModules.GradedAlgebra.mulSheaf.{u, u + 1, u, u}
         (J := SmallEtale.topology s.site s.base s.containsBase s.relativeProjFunctor)
         (s.twistGradedAlgebra Px) n m) := by
-  haveI := SmallEtale.instHasSheafify s.site s.base s.containsBase s.relativeProjFunctor
+  have := SmallEtale.instHasSheafify s.site s.base s.containsBase s.relativeProjFunctor
     AddCommGrpCat.{u}
-  haveI := SmallEtale.instWEqualsLocallyBijective s.site s.base s.containsBase
+  have := SmallEtale.instWEqualsLocallyBijective s.site s.base s.containsBase
     s.relativeProjFunctor AddCommGrpCat.{u}
   have := s.isIso_twistAlgebraMul Px hgen n m
   rw [s.mulSheaf_twistGradedAlgebra Px n m]

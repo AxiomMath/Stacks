@@ -44,7 +44,8 @@ Situation [Stacks, Tag 0B4W] is carried by
 **No `@[stacks 0B4X]` attribute is attached here**: the two statements below take three inputs of
 the source's proof as hypotheses. The tag itself is registered, with all three discharged, on
 `…RationalSingularitySituation.isZero_cohomology_of_isQuasicoherent` of
-`QuasicoherentCohomologyExtra.lean` in this directory, which states both clauses together. The three are discharged as follows.
+`QuasicoherentCohomologyExtra.lean` in this directory, which states both clauses together. The three
+are discharged as follows.
 
 * `Stacks.AlgebraicGeometry.TopDegreeBaseChange.CohomologyVanishesAboveOne` is the residue of
   [Stacks, Tag 0E7D] at fibre dimension one, equivalently the conclusion of

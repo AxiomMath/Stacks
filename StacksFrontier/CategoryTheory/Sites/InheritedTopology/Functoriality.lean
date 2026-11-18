@@ -261,7 +261,8 @@ extension along `F.op`, `f⁻¹ = F^s = F^p` plain restriction along `F.op`, and
 `f⁻¹(𝒢)(x) = 𝒢(F x)`. Here `A` is any category of coefficients.
 
 The declarations of this section assume `[HasPullbacks 𝒞]`, which Stacks 06NW does not; the
-forms without it are in `StacksFrontier/CategoryTheory/Sites/InheritedTopology/OneMorphismTopoi.lean`.
+forms without it are in
+`StacksFrontier/CategoryTheory/Sites/InheritedTopology/OneMorphismTopoi.lean`.
 -/
 
 universe v₄ u₄

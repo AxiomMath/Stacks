@@ -115,11 +115,9 @@ public abbrev lineBundlePairing :
         P.obj.1.lineBundle.val ⟶
       ((lineBundleKernel hT P t).val :
         PresheafOfModules.{u} (P.obj.1.total.sheaf.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u})) :=
-  (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf P.obj.1.total.sheaf).obj)).unit.app
-      (PresheafOfModules.tensorObj (O := P.obj.1.total.sheaf.obj) (ringKernel hT P t).val
-        P.obj.1.lineBundle.val) ≫
-    PresheafOfModules.homMk (𝟙 _) (fun _ _ _ => rfl)
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction P.obj.1.total.sheaf).unit.app
+    (PresheafOfModules.tensorObj (O := P.obj.1.total.sheaf.obj) (ringKernel hT P t).val
+      P.obj.1.lineBundle.val)
 
 /-- **The pair extension problem of a polarized family over a thickening of its base.** For a
 polarized family `x = (X, L)` over `Spec A` with structure morphism `f` and a deformation situation

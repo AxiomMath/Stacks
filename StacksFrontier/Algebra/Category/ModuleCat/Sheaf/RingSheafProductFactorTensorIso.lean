@@ -118,9 +118,10 @@ variable [HasBinaryBiproducts (_root_.SheafOfModules (Tensor.ringSheaf R))] [Dec
 /-- **A module over the `n`-th factor is isomorphic to its tensor product with that factor**, for
 the tensor product sheaf `Stacks.SheafOfModules.Tensor.sheafTensor` of [Stacks, Tag 01CA].
 
-Sheafification carries `presheafIsoRestrictScalars` to an isomorphism between the sheafification
-of `L` and the tensor product sheaf, and `SheafOfModules.counitIso` identifies the former with
-`L`. -/
+Mathlib's sheafification `PresheafOfModules.sheafification` carries `presheafIsoRestrictScalars`
+to an isomorphism between the sheafification of `L` and that of the presheaf tensor product;
+`SheafOfModules.counitIso` identifies the former with `L`, and
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` the latter with the tensor product sheaf. -/
 public def sheafTensorIsoRestrictScalars (n : ι)
     (L : _root_.SheafOfModules.{max u v} (Tensor.ringSheaf (factor n))) :
     ((_root_.SheafOfModules.restrictScalars (projRing hp n)).obj L) ≅
@@ -130,7 +131,8 @@ public def sheafTensorIsoRestrictScalars (n : ι)
       ((_root_.SheafOfModules.restrictScalars (projRing hp n)).obj L)).symm ≪≫
     ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf (R))
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (R)).obj))).mapIso
-        (presheafIsoRestrictScalars hp n L)
+        (presheafIsoRestrictScalars hp n L) ≪≫
+    (Tensor.sheafTensorObjIso R _ _).symm
 
 /-- **A module over the `n`-th factor is isomorphic to its tensor product with that factor**, at
 the monoidal spelling `F ⊗ G` of `SheafOfModules.monoidalCategorySheafTensor`, whose tensor

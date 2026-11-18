@@ -55,9 +55,9 @@ inner `Iso.trans` has a middle object whose sheaf condition is a projection of t
 which is not type-correct at `implicit` transparency and so blocks `rw` and `simp` on
 `CategoryTheory.Iso.trans_hom`.
 
-`tensorProductIso_tensorSection` is naturality of the sheafification unit, which is why
-`Stacks.SheafOfModules.toSheafifyVal_naturality` is the only import beyond the Picard
-development.
+`tensorProductIso_tensorSection` is naturality of the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the last factor of both the tensor
+product of isomorphisms and the tensor product of sections (`sheafificationMap_unit_apply`).
 
 ## References
 
@@ -179,21 +179,17 @@ theorem generatorPowerSection_val
       (tensorSection X (tpow X L k) L U z s.val)) (generatorPowerSection_val L U s k)
 
 
-/-- Naturality of the sheafification unit, read on a section. -/
-theorem sheafifyMap_toSheafify_apply
-    {P Q : PresheafOfModules.{w}
-      (Stacks.SheafOfModules.TensorSheafification.structureSheaf X.O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2).obj}
+/-- Naturality of the unit of the sealed sheafification, read on a section. -/
+theorem sheafificationMap_unit_apply
+    {P Q : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj}
     (phi : P ⟶ Q) (V : X.Cᵒᵖ) (x : P.obj V) :
-    (((Stacks.SheafOfModules.TensorSheafification.sheafify X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2).map phi).val.app V).hom
-        (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P).app V).hom x) =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 Q).app V).hom) ((phi.app V).hom x) :=
+    (((Stacks.SheafOfModules.Tensor.sheafification X.O).map phi).val.app V).hom
+        ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P).app
+          V).hom x) =
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app Q).app
+        V).hom ((phi.app V).hom x) :=
   congrArg (fun α => ((PresheafOfModules.Hom.app α V).hom) x)
-    (Stacks.SheafOfModules.toSheafifyVal_naturality X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 phi)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.naturality phi).symm
 
 /-- The tensor product of two isomorphisms carries the tensor product of two sections to the
 tensor product of their images. -/
@@ -204,7 +200,7 @@ theorem tensorProductIso_tensorSection
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 e f).hom.val.app (op U)).hom
         (tensorSection X L N U s t) =
       tensorSection X L' N' U ((e.hom.val.app (op U)).hom s) ((f.hom.val.app (op U)).hom t) := by
-  refine (sheafifyMap_toSheafify_apply X
+  refine (sheafificationMap_unit_apply X
     (P := PresheafOfModules.tensorObj L.val N.val) _
     (op U) (s ⊗ₜ[X.O.obj.obj (op U)] t)).trans ?_
   rfl

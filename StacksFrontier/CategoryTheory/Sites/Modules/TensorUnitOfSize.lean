@@ -31,6 +31,9 @@ there — is `Stacks.SheafOfModules.tensorSheafUnitRightIso_naturality` below.
 
 ## Main results
 
+* `Stacks.SheafOfModules.tensorSheafUnitRightIso_hom_eq`: the right unitor is the sealed
+  sheafification `Stacks.SheafOfModules.Tensor.sheafification` of the presheaf right unitor,
+  followed by the counit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`.
 * `Stacks.SheafOfModules.tensorSheafUnitRightIso_naturality`: the right unitor is natural.
 * `Stacks.SheafOfModules.isKFlat_single_unit_ofSize`: the structure sheaf placed in degree zero
   is a K-flat complex.
@@ -43,11 +46,12 @@ Each declaration generalises the sibling of the same name without the `OfSize` s
 right unitor of the re-seated monoidal structure and so cannot be served by the generalisation;
 the two are kept side by side for that reason.
 
-Naturality is proved in term form rather than by `rw`. The two spellings of the sheaf of rings
-in play, `Stacks.SheafOfModules.ringSheaf R.obj h` and
-`Stacks.SheafOfModules.TensorSheafification.structureSheaf R.obj h`, are definitionally equal
-but the second is a plain `def`, so a rewrite whose motive mentions both fails the
-type-correctness check at `implicit` transparency; `congrArg` has no motive to check.
+Naturality is proved in term form rather than by `rw`, after unfolding the unitor with
+`Stacks.SheafOfModules.tensorSheafUnitRightIso_hom_eq`. The presheaf tensor product is typed
+over `R.obj ⋙ forget₂ CommRingCat RingCat`, while the underlying presheaves of modules live over
+`(Stacks.SheafOfModules.Tensor.ringSheaf R).obj`; the two agree only at default transparency,
+so a rewrite under `PresheafOfModules.tensorObj` fails the type-correctness check at `implicit`
+transparency; `congrArg` has no motive to check.
 
 ## References
 
@@ -75,29 +79,37 @@ abbrev structureRingIsSheaf : Presheaf.IsSheaf J
     (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf R.obj) :=
   ((sheafCompose J (forget₂ CommRingCat.{w} RingCat.{w})).obj R).property
 
+/-- The right unitor `F ⊗_O O ≅ F` at the sheaf of rings `R`: the sealed sheafification of the
+presheaf right unitor, followed by the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
+lemma tensorSheafUnitRightIso_hom_eq (A : _root_.SheafOfModules.{w} (Tensor.ringSheaf R)) :
+    (tensorSheafUnitRightIso R.obj (structureRingIsSheaf R) A).hom =
+      (Tensor.sheafification R).map (ρ_ A.val).hom ≫
+        (Tensor.sheafificationForgetAdjunction R).counit.app A :=
+  rfl
+
 /-- **The right unitor `F ⊗_O O ≅ F` is natural in `F`.** Tensoring a morphism with the
 identity of the structure sheaf and then applying the unitor is applying the unitor and then
 the morphism: on underlying presheaves this is naturality of the presheaf right unitor, and
-sheafification carries it, the identification of a sheafified sheaf of modules with itself
-being the counit of the sheafification adjunction. -/
+the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` carries it, the
+identification of a sheafified sheaf of modules with itself being the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 lemma tensorSheafUnitRightIso_naturality
     {A B : _root_.SheafOfModules.{w} (Tensor.ringSheaf R)} (g : A ⟶ B) :
     ((Tensor.sheafTensor.{u, v, w} R).map g).app
           (_root_.SheafOfModules.unit (Tensor.ringSheaf R)) ≫
         (tensorSheafUnitRightIso R.obj (structureRingIsSheaf R) B).hom =
       (tensorSheafUnitRightIso R.obj (structureRingIsSheaf R) A).hom ≫ g := by
-  set F := sheafifyFunctor R.obj (structureRingIsSheaf R)
-  have hc : F.map g.val ≫ (sheafifyValIso R.obj (structureRingIsSheaf R) B).hom =
-      (sheafifyValIso R.obj (structureRingIsSheaf R) A).hom ≫ g :=
-    (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction R.obj
-      (structureRingIsSheaf R)).counit.naturality g
-  have h : F.map (g.val ▷ (_root_.SheafOfModules.unit (Tensor.ringSheaf R)).val) ≫
-      F.map (ρ_ B.val).hom = F.map (ρ_ A.val).hom ≫ F.map g.val :=
+  set F := Tensor.sheafification R
+  have h : F.map (PresheafOfModules.tensorHom (O := R.obj) g.val
+      (𝟙 (_root_.SheafOfModules.unit (Tensor.ringSheaf R)).val)) ≫ F.map (ρ_ B.val).hom =
+      F.map (ρ_ A.val).hom ≫ F.map g.val :=
     (F.map_comp _ _).symm.trans
       ((congrArg F.map (MonoidalCategory.rightUnitor_naturality g.val)).trans (F.map_comp _ _))
-  change F.map (g.val ▷ (_root_.SheafOfModules.unit (Tensor.ringSheaf R)).val) ≫
-      (F.map (ρ_ B.val).hom ≫ (sheafifyValIso R.obj (structureRingIsSheaf R) B).hom) =
-    (F.map (ρ_ A.val).hom ≫ (sheafifyValIso R.obj (structureRingIsSheaf R) A).hom) ≫ g
+  have hc : F.map g.val ≫ (Tensor.sheafificationForgetAdjunction R).counit.app B =
+      (Tensor.sheafificationForgetAdjunction R).counit.app A ≫ g :=
+    (Tensor.sheafificationForgetAdjunction R).counit.naturality g
+  rw [tensorSheafUnitRightIso_hom_eq, tensorSheafUnitRightIso_hom_eq, Tensor.sheafTensor_map_app]
   exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) h).trans
     ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hc).trans (Category.assoc _ _ _).symm)))
 

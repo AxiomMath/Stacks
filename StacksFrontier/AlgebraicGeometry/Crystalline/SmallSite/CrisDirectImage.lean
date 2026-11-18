@@ -159,10 +159,13 @@ What is **not** proved:
   declaration in this file carries either attribute.
 * **The displayed formula (07MK) is not proved here**: it is proved downstream, in
   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKProof.lean`,
-  which computes `Rf_{cris, *}F` on an object of `Cris(X'/S')` as `R(T ⟶ T')_*(Rτ_{U/T, *}F_U)`.  The data of that recipe — the
+  which computes `Rf_{cris, *}F` on an object of `Cris(X'/S')` as `R(T ⟶ T')_*(Rτ_{U/T, *}F_U)`.
+  The data of that recipe — the
   situation `U/T`, the morphism `(U/T)_cris ⟶ (X/S)_cris`, the structure morphism `τ_{U/T}` and the
   pullback `F_U` — are in
-  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/HigherDirectImage.lean`.  The limit formula `crisDirectImageObjObjIsoLimit` is the
+  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/HigherDirectImage.lean`.  The limit
+  formula
+  `crisDirectImageObjObjIsoLimit` is the
   underived statement that is available, and it is not (07MK).  What that limit *is* in the terms
   of (07MK) is identified in
   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKBaseCase.lean`: the sections of

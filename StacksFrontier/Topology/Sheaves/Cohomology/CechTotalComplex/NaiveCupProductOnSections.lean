@@ -37,7 +37,8 @@ sheafification, which is exactly the coefficient pairing
   naive cup product on the sheafification-unit image of a pure tensor of local sections.
 * `Stacks.RingedSpace.pushforwardTensorMap_unique` — that computation determines it.
 * `Stacks.RingedSpace.sheafTensorPairing_app_tmul` — the Čech coefficient pairing on a pure
-  tensor of sections over an open below `V` is the unit of sheafification, by `rfl`.
+  tensor of sections over an open below `V` is the unit of the sealed sheafification
+  `Stacks.SheafOfModules.Tensor.sheafification` of the tensor product.
 * `Stacks.RingedSpace.pushforwardTensorMap_eq_sheafTensorPairing` — **the two agree**: the
   degreewise naive cup product of a morphism of ringed spaces, read on sections over `V ⊆ Y`,
   is the sheaf-tensor coefficient pairing of the Čech cup product on `X`, read at the terminal
@@ -175,12 +176,10 @@ theorem pushforwardTensorMap_unit_tmul (V : (Opens Y.carrier)ᵒᵖ)
     (x : ((pushforwardFunctor f).obj F).val.obj V)
     (y : ((pushforwardFunctor f).obj G).val.obj V) :
     Hom.app (pushforwardTensorMap f F G).val V
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf (Y))
-            (𝟙 (structureRingSheaf (Y)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (Y).presheaf) (((pushforwardFunctor f).obj F)).val
               (((pushforwardFunctor f).obj G)).val)) V (x ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf (X))
-          (𝟙 (structureRingSheaf (X)).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := (X).presheaf) (F).val (G).val))
         ((opensMap f).op.obj V) (x ⊗ₜ y) := by
   refine (hom_congr_apply' (congrArg (fun h ↦ SheafOfModules.Hom.val h)
@@ -207,16 +206,14 @@ theorem pushforwardTensorMap_unique
     (hθ : ∀ (V : (Opens Y.carrier)ᵒᵖ) (x : ((pushforwardFunctor f).obj F).val.obj V)
       (y : ((pushforwardFunctor f).obj G).val.obj V),
       Hom.app θ.val V
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf (Y))
-              (𝟙 (structureRingSheaf (Y)).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := (Y).presheaf) (((pushforwardFunctor f).obj F)).val
                 (((pushforwardFunctor f).obj G)).val)) V (x ⊗ₜ y)) =
-        Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf (X))
-            (𝟙 (structureRingSheaf (X)).obj)).unit.app
+        Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (X).presheaf) (F).val (G).val))
           ((opensMap f).op.obj V) (x ⊗ₜ y)) :
     θ = pushforwardTensorMap f F G :=
-  sheafification_hom_ext (tensorObj_hom_ext fun V x y ↦
+  Stacks.SheafOfModules.Tensor.sheafification_hom_ext (tensorObj_hom_ext fun V x y ↦
     (hθ V x y).trans (pushforwardTensorMap_unit_tmul f F G V x y).symm)
 
 end Degreewise
@@ -230,18 +227,19 @@ variable {X : RingedSpace.{u, u}} (V : Opens X.carrier)
 `Z ≤ V` the pairing
 `Stacks.Cech.SheafTensorPairing.sheafTensorPairing` carries the pure tensor `x ⊗ y` over the
 ring `𝒪_X(V)` to the sheafification-unit image of `x ⊗ y` over `𝒪_X(Z)`; base change of scalars
-is the identity on a pure tensor, so this holds by `rfl`.
+is the identity on a pure tensor, and the pairing's unit, that of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, agrees on sections with the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` used in the rest of this file.
 
 This is the asymmetry that Stacks Tag 0FKV displays: the source tensors over the ring of
 sections on `V`, the target's coefficients over the structure sheaf. -/
 theorem sheafTensorPairing_app_tmul (Z : (Over V)ᵒᵖ)
     (x : F.val.obj (sliceOpen V Z)) (y : G.val.obj (sliceOpen V Z)) :
     ((sheafTensorPairing X.sheaf V F G).app Z).hom (x ⊗ₜ y) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf (X))
-          (𝟙 (structureRingSheaf (X)).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := (X).presheaf) (F).val (G).val))
         (sliceOpen V Z) (x ⊗ₜ y) :=
-  rfl
+  Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.sheaf _ _ _
 
 end Cech
 
@@ -266,8 +264,7 @@ theorem pushforwardTensorMap_eq_sheafTensorPairing {X Y : RingedSpace.{u, u}} (f
     (x : ((pushforwardFunctor f).obj F).val.obj V)
     (y : ((pushforwardFunctor f).obj G).val.obj V) :
     Hom.app (pushforwardTensorMap f F G).val V
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := structureRingSheaf (Y))
-            (𝟙 (structureRingSheaf (Y)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (Y).presheaf) (((pushforwardFunctor f).obj F)).val
               (((pushforwardFunctor f).obj G)).val)) V (x ⊗ₜ y)) =
       ((sheafTensorPairing X.sheaf ((opensMap f).obj V.unop) F G).app

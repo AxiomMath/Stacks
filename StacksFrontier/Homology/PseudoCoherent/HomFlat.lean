@@ -767,8 +767,7 @@ theorem baseChange_ext_bijective_of_pseudoCoherent
   · intro hi
     subst i
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul z s =>
       obtain ⟨f, rfl⟩ := (Ext.linearEquiv₀ (R := R)).symm.surjective z

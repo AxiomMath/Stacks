@@ -309,16 +309,15 @@ theorem tensorSection_bijective'
     (N.val.obj (op V)).isModule
   let P := (PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val))
   let Q := tensorSheafOfModules X L N
-  let η := (PresheafOfModules.toPresheaf _).map
-    (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P)
+  let u := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P
+  let η := (PresheafOfModules.toPresheaf _).map u
   let η' := Functor.whiskerRight η (forget AddCommGrpCat)
-  have : Presheaf.IsLocallyInjective X.J η := by
-    change Presheaf.IsLocallyInjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
-    infer_instance
-  have : Presheaf.IsLocallySurjective X.J η := by
-    change Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
-    infer_instance
+  have : Presheaf.IsLocallyInjective X.J η :=
+    Stacks.SheafOfModules.UliftTensor.isLocallyInjective_sheafificationForgetAdjunction_unit_app
+      X.O P
+  have : Presheaf.IsLocallySurjective X.J η :=
+    Stacks.SheafOfModules.UliftTensor.isLocallySurjective_sheafificationForgetAdjunction_unit_app
+      X.O P
   let R := (X.O.over U).obj ⋙ forget CommRingCat
   let T := (Over.forget U).op ⋙ P.presheaf ⋙ forget AddCommGrpCat
   let kf (V : (Over U)ᵒᵖ) : R.obj V → T.obj V := fun r : X.O.obj.obj (op V.unop.left) =>
@@ -401,9 +400,7 @@ theorem tensorSection_bijective'
           N.val.restrictₛₗ (𝟙 U).op t.val) = _
       rw [hid L s.val, hid N t.val]
     rw [h0]
-    exact ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P).app
-      (op U)).hom.map_smul r (s.val ⊗ₜ t.val)
+    exact (u.app (op U)).hom.map_smul r (s.val ⊗ₜ t.val)
   exact (funext hr) ▸ h
 
 /-- The tensor product of two local generators is a local generator of the tensor product
@@ -434,8 +431,7 @@ theorem tensorSection_smul' (L N : SheafOfModules.{w} (Stacks.SheafOfModules.Ten
   let a' : X.O.obj.obj (op U) := a
   let b' : X.O.obj.obj (op U) := b
   let P := (PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val))
-  let η := (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P).app
+  let η := ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P).app
     (op U)
   have h1 : (a' • s) ⊗ₜ[X.O.obj.obj (op U)] (b' • t) =
       (a' * b') • (s ⊗ₜ[X.O.obj.obj (op U)] t) := TensorProduct.smul_tmul_smul a' b' s t

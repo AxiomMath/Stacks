@@ -94,8 +94,9 @@ theorem tensorLeftFunctor_map_baseScalar (A M : X.Modules) (c : k) :
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X.presheaf,
           Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
             X.ringCatSheaf.2⟩).obj A)).obj M) := by
-  let adj := Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
-    X.ringCatSheaf.2
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction.{u, u, u, u}
+    (⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
+      X.ringCatSheaf.2⟩ : Sheaf _ CommRingCat)
   let Av : PresheafOfModules
       (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.presheaf) := A.val
   let Mv : PresheafOfModules
@@ -103,12 +104,10 @@ theorem tensorLeftFunctor_map_baseScalar (A M : X.Modules) (c : k) :
   let m : Mv ⟶ Mv := ((baseScalar k (Over.mk f) c).app M).val
   have key : (tensorLeft Av).map m ≫ adj.unit.app ((tensorLeft Av).obj Mv) =
       adj.unit.app ((tensorLeft Av).obj Mv) ≫
-        (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf
-          X.presheaf X.ringCatSheaf.2) ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
-          ((baseScalar k (Over.mk f) c).app
-            ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X.presheaf,
-              Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
-                X.ringCatSheaf.2⟩).obj A)).obj M)) := by
+        ((baseScalar k (Over.mk f) c).app
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X.presheaf,
+            Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
+              X.ringCatSheaf.2⟩).obj A)).obj M)).val := by
     refine PresheafOfModules.hom_ext fun U => ?_
     refine ModuleCat.MonoidalCategory.tensor_ext fun x y => ?_
     let r : (X.presheaf ⋙ forget₂ CommRingCat RingCat).obj U :=

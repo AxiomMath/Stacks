@@ -77,7 +77,8 @@ associated-module functor of Stacks 03DU.  **It is not a restatement of
 `AlgebraicGeometry.Space.SchemeDifferentialsComparison`**, the canonical form of Stacks 04CS,
 which is exactly that isomorphism: an identification of two modules is not a transport of a
 property of them.  The implication is deduced from that identification in
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`, through Stacks 05VG
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`, through Stacks
+05VG
 for finite local freeness at `τ = étale` and Stacks 03DM at the comparison equivalence of
 Stacks 03DX (2).
 

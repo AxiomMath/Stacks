@@ -115,7 +115,7 @@ theorem Restriction.map_compTo (hp : p.IsFiberedInGroupoids) {W V U : 𝒞} (g :
     ((isHomLift_comp_iff b p _ _).1
       (Restriction.isHomLift_eqToHom_compTo (b ⋙ p) g f hh xr xrW))
     (by
-      show b.map _ ≫ b.map xr.hom = b.map xrW.hom
+      change b.map _ ≫ b.map xr.hom = b.map xrW.hom
       rw [← b.map_comp, Restriction.compTo_hom])).symm
 
 /-- Canonical restrictions for `b ⋙ p` are sent by `b` to canonical restrictions for `p`. -/
@@ -163,7 +163,7 @@ theorem isomIsSheafFor_comp [b.Full] [b.Faithful] (hp : p.IsFiberedInGroupoids) 
   intro φ hφ hφiso hcompat
   obtain ⟨g, ⟨hgf, hgiso, hgeq⟩, hguniq⟩ := h (fun i => b.map (φ i))
     (fun i => (fibreHom_comp_iff b _ _ (φ i)).1 (hφ i))
-    (fun i => by haveI := hφiso i; infer_instance)
+    (fun i => by have := hφiso i; infer_instance)
     (fun i j => by
       obtain ⟨γ, hγ, h₁, h₂⟩ := hcompat i j
       exact ⟨b.map γ, (fibreHom_comp_iff b _ _ γ).1 hγ, IsRestrictionOf.imageComp b hp h₁,
@@ -171,8 +171,8 @@ theorem isomIsSheafFor_comp [b.Full] [b.Faithful] (hp : p.IsFiberedInGroupoids) 
   refine ⟨b.preimage g, ⟨?_, ?_, fun i => ?_⟩, fun g' ⟨hg'f, _, hg'eq⟩ => ?_⟩
   · rw [fibreHom_comp_iff, b.map_preimage]
     exact hgf
-  · haveI := hgiso
-    haveI : IsIso (b.map (b.preimage g)) := by rw [b.map_preimage]; infer_instance
+  · have := hgiso
+    have : IsIso (b.map (b.preimage g)) := by rw [b.map_preimage]; infer_instance
     exact isIso_of_fully_faithful b _
   · apply b.map_injective
     rw [b.map_comp, b.map_comp, b.map_preimage]
@@ -208,7 +208,7 @@ def DescentDatum.imageComp (hp : p.IsFiberedInGroupoids)
   xrji i j := (D.xrji i j).imageComp b hp
   φ i j := b.map (D.φ i j)
   φ_fibreHom i j := (fibreHom_comp_iff b _ _ _).1 (D.φ_fibreHom i j)
-  φ_iso i j := by haveI := D.φ_iso i j; infer_instance
+  φ_iso i j := by have := D.φ_iso i j; infer_instance
   wi i j k := (D.wi i j k).imageComp b hp
   wj i j k := (D.wj i j k).imageComp b hp
   wk i j k := (D.wk i j k).imageComp b hp
@@ -263,7 +263,7 @@ theorem DescentDatum.isEffective_of_imageComp [b.Full] [b.Faithful]
   obtain ⟨x, hx, xr, ψ, hψ, hψiso, hcompat⟩ := hD
   obtain ⟨x', u, hu⟩ := hess x
   have hx' : (b ⋙ p).obj x' = U := by
-    haveI := hu
+    have := hu
     exact (IsHomLift.codomain_eq p (𝟙 (p.obj (b.obj x'))) u.hom).symm.trans hx
   -- the restriction of `x'` along `f i` is `D.x i`, through the fibre isomorphism `ψ i`
   let xr' : ∀ i, Restriction (b ⋙ p) (f i) x' hx' := fun i =>
@@ -276,20 +276,20 @@ theorem DescentDatum.isEffective_of_imageComp [b.Full] [b.Faithful]
         rw [isHomLift_comp_iff, b.map_preimage]
         exact hlift
       isCart := by
-        haveI : (b ⋙ p).IsHomLift (eqToHom (D.hx i) ≫ f i ≫ eqToHom hx'.symm)
+        have : (b ⋙ p).IsHomLift (eqToHom (D.hx i) ≫ f i ≫ eqToHom hx'.symm)
             (b.preimage (CategoryTheory.inv (ψ i) ≫ (xr i).hom ≫ u.inv)) := by
           rw [isHomLift_comp_iff, b.map_preimage]
           exact hlift
         exact hr.isStronglyCartesian_homLift _ _ }
   have hxr'hom : ∀ i, b.map (xr' i).hom = CategoryTheory.inv (ψ i) ≫ (xr i).hom ≫ u.inv :=
     fun i => by
-    haveI := hψiso i
+    have := hψiso i
     exact b.map_preimage _
   refine ⟨x', hx', xr', fun i => 𝟙 (D.x i), fun i => FibreHom.id _ _ _, fun i => inferInstance,
     fun i j => ?_⟩
   obtain ⟨xrij, ψir, ψjr, hψir, hψjr, hψiriso, hψjriso, hR₁, hR₂, heq⟩ := hcompat i j
-  haveI := hψiso i
-  haveI := hψiso j
+  have := hψiso i
+  have := hψiso j
   have hlift := isHomLift_inv_comp_hom_comp (x₀ := b.obj x') hx' xrij (D.xrij i j).hpt ψir hψir u hu
   have hlift' : (b ⋙ p).IsHomLift (eqToHom (D.xrij i j).hpt ≫ (pr₁ i j ≫ f i) ≫ eqToHom hx'.symm)
       (b.preimage (CategoryTheory.inv ψir ≫ xrij.hom ≫ u.inv)) := by
@@ -366,7 +366,7 @@ theorem IsStackInGroupoids.comp_of_full_of_faithful {J : GrothendieckTopology �
     (hr : (b ⋙ p).IsFiberedInGroupoids) (h : p.IsStackInGroupoids.{w} J) :
     (b ⋙ p).IsStackInGroupoids.{w} J where
   isFiberedInGroupoids := hr
-  isom_isSheaf := fun {U} x y hx hy {I} V f hf Vij pr₁ pr₂ hVij xr yr xrij yrij =>
+  isom_isSheaf := fun {_} x y hx hy {_} V f hf Vij pr₁ pr₂ hVij xr yr xrij yrij =>
     isomIsSheafFor_comp b h.isFiberedInGroupoids x y hx hy V f Vij pr₁ pr₂ hVij xr yr xrij yrij
       (h.isom_isSheaf _ _ hx hy V f hf Vij pr₁ pr₂ hVij _ _ _ _)
   effective_descent := fun V f hf Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃ D =>

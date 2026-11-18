@@ -452,9 +452,7 @@ Stacks 03EL produce from `f^*G ⊗ f^*f_*F ⟶ f^*G ⊗ F`. -/
 lemma pushforwardTensorMap_app_unit_tmul (V : Y.Cᵒᵖ) (a : G.val.obj V)
     (b : ((pushforwardModules f).obj F).val.obj V) :
     (pushforwardTensorMap f G F).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (PresheafOfModules.tensorObj G.val ((pushforwardModules f).obj F).val)).app V
           (a ⊗ₜ[(Y.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj V] b)) =
       Stacks.SheafOfModules.pairingApp (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
@@ -534,19 +532,17 @@ omit [LocallySmall.{w} X.C] [LocallySmall.{w} Y.C] [HasWeakSheafify Y.J AddCommG
 lemma tensorCounit_val_app_unit_tmul (U : X.Cᵒᵖ) (m : ((f.pullbackModules).obj G).val.obj U)
     (n : ((f.pullbackModules).obj ((pushforwardModules f).obj F)).val.obj U) :
     (tensorCounit f G F).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (PresheafOfModules.tensorObj ((f.pullbackModules).obj G).val
               ((f.pullbackModules).obj ((pushforwardModules f).obj F)).val)).app U
           (m ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] n)) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (PresheafOfModules.tensorObj ((f.pullbackModules).obj G).val F.val)).app U
         (m ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U]
           ((pullbackAdjPushforwardModules f).counit.app F).val.app U n) := by
   rw [tensorCounit, Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
-  exact PresheafOfModules.unit_naturality_apply _ U _
+  exact PresheafOfModules.hom_congr_apply'
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.naturality _).symm U _
 
 omit [LocallySmall.{w} Y.C] [HasWeakSheafify Y.J AddCommGrpCat.{w}]
   [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
@@ -719,9 +715,7 @@ lemma tensorSheafModuleFiberIso_hom_pushforwardStalkHom_map_pushforwardTensorMap
             (Stacks.toPresheafModuleFiber Ψ
               ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)).obj
                 (G, (pushforwardModules f).obj F)).val V v
-              (((PresheafOfModules.sheafificationAdjunction
-                  (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+              (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (PresheafOfModules.tensorObj G.val ((pushforwardModules f).obj F).val)).app
                 (op V) (a ⊗ₜ[(Y.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op V)] b))))) =
       (show (Stacks.sheafModuleFiberOfCommRing Φ X.O).obj ((f.pullbackModules).obj G) from
@@ -732,9 +726,7 @@ lemma tensorSheafModuleFiberIso_hom_pushforwardStalkHom_map_pushforwardTensorMap
             (Stacks.toPresheafModuleFiber Ψ ((pushforwardModules f).obj F).val V v b)) := by
   -- the stalk of the canonical map, on the germ of a pure tensor, is the germ of a pairing
   have h₁ := (Stacks.toPresheafModuleFiber_naturality Ψ (pushforwardTensorMap f G F).val V v
-      (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (PresheafOfModules.tensorObj G.val ((pushforwardModules f).obj F).val)).app
         (op V) (a ⊗ₜ[(Y.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op V)] b))).trans
     (congrArg (Stacks.toPresheafModuleFiber Ψ ((pushforwardModules f).obj

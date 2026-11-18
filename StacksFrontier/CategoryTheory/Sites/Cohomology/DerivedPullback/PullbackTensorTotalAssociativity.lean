@@ -54,6 +54,16 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   (O : Sheaf J CommRingCat.{w})
 
+/-- The comparison `Stacks.SheafOfModules.tensorObjIso` of the strict structure is the component
+of `SheafOfModules.sheafTensorNatIso` through which the re-seated structure is built. -/
+private theorem tensorObjIso_eq_sheafTensorNatIso_app_app
+    (A B : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    Stacks.SheafOfModules.tensorObjIso O.obj (TensorEncodings.isSheaf_structureRingPresheaf O)
+        A B =
+      ((_root_.SheafOfModules.sheafTensorNatIso O).app A).app B :=
+  Iso.ext ((Stacks.SheafOfModules.tensorObjIso_hom_eq O.obj _ A B).trans
+    (_root_.SheafOfModules.sheafTensorNatIso_hom_app_app O A B).symm)
+
 /-- The associator of the monoidal structure of `Mod(O)` re-seated on `⊗_O` is the associator
 of the strict monoidal structure of Tag 01CA. -/
 theorem associator_sheafTensor_eq_strict
@@ -69,7 +79,8 @@ theorem associator_sheafTensor_eq_strict
   have strictFormula := congrArg Iso.hom
     (Stacks.SheafOfModules.Strict.associator_eq O.obj
       (TensorEncodings.isSheaf_structureRingPresheaf O) A B D)
-  simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc] at strictFormula
+  simp only [tensorObjIso_eq_sheafTensorNatIso_app_app, Iso.trans_hom, Category.assoc]
+    at strictFormula
   refine reseatedFormula.trans ?_
   refine Eq.trans ?_ strictFormula.symm
   simp only [Category.assoc]

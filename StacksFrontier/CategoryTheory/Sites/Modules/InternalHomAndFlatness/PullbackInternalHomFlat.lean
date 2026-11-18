@@ -565,7 +565,8 @@ theorem pullbackTensorIso_inv_app_naturality_left
         (pullbackTensorIso φ.toModulesHom).inv.app (A', B) =
       (pullbackTensorIso φ.toModulesHom).inv.app (A, B) ≫
         (toposPullback φ).map (((sheafTensor.{u, u, u, u, u} Y.O).map a).app B) := by
-  simpa [-Tensor.sheafTensor_obj_map] using
+  simpa only [Functor.comp_map, Functor.prod_map, Functor.prod_obj, Functor.uncurry_obj_map,
+    CategoryTheory.Functor.map_id, Category.comp_id] using
     (pullbackTensorIso φ.toModulesHom).inv.naturality (Prod.mkHom a (𝟙 B))
 
 /-- **The pullback of a tensor--evaluation composite.** Let `a : A ⟶ Hom_{O_Y}(F, G)` be a
@@ -985,7 +986,9 @@ theorem pullbackTensorIso_inv_app_naturality_right
         (pullbackTensorIso φ.toModulesHom).inv.app (A, B') =
       (pullbackTensorIso φ.toModulesHom).inv.app (A, B) ≫
         (toposPullback φ).map (((sheafTensor.{u, u, u, u, u} Y.O).obj A).map b) := by
-  simpa using (pullbackTensorIso φ.toModulesHom).inv.naturality (Prod.mkHom (𝟙 A) b)
+  simpa only [Functor.comp_map, Functor.prod_map, Functor.prod_obj, Functor.uncurry_obj_map,
+    CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp] using
+    (pullbackTensorIso φ.toModulesHom).inv.naturality (Prod.mkHom (𝟙 A) b)
 
 /-- **The canonical map of Stacks 0GMX is functorial in its first variable.** For a morphism
 `c : F' ⟶ F` of sheaves of `O_Y`-modules the square built from the canonical maps at `F` and at

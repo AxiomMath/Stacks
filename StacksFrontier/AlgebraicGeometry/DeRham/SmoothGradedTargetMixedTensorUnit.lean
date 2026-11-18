@@ -10,7 +10,9 @@ public import StacksFrontier.AlgebraicGeometry.DeRham.SmoothGradedTargetMixedTen
 
 `f^{-1}Ω^k_{Y/S} ⊗_{f^{-1}𝒪_Y} F|_{f^{-1}𝒪_Y}  ≅  (f^*Ω^k_{Y/S} ⊗_{𝒪_X} F)|_{f^{-1}𝒪_Y}`.
 
-**This file computes it on the image of a pure tensor**: `y ⊗ a ↦ c(y) ⊗ a`, with
+**This file computes it on the image of a pure tensor** under the unit of the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, which
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends with: `y ⊗ a ↦ c(y) ⊗ a`, with
 `c : f^{-1}Ω^k_{Y/S} ⟶ (f^*Ω^k_{Y/S})|_{f^{-1}𝒪_Y}` the comparison
 `Stacks.DeRhamSmooth.targetFormsToPullback`. That is what lets a morphism which is linear over
 `f^{-1}𝒪_Y` but not over `𝒪_X` — the relative de Rham differential of `f` — be carried across
@@ -47,15 +49,20 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 open scoped TensorProduct in
 /-- **The symmetry of the tensor product sheaf on the image of a pure tensor**: `b ⊗ a ↦ a ⊗ b`.
-It is the sheafification of the objectwise symmetry, and sheafification carries the image of a
-section to the image of its value. -/
+It is the sealed sheafification of the objectwise symmetry, and sheafification carries the image
+of a section to the image of its value
+(`Stacks.Cohomology.MixedDerivedTensor.sheafification_map_val_app_unit`). -/
 theorem sheafTensorSymmIso_hom_val_app_toSheafifyVal (O : Sheaf J CommRingCat.{w})
     (A B : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (U : Cᵒᵖ)
     (b : B.val.obj U) (a : A.val.obj U) :
     ((sheafTensorSymmIso O A B).hom.val.app U).hom
-        ((toSheafifyVal (tensorObj B.val A.val)).app U (b ⊗ₜ[O.obj.obj U] a)) =
-      (toSheafifyVal (tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b) :=
-  moduleSheafification_map_val_app_toSheafifyVal (O := O) (tensorObjCommOf O B.val A.val).hom U _
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+          (tensorObj B.val A.val)).app U
+          (b ⊗ₜ[O.obj.obj U] a)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+          (tensorObj A.val B.val)).app U
+        (a ⊗ₜ[O.obj.obj U] b) :=
+  sheafification_map_val_app_unit (O := O) (tensorObjCommOf O B.val A.val).hom U _
 
 end Stacks.FlatChangeOfRings
 
@@ -85,11 +92,14 @@ at the topos presentation of `f`. -/
 theorem targetFormsMixedTensorIso_hom_val_app_toSheafifyVal (k : ℕ) (F : Modules X.toRingedSpace)
     (U : (Opens X.carrier)ᵒᵖ) (a : F.val.obj U) (y : (pulledBackTargetForms f g k).val.obj U) :
     ((targetFormsMixedTensorIso f g k F).hom.val.app U).hom
-        ((toSheafifyVal (tensorObj ((pushforward (toInverseImageBase f)).obj F).val
-          (pulledBackTargetForms f g k).val)).app U
-            (a ⊗ₜ[(inverseImageBase f).sheaf.obj.obj U] y)) =
-      (toSheafifyVal (tensorObj F.val ((Scheme.Modules.pullback f).obj
-          (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g (k : ℤ))).val)).app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            (inverseImageBase f).sheaf).unit.app
+          (tensorObj ((pushforward (toInverseImageBase f)).obj F).val
+            (pulledBackTargetForms f g k).val)).app U
+              (a ⊗ₜ[(inverseImageBase f).sheaf.obj.obj U] y)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.sheaf).unit.app
+          (tensorObj F.val ((Scheme.Modules.pullback f).obj
+            (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g (k : ℤ))).val)).app U
         (a ⊗ₜ[X.sheaf.obj.obj U] ((targetFormsToPullback f g k).val.app U).hom y) :=
   underivedTensorInverseImageLinearIso_hom_app_val_app_toSheafifyVal
     (ringedToposSiteHom f.toLRSHom.toShHom)
@@ -108,11 +118,14 @@ through its entries. -/
 theorem gradedSourceMixedTensorIso_hom_val_app_toSheafifyVal (k : ℕ) (F : Modules X.toRingedSpace)
     (U : (Opens X.carrier)ᵒᵖ) (y : (pulledBackTargetForms f g k).val.obj U) (a : F.val.obj U) :
     ((gradedSourceMixedTensorIso f g k F).hom.val.app U).hom
-        ((toSheafifyVal (tensorObj (pulledBackTargetForms f g k).val
-          ((pushforward (toInverseImageBase f)).obj F).val)).app U
-            (y ⊗ₜ[(inverseImageBase f).sheaf.obj.obj U] a)) =
-      (toSheafifyVal (tensorObj ((Scheme.Modules.pullback f).obj
-          (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g (k : ℤ))).val F.val)).app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            (inverseImageBase f).sheaf).unit.app
+          (tensorObj (pulledBackTargetForms f g k).val
+            ((pushforward (toInverseImageBase f)).obj F).val)).app U
+              (y ⊗ₜ[(inverseImageBase f).sheaf.obj.obj U] a)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.sheaf).unit.app
+          (tensorObj ((Scheme.Modules.pullback f).obj
+            (AlgebraicGeometry.Scheme.Hom.relativeDifferentialForms g (k : ℤ))).val F.val)).app U
         (((targetFormsToPullback f g k).val.app U).hom y ⊗ₜ[X.sheaf.obj.obj U] a) := by
   refine Eq.trans (congrArg (fun z =>
       (((pushforward (toInverseImageBase f)).map (pullbackFormsTensorSymmIso f g k F).hom).val.app

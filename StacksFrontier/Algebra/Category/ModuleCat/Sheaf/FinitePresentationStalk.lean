@@ -381,7 +381,8 @@ lemma tensorPairing_res {V W : Opens X.carrier} (i : V ⟶ W)
       = toTensorSheafSection X L N (op V)
         (L.val.map i.op a ⊗ₜ[X.presheaf.obj (op V)] N.val.map i.op b) :=
     (PresheafOfModules.naturality_apply
-      (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)) i.op
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨(X).presheaf, (X).IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)) i.op
       (a ⊗ₜ[X.presheaf.obj (op W)] b)).symm
   have h2 := PresheafOfModules.naturality_apply ψ.hom.val i.op
     (toTensorSheafSection X L N (op W) (a ⊗ₜ[X.presheaf.obj (op W)] b))

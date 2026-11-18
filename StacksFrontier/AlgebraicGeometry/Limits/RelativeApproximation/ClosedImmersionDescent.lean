@@ -251,8 +251,7 @@ private lemma isClosedImmersion_opensDiagram_map
       ← Category.assoc, Scheme.isoOfEq_hom_ι]
   have : IsClosedImmersion (D.map a.left ∣_ Uk) := inferInstance
   have : IsClosedImmersion (e.hom ≫ (D.map a.left ∣_ Uk)) := inferInstance
-  rw [heq]
-  assumption
+  rwa [heq]
 
 omit [IsCofiltered I] in
 /-- If an open of a stage is affine, so is every member of the diagram of its preimages. -/

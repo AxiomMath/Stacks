@@ -34,6 +34,9 @@ product to the corresponding constructions one universe up, so Stacks 03EO holds
   scheme.
 * `AlgebraicGeometry.RingedSite.tensorRightModules` and `tensorRightModulesLift`: tensoring on
   the right by a module, and by its lift one universe up.
+* `Stacks.SheafOfModules.Tensor.uliftSheafificationUnit` and `sheafificationULiftHom`: the
+  universe lift of the sealed sheafification unit, and the comparison of the sealed
+  sheafification of a lift with the lift of the sealed sheafification.
 * `AlgebraicGeometry.RingedSite.tensorLiftPresheafHom` and `tensorLiftModulesNatTrans`: the
   comparison `𝓜^lift ⊗ 𝓕^lift ⟶ (𝓜 ⊗ 𝓕)^lift`, at the level of presheaves and of sheaves.
 
@@ -48,6 +51,10 @@ product to the corresponding constructions one universe up, so Stacks 03EO holds
   of the objectwise tensor product, with its naturality in the first variable.
 * `PresheafOfModules.uliftSheafifyUnit_naturality`: the lift of the sheafification unit is
   natural.
+* `Stacks.SheafOfModules.Tensor.uliftSheafificationUnit_naturality` and
+  `isIso_sheafificationULiftHom`: the same for the sealed sheafification
+  `Stacks.SheafOfModules.Tensor.sheafification` (the last factor of the tensor product of sheaves
+  of modules), whose comparison with the universe lift is an isomorphism.
 * `AlgebraicGeometry.RingedSite.tensorLiftModulesNatIso`: the universe lift commutes with the
   tensor product of sheaves of modules, as an isomorphism of functors.
 * `AlgebraicGeometry.RingedSite.internalHomSheafSmallLiftNatIso`: the lift carries the descended
@@ -220,6 +227,94 @@ theorem uliftSheafifyUnit_naturality {P Q : PresheafOfModules.{m} R₀} (f : P �
 
 end PresheafOfModules
 
+namespace Stacks.SheafOfModules.Tensor
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{m}] [HasWeakSheafify J AddCommGrpCat.{m}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max m t}]
+  [HasWeakSheafify J AddCommGrpCat.{max m t}]
+
+/-- The universe lift of the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, viewed as a morphism into the universe lift of
+the associated sheaf. -/
+def uliftSheafificationUnit (P : PresheafOfModules.{m} (ringSheaf R).obj) :
+    PresheafOfModules.uliftObj.{_, _, _, _, t} P ⟶
+      (_root_.SheafOfModules.forget (ringSheaf R) ⋙
+          PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj)).obj
+        (_root_.SheafOfModules.uliftObj.{_, _, _, _, t} ((sheafification.{_, _, _, m} R).obj P)) :=
+  PresheafOfModules.uliftMap.{_, _, _, _, t} ((sheafificationAdjunction.{_, _, _, m} R).unit.app P)
+
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{max m t}]
+  [HasWeakSheafify J AddCommGrpCat.{max m t}] in
+/-- The lift of the sealed sheafification unit is the lift of Mathlib's sheafification unit
+followed by the lift of `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+lemma uliftSheafifyUnit_comp_sheafificationIso_hom_app
+    (P : PresheafOfModules.{m} (ringSheaf R).obj) :
+    PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, t} (𝟙 (ringSheaf R).obj) P ≫
+        (_root_.SheafOfModules.forget (ringSheaf R) ⋙
+            PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj)).map
+          ((_root_.SheafOfModules.uliftFunctor.{_, _, _, _, t}).map
+            ((sheafificationIso.{_, _, _, m} R).hom.app P)) =
+      uliftSheafificationUnit.{_, _, _, _, t} R P := by
+  ext U x
+  exact congrArg ULift.up
+    (PresheafOfModules.hom_congr_apply' (unit_comp_sheafificationIso_hom_app R P) U x.down)
+
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{max m t}]
+  [HasWeakSheafify J AddCommGrpCat.{max m t}] in
+/-- The universe lift of the sealed sheafification unit is natural. -/
+theorem uliftSheafificationUnit_naturality {P Q : PresheafOfModules.{m} (ringSheaf R).obj}
+    (f : P ⟶ Q) :
+    PresheafOfModules.uliftMap.{_, _, _, _, t} f ≫ uliftSheafificationUnit.{_, _, _, _, t} R Q =
+      uliftSheafificationUnit.{_, _, _, _, t} R P ≫
+        PresheafOfModules.uliftMap.{_, _, _, _, t}
+          ((_root_.SheafOfModules.forget (ringSheaf R) ⋙
+              PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj)).map
+            ((sheafification.{_, _, _, m} R).map f)) :=
+  (((PresheafOfModules.uliftFunctor.{_, _, _, _, t}).map_comp _ _).symm.trans
+    (congrArg (PresheafOfModules.uliftFunctor.{_, _, _, _, t}).map
+      ((sheafificationAdjunction.{_, _, _, m} R).unit.naturality f))).trans
+    ((PresheafOfModules.uliftFunctor.{_, _, _, _, t}).map_comp _ _)
+
+/-- The comparison morphism from the sealed sheafification of a universe lift to the universe
+lift of the sealed sheafification. -/
+def sheafificationULiftHom (P : PresheafOfModules.{m} (ringSheaf R).obj) :
+    (sheafification R).obj (PresheafOfModules.uliftObj.{_, _, _, _, t} P) ⟶
+      _root_.SheafOfModules.uliftObj.{_, _, _, _, t} ((sheafification.{_, _, _, m} R).obj P) :=
+  ((sheafificationAdjunction R).homEquiv _ _).symm (uliftSheafificationUnit.{_, _, _, _, t} R P)
+
+/-- `Stacks.SheafOfModules.Tensor.sheafificationULiftHom` is Mathlib's comparison
+`PresheafOfModules.sheafifyULiftHom`, transported along
+`Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+lemma sheafificationIso_hom_app_comp_sheafificationULiftHom
+    (P : PresheafOfModules.{m} (ringSheaf R).obj) :
+    (sheafificationIso R).hom.app (PresheafOfModules.uliftObj.{_, _, _, _, t} P) ≫
+        sheafificationULiftHom.{_, _, _, _, t} R P =
+      PresheafOfModules.sheafifyULiftHom.{_, _, _, _, t} (𝟙 (ringSheaf R).obj) P ≫
+        (_root_.SheafOfModules.uliftFunctor.{_, _, _, _, t}).map
+          ((sheafificationIso.{_, _, _, m} R).hom.app P) := by
+  refine PresheafOfModules.sheafification_hom_ext ?_
+  rw [Functor.map_comp, ← Category.assoc, unit_comp_sheafificationIso_hom_app,
+    sheafificationULiftHom, sheafificationAdjunction_unit_comp_homEquiv_symm]
+  exact (uliftSheafifyUnit_comp_sheafificationIso_hom_app R P).symm.trans
+    ((congrArg (· ≫ _) (PresheafOfModules.sheafificationAdjunction_unit_comp_homEquiv_symm _
+      (PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, t} _ P)).symm).trans
+      ((Category.assoc _ _ _).trans (congrArg _ (Functor.map_comp _ _ _).symm)))
+
+/-- The comparison from the sealed sheafification of a universe lift to the universe lift of the
+sealed sheafification is an isomorphism. -/
+instance isIso_sheafificationULiftHom (P : PresheafOfModules.{m} (ringSheaf R).obj) :
+    IsIso (sheafificationULiftHom.{_, _, _, _, t} R P) := by
+  have : IsIso ((sheafificationIso R).hom.app (PresheafOfModules.uliftObj.{_, _, _, _, t} P) ≫
+      sheafificationULiftHom.{_, _, _, _, t} R P) := by
+    rw [sheafificationIso_hom_app_comp_sheafificationULiftHom]
+    exact IsIso.comp_isIso' (PresheafOfModules.isIso_sheafifyULiftHom.{_, _, _, _, t} _ P)
+      ((_root_.SheafOfModules.uliftFunctor.{_, _, _, _, t}).mapIso
+        ((sheafificationIso.{_, _, _, m} R).app P)).isIso_hom
+  exact IsIso.of_isIso_comp_left ((sheafificationIso R).hom.app _) _
+
+end Stacks.SheafOfModules.Tensor
+
 namespace AlgebraicGeometry.RingedSite
 
 open Stacks.SheafOfModules.UliftTensor
@@ -255,16 +350,15 @@ abbrev tensorRightModulesLift :
   (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u + 1, u + 1} X.O).flip.obj
     ((moduleUliftSmallSite X).obj F)
 
-/-- The sheafification adjunction for presheaves of modules on the site, at the raised module
-universe. -/
+/-- The sealed sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`
+for presheaves of modules on the site, at the raised module universe: the last factor of the
+tensor product of sheaves of modules. -/
 abbrev liftSheafifyAdjunction :=
-  PresheafOfModules.sheafificationAdjunction.{u + 1}
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+  Stacks.SheafOfModules.Tensor.sheafificationAdjunction.{_, _, _, u + 1} X.O
 
 /-- The presheaf-level comparison from the objectwise tensor product of the lifts to the lift of
 the tensor product sheaf: the lift of the objectwise tensor product followed by the lift of the
-sheafification unit. -/
+sealed sheafification unit. -/
 def tensorLiftPresheafHom (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     PresheafOfModules.tensorObj (PresheafOfModules.uliftObj.{_, _, _, _, u + 1} M.val)
         (PresheafOfModules.uliftObj.{_, _, _, _, u + 1} F.val) ⟶
@@ -272,12 +366,10 @@ def tensorLiftPresheafHom (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.
           PresheafOfModules.restrictScalars
             (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).obj
         (SheafOfModules.uliftObj.{_, _, _, _, u + 1}
-          ((PresheafOfModules.sheafification.{u}
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).obj
+          ((Stacks.SheafOfModules.Tensor.sheafification.{_, _, _, u} X.O).obj
             (PresheafOfModules.tensorObj M.val F.val))) :=
   (tensorUliftIso.{u + 1, u, u, u, u + 1} M.val F.val).hom ≫
-    PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, u + 1}
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+    Stacks.SheafOfModules.Tensor.uliftSheafificationUnit.{_, _, _, _, u + 1} X.O
       (PresheafOfModules.tensorObj M.val F.val)
 
 /-- The comparison `𝓜^lift ⊗ 𝓕^lift ⟶ (𝓜 ⊗ 𝓕)^lift`, the transpose of
@@ -291,29 +383,25 @@ def tensorLiftModulesNatTrans :
             (PresheafOfModules.uliftObj.{_, _, _, _, u + 1} F.val)).map
             (PresheafOfModules.uliftMap.{_, _, _, _, u + 1} g.val) ≫
           ((tensorUliftIso.{u + 1, u, u, u, u + 1} N.val F.val).hom ≫
-            PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, u + 1}
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+            Stacks.SheafOfModules.Tensor.uliftSheafificationUnit.{_, _, _, _, u + 1} X.O
               (PresheafOfModules.tensorObj N.val F.val)) =
         ((tensorUliftIso.{u + 1, u, u, u, u + 1} M.val F.val).hom ≫
-            PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, u + 1}
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+            Stacks.SheafOfModules.Tensor.uliftSheafificationUnit.{_, _, _, _, u + 1} X.O
               (PresheafOfModules.tensorObj M.val F.val)) ≫
           PresheafOfModules.uliftMap.{_, _, _, _, u + 1}
             ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
                 PresheafOfModules.restrictScalars
                   (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
-              ((PresheafOfModules.sheafification.{u}
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
+              ((Stacks.SheafOfModules.Tensor.sheafification.{_, _, _, u} X.O).map
                 (((PresheafOfModules.tensorBifunctor X.O.obj).flip.obj F.val).map g.val))) := by
       refine (Category.assoc _ _ _).symm.trans ?_
-      refine (congrArg (fun z => z ≫ PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, u + 1}
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-          (PresheafOfModules.tensorObj N.val F.val))
+      refine (congrArg (fun z => z ≫
+          Stacks.SheafOfModules.Tensor.uliftSheafificationUnit.{_, _, _, _, u + 1} X.O
+            (PresheafOfModules.tensorObj N.val F.val))
         (tensorUliftIso_naturality.{u + 1, u, u, u, u + 1} g.val F.val)).trans ?_
       refine (Category.assoc _ _ _).trans ?_
       exact (congrArg (fun z => (tensorUliftIso.{u + 1, u, u, u, u + 1} M.val F.val).hom ≫ z)
-          (PresheafOfModules.uliftSheafifyUnit_naturality
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+          (Stacks.SheafOfModules.Tensor.uliftSheafificationUnit_naturality X.O
             (((PresheafOfModules.tensorBifunctor X.O.obj).flip.obj F.val).map g.val))).trans
           (Category.assoc _ _ _).symm
     have e₁ := Adjunction.homEquiv_naturality_left_symm (adj := liftSheafifyAdjunction X)
@@ -327,21 +415,18 @@ def tensorLiftModulesNatTrans :
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Each component of `AlgebraicGeometry.RingedSite.tensorLiftModulesNatTrans` factors as the
-sheafification of the presheaf-level comparison followed by
-`PresheafOfModules.sheafifyULiftHom`. -/
+sealed sheafification of the presheaf-level comparison followed by
+`Stacks.SheafOfModules.Tensor.sheafificationULiftHom`. -/
 theorem tensorLiftModulesNatTrans_app
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     (tensorLiftModulesNatTrans X F).app M =
-      (PresheafOfModules.sheafification.{u + 1}
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification X.O).map
           (tensorUliftIso.{u + 1, u, u, u, u + 1} M.val F.val).hom ≫
-        PresheafOfModules.sheafifyULiftHom.{_, _, _, _, u + 1}
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+        Stacks.SheafOfModules.Tensor.sheafificationULiftHom.{_, _, _, _, u + 1} X.O
           (PresheafOfModules.tensorObj M.val F.val) :=
   (Adjunction.homEquiv_naturality_left_symm (adj := liftSheafifyAdjunction X)
     (tensorUliftIso.{u + 1, u, u, u, u + 1} M.val F.val).hom
-    (PresheafOfModules.uliftSheafifyUnit.{_, _, _, _, u + 1}
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+    (Stacks.SheafOfModules.Tensor.uliftSheafificationUnit.{_, _, _, _, u + 1} X.O
       (PresheafOfModules.tensorObj M.val F.val)))
 
 /-- Each component of `AlgebraicGeometry.RingedSite.tensorLiftModulesNatTrans` is an
@@ -351,11 +436,9 @@ instance isIso_tensorLiftModulesNatTrans_app
     IsIso ((tensorLiftModulesNatTrans X F).app M) := by
   rw [tensorLiftModulesNatTrans_app]
   exact IsIso.comp_isIso'
-    (((PresheafOfModules.sheafification.{u + 1}
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).mapIso
+    (((Stacks.SheafOfModules.Tensor.sheafification X.O).mapIso
       (tensorUliftIso.{u + 1, u, u, u, u + 1} M.val F.val)).isIso_hom)
-    (PresheafOfModules.isIso_sheafifyULiftHom.{_, _, _, _, u + 1}
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+    (Stacks.SheafOfModules.Tensor.isIso_sheafificationULiftHom.{_, _, _, _, u + 1} X.O
       (PresheafOfModules.tensorObj M.val F.val))
 
 /-- `AlgebraicGeometry.RingedSite.tensorLiftModulesNatTrans` is a natural isomorphism. -/

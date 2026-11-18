@@ -95,6 +95,7 @@ theorem _root_.Stacks.WeilCohomology.IsNonemptyEquidimensional.dim_eq
     (topologicalKrullDim_eq_of_relativeDimension X.obj.hom hX'.relativeDimension)
   exact_mod_cast h
 
+omit [CharZero F] in
 /-- Pullback along a composite on homogeneous classes. -/
 theorem pullDeg_comp_apply {X Y Z : (SmoothProjectiveScheme k).FullSubcategory} (f : X ⟶ Y)
     (g : Y ⟶ Z) (n : ℤ) (a : W.grade Z n) :
@@ -233,7 +234,7 @@ theorem ext_symm_ext (X : (SmoothProjectiveScheme k).FullSubcategory) (n : ℤ) 
 /-- **The extension of `Θ`**, a linear isomorphism `H^n(X) ≅ H'^n(X)` for every `X`. -/
 def extEquiv (X : (SmoothProjectiveScheme k).FullSubcategory) (n : ℤ) :
     W.grade X n ≃ₗ[F] W'.grade X n :=
-  LinearEquiv.ofLinear (Θ.ext hA' hB' hC' X n) (Θ.symm.ext hA hB hC X n)
+  LinearEquiv.ofLinearMap (Θ.ext hA' hB' hC' X n) (Θ.symm.ext hA hB hC X n)
     (LinearMap.ext fun b ↦ Θ.symm.ext_symm_ext hA' hB' hC' hA hB hC X n b)
     (LinearMap.ext fun a ↦ Θ.ext_symm_ext hA hB hC hA' hB' hC' X n a)
 
@@ -340,6 +341,7 @@ theorem twCoord_twEquiv_toIso (κ : Fˣ) (X : (SmoothProjectiveScheme k).FullSub
     ht, tateTwistCoordinates_smulOfUnit, map_smul, GradedIso.gradeEquiv_toIso]
   rfl
 
+omit [CharZero F] in
 /-- A unit to a natural power times its inverse to the same power is `1`. -/
 private theorem val_inv_zpow_mul_pow (u : Fˣ) (n : ℕ) :
     ((u⁻¹ ^ (n : ℤ) : Fˣ) : F) * (u : F) ^ n = 1 := by

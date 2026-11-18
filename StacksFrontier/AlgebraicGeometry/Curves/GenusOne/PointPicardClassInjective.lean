@@ -62,10 +62,10 @@ theorem eq_of_pointPicardClass_eq (k : Type u) [Field k] [IsAlgClosed k] {X : Sc
   -- the two invertible sheaves are isomorphic
   have hpic : Stacks.Divisors.picardClass Dx = Stacks.Divisors.picardClass Dy := by
     have h1 : pointPicardClass k f hx = Stacks.Divisors.picardClass Dx := by
-      letI := isEffectiveCartierDivisor_vanishingIdeal_closure_singleton k f hx
+      let := isEffectiveCartierDivisor_vanishingIdeal_closure_singleton k f hx
       exact Stacks.Divisors.picardClass_congr (congrArg _ hclx)
     have h2 : pointPicardClass k f hy = Stacks.Divisors.picardClass Dy := by
-      letI := isEffectiveCartierDivisor_vanishingIdeal_closure_singleton k f hy
+      let := isEffectiveCartierDivisor_vanishingIdeal_closure_singleton k f hy
       exact Stacks.Divisors.picardClass_congr (congrArg _ hcly)
     rw [← h1, ← h2, h]
   obtain ⟨e⟩ : Nonempty (divisorSheaf Dx ≅ divisorSheaf Dy) :=

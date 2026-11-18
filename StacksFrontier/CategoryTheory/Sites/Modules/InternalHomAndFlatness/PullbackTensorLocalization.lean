@@ -58,6 +58,18 @@ reduces the statement to itself.
 * `Stacks.SheafOfModules.localizationPullbackTensorIso_inv_app`: the same identity for the
   inverse comparison, which is the direction the canonical map of Stacks 0GMX is built from.
 
+## Implementation notes
+
+The identification is checked on local sections, through
+`eq_pullbackTensorIso_hom_app_comp_iff`, which characterises a morphism out of `f^*(F ⊗ G)` as
+the comparison of Stacks 03EL followed by `k` along any morphism of ringed topoi with invertible
+structure map. It is first proved in the spelling of `Stacks.SheafOfModules.pullbackTensorIso`,
+where the tensor product is the bifunctor `Functor.uncurry.obj (sheafTensor _)`
+(`localizationPullbackTensorIso_hom_app_uncurry`): there the unit of Stacks 03D7 and the
+identification of Stacks 04IX are applied to one and the same object throughout. Comparing two
+spellings of that object inside one of these natural transformations makes the elaborator unfold
+the transformation itself, which is where the cost of the computation went.
+
 ## References
 
 * [Stacks Project, Tag 03EL](https://stacks.math.columbia.edu/tag/03EL)
@@ -78,6 +90,91 @@ namespace Stacks.SheafOfModules
 universe u
 
 open Stacks.SheafOfModules.InternalHom
+
+section TensorTranspose
+
+universe w w' v₁ u₁ v₂ u₂
+
+variable {X' : RingedTopos.{v₁, u₁, w}} {Y' : RingedTopos.{v₂, u₂, w'}}
+  [X'.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y'.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
+  [X'.J.HasSheafCompose (forget RingCat.{w})] [Y'.J.HasSheafCompose (forget RingCat.{w'})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [Y'.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
+  [HasWeakSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasWeakSheafify Y'.J AddCommGrpCat.{w'}] [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
+  (f : Stacks.Sheaves.RingedToposModules.RingedToposHom X' Y')
+  (F G : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y'.O))
+  (N : _root_.SheafOfModules.{w} (Tensor.ringSheaf X'.O))
+
+/-- The comparison of Stacks 03EL followed by `k` is the preimage of `k` under the chain of
+bijections `Stacks.SheafOfModules.pullbackTensorHomEquiv`. -/
+private theorem pullbackTensorIso_hom_app_comp_eq_homEquiv_symm
+    (k : (Functor.prod f.pullbackModules f.pullbackModules ⋙
+      Functor.uncurry.obj (sheafTensor X'.O)).obj (F, G) ⟶ N) :
+    (pullbackTensorIso f).hom.app (F, G) ≫ k = (pullbackTensorHomEquiv f F G N).symm k :=
+  (pullbackTensorHomEquiv_symm_naturality f F G (𝟙 _) k).symm.trans
+    (congrArg _ (Category.id_comp k))
+
+/-- **A morphism `h` out of `f^*(F ⊗ G)` is the comparison of Stacks 03EL followed by `k`**
+exactly when `k`, on the sheafification-unit image of each pure tensor `a ⊗ b` of local sections,
+takes the value at `a` and `b` of the base change along `f` of the pairing that the unit of the
+tensor product sheaf followed by `h` defines. Along a morphism of ringed topoi with invertible
+structure map that value is computed by `pairingApp_pullbackTensorBilinEquiv_tensorTranspose`: the
+inverse image of the pairing followed by the unit of scalar extension and `h`, at the preimages of
+`a` and `b` under the units of scalar extension.
+
+The unit on the left is that of `Tensor.sheafificationAdjunction`, the form in which
+`ExtensionByZero.transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTransportComp`
+evaluates a transport; the unit in the pairing is that of `Tensor.sheafificationForgetAdjunction`,
+whose target is the underlying presheaf of the tensor product sheaf. -/
+private theorem eq_pullbackTensorIso_hom_app_comp_iff [IsIso f.fSharpInverseImage]
+    (h : f.pullbackModules.obj ((Functor.uncurry.obj (sheafTensor Y'.O)).obj (F, G)) ⟶ N)
+    (k : (Functor.prod f.pullbackModules f.pullbackModules ⋙
+      Functor.uncurry.obj (sheafTensor X'.O)).obj (F, G) ⟶ N) :
+    h = (pullbackTensorIso f).hom.app (F, G) ≫ k ↔
+      ∀ (W : X'.Cᵒᵖ) (a : (f.pullbackModules.obj F).val.obj W)
+        (b : (f.pullbackModules.obj G).val.obj W),
+        k.val.app W
+            (((Tensor.sheafificationAdjunction X'.O).unit.app
+                  ((f.pullbackModules.obj F).val ⊗ (f.pullbackModules.obj G).val)).app W
+              (a ⊗ₜ[(X'.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj W] b)) =
+          (sectionsFunctor X'.J W).map
+            (f.toToposHom.inverseImage.map
+                (pairingOfTensorHom (hO := (Tensor.ringSheaf Y'.O).property)
+                  (N := (Functor.uncurry.obj (sheafTensor Y'.O)).obj (F, G))
+                  ((Tensor.sheafificationForgetAdjunction Y'.O).unit.app (F.val ⊗ G.val))) ≫
+              (scalarUnitMap f ((Functor.uncurry.obj (sheafTensor Y'.O)).obj (F, G)) ≫
+                (moduleSheafFunctor (Tensor.ringSheaf X'.O)).map h))
+            (Functor.prodObjMk (P := f.toToposHom.inverseImage ⋙ sectionsFunctor X'.J W)
+              ((sectionsFunctor X'.J W).map (inv (scalarUnitMap f F)) a)
+              ((sectionsFunctor X'.J W).map (inv (scalarUnitMap f G)) b)) := by
+  rw [pullbackTensorIso_hom_app_comp_eq_homEquiv_symm, Equiv.eq_symm_apply,
+    pullbackTensorHomEquiv_eq_iff_pairingApp_unit]
+  exact forall_congr' fun W ↦ forall_congr' fun a ↦ forall_congr' fun b ↦
+    iff_of_eq (congrArg₂ (· = ·)
+      (congrArg _ (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X'.O _ W _))
+      (pairingApp_pullbackTensorBilinEquiv_tensorTranspose f F G _ N _ h W a b))
+
+end TensorTranspose
+
+section SliceSections
+
+variable (X : RingedSite.{u, u, u}) (U : X.C)
+  [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+
+/-- On a section over `V.unop.left`, the unit of `Tensor.sheafificationAdjunction` is that of
+`Tensor.sheafificationForgetAdjunction`: `Tensor.sheafificationForgetAdjunction_unit_app_app_apply`
+at the underlying object of a section of the slice site over `U`. -/
+private theorem sheafificationAdjunction_unit_app_app_apply_over
+    (P : PresheafOfModules.{u} (Tensor.ringSheaf X.O).obj) (V : (Over U)ᵒᵖ)
+    (x : P.obj (Opposite.op V.unop.left)) :
+    ((Tensor.sheafificationAdjunction X.O).unit.app P).app (Opposite.op V.unop.left) x =
+      ((Tensor.sheafificationForgetAdjunction X.ringedTopos.O).unit.app P).app
+        (Opposite.op V.unop.left) x :=
+  (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.ringedTopos.O P _ x).symm
+
+end SliceSections
 
 section Localization
 
@@ -165,6 +262,35 @@ theorem localization_tensorTranspose_sections
 
 end ScalarUnit
 
+/-- `localizationPullbackTensorIso_hom_app` with the tensor product spelled as the bifunctor
+`Functor.uncurry.obj (sheafTensor X.ringedTopos.O)` of `Stacks.SheafOfModules.pullbackTensorIso`.
+In this spelling the unit of Stacks 03D7 and the identification of Stacks 04IX are applied to the
+same object throughout the computation on sections. -/
+private theorem localizationPullbackTensorIso_hom_app_uncurry :
+    (X.localizationPullbackIsoRestriction U).hom.app
+        ((Functor.uncurry.obj (sheafTensor X.ringedTopos.O)).obj (A, F)) =
+      (Stacks.SheafOfModules.pullbackTensorIso
+            (X.localizationMorphism U)).hom.app (A, F) ≫
+        (tensorTransportFirst X U A ((X.localizationPullbackIsoRestriction U).hom.app A)
+            ((X.localizationMorphism U).pullbackModules.obj F) ≫
+          tensorTransportSecond X U A F
+            ((X.localizationPullbackIsoRestriction U).hom.app F)) ≫
+          (ExtensionByZero.tensorRestrictionComparison X U F).app A := by
+  refine (eq_pullbackTensorIso_hom_app_comp_iff (X.localizationMorphism U) A F _ _ _).2
+    fun W a b ↦ ?_
+  have transport :=
+    ExtensionByZero.transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTransportComp
+      X U F A ((X.localizationPullbackIsoRestriction U).hom.app A)
+      ((X.localizationPullbackIsoRestriction U).hom.app F) W a b
+  refine transport.trans ?_
+  refine (sheafificationAdjunction_unit_app_app_apply_over X U _ W _).trans ?_
+  -- The evaluation is elaborated on its own and then matched against the goal: elaborated
+  -- against the goal, it costs several times as much.
+  have evaluation := localization_tensorTranspose_sections X U A F
+    ((Functor.uncurry.obj (sheafTensor X.ringedTopos.O)).obj (A, F))
+    ((Tensor.sheafificationForgetAdjunction X.ringedTopos.O).unit.app (A.val ⊗ F.val)) W a b
+  exact evaluation.symm
+
 /-- **The comparison of Stacks 03EL at a localization morphism is the mate of Stacks 0E8H.**
 Read through the identification of Stacks 04IX of the pullback along the localization with
 restriction to the slice site, the comparison `π^*(A ⊗_O F) ⟶ π^*A ⊗_{O|_U} π^*F` of Stacks 03EL
@@ -179,36 +305,8 @@ theorem localizationPullbackTensorIso_hom_app :
             ((X.localizationMorphism U).pullbackModules.obj F) ≫
           tensorTransportSecond X U A F
             ((X.localizationPullbackIsoRestriction U).hom.app F)) ≫
-          (ExtensionByZero.tensorRestrictionComparison X U F).app A := by
-  -- The comparison of Stacks 03EL is the chain applied to the identity
-  -- (`Stacks.SheafOfModules.pullbackTensorIso_hom_app`, an equality by `rfl`), so precomposing
-  -- with it is the inverse chain by naturality in the sheaf of values.
-  refine Eq.trans ?_ ((congrArg
-      (fun m ↦ (Stacks.SheafOfModules.pullbackTensorHomEquiv
-        (X.localizationMorphism U) A F _).symm m) (Category.id_comp _).symm).trans
-    (Stacks.SheafOfModules.pullbackTensorHomEquiv_symm_naturality
-      (X.localizationMorphism U) A F (𝟙 _) _))
-  refine ((Stacks.SheafOfModules.pullbackTensorHomEquiv
-    (X.localizationMorphism U) A F _).eq_symm_apply).2 ?_
-  refine (Stacks.SheafOfModules.pullbackTensorHomEquiv_eq_iff_pairingApp_unit
-    (X.localizationMorphism U) A F _ _ _).2 ?_
-  intro W a b
-  refine
-  (ExtensionByZero.transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTransportComp
-    X U F A ((X.localizationPullbackIsoRestriction U).hom.app A)
-    ((X.localizationPullbackIsoRestriction U).hom.app F) W a b).trans ?_
-  refine Eq.trans ?_ (pairingApp_pullbackTensorBilinEquiv_tensorTranspose
-    (X.localizationMorphism U) A F (((sheafTensor X.O).obj A).obj F)
-    ((_root_.SheafOfModules.overFunctor (Tensor.ringSheaf X.O) U).obj
-      (((sheafTensor X.O).obj A).obj F))
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := Tensor.ringSheaf X.O) (𝟙 _)).unit.app (A.val ⊗ F.val))
-    ((X.localizationPullbackIsoRestriction U).hom.app (((sheafTensor X.O).obj A).obj F))
-    W a b).symm
-  exact (localization_tensorTranspose_sections X U A F
-    (((sheafTensor X.O).obj A).obj F)
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := Tensor.ringSheaf X.O) (𝟙 _)).unit.app (A.val ⊗ F.val)) W a b).symm
+          (ExtensionByZero.tensorRestrictionComparison X U F).app A :=
+  localizationPullbackTensorIso_hom_app_uncurry X U A F
 
 /-- **The inverse comparison of Stacks 03EL at a localization morphism is the mate of
 Stacks 0E8H.** This is the direction the canonical map of Stacks 0GMX is built from, since

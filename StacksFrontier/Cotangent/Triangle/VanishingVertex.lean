@@ -37,7 +37,8 @@ cotangent complex of `B → C` as an object of `D(C)`. It is the input to
 trivial consequence of the distinguished triangle").
 
 *Why the triangle is an argument here.* These statements are proved before the triangle of
-Proposition 08QX is constructed (`StacksFrontier/Cotangent/Triangle/ProductDescent.lean` imports this
+Proposition 08QX is constructed (`StacksFrontier/Cotangent/Triangle/ProductDescent.lean` imports
+this
 file), so they take a distinguished triangle on the display's vertices as an argument; several
 files apply them to towers whose triangle they obtain elsewhere.
 

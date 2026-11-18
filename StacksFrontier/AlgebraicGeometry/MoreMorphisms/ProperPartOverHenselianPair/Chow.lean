@@ -25,7 +25,8 @@ open and closed subscheme `W ⊆ X` which is proper over `Spec A`.
 ## Implementation notes
 
 `AlgebraicGeometry.exists_isClopen_isProper_of_henselianPair_of_compactification` in
-`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair` takes a compactification
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair` takes a
+compactification
 of `f` and the connectedness of the first Stein factor of proper morphisms to `Spec A` as
 arguments.  Both are supplied here:  Chow's lemma
 (`AlgebraicGeometry.hasChowModification_of_compactSpace_quasiSeparatedSpace`) gives a proper

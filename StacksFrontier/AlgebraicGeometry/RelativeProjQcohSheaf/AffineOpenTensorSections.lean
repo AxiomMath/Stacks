@@ -139,15 +139,14 @@ def gammaTensorMap (F G : S.Modules) (V : S.Opens) :
     gammaTensorMap F G V (a ⊗ₜ[Γ(S, V)] b) = gammaTmul F G V a b :=
   rfl
 
-/-- The canonical map is the sheafification unit, in the `Stacks.RingedSpace.tensorSheafUnit`
-spelling that the comparison lemmas of
+/-- The canonical map is the unit of the sealed sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the spelling that the comparison lemmas of
 `Stacks.AlgebraicGeometry.RestrictionSections` are stated in. -/
 theorem gammaTensorMap_tmul_eq_unit (F G : S.Modules) (V : S.Opens)
     (a : Γ(F, V)) (b : Γ(G, V)) :
     gammaTensorMap F G V (a ⊗ₜ[Γ(S, V)] b) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction.{u}
-          (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨S.toRingedSpace.presheaf, S.toRingedSpace.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
             ((ofScheme F)).val ((ofScheme G)).val))
         (op V) (a ⊗ₜ b) :=
@@ -207,15 +206,12 @@ same two sections, read over the image `j(⊤)` of `⊤`. -/
 theorem chartComparisonInv_unit_tmul (hV : IsAffineOpen V) (F G : S.Modules)
     (a : Γ(resMod hV F, ⊤)) (b : Γ(resMod hV G, ⊤)) :
     chartComparisonInv hV F G
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction.{u}
-            (R := Stacks.RingedSpace.structureRingSheaf ((Spec Γ(S, V)).toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf
-              ((Spec Γ(S, V)).toRingedSpace)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨(Spec Γ(S, V)).toRingedSpace.presheaf, (Spec Γ(S, V)).toRingedSpace.IsSheaf⟩).unit.app
             (PresheafOfModules.tensorObj (O := ((Spec Γ(S, V)).toRingedSpace).presheaf)
               ((resMod hV F)).val ((resMod hV G)).val)) (op ⊤) (a ⊗ₜ b)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction.{u}
-          (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨S.toRingedSpace.presheaf, S.toRingedSpace.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
             ((ofScheme F)).val ((ofScheme G)).val))
         (op (hV.fromSpec ''ᵁ (⊤ : (Spec Γ(S, V)).Opens))) (a ⊗ₜ b) := by
@@ -270,9 +266,8 @@ theorem gammaTensorInv_eq (hV : IsAffineOpen V) (F G : S.Modules)
       refine Eq.trans (affineSectionsLinearEquiv_eq hV (tensorMod F G) _) ?_
       refine Eq.trans (tensorSheafUnit_val_map (ofScheme F) (ofScheme G)
         (eqToHom (image_top_fromSpec hV).symm).op _ _) ?_
-      exact congrArg₂ (fun p q => Hom.app ((PresheafOfModules.sheafificationAdjunction.{u}
-          (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+      exact congrArg₂ (fun p q => Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨S.toRingedSpace.presheaf, S.toRingedSpace.IsSheaf⟩).unit.app
           (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
             ((ofScheme F)).val ((ofScheme G)).val)) (op V) (p ⊗ₜ q))
         (((affineSectionsLinearEquiv_eq hV F _).symm).trans

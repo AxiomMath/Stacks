@@ -48,7 +48,7 @@ restated.
 **Why `X.J.WEqualsLocallyBijective AddCommGrpCat.{u}` is named in the local context.** Nothing is
 reproved: the seatings below hand the elaborator the instance that already exists, which on its
 own is found in about 1500 heartbeats. The trouble is that `Stacks.SheafOfModules.IsKFlat` is read
-through `Stacks.SheafOfModules.KFlat.KFlat`, which asks for
+through `Stacks.SheafOfModules.KFlat`, which asks for
 `∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj M).Additive` and for the family of
 `HomologicalComplex.HasMapBifunctor`s; each of those is a *single* synthesis goal inside whose
 binder that same search is repeated for every candidate tried, so the 20000-heartbeat budget is

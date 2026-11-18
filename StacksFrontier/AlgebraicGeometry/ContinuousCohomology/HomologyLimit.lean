@@ -193,6 +193,7 @@ theorem forget_cohomologyDiagram_map_apply (i : ℕ) {U V : (TrivialSubgroup Λ 
           i).app (dualU U.unop) z) :=
   rfl
 
+omit [TotallyDisconnectedSpace G] in
 /-- Inflating from `G ⧸ V` agrees with transporting to the dual over `G ⧸ V` and inflating, as
 elements of `Hⁱ(G, M^∨)`. -/
 theorem inflation_eq_inflation_map_dualTransition (i : ℕ) (U₀ : TrivialSubgroup Λ M)

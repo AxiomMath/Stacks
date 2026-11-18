@@ -39,7 +39,7 @@ theorem mapsTo_comap_closedPoints [IsJacobsonRing R] {φ : R →+* S} (hφ : φ.
   have hψ : ((Ideal.Quotient.mk y.asIdeal).comp φ).FiniteType :=
     hφ.comp_surjective Ideal.Quotient.mk_surjective
   have hint := (RingHom.finite_iff_finiteType_of_isJacobsonRing.mpr hψ).to_isIntegral
-  have hmax := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' _ hint ⊥
+  have hmax := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _ hint ⊥
   rw [← Ideal.comap_comap, ← RingHom.ker_eq_comap_bot, Ideal.mk_ker] at hmax
   rw [comap_asIdeal]
   exact hmax

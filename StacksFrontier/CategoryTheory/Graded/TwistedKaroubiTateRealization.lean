@@ -176,8 +176,7 @@ private lemma not_isZero_tensorObj (V W : GradedObject ℤ (ModuleCat.{uF} F)) {
     rw [Module.finrank_tensorProduct, ha, hb]
   have : Nontrivial (V a ⊗[F] W b) := Module.nontrivial_of_finrank_eq_succ h₁
   have := (ιTensorObj_injective V W a b (a + b) rfl).nontrivial
-  rw [ModuleCat.isZero_iff_subsingleton, ← not_nontrivial_iff_subsingleton, not_not]
-  assumption
+  rwa [ModuleCat.isZero_iff_subsingleton, ← not_nontrivial_iff_subsingleton, not_not]
 
 /-- Degrees add: if `G(T(n))` lives in degree `a` and `G(T(m))` in degree `b`, then `G(T(n + m))`
 lives in degree `a + b`. -/

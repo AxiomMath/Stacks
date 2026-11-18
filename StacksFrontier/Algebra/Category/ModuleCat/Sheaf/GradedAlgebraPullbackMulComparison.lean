@@ -200,16 +200,17 @@ theorem mulSheaf_toposPullback_val_app_unit_tmul (i j : ℤ) (V : X.Cᵒᵖ)
     (b : ((extendScalarsFSharp f).obj ((inverseImageModules f.toToposHom
       (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj (B.piece j))).val.obj V) :
     (SheafOfModules.GradedAlgebra.mulSheaf (toposPullbackGradedAlgebra f B) i j).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf X.J X.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-            (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((extendScalarsFSharp f).obj ((inverseImageModules f.toToposHom
               (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj (B.piece i))).val ⊗
             ((extendScalarsFSharp f).obj ((inverseImageModules f.toToposHom
               (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj (B.piece j))).val)).app V
           (a ⊗ₜ[(ringPresheaf X.O.obj).obj V] b)) =
-      ((toposPullbackGradedAlgebra f B).mul i j).app V a b :=
-  SheafOfModules.GradedAlgebra.mulSheaf_unit (toposPullbackGradedAlgebra f B) i j V a b
+      ((toposPullbackGradedAlgebra f B).mul i j).app V a b := by
+  refine Eq.trans ?_
+    (SheafOfModules.GradedAlgebra.mulSheaf_unit (toposPullbackGradedAlgebra f B) i j V a b)
+  exact congrArg _
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ V _)
 
 /-- **The pairing identity upstairs.** The pairing at the bottom of the chain of Tag 03EL,
 followed by the multiplication of the pullback `f^*B`, is the multiplication of the inverse

@@ -19,9 +19,10 @@ Restricting a tensor product to an open subspace compares sheafification on the 
 space with sheafification on the site over that open. The comparison is carried out on the
 presheaf tensor products, where `Stacks.SheafOfModules.presheafTensorOverIso` identifies the
 two parallel constructions of the sectionwise tensor product componentwise, and transported
-across the sheafification adjunction by
-`Stacks.SheafOfModules.tensorRestrictionIso`, whose being an isomorphism is checked by local
-bijectivity of the sheafification unit.
+across the adjunction of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`
+by `Stacks.SheafOfModules.tensorRestrictionIso`, whose being an isomorphism is checked by local
+bijectivity of the sheafification unit
+(`Stacks.SheafOfModules.isIso_of_isLocallyBijective_unit_comp`).
 
 ## References
 
@@ -64,12 +65,10 @@ theorem tensorSections_naturalAt {U V : Cᵒᵖ} (f : U ⟶ V)
     (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
       (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (N))).val.map f).hom (tensorSectionsAt O hO
       U M N m n) =
-      tensorSectionsAt O hO V M N ((M.val.map f).hom m) ((N.val.map f).hom n) := by
-  have h := (TensorSheafification.toSheafify O hO (M.val ⊗ N.val)).naturality f
-  have hh := congrArg (fun k => k.hom (m ⊗ₜ[O.obj U] n)) h
-  change ((TensorSheafification.toSheafify O hO (M.val ⊗ N.val)).app V).hom
-    ((M.val.map f).hom m ⊗ₜ[O.obj V] (N.val.map f).hom n) = _ at hh
-  exact hh.symm
+      tensorSectionsAt O hO V M N ((M.val.map f).hom m) ((N.val.map f).hom n) :=
+  (PresheafOfModules.naturality_apply
+    ((Invertible.structureSheafificationAdjunction O hO).unit.app (M.val ⊗ N.val)) f
+    (m ⊗ₜ[O.obj U] n)).symm
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}] in
@@ -195,6 +194,62 @@ theorem tensorPowerAction_pure
 
 end TensorCalculation
 
+section SealedUnit
+
+variable {C : Type*} [Category* C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+
+/-- The unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`, with
+the plain forgetful functor as right adjoint, is locally injective on the underlying presheaves
+of abelian groups. -/
+private lemma isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{u} (Tensor.ringSheaf R).obj) :
+    Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map
+      ((Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+/-- The unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`, with
+the plain forgetful functor as right adjoint, is locally surjective on the underlying presheaves
+of abelian groups. -/
+private lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{u} (Tensor.ringSheaf R).obj) :
+    Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map
+      ((Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+/-- A morphism of sheaves of modules out of the sealed sheafification of `P` is an isomorphism
+as soon as its composite `γ` with the unit is locally bijective. -/
+lemma isIso_of_isLocallyBijective_unit_comp
+    {P : PresheafOfModules.{u} (Tensor.ringSheaf R).obj}
+    {M : _root_.SheafOfModules.{u} (Tensor.ringSheaf R)}
+    (e : (Tensor.sheafification R).obj P ⟶ M) {γ : P ⟶ M.val}
+    (fac : (Tensor.sheafificationForgetAdjunction R).unit.app P ≫ e.val = γ)
+    (hI : Presheaf.IsLocallyInjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map γ))
+    (hS : Presheaf.IsLocallySurjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map γ)) :
+    IsIso e := by
+  subst fac
+  rw [Functor.map_comp] at hI hS
+  have := isLocallySurjective_sheafificationForgetAdjunction_unit_app R P
+  have eI : Presheaf.IsLocallyInjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map e.val) :=
+    Presheaf.isLocallyInjective_of_isLocallyInjective_of_isLocallySurjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map
+        ((Tensor.sheafificationForgetAdjunction R).unit.app P)) _
+  have eS : Presheaf.IsLocallySurjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map e.val) :=
+    Presheaf.isLocallySurjective_of_isLocallySurjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf R).obj).map
+        ((Tensor.sheafificationForgetAdjunction R).unit.app P)) _
+  have : IsIso ((_root_.SheafOfModules.toSheaf (Tensor.ringSheaf R)).map e) :=
+    (J.W_sheafToPresheaf_map_iff_isIso _).1 ((J.W_iff_isLocallyBijective _).2 ⟨eI, eS⟩)
+  exact isIso_of_reflects_iso e (_root_.SheafOfModules.toSheaf (Tensor.ringSheaf R))
+
+end SealedUnit
+
 section AcceptedStatementInstances
 
 -- An imported instance gives a second route to terminal objects; disabling it keeps the
@@ -228,7 +283,7 @@ noncomputable def presheafTensorOverIso
       (PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val) ((G.over U).val)) :=
   PresheafOfModules.isoMk (fun _ => Iso.refl _)
 
-/-- The unit of sheafification on the ambient space, read on the site over `U`. -/
+/-- The unit of the sealed sheafification on the ambient space, read on the site over `U`. -/
 noncomputable def tensorRestrictionPushforward
     (X : RingedSpace.{u, u})
     (F G : SheafOfModules.{u} (structureSheafRing X))
@@ -239,11 +294,12 @@ noncomputable def tensorRestrictionPushforward
       (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
         (G))).over U).val :=
   (PresheafOfModules.pushforward _).map
-    (TensorStalkRingedSpace.sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val)
-      (G.val))))
+    ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))
 
 /-- The canonical map from the presheaf tensor product on the site over `U` into the restriction
-of the tensor product sheaf: the unit of sheafification on the ambient space, read over `U`. -/
+of the tensor product sheaf: the unit of the sealed sheafification on the ambient space, read
+over `U`. -/
 noncomputable def tensorRestrictionMap
     (X : RingedSpace.{u, u})
     (F G : SheafOfModules.{u} (structureSheafRing X))
@@ -266,21 +322,16 @@ theorem isLocallyInjective_tensorRestrictionPushforward
             ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
             (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).obj).map
         (tensorRestrictionPushforward X F G U)) := by
-  change Presheaf.IsLocallyInjective ((Opens.grothendieckTopology X.carrier).over U)
-    (Functor.whiskerLeft (CategoryTheory.Over.forget U).op
+  have : Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
       ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
-        (TensorStalkRingedSpace.sheafifyUnit X
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))))
-  let : Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
-      ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
-        (TensorStalkRingedSpace.sheafifyUnit X
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))) := by
-    change Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
-      (CategoryTheory.toSheafify (Opens.grothendieckTopology X.carrier)
-        ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))).presheaf)
-    infer_instance
+        ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) :=
+    isLocallyInjective_sheafificationForgetAdjunction_unit_app _ _
   exact Presheaf.isLocallyInjective_whisker ((Opens.grothendieckTopology X.carrier).over U)
-    (Opens.grothendieckTopology X.carrier) (CategoryTheory.Over.forget U) _
+    (Opens.grothendieckTopology X.carrier) (CategoryTheory.Over.forget U)
+    ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
+      ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)))
 
 /-- Over `U`, the unit of sheafification on the ambient space is locally surjective. -/
 theorem isLocallySurjective_tensorRestrictionPushforward
@@ -294,22 +345,66 @@ theorem isLocallySurjective_tensorRestrictionPushforward
             ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
             (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).obj).map
         (tensorRestrictionPushforward X F G U)) := by
-  change Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U)
-    (Functor.whiskerLeft (CategoryTheory.Over.forget U).op
+  have : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
       ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
-        (TensorStalkRingedSpace.sheafifyUnit X
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))))
-  let : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
-      ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
-        (TensorStalkRingedSpace.sheafifyUnit X
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))) := by
-    change Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
-      (CategoryTheory.toSheafify (Opens.grothendieckTopology X.carrier)
-        ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))).presheaf)
-    infer_instance
+        ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) :=
+    isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _
   exact Presheaf.isLocallySurjective_whisker ((Opens.grothendieckTopology X.carrier).over U)
-    (Opens.grothendieckTopology X.carrier) (CategoryTheory.Over.forget U) _
+    (Opens.grothendieckTopology X.carrier) (CategoryTheory.Over.forget U)
+    ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
+      ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)))
 
+/-- The canonical map `tensorRestrictionMap` is locally injective. -/
+theorem isLocallyInjective_tensorRestrictionMap
+    (X : RingedSpace.{u, u})
+    (F G : SheafOfModules.{u} (structureSheafRing X))
+    (U : Opens X.carrier) :
+    Presheaf.IsLocallyInjective ((Opens.grothendieckTopology X.carrier).over U)
+      ((PresheafOfModules.toPresheaf
+        (TensorSheafification.structureSheaf (X.sheaf.over U).obj
+          ((Presheaf.isSheaf_iff_isSheaf_comp
+            ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
+            (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).obj).map
+        (tensorRestrictionMap X F G U)) := by
+  let toAbU := PresheafOfModules.toPresheaf ((structureSheafRing X).over U).obj
+  have : Presheaf.IsLocallyInjective ((Opens.grothendieckTopology X.carrier).over U)
+      (toAbU.map (tensorRestrictionPushforward X F G U)) :=
+    isLocallyInjective_tensorRestrictionPushforward X F G U
+  have : Presheaf.IsLocallyInjective ((Opens.grothendieckTopology X.carrier).over U)
+      (toAbU.map (presheafTensorOverIso X F G U).inv) :=
+    Presheaf.isLocallyInjective_of_injective _ _ (fun _ _ _ h => h)
+  exact Presheaf.isLocallyInjective_comp ((Opens.grothendieckTopology X.carrier).over U)
+    (toAbU.map (presheafTensorOverIso X F G U).inv)
+    (toAbU.map (tensorRestrictionPushforward X F G U))
+
+/-- The canonical map `tensorRestrictionMap` is locally surjective. -/
+theorem isLocallySurjective_tensorRestrictionMap
+    (X : RingedSpace.{u, u})
+    (F G : SheafOfModules.{u} (structureSheafRing X))
+    (U : Opens X.carrier) :
+    Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U)
+      ((PresheafOfModules.toPresheaf
+        (TensorSheafification.structureSheaf (X.sheaf.over U).obj
+          ((Presheaf.isSheaf_iff_isSheaf_comp
+            ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
+            (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).obj).map
+        (tensorRestrictionMap X F G U)) := by
+  let toAbU := PresheafOfModules.toPresheaf ((structureSheafRing X).over U).obj
+  have : Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U)
+      (toAbU.map (tensorRestrictionPushforward X F G U)) :=
+    isLocallySurjective_tensorRestrictionPushforward X F G U
+  have : Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U)
+      (toAbU.map (presheafTensorOverIso X F G U).inv) :=
+    Presheaf.isLocallySurjective_of_surjective _ _ (fun _ y => ⟨y, rfl⟩)
+  exact Presheaf.isLocallySurjective_comp ((Opens.grothendieckTopology X.carrier).over U)
+    (toAbU.map (presheafTensorOverIso X F G U).inv)
+    (toAbU.map (tensorRestrictionPushforward X F G U))
+
+/-- Restriction to an open commutes with the tensor product: the morphism out of the sealed
+sheafification over `U` adjoint to `tensorRestrictionMap` is an isomorphism, since its composite
+with the unit is locally bijective. -/
 noncomputable def tensorRestrictionIso
     (X : RingedSpace.{u, u})
     (F G : SheafOfModules.{u} (structureSheafRing X))
@@ -322,103 +417,20 @@ noncomputable def tensorRestrictionIso
           ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
           (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property))⟩).obj ((F.over U))).obj
             ((G.over U))) := by
-  let J := Opens.grothendieckTopology X.carrier
-  let JU := J.over U
   let O := (X.sheaf.over U).obj
-  let hO := (Presheaf.isSheaf_iff_isSheaf_comp JU O
+  let hO := (Presheaf.isSheaf_iff_isSheaf_comp ((Opens.grothendieckTopology X.carrier).over U) O
     (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property
   let P : PresheafOfModules (TensorSheafification.structureRingPresheaf O) :=
     (PresheafOfModules.tensorObj (O := O) ((F.over U).val) ((G.over U).val))
   let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
     (F)).obj (G))).over U
-  let γ := tensorRestrictionMap X F G U
-  let L := TensorSheafification.sheafify O hO
-  let η := TensorSheafification.toSheafify O hO P
-  let adj := TensorSheafification.sheafifyAdjunction O hO
-  let e : L.obj P ⟶ M := (adj.homEquiv P M).symm γ
-  let forgetMap := (SheafOfModules.forget (TensorSheafification.structureSheaf O hO) ⋙
-    PresheafOfModules.restrictScalars (𝟙 (TensorSheafification.structureSheaf O hO).obj))
-  have hecomp : η ≫ forgetMap.map e = γ :=
-    (adj.homEquiv_unit (f := e)).symm.trans ((adj.homEquiv P M).apply_symm_apply γ)
-  let _νI : Presheaf.IsLocallyInjective JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-        (tensorRestrictionPushforward X F G U)) :=
-    isLocallyInjective_tensorRestrictionPushforward X F G U
-  let _νS : Presheaf.IsLocallySurjective JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-        (tensorRestrictionPushforward X F G U)) :=
-    isLocallySurjective_tensorRestrictionPushforward X F G U
-  have hγI : Presheaf.IsLocallyInjective JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map γ) := by
-    change Presheaf.IsLocallyInjective JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-          (presheafTensorOverIso X F G U).inv ≫
-        (PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-          (tensorRestrictionPushforward X F G U))
-    let _iI : Presheaf.IsLocallyInjective JU
-        ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-          (presheafTensorOverIso X F G U).inv) :=
-      Presheaf.isLocallyInjective_of_injective JU _ (fun _ _ _ h => h)
-    exact Presheaf.isLocallyInjective_comp JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-        (presheafTensorOverIso X F G U).inv)
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-        (tensorRestrictionPushforward X F G U))
-  have hγS : Presheaf.IsLocallySurjective JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map γ) := by
-    change Presheaf.IsLocallySurjective JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-          (presheafTensorOverIso X F G U).inv ≫
-        (PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-          (tensorRestrictionPushforward X F G U))
-    let _iS : Presheaf.IsLocallySurjective JU
-        ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-          (presheafTensorOverIso X F G U).inv) :=
-      Presheaf.isLocallySurjective_of_surjective JU _ (fun _ y => ⟨y, rfl⟩)
-    exact Presheaf.isLocallySurjective_comp JU
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-        (presheafTensorOverIso X F G U).inv)
-      ((PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj).map
-        (tensorRestrictionPushforward X F G U))
-  let toAbU := PresheafOfModules.toPresheaf (TensorSheafification.structureSheaf O hO).obj
-  let ηAb := toAbU.map η
-  let γAb := toAbU.map γ
-  let eAb := toAbU.map e.val
-  have hηW : JU.W ηAb := by
-    change JU.W (CategoryTheory.toSheafify JU P.presheaf)
-    exact JU.W_toSheafify P.presheaf
-  have hγW : JU.W γAb :=
-    (JU.W_iff_isLocallyBijective γAb).2 ⟨hγI, hγS⟩
-  have hηIso : IsIso ((presheafToSheaf JU AddCommGrpCat).map ηAb) :=
-    (JU.W_iff ηAb).mp hηW
-  have hγIso : IsIso ((presheafToSheaf JU AddCommGrpCat).map γAb) :=
-    (JU.W_iff γAb).mp hγW
-  have heMapIso : IsIso ((presheafToSheaf JU AddCommGrpCat).map eAb) := by
-    let _hη := hηIso
-    let _hγ := hγIso
-    have hcompAb : ηAb ≫ eAb = γAb := by
-      change toAbU.map (η ≫ e.val) = toAbU.map γ
-      convert congrArg (fun k => toAbU.map k) hecomp using 1 <;> rfl
-    have hcomp : (presheafToSheaf JU AddCommGrpCat).map ηAb ≫
-        (presheafToSheaf JU AddCommGrpCat).map eAb =
-        (presheafToSheaf JU AddCommGrpCat).map γAb :=
-      ((presheafToSheaf JU AddCommGrpCat).map_comp ηAb eAb).symm.trans
-        (congrArg (presheafToSheaf JU AddCommGrpCat).map hcompAb)
-    have : IsIso ((presheafToSheaf JU AddCommGrpCat).map ηAb ≫
-        (presheafToSheaf JU AddCommGrpCat).map eAb) := by
-      rw [hcomp]
-      infer_instance
-    exact IsIso.of_isIso_comp_left
-      ((presheafToSheaf JU AddCommGrpCat).map ηAb)
-      ((presheafToSheaf JU AddCommGrpCat).map eAb)
-  have heW : JU.W eAb := (JU.W_iff eAb).2 heMapIso
-  have heSheafIso : IsIso ((SheafOfModules.toSheaf
-      (TensorSheafification.structureSheaf O hO)).map e) := by
-    apply (JU.W_sheafToPresheaf_map_iff_isIso _).1
-    exact heW
-  have heIso : IsIso e :=
-    (isIso_iff_of_reflects_iso e
-      (SheafOfModules.toSheaf (TensorSheafification.structureSheaf O hO))).mp heSheafIso
+  let adj := Invertible.structureSheafificationAdjunction O hO
+  let e : (Invertible.structureSheafification O hO).obj P ⟶ M :=
+    (adj.homEquiv P M).symm (tensorRestrictionMap X F G U)
+  have : IsIso e := isIso_of_isLocallyBijective_unit_comp _ e
+    ((adj.homEquiv_unit P M e).symm.trans ((adj.homEquiv P M).apply_symm_apply _))
+    (isLocallyInjective_tensorRestrictionMap X F G U)
+    (isLocallySurjective_tensorRestrictionMap X F G U)
   exact (asIso e).symm
 
 noncomputable def tensorRestrictionIsoOnScheme
@@ -455,10 +467,10 @@ theorem tensorRestrictionIso_inv_tensorAt
   let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf,
     ((X.toRingedSpace)).IsSheaf⟩).obj (A)).obj (B))).over U
   let γ := tensorRestrictionMap X.toRingedSpace A B U
-  let adj := TensorSheafification.sheafifyAdjunction O hO
+  let adj := Invertible.structureSheafificationAdjunction O hO
   let e := (adj.homEquiv P M).symm γ
-  have he : TensorSheafification.toSheafify O hO P ≫ e.val = γ :=
-    (adj.homEquiv_unit (f := e)).symm.trans ((adj.homEquiv P M).apply_symm_apply γ)
+  have he : adj.unit.app P ≫ e.val = γ :=
+    (adj.homEquiv_unit P M e).symm.trans ((adj.homEquiv P M).apply_symm_apply γ)
   exact congrArg (fun k => (k.app (op (Over.mk (𝟙 U)))).hom
     (a ⊗ₜ[O.obj (op (Over.mk (𝟙 U)))] b)) he
 

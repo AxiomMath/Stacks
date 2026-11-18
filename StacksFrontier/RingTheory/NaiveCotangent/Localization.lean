@@ -960,8 +960,7 @@ public theorem exists_homotopyEquiv_liftBaseChange_of_isLocalizationAway
   have h₁ (x : T ⊗[S] P.toExtension.Cotangent) :
       (Extension.Cotangent.map φ).liftBaseChange T x =
         E.f₁ x + (φ.sub ψ).liftBaseChange T (P.toExtension.cotangentComplex.baseChange T x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, hx, hy, map_add, map_add, map_add]; abel
     | tmul a m =>
       have h := DFunLike.congr_fun (Extension.Cotangent.map_sub_map φ ψ) m
@@ -971,8 +970,7 @@ public theorem exists_homotopyEquiv_liftBaseChange_of_isLocalizationAway
   have h₀ (x : T ⊗[S] P.toExtension.CotangentSpace) :
       (Extension.CotangentSpace.map φ).liftBaseChange T x =
         E.f₀ x + Q.toExtension.cotangentComplex ((φ.sub ψ).liftBaseChange T x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, hx, hy, map_add, map_add, map_add]; abel
     | tmul a m =>
       have h := DFunLike.congr_fun (Extension.CotangentSpace.map_sub_map φ ψ) m

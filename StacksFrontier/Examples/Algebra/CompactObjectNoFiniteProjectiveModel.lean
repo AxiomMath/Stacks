@@ -33,7 +33,8 @@ is **a mistake in the Stacks Project, pending review**: it is **contradicted by 
 graded-projective representative at all. No step of the refutation is left on paper.
 
 What the source's proof does establish is proved in
-`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`, where the tag is registered
+`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`, where the tag is
+registered
 on the corrected equivalence
 `DifferentialGradedModule.isCompactObject_tfae_exists_retract`:
 `DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject` says that

@@ -57,16 +57,11 @@ theorem sheafTensor_obj_map_unit_tmul
     {A B B' : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)} (g : B ⟶ B') (U : Cᵒᵖ)
     (a : A.val.obj U) (b : B.val.obj U) :
     (((Tensor.sheafTensor O).obj A).map g).val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-          (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+        (((Tensor.sheafificationAdjunction O).unit.app
           (PresheafOfModules.tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b)) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-        (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+      ((Tensor.sheafificationAdjunction O).unit.app
         (PresheafOfModules.tensorObj A.val B'.val)).app U (a ⊗ₜ[O.obj.obj U] g.val.app U b) :=
-  (congrArg (fun φ => φ.app U (a ⊗ₜ[O.obj.obj U] b))
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Tensor.ringSheaf O).obj)).unit.naturality
-        (PresheafOfModules.tensorHom (𝟙 A.val) g.val))).symm
+  Tensor.unit_naturality_apply (PresheafOfModules.tensorHom (𝟙 A.val) g.val) U _
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.HasSheafCompose (forget RingCat.{w})] [J.HasSheafCompose (forget AddCommGrpCat.{w})] in
@@ -76,16 +71,11 @@ theorem sheafTensor_map_app_unit_tmul
     {A A' B : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)} (f : A ⟶ A') (U : Cᵒᵖ)
     (a : A.val.obj U) (b : B.val.obj U) :
     (((Tensor.sheafTensor O).map f).app B).val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-          (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+        (((Tensor.sheafificationAdjunction O).unit.app
           (PresheafOfModules.tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b)) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-        (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+      ((Tensor.sheafificationAdjunction O).unit.app
         (PresheafOfModules.tensorObj A'.val B.val)).app U (f.val.app U a ⊗ₜ[O.obj.obj U] b) :=
-  (congrArg (fun φ => φ.app U (a ⊗ₜ[O.obj.obj U] b))
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Tensor.ringSheaf O).obj)).unit.naturality
-        (PresheafOfModules.tensorHom f.val (𝟙 B.val)))).symm
+  Tensor.unit_naturality_apply (PresheafOfModules.tensorHom f.val (𝟙 B.val)) U _
 
 variable {A A' B B' N : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)}
 
@@ -115,11 +105,9 @@ private theorem tensorSectionPairing_comp_map_of_unit_tmul {C : Type u} [Categor
     {A A' B B' : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)} (f : A ⟶ A') (g : B ⟶ B')
     (φ : ((Tensor.sheafTensor O).obj A).obj B ⟶ ((Tensor.sheafTensor O).obj A').obj B')
     (h : ∀ (U : Cᵒᵖ) (a : A.val.obj U) (b : B.val.obj U),
-      φ.val.app U (((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-          (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+      φ.val.app U (((Tensor.sheafificationAdjunction O).unit.app
           (PresheafOfModules.tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b)) =
-        ((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf O)
-          (𝟙 (Tensor.ringSheaf O).obj)).unit.app
+        ((Tensor.sheafificationAdjunction O).unit.app
           (PresheafOfModules.tensorObj A'.val B'.val)).app U
           (f.val.app U a ⊗ₜ[O.obj.obj U] g.val.app U b)) :
     tensorSectionPairing A B ≫ (moduleSheafFunctor (Tensor.ringSheaf O)).map φ =
@@ -232,23 +220,13 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   (f : Stacks.Sheaves.RingedToposModules.RingedToposHom X Y)
 
-/-- **The pairing of the projection-formula map** `F ⊗ f_*G ⟶ f_*(f^*F ⊗ G)`: two local
-sections are paired by `f_*` of the universal pairing of `f^*F` and `G`, applied to the unit
-image of the first and to the second. -/
-theorem tensorSectionPairing_comp_pushforwardTensorMap
+/-- The pairing of the unit of `f^* ⊣ f_*` at `F ⊗ f_*G` followed by `f_*` of the comparison
+`f^*(F ⊗ f_*G) ≅ f^*F ⊗ f^*f_*G`: two local sections are paired by `f_*` of the universal pairing
+of `f^*F` and `f^*f_*G`, applied to their unit images. -/
+theorem tensorSectionPairing_comp_unit_comp_pullbackTensorIso
     (F : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y.O))
     (G : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)) :
     tensorSectionPairing F ((pushforwardModules f).obj G) ≫
-        (moduleSheafFunctor (Tensor.ringSheaf Y.O)).map (pushforwardTensorMap f F G) =
-      prod.map ((moduleSheafFunctor (Tensor.ringSheaf Y.O)).map
-          ((pullbackAdjPushforwardModules f).unit.app F)) (𝟙 _) ≫
-        (PreservesLimitPair.iso f.toToposHom.pushforward
-          (moduleSheaf (Tensor.ringSheaf X.O) ((f.pullbackModules).obj F))
-          (moduleSheaf (Tensor.ringSheaf X.O) G)).inv ≫
-        f.toToposHom.pushforward.map (tensorSectionPairing ((f.pullbackModules).obj F) G) := by
-  have hc := (eq_pullbackTensorIso_hom_app_iff f F ((pushforwardModules f).obj G)
-    ((pullbackTensorIso f).hom.app (F, (pushforwardModules f).obj G))).1 rfl
-  have hX : tensorSectionPairing F ((pushforwardModules f).obj G) ≫
       (moduleSheafFunctor (Tensor.ringSheaf Y.O)).map
         ((pullbackAdjPushforwardModules f).unit.app
             (((Functor.uncurry.obj (Tensor.sheafTensor Y.O))).obj (F, (pushforwardModules f).obj
@@ -265,16 +243,34 @@ theorem tensorSectionPairing_comp_pushforwardTensorMap
             ((f.pullbackModules).obj ((pushforwardModules f).obj G)))).inv ≫
         f.toToposHom.pushforward.map (tensorSectionPairing ((f.pullbackModules).obj F)
           ((f.pullbackModules).obj ((pushforwardModules f).obj G))) := by
-    refine Eq.trans ?_ hc
-    refine pairing_ext _ fun U a b => ?_
-    refine (pairingApp_comp _ _ U a b).trans (Eq.trans ?_
-      (pairingApp_pairingOfTensorHom _ U a b).symm)
-    exact congrArg _ (pairingApp_tensorSectionPairing F _ U a b)
+  refine Eq.trans ?_ ((eq_pullbackTensorIso_hom_app_iff f F ((pushforwardModules f).obj G)
+    ((pullbackTensorIso f).hom.app (F, (pushforwardModules f).obj G))).1 rfl)
+  refine pairing_ext _ fun U a b => ?_
+  refine (pairingApp_comp _ _ U a b).trans (Eq.trans ?_
+    (pairingApp_pairingOfTensorHom _ U a b).symm)
+  exact congrArg _ ((pairingApp_tensorSectionPairing F _ U a b).trans
+    (Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ U _).symm)
+
+/-- **The pairing of the projection-formula map** `F ⊗ f_*G ⟶ f_*(f^*F ⊗ G)`: two local
+sections are paired by `f_*` of the universal pairing of `f^*F` and `G`, applied to the unit
+image of the first and to the second. -/
+theorem tensorSectionPairing_comp_pushforwardTensorMap
+    (F : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y.O))
+    (G : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)) :
+    tensorSectionPairing F ((pushforwardModules f).obj G) ≫
+        (moduleSheafFunctor (Tensor.ringSheaf Y.O)).map (pushforwardTensorMap f F G) =
+      prod.map ((moduleSheafFunctor (Tensor.ringSheaf Y.O)).map
+          ((pullbackAdjPushforwardModules f).unit.app F)) (𝟙 _) ≫
+        (PreservesLimitPair.iso f.toToposHom.pushforward
+          (moduleSheaf (Tensor.ringSheaf X.O) ((f.pullbackModules).obj F))
+          (moduleSheaf (Tensor.ringSheaf X.O) G)).inv ≫
+        f.toToposHom.pushforward.map (tensorSectionPairing ((f.pullbackModules).obj F) G) := by
   have hB : ((Functor.uncurry.obj (Tensor.sheafTensor X.O))).map
       (𝟙 ((f.pullbackModules).obj F) ×ₘ (pullbackAdjPushforwardModules f).counit.app G) =
       ((Tensor.sheafTensor X.O).obj ((f.pullbackModules).obj F)).map
-        ((pullbackAdjPushforwardModules f).counit.app G) := by
-    simp
+        ((pullbackAdjPushforwardModules f).counit.app G) :=
+    (NatTrans.congr_app ((Tensor.sheafTensor X.O).map_id _) _ =≫ _).trans
+      (Category.id_comp (((Tensor.sheafTensor X.O).obj _).map _))
   have hR := tensorSectionPairing_comp_map_right (A := (f.pullbackModules).obj F)
     ((pullbackAdjPushforwardModules f).counit.app G)
   have htri := congrArg (moduleSheafFunctor (Tensor.ringSheaf Y.O)).map
@@ -282,7 +278,8 @@ theorem tensorSectionPairing_comp_pushforwardTensorMap
   rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_id] at htri
   rw [pushforwardTensorMap_eq, Stacks.ProjectionFormula.adjunctionTensorMapSnd,
     Adjunction.homEquiv_unit, hB, CategoryTheory.Functor.map_comp (pushforwardModules f),
-    ← Category.assoc, CategoryTheory.Functor.map_comp (moduleSheafFunctor _), ← Category.assoc, hX]
+    ← Category.assoc, CategoryTheory.Functor.map_comp (moduleSheafFunctor _), ← Category.assoc,
+    tensorSectionPairing_comp_unit_comp_pullbackTensorIso]
   have hpf : ∀ {M M' : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)} (m : M ⟶ M'),
       (moduleSheafFunctor (Tensor.ringSheaf Y.O)).map ((pushforwardModules f).map m) =
         f.toToposHom.pushforward.map ((moduleSheafFunctor (Tensor.ringSheaf X.O)).map m) :=

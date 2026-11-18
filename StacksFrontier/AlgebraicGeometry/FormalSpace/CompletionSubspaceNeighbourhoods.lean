@@ -151,7 +151,7 @@ theorem mem_completionSubspaceSubfunctor_iff (U : (BigFppfOver B S hS)ᵒᵖ)
     (g : (X.1 ⋙ uliftFunctor.{u + 1}).obj U) :
     g ∈ (completionSubspaceSubfunctor B S hS X Z.1).obj U ↔
       ∃ n, g.down ∈ (nthOrderNeighbourhood B S hS X Z n).1.obj U := by
-  show (∃ n, IsUniversalNthOrderThickening B S hS n U.unop
+  change (∃ n, IsUniversalNthOrderThickening B S hS n U.unop
       (Z.1.preimage (yonedaEquiv.symm g.down : yoneda.obj U.unop ⟶ X.1))) ↔ _
   simp only [← mem_nthOrderNeighbourhood_iff_isUniversalNthOrderThickening]
 
@@ -258,7 +258,8 @@ infinitesimal neighbourhoods `Z_n` of Stacks 05ZV, the closed subspaces cut out 
 the presheaf colimit `AlgebraicGeometry.Space.isColimitNeighbourhoodCocone` to a colimit. -/
 @[stacks 0GXU "identification with colim Z_n in fppf sheaves"]
 def isColimitCompletionSubspaceCocone : IsColimit (completionSubspaceCocone B S hS X Z) :=
-  haveI := (plusPlusAdjunction (BigFppfOver.topology B S hS) (Type (u + 1))).leftAdjoint_preservesColimits
+  haveI :=
+    (plusPlusAdjunction (BigFppfOver.topology B S hS) (Type (u + 1))).leftAdjoint_preservesColimits
   isColimitOfPreserves (plusPlusSheaf (BigFppfOver.topology B S hS) (Type (u + 1)))
     (isColimitNeighbourhoodCocone B S hS X Z)
 

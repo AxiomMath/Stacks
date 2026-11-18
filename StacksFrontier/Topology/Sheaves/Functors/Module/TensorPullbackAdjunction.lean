@@ -37,7 +37,7 @@ theorem pbRingIso_hom_ι (O' : TopCat.Presheaf RingCat.{u} Y) (U : (Opens X)ᵒ�
     (c : ((CostructuredArrow (Opens.map f).op U)ᵒᵖ)ᵒᵖ) (a : O'.obj c.unop.unop.left) :
     (pbRingIso f O' U).hom (colimit.ι (pbRdiag f O' U) c a)
       = (pullbackRing f O').map c.unop.unop.hom (pullbackRingUnit f O' c.unop.unop.left a) := by
-  haveI : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
+  have : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
     finallySmall_of_essentiallySmall _
   have hmor :
       colimit.ι ((opOpEquivalence (CostructuredArrow (Opens.map f).op U)).functor ⋙
@@ -62,7 +62,7 @@ theorem pbAbIso_hom_ι (O' : TopCat.Presheaf RingCat.{u} Y) (G : PresheafOfModul
     (pbAbIso f O' G U).hom (colimit.ι (pbMmod f O' G U).presheaf c s)
       = (pullbackAb f (underlyingAb O' G)).map c.unop.unop.hom
           (pullbackAbUnit f (underlyingAb O' G) c.unop.unop.left s) := by
-  haveI : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
+  have : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
     finallySmall_of_essentiallySmall _
   have hmor :
       colimit.ι ((opOpEquivalence (CostructuredArrow (Opens.map f).op U)).functor ⋙
@@ -88,7 +88,7 @@ theorem exists_germ (O' : TopCat.Presheaf RingCat.{u} Y) (G : PresheafOfModules.
     ∃ (V : (Opens Y)ᵒᵖ) (h : (Opens.map f).op.obj V ⟶ U) (a : O'.obj V) (s : G.obj V),
       r = (pullbackRing f O').map h (pullbackRingUnit f O' V a) ∧
       x = (pullbackAb f (underlyingAb O' G)).map h (pullbackAbUnit f (underlyingAb O' G) V s) := by
-  haveI : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
+  have : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
     finallySmall_of_essentiallySmall _
   obtain ⟨c, a, s, ha, hs⟩ := PresheafOfModules.ModuleColimit.jointly_surjective₂
     (hcR := colimit.isColimit (pbRdiag f O' U))
@@ -109,7 +109,7 @@ common open, where they commute. -/
 theorem pullbackRing_mul_comm (O' : TopCat.Presheaf RingCat.{u} Y)
     (hO' : ∀ V (a b : O'.obj V), a * b = b * a) (U : (Opens X)ᵒᵖ)
     (r₁ r₂ : (pullbackRing f O').obj U) : r₁ * r₂ = r₂ * r₁ := by
-  haveI : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
+  have : FinallySmall.{u} (CostructuredArrow (Opens.map f).op U) :=
     finallySmall_of_essentiallySmall _
   obtain ⟨c, a₁, a₂, -, h₁, h₂, -⟩ := PresheafOfModules.ModuleColimit.jointly_surjective₃
     (hcR := colimit.isColimit (pbRdiag f O' U))
@@ -229,8 +229,7 @@ theorem tensorRestrict_tmul (G : PresheafOfModules.{u} (ringsY f O)) {U V : (Ope
 theorem tensorRestrict_smul (G : PresheafOfModules.{u} (ringsY f O)) {U V : (Opens X)ᵒᵖ}
     (g : U ⟶ V) (b₀ : (ringsX O).obj U) (t : tensorSections f O G U) :
     tensorRestrict f O G g (b₀ • t) = ((ringsX O).map g).hom b₀ • tensorRestrict f O G g t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b x => rw [smul_tmul', tensorRestrict_tmul, tensorRestrict_tmul, smul_tmul', smul_eq_mul,
       smul_eq_mul, map_mul]
   | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', smul_add]
@@ -243,15 +242,13 @@ noncomputable def tensorPresheaf (G : PresheafOfModules.{u} (ringsY f O)) :
   map_id U := by
     ext t
     change tensorRestrict f O G (𝟙 U) t = t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x => rw [tensorRestrict_tmul, ringsX_map_id, pullbackObj_restrict_id]
     | add t t' ht ht' => rw [map_add, ht, ht']
   map_comp g h := by
     ext t
     change tensorRestrict f O G (g ≫ h) t = tensorRestrict f O G h (tensorRestrict f O G g t)
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x => rw [tensorRestrict_tmul, tensorRestrict_tmul, tensorRestrict_tmul,
         ringsX_map_comp, pullbackObj_restrict_comp]
     | add t t' ht ht' => rw [map_add, map_add, map_add, ht, ht']
@@ -291,8 +288,7 @@ noncomputable def tensorPullback :
         ext t
         change tensorMapApp f O φ V (tensorRestrict f O G g t)
           = tensorRestrict f O G' g (tensorMapApp f O φ U t)
-        induction t using TensorProduct.induction_on with
-        | zero => rw [map_zero, map_zero, map_zero, map_zero]
+        induction t using TensorProduct.inductionOn with
         | tmul b x =>
           rw [tensorRestrict_tmul, tensorMapApp_tmul, tensorMapApp_tmul, tensorRestrict_tmul]
           congr 1
@@ -302,15 +298,13 @@ noncomputable def tensorPullback :
   map_id G := by
     refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
     change tensorMapApp f O (𝟙 G) U t = t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x => rw [tensorMapApp_tmul, CategoryTheory.Functor.map_id]; rfl
     | add t t' ht ht' => rw [map_add, ht, ht']
   map_comp {G G' G''} φ ψ := by
     refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
     change tensorMapApp f O (φ ≫ ψ) U t = tensorMapApp f O ψ U (tensorMapApp f O φ U t)
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x =>
       rw [tensorMapApp_tmul, tensorMapApp_tmul, tensorMapApp_tmul,
         CategoryTheory.Functor.map_comp]
@@ -369,8 +363,7 @@ theorem tensorLift_smul {G : PresheafOfModules.{u} (ringsY f O)}
     (φ : pullbackObj f O G ⟶ (PresheafOfModules.restrictScalars (counitRings f O)).obj F)
     (U : (Opens X)ᵒᵖ) (b₀ : (ringsX O).obj U) (t : tensorSections f O G U) :
     tensorLift f O φ U (b₀ • t) = b₀ • tensorLift f O φ U t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b x => rw [smul_tmul', tensorLift_tmul, tensorLift_tmul, smul_eq_mul, mul_smul]
   | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', smul_add]
 
@@ -379,8 +372,7 @@ theorem tensorLift_naturality {G : PresheafOfModules.{u} (ringsY f O)}
     (φ : pullbackObj f O G ⟶ (PresheafOfModules.restrictScalars (counitRings f O)).obj F)
     {U V : (Opens X)ᵒᵖ} (g : U ⟶ V) (t : tensorSections f O G U) :
     tensorLift f O φ V (tensorRestrict f O G g t) = F.restrictₛₗ g (tensorLift f O φ U t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
     rw [tensorRestrict_tmul, tensorLift_tmul, tensorLift_tmul, restrictApp_naturality,
       LinearMap.map_smulₛₗ]
@@ -431,8 +423,7 @@ noncomputable def tensorHomEquiv (G : PresheafOfModules.{u} (ringsY f O))
   left_inv Ψ := by
     refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
     change tensorLift f O _ U t = tensorHomApp f O Ψ U t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x =>
       rw [tensorLift_tmul]
       change b • tensorHomApp f O Ψ U ((1 : (ringsX O).obj U) ⊗ₜ x) = _
@@ -677,8 +668,7 @@ noncomputable def tensorPullbackAdjunction :
         refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
         change tensorHomApp f O ((tensorPullbackHomEquiv f O G' F).symm (h ≫ φ)) U t
           = tensorHomApp f O ((tensorPullbackHomEquiv f O G F).symm φ) U (tensorMapApp f O h U t)
-        induction t using TensorProduct.induction_on with
-        | zero => rw [map_zero, map_zero, map_zero]
+        induction t using TensorProduct.inductionOn with
         | tmul b x =>
           rw [tensorMapApp_tmul, tensorPullbackHomEquiv_symm_apply_tmul,
             tensorPullbackHomEquiv_symm_apply_tmul, restrictApp_pullbackHomEquiv_symm,

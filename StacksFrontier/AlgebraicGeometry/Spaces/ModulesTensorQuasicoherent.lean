@@ -68,7 +68,8 @@ universe `u`, is isomorphic to the tensor product `M ⊗ N` of
 `AlgebraicGeometry.Space.modulesMonoidalCategory`.
 
 It is the sheafification of `PresheafOfModules.uliftSectionsSelfIso` on the objectwise tensor
-product `M.val ⊗ N.val`, followed by the inverse of
+product `M.val ⊗ N.val`, followed by the inverses of
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` and
 `AlgebraicGeometry.Space.modulesTensorObjIso`. -/
 noncomputable def tensorModuleIso (M N : Modules.{u, u} B S hS F hF) :
     tensorModule B S hS F hF M N ≅ M ⊗ N :=
@@ -80,6 +81,7 @@ noncomputable def tensorModuleIso (M N : Modules.{u, u} B S hS F hF) :
       (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS F hF).O)).obj)).mapIso
         (PresheafOfModules.uliftSectionsSelfIso (PresheafOfModules.tensorObj M.val N.val))) ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso (structureSheaf B S hS F hF) M N).symm ≪≫
     (modulesTensorObjIso B S hS F hF M N).symm
 
 /-- **Stacks 03M1(5).** The tensor product of two quasi-coherent `𝒪_F`-modules on an algebraic

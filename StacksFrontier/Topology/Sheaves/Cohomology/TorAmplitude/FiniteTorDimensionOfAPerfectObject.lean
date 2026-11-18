@@ -59,7 +59,7 @@ neither direction is the harder one and the statement is a genuine iff.
 Two of the three K-flatness predicates of the trees meet here —
 `AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat` as produced,
 `Stacks.SheafOfModules.IsKFlat` as consumed by the site datum and
-`Stacks.SheafOfModules.KFlat.KFlat` as consumed by `derTensor` — and they are the same
+`Stacks.SheafOfModules.KFlat` as consumed by `derTensor` — and they are the same
 proposition definitionally, so the one witness serves all three without conversion.
 
 The finite subcovering is taken with `IsCompact.elim_finite_subcover` on the underlying sets and

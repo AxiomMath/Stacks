@@ -232,13 +232,7 @@ theorem formsTensorComparison_map_leftWedge (q : ℕ) (W : T.Y.Opens)
         (T.connectionComparison F W z)
         (T.formsCompRel q W ((crysFormSections S q (T.crystallineThickening.restrictOpen W)).symm
           η)) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, map_zero, map_zero]
-    have h := twistedFormsWedgeSection_add T.toBase (T.liftingModule F) q (op W) 0 0
-      (T.formsCompRel q W ((crysFormSections S q (T.crystallineThickening.restrictOpen W)).symm η))
-    rw [add_zero] at h
-    exact (add_eq_left.mp h.symm).symm
+  induction z using TensorProduct.inductionOn with
   | tmul m α =>
     rw [TensorProduct.map_tmul, formsTensorComparison_tmul, connectionComparison_tmul]
     exact (congrArg (twistedTmul T.toBase (T.liftingModule F) (q + 1) (op W) m)
@@ -361,15 +355,7 @@ theorem twistedFormsOneIso_wedge_formsOne (W : T.Y.Opens)
         (twistedFormsWedgeSection T.toBase (T.liftingModule F) 0 (op W)
           (T.connectionComparison F W z) (T.formsOne (op W))) =
       T.connectionComparison F W z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    have h := twistedFormsWedgeSection_add T.toBase (T.liftingModule F) 0 (op W) 0 0
-      (T.formsOne (op W))
-    rw [add_zero] at h
-    rw [show twistedFormsWedgeSection T.toBase (T.liftingModule F) 0 (op W) 0 (T.formsOne (op W)) =
-      0 from add_eq_left.mp h.symm]
-    exact map_zero _
+  induction z using TensorProduct.inductionOn with
   | tmul m α =>
     rw [connectionComparison_tmul]
     exact (congrArg ((T.twistedFormsOneIso (F := F)).hom.val.app (op W))
@@ -443,8 +429,7 @@ theorem connectionComparison_smul (W : T.Y.Opens)
         (T.crystallineThickening.restrictOpen W)]
       (crysDifferentials S).obj (op (T.crystallineThickening.restrictOpen W))) :
     T.connectionComparison F W (r • z) = T.sectionRingIso W r • T.connectionComparison F W z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m α =>
     rw [TensorProduct.smul_tmul', connectionComparison_tmul, connectionComparison_tmul]
     exact (congrArg (fun z ↦ connectionTmul T.toBase (T.liftingModule F) (op W) z
@@ -613,13 +598,7 @@ theorem twistedDifferentialApp_baseScalar_smul (q : ℕ) (U : (T.Y.Opens)ᵒᵖ)
     exact congrArg₂ (· • ·) (T.baseScalar_restrict (homOfLE h).op r).symm
       (T.twistedDifferentialApp_restrict hF q (homOfLE h).op z)
   · intro V r p
-    induction p using TensorProduct.induction_on with
-    | zero =>
-      refine (congrArg (fun z ↦ T.twistedDifferentialApp hF q (op V) (T.baseScalar (op V) r • z))
-        (AddMonoidHom.map_zero _)).trans ?_
-      refine Eq.trans ?_ (congrArg (fun z ↦ T.baseScalar (op V) r • T.twistedDifferentialApp hF q
-        (op V) z) (AddMonoidHom.map_zero _)).symm
-      simp only [smul_zero, map_zero]
+    induction p using TensorProduct.inductionOn with
     | tmul m ω => exact T.twistedDifferentialApp_baseScalar_smul_twistedTmul hF q (op V) r m ω
     | add p p' hp hp' =>
       refine (congrArg (fun z ↦ T.twistedDifferentialApp hF q (op V) (T.baseScalar (op V) r • z))

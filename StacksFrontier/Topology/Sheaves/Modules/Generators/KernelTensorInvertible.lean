@@ -149,8 +149,9 @@ theorem toTensorSheafSection_sub (U : (TopologicalSpace.Opens X.carrier)ᵒᵖ)
     (t t' : TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U)) :
     toTensorSheafSection X F G U (t - t')
       = toTensorSheafSection X F G U t - toTensorSheafSection X F G U t' :=
-  map_sub ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).app
-      U).hom t t'
+  map_sub (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom t t'
 
 /-- Restricting a section of `F ⊗ G` that comes from the presheaf tensor product is the image of
 the restriction: the sheafification unit `toTensorSheafSection` is natural. -/
@@ -161,8 +162,9 @@ theorem map_toTensorSheafSection {U V : (TopologicalSpace.Opens X.carrier)ᵒᵖ
         (toTensorSheafSection X F G U t)
       = toTensorSheafSection X F G V ((((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val)
           (G.val))).map f).hom t) :=
-  congrArg (fun q => q.hom t) ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf)
-      (F.val) (G.val)))).naturality f).symm
+  congrArg (fun q => q.hom t) (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).naturality f).symm
 
 /-- The global section `m ⊗ n` of `F ⊗ G` determined by global sections `m` of `F` and `n` of
 `G`: over an open `U` it is the image of `m|_U ⊗ n|_U` under the canonical map

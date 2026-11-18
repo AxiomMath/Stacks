@@ -79,7 +79,7 @@ open AlgebraicGeometry.ProjectiveSpectrum.Proj (twistingSheaf)
 open Stacks.RegularSequence (globalSmulCenter)
 open Stacks.SheafOfModules.OnSpace (tensorObjTmul whiskerLeft_tmul whiskerRight_tmul
   tensorObjTmul_smul_right tensorObjTmul_zero_left tensorObjTmul_eq_zero_of_locally)
-open Stacks.SheafOfModules.TensorStalkRingedSpace (sheafifyUnit)
+open Stacks.SheafOfModules.TensorStalkRingedSpace (JX)
 open scoped TensorProduct
 
 universe u
@@ -182,7 +182,9 @@ theorem smul_tensorObjTmul (Y : RingedSpace.{u, u})
     (M N : SheafOfModules.{u} (structureSheafRing Y))
     (U : (Opens Y.carrier)ᵒᵖ) (r : Y.presheaf.obj U) (a : M.val.obj U) (b : N.val.obj U) :
     r • tensorObjTmul Y M N U a b = tensorObjTmul Y M N U (r • a) b :=
-  (((sheafifyUnit Y (PresheafOfModules.tensorObj (O := Y.presheaf) M.val N.val)).app U).hom.map_smul
+  ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := Y.presheaf) M.val N.val)).app U).hom.map_smul
     r (a ⊗ₜ[Y.presheaf.obj U] b)).symm.trans
     (congrArg (Stacks.SheafOfModules.OnSpace.tensorObjSection Y M N U)
       (TensorProduct.smul_tmul' r a b))

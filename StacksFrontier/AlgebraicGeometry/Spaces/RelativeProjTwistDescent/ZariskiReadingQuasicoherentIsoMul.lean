@@ -199,18 +199,16 @@ theorem tensorCounitComposite_toZariski_val_app_unit_tmul
     (y : ((SheafOfModules.pushforward.{u} (structureMap B S hS)).obj N).val.obj V) :
     ((toZariskiRingedSiteHom B S hS).tensorCounitComposite (pullbackModulesToZariskiIso B S hS)
         (φ := structureMap B S hS) (associatedModuleAdjunction B S hS) M N).val.app V
-      (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf S.zariskiRingedSite.toRingedTopos.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            S.zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+      (_root_.PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            S.zariskiRingedSite.toRingedTopos.O).unit.app
         (PresheafOfModules.tensorObj (O := S.zariskiRingedSite.toRingedTopos.O.obj)
           ((SheafOfModules.pushforward.{u} (structureMap B S hS)).obj M).val
           ((SheafOfModules.pushforward.{u} (structureMap B S hS)).obj N).val)) V
         (x ⊗ₜ[(S.zariskiRingedSite.toRingedTopos.O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-    _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS).toRingedTopos.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          (smallEtaleRingedSite B S hS).toRingedTopos.O).obj)).unit.app
+    _root_.PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (smallEtaleRingedSite B S hS).toRingedTopos.O).unit.app
       (PresheafOfModules.tensorObj (O := (smallEtaleRingedSite B S hS).toRingedTopos.O.obj)
         M.val N.val))
       ((toZariskiRingedSiteHom B S hS).u.op.obj V)
@@ -314,17 +312,19 @@ theorem sheafTensor_hom_ext_tmul {C : Type*} [Category C] {J : GrothendieckTopol
     {F G K : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
     {φ ψ : ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj F).obj G ⟶ K}
     (h : ∀ (V : Cᵒᵖ) (x : F.val.obj V) (y : G.val.obj V),
-      φ.val.app V (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+      φ.val.app V (_root_.PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)) V
         (x ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-      ψ.val.app V (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+      ψ.val.app V (_root_.PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)) V
         (x ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y))) : φ = ψ :=
-  PresheafOfModules.tensorSheaf_hom_ext (Osharp := O) h
+  PresheafOfModules.tensorSheaf_hom_ext (Osharp := O) fun V x y =>
+    (congrArg (φ.val.app V)
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply O _ V _)).symm
+      |>.trans <| (h V x y).trans <| congrArg (ψ.val.app V)
+        (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply O _ V _)
 
 /-- The value of the direct image of a morphism of sheaves of modules on a local section over `V`
 is the value of the morphism over the image of `V`, read off an equal morphism. -/
@@ -350,9 +350,8 @@ theorem sheafTensor_hom_ext_of_eq_unit {C : Type*} [Category C] {J : Grothendiec
     {φ ψ : ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj F).obj G ⟶ K}
     (h : ∀ (V : Cᵒᵖ) (x : F.val.obj V) (y : G.val.obj V)
       (z : (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj F).obj G).val.obj V),
-      z = _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+      z = _root_.PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)) V
         (x ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y) →
       φ.val.app V z = ψ.val.app V z) : φ = ψ :=
@@ -369,16 +368,14 @@ theorem sheafTensor_map_app_comp_obj_map_val_app_unit_tmul
     {A₁ A₂ B₁ B₂ : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
     (g : A₁ ⟶ A₂) (g' : B₁ ⟶ B₂) (U : X.Cᵒᵖ) (x : A₁.val.obj U) (y : B₁.val.obj U)
     {z : (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj A₁).obj B₁).val.obj U}
-    (hz : z = _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+    (hz : z = _root_.PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A₁.val B₁.val)) U
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).map g).app B₁ ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj A₂).map g').val.app U z =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A₂.val B₂.val)) U
         (g.val.app U x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] g'.val.app U y) := by
   subst hz

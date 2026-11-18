@@ -402,8 +402,9 @@ theorem toTensorSheafSection_presheaf_map {X : Scheme.{u}} (A B : X.Modules) {U 
       = toTensorSheafSection X.toRingedSpace A B (op V)
           (A.presheaf.map i.op s ⊗ₜ B.presheaf.map i.op t) :=
   (PresheafOfModules.naturality_apply
-    (sheafifyUnit X.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (A.val) (B.val)))) i.op
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) A.val B.val)) i.op
     (s ⊗ₜ[X.presheaf.obj (op U)] t)).symm
 
 /-! ### The section of an external tensor product attached to a pair of local sections -/

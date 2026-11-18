@@ -485,6 +485,41 @@ theorem stalkMulGE_sheafify_map {P Q : PresheafOfModulesOfCommRing.{u} X.preshea
       ((sheafify X.presheaf (hStruct X)).map φ) x r :=
   (stalkMulGE_iff_pStalkMulGE _).2 h.sheafify_map
 
+/-- The sheaf of rings `𝒪_X` in the form taken by `Stacks.SheafOfModules.Tensor.sheafTensor`. -/
+private abbrev commRingSheaf (X : Scheme.{u}) :
+    Sheaf (Opens.grothendieckTopology X) CommRingCat.{u} :=
+  ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
+    (hStruct X)⟩
+
+open Stacks.SheafOfModules.Tensor in
+/-- **The sealed sheafification preserves "every value is an `r`-multiple"**, the sealed
+`Stacks.SheafOfModules.Tensor.sheafification` that ends `sheafTensor` being `sheafify` up to
+the isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem stalkMulLE_sheafification_map {P Q : PresheafOfModulesOfCommRing.{u} X.presheaf}
+    (φ : P ⟶ Q) (h : PStalkMulLE φ x r) :
+    StalkMulLE (M := (sheafification (commRingSheaf X)).obj P)
+      (N := (sheafification (commRingSheaf X)).obj Q)
+      ((sheafification (commRingSheaf X)).map φ) x r :=
+  (stalkMulLE_iso_comp_iff ((SheafOfModules.Tensor.sheafificationIso (commRingSheaf X)).app P)).1
+    (stalkMulLE_congr ((SheafOfModules.Tensor.sheafificationIso (commRingSheaf X)).hom.naturality φ)
+      ((stalkMulLE_comp_iso_iff
+          ((SheafOfModules.Tensor.sheafificationIso (commRingSheaf X)).app Q)).2
+        (stalkMulLE_sheafify_map φ h)))
+
+open Stacks.SheafOfModules.Tensor in
+/-- **The sealed sheafification preserves "every `r`-multiple is a value"**, as
+`Stacks.SectionProduct.stalkMulLE_sheafification_map`. -/
+private theorem stalkMulGE_sheafification_map {P Q : PresheafOfModulesOfCommRing.{u} X.presheaf}
+    (φ : P ⟶ Q) (h : PStalkMulGE φ x r) :
+    StalkMulGE (M := (sheafification (commRingSheaf X)).obj P)
+      (N := (sheafification (commRingSheaf X)).obj Q)
+      ((sheafification (commRingSheaf X)).map φ) x r :=
+  (stalkMulGE_iso_comp_iff ((SheafOfModules.Tensor.sheafificationIso (commRingSheaf X)).app P)).1
+    (stalkMulGE_congr ((SheafOfModules.Tensor.sheafificationIso (commRingSheaf X)).hom.naturality φ)
+      ((stalkMulGE_comp_iso_iff
+          ((SheafOfModules.Tensor.sheafificationIso (commRingSheaf X)).app Q)).2
+        (stalkMulGE_sheafify_map φ h)))
+
 /-- **Tensoring on the left preserves "every value is an `r`-multiple".** The monoidal
 `tensorLeft` is the sheafified sectionwise tensor product, by
 `Stacks.SheafInternalHom.tensorLeftIso`. -/
@@ -494,7 +529,7 @@ theorem StalkMulLE.whiskerLeft (A : X.Modules) {M N : X.Modules} (f : M ⟶ N) {
   refine StalkMulLE.of_comp_right
     (bijStalk_of_hom_inv (e.hom_inv_id_app N) (e.inv_hom_id_app N) x) ?_
   refine stalkMulLE_congr (e.hom.naturality f).symm ?_
-  exact StalkMulLE.comp_left _ (stalkMulLE_sheafify_map _
+  exact StalkMulLE.comp_left _ (stalkMulLE_sheafification_map _
     (PStalkMulLE.whiskerLeft _ ((stalkMulLE_iff_pStalkMulLE f).1 h)))
 
 /-- **Tensoring on the left preserves "every `r`-multiple is a value".** -/
@@ -505,7 +540,8 @@ theorem StalkMulGE.whiskerLeft (A : X.Modules) {M N : X.Modules} (f : M ⟶ N) {
     (bijStalk_of_hom_inv (e.hom_inv_id_app N) (e.inv_hom_id_app N) x) ?_
   refine stalkMulGE_congr (e.hom.naturality f).symm ?_
   exact StalkMulGE.comp_left (surjStalk_of_inv (e.inv_hom_id_app M) x)
-    (stalkMulGE_sheafify_map _ (PStalkMulGE.whiskerLeft _ ((stalkMulGE_iff_pStalkMulGE f).1 h)))
+    (stalkMulGE_sheafification_map _
+      (PStalkMulGE.whiskerLeft _ ((stalkMulGE_iff_pStalkMulGE f).1 h)))
 
 /-- Whiskering on the left is whiskering on the right conjugated by the braidings. -/
 private theorem whiskerLeft_eq_braiding_comp {M N : X.Modules} (A : X.Modules) (f : M ⟶ N) :

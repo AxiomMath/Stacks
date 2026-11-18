@@ -632,10 +632,10 @@ public theorem heckeOperator_isUnramifiedCuspForm {Λ : Type w} [CommRing Λ]
   have hW : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ U,
       heckeOperator g₀ g f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         heckeOperator g₀ g f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup k hR x hinv z hy
+    fun z y hy => integrand_add_mem_sup hR x hinv z hy
   have hle : (principalAdeles K).toAddSubgroup ⊔ U' ≤ (principalAdeles K).toAddSubgroup ⊔ U :=
     sup_le_sup_left inf_le_left _
-  exact sum_eq_zero_of_finer k (ringChar_nsmul_adele k (K := K)) hp hle le_rfl
+  exact sum_eq_zero_of_finer (ringChar_nsmul_adele k (K := K)) hp hle le_rfl
     (index_principal_sup_ne_zero k hU') hW (fun z y hy => hW z y (hle hy)) hZ hs
 
 /-- `T_v` preserves the unramified cusp forms with central character `φ`. -/

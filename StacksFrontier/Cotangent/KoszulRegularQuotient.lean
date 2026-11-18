@@ -64,7 +64,8 @@ that `StacksFrontier.Cotangent.SurjectionSingleDegree` needs in order to identif
 Proposition 08QX — that the three vertices of the display of Tag 08QS form a distinguished
 triangle for arbitrary ring maps `A → B → C` — is proved downstream of this file, as
 `CommAlgCat.productFundamentalTriangle_distinguished` of
-`StacksFrontier.Cotangent.Triangle.ProductDescent`, and read as `CommAlgCat.hasFundamentalTriangleAt`
+`StacksFrontier.Cotangent.Triangle.ProductDescent`, and read as
+`CommAlgCat.hasFundamentalTriangleAt`
 in `StacksFrontier.Cotangent.PolynomialRetractionUnconditional`. Tag 08SI in the form
 `CommAlgCat.nonempty_cotangentComplex_retraction_iso_single` carries it as the explicit
 hypothesis `CommAlgCat.HasFundamentalTriangleAt A B A`, and so does everything here;

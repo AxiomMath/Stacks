@@ -82,10 +82,14 @@ theorem lqcohSheafFbcFppfModules_sheafTensor (F G : fppfModules B S hS 𝒳)
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
         (FlatFppf.fppfRingedTopos B S hS 𝒳).O).obj
           F).obj G).val φ.op) := fun φ hz hx hφ =>
-    FibredSite.isIso_restrictionBaseChange_sheafTensor B S hS _ _ F G
-      (fun ψ hz' hx' hψ => isIso_restrictionBaseChange_of_flat B E h S hS _ _ F.val hF ψ hψ hz' hx')
-      (fun ψ hz' hx' hψ => isIso_restrictionBaseChange_of_flat B E h S hS _ _ G.val hG ψ hψ hz' hx')
-      φ hz hx hφ
+    @Stacks.PresheafOfModules.isIso_restrictionBaseChange_of_iso _ _ _ _ _
+      ((SheafOfModules.forget _).mapIso (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ _ _).symm)
+      _ _ φ.op <| FibredSite.isIso_restrictionBaseChange_sheafTensor B S hS _ _ F G
+        (fun ψ hz' hx' hψ =>
+          isIso_restrictionBaseChange_of_flat B E h S hS _ _ F.val hF ψ hψ hz' hx')
+        (fun ψ hz' hx' hψ =>
+          isIso_restrictionBaseChange_of_flat B E h S hS _ _ G.val hG ψ hψ hz' hx')
+        φ hz hx hφ
   have hL : IsLocallyQuasicoherent B E h S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
         (FlatFppf.fppfRingedTopos B S hS 𝒳).O).obj F).obj G).val :=

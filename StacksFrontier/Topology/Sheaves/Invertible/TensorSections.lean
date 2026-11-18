@@ -21,11 +21,11 @@ this is the product of two global sections.
 
 ## Implementation notes
 
-The tensor product sheaf is
-`Stacks.SheafOfModules.TensorSheafification.tensorSheaf`, the sheafification of the pointwise
-tensor product of the underlying presheaves of modules, and the map is the component at `U` of
-the unit `Stacks.SheafOfModules.TensorSheafification.toSheafify` of the sheafification
-adjunction applied to an elementary tensor. The monoidal structure on presheaves of modules
+The tensor product sheaf is `Stacks.SheafOfModules.Tensor.sheafTensor`, the sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the pointwise tensor product of the underlying
+presheaves of modules, and the map is the component at `U` of the unit of the sheafification
+adjunction `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` applied to an
+elementary tensor. The monoidal structure on presheaves of modules
 over the ring presheaf is supplied as a local instance, as that file prescribes.
 
 Nothing here needs `F` or `G` to be invertible, and nothing needs the site to have a terminal
@@ -66,8 +66,9 @@ noncomputable def tensorSectionsOver (U : Cᵒᵖ)
   letI : MonoidalCategory (PresheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := O)
-  exact (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U
-    (s ⊗ₜ[O.obj U] t)
+  exact ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).unit.app
+        (F.val ⊗ G.val)).app U (s ⊗ₜ[O.obj U] t)
 
 variable [HasTerminal C]
 

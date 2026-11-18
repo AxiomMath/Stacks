@@ -55,6 +55,7 @@ theorem toSchemeCat_map_compIso_hom (V : (SmoothProjective k).FullSubcategory)
     (toSchemeCat k).map (compIso V i).hom = compAtι ((toSchemeCat k).obj V) i :=
   ObjectProperty.hom_ext _ (Over.OverMorphism.ext (compIso_hom_left V i))
 
+omit [IsAlgClosed k] in
 /-- The restriction of a cycle class of `V` to its component, pulled back along `V ≅ V_0`, is the
 class itself. -/
 theorem gysin_compIso_inv_restrictChow (V : (SmoothProjective k).FullSubcategory)
@@ -136,6 +137,7 @@ theorem varietyGradeEquiv_extCycleClassUntw (V : (SmoothProjective k).FullSubcat
   exact (T.cycleClass_gysin _ r _).symm.trans
     (congrArg _ (gysin_compIso_inv_restrictChow V default r α))
 
+omit [CharZero F] in
 /-- A product with a class equal to the unit, read in the expected degree, is the class. -/
 theorem _root_.ExternallyGradedAlgebra.degreeCast_mul_eq_of_heq_one
     (A : ExternallyGradedAlgebra.{v, v} F) {i j n : ℤ} (h : i + j = n) (h' : i = n)

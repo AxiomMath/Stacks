@@ -79,9 +79,8 @@ theorem pushforwardTensorMap_toCoeffPoint_top (S : RingedSpace.{u, u})
     (y : ((pushforwardFunctor (toCoeffPoint S)).obj G).val.obj (op ⊤)) :
     PresheafOfModules.Hom.app (pushforwardTensorMap (toCoeffPoint S) F G).val (op ⊤)
         (PresheafOfModules.Hom.app
-          ((PresheafOfModules.sheafificationAdjunction
-                (R := structureRingSheaf (onePointRingedSpace ↥(baseRing S)))
-                (𝟙 (structureRingSheaf (onePointRingedSpace ↥(baseRing S))).obj)).unit.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+                (onePointRingedSpace ↥(baseRing S)).sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (onePointRingedSpace ↥(baseRing S)).presheaf)
               ((pushforwardFunctor (toCoeffPoint S)).obj F).val
               ((pushforwardFunctor (toCoeffPoint S)).obj G).val))

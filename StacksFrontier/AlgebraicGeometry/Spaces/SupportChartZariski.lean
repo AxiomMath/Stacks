@@ -257,7 +257,8 @@ theorem nontrivial_chartStalkTensorEtaleLocalRing_iff
 /-- **The left-hand side of Stacks 05VP is nonzero exactly when the chart point lies in the
 support of the chart restriction.**  This is the whole of the proof of Stacks 07TY except for
 the comparison asserted by Stacks 05VP itself
-(`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`): with that comparison, the right-hand side is the
+(`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`): with that comparison, the right-hand
+side is the
 geometric stalk, whose nonvanishing is membership in the support of Stacks 04KA by
 `AlgebraicGeometry.Space.mem_supportOfSheaf_iff_nontrivial_geometricModuleStalk`. -/
 theorem nontrivial_chartStalkTensorEtaleLocalRing_iff_mem_supp
@@ -322,7 +323,8 @@ theorem chartPoint_ofChartGeometricPoint
 
 /-- **The support of a chart restriction is the inverse image of the support, given the
 comparison of Stacks 05VP.** Let `X` be an algebraic space over `S`, let `F` be an `𝒪_X`-module
-satisfying the comparison isomorphism of Stacks 05VP and let `φ : U ⟶ X` be an étale morphism from a scheme, that is, an object of the small étale site of
+satisfying the comparison isomorphism of Stacks 05VP and let `φ : U ⟶ X` be an étale morphism from a
+scheme, that is, an object of the small étale site of
 `X`.  Then the support of `φ^* F` as a module on the *scheme* `U` is the inverse image under
 `|φ|` of the support of `F` on `X`:
 `Supp(φ^* F) = |φ|^{-1}(Supp(F))`.

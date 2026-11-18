@@ -74,8 +74,10 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 `AlgebraicGeometry.Space.tensorModule` of two finite locally free `𝒪_F`-modules is finite
 locally free.
 
-This is Stacks 03L6 (2) on the small étale ringed site of `F`, transported along the
-isomorphism that undoes the universe lift of the sections. -/
+This is Stacks 03L6 (2) on the small étale ringed site of `F`, transported along
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`, which identifies the sealed tensor sheaf with
+Mathlib's sheafification of the objectwise tensor product, followed by the isomorphism that undoes
+the universe lift of the sections. -/
 theorem isFiniteLocallyFreeOnSite_tensorModule (M N : Modules.{u, u} B S hS F hF)
     (hM : SheafOfModules.IsFiniteLocallyFreeOnSite M)
     (hN : SheafOfModules.IsFiniteLocallyFreeOnSite N) :
@@ -86,9 +88,10 @@ theorem isFiniteLocallyFreeOnSite_tensorModule (M N : Modules.{u, u} B S hS F hF
   let _ := SheafOfModules.isLocallySurjective_id_structure
     (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))
   refine Stacks.SheafOfModules.Intrinsic.isFiniteLocallyFreeOnSite_of_iso
-    (((PresheafOfModules.sheafification
-      (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
-        (smallEtaleRingedSite B S hS F hF).O)).obj)).mapIso
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ M N ≪≫
+      ((PresheafOfModules.sheafification
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS F hF).O).obj)).mapIso
           (PresheafOfModules.uliftSectionsSelfIso _)).symm) ?_
   exact Stacks.SheafOfModules.TensorLocalProperties.tensorSheaf_isFiniteLocallyFreeOnSite
     (smallEtaleRingedSite B S hS F hF) M N hM hN

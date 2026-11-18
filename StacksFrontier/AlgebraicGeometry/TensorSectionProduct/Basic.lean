@@ -158,16 +158,15 @@ isomorphism, and the unit is a stalkwise bijection
 (`Stacks.SectionProduct.pstalkHom_toSheafify_bijective`). -/
 theorem surjective_pstalkHom_toTensorSection (x : X) :
     Function.Surjective (pstalkHom (toTensorSectionX F G) x) := by
+  have : IsIso (C := PresheafOfModulesOfCommRing X.presheaf)
+      (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val :=
+    ((SheafOfModules.forget _).mapIso
+      (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G)).isIso_hom
   intro z
-  have hw : pstalkHom (tensorIsoObj F G).hom.val x
-      (pstalkHom (tensorIsoObj F G).inv.val x z) = z :=
-    ((pstalkHom_comp (tensorIsoObj F G).inv.val (tensorIsoObj F G).hom.val x z).symm.trans
-      (congrArg (fun φ : (F ⊗ G : X.Modules).val ⟶ (F ⊗ G : X.Modules).val =>
-        pstalkHom φ x z) (inv_val_hom_val F G))).trans (pstalkHom_id _ x z)
-  obtain ⟨v, hv⟩ := (pstalkHom_toSheafify_bijective (F.val ⊗ G.val) x).2
-    (pstalkHom (tensorIsoObj F G).inv.val x z)
-  exact ⟨v, (pstalkHom_comp _ _ x v).trans
-    ((congrArg (pstalkHom (tensorIsoObj F G).hom.val x) hv).trans hw)⟩
+  obtain ⟨v, hv⟩ := ((pstalkHom_bijective_of_isIso
+    (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x).2.comp
+      (pstalkHom_toSheafify_bijective (F.val ⊗ G.val) x).2) z
+  exact ⟨v, (pstalkHom_comp _ _ x v).trans hv⟩
 
 end Surjective
 

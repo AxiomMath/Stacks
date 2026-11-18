@@ -51,10 +51,10 @@ namespace AlgebraicGeometry
 
 /-- The monoidal structure of [Stacks, Tag 01CA] on sheaves of modules over a scheme, as an
 instance on `AlgebraicGeometry.Scheme.Modules`: it is
-`Stacks.PullbackGradedAlgebra.monoidalCategory X.toRingedSpace`. -/
+`Stacks.PullbackGradedAlgebra.monoidalCategory X.toSheafedSpace`. -/
 @[instance_reducible]
 local instance monoidalOfScheme (X : Scheme.{u}) : MonoidalCategory X.Modules :=
-  Stacks.PullbackGradedAlgebra.monoidalCategory X.toRingedSpace
+  Stacks.PullbackGradedAlgebra.monoidalCategory X.toSheafedSpace
 
 /-- The induced map on a tensor product sheaf sends a local pure tensor `x ⊗ y`, written with
 `Stacks.PullbackTensorCoherence.tmul`, to the pure tensor `a x ⊗ b y`. -/

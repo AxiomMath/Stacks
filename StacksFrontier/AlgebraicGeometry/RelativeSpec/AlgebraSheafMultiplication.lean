@@ -121,8 +121,8 @@ theorem hom_ext_toTensorSheafSection (X : AlgebraicGeometry.RingedSpace.{u, u})
       (a.val.app U).hom (toTensorSheafSection X F G U (x ⊗ₜ[X.presheaf.obj U] y))
         = (b.val.app U).hom (toTensorSheafSection X F G U (x ⊗ₜ[X.presheaf.obj U] y))) :
     a = b := by
-  refine ((PresheafOfModules.sheafificationAdjunction (R := structureSheafRing X)
-    (𝟙 (structureSheafRing X).obj)).homEquiv
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).homEquiv
       (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) N).injective ?_
   exact PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (TensorProduct.ext' fun x y => h U x y)
@@ -304,9 +304,8 @@ sheafification adjunction; `multiplication_tmul` is its characterisation on pure
 def multiplication (A : AlgebraSheaf X) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf, (X).IsSheaf⟩).obj
       (underlyingModule A)).obj (underlyingModule A) ⟶ underlyingModule A :=
-  ((PresheafOfModules.sheafificationAdjunction
-      (R := structureSheafRing X.toRingedSpace)
-      (𝟙 (structureSheafRing X.toRingedSpace).obj)).homEquiv
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨(X).presheaf, (X).IsSheaf⟩).homEquiv
     (PresheafOfModules.tensorObj (O := X.presheaf) (underlyingModule A).val
       (underlyingModule A).val)
     (underlyingModule A)).symm (multiplicationPresheaf A)
@@ -319,13 +318,12 @@ theorem multiplication_toTensorSheafSection (A : AlgebraSheaf X) (U : (X.Opens)�
     ((multiplication A).val.app U).hom
         (toTensorSheafSection X.toRingedSpace (underlyingModule A) (underlyingModule A) U t)
       = PresheafOfModules.Hom.app (multiplicationPresheaf A) U t :=
-  congrArg (fun q => PresheafOfModules.Hom.app q U t)
-    (((PresheafOfModules.sheafificationAdjunction
-      (R := structureSheafRing X.toRingedSpace)
-      (𝟙 (structureSheafRing X.toRingedSpace).obj)).homEquiv
-      (PresheafOfModules.tensorObj (O := X.presheaf) (underlyingModule A).val
+  PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+      (R := ⟨(X).presheaf, (X).IsSheaf⟩)
+      (M := PresheafOfModules.tensorObj (O := X.presheaf) (underlyingModule A).val
         (underlyingModule A).val)
-      (underlyingModule A)).apply_symm_apply (multiplicationPresheaf A))
+      (N := underlyingModule A) (multiplicationPresheaf A)) U t
 
 /-- **The multiplication of an algebra sheaf, on pure tensors**: it sends the pure tensor of
 two sections of `A` over `U` to their product. -/

@@ -282,8 +282,7 @@ private lemma eq_zero_or_eq_zero_of_mul_eq_zero_of_finiteType (K A B : Type*) [F
       b.repr (Algebra.TensorProduct.lid K B
         (Algebra.TensorProduct.map φ (AlgHom.id K B) z)) i = φ (bA.repr z i) := by
     intro φ z i
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a m => simp [bA, Algebra.TensorProduct.basis_repr_tmul]
     | add z w hz hw => simp only [map_add, Finsupp.add_apply, hz, hw]
   have key : ∀ i j, bA.repr x i * bA.repr y j = 0 := by

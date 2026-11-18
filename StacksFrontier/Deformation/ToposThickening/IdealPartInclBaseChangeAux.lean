@@ -35,6 +35,8 @@ of the thickening (`Deformation.ComplexLift.idealPartIncl_app_comp_unit`) is pro
 
 ## Main results
 
+* `Deformation.ComplexLift.sheafTensorBraiding_hom_app_pureTensorClass`: the symmetry of the
+  tensor product sends `a ⊗ b` to `b ⊗ a`.
 * `Deformation.ComplexLift.sheafTensorBraiding_inv_app_pureTensorClass`: the inverse symmetry of
   the tensor product sends `b ⊗ a` to `a ⊗ b`.
 * `Deformation.ComplexLift.idealTensorRightIso_hom_app_pureTensorClass`: the projection formula
@@ -76,16 +78,25 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- The class in the sheaf tensor product `A ⊗_O B` of the pure tensor `a ⊗ b` of two local
-sections over `U`: the image of `a ⊗ₜ b` under the sheafification unit of the presheaf tensor
-product. -/
+sections over `U`: the image of `a ⊗ₜ b` under the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` of the presheaf tensor product. -/
 abbrev pureTensorClass (O : Sheaf J CommRingCat.{u})
     (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (U : Cᵒᵖ)
     (a : A.val.obj U) (b : B.val.obj U) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', u, u, u} O).obj A).obj B).val.obj U :=
-  ((PresheafOfModules.sheafificationAdjunction.{u, v', u, u'} (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
-      (PresheafOfModules.tensorObj A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b)
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+      (PresheafOfModules.tensorObj (O := O.obj) A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b)
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- The class of a pure tensor is also its image under the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. -/
+theorem pureTensorClass_eq (O : Sheaf J CommRingCat.{u})
+    (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (U : Cᵒᵖ)
+    (a : A.val.obj U) (b : B.val.obj U) :
+    pureTensorClass O A B U a b =
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
+        (PresheafOfModules.tensorObj (O := O.obj) A.val B.val)).app U (a ⊗ₜ[O.obj.obj U] b) :=
+  Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply O _ U _
 
 variable {O O₀ : Sheaf J CommRingCat.{u}}
 
@@ -97,18 +108,31 @@ private theorem val_app_comp_eq_self {D : Type*} [Category D] {K : GrothendieckT
   congrArg (fun k => (k.val.app U) x) w
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- **The symmetry of the tensor product on a pure tensor**: `a ⊗ b ↦ b ⊗ a`, i.e.
+`Stacks.SheafOfModules.Tensor.sheafTensorBraiding_hom_app_sheafifyUnit_tmul` in terms of
+`Deformation.ComplexLift.pureTensorClass`. -/
+theorem sheafTensorBraiding_hom_app_pureTensorClass
+    (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (U : Cᵒᵖ)
+    (a : A.val.obj U) (b : B.val.obj U) :
+    ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app A).hom.app B).val.app
+        U) (pureTensorClass O A B U a b) = pureTensorClass O B A U b a :=
+  (congrArg (fun y => ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app
+      A).hom.app B).val.app U) y) (pureTensorClass_eq O A B U a b)).trans
+    ((Stacks.SheafOfModules.Tensor.sheafTensorBraiding_hom_app_sheafifyUnit_tmul O A B U a b).trans
+      (pureTensorClass_eq O B A U b a).symm)
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The inverse symmetry of the tensor product on a pure tensor**: `b ⊗ a ↦ a ⊗ b`. It is the
-section formula for the symmetry,
-`Stacks.SheafOfModules.Tensor.sheafTensorBraiding_hom_app_sheafifyUnit_tmul`, read backwards. -/
+section formula for the symmetry, `sheafTensorBraiding_hom_app_pureTensorClass`, read
+backwards. -/
 theorem sheafTensorBraiding_inv_app_pureTensorClass
     (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (U : Cᵒᵖ)
     (a : A.val.obj U) (b : B.val.obj U) :
     ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app A).inv.app B).val.app
         U) (pureTensorClass O B A U b a) = pureTensorClass O A B U a b := by
-  have h := Stacks.SheafOfModules.Tensor.sheafTensorBraiding_hom_app_sheafifyUnit_tmul O A B U a b
   refine Eq.trans (congrArg
     (fun y => ((((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app A).inv.app
-      B).val.app U) y) h.symm) ?_
+      B).val.app U) y) (sheafTensorBraiding_hom_app_pureTensorClass A B U a b).symm) ?_
   exact val_app_comp_eq_self
     (((Stacks.SheafOfModules.Tensor.sheafTensorBraiding.{u', v', u} O).app A).hom_inv_id_app B) U _
 
@@ -131,7 +155,7 @@ theorem idealTensorRightIso_hom_app_pureTensorClass
   have h2 :=
     Stacks.Cohomology.MixedDerivedTensor.tensorBaseChangeLinearIso_hom_app_val_app_toSheafifyVal
       f M I₀ U i m
-  have h3 := Stacks.SheafOfModules.Tensor.sheafTensorBraiding_hom_app_sheafifyUnit_tmul O₀ I₀
+  have h3 := sheafTensorBraiding_hom_app_pureTensorClass I₀
     ((extensionOfScalars f).obj M) U i (((extendRestrictAdjunction f).unit.app M).val.app U m)
   refine Eq.trans (congrArg (fun y =>
       (((SheafOfModules.restrictScalars.{u} (ringSheafMapOf J f)).map
@@ -159,7 +183,8 @@ theorem idealAction_app_pureTensorClass
   have h1 := Stacks.SheafOfModules.FlatSquareZero.tensorLeft_map_tmul O M ι U m i
   have h2 := Stacks.SheafOfModules.tensorSheafUnitRightIso_hom_toSheafify_tmul O.obj
     (Stacks.SheafOfModules.structureRingIsSheaf O) M U m (ι.val.app U i)
-  exact (congrArg (fun y => (((tensorRightUnitIso O).hom.app M).val.app U) y) h1).trans h2
+  exact (congrArg (fun y => (((tensorRightUnitIso O).hom.app M).val.app U) y)
+    (h1.trans (pureTensorClass_eq O M _ U m (ι.val.app U i)))).trans h2
 
 /-- **The inclusion of the ideal part on a pure tensor**: `η(m) ⊗ i ↦ ι(i) • m`, `η` the unit of
 the extension/restriction-of-scalars adjunction along `f`. The class of `η(m) ⊗ i` is the image of

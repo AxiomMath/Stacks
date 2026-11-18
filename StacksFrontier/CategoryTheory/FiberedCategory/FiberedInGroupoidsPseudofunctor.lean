@@ -16,7 +16,8 @@ Stacks Lemma 003V says, for a functor `p : 𝒳 ⥤ 𝒮`:
   `f : V ⟶ U` and every `x` over `U`, the data `(U ↦ 𝒳_U, f ↦ f^*, α_{g,f}, α_U)` of Stacks 02XO
   form a pseudofunctor from `𝒮ᵒᵖ` to the `(2, 1)`-category of groupoids.
 
-The first two items are proved in `StacksCore/CategoryTheory/FiberedInGroupoidsEquiv.lean`. This file
+The first two items are proved in `StacksCore/CategoryTheory/FiberedInGroupoidsEquiv.lean`. This
+file
 supplies the third. For an arbitrary choice of pullbacks `c` (Stacks 02XN) of a fibred category,
 `CategoryTheory.Functor.ChoiceOfPullbacks.pseudofunctor` is the pseudofunctor of Stacks 02XO (3):
 its value at `U` is the fibre `𝒳_U`, its value at `f` is the pullback functor `f^*` of `c`, and its

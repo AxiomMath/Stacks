@@ -169,8 +169,8 @@ private theorem toTensorSheafSection_add_tmul (Y : RingedSpace.{u, u})
 
 /-- The comparison into the tensor product sheaf kills a pure tensor with zero left factor.
 
-Stated and proved in term mode.  The comparison is the component of
-`Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit`, so it sends `0` to `0` by
+Stated and proved in term mode.  The comparison is the component of the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, so it sends `0` to `0` by
 `map_zero`;  a goal naming the sections of a `sheafTensor` is not type-correct under `implicit`
 transparency — the structure sheaf of the ringed space reaches the topology `sheafTensor` is taken
 over only after both spellings unfold — so `rw` cannot build a motive on it, and would discard the
@@ -181,8 +181,9 @@ private theorem toTensorSheafSection_zero_tmul (Y : RingedSpace.{u, u})
     toTensorSheafSection Y A B (op V)
       ((0 : A.val.obj (op V)) ⊗ₜ[Y.presheaf.obj (op V)] t) = 0 :=
   (congrArg (toTensorSheafSection Y A B (op V)) (TensorProduct.zero_tmul _ t)).trans
-    (map_zero ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit Y
-      (PresheafOfModules.tensorObj (O := Y.presheaf) A.val B.val)).app (op V)).hom)
+    (map_zero (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := Y.presheaf) A.val B.val)).app (op V)).hom)
 
 /-! ### A pure tensor whose left factor is an ideal multiple -/
 

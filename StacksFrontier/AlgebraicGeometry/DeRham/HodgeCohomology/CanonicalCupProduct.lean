@@ -127,9 +127,7 @@ theorem multiplicationValue_singleMultiplication
     (x : ((singleNat F).X 0).val.obj U) (y : ((singleNat G).X 0).val.obj U) :
     multiplicationValue (singleMultiplication m) 0 0 U x y =
       (HomologicalComplex.singleObjXSelf (up ℕ) 0 H).inv.val.app U
-        (m.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (m.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj F.val G.val)).app U
             ((HomologicalComplex.singleObjXSelf (up ℕ) 0 F).hom.val.app U x ⊗ₜ[A.obj.obj U]
               (HomologicalComplex.singleObjXSelf (up ℕ) 0 G).hom.val.app U y))) := by
@@ -177,22 +175,15 @@ theorem singleMultiplication_assoc_value
     (m₃ : ((sheafTensor.{u, u, u, u, u} A).obj G).obj H ⟶ Q)
     (m₄ : ((sheafTensor.{u, u, u, u, u} A).obj F).obj Q ⟶ N)
     (hm : ∀ (U : (Opens X.carrier)ᵒᵖ) (x : F.val.obj U) (y : G.val.obj U) (z : H.val.obj U),
-      m₂.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      m₂.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj P.val H.val)).app U
-            (m₁.val.app U (((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+            (m₁.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
               (PresheafOfModules.tensorObj F.val G.val)).app U (x ⊗ₜ[A.obj.obj U] y))
               ⊗ₜ[A.obj.obj U] z)) =
-        m₄.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        m₄.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj F.val Q.val)).app U
-            (x ⊗ₜ[A.obj.obj U] m₃.val.app U (((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+            (x ⊗ₜ[A.obj.obj U] m₃.val.app U
+              (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
               (PresheafOfModules.tensorObj G.val H.val)).app U (y ⊗ₜ[A.obj.obj U] z))))) :
     ∀ (a b c : ℕ) (U : (Opens X.carrier)ᵒᵖ) (x : ((singleNat F).X a).val.obj U)
       (y : ((singleNat G).X b).val.obj U) (z : ((singleNat H).X c).val.obj U),
@@ -221,13 +212,9 @@ theorem singleMultiplication_comm_value
     (m : ((sheafTensor.{u, u, u, u, u} A).obj F).obj G ⟶ H)
     (m' : ((sheafTensor.{u, u, u, u, u} A).obj G).obj F ⟶ H)
     (hm : ∀ (U : (Opens X.carrier)ᵒᵖ) (x : F.val.obj U) (y : G.val.obj U),
-      m.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      m.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj F.val G.val)).app U (x ⊗ₜ[A.obj.obj U] y)) =
-        m'.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        m'.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj G.val F.val)).app U (y ⊗ₜ[A.obj.obj U] x))) :
     ∀ (a b : ℕ) (U : (Opens X.carrier)ᵒᵖ) (x : ((singleNat F).X a).val.obj U)
       (y : ((singleNat G).X b).val.obj U),
@@ -338,22 +325,15 @@ theorem isAssociativeTriple_tmul {p p' p'' r s t : ℕ} {m₁ : FormsMultiplicat
     {m₄ : FormsMultiplication B p t s} (h : IsAssociativeTriple B m₁ m₂ m₃ m₄)
     (U : (Opens X.carrier)ᵒᵖ) (x : (deRhamTerm B p).val.obj U) (y : (deRhamTerm B p').val.obj U)
     (z : (deRhamTerm B p'').val.obj U) :
-    m₂.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+    m₂.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj (deRhamTerm B r).val (deRhamTerm B p'').val)).app U
-          (m₁.val.app U (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+          (m₁.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
             (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B p').val)).app U
               (x ⊗ₜ[A.obj.obj U] y)) ⊗ₜ[A.obj.obj U] z)) =
-      m₄.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      m₄.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B t).val)).app U
-          (x ⊗ₜ[A.obj.obj U] m₃.val.app U (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+          (x ⊗ₜ[A.obj.obj U] m₃.val.app U
+            (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
             (PresheafOfModules.tensorObj (deRhamTerm B p').val (deRhamTerm B p'').val)).app U
               (y ⊗ₜ[A.obj.obj U] z)))) :=
   eq_of_heq (h U x y z)
@@ -365,14 +345,10 @@ theorem isScaledTranspose_tmul {p p' r : ℕ} {m : FormsMultiplication B p p' r}
     {m' : FormsMultiplication B p' p r} {k : ℤ} (h : IsScaledTranspose B m m' k)
     (U : (Opens X.carrier)ᵒᵖ) (x : (deRhamTerm B p).val.obj U)
     (y : (deRhamTerm B p').val.obj U) :
-    m.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+    m.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B p').val)).app U
           (x ⊗ₜ[A.obj.obj U] y)) =
-      (k • m').val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      (k • m').val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj (deRhamTerm B p').val (deRhamTerm B p).val)).app U
           (y ⊗ₜ[A.obj.obj U] x)) :=
   (eq_of_heq (h U x y)).trans (_root_.SheafOfModules.zsmul_val_app k m' U _).symm

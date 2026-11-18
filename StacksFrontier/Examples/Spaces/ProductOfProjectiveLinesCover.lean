@@ -64,7 +64,8 @@ The covering morphism in Stacks 078F is surjective, flat, universally open and q
 The morphism `projectiveLinePowCover` of this file is quasi-compact but not surjective, since the
 standard chart of `ℙ¹` misses a point in every component. The covering morphism of the tag is
 `AlgebraicGeometry.projectiveLinePowFlatCover` in
-`StacksFrontier/Examples/Spaces/ProductOfProjectiveLinesFlatCover.lean`, the product of copies of the
+`StacksFrontier/Examples/Spaces/ProductOfProjectiveLinesFlatCover.lean`, the product of copies of
+the
 disjoint union of the two standard charts; its quasi-compactness is
 `AlgebraicGeometry.quasiCompact_presheaf_powCover` of this file. The complete statement of the
 tag is `AlgebraicGeometry.ProjectiveLinePow.exists_fpqc_sheaf_not_isAlgebraicSpace`.

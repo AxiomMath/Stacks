@@ -101,7 +101,8 @@ complete accounting. In brief:
   `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_smoothCurve`, but over an
   explicit hypothesis `h03Q9` which bundles Stacks Tag 03Q9 with two further steps of the source's
   proof; the library has Tag 03Q9 itself, as `AlgebraicGeometry.stalkHigherDirectImageIso`, but
-  does not discharge that bundled hypothesis from it, so it cannot discharge a clause here. The sheaf-level fundamental
+  does not discharge that bundled hypothesis from it, so it cannot discharge a clause here. The
+  sheaf-level fundamental
   exact sequence of Stacks Tag 03RI and Stacks Tag 03RJ are not hypotheses of it: they are
   proved as `Stacks.EtaleCohomology.fundamentalSequence_shortExact` and
   `Stacks.EtaleCohomology.isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf`. It is

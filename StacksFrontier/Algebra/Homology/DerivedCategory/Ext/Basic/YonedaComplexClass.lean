@@ -724,7 +724,7 @@ lemma yonedaClass_hom [HasDerivedCategory 𝒜] {n : ℕ} (E : YonedaExtension B
       (Localization.SmallShiftedHom.mk₀Inv (0 : ℤ) rfl E.complexπ hπ).comp
         (Localization.SmallShiftedHom.mk _ E.complexι) (add_zero _) := ⟨_, rfl⟩
   have hyx : yonedaClass.{w} E = x := by
-    letI := HasDerivedCategory.standard 𝒜
+    let := HasDerivedCategory.standard 𝒜
     apply Ext.homEquiv.injective
     refine (Equiv.apply_symm_apply _ _).trans ?_
     rw [hx]

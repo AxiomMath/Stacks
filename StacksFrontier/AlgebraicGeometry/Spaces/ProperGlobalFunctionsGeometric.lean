@@ -26,7 +26,8 @@ All in the namespace `AlgebraicGeometry.Space`:
   **Tag 0DMY, part (5)**.
 * `irreducibleSpace_primeSpectrum_globalFunctions_tensorProduct_of_isGeometricallyIrreducible`:
   **Tag 0DMY, part (6)**.
-* `bijective_baseToGlobalFunctions_of_isGeometricallyConnected`: **Tag 0DMY, part (7)**, in its corrected form.
+* `bijective_baseToGlobalFunctions_of_isGeometricallyConnected`: **Tag 0DMY, part (7)**, in its
+  corrected form.
 * `bijective_baseToGlobalFunctions_of_isGeometricallyIntegral`: **Tag 0DMY, part (8)**.
 
 ## Implementation notes

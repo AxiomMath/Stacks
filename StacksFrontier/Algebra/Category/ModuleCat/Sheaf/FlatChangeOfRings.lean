@@ -73,6 +73,13 @@ in `baseChangeNatIsoOf`, each a definition whose declared result type pins the t
 Writing the presheaf-level lemmas across the two spellings instead makes the naturality proofs
 fail with "the target expression is not type-correct under the `implicit` transparency level".
 
+**Sealed sheafification.**  `Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies through the
+sealed `Stacks.SheafOfModules.Tensor.sheafification`, so a tensor product sheaf is not
+definitionally Mathlib's sheafification `Stacks.moduleSheafification` of the objectwise tensor
+product.  `sheafTensorFlipObjIso`, the whiskering of
+`Stacks.SheafOfModules.Tensor.sheafificationIso`, passes from one to the other; this file uses
+it in `tensorBaseChangeSheafIso` and in the proof of `isFlat_extendScalars`.
+
 ## References
 
 * [Stacks Project, Tag 05V4](https://stacks.math.columbia.edu/tag/05V4)
@@ -333,6 +340,20 @@ noncomputable def tensorRightExtendScalarsIso :
     (tensorRightNatTrans (O := O₂.obj) (toExtendScalarsVal f G)) (moduleSheafification O₂))
   exact e
 
+/-- Tensoring sheaves of modules on the right with `F` is forgetting to presheaves of modules,
+tensoring on the right with `F.val` and sheafifying with Mathlib's sheafification
+`Stacks.moduleSheafification`: the whiskering of `Stacks.SheafOfModules.Tensor.sheafificationIso`,
+which compares Mathlib's sheafification with the sealed one that
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends with. -/
+noncomputable def sheafTensorFlipObjIso (O : Sheaf J CommRingCat.{w})
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F ≅
+      SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
+        tensorRightOf O F.val ⋙ moduleSheafification O :=
+  Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O))
+    (Functor.isoWhiskerLeft (tensorRightOf O F.val)
+      (Stacks.SheafOfModules.Tensor.sheafificationIso O).symm)
+
 /-- The base-change isomorphism of `baseChangeNatIso`, retyped at the spelling of the
 sheaf-level statements. -/
 noncomputable def baseChangeNatIsoOf :
@@ -352,10 +373,13 @@ noncomputable def tensorBaseChangeSheafIso :
         tensorRightOf O₂ ((presheafExtendScalars f).obj G.val) ⋙
           moduleSheafification O₂ ⋙
             SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂) :=
-  Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-    (Functor.isoWhiskerRight (baseChangeNatIsoOf f G).symm
-      (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj ⋙
-        presheafToSheaf J AddCommGrpCat.{w}))
+  Functor.isoWhiskerLeft (SheafOfModules.restrictScalars (ringSheafMap f))
+      (Functor.isoWhiskerRight (sheafTensorFlipObjIso O₁ G)
+        (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁))) ≪≫
+    Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
+      (Functor.isoWhiskerRight (baseChangeNatIsoOf f G).symm
+        (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj ⋙
+          presheafToSheaf J AddCommGrpCat.{w}))
 
 /-- A functor into sheaves of modules preserves finite limits if it does so after forgetting to
 sheaves of abelian groups. -/
@@ -393,13 +417,14 @@ theorem isFlat_extendScalars (hG : SheafOfModules.IsFlat G) :
           tensorRightOf O₂ ((presheafExtendScalars f).obj G.val) ⋙
             moduleSheafification O₂) ⋙
         SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) := h₃
-  have h₄ := preservesFiniteLimits_of_natIso (Functor.isoWhiskerRight
-    (Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-      (tensorRightExtendScalarsIso f G))
-    (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂)))
-  have h₄' : PreservesFiniteLimits
+  have h₄ : PreservesFiniteLimits
       ((Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj ((extendScalars f).obj G) ⋙
-      SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) := h₄
+      SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :=
+    preservesFiniteLimits_of_natIso (Functor.isoWhiskerRight
+      (Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
+          (tensorRightExtendScalarsIso f G) ≪≫
+        (sheafTensorFlipObjIso O₂ ((extendScalars f).obj G)).symm)
+      (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂)))
   exact preservesFiniteLimits_of_comp_toSheaf _
 
 end Sheaf

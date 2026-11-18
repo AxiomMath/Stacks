@@ -308,15 +308,14 @@ theorem principalPartsInclusion_comp_projection :
       (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).Additive :=
     _root_.SheafOfModules.instAdditivePresheafOfModulesObjFunctorOppositeRingCatIsSheafForget _
   refine eq_zero_of_adjunction_homEquiv_eq_zero
-    (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)) _ ?_
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂) _ ?_
   refine Eq.trans (Adjunction.homEquiv_naturality_right _ _ _) ?_
   refine Eq.trans (congrArg (fun g ↦ g ≫
       (_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).map
         ((principalPartsProjection.{v, u, w, m}
           (underlyingRingSheafMapOfSite φ) 1).app F))
-    (Equiv.apply_symm_apply ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv
+    (Equiv.apply_symm_apply
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv
       (PresheafOfModules.tensorObj F.val
         (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)
       (principalPartsOne.{v, u, w, m} φ F))
@@ -352,8 +351,9 @@ theorem map_smul_comp_universalDiffOp (X : Cᵒᵖ)
         (universalDiffOp.{v, u, w, m} (underlyingRingSheafMapOfSite φ) F 1 X x) := by
   have h1 : (k.val.app X).hom
       ((((principalPartsInclusion.{v, u, w, m} φ).app F).val.app X).hom
-        (((toSheafify J (PresheafOfModules.tensorObj F.val
-            (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val).presheaf).app X).hom
+        ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+            (PresheafOfModules.tensorObj F.val
+              (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)).app X).hom
           (x ⊗ₜ[(Oforget O₂.obj).obj X]
             (universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).d b))) = 0 :=
     sheafHom_val_app_apply_eq_zero hk X _

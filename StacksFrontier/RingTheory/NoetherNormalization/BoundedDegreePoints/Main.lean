@@ -42,8 +42,7 @@ theorem TensorProduct.exists_smul_mem_range_includeRight (R B : Type*) [CommRing
     [IsDomain R] [CommRing B] [Algebra R B] (t : FractionRing R ⊗[R] B) :
     ∃ s : R, s ≠ 0 ∧
       s • t ∈ (Algebra.TensorProduct.includeRight : B →ₐ[R] FractionRing R ⊗[R] B).range := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨1, one_ne_zero, by rw [smul_zero]; exact Subalgebra.zero_mem _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     obtain ⟨⟨r, t⟩, ht⟩ := IsLocalization.surj (nonZeroDivisors R) a
     refine ⟨t, nonZeroDivisors.ne_zero t.2, r • b, ?_⟩
@@ -81,8 +80,7 @@ theorem ringKrullDim_tensorProduct_le_zero_of_isIntegral {R B k : Type*} [CommRi
       simp [Φ, ι, Algebra.TensorProduct.algebraMap_apply]
   have : Algebra.IsIntegral k (k ⊗[R] B) := by
     refine ⟨fun x => ?_⟩
-    induction x using TensorProduct.induction_on with
-    | zero => exact isIntegral_zero
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       have h : a ⊗ₜ[R] b = algebraMap k (k ⊗[R] B) a * (1 ⊗ₜ b) := by
         simp [Algebra.TensorProduct.algebraMap_apply]

@@ -54,7 +54,8 @@ states [Stacks, Tag 0G0K], whose base change `X ×_S S₁` the stages below are 
 theorem below as four propositions about perfect objects, diagonal kernels and convolution
 kernels alone; nothing about relative equivalences is assumed. What is proved here is the
 assembly that the source's proof performs with them. All four propositions are proved in
-`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceLimitDescent.lean`,
+`RelativeEquivalenceLimitDescent.lean` of
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/`,
 which imports this module, and the theorem with the four discharged is
 `AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_limit`, [Stacks, Tag 0G0L].
 
@@ -121,12 +122,12 @@ def baseChangeStage (x : X₀ ⟶ S₀) (hu : u ≫ s = s') : pullback x s' ⟶ 
 @[reassoc (attr := simp)]
 lemma baseChangeStage_fst (x : X₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeStage x hu ≫ pullback.fst x s = pullback.fst x s' := by
-  simp [baseChangeStage, pullback.map, pullback.lift_fst]
+  simp [baseChangeStage, pullback.map]
 
 @[reassoc (attr := simp)]
 lemma baseChangeStage_snd (x : X₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeStage x hu ≫ pullback.snd x s = pullback.snd x s' ≫ u := by
-  simp [baseChangeStage, pullback.map, pullback.lift_snd]
+  simp [baseChangeStage, pullback.map]
 
 /-- The comparison morphisms of a tower of base changes compose. -/
 lemma baseChangeStage_comp (x : X₀ ⟶ S₀) (hu : u ≫ s = s') (hv : v ≫ s' = s'')
@@ -146,13 +147,13 @@ def baseChangeProduct (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s'
 lemma baseChangeProduct_fst (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeProduct x y hu ≫ pullback.fst (pullback.snd x s) (pullback.snd y s) =
       pullback.fst (pullback.snd x s') (pullback.snd y s') ≫ baseChangeStage x hu := by
-  simp [baseChangeProduct, pullback.map, pullback.lift_fst]
+  simp [baseChangeProduct, pullback.map]
 
 @[reassoc (attr := simp)]
 lemma baseChangeProduct_snd (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeProduct x y hu ≫ pullback.snd (pullback.snd x s) (pullback.snd y s) =
       pullback.snd (pullback.snd x s') (pullback.snd y s') ≫ baseChangeStage y hu := by
-  simp [baseChangeProduct, pullback.map, pullback.lift_snd]
+  simp [baseChangeProduct, pullback.map]
 
 /-- **The cocycle identity of the tower of fibre products.** -/
 lemma baseChangeProduct_comp (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') (hv : v ≫ s' = s'')
@@ -506,7 +507,8 @@ lemma exists_isRelativeEquivalenceKernel_of_stage
     ⟨(derivedPullback (baseChangeProduct x x
       (D.transition_comp_transition (hi.trans hij) hjk)).toLRSHom.toShHom).mapIso g₁⟩
 
-/-- **The assembly of [Stacks, Tag 0G0L] from its four inputs.** Let `S = lim S_i` be the limit of a directed inverse system of quasi-compact and
+/-- **The assembly of [Stacks, Tag 0G0L] from its four inputs.** Let `S = lim S_i` be the limit of a
+directed inverse system of quasi-compact and
 quasi-separated schemes with affine transition morphisms, with a chosen index `0`, let
 `X_0 ⟶ S_0` and `Y_0 ⟶ S_0` be smooth and proper, and put `X_i = X_0 ×_{S_0} S_i`,
 `X = X_0 ×_{S_0} S` and likewise for `Y_0`. If `K` is the Fourier-Mukai kernel of a relative

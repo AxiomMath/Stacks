@@ -34,7 +34,7 @@ section of `𝒪_X` in `ℱ^{[k]}` is divisible by `g^k`.
 
 open CategoryTheory MonoidalCategory AlgebraicGeometry Opposite TopologicalSpace
 open Stacks.AlgebraicGeometry.ReflexiveModules (reflexiveHull toDoubleDual)
-open Stacks.SheafOfModules.TensorStalkRingedSpace (toTensorSheafSection sheafifyUnit)
+open Stacks.SheafOfModules.TensorStalkRingedSpace (toTensorSheafSection)
 open Stacks.SheafOfModules.OnSpace (tensorObjTmul unitSection)
 open scoped TensorProduct
 
@@ -92,7 +92,9 @@ theorem exists_transition_app_eq_smul (n : ℕ) (D : X.Opens) (e : Γ(F, D)) (g 
         (TensorProduct.smul_tmul' g e b).symm
       refine (congrArg (toTensorSheafSection X.toRingedSpace F (reflexivePower F (n + 1))
         (op D)) h3).trans ?_
-      exact ((sheafifyUnit X.toRingedSpace _).app (op D)).hom.map_smul g _
+      exact (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app _).app (op D)).hom.map_smul
+          g _
     refine (congrArg (Scheme.Modules.Hom.app (toDoubleDual _) D) (hmul.trans hsm)).trans ?_
     exact Scheme.Modules.Hom.app_smul _ g _
 

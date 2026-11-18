@@ -509,7 +509,8 @@ functors are essentially surjective. The induction splits off the last point by 
 comparison functor and applies the induction hypothesis to the remaining points. This is the
 essential surjectivity half of Stacks 0E92, which is
 `AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_comparisonFunctor_closedPoints`
-of `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedPointsGlueingEquivalence`;
+of
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedPointsGlueingEquivalence`;
 there the tower is constructed. -/
 theorem essSurj_comparisonFunctor :
     ∀ (n : ℕ) (D : ClosedPointsGlueingData B S hS n), Solvable n D →

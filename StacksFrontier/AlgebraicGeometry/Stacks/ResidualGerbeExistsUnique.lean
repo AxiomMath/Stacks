@@ -77,7 +77,8 @@ which is `AlgebraicGeometry.Stack.exists_reduction`, the reduced closed substack
 
 The equivalence of conditions (2) and (3) is
 `AlgebraicGeometry.Stack.hasReducedSingletonPointMonomorphism_iff_hasFlatFieldCoverMonomorphism`
-of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeEquivalentConditions`, which also states the
+of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeEquivalentConditions`, which also states
+the
 equivalences of (1) with (2) and with (3), both proved there through
 `AlgebraicGeometry.Stack.exists_reduction`.
 

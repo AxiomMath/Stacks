@@ -148,20 +148,15 @@ public noncomputable def twistTensorSections (n : ℕ) (m : ℤ)
     := by
     exact ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj
       (ProjectiveSpectrum.Proj.structureSheaf 𝒮)).property
-  letI : MonoidalCategory
-      (PresheafOfModules.{u}
-        (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
-    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
-  exact (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
-    ((twistingSheaf 𝒮 (n : ℤ)).val ⊗ (twistSheafOfModules 𝒮 F m).val)).app (op ⊤)
-      (s ⊗ₜ[(O.obj (op ⊤))] t)
+  exact Stacks.SheafOfModules.tensorSectionsAt O hO (op ⊤) (twistingSheaf 𝒮 (n : ℤ))
+    (twistSheafOfModules 𝒮 F m) s t
 
 private theorem twistTensorSections_add_left (n : ℕ) (m : ℤ)
     (s₁ s₂ : twistGlobalSections 𝒮 n)
     (t : (twistSheafOfModules 𝒮 F m).val.obj (op ⊤)) :
     twistTensorSections 𝒮 F n m (s₁ + s₂) t =
       twistTensorSections 𝒮 F n m s₁ t + twistTensorSections 𝒮 F n m s₂ t := by
-  simp only [twistTensorSections, TensorProduct.add_tmul]
+  simp only [twistTensorSections, Stacks.SheafOfModules.tensorSectionsAt, TensorProduct.add_tmul]
   exact map_add _ _ _
 
 private theorem twistTensorSections_add_right (n : ℕ) (m : ℤ)
@@ -169,19 +164,19 @@ private theorem twistTensorSections_add_right (n : ℕ) (m : ℤ)
     (t₁ t₂ : (twistSheafOfModules 𝒮 F m).val.obj (op ⊤)) :
     twistTensorSections 𝒮 F n m s (t₁ + t₂) =
       twistTensorSections 𝒮 F n m s t₁ + twistTensorSections 𝒮 F n m s t₂ := by
-  simp only [twistTensorSections, TensorProduct.tmul_add]
+  simp only [twistTensorSections, Stacks.SheafOfModules.tensorSectionsAt, TensorProduct.tmul_add]
   exact map_add _ _ _
 
 private theorem twistTensorSections_zero_left (n : ℕ) (m : ℤ)
     (t : (twistSheafOfModules 𝒮 F m).val.obj (op ⊤)) :
     twistTensorSections 𝒮 F n m 0 t = 0 := by
-  simp only [twistTensorSections, TensorProduct.zero_tmul]
+  simp only [twistTensorSections, Stacks.SheafOfModules.tensorSectionsAt, TensorProduct.zero_tmul]
   exact map_zero _
 
 private theorem twistTensorSections_zero_right (n : ℕ) (m : ℤ)
     (s : twistGlobalSections 𝒮 n) :
     twistTensorSections 𝒮 F n m s 0 = 0 := by
-  simp only [twistTensorSections, TensorProduct.tmul_zero]
+  simp only [twistTensorSections, Stacks.SheafOfModules.tensorSectionsAt, TensorProduct.tmul_zero]
   exact map_zero _
 
 /-- The product of a global section of `𝒪(n)` and a global section of `ℱ(m)`, a global section of
@@ -442,8 +437,8 @@ theorem pureTensorSection_hom_ext
       f.val.app (op U) (pureTensorSection 𝒮 M N U x y) =
         g.val.app (op U) (pureTensorSection 𝒮 M N U x y)) :
     f = g := by
-  apply ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction (projStructureRing 𝒮)
-    (projStructureRingIsSheaf 𝒮)).homEquiv _ P).injective
+  apply ((Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction
+    (projStructureRing 𝒮) (projStructureRingIsSheaf 𝒮)).homEquiv _ P).injective
   apply PresheafOfModules.hom_ext
   intro U
   apply ModuleCat.hom_ext

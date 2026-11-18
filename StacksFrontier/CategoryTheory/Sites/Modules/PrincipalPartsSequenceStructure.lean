@@ -125,17 +125,16 @@ structure PrincipalPartsSequence (O₁ O₂ : Sheaf J CommRingCat.{w})
   inclusion : (Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj
       (derivationsFunctor.{m} O₁ O₂ φ).coreprX ⟶ principalParts
   /-- The inclusion sends `x ⊗ d b` to `D (b x) - b D x`, where `D` is the universal
-  operator. -/
+  operator; `x ⊗ d b` is seen in the sheafified tensor product through the unit of the
+  sealed sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
   inclusion_universal (F : moduleSheaves.{v, u, w, m} O₂)
       (X : Cᵒᵖ) (b : O₂.obj.obj X) (x : F.val.obj X) :
     letI := differentialOperatorsFunctor_isCorepresentable.{v, u, w, m}
       ((sheafCompose J (forget₂ CommRingCat.{w} RingCat.{w})).map φ) F 1;
     ((inclusion.app F).val.app X).hom
-      (((toSheafify J
-        ((PresheafOfModules.tensorRight
-          (O := O₂.obj)
-          (derivationsFunctor.{m} O₁ O₂ φ).coreprX.val).obj
-            F.val).presheaf).app X).hom
+      ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+          (PresheafOfModules.tensorObj F.val
+            (derivationsFunctor.{m} O₁ O₂ φ).coreprX.val)).app X).hom
         (x ⊗ₜ[_] ((derivationsFunctor.{m} O₁ O₂ φ).coreprx.d b))) =
       ((eqToHom (principalParts_obj F).symm).val.app X).hom
         ((differentialOperatorsFunctor.{v, u, w, m}

@@ -99,8 +99,7 @@ theorem rightTensorHom_comp_algebraMap :
 theorem topHom_comp_midHom :
     (topHom R R' B A' B').comp (midHom R R' A B A') = tensorHom R R' A B A' B' := by
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     simp only [RingHom.comp_apply] at hx hy ⊢
     rw [_root_.map_add, _root_.map_add, _root_.map_add, hx, hy]
@@ -140,11 +139,11 @@ theorem extendScalars_hom_tmul {S T : Type u} [CommRing S] [CommRing T] (f : S �
 /-- Induction over the elements of an extension of scalars. -/
 theorem extendScalars_induction {S T : Type u} [CommRing S] [CommRing T] (f : S →+* T)
     {M : ModuleCat.{u} S} {P : (ModuleCat.extendScalars.{u, u, u} f).obj M → Prop}
-    (h0 : P 0) (hadd : ∀ x y, P x → P y → P (x + y))
+    (hadd : ∀ x y, P x → P y → P (x + y))
     (htmul : ∀ (t : T) (m : M), P (t ⊗ₜ[S,f] m))
     (x : (ModuleCat.extendScalars.{u, u, u} f).obj M) :
     P x :=
-  TensorProduct.induction_on (motive := P) x h0 htmul hadd
+  TensorProduct.inductionOn (motive := P) x htmul hadd
 
 
 /-- Restricting scalars along `g` and acting by `x` on `1 ⊗ m` gives `g x ⊗ m`. -/
@@ -370,7 +369,6 @@ theorem rightTranspose_rightGenTranspose
           ((ModuleCat.restrictScalars.{u} (algebraMap R' A')).mapDerivedCategory.obj
               N)).hom x) := by
   induction x using extendScalars_induction with
-  | h0 => simp only [_root_.map_zero]
   | hadd x y hx hy => simp only [_root_.map_add, hx, hy]
   | htmul t m =>
     refine (congrArg ((ModuleCat.restrictScalars.{u} (includeRightRingHom R' A' B')).map
@@ -409,7 +407,6 @@ theorem rightGenTranspose_surjective :
       ∃ y, (rightGenTranspose (R := R) (R' := R') (B := B) (B' := B') N i).hom y = x from h
   intro x
   induction x using extendScalars_induction with
-  | h0 => exact ⟨0, _root_.map_zero _⟩
   | hadd x y hx hy =>
     obtain ⟨a, ha⟩ := hx
     obtain ⟨b, hb⟩ := hy
@@ -420,10 +417,7 @@ theorem rightGenTranspose_surjective :
         (rightGenTranspose (R := R) (R' := R') (B := B) (B' := B') N i).hom y =
           c ⊗ₜ[A' ⊗[R'] (R' ⊗[R] B), topHom R R' B A' B'] m from h
     intro c
-    induction c using TensorProduct.induction_on with
-    | zero => exact ⟨0, (_root_.map_zero _).trans
-        (TensorProduct.zero_tmul (M := ↑((ModuleCat.restrictScalars.{u} (topHom R R' B A' B')).obj
-            (ModuleCat.of (A' ⊗[R'] B') (A' ⊗[R'] B')))) m).symm⟩
+    induction c using TensorProduct.inductionOn with
     | add c c' hc hc' =>
       obtain ⟨a, ha⟩ := hc
       obtain ⟨b, hb⟩ := hc'
@@ -814,15 +808,6 @@ theorem leftTranspose_leftGenTranspose
         (((localizedBaseChangeCohomologyComparison (R := R) (A := A) (A₂ := A') (R' := B)
           i).app M).hom x) := by
   induction x using extendScalars_induction with
-  | h0 =>
-    have hl := (leftGenTranspose (R := R) (R' := R') (B := B) (A' := A') M i).hom.map_zero
-    have hr := ((localizedBaseChangeCohomologyComparison (R := R) (A := A) (A₂ := A') (R' := B)
-      i).app M).hom.map_zero
-    exact ((congrArg ((ModuleCat.restrictScalars.{u} (includeLeftRingHom R' A' (R' ⊗[R] B))).map
-        (leftTranspose (R := R) (R' := R') (B := B) (A' := A') M i)).hom hl).trans
-        (_root_.map_zero _)).trans
-      ((congrArg (middleLeftHom (R := R) (R' := R') (B := B) (A' := A') M i).hom hr).trans
-        (_root_.map_zero _)).symm
   | hadd x y hx hy =>
     have hl := (leftGenTranspose (R := R) (R' := R') (B := B) (A' := A') M i).hom.map_add x y
     have hr := ((localizedBaseChangeCohomologyComparison (R := R) (A := A) (A₂ := A') (R' := B)
@@ -888,7 +873,6 @@ theorem leftGenTranspose_surjective :
       ∃ y, (leftGenTranspose (R := R) (R' := R') (B := B) (A' := A') M i).hom y = x from h
   intro x
   induction x using extendScalars_induction with
-  | h0 => exact ⟨0, _root_.map_zero _⟩
   | hadd x y hx hy =>
     obtain ⟨a, ha⟩ := hx
     obtain ⟨b, hb⟩ := hy
@@ -899,10 +883,7 @@ theorem leftGenTranspose_surjective :
         (leftGenTranspose (R := R) (R' := R') (B := B) (A' := A') M i).hom y = d ⊗ₜ[A ⊗[R] B,
             midHom R R' A B A'] m from h
     intro d
-    induction d using TensorProduct.induction_on with
-    | zero => exact ⟨0, (_root_.map_zero _).trans
-        (TensorProduct.zero_tmul (M := ↑((ModuleCat.restrictScalars.{u} (midHom R R' A B A')).obj
-            (ModuleCat.of (A' ⊗[R'] (R' ⊗[R] B)) (A' ⊗[R'] (R' ⊗[R] B))))) m).symm⟩
+    induction d using TensorProduct.inductionOn with
     | add c c' hc hc' =>
       obtain ⟨a, ha⟩ := hc
       obtain ⟨b, hb⟩ := hc'
@@ -910,13 +891,7 @@ theorem leftGenTranspose_surjective :
         (TensorProduct.add_tmul (M := ↑((ModuleCat.restrictScalars.{u} (midHom R R' A B A')).obj
             (ModuleCat.of (A' ⊗[R'] (R' ⊗[R] B)) (A' ⊗[R'] (R' ⊗[R] B))))) c c' m).symm)⟩
     | tmul a' β =>
-      induction β using TensorProduct.induction_on with
-      | zero =>
-        exact ⟨0, (_root_.map_zero _).trans
-          ((TensorProduct.zero_tmul (M := ↑((ModuleCat.restrictScalars.{u} (midHom R R' A B A')).obj
-            (ModuleCat.of (A' ⊗[R'] (R' ⊗[R] B)) (A' ⊗[R'] (R' ⊗[R] B))))) m).symm.trans
-            (congrArg (fun c : A' ⊗[R'] (R' ⊗[R] B) => c ⊗ₜ[A ⊗[R] B, midHom R R' A B A'] m)
-              (TensorProduct.tmul_zero _ a').symm))⟩
+      induction β using TensorProduct.inductionOn with
       | add β β' hβ hβ' =>
         obtain ⟨a, ha⟩ := hβ
         obtain ⟨b, hb⟩ := hβ'

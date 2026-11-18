@@ -179,33 +179,18 @@ local instance stacksIsInvertible_negativeTwist' (D : X.IdealSheafData)
   isTensorInvertible_negativeTwist D
 
 /-- **Two morphisms out of a tensor product sheaf agreeing on local pure tensors are equal.**
-Every section of `A ⊗ B` is locally a finite sum of images of pure tensors under the
-sheafification unit, and `Stacks.SheafOfModules.hom_ext_toSheafify` reduces an equality of
-morphisms to those images; the reduction from an arbitrary element of the presheaf tensor
-product to a pure tensor is `TensorProduct.ext'`. -/
+`A ⊗ B` is the sealed sheafification of the presheaf tensor product, and
+`Stacks.SheafOfModules.Tensor.sheafification_hom_ext` reduces an equality of morphisms out of it
+to an equality after the sheafification unit; the reduction from an arbitrary element of the
+presheaf tensor product to a pure tensor is `TensorProduct.ext'`. -/
 private theorem hom_ext_tensorPt {A B E : X.Modules}
     (f g : Scheme.Modules.tensorObj A B ⟶ E)
     (h : ∀ (V : (Opens X)ᵒᵖ) (a : A.val.obj V) (b : B.val.obj V),
       (f.val.app V).hom (tensorPt X.sheaf.obj X.ringCatSheaf.property A B V a b) =
         (g.val.app V).hom (tensorPt X.sheaf.obj X.ringCatSheaf.property A B V a b)) :
-    f = g := by
-  have key : Stacks.SheafOfModules.TensorSheafification.toSheafify X.sheaf.obj
-        X.ringCatSheaf.property (A.val ⊗ B.val) ≫
-      (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf
-            X.sheaf.obj X.ringCatSheaf.property) ⋙
-          PresheafOfModules.restrictScalars
-            (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf X.sheaf.obj
-              X.ringCatSheaf.property).obj)).map f =
-      Stacks.SheafOfModules.TensorSheafification.toSheafify X.sheaf.obj
-        X.ringCatSheaf.property (A.val ⊗ B.val) ≫
-      (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf
-            X.sheaf.obj X.ringCatSheaf.property) ⋙
-          PresheafOfModules.restrictScalars
-            (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf X.sheaf.obj
-              X.ringCatSheaf.property).obj)).map g :=
+    f = g :=
+  Stacks.SheafOfModules.Tensor.sheafification_hom_ext <|
     PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext (TensorProduct.ext' (h V))
-  exact Stacks.SheafOfModules.hom_ext_toSheafify X.sheaf.obj X.ringCatSheaf.property f g
-    fun V t => PresheafOfModules.hom_congr_apply key V t
 
 /-- **The evaluation pairing of `𝒪_X(D)` with `ℐ_D` at the canonical section, on a local pure
 tensor.** Multiplication by `1_D` sends `r` to `r · ι|_V`, the pairing evaluates that functional
@@ -231,14 +216,18 @@ private theorem evaluation_canonicalSectionHom_tmul (D : X.IdealSheafData) (W : 
             (SheafOfModules.unit X.ringCatSheaf) (negativeTwist' D) (op W) r s) =
       tensorPt X.sheaf.obj X.ringCatSheaf.property (invertibleSheaf' D)
         (negativeTwist' D) (op W) (r • canonicalSectionComponent D W) s :=
-    Stacks.SheafOfModules.sheafify_map_toSheafify_app X.sheaf.obj X.ringCatSheaf.property
+    Stacks.SheafOfModules.Tensor.unit_naturality_apply
       ((canonicalSectionHom D).val ▷ (negativeTwist' D).val) (op W) (r ⊗ₜ s)
   have hunitor : ((tensorProductLeftUnitor X.sheaf.obj X.ringCatSheaf.property
         (negativeTwist' D)).hom.val.app (op W)).hom
           (tensorPt X.sheaf.obj X.ringCatSheaf.property
             (SheafOfModules.unit X.ringCatSheaf) (negativeTwist' D) (op W) r s) = r • s :=
-    Stacks.SheafOfModules.tensorSheafLeftUnitor_hom_val_app_tmul X.sheaf.obj
-      X.ringCatSheaf.property (negativeTwist' D) (op W) r s
+    (congrArg (fun e => (e.hom.val.app (op W)).hom (tensorPt X.sheaf.obj X.ringCatSheaf.property
+        (SheafOfModules.unit X.ringCatSheaf) (negativeTwist' D) (op W) r s))
+      (Stacks.SheafOfModules.tensorSheafLeftUnitor_eq_tensorProductLeftUnitor X.sheaf.obj
+        X.ringCatSheaf.property (negativeTwist' D))).symm.trans
+    (Stacks.SheafOfModules.tensorSheafLeftUnitor_hom_val_app_tmul X.sheaf.obj
+      X.ringCatSheaf.property (negativeTwist' D) (op W) r s)
   have heval : ((evaluation X.sheaf.obj X.ringCatSheaf.property
         (negativeTwist' D)).val.app (op W)).hom
         (tensorPt X.sheaf.obj X.ringCatSheaf.property (invertibleSheaf' D)

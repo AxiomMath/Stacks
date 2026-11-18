@@ -414,6 +414,48 @@ namespace Stacks.SheafOfModules.TensorPower
 
 open CategoryTheory MonoidalCategory Stacks.MonoidalCategory
 
+section SealedCounit
+
+open Stacks.SheafOfModules.Tensor
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+
+/-- The counit of `sheafificationForgetAdjunction R` is the counit of `sheafificationAdjunction R`
+after the sealed sheafification of `forgetCompRestrictScalarsIdIso R`. -/
+private lemma sheafificationForgetAdjunction_counit_app (M : SheafOfModules.{w} (ringSheaf R)) :
+    (sheafificationForgetAdjunction R).counit.app M =
+      (sheafification R).map ((forgetCompRestrictScalarsIdIso R).inv.app M) ≫
+        (sheafificationAdjunction R).counit.app M := by
+  rw [← Adjunction.homEquiv_symm_id, sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp, Adjunction.homEquiv_counit]
+
+omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
+/-- Restricting scalars along the identity does not change a morphism of presheaves of modules
+into the underlying presheaf of a sheaf of modules. -/
+private lemma comp_forgetCompRestrictScalarsIdIso_inv_app
+    {P : PresheafOfModules.{w} (ringSheaf R).obj} (M : SheafOfModules.{w} (ringSheaf R))
+    (f : P ⟶ M.val) : f ≫ (forgetCompRestrictScalarsIdIso R).inv.app M = f := by
+  ext X x
+  rfl
+
+/-- After the sealed sheafification of a morphism into the underlying presheaf of a sheaf of
+modules, the counits of `sheafificationForgetAdjunction R` and `sheafificationAdjunction R`
+agree. -/
+private lemma sheafification_map_comp_forget_counit_app
+    {P : PresheafOfModules.{w} (ringSheaf R).obj} (M : SheafOfModules.{w} (ringSheaf R))
+    (f : P ⟶ M.val) :
+    (sheafification R).map f ≫ (sheafificationForgetAdjunction R).counit.app M =
+      (sheafification R).map f ≫ (sheafificationAdjunction R).counit.app M := by
+  rw [sheafificationForgetAdjunction_counit_app]
+  exact ((sheafification R).map_comp_assoc f _ _).symm.trans
+    (congrArg (fun g : P ⟶ (SheafOfModules.forget (ringSheaf R) ⋙
+        PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj)).obj M ↦
+      (sheafification R).map g ≫ (sheafificationAdjunction R).counit.app M)
+      (comp_forgetCompRestrictScalarsIdIso_inv_app R M f))
+
+end SealedCounit
+
 attribute [local instance] Stacks.SheafOfModules.Strict.monoidalCategory
   Stacks.SheafOfModules.Strict.braidedCategory
 
@@ -499,7 +541,8 @@ theorem tensorPowerOneIso_eq_powOneIso
     tensorPowerOneIso O hO L = powOneIso L := by
   change tensorPowerOneIso O hO L = λ_ L
   rw [Stacks.SheafOfModules.leftUnitor_eq_tensorSheafLeftUnitor]
-  exact rfl
+  exact Iso.ext (sheafification_map_comp_forget_counit_app
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ L _)
 
 section Coherence
 

@@ -10,7 +10,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorSheafificati
 For modules `M` and `N` over a commutative ring `R`, a pair of module maps `M ⟶ M'` and
 `N ⟶ N'` induces a map of tensor-product sheaves
 `M̃ ⊗ Ñ ⟶ M̃' ⊗ Ñ'` on `Spec R`, where the tensor product of sheaves of modules is
-`Stacks.SheafOfModules.TensorSheafification.tensorSheaf`, the sheafification of the sectionwise
+`Stacks.SheafOfModules.Tensor.sheafTensor`, the sheafification of the sectionwise
 tensor-product presheaf.
 
 ## Main definitions
@@ -22,8 +22,9 @@ tensor-product presheaf.
 
 The affine scheme is presented as `Spec R` and Mathlib's `AlgebraicGeometry.tilde` is
 its associated-sheaf construction. The induced map is built by applying the sheafification
-functor to the tensor product of the two underlying presheaf morphisms, so it is the
-sheafification of the sectionwise map.
+functor `Stacks.SheafOfModules.Tensor.sheafification` (the one inside `sheafTensor`) to the
+tensor product of the two underlying presheaf morphisms, so it is the sheafification of the
+sectionwise map.
 
 ## References
 
@@ -48,8 +49,9 @@ public noncomputable def tildeTensorSheafMap (R : CommRingCat.{u})
       ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Spec R).presheaf,
         Presheaf.isSheaf_of_isSheaf_comp _ (Spec R).presheaf (forget₂ CommRingCat RingCat)
           (Spec R).ringCatSheaf.2⟩).obj (tilde M')).obj (tilde N') :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify (Spec R).presheaf (Spec
-    R).ringCatSheaf.2).map
+  (Stacks.SheafOfModules.Tensor.sheafification ⟨(Spec R).presheaf,
+      Presheaf.isSheaf_of_isSheaf_comp _ (Spec R).presheaf (forget₂ CommRingCat RingCat)
+        (Spec R).ringCatSheaf.2⟩).map
     (PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := (Spec R).presheaf)
       (tilde.map f).val (tilde.map g).val)
 

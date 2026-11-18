@@ -56,10 +56,12 @@ degreewise cokernel of graded modules already use.
 
 **Why the pieces agree on the nose.** `SheafOfModules.PreGradedModule.sheafifyPiece` applies
 `PresheafOfModules.sheafification (𝟙 R.obj)` to the piece, and
-`Stacks.SheafOfModules.Tensor.sheafTensor` applies the very same functor to the
-very same presheaf, so `tensorLeft_piece` holds by `rfl`. Consequently every statement about
-the tensor product sheaves `F ⊗ Mⁿ` — cohomological, or about quasi-coherence — is literally a
-statement about the homogeneous pieces of `F ⊗ M`, and no transport intervenes.
+`Stacks.SheafOfModules.Tensor.sheafTensor` applies the sealed
+`Stacks.SheafOfModules.Tensor.sheafification` to the very same presheaf, which is that functor by
+its defining equation `Stacks.SheafOfModules.Tensor.sheafification_def`; so `tensorLeft_piece`
+is an equality of objects, not merely an isomorphism. Consequently every statement about the
+tensor product sheaves `F ⊗ Mⁿ` — cohomological, or about quasi-coherence — transfers to the
+homogeneous pieces of `F ⊗ M` by rewriting along `tensorLeft_piece`.
 
 **The sheaf of rings is written as an anonymous constructor.** The base is
 `⟨Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪, h𝒪⟩`, which is
@@ -358,7 +360,10 @@ theorem tensorLeft_piece (n : ℤ) :
     (tensorLeft 𝒪 h𝒪 F M).piece n =
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj
-          F).obj (M.piece n) := rfl
+          F).obj (M.piece n) :=
+  Functor.congr_obj (Stacks.SheafOfModules.Tensor.sheafification_def
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).symm
+    (PresheafOfModules.tensorObj (O := 𝒪) F.val (M.piece n).val)
 
 /-- The canonical map from the objectwise tensor product `F ⊗ Mⁿ` of presheaves of modules to
 the degree-`n` piece of `F ⊗ M`, exhibiting the latter as its sheafification. -/
@@ -499,7 +504,8 @@ theorem isQuasicoherent_tensorLeft_piece [UnivLE.{max v u, w}] [Limits.HasPullba
     SheafOfModules.IsQuasicoherent (R := structureSheaf 𝒪 h𝒪)
       ((tensorLeft 𝒪 h𝒪 F M).piece n) :=
   have := hM n
-  Stacks.SheafOfModules.TensorProduct.isQuasicoherent_tensorSheaf' 𝒪 h𝒪 F (M.piece n)
+  tensorLeft_piece 𝒪 h𝒪 F M n ▸
+    Stacks.SheafOfModules.TensorProduct.isQuasicoherent_tensorSheaf' 𝒪 h𝒪 F (M.piece n)
 
 end SheafOfModules.GradedModule
 

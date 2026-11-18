@@ -20,10 +20,13 @@ which is the shape `CommAlgCat.smallAtiyahFirstVertexRestrictionIso` consumes.
 
 Two things have to be undone, neither of them mathematical content on a chaotic site.
 
-* **The sheafification.** Every presheaf on the chaotic site is a sheaf, so the unit of the
-  sheafification adjunction for presheaves of modules is an isomorphism:
-  `Stacks.ChaoticSite.sheafificationValIso`. The proof is the standard idiom — the unit's
-  underlying map of abelian presheaves is `CategoryTheory.toSheafify`, which is an isomorphism
+* **The sheafification.** The tensor product sheaf is built with the sealed
+  `Stacks.SheafOfModules.Tensor.sheafification`, which
+  `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` identifies with Mathlib's sheafification.
+  Every presheaf on the chaotic site is a sheaf, so the unit of the latter's adjunction for
+  presheaves of modules is an isomorphism: `Stacks.ChaoticSite.sheafificationValIso`. The proof
+  is the standard idiom — the unit's underlying map of abelian presheaves is
+  `CategoryTheory.toSheafify`, which is an isomorphism
   by `CategoryTheory.isIso_toSheafify _ (Presheaf.isSheaf_bot _)`, and
   `PresheafOfModules.toPresheaf` reflects isomorphisms.
 * **The corepresenting object.** `CommAlgCat.smallAtiyahDerivationsCoreprXIso` identifies it
@@ -130,7 +133,8 @@ variable (A : Type u) [CommRing A] (B : CommAlgCat.{u} A) (M : ModuleCat.{u} (B 
 tensor product `M̲ ⊗_𝒪 Ω_{𝒪/A}`.** The vertex as the principal-parts sequence builds it is
 `AlgebraicGeometry.SheafOfModules.sheafTensorRight 𝒪 (derivationsFunctor A̲ 𝒪 φ).coreprX` applied
 to `M̲`, i.e. tensor objectwise with the corepresenting object of the functor of relative
-derivations and sheafify. On the chaotic site the sheafification is undone by
+derivations and sheafify. The sealed sheafification is first identified with Mathlib's by
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`; on the chaotic site the latter is undone by
 `Stacks.ChaoticSite.sheafificationValIso` and the corepresenting object is named by
 `CommAlgCat.smallAtiyahDerivationsCoreprXIso`; what is left is
 `(Stacks.tensorRight Ω_{𝒪/A}).obj M̲`, which is the source of
@@ -145,7 +149,8 @@ def smallAtiyahFirstVertexTensorIso :
             (smallAtiyahRelativeDifferentialsPresheaf A B κ)).obj
         ((PresheafOfModules.restrictScalars (smallPolynomialAugmentation A B κ)).obj
           (smallAtiyahModuleOverConstant A B M κ)) :=
-  Stacks.ChaoticSite.sheafificationValIso _ _ ≪≫
+  (SheafOfModules.forget _).mapIso (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ _ _) ≪≫
+    Stacks.ChaoticSite.sheafificationValIso _ _ ≪≫
     AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObjIsoRight _
       (Stacks.Atiyah.chaoticModel.mapIso (smallAtiyahDerivationsCoreprXIso A B κ))
 

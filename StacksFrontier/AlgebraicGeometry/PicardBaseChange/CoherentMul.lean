@@ -36,9 +36,10 @@ asserts.
 
 The multiplication is written out rather than abbreviated: the pure tensor `s ⊗ t` of a global
 section of `L` and a global section of `L^{⊗ -1}` is carried by `tensorPowerOneIso` into the
-first tensor power, then by the sheafification unit
-  `Stacks.SheafOfModules.TensorSheafification.toSheafify` into the sheaf tensor
-product `L^{⊗ 1} ⊗ L^{⊗ -1}`, where the coherent multiplication isomorphism
+first tensor power, then by the unit of the sealed sheafification adjunction
+`Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction` (the sheafification that is
+the last factor of the sheaf tensor product, with the plain forgetful functor as right adjoint)
+into the sheaf tensor product `L^{⊗ 1} ⊗ L^{⊗ -1}`, where the coherent multiplication isomorphism
 `(tensorPowerCoherence _ _ L).mulIso 1 (-1)` evaluates it. Specifying the multiplication this way
 is what makes the statement a statement about multiplication rather than about the existence of
 some module isomorphism.
@@ -101,11 +102,10 @@ theorem exists_mulEquiv_globalSections_coherentMul_of_faithfullyFlat_trivializat
       ∀ s t, e (TensorProduct.tmul Γ(X, ⊤) s t) =
         (((tensorPowerCoherence X.presheaf X.ringCatSheaf.property L).mulIso 1 (-1)).hom.val.app
             (.op ⊤)).hom
-          (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf
-            X.ringCatSheaf.property
-            ((PresheafOfModules.tensorObj (O := X.presheaf)
+          ((((structureSheafificationAdjunction X.presheaf X.ringCatSheaf.property).unit.app
+            (PresheafOfModules.tensorObj (O := X.presheaf)
               ((tensorPower X.presheaf X.ringCatSheaf.property L 1).val)
-              ((tensorPower X.presheaf X.ringCatSheaf.property L (-1)).val)))).app (.op ⊤)).hom
+              ((tensorPower X.presheaf X.ringCatSheaf.property L (-1)).val))).app (.op ⊤)).hom
             ((((tensorPowerOneIso X.presheaf X.ringCatSheaf.property L).inv.val.app
               (.op ⊤)).hom s) ⊗ₜ[Γ(X, ⊤)] t)) := by
   obtain ⟨e, he⟩ :=

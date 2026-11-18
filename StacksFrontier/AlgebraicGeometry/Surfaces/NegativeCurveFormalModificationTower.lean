@@ -127,7 +127,8 @@ def thickeningToAdicTowerDiag (hI : I ≤ formalNeighborhoodFiltration D 1) (hMl
 @[reassoc (attr := simp)]
 theorem thickeningToAdicTowerDiag_adicTowerToScheme (hI : I ≤ formalNeighborhoodFiltration D 1)
     (hMle : ∀ n, n ≤ M n) (k : ℕ) :
-    thickeningToAdicTowerDiag D hI hMle k ≫ adicTowerToScheme D I M k = (D ^ (k + 1)).subschemeι := by
+    thickeningToAdicTowerDiag D hI hMle k ≫ adicTowerToScheme D I M k =
+      (D ^ (k + 1)).subschemeι := by
   rw [adicTowerToScheme, thickeningToAdicTowerDiag, pullback.lift_fst_assoc, thickeningInclusion,
     inclusion_subschemeι]
 

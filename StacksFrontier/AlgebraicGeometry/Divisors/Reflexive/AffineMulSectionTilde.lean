@@ -52,9 +52,12 @@ obtained from `SheafOfModules.unitHomEquiv_apply_coe`.
 of `Ñ`, so `tilde_hom_ext_toOpen` reduces it to the single global section `tilde.toOpen N ⊤ n`.
 There `mulSectionHom_app` produces a local pure tensor, and the comparison
 `tensorSheafTildeIso = tensorSheafComparison ≪≫ (tildeTensorIso R M N).symm` is evaluated on it in
-two steps: `tensorSheafComparison_hom_app_tmul` carries a pure tensor of the sectionwise tensor
-product to a pure tensor of the monoidal one — both are sheafification units, and the comparison
-is the sheafification of a presheaf map which is the identity on sections — and
+two steps (`tensorSheafTildeIso_hom_app_tensorObjTmul`):
+`tensorSheafComparison_hom_app_tmul` carries a pure tensor of the sectionwise tensor
+product to a pure tensor of the monoidal one — the comparison is the identity, and both sides are
+units of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`, of
+`sheafificationAdjunction` and of `sheafificationForgetAdjunction` respectively, which agree on
+sections — and
 `tildeTensorIso_hom_app_toOpen` is `AlgebraicGeometry.tildeTensorIso_hom_tmul` read through the
 tilde--global-sections adjunction, whose `homEquiv` evaluates by `rfl`.
 
@@ -70,7 +73,6 @@ open CategoryTheory MonoidalCategory AlgebraicGeometry Opposite TopologicalSpace
 
 open Stacks.SheafOfModules.TensorStalkRingedSpace (O sheafifyFunctor sheafifyUnit
   toTensorSheafSection tensorSheafMap_app_toTensorSheafSection)
-open Stacks.SheafOfModules.TensorSheafification (sheafify toSheafify)
 open Stacks.SheafOfModules.OnSpace (tensorObjTmul unitSection tensorHom_tmul
   sheaf_comp_app_apply tensor_hom_ext)
 
@@ -108,6 +110,22 @@ theorem sheafifyUnit_naturality (Y : RingedSpace.{u, u}) {P Q : PresheafOfModule
     (𝟙 (structureSheafRing Y).obj)).unit.naturality f
   exact (congrArg (fun α => (PresheafOfModules.Hom.app α U).hom x) hnat).symm
 
+/-- Naturality of the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the
+sealed sheafification that `Stacks.SheafOfModules.Tensor.sheafTensor` is built from, on a local
+section. -/
+theorem sheafificationForgetAdjunction_unit_naturality_apply {C : Type*} [Category* C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    {P Q : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj} (f : P ⟶ Q)
+    (U : Cᵒᵖ) (x : P.obj U) :
+    (((Stacks.SheafOfModules.Tensor.sheafification R).map f).val.app U).hom
+        ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P).app U).hom
+          x) =
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app Q).app U).hom
+        ((f.app U).hom x) :=
+  congrArg (fun g => (g.app U).hom x)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.naturality f).symm
+
 /-! ### The two tensor-product presheaves -/
 
 /-- `AlgebraicGeometry.tensorSheafComparison` carries a local pure tensor to the corresponding
@@ -116,23 +134,32 @@ theorem tensorSheafComparison_hom_app_tmul (X : Scheme.{u}) (F G : X.Modules)
     (U : (Opens X.carrier)ᵒᵖ) (a : F.val.obj U) (b : G.val.obj U) :
     ((tensorSheafComparison X F G).hom.val.app U).hom
         (toTensorSheafSection X.toRingedSpace F G U (a ⊗ₜ[X.presheaf.obj U] b)) =
-      ((toSheafify X.presheaf X.ringCatSheaf.2
-          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom
         (a ⊗ₜ[X.presheaf.obj U] b) :=
-  sheafifyUnit_naturality X.toRingedSpace
-    (Stacks.SheafOfModules.TensorRaised.presheafTensorCompare F.val G.val).hom U
-    (a ⊗ₜ[X.presheaf.obj U] b)
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ U _).symm
 
 /-- The inverse of `AlgebraicGeometry.tensorSheafComparison`, on a pure tensor of the monoidal
 tensor product coming from the presheaf. -/
 theorem tensorSheafComparison_inv_app_tmul (X : Scheme.{u}) (F G : X.Modules)
     (U : (Opens X.carrier)ᵒᵖ) (a : F.val.obj U) (b : G.val.obj U) :
     ((tensorSheafComparison X F G).inv.val.app U).hom
-        (((toSheafify X.presheaf X.ringCatSheaf.2
-          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom
+        ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom
             (a ⊗ₜ[X.presheaf.obj U] b)) =
       toTensorSheafSection X.toRingedSpace F G U (a ⊗ₜ[X.presheaf.obj U] b) := by
   rw [← tensorSheafComparison_hom_app_tmul, iso_inv_hom_app]
+
+/-- `AlgebraicGeometry.tensorSheafificationIso` is the sheafification of the sectionwise tensor
+product of the two morphisms. -/
+theorem tensorSheafificationIso_hom (X : Scheme.{u}) {F F' G G' : X.Modules}
+    (e : F ≅ F') (e' : G ≅ G') :
+    (tensorSheafificationIso X e e').hom =
+      (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).map
+        (PresheafOfModules.tensorHom (O := X.presheaf) e.hom.val e'.hom.val) :=
+  Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map _ e.hom e'.hom
 
 /-- `AlgebraicGeometry.tensorSheafificationIso` acts factorwise on a pure tensor coming from the
 presheaf tensor product. -/
@@ -140,18 +167,16 @@ theorem tensorSheafificationIso_hom_app_tmul (X : Scheme.{u}) {F F' G G' : X.Mod
     (e : F ≅ F') (e' : G ≅ G') (U : (Opens X.carrier)ᵒᵖ)
     (a : F.val.obj U) (b : G.val.obj U) :
     ((tensorSheafificationIso X e e').hom.val.app U).hom
-        (((toSheafify X.presheaf X.ringCatSheaf.2
-          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom
+        ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom
             (a ⊗ₜ[X.presheaf.obj U] b)) =
-      ((toSheafify X.presheaf X.ringCatSheaf.2
-          ((PresheafOfModules.tensorObj (O := X.presheaf) (F'.val) (G'.val)))).app U).hom
-        ((e.hom.val.app U).hom a ⊗ₜ[X.presheaf.obj U] (e'.hom.val.app U).hom b) :=
-  Stacks.SheafOfModules.sheafification_map_unit X.presheaf X.ringCatSheaf.2
-    (MonoidalCategory.tensorHom
-      (C := PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u}))
-      ((SheafOfModules.forget X.ringCatSheaf).map e.hom)
-      ((SheafOfModules.forget X.ringCatSheaf).map e'.hom)) U
-    (a ⊗ₜ[X.presheaf.obj U] b)
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) F'.val G'.val)).app U).hom
+        ((e.hom.val.app U).hom a ⊗ₜ[X.presheaf.obj U] (e'.hom.val.app U).hom b) := by
+  rw [tensorSheafificationIso_hom]
+  exact sheafificationForgetAdjunction_unit_naturality_apply _ _ U _
 
 /-- **The functoriality isomorphism of the tensor product is the canonical induced morphism.**
 Both are determined by their values on local pure tensors, where both act factorwise. -/
@@ -214,11 +239,27 @@ theorem tildeTensorIso_hom_app_toOpen (R : CommRingCat.{u}) (M N : ModuleCat.{u}
     (m : M) (n : N) :
     ((tildeTensorIso R M N).hom.val.app (op ⊤)).hom
         ((tilde.toOpen (M ⊗ N) ⊤).hom (TensorProduct.tmul R m n)) =
-      ((toSheafify (Spec R).presheaf (isSheaf_specStructureRingPresheaf R)
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (specRingSheaf R)).unit.app
           (specTensorPresheaf R (tilde M) (tilde N))).app (op ⊤)).hom
         (TensorProduct.tmul ((Spec R).presheaf.obj (op ⊤))
           ((tilde.toOpen M ⊤).hom m) ((tilde.toOpen N ⊤).hom n)) :=
   tildeTensorIso_hom_tmul R M N m n
+
+/-- `AlgebraicGeometry.tensorSheafTildeIso` on a pure tensor of canonical global sections. -/
+theorem tensorSheafTildeIso_hom_app_tensorObjTmul (R : CommRingCat.{u}) (M N : ModuleCat.{u} R)
+    (m : M) (n : N) :
+    ((tensorSheafTildeIso R M N).hom.val.app (op ⊤)).hom
+        (tensorObjTmul (Spec R).toRingedSpace (tilde M) (tilde N) (op ⊤)
+          ((tilde.toOpen M ⊤).hom m) ((tilde.toOpen N ⊤).hom n)) =
+      (tilde.toOpen (M ⊗ N) ⊤).hom (TensorProduct.tmul R m n) :=
+  (sheaf_comp_app_apply (Spec R).toRingedSpace
+      (tensorSheafComparison (Spec R) (tilde M) (tilde N)).hom (tildeTensorIso R M N).inv
+      (op ⊤) _).trans
+    ((congrArg (fun y => ((tildeTensorIso R M N).inv.val.app (op ⊤)).hom y)
+        ((tensorSheafComparison_hom_app_tmul (Spec R) (tilde M) (tilde N) (op ⊤)
+            ((tilde.toOpen M ⊤).hom m) ((tilde.toOpen N ⊤).hom n)).trans
+          (tildeTensorIso_hom_app_toOpen R M N m n).symm)).trans
+      (iso_inv_hom_app (tildeTensorIso R M N) (op ⊤) _))
 
 /-- **The affine comparison square for multiplication by a global section.**  On `Spec R`,
 multiplication by a global section `σ` of `M̃`, followed by the affine tensor comparison
@@ -241,24 +282,12 @@ theorem mulSectionHom_tensorSheafTildeIso (R : CommRingCat.{u}) (M N : ModuleCat
         ((tilde.toOpen N ⊤).hom n)).trans
       (congrArg (fun z => tensorObjTmul (Spec R).toRingedSpace (tilde M) (tilde N) (op ⊤) z
         ((tilde.toOpen N ⊤).hom n)) hσ)
-  -- The affine tensor comparison on that pure tensor.
-  have h2 : ((tensorSheafTildeIso R M N).hom.val.app (op ⊤)).hom
-        (tensorObjTmul (Spec R).toRingedSpace (tilde M) (tilde N) (op ⊤)
-          ((tilde.toOpen M ⊤).hom s) ((tilde.toOpen N ⊤).hom n)) =
-      (tilde.toOpen (M ⊗ N) ⊤).hom (TensorProduct.tmul R s n) :=
-    (sheaf_comp_app_apply (Spec R).toRingedSpace
-        (tensorSheafComparison (Spec R) (tilde M) (tilde N)).hom (tildeTensorIso R M N).inv
-        (op ⊤) _).trans
-      ((congrArg (fun y => ((tildeTensorIso R M N).inv.val.app (op ⊤)).hom y)
-          ((tensorSheafComparison_hom_app_tmul (Spec R) (tilde M) (tilde N) (op ⊤)
-              ((tilde.toOpen M ⊤).hom s) ((tilde.toOpen N ⊤).hom n)).trans
-            (tildeTensorIso_hom_app_toOpen R M N s n).symm)).trans
-        (iso_inv_hom_app (tildeTensorIso R M N) (op ⊤) _))
   exact ((sheaf_comp_app_apply (Spec R).toRingedSpace (mulSectionHom (Spec R).toRingedSpace σ)
       (tensorSheafTildeIso R M N).hom (op ⊤) ((tilde.toOpen N ⊤).hom n)).trans
     ((congrArg (fun y => ((tensorSheafTildeIso R M N).hom.val.app (op ⊤)).hom y) h1).trans
-      h2)).trans (Stacks.AffineExteriorPower.tilde_map_app_toOpen
-    (ModuleCat.ofHom (TensorProduct.mk R M N s)) ⊤ n).symm
+      (tensorSheafTildeIso_hom_app_tensorObjTmul R M N s n))).trans
+    (Stacks.AffineExteriorPower.tilde_map_app_toOpen
+      (ModuleCat.ofHom (TensorProduct.mk R M N s)) ⊤ n).symm
 
 /-- The affine comparison square, for the morphism attached to a section of `M̃` by
 `SheafOfModules.unitHomEquiv`: this is the shape in which `reflexivePowerTransition` takes its

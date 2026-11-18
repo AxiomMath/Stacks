@@ -55,7 +55,8 @@ the canonical base-change immersion is the given immersion of `Y` into the close
 The compactification is the argument `hcpt` and the connectedness of the first Stein factor of
 every proper morphism to `Spec A` is the argument `hconn`.  The latter holds unconditionally
 (`Stacks.SteinFactorization.geometricallyConnected_toNormalization_of_isProper`), and is
-discharged by it in `StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair.Chow`.
+discharged by it in
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ProperPartOverHenselianPair.Chow`.
 
 ## References
 

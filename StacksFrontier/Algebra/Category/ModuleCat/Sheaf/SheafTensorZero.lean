@@ -30,8 +30,9 @@ This generalizes the two steps by which
 orthogonality of two distinct factors of a product decomposition off `factorModule`: there the
 objectwise vanishing comes from the idempotent cutting out one factor acting as the identity on
 one side and as zero on the other, here from one side having no sections at all. The second step
-— that sheafification carries the resulting zero presheaf to a zero object — is already general
-there (`Tensor.sheafifyMod R |>.map_isZero`) and is reused unchanged.
+— that the sealed sheafification `Tensor.sheafification R` carries the resulting zero presheaf to
+a zero object — is already general there (`(Tensor.sheafification R).map_isZero`) and is reused
+unchanged.
 
 Note that `Stacks.Cohomology.MonoidalDerived.isZero_tensorObj_of_isZero_left` of
 `StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedTensorKFlatOneSided` is **not** this
@@ -89,9 +90,7 @@ is already zero and sheafification preserves zero objects. -/
 public theorem isZero_sheafTensor_of_isZero_left
     (A B : _root_.SheafOfModules.{max u v} (Tensor.ringSheaf R)) (hA : IsZero A) :
     IsZero (((Tensor.sheafTensor R).obj A).obj B) :=
-  ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf (R))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (R)).obj))).map_isZero
-    (isZero_presheafTensor_of_isZero_left A B hA)
+  (Tensor.sheafification R).map_isZero (isZero_presheafTensor_of_isZero_left A B hA)
 
 variable [HasBinaryBiproducts (_root_.SheafOfModules (Tensor.ringSheaf R))]
 

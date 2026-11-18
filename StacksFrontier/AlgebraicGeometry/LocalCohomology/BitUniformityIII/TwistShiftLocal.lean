@@ -131,7 +131,7 @@ open AlgebraicGeometry
 open AlgebraicGeometry.ProjectiveSpectrum.Proj (twistingSheaf twistGrading associatedModuleSheaf
   ModuleFiber structureSheaf)
 open Stacks.GradedModule
-open Stacks.SheafOfModules.TensorStalkRingedSpace (sheafifyUnit)
+open Stacks.SheafOfModules.TensorStalkRingedSpace (JX)
 open Stacks.AlgebraicGeometry.ProjSheafFunctoriality (associatedModuleSheafMap)
 open Stacks.AlgebraicGeometry.ProjStalkGlobalSections (associatedModuleSheafMap_app_apply)
 open scoped TensorProduct
@@ -174,8 +174,9 @@ theorem tensorObjTmul_smul_right (U : (Opens X.carrier)ᵒᵖ) (r : X.presheaf.o
 theorem tensorObjTmul_zero_left (U : (Opens X.carrier)ᵒᵖ) (b : B.val.obj U) :
     tensorObjTmul X A B U (0 : A.val.obj U) b = 0 :=
   (congrArg (tensorObjSection X A B U) (TensorProduct.zero_tmul _ b)).trans
-    (map_zero ((sheafifyUnit X
-      ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val)))).app U).hom)
+    (map_zero (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val)).app U).hom)
 
 /-- **A pure tensor whose left factor is the image of `1` and whose right factor carries a
 scalar killed by the same map is zero.** This is the shape in which the two halves of the

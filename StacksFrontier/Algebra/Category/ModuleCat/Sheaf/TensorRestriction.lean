@@ -176,9 +176,12 @@ public noncomputable def tensorSheafBifunctorOverIso
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z₁} Osharp).obj F).obj G).over V ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, z, z₁} (Osharp.over V)).obj (F.over
           V)).obj (G.over V) :=
-  sheafificationOverIso V (tensorObj F.val G.val) ≪≫
+  (SheafOfModules.overFunctor _ V).mapIso
+      ((Stacks.SheafOfModules.Tensor.sheafificationIso Osharp).symm.app (tensorObj F.val G.val)) ≪≫
+    sheafificationOverIso V (tensorObj F.val G.val) ≪≫
     (sheafification (𝟙 ((toRingCat J Osharp).over V).obj)).mapIso
-      (overRestrictionTensorObjIso V F.val G.val)
+      (overRestrictionTensorObjIso V F.val G.val) ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafificationIso (Osharp.over V)).app _
 
 end Tensor
 

@@ -66,10 +66,10 @@ theorem derivedPowerTorsion_isZero_of_isIso_smul
     (K : DerivedCategory (ModuleCat.{max u v} A))
     (f : A) (hf : f ∈ I) (hiso : IsIso (f • 𝟙 K)) :
     IsZero ((derivedPowerTorsion.{u, v} A I hI).obj K) := by
-  letI : (torsionProperty.{u, v} A I).IsSerreClass := isSerreClass_isIPowerTorsion I hI
-  letI : PreservesFiniteLimits (torsionProperty.{u, v} A I).ι :=
+  let : (torsionProperty.{u, v} A I).IsSerreClass := isSerreClass_isIPowerTorsion I hI
+  let : PreservesFiniteLimits (torsionProperty.{u, v} A I).ι :=
     ObjectProperty.preservesFiniteLimits_ι_of_isWeakSerreClass (torsionProperty.{u, v} A I)
-  letI : PreservesFiniteColimits (torsionProperty.{u, v} A I).ι :=
+  let : PreservesFiniteColimits (torsionProperty.{u, v} A I).ι :=
     ObjectProperty.preservesFiniteColimits_ι_of_isWeakSerreClass (torsionProperty.{u, v} A I)
   let R := derivedPowerTorsion.{u, v} A I hI
   let X := R.obj K
@@ -83,7 +83,7 @@ theorem derivedPowerTorsion_isZero_of_isIso_smul
   rw [Coreflection.isZero_iff_zero_isIso, DerivedCategory.isIso_iff]
   intro n
   let H := DerivedCategory.homologyFunctor P.FullSubcategory n
-  letI : H.Linear A := DerivedCategory.homologyFunctor_linear (C := P.FullSubcategory) A n
+  let : H.Linear A := DerivedCategory.homologyFunctor_linear (C := P.FullSubcategory) A n
   rw [H.map_zero, ← Coreflection.isZero_iff_zero_isIso]
   have hH : IsIso (f • 𝟙 (H.obj X)) := by
     simpa using H.map_isIso (f • 𝟙 X)

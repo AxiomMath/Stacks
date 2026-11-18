@@ -339,16 +339,20 @@ attribute [local instance] Stacks.SheafOfModules.symmetricCategoryPresheafOfModu
 
 /-- **Tensoring on the left in `SheafOfModules` is additive.** By
 `Stacks.SheafInternalHom.tensorLeftIso` it is the canonical tensor functor
-`Stacks.SheafOfModules.Tensor.sheafTensor` at `L`, the sheafification of the objectwise tensor
-product with `L`, and both the objectwise tensor product and sheafification are additive. -/
+`Stacks.SheafOfModules.Tensor.sheafTensor` at `L`, the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the objectwise tensor product with `L`; the
+objectwise tensor product is additive, and so is the sealed sheafification, a left adjoint of the
+additive forgetful functor (`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`). -/
 local instance tensorLeftAdditive (L : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
     (tensorLeft L).Additive := by
   refine @Functor.additive_of_iso _ _ _ _ _ _ _ ?_ _
     (Stacks.SheafInternalHom.tensorLeftIso 𝒪 h𝒪 L).symm
   refine ⟨fun {G G'} f g ↦ ?_⟩
-  exact (congrArg (sheafify 𝒪 h𝒪).map
-    (PresheafOfModules.tensorHom_add_right (𝟙 L.val) f.val g.val)).trans
-      ((sheafify 𝒪 h𝒪).map_add)
+  have := Adjunction.left_adjoint_additive
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
+  exact (congrArg (Stacks.SheafOfModules.Tensor.sheafification _).map
+    (PresheafOfModules.tensorHom_add_right (𝟙 L.val) f.val g.val)).trans (Functor.map_add _)
 
 /-- **Tensoring on the right in `SheafOfModules` is additive**, the two tensor functors being
 isomorphic through the braiding. This is the hypothesis `(tensorRight L).Additive` that the

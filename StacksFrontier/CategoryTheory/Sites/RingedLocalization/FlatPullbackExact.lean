@@ -276,6 +276,26 @@ private noncomputable def tensorPresheafIso :
 
 end TensorComparison
 
+section SealedSheafification
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{z}] [HasWeakSheafify J AddCommGrpCat.{z}]
+
+/-- The underlying abelian sheaf of the sheafification of a presheaf of modules over
+`ringSheaf R` is the sheafification of its underlying abelian presheaf: Mathlib's
+`PresheafOfModules.sheafificationCompToSheaf`, transported along
+`Stacks.SheafOfModules.Tensor.sheafification_def` to the sealed sheafification that
+`Stacks.SheafOfModules.Tensor.sheafTensor` is built from. -/
+private noncomputable def sheafificationCompToSheaf :
+    Stacks.SheafOfModules.Tensor.sheafification R ⋙
+        SheafOfModules.toSheaf.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R) ≅
+      PresheafOfModules.toPresheaf.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj ⋙
+        presheafToSheaf J AddCommGrpCat.{z} :=
+  Functor.isoWhiskerRight (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def R)) _ ≪≫
+    PresheafOfModules.sheafificationCompToSheaf (𝟙 _)
+
+end SealedSheafification
+
 section ChangeOfRings
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
@@ -338,6 +358,12 @@ lemma extendScalars_preservesFiniteLimits
     _ ≅ tensorPresheafLeft θ ⋙ presheafToSheaf J AddCommGrpCat.{max w u v} := Iso.refl _
     _ ≅ tensorPresheafRight θ ⋙ presheafToSheaf J AddCommGrpCat.{max w u v} :=
       Functor.isoWhiskerRight (tensorPresheafIso θ) _
+    _ ≅ (moduleULift O₁ ⋙ SheafOfModules.forget _ ⋙
+            (PresheafOfModules.tensorBifunctor O₁'.obj).flip.obj (liftedRingModule θ).val) ⋙
+          Stacks.SheafOfModules.Tensor.sheafification O₁' ⋙ SheafOfModules.toSheaf _ :=
+      Functor.isoWhiskerLeft (moduleULift O₁ ⋙ SheafOfModules.forget _ ⋙
+          (PresheafOfModules.tensorBifunctor O₁'.obj).flip.obj (liftedRingModule θ).val)
+        (sheafificationCompToSheaf O₁').symm
     _ ≅ moduleULift O₁ ⋙ T ⋙ U₂ := Iso.refl _
   have hE : PreservesFiniteLimits (extendScalars.{w, v, u} J θ.hom
       (Stacks.SheafOfModules.Tensor.ringSheaf O₁).property

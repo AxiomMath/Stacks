@@ -25,7 +25,7 @@ class of `ℋom^•_{𝒪_X}(i_* ℳ, 𝒦)` and the right-hand side is the clas
 `i_* ℋom^•_{𝒪_Z}(ℳ, ℰom(𝒪_Z, 𝒦))`. The identification of those two complexes is the internal
 form of the adjunction of [Stacks, Tag 0A75]; it is an underived statement, and it enters below as
 the parameter `hom`. The library constructs it as
-`RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.pushforwardSheafHomComplexIsoSite`,
+`ClosedQuotientMorphismOfRingedSpaces.pushforwardSheafHomComplexIsoSite`,
 and the isomorphism of [Stacks, Tag 0E2I] as an isomorphism of functors on `D(𝒪_X)` is
 `RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.derivedSheafHomPushforwardNatIso`.
 

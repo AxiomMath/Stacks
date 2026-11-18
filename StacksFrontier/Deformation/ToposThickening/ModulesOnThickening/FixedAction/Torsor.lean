@@ -149,11 +149,8 @@ private lemma extensionActionMap_unit_eq_iff
         (structureRingMap i)).obj K) 0)
     (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : E.Z.left.val.obj U) (z : K.val.obj U) :
     (extensionActionMap hi E).1.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
           (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
             E.g.val.app U x)) = z ↔
@@ -183,39 +180,29 @@ private lemma eq_of_agree_on_unit_tensor_lifts
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F ⟶ K)
     (h : ∀ (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : E.Z.left.val.obj U),
       c.val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O)).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
             (PresheafOfModules.tensorObj hi.I.val F.val)).app U
             (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
               E.g.val.app U x)) =
         c'.val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O)).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
             (PresheafOfModules.tensorObj hi.I.val F.val)).app U
             (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
               E.g.val.app U x))) :
     c = c' := by
-  let R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-    i.toToposHom).obj X.O)
   let O := (pushforwardCommRingFunctor i.toToposHom).obj X.O
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O
+  let P := PresheafOfModules.tensorObj hi.I.val F.val
   have hc (d : ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj hi.I).obj F ⟶ K)
       (W : Y.Cᵒᵖ) (b : hi.I.val.obj W) (z : F.val.obj W) :
-      d.val.app W
-          (((PresheafOfModules.sheafificationAdjunction (R := R) (𝟙 R.obj)).unit.app
-            (PresheafOfModules.tensorObj hi.I.val F.val)).app W (b ⊗ₜ[O.obj.obj W] z)) =
-        (PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj) d).app W (b ⊗ₜ[O.obj.obj W] z) :=
-    (congrArg (fun q => q.app W (b ⊗ₜ[O.obj.obj W] z))
-      (PresheafOfModules.toPresheaf_map_sheafificationHomEquiv_def
-        (α := 𝟙 R.obj) (f := d))).symm
-  let t := PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj) c
-  let t' := PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj) c'
-  apply (PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj)).injective
+      d.val.app W ((adj.unit.app P).app W (b ⊗ₜ[O.obj.obj W] z)) =
+        (adj.homEquiv P K d).app W (b ⊗ₜ[O.obj.obj W] z) :=
+    (PresheafOfModules.hom_congr_apply' (adj.homEquiv_unit P K d) W _).symm
+  let t := adj.homEquiv P K c
+  let t' := adj.homEquiv P K c'
+  apply (adj.homEquiv P K).injective
   ext U : 1
   apply ModuleCat.MonoidalCategory.tensor_ext
   intro a y
@@ -292,20 +279,14 @@ private lemma extensionActionMap_agrees_on_lift
     (hf : E.f ≫ φ = E'.f)
     (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : E.Z.left.val.obj U) :
     ((extensionActionMap hi E).1.val.app U)
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj
-            X.O)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
           (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
             E.g.val.app U x)) =
       ((extensionActionMap hi E').1.val.app U)
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj
-            X.O)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
           (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
             E'.g.val.app U (φ.val.app U x))) := by
@@ -422,9 +403,8 @@ noncomputable def idealTensorHom (hi : FirstOrderThickening i)
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F ⟶
       ((Stacks.SheafOfModules.Tensor.sheafTensor
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj G :=
-  (PresheafOfModules.sheafification
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).map
+  (Stacks.SheafOfModules.Tensor.sheafification
+    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).map
       (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) β.val)
 
 /-- The ideal tensor map of two extensions only depends on the thickening and the map of
@@ -440,11 +420,6 @@ private lemma idealTensorHom_add (hi : FirstOrderThickening i)
     idealTensorHom hi (β + γ) = idealTensorHom hi β + idealTensorHom hi γ := by
   let R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
     i.toToposHom).obj X.O)
-  have := (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).isLeftAdjoint
-  have : (PresheafOfModules.sheafification (𝟙 R.obj)).Additive :=
-    CategoryTheory.rightExactFunctor_le_additiveFunctor _ _ _
-      (show PreservesFiniteColimits (PresheafOfModules.sheafification (𝟙 R.obj)) from
-        inferInstance)
   have hval : (β + γ).val = β.val + γ.val := Functor.map_add (SheafOfModules.forget R)
   have hadd : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) (β + γ).val =
       PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) β.val +
@@ -454,8 +429,8 @@ private lemma idealTensorHom_add (hi : FirstOrderThickening i)
     intro U
     simp only [PresheafOfModules.add_app]
     exact MonoidalPreadditive.tensor_add _ _ _
-  exact (congrArg (fun m => (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map m)
-    hadd).trans (Functor.map_add _)
+  exact (congrArg (Stacks.SheafOfModules.Tensor.sheafification
+    ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).map hadd).trans (Functor.map_add _)
 
 private lemma actionOfExt_naturality
     [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]

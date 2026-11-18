@@ -26,7 +26,7 @@ but carried as a hypothesis — it is the geometric input of the source, the aff
 Stacks 09RE read across the comparison of the small étale and the Zariski site — so no
 `@[stacks 09RI]` attribute is placed.  That statement is proved in
 `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`, as
-`AlgebraicGeometry.Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`,
+`Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`,
 which discharges the hypothesis `hunit` of the last theorem below; both clauses of the tag are
 proved there.
 
@@ -98,7 +98,7 @@ statement.  Its own hypothesis `hunit` is therefore *weaker* than the one of
 (`AlgebraicGeometry.Space.derivedQuasicoherent_smallEtaleDerivedModulePullback`), which holds for
 every morphism of algebraic spaces and in particular for `u`.  The colimit statement at the
 structure sheaf is not proved in this file; it is
-`AlgebraicGeometry.Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`. -/
+`Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`. -/
 theorem isColim_of_structureSheafAffineBaseChange_of_qcoh
     (E₀ K₀ : derivedModules B S hS (D.stage D.base))
     (hE₀ : (smallEtaleRingedSite B S hS (D.stage D.base).1 (D.stage D.base).2).IsPerfect E₀)

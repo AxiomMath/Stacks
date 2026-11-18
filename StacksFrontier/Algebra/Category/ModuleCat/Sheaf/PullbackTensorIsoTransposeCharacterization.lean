@@ -25,6 +25,9 @@ the universal pairing of `f^*F` and `f^*G`. The condition involves no section of
   transposes and units across two adjunctions with isomorphic right adjoints.
 * `Stacks.SheafOfModules.uncurry_map_inv_comp_map_hom_app_comp_obj_map_hom`: a bifunctor carries a
   pair of inverses followed by the pair of isomorphisms to the identity.
+* `Stacks.SheafOfModules.tensorSectionPairing_eq_pairingOfTensorHom_unit`: the universal pairing
+  is the pairing of the unit of the sealed sheafification adjunction with the plain forgetful
+  functor as right adjoint.
 
 ## References
 
@@ -82,6 +85,30 @@ theorem uncurry_map_inv_comp_map_hom_app_comp_obj_map_hom {C' E : Type*} [Catego
 
 end Transpose
 
+section TensorSectionPairing
+
+universe w₀ v₀ u₀
+
+variable {C : Type u₀} [Category.{v₀} C] {J : GrothendieckTopology C}
+  [J.HasSheafCompose (forget AddCommGrpCat.{w₀})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w₀}] [HasWeakSheafify J AddCommGrpCat.{w₀}]
+  {O : Sheaf J CommRingCat.{w₀}}
+
+/-- The universal pairing `tensorSectionPairing` is the pairing of the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the sealed sheafification adjunction
+whose right adjoint is the plain forgetful functor. -/
+theorem tensorSectionPairing_eq_pairingOfTensorHom_unit
+    (A B : SheafOfModules.{w₀} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    tensorSectionPairing A B =
+      pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf O).property)
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
+          (A.val ⊗ B.val)) :=
+  pairing_ext _ fun U a b ↦ (pairingApp_tensorSectionPairing A B U a b).trans <|
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      O _ U _).symm.trans (pairingApp_pairingOfTensorHom _ U a b).symm
+
+end TensorSectionPairing
+
 universe v u w v' u' w'
 
 variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
@@ -108,8 +135,7 @@ theorem eq_pullbackTensorIso_hom_app_iff
         ((f.pullbackModules).obj F, (f.pullbackModules).obj G)) :
     h = (pullbackTensorIso f).hom.app (F, G) ↔
       pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-          ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (𝟙 _)).unit.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
               (F.val ⊗ G.val) ≫
             ((pullbackAdjPushforwardModules f).unit.app
                 (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor Y.O))).obj
@@ -132,9 +158,10 @@ theorem eq_pullbackTensorIso_hom_app_iff
   have hc := pullbackTensorHomEquiv_pullbackTensorIso_hom f F G
   have hT : ((pullbackTensorStepTarget f F G N).symm (𝟙 N)).1 =
       tensorSectionPairing ((f.pullbackModules).obj F) ((f.pullbackModules).obj G) :=
-    bilinearEquivTensorSheafHom_symm_id_coe
+    (bilinearEquivTensorSheafHom_symm_id_coe
       (hA := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-      (F := (f.pullbackModules).obj F) (G := (f.pullbackModules).obj G)
+      (F := (f.pullbackModules).obj F) (G := (f.pullbackModules).obj G)).trans
+      (tensorSectionPairing_eq_pairingOfTensorHom_unit _ _).symm
   have hB := pullbackTensorBilinEquiv_symm_apply_coe_eq_prodMap_unit f F G N
     ((pullbackTensorStepTarget f F G N).symm (𝟙 N))
   rw [hT] at hB

@@ -26,9 +26,9 @@ finite type gives such a `g` (`Algebra.exists_unramified_of_isUnramifiedAt`).
 
 *The map `κ(p) → κ(q)` is pinned.* The extension `κ(q)/κ(p)` of hypothesis (3) is the one
 induced by `R_p → S_q`, whose algebra structure is a hypothesis together with
-`Localization.AtPrime.IsLiesOverAlgebra p q`, which says that its algebra map is the localization
-`Localization.localRingHom p q (algebraMap R S)` of the given map, as in Mathlib's
-`Algebra.isUnramifiedAt_iff_map_eq`. Such a structure always exists
+`IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)`, which says that its algebra
+map is the localization `Localization.localRingHom p q (algebraMap R S)` of the given map, as in
+Mathlib's `Algebra.isUnramifiedAt_iff_map_eq`. Such a structure always exists
 (`Localization.AtPrime.algebraOfLiesOver`), so this is no extra hypothesis on `R → S`.
 
 *The proof.* The source reduces to the fibre over `p` through Lemma 00UV (8) and computes
@@ -57,7 +57,7 @@ for some `g ∉ q`, and `κ(q)/κ(p)` is the extension induced by `R_p → S_q`.
 theorem exists_unramified_away_of_map_eq_maximalIdeal {R S : Type*} [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.FiniteType R S] (p : Ideal R) [p.IsPrime] (q : Ideal S) [q.IsPrime]
     [q.LiesOver p] [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
     (hmax : p.map (algebraMap R (Localization.AtPrime q)) =
       IsLocalRing.maximalIdeal (Localization.AtPrime q))
     (_hfin : Module.Finite p.ResidueField q.ResidueField)

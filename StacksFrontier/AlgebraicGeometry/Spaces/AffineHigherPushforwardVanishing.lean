@@ -55,7 +55,8 @@ Zariski site as `Stacks.Cohomology.Affine.isZero_rightDerived_pushforward_of_isA
 live on the small étale sites, where the input is the étale-site vanishing of the cohomology of
 a quasi-coherent module over an affine chart,
 `AlgebraicGeometry.Space.isZero_rightDerived_evaluation_of_isAffineChart`.  The unconditional
-route of `StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishingUnconditional.lean`
+route of
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishingUnconditional.lean`
 uses that vanishing through Stacks 072W, and
 `AlgebraicGeometry.Space.chartwiseIsZeroHigherDirectImage_of_isAffineHom` reads the result back as
 `h03DW`.

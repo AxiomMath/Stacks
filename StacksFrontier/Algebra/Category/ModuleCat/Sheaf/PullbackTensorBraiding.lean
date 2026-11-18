@@ -301,9 +301,7 @@ lemma pullbackTensorBottom_comp_braiding :
 lemma pullbackTensorTransposedComparison_val_app_unit_tmul (U : Y.Cᵒᵖ)
     (a : F.val.obj U) (r : G.val.obj U) :
     (pullbackTensorTransposedComparison f F G).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf Y.J Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
         (f.toToposHom.pushforward.map
@@ -324,9 +322,7 @@ lemma pullbackTensorTransposedComparison_comp_braiding_val_app (U : Y.Cᵒᵖ)
           (pushforwardModules f).map
             (tensorSheafBraiding X.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
               ((f.pullbackModules).obj F) ((f.pullbackModules).obj G)).hom).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf Y.J Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
         (f.toToposHom.pushforward.map (pullbackTensorBraidedBottomHom f F G))
@@ -352,9 +348,7 @@ lemma braiding_comp_pullbackTensorTransposedComparison_val_app (U : Y.Cᵒᵖ)
     (a : F.val.obj U) (r : G.val.obj U) :
     ((tensorSheafBraiding Y.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property F G).hom ≫
           pullbackTensorTransposedComparison f G F).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf Y.J Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
         (f.toToposHom.pushforward.map (pullbackTensorBraidedBottomHom f F G))

@@ -44,7 +44,8 @@ therefore finite locally free ([Stacks, Tag 02KB]).
   argument of [Stacks, Tag 0B49] from a flattening centre for `f` and `U` onwards. Tag 0B49
   itself, with the flattening centre supplied by [Stacks, Tag 081R], is
   `AlgebraicGeometry.exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform_of_isProper`
-  in `StacksFrontier.AlgebraicGeometry.Flatness.Applications.FiniteLocallyFreeStrictTransformOfProper`.
+  in
+  `StacksFrontier.AlgebraicGeometry.Flatness.Applications.FiniteLocallyFreeStrictTransformOfProper`.
 
 ## Implementation notes
 

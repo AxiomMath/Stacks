@@ -161,36 +161,43 @@ attribute [local instance] Strict.monoidalCategory
 /-- **Naturality of a map out of a tensor product sheaf, from naturality of its objectwise
 version.** For maps `α : M ⊗_p G ⟶ T` and `α' : M' ⊗_p G ⟶ T'` of presheaves of modules out of
 the objectwise tensor products, compatible with `f : M ⟶ M'` and `t : T ⟶ T'`, the induced maps
-out of the tensor product sheaves are compatible with `f ▷ G` and `t`. -/
+out of the tensor product sheaves (through the sealed sheafification adjunction
+`Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction`) are compatible with `f ▷ G`
+and `t`. -/
 theorem whiskerRight_comp_homEquiv_symm
     {M M' G T T' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (t : T ⟶ T')
     (α : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M.val G.val ⟶ T.val)
     (α' : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M'.val G.val ⟶ T'.val)
     (h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := O) f.val (𝟙 G.val) ≫ α' = α ≫ t.val) :
-    f ▷ G ≫ ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).symm α' =
-      ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).symm α ≫ t := by
-  refine (congrArg (· ≫ ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).symm α')
+    f ▷ G ≫ ((Invertible.structureSheafificationAdjunction O hO).homEquiv _ _).symm α' =
+      ((Invertible.structureSheafificationAdjunction O hO).homEquiv _ _).symm α ≫ t := by
+  refine (congrArg (· ≫ ((Invertible.structureSheafificationAdjunction O hO).homEquiv _ _).symm α')
     (whiskerRight_eq_sheafify_map O hO f G)).trans ?_
-  refine (((TensorSheafification.sheafifyAdjunction O hO).homEquiv_naturality_left_symm _
+  refine (((Invertible.structureSheafificationAdjunction O hO).homEquiv_naturality_left_symm _
     _).symm.trans (Eq.trans ?_
-      ((TensorSheafification.sheafifyAdjunction O hO).homEquiv_naturality_right_symm _ _)))
+      ((Invertible.structureSheafificationAdjunction O hO).homEquiv_naturality_right_symm _ _)))
   exact congrArg _ h
 
 /-- `Stacks.SheafOfModules.whiskerRight_comp_homEquiv_symm` with the induced maps written as the
-sheafification of the presheaf maps followed by the counit. -/
+sealed sheafification `Stacks.SheafOfModules.Invertible.structureSheafification` of the presheaf
+maps followed by the counit. -/
 theorem whiskerRight_comp_sheafify_map_comp
     {M M' G T T' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (t : T ⟶ T')
     (α : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M.val G.val ⟶ T.val)
     (α' : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M'.val G.val ⟶ T'.val)
     (h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := O) f.val (𝟙 G.val) ≫ α' = α ≫ t.val) :
-    f ▷ G ≫ (sheafifyFunctor O hO).map α' ≫ (sheafifyValIso O hO T').hom =
-      ((sheafifyFunctor O hO).map α ≫ (sheafifyValIso O hO T).hom) ≫ t :=
-  (congrArg (f ▷ G ≫ ·) (Adjunction.homEquiv_counit (TensorSheafification.sheafifyAdjunction O hO)
+    f ▷ G ≫ (Invertible.structureSheafification O hO).map α' ≫
+        (Invertible.structureSheafificationAdjunction O hO).counit.app T' =
+      ((Invertible.structureSheafification O hO).map α ≫
+        (Invertible.structureSheafificationAdjunction O hO).counit.app T) ≫ t :=
+  (congrArg (f ▷ G ≫ ·) (Adjunction.homEquiv_counit
+      (Invertible.structureSheafificationAdjunction O hO)
       (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M'.val G.val) T' α').symm).trans
     ((whiskerRight_comp_homEquiv_symm O hO f t α α' h).trans
-      (congrArg (· ≫ t) (Adjunction.homEquiv_counit (TensorSheafification.sheafifyAdjunction O hO)
+      (congrArg (· ≫ t) (Adjunction.homEquiv_counit
+        (Invertible.structureSheafificationAdjunction O hO)
         (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M.val G.val) T α)))
 
 end Strict
@@ -199,35 +206,52 @@ section Localized
 
 attribute [local instance] monoidalCategory sheafifyMonoidal
 
+/-- A map `P ⟶ F` into a sheaf, sheafified by the sealed sheafification and followed by its
+counit, is the same map sheafified by Mathlib's sheafification and followed by Mathlib's counit,
+up to the comparison `Stacks.SheafOfModules.sheafifyIsoSheafification`. -/
+private theorem sheafifyIsoSheafification_hom_app_comp_map_comp_counit
+    {P : PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj}
+    {F : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)} (f : P ⟶ F.val) :
+    (sheafifyIsoSheafification O hO).hom.app P ≫ (Invertible.structureSheafification O hO).map f ≫
+        (Invertible.structureSheafificationAdjunction O hO).counit.app F =
+      (sheafifyFunctor O hO).map f ≫ (sheafifyValIso O hO F).hom :=
+  (congrArg (fun k => _ ≫ _ ≫ k) (sheafificationForgetAdjunction_counit_app
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ F)).trans
+    (((sheafifyIsoSheafification O hO).hom.naturality_assoc f _).symm.trans
+      (congrArg ((sheafifyFunctor O hO).map f ≫ ·)
+        (Tensor.sheafificationIso_hom_app_counit
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ F)))
+
+/-- A map out of the tensor product sheaf induced by a map `m : M ⊗_p N ⟶ T` of presheaves,
+read on the localized tensor product through `Stacks.SheafOfModules.tensorObjIso`, is the map
+induced by `m` with Mathlib's sheafification and the localized tensorator. -/
+private theorem tensorObjIso_hom_comp_map_comp_counit
+    {M N T : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
+    (m : M.val ⊗ N.val ⟶ T.val) :
+    (tensorObjIso O hO M N).hom ≫ (Invertible.structureSheafification O hO).map m ≫
+        (Invertible.structureSheafificationAdjunction O hO).counit.app T =
+      ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
+        (sheafifyTensorIso O hO M.val N.val).hom ≫ (sheafifyFunctor O hO).map m ≫
+          (sheafifyValIso O hO T).hom :=
+  (congrArg (· ≫ _) (tensorObjIso_hom_eq O hO M N)).trans <| (Category.assoc _ _ _).trans <|
+    congrArg (_ ≫ ·) <| (Category.assoc _ _ _).trans <|
+      congrArg (_ ≫ ·) (sheafifyIsoSheafification_hom_app_comp_map_comp_counit O hO m)
+
 /-- **The multiplication of a sheafified algebra, read on the tensor product sheaf.** Let `G` be
 a sheaf of modules whose underlying presheaf is a monoid, and give `G` the monoid structure of
 its sheafification (for the localized monoidal structure). Then the multiplication of `G`,
 read on the tensor product sheaf through `Stacks.SheafOfModules.tensorObjIso`, is the map out of
-the sheafification induced by the multiplication of the presheaf. -/
+the tensor product sheaf induced by the multiplication of the presheaf: its sealed
+sheafification followed by the counit. -/
 theorem tensorObjIso_inv_comp_mul
     (G : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) [hG : MonObj G.val] :
     letI : MonObj G := @MonObj.ofIso _ _ _ _ _
       (Functor.monObjObj (F := sheafifyFunctor O hO) (X := G.val)) (sheafifyValIso O hO G)
     (tensorObjIso O hO G G).inv ≫ MonObj.mul =
-      (sheafifyFunctor O hO).map (MonObj.mul (X := G.val)) ≫ (sheafifyValIso O hO G).hom := by
-  let : MonObj G := @MonObj.ofIso _ _ _ _ _
-    (Functor.monObjObj (F := sheafifyFunctor O hO) (X := G.val)) (sheafifyValIso O hO G)
-  have h : ((sheafifyValIso O hO G).inv ⊗ₘ (sheafifyValIso O hO G).inv) ≫
-      Functor.LaxMonoidal.μ (sheafifyFunctor O hO) G.val G.val = (tensorObjIso O hO G G).hom :=
-    rfl
-  change (tensorObjIso O hO G G).inv ≫
-      ((sheafifyValIso O hO G).inv ⊗ₘ (sheafifyValIso O hO G).inv) ≫
-      (Functor.LaxMonoidal.μ (sheafifyFunctor O hO) G.val G.val ≫
-        (sheafifyFunctor O hO).map (MonObj.mul (X := G.val))) ≫ (sheafifyValIso O hO G).hom = _
-  have h2 : ((sheafifyValIso O hO G).inv ⊗ₘ (sheafifyValIso O hO G).inv) ≫
-      Functor.LaxMonoidal.μ (sheafifyFunctor O hO) G.val G.val ≫
-        (sheafifyFunctor O hO).map (MonObj.mul (X := G.val)) =
-      (tensorObjIso O hO G G).hom ≫ (sheafifyFunctor O hO).map (MonObj.mul (X := G.val)) :=
-    (Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) h)
-  refine (congrArg (fun k => (tensorObjIso O hO G G).inv ≫ k ≫ (sheafifyValIso O hO G).hom)
-    h2).trans ?_
-  exact (congrArg ((tensorObjIso O hO G G).inv ≫ ·) (Category.assoc _ _ _)).trans
-    (Iso.inv_hom_id_assoc _ _)
+      (Invertible.structureSheafification O hO).map (MonObj.mul (X := G.val)) ≫
+        (Invertible.structureSheafificationAdjunction O hO).counit.app G :=
+  (Iso.inv_comp_eq _).mpr ((congrArg (_ ≫ ·) (Category.assoc _ _ _)).trans
+    (tensorObjIso_hom_comp_map_comp_counit O hO (MonObj.mul (X := G.val))).symm)
 
 /-- **`Stacks.SheafOfModules.tensorObjIso` is natural in the left factor**, with the whiskering
 of the localized structure on the left and of the strict structure on the right. -/
@@ -240,7 +264,8 @@ theorem whiskerRight_comp_tensorObjIso_hom
           (Strict.monoidalCategory O hO).toMonoidalCategoryStruct _ _ f G := by
   rw [← tensorHom_id, tensorObjIso_naturality]
   refine congrArg ((tensorObjIso O hO M G).hom ≫ ·) ?_
-  exact (congrArg (sheafifyFunctor O hO).map (MonoidalCategory.tensorHom_id f.val G.val)).trans
+  exact (congrArg (Invertible.structureSheafification O hO).map
+    (MonoidalCategory.tensorHom_id f.val G.val)).trans
     (@whiskerRight_eq_sheafify_map _ _ _ O hO _ _ _ _ f G).symm
 
 end Localized

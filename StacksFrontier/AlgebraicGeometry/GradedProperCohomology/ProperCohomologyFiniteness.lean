@@ -25,7 +25,8 @@ statement carries no `Tag02O6` hypothesis. Its remaining arguments are the base 
 `X' = Spec(B) ×_{Spec(A)} X` of the source's own proof, supplied by the caller. The tag
 itself, with that base change constructed, is
 `moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology` in
-`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.FiniteGradedCohomology`; the vocabulary (`cohomologyOf`, `specAlgebraRingHom`, `pieceModule`, `gradedCohomologySum`) and
+`StacksFrontier.AlgebraicGeometry.GradedProperCohomology.FiniteGradedCohomology`; the vocabulary
+(`cohomologyOf`, `specAlgebraRingHom`, `pieceModule`, `gradedCohomologySum`) and
 part (2) are in `Basic`.
 
 ## Main results
@@ -78,7 +79,8 @@ theorem tag02O6 : Tag02O6.{u} := by
 
 /-! ### Tag 0897 part (1) -/
 
-/-- **Part (1) of [Stacks, Tag 0897], read off a given base change.** Let `A` be a Noetherian ring, `B` a
+/-- **Part (1) of [Stacks, Tag 0897], read off a given base change.** Let `A` be a Noetherian ring,
+`B` a
 finitely generated graded `A`-algebra, `f : X ⟶ Spec A` proper and `F` a quasi-coherent graded
 `𝓑`-module of finite type. Then the graded `B`-module `⨁ₙ H^p(X, Fₙ)` is a finite `B`-module,
 for every `p`.

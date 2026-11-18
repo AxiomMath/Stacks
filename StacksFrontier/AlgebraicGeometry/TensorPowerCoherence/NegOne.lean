@@ -73,9 +73,9 @@ theorem sectionMulNegOne_eq_coherent
     (s : L.val.obj U) (t : (tensorPower O hO L (-1)).val.obj U) :
     sectionMulNegOne O hO L U s t =
       (((tensorPowerCoherence O hO L).mulIso 1 (-1)).hom.val.app U).hom
-        (((Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
-          ((PresheafOfModules.tensorObj (O := O) ((tensorPower O hO L 1).val)
-            ((tensorPower O hO L (-1)).val)))).app U).hom
+        ((((structureSheafificationAdjunction O hO).unit.app
+          (PresheafOfModules.tensorObj (O := O) ((tensorPower O hO L 1).val)
+            ((tensorPower O hO L (-1)).val))).app U).hom
           ((((tensorPowerOneIso O hO L).inv.val.app U).hom s) ⊗ₜ t)) := by
   rw [tensorPowerCoherence_mulIso_one_negOne]
   rfl
@@ -89,10 +89,10 @@ theorem globalSectionsMulNegOne_eq_coherent {X : AlgebraicGeometry.Scheme.{w}} (
     globalSectionsMulNegOne L s t =
       (((tensorPowerCoherence X.presheaf X.ringCatSheaf.property L).mulIso 1 (-1)).hom.val.app
             (.op ⊤)).hom
-        (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf X.ringCatSheaf.property
-          ((PresheafOfModules.tensorObj (O := X.presheaf)
+        ((((structureSheafificationAdjunction X.presheaf X.ringCatSheaf.property).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf)
             ((tensorPower X.presheaf X.ringCatSheaf.property L 1).val)
-            ((tensorPower X.presheaf X.ringCatSheaf.property L (-1)).val)))).app (.op ⊤)).hom
+            ((tensorPower X.presheaf X.ringCatSheaf.property L (-1)).val))).app (.op ⊤)).hom
           ((((tensorPowerOneIso X.presheaf X.ringCatSheaf.property L).inv.val.app
             (.op ⊤)).hom s) ⊗ₜ t)) :=
   sectionMulNegOne_eq_coherent X.presheaf X.ringCatSheaf.property L (.op ⊤) s t

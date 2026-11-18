@@ -36,6 +36,17 @@ any fppf sheaf of modules factors through it uniquely.
   formed on any associated site of the fibred category is the tensor product in the category of
   sheaves of modules for the inherited fppf topology.
 
+## Implementation notes
+
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so the pure-tensor map is the unit of its
+adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, not Mathlib's
+`PresheafOfModules.sheafificationAdjunction`. Its local injectivity and surjectivity are the
+sealed instances, supplied as terms: the objectwise tensor product is a presheaf of modules over
+`𝒪 ⋙ forget₂ CommRingCat RingCat`, the instances are stated over `(ringSheaf _).obj`, and the two
+rings agree only after unfolding `Stacks.SheafOfModules.Tensor.ringSheaf`, which instance
+synthesis does not do.
+
 ## References
 
 * [Stacks Project, Tag 06WN](https://stacks.math.columbia.edu/tag/06WN)
@@ -61,15 +72,16 @@ variable {C : Type v} [Category.{w} C] {J : GrothendieckTopology C}
   [HasWeakSheafify J AddCommGrpCat.{u}]
 
 /-- The pure-tensor bilinear map from a pair of sheaves of modules on a ringed site into the
-sheafification of their objectwise tensor product: the sheafification unit, read as a bilinear
-map on sections. -/
+sheafification of their objectwise tensor product: the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, read as a bilinear map on sections. -/
 public noncomputable def toTensorSheaf
     (F G : SheafOfModules.{u} (SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     BilinearMap 𝒪 F.val G.val (((Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat)
           h𝒪⟩).obj F).obj G).val :=
   BilinearMap.ofTensorHom
-    (SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
       (PresheafOfModules.tensorObj (O := 𝒪) F.val G.val))
 
 /-- The morphism out of the objectwise tensor product associated with the pure-tensor bilinear
@@ -77,7 +89,8 @@ map is the sheafification unit itself. -/
 public theorem tensorHom_toTensorSheaf
     (F G : SheafOfModules.{u} (SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     (toTensorSheaf 𝒪 h𝒪 F G).tensorHom =
-      SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
         (PresheafOfModules.tensorObj (O := 𝒪) F.val G.val) :=
   BilinearMap.homEquiv.left_inv _
 
@@ -87,8 +100,9 @@ public theorem isLocallyInjective_toTensorSheaf
     (F G : SheafOfModules.{u} (SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     Presheaf.IsLocallyInjective J (sectionsMap (toTensorSheaf 𝒪 h𝒪 F G).tensorHom) := by
   rw [tensorHom_toTensorSheaf]
-  exact inferInstanceAs (Presheaf.IsLocallyInjective J (Functor.whiskerRight
-    (CategoryTheory.toSheafify J _) (forget AddCommGrpCat.{u})))
+  exact (Presheaf.isLocallyInjective_forget_iff J _).mpr
+    (Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ _)
 
 /-- The sheafification unit of the objectwise tensor product is locally surjective on
 sections. -/
@@ -96,8 +110,9 @@ public theorem isLocallySurjective_toTensorSheaf
     (F G : SheafOfModules.{u} (SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     Presheaf.IsLocallySurjective J (sectionsMap (toTensorSheaf 𝒪 h𝒪 F G).tensorHom) := by
   rw [tensorHom_toTensorSheaf]
-  exact inferInstanceAs (Presheaf.IsLocallySurjective J (Functor.whiskerRight
-    (CategoryTheory.toSheafify J _) (forget AddCommGrpCat.{u})))
+  exact (Presheaf.isLocallySurjective_iff_whisker_forget J _).mp
+    (Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ _)
 
 /-- The sheafification of the objectwise tensor product of two sheaves of modules on a ringed
 site is their tensor product in the category of sheaves of modules for *every* topology finer

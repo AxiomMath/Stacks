@@ -148,8 +148,8 @@ transparency: the tensor product of two morphisms read on the uncurried bifuncto
 `(Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor C.O)).map (s, u)`, is the
 functorial image of `s` whiskered with the target of `u` *followed by* the image of `u`, whereas
 `Stacks.SheafOfModules.bilinearEquivTensorSheafHom_precomp` produces the single sheafified
-morphism `(PresheafOfModules.sheafification (𝟙 _)).map (s.val ⊗ₘ u.val)`. The two are equal only
-propositionally, by `Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map`, whose proof is the
+morphism `(Stacks.SheafOfModules.Tensor.sheafification _).map (s.val ⊗ₘ u.val)`. The two are equal
+only propositionally, by `Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map`, whose proof is the
 functoriality of sheafification; that identity is composed onto the library lemma here.
 
 **What remains for the composition law.** The equation

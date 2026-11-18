@@ -42,9 +42,12 @@ For `𝒪 = X.sheaf.obj` on the site of opens of a scheme, the source of
 `Stacks.SheafOfModules.evalPresheaf` agrees definitionally with
 `Stacks.SheafOfModules.TensorStalkRingedSpace.presheafTensor`.
 
-`evalTensorModules` is `(sheafifyFunctor X).map` of the presheaf pairing followed by
-`Stacks.SheafOfModules.sheafifyValIso`; its action on sections is
-`Stacks.SheafOfModules.TensorUnit.sheafifyMap_sheafifyValIso_sheafifyUnit`.
+`evalTensorModules` is the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`
+(the one `sheafTensor` is built from) of the presheaf pairing, followed by
+`Stacks.SheafOfModules.sheafificationCounitIso`, the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`; its action on sections is the
+naturality of the unit `Stacks.SheafOfModules.Tensor.unit_naturality_apply` followed by the right
+triangle identity.
 
 ## References
 
@@ -80,10 +83,19 @@ scheme: the sheafification of the presheaf pairing followed by the counit of the
 adjunction. -/
 public noncomputable def evalTensorModules (G F : X.Modules) :
     tensorModules (sheafHomModules G F) G ⟶ F :=
-  (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).map
-      (evalTensorPresheaf G F) ≫
-    (Stacks.SheafOfModules.sheafifyValIso X.presheaf
-      (structureSheafRing X.toRingedSpace).property F).hom
+  (Tensor.sheafification X.sheaf).map (evalTensorPresheaf G F) ≫
+    (Stacks.SheafOfModules.sheafificationCounitIso X.sheaf F).hom
+
+/-- The counit of the sealed sheafification at an `𝒪_X`-module `F` undoes the sheafification unit
+on local sections of `F`: the right triangle identity of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
+private theorem sheafificationCounitIso_hom_unit_apply (F : X.Modules) (V : X.Opens)
+    (x : F.val.obj (op V)) :
+    (Stacks.SheafOfModules.sheafificationCounitIso X.sheaf F).hom.val.app (op V)
+        (((Tensor.sheafificationAdjunction X.sheaf).unit.app F.val).app (op V) x) = x :=
+  (congrArg _ (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.sheaf F.val (op V)
+    x)).symm.trans (congrArg (fun k ↦ PresheafOfModules.Hom.app k (op V) x)
+      ((Tensor.sheafificationForgetAdjunction X.sheaf).right_triangle_components F))
 
 /-- **The evaluation pairing on a local pure tensor**: `α ⊗ g` goes to the value of `α` at `g`,
 that is to the component of `α : G|_V ⟶ F|_V` at the terminal object of the slice site over `V`
@@ -94,8 +106,8 @@ public theorem evalTensorModules_app_toTensorSheafSection (G F : X.Modules) (V :
     X.toRingedSpace
         (sheafHomModules G F) G (op V) (α ⊗ₜ[X.presheaf.obj (op V)] g))
       = evalSection X.sheaf.obj G.val F.val (op V) α g :=
-  Stacks.SheafOfModules.TensorUnit.sheafifyMap_sheafifyValIso_sheafifyUnit
-    X.toRingedSpace F (evalTensorPresheaf G F) (op V) (α ⊗ₜ[X.presheaf.obj (op V)] g)
+  (congrArg _ (Tensor.unit_naturality_apply (evalTensorPresheaf G F) (op V)
+    (α ⊗ₜ[X.presheaf.obj (op V)] g))).trans (sheafificationCounitIso_hom_unit_apply F V _)
 
 /-- **The morphism `A ⊗_{𝒪_X} G ⟶ F` attached to a morphism `ψ : A ⟶ SheafHom_{𝒪_X}(G, F)`**,
 sending a local pure tensor `a ⊗ g` to `ψ(a)(g)`. -/

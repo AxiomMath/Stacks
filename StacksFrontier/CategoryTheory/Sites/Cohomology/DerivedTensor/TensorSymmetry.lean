@@ -124,10 +124,7 @@ def sheafTensorBraiding :
   Functor.isoWhiskerLeft (SheafOfModules.forget (ringSheaf.{u, v, w} R))
     (Functor.isoWhiskerRight
       (Functor.isoWhiskerRight (presheafTensorBraiding R)
-        ((Functor.whiskeringRight _ _ _).obj (PresheafOfModules.sheafification.{w}
-            (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj))))
+        ((Functor.whiskeringRight _ _ _).obj (sheafification R)))
       ((Functor.whiskeringLeft _ _ _).obj (SheafOfModules.forget (ringSheaf.{u, v, w} R))))
 
 section

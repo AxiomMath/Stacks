@@ -185,10 +185,9 @@ public theorem adjointFamily_absoluteTwistProduct (tw : TwistFamily 𝒜 ℬ ψ)
   refine Eq.trans (congrArg (Hom.app (tw (n + m)).val (op (mapHom 𝒜 ℬ ψ ⁻¹ᵁ U)))
     (pullbackUnit_naturality (mapHom 𝒜 ℬ ψ).toLRSHom.toShHom
       (twistMultiplicationMap 𝒜 n m) (op U)
-      (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf ((AlgebraicGeometry.Proj 𝒜).toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf
-            ((AlgebraicGeometry.Proj 𝒜).toRingedSpace)).obj)).unit.app
+      (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨((AlgebraicGeometry.Proj 𝒜).toRingedSpace).presheaf,
+            ((AlgebraicGeometry.Proj 𝒜).toRingedSpace).IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := ((AlgebraicGeometry.Proj 𝒜).toRingedSpace).presheaf)
           ((twistingSheaf 𝒜 n)).val ((twistingSheaf 𝒜 m)).val)) (op U) (s ⊗ₜ t))).symm) ?_
   refine Eq.trans (hom_app_congr
@@ -212,10 +211,9 @@ public theorem adjointFamily_absoluteTwistProduct (tw : TwistFamily 𝒜 ℬ ψ)
       (op (mapHom 𝒜 ℬ ψ ⁻¹ᵁ U)) _ _)) ?_
   refine Eq.trans (congrArg₂ (fun a b => Hom.app (pullbackTwistMultiplication ℬ
         (mapDomain 𝒜 ℬ ψ).ι n m).val (op (mapHom 𝒜 ℬ ψ ⁻¹ᵁ U))
-      (Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf ((mapDomain 𝒜 ℬ ψ).toScheme.toRingedSpace))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf
-            ((mapDomain 𝒜 ℬ ψ).toScheme.toRingedSpace)).obj)).unit.app
+      (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨((mapDomain 𝒜 ℬ ψ).toScheme.toRingedSpace).presheaf,
+            ((mapDomain 𝒜 ℬ ψ).toScheme.toRingedSpace).IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := ((mapDomain 𝒜 ℬ ψ).toScheme.toRingedSpace).presheaf)
           (((Scheme.Modules.pullback (mapDomain 𝒜 ℬ ψ).ι).obj (twistingSheaf ℬ n))).val
           (((Scheme.Modules.pullback (mapDomain 𝒜 ℬ ψ).ι).obj (twistingSheaf ℬ m))).val))

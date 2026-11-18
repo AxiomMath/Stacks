@@ -290,11 +290,8 @@ variable [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}] [HasWeakSheafify Y.J A
 /-- The value of `c : I ⊗_O F ⟶ K` on a pure tensor of local sections. -/
 noncomputable def extensionPairing (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (m : F.val.obj U) :
     K.val.obj U :=
-  c.val.app U (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+  c.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
       (PresheafOfModules.tensorObj hi.I.val F.val)).app U
     (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] m))
 
@@ -306,11 +303,8 @@ private theorem extensionPairing_eq_add {U : Y.Cᵒᵖ} {a a₁ a₂ : hi.I.val.
         a₂ ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] m₂) :
     extensionPairing hi F K c U a m =
       extensionPairing hi F K c U a₁ m₁ + extensionPairing hi F K c U a₂ m₂ :=
-  (congrArg (fun z => c.val.app U (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+  (congrArg (fun z => c.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
       (PresheafOfModules.tensorObj hi.I.val F.val)).app U z)) h).trans
     ((congrArg (c.val.app U) (map_add _ _ _)).trans (map_add _ _ _))
 
@@ -322,11 +316,8 @@ private theorem extensionPairing_eq_smul {U : Y.Cᵒᵖ}
     (h : a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] m =
       r • (a' ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] m')) :
     extensionPairing hi F K c U a m = r • extensionPairing hi F K c U a' m' :=
-  (congrArg (fun z => c.val.app U (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+  (congrArg (fun z => c.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
       (PresheafOfModules.tensorObj hi.I.val F.val)).app U z)) h).trans
     ((congrArg (c.val.app U) (map_smul _ _ _)).trans (map_smul _ _ _))
 
@@ -334,11 +325,8 @@ private theorem extensionPairing_eq_smul {U : Y.Cᵒᵖ}
 private theorem extensionPairing_eq_zero {U : Y.Cᵒᵖ} {a : hi.I.val.obj U} {m : F.val.obj U}
     (h : a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] m = 0) :
     extensionPairing hi F K c U a m = 0 :=
-  (congrArg (fun z => c.val.app U (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
+  (congrArg (fun z => c.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
       (PresheafOfModules.tensorObj hi.I.val F.val)).app U z)) h).trans
     ((congrArg (c.val.app U) (map_zero _)).trans (map_zero _))
 
@@ -384,12 +372,10 @@ theorem extensionPairing_naturality {U V : Y.Cᵒᵖ} (f : U ⟶ V) (a : hi.I.va
       extensionPairing hi F K c V (hi.I.val.map f a) (F.val.map f m) :=
   (PresheafOfModules.naturality_apply c.val f _).symm.trans
     (congrArg (c.val.app V)
-      (PresheafOfModules.naturality_apply ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
-        (PresheafOfModules.tensorObj hi.I.val F.val)) f _).symm)
+      (PresheafOfModules.naturality_apply
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
+          (PresheafOfModules.tensorObj hi.I.val F.val)) f _).symm)
 
 end Pairing
 

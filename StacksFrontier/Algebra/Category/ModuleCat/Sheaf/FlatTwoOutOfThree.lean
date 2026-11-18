@@ -267,7 +267,7 @@ theorem shortExact_map_tensorRight
   have hS' : S'.ShortExact := hS
   let e := botEquiv R
   let SF : _root_.PresheafOfModules.{u} R.obj ⥤ _root_.SheafOfModules.{u} R :=
-    _root_.PresheafOfModules.sheafification.{u} (R := R) (𝟙 R.obj)
+    Stacks.SheafOfModules.Tensor.sheafification O'
   let TF : _root_.PresheafOfModules.{u} R.obj ⥤ _root_.PresheafOfModules.{u} R.obj :=
     PresheafOfModules.tensorRight (O := O'.obj) S'.X₃
   let TG : _root_.PresheafOfModules.{u} R.obj ⥤ _root_.PresheafOfModules.{u} R.obj :=
@@ -276,10 +276,10 @@ theorem shortExact_map_tensorRight
   have hTGzero : TG.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_additive TG
   have hTFlim : PreservesFiniteLimits TF := h₃.1
   have hTFcolim : PreservesFiniteColimits TF := h₃.2
-  have hSFadd : SF.Additive :=
-    _root_.PresheafOfModules.sheafification_additive R (𝟙 R.obj)
-  let adj : SF ⊣ e.inverse := _root_.PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)
+  let adj : SF ⊣ e.inverse := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O'
   have hEIadd : e.inverse.Additive := adj.right_adjoint_additive
+  let eSF : SF ≅ e.functor := adj.leftAdjointUniq e.toAdjunction
+  have hSFlim : PreservesFiniteLimits SF := preservesFiniteLimits_of_natIso eSF.symm
   have hflat : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := O')
       ((S'.map e.functor).X₃) :=
     ⟨comp_preservesFiniteLimits e.inverse (TF ⋙ SF),
@@ -288,7 +288,7 @@ theorem shortExact_map_tensorRight
     Stacks.SheafOfModules.FlatTensorShortExact.shortExact_map_sheafTensor_flip O'
       (S := S'.map e.functor) (hS'.map_of_exact e.functor) hflat (e.functor.obj G')
   let iso : SF ⋙ e.inverse ≅ 𝟭 _ :=
-    Functor.isoWhiskerRight (adj.leftAdjointUniq e.toAdjunction) e.inverse ≪≫ e.unitIso.symm
+    Functor.isoWhiskerRight eSF e.inverse ≪≫ e.unitIso.symm
   exact ShortComplex.shortExact_of_iso ((S'.map TG).mapNatIso iso) (hh.map_of_exact e.inverse)
 
 /-- The braiding, read as an isomorphism `M ⊗ · ≅ · ⊗ M` of endofunctors of presheaves of

@@ -82,7 +82,7 @@ theorem kFlatQLeft_isLocalization
 attribute [local instance] kFlatQ_isLocalization kFlatQLeft_isLocalization
 
 /-- K-flatness as a property of cochain complexes of `O`-modules: the class of the complex in
-`K(Mod(O))` is K-flat.  This is `Stacks.SheafOfModules.KFlat.KFlat R`, in the form
+`K(Mod(O))` is K-flat.  This is `Stacks.SheafOfModules.KFlat R`, in the form
 `CategoryTheory.ObjectProperty.ι_comp_Q_isLocalization` consumes. -/
 abbrev KFlatComplexes
     {C : Type c} [Category.{u} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})

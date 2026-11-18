@@ -920,6 +920,7 @@ variable (A K L Ω : Type u) [CommRing A] [IsDomain A] [IsIntegrallyClosed A] [I
     [Algebra Kh L] [IsScalarTower K Kh L]
 
 omit [IsFractionRing Ah Kh] [Algebra A Kh] [IsScalarTower A Ah Kh] [IsScalarTower A K Kh] in
+omit [IsIntegrallyClosed A] in
 /-- An automorphism of `K^sep` over `K^h` lies, as an automorphism over `K`, in the decomposition
 group `D` at `𝔪^sep`, for the embedding `K^h ⊆ K^sep` induced by the canonical local map
 `A^h → (A^sep)_{𝔪^sep}`. -/
@@ -935,6 +936,7 @@ theorem restrictScalars_mem_stabilizer_of_henselization
   exact σ.commutes _
 
 omit [Algebra A Kh] [IsScalarTower A Ah Kh] [IsScalarTower A K Kh] in
+omit [IsIntegrallyClosed A] in
 /-- Every element of the decomposition group `D` at `𝔪^sep` is an automorphism of `K^sep` over
 `K^h`: restriction of scalars `Gal(K^sep/K^h) → Gal(K^sep/K)` maps onto `D`. -/
 theorem exists_restrictScalars_eq_of_mem_stabilizer

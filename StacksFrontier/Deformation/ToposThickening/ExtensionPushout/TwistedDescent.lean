@@ -478,9 +478,7 @@ lemma extensionOne_actionMap_spec (U : Y.Cᵒᵖ) (m : D.first.I.val.obj U)
     (x : (dat.extensionOne E₂ hE₂).Z.left.val.obj U) :
     (dat.extensionOne E₂ hE₂).f.val.app U
         (dat.c₁.val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
             (PresheafOfModules.tensorObj D.first.I.val dat.F.val)).app U
             (m ⊗ₜ[(baseRing i).obj.obj U]
               (dat.extensionOne E₂ hE₂).g.val.app U x))) =

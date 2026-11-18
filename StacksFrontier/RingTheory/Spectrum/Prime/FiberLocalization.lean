@@ -67,7 +67,7 @@ noncomputable def Fiber.localizationPrimeOfLiesOverAlgEquivQuotient :
   Fiber.localizationAlgEquivQuotientOfComapEq p q _ (Fiber.comap_primeOfLiesOver p q)
 
 variable [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-  [Localization.AtPrime.IsLiesOverAlgebra p q]
+  [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
 
 /-- **Stacks 0H9M**, the second isomorphism: `S_𝔮 ⊗_{R_𝔭} κ(𝔭) ≅ S_𝔮 / 𝔭 S_𝔮`, because
 `κ(𝔭) = R_𝔭 / 𝔭R_𝔭`. An isomorphism of `S_𝔮`-algebras. -/

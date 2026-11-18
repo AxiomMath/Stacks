@@ -410,9 +410,7 @@ noncomputable def summandValue (m : tensorSquare B D ⟶ deRhamComplex B D) (p q
       (deRhamComplex B D) (deRhamComplex B D)
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A)
         (ComplexShape.up ℕ) p q (p + q) rfl ≫ m.f (p + q)).val.app U
-    (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
       (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B q).val)).app U
         (ω ⊗ₜ[A.obj.obj U] η))
 

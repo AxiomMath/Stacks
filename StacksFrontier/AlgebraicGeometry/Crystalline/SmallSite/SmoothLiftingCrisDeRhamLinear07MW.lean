@@ -132,8 +132,8 @@ theorem nonempty_iso_derivedBaseGlobalSections_of_isIso
     (h : IsIso (crystallineToAmbientDeRham hF T.crystallineThickening)) :
     Nonempty (moduleULiftDerivedGlobalSections S F ≅
       derivedBaseGlobalSections T.toBase (T.moduleWithConnection hF).complex) := by
-  letI := HasDerivedCategory.standard (BaseModuleSheaf S)
-  letI := HasDerivedCategory.standard
+  let := HasDerivedCategory.standard (BaseModuleSheaf S)
+  let := HasDerivedCategory.standard
     (CrystallineThickening.AmbientModuleSheaf T.crystallineThickening)
   have := isIso_derivedBaseLinearGlobalSections_map_linearTruncationPlus hF
   have := isIso_derivedLinearGlobalSectionsToAmbient_app_linearDeRhamPlus hF

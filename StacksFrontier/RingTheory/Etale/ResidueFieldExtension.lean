@@ -691,7 +691,7 @@ public theorem Algebra.map_eq_maximalIdeal_and_finite_isSeparable_of_unramified_
     {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
     (p : Ideal R) [p.IsPrime] (q : Ideal S) [q.IsPrime] [q.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
     (h : ∃ g ∉ q, Algebra.Unramified R (Localization.Away g)) :
     (p.map (algebraMap R (Localization.AtPrime q)) =
         q.map (algebraMap S (Localization.AtPrime q)) ∧

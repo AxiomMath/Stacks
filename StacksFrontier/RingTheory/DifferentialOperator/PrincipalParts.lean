@@ -1371,8 +1371,7 @@ noncomputable def diagonalActionHom : S ⊗[R] S →ₐ[R] Module.End R (S ⊗[R
   Algebra.TensorProduct.lift (Algebra.lsmul R R (S ⊗[R] M))
     ((Module.End.lTensorAlgHom R M S).comp (Algebra.lsmul R R M)) fun a b => by
       refine LinearMap.ext fun e => ?_
-      induction e using TensorProduct.induction_on with
-      | zero => simp
+      induction e using TensorProduct.inductionOn with
       | tmul t m =>
         change a • (t ⊗ₜ[R] (b • m)) =
           (Module.End.lTensorAlgHom R M S (Algebra.lsmul R R M b)) (a • (t ⊗ₜ[R] m))

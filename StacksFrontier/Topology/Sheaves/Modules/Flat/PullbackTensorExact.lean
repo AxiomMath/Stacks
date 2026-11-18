@@ -124,21 +124,7 @@ private theorem pullbackTensorFunctor_map {G G' : SheafOfModules.{u} (structureS
           ((pullbackFunctor f).map φ, 𝟙 F) := by
   refine Eq.trans ?_ (Tensor.sheafTensor_uncurry_map.{u, u, u, u, u}
     ⟨X.presheaf, X.IsSheaf⟩ ((pullbackFunctor f).map φ) (𝟙 F)).symm
-  change (sheafifyFunctor X).map
-      ((Stacks.tensorRight (O := X.presheaf) F.val).map ((pullbackFunctor f).map φ).val) =
-    (sheafifyFunctor X).map
-      (PresheafOfModules.tensorHom (O := X.presheaf)
-        ((pullbackFunctor f).map φ).val (𝟙 F.val))
-  apply congrArg (sheafifyFunctor X).map
-  apply PresheafOfModules.hom_ext
-  intro openSet
-  apply ModuleCat.hom_ext
-  apply TensorProduct.ext
-  ext leftSection rightSection
-  exact (Stacks.tensorRight_map_app_tmul (O := X.presheaf) F.val
-    ((pullbackFunctor f).map φ).val openSet leftSection rightSection).trans
-      (PresheafOfModules.tensorHom_tmul (O := X.presheaf)
-        ((pullbackFunctor f).map φ).val (𝟙 F.val) openSet leftSection rightSection).symm
+  exact Tensor.sheafTensor_map_app _ _ _
 
 /-! ### The stalk of the pullback, naturally in the module -/
 

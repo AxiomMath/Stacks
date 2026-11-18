@@ -164,7 +164,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Stacks 0AIU as a proposition -/
 
-/-- **Stacks 0AIU**, corrected, in the shape in which Stacks 0AJH and Stacks 0AJI consume it: a sheaf
+/-- **Stacks 0AIU**, corrected, in the shape in which Stacks 0AJH and Stacks 0AJI consume it: a
+sheaf
 isomorphic to the colimit of a directed system of algebraic spaces whose transition morphisms
 are representable thickenings is a formal algebraic space, provided it satisfies the
 set-theoretic condition of Stacks 0AIS. -/

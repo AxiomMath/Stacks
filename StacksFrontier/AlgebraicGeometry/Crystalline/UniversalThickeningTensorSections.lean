@@ -30,7 +30,9 @@ own order:
 * `CategoryTheory.MonoidalCategory.reseatBraided_braiding_hom` — the braiding of a re-seated
   structure is the given braiding conjugated by the re-seating isomorphism.
 * `SheafOfModules.sheafTensor_braiding_hom` — the braiding of the re-seated tensor product of
-  sheaves of modules is the sheafification of the braiding of presheaves of modules.
+  sheaves of modules is the sheafification of the braiding of presheaves of modules, for the
+  sealed `Stacks.SheafOfModules.Tensor.sheafification` that
+  `Stacks.SheafOfModules.Tensor.sheafTensor` ends with.
 * `Crystalline.schemeModules_braiding_tmul` — **the braiding exchanges the two factors of a local
   pure tensor.**
 
@@ -80,21 +82,18 @@ noncomputable def presheafBraidedRingSheaf :
 
 attribute [local instance] presheafBraidedRingSheaf
 
-/-- **The braiding of the re-seated tensor product of sheaves of modules is the sheafification of
-the braiding of the underlying presheaves of modules.**  The re-seated braiding is the localized
-one conjugated by `SheafOfModules.sheafTensorIso`, and sheafification is a braided functor into
-the localized structure (`CategoryTheory.Localization.Monoidal.β_hom_app`). -/
-theorem sheafTensor_braiding_hom
+/-- **The localized braiding of sheaves of modules, conjugated by `SheafOfModules.sheafTensorIso`,
+is Mathlib's sheafification of the braiding of the underlying presheaves of modules**:
+sheafification is a braided functor into the localized structure
+(`CategoryTheory.Localization.Monoidal.β_hom_app`). -/
+theorem sheafTensorIso_inv_braiding_hom_sheafTensorIso_hom
     (M N : SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
-    (@BraidedCategory.braiding _ _ (monoidalCategorySheafTensor R)
-      (symmetricCategorySheafTensor R).toBraidedCategory M N).hom =
+    (sheafTensorIso R M N).inv ≫ (β_ M N).hom ≫ (sheafTensorIso R N M).hom =
     ((PresheafOfModules.sheafification
       (R := Stacks.SheafOfModules.Tensor.ringSheaf (R))
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (R)).obj))).map
       (β_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj M)
         ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj N)).hom := by
-  rw [symmetricCategorySheafTensor, reseatSymmetric_braiding_hom]
-  change (sheafTensorIso R M N).inv ≫ (β_ M N).hom ≫ (sheafTensorIso R N M).hom = _
   let : (J.W.inverseImage (PresheafOfModules.toPresheaf
       (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).IsMonoidal :=
     Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj)
@@ -135,6 +134,45 @@ theorem sheafTensor_braiding_hom
     tensorHom_id, id_whiskerRight, Category.id_comp, hb, Category.assoc, Category.assoc,
     Functor.Monoidal.δ_μ, Category.comp_id, Functor.Monoidal.δ_μ_assoc]
 
+/-- **The localized braiding of sheaves of modules followed by the comparison with the sealed
+sheafification of the presheaf tensor product** is that comparison followed by the sealed
+sheafification of the braiding of presheaves of modules.  The comparison is
+`SheafOfModules.sheafTensorIso` followed by `Stacks.SheafOfModules.Tensor.sheafificationIso`,
+which is natural. -/
+theorem braiding_hom_comp_sheafTensorIso_hom_comp_sheafificationIso_hom
+    (M N : SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (β_ M N).hom ≫ (sheafTensorIso R N M).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.app
+          ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj N ⊗
+            (forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj M) =
+      (sheafTensorIso R M N).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.app
+          ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj M ⊗
+            (forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj N) ≫
+        (Stacks.SheafOfModules.Tensor.sheafification R).map
+          (β_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj M)
+            ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj N)).hom := by
+  rw [← NatTrans.naturality, reassoc_of% (Iso.inv_comp_eq _).1
+    (sheafTensorIso_inv_braiding_hom_sheafTensorIso_hom R M N)]
+
+/-- **The braiding of the re-seated tensor product of sheaves of modules is the sheafification of
+the braiding of the underlying presheaves of modules**, for the sealed
+`Stacks.SheafOfModules.Tensor.sheafification` that `Stacks.SheafOfModules.Tensor.sheafTensor` ends
+with.  The re-seated braiding is the localized one conjugated by
+`SheafOfModules.sheafTensorNatIso`, whose components are `SheafOfModules.sheafTensorIso` followed
+by `Stacks.SheafOfModules.Tensor.sheafificationIso`
+(`SheafOfModules.braiding_hom_comp_sheafTensorIso_hom_comp_sheafificationIso_hom`). -/
+theorem sheafTensor_braiding_hom
+    (M N : SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (@BraidedCategory.braiding _ _ (monoidalCategorySheafTensor R)
+      (symmetricCategorySheafTensor R).toBraidedCategory M N).hom =
+    (Stacks.SheafOfModules.Tensor.sheafification R).map
+      (β_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj M)
+        ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj N)).hom := by
+  rw [symmetricCategorySheafTensor, reseatSymmetric_braiding_hom]
+  exact (Iso.inv_comp_eq _).2
+    (braiding_hom_comp_sheafTensorIso_hom_comp_sheafificationIso_hom R M N)
+
 end SheafOfModules
 
 namespace Crystalline
@@ -152,34 +190,12 @@ theorem schemeModules_braiding_tmul (X : Scheme.{u}) (M N : X.Modules) (U : (Ope
   let := Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory X.sheaf
   let := SheafOfModules.presheafBraidedRingSheaf X.sheaf
   have h := SheafOfModules.sheafTensor_braiding_hom X.sheaf M N
-  have hu : ∀ x, (((PresheafOfModules.sheafification
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.sheaf))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.sheaf)).obj))).map
-        (β_ ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj M)
-          ((SheafOfModules.forget
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj N)).hom).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
-            ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj M ⊗
-              (SheafOfModules.forget
-                (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj N)).app U x) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
-            ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj N ⊗
-              (SheafOfModules.forget
-                (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj M)).app U
-        ((β_ ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj M)
-          ((SheafOfModules.forget
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj N)).hom.app U x) :=
-    fun x ↦ (congrArg (fun φ ↦ φ.app U x)
-      ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.naturality
-        (β_ ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj M)
-          ((SheafOfModules.forget
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj N)).hom)).symm
   refine (congrArg (fun φ ↦ φ.val.app U
     (Stacks.PullbackTensorCoherence.tmul X.toRingedSpace M N U a b)) h).trans ?_
-  exact hu (a ⊗ₜ b)
+  exact Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    (β_ ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj M)
+      ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj N)).hom
+    U (a ⊗ₜ b)
 
 variable (T : DividedPowerScheme.{u}) (Y : Scheme.{u}) (f : T.scheme ⟶ Y) (N : T.scheme.Modules)
 

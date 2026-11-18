@@ -19,7 +19,8 @@ equivalent to finite sets.
 This is the algebra-level statement. The scheme-level statement of Stacks Tag 0BN8, that
 `FÉt_{Spec k}` is equivalent to finite sets, is
 `AlgebraicGeometry.finiteEtaleOverSpecEquivOfIsSepClosed` in
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/GaloisCategoryAxioms.lean`, which
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/GaloisCategoryAxioms.lean`,
+which
 composes the equivalence `FÉt_{Spec k} ≌ (CommAlgCat.FiniteEtale k)ᵒᵖ` given by the relative
 spectrum with Mathlib's equivalence; the tag is registered there.
 

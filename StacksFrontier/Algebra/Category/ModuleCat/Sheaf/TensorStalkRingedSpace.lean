@@ -86,10 +86,11 @@ We use Mathlib's genuine sheaf-theoretic infrastructure throughout.
   the open-cover Grothendieck topology `J` on `Opens X` (`structureSheafRing`).
 * The presheaf tensor product `U ↦ F(U) ⊗_{O_X(U)} G(U)` is built as a genuine
   `PresheafOfModules` (`PresheafOfModules.tensorObj`), and the tensor product of sheaves of modules
-  `F ⊗_{O_X} G` (Stacks Tag 01CA) is its sheafification `tensorSheaf`, obtained via
+  `F ⊗_{O_X} G` (Stacks Tag 01CA) is its sheafification `Stacks.SheafOfModules.Tensor.sheafTensor`,
+  obtained via `Stacks.SheafOfModules.Tensor.sheafification`, a sealed copy of
   `PresheafOfModules.sheafification`.  The comparison map on sections
-  `F(U) ⊗_{O_X(U)} G(U) → (F ⊗_{O_X} G)(U)` is the unit of the sheafification
-  adjunction (`toTensorSheafSection`).
+  `F(U) ⊗_{O_X(U)} G(U) → (F ⊗_{O_X} G)(U)` is the unit of its adjunction
+  `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` (`toTensorSheafSection`).
 
 ### Stalks and the canonical `O_{X,x}`-module structure
 
@@ -210,14 +211,17 @@ noncomputable def sheafifyUnit (M : PresheafOfModules.{u} (O X)) :
 attribute [local implicit_reducible] sheafifyFunctor sheafifyUnit
 
 /-- The canonical map on sections `F(U) ⊗_{O_X(U)} G(U) → (F ⊗_{O_X} G)(U)` from the
-presheaf tensor product into the sheafified tensor product. -/
+presheaf tensor product into the sheafified tensor product: the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the adjunction of the sheafification
+that `sheafTensor` is built from. -/
 noncomputable def toTensorSheafSection (F G : SheafOfModules.{u} (structureSheafRing X))
     (U : (TopologicalSpace.Opens X.carrier)ᵒᵖ) :
     TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U) →
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val.obj U :=
-  fun t =>
-    ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app U).hom t
+  fun t => (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom t
 
 /-! ### Functoriality: the canonical induced morphism `φ ⊗ ψ`. -/
 
@@ -319,6 +323,24 @@ lemma stalkMap_sheafifyUnit_isIso (x : X.carrier)
   rw [sheafifyUnit, PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app]
   exact TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso x AddCommGrpCat.{u} P.presheaf
 
+/-- The underlying additive stalk map of the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the sheafification adjunction behind
+`sheafTensor`, is an isomorphism: that unit is `sheafifyUnit` followed by the image of the
+comparison isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso` of the two left adjoints
+(`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`), so its stalk map is
+the isomorphism `stalkMap_sheafifyUnit_isIso` followed by an isomorphism. -/
+private lemma stalkMap_sheafificationAdjunction_unit_isIso (x : X.carrier)
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj) :
+    IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf
+          (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app P))) := by
+  rw [← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app, Functor.map_comp,
+    Functor.map_comp]
+  exact IsIso.comp_isIso' (stalkMap_sheafifyUnit_isIso X x P) inferInstance
+
 end TensorSheafStalkIso
 
 /-- **(θ) Sheafification preserves stalks (Stacks Tag 007X).**  The stalk of the sheaf
@@ -343,29 +365,32 @@ theorem exists_tensorSheafStalkIso (x : X.carrier)
         (t : ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).obj (Opposite.op U)),
         θ (grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x U hxU
-            ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app
-              (Opposite.op U) t))
+            (toTensorSheafSection X F G (Opposite.op U) t))
           = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) x U hxU t := by
   let := stalkModule X
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G).val x
   set P := (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) with hP
+  -- The sheafification unit `P ⟶ P^#` behind `sheafTensor`.
+  let η : P ⟶ ((Stacks.SheafOfModules.Tensor.sheafification
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj P).val :=
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app P
   -- The `O_{X,x}`-linear stalk map `ι : P_x →ₗ (P^#)_x` induced by the sheafification unit.
   set ι : (grpStalk X P x) →ₗ[ringStalk X x]
       (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) :=
     stalkMapL X P ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val
-      (sheafifyUnit X P) x with hι
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val η x with hι
   -- Its underlying additive map is the genuine `stalkMap`, which is an iso of abelian groups.
   have hiso : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
-      ((PresheafOfModules.toPresheaf (O X)).map (sheafifyUnit X P))) :=
-    stalkMap_sheafifyUnit_isIso X x P
+      ((PresheafOfModules.toPresheaf (O X)).map η)) :=
+    stalkMap_sheafificationAdjunction_unit_isIso X x P
   -- Hence `ι` is bijective.
   have hbij : Function.Bijective ι :=
     ConcreteCategory.bijective_of_isIso (C := AddCommGrpCat.{u})
       ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
-        ((PresheafOfModules.toPresheaf (O X)).map (sheafifyUnit X P)))
+        ((PresheafOfModules.toPresheaf (O X)).map η))
   -- Upgrade `ι` to a linear equivalence `e : P_x ≃ₗ (P^#)_x`.
   set e : (grpStalk X P x) ≃ₗ[ringStalk X x]
       (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -377,10 +402,10 @@ theorem exists_tensorSheafStalkIso (x : X.carrier)
       ι (grpGerm X P x U hxU t)
         = grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x U hxU
-            ((sheafifyUnit X P).app (Opposite.op U) t) := by
+            (toTensorSheafSection X F G (Opposite.op U) t) := by
     intro U hxU t
     exact TopCat.Presheaf.stalkFunctor_map_germ_apply' U x hxU
-      ((PresheafOfModules.toPresheaf (O X)).map (sheafifyUnit X P)) t
+      ((PresheafOfModules.toPresheaf (O X)).map η) t
   -- Take `θ := e.symm` and verify the germ compatibility.
   refine ⟨e.symm, ?_⟩
   intro U hxU t
@@ -893,15 +918,8 @@ theorem exists_tensorStalkIso (x : X.carrier)
   obtain ⟨Φ, hΦ⟩ := exists_presheafTensorStalkIso X x F G
   refine ⟨θ.trans Φ, ?_⟩
   intro U hxU m n
-  -- `e = Φ ∘ θ`; `toTensorSheafSection ... t = (sheafifyUnit ...).app _ t`.
-  rw [LinearEquiv.trans_apply]
-  rw [show toTensorSheafSection X F G (Opposite.op U)
-        (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n)
-      = (sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app
-        (Opposite.op U)
-        (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n) from rfl]
-  rw [hθ U hxU (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n)]
-  rw [hΦ U hxU m n]
+  -- `e = Φ ∘ θ`.
+  rw [LinearEquiv.trans_apply, hθ U hxU (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n), hΦ U hxU m n]
 
 /-- **The canonical `O_{X,x}`-linear isomorphism `(F ⊗_{O_X} G)_x ≅ F_x ⊗_{O_{X,x}} G_x`
 (Stacks Tag 01CB).**  It is extracted (via `Classical.choice`) from `exists_tensorStalkIso`,
@@ -958,9 +976,9 @@ lemma tensorSheafMap_app_toTensorSheafSection
     (morphism.val.app (Opposite.op U)).hom
       (toTensorSheafSection X F G (Opposite.op U)
         (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n))) tensorMap
-  have hnat := (PresheafOfModules.sheafificationAdjunction (R := structureSheafRing X)
-    (𝟙 (structureSheafRing X).obj)).unit.naturality
-      ((PresheafOfModules.tensorHom (O := X.presheaf) φ.val ψ.val))
+  have hnat := (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.naturality
+      (PresheafOfModules.tensorHom (O := X.presheaf) φ.val ψ.val)
   have happ := congrArg (fun α => (PresheafOfModules.Hom.app α (Opposite.op U)).hom
       (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n)) hnat
   exact sectionMap.trans happ.symm
@@ -1016,25 +1034,30 @@ theorem tensorStalkIso_natural (x : X.carrier)
     (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
       ((φ, ψ) : (F, G) ⟶ (F', G'))
-  let unitStalk := stalkMapL X tensorPresheaf sourceTensor.val
-    (sheafifyUnit X tensorPresheaf) x
+  let tensorUnit : tensorPresheaf ⟶ ((Stacks.SheafOfModules.Tensor.sheafification
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj tensorPresheaf).val :=
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app tensorPresheaf
+  let unitStalk := stalkMapL X tensorPresheaf sourceTensor.val tensorUnit x
   let leftMap := (TensorProduct.map (stalkMapL X F.val F'.val φ.val x)
     (stalkMapL X G.val G'.val ψ.val x)).comp (tensorStalkIso X x F G).toLinearMap
   let rightMap := (tensorStalkIso X x F' G').toLinearMap.comp
     (stalkMapL X sourceTensor.val targetTensor.val tensorMorphism.val x)
-  let := stalkMap_sheafifyUnit_isIso X x tensorPresheaf
+  have : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+      ((PresheafOfModules.toPresheaf (O X)).map tensorUnit)) :=
+    stalkMap_sheafificationAdjunction_unit_isIso X x tensorPresheaf
   have unitBijective : Function.Bijective unitStalk :=
     ConcreteCategory.bijective_of_isIso (C := AddCommGrpCat.{u})
       ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
-        ((PresheafOfModules.toPresheaf (O X)).map (sheafifyUnit X tensorPresheaf)))
+        ((PresheafOfModules.toPresheaf (O X)).map tensorUnit))
   have onSections (openSet : TopologicalSpace.Opens X.carrier)
       (membership : x ∈ openSet) (sectionValue : tensorPresheaf.obj (.op openSet)) :
       leftMap (grpGerm X sourceTensor.val x openSet membership
-          ((sheafifyUnit X tensorPresheaf).app (.op openSet) sectionValue)) =
+          (tensorUnit.app (.op openSet) sectionValue)) =
         rightMap (grpGerm X sourceTensor.val x openSet membership
-          ((sheafifyUnit X tensorPresheaf).app (.op openSet) sectionValue)) := by
+          (tensorUnit.app (.op openSet) sectionValue)) := by
     let sectionMap : tensorPresheaf.obj (.op openSet) →+ sourceTensor.val.obj (.op openSet) :=
-      ((sheafifyUnit X tensorPresheaf).app (.op openSet)).hom.toAddMonoidHom
+      (tensorUnit.app (.op openSet)).hom.toAddMonoidHom
     let germMap := grpGerm X sourceTensor.val x openSet membership
     let leftEvaluation := leftMap.toAddMonoidHom.comp (germMap.comp sectionMap)
     let rightEvaluation := rightMap.toAddMonoidHom.comp (germMap.comp sectionMap)
@@ -1079,7 +1102,7 @@ theorem tensorStalkIso_natural (x : X.carrier)
         witness.elim fun membership sectionWitness =>
           sectionWitness.elim fun sectionValue equality => ?_
     have unitGerm := stalkMapL_germ X tensorPresheaf sourceTensor.val
-      (sheafifyUnit X tensorPresheaf) x openSet membership sectionValue
+      tensorUnit x openSet membership sectionValue
     have atGerm := (congrArg leftMap unitGerm).trans
       ((onSections openSet membership sectionValue).trans
         (congrArg rightMap unitGerm).symm)

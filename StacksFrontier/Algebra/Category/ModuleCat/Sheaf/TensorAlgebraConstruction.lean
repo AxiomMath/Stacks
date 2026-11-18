@@ -110,12 +110,17 @@ scalars nor the presheaf-level `UnitalHom` existed before this file.
 two-step recursion on `ℕ`: degrees `0` and `1` are hypotheses, and the step from `n + 1` to
 `n + 2` is Tag 0GMW (`PresheafOfModules.sheafificationTensorIso`) followed by the tensor
 bifunctor applied to the degree-one identification and the inductive one. The two section-level
-bridges this needs are stated here rather than inlined, because each is delicate:
-`tensorSheafBifunctor_map_unit_tmul` is proved through `tensorSheafBifunctor_map`, whose
-`Functor.comp` spelling is what keeps the unifier from unfolding the sheafification functor, and
+bridges this needs are stated here rather than inlined:
+`tensorSheafBifunctor_map_unit_tmul` is proved through
+`Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map` and the naturality of the unit, and
 `sheafificationTensorIso_inv_unit_tmul` is the *inverse* direction of
 `sheafificationTensorIso_hom_unit_tmul`, obtained from it by `iso_inv_hom_app_apply` rather than
-by a second descent argument.
+by a second descent argument. `Stacks.SheafOfModules.Tensor.sheafTensor` ends with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so every unit image of a pure tensor in a tensor
+product of sheaves is taken along its adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, not along Mathlib's
+`PresheafOfModules.sheafificationAdjunction`, whose target is not that tensor product
+definitionally.
 
 **Vanishing in negative degrees is a separatedness argument, not a colimit argument.** A section
 of a sheafification lifts along the unit on a covering sieve (`Stacks.liftSieve_mem`), the lift
@@ -499,37 +504,30 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
 /-- **The tensor product bifunctor on sheaves of modules, on a morphism, read on the unit image
-of a pure tensor.** The proof goes through `tensorSheafBifunctor_map`, whose `Functor.comp`
-spelling of the right-hand side is what keeps the unifier from unfolding the sheafification
-functor. -/
+of a pure tensor.** The unit is that of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`,
+the adjunction of the sealed sheafification with which `sheafTensor` is built. The proof rewrites
+the morphism with `Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map` and applies the
+naturality of that unit. -/
 theorem tensorSheafBifunctor_map_unit_tmul
     {M₁ M₂ N₁ N₂ : SheafOfModules.{w} (toRingCat J Osharp)} (fg : (M₁, N₁) ⟶ (M₂, N₂))
     (X : Cᵒᵖ) (x : M₁.val.obj X) (y : N₁.val.obj X) :
     ((((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).map fg.1).app _ ≫
       ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj _).map fg.2)).val.app X
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-            Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj M₁.val N₁.val)) X (x ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj M₂.val N₂.val)) X
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (PresheafOfModules.tensorObj M₁.val N₁.val)) X (x ⊗ₜ y)) =
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (PresheafOfModules.tensorObj M₂.val N₂.val)) X
         (fg.1.val.app X x ⊗ₜ fg.2.val.app X y) := by
   refine (hom_congr_apply'
     (congrArg (SheafOfModules.forget
       (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)).map
       (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map Osharp fg.1 fg.2)) X
-    (((sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-        (tensorObj M₁.val N₁.val)).app X (x ⊗ₜ y))).trans ?_
-  refine (unit_naturality_apply (α := 𝟙 (toRingCat J Osharp).obj)
-    (tensorHom fg.1.val fg.2.val)
-    X (x ⊗ₜ y)).trans ?_
-  exact congrArg (fun z => Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-      Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj M₂.val N₂.val)) X z)
+    (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+        (tensorObj M₁.val N₁.val)) X (x ⊗ₜ y))).trans ?_
+  refine (Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    (tensorHom fg.1.val fg.2.val) X (x ⊗ₜ y)).trans ?_
+  exact congrArg (fun z => Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      Osharp).unit.app (PresheafOfModules.tensorObj M₂.val N₂.val)) X z)
     (tensorHom_tmul fg.1.val fg.2.val X x y)
 
 /-- **Stacks Project, Tag 0GMW, in the inverse direction.** The inverse of the comparison
@@ -540,11 +538,9 @@ theorem sheafificationTensorIso_inv_unit_tmul
     (X : Cᵒᵖ) (x : F.obj X) (y : G.obj X) :
     ((sheafificationTensorIso J a).app (F, G)).inv.val.app X
         (Hom.app (moduleSheafificationUnit J a (tensorObj F G)) X (x ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj ((moduleSheafification J a).obj F).val ((moduleSheafification J
-          a).obj G).val)) X
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (PresheafOfModules.tensorObj ((moduleSheafification J a).obj F).val
+            ((moduleSheafification J a).obj G).val)) X
         (Hom.app (moduleSheafificationUnit J a F) X x ⊗ₜ
           Hom.app (moduleSheafificationUnit J a G) X y) := by
   rw [← sheafificationTensorIso_hom_unit_tmul J a F G X x y]
@@ -613,6 +609,23 @@ theorem tensorPowerSheafifyIso_add_two (n : ℕ) :
       ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj _).mapIso (tensorPowerSheafifyIso J a
           e0 e1 e2 (n + 1))) := rfl
 
+/-- `tensorPowerSheafifyIso_add_two` on sections: in degree `n + 2` the forward map applies the
+sheafification of `(e2 n).hom`, then the inverse of the sheafification-tensor comparison, then the
+tensor product of `e1.hom` with the forward map in degree `n + 1`.
+
+It is stated on sections, not as an equation of morphisms, because `rw [SheafOfModules.comp_val]`
+cannot split the composite: `sheafTensor Osharp` takes sheaves over
+`Stacks.SheafOfModules.Tensor.ringSheaf Osharp`, `F` is a sheaf over `toRingCat J Osharp`, and the
+two agree only after unfolding the definition `ringSheaf`. -/
+theorem tensorPowerSheafifyIso_add_two_hom_apply (n : ℕ) (X : Cᵒᵖ)
+    (t : ((moduleSheafification J a).obj (Q (n + 2))).val.obj X) :
+    (tensorPowerSheafifyIso J a e0 e1 e2 (n + 2)).hom.val.app X t =
+      (((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).map e1.hom).app _ ≫
+          ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj _).map
+            (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1)).hom).val.app X
+        (((sheafificationTensorIso J a).app (Q 1, Q (n + 1))).inv.val.app X
+          (((moduleSheafification J a).map (e2 n).hom).val.app X t)) := rfl
+
 /-- **The tensor-power comparison on pure tensors.** If a local section of `Q (n + 2)` is the
 pure tensor `x ⊗ₜ y` under the recursion isomorphism, then the comparison carries its unit image
 to the pure tensor of the images of the unit images of `x` and `y`. Since the unit images of
@@ -624,10 +637,8 @@ theorem tensorPowerSheafifyIso_add_two_unit (n : ℕ) (X : Cᵒᵖ) (z : (Q (n +
     (tensorPowerSheafifyIso J a e0 e1 e2 (n + 2)).hom.val.app X
         (PresheafOfModules.Hom.app (moduleSheafificationUnit J a (Q (n + 2))) X z) =
       PresheafOfModules.Hom.app
-        ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) X
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)) X
         (e1.hom.val.app X
             (PresheafOfModules.Hom.app (moduleSheafificationUnit J a (Q 1)) X x) ⊗ₜ
           (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1)).hom.val.app X
@@ -636,13 +647,7 @@ theorem tensorPowerSheafifyIso_add_two_unit (n : ℕ) (X : Cᵒᵖ) (z : (Q (n +
     (congrArg
       (fun z => PresheafOfModules.Hom.app
         (moduleSheafificationUnit J a (tensorObj (Q 1) (Q (n + 1)))) X z) hz)
-  change ((((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).map ((Iso.prod e1
-      (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1))).hom).1).app _ ≫
-      ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj _).map ((Iso.prod e1
-          (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1))).hom).2)).val.app X
-    (((sheafificationTensorIso J a).app (Q 1, Q (n + 1))).inv.val.app X
-      (((moduleSheafification J a).map (e2 n).hom).val.app X
-        (PresheafOfModules.Hom.app (moduleSheafificationUnit J a (Q (n + 2))) X z))) = _
+  refine (tensorPowerSheafifyIso_add_two_hom_apply J a e0 e1 e2 n X _).trans ?_
   rw [h1, sheafificationTensorIso_inv_unit_tmul]
   exact tensorSheafBifunctor_map_unit_tmul J
     (Iso.prod e1 (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1))).hom X _ _

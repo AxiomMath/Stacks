@@ -169,9 +169,10 @@ abbrev atiyahModuleOverConstant (M : ModuleCat.{u + 1} (ULift.{u + 1} (B : Type 
 variable (M : ModuleCat.{u + 1} (ULift.{u + 1} (B : Type u)))
 
 /-- **The first vertex of the Atiyah triangle before `Lπ_!`, with the sheafification and the
-corepresenting-object spelling undone.** The sheafification is invertible because the topology is
-chaotic (`Stacks.ChaoticSite.sheafificationValIso`), and the corepresenting object is identified
-with `Ω_{𝒪/A}` by `CommAlgCat.atiyahDerivationsCoreprXIso`. -/
+corepresenting-object spelling undone.** The sealed sheafification of the tensor product is first
+identified with Mathlib's by `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`; the latter is
+invertible because the topology is chaotic (`Stacks.ChaoticSite.sheafificationValIso`), and the
+corepresenting object is identified with `Ω_{𝒪/A}` by `CommAlgCat.atiyahDerivationsCoreprXIso`. -/
 def atiyahFirstVertexTensorIso :
     Stacks.Atiyah.chaoticModel.obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor (atiyahStructureSheaf A B)).flip.obj
@@ -182,7 +183,8 @@ def atiyahFirstVertexTensorIso :
             (atiyahRelativeDifferentialsPresheaf A B)).obj
         ((PresheafOfModules.restrictScalars (atiyahCoefficientHom A B)).obj
           (atiyahModuleOverConstant A B M)) :=
-  Stacks.ChaoticSite.sheafificationValIso _ _ ≪≫
+  (SheafOfModules.forget _).mapIso (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ _ _) ≪≫
+    Stacks.ChaoticSite.sheafificationValIso _ _ ≪≫
     AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObjIsoRight _
       (Stacks.Atiyah.chaoticModel.mapIso (atiyahDerivationsCoreprXIso A B))
 

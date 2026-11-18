@@ -23,6 +23,8 @@ algebraic space.
 
 ## Main definitions
 
+* `AlgebraicGeometry.Space.tensorPresheafUnit` is the sheafification unit
+  `ℒ ⊗_{p, 𝒪_X} 𝒩 ⟶ ℒ ⊗_{𝒪_X} 𝒩` of the tensor product presheaf.
 * `AlgebraicGeometry.Space.tensorChartSection` is the image of `l ⊗ n` in the sections of
   `ℒ ⊗_{𝒪_X} 𝒩` over `V`, that is the sheafification unit of the tensor product presheaf.
 * `AlgebraicGeometry.Space.meromorphicSectionTensorMul` is the product above.
@@ -131,12 +133,32 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
     (L N : Modules.{u, u} B S hS X hX) (V : SmallEtale B S hS X)
 
+/-- **The sheafification unit of the tensor product presheaf**, the morphism
+`ℒ ⊗_{p, 𝒪_X} 𝒩 ⟶ ℒ ⊗_{𝒪_X} 𝒩` of presheaves of modules: the unit of the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` that `ℒ ⊗_{𝒪_X} 𝒩` is built with.
+
+Its source and target are written over the spelling
+`Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf` of `𝒪_X`, at which the module
+structures over `AlgebraicGeometry.Space.tensorChartRing` of its sections are found by instance
+search. -/
+def tensorPresheafUnit :
+    (L.val ⊗ N.val : PresheafOfModules.{u}
+        (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf
+          (structureSheaf B S hS X hX).obj)) ⟶
+      (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf
+          (structureSheaf B S hS X hX).obj (structureRingPresheaf_isSheaf B S hS X hX)) ⋙
+        PresheafOfModules.restrictScalars
+          (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf
+            (structureSheaf B S hS X hX).obj (structureRingPresheaf_isSheaf B S hS X hX)).obj)).obj
+        (picardTensorModule B S hS hX L N) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction.{_, _, _, u}
+    (structureSheaf B S hS X hX)).unit.app (L.val ⊗ N.val)
+
 /-- **The product of two sections of `𝒪_X`-modules over a chart.**  The image of `l ⊗ n` under
 the sheafification unit of the tensor product presheaf, a section of `ℒ ⊗_{𝒪_X} 𝒩` over `V`. -/
 def tensorChartSection (l : L.val.obj (op V)) (n : N.val.obj (op V)) :
     (picardTensorModule B S hS hX L N).val.obj (op V) :=
-  ((toSheafify (structureSheaf B S hS X hX).obj
-    (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)).app (op V)).hom
+  ((tensorPresheafUnit B S hS hX L N).app (op V)).hom
       (l ⊗ₜ[tensorChartRing B S hS X hX V] n)
 
 /-- **The product of two meromorphic sections over a chart**, before sheafification: the
@@ -146,8 +168,7 @@ def meromorphicSectionTensorMul
     (y : (meromorphicSectionModule B S hS X hX N).obj (op V)) :
     (meromorphicSectionModule B S hS X hX (picardTensorModule B S hS hX L N)).obj (op V) :=
   LinearMap.lTensor ((meromorphicChartSheaf B S hS X hX).obj.obj (op V))
-      ((toSheafify (structureSheaf B S hS X hX).obj
-        (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)).app (op V)).hom
+      ((tensorPresheafUnit B S hS hX L N).app (op V)).hom
     ((TensorProduct.AlgebraTensorModule.distribBaseChange
         (tensorChartRing B S hS X hX V)
         ((meromorphicChartSheaf B S hS X hX).obj.obj (op V))
@@ -173,8 +194,7 @@ theorem meromorphicSectionTensorMul_tmul
       (a * b) ⊗ₜ[tensorChartRing B S hS X hX V] tensorChartSection B S hS hX L N V l n :=
   (congrArg
       (fun z => LinearMap.lTensor ((meromorphicChartSheaf B S hS X hX).obj.obj (op V))
-        ((toSheafify (structureSheaf B S hS X hX).obj
-          (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)).app (op V)).hom z)
+        ((tensorPresheafUnit B S hS hX L N).app (op V)).hom z)
       (TensorProduct.AlgebraTensorModule.distribBaseChange_symm_tmul
         (tensorChartRing B S hS X hX V)
         ((meromorphicChartSheaf B S hS X hX).obj.obj (op V)) l n a b)).trans
@@ -189,8 +209,7 @@ theorem tensorChartSection_map (W : SmallEtale B S hS X) (k : W ⟶ V)
     ((picardTensorModule B S hS hX L N).val.map k.op).hom
         (tensorChartSection B S hS hX L N V l n) =
       tensorChartSection B S hS hX L N W ((L.val.map k.op).hom l) ((N.val.map k.op).hom n) :=
-  (PresheafOfModules.naturality_apply (toSheafify (structureSheaf B S hS X hX).obj
-    (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)) k.op
+  (PresheafOfModules.naturality_apply (tensorPresheafUnit B S hS hX L N) k.op
       (l ⊗ₜ[tensorChartRing B S hS X hX V] n)).symm
 
 /-- The product of two meromorphic sections as an additive map out of the tensor product. -/
@@ -200,8 +219,7 @@ private def tensorMulAddHom :
       (meromorphicSectionModule B S hS X hX N).obj (op V)) →+
     (meromorphicSectionModule B S hS X hX (picardTensorModule B S hS hX L N)).obj (op V) :=
   (LinearMap.lTensor ((meromorphicChartSheaf B S hS X hX).obj.obj (op V))
-      ((toSheafify (structureSheaf B S hS X hX).obj
-        (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)).app (op V)).hom
+      ((tensorPresheafUnit B S hS hX L N).app (op V)).hom
     ).toAddMonoidHom.comp
     (TensorProduct.AlgebraTensorModule.distribBaseChange
         (tensorChartRing B S hS X hX V)
@@ -350,8 +368,7 @@ theorem tensorChartSection_smul_left (W : SmallEtale B S hS X)
     (r : chartRing B S hS X hX W) (l : L.val.obj (op W)) (n : N.val.obj (op W)) :
     tensorChartSection B S hS hX L N W (r • l) n =
       r • tensorChartSection B S hS hX L N W l n :=
-  ((toSheafify (structureSheaf B S hS X hX).obj
-      (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)).app (op W)).hom.map_smul
+  ((tensorPresheafUnit B S hS hX L N).app (op W)).hom.map_smul
     (r : tensorChartRing B S hS X hX W)
     (l ⊗ₜ[tensorChartRing B S hS X hX W] n : (L.val ⊗ N.val).obj (op W))
 
@@ -401,28 +418,22 @@ theorem map_smul_chartSection (W Z : SmallEtale B S hS X) (g : Z ⟶ W)
 sections of `ℒ ⊗_{p, 𝒪_X} 𝒩` over a chart with the same image in `ℒ ⊗_{𝒪_X} 𝒩` agree on a
 covering of that chart: a sheafification map is a local equivalence, and on the small étale site
 the local equivalences of concrete presheaves are the locally bijective morphisms. -/
-theorem isLocallyInjective_toSheafify_tensorPresheaf :
+theorem isLocallyInjective_tensorPresheafUnit :
     Presheaf.IsLocallyInjective (SmallEtale.topology B S hS X)
-      ((PresheafOfModules.toPresheaf _).map
-        (toSheafify (structureSheaf B S hS X hX).obj
-          (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val))) := by
-  change Presheaf.IsLocallyInjective (SmallEtale.topology B S hS X)
-    (CategoryTheory.toSheafify (SmallEtale.topology B S hS X) (L.val ⊗ N.val).presheaf)
-  exact ((SmallEtale.topology B S hS X).W_toSheafify _).isLocallyInjective
+      ((PresheafOfModules.toPresheaf _).map (tensorPresheafUnit B S hS hX L N)) :=
+  Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+    (structureSheaf B S hS X hX) (L.val ⊗ N.val)
 
 /-- **The sheafification unit of the tensor product presheaf is locally surjective.**  Every
 section of `ℒ ⊗_{𝒪_X} 𝒩` over a chart is, on a covering of that chart, the image of a section of
 the tensor product presheaf.  The companion of
-`AlgebraicGeometry.Space.isLocallyInjective_toSheafify_tensorPresheaf`, proved the same
+`AlgebraicGeometry.Space.isLocallyInjective_tensorPresheafUnit`, proved the same
 way. -/
-theorem isLocallySurjective_toSheafify_tensorPresheaf :
+theorem isLocallySurjective_tensorPresheafUnit :
     Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X)
-      ((PresheafOfModules.toPresheaf _).map
-        (toSheafify (structureSheaf B S hS X hX).obj
-          (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val))) := by
-  change Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X)
-    (CategoryTheory.toSheafify (SmallEtale.topology B S hS X) (L.val ⊗ N.val).presheaf)
-  exact ((SmallEtale.topology B S hS X).W_toSheafify _).isLocallySurjective
+      ((PresheafOfModules.toPresheaf _).map (tensorPresheafUnit B S hS hX L N)) :=
+  Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+    (structureSheaf B S hS X hX) (L.val ⊗ N.val)
 
 variable (e : (W : SmallEtale B S hS X) → (W ⟶ V) → L.val.obj (op W))
     (f : (W : SmallEtale B S hS X) → (W ⟶ V) → N.val.obj (op W))
@@ -434,7 +445,7 @@ the product of the two is injective on the regular functions.
 
 The sheaf `ℒ ⊗_{𝒪_X} 𝒩` is a sheafification, so two multiples of the product that agree there
 agree in the tensor product presheaf only over a covering sieve
-(`AlgebraicGeometry.Space.isLocallyInjective_toSheafify_tensorPresheaf`).  Over a member of that
+(`AlgebraicGeometry.Space.isLocallyInjective_tensorPresheafUnit`).  Over a member of that
 sieve the two restricted generators are still free, so
 `Stacks.Cohomology.Torsors.Generators.tensor_smul_bijective` — pure algebra over the regular
 functions there — makes the two restricted scalars equal, and `𝒪_X` being separated they were
@@ -451,15 +462,14 @@ theorem injective_smul_tensorChartSection
     (W : SmallEtale B S hS X) (k : W ⟶ V) :
     Function.Injective fun r : chartRing B S hS X hX W ↦
       r • tensorChartSection B S hS hX L N W (e W k) (f W k) := by
-  have := isLocallyInjective_toSheafify_tensorPresheaf B S hS hX L N
+  have := isLocallyInjective_tensorPresheafUnit B S hS hX L N
   intro r r' hr
   have hr' : tensorChartSection B S hS hX L N W (r • e W k) (f W k) =
       tensorChartSection B S hS hX L N W (r' • e W k) (f W k) :=
     ((tensorChartSection_smul_left B S hS hX L N W r (e W k) (f W k)).trans hr).trans
       (tensorChartSection_smul_left B S hS hX L N W r' (e W k) (f W k)).symm
   have hT := Presheaf.equalizerSieve_mem (SmallEtale.topology B S hS X)
-    ((PresheafOfModules.toPresheaf _).map (toSheafify (structureSheaf B S hS X hX).obj
-      (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)))
+    ((PresheafOfModules.toPresheaf _).map (tensorPresheafUnit B S hS hX L N))
     (((r • e W k) ⊗ₜ[tensorChartRing B S hS X hX W] f W k :
       (L.val ⊗ N.val).obj (op W)))
     (((r' • e W k) ⊗ₜ[tensorChartRing B S hS X hX W] f W k :
@@ -524,7 +534,7 @@ theorem smul_tensorChartSection_restrict
 generators over a covering sieve of that chart.**  The tensor product sheaf is a sheafification,
 so a section of it over a chart is the image of a section of the tensor product presheaf only
 over the members of a covering sieve
-(`AlgebraicGeometry.Space.isLocallySurjective_toSheafify_tensorPresheaf`); over each of them
+(`AlgebraicGeometry.Space.isLocallySurjective_tensorPresheafUnit`); over each of them
 `Stacks.Cohomology.Torsors.Generators.tensor_smul_bijective` presents that section of the
 presheaf as a multiple of the product of the two restricted generators. -/
 theorem exists_sieve_smul_tensorChartSection_eq
@@ -540,14 +550,12 @@ theorem exists_sieve_smul_tensorChartSection_eq
           (y • tensorChartSection B S hS hX L N Z (e Z (g ≫ k)) (f Z (g ≫ k)) :
               (picardTensorModule B S hS hX L N).val.obj (op Z)) =
             ((picardTensorModule B S hS hX L N).val.map g.op).hom z := by
-  have := isLocallySurjective_toSheafify_tensorPresheaf B S hS hX L N
+  have := isLocallySurjective_tensorPresheafUnit B S hS hX L N
   refine ⟨Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map
-      (toSheafify (structureSheaf B S hS X hX).obj
-        (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val))) z,
+      (tensorPresheafUnit B S hS hX L N)) z,
     Presheaf.imageSieve_mem (SmallEtale.topology B S hS X)
       ((PresheafOfModules.toPresheaf _).map
-        (toSheafify (structureSheaf B S hS X hX).obj
-          (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val))) (U := op W) z, ?_⟩
+        (tensorPresheafUnit B S hS hX L N)) (U := op W) z, ?_⟩
   intro Z g hg
   obtain ⟨ζ, hζ⟩ := hg
   obtain ⟨y, hy⟩ := (Stacks.Cohomology.Torsors.Generators.tensor_smul_bijective
@@ -556,8 +564,7 @@ theorem exists_sieve_smul_tensorChartSection_eq
   refine ⟨y, ?_⟩
   refine Eq.trans (tensorChartSection_smul_left B S hS hX L N Z y
     (e Z (g ≫ k)) (f Z (g ≫ k))).symm ?_
-  exact (congrArg ((toSheafify (structureSheaf B S hS X hX).obj
-    (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val)).app (op Z)).hom hy).trans hζ
+  exact (congrArg ((tensorPresheafUnit B S hS hX L N).app (op Z)).hom hy).trans hζ
 
 /-- **The product of two free generators is a free generator.**  Let `e` and `f` be families of
 sections of `ℒ` and of `𝒩` over the charts over `V`, compatible with restriction and each
