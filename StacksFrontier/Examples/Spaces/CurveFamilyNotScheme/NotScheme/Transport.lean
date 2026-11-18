@@ -52,6 +52,7 @@ theorem isClosed_image_preimage (hπ : IsClosedMap π) (hφ : Continuous φ) {T 
     (hT : IsClosed T) : IsClosed (π '' (φ ⁻¹' T)) :=
   hπ _ (hT.preimage hφ)
 
+omit [TopologicalSpace Z] [TopologicalSpace Y] [TopologicalSpace U] in
 /-- The transported set surjects onto the base when `T` does and `φ` is surjective. -/
 theorem surjective_image_preimage (hcomm : ∀ z, p (π z) = q (φ z))
     (hφ : Function.Surjective φ) {T : Set U} (hT : ∀ s, ∃ u ∈ T, q u = s) (s : S) :
@@ -60,9 +61,10 @@ theorem surjective_image_preimage (hcomm : ∀ z, p (π z) = q (φ z))
   obtain ⟨z, rfl⟩ := hφ u
   exact ⟨π z, ⟨z, huT, rfl⟩, hcomm z⟩
 
+omit [TopologicalSpace Z] [TopologicalSpace Y] [TopologicalSpace U] in
 /-- The transported set meets the fibre `p⁻¹(s₀)` at most in `y`, when the preimage of that fibre
 in `Z` lies in `E ∪ C`, `E` maps to `y`, `C` maps to `x` and `x ∉ T`. -/
-theorem image_preimage_inter_fibre_subset (hcomm : ∀ z, p (π z) = q (φ z)) {s₀ : S} {y : Y}
+theorem image_preimage_inter_fibre_subset {s₀ : S} {y : Y}
     {x : U} {E C : Set Z} (hfib : ∀ z, p (π z) = s₀ → z ∈ E ∪ C) (hE : ∀ z ∈ E, π z = y)
     (hC : ∀ z ∈ C, φ z = x) {T : Set U} (hxT : x ∉ T) :
     ∀ w ∈ π '' (φ ⁻¹' T), p w = s₀ → w = y := by
@@ -83,7 +85,7 @@ theorem not_exists_isClosed_notMem_surjective_of_transport (hπ : IsClosedMap π
       ∃ w ∈ T, p w = s₀ ∧ w ≠ y) :
     ¬ ∃ T : Set U, IsClosed T ∧ x ∉ T ∧ ∀ s, ∃ u ∈ T, q u = s := by
   rintro ⟨T, hT, hxT, hTs⟩
-  have hsub := image_preimage_inter_fibre_subset hcomm hfib hE hC hxT
+  have hsub := image_preimage_inter_fibre_subset hfib hE hC hxT
   have hne : π '' (φ ⁻¹' T) ≠ Set.univ := fun h =>
     hy'y (hsub y' (h ▸ Set.mem_univ y') hy')
   obtain ⟨w, hwT, hw, hwy⟩ := hprop _ (isClosed_image_preimage hπ hφc hT) hne

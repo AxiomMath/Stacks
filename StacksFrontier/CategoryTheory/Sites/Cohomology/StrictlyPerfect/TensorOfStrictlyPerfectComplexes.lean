@@ -120,10 +120,7 @@ def sheafTensorUnitIso (M : SheafOfModules.{w} (ringSheaf R)) :
   let : MonoidalCategory (PresheafOfModules.{w} (ringSheaf R).obj) :=
     inferInstanceAs (MonoidalCategory
       (PresheafOfModules.{w} (R.obj ⋙ forget₂ CommRingCat RingCat)))
-  (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).mapIso
-      (ρ_ M.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).counit).app M
+  (sheafification R).mapIso (ρ_ M.val) ≪≫ (asIso (sheafificationForgetAdjunction R).counit).app M
 
 /-! ### The left unit constraint, and its effect on sections -/
 
@@ -136,30 +133,23 @@ private lemma comp_val_app_apply {P Q S : SheafOfModules.{w} (ringSheaf R)} (φ 
     ((φ ≫ ψ).val.app U) x = (ψ.val.app U) ((φ.val.app U) x) := rfl
 
 /-- **The sheafification counit undoes the sheafification unit on the sections of a sheaf.**
-This is the triangle identity of the sheafification adjunction, read on sections. -/
+This is the triangle identity of `sheafificationForgetAdjunction`, read on sections. -/
 private lemma counit_unit_apply (M : SheafOfModules.{w} (ringSheaf R)) (U : Cᵒᵖ)
     (y : M.val.obj U) :
-    ((PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-        (𝟙 (ringSheaf R).obj)).counit.app M).val.app U
-      (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-        (𝟙 (ringSheaf R).obj)).unit.app M.val).app U y) = y := by
-  have h := (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-    (𝟙 (ringSheaf R).obj)).right_triangle_components (Y := M)
-  exact (_root_.PresheafOfModules.comp_app_apply _ _ U y).symm.trans
-    (congrArg (fun z => z.app U y) h)
+    ((sheafificationForgetAdjunction R).counit.app M).val.app U
+      (((sheafificationForgetAdjunction R).unit.app M.val).app U y) = y :=
+  PresheafOfModules.hom_congr_apply'
+    ((sheafificationForgetAdjunction R).right_triangle_components M) U y
 
 /-- **Sheafifying a morphism commutes with the sheafification unit, on sections.** This is the
-naturality of the unit of the sheafification adjunction. -/
+naturality of the unit of `sheafificationForgetAdjunction`. -/
 private lemma sheafification_map_unit_apply
     {P Q : PresheafOfModules.{w} (ringSheaf R).obj} (h : P ⟶ Q) (U : Cᵒᵖ) (x : P.obj U) :
-    ((PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map h).val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-          (𝟙 (ringSheaf R).obj)).unit.app P).app U x) =
-      ((PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-        (𝟙 (ringSheaf R).obj)).unit.app Q).app U (h.app U x) :=
-  (congrArg (fun z ↦ z.app U x)
-    ((PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-      (𝟙 (ringSheaf R).obj)).unit.naturality h)).symm
+    ((sheafification R).map h).val.app U
+        (((sheafificationForgetAdjunction R).unit.app P).app U x) =
+      ((sheafificationForgetAdjunction R).unit.app Q).app U (h.app U x) :=
+  PresheafOfModules.hom_congr_apply'
+    ((sheafificationForgetAdjunction R).unit.naturality h).symm U x
 
 /-- The monoidal structure on presheaves of modules over the underlying ring presheaf, which is
 the one the sheaf tensor product is the sheafification of. It is introduced as a local instance
@@ -177,10 +167,7 @@ presheaf left unitor identifies that with the underlying presheaf, and the couni
 sheafification adjunction is an isomorphism on a sheaf. -/
 def sheafTensorUnitIsoLeft (M : SheafOfModules.{w} (ringSheaf R)) :
     ((sheafTensor R).obj (SheafOfModules.unit (ringSheaf R))).obj M ≅ M :=
-  (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).mapIso
-      (λ_ M.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).counit).app M
+  (sheafification R).mapIso (λ_ M.val) ≪≫ (asIso (sheafificationForgetAdjunction R).counit).app M
 
 /-- **The left unit constraint sends the local pure tensor of the unit section with `t` back to
 `t`.** A local section of the sheaf tensor product of the structure sheaf with `M` which is the
@@ -192,19 +179,15 @@ description on sections anywhere, so going through it would leave the composite 
 lemma sheafTensorUnitIsoLeft_hom_unit_tmul (M : SheafOfModules.{w} (ringSheaf R)) (U : Cᵒᵖ)
     (t : M.val.obj U) :
     (sheafTensorUnitIsoLeft R M).hom.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-            (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationForgetAdjunction R).unit.app
           ((SheafOfModules.unit (ringSheaf R)).val ⊗ M.val)).app U
             ((1 : (ringSheaf R).obj.obj U) ⊗ₜ t)) = t := by
   have hcomp : (sheafTensorUnitIsoLeft R M).hom =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-          (λ_ M.val).hom ≫
-        (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-          (𝟙 (ringSheaf R).obj)).counit.app M := rfl
+      (sheafification R).map (λ_ M.val).hom ≫ (sheafificationForgetAdjunction R).counit.app M :=
+    rfl
   rw [hcomp]
   refine Eq.trans (comp_val_app_apply R _ _ U _) ?_
-  refine Eq.trans (congrArg (fun y => ((PresheafOfModules.sheafificationAdjunction
-    (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).counit.app M).val.app U y)
+  refine Eq.trans (congrArg (fun y => ((sheafificationForgetAdjunction R).counit.app M).val.app U y)
     (sheafification_map_unit_apply R (λ_ M.val).hom U _)) ?_
   refine Eq.trans (counit_unit_apply R M U _) ?_
   let _i : CommRing ↑((ringSheaf R).obj.obj U) := inferInstanceAs (CommRing ↑(R.obj.obj U))
@@ -220,10 +203,7 @@ blocks every rewrite through the definition, so the form with the instance in sc
 computation can use. -/
 def sheafTensorUnitIsoRight (M : SheafOfModules.{w} (ringSheaf R)) :
     ((sheafTensor R).obj M).obj (SheafOfModules.unit (ringSheaf R)) ≅ M :=
-  (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).mapIso
-      (ρ_ M.val) ≪≫
-    (asIso (PresheafOfModules.sheafificationAdjunction
-      (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).counit).app M
+  (sheafification R).mapIso (ρ_ M.val) ≪≫ (asIso (sheafificationForgetAdjunction R).counit).app M
 
 /-- **The right unit constraint is natural.** Both of its factors are: the presheaf right unitor
 is a monoidal structure constraint, and the counit of the sheafification adjunction is a natural
@@ -235,17 +215,13 @@ theorem sheafTensorUnitIsoRight_naturality {M M' : SheafOfModules.{w} (ringSheaf
         (sheafTensorUnitIsoRight R M').hom =
       (sheafTensorUnitIsoRight R M).hom ≫ f := by
   have hM (N : SheafOfModules.{w} (ringSheaf R)) : (sheafTensorUnitIsoRight R N).hom =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-          (ρ_ N.val).hom ≫
-        (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-          (𝟙 (ringSheaf R).obj)).counit.app N := rfl
+      (sheafification R).map (ρ_ N.val).hom ≫ (sheafificationForgetAdjunction R).counit.app N :=
+    rfl
   have hT : ((sheafTensor R).map f).app (SheafOfModules.unit (ringSheaf R)) =
-      (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
-        (f.val ▷ (SheafOfModules.unit (ringSheaf R)).val) := rfl
+      (sheafification R).map (f.val ▷ (SheafOfModules.unit (ringSheaf R)).val) := rfl
   rw [hM, hM, hT]
-  set SH := (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj))
-  set EP := (PresheafOfModules.sheafificationAdjunction (R := ringSheaf R)
-    (𝟙 (ringSheaf R).obj)).counit
+  set SH := sheafification R
+  set EP := (sheafificationForgetAdjunction R).counit
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (fun z => z ≫ EP.app M')
       ((SH.map_comp _ _).symm.trans

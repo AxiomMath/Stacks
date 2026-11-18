@@ -121,13 +121,9 @@ local sections of `F` are symmetric** in the tensor square of `F`: multiplying t
 generators is tensor concatenation. -/
 theorem pairwiseCommutes_tensorGenerator
     (hbr : ∀ (U : Cᵒᵖ) (s u : F.val.obj U),
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val F.val)).app U (s ⊗ₜ[Osharp.obj.obj U] u) =
-        ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val F.val)).app U (u ⊗ₜ[Osharp.obj.obj U] s)) :
     GradedAlgebra.PairwiseCommutes A.tensorGenerator := by
   intro U s u
@@ -135,9 +131,7 @@ theorem pairwiseCommutes_tensorGenerator
       (A.tensorPieceIso 2).hom.val.app U
           ((A.tensor.mul 1 1).app U (A.tensorGenerator.val.app U x)
             ((A.tensorPieceIso 1).inv.val.app U y)) =
-        ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val F.val)).app U
           (x ⊗ₜ[Osharp.obj.obj U] y) :=
     fun x y => A.tensorPieceIso_mul_left 0 U x y
@@ -214,19 +208,16 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 exchanging the factors.** The symmetry constraint of an invertible sheaf with itself is the
 identity, and it exchanges the two sections determining a section of the tensor square. -/
 theorem tensorSheafificationUnit_comm_of_isInvertible (U : Cᵒᵖ) (s u : L.val.obj U) :
-    ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj L.val L.val)).app U
         (s ⊗ₜ[Osharp.obj.obj U] u) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj L.val L.val)).app U
         (u ⊗ₜ[Osharp.obj.obj U] s) := by
   have h := tensorSections_braidingAt Osharp.obj (toRingCat J Osharp).property U L L s u
   rw [tensorProductBraiding_self Osharp.obj (toRingCat J Osharp).property L] at h
-  exact h
+  exact (Tensor.sheafificationForgetAdjunction_unit_app_app_apply (R := Osharp) _ U _).symm.trans
+    (h.trans (Tensor.sheafificationForgetAdjunction_unit_app_app_apply (R := Osharp) _ U _))
 
 /-- **The degree-one sections of the tensor algebra of an invertible sheaf of modules
 commute.** -/

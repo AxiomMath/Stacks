@@ -572,8 +572,18 @@ noncomputable def tensorDualToEndomorphism
     (F : SheafOfModules.{u} (structureSheafRing X)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
       ((dualSheaf X F))) ⟶ sheafHom X F F :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (structureSheafRing X).obj)).homEquiv _ _).symm (tensorEndPresheafMap X F)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.presheaf, X.IsSheaf⟩).homEquiv _ _).symm (tensorEndPresheafMap X F)
+
+/-- The canonical morphism is the sheafification of the presheaf-level rank-one map followed by
+the counit of the sheafification adjunction. -/
+theorem tensorDualToEndomorphism_eq (F : SheafOfModules.{u} (structureSheafRing X)) :
+    tensorDualToEndomorphism X F =
+      (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).map
+          (tensorEndPresheafMap X F) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).counit.app
+          (sheafHom X F F) :=
+  Adjunction.homEquiv_counit _ _ _ _
 
 /-- On a local pure tensor of a section `f` and a local functional `lam`, the canonical
 morphism is the rank-one endomorphism `g ↦ lam(g) • f`. The formula is recorded on every
@@ -589,9 +599,8 @@ theorem tensorDualToEndomorphism_tmul_apply
       (toTensorSheafSection X F (dualSheaf X F) (op U)
         (f ⊗ₜ[X.presheaf.obj (op U)] lam))).app V).hom g =
       dualValue X F lam V g • (F.val.map V.unop.hom.op).hom f := by
-  have h := ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (structureSheafRing X).obj)).homEquiv _ (sheafHom X F F)).apply_symm_apply
-      (tensorEndPresheafMap X F)
+  have h := Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+    (N := sheafHom X F F) (tensorEndPresheafMap X F)
   exact congrArg (fun q => ((q.app (op U)).hom
     (f ⊗ₜ[X.presheaf.obj (op U)] lam)).app V |>.hom g) h
 
@@ -609,14 +618,9 @@ theorem tensorDualToEndomorphism_isIso
     rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf (structureSheafRing X))]
     exact ((JX X).W_iff _).mp ((JX X).W_of_isLocallyBijective
       ((PresheafOfModules.toPresheaf (O X)).map (tensorEndPresheafMap X F)))
-  rw [show tensorDualToEndomorphism X F =
-      (PresheafOfModules.sheafification (R := structureSheafRing X)
-          (𝟙 (structureSheafRing X).obj)).map (tensorEndPresheafMap X F) ≫
-        (PresheafOfModules.sheafificationAdjunction
-          (𝟙 (structureSheafRing X).obj)).counit.app (sheafHom X F F) from rfl]
-  have hcounit : IsIso ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (structureSheafRing X).obj)).counit.app (sheafHom X F F)) :=
-    NatIso.isIso_app_of_isIso _ _
-  exact IsIso.comp_isIso' hmap hcounit
+  rw [tensorDualToEndomorphism_eq]
+  exact IsIso.comp_isIso'
+    ((Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff _).mpr hmap)
+    (NatIso.isIso_app_of_isIso _ _)
 
 end Stacks.SheafOfModules.OnSpace

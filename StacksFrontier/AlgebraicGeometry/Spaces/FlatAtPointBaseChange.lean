@@ -40,7 +40,8 @@ on the small étale site, is proved at a geometric point in
 space in `StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleBaseChangePoint.lean`; only its reading
 for a module quasi-coherent on the étale scheme charts,
 `AlgebraicGeometry.Space.IsFlatAtPointStableUnderBaseChange` of
-`StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleLocusBaseChange.lean`, is not proved.  No finiteness
+`StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleLocusBaseChange.lean`, is not proved.  No
+finiteness
 hypothesis enters: in particular this is *not*
 `AlgebraicGeometry.Space.isFlatAt_baseChangeOverBase_iff` of
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/FlatLocusBaseChange.lean`, which is the

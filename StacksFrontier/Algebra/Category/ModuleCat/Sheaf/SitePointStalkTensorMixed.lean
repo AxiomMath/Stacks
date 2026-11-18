@@ -55,10 +55,12 @@ applies to that map's source and target without transport.
 `PresheafOfModules.sheafification` and `Stacks.SheafOfModules.Tensor.ringSheaf`, and
 its implementation notes record the cost of identifying that spelling of the presheaf of rings
 with `O.obj ⋙ forget₂ CommRingCat RingCat` at the level of morphisms. No such identification is
-needed here: every statement below is an isomorphism between objects, and the sheafification
-functor is taken in the spelling the tensor bifunctor is defined from, so the two sides meet by
-unfolding `Stacks.SheafOfModules.Tensor.sheafTensor` and
-`Stacks.sheafModuleFiber` and nothing else.
+needed here: every statement below is about objects and elements. The tensor bifunctor sheafifies
+with the sealed `Stacks.SheafOfModules.Tensor.sheafification`, so the germ formula
+`Stacks.tensorSheafModuleFiberIso_hom_germ` is stated with the unit of the sealed
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`; its proof passes to Mathlib's unit through
+the component of `eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)` with which
+`Stacks.SheafOfModules.SitePointStalkSheafify.LocallySmall.stalkSheafTensorIso` is built.
 
 Deliberately untagged. The clauses of Stacks 03EL are about an arbitrary morphism of ringed
 topoi; a point of a site is one particular such morphism, so this covers neither clause, exactly
@@ -103,15 +105,38 @@ noncomputable def tensorSheafModuleFiberIso
         ((sheafModuleFiberOfCommRing Φ O).obj N) :=
   SheafOfModules.SitePointStalkSheafify.LocallySmall.stalkSheafTensorIso Φ O M N
 
-/-- **The stalk of a tensor product sheaf on a germ of a pure tensor**: the comparison
-`(M ⊗_O N)_Φ ≅ M_Φ ⊗_{O_Φ} N_Φ` carries the germ of the sheafification of a local pure tensor
-`m ⊗ n` to the pure tensor of the germs. -/
-lemma tensorSheafModuleFiberIso_hom_germ
+omit [LocallySmall.{w} C] [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- On sections, the component of `eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)`
+carries the unit of the sealed sheafification to the unit of Mathlib's. -/
+private lemma eqToHom_sheafification_def_app_unit_apply
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) (X : Cᵒᵖ)
+    (s : P.obj X) :
+    ((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)).app P).val.app X
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P).app X s) =
+      ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P).app X s :=
+  PresheafOfModules.hom_congr_apply'
+    (φ := (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P ≫
+      (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+        ((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)).app P))
+    (by
+      rw [Stacks.SheafOfModules.Tensor.sheafificationAdjunction, Adjunction.ofNatIsoLeft_unit,
+        NatTrans.comp_app, Functor.whiskerRight_app, Category.assoc, ← Functor.map_comp,
+        eqToIso.hom, ← NatTrans.comp_app, eqToHom_trans, eqToHom_refl, NatTrans.id_app,
+        CategoryTheory.Functor.map_id]
+      exact Category.comp_id _) X s
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- The germ formula of `tensorSheafModuleFiberIso_hom_germ`, for Mathlib's sheafification of the
+objectwise tensor product. -/
+private lemma tensorSheafifyIso_hom_germ
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
     (U : C) (x : Φ.fiber.obj U) (m : M.val.obj (op U)) (n : N.val.obj (op U)) :
-    (tensorSheafModuleFiberIso Φ O M N).hom
+    (SheafOfModules.SitePointStalkSheafify.LocallySmall.tensorSheafifyIso Φ O M.val N.val).hom
         (toPresheafModuleFiber Φ
-          (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj M).obj N).val U x
+          ((PresheafOfModules.sheafification
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).obj
+              (PresheafOfModules.tensorObj M.val N.val)).val U x
           (((PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
             (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
@@ -123,19 +148,42 @@ lemma tensorSheafModuleFiberIso_hom_germ
   have h : e.hom
       (germ Φ O.obj (M.val ⊗ N.val) U x
         (m ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op U)] n)) =
-      toPresheafModuleFiber Φ (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj M).obj N).val U x
+      toPresheafModuleFiber Φ
+          ((PresheafOfModules.sheafification
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).obj
+              (PresheafOfModules.tensorObj M.val N.val)).val U x
           (((PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
             (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
               (PresheafOfModules.tensorObj M.val N.val)).app (op U)
             (m ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op U)] n)) :=
     toPresheafModuleFiber_naturality Φ _ U x _
-  change (moduleFiberTensorIso Φ O.obj M.val N.val).hom
-    (e.inv _) = _
-  rw [← h]
   exact (congrArg (moduleFiberTensorIso Φ O.obj M.val N.val).hom
-    (ConcreteCategory.congr_hom e.hom_inv_id _)).trans
+    ((congrArg e.inv h.symm).trans (ConcreteCategory.congr_hom e.hom_inv_id _))).trans
     (presheafModuleFiberTensorEquiv_germ_tmul Φ O.obj M.val N.val U x m n)
+
+/-- **The stalk of a tensor product sheaf on a germ of a pure tensor**: the comparison
+`(M ⊗_O N)_Φ ≅ M_Φ ⊗_{O_Φ} N_Φ` carries the germ of the sheafification of a local pure tensor
+`m ⊗ n` to the pure tensor of the germs. -/
+lemma tensorSheafModuleFiberIso_hom_germ
+    (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
+    (U : C) (x : Φ.fiber.obj U) (m : M.val.obj (op U)) (n : N.val.obj (op U)) :
+    (tensorSheafModuleFiberIso Φ O M N).hom
+        (toPresheafModuleFiber Φ
+          (((Stacks.SheafOfModules.Tensor.sheafTensor O).obj M).obj N).val U x
+          (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
+              (PresheafOfModules.tensorObj M.val N.val)).app (op U)
+            (m ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op U)] n))) =
+      germ Φ O.obj M.val U x m ⊗ₜ[ringFiber Φ O.obj] germ Φ O.obj N.val U x n := by
+  rw [tensorSheafModuleFiberIso,
+    SheafOfModules.SitePointStalkSheafify.LocallySmall.stalkSheafTensorIso_hom]
+  exact (congrArg
+    (SheafOfModules.SitePointStalkSheafify.LocallySmall.tensorSheafifyIso Φ O M.val N.val).hom
+    ((toPresheafModuleFiber_naturality Φ
+      ((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)).app
+        (PresheafOfModules.tensorObj M.val N.val)).val U x _).trans
+      (congrArg _ (eqToHom_sheafification_def_app_unit_apply O _ (op U) _)))).trans
+    (tensorSheafifyIso_hom_germ Φ O M N U x m n)
 
 end Stacks
 

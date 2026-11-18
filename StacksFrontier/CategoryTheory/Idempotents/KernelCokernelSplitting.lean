@@ -53,7 +53,7 @@ variable {x K : C} {f : x ⟶ x}
 
 /-- Part (1) of Stacks 0H9P as a construction: if `i` is a kernel of the idempotent `f` and
 `p ≫ i = 𝟙 x - f`, then `p` is a cokernel of `f`. -/
-def isColimitCokernelCoforkOfIsLimitKernelForkIdempotent (hf : f ≫ f = f) {i : K ⟶ x}
+def isColimitCokernelCoforkOfIsLimitKernelForkIdempotent {i : K ⟶ x}
     (hi : i ≫ f = 0) (hlim : IsLimit (KernelFork.ofι i hi)) {p : x ⟶ K}
     (hp : p ≫ i = 𝟙 x - f) (hfp : f ≫ p = 0) :
     IsColimit (CokernelCofork.ofπ p hfp) :=
@@ -78,13 +78,13 @@ theorem comp_retraction_eq_id_and_isColimit_of_isLimit_kernelFork_idempotent
   have hfp : f ≫ p = 0 := by
     rw [← cancel_mono i, Category.assoc, hp, Preadditive.comp_sub, Category.comp_id, hf,
       sub_self, zero_comp]
-  refine ⟨?_, hfp, ⟨isColimitCokernelCoforkOfIsLimitKernelForkIdempotent hf hi hlim hp hfp⟩⟩
+  refine ⟨?_, hfp, ⟨isColimitCokernelCoforkOfIsLimitKernelForkIdempotent hi hlim hp hfp⟩⟩
   rw [← cancel_mono i, Category.assoc, hp, Preadditive.comp_sub, hi, sub_zero,
     Category.comp_id, Category.id_comp]
 
 /-- Part (2) of Stacks 0H9P as a construction: if `p` is a cokernel of the idempotent `f` and
 `p ≫ i = 𝟙 x - f`, then `i` is a kernel of `f`. -/
-def isLimitKernelForkOfIsColimitCokernelCoforkIdempotent (hf : f ≫ f = f) {p : x ⟶ K}
+def isLimitKernelForkOfIsColimitCokernelCoforkIdempotent {p : x ⟶ K}
     (hp : f ≫ p = 0) (hcolim : IsColimit (CokernelCofork.ofπ p hp)) {i : K ⟶ x}
     (hpi : p ≫ i = 𝟙 x - f) (hif : i ≫ f = 0) :
     IsLimit (KernelFork.ofι i hif) :=
@@ -109,7 +109,7 @@ theorem comp_retraction_eq_id_and_isLimit_of_isColimit_cokernelCofork_idempotent
   have hif : i ≫ f = 0 := by
     rw [← cancel_epi p, ← Category.assoc, hpi, Preadditive.sub_comp, Category.id_comp, hf,
       sub_self, comp_zero]
-  refine ⟨?_, hif, ⟨isLimitKernelForkOfIsColimitCokernelCoforkIdempotent hf hp hcolim hpi hif⟩⟩
+  refine ⟨?_, hif, ⟨isLimitKernelForkOfIsColimitCokernelCoforkIdempotent hp hcolim hpi hif⟩⟩
   rw [← cancel_epi p, ← Category.assoc, hpi, Preadditive.sub_comp, hp, sub_zero,
     Category.comp_id, Category.id_comp]
 

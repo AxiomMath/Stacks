@@ -59,9 +59,9 @@ theorem res_pureTensor {F G : Mod R} {V' V : Opens T} (h : V' ≤ V) (a : F.val.
     (b : G.val.obj (op V)) :
     res (((curriedTensor (Mod R)).obj F).obj G) h (pureTensor R a b) =
       pureTensor R (res F h a) (res G h b) :=
-  (PresheafOfModules.naturality_apply (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit
-    (ringedSpaceOf R) ((PresheafOfModules.tensorObj (O := ((ringedSpaceOf R)).presheaf) (F.val)
-      (G.val)))) (homOfLE h).op
+  (PresheafOfModules.naturality_apply
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app
+      (PresheafOfModules.tensorObj F.val G.val)) (homOfLE h).op
     (a ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf R).obj.obj (op V)] b)).symm
 
 /-- The map `φ ⊗ 𝟙` sends the pure tensor `a ⊗ b` to `φ a ⊗ b`. -/

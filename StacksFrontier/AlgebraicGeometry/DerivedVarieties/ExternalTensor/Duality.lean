@@ -81,6 +81,14 @@ of `φ ⊠ ψ` has two readings, `dualSheafMate` through the canonical dual `(�
 `externalTensorProductMate` through the pairing `externalTensorProductExactPairing`, and naturality
 is the statement that `externalTensorProductDualIso` carries the first to the second.
 
+The canonical pairing `AlgebraicGeometry.VectorBundleKZero.dualSheafExactPairing` spells the dual
+`Stacks.SheafOfModules.OnSpace.dualSheaf`, while the statements here use
+`Stacks.AlgebraicGeometry.ReflexiveModules.dualSheaf`. The two are definitionally equal, but
+`dualSheafMate`, `externalTensorProductDualIso` and the proof of
+`externalTensorProductDualIso_naturality` name the dual object explicitly in the second spelling:
+otherwise unification identifies the two spellings inside the right adjoint mates by unfolding the
+monoidal structure down to the sheafification of its tensor product, and times out.
+
 ## References
 
 * [Stacks Project, Tag 0G46](https://stacks.math.columbia.edu/tag/0G46)
@@ -188,7 +196,8 @@ noncomputable def externalTensorProductDualIso (E : X.Modules) (G : Y.Modules)
     (hG : IsFiniteLocallyFree.{u, u, u} (R := Y.ringCatSheaf) G) :
     dualSheaf (externalTensorProduct f g E G) ≅
       externalTensorProduct f g (dualSheaf E) (dualSheaf G) :=
-  rightDualIso
+  @rightDualIso _ _ (onSpaceModulesMonoidal (pullback f g)) _
+    (dualSheaf (externalTensorProduct f g E G)) _
     (dualSheafExactPairing (pullback f g) (externalTensorProduct f g E G)
       (isFiniteLocallyFree_externalTensorProduct f g E G hE hG))
     (externalTensorProductExactPairing f g E G hE hG)
@@ -200,8 +209,9 @@ noncomputable def dualSheafMate {W : Scheme.{u}} {M N : W.Modules}
     (hN : IsFiniteLocallyFree.{u, u, u} (R := W.ringCatSheaf) N) (φ : M ⟶ N) :
     dualSheaf N ⟶ dualSheaf M :=
   @rightAdjointMate W.Modules _ (onSpaceModulesMonoidal W) M N
-    (@HasRightDual.mk _ _ (onSpaceModulesMonoidal W) _ _ (dualSheafExactPairing W M hM))
-    (@HasRightDual.mk _ _ (onSpaceModulesMonoidal W) _ _ (dualSheafExactPairing W N hN)) φ
+    (@HasRightDual.mk _ _ (onSpaceModulesMonoidal W) _ (dualSheaf M) (dualSheafExactPairing W M hM))
+    (@HasRightDual.mk _ _ (onSpaceModulesMonoidal W) _ (dualSheaf N) (dualSheafExactPairing W N hN))
+    φ
 
 /-- **The dual of `φ ⊠ ψ` read through `ℰ^∨ ⊠ 𝒢^∨`**: the right adjoint mate of
 `externalTensorProductMap f g φ ψ` for the two pairings
@@ -237,7 +247,8 @@ theorem externalTensorProductDualIso_naturality {E₁ E₂ : X.Modules} {G₁ G�
         (externalTensorProductDualIso f g E₁ G₁ hE₁ hG₁).hom =
       (externalTensorProductDualIso f g E₂ G₂ hE₂ hG₂).hom ≫
         externalTensorProductMate f g hE₁ hE₂ hG₁ hG₂ φ ψ :=
-  @rightAdjointMate_comp_rightDualIso _ _ (onSpaceModulesMonoidal (pullback f g)) _ _ _ _ _ _
+  @rightAdjointMate_comp_rightDualIso _ _ (onSpaceModulesMonoidal (pullback f g)) _ _
+    (dualSheaf (externalTensorProduct f g E₁ G₁)) _ (dualSheaf (externalTensorProduct f g E₂ G₂)) _
     (dualSheafExactPairing (pullback f g) (externalTensorProduct f g E₁ G₁)
       (isFiniteLocallyFree_externalTensorProduct f g E₁ G₁ hE₁ hG₁))
     (externalTensorProductExactPairing f g E₁ G₁ hE₁ hG₁)

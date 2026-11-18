@@ -362,7 +362,8 @@ lemma ι_mapBifunctorUnitIso_hom
     (ι_totalSingleIso_hom (Stacks.SheafOfModules.Tensor.sheafTensor R) K
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf R)) n)).trans ?_
   refine (congrArg (fun z => z ≫ (Stacks.SheafOfModules.rowComplexUnitIso R K).hom.f n)
-    (map_singleObjXSelf_zero_hom _ _)).trans ?_
+    (map_singleObjXSelf_zero_hom ((Stacks.SheafOfModules.Tensor.sheafTensor R).obj (K.X n))
+      (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf R)))).trans ?_
   exact (Category.id_comp _).trans (rowComplexUnitIso_hom_f R K n)
 
 /-- **The inverse of the unit law, in a single degree**: it is the inverse unit law of the tensor

@@ -483,19 +483,13 @@ def CompatibleActions (D : TwoExtensions i) : Prop :=
   ∀ (U : Y.Cᵒᵖ) (a : D.thickening.I.val.obj U) (x : D.F.val.obj U),
     D.kernelMap.val.app U
         (D.firstActionMap.1.val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-              i.toToposHom).obj X.O)).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
             (PresheafOfModules.tensorObj D.thickening.I.val D.F.val)).app U
             (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] x))) =
       D.secondActionMap.1.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-            i.toToposHom).obj X.O)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
           (PresheafOfModules.tensorObj D.thickening.I.val D.G.val)).app U
           (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
             D.quotientMap.val.app U x))

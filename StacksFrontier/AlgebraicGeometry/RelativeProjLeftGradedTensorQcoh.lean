@@ -58,10 +58,11 @@ objectwise `PresheafOfModules.tensorObj` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/SheafificationTensor.lean`, and the ringed-space
 `Stacks.SheafOfModules.TensorStalkRingedSpace.presheafTensor` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorStalkRingedSpace.lean`. On a scheme they
-agree on the nose: `presheafTensor X.toRingedSpace F.val G.val = tensorObj F.val G.val` and
-`TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace = sheafify X` are both `rfl`, so Tag
-01CE applies to the sheafified objectwise tensor product with no comparison morphism at all.
-That is why `isQuasicoherent_sheafifyTensorObjVal` below has a one-term proof.
+agree on the nose: `presheafTensor X.toRingedSpace F.val G.val = tensorObj F.val G.val` is
+`rfl`. The tensor product of sheaves of modules is the *sealed* sheafification of that presheaf,
+which `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` identifies with its image under
+`sheafify X`, so Tag 01CE transports to the sheafified objectwise tensor product along that one
+isomorphism; that is all `isQuasicoherent_sheafifyTensorObjVal` below does.
 
 For a summand of the balance map's source the two factors are not both underlying presheaves of
 sheaves of modules: the summand is `P^r ⊗_O (A^s ⊗_O N^t)`, whose right-hand factor is itself a
@@ -126,11 +127,14 @@ theorem isQuasicoherent_sheafifyVal (M : SheafOfModules.{u} 𝒪ˢ[X])
 
 /-- **Tag 01CE at the objectwise spelling.** The associated sheaf of the objectwise tensor
 product of the presheaves underlying two quasi-coherent sheaves of modules is quasi-coherent:
-that associated sheaf is the tensor product of sheaves of modules of Tag 01CA on the nose. -/
+that associated sheaf is isomorphic, by `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`, to the
+tensor product of sheaves of modules of Tag 01CA. -/
 theorem isQuasicoherent_sheafifyTensorObjVal (F G : SheafOfModules.{u} 𝒪ˢ[X])
     (hF : F.IsQuasicoherent) (hG : G.IsQuasicoherent) :
     ((sheafify X).obj (PresheafOfModules.tensorObj F.val G.val)).IsQuasicoherent :=
-  @AlgebraicGeometry.tensorSheaf_isQuasicoherent X.toRingedSpace F G hF hG
+  (SheafOfModules.isQuasicoherent 𝒪ˢ[X]).prop_of_iso
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf F G)
+    (@AlgebraicGeometry.tensorSheaf_isQuasicoherent X.toRingedSpace F G hF hG)
 
 /-- **The associated sheaf of an objectwise tensor product of presheaves of modules is
 quasi-coherent as soon as the associated sheaves of the two factors are.** Neither factor need
@@ -142,7 +146,7 @@ theorem isQuasicoherent_sheafifyTensorObj (P Q : PresheafOfModules.{u} (𝒪ˢ[X
   (SheafOfModules.isQuasicoherent 𝒪ˢ[X]).prop_of_iso
     ((PresheafOfModules.sheafificationTensorIso.{u, u, u, u, u}
       (Opens.grothendieckTopology X.carrier) (𝟙 X.sheaf.obj)).app (P, Q))
-    (isQuasicoherent_sheafifyTensorObjVal X ((sheafify X).obj P) ((sheafify X).obj Q) hP hQ)
+    (@AlgebraicGeometry.tensorSheaf_isQuasicoherent X.toRingedSpace _ _ hP hQ)
 
 /-- **The associated sheaf of a coproduct of presheaves of modules whose associated sheaves are
 quasi-coherent is quasi-coherent.** Sheafification is a left adjoint, so it carries the

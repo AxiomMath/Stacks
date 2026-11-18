@@ -219,8 +219,7 @@ noncomputable def laxLeg :
           (((Tensor.sheafTensor.{u, u, u, u, u} B).obj F).obj G)) :=
   presheafComparison A B ρ F.val G.val ≫
     (restrictScalarsPresheaf A B ρ).map
-      ((PresheafOfModules.sheafificationAdjunction.{u} (R := Tensor.ringSheaf B)
-          (𝟙 (Tensor.ringSheaf B).obj)).unit.app
+      ((Tensor.sheafificationAdjunction B).unit.app
         (PresheafOfModules.tensorObj (O := B.obj) F.val G.val))
 
 /-- The transpose is the presheaf comparison followed by the restriction of the sheafification
@@ -228,8 +227,7 @@ unit. -/
 theorem laxLeg_eq :
     laxLeg A B ρ F G = presheafComparison A B ρ F.val G.val ≫
       (restrictScalarsPresheaf A B ρ).map
-        ((PresheafOfModules.sheafificationAdjunction.{u} (R := Tensor.ringSheaf B)
-            (𝟙 (Tensor.ringSheaf B).obj)).unit.app
+        ((Tensor.sheafificationAdjunction B).unit.app
           (PresheafOfModules.tensorObj (O := B.obj) F.val G.val)) := rfl
 
 /-- **The lax comparison of the tensor product with restriction of scalars**
@@ -240,8 +238,7 @@ noncomputable def laxComparison :
         ((restrictScalarsSheaf A B ρ).obj G) ⟶
       (restrictScalarsSheaf A B ρ).obj
         (((Tensor.sheafTensor.{u, u, u, u, u} B).obj F).obj G) :=
-  ((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf A)
-      (𝟙 (Tensor.ringSheaf A).obj)).homEquiv
+  ((Tensor.sheafificationAdjunction A).homEquiv
     (PresheafOfModules.tensorObj (O := A.obj) ((restrictScalarsSheaf A B ρ).obj F).val
       ((restrictScalarsSheaf A B ρ).obj G).val)
     ((restrictScalarsSheaf A B ρ).obj
@@ -251,8 +248,7 @@ noncomputable def laxComparison :
 /-- Along the sheafification adjunction, the lax comparison is the presheaf comparison followed
 by the sheafification unit. -/
 theorem homEquiv_laxComparison :
-    (PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf A)
-        (𝟙 (Tensor.ringSheaf A).obj)).homEquiv
+    (Tensor.sheafificationAdjunction A).homEquiv
         (PresheafOfModules.tensorObj (O := A.obj) ((restrictScalarsSheaf A B ρ).obj F).val
           ((restrictScalarsSheaf A B ρ).obj G).val)
         ((restrictScalarsSheaf A B ρ).obj
@@ -307,26 +303,16 @@ variable {F F' G G' : SheafOfModules.{u} (Tensor.ringSheaf B)}
 a pair of morphisms of sheaves of modules. -/
 theorem presheafTensorMap_comp_sheafifyUnit (φ : F ⟶ F') (ψ : G ⟶ G') :
     PresheafOfModules.tensorHom (O := B.obj) φ.val ψ.val ≫
-        (PresheafOfModules.sheafificationAdjunction.{u} (R := Tensor.ringSheaf B)
-            (𝟙 (Tensor.ringSheaf B).obj)).unit.app
+        (Tensor.sheafificationAdjunction B).unit.app
           (PresheafOfModules.tensorObj (O := B.obj) F'.val G'.val)
-      = (PresheafOfModules.sheafificationAdjunction.{u} (R := Tensor.ringSheaf B)
-            (𝟙 (Tensor.ringSheaf B).obj)).unit.app
+      = (Tensor.sheafificationAdjunction B).unit.app
           (PresheafOfModules.tensorObj (O := B.obj) F.val G.val) ≫
         (SheafOfModules.forget (Tensor.ringSheaf B) ⋙
             PresheafOfModules.restrictScalars (𝟙 (Tensor.ringSheaf B).obj)).map
           ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u} B)).map
             (X := (F, G)) (Y := (F', G')) (φ, ψ)) := by
-  have computation := congrArg
-    (fun morphism => (SheafOfModules.forget (Tensor.ringSheaf B) ⋙
-      PresheafOfModules.restrictScalars (𝟙 (Tensor.ringSheaf B).obj)).map morphism)
-    (Tensor.sheafTensor_uncurry_map.{u, u, u, u, u} B φ ψ)
-  exact ((PresheafOfModules.sheafificationAdjunction (R := Tensor.ringSheaf B)
-    (𝟙 (Tensor.ringSheaf B).obj)).unit.naturality
-      (PresheafOfModules.tensorHom (O := B.obj) φ.val ψ.val)).trans
-        (congrArg (fun morphism => (PresheafOfModules.sheafificationAdjunction.{u}
-          (R := Tensor.ringSheaf B) (𝟙 (Tensor.ringSheaf B).obj)).unit.app
-          (PresheafOfModules.tensorObj (O := B.obj) F.val G.val) ≫ morphism) computation.symm)
+  rw [Tensor.sheafTensor_uncurry_map]
+  exact (Tensor.unit_comp_map _).symm
 
 /-- The transpose of the comparison is natural in both module variables. -/
 theorem laxLeg_naturality (φ : F ⟶ F') (ψ : G ⟶ G') :
@@ -342,14 +328,12 @@ theorem laxLeg_naturality (φ : F ⟶ F') (ψ : G ⟶ G') :
         ((restrictScalarsPresheaf A B ρ).map ψ.val) ≫
       (presheafComparison A B ρ F'.val G'.val ≫
         (restrictScalarsPresheaf A B ρ).map
-          ((PresheafOfModules.sheafificationAdjunction.{u} (R := Tensor.ringSheaf B)
-              (𝟙 (Tensor.ringSheaf B).obj)).unit.app
+          ((Tensor.sheafificationAdjunction B).unit.app
             (PresheafOfModules.tensorObj (O := B.obj) F'.val G'.val))) = _
   rw [← Category.assoc, presheafComparison_naturality A B ρ φ.val ψ.val, Category.assoc,
     ← (restrictScalarsPresheaf A B ρ).map_comp
       (PresheafOfModules.tensorHom (O := B.obj) φ.val ψ.val)
-      ((PresheafOfModules.sheafificationAdjunction.{u} (R := Tensor.ringSheaf B)
-          (𝟙 (Tensor.ringSheaf B).obj)).unit.app
+      ((Tensor.sheafificationAdjunction B).unit.app
         (PresheafOfModules.tensorObj (O := B.obj) F'.val G'.val)),
     presheafTensorMap_comp_sheafifyUnit B φ ψ]
   exact (congrArg (fun z => presheafComparison A B ρ F.val G.val ≫ z)
@@ -366,8 +350,7 @@ theorem laxComparison_naturality (φ : F ⟶ F') (ψ : G ⟶ G') :
         (restrictScalarsSheaf A B ρ).map
           ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u} B)).map
             (X := (F, G)) (Y := (F', G')) (φ, ψ)) := by
-  let adjunction := PresheafOfModules.sheafificationAdjunction.{u}
-    (R := Tensor.ringSheaf A) (𝟙 (Tensor.ringSheaf A).obj)
+  let adjunction := Tensor.sheafificationAdjunction A
   let targetMap := (restrictScalarsSheaf A B ρ).map
     ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u} B)).map
       (X := (F, G)) (Y := (F', G')) (φ, ψ))

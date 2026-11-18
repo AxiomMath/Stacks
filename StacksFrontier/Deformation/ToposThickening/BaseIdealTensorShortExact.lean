@@ -74,7 +74,9 @@ noncomputable def tensorExtendScalarsToSheafIso (φ : O₁ ⟶ O₂)
   Stacks.FlatChangeOfRings.tensorBaseChangeSheafIso φ G ≪≫
     Functor.isoWhiskerRight
       (Functor.isoWhiskerLeft (SheafOfModules.forget (ringSheaf O₂))
-        (Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso φ G))
+          (Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso φ G) ≪≫
+        (Stacks.FlatChangeOfRings.sheafTensorFlipObjIso O₂
+          ((Stacks.FlatChangeOfRings.extendScalars φ).obj G)).symm)
       (SheafOfModules.toSheaf (ringSheaf O₂))
 
 /-- **Stacks 03EX along a change of rings.** For `φ : O₁ ⟶ O₂`, tensoring a short exact sequence

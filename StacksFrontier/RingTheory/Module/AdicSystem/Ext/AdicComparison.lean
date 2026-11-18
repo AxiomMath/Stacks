@@ -123,7 +123,7 @@ private lemma exists_limitIso_of_shift_inverse
       have h : k.unop ≤ j.unop := leOfHom f.unop
       have hf : f = (homOfLE h).op := Subsingleton.elim _ _
       subst f
-      show 𝟙 (limit G) ≫ g k.unop = g j.unop ≫ tr F h
+      change 𝟙 (limit G) ≫ g k.unop = g j.unop ≫ tr F h
       rw [Category.id_comp, hg k.unop (j.unop + c) (Nat.add_le_add_right h c),
         hg j.unop (j.unop + c) le_rfl]
       simp only [Category.assoc, ProIso.tr_trans] }⟩
@@ -133,13 +133,13 @@ private lemma exists_limitIso_of_shift_inverse
   · apply limit.hom_ext
     intro j
     rw [Category.assoc, hi j.unop]
-    show limMap φ ≫ limit.π G (op (j.unop + c)) ≫ b j.unop = _
+    change limMap φ ≫ limit.π G (op (j.unop + c)) ≫ b j.unop = _
     rw [← Category.assoc, limMap_π, Category.assoc, hφb]
     simp [tr]
   · apply limit.hom_ext
     intro j
     rw [Category.assoc, limMap_π, ← Category.assoc, hi j.unop]
-    show (limit.π G (op (j.unop + c)) ≫ b j.unop) ≫ φ.app j = _
+    change (limit.π G (op (j.unop + c)) ≫ b j.unop) ≫ φ.app j = _
     rw [Category.assoc, hbφ]
     simp [tr]
 
@@ -263,7 +263,7 @@ private lemma adicComparison_of_systems_spec {A : Type u} [CommRing A] (I : Idea
     simp [t, tr]
   · intro k m n hkm hmn
     apply ModuleCat.hom_ext_iff.mp
-    show ((e k).inv ≫ tr G hkm ≫ (e m).hom) ≫
+    change ((e k).inv ≫ tr G hkm ≫ (e m).hom) ≫
         ((e m).inv ≫ tr G hmn ≫ (e n).hom) = _
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
     rw [← Category.assoc (tr G hkm), ProIso.tr_trans]
@@ -274,7 +274,7 @@ private lemma adicComparison_of_systems_spec {A : Type u} [CommRing A] (I : Idea
       HasLimit.isoOfNatIso eIso
     refine ⟨l, ?_⟩
     intro n
-    show l.hom ≫ limit.π Es (op n) = limit.π Qs (op n) ≫ _
+    change l.hom ≫ limit.π Es (op n) = limit.π Qs (op n) ≫ _
     dsimp only [l, Iso.trans_hom, Iso.symm_hom, asIso_hom]
     rw [Category.assoc, Category.assoc, HasLimit.isoOfNatIso_hom_π,
       ← Category.assoc (limMap φ), limMap_π, ← Category.assoc,
@@ -396,7 +396,7 @@ lemma adicComparison_of_complex_spec
   let G := Gs ⋙ R
   let φ : F ⟶ G := NatTrans.ofOpSequence (fun n => R.map (ModuleCat.ofHom (f n))) (by
     intro n
-    show R.map (Fs.map _) ≫ R.map (ModuleCat.ofHom (f n)) =
+    change R.map (Fs.map _) ≫ R.map (ModuleCat.ofHom (f n)) =
       R.map (ModuleCat.ofHom (f (n + 1))) ≫ R.map (Gs.map _)
     simp only [Fs, Gs, Functor.ofOpSequence_map_homOfLE_succ, ← R.map_comp]
     exact congrArg R.map (ModuleCat.hom_ext (hfn n).symm))
@@ -432,11 +432,11 @@ lemma adicComparison_of_complex_spec
   have hqs : ∀ n, tr F (Nat.le_succ n) ≫ (q n).toModuleIso.hom =
       (q (n + 1)).toModuleIso.hom ≫ ModuleCat.ofHom (Submodule.factorPowSucc I E n) := by
     intro n
-    show R.map (Fs.map _) ≫ _ = _
+    change R.map (Fs.map _) ≫ _ = _
     simp only [Fs, Functor.ofOpSequence_map_homOfLE_succ]
     apply ModuleCat.hom_ext
     ext ⟨x⟩
-    show q n (qt n (Submodule.Quotient.mk x)) =
+    change q n (qt n (Submodule.Quotient.mk x)) =
       Submodule.factorPowSucc I E n (q (n + 1) (Submodule.Quotient.mk x))
     rw [hqt]
     have hq (k : ℕ) : q k (Submodule.Quotient.mk x) = Submodule.Quotient.mk (e x) := by

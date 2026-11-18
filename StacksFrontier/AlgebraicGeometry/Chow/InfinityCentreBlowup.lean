@@ -90,7 +90,8 @@ Stacks 0F9J is `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreModification
 `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreProjectivizedNormalCone`; assertion (7),
 `E ∖ X' = E ∖ (X' ∩ E) = Spec_Z(𝒞_{Z/X,*}) = C_ZX`, is
 `Stacks.Chow.normalConeToExceptionalDivisor_spec` in
-`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreNormalConeIso` (also Stacks 0FBH); and assertion
+`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreNormalConeIso` (also Stacks 0FBH); and
+assertion
 (8) in full, with the base change of `𝐏¹_Z ⟶ W` by `∞`, is `Stacks.Chow.lineToBlowupAtInfinity_spec`
 in `StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreLineAtInfinity` (also Stacks 0FE9).
 

@@ -48,7 +48,28 @@ The two spellings of the restricted structure sheaf make the `CategoryTheory.Cat
 of a composition in a statement differ syntactically from the one rewriting produces, so
 `simp only [Category.assoc]` does not fire and `rw` is refused as not type-correct at `implicit`
 transparency. The file therefore works in term mode, evaluating composites on a local section
-with `tripleCompSection` and `compSection`, stated at a variable site.
+with the helper lemmas `tripleCompImageSection`, `invImageSection` and `compMapImageSection`,
+applied by term.
+
+**Reading a section across the restriction.** The tensor product sheafifies with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so a section of a tensor product sheaf over `X`
+does not unfold, and reading it as a section of its restriction to `U` makes the unifier compare
+the stuck module with the restricted one (`Module.compHom`) field by field. Done naively, the
+statements of the first two crossings below exceed the default `maxHeartbeats` on their own, and
+the third does with its proof. Two devices bring each of them to about 60% of the budget, kernel
+check included.
+
+* The helper lemmas take a section over the image open as a section of the *unrestricted*
+  module and are stated for an arbitrary sheaf of modules `N`, where reading it across the
+  restriction is cheap; instantiating them at a tensor product sheaf does not repeat that
+  reading.
+* In the statements, a section over the image open is ascribed the type of the sections over
+  `openSubspaceSiteImage U V`, the same open as the slice site spells it. Elaboration erases the
+  ascription, so the statement is the one written without it, but the unifier then crosses the
+  two spellings of the open before it crosses the restriction, which costs roughly half as much.
+  `openSubspaceTensorBifunctorIso_inv_val_app_tensorSheafUnit` applies `Eq` rather than writing
+  `=`, so that its right-hand side is elaborated against the type of its left-hand side;
+  unifying the two types afterwards, as `=` does, costs about 80,000 heartbeats more.
 
 The crossings are stated with the local section typed on the **large** site, as a section of
 `Stacks.SheafOfModules.TensorSheafification.tensorPresheaf X.presheaf M.val L.val` over the image
@@ -73,46 +94,19 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf AlgebraicGeometry
 open TopologicalSpace PresheafOfModules Opposite
 open Stacks.Cohomology.HigherDirectImage (moduleRestriction restrictToOpen)
 open Stacks.SheafOfModules.TensorPower (restrictTensorSheafIso ringedSpaceIsSheaf)
+open Stacks.SheafOfModules (openSubspaceSiteFunctor)
+open Stacks.SheafOfModules.PushforwardSheafification (pushforwardRingSheaf)
 open scoped TensorProduct
 
 universe u
 
 namespace SheafOfModules
 
-/-! ### Evaluating a composite of morphisms of sheaves of modules on a local section
-
-Stated at a variable site and at generic objects, so that they can be applied by `exact` to
-composites whose intermediate objects agree only up to unfolding the structure sheaf of the open
-subspace. -/
+/-! ### Morphisms of sheaves of modules on a local section -/
 
 section Generic
 
 variable {C : Type*} [Category C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{u}}
-
-/-- A triple composite of morphisms of sheaves of modules, evaluated on a local section, given
-the three values. -/
-private theorem tripleCompSection {A B D E : SheafOfModules.{u} R} {e : A ⟶ E}
-    (f : A ⟶ B) (g : B ⟶ D) (h : D ⟶ E) (he : e = f ≫ g ≫ h)
-    (V : Cᵒᵖ) {x : A.val.obj V} {b : B.val.obj V} {d : D.val.obj V} {y : E.val.obj V}
-    (h1 : f.val.app V x = b) (h2 : g.val.app V b = d) (h3 : h.val.app V d = y) :
-    e.val.app V x = y := by
-  subst he h1 h2 h3; rfl
-
-/-- A composite of two morphisms of sheaves of modules, evaluated on a local section, given the
-two values. -/
-private theorem compSection {A B E : SheafOfModules.{u} R} (f : A ⟶ B) (g : B ⟶ E)
-    (V : Cᵒᵖ) {x : A.val.obj V} {b : B.val.obj V} {y : E.val.obj V}
-    (h1 : f.val.app V x = b) (h2 : g.val.app V b = y) :
-    (f ≫ g).val.app V x = y := by
-  subst h1 h2; rfl
-
-/-- The inverse of an isomorphism of sheaves of modules on a local section, read off the value of
-the isomorphism itself. -/
-private theorem invSection {A B : SheafOfModules.{u} R} (e : A ≅ B) (V : Cᵒᵖ)
-    {x : A.val.obj V} {y : B.val.obj V} (h : e.hom.val.app V x = y) :
-    e.inv.val.app V y = x := by
-  subst h
-  exact congrArg (fun φ : A ⟶ A => φ.val.app V x) e.hom_inv_id
 
 section TensorDesc
 
@@ -143,15 +137,17 @@ theorem tensorSheafDesc_val_app_tensorSheafUnit (φ : tensorObj F.val G.val ⟶ 
   (PresheafOfModules.tensorSheafificationHomEquiv_app_apply
       (PresheafOfModules.tensorSheafDesc φ) V z).symm.trans
     (congrArg (fun h : tensorObj F.val G.val ⟶ Q.val => PresheafOfModules.Hom.app h V z)
-      ((PresheafOfModules.sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj)).apply_symm_apply φ))
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
+        (tensorObj F.val G.val) Q).apply_symm_apply φ))
 
 /-- **The sheafification bijection carries the multiplication of a sheaf of graded algebras back
 to the bilinear multiplication it descends from.** -/
 theorem GradedAlgebra.sheafificationHomEquiv_mulSheaf
     (A : GradedAlgebra.{u, u} (toRingCat J Osharp)) (i j : ℤ) :
-    PresheafOfModules.sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj)
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
+        (tensorObj (A.piece i).val (A.piece j).val) (A.piece (i + j))
         (GradedAlgebra.mulSheaf A i j) = GradedAlgebra.mulPresheaf A i j :=
-  (PresheafOfModules.sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj)).apply_symm_apply _
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv _ _).apply_symm_apply _
 
 end TensorDesc
 
@@ -197,13 +193,69 @@ theorem tensorSheafMap_openSubspaceComparison_inv_val_app_tensorSheafUnit
       (tensorSheafUnit (Osharp := (restrictToOpen X U).sheaf)
         ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V z  :=
   (val_app_congr_fun (sheafTensorMap_openSubspaceComparison_inv_eq U M L) V _).trans
-    ((PresheafOfModules.unit_naturality_apply
-        (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-          ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩).obj) _ V z).trans
+    ((Stacks.SheafOfModules.Tensor.unit_naturality_apply
+        (R := ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩) _ V z).trans
       (congrArg (fun w => (tensorSheafUnit (Osharp := (restrictToOpen X U).sheaf)
           ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V w)
         (congrArg (fun φ => PresheafOfModules.Hom.app φ V z)
           (tensorHom_openSubspaceComparison_inv_eq_id U M L))))
+
+/-! ### Reading a section over the image open as a section of the restriction
+
+A section of `N` over the image in `X` of an open `V` of `U` is, definitionally, a section of
+`(openSubspaceRestriction U).obj N` over `V`. The lemmas below take it in the first form and are
+stated for an arbitrary `N`; see the implementation notes. -/
+
+/-- The image in `X` of an open `V` of `U`, spelled as the slice site of `U` spells it:
+definitionally `op (U.isOpenEmbedding.functor.obj V.unop)`. The crossings below ascribe sections
+to it, so that the unifier crosses the two spellings of the open before the restriction. -/
+abbrev openSubspaceSiteImage (V : (Opens ↥U)ᵒᵖ) : (Opens X.carrier)ᵒᵖ :=
+  op ((openSubspaceSiteFunctor U).obj V.unop).left
+
+/-- The comparison `openSubspaceRestriction U ≅ moduleRestriction X U` is the identity on a
+section over the image open, taken as a section of the unrestricted module. -/
+private theorem openSubspaceRestrictionIsoModuleRestriction_hom_app_val_app_image
+    (N : SheafOfModules.{u} (structureSheafRing X)) (V : (Opens ↥U)ᵒᵖ)
+    (x : N.val.obj (op (U.isOpenEmbedding.functor.obj V.unop))) :
+    ((openSubspaceRestrictionIsoModuleRestriction U).hom.app N).val.app V x = x :=
+  rfl
+
+/-- A triple composite out of the restriction of `N`, evaluated on a section of `N` over the image
+open of `V`, given the three values. -/
+private theorem tripleCompImageSection {N : SheafOfModules.{u} (structureSheafRing X)}
+    {B D E : SheafOfModules.{u} (pushforwardRingSheaf (Opens.grothendieckTopology ↥U)
+      (openSubspaceSiteFunctor U) ((structureSheafRing X).over U))}
+    {e : (openSubspaceRestriction U).obj N ⟶ E} (f : (openSubspaceRestriction U).obj N ⟶ B)
+    (g : B ⟶ D) (h : D ⟶ E) (he : e = f ≫ g ≫ h) (V : (Opens ↥U)ᵒᵖ)
+    {x : N.val.obj (op (U.isOpenEmbedding.functor.obj V.unop))} {b : B.val.obj V}
+    {d : D.val.obj V} {y : E.val.obj V}
+    (h1 : f.val.app V x = b) (h2 : g.val.app V b = d) (h3 : h.val.app V d = y) :
+    e.val.app V x = y := by
+  subst he h1 h2 h3; rfl
+
+/-- The inverse of an isomorphism out of the restriction of `N`, read off the value of the
+isomorphism itself on a section of `N` over the image open of `V`. -/
+private theorem invImageSection {N : SheafOfModules.{u} (structureSheafRing X)}
+    {E : SheafOfModules.{u} (pushforwardRingSheaf (Opens.grothendieckTopology ↥U)
+      (openSubspaceSiteFunctor U) ((structureSheafRing X).over U))}
+    (e : (openSubspaceRestriction U).obj N ≅ E) (V : (Opens ↥U)ᵒᵖ)
+    {x : N.val.obj (op (U.isOpenEmbedding.functor.obj V.unop))} {y : E.val.obj V}
+    (h : e.hom.val.app V x = y) : e.inv.val.app V y = x := by
+  subst h
+  exact congrArg (fun φ : (openSubspaceRestriction U).obj N ⟶ _ => φ.val.app V x) e.hom_inv_id
+
+/-- A composite ending in the restriction of a morphism `φ : N ⟶ P`, evaluated on a local
+section, given the value of the first factor as a section of `N` over the image open of `V`. -/
+private theorem compMapImageSection
+    {A : SheafOfModules.{u} (pushforwardRingSheaf (Opens.grothendieckTopology ↥U)
+      (openSubspaceSiteFunctor U) ((structureSheafRing X).over U))}
+    {N P : SheafOfModules.{u} (structureSheafRing X)}
+    (f : A ⟶ (openSubspaceRestriction U).obj N) (φ : N ⟶ P) (V : (Opens ↥U)ᵒᵖ)
+    {s : A.val.obj V} {x : N.val.obj (op (U.isOpenEmbedding.functor.obj V.unop))}
+    (h : f.val.app V s = x) :
+    (f ≫ (openSubspaceRestriction U).map φ).val.app V s =
+      φ.val.app (op (U.isOpenEmbedding.functor.obj V.unop)) x := by
+  subst h; rfl
 
 /-- **`(M ⊗ L)|_U ≅ M|_U ⊗ L|_U` carries the sheafification unit over the image open of `V` to
 the sheafification unit over `V`**, on an arbitrary local section of the objectwise tensor
@@ -213,14 +265,14 @@ theorem openSubspaceTensorIso_hom_val_app_tensorSheafUnit
     (z : (tensorObj (O := X.presheaf) M.val L.val).obj
       (op (U.isOpenEmbedding.functor.obj V.unop))) :
     (openSubspaceTensorIso U M L).hom.val.app V
-        ((tensorSheafUnit M L).app (op (U.isOpenEmbedding.functor.obj V.unop)) z) =
+        ((tensorSheafUnit M L).app (op (U.isOpenEmbedding.functor.obj V.unop)) z :
+          (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X.presheaf, X.IsSheaf⟩).obj
+            M).obj L).val.obj (openSubspaceSiteImage U V)) =
       (tensorSheafUnit (Osharp := (restrictToOpen X U).sheaf)
-        ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V z :=
-  tripleCompSection _ _ _ (openSubspaceTensorIso_hom U M L) V
-    (openSubspaceRestrictionIsoModuleRestriction_hom_app_val_app U
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X.presheaf, X.IsSheaf⟩).obj
-          M).obj L) V
-      ((tensorSheafUnit M L).app (op (U.isOpenEmbedding.functor.obj V.unop)) z))
+        ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V
+        (z : (tensorObj (O := X.presheaf) M.val L.val).obj (openSubspaceSiteImage U V)) :=
+  tripleCompImageSection U _ _ _ (openSubspaceTensorIso_hom U M L) V
+    (openSubspaceRestrictionIsoModuleRestriction_hom_app_val_app_image U _ V _)
     (Stacks.SheafOfModules.TensorPower.restrictTensorSheafIso_hom_val_app_tensorSheafUnit
       U M L V z)
     (tensorSheafMap_openSubspaceComparison_inv_val_app_tensorSheafUnit U M L V z)
@@ -232,11 +284,15 @@ theorem openSubspaceTensorBifunctorIso_inv_val_app_tensorSheafUnit
     (M L : SheafOfModules.{u} (structureSheafRing X)) (V : (Opens ↥U)ᵒᵖ)
     (z : (tensorObj (O := X.presheaf) M.val L.val).obj
       (op (U.isOpenEmbedding.functor.obj V.unop))) :
-    (openSubspaceTensorBifunctorIso U M L).inv.val.app V
+    Eq
+      ((openSubspaceTensorBifunctorIso U M L).inv.val.app V
         ((tensorSheafUnit (Osharp := (restrictToOpen X U).sheaf)
-          ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V z) =
-      (tensorSheafUnit M L).app (op (U.isOpenEmbedding.functor.obj V.unop)) z :=
-  invSection (openSubspaceTensorBifunctorIso U M L) V
+          ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V
+          (z : (tensorObj (O := X.presheaf) M.val L.val).obj (openSubspaceSiteImage U V))))
+      ((tensorSheafUnit M L).app (op (U.isOpenEmbedding.functor.obj V.unop)) z :
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X.presheaf, X.IsSheaf⟩).obj
+          M).obj L).val.obj (openSubspaceSiteImage U V)) :=
+  invImageSection U (openSubspaceTensorBifunctorIso U M L) V
     (openSubspaceTensorIso_hom_val_app_tensorSheafUnit U M L V z)
 
 /-- **The restriction to `U` of a morphism out of a tensor product, precomposed with the
@@ -250,16 +306,17 @@ theorem openSubspaceTensorBifunctorIso_inv_comp_map_val_app_tensorSheafUnit
       (op (U.isOpenEmbedding.functor.obj V.unop))) :
     ((openSubspaceTensorBifunctorIso U M L).inv ≫ (openSubspaceRestriction U).map φ).val.app V
         ((tensorSheafUnit (Osharp := (restrictToOpen X U).sheaf)
-          ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V z) =
+          ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V
+          (z : (tensorObj (O := X.presheaf) M.val L.val).obj (openSubspaceSiteImage U V))) =
       φ.val.app (op (U.isOpenEmbedding.functor.obj V.unop))
         ((tensorSheafUnit M L).app (op (U.isOpenEmbedding.functor.obj V.unop)) z) :=
-  compSection _ _ V (openSubspaceTensorBifunctorIso_inv_val_app_tensorSheafUnit U M L V z)
-    (openSubspaceRestriction_map_val_app U φ V _)
+  compMapImageSection U _ φ V (openSubspaceTensorBifunctorIso_inv_val_app_tensorSheafUnit U M L V z)
 
 /-- **The restriction to `U` of a morphism out of a tensor product, precomposed with the
 identification, is the morphism it descends from, read at the image open** — on the
 sheafification unit of a local section, with the morphism out of the objectwise tensor product
-given by `PresheafOfModules.sheafificationHomEquiv` on the right. -/
+given by the bijection of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` on the
+right. -/
 theorem openSubspaceTensorBifunctorIso_inv_comp_map_val_app_sheafificationHomEquiv
     (M L N : SheafOfModules.{u} (structureSheafRing X))
     (φ : (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf)).obj (M, L) ⟶ N) (V
@@ -270,8 +327,8 @@ theorem openSubspaceTensorBifunctorIso_inv_comp_map_val_app_sheafificationHomEqu
         ((tensorSheafUnit (Osharp := (restrictToOpen X U).sheaf)
           ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V z) =
       PresheafOfModules.Hom.app
-        (PresheafOfModules.sheafificationHomEquiv
-          (𝟙 (toRingCat (Opens.grothendieckTopology X.carrier) X.sheaf).obj) φ)
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).homEquiv
+          (tensorObj M.val L.val) N φ)
         (op (U.isOpenEmbedding.functor.obj V.unop)) z :=
   (openSubspaceTensorBifunctorIso_inv_comp_map_val_app_tensorSheafUnit U M L N φ V z).trans
     (PresheafOfModules.tensorSheafificationHomEquiv_app_apply φ _ z).symm

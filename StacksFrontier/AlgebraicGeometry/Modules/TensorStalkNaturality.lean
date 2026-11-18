@@ -77,9 +77,7 @@ theorem stalkLinearMap_tensorRightMap_tensorSheafGerm {A B : X.Modules} (f : A �
   (stalkLinearMap_germ (Scheme.Modules.tensorObj A G) (Scheme.Modules.tensorObj B G)
       (Scheme.Modules.tensorRightMap f G) U x hx _).trans
     (congrArg (ConcreteCategory.hom ((Scheme.Modules.tensorObj B G).presheaf.germ U x hx))
-      ((PresheafOfModules.unit_naturality_apply
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-        (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)
+      ((Stacks.SheafOfModules.Tensor.unit_naturality_apply (R := X.sheaf)
         (PresheafOfModules.tensorHom (O := X.presheaf) f.val (𝟙 G.val))
         (op U) (m ⊗ₜ n)).trans
         (congrArg ((PresheafOfModules.tensorSheafUnit B G).app (op U))

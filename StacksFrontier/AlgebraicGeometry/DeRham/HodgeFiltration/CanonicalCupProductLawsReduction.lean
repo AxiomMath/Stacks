@@ -67,8 +67,7 @@ private abbrev tmulClass (F G : _root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A)) {U : (Opens X.carrier)ᵒᵖ}
     (x : F.val.obj U) (y : G.val.obj U) :
     (((sheafTensor.{u, u, u, u, u} A).obj F).obj G).val.obj U :=
-  ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
     (PresheafOfModules.tensorObj F.val G.val)).app U (x ⊗ₜ[A.obj.obj U] y)
 
 /-- **The value of a multiplication `Tot(K ⊗_A L) ⟶ M` on a local pure tensor**: on the local
@@ -79,8 +78,7 @@ def multiplicationValue (m : ((tensorBifunctorNat (A := A)).obj K).obj L ⟶ M) 
     (M.X (a + b)).val.obj U :=
   (HomologicalComplex.ιMapBifunctor K L (sheafTensor.{u, u, u, u, u} A) (up ℕ) a b (a + b) rfl ≫
       m.f (a + b)).val.app U
-    (((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
       (PresheafOfModules.tensorObj (K.X a).val (L.X b).val)).app U (x ⊗ₜ[A.obj.obj U] y))
 
 /-- The section of the extension by zero `K'^a` corresponding to a section of `K^a`. -/
@@ -97,9 +95,8 @@ private theorem tensorMap_app_tmulClass {F F' : _root_.SheafOfModules.{u}
     {U : (Opens X.carrier)ᵒᵖ} (x : F.val.obj U) (y : G.val.obj U) :
     (((sheafTensor.{u, u, u, u, u} A).map f).app G).val.app U (tmulClass F G x y) =
       tmulClass F' G (f.val.app U x) y :=
-  PresheafOfModules.hom_congr_apply'
-    (PresheafOfModules.unit_comp_map (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)
-      (PresheafOfModules.tensorHom (O := A.obj) f.val (𝟙 G.val))) U (x ⊗ₜ[A.obj.obj U] y)
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    (PresheafOfModules.tensorHom (O := A.obj) f.val (𝟙 G.val)) U (x ⊗ₜ[A.obj.obj U] y)
 
 /-- Tensoring a morphism on the right, on the class of a local pure tensor. -/
 private theorem tensorObjMap_tmulClass (F : _root_.SheafOfModules.{u}
@@ -108,9 +105,8 @@ private theorem tensorObjMap_tmulClass (F : _root_.SheafOfModules.{u}
     (g : G ⟶ G') {U : (Opens X.carrier)ᵒᵖ} (x : F.val.obj U) (y : G.val.obj U) :
     (((sheafTensor.{u, u, u, u, u} A).obj F).map g).val.app U (tmulClass F G x y) =
       tmulClass F G' x (g.val.app U y) :=
-  PresheafOfModules.hom_congr_apply'
-    (PresheafOfModules.unit_comp_map (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)
-      (PresheafOfModules.tensorHom (O := A.obj) (𝟙 F.val) g.val)) U (x ⊗ₜ[A.obj.obj U] y)
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    (PresheafOfModules.tensorHom (O := A.obj) (𝟙 F.val) g.val) U (x ⊗ₜ[A.obj.obj U] y)
 
 /-- **The extended multiplication on the class of a local pure tensor** of the `(a, b)` summand
 of `Tot(K' ⊗ L')`: it is the value of the multiplication, read in `M'^n`. -/

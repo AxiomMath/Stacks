@@ -304,6 +304,21 @@ open Stacks.ProjBundleInverseBaseChange (negOneMulPairingIso'
   exists_tensorPairing_eq_one_of_forall_germ_notMem_maximalIdeal_smul_top_right
   exists_negOneMulIso_hom_tensorSectionsAt_eq_one inverseTwistBaseChangeIso_inv_val_app)
 
+/-- The pairing `Stacks.SheafOfModules.tensorPairing` against a trivialisation `ψ` of a tensor
+product sheaf is `ψ` applied to `Stacks.SheafOfModules.tensorSectionsAt`: the units of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` and of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` agree on sections. -/
+private theorem tensorPairing_eq_hom_tensorSectionsAt {Y : RingedSpace.{u, u}}
+    {M P : _root_.SheafOfModules.{u} (structureSheafRing Y)}
+    (ψ : ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨Y.presheaf, Y.IsSheaf⟩).obj M).obj P ≅
+      _root_.SheafOfModules.unit (structureSheafRing Y))
+    (V : TopologicalSpace.Opens Y.carrier) (a : M.val.obj (op V)) (b : P.val.obj (op V)) :
+    Stacks.SheafOfModules.tensorPairing ψ V a b =
+      ψ.hom.val.app (op V)
+        (tensorSectionsAt Y.presheaf (structureSheafRing Y).property (op V) M P a b) :=
+  congrArg (ψ.hom.val.app (op V))
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _ _).symm
+
 include hσ e hqe in
 /-- **The hypothesis `hw` of
 `Stacks.ProjectiveBundleConormal.exists_conormalCanonicalMap_val_app_tensorSectionsAt`, for a
@@ -386,10 +401,12 @@ theorem exists_pullbackSection_inverseTwistBaseChangeIso_inv_val_app (hW : IsAff
         b₀ hb₀def y hy)
   refine ⟨w₀, inverseTwistBaseChangeIso_inv_val_app E Q e
     (tautologicalChart E W s) W hWV w₀ b₀ w hup ?_⟩
-  exact Eq.trans (congrArg (fun z : Γ(Q.L, W) =>
+  exact (tensorPairing_eq_hom_tensorSectionsAt _ W _ w).symm.trans
+    ((congrArg (fun z : Γ(Q.L, W) =>
       Stacks.SheafOfModules.tensorPairing (negOneMulPairingIso' (X := X.toRingedSpace) Q.L)
         W z w)
-    (hom_pullbackSection_smul_tautologicalSectionOver E Q hσ e hqe W s hW eL hs c b₀ hb₀def)) hc
+    (hom_pullbackSection_smul_tautologicalSectionOver E Q hσ e hqe W s hW eL hs c b₀ hb₀def)).trans
+      hc)
 
 include hσ e hqe in
 /-- **`hw` with nothing left to assume, for the generator a trivialisation of the restriction
@@ -506,11 +523,12 @@ theorem exists_pullbackSection_inverseTwistBaseChangeIso_inv_val_app_pinned (hW 
         b₀ hb₀smul y hy)
   refine ⟨w₀, inverseTwistBaseChangeIso_inv_val_app E Q e
     (tautologicalChart E W s) W hWV w₀ b₀ w hup
-    (Eq.trans (congrArg (fun z : Γ(Q.L, W) =>
+    ((tensorPairing_eq_hom_tensorSectionsAt _ W _ w).symm.trans
+      ((congrArg (fun z : Γ(Q.L, W) =>
         Stacks.SheafOfModules.tensorPairing (negOneMulPairingIso' (X := X.toRingedSpace) Q.L)
           W z w)
       (hom_pullbackSection_smul_tautologicalSectionOver E Q hσ e hqe W s hW eL hs
-        (Q.q.app W s) b₀ hb₀smul)) hpair), ?_⟩
+        (Q.q.app W s) b₀ hb₀smul)).trans hpair)), ?_⟩
   refine Eq.trans (congrArg (fun z : Γ(tautologicalTwist E (symPieces E),
       tautologicalChart E W s) =>
     Stacks.SheafOfModules.Invertible.sectionMulNegOne (bundle E).scheme.presheaf

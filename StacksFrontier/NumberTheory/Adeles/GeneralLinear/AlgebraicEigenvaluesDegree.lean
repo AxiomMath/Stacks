@@ -114,7 +114,7 @@ include k in
 public theorem latticeRep_smul_standard (L : AdelicLattice K n) :
     latticeRep L • AdelicLattice.standard K n = L := by
   have h := AdelicLattice.exists_smul_standard k L
-  rw [latticeRep, dif_pos h]
+  rw [latticeRep, dite_eq_left h]
   exact h.choose_spec
 
 /-- Translation by `g ∈ GL_n(K_v)` preserves indices of lattices. -/
@@ -169,12 +169,12 @@ public theorem idelDiv_det_mul_latticeRep {v : Place K} {i : ℕ} (x : GL (Fin n
   rw [idelDiv_apply, det_apply, Finsupp.single_apply]
   by_cases hw : w = v
   · subst hw
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine ordC_det_eq_of_relIndex k _ ?_ ?_
     · rw [htr, ← hstd w]
       exact translate_mono _ hle
     · rw [htr, ← hstd w, relIndex_translate, hidx]
-  · rw [if_neg (Ne.symm hw)]
+  · rw [ite_eq_right (Ne.symm hw)]
     have heq : translate (glAt K n w (x * latticeRep L')) (stdLattice w n) = stdLattice w n := by
       rw [htr, hout w hw, hstd w]
     refine ordC_det_eq_of_relIndex k _ heq.le ?_

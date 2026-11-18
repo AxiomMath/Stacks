@@ -85,7 +85,7 @@ attribute [local instance_reducible] TopCat.Sheaf CategoryTheory.sheafCompose
 
 open CategoryTheory CategoryTheory.Limits CategoryTheory.MonoidalCategory Opposite
 open TopologicalSpace AlgebraicGeometry
-open Stacks.SheafOfModules.Tensor (ringSheaf sheafTensor)
+open Stacks.SheafOfModules.Tensor (sheafTensor)
 open Stacks.Cohomology.GlobalKunneth (baseSections baseRing tensorBase)
 open Stacks.Cohomology.DerivedGlobalCupProduct (cohomologyModule totalCupPairing)
 open RingTheory.TorProducts (cycleClass)
@@ -560,8 +560,7 @@ theorem cechCupProduct_comp_map_singlePlus
       (HomologicalComplex.ιMapBifunctor (Stacks.Cech.Hypercohomology.singlePlus A F 0).obj
           (Stacks.Cech.Hypercohomology.singlePlus A G 0).obj (sheafTensor.{u, u, u, u, u} A)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction A).unit.app
           (PresheafOfModules.tensorObj ((Stacks.Cech.Hypercohomology.singlePlus A F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus A G 0).obj.X 0).val)).app V
             (x ⊗ₜ[A.obj.obj V] y)) =
@@ -637,8 +636,7 @@ theorem unitTensor_cupPair_cechCupProductSheafTensor_comp_map
       (HomologicalComplex.ιMapBifunctor (Stacks.Cech.Hypercohomology.singlePlus A F 0).obj
           (Stacks.Cech.Hypercohomology.singlePlus A G 0).obj (sheafTensor.{u, u, u, u, u} A)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction A).unit.app
           (PresheafOfModules.tensorObj ((Stacks.Cech.Hypercohomology.singlePlus A F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus A G 0).obj.X 0).val)).app V
             (x ⊗ₜ[A.obj.obj V] y)) =
@@ -763,8 +761,7 @@ theorem cupPair_cochainOfAt_cechCupProductSheafTensor_comp_map
           (Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj
           (sheafTensor.{u, u, u, u, u} S.sheaf)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf S.sheaf)
-          (𝟙 (ringSheaf S.sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S.sheaf).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj.X 0).val)).app V
@@ -830,8 +827,7 @@ theorem cyclesMap_cechCupProductSheafTensor_comp_iCycles
           (Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj
           (sheafTensor.{u, u, u, u, u} S.sheaf)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf S.sheaf)
-          (𝟙 (ringSheaf S.sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S.sheaf).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj.X 0).val)).app V
@@ -998,8 +994,7 @@ theorem cechBaseClass_cyclesMap_cechCupProductSheafTensor_apply
           (Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj
           (sheafTensor.{u, u, u, u, u} S.sheaf)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf S.sheaf)
-          (𝟙 (ringSheaf S.sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S.sheaf).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj.X 0).val)).app V
@@ -1115,8 +1110,7 @@ theorem cohomologyMap_totalCupPairing_cechSheafClass_eq_cycles
           (Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj
           (sheafTensor.{u, u, u, u, u} S.sheaf)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf S.sheaf)
-          (𝟙 (ringSheaf S.sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S.sheaf).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj.X 0).val)).app V
@@ -1195,8 +1189,7 @@ theorem cycles_class_eq_cechSheafClass_cechAWCochain
           (Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj
           (sheafTensor.{u, u, u, u, u} S.sheaf)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf S.sheaf)
-          (𝟙 (ringSheaf S.sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S.sheaf).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj.X 0).val)).app V
@@ -1263,8 +1256,7 @@ theorem cohomologyMap_totalCupPairing_cechSheafClass
           (Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj
           (sheafTensor.{u, u, u, u, u} S.sheaf)
           (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫ μ.f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf S.sheaf)
-          (𝟙 (ringSheaf S.sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S.sheaf).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf F 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus S.sheaf G 0).obj.X 0).val)).app V
@@ -1364,8 +1356,7 @@ theorem singleIntMultiplication_exteriorProductComponent_val_app (p p' : ℕ)
         (Stacks.Cech.Hypercohomology.singlePlus A (deRhamTerm B p') 0).obj
         (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℤ) 0 0 0 (add_zero 0) ≫
         (singleIntMultiplication (exteriorProductComponent B p p')).f 0).val.app V
-        (((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction A).unit.app
           (PresheafOfModules.tensorObj
             ((Stacks.Cech.Hypercohomology.singlePlus A (deRhamTerm B p) 0).obj.X 0).val
             ((Stacks.Cech.Hypercohomology.singlePlus A (deRhamTerm B p') 0).obj.X 0).val)).app V
@@ -1377,8 +1368,10 @@ theorem singleIntMultiplication_exteriorProductComponent_val_app (p p' : ℕ)
             (deRhamTerm B p)).hom.val.app V x)
           ((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
             (deRhamTerm B p')).hom.val.app V y)) :=
-  (singleIntMultiplication_val_app _ V x y).trans (congrArg _
-    (AlgebraicGeometry.SheafOfModules.exteriorProductComponent_unit_apply B p p' V _ _))
+  (DFunLike.congr_arg _
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply A _ V _)).trans
+    ((singleIntMultiplication_val_app _ V x y).trans (congrArg _
+      (AlgebraicGeometry.SheafOfModules.exteriorProductComponent_unit_apply B p p' V _ _)))
 
 /-- Reindexing the degree of a Hodge cohomology class is the identification of the two
 cohomology modules. -/

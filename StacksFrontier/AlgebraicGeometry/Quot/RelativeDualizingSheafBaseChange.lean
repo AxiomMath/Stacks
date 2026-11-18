@@ -147,7 +147,7 @@ def CurveFamily.smallEtaleDerivedModulePullbackSingleIso {X X' : CurveFamily B h
   haveI : F.IsQuasicoherentOnSite := hFq
   let pb :=
     (Space.smallEtaleRingedToposHom B integerBase hZ φ.totalMap).toModulesHom.pullbackModules
-  haveI hadd : pb.Additive := RingedToposHom.pullbackModules_additive
+  haveI : pb.Additive := RingedToposHom.pullbackModules_additive
     (Space.smallEtaleRingedToposHom B integerBase hZ φ.totalMap)
   haveI : pb.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_additive pb
   let K₀ := (CochainComplex.singleFunctor
@@ -217,7 +217,8 @@ def CurveFamily.relativeDualizingSheafBaseChangeIso (X : CurveFamily B hZ)
 
 /-- Let `f : X ⟶ S` be a family of curves with Gorenstein fibres equidimensional of dimension
 one (`Curves^{Gorenstein, 1}` of Stacks 0E6M), and `(ω^•_{X/S}, τ)` a relative dualizing complex
-(Stacks 0E5X; one exists by Stacks 0E61, `AlgebraicGeometry.Space.RelativeDualizingComplex.nonempty`,
+(Stacks 0E5X; one exists by Stacks 0E61,
+`AlgebraicGeometry.Space.RelativeDualizingComplex.nonempty`,
 and any two are uniquely isomorphic by Stacks 0E5Z). Then the relative dualizing sheaf
 `ω_{X/S} = H^{-1}(ω^•_{X/S})` (Stacks 0E6Q) is an invertible `𝒪_X`-module, and its formation
 commutes with arbitrary base change: for every morphism of families of curves `X' ⟶ X` over

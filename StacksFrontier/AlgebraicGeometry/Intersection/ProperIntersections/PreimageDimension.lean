@@ -616,18 +616,19 @@ theorem topologicalKrullDim_le_component_pullback_add_of_conormal_rank
             (spanFinrank_ker_stalkMap_liftCoborder_le_of_conormal_rank f c))
     _ = topologicalKrullDim W + (c : WithBot ℕ∞) := by rw [hVdim]
 
-/-- **Stacks Project, Tag 0AZN, part (1).** Let `f : X ⟶ Y` be a morphism of varieties over a
-field which is a regular immersion of codimension `c`, and let `Z ⊆ Y` be a closed subvariety.
-Then every irreducible component `W` of the scheme-theoretic inverse image `f⁻¹(Z) = X ×_Y Z`
-satisfies `dim Z ≤ dim W + c`, that is, has dimension at least `dim Z - c`.
+/-- **Stacks Project, Tag 0AZN, part (1).** Let `f : X ⟶ Y` be an immersion of varieties over a
+field whose conormal sheaf is finite locally free of rank `c`, and let `Z ⊆ Y` be a closed
+subvariety. Then every irreducible component `W` of the scheme-theoretic inverse image
+`f⁻¹(Z) = X ×_Y Z` satisfies `dim Z ≤ dim W + c`, that is, has dimension at least `dim Z - c`.
 
-This is the first of the two bounds of Tag 0AZN, under the hypotheses the source gives that
-bound. The tag is registered on the statement of both bounds,
+This is the first of the two bounds of Tag 0AZN. The source assumes `f` a regular immersion of
+codimension `c`; the statement needs no regularity, only that the conormal sheaf is locally free
+of rank `c`, which a regular immersion of codimension `c` satisfies. The tag is registered on
+the statement of both bounds,
 `AlgebraicGeometry.topologicalKrullDim_component_pullback_lower_bounds`. -/
 theorem topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) [IsImmersion f] (hf : f ≫ sY = sX)
-    (hreg : Stacks.AlgebraicGeometry.RegularIdealSheaf.IsRegularImmersion f) (c : ℕ)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) [IsImmersion f] (c : ℕ)
     [SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} (Stacks.Conormal.conormalSheaf f) c]
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
@@ -793,7 +794,7 @@ bound. The tag is registered on the statement of both bounds,
 `AlgebraicGeometry.topologicalKrullDim_component_pullback_lower_bounds`. -/
 theorem IsLocalCompleteIntersectionMorphismOfRelativeDimension.exists_add_le_topologicalKrullDim
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (_hf : f ≫ sY = sX) (r : ℤ)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (r : ℤ)
     (hlci : IsLocalCompleteIntersectionMorphismOfRelativeDimension f r)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
@@ -874,14 +875,14 @@ unsatisfiable for `r ≥ 1` (see its docstring), so this is not the source's par
 deduced from it. -/
 theorem exists_add_relativeDimension_le_topologicalKrullDim_component_pullback
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX) (r : ℤ)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (r : ℤ)
     (hlci : IsLocalCompleteIntersectionOfRelativeDimension f r)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
     (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
     ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
       topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ) := by
-  exact hlci.of_relativeDimension.exists_add_le_topologicalKrullDim k sX sY f hf r I W hW
+  exact hlci.of_relativeDimension.exists_add_le_topologicalKrullDim k sX sY f r I W hW
 
 /-! ### The whole of Stacks 0AZN -/
 
@@ -921,7 +922,7 @@ exists_add_le_topologicalKrullDim`. The relative-dimension condition here replac
 condition also over the empty open and is therefore unsatisfiable for `r ≥ 1`."]
 theorem topologicalKrullDim_component_pullback_lower_bounds
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
     (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
@@ -932,10 +933,9 @@ theorem topologicalKrullDim_component_pullback_lower_bounds
       (∀ r : ℤ, IsLocalCompleteIntersectionMorphismOfRelativeDimension f r →
         ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
           topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ)) := by
-  refine ⟨fun hreg c => ?_, fun r hlci => ?_⟩
-  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f hf hreg c
-      I W hW
-  · exact hlci.exists_add_le_topologicalKrullDim k sX sY f hf r I W hW
+  refine ⟨fun _ c => ?_, fun r hlci => ?_⟩
+  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f c I W hW
+  · exact hlci.exists_add_le_topologicalKrullDim k sX sY f r I W hW
 
 /-- The two bounds of Tag 0AZN in one statement, with part (2) stated for the condition
 `AlgebraicGeometry.IsLocalCompleteIntersectionOfRelativeDimension`. That condition is
@@ -945,7 +945,7 @@ part (2) and this is not the statement of Tag 0AZN, which is
 source's part (1). -/
 theorem topologicalKrullDim_component_pullback_bounds
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
     (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
@@ -956,10 +956,9 @@ theorem topologicalKrullDim_component_pullback_bounds
       (∀ r : ℤ, IsLocalCompleteIntersectionOfRelativeDimension f r →
         ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
           topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ)) := by
-  refine ⟨fun hreg c => ?_, fun r hlci => ?_⟩
-  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f hf hreg c
-      I W hW
-  · exact exists_add_relativeDimension_le_topologicalKrullDim_component_pullback k sX sY f hf r
+  refine ⟨fun _ c => ?_, fun r hlci => ?_⟩
+  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f c I W hW
+  · exact exists_add_relativeDimension_le_topologicalKrullDim_component_pullback k sX sY f r
       hlci I W hW
 
 end AlgebraicGeometry

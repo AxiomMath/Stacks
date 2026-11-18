@@ -17,7 +17,8 @@ This file relates smoothness of algebras to separability of field extensions.
   `L` be the fraction fields of `R` and `S`, and let `L` carry the induced `K`-algebra structure.
   Then `S_{(0)} = L` is formally smooth over `R` if and only if `L/K` is separable. Stacks 07ND
   itself, with smoothness at `(0)` in the sense of Definition 00TB, is
-  `Algebra.smoothAt_bot_iff_isSeparableExtension` in `StacksFrontier.RingTheory.Smooth.GenericPoint`,
+  `Algebra.smoothAt_bot_iff_isSeparableExtension` in
+  `StacksFrontier.RingTheory.Smooth.GenericPoint`,
   derived from this one.
 * Stacks 037X. Let `K/k` be a finitely generated field extension. Then `K/k` is separable if and
   only if some smooth `k`-subalgebra of `K` has `K` as its fraction field, if and only if `K` is a
@@ -53,7 +54,8 @@ a `g` exists by generic finite presentation (Lemma 00FG,
 `GenericFinitePresentation.generic_finite_presentation`), which is where `Algebra.FiniteType R S`
 and the injectivity of `R → S` are used. So Lemma 07ND is first proved for `Algebra.IsSmoothAt`
 (`Algebra.isSmoothAt_bot_iff_isSeparableExtension`) and then transported to Definition 00TB
-(`Algebra.smoothAt_bot_iff_isSeparableExtension`, in `StacksFrontier.RingTheory.Smooth.GenericPoint`);
+(`Algebra.smoothAt_bot_iff_isSeparableExtension`, in
+`StacksFrontier.RingTheory.Smooth.GenericPoint`);
 the converse direction of the source's proof makes the same reduction to finite presentation via
 Lemma 00FG.
 

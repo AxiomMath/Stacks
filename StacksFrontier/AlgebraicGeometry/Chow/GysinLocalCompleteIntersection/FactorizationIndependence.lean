@@ -76,7 +76,8 @@ This file contains only the geometry of the proof of Stacks 0FF2; no bivariant c
 it. The bivariant classes `g^*`, `i^!` and the chain
 `(i')^! ∘ p^* = s^! ∘ j^! ∘ p^* = s^! ∘ p̄^* ∘ i^! = i^!` of the Stacks Project, which uses
 Stacks 0FF0, Stacks 0FBK, Stacks 0F9Z and Stacks 0FF1, are in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.FactorizationIndependenceClass`,
+`FactorizationIndependenceClass` of
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection`,
 and Stacks 0FF2 itself is `Stacks.Chow.SmoothFactorization.gysinMap_eq` in
 `StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.LciGysinMapComposition`.
 
@@ -113,7 +114,8 @@ Stacks 0693 as the argument `AlgebraicGeometry.KoszulRegularCompSmooth`, and so 
 proved in the repository
 (`Stacks.AlgebraicGeometry.RegularIdealSheaf.isKoszulRegularImmersion_comp_of_smooth`), and the
 statements with it discharged are in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.FactorizationRegularImmersion`.
+`FactorizationRegularImmersion` of
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection`.
 
 Regularity of `j` is the Koszul-regular part of Stacks 067P, applied to the flat morphism `p`;
 regularity of `s` is Stacks 067R, applied to the smooth morphism `p̄` of which `s` is a section.

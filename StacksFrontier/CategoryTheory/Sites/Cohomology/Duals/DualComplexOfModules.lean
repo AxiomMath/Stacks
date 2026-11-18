@@ -65,9 +65,9 @@ a covering on whose members `ℱ^•` is strictly perfect, which gives the local
 terms used here but boundedness only *locally*; the support hypothesis below is a single global
 finite set of degrees. Removing it means making sense of `η = ∑ ηₙ` as a locally finite sum, and
 that is done in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/LeftDualOfALocallyStrictlyPerfectComplex.lean`:
-the degree-zero part of `ℱ^• ⊗ 𝒢^•` is a coproduct of locally finitely many nonzero summands,
-hence also their product, so `η` is produced from its components. The statement below is the
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/LeftDualOfALocallyStrictlyPerfectComplex.lean`
+(the degree-zero part of `ℱ^• ⊗ 𝒢^•` is a coproduct of locally finitely many nonzero summands,
+hence also their product, so `η` is produced from its components). The statement below is the
 globally bounded case, which needs none of that. The local boundedness of a complex that *has* a
 left dual is the converse direction,
 `Stacks.SheafOfModules.Strict.isLocallyBounded_of_exactPairing`.

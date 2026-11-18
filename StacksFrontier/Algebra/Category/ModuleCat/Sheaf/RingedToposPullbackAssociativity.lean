@@ -284,8 +284,9 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The canonical bilinear pairing on a pair of local sections is the local pure tensor.** -/
 theorem pairingApp_canonicalPairing (U : Cᵒᵖ) (a : F.val.obj U) (b : G.val.obj U) :
     pairingApp (commRingSheaf J A hA) (canonicalPairing hA F G) U a b =
-      ((PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
-          (F.val ⊗ G.val)).app U
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+            (F.val ⊗ G.val)).app U
         (a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) :=
   pairingApp_bilinearEquivTensorSheafHom_symm (hA := hA)
     (𝟙 (((Stacks.SheafOfModules.Tensor.sheafTensor
@@ -294,25 +295,52 @@ theorem pairingApp_canonicalPairing (U : Cᵒᵖ) (a : F.val.obj U) (b : G.val.o
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)]
   [J.HasSheafCompose (forget AddCommGrpCat)] in
+/-- On local sections, the comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` of
+Mathlib's sheafification with the sealed one carries Mathlib's sheafification unit to the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
+private lemma sheafificationIso_hom_app_val_app_unit (R : Sheaf J CommRingCat.{w})
+    (M : _root_.PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) (U : Cᵒᵖ)
+    (x : M.obj U) :
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.app M).val.app U
+        (((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M).app U x) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app M).app U x :=
+  (PresheafOfModules.hom_congr_apply'
+      (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app R M) U x).trans
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply R M U x).symm
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)]
+  [J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- The comparison of Tag 05NA identifying the sheafification of the double objectwise tensor
 product with the double tensor product sheaf, on the sheafification unit of a pure tensor whose
-left factor is itself a pure tensor: it inserts the inner sheafification unit. -/
+left factor is itself a pure tensor: it inserts the inner sheafification unit. Both units on the
+right are those of the sealed sheafification ending the tensor product sheaf
+(`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`). -/
 theorem sheafifyDoubleTensorIso_hom_val_app_unit_tmul (U : Cᵒᵖ)
     (a : F.val.obj U) (b : G.val.obj U) (c : H.val.obj U) :
     (sheafifyDoubleTensorIso (hA := hA) (F := F) (G := G) (H := H)).hom.val.app U
         (((PresheafOfModules.sheafificationAdjunction
             (R := commRingSheaf J A hA) (𝟙 _)).unit.app ((F.val ⊗ G.val) ⊗ H.val)).app U
           ((a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) ⊗ₜ c)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf J A hA) (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
             ((((Stacks.SheafOfModules.Tensor.sheafTensor
                 ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).obj
                   F).obj G).val ⊗ H.val)).app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf J A hA) (𝟙 _)).unit.app (F.val ⊗ G.val)).app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+              (F.val ⊗ G.val)).app U
           (a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) ⊗ₜ c) :=
-  sheafificationUnit_naturality_app (A₂ := A) hA
-    (TensorSheafification.toSheafify A hA (F.val ⊗ G.val) ▷ H.val) U _
+  (congrArg (fun z ↦ ((Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).hom.app
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).obj
+              F).obj G).val ⊗ H.val)).val.app U z)
+      (sheafificationUnit_naturality_app (A₂ := A) hA
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+            (F.val ⊗ G.val) ▷ H.val) U _)).trans
+    (sheafificationIso_hom_app_val_app_unit _ _ U _)
 
 variable (N : _root_.SheafOfModules.{w} (commRingSheaf J A hA))
 
@@ -356,24 +384,21 @@ theorem pairingApp₃_trilinearEquivTensorSheafHom_symm
         ((trilinearEquivTensorSheafHom (hA := hA)
           (F := F) (G := G) (H := H) (N := N)).symm t).1 U a b c =
       t.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf J A hA) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
               ((((Stacks.SheafOfModules.Tensor.sheafTensor
                   ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A
                     (forget₂ CommRingCat RingCat) hA⟩).obj F).obj G).val ⊗ H.val)).app U
-          (((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf J A hA) (𝟙 _)).unit.app (F.val ⊗ G.val)).app U
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+                (F.val ⊗ G.val)).app U
             (a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) ⊗ₜ c)) :=
   (pairingApp₃_pairingOfTensorHom₃
         (doubleTensorSheafHomEquivPresheafTensorHom (hA := hA) t) U a b c).trans
-    ((CategoryTheory.congr_fun
-          (congrArg (fun m ↦ PresheafOfModules.Hom.app m U)
-            (doubleTensorSheafHomEquivPresheafTensorHom_eq hA F G H N t))
-          (((a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) ⊗ₜ c :
-            ((F.val ⊗ G.val) ⊗ H.val).obj U))).trans
-      ((CategoryTheory.comp_apply _ _ _).trans
-        (congrArg (fun z ↦ t.val.app U z)
-          (sheafifyDoubleTensorIso_hom_val_app_unit_tmul hA F G H U a b c))))
+    ((PresheafOfModules.hom_congr_apply'
+        (doubleTensorSheafHomEquivPresheafTensorHom_eq hA F G H N t) U _).trans
+      (congrArg (fun z ↦ t.val.app U z)
+        (sheafifyDoubleTensorIso_hom_val_app_unit_tmul hA F G H U a b c)))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)] in
 /-- A triple pairing which bundles its first two arguments by a pairing `p` and then pairs the
@@ -498,7 +523,7 @@ theorem pairingApp_invChainPairing (F G : _root_.SheafOfModules.{w'} (Tensor.rin
     pairingApp (inverseImageRingSheaf f.toToposHom (Tensor.ringSheaf Y.O))
         (invChainPairing f F G N k).1 U a b =
       k.val.app U
-        ((TensorSheafification.toSheafify X.O.obj (Tensor.ringSheaf X.O).property
+        (((Tensor.sheafificationForgetAdjunction X.O).unit.app
             ((f.pullbackModules.obj F).val ⊗ (f.pullbackModules.obj G).val)).app U
           (((structureAdjunction f).unit.app
                 ((inverseImageModules f.toToposHom (Tensor.ringSheaf Y.O)).obj F)).val.app U a ⊗ₜ
@@ -684,7 +709,7 @@ theorem comparison_val_app_unit_canonicalPairing
             ((inverseImageModules f.toToposHom (Tensor.ringSheaf Y.O)).obj (F ⊗ G))).val.app U
           (pairingApp (inverseImageRingSheaf f.toToposHom (Tensor.ringSheaf Y.O))
             (invImageCanonicalPairing f F G) U a b)) =
-      (TensorSheafification.toSheafify X.O.obj (Tensor.ringSheaf X.O).property
+      ((Tensor.sheafificationForgetAdjunction X.O).unit.app
           ((f.pullbackModules.obj F).val ⊗ (f.pullbackModules.obj G).val)).app U
         (((structureAdjunction f).unit.app
             ((inverseImageModules f.toToposHom (Tensor.ringSheaf Y.O)).obj F)).val.app U a ⊗ₜ
@@ -926,8 +951,7 @@ theorem residual_pairing (F G H : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y
   refine Eq.trans (pairingApp_invChainPairing f F (G ⊗ H) _
     (f.pullbackModules.obj F ◁ pullbackTensorComparison f G H) U a _) ?_
   refine Eq.trans (whiskerLeft_val_app_toSheafify (pullbackTensorComparison f G H) U _ _) ?_
-  refine Eq.trans (congrArg (fun z ↦ (TensorSheafification.toSheafify X.O.obj
-        (Tensor.ringSheaf X.O).property
+  refine Eq.trans (congrArg (fun z ↦ ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         ((f.pullbackModules.obj F).val ⊗
           (f.pullbackModules.obj G ⊗ f.pullbackModules.obj H).val)).app U
       (((structureAdjunction f).unit.app
@@ -947,7 +971,7 @@ theorem residual_pairing (F G H : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y
     (whiskerRight_val_app_toSheafify (pullbackTensorComparison f F G) U _ _)).symm
   refine Eq.trans ?_ (congrArg (fun z ↦ (α_ (f.pullbackModules.obj F)
         (f.pullbackModules.obj G) (f.pullbackModules.obj H)).hom.val.app U
-      ((TensorSheafification.toSheafify X.O.obj (Tensor.ringSheaf X.O).property
+      (((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (((f.pullbackModules.obj F) ⊗ (f.pullbackModules.obj G)).val ⊗
           (f.pullbackModules.obj H).val)).app U
         (z ⊗ₜ ((structureAdjunction f).unit.app

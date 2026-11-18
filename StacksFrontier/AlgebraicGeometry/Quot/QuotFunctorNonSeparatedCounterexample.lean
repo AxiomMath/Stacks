@@ -61,7 +61,8 @@ of the closed point, while the given one contains only the first. This is axiom 
 axioms failing, as in the source.
 
 For `Coh_{X/S}`: the source deduces its non-algebraicity from part (1). Here it is deduced from
-the Quot statement instead, by `AlgebraicGeometry.Space.QuotSitePresheafModel.isAlgebraicSpace_of_homRepresentations`:
+the Quot statement instead, by
+`AlgebraicGeometry.Space.QuotSitePresheafModel.isAlgebraicSpace_of_homRepresentations`:
 the relative Hom functors of Stacks 08K6 are algebraic spaces with no separatedness hypothesis, so
 algebraicity of `Coh_{X/S}` would make every model of `Quot_{𝒪_X/X/S}` an algebraic space.
 
@@ -456,7 +457,7 @@ theorem range_pointSection_eq_preimage {T T' : BigFppfOver B (base k) hS} (g : T
     rw [← ha, Functor.map_comp]
     rfl
   · simp only [Category.assoc, schemeBaseChangeMap_snd, pointSection_snd_assoc,
-      pointSection_snd, Category.comp_id, Category.id_comp]
+      pointSection_snd]
     rfl
 
 theorem levelFamily_compat (n : ℕ) :
@@ -512,7 +513,8 @@ theorem ofFamily_eq_map {T T' : BigFppfOver B (base k) hS} (g : T' ⟶ T)
 
 /-- **The formal object.** Over `T_n = Spec k⟦t⟧/(t^{n+1})`, the quotient of `𝒪_{X_{T_n}}`
 cut out by the section through the first copy of the closed point, read in the model. -/
-def formalObj : FormalObject B (base k) hS (Stack.fibredCategory B (base k) hS N.presheaf).val.p where
+def formalObj :
+    FormalObject B (base k) hS (Stack.fibredCategory B (base k) hS N.presheaf).val.p where
   base := formalBase k
   contains := contains_truncation k B hS
   level n := ⟨truncObj k B hS n, Discrete.mk (ofFamily N (levelFamily k B hS n))⟩
@@ -549,7 +551,7 @@ theorem isIso_of_isClosedImmersion_of_lifts_quotients {R : Type u} [CommRing R] 
     have he := congrArg (fun q : CommRingCat.of R ⟶ CommRingCat.of (R ⧸ I n) => q x) hc
     simpa [Ideal.Quotient.eq_zero_iff_mem.mpr hx] using he.symm
   rw [hf]
-  haveI : IsIso (CommRingCat.ofHom (Ideal.Quotient.mk J)) := by
+  have : IsIso (CommRingCat.ofHom (Ideal.Quotient.mk J)) := by
     rw [ConcreteCategory.isIso_iff_bijective]
     refine ⟨?_, Ideal.Quotient.mk_surjective⟩
     subst J
@@ -712,7 +714,7 @@ theorem not_exists_family
     have h' : (graphMap k B hS).app (op (truncObj k B hS n)) a =
         (restrBaseChange k B hS n).app (op (truncObj k B hS n))
           ((pointSection a).app (op (truncObj k B hS n)) (𝟙 (truncObj k B hS n))) := by
-      simp only [NatTrans.comp_app_apply, yoneda_map_app, Category.id_comp] at h
+      simp only [NatTrans.comp_app_apply, yoneda_map_app] at h
       exact h
     exact Iff.of_eq (congrArg (fun e => e ∈ z.Z.obj (op (truncObj k B hS n))) h'.symm)
   have hfac : ∀ n, ∃ t : truncObj k B hS n ⟶ W, t ≫ j = truncSection k B hS true n := by
@@ -725,7 +727,7 @@ theorem not_exists_family
       obtain ⟨t, ht⟩ := hfac n
       refine ⟨Q.map t, (Q.map_comp t j).symm.trans ?_⟩
       rw [ht]
-      show (adicThickeningι _ _ n ≫ 𝟙 _) ≫ _ = _
+      change (adicThickeningι _ _ n ≫ 𝟙 _) ≫ _ = _
       rw [Category.comp_id]
       rfl)
   have hsurj : Function.Surjective (Q.map j) := by
@@ -746,9 +748,9 @@ theorem not_exists_family
       cases b
       · exact ⟨y, hv⟩
       · exact ⟨y, rfl⟩
-  haveI : Surjective (Q.map j) := ⟨hsurj⟩
-  haveI : _root_.AlgebraicGeometry.IsReduced (Q.obj (spaceObj k B hS)) := isReduced_space (k := k)
-  haveI : IsIso (Q.map j) := isIso_of_isClosedImmersion_of_surjective _
+  have : Surjective (Q.map j) := ⟨hsurj⟩
+  have : _root_.AlgebraicGeometry.IsReduced (Q.obj (spaceObj k B hS)) := isReduced_space (k := k)
+  have : IsIso (Q.map j) := isIso_of_isClosedImmersion_of_surjective _
   let a' := truncSection k B hS false 0
   have hWj : Q.map j ≫ B.inclusion.map (spaceObj k B hS).hom = B.inclusion.map W.hom := by
     have h := congrArg B.inclusion.map (Over.w j)
@@ -785,7 +787,7 @@ theorem not_exists_family
   simp only [hsnd, Category.id_comp] at hfst
   have hQ := congrArg Q.map hfst
   obtain ⟨c⟩ : Nonempty (Q.obj (truncObj k B hS 0)) := by
-    haveI : (IsLocalRing.maximalIdeal (PowerSeries k) ^ (0 + 1)).IsMaximal := by
+    have : (IsLocalRing.maximalIdeal (PowerSeries k) ^ (0 + 1)).IsMaximal := by
       simpa using IsLocalRing.maximalIdeal.isMaximal (PowerSeries k)
     exact inferInstanceAs (Nonempty (PrimeSpectrum _))
   have hpt := congrArg (fun g => g c) hQ

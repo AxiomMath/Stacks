@@ -122,8 +122,7 @@ theorem span_range_map_coprojection (b : ℕ) (hpk : ∃ k : ℕ, (p : E.complet
   obtain ⟨t, rfl⟩ := (ofLinearEquivOfPowEqZero hpk
     (E.completedRing p b ⊗[E.completedRing p 0] V.carrier 0)).surjective x
   rw [ofLinearEquivOfPowEqZero_apply]
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]; exact Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul c m =>
     rw [hbeta]
     exact Submodule.smul_mem _ c (Submodule.subset_span ⟨m, rfl⟩)

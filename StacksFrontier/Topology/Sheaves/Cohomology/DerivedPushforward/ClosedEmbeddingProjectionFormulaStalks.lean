@@ -148,9 +148,7 @@ pushforward of a composite is the composite of the pushforwards sectionwise, by 
 private lemma projectionFormulaMap'_app_eq (U : (Opens Y.carrier)ᵒᵖ)
     (m : ((pushforwardFunctor f).obj G).val.obj U) (k : H.val.obj U) :
     Hom.app (projectionFormulaMap' f G H).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf (Y))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf (Y)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (Y).presheaf)
             (((pushforwardFunctor f).obj G)).val (H).val)) U (m ⊗ₜ k)) =
       Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
@@ -161,9 +159,7 @@ private lemma projectionFormulaMap'_app_eq (U : (Opens Y.carrier)ᵒᵖ)
         ((opensMap f).op.obj U)
         (Hom.app ((pullbackAdjunction f).homEquiv _ _
             (comparison f ((pushforwardFunctor f).obj G) H)).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf (Y))
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf (Y)).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := (Y).presheaf)
               (((pushforwardFunctor f).obj G)).val (H).val)) U (m ⊗ₜ k))) := rfl
 
@@ -184,14 +180,10 @@ proof below is that one, which uses nothing about schemes. -/
 lemma projectionFormulaMap'_unit_tmul (U : (Opens Y.carrier)ᵒᵖ)
     (m : ((pushforwardFunctor f).obj G).val.obj U) (k : H.val.obj U) :
     Hom.app (projectionFormulaMap' f G H).val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf (Y))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf (Y)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Y.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (Y).presheaf)
             (((pushforwardFunctor f).obj G)).val (H).val)) U (m ⊗ₜ k)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.RingedSpace.structureRingSheaf (X))
-          (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := (X).presheaf) (G).val
           (((pullbackFunctor f).obj H)).val))
         ((opensMap f).op.obj U) (m ⊗ₜ pullbackUnit f H U k) := by
@@ -211,9 +203,8 @@ lemma projectionFormulaMap'_unit_tmul (U : (Opens Y.carrier)ᵒᵖ)
       (pullbackUnit f ((pushforwardFunctor f).obj G) U m)
       (pullbackUnit f H U k)) ?_
   exact congrArg (fun z => Hom.app
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X))
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj
-      (O := (X).presheaf) (G).val (((pullbackFunctor f).obj H)).val))
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
+        (PresheafOfModules.tensorObj (O := (X).presheaf) (G).val (((pullbackFunctor f).obj H)).val))
       ((opensMap f).op.obj U) (z ⊗ₜ pullbackUnit f H U k))
     (counit_pullbackUnit f G U m)
 

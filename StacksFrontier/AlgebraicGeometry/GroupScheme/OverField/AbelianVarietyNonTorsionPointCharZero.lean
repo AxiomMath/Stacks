@@ -249,7 +249,8 @@ theorem exists_not_isOfFinAddOrder_of_charZero {k : Type u} [Field k] [IsAlgClos
 /-- **An abelian variety `A ≠ 0` over an algebraically closed field `k` which has characteristic
 zero or is uncountable has a rational point of infinite order.** The general case, `k` not
 algebraic over a finite prime field, is `Stacks.Groupoids.exists_not_isOfFinAddOrder`, in
-`StacksFrontier/AlgebraicGeometry/GroupScheme/OverField/AbelianVarietyNonTorsionPointGeneral.lean`. -/
+`StacksFrontier/AlgebraicGeometry/GroupScheme/OverField/AbelianVarietyNonTorsionPointGeneral.lean`.
+-/
 theorem exists_not_isOfFinAddOrder_of_charZero_or_uncountable {k : Type u} [Field k]
     [IsAlgClosed k] (A : Over (Spec (.of k))) [GrpObj A] [AlgebraicGeometry.IsAbelianVariety k A]
     (hA : 0 < topologicalKrullDim A.left) (hk : CharZero k ∨ Uncountable k) :

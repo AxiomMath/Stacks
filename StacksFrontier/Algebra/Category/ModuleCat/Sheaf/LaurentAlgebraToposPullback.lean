@@ -121,16 +121,19 @@ def laurentToposPullbackIso :
   _root_.SheafOfModules.GradedAlgebra.isoOfPieceIso (fun n ↦ pullbackIntPowIso f L n)
     fun i j U x y ↦ by
       have h := congrArg (fun m ↦ m.val.app U
-          ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
-            ((f.pullbackModules.obj (tensorPower Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property L i)).val ⊗
-             (f.pullbackModules.obj (tensorPower Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property L j)).val)).app U
-            (x ⊗ₜ[X.O.obj.obj U] y)))
+          (Stacks.SheafOfModules.tensorSectionsAt X.O.obj
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property U _ _ x y))
         (mulSheaf_laurentToposPullback_comp f L i j)
       refine Eq.trans (congrArg ((pullbackIntPowIso f L (i + j)).hom.val.app U)
-        (_root_.SheafOfModules.GradedAlgebra.mulSheaf_unit _ i j U x y).symm) ?_
+        ((congrArg (fun z ↦ (_root_.SheafOfModules.GradedAlgebra.mulSheaf _ i j).val.app U z)
+          (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+            X.O (PresheafOfModules.tensorObj
+              ((toposPullbackGradedAlgebra f (laurentAlgebra Y.O.obj
+                (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property L)).piece i).val
+              ((toposPullbackGradedAlgebra f (laurentAlgebra Y.O.obj
+                (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property L)).piece j).val)
+            U (x ⊗ₜ[X.O.obj.obj U] y))).trans
+          (_root_.SheafOfModules.GradedAlgebra.mulSheaf_unit _ i j U x y)).symm) ?_
       refine Eq.trans (CategoryTheory.comp_apply _ _ _).symm (h.trans ?_)
       refine Eq.trans (CategoryTheory.comp_apply _ _ _) ?_
       exact congrArg ((coherentMulIso X.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property

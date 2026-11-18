@@ -205,7 +205,7 @@ Mathlib points. -/
 theorem IsSitePoint.isConservativeFamilyOfPoints {I : Type t} {u : I → C ⥤ Type w}
     (hu : ∀ i, IsSitePoint K (u i)) (hc : IsConservativeFamilyOfSitePoints K u) :
     (ObjectProperty.ofObj fun i => (hu i).toPoint).IsConservativeFamilyOfPoints where
-  jointlyReflectIsomorphisms_type := ⟨fun {F G} φ hφ =>
+  jointlyReflectIsomorphisms_type := ⟨fun {_ _} φ hφ =>
     haveI : ∀ i, IsIso ((sheafStalk K (u i)).map φ) := fun i =>
       hφ ⟨(hu i).toPoint, ObjectProperty.ofObj_apply _ i⟩
     hc.isIso φ⟩

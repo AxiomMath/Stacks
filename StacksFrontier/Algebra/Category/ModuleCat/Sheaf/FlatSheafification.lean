@@ -85,14 +85,9 @@ private noncomputable def sheafTensorFlipIso
     (F : SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} (J := J) O).flip.obj F ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} (J := J) O).obj F :=
-  let sheafificationFunctor :
-      PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⥤
-        SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O) :=
-    PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
   (Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O))
     (Functor.isoWhiskerRight (TensorColimits.tensorCommIso J O F.val)
-      sheafificationFunctor)).symm
+      (Stacks.SheafOfModules.Tensor.sheafification O))).symm
 
 /-- If `F` is objectwise flat on a covering of every object, then tensoring an objectwise
 injective map with `F` gives a locally injective map. -/

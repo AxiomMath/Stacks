@@ -97,14 +97,8 @@ theorem tensorSheafSwap_app_toTensorSheafSection (X : AlgebraicGeometry.RingedSp
     PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   let : SymmetricCategory (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat)) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
-  unfold toTensorSheafSection tensorSheafSwap
-  have hnat := (PresheafOfModules.sheafificationAdjunction (R := structureSheafRing X)
-      (𝟙 (structureSheafRing X).obj)).unit.naturality
-    (show (PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)) ⟶
-        (PresheafOfModules.tensorObj (O := (X).presheaf) (G.val) (F.val)) from
-      (β_ F.val G.val).hom)
-  exact (congrArg (fun α ↦ (PresheafOfModules.Hom.app α (op U)).hom
-    (m ⊗ₜ[X.presheaf.obj (op U)] n)) hnat).symm
+  exact Stacks.SheafOfModules.Tensor.unit_naturality_apply (β_ F.val G.val).hom (op U)
+    (m ⊗ₜ[X.presheaf.obj (op U)] n)
 
 end Stacks.SheafOfModules.TensorPresentations
 

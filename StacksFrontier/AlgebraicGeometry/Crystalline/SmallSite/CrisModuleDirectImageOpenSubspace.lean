@@ -36,7 +36,8 @@ identity of the underlying divided power thickenings, so the left adjoints are i
 hence so are the right adjoints.  The last stage `π_{X', *}` is common to both sides.
 
 No geometric input is needed beyond the coreflection of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubspaceCoreflection.lean`: in particular
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubspaceCoreflection.lean`: in
+particular
 nothing like the domination argument of `SmallSite/CrisDirectImageCompositionIso.lean` enters,
 because `j_{V, *}` lands in the *small* site and the composite never passes through
 `π_{X, *}` followed by `i_{X, *}`.

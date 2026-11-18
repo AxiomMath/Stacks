@@ -224,7 +224,7 @@ theorem exists_apply_ne_one [T2Space A] {a : A} (ha : a ≠ 1) :
     have hY : star (T * (translate μ a - 1)) * (T * (translate μ a - 1)) = 0 := by
       rw [star_mul, mul_assoc, ← mul_assoc (star T), mul_sub, mul_one, ← hcomm, h, sub_self,
         mul_zero]
-    rw [CStarRing.star_mul_self_eq_zero_iff, mul_sub, mul_one, sub_eq_zero] at hY
+    rw [star_mul_self_eq_zero, mul_sub, mul_one, sub_eq_zero] at hY
     rw [hT, hY]
 
 /-- The evaluation map `A → (PontryaginDual A → Circle)` of a compact Hausdorff abelian group is

@@ -49,8 +49,10 @@ The identification is available on sections
 promoting that from sections to morphisms: **no section is needed.** The whole content is
 the naturality of the braiding of the tensor product sheaf, and that is one application of
 `CategoryTheory.BraidedCategory.braiding_naturality` to the *presheaves* underneath: both
-`tensorProductBraiding` and `tensorProductIso` are `Stacks.SheafOfModules.Invertible.sheafify`
-applied to a morphism of presheaves of modules, so a `change` into that spelling followed by
+`tensorProductBraiding` and `tensorProductIso` are
+`Stacks.SheafOfModules.Invertible.structureSheafification` (the sealed sheafification that ends
+the sheaf tensor product) applied to a morphism of presheaves of modules, so a `show` into that
+spelling followed by
 `CategoryTheory.Functor.map_comp` reduces naturality at the sheaf level to naturality at the
 presheaf level, where it is a Mathlib lemma. No descent to sections, and no braiding of sheaves
 of modules — the presheaf braiding is the only one that enters.
@@ -98,7 +100,7 @@ once.** Tensoring a pair of isomorphisms and then braiding is braiding and then 
 pair the other way round.
 
 `Stacks.SheafOfModules.Invertible.tensorProductBraiding` and `tensorProductIso` are both
-`Stacks.SheafOfModules.TensorSheafification.sheafify` applied to a morphism of the underlying
+`Stacks.SheafOfModules.Invertible.structureSheafification` applied to a morphism of the underlying
 presheaves of modules, so this is `CategoryTheory.BraidedCategory.braiding_naturality` for
 presheaves of modules carried through that functor. -/
 theorem tensorProductBraiding_naturality
@@ -109,10 +111,10 @@ theorem tensorProductBraiding_naturality
     PresheafOfModulesOfCommRing.monoidalCategory (R := 𝒪)
   let : SymmetricCategory (PresheafOfModules.{w} (structureSheaf 𝒪 h𝒪).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := 𝒪)
-  change (sheafify 𝒪 h𝒪).map (e.hom.val ⊗ₘ f.hom.val) ≫
-      (sheafify 𝒪 h𝒪).map (β_ M'.val N'.val).hom =
-    (sheafify 𝒪 h𝒪).map (β_ M.val N.val).hom ≫
-      (sheafify 𝒪 h𝒪).map (f.hom.val ⊗ₘ e.hom.val)
+  change (structureSheafification 𝒪 h𝒪).map (e.hom.val ⊗ₘ f.hom.val) ≫
+      (structureSheafification 𝒪 h𝒪).map (β_ M'.val N'.val).hom =
+    (structureSheafification 𝒪 h𝒪).map (β_ M.val N.val).hom ≫
+      (structureSheafification 𝒪 h𝒪).map (f.hom.val ⊗ₘ e.hom.val)
   rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp]
   exact congrArg _ (BraidedCategory.braiding_naturality _ _)
 

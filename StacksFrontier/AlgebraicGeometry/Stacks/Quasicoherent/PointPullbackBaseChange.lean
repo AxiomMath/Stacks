@@ -188,9 +188,9 @@ instance isMonoidal_pointPullbackRestriction :
       μ_pointPullback]
     rw [ModuleCat.MonoidalCategory.tensorHom_tmul, pointPullbackμ_tmul]
     refine (PresheafOfModules.naturality_apply
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify
-      (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)) φ.op (m ⊗ₜ n)).symm.trans ?_
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        (fppfStructureCommRingSheaf B S hS 𝒳)).unit.app
+          (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)) φ.op (m ⊗ₜ n)).symm.trans ?_
     refine Eq.trans ?_ (congrArg (pointPullbackμ B S hS 𝒳 y ey M N).hom
       (ModuleCat.restrictScalars_μ_tmul g ((pointPullback B S hS 𝒳 y ey).obj M)
         ((pointPullback B S hS 𝒳 y ey).obj N)

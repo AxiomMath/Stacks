@@ -51,6 +51,11 @@ All in the namespace `Stacks.AlgebraicGeometry.ProjectionFormula`.
 
 ## Implementation notes
 
+The sheafification unit is that of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the
+adjunction of the sealed sheafification through which `Stacks.SheafOfModules.Tensor.sheafTensor`
+is built, not Mathlib's `PresheafOfModules.sheafificationAdjunction`: a tensor product sheaf is
+not definitionally Mathlib's sheafification of the objectwise tensor product.
+
 The closed form is proved by reading `projectionFormulaMap_eq` on sections, identifying the
 native projection map with the abstract adjunction tensor comparison. The adjoint-transpose
 split of that comparison is definitional on sections, as `projectionFormulaMap_app_eq`
@@ -171,9 +176,8 @@ tensor law; the abstract adjunction comparison then splits definitionally on sec
 lemma projectionFormulaMap_app_eq (W : (Opens S.toRingedSpace.carrier)ᵒᵖ)
     (x : ((modulePushforward h.toLRSHom.toShHom).obj G).val.obj W) (y : H.val.obj W) :
     Hom.app (projectionFormulaMap h G H).val W
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            S.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
               (((modulePushforward h.toLRSHom.toShHom).obj G)).val (H).val)) W (x ⊗ₜ y)) =
       Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
@@ -184,9 +188,8 @@ lemma projectionFormulaMap_app_eq (W : (Opens S.toRingedSpace.carrier)ᵒᵖ)
         (Hom.app ((modulePullbackPushforwardAdjunction h.toLRSHom.toShHom).homEquiv _ _
             (comparison h.toLRSHom.toShHom
               ((modulePushforward h.toLRSHom.toShHom).obj G) H)).val W
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-                (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              S.toRingedSpace.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
                 (((modulePushforward h.toLRSHom.toShHom).obj G)).val (H).val)) W (x ⊗ₜ y))) :=
   hom_congr_apply (congrArg SheafOfModules.Hom.val (projectionFormulaMap_eq h G H)) W _
@@ -203,14 +206,12 @@ nothing else, as `projectionFormulaMap_unique` records. -/
 lemma projectionFormulaMap_unit_tmul (W : (Opens S.toRingedSpace.carrier)ᵒᵖ)
     (x : ((modulePushforward h.toLRSHom.toShHom).obj G).val.obj W) (y : H.val.obj W) :
     Hom.app (projectionFormulaMap h G H).val W
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            S.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
               (((modulePushforward h.toLRSHom.toShHom).obj G)).val (H).val)) W (x ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.RingedSpace.structureRingSheaf (T.toRingedSpace))
-            (𝟙 (Stacks.RingedSpace.structureRingSheaf (T.toRingedSpace)).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          T.toRingedSpace.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := (T.toRingedSpace).presheaf)
             (G).val (((modulePullback h.toLRSHom.toShHom).obj H)).val))
         ((opensMap h.toLRSHom.toShHom).op.obj W)
@@ -247,20 +248,18 @@ lemma projectionFormulaMap_unique
     (hθ : ∀ (W : (Opens S.toRingedSpace.carrier)ᵒᵖ)
       (x : ((modulePushforward h.toLRSHom.toShHom).obj G).val.obj W) (y : H.val.obj W),
       Hom.app θ.val W
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace))
-                (𝟙 (Stacks.RingedSpace.structureRingSheaf (S.toRingedSpace)).obj)).unit.app
+          (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              S.toRingedSpace.sheaf).unit.app
               (PresheafOfModules.tensorObj (O := (S.toRingedSpace).presheaf)
                 (((modulePushforward h.toLRSHom.toShHom).obj G)).val (H).val)) W (x ⊗ₜ y)) =
-        Hom.app ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.RingedSpace.structureRingSheaf (T.toRingedSpace))
-              (𝟙 (Stacks.RingedSpace.structureRingSheaf (T.toRingedSpace)).obj)).unit.app
+        Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            T.toRingedSpace.sheaf).unit.app
             (PresheafOfModules.tensorObj (O := (T.toRingedSpace).presheaf)
               (G).val (((modulePullback h.toLRSHom.toShHom).obj H)).val))
           ((opensMap h.toLRSHom.toShHom).op.obj W)
           (x ⊗ₜ pullbackUnit h.toLRSHom.toShHom H W y)) :
     θ = projectionFormulaMap h G H :=
-  sheafification_hom_ext (tensorObj_hom_ext fun W x y ↦
+  Stacks.SheafOfModules.Tensor.sheafification_hom_ext (tensorObj_hom_ext fun W x y ↦
     (hθ W x y).trans (projectionFormulaMap_unit_tmul h G H W x y).symm)
 
 /-! ### Invertibility of the projection-formula morphism is local on the base -/

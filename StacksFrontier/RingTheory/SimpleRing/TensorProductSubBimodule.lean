@@ -111,8 +111,7 @@ theorem eq_span_inter_range_one_tmul [Algebra.IsCentral k D] (W : Submodule D (D
   have hmemV' (v : V) : v ∈ V' ↔ (1 : D) ⊗ₜ[k] v ∈ W := Iff.rfl
   -- `D ⊗ V'` lies in the span.
   have hrange (y : D ⊗[k] V') : LinearMap.lTensor D V'.subtype y ∈ S := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul d v =>
       have : d ⊗ₜ[k] (v : V) = d • ((1 : D) ⊗ₜ[k] (v : V)) := by
         rw [smul_tmul', smul_eq_mul, mul_one]
@@ -122,7 +121,7 @@ theorem eq_span_inter_range_one_tmul [Algebra.IsCentral k D] (W : Submodule D (D
   have hSW : S ≤ W := Submodule.span_le.2 Set.inter_subset_left
   set φ : D ⊗[k] V →ₗ[D] D ⊗[k] (V ⧸ V') := V'.mkQ.baseChange D with hφ
   have hφapp (x : D ⊗[k] V) : φ x = LinearMap.lTensor D V'.mkQ x := by
-    rw [hφ, ← LinearMap.baseChange_eq_ltensor]
+    rw [hφ, ← LinearMap.baseChange_eq_lTensor]
   have hker {x : D ⊗[k] V} (hx : φ x = 0) : x ∈ S := by
     rw [hφapp, ← LinearMap.mem_ker, lTensor_mkQ] at hx
     obtain ⟨y, rfl⟩ := hx
@@ -134,8 +133,7 @@ theorem eq_span_inter_range_one_tmul [Algebra.IsCentral k D] (W : Submodule D (D
     refine ⟨_, hW c w hw, ?_⟩
     simp only [hφapp]
     clear hw
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul d v => simp
     | add x y hx hy => simp only [map_add, hx, hy]
   have h02 : ∀ v : V ⧸ V', (1 : D) ⊗ₜ[k] v ∈ W.map φ → v = 0 := by

@@ -47,7 +47,8 @@ image `p^{-1}`; steps (4) and (5) are `Stacks.Cohomology.BoxKunneth.boxTotalDeri
 operators, which has no infinite coproducts, an infinite direct sum of operators of unbounded
 order being of no finite order. Both complexes are therefore strictly bounded below, which is the
 hypothesis of [Stacks, Tag 0FLT]. For arbitrary complexes the total complex is formed over
-`f^{-1}𝒪_S` in `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalKunnethMapUnbounded`, and the relative
+`f^{-1}𝒪_S` in `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalKunnethMapUnbounded`, and the
+relative
 map of [Stacks, Tag 0G4B] for arbitrary complexes is
 `Stacks.Cohomology.BoxKunneth.relativeBoxKunnethMapUnbounded` in
 `StacksFrontier.AlgebraicGeometry.DeRham.RelativeKunnethUnbounded`.

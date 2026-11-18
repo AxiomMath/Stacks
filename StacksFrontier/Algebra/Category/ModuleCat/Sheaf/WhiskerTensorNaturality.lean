@@ -50,9 +50,9 @@ identity into an identity.
 
 The bridge itself is `Stacks.SheafOfModules.whiskerRight_eq_sheafify_map` together with
 `MonoidalCategory.tensorHom_id` at the level of presheaves of modules: both sides are the
-sheafification of a morphism of presheaves, and there the two spellings agree by a monoidal
-identity. The presheaf-level monoidal structure therefore has to be a local instance, as it is
-wherever this calculus is used.
+sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` of a morphism of presheaves,
+and there the two spellings agree by a monoidal identity. The presheaf-level monoidal structure
+therefore has to be a local instance, as it is wherever this calculus is used.
 
 ## Where the other four are
 
@@ -128,7 +128,8 @@ public theorem tensorSheafMap_id_right_eq_whiskerRight
   (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map.{u, v, w, w, w}
       (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)
       u (𝟙 N)).trans
-    ((congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+    ((congrArg (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
         (MonoidalCategory.tensorHom_id u.val N.val)).trans
       (Stacks.SheafOfModules.whiskerRight_eq_sheafify_map O hO u N).symm)
 
@@ -146,7 +147,8 @@ public theorem tensorSheafMap_id_left_eq_whiskerLeft
   (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map.{u, v, w, w, w}
       (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)
       (𝟙 M) v).trans
-    ((congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+    ((congrArg (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
         (MonoidalCategory.id_tensorHom M.val v.val)).trans
       (Stacks.SheafOfModules.whiskerLeft_eq_sheafify_map O hO M v).symm)
 

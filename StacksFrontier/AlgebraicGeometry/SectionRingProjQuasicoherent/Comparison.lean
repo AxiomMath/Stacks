@@ -15,7 +15,8 @@ This file proves that transposition along the adjunction `f^* ⊣ f_*` carries a
 `M̃ ⟶ f_* ℱ` to a natural family `f^* M̃ ⟶ ℱ`. Tag 01QJ itself is
 `Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison_spec` in the sibling
 `StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/Isomorphism.lean`. The sibling
-`StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/PushforwardComparison.lean` constructs
+`StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/PushforwardComparison.lean`
+constructs
 the family `M̃ ⟶ f_* ℱ` (`Stacks.SectionRingProjQuasicoherent.tildeToPushforward`) and shows that
 `pullbackComparison` at it is the comparison of Tag 01QJ
 (`Stacks.SectionRingProjQuasicoherent.pullbackComparison_tildeToPushforward`).

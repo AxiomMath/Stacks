@@ -24,13 +24,14 @@ functor `PresheafOfModules.pushforward₀OfCommRingCat`, and a morphism out of t
 tensor product sheaf is pinned by its value on the restricted sheafification unit
 `whiskerTensorUnit`, by `whiskerTensorSheafIso_hom`.
 
-The associativity constraint `Stacks.SheafOfModules.tensorSheafAssociator` is not of that shape.
-It is the sheafified presheaf associator conjugated by `tensorSheafAssocLeft` and
-`tensorSheafAssocRight`, and the first of those enters **inverted**, so the value of
+The associativity constraint `Stacks.SheafOfModules.Invertible.tensorProductAssociator` is not of
+that shape. It is the sealed sheafification of the presheaf associator conjugated by the sealed
+sheafifications of the units comparing `(M ⊗ N) ⊗ P` with `(M ⊗_O N) ⊗ P` and `M ⊗ (N ⊗ P)` with
+`M ⊗ (N ⊗_O P)`, and the first of those enters **inverted**, so the value of
 `R.map (α_ M N P).hom` on `whiskerTensorUnit O hO H (M ⊗ N) P` is not computable from the
-transport calculus. The identity is therefore first precomposed with
-`(whiskerRestriction O hO H).map (tensorSheafAssocLeft O hO M N P).hom`, which is invertible, and
-then tested on `whiskerSheafifyUnit O hO H ((M.val ⊗ N.val) ⊗ P.val)` — the restricted
+transport calculus. The identity is therefore first precomposed with the restriction of the sealed
+sheafification of `toSheafTensor O hO M N ▷ P.val`, which is invertible, and then tested on
+`whiskerSheafifyUnit O hO H ((M.val ⊗ N.val) ⊗ P.val)` — the restricted
 sheafification unit at the *triple objectwise* tensor product, one layer below
 `whiskerTensorUnit`. That is the whole of the extra work; there is no new coherence theory.
 
@@ -73,8 +74,19 @@ is unproblematic, and every step equation is fed to it by application.
 For the same reason each step is *stated* at the spelling the next step consumes and *proved* by
 `exact` from the existing lemma at its own spelling: `TensorSheafification.tensorPresheaf` versus
 `⊗`, `((whiskerRestriction O hO H).obj M).val` versus
-`(whiskerPresheafRestriction O H).obj M.val`, and `TensorSheafification.toSheafify` versus
-`TensorLocalProperties.sheafificationUnit`.
+`(whiskerPresheafRestriction O H).obj M.val`, and `Stacks.SheafOfModules.toSheafTensor` versus
+the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`.
+
+Since the tensor product sheaf is computed with the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, `whiskerSheafifyUnit_comp_associative_left`,
+`whiskerSheafifyUnit_comp_associative_right_chase` and
+`whiskerSheafifyUnit_comp_associative_right_transfer` carry a raised heartbeat budget. The cost is
+in comparing a presheaf restricted with `whiskerPresheafRestriction` against the underlying
+presheaf of a sheaf restricted with `whiskerRestriction` when the objects inside are the two
+spellings of one tensor product: Mathlib's `N.val ⊗ N'.val` inside the sealed sheafification, as
+the sheafification unit produces it, and `PresheafOfModules.tensorObj N.val N'.val` inside
+`Tensor.sheafTensor`. Each comparison is affordable on its own; made at once, the second is reached
+only after both pushforwards have been unfolded, which is where the budget goes.
 
 One spelling gap cannot be closed that way, because it is in a *type* the step lemma does not get
 to choose: `whiskerTensorator` lands in the tensor product sheaf written
@@ -160,23 +172,26 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
 
-/-- **Naturality of the sheafification unit**, with the sheafification functor written at the
-`Stacks.SheafOfModules.TensorSheafification.sheafify` spelling the tensor product development
-uses. -/
+/-- **Naturality of the sheafification unit**: the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` in which the tensor product sheaf is computed, with
+the plain forgetful functor as right adjoint. -/
 public theorem sheafificationUnit_naturality_sheafify
     {P Q : PresheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj} (g : P ⟶ Q) :
-    sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) P ≫
-        ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map g).val =
-      g ≫ sheafificationUnit
-        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) Q :=
-  Stacks.SheafOfModules.TensorSheafification.sheafificationUnit_naturality_structureSheaf O hO g
+    (Tensor.sheafificationForgetAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app P ≫
+        ((Tensor.sheafification
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map g).val =
+      g ≫ (Tensor.sheafificationForgetAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app Q :=
+  ((Tensor.sheafificationForgetAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.naturality
+    g).symm
 
 /-- **The associativity constraint of the tensor product sheaf, precomposed with
 `tensorSheafAssocLeft`.** Stated this way the inverted comparison inside
-`Stacks.SheafOfModules.tensorSheafAssociator` has been cancelled, which is what makes the
-constraint accessible to the transport calculus of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/WhiskerTensorCoherence.lean`. -/
+`Stacks.SheafOfModules.tensorSheafAssociator` has been cancelled. The transport below uses the
+sealed form `map_unit_whiskerRight_comp_associator_hom` instead. -/
 public theorem tensorSheafAssocLeft_hom_comp_associator
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
@@ -190,6 +205,38 @@ public theorem tensorSheafAssocLeft_hom_comp_associator
         (α_ M.val N.val P.val).hom ≫
       (tensorSheafAssocRight O hO M N P).hom)
 
+/-- **The associativity constraint of the tensor product sheaf, through the sealed
+sheafification.** Precomposed with the sealed sheafification of the unit comparing `(M ⊗ N) ⊗ P`
+with `(M ⊗_O N) ⊗ P`, it is the sealed sheafification of the presheaf associator followed by that
+of the unit comparing `M ⊗ (N ⊗ P)` with `M ⊗ (N ⊗_O P)`. This is
+`Stacks.SheafOfModules.map_unit_whiskerRight_comp_tensorProductAssociator_hom`, read for the
+associator of the strict monoidal structure. -/
+public theorem map_unit_whiskerRight_comp_associator_hom
+    (M N P : _root_.SheafOfModules.{w}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (toSheafTensor O hO M N ▷ P.val) ≫ (α_ M N P).hom =
+      (Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (α_ M.val N.val P.val).hom ≫
+        (Tensor.sheafification
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (M.val ◁ toSheafTensor O hO N P) := by
+  rw [associator_eq_tensorSheafAssociator, tensorSheafAssociator_eq_tensorProductAssociator]
+  exact map_unit_whiskerRight_comp_tensorProductAssociator_hom O hO M N P
+
+/-- The sealed sheafification inverts the unit of `M.val ⊗ N.val` whiskered by `P.val`. -/
+public theorem isIso_sheafification_map_toSheafTensor_whiskerRight
+    (M N P : _root_.SheafOfModules.{w}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    IsIso ((Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+        (toSheafTensor O hO M N ▷ P.val)) :=
+  Invertible.isIso_structureSheafification_map_whiskerRight O hO (toSheafTensor O hO M N) P.val
+    (inferInstanceAs (IsIso ((Invertible.structureSheafification O hO).map
+      ((Invertible.structureSheafificationAdjunction O hO).unit.app (M.val ⊗ N.val)))))
+
 /-- Left whiskering by a sheaf of modules, read on the sheafification unit of the objectwise
 tensor product. -/
 public theorem sheafificationUnit_comp_whiskerLeft_val
@@ -197,13 +244,8 @@ public theorem sheafificationUnit_comp_whiskerLeft_val
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     {Y Z : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)} (f : Y ⟶ Z) :
-    sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-          (X.val ⊗ Y.val) ≫ (X ◁ f).val =
-      (X.val ◁ f.val) ≫ sheafificationUnit
-        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) (X.val ⊗ Z.val) :=
-  (congrArg (fun z : X ⊗ Y ⟶ X ⊗ Z => sheafificationUnit
-        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-        (X.val ⊗ Y.val) ≫ z.val)
+    toSheafTensor O hO X Y ≫ (X ◁ f).val = (X.val ◁ f.val) ≫ toSheafTensor O hO X Z :=
+  (congrArg (fun z : X ⊗ Y ⟶ X ⊗ Z => toSheafTensor O hO X Y ≫ z.val)
       (whiskerLeft_eq_sheafify_map O hO X f)).trans
     (sheafificationUnit_naturality_sheafify O hO (X.val ◁ f.val))
 
@@ -214,51 +256,32 @@ public theorem sheafificationUnit_comp_whiskerRight_val
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)} (f : X ⟶ Y)
     (Z : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-          (X.val ⊗ Z.val) ≫ (f ▷ Z).val =
-      (f.val ▷ Z.val) ≫ sheafificationUnit
-        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) (Y.val ⊗ Z.val) :=
-  (congrArg (fun z : X ⊗ Z ⟶ Y ⊗ Z => sheafificationUnit
-        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-        (X.val ⊗ Z.val) ≫ z.val)
+    toSheafTensor O hO X Z ≫ (f ▷ Z).val = (f.val ▷ Z.val) ≫ toSheafTensor O hO Y Z :=
+  (congrArg (fun z : X ⊗ Z ⟶ Y ⊗ Z => toSheafTensor O hO X Z ≫ z.val)
       (whiskerRight_eq_sheafify_map O hO f Z)).trans
     (sheafificationUnit_naturality_sheafify O hO (f.val ▷ Z.val))
 
-set_option maxHeartbeats 1000000 in
--- the term proof unifies long composites of sheafification units of tensor products
 /-- **The associativity constraint of the tensor product sheaf, read through the sheafification
 units of the objectwise tensor products.**
 
 The left-hand side is the composite that the extra comparison layer produces: the sheafification
-unit of `(M.val ⊗ N.val) ⊗ P.val` factors through `tensorSheafAssocLeft`, and what is left of the
-associativity constraint once that factor is cancelled is the sheafified presheaf associator
-followed by `tensorSheafAssocRight`. Both comparisons are naturality of the sheafification unit,
-so the constraint becomes the presheaf associator followed by two units. -/
+unit of `(M.val ⊗ N.val) ⊗ P.val` factors through the sealed sheafification of the unit of
+`M.val ⊗ N.val` whiskered by `P.val`, and what is left of the associativity constraint once that
+factor is cancelled is the sheafified presheaf associator followed by the sheafification of
+`M.val` whiskered with the unit of `N.val ⊗ P.val`. Both comparisons are naturality of the
+sheafification unit, so the constraint becomes the presheaf associator followed by two units. -/
 public theorem sheafificationUnit_whiskerRight_comp_associator
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    (sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-          (M.val ⊗ N.val) ▷ P.val) ≫
-        sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-            ((M ⊗ N).val ⊗ P.val) ≫
-          (α_ M N P).hom.val =
-      (α_ M.val N.val P.val).hom ≫
-        (M.val ◁ sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-            (N.val ⊗ P.val)) ≫
-          sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-            (M.val ⊗ (N ⊗ P).val) :=
+    (toSheafTensor O hO M N ▷ P.val) ≫ toSheafTensor O hO (M ⊗ N) P ≫ (α_ M N P).hom.val =
+      (α_ M.val N.val P.val).hom ≫ (M.val ◁ toSheafTensor O hO N P) ≫
+        toSheafTensor O hO M (N ⊗ P) :=
   (chase_step
-      (sheafificationUnit_naturality_sheafify O hO
-          (sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-            (M.val ⊗ N.val) ▷ P.val)).symm
-      (comp_val_congr (tensorSheafAssocLeft_hom_comp_associator O hO M N P))).trans
+      (sheafificationUnit_naturality_sheafify O hO (toSheafTensor O hO M N ▷ P.val)).symm
+      (comp_val_congr
+        (map_unit_whiskerRight_comp_associator_hom O hO M N P))).trans
     (chase_step (sheafificationUnit_naturality_sheafify O hO (α_ M.val N.val P.val).hom)
-      (sheafificationUnit_naturality_sheafify O hO
-        (M.val ◁ sheafificationUnit
-          (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-          (N.val ⊗ P.val))))
+      (sheafificationUnit_naturality_sheafify O hO (M.val ◁ toSheafTensor O hO N P)))
 
 end Stacks.SheafOfModules
 
@@ -359,7 +382,8 @@ public theorem whiskerSheafifyUnit_hom_ext
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
         (whiskerStructureIsSheaf (J' := J') O hO H))}
     {a b : (whiskerRestriction (J' := J') O hO H).obj
-        ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj Q) ⟶ X}
+        ((Stacks.SheafOfModules.Tensor.sheafification
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj Q) ⟶ X}
     (h : whiskerSheafifyUnit (J' := J') O hO H Q ≫ a.val =
       whiskerSheafifyUnit (J' := J') O hO H Q ≫ b.val) : a = b :=
   @hom_ext_of_locallyBijective _ _ J' _ _ _ _ _
@@ -377,11 +401,10 @@ public theorem whiskerSheafifyUnit_comp_whiskerTensorator
     whiskerSheafifyUnit (J' := J') O hO H (M.val ⊗ N.val) ≫
         (whiskerTensorator (J' := J') O hO H M N).hom.val =
       whiskerPresheafDelta O hO H M.val N.val ≫
-        sheafificationUnit
-          (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-            (whiskerStructureIsSheaf (J' := J') O hO H))
-          (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-            ((whiskerRestriction (J' := J') O hO H).obj N).val) :=
+        Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+          (whiskerStructureIsSheaf (J' := J') O hO H)
+          ((whiskerRestriction (J' := J') O hO H).obj M)
+          ((whiskerRestriction (J' := J') O hO H).obj N) :=
   whiskerTensorSheafIso_hom (J' := J') O hO H M N
 
 /-- Left whiskering distributes over the composite of the restricted sheafification unit and the
@@ -412,27 +435,24 @@ public theorem whiskerLeft_whiskerSheafifyUnit_comp_whiskerTensorator_tail
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     ((whiskerRestriction (J' := J') O hO H).obj M).val ◁
         (whiskerPresheafDelta O hO H N.val P.val ≫
-          sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj P).val)) =
+          Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+            (whiskerStructureIsSheaf (J' := J') O hO H)
+            ((whiskerRestriction (J' := J') O hO H).obj N)
+            ((whiskerRestriction (J' := J') O hO H).obj P)) =
       ((whiskerRestriction (J' := J') O hO H).obj M).val ◁
           whiskerPresheafDelta O hO H N.val P.val ≫
         ((whiskerRestriction (J' := J') O hO H).obj M).val ◁
-          sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj P).val) :=
+          Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+            (whiskerStructureIsSheaf (J' := J') O hO H)
+            ((whiskerRestriction (J' := J') O hO H).obj N)
+            ((whiskerRestriction (J' := J') O hO H).obj P) :=
   MonoidalCategory.whiskerLeft_comp
     (((whiskerRestriction (J' := J') O hO H).obj M).val)
     (whiskerPresheafDelta O hO H N.val P.val)
-    (sheafificationUnit
-      (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-        (whiskerStructureIsSheaf (J' := J') O hO H))
-      (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-        ((whiskerRestriction (J' := J') O hO H).obj P).val))
+    (Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+       (whiskerStructureIsSheaf (J' := J') O hO H)
+       ((whiskerRestriction (J' := J') O hO H).obj N)
+       ((whiskerRestriction (J' := J') O hO H).obj P))
 
 /-- The characterizing equation of the restriction tensorator, whiskered on the left and read as
 a single factor. Split off from `whiskerLeft_whiskerSheafifyUnit_comp_whiskerTensorator` so that
@@ -446,11 +466,10 @@ public theorem whiskerLeft_whiskerSheafifyUnit_comp_whiskerTensorator_congr
           (whiskerTensorator (J' := J') O hO H N P).hom.val) =
       ((whiskerRestriction (J' := J') O hO H).obj M).val ◁
         (whiskerPresheafDelta O hO H N.val P.val ≫
-          sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj P).val)) :=
+          Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+            (whiskerStructureIsSheaf (J' := J') O hO H)
+            ((whiskerRestriction (J' := J') O hO H).obj N)
+            ((whiskerRestriction (J' := J') O hO H).obj P)) :=
   congrArg (fun z => ((whiskerRestriction (J' := J') O hO H).obj M).val ◁ z)
     (whiskerSheafifyUnit_comp_whiskerTensorator O hO H N P)
 
@@ -466,11 +485,10 @@ public theorem whiskerLeft_whiskerSheafifyUnit_comp_whiskerTensorator
       (((whiskerRestriction (J' := J') O hO H).obj M).val ◁
           whiskerPresheafDelta O hO H N.val P.val) ≫
         (((whiskerRestriction (J' := J') O hO H).obj M).val ◁
-          sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj P).val)) :=
+          Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+            (whiskerStructureIsSheaf (J' := J') O hO H)
+            ((whiskerRestriction (J' := J') O hO H).obj N)
+            ((whiskerRestriction (J' := J') O hO H).obj P)) :=
   by
   rw [whiskerLeft_whiskerSheafifyUnit_comp_whiskerTensorator_head O hO H M N P,
     whiskerLeft_whiskerSheafifyUnit_comp_whiskerTensorator_congr O hO H M N P,
@@ -503,27 +521,24 @@ public theorem whiskerRight_whiskerSheafifyUnit_comp_whiskerTensorator_tail
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (whiskerPresheafDelta O hO H M.val N.val ≫
-          sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj N).val)) ▷
+          Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+            (whiskerStructureIsSheaf (J' := J') O hO H)
+            ((whiskerRestriction (J' := J') O hO H).obj M)
+            ((whiskerRestriction (J' := J') O hO H).obj N)) ▷
         ((whiskerRestriction (J' := J') O hO H).obj P).val =
       whiskerPresheafDelta O hO H M.val N.val ▷
           ((whiskerRestriction (J' := J') O hO H).obj P).val ≫
-        sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj N).val) ▷
+        Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+          (whiskerStructureIsSheaf (J' := J') O hO H)
+          ((whiskerRestriction (J' := J') O hO H).obj M)
+          ((whiskerRestriction (J' := J') O hO H).obj N) ▷
           ((whiskerRestriction (J' := J') O hO H).obj P).val :=
   MonoidalCategory.comp_whiskerRight
     (whiskerPresheafDelta O hO H M.val N.val)
-    (sheafificationUnit
-      (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-        (whiskerStructureIsSheaf (J' := J') O hO H))
-      (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-        ((whiskerRestriction (J' := J') O hO H).obj N).val))
+    (Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+       (whiskerStructureIsSheaf (J' := J') O hO H)
+       ((whiskerRestriction (J' := J') O hO H).obj M)
+       ((whiskerRestriction (J' := J') O hO H).obj N))
     (((whiskerRestriction (J' := J') O hO H).obj P).val)
 
 /-- The characterizing equation of the restriction tensorator, whiskered on the right and read as
@@ -536,11 +551,10 @@ public theorem whiskerRight_whiskerSheafifyUnit_comp_whiskerTensorator_congr
           (whiskerTensorator (J' := J') O hO H M N).hom.val) ▷
         ((whiskerRestriction (J' := J') O hO H).obj P).val =
       (whiskerPresheafDelta O hO H M.val N.val ≫
-          sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj N).val)) ▷
+          Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+            (whiskerStructureIsSheaf (J' := J') O hO H)
+            ((whiskerRestriction (J' := J') O hO H).obj M)
+            ((whiskerRestriction (J' := J') O hO H).obj N)) ▷
         ((whiskerRestriction (J' := J') O hO H).obj P).val :=
   congrArg (fun z => z ▷ ((whiskerRestriction (J' := J') O hO H).obj P).val)
     (whiskerSheafifyUnit_comp_whiskerTensorator O hO H M N)
@@ -556,11 +570,10 @@ public theorem whiskerRight_whiskerSheafifyUnit_comp_whiskerTensorator
           ((whiskerRestriction (J' := J') O hO H).obj P).val) =
       (whiskerPresheafDelta O hO H M.val N.val ▷
           ((whiskerRestriction (J' := J') O hO H).obj P).val) ≫
-        (sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-              (whiskerStructureIsSheaf (J' := J') O hO H))
-            (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-              ((whiskerRestriction (J' := J') O hO H).obj N).val) ▷
+        (Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+           (whiskerStructureIsSheaf (J' := J') O hO H)
+           ((whiskerRestriction (J' := J') O hO H).obj M)
+           ((whiskerRestriction (J' := J') O hO H).obj N) ▷
           ((whiskerRestriction (J' := J') O hO H).obj P).val) :=
   by
   rw [← whiskerRight_whiskerSheafifyUnit_comp_whiskerTensorator_head O hO H M N P,
@@ -570,56 +583,73 @@ public theorem whiskerRight_whiskerSheafifyUnit_comp_whiskerTensorator
 omit [H.IsCocontinuous J' J] [J'.WEqualsLocallyBijective AddCommGrpCat.{w}]
     [HasWeakSheafify J' AddCommGrpCat.{w}] in
 /-- The restricted sheafification unit of the triple objectwise tensor product, pushed through the
-restriction of `tensorSheafAssocLeft`. -/
+restriction of the sealed sheafification of the unit of `M.val ⊗ N.val` whiskered by `P.val`. -/
 public theorem whiskerSheafifyUnit_comp_assocLeft
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     whiskerSheafifyUnit (J' := J') O hO H ((M.val ⊗ N.val) ⊗ P.val) ≫
         ((whiskerRestriction (J' := J') O hO H).map
-          (Stacks.SheafOfModules.tensorSheafAssocLeft O hO M N P).hom).val =
+          ((Stacks.SheafOfModules.Tensor.sheafification
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+              ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                  (M.val ⊗ N.val) ▷ P.val))).val =
       (whiskerPresheafRestriction O H).map
-          (sheafificationUnit
-              (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-              (M.val ⊗ N.val) ▷ P.val) ≫
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                (M.val ⊗ N.val) ▷ P.val) ≫
         whiskerSheafifyUnit (J' := J') O hO H ((M ⊗ N).val ⊗ P.val) :=
   whiskerSheafifyUnit_naturality (J' := J') O hO H
-    (sheafificationUnit (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-      (M.val ⊗ N.val) ▷ P.val)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+          (M.val ⊗ N.val) ▷ P.val)
 
 omit [H.IsCocontinuous J' J] [J'.WEqualsLocallyBijective AddCommGrpCat.{w}]
     [HasWeakSheafify J' AddCommGrpCat.{w}] in
 /-- The restricted sheafification unit of `M.val ⊗ N.val ⊗ P.val`, pushed through the restriction
-of `tensorSheafAssocRight`. -/
+of the sealed sheafification of `M.val` whiskered with the unit of `N.val ⊗ P.val`. -/
 public theorem whiskerSheafifyUnit_comp_assocRight
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     whiskerSheafifyUnit (J' := J') O hO H (M.val ⊗ N.val ⊗ P.val) ≫
         ((whiskerRestriction (J' := J') O hO H).map
-          (Stacks.SheafOfModules.tensorSheafAssocRight O hO M N P).hom).val =
+          ((Stacks.SheafOfModules.Tensor.sheafification
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+              (M.val ◁ (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                  (N.val ⊗ P.val)))).val =
       (whiskerPresheafRestriction O H).map
-          (M.val ◁ sheafificationUnit
-            (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-            (N.val ⊗ P.val)) ≫
+          (M.val ◁ (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                (N.val ⊗ P.val)) ≫
         whiskerSheafifyUnit (J' := J') O hO H (M.val ⊗ (N ⊗ P).val) :=
   whiskerSheafifyUnit_naturality (J' := J') O hO H
-    (M.val ◁ sheafificationUnit
-      (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) (N.val ⊗ P.val))
+    (M.val ◁ (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+          (N.val ⊗ P.val))
 
 /-! ### The two sides of the normalisation -/
 
+set_option maxHeartbeats 500000 in
+-- raised limit kept as found; whether the default suffices was not measured
 /-- **The left-hand side of the associativity normalisation, read on the restricted sheafification
 unit of the triple objectwise tensor product**, after the inverted comparison has been cancelled:
-the associativity constraint has become the sheafified presheaf associator followed by
-`tensorSheafAssocRight`. -/
+the associativity constraint has become the sealed sheafification of the presheaf associator
+followed by that of `M.val` whiskered with the unit of `N.val ⊗ P.val`. -/
 public theorem whiskerSheafifyUnit_comp_associative_left
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     whiskerSheafifyUnit (J' := J') O hO H ((M.val ⊗ N.val) ⊗ P.val) ≫
         ((whiskerRestriction (J' := J') O hO H).map
-            ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+            ((Stacks.SheafOfModules.Tensor.sheafification
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
               (α_ M.val N.val P.val).hom)).val ≫
           ((whiskerRestriction (J' := J') O hO H).map
-              (Stacks.SheafOfModules.tensorSheafAssocRight O hO M N P).hom).val ≫
+              ((Stacks.SheafOfModules.Tensor.sheafification
+                  ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+              (M.val ◁ (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                  (N.val ⊗ P.val)))).val ≫
             (whiskerTensorator (J' := J') O hO H M (N ⊗ P)).hom.val ≫
               ((whiskerRestriction (J' := J') O hO H).obj M ◁
                 (whiskerTensorator (J' := J') O hO H N P).hom).val =
@@ -628,25 +658,23 @@ public theorem whiskerSheafifyUnit_comp_associative_left
           (((whiskerRestriction (J' := J') O hO H).obj M).val ◁
             whiskerPresheafDelta O hO H N.val P.val) ≫
             (((whiskerRestriction (J' := J') O hO H).obj M).val ◁
-              sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj P).val)) ≫
-              sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj N ⊗
-                    (whiskerRestriction (J' := J') O hO H).obj P).val) :=
+              Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+                (whiskerStructureIsSheaf (J' := J') O hO H)
+                ((whiskerRestriction (J' := J') O hO H).obj N)
+                ((whiskerRestriction (J' := J') O hO H).obj P)) ≫
+              Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+                (whiskerStructureIsSheaf (J' := J') O hO H)
+                ((whiskerRestriction (J' := J') O hO H).obj M)
+                ((whiskerRestriction (J' := J') O hO H).obj N ⊗
+                 (whiskerRestriction (J' := J') O hO H).obj P) :=
   by
   refine Eq.trans ?_ (congrArg
     (fun z => (whiskerPresheafRestriction O H).map (α_ M.val N.val P.val).hom ≫ z)
     (chase_step_presheafOfModules
       (whiskerPresheafDelta_naturality_right O hO H M.val
-        (sheafificationUnit
-          (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-          (N.val ⊗ P.val)))
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+              (N.val ⊗ P.val)))
       (chase_step_presheafOfModules
         (Y := ((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
           ((whiskerRestriction (J' := J') O hO H).obj N ⊗
@@ -665,9 +693,12 @@ public theorem whiskerSheafifyUnit_comp_associative_left
     ((whiskerRestriction (J' := J') O hO H).obj M)
     (whiskerTensorator (J' := J') O hO H N P).hom
 
+set_option maxHeartbeats 300000 in
+-- raised limit kept as found; whether the default suffices was not measured
 /-- **The straight part of the right-hand chase**: the restricted sheafification unit of the
-triple objectwise tensor product is pushed rightwards across the restriction of
-`tensorSheafAssocLeft`, the tensorator at `(M ⊗ N, P)`, and the whiskering by the restriction of
+triple objectwise tensor product is pushed rightwards across the restriction of the sealed
+sheafification of the unit of `M.val ⊗ N.val` whiskered by `P.val`, the tensorator at
+`(M ⊗ N, P)`, and the whiskering by the restriction of
 `P`, leaving the associativity constraint at the end.
 
 Split off from `whiskerSheafifyUnit_comp_associative_right` so that neither half has to elaborate
@@ -679,7 +710,11 @@ public theorem whiskerSheafifyUnit_comp_associative_right_chase
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     whiskerSheafifyUnit (J' := J') O hO H ((M.val ⊗ N.val) ⊗ P.val) ≫
         ((whiskerRestriction (J' := J') O hO H).map
-            (Stacks.SheafOfModules.tensorSheafAssocLeft O hO M N P).hom).val ≫
+            ((Stacks.SheafOfModules.Tensor.sheafification
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+              ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                  (M.val ⊗ N.val) ▷ P.val))).val ≫
           (whiskerTensorator (J' := J') O hO H (M ⊗ N) P).hom.val ≫
             ((whiskerTensorator (J' := J') O hO H M N).hom ▷
                 (whiskerRestriction (J' := J') O hO H).obj P).val ≫
@@ -687,18 +722,17 @@ public theorem whiskerSheafifyUnit_comp_associative_right_chase
                 ((whiskerRestriction (J' := J') O hO H).obj N)
                 ((whiskerRestriction (J' := J') O hO H).obj P)).hom.val =
       (whiskerPresheafRestriction O H).map
-          (sheafificationUnit
-              (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-              (M.val ⊗ N.val) ▷ P.val) ≫
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                (M.val ⊗ N.val) ▷ P.val) ≫
         whiskerPresheafDelta O hO H (M ⊗ N).val P.val ≫
           ((whiskerTensorator (J' := J') O hO H M N).hom.val ▷
               ((whiskerRestriction (J' := J') O hO H).obj P).val) ≫
-            sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj M ⊗
-                    (whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj P).val) ≫
+            Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+              (whiskerStructureIsSheaf (J' := J') O hO H)
+              ((whiskerRestriction (J' := J') O hO H).obj M ⊗
+               (whiskerRestriction (J' := J') O hO H).obj N)
+              ((whiskerRestriction (J' := J') O hO H).obj P) ≫
               (α_ ((whiskerRestriction (J' := J') O hO H).obj M)
                 ((whiskerRestriction (J' := J') O hO H).obj N)
                 ((whiskerRestriction (J' := J') O hO H).obj P)).hom.val :=
@@ -716,6 +750,8 @@ public theorem whiskerSheafifyUnit_comp_associative_right_chase
       ((whiskerRestriction (J' := J') O hO H).obj P)) ?_
   rfl
 
+set_option maxHeartbeats 400000 in
+-- raised limit kept as found; whether the default suffices was not measured
 /-- **The transformation of the right-hand chase's result.** The restricted sheafification units
 are traded for the presheaf-level tensorator by its naturality in the first slot and by the
 characterizing equation, and the final two factors are the one-site associativity statement
@@ -725,18 +761,17 @@ public theorem whiskerSheafifyUnit_comp_associative_right_transfer
     (M N P : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (whiskerPresheafRestriction O H).map
-          (sheafificationUnit
-              (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-              (M.val ⊗ N.val) ▷ P.val) ≫
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                (M.val ⊗ N.val) ▷ P.val) ≫
         whiskerPresheafDelta O hO H (M ⊗ N).val P.val ≫
           ((whiskerTensorator (J' := J') O hO H M N).hom.val ▷
               ((whiskerRestriction (J' := J') O hO H).obj P).val) ≫
-            sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj M ⊗
-                    (whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj P).val) ≫
+            Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+              (whiskerStructureIsSheaf (J' := J') O hO H)
+              ((whiskerRestriction (J' := J') O hO H).obj M ⊗
+               (whiskerRestriction (J' := J') O hO H).obj N)
+              ((whiskerRestriction (J' := J') O hO H).obj P) ≫
               (α_ ((whiskerRestriction (J' := J') O hO H).obj M)
                 ((whiskerRestriction (J' := J') O hO H).obj N)
                 ((whiskerRestriction (J' := J') O hO H).obj P)).hom.val =
@@ -747,23 +782,21 @@ public theorem whiskerSheafifyUnit_comp_associative_right_transfer
               ((whiskerRestriction (J' := J') O hO H).obj N).val
               ((whiskerRestriction (J' := J') O hO H).obj P).val).hom ≫
             (((whiskerRestriction (J' := J') O hO H).obj M).val ◁
-              sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj P).val)) ≫
-              sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj N ⊗
-                    (whiskerRestriction (J' := J') O hO H).obj P).val) :=
+              Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+                (whiskerStructureIsSheaf (J' := J') O hO H)
+                ((whiskerRestriction (J' := J') O hO H).obj N)
+                ((whiskerRestriction (J' := J') O hO H).obj P)) ≫
+              Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+                (whiskerStructureIsSheaf (J' := J') O hO H)
+                ((whiskerRestriction (J' := J') O hO H).obj M)
+                ((whiskerRestriction (J' := J') O hO H).obj N ⊗
+                 (whiskerRestriction (J' := J') O hO H).obj P) :=
   by
   refine chase_step_presheafOfModules
     (whiskerPresheafDelta_naturality_left O hO H
-      (sheafificationUnit
-        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-        (M.val ⊗ N.val)) P.val) ?_
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+            (M.val ⊗ N.val)) P.val) ?_
   refine chase_step_presheafOfModules
     (Y := ((whiskerRestriction (J' := J') O hO H).obj M ⊗
         (whiskerRestriction (J' := J') O hO H).obj N).val ⊗
@@ -783,7 +816,11 @@ public theorem whiskerSheafifyUnit_comp_associative_right
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     whiskerSheafifyUnit (J' := J') O hO H ((M.val ⊗ N.val) ⊗ P.val) ≫
         ((whiskerRestriction (J' := J') O hO H).map
-            (Stacks.SheafOfModules.tensorSheafAssocLeft O hO M N P).hom).val ≫
+            ((Stacks.SheafOfModules.Tensor.sheafification
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+              ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+                  (M.val ⊗ N.val) ▷ P.val))).val ≫
           (whiskerTensorator (J' := J') O hO H (M ⊗ N) P).hom.val ≫
             ((whiskerTensorator (J' := J') O hO H M N).hom ▷
                 (whiskerRestriction (J' := J') O hO H).obj P).val ≫
@@ -797,17 +834,15 @@ public theorem whiskerSheafifyUnit_comp_associative_right
               ((whiskerRestriction (J' := J') O hO H).obj N).val
               ((whiskerRestriction (J' := J') O hO H).obj P).val).hom ≫
             (((whiskerRestriction (J' := J') O hO H).obj M).val ◁
-              sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj N).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj P).val)) ≫
-              sheafificationUnit
-                (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-                  (whiskerStructureIsSheaf (J' := J') O hO H))
-                (((whiskerRestriction (J' := J') O hO H).obj M).val ⊗
-                  ((whiskerRestriction (J' := J') O hO H).obj N ⊗
-                    (whiskerRestriction (J' := J') O hO H).obj P).val) :=
+              Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+                (whiskerStructureIsSheaf (J' := J') O hO H)
+                ((whiskerRestriction (J' := J') O hO H).obj N)
+                ((whiskerRestriction (J' := J') O hO H).obj P)) ≫
+              Stacks.SheafOfModules.toSheafTensor (H.op ⋙ O)
+                (whiskerStructureIsSheaf (J' := J') O hO H)
+                ((whiskerRestriction (J' := J') O hO H).obj M)
+                ((whiskerRestriction (J' := J') O hO H).obj N ⊗
+                 (whiskerRestriction (J' := J') O hO H).obj P) :=
   (whiskerSheafifyUnit_comp_associative_right_chase O hO H M N P).trans
     (whiskerSheafifyUnit_comp_associative_right_transfer O hO H M N P)
 
@@ -817,38 +852,49 @@ public theorem whiskerSheafifyUnit_comp_associative_right
 the fourth and last of the normalisations of `map_coherentMulIso_tensorPowerComparison` that were
 missing for restriction along a continuous and cocontinuous functor of sites.
 
-The identity is precomposed with the restriction of `tensorSheafAssocLeft`, which is invertible,
-and then tested on the restricted sheafification unit of the triple objectwise tensor product. -/
+The identity is precomposed with the restriction of the sealed sheafification of the unit of
+`M.val ⊗ N.val` whiskered by `P.val`, which is invertible, and then tested on the restricted
+sheafification unit of the triple objectwise tensor product. -/
 public theorem isAssociative_whiskerTensorator :
     IsAssociative (K := J') O hO (H.op ⋙ O) (whiskerStructureIsSheaf (J' := J') O hO H)
       (whiskerRestriction O hO H) (whiskerTensorator (J' := J') O hO H) := by
   intro M N P
-  refine (cancel_epi (((whiskerRestriction (J' := J') O hO H).mapIso
-    (Stacks.SheafOfModules.tensorSheafAssocLeft O hO M N P)).hom)).mp ?_
-  have hmerge : ((whiskerRestriction (J' := J') O hO H).mapIso
-          (Stacks.SheafOfModules.tensorSheafAssocLeft O hO M N P)).hom ≫
+  have : IsIso ((whiskerRestriction (J' := J') O hO H).map
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+      (Stacks.SheafOfModules.toSheafTensor O hO M N ▷ P.val))) :=
+    ((whiskerRestriction (J' := J') O hO H).mapIso (@asIso _ _ _ _ _
+      (Stacks.SheafOfModules.isIso_sheafification_map_toSheafTensor_whiskerRight
+        O hO M N P))).isIso_hom
+  refine (cancel_epi ((whiskerRestriction (J' := J') O hO H).map
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+    (Stacks.SheafOfModules.toSheafTensor O hO M N ▷ P.val)))).mp ?_
+  have hmerge : (whiskerRestriction (J' := J') O hO H).map
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (Stacks.SheafOfModules.toSheafTensor O hO M N ▷ P.val)) ≫
         ((whiskerRestriction (J' := J') O hO H).map (α_ M N P).hom ≫
           (whiskerTensorator (J' := J') O hO H M (N ⊗ P)).hom ≫
             ((whiskerRestriction (J' := J') O hO H).obj M ◁
               (whiskerTensorator (J' := J') O hO H N P).hom)) =
       (whiskerRestriction (J' := J') O hO H).map
-          ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-            (α_ M.val N.val P.val).hom) ≫
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (α_ M.val N.val P.val).hom) ≫
         ((whiskerRestriction (J' := J') O hO H).map
-            (Stacks.SheafOfModules.tensorSheafAssocRight O hO M N P).hom ≫
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+            (M.val ◁ Stacks.SheafOfModules.toSheafTensor O hO N P)) ≫
           (whiskerTensorator (J' := J') O hO H M (N ⊗ P)).hom ≫
             ((whiskerRestriction (J' := J') O hO H).obj M ◁
               (whiskerTensorator (J' := J') O hO H N P).hom)) :=
     Stacks.SheafOfModules.chase_step
-      (((whiskerRestriction (J' := J') O hO H).map_comp
-            (Stacks.SheafOfModules.tensorSheafAssocLeft O hO M N P).hom
-            (α_ M N P).hom).symm.trans
+      (((whiskerRestriction (J' := J') O hO H).map_comp _ (α_ M N P).hom).symm.trans
         ((congrArg (whiskerRestriction (J' := J') O hO H).map
-            (Stacks.SheafOfModules.tensorSheafAssocLeft_hom_comp_associator O hO M N P)).trans
-          ((whiskerRestriction (J' := J') O hO H).map_comp
-            ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-              (α_ M.val N.val P.val).hom)
-            (Stacks.SheafOfModules.tensorSheafAssocRight O hO M N P).hom)))
+            (Stacks.SheafOfModules.map_unit_whiskerRight_comp_associator_hom
+              O hO M N P)).trans
+          ((whiskerRestriction (J' := J') O hO H).map_comp _ _)))
       rfl
   refine whiskerSheafifyUnit_hom_ext O hO H ((M.val ⊗ N.val) ⊗ P.val) ?_
   refine ((congrArg (fun z => whiskerSheafifyUnit (J' := J') O hO H ((M.val ⊗ N.val) ⊗ P.val) ≫

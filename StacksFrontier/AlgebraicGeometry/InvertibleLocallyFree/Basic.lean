@@ -223,21 +223,25 @@ noncomputable def sheafifyForgetIso :
 
 /-- Tensoring on the left by the structure sheaf is the identity functor: the underlying presheaf
 of the structure sheaf is the monoidal unit, so the presheaf-level tensor functor is the left
-unitor, and sheafification undoes the inclusion of sheaves into presheaves. Restriction of scalars
-along the identity, which occurs in the right adjoint of the sheafification adjunction, is the
-identity functor, so the two steps compose with no comparison map. -/
+unitor, and the sheafification `Stacks.SheafOfModules.Tensor.sheafification` inside
+`Stacks.SheafOfModules.Tensor.sheafTensor` undoes the inclusion of sheaves into presheaves, by the
+counit of its adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. Restriction of
+scalars along the identity, which occurs in the right adjoint of that adjunction, is the identity
+functor, so the two steps compose with no comparison map. -/
 noncomputable def tensorLeftFunctorUnitIso :
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
       (SheafOfModules.unit
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) ≅ 𝟭 _ := by
-  refine Iso.trans ?_ (sheafifyForgetIso O hO)
+  refine Iso.trans ?_ (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit)
   exact Functor.isoWhiskerLeft (SheafOfModules.forget
     (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     (Functor.isoWhiskerRight
       (leftUnitorNatIso (PresheafOfModules.{w}
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj))
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO))
+      (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩))
 
 /-- A sheaf of modules isomorphic to the structure sheaf is invertible: its tensor functor is
 isomorphic to that of the structure sheaf, hence to the identity functor. -/

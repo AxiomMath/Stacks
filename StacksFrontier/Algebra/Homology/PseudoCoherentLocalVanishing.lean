@@ -127,8 +127,7 @@ private theorem exists_tensor_eq_smul {G : Type u} [AddCommGroup G] [Module R G]
     (h : ∀ y : G, ∃ (s : R) (x : G), s ∉ p ∧ s • y = a • x)
     (z : TensorProduct R (Localization.AtPrime p) G) :
     ∃ w, z = algebraMap R (Localization.AtPrime p) a • w := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, (smul_zero _).symm⟩
+  induction z using TensorProduct.inductionOn with
   | tmul t y =>
     obtain ⟨s, x, hs, hsx⟩ := h y
     let Sp := Localization.AtPrime p
@@ -165,7 +164,7 @@ theorem exists_smul_eq_zero_of_isPseudoCoherent {T : DerivedCategory (ModuleCat.
         s ∉ p ∧ s • y = a • x)
     (i : ℤ) (y : (DerivedCategory.homologyFunctor (ModuleCat.{u} R) i).obj T) :
     ∃ s : R, s ∉ p ∧ s • y = 0 := by
-  letI := HasDerivedCategory.standard (ModuleCat.{u} (Localization.AtPrime p))
+  let := HasDerivedCategory.standard (ModuleCat.{u} (Localization.AtPrime p))
   obtain ⟨E, hE, ⟨e⟩⟩ := hT
   obtain ⟨hadd, hlim, hcolim⟩ := extendScalars_localizationAtPrime_exact p
   let Sp := Localization.AtPrime p

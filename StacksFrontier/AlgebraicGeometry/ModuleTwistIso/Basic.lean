@@ -303,13 +303,42 @@ noncomputable abbrev modulePreTensor (a : ℤ) :
   (PresheafOfModules.tensorObj (O := ((AlgebraicGeometry.Proj
     𝒮).toRingedSpace).presheaf) ((associatedModuleSheaf 𝒮 𝒨).val) ((twistingSheaf 𝒮 a).val))
 
-/-- The sheafification unit of that presheaf tensor product, read on the underlying presheaves
-of abelian groups. -/
+/-- On a ringed space, the stalk maps of the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` are isomorphisms: that unit is
+Mathlib's sheafification unit followed by isomorphisms
+(`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`), and the stalk maps of
+Mathlib's unit are isomorphisms. -/
+lemma isIso_stalkFunctor_map_sheafificationForgetAdjunction_unit
+    (X : AlgebraicGeometry.RingedSpace.{u, u}) (x : X.carrier)
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (⟨X.presheaf, X.IsSheaf⟩ :
+        Sheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X) CommRingCat.{u})).obj) :
+    IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf
+          (⟨X.presheaf, X.IsSheaf⟩ :
+            Sheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X) CommRingCat.{u})).obj).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (⟨X.presheaf, X.IsSheaf⟩ :
+            Sheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X) CommRingCat.{u})).unit.app
+          P))) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    ← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app,
+    Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp]
+  exact IsIso.comp_isIso' (IsIso.comp_isIso'
+    (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap_sheafifyUnit_isIso X x P)
+    inferInstance) inferInstance
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the
+sheafification that `sheafTensor` is built from, at that presheaf tensor product, read on the
+underlying presheaves of abelian groups. -/
 noncomputable def moduleUnitAb (a : ℤ) :=
   (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O
     (AlgebraicGeometry.Proj 𝒮).toRingedSpace)).map
-    (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit (AlgebraicGeometry.Proj
-      𝒮).toRingedSpace
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      (⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+        (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩ :
+          Sheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.JX
+            (AlgebraicGeometry.Proj 𝒮).toRingedSpace) CommRingCat.{u})).unit.app
       (modulePreTensor 𝒮 𝒨 a))
 
 /-- The comparison map `M̃ ⊗ 𝒪(a) → M(a)~`, read on the underlying presheaves of abelian
@@ -347,8 +376,8 @@ lemma isIso_stalkFunctor_map_moduleTwist (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ �
   rw [h4] at h3
   have hηiso : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u}
       (U.inclusion' ⟨x, hx⟩)).map (moduleUnitAb 𝒮 𝒨 c)) :=
-    Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap_sheafifyUnit_isIso (AlgebraicGeometry.Proj
-      𝒮).toRingedSpace _ _
+    isIso_stalkFunctor_map_sheafificationForgetAdjunction_unit
+      (AlgebraicGeometry.Proj 𝒮).toRingedSpace _ _
   exact (@isIso_comp_left_iff _ _ _ _ _ _ _ hηiso).mp h3
 
 /-! ### The comparison map on the invertible locus -/

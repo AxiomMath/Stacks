@@ -123,7 +123,8 @@ omit [X.J.HasSheafCompose (forget CommRingCat)] [Y.J.HasSheafCompose (forget Com
 /-- **The pairing `(s, t) ↦ η(s) ⊗ η(t)` of Stacks 03EL for a morphism of ringed sites, on
 sections.** For two morphisms `η₁ : P ⟶ f_*A` and `η₂ : Q ⟶ f_*B` of sheaves of modules, the
 pairing `(η₁ × η₂) ≫ f_*(universal pairing of A and B)` takes local sections `x`, `y` over `V` to
-the sheafification-unit image of `η₁(x) ⊗ η₂(y)` over `u(V)`. -/
+the image of `η₁(x) ⊗ η₂(y)` over `u(V)` under the unit of the sheafification
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` defining the tensor product sheaf. -/
 theorem HomGeneral.pairingApp_prodMap_comp_pushforward_tensorSectionPairing
     [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
     {P Q : SheafOfModules.{w} (Tensor.ringSheaf (toRingedTopos Y).O)}
@@ -142,10 +143,9 @@ theorem HomGeneral.pairingApp_prodMap_comp_pushforward_tensorSectionPairing
             (Sheaf.moduleSheaf (Tensor.ringSheaf (toRingedTopos X).O) B)).inv ≫
           f.toRingedToposHom.toRingedToposModulesHom.toToposHom.pushforward.map
             (tensorSectionPairing A B)) V x y =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (toRingedTopos X).O)
-          (𝟙 (Tensor.ringSheaf (toRingedTopos X).O).obj)).unit.app
-        (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj) A.val B.val))
+      _root_.PresheafOfModules.Hom.app
+        ((Tensor.sheafificationAdjunction (toRingedTopos X).O).unit.app
+          (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj) A.val B.val))
         (f.u.op.obj V)
         (η₁.val.app V x ⊗ₜ[((toRingedTopos X).O.obj ⋙ forget₂ CommRingCat RingCat).obj
           (f.u.op.obj V)] η₂.val.app V y) :=

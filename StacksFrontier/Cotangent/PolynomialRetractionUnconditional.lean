@@ -130,9 +130,10 @@ theorem nonempty_cotangentComplex_mvPolynomial_int_iso_single (n : ℕ)
             (CommAlgCat.of (MvPolynomial (Fin n) ℤ) ℤ)
             (surjective_algebraMap_of_isScalarTower_self ℤ (MvPolynomial (Fin n) ℤ))).Cotangent)) ∧
       RingHom.ker (algebraMap (MvPolynomial (Fin n) ℤ) ℤ) = Ideal.span (Set.range MvPolynomial.X) :=
-  ⟨by convert (nonempty_cotangentComplex_retraction_iso_single_unconditional ℤ
-      (MvPolynomial (Fin n) ℤ) ⟨Fin n, ⟨AlgEquiv.refl⟩⟩) <;>
-      first | rfl | exact Subsingleton.elim _ _,
+  ⟨by
+    convert (nonempty_cotangentComplex_retraction_iso_single_unconditional ℤ
+      (MvPolynomial (Fin n) ℤ) ⟨Fin n, ⟨AlgEquiv.refl⟩⟩)
+    exact Subsingleton.elim _ _,
     ker_mvPolynomial_int_eq_span_X _ hX⟩
 
 end SourceCase

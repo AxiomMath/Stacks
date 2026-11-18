@@ -170,8 +170,7 @@ theorem eq_pullbackTensorIso_hom_comp_of_pairing
     (k : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)) ⋙
       f.pullbackModules).obj (F, G) ⟶ N)
     (hk : pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-        ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (𝟙 _)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val) ≫ ((pullbackAdjPushforwardModules f).homEquiv _ _ k).val) =
       prod.map
           ((moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
@@ -183,25 +182,23 @@ theorem eq_pullbackTensorIso_hom_comp_of_pairing
             (moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) M₂)).inv ≫
           f.toToposHom.pushforward.map
             (pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-              ((PresheafOfModules.sheafificationAdjunction
-                    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O) (𝟙 _)).unit.app
+              ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
                   (M₁.val ⊗ M₂.val) ≫ g.val))) :
     k = (pullbackTensorIso f).hom.app (F, G) ≫
-      ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 _)).map (_root_.PresheafOfModules.tensorHom c₁.val c₂.val) ≫ g) := by
+      ((Stacks.SheafOfModules.Tensor.sheafification X.O).map
+        (_root_.PresheafOfModules.tensorHom c₁.val c₂.val) ≫ g) := by
   apply (pullbackTensorHomEquiv f F G N).injective
   rw [pullbackTensorHomEquiv_pullbackTensorIso_hom_comp f F G N, pullbackTensorHomEquiv_apply,
     ← Equiv.eq_symm_apply, ← Equiv.eq_symm_apply]
   apply Subtype.ext
   rw [pullbackTensorBilinEquiv_symm_apply_coe_eq_prodMap_unit, pullbackTensorStep2_apply_coe]
   have hT : ((pullbackTensorStepTarget f F G N).symm
-      ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 _)).map (_root_.PresheafOfModules.tensorHom c₁.val c₂.val) ≫ g)).1 =
+      ((Stacks.SheafOfModules.Tensor.sheafification X.O).map
+        (_root_.PresheafOfModules.tensorHom c₁.val c₂.val) ≫ g)).1 =
       prod.map ((moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).map c₁)
           ((moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).map c₂) ≫
         pairingOfTensorHom (hO := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-          ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O) (𝟙 _)).unit.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (M₁.val ⊗ M₂.val) ≫ g.val) :=
     (congrArg Subtype.val (bilinearEquivTensorSheafHom_symm_precomp
         (hA := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) g c₁ c₂)).trans
@@ -377,13 +374,12 @@ theorem HomGeneral.isIso_of_tensor_sections
     (hρ₃ : ∀ U a, (adj.homEquiv _ _ c₃).val.app U a = ρ₃ U a)
     (hc : ∀ (U : Y.Cᵒᵖ) (a : A₁.val.obj U) (b : A₂.val.obj U),
       ρ₃ U (ty.hom.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos Y).O) (𝟙 _)).unit.app
-            (A₁.val ⊗ A₂.val)).app U (a ⊗ₜ b))) =
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            (toRingedTopos Y).O).unit.app (A₁.val ⊗ A₂.val)).app U (a ⊗ₜ b))) =
         tx.hom.val.app (f.u.op.obj U)
-          (((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos X).O) (𝟙 _)).unit.app
-              (N₁.val ⊗ N₂.val)).app (f.u.op.obj U) (ρ₁ U a ⊗ₜ ρ₂ U b)))
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              (toRingedTopos X).O).unit.app (N₁.val ⊗ N₂.val)).app (f.u.op.obj U)
+              (ρ₁ U a ⊗ₜ ρ₂ U b)))
     (hc₁ : IsIso c₁) (hc₂ : IsIso c₂) : IsIso c₃ := by
   let f₄ := f.toRingedToposHom.toRingedToposModulesHom
   let adj₄ := Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f₄
@@ -410,26 +406,23 @@ theorem HomGeneral.isIso_of_tensor_sections
         (A := Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos X).O) N₁)
         (B := Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos X).O) N₂)
         (Stacks.SheafOfModules.pairingOfTensorHom
-          ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos X).O)
-            (𝟙 _)).unit.app (N₁.val ⊗ N₂.val) ≫ tx.hom.val)) U _ _).symm
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            (toRingedTopos X).O).unit.app (N₁.val ⊗ N₂.val) ≫ tx.hom.val)) U _ _).symm
       refine (Eq.trans ?_ (hc U a b)).trans ?_
       · exact (hmap c₃ U _).trans (hρ₃ U _)
       · rw [← hρ₁ U a, ← hρ₂ U b]
         exact (Stacks.SheafOfModules.pairingApp_pairingOfTensorHom _ _ _ _).symm.trans
           (congrArg₂ (fun s t => Stacks.SheafOfModules.pairingApp _
               (Stacks.SheafOfModules.pairingOfTensorHom
-                ((PresheafOfModules.sheafificationAdjunction
-                    (R := Stacks.SheafOfModules.Tensor.ringSheaf (toRingedTopos X).O)
-                    (𝟙 _)).unit.app (N₁.val ⊗ N₂.val) ≫ tx.hom.val)) (f.u.op.obj U) s t)
+                ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                    (toRingedTopos X).O).unit.app (N₁.val ⊗ N₂.val) ≫ tx.hom.val))
+                (f.u.op.obj U) s t)
             (hmap c₁ U a).symm (hmap c₂ U b).symm))
   have hR : IsIso ((Stacks.SheafOfModules.pullbackTensorIso f₄).hom.app (A₁, A₂) ≫
-      ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          (toRingedTopos X).O) (𝟙 _)).map
+      ((Stacks.SheafOfModules.Tensor.sheafification (toRingedTopos X).O).map
         (_root_.PresheafOfModules.tensorHom (ι.hom.app A₁ ≫ c₁).val
           (ι.hom.app A₂ ≫ c₂).val) ≫ tx.hom)) := by
-    have h₂ : IsIso ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          (toRingedTopos X).O) (𝟙 _)).map
+    have h₂ : IsIso ((Stacks.SheafOfModules.Tensor.sheafification (toRingedTopos X).O).map
         (_root_.PresheafOfModules.tensorHom (ι.hom.app A₁ ≫ c₁).val
           (ι.hom.app A₂ ≫ c₂).val)) := by
       rw [← Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
@@ -465,7 +458,10 @@ of `Mod(𝒳_ét, 𝒪_𝒳)` to the tensor product sheaf of the two restriction
 This is `AlgebraicGeometry.Stack.restrictModuleEtaleTensorSheafIso` with the universe lift of the
 objectwise tensor product removed, assembled from the same two pieces:
 `AlgebraicGeometry.Stack.restrictModuleTensorObjIso` and
-`Stacks.SheafOfModules.sheafificationRestrictScalarsPushforwardIso`. The latter is applied
+`Stacks.SheafOfModules.sheafificationRestrictScalarsPushforwardIso`, after
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` has identified the tensor product sheaf, formed
+with the sealed sheafification, with Mathlib's sheafification of the objectwise tensor product.
+The latter is applied
 directly, with its two site instances read off
 `AlgebraicGeometry.Stack.isContinuous_and_isCocontinuous_restrictToSmallEtale` by projection,
 so that the composite unfolds definitionally. -/
@@ -482,6 +478,11 @@ noncomputable def restrictSheafTensorIso (z : 𝒳)
   letI := isEquivalence_overPost B S hS p hp z
   haveI := (isContinuous_and_isCocontinuous_restrictToSmallEtale B E h S hS p hp z).1
   haveI := (isContinuous_and_isCocontinuous_restrictToSmallEtale B E h S hS p hp z).2
+  Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+      (RingedSite.toRingedTopos (smallEtaleRingedSite E (p.obj z).left.1
+        (contains_base B E h S hS p z))).O
+      ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj F)
+      ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj G) ≪≫
   (PresheafOfModules.sheafification
       (R := SmallEtale.structureSheaf E (p.obj z).left.1 (contains_base B E h S hS p z))
       (𝟙 _)).mapIso
@@ -500,12 +501,18 @@ noncomputable def restrictSheafTensorIso (z : 𝒳)
         (R := (structureSheaf B S hS p hp (etaleTopology B)
           (etaleTopology_le_topology B)).obj) F.val G.val)
 
-/-- `AlgebraicGeometry.Stack.restrictSheafTensorIso` is the sheafification-adjunct of the
-restriction of the sheafification unit of `𝒳`. -/
+/-- `AlgebraicGeometry.Stack.restrictSheafTensorIso` is, after
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`, the sheafification-adjunct of the restriction of
+the sheafification unit of `𝒳`. -/
 theorem restrictSheafTensorIso_hom_eq (z : 𝒳)
     (F G : SheafOfModules.{u}
       (ringStructureSheafCore B S hS p hp (etaleTopology B) (etaleTopology_le_topology B))) :
     (restrictSheafTensorIso B E h S hS p hp z F G).hom =
+      (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+          (RingedSite.toRingedTopos (smallEtaleRingedSite E (p.obj z).left.1
+            (contains_base B E h S hS p z))).O
+          ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj F)
+          ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj G)).hom ≫
       (PresheafOfModules.sheafification
           (R := SmallEtale.structureSheaf E (p.obj z).left.1 (contains_base B E h S hS p z))
           (𝟙 _)).map
@@ -695,6 +702,31 @@ theorem restrictionPushforwardComparison_etaleTensorSheaf_unit_tmul
             (R := (structureSheaf B S hS p hp (etaleTopology B)
               (etaleTopology_le_topology B)).obj) F.val G.val)) φ'.op (a ⊗ₜ b)).symm
 
+/-- A morphism out of Mathlib's sheafification of the objectwise tensor product, preceded by
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`, takes on the image of a local section under the
+unit of the sealed sheafification the value it takes on its image under Mathlib's unit. -/
+private theorem sheafTensorObjIso_hom_comp_val_app_unit_apply {C : Type*} [Category C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (F G : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R))
+    {N : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)}
+    (g : (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).obj
+      (PresheafOfModules.tensorObj (O := R.obj) F.val G.val) ⟶ N) (V : Cᵒᵖ)
+    (m : (PresheafOfModules.tensorObj (O := R.obj) F.val G.val).obj V) :
+    PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafTensorObjIso R F G).hom ≫ g).val V
+        (PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app
+            (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)) V m) =
+      PresheafOfModules.Hom.app g.val V (PresheafOfModules.Hom.app
+        ((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app
+          (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)) V m) :=
+  congrArg (fun x => PresheafOfModules.Hom.app g.val V x)
+    ((congrArg _ (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      R _ V m)).trans
+      (PresheafOfModules.hom_congr_apply'
+        (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_inv_app R _) V m))
+
 /-- The adjunct of `L(g₁) ≫ L(g₂) ≫ ε` is `g₁ ≫ g₂`. -/
 private theorem unit_comp_map_map_comp_counit {C D : Type*} [Category C] [Category D]
     {L : C ⥤ D} {Rr : D ⥤ C} (adj : L ⊣ Rr) {P Q : C} {N : D} (g₁ : P ⟶ Q) (g₂ : Q ⟶ Rr.obj N) :
@@ -717,9 +749,9 @@ theorem restrictSheafTensorIso_hom_val_app_unit_tmul
     (a : F.val.obj (smallEtaleCartesianLift B E h S hS p hp z V))
     (b : G.val.obj (smallEtaleCartesianLift B E h S hS p hp z V)) :
     (restrictSheafTensorIso B E h S hS p hp z F G).hom.val.app V
-      (((PresheafOfModules.sheafificationAdjunction
-          (R := SmallEtale.structureSheaf E (p.obj z).left.1 (contains_base B E h S hS p z))
-          (𝟙 _)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (RingedSite.toRingedTopos (smallEtaleRingedSite E (p.obj z).left.1
+            (contains_base B E h S hS p z))).O).unit.app
           (PresheafOfModules.tensorObj
             (O := localCommStructurePresheaf B S hS p E h z)
             ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj F).val
@@ -747,6 +779,11 @@ theorem restrictSheafTensorIso_hom_val_app_unit_tmul
                 (R := (structureSheaf B S hS p hp (etaleTopology B)
                   (etaleTopology_le_topology B)).obj) F.val G.val)))
   rw [restrictSheafTensorIso_hom_eq]
+  refine (sheafTensorObjIso_hom_comp_val_app_unit_apply
+    (RingedSite.toRingedTopos (smallEtaleRingedSite E (p.obj z).left.1
+      (contains_base B E h S hS p z))).O
+    ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj F)
+    ((restrictSheafToSmallEtale.{u, v, w, u} B E h S hS p hp z).obj G) _ V (a ⊗ₜ b)).trans ?_
   exact congrArg (fun t => t.app V (a ⊗ₜ b)) hGA
 
 /-- **The comparison map of Stacks 0761 for a tensor product.** If the comparison maps
@@ -826,8 +863,9 @@ theorem hasFlatBaseChangePropertySheaf_tensor
           (etaleTopology_le_topology B))).obj F).obj G) :=
   let := hasSheafify_etaleAssociatedTopology B S hS p hp
   let := wEqualsLocallyBijective_etaleAssociatedTopology B S hS p hp
-  fun ψ hflat => isIso_restrictSheafPullbackComparison_etaleTensorSheaf B E h S hS p hp ψ F G
-    (hF ψ hflat) (hG ψ hflat)
+  etaleTensorSheaf_eq B S hS p hp F G ▸ fun ψ hflat =>
+    isIso_restrictSheafPullbackComparison_etaleTensorSheaf B E h S hS p hp ψ F G
+      (hF ψ hflat) (hG ψ hflat)
 
 end AlgebraicGeometry.Stack
 

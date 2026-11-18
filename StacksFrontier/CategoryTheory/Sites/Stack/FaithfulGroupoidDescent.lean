@@ -190,13 +190,11 @@ private theorem hasEffectiveDescent_of_glue (hF1 : IsFibredOneMorphism p q F) [F
   · intro V W Z f hf g hg ε ε' heq
     refine F.map_injective ?_
     rw [← cancel_mono f₀]
-    trace_state
     have hc := hζcompat hf hg ε ε' heq
     simp only [SieveDescentDatum.mapF, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom,
       Functor.map_comp, Category.assoc, Fiber.fiberInclusion_map_mapOfComp_map,
       mapPbIso_inv_fac_assoc] at hc
     simp only [Functor.map_comp, Category.assoc, hccfac]
-    trace_state
     rw [← cancel_epi (Fiber.fiberInclusion.map (mapPbIso hF1 (D.obj f hf) ε).hom),
       mapPbIso_hom_fac_assoc]
     exact hc

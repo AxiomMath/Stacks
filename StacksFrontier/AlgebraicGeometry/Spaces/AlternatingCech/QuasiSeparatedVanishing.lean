@@ -195,14 +195,17 @@ theorem isZero_zExt_koszulComplex_X_of_chart_over_quotient (hSerre : AffineSerre
 
 end SpacesEtale
 
+include hZ in
 /-- **The vanishing of [Stacks, Tag 072C] from the choices (1)–(5), with natural-number bounds.**
 The form with integer bounds, exactly as in the source, is
 `AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`.
-Let `S` be a scheme and let `X` be a quasi-compact and quasi-separated algebraic space over `S`.
-Choose an affine scheme `U`, a surjective étale morphism `f : U ⟶ X` and a natural number `d`
-bounding the degrees of the fibres of `f`; for each `p` with `0 ≤ p ≤ d` choose an affine scheme
-`V_p`, a surjective étale morphism `V_p ⟶ U_p` onto the quotient `U_p = W_{p+1}/S_{p+1}` of
-[Stacks, Tag 0726], and a natural number `d_p` bounding the degrees of its fibres.  Then
+Let `S` be a scheme and let `X` be an algebraic space over `S`; the source assumes `X`
+quasi-compact and quasi-separated, and the statement holds without either hypothesis, which only
+guarantee that the choices below exist.  Choose an affine scheme `U`, a surjective étale
+morphism `f : U ⟶ X` and a natural number `d` bounding the degrees of the fibres of `f`; for
+each `p` with `0 ≤ p ≤ d` choose an affine scheme `V_p`, a surjective étale morphism
+`V_p ⟶ U_p` onto the quotient `U_p = W_{p+1}/S_{p+1}` of [Stacks, Tag 0726], and a natural
+number `d_p` bounding the degrees of its fibres.  Then
 
 `H^q(X, ℱ) = 0`
 
@@ -222,8 +225,6 @@ site, whose Čech hypothesis is
 `AlgebraicGeometry.Space.SmallEtale.isZero_cechCohomology_comparisonCoefficients_forall`. -/
 theorem isZero_sheafH_of_data_072C
     (X : AlgebraicSpaces B S hS)
-    (hqc : IsQuasiCompactSpace B S hS X.obj)
-    (hqs : IsAbsolutelyQuasiSeparated B S hS hZ X.obj)
     (U : BigFppfOver B S hS) (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U))
     (f : yoneda.obj U ⟶ X.obj) (hf : IsEtale B S hS f) (hfsurj : IsSurjective B S hS f)
     (d : ℕ) (hd : BoundsFibreDegrees B S hS U f (d : ℤ)) (dp : ℕ → ℕ)
@@ -264,8 +265,11 @@ theorem isZero_sheafH_of_data_072C
       (dp p) hgbd _ hF q (by omega)
   · exact Finset.le_sup (f := fun p => dp p + p) (Finset.mem_range.2 (by omega))
 
+include hZ in
 /-- **[Stacks, Tag 072C]: the vanishing from the choices (1)–(5).**  Let `S` be a scheme and let
-`X` be a quasi-compact and quasi-separated algebraic space over `S`.  Suppose given
+`X` be an algebraic space over `S`.  The source assumes `X` quasi-compact and quasi-separated;
+the statement holds without either hypothesis, which only guarantee that the choices below
+exist.  Suppose given
 
 1. an affine scheme `U`,
 2. a surjective étale morphism `f : U ⟶ X`,
@@ -292,18 +296,16 @@ has its `E₁`-page zero in the columns `p ≥ d`, because `W_{p+1}` is empty th
 `p < d` zero in the degrees `q ≥ d_p`, by [Stacks, Tag 072B] applied to the separated space
 `U_p` through
 `AlgebraicGeometry.Space.SpacesEtale.isZero_zExt_koszulComplex_X_of_chart_over_quotient`. -/
-@[stacks 072C "the moreover clause, with the source's explicit bound: for X a quasi-compact and \
-quasi-separated algebraic space over a scheme S and any choices (1)-(5) -- an affine U with a \
-surjective etale U -> X, an integer d bounding its fibre degrees, and for each 0 <= p <= d an \
-affine V_p with a surjective etale V_p -> U_p = W_{p+1}/S_{p+1} and an integer d_p bounding \
-its fibre degrees -- H^q(X, F) = 0 for every quasi-coherent O_X-module F and every \
-q >= max(d_p + p). Cohomology is that of the underlying abelian sheaf of F on the \
+@[stacks 072C "the moreover clause, with the source's explicit bound, proved here without the \
+qcqs hypotheses: for X an algebraic space over a scheme S and any choices (1)-(5) -- an \
+affine U with a surjective etale U -> X, an integer d bounding its fibre degrees, and for \
+each 0 <= p <= d an affine V_p with a surjective etale V_p -> U_p = W_{p+1}/S_{p+1} and an \
+integer d_p bounding its fibre degrees -- H^q(X, F) = 0 for every quasi-coherent O_X-module F \
+and every q >= max(d_p + p). Cohomology is that of the underlying abelian sheaf of F on the \
 spaces-etale site of X. The existence of the choices (1)-(5) is \
 AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_diagonalComplementQuotient"]
 theorem isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient
     (X : AlgebraicSpaces B S hS)
-    (hqc : IsQuasiCompactSpace B S hS X.obj)
-    (hqs : IsAbsolutelyQuasiSeparated B S hS hZ X.obj)
     (U : BigFppfOver B S hS) (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U))
     (f : yoneda.obj U ⟶ X.obj) (hf : IsEtale B S hS f) (hfsurj : IsSurjective B S hS f)
     (d : ℤ) (hd : BoundsFibreDegrees B S hS U f d) (dp : ℕ → ℤ)
@@ -397,7 +399,7 @@ theorem exists_forall_isZero_sheafH_of_isQuasiCompactSpace_072C
   choose dpz hdpz using hgbd
   refine ⟨(Finset.range (dz.toNat + 1)).sup fun p => (dpz p).toNat + p,
     fun M hM n hn => ?_⟩
-  refine isZero_sheafH_of_data_072C B S hS hZ X hqc hqs U hU f hf
+  refine isZero_sheafH_of_data_072C B S hS hZ X U hU f hf
     (isSurjective_of_presheafSurjective B S hS f hsurj) dz.toNat
     (BoundsFibreDegrees.mono hdz (Int.self_le_toNat dz)) (fun p => (dpz p).toNat) ?_ M hM n hn
   intro hsep' p _

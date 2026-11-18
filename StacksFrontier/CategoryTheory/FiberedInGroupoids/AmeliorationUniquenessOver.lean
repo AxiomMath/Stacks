@@ -30,7 +30,8 @@ strictly with them, 2-morphisms over the base have components lying over identit
   06N8, first claim.
 * `CategoryTheory.Functor.IsFiberedInGroupoids.amelioration_unique_isEquivalenceOver_of_comp_eq`:
   Stacks 06N8, second claim.
-* `amelioration_unique` (in `StacksFrontier.CategoryTheory.FiberedInGroupoids.AmeliorationUniqueness`):
+* `amelioration_unique` (in
+  `StacksFrontier.CategoryTheory.FiberedInGroupoids.AmeliorationUniqueness`):
   the underlying statement about bare categories, with no strictness.
 
 ## Implementation notes

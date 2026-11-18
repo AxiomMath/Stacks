@@ -26,8 +26,9 @@ map are not proved here.
 
 ## Main definitions
 
-* `PresheafOfModules.tensorSheafUnit`: the unit of `PresheafOfModules.sheafificationAdjunction`
-  at the objectwise tensor product of two sheaves of modules.
+* `PresheafOfModules.tensorSheafUnit`: the unit of
+  `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` at the objectwise tensor product of two
+  sheaves of modules.
 * `PresheafOfModules.tensorSheafDesc`: a morphism out of the objectwise tensor product of two
   presheaves of modules descended to the tensor product of the two sheaves.
 * `SheafOfModules.GradedAlgebra.IsUniversal.descComp`: the homomorphism of graded algebras
@@ -73,7 +74,10 @@ homogeneous pieces are independent.
 `presentationShortComplex` therefore takes the target degree `n` and a proof `1 + k = n`, and
 transports along `eqToHom`.
 
-The source of the component of the unit of `PresheafOfModules.sheafificationAdjunction` is
+The tensor product of sheaves of modules sheafifies with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so the unit and the hom-equivalence used here are
+those of its adjunction `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, not Mathlib's
+`PresheafOfModules.sheafificationAdjunction`. The source of the component of its unit is
 `(𝟭 _).obj (tensorObj F.val G.val)`; `tensorSheafUnit` spells it as `tensorObj F.val G.val`, so
 that a pure tensor typechecks against it at the transparency `rw` uses.
 
@@ -132,22 +136,23 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 product, exhibiting the latter as the sheafification of the former. -/
 noncomputable abbrev tensorSheafUnit (F G : SheafOfModules.{a} (toRingCat J Osharp)) :
     tensorObj F.val G.val ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G).val :=
-  (PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj F.val G.val)
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+    (PresheafOfModules.tensorObj F.val G.val)
 
 /-- A morphism out of the tensor product of two sheaves of modules, obtained from a morphism out
 of the objectwise tensor product of the underlying presheaves. -/
 noncomputable def tensorSheafDesc (φ : tensorObj F.val G.val ⟶ Q.val) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G ⟶ Q :=
-  (sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj)).symm φ
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
+    (tensorObj F.val G.val) Q).symm φ
 
 /-- The sheafification bijection for the objectwise tensor product is restriction along
 `tensorSheafUnit`. -/
 theorem tensorSheafificationHomEquiv_app_apply
     (f : ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G ⟶ Q) (U : Cᵒᵖ)
     (z : (tensorObj F.val G.val).obj U) :
-    Hom.app (sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj) f) U z =
+    Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
+        (tensorObj F.val G.val) Q f) U z =
       f.val.app U ((tensorSheafUnit F G).app U z) :=
   rfl
 
@@ -158,7 +163,8 @@ theorem tensorSheafDesc_unit (φ : tensorObj F.val G.val ⟶ Q.val) (U : Cᵒᵖ
     (tensorSheafDesc φ).val.app U ((tensorSheafUnit F G).app U (x ⊗ₜ y)) = Hom.app φ U (x ⊗ₜ y) :=
   (tensorSheafificationHomEquiv_app_apply (tensorSheafDesc φ) U (x ⊗ₜ y)).symm.trans
     (congrArg (fun h : tensorObj F.val G.val ⟶ Q.val => Hom.app h U (x ⊗ₜ y))
-      ((sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj)).apply_symm_apply φ))
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
+        (tensorObj F.val G.val) Q).apply_symm_apply φ))
 
 /-- Two morphisms out of the tensor product of two sheaves of modules which agree on the images
 of pure tensors of local sections are equal. -/
@@ -168,8 +174,8 @@ theorem tensorSheaf_hom_ext {φ ψ : ((Stacks.SheafOfModules.Tensor.sheafTensor 
       φ.val.app U ((tensorSheafUnit F G).app U (x ⊗ₜ y)) =
         ψ.val.app U ((tensorSheafUnit F G).app U (x ⊗ₜ y))) :
     φ = ψ := by
-  refine (sheafificationHomEquiv (𝟙 (toRingCat J Osharp).obj)).injective
-    (tensorObj_hom_ext fun U x y => ?_)
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv
+      (tensorObj F.val G.val) Q).injective (tensorObj_hom_ext fun U x y => ?_)
   exact (tensorSheafificationHomEquiv_app_apply φ U _).trans
     ((h U x y).trans (tensorSheafificationHomEquiv_app_apply ψ U _).symm)
 

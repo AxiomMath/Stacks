@@ -122,7 +122,7 @@ theorem sheafTensorObj_map_app_tensorSheafUnit (A : X.Modules) {B B' : X.Modules
     (((sheafTensor X.toRingedSpace.sheaf).obj A).map g).val.app V
         ((PresheafOfModules.tensorSheafUnit A B).app V (x ⊗ₜ y)) =
       (PresheafOfModules.tensorSheafUnit A B').app V (x ⊗ₜ g.val.app V y) :=
-  (PresheafOfModules.unit_naturality_apply (α := 𝟙 X.ringCatSheaf.obj)
+  (Stacks.SheafOfModules.Tensor.unit_naturality_apply
       (PresheafOfModules.tensorHom (𝟙 A.val) g.val) V (x ⊗ₜ y)).trans
     (congrArg ((PresheafOfModules.tensorSheafUnit A B').app V)
       (PresheafOfModules.tensorHom_tmul (𝟙 A.val) g.val V x y))

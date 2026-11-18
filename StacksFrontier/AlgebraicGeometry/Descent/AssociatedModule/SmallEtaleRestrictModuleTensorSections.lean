@@ -105,12 +105,10 @@ theorem sheafTensor_uncurry_map_val_app_unit_tmul_forget₂
     (f₂ : B₁ ⟶ B₂) (U : X.Cᵒᵖ) (x : A₁.val.obj U) (y : B₁.val.obj U) :
     _root_.PresheafOfModules.Hom.app ((Functor.uncurry.obj (Tensor.sheafTensor X.O)).map
         ((f₁, f₂) : ((A₁, B₁) : _ × _) ⟶ (A₂, B₂))).val U
-      (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      (_root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A₁.val B₁.val)) U
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A₂.val B₂.val)) U
         (f₁.val.app U x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] f₂.val.app U y) :=
   Tensor.sheafTensor_uncurry_map_val_app_unit_tmul X.O f₁ f₂ U x y
@@ -126,12 +124,10 @@ theorem sheafTensor_obj_map_val_app_unit_tmul_forget₂
     {A B₁ B₂ : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)} (g : B₁ ⟶ B₂) (U : X.Cᵒᵖ)
     (x : A.val.obj U) (y : B₁.val.obj U) {y' : B₂.val.obj U} (hy : g.val.app U y = y') :
     _root_.PresheafOfModules.Hom.app (((Tensor.sheafTensor X.O).obj A).map g).val U
-      (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      (_root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A.val B₁.val)) U
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A.val B₂.val)) U
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y') := by
   subst hy
@@ -154,12 +150,10 @@ theorem sheafTensor_map_app_val_app_unit_tmul_forget₂
     {A₁ A₂ B : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)} (g : A₁ ⟶ A₂) (U : X.Cᵒᵖ)
     (x : A₁.val.obj U) (y : B.val.obj U) {x' : A₂.val.obj U} (hx : g.val.app U x = x') :
     _root_.PresheafOfModules.Hom.app (((Tensor.sheafTensor X.O).map g).app B).val U
-      (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      (_root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A₁.val B.val)) U
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) A₂.val B.val)) U
         (x' ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y) := by
   subst hx
@@ -183,12 +177,10 @@ private theorem sheafTensor_map_obj_map_val_app_unit_tmul_forget₂.{w, v, u₁}
     (hx : g₁.val.app U a = x) (hy : g₂.val.app U b = y) :
     _root_.PresheafOfModules.Hom.app (((Tensor.sheafTensor X.O).map g₁).app N).val U
       (_root_.PresheafOfModules.Hom.app (((Tensor.sheafTensor X.O).obj A).map g₂).val U
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
           (PresheafOfModules.tensorObj (O := X.O.obj) A.val B.val)) U
           (a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] b))) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf X.O) (𝟙 (Tensor.ringSheaf X.O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app ((Tensor.sheafificationForgetAdjunction X.O).unit.app
         (PresheafOfModules.tensorObj (O := X.O.obj) M.val N.val)) U
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] y) :=
   (congrArg (_root_.PresheafOfModules.Hom.app (((Tensor.sheafTensor X.O).map g₁).app N).val U)
@@ -249,14 +241,11 @@ theorem HomGeneral.pullbackTensorIsoTransport_hom_val_app_unit_tmul
     (pullbackTensorIsoTransport f.toRingedToposHom.toRingedToposModulesHom α F G).hom.val.app
         (f.u.op.obj V)
       (η (((Tensor.sheafTensor (toRingedTopos Y).O).obj F).obj G) V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.Sheaves.RingedToposModules.commRingSheaf Y.J (toRingedTopos Y).O.obj
-              (Tensor.ringSheaf (toRingedTopos Y).O).property) (𝟙 _)).unit.app
+        (((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
           (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(ringPresheaf (toRingedTopos Y).O.obj).obj V] y))) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (toRingedTopos X).O)
-          (𝟙 (Tensor.ringSheaf (toRingedTopos X).O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app
+          ((Tensor.sheafificationForgetAdjunction (toRingedTopos X).O).unit.app
         (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj) (L.obj F).val (L.obj G).val))
         (f.u.op.obj V)
         (η F V x ⊗ₜ[((toRingedTopos X).O.obj ⋙ forget₂ CommRingCat RingCat).obj
@@ -266,16 +255,12 @@ theorem HomGeneral.pullbackTensorIsoTransport_hom_val_app_unit_tmul
   have h1 : (α.inv.app ((Functor.uncurry.obj (Tensor.sheafTensor (toRingedTopos Y).O)).obj
         (F, G))).val.app (f.u.op.obj V)
       (η (((Tensor.sheafTensor (toRingedTopos Y).O).obj F).obj G) V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.Sheaves.RingedToposModules.commRingSheaf Y.J (toRingedTopos Y).O.obj
-              (Tensor.ringSheaf (toRingedTopos Y).O).property) (𝟙 _)).unit.app
+        (((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
           (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(ringPresheaf (toRingedTopos Y).O.obj).obj V] y))) =
       ((pullbackAdjPushforwardModules f.toRingedToposHom.toRingedToposModulesHom).unit.app
           (((Functor.uncurry.obj (Tensor.sheafTensor (toRingedTopos Y).O))).obj (F, G))).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.Sheaves.RingedToposModules.commRingSheaf Y.J (toRingedTopos Y).O.obj
-              (Tensor.ringSheaf (toRingedTopos Y).O).property) (𝟙 _)).unit.app
+        (((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
           (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(ringPresheaf (toRingedTopos Y).O.obj).obj V] y)) :=
     hη _ V _
@@ -339,16 +324,14 @@ theorem HomGeneral.tensorCounitComposite_val_app_unit_tmul
     (x : ((_root_.SheafOfModules.pushforward.{w} φ).obj M).val.obj V)
     (y : ((_root_.SheafOfModules.pushforward.{w} φ).obj N).val.obj V) :
     (f.tensorCounitComposite α adj M N).val.app V
-            (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Tensor.ringSheaf (toRingedTopos Y).O)
-                (𝟙 (Tensor.ringSheaf (toRingedTopos Y).O).obj)).unit.app
+            (_root_.PresheafOfModules.Hom.app
+              ((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
               (PresheafOfModules.tensorObj (O := (toRingedTopos Y).O.obj)
                 ((_root_.SheafOfModules.pushforward.{w} φ).obj M).val
                 ((_root_.SheafOfModules.pushforward.{w} φ).obj N).val)) V
               (x ⊗ₜ[((toRingedTopos Y).O.obj ⋙ forget₂ CommRingCat RingCat).obj V] y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Tensor.ringSheaf (toRingedTopos X).O)
-          (𝟙 (Tensor.ringSheaf (toRingedTopos X).O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app
+          ((Tensor.sheafificationForgetAdjunction (toRingedTopos X).O).unit.app
         (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj) M.val N.val))
         (f.u.op.obj V)
         (x ⊗ₜ[((toRingedTopos X).O.obj ⋙ forget₂ CommRingCat RingCat).obj (f.u.op.obj V)] y) := by
@@ -363,9 +346,7 @@ theorem HomGeneral.tensorCounitComposite_val_app_unit_tmul
           ((adj.unit.app (((Tensor.sheafTensor (toRingedTopos Y).O).obj
               ((_root_.SheafOfModules.pushforward.{w} φ).obj M)).obj
               ((_root_.SheafOfModules.pushforward.{w} φ).obj N))).val.app V
-            (((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.Sheaves.RingedToposModules.commRingSheaf Y.J (toRingedTopos Y).O.obj
-                  (Tensor.ringSheaf (toRingedTopos Y).O).property) (𝟙 _)).unit.app
+            (((Tensor.sheafificationForgetAdjunction (toRingedTopos Y).O).unit.app
               (((_root_.SheafOfModules.pushforward.{w} φ).obj M).val ⊗
                 ((_root_.SheafOfModules.pushforward.{w} φ).obj N).val)).app V
               (x ⊗ₜ[(ringPresheaf (toRingedTopos Y).O.obj).obj V] y))))) = _
@@ -520,19 +501,16 @@ theorem restrictModuleTensorIso_inv_val_app_unit_tmul
     (V : (S.zariskiRingedSite).Cᵒᵖ) (x : ((restrictModule B S hS).obj M).val.obj V)
     (y : ((restrictModule B S hS).obj N).val.obj V) :
     (restrictModuleTensorIso B S hS M N hM hN).inv.val.app V
-        (_root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf S.zariskiRingedSite.toRingedTopos.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-              S.zariskiRingedSite.toRingedTopos.O).obj)).unit.app
+        (_root_.PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            S.zariskiRingedSite.toRingedTopos.O).unit.app
           (PresheafOfModules.tensorObj (O := S.zariskiRingedSite.toRingedTopos.O.obj)
             ((restrictModule B S hS).obj M).val ((restrictModule B S hS).obj N).val)) V
           (x ⊗ₜ[(S.zariskiRingedSite.toRingedTopos.O.obj ⋙ forget₂ CommRingCat RingCat).obj V]
             y)) =
-      _root_.PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            (smallEtaleRingedSite B S hS).toRingedTopos.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            (smallEtaleRingedSite B S hS).toRingedTopos.O).obj)).unit.app
+      _root_.PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (smallEtaleRingedSite B S hS).toRingedTopos.O).unit.app
         (PresheafOfModules.tensorObj (O := (smallEtaleRingedSite B S hS).toRingedTopos.O.obj)
           M.val N.val))
         ((toZariskiRingedSiteHom B S hS).u.op.obj V)
@@ -557,10 +535,8 @@ theorem restrictModuleTensorIso_inv_val_app_unit_tmul
           (((associatedModuleAdjunction B S hS).unit.app
             (((Stacks.SheafOfModules.Tensor.sheafTensor S.zariskiRingedSite.toRingedTopos.O).obj
               ((restrictModule B S hS).obj M)).obj ((restrictModule B S hS).obj N))).val.app V
-            (((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf S.zariskiRingedSite.J S.zariskiRingedSite.toRingedTopos.O.obj
-                (Stacks.SheafOfModules.Tensor.ringSheaf
-                  S.zariskiRingedSite.toRingedTopos.O).property) (𝟙 _)).unit.app
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              S.zariskiRingedSite.toRingedTopos.O).unit.app
               (((restrictModule B S hS).obj M).val ⊗ ((restrictModule B S hS).obj N).val)).app V
               (x ⊗ₜ[(ringPresheaf S.zariskiRingedSite.toRingedTopos.O.obj).obj V] y))))) = _
   rw [hK]

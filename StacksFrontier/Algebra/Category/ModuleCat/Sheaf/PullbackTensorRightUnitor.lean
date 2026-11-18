@@ -432,23 +432,23 @@ private lemma rightUnitorFactor_val_app_unit_tmul
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).val.obj V)
     (r : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V) (hr : ν.val.app V t = r) :
     (rightUnitorFactor f A ν).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf X.J X.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
             ((pullbackObj f A).val ⊗
               (pullbackObj f
                 (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).val)).app V
           (u ⊗ₜ[(ringPresheaf X.O.obj).obj V] t)) =
       r • u := by
   subst hr
+  refine (congrArg _
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      X.O _ V _)).trans ?_
   unfold rightUnitorFactor
   rw [Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
   refine Eq.trans (CategoryTheory.comp_apply _ _ _) ?_
   refine Eq.trans (congrArg ((tensorSheafUnitRightIso X.O.obj
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
       (pullbackObj f A)).hom.val.app V)
-    (TensorSheafification.sheafification_map_val_app_unit X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
+    (Stacks.SheafOfModules.Tensor.unit_naturality_apply
       (PresheafOfModules.tensorHom (O := X.O.obj)
         (SheafOfModules.Hom.val (𝟙 (pullbackObj f A))) ν.val) V
       (u ⊗ₜ[(ringPresheaf X.O.obj).obj V] t))) ?_
@@ -798,9 +798,7 @@ private lemma transposedComparison_eq
   have hRHS : ((tensorSheafUnitRightIso Y.O.obj
       (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property A).hom ≫
         (pullbackAdjPushforwardModules f).unit.app A).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf Y.J Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (A.val ⊗ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).val)).app U
           (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
@@ -812,6 +810,9 @@ private lemma transposedComparison_eq
             (A := Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) A)
             (B := Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
               (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) a r)) := by
+    refine (congrArg _
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+        Y.O _ U _)).trans ?_
     refine Eq.trans (CategoryTheory.comp_apply _ _ _) ?_
     exact congrArg ((Sheaf.sectionsFunctor Y.J U).map
         ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map

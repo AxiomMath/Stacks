@@ -99,7 +99,8 @@ variable {J : GrothendieckTopology (BigEtaleOver B X.obj X.property)}
 include hJ
 
 /-- **Exactness of `π_X⁻¹`**, an ingredient of Stacks 0DDI (stated in full as
-`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`), for a topology on the slice equal to the slice
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`), for a topology on the slice equal to
+the slice
 topology. -/
 public theorem smallEtaleInclusion_sheafPullback_exact :
     PreservesFiniteLimits ((SmallEtale.inclusion B X.obj X.property).sheafPullback
@@ -113,7 +114,8 @@ public theorem smallEtaleInclusion_sheafPullback_exact :
   exact (exactFunctor_iff _).1 (projectionPullback_exact.{u, 0} B X.obj X.property)
 
 /-- **Exactness of `π_{X,*}`**, an ingredient of Stacks 0DDI (stated in full as
-`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`), for a topology on the slice equal to the slice
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`), for a topology on the slice equal to
+the slice
 topology. -/
 public theorem smallEtaleInclusion_sheafPushforward_exact :
     PreservesFiniteLimits ((SmallEtale.inclusion B X.obj X.property).sheafPushforwardContinuous
@@ -126,7 +128,8 @@ public theorem smallEtaleInclusion_sheafPushforward_exact :
 
 /-- **Full faithfulness of `π_X⁻¹`**, the underived ingredient of Stacks 0DDI (stated in full on
 the unbounded derived category as `AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`):
-the unit of `π_X⁻¹ ⊣ π_{X,*}` on abelian sheaves is an isomorphism, the inclusion of the small étale site being fully faithful and
+the unit of `π_X⁻¹ ⊣ π_{X,*}` on abelian sheaves is an isomorphism, the inclusion of the small étale
+site being fully faithful and
 cocontinuous. -/
 public theorem isIso_smallEtaleInclusion_sheafAdjunction_unit :
     IsIso ((SmallEtale.inclusion B X.obj X.property).sheafAdjunctionContinuous

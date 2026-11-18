@@ -77,9 +77,8 @@ a general algebraic space `T`, which the source proves by choosing a surjective 
 `U ⟶ T` and descending the pair read at it, is proved in
 `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSpaceDescent.lean`, as
 `AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceQuotientOfAlgebraicSpace` for
-`Q_{F/X/Y}` and
-`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceFinitePresentationQuotientOfAlgebraicSpaceUnconditional`
-for `Q^{fp}_{F/X/Y}`.
+`Q_{F/X/Y}` and, in the same namespace,
+`morEquivSpaceFinitePresentationQuotientOfAlgebraicSpaceUnconditional` for `Q^{fp}_{F/X/Y}`.
 
 **The universe of the identification.**  An algebraic space is a presheaf of `Type u` on the big
 fppf site, whereas the functor of quotients takes values in `Type (u + 1)`: its value at a test
@@ -350,7 +349,7 @@ the set of those pairs; the sheaf of the algebraic space of `U` is lifted to the
 functor of quotients, which adds and loses no morphism.  The full Stacks 0D3U, for an arbitrary
 algebraic space and for both `Q_{F/X/Y}` and `Q^{fp}_{F/X/Y}`, is
 `AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceQuotientOfAlgebraicSpace` and
-`AlgebraicGeometry.Space.QuotientSituation.morEquivSpaceFinitePresentationQuotientOfAlgebraicSpaceUnconditional`
+`morEquivSpaceFinitePresentationQuotientOfAlgebraicSpaceUnconditional` (same namespace)
 of `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSpaceDescent.lean`, which carry the tag. -/
 def morEquivSpaceQuotient (hc : ModulePushforwardCoherence B S hS)
     (U : BigFppfOver B S hS) :

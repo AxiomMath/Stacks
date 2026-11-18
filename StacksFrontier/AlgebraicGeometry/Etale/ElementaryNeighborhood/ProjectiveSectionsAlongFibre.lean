@@ -603,10 +603,10 @@ theorem exists_elementary_pointed_projective_cover
     z A.point (hpz.trans (hpa i).symm)
   refine ⟨Sigma.ι Y₁ i w, ?_, ?_⟩
   · change (Sigma.ι Y₁ i ≫ g) w = f.fiberι s x
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (congrArg (g₀ i) hwz).trans hgz
   · change (Sigma.ι Y₁ i ≫ h) w = A.point
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact hwA
 
 /-- A form of Tag 05KW whose covering clause is the inclusion `X_s ⊆ g(X')` only. Let

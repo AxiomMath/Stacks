@@ -37,8 +37,8 @@ monoidal structure on sheaves of `𝒪_X`-modules has this tensor product.
 The object comparisons are `rfl`: the two presheaves of modules have the same modules of
 sections, and their restriction maps are `TensorProduct.lift` of bilinear maps with the same
 underlying function. Sheafification preserves the identification because on both sides it is
-`PresheafOfModules.sheafification` at the identity of the same ring presheaf. The morphism
-comparisons use `Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map`.
+the sealed `Stacks.SheafOfModules.Tensor.sheafification` over the same sheaf of rings. The
+morphism comparisons use `Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map`.
 
 The ringed space is taken at a single universe, `AlgebraicGeometry.RingedSpace.{u, u}`, which is
 also the single module universe of Mathlib's monoidal structure on presheaves of modules.
@@ -109,16 +109,17 @@ theorem tensorSheaf_eq :
 
 end Sheaf
 
-/-- The morphism of tensor product sheaves induced by `f` and `g` is the sheafification of the
-monoidal product of the underlying morphisms of presheaves of modules. -/
+/-- The morphism of tensor product sheaves induced by `f` and `g` is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the monoidal product of the underlying morphisms
+of presheaves of modules. -/
 theorem tensorSheafMap_eq_sheafifyMap
     {A A' B B' : SheafOfModules.{u} (structureSheafRing
       X)}
     (f : A ⟶ A') (g : B ⟶ B') :
     ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) =
-      (Stacks.SheafOfModules.sheafifyFunctor X.presheaf
-        (structureSheafRing X).property).map (f.val ⊗ₘ g.val) :=
+      (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨X.presheaf, X.IsSheaf⟩).map (f.val ⊗ₘ g.val) :=
   Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map X.sheaf f g
 
 /-- There is a monoidal structure on sheaves of `𝒪_X`-modules on a ringed space whose unit is

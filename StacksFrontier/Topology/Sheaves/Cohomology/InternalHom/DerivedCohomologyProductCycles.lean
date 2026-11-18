@@ -481,15 +481,15 @@ theorem homologyComposition_eq_derived (i j : ℤ) :
       Iso.inv_hom_id_assoc]
 
 /-- **The bilinear pairing on local sections is the composition pairing read through the unit of
-the sheafification adjunction.** This is the definition of
-`Stacks.SheafOfModules.homologyMul`, recorded so that the identification of
+the sheafification adjunction** `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`
+(the sheafification inside `⊗_{O_X}`, with the plain forgetful functor as right adjoint). This is
+the definition of `Stacks.SheafOfModules.homologyMul`, recorded so that the identification of
 `Stacks.SheafOfModules.homologyComposition` with the derived composition product is an
 identification of `homologyMul` with it. -/
 theorem homologyMul_eq_toBilinear (i j : ℤ) :
     homologyMul Rc K L M i j =
       PresheafOfModules.toBilinear
-        (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (ringedSite Rc).O).obj)).unit.app
+        (((Tensor.sheafificationForgetAdjunction (ringedSite Rc).O).unit.app
             (((RingedSite.sheafHomComplex (ringedSite Rc) L M).obj.homology i).val ⊗
               ((RingedSite.sheafHomComplex (ringedSite Rc) K L).obj.homology j).val)) ≫
           (homologyComposition Rc K L M i j).val) := rfl

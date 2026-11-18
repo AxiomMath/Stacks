@@ -187,13 +187,12 @@ theorem exists_pushforwardUnitTensorMulHom_app_eq (U : (SmallEtale B S hS X.1)�
         (smallEtaleRingedSite B S hS X.1 X.2).O).obj E).obj
           (chartBaseChangeStructureModule B S hS f hf)).val.obj U,
       (pushforwardUnitTensorMulHom φ).val.app U z = pushforwardUnitScale φ (V := U.unop) e b := by
-  have h := congrArg (fun ψ => ψ.app U (e ⊗ₜ[(smallEtaleRingedSite B S hS X.1 X.2).O.obj.obj U] b))
-    (PresheafOfModules.toPresheaf_map_sheafificationHomEquiv_def
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        (smallEtaleRingedSite B S hS X.1 X.2).O).obj) (pushforwardUnitTensorMulHom φ))
-  refine ⟨_, h.symm.trans ?_⟩
-  erw [tensorHomEquivPresheafTensorHom_mulHom]
-  rfl
+  refine ⟨_, (PresheafOfModules.hom_congr_apply'
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction _).homEquiv_unit _ _
+      (pushforwardUnitTensorMulHom φ)) U
+        (e ⊗ₜ[(smallEtaleRingedSite B S hS X.1 X.2).O.obj.obj U] b)).symm.trans ?_⟩
+  exact PresheafOfModules.hom_congr_apply' (tensorHomEquivPresheafTensorHom_mulHom φ) U
+    (e ⊗ₜ[(smallEtaleRingedSite B S hS X.1 X.2).O.obj.obj U] b)
 
 /-! ### The image is the kernel of the cokernel map, locally -/
 
@@ -247,8 +246,7 @@ private theorem tensorHomEquivPresheafTensorHom_comp {N : Modules.{u, u} B S hS 
     (c : (chartBaseChangeStructureModule B S hS f hf) ⟶ N) :
     Stacks.SheafOfModules.tensorHomEquivPresheafTensorHom (a ≫ c) =
       Stacks.SheafOfModules.tensorHomEquivPresheafTensorHom a ≫ c.val :=
-  (PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-    (smallEtaleRingedSite B S hS X.1 X.2).O).obj)).homEquiv_naturality_right a c
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction _).homEquiv_naturality_right a c
 
 /-- **If the image of `φ` is closed under multiplication by `f_*𝒪_Y`, then
 `ℰ ⊗ f_*𝒪_Y ⟶ f_*𝒪_Y ⟶ coker φ` vanishes.** -/

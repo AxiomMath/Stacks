@@ -139,8 +139,9 @@ noncomputable def tensorGlobalSection
     ((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
         (F)).obj (G))).val.obj (op (⊤_ C)) :=
-  (TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app (op (⊤_ C))
-    (s ⊗ₜ[(O.obj (op (⊤_ C)))] t)
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).unit.app
+        (F.val ⊗ G.val)).app (op (⊤_ C)) (s ⊗ₜ[(O.obj (op (⊤_ C)))] t)
 
 /-- The pairing of global sections is additive in its left argument. -/
 theorem tensorGlobalSection_add_left

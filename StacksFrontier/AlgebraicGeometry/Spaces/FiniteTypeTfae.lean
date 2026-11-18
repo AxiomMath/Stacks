@@ -16,7 +16,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.QuasiFiniteBaseChange
 # Local finite type of a morphism of algebraic spaces is étale local
 
 Tag 040Y is a nine-way equivalence for a morphism `f : X ⟶ Y` of algebraic spaces over a
-scheme `S`. Six of the nine conditions are compared here with the first: `f` is locally of finite type (1);
+scheme `S`. Six of the nine conditions are compared here with the first: `f` is locally of finite
+type (1);
 the base change of `f` to every scheme over `Y` is locally of finite type (3); the base
 change of `f` to *one* surjective étale scheme over `Y` is locally of finite type (5); the
 composite of `f` with *one* surjective étale chart of `X` is locally of finite type (6); the

@@ -3,8 +3,7 @@ module
 public import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModule
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.StructureSheafCohomology
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.StructureSheafCohomology
 
 /-!
 # The dualizing module of a rational surface singularity

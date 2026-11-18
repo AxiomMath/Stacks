@@ -84,8 +84,8 @@ theorem pullbackTensorIso_hom_app_naturality_right
     (pullbackTensorIso f).hom.app (F, G) ≫
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).obj
         (f.pullbackModules.obj F)).map (f.pullbackModules.map φ) := by
-  have := (pullbackTensorIso f).hom.naturality ((𝟙 F, φ) : (F, G) ⟶ (F, G'))
-  simpa using this
+  simpa [Functor.uncurry_obj_map, -Tensor.sheafTensor_uncurry_map, -Tensor.sheafTensor_obj_map]
+    using (pullbackTensorIso f).hom.naturality ((𝟙 F, φ) : (F, G) ⟶ (F, G'))
 
 end Stacks.SheafOfModules
 

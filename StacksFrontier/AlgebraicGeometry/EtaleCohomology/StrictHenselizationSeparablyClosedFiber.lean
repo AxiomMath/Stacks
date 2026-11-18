@@ -69,7 +69,8 @@ Tag 0EZV as printed is false, and such a presentation need not exist; see
 statement, condition (1) if and only if condition (2) at every lift `k'` of `Spec K ⟶ S` to the
 strict henselization, is
 `Stacks.EtaleCohomology.bijective_strictHenselizationFiberCohomologyPullback_iff` in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationSeparablyClosedFiberCohomology`.
+`StrictHenselizationSeparablyClosedFiberCohomology` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology`.
 
 ## Implementation notes
 
@@ -88,7 +89,8 @@ identification is where the source's proof goes wrong: the copies of `Spec K` in
 limit correspond to the different lifts `k'` of `Spec K ⟶ S` to `Spec(𝒪^{sh}_{S,s̄})`, and the
 fibres of the morphism of strict henselizations over them need not agree with the fibre over the
 given point. The correct form of the argument, with each copy over its own lift, is carried out in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationSeparablyClosedFiberCohomology`,
+`StrictHenselizationSeparablyClosedFiberCohomology` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology`,
 which uses the geometric input proved here: the local structure of étale schemes over a separably
 closed field, the identification which turns both conditions into conditions on base changes of a
 single morphism, the affineness of all three fibre products, and the presentation of the

@@ -342,10 +342,8 @@ theorem naiveCupProduct_sheafTensorComplexPairing (S : RingedSpace.{u, u})
               (onePointRingedSpace ↥(baseRing S)).sheaf)
             (ComplexShape.up ℤ) a b n h).val (op ⊤)
           (Hom.app
-            ((PresheafOfModules.sheafificationAdjunction
-                  (R := structureRingSheaf (onePointRingedSpace ↥(baseRing S)))
-                  (𝟙 (structureRingSheaf
-                    (onePointRingedSpace ↥(baseRing S))).obj)).unit.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+                  (onePointRingedSpace ↥(baseRing S)).sheaf).unit.app
               (PresheafOfModules.tensorObj
                 (O := (onePointRingedSpace ↥(baseRing S)).presheaf)
                 ((pushforwardFunctor (toCoeffPoint S)).obj (K.X a)).val

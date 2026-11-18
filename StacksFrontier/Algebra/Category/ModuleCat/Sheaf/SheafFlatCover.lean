@@ -500,6 +500,19 @@ noncomputable def forgetCompModuleSheafificationIso :
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit)
   exact e
 
+/-- Tensoring sheaves of modules on the right with `F` is forgetting to presheaves of modules,
+tensoring on the right with `F.val` and sheafifying with `Stacks.moduleSheafification`: the
+whiskering of the defining equation `Stacks.SheafOfModules.Tensor.sheafification_def` of the
+sealed sheafification inside `Stacks.SheafOfModules.Tensor.sheafTensor`. -/
+private noncomputable def sheafTensorFlipObjIso
+    (F : SheafOfModules.{max t w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max t w, max t w} O).flip.obj F ≅
+      SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙ tensorRightOf O F.val ⋙
+        moduleSheafification O :=
+  Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O))
+    (Functor.isoWhiskerLeft (tensorRightOf O F.val)
+      (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def O)))
+
 /-- **The tensor product of sheaves of modules is right exact in the first variable.**
 
 A colimit cocone of sheaves of modules stays a colimit after tensoring with a fixed sheaf of
@@ -534,8 +547,12 @@ noncomputable def isColimitSheafTensorRightMapCocone
     (ringSheafCompare O) _ hu
   haveI := hW.isLocallyInjective
   haveI := hW.isLocallySurjective
-  refine isColimitMapCocone hP (tensorRightOf O F.val ⋙ moduleSheafification O)
+  haveI : PreservesColimitsOfSize.{s', s} (Stacks.SheafOfModules.Tensor.sheafification O) :=
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).leftAdjoint_preservesColimits
+  refine isColimitMapCocone hP
+    (tensorRightOf O F.val ⋙ Stacks.SheafOfModules.Tensor.sheafification O)
     ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O)).mapCocone c) ?_
+  rw [Stacks.SheafOfModules.Tensor.sheafification_def]
   exact isIso_sheafification_map_tensorRight_map (O := O.obj)
     (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (N := F.val) (ringSheafCompare O)
     (hP.desc ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O)).mapCocone c))
@@ -651,7 +668,7 @@ theorem isFlat_flatCover : SheafOfModules.IsFlat (flatCover O G) := by
     comp_preservesFiniteLimits _ _
   exact preservesFiniteLimits_of_natIso
     (Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O))
-      (tensorRightFlatCoverIso O G))
+      (tensorRightFlatCoverIso O G) ≪≫ (sheafTensorFlipObjIso O (flatCover O G)).symm)
 
 end FlatCover
 
@@ -679,12 +696,15 @@ noncomputable def tensorRightComplexIso
     tensorRightComplex O M E ≅
       E.map ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max t w, max t w} O).flip.obj M) :=
   ShortComplex.isoMk
-    ((moduleSheafification O).mapIso (tensorObjComm (O := O.obj) M.val E.X₁.val))
-    ((moduleSheafification O).mapIso (tensorObjComm (O := O.obj) M.val E.X₂.val))
-    ((moduleSheafification O).mapIso (tensorObjComm (O := O.obj) M.val E.X₃.val))
-    (map_comp_eq_map_comp (moduleSheafification O)
+    ((Stacks.SheafOfModules.Tensor.sheafification O).mapIso
+      (tensorObjComm (O := O.obj) M.val E.X₁.val))
+    ((Stacks.SheafOfModules.Tensor.sheafification O).mapIso
+      (tensorObjComm (O := O.obj) M.val E.X₂.val))
+    ((Stacks.SheafOfModules.Tensor.sheafification O).mapIso
+      (tensorObjComm (O := O.obj) M.val E.X₃.val))
+    (map_comp_eq_map_comp (Stacks.SheafOfModules.Tensor.sheafification O)
       (tensorCommHom_comp_tensorRight_map (O := O.obj) M.val E.f.val).symm)
-    (map_comp_eq_map_comp (moduleSheafification O)
+    (map_comp_eq_map_comp (Stacks.SheafOfModules.Tensor.sheafification O)
       (tensorCommHom_comp_tensorRight_map (O := O.obj) M.val E.g.val).symm)
 
 /-- A short exact sequence of sheaves of modules stays exact on the right when tensored with

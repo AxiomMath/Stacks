@@ -58,12 +58,14 @@ namespace OXModule
 is the *exactness* of that endofunctor, which is
 `AlgebraicGeometry.SheafOfModules.IsFlat`. The endofunctor is right exact, so the two agree —
 this is `AlgebraicGeometry.SheafOfModules.sheafTensorRight_exact_iff_preservesMonomorphisms`,
-read at a ringed space. -/
+read at a ringed space (`OXModule.tensorBy` uses Mathlib's sheafification, `sheafTensor` the
+sealed one; `Stacks.SheafOfModules.Tensor.sheafificationIso` identifies them). -/
 theorem flat_iff_isFlat {X : RingedSpace.{u, u}} (F : OXMod.{u, u} X) :
-    OXModule.Flat F ↔ AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F := by
-  change (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj
-      F)).PreservesMonomorphisms ↔ _
-  exact
+    OXModule.Flat F ↔ AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F :=
+  (Functor.PreservesMonomorphisms.iso_iff
+    (Functor.isoWhiskerLeft
+      (SheafOfModules.forget (ringSheaf X) ⋙ MonoidalCategory.tensorRight F.val)
+      (Stacks.SheafOfModules.Tensor.sheafificationIso X.sheaf))).trans
     (AlgebraicGeometry.SheafOfModules.sheafTensorRight_exact_iff_preservesMonomorphisms
       X.sheaf F).symm
 

@@ -29,10 +29,12 @@ endofunctor of `Mod(𝒪)` that [Stacks, Tag 099H] is stated for.
 ## Implementation notes
 
 Both sides are sheafifications of a sectionwise tensor product, so the comparison is built in
-two steps and then whiskered: the presheaf-level symmetry of the tensor product, and the
-commutation of restriction of scalars with sheafification
+three steps and then whiskered: the commutation of restriction of scalars with sheafification
 (`AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso`, whose naturality holds by
-`rfl` because the comparison is the identity on sections).
+`rfl` because the comparison is the identity on sections), the presheaf-level symmetry of the
+tensor product, and `Stacks.SheafOfModules.Tensor.sheafificationIso`, which passes from Mathlib's
+sheafification `shf` to the sealed `Stacks.SheafOfModules.Tensor.sheafification` that
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends with.
 
 The presheaf step is *not* `rfl` at the level of functors, although it is at the level of
 objects: `Stacks.PresheafOfModules.ChangeOfRings.cofObj` and
@@ -197,7 +199,9 @@ is. -/
 instance additive_extendScalarsSheaf : (extendScalarsSheaf α).Additive :=
   Adjunction.left_adjoint_additive (adjunction α)
 
-/-- Extension of scalars along `α`, read back over `O`, is tensoring with `O'`. -/
+/-- Extension of scalars along `α`, read back over `O`, is tensoring with `O'`: restriction of
+scalars commutes with sheafification, then the sheafified braiding of the presheaf tensor product,
+then `Stacks.SheafOfModules.Tensor.sheafificationIso` into the sealed sheafification. -/
 def extendRestrictScalarsTensorIso :
     extendScalarsSheaf α ⋙ _root_.SheafOfModules.restrictScalars (ringSheafMap α) ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj
@@ -207,7 +211,9 @@ def extendRestrictScalarsTensorIso :
         Stacks.PresheafOfModules.ChangeOfRings.changeOfRings α.hom)
       (sheafifyRestrictNatIso α) ≪≫
     Functor.isoWhiskerLeft (_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O))
-      (Functor.isoWhiskerRight (presheafExtendRestrictTensorIso α) (shf O))
+      (Functor.isoWhiskerRight (presheafExtendRestrictTensorIso α) (shf O) ≪≫
+        Functor.isoWhiskerLeft (PresheafOfModules.tensorRight (restrictedRingPresheaf α))
+          (Stacks.SheafOfModules.Tensor.sheafificationIso O))
 
 /-- `extendRestrictScalarsTensorIso` is compatible with the units: at every sheaf of
 `O`-modules `G` the unit `G ⟶ (G ⊗_O O')_{O}` of the change-of-rings adjunction, read through
@@ -217,8 +223,9 @@ def extendRestrictScalarsTensorIso :
 Both are sections of a sheafification, so the comparison is checked on sections: the unit sends
 `x` to the image of `1 ⊗ x`
 (`Stacks.Sheaves.RingedToposModules.extendRestrictScalarsAdjunction_unit_app_val_app_apply`),
-the comparison is the identity on sections followed by the sheafified braiding, and the
-braiding carries `1 ⊗ x` to `x ⊗ 1`. -/
+the comparison is the identity on sections followed by the sheafified braiding and the passage
+to the sealed sheafification (`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`),
+and the braiding carries `1 ⊗ x` to `x ⊗ 1`. -/
 theorem adjunction_unit_comp_extendRestrictScalarsTensorIso
     (G : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     (adjunction α).unit.app G ≫ (extendRestrictScalarsTensorIso α).hom.app G =
@@ -230,46 +237,23 @@ theorem adjunction_unit_comp_extendRestrictScalarsTensorIso
   refine ModuleCat.hom_ext ?_
   refine LinearMap.ext (fun x => ?_)
   let := (α.hom.app X).hom.toAlgebra
-  let e : ((PresheafOfModules.tensorLeft (restrictedRingPresheaf α)).obj G.val).obj X :=
-    (1 : O'.obj.obj X) ⊗ₜ x
-  have hnat := (PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.naturality
-      ((PresheafOfModules.tensorLeftIsoTensorRight (restrictedRingPresheaf α)).hom.app G.val)
-  have key1 := congrArg (fun k : _ ⟶ _ => PresheafOfModules.Hom.app k X) hnat
-  have key2 := congrArg (fun m : _ ⟶ _ => (ModuleCat.Hom.hom m) e) key1
-  have key :
-      ((((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
-          ((PresheafOfModules.tensorRight (restrictedRingPresheaf α)).obj G.val)).app X).hom
-        ((((PresheafOfModules.tensorLeftIsoTensorRight
-            (restrictedRingPresheaf α)).hom.app G.val).app X).hom e)) =
-      ((((shf O).map ((PresheafOfModules.tensorLeftIsoTensorRight
-            (restrictedRingPresheaf α)).hom.app G.val)).val.app X).hom
-        ((((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
-          ((PresheafOfModules.tensorLeft (restrictedRingPresheaf α)).obj G.val)).app X).hom e)) :=
-    key2
-  have hbridge :
-      (ConcreteCategory.hom ((CategoryTheory.toSheafify J
-          ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings α.hom).obj
-            G.val).presheaf).app X)) e =
-      ((((PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
-          ((PresheafOfModules.tensorLeft (restrictedRingPresheaf α)).obj G.val)).app X).hom e) :=
-    rfl
-  have hu :=
-    (Stacks.Sheaves.RingedToposModules.extendRestrictScalarsAdjunction_unit_app_val_app_apply
-      J α.hom (Stacks.SheafOfModules.Tensor.ringSheaf O).property
-      (Stacks.SheafOfModules.Tensor.ringSheaf O').property
-      G X x).trans hbridge
-  have hr := (Stacks.Sheaves.FlatNeighbourhood.tensorUnitMap α G).2 X x
-  refine Eq.trans ?_ hr.symm
-  exact (congrArg (fun z => ((((shf O).map ((PresheafOfModules.tensorLeftIsoTensorRight
-      (restrictedRingPresheaf α)).hom.app G.val)).val.app X).hom z)) hu).trans key.symm
+  refine Eq.trans ?_ ((Stacks.Sheaves.FlatNeighbourhood.tensorUnitMap α G).2 X x).symm
+  exact (congrArg (PresheafOfModules.Hom.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationIso O).hom.app
+        ((PresheafOfModules.tensorRight (restrictedRingPresheaf α)).obj G.val)).val X)
+    ((congrArg (PresheafOfModules.Hom.app ((shf O).map
+        ((PresheafOfModules.tensorLeftIsoTensorRight (restrictedRingPresheaf α)).hom.app
+          G.val)).val X)
+      (Stacks.Sheaves.RingedToposModules.extendRestrictScalarsAdjunction_unit_app_val_app_apply
+        J α.hom (Stacks.SheafOfModules.Tensor.ringSheaf O).property
+        (Stacks.SheafOfModules.Tensor.ringSheaf O').property G X x)).trans
+      (PresheafOfModules.unit_naturality_apply
+        (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
+        ((PresheafOfModules.tensorLeftIsoTensorRight (restrictedRingPresheaf α)).hom.app G.val) X
+        ((1 : O'.obj.obj X) ⊗ₜ x)))).trans
+    ((PresheafOfModules.hom_congr_apply'
+      (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app O _) X _).trans
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply O _ X _).symm)
 
 end Stacks.SheafOfModules.ExtendScalarsTensor
 

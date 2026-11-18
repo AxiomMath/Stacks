@@ -743,7 +743,7 @@ theorem ι_gradedSheafHomCompSum (k : ℤ) (p : {p : ℤ × ℤ // p.1 + p.2 = k
         gradedSheafHomTensor O K L M p.1.1 p.1.2) p ≫ gradedSheafHomCompSum O k =
       gradedSheafHomComp O p.1.1 p.1.2 ≫
         eqToHom (congrArg (gradedLocalHomSheaf K M) (by have := p.2; omega)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 end CompositionMap
 

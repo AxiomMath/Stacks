@@ -161,13 +161,17 @@ noncomputable def tensorSheafBraiding
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj N ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj M :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (braidingVal O hO N M)
+  (Stacks.SheafOfModules.Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
+      (braidingVal O hO N M)
 
 /-- The underlying morphism of the braiding of the tensor product sheaf. -/
 private theorem tensorSheafBraiding_hom
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorSheafBraiding O hO M N).hom =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (braidingVal O hO N M).hom :=
+      (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).map
+          (braidingVal O hO N M).hom :=
   rfl
 
 /-- The braiding of the tensor product sheaf is a symmetry: braiding twice is the identity. -/
@@ -333,8 +337,8 @@ theorem braidingScalar_zero : braidingScalar O hO L 0 = 𝟙 _ := by
     rw [braiding_tensorUnit_left, MonoidalCategory.unitors_equal, Iso.hom_inv_id]
   rw [← tensorSheafBraiding_self_eq_refl_iff]
   refine Iso.ext ?_
-  rw [tensorSheafBraiding_hom, hβ, CategoryTheory.Functor.map_id]
-  rfl
+  rw [tensorSheafBraiding_hom, hβ]
+  exact CategoryTheory.Functor.map_id _ _
 
 end TensorPower
 

@@ -37,7 +37,8 @@ transported to a ringed site. Three levels:
 
 * **Sheaves.** `⊗_𝒪` is the sheafification of the objectwise tensor product, so both sides are
   morphisms out of a sheafification and agree as soon as their adjoint transposes do. Against
-  the unit of `PresheafOfModules.sheafificationAdjunction` the left-hand side is the objectwise
+  the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` (the sealed sheafification
+  `sheafTensor` ends with) the left-hand side is the objectwise
   statement `x ⊗ (a · y) = a · (x ⊗ y)` — `TensorProduct.tmul_smul` — and the right-hand side is
   the `𝒪`-linearity of that unit. This mirrors
   `AlgebraicGeometry.SheafOfModules.sheafTensorRight_map_globalSectionToEnd`, which is the same
@@ -116,21 +117,15 @@ theorem sheafTensor_obj_map_globalSectionToEnd
           (ringSheaf X.O) a).asHom.app N) =
       (globalSectionToEnd
         (ringSheaf X.O) a).asHom.app (((sheafTensor.{u, u, u, u, u} X.O).obj M).obj N) := by
-  refine ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (ringSheaf X.O).obj)).homEquiv _ _).injective ?_
-  refine (((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (ringSheaf X.O).obj)).unit.naturality
-    (PresheafOfModules.tensorHom (𝟙 M.val)
-      ((globalSectionToEnd
-        (ringSheaf X.O) a).asHom.app N).val)).symm).trans ?_
+  refine sheafification_hom_ext ((unit_comp_map (PresheafOfModules.tensorHom (𝟙 M.val)
+    ((globalSectionToEnd (ringSheaf X.O) a).asHom.app N).val)).trans ?_)
   refine PresheafOfModules.hom_ext fun U => ?_
   refine ModuleCat.MonoidalCategory.tensor_ext fun x y => ?_
-  refine Eq.trans ?_ ((((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (ringSheaf X.O).obj)).unit.app
-        (PresheafOfModules.tensorObj M.val N.val)).app U).hom.map_smul
-    (a.val U) (x ⊗ₜ y))
-  exact congrArg _ (TensorProduct.tmul_smul
-    (R' := ToType ((X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U)) (a.val U) x y)
+  let η := (((sheafificationAdjunction X.O).unit.app
+    (PresheafOfModules.tensorObj M.val N.val)).app U).hom
+  exact (congrArg η (TensorProduct.tmul_smul
+    (R' := ToType ((X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U)) (a.val U) x y)).trans
+    (η.map_smul (a.val U) (x ⊗ₜ y))
 
 /-- The same statement with multiplication by `a` written as the action of the central element
 it defines on an identity morphism, which is the form the linear structure of [Stacks, Tag 0999]

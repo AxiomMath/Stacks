@@ -26,6 +26,9 @@ is.
   surjectivity on stalks, at the presheaf level.
 * `Stacks.SectionProduct.pstalkHom_toSheafify_bijective`: sheafification does not change stalks,
   for presheaves of modules.
+* `Stacks.SectionProduct.surjStalk_sheafification_map`: sheafification preserves surjectivity on
+  stalks, for the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` that ends
+  the tensor product of sheaves of modules.
 * `Stacks.SectionProduct.SurjStalk.whiskerLeft`, `Stacks.SectionProduct.SurjStalk.whiskerRight`:
   the same for the monoidal structure on `SheafOfModules`.
 * `Stacks.SectionProduct.surjStalk_mulMap`: multiplication by a section is surjective on the
@@ -314,6 +317,20 @@ theorem surjStalk_sheafify_map {P Q : PresheafOfModulesOfCommRing.{u} X.presheaf
       ((sheafify X.presheaf (hStruct X)).map φ) x :=
   surjective_pstalkHom_sheafify_map φ x h
 
+/-- **Sheafification preserves surjectivity on stalks**, for the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` that ends the tensor product of sheaves of modules:
+it is `sheafify` up to the isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+theorem surjStalk_sheafification_map {P Q : PresheafOfModulesOfCommRing.{u} X.presheaf}
+    (φ : P ⟶ Q) (x : X) (h : Function.Surjective (pstalkHom φ x)) :
+    SurjStalk ((Stacks.SheafOfModules.Tensor.sheafification
+      ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf
+        (forget₂ CommRingCat RingCat) (hStruct X)⟩).map φ) x := by
+  let e := Stacks.SheafOfModules.Tensor.sheafificationIso.{u, u, u, u}
+    ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf
+      (forget₂ CommRingCat RingCat) (hStruct X)⟩
+  exact SurjStalk.of_comp_left _ (surjStalk_congr (e.hom.naturality φ)
+    ((surjStalk_sheafify_map φ x h).comp (surjStalk_of_inv (e.inv_hom_id_app Q) x)))
+
 /-- **Tensoring on the left preserves surjectivity on stalks.** -/
 theorem SurjStalk.whiskerLeft (A : X.Modules) {M N : X.Modules} (f : M ⟶ N) {x : X}
     (h : SurjStalk f x) : SurjStalk (A ◁ f) x := by
@@ -321,7 +338,7 @@ theorem SurjStalk.whiskerLeft (A : X.Modules) {M N : X.Modules} (f : M ⟶ N) {x
   refine SurjStalk.of_comp_right _ (e.hom_inv_id_app N) ?_
   refine surjStalk_congr (e.hom.naturality f).symm ?_
   exact (surjStalk_of_inv (e.inv_hom_id_app M) x).comp
-    (surjStalk_sheafify_map (PresheafOfModules.tensorHom (𝟙 A.val) f.val) x
+    (surjStalk_sheafification_map (PresheafOfModules.tensorHom (𝟙 A.val) f.val) x
       (pstalkHom_whiskerLeft_surjective A.val f.val x h))
 
 /-- **Tensoring on the right preserves surjectivity on stalks.** -/

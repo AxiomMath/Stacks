@@ -26,10 +26,13 @@ tensor product also commutes with the braiding, i.e. is lax braided, by the uniq
   `Stacks.SheafOfModules.tensorSheafBraiding` spelling of the symmetry constraint.
 * `Stacks.SheafOfModules.tensorSheafificationUnit_app_eq_tensorSectionsAt`: the two spellings of
   the sheafification unit of a tensor product agree on local pure tensors —
-  `PresheafOfModules.sheafificationAdjunction`, which the pullback tensor comparison of Tag 01CD
-  is stated with, and `Stacks.SheafOfModules.tensorSectionsAt`, which the section formulas use.
-  Both are the unit of the sheafification adjunction at the objectwise tensor product, so this
-  is `rfl`; it is recorded because neither name is usable against a goal stated with the other.
+  `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, which the pullback tensor comparison
+  of Tag 01CD is stated with, and `Stacks.SheafOfModules.tensorSectionsAt`, which the section
+  formulas use and which is built from
+  `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`.
+  Both are units of the sealed sheafification at the objectwise tensor product, and they agree on
+  sections by `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply`;
+  it is recorded because neither name is usable against a goal stated with the other.
 
 ## Implementation notes
 
@@ -101,21 +104,19 @@ variable {C' : Type u} [Category.{v} C'] {J' : GrothendieckTopology C'}
   [J'.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J' AddCommGrpCat.{w}]
 
 /-- The two spellings of the sheafification unit of a tensor product of sheaves of modules
-agree on local pure tensors: `PresheafOfModules.sheafificationAdjunction`, which the pullback
-tensor comparison of Tag 01CD is stated with, and `Stacks.SheafOfModules.tensorSectionsAt`,
-which the section formulas are stated with. Both are the unit of the sheafification adjunction
-at the objectwise tensor product. -/
+agree on local pure tensors: `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, which the
+pullback tensor comparison of Tag 01CD is stated with, and `Stacks.SheafOfModules.tensorSectionsAt`,
+which the section formulas are stated with. Both are units of the sealed sheafification at the
+objectwise tensor product, the second one with the plain forgetful functor as right adjoint. -/
 theorem tensorSheafificationUnit_app_eq_tensorSectionsAt (U : C'ᵒᵖ)
     (M N : _root_.SheafOfModules.{w} (CategoryTheory.Sheaf.toRingCat J' Osharp))
     (s : M.val.obj U) (t : N.val.obj U) :
-    ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj M.val N.val)).app U
         (s ⊗ₜ[Osharp.obj.obj U] t)
       = tensorSectionsAt Osharp.obj (CategoryTheory.Sheaf.toRingCat J' Osharp).property U M N
           s t :=
-  rfl
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _ _).symm
 
 end UnitSpellings
 

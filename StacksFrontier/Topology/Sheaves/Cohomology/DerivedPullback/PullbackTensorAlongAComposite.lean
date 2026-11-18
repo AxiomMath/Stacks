@@ -107,19 +107,13 @@ private lemma pullback_tensorSheaf_hom_ext {W : RingedSpace.{u, u}} (h : W ⟶ Z
       θ₁.val.app ((opensMap h).op.obj U)
           (pullbackUnit h (((Functor.uncurry.obj
               (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj (A, B)) U
-            (((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.RingedSpace.structureRingSheaf (Z))
-                (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app
-                  (PresheafOfModules.tensorObj (O := (Z).presheaf) (A).val (B).val)).app
-                    U (a ⊗ₜ b))) =
+            (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
+                (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app U (a ⊗ₜ b))) =
         θ₂.val.app ((opensMap h).op.obj U)
           (pullbackUnit h (((Functor.uncurry.obj
               (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj (A, B)) U
-            (((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.RingedSpace.structureRingSheaf (Z))
-                (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app
-                  (PresheafOfModules.tensorObj (O := (Z).presheaf) (A).val (B).val)).app
-                    U (a ⊗ₜ b)))) :
+            (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
+                (PresheafOfModules.tensorObj (O := Z.presheaf) A.val B.val)).app U (a ⊗ₜ b)))) :
     θ₁ = θ₂ := by
   refine ((pullbackAdjunction h).homEquiv (((Functor.uncurry.obj
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj (A, B))
@@ -228,9 +222,8 @@ theorem comparison_comp (A B : SheafOfModules.{u} (structureRingSheaf Z)) :
               (Stacks.DerivedPullback.Composition.modulePullbackComp f g).hom.app B)).val.app
           ((opensMap f).op.obj ((opensMap g).op.obj U))) comparedUnit).trans
       ((tensorSheaf_map_unit_tmul X _ _ _ _ _).trans
-        (congrArg₂ (fun leftValue rightValue => ((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+        (congrArg₂ (fun leftValue rightValue =>
+            ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
                 (PresheafOfModules.tensorObj (O := X.sheaf.obj)
                   ((modulePullback (f ≫ g)).obj A).val
                   ((modulePullback (f ≫ g)).obj B).val)).app

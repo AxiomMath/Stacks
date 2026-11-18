@@ -241,9 +241,7 @@ structure TensorExteriorSymmetricAlgebras.GeneratorForm where
             (show 1 + ((n + 1 : ℕ) : ℤ) = ((n + 2 : ℕ) : ℤ) by omega))
           ((tensor.mul 1 ((n + 1 : ℕ) : ℤ)).app U (tensorGenerator.map.val.app U s)
             ((tensorPieceIso (n + 1)).inv.val.app U x))) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)).app U
         (s ⊗ₜ[Osharp.obj.obj U] x)
   /-- The underlying graded direct sum is canonically the direct sum of tensor powers. -/
@@ -382,9 +380,7 @@ theorem tensorPieceIso_mul_left_of_eq (A : TensorExteriorSymmetricAlgebras J F) 
           (show 1 + ((n + 1 : ℕ) : ℤ) = ((n + 2 : ℕ) : ℤ) by omega))
         ((A.tensor.mul 1 ((n + 1 : ℕ) : ℤ)).app U (A.tensorGenerator.val.app U s)
           ((A.tensorPieceIso (n + 1) ≪≫ (eqToIso hY).symm).inv.val.app U x))) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
       (PresheafOfModules.tensorObj F.val Y.val)).app U
         (s ⊗ₜ[Osharp.obj.obj U] x) := by
   subst hY

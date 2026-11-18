@@ -45,7 +45,8 @@ schemes — in particular, over a field, of the proper scheme over that field.
 * `AlgebraicGeometry.factorsThroughCurvesLci_over_field_iff`: its instance over a field.
 
 The open substack `Curves^{lci}` of the algebraic stack of curves and the two parts of Stacks
-0DZV on it are in `StacksFrontier.AlgebraicGeometry.Quot.CurvesLocalCompleteIntersectionOpenSubstack`
+0DZV on it are in
+`StacksFrontier.AlgebraicGeometry.Quot.CurvesLocalCompleteIntersectionOpenSubstack`
 (`AlgebraicGeometry.exists_openSubstack_curvesLci`).
 
 ## Implementation notes

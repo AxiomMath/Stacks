@@ -70,10 +70,9 @@ place of `Stacks.SheafOfModules.bilinearEquivTensorSheafHom` and
 `Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso`. The first of those two is built from
 the second by applying base change to the outer tensor product and then correcting the inner
 factor, which needs the tensor product sheaf to be functorial in its left argument; that is the
-sheafification of a tensor of morphisms of presheaves of modules, and
-`Stacks.SheafOfModules.monoidalCategoryPresheafOfModules` has to be a local instance for that
-tensor to elaborate, exactly as in
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TrilinearTensorSheaf`.
+functor `Stacks.SheafOfModules.Tensor.sheafTensor` applied to an isomorphism, whose value is the
+sealed sheafification of a tensor of morphisms of presheaves of modules
+(`Stacks.SheafOfModules.Tensor.sheafTensor_map_app`).
 
 Only one coefficient universe occurs here, because extension of scalars along a morphism of
 presheaves of commutative rings keeps both rings in one universe; the two independent universes
@@ -101,8 +100,6 @@ universe w v u
 /-! ## Base change of a double tensor product sheaf -/
 
 namespace Stacks.Sheaves.RingedToposModules
-
-attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
 
 section TensorIso₃
 
@@ -135,10 +132,9 @@ def extendScalarsTensorIso₃ (F G H : SheafOfModules.{w} (commRingSheaf J A₁ 
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).obj (F)).obj
         (G))) H ≪≫
-    (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).mapIso
-      (((SheafOfModules.forget (commRingSheaf J A₂ h₂)).mapIso
-          (extendScalarsTensorIso θ h₁ h₂ F G)) ⊗ᵢ
-        Iso.refl ((extendScalars J θ h₁ h₂).obj H).val)
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+      ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂ (forget₂ CommRingCat RingCat) h₂⟩).mapIso
+        (extendScalarsTensorIso θ h₁ h₂ F G)).app ((extendScalars J θ h₁ h₂).obj H)
 
 end TensorIso₃
 
@@ -147,8 +143,6 @@ end Stacks.Sheaves.RingedToposModules
 /-! ## Base change of bilinear and trilinear pairings -/
 
 namespace Stacks.SheafOfModules
-
-attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
 
 section BaseChange
 

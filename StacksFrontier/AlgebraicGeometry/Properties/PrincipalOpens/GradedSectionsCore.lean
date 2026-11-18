@@ -108,14 +108,10 @@ theorem tensorSectionsAt_restrict
         ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map f
         (tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m n) =
       tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) W A B
-        (A.val.map f m) (B.val.map f n) := by
-  have h := (TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    (A.val ⊗ B.val)).naturality f
-  have hh := congrArg (fun k => k.hom (m ⊗ₜ[(sectionSiteRing X).obj V] n)) h
-  change ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-      (A.val ⊗ B.val)).app W).hom
-    ((A.val.map f).hom m ⊗ₜ[(sectionSiteRing X).obj W] (B.val.map f).hom n) = _ at hh
-  exact hh.symm
+        (A.val.map f m) (B.val.map f n) :=
+  (PresheafOfModules.naturality_apply ((Invertible.structureSheafificationAdjunction
+    (sectionSiteRing X) (sectionSiteSheaf X)).unit.app (A.val ⊗ B.val)) f
+      (m ⊗ₜ[(sectionSiteRing X).obj V] n)).symm
 
 /-- A scalar may be moved from one factor of a sectionwise tensor to the other. -/
 theorem tensorSectionsAt_smul_comm
@@ -124,8 +120,8 @@ theorem tensorSectionsAt_smul_comm
     (n : B.val.obj V) :
     tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B (r • m) n =
       tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m (r • n) :=
-  congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    (A.val ⊗ B.val)).app V).hom (TensorProduct.smul_tmul r m n)
+  congrArg (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+    (sectionSiteSheaf X)).unit.app (A.val ⊗ B.val)).app V).hom (TensorProduct.smul_tmul r m n)
 
 /-- Scalars may be pulled out of both factors of a sectionwise tensor. -/
 private theorem tensorSectionsAt_smul_smul
@@ -134,24 +130,27 @@ private theorem tensorSectionsAt_smul_smul
     (n : B.val.obj V) :
     tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B (r • m) (r' • n) =
       (r * r') • tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m n :=
-  (congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    (A.val ⊗ B.val)).app V).hom (TensorProduct.smul_tmul_smul r r' m n)).trans (map_smul _ _ _)
+  (congrArg (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+    (sectionSiteSheaf X)).unit.app (A.val ⊗ B.val)).app V).hom
+      (TensorProduct.smul_tmul_smul r r' m n)).trans (map_smul _ _ _)
 
 /-- A sectionwise tensor with a vanishing right factor vanishes. -/
 theorem tensorSectionsAt_zero_right
     (A B : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
     (V : (Opens X.toRingedSpace)ᵒᵖ) (m : A.val.obj V) :
     tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m 0 = 0 :=
-  (congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    (A.val ⊗ B.val)).app V).hom (TensorProduct.tmul_zero _ m)).trans (map_zero _)
+  (congrArg (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+    (sectionSiteSheaf X)).unit.app (A.val ⊗ B.val)).app V).hom
+      (TensorProduct.tmul_zero _ m)).trans (map_zero _)
 
 /-- A sectionwise tensor with a vanishing left factor vanishes. -/
 theorem tensorSectionsAt_zero_left
     (A B : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
     (V : (Opens X.toRingedSpace)ᵒᵖ) (n : B.val.obj V) :
     tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B 0 n = 0 :=
-  (congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    (A.val ⊗ B.val)).app V).hom (TensorProduct.zero_tmul _ n)).trans (map_zero _)
+  (congrArg (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+    (sectionSiteSheaf X)).unit.app (A.val ⊗ B.val)).app V).hom
+      (TensorProduct.zero_tmul _ n)).trans (map_zero _)
 
 /-- A sectionwise tensor is additive in its left factor. -/
 theorem tensorSectionsAt_sub_left
@@ -160,8 +159,9 @@ theorem tensorSectionsAt_sub_left
     tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B (m - m') n =
       tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m n -
         tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m' n :=
-  (congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    (A.val ⊗ B.val)).app V).hom (TensorProduct.sub_tmul m m' n)).trans (map_sub _ _ _)
+  (congrArg (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+    (sectionSiteSheaf X)).unit.app (A.val ⊗ B.val)).app V).hom
+      (TensorProduct.sub_tmul m m' n)).trans (map_sub _ _ _)
 
 /-- A global pure tensor restricts to zero on an open where the left factor is divisible by a
 function annihilating the restriction of the right factor. -/

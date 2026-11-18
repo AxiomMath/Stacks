@@ -167,7 +167,7 @@ private theorem inverseImageRingsDifferentialMap_d {X' X S' S : RingedSpace.{u, 
     (inverseImageBaseChangeMap f h h' g hcomm) (inverseImageBaseChangeMap_comm f h h' g hcomm) x
   have h3 := moduleOfDifferentialsIsoSectionwise_inv_d (inverseImageStructureMap h')
     (((inverseImageStructureMap f).hom.app ((opensMap f.hom.base).op.obj U)).hom x)
-  show ((moduleOfDifferentialsIsoSectionwise.{u, u} (inverseImageStructureMap h')).inv.val.app
+  change ((moduleOfDifferentialsIsoSectionwise.{u, u} (inverseImageStructureMap h')).inv.val.app
       ((opensMap f.hom.base).op.obj U)).hom
         (((Stacks.Sheaves.DifferentialsFunctorial.differentialMap
           (C := Opens X'.carrier) (J := Opens.grothendieckTopology X'.carrier) ι
@@ -220,7 +220,7 @@ theorem inverseImageDifferentialMapOfFunctoriality_d {X' X S' S : RingedSpace.{u
   have hiso := PresheafOfModulesOfCommRing.Derivation.congr_d
     (pullbackDifferentialsIso_compatible f.hom.base (inverseImageStructureMap h))
     (((inverseImageRingHom f.hom.base X.sheaf).hom.app U).hom a)
-  show ((inverseImageRingsDifferentialMap f h h' g hcomm).val.app
+  change ((inverseImageRingsDifferentialMap f h h' g hcomm).val.app
       ((opensMap f.hom.base).op.obj U)).hom
     (((pullbackDifferentialsIso f.hom.base (inverseImageStructureMap h)).hom.val.app
       ((opensMap f.hom.base).op.obj U)).hom
@@ -260,7 +260,7 @@ theorem inverseImageToPullback_comp_differentialMap {X' X S' S : RingedSpace.{u,
     (differentialMap f h h' g hcomm)).val.app (.op U.unop)).hom
       ((universalDerivation (inverseImageStructureMap h)).d a) = _ at hc
   rw [hu] at hc
-  show ((differentialMap f h h' g hcomm).val.app ((opensMap f.hom.base).op.obj U)).hom
+  change ((differentialMap f h h' g hcomm).val.app ((opensMap f.hom.base).op.obj U)).hom
     (((inverseImageToPullback f Ω).val.app (.op ((Opens.map f.hom.base).obj U.unop))).hom
       (((inverseImageModuleUnit f.hom.base X.sheaf Ω).val.app (.op U.unop)).hom
         ((universalDerivation (inverseImageStructureMap h)).d a))) = _

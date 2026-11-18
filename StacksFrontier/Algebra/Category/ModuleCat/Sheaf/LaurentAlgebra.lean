@@ -102,8 +102,9 @@ def mulBilinear (n m : ℤ) :
     SheafOfModules.BilinearMap (tensorPower O hO L n) (tensorPower O hO L m)
       (tensorPower O hO L (n + m)) :=
   PresheafOfModules.toBilinear
-    (TensorSheafification.toSheafify O hO
-        ((tensorPower O hO L n).val ⊗ (tensorPower O hO L m).val) ≫
+    ((Invertible.structureSheafificationAdjunction O hO).unit.app
+        ((tensorPower O hO L n).val ⊗ (tensorPower O hO L m).val :
+          PresheafOfModules (TensorSheafification.structureRingPresheaf O)) ≫
       (coherentMulIso O hO L n m).hom.val)
 
 /-- Multiplication of the Laurent algebra on a pair of local sections is the coherent

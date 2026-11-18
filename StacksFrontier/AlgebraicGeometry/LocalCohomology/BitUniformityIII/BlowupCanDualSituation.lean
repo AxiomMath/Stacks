@@ -148,6 +148,17 @@ theorem blowupCan_dualToCoker_Hdualtr (q q' : ℕ) (hq : q' ≤ q)
   (blowupHmodMap_whiskerRight_whiskerLeft_apply I 0 (cokernel.π (blowupCanM I M))
     (Nat.cast_le.2 hq) σ).symm
 
+/-- The connecting map of the twisted kernel sequence of `can` is natural in the twist (the field
+`canToImgδ_Himgtr`). -/
+theorem blowupCan_canToImgδ_Himgtr (q q' : ℕ) (hq : q' ≤ q)
+    (t : blowupHmod I 0 (Abelian.image (blowupCanM I M) ⊗ blowupTwistInt I q)) :
+    ((blowupDeltaMod I).δ (shortExact_twist_kernel I (blowupCanM I M) q') 0).hom
+        ((blowupHmodMap I 0
+          (Abelian.image (blowupCanM I M) ◁ blowupTwistLE I (Nat.cast_le.2 hq))).hom t) =
+      (blowupHmodMap I 1 (kernel (blowupCanM I M) ◁ blowupTwistLE I (Nat.cast_le.2 hq))).hom
+        (((blowupDeltaMod I).δ (shortExact_twist_kernel I (blowupCanM I M) q) 0).hom t) :=
+  twist_kernel_δ_naturality I (blowupCanM I M) (Nat.cast_le.2 hq) t
+
 /-- **Tag 0GA9 for the cokernel of `can`** on sections: the cokernel is killed by `I^c`
 (Tag 0GAB), so `coker(can)(q) ⟶ coker(can)(e)` is zero on `H⁰` for `e + c = q`. -/
 theorem blowupHmodMap_cokernel_blowupCan_twistLE_eq_zero (q e : ℕ) (he : e ≤ q)
@@ -211,8 +222,7 @@ def blowupCanDualSituation (m c : ℕ) (hcn : c ≤ m + 1) {q₀ : ℕ} (h : IsB
   canToImgδ M q := ((blowupDeltaMod I).δ (shortExact_twist_kernel I (blowupCanM I M) q) 0).hom
   imgToDual_Himgtr M q q' hq t := blowupCan_imgToDual_Himgtr I M q q' hq t
   dualToCoker_Hdualtr M q q' hq σ := blowupCan_dualToCoker_Hdualtr I M q q' hq σ
-  canToImgδ_Himgtr M _ _ hq t :=
-    twist_kernel_δ_naturality I (blowupCanM I M) (Nat.cast_le.2 hq) t
+  canToImgδ_Himgtr M q q' hq t := blowupCan_canToImgδ_Himgtr I M q q' hq t
   exact_imgToDual M q := exact_twist_image_cokernel I (blowupCanM I M) q
   exact_canToImg M q := exact_twist_factorThruImage_δ I (blowupCanM I M) q
   evDual_can M q hq t := blowupEvDual_imgToDual_canToImg I M h q hq t

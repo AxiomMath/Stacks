@@ -89,7 +89,7 @@ theorem exists_algEquiv_extend_separableClosure {k Ω : Type u} [Field k] [Field
   have he : ∀ a : separableClosure k Ω,
       e (algebraMap (separableClosure k Ω) P a) = algebraMap (separableClosure k Ω) P (σ a) := by
     intro a
-    simp only [e, RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv,
+    simp only [e, RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv,
       AlgEquiv.commutes, MvPolynomial.algebraMap_eq, MvPolynomial.mapEquiv_apply,
       MvPolynomial.map_C]
     rw [← MvPolynomial.algebraMap_eq, AlgEquiv.commutes]

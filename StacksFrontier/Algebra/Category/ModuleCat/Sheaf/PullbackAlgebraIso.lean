@@ -230,14 +230,12 @@ theorem pullbackTensorPowStep_hom_unit_tmul (n : ℕ)
     (x : (tensorPow Y F (n + 1)).val.obj U) :
     (pullbackTensorPowStep f F n e).hom.val.app ((opensMap f).op.obj U)
         (pullbackUnit f (tensorPow Y F (n + 2)) U
-          (((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
               (_root_.PresheafOfModules.tensorObj F.val (tensorPow Y F (n + 1)).val)).app U
                 (s ⊗ₜ x))) =
-      ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨X.presheaf, X.IsSheaf⟩).unit.app
           (_root_.PresheafOfModules.tensorObj ((pullbackFunctor f).obj F).val
             (tensorPow X ((pullbackFunctor f).obj F) (n + 1)).val)).app ((opensMap f).op.obj U)
         (pullbackUnit f F U s ⊗ₜ
@@ -299,14 +297,12 @@ theorem pullbackTensorPowIso_hom_unit_tmul (n : ℕ) (U : (Opens Y.carrier)ᵒ�
     (s : F.val.obj U) (x : (tensorPow Y F (n + 1)).val.obj U) :
     (pullbackTensorPowIso f F (n + 2)).hom.val.app ((opensMap f).op.obj U)
         (pullbackUnit f (tensorPow Y F (n + 2)) U
-          (((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
               (_root_.PresheafOfModules.tensorObj F.val (tensorPow Y F (n + 1)).val)).app U
                 (s ⊗ₜ x))) =
-      ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨X.presheaf, X.IsSheaf⟩).unit.app
           (_root_.PresheafOfModules.tensorObj ((pullbackFunctor f).obj F).val
             (tensorPow X ((pullbackFunctor f).obj F) (n + 1)).val)).app ((opensMap f).op.obj U)
         (pullbackUnit f F U s ⊗ₜ

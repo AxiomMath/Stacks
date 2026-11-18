@@ -79,10 +79,10 @@ def span (n : ℤ) : (K.X n).val.Submodule where
   obj V := Submodule.span (R.obj.obj V) (genSet G n V)
   map {V V'} g := by
     rw [Submodule.span_le]
-    rintro x ⟨i, s, f, hs, rfl⟩
-    refine Submodule.subset_span ⟨i, s, g.unop ≫ f, hs, ?_⟩
-    change (K.X n).val.map (g.unop ≫ f).op s = (K.X n).val.map g ((K.X n).val.map f.op s)
-    exact PresheafOfModules.map_comp_apply (K.X n).val f.op g s
+    intro x hx
+    obtain ⟨i, s, f, hs, rfl⟩ := mem_genSet_iff.1 hx
+    exact Submodule.subset_span (mem_genSet_iff.2 ⟨i, s, g.unop ≫ f, hs,
+      PresheafOfModules.map_comp_apply (K.X n).val f.op g s⟩)
 
 /-- The span over `V` is the submodule spanned by the restrictions of the generators to `V`. -/
 theorem span_obj (n : ℤ) (V : Cᵒᵖ) :
@@ -92,6 +92,22 @@ theorem span_obj (n : ℤ) (V : Cᵒᵖ) :
 /-- **The local closure of the span**, a submodule of the degree-`n` term of `K`. -/
 def closure (n : ℤ) : (K.X n).Submodule :=
   Stacks.SheafOfModules.localClosure (K.X n) (span G n)
+
+variable {G} in
+/-- A section lies in the local closure of the span iff the sieve of arrows along which its
+restriction lies in the span is covering. -/
+theorem mem_closure_obj {n : ℤ} {V : Cᵒᵖ} {x : (K.X n).val.obj V} :
+    x ∈ (closure G n).obj V ↔ (span G n).toSubfunctor.sieveOfSection x ∈ J V.unop :=
+  Stacks.SheafOfModules.mem_localClosure_obj _ _ _
+
+variable {G} in
+/-- An arrow lies in the sieve of a section iff the restriction of the section along it lies in
+the span. -/
+theorem mem_sieveOfSection_span_iff {n : ℤ} {V : Cᵒᵖ} {x : (K.X n).val.obj V} {W : C}
+    {f : W ⟶ V.unop} :
+    ((span G n).toSubfunctor.sieveOfSection x).arrows f ↔
+      (K.X n).val.map f.op x ∈ (span G n).obj (op W) :=
+  Iff.rfl
 
 /-- The generators are stable under the differentials. -/
 def IsDClosed : Prop :=
@@ -111,10 +127,10 @@ theorem mem_closure_of_mem_span {n : ℤ} {V : Cᵒᵖ} {x : (K.X n).val.obj V}
 /-- A generator is a section of the local closure. -/
 theorem mem_closure_of_mem {n : ℤ} {i : ι} {s : (K.X n).val.obj (op (c i))}
     (hs : ⟨n, i, s⟩ ∈ G) : s ∈ (closure G n).obj (op (c i)) := by
-  refine mem_closure_of_mem_span G (Submodule.subset_span ⟨i, s, 𝟙 _, hs, ?_⟩)
-  change (K.X n).val.map (𝟙 (op (c i))) s = s
-  rw [(K.X n).val.map_id]
-  rfl
+  refine mem_closure_of_mem_span G ?_
+  rw [span_obj]
+  exact Submodule.subset_span (mem_genSet_iff.2 ⟨i, s, 𝟙 _, hs, by
+    rw [op_id, PresheafOfModules.map_id]; rfl⟩)
 
 variable {G}
 
@@ -146,8 +162,9 @@ theorem d_mem_span (hG : IsDClosed G) (m n : ℤ) (V : Cᵒᵖ) (x : (K.X m).val
 /-- The differential carries the local closure into the local closure. -/
 theorem d_mem_closure (hG : IsDClosed G) (m n : ℤ) (V : Cᵒᵖ) (x : (K.X m).val.obj V)
     (hx : x ∈ (closure G m).obj V) : (K.d m n).val.app V x ∈ (closure G n).obj V := by
+  rw [mem_closure_obj] at hx ⊢
   refine J.superset_covering (fun W f hf => ?_) hx
-  change (K.X n).val.map f.op ((K.d m n).val.app V x) ∈ (span G n).obj (op W)
+  rw [mem_sieveOfSection_span_iff] at hf ⊢
   rw [← PresheafOfModules.naturality_apply]
   exact d_mem_span hG m n _ _ hf
 
@@ -293,8 +310,6 @@ theorem quasiIso_incl (hG : IsDClosed G)
       (((closure G j).map b.op) ht), ?_⟩⟩
     rw [op_comp, PresheafOfModules.map_comp_apply]
     apply val_injective hG n
-    change (K.X n).val.map b.op ((K.X n).val.map a.op (val hG z')) =
-      (K.d j n).val.app (op W) ((K.X j).val.map b.op t)
     exact (d_map_eq_of_d_eq b.op hdt).symm
 
 end Dense

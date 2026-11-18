@@ -97,15 +97,11 @@ structure PushoutExtensionData (D : MorphismOfFirstOrderThickenings i) where
   /-- The kernel module for the second thickening. -/
   K₂ : SheafOfModules.{max v₂ u₂} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
   /-- The prescribed action map `c₁ : I₁ ⊗_O F ⟶ K₁`. -/
-  c₁ : (PresheafOfModules.sheafification
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+  c₁ : (Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
       (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
         D.first.I.val F.val) ⟶ K₁
   /-- The prescribed action map `c₂ : I₂ ⊗_O F ⟶ K₂`. -/
-  c₂ : (PresheafOfModules.sheafification
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+  c₂ : (Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
       (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
         D.second.I.val F.val) ⟶ K₂
   /-- The map `κ : K₂ ⟶ K₁` of kernel modules. -/
@@ -113,18 +109,16 @@ structure PushoutExtensionData (D : MorphismOfFirstOrderThickenings i) where
   /-- The square formed by the two action maps, the map of kernel modules and the induced map
   of defining ideals commutes, read on local pure tensors. -/
   comm : ∀ (U : Y.Cᵒᵖ) (b : D.second.I.val.obj U) (y : F.val.obj U),
-    kernelMap.val.app U (c₂.val.app U (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
-      (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
-        D.second.I.val F.val)).app U
-        (b ⊗ₜ[(baseRing i).obj.obj U] y))) =
-      c₁.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+    kernelMap.val.app U (c₂.val.app U
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
-          D.first.I.val F.val)).app U
-        (D.idealMap.val.app U b ⊗ₜ[(baseRing i).obj.obj U] y))
+          D.second.I.val F.val)).app U
+        (b ⊗ₜ[(baseRing i).obj.obj U] y))) =
+      c₁.val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
+          (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
+            D.first.I.val F.val)).app U
+          (D.idealMap.val.app U b ⊗ₜ[(baseRing i).obj.obj U] y))
 
 namespace PushoutExtensionData
 
@@ -265,26 +259,18 @@ lemma pushoutExtension_actionMap
       (Stacks.SheafOfModules.Tensor.ringSheaf D.O₂).obj).map E₂.g.val) ?_
   intro U b x
   change (extensionActionMap D.second (dat.pushoutExtension E₂)).1.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
         (PresheafOfModules.tensorObj D.second.I.val dat.F.val)).app U
         (b ⊗ₜ[(baseRing i).obj.obj U] E₂.g.val.app U x)) =
     (dat.c₂ ≫ dat.kernelMap).val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
         (PresheafOfModules.tensorObj D.second.I.val dat.F.val)).app U
         (b ⊗ₜ[(baseRing i).obj.obj U] E₂.g.val.app U x))
   refine PresheafOfModules.injective_of_mono (dat.pushoutIncl E₂).val U ?_
-  set τ : ((PresheafOfModules.sheafification
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+  set τ : ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
       (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
         D.second.I.val dat.F.val)).val.obj U :=
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
       (PresheafOfModules.tensorObj D.second.I.val dat.F.val)).app U
       (b ⊗ₜ[(baseRing i).obj.obj U] E₂.g.val.app U x) with hτ
   have hq : (dat.pushoutQuot E₂).val.app U ((dat.pushoutLift E₂).val.app U x) =
@@ -298,9 +284,7 @@ lemma pushoutExtension_actionMap
       ((dat.pushoutLift E₂).val.app U x))
     exact congrArg (fun z : dat.F.val.obj U => (dat.pushoutIncl E₂).val.app U
       ((extensionActionMap D.second (dat.pushoutExtension E₂)).1.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
           (PresheafOfModules.tensorObj D.second.I.val dat.F.val)).app U
           (b ⊗ₜ[(baseRing i).obj.obj U] z)))) hq.symm
   have step2 : (dat.pushoutLift E₂).val.app U (D.inclTwo U b • x) =
@@ -389,14 +373,10 @@ omit [HasSheafify Y.J AddCommGrpCat.{max v₂ u₂}]
 
 /-- The image in `I₁ ⊗_O F` of a pure tensor of local sections. -/
 noncomputable def tensorMk (U : Y.Cᵒᵖ) (m : D.first.I.val.obj U) (y : dat.F.val.obj U) :
-    ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.obj U :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
     (PresheafOfModules.tensorObj D.first.I.val dat.F.val)).app U (m ⊗ₜ[(baseRing i).obj.obj U] y)
 
 /-- A pure tensor is additive in its ideal factor. -/
@@ -446,9 +426,7 @@ lemma tensorMk_smul_right (U : Y.Cᵒᵖ) (r : (baseRing i).obj.obj U)
 /-- A pure tensor commutes with restriction. -/
 lemma tensorMk_restrict {U V : Y.Cᵒᵖ} (g : U ⟶ V) (m : D.first.I.val.obj U)
     (y : dat.F.val.obj U) :
-    ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.map g (dat.tensorMk U m y) =
       dat.tensorMk V (D.first.I.val.map g m) (dat.F.val.map g y) :=
@@ -456,9 +434,7 @@ lemma tensorMk_restrict {U V : Y.Cᵒᵖ} (g : U ⟶ V) (m : D.first.I.val.obj U
 
 /-- The prescribed action map of the first thickening is additive on sections. -/
 lemma c₁_add (U : Y.Cᵒᵖ)
-    (t t' : ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    (t t' : ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.obj U) :
     dat.c₁.val.app U (t + t') = dat.c₁.val.app U t + dat.c₁.val.app U t' :=
@@ -466,18 +442,14 @@ lemma c₁_add (U : Y.Cᵒᵖ)
 
 /-- The prescribed action map of the first thickening kills zero. -/
 lemma c₁_zero (U : Y.Cᵒᵖ) :
-    dat.c₁.val.app U (0 : ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    dat.c₁.val.app U (0 : ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.obj U) = 0 :=
   map_zero (dat.c₁.val.app U).hom
 
 /-- The prescribed action map of the first thickening respects differences. -/
 lemma c₁_sub (U : Y.Cᵒᵖ)
-    (t t' : ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    (t t' : ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.obj U) :
     dat.c₁.val.app U (t - t') = dat.c₁.val.app U t - dat.c₁.val.app U t' :=
@@ -485,9 +457,7 @@ lemma c₁_sub (U : Y.Cᵒᵖ)
 
 /-- The prescribed action map of the first thickening is linear over the base. -/
 lemma c₁_smul (U : Y.Cᵒᵖ) (r : (baseRing i).obj.obj U)
-    (t : ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    (t : ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.obj U) :
     dat.c₁.val.app U (r • t) = r • dat.c₁.val.app U t :=
@@ -495,15 +465,11 @@ lemma c₁_smul (U : Y.Cᵒᵖ) (r : (baseRing i).obj.obj U)
 
 /-- The prescribed action map of the first thickening commutes with restriction. -/
 lemma c₁_restrict {U V : Y.Cᵒᵖ} (g : U ⟶ V)
-    (t : ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+    (t : ((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
         (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
           D.first.I.val dat.F.val)).val.obj U) :
     dat.c₁.val.app V
-        (((PresheafOfModules.sheafification
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).obj
+        (((Stacks.SheafOfModules.Tensor.sheafification (baseRing i)).obj
             (AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorObj
               D.first.I.val dat.F.val)).val.map g t) =
       dat.K₁.val.map g (dat.c₁.val.app U t) :=

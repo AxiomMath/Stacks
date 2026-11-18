@@ -432,8 +432,8 @@ theorem tensorSheaf_hom_ext_right
     φ = ψ := by
   have hls : PresheafOfModules.IsLocallySurjective J
       (PresheafOfModules.tensorSheafUnit G H) :=
-    PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app
-      (𝟙 (toRingCat J Osharp).obj) (PresheafOfModules.tensorObj G.val H.val)
+    Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app Osharp
+      (PresheafOfModules.tensorObj G.val H.val)
   refine PresheafOfModules.tensorSheaf_hom_ext fun U x t => ?_
   exact PresheafOfModules.hom_congr_apply'
     (tensorObj_hom_ext_of_isLocallySurjective_right Q.isSheaf.isSeparated

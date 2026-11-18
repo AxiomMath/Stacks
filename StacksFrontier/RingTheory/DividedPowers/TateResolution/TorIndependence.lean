@@ -201,8 +201,7 @@ public theorem baseChange_subtype_comm_rTensor (p : Submodule R N) (f : M →ₗ
     (u : M ⊗[R] T) :
     LinearMap.baseChange T p.subtype (TensorProduct.comm R p T (LinearMap.rTensor T f u)) =
       LinearMap.baseChange T (p.subtype.comp f) (TensorProduct.comm R M T u) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction u using TensorProduct.inductionOn with
   | tmul a t => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -225,16 +224,14 @@ public theorem lTensorAlgHom_tmul (g : A' →ₐ[R] A) (t : T) (a : A') :
 /-- `lTensorAlgHom g` is `T`-linear. -/
 public theorem lTensorAlgHom_smul (g : A' →ₐ[R] A) (t : T) (x : T ⊗[R] A') :
     lTensorAlgHom g (t • x) = t • lTensorAlgHom g x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q a => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]
 
 /-- `lTensorAlgHom g` is the base change of `g` as a linear map. -/
 public theorem lTensorAlgHom_eq_baseChange (g : A' →ₐ[R] A) (x : T ⊗[R] A') :
     lTensorAlgHom g x = LinearMap.baseChange T g.toLinearMap x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q a => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -260,8 +257,7 @@ public theorem lTensorAlgHom_baseChange (g : A' →ₐ[R] A) (d' : A' →ₗ[R] 
     (hg : ∀ a, g (d' a) = d (g a)) (x : T ⊗[R] A') :
     lTensorAlgHom g (LinearMap.baseChange T d' x) =
       LinearMap.baseChange T d (lTensorAlgHom g x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q a => simp [hg]
   | add x y hx hy => simp [map_add, hx, hy]
 

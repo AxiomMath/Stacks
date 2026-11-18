@@ -77,6 +77,9 @@ this is.
   `forget_tensorRight_comp_presheafRestrictedModules`: the objectwise tensor product commutes
   with restriction along `G`, and the assembly of that `rfl` into the shape the sheafification
   comparison composes with.
+* `Stacks.Sheaves.Differentials.presheafRestrictedModulesSheafificationIso`: restriction along
+  `G` commutes with the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`
+  that ends the tensor product.
 
 ## Implementation notes
 
@@ -91,10 +94,16 @@ transport and no `eqToIso` appears. The ascription is written out rather than in
 instance search does not unfold `CategoryTheory.sheafCompose`.
 
 **The tensor product, and why the `rfl`s there are assembled rather than asked for in one
-piece.** The tensor product of sheaves of modules is the objectwise one followed by
-sheafification, so `restrictedSheafTensorRightIso` has the same one-line content as
-`restrictedDifferentialsIso` — but asking `rfl` for the composite exhausts the heartbeat budget
-while each of its three steps is cheap. The remedy is the recipe set out in the implementation
+piece.** The tensor product of sheaves of modules is the objectwise one followed by the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification`, so `restrictedSheafTensorRightIso`
+has the content of `restrictedDifferentialsIso`, conjugated by
+`Stacks.SheafOfModules.Tensor.sheafificationIso` on both sites
+(`presheafRestrictedModulesSheafificationIso`) — but asking `rfl` for the composite exhausts the
+heartbeat budget while each of its three steps is cheap. The objectwise tensor product is
+written `(PresheafOfModules.tensorBifunctor _).flip.obj _` throughout, the spelling inside
+`Stacks.SheafOfModules.Tensor.sheafTensor`: identifying it with the equal
+`AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight` costs `rfl` about twenty
+seconds. The remedy is the recipe set out in the implementation
 notes of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DenseSubsiteSheafTensor.lean`, which is
 the same assembly for a dense subsite inclusion and a different tensor spelling: pin each
 spelling with a declared result type, ask `rfl` one small question at a time, and whisker the
@@ -327,11 +336,10 @@ omit [G.IsCocontinuous J K] [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
 /-- **The objectwise tensor product commutes with restriction along `G`.** -/
 theorem tensorRight_comp_presheafRestrictedModules
     (N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
-    _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight (O := O₂.obj) N.val ⋙
+    (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O₂.obj).flip.obj N.val ⋙
         presheafRestrictedModules J G (O₂ := O₂) =
       presheafRestrictedModules J G (O₂ := O₂) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight
-          (O := (restrictedCommRing J G O₂).obj)
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} (restrictedCommRing J G O₂).obj).flip.obj
           ((presheafRestrictedModules J G (O₂ := O₂)).obj N.val) :=
   rfl
 
@@ -357,20 +365,35 @@ the same assembly for a dense subsite inclusion and the other tensor spelling. -
 theorem forget_tensorRight_comp_presheafRestrictedModules
     (N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
     (SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight (O := O₂.obj) N.val) ⋙
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O₂.obj).flip.obj N.val) ⋙
         presheafRestrictedModules J G (O₂ := O₂) =
       (restrictedModules J G (O₂ := O₂) ⋙
           SheafOfModules.forget.{u}
             (Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂))) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight
-          (O := (restrictedCommRing J G O₂).obj)
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} (restrictedCommRing J G O₂).obj).flip.obj
           ((restrictedModules J G (O₂ := O₂)).obj N).val := by
   rw [← presheafRestrictedModules_obj_val, ← forget_comp_presheafRestrictedModules]
   exact congrArg
     (fun F => SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ⋙ F)
     (tensorRight_comp_presheafRestrictedModules J G N)
 
-omit [G.IsCocontinuous J K] [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- **Restriction along `G` commutes with the sealed sheafification**
+`Stacks.SheafOfModules.Tensor.sheafification`, the last factor of
+`Stacks.SheafOfModules.Tensor.sheafTensor`: the comparison
+`Stacks.SheafOfModules.PushforwardSheafification.pushforwardSheafifyNatIso` for Mathlib's
+sheafification, conjugated by `Stacks.SheafOfModules.Tensor.sheafificationIso` on both sites. -/
+def presheafRestrictedModulesSheafificationIso :
+    presheafRestrictedModules J G (O₂ := O₂) ⋙
+        Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} (restrictedCommRing J G O₂) ≅
+      Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} O₂ ⋙
+        restrictedModules J G (O₂ := O₂) :=
+  Functor.isoWhiskerLeft _ (Stacks.SheafOfModules.Tensor.sheafificationIso _).symm ≪≫
+    Stacks.SheafOfModules.PushforwardSheafification.pushforwardSheafifyNatIso.{u} J G
+      (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ≪≫
+    Functor.isoWhiskerRight (Stacks.SheafOfModules.Tensor.sheafificationIso O₂) _
+
+omit [G.IsCocontinuous J K] [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- `AlgebraicGeometry.SheafOfModules.sheafTensorRight` on the target site, unfolded into its
 three factors and reassociated so that the sheafification factor stands next to the
 restriction. -/
@@ -379,13 +402,13 @@ theorem sheafTensorRight_comp_restrictedModules
     ((Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj N) ⋙
         restrictedModules J G (O₂ := O₂) =
       (SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight (O := O₂.obj) N.val) ⋙
-        (PresheafOfModules.sheafification.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj) ⋙
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O₂.obj).flip.obj N.val) ⋙
+        (Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} O₂ ⋙
           restrictedModules J G (O₂ := O₂)) :=
   rfl
 
-omit [G.IsCocontinuous J K] [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [G.IsCocontinuous J K] [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- `AlgebraicGeometry.SheafOfModules.sheafTensorRight` on the source site, precomposed with the
 restriction and unfolded into its three factors. -/
 theorem restrictedModules_comp_sheafTensorRight
@@ -393,35 +416,30 @@ theorem restrictedModules_comp_sheafTensorRight
     ((restrictedModules J G (O₂ := O₂) ⋙
           SheafOfModules.forget.{u}
             (Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂))) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight
-          (O := (restrictedCommRing J G O₂).obj)
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} (restrictedCommRing J G O₂).obj).flip.obj
           ((restrictedModules J G (O₂ := O₂)).obj N).val) ⋙
-      PresheafOfModules.sheafification.{u}
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂)).obj) =
+      Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} (restrictedCommRing J G O₂) =
       restrictedModules J G (O₂ := O₂) ⋙
         ((Stacks.SheafOfModules.Tensor.sheafTensor (restrictedCommRing J G O₂)).flip.obj
           ((restrictedModules J G (O₂ := O₂)).obj N)) :=
   rfl
 
-omit [G.IsCocontinuous J K] [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [G.IsCocontinuous J K] [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The right-hand crossing of the comparison, assembled from
 `Stacks.Sheaves.Differentials.forget_tensorRight_comp_presheafRestrictedModules` and
 `restrictedModules_comp_sheafTensorRight`. -/
 theorem forget_tensorRight_comp_presheafRestrictedModules_sheafification
     (N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
     (SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight (O := O₂.obj) N.val) ⋙
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O₂.obj).flip.obj N.val) ⋙
         (presheafRestrictedModules J G (O₂ := O₂) ⋙
-          PresheafOfModules.sheafification.{u}
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂)).obj)) =
+          Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} (restrictedCommRing J G O₂)) =
       restrictedModules J G (O₂ := O₂) ⋙
         ((Stacks.SheafOfModules.Tensor.sheafTensor (restrictedCommRing J G O₂)).flip.obj
           ((restrictedModules J G (O₂ := O₂)).obj N)) :=
-  (congrArg (fun F => F ⋙ PresheafOfModules.sheafification.{u}
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (restrictedCommRing J G O₂)).obj))
+  (congrArg (fun F =>
+      F ⋙ Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} (restrictedCommRing J G O₂))
     (forget_tensorRight_comp_presheafRestrictedModules J G N)).trans
     (restrictedModules_comp_sheafTensorRight J G N)
 
@@ -438,9 +456,8 @@ def restrictedSheafTensorRightIso
   eqToIso (sheafTensorRight_comp_restrictedModules J G N) ≪≫
     Functor.isoWhiskerLeft
       (SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ⋙
-        _root_.AlgebraicGeometry.SheafOfModules.PresheafOfModules.tensorRight (O := O₂.obj) N.val)
-      (Stacks.SheafOfModules.PushforwardSheafification.pushforwardSheafifyNatIso.{u} J G
-        (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).symm ≪≫
+        (PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O₂.obj).flip.obj N.val)
+      (presheafRestrictedModulesSheafificationIso J G (O₂ := O₂)).symm ≪≫
     eqToIso (forget_tensorRight_comp_presheafRestrictedModules_sheafification J G N)
 
 end Tensor

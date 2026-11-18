@@ -90,8 +90,8 @@ theorem pushforwardUnitTensorMulHom_comp_left {E E' : Modules.{u, u} B S hS X.1 
       PresheafOfModules.tensorHom (O := (smallEtaleRingedSite B S hS X.1 X.2).O.obj) u.val
           (𝟙 (chartBaseChangeStructureModule B S hS f hf).val) ≫
         Stacks.SheafOfModules.tensorHomEquivPresheafTensorHom (pushforwardUnitTensorMulHom φ) :=
-    (PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-      (smallEtaleRingedSite B S hS X.1 X.2).O).obj)).homEquiv_naturality_left _ _
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (smallEtaleRingedSite B S hS X.1 X.2).O).homEquiv_naturality_left _ _
   rw [h12, h3, h12]
   ext U : 1
   exact ModuleCat.MonoidalCategory.tensor_ext fun _ _ => rfl

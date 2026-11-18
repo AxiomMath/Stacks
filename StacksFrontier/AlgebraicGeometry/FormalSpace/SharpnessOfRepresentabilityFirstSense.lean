@@ -63,7 +63,8 @@ universe u
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- The non-representability of the first sense of **Stacks 0AN7**. Let `k` be a field with the discrete topology, let `k⟦t⟧`
+/-- The non-representability of the first sense of **Stacks 0AN7**. Let `k` be a field with the
+discrete topology, let `k⟦t⟧`
 carry the `t`-adic topology, and let `Spf (φ) : Spf k⟦t⟧ ⟶ Spf k` be the formal spectrum of the
 inclusion of constants, taken over any base and any quotient systems presenting the two formal
 spectra. Then `Spf (φ)` is not representable by algebraic spaces: by the implication (1) ⟹ (3)

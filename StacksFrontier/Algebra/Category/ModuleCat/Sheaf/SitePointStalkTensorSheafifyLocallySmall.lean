@@ -31,6 +31,12 @@ written `@Eq T lhs rhs` with its type pinned; and the intermediate steps of a pr
 with no expected type, elaborated in one spelling. `tensorObjP` exists because `M ⊗ N` placed
 as an argument of the sheafification functor finds no monoidal instance at the expected type.
 
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, while the rest of the file uses Mathlib's
+`PresheafOfModules.sheafification`. `stalkSheafTensorIso` passes from one to the other through the
+functor-level `eqToIso` of `Stacks.SheafOfModules.Tensor.sheafification_def`, whose naturality
+gives `stalkSheafTensorIso_naturality_right`.
+
 ## References
 
 * [Stacks Project, Tag 03EL](https://stacks.math.columbia.edu/tag/03EL),
@@ -306,7 +312,9 @@ lemma tensorSheafifyIso_naturality_right
   rw [h2]
 
 /-- The stalk at `Φ` of the tensor product `A ⊗_O B` of sheaves of `O`-modules is
-`A_Φ ⊗_{O_Φ} B_Φ`. -/
+`A_Φ ⊗_{O_Φ} B_Φ`: `tensorSheafifyIso`, after identifying the sealed sheafification of
+`Stacks.SheafOfModules.Tensor.sheafTensor` with Mathlib's by
+`Stacks.SheafOfModules.Tensor.sheafification_def`. -/
 noncomputable def stalkSheafTensorIso
     (A B : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     (Stacks.sheafModuleFiberOfCommRing Φ O).obj
@@ -314,7 +322,21 @@ noncomputable def stalkSheafTensorIso
       ((curriedTensor (ModuleCat.{w} (Stacks.ringFiber Φ O.obj))).obj
           ((Stacks.sheafModuleFiberOfCommRing Φ O).obj A)).obj
         ((Stacks.sheafModuleFiberOfCommRing Φ O).obj B) :=
-  tensorSheafifyIso Φ O A.val B.val
+  (Stacks.sheafModuleFiberOfCommRing Φ O).mapIso
+      ((eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def O)).app
+        (PresheafOfModules.tensorObj (O := O.obj) A.val B.val)) ≪≫
+    tensorSheafifyIso Φ O A.val B.val
+
+/-- The forward map of `stalkSheafTensorIso`: the stalk of the component of
+`eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)`, followed by the forward map of
+`tensorSheafifyIso`. -/
+lemma stalkSheafTensorIso_hom
+    (A B : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    (stalkSheafTensorIso Φ O A B).hom =
+      (Stacks.sheafModuleFiberOfCommRing Φ O).map
+          ((eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O)).app
+            (PresheafOfModules.tensorObj (O := O.obj) A.val B.val)) ≫
+        (tensorSheafifyIso Φ O A.val B.val).hom := rfl
 
 /-- `stalkSheafTensorIso` is natural in the right-hand variable. -/
 lemma stalkSheafTensorIso_naturality_right
@@ -326,8 +348,18 @@ lemma stalkSheafTensorIso_naturality_right
       (stalkSheafTensorIso Φ O A B).hom ≫
         ((curriedTensor (ModuleCat.{w} (Stacks.ringFiber Φ O.obj))).obj
           ((Stacks.sheafModuleFiberOfCommRing Φ O).obj A)).map
-            ((Stacks.sheafModuleFiberOfCommRing Φ O).map g) :=
-  tensorSheafifyIso_naturality_right Φ O A.val (ψ := g.val)
+            ((Stacks.sheafModuleFiberOfCommRing Φ O).map g) := by
+  have he := (Functor.whiskerRight (eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O))
+    (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
+      Stacks.presheafModuleFiberOfCommRing Φ O.obj)).naturality_assoc
+      (((curriedTensor (PresheafOfModules.{w}
+        (O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}))).obj A.val).map g.val)
+      (tensorSheafifyIso Φ O A.val B'.val).hom
+  rw [stalkSheafTensorIso_hom, stalkSheafTensorIso_hom]
+  -- `apply` checks this composite, stated over `presheafModuleFiberOfCommRing`, against the goal
+  -- once; `exact` would check it twice.
+  apply he.trans ((congrArg (_ ≫ ·)
+    (tensorSheafifyIso_naturality_right Φ O A.val (ψ := g.val))).trans (Category.assoc _ _ _).symm)
 
 /-- The stalk at `Φ` of `A ⊗_O -` is `A_Φ ⊗_{O_Φ} -` of the stalk, as functors. -/
 noncomputable def stalkSheafTensorNatIso

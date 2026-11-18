@@ -102,6 +102,21 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
   Stacks.SheafOfModules.symmetricCategoryPresheafOfModules
   Stacks.SheafOfModules.monoidalCategory Stacks.SheafOfModules.braidedCategory
 
+/-- The counit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` at a sheaf of
+modules is that of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, since
+`Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso` is the identity at each sheaf. -/
+private lemma sheafificationForgetAdjunction_counit_app
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+    (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).counit.app M =
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).counit.app M := by
+  rw [← Adjunction.homEquiv_symm_id, Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp, Adjunction.homEquiv_counit]
+  exact (congrArg (· ≫ (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).counit.app M)
+    ((Stacks.SheafOfModules.Tensor.sheafification R).map_id
+      ((_root_.SheafOfModules.forget _).obj M))).trans (Category.id_comp _)
+
 /-- **In degree one the comparison of the iterated tensor products of an invertible sheaf of
 modules with the integral tensor powers of [Stacks, Tag 01CU] is the left unitor**: the
 composite `L ^⊗ 1 ≅ L^{⊗ 1} ≅ L` of `natTensorPowCompare` with
@@ -136,7 +151,9 @@ theorem natTensorPowCompare_one_comp_tensorPowerOneIso
         (MonoidalCategory.id_tensorHom_id (natTensorPow L 0) L)).trans
           ((Category.id_comp _).trans (Category.comp_id comparison)))
   have h2 : (Stacks.SheafOfModules.TensorPower.tensorPowerOneIso O hO L).hom
-      = (Stacks.SheafOfModules.tensorSheafLeftUnitor O hO L).hom := rfl
+      = (Stacks.SheafOfModules.tensorSheafLeftUnitor O hO L).hom :=
+    congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩ L)
   rw [h1, h2]
   exact (Stacks.SheafOfModules.leftUnitor_hom_eq O hO L).symm
 

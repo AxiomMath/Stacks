@@ -268,7 +268,7 @@ def coinflation :
       naturality _ _ f := HomologicalDeltaFunctor.map_op_comp_map_op_eq
         (CharacterModule.moduleCatDualOfMulOppositeFunctor Λ) _ _ _ _
         (coinflationDual_naturality Λ π n f) }
-  comm {S} hS n := HomologicalDeltaFunctor.map_op_comp_map_op_eq
+  comm {_} hS n := HomologicalDeltaFunctor.map_op_comp_map_op_eq
     (CharacterModule.moduleCatDualOfMulOppositeFunctor Λ) _ _ _ _ (coinflationDual_comm Λ π hS n)
 
 omit [DiscreteTopology Q'] in

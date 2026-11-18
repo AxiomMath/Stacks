@@ -216,9 +216,7 @@ public theorem isZero_sheafTensor_restrictScalars {n m : ι} (hmn : m ≠ n)
     IsZero (((Tensor.sheafTensor R).obj
         ((_root_.SheafOfModules.restrictScalars (projRing hp n)).obj L)).obj
       ((_root_.SheafOfModules.restrictScalars (projRing hp m)).obj L')) :=
-  ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf (R))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (R)).obj))).map_isZero
-    (isZero_presheafTensor_restrictScalars hp hmn L L')
+  (Tensor.sheafification R).map_isZero (isZero_presheafTensor_restrictScalars hp hmn L L')
 
 /-- **The tensor product sheaf of two different factors is a zero object.** -/
 public theorem isZero_sheafTensor_factorModule {n m : ι} (hmn : m ≠ n) :

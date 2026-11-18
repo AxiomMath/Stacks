@@ -52,7 +52,8 @@ universe u
 
 namespace Stacks.LocalCohomology
 
-/-- **The deduction of Stacks 0EFE from Stacks 0EFC.** For `M` finite over a Noetherian ring `A` with a dualizing complex and `p`
+/-- **The deduction of Stacks 0EFE from Stacks 0EFC.** For `M` finite over a Noetherian ring `A`
+with a dualizing complex and `p`
 a prime outside `V(I)`, if `depth_{A_{p'}}(M_{p'}) + dim((A/p')_q) > s` for all primes `p' ⊆ p`
 and all `q ∈ V(I)` with `p' ⊆ q`, then some `f ∈ A` outside `p` annihilates `H^i_{V(I)}(M)`
 for every `i ≤ s`. -/

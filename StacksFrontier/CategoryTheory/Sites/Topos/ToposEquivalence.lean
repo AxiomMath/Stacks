@@ -25,7 +25,8 @@ universe w v u v' u' w'
 /-- A proposition packaging conclusions of Stacks 03CH; it is a definition, not a theorem,
 and nothing here proves it.  It also only asserts that *some* equivalences of sheaf
 categories exist, and says nothing about the square of topoi.  The formalization of
-Stacks 03CH is `CategoryTheory.Sites.LocalizedToposSquare.isSpecialCocontinuous_overPost_and_isEquivalence`.
+Stacks 03CH is
+`CategoryTheory.Sites.LocalizedToposSquare.isSpecialCocontinuous_overPost_and_isEquivalence`.
 
 Let `(C, J)` and `(D, K)` be sites and let `u : C ⥤ D` be a *special
 cocontinuous functor*, formalized in Mathlib as

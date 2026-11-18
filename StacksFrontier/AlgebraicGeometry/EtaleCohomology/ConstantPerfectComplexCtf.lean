@@ -2,8 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstantPerfectComplexEtale
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.CanonicalFiniteTorDimension
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.CanonicalFiniteTorDimension
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ConstructibleFiniteTorRepresentation
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.FiniteTorCohomologyBound

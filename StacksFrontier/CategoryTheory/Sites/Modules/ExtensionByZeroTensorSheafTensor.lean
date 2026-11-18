@@ -15,15 +15,16 @@ there.  The total complex of a pair of complexes and
 bifunctor on its second variable, `((sheafTensor X.O).obj A).map α`.
 
 This file records that the passage between the two costs nothing: the component of `flip.map α`
-at `A` *is* that action, and that action *is* the sheafification of the objectwise morphism,
-both by definition.  The naturality of Stacks 0E8I in the module on the big site is therefore
-available directly in the bifunctor's own spelling.
+at `A` *is* that action, and that action *is* the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the objectwise morphism, both by definition.
+The naturality of Stacks 0E8I in the module on the big site is therefore available directly in
+the bifunctor's own spelling.
 
 ## Main results
 
 * `Stacks.Sites.ExtensionByZero.OfEssentiallySmall.sheafTensor_obj_map`: the identification of
-  the action of the bifunctor on its second variable with the sheafification of the objectwise
-  morphism, by definition.
+  the action of the bifunctor on its second variable with the sealed sheafification of the
+  objectwise morphism, by definition.
 * `Stacks.Sites.ExtensionByZero.OfEssentiallySmall.restrictionSheafTensor_naturality_right`:
   **Stacks 0E8I is natural in the module on the big site**, with the morphism of tensor functors
   read as the action of `Stacks.SheafOfModules.Tensor.sheafTensor` on `α`.
@@ -54,12 +55,14 @@ variable (X : RingedSite.{c, u, u})
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The tensor bifunctor acts on a morphism of its second variable by sheafifying the
-objectwise morphism**, that morphism being the extension formula's
+objectwise morphism** with the sealed `Stacks.SheafOfModules.Tensor.sheafification` that
+`sheafTensor` ends with, that morphism being the extension formula's
 `FormulaExtension.tensorRightMap`, in which the steps of `restrictionTensorIso` are given. -/
 lemma sheafTensor_obj_map (A : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
     {F F' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (α : F ⟶ F') :
     ((sheafTensor.{c, u, u} X.O).obj A).map α =
-      (sheafifyModules X.J X.O).map (FormulaExtension.tensorRightMap X.O.obj A.val α.val) :=
+      (Stacks.SheafOfModules.Tensor.sheafification X.O).map
+        (FormulaExtension.tensorRightMap X.O.obj A.val α.val) :=
   rfl
 
 end BigSite

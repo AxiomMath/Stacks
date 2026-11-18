@@ -17,7 +17,9 @@ the associator and the braiding — which are what a coherent multiplication
 `L^{⊗ n} ⊗ L^{⊗ m} ≅ L^{⊗ (n + m)}` has to be compatible with. The associator is the one
 place where Tag 05NA is used: the comparison between a nested sheaf tensor product and the
 sheafification of the corresponding triple presheaf tensor product is an isomorphism by
-`Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight` and `..._whiskerLeft`.
+`Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight` and `..._whiskerLeft`,
+transported to the sealed sheafification as `isIso_structureSheafification_map_whiskerRight` and
+`..._whiskerLeft`.
 
 ## Main definitions
 
@@ -55,6 +57,12 @@ defined by recursion on the natural number and separately on the negative part, 
 comparison `e.functor.obj ((e ^ n).functor.obj M) ≅ (e ^ (n + 1)).functor.obj M` has to be
 built by the same case split; this is `powSuccIso`, assembled from `powNatSuccIso` and
 `powNatInverseSuccIso`. For negative exponents the step is the counit of the equivalence.
+
+The constraints sheafify with `structureSheafification`, the sealed
+`Stacks.SheafOfModules.Tensor.sheafification` that is the last factor of the sheaf tensor
+product, so that they land in the sheaf tensor product without unfolding the seal; the counit
+and unit used are those of `structureSheafificationAdjunction`, whose right adjoint is the
+plain forgetful functor.
 
 The monoidal and symmetric structures on `PresheafOfModules (𝒪^#).obj` are obtained from
 Mathlib's structures on `PresheafOfModules (structureRingPresheaf 𝒪)`, which is the same
@@ -168,28 +176,6 @@ theorem tensorPower_zero
     tensorPower O hO L 0 = SheafOfModules.unit
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) := rfl
 
-/-- The canonical identification of the first tensor power with `L`: the left unitor on the
-underlying presheaves, followed by the counit of sheafification. -/
-noncomputable def tensorPowerOneIso
-    (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
-    [IsInvertible O hO L] : tensorPower O hO L 1 ≅ L := by
-  letI : MonoidalCategory
-      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
-        := by
-    change MonoidalCategory
-      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
-    infer_instance
-  letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
-    change IsIso
-      (PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).counit
-    infer_instance
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj
-      ((SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val ⊗
-        L.val) ≅ L
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (λ_ L.val) ≪≫
-    (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit).app L
-
 /-- Iterating an autoequivalence commutes with applying it once more. The comparison is the
 identity after reassociating the recursive iteration. -/
 noncomputable def powNatSuccIso
@@ -243,6 +229,55 @@ noncomputable def tensorPowerReindex
   subst h
   exact Iso.refl _
 
+/-- The sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`, the last factor
+of the sheaf tensor product, seen as a functor on presheaves of modules over the structure
+sheaf. -/
+noncomputable abbrev structureSheafification :
+    PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj ⥤
+      SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) :=
+  Stacks.SheafOfModules.Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+
+/-- The sheafification adjunction of `structureSheafification`, with right adjoint the forgetful
+functor. -/
+noncomputable abbrev structureSheafificationAdjunction :
+    structureSheafification O hO ⊣
+      SheafOfModules.forget.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) :=
+  Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+
+/-- The sealed form of
+`Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight`: if
+`structureSheafification` inverts `f`, it inverts `f ⊗ 𝟙 X`. -/
+theorem isIso_structureSheafification_map_whiskerRight
+    {A B : PresheafOfModules.{w}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj} (f : A ⟶ B)
+    (X : PresheafOfModules.{w}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
+    (hf : IsIso ((structureSheafification O hO).map f)) :
+    IsIso ((structureSheafification O hO).map (PresheafOfModules.tensorHom f (𝟙 X))) :=
+  (Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+      (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) _).2
+    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight O hO f X
+      ((Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+        (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) f).1 hf))
+
+/-- The sealed form of
+`Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft`: if
+`structureSheafification` inverts `f`, it inverts `𝟙 X ⊗ f`. -/
+theorem isIso_structureSheafification_map_whiskerLeft
+    (X : PresheafOfModules.{w}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
+    {A B : PresheafOfModules.{w}
+      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj} (f : A ⟶ B)
+    (hf : IsIso ((structureSheafification O hO).map f)) :
+    IsIso ((structureSheafification O hO).map (PresheafOfModules.tensorHom (𝟙 X) f)) :=
+  (Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+      (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) _).2
+    (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft O hO X f
+      ((Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+        (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) f).1 hf))
+
 /-- The tensor product bifunctor on sheaves of modules: tensor the underlying presheaves and
 sheafify. -/
 @[implicit_reducible]
@@ -261,7 +296,7 @@ noncomputable def tensorProductBifunctor :
       (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) ⋙
     tensor (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO).obj) ⋙
-    Stacks.SheafOfModules.TensorSheafification.sheafify O hO
+    structureSheafification O hO
 
 /-- The sheaf tensor product of two sheaves of modules, as a value of the bifunctor. -/
 noncomputable abbrev tensorProduct
@@ -294,13 +329,15 @@ noncomputable def tensorProductLeftUnitor
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := O)
-  letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
-    change IsIso
-      (PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).counit
-    infer_instance
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (λ_ M.val) ≪≫
-    (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit).app M
+  exact (structureSheafification O hO).mapIso (λ_ M.val) ≪≫
+    (asIso (structureSheafificationAdjunction O hO).counit).app M
+
+/-- The canonical identification of the first tensor power with `L`: the left unitor on the
+underlying presheaves, followed by the counit of sheafification, i.e. `tensorProductLeftUnitor`. -/
+noncomputable def tensorPowerOneIso
+    (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
+    [IsInvertible O hO L] : tensorPower O hO L 1 ≅ L :=
+  tensorProductLeftUnitor O hO L
 
 /-- The right unit constraint of the sheaf tensor product. -/
 noncomputable def tensorProductRightUnitor
@@ -314,16 +351,9 @@ noncomputable def tensorProductRightUnitor
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := O)
-  letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
-    change IsIso
-      (PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).counit
-    infer_instance
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (ρ_ M.val) ≪≫
-    (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit).app M
+  exact (structureSheafification O hO).mapIso (ρ_ M.val) ≪≫
+    (asIso (structureSheafificationAdjunction O hO).counit).app M
 
-set_option maxHeartbeats 1000000 in
--- elaborating the large nested sheaf tensor product terms and their sheafification isos
 /-- The associativity constraint of the sheaf tensor product. The sheafification units compare
 each nested sheaf tensor product with the sheafification of the corresponding triple presheaf
 tensor product; Tag 05NA makes those comparisons isomorphisms, and between them sits the
@@ -344,25 +374,17 @@ noncomputable def tensorProductAssociator
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := O)
-  letI : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val) ▷ P.val)) :=
-    Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight O hO
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val)) P.val
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify O hO (M.val ⊗
-        N.val))
-  letI : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-      (M.val ◁ Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (N.val ⊗ P.val))) :=
-    Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft O hO M.val
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (N.val ⊗ P.val))
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify O hO (N.val ⊗
-        P.val))
-  let eLeft := asIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-    (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val) ▷ P.val))
-  let eRight := asIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-    (M.val ◁ Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (N.val ⊗ P.val)))
-  exact eLeft.symm ≪≫
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (α_ M.val N.val P.val) ≪≫
-      eRight
+  letI : IsIso ((structureSheafification O hO).map
+      ((structureSheafificationAdjunction O hO).unit.app (M.val ⊗ N.val) ▷ P.val)) :=
+    isIso_structureSheafification_map_whiskerRight O hO _ P.val inferInstance
+  letI : IsIso ((structureSheafification O hO).map
+      (M.val ◁ (structureSheafificationAdjunction O hO).unit.app (N.val ⊗ P.val))) :=
+    isIso_structureSheafification_map_whiskerLeft O hO M.val _ inferInstance
+  exact ((asIso ((structureSheafification O hO).map
+      ((structureSheafificationAdjunction O hO).unit.app (M.val ⊗ N.val) ▷ P.val))).symm ≪≫
+    (structureSheafification O hO).mapIso (α_ M.val N.val P.val) ≪≫
+      asIso ((structureSheafification O hO).map
+        (M.val ◁ (structureSheafificationAdjunction O hO).unit.app (N.val ⊗ P.val))) :)
 
 /-- The symmetry constraint of the sheaf tensor product, obtained by sheafifying the presheaf
 braiding. -/
@@ -382,7 +404,7 @@ noncomputable def tensorProductBraiding
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := O)
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (β_ M.val N.val)
+  exact (structureSheafification O hO).mapIso (β_ M.val N.val)
 
 end Stacks.SheafOfModules.Invertible
 

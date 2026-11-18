@@ -13,7 +13,8 @@ arbitrary open `U` carry the topology induced from the product of the sections o
 quasi-compact opens contained in `U`. It states that this construction "is an adjoint to the
 forgetful functor and induces an equivalence between the category of sheaves of sets and the
 category of pseudo-discrete sheaves of topological spaces". This file proves both statements; the
-case of sheaves of rings is `StacksFrontier.AlgebraicGeometry.FormalScheme.PseudoDiscreteEquivalence`.
+case of sheaves of rings is
+`StacksFrontier.AlgebraicGeometry.FormalScheme.PseudoDiscreteEquivalence`.
 
 ## Main definitions
 

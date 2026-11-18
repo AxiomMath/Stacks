@@ -124,6 +124,21 @@ private lemma mem_kernelSub {R : Sheaf J RingCat.{w}} {M N : SheafOfModules.{w} 
     (U : Cᵒᵖ) (s : M.val.obj U) : s ∈ (kernelSub g).obj U ↔ g.val.app U s = 0 :=
   Iff.rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget AddCommGrpCat)] in
+/-- Two morphisms out of the sealed sheafification of a presheaf of modules `P` are equal as soon
+as their composites with the unit `P ⟶ ((sheafification R).obj P).val` of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` agree. -/
+private lemma sealedSheafification_hom_ext {R : Sheaf J CommRingCat.{w}}
+    {P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj}
+    {N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)}
+    {φ ψ : (Stacks.SheafOfModules.Tensor.sheafification R).obj P ⟶ N}
+    (h : (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P ≫ φ.val =
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P ≫ ψ.val) :
+    φ = ψ :=
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).homEquiv P N).injective <| by
+    rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
+    exact h
+
 variable {O' O : Sheaf J CommRingCat.{w}} (f : O' ⟶ O)
   (I : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
   (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O'))
@@ -169,20 +184,12 @@ theorem multiplicationMap_comp_eq_zero
       g.val.app U m = 0 := by
     intro U m hm
     exact congrArg (fun k => k.val.app U (⟨m, hm⟩ : (imageProductSubmodule i G).obj U)) hg
-  apply (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O').obj)).injective
-  apply PresheafOfModules.hom_ext
-  intro U
-  apply ModuleCat.MonoidalCategory.tensor_ext
-  intro a x
-  change g.val.app U ((multiplicationMap f I G i).val.app U
-    (((PresheafOfModules.sheafificationAdjunction.{w, v, w, u}
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O')
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O').obj)).unit.app
-      (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars (ringMap f)).obj I).val
-        G.val)).app U
-        (a ⊗ₜ[O'.obj.obj U] x))) = 0
-  rw [multiplicationMap_tmul f I G i U (show I.val.obj U from a) x]
+  refine sealedSheafification_hom_ext (P := MonoidalCategoryStruct.tensorObj
+    ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O')).obj
+      ((SheafOfModules.restrictScalars (ringMap f)).obj I))
+    ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O')).obj G))
+    (PresheafOfModules.hom_ext fun U ↦ ModuleCat.MonoidalCategory.tensor_ext fun a x ↦ ?_)
+  refine (congrArg (g.val.app U) (multiplicationMap_tmul f I G i U a x)).trans ?_
   exact hker U _ (smul_mem_imageProductSubmodule i G U (show I.val.obj U from a) x)
 
 /-- **A morphism out of `G` kills the multiplication map exactly when it kills the ideal

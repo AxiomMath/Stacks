@@ -355,10 +355,8 @@ abbrev tensorSheafOfModules
 abbrev tensorSection (L N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
     (U : X.C) (s : L.val.obj (op U)) (t : N.val.obj (op U)) :
     (tensorSheafOfModules X L N).val.obj (op U) :=
-  ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2
-    ((PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val)))).app
-      (op U)).hom (s ⊗ₜ t)
+  (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+    (PresheafOfModules.tensorObj (O := X.O.obj) L.val N.val)).app (op U)).hom (s ⊗ₜ t)
 
 /-- The tensor product of two sections is compatible with restriction. -/
 theorem tensorSection_restrict
@@ -367,10 +365,8 @@ theorem tensorSection_restrict
     (tensorSheafOfModules X L N).val.restrictₛₗ f.op (tensorSection X L N U s t) =
       tensorSection X L N V (L.val.restrictₛₗ f.op s) (N.val.restrictₛₗ f.op t) :=
   (PresheafOfModules.naturality_apply
-    (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2
-      ((PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val))))
-        f.op (s ⊗ₜ t)).symm
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+      (PresheafOfModules.tensorObj (O := X.O.obj) L.val N.val)) f.op (s ⊗ₜ t)).symm
 
 end Tensor
 
@@ -411,16 +407,15 @@ theorem tensorSection_bijective
     (N.val.obj (op V)).isModule
   let P := (PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val))
   let Q := tensorSheafOfModules X L N
-  let η := (PresheafOfModules.toPresheaf _).map
-    (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P)
+  let u := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P
+  let η := (PresheafOfModules.toPresheaf _).map u
   let η' := Functor.whiskerRight η (forget AddCommGrpCat)
-  have : Presheaf.IsLocallyInjective X.J η := by
-    change Presheaf.IsLocallyInjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
-    infer_instance
-  have : Presheaf.IsLocallySurjective X.J η := by
-    change Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
-    infer_instance
+  have : Presheaf.IsLocallyInjective X.J η :=
+    Stacks.SheafOfModules.UliftTensor.isLocallyInjective_sheafificationForgetAdjunction_unit_app
+      X.O P
+  have : Presheaf.IsLocallySurjective X.J η :=
+    Stacks.SheafOfModules.UliftTensor.isLocallySurjective_sheafificationForgetAdjunction_unit_app
+      X.O P
   let R := (X.O.over U).obj ⋙ forget CommRingCat
   let T := (Over.forget U).op ⋙ P.presheaf ⋙ forget AddCommGrpCat
   let kf (V : (Over U)ᵒᵖ) : R.obj V → T.obj V := fun r : X.O.obj.obj (op V.unop.left) =>
@@ -501,8 +496,7 @@ theorem tensorSection_bijective
           N.val.restrictₛₗ (𝟙 U).op t) = _
       rw [hid L s, hid N t]
     rw [h0]
-    exact ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P).app (op U)).hom.map_smul r (s ⊗ₜ t)
+    exact (u.app (op U)).hom.map_smul r (s ⊗ₜ t)
   exact (funext hr) ▸ h
 
 /-- The tensor product of two local generators is a local generator of the tensor product
@@ -529,8 +523,8 @@ theorem tensorSection_smul (L N : SheafOfModules.{u} (Stacks.SheafOfModules.Tens
   let a' : X.O.obj.obj (op U) := a
   let b' : X.O.obj.obj (op U) := b
   let P := (PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val))
-  let η := (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P).app (op U)
+  let η := ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P).app
+    (op U)
   change η.hom ((a' • s) ⊗ₜ[X.O.obj.obj (op U)] (b' • t)) = (a * b) • tensorSection X L N U s t
   rw [TensorProduct.smul_tmul_smul a' b' s t]
   exact η.hom.map_smul (a' * b') (s ⊗ₜ t)

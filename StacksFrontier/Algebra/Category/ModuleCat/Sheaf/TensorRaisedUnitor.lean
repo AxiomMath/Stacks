@@ -32,9 +32,10 @@ module universe and the ring universe is needed, and none is assumed.
 
 The sheaf-level unitor is read off from the objectwise one through
 `Stacks.SheafOfModules.UliftTensor.isoOfLocallyBijective`: the tensor product receives its own
-sheafification unit, the target receives its identity, and both are locally bijective, so an
-isomorphism of the two sources gives one of the two sheaves.  No sheafification of the target is
-formed.
+sheafification unit (the unit of the sealed
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`), the target receives its
+identity, and both are locally bijective, so an isomorphism of the two sources gives one of the
+two sheaves.  No sheafification of the target is formed.
 
 Naturality of the objectwise unitor is the semilinearity of the restriction maps of a presheaf
 of modules, `PresheafOfModules.map_smul`, and nothing else.
@@ -88,10 +89,11 @@ noncomputable def unitorIso [HasWeakSheafify J AddCommGrpCat.{max t w}]
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max t w, max t w} (R)).obj
       (liftedUnit.{u, v, w, t} R)).obj N ≅ N :=
   isoOfLocallyBijective
-    (sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction.{_, _, _, max t w} R).unit.app
       (PresheafOfModules.tensorObj (liftedUnit.{u, v, w, t} R).val N.val))
     (𝟙 N.val)
-    (isLocallyInjective_sheafifyUnit _) (isLocallySurjective_sheafifyUnit _)
+    (isLocallyInjective_sheafificationForgetAdjunction_unit_app R _)
+    (isLocallySurjective_sheafificationForgetAdjunction_unit_app R _)
     inferInstance inferInstance
     (presheafUnitorIso.{u, v, w, t} R N.val)
 

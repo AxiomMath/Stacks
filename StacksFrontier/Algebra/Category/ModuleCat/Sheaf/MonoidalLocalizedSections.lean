@@ -92,10 +92,14 @@ chain the formulas as they stand. `tensorObjIsoLeft_inv_tensorSectionsAt` and it
 counterpart are that rewriting, and they are the tensor product of two morphisms — the crossing
 in one factor and the identity in the other — read on a product section.
 
-`Stacks.SheafOfModules.tensorSectionsAt_eq` is a `rfl`: `tensorSectionsAt` is by definition the
-image of a pure tensor under the sheafification unit, which is the spelling
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSections` uses. It is named rather
-than left to conversion so that a caller mixing the two spellings has something to cite.
+`Stacks.SheafOfModules.tensorSectionsAt_eq` relates the two spellings of a product section:
+`tensorSectionsAt` is the image of a pure tensor under the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` (right adjoint the plain forgetful
+functor), while `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSections` uses the
+unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` (right adjoint the forgetful
+functor followed by `restrictScalars (𝟙 _)`). The two agree on sections by
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply`; the lemma is
+named so that a caller mixing the two spellings has something to cite.
 
 ## References
 
@@ -150,12 +154,17 @@ theorem crossedMorphism_val_app {A B A' B' : SheafOfModules.{w} (structureSheaf 
       ((congrArg (fun θ : A' ⟶ B' => θ.val.app U x) h).trans hy))
 
 /-- `Stacks.SheafOfModules.tensorSectionsAt` is the image of a pure tensor of local sections
-under the unit of the sheafification adjunction, which is the spelling the section formulas of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSections` are stated in. -/
+under the unit of the sealed sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, which is the spelling the section
+formulas of `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSections` are stated
+in. -/
 theorem tensorSectionsAt_eq (U : Cᵒᵖ) (F G : SheafOfModules.{w} (structureSheaf O hO))
     (s : F.val.obj U) (t : G.val.obj U) :
-    tensorSectionsAt O hO U F G s t = (toSheafify O hO (F.val ⊗ G.val)).app U (s ⊗ₜ t) :=
-  rfl
+    tensorSectionsAt O hO U F G s t =
+      ((Tensor.sheafificationAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+          (F.val ⊗ G.val)).app U (s ⊗ₜ t) :=
+  Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ U _
 
 attribute [local instance] monoidalCategory braidedCategory symmetricCategory
 

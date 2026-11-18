@@ -261,7 +261,11 @@ tensor of their images in the two extensions of scalars, with no scalar left ove
 `extendScalarsTensorIso_hom_val_app_unit_tmul'` is absorbed by the unit on the second factor.
 In the chain of Tag 03EL at a morphism of ringed topoi it is the statement that the bottom two
 steps carry a pair of local sections of `f⁻¹F` and `f⁻¹G` to the pure tensor of their images in
-`f^*F ⊗_{O_C} f^*G`. -/
+`f^*F ⊗_{O_C} f^*G`.
+
+The two units into tensor product sheaves are those of the sealed sheafification, with the
+forgetful functor as right adjoint
+(`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`). -/
 lemma extendScalarsTensorIso_hom_val_app_extendScalarsUnit_tmul
     (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)) (V : Cᵒᵖ)
     (x : F.val.obj V) (y : G.val.obj V) :
@@ -270,13 +274,14 @@ lemma extendScalarsTensorIso_hom_val_app_extendScalarsUnit_tmul
             ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
               ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).obj
                 F).obj G))).val.app V
-          (((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf J A₁ h₁) (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).unit.app
+                (F.val ⊗ G.val : PresheafOfModules.{w} (ringPresheaf A₁))).app V
             (x ⊗ₜ[(ringPresheaf A₁).obj V] y))) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf J A₂ h₂) (𝟙 _)).unit.app
-            (((extendScalars J θ h₁ h₂).obj F).val ⊗
-              ((extendScalars J θ h₁ h₂).obj G).val)).app V
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂ (forget₂ CommRingCat RingCat) h₂⟩).unit.app
+            (((extendScalars J θ h₁ h₂).obj F).val ⊗ ((extendScalars J θ h₁ h₂).obj G).val :
+              PresheafOfModules.{w} (ringPresheaf A₂))).app V
         ((((extendRestrictScalarsAdjunction J θ h₁ h₂).unit.app F).val.app V x)
             ⊗ₜ[(ringPresheaf A₂).obj V]
           (((extendRestrictScalarsAdjunction J θ h₁ h₂).unit.app G).val.app V y)) := by

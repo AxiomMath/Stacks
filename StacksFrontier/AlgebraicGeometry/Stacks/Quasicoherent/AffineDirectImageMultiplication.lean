@@ -297,9 +297,10 @@ attribute [local instance] hasSheafCompose_forget_ringCat
 attribute [local instance] fppfModulesMonoidal fppfModulesBraided fppfModulesSymmetric
 attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
 
-/-- The sheafification adjunction of presheaves of modules on the fppf site of `𝒳`. -/
-local notation "𝔰" => Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-  (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
+/-- The sealed sheafification adjunction of presheaves of modules on the fppf site of `𝒳`, with
+the plain forgetful functor as right adjoint. -/
+local notation "𝔰" => Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+  (fppfStructureCommRingSheaf B S hS 𝒳)
 
 /-- The identification of the fppf direct image along `g` with the right Kan extension. -/
 local notation "𝔦" => fppfModulesPushforwardIsoModuleDirectImage B S hS g
@@ -317,14 +318,15 @@ the objectwise multiplication. -/
 theorem directImageMulRan_val_app_toSheafify (y : 𝒳.val.val.obj)
     (z : directImageMulSections g y) :
     (directImageMulRan g).val.app (op y)
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
-          (fppfStructurePresheaf_isSheaf B S hS 𝒳) _).app (op y) z) =
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          (fppfStructureCommRingSheaf B S hS 𝒳)).unit.app _).app (op y) z) =
       (directImageMulApp g y).hom z := by
-  have h2 : (𝔰).unit.app _ ≫ (SheafOfModules.forget _ ⋙
-      PresheafOfModules.restrictScalars _).map (directImageMulRan g) =
-        directImageMulPresheafMap g :=
+  have h2 : (𝔰).unit.app _ ≫ (SheafOfModules.forget _).map (directImageMulRan g) =
+      directImageMulPresheafMap g :=
     ((𝔰).homEquiv_unit (f := directImageMulRan g)).symm.trans (Equiv.apply_symm_apply _ _)
-  exact congrArg (fun φ => (φ.app (op y)).hom z) h2
+  exact (congrArg ((directImageMulRan g).val.app (op y))
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      _ _ _ z).symm).trans (congrArg (fun φ => (φ.app (op y)).hom z) h2)
 
 end SheafMap
 

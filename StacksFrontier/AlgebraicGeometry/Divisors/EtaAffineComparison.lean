@@ -83,7 +83,7 @@ modules and a fibre product of modules respectively; nothing about the décalage
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite
 open Stacks.SheafOfModules.TensorStalkRingedSpace (ringStalk grpStalk grpGerm ringGerm
-  toTensorSheafSection tensorStalkIso tensorStalkIso_germ sheafifyUnit stalkModule_germ_smul)
+  toTensorSheafSection tensorStalkIso tensorStalkIso_germ stalkModule_germ_smul)
 open Stacks.SheafOfModules.Invertible (tensorProduct tensorProductBifunctor
   tensorProductRightUnitor tensorRightFunctor_isEquivalence
   powSuccIso powSuccIso_natural tensorPowerEquivalence)
@@ -312,7 +312,8 @@ private noncomputable def tensorGen (I M : SheafOfModules.{u} Oₓ) (V : Opens X
       (sectionsFunctor X V).obj
           ((((Stacks.SheafOfModules.Tensor.sheafTensor
           ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (M)).obj (I))) :=
-    (sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (M.val) (I.val)))).app (op V)
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val)).app (op V)
   s.hom ∘ₗ (TensorProduct.mk (X.presheaf.obj (op V))
     (M.val.obj (op V)) (I.val.obj (op V))).flip g
 

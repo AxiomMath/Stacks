@@ -199,8 +199,7 @@ theorem bijective_pointsMapULift (h : IsReduction B S hS X Xred i) :
     refine Quot.sound ⟨⟨common.carrier, common.contained, common.toBase, value⟩,
       ⟨toFirst, ?_⟩, ⟨toSecond, ?_⟩⟩ <;>
     · apply (h.bijective_app _ hred).1
-      rw [NatTrans.naturality_apply, hvalue]
-      assumption
+      rwa [NatTrans.naturality_apply, hvalue]
   · intro point
     induction point using Quot.ind with | _ point =>
     have hred := isReduced_toScheme_obj_siteObject X.obj point

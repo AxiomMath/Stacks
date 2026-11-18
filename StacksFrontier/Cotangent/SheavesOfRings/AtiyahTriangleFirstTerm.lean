@@ -101,23 +101,6 @@ abbrev atiyahFirstTermCoefficients (F : SheafOfModules.{u} (targetRing J (B := B
         ((SheafOfModules.forget _).obj
           ((extendAugmentationScalars J f).obj (simplicialDifferentials J f)))))
 
-omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
-/-- **The first term of the sequence of principal parts is the sheafification of an objectwise
-tensor product.** -/
-theorem simplicialPrincipalPartsX₁_eq (F : SheafOfModules.{u} (targetRing J (B := B))) :
-    (simplicialPrincipalPartsShortComplex J f F).X₁ =
-      (PresheafOfModules.sheafification
-          (R := commRingSheaf (projectionTopology C J) ((simplicialResolution J f)).obj
-            (Stacks.SheafOfModules.Tensor.ringSheaf (simplicialResolution J f)).property) (𝟙 _)).obj
-        (Stacks.tensorObj
-          ((PresheafOfModules.restrictScalars
-            (commRingSheafMap (projectionTopology C J) (simplicialAugmentation J f).hom
-              (Stacks.SheafOfModules.Tensor.ringSheaf (simplicialResolution J f)).property
-              (Stacks.SheafOfModules.Tensor.ringSheaf (projectionCommRing J B)).property).hom).obj
-            (projectionCoefficients J (B := B) F).val)
-          (simplicialDifferentials J f).val) :=
-  rfl
-
 /-- **`Ω_{𝒫/π^{-1}𝒜} ⊗_𝒫 ℱ ≅ ε_*Y₀`**, the transitivity of the tensor product across the
 augmentation, with nothing assumed on `ε`. -/
 def simplicialPrincipalPartsX₁TransitivityIso
@@ -125,7 +108,8 @@ def simplicialPrincipalPartsX₁TransitivityIso
     (simplicialPrincipalPartsShortComplex J f F).X₁ ≅
       (SheafOfModules.restrictScalars (simplicialAugmentationRing J f)).obj
         (atiyahFirstTermCoefficients J f F) :=
-  eqToIso (simplicialPrincipalPartsX₁_eq J f F) ≪≫
+  Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ (simplicialCoefficients J f F)
+      (simplicialDifferentials J f) ≪≫
     Stacks.SheafOfModules.TensorTransitivity.tensorRestrictScalarsTransitivityIso
       (projectionTopology C J) (simplicialAugmentation J f).hom
       (Stacks.SheafOfModules.Tensor.ringSheaf (simplicialResolution J f)).property

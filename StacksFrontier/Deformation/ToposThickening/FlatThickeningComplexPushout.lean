@@ -294,9 +294,7 @@ theorem secondExtension_actionMap :
 theorem secondExtension_f_tmul (U : Y.Cᵒᵖ) (b : D.upper.lower.second.I.val.obj U)
     (x : D.secondExtension.Z.left.val.obj U) :
     D.secondExtension.f.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
           (PresheafOfModules.tensorObj D.upper.lower.second.I.val D.F.val)).app U
           (b ⊗ₜ[(baseRing i).obj.obj U] D.secondExtension.g.val.app U x)) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf D.upper.lower.O₂).obj.obj U from
@@ -390,9 +388,7 @@ theorem pushout_smul_eq_zero (U : Y.Cᵒᵖ) (a : D.upper.lower.O₂.obj.obj U)
       (tensorSheaf_map_unit_tmul (baseRing i) D.upper.idealMap₂₁ (Opposite.op V) b _)).trans ?_
     rw [hzero]
     refine (congrArg (fun z ↦ inr.val.app (Opposite.op V)
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
         (PresheafOfModules.tensorObj D.upper.lower.first.I.val D.F.val)).app (Opposite.op V) z))
       (TensorProduct.zero_tmul _ _)).trans ?_
     exact (congrArg (inr.val.app (Opposite.op V)) (map_zero _)).trans (map_zero _)

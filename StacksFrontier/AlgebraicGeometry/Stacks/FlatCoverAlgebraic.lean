@@ -27,7 +27,8 @@ The diagonal of `𝒴` is proved representable by Stacks 05XW
 smooth surjective cover is the locally-complete-intersection locus `∐_{d ≥ 1} 𝓗_{d, lci}(𝒳/𝒴)`
 of the relative finite Hilbert stack (Stacks 06CI, 06CL, 06CH, 06D9, 06DA). The assembly step
 `AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation` in
-`StacksFrontier.AlgebraicGeometry.Stacks.GroupoidPresentationBootstrap`, which takes the diagonal and
+`StacksFrontier.AlgebraicGeometry.Stacks.GroupoidPresentationBootstrap`, which takes the diagonal
+and
 the cover as arguments, is no longer registered for Stacks 06DC; this file is its registration.
 
 ## References

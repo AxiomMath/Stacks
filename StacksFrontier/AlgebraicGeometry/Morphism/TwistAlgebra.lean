@@ -116,9 +116,8 @@ public theorem comparison_comp_mulSheaf_pullbackGradedAlgebra (f : X ⟶ Y)
       (SheafOfModules.GradedAlgebra.mulSheaf_unit A i j (op V) a b).symm) ?_
   exact (pullbackUnit_naturality f.toLRSHom.toShHom
     (SheafOfModules.GradedAlgebra.mulSheaf A i j) (op V)
-    (Hom.app ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.RingedSpace.structureRingSheaf (Y.toRingedSpace))
-        (𝟙 (Stacks.RingedSpace.structureRingSheaf (Y.toRingedSpace)).obj)).unit.app
+    (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        Y.toRingedSpace.sheaf).unit.app
       (PresheafOfModules.tensorObj (O := (Y.toRingedSpace).presheaf)
         ((A.piece i)).val ((A.piece j)).val)) (op V) (a ⊗ₜ b))).symm
 
@@ -178,11 +177,8 @@ public def relativeTwistAlgebraHom :
             (relativeMapHom ψ).toLRSHom.toShHom (twistAlgebra A)) i j U x y).symm).trans
       ((congrArg
           (fun φ => Hom.app (SheafOfModules.Hom.val φ) U
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.RingedSpace.structureRingSheaf
-                  (ψ.relativeMapDomain.toScheme.toRingedSpace))
-                (𝟙 (Stacks.RingedSpace.structureRingSheaf
-                  (ψ.relativeMapDomain.toScheme.toRingedSpace)).obj)).unit.app
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+                ψ.relativeMapDomain.toScheme.toRingedSpace.sheaf).unit.app
               (PresheafOfModules.tensorObj
                 (O := (ψ.relativeMapDomain.toScheme.toRingedSpace).presheaf)
                 (((Scheme.Modules.pullback (relativeMapHom ψ)).obj (relativeTwist A i))).val

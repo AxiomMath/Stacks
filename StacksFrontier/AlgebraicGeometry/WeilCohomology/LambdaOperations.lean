@@ -289,7 +289,8 @@ theorem isUnit_exteriorClassSeries (E : X.Modules) : IsUnit (exteriorClassSeries
 /-! ### The geometric input of the source's proof -/
 
 /-- **The geometric input of Tag 0FIC**, proved on every scheme as
-`AlgebraicGeometry.VectorBundleKZero.exteriorPowersData`: along a short exact sequence `0 → ℰ → ℱ → 𝒢 → 0` of finite locally
+`AlgebraicGeometry.VectorBundleKZero.exteriorPowersData`: along a short exact sequence
+`0 → ℰ → ℱ → 𝒢 → 0` of finite locally
 free modules, `⋀ⁿ ℱ` carries a filtration with `n + 1` steps whose graded pieces are the
 `⋀ⁱ ℰ ⊗ ⋀^{n - i} 𝒢`.
 

@@ -297,6 +297,26 @@ section Tensor
 
 variable {X : RingedSpace.{u, u}} (F G : _root_.SheafOfModules.{u} (structureSheafRing X))
 
+/-- The canonical map from the presheaf tensor product into the sheafified one is additive. -/
+private theorem toTensorSheafSection_add (U : (Opens X.carrier)ᵒᵖ)
+    (x y : TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U)) :
+    toTensorSheafSection X F G U (x + y) =
+      toTensorSheafSection X F G U x + toTensorSheafSection X F G U y :=
+  map_add (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom x y
+
+/-- The canonical map from the presheaf tensor product into the sheafified one is
+`𝒪(U)`-linear. -/
+private theorem toTensorSheafSection_smul (U : (Opens X.carrier)ᵒᵖ) (r : X.presheaf.obj U)
+    (x : TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U)) :
+    toTensorSheafSection X F G U (r • x) =
+      @SMul.smul ((Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj.obj U)
+          _ _ r (toTensorSheafSection X F G U x) :=
+  (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom.map_smul r x
+
 /-- A tensor of two global sections is additive over `U` in its left factor. -/
 private theorem tensorSections_eval_add_left (s s₁ s₂ : F.sections) (t : G.sections)
     (U : (Opens X.carrier)ᵒᵖ) (h : s.eval U = s₁.eval U + s₂.eval U) :
@@ -304,8 +324,7 @@ private theorem tensorSections_eval_add_left (s s₁ s₂ : F.sections) (t : G.s
       (tensorSections F G s₁ t).eval U + (tensorSections F G s₂ t).eval U := by
   rw [tensorSections_eval, tensorSections_eval, tensorSections_eval, h,
     TensorProduct.add_tmul]
-  exact map_add ((sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom _ _
+  exact toTensorSheafSection_add F G U _ _
 
 /-- A tensor of two global sections is additive over `U` in its right factor. -/
 private theorem tensorSections_eval_add_right (s : F.sections) (t t₁ t₂ : G.sections)
@@ -314,8 +333,7 @@ private theorem tensorSections_eval_add_right (s : F.sections) (t t₁ t₂ : G.
       (tensorSections F G s t₁).eval U + (tensorSections F G s t₂).eval U := by
   rw [tensorSections_eval, tensorSections_eval, tensorSections_eval, h,
     TensorProduct.tmul_add]
-  exact map_add ((sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom _ _
+  exact toTensorSheafSection_add F G U _ _
 
 /-- A tensor of two global sections is homogeneous over `U` in its left factor. -/
 private theorem tensorSections_eval_smul_left (s s₁ : F.sections) (t : G.sections)
@@ -325,12 +343,8 @@ private theorem tensorSections_eval_smul_left (s s₁ : F.sections) (t : G.secti
       @SMul.smul ((Stacks.SheafOfModules.Tensor.ringSheaf
           ⟨X.presheaf, X.IsSheaf⟩).obj.obj U) _ _ r
         ((tensorSections F G s₁ t).eval U) := by
-  rw [tensorSections_eval, tensorSections_eval, h]
-  refine Eq.trans (congrArg (toTensorSheafSection X F G U)
-    (TensorProduct.smul_tmul' r (s₁.eval U) (t.eval U))) ?_
-  exact map_smul ((sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom r
-    (s₁.eval U ⊗ₜ[X.presheaf.obj U] t.eval U)
+  rw [tensorSections_eval, tensorSections_eval, h, ← TensorProduct.smul_tmul']
+  exact toTensorSheafSection_smul F G U r _
 
 /-- A tensor of two global sections is homogeneous over `U` in its right factor. -/
 private theorem tensorSections_eval_smul_right (s : F.sections) (t t₁ : G.sections)
@@ -340,12 +354,8 @@ private theorem tensorSections_eval_smul_right (s : F.sections) (t t₁ : G.sect
       @SMul.smul ((Stacks.SheafOfModules.Tensor.ringSheaf
           ⟨X.presheaf, X.IsSheaf⟩).obj.obj U) _ _ r
         ((tensorSections F G s t₁).eval U) := by
-  rw [tensorSections_eval, tensorSections_eval, h]
-  refine Eq.trans (congrArg (toTensorSheafSection X F G U)
-    (TensorProduct.tmul_smul r (s.eval U) (t₁.eval U))) ?_
-  exact map_smul ((sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom r
-    (s.eval U ⊗ₜ[X.presheaf.obj U] t₁.eval U)
+  rw [tensorSections_eval, tensorSections_eval, h, TensorProduct.tmul_smul]
+  exact toTensorSheafSection_smul F G U r _
 
 end Tensor
 

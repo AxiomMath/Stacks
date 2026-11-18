@@ -41,10 +41,14 @@ composite with the tautological presentation.
 
 * `Stacks.Coherent.freeGradedModuleOnMap_app_tmul` — the induced homomorphism sends `x ⊗ a` to
   `ψ(x) ⊗ a`.
+* `Stacks.Coherent.freeGradedModuleOnMap_app_eq_sheafification_map` — its degree-`n` component
+  is Mathlib's sheafification of the objectwise tensor product of `ψ` with the identity of
+  `𝓟_{n-d}`.
 * `Stacks.Coherent.freeGradedModuleOnMap_app_eq` — **its degree-`n` component is the tensor
   product of `ψ` with the identity of `𝓟_{n-d}`**, the component
   `((Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf).map ψ).app 𝓟_{n-d}` of the tensor
-  bifunctor.
+  bifunctor conjugated by `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`: the tensor product
+  sheaf is formed with the sealed sheafification, the degree-`n` piece with Mathlib's.
 * `Stacks.Coherent.epi_app_freeGradedModuleOnMap` — **the induced homomorphism is an
   epimorphism in every homogeneous degree as soon as `ψ` is an epimorphism**, by
   `Stacks.SheafOfModules.TensorPresentations.tensorSheafMapOnSite_epi`.
@@ -161,21 +165,38 @@ public theorem freeGradedModuleOnMap_app_tmul (n : ℤ) (U : X.Opensᵒᵖ) (x :
     (isSheaf_structureRingPresheaf X) F (shiftedAlgebraModule P d) (freeGradedModuleOn G P d)
     (freeGradedMapBil ψ d) (freeGradedMapBil_map_smul ψ d) n U x a
 
-/-- The degree-`n` piece of `F ⊗ 𝓟(-d)` is the tensor product sheaf `F ⊗ 𝓟_{n-d}`, and the
-degree-`n` component of the induced homomorphism is the tensor product of `ψ` with the identity
-of that factor. Both sides send `x ⊗ a` to `ψ(x) ⊗ a`. -/
-public theorem freeGradedModuleOnMap_app_eq (n : ℤ) :
+/-- The degree-`n` piece of `F ⊗ 𝓟(-d)` is Mathlib's sheafification of the objectwise tensor
+product `F ⊗ 𝓟_{n-d}`, and the degree-`n` component of the induced homomorphism is the
+sheafification of the objectwise tensor product of `ψ` with the identity of that factor. Both
+sides send `x ⊗ a` to `ψ(x) ⊗ a`. -/
+public theorem freeGradedModuleOnMap_app_eq_sheafification_map (n : ℤ) :
     (freeGradedModuleOnMap ψ d).app n =
-      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).map ψ).app
-        ((shiftedAlgebraModule P d).piece n) :=
+      (PresheafOfModules.sheafification
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).map
+        (PresheafOfModulesOfCommRing.Monoidal.tensorHom ψ.val
+          (𝟙 (((shiftedAlgebraModule P d).piece n).val))) :=
   SheafOfModules.GradedModule.tensorLeft_hom_ext X.presheaf
     (isSheaf_structureRingPresheaf X) F (shiftedAlgebraModule P d) n fun U x a =>
       (freeGradedModuleOnMap_app_tmul ψ d n U x a).trans
         (PresheafOfModules.unit_naturality_apply
-          (α := 𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf X.presheaf
-            (isSheaf_structureRingPresheaf X)).obj)
+          (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)
           (PresheafOfModulesOfCommRing.Monoidal.tensorHom ψ.val
             (𝟙 (((shiftedAlgebraModule P d).piece n).val))) U (x ⊗ₜ a)).symm
+
+/-- The degree-`n` component of the induced homomorphism is the tensor product of `ψ` with the
+identity of `𝓟_{n-d}`, the component of the tensor bifunctor, read through the identification
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` of the degree-`n` piece of `F ⊗ 𝓟(-d)` (the
+sheafification of the objectwise tensor product `F ⊗ 𝓟_{n-d}`) with the tensor product sheaf. -/
+public theorem freeGradedModuleOnMap_app_eq (n : ℤ) :
+    (freeGradedModuleOnMap ψ d).app n =
+      (Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf F
+          ((shiftedAlgebraModule P d).piece n)).inv ≫
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).map ψ).app
+          ((shiftedAlgebraModule P d).piece n) ≫
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf G
+          ((shiftedAlgebraModule P d).piece n)).hom :=
+  (freeGradedModuleOnMap_app_eq_sheafification_map ψ d n).trans
+    (NatIso.naturality_2 (Stacks.SheafOfModules.Tensor.sheafificationIso X.sheaf) _).symm
 
 /-- **The induced homomorphism is an epimorphism in every homogeneous degree as soon as `ψ`
 is.** Tensoring an epimorphism of sheaves of modules by a sheaf of modules is an epimorphism
@@ -192,7 +213,11 @@ public theorem epi_app_freeGradedModuleOnMap [Epi ψ] (n : ℤ) :
     Stacks.SheafOfModules.TensorPresentations.tensorSheafMapOnSite_epi X.presheaf
       (isSheaf_structureRingPresheaf X) ψ (𝟙 _) (rightEpi := CategoryTheory.instEpiId _)
   rw [CategoryTheory.Functor.map_id, Category.comp_id] at h
-  rwa [freeGradedModuleOnMap_app_eq ψ d n]
+  have h' : Epi ((Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf F Y).inv ≫
+      (T.map ψ).app Y ≫ (Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf G Y).hom) :=
+    inferInstance
+  rw [freeGradedModuleOnMap_app_eq ψ d n]
+  exact h'
 
 /-- **Compatibility with the universal property of the free graded module**: the homomorphism
 induced by `ψ : F ⟶ G`, followed by the extension of `φ : G ⟶ N_d` along the universal property

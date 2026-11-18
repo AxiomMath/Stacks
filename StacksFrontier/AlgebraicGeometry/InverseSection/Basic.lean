@@ -69,13 +69,14 @@ only **locally** bijective, and this is where the sheaf conditions enter:
 * *Gluing.* The local inverses agree on overlaps by injectivity, glue by the sheaf condition for
   `L ^⊗ (-1)`, and the glued section pairs to `1` because the structure sheaf is separated.
 
-Local injectivity and local surjectivity of the sheafification unit are not proved here: the
-underlying map of presheaves of abelian groups of
-  `Stacks.SheafOfModules.TensorSheafification.toSheafify` **is**
-`CategoryTheory.toSheafify`, definitionally, so Mathlib's instances for the latter apply. That
-identification is `PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app`, and the
-two instances are the ones provided by `GrothendieckTopology.WEqualsLocallyBijective`, which is
-a hypothesis of every statement about tensor powers in this development.
+The sheafification unit throughout is the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the sealed sheafification inside the
+tensor product sheaf with the plain forgetful functor as right adjoint. Its local injectivity and
+local surjectivity are not proved here: it is the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` followed by an isomorphism, and that unit
+is locally injective and locally surjective by the instances of
+`Stacks.SheafOfModules.Tensor`, which come from `GrothendieckTopology.WEqualsLocallyBijective`, a
+hypothesis of every statement about tensor powers in this development.
 
 ## Implementation notes
 
@@ -89,7 +90,7 @@ to reconcile two spellings of its sections does not elaborate. Three devices kee
 inside the budget, and all of them are load-bearing:
 
 * every compatibility with restriction and every congruence is proved **once, generically** --
-  `Stacks.InverseSection.res_val_app`, `hom_app_eq_of_res_eq`, `app_congr`, `hom_app_congr`,
+  `Stacks.InverseSection.res_val_app`, `hom_app_eq_of_res_eq`, `hom_app_congr`,
   `Stacks.InverseSection.app_presheaf_map`, `Stacks.InverseSection.comp_app_apply` -- and then
   applied to the specific morphism as a whole;
 * the unit section of the structure sheaf is given a name, `Stacks.InverseSection.unitOne`, so
@@ -168,11 +169,6 @@ theorem hom_app_eq_of_res_eq {M N : SheafOfModules.{u} (structureSheaf X.sheaf)}
     f.val.app (op W') n = c' :=
   hn ▸ (res_val_app f h m).trans ((congrArg (Stacks.NonvanishingTrivialize.res h) hm).trans hc)
 
-/-- Congruence for a component of a morphism of presheaves of modules. -/
-theorem app_congr {P Q : PresheafOfModules.{u} (structureRingPresheaf X.sheaf.obj)} (f : P ⟶ Q)
-    (W : Opens X) {a b : P.obj (op W)} (h : a = b) : f.app (op W) a = f.app (op W) b :=
-  congrArg _ h
-
 /-- Congruence for a component of a morphism of sheaves of modules. Generic on purpose: with the
 specific morphisms of this development the elaborator has to identify two spellings of the
 sections, and doing it under a `congrArg` whose function mentions them is far deeper than doing
@@ -202,21 +198,6 @@ theorem hom_app_res_inv_app {M N : SheafOfModules.{u} (structureSheaf X.sheaf)} 
     i.hom.val.app (op W') (Stacks.NonvanishingTrivialize.res h (i.inv.val.app (op W) n)) =
       Stacks.NonvanishingTrivialize.res h n :=
   hom_app_eq_of_res_eq i.hom h (hom_app_inv_app i W n) rfl rfl
-
-/-- Restriction of a section inside the restriction-of-scalars-along-an-identity wrapper that
-`Stacks.SheafOfModules.TensorSheafification.toSheafify` produces as its codomain is restriction of
-  a section of the sheaf
-itself. Generic on purpose: this identification is what lets the local surjectivity of the
-sheafification unit be read in the spelling the rest of the proof uses. -/
-theorem restrictScalarsId_presheaf_map {M : SheafOfModules.{u} (structureSheaf X.sheaf)}
-    {W W' : Opens X} (h : W' ⟶ W)
-    (m : ((SheafOfModules.forget (structureSheaf X.sheaf) ⋙
-        PresheafOfModules.restrictScalars
-          (𝟙 (structureSheaf X.sheaf).obj)).obj M).presheaf.obj (op W)) :
-    ((SheafOfModules.forget (structureSheaf X.sheaf) ⋙
-        PresheafOfModules.restrictScalars
-          (𝟙 (structureSheaf X.sheaf).obj)).obj M).presheaf.map h.op m =
-      Stacks.NonvanishingTrivialize.res h m := rfl
 
 /-- Restriction of a section of the structure sheaf, read through `SheafOfModules.unit`, is
 restriction in `X.presheaf`. -/
@@ -269,33 +250,62 @@ theorem exists_res_eq {M : SheafOfModules.{u} (structureSheaf X.sheaf)} {ι : Ty
 
 end Generic
 
+section SealedUnit
+
+variable {C : Type*} [Category* C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+
+/-- **The sheafification unit of presheaves of modules is locally surjective**, in the form with
+the plain forgetful functor as right adjoint. The unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is that of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, which is locally surjective, followed by
+an isomorphism, by `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app`. -/
+theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf _).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+/-- **The sheafification unit of presheaves of modules is locally injective**, in the form with
+the plain forgetful functor as right adjoint, by the same argument as
+`isLocallySurjective_sheafificationForgetAdjunction_unit_app`. -/
+theorem isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf _).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+end SealedUnit
+
 section Locality
 
 variable {X : RingedSpace.{u}}
 
-/-- **The sheafification unit of presheaves of modules is locally surjective.** Its underlying
-map of presheaves of abelian groups is `CategoryTheory.toSheafify` on the nose, by
-`PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app`, so this is Mathlib's
-instance for the latter. -/
-instance isLocallySurjective_toSheafify
+/-- **The sheafification unit of presheaves of modules on a ringed space is locally surjective**:
+`isLocallySurjective_sheafificationForgetAdjunction_unit_app` at the spelling of this
+development, where instance search cannot match the general statement. -/
+instance isLocallySurjective_sheafificationUnit
     (P : PresheafOfModules.{u} (structureRingPresheaf X.sheaf.obj)) :
     Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
-      ((PresheafOfModules.toPresheaf _).map
-        (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property P)) := by
-  change Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
-    (CategoryTheory.toSheafify (Opens.grothendieckTopology X) P.presheaf)
-  infer_instance
+      ((PresheafOfModules.toPresheaf (structureRingPresheaf X.sheaf.obj)).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+              (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app P)) :=
+  isLocallySurjective_sheafificationForgetAdjunction_unit_app _ P
 
-/-- **The sheafification unit of presheaves of modules is locally injective**, by the same
-identification as `isLocallySurjective_toSheafify`. -/
-instance isLocallyInjective_toSheafify
+/-- **The sheafification unit of presheaves of modules on a ringed space is locally injective**:
+`isLocallyInjective_sheafificationForgetAdjunction_unit_app` at the spelling of this
+development. -/
+instance isLocallyInjective_sheafificationUnit
     (P : PresheafOfModules.{u} (structureRingPresheaf X.sheaf.obj)) :
     Presheaf.IsLocallyInjective (Opens.grothendieckTopology X)
-      ((PresheafOfModules.toPresheaf _).map
-        (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property P)) := by
-  change Presheaf.IsLocallyInjective (Opens.grothendieckTopology X)
-    (CategoryTheory.toSheafify (Opens.grothendieckTopology X) P.presheaf)
-  infer_instance
+      ((PresheafOfModules.toPresheaf (structureRingPresheaf X.sheaf.obj)).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+              (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app P)) :=
+  isLocallyInjective_sheafificationForgetAdjunction_unit_app _ P
 
 /-- Local surjectivity, read as a statement about open neighbourhoods: a section of the target
 over `W` is, near every point of `W`, the image of a section of the source. This is
@@ -373,9 +383,10 @@ theorem tensorPowPairingIso_hom_val_app (h : (1 : ℤ) + -1 = 0) (W : Opens X)
     (tensorPowReindexIso X.sheaf.obj (structureSheaf X.sheaf).property L h).hom.val
     (tensorPowZeroIso X.sheaf.obj (structureSheaf X.sheaf).property L).hom.val (op W) _
 
-/-- **Local surjectivity of the sheafification unit of the presheaf tensor product**, with the
-restriction on the right-hand side spelled through the sheafified tensor product, which is the
-spelling the rest of the proof uses. -/
+/-- **Local surjectivity of the sheafification unit of the presheaf tensor product**, the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, with the restriction on the
+left-hand side spelled through the sheafified tensor product, which is the spelling the rest of
+the proof uses. -/
 theorem exists_nhd_toSheafify_tensor_eq {W : Opens X}
     (xi : ((((Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
@@ -392,18 +403,17 @@ theorem exists_nhd_toSheafify_tensor_eq {W : Opens X}
                   (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).obj
                 ((tensorPow X.sheaf.obj (structureSheaf X.sheaf).property L 1))).obj
                 ((tensorPow X.sheaf.obj (structureSheaf X.sheaf).property L (-1))))) i xi =
-          (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+                (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
             ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
               ((powPre L (-1)))))).app (op V) z := by
   obtain ⟨V, i, hxV, z, hz⟩ := exists_nhd_app_eq
-    (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-      ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1)) ((powPre L (-1)))))) xi hx
-  exact ⟨V, i, hxV, z, (hz.trans (restrictScalarsId_presheaf_map
-    (M := (((Stacks.SheafOfModules.Tensor.sheafTensor
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
         ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
-          (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).obj
-        ((tensorPow X.sheaf.obj (structureSheaf X.sheaf).property L 1))).obj
-        ((tensorPow X.sheaf.obj (structureSheaf X.sheaf).property L (-1))))) i xi)).symm⟩
+          (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
+      ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1)) ((powPre L (-1)))))) xi hx
+  exact ⟨V, i, hxV, z, hz.symm⟩
 
 /-- A section pairing to `1` restricts to a section pairing to `1`. -/
 theorem pairingHom_res_eq_one (s : L.sections) {W W' : Opens X} (h : W' ⟶ W)
@@ -430,18 +440,24 @@ theorem eq_of_pairingHom_eq (s : L.sections) {W : Opens X}
       (tensorPowPairingIso X.sheaf.obj (structureSheaf X.sheaf).property L) W).injective
       ((pairingHom_val_app' L s W t).symm.trans
         (hEq.trans (pairingHom_val_app' L s W t')))
-  have h2 : (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
+  have h2 : ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+        (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
         ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
           ((powPre L (-1)))))).app (op W)
           ((tensorLeftSection L s).app (op W) t) =
-      (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+            (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
         ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
           ((powPre L (-1)))))).app (op W)
           ((tensorLeftSection L s).app (op W) t') :=
     (tensorLeftSectionSheaf_val_app' L s W t).symm.trans
       (h1.trans (tensorLeftSectionSheaf_val_app' L s W t'))
   choose V iV hxV hV using fun x : W =>
-    exists_nhd_map_eq (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
+    exists_nhd_map_eq ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+          (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
       ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1)) ((powPre L (-1))))))
       ((tensorLeftSection L s).app (op W) t) ((tensorLeftSection L s).app (op W) t') h2 x.2
   refine Stacks.NonvanishingTrivialize.eq_of_res_eq V W iV
@@ -477,16 +493,12 @@ theorem exists_nhd_pairingHom_eq_one_aux (s : L.sections) {W : Opens X}
   obtain ⟨V, i, hxV, y, hy⟩ := exists_nhd_toSheafify_tensor_eq L xi hx
   obtain ⟨t, ht⟩ := (bijective_tensorLeftSection_app L s ((leOfHom i).trans hW)).2 y
   have ht' : (tensorLeftSection L s).app (op V) t = y := ht
+  subst ht'
   refine ⟨V, leOfHom i, hxV, t, ?_⟩
   refine (pairingHom_val_app' L s V t).trans ?_
   refine (hom_app_congr (tensorPowPairingIso X.sheaf.obj
     (structureSheaf X.sheaf).property L).hom V
       (tensorLeftSectionSheaf_val_app' L s V t)).trans ?_
-  refine (hom_app_congr (tensorPowPairingIso X.sheaf.obj
-    (structureSheaf X.sheaf).property L).hom V
-      (app_congr (toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
-        ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
-          ((powPre L (-1)))))) V ht')).trans ?_
   exact hom_app_eq_of_res_eq (tensorPowPairingIso X.sheaf.obj
     (structureSheaf X.sheaf).property L).hom i hxi hy (unitOne_res i)
 
@@ -549,7 +561,8 @@ nonvanishing open of a global section `s` of an invertible module, there is a se
 `(-1)`-st tensor power whose canonical tensor-power pairing with `s` evaluates to `1`.
 
 The pairing is the one the tagged statement names: form the elementary tensor of `s`, read in the
-first tensor power, with `t`; push it into the sheafified tensor product; apply the addition
+first tensor power, with `t`; push it into the sheafified tensor product along the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`; apply the addition
 isomorphism of Stacks Tag 01CU in degrees `1` and `-1`; reindex along `1 + (-1) = 0`. The tagged
 statement then compares the result with `1` directly, its zeroth tensor power being the unit of
 `SheafOfModules` on the nose; here the zeroth tensor power is the *sheafified* unit, so
@@ -567,7 +580,9 @@ theorem exists_tensorInv_section_pairing_eq_one (s : L.sections) :
           ((tensorPowAddIsoSheaf X.sheaf.obj (structureSheaf X.sheaf).property L
               1 (-1)).hom.val.app
             (op (Stacks.NonvanishingTrivialize.nonvanishingOpen X L s))
-            ((toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+                  (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
                 ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
                   ((powPre L (-1)))))).app
               (op (Stacks.NonvanishingTrivialize.nonvanishingOpen X L s))
@@ -590,7 +605,9 @@ theorem exists_tensorInv_section_pairing_eq_one (s : L.sections) :
         ((tensorPowAddIsoSheaf X.sheaf.obj (structureSheaf X.sheaf).property L
             1 (-1)).hom.val.app
           (op (Stacks.NonvanishingTrivialize.nonvanishingOpen X L s))
-          ((toSheafify X.sheaf.obj (structureSheaf X.sheaf).property
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj)
+                (forget₂ CommRingCat RingCat) ((structureSheaf X.sheaf).property)⟩).unit.app
               ((PresheafOfModules.tensorObj (O := X.sheaf.obj) ((powPre L 1))
                 ((powPre L (-1)))))).app
             (op (Stacks.NonvanishingTrivialize.nonvanishingOpen X L s))

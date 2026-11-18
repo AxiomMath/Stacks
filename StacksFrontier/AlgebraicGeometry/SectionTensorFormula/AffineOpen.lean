@@ -155,11 +155,25 @@ def tensorSheafUnitAdd (F G : X.Modules) (V : X.Opens) :
       (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩))).obj (F, G)).val.obj
           (op V) :=
-  (Hom.app ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf (X.toRingedSpace))
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf (X.toRingedSpace)).obj)).unit.app
+  (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
         (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F).val (G).val))
     (op V)).hom.toAddMonoidHom
+
+/-- The sealed sheafification unit followed by the inverse of
+`Stacks.SheafOfModules.Tensor.sheafificationIso` is Mathlib's sheafification unit. -/
+private lemma unit_comp_sheafificationIso_inv_app
+    (M : PresheafOfModules.{u} (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj) :
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app M ≫
+        (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso
+            ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).inv.app M) =
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj)).unit.app M :=
+  (Iso.comp_inv_eq ((SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).mapIso
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso _).app M))).mpr
+      (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app _ M).symm
 
 /-- The comparison is the sheafification unit of the sectionwise tensor product, read in `F ⊗ G`
 through `tensorSheafIsoTensorObj`. -/
@@ -168,7 +182,9 @@ lemma tensorSectionLinear_apply (F G : X.Modules) (V : X.Opens)
     tensorSectionLinear F G V t =
       (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val.app (op V)
         (tensorSheafUnitAdd F G V t) :=
-  rfl
+  congrArg ((sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val.app (op V))
+    (PresheafOfModules.hom_congr_apply'
+      (unit_comp_sheafificationIso_inv_app (PresheafOfModules.tensorObj F.val G.val)) (op V) t).symm
 
 /-- The comparison is bijective over an open exactly when the sheafification unit of the
 sectionwise tensor product is. -/

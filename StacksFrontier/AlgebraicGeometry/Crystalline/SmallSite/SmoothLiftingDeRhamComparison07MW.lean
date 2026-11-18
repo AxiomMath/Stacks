@@ -415,8 +415,7 @@ theorem liftingComponentRaw_smul (e : ℕ) (he : T.levelBound ≤ e)
     T.liftingComponentRaw Fc e he (c • t) =
       T.liftingRingHom c • T.liftingComponentRaw Fc e he t := by
   let := T.envelopeFormsAlgebra e he
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul d m =>
     rw [TensorProduct.smul_tmul', smul_eq_mul, liftingComponentRaw_tmul, liftingComponentRaw_tmul,
       map_mul, mul_smul]
@@ -631,8 +630,7 @@ theorem liftingRingConnection_liftingComponent (e : ℕ) (he : T.levelBound ≤ 
       (T.liftingConnModule Fc e he).nabla.map_add).comp e0.toAddMonoidHom)
   have key : ∀ t, F1 t = F2 t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero F1).trans (map_zero F2).symm
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => exact (map_add F1 a b).trans ((congrArg₂ (· + ·) ha hb).trans
         (map_add F2 a b).symm)
     | tmul d m =>

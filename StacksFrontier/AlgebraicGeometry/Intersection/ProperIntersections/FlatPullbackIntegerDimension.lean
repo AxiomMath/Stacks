@@ -235,8 +235,8 @@ Both products are the Section 43.17 product of cycles \
 `AlgebraicGeometry.TorFormula.torFormulaCycleIntersectionProduct` (Tag 0B08). The proof is the \
 source's: Tag 0B0W downstairs and upstairs, Tag 0AZF on each Tor summand, and the comparison \
 `f^*Torᵢ(ℱ, 𝒢) ≅ Torᵢ(f^*ℱ, f^*𝒢)` from Tag 079U and the exactness of `f^*`, which is \
-`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`, proved in this library, so the statement carries no \
-hypothesis beyond the source's."]
+`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`, proved in this library, so the statement \
+carries no hypothesis beyond the source's."]
 theorem flatPullback_coherentSheafCycleProduct_integerDimension (K : Type u) [Field K]
     [IsAlgClosed K] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of K)) (sY : Y ⟶ Spec (.of K))
     [IsVariety K sX] [IsVariety K sY] (hX : AlgebraicGeometry.IsRegular X)

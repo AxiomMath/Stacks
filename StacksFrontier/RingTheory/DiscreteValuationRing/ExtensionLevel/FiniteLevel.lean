@@ -1365,7 +1365,7 @@ theorem exists_totallyRamified_isGalois_isWeakSolution_or_finiteLevel
             rw [hz]
             congr 1
             rw [Units.val_mul, map_mul, hWn, Units.coe_map]
-            simp only [RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+            simp only [RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass]
             rw [← IsScalarTower.algebraMap_apply B B₁ L₁]
           by_cases hres : ∃ r : IsLocalRing.ResidueField B₁,
               IsLocalRing.residue B₁ u₁ = r ^ p

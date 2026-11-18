@@ -176,14 +176,16 @@ variable (X : RingedSpace.{u, u}) (A B : _root_.SheafOfModules.{u} (structureShe
   (U : (_root_.TopologicalSpace.Opens X.carrier)ᵒᵖ)
 
 /-- The canonical map into a sheafified tensor product, on a pure tensor, is the value there of
-the component of the sheafification unit.  This is
+the component of the unit of the sealed sheafification adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` that `sheafTensor` is built from.  This is
 `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` unfolded, recorded so that the
 additivity and linearity lemmas below can be proved by `map_add` and `map_smul`. -/
 theorem toTensorSheafSection_eq_sheafifyUnit (t : TensorProduct (X.presheaf.obj U)
     (A.val.obj U) (B.val.obj U)) :
     toTensorSheafSection X A B U t =
-      ((sheafifyUnit X
-        ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val)))).app U).hom t :=
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        (⟨X.presheaf, X.IsSheaf⟩ : TopCat.Sheaf CommRingCat.{u} X.carrier)).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val)).app U).hom t :=
   rfl
 
 /-- A pure tensor of local sections is additive in the second factor. -/
@@ -245,9 +247,9 @@ theorem connectionTmul_restrict {U V : (Y.Opens)ᵒᵖ} (k : U ⟶ V) (s : F.val
     (moduleConnectionTarget f F).val.map k (connectionTmul f F U s α) =
       connectionTmul f F V (F.val.map k s) ((relativeDifferentials f).val.map k α) :=
   (PresheafOfModules.naturality_apply
-    (sheafifyUnit Y.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (Y.toRingedSpace).presheaf) (F.val)
-        ((relativeDifferentials f).val)))) k
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨(Y.toRingedSpace).presheaf, (Y.toRingedSpace).IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := Y.presheaf) F.val (relativeDifferentials f).val)) k
     (s ⊗ₜ[Y.presheaf.obj U] α)).symm
 
 end Tensor

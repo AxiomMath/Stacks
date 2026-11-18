@@ -158,25 +158,55 @@ lemma smul_eq_zero_of_idealActionPresheaf_eq_zero
   exact Stacks.IdealTensor.smul_eq_zero_of_smulMap_eq_zero (idealSections J U).subtype
     (Ideal.smul_comm_subtype (idealSections J U)) a ht
 
+/-- Along the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the ideal
+action `Stacks.Algebraization.idealAction` is the presheaf-level `idealActionPresheaf` it is
+adjoint to. -/
+lemma sheafificationForgetAdjunction_unit_comp_idealAction
+    (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules) :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) J.toSheafOfModules.val
+          F.val) ≫ (idealAction J F).val = idealActionPresheaf J F :=
+  (Adjunction.homEquiv_unit _ _ _ _).symm.trans (Equiv.apply_symm_apply _ _)
+
 /-- The multiplication on sections of the sheafified tensor product, evaluated on the image of a
-section of the presheaf tensor product, is the presheaf-level multiplication.
+section of the presheaf tensor product under the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, is the presheaf-level
+multiplication.
 
 This is `Stacks.Algebraization.idealAction_tmul` for an arbitrary section of the presheaf tensor
 product rather than a pure tensor: both sides are the two readings of the adjunction isomorphism
 that defines `Stacks.Algebraization.idealAction`. -/
-lemma idealAction_app_sheafifyUnit
+lemma idealAction_app_unit_app
     (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules)
     (U : (Opens X)ᵒᵖ)
     (t : ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf)
       (J.toSheafOfModules.val) (F.val))).obj U) :
     (idealAction J F).val.app U
-        ((sheafifyUnit X.toRingedSpace
-          ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf)
-            (J.toSheafOfModules.val) (F.val)))).app U t) =
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+            ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf)
+              (J.toSheafOfModules.val) (F.val)))).app U t) =
       ((idealActionPresheaf J F).app U).hom t :=
-  congrArg (fun k ↦ (PresheafOfModules.Hom.app k U).hom t)
-    ((PresheafOfModules.sheafificationHomEquiv (R := X.ringCatSheaf)
-      (𝟙 X.ringCatSheaf.obj)).apply_symm_apply (idealActionPresheaf J F))
+  PresheafOfModules.hom_congr_apply' (sheafificationForgetAdjunction_unit_comp_idealAction J F) U t
+
+/-- On sections, the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` at the
+presheaf tensor product is the comparison map
+`Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection`. -/
+lemma sheafificationForgetAdjunction_unit_app_apply
+    (J : (SheafOfModules.unit X.ringCatSheaf).Submodule) (F : X.Modules)
+    (U : (Opens X)ᵒᵖ)
+    (t : ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf)
+      (J.toSheafOfModules.val) (F.val))).obj U) :
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+            ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf)
+              (J.toSheafOfModules.val) (F.val)))).app U t =
+      toTensorSheafSection X.toRingedSpace J.toSheafOfModules F U t :=
+  Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+    ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩
+    (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) J.toSheafOfModules.val F.val)
+    U t
 
 /-- **The kernel of `Stacks.Algebraization.idealAction` is killed by `J`.** Let `X` be a scheme,
 `J` an ideal of its structure sheaf and `F` an `𝒪_X`-module. If a section `z` of the sheafified
@@ -213,6 +243,11 @@ theorem smul_eq_zero_of_idealAction_eq_zero
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩ V _
   set P := PresheafOfModules.tensorObj.{u, u, u, u, u}
     (O := X.toRingedSpace.presheaf) J.toSheafOfModules.val F.val
+  -- The sheafification unit `P ⟶ (J ⊗ F).val` behind `sheafTensor`.
+  let η : P ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj J.toSheafOfModules).obj F).val :=
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app P
   refine TopCat.Presheaf.section_ext (C := AddCommGrpCat.{u})
     ⟨(((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj
@@ -241,22 +276,23 @@ theorem smul_eq_zero_of_idealAction_eq_zero
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj
           J.toSheafOfModules).obj F).val.presheaf V x hxV)
-        ((sheafifyUnit X.toRingedSpace P).app (op V) w) :=
-    (θ.injective ((hθ V hxV w).trans hw')).symm
+        (η.app (op V) w) :=
+    (θ.injective ((hθ V hxV w).trans hw')).symm.trans
+      (congrArg _ (sheafificationForgetAdjunction_unit_app_apply J F (op V) w).symm)
   -- So `z` and that image agree on some neighbourhood `W` of `x` inside `U`.
   obtain ⟨W, hxW, iU, iV, hWeq⟩ := TopCat.Presheaf.germ_eq (C := AddCommGrpCat.{u})
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj
           J.toSheafOfModules).obj F).val.presheaf x hxU hxV z _ hgerm
   -- Restricting the presheaf-tensor section to `W`, its image is the restriction of `z`.
-  have hres : (sheafifyUnit X.toRingedSpace P).app (op W) (P.map iV.op w) =
+  have hres : η.app (op W) (P.map iV.op w) =
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj
           J.toSheafOfModules).obj F).val.map iU.op z :=
-    (PresheafOfModules.naturality_apply (sheafifyUnit X.toRingedSpace P) iV.op w).trans hWeq.symm
+    (PresheafOfModules.naturality_apply η iV.op w).trans hWeq.symm
   -- Its product vanishes, because the product of `z` does.
   have hzero : ((idealActionPresheaf J F).app (op W)).hom (P.map iV.op w) = 0 :=
-    (idealAction_app_sheafifyUnit J F (op W) (P.map iV.op w)).symm.trans
+    (idealAction_app_unit_app J F (op W) (P.map iV.op w)).symm.trans
       ((congrArg _ hres).trans
         ((PresheafOfModules.naturality_apply (idealAction J F).val iU.op z).trans
           ((congrArg _ hz).trans (map_zero _))))
@@ -274,17 +310,17 @@ theorem smul_eq_zero_of_idealAction_eq_zero
           J.toSheafOfModules).obj F).val.map iU.op
         ((idealSections J (op U)).subtype a • z) =
       X.presheaf.map iU.op ((idealSections J (op U)).subtype a) •
-        (sheafifyUnit X.toRingedSpace P).app (op W) (P.map iV.op w) := by
+        η.app (op W) (P.map iV.op w) := by
     rw [hres]
     exact PresheafOfModules.map_smul
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj
           J.toSheafOfModules).obj F).val iU.op _ z
   have eunit : X.presheaf.map iU.op ((idealSections J (op U)).subtype a) •
-        (sheafifyUnit X.toRingedSpace P).app (op W) (P.map iV.op w) =
-      (sheafifyUnit X.toRingedSpace P).app (op W)
+        η.app (op W) (P.map iV.op w) =
+      η.app (op W)
         (X.presheaf.map iU.op ((idealSections J (op U)).subtype a) • P.map iV.op w) :=
-    (map_smul ((sheafifyUnit X.toRingedSpace P).app (op W)).hom _ _).symm
+    (map_smul (η.app (op W)).hom _ _).symm
   refine Eq.trans ?_ (map_zero _).symm
   exact elin.trans (eunit.trans ((congrArg _ hkill).trans (map_zero _)))
 

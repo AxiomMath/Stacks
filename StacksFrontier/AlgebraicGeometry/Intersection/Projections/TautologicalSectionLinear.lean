@@ -333,8 +333,8 @@ public theorem toTensorSheafSection_add (U : (Opens X.carrier)ᵒᵖ)
     TensorStalkRingedSpace.toTensorSheafSection X F G U (x + y) =
       TensorStalkRingedSpace.toTensorSheafSection X F G U x +
         TensorStalkRingedSpace.toTensorSheafSection X F G U y :=
-  map_add (PresheafOfModules.Hom.app (TensorStalkRingedSpace.sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) U).hom x y
+  map_add (((Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom x y
 
 /-- The canonical map from the presheaf tensor product into the sheafified one is
 `𝒪(U)`-linear. -/
@@ -343,8 +343,8 @@ public theorem toTensorSheafSection_smul (U : (Opens X.carrier)ᵒᵖ) (r : X.pr
     TensorStalkRingedSpace.toTensorSheafSection X F G U (r • x) =
       @SMul.smul ((Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj.obj U)
           _ _ r (TensorStalkRingedSpace.toTensorSheafSection X F G U x) :=
-  map_smul (PresheafOfModules.Hom.app (TensorStalkRingedSpace.sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) U).hom r x
+  (((Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom.map_smul r x
 
 variable (s s' : F.sections) (t t' : G.sections) (U : (Opens X.carrier)ᵒᵖ)
 

@@ -45,7 +45,8 @@ proves the comparison of [Stacks, Tag 0CSK]: for `K ∈ D(𝒪_X)` and `E ∈ D(
 
 [Stacks, Tag 0CSK] itself, at the source's hypothesis `K ∈ D_QCoh(𝒪_X)` and with every clause
 of its conclusion, is `AlgebraicGeometry.chowDatum_fourierMukai`, in
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/PseudoCoherentThree/DerivedChowFourierMukaiQCoh.lean`;
+`DerivedChowFourierMukaiQCoh.lean` of
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/PseudoCoherentThree/`;
 the derived comparison there is
 `AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso_of_isDQCoh`, which supplies
 both arguments of the chain below.

@@ -133,7 +133,7 @@ theorem tensorSheaf_eq_sheafification :
       (PresheafOfModules.sheafification (R := Tensor.ringSheaf (structureSheaf X))
         (𝟙 (Tensor.ringSheaf (structureSheaf X)).obj)).obj
         (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) :=
-  rfl
+  Tensor.sheafTensor_obj_obj _ F G
 
 /-- **The tensor product sheaf represents bilinear maps.** For every sheaf of `𝒪_X`-modules
 `ℋ`, morphisms `ℱ ⊗_{𝒪_X} 𝒢 ⟶ ℋ` are in natural bijection with bilinear maps

@@ -27,6 +27,8 @@ a sheaf of modules `N` with `L ⊗_O N ≅ O`; that equivalence is Stacks Tag 0B
   which sheafification inverts induces an isomorphism of the associated sheafified tensor functors.
 * `Stacks.SheafOfModules.tensorLeftSheafifyFunctorUnitIso`: tensoring by the unit presheaf and
   sheafifying is the identity functor.
+* `Stacks.SheafOfModules.tensorLeftFunctorIsoTensorLeftSheafifyFunctor`: the tensor functor of a
+  sheaf of modules is the sheafified tensor functor of its underlying presheaf.
 * `Stacks.SheafOfModules.tensorLeftFunctorEquivalenceOfPairing`: the equivalence of categories
   produced by a dual pairing.
 
@@ -67,6 +69,20 @@ Both orders of the tensor product occur, because the two composites of an equiva
 quasi-inverse do; the symmetry that relates them is Mathlib's symmetric monoidal structure on
 presheaves of modules, transported to the index `(structureSheaf O hO).obj` alongside the monoidal
 structure and exposed as `braidingVal`.
+
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies through the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, which is isomorphic to
+`Stacks.SheafOfModules.TensorSheafification.sheafify O hO` but does not unfold to it, while
+`tensorLeftSheafifyFunctorTensorIso`, `tensorLeftSheafifyFunctorMapIso` and
+`tensorLeftSheafifyFunctorUnitIso` are stated with the latter.
+`tensorLeftFunctorIsoTensorLeftSheafifyFunctor` passes between the two tensor functors along
+`Stacks.SheafOfModules.Tensor.sheafificationIso`. In the converse of Tag 0B8K the pairing is the
+unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` followed by the image of
+`L ⊗_O N ≅ O` under its right adjoint
+`SheafOfModules.forget ⋙ PresheafOfModules.restrictScalars (𝟙 _)`, so that the two morphisms meet
+at the image of one functor. Following the unit by `SheafOfModules.forget` alone instead makes the
+unifier identify the restriction of scalars along the identity of the sealed sheafification with
+that sheafification, which it can only do field by field, in about ten seconds.
 
 This file does *not* prove Tag 0B8M, which asserts that a finite locally free sheaf of modules of
 rank one is invertible, and conversely when all stalks of the structure sheaf are local rings.
@@ -248,6 +264,24 @@ noncomputable def tensorLeftSheafifyFunctorUnitIso :
       (TensorSheafification.sheafify O hO) ≪≫
     forgetSheafifyIso O hO
 
+/-- The tensor functor `(Stacks.SheafOfModules.Tensor.sheafTensor _).obj L` of a sheaf of modules
+is the sheafified tensor functor of its underlying presheaf. The two sheafify through different
+functors, the sealed `Stacks.SheafOfModules.Tensor.sheafification` and
+`Stacks.SheafOfModules.TensorSheafification.sheafify O hO`, which
+`Stacks.SheafOfModules.Tensor.sheafificationIso` identifies. -/
+noncomputable def tensorLeftFunctorIsoTensorLeftSheafifyFunctor
+    (L : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
+    (Tensor.sheafTensor.{u, v, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L ≅
+      SheafOfModules.forget (TensorSheafification.structureSheaf O hO) ⋙
+        (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val ⋙
+        TensorSheafification.sheafify O hO :=
+  Functor.isoWhiskerLeft
+    (SheafOfModules.forget (TensorSheafification.structureSheaf O hO) ⋙
+      (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val)
+    (Tensor.sheafificationIso
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).symm
+
 variable {O hO}
 
 /-- A dual pairing for `L` and `N` — a pair of morphisms of presheaves of modules
@@ -264,10 +298,14 @@ noncomputable def tensorLeftFunctorEquivalenceOfPairing
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L)
     ((Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N)
-    ((tensorLeftSheafifyFunctorTensorIso O hO N.val L.val).symm ≪≫
+    (NatIso.hcomp (tensorLeftFunctorIsoTensorLeftSheafifyFunctor O hO L)
+        (tensorLeftFunctorIsoTensorLeftSheafifyFunctor O hO N) ≪≫
+      (tensorLeftSheafifyFunctorTensorIso O hO N.val L.val).symm ≪≫
       tensorLeftSheafifyFunctorMapIso O hO ev hev ≪≫
         tensorLeftSheafifyFunctorUnitIso O hO).symm
-    ((tensorLeftSheafifyFunctorTensorIso O hO L.val N.val).symm ≪≫
+    (NatIso.hcomp (tensorLeftFunctorIsoTensorLeftSheafifyFunctor O hO N)
+        (tensorLeftFunctorIsoTensorLeftSheafifyFunctor O hO L) ≪≫
+      (tensorLeftSheafifyFunctorTensorIso O hO L.val N.val).symm ≪≫
       tensorLeftSheafifyFunctorMapIso O hO ev' hev' ≪≫
         tensorLeftSheafifyFunctorUnitIso O hO)
 
@@ -312,9 +350,16 @@ theorem isInvertible_iff_exists_tensor_iso_unit
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
   · rintro ⟨N, ⟨e⟩⟩
     have h1 : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
-        (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (L.val ⊗ N.val))) :=
-      Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify O hO _
-    have h2 := isIso_sheafify_map_forget_map_hom O hO e
+        ((Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+            (L.val ⊗ N.val))) :=
+      (NatIso.isIso_map_iff (Tensor.sheafificationIso
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) _).mpr
+        inferInstance
+    have h2 : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+        ((SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map e.hom)) :=
+      ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso
+        ((SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).mapIso e)).isIso_hom
     have h3 := isIso_sheafify_map_comp O hO _ _ h1 h2
     have h4 : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (braidingVal O
       hO L N).hom) := inferInstance
@@ -336,11 +381,12 @@ theorem isInvertible_of_isTrivial
       IsTrivial O hO L) :
     IsInvertible O hO L := by
   refine (isInvertible_iff_tensorLeftFunctor_isEquivalence O hO L).mpr ?_
-  refine (Functor.isEquivalence_iff_of_iso (tensorLeftSheafifyFunctorMapIso O hO
-    ((SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map
-      hL.some.hom)
-    (isIso_sheafify_map_forget_map_hom O hO hL.some) ≪≫
-      tensorLeftSheafifyFunctorUnitIso O hO).symm).mp ?_
+  refine (Functor.isEquivalence_iff_of_iso (tensorLeftFunctorIsoTensorLeftSheafifyFunctor O hO L ≪≫
+    tensorLeftSheafifyFunctorMapIso O hO
+      ((SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map
+        hL.some.hom)
+      (isIso_sheafify_map_forget_map_hom O hO hL.some) ≪≫
+        tensorLeftSheafifyFunctorUnitIso O hO).symm).mp ?_
   exact Functor.isEquivalence_refl
 
 variable (O hO)

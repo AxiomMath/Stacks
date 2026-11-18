@@ -163,8 +163,8 @@ variable (L G : Y.Modules) (V : Y.Opens) (ω : Γ(L, V))
 
 /-- **The evaluation `ev_ω : L^∨ ⊗ G ⟶ j_*(G|_V)`, `λ ⊗ g ↦ λ(ω) g`.** -/
 def evalAt : dualModule L ⊗ G ⟶ (push V).obj ((res V).obj G) :=
-  ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction Y.toRingedSpace.presheaf
-    (structureSheafRing Y.toRingedSpace).property).homEquiv
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).homEquiv
       (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf)
         (dualSheaf Y.toRingedSpace L).val G.val) _).symm (evalPresheaf L G V ω)
 
@@ -174,12 +174,8 @@ theorem evalAt_tmul (P : Y.Opens) (lam : (dualSheaf Y.toRingedSpace L).val.obj (
     ((evalAt L G V ω).val.app (op P)).hom
       (Stacks.SheafOfModules.OnSpace.tensorObjTmul Y.toRingedSpace (dualModule L) G (op P) lam g) =
       evalSmul L G V ω P lam g := by
-  have h := ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-    Y.toRingedSpace.presheaf
-    (structureSheafRing Y.toRingedSpace).property).homEquiv
-      (PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf)
-        (dualSheaf Y.toRingedSpace L).val G.val)
-      ((push V).obj ((res V).obj G))).apply_symm_apply (evalPresheaf L G V ω)
+  have h := Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+    (N := (push V).obj ((res V).obj G)) (evalPresheaf L G V ω)
   exact congrArg (fun q => (q.app (op P)).hom (lam ⊗ₜ[Y.presheaf.obj (op P)] g)) h
 
 /-- The value at a multiple of `ω` is the multiple of the value. -/

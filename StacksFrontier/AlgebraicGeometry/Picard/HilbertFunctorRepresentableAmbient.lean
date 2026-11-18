@@ -156,9 +156,9 @@ theorem isSeparated_of_exists_isAffineOpen_pair {X S : Scheme.{u}} (f : X ⟶ S)
     (h : ∀ (s : S) (x y : X), f.base x = s → f.base y = s →
       ∃ U : X.Opens, IsAffineOpen U ∧ x ∈ U ∧ y ∈ U) :
     IsSeparated f := by
-  haveI : IsFinite (pullback.diagonal f ≫
+  have : IsFinite (pullback.diagonal f ≫
       ((Over.pullback (Over.mk f).hom).obj (Over.mk f)).hom) := by
-    show IsFinite (pullback.diagonal f ≫ pullback.snd f f)
+    change IsFinite (pullback.diagonal f ≫ pullback.snd f f)
     rw [pullback.diagonal_snd]
     infer_instance
   refine ⟨IsClosedImmersion.of_isPreimmersion _
@@ -216,7 +216,7 @@ theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_me
     (hX : ∀ (s : S) (x : Fin (max d 2) → X.left), (∀ i, X.hom.base (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U) :
     Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) := by
-  haveI : IsSeparated X.hom := by
+  have : IsSeparated X.hom := by
     refine isSeparated_of_exists_isAffineOpen_pair X.hom fun s x y hx hy => ?_
     obtain ⟨U, hU, hmem⟩ := hX s (fun i => if (i : ℕ) = 0 then x else y) (by
       intro i

@@ -462,11 +462,11 @@ public theorem tensorSheaf_hom_ext₂₂
             (PresheafOfModules.tensorSheafUnit R T).app U (r ⊗ₜ t)))) :
     φ = ψ := by
   have hls₁ : PresheafOfModules.IsLocallySurjective J (PresheafOfModules.tensorSheafUnit P Q) :=
-    PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app
-      (𝟙 (CategoryTheory.Sheaf.toRingCat J Osharp).obj) (PresheafOfModules.tensorObj P.val Q.val)
+    Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app Osharp
+      (PresheafOfModules.tensorObj P.val Q.val)
   have hls₂ : PresheafOfModules.IsLocallySurjective J (PresheafOfModules.tensorSheafUnit R T) :=
-    PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app
-      (𝟙 (CategoryTheory.Sheaf.toRingCat J Osharp).obj) (PresheafOfModules.tensorObj R.val T.val)
+    Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app Osharp
+      (PresheafOfModules.tensorObj R.val T.val)
   refine PresheafOfModules.tensorSheaf_hom_ext fun U s w => ?_
   refine PresheafOfModules.hom_congr_apply'
     (PresheafOfModules.tensorObj_hom_ext_of_isLocallySurjective Z.isSheaf.isSeparated

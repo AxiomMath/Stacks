@@ -30,9 +30,14 @@ factors is replaced by its sheafification.
 
 ## Implementation notes
 
-`(Stacks.SheafOfModules.Tensor.sheafTensor _).obj L` is `F ↦ (L ⊗ F)^#`, built out of
-Mathlib's `tensorLeft` on `PresheafOfModules` followed by
-  `Stacks.SheafOfModules.TensorSheafification.sheafify`. The two
+`(Stacks.SheafOfModules.Tensor.sheafTensor _).obj L` is `F ↦ (L ⊗ F)^#`, the objectwise tensor
+product `PresheafOfModules.tensorBifunctor` followed by the sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`. That sheafification is sealed: it equals
+`Stacks.SheafOfModules.TensorSheafification.sheafify` but does not unfold to it, so
+`tensorLeftFunctorUnitIso` passes to the latter through the canonical isomorphism
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of two left adjoints of one functor, and
+`tensorLeftFunctorCongr` is the action of `Stacks.SheafOfModules.Tensor.sheafTensor` itself on an
+isomorphism. The two
 auxiliary isomorphisms `tensorSheafifyLeftIso` and `tensorSheafifyRightIso` say that the
 sheafification unit may be inserted in either tensor slot without changing the sheafification,
 which is exactly `Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft` and
@@ -146,7 +151,10 @@ noncomputable def tensorSheafifyRightIso
   let e := asIso η
   exact e
 
-/-- Tensoring by the structure sheaf is the identity functor. -/
+/-- Tensoring by the structure sheaf is the identity functor: the sheafified presheaf left
+unitor, followed by the comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` of the
+sheafification inside `Stacks.SheafOfModules.Tensor.sheafTensor` with
+`Stacks.SheafOfModules.TensorSheafification.sheafify O hO`, and the counit `sheafifyForgetIso`. -/
 noncomputable def tensorLeftFunctorUnitIso :
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
@@ -159,10 +167,17 @@ noncomputable def tensorLeftFunctorUnitIso :
         (_root_.SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
           hO))
         (leftUnitorNatIso _))
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO) ≪≫
+      (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) ≪≫
+    Functor.isoWhiskerLeft
+      (_root_.SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
+        hO))
+      (Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).symm ≪≫
     sheafifyForgetIso O hO
 
-/-- Isomorphic module sheaves have isomorphic tensor functors. -/
+/-- Isomorphic module sheaves have isomorphic tensor functors: the image of the isomorphism
+under the tensor bifunctor `Stacks.SheafOfModules.Tensor.sheafTensor`. -/
 noncomputable def tensorLeftFunctorCongr
     {A B : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)} (e : A ≅ B) :
@@ -170,13 +185,8 @@ noncomputable def tensorLeftFunctorCongr
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj A ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj B :=
-  Functor.isoWhiskerRight
-    (Functor.isoWhiskerLeft (_root_.SheafOfModules.forget
-      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
-      ((curriedTensor _).mapIso
-        ((_root_.SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
-          hO)).mapIso e)))
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO)
+  (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso e
 
 /-- A tensor inverse `e : L ⊗ N ≅ 𝒪` makes tensoring by `N` followed by tensoring by `L`
 isomorphic to the identity functor. -/
@@ -217,11 +227,16 @@ theorem isInvertible_iff_exists_tensor_iso_unit
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
           L).objObjPreimageIso _⟩⟩
   · rintro ⟨N, ⟨e⟩⟩
+    -- The braiding is elaborated on its own, over the category where the local monoidal
+    -- instances live: against the domain of `Stacks.SheafOfModules.Tensor.sheafification`,
+    -- spelled with `Stacks.SheafOfModules.Tensor.ringSheaf`, they are not found.
+    have swap := β_ N.val L.val
     refine (isInvertible_iff_tensorLeftFunctor_isEquivalence O hO L).mpr
       (Functor.IsEquivalence.mk' _
         (tensorLeftFunctorCompIsoId O hO
-          ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (β_ N.val L.val) ≪≫
-            e)).symm
+          ((Stacks.SheafOfModules.Tensor.sheafification
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
+              swap ≪≫ e)).symm
         (tensorLeftFunctorCompIsoId O hO e))
 
 /-- A module sheaf with a tensor inverse is invertible. This is the direction of Tag 0B8K

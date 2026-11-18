@@ -454,11 +454,12 @@ theorem deRhamFirstPageFlatDifferential_app_formsTensorTmul_of_wedgeStepSquare (
   have lw := congrArg (fun φ => φ.val.app (op W)
     ((deRhamFirstPageFlatDifferential f g hflat 0 q).val.app (op (openOfRestrict U W))
       (Scheme.Hom.formsTensorUnitTmul g (deRhamCohomologySheaf f q) (op (openOfRestrict U W)) s)))
-    (localTensorMap_restrictedFormsWedge f g U q ω (0 + 1))
+    (localTensorMap_restrictedFormsWedge f g U q ω (0 + 1)) |>.trans
+    (restrictedFormsTensorWedge_app f g U q ω (0 + 1) W _)
   refine (congrArg (fun t => (deRhamFirstPageFlatDifferential f g hflat (p : ℤ) q).val.app
     (op (openOfRestrict U W)) t) l₀).symm.trans ?_
   refine D.trans ((add_units_smul_val_app _ _ _ _ _).trans ?_)
-  rw [Int.coe_negOnePow_natCast]
+  rw [Int.coe_negOnePow_natCast, Scheme.Hom.formsTensorSuccIso_hom_val_app]
   exact congrArg₂ (· + ·) (ld.trans (eq_of_heq hA)) (congrArg (fun t => (-1 : ℤ) ^ p • t) lw)
 
 include hflat in

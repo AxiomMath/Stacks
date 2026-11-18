@@ -23,7 +23,8 @@ induces the Frobenius endomorphism `(F_X)_cris` of the crystalline topos.  An *F
 The source reads that definition on the **small** crystalline site `Cris(X/S)`, with
 `(F_X)_cris = π_X ∘ (F_X)_CRIS ∘ i_X` the endomorphism of the small crystalline topos of
 [Stacks, Tag 07IK]; that notion is `Crystalline.SmallFCrystal` of
-`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.FCrystal`, where the tag is registered.  This
+`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.FCrystal`, where the tag is registered.
+This
 file builds the analogue `Crystalline.FCrystal` on the **big** crystalline site `CRIS(X/S)`, with
 the Frobenius `(F_X)_CRIS` of the big crystalline topos; its restriction to `Cris(X/S)` carries the
 Frobenius structure `Crystalline.FCrystal.smallFrobenius` of that file.

@@ -59,7 +59,8 @@ naturality in `K` is `derivedPullbackTensorSheafHomMap_natural`
 (`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.TensorHomTorAmplitudeComparison`), and
 the morphism of functors it forms, its commutation with the shift and the morphisms of triangles
 it induces are in
-`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedTensorHomMapTriangles`
+`ExactSupportDerivedTensorHomMapTriangles` of
+`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas`
 (`derivedPullbackTensorSheafHomNatTrans`, `commShift_derivedPullbackTensorSheafHomNatTrans`,
 `derivedPullbackTensorSheafHomTriangleHom`).
 

@@ -61,7 +61,12 @@ attribute [local instance_reducible] Stacks.SheafOfModules.TensorSheafification.
 sheaf of Stacks Tag 01CA agree.** `AlgebraicGeometry.SheafOfModules.tensorIso` is a component of
 the comparison natural isomorphism `Stacks.SheafInternalHom.tensorLeftIso`, and
 `Stacks.SheafOfModules.tensorObjIso` is the monoidality isomorphism of sheafification read at a
-pair of sheaves; their forward maps agree by `rfl`, so the isomorphisms agree. -/
+pair of sheaves. The comparison of Mathlib's sheafification with the sealed one is the `eqToIso`
+of `Stacks.SheafOfModules.Tensor.sheafification_def` in the first and
+`Stacks.SheafOfModules.Tensor.sheafificationIso` in the body
+`Stacks.SheafOfModules.tensorObjIso_def` of the second; once
+`Stacks.SheafOfModules.Tensor.sheafificationIso_eq_eqToIso`
+identifies the two, their forward maps agree by `rfl`, so the isomorphisms agree. -/
 theorem Stacks.AlgebraicGeometry.ThetaMul.tensorIso_eq
     {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
     (𝒪 : Cᵒᵖ ⥤ CommRingCat.{u})
@@ -71,8 +76,9 @@ theorem Stacks.AlgebraicGeometry.ThetaMul.tensorIso_eq
     (F G : SheafOfModules.{u} (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 F G =
       Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 F G := by
+  simp only [Stacks.SheafOfModules.tensorObjIso_def,
+    Stacks.SheafOfModules.Tensor.sheafificationIso_eq_eqToIso]
   apply Iso.ext
-  rw [Stacks.SheafOfModules.tensorObjIso_hom_eq]
   rfl
 
 namespace AlgebraicGeometry

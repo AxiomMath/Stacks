@@ -127,7 +127,7 @@ form of Stacks 0DJJ is phrased for `Stacks.SheafOfModules.DerivedTensorProduct`,
 side conditions read `Stacks.SheafOfModules.IsKFlat`, whereas the pinned
 `Stacks.Cohomology.TorAmplitude.derTensor` inhabits
 `Stacks.DerivedTensor.RingedSite.DerivedTensorProduct`, whose read
-`Stacks.SheafOfModules.KFlat.KFlat`. The two predicates are the same condition on the site of
+`Stacks.SheafOfModules.KFlat`. The two predicates are the same condition on the site of
 opens of a ringed space, so the whole structure transports field by field with the same
 bifunctor, and the Tor-amplitude predicates of the two interfaces are then the same
 proposition.
@@ -448,7 +448,7 @@ local instance hasDerivedCategorySiteModules :
 /-- **The derived tensor product of a ringed space, read at the universe-general ringed-site
 interface.** A ringed space is the ringed site of its opens, and the two spellings of
 K-flatness for complexes of sheaves of modules — `Stacks.SheafOfModules.IsKFlat` and
-`Stacks.SheafOfModules.KFlat.KFlat` — are the same condition there, so the canonical derived
+`Stacks.SheafOfModules.KFlat` — are the same condition there, so the canonical derived
 tensor product of Stacks 06YU transports field by field, with the same bifunctor. -/
 def derTensorSite :
     Stacks.SheafOfModules.DerivedTensorProduct.{u, u, u, d} X.ringedSite where

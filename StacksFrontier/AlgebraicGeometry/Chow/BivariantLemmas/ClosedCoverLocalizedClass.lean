@@ -64,7 +64,8 @@ of rank `< p` in degree `0` — are used in Stacks 0F9H only to produce a class 
 Taking `κ` to be `P_p(E₂)` respectively `c_p(E₂)` and the two classes to be the constructions of
 Stacks 0F9H (`Stacks.Chow.localizedPowerSumOfClosedCover`,
 `Stacks.Chow.localizedChernClassOfClosedCover`) gives Stacks 0FAH itself, which is stated for
-those classes in `StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.IndependentLocalizedClass`.
+those classes in
+`StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.IndependentLocalizedClass`.
 
 ### The route through Stacks 02UC rather than Stacks 0F94
 

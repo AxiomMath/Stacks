@@ -471,9 +471,8 @@ theorem exists_logExteriorDesc_app_eq (p : ℕ) {W : X.Opens} (χ : (logPolesFor
     rw [map_add, logExteriorDesc_app_logExteriorInclusion_app,
       UnitalHom.app_gradedCast, (logExteriorDesc f I hI hlog).map_mul,
       logExteriorDesc_app_one, logExteriorDesc_app_logExteriorInclusion_app, hωη]
-    refine congrArg (fun z : (logPolesForms f I (q + 1)).val.obj (op V) ↦
-      (logPolesFormsInclusion f I (q + 1)).val.app (op V) ω + z) (eq_of_heq ?_)
-    exact (_root_.SheafOfModules.gradedCast_heq _ _ _).trans (logFormsCast_heq _ _).symm
+    congr 1
+    exact eq_of_heq ((_root_.SheafOfModules.gradedCast_heq _ _ _).trans (logFormsCast_heq _ _).symm)
 
 end AlgebraicGeometry.Scheme.Hom
 
@@ -857,8 +856,8 @@ theorem exists_local_logOneForm_eq {W : X.Opens} (hW : W ≤ U)
             (show X.ringCatSheaf.obj.obj (op V) from c) • e.dlogForm (hV.trans hW) := by
   obtain ⟨V, hV, hyV, ω, η, hωη⟩ := e.exists_map_eq_logPolesChartForm (p := 0) hW s y hy
   obtain ⟨c, hc⟩ := AlgebraicGeometry.SheafOfModules.exists_eq_smul_one (deRhamAlgebras f) (op V) η
-  refine ⟨V, hV, hyV, ω, c, hωη.trans ((e.logPolesChartForm_eq hI hlog (hV.trans hW) ω η).trans
-    (congrArg ((logPolesFormsInclusion f I 1).val.app (op V) ω + ·) ?_))⟩
+  refine ⟨V, hV, hyV, ω, c, hωη.trans ((e.logPolesChartForm_eq hI hlog (hV.trans hW) ω η).trans ?_)⟩
+  congr 1
   refine (eq_of_heq (logFormsCast_heq _ _)).trans ?_
   have h1 : (logPolesFormsInclusion f I 0).val.app (op V) η =
       (show X.ringCatSheaf.obj.obj (op V) from c) • logFormsOne (f := f) (I := I) V :=

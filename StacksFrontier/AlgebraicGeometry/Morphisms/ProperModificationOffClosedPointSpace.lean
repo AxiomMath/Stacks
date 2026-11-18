@@ -117,7 +117,7 @@ theorem isIso_pullback_snd_yoneda_map_openSubspaceOfPoints {V W : BigFppfOver B 
   · obtain ⟨c, rfl⟩ : ∃ c, yoneda.map c = y := ⟨yoneda.preimage y, yoneda.map_preimage y⟩
     have hcg : c ≫ g = a := yoneda.map_injective (by rw [Functor.map_comp, hy, hwa])
     have hTc : (𝒯).map c = b' := hb'u _ (by
-      show (𝒯).map c ≫ (𝒯).map g = (𝒯).map a
+      change (𝒯).map c ≫ (𝒯).map g = (𝒯).map a
       rw [← Functor.map_comp, hcg])
     exact congrArg yoneda.map ((𝒯).map_injective (hTc.trans hTb.symm))
 

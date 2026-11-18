@@ -416,7 +416,7 @@ theorem comap_closedPoint_eq_genericPoint (e : StacksR_at_2 ≃+* ℚ) :
 /-- The zero ideal of `ℤ_{(2)}` is the generic point of `Spec ℤ_{(2)}`. -/
 theorem isGenericPoint_bot_stacksZ2loc :
     IsGenericPoint (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum StacksZ2loc) Set.univ := by
-  show closure _ = _
+  change closure _ = _
   rw [PrimeSpectrum.closure_singleton]
   exact PrimeSpectrum.zeroLocus_bot
 
@@ -431,7 +431,7 @@ theorem comap_closedPoint_not_isClosed (e : StacksR_at_2 ≃+* ℚ) :
   rw [comap_closedPoint_eq_genericPoint, PrimeSpectrum.isClosed_singleton_iff_isMaximal]
   intro h
   have hbot : IsLocalRing.maximalIdeal StacksZ2loc = ⊥ := (IsLocalRing.eq_maximalIdeal h).symm
-  have hcomap := IsLocalization.AtPrime.comap_maximalIdeal StacksZ2loc twoIdeal
+  have hcomap := IsLocalization.AtPrime.under_maximalIdeal StacksZ2loc twoIdeal
   rw [hbot, Ideal.under, Ideal.comap_bot_of_injective _
     (IsLocalization.injective StacksZ2loc twoIdeal.primeCompl_le_nonZeroDivisors)] at hcomap
   have h2 : (2 : ℤ) ∈ twoIdeal := Ideal.subset_span rfl

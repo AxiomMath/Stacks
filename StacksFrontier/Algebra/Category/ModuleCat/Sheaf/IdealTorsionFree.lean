@@ -195,36 +195,28 @@ public def IsStalkwiseGeneratorRegular
 private noncomputable def tensorUnitIso (F : SheafOfModules.{u} Oₓ) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).obj (𝒪)).obj (F)) ≅ F := by
-  letI : MonoidalCategory (PresheafOfModules.{u} (Stacks.SheafOfModules.TensorStalkRingedSpace.O X))
-    :=
-    PresheafOfModulesOfCommRing.monoidalCategory
-  let e : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      ⟨X.presheaf, X.IsSheaf⟩).obj (𝒪)).obj (F)) ≅ F := by
-    change (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).obj
-      ((SheafOfModules.unit Oₓ).val ⊗ F.val) ≅ F
-    letI : IsIso
-        (PresheafOfModules.sheafificationAdjunction (𝟙 (Oₓ).obj)).counit := by
-      infer_instance
-    exact (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).mapIso (λ_ F.val) ≪≫
-      (asIso (PresheafOfModules.sheafificationAdjunction (𝟙 (Oₓ).obj)).counit).app F
-  exact e
+  letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
+    inferInstanceAs (MonoidalCategory
+      (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})))
+  exact (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).mapIso
+      (MonoidalCategoryStruct.leftUnitor F.val) ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.presheaf, X.IsSheaf⟩).counit).app F
 
 /-- The canonical multiplication map `I ⊗ F ⟶ F`. -/
 public noncomputable def idealTensorMultiplication
     {I : SheafOfModules.{u} Oₓ} (i : I ⟶ 𝒪) (F : SheafOfModules.{u} Oₓ) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).obj (I)).obj (F)) ⟶ F := by
-  letI : MonoidalCategory (PresheafOfModules.{u} (Stacks.SheafOfModules.TensorStalkRingedSpace.O X))
-    :=
-    PresheafOfModulesOfCommRing.monoidalCategory
+  letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
+    inferInstanceAs (MonoidalCategory
+      (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})))
   let e : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      ⟨X.presheaf, X.IsSheaf⟩).obj 𝒪).obj F ≅ F := by
-    change (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).obj
-      ((SheafOfModules.unit Oₓ).val ⊗ F.val) ≅ F
-    letI : IsIso (PresheafOfModules.sheafificationAdjunction (𝟙 (Oₓ).obj)).counit :=
-      inferInstance
-    exact (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).mapIso (λ_ F.val) ≪≫
-      (asIso (PresheafOfModules.sheafificationAdjunction (𝟙 (Oₓ).obj)).counit).app F
+      ⟨X.presheaf, X.IsSheaf⟩).obj 𝒪).obj F ≅ F :=
+    (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).mapIso
+      (MonoidalCategoryStruct.leftUnitor F.val) ≪≫
+      (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨X.presheaf, X.IsSheaf⟩).counit).app F
   exact (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).map (X := I) (Y := 𝒪) i).app F ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}

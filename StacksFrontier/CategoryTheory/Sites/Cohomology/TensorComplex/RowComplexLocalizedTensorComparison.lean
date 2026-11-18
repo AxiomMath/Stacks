@@ -51,7 +51,8 @@ checked in each degree.
   an isomorphic one.
 * `Stacks.SheafOfModules.Tensor.rowComplexIsoTensorRightComplex_hom_f` and
   `Stacks.SectionTensorFormula.rowComplexIsoTensorComplex_hom_f`: the comparison in each degree
-  is `SheafOfModules.sheafTensorIso` at `E.X p`, so a consumer that has to compose it with the
+  is `SheafOfModules.sheafTensorIso` at `E.X p` (after
+  `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`), so a consumer that has to compose it with the
   section formula never has to unfold `Functor.mapHomologicalComplex`.
 
 ## Implementation notes
@@ -60,8 +61,8 @@ checked in each degree.
 look.** `SheafOfModules.sheafTensorNatIso` identifies `curriedTensor (Mod(𝒪))` of the localized
 structure with `Stacks.SheafOfModules.Tensor.sheafTensor R` as bifunctors; what is added here is
 only its consequence on complexes. So nothing here re-derives the degreewise comparison from
-`Stacks.SectionTensorFormula.tensorSheafIsoTensorObj` and its first-variable naturality
-`tensorSheafIsoTensorObj_hom_whiskerRight`, even though that route is also available: a second
+`Stacks.SectionTensorFormula.sheafifyIsoTensorObj` and its first-variable naturality
+`sheafifyIsoTensorObj_hom_whiskerRight`, even though that route is also available: a second
 account of the same identification is what this area already suffers from.
 
 **Three spellings of one monoidal structure, and why no goal mentions two of them.**
@@ -164,13 +165,14 @@ def sheafTensorFlipIsoTensorRight :
     (fun {_ _} f => NatTrans.congr_app
       ((_root_.SheafOfModules.sheafTensorNatIso R).hom.naturality f) M)).symm
 
-/-- The component of `sheafTensorFlipIsoTensorRight R M` at `F` is the inverse of
-`SheafOfModules.sheafTensorIso R F M`. -/
+/-- The component of `sheafTensorFlipIsoTensorRight R M` at `F`: the identification
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso R F M` of the sealed sheafification with Mathlib's,
+followed by the inverse of `SheafOfModules.sheafTensorIso R F M`. -/
 @[simp]
 lemma sheafTensorFlipIsoTensorRight_hom_app
     (F : SheafOfModules.{max u v} (ringSheaf R)) :
     (sheafTensorFlipIsoTensorRight R M).hom.app F =
-      (_root_.SheafOfModules.sheafTensorIso R F M).inv :=
+      (sheafTensorObjIso R F M).hom ≫ (_root_.SheafOfModules.sheafTensorIso R F M).inv :=
   rfl
 
 variable [(sheafTensor.{u, v, max u v, max u v, max u v} R).Additive]
@@ -198,7 +200,9 @@ def rowComplexIsoTensorRightComplex
     (NatIso.mapHomologicalComplex (sheafTensorFlipIsoTensorRight R M)
       (ComplexShape.up ℤ)).app E
 
-/-- **The comparison in each degree is `SheafOfModules.sheafTensorIso`.** Nothing of
+/-- **The comparison in each degree is `SheafOfModules.sheafTensorIso`**, after
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` passes from the sealed sheafification to
+Mathlib's. Nothing of
 `Functor.mapHomologicalComplex` survives in the components, so a consumer composing the
 comparison with a formula on sections works degreewise against the identification of the
 tensor product sheaf of [Stacks, Tag 01CA] with the localized monoidal product. -/
@@ -206,7 +210,8 @@ tensor product sheaf of [Stacks, Tag 01CA] with the localized monoidal product. 
 lemma rowComplexIsoTensorRightComplex_hom_f
     (E : CochainComplex (SheafOfModules.{max u v} (ringSheaf R)) ℤ) (p : ℤ) :
     (rowComplexIsoTensorRightComplex R M E).hom.f p =
-      (_root_.SheafOfModules.sheafTensorIso R (E.X p) M).inv :=
+      (sheafTensorObjIso R (E.X p) M).hom ≫
+        (_root_.SheafOfModules.sheafTensorIso R (E.X p) M).inv :=
   rfl
 
 end Site
@@ -294,7 +299,8 @@ def rowComplexIsoTensorComplex
     eqToIso (tensorComplex_eq_mapHomologicalComplex E M).symm
 
 /-- **The comparison of the two degreewise tensor complexes is `SheafOfModules.sheafTensorIso` in
-each degree**, so composing it with the affine section formula
+each degree**, after `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` passes from the sealed
+sheafification to Mathlib's, so composing it with the affine section formula
 `Stacks.SectionTensorFormula.sectionsTensorComplexIso` is a degreewise computation and no
 consumer has to unfold `Functor.mapHomologicalComplex`. -/
 @[simp]
@@ -302,7 +308,8 @@ lemma rowComplexIsoTensorComplex_hom_f
     (E : CochainComplex (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf))) ℤ)
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf))) (p : ℤ) :
     (rowComplexIsoTensorComplex E M).hom.f p =
-      (_root_.SheafOfModules.sheafTensorIso X.sheaf (E.X p) M).inv :=
+      (Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf (E.X p) M).hom ≫
+        (_root_.SheafOfModules.sheafTensorIso X.sheaf (E.X p) M).inv :=
   rfl
 
 end SchemeLevel

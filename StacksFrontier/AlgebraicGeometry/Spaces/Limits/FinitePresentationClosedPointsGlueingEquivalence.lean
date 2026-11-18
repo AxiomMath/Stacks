@@ -125,13 +125,13 @@ theorem full_comparisonFunctor_peel {n : ℕ} {D : ClosedPointsGlueingData B S h
             (baseChange B S hS (D.overlapToLocal (Fin.last n))).map b' := by
       simp only [a', b', Functor.map_comp, Category.assoc]
       rw [CB Y', reassoc_of% (hw (Fin.last n))]
-      haveI : Epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)) :=
+      have : Epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)) :=
         @IsIso.epi_of_iso _ _ _ _ _
           (Functor.map_isIso (baseChange B S hS (D.overlapToOpen (Fin.last n))) (Fo.app Y).hom)
       rw [← cancel_epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)),
         reassoc_of% (CB Y)]
-      exact (Iso.map_hom_inv_id_assoc (Fo.app Y) _ _).trans
-        (congrArg (_ ≫ ·) (Iso.map_hom_inv_id_assoc (Fl.app Y) _ _).symm)
+      exact (Iso.hom_inv_id_map_assoc (Fo.app Y) _ _).trans
+        (congrArg (_ ≫ ·) (Iso.hom_inv_id_map_assoc (Fl.app Y) _ _).symm)
     let c₁ : p.lastFunctor.obj ((baseChange B S hS p.midToBase).obj Y) ⟶
         p.lastFunctor.obj ((baseChange B S hS p.midToBase).obj Y') :=
       ObjectProperty.homMk { left := a', right := b', w := hw' }
@@ -177,7 +177,7 @@ theorem full_comparisonFunctor_peel {n : ℕ} {D : ClosedPointsGlueingData B S h
       simp only [a', Functor.map_comp, Category.assoc]
       have e : (baseChange B S hS ovo).map (Fo.hom.app Y) ≫
           (baseChange B S hS ovo).map (Fo.inv.app Y) = 𝟙 _ :=
-        Iso.map_hom_inv_id (Fo.app Y) _
+        Iso.hom_inv_id_map (Fo.app Y) _
       rw [reassoc_of% e, key]
     let c₂ : p.tail.comparisonFunctor.obj Y ⟶ p.tail.comparisonFunctor.obj Y' :=
       ObjectProperty.homMk { left := c, right := fun i => b i.castSucc, w := funext hwt }

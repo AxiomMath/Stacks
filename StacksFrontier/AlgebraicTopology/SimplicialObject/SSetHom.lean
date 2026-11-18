@@ -575,9 +575,9 @@ public noncomputable def simpHomRepresentableByOfHasLimit [HasBinaryCoproducts C
     refine SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => ?_
     dsimp only [Equiv.trans_apply, simpHomFamilyEquiv, simpHomLimitEquivOfHasLimit,
       Equiv.coe_fn_mk, NatTrans.comp_app]
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     dsimp only [Functor.comp_map, prodSSetFunctor]
-    rw [Functor.ι_copowerMap_app, Category.assoc (((const C).map α).app n), Sigma.ι_desc]
+    rw [Functor.ι_copowerMap_app, Category.assoc (((const C).map α).app n), Sigma.ι_comp_desc]
     simp
 
 /-- **Stacks 017K**. Let `C` be a category with coproducts of any two objects and with finite

@@ -107,8 +107,7 @@ theorem inv_comp_map_ringModuleMap
   have h1 := Stacks.SheafOfModules.tensorSheafUnitRightIso_inv_app X.O.obj
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property F V x
   rw [← SheafOfModules.rightUnitor_sheafTensor_eq_iso] at h1
-  have h2 := Stacks.SheafOfModules.sheafify_map_toSheafify_apply X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
+  have h2 := Stacks.SheafOfModules.Tensor.unit_naturality_apply (R := X.O)
           (F.val ◁ (ringModuleMap X φ).val) V (x ⊗ₜ (1 : X.O.obj.obj V))
   refine (congrArg (fun z =>
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj F).map

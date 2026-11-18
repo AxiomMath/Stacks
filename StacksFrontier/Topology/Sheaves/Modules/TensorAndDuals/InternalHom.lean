@@ -112,14 +112,85 @@ noncomputable def sheafHomMapRight
     sheafHomSpace X A B ⟶ sheafHomSpace X A B' :=
   ⟨internalHomMapRight X.presheaf A.val f.val⟩
 
+section SealedUnit
+
+variable {C : Type*} [Category C] {J : GrothendieckTopology C} (O : Sheaf J CommRingCat.{u})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is locally
+surjective: it is the locally surjective sealed unit followed by an isomorphism. -/
+private lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{u} (Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Tensor.sheafificationForgetAdjunction O).unit.app M) := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` is locally
+injective: it is the locally injective sealed unit followed by an isomorphism. -/
+private lemma isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{u} (Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallyInjective J
+      ((Tensor.sheafificationForgetAdjunction O).unit.app M) := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallyInjective,
+    Functor.map_comp]
+  infer_instance
+
+end SealedUnit
+
+/-- The sheafification unit of the objectwise tensor product `F ⊗ G`, landing in the underlying
+presheaf of the tensor product sheaf: the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the adjunction of the sealed
+sheafification that `sheafTensor` is built from. -/
+noncomputable def tensorSheafificationUnit
+    (F G : _root_.SheafOfModules.{u} (structureSheafRing X)) :
+    PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val ⟶
+      (((Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj F).obj G).val :=
+  (Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app
+    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)
+
+/-- On sections, `tensorSheafificationUnit` is the canonical map `toTensorSheafSection`. -/
+lemma tensorSheafificationUnit_app_apply
+    (F G : _root_.SheafOfModules.{u} (structureSheafRing X)) (U : (Opens X.carrier)ᵒᵖ)
+    (t : TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U)) :
+    (tensorSheafificationUnit X F G).app U t = toTensorSheafSection X F G U t :=
+  Tensor.sheafificationForgetAdjunction_unit_app_app_apply ⟨X.presheaf, X.IsSheaf⟩
+    (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) U t
+
+/-- The sheafification unit of the objectwise tensor product is locally surjective. -/
+lemma tensorSheafificationUnit_isLocallySurjective
+    (F G : _root_.SheafOfModules.{u} (structureSheafRing X)) :
+    PresheafOfModules.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
+      (tensorSheafificationUnit X F G) :=
+  isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _
+
+/-- The sheafification unit of the objectwise tensor product is locally injective. -/
+lemma tensorSheafificationUnit_isLocallyInjective
+    (F G : _root_.SheafOfModules.{u} (structureSheafRing X)) :
+    PresheafOfModules.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
+      (tensorSheafificationUnit X F G) :=
+  isLocallyInjective_sheafificationForgetAdjunction_unit_app _ _
+
+/-- Naturality of `tensorSheafificationUnit` in the two tensor factors. -/
+lemma tensorSheafificationUnit_naturality
+    {F G F' G' : _root_.SheafOfModules.{u} (structureSheafRing X)} (f : F' ⟶ F) (g : G' ⟶ G) :
+    PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val ≫ tensorSheafificationUnit X F G =
+      tensorSheafificationUnit X F' G' ≫
+        ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨X.presheaf, X.IsSheaf⟩)).map (X := (F', G')) (Y := (F, G)) (f, g)).val :=
+  ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.naturality
+    (PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val)).trans
+    (congrArg (fun morphism ↦ tensorSheafificationUnit X F' G' ≫ morphism.val)
+      (Tensor.sheafTensor_uncurry_map.{u, u, u, u, u} ⟨X.presheaf, X.IsSheaf⟩ f g).symm)
+
 /-- Precomposition with the sheafification unit of the objectwise tensor product, read on
 internal Hom presheaves. -/
 noncomputable def sheafificationInternalHomComparison
     (F G H : _root_.SheafOfModules.{u} (structureSheafRing X)) :
     internalHom X.presheaf (((Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj F).obj G).val H.val ⟶
       internalHom X.presheaf (MonoidalCategory.tensorObj F.val G.val) H.val :=
-  internalHomMapLeft X.presheaf
-    (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))
+  internalHomMapLeft X.presheaf (tensorSheafificationUnit X F G)
 
 /-- The restriction to the opens contained in `U` of the sheafification unit of the objectwise
 tensor product `F ⊗ G` is locally surjective. -/
@@ -128,17 +199,11 @@ lemma restrictedSheafifyUnit_locallySurjective
     PresheafOfModules.IsLocallySurjective
       ((Opens.grothendieckTopology X.carrier).over U)
       ((restrFun X.presheaf U).map
-        (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
+        (tensorSheafificationUnit X F G)) := by
   change Presheaf.IsLocallySurjective _ ((Over.forget U).op.whiskerLeft
     ((PresheafOfModules.toPresheaf _).map
-      (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))))
-  have : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
-      ((PresheafOfModules.toPresheaf _).map
-        (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
-    change Presheaf.IsLocallySurjective _
-      (CategoryTheory.toSheafify _
-        (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val).presheaf)
-    infer_instance
+      (tensorSheafificationUnit X F G)))
+  have := tensorSheafificationUnit_isLocallySurjective X F G
   exact Presheaf.isLocallySurjective_whisker
     ((Opens.grothendieckTopology X.carrier).over U)
     (Opens.grothendieckTopology X.carrier) (Over.forget U) _
@@ -150,17 +215,11 @@ lemma restrictedSheafifyUnit_locallyInjective
     PresheafOfModules.IsLocallyInjective
       ((Opens.grothendieckTopology X.carrier).over U)
       ((restrFun X.presheaf U).map
-        (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
+        (tensorSheafificationUnit X F G)) := by
   change Presheaf.IsLocallyInjective _ ((Over.forget U).op.whiskerLeft
     ((PresheafOfModules.toPresheaf _).map
-      (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))))
-  have : Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
-      ((PresheafOfModules.toPresheaf _).map
-        (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
-    change Presheaf.IsLocallyInjective _
-      (CategoryTheory.toSheafify _
-        (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val).presheaf)
-    infer_instance
+      (tensorSheafificationUnit X F G)))
+  have := tensorSheafificationUnit_isLocallyInjective X F G
   exact Presheaf.isLocallyInjective_whisker
     ((Opens.grothendieckTopology X.carrier).over U)
     (Opens.grothendieckTopology X.carrier) (Over.forget U) _
@@ -184,8 +243,7 @@ lemma sheafificationInternalHomComparison_app_bijective
   have := restrictedSheafifyUnit_locallySurjective X F G U
   have := restrictedSheafifyUnit_locallyInjective X F G U
   exact (PresheafOfModules.homEquivOfIsLocallyBijective
-    (f := (restrFun X.presheaf U).map
-      (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)))
+    (f := (restrFun X.presheaf U).map (tensorSheafificationUnit X F G))
     (restricted_isSheaf X H U)).bijective
 
 /-- Precomposition with the sheafification unit of `F ⊗ G` is an isomorphism of internal Hom
@@ -213,10 +271,9 @@ noncomputable def internalHomTensorIso
     (F G H : _root_.SheafOfModules.{u} (structureSheafRing X)) :
     sheafHomSpace X (((Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj F).obj G) H ≅
       sheafHomSpace X F (sheafHomSpace X G H) :=
-  let c := internalHomMapLeft X.presheaf (G := H.val)
-    (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))
-  have : IsIso c := sheafificationInternalHomComparison_isIso X F G H
-  let e := asIso c ≪≫ presheafInternalHomTensorIso X.presheaf F.val G.val H.val
+  have := sheafificationInternalHomComparison_isIso X F G H
+  let e := asIso (sheafificationInternalHomComparison X F G H) ≪≫
+    presheafInternalHomTensorIso X.presheaf F.val G.val H.val
   { hom := ⟨e.hom⟩
     inv := ⟨e.inv⟩
     hom_inv_id := _root_.SheafOfModules.hom_ext e.hom_inv_id
@@ -239,9 +296,9 @@ theorem internalHomTensorIso_hom_app_tmul
   change evalNestedInternalHomSection X U
       ((internalHomTensorIso X F G H).hom.val.app (op U) s) f g =
     (s.app (op (Over.mk (𝟙 U)))).hom
-      (toTensorSheafSection X F G (op U)
+      ((tensorSheafificationUnit X F G).app (op U)
         ((F.val.map (𝟙 (op U))) f ⊗ₜ[X.presheaf.obj (op U)] g)) at h
-  simpa only [evalTensorHomSection, PresheafOfModules.map_id,
+  simpa only [evalTensorHomSection, PresheafOfModules.map_id, tensorSheafificationUnit_app_apply,
     ModuleCat.restrictScalarsId'_inv_app,
     ModuleCat.restrictScalarsId'App_inv_apply] using h
 
@@ -251,8 +308,7 @@ theorem internalHomTensorIso_hom_app_tmul
 noncomputable def tensorHomEquiv
     (F G H : _root_.SheafOfModules.{u} (structureSheafRing X)) :
     (((Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj F).obj G ⟶ H) ≃ (F ⟶ sheafHomSpace X G H) :=
-  (PresheafOfModules.sheafificationHomEquiv
-      (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj)).trans
+  ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).homEquiv _ H).trans
     ((presheafTensorHomEquiv X.presheaf F.val G.val H.val).trans
       { toFun := fun f ↦ ⟨f⟩
         invFun := fun f ↦ f.val
@@ -266,22 +322,15 @@ theorem tensorHomEquiv_isTensorCurry
     IsTensorCurry X t (tensorHomEquiv X F G H t) := by
   intro U f g
   have h := presheafTensorHomEquiv_apply X.presheaf F.val G.val H.val
-    (PresheafOfModules.sheafificationHomEquiv
-      (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj) t)
+    ((Tensor.sheafificationForgetAdjunction ⟨X.presheaf, X.IsSheaf⟩).homEquiv _ H t)
     U f (𝟙 U) g
   change (((tensorHomEquiv X F G H t).val.app (op U) f).app
       (op (Over.mk (𝟙 U)))).hom g =
-    (PresheafOfModules.sheafificationHomEquiv
-      (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj) t).app (op U)
+    (tensorSheafificationUnit X F G ≫ t.val).app (op U)
       ((F.val.map (𝟙 (op U))) f ⊗ₜ[X.presheaf.obj (op U)] g) at h
   rw [PresheafOfModules.map_id] at h
-  have hb := (PresheafOfModules.sheafificationAdjunction
-    (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj)).homEquiv_unit
-      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) H t
-  change PresheafOfModules.sheafificationHomEquiv
-      (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj) t =
-    sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) ≫ t.val at hb
-  rwa [hb] at h
+  rw [← tensorSheafificationUnit_app_apply]
+  exact h
 
 /-- `sheafificationInternalHomComparison` is natural in the two tensor factors: it commutes with
 precomposition by `f ⊗ g` and by its sheafification. -/
@@ -294,29 +343,11 @@ lemma sheafificationInternalHomComparison_natural
         ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u}
           ⟨X.presheaf, X.IsSheaf⟩)).map (X := (F', G')) (Y := (F, G)) (f, g)).val ≫
         sheafificationInternalHomComparison X F' G' H := by
-  have unitNaturality := (PresheafOfModules.sheafificationAdjunction
-    (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj)).unit.naturality
-      (PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val)
-  have tensorMap := Tensor.sheafTensor_uncurry_map.{u, u, u, u, u}
-    ⟨X.presheaf, X.IsSheaf⟩
-    (left := F') (left' := F) (right := G') (right' := G) f g
-  have nativeNaturality :
-      PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val ≫
-          sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) =
-        sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F'.val G'.val) ≫
-          ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u}
-            ⟨X.presheaf, X.IsSheaf⟩)).map (X := (F', G')) (Y := (F, G)) (f, g)).val :=
-    unitNaturality.trans
-      (congrArg (fun morphism =>
-        sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F'.val G'.val) ≫
-          morphism.val) tensorMap.symm)
   exact (internalHomMapLeft_comp X.presheaf (G := H.val)
-    (PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val)
-    (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).trans
+    (MonoidalCategory.tensorHom f.val g.val) (tensorSheafificationUnit X F G)).trans
       ((congrArg (internalHomMapLeft X.presheaf (G := H.val))
-        nativeNaturality).trans
-        (internalHomMapLeft_comp X.presheaf (G := H.val)
-          (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F'.val G'.val))
+        (tensorSheafificationUnit_naturality X f g)).trans
+        (internalHomMapLeft_comp X.presheaf (G := H.val) (tensorSheafificationUnit X F' G')
           ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u}
             ⟨X.presheaf, X.IsSheaf⟩)).map (X := (F', G')) (Y := (F, G)) (f, g)).val).symm)
 

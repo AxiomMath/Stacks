@@ -437,7 +437,8 @@ theorem etaleTensorSheaf_eq
       ((Stacks.SheafOfModules.Tensor.sheafTensor
         (structureSheaf B S hS p hp (etaleTopology B)
           (etaleTopology_le_topology B))).obj F).obj G :=
-  rfl
+  (Stacks.SheafOfModules.Tensor.sheafTensor_obj_obj
+    (structureSheaf B S hS p hp (etaleTopology B) (etaleTopology_le_topology B)) F G).symm
 
 /-- The presheaf of commutative rings of global functions on the small étale site of the scheme
 below an object `x`: the structure sheaf of that site of Stacks 03DU, before commutativity is
@@ -700,7 +701,8 @@ theorem isLocallyQuasicoherent_tensorSheaf
           (etaleTopology_le_topology B))).obj F).obj G).val :=
   let := hasSheafify_etaleAssociatedTopology B S hS p hp
   let := wEqualsLocallyBijective_etaleAssociatedTopology B S hS p hp
-  isLocallyQuasicoherent_etaleTensorSheaf B S hS p hp E h F G hF hG
+  etaleTensorSheaf_eq B S hS p hp F G ▸
+    isLocallyQuasicoherent_etaleTensorSheaf B S hS p hp E h F G hF hG
 
 end AlgebraicGeometry.Stack
 

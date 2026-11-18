@@ -141,13 +141,9 @@ theorem tensorFormsAmbientUnit_smul (V : A.obj.thickening.target.scheme.Opens)
     (M₂ := (crysAmbientSchemeModules F A).val.obj (op V))
     (sectionRingEquiv A V).toRingHom (AddMonoidHom.id _) (c.toFun V)
     (crysAmbient_smul F A V) (c.map_smul V) b p
-  refine (congrArg _ h1).trans ?_
-  exact (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.RingedSpace.structureRingSheaf A.obj.thickening.target.scheme.toRingedSpace)
-      (𝟙 (Stacks.RingedSpace.structureRingSheaf
-        A.obj.thickening.target.scheme.toRingedSpace).obj)).unit.app
-      (PresheafOfModules.tensorObj (O := A.obj.thickening.target.scheme.toRingedSpace.presheaf)
-        (crysAmbientSchemeModules F A).val N.val)).app (op V)).hom.map_smul _ _
+  exact (congrArg ((PresheafOfModules.tensorSheafUnit (crysAmbientSchemeModules F A) N).app
+    (op V)).hom h1).trans (((PresheafOfModules.tensorSheafUnit (crysAmbientSchemeModules F A)
+      N).app (op V)).hom.map_smul _ _)
 
 /-- Restriction of a section of `𝒪_{X/S}` along two restrictions of an object of `Cris(X/S)`. -/
 theorem structurePresheaf_map_restrictOpenLE_comp {V₁ V₂ V₃ : A.obj.thickening.target.scheme.Opens}

@@ -621,7 +621,7 @@ regularity with finiteness of the global dimension, and (1) → (3) is \"`R_𝔭
 ring for all primes `𝔭`\", spelled with Mathlib's `IsRegularRing` (Definition 00OD). Global
 dimension is the supremum of the projective dimensions of all `R`-modules, Mathlib having no name
 for it, and \"finite\" is `≠ ⊤`. See the module docstring.", ega "0 17.3.1"
-  "fin. coh. dim ⇔ regular", ega "0 17.3.1" "fin. coh. dim ⇔ regular"]
+  "fin. coh. dim ⇔ regular"]
 public theorem IsLocalRing.isRegularRing_tfae {R : Type u} [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] :
     List.TFAE

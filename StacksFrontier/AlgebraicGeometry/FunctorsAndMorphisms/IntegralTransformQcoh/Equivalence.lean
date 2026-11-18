@@ -936,14 +936,11 @@ noncomputable def tensorRightUnitIso
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   let U := SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-  let L := Stacks.SheafOfModules.TensorSheafification.sheafify O hO
+  let L := Stacks.SheafOfModules.Invertible.structureSheafification O hO
   let t := (MonoidalCategory.tensoringRight _).mapIso (U.mapIso e) ≪≫
     MonoidalCategory.rightUnitorNatIso _
-  let hc : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
-    change IsIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).counit
-    infer_instance
-  exact Functor.isoWhiskerRight (Functor.isoWhiskerLeft U t) L ≪≫ (@asIso _ _ _ _ _ hc)
+  exact Functor.isoWhiskerRight (Functor.isoWhiskerLeft U t) L ≪≫
+    asIso (Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).counit
 
 /-- The component of `tensorRightUnitIso` at a sheaf of modules `K` is the sheaf tensor
 product of the identity of `K` with `e`, followed by the right unit constraint. -/
@@ -963,27 +960,29 @@ private lemma tensorRightUnitIso_hom_app
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   have hL : (tensorRightUnitIso O hO P e).hom.app K =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+      (Stacks.SheafOfModules.Invertible.structureSheafification O hO).map
           ((K.val ◁ (SheafOfModules.forget
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map e.hom) ≫
             (ρ_ K.val).hom) ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit.app K := rfl
+        (Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).counit.app K :=
+    rfl
   have hR : (Stacks.SheafOfModules.Invertible.tensorProductIso O hO (Iso.refl K) e ≪≫
         Stacks.SheafOfModules.Invertible.tensorProductRightUnitor O hO K).hom =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+      (Stacks.SheafOfModules.Invertible.structureSheafification O hO).map
           (K.val ◁ (SheafOfModules.forget
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map e.hom) ≫
-        ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (ρ_ K.val).hom ≫
-          (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit.app K) := rfl
-  have hm : (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+        ((Stacks.SheafOfModules.Invertible.structureSheafification O hO).map (ρ_ K.val).hom ≫
+          (Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).counit.app K) :=
+    rfl
+  have hm : (Stacks.SheafOfModules.Invertible.structureSheafification O hO).map
         ((K.val ◁ (SheafOfModules.forget
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map e.hom) ≫
           (ρ_ K.val).hom) =
-      (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+      (Stacks.SheafOfModules.Invertible.structureSheafification O hO).map
           (K.val ◁ (SheafOfModules.forget
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).map e.hom) ≫
-        (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (ρ_ K.val).hom :=
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map_comp _ _
+        (Stacks.SheafOfModules.Invertible.structureSheafification O hO).map (ρ_ K.val).hom :=
+    (Stacks.SheafOfModules.Invertible.structureSheafification O hO).map_comp _ _
   rw [hL, hR, hm]
   exact Category.assoc _ _ _
 
@@ -1242,8 +1241,8 @@ lemma tensorRightUnitor_sectionScalar (X : Scheme.{u}) (a : Γ(X, ⊤))
           X.ringCatSheaf.2 M).hom ≫ sectionScalar X a M := by
   let _ : MonoidalCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
     PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
-  let L := Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf X.ringCatSheaf.2
-  let ε := (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
+  let L := Stacks.SheafOfModules.Invertible.structureSheafification X.presheaf X.ringCatSheaf.2
+  let ε := (Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction X.presheaf
     X.ringCatSheaf.2).counit
   have ht : (M.val ◁ (sectionScalar X a (SheafOfModules.unit X.ringCatSheaf)).val) ≫
         (ρ_ M.val).hom = (ρ_ M.val).hom ≫ (sectionScalar X a M).val := by

@@ -147,10 +147,14 @@ theorem globalTheta_thetaSections
           (Tag07ZGTwist.relativeTwist (twist 𝒜 L) k)).val.app _ _)) = _
   refine (congrArg (((targetAlgebra L 𝒜).piece (k : ℤ)).val.map _)
     (globalThetaIso_unit L 𝒜 Φ (k : ℤ) _ _)).trans ?_
-  refine (congrArg (fun z => ((targetAlgebra L 𝒜).piece (k : ℤ)).val.map _
-    (((targetAlgebra L 𝒜).piece (k : ℤ)).val.map _ z))
-    ((congrArg (fun φ => φ.val.app (op V) b) (hΦ k)).trans
-      (transportedPsi_app L 𝒜 k V hle b))).trans ?_
+  have hb : (Φ.hom.app k).val.app (op ((relativeProj (twist 𝒜 L)).toBase ⁻¹ᵁ V))
+      (((GluedTwistAlgebra.twistDataOfGradedAlgebra (twist 𝒜 L)).ψ k).val.app (op V) b) =
+      ((targetAlgebra L 𝒜).piece (k : ℤ)).val.map (homOfLE hle).op
+        ((RelativeTwistSections.multiplyHom (relativeProj 𝒜).toBase
+          (An := 𝒜.piece (k : ℤ)) (Ln := tpMod L (k : ℤ))
+          ((GluedTwistAlgebra.twistDataOfGradedAlgebra 𝒜).ψ k)).val.app (op V) b) :=
+    (congrArg (fun φ => φ.val.app (op V) b) (hΦ k)).trans (transportedPsi_app L 𝒜 k V hle b)
+  rw [hb]
   have key : ∀ {P Q R : (relativeProj 𝒜).scheme.Opens} (i : op P ⟶ op Q) (j : op Q ⟶ op R)
       (l : op R ⟶ op P) (z : ((targetAlgebra L 𝒜).piece (k : ℤ)).val.obj (op P)),
       ((targetAlgebra L 𝒜).piece (k : ℤ)).val.map l

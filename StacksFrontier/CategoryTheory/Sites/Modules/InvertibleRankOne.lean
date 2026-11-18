@@ -447,8 +447,7 @@ private theorem isIso_sheafify_of_cover_bijective
     (h : ∀ U : X.C, ∃ (I : Type (max u v)) (V : I → X.C) (f : ∀ i, V i ⟶ U),
       Sieve.ofArrows V f ∈ X.J U ∧
         ∀ i, Function.Bijective (φ.app (Opposite.op (V i)))) :
-    IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property).map φ) := by
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification X.O).map φ) := by
   let ψ := (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map φ
   have hw : X.J.W ψ := by
     apply (X.J.W_iff_isLocallyBijective ψ).mpr
@@ -472,6 +471,7 @@ private theorem isIso_sheafify_of_cover_bijective
       apply (Sieve.generate_le_iff _ _).mpr
       rintro W g ⟨i⟩
       exact (hi i).surjective _
+  rw [Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff]
   change (MorphismProperty.isomorphisms _).inverseImage
     (PresheafOfModules.sheafification.{max u v w}
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)) φ
@@ -494,8 +494,7 @@ theorem isInvertible_of_isFiniteLocallyFreeOfRank_one
       internalHom_isSheaf _ _ _
         (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).isSheaf⟩
   let φ := dualEvaluation X L
-  have hφ : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property).map φ) := by
+  have hφ : IsIso ((Stacks.SheafOfModules.Tensor.sheafification X.O).map φ) := by
     apply isIso_sheafify_of_cover_bijective X
     intro U
     obtain ⟨I, V, f, hf, hi⟩ := exists_cover_localUnit X L hL U
@@ -504,8 +503,10 @@ theorem isInvertible_of_isFiniteLocallyFreeOfRank_one
   apply (Stacks.SheafOfModules.isInvertible_iff_exists_tensor_iso_unit
     (O := X.O.obj) (hO := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) L).mpr
   exact ⟨D, ⟨@asIso _ _ _ _ _ hφ ≪≫
-    (Stacks.SheafOfModules.forgetSheafifyIso X.O.obj
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property).app
+    (Stacks.SheafOfModules.Tensor.sheafification X.O).mapIso
+      ((Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso X.O).app
+        (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).symm ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).counit).app
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))⟩⟩
 
 private abbrev GeneratorSections (X : AlgebraicGeometry.RingedSite.{u, v, w})
@@ -642,9 +643,9 @@ private theorem generatorSections_of_pairing_unit
 /-- A composite of presheaf morphisms whose first factor is locally bijective and whose second
 factor is an isomorphism is locally bijective. The two morphisms are variables here, which is
 what makes Mathlib's derivation of local injectivity and local surjectivity from `IsIso` fire:
-at the concrete second factor of `exists_cover_generatorSections`, an image of a morphism of
-sheaves of modules under two functors, it does not fire, even with `IsIso` for that morphism in
-the local context as an instance. -/
+at the concrete second factor of `exists_cover_generatorSections`, the image under `toPresheaf`
+of an isomorphism of presheaves of modules built from `L ⊗_O N ≅ O`, it does not fire, even with
+`IsIso` for that morphism in the local context as an instance. -/
 private theorem isLocallyBijective_comp_of_isIso {C : Type u} [Category.{v} C]
     (J : GrothendieckTopology C) {F₁ F₂ F₃ : Cᵒᵖ ⥤ AddCommGrpCat.{w}}
     (φ : F₁ ⟶ F₂) (ψ : F₂ ⟶ F₃)
@@ -669,36 +670,25 @@ private theorem exists_cover_generatorSections
     (Stacks.SheafOfModules.isInvertible_iff_exists_tensor_iso_unit
       (O := X.O.obj) (hO := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) L).mp hL
   let P := L.val ⊗ N.val
-  let η := Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property P
+  let η := (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app P
+  let ε := (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso X.O).app
+    (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj L).obj N) ≪≫
+    (SheafOfModules.forget _).mapIso e
   let B : P ⟶ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).val :=
-    η ≫ e.hom.val
+    η ≫ ε.hom
   let ψ := (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map B
-  have hηinj : Presheaf.IsLocallyInjective X.J
-      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map η) := by
-    change Presheaf.IsLocallyInjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
-    infer_instance
-  have hηsur : Presheaf.IsLocallySurjective X.J
-      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map η) := by
-    change Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
-    infer_instance
-  have hev : IsIso e.hom.val :=
-    @CategoryTheory.Functor.map_isIso _ _ _ _ _ _
-      (SheafOfModules.forget _) e.hom (CategoryTheory.Iso.isIso_hom e)
-  have hiso : IsIso ((PresheafOfModules.toPresheaf
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map e.hom.val) :=
-    @CategoryTheory.Functor.map_isIso _ _ _ _ _ _
-      (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) e.hom.val hev
   have hcomp := isLocallyBijective_comp_of_isIso X.J
     ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map η)
-    ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map
-      e.hom.val) hηinj hηsur hiso
+    ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map ε.hom)
+    inferInstance inferInstance
+    ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).mapIso
+      ε).isIso_hom
   have hψ : ψ = (PresheafOfModules.toPresheaf
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map η ≫
       (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map
-        e.hom.val :=
+        ε.hom :=
     (PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).map_comp
-      η e.hom.val
+      η ε.hom
   have hψinj : Presheaf.IsLocallyInjective X.J ψ := by rw [hψ]; exact hcomp.1
   have hψsur : Presheaf.IsLocallySurjective X.J ψ := by rw [hψ]; exact hcomp.2
   apply Stacks.Sheaves.LocallyRingedSite.LocallyOnCovering.refine

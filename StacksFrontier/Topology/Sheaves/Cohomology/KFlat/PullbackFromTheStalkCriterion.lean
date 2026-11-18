@@ -18,7 +18,7 @@ developments and nothing more.
 
 The criterion is stated at a ringed space `Z` and proved at a sheaf of commutative rings on
 `Opens X`; the passage is `Z.sheaf`, and `Stacks.SheafOfModules.IsKFlat` and
-`Stacks.SheafOfModules.KFlat.KFlat` are the same predicate — both are the `abbrev` asking that
+`Stacks.SheafOfModules.KFlat` are the same predicate — both are the `abbrev` asking that
 `Tot(F ⊗_O K)` be acyclic for every acyclic `F`.
 
 ## Main results

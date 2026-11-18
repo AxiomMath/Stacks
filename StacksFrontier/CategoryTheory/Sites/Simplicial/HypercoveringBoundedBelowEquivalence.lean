@@ -49,7 +49,8 @@ abelian-sheaf adjunction of a simplicial site.
   its two functors with the restrictions of `a⁻¹` and of `R a_*`. Stacks 0D8I itself, with
   those inputs proved, is
   `Stacks.CategoryTheory.Hypercovering.derivedTotalInverseImageEquivalenceOfHypercovering'` in
-  `StacksFrontier.CategoryTheory.Sites.Simplicial.HypercoveringBoundedBelowEquivalenceUnconditional`.
+  `HypercoveringBoundedBelowEquivalenceUnconditional` of
+  `StacksFrontier.CategoryTheory.Sites.Simplicial`.
 
 ## Main results
 

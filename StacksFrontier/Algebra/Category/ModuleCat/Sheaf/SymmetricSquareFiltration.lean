@@ -245,24 +245,46 @@ theorem symmetricPowerStalkEquiv_stalkMapL_mulE (x : ↥X)
     (congrArg (fun φ => SymPow.symMulMap k φ (SymPresentation.symTensorStalkEquiv ιE hE k x z))
       (stalkMapL_id_eq x))
 
+/-- The stalk of `μ_ℱ ∘ (1 ⊗ Symᵏ f)`. -/
+theorem symmetricPowerStalkEquiv_stalkMapL_incl_comp_mulF (x : ↥X)
+    (z : ↑(TopCat.Presheaf.stalk
+      (PresheafOfModules.tensorSheafVal Osharp E (AE.piece (k : ℤ))).presheaf x)) :
+    symmetricPowerStalkEquiv AF ιF hF (k + 1) x (PresheafOfModules.stalkMapL x
+        (SymPresentation.valHom (incl ιE ιF hE hF f k ≫ mulF ιF ιG hF hG f g hfg k)) z) =
+      SymPow.symMulMap k (PresheafOfModules.stalkMapL x (SymPresentation.valHom f))
+        (LinearMap.lTensor _ (SymPow.symMap k (PresheafOfModules.stalkMapL x f.val))
+          (SymPresentation.symTensorStalkEquiv ιE hE k x z)) := by
+  refine Eq.trans (congrArg (symmetricPowerStalkEquiv AF ιF hF (k + 1) x)
+    (stalkMapL_comp _ _ x z)) ?_
+  refine Eq.trans (SymPresentation.symmetricPowerStalkEquiv_symComplex_f ιF ιG hF hG f g hfg k x
+    _) ?_
+  exact congrArg (SymPow.symMulMap k (PresheafOfModules.stalkMapL x
+    (SymPresentation.valHom f))) (symTensorStalkEquiv_stalkMapL_incl ιE ιF hE hF f k x z)
+
+/-- The stalk of `Sym^{k+1}(f) ∘ μ_ℰ`. -/
+theorem symmetricPowerStalkEquiv_stalkMapL_mulE_comp_sq (x : ↥X)
+    (z : ↑(TopCat.Presheaf.stalk
+      (PresheafOfModules.tensorSheafVal Osharp E (AE.piece (k : ℤ))).presheaf x)) :
+    symmetricPowerStalkEquiv AF ιF hF (k + 1) x (PresheafOfModules.stalkMapL x
+        (SymPresentation.valHom (mulE ιE ιG hE hG f g hfg k ≫ sq ιE ιF hE hF f k)) z) =
+      SymPow.symMap (k + 1) (PresheafOfModules.stalkMapL x f.val)
+        (SymPow.symMulMap k LinearMap.id (SymPresentation.symTensorStalkEquiv ιE hE k x z)) := by
+  refine Eq.trans (congrArg (symmetricPowerStalkEquiv AF ιF hF (k + 1) x)
+    (stalkMapL_comp _ _ x z)) ?_
+  refine Eq.trans
+    (symmetricPowerStalkEquiv_stalkMapL_pieceMap ιE ιF hE hF f (k + 1) x _) ?_
+  exact congrArg (SymPow.symMap (k + 1) (PresheafOfModules.stalkMapL x f.val))
+    (symmetricPowerStalkEquiv_stalkMapL_mulE ιE ιG hE hG f g hfg k x z)
+
 /-- **The square `μ_ℱ ∘ (1 ⊗ Symᵏ f) = Sym^{k+1}(f) ∘ μ_ℰ`.** -/
 theorem incl_comp_mulF :
     incl ιE ιF hE hF f k ≫ mulF ιF ιG hF hG f g hfg k =
       mulE ιE ιG hE hG f g hfg k ≫ sq ιE ιF hE hF f k := by
-  refine eq_of_stalkMapL_eq _ _ fun x z => ?_
-  refine (symmetricPowerStalkEquiv AF ιF hF (k + 1) x).injective ?_
-  refine Eq.trans (congrArg (symmetricPowerStalkEquiv AF ιF hF (k + 1) x)
-    (stalkMapL_comp _ _ x z)) ?_
-  refine Eq.trans ?_ (congrArg (symmetricPowerStalkEquiv AF ιF hF (k + 1) x)
-    (stalkMapL_comp _ _ x z)).symm
-  refine Eq.trans (SymPresentation.symmetricPowerStalkEquiv_symComplex_f ιF ιG hF hG f g hfg k x
-    _) ?_
-  refine Eq.trans (congrArg (SymPow.symMulMap k (PresheafOfModules.stalkMapL x
-    (SymPresentation.valHom f))) (symTensorStalkEquiv_stalkMapL_incl ιE ιF hE hF f k x z)) ?_
-  refine Eq.trans ?_
-    (symmetricPowerStalkEquiv_stalkMapL_pieceMap ιE ιF hE hF f (k + 1) x _).symm
-  refine Eq.trans ?_ (congrArg (SymPow.symMap (k + 1) (PresheafOfModules.stalkMapL x f.val))
-    (symmetricPowerStalkEquiv_stalkMapL_mulE ιE ιG hE hG f g hfg k x z)).symm
+  refine eq_of_stalkMapL_eq _ _ fun x z =>
+    (symmetricPowerStalkEquiv AF ιF hF (k + 1) x).injective ?_
+  refine (symmetricPowerStalkEquiv_stalkMapL_incl_comp_mulF ιE ιF ιG hE hF hG f g hfg k x z).trans
+    (Eq.trans ?_ (symmetricPowerStalkEquiv_stalkMapL_mulE_comp_sq ιE ιF ιG hE hF hG f g hfg k x
+      z).symm)
   exact DFunLike.congr_fun (SymPow.symMulMap_comp_lTensor_symMap k
     (PresheafOfModules.stalkMapL x f.val)) _
 

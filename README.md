@@ -4,7 +4,7 @@
 
 * [Website](https://stacks.axiommath.ai/)
 
-A Lean 4 (v4.34.0-rc2) formalization of [the Stacks Project](https://stacks.math.columbia.edu/), the open-source reference work on algebraic geometry, built on [Mathlib](https://github.com/leanprover-community/mathlib4). We have formalized every tag of the Stacks Project with formalizable content, and declarations are also tagged with the items of Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA) that they prove (see §[EGA and SGA references](#ega-and-sga-references)). Examples, exercises and remarks that are not yet formalized are left as tasks for contributors (see §[Contributing](#contributing)). Lean's kernel checks every proof. There is no `sorry` and no `native_decide`.
+A Lean 4 (v4.35.0) formalization of [the Stacks Project](https://stacks.math.columbia.edu/), the open-source reference work on algebraic geometry, built on [Mathlib](https://github.com/leanprover-community/mathlib4). We have formalized every tag of the Stacks Project with formalizable content, and declarations are also tagged with the items of Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA) that they prove (see §[EGA and SGA references](#ega-and-sga-references)). Examples, exercises and remarks that are not yet formalized are left as tasks for contributors (see §[Contributing](#contributing)). Lean's kernel checks every proof. There is no `sorry` and no `native_decide`.
 
 ## Structure
 
@@ -39,7 +39,7 @@ lake exe cache get
 lake build
 ```
 
-`lake exe cache get` downloads Mathlib's compiled files. The library itself has about 63,000 modules, so a full build takes a long time and a lot of memory; a cache service for the compiled Stacks modules is planned, so that `lake build` will not have to compile them locally.
+`lake exe cache get` downloads Mathlib's compiled files. The library itself has about 64,000 modules, so a full build takes a long time and a lot of memory; a cache service for the compiled Stacks modules is planned, so that `lake build` will not have to compile them locally.
 
 ## Contributing
 

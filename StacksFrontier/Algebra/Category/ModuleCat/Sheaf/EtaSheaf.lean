@@ -249,24 +249,14 @@ theorem tensorProductRightUnitor_naturality
         (X := (M, SheafOfModules.unit _)) (Y := (N, SheafOfModules.unit _))
         (a, 𝟙 _) ≫ (tensorProductRightUnitor O hO N).hom =
       (tensorProductRightUnitor O hO M).hom ≫ a := by
-  let S := (PresheafOfModules.sheafification.{w}
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf
-        (CategoryTheory.ObjectProperty.FullSubcategory.mk O
-          (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO))))
-            (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
-              (CategoryTheory.ObjectProperty.FullSubcategory.mk O
-                (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO)))).obj))
-  let adj := (PresheafOfModules.sheafificationAdjunction.{w}
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf
-        (CategoryTheory.ObjectProperty.FullSubcategory.mk O
-          (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO))))
-            (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
-              (CategoryTheory.ObjectProperty.FullSubcategory.mk O
-                (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO)))).obj))
+  let S := Stacks.SheafOfModules.Tensor.sheafification
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
   -- The unitor square of the presheaf monoidal structure, pushed forward by `S`. It is a ground
   -- equation between morphisms of sheaves, proved with no rewriting, so the two spellings of the
-  -- counit's source — `S.obj N.val` and `(forget ⋙ restrictScalars ⋙ S).obj N` — never have to
-  -- be unified by a tactic that works below `default` transparency.
+  -- counit's source — `S.obj N.val` and `(forget ⋙ S).obj N` — never have to be unified by a
+  -- tactic that works below `default` transparency.
   have key : S.map (a.val ▷ (𝟙_ (PresheafOfModules.{w}
         ((Stacks.SheafOfModules.Tensor.ringSheaf
           ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)).obj))) ≫
@@ -275,19 +265,13 @@ theorem tensorProductRightUnitor_naturality
     (S.map_comp _ _).symm.trans
       ((congrArg S.map (MonoidalCategory.rightUnitor_naturality a.val)).trans
         (S.map_comp _ _))
-  have ha : S.map ((PresheafOfModules.restrictScalars (𝟙 _)).map a.val) =
-      S.map a.val := by rfl
-  have h := adj.counit.naturality a
-  change S.map ((PresheafOfModules.restrictScalars (𝟙 _)).map a.val) ≫
-      adj.counit.app N = adj.counit.app M ≫ a at h
-  rw [ha] at h
+  have h : S.map a.val ≫ adj.counit.app N = adj.counit.app M ≫ a := adj.counit.naturality a
   rw [Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
   have hN : (tensorProductRightUnitor O hO N).hom = S.map (ρ_ N.val).hom ≫ adj.counit.app N :=
     rfl
   have hM : (tensorProductRightUnitor O hO M).hom = S.map (ρ_ M.val).hom ≫ adj.counit.app M :=
     rfl
-  have hw : (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj)).map
+  have hw : S.map
         (PresheafOfModules.tensorHom a.val (𝟙 (SheafOfModules.unit
           (Stacks.SheafOfModules.Tensor.ringSheaf
             ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)).val)) =
@@ -628,47 +612,37 @@ lemma idealPowerIncl_zero_app_toTensorSheafSection
       (toTensorSheafSection X M I (op U)
         (m ⊗ₜ[X.presheaf.obj (op U)] a)) =
       (M.val.obj (op U)).isModule.toSMul.smul (idealSection X ι (op U) a) m := by
-  let S := (PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj))
-  let adj := (PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj))
-  let R := SheafOfModules.forget ((Stacks.SheafOfModules.Tensor.ringSheaf
-      (CategoryTheory.ObjectProperty.FullSubcategory.mk X.presheaf X.IsSheaf))) ⋙
-    PresheafOfModules.restrictScalars (𝟙 (Oₓ).obj)
+  let S := Stacks.SheafOfModules.Tensor.sheafification
+    (CategoryTheory.ObjectProperty.FullSubcategory.mk X.presheaf X.IsSheaf)
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    (CategoryTheory.ObjectProperty.FullSubcategory.mk X.presheaf X.IsSheaf)
+  let T := PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val
   let q : M.val ⊗ I.val ⟶ M.val := (M.val ◁ ι.val) ≫ (ρ_ M.val).hom
-  have hnat : q ≫ adj.unit.app M.val =
-      adj.unit.app (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val) ≫ R.map (S.map q) :=
-          adj.unit.naturality q
-  have htri : adj.unit.app M.val ≫ R.map (adj.counit.app M) = 𝟙 M.val :=
-    adj.right_triangle_components M
-  have h : adj.unit.app (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val) ≫
-      (S.map q ≫ adj.counit.app M).val = q := by
-    change adj.unit.app (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val) ≫
-      R.map (S.map q ≫ adj.counit.app M) = q
-    -- `R.map_comp`, reassociation, the unit's naturality square and the right triangle, all as
-    -- terms: `rw` cannot even instantiate `Functor.map_comp` here, because the composite
-    -- `S.map q ≫ adj.counit.app M` is type-correct only at `default` transparency.
-    exact (congrArg
-        (fun k => adj.unit.app (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val) ≫ k)
-          (R.map_comp (S.map q) (adj.counit.app M))).trans
-      ((Category.assoc (adj.unit.app (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val))
-        (R.map (S.map q))
-            (R.map (adj.counit.app M))).symm.trans
-        ((congrArg (fun k => k ≫ R.map (adj.counit.app M)) hnat.symm).trans
-          ((Category.assoc q (adj.unit.app M.val) (R.map (adj.counit.app M))).trans
-            ((congrArg (fun k => q ≫ k) htri).trans (Category.comp_id q)))))
+  -- The adjunct of `q` composed with the unit is `q`.
+  have h : adj.unit.app T ≫ (S.map q ≫ adj.counit.app M).val = q :=
+    ((adj.homEquiv_unit T M _).symm.trans
+      (congrArg (adj.homEquiv T M) (adj.homEquiv_counit T M q).symm)).trans
+        ((adj.homEquiv T M).apply_symm_apply q)
   -- `S.map_comp` is folded into `h` before the section is extracted. Rewriting with it
   -- afterwards is impossible: by then the composite sits under a `.val` projection, and `rw`
   -- has no type-correct motive for it.
   have hv := congrArg (fun k => (k.app (op U)).hom
       (m ⊗ₜ[X.presheaf.obj (op U)] a))
-    ((congrArg (fun k => adj.unit.app (PresheafOfModules.tensorObj (O := X.presheaf) M.val I.val) ≫
-      (k ≫ adj.counit.app M).val)
+    ((congrArg (fun k => adj.unit.app T ≫ (k ≫ adj.counit.app M).val)
       (S.map_comp (M.val ◁ ι.val) (ρ_ M.val).hom).symm).trans h)
   dsimp only [q] at hv
-  exact (congrArg (fun morphism =>
-    (((morphism ≫ (tensorProductRightUnitor X.sheaf.obj (Oₓ).property M).hom).val.app
-      (op U)).hom (toTensorSheafSection X M I (op U)
-        (m ⊗ₜ[X.presheaf.obj (op U)] a))))
-    (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map X.sheaf (𝟙 M) ι)).trans hv
+  -- `toTensorSheafSection` is the unit of `sheafificationAdjunction`; on sections it agrees with
+  -- the unit of `adj`.
+  have hu : toTensorSheafSection X M I (op U) (m ⊗ₜ[X.presheaf.obj (op U)] a) =
+      (adj.unit.app T).app (op U) (m ⊗ₜ[X.presheaf.obj (op U)] a) :=
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      (R := CategoryTheory.ObjectProperty.FullSubcategory.mk X.presheaf X.IsSheaf) T (op U)
+        _).symm
+  exact (congrArg (fun x => ((idealPowerIncl X I ι 0 M).val.app (op U)).hom x) hu).trans
+    ((congrArg (fun morphism =>
+      (((morphism ≫ (tensorProductRightUnitor X.sheaf.obj (Oₓ).property M).hom).val.app
+        (op U)).hom ((adj.unit.app T).app (op U) (m ⊗ₜ[X.presheaf.obj (op U)] a))))
+      (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map X.sheaf (𝟙 M) ι)).trans hv)
 
 open TensorProduct in
 private lemma eq_zero_of_idealPowerIncl_comp_eq_zero

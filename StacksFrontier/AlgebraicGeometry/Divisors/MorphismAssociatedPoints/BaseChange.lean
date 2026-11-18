@@ -191,9 +191,6 @@ private noncomputable def tensorSheafUnitIso (X : RingedSpace.{u, u})
     (G : SheafOfModules.{u} (structureSheafRing X)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
         ((SheafOfModules.unit (structureSheafRing X)))).obj (G)) ≅ G := by
-  change (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).obj
-      ((PresheafOfModules.tensorObj (O := (X).presheaf) ((SheafOfModules.unit (structureSheafRing
-          X)).val) (G.val))) ≅ G
   -- `PresheafOfModules.monoidalCategory` is keyed on `𝒪 ⋙ forget₂ CommRingCat RingCat`, and
   -- `(structureSheafRing X).obj` is a projection; `structureSheafRing` is
   -- `@[instance_reducible]` rather than `@[reducible]`, so the goal is not keyed to that
@@ -201,16 +198,10 @@ private noncomputable def tensorSheafUnitIso (X : RingedSpace.{u, u})
   letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
     inferInstanceAs (MonoidalCategory
       (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})))
-  let e : PresheafOfModules.tensorObj (O := X.presheaf)
-      (SheafOfModules.unit (structureSheafRing X)).val G.val ≅ G.val :=
-    MonoidalCategoryStruct.leftUnitor G.val
-  let adj := PresheafOfModules.sheafificationAdjunction
-    (𝟙 (structureSheafRing X).obj)
-  haveI : IsIso adj.counit := by
-    dsimp [adj]
-    infer_instance
-  exact (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).mapIso e ≪≫
-    (asIso adj.counit).app G
+  exact (Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).mapIso
+      (MonoidalCategoryStruct.leftUnitor G.val) ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.presheaf, X.IsSheaf⟩).counit).app G
 
 /-! ### The tensor comparison at a point of a fibre -/
 

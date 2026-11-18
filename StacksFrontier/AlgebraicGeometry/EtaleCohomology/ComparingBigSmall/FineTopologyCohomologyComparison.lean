@@ -25,7 +25,8 @@ on the big étale site over `X`,
 `RΓ(X_étale, K) = RΓ((Sch/X)_étale, π_X⁻¹K)`,
 
 a consequence of Stacks 0DDI (stated in full as
-`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`) in which cohomology is compared. Combined with the comparison of
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`) in which cohomology is compared.
+Combined with the comparison of
 cohomology for a change of topology (Stacks 0EZH) in the situation of Stacks 0F0I or Stacks 0F0J,
 it computes étale cohomology on the ph or h site; that step is the generic form of Stacks 0DE6
 and Stacks 0EWH.

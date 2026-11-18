@@ -304,14 +304,15 @@ theorem quasicoherentDirectImageTensor_naturality_right
         (affinePushforward.{u, w, u} g hg).map k) (MonoidalCategory.id_tensorHom _ _))))
 
 /-- The tensor comparison `Γ(U, P) ⊗_A Γ(U, Q) ⟶ Γ(U, P ⊗ Q)` of global sections: the
-sheafification unit at the final object. -/
+sealed sheafification unit (of `Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction`)
+at the final object. -/
 def globalSectionsTensor (P Q : quasicoherentModules B S hS (schemeStack.{u, w} B S hS U)) :
     (quasicoherentGlobalSections.{u, w} U).obj P ⊗ (quasicoherentGlobalSections.{u, w} U).obj Q ⟶
       (quasicoherentGlobalSections.{u, w} U).obj (P ⊗ Q) :=
-  (Stacks.SheafOfModules.TensorSheafification.toSheafify
+  ((Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction
     (fppfStructurePresheaf B S hS (schemeStack.{u, w} B S hS U))
-    (fppfStructurePresheaf_isSheaf B S hS (schemeStack.{u, w} B S hS U))
-    (PresheafOfModulesOfCommRing.Monoidal.tensorObj P.obj.val Q.obj.val)).app
+    (fppfStructurePresheaf_isSheaf B S hS (schemeStack.{u, w} B S hS U))).unit.app
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj P.obj.val Q.obj.val)).app
     (op (siteTop.{u, w} U))
 
 /-- The tensor comparison of global sections is natural in the right factor. -/
@@ -322,7 +323,7 @@ theorem globalSectionsTensor_naturality_right
         globalSectionsTensor P Q' =
       globalSectionsTensor P Q ≫ (quasicoherentGlobalSections.{u, w} U).map (P ◁ f) :=
   ModuleCat.MonoidalCategory.tensor_ext fun p q =>
-    (Stacks.SheafOfModules.whiskerLeft_val_app_toSheafify_tmul
+    (Stacks.SheafOfModules.whiskerLeft_val_app_unit_app_tmul
       (fppfStructurePresheaf B S hS (schemeStack.{u, w} B S hS U))
       (fppfStructurePresheaf_isSheaf B S hS (schemeStack.{u, w} B S hS U)) f.hom
       (op (siteTop.{u, w} U)) p q).symm
@@ -570,7 +571,8 @@ theorem pointPullbackChartIso_inv_μ (X Y : quasicoherentModules B S hS 𝒳) :
           (pointPullbackChartIso g hU).inv.app (X ⊗ Y) :=
   ModuleCat.MonoidalCategory.tensor_ext fun a b =>
     (pointPullbackμ_tmul B S hS 𝒳 _ (chartPointIso g hU) X Y a b).trans
-      (pullbackTensor_val_app_toSheafify g X.obj Y.obj (op (siteTop.{u, w} U)) a b).symm
+      ((pointTensorMap_tmul B S hS 𝒳 (g.hom.hom.toFunctor.obj (siteTop.{u, w} U)) X Y a b).trans
+        (pullbackTensor_val_app_unit_app g X.obj Y.obj (op (siteTop.{u, w} U)) a b).symm)
 
 /-- The comparison `F(-) ⊗_R C ⟶ Γ(U, g^*(-)) ⊗_A C` of Stacks 0GRQ, for `F` braided monoidal
 for the strict structure (II). -/

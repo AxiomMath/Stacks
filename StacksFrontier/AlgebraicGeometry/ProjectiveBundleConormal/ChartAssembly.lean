@@ -668,6 +668,24 @@ theorem restrictConormalTargetIsoTildeTaut_inv_unit_toOpen
     (Stacks.SheafOfModules.inv_val_app_hom_val_app
       (restrictConormalTargetIsoTildeTaut E Q hσ e hqe hW eL t ht) (op ⊤) _)
 
+/-- `Stacks.AlgebraicGeometry.ModuleLimits.hom_ext_of_unit_toOpen` with the global sections taken
+over the top open of the site, the spelling in which the generator formulas of this file and of
+`Stacks.ProjectiveBundleConormal.restrictConormalSourceIsoTilde_inv_unit_toOpen` are stated (rather
+than over `⊤ : X.Opens`), so that the per-generator equation it asks for matches them on the
+nose. -/
+private theorem hom_ext_of_unit_toOpen_top {Y : Scheme.{u}} {R : CommRingCat.{u}} (f : Y ⟶ Spec R)
+    {A : ModuleCat.{u} R} {N : Y.Modules}
+    {φ ψ : (Scheme.Modules.pullback f).obj (tilde A) ⟶ N}
+    (h : ∀ a : A,
+      φ.val.app (op ⊤)
+          (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app (tilde A)).val.app (op ⊤)
+            (tilde.toOpen A ⊤ a)) =
+        ψ.val.app (op ⊤)
+          (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app (tilde A)).val.app (op ⊤)
+            (tilde.toOpen A ⊤ a))) :
+    φ = ψ :=
+  Stacks.AlgebraicGeometry.ModuleLimits.hom_ext_of_unit_toOpen f h
+
 include hσ e hqe in
 /-- **The chart equation of [Stacks, Tag 0B3V] clause 3.** On an affine open `W` carrying a frame
 `eL` for `𝓛` and a section `t` of `ℰ` at which the chart's linear form takes the value `1`, and for
@@ -708,7 +726,7 @@ theorem conormalCanonicalMap_restrict_eq_taut
       W.ι ⁻¹ᵁ (W.ι ''ᵁ (⊤ : (↑W : Scheme.{u}).Opens)) := by simp
   have hWV : W ≤ σ ⁻¹ᵁ tautologicalChart E W t :=
     le_preimage_tautologicalChart E Q hσ e hqe W t hW eL ht
-  refine Stacks.AlgebraicGeometry.ModuleLimits.hom_ext_of_unit_toOpen hW.isoSpec.hom ?_
+  refine hom_ext_of_unit_toOpen_top hW.isoSpec.hom ?_
   intro k
   obtain ⟨w, hwdef⟩ : ∃ w : Γ(Stacks.SheafOfModules.Invertible.tensorPower X.presheaf
         X.ringCatSheaf.2 Q.L (-1), W),

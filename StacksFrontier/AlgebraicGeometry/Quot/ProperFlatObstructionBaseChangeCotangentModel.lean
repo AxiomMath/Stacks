@@ -104,16 +104,14 @@ def crossTensorRingEquiv : A' ⊗[R'] B' ≃+* A ⊗[R] B :=
       (fun r => by rw [RingEquiv.symm_apply_eq, hα, RingEquiv.apply_symm_apply])
       (fun r => by rw [RingEquiv.symm_apply_eq, hβ, RingEquiv.apply_symm_apply]))
     (RingHom.ext fun x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b =>
         rw [RingHom.comp_apply, crossTensorMap_tmul, crossTensorMap_tmul,
           RingEquiv.apply_symm_apply,
           RingEquiv.apply_symm_apply, RingHom.id_apply]
       | add x y hx hy => rw [map_add, map_add, hx, hy])
     (RingHom.ext fun x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b =>
         rw [RingHom.comp_apply, crossTensorMap_tmul, crossTensorMap_tmul,
           RingEquiv.symm_apply_apply,
@@ -194,7 +192,7 @@ theorem isZero_derivedModuleFiber_of_ringEquiv_of_torIndependent
         distTriang (DerivedCategory (ModuleCat.{max u' v' w'} C'))),
       IsZero EC := by
     intro R' A' B' C' _ _ _ _ _ _ _ _ _ _ _ ρR ρA ρB ρC hA hB hAC hBC EC b' e' hC
-    letI : Algebra B' (A' ⊗[R'] B') := Algebra.TensorProduct.rightAlgebra
+    let : Algebra B' (A' ⊗[R'] B') := Algebra.TensorProduct.rightAlgebra
     let ψ : A' ⊗[R'] B' →ₐ[R'] C' := Algebra.TensorProduct.lift (IsScalarTower.toAlgHom R' A' C')
       (IsScalarTower.toAlgHom R' B' C') fun _ _ => Commute.all _ _
     have hψ : ∀ a b, ψ (a ⊗ₜ[R'] b) = algebraMap A' C' a * algebraMap B' C' b :=
@@ -211,8 +209,7 @@ theorem isZero_derivedModuleFiber_of_ringEquiv_of_torIndependent
     have hτ : ∀ t, ρC (algebraMap (A' ⊗[R'] B') C' t) =
         φ (CommAlgCat.crossTensorRingEquiv ρR ρA ρB hA hB t) := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul a b =>
         change ρC (ψ (a ⊗ₜ[R'] b)) = φ (CommAlgCat.crossTensorMap ρR ρA ρB hA hB (a ⊗ₜ[R'] b))
         rw [CommAlgCat.crossTensorMap_tmul, hψ, map_mul]

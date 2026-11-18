@@ -75,9 +75,19 @@ reason recorded above that lemma.
 Every proof whose two sides mix two spellings of the structure sheaf of rings is a term rather
 than a tactic script, for the reason recorded in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/BilinearValueFormulas.lean`: the spellings agree
-only at default transparency, which a term checks and the motive check of `rw` does not. The two
-`rw`s that do occur rewrite a hypothesis by an equation whose left-hand side is syntactically
+only at default transparency, which a term checks and the motive check of `rw` does not. The one
+`rw` that does occur rewrites a hypothesis by equations whose left-hand sides are syntactically
 present in it.
+
+The sheafification unit in the statements is that of the sealed
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, whose right adjoint keeps Mathlib's
+`restrictScalars (𝟙 _)` factor, rather than that of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` (plain forgetful right adjoint):
+stated through the latter, the slice-site formula
+`sheafTensorHomEquiv_tensorRestrictionComparison_val_app_apply_app` already exhausts the
+heartbeat budget in elaborating its own statement, while the former elaborates at once. The one
+place where the sections formula of Stacks 03EO delivers the latter's unit, it is converted by
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply`.
 
 Nothing here carries a `stacks` attribute: these are section-level computations of an existing
 comparison and the source states none of them.
@@ -117,29 +127,16 @@ theorem sheafTensor_obj_map_app_sheafifyUnit_tmul
     {G G' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (ψ : G ⟶ G')
     (W : C) (y : F.val.obj (op W)) (x : G.val.obj (op W)) :
     (((sheafTensor O).obj F).map ψ).val.app (op W)
-        ((((_root_.PresheafOfModules.sheafificationAdjunction
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+        ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit).app
             (((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val).obj
               G.val)).app
           (op W) (y ⊗ₜ[O.obj.obj (op W)] x)) =
-      (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit).app
           (((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val).obj
             G'.val)).app
-        (op W) (y ⊗ₜ[O.obj.obj (op W)] ψ.val.app (op W) x) := by
-  let wl : ((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val).obj G.val ⟶
-      ((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val).obj G'.val :=
-    MonoidalCategory.whiskerLeft F.val ψ.val
-  have h1 : ((sheafTensor O).obj F).map ψ =
-      (_root_.PresheafOfModules.sheafification.{u}
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map wl := rfl
-  have h2 := (_root_.PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.naturality wl
-  rw [h1]
-  exact (congrArg (fun k ↦ (ConcreteCategory.hom (k.app (op W)))
-    (y ⊗ₜ[O.obj.obj (op W)] x)) h2).symm
+        (op W) (y ⊗ₜ[O.obj.obj (op W)] ψ.val.app (op W) x) :=
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply (F.val ◁ ψ.val) (op W)
+    (y ⊗ₜ[O.obj.obj (op W)] x)
 
 /-- The sections formula of Stacks 03EO at the identity object of `C/W`: a morphism `b` out of the
 sheafified tensor product, transposed, sends `x` and `y` to the value of `b` on the
@@ -154,24 +151,16 @@ private theorem sheafTensorHomEquiv_apply_app_id {D : Type u} [Category.{u} D]
     (((((sheafTensorHomEquiv R F G H b).val.app (op W)).hom x).app
           (op (Over.mk (𝟙 W)))).hom y) =
       b.val.app (op W)
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app
             (F.val ⊗ G.val)).app (op W)
           (x ⊗ₜ[(R.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op W)] y)) := by
   have hid : (F.val.restrictₛₗ (𝟙 W).op) x = x :=
     congrArg (fun φ ↦ (ConcreteCategory.hom φ) x) (F.val.map_id (op W))
-  have hcomp : (Stacks.SheafOfModules.InternalHom.sheafifyForgetAdjunction R).homEquiv
-        (F.val ⊗ G.val) H b =
-      (_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app (F.val ⊗ G.val) ≫
-        b.val :=
-    (Stacks.SheafOfModules.InternalHom.sheafifyForgetAdjunction R).homEquiv_unit
-      (F.val ⊗ G.val) H b
   have hkey := Stacks.SheafOfModules.InternalHom.sheafTensorHomEquiv_apply R F G H b W x (𝟙 W) y
-  rw [hcomp, hid] at hkey
-  exact hkey
+  rw [Stacks.SheafOfModules.InternalHom.sheafifyForgetAdjunction_homEquiv R H (F.val ⊗ G.val) b,
+    hid] at hkey
+  exact hkey.trans (congrArg (b.val.app (op W))
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply R _ _ _))
 
 end SecondVariable
 
@@ -218,9 +207,7 @@ theorem sheafTensorRightHomAdjunction_unit_app_val_app_apply_app (W : X.C)
     (x : A.val.obj (op W)) (y : F.val.obj (op W)) :
     (((((sheafTensorRightHomAdjunction X.O F).unit.app A).val.app (op W)).hom x).app
           (op (Over.mk (𝟙 W)))).hom y =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op W)
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op W)] y) := by
   have hunit : Stacks.SheafOfModules.InternalHom.sheafTensorHomEquiv X.O A F
@@ -242,9 +229,7 @@ theorem sheafTensorHomEquiv_tensorRestrictionComparison_val_app_apply_app (V : O
             (F.over U) ((((sheafTensor X.O).obj A).obj F).over U)
             ((tensorRestrictionComparison X U F).app A)).val.app (op V)).hom x).app
           (op (Over.mk (𝟙 V)))).hom y =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.left)
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.left)] y) :=
   (congrArg (fun e : (A.over U) ⟶
@@ -269,14 +254,10 @@ definitional. -/
 theorem tensorRestrictionComparison_natTrans_app_val_app_unit_tmul (V : Over U)
     (x : (A.over U).val.obj (op V)) (y : (F.over U).val.obj (op V)) :
     ((tensorRestrictionComparison X U F).app A).val.app (op V)
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
             ((A.over U).val ⊗ (F.over U).val)).app (op V)
           (x ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V)] y)) =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.left)
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.left)] y) := by
   exact (sheafTensorHomEquiv_apply_app_id (X.O.over U) (A.over U) (F.over U) _
@@ -298,18 +279,15 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul
     ((((sheafTensor (X.O.over U)).map φ).app F' ≫
             ((sheafTensor (X.O.over U)).obj (A.over U)).map ψ) ≫
           (tensorRestrictionComparison X U F).app A).val.app (op V)
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
             (A'.val ⊗ F'.val)).app (op V)
           (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V)] b)) =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.left)
         (φ.val.app (op V) a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.left)]
           ψ.val.app (op V) b) := by
-  have s1 := sheafTensor_map_app_sheafifyUnit_tmul (X.J.over U) (X.O.over U) φ F' V a b
+  have s1 := Stacks.SheafOfModules.Tensor.unit_naturality_apply (φ.val ▷ F'.val) (op V)
+    (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V)] b)
   have s2 := sheafTensor_obj_map_app_sheafifyUnit_tmul (X.J.over U) (X.O.over U) (A.over U) ψ V
     (φ.val.app (op V) a) b
   have s3 := tensorRestrictionComparison_natTrans_app_val_app_unit_tmul X U F A V
@@ -328,14 +306,10 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_op
     ((((sheafTensor (X.O.over U)).map φ).app F' ≫
             ((sheafTensor (X.O.over U)).obj (A.over U)).map ψ) ≫
           (tensorRestrictionComparison X U F).app A).val.app V
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
             (A'.val ⊗ F'.val)).app V
           (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj V] b)) =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.unop.left)
         (φ.val.app V a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.unop.left)]
           ψ.val.app V b) :=
@@ -360,21 +334,15 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_of_eq
       ((sheafTensor (X.O.over U)).obj (A.over U)).map ψ)
     (V : (Over U)ᵒᵖ) (a : A'.val.obj V) (b : F'.val.obj V) :
     (T ≫ (tensorRestrictionComparison X U F).app A).val.app V
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
             (A'.val ⊗ F'.val)).app V
           (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj V] b)) =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.unop.left)
         (φ.val.app V a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.unop.left)]
           ψ.val.app V b) :=
   (congrArg (fun m ↦ (m ≫ (tensorRestrictionComparison X U F).app A).val.app V
-      (((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
           (A'.val ⊗ F'.val)).app V
         (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj V] b))) hT).trans
     (transport_comp_tensorRestrictionComparison_val_app_unit_tmul_op X U F A φ ψ V a b)
@@ -438,14 +406,10 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_of_eq_comp
       Stacks.SheafOfModules.tensorTransportSecond X U A F ψ)
     (V : (Over U)ᵒᵖ) (a : A'.val.obj V) (b : F'.val.obj V) :
     (T ≫ (tensorRestrictionComparison X U F).app A).val.app V
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
             (A'.val ⊗ F'.val)).app V
           (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj V] b)) =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.unop.left)
         (φ.val.app V a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.unop.left)]
           ψ.val.app V b) :=
@@ -468,14 +432,10 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTrans
     ((Stacks.SheafOfModules.tensorTransportFirst X U A φ F' ≫
             Stacks.SheafOfModules.tensorTransportSecond X U A F ψ) ≫
           (tensorRestrictionComparison X U F).app A).val.app V
-        (((_root_.PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.O.over U)).unit.app
             (A'.val ⊗ F'.val)).app V
           (a ⊗ₜ[((X.O.over U).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj V] b)) =
-      ((_root_.PresheafOfModules.sheafificationAdjunction
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           (A.val ⊗ F.val)).app (op V.unop.left)
         (φ.val.app V a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.unop.left)]
           ψ.val.app V b) :=

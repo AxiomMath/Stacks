@@ -135,9 +135,8 @@ def higherDirectImageTensorMap :
     (((Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).obj (topDirectImage f F n)).obj G) ⟶
       topDirectImageTensor f F G n :=
-  ((PresheafOfModules.sheafificationAdjunction
-      (R := structureSheafRing Y.toRingedSpace)
-      (𝟙 (structureSheafRing Y.toRingedSpace).obj)).homEquiv
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).homEquiv
     ((PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf) (topDirectImage f F n).val G.val))
     (topDirectImageTensor f F G n)).symm (higherDirectImageTensorPresheafMap f F G n)
 
@@ -148,14 +147,9 @@ theorem higherDirectImageTensorMap_toTensorSheafSection (W : (Y.Opens)ᵒᵖ)
     ((higherDirectImageTensorMap f F G n).val.app W).hom
         (toTensorSheafSection Y.toRingedSpace (topDirectImage f F n) G W t) =
       PresheafOfModules.Hom.app (higherDirectImageTensorPresheafMap f F G n) W t :=
-  congrArg (fun q => PresheafOfModules.Hom.app q W t)
-    (((PresheafOfModules.sheafificationAdjunction
-      (R := structureSheafRing Y.toRingedSpace)
-      (𝟙 (structureSheafRing Y.toRingedSpace).obj)).homEquiv
-      ((PresheafOfModules.tensorObj (O := Y.toRingedSpace.presheaf)
-        (topDirectImage f F n).val G.val))
-      (topDirectImageTensor f F G n)).apply_symm_apply
-        (higherDirectImageTensorPresheafMap f F G n))
+  PresheafOfModules.hom_congr_apply
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+      (higherDirectImageTensorPresheafMap f F G n)) W t
 
 /-- **The canonical map on a local pure tensor is the candidate value on sections.**  This is the
 computation rule of the sheafification adjunction at the bilinear family, and it is what pins the

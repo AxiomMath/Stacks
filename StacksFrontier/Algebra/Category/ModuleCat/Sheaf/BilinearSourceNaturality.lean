@@ -63,12 +63,14 @@ transparency, so `rw` reports "did not find an occurrence" on a pattern that is 
 with Lean's own note that the goal is not type-correct at the `implicit` level. `congrArg` and
 `Eq.trans` do the same work and type-check at default transparency.
 
-For the same reason `Stacks.SheafOfModules.tensorSheafHomEquivPresheafTensorHom` is defined as
-the hom-set bijection of `PresheafOfModules.sheafificationAdjunction` rather than as
-`PresheafOfModules.sheafificationHomEquiv`: the two are definitionally equal, but only the
-former lets `CategoryTheory.Adjunction.homEquiv_naturality_right_symm` and
-`..._left_symm` be applied to it directly, and the inverse bijection is the direction the chain
-of Tag 03EL traverses.
+`Stacks.SheafOfModules.tensorSheafHomEquivPresheafTensorHom` is defined as the hom-set
+bijection of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the adjunction of the
+sealed sheafification which ends `Stacks.SheafOfModules.Tensor.sheafTensor`, with the plain
+forgetful functor as right adjoint. This lets
+`CategoryTheory.Adjunction.homEquiv_naturality_right_symm` and `..._left_symm` be applied to it
+directly, and the inverse bijection is the direction the chain of Tag 03EL traverses.
+Accordingly, naturality in the two source modules is stated with
+`(Stacks.SheafOfModules.Tensor.sheafification _).map (PresheafOfModules.tensorHom s.val u.val)`.
 
 ## References
 
@@ -263,8 +265,9 @@ def tensorSheafHomEquivPresheafTensorHom :
       ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).obj F).obj G ⟶
         N) ≃
       (_root_.PresheafOfModules.tensorObj F.val G.val ⟶ N.val) :=
-  (PresheafOfModules.sheafificationAdjunction
-    (R := commRingSheaf J A hA) (𝟙 _)).homEquiv (_root_.PresheafOfModules.tensorObj F.val G.val) N
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).homEquiv
+      (_root_.PresheafOfModules.tensorObj F.val G.val) N
 
 /-- **The tensor product sheaf represents bilinear pairings**, for a presheaf of commutative
 rings whose underlying presheaf of rings is a sheaf. This is
@@ -289,8 +292,9 @@ lemma tensorSheafHomEquivPresheafTensorHom_symm_naturality
     (t : _root_.PresheafOfModules.tensorObj F.val G.val ⟶ N.val) (k : N ⟶ N') :
     (tensorSheafHomEquivPresheafTensorHom (hA := hA)).symm (t ≫ k.val) =
       (tensorSheafHomEquivPresheafTensorHom (hA := hA) (F := F) (G := G)).symm t ≫ k :=
-  (PresheafOfModules.sheafificationAdjunction
-    (R := commRingSheaf J A hA) (𝟙 _)).homEquiv_naturality_right_symm t k
+  Adjunction.homEquiv_naturality_right_symm
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩) t k
 
 omit [J.HasSheafCompose (forget RingCat.{w})] [J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- The inverse of `Stacks.SheafOfModules.tensorSheafHomEquivPresheafTensorHom` is natural in
@@ -299,12 +303,14 @@ lemma tensorSheafHomEquivPresheafTensorHom_symm_precomp
     (t : _root_.PresheafOfModules.tensorObj F'.val G'.val ⟶ N.val) (s : F ⟶ F') (u : G ⟶ G') :
     (tensorSheafHomEquivPresheafTensorHom (hA := hA)).symm
         ((_root_.PresheafOfModules.tensorHom s.val u.val) ≫ t) =
-      (PresheafOfModules.sheafification (R := commRingSheaf J A hA) (𝟙 _)).map
+      (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).map
           (_root_.PresheafOfModules.tensorHom s.val u.val) ≫
         (tensorSheafHomEquivPresheafTensorHom (hA := hA) (F := F') (G := G') (N := N)).symm t :=
-  (PresheafOfModules.sheafificationAdjunction
-    (R := commRingSheaf J A hA) (𝟙 _)).homEquiv_naturality_left_symm
-      (_root_.PresheafOfModules.tensorHom s.val u.val) t
+  Adjunction.homEquiv_naturality_left_symm
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩)
+    (_root_.PresheafOfModules.tensorHom s.val u.val) t
 
 /-- **The universal property of the tensor product sheaf is natural in the sheaf of values.** -/
 lemma bilinearEquivTensorSheafHom_naturality
@@ -328,7 +334,8 @@ lemma bilinearEquivTensorSheafHom_precomp
     bilinearEquivTensorSheafHom (hA := hA)
         ⟨prod.map ((moduleSheafFunctor (commRingSheaf J A hA)).map s)
           ((moduleSheafFunctor (commRingSheaf J A hA)).map u) ≫ q.1, q.2.precomp s u⟩ =
-      (PresheafOfModules.sheafification (R := commRingSheaf J A hA) (𝟙 _)).map
+      (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).map
           (_root_.PresheafOfModules.tensorHom s.val u.val) ≫
         bilinearEquivTensorSheafHom (hA := hA) q :=
   (congrArg (fun t ↦ (tensorSheafHomEquivPresheafTensorHom (hA := hA) (F := F) (G := G) (N :=
@@ -359,7 +366,8 @@ lemma bilinearEquivTensorSheafHom_symm_precomp
         N)
     (s : F ⟶ F') (u : G ⟶ G') :
     (bilinearEquivTensorSheafHom (hA := hA) (F := F) (G := G) (N := N)).symm
-        ((PresheafOfModules.sheafification (R := commRingSheaf J A hA) (𝟙 _)).map
+        ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).map
           (_root_.PresheafOfModules.tensorHom s.val u.val) ≫ t) =
       ⟨prod.map ((moduleSheafFunctor (commRingSheaf J A hA)).map s)
             ((moduleSheafFunctor (commRingSheaf J A hA)).map u) ≫

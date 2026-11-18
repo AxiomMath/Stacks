@@ -118,8 +118,9 @@ def tensorPowerMulIsoNegOne (L : SheafOfModules.{w}
 /-- **The product of a section of `L` and a section of `L^{⊗ -1}`**, a section of the structure
 sheaf over the same object of the site.
 
-The pure tensor of the two sections is a section of the *presheaf* tensor product; the
-sheafification unit carries it into `L^{⊗ 1} ⊗ L^{⊗ -1}`, where `tensorPowerMulIsoNegOne`
+The pure tensor of the two sections is a section of the *presheaf* tensor product; the unit of
+`structureSheafificationAdjunction` (the sealed sheafification that is the last factor of the
+sheaf tensor product) carries it into `L^{⊗ 1} ⊗ L^{⊗ -1}`, where `tensorPowerMulIsoNegOne`
 evaluates it. Specifying the multiplication this way, rather than as some isomorphism of
 modules, is what makes a statement about it a statement about multiplication. -/
 def sectionMulNegOne (L : SheafOfModules.{w}
@@ -129,9 +130,9 @@ def sectionMulNegOne (L : SheafOfModules.{w}
     (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val.obj U
       :=
   ((tensorPowerMulIsoNegOne O hO L).hom.val.app U).hom
-    (((Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
-      ((PresheafOfModules.tensorObj (O := O) ((tensorPower O hO L 1).val)
-        ((tensorPower O hO L (-1)).val)))).app U).hom
+    ((((structureSheafificationAdjunction O hO).unit.app
+      (PresheafOfModules.tensorObj (O := O) ((tensorPower O hO L 1).val)
+        ((tensorPower O hO L (-1)).val))).app U).hom
       ((((tensorPowerOneIso O hO L).inv.val.app U).hom s) ⊗ₜ t))
 
 /-- The product of a global section of an invertible module sheaf on a scheme and a global

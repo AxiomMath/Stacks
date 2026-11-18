@@ -127,10 +127,7 @@ theorem injective_lid_comp_rTensor_subtype {R Q : Type*} [CommRing R] [AddCommGr
   have key : ∀ x : I ⊗[R] Q, ∀ b ∈ I,
       ∃ z : Q, b • x = (⟨a, haI⟩ : I) ⊗ₜ[R] z ∧ a • z = b • m x := by
     intro x b hb
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      exact ⟨0, by rw [smul_zero, TensorProduct.tmul_zero], by
-        rw [smul_zero, map_zero, smul_zero]⟩
+    induction x using TensorProduct.inductionOn with
     | tmul y q =>
       have hby : b * (y : R) ∈ Ideal.span {a} := by
         rw [← hI]; exact Ideal.mul_mem_mul hb y.2
@@ -150,8 +147,7 @@ theorem injective_lid_comp_rTensor_subtype {R Q : Type*} [CommRing R] [AddCommGr
       sub_eq_zero.mp (ha _ (by rw [smul_sub, sub_eq_zero]; exact hqq')))
   have hg : ∀ x : I ⊗[R] Q, (LinearMap.lsmul R Q a).lTensor I x = a • x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, smul_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul y q => rw [LinearMap.lTensor_tmul, LinearMap.lsmul_apply, TensorProduct.tmul_smul]
     | add x x' hx hx' => rw [map_add, hx, hx', smul_add]
   refine (injective_iff_map_eq_zero m).mpr fun x hx => ?_

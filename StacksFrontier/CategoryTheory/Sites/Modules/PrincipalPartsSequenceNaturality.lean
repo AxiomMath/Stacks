@@ -329,23 +329,15 @@ theorem principalPartsInclusion_toSheafify (φ : O₁ ⟶ O₂)
     (y : (PresheafOfModules.tensorObj (O := O₂.obj) F.val
       (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val).obj X) :
     (((principalPartsInclusion.{v, u, w, m} φ).app F).val.app X).hom
-        (((toSheafify J (PresheafOfModules.tensorObj F.val
-          (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val).presheaf).app X).hom y) =
-      ((principalPartsPairingPresheaf.{v, u, w, m} φ F).app X).hom y := by
-  have h := _root_.PresheafOfModules.toPresheaf_map_sheafificationHomEquiv_def
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)
-    (principalPartsInclusionApp.{v, u, w, m} φ F)
-  rw [show _root_.PresheafOfModules.sheafificationHomEquiv
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)
-        (principalPartsInclusionApp.{v, u, w, m} φ F) =
-      principalPartsPairingPresheaf.{v, u, w, m} φ F from
-    Equiv.apply_symm_apply ((_root_.PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv
-      (PresheafOfModules.tensorObj F.val
-        (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)
-      (principalPartsOne.{v, u, w, m} φ F))
-      (principalPartsPairingPresheaf.{v, u, w, m} φ F)] at h
-  exact (ConcreteCategory.congr_hom (NatTrans.congr_app h X) y).symm
+        ((((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+          (PresheafOfModules.tensorObj F.val
+            (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)).app X).hom y) =
+      ((principalPartsPairingPresheaf.{v, u, w, m} φ F).app X).hom y :=
+  PresheafOfModules.hom_congr_apply'
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv_unit
+      _ _ _).symm.trans <|
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv _ _)
+          |>.apply_symm_apply (principalPartsPairingPresheaf.{v, u, w, m} φ F)) X y
 
 /-- The universal differential operator of order at most one out of `F'`, precomposed with the
 module map `uF`: an operator out of `F` with values in `β^*P¹_{B'/A'}(F')`. This is the operator
@@ -599,15 +591,14 @@ theorem principalPartsInclusionHom_square
     (postcomp_mapDifferentials_comp_crossPrecomp.{v, u, w, m} φ φ' α β hsq F F' uF)
 
 /-- The map from the objectwise tensor product `F ⊗ Ω_{O₂/O₁}` to its sheafification, as a
-morphism of presheaves of modules: the unit of the sheafification adjunction. -/
+morphism of presheaves of modules: the unit of the (sealed) sheafification adjunction. -/
 noncomputable def tensorSheafifyUnit (φ : O₁ ⟶ O₂)
     (F : _root_.SheafOfModules.{max u v w m} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
     PresheafOfModules.tensorObj (O := O₂.obj) F.val
         (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val ⟶
       (((Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj
         (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ)).obj F).val :=
-  (_root_.PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
       (PresheafOfModules.tensorObj F.val
         (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val)
 
@@ -647,8 +638,7 @@ noncomputable def differentialsTensorMap
         (underlyingRingSheafMapOfSite β)).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor O₂').flip.obj
           (moduleOfDifferentialsOfSite.{v, u, w, m} O₁' O₂' φ')).obj F') :=
-  ((_root_.PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv _ _).symm
+  ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).homEquiv _ _).symm
     (differentialsTensorMapPresheaf.{v, u, w, m} φ φ' α β hsq F F' uF)
 
 /-- **Stacks 09CX.** The change-of-rings maps on first principal parts are compatible with the
@@ -667,19 +657,15 @@ theorem principalPartsSequence_naturality_inclusion
         (_root_.SheafOfModules.restrictScalars.{max u v w m}
           (underlyingRingSheafMapOfSite β)).map
           ((principalPartsInclusion.{v, u, w, m} φ').app F') := by
-  apply ((_root_.PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv _ _).injective
-  refine Eq.trans ((_root_.PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv_naturality_right _ _)
-    (Eq.trans ?_ ((_root_.PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv_naturality_right _ _).symm)
-  rw [show ((_root_.PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv _ _)
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂
+  apply (adj.homEquiv _ _).injective
+  refine Eq.trans (adj.homEquiv_naturality_right _ _)
+    (Eq.trans ?_ (adj.homEquiv_naturality_right _ _).symm)
+  rw [show (adj.homEquiv _ _)
         (differentialsTensorMap.{v, u, w, m} φ φ' α β hsq F F' uF) =
       differentialsTensorMapPresheaf.{v, u, w, m} φ φ' α β hsq F F' uF from
       Equiv.apply_symm_apply _ _,
-    show ((_root_.PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).homEquiv _ _)
+    show (adj.homEquiv _ _)
         ((principalPartsInclusion.{v, u, w, m} φ).app F) =
       principalPartsPairingPresheaf.{v, u, w, m} φ F from
       Equiv.apply_symm_apply _ _]

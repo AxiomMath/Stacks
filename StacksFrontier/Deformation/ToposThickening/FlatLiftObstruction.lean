@@ -53,7 +53,8 @@ criterion.
 The dictionary is proved, as `Deformation.ToposThickening.isFlatLiftCorrespondence`, in
 `StacksFrontier/Deformation/ToposThickening/FlatLiftCorrespondence.lean`, which states Stacks 08MV
 itself as `Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero'`. All
-three parts of Stacks 08VW are in `StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`.
+three parts of Stacks 08VW are in
+`StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`.
 
 ## Implementation notes
 
@@ -137,7 +138,8 @@ automorphisms of a lift restricting to the identity of `ℱ` are `Ext⁰_O(ℱ, 
 Stacks 08MU and Stacks 08MR, both of which are in the library unconditionally:
 `Deformation.ToposThickening.exists_addTorsor_flatLiftClass` and
 `Deformation.ToposThickening.exists_addTorsor_moduleMapLift`. Parts (2) and (3) are proved, in
-modules that import this one, in `StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`;
+modules that import this one, in
+`StacksFrontier.Deformation.ToposThickening.FlatThickeningFlatLifts`;
 neither follows from 08MU or 08MR in one step:
 
 * Part (2) needs `Ext¹` transported along `idealTensorComparison`, which is an iso of

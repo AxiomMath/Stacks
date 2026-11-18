@@ -173,13 +173,7 @@ def baseChangeCohomologyMapHom (K₁ K₂ : DerivedCategory (ModuleCat.{u} A)) (
           (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₂ θ n).hom m
         map_add' := fun x y => map_add _ x y
         map_smul' := fun t m => by
-          induction t using TensorProduct.induction_on with
-          | zero =>
-            simp only [zero_smul, map_zero]
-            exact (map_zero _).trans
-              (zero_smul (A ⊗[R] R')
-                (show baseChangeCohomology (R := R) (R' := R') K₂ n from
-                  (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₂ θ n).hom m)).symm
+          induction t using TensorProduct.inductionOn with
           | add x y hx hy =>
             simp only [RingHom.id_apply] at hx hy ⊢
             rw [add_smul]

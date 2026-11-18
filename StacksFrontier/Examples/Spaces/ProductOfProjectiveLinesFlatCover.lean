@@ -401,7 +401,7 @@ theorem exists_comp_projectiveLineChartCoverπ (K : Type u) [Field K]
     obtain rfl := Subsingleton.elim z (IsLocalRing.closedPoint K)
     exact hb
   refine ⟨IsOpenImmersion.lift _ x this ≫ Sigma.ι projectiveLineCoordChart.{u} b, ?_⟩
-  rw [projectiveLineChartCoverπ, Category.assoc, Sigma.ι_desc, IsOpenImmersion.lift_fac]
+  rw [projectiveLineChartCoverπ, Category.assoc, Sigma.ι_comp_desc, IsOpenImmersion.lift_fac]
 
 /-- The morphism from the disjoint union of the two standard charts to `ℙ¹` is surjective. -/
 instance surjective_projectiveLineChartCoverπ : Surjective projectiveLineChartCoverπ.{u} :=

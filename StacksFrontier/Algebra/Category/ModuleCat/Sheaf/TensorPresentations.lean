@@ -104,21 +104,25 @@ variable {C : Type u₁} [Category.{v} C] {J : GrothendieckTopology C}
   [HasWeakSheafify J AddCommGrpCat.{w}]
   [HasSheafify J AddCommGrpCat.{w}]
 
-attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
-  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules
+variable {𝒪} in
+/-- Naturality of the braiding of presheaves of modules over `𝒪`, with the tensor products of
+morphisms written `PresheafOfModules.tensorHom`, as in `sheafTensor`, instead of `⊗ₘ`. The two
+spellings agree only after unfolding; stating this once keeps that unfolding out of the
+sheafified composites below. -/
+private lemma braiding_naturality_tensorHom
+    {F F' G G' : PresheafOfModules.{w} (𝒪 ⋙ forget₂ CommRingCat RingCat)} (f : F ⟶ F')
+    (g : G ⟶ G') :
+    PresheafOfModules.tensorHom f g ≫ (β_ F' G').hom =
+      (β_ F G).hom ≫ PresheafOfModules.tensorHom g f :=
+  BraidedCategory.braiding_naturality f g
 
-/-- The monoidal structure on presheaves of modules over the underlying presheaf of the structure
-sheaf, given by the objectwise tensor product over `𝒪`. -/
-noncomputable local instance monoidalPresheafModulesOnSite :
-    MonoidalCategory (PresheafOfModules.{w} (TensorSheafification.structureSheaf 𝒪 h𝒪).obj) :=
-  PresheafOfModulesOfCommRing.monoidalCategory (R := 𝒪)
-
-/-- The symmetric monoidal structure on presheaves of modules over the underlying presheaf of the
-structure sheaf, given by the objectwise tensor product over `𝒪` and its braiding. -/
-noncomputable local instance symmetricPresheafModulesOnSite :
-    SymmetricCategory (PresheafOfModules.{w} (TensorSheafification.structureSheaf 𝒪 h𝒪).obj) :=
-  PresheafOfModulesOfCommRing.symmetricCategory (R := 𝒪)
-
+/-- The braiding of the tensor product sheaf on a site: the image under the sealed
+`Tensor.sheafification`, the last factor of `sheafTensor`, of the braiding of the underlying
+presheaves of modules. The braiding is taken in
+`PresheafOfModules (𝒪 ⋙ forget₂ CommRingCat RingCat)`, where the symmetric monoidal structure of
+Mathlib is an instance. Taken at the type of `F.val`, its monoidal structure would have to be
+found at the category instance of the source of `Tensor.sheafification`, indexed by
+`Tensor.ringSheaf`, a definition that instance search does not unfold. -/
 private noncomputable def tensorSheafSwapOnSite
     (F G : SheafOfModules.{w} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     ((sheafTensor.{u₁, v, w, w, w}
@@ -127,9 +131,10 @@ private noncomputable def tensorSheafSwapOnSite
       ((sheafTensor.{u₁, v, w, w, w}
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪
             (forget₂ CommRingCat RingCat) h𝒪⟩).obj G).obj F :=
-  (PresheafOfModules.sheafification
-    (R := TensorSheafification.structureSheaf 𝒪 h𝒪)
-    (𝟙 (TensorSheafification.structureSheaf 𝒪 h𝒪).obj)).mapIso (β_ F.val G.val)
+  (Tensor.sheafification
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).mapIso
+      (BraidedCategory.braiding (C := PresheafOfModules.{w} (𝒪 ⋙ forget₂ CommRingCat RingCat))
+        F.val G.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify J AddCommGrpCat] in
 private lemma preservesFiniteColimits_tensorLeft
@@ -159,9 +164,9 @@ private lemma preservesFiniteColimits_tensorRight
             (forget₂ CommRingCat RingCat) h𝒪⟩).obj F :=
     NatIso.ofComponents (fun left ↦ tensorSheafSwapOnSite 𝒪 h𝒪 left F) (by
       intro leftSource leftTarget leftHom
-      exact ((CommSq.mk (BraidedCategory.braiding_naturality
-        (C := PresheafOfModules.{w} (𝒪 ⋙ forget₂ CommRingCat RingCat))
-        leftHom.val (𝟙 F.val))).map (TensorSheafification.sheafify 𝒪 h𝒪)).w)
+      exact ((CommSq.mk (braiding_naturality_tensorHom leftHom.val (𝟙 F.val))).map
+        (Tensor.sheafification
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)).w)
   exact preservesFiniteColimits_of_natIso comparison.symm
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
@@ -248,9 +253,8 @@ private lemma tensorSheafSwapOnSite_naturality
           (tensorSheafSwapOnSite 𝒪 h𝒪 F' G').hom := by
   let coefficientSheaf : Sheaf J CommRingCat.{w} :=
     ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩
-  have imageNaturality := ((CommSq.mk (BraidedCategory.braiding_naturality
-    (C := PresheafOfModules.{w} (𝒪 ⋙ forget₂ CommRingCat RingCat)) f.val g.val)).map
-      (TensorSheafification.sheafify 𝒪 h𝒪)).w
+  have imageNaturality := ((CommSq.mk (braiding_naturality_tensorHom f.val g.val)).map
+      (Tensor.sheafification coefficientSheaf)).w
   exact (CategoryTheory.whisker_eq (tensorSheafSwapOnSite 𝒪 h𝒪 F G).hom
     (Tensor.sheafTensor_uncurry_map.{u₁, v, w, w, w} coefficientSheaf g f)).trans
     (imageNaturality.symm.trans
@@ -264,8 +268,9 @@ section RingedSpace
 
 variable (X : AlgebraicGeometry.RingedSpace.{u, u})
 
-/-- The braiding of the tensor product of two sheaves of modules on a ringed space is the
-sheafification of the braiding on their underlying presheaves. -/
+/-- The braiding of the tensor product of two sheaves of modules on a ringed space is the image
+of the braiding on their underlying presheaves under the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, the last factor of `sheafTensor`. -/
 noncomputable def tensorSheafSwap
     (F G : SheafOfModules.{u} (Tensor.ringSheaf X.sheaf)) :
     ((sheafTensor X.sheaf).obj F).obj G ≅ ((sheafTensor X.sheaf).obj G).obj F :=
@@ -273,8 +278,7 @@ noncomputable def tensorSheafSwap
     PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   letI : SymmetricCategory (PresheafOfModules.{u} (Tensor.ringSheaf X.sheaf).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
-  (PresheafOfModules.sheafification (R := Tensor.ringSheaf X.sheaf)
-    (𝟙 (Tensor.ringSheaf X.sheaf).obj)).mapIso (β_ F.val G.val)
+  (Tensor.sheafification X.sheaf).mapIso (β_ F.val G.val)
 
 /-- The sheafified braiding is natural in both factors. -/
 lemma tensorSheafSwap_naturality

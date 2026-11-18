@@ -20,7 +20,7 @@ Before this file the monoidal product of `X.Modules` could not be evaluated on s
 It is built by localizing the sectionwise product of presheaves of modules, and a localized
 tensor product is a lift through a universal property, not a formula; three separate docstrings
 in this repository record statements they could not make for that reason. The underlying
-identification is `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj`.
+identification is `Stacks.SectionTensorFormula.sheafifyIsoTensorObj`.
 
 ## Main definitions
 
@@ -123,7 +123,7 @@ this is the canonical `Γ(X, U)`-linear map
 It is `Stacks.SectionTensorFormula.toTensorSection` evaluated at `U`: the sections of the
 sectionwise tensor product of the underlying presheaves *are* the tensor product of the modules of
 sections, by definition, and the comparison is the sheafification unit read in `F ⊗ G` through
-`tensorSheafIsoTensorObj`.
+`sheafifyIsoTensorObj`.
 
 It is **not** an isomorphism; see the module documentation. -/
 def tensorSectionLinear (F G : X.Modules) (U : X.Opens) :
@@ -148,10 +148,10 @@ lemma tensorSectionLinear_tmul (m : Γ(F, U)) (n : Γ(G, U)) :
 
 /-- **The formula on sections, unfolded.** The product of two sections is their pure tensor pushed
 through the sheafification unit of the sectionwise tensor product and read in `F ⊗ G` through the
-identification `tensorSheafIsoTensorObj`. True by `rfl`. -/
+identification `sheafifyIsoTensorObj`. True by `rfl`. -/
 lemma tensorSection_eq (m : Γ(F, U)) (n : Γ(G, U)) :
     tensorSection F G m n =
-      (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val.app (op U)
+      (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val.app (op U)
         ((toSheafify X.presheaf (schemeSheafCondition X) (F.val ⊗ G.val)).app (op U)
           (m ⊗ₜ[Γ(X, U)] n)) :=
   rfl

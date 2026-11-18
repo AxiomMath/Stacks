@@ -18,8 +18,8 @@ is pseudo-coherent and `K₀` lies in `D_QCoh(𝒪_{X₀})` and has finite Tor d
 
 The source proves clause (1) by the induction principle of Stacks 08GP, which reduces it to the
 case of an affine object `U` étale over `X₀`, and settles that case by the scheme-level
-Stacks 09RE.  The induction is
-`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_qcohUnit`,
+Stacks 09RE.  The induction is, in the namespace `AlgebraicGeometry.Space.DescentSituation`,
+`isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_qcohUnit`,
 whose remaining input is the colimit statement on the base-changed system `U_i = X_i ×_{X₀} U`
 for the pair `(𝒪_U, L)` at every shift of `𝒪_U`, `L` in `D_QCoh(𝒪_U)`.  This file proves that
 input — for every affine algebraic space over `X₀`, étale or not — and with it the tag.
@@ -34,17 +34,19 @@ base ring.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.DescentSituation.shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`:
+Both in the namespace `AlgebraicGeometry.Space.DescentSituation`:
+
+* `shiftedIsColim_baseChangeSystem_unit_of_isQuasicoherentOnSite`:
   **the affine leaf of Stacks 09RI**: on the base-changed system of an affine algebraic space
   over `X₀`, the colimit statement for `(𝒪_U⟦n⟧, L)` for every `n` and every `L` in
   `D_QCoh(𝒪_U)`.
-* `AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`:
+* `isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`:
   both clauses of Stacks 09RI, with the Tor condition of clause (2) read along any derived
   tensor product `T` on the site.
 
 The statement with the Tor condition read along the derived tensor product `⊗^L_{𝒪_{X₀}}` of
 Stacks 06YU is
-`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_smallEtale`
+`isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_smallEtale`
 of `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomSmallEtaleTensor.lean`.
 
 ## References
@@ -113,7 +115,8 @@ The two restrictions beyond the tag are counterexample-forced for this formaliza
 `StacksFrontier/AlgebraicGeometry/Spaces/Limits/SectionsColimitLargeIndexCounterexample.lean`.  `T`
 is the derived tensor product the Tor condition of clause (2) is predicated on, not an added
 assumption. -/
-theorem isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord
+theorem
+    isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord
     (E₀ K₀ : derivedModules B S hS (D.stage D.base))
     (hI : Cardinal.mk I < B.cutoff.ord.cof)
     (T : Stacks.SheafOfModules.DerivedTensorProduct

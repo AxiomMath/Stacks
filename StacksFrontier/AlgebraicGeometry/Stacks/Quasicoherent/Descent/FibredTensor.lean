@@ -117,8 +117,7 @@ theorem tensorSheafUnit_tmul_map
       (tensorSheafUnit F' G').app U (φ.val.app U x ⊗ₜ ψ.val.app U y) :=
   (congrArg (fun tensorMap => tensorMap.val.app U ((tensorSheafUnit F G).app U (x ⊗ₜ y)))
     (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map.{u, v, w, a, a} Osharp φ ψ)).trans
-      ((unit_naturality_apply (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)
+      ((Stacks.SheafOfModules.Tensor.unit_naturality_apply
         (tensorHom φ.val ψ.val) U (x ⊗ₜ y)).trans
         (congrArg (fun tensor => (tensorSheafUnit F' G').app U tensor)
           (tensorHom_tmul φ.val ψ.val U x y)))

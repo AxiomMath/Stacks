@@ -116,15 +116,15 @@ lemma tensorComplexMap_tensorComplexSection (k : K' ⟶ K) (l : L' ⟶ L) (t r c
         (tensorComplexSection X t r c htr k₀ l₀) =
       tensorComplexSection X t r c htr ((k.f t).val.app (op W) k₀)
         ((l.f r).val.app (op W) l₀) := by
-  have hA := sheafification_map_unit_apply X ((k.f t).val ▷ (L'.X r).val) (op W)
-    (k₀ ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l₀)
-  have hB := sheafification_map_unit_apply X ((K.X t).val ◁ (l.f r).val) (op W)
+  have hA := Stacks.SheafOfModules.Tensor.unit_naturality_apply ((k.f t).val ▷ (L'.X r).val)
+    (op W) (k₀ ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l₀)
+  have hB := Stacks.SheafOfModules.Tensor.unit_naturality_apply ((K.X t).val ◁ (l.f r).val)
+    (op W)
     ((k.f t).val.app (op W) k₀ ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l₀)
   refine (congrArg (fun φ : ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj (K'.X t)).obj (L'.X
     r) ⟶
       ((((Stacks.SheafOfModules.Tensor.tensorComplex X.O).obj K).obj L).X c) ↦ φ.val.app (op W)
-      (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
         ((K'.X t).val ⊗ (L'.X r).val)).app (op W)
           (k₀ ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l₀)))
     (ι_tensorComplexMap X k l t r c htr)).trans ?_

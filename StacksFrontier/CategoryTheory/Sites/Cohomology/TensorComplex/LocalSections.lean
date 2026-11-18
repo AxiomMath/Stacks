@@ -64,10 +64,13 @@ is what makes `map_add`/`map_smul` applicable. The bilinearity of the objectwise
 is likewise stated over an abstract commutative ring, since
 `TensorProduct.add_tmul`/`tmul_smul` do not fire at the ring spelling `O(W)` carries here.
 
-The passage from the sheafified tensor product to the presheaf-level one is unit naturality,
-`AlgebraicGeometry.RingedSite.sheafification_map_unit_apply`, applied to the whiskerings
-`dK ▷ L^r` and `K^t ◁ dL` of the monoidal structure on presheaves of modules — the two
-morphisms whose sheafifications are the actions of `⊗_O` on the differentials.
+The passage from the sheafified tensor product to the presheaf-level one is unit naturality
+of the sheafification `Stacks.SheafOfModules.Tensor.sheafification` that `⊗_O` is built from,
+`Stacks.SheafOfModules.Tensor.unit_naturality_apply`, applied to the whiskerings `dK ▷ L^r` and
+`K^t ◁ dL` of the monoidal structure on presheaves of modules — the two morphisms whose
+sheafifications are the actions of `⊗_O` on the differentials. The local pure tensors are
+accordingly built from the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the
+unit of the sheafification that `⊗_O` ends with.
 
 ## References
 
@@ -150,8 +153,7 @@ the sheafification unit followed by the inclusion of the `(t, r)` summand. -/
 def tensorComplexTmulMap (t r c : ℤ) (htr : t + r = c) :
     (K.X t).val ⊗ (L.X r).val ⟶
       ((((Stacks.SheafOfModules.Tensor.tensorComplex X.O).obj K).obj L).X c).val :=
-  (PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
       ((K.X t).val ⊗ (L.X r).val) ≫
     (HomologicalComplex.ιMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
       (ComplexShape.up ℤ) t r c (by simpa using htr)).val
@@ -271,28 +273,27 @@ private lemma ι_tensorComplex_d_rhs_apply (t r c : ℤ) {W : X.C}
           1)) ≫
           HomologicalComplex.ιMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
             (ComplexShape.up ℤ) t (r + 1) (c + 1) h₂)).val.app (op W))
-        (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           ((K.X t).val ⊗ (L.X r).val)).app (op W)
             (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l)) =
       (HomologicalComplex.ιMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
           (ComplexShape.up ℤ) (t + 1) r (c + 1) h₁).val.app (op W)
-          (((PresheafOfModules.sheafificationAdjunction
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
             ((K.X (t + 1)).val ⊗ (L.X r).val)).app (op W)
               ((K.d t (t + 1)).val.app (op W)
                 k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l)) +
         t.negOnePow • (HomologicalComplex.ιMapBifunctor K L
           (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
           (ComplexShape.up ℤ) t (r + 1) (c + 1) h₂).val.app (op W)
-          (((PresheafOfModules.sheafificationAdjunction
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
             ((K.X t).val ⊗ (L.X (r + 1)).val)).app (op W)
               (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)]
                 (L.d r (r + 1)).val.app (op W) l)) := by
-  have hA := sheafification_map_unit_apply X ((K.d t (t + 1)).val ▷ (L.X r).val) (op W)
+  have hA := Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    ((K.d t (t + 1)).val ▷ (L.X r).val) (op W)
     (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l)
-  have hB := sheafification_map_unit_apply X ((K.X t).val ◁ (L.d r (r + 1)).val) (op W)
+  have hB := Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    ((K.X t).val ◁ (L.d r (r + 1)).val) (op W)
     (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l)
   refine (add_val_app_apply₀ X _ _ (op W) _).trans ?_
   refine congrArg₂ (· + ·) ?_ ?_
@@ -327,8 +328,7 @@ lemma tensorComplexOverSection_d (U : X.C) (t r c c' : ℤ) (htr : t + r = c) (h
     ⟶
       (HomologicalComplex.mapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
         (ComplexShape.up ℤ)).X (c + 1) ↦ φ.val.app (op W)
-        (((PresheafOfModules.sheafificationAdjunction
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app
           ((K.X t).val ⊗ (L.X r).val)).app (op W)
             (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l)))
     (ι_tensorComplex_d X K L t r c htr)).trans

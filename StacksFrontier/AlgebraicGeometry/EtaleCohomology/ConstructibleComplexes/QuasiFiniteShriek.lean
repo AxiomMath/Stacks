@@ -141,6 +141,7 @@ public def moduleFShriekDerivedCompHomologyFunctorIso (i : ℤ) :
 
 variable [QuasiCompact (B.inclusion.map f)] [QuasiSeparated (B.inclusion.map f)]
 
+omit [IsNoetherianRing Λ] in
 /-- **The reduction of Stacks 0GK3 to its sheaf-level case.** Let `Λ` be a Noetherian ring and
 let `f : X ⟶ Y` be a morphism of schemes which is locally quasi-finite and of finite presentation,
 and let `fShriekMod` be any `Λ`-linear lift of the direct image with compact support. If `K` lies

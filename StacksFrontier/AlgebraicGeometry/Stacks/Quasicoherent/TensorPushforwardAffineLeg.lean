@@ -661,7 +661,8 @@ variable (a b) in
 in `QCoh(𝒪_𝒳)`, for `f : 𝒫 = 𝒴 ×_𝒳 𝒵 ⟶ 𝒳` the projection of the 2-fibre product. On sections
 it is `s ⊗ t ↦ pr₁^*s · pr₂^*t`. It is the adjoint transpose, along the coherator adjunction
 `i ⊣ Q`, of the map `Q(a_*𝒪) ⊗ Q(b_*𝒪) ⟶ a_*𝒪 ⊗ b_*𝒪 ⟶ f_*𝒪_𝒫` of `𝒪_𝒳`-modules, the second
-arrow being the sheafification of the objectwise map
+arrow being the sheafification (the sealed `Stacks.SheafOfModules.Tensor.sheafification`, through
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`) of the objectwise map
 `AlgebraicGeometry.Stack.AlgebraicStacks.tensorPushforwardPresheafMap`.
 
 In terms of the abbreviations
@@ -673,9 +674,9 @@ In terms of the abbreviations
 `AlgebraicGeometry.Stack.AlgebraicStacks.nonempty_iso_tensorPushforward` states. -/
 def tensorPushforwardMap : tensorPushforwardUnits a b ⟶ pushforwardUnit (tensorProj a b) :=
   (coheratorAdjunction B S hS 𝒳).homEquiv _ _
-    (((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
-        .fppf).obj)).homEquiv _ _).symm (tensorPushforwardPresheafComp a b))
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf)).homEquiv
+        _ _).symm (tensorPushforwardPresheafComp a b))
 
 end Construction
 
@@ -729,6 +730,26 @@ lemma bijective_natIso_inv_val_app {C : Type*} [Category C] {J : GrothendieckTop
     {R : Sheaf J RingCat.{u}} {D : Type*} [Category D] {F G : D ⥤ SheafOfModules.{u} R}
     (α : F ≅ G) (M : D) (X : Cᵒᵖ) : Function.Bijective ((α.inv.app M).val.app X) :=
   bijective_val_app_of_iso (α.app M).symm X
+
+open Stacks.SheafOfModules.Tensor in
+/-- On sections, the unit of the sealed sheafification `sheafificationForgetAdjunction R` is
+bijective wherever Mathlib's sheafification unit is. -/
+private lemma bijective_sheafificationForgetAdjunction_unit_app {C : Type*} [Category C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) (X : Cᵒᵖ)
+    (h : Function.Bijective
+      (((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M).app X)) :
+    Function.Bijective (((sheafificationForgetAdjunction R).unit.app M).app X) := by
+  have e : ⇑(((sheafificationForgetAdjunction R).unit.app M).app X) =
+      ⇑(((sheafificationIso R).hom.app M).val.app X) ∘
+        ⇑(((PresheafOfModules.sheafificationAdjunction (𝟙 _)).unit.app M).app X) := by
+    funext m
+    rw [sheafificationForgetAdjunction_unit_app_app_apply, ← unit_comp_sheafificationIso_hom_app]
+    rfl
+  rw [e]
+  exact (bijective_val_app_of_iso ((sheafificationIso R).app M) X).comp h
 
 /-- Equal morphisms of presheaves of modules have equal components. -/
 lemma presheafOfModules_congr_app {C : Type*} [Category C] {R : Cᵒᵖ ⥤ RingCat.{u}}
@@ -1039,14 +1060,14 @@ theorem isIso_tensorPushforwardMap (ha : AlgebraicStacks.IsAffineHom B S hS a)
   have hP := isTwoFibreProduct_twoFibreProductSquareAlgebraicStacks B S hS a b
   have hfqc := isQuasiCompactMorphism_fst_comp B S hS a b _ hP haqc hbqc
   have hfqs := isQuasiSeparated_fst_comp B S hS a b _ hP haqs hbqs
-  let adj := PresheafOfModules.sheafificationAdjunction
-    (𝟙 (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf)
   let g := (adj.homEquiv _ _).symm (tensorPushforwardPresheafComp a b)
   have h1 : (quasicoherentInclusion B S hS 𝒳).map (tensorPushforwardMap a b) ≫
       (coheratorAdjunction B S hS 𝒳).counit.app _ = g :=
     ((coheratorAdjunction B S hS 𝒳).homEquiv_counit (g := tensorPushforwardMap a b)).symm.trans
       (Equiv.symm_apply_apply _ _)
-  have h2 : adj.unit.app _ ≫ (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars _).map g =
+  have h2 : adj.unit.app _ ≫ (SheafOfModules.forget _).map g =
       tensorPushforwardPresheafComp a b :=
     (adj.homEquiv_unit (f := g)).symm.trans (Equiv.apply_symm_apply _ _)
   have hψ := bijective_tensorPushforwardPresheafComp_app a b ha haqc haqs haf hbr hbqc hbqs hx hxa
@@ -1054,12 +1075,14 @@ theorem isIso_tensorPushforwardMap (ha : AlgebraicStacks.IsAffineHom B S hS a)
   have hE : E.cutoff = B.cutoff := rfl
   have hFc := lqcohSheafFbcFppfModules_quasicoherentInclusion B E hE S hS 𝒳 (pushforwardUnit a)
   have hGc := lqcohSheafFbcFppfModules_quasicoherentInclusion B E hE S hS 𝒳 (pushforwardUnit b)
-  have hu := FibredSite.bijective_sheafTensor_unit_app_of_isAffine B S hS 𝒳.val.val.p
-    𝒳.val.isFiberedInGroupoids (pushforwardUnit a).obj (pushforwardUnit b).obj
-    (fun ψ hz hx hψ => isIso_restrictionBaseChange_of_flat B E hE S hS _ _
-      (pushforwardUnit a).obj.val hFc ψ hψ hz hx)
-    (fun ψ hz hx hψ => isIso_restrictionBaseChange_of_flat B E hE S hS _ _
-      (pushforwardUnit b).obj.val hGc ψ hψ hz hx) hxa
+  have hu := bijective_sheafificationForgetAdjunction_unit_app
+    (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf) _ _
+    (FibredSite.bijective_sheafTensor_unit_app_of_isAffine B S hS 𝒳.val.val.p
+      𝒳.val.isFiberedInGroupoids (pushforwardUnit a).obj (pushforwardUnit b).obj
+      (fun ψ hz hx hψ => isIso_restrictionBaseChange_of_flat B E hE S hS _ _
+        (pushforwardUnit a).obj.val hFc ψ hψ hz hx)
+      (fun ψ hz hx hψ => isIso_restrictionBaseChange_of_flat B E hE S hS _ _
+        (pushforwardUnit b).obj.val hGc ψ hψ hz hx) hxa)
   have hg : Function.Bijective (g.val.app (op x)) := by
     have e : ⇑(g.val.app (op x)) ∘ ⇑((adj.unit.app (PresheafOfModulesOfCommRing.Monoidal.tensorObj
         (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)

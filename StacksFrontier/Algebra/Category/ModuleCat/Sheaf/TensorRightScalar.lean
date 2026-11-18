@@ -33,7 +33,9 @@ action is by these multiplication endomorphisms.
 
 * `Stacks.tensorRight_map_presheafSmul`: the objectwise tensor product carries multiplication
   by `a` to multiplication by `a`.
-* `Stacks.sheafification_map_presheafSmul`: so does sheafification.
+* `Stacks.sheafification_map_presheafSmul`: so does sheafification, and
+  `Stacks.SheafOfModules.Tensor.sheafification_map_presheafSmul`: so does the sealed
+  sheafification `Stacks.SheafOfModules.Tensor.sheafification`.
 * `Stacks.sheafTensorRight_map_globalSmul`: hence so does `G ↦ G ⊗_O F`, the tensor bifunctor
   with its right factor fixed.
 
@@ -48,16 +50,18 @@ The tensor step is a computation on pure tensors, `TensorProduct.smul_tmul'`; th
 to be re-ascribed to the ring of sections, because `(R ⋙ forget RingCat).sections` records it
 in the forgetful image of the ring and the scalar action is not found there.
 
-The sheafification step is stated for `PresheafOfModules.sheafification (𝟙 R.obj)`, the
-functor `Stacks.SheafOfModules.Tensor.sheafTensor` is built from; the hypothesis of
-`CategoryTheory.Adjunction.map_endOfId` holds by definition there, because both multiplication
-endomorphisms are given by the same formula on sections and the right adjoint of sheafification
-only forgets structure.
+The sheafification step is stated for Mathlib's `PresheafOfModules.sheafification (𝟙 R.obj)`
+and for the sealed `Stacks.SheafOfModules.Tensor.sheafification`, the functor
+`Stacks.SheafOfModules.Tensor.sheafTensor` is built from, through its adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` with the plain forgetful functor.
+In both cases the hypothesis of `CategoryTheory.Adjunction.map_endOfId` holds by definition,
+because both multiplication endomorphisms are given by the same formula on sections and the
+right adjoint of sheafification only forgets structure.
 
 Fixing the right factor of the tensor bifunctor is `Functor.flip`, so the value of
 `G ↦ G ⊗_O F` on a morphism `φ` is `((sheafTensor O).map φ).app F`, which
-`Stacks.SheafOfModules.Tensor.sheafTensor_map_app` identifies with the sheafification of
-`PresheafOfModules.tensorHom φ.val (𝟙 F.val)`. The presheaf step is therefore stated for that
+`Stacks.SheafOfModules.Tensor.sheafTensor_map_app` identifies with the sealed sheafification
+of `PresheafOfModules.tensorHom φ.val (𝟙 F.val)`. The presheaf step is therefore stated for that
 canonical objectwise tensor of morphisms, and the two steps compose with no comparison in
 between.
 
@@ -165,7 +169,22 @@ theorem sheafification_map_presheafSmul (R : Sheaf J RingCat.{w})
 
 variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] {O : Sheaf J CommRingCat.{w}}
   [∀ U, IsMulCommutative ((commRingSheafToRingSheaf O).obj.obj U)]
-  (F : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O))
+
+/-- **The sealed sheafification commutes with multiplication by a section**: the analogue of
+`Stacks.sheafification_map_presheafSmul` for `Stacks.SheafOfModules.Tensor.sheafification`, the
+functor `Stacks.SheafOfModules.Tensor.sheafTensor` is built from. Its right adjoint
+`SheafOfModules.forget` only forgets structure. -/
+theorem SheafOfModules.Tensor.sheafification_map_presheafSmul
+    (f : ((commRingSheafToRingSheaf O).obj ⋙ forget RingCat).sections)
+    (P : PresheafOfModules.{w} (commRingSheafToRingSheaf O).obj) :
+    (SheafOfModules.Tensor.sheafification O).map
+        ((presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).asHom.app P) =
+      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app
+        ((SheafOfModules.Tensor.sheafification O).obj P) :=
+  Adjunction.map_endOfId (SheafOfModules.Tensor.sheafificationForgetAdjunction O)
+    (fun _ => rfl) P
+
+variable (F : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O))
 
 /-- **Tensoring with `F` commutes with multiplication by a section**: the endofunctor
 `G ↦ G ⊗_O F` carries multiplication by a compatible family `f` of local sections of `O` on
@@ -176,16 +195,10 @@ theorem sheafTensorRight_map_globalSmul
     ((SheafOfModules.Tensor.sheafTensor O).flip.obj F).map
         ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G) =
       (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app
-        (((SheafOfModules.Tensor.sheafTensor O).flip.obj F).obj G) := by
-  have h1 : PresheafOfModules.tensorHom (O := O.obj)
-        (((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G).val)
-          (𝟙 F.val) =
-      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).asHom.app
-        (PresheafOfModules.tensorObj (O := O.obj) G.val F.val) :=
-    tensorRight_map_presheafSmul (O := O.obj) F.val f G.val
-  have h2 := congrArg (fun ψ => (PresheafOfModules.sheafification
-    (𝟙 (commRingSheafToRingSheaf O).obj)).map ψ) h1
-  exact h2.trans (sheafification_map_presheafSmul (commRingSheafToRingSheaf O) f _)
+        (((SheafOfModules.Tensor.sheafTensor O).flip.obj F).obj G) :=
+  (congrArg (SheafOfModules.Tensor.sheafification O).map
+    (tensorRight_map_presheafSmul (O := O.obj) F.val f G.val)).trans
+      (SheafOfModules.Tensor.sheafification_map_presheafSmul f _)
 
 end Sheaf
 

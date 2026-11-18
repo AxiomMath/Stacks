@@ -625,7 +625,8 @@ theorem exists_essentiallySmooth_enlargement_residueField
   rw [hτ' z]
   exact congrArg (fun f : L →+* ResidueField T => f z) hτTres
 
-/-- **The ring-theoretic content of Stacks 07FI.** Let `k` be a field of characteristic `p > 0`, let `Λ` be a `k`-algebra, let
+/-- **The ring-theoretic content of Stacks 07FI.** Let `k` be a field of characteristic `p > 0`, let
+`Λ` be a `k`-algebra, let
 `𝔮 ⊆ Λ` be a prime and `n : ℕ`, and suppose `Λ_𝔮/𝔮ⁿΛ_𝔮` is Artinian local — as it is in the
 situation of Lemma 07FH. Let `D` be an Artinian local ring with a flat local map
 `b : D → Λ_𝔮/𝔮ⁿΛ_𝔮`, the right-hand half of the factorization produced by that lemma. Then for

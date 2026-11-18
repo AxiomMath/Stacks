@@ -258,9 +258,9 @@ public theorem smul_toTensorSheafSection (A G : X.Modules) (V : X.Opens) (r : Γ
           (op V) (a ⊗ₜ[X.presheaf.obj (op V)] b))
       = Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace A G (op V)
           ((r • a) ⊗ₜ[X.presheaf.obj (op V)] b) :=
-  (map_smul ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (A.val) (G.val)))).app
-      (op V)).hom r
+  (LinearMap.map_smul (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) A.val G.val)).app (op V)).hom r
       (a ⊗ₜ[X.presheaf.obj (op V)] b)).symm.trans
     (congrArg (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace A G
     (op V))
@@ -333,9 +333,9 @@ public theorem smul_eq_zero_of_idealPowTensorToModule_eq_zero (I : X.IdealSheafD
     (X.presheaf.map (homOfLE hWV).op a)).asHom.hom) _ Finset.univ).trans ?_
   refine (Finset.sum_congr rfl fun j _ ↦
     smul_toTensorSheafSection_idealPow I n G aW haW (x j) (hs j) (b j)).trans ?_
-  refine (map_sum ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) ((idealPow I
-      n).val) (G.val)))).app
+  refine (map_sum (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) (idealPow I n).val G.val)).app
         (op W.1)).hom _ Finset.univ).symm.trans ?_
   refine (congrArg (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection
   X.toRingedSpace (idealPow I n) G

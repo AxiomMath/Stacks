@@ -172,13 +172,9 @@ theorem tensorProductBraiding_hom_comp (Y : Scheme.{u})
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.presheaf
         Y.ringCatSheaf.2).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := Y.presheaf)
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map
-        (β_ A.val B.val).hom ≫
-      (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map
-        (β_ B.val A.val).hom = _
-  rw [← CategoryTheory.Functor.map_comp, SymmetricCategory.symmetry,
-    CategoryTheory.Functor.map_id]
-  rfl
+  let F := Stacks.SheafOfModules.Invertible.structureSheafification Y.presheaf Y.ringCatSheaf.2
+  exact (F.map_comp _ _).symm.trans
+    ((congrArg F.map (SymmetricCategory.symmetry A.val B.val)).trans (F.map_id _))
 
 /-- **Stacks Project, Tag 0EBH.**  The internal-Hom adjunction of the category of coherent
 reflexive modules: morphisms out of the hull tensor product `ℱ ⊗_𝒞 𝒢` are morphisms of `ℱ` into

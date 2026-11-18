@@ -24,7 +24,8 @@ rebuild the comparison data separately.
 
 The result is the corrected form of Tag 09EQ. The printed equalities `L₁ = L ⊗_K K₁` and
 `B₁ = B ⊗_A A₁` are false in general:
-`StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.FiniteFractionFieldExtensionCounterexample`
+`FiniteFractionFieldExtensionCounterexample` of
+`StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar`
 gives `A → A^` for the non-excellent discrete valuation ring of Tag 00PB and a purely inseparable
 `K₁ / K` of degree two, for which neither `L ⊗_K K₁` nor `B ⊗_A A₁` is reduced (see `errata.md`).
 Since `L₁` and `B₁` are reduced, each equality forces `L ⊗_K K₁` to be reduced, and conversely

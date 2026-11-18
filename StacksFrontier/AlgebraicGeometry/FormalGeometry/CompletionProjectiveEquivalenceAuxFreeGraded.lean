@@ -44,10 +44,10 @@ whose finite direct sums have uniformly acyclic twists.
 ## Main results
 
 * `Stacks.Coherent.freeGradedModuleOn_piece`: the degree-`n` piece of `F ⊗ 𝓟(-d)` **is** the
-  tensor product sheaf `F ⊗ 𝓟_{n-d}`, on the nose rather than up to isomorphism. Everything
-  cohomological about the pieces is therefore literally a statement about that tensor product,
-  and no transport intervenes — which is what the dévissage needs, it reading its acyclicity
-  hypothesis off the pieces.
+  tensor product sheaf `F ⊗ 𝓟_{n-d}`, as an equality of objects rather than up to isomorphism.
+  Everything cohomological about the pieces therefore transfers from that tensor product by
+  rewriting along it — which is what the dévissage needs, it reading its acyclicity hypothesis
+  off the pieces.
 * `Stacks.Coherent.freeGradedBil_map_smul`: the bilinear maps are compatible with the two
   actions, which is what makes them descend.
 * `Stacks.Coherent.freeGradedModuleOnDesc_app_tmul`: **the computation rule of the universal
@@ -64,9 +64,9 @@ whose finite direct sums have uniformly acyclic twists.
 
 **Why the shift is applied to the regular module and not written out.** The degree-`n` piece of
 `𝓟(-d)` has to be `𝓟_{n-d}` *definitionally*, since the pieces of `F ⊗ 𝓟(-d)` are the tensor
-product sheaves of `F` with those pieces on the nose
+product sheaves of `F` with those pieces, as an equality of objects
 (`SheafOfModules.GradedModule.tensorLeft_piece`). `SheafOfModules.GradedModule.shift` keeps the
-pieces in that way, so the composite does too and `freeGradedModuleOn_piece` is `rfl`.
+pieces definitionally, so `freeGradedModuleOn_piece` is that equality at `𝓟(-d)`.
 
 **The spelling of the shifted degree is `n + -d`, not `n - d`.**
 `SheafOfModules.GradedModule.shift` is defined with `piece n = N.piece (n + k)`, so `𝓟(-d)` has
@@ -137,10 +137,11 @@ public def freeGradedModuleOn (F : X.Modules)
   SheafOfModules.GradedModule.tensorLeft X.presheaf (isSheaf_structureRingPresheaf X) F
     (shiftedAlgebraModule P d)
 
-/-- **The degree-`n` piece of `F ⊗ 𝓟(-d)` is the tensor product sheaf `F ⊗ 𝓟_{n-d}`**, on the
-nose. -/
+/-- **The degree-`n` piece of `F ⊗ 𝓟(-d)` is the tensor product sheaf `F ⊗ 𝓟_{n-d}`**, as an
+equality of objects (`SheafOfModules.GradedModule.tensorLeft_piece` at `𝓟(-d)`). -/
 public theorem freeGradedModuleOn_piece (F : X.Modules) (d n : ℤ) :
-    (freeGradedModuleOn F P d).piece n = tensorModules X F (P.piece (n + -d)) := rfl
+    (freeGradedModuleOn F P d).piece n = tensorModules X F (P.piece (n + -d)) :=
+  SheafOfModules.GradedModule.tensorLeft_piece _ _ F (shiftedAlgebraModule P d) n
 
 /-- The image of a pure tensor `x ⊗ a` of local sections in the degree-`n` piece of
 `F ⊗ 𝓟(-d)`. -/
@@ -296,8 +297,8 @@ public theorem isZero_Hgroup_tensorModules_free_right (F L : X.Modules)
 the homogeneous degree, whenever the pieces of `M` are free of finite rank.**
 
 This is the property that makes a tensor product `F ⊗ M` usable as the middle term of the
-dévissage of part (2) of [Stacks, Tag 0897]. The degree-`n` piece of `F ⊗ M` is `F ⊗ Mₙ` on the
-nose (`SheafOfModules.GradedModule.tensorLeft_piece`), and when `Mₙ` is free of finite rank that
+dévissage of part (2) of [Stacks, Tag 0897]. The degree-`n` piece of `F ⊗ M` is `F ⊗ Mₙ` as an
+object (`SheafOfModules.GradedModule.tensorLeft_piece`), and when `Mₙ` is free of finite rank that
 is a finite direct sum of copies of `F`. The hypothesis `h` does not mention `n`, so one exponent
 `e` serves every homogeneous degree at once — which is exactly the uniformity
 `Stacks.Coherent.exists_isZero_Hgroup_piece_tensorPowModule_of_epi_over` asks for and which a
@@ -319,7 +320,8 @@ public theorem isZero_Hgroup_tensorLeft_piece_tensorPowModule {P}
       (tensorModules X ((SheafOfModules.GradedModule.tensorLeft X.presheaf
         (isSheaf_structureRingPresheaf X) F M).piece n) (tensorPowModule X L e))) := by
   obtain ⟨κ, hκ, ⟨ε⟩⟩ := hfree n
-  exact isZero_Hgroup_tensorModules_free_right X F L (M.piece n) κ ε p e h
+  exact SheafOfModules.GradedModule.tensorLeft_piece _ _ F M n ▸
+    isZero_Hgroup_tensorModules_free_right X F L (M.piece n) κ ε p e h
 
 /-- **`Stacks.Coherent.isZero_Hgroup_tensorLeft_piece_tensorPowModule` at `M = 𝓟(-d)`**: the
 twists of the pieces of the free graded module `F ⊗ 𝓟(-d)` are acyclic as soon as those of `F`

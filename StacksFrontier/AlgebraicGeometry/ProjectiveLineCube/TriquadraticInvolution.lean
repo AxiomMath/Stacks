@@ -110,6 +110,15 @@ theorem quadraticMonomial_eval_top (i k : Fin 3) :
   rw [coordinate_eval_top, coordinate_eval_top]
   rfl
 
+/-- The biquadratic monomials are the products of the quadratic monomials, as elements of
+`Γ(M, ⊤)`. -/
+theorem biquadraticMonomial_eval_top (i j : Fin 3) :
+    (biquadraticMonomial S i j).eval (op ⊤) =
+      Stacks.SheafOfModules.tensorSectionsAt (projectiveLineCube S).sheaf.obj
+        (projectiveLineCube S).ringCatSheaf.property (op ⊤) (lineBundleSq S 0) (lineBundleSq S 1)
+        ((quadraticMonomial S 0 i).eval (op ⊤)) ((quadraticMonomial S 1 j).eval (op ⊤)) :=
+  rfl
+
 variable {S} {T : Scheme.{u}} (f : T ⟶ projectiveLineCube S) (x : T)
 
 /-- The member of the coordinates of the `K`-th pencil chosen not to vanish at `f x`. -/
@@ -199,7 +208,7 @@ theorem stalkCoord_pullbackGlobalSections_biquadraticSection (a : Fin 3 → Fin 
     refine (stalkCoord_sum _ _ _).trans (Finset.sum_congr rfl fun i _ => ?_)
     refine (stalkCoord_sum _ _ _).trans (Finset.sum_congr rfl fun j _ => ?_)
     refine (stalkCoord_zsmul _ _ _).trans ?_
-    rw [zsmul_eq_mul]
+    rw [zsmul_eq_mul, biquadraticMonomial_eval_top]
     congr 1
     exact (stalkCoord_tensorSectionsAt _ _ _ _).trans (congrArg₂ (· * ·)
       (stalkCoord_quadraticMonomial f x 0 i) (stalkCoord_quadraticMonomial f x 1 j))

@@ -34,6 +34,15 @@ is natural in the sheaf `G` of `O'`-modules, as well as in the sheaf `F` of `O`-
   Stacks 08I6 is natural in the sheaf of `O'`-modules, componentwise and as an equality of natural
   transformations.
 
+## Implementation notes
+
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies through a sealed sheafification, while the
+cancellation of a base change is built from Mathlib's sheafification
+`Stacks.moduleSheafification`. Its component therefore begins and ends with
+`Stacks.FlatChangeOfRings.sheafTensorFlipObjIso`, whose naturality in the second tensor factor is
+`Stacks.Cohomology.MixedDerivedTensor.sheafTensorFlipObjIso_hom_app_naturality`; the naturality of
+the cancellation pastes it to the naturality of the sectionwise steps in between.
+
 ## References
 
 * [The Stacks Project, Tag 08I6](https://stacks.math.columbia.edu/tag/08I6)
@@ -64,6 +73,25 @@ lemma eq_of_three_squares {X₀ X₁ X₂ X₃ X₄ Y₁ Y₂ Y₃ : D}
     (h₁ : a ≫ b = a' ≫ b') (h₂ : b' ≫ c = c' ≫ d') (h₃ : d' ≫ d = e ≫ g) :
     a ≫ b ≫ c ≫ d = a' ≫ c' ≫ e ≫ g := by
   rw [← Category.assoc, h₁, Category.assoc, ← Category.assoc b' c d, h₂, Category.assoc, h₃]
+
+/-- `eq_of_three_squares`, bracketed as the cancellation of a base change composes: the middle
+edges of the top and bottom rows grouped with their neighbours. -/
+private lemma eq_of_three_squares_middle {X₀ X₁ X₂ X₃ X₄ Y₁ Y₂ Y₃ : D}
+    {a : X₀ ⟶ X₁} {b : X₁ ⟶ X₂} {c : X₂ ⟶ X₃} {d : X₃ ⟶ X₄}
+    {a' : X₀ ⟶ Y₁} {b' : Y₁ ⟶ X₂} {c' : Y₁ ⟶ Y₂} {d' : Y₂ ⟶ X₃}
+    {e : Y₂ ⟶ Y₃} {g : Y₃ ⟶ X₄}
+    (h₁ : a ≫ b = a' ≫ b') (h₂ : b' ≫ c = c' ≫ d') (h₃ : d' ≫ d = e ≫ g) :
+    a ≫ (b ≫ c) ≫ d = ((a' ≫ c') ≫ e) ≫ g := by
+  simp only [Category.assoc, eq_of_three_squares h₁ h₂ h₃]
+
+/-- `eq_of_three_squares`, with the last edge of the bottom row composed separately. -/
+private lemma eq_of_three_squares_last {X₀ X₁ X₂ X₃ X₄ Y₁ Y₂ Y₃ : D}
+    {a : X₀ ⟶ X₁} {b : X₁ ⟶ X₂} {c : X₂ ⟶ X₃} {d : X₃ ⟶ X₄}
+    {a' : X₀ ⟶ Y₁} {b' : Y₁ ⟶ X₂} {c' : Y₁ ⟶ Y₂} {d' : Y₂ ⟶ X₃}
+    {e : Y₂ ⟶ Y₃} {g : Y₃ ⟶ X₄}
+    (h₁ : a ≫ b = a' ≫ b') (h₂ : b' ≫ c = c' ≫ d') (h₃ : d' ≫ d = e ≫ g) :
+    a ≫ b ≫ c ≫ d = (a' ≫ c' ≫ e) ≫ g := by
+  simp only [Category.assoc, eq_of_three_squares h₁ h₂ h₃]
 
 /-- Two commuting squares pasted along their common edge. -/
 lemma eq_of_two_squares {X₀ X₁ X₂ X₃ Y₁ Y₂ : D}
@@ -100,22 +128,23 @@ lemma baseChange_inv_naturality_snd (α : O₁ ⟶ O₂)
   exact (baseChange_naturality_snd α γ H).symm
 
 /-- The three squares whose pasting is the naturality of the `O₁`-linear cancellation of a base
-change in the second tensor factor, at a fixed sheaf `H` of `O₂`-modules. -/
+change in the second tensor factor, at a fixed sheaf `H` of `O₂`-modules, between the two
+comparisons `sheafTensorFlipObjIso` with Mathlib's sheafification. -/
 private lemma tensorBaseChangeLinear_square (α : O₁ ⟶ O₂)
     {G G' : SheafOfModules.{w} (commRingSheafToRingSheaf O₁)} (γ : G ⟶ G')
     (H : SheafOfModules.{w} (commRingSheafToRingSheaf O₂)) :
     (moduleSheafification O₁).map (tensorMapRight
           ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj H.val) γ.val) ≫
-        (moduleSheafification O₁).map ((baseChange α G'.val H.val).inv) ≫
-        sheafifyRestrictHom α (tensorObj H.val ((presheafExtendScalars α).obj G'.val)) ≫
-        (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
-          ((moduleSheafification O₂).map (tensorMapRight H.val
-            (toSheafifyVal ((presheafExtendScalars α).obj G'.val))))
-      = (moduleSheafification O₁).map ((baseChange α G.val H.val).inv) ≫
-        sheafifyRestrictHom α (tensorObj H.val ((presheafExtendScalars α).obj G.val)) ≫
-        (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
-          ((moduleSheafification O₂).map (tensorMapRight H.val
-            (toSheafifyVal ((presheafExtendScalars α).obj G.val)))) ≫
+        (((moduleSheafification O₁).map ((baseChange α G'.val H.val).inv) ≫
+          sheafifyRestrictHom α (tensorObj H.val ((presheafExtendScalars α).obj G'.val))) ≫
+          (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
+            ((moduleSheafification O₂).map (tensorMapRight H.val
+              (toSheafifyVal ((presheafExtendScalars α).obj G'.val)))))
+      = (((moduleSheafification O₁).map ((baseChange α G.val H.val).inv) ≫
+          sheafifyRestrictHom α (tensorObj H.val ((presheafExtendScalars α).obj G.val))) ≫
+          (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
+            ((moduleSheafification O₂).map (tensorMapRight H.val
+              (toSheafifyVal ((presheafExtendScalars α).obj G.val))))) ≫
         (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
           ((moduleSheafification O₂).map (tensorMapRight H.val
             ((SheafOfModules.forget (commRingSheafToRingSheaf O₂)).map
@@ -148,7 +177,48 @@ private lemma tensorBaseChangeLinear_square (α : O₁ ⟶ O₂)
       ((congrArg (fun z ↦ tensorMapRight H.val z)
         (toSheafifyVal_naturality ((presheafExtendScalars α).map γ.val))).trans
           (tensorMapRight_comp H.val _ _).symm)
-  exact eq_of_three_squares h₁ h₂ h₃
+  exact eq_of_three_squares_middle h₁ h₂ h₃
+
+/-- The comparison `sheafTensorFlipObjIso` of the tensor product sheaf with Mathlib's
+sheafification of the objectwise tensor product is natural in the second tensor factor. -/
+lemma sheafTensorFlipObjIso_hom_app_naturality (O : Sheaf J CommRingCat.{w})
+    {F F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (γ : F ⟶ F')
+    (H : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).obj H).map γ ≫
+        (sheafTensorFlipObjIso O F').hom.app H
+      = (sheafTensorFlipObjIso O F).hom.app H ≫
+        (moduleSheafification O).map (tensorMapRight H.val γ.val) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationIso O).inv.naturality (tensorMapRight H.val γ.val)
+
+/-- The inverse of `sheafTensorFlipObjIso` is natural in the second tensor factor. -/
+lemma sheafTensorFlipObjIso_inv_app_naturality (O : Sheaf J CommRingCat.{w})
+    {F F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (γ : F ⟶ F')
+    (H : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    (sheafTensorFlipObjIso O F).inv.app H ≫
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).obj H).map γ
+      = (moduleSheafification O).map (tensorMapRight H.val γ.val) ≫
+        (sheafTensorFlipObjIso O F').inv.app H :=
+  ((Stacks.SheafOfModules.Tensor.sheafificationIso O).hom.naturality
+    (tensorMapRight H.val γ.val)).symm
+
+/-- The component of the `O₁`-linear cancellation of a base change: the comparison with Mathlib's
+sheafification over `O₁`, the sectionwise cancellation, the comparison of the two
+sheafifications, the sheafification unit of the extension of scalars, and the comparison back to
+the tensor product sheaf over `O₂`. -/
+private lemma tensorBaseChangeLinearIso_hom_app (α : O₁ ⟶ O₂)
+    (G : SheafOfModules.{w} (commRingSheafToRingSheaf O₁))
+    (H : SheafOfModules.{w} (commRingSheafToRingSheaf O₂)) :
+    (tensorBaseChangeLinearIso α G).hom.app H =
+      (sheafTensorFlipObjIso O₁ G).hom.app
+          ((SheafOfModules.restrictScalars.{w} (ringSheafMap α)).obj H) ≫
+        ((((moduleSheafification O₁).map ((baseChange α G.val H.val).inv) ≫
+          sheafifyRestrictHom α (tensorObj H.val ((presheafExtendScalars α).obj G.val))) ≫
+          (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
+            ((moduleSheafification O₂).map (tensorMapRight H.val
+              (toSheafifyVal ((presheafExtendScalars α).obj G.val))))) ≫
+        (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
+          ((sheafTensorFlipObjIso O₂ ((extendScalars α).obj G)).inv.app H)) :=
+  rfl
 
 /-- The `O₁`-linear cancellation of a base change is natural in the second tensor factor, at a
 fixed sheaf `H` of `O₂`-modules. -/
@@ -161,8 +231,11 @@ theorem tensorBaseChangeLinearIso_naturality_snd (α : O₁ ⟶ O₂)
       = (tensorBaseChangeLinearIso α G).hom.app H ≫
         (SheafOfModules.restrictScalars.{w} (ringSheafMap α)).map
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O₂).obj H).map
-            ((extendScalars α).map γ)) :=
-  tensorBaseChangeLinear_square α γ H
+            ((extendScalars α).map γ)) := by
+  rw [tensorBaseChangeLinearIso_hom_app, tensorBaseChangeLinearIso_hom_app]
+  exact eq_of_three_squares_last (sheafTensorFlipObjIso_hom_app_naturality O₁ γ _)
+    (tensorBaseChangeLinear_square α γ H)
+    (map_comp_eq_map_comp _ (sheafTensorFlipObjIso_inv_app_naturality O₂ _ H).symm)
 
 /-- The `O₁`-linear cancellation of a base change is natural in the second tensor factor, as an
 equality of natural transformations. -/

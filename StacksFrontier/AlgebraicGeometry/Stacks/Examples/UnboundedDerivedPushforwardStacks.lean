@@ -17,7 +17,8 @@ not induce a functor `Rf_* : D_QCoh(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒴)`. The sourc
 (`AlgebraicGeometry.Stack.derivedCategoryQuasicoherentSheaf`), so `Rf_*` induces a functor on it
 only if it carries `D_{LQCoh^fbc}(𝒪_𝒳)` into `D_{LQCoh^fbc}(𝒪_𝒴)`. The theorems below show that it
 does not: `E ∈ D_{LQCoh^fbc}(𝒪_𝒳)`, while `H⁰(Rf_*E)` is not locally quasi-coherent. The
-subcategory is the library's `AlgebraicGeometry.Stack.lqcFbcFppf`, the one cutting out the `D_QCoh` of 07B6, and
+subcategory is the library's `AlgebraicGeometry.Stack.lqcFbcFppf`, the one cutting out the `D_QCoh`
+of 07B6, and
 `Rf_*` is the unbounded total derived direct image
 `AlgebraicGeometry.Stack.fppfModulesDerivedPushforward` (computed by K-injective resolutions).
 
@@ -35,10 +36,10 @@ subcategory is the library's `AlgebraicGeometry.Stack.lqcFbcFppf`, the one cutti
   `StacksFrontier/AlgebraicGeometry/Stacks/Examples/CyclicClassifyingStackCohomology.lean`
   (`StacksFrontier/RingTheory/GroupCohomology/TrivialCochainPairing.lean` for the cochains).
 * Local quasi-coherence on `Spec R` makes sections over `D(r)` the localization
-  (`Stacks/Quasicoherent/LocallyQuasicoherentAffineLocalization.lean`),
+  (`StacksCore/Quasicoherent/LocallyQuasicoherentAffineLocalization.lean`),
   and a product of modules with rank-one retracts does not localize
   (`StacksFrontier/RingTheory/Localization/ProductOfRetracts.lean`), so `H⁰(Rf_*E)` is not locally
-  quasi-coherent: `Stacks/Examples/DerivedPushforwardNotQuasicoherent.lean`.
+  quasi-coherent: `StacksCore/Examples/DerivedPushforwardNotQuasicoherent.lean`.
 * The two readings of `LQCoh^fbc` with the flat base change property of **Stacks 0762** on sheaves
   agree: `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcFbcFppfIffLqcohSheafFbc.lean`.
 

@@ -1542,7 +1542,8 @@ theorem TensorPushforwardData.input [IsNoetherian S] [LocallyOfFiniteType f]
   hasFiniteTorDimension := h.hasFiniteTorDimension
 
 /-- **[Stacks, Tag 0DJQ], conditional form (not the registration of the tag).**  Let `S` be a
-Noetherian scheme, `f : X ⟶ S` a morphism locally of finite type, `E` a perfect object of `D(𝒪_X)` and `𝒢` a bounded complex of coherent
+Noetherian scheme, `f : X ⟶ S` a morphism locally of finite type, `E` a perfect object of `D(𝒪_X)`
+and `𝒢` a bounded complex of coherent
 `𝒪_X`-modules, flat over `S`, whose support is proper over `S`.  Then
 `Rf_*(E ⊗^L_{𝒪_X} 𝒢)` is a perfect object of `D(𝒪_S)`, with `Rf_*` the derived direct image
 `Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX f` — the total right derived

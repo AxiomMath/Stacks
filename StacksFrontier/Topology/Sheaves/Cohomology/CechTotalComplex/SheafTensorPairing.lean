@@ -200,29 +200,31 @@ theorem basePairing_naturality_right (P : PresheafOfModules.{u} (ringSheaf O).ob
 
 /-! ### The pairing at sheaf coefficients -/
 
-/-- **Sheafification of presheaves of `𝒪_X`-modules, followed by taking sections again**: the
-endofunctor of which the sheafification unit is the unit, i.e. the composite appearing in
-`PresheafOfModules.sheafificationAdjunction`. -/
+/-- **Sheafification of presheaves of `𝒪_X`-modules, followed by forgetting the sheaf
+condition**: the endofunctor of which the sheafification unit is the unit, i.e. the composite
+appearing in `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 noncomputable abbrev sheafifyComp :
     PresheafOfModules.{u} (ringSheaf O).obj ⥤ PresheafOfModules.{u} (ringSheaf O).obj :=
-  PresheafOfModules.sheafification (𝟙 (ringSheaf O).obj) ⋙
-    SheafOfModules.forget (ringSheaf O) ⋙
-      PresheafOfModules.restrictScalars (𝟙 (ringSheaf O).obj)
+  Stacks.SheafOfModules.Tensor.sheafification O ⋙ SheafOfModules.forget (ringSheaf O)
 
 /-- **The unit of sheafification** on the pointwise tensor product of the underlying presheaves
-of modules of two sheaves of `𝒪_X`-modules. -/
-noncomputable abbrev sheafifyUnit (F G : Modules O) :=
-  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf O).obj)).unit.app
+of modules of two sheaves of `𝒪_X`-modules, with target the underlying presheaf of
+`F ⊗_{𝒪_X} G`. -/
+noncomputable abbrev sheafifyUnit (F G : Modules O) :
+    presheafTensorObj O F G ⟶ (((sheafTensor O).obj F).obj G).val :=
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
     (presheafTensorObj O F G)
 
-/-- The sheaf tensor product is the sheafification of the pointwise tensor product of the
-underlying presheaves of modules, on the nose. -/
+/-- The sheaf tensor product is Mathlib's sheafification of the pointwise tensor product of the
+underlying presheaves of modules.  This is an equality of objects, not a definitional one: the
+sheafification inside `sheafTensor` is sealed (see
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` for the isomorphism form). -/
 theorem sheafTensor_obj_obj (F G : Modules O) :
     ((sheafTensor O).obj F).obj G = (PresheafOfModules.sheafification
         (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
         (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).obj (presheafTensorObj O F G) :=
-  rfl
+  Stacks.SheafOfModules.Tensor.sheafTensor_obj_obj O F G
 
 /-- **The sheaf-tensor coefficient pairing.**  For sheaves `F` and `G` of `𝒪_X`-modules, the
 pairing of their sections over `A = 𝒪_X(V)` into the sections of `F ⊗_{𝒪_X} G`: base change from
@@ -249,9 +251,10 @@ private theorem map_sheafifyUnit_comp_naturality {F F' G G' : Modules O}
         (sectionsPresheafModules O V).map (sheafifyUnit O F' G') =
       (sectionsPresheafModules O V).map (sheafifyUnit O F G) ≫
         (sectionsPresheafModules O V).map ((sheafifyComp O).map φ) := by
-  rw [← Functor.map_comp, ← Functor.map_comp]
-  exact congrArg _
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf O).obj)).unit.naturality φ)
+  exact ((sectionsPresheafModules O V).map_comp _ _).symm.trans <|
+    (congrArg (sectionsPresheafModules O V).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.naturality φ)).trans
+    ((sectionsPresheafModules O V).map_comp _ _)
 
 /-- The sheaf-tensor pairing is natural in the first coefficient sheaf. -/
 theorem sheafTensorPairing_naturality_left {F F' : Modules O} (f : F ⟶ F') (G : Modules O) :

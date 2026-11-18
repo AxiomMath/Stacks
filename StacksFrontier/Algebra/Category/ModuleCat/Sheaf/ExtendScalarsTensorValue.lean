@@ -12,31 +12,36 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensor
 of base change along `θ : A₁ ⟶ A₂` with a tensor product of sheaves of modules. It is **step 6 of
 the chain of six bijections of Tag 03EL**, `Stacks.SheafOfModules.pullbackTensorHomEquiv`, and
 until now it was the one step of that chain accompanied by no formula: it is a three-fold
-composite of isomorphisms of sheaves of modules, and its first factor is used *inverted*, so
-nothing could be evaluated through it.
+composite of isomorphisms of sheaves of modules, entered and left through the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the sealed one
+inside the tensor product sheaf, and its first proper factor is used *inverted*, so nothing could
+be evaluated through it.
 
 This file removes that inversion. The first factor is
 `Stacks.Sheaves.RingedToposModules.extendScalarsSheafifyIso`, which is by construction the
 sheafification of `Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsUnit`; composing the
 comparison with *that morphism* instead of inverting it leaves an identity in which the inverse
 does not appear, and whose right-hand side is a single `sheafification.map` of a morphism of
-**presheaves** of modules. That presheaf-level morphism does have a formula on sections: its
-first factor is `Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsTensorObjIso`, whose
-components are `TensorProduct.AlgebraTensorModule.distribBaseChange` by
-`changeOfRingsTensorObjIso_hom_app`, carrying `a ⊗ₜ (x ⊗ₜ y)` to `(a ⊗ₜ x) ⊗ₜ (1 ⊗ₜ y)`, and its
-second is the tensor of the two sheafification units.
+**presheaves** of modules, followed by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` into the tensor product sheaf over `A₂`. That
+presheaf-level morphism does have a formula on sections: its first factor is
+`Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsTensorObjIso`, whose components are
+`TensorProduct.AlgebraTensorModule.distribBaseChange` by `changeOfRingsTensorObjIso_hom_app`,
+carrying `a ⊗ₜ (x ⊗ₜ y)` to `(a ⊗ₜ x) ⊗ₜ (1 ⊗ₜ y)`, and its second is the tensor of the two
+sheafification units; the comparison carries Mathlib's sheafification unit to the sealed one by
+`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`.
 
 ## Main results
 
-* `Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso_hom_eq`: the comparison as its three
+* `Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso_hom_eq`: the comparison as its
   factors.
 * `Stacks.Sheaves.RingedToposModules.extendScalarsSheafifyIso_hom_eq`: the first factor is the
   sheafification of `changeOfRingsUnit`.
 * `Stacks.Sheaves.RingedToposModules.extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom`:
   **the inverse eliminated.**
 * `Stacks.Sheaves.RingedToposModules.changeOfRingsUnit_comp_extendScalarsTensorIso_hom`: **the
-  value formula for step 6**, with the whole right-hand side one `sheafification.map` of an
-  explicit morphism of presheaves of modules.
+  value formula for step 6**, with the right-hand side one `sheafification.map` of an explicit
+  morphism of presheaves of modules followed by the comparison with the sealed sheafification.
 
 ## Implementation notes
 
@@ -44,9 +49,19 @@ second is the tensor of the two sheafification units.
 `e.hom ≫ e.inv ≫ h`, and `CategoryTheory.Iso.hom_inv_id_assoc` nevertheless does not apply by
 `rw`: the two occurrences of `e` are produced by different elaborations and agree only at
 *default* transparency, while `rw` unifies at `reducible`. The cancellation is therefore supplied
-as a term, which is the discipline this directory prescribes for the seams of a composite — the
-same reason `Stacks.Sheaves.DerivedPullback.pullbackTensorComparisonHom` exists at all. The last
-step of `changeOfRingsUnit_comp_extendScalarsTensorIso_hom` is a term for the same reason.
+as a term — it is
+`extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom_cancelInv` of
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensor`, which states the same equality —
+and so is the last step of `changeOfRingsUnit_comp_extendScalarsTensorIso_hom`, which is the
+discipline this directory prescribes for the seams of a composite, the same reason
+`Stacks.Sheaves.DerivedPullback.pullbackTensorComparisonHom` exists at all.
+
+**Why the first factor of `changeOfRingsUnit_comp_extendScalarsTensorIso_hom` is ascribed.** The
+sheafification of `changeOfRingsUnit` lands in the sheafification of a change-of-rings presheaf,
+which is the extension of scalars of a sheafification only after unfolding
+`Stacks.Sheaves.RingedToposModules.extendScalars`. Without the ascription, which states that
+target, elaborating its composite with the extension of scalars of
+`Stacks.SheafOfModules.Tensor.sheafificationIso` runs out of heartbeats.
 
 ## What this file does not contain
 
@@ -99,18 +114,69 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
-/-- **The comparison of a base change with a tensor product, as its three factors**: the
-sheafification comparison of `extendScalarsSheafifyIso` inverted, the sheafification of the
-presheaf-level comparison of Tag 03CU, and the comparison of Tag 05NA. This is the definition,
-restated so that a consumer need not unfold it. -/
+/-- **The inverse eliminated**: composing the comparison with the sheafification comparison —
+rather than inverting the latter — and with the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the sealed one
+inside the tensor product sheaf over `A₁`, leaves the factors which are not inverses of anything:
+the sheafification of the presheaf-level comparison of Tag 03CU, the comparison of Tag 05NA, and
+the comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` over `A₂`. -/
+theorem extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom
+    (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)) :
+    (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).hom ≫
+        (extendScalars J θ h₁ h₂).map ((Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).hom.app
+            (PresheafOfModules.tensorObj F.val G.val)) ≫
+        (extendScalarsTensorIso θ h₁ h₂ F G).hom =
+      (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
+          (changeOfRingsTensorObjIso θ F.val G.val).hom ≫
+        (Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso A₂ h₂
+          ((changeOfRings θ).obj F.val) ((changeOfRings θ).obj G.val)).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂ (forget₂ CommRingCat RingCat) h₂⟩).hom.app
+            ((SheafOfModules.forget (commRingSheaf J A₂ h₂) ⋙
+                PresheafOfModules.restrictScalars (𝟙 (commRingSheaf J A₂ h₂).obj)).obj
+              ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).obj
+                ((changeOfRings θ).obj F.val)) ⊗
+              (SheafOfModules.forget (commRingSheaf J A₂ h₂) ⋙
+                PresheafOfModules.restrictScalars (𝟙 (commRingSheaf J A₂ h₂).obj)).obj
+              ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).obj
+                ((changeOfRings θ).obj G.val)) : PresheafOfModules.{w} (ringPresheaf A₂)) :=
+  extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom_cancelInv θ h₁ h₂ F G
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- **The comparison of a base change with a tensor product, as its factors**: the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of the sealed sheafification inside the tensor
+product sheaf over `A₁` with Mathlib's, read backwards; the sheafification comparison of
+`extendScalarsSheafifyIso` inverted; the sheafification of the presheaf-level comparison of
+Tag 03CU; the comparison of Tag 05NA; and the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` over `A₂`. This is the definition, restated so
+that a consumer need not unfold it. -/
 theorem extendScalarsTensorIso_hom_eq (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)) :
     (extendScalarsTensorIso θ h₁ h₂ F G).hom =
-      (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).inv ≫
-        ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
-            (changeOfRingsTensorObjIso θ F.val G.val).hom ≫
-          (Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso A₂ h₂
-            ((changeOfRings θ).obj F.val) ((changeOfRings θ).obj G.val)).hom) :=
-  rfl
+      (extendScalars J θ h₁ h₂).map ((Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).inv.app
+            (PresheafOfModules.tensorObj F.val G.val)) ≫
+        (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).inv ≫
+        (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
+          (changeOfRingsTensorObjIso θ F.val G.val).hom ≫
+        (Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso A₂ h₂
+          ((changeOfRings θ).obj F.val) ((changeOfRings θ).obj G.val)).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂ (forget₂ CommRingCat RingCat) h₂⟩).hom.app
+            ((SheafOfModules.forget (commRingSheaf J A₂ h₂) ⋙
+                PresheafOfModules.restrictScalars (𝟙 (commRingSheaf J A₂ h₂).obj)).obj
+              ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).obj
+                ((changeOfRings θ).obj F.val)) ⊗
+              (SheafOfModules.forget (commRingSheaf J A₂ h₂) ⋙
+                PresheafOfModules.restrictScalars (𝟙 (commRingSheaf J A₂ h₂).obj)).obj
+              ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).obj
+                ((changeOfRings θ).obj G.val)) : PresheafOfModules.{w} (ringPresheaf A₂)) :=
+  (Iso.eq_inv_comp ((extendScalars J θ h₁ h₂).mapIso
+      ((Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).app
+          (PresheafOfModules.tensorObj F.val G.val)))).2
+    ((Iso.eq_inv_comp (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val))).2
+      (extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom θ h₁ h₂ F G))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The sheafification comparison for a base change is the sheafification of
@@ -124,48 +190,55 @@ theorem extendScalarsSheafifyIso_hom_eq (P : PresheafOfModules.{w} (ringPresheaf
   rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
-/-- **The inverse eliminated**: composing the comparison with the sheafification comparison —
-rather than inverting the latter — leaves the two factors which are not inverses of anything. -/
-theorem extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom
-    (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)) :
-    (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).hom ≫
-        (extendScalarsTensorIso θ h₁ h₂ F G).hom =
-      (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
-          (changeOfRingsTensorObjIso θ F.val G.val).hom ≫
-        (Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso A₂ h₂
-          ((changeOfRings θ).obj F.val) ((changeOfRings θ).obj G.val)).hom :=
-  (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).hom_inv_id_assoc _
-
-omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The value formula for step 6 of the chain of Tag 03EL.** The comparison
 
 `A₂ ⊗_{A₁} (F ⊗_{A₁} G) ≅ (A₂ ⊗_{A₁} F) ⊗_{A₂} (A₂ ⊗_{A₁} G)`
 
-composed with the sheafification of `changeOfRingsUnit` is the sheafification of a single
-morphism of **presheaves** of modules: the presheaf-level base change comparison of Tag 03CU
-followed by the tensor of the two sheafification units.
+composed with the sheafification of `changeOfRingsUnit` and with the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification with the sealed one
+inside the tensor product sheaf over `A₁` is the sheafification of a single morphism of
+**presheaves** of modules — the presheaf-level base change comparison of Tag 03CU followed by the
+tensor of the two sheafification units — followed by the comparison
+`Stacks.SheafOfModules.Tensor.sheafificationIso` over `A₂`.
 
-This is what step 6 was missing. Both factors on the right have a formula on sections — the first
-is `TensorProduct.AlgebraTensorModule.distribBaseChange` in each component by
+This is what step 6 was missing. Both factors of the presheaf-level morphism have a formula on
+sections — the first is `TensorProduct.AlgebraTensorModule.distribBaseChange` in each component by
 `Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsTensorObjIso_hom_app`, carrying
 `a ⊗ₜ (x ⊗ₜ y)` to `(a ⊗ₜ x) ⊗ₜ (1 ⊗ₜ y)`, and the second is a tensor of sheafification units —
-so an identity of morphisms out of a base-changed tensor product can now be checked past step 6.
-The left-hand side carries the comparison, the right-hand side does not. -/
+and the two comparisons carry Mathlib's sheafification unit to the sealed one by
+`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`, so an identity of morphisms
+out of a base-changed tensor product can now be checked past step 6. The left-hand side carries
+the comparison, the right-hand side does not. -/
 theorem changeOfRingsUnit_comp_extendScalarsTensorIso_hom
     (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)) :
-    (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
-          (changeOfRingsUnit θ h₁ (F.val ⊗ G.val)) ≫
+    ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
+          (changeOfRingsUnit θ h₁ (F.val ⊗ G.val)) : _ ⟶ (extendScalars J θ h₁ h₂).obj
+            ((PresheafOfModules.sheafification (R := commRingSheaf J A₁ h₁) (𝟙 _)).obj
+              (F.val ⊗ G.val))) ≫
+        (extendScalars J θ h₁ h₂).map ((Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).hom.app
+            (PresheafOfModules.tensorObj F.val G.val)) ≫
         (extendScalarsTensorIso θ h₁ h₂ F G).hom =
       (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).map
-        ((changeOfRingsTensorObjIso θ F.val G.val).hom ≫
-          ((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf J A₂ h₂) (𝟙 _)).unit.app ((changeOfRings θ).obj F.val) ⊗ₘ
-            (PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf J A₂ h₂) (𝟙 _)).unit.app ((changeOfRings θ).obj G.val))) := by
+          ((changeOfRingsTensorObjIso θ F.val G.val).hom ≫
+            ((PresheafOfModules.sheafificationAdjunction
+                (R := commRingSheaf J A₂ h₂) (𝟙 _)).unit.app ((changeOfRings θ).obj F.val) ⊗ₘ
+              (PresheafOfModules.sheafificationAdjunction
+                (R := commRingSheaf J A₂ h₂) (𝟙 _)).unit.app ((changeOfRings θ).obj G.val))) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationIso
+          ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂ (forget₂ CommRingCat RingCat) h₂⟩).hom.app
+            ((SheafOfModules.forget (commRingSheaf J A₂ h₂) ⋙
+                PresheafOfModules.restrictScalars (𝟙 (commRingSheaf J A₂ h₂).obj)).obj
+              ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).obj
+                ((changeOfRings θ).obj F.val)) ⊗
+              (SheafOfModules.forget (commRingSheaf J A₂ h₂) ⋙
+                PresheafOfModules.restrictScalars (𝟙 (commRingSheaf J A₂ h₂).obj)).obj
+              ((PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).obj
+                ((changeOfRings θ).obj G.val)) : PresheafOfModules.{w} (ringPresheaf A₂)) := by
   refine (extendScalarsSheafifyIso_hom_comp_extendScalarsTensorIso_hom θ h₁ h₂ F G).trans ?_
   rw [Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso_hom_eq]
   exact ((PresheafOfModules.sheafification
-    (R := commRingSheaf J A₂ h₂) (𝟙 _)).map_comp _ _).symm
+    (R := commRingSheaf J A₂ h₂) (𝟙 _)).map_comp_assoc _ _ _).symm
 
 end ExtendScalarsValue
 

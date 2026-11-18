@@ -57,8 +57,10 @@ surrounding change-of-rings material is phrased that way.
 
 Tensoring on the right by `H` is `(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj H`, and
 the unit of sheafification of the objectwise tensor product is spelled out as the unit of
-`PresheafOfModules.sheafificationAdjunction` at `PresheafOfModules.tensorObj`, which is the
-spelling `Stacks.SheafOfModules.FlatSquareZero.reductionTensorMap_tmul` is stated at.
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` at `PresheafOfModules.tensorObj`,
+which is the spelling `Stacks.SheafOfModules.FlatSquareZero.reductionTensorMap_tmul` is stated
+at. Morphisms out of the tensor product sheaf are compared with abelian-sheaf morphisms through
+`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`.
 
 **Why invertibility needs the unit on sections.** The identification of the comparison with
 the abelian-sheaf isomorphism `Stacks.FlatChangeOfRings.cancelExtendScalarsTensorSheafIso'`
@@ -135,15 +137,11 @@ theorem cancelExtendScalarsTensorMap_tmul
     (H : SheafOfModules.{w} (commRingSheafToRingSheaf O₂)) (U : Cᵒᵖ)
     (a : G.val.obj U) (x : H.val.obj U) :
     (cancelExtendScalarsTensorMap f G H).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₁).unit.app
           (PresheafOfModules.tensorObj (O := O₁.obj) G.val
             ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj H).val)).app U
             (a ⊗ₜ[O₁.obj.obj U] x)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
           (PresheafOfModules.tensorObj (O := O₂.obj) ((extendScalars f).obj G).val H.val)).app U
         ((((extendScalarsAdjunction f).unit.app G).val.app U a :
             ((extendScalars f).obj G).val.obj U) ⊗ₜ[O₂.obj.obj U] x) := by
@@ -172,15 +170,11 @@ private lemma cancelExtendScalarsTensorMap_one_tmul
     letI : Module (O₁.obj.obj U) (((sheafToPresheaf J CommRingCat).obj O₂).obj U) :=
       (f.hom.app U).hom.toModule
     (cancelExtendScalarsTensorMap f G H).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₁).unit.app
           (PresheafOfModules.tensorObj (O := O₁.obj) G.val
             ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj H).val)).app U
             (a ⊗ₜ[O₁.obj.obj U] x)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
           (PresheafOfModules.tensorObj (O := O₂.obj) ((extendScalars f).obj G).val H.val)).app U
         ((PresheafOfModules.Hom.app (toExtendScalarsVal f G) U
             ((1 : O₂.obj.obj U) ⊗ₜ[O₁.obj.obj U] a)) ⊗ₜ[O₂.obj.obj U] x) := by
@@ -188,42 +182,76 @@ private lemma cancelExtendScalarsTensorMap_one_tmul
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The morphism of sheaves of modules extending a morphism out of a presheaf of modules
-along the unit of sheafification agrees with it on sections. -/
-private lemma sheafificationLiftUnitApp
-    {R₀ : Cᵒᵖ ⥤ RingCat.{w}} {R : Sheaf J RingCat.{w}} (α : R₀ ⟶ R.obj)
-    [Presheaf.IsLocallyInjective J α] [Presheaf.IsLocallySurjective J α]
-    (P : PresheafOfModules.{w} R₀) (N : SheafOfModules.{w} R)
-    (t : P ⟶ (PresheafOfModules.restrictScalars α).obj N.val)
+along the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` agrees with it on
+sections. -/
+private lemma sheafificationLiftUnitApp (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
+    (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (t : P ⟶ N.val)
     (U : Cᵒᵖ) (z : P.obj U) :
-    ((PresheafOfModules.sheafificationHomEquiv α).symm t).val.app U
-        (((PresheafOfModules.sheafificationAdjunction α).unit.app P).app U z) =
-      PresheafOfModules.Hom.app t U z :=
-  congrArg (fun k => PresheafOfModules.Hom.app k U z)
-    ((PresheafOfModules.sheafificationHomEquiv α).apply_symm_apply t)
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv P N).symm
+        t).val.app U
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P).app U z) =
+      t.app U z :=
+  PresheafOfModules.hom_congr_apply'
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv P N).apply_symm_apply
+      t) U z
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- On underlying presheaves of abelian groups, the unit of sheafification of abelian groups
+followed by the comparison `Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf` is the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
+private lemma toSheafify_comp_sheafificationCompToSheaf_inv (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    toSheafify J ((PresheafOfModules.toPresheaf _).obj P) ≫
+        (sheafToPresheaf J AddCommGrpCat.{w}).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O).inv.app P) =
+      (PresheafOfModules.toPresheaf _).map
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    ← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app]
+  simp only [Functor.comp_obj, ObjectProperty.ι_obj, ObjectProperty.ι_map, Functor.id_obj,
+    Functor.comp_map, SheafOfModules.forget_map, Category.assoc, Functor.map_comp,
+    PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app]
+  ext U x
+  rfl
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- On underlying sheaves of abelian groups, the morphism out of the sealed sheafification
+induced by `t` is the morphism out of the sheafification of abelian groups induced by `t`, up to
+the comparison `Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`: the sealed analogue of
+`PresheafOfModules.toSheaf_map_sheafificationHomEquiv_symm`. -/
+private lemma toSheaf_map_sheafificationForgetHomEquiv_symm (O : Sheaf J CommRingCat.{w})
+    {P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
+    {N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (t : P ⟶ N.val) :
+    (SheafOfModules.toSheaf _).map
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).homEquiv P N).symm t) =
+      (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O).hom.app P ≫
+        ((sheafificationAdjunction J AddCommGrpCat.{w}).homEquiv
+            ((PresheafOfModules.toPresheaf _).obj P) ((SheafOfModules.toSheaf _).obj N)).symm
+          ((PresheafOfModules.toPresheaf _).map t) := by
+  rw [← Iso.app_hom, ← Iso.inv_comp_eq]
+  refine (Equiv.eq_symm_apply _).2 ?_
+  rw [Adjunction.homEquiv_unit, sheafificationAdjunction_unit_app,
+    Functor.map_comp, Iso.app_inv, reassoc_of% toSheafify_comp_sheafificationCompToSheaf_inv]
+  exact (Functor.map_comp _ _ _).symm.trans (congrArg (PresheafOfModules.toPresheaf _).map
+    ((Adjunction.homEquiv_unit _ _ _ _).symm.trans (Equiv.apply_symm_apply _ t)))
 
 /-- The morphism of presheaves of `O₁`-modules which
 `Stacks.FlatChangeOfRings.cancelExtendScalarsTensorMap` extends along the unit of
-sheafification: `Stacks.FlatChangeOfRings.presheafCancelComparison'` followed by the unit of
-sheafification of the tensor product over `O₂`.
-
-The target is spelled as a restriction of scalars along the identity because that is what
-`PresheafOfModules.sheafificationHomEquiv` expects; restriction of scalars does not change the
-underlying presheaf, so this is the same object as the target of
-`Stacks.FlatChangeOfRings.presheafCancelComparison'` followed by that unit. -/
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`:
+`Stacks.FlatChangeOfRings.presheafCancelComparison'` followed by the unit of sheafification of
+the tensor product over `O₂`. -/
 private noncomputable def cancelPresheafLift
     (G : SheafOfModules.{w} (commRingSheafToRingSheaf O₁))
     (H : SheafOfModules.{w} (commRingSheafToRingSheaf O₂)) :
     (tensorRightOf O₁
         ((PresheafOfModules.restrictScalars (ringSheafMap f).hom).obj H.val)).obj G.val ⟶
-      (PresheafOfModules.restrictScalars (𝟙 (commRingSheafToRingSheaf O₁).obj)).obj
-        ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj
+      ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj
           (((Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj H).obj
             ((extendScalars f).obj G))).val :=
   presheafCancelComparison' f G H ≫
     (PresheafOfModules.restrictScalars (ringSheafMap f).hom).map
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
           (PresheafOfModules.tensorObj (O := O₂.obj) ((extendScalars f).obj G).val H.val))
 
 open Stacks.SheafOfModules.FlatSquareZero in
@@ -235,25 +263,25 @@ private lemma cancelExtendScalarsTensorMap_eq
     (G : SheafOfModules.{w} (commRingSheafToRingSheaf O₁))
     (H : SheafOfModules.{w} (commRingSheafToRingSheaf O₂)) :
     cancelExtendScalarsTensorMap f G H =
-      (PresheafOfModules.sheafificationHomEquiv
-        (𝟙 (commRingSheafToRingSheaf O₁).obj)).symm (cancelPresheafLift f G H) := by
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₁).homEquiv
+        ((tensorRightOf O₁
+          ((PresheafOfModules.restrictScalars (ringSheafMap f).hom).obj H.val)).obj G.val)
+        ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj
+          (((Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj H).obj
+            ((extendScalars f).obj G)))).symm
+        (cancelPresheafLift f G H) := by
   apply tensorSheaf_hom_ext O₁ G ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj H)
   intro U a x
-  have hL := cancelExtendScalarsTensorMap_one_tmul f G H U a x
-  have hR := sheafificationLiftUnitApp (𝟙 (commRingSheafToRingSheaf O₁).obj) _ _
-    (cancelPresheafLift f G H) U (a ⊗ₜ[O₁.obj.obj U] x)
-  have hP := presheafCancelComparison'_apply f G H U a x
-  refine hL.trans (Eq.trans ?_ hR.symm)
-  exact congrArg (fun z => ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
-          (PresheafOfModules.tensorObj (O := O₂.obj)
-            ((extendScalars f).obj G).val H.val)).app U z) hP.symm
+  refine (cancelExtendScalarsTensorMap_one_tmul f G H U a x).trans (Eq.trans ?_
+    (sheafificationLiftUnitApp O₁ _ _ (cancelPresheafLift f G H) U (a ⊗ₜ[O₁.obj.obj U] x)).symm)
+  exact congrArg (fun z =>
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+        (PresheafOfModules.tensorObj (O := O₂.obj) ((extendScalars f).obj G).val H.val)).app U z)
+      (presheafCancelComparison'_apply f G H U a x).symm
 
 /-- On underlying presheaves of abelian groups, `Stacks.FlatChangeOfRings.cancelPresheafLift`
-is `Stacks.FlatChangeOfRings.presheafCancelComparison'` followed by the unit of sheafification:
-the underlying presheaf of abelian groups of the unit of sheafification of a presheaf of
-modules is the unit of sheafification of abelian groups, definitionally in this tree. -/
+is `Stacks.FlatChangeOfRings.presheafCancelComparison'` followed by the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 private lemma toPresheaf_map_cancelPresheafLift
     (G : SheafOfModules.{w} (commRingSheafToRingSheaf O₁))
     (H : SheafOfModules.{w} (commRingSheafToRingSheaf O₂)) :
@@ -261,9 +289,10 @@ private lemma toPresheaf_map_cancelPresheafLift
         (cancelPresheafLift f G H) =
       (PresheafOfModules.toPresheaf (commRingSheafToRingSheaf O₁).obj).map
           (presheafCancelComparison' f G H) ≫
-        (sheafificationAdjunction J AddCommGrpCat.{w}).unit.app
-          ((PresheafOfModules.toPresheaf (commRingSheafToRingSheaf O₂).obj).obj
-            ((tensorRightOf O₂ H.val).obj ((extendScalars f).obj G).val)) := rfl
+        (PresheafOfModules.toPresheaf (commRingSheafToRingSheaf O₂).obj).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
+            ((tensorRightOf O₂ H.val).obj ((extendScalars f).obj G).val)) :=
+  Functor.map_comp _ _ _
 
 /-- **The comparison underlies `Stacks.FlatChangeOfRings.cancelExtendScalarsTensorSheafIso'`.**
 Both are morphisms of sheaves of abelian groups out of a sheafification, so they are compared
@@ -277,14 +306,17 @@ private lemma toSheaf_map_cancelExtendScalarsTensorMap
         (cancelExtendScalarsTensorMap f G H) =
       (cancelExtendScalarsTensorSheafIso' f G H).hom := by
   refine (congrArg (SheafOfModules.toSheaf (commRingSheafToRingSheaf O₁)).map
-    (cancelExtendScalarsTensorMap_eq f G H)).trans ?_
-  refine (PresheafOfModules.toSheaf_map_sheafificationHomEquiv_symm _ _).trans ?_
+    (cancelExtendScalarsTensorMap_eq f G H)).trans
+      ((toSheaf_map_sheafificationForgetHomEquiv_symm O₁ _).trans ?_)
   refine Eq.trans ?_ (cancelExtendScalarsTensorSheafIso'_hom f G H).symm
-  apply ((sheafificationAdjunction J AddCommGrpCat.{w}).homEquiv _ _).injective
-  refine (Equiv.apply_symm_apply _ _).trans ?_
-  refine Eq.trans (toPresheaf_map_cancelPresheafLift f G H) ?_
-  exact ((Adjunction.homEquiv_unit (sheafificationAdjunction J AddCommGrpCat.{w}) _ _ _).trans
-    ((sheafificationAdjunction J AddCommGrpCat.{w}).unit_naturality _)).symm
+  congr 1
+  refine (Equiv.symm_apply_eq _).2 ((toPresheaf_map_cancelPresheafLift f G H).trans ?_)
+  refine Eq.trans ?_ ((sheafificationAdjunction J AddCommGrpCat.{w}).homEquiv_naturality_left
+    ((PresheafOfModules.toPresheaf _).map (presheafCancelComparison' f G H))
+    ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₂).app
+      ((tensorRightOf O₂ H.val).obj ((extendScalars f).obj G).val)).inv).symm
+  exact congrArg (_ ≫ ·) ((Adjunction.homEquiv_unit _ _ _ _).trans
+    (toSheafify_comp_sheafificationCompToSheaf_inv O₂ _)).symm
 
 /-- **`Stacks.FlatChangeOfRings.cancelExtendScalarsTensorMap` is an isomorphism**, so the
 identity `G ⊗_{O₁} H|_{O₁} = (O₂ ⊗_{O₁} G) ⊗_{O₂} H` holds as sheaves of `O₁`-modules and not

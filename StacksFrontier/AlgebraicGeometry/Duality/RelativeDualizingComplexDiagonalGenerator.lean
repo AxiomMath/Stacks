@@ -121,49 +121,42 @@ theorem unitMap_app (U : (Opens Y)ᵒᵖ) (r : Y.ringCatSheaf.obj.obj U) :
     _ = r • (unitMap A).val.app U (1 : Y.ringCatSheaf.obj.obj U) := map_smul _ _ _
     _ = r • (1 : (moduleOfAlgebra A).val.obj U) := by rw [unitMap_app_one]
 
+/-- The multiplication of a sheaf of algebras, transposed along the sealed sheafification
+adjunction with the plain forgetful functor, is the multiplication of sections. -/
+private theorem sheafificationForgetAdjunction_homEquiv_mul :
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.sheaf).homEquiv
+        (PresheafOfModules.tensorObj (moduleOfAlgebra A).val (moduleOfAlgebra A).val)
+        (moduleOfAlgebra A) (mul A) =
+      presheafMul A ≫
+        (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso Y.sheaf).hom.app
+          (moduleOfAlgebra A) :=
+  (Adjunction.homEquiv_ofNatIsoRight_apply _ _ _).trans
+    (congrArg (· ≫ _) (sheafificationHomEquiv_mul A))
+
 /-- **The unit of a sheaf of algebras is a unit for its multiplication**: `A ⊗ 𝒪_Y ⟶ A ⊗ A ⟶ A`
 is the canonical isomorphism `A ⊗ 𝒪_Y ≅ A`. -/
 theorem sheafTensor_map_unitMap_comp_mul :
     ((Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf).obj (moduleOfAlgebra A)).map
       (unitMap A) ≫ mul A =
       (Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections Y.sheaf (moduleOfAlgebra A)).hom := by
-  refine PresheafOfModules.sheafification_hom_ext ?_
-  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 Y.ringCatSheaf.obj)
-  let G := SheafOfModules.forget Y.ringCatSheaf ⋙
-    PresheafOfModules.restrictScalars (𝟙 Y.ringCatSheaf.obj)
-  let h := PresheafOfModules.tensorHom (𝟙 (moduleOfAlgebra A).val) (unitMap A).val
-  have hmul : adj.unit.app (PresheafOfModules.tensorObj (moduleOfAlgebra A).val
-      (moduleOfAlgebra A).val) ≫ G.map (mul A) = presheafMul A :=
-    (adj.homEquiv_unit (f := mul A)).symm.trans (sheafificationHomEquiv_mul A)
-  have hL : adj.unit.app _ ≫ G.map ((PresheafOfModules.sheafification (𝟙 Y.ringCatSheaf.obj)).map h
-      ≫ mul A) = h ≫ presheafMul A :=
-    (congrArg (adj.unit.app _ ≫ ·) (G.map_comp _ _)).trans ((Category.assoc _ _ _).symm.trans
-      ((congrArg (· ≫ G.map (mul A)) (PresheafOfModules.unit_comp_map h)).trans
-        ((Category.assoc _ _ _).trans (congrArg (h ≫ ·) hmul))))
-  let adj' := PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)
-  let G' := SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf) ⋙
-    PresheafOfModules.restrictScalars (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)
-  let ρp := (MonoidalCategory.rightUnitor ((SheafOfModules.forget
-    (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)).obj (moduleOfAlgebra A))).hom
-  have hR : adj'.unit.app _ ≫ G'.map ((PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf).obj)).map ρp ≫
-        adj'.counit.app (moduleOfAlgebra A)) = ρp :=
-    (congrArg (adj'.unit.app _ ≫ ·) (G'.map_comp _ _)).trans ((Category.assoc _ _ _).symm.trans
-      ((congrArg (· ≫ G'.map (adj'.counit.app _)) (PresheafOfModules.unit_comp_map ρp)).trans
-        ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (adj'.right_triangle_components _)).trans
-          (Category.comp_id _)))))
-  refine hL.trans (Eq.trans ?_ hR.symm)
-  refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (TensorProduct.ext' fun x r => ?_)
-  change (presheafMul A).app U (PresheafOfModules.Hom.app h U (x ⊗ₜ r)) = _
-  rw [PresheafOfModules.tensorHom_tmul]
-  simp only [presheafMul]
-  change x * (unitMap A).val.app U r = _
-  refine (congrArg (x * ·) (unitMap_app A U r)).trans ?_
-  refine Eq.trans ?_ (ModuleCat.MonoidalCategory.rightUnitor_hom_apply x r).symm
-  change x * ((show (moduleOfAlgebra A).val.obj U from (structureMap A).hom.app U r) * 1) =
-    (show (moduleOfAlgebra A).val.obj U from (structureMap A).hom.app U r) * x
-  rw [mul_one, mul_comm]
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.sheaf
+  let M := (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)).obj
+    (moduleOfAlgebra A)
+  rw [Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections_hom,
+    ← adj.homEquiv_counit (g := (MonoidalCategory.rightUnitor M).hom)]
+  refine (Equiv.eq_symm_apply _).mpr ((adj.homEquiv_naturality_left
+    (PresheafOfModules.tensorHom (𝟙 (moduleOfAlgebra A).val) (unitMap A).val) (mul A)).trans
+      ((congrArg (_ ≫ ·) (sheafificationForgetAdjunction_homEquiv_mul A)).trans ?_))
+  refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext
+    (TensorProduct.ext' fun x (r : Y.ringCatSheaf.obj.obj U) => ?_)
+  refine (congrArg (PresheafOfModules.Hom.app (presheafMul A ≫
+      (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso Y.sheaf).hom.app
+        (moduleOfAlgebra A)) U)
+    (PresheafOfModules.tensorHom_tmul (𝟙 (moduleOfAlgebra A).val) (unitMap A).val U x r)).trans ?_
+  refine ((PresheafOfModules.ofBilinear_tmul (bilinearMul A) U _ _).trans ?_).trans
+    (ModuleCat.MonoidalCategory.rightUnitor_hom_apply x r).symm
+  exact (congrArg ((bilinearMul A).app U x) (unitMap_app A U r)).trans
+    (((bilinearMul A).map_smul_right U r x 1).trans (congrArg (r • ·) (mul_one x)))
 
 /-- **The unit of a sheaf of algebras is a unit for its multiplication**, in the form that
 `A ⊗ 𝒪_Y ⟶ A ⊗ A ⟶ A` is invertible. -/

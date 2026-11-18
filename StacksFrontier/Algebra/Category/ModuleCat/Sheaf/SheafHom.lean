@@ -699,7 +699,8 @@ noncomputable def evaluation
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪
         (forget₂ CommRingCat RingCat) h𝒪⟩).obj (dualSheaf 𝒪 h𝒪 F)).obj F ⟶
       SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪) :=
-  ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp J 𝒪
+    (forget₂ CommRingCat RingCat) h𝒪⟩).homEquiv
     ((PresheafOfModules.tensorObj (O := 𝒪) ((dualSheaf 𝒪 h𝒪 F).val) (F.val)))
     (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))).symm
       (evaluationPresheaf 𝒪 h𝒪 F)

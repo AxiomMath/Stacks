@@ -66,9 +66,11 @@ theorem isCoherentOnSite_tensorModule (M N : Modules.{u, u} B S hS F hF)
   have := SheafOfModules.isLocallySurjective_id_structure
     (R := Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)
   exact Stacks.SheafOfModules.isCoherentOnSite_of_iso
-    (((PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj)).mapIso
-        (PresheafOfModules.uliftSectionsSelfIso _)).symm)
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ M N ≪≫
+      ((PresheafOfModules.sheafification
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS F hF).O).obj)).mapIso
+          (PresheafOfModules.uliftSectionsSelfIso _)).symm)
     (Stacks.SheafOfModules.TensorLocalProperties.tensorSheaf_isCoherentOnSite
       (smallEtaleRingedSite B S hS F hF) M N)
 

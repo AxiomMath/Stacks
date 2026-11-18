@@ -177,11 +177,8 @@ private lemma tildeTensorSheafMap_eq (R : CommRingCat.{u}) {M M' N N' : ModuleCa
     (MonoidalCategory.tensorHom_def
       (C := PresheafOfModules.{u} ((Spec R).presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u}))
       (tilde.map f).val (tilde.map g).val).symm
-  exact (congrArg (PresheafOfModules.sheafification.{u}
-      (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf (specCommRingSheaf R)).obj)
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf (specCommRingSheaf R))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (specCommRingSheaf R)).obj)).map
-    key.symm).trans (Functor.map_comp _ _ _)
+  exact (congrArg (sheafification (specCommRingSheaf R)).map key.symm).trans
+    (Functor.map_comp _ _ _)
 
 /-- The affine tensor comparison of [Stacks, Tag 01I8], read as an isomorphism between the two
 tensor bifunctors transported by sheafification. -/

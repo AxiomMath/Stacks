@@ -83,8 +83,16 @@ lemma stalkSheafTensorIso_naturality_left
       (stalkSheafTensorIso Φ O A B).hom ≫
         ((curriedTensor (ModuleCat.{w} (Stacks.ringFiber Φ O.obj))).map
           ((Stacks.sheafModuleFiberOfCommRing Φ O).map f)).app
-            ((Stacks.sheafModuleFiberOfCommRing Φ O).obj B) :=
-  tensorSheafifyIso_naturality_left Φ O (φ := f.val) B.val
+            ((Stacks.sheafModuleFiberOfCommRing Φ O).obj B) := by
+  have he := (Functor.whiskerRight (eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def O))
+    (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
+      Stacks.presheafModuleFiberOfCommRing Φ O.obj)).naturality_assoc
+      (((curriedTensor (PresheafOfModules.{w}
+        (O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}))).map f.val).app B.val)
+      (tensorSheafifyIso Φ O A'.val B.val).hom
+  rw [stalkSheafTensorIso_hom, stalkSheafTensorIso_hom]
+  apply he.trans ((congrArg (_ ≫ ·)
+    (tensorSheafifyIso_naturality_left Φ O (φ := f.val) B.val)).trans (Category.assoc _ _ _).symm)
 
 end Stacks.SheafOfModules.SitePointStalkSheafify.LocallySmall
 

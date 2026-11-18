@@ -114,8 +114,8 @@ open Stacks.SheafOfModules.Invertible ( tensorRightFunctor_isEquivalence
   tensorPowerEquivalence powSuccIso powSuccIso_natural
   tensorProductRightUnitor)
 
-open Stacks.SheafOfModules.TensorSheafification (structureRingPresheaf sheafify sheafifyAdjunction
-  toSheafify isIso_sheafify_map_whiskerRight isIso_sheafify_map_toSheafify)
+open Stacks.SheafOfModules.TensorSheafification (structureRingPresheaf
+  isIso_sheafify_map_whiskerRight)
 
 universe u v w
 
@@ -169,9 +169,19 @@ local notation "Osh" => (Stacks.SheafOfModules.Tensor.ringSheaf
   (ObjectProperty.FullSubcategory.mk O
     (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO)))
 
+local notation "Rsh" => (ObjectProperty.FullSubcategory.mk O
+    (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO) :
+      Sheaf J CommRingCat)
+
+/- The sealed sheafification of presheaves of modules over `Osh` (the last factor of
+`sheafTensor`), and its adjunction with the forgetful functor. -/
+local notation "Ssh" => Stacks.SheafOfModules.Tensor.sheafification Rsh
+
+local notation "Asf" => Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Rsh
+
 /- The two maps below are the sheafification unit and the ideal map, each given a *declared*
-type at the spelling the tensor calculus needs: `toSheafify O hO P` lands in the right adjoint
-of the sheafification adjunction applied to `P^#`, while the monoidal calculus wants
+type at the spelling the tensor calculus needs: the unit of `P` for the sealed sheafification
+adjunction lands in the forgetful functor applied to `P^#`, while the monoidal calculus wants
 `(P^#).val`, and `i.val` lands in `(SheafOfModules.unit Osh).val` while it wants the monoidal
 unit. Each pair agrees definitionally but not at `implicit` transparency, and a type ascription
 does not help: the mismatched spelling sits in an *implicit* argument of `◁`/`▷`, which is
@@ -180,14 +190,14 @@ inferred from the argument's own type. Only a declared type reaches it. -/
 /-- The sheafification unit, with its target spelled as the underlying presheaf of modules of
 the sheafification. -/
 private noncomputable def unitVal (P : PresheafOfModules.{w} (Osh).obj) :
-    P ⟶ (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P).val :=
-  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P
+    P ⟶ ((Ssh).obj P).val :=
+  ((Asf).unit.app) P
 
 /-- The sheafification counit, with its source spelled as the sheafification of the underlying
 presheaf of modules. -/
 private noncomputable def counitVal (P : SheafOfModules.{w} Osh) :
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P.val ⟶ P :=
-  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app P
+    (Ssh).obj P.val ⟶ P :=
+  (Asf).counit.app P
 
 /-- A map to the unit sheaf of modules, with its target spelled as the monoidal unit of
 presheaves of modules. -/
@@ -197,37 +207,37 @@ private def idealUnit {I : SheafOfModules.{w} Osh} (i : I ⟶ SheafOfModules.uni
 
 /-- The sheafification unit is natural. -/
 private lemma toSheafify_natural {P Q : PresheafOfModules.{w} (Osh).obj} (f : P ⟶ Q) :
-    f ≫ ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) Q =
-      ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P ≫
-      (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map f).val := by
-  have h := ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh)
-      (𝟙 (Osh).obj))).unit.naturality f
+    f ≫ ((Asf).unit.app) Q = ((Asf).unit.app) P ≫ ((Ssh).map f).val := by
+  have h := (Asf).unit.naturality f
   convert h using 1
   rfl
 
+/-- The sealed sheafification inverts its unit. -/
+private lemma isIso_sheafification_map_unitVal (P : PresheafOfModules.{w} (Osh).obj) :
+    IsIso ((Ssh).map (unitVal O hO P)) :=
+  isIso_of_comp_hom_eq_id ((Asf).counit.app ((Ssh).obj P)) ((Asf).left_triangle_components P)
+
 set_option maxHeartbeats 1600000 in
--- elaborating the sheafified twofold tensor product and its naturality square times out at
--- the default limit since Lean v4.35.0 / Mathlib v4.35.0
-attribute [local implicit_reducible] Stacks.SheafOfModules.TensorSheafification.toSheafify in
+-- unfolding the sheafified tensor comparison by `rfl` times out at the default limit
+-- since Lean v4.35.0 / Mathlib v4.35.0
 /-- Sheafifying a twofold presheaf tensor product agrees with two successive sheaf tensor
 products. -/
 private noncomputable def tensorRightPairIso (I L : SheafOfModules.{w} Osh) :
     SheafOfModules.forget Osh ⋙ tensorRight I.val ⋙ tensorRight L.val ⋙
-      (PresheafOfModules.sheafification.{w, v, w, u}
-        (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)) ≅
+      (Ssh) ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I ⋙
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L := by
-  let S := PresheafOfModules.sheafification.{w, v, w, u}
-    (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)
+  let S := Ssh
   refine NatIso.ofComponents (fun moduleSheaf => ?_) ?_
   · exact @asIso _ _ _ _
       (S.map (unitVal O hO (moduleSheaf.val ⊗ I.val) ▷ L.val))
-      (isIso_sheafify_map_whiskerRight O hO
-        (unitVal O hO (moduleSheaf.val ⊗ I.val)) L.val
-      (isIso_sheafify_map_toSheafify O hO
-        (moduleSheaf.val ⊗ I.val)))
+      ((Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff _).mpr
+        (isIso_sheafify_map_whiskerRight O hO
+          (unitVal O hO (moduleSheaf.val ⊗ I.val)) L.val
+          ((Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff _).mp
+            (isIso_sheafification_map_unitVal O hO (moduleSheaf.val ⊗ I.val)))))
   · intro source target map
     let liftedTensor : PresheafOfModules.{w} (Osh).obj ⥤ SheafOfModules.{w} Osh :=
       tensorRight L.val ⋙ S
@@ -254,8 +264,7 @@ public noncomputable def tensorRightCommuteIso (I L : SheafOfModules.{w} Osh) :
         ((tensorRightTensor I.val L.val).symm ≪≫
           (curriedTensor _).flip.mapIso (β_ I.val L.val) ≪≫
           tensorRightTensor L.val I.val))
-      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))) ≪≫
-        tensorRightPairIso O hO L I
+      (Ssh) ≪≫ tensorRightPairIso O hO L I
 
 /-- The interchange of the two outer tensor factors of `(M ⊗ I) ⊗ L`, with source and target
 spelled through the functors that `tensorRightPairIso` is stated over. The braiding is taken as
@@ -272,31 +281,26 @@ private noncomputable def rightMultiply (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) (M : SheafOfModules.{w} Osh) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I).obj
-      M ⟶ M := by
-  change ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj (M.val ⊗ I.val) ⟶ M
-  exact ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-      ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
-    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app M
+      M ⟶ M :=
+  (Ssh).map ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫ (Asf).counit.app M
 
 /-- Multiplication by the ideal is the sheafification of the presheaf multiplication, followed
 by the sheafification counit. -/
 private lemma rightMultiply_eq (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) (M : SheafOfModules.{w} Osh) :
     rightMultiply O hO I i M =
-      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-        ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
-        ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app M :=
+      (Ssh).map ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
+        (Asf).counit.app M :=
   rfl
 
 /-- On sections of the presheaf tensor product, multiplication by the ideal is the presheaf
 multiplication. -/
 private lemma toSheafify_rightMultiply (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) (M : SheafOfModules.{w} Osh) :
-    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+    ((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
         (rightMultiply O hO I i M).val =
       (M.val ◁ i.val) ≫ (ρ_ M.val).hom := by
-  have h := (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).homEquiv
+  have h := ((Asf).homEquiv
     (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) M).apply_symm_apply
     ((M.val ◁ i.val) ≫ (ρ_ M.val).hom)
   exact h
@@ -313,46 +317,35 @@ private lemma rightMultiply_natural (I : SheafOfModules.{w} Osh)
   -- of presheaves of modules, where every object has a single spelling.
   have hmon := multiply_naturality I.val i.val f.val
   -- The rest is the adjunction. Each step is a ground equation fed to `congrArg`, because the
-  -- composite `toSheafify … ≫ (…).val` is type-correct only at default transparency: the
-  -- unit lands in the right adjoint applied to the sheafification, and `.val` reads the
+  -- composite `unit … ≫ (…).val` is type-correct only at default transparency: the
+  -- unit lands in the forgetful functor applied to the sheafification, and `.val` reads the
   -- underlying presheaf of modules, which are the same object spelled differently.
-  apply (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).homEquiv
+  apply ((Asf).homEquiv
     (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) N).injective
-  change ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
-      ((((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (f.val ▷ I.val)).val ≫
-        (rightMultiply O hO I i N).val) =
-    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+  change ((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+      (((Ssh).map (f.val ▷ I.val)).val ≫ (rightMultiply O hO I i N).val) =
+    ((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
       ((rightMultiply O hO I i M).val ≫ f.val)
-  calc ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-          (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
-        ((((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-          (f.val ▷ I.val)).val ≫ (rightMultiply O hO I i N).val)
-      = (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-        (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
-          (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-            (f.val ▷ I.val)).val) ≫ (rightMultiply O hO I i N).val :=
+  calc ((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+        (((Ssh).map (f.val ▷ I.val)).val ≫ (rightMultiply O hO I i N).val)
+      = (((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+          ((Ssh).map (f.val ▷ I.val)).val) ≫ (rightMultiply O hO I i N).val :=
         (Category.assoc _ _ _).symm
     _ = ((f.val ▷ I.val) ≫
-          ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-            (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj)) ≫
+          ((Asf).unit.app) (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj)) ≫
           (rightMultiply O hO I i N).val :=
         congrArg (fun k => k ≫ (rightMultiply O hO I i N).val)
           (toSheafify_natural O hO (f.val ▷ I.val)).symm
     _ = (f.val ▷ I.val) ≫
-          (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-            (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+          (((Asf).unit.app) (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
             (rightMultiply O hO I i N).val) := Category.assoc _ _ _
     _ = (f.val ▷ I.val) ≫ ((N.val ◁ i.val) ≫ (ρ_ N.val).hom) :=
         congrArg (fun k => (f.val ▷ I.val) ≫ k) (toSheafify_rightMultiply O hO I i N)
     _ = ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫ f.val := hmon
-    _ = (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+    _ = (((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
           (rightMultiply O hO I i M).val) ≫ f.val :=
         congrArg (fun k => k ≫ f.val) (toSheafify_rightMultiply O hO I i M).symm
-    _ = ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+    _ = ((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
           ((rightMultiply O hO I i M).val ≫ f.val) := Category.assoc _ _ _
 
 set_option maxHeartbeats 1600000 in
@@ -361,30 +354,23 @@ set_option maxHeartbeats 1600000 in
 /-- The components of the comparison of a twofold tensor product. -/
 private lemma tensorRightPairIso_hom_app (I L M : SheafOfModules.{w} Osh) :
     (tensorRightPairIso O hO I L).hom.app M =
-      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-        (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
-          (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ▷ L.val) := rfl
+      (Ssh).map
+        (((Asf).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ▷ L.val) := rfl
 
 /-- The left triangle identity of the sheafification adjunction. -/
 private lemma sheafify_toSheafify_counit (P : PresheafOfModules.{w} (Osh).obj) :
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-      (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P) ≫
-      ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app
-        (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P) = 𝟙 _ :=
-  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh)
-    (𝟙 (Osh).obj))).left_triangle_components P
+    (Ssh).map (((Asf).unit.app) P) ≫
+      (Asf).counit.app ((Ssh).obj P) = 𝟙 _ :=
+  (Asf).left_triangle_components P
 
 /-- The left triangle identity of the sheafification adjunction, in the `unitVal`/`counitVal`
 spelling. -/
 private lemma sheafify_unitVal_counitVal (P : PresheafOfModules.{w} (Osh).obj) :
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (unitVal O hO P) ≫
-      counitVal O hO (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P) =
-      𝟙 _ :=
-  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh)
-    (𝟙 (Osh).obj))).left_triangle_components P
+    (Ssh).map (unitVal O hO P) ≫ counitVal O hO ((Ssh).obj P) = 𝟙 _ :=
+  (Asf).left_triangle_components P
 
 set_option maxHeartbeats 1600000 in
--- checking the chain of sheafified tensor identities below times out at the default limit
+-- unfolding the sheafified tensor comparison by `rfl` times out at the default limit
 -- since Lean v4.35.0 / Mathlib v4.35.0
 /-- Multiplying by the ideal after the comparison of a twofold tensor product is the
 sheafification of the presheaf multiplication on `M ⊗ L`. -/
@@ -394,11 +380,9 @@ private lemma tensorRightPairIso_multiply (I L M : SheafOfModules.{w} Osh)
       rightMultiply O hO I i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj
         M) =
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-      (((M.val ⊗ L.val) ◁ i.val) ≫ (ρ_ (M.val ⊗ L.val)).hom) := by
+    (Ssh).map (((M.val ⊗ L.val) ◁ i.val) ≫ (ρ_ (M.val ⊗ L.val)).hom) := by
   let sheafification : PresheafOfModules.{w} (Osh).obj ⥤ SheafOfModules.{w} Osh :=
-    PresheafOfModules.sheafification.{w, v, w, u}
-      (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)
+    Ssh
   let presheaf : PresheafOfModules.{w} (Osh).obj := M.val ⊗ L.val
   let unit : presheaf ⟶ (sheafification.obj presheaf).val := unitVal O hO presheaf
   let counit : sheafification.obj (sheafification.obj presheaf).val ⟶
@@ -454,15 +438,13 @@ private lemma tensorRightCommuteIso_multiply (I L M : SheafOfModules.{w} Osh)
   -- is type-correct only at default transparency and nothing below can fire.
   have hc : (tensorRightCommuteIso O hO I L).hom.app M =
       (tensorRightPairIso O hO I L).inv.app M ≫
-        ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-          (swapMap O hO I L M (β_ I.val L.val).hom) ≫
+        (Ssh).map (swapMap O hO I L M (β_ I.val L.val).hom) ≫
         (tensorRightPairIso O hO L I).hom.app M := by rfl
   apply (cancel_epi ((tensorRightPairIso O hO I L).hom.app M)).mp
   rw [hc]
   simp only [Category.assoc, Iso.hom_inv_id_app_assoc]
   rw [tensorRightPairIso_multiply, tensorRightPairIso_hom_app]
-  let sheafification := PresheafOfModules.sheafification.{w, v, w, u}
-    (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)
+  let sheafification := Ssh
   have presheafEquation : swapMap O hO I L M (β_ I.val L.val).hom ≫
       ((M.val ⊗ L.val) ◁ idealUnit O hO i ≫ (ρ_ (M.val ⊗ L.val)).hom) =
       (unitVal O hO (M.val ⊗ I.val) ▷ L.val) ≫
@@ -557,8 +539,8 @@ private lemma rightMultiply_eq_zero_iff (I N : SheafOfModules.{u} Oₓ) (i : I �
     rightMultiply X.presheaf (Oₓ).property I i N = 0 ↔
       ∀ (U : (Opens X)ᵒᵖ) (s : N.val.obj U) (a : I.val.obj U),
         (N.val.obj U).isModule.toSMul.smul (idealSection X i U a) s = 0 := by
-  let sheafification := PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj)
-  let adjunction := PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj)
+  let sheafification := Stacks.SheafOfModules.Tensor.sheafification X.sheaf
+  let adjunction := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.sheaf
   let multiplication : N.val ⊗ I.val ⟶ N.val := (N.val ◁ i.val) ≫ (ρ_ N.val).hom
   have evaluation : rightMultiply X.presheaf (Oₓ).property I i N =
       (adjunction.homEquiv (N.val ⊗ I.val) N).symm multiplication := rfl
@@ -844,16 +826,16 @@ private lemma idealPowerIncl_eq_multiply (I : SheafOfModules.{u} Oₓ) (ι : I �
   -- counit. The composite `(A ◁ ι.val) ≫ (ρ_ A).hom` is type-correct only at default
   -- transparency — `ι.val` lands in the unit *sheaf* and `ρ_` expects the monoidal unit — so
   -- the two steps are assembled as terms, where that is exactly the transparency used.
-  have hA := ((PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).map_comp
+  have hA := (Stacks.SheafOfModules.Tensor.sheafification X.sheaf).map_comp
     ((idealPowerTerm X I n M).val ◁ ι.val) (ρ_ (idealPowerTerm X I n M).val).hom
   have hcounit := (congrArg (fun k => k ≫
-      ((PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).counit.app
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.sheaf).counit.app
         (idealPowerTerm X I n M)) hA).trans
     ((Category.assoc _ _ _).trans
-      (congrArg (fun k => ((PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).map k ≫
-          (((PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).map
+      (congrArg (fun k => (Stacks.SheafOfModules.Tensor.sheafification X.sheaf).map k ≫
+          ((Stacks.SheafOfModules.Tensor.sheafification X.sheaf).map
               (ρ_ (idealPowerTerm X I n M).val).hom ≫
-            ((PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).counit.app
+            (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.sheaf).counit.app
               (idealPowerTerm X I n M)))
         (id_tensorHom (idealPowerTerm X I n M).val ι.val).symm))
   refine congrArg ((idealPowerSuccNatIso X I n).inv.app M ≫ ·) ?_
@@ -864,7 +846,7 @@ private lemma idealPowerIncl_eq_multiply (I : SheafOfModules.{u} Oₓ) (ι : I �
   refine Eq.trans ?_ hcounit.symm
   apply congrArg (fun morphism => morphism ≫
     (tensorProductRightUnitor X.presheaf (Oₓ).property (idealPowerTerm X I n M)).hom)
-  apply congrArg (PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj)).map
+  apply congrArg (Stacks.SheafOfModules.Tensor.sheafification X.sheaf).map
   apply PresheafOfModules.hom_ext
   intro siteObject
   apply ModuleCat.hom_ext

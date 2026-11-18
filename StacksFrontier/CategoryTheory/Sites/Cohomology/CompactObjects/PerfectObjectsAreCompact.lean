@@ -60,7 +60,8 @@ the relevant coproducts. Stated this way they also serve Stacks 09J7 on a ringed
 `T` is the identity
 (`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectObjectsOnARingedSpace`).
 The datum for `T = - ⊗^L_O K^∨` is constructed in
-`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectDualReduction` from the bijectivity
+`StacksFrontier.Topology.Sheaves.Cohomology.CompactObjects.PerfectDualReduction` from the
+bijectivity
 of the canonical map of Stacks 08JD for a perfect source
 (`AlgebraicGeometry.RingedSite.bijective_derivedTensorDualGlobalSectionsMap_of_isPerfect`,
 Stacks 08JJ) and the commutation of the derived tensor product with direct sums

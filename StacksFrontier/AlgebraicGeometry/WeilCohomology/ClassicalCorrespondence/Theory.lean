@@ -56,11 +56,13 @@ namespace WeilRealization
 
 variable (G : WeilRealization k F)
 
+omit [IsAlgClosed k] in
 /-- The unit of `H^*(X) = G(h(X))` is the unit of the graded algebra `G(h(X))`. -/
 theorem gradeEquiv_one (X : (SmoothProjectiveScheme k).FullSubcategory) :
     (G.cohAlg X).gradeEquiv 0 ⟨1, SetLike.GradedOne.one_mem⟩ = (G.cohAlg X).one :=
   ExternallyGradedAlgebra.gradeEquiv_apply _ _ _ (ExternallyGradedAlgebra.one_eq_of _)
 
+omit [IsAlgClosed k] in
 /-- The cup product of `H^*(X) = G(h(X))` is the product of the graded algebra `G(h(X))`. -/
 theorem gradeEquiv_mul (X : (SmoothProjectiveScheme k).FullSubcategory) (i j : ℤ)
     (a : G.toWeilData.grade X i) (b : G.toWeilData.grade X j) :

@@ -32,7 +32,8 @@ identity of `ℱ`.
 
 **That compatibility is in the library and the note is stale.**
 `Stacks.SheafOfModules.TensorProduct.tensorSheafOverIso`
-(`AlgebraicGeometry/Stacks/Quasicoherent/Descent/QuasicoherentTensor.lean`) is exactly it, for an
+(`AlgebraicGeometry/StacksCore/Quasicoherent/Descent/QuasicoherentTensor.lean`) is exactly it, for
+an
 arbitrary site and in the `Stacks.SheafOfModules.TensorSheafification.tensorSheaf` spelling that
 `AlgebraicGeometry.ProjectiveSpectrum.Proj.twistSheafOfModules` is defined in; it is the
 localization case of Tag 03EL, proved from
@@ -51,16 +52,17 @@ sheafification unit is used anywhere**:
 
 That the composite is multiplication by `f ^ n` on sections, rather than merely *some*
 isomorphism, is the second half of the file, and it is where the section formulas of the tensor
-product sheaf are used: `Stacks.SheafOfModules.sheafify_map_toSheafify_app` for the trivialization
-step and `Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso_hom_app` — the right unit constraint
-on a local pure tensor, `t ⊗ r ↦ r • t` — for the unitor step.
+product sheaf are used: `Stacks.SheafOfModules.Tensor.unit_naturality_apply` (naturality of the
+sealed sheafification unit `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`) for the
+trivialization step and `Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso_hom_app` — the right
+unit constraint on a local pure tensor, `t ⊗ r ↦ r • t` — for the unitor step.
 
 ## Main definitions
 
 * `Stacks.AlgebraicGeometry.ProjTwistRestriction.tensorOverIso`: the compatibility of the
   sheafified tensor product with restriction to an open of `Proj 𝒮`.
 * `Stacks.AlgebraicGeometry.ProjTwistRestriction.tensorSection`: the image of a pure tensor of
-  local sections under the sheafification unit, on the localized site.
+  local sections under the sealed sheafification unit, on the localized site.
 * `Stacks.AlgebraicGeometry.ProjTwistRestriction.trivSection` and `trivCoord`: the trivializing
   section `f ^ n` of `𝒪(nd)` over an open of `D₊(f)`, and the coordinate of a section of
   `𝒪(nd)` in that trivialization.
@@ -332,7 +334,9 @@ def tensorSection {V : Opens (ProjectiveSpectrum.top 𝒮)}
     ((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨(projOverO 𝒮 V), Presheaf.isSheaf_of_isSheaf_comp _ ((projOverO 𝒮 V))
         (forget₂ CommRingCat RingCat) ((isSheaf_projOver 𝒮 V))⟩).obj (A)).obj (B))).val.obj W :=
-  (Stacks.SheafOfModules.TensorSheafification.toSheafify (projOverO 𝒮 V) (isSheaf_projOver 𝒮 V)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨(projOverO 𝒮 V), Presheaf.isSheaf_of_isSheaf_comp _ ((projOverO 𝒮 V))
+        (forget₂ CommRingCat RingCat) ((isSheaf_projOver 𝒮 V))⟩).unit.app
       (A.val ⊗ B.val)).app W (t ⊗ₜ[(projOverO 𝒮 V).obj W] s)
 
 variable {f : S} {d : ℕ}
@@ -431,9 +435,7 @@ theorem divTrivIso_hom_app_tensorSection (hf : f ∈ 𝒮 d) (n : ℤ)
         (projOverO 𝒮 (ProjectiveSpectrum.basicOpen 𝒮 f))
         (isSheaf_projOver 𝒮 (ProjectiveSpectrum.basicOpen 𝒮 f))
         (restrictModule 𝒮 F (ProjectiveSpectrum.basicOpen 𝒮 f))).hom.val.app W z)
-      (Stacks.SheafOfModules.sheafify_map_toSheafify_app
-        (projOverO 𝒮 (ProjectiveSpectrum.basicOpen 𝒮 f))
-        (isSheaf_projOver 𝒮 (ProjectiveSpectrum.basicOpen 𝒮 f))
+      (Stacks.SheafOfModules.Tensor.unit_naturality_apply
         ((SheafOfModules.forget _).map
             (Iso.refl (restrictModule 𝒮 F (ProjectiveSpectrum.basicOpen 𝒮 f))).hom ⊗ₘ
           (SheafOfModules.forget _).map (trivIso 𝒮 hf n).hom) W
@@ -487,11 +489,105 @@ def mulTrivSection (hf : f ∈ 𝒮 d) (n : ℤ)
     (F : SheafOfModules.{u} (Stacks.AlgebraicGeometry.ProjTrivialization.projRingSheaf 𝒮))
     {W : Opens (ProjectiveSpectrum.top 𝒮)} (hW : W ≤ ProjectiveSpectrum.basicOpen 𝒮 f)
     (t : F.val.obj (op W)) : (twistSheafOfModules 𝒮 F (n * d)).val.obj (op W) :=
-  (Stacks.SheafOfModules.TensorSheafification.toSheafify
-      (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj (isSheaf_proj 𝒮)
-      (F.val ⊗ (twistingSheaf 𝒮 (n * d)).val)).app (op W)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (ProjectiveSpectrum.Proj.structureSheaf 𝒮)).unit.app
+      (PresheafOfModules.tensorObj (O := (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj)
+        F.val (twistingSheaf 𝒮 (n * d)).val)).app (op W)
     (t ⊗ₜ[(ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj (op W)]
       Stacks.AlgebraicGeometry.ProjTrivialization.trivializingSection 𝒮 hf n hW)
+
+section SealedUnit
+
+variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+
+/-- `Stacks.SheafOfModules.Tensor.sheafificationIso` carries Mathlib's sheafification unit to the
+sealed one, on sections. -/
+private theorem sheafificationIso_hom_app_val_app_unit (R : Sheaf J CommRingCat.{u})
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) (X : Cᵒᵖ)
+    (x : M.obj X) :
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.app M).val.app X
+        (((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M).app X x) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app M).app X x :=
+  PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app R M) X x
+
+/-- The inverse of `Stacks.SheafOfModules.Tensor.sheafificationIso` carries the sealed
+sheafification unit to Mathlib's, on sections. -/
+private theorem sheafificationIso_inv_app_val_app_unit (R : Sheaf J CommRingCat.{u})
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) (X : Cᵒᵖ)
+    (x : M.obj X) :
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app M).val.app X
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app M).app X x) =
+      ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M).app X x := by
+  rw [← sheafificationIso_hom_app_val_app_unit]
+  exact Stacks.SheafOfModules.inv_val_app_hom_val_app
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso R).app M) X _
+
+variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ X : C, HasWeakSheafify (J.over X) AddCommGrpCat.{u}]
+  [∀ X : C, (J.over X).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ X : C, (J.over X).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+
+/-- **Restriction to an open commutes with the sealed sheafification unit of a tensor
+presheaf.** The inverse of `Stacks.SheafOfModules.TensorProduct.tensorSheafOverIso` carries the
+image of a local section of the tensor presheaf under the sealed sheafification unit of the
+localized site to its image under the sealed sheafification unit of the whole site. -/
+private theorem tensorSheafOverIso_inv_val_app_unit (O : Sheaf J CommRingCat.{u}) (V : C)
+    (F G : SheafOfModules.{u} (structureSheaf O.obj
+      (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf O)))
+    (W' : (Over V)ᵒᵖ)
+    (x : (PresheafOfModules.tensorObj (O := (O.over V).obj) (F.over V).val
+      (G.over V).val).obj W') :
+    (Stacks.SheafOfModules.TensorProduct.tensorSheafOverIso O V F G).inv.val.app W'
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨(O.over V).obj, Presheaf.isSheaf_of_isSheaf_comp _ ((O.over V).obj)
+            (forget₂ CommRingCat RingCat)
+            (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf
+              (O.over V))⟩).unit.app
+          (PresheafOfModules.tensorObj (O := (O.over V).obj) (F.over V).val
+            (G.over V).val)).app W' x) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app
+          (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).app (op W'.unop.left) x := by
+  have h1 : (Stacks.SheafOfModules.TensorProduct.tensorSheafOverIso O V F G).inv =
+      (((Stacks.SheafOfModules.Tensor.sheafification (O.over V)).map
+            (Stacks.SheafOfModules.TensorProduct.overRestrictionTensorPresheafIso O V F.val
+              G.val).inv ≫
+          (Stacks.SheafOfModules.Tensor.sheafificationIso (O.over V)).inv.app
+            ((PresheafOfModules.overRestriction (Osharp := O) V).obj
+              (PresheafOfModules.tensorObj (O := O.obj) F.val G.val))) ≫
+        (PresheafOfModules.sheafificationOverIso (Osharp := O) V
+          (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).inv) ≫
+      (SheafOfModules.overFunctor _ V).map
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso O F G).inv := rfl
+  rw [h1]
+  refine (Stacks.SheafOfModules.comp_val_app_apply _ _ _ _).trans ?_
+  refine (congrArg (fun z ↦ ((SheafOfModules.overFunctor _ V).map
+      (Stacks.SheafOfModules.Tensor.sheafTensorObjIso O F G).inv).val.app W' z)
+      (?_ : _ = ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+          (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).app (op W'.unop.left) x)).trans
+    (sheafificationIso_hom_app_val_app_unit O
+      (PresheafOfModules.tensorObj (O := O.obj) F.val G.val) (op W'.unop.left) x)
+  refine (Stacks.SheafOfModules.comp_val_app_apply _ _ _ _).trans ?_
+  refine (congrArg (fun z ↦ (PresheafOfModules.sheafificationOverIso (Osharp := O) V
+      (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).inv.val.app W' z) ?_).trans
+    (sheafificationOverIso_inv_val_app_of_sheaf O V
+      (PresheafOfModules.tensorObj (O := O.obj) F.val G.val) W'
+      ((Stacks.SheafOfModules.TensorProduct.overRestrictionTensorPresheafIso O V F.val
+        G.val).inv.app W' x))
+  refine (Stacks.SheafOfModules.comp_val_app_apply _ _ _ _).trans ?_
+  refine (congrArg (fun z ↦ ((Stacks.SheafOfModules.Tensor.sheafificationIso (O.over V)).inv.app
+      ((PresheafOfModules.overRestriction (Osharp := O) V).obj
+        (PresheafOfModules.tensorObj (O := O.obj) F.val G.val))).val.app W' z)
+    (Stacks.SheafOfModules.Tensor.unit_naturality_apply (R := O.over V)
+      (Stacks.SheafOfModules.TensorProduct.overRestrictionTensorPresheafIso O V F.val G.val).inv
+      W' x)).trans ?_
+  exact sheafificationIso_inv_app_val_app_unit (O.over V) _ W' _
+
+end SealedUnit
 
 /-- Multiplication by `f ^ n` on `Proj 𝒮` and on the localized site at `D₊(f)` agree under
 `tensorOverIso`: restriction to an open commutes with the sheafification unit, and the pointwise
@@ -507,55 +603,13 @@ theorem tensorOverIso_inv_val_app_tensorSection (hf : f ∈ 𝒮 d) (n : ℤ)
           (op (Over.mk (homOfLE hW))) t
           (trivSection 𝒮 hf n (op (Over.mk (homOfLE hW))))) =
       mulTrivSection 𝒮 hf n F hW t := by
-  have generic : ∀ {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
-      [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-      [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
-      [∀ X : C, HasWeakSheafify (J.over X) AddCommGrpCat.{u}]
-      [∀ X : C, (J.over X).WEqualsLocallyBijective AddCommGrpCat.{u}]
-      [∀ X : C, (J.over X).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-      (O : CategoryTheory.Sheaf J CommRingCat.{u}) (V : C)
-      (F G : SheafOfModules.{u} (structureSheaf O.obj
-        (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf O)))
-      (W' : (Over V)ᵒᵖ)
-      (x : (PresheafOfModules.tensorObj (O := (O.over V).obj) (F.over V).val
-        (G.over V).val).obj W'),
-      (Stacks.SheafOfModules.TensorProduct.tensorSheafOverIso O V F G).inv.val.app W'
-          ((toSheafify (O.over V).obj
-            (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf (O.over V))
-            (MonoidalCategoryStruct.tensorObj
-              (self := (Stacks.SheafOfModules.monoidalCategoryPresheafOfModules (O.over V).obj
-                (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf
-                  (O.over V))).toMonoidalCategoryStruct)
-              (F.over V).val (G.over V).val)).app W' x) =
-        ((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (CategoryTheory.Sheaf.toRingCat J O).obj)).unit.app
-          (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).app (op W'.unop.left) x := by
-    intro C _ J _ _ _ _ _ _ O V F G W' x
-    have h1 : (Stacks.SheafOfModules.TensorProduct.tensorSheafOverIso O V F G).inv =
-        (PresheafOfModules.sheafification
-            (𝟙 ((CategoryTheory.Sheaf.toRingCat J O).over V).obj)).map
-            (Stacks.SheafOfModules.TensorProduct.overRestrictionTensorPresheafIso O V F.val
-              G.val).inv ≫
-          (PresheafOfModules.sheafificationOverIso (Osharp := O) V
-            (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).inv := rfl
-    rw [h1]
-    refine (Stacks.SheafOfModules.comp_val_app_apply _ _ _ _).trans ?_
-    have hnat := congrArg (fun φ ↦ φ.app W' x)
-      ((PresheafOfModules.sheafificationAdjunction
-          (𝟙 ((CategoryTheory.Sheaf.toRingCat J O).over V).obj)).unit.naturality
-        (Stacks.SheafOfModules.TensorProduct.overRestrictionTensorPresheafIso O V F.val
-          G.val).inv)
-    simp only [PresheafOfModules.comp_app] at hnat
-    refine (congrArg (fun z ↦ (PresheafOfModules.sheafificationOverIso (Osharp := O) V
-      (PresheafOfModules.tensorObj (O := O.obj) F.val G.val)).inv.val.app W' z)
-      hnat.symm).trans ?_
-    exact sheafificationOverIso_inv_val_app_of_sheaf O V _ W' _
-  refine (generic (ProjectiveSpectrum.Proj.structureSheaf 𝒮) (ProjectiveSpectrum.basicOpen 𝒮 f)
-    F (twistingSheaf 𝒮 (n * d)) (op (Over.mk (homOfLE hW)))
+  refine (tensorSheafOverIso_inv_val_app_unit (ProjectiveSpectrum.Proj.structureSheaf 𝒮)
+    (ProjectiveSpectrum.basicOpen 𝒮 f) F (twistingSheaf 𝒮 (n * d)) (op (Over.mk (homOfLE hW)))
     (t ⊗ₜ[(projOverO 𝒮 (ProjectiveSpectrum.basicOpen 𝒮 f)).obj (op (Over.mk (homOfLE hW)))]
       trivSection 𝒮 hf n (op (Over.mk (homOfLE hW))))).trans ?_
   exact congrArg (fun y ↦
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (projRing 𝒮).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        (ProjectiveSpectrum.Proj.structureSheaf 𝒮)).unit.app
       (PresheafOfModules.tensorObj (O := (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj)
         F.val (twistingSheaf 𝒮 (n * d)).val)).app (op W)
       (t ⊗ₜ[(ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj (op W)] y))

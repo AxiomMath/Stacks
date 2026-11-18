@@ -261,6 +261,21 @@ lemma mono_shf_map_of_isLocallyInjective {P Q : PresheafOfModules.{w} R.obj} (f 
 
 variable (O : Sheaf J CommRingCat.{w})
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- **The sealed sheafification carries a locally injective morphism of presheaves of modules to
+a monomorphism.** This is `Stacks.SheafOfModules.mono_shf_map_of_isLocallyInjective` for the
+sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification O` with which
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends, read off through the canonical isomorphism
+`Stacks.SheafOfModules.Tensor.sheafificationIso` from Mathlib's sheafification. -/
+private lemma mono_sheafification_map_of_isLocallyInjective
+    {P Q : PresheafOfModules.{w} (Tensor.ringSheaf O).obj} (f : P ⟶ Q)
+    [Presheaf.IsLocallyInjective J
+      ((PresheafOfModules.toPresheaf (Tensor.ringSheaf O).obj).map f)] :
+    Mono ((Tensor.sheafification O).map f) := by
+  have := mono_shf_map_of_isLocallyInjective f
+  rw [← NatIso.naturality_1 (Tensor.sheafificationIso O) f]
+  infer_instance
+
 /-- **Stacks 08FC, (2) implies (1).** A sheaf of modules satisfying the single-relation form of
 the local equational criterion is flat: every relation `∑ᵢ aᵢ • sᵢ = 0` among its sections
 factoring locally through a finite free module annihilating the relation forces the tensor
@@ -273,7 +288,10 @@ in `Type v`. Here the section universe `w` is independent of `u` and `v`, and `H
 is assumed in place of `HasSheafify`. A ringed site whose sections are unrelated to its
 morphisms cannot be fed to the `max v w` form, because `w =?= max v u` is not a solvable
 universe constraint. The proof sheafifies the local injectivity of the presheaf-level tensor map
-through `Stacks.SheafOfModules.mono_shf_map_of_isLocallyInjective`.
+through `Stacks.SheafOfModules.mono_shf_map_of_isLocallyInjective`, carried over by
+`Stacks.SheafOfModules.Tensor.sheafificationIso` to the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification O` with which
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends.
 
 Together with `Stacks.SheafOfModules.hasLocalSingleRelationFactorizations_of_isFlat_freeUniverse`
 this gives the equivalence of parts (1) and (2) of the source at those universes. -/
@@ -284,13 +302,12 @@ theorem isFlat_of_hasLocalSingleRelationFactorizations_freeUniverse
   let T : PresheafOfModules.{w} (commRingSheafToRingSheaf O).obj ⥤
       PresheafOfModules.{w} (commRingSheafToRingSheaf O).obj :=
     tensorRight.{v, u, w, w, w} (O := O.obj) F.val
-  let S := PresheafOfModules.sheafification.{w} (J := J) (R := commRingSheafToRingSheaf O)
-    (R₀ := (commRingSheafToRingSheaf O).obj) (𝟙 (commRingSheafToRingSheaf O).obj)
+  let S := Tensor.sheafification.{_, _, _, w} O
   let L : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O) ⥤
       _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O) :=
     _root_.SheafOfModules.forget (commRingSheafToRingSheaf O) ⋙ T ⋙ S
   let : T.Additive := additive_tensorRight (O := O.obj) F.val
-  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 (commRingSheafToRingSheaf O).obj)
+  let adj := Tensor.sheafificationAdjunction.{_, _, _, w} O
   let : S.Additive := adj.left_adjoint_additive
   let : L.Additive := ⟨fun {_ _ f g} => (congrArg S.map (T.map_add (f := f.val) (g := g.val))).trans
     S.map_add⟩
@@ -304,10 +321,10 @@ theorem isFlat_of_hasLocalSingleRelationFactorizations_freeUniverse
       PresheafOfModules.injective_of_mono
         ((_root_.SheafOfModules.forget (commRingSheafToRingSheaf O)).map f) V
     have : Presheaf.IsLocallyInjective J
-        ((PresheafOfModules.toPresheaf (commRingSheafToRingSheaf O).obj).map (T.map f.val)) :=
+        ((PresheafOfModules.toPresheaf (Tensor.ringSheaf O).obj).map (T.map f.val)) :=
       isLocallyInjective_tensorRight_map_of_localFiniteRelationFactorizations
         ((hasLocalSingleRelationFactorizations_iff_finite O F).mp hF) f.val hf'
-    exact mono_shf_map_of_isLocallyInjective (T.map f.val)
+    exact mono_sheafification_map_of_isLocallyInjective O (T.map f.val)
   let : L.PreservesHomology := L.preservesHomology_of_preservesMonos_and_cokernels
   let : ∀ {G H : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O)} (f : G ⟶ H),
       PreservesLimit (parallelPair f 0) L := fun f =>

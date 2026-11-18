@@ -19,7 +19,8 @@ For a Noetherian local ring `(A, 𝔪)` of dimension one, the symbol of Stacks 0
 satisfying the properties listed in Stacks 0EAH. (The section itself defines `∂_A` by the recipe
 Stacks 0EAQ; that this symbol is that recipe is
 `Stacks.Chow.tameSymbolOfKrullDimOne_eq_formulaTameSymbol`, and Stacks 0EAH is
-`Stacks.Chow.formulaTameSymbol_isTameSymbol`.) No assumption beyond "Noetherian local of dimension one" is made;
+`Stacks.Chow.formulaTameSymbol_isTameSymbol`.) No assumption beyond "Noetherian local of dimension
+one" is made;
 in particular `A` need not be a domain or reduced.
 
 ## Main definitions

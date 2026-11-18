@@ -86,7 +86,8 @@ two instances, and `PresheafOfModules.tensorSheafStalkEquiv` (Tag 01CB) is algeb
   `exteriorPowerStalkEquiv_extComplex_f_germ`: the stalk of the first map on the germ of
   `m ⊗ s₁ ∧ ⋯ ∧ s_k`, before and after the identifications of Tag 01CH.
 * `SheafOfModules.ExtPresentation.exteriorPowerStalkEquiv_extComplex_f`: **the stalk of the first
-  map of the sequence is `ExtPow.beta`**, the algebraic map `m ⊗ y ↦ qₓ(m) ∧ y` of Stacks 00DO.
+  map of the sequence is `ExtPow.beta`**, the algebraic map `m ⊗ y ↦ qₓ(m) ∧ y` of Stacks 00DO;
+  `exteriorPowerStalkEquiv_extComplex_f_comp` is the same statement as an identity of linear maps.
 * `SheafOfModules.ExtPresentation.exteriorPresentation_exact`: **Stacks Tag 01CJ for exterior
   powers.** The sequence is exact at the middle term and its second map is an epimorphism.
 
@@ -300,6 +301,26 @@ private theorem equiv_comp_apply_eq {R M N P Q : Type*} [CommRing R] [AddCommGro
     (h : e₂.toLinearMap.comp (f.comp e₁.symm.toLinearMap) = g) (t : M) : e₂ (f t) = g (e₁ t) :=
   (congrArg (fun z => e₂ (f z)) (e₁.symm_apply_apply t).symm).trans (DFunLike.congr_fun h _)
 
+/-- To evaluate `e₂ ∘ f ∘ e₁⁻¹` at `e₁ m`, evaluate `e₂ ∘ f` at `m`. -/
+private theorem equiv_comp_symm_apply_of_eq {R M N P Q : Type*} [CommRing R] [AddCommGroup M]
+    [AddCommGroup N] [AddCommGroup P] [AddCommGroup Q] [Module R M] [Module R N] [Module R P]
+    [Module R Q] (e₁ : M ≃ₗ[R] N) (e₂ : P ≃ₗ[R] Q) (f : M →ₗ[R] P) {m : M} {t : N} {y : Q}
+    (hm : e₁ m = t) (h : e₂ (f m) = y) :
+    e₂.toLinearMap.comp (f.comp e₁.symm.toLinearMap) t = y := by
+  subst hm
+  exact (congrArg (fun z => e₂ (f z)) (e₁.symm_apply_apply m)).trans h
+
+/-- Two linear maps out of `M ⊗ ⋀^k N` agree once they agree on every `m ⊗ (n₁ ∧ ⋯ ∧ n_k)`. -/
+private theorem tensorProduct_exteriorPower_ext {R M N Q : Type*} [CommRing R] [AddCommGroup M]
+    [Module R M] [AddCommGroup N] [Module R N] [AddCommGroup Q] [Module R Q] {k : ℕ}
+    {F G : M ⊗[R] ⋀[R]^k N →ₗ[R] Q}
+    (h : ∀ (m : M) (s : Fin k → N), F (m ⊗ₜ exteriorPower.ιMulti R k s) =
+      G (m ⊗ₜ exteriorPower.ιMulti R k s)) :
+    F = G :=
+  TensorProduct.ext' fun m y => DFunLike.congr_fun
+    (ExteriorAlgebra.powExtₛₗ (f := F ∘ₗ TensorProduct.mk R M _ m)
+      (g := G ∘ₗ TensorProduct.mk R M _ m) (h m)) y
+
 /-- **The comparison homomorphism is `⋀ⁿ` of `p` on stalks.** The stalk at `x` of the second map
 of the sequence of Tag 01CJ is the `n`-th exterior power of the stalk of `p`, read through the
 identification `SheafOfModules.exteriorPowerStalkEquiv` of the stalks of the exterior powers with
@@ -511,73 +532,50 @@ theorem exteriorPowerStalkEquiv_extComplex_f_germ (k : ℕ) (x : ↥X) (U : Open
 
 /-! ### The first map of the complex on every stalk element -/
 
-/-- **The stalk of the first map of the sequence of Tag 01CJ is `ExtPow.beta`.** Read through the
-identification of the stalk of `M₂ ⊗ ⋀^k(M₁)` with `M₂ₓ ⊗ ⋀^k(M₁ₓ)` on the source and the
-exterior clause of Tag 01CH on the target, the stalk at `x` of
-`SheafOfModules.GradedAlgebra.generatorMul (q ≫ ι) k` is the algebraic map
+/-- **The stalk of the first map of the sequence of Tag 01CJ is `ExtPow.beta`, as an identity of
+linear maps.** Read through the identification of the stalk of `M₂ ⊗ ⋀^k(M₁)` with
+`M₂ₓ ⊗ ⋀^k(M₁ₓ)` on the source and the exterior clause of Tag 01CH on the target, the stalk at `x`
+of `SheafOfModules.GradedAlgebra.generatorMul (q ≫ ι) k` is the algebraic map
 `m ⊗ y ↦ qₓ(m) ∧ y` of Stacks 00DO.
 
 The identification of Tag 01CH is pinned down only on wedges of degree-one generators, so the
 proof is the germ computation `exteriorPowerStalkEquiv_extComplex_f_germ` extended by
-`ExteriorAlgebra.powExtₛₗ` in the second tensor factor and by `TensorProduct.ext'` in the
-first. -/
+`tensorProduct_exteriorPower_ext` (`TensorProduct.ext'` in the first tensor factor and
+`ExteriorAlgebra.powExtₛₗ` in the second). -/
+theorem exteriorPowerStalkEquiv_extComplex_f_comp (k : ℕ) (x : ↥X) :
+    (exteriorPowerStalkEquiv A' ι hA' (k + 1) x).toLinearMap.comp
+        ((PresheafOfModules.stalkMapL x
+            (valHom (extComplex ι κ hA' hB' p q hqp k).f)).comp
+          (extTensorStalkEquiv ι hA' k x).symm.toLinearMap) =
+      ExtPow.beta k (PresheafOfModules.stalkMapL x (valHom q)) := by
+  refine tensorProduct_exteriorPower_ext fun mbar sbar => ?_
+  refine (SymPresentation.exists_common_germ₂ M₂.val.presheaf M₁.val.presheaf x k
+    mbar sbar).elim fun U hU => hU.elim fun hx hU' => hU'.elim fun mm hU'' =>
+      hU''.elim fun ss hss => ?_
+  have hm : mbar = TopCat.Presheaf.germ M₂.val.presheaf U x hx mm := hss.1.symm
+  have hs : sbar = fun i => TopCat.Presheaf.germ M₁.val.presheaf U x hx (ss i) :=
+    (funext hss.2).symm
+  subst hm
+  subst hs
+  refine equiv_comp_symm_apply_of_eq _ _ _ (extTensorStalkEquiv_germ ι hA' k x U hx mm ss)
+    (Subtype.ext ((exteriorPowerStalkEquiv_extComplex_f_germ ι κ hA' hB' p q hqp k x U hx
+      mm ss (Fin.cons (q.val.app (op U) mm) ss) (Fin.cons_zero _ _)
+      fun i => Fin.cons_succ _ _ i).trans ?_))
+  exact (ExtPow.beta_tmul k (PresheafOfModules.stalkMapL x (valHom q))
+    (TopCat.Presheaf.germ M₂.val.presheaf U x hx mm)
+    (exteriorPower.ιMulti ↑(TopCat.Presheaf.stalk Osharp.obj x) k
+      fun i => TopCat.Presheaf.germ M₁.val.presheaf U x hx (ss i))).symm
+
+/-- **The stalk of the first map of the sequence of Tag 01CJ is `ExtPow.beta`**, pointwise: this is
+`exteriorPowerStalkEquiv_extComplex_f_comp` applied to `extTensorStalkEquiv ι hA' k x z`. -/
 theorem exteriorPowerStalkEquiv_extComplex_f (k : ℕ) (x : ↥X)
     (z : ↑(TopCat.Presheaf.stalk
       (PresheafOfModules.tensorSheafVal Osharp M₂ (A'.piece (k : ℤ))).presheaf x)) :
     exteriorPowerStalkEquiv A' ι hA' (k + 1) x
         (PresheafOfModules.stalkMapL x (valHom (extComplex ι κ hA' hB' p q hqp k).f) z) =
       ExtPow.beta k (PresheafOfModules.stalkMapL x (valHom q))
-        (extTensorStalkEquiv ι hA' k x z) := by
-  have key : (exteriorPowerStalkEquiv A' ι hA' (k + 1) x).toLinearMap.comp
-        ((PresheafOfModules.stalkMapL x
-            (valHom (extComplex ι κ hA' hB' p q hqp k).f)).comp
-          (extTensorStalkEquiv ι hA' k x).symm.toLinearMap) =
-      ExtPow.beta k (PresheafOfModules.stalkMapL x (valHom q)) := by
-    refine TensorProduct.ext' fun mbar ybar => ?_
-    have hlin : ((exteriorPowerStalkEquiv A' ι hA' (k + 1) x).toLinearMap.comp
-          ((PresheafOfModules.stalkMapL x
-              (valHom (extComplex ι κ hA' hB' p q hqp k).f)).comp
-            (extTensorStalkEquiv ι hA' k x).symm.toLinearMap)).comp
-            (TensorProduct.mk ↑(TopCat.Presheaf.stalk Osharp.obj x)
-              ↑(TopCat.Presheaf.stalk M₂.val.presheaf x) _ mbar) =
-        (ExtPow.beta k (PresheafOfModules.stalkMapL x (valHom q))).comp
-          (TensorProduct.mk ↑(TopCat.Presheaf.stalk Osharp.obj x)
-            ↑(TopCat.Presheaf.stalk M₂.val.presheaf x) _ mbar) := by
-      refine ExteriorAlgebra.powExtₛₗ fun sbar => ?_
-      refine (SymPresentation.exists_common_germ₂ M₂.val.presheaf M₁.val.presheaf x k
-        mbar sbar).elim fun U hU => hU.elim fun hx hU' => hU'.elim fun mm hU'' =>
-          hU''.elim fun ss hss => ?_
-      have hm : mbar = TopCat.Presheaf.germ M₂.val.presheaf U x hx mm := hss.1.symm
-      have hs : sbar = fun i => TopCat.Presheaf.germ M₁.val.presheaf U x hx (ss i) :=
-        (funext hss.2).symm
-      subst hm
-      subst hs
-      have hsymm : (extTensorStalkEquiv ι hA' k x).symm
-            (TopCat.Presheaf.germ M₂.val.presheaf U x hx mm ⊗ₜ
-              exteriorPower.ιMulti ↑(TopCat.Presheaf.stalk Osharp.obj x) k
-                fun i => TopCat.Presheaf.germ M₁.val.presheaf U x hx (ss i)) =
-          PresheafOfModules.tensorSheafGerm Osharp M₂ (A'.piece (k : ℤ)) x U hx mm
-            (A'.toPresheafGradedAlgebra.homogeneousProd (op U) k
-              fun i => ι.val.app (op U) (ss i)) :=
-        (extTensorStalkEquiv ι hA' k x).symm_apply_eq.2
-          (extTensorStalkEquiv_germ ι hA' k x U hx mm ss).symm
-      refine Subtype.ext (Eq.trans (congrArg
-        (fun y => ((exteriorPowerStalkEquiv A' ι hA' (k + 1) x
-          (PresheafOfModules.stalkMapL x
-            (valHom (extComplex ι κ hA' hB' p q hqp k).f) y) :
-            ⋀[↑(TopCat.Presheaf.stalk Osharp.obj x)]^(k + 1)
-              ↑(TopCat.Presheaf.stalk M₁.val.presheaf x)) :
-            ExteriorAlgebra ↑(TopCat.Presheaf.stalk Osharp.obj x)
-              ↑(TopCat.Presheaf.stalk M₁.val.presheaf x))) hsymm) ?_)
-      refine Eq.trans (exteriorPowerStalkEquiv_extComplex_f_germ ι κ hA' hB' p q hqp k x U hx
-        mm ss (Fin.cons (q.val.app (op U) mm) ss) (Fin.cons_zero _ _)
-        fun i => Fin.cons_succ _ _ i) ?_
-      exact (ExtPow.beta_tmul k (PresheafOfModules.stalkMapL x (valHom q))
-        (TopCat.Presheaf.germ M₂.val.presheaf U x hx mm)
-        (exteriorPower.ιMulti ↑(TopCat.Presheaf.stalk Osharp.obj x) k
-          fun i => TopCat.Presheaf.germ M₁.val.presheaf U x hx (ss i))).symm
-    exact DFunLike.congr_fun hlin ybar
-  exact equiv_comp_apply_eq _ _ _ _ key z
+        (extTensorStalkEquiv ι hA' k x z) :=
+  equiv_comp_apply_eq _ _ _ _ (exteriorPowerStalkEquiv_extComplex_f_comp ι κ hA' hB' p q hqp k x) z
 
 /-! ### Exactness -/
 

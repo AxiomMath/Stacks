@@ -386,7 +386,13 @@ theorem externalTensorProductExactPairing_coevaluation (E : X.Modules) (G : Y.Mo
             (structureSheafRing (Limits.pullback f g).toRingedSpace).property
             ((Scheme.Modules.pullback (Limits.pullback.fst f g)).obj (dualSheaf E))
             ((Scheme.Modules.pullback (Limits.pullback.snd f g)).obj (dualSheaf G))).inv :=
-  rfl
+  (@exactPairingCongrRight_coevaluation _ _ (onSpaceModulesMonoidal (Limits.pullback f g)) _ _ _
+    (@ExactPairing.tensor _ _ (onSpaceModulesMonoidal (Limits.pullback f g)) _ _ _ _
+      (externalTensorProductFirstPairing f g E hE)
+      (externalTensorProductSecondPairing f g G hG)) _).trans
+    (congrArg (· ≫ _) (@ExactPairing.tensor_coevaluation_eq _ _
+      (onSpaceModulesMonoidal (Limits.pullback f g)) _ _ _ _
+      (externalTensorProductFirstPairing f g E hE) (externalTensorProductSecondPairing f g G hG)))
 
 /-- **The evaluation of `ℰ^∨ ⊠ 𝒢^∨` as a left dual of `ℰ ⊠ 𝒢`, computed factorwise.** It is
 the symmetry of the tensor product sheaf followed by the nested pairing
@@ -528,7 +534,10 @@ theorem externalTensorDualTensorHomEquiv_externalTensorProductMap
             ((Scheme.Modules.pullback (Limits.pullback.snd f g)).obj (dualSheaf G))).inv := by
   rw [externalTensorDualTensorHomEquiv_eq_coevaluation_comp,
     externalTensorProductMap_eq_tensorHom]
-  exact @coevaluation_congrRight_tensor_comp_whiskerRight_tensorHom _ _
+  -- The lemma is stated at the monoidal products `pr₁^*ℰ ⊗ pr₂^*𝒢`, the goal at `ℰ ⊠ 𝒢`; the two
+  -- `rfl`s match these spellings (equal by `monoidal_tensorObj`), which unifying them directly
+  -- against the goal does not do in reasonable time.
+  refine Eq.trans ?_ ((@coevaluation_congrRight_tensor_comp_whiskerRight_tensorHom _ _
     (onSpaceModulesMonoidal (Limits.pullback f g)) _ _ _ _ _ _ _
     (externalTensorProductFirstPairing f g E hE)
     (externalTensorProductSecondPairing f g G hG)
@@ -538,7 +547,7 @@ theorem externalTensorDualTensorHomEquiv_externalTensorProductMap
       ((Scheme.Modules.pullback (Limits.pullback.fst f g)).obj (dualSheaf E))
       ((Scheme.Modules.pullback (Limits.pullback.snd f g)).obj (dualSheaf G)))
     ((Scheme.Modules.pullback (Limits.pullback.fst f g)).map a)
-    ((Scheme.Modules.pullback (Limits.pullback.snd f g)).map b)
+    ((Scheme.Modules.pullback (Limits.pullback.snd f g)).map b)).trans ?_) <;> rfl
 
 /-- **The value of the duality bijection at a pure map `a ⊠ b`, as a product of the two factor
 sections.**  The nested section of

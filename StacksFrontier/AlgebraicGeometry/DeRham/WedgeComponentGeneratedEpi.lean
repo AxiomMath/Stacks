@@ -229,7 +229,7 @@ theorem apply_toTensorSheafSection_eq_zero_of_mem_spanSubmodule
       intro y
       refine Eq.trans (congrArg (g.val.app U) ?_) (map_zero (g.val.app U).hom)
       exact Eq.trans (congrArg (toTensorSheafSection X M N U) (TensorProduct.zero_tmul _ y))
-        (map_zero ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
+        (map_zero (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (O := X.presheaf) M.val N.val)).app U).hom)
   | add z w _ _ ihz ihw =>
       intro y
@@ -237,9 +237,8 @@ theorem apply_toTensorSheafSection_eq_zero_of_mem_spanSubmodule
           toTensorSheafSection X M N U (z ⊗ₜ[X.presheaf.obj U] y) +
             toTensorSheafSection X M N U (w ⊗ₜ[X.presheaf.obj U] y) :=
         Eq.trans (congrArg (toTensorSheafSection X M N U) (TensorProduct.add_tmul z w y))
-          (map_add ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-            (PresheafOfModules.tensorObj (O := X.presheaf) M.val N.val)).app U).hom
-            _ _)
+          (map_add (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
+            (PresheafOfModules.tensorObj (O := X.presheaf) M.val N.val)).app U).hom _ _)
       refine Eq.trans (congrArg (g.val.app U) h1) ?_
       exact Eq.trans (map_add (g.val.app U).hom _ _)
         (Eq.trans (congrArg₂ (· + ·) (ihz y) (ihw y)) (add_zero 0))

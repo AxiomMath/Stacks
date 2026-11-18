@@ -33,6 +33,8 @@ of ringed topoi splits into the inverse-image factor and the factor treated here
   natural transformation `(- ⊗ -) ⋙ extendScalars ⟶ (extendScalars × extendScalars) ⋙ (- ⊗ -)`,
   which is the shape `Stacks.ProjectionFormula.adjunctionTensorMapSnd` consumes.
 * `Stacks.ExtendScalarsProjection.extendScalarsProjectionMap`: the projection-formula map above.
+* `Stacks.ExtendScalarsProjection.restrictScalarsTensorSheafificationIso`: restriction of scalars
+  commutes with the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`.
 
 ## Main results
 
@@ -72,11 +74,14 @@ being morphisms out of a tensor product sheaf. Its inputs are:
 
 The two morphisms do not literally have the same target: the projection-formula map lands in the
 restriction of scalars of a sheafification and the cancellation in the sheafification of a
-restriction of scalars. The comparison of the two is
-`AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso`, which is the identity on
-sections; `Stacks.SheafOfModules.ExtendScalarsTensor.sheafifyRestrictIso` is the same comparison
-under the stronger `HasSheafify` hypothesis of its section, which is why the weaker spelling is
-the one used here.
+restriction of scalars. The comparison of the two is `restrictScalarsTensorSheafificationIso`:
+`AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso` (the identity on sections)
+read through `Stacks.SheafOfModules.Tensor.sheafificationIso` on both sides, so that it carries
+the sealed sheafification unit over `O₂` to the one over `O₁`
+(`restrictScalarsTensorSheafificationIso_hom_app_unit`).
+`Stacks.SheafOfModules.ExtendScalarsTensor.sheafifyRestrictIso` is the same comparison for
+Mathlib's sheafification under the stronger `HasSheafify` hypothesis of its section, which is why
+the weaker spelling is the one used here.
 
 **Why the computation is a term and not a rewrite.** The two spellings of the sheaf of rings
 underlying a sheaf of commutative rings — `CategoryTheory.sheafCompose` applied to it, and the
@@ -180,27 +185,25 @@ def extendScalarsProjectionMap (H : SheafOfModules.{w} (Stacks.SheafOfModules.Te
 presheaves of `O₁`-modules of `Stacks.FlatChangeOfRings.presheafCancelComparison'` is not itself
 invertible — its second factor is a sheafification unit — but its sheafification is, because on
 underlying sheaves of abelian groups it is
-`Stacks.FlatChangeOfRings.cancelExtendScalarsTensorSheafIso'`, and `SheafOfModules.toSheaf`
+`Stacks.FlatChangeOfRings.cancelExtendScalarsTensorSheafIso'` up to the comparisons
+`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`, and `SheafOfModules.toSheaf`
 reflects isomorphisms. -/
 lemma isIso_sheafification_map_presheafCancelComparison'
     (H : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
-    IsIso ((PresheafOfModules.sheafification
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁) (𝟙 _)).map
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification O₁).map
       (presheafCancelComparison' α H G)) := by
-  have h : (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁)).map
-        ((PresheafOfModules.sheafification
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁) (𝟙 _)).map
-          (presheafCancelComparison' α H G)) =
-      (cancelExtendScalarsTensorSheafIso' α H G).hom := by
-    rw [cancelExtendScalarsTensorSheafIso'_hom]
-    rfl
-  have : IsIso ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁)).map
-      ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁) (𝟙 _)).map
-        (presheafCancelComparison' α H G))) := by
-    rw [h]
-    exact (cancelExtendScalarsTensorSheafIso' α H G).isIso_hom
-  exact isIso_of_reflects_iso _ (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
+  have hc := (Iso.eq_comp_inv _).mp ((cancelExtendScalarsTensorSheafIso'_hom α H G).trans
+    (Category.assoc _ _ _).symm)
+  simp only [Iso.app_hom] at hc
+  rw [← isIso_iff_of_reflects_iso _
+      (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁)),
+    ← Functor.comp_map,
+    ← NatIso.naturality_2 (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₁),
+    Functor.comp_map, ← Category.assoc, ← hc]
+  exact IsIso.comp_isIso' (IsIso.comp_isIso' (cancelExtendScalarsTensorSheafIso' α H G).isIso_hom
+    ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₂).app _).isIso_hom)
+    ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₁).app _).isIso_inv
 
 /-- **The projection-formula map at a bifunctor given in curried form**, decomposed into the unit
 of the adjunction and the restriction of the comparison followed by the counit in the second
@@ -231,9 +234,126 @@ private lemma adjunctionTensorMapSnd_uncurry {C' D' : Type*} [Category C'] [Cate
   unfold Stacks.ProjectionFormula.adjunctionTensorMapSnd
   rw [Adjunction.homEquiv_unit, h]
 
+/-- **Restriction of scalars commutes with the sealed sheafification**
+`Stacks.SheafOfModules.Tensor.sheafification`: the comparison
+`AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso`, read through
+`Stacks.SheafOfModules.Tensor.sheafificationIso` on both sides. -/
+def restrictScalarsTensorSheafificationIso
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj) :
+    (SheafOfModules.restrictScalars (ringSheafMap α)).obj
+        ((Stacks.SheafOfModules.Tensor.sheafification O₂).obj P) ≅
+      (Stacks.SheafOfModules.Tensor.sheafification O₁).obj
+        ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P) :=
+  (SheafOfModules.restrictScalars (ringSheafMap α)).mapIso
+      ((Stacks.SheafOfModules.Tensor.sheafificationIso O₂).app P).symm ≪≫
+    AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso (ringSheafMap α) P ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafificationIso O₁).app _
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- The unit of the sealed sheafification, followed by
+`Stacks.SheafOfModules.Tensor.sheafificationIso` backwards, is Mathlib's sheafification unit, on
+sections. -/
+private lemma sheafificationIso_inv_app_forgetUnit_apply (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) (U : Cᵒᵖ)
+    (z : P.obj U) :
+    PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso O).inv.app P).val U
+        (PresheafOfModules.Hom.app
+          ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P) U z) =
+      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P) U z := by
+  have h : ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P ≫
+      (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
+        PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso O).hom.app P)) ≫
+      (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
+        PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso O).inv.app P) =
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P := by
+    rw [Category.assoc, ← Functor.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
+    exact Category.comp_id _
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply,
+    ← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app O P]
+  exact PresheafOfModules.hom_congr_apply' h U z
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- Mathlib's sheafification unit, followed by `Stacks.SheafOfModules.Tensor.sheafificationIso`,
+is the unit of the sealed sheafification, on sections. -/
+private lemma sheafificationIso_hom_app_unit_apply (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) (U : Cᵒᵖ)
+    (z : P.obj U) :
+    PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso O).hom.app P).val U
+        (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P) U z) =
+      PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P) U z := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply,
+    ← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app O P]
+  rfl
+
+/-- On sections, `restrictScalarsTensorSheafificationIso` is the composite of its three factors. -/
+private lemma restrictScalarsTensorSheafificationIso_hom_app_apply
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj) (U : Cᵒᵖ)
+    (t : ((Stacks.SheafOfModules.Tensor.sheafification O₂).obj P).val.obj U) :
+    PresheafOfModules.Hom.app (restrictScalarsTensorSheafificationIso α P).hom.val U t =
+      PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso O₁).hom.app
+          ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P)).val U
+        (PresheafOfModules.Hom.app
+          (AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso
+            (ringSheafMap α) P).hom.val U
+          (PresheafOfModules.Hom.app
+            ((Stacks.SheafOfModules.Tensor.sheafificationIso O₂).inv.app P).val U t)) :=
+  rfl
+
+/-- `AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso` carries the image of a
+section under Mathlib's sheafification unit over `O₂` to its image under the unit over `O₁`. -/
+private lemma restrictScalarsSheafificationIso_hom_app_unit_apply
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj) (U : Cᵒᵖ)
+    (z : P.obj U) :
+    PresheafOfModules.Hom.app
+        (AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso
+          (ringSheafMap α) P).hom.val U
+        (PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app P) U z) =
+      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj)).unit.app
+        ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P)) U z := by
+  rw [PresheafOfModules.sheafificationAdjunction_unit_app_eq,
+    PresheafOfModules.sheafificationAdjunction_unit_app_eq]
+  rfl
+
+/-- `restrictScalarsTensorSheafificationIso` carries the image of a section under the unit of the
+sealed sheafification over `O₂` to its image under the unit over `O₁`. -/
+lemma restrictScalarsTensorSheafificationIso_hom_app_unit
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj) (U : Cᵒᵖ)
+    (z : P.obj U) :
+    (restrictScalarsTensorSheafificationIso α P).hom.val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app P).app U z) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₁).unit.app
+        ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P)).app U z :=
+  (restrictScalarsTensorSheafificationIso_hom_app_apply α P U _).trans
+    ((congrArg (fun w ↦ PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso O₁).hom.app
+          ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P)).val U
+        (PresheafOfModules.Hom.app
+          (AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso
+            (ringSheafMap α) P).hom.val U w))
+      (sheafificationIso_inv_app_forgetUnit_apply O₂ P U z)).trans
+    ((congrArg (fun w ↦ PresheafOfModules.Hom.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationIso O₁).hom.app
+          ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P)).val U w)
+      (restrictScalarsSheafificationIso_hom_app_unit_apply α P U z)).trans
+    (sheafificationIso_hom_app_unit_apply O₁
+      ((PresheafOfModules.restrictScalars (ringSheafMap α).hom).obj P) U z)))
+
 open Stacks.SheafOfModules.RingedToposPullback in
 /-- **The projection-formula map of Stacks 03CZ is the cancellation of a base change.** Composed
-with the comparison of restriction of scalars with sheafification, the map
+with the comparison `restrictScalarsTensorSheafificationIso` of restriction of scalars with the
+sealed sheafification, the map
 
 `H ⊗_{O₁} G|_{O₁} ⟶ ((O₂ ⊗_{O₁} H) ⊗_{O₂} G)|_{O₁}`
 
@@ -249,10 +369,8 @@ right-hand side carries it to the image of `(1 ⊗ x) ⊗ y`. -/
 theorem extendScalarsProjectionMap_comp_restrictScalarsSheafificationIso
     (H : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
-    extendScalarsProjectionMap α H G ≫
-        (AlgebraicGeometry.SheafOfModules.restrictScalarsSheafificationIso _ _).hom =
-      (PresheafOfModules.sheafification
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁) (𝟙 _)).map
+    extendScalarsProjectionMap α H G ≫ (restrictScalarsTensorSheafificationIso α _).hom =
+      (Stacks.SheafOfModules.Tensor.sheafification O₁).map
         (presheafCancelComparison' α H G) := by
   refine Stacks.SheafOfModules.FlatSquareZero.tensorSheaf_hom_ext O₁ H
     ((SheafOfModules.restrictScalars (commRingSheafMap J α.hom
@@ -263,7 +381,8 @@ theorem extendScalarsProjectionMap_comp_restrictScalarsSheafificationIso
       (extendRestrictScalarsAdjunction J α.hom (isSheaf_ringPresheaf_obj O₁)
         (isSheaf_ringPresheaf_obj O₂)) _ _ (extendScalarsTensorNatTrans α) H G
   rw [key]
-  have e1 := extendScalarsTensorIso_hom_val_app_unit_tmul α.hom
+  have e1 :=
+    Stacks.SheafOfModules.RingedToposPullback.extendScalarsTensorIso_hom_val_app_unit_tmul α.hom
     (isSheaf_ringPresheaf_obj O₁) (isSheaf_ringPresheaf_obj O₂) H
     ((SheafOfModules.restrictScalars (commRingSheafMap J α.hom
       (isSheaf_ringPresheaf_obj O₁) (isSheaf_ringPresheaf_obj O₂))).obj G) U x y
@@ -294,18 +413,18 @@ theorem extendScalarsProjectionMap_comp_restrictScalarsSheafificationIso
         (R := commRingSheaf J O₂.obj (isSheaf_ringPresheaf_obj O₂)) (𝟙 _)).unit.app
       ((changeOfRings α.hom).obj H.val)).app U z)
       (changeOfRingsAdjunction_unit_app_apply α.hom H.val U x))
-  have e5 := sheafificationUnit_naturality_app (isSheaf_ringPresheaf_obj O₁)
-    (presheafCancelComparison' α H G) U (x ⊗ₜ[O₁.obj.obj U] y)
+  have e5 := congrArg (fun m ↦ m.app U (x ⊗ₜ[O₁.obj.obj U] y))
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₁).unit.naturality
+      (presheafCancelComparison' α H G))
   have e6 := presheafCancelComparison'_apply α H G U x y
-  exact ((((congrArg (fun z ↦ (((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) O₂).obj
+  have chain := ((((congrArg (fun z ↦ (((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) O₂).obj
                 ((Stacks.Sheaves.RingedToposModules.extendScalars J α.hom
                   (isSheaf_ringPresheaf_obj O₁)
                   (isSheaf_ringPresheaf_obj O₂)).obj H)).map
               ((extendRestrictScalarsAdjunction J α.hom (isSheaf_ringPresheaf_obj O₁)
                 (isSheaf_ringPresheaf_obj O₂)).counit.app G)).val.app U z) e1).trans e2).trans
-          (congrArg (fun q ↦ ((PresheafOfModules.sheafificationAdjunction.{w, v, w, u}
-                (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+          (congrArg (fun q ↦
+              ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
               (PresheafOfModules.tensorObj (O := O₂.obj)
                 ((Stacks.Sheaves.RingedToposModules.extendScalars J α.hom
                   (isSheaf_ringPresheaf_obj O₁)
@@ -313,22 +432,21 @@ theorem extendScalarsProjectionMap_comp_restrictScalarsSheafificationIso
             ((((extendRestrictScalarsAdjunction J α.hom (isSheaf_ringPresheaf_obj O₁)
               (isSheaf_ringPresheaf_obj O₂)).unit.app H).val.app U x) ⊗ₜ[O₂.obj.obj U] q))
             e3)).trans
-        (congrArg (fun p ↦ ((PresheafOfModules.sheafificationAdjunction.{w, v, w, u}
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+        (congrArg (fun p ↦
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
             (PresheafOfModules.tensorObj (O := O₂.obj)
               ((Stacks.Sheaves.RingedToposModules.extendScalars J α.hom
                 (isSheaf_ringPresheaf_obj O₁)
                 (isSheaf_ringPresheaf_obj O₂)).obj H).val G.val)).app U
           (p ⊗ₜ[O₂.obj.obj U] y)) e4)).trans
-      ((congrArg (fun z ↦ ((PresheafOfModules.sheafificationAdjunction.{w, v, w, u}
-            (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
+      ((congrArg (fun z ↦ ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₂).unit.app
           (PresheafOfModules.tensorObj (O := O₂.obj)
             ((Stacks.Sheaves.RingedToposModules.extendScalars J α.hom
               (isSheaf_ringPresheaf_obj O₁)
               (isSheaf_ringPresheaf_obj O₂)).obj H).val G.val)).app U z)
-        e6.symm).trans e5.symm)
+        e6.symm))
+  exact (congrArg (fun z ↦ (restrictScalarsTensorSheafificationIso α _).hom.val.app U z)
+      chain).trans ((restrictScalarsTensorSheafificationIso_hom_app_unit α _ U _).trans e5)
 
 /-- **The projection-formula map of the adjunction of Stacks 03CZ is an isomorphism**:
 
@@ -345,12 +463,11 @@ theorem isIso_extendScalarsProjectionMap
     (H : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
     IsIso (extendScalarsProjectionMap α H G) := by
-  have hiso : IsIso ((PresheafOfModules.sheafification
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁) (𝟙 _)).map
+  have hiso : IsIso ((Stacks.SheafOfModules.Tensor.sheafification O₁).map
         (presheafCancelComparison' α H G)) :=
     isIso_sheafification_map_presheafCancelComparison' α H G
   obtain ⟨e, he⟩ : ∃ e : _ ≅ _, extendScalarsProjectionMap α H G ≫ e.hom =
-      (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O₁) (𝟙 _)).map
+      (Stacks.SheafOfModules.Tensor.sheafification O₁).map
         (presheafCancelComparison' α H G) :=
     ⟨_, extendScalarsProjectionMap_comp_restrictScalarsSheafificationIso α H G⟩
   have he' : IsIso e.hom := e.isIso_hom

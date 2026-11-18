@@ -186,7 +186,7 @@ theorem dvd_ramificationIdx_of_pow_eq
       IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap, hvπ, ← WithZero.exp_nsmul,
       Ideal.ramificationIdx'_eq_ramificationIdx mA m (IsDiscreteValuationRing.not_a_field A)]
     congr 1
-    simp [vA, vB, mA]
+    simp [vB]
   have hle : ∀ y : E, IsIntegral A y → vB.valuation E y ≤ 1 := by
     intro y hy
     have hy' : y = algebraMap B E ⟨y, (mem_integralClosure_iff A E).mpr hy⟩ := rfl
@@ -517,7 +517,7 @@ theorem exists_isGalois_totallyRamified_of_kummer
   have hext : ∀ g₁ g₂ : AdjoinRoot f →ₐ[K] AdjoinRoot f, (∀ y, g₁ (ι y) = g₂ (ι y)) →
       g₁ θ = g₂ θ → g₁ = g₂ := by
     intro g₁ g₂ h1 h2
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply AdjoinRoot.ringHom_ext
     · ext y
       simpa [hιof] using h1 y

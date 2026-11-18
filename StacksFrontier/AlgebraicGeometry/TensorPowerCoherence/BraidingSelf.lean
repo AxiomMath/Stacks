@@ -237,7 +237,7 @@ theorem tensorProductBraiding_self
   let A := L.val
   let B := N.val
   let I := SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-  let e' : F.obj (A ⊗ B) ≅ I := e
+  let e' : F.obj (A ⊗ B) ≅ I := sheafifyIsoSheafTensor O hO L N ≪≫ e
   let E : A ⊗ B ⟶ I.val := toSheafifyVal O hO (A ⊗ B) ≫ e'.hom.val
   have : IsIso (F.map E) := by
     have h1 : IsIso (F.map (toSheafifyVal O hO (A ⊗ B))) :=
@@ -296,7 +296,11 @@ theorem tensorProductBraiding_self
       hw, Category.comp_id, id_whiskerRight, Category.id_comp]
   let i : F.obj (B ⊗ B) ⊗ F.obj (A ⊗ A) ≅ 𝟙_ _ :=
     (β_ _ _) ≪≫ Functor.Monoidal.μIso F _ _ ≪≫ (F.mapIso (pairShuffle A B)).symm ≪≫ b
-  exact Iso.ext (cancel_tensor_right i _ _ hw')
+  have hβ : F.map (β_ A A).hom = 𝟙 _ := cancel_tensor_right i _ _ hw'
+  refine Iso.ext
+    ((Iso.cancel_iso_hom_left ((sheafifyIsoSheafification O hO).app (A ⊗ A)) _ _).mp ?_)
+  exact ((sheafifyIsoSheafification O hO).hom.naturality (β_ A A).hom).symm.trans
+    (by rw [hβ, Category.id_comp]; exact (Category.comp_id _).symm)
 
 /-- **The braiding of an invertible sheaf of modules with itself is the identity**, in the
 spelling of the monoidal structure on sheaves of modules. This is the form the commutativity

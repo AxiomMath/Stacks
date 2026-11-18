@@ -90,7 +90,8 @@ is automatic, and the source uses the Noetherian hypothesis for nothing else.
 ## Main results
 
 * `AdicCompletion.isAdicComplete_and_pow_smul_top_eq_range_ofPowSMul_and_bijective_liftQ_eval`:
-  the three assertions of Stacks 031C, in `StacksFrontier.RingTheory.AdicCompletion.NoetherianQuotPow`.
+  the three assertions of Stacks 031C, in
+  `StacksFrontier.RingTheory.AdicCompletion.NoetherianQuotPow`.
 * `AdicCompletion.instIsAdicComplete`: over a Noetherian ring, `AdicCompletion I M` is
   `I`-adically complete — as an instance, so that completeness of a completion is available to
   type class inference.

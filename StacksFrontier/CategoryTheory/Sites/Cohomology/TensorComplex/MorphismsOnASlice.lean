@@ -28,6 +28,10 @@ Hom complex `SheafHom(Tot(K ⊗_O L), M)` over `U` are the degree-`n` cochains f
 * `CategoryTheory.GradedObject.descMapObjOfPreserves`: a morphism out of the image of
   `GradedObject.mapObj` under a functor preserving the relevant coproducts, from a family of
   morphisms out of the images of the summands.
+* `AlgebraicGeometry.RingedSite.overSheafTensorHomEquiv` and
+  `AlgebraicGeometry.RingedSite.overSheafTensorLift`: a morphism of sheaves of `O|_U`-modules out
+  of the restriction `(A ⊗_O B)|_U` of a sheaf tensor product is the same thing as a morphism of
+  presheaves of `O|_U`-modules out of the restricted objectwise tensor product `(A ⊗ B)|_U`.
 * `AlgebraicGeometry.RingedSite.tensorComplexOverι`: the restriction to the site over `U` of
   the inclusion of the `(t, r)` summand.
 * `AlgebraicGeometry.RingedSite.tensorComplexOverDesc`: a morphism out of
@@ -41,11 +45,16 @@ Hom complex `SheafHom(Tot(K ⊗_O L), M)` over `U` are the degree-`n` cochains f
 
 * `CategoryTheory.GradedObject.ι_descMapObjOfPreserves` and
   `CategoryTheory.GradedObject.mapObj_ext_of_preserves`: the universal property.
+* `AlgebraicGeometry.RingedSite.overSheafTensorUnit_comp_overSheafTensorLift` and
+  `AlgebraicGeometry.RingedSite.overSheafTensor_hom_ext`: the universal property of a sheaf
+  tensor product on a slice.
 * `AlgebraicGeometry.RingedSite.ι_tensorComplexOverDesc` and
   `AlgebraicGeometry.RingedSite.tensorComplexOver_hom_ext`: the universal property of the
   restricted coproduct.
-* `AlgebraicGeometry.RingedSite.tensorComplexOverMk_section`: `tensorComplexOverMk f` takes the
-  restricted pure tensor to the value of `f` on it.
+* `AlgebraicGeometry.RingedSite.ι_tensorComplexOverMk` and
+  `AlgebraicGeometry.RingedSite.tensorComplexOverMk_section`: `tensorComplexOverMk f` restricts on
+  each summand to the morphism determined by `f`, and takes the restricted pure tensor to the
+  value of `f` on it.
 * `AlgebraicGeometry.RingedSite.tensorComplexOverSection_hom_ext`: a morphism out of
   `(Tot(K ⊗_O L)^c)|_U` is determined by its values on the restricted pure tensors.
 
@@ -70,8 +79,22 @@ sections. Nothing is re-derived here.
 The monoidal structure on presheaves of modules is the one of
 `StacksDraft.Ch21.Sec34.RingedSiteMonoidalInstances`, switched on file-locally exactly as in
 `StacksDraft.Ch21.Sec34.TensorTotalComplex`; `sheafTensor_eq_sheafifyModules` records that
-Section 17's sheaf tensor product is the sheafification of that objectwise tensor product, which
-is what lets `overSheafifyLift` apply to each summand with no transport.
+Section 17's sheaf tensor product is the sheafification of that objectwise tensor product.
+
+By definition, Section 17's sheaf tensor product ends with the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification`, whereas `overSheafifyHomEquiv` is stated for
+Mathlib's sheafification `sheafifyModules`. Both are left adjoint to the forgetful functor, so
+`Stacks.SheafOfModules.Tensor.sheafificationIso` identifies them compatibly with the units,
+and `overSheafTensorHomEquiv` is `overSheafifyHomEquiv` transported along that identification;
+no equation between the two functors is used. It is stated for `((sheafTensor X.O).obj A).obj B`
+itself rather than for `(sheafification X.O).obj (A.val ⊗ B.val)`: the two spellings agree only
+after unfolding `sheafTensor`, and this way only the definitions of `overSheafTensorUnit` and
+`overSheafTensorHomEquiv` cross between them, never the proofs below. For the same reason
+`overSheafTensorLift` is a definition of its own, as `overSheafifyLift` is, rather than
+`overSheafTensorHomEquiv.symm`: the bodies of the definitions here carry the instance
+`IsRightCancelAdd ℤ` as an auxiliary lemma, so an unfolded body differs from a statement by
+proof irrelevance, and unification resolves that cheaply under a definition but only after
+unfolding the equivalence under the reducible head `DFunLike.coe`.
 
 ## References
 
@@ -137,7 +160,78 @@ lemma sheafTensor_eq_sheafifyModules
     (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).obj B =
       sheafifyModules X (A.val ⊗ B.val) :=
-  rfl
+  Stacks.SheafOfModules.Tensor.sheafTensor_obj_obj X.O A B
+
+/-! ### Morphisms on a slice out of a sheaf tensor product -/
+
+/-- The restriction to the site over `U` of the sheafification unit from the objectwise tensor
+product of `A` and `B` to their sheaf tensor product. -/
+def overSheafTensorUnit (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+    overPresheaf X U (A.val ⊗ B.val) ⟶
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).obj B).over U).val :=
+  (overPresheafMap X U
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).unit.app (A.val ⊗ B.val)) :
+    overPresheaf X U (A.val ⊗ B.val) ⟶
+      (((Stacks.SheafOfModules.Tensor.sheafification X.O).obj (A.val ⊗ B.val)).over U).val)
+
+/-- The restricted unit of Mathlib's sheafification, followed by the restriction of
+`Stacks.SheafOfModules.Tensor.sheafificationIso`, is `overSheafTensorUnit`. -/
+private lemma overSheafifyUnit_comp_sheafificationIso_hom
+    (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+    overSheafifyUnit X U (A.val ⊗ B.val) ≫
+        (((Stacks.SheafOfModules.Tensor.sheafificationIso X.O).hom.app
+          (A.val ⊗ B.val)).over U).val =
+      overSheafTensorUnit X U A B :=
+  ((PresheafOfModules.pushforward _).map_comp _ _).symm.trans
+    (congrArg (PresheafOfModules.pushforward _).map
+      (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app X.O _))
+
+section
+
+variable {X U} {A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
+  {N : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)}
+
+/-- **Morphisms on a slice out of a sheaf tensor product.** Composing with `overSheafTensorUnit`
+is a bijection from the morphisms of sheaves of `O|_U`-modules `(A ⊗_O B)|_U ⟶ N` to the
+morphisms of presheaves of `O|_U`-modules `(A ⊗ B)|_U ⟶ N`. It is `overSheafifyHomEquiv`,
+transported along `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+def overSheafTensorHomEquiv :
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).obj B).over U ⟶ N) ≃
+      (overPresheaf X U (A.val ⊗ B.val) ⟶ N.val) :=
+  ((SheafOfModules.overFunctor _ U).mapIso
+    ((Stacks.SheafOfModules.Tensor.sheafificationIso X.O).app
+      (A.val ⊗ B.val))).homFromEquiv.symm.trans (overSheafifyHomEquiv X U)
+
+/-- `overSheafTensorHomEquiv` is composition with `overSheafTensorUnit`. -/
+lemma overSheafTensorHomEquiv_apply
+    (φ : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).obj B).over U ⟶
+      N) :
+    overSheafTensorHomEquiv φ = overSheafTensorUnit X U A B ≫ φ.val :=
+  (Category.assoc _ _ _).symm.trans
+    (congrArg (· ≫ φ.val) (overSheafifyUnit_comp_sheafificationIso_hom X U A B))
+
+/-- The morphism of sheaves of `O|_U`-modules out of `(A ⊗_O B)|_U` determined by a morphism of
+presheaves of `O|_U`-modules out of `(A ⊗ B)|_U`. -/
+def overSheafTensorLift (f : overPresheaf X U (A.val ⊗ B.val) ⟶ N.val) :
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).obj B).over U ⟶ N :=
+  overSheafTensorHomEquiv.symm f
+
+/-- `overSheafTensorLift f` restricts along `overSheafTensorUnit` to `f`. -/
+lemma overSheafTensorUnit_comp_overSheafTensorLift
+    (f : overPresheaf X U (A.val ⊗ B.val) ⟶ N.val) :
+    overSheafTensorUnit X U A B ≫ (overSheafTensorLift f).val = f :=
+  (overSheafTensorHomEquiv_apply _).symm.trans (overSheafTensorHomEquiv.apply_symm_apply f)
+
+/-- Two morphisms of sheaves of `O|_U`-modules out of `(A ⊗_O B)|_U` which agree after
+`overSheafTensorUnit` are equal. -/
+lemma overSheafTensor_hom_ext
+    {φ ψ : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).obj B).over U ⟶
+      N}
+    (h : overSheafTensorUnit X U A B ≫ φ.val = overSheafTensorUnit X U A B ≫ ψ.val) : φ = ψ :=
+  overSheafTensorHomEquiv.injective
+    ((overSheafTensorHomEquiv_apply φ).trans (h.trans (overSheafTensorHomEquiv_apply ψ).symm))
+
+end
 
 variable [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
@@ -247,7 +341,17 @@ def tensorComplexOverMk
     (f : ∀ (t r : ℤ) (_ : t + r = c),
       overPresheaf X U ((K.X t).val ⊗ (L.X r).val) ⟶ N.val) :
     ((((Stacks.SheafOfModules.Tensor.tensorComplex.{u, u, u} X.O).obj K).obj L).X c).over U ⟶ N :=
-  tensorComplexOverDesc (fun t r htr => overSheafifyLift X U (f t r htr))
+  tensorComplexOverDesc (fun t r htr => overSheafTensorLift (f t r htr))
+
+/-- `tensorComplexOverMk f` restricts on the `(t, r)` summand to the morphism determined by
+`f t r`. -/
+lemma ι_tensorComplexOverMk
+    (f : ∀ (t r : ℤ) (_ : t + r = c),
+      overPresheaf X U ((K.X t).val ⊗ (L.X r).val) ⟶ N.val)
+    (t r : ℤ) (htr : t + r = c) :
+    tensorComplexOverι X U K L t r c htr ≫ tensorComplexOverMk f =
+      overSheafTensorLift (f t r htr) :=
+  ι_tensorComplexOverDesc _ t r htr
 
 /-- The restricted pure tensor of a section of `K^t` and a section of `L^r` over an object
 `g : W ⟶ U` of the site over `U`, as a section of the degree-`c` term of the total tensor
@@ -257,7 +361,7 @@ def tensorComplexOverSection (t r c : ℤ) (htr : t + r = c) {W : X.C} (g : W �
     ((((Stacks.SheafOfModules.Tensor.tensorComplex.{u, u, u} X.O).obj K).obj L).X c).over U
       |>.val.obj (op (Over.mk g)) :=
   (tensorComplexOverι X U K L t r c htr).val.app (op (Over.mk g))
-    ((overSheafifyUnit X U ((K.X t).val ⊗ (L.X r).val)).app (op (Over.mk g))
+    ((overSheafTensorUnit X U (K.X t) (L.X r)).app (op (Over.mk g))
       (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l))
 
 /-- `tensorComplexOverMk f` takes the restricted pure tensor of `k` and `l` to the value of
@@ -271,9 +375,12 @@ lemma tensorComplexOverMk_section
         (tensorComplexOverSection t r c htr g k l) =
       (f t r htr).app (op (Over.mk g))
         (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l) := by
-  refine (congrArg (fun z : _ ⟶ N => z.val.app (op (Over.mk g)) _)
-    (ι_tensorComplexOverDesc (fun t r htr => overSheafifyLift X U (f t r htr)) t r htr)).trans ?_
-  exact overSheafifyLift_apply X U (f t r htr) (op (Over.mk g)) _
+  have h := congrArg (fun z => z.app (op (Over.mk g))
+    (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l))
+    (overSheafTensorUnit_comp_overSheafTensorLift (f t r htr))
+  rw [← ι_tensorComplexOverMk] at h
+  simp only [SheafOfModules.comp_val, PresheafOfModules.comp_app] at h
+  exact h
 
 /-- A morphism out of the restriction to the site over `U` of the degree-`c` term of the total
 tensor complex is determined by its values on the restricted pure tensors. -/
@@ -286,7 +393,7 @@ lemma tensorComplexOverSection_hom_ext
         ψ.val.app (op (Over.mk g)) (tensorComplexOverSection t r c htr g k l)) :
     φ = ψ := by
   refine tensorComplexOver_hom_ext fun t r htr => ?_
-  refine overSheafify_hom_ext X U ?_
+  refine overSheafTensor_hom_ext ?_
   refine PresheafOfModules.hom_ext fun V => ?_
   refine ModuleCat.MonoidalCategory.tensor_ext fun k l => ?_
   exact h t r htr V.unop.left V.unop.hom k l

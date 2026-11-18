@@ -35,7 +35,9 @@ comparison is the base-change distributivity of Mathlib's
 `TensorProduct.AlgebraTensorModule.distribBaseChange` read over each open, and the passage to
 sheaves is `Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso`, which says that
 sheafifying the sectionwise tensor product of two presheaves of modules is the tensor product of
-their sheafifications. The same chain is carried out, for `X = Spec R` and privately, in
+their sheafifications; `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` then identifies the
+sheafification it lands in with the (sealed) tensor product of sheaves of modules. The same chain
+is carried out, for `X = Spec R` and privately, in
 `StacksFrontier/AlgebraicGeometry/Schemes/ZariskiAndSeparation/AffineTensor.lean`.
 
 One link of it does **not** survive the generalisation, and the generalisation is not a
@@ -143,7 +145,11 @@ def associatedSheafTensorIso (M N : ModuleCat.{u} R) :
   (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
       (structureSheafRing X).property).mapIso (associatedPresheafTensorIso X α M N) ≪≫
     Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso X.presheaf
-      (structureSheafRing X).property (associatedPresheaf X α M) (associatedPresheaf X α N)
+      (structureSheafRing X).property (associatedPresheaf X α M) (associatedPresheaf X α N) ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+      ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf
+        (forget₂ CommRingCat RingCat) (structureSheafRing X).property⟩
+      (associatedSheaf X α M) (associatedSheaf X α N)).symm
 
 /-- **Construction (3) carries the base ring to the structure sheaf:** `ℱ_R ≅ 𝒪_X`.
 

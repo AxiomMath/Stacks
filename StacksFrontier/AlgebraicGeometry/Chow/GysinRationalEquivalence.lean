@@ -65,7 +65,8 @@ At the first Chern class component rule of `L` the vanishing is
 `Stacks.Chow.GysinOfInvertibleFactorsThroughRationalEquivalence`, stated in
 `StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceInvertible`. It is proved with no
 hypothesis, following the source's proof (a reduction to a single integral component in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceReduction`, and the integral case from
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceReduction`, and the integral case
+from
 the key formula of Stacks 0AYC), as `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`
 in `StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.GysinComponentDischarge`, where Stacks 02TO is
 registered together with the descended map `Stacks.Chow.gysinChowOfInvertible`.

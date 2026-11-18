@@ -52,11 +52,14 @@ and that of its rings are independent.
 
 The composite automorphism of `L|_U` is built functorially out of the tensor functor of Tag
 01CS: `tensorRightUnitor`, `tensorAssoc` and `tensorSelfBraid` transport the presheaf monoidal
-and symmetric structures through `Stacks.SheafOfModules.TensorSheafification.sheafify`, and the
-  `_pure` lemmas record the
-effect of each on a pure tensor of sections. Mathlib's own monoidal lemmas for
+and symmetric structures through the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` inside `sheafTensor`, and the `_pure` lemmas record
+the effect of each on a pure tensor of sections, read through the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. Mathlib's own monoidal lemmas for
 `PresheafOfModules` are proved by `rfl`, which is what lets those lemmas be discharged by
-`sheafify_map_toSheafify_apply` alone.
+`sheafify_map_toSheafify_apply` alone. The isomorphisms inverted by the sealed sheafification
+come from `Stacks.SheafOfModules.TensorSheafification` through
+`Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff`.
 
 Two places need a helper stated at an abstract category or at the global module objects, rather
 than at the module category over the slice site: `nonempty_retract_of_iso` and `tmulRight`. The
@@ -200,12 +203,9 @@ lemma exists_local_finite_tensor_representation
     change MonoidalCategory
       (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u}))
     infer_instance
-  let P := (tensorLeft L.val).obj N.val
   let σ := (PresheafOfModules.toPresheaf R.obj).map (a.ι.app N)
-  have hσ : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier) σ := by
-    change Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
-      (CategoryTheory.toSheafify (Opens.grothendieckTopology X.carrier) P.presheaf)
-    infer_instance
+  have hσ : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier) σ :=
+    Tensor.isLocallySurjective_sheafificationAdjunction_unit_app ⟨X.presheaf, X.IsSheaf⟩ _
   let s := (e.inv.val.app (Opposite.op ⊤)).hom
     (1 : R.obj.obj (Opposite.op ⊤))
   have hcov : Presheaf.imageSieve σ s ∈ Opens.grothendieckTopology X.carrier ⊤ :=
@@ -502,7 +502,7 @@ noncomputable def tensorRightFunctor
     (N : _root_.SheafOfModules.{u} (ringSheaf X)) :
     _root_.SheafOfModules.{u} (ringSheaf X) ⥤ _root_.SheafOfModules.{u} (ringSheaf X) :=
   _root_.SheafOfModules.forget (ringSheaf X) ⋙ tensorRight N.val ⋙
-    Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf X).property
+    Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩
 
 /-- Naturality of the sheafification unit, read on sections. -/
 private lemma sheafify_map_toSheafify_apply
@@ -511,18 +511,18 @@ private lemma sheafify_map_toSheafify_apply
     [(Opens.grothendieckTopology X.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
     {P Q : PresheafOfModules.{u} (ringSheaf X).obj} (f : P ⟶ Q)
     (W : Opens X) (x : P.obj (Opposite.op W)) :
-    (((Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf X).property).map
+    (((Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).map
       f).val.app
       (Opposite.op W)).hom
-        (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+        ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
           P).app
           (Opposite.op W)).hom x) =
-      ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      (((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         Q).app
         (Opposite.op W)).hom ((f.app (Opposite.op W)).hom x) := by
-  have h := (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
-    (ringSheaf X).property).unit.naturality f
-  exact (congrArg (fun q => (q.app (Opposite.op W)).hom x) h).symm
+  exact (congrArg (fun q => (q.app (Opposite.op W)).hom x)
+    ((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.naturality
+      f)).symm
 
 /-- The counit of the sheafification adjunction undoes the unit on sections of a sheaf. -/
 private lemma sheafify_counit_toSheafify_apply
@@ -531,14 +531,53 @@ private lemma sheafify_counit_toSheafify_apply
     [(Opens.grothendieckTopology X.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
     (M : _root_.SheafOfModules.{u} (ringSheaf X)) (W : Opens X)
     (m : M.val.obj (Opposite.op W)) :
-    (((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
-      (ringSheaf X).property).counit.app M).val.app (Opposite.op W)).hom
-        (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+    (((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).counit.app
+      M).val.app (Opposite.op W)).hom
+        ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
           M.val).app
-          (Opposite.op W)).hom m) = m := by
-  have h := (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
-    (ringSheaf X).property).right_triangle_components M
-  exact congrArg (fun q => (q.app (Opposite.op W)).hom m) h
+          (Opposite.op W)).hom m) = m :=
+  congrArg (fun q => (q.app (Opposite.op W)).hom m)
+    ((Tensor.sheafificationForgetAdjunction.{w, w, u, u}
+      ⟨X.presheaf, X.IsSheaf⟩).right_triangle_components M)
+
+omit [Limits.PreservesLimitsOfSize.{w, w} (forget₂ CommRingCat.{u} RingCat.{u})] in
+/-- The sealed sheafification inverts the unit of its adjunction with the forgetful functor. -/
+lemma isIso_sheafification_map_unit
+    (X : RingedSpace.{u, w})
+    [HasWeakSheafify (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+    (P : PresheafOfModules.{u} (Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj) :
+    IsIso ((Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).map
+      ((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
+        P)) := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
+/-- The sealed sheafification inverts `f ▷ Q` as soon as it inverts `f`. -/
+lemma isIso_sheafification_map_whiskerRight
+    (X : RingedSpace.{u, w})
+    [HasWeakSheafify (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+    {A B : PresheafOfModules.{u} (ringSheaf X).obj} (f : A ⟶ B)
+    (Q : PresheafOfModules.{u} (ringSheaf X).obj)
+    (hf : IsIso ((Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).map f)) :
+    IsIso ((Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).map (f ▷ Q)) :=
+  (Tensor.isIso_sheafification_map_iff (R := ⟨X.presheaf, X.IsSheaf⟩) _).2
+    (TensorSheafification.isIso_sheafify_map_whiskerRight X.presheaf (ringSheaf X).property f Q
+      ((Tensor.isIso_sheafification_map_iff (R := ⟨X.presheaf, X.IsSheaf⟩) f).1 hf))
+
+/-- The sealed sheafification inverts `P ◁ f` as soon as it inverts `f`. -/
+lemma isIso_sheafification_map_whiskerLeft
+    (X : RingedSpace.{u, w})
+    [HasWeakSheafify (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+    (P : PresheafOfModules.{u} (ringSheaf X).obj)
+    {A B : PresheafOfModules.{u} (ringSheaf X).obj} (f : A ⟶ B)
+    (hf : IsIso ((Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).map f)) :
+    IsIso ((Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).map (P ◁ f)) :=
+  (Tensor.isIso_sheafification_map_iff (R := ⟨X.presheaf, X.IsSheaf⟩) _).2
+    (TensorSheafification.isIso_sheafify_map_whiskerLeft X.presheaf (ringSheaf X).property P f
+      ((Tensor.isIso_sheafification_map_iff (R := ⟨X.presheaf, X.IsSheaf⟩) f).1 hf))
 
 /-- Tensoring on the right by `N` acts on a pure tensor of sections in the obvious way. -/
 lemma tensorRightFunctor_map_pure
@@ -549,10 +588,10 @@ lemma tensorRightFunctor_map_pure
     (W : Opens X) (a : A.val.obj (Opposite.op W))
     (n : N.val.obj (Opposite.op W)) :
     (((tensorRightFunctor X N).map f).val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (A.val ⊗ N.val)).app (Opposite.op W)).hom
           (a ⊗ₜ[X.presheaf.obj (Opposite.op W)] n)) =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (B.val ⊗ N.val)).app (Opposite.op W)).hom
           (((f.val.app (Opposite.op W)).hom a) ⊗ₜ[X.presheaf.obj (Opposite.op W)] n)) :=
   sheafify_map_toSheafify_apply X (f.val ▷ N.val) W
@@ -568,10 +607,10 @@ private lemma tensorLeftFunctor_map_pure
     (a : A.val.obj (Opposite.op W)) :
     ((((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
         ⟨X.presheaf, X.IsSheaf⟩).obj L).map f).val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ A.val)).app (Opposite.op W)).hom
           (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] a)) =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ B.val)).app (Opposite.op W)).hom
           (l ⊗ₜ[X.presheaf.obj (Opposite.op W)]
             ((f.val.app (Opposite.op W)).hom a))) :=
@@ -585,18 +624,12 @@ noncomputable def tensorRightUnitor
     [(Opens.grothendieckTopology X.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
     (L : _root_.SheafOfModules.{u} (ringSheaf X)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u} ⟨X.presheaf, X.IsSheaf⟩).obj L).obj
-        (_root_.SheafOfModules.unit (ringSheaf X)) ≅ L := by
-  have : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf (ringSheaf
-    X).property).counit := by
-    change IsIso
-      (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf X).obj)).counit
-    infer_instance
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf
-    X).property).mapIso
+        (_root_.SheafOfModules.unit (ringSheaf X)) ≅ L :=
+  (Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).mapIso
       (MonoidalCategoryStruct.rightUnitor
         (C := PresheafOfModules.{u} (ringSheaf X).obj) L.val) ≪≫
-    (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf (ringSheaf
-      X).property).counit).app L
+    (asIso (Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).counit).app
+      L
 
 /-- The right unitor sends the pure tensor `m ⊗ r` to `z` as soon as the presheaf right unitor
 does. -/
@@ -610,23 +643,15 @@ private lemma tensorRightUnitor_hom_toSheafify_of_rightUnitor
     (hρ : ((ρ_ L.val).hom.app (Opposite.op W)).hom
       (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] r) = z) :
     ((tensorRightUnitor X L).hom.val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (_root_.SheafOfModules.unit (ringSheaf X)).val)).app (Opposite.op W)).hom
           (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] r)) = z := by
   have h1 := sheafify_map_toSheafify_apply X (ρ_ L.val).hom W
     (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] r)
-  change (((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
-      (ringSheaf X).property).counit.app L).val.app (Opposite.op W)).hom
-    ((((Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf X).property).map
-        (ρ_ L.val).hom).val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
-        (L.val ⊗ (_root_.SheafOfModules.unit (ringSheaf X)).val)).app
-          (Opposite.op W)).hom
-        (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] r))) = z
   rw [hρ] at h1
-  exact (congrArg (fun z => (((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
-    X.presheaf
-    (ringSheaf X).property).counit.app L).val.app (Opposite.op W)).hom z) h1).trans
+  exact (congrArg (fun z =>
+    (((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).counit.app
+      L).val.app (Opposite.op W)).hom z) h1).trans
       (sheafify_counit_toSheafify_apply X L W z)
 
 /-- The right unitor sends the pure tensor `m ⊗ 1` to `m`. -/
@@ -637,7 +662,7 @@ lemma tensorRightUnitor_hom_toSheafify_apply
     (L : _root_.SheafOfModules.{u} (ringSheaf X)) (W : Opens X)
     (m : L.val.obj (Opposite.op W)) :
     ((tensorRightUnitor X L).hom.val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (_root_.SheafOfModules.unit (ringSheaf X)).val)).app (Opposite.op W)).hom
           (m ⊗ₜ[X.presheaf.obj (Opposite.op W)]
             (1 : (ringSheaf X).obj.obj (Opposite.op W)))) = m :=
@@ -652,7 +677,7 @@ lemma tensorRightUnitor_hom_toSheafify_smul
     (L : _root_.SheafOfModules.{u} (ringSheaf X)) (W : Opens X)
     (m : L.val.obj (Opposite.op W)) (r : (ringSheaf X).obj.obj (Opposite.op W)) :
     ((tensorRightUnitor X L).hom.val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (_root_.SheafOfModules.unit (ringSheaf X)).val)).app (Opposite.op W)).hom
           (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] r)) = r • m :=
   tensorRightUnitor_hom_toSheafify_of_rightUnitor X L W m r _
@@ -666,11 +691,11 @@ lemma tensorRightUnitor_inv_apply
     (L : _root_.SheafOfModules.{u} (ringSheaf X)) (W : Opens X)
     (m : L.val.obj (Opposite.op W)) :
     ((tensorRightUnitor X L).inv.val.app (Opposite.op W)).hom m =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (_root_.SheafOfModules.unit (ringSheaf X)).val)).app (Opposite.op W)).hom
           (m ⊗ₜ[X.presheaf.obj (Opposite.op W)]
             (1 : (ringSheaf X).obj.obj (Opposite.op W)))) := by
-  let q := ((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+  let q := (((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (_root_.SheafOfModules.unit (ringSheaf X)).val)).app (Opposite.op W)).hom
           (m ⊗ₜ[X.presheaf.obj (Opposite.op W)]
             (1 : (ringSheaf X).obj.obj (Opposite.op W)))
@@ -679,8 +704,6 @@ lemma tensorRightUnitor_inv_apply
   exact (congrArg (fun z => ((tensorRightUnitor X L).inv.val.app (Opposite.op W)).hom z)
     hq).symm.trans (inv_app_hom_apply (tensorRightUnitor X L) (Opposite.op W) q)
 
-set_option maxHeartbeats 2000000 in
--- elaborating the composite of sheafified tensor-product isomorphisms is heavy
 /-- Associativity of the tensor product of sheaves of modules, in the form needed here:
 `(L ⊗ M) ⊗ N ≅ L ⊗ (M ⊗ N)`. -/
 noncomputable def tensorAssoc
@@ -694,29 +717,21 @@ noncomputable def tensorAssoc
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u} ⟨X.presheaf, X.IsSheaf⟩).obj L).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
             ⟨X.presheaf, X.IsSheaf⟩).obj M).obj N) := by
-  let S := Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf X).property
-  let η := Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+  let S := Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩
+  let η := (Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
   have h1 : IsIso (S.map (η (L.val ⊗ M.val) ▷ N.val)) :=
-    Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight X.presheaf (ringSheaf
-      X).property
-      (η (L.val ⊗ M.val)) N.val
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify X.presheaf
-        (ringSheaf X).property
-        (L.val ⊗ M.val))
+    isIso_sheafification_map_whiskerRight X _ N.val
+      (isIso_sheafification_map_unit X (L.val ⊗ M.val))
   have h2 : IsIso (S.map (L.val ◁ η (M.val ⊗ N.val))) :=
-    Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft X.presheaf (ringSheaf
-      X).property
-      L.val (η (M.val ⊗ N.val))
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify X.presheaf
-        (ringSheaf X).property
-        (M.val ⊗ N.val))
+    isIso_sheafification_map_whiskerLeft X L.val _
+      (isIso_sheafification_map_unit X (M.val ⊗ N.val))
   exact (@asIso _ _ _ _ (S.map (η (L.val ⊗ M.val) ▷ N.val)) h1).symm ≪≫
     S.mapIso (MonoidalCategoryStruct.associator
       (C := PresheafOfModules.{u} (ringSheaf X).obj) L.val M.val N.val) ≪≫
     @asIso _ _ _ _ (S.map (L.val ◁ η (M.val ⊗ N.val))) h2
 
 set_option maxHeartbeats 2000000 in
--- the statement and the `rfl` steps unfold nested sheafified tensor products
+-- The closing `exact` checks the pure-tensor identities of `▷`, `α_` and `◁` by unfolding.
 /-- The associativity isomorphism sends `(l ⊗ m) ⊗ n` to `l ⊗ (m ⊗ n)`. -/
 lemma tensorAssoc_hom_pure
     (X : RingedSpace.{u, w})
@@ -726,53 +741,35 @@ lemma tensorAssoc_hom_pure
     (l : L.val.obj (Opposite.op W)) (m : M.val.obj (Opposite.op W))
     (n : N.val.obj (Opposite.op W)) :
     ((tensorAssoc X L M N).hom.val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
             ⟨X.presheaf, X.IsSheaf⟩).obj L).obj M).val ⊗ N.val)).app
           (Opposite.op W)).hom
-        ((((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+        (((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
           (L.val ⊗ M.val)).app (Opposite.op W)).hom
             (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] m)) ⊗ₜ[X.presheaf.obj (Opposite.op W)] n)) =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
             ⟨X.presheaf, X.IsSheaf⟩).obj M).obj N).val)).app
           (Opposite.op W)).hom
         (l ⊗ₜ[X.presheaf.obj (Opposite.op W)]
-          (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+          ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
             (M.val ⊗ N.val)).app (Opposite.op W)).hom
             (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] n)))) := by
-  let S := Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf X).property
-  let η := Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+  let S := Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩
+  let η := (Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
   let f := η (L.val ⊗ M.val) ▷ N.val
   let a := (MonoidalCategoryStruct.associator
     (C := PresheafOfModules.{u} (ringSheaf X).obj) L.val M.val N.val).hom
   let b := L.val ◁ η (M.val ⊗ N.val)
   let q := (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] m) ⊗ₜ[X.presheaf.obj (Opposite.op W)] n
   have hf : IsIso (S.map f) :=
-    Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight X.presheaf (ringSheaf
-      X).property
-      (η (L.val ⊗ M.val)) N.val
-      (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify X.presheaf
-        (ringSheaf X).property
-        (L.val ⊗ M.val))
-  have hfq : (f.app (Opposite.op W)).hom q =
-      (((η (L.val ⊗ M.val)).app (Opposite.op W)).hom
-        (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] m)) ⊗ₜ[X.presheaf.obj (Opposite.op W)] n := rfl
-  have haq : (a.app (Opposite.op W)).hom q =
-      l ⊗ₜ[X.presheaf.obj (Opposite.op W)]
-        (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] n) := rfl
-  have hbq : (b.app (Opposite.op W)).hom
-      (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] n)) =
-      l ⊗ₜ[X.presheaf.obj (Opposite.op W)]
-        (((η (M.val ⊗ N.val)).app (Opposite.op W)).hom
-          (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] n)) := rfl
+    isIso_sheafification_map_whiskerRight X _ N.val
+      (isIso_sheafification_map_unit X (L.val ⊗ M.val))
   have hfSrc := sheafify_map_toSheafify_apply X f W q
   have ha := sheafify_map_toSheafify_apply X a W q
   have hb := sheafify_map_toSheafify_apply X b W
     (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] n))
-  rw [hfq] at hfSrc
-  rw [haq] at ha
-  rw [hbq] at hb
   have hinv := (congrArg (fun z => ((inv (S.map f)).val.app (Opposite.op W)).hom z)
       hfSrc).symm.trans
     (inv_app_hom_apply (asIso (S.map f)) (Opposite.op W)
@@ -791,7 +788,7 @@ noncomputable def tensorSelfBraid
         ⟨X.presheaf, X.IsSheaf⟩).obj L).obj L ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
           ⟨X.presheaf, X.IsSheaf⟩).obj L).obj L :=
-  (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf (ringSheaf X).property).mapIso
+  (Tensor.sheafification.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).mapIso
     (BraidedCategory.braiding (C := PresheafOfModules.{u} (ringSheaf X).obj) L.val L.val)
 
 /-- The braiding swaps the two factors of a pure tensor. -/
@@ -802,10 +799,10 @@ lemma tensorSelfBraid_hom_pure
     (L : _root_.SheafOfModules.{u} (ringSheaf X)) (W : Opens X)
     (l m : L.val.obj (Opposite.op W)) :
     ((tensorSelfBraid X L).hom.val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ L.val)).app (Opposite.op W)).hom
           (l ⊗ₜ[X.presheaf.obj (Opposite.op W)] m)) =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ L.val)).app (Opposite.op W)).hom
           (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] l)) :=
   sheafify_map_toSheafify_apply X
@@ -836,23 +833,23 @@ lemma tensorSwapFirstTwo_hom_pure
     (L N : _root_.SheafOfModules.{u} (ringSheaf X)) (W : Opens X)
     (m s : L.val.obj (Opposite.op W)) (t : N.val.obj (Opposite.op W)) :
     ((tensorSwapFirstTwo X L N).hom.val.app (Opposite.op W)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
             ⟨X.presheaf, X.IsSheaf⟩).obj L).obj N).val)).app (Opposite.op W)).hom
         (m ⊗ₜ[X.presheaf.obj (Opposite.op W)]
-          (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+          ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
             (L.val ⊗ N.val)).app (Opposite.op W)).hom
             (s ⊗ₜ[X.presheaf.obj (Opposite.op W)] t)))) =
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ (((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
             ⟨X.presheaf, X.IsSheaf⟩).obj L).obj N).val)).app (Opposite.op W)).hom
         (s ⊗ₜ[X.presheaf.obj (Opposite.op W)]
-          (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+          ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
             (L.val ⊗ N.val)).app (Opposite.op W)).hom
             (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] t)))) := by
   let A := ((Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).obj L).obj L
-  let η := Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+  let η := (Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
   let inner (a b : L.val.obj (Opposite.op W)) :=
     ((η (L.val ⊗ L.val)).app (Opposite.op W)).hom
       (a ⊗ₜ[X.presheaf.obj (Opposite.op W)] b)
@@ -866,7 +863,7 @@ lemma tensorSwapFirstTwo_hom_pure
   have h2 : (((tensorRightFunctor X N).map (tensorSelfBraid X L).hom).val.app
       (Opposite.op W)).hom (raw m s) = raw s m := by
     have h := tensorRightFunctor_map_pure X A A N (tensorSelfBraid X L).hom W
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+      ((((Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (L.val ⊗ L.val)).app (Opposite.op W)).hom
         (m ⊗ₜ[X.presheaf.obj (Opposite.op W)] s)) t
     exact h.trans (congrArg (fun z => ((η (A.val ⊗ N.val)).app (Opposite.op W)).hom
@@ -1038,7 +1035,7 @@ theorem tensorTwistAutomorphism_hom_app_apply
     (ringSheaf X).property L
   let T := (Stacks.SheafOfModules.Tensor.sheafTensor.{w, w, u, u, u} ⟨X.presheaf, X.IsSheaf⟩).obj L
   let B := T.obj N
-  let η := Stacks.SheafOfModules.TensorSheafification.toSheafify X.presheaf (ringSheaf X).property
+  let η := (Tensor.sheafificationForgetAdjunction.{w, w, u, u} ⟨X.presheaf, X.IsSheaf⟩).unit.app
   let mv : L.val.obj (Opposite.op W) := m
   let sv (i : Fin n) : L.val.obj (Opposite.op W) := (L.val.map j).hom (s i)
   let tw (i : Fin n) : N.val.obj (Opposite.op W) := (N.val.map j).hom (t i)

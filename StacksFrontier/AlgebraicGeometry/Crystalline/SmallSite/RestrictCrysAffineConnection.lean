@@ -280,8 +280,7 @@ theorem readBack_smallExtendTensorMap
     (F.val.map (firstOrderThickeningCrysExtendHom S W V hVW B).op).hom.toAddMonoidHom).comp
       (readBack F hVBₓ hVₓ)
   change L z = R z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero L).trans (map_zero R).symm
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       exact ((map_add L x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add R x y).symm
   | tmul m η =>
@@ -467,8 +466,7 @@ theorem smallExtendTensorMap_map_leftWedge (i : ℕ)
         (TensorProduct.map LinearMap.id ((leftWedge i).flip ω) z) =
       TensorProduct.map LinearMap.id ((leftWedge i).flip (smallExtendFormsMap W V hVW B i ω))
         (smallExtendTensorMap W V hVW F B (smallExtendOmegaMap W V hVW B) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul m η =>
       simp only [TensorProduct.map_tmul, smallExtendTensorMap_tmul, LinearMap.id_apply,
@@ -499,8 +497,7 @@ theorem smallExtendTensorMap_extDiff (i : ℕ)
         (extDiff (B := (smallExtend S W V hVW).obj B) hVBₓ hVₓ he i x) =
       extDiff hVB hV' he' i
         (smallExtendTensorMap W V hVW F B (smallExtendFormsMap W V hVW B i) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul m ω =>
       refine (congrArg (smallExtendTensorMap W V hVW F B (smallExtendFormsMap W V hVW B (i + 1)))

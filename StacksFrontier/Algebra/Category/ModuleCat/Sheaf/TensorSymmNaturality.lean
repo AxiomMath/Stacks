@@ -78,7 +78,7 @@ lemma sheafTensorMapRight_comp_sheafTensorSymmIso_hom (O : Sheaf J CommRingCat.{
     {B B' : SheafOfModules.{w} (commRingSheafToRingSheaf O)} (β : B ⟶ B') :
     ((sheafTensor O).obj A).map β ≫ (sheafTensorSymmIso O B' A).hom =
       (sheafTensorSymmIso O B A).hom ≫ ((sheafTensor O).flip.obj A).map β :=
-  map_comp_eq_map_comp (moduleSheafification O)
+  map_comp_eq_map_comp (Stacks.SheafOfModules.Tensor.sheafification O)
     (tensorCommHom_comp_tensorRight_map (O := O.obj) A.val β.val)
 
 /-- **Naturality of the symmetry of the tensor product sheaf in the factor it moves into the
@@ -95,7 +95,7 @@ lemma sheafTensorRight_map_comp_sheafTensorSymmIso_hom (O : Sheaf J CommRingCat.
     {B B' : SheafOfModules.{w} (commRingSheafToRingSheaf O)} (β : B ⟶ B') :
     ((sheafTensor O).flip.obj A).map β ≫ (sheafTensorSymmIso O A B').hom =
       (sheafTensorSymmIso O A B).hom ≫ ((sheafTensor O).obj A).map β :=
-  map_comp_eq_map_comp (moduleSheafification O)
+  map_comp_eq_map_comp (Stacks.SheafOfModules.Tensor.sheafification O)
     (tensorRight_map_comp_tensorCommHom (O := O.obj) A.val β.val)
 
 end Stacks.FlatChangeOfRings

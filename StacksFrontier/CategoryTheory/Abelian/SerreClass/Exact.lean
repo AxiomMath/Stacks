@@ -12,7 +12,8 @@ extensions); and that moreover a Serre subcategory is abelian and its inclusion 
 
 The equivalence is `CategoryTheory.ObjectProperty.isSerreClass_iff_prop_X₂_of_exact`, and the
 left exactness of the inclusion is `CategoryTheory.ObjectProperty.preservesFiniteLimits_ι`, both
-in `StacksCore.CategoryTheory.Abelian.SerreClass.Basic`. This file adds the right exactness and states
+in `StacksCore.CategoryTheory.Abelian.SerreClass.Basic`. This file adds the right exactness and
+states
 the whole tag as one theorem.
 
 ## Main results

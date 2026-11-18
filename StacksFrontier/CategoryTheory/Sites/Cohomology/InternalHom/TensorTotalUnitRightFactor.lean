@@ -58,20 +58,12 @@ theorem sheafTensor_obj_map_app_sheafifyUnit_tmul
     {G G' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (ψ : G ⟶ G')
     (U : X.Cᵒᵖ) (y : M.val.obj U) (x : G.val.obj U) :
     (((sheafTensor.{u, u, u, u, u} X.O).obj M).map ψ).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
-            (PresheafOfModules.tensorObj (O := X.O.obj) M.val G.val)).app U
+        ((sheafifyUnitApp X (M.val ⊗ G.val)).app U
           (y ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U] x)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
-          (PresheafOfModules.tensorObj (O := X.O.obj) M.val G'.val)).app U
+      (sheafifyUnitApp X (M.val ⊗ G'.val)).app U
         (y ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U] ψ.val.app U x) :=
-  (congrArg (fun z => z.app U (y ⊗ₜ[(ringSheaf X.O).obj.obj U] x))
-    ((PresheafOfModules.sheafificationAdjunction (R := ringSheaf X.O)
-      (𝟙 (ringSheaf X.O).obj)).unit.naturality
-        (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 M.val) ψ.val))).symm
+  PresheafOfModules.hom_congr_apply' ((sheafificationForgetAdjunction X.O).unit.naturality
+    (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 M.val) ψ.val)).symm U _
 
 variable [(sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
@@ -104,8 +96,9 @@ lemma unitRightFactorIso_hom_apply (n : ℤ) (W : X.C) (y : (Y.X (-k + n)).val.o
           ((((sheafTensor.{u, u, u, u, u} X.O).obj (Y.X (-k + n))).map e.inv).val.app (op W)
             ((sheafTensorUnitIsoRight.{u, u, u} X.O (Y.X (-k + n))).inv.val.app (op W) y))) :=
     rfl
-  rw [h0, sheafTensorUnitIsoRight_inv_apply]
-  erw [sheafTensor_obj_map_app_sheafifyUnit_tmul]
+  rw [h0, sheafTensorUnitIsoRight_inv_apply,
+    sheafTensor_obj_map_app_sheafifyUnit_tmul X (Y.X (-k + n)) e.inv (op W) y
+      (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W))]
   exact tensorTotalIsoTensorComplex_inv_tensorComplexSection X Y Z W (-k + n) k n (by omega) y
     (e.inv.val.app (op W) (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)))
 

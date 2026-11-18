@@ -136,9 +136,12 @@ handled with ordinary tactics.
   `implicit` transparency. Consequently `rw [Functor.map_comp]` on it fails. The fix is to avoid
   functoriality of the composite altogether and use multiplicativity of the morphism property:
   `MorphismProperty.comp_mem` matches the goal syntactically and never re-checks the composite.
-  The sheafification unit is written `(tensorLeftFunctorUniversal …).ι.app M` rather than
-  `Stacks.SheafOfModules.TensorSheafification.toSheafify …` — the same term, but stated at the type
-    that composes with `e.hom.val`.
+  The sheafification unit is written `(tensorLeftFunctorUniversal …).ι.app M`, the unit of the
+  sealed `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, at the type that composes with
+  `e.hom.val`; it is not Mathlib's unit
+  `Stacks.SheafOfModules.TensorSheafification.toSheafify …`, so the fact that Mathlib's
+  sheafification inverts it comes from the sealed `sheafification_map_unit_isIso` through
+  `Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff`.
 * `(𝟙_ (PresheafOfModulesOfCommRing 𝒪)).obj U` has the carrier of `𝒪.obj U` but is not it
   syntactically, so the numeral `1` does not elaborate at that type; the unit section is written
   `(1 : 𝒪.obj U)` with an explicit ascription.
@@ -374,7 +377,9 @@ theorem exists_localIso_of_isInvertible (L : SheafOfModules.{w} (structureSheaf 
   obtain ⟨M, ⟨e⟩⟩ : ∃ M, Nonempty (F.obj M ≅ SheafOfModules.unit (structureSheaf 𝒪 h𝒪)) :=
     ⟨_, ⟨F.objObjPreimageIso _⟩⟩
   have h1 : IsIso ((sheafify 𝒪 h𝒪).map ((tensorLeftFunctorUniversal 𝒪 h𝒪 L).ι.app M)) :=
-    isIso_sheafify_map_toSheafify 𝒪 h𝒪 (L.val ⊗ M.val)
+    (Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+      (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩) _).1
+      (Stacks.SheafOfModules.Tensor.sheafification_map_unit_isIso _ _)
   have h3 : IsIso ((sheafify 𝒪 h𝒪).map e.hom.val) :=
     inferInstanceAs (IsIso ((sheafify 𝒪 h𝒪).mapIso
       ((SheafOfModules.forget (structureSheaf 𝒪 h𝒪)).mapIso e)).hom)

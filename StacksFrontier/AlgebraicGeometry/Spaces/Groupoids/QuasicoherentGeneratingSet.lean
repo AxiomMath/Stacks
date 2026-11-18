@@ -750,7 +750,7 @@ theorem exists_transition_of_chart (hs : IsFlat B S hS G.source.hom)
           M.alpha := by
     unfold IsTransitionSquare at hβW
     rw [hθ, Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc,
-      Iso.map_inv_hom_id_assoc, hβW, Category.assoc]
+      Iso.inv_hom_id_map_assoc, hβW, Category.assoc]
   exact exists_comp_eq_of_chart (chartTarget_comp_objectsAtlas G) (chartArrowsMap_comp_source G)
     ι M.alpha _ ((modulePullbackFlatten_naturality (objectsAtlas G) ι _ _ hζ).trans
       (congrArg (_ ≫ ·) (modulePullbackFlatten_chartTransition _ _ M.F.obj M.alpha)))

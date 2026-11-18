@@ -212,7 +212,10 @@ theorem sheafTensor_uncurry_map_id_left (F : X₁.Modules) {G G' : X₁.Modules}
 
 /-- The two spellings of the inverse right unitor `F ⟶ F ⊗ 𝒪` agree. -/
 theorem tensorUnitInv_eq_tensorSheafUnitRightIso_inv (F : X₁.Modules) :
-    tensorUnitInv F = (Stacks.RingedSpace.tensorSheafUnitRightIso X₁.toRingedSpace F).inv := rfl
+    tensorUnitInv F = (Stacks.RingedSpace.tensorSheafUnitRightIso X₁.toRingedSpace F).inv := by
+  ext W a
+  exact (tensorUnitInv_app_apply F (op W) a).trans
+    (Stacks.RingedSpace.tensorSheafUnitRightIso_inv_app_tensorSheafUnit _ F (op W) a).symm
 
 /-- `unitGlobalSection` is natural in the module. -/
 theorem unitGlobalSection_naturality {G G' : Y₁.Modules} (φ : G ⟶ G') (s : Γ(G, ⊤)) :
@@ -290,6 +293,7 @@ theorem tensorGlobalSection_comp_pushforwardPullbackTensorIsoRight (hsq : IsPull
     ((sheafTensor_uncurry_map_id_left F ((Scheme.Modules.pullbackUnitIso f₁).inv ≫
       (Scheme.Modules.pullback f₁).map (Scheme.Modules.unitToPushforwardUnit a))).trans
       (Functor.map_comp _ _ _))).symm.trans hunit
+  rw [← tensorUnitInv_eq_tensorSheafUnitRightIso_inv] at hunit'
   refine (congrArg (· ≫ (pushforwardPullbackTensorIsoRight f₁ a' b a hsq F hF).hom) e2).trans ?_
   refine (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hnat').trans
     ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) ?_)))

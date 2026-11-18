@@ -287,7 +287,7 @@ theorem source_eq_target_selfIntersectionPresentation
     (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val) (π : 𝒳 ⟶ 𝒴) (hx : x ≫ π ≅ 𝟙 𝒴) :
     (selfIntersectionPresentation eU eR h𝒳).groupoid.source =
       (selfIntersectionPresentation eU eR h𝒳).groupoid.target := by
-  show (ObjectProperty.homMk (relationSourceMap eU eR) : R ⟶ U) =
+  change (ObjectProperty.homMk (relationSourceMap eU eR) : R ⟶ U) =
     ObjectProperty.homMk (relationTargetMap eU eR)
   rw [relationSourceMap_eq_relationTargetMap eU eR π hx]
 

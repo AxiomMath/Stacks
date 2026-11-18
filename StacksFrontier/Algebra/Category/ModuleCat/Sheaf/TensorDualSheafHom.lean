@@ -425,13 +425,14 @@ variable [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}]
 /-- **The canonical rank-one morphism `F ⊗ E^∨ ⟶ SheafHom(E, F)`** of sheaves of modules. The
 tensor product of sheaves of modules is the sheafification of the pointwise one (Tag 05NA), so
 this is the morphism which `Stacks.SheafOfModules.tensorDualHomPresheaf` induces through the
-sheafification adjunction. -/
+sheafification adjunction `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 noncomputable def tensorDualToSheafHom
     (E F : SheafOfModules.{max u v} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     ((Tensor.sheafTensor
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj
         (dualSheaf 𝒪 h𝒪 E) ⟶ sheafHom 𝒪 h𝒪 E F :=
-  ((TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv
+  ((Tensor.sheafificationForgetAdjunction
+    ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).homEquiv
     ((PresheafOfModules.tensorObj (O := 𝒪) (F.val) ((dualSheaf 𝒪 h𝒪 E).val)))
     (sheafHom 𝒪 h𝒪 E F)).symm (tensorDualHomPresheaf 𝒪 h𝒪 E F)
 
@@ -440,6 +441,16 @@ noncomputable def tensorDualToSheafHom
 lemma tensorDualToSheafHom_self
     (F : SheafOfModules.{max u v} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     tensorDualToSheafHom 𝒪 h𝒪 F F = tensorDualToEndomorphism 𝒪 h𝒪 F := rfl
+
+/-- The canonical morphism `F ⊗ E^∨ ⟶ SheafHom(E, F)` composed with the sheafification unit is
+`Stacks.SheafOfModules.tensorDualHomPresheaf`. -/
+theorem unit_comp_tensorDualToSheafHom_val
+    (E F : SheafOfModules.{max u v} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
+    (Tensor.sheafificationForgetAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+        (PresheafOfModules.tensorObj (O := 𝒪) F.val (dualSheaf 𝒪 h𝒪 E).val) ≫
+      (tensorDualToSheafHom 𝒪 h𝒪 E F).val = tensorDualHomPresheaf 𝒪 h𝒪 E F :=
+  (Adjunction.homEquiv_unit _ _ _ _).symm.trans (Equiv.apply_symm_apply _ _)
 
 /-- **The canonical morphism on a local pure tensor is the rank-one morphism.** This pins the
 morphism down: its value on the image of `f ⊗ lam` is the morphism `g ↦ lam(g) • f`. -/
@@ -450,11 +461,8 @@ theorem tensorDualToSheafHom_toTensorSheafSection
         (toTensorSheafSection 𝒪 h𝒪 F (dualSheaf 𝒪 h𝒪 E) U
           (f ⊗ₜ[(TensorSheafification.structureRingPresheaf 𝒪).obj U] lam)) =
       rankOneHomSection 𝒪 h𝒪 (U := U.unop) f lam :=
-  congrArg (fun φ => ((φ.app U).hom (f
-    ⊗ₜ[(TensorSheafification.structureRingPresheaf 𝒪).obj U] lam)))
-    (((TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).homEquiv
-      ((PresheafOfModules.tensorObj (O := 𝒪) (F.val) ((dualSheaf 𝒪 h𝒪 E).val)))
-      (sheafHom 𝒪 h𝒪 E F)).apply_symm_apply (tensorDualHomPresheaf 𝒪 h𝒪 E F))
+  (PresheafOfModules.comp_app_apply _ _ U _).symm.trans
+    (PresheafOfModules.hom_congr_apply' (unit_comp_tensorDualToSheafHom_val 𝒪 h𝒪 E F) U _)
 
 /-- **Sheafification inverts the rank-one map**, when `E` has finite dual bases on a family
 covering the final object. -/
@@ -481,20 +489,14 @@ the hypothesis in the per-object form of Tag 0FNY. -/
 theorem isIso_tensorDualToSheafHom {K : Type*} {X : K → C} (hX : J.CoversTop X)
     {I : K → Type*} [∀ k, Fintype (I k)] (b : ∀ k, FiniteDualBasis 𝒪 h𝒪 E (X k) (I k))
     (F : SheafOfModules.{max u v} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
-    IsIso (tensorDualToSheafHom 𝒪 h𝒪 E F) := by
-  have hm : IsIso ((TensorSheafification.sheafify 𝒪 h𝒪).map
-      (tensorDualHomPresheaf 𝒪 h𝒪 E F)) :=
-    isIso_sheafify_map_tensorDualHomPresheaf 𝒪 h𝒪 hX b F
-  have hc : IsIso ((TensorSheafification.sheafifyAdjunction 𝒪 h𝒪).counit.app
-      (sheafHom 𝒪 h𝒪 E F)) :=
-    inferInstanceAs (IsIso ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (TensorSheafification.structureSheaf 𝒪 h𝒪).obj)).counit.app (sheafHom 𝒪 h𝒪 E F)))
-  have h := Adjunction.homEquiv_counit
-    (TensorSheafification.sheafifyAdjunction 𝒪 h𝒪)
-    ((PresheafOfModules.tensorObj (O := 𝒪) (F.val) ((dualSheaf 𝒪 h𝒪 E).val)))
-    (sheafHom 𝒪 h𝒪 E F) (tensorDualHomPresheaf 𝒪 h𝒪 E F)
-  rw [tensorDualToSheafHom, h]
-  exact @IsIso.comp_isIso _ _ _ _ _ _ _ hm hc
+    IsIso (tensorDualToSheafHom 𝒪 h𝒪 E F) :=
+  (congrArg IsIso (Adjunction.homEquiv_counit _ _ _ _)).mpr
+    (IsIso.comp_isIso'
+      ((Tensor.isIso_sheafification_map_iff
+        (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩) _).mpr
+        (isIso_sheafify_map_tensorDualHomPresheaf 𝒪 h𝒪 hX b F))
+      (NatIso.isIso_app_of_isIso (Tensor.sheafificationForgetAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).counit _))
 
 end Sheafification
 

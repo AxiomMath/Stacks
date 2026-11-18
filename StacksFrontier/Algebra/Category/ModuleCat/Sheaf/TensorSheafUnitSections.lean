@@ -8,7 +8,8 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorUnitSections
 # The unitors of the tensor product sheaf, computed on sections
 
 The tensor product `F ⊗_{𝒪_X} G` of two sheaves of `𝒪_X`-modules on a ringed space is the
-sheafification of `U ↦ F(U) ⊗_{𝒪_X(U)} G(U)` (Tag 01CA). Its right unitor, built as the
+sheafification of `U ↦ F(U) ⊗_{𝒪_X(U)} G(U)` (Tag 01CA), taken with the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`. Its right unitor, built as the sealed
 sheafification of the presheaf-level unitor followed by the counit of the sheafification
 adjunction, sends the local section `s ⊗ r` of `F ⊗_{𝒪_X} 𝒪_X` to `r • s`.
 
@@ -19,19 +20,22 @@ adjunction, sends the local section `s ⊗ r` of `F ⊗_{𝒪_X} 𝒪_X` to `r �
 * `Stacks.SheafOfModules.TensorUnit.presheaf_leftUnitor_app` and
   `Stacks.SheafOfModules.TensorUnit.presheaf_rightUnitor_app`: the presheaf-level unitors on
   pure tensors.
-* `Stacks.SheafOfModules.TensorUnit.sheafifyMap_sheafifyValIso_sheafifyUnit`: the sheafification
-  of a morphism `f : P ⟶ F.val` into a sheaf, composed with the counit, agrees with `f` on the
-  image of the sheafification unit.
-* `Stacks.SheafOfModules.TensorUnit.isLocallySurjective_sheafifyUnit` and
-  `Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection`: a section of
-  `F ⊗_{𝒪_X} G` is, on a covering sieve, a finite sum of pure tensors.
+* `Stacks.SheafOfModules.TensorUnit.sheafifyMap_sheafifyValIso_sheafifyUnit`: Mathlib's
+  sheafification of a morphism `f : P ⟶ F.val` into a sheaf, composed with the counit, agrees
+  with `f` on the image of the sheafification unit.
+* `Stacks.SheafOfModules.TensorUnit.isLocallySurjective_sheafifyUnit`: Mathlib's sheafification
+  unit is locally surjective.
+* `Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection`: a section of
+  `F ⊗_{𝒪_X} G` is, on a covering sieve, a finite sum of pure tensors, by local surjectivity of
+  the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`.
 
 ## Implementation notes
 
 `tensorSheafUnitRightIso_hom_toTensorSheafSection` is stated at the explicit composite
-`(sheafifyFunctor X).mapIso (ρ_ F.val) ≪≫ sheafifyValIso …`, which is the definition of
-`AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso`, so it applies to that isomorphism
-without importing it.
+`(Stacks.SheafOfModules.Tensor.sheafification _).mapIso (ρ_ F.val) ≪≫
+Stacks.SheafOfModules.sheafificationCounitIso _ F`, which is the definition of
+`AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso`; it is that declaration's section
+formula read at the unfolded composite.
 
 `AlgebraicGeometry.tensorSheafUnitLeft`, the left unitor obtained from the monoidal structure
 localized along sheafification, is a different morphism `𝒪_X ⊗ F ⟶ F` and is not compared with
@@ -134,23 +138,16 @@ public theorem presheaf_rightUnitor_app
 public theorem tensorSheafUnitRightIso_hom_toTensorSheafSection
     (U : (TopologicalSpace.Opens X.carrier)ᵒᵖ)
     (s : F.val.obj U) (r : (Stacks.SheafOfModules.TensorStalkRingedSpace.O X).obj U) :
-    ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).mapIso
+    ((Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf, X.IsSheaf⟩).mapIso
         (MonoidalCategoryStruct.rightUnitor
         (self := (Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory
           ⟨X.presheaf, X.IsSheaf⟩).toMonoidalCategoryStruct) F.val) ≪≫
-          Stacks.SheafOfModules.sheafifyValIso X.presheaf
-            (structureSheafRing X).property
-            F).hom.val.app U
+          Stacks.SheafOfModules.sheafificationCounitIso ⟨X.presheaf, X.IsSheaf⟩ F).hom.val.app U
         (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F
           (_root_.SheafOfModules.unit
           (structureSheafRing X)) U
           (s ⊗ₜ[X.presheaf.obj U] r)) = r • s :=
-  (sheafifyMap_sheafifyValIso_sheafifyUnit X F
-      (MonoidalCategoryStruct.rightUnitor
-        (self := (Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory
-          ⟨X.presheaf, X.IsSheaf⟩).toMonoidalCategoryStruct) F.val).hom U
-      (s ⊗ₜ[(Stacks.SheafOfModules.TensorStalkRingedSpace.O X).obj U] r)).trans
-    (presheaf_rightUnitor_app X F U s r)
+  AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso_hom_toTensorSheafSection X F U s r
 
 /-- The sheafification unit of a presheaf of modules is locally surjective: every local section
 of the sheafification is, on a covering sieve, the image of a section of the presheaf. -/
@@ -182,15 +179,17 @@ public theorem exists_sieve_sum_toTensorSheafSection
             ∑ j, Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G
             (Opposite.op V)
               (a j ⊗ₜ[X.presheaf.obj (Opposite.op V)] b j) := by
-  refine ⟨_, (isLocallySurjective_sheafifyUnit X
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).imageSieve_mem t,
+  refine ⟨_, (Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+      ⟨X.presheaf, X.IsSheaf⟩
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).imageSieve_mem t,
     fun V k ⟨z, hz⟩ => ?_⟩
   obtain ⟨n, a, b, hab⟩ := TensorProduct.exists_sum_tmul_eq z
   refine ⟨n, a, b, hz.symm.trans ?_⟩
   rw [hab]
-  exact map_sum ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val)))).app (Opposite.op
-    V)).hom _ Finset.univ
+  exact map_sum (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app (Opposite.op V)).hom _
+    Finset.univ
 
 end Stacks.SheafOfModules.TensorUnit
 

@@ -32,9 +32,9 @@ The tensor product of sheaves of modules is the sheafification of the objectwise
 of the underlying presheaves, so the comparison is obtained from the extension principle
 `Stacks.SheafOfModules.UliftTensor.isoOfLocallyBijective`: both sides receive a locally bijective
 morphism from the objectwise tensor product of the two lifted presheaves.  One of the two is the
-sheafification unit `Stacks.SheafOfModules.UliftTensor.sheafifyUnit`; the other is
-`liftedTensorUnit`, the sheafification unit of the unlifted tensor product read through
-`tensorLiftEquiv`.
+unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`;
+the other is `liftedTensorUnit`, the sheafification unit of the unlifted tensor product read
+through `tensorLiftEquiv`.
 
 `tensorLiftEquiv` is a *semilinear* equivalence over `ULift.ringEquiv`, since the ring of scalars
 is lifted along with the module.  `TensorProduct.congr` is already semilinear, so the equivalence
@@ -129,6 +129,33 @@ theorem tensorLiftEquiv_naturality (X : AlgebraicGeometry.RingedSite.{u, v, w})
     simp only [map_add]
     exact (map_add (tensorLiftEquiv X F G W) _ _).trans (by rw [hx, hy]; rfl)
 
+section SealedUnit
+
+variable {C : Type*} [Category C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally injective. -/
+lemma isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    PresheafOfModules.IsLocallyInjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallyInjective, Functor.map_comp]
+  infer_instance
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally surjective. -/
+lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
+
+end SealedUnit
+
 section Unit
 
 variable (X : AlgebraicGeometry.RingedSite.{u, v, w})
@@ -137,17 +164,17 @@ variable (X : AlgebraicGeometry.RingedSite.{u, v, w})
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   (F G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
 
-/-- The sheafification unit of the objectwise tensor product of two sheaves of modules. -/
-noncomputable abbrev baseUnit :
-    PresheafOfModules.tensorObj F.val G.val ⟶
-      ((PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).obj
-        (PresheafOfModules.tensorObj F.val G.val)).val :=
-  Stacks.SheafOfModules.UliftTensor.sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-    (PresheafOfModules.tensorObj F.val G.val)
-
 /-- The tensor product of two sheaves of modules on a ringed site. -/
 noncomputable abbrev baseTensor : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).obj G
+
+/-- The sheafification unit of the objectwise tensor product of two sheaves of modules: the unit
+of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`, whose value is the
+tensor product sheaf. -/
+noncomputable abbrev baseUnit :
+    PresheafOfModules.tensorObj F.val G.val ⟶ (baseTensor X F G).val :=
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+    (PresheafOfModules.tensorObj F.val G.val)
 
 /-- The lifted sheafification unit: the objectwise tensor product of the lifts of two sheaves of
 modules maps to the lift of their tensor product sheaf. -/
@@ -183,8 +210,8 @@ theorem liftedTensorUnit_isLocallyInjective :
     PresheafOfModules.IsLocallyInjective X.J (liftedTensorUnit X F G) := by
   have : Presheaf.IsLocallyInjective X.J
       ((PresheafOfModules.toPresheaf _).map (baseUnit X F G)) :=
-    Stacks.SheafOfModules.UliftTensor.isLocallyInjective_sheafifyUnit
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (PresheafOfModules.tensorObj F.val G.val)
+    isLocallyInjective_sheafificationForgetAdjunction_unit_app X.O
+      (PresheafOfModules.tensorObj F.val G.val)
   constructor
   intro V x y h
   have h' : (baseUnit X F G).app V (tensorLiftEquiv X F G V x) =
@@ -203,8 +230,8 @@ theorem liftedTensorUnit_isLocallySurjective :
     PresheafOfModules.IsLocallySurjective X.J (liftedTensorUnit X F G) := by
   have : Presheaf.IsLocallySurjective X.J
       ((PresheafOfModules.toPresheaf _).map (baseUnit X F G)) :=
-    Stacks.SheafOfModules.UliftTensor.isLocallySurjective_sheafifyUnit
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (PresheafOfModules.tensorObj F.val G.val)
+    isLocallySurjective_sheafificationForgetAdjunction_unit_app X.O
+      (PresheafOfModules.tensorObj F.val G.val)
   constructor
   intro V t
   apply X.J.superset_covering _
@@ -224,13 +251,13 @@ noncomputable def tensorLiftIso
         v, w} X F)).obj (liftModule.{u, v, w} X G) ≅
       liftModule.{u, v, w} X (baseTensor X F G) :=
   Stacks.SheafOfModules.UliftTensor.isoOfLocallyBijective
-    (Stacks.SheafOfModules.UliftTensor.sheafifyUnit
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf (liftRingedSite.{u, v, w} X).O))
-      (PresheafOfModules.tensorObj (liftModule.{u, v, w} X F).val
-        (liftModule.{u, v, w} X G).val))
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      (liftRingedSite.{u, v, w} X).O).unit.app
+        (PresheafOfModules.tensorObj (liftModule.{u, v, w} X F).val
+          (liftModule.{u, v, w} X G).val))
     (liftedTensorUnit X F G)
-    (Stacks.SheafOfModules.UliftTensor.isLocallyInjective_sheafifyUnit _)
-    (Stacks.SheafOfModules.UliftTensor.isLocallySurjective_sheafifyUnit _)
+    (isLocallyInjective_sheafificationForgetAdjunction_unit_app _ _)
+    (isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _)
     (liftedTensorUnit_isLocallyInjective X F G)
     (liftedTensorUnit_isLocallySurjective X F G)
     (Iso.refl _)

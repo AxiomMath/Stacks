@@ -88,22 +88,54 @@ def mulIso (i j : ℤ) :
     Stacks.SheafOfModules.TensorPower.coherentMulIso X.presheaf
       (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) L i j
 
+open Stacks.SheafOfModules.Tensor in
+/-- The unit of the sealed `sheafificationForgetAdjunction` followed by the inverse of
+`sheafificationIso` is Mathlib's sheafification unit, read in the plain forgetful functor through
+`forgetCompRestrictScalarsIdIso`. -/
+private theorem sheafificationForgetAdjunction_unit_comp_sheafificationIso_inv {C : Type*}
+    [Category C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (P : PresheafOfModules.{u} (ringSheaf R).obj) :
+    (sheafificationForgetAdjunction R).unit.app P ≫
+        (SheafOfModules.forget _).map ((sheafificationIso R).inv.app P) =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P ≫
+        (forgetCompRestrictScalarsIdIso R).hom.app _ := by
+  rw [sheafificationForgetAdjunction_unit_app, ← unit_comp_sheafificationIso_hom_app,
+    Category.assoc, Category.assoc, ← NatTrans.naturality, ← Functor.map_comp_assoc,
+    Iso.hom_inv_id_app, CategoryTheory.Functor.map_id, Category.id_comp]
+
+/-- `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj` sends the section
+`Stacks.SheafOfModules.tensorSectionsAt` of a pure tensor, the unit of the sealed sheafification,
+to its product `Stacks.SectionTensorFormula.tensorSection`. -/
+private theorem tensorSheafIsoTensorObj_hom_tensorSectionsAt (F G : X.Modules) {W : X.Opens}
+    (s : Γ(F, W)) (t : Γ(G, W)) :
+    (Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
+        (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) F G).hom.val.app (op W)
+        (Stacks.SheafOfModules.tensorSectionsAt X.presheaf
+          (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) (op W) F G s t) =
+      Stacks.SectionTensorFormula.tensorSection F G s t := by
+  rw [Stacks.SectionTensorFormula.tensorSection_eq]
+  exact congrArg (fun z => (Stacks.SectionTensorFormula.sheafifyIsoTensorObj X.presheaf
+    (Stacks.SectionTensorFormula.schemeSheafCondition X) F G).hom.val.app (op W) z)
+    (PresheafOfModules.hom_congr_apply'
+      (sheafificationForgetAdjunction_unit_comp_sheafificationIso_inv
+        ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ X.presheaf (forget₂ CommRingCat RingCat)
+          (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X)⟩
+        (PresheafOfModules.tensorObj F.val G.val)) (op W) (s ⊗ₜ t))
+
 /-- The product of two local sections of the tensor powers is their tensor product, read through
 `mulIso`. -/
 theorem localMul_eq_mulIso {i j : ℤ} {W : X.Opens} (s : Γ(tensorPowerModule X L i, W))
     (t : Γ(tensorPowerModule X L j, W)) :
     Stacks.TensorPowerDivision.localMul L s t =
       (mulIso L i j).hom.app W (Stacks.SectionTensorFormula.tensorSection _ _ s t) := by
-  have e := Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.hom_app_inv_app
-    (Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
-      (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) (tensorPowerModule X L i)
-      (tensorPowerModule X L j)).symm W
-    (Stacks.SheafOfModules.tensorSectionsAt X.presheaf
-      (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) (op W)
-      (tensorPowerModule X L i) (tensorPowerModule X L j) s t)
+  rw [← tensorSheafIsoTensorObj_hom_tensorSectionsAt]
   exact (congrArg (fun z => (Stacks.SheafOfModules.TensorPower.coherentMulIso X.presheaf
       (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) L i j).hom.val.app (op W) z)
-    e).symm
+    (Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.hom_app_inv_app
+      (Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
+        (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf X) (tensorPowerModule X L i)
+        (tensorPowerModule X L j)).symm W _)).symm
 
 /-- **A product of sections of tensor powers that does not vanish at a point has factors that do
 not vanish there**, [Stacks, Tag 01CY]: the product is the tensor product of the two sections read

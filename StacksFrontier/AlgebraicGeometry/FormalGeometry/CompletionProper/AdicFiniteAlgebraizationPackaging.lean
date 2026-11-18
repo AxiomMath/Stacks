@@ -36,7 +36,8 @@ right of `IsFinite`/`IsProper`; so the identification is the term below, not `rf
 
 No `@[stacks]` attribute is attached here: these are repackagings, and Stacks 09ZT, 0A42 and 0899
 are registered in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AdicFiniteAlgebraizationTags.lean`,
+`AdicFiniteAlgebraizationTags.lean` of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/`,
 on `exists_finite_algebraization_of_adicFiniteSystem_holds`,
 `existsUnique_algebraization_adicBaseChangeMap_holds` and
 `exists_closedImmersion_algebraization_of_isPullback_holds`, where `halg` is discharged by

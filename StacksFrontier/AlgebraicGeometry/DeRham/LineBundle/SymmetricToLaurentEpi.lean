@@ -95,6 +95,22 @@ namespace Stacks.LineBundle
 
 open Stacks.SheafOfModules Stacks.SheafOfModules.TensorPower
 
+section SealedUnit
+
+variable {C : Type*} [Category* C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+
+/-- The unit of the sealed sheafification of the tensor product, with the plain forgetful functor
+as right adjoint, is locally surjective. -/
+private theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{u} (Tensor.ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Tensor.sheafificationForgetAdjunction R).unit.app M) := by
+  rw [Tensor.sheafificationForgetAdjunction_unit_app]
+  exact isLocallySurjective_comp inferInstance (isLocallySurjective_of_isIso _ inferInstance)
+
+end SealedUnit
+
 variable (D : Situation.{u})
 
 /-! ### Multiplication of the Laurent algebra as a morphism out of a tensor product -/
@@ -106,7 +122,8 @@ isomorphism `L^{⊗ i} ⊗ L^{⊗ j} ≅ L^{⊗ (i + j)}` of Tag 01CU. -/
 noncomputable def Situation.laurentMulPresheaf (i j : ℤ) :
     PresheafOfModules.tensorObj (D.laurentAlgebra.piece i).val
         (D.laurentAlgebra.piece j).val ⟶ (D.laurentAlgebra.piece (i + j)).val :=
-  TensorSheafification.toSheafify D.X.sheaf.obj D.X.ringCatSheaf.property _ ≫
+  (Invertible.structureSheafificationAdjunction D.X.sheaf.obj D.X.ringCatSheaf.property).unit.app
+      (PresheafOfModules.tensorObj (D.laurentAlgebra.piece i).val (D.laurentAlgebra.piece j).val) ≫
     (coherentMulIso D.X.sheaf.obj D.X.ringCatSheaf.property D.L i j).hom.val
 
 /-- The multiplication of the Laurent algebra of the line bundle carries the pure tensor of two
@@ -129,9 +146,8 @@ theorem Situation.isLocallySurjective_laurentMulPresheaf (i j : ℤ) :
     ((SheafOfModules.forget
       (TensorSheafification.structureSheaf D.X.sheaf.obj D.X.ringCatSheaf.property)).mapIso
         (coherentMulIso D.X.sheaf.obj D.X.ringCatSheaf.property D.L i j)).isIso_hom
-  exact Stacks.SheafOfModules.isLocallySurjective_comp
-    (Stacks.SheafOfModules.isLocallySurjective_toSheafify D.X.ringCatSheaf.property _)
-    (Stacks.SheafOfModules.isLocallySurjective_of_isIso _ hiso)
+  exact isLocallySurjective_comp (isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _)
+    (isLocallySurjective_of_isIso _ hiso)
 
 /-- **The comparison of the symmetric algebra of the line bundle with its Laurent algebra is an
 epimorphism in a sum of two degrees in which it is an isomorphism**, multiplication of the

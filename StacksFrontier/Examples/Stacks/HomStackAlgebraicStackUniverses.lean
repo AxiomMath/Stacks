@@ -25,7 +25,8 @@ is discharged. The separated-target criterion of Stacks 0AFD, with Stacks 07X8 d
   the same with a formal object that is not effective (Stacks 07X7).
 
 The Hom-stack `Mor_S(X, [S/A])` of Stacks 0AFC is `AlgebraicGeometry.Stack.homStack`, and
-Stacks 0AFB and Stacks 0AFC for it are in `StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.Main`.
+Stacks 0AFB and Stacks 0AFC for it are in
+`StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.Main`.
 
 ## References
 

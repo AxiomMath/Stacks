@@ -316,8 +316,9 @@ the scheme of one surjective etale chart of Y, which is how the source's proof r
 implies (3). The tag as published, with (3) on |Y|, is false, refuted (with a target which is not \
 decent) by the theorem \
 Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus of \
-StacksFrontier/Examples/Flatness/NonOpenFlatLocusWeaklyAssociated.lean. The module is quasi-coherent \
-of finite type on the small etale site; the conclusion is read on the etale scheme charts of U, as \
+StacksFrontier/Examples/Flatness/NonOpenFlatLocusWeaklyAssociated.lean. The module is \
+quasi-coherent of finite type on the small etale site; \
+the conclusion is read on the etale scheme charts of U, as \
 every property of a module on an algebraic space is in this development"]
 theorem isFinitePresentationOnCharts_flatLocusRestrict (f : Xs ⟶ Ys)
     (F : Modules.{u, u} B S hS Xs.1 Xs.2) [hqc : F.IsQuasicoherentOnSite]

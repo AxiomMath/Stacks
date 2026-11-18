@@ -51,8 +51,7 @@ theorem isLocalizedModule_mkLinearMap_comp_tensorMk
       (E.toLinearMap.comp (TensorProduct.mk P D N 1))) := by
   have key : ∀ m : D ⊗[P] N, ∃ u ∈ S, ∃ x : N, u • m = (1 : D) ⊗ₜ[P] x := by
     intro m
-    induction m using TensorProduct.induction_on with
-    | zero => exact ⟨1, S.one_mem, 0, by simp⟩
+    induction m using TensorProduct.inductionOn with
     | tmul d n =>
       obtain ⟨u, hu, x, hx⟩ := H d
       refine ⟨u, hu, x • n, ?_⟩
@@ -103,8 +102,8 @@ public def localizedModuleTorEquiv
     [p.asIdeal.LiesOver r.asIdeal] [q.asIdeal.LiesOver r.asIdeal]
     [Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime p.asIdeal)]
     [Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal)]
-    [Localization.AtPrime.IsLiesOverAlgebra r.asIdeal p.asIdeal]
-    [Localization.AtPrime.IsLiesOverAlgebra r.asIdeal q.asIdeal]
+    [IsScalarTower R (Localization.AtPrime r.asIdeal) (Localization.AtPrime p.asIdeal)]
+    [IsScalarTower R (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal)]
     (hp : p.asIdeal = s.asIdeal.comap (Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] B))
     (hq : q.asIdeal = s.asIdeal.comap (Algebra.TensorProduct.includeRight : B →ₐ[R] A ⊗[R] B))
     (i : ℕ) :
@@ -147,8 +146,7 @@ public def localizedModuleTorEquiv
       map_add' := E₀.map_add
       map_smul' := fun c x ↦ by
         have : c • x = f c • x := by
-          induction x using TensorProduct.induction_on with
-          | zero => simp
+          induction x using TensorProduct.inductionOn with
           | tmul d t => rfl
           | add x y hx hy => rw [smul_add, hx, hy, smul_add]
         rw [this]
@@ -162,8 +160,7 @@ public def localizedModuleTorEquiv
   have hg : g.comp f = algebraMap (A ⊗[R] B) (Localization.AtPrime s.asIdeal) := by
     apply RingHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       have hf : f (a ⊗ₜ[R] b) = fA a ⊗ₜ[Rr] fB b := by
         simp [f, TorChangeOfRings.tensorProductMap, Algebra.TensorProduct.tmul_mul_tmul]
@@ -182,8 +179,7 @@ public def localizedModuleTorEquiv
   have H : ∀ d : D, ∃ u ∈ s.asIdeal.primeCompl, ∃ x : A ⊗[R] B,
       algebraMap (A ⊗[R] B) D u * d = algebraMap (A ⊗[R] B) D x := by
     intro d
-    induction d using TensorProduct.induction_on with
-    | zero => exact ⟨1, s.asIdeal.primeCompl.one_mem, 0, by simp⟩
+    induction d using TensorProduct.inductionOn with
     | tmul a' b' =>
       obtain ⟨⟨a, u⟩, rfl⟩ := IsLocalization.mk'_surjective p.asIdeal.primeCompl a'
       obtain ⟨⟨b, v⟩, rfl⟩ := IsLocalization.mk'_surjective q.asIdeal.primeCompl b'
@@ -225,8 +221,8 @@ theorem localizedModuleTorEquiv_mk_one
     [p.asIdeal.LiesOver r.asIdeal] [q.asIdeal.LiesOver r.asIdeal]
     [Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime p.asIdeal)]
     [Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal)]
-    [Localization.AtPrime.IsLiesOverAlgebra r.asIdeal p.asIdeal]
-    [Localization.AtPrime.IsLiesOverAlgebra r.asIdeal q.asIdeal]
+    [IsScalarTower R (Localization.AtPrime r.asIdeal) (Localization.AtPrime p.asIdeal)]
+    [IsScalarTower R (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal)]
     (hp : p.asIdeal = s.asIdeal.comap (Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] B))
     (hq : q.asIdeal = s.asIdeal.comap (Algebra.TensorProduct.includeRight : B →ₐ[R] A ⊗[R] B))
     (i : ℕ) (x : TorChangeOfRings.torObj R i A B) :

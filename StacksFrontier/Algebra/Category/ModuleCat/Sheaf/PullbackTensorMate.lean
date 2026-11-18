@@ -293,36 +293,27 @@ def mateTensorHom :
         ((f.pullbackModules).obj F, (f.pullbackModules).obj G))
 
 /-- The mate on the tensor product of the two pullbacks carries the sheafification-unit image of
-`y ⊗ₜ z` to the unit image of the pure tensor of the two values of the mate. -/
+`y ⊗ₜ z` to the unit image of the pure tensor of the two values of the mate. The units are those
+of the sealed sheafification, with the forgetful functor as right adjoint
+(`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`). -/
 lemma mateTensorHom_val_app_unit_tmul (V : X.Cᵒᵖ)
     (y : ((g.pullbackModules).obj F).val.obj V)
     (z : ((g.pullbackModules).obj G).val.obj V) :
     (mateTensorHom f g τ F G).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf X.J X.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-            (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
             (((g.pullbackModules).obj F).val ⊗ ((g.pullbackModules).obj G).val)).app V
           (y ⊗ₜ[(ringPresheaf X.O.obj).obj V] z)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf X.J X.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-          (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((f.pullbackModules).obj F).val ⊗ ((f.pullbackModules).obj G).val)).app V
         ((((conjugateEquiv (pullbackAdjPushforwardModules f)
                 (pullbackAdjPushforwardModules g)).symm τ).app F).val.app V y
           ⊗ₜ[(ringPresheaf X.O.obj).obj V]
           (((conjugateEquiv (pullbackAdjPushforwardModules f)
                 (pullbackAdjPushforwardModules g)).symm τ).app G).val.app V z) := by
-  unfold mateTensorHom
-  rw [Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
-  exact TensorSheafification.sheafification_map_val_app_unit X.O.obj
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
-    (PresheafOfModules.tensorHom (O := X.O.obj) (SheafOfModules.Hom.val
-        (((conjugateEquiv (pullbackAdjPushforwardModules f)
-          (pullbackAdjPushforwardModules g)).symm τ).app F))
-      (SheafOfModules.Hom.val
-        (((conjugateEquiv (pullbackAdjPushforwardModules f)
-          (pullbackAdjPushforwardModules g)).symm τ).app G))) V
-    (y ⊗ₜ[(ringPresheaf X.O.obj).obj V] z)
+  rw [mateTensorHom, Tensor.sheafTensor_uncurry_map]
+  exact (congrArg _ (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ V _)).trans
+    ((Tensor.unit_naturality_apply _ V _).trans
+      (Tensor.sheafificationForgetAdjunction_unit_app_app_apply X.O _ V _).symm)
 
 /-- The mate on the tensor product of the two pullbacks, on underlying sheaves of sets, from the
 restriction of scalars to `g⁻¹O_D` of the tensor product of the two `g`-pullbacks to the

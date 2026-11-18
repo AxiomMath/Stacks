@@ -97,7 +97,8 @@ Stacks 04S6 part (3), and it is equivalent to that condition rather than weaker 
 over the terminal object of the site, "`b` is representable by algebraic spaces" for the
 structure morphism of a sheaf says that the sheaf is an algebraic space.  This file therefore
 proves Stacks 0AMP from the bootstrap theorem, taken as an input; the bootstrap theorem is
-proved in `StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/Unconditional.lean`, and the
+proved in `StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/Unconditional.lean`, and
+the
 two are put together in
 `StacksFrontier/AlgebraicGeometry/Spaces/Representable/Bootstrap/FinalBootstrap.lean`.
 

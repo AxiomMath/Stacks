@@ -177,7 +177,7 @@ theorem tensorSectionsAt_add_left (U : Cᵒᵖ)
     tensorSectionsAt O hO U F G (s + s') t =
       tensorSectionsAt O hO U F G s t + tensorSectionsAt O hO U F G s' t := by
   simp only [tensorSectionsAt, TensorProduct.add_tmul]
-  exact map_add ((TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U).hom _ _
+  exact map_add _ _ _
 
 /-- The pairing of sections over an object is additive in its right argument. -/
 theorem tensorSectionsAt_add_right (U : Cᵒᵖ)
@@ -186,7 +186,7 @@ theorem tensorSectionsAt_add_right (U : Cᵒᵖ)
     tensorSectionsAt O hO U F G s (t + t') =
       tensorSectionsAt O hO U F G s t + tensorSectionsAt O hO U F G s t' := by
   simp only [tensorSectionsAt, TensorProduct.tmul_add]
-  exact map_add ((TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U).hom _ _
+  exact map_add _ _ _
 
 /-- Pairing with the zero section on the left gives the zero section. -/
 theorem tensorSectionsAt_zero_left (U : Cᵒᵖ)

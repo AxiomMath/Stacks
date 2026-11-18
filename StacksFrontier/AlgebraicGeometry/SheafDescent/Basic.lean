@@ -23,8 +23,9 @@ isomorphisms.
   is, a compatible family of `O(W)`-linear isomorphisms `P(W) ≅ O(W)` for `W` lying over `U`.
 * `Stacks.SheafDescent.tensorFun`: the sheafified tensor functor, written with the monoidal
   structure of presheaves of modules over
-  `Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O`; it is equal to the
-  sheaf tensor bifunctor (`Stacks.SheafDescent.tensorFun_eq`).
+  `Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O`; it is isomorphic to the
+  sheaf tensor bifunctor (`Stacks.SheafDescent.tensorFunIso`), and even equal to it
+  (`Stacks.SheafDescent.tensorFun_eq`).
 
 ## Main results
 
@@ -459,7 +460,22 @@ theorem tensorFun_eq (A : SheafOfModules.{max u v w}
   (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, max u v w, max u v w, max u v w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj A =
-        tensorFun O hO A.val := rfl
+        tensorFun O hO A.val :=
+  congrArg (fun sheafification => SheafOfModules.forget _ ⋙ tensorLeft A.val ⋙ sheafification)
+    (Stacks.SheafOfModules.Tensor.sheafification_def _)
+
+/-- The sheaf tensor bifunctor applied to a sheaf of modules `A` is isomorphic to the sheafified
+tensor functor `tensorFun` of the underlying presheaf of `A`: the two sheafify the same tensor
+products, through the sealed `Stacks.SheafOfModules.Tensor.sheafification` and through Mathlib's
+sheafification respectively, which `Stacks.SheafOfModules.Tensor.sheafificationIso` compares. -/
+noncomputable def tensorFunIso (A : SheafOfModules.{max u v w}
+    (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, max u v w, max u v w, max u v w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj A ≅
+        tensorFun O hO A.val :=
+  Functor.isoWhiskerLeft (SheafOfModules.forget _ ⋙ tensorLeft A.val)
+    (Stacks.SheafOfModules.Tensor.sheafificationIso
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).symm
 
 /-- Sheafifying the second factor does not change the sheafification of a tensor product. -/
 noncomputable def sheafifyTensorLeftIso
@@ -583,11 +599,10 @@ noncomputable def tensorFunCompUnitIso
     (A B : PresheafOfModules.{max u v w} (structureRingPresheaf O))
     (e : (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (B ⊗ A) ≅
       SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    tensorFun O hO A ⋙ tensorFun O hO B ≅ 𝟭 _ := by
-  have composition := tensorFunComp O hO A B
-  rw [← tensorFun_eq O hO
-    ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (B ⊗ A))] at composition
-  exact composition ≪≫
+    tensorFun O hO A ⋙ tensorFun O hO B ≅ 𝟭 _ :=
+  tensorFunComp O hO A B ≪≫
+    (tensorFunIso O hO
+      ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (B ⊗ A))).symm ≪≫
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, max u v w, max u v w, max u v w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
         (X := (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (B ⊗ A))
@@ -630,14 +645,16 @@ theorem isInvertible_of_trivialization
     (sheafifyTensorRightIso O hO (dual O L.val) L.val).symm ≪≫
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso hbr ≪≫ tensorDualUnitIso O
         L.val hO hY t
-  exact (CategoryTheory.Equivalence.mk (tensorFun O hO L.val)
-    (tensorFun O hO ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (dual O
-      L.val)).val)
-    (tensorFunCompUnitIso O hO L.val
-      ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (dual O L.val)).val u1).symm
-    (tensorFunCompUnitIso O hO ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (dual
-      O L.val)).val
-      L.val u2)).isEquivalence_functor
+  exact @Functor.isEquivalence_of_iso _ _ _ _ _ _ (tensorFunIso O hO L).symm
+    (CategoryTheory.Equivalence.mk (tensorFun O hO L.val)
+      (tensorFun O hO ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj
+        (dual O L.val)).val)
+      (tensorFunCompUnitIso O hO L.val
+        ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (dual O L.val)).val
+          u1).symm
+      (tensorFunCompUnitIso O hO
+        ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (dual O L.val)).val
+          L.val u2)).isEquivalence_functor
 
 /-- A sheaf of modules that is trivial on a family of objects covering the terminal object is
 invertible. -/

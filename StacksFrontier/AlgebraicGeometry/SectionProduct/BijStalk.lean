@@ -43,7 +43,9 @@ At the presheaf level the objectwise tensor product is sectionwise, so
 `(PresheafOfModules.tensorHom (𝟙 A) φ).app U` sends `a ⊗ₜ p` to `a ⊗ₜ φ.app U p`, and tensoring
 with a bijection is a bijection. Bijectivity on all small enough opens gives bijectivity on the
 stalk, the stalk being a filtered colimit over neighbourhoods and the opens inside `W` being
-cofinal among those. Sheafification does not change stalks, and the monoidal `tensorLeft` of
+cofinal among those. Sheafification does not change stalks (for the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` this goes through
+`Stacks.SheafOfModules.Tensor.sheafificationIso`), and the monoidal `tensorLeft` of
 `SheafOfModules` is isomorphic to the sheafified sectionwise tensor product by
 `Stacks.SheafInternalHom.tensorLeftIso`. No flatness of `F` is needed: `f` is not merely
 injective but invertible near `x`.
@@ -236,6 +238,24 @@ theorem bijective_pstalkHom_sheafify_map
     exact hleft
   exact (Function.Bijective.of_comp_iff _ hP).mp hright
 
+/-- If a morphism of presheaves of modules is bijective on the stalk at `x`, then so is its
+image under the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` ending
+`Stacks.SheafOfModules.Tensor.sheafTensor`; it agrees with `sheafify` up to the natural
+isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+theorem bijStalk_sheafification_map
+    {P Q : PresheafOfModulesOfCommRing.{u} X.presheaf} (φ : P ⟶ Q) (x : X)
+    (h : Function.Bijective (pstalkHom φ x)) :
+    BijStalk ((Stacks.SheafOfModules.Tensor.sheafification ⟨X.presheaf,
+      Presheaf.isSheaf_of_isSheaf_comp _ _ (forget₂ CommRingCat RingCat) (hStruct X)⟩).map φ)
+      x := by
+  let i := Stacks.SheafOfModules.Tensor.sheafificationIso
+    ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ _ (forget₂ CommRingCat RingCat) (hStruct X)⟩
+  refine BijStalk.of_comp_left _
+    (bijStalk_of_hom_inv (i.hom_inv_id_app P) (i.inv_hom_id_app P) x) ?_
+  exact bijStalk_congr (i.hom.naturality φ)
+    (BijStalk.comp (bijective_pstalkHom_sheafify_map φ x h)
+      (bijStalk_of_hom_inv (i.hom_inv_id_app Q) (i.inv_hom_id_app Q) x))
+
 /-- If `f` is bijective on sections over every open inside a neighbourhood `W` of `x`, then
 `A ◁ f` is bijective on the stalk at `x`. -/
 theorem BijStalk.whiskerLeft (A : X.Modules) {M N : X.Modules} (f : M ⟶ N) {W : X.Opens} {x : X}
@@ -251,7 +271,7 @@ theorem BijStalk.whiskerLeft (A : X.Modules) {M N : X.Modules} (f : M ⟶ N) {W 
     (bijStalk_of_hom_inv (e.hom_inv_id_app N) (e.inv_hom_id_app N) x) ?_
   refine bijStalk_congr (e.hom.naturality f).symm ?_
   exact BijStalk.comp (bijStalk_of_hom_inv (e.hom_inv_id_app M) (e.inv_hom_id_app M) x)
-    (bijective_pstalkHom_sheafify_map (PresheafOfModules.tensorHom (𝟙 A.val) f.val) x hpre)
+    (bijStalk_sheafification_map (PresheafOfModules.tensorHom (𝟙 A.val) f.val) x hpre)
 
 /-! ### Multiplication by a section on stalks -/
 

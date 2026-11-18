@@ -9,7 +9,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 For a sheaf `F` on a small site `(C, J)` this file proves that `Sh(C)/F` is a topos and constructs
 the localization morphism of topoi `j_F : Sh(C)/F ⟶ Sh(C)`, with its pushforward `j_{F,*}` built
-rather than assumed. See `StacksFrontier.CategoryTheory.Sites.ToposLocalization` for the overview and
+rather than assumed. See `StacksFrontier.CategoryTheory.Sites.ToposLocalization` for the overview
+and
 the general `MorphismOfTopoi.overLocalization`.
 
 `Sh(C)/F ≌ Sh(C/F)` is Stacks 0791 (`Stacks.Topos.Localized.sheafEquivalence`), the site `C/F`

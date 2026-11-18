@@ -18,7 +18,7 @@ module universe,
 
 as an isomorphism of functors in the sheaf `G` of `O|_U`-modules. **This file supplies the
 *other* naturality**, in the sheaf `F` of `O`-modules: the presheaf-level comparison it is built
-from is natural in `F`, and so is each of the four steps the sheaf-level comparison decomposes
+from is natural in `F`, and so is each of the five steps the sheaf-level comparison decomposes
 into.
 
 That second naturality is what a proof that `j_{U!}` *preserves flatness* needs. Flatness of
@@ -41,22 +41,23 @@ functors are isomorphic and the exactness transports.
 * `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.tensorSheafificationIso_naturality`:
   **Stacks 05NB is natural in the fixed tensor factor** at a free module universe, together with
   the five squares it is pasted from.
-* `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.restrictionTensorIso_hom_app`: the four steps
+* `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.restrictionTensorIso_hom_app`: the five steps
   `restrictionTensorIso` is assembled from, at an object.
-* `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.presheafExtensionTensorIso_naturality_right`
-  and `sheafificationCompPullback_inv_naturality_right`: the third and fourth of those four
-  steps are natural in the module on the big site. The first two are
+* `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.presheafExtensionTensorIso_naturality_right`,
+  `sheafificationCompPullback_inv_naturality_right` and `sheafificationIso_naturality_right`: the
+  third, fourth and fifth of those five steps are natural in the module on the big site. The
+  first two are
   `sheafTensorRightMap_naturality` and `tensorSheafificationIso_naturality` above.
 * `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.restrictionTensorIso_naturality_right`:
   **Stacks 0E8I is natural in the sheaf of modules on the big site** at a free module universe,
-  the paste of those four squares. With `restrictionTensorIso`, which is the naturality in the
+  the paste of those five squares. With `restrictionTensorIso`, which is the naturality in the
   module on the slice, this makes the comparison bifunctorial at
   `RingedSite.{u, v, w}` with the modules in a free `a` — the free-universe counterpart of
   `Stacks.Sites.ExtensionByZero.OfEssentiallySmall.restrictionTensorIso_naturality_right`.
 
 ## The two spellings of the slice tensor product, and what they cost
 
-The four squares paste to the naturality of `restrictionTensorIso` in the module on the big
+The five squares paste to the naturality of `restrictionTensorIso` in the module on the big
 site, which is `restrictionTensorIso_naturality_right`. The paste is delicate, and the whole of
 what makes it so is an identification of two spellings of the slice tensor product. The
 restriction of `F` to `C/U` appears as
@@ -77,8 +78,8 @@ terms suggests.
 * **Morphisms under sheafification are not.** `(sheafifyModules X.J X.O).map` applied to the two
   typings of one morphism of slice tensor products exhausts the budget. Every junction of the
   paste that crosses a `Functor.map` is therefore written in one spelling on both sides; that is
-  what `presheafExtensionTensorIso_naturality_slice` is for, and it is why all three shared
-  edges of the paste are supplied to `comp_eq_comp_of_four_squares` rather than solved from the
+  what `presheafExtensionTensorIso_naturality_slice` is for, and it is why all four shared
+  edges of the paste are supplied to `comp_eq_comp_of_five_squares` rather than solved from the
   squares.
 * **A single component read at the other spelling is affordable exactly when the natural
   transformation is opaque.** `η.app Z` for `η` the inverse of `presheafPullbackIsoExtension` or
@@ -262,13 +263,13 @@ universe a w v u
 
 open Stacks.Sites.OverModules
 open AlgebraicGeometry (RingedSite)
-open Stacks.SheafOfModules.Tensor (ringSheaf)
+open Stacks.SheafOfModules.Tensor (ringSheaf sheafification sheafificationIso)
 open AlgebraicGeometry.SheafOfModules.PresheafOfModules (tensorRight)
 open Stacks.SheafOfModules.TensorColimits (tensorCommIso
   tensorSheafificationIsoGeneral)
 open AlgebraicGeometry.SheafOfModules (presheafTensorLeft)
 open Stacks.Sites.ExtensionByZero.OfEssentiallySmall (natIso_inv_square
-  comp_eq_comp_of_three_squares comp_eq_comp_of_four_squares map_comp_eq_map_comp_of_eq)
+  comp_eq_comp_of_three_squares comp_eq_comp_of_five_squares map_comp_eq_map_comp_of_eq)
 
 section SheafLevel
 
@@ -280,11 +281,12 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   {F F' : SheafOfModules.{a} (ringSheaf O)} (α : F ⟶ F')
 
 /-- The morphism `A ⊗ F ⟶ A ⊗ F'` of sheaves of modules induced in the second tensor slot by
-`α : F ⟶ F'`: the sheafification of the presheaf-level `tensorRightMap`. -/
+`α : F ⟶ F'`: the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` of the
+presheaf-level `tensorRightMap`. -/
 noncomputable def sheafTensorRightMap (A : SheafOfModules.{a} (ringSheaf O)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).flip.obj F).obj A ⟶
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).flip.obj F').obj A :=
-  (sheafifyModules J O).map (tensorRightMap O.obj A.val α.val)
+  (sheafification O).map (tensorRightMap O.obj A.val α.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The same morphism, read as the action of `α` on the functor of tensoring on the left with
@@ -304,7 +306,7 @@ lemma sheafTensorRightMap_naturality
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).flip.obj F').map h =
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).flip.obj F).map h ≫
         sheafTensorRightMap J O α B := by
-  exact (map_comp_eq_map_comp_of_eq (sheafifyModules J O)
+  exact (map_comp_eq_map_comp_of_eq (sheafification O)
     (tensorRightMap_naturality O.obj A.val α.val h.val)).symm
 
 /-- The morphism `F ⊗ A ⟶ F' ⊗ A` induced in the *first* tensor slot by `α : F ⟶ F'`, read as
@@ -313,7 +315,7 @@ natural transformation `(sheafTensor O).obj F ⟶ (sheafTensor O).obj F'` that `
 noncomputable def tensorLeftMapApp (A : SheafOfModules.{a} (ringSheaf O)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).obj F).obj A ⟶
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, a, a} O).obj F').obj A :=
-  (sheafifyModules J O).map ((tensorRight (O := O.obj) A.val).map α.val)
+  (sheafification O).map ((tensorRight (O := O.obj) A.val).map α.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
   [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
@@ -352,7 +354,7 @@ lemma tensorLeftIsoSheafTensorRight_naturality
     (A : SheafOfModules.{a} (ringSheaf O)) :
     tensorLeftMapApp J O α A ≫ (tensorLeftIsoSheafTensorRight J O F').hom.app A =
       (tensorLeftIsoSheafTensorRight J O F).hom.app A ≫ sheafTensorRightMap J O α A := by
-  exact map_comp_eq_map_comp_of_eq (sheafifyModules J O)
+  exact map_comp_eq_map_comp_of_eq (sheafification O)
     (tensorCommIso_naturality J O α.val A.val)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
@@ -367,19 +369,39 @@ lemma tensorLeftIsoSheafTensorRight_inv_naturality
     (tensorLeftIsoSheafTensorRight_naturality J O α A)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- The component of `Stacks.SheafOfModules.TensorColimits.tensorSheafificationIsoGeneral` at
+`P`, at a free module universe: Mathlib's sheafification of `F ⊗ η`, for `η : P ⟶ P^#` the
+sheafification unit read in the plain forgetful functor, followed by the passage from Mathlib's
+sheafification to the sealed `Stacks.SheafOfModules.Tensor.sheafification` that `sheafTensor`
+ends with. -/
+lemma tensorSheafificationIsoGeneral_hom_app
+    (G : SheafOfModules.{a} (ringSheaf O))
+    (P : PresheafOfModules.{a} (ringSheaf O).obj) :
+    (tensorSheafificationIsoGeneral J O G).hom.app P =
+      (sheafifyModules J O).map
+          ((presheafTensorLeft J O G.val).map
+            ((PresheafOfModules.sheafificationAdjunction.{a} (𝟙 (ringSheaf O).obj)).unit.app P ≫
+              (Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso O).hom.app
+                ((sheafifyModules J O).obj P))) ≫
+        (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def O).symm).hom.app _ :=
+  rfl
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **Stacks 05NB is natural in the fixed tensor factor.** Both sides are sheafifications of
-presheaf-level morphisms, and the presheaf-level square is the bifunctoriality of the objectwise
-tensor product at the unit of sheafification. -/
+presheaf-level morphisms followed by the passage to the sealed sheafification, and the
+presheaf-level square is the bifunctoriality of the objectwise tensor product at the unit of
+sheafification. -/
 lemma tensorSheafificationIsoGeneral_naturality
     (P : PresheafOfModules.{a} (ringSheaf O).obj) :
     (sheafifyModules J O).map ((tensorRight (O := O.obj) P).map α.val) ≫
         (tensorSheafificationIsoGeneral J O F').hom.app P =
       (tensorSheafificationIsoGeneral J O F).hom.app P ≫
-        tensorLeftMapApp J O α ((sheafifyModules J O).obj P) :=
-  map_comp_eq_map_comp_of_eq (sheafifyModules J O)
-    (presheafTensorLeft_naturality J O α.val
-      ((PresheafOfModules.sheafificationAdjunction.{a}
-        (𝟙 (ringSheaf O).obj)).unit.app P)).symm
+        tensorLeftMapApp J O α ((sheafifyModules J O).obj P) := by
+  rw [tensorSheafificationIsoGeneral_hom_app, tensorSheafificationIsoGeneral_hom_app,
+    tensorLeftMapApp]
+  exact ((reassoc_of% (map_comp_eq_map_comp_of_eq (sheafifyModules J O)
+    (presheafTensorLeft_naturality J O α.val _).symm)) _).trans
+    ((congrArg (_ ≫ ·) (NatTrans.naturality _ _)).trans (Category.assoc _ _ _).symm)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **Stacks 05NB is natural in the fixed tensor factor**, read in the inverse direction. -/
@@ -460,12 +482,14 @@ noncomputable abbrev sliceSheafifyModules :
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)]
   [(X.J.over U).HasSheafCompose (forget₂ CommRingCat RingCat)] in
-/-- The four steps `restrictionTensorIso` is assembled from, at an object: the comparison of the
+/-- The five steps `restrictionTensorIso` is assembled from, at an object: the comparison of the
 two models of sheaf-level extension by zero, the exchange of sheafification with the tensor
-product, the presheaf-level comparison of the extension formula, and the exchange of
-sheafification with extension by zero.
+product, the presheaf-level comparison of the extension formula, the exchange of
+sheafification with extension by zero, and the passage
+`Stacks.SheafOfModules.Tensor.sheafificationIso` from Mathlib's sheafification on the slice to
+the sealed one that `sheafTensor` ends with.
 
-Both occurrences of the slice tensor product are written as `sliceTensorObj`. -/
+All three occurrences of the slice tensor product are written as `sliceTensorObj`. -/
 lemma restrictionTensorIso_hom_app
     (F : SheafOfModules.{a} (ringSheaf X.O))
     (G : SheafOfModules.{a} ((ringSheaf X.O).over U)) :
@@ -485,7 +509,9 @@ lemma restrictionTensorIso_hom_app
               (sliceTensorObj X U F G.val)) ≫
         (SheafOfModules.sheafificationCompPullback
             (𝟙 ((ringSheaf X.O).over U))).inv.app
-          (sliceTensorObj X U F G.val) :=
+          (sliceTensorObj X U F G.val) ≫
+        (extendByZero.{a} X U).map
+          ((sheafificationIso (X.O.over U)).hom.app (sliceTensorObj X U F G.val)) :=
   rfl
 
 variable {F F' : SheafOfModules.{a} (ringSheaf X.O)} (α : F ⟶ F')
@@ -509,14 +535,14 @@ noncomputable def slicePresheafTensorMapRight
     sliceTensorObj X U F H ⟶ sliceTensorObj X U F' H :=
   extensionTensorPullbackMapRight X.O.obj U α.val H
 
-/-- The morphism of sheaves of modules on the slice induced by `α : F ⟶ F'`: the sheafification
-of `slicePresheafTensorMapRight`. This is the morphism the target of `restrictionTensorIso` is
-natural along. -/
+/-- The morphism of sheaves of modules on the slice induced by `α : F ⟶ F'`: the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` of `slicePresheafTensorMapRight`,
+which is the morphism `G ⊗ F|_U ⟶ G ⊗ F'|_U` of tensor product sheaves. This is the morphism the
+target of `restrictionTensorIso` is natural along. -/
 noncomputable def sliceTensorRightMap
     (G : SheafOfModules.{a} ((ringSheaf X.O).over U)) :
-    (sliceSheafifyModules X U).obj (sliceTensorObj X U F G.val) ⟶
-      (sliceSheafifyModules X U).obj (sliceTensorObj X U F' G.val) :=
-  (sliceSheafifyModules X U).map (slicePresheafTensorMapRight X U α G.val)
+    (sliceSheafTensorRight X U (F.over U)).obj G ⟶ (sliceSheafTensorRight X U (F'.over U)).obj G :=
+  (sheafification (X.O.over U)).map (slicePresheafTensorMapRight X U α G.val)
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)]
   [(X.J.over U).HasSheafCompose (forget₂ CommRingCat RingCat)]
@@ -576,10 +602,28 @@ lemma sheafificationCompPullback_inv_naturality_right
       (SheafOfModules.sheafificationCompPullback
           (𝟙 ((ringSheaf X.O).over U))).inv.app
         (sliceTensorObj X U F G.val) ≫
-        (extendByZero.{a} X U).map (sliceTensorRightMap X U α G) :=
+        (extendByZero.{a} X U).map
+          ((sliceSheafifyModules X U).map (slicePresheafTensorMapRight X U α G.val)) :=
   (SheafOfModules.sheafificationCompPullback
     (𝟙 ((ringSheaf X.O).over U))).inv.naturality
     (slicePresheafTensorMapRight X U α G.val)
+
+omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- **The fifth step of `restrictionTensorIso` is natural in the sheaf of modules on `X`**: it is
+the naturality of the passage `Stacks.SheafOfModules.Tensor.sheafificationIso` from Mathlib's
+sheafification on the slice to the sealed one, under extension by zero. -/
+lemma sheafificationIso_naturality_right
+    (G : SheafOfModules.{a} ((ringSheaf X.O).over U)) :
+    (extendByZero.{a} X U).map
+          ((sliceSheafifyModules X U).map (slicePresheafTensorMapRight X U α G.val)) ≫
+        (extendByZero.{a} X U).map
+          ((sheafificationIso (X.O.over U)).hom.app (sliceTensorObj X U F' G.val)) =
+      (extendByZero.{a} X U).map
+          ((sheafificationIso (X.O.over U)).hom.app (sliceTensorObj X U F G.val)) ≫
+        (extendByZero.{a} X U).map (sliceTensorRightMap X U α G) :=
+  map_comp_eq_map_comp_of_eq (extendByZero.{a} X U)
+    ((sheafificationIso (X.O.over U)).hom.naturality (slicePresheafTensorMapRight X U α G.val))
 
 /-! ### Stacks 0E8I is natural in the module on the big site, at a free module universe -/
 
@@ -640,14 +684,15 @@ on the slice, this makes the comparison
 
 bifunctorial at `RingedSite.{u, v, w}` with the modules in a free `a`.
 
-The proof is the paste of the four naturality squares of the four steps
+The proof is the paste of the five naturality squares of the five steps
 `restrictionTensorIso_hom_app` decomposes the comparison into: the naturality of the comparison
 of the two models of sheaf-level extension by zero, `tensorSheafificationIso_naturality`,
-`presheafExtensionTensorIso_naturality_slice`, and
-`sheafificationCompPullback_inv_naturality_right`. The three shared edges of the paste are
-supplied rather than left to the unifier: each is a value of a sheafification on a composite of
-four endpoints, and solving them from the four squares instead puts the elaborator in front of
-exactly the comparison the module docstring records as unaffordable.
+`presheafExtensionTensorIso_naturality_slice`,
+`sheafificationCompPullback_inv_naturality_right` and `sheafificationIso_naturality_right`. The
+four shared edges of the paste are supplied rather than left to the unifier: each is a value of a
+sheafification on a composite of four endpoints, and solving them from the five squares instead
+puts the elaborator in front of exactly the comparison the module docstring records as
+unaffordable.
 
 `Stacks.Sites.ExtensionByZero.OfEssentiallySmall.restrictionTensorIso_naturality_right` is the
 same statement at `RingedSite.{c, u, u}` for an essentially `u`-small site, with the modules in
@@ -661,13 +706,15 @@ lemma restrictionTensorIso_naturality_right
         (restrictionTensorIso.{a} X U F').hom.app G =
       (restrictionTensorIso.{a} X U F).hom.app G ≫
         (extendByZero.{a} X U).map (sliceTensorRightMap X U α G) := by
-  have key := comp_eq_comp_of_four_squares
+  have key := comp_eq_comp_of_five_squares
     (b₁ := sheafTensorRightMap X.J X.O α
       ((sheafifyModules.{a} X.J X.O).obj ((presheafExtendByZero.{a} X U).obj G.val)))
     (b₂ := (sheafifyModules.{a} X.J X.O).map
       (tensorRightMap X.O.obj ((presheafExtendByZero.{a} X U).obj G.val) α.val))
     (b₃ := (sheafifyModules.{a} X.J X.O).map
       ((presheafExtendByZero.{a} X U).map (slicePresheafTensorMapRight X U α G.val)))
+    (b₄ := (extendByZero.{a} X U).map
+      ((sliceSheafifyModules X U).map (slicePresheafTensorMapRight X U α G.val)))
     (sheafTensorRightMap_naturality X.J X.O α
       ((SheafOfModules.pullbackIso
         (𝟙 ((ringSheaf X.O).over U))).hom.app G))
@@ -675,6 +722,7 @@ lemma restrictionTensorIso_naturality_right
     (map_comp_eq_map_comp_of_eq (sheafifyModules.{a} X.J X.O)
       (presheafExtensionTensorIso_naturality_slice X U α G.val))
     (sheafificationCompPullback_inv_naturality_right X U α G)
+    (sheafificationIso_naturality_right X U α G)
   rw [restrictionTensorIso_hom_app, restrictionTensorIso_hom_app]
   exact key
 

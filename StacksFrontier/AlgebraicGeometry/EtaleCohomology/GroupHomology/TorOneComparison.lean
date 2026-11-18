@@ -149,6 +149,7 @@ def completedTorChangeOfRings :
   haveI := isUniversal_torDelta Λ Q
   HomologicalDeltaFunctor.IsUniversal.lift (H := torDelta Λ Q) (completedTorChangeOfRingsZero π)
 
+omit [CompactSpace G] in
 /-- **`completedTorChangeOfRings` is the projection of coinvariants in degree zero.** -/
 theorem isCoinvariantsProjection_completedTorChangeOfRings :
     IsCoinvariantsProjection π (completedTorChangeOfRings (Λ := Λ) π) := by

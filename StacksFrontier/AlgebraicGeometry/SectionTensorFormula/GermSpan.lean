@@ -171,17 +171,18 @@ theorem surjective_pstalkHom_toTensorSection (F G : X.Modules) (x : X) :
     Function.Surjective
       (pstalkHom (toTensorSection X.presheaf (schemeSheafCondition X) F G) x) := by
   have hIso : IsIso (C := PresheafOfModulesOfCommRing X.presheaf)
-      (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val :=
-    (tensorPresheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).isIso_hom
+      (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val :=
+    ((SheafOfModules.forget _).mapIso
+      (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G)).isIso_hom
   intro z
   obtain ⟨y, hy⟩ := (pstalkHom_bijective_of_isIso
-    (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x).2 z
+    (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x).2 z
   obtain ⟨v, hv⟩ := (pstalkHom_toSheafify_bijective (preTensor F G) x).2 y
   exact ⟨v, (pstalkHom_comp
     (toSheafify X.presheaf (schemeSheafCondition X) (preTensor F G))
-    (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x v).trans
+    (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x v).trans
     ((congrArg (pstalkHom
-      (tensorSheafIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x) hv).trans hy)⟩
+      (sheafifyIsoTensorObj X.presheaf (schemeSheafCondition X) F G).hom.val x) hv).trans hy)⟩
 
 /-- Every germ of a section of the sectionwise tensor product, read in `F ⊗ G`, lies in the image
 of the stalk map of `mulSec`. -/

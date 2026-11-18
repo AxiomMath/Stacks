@@ -121,6 +121,7 @@ theorem comap_fibrePrime (a : k) :
   rw [← Ideal.Quotient.mk_algebraMap]
   simp [fibrePoint, fibrePointPoly, MvPolynomial.algebraMap_eq]
 
+omit [s.IsPrime] in
 /-- Distinct `a` give distinct points. -/
 theorem fibrePrime_injective [s.IsPrime] : Function.Injective (fibrePrime k s) := by
   intro a b hab

@@ -216,15 +216,11 @@ transported package needs; the degree is a variable throughout. -/
 theorem tensorPowerMapIso_unit_tmul (e : F ≅ G) (n : ℕ) (U : Cᵒᵖ) (s : F.val.obj U)
     (x : (tensorPower J F (n + 1)).val.obj U) :
     (tensorPowerMapIso J e (n + 2)).hom.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)).app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (PresheafOfModules.tensorObj F.val (tensorPower J F (n + 1)).val)).app U
           (s ⊗ₜ[Osharp.obj.obj U] x)) =
-      ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf
-          Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj G.val (tensorPower J G (n + 1)).val)).app U
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (PresheafOfModules.tensorObj G.val (tensorPower J G (n + 1)).val)).app U
         (e.hom.val.app U s ⊗ₜ[Osharp.obj.obj U]
           (tensorPowerMapIso J e (n + 1)).hom.val.app U x) :=
   PresheafOfModules.tensorSheafBifunctor_map_unit_tmul J

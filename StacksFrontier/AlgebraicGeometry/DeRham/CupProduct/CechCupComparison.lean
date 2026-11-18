@@ -88,16 +88,14 @@ theorem deRhamCechPairing_eq_comp :
   let x' : ((deRhamDifferentialGradedAlgebra B D).complex.X a).val.obj (op (unop Z).left) := x
   let y' : ((deRhamDifferentialGradedAlgebra B D).complex.X b).val.obj (op (unop Z).left) := y
   have hk := congrArg (fun φ => φ.val.app (op (unop Z).left)
-    ((((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-        (𝟙 (ringSheaf A).obj)).unit.app
+    ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
       (PresheafOfModules.tensorObj ((deRhamDifferentialGradedAlgebra B D).complex.X a).val
         ((deRhamDifferentialGradedAlgebra B D).complex.X b).val)).app (op (unop Z).left))
         (x' ⊗ₜ[A.obj.obj (op (unop Z).left)] y'))) key
   have e₃ : (dgActionComponent (_root_.SheafOfModules.DifferentialGradedModule.regularModule
         (deRhamDifferentialGradedAlgebra B D)) a b ≫
       ((deRhamDifferentialGradedAlgebra B D).complex.XIsoOfEq hn).hom).val.app (op (unop Z).left)
-      ((((PresheafOfModules.sheafificationAdjunction (R := ringSheaf A)
-          (𝟙 (ringSheaf A).obj)).unit.app
+      ((((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
       (PresheafOfModules.tensorObj ((deRhamDifferentialGradedAlgebra B D).complex.X a).val
         ((deRhamDifferentialGradedAlgebra B D).complex.X b).val)).app (op (unop Z).left))
         (x' ⊗ₜ[A.obj.obj (op (unop Z).left)] y')) =

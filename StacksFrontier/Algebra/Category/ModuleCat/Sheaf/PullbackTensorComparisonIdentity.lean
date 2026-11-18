@@ -55,7 +55,7 @@ theorem comparisonTranspose_id :
     comparisonTranspose (𝟙 X) A B = (Functor.uncurry.obj
       (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} ⟨X.presheaf, X.IsSheaf⟩)).map
         (unitPairId X A B) := by
-  refine PresheafOfModules.sheafification_hom_ext
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext
     (PresheafOfModules.tensorObj_hom_ext fun U x y => ?_)
   exact (comparisonTranspose_unit_tmul (𝟙 X) A B U x y).trans
     (tensorSheaf_map_unit_tmul X (unitPairId X A B).1 (unitPairId X A B).2 U x y).symm

@@ -142,8 +142,7 @@ theorem aeval_coordU_injective {c : K} (hc : Transcendental ℚ c) :
 polynomial in `u` over `K`. -/
 theorem exists_mul_polyD_eq_aeval (a : K ⊗[ℚ] RatFunc ℚ) :
     ∃ (g : K[X]) (s : ℚ[X]), s ≠ 0 ∧ a * polyD K s = aeval (coordU K) g := by
-  induction a using TensorProduct.induction_on with
-  | zero => exact ⟨0, 1, one_ne_zero, by simp⟩
+  induction a using TensorProduct.inductionOn with
   | tmul x b =>
     obtain ⟨p, q, hq, rfl⟩ := IsFractionRing.div_surjective (A := ℚ[X]) b
     refine ⟨C x * p.map (algebraMap ℚ K), q, nonZeroDivisors.ne_zero hq, ?_⟩
@@ -275,8 +274,7 @@ theorem sub_algebraMap_evalAt_mem {c : K} (hc : Transcendental ℚ c)
     Ideal.Quotient.eq.mp (show Ideal.Quotient.mk P ((1 : K) ⊗ₜ[ℚ] b) =
       Ideal.Quotient.mk P (algebraMap K _ (evalAt c hc ((1 : K) ⊗ₜ b))) from
       RingHom.congr_fun hρ b)
-  induction a using TensorProduct.induction_on with
-  | zero => simp
+  induction a using TensorProduct.inductionOn with
   | tmul x b =>
     have hx : x ⊗ₜ[ℚ] b = algebraMap K (K ⊗[ℚ] RatFunc ℚ) x * ((1 : K) ⊗ₜ[ℚ] b) := by
       simp [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.tmul_mul_tmul]

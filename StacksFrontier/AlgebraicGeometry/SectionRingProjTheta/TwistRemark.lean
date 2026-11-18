@@ -646,7 +646,10 @@ theorem twistTop_comp_app_pullbackSection (F G : X.Modules) (n : ℤ) (c : GoodC
             (nvOpen L c.1.val) (nvOpen_le_preimage L hL c) b)))
     (tensorSheafIsoTensorObj_hom_twistTop L hL F n)
   simp only at h1
-  refine h1.trans ?_
+  refine (congrArg (Scheme.Modules.Hom.app (twistTop L hL F n ≫
+      (Scheme.Modules.pullback (projHomOfIsAmple L hL)).map κ ≫
+        (pullbackTildeComparison L hL).app G) (nvOpen L c.1.val))
+    (tensorSheafIsoTensorObj_hom_toTensorSheafSection _ _ _ _ _).symm).trans (h1.trans ?_)
   simp only
   have e1 := schemePullbackTensorIso_inv_pullbackSection (projHomOfIsAmple L hL)
     ((tildeFunctor L).obj F) (twistY L n) (chartOpen L hL c) (nvOpen L c.1.val)

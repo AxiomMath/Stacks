@@ -160,7 +160,9 @@ theorem algebraPullback_map_comp_algebraPullbackTwistIsoLaurent_hom :
   unfold algebraPullbackNonnegTwistIsoNonnegLaurent pbNonnegTwistAlgebraSheafIsoNonnegLaurent
     algebraPullbackTwistIsoLaurent pbTwistAlgebraSheafIsoLaurent
     nonnegLaurentToLaurentAlgebraSheafHom
-  exact Stacks.GradedRealizationPullback.algebraPullback_map_inclusion_comp_hom _ _ _ _ _ _
+  exact Stacks.GradedRealizationPullback.algebraPullback_map_inclusion_comp_hom
+    (projHomOfIsAmple L hL) (integerTwistAlgebra (grading L)) (heq_twistMul_comm (grading L))
+    (laurent L) _ (gradedTwistUnitalComparison L hL)
     (hψ := isIso_gradedTwistUnitalComparison_app L hL)
 
 /-! ### The top arrow -/

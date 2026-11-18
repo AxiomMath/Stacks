@@ -168,8 +168,7 @@ theorem twistedInverseImageAdjunction_comp_counit_app (K : quasiCoherentDerivedC
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f)
           (isQuasicoherent_homology_derivedPushforward_of_qcqs (g ≫ f))))]
   simp only [twistedInverseImageCompIso, Adjunction.ofNatIsoLeft_counit, NatTrans.comp_app,
-    Functor.whiskerRight_app, Functor.whiskerLeft_app, Adjunction.comp_counit_app,
-    Functor.comp_map, Category.assoc]
+    Functor.whiskerLeft_app, Adjunction.comp_counit_app]
 
 end Trace
 
@@ -177,7 +176,7 @@ section NormalizedTrace
 
 theorem quasiCoherentHomEquiv_symm_hom {X : Scheme.{u}} (K L : quasiCoherentDerivedCategory X)
     (x : K.obj ⟶ L.obj) : ((quasiCoherentHomEquiv K L).symm x).hom = x := by
-  simp only [quasiCoherentHomEquiv, Functor.FullyFaithful.homEquiv_symm_apply]
+  simp only [quasiCoherentHomEquiv]
   exact (Functor.FullyFaithful.ofFullyFaithful (ObjectProperty.ι _)).map_preimage (X := K)
     (Y := L) x
 
@@ -214,7 +213,7 @@ theorem normalizedDualityHomEquiv_apply (ψ : F ⟶ ωX') :
         (twistedInverseImageAdjunction b
           (isQuasicoherent_homology_derivedPushforward_of_qcqs b)).counit.app
           (singleQuasiCoherent ωX hωX 0) := by
-  show ((twistedInverseImageAdjunction b
+  change ((twistedInverseImageAdjunction b
       (isQuasicoherent_homology_derivedPushforward_of_qcqs b)).homEquiv _ _).symm
       ((quasiCoherentHomEquiv (singleQuasiCoherent F hF 0)
           ((twistedInverseImage b (isQuasicoherent_homology_derivedPushforward_of_qcqs b)).obj
@@ -273,7 +272,7 @@ theorem trace_comp_twistedInverseImageObjIsoOfNormalizedOfQcqs
           e₁.hom := by
     simp only [twistedInverseImageObjIsoOfNormalizedOfQcqs, twistedInverseImageObjIsoOfNormalized,
       Iso.trans_inv, Iso.symm_inv, Functor.mapIso_inv, Iso.app_hom, Category.assoc,
-      Iso.map_inv_hom_id, Category.comp_id]
+      Iso.inv_hom_id_map, Category.comp_id]
   simp only [Functor.comp_map] at hcounit hnat
   rw [← Functor.map_comp_assoc]
   simp only [Category.assoc]
@@ -450,7 +449,7 @@ theorem isIso_homotopyPushforward_id_totalRightDerivedUnit_standard
   refine (StacksDraft.DerivedModel.isIso_schemeDerivedPushforwardUnit_app_iff_model (𝟙 X)
     (HasDerivedCategory.standard _) (HasDerivedCategory.standard _) hX hX _).mp ?_
   clear hX
-  letI := HasDerivedCategory.standard X.Modules
+  let := HasDerivedCategory.standard X.Modules
   have hqc : ∀ n, (((CochainComplex.singleFunctor X.Modules 0).obj M).X n).IsQuasicoherent := by
     intro n
     by_cases hn : n = 0
@@ -568,7 +567,7 @@ theorem topFormsTraceAux_comp (p : S ⟶ S₀) (n : ℤ) (b : W' ⟶ W) (h : W �
   congr 1
   rw [hpre, htr, hpre']
   simp only [ObjectProperty.FullSubcategory.comp_hom, quasiCoherentDerivedPushforward_map_hom,
-    quasiCoherentDerivedPushforwardCompIso_inv_app_hom, quasiCoherentHomEquiv_symm_hom,
+    quasiCoherentDerivedPushforwardCompIso_inv_app_hom,
     singleQcohHom_hom, Functor.map_comp, Category.assoc]
   exact comp_eq_of_comp_eq_aux (derivedPushforward h) _ _ _ π.hom _ _
     ((DerivedCategory.singleFunctor W.Modules 0).map a) _ _ _ hforms
@@ -584,7 +583,7 @@ theorem exists_topFormsTraceAux_id_eq (p : S ⟶ S₀) (n : ℤ) (ωS : S.Module
     [IsIso (toReflexiveHull (Scheme.Hom.relativeDifferentialForms (𝟙 S ≫ p) n)).1]
     (β : Scheme.Hom.relativeDifferentialForms (𝟙 S ≫ p) n ⟶ ωS) :
     ∃ φ, topFormsTraceAux p n (𝟙 S) ωS hωS hL ωS nS φ = β := by
-  haveI := hL
+  have := hL
   have hF : IsIso (formsToPushforwardHull (𝟙 S) (𝟙 S ≫ p) (𝟙 S ≫ p) (by simp) n) := by
     have : IsIso (Scheme.Hom.relativeDifferentialFormsMap (𝟙 S) (𝟙 S ≫ p) (𝟙 S ≫ p) (𝟙 S₀)
         (by simp) n) :=
@@ -598,7 +597,7 @@ theorem exists_topFormsTraceAux_id_eq (p : S ⟶ S₀) (n : ℤ) (ωS : S.Module
   let P := (DerivedCategory.singleFunctor S.Modules 0).map
       (formsToPushforwardHull (𝟙 S) (𝟙 S ≫ p) (𝟙 S ≫ p) (by simp) n) ≫
     singleToDerivedPushforward (𝟙 S) (hullForms p n (𝟙 S))
-  haveI hP : IsIso P := IsIso.comp_isIso' inferInstance he
+  have hP : IsIso P := IsIso.comp_isIso' inferInstance he
   let y := (twistedInverseImageAdjunction (𝟙 S)
       (isQuasicoherent_homology_derivedPushforward_of_qcqs (𝟙 S))).homEquiv _ _
     ((quasiCoherentHomEquiv ((quasiCoherentDerivedPushforward (𝟙 S)
@@ -674,10 +673,10 @@ theorem ChainTopFormData.topFormsTrace_step (D : ChainTopFormData p r T ω) {W :
     D.topFormsTrace (hc.step w hw hwT) ((D.stepDualityEquiv hc w hw hwT).symm
         (π ≫ singleQcohHom (D.isQuasicoherent_hull hc) (D.isQuasicoherent_dualizing hc) φ)) =
       D.topFormsTrace hc (a ≫ φ) := by
-  haveI := compactSpace_of_pointBlowupChain hc
-  haveI := quasiSeparatedSpace_of_pointBlowupChain hc
-  haveI := compactSpace_of_pointBlowupChain (hc.step w hw hwT)
-  haveI := quasiSeparatedSpace_of_pointBlowupChain (hc.step w hw hwT)
+  have := compactSpace_of_pointBlowupChain hc
+  have := quasiSeparatedSpace_of_pointBlowupChain hc
+  have := compactSpace_of_pointBlowupChain (hc.step w hw hwT)
+  have := quasiSeparatedSpace_of_pointBlowupChain (hc.step w hw hwT)
   exact topFormsTraceAux_comp p (r : ℤ) (AlgebraicGeometry.blowUpToBase (pointIdeal w hw)) h
     (ω S (𝟙 S)) (D.isQuasicoherent_dualizing PointBlowupChain.refl) (D.isQuasicoherent_hull hc)
     (D.isQuasicoherent_hull (hc.step w hw hwT)) (ω W h) (D.isQuasicoherent_dualizing hc) _

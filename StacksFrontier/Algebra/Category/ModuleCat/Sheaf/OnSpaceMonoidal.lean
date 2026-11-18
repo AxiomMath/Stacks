@@ -218,18 +218,30 @@ section Localized
 
 attribute [local instance] sheafModuleLocalizedMonoidal
 
-/-- The localized tensor product of two sheaves of modules is canonically isomorphic to their
-sheafified tensor product. -/
-noncomputable def sheafModuleTensorCompareIso
-    (A B : SheafOfModules.{u} (structureSheafRing X)) : A ⊗ B ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (A)).obj (B)) :=
+/-- The localized tensor product of two sheaves of modules is canonically isomorphic to the
+sheafification `sheafModuleSheafification` of the tensor product of their underlying
+presheaves. -/
+noncomputable def sheafModuleLocalizedTensorIso
+    (A B : SheafOfModules.{u} (structureSheafRing X)) :
+    A ⊗ B ≅ (sheafModuleSheafification X).obj (A.val ⊗ B.val) :=
   ((asIso ((PresheafOfModules.sheafificationAdjunction
         (𝟙 (structureSheafRing X).obj)).counit.app A)).symm ⊗ᵢ
       (asIso ((PresheafOfModules.sheafificationAdjunction
         (𝟙 (structureSheafRing X).obj)).counit.app B)).symm) ≪≫
     Localization.Monoidal.μ (sheafModuleSheafification X) (sheafModuleLocalEquivalences X)
       (sheafModuleUnitIso X) A.val B.val
+
+/-- The localized tensor product of two sheaves of modules is canonically isomorphic to their
+sheafified tensor product: `sheafModuleLocalizedTensorIso` followed by the comparison
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` of Mathlib's sheafification with the sealed one
+that `sheafTensor` is built from. -/
+noncomputable def sheafModuleTensorCompareIso
+    (A B : SheafOfModules.{u} (structureSheafRing X)) : A ⊗ B ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (A)).obj (B)) :=
+  sheafModuleLocalizedTensorIso X A B ≪≫
+    (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}) A B).symm
 
 /-- The candidate monoidal data on the `ULift` copy: the same as the localized one, except
 that the tensor product of two objects is `tensorSheaf` on the nose. -/
@@ -421,81 +433,30 @@ private theorem forgetLax_mu_comp (A B : SheafOfModules.{u} (structureSheafRing 
         (sheafModuleForget X).map
           (Functor.LaxMonoidal.μ (sheafModuleToLocalized X) A B) := rfl
 
-/-- The inverse of the comparison isomorphism, written out.  The right-hand side is the only
-place in this file where the tensor product of two morphisms has to be elaborated in the
-localized monoidal category rather than in `monoidal`; naming it here lets every later
-statement be phrased with `sheafModuleTensorCompareIso` instead. -/
-private theorem sheafModuleTensorCompareIso_inv
-    (A B : SheafOfModules.{u} (structureSheafRing X)) :
-    (sheafModuleTensorCompareIso X A B).inv =
-      (Localization.Monoidal.μ (sheafModuleSheafification X) (sheafModuleLocalEquivalences X)
-          (sheafModuleUnitIso X) A.val B.val).inv ≫
-        ((PresheafOfModules.sheafificationAdjunction
-            (𝟙 (structureSheafRing X).obj)).counit.app A ⊗ₘ
-          (PresheafOfModules.sheafificationAdjunction
-            (𝟙 (structureSheafRing X).obj)).counit.app B) := rfl
-
-/-- The sheafification unit at the presheaf tensor product of the two underlying presheaves,
-with its target *written* as the underlying presheaf of `tensorSheaf`.  The two spellings of
-that object are definitionally equal but not equal at `implicit` transparency, so without this
-ascription a goal mentioning the unit is not type-correct there and no `rw` fires. -/
-private noncomputable abbrev tensorSheafifyUnit
-    (A B : SheafOfModules.{u} (structureSheafRing X)) :
-    (sheafModuleForget X).obj A ⊗ (sheafModuleForget X).obj B ⟶
-      (sheafModuleForget X).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (A)).obj (B))) :=
-  sheafifyUnit X ((sheafModuleForget X).obj A ⊗ (sheafModuleForget X).obj B)
-
-/-- The tensorator of `sheafModuleForgetLax`, factored through the comparison isomorphism: the
-tensorator of `localizedSheafModuleForgetLax` is the sheafification unit followed by the
-inverse comparison, and the tensorator of `sheafModuleToLocalizedMonoidal` is the comparison
-itself.  Both halves hold by definition, and so does their composite. -/
+/-- The tensorator of `sheafModuleForgetLax`, unfolded: the tensorator of
+`localizedSheafModuleForgetLax` is Mathlib's sheafification unit followed by the inverse of
+`sheafModuleLocalizedTensorIso`, and the tensorator of `sheafModuleToLocalizedMonoidal` is the
+comparison `sheafModuleTensorCompareIso` itself.  Both halves hold by definition, and so does
+their composite. -/
 private theorem forgetLax_mu_factor (A B : SheafOfModules.{u} (structureSheafRing X)) :
     Functor.LaxMonoidal.μ (sheafModuleForget X) A B =
-      tensorSheafifyUnit X A B ≫
-        ((sheafModuleForget X).map (sheafModuleTensorCompareIso X A B).inv ≫
-          (sheafModuleForget X).map
-            ((sheafModuleTensorCompareIso X A B).hom ≫
-              𝟙 ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-                (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (A)).obj
-                  (B))))) := by
-  conv_rhs => rw [sheafModuleTensorCompareIso_inv]
-  rfl
+      sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val) ≫
+        ((sheafModuleForget X).map (sheafModuleLocalizedTensorIso X A B).inv ≫
+          (sheafModuleForget X).map ((sheafModuleLocalizedTensorIso X A B).hom ≫
+            (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+              (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}) A B).inv)) := rfl
 
-/-- `tensorSheafifyUnit` is the sheafification unit at `presheafTensor`.  The two presheaf
-tensor products are definitionally equal objects, which is all `congr 1` needs; comparing the
-two spellings inside a *morphism* type is what the ascription of `tensorSheafifyUnit` avoids. -/
-private theorem tensorSheafifyUnit_eq (A B : SheafOfModules.{u} (structureSheafRing X)) :
-    tensorSheafifyUnit X A B =
-      sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val))) := by
-  congr 1
-
-/-- The inverse comparison followed by the comparison is the identity, so post-composing with
-the pair changes nothing. -/
-private theorem comp_compare_roundtrip {Q : presheafModuleCategory X}
-    (A B : SheafOfModules.{u} (structureSheafRing X))
-    (u : Q ⟶ (sheafModuleForget X).obj
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (A)).obj (B)))) :
-    u ≫ ((sheafModuleForget X).map (sheafModuleTensorCompareIso X A B).inv ≫
-      (sheafModuleForget X).map
-        ((sheafModuleTensorCompareIso X A B).hom ≫
-          𝟙 ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-            (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (A)).obj
-              (B))))) = u :=
-  (congrArg (u ≫ ·) (((sheafModuleForget X).map_comp _ _).symm.trans
-    ((congrArg (sheafModuleForget X).map
-        ((sheafModuleTensorCompareIso X A B).inv_hom_id_assoc _)).trans
-      ((sheafModuleForget X).map_id _)))).trans (Category.comp_id u)
-
-/-- The tensor-comparison map of the lax monoidal forgetful functor is the sheafification unit
-of the presheaf tensor product. -/
+/-- The tensor-comparison map of the lax monoidal forgetful functor is the unit of the
+sheafification adjunction behind `sheafTensor`, at the presheaf tensor product. -/
 theorem monoidal_forget_mu (A B : SheafOfModules.{u} (structureSheafRing X)) :
     Functor.LaxMonoidal.μ (sheafModuleForget X) A B =
-      sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val))) :=
-  ((forgetLax_mu_factor X A B).trans
-    (comp_compare_roundtrip X A B (tensorSheafifyUnit X A B))).trans
-      (tensorSheafifyUnit_eq X A B)
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+          (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val) :=
+  (forgetLax_mu_factor X A B).trans <|
+    (congrArg (_ ≫ ·) (((sheafModuleForget X).map_comp _ _).symm.trans
+      (congrArg (sheafModuleForget X).map (Iso.inv_hom_id_assoc _ _)))).trans
+    (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app _ _)
 
 /-- The unit of `sheafModuleForgetLax`, as the composite of the units of
 `sheafModuleToLocalized` and `localizedSheafModuleForget`. -/
@@ -560,8 +521,8 @@ theorem tensor_hom_ext {A B C : SheafOfModules.{u} (structureSheafRing X)}
       (f.val.app U).hom (toTensorSheafSection X A B U (a ⊗ₜ[X.presheaf.obj U] b)) =
       (g.val.app U).hom (toTensorSheafSection X A B U (a ⊗ₜ[X.presheaf.obj U] b))) :
     f = g := by
-  apply ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (structureSheafRing X).obj)).homEquiv _ C).injective
+  apply ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).homEquiv _ C).injective
   apply PresheafOfModules.hom_ext
   intro U
   apply ModuleCat.hom_ext
@@ -780,8 +741,9 @@ theorem tensorSection_sum (A B : SheafOfModules.{u} (structureSheafRing X))
     (t : I → A.val.obj U ⊗[X.presheaf.obj U] B.val.obj U) :
     tensorObjSection X A B U (∑ i ∈ s, t i) =
       ∑ i ∈ s, tensorObjSection X A B U (t i) :=
-  map_sum ((sheafifyUnit X
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val)))).app U).hom _ _
+  map_sum (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val)).app U).hom _ _
 
 /-- `tensorObjTmul` is the canonical map of Stacks 01CB into the sheafified tensor product.
 Stated with `U` a variable so that any instantiation is a substitution, which is what makes it
@@ -817,7 +779,9 @@ theorem tensorSection_restrict (A B : SheafOfModules.{u} (structureSheafRing X))
     toTensorSheafSection X A B (op V)
       ((A.val.map k.op).hom a ⊗ₜ[X.presheaf.obj (op V)] (B.val.map k.op).hom b) :=
   (PresheafOfModules.naturality_apply
-    (sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val)))) k.op
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := X.presheaf) A.val B.val)) k.op
     (a ⊗ₜ[X.presheaf.obj (op U)] b)).symm
 
 end Stacks.SheafOfModules.OnSpace

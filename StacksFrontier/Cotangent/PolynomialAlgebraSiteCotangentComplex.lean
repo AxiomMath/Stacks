@@ -379,7 +379,8 @@ def polynomialCotangentModulePresheaf : (polynomialSite A B)ᵒᵖ ⥤ ModuleCat
 the site has `P` a polynomial algebra over `A`, so `Ω[P⁄A]` is free on the variables. This is the
 first sentence of the proof of Tag 08PU, the objectwise input to its step `Li^* = i^*`; the
 sheaf-level flatness is `CommAlgCat.polynomialRelativeDifferentials_isFlat`, and the step itself,
-`Li^*Ω_{𝒪/A} ≅ i^*Ω_{𝒪/A}` in `D(B̲)`, is `CommAlgCat.smallPolynomialDerivedPullbackDifferentialsIso`
+`Li^*Ω_{𝒪/A} ≅ i^*Ω_{𝒪/A}` in `D(B̲)`, is
+`CommAlgCat.smallPolynomialDerivedPullbackDifferentialsIso`
 of `StacksFrontier/Cotangent/PolynomialAlgebraSiteDerivedPullbackDifferentials.lean`. -/
 @[stacks 08PU "the first sentence of the proof: for each object P → B of C_{B/A} the module \
   Ω_{P/A} is a free P-module; this is the input to the step Li^*Ω_{𝒪/A} = i^*Ω_{𝒪/A}, which is \

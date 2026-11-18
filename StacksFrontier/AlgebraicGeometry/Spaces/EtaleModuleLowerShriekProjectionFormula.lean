@@ -105,12 +105,10 @@ theorem pullbackTensorIsoOfIso_inv_val_app_toSheafify_pushforward
     (y : ((_root_.SheafOfModules.pushforward.{u} φ).obj M).val.obj U) :
     ((pullbackTensorIsoOfIso f (e₁ ≪≫ e)).inv.app
           (A, M)).val.app U
-      ((TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((_root_.SheafOfModules.pushforward.{u} φ).obj A).val ⊗
             ((_root_.SheafOfModules.pushforward.{u} φ).obj M).val)).app U (x ⊗ₜ y)) =
-      (TensorSheafification.toSheafify Y.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (A.val ⊗ M.val)).app (F.op.obj U) (x ⊗ₜ y) :=
   open RingedToposPullback in
   tensorIsoOfNatIsoRight_trans_eqToIso_pullbackTensorIso_inv_val_app_toSheafify_pushforward
@@ -213,20 +211,24 @@ theorem pullbackTensorIsoOfIso_inv_val_app_toSheafify_etale (a : X' ⟶ X) (ha :
     (V : (SmallEtale B S hS X'.1)ᵒᵖ)
     (s : ((etaleModulePullback B S hS a ha).obj A).val.obj V)
     (t : ((etaleModulePullback B S hS a ha).obj M).val.obj V) :
-    ((Stacks.Cohomology.DerivedPullbackOfToposHom.pullbackTensorIsoOfIso
+    -- The equation is stated at the sections of `A ⊗ M` over the composite chart. With `=`, the
+    -- types of the two sides would be unified with each other directly, crossing the étale
+    -- restriction and the sealed sheafification in one step; that unification alone costs more
+    -- than half of the default heartbeat budget, against a few thousand for the two steps here.
+    Eq (α := ((((Stacks.SheafOfModules.Tensor.sheafTensor (smallEtaleRingedTopos B S hS X).O).obj
+        A).obj M).val.obj ((smallEtalePostcomp B S hS a ha).op.obj V)))
+      (((Stacks.Cohomology.DerivedPullbackOfToposHom.pullbackTensorIsoOfIso
         (smallEtaleRingedToposHom B S hS a)
         (pullbackModulesIsoModulePullback B S hS a ≪≫
           modulePullbackIsoEtaleModulePullback B S hS a ha)).inv.app (A, M)).val.app V
-      ((Stacks.SheafOfModules.TensorSheafification.toSheafify
-          (smallEtaleRingedTopos B S hS X').O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X').O)).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (smallEtaleRingedTopos B S hS X').O).unit.app
           (((etaleModulePullback B S hS a ha).obj A).val ⊗
-            ((etaleModulePullback B S hS a ha).obj M).val)).app V (s ⊗ₜ t)) =
-    (Stacks.SheafOfModules.TensorSheafification.toSheafify
-          (smallEtaleRingedTopos B S hS X).O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X).O)).property
+            ((etaleModulePullback B S hS a ha).obj M).val)).app V (s ⊗ₜ t)))
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          (smallEtaleRingedTopos B S hS X).O).unit.app
           (A.val ⊗ M.val)).app
-      ((smallEtalePostcomp B S hS a ha).op.obj V) (s ⊗ₜ t) := by
+        ((smallEtalePostcomp B S hS a ha).op.obj V) (s ⊗ₜ t)) := by
   have key :=
     open Stacks.Cohomology in
     DerivedPullbackOfToposHom.pullbackTensorIsoOfIso_inv_val_app_toSheafify_pushforward

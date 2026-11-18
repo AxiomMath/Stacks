@@ -246,7 +246,7 @@ theorem hasLocallyOfFinitePresentationFlatFieldSpectrumCover_of_isEquivalenceFun
       (Space.isSmoothLocalOnSourceAndTarget_locallyOfFinitePresentation B S hS)
       (schemeStack.{u, w} B S hS F.base).property 𝒲.property (g ≫ e).hom).2
       (key _ hlfpRel)
-  · show Function.Surjective (AlgebraicStacks.pointsMap B S hS (g ≫ e))
+  · change Function.Surjective (AlgebraicStacks.pointsMap B S hS (g ≫ e))
     rw [AlgebraicStacks.pointsMap_comp B S hS g e]
     exact Function.Surjective.comp (isSurjective_of_isEquivalenceFunctor B S hS e he) hsurj
   · exact (AlgebraicStacks.isFlat_iff_hasPropertyOnSomeSmoothDiagram B S hS (g ≫ e)).2
@@ -265,7 +265,7 @@ theorem isEquivalence_toEssImageBased_of_full_of_faithful
     (hfull : (CatFiberedInGroupoids.homFunctor i.hom).Full)
     (hfaithful : (CatFiberedInGroupoids.homFunctor i.hom).Faithful) :
     Functor.IsEquivalence (AlgebraicStacks.toEssImageBased i).toFunctor := by
-  show Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
+  change Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
   have _hfull : (CatFiberedInGroupoids.homFunctor i.hom).Full := hfull
   have _hfaithful : (CatFiberedInGroupoids.homFunctor i.hom).Faithful := hfaithful
   have : (CatFiberedInGroupoids.homFunctor i.hom).toEssImage.Full :=

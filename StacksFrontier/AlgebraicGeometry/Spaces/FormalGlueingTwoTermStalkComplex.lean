@@ -416,7 +416,8 @@ private theorem isIso_kernelMap_and_mono_cokernelMap_of_isIso_inverseImage (f : 
 
 /-- Stacks 0AER for a morphism with representable underlying morphism. Let `f : Y ⟶ X` be a
 morphism of algebraic spaces over a scheme `S` whose underlying morphism of presheaves is
-relatively representable, and let `Z ⊆ X` be a closed subspace such that `f^{-1}Z ⟶ Z` is integral and universally
+relatively representable, and let `Z ⊆ X` be a closed subspace such that `f^{-1}Z ⟶ Z` is integral
+and universally
 injective. Let `ȳ` be a geometric point of `Y`, let `x̄ = f(ȳ)` and let `G` be an abelian sheaf
 on the small étale site of `Y`. Writing `V = Y ∖ f^{-1}Z` and `j' : V ⟶ Y` for the inclusion,
 the map of two-term complexes

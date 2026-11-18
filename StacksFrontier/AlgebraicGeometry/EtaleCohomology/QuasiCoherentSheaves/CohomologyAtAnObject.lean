@@ -28,7 +28,8 @@ side the cohomology of `F^a` over the object `f` of `C`.  Over an arbitrary site
 ## Where Remark 03P3 itself is proved
 
 The two assertions of Remark 03P3 are proved, for the sites of the source, in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.QuasiCoherentSheaves.CohomologyAtAnObjectCollapse`:
+`CohomologyAtAnObjectCollapse` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.QuasiCoherentSheaves`:
 `AlgebraicGeometry.bigOverAssociatedSheafGlobalCohomologyIso` and
 `AlgebraicGeometry.smallEtaleAssociatedSheafGlobalCohomologyIso` (first assertion), and
 `AlgebraicGeometry.bigOverQuasiCoherentCohomologyIsoAtObject` and

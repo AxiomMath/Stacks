@@ -200,6 +200,16 @@ lemma unitHomApp_sum {I : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringS
     unitHomApp ii U (∑ k, b k) = ∑ k, unitHomApp ii U (b k) :=
   map_sum (ii.val.app U).hom.toAddMonoidHom _ _
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- The unit of the sealed sheafification, as a map to the underlying presheaf, is locally
+injective. -/
+private lemma isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (M : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf _).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app M)) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  infer_instance
+
 open Stacks.SheafOfModules.FlatSquareZero (multiplicationMap multiplicationMap_tmul) in
 /-- **Relations with coefficients in the ideal vanish trivially when `I ⊗_O ℱ' ⟶ ℱ'` is
 injective.** A relation `∑ dₖ eₖ = 0` with `dₖ ∈ I` is the image of `∑ dₖ ⊗ eₖ`, which then
@@ -221,9 +231,7 @@ theorem idealRelationsVanish_of_mono {π : O ⟶ R}
   let IU := ((SheafOfModules.restrictScalars (ringMap π)).obj I).val
   let P := PresheafOfModulesOfCommRing.Monoidal.tensorObj IU F'.val
   let ξ : ToType (P.obj (op U)) := ∑ k, (b k : ToType (IU.obj (op U))) ⊗ₜ[O.obj.obj (op U)] e k
-  let η := (PresheafOfModules.sheafificationAdjunction.{w, v, w, u}
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P
+  let η := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app P
   let m := (multiplicationMap π I F' ii).val.app (op U)
   let φ : ToType (P.obj (op U)) →+ ToType (F'.val.obj (op U)) :=
     AddMonoidHom.mk' (fun x => m (η.app (op U) x)) fun x y =>
@@ -243,8 +251,7 @@ theorem idealRelationsVanish_of_mono {π : O ⟶ R}
     have h0 : η.app (op U) (0 : ToType (P.obj (op U))) = 0 := LinearMap.map_zero _
     rw [h0]
     exact (LinearMap.map_zero _).symm
-  have hloc : Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf _).map η) :=
-    inferInstanceAs (Presheaf.IsLocallyInjective J (CategoryTheory.toSheafify J P.presheaf))
+  have hloc := isLocallyInjective_sheafificationForgetAdjunction_unit_app (J := J) (O := O) P
   refine ⟨_, Presheaf.equalizerSieve_mem J ((PresheafOfModules.toPresheaf _).map η) ξ 0 hη0,
     fun W f hf => ?_⟩
   have hW : ∑ k, Stacks.SheafOfModules.res ((SheafOfModules.restrictScalars (ringMap π)).obj I)

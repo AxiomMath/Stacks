@@ -34,7 +34,7 @@ theorem preservesFiniteLimits_sheafToPresheaf_comp_stalk
     {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
     (u : C ⥤ Type u) [IsCofiltered u.Elements] :
     Limits.PreservesFiniteLimits (sheafToPresheaf J (Type u) ⋙
-      (Functor.whiskeringLeft _ _ (Type u)).obj (CategoryOfElements.π u).op ⋙ Limits.colim) :=
+      (Functor.whiskeringLeft _ _ (Type u)).obj (Functor.Elements.π u).op ⋙ Limits.colim) :=
   inferInstance
 
 /-- For a point `Φ` of the site `(C, J)`, the stalk functor `Φ.sheafFiber : Sh(C) ⥤ Set` preserves

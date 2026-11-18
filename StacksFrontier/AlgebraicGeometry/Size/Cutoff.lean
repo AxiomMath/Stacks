@@ -25,7 +25,8 @@ is an object of `Sch_κ` when `size S < κ`. Since `size` is an isomorphism inva
 (`Scheme.size_congr`), "there exists `S' ∈ Ob(Sch_α)` with `T ≅ S'`" becomes `size T < κ`, and
 since `Sch_κ` is a full subcategory of `Sch`, a limit formed in `Sch` whose size is below `κ` is
 a limit in `Sch_κ`. The comparison of countable limits and colimits in items (3) and (4) of 000J
-needs a cardinal chosen with more care and is in `StacksFrontier.AlgebraicGeometry.Size.CutoffLimits`.
+needs a cardinal chosen with more care and is in
+`StacksFrontier.AlgebraicGeometry.Size.CutoffLimits`.
 The conditions on `κ` are `ℵ₀ < κ`, `Cardinal.IsStrongPrelimit κ` (closure
 under `Bound`) and `ℵ₀ < κ.ord.cof` (closure under countable suprema); each result assumes only
 the ones it uses.

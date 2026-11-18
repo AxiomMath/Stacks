@@ -18,7 +18,8 @@ quasi-coherent modules on `Spec k[x]` are therefore not closed under countable p
 send `D_{LQCoh^fbc}` into `D_{LQCoh^fbc}` under `Rf_*` — is proved, with the source's own
 counterexample at `p = 2`, as
 `not_forall_derivedPushforward_mem_derivedLocallyQuasicoherentFlatBaseChange` (in this namespace)
-in `StacksFrontier/AlgebraicGeometry/Stacks/Examples/UnboundedDerivedPushforwardCounterexample.lean`.
+in
+`StacksFrontier/AlgebraicGeometry/Stacks/Examples/UnboundedDerivedPushforwardCounterexample.lean`.
 The big-site form of the obstruction used there is
 `AlgebraicGeometry.Stack.not_mem_locallyQuasicoherentFlatBaseChange_of_iso_pi`.
 
@@ -101,7 +102,8 @@ not quasi-coherent: non-quasi-coherence of the product
 This is the last step of the discussion of **Stacks 07DC**, where the module is the
 degree-zero cohomology sheaf of `Rf_*E`.  **Stacks 07DD** itself is proved, with no such
 hypothesis, as `not_forall_derivedPushforward_mem_derivedLocallyQuasicoherentFlatBaseChange`
-in `StacksFrontier/AlgebraicGeometry/Stacks/Examples/UnboundedDerivedPushforwardCounterexample.lean`.
+in
+`StacksFrontier/AlgebraicGeometry/Stacks/Examples/UnboundedDerivedPushforwardCounterexample.lean`.
 -/
 public theorem not_isQuasicoherent_of_iso_piStructureSheaf {k : Type u} [CommRing k]
     [Nontrivial k] (H : (Spec (CommRingCat.of (Polynomial k))).Modules)

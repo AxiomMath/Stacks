@@ -201,6 +201,42 @@ private theorem map_comp_transfer {𝒜 ℬ : Type*} [Category 𝒜] [Category �
   rw [← F.map_comp_assoc, h]
   simp only [F.map_comp, Category.assoc]
 
+/-! ### The two counits of the sealed sheafification -/
+
+section SealedCounit
+
+open Stacks.SheafOfModules.Tensor
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
+/-- Restricting scalars along the identity does not change a morphism of presheaves of modules
+into the underlying presheaf of a sheaf of modules. -/
+private lemma comp_forgetCompRestrictScalarsIdIso_inv_app
+    {P : PresheafOfModules.{w} (ringSheaf R).obj} (M : _root_.SheafOfModules.{w} (ringSheaf R))
+    (f : P ⟶ M.val) : f ≫ (forgetCompRestrictScalarsIdIso R).inv.app M = f := by
+  ext X x
+  rfl
+
+/-- After the sealed sheafification of a morphism into the underlying presheaf of a sheaf of
+modules, the counits of `sheafificationForgetAdjunction R` and `sheafificationAdjunction R`
+agree. -/
+private lemma sheafification_map_comp_forget_counit_app
+    {P : PresheafOfModules.{w} (ringSheaf R).obj} (M : _root_.SheafOfModules.{w} (ringSheaf R))
+    (f : P ⟶ M.val) :
+    (sheafification R).map f ≫ (sheafificationForgetAdjunction R).counit.app M =
+      (sheafification R).map f ≫ (sheafificationAdjunction R).counit.app M := by
+  rw [← Adjunction.homEquiv_symm_id, sheafificationForgetAdjunction,
+    Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp, Adjunction.homEquiv_counit]
+  exact ((sheafification R).map_comp_assoc f _ _).symm.trans
+    (congrArg (fun g : P ⟶ (SheafOfModules.forget (ringSheaf R) ⋙
+        PresheafOfModules.restrictScalars (𝟙 (ringSheaf R).obj)).obj M ↦
+      (sheafification R).map g ≫ (sheafificationAdjunction R).counit.app M)
+      (comp_forgetCompRestrictScalarsIdIso_inv_app R M f))
+
+end SealedCounit
+
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (O : Cᵒᵖ ⥤ CommRingCat.{w})
   (hO : Presheaf.IsSheaf J (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
@@ -224,7 +260,9 @@ tensor product sheaf. -/
 public theorem tensorPowerOneIso_eq_tensorSheafLeftUnitor
     (L : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     [IsInvertible O hO L] :
-    tensorPowerOneIso O hO L = Stacks.SheafOfModules.tensorSheafLeftUnitor O hO L := rfl
+    tensorPowerOneIso O hO L = Stacks.SheafOfModules.tensorSheafLeftUnitor O hO L :=
+  Iso.ext (sheafification_map_comp_forget_counit_app
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩ L _)
 
 /-- Right tensoring by a sheaf of modules acts on an isomorphism as right whiskering. -/
 public theorem tensorRightFunctor_map_iso_hom
@@ -555,9 +593,9 @@ public theorem map_tensorPowerOneIso_tensorPowerComparison
       (tensorPowerComparison O hO O' hO' R L β hunit 1).hom := by
     rw [← tensorRightFunctor_map_iso_hom O' hO' hunit (R.obj L)]
     exact (congrArg Iso.hom (tensorPowerComparison_one O hO O' hO' R L β hunit)).symm
-  refine key.trans ((Category.assoc _ _ _).symm.trans ?_)
-  rw [hpc1, tensorPowerOneIso_eq_tensorSheafLeftUnitor O' hO' (R.obj L)]
-  rfl
+  rw [tensorPowerOneIso_eq_tensorSheafLeftUnitor O hO L,
+    tensorPowerOneIso_eq_tensorSheafLeftUnitor O' hO' (R.obj L), ← hpc1]
+  exact key.trans (Category.assoc _ _ _).symm
 
 /-- The transported multiplication satisfies the degree-`(n, 1)` normalisation: multiplying by
 the first power is one more iteration of right tensoring. -/

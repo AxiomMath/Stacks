@@ -99,7 +99,7 @@ lemma exists_lift_of_sigmaDesc_factorization (K : GrothendieckTopology D) {X : D
   have hσ : σ ≫ η = Sigma.desc (fun j => (sheafifiedYoneda K).map (g j)) ≫
       (sheafifiedYonedaEquiv K X G).symm s := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc]
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc]
     apply (sheafifiedYonedaEquiv K (V j) G).injective
     rw [sheafifiedYonedaEquiv_comp, Equiv.apply_symm_apply, ht,
       sheafifiedYonedaEquiv_map_comp, Equiv.apply_symm_apply]
@@ -107,7 +107,7 @@ lemma exists_lift_of_sigmaDesc_factorization (K : GrothendieckTopology D) {X : D
     (Sigma.ι (fun i => (sheafifiedYoneda K).obj (W i)) i ≫ φ ≫ σ), ?_⟩
   have key : Sigma.ι (fun i => (sheafifiedYoneda K).obj (W i)) i ≫ φ ≫ σ ≫ η =
       (sheafifiedYoneda K).map (f i) ≫ (sheafifiedYonedaEquiv K X G).symm s := by
-    rw [hσ, ← Category.assoc φ, hφ, Sigma.ι_desc_assoc]
+    rw [hσ, ← Category.assoc φ, hφ, Sigma.ι_comp_desc_assoc]
   rw [← sheafifiedYonedaEquiv_comp, Category.assoc, Category.assoc, key,
     sheafifiedYonedaEquiv_map_comp, Equiv.apply_symm_apply]
 

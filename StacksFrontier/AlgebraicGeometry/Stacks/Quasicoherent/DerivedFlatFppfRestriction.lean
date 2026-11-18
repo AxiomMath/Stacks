@@ -34,9 +34,11 @@ class `D_{LQCoh^fbc}(𝒪_𝒳)` and the quotient `D_QCoh(𝒪_𝒳)` used here 
 **Stacks 07B9** (2)(b) and (2)(d) with the source's `LQCoh^fbc`, the class with the flat base
 change property of **Stacks 0762** read with the pullback of sheaves, are
 `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff_derivedParasitic`
-(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatFppfDerivedQuasicoherentRestriction.lean`)
+(`FlatFppfDerivedQuasicoherentRestriction.lean` of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`)
 and `AlgebraicGeometry.Stack.FlatFppf.derivedQuasicoherentEquivalence`
-(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatFppfDerivedQuasicoherentLowerShriek.lean`).
+(`FlatFppfDerivedQuasicoherentLowerShriek.lean` of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`).
 
 ## Main definitions
 

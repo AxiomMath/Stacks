@@ -229,30 +229,25 @@ theorem tensorPower_zero
     tensorPower O hO L 0 = SheafOfModules.unit
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) := rfl
 
-/-- The first tensor power is `L`: the left unit constraint of the tensor product of presheaves
-of modules, followed by the counit of sheafification. -/
+/-- The first tensor power is `L`: the sealed sheafification of the left unit constraint of the
+tensor product of presheaves of modules, followed by the counit of the sheafification
+adjunction. -/
 noncomputable def tensorPowerOneIso
     (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     [(((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat)
         hO⟩).flip.obj L)).IsEquivalence] :
     tensorPower O hO L 1 ≅ L := by
-  letI : MonoidalCategory
-      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
-        := by
-    change MonoidalCategory
-      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
-    infer_instance
-  letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
-    change IsIso
-      (PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).counit
-    infer_instance
-  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj
-      ((SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val ⊗
-        L.val) ≅ L
-  exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (λ_ L.val) ≪≫
-    (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit).app L
+  letI : MonoidalCategory (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj) :=
+    inferInstanceAs (MonoidalCategory
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O)))
+  exact (Stacks.SheafOfModules.Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).mapIso
+      (λ_ ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)).obj L)) ≪≫
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit).app L
 
 /-- The successor comparison for tensor powers: tensoring the `n`th power by `L` once more
 gives the `(n + 1)`st power. -/

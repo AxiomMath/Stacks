@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.TensorSymmetry
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalSheafTensorBraiding
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalStrictSheafTensorAgree
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSections
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorEncodings
 
@@ -41,12 +42,19 @@ pure tensors — is `Stacks.SheafOfModules.FlatSquareZero.tensorSheaf_hom_ext`.
 ## Implementation notes
 
 A section of `F ⊗ G` is only locally a sum of classes of pure tensors, so the three-fold
-statements use local surjectivity of the sheafification unit
-(`PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app`) together with the
-separatedness of the target sheaf.
+statements use local surjectivity of the unit of the sealed sheafification
+(`Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app`) together
+with the separatedness of the target sheaf.
 
 The class of a local pure tensor is spelled, as everywhere in this development, as the image of
-`x ⊗ₜ y` under the unit of `PresheafOfModules.sheafificationAdjunction`.
+`x ⊗ₜ y` under the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the
+adjunction of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` with which
+`sheafTensor` is built.
+
+The associator `α_` of `SheafOfModules.monoidalCategorySheafTensor` is evaluated through its
+agreement `SheafOfModules.associator_eq_strict` with the associator of
+`Stacks.SheafOfModules.Strict.monoidalCategory`, whose section formula is
+`Stacks.SheafOfModules.associator_hom_val_app_tmul`.
 -/
 
 @[expose] public noncomputable section
@@ -69,28 +77,27 @@ theorem sheafTensorBraiding_hom_app_sheafifyUnit_tmul
     (F G : _root_.SheafOfModules.{w} (ringSheaf R)) (U : Cᵒᵖ) (x : F.val.obj U)
     (y : G.val.obj U) :
     (((sheafTensorBraiding.{u, v, w} R).app F).hom.app G).val.app U
-        (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app U
             (x ⊗ₜ[R.obj.obj U] y)) =
-      ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      ((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) G.val F.val)).app U
             (y ⊗ₜ[R.obj.obj U] x) :=
-  PresheafOfModules.hom_congr_apply'
-    (PresheafOfModules.unit_comp_map (α := 𝟙 (ringSheaf R).obj)
-      (β_ F.val G.val).hom) U (x ⊗ₜ[R.obj.obj U] y)
+  unit_naturality_apply (((presheafTensorBraiding R).hom.app F.val).app G.val) U
+    (x ⊗ₜ[R.obj.obj U] y)
 
 /-- The class of a local pure tensor restricts factorwise. -/
 private theorem unit_tmul_map (F G : _root_.SheafOfModules.{w} (ringSheaf R)) {U V : Cᵒᵖ}
     (i : U ⟶ V) (x : F.val.obj U) (y : G.val.obj U) :
     (((sheafTensor.{u, v, w, w, w} R).obj F).obj G).val.map i
-        (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app U
             (x ⊗ₜ[R.obj.obj U] y)) =
-      ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      ((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app V
             (F.val.map i x ⊗ₜ[R.obj.obj V] G.val.map i y) :=
   (PresheafOfModules.naturality_apply
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+    ((sheafificationAdjunction R).unit.app
       (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)) i (x ⊗ₜ[R.obj.obj U] y)).symm
 
 
@@ -102,44 +109,44 @@ generate `P^#` locally. -/
 theorem sheafTensor_hom_ext_sheafify_left {P : PresheafOfModules.{w} (ringSheaf R).obj}
     {H N : _root_.SheafOfModules.{w} (ringSheaf R)}
     {f g : ((sheafTensor.{u, v, w, w, w} R).obj
-      ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P)).obj H ⟶ N}
+      ((sheafification R).obj P)).obj H ⟶ N}
     (h : ∀ (U : Cᵒᵖ) (p : P.obj U) (z : H.val.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      f.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj)
-            ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val H.val)).app U
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P).app U p
+            ((sheafification R).obj P).val H.val)).app U
+          (((sheafificationAdjunction R).unit.app P).app U p
             ⊗ₜ[R.obj.obj U] z)) =
-        g.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        g.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj)
-            ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val H.val)).app U
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P).app U p
+            ((sheafification R).obj P).val H.val)).app U
+          (((sheafificationAdjunction R).unit.app P).app U p
             ⊗ₜ[R.obj.obj U] z))) : f = g := by
-  refine PresheafOfModules.sheafification_hom_ext (PresheafOfModules.hom_ext fun U =>
+  refine sheafification_hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.MonoidalCategory.tensor_ext fun s z => ?_)
   have hS := Presheaf.imageSieve_mem J ((PresheafOfModules.toPresheaf _).map
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P)) s
+    ((sheafificationAdjunction R).unit.app P)) s
   refine Presheaf.IsSheaf.isSeparated N.isSheaf _ _ hS _ _ fun V i hi => ?_
   obtain ⟨t, ht⟩ := hi
   have key : ∀ k : ((sheafTensor.{u, v, w, w, w} R).obj
-      ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P)).obj H ⟶ N,
+      ((sheafification R).obj P)).obj H ⟶ N,
       N.val.map i.op (k.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj)
-            ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val H.val)).app U
+            ((sheafification R).obj P).val H.val)).app U
           (s ⊗ₜ[R.obj.obj U] z))) =
         k.val.app (op V)
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+          (((sheafificationAdjunction R).unit.app
             (PresheafOfModules.tensorObj (O := R.obj)
-              ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val H.val)).app
+              ((sheafification R).obj P).val H.val)).app
             (op V)
-            (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+            (((sheafificationAdjunction R).unit.app
               P).app (op V) t ⊗ₜ[R.obj.obj (op V)] H.val.map i.op z)) := by
     intro k
     refine (PresheafOfModules.naturality_apply k.val i.op _).symm.trans ?_
     refine congrArg (fun w => k.val.app (op V) w) ((unit_tmul_map R _ H i.op s z).trans ?_)
-    exact congrArg (fun w => ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (ringSheaf R).obj)).unit.app (PresheafOfModules.tensorObj (O := R.obj)
-        ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val H.val)).app (op V)
+    exact congrArg (fun w => ((sheafificationAdjunction R).unit.app
+        (PresheafOfModules.tensorObj (O := R.obj)
+        ((sheafification R).obj P).val H.val)).app (op V)
           (w ⊗ₜ[R.obj.obj (op V)] H.val.map i.op z)) ht.symm
   exact (key f).trans ((h _ t _).trans (key g).symm)
 
@@ -148,47 +155,47 @@ theorem sheafTensor_hom_ext_sheafify_left {P : PresheafOfModules.{w} (ringSheaf 
 theorem sheafTensor_hom_ext_sheafify_right {P : PresheafOfModules.{w} (ringSheaf R).obj}
     {H N : _root_.SheafOfModules.{w} (ringSheaf R)}
     {f g : ((sheafTensor.{u, v, w, w, w} R).obj H).obj
-      ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P) ⟶ N}
+      ((sheafification R).obj P) ⟶ N}
     (h : ∀ (U : Cᵒᵖ) (z : H.val.obj U) (p : P.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      f.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) H.val
-            ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val)).app U
+            ((sheafification R).obj P).val)).app U
           (z ⊗ₜ[R.obj.obj U]
-            ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P).app U
+            ((sheafificationAdjunction R).unit.app P).app U
               p)) =
-        g.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        g.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) H.val
-            ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val)).app U
+            ((sheafification R).obj P).val)).app U
           (z ⊗ₜ[R.obj.obj U]
-            ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P).app U
+            ((sheafificationAdjunction R).unit.app P).app U
               p))) : f = g := by
-  refine PresheafOfModules.sheafification_hom_ext (PresheafOfModules.hom_ext fun U =>
+  refine sheafification_hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.MonoidalCategory.tensor_ext fun z s => ?_)
   have hS := Presheaf.imageSieve_mem J ((PresheafOfModules.toPresheaf _).map
-    ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app P)) s
+    ((sheafificationAdjunction R).unit.app P)) s
   refine Presheaf.IsSheaf.isSeparated N.isSheaf _ _ hS _ _ fun V i hi => ?_
   obtain ⟨t, ht⟩ := hi
   have key : ∀ k : ((sheafTensor.{u, v, w, w, w} R).obj H).obj
-      ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P) ⟶ N,
+      ((sheafification R).obj P) ⟶ N,
       N.val.map i.op (k.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) H.val
-            ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val)).app U
+            ((sheafification R).obj P).val)).app U
           (z ⊗ₜ[R.obj.obj U] s))) =
         k.val.app (op V)
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+          (((sheafificationAdjunction R).unit.app
             (PresheafOfModules.tensorObj (O := R.obj) H.val
-              ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val)).app
+              ((sheafification R).obj P).val)).app
             (op V)
             (H.val.map i.op z ⊗ₜ[R.obj.obj (op V)]
-              ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+              ((sheafificationAdjunction R).unit.app
                 P).app (op V) t)) := by
     intro k
     refine (PresheafOfModules.naturality_apply k.val i.op _).symm.trans ?_
     refine congrArg (fun w => k.val.app (op V) w) ((unit_tmul_map R H _ i.op z s).trans ?_)
-    exact congrArg (fun w => ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (ringSheaf R).obj)).unit.app (PresheafOfModules.tensorObj (O := R.obj) H.val
-        ((PresheafOfModules.sheafification (𝟙 (ringSheaf R).obj)).obj P).val)).app (op V)
+    exact congrArg (fun w => ((sheafificationAdjunction R).unit.app
+        (PresheafOfModules.tensorObj (O := R.obj) H.val
+        ((sheafification R).obj P).val)).app (op V)
           (H.val.map i.op z ⊗ₜ[R.obj.obj (op V)] w)) ht.symm
   exact (key f).trans ((h _ _ t).trans (key g).symm)
 
@@ -198,16 +205,16 @@ theorem sheafTensor_hom_ext₁₂ {F G H N : _root_.SheafOfModules.{w} (ringShea
     {f g : ((sheafTensor.{u, v, w, w, w} R).obj
       (((sheafTensor.{u, v, w, w, w} R).obj F).obj G)).obj H ⟶ N}
     (h : ∀ (U : Cᵒᵖ) (x : F.val.obj U) (y : G.val.obj U) (z : H.val.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      f.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj)
             (((sheafTensor.{u, v, w, w, w} R).obj F).obj G).val H.val)).app U
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+          (((sheafificationAdjunction R).unit.app
             (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app U
               (x ⊗ₜ[R.obj.obj U] y) ⊗ₜ[R.obj.obj U] z)) =
-        g.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        g.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj)
             (((sheafTensor.{u, v, w, w, w} R).obj F).obj G).val H.val)).app U
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+          (((sheafificationAdjunction R).unit.app
             (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app U
               (x ⊗ₜ[R.obj.obj U] y) ⊗ₜ[R.obj.obj U] z))) : f = g := by
   refine sheafTensor_hom_ext_sheafify_left R (P := PresheafOfModules.tensorObj (O := R.obj)
@@ -223,18 +230,18 @@ theorem sheafTensor_hom_ext₂₃ {F G H N : _root_.SheafOfModules.{w} (ringShea
     {f g : ((sheafTensor.{u, v, w, w, w} R).obj F).obj
       (((sheafTensor.{u, v, w, w, w} R).obj G).obj H) ⟶ N}
     (h : ∀ (U : Cᵒᵖ) (x : F.val.obj U) (y : G.val.obj U) (z : H.val.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      f.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val
             (((sheafTensor.{u, v, w, w, w} R).obj G).obj H).val)).app U
           (x ⊗ₜ[R.obj.obj U]
-            ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+            ((sheafificationAdjunction R).unit.app
               (PresheafOfModules.tensorObj (O := R.obj) G.val H.val)).app U
                 (y ⊗ₜ[R.obj.obj U] z))) =
-        g.val.app U (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        g.val.app U (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val
             (((sheafTensor.{u, v, w, w, w} R).obj G).obj H).val)).app U
           (x ⊗ₜ[R.obj.obj U]
-            ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+            ((sheafificationAdjunction R).unit.app
               (PresheafOfModules.tensorObj (O := R.obj) G.val H.val)).app U
                 (y ⊗ₜ[R.obj.obj U] z)))) : f = g := by
   refine sheafTensor_hom_ext_sheafify_right R (P := PresheafOfModules.tensorObj (O := R.obj)
@@ -260,10 +267,10 @@ theorem braiding_hom_app_sheafifyUnit_tmul
     (y : G.val.obj U) :
     (@BraidedCategory.braiding _ _ (_root_.SheafOfModules.monoidalCategorySheafTensor R)
         (_root_.SheafOfModules.symmetricCategorySheafTensor R).toBraidedCategory F G).hom.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app U
             (x ⊗ₜ[R.obj.obj U] y)) =
-      ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      ((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) G.val F.val)).app U
             (y ⊗ₜ[R.obj.obj U] x) := by
   rw [_root_.SheafOfModules.braiding_eq_sheafTensorBraiding]
@@ -279,20 +286,21 @@ theorem associator_hom_app_sheafifyUnit_tmul
     (@MonoidalCategoryStruct.associator _ _
         (_root_.SheafOfModules.monoidalCategorySheafTensor R).toMonoidalCategoryStruct
         F G H).hom.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+        (((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj)
             (((sheafTensor.{u, v, max u v, max u v, max u v} R).obj F).obj G).val H.val)).app U
-          (((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+          (((sheafificationAdjunction R).unit.app
             (PresheafOfModules.tensorObj (O := R.obj) F.val G.val)).app U
               (x ⊗ₜ[R.obj.obj U] y) ⊗ₜ[R.obj.obj U] z)) =
-      ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+      ((sheafificationAdjunction R).unit.app
           (PresheafOfModules.tensorObj (O := R.obj) F.val
             (((sheafTensor.{u, v, max u v, max u v, max u v} R).obj G).obj H).val)).app U
           (x ⊗ₜ[R.obj.obj U]
-            ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf R).obj)).unit.app
+            ((sheafificationAdjunction R).unit.app
               (PresheafOfModules.tensorObj (O := R.obj) G.val H.val)).app U
-                (y ⊗ₜ[R.obj.obj U] z)) :=
-  Stacks.SheafOfModules.associator_hom_val_app_tmul R.obj
+                (y ⊗ₜ[R.obj.obj U] z)) := by
+  rw [_root_.SheafOfModules.associator_eq_strict]
+  exact Stacks.SheafOfModules.associator_hom_val_app_tmul R.obj
     (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf R) F G H U x y z
 
 end Monoidal

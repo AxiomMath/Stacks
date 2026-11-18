@@ -195,7 +195,7 @@ public theorem flat_quotient_range_baseChange_iff {R S : Type*} [CommRing R] [Co
   have hrange : (LinearMap.range (φ.baseChange A)).restrictScalars S =
       LinearMap.range (φ.lTensor A) := by
     ext x
-    simp [LinearMap.baseChange_eq_ltensor]
+    simp [LinearMap.baseChange_eq_lTensor]
   have e3 : (A ⊗[S] N ⧸ LinearMap.range (φ.baseChange A)) ≃ₗ[S]
       A ⊗[S] N ⧸ LinearMap.range (φ.lTensor A) :=
     (Submodule.Quotient.restrictScalarsEquiv S (LinearMap.range (φ.baseChange A))).symm.trans

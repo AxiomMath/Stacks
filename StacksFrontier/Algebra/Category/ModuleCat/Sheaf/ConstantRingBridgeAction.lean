@@ -209,9 +209,7 @@ theorem constantTensorAction_unit_tmul (U : Cᵒᵖ)
     (i : (ofConstantRingPresheaf ((constantSheaf J (ModuleCat.{w} R)).obj M).obj).obj U)
     (s : (ofConstantRingPresheaf F.obj).obj U) :
     (constantTensorAction J a φ F).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
             (PresheafOfModules.tensorObj
               (sheafOfModulesOfConstantRing J (associatedRingMap J a)
                 ((constantSheaf J (ModuleCat.{w} R)).obj M)).val

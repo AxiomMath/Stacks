@@ -63,6 +63,18 @@ theorem isLocallySurjective_toSheafify_opens (T : TopCat.{u})
       (CategoryTheory.toSheafify (Opens.grothendieckTopology T) Q) :=
   inferInstance
 
+/-- The unit of the sealed sheafification of presheaves of modules, with the plain forgetful
+functor as right adjoint, is locally surjective. -/
+private lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app {C : Type*}
+    [Category C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app M) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app,
+    PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
+
 /-- A morphism of modules on a scheme whose restriction to an open subscheme is an isomorphism is
 bijective on the sections over every open contained in that open. -/
 theorem bijective_app_of_isIso_restrictFunctor {X : Scheme.{u}} {M N : X.Modules} (φ : M ⟶ N)
@@ -136,10 +148,11 @@ def multEvalHom (a b : ℤ) (W : Opens (ProjectiveSpectrum.top 𝒮)) (y : W) :
       (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)).obj (op W) →+ ModuleFiber (M := S) 𝒮 y.1 :=
   (twistEvalHom 𝒮 (a + b) W y).comp
     ((((twistMultiplicationMap 𝒮 a b).val.app (op W)).hom.toAddMonoidHom).comp
-      ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit (AlgebraicGeometry.Proj
-        𝒮).toRingedSpace
-        ((PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
-      (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val))).app (op W)).hom.toAddMonoidHom)
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+          (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
+          (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)).app (op W)).hom.toAddMonoidHom)
 
 /-- On a pure tensor the value of `multEvalHom` is the product of the two local values. -/
 theorem multEvalHom_tmul (a b : ℤ) (W : Opens (ProjectiveSpectrum.top 𝒮)) (y : W)
@@ -167,10 +180,11 @@ theorem multEvalHom_eq_one {a b : ℤ} (hab : a + b = 0)
         ((twistingSheaf 𝒮 b)))).val.obj (op U))
     (t : ((PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
       (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)).obj (op W))
-    (ht : PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit
-        (AlgebraicGeometry.Proj 𝒮).toRingedSpace
-          ((PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
-      (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val))) (op W) t
+    (ht : PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+          (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
+          (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)) (op W) t
       = ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((AlgebraicGeometry.Proj
         𝒮).toRingedSpace)).presheaf, (((AlgebraicGeometry.Proj
         𝒮).toRingedSpace)).IsSheaf⟩).obj ((twistingSheaf 𝒮 a))).obj
@@ -179,10 +193,11 @@ theorem multEvalHom_eq_one {a b : ℤ} (hab : a + b = 0)
       = oneSection 𝒮 hab U) (y : W) :
     multEvalHom 𝒮 a b W y t = 1 := by
   have hstep : PresheafOfModules.Hom.app (twistMultiplicationMap 𝒮 a b).val (op W)
-      (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit
-        (AlgebraicGeometry.Proj 𝒮).toRingedSpace
-          ((PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
-      (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val))) (op W) t)
+      (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+          (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
+          (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)) (op W) t)
       = (twistingSheaf 𝒮 (a + b)).val.map i.op (oneSection 𝒮 hab U) := by
     rw [ht]
     exact (PresheafOfModules.naturality_apply (twistMultiplicationMap 𝒮 a b).val i.op z).trans
@@ -219,14 +234,14 @@ theorem mem_ratioLocus_of_isIso_mul {d : ℕ} {a b : ℤ} (ha : a = (d : ℤ)) (
   obtain ⟨z, hz⟩ :=
     (bijective_app_of_isIso_restrictFunctor (twistMultiplicationMap 𝒮 a b) U hmul
       (le_refl U)).2 (oneSection 𝒮 hab U)
-  have hsurj : Presheaf.IsLocallySurjective
+  have hsurj : PresheafOfModules.IsLocallySurjective
       (Opens.grothendieckTopology ↑(AlgebraicGeometry.Proj 𝒮).toRingedSpace.toPresheafedSpace)
-      ((PresheafOfModules.toPresheaf _).map
-        (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit (AlgebraicGeometry.Proj
-          𝒮).toRingedSpace
-          ((PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
-      (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)))) := by
-    exact isLocallySurjective_toSheafify_opens _ _
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+        (⟨(AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf,
+          (AlgebraicGeometry.Proj 𝒮).toRingedSpace.IsSheaf⟩ : Sheaf _ CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := (AlgebraicGeometry.Proj 𝒮).toRingedSpace.presheaf)
+          (twistingSheaf 𝒮 a).val (twistingSheaf 𝒮 b).val)) :=
+    isLocallySurjective_sheafificationForgetAdjunction_unit_app _ _
   obtain ⟨W, i, ⟨t, ht⟩, hxW⟩ :=
     (Opens.mem_grothendieckTopology _).1 (hsurj.imageSieve_mem z) x hx
   exact mem_ratioLocus_of_multEvalHom_eq_one 𝒮 ha hxW t

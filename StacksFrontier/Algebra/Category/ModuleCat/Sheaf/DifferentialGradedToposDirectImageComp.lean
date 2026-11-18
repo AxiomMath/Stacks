@@ -331,7 +331,7 @@ theorem mulSheaf_toposPushforwardAlgebra_comp (n m : ℤ) :
           (GradedAlgebra.mulSheaf A.toGradedAlgebra n m)) :=
     (mulSheaf_toposPushforwardAlgebra _ _ n m).trans
       (congrArg (Stacks.MonoidalGraded.mapMul (toposDirectImageModules ψ))
-        (mulSheaf_toposPushforwardAlgebra _ A n m))
+        (mulSheaf_toposPushforwardAlgebra (toposDirectImageModules φ) A n m))
   rw [h1, mulSheaf_toposPushforwardAlgebra (toposDirectImageModules χ) A n m]
   exact mapMul_mapMul_comp_toposDirectImageCompIso φ ψ χ τ hτ _
 

@@ -641,7 +641,10 @@ public lemma sheafification_inverts_tensorLeft (R : Sheaf J CommRingCat.{w})
 /-- Tensoring commutes with sheafification: `(- ⊗ F)` followed by sheafification is isomorphic
 to sheafification followed by the sheaf-level `(- ⊗ F)`.
 
-Naturality compares the tensor of an identity scalar restriction with the original tensor. -/
+At `P` it is the image under `F ⊗ -` and sheafification of the sheafification unit `P ⟶ P^#`,
+invertible by `sheafification_inverts_tensorLeft`, followed by the passage from Mathlib's
+sheafification to the sealed `Stacks.SheafOfModules.Tensor.sheafification` that `sheafTensor`
+ends with. -/
 public noncomputable def tensorSheafificationIsoGeneral
     (R : Sheaf J CommRingCat.{w})
     (F : SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :
@@ -655,37 +658,82 @@ public noncomputable def tensorSheafificationIsoGeneral
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} R).obj F) := by
   let L := PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-  let forgetThenRestrict : SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R) ⥤
+  let restrict : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj ⥤
       PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj :=
-    SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R) ⋙
-      PresheafOfModules.restrictScalars (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-  let adj : L ⊣ forgetThenRestrict := PresheafOfModules.sheafificationAdjunction
+    PresheafOfModules.restrictScalars (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+  let forget := SheafOfModules.forget.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R)
+  let adj : L ⊣ forget ⋙ restrict := PresheafOfModules.sheafificationAdjunction
     (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
-  let tensorThenSheafify : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj ⥤
-      SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R) :=
-    ((PresheafOfModules.tensorBifunctor.{v, u, w, z, z} R.obj).obj F.val) ⋙ L
-  let τ : tensorThenSheafify ⟶
-      L ⋙ ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} R).obj F) :=
-    { app := fun presheaf => tensorThenSheafify.map (adj.unit.app presheaf)
-      naturality := fun sourcePresheaf targetPresheaf morphism => by
-        change tensorThenSheafify.map morphism ≫
-            tensorThenSheafify.map (adj.unit.app targetPresheaf) =
-          tensorThenSheafify.map (adj.unit.app sourcePresheaf) ≫
-            tensorThenSheafify.map (forgetThenRestrict.map (L.map morphism))
-        exact (tensorThenSheafify.map_comp morphism (adj.unit.app targetPresheaf)).symm.trans
-          ((congrArg (tensorThenSheafify.map (X := sourcePresheaf)
-            (Y := forgetThenRestrict.obj (L.obj targetPresheaf)))
-              (adj.unit.naturality morphism)).trans
-              (tensorThenSheafify.map_comp (adj.unit.app sourcePresheaf)
-                (forgetThenRestrict.map (L.map morphism)))) }
-  have hτ (P) : IsIso (τ.app P) := by
-    apply sheafification_inverts_tensorLeft
-    exact PresheafOfModules.sheafification_map_unit_isIso
-      (Stacks.SheafOfModules.Tensor.ringSheaf R)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) P
-  letI : IsIso τ := NatIso.isIso_of_isIso_app τ
-  exact asIso τ
+  let tensorLeft : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj ⥤
+      PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj :=
+    (PresheafOfModules.tensorBifunctor.{v, u, w, z, z} R.obj).obj F.val
+  let toSealed : L ≅ Stacks.SheafOfModules.Tensor.sheafification R :=
+    eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def R).symm
+  -- The unit of `adj` lands in the restriction of scalars along `𝟙` of a sheaf, while
+  -- `sheafTensor` tensors with the sheaf itself. `restrictId` identifies the two objectwise, as
+  -- `ModuleCat.restrictScalarsId'App` does, instead of by unfolding `restrictScalars` at a
+  -- sheafification, which makes the kernel evaluate Mathlib's sheafification.
+  let restrictId (M : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+      restrict.obj M ≅ M :=
+    PresheafOfModules.isoMk (fun X ↦ ModuleCat.restrictScalarsId'App _ rfl (M.obj X))
+      (fun _ _ _ ↦ rfl)
+  let unit (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+      P ⟶ forget.obj (L.obj P) :=
+    adj.unit.app P ≫ (restrictId (forget.obj (L.obj P))).hom
+  refine NatIso.ofComponents
+    (fun P ↦
+      haveI : IsIso (L.map (tensorLeft.map (unit P))) :=
+        sheafification_inverts_tensorLeft J R F.val (unit P) (by
+          rw [Functor.map_comp]
+          exact IsIso.comp_isIso' (PresheafOfModules.sheafification_map_unit_isIso _ _ P)
+            inferInstance)
+      asIso (L.map (tensorLeft.map (unit P))) ≪≫
+        toSealed.app (tensorLeft.obj (forget.obj (L.obj P)))) fun {P Q} m ↦ ?_
+  have restrictId_naturality
+      {M N : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj} (g : M ⟶ N) :
+      restrict.map g ≫ (restrictId N).hom = (restrictId M).hom ≫ g :=
+    rfl
+  have unit_naturality : m ≫ unit Q = unit P ≫ forget.map (L.map m) :=
+    calc m ≫ unit Q = (m ≫ adj.unit.app Q) ≫ (restrictId (forget.obj (L.obj Q))).hom :=
+          (Category.assoc _ _ _).symm
+      _ = (adj.unit.app P ≫ (forget ⋙ restrict).map (L.map m)) ≫
+            (restrictId (forget.obj (L.obj Q))).hom :=
+          congrArg (· ≫ (restrictId (forget.obj (L.obj Q))).hom) (adj.unit_naturality m).symm
+      _ = adj.unit.app P ≫ (restrictId (forget.obj (L.obj P))).hom ≫ forget.map (L.map m) :=
+          (Category.assoc _ _ _).trans
+            (congrArg (adj.unit.app P ≫ ·) (restrictId_naturality (forget.map (L.map m))))
+      _ = unit P ≫ forget.map (L.map m) := (Category.assoc _ _ _).symm
+  -- The component at `P`, as a composite. The statement's `show` sits in the implicit
+  -- arguments of the goal and blocks `rw` there, so the two ends of the chain below are
+  -- rewritten in term mode.
+  have component (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+      {isIso : IsIso (L.map (tensorLeft.map (unit P)))} :
+      (asIso (L.map (tensorLeft.map (unit P))) ≪≫
+          toSealed.app (tensorLeft.obj (forget.obj (L.obj P)))).hom =
+        L.map (tensorLeft.map (unit P)) ≫
+          toSealed.hom.app (tensorLeft.obj (forget.obj (L.obj P))) :=
+    (Iso.trans_hom _ _).trans (congrArg₂ (· ≫ ·) (asIso_hom _) (Iso.app_hom _ _))
+  calc _ = L.map (tensorLeft.map m) ≫ L.map (tensorLeft.map (unit Q)) ≫
+        toSealed.hom.app (tensorLeft.obj (forget.obj (L.obj Q))) :=
+        congrArg₂ (· ≫ ·) (Functor.comp_map tensorLeft L m) (component Q)
+    _ = L.map (tensorLeft.map (m ≫ unit Q)) ≫
+        toSealed.hom.app (tensorLeft.obj (forget.obj (L.obj Q))) := by
+        rw [tensorLeft.map_comp m (unit Q),
+          L.map_comp (tensorLeft.map m) (tensorLeft.map (unit Q)), Category.assoc]
+    _ = L.map (tensorLeft.map (unit P ≫ forget.map (L.map m))) ≫
+        toSealed.hom.app (tensorLeft.obj (forget.obj (L.obj Q))) := by
+        rw [unit_naturality]
+    _ = (L.map (tensorLeft.map (unit P)) ≫
+          toSealed.hom.app (tensorLeft.obj (forget.obj (L.obj P)))) ≫
+        (Stacks.SheafOfModules.Tensor.sheafification R).map
+          (tensorLeft.map (forget.map (L.map m))) := by
+        rw [tensorLeft.map_comp (unit P) (forget.map (L.map m)),
+          L.map_comp (tensorLeft.map (unit P)) (tensorLeft.map (forget.map (L.map m))),
+          Category.assoc, Category.assoc, ← toSealed.hom.naturality]
+    _ = _ := congrArg₂ (· ≫ ·) (component P).symm
+        (Functor.comp_map L ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} R).obj F)
+          m).symm
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{z}] [HasWeakSheafify J AddCommGrpCat.{z}] in
 /-- Tensoring with a fixed sheaf of modules commutes with all small colimits, independently of

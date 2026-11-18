@@ -37,6 +37,25 @@ used rather than redone:
 `Stacks.SheafOfModules.TensorColimits.sheafification_inverts_tensorLeft` — which carries the
 symmetry of the objectwise tensor product internally — for the left one.
 
+The sheafification is the sealed `Stacks.SheafOfModules.Tensor.sheafification` that
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends with, and the unit is that of its adjunction
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`. Mathlib's criterion for a morphism to be
+inverted by sheafification,
+`PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms`, and
+`sheafification_inverts_tensorLeft` are stated for Mathlib's `PresheafOfModules.sheafification`;
+they pass to the sealed one along `Stacks.SheafOfModules.Tensor.sheafificationIso`, by
+`NatIso.isIso_map_iff`.
+
+The right adjoint of `sheafificationAdjunction` is `SheafOfModules.forget` followed by the
+restriction of scalars along the identity, so its unit at `P` lands in the restriction of scalars
+of `((sheafification O).obj P).val`, while `sheafTensor` tensors with
+`((sheafification O).obj P).val` itself. The two agree definitionally, but only after unfolding
+`PresheafOfModules.restrictScalars` and eta-expanding the presheaf. `toSheafifyZ` restates the
+unit with target `sheafifiedUnderlyingZ O P`, which is `((sheafification O).obj P).val`, so that
+this unfolding happens once, against the sheafification of a variable, and not in every
+comparison of the associator with an iterated `sheafTensor`, where unifying the two spellings
+unfolds `sheafTensor` over and over.
+
 Fixing the right factor of the tensor bifunctor is `Functor.flip`, so the endofunctor
 `G ↦ G ⊗_O F` is `(Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F` and its value on a
 morphism `φ` is `((sheafTensor O).map φ).app F`, which
@@ -86,79 +105,68 @@ variable {C : Type u} [Category.{v} C]
 
 attribute [local implicit_reducible] PresheafOfModules.tensorObj
 
-@[implicit_reducible]
-private noncomputable def sheafifyZ (O : Sheaf J CommRingCat.{w}) :
-    PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⥤
-      _root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O) :=
-  PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-
-@[implicit_reducible]
-private noncomputable def toSheafifyZ (O : Sheaf J CommRingCat.{w})
-    (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
-    P ⟶ (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
-      PresheafOfModules.restrictScalars (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).obj
-        ((sheafifyZ O).obj P) :=
-  (PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P
-
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
-private theorem isIso_sheafify_map_toSheafifyZ (O : Sheaf J CommRingCat.{w})
-    (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
-    IsIso ((sheafifyZ O).map (toSheafifyZ O P)) := by
-  have h := (PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).left_triangle_components P
-  have ha : (sheafifyZ O).map (toSheafifyZ O P) =
-      inv ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit.app ((sheafifyZ O).obj P)) := by
-    refine (cancel_mono ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit.app
-        ((sheafifyZ O).obj P))).mp ?_
-    exact h.trans (IsIso.inv_hom_id _).symm
-  exact ha ▸ inferInstance
+/-- The sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` inverts a morphism of
+presheaves of modules exactly when the underlying morphism of presheaves of abelian groups lies in
+`J.W`, the locally bijective morphisms: Mathlib's criterion for its own sheafification, passed to
+the sealed one along `Stacks.SheafOfModules.Tensor.sheafificationIso`. -/
+private theorem isIso_sheafification_map_iff (O : Sheaf J CommRingCat.{w})
+    {P Q : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (g : P ⟶ Q) :
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification O).map g) ↔
+      J.W ((PresheafOfModules.toPresheaf
+        (Stacks.SheafOfModules.Tensor.ringSheaf O).obj).map g) := by
+  rw [← NatIso.isIso_map_iff (Stacks.SheafOfModules.Tensor.sheafificationIso O) g,
+    ← MorphismProperty.isomorphisms.iff,
+    ← MorphismProperty.inverseImage_iff (MorphismProperty.isomorphisms _)
+      (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)) g,
+    ← PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms
+      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj),
+    MorphismProperty.inverseImage_iff]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private theorem isIso_sheafify_map_whiskerRightZ (O : Sheaf J CommRingCat.{w})
     {A B : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (f : A ⟶ B)
     (X : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-    (hf : IsIso ((sheafifyZ O).map f)) :
-    IsIso ((sheafifyZ O).map (PresheafOfModules.tensorHom (O := O.obj) f (𝟙 X))) := by
-  have key : ∀ {P Q : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
-      (g : P ⟶ Q),
-      IsIso ((sheafifyZ O).map g) ↔
-        J.W ((PresheafOfModules.toPresheaf
-          (Stacks.SheafOfModules.Tensor.ringSheaf O).obj).map g) := by
-    intro P Q g
-    rw [sheafifyZ, show IsIso ((PresheafOfModules.sheafification
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map g)
-          ↔ MorphismProperty.isomorphisms _
-              ((PresheafOfModules.sheafification
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map g)
-          from (MorphismProperty.isomorphisms.iff _).symm,
-        ← MorphismProperty.inverseImage_iff (MorphismProperty.isomorphisms _)
-          (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)) g,
-        ← PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj),
-        MorphismProperty.inverseImage_iff]
-  -- `rw [key]` cannot be used on the goal: `PresheafOfModules.tensorHom (O := O.obj) f (𝟙 X)`
-  -- is stated over `ringPresheaf O.obj`, which agrees with `(Tensor.ringSheaf O).obj` only at
-  -- default transparency, so apply the equivalence by elaboration instead.
-  exact (key (PresheafOfModules.tensorHom (O := O.obj) f (𝟙 X))).2
+    (hf : IsIso ((Stacks.SheafOfModules.Tensor.sheafification O).map f)) :
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification O).map
+      (PresheafOfModules.tensorHom (O := O.obj) f (𝟙 X))) :=
+  -- `rw [isIso_sheafification_map_iff]` cannot be used on the goal:
+  -- `PresheafOfModules.tensorHom (O := O.obj) f (𝟙 X)` is stated over `ringPresheaf O.obj`,
+  -- which agrees with `(Tensor.ringSheaf O).obj` only at default transparency, so apply the
+  -- equivalence by elaboration instead.
+  (isIso_sheafification_map_iff O (PresheafOfModules.tensorHom (O := O.obj) f (𝟙 X))).2
     (Stacks.SheafOfModules.TensorColimits.TensorLocalization.W_whiskerRight
-      O.obj f X ((key f).1 hf))
+      O.obj f X ((isIso_sheafification_map_iff O f).1 hf))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private theorem isIso_sheafify_map_whiskerLeftZ (O : Sheaf J CommRingCat.{w})
     (X : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
     {A B : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (f : A ⟶ B)
-    (hf : IsIso ((sheafifyZ O).map f)) :
-    IsIso ((sheafifyZ O).map (PresheafOfModules.tensorHom (O := O.obj) (𝟙 X) f)) :=
-  Stacks.SheafOfModules.TensorColimits.sheafification_inverts_tensorLeft J O X f hf
+    (hf : IsIso ((Stacks.SheafOfModules.Tensor.sheafification O).map f)) :
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification O).map
+      (PresheafOfModules.tensorHom (O := O.obj) (𝟙 X) f)) :=
+  (NatIso.isIso_map_iff (Stacks.SheafOfModules.Tensor.sheafificationIso O) _).1
+    (Stacks.SheafOfModules.TensorColimits.sheafification_inverts_tensorLeft J O X f
+      ((NatIso.isIso_map_iff (Stacks.SheafOfModules.Tensor.sheafificationIso O) f).2 hf))
 
+/-- The underlying presheaf of the sealed sheafification of `P`, spelled as
+`Stacks.SheafOfModules.Tensor.sheafTensor` spells the factors of an iterated tensor product. -/
 private noncomputable abbrev sheafifiedUnderlyingZ (O : Sheaf J CommRingCat.{w})
     (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :=
-  (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
-    PresheafOfModules.restrictScalars (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).obj
-      ((sheafifyZ O).obj P)
+  ((Stacks.SheafOfModules.Tensor.sheafification O).obj P).val
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` at `P`, with target
+`sheafifiedUnderlyingZ O P` rather than its restriction of scalars along the identity. -/
+private noncomputable def toSheafifyZ (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    P ⟶ sheafifiedUnderlyingZ O P :=
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+private theorem isIso_sheafify_map_toSheafifyZ (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    IsIso ((Stacks.SheafOfModules.Tensor.sheafification O).map (toSheafifyZ O P)) :=
+  Stacks.SheafOfModules.Tensor.sheafification_map_unit_isIso O P
 
 private theorem tensorHom_interchange
     (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w})
@@ -187,22 +195,26 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private theorem toSheafifyZ_naturality
     (O : Sheaf J CommRingCat.{w})
     {P Q : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (f : P ⟶ Q) :
-    f ≫ toSheafifyZ O Q = toSheafifyZ O P ≫ ((sheafifyZ O).map f).val := by
-  refine Eq.trans ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.naturality f) ?_
-  exact congrArg (fun g => toSheafifyZ O P ≫ g)
-    (restrictScalars_id_map O ((sheafifyZ O).map f).val)
+    f ≫ toSheafifyZ O Q =
+      toSheafifyZ O P ≫ ((Stacks.SheafOfModules.Tensor.sheafification O).map f).val :=
+  (Stacks.SheafOfModules.Tensor.unit_comp_map f).symm.trans
+    (congrArg (fun g => toSheafifyZ O P ≫ g)
+      (restrictScalars_id_map O ((Stacks.SheafOfModules.Tensor.sheafification O).map f).val))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private theorem sheafify_unit_whiskerRight_natural
     (O : Sheaf J CommRingCat.{w})
     {P Q : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (f : P ⟶ Q)
     (R : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
-    (sheafifyZ O).map (PresheafOfModules.tensorHom (O := O.obj) (toSheafifyZ O P) (𝟙 R)) ≫
-        (sheafifyZ O).map
-          (PresheafOfModules.tensorHom (O := O.obj) (((sheafifyZ O).map f).val) (𝟙 R)) =
-      (sheafifyZ O).map (PresheafOfModules.tensorHom (O := O.obj) f (𝟙 R)) ≫
-    (sheafifyZ O).map (PresheafOfModules.tensorHom (O := O.obj) (toSheafifyZ O Q) (𝟙 R)) := by
+    (Stacks.SheafOfModules.Tensor.sheafification O).map
+          (PresheafOfModules.tensorHom (O := O.obj) (toSheafifyZ O P) (𝟙 R)) ≫
+        (Stacks.SheafOfModules.Tensor.sheafification O).map
+          (PresheafOfModules.tensorHom (O := O.obj)
+            ((Stacks.SheafOfModules.Tensor.sheafification O).map f).val (𝟙 R)) =
+      (Stacks.SheafOfModules.Tensor.sheafification O).map
+          (PresheafOfModules.tensorHom (O := O.obj) f (𝟙 R)) ≫
+        (Stacks.SheafOfModules.Tensor.sheafification O).map
+          (PresheafOfModules.tensorHom (O := O.obj) (toSheafifyZ O Q) (𝟙 R)) := by
   have right_comp : ∀ {P' Q' R' : PresheafOfModules.{z}
         (Stacks.SheafOfModules.Tensor.ringSheaf O).obj} (u : P' ⟶ Q') (v : Q' ⟶ R'),
       PresheafOfModules.tensorHom (O := O.obj) u (𝟙 R) ≫
@@ -212,8 +224,9 @@ private theorem sheafify_unit_whiskerRight_natural
     refine Eq.trans (PresheafOfModules.tensorHom_comp (O := O.obj) u (𝟙 R) v (𝟙 R)) ?_
     exact congrArg (fun k => PresheafOfModules.tensorHom (O := O.obj) (u ≫ v) k)
       (Category.id_comp (𝟙 R))
-  refine Eq.trans ((sheafifyZ O).map_comp _ _).symm
-    (Eq.trans (congrArg (sheafifyZ O).map ?_) ((sheafifyZ O).map_comp _ _))
+  refine Eq.trans ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp _ _).symm
+    (Eq.trans (congrArg (Stacks.SheafOfModules.Tensor.sheafification O).map ?_)
+      ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp _ _))
   exact (right_comp _ _).trans
     ((congrArg (fun k => PresheafOfModules.tensorHom (O := O.obj) k (𝟙 R))
       (toSheafifyZ_naturality O f).symm).trans
@@ -369,16 +382,16 @@ private theorem tensorAssocMap_naturality
 private noncomputable def sheafTensorAssocIsoZ
     (O : Sheaf J CommRingCat.{w})
     (P Q R : PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
-    (sheafifyZ O).obj
+    (Stacks.SheafOfModules.Tensor.sheafification O).obj
         (PresheafOfModules.tensorObj (O := O.obj)
           (sheafifiedUnderlyingZ O (PresheafOfModules.tensorObj (O := O.obj) P Q)) R) ≅
-      (sheafifyZ O).obj
+      (Stacks.SheafOfModules.Tensor.sheafification O).obj
         (PresheafOfModules.tensorObj (O := O.obj) P
           (sheafifiedUnderlyingZ O (PresheafOfModules.tensorObj (O := O.obj) Q R))) := by
-  let uL := (sheafifyZ O).map
+  let uL := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj)
       (toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) P Q)) (𝟙 R))
-  let uR := (sheafifyZ O).map
+  let uR := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) (𝟙 P)
       (toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) Q R)))
   have : IsIso uL := isIso_sheafify_map_whiskerRightZ O
@@ -388,7 +401,8 @@ private noncomputable def sheafTensorAssocIsoZ
     (toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) Q R))
     (isIso_sheafify_map_toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) Q R))
   exact (asIso uL).symm ≪≫
-    (sheafifyZ O).mapIso (tensorAssocIso O.obj P Q R) ≪≫ asIso uR
+    (Stacks.SheafOfModules.Tensor.sheafification O).mapIso (tensorAssocIso O.obj P Q R) ≪≫
+      asIso uR
 
 private noncomputable def sheafTensorAssocNatIsoZ
     (O : Sheaf J CommRingCat.{w})
@@ -403,27 +417,29 @@ private noncomputable def sheafTensorAssocNatIsoZ
   let aX := PresheafOfModules.tensorObj (O := O.obj) X.val G.val
   let aY := PresheafOfModules.tensorObj (O := O.obj) Y.val G.val
   let fA := PresheafOfModules.tensorHom (O := O.obj) f.val (𝟙 G.val)
-  let fASh := (sheafifyZ O).map fA
-  let rawMap := (sheafifyZ O).map
+  let fASh := (Stacks.SheafOfModules.Tensor.sheafification O).map fA
+  let rawMap := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) fA (𝟙 F.val))
-  let sourceMap := (sheafifyZ O).map
+  let sourceMap := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) fASh.val (𝟙 F.val))
-  let midMap := (sheafifyZ O).map
+  let midMap := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) f.val
       (𝟙 (PresheafOfModules.tensorObj (O := O.obj) G.val F.val)))
-  let targetMap := (sheafifyZ O).map
+  let targetMap := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) f.val
       (𝟙 (sheafifiedUnderlyingZ O (PresheafOfModules.tensorObj (O := O.obj) G.val F.val))))
-  let uLX := (sheafifyZ O).map
+  let uLX := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) (toSheafifyZ O aX) (𝟙 F.val))
-  let uLY := (sheafifyZ O).map
+  let uLY := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) (toSheafifyZ O aY) (𝟙 F.val))
-  let assocX := (sheafifyZ O).map (tensorAssocMap O.obj X.val G.val F.val)
-  let assocY := (sheafifyZ O).map (tensorAssocMap O.obj Y.val G.val F.val)
-  let uRX := (sheafifyZ O).map
+  let assocX := (Stacks.SheafOfModules.Tensor.sheafification O).map
+    (tensorAssocMap O.obj X.val G.val F.val)
+  let assocY := (Stacks.SheafOfModules.Tensor.sheafification O).map
+    (tensorAssocMap O.obj Y.val G.val F.val)
+  let uRX := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) (𝟙 X.val)
       (toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) G.val F.val)))
-  let uRY := (sheafifyZ O).map
+  let uRY := (Stacks.SheafOfModules.Tensor.sheafification O).map
     (PresheafOfModules.tensorHom (O := O.obj) (𝟙 Y.val)
       (toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) G.val F.val)))
   change sourceMap ≫ (sheafTensorAssocIsoZ O Y.val G.val F.val).hom =
@@ -431,15 +447,17 @@ private noncomputable def sheafTensorAssocNatIsoZ
   have hL : uLX ≫ sourceMap = rawMap ≫ uLY :=
     sheafify_unit_whiskerRight_natural O fA F.val
   have hAssoc : rawMap ≫ assocY = assocX ≫ midMap := by
-    refine Eq.trans ((sheafifyZ O).map_comp _ _).symm
-      (Eq.trans (congrArg (sheafifyZ O).map ?_) ((sheafifyZ O).map_comp _ _))
+    refine Eq.trans ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp _ _).symm
+      (Eq.trans (congrArg (Stacks.SheafOfModules.Tensor.sheafification O).map ?_)
+        ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp _ _))
     exact (tensorAssocMap_naturality O.obj f.val (𝟙 G.val) (𝟙 F.val)).trans
       (congrArg (fun k => tensorAssocMap O.obj X.val G.val F.val ≫
         PresheafOfModules.tensorHom (O := O.obj) f.val k)
         (PresheafOfModules.tensorHom_id (O := O.obj) G.val F.val))
   have hR : midMap ≫ uRY = uRX ≫ targetMap := by
-    refine Eq.trans ((sheafifyZ O).map_comp _ _).symm
-      (Eq.trans (congrArg (sheafifyZ O).map ?_) ((sheafifyZ O).map_comp _ _))
+    refine Eq.trans ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp _ _).symm
+      (Eq.trans (congrArg (Stacks.SheafOfModules.Tensor.sheafification O).map ?_)
+        ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp _ _))
     exact tensorHom_interchange O.obj f.val
       (toSheafifyZ O (PresheafOfModules.tensorObj (O := O.obj) G.val F.val))
   have hIsoLX : IsIso uLX :=

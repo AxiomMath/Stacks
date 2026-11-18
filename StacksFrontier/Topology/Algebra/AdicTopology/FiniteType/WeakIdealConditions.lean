@@ -515,7 +515,7 @@ ideals of definition of `B` there is a commutative diagram of discrete rings `A�
 theorem isTaut_iff_forall_exists_isQuotientDiagram {A B : Type u}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
-    (f : B →+* A) (hf : Continuous f)
+    (f : B →+* A)
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hB : TopologicalRing.IsWeaklyAdmissible B)
     (hBcount : (nhds (0 : B)).IsCountablyGenerated) :
     RingHom.IsTaut f ↔
@@ -524,10 +524,10 @@ theorem isTaut_iff_forall_exists_isQuotientDiagram {A B : Type u}
           (π : ∀ n, A →+* Aₙ n) (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (σ : ∀ n, B ⧸ J n →+* Aₙ n),
           RingHom.QuotientDiagram.IsQuotientDiagram f J hJ.2.1 π t σ := by
   refine ⟨fun ht J hJ ↦
-    (RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram f hf hA hB J hJ).mp ht,
+    (RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram f hA J hJ).mp ht,
     fun h ↦ ?_⟩
   obtain ⟨J, hJ⟩ := exists_fundamental_weak_ideal_sequence B hB hBcount
-  exact (RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram f hf hA hB J hJ).mpr (h J hJ)
+  exact (RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram f hA J hJ).mpr (h J hJ)
 
 theorem finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType
     (φ : B →+* A)

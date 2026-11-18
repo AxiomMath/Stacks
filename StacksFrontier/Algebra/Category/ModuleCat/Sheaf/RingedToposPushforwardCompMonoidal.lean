@@ -194,20 +194,20 @@ omit [X.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 open Stacks.SheafOfModules in
 /-- The tensor product of two morphisms of sheaves of `O_C`-modules on the sheafification unit
-of a local pure tensor. -/
+of a local pure tensor (the unit of the sealed sheafification,
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`). -/
 theorem tensorHom_val_app_toSheafify
     {A A' B B' : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
     (a : A ⟶ A') (b : B ⟶ B')
     (U : X.Cᵒᵖ) (x : A.val.obj U) (y : B.val.obj U) :
     (a ⊗ₘ b).val.app U
-        ((TensorSheafification.toSheafify X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (A.val ⊗ B.val)).app U (x ⊗ₜ y)) =
-      (TensorSheafification.toSheafify X.O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (A'.val ⊗ B'.val)).app U
-          (a.val.app U x ⊗ₜ b.val.app U y) :=
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (A.val ⊗ B.val)).app U (x ⊗ₜ y)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (A'.val ⊗ B'.val)).app U (a.val.app U x ⊗ₜ b.val.app U y) :=
   (congrArg (fun m : A ⊗ B ⟶ A' ⊗ B' ↦ m.val.app U
-        ((TensorSheafification.toSheafify X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (A.val ⊗ B.val)).app U (x ⊗ₜ y)))
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (A.val ⊗ B.val)).app U (x ⊗ₜ y)))
       (tensorHom_def a b)).trans
     ((congrArg ((A' ◁ b).val.app U)
         (Stacks.SheafOfModules.RingedToposPullback.whiskerRight_val_app_toSheafify a U x y)).trans
@@ -234,11 +234,10 @@ open Stacks.SheafOfModules in
 theorem toSheafify_tmul_congr
     {A B : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
     (U : X.Cᵒᵖ) {x x' : A.val.obj U} {y y' : B.val.obj U} (hx : x = x') (hy : y = y') :
-    (TensorSheafification.toSheafify X.O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (A.val ⊗ B.val)).app U (x ⊗ₜ y) =
-      (TensorSheafification.toSheafify X.O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (A.val ⊗ B.val)).app U
-          (x' ⊗ₜ y') := by
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (A.val ⊗ B.val)).app U (x ⊗ₜ y) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (A.val ⊗ B.val)).app U (x' ⊗ₜ y') := by
   subst hx hy
   rfl
 
@@ -255,8 +254,8 @@ theorem canonicalPairing_apply
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N)) :
     (Sheaf.sectionsFunctor X.J U).map (canonicalPairing (A := X.O.obj)
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property M N) (Functor.prodObjMk a b) =
-      (TensorSheafification.toSheafify X.O.obj
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (M.val ⊗ N.val)).app U (a ⊗ₜ b) :=
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (M.val ⊗ N.val)).app U (a ⊗ₜ b) :=
   pairingApp_canonicalPairing (A := X.O.obj) (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
     M N U a b
 

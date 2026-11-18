@@ -34,7 +34,10 @@ presheaf used by `PresheafOfModules.sheafification` and `SheafOfModules.forget`,
 reducibly equal, so a rewrite whose pattern mixes them does not fire; the boundary is crossed
 only in term position, where a single definitional check settles it. Sheafification, its
 adjunction and unit, and the canonical `PresheafOfModules.tensorBifunctor` and `Tensor.sheafTensor`
-bifunctors are used directly, without file-local spelling wrappers.
+bifunctors are used directly, without file-local spelling wrappers. Mathlib's sheafification is
+the localization functor throughout; `Tensor.sheafTensor` ends with the sealed
+`Tensor.sheafification`, and the comparison `sheafTensorSheafifyIso` crosses to it through
+`Tensor.sheafificationIso`.
 
 ## References
 
@@ -260,8 +263,18 @@ lemma tensorHomMod_naturality_left
 
 /-! ### Comparing the sheafified presheaf tensor product with the sheaf tensor product -/
 
+/-- A square `a ≫ u' = u ≫ b` mapped by `L`, followed by a natural transformation `α : L ⟶ S`
+on the target vertex, is the square mapped by `L` on `u` and by `S` on `b`. -/
+private lemma map_comp_map_comp_app_eq_map_comp_app_comp_map {A B : Type*} [Category A]
+    [Category B] {L S : A ⥤ B} (α : L ⟶ S) {X X' Y Y' : A} {a : X ⟶ X'} {u : X ⟶ Y}
+    {u' : X' ⟶ Y'} {b : Y ⟶ Y'} (h : a ≫ u' = u ≫ b) :
+    L.map a ≫ L.map u' ≫ α.app Y' = (L.map u ≫ α.app Y) ≫ S.map b := by
+  rw [← L.map_comp_assoc, h, L.map_comp_assoc, α.naturality, Category.assoc]
+
 /-- Sheafifying the objectwise tensor product of two presheaves gives the tensor product of
-their sheafifications. -/
+their sheafifications: Mathlib's sheafification applied to the tensor of the two units, followed
+by the identification `Tensor.sheafificationIso` with the sealed sheafification that ends
+`Tensor.sheafTensor`. -/
 noncomputable def sheafTensorSheafifyIso
     (P Q : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
     (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).obj
@@ -275,16 +288,18 @@ noncomputable def sheafTensorSheafifyIso
         ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app P)
         ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app Q)))
     (PresheafOfModules.isIso_sheafification_tensor_units.{v, u, w, w, w}
-      (Osharp := R) J (𝟙 R.obj) P Q)
+      (Osharp := R) J (𝟙 R.obj) P Q) ≪≫ (Tensor.sheafificationIso R).app _
 
-/-- The comparison isomorphism is sheafification applied to the tensor of the two units. -/
+/-- The comparison isomorphism is sheafification applied to the tensor of the two units, followed
+by `Tensor.sheafificationIso`. -/
 lemma sheafTensorSheafifyIso_hom
     (P Q : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
     (sheafTensorSheafifyIso R P Q).hom =
       (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
         (PresheafOfModules.tensorHom (O := R.obj)
           ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app P)
-          ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app Q)) :=
+          ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app Q)) ≫
+        (Tensor.sheafificationIso R).hom.app _ :=
   rfl
 
 /-- The comparison isomorphism, natural in the second variable. -/
@@ -305,21 +320,8 @@ noncomputable def sheafTensorSheafifyNatIso
       ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app Q') g
       (((PresheafOfModules.sheafificationAdjunction
         (𝟙 (Tensor.ringSheaf R).obj)).unit.naturality g).symm)
-    change (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
-        (PresheafOfModules.tensorHom (O := R.obj) (𝟙 P) g) ≫ (sheafTensorSheafifyIso R P Q').hom =
-      (sheafTensorSheafifyIso R P Q).hom ≫
-        (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
-          (PresheafOfModules.tensorHom (O := R.obj)
-            (𝟙 ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj
-              ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).obj P)))
-            ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).map
-              ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map g)))
-    rw [sheafTensorSheafifyIso_hom, sheafTensorSheafifyIso_hom]
-    exact ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map_comp _ _).symm.trans
-      ((congrArg
-        (fun k => (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map k)
-        hbase.symm).trans
-        ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map_comp _ _)))
+    exact map_comp_map_comp_app_eq_map_comp_app_comp_map (Tensor.sheafificationIso R).hom
+      hbase.symm)
 
 /-! ### The localization lifting -/
 
@@ -340,11 +342,8 @@ lemma sheafTensorSheafifyIso_naturality_left
     ((PresheafOfModules.sheafificationAdjunction (𝟙 (Tensor.ringSheaf R).obj)).unit.app Q) f
     (((PresheafOfModules.sheafificationAdjunction
       (𝟙 (Tensor.ringSheaf R).obj)).unit.naturality f).symm)
-  rw [sheafTensorSheafifyIso_hom, sheafTensorSheafifyIso_hom, Tensor.sheafTensor_map_app]
-  exact ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map_comp _ _).symm.trans
-    ((congrArg
-      (fun k => (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map k)
-      hbase).trans ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map_comp _ _))
+  exact (map_comp_map_comp_app_eq_map_comp_app_comp_map (Tensor.sheafificationIso R).hom
+    hbase.symm).symm
 
 /-- The local isomorphisms of presheaves of modules. -/
 abbrev sheafificationW :=
@@ -364,20 +363,8 @@ noncomputable def sheafTensorLifting₂ :
         (Functor.whiskeringRight _ _ _).obj
           (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)))
       (Tensor.sheafTensor.{u, v, w, w, w} R) where
-  iso := NatIso.ofComponents (fun P => (sheafTensorSheafifyNatIso R P).symm) (by
-    intro P P' f
-    apply NatTrans.ext
-    funext Q
-    change ((Tensor.sheafTensor.{u, v, w, w, w} R).map
-        ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map f)).app
-          ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).obj Q) ≫
-        (sheafTensorSheafifyIso R P' Q).inv =
-      (sheafTensorSheafifyIso R P Q).inv ≫
-        (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map
-          (PresheafOfModules.tensorHom (O := R.obj) f (𝟙 Q))
-    rw [← cancel_epi (sheafTensorSheafifyIso R P Q).hom, ← Category.assoc,
-      sheafTensorSheafifyIso_naturality_left, Category.assoc, Iso.hom_inv_id,
-      Category.comp_id, Iso.hom_inv_id_assoc])
+  iso := (NatIso.ofComponents (fun P => sheafTensorSheafifyNatIso R P) fun f =>
+    NatTrans.ext (funext fun Q => (sheafTensorSheafifyIso_naturality_left R f Q).symm)).symm
 
 /-! ### The associator -/
 
@@ -441,20 +428,20 @@ noncomputable def sheafTensorMod_flipIso
     (Stacks.SheafOfModules.Tensor.sheafTensor (J := J) (R)).obj P ≅
       (Tensor.sheafTensor.{u, v, w, w, w} R).flip.obj P :=
   NatIso.ofComponents
-    (fun Q => (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).mapIso
+    (fun Q => (Tensor.sheafification R).mapIso
       ((tensorCommIso R ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj
         P)).app
         ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj Q)))
     (by
       intro Q Q' f
       have h := congrArg
-        (fun k => (PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map k)
+        (fun k => (Tensor.sheafification R).map k)
         ((tensorCommIso R
           ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj P)).hom.naturality
           ((SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).map f))
       exact
-        ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map_comp _ _).symm.trans
-        (h.trans ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map_comp _ _)))
+        ((Tensor.sheafification R).map_comp _ _).symm.trans
+        (h.trans ((Tensor.sheafification R).map_comp _ _)))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Tag 05NB.** Tensoring with a fixed sheaf of modules on the left preserves colimits. -/

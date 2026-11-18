@@ -95,8 +95,9 @@ def tensorGlobalSection (s : Γ(G, ⊤)) :
               (Subsingleton.elim i (homOfLE (leOfHom i.unop)).op))
             (globalRestrict_map G (leOfHom i.unop) s)).symm]
         exact PresheafOfModules.naturality_apply
-          (sheafifyUnit X.toRingedSpace
-            ((PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) F.val G.val))) i
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+              (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) F.val G.val)) i
           (x ⊗ₜ[X.presheaf.obj W] (globalRestrict G s W.unop)) }
 
 /-- **The morphism `x ↦ x ⊗ s` on sections.** -/

@@ -14,7 +14,7 @@ comparison morphism `Stacks.RingedSpace.comparison f A B : f^*(A ⊗_{𝒪_Y} B)
 of Stacks 01CD, computes it on the images of pure tensors, and proves
 (`Stacks.RingedSpace.comparison_unique`) that that computation determines it.
 `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorIso` constructs an isomorphism
-`Stacks.PullbackTensor.pullbackTensorSheafObjIso` of exactly that type, as a composite of four
+`Stacks.PullbackTensor.pullbackTensorSheafObjIso` of exactly that type, as a composite of five
 links, but leaves open whether it is *the* comparison.
 
 Here the composite is computed on the sheafification-unit image of a pure tensor of local
@@ -43,17 +43,23 @@ hypothesis.
   canonical comparison is an isomorphism.
 * `Stacks.PullbackTensor.comparisonIso_hom_app`: the component of that isomorphism at `(A, B)`
   is `pullbackTensorSheafObjIso`.
-* The links, each on a unit image: `sheafificationCompPullback_hom_pullbackUnit` (link 1),
+* The links, each on a unit image: `sheafificationCompPullback_hom_pullbackUnit_tmul` (links 0
+  and 1, from `sheafificationCompPullback_hom_pullbackUnit` for link 1),
   `pullbackIso_hom_preUnit` and `pullbackIso_inv_germ` (the model comparison inside link 2),
   `sheafificationTensorObjIso_hom_shUnit_tmul` (link 3, Tag 0GMW read on sections) and
   `sheafPullbackIso_inv_shUnit` (link 4).
 
 ## Implementation notes
 
-Three of the four links, and `Stacks.PullbackColimit.pullbackIso` inside link 2, are
+Links 0, 1 and 4, and `Stacks.PullbackColimit.pullbackIso` inside link 2, are
 `CategoryTheory.Adjunction.leftAdjointUniq` isomorphisms, so each is computed from
 `CategoryTheory.Adjunction.unit_leftAdjointUniq_hom_app`: the defining property of
-`leftAdjointUniq` is exactly that it carries one unit to the other.  Read on sections by
+`leftAdjointUniq` is exactly that it carries one unit to the other.  Link 0 is
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` under `f^*`: `sheafTensor` sheafifies through the
+sealed `Stacks.SheafOfModules.Tensor.sheafification`, and `sheafTensorObjIso` compares it with
+Mathlib's `PresheafOfModules.sheafification`, carrying the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` to Mathlib's unit
+(`Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app`).  Read on sections by
 `PresheafOfModules.hom_congr_apply'` (link 1 and the presheaf-level model) or by
 `SheafOfModules.hom_congr_app_apply` (link 4), each of those becomes a one-line proof.  Link 1
 is stated for the *composite* adjunctions whose left adjoints are `sheafification ⋙ f^*` and
@@ -115,6 +121,34 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 
 section Sheafify
 
+/-- The unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`
+followed by the inverse of `Stacks.SheafOfModules.Tensor.sheafificationIso` is Mathlib's
+sheafification unit. -/
+private lemma unit_comp_sheafificationIso_inv_app {C : Type*} [Category C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app M ≫
+        (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
+          ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app M) =
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M := by
+  rw [← Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app, Category.assoc,
+    ← Functor.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
+  exact Category.comp_id _
+
+/-- `unit_comp_sheafificationIso_inv_app` on sections. -/
+private lemma sheafificationIso_inv_app_unit_apply {C : Type*} [Category C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+    (M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) (V : Cᵒᵖ)
+    (m : M.obj V) :
+    Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationIso R).inv.app M).val V
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction R).unit.app M) V m) =
+      Hom.app ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).unit.app M) V m :=
+  PresheafOfModules.hom_congr_apply' (unit_comp_sheafificationIso_inv_app R M) V m
+
 variable (X)
 
 /-- A local section of a presheaf of `𝒪_X`-modules, carried into its sheafification by the
@@ -127,15 +161,16 @@ noncomputable def shUnit
     (𝟙 (structureRingSheaf X).obj)).unit.app P) V p
 
 /-- The comparison `sheafificationTensorObjIso` carries the unit image of a pure tensor to the
-unit image of the pure tensor of the unit images. -/
+unit image of the pure tensor of the unit images, the outer unit being that of the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` with which `sheafTensor`
+is built. -/
 lemma sheafificationTensorObjIso_hom_shUnit_tmul
     (P Q : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat))
     (V : (Opens X.carrier)ᵒᵖ) (p : P.obj V) (q : Q.obj V) :
     Hom.app (sheafificationTensorObjIso X P Q).hom.val V
         (shUnit X (tensorObj P Q) V (p ⊗ₜ q)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (_root_.PresheafOfModules.tensorObj
           ((PresheafOfModules.sheafification (𝟙 (structureRingSheaf X).obj)).obj P).val
           ((PresheafOfModules.sheafification (𝟙 (structureRingSheaf X).obj)).obj Q).val)) V
@@ -150,6 +185,16 @@ lemma sheafification_map_shUnit
     Hom.app ((PresheafOfModules.sheafification (𝟙 (structureRingSheaf X).obj)).map φ).val V
         (shUnit X P V p) = shUnit X Q V (Hom.app φ V p) :=
   PresheafOfModules.unit_naturality_apply (α := 𝟙 (structureRingSheaf X).obj) φ V p
+
+/-- `Stacks.SheafOfModules.Tensor.sheafTensorObjIso` carries the unit image of a pure tensor
+under the sealed sheafification to its unit image under Mathlib's sheafification. -/
+private lemma sheafTensorObjIso_hom_unit_tmul (A B : SheafOfModules.{u} (structureRingSheaf X))
+    (V : (Opens X.carrier)ᵒᵖ) (x : A.val.obj V) (y : B.val.obj V) :
+    Hom.app (Stacks.SheafOfModules.Tensor.sheafTensorObjIso ⟨X.presheaf, X.IsSheaf⟩ A B).hom.val V
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.presheaf, X.IsSheaf⟩).unit.app (tensorObj A.val B.val)) V (x ⊗ₜ y)) =
+      shUnit X (tensorObj A.val B.val) V (x ⊗ₜ y) :=
+  sheafificationIso_inv_app_unit_apply ⟨X.presheaf, X.IsSheaf⟩ (tensorObj A.val B.val) V (x ⊗ₜ y)
 
 end Sheafify
 
@@ -257,30 +302,51 @@ lemma pullbackTensorIso_hom_preUnit_tmul
   rfl
 
 /-- The isomorphism `SheafOfModules.sheafificationCompPullback` carries the pullback-unit image
-of the sheafification-unit image of `x ⊗ y` to the sheafification-unit image of the presheaf
-pullback-unit image of `x ⊗ y`. -/
+of the sheafification-unit image of a section `p` to the sheafification-unit image of the
+presheaf pullback-unit image of `p`. -/
 lemma sheafificationCompPullback_hom_pullbackUnit
-    (A B : SheafOfModules.{u} (structureRingSheaf Y))
-    (U : (Opens Y.carrier)ᵒᵖ) (x : A.val.obj U) (y : B.val.obj U) :
+    (P : PresheafOfModules.{u} (Y.presheaf ⋙ forget₂ CommRingCat RingCat))
+    (U : (Opens Y.carrier)ᵒᵖ) (p : P.obj U) :
     Hom.app ((SheafOfModules.sheafificationCompPullback.{u}
-          (structureSheafHom f)).hom.app (tensorObj A.val B.val)).val
-        ((opensMap f).op.obj U)
-        (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-          ⟨Y.presheaf, Y.IsSheaf⟩).obj A).obj B) U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
-        (_root_.PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y))) =
-      shUnit X ((PresheafOfModules.pullback.{u} (structureSheafHom f).hom).obj
-          (tensorObj A.val B.val)) ((opensMap f).op.obj U)
-        (preUnit f (tensorObj A.val B.val) U (x ⊗ₜ y)) := by
+          (structureSheafHom f)).hom.app P).val ((opensMap f).op.obj U)
+        (pullbackUnit f ((PresheafOfModules.sheafification (𝟙 (structureRingSheaf Y).obj)).obj P)
+          U (shUnit Y P U p)) =
+      shUnit X ((PresheafOfModules.pullback.{u} (structureSheafHom f).hom).obj P)
+        ((opensMap f).op.obj U) (preUnit f P U p) := by
   have h := Adjunction.unit_leftAdjointUniq_hom_app
     ((PresheafOfModules.sheafificationAdjunction (𝟙 (structureRingSheaf Y).obj)).comp
       (pullbackAdjunction f))
     ((PresheafOfModules.pullbackPushforwardAdjunction.{u} (structureSheafHom f).hom).comp
       (PresheafOfModules.sheafificationAdjunction (𝟙 (structureRingSheaf X).obj)))
-    (tensorObj A.val B.val)
-  exact PresheafOfModules.hom_congr_apply' h U (x ⊗ₜ y)
+    P
+  exact PresheafOfModules.hom_congr_apply' h U p
+
+/-- The first two links of `pullbackTensorSheafObjIso`, the pullback of
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` followed by
+`SheafOfModules.sheafificationCompPullback`, carry the pullback-unit image of the
+sheafification-unit image of `x ⊗ y` to the sheafification-unit image of the presheaf
+pullback-unit image of `x ⊗ y`. -/
+lemma sheafificationCompPullback_hom_pullbackUnit_tmul
+    (A B : SheafOfModules.{u} (structureRingSheaf Y))
+    (U : (Opens Y.carrier)ᵒᵖ) (x : A.val.obj U) (y : B.val.obj U) :
+    Hom.app ((SheafOfModules.sheafificationCompPullback.{u}
+          (structureSheafHom f)).hom.app (tensorObj A.val B.val)).val ((opensMap f).op.obj U)
+        (Hom.app ((pullbackFunctor f).map (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+            ⟨Y.presheaf, Y.IsSheaf⟩ A B).hom).val ((opensMap f).op.obj U)
+          (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            ⟨Y.presheaf, Y.IsSheaf⟩).obj A).obj B) U
+            (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
+                (_root_.PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y)))) =
+      shUnit X ((PresheafOfModules.pullback.{u} (structureSheafHom f).hom).obj
+          (tensorObj A.val B.val)) ((opensMap f).op.obj U)
+        (preUnit f (tensorObj A.val B.val) U (x ⊗ₜ y)) :=
+  (congrArg (Hom.app ((SheafOfModules.sheafificationCompPullback.{u}
+      (structureSheafHom f)).hom.app (tensorObj A.val B.val)).val ((opensMap f).op.obj U))
+    ((pullbackUnit_naturality f
+      (Stacks.SheafOfModules.Tensor.sheafTensorObjIso ⟨Y.presheaf, Y.IsSheaf⟩ A B).hom U _).trans
+        (congrArg (pullbackUnit f _ U) (sheafTensorObjIso_hom_unit_tmul Y A B U x y)))).trans
+    (sheafificationCompPullback_hom_pullbackUnit f (tensorObj A.val B.val) U (x ⊗ₜ y))
 
 /-- The inverse of `SheafOfModules.pullbackIso` carries the sheafification-unit image of the
 presheaf pullback-unit image of a section `m` to its sheaf pullback-unit image. -/
@@ -298,7 +364,7 @@ lemma sheafPullbackIso_inv_shUnit (M : SheafOfModules.{u} (structureRingSheaf Y)
 
 variable (A B : SheafOfModules.{u} (structureRingSheaf Y))
 
-/-- The four links of `pullbackTensorSheafObjIso`, read on sections. -/
+/-- The five links of `pullbackTensorSheafObjIso`, read on sections. -/
 lemma pullbackTensorSheafObjIso_hom_apply (V : (Opens X.carrier)ᵒᵖ)
     (z : ((pullbackFunctor f).obj (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.presheaf, Y.IsSheaf⟩).obj A).obj B)).val.obj V) :
@@ -319,7 +385,9 @@ lemma pullbackTensorSheafObjIso_hom_apply (V : (Opens X.carrier)ᵒᵖ)
                 (𝟙 (structureRingSheaf X).obj)).map
               ((pullbackTensorIso f.hom.c).hom.app (A.val, B.val))).val V
             (Hom.app ((SheafOfModules.sheafificationCompPullback.{u}
-                (structureSheafHom f)).hom.app (tensorObj A.val B.val)).val V z))) := rfl
+                (structureSheafHom f)).hom.app (tensorObj A.val B.val)).val V
+              (Hom.app ((pullbackFunctor f).map (Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+                ⟨Y.presheaf, Y.IsSheaf⟩ A B).hom).val V z)))) := rfl
 
 /-- The isomorphism `Stacks.PullbackTensor.pullbackTensorSheafObjIso` *is* the canonical
 comparison morphism `Stacks.RingedSpace.comparison`. -/
@@ -331,18 +399,16 @@ theorem pullbackTensorSheafObjIso_hom_eq_comparison :
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.presheaf, X.IsSheaf⟩).obj ((pullbackFunctor f).obj A)).obj ((pullbackFunctor f).obj B))
       (pullbackTensorSheafObjIso f A B).hom U
-      (Hom.app ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
-        (_root_.PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y))).trans ?_
+      (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
+          (_root_.PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y))).trans ?_
   rw [pullbackTensorSheafObjIso_hom_apply f A B ((opensMap f).op.obj U)
       (pullbackUnit f (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨Y.presheaf, Y.IsSheaf⟩).obj A).obj B) U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨Y.presheaf, Y.IsSheaf⟩).obj)).unit.app
-        (_root_.PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y)))]
-  rw [sheafificationCompPullback_hom_pullbackUnit f A B U x y]
+        (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨Y.presheaf, Y.IsSheaf⟩).unit.app
+            (_root_.PresheafOfModules.tensorObj A.val B.val)) U (x ⊗ₜ y))),
+    sheafificationCompPullback_hom_pullbackUnit_tmul f A B U x y]
   refine Eq.trans (congrArg (Hom.app ((Functor.uncurry.obj
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.presheaf, X.IsSheaf⟩)).map _).val _)
@@ -363,9 +429,8 @@ theorem pullbackTensorSheafObjIso_hom_eq_comparison :
         ((opensMap f).op.obj U) (preUnit f A.val U x))
       (shUnit X ((PresheafOfModules.pullback.{u} (structureSheafHom f).hom).obj B.val)
         ((opensMap f).op.obj U) (preUnit f B.val U y))) ?_
-  refine congrArg (Hom.app ((PresheafOfModules.sheafificationAdjunction.{u, u, u, u}
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ⟨X.presheaf, X.IsSheaf⟩).obj)).unit.app
+  refine congrArg (Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.presheaf, X.IsSheaf⟩).unit.app
         (_root_.PresheafOfModules.tensorObj ((pullbackFunctor f).obj A).val
           ((pullbackFunctor f).obj B).val)) ((opensMap f).op.obj U)) ?_
   exact congrArg₂ _ (sheafPullbackIso_inv_shUnit f A U x)

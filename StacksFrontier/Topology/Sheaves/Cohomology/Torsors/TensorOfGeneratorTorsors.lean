@@ -39,8 +39,11 @@ done by identifying it with the image of `1` under an isomorphism `𝒪_U ≅ (L
 isomorphism is assembled from the two trivializations of `L` and `N` over `U`, the left unit
 constraint of the tensor product, and `AlgebraicGeometry.tensorRestrictionIso`, which says that
 the tensor product commutes with restriction to an open.  Reading the composite on `1` uses
-`AlgebraicGeometry.tensorRestrictionIso_inv_val_app_toSheafify` for the last factor and
-`Stacks.Cohomology.Generators.tensorPresheafLeftUnitor_toSheafify_tmul` for the first.
+`AlgebraicGeometry.tensorRestrictionIso_inv_val_app_toSheafify` and
+`Stacks.Cohomology.Generators.tensorRestrictionPresheafHom_app_self` for the last factor and
+`Stacks.Cohomology.Generators.tensorPresheafLeftUnitor_toSheafify_tmul` for the first.  The
+sheafification units involved are those of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` that the tensor product sheaf is built from.
 
 ## References
 
@@ -81,33 +84,17 @@ def tensorPresheafLeftUnitor
   exact (MonoidalCategory.leftUnitor M.val).hom
 
 /-- The left unit constraint of the tensor product of sheaves of modules is the sheafification
-of the one on presheaves: composing it with the sheafification unit gives the latter back. -/
+of the one on presheaves: composing it with the unit of the sealed sheafification
+`Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction` gives the latter back. -/
 theorem toSheafify_tensorProductLeftUnitor
     (M : SheafOfModules (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+    (Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).unit.app
         ((PresheafOfModules.tensorObj (O := O) ((SheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val) (M.val))) ≫
       (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor O hO M).hom.val =
-        tensorPresheafLeftUnitor O hO M := by
-  let P := PresheafOfModules.tensorObj (O := O)
-    (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val M.val
-  let adj := Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO
-  have hhom : (adj.homEquiv P M)
-      (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor O hO M).hom =
-        tensorPresheafLeftUnitor O hO M := by
-    have hsource : (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor O hO M).hom =
-        (adj.homEquiv P M).symm (tensorPresheafLeftUnitor O hO M) := by
-      let _ : MonoidalCategory (PresheafOfModules
-          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) := by
-        change MonoidalCategory (PresheafOfModules
-          (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
-        infer_instance
-      dsimp [adj, Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor,
-        tensorPresheafLeftUnitor]
-      rfl
-    rw [hsource]
-    exact Equiv.apply_symm_apply _ _
-  exact (Adjunction.homEquiv_unit adj P M _).symm.trans hhom
+        tensorPresheafLeftUnitor O hO M :=
+  ((Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).unit_comp_map_eq_iff
+    _ _).mpr rfl
 
 /-- The left unit constraint carries the sheafification of the pure tensor `r ⊗ s` of two
 sections of the structure sheaf to their product. -/
@@ -115,7 +102,7 @@ theorem tensorPresheafLeftUnitor_toSheafify_tmul (U : C) (r s : O.obj (op U)) :
     ((Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor O hO
       (SheafOfModules.unit
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))).hom.val.app (op U)).hom
-      (((Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
+      ((((Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).unit.app
         ((PresheafOfModules.tensorObj (O := O) ((SheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val)
           ((SheafOfModules.unit
@@ -166,17 +153,15 @@ theorem toTensorSheafSection_restrict {U V : Opens X.carrier} (h : V ≤ U)
       Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X L N (op V)
         ((L.val.map (homOfLE h).op).hom s ⊗ₜ (N.val.map (homOfLE h).op).hom t) := by
   let P := PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val
-  let η := Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X P
-  have happ := congrArg (fun f => f.hom (s ⊗ₜ t)) (η.naturality (homOfLE h).op)
-  change (η.app (op V)).hom ((P.map (homOfLE h).op).hom (s ⊗ₜ t)) =
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj L).obj N).val.map
-      (homOfLE h).op).hom ((η.app (op U)).hom (s ⊗ₜ t)) at happ
+  let η :=
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction ⟨X.presheaf, X.IsSheaf⟩).unit.app P
   have hres : (P.map (homOfLE h).op).hom (s ⊗ₜ[X.presheaf.obj (op U)] t) =
       (L.val.map (homOfLE h).op).hom s ⊗ₜ[X.presheaf.obj (op V)]
         (N.val.map (homOfLE h).op).hom t :=
     ModuleCat.tensorRestrictMap_tmul (X.presheaf.map (homOfLE h).op).hom
       (L.val.restrictₛₗ (homOfLE h).op) (N.val.restrictₛₗ (homOfLE h).op) s t
-  exact happ.symm.trans (congrArg (η.app (op V)).hom hres)
+  exact (PresheafOfModules.naturality_apply η (homOfLE h).op (s ⊗ₜ t)).symm.trans
+    (congrArg (PresheafOfModules.Hom.app η (op V)) hres)
 
 /-- The comparison map into the tensor product sheaf is linear in the first factor of a pure
 tensor. -/
@@ -189,8 +174,9 @@ theorem toTensorSheafSection_smul_left (U : Opens X.carrier) (r : X.presheaf.obj
         (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X L N (op U)
           (s ⊗ₜ t)) := by
   rw [← TensorProduct.smul_tmul']
-  exact map_smul ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)).app (op U)).hom r
+  exact (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)).app (op U)).hom.map_smul r
       (s ⊗ₜ[X.presheaf.obj (op U)] t)
 
 /-- The comparison map into the tensor product sheaf is linear in the second factor of a pure
@@ -204,9 +190,22 @@ theorem toTensorSheafSection_smul_right (U : Opens X.carrier) (r : X.presheaf.ob
         (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X L N (op U)
           (s ⊗ₜ t)) := by
   rw [TensorProduct.tmul_smul]
-  exact map_smul ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-    (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)).app (op U)).hom r
+  exact (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.presheaf, X.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)).app (op U)).hom.map_smul r
       (s ⊗ₜ[X.presheaf.obj (op U)] t)
+
+/-- Over `U` itself, the comparison morphism `AlgebraicGeometry.tensorRestrictionPresheafHom`
+from the presheaf tensor product formed on `U` is the comparison map into the tensor product
+sheaf. -/
+theorem tensorRestrictionPresheafHom_app_self (U : Opens X.carrier)
+    (p : (PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) (L.over U).val
+      (N.over U).val).obj (op (Over.mk (𝟙 U)))) :
+    ((AlgebraicGeometry.tensorRestrictionPresheafHom X L N U).app (op (Over.mk (𝟙 U)))).hom p =
+      Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X L N (op U) p :=
+  PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.unit_comp_sheafificationIso_hom_app X.sheaf
+      (PresheafOfModules.tensorObj (O := X.presheaf) L.val N.val)) (op U) p
 
 /-- The `U`-restriction of the structure sheaf, as a sheaf of rings on the site over `U`. -/
 abbrev structureSheafOver (U : Opens X.carrier) :
@@ -240,7 +239,7 @@ def tensorGeneratorUnitIso (U : Opens X.carrier)
         ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
         (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)
       (SheafOfModules.unit (structureSheafOver X U))).symm ≪≫
-    (Stacks.SheafOfModules.TensorSheafification.sheafify (X.sheaf.over U).obj
+    (Stacks.SheafOfModules.Invertible.structureSheafification (X.sheaf.over U).obj
         ((Presheaf.isSheaf_iff_isSheaf_comp
           ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
           (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).mapIso
@@ -278,10 +277,10 @@ theorem tensorGeneratorUnitIso_apply_one (U : Opens X.carrier)
   let P₁ := PresheafOfModules.tensorObj (O := O) (SheafOfModules.unit R).val
     (SheafOfModules.unit R).val
   let P₂ := PresheafOfModules.tensorObj (O := O) (L.over U).val (N.over U).val
-  let η₁ := Stacks.SheafOfModules.TensorSheafification.toSheafify O hO P₁
-  let η₂ := Stacks.SheafOfModules.TensorSheafification.toSheafify O hO P₂
+  let η₁ := (Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction O hO).unit.app P₁
+  let η₂ := (Stacks.SheafOfModules.Tensor.sheafificationAdjunction (X.sheaf.over U)).unit.app P₂
   let et : P₁ ≅ P₂ := generatorTensorPresheafIso X L N U s t
-  let eTensor := (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso et
+  let eTensor := (Stacks.SheafOfModules.Invertible.structureSheafification O hO).mapIso et
   let one : (SheafOfModules.unit R).val.obj top := (1 : R.obj.obj top)
   let p₁ : P₁.obj top := one ⊗ₜ[O.obj top] one
   let p₂ : P₂.obj top := s.val ⊗ₜ[O.obj top] t.val
@@ -304,9 +303,11 @@ theorem tensorGeneratorUnitIso_apply_one (U : Opens X.carrier)
       (congrArg₂ (fun a b => a ⊗ₜ[O.obj top] b) hs ht)
   have hTensor : (eTensor.hom.val.app top).hom ((η₁.app top).hom p₁) =
       (η₂.app top).hom p₂ :=
-    (congrArg (fun f => (f.app top).hom p₁)
-      ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).unit.naturality
-        et.hom)).symm.trans (congrArg (η₂.app top).hom hEt)
+    (congrArg (eTensor.hom.val.app top).hom
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+        (X.sheaf.over U) P₁ top p₁)).trans <|
+      (Stacks.SheafOfModules.Tensor.unit_naturality_apply et.hom top p₁).trans
+        (congrArg (η₂.app top).hom hEt)
   have hgoal : ((tensorGeneratorUnitIso X L N U s t).hom.val.app top).hom one =
       ((AlgebraicGeometry.tensorRestrictionIso X L N U).inv.val.app top).hom
         ((eTensor.hom.val.app top).hom ((unitIso.inv.val.app top).hom one)) := rfl
@@ -314,7 +315,8 @@ theorem tensorGeneratorUnitIso_apply_one (U : Opens X.carrier)
       U).inv.val.app top).hom ((eTensor.hom.val.app top).hom z)) hunit).trans <|
     (congrArg ((AlgebraicGeometry.tensorRestrictionIso X L N U).inv.val.app top).hom
       hTensor).trans
-      (AlgebraicGeometry.tensorRestrictionIso_inv_val_app_toSheafify X L N U top p₂)
+      ((AlgebraicGeometry.tensorRestrictionIso_inv_val_app_toSheafify X L N U top p₂).trans
+        (tensorRestrictionPresheafHom_app_self X L N U p₂))
 
 /-- Multiplication by the pure tensor of two trivializing sections is bijective on sections
 over `U`. -/

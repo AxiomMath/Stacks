@@ -182,11 +182,12 @@ end AlongIso
 
 Both statements of this section are the preceding ones with their two sides ascribed to
 `Stacks.SheafOfModules.Tensor.sheafTensor` with its factors flipped, the spelling in which
-the sequence of first principal parts and the Atiyah triangle are formed.  The ascriptions are
-definitional equalities, but on the large terms of a concrete application they are not cheap ones:
-asking for
-them there exhausts the heartbeat budget, while asking for them here, on generic arguments,
-costs nothing.  This is the recipe the implementation notes of
+the sequence of first principal parts and the Atiyah triangle are formed.  Since `sheafTensor`
+ends with the sealed `Stacks.SheafOfModules.Tensor.sheafification`, the passage from Mathlib's
+sheafification is the isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso`; the remaining
+ascriptions are definitional equalities, but on the large terms of a concrete application they
+are not cheap ones: asking for them there exhausts the heartbeat budget, while asking for them
+here, on generic arguments, costs nothing.  This is the recipe the implementation notes of
 `StacksFrontier/CategoryTheory/Sites/Modules/DifferentialsRestriction.lean` set out for the same
 tensor spelling. -/
 
@@ -208,8 +209,7 @@ def sheafTensorRightFactorFunctor (O : Sheaf J CommRingCat.{u})
     presheafTensorLeftFunctor (O := O.obj) N.val
   let S : _root_.PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⥤
       SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O) :=
-    _root_.PresheafOfModules.sheafification.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
+    Stacks.SheafOfModules.Tensor.sheafification O
   exact _root_.SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙ T ⋙ S
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
@@ -235,7 +235,7 @@ variable {O₁ O₂ : Sheaf J CommRingCat.{u}} (ρ : O₁ ⟶ O₂)
 homomorphism of sheaves of commutative rings whose underlying homomorphism of sheaves of rings is
 an isomorphism.  This is
 `Stacks.SheafOfModules.TensorTransitivity.tensorRestrictScalarsAlongIsoIso` with both sides
-ascribed. -/
+ascribed, through `Stacks.SheafOfModules.Tensor.sheafificationIso` on both sides. -/
 def sheafTensorRightRestrictScalarsIso
     (M N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor O₁).flip.obj
@@ -248,8 +248,11 @@ def sheafTensorRightRestrictScalarsIso
   haveI : IsIso (commRingSheafMap J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).property
       (Stacks.SheafOfModules.Tensor.ringSheaf O₂).property) :=
     inferInstanceAs (IsIso ((Stacks.forgetCommRingSheaf J).map ρ))
-  tensorRestrictScalarsAlongIsoIso J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).property
-    (Stacks.SheafOfModules.Tensor.ringSheaf O₂).property M N
+  (Stacks.SheafOfModules.Tensor.sheafificationIso O₁).symm.app _ ≪≫
+    tensorRestrictScalarsAlongIsoIso J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).property
+      (Stacks.SheafOfModules.Tensor.ringSheaf O₂).property M N ≪≫
+    (_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf J).map ρ)).mapIso
+      ((Stacks.SheafOfModules.Tensor.sheafificationIso O₂).app _)
 
 end SheafTensor
 

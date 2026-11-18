@@ -102,6 +102,7 @@ def geometricGaloisProjectionOfAlgClosure :
         (y.map (fieldBaseChangeObjProj B X f kbar
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom)) }
 
+omit [Smooth f] in
 /-- The image of `γ` in `Aut(k̄/k)` is its class in `π₁(X, η̄) ⧸ π₁(X_k̄, η̄) ≃* Aut(k̄/k)`. -/
 theorem geometricGaloisProjectionOfAlgClosure_apply
     (γ : letI := connectedSpace_of_isCurve B X f
@@ -113,6 +114,7 @@ theorem geometricGaloisProjectionOfAlgClosure_apply
       geometricQuotientGaloisEquiv B X f kbar y (QuotientGroup.mk γ) :=
   rfl
 
+omit [Smooth f] in
 /-- `π₁(X, η̄) ⟶ Aut(k̄/k)` is surjective. -/
 theorem surjective_geometricGaloisProjectionOfAlgClosure :
     Function.Surjective (geometricGaloisProjectionOfAlgClosure B X f kbar y) := by
@@ -121,6 +123,7 @@ theorem surjective_geometricGaloisProjectionOfAlgClosure :
   exact (geometricQuotientGaloisEquiv B X f kbar y).surjective.comp
     (QuotientGroup.mk'_surjective _)
 
+omit [Smooth f] in
 /-- **The kernel of `π₁(X, η̄) ⟶ Aut(k̄/k)` is the image of `π₁(X_k̄, η̄)`.** -/
 theorem ker_geometricGaloisProjectionOfAlgClosure :
     letI := connectedSpace_of_isCurve B X f
@@ -134,6 +137,7 @@ theorem ker_geometricGaloisProjectionOfAlgClosure :
   change geometricQuotientGaloisEquiv B X f kbar y (QuotientGroup.mk γ) = 1 ↔ _
   rw [MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
 
+omit [Smooth f] in
 /-- Under the extra hypothesis that `k̄` is separable over `k`, the projection is
 `AlgebraicGeometry.geometricGaloisProjection`. -/
 theorem geometricGaloisProjectionOfAlgClosure_eq [Algebra.IsSeparable k kbar] :

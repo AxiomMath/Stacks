@@ -32,7 +32,8 @@ and [Stacks, Tag 0ELA] turns that into the conclusion.
 ## Implementation notes
 
 The imported module
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.RestrictionFromPuncturedSpectrumNeighborhoods` keeps
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.RestrictionFromPuncturedSpectrumNeighborhoods`
+keeps
 the untagged sibling
 `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_puncturedSpectrum_principal`, which
 derives the same conclusion from `Stacks.FundamentalGroup.SectionsExtendNearSubscheme` instead of

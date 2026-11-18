@@ -51,7 +51,7 @@ obligation that `higherDirectImageTensorSection` be compatible with shrinking th
 `W ⊆ V` the comparison built over `V` restricted to `W` must agree with the one built over `W`.
 That is a statement about `Stacks.Cohomology.HigherDirectImage.higherDirectImageRestrictIso`,
 namely its compatibility with a nested pair of opens, and the Tag 01E5 cluster
-(`StacksDraft/Ch20/Sec14/Tag01E5*.lean`) does not contain it in any form: it has the
+(`StacksFrontier/Ch20/Sec14/Tag01E5*.lean`) does not contain it in any form: it has the
 degree-zero normalisation and the characterisation on an injective resolution, and nothing about
 two nested opens. Everything else in the construction is present.
 
@@ -116,8 +116,9 @@ noncomputable def toTensorSheafLinear (X : Scheme.{u}) (F G : X.Modules)
     ↑(((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.val)
         (G.val))).obj W) →ₗ[↑(X.presheaf.obj W)]
       tensorSections :=
-  ((sheafifyUnit X.toRingedSpace
-    ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.val) (G.val)))).app W).hom
+  (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+      (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.val) (G.val))).app W).hom
 
 /-- The map `x ↦ x ⊗ t` into the tensor sheaf, on sections over `W`. -/
 noncomputable def tensorSectionLinear (X : Scheme.{u}) (F G : X.Modules)
@@ -156,8 +157,9 @@ noncomputable def tensorLocalSection (X : Scheme.{u}) (F G : X.Modules)
         apply LinearMap.ext
         intro x
         refine Eq.trans ?_ (PresheafOfModules.naturality_apply
-          (sheafifyUnit X.toRingedSpace
-            ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.val) (G.val))))
+          ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+              (PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.val) (G.val)))
           ((V.ι.opensFunctor).op.map i)
           (x ⊗ₜ[X.presheaf.obj (op (V.ι ''ᵁ W.unop))]
             (G.presheaf.map (homOfLE (V.ι_image_le W.unop)).op s)))
@@ -198,8 +200,8 @@ noncomputable def tensorSheafHomLinear {X : Scheme.{u}} {A G T : X.Modules}
 
 /-- **Local pure tensors determine a morphism out of a tensor sheaf.** The tensor sheaf is the
 sheafification of the presheaf tensor product, so a morphism out of it is determined by its
-composite with the sheafification unit (`PresheafOfModules.sheafification_hom_ext`), and that
-composite is determined on sections by the pure tensors. -/
+composite with the sheafification unit (`Stacks.SheafOfModules.Tensor.sheafification_hom_ext`),
+and that composite is determined on sections by the pure tensors. -/
 theorem hom_ext_of_tensorSection {X : Scheme.{u}} {A G T : X.Modules}
     {c₁ c₂ : (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (A)).obj (G)) ⟶ T}
@@ -209,7 +211,7 @@ theorem hom_ext_of_tensorSection {X : Scheme.{u}} {A G T : X.Modules}
         (c₂.val.app W).hom (toTensorSheafSection X.toRingedSpace A G W
           (a ⊗ₜ[X.presheaf.obj W] t))) :
     c₁ = c₂ := by
-  refine PresheafOfModules.sheafification_hom_ext ?_
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext ?_
   apply PresheafOfModules.hom_ext
   intro W
   apply ModuleCat.hom_ext

@@ -296,14 +296,18 @@ noncomputable def sheafifyCounitIso :
 /-- **The monoidal `tensorLeft` on sheaves of modules is the sheafified objectwise tensor
 product.** This identifies the abstract localized tensor product with the canonical tensor
 functor of this repository, `Stacks.SheafOfModules.Tensor.sheafTensor`: forget to presheaves,
-tensor sectionwise with `PresheafOfModules.tensorBifunctor`, sheafify. -/
+tensor sectionwise with `PresheafOfModules.tensorBifunctor`, sheafify. The last step passes from
+`sheafify` to the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` that ends
+`sheafTensor`, along its defining equation `Stacks.SheafOfModules.Tensor.sheafification_def`. -/
 noncomputable def tensorLeftIso (A : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪)) :
     tensorLeft A ≅ (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj A :=
   ((curriedTensor _).mapIso ((sheafifyCounitIso 𝒪 h𝒪).app A)).symm ≪≫
     (Functor.leftUnitor _).symm ≪≫ Functor.isoWhiskerRight (sheafifyCounitIso 𝒪 h𝒪).symm _ ≪≫
       Functor.associator _ _ _ ≪≫
-        Functor.isoWhiskerLeft _ (tensorSheafifyIso 𝒪 h𝒪 _)
+        Functor.isoWhiskerLeft _ (tensorSheafifyIso 𝒪 h𝒪 _ ≪≫
+          Functor.isoWhiskerLeft _ (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).symm))
 
 end MonoidalStructure
 

@@ -30,8 +30,10 @@ of `O₂`-modules, and the cancellation of a base change identifies it with
 The cancellation is the presheaf-level `Stacks.MixedTensor.mixedBaseChangeNatIso` sheafified,
 preceded by `Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso`, which replaces the
 sectionwise extension of scalars `O₂ ⊗_{p,O₁} G` by its sheafification `O₂ ⊗_{O₁} G` inside the
-second tensor variable.  Both of those are statements over `O₂`, so no comparison of
-sheafifications over the two rings arises here; that comparison —
+second tensor variable, and by `Stacks.FlatChangeOfRings.sheafTensorFlipObjIso`, which passes
+from the sealed sheafification that `Stacks.SheafOfModules.Tensor.sheafTensor` ends with to
+Mathlib's sheafification `Stacks.moduleSheafification`.  All of those are statements over `O₂`,
+so no comparison of sheafifications over the two rings arises here; that comparison —
 `Stacks.Cohomology.MixedDerivedTensor.SheafifyCommutesRestrictScalars` — is what the
 `O₁`-linear form of the cancellation needs, and the `O₂`-linear form does not.
 
@@ -71,10 +73,12 @@ noncomputable def sheafMixedBaseChangeIso :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O₂).flip.obj
         ((Stacks.FlatChangeOfRings.extendScalars α).obj G)) ≅
       sheafMixedTensorRight α G :=
-  Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.commRingSheafToRingSheaf O₂))
-    ((Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso α G).symm ≪≫
-      Functor.isoWhiskerRight (mixedBaseChangeNatIso α.hom G.val)
-        (Stacks.moduleSheafification O₂))
+  Stacks.FlatChangeOfRings.sheafTensorFlipObjIso O₂
+      ((Stacks.FlatChangeOfRings.extendScalars α).obj G) ≪≫
+    Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.commRingSheafToRingSheaf O₂))
+      ((Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso α G).symm ≪≫
+        Functor.isoWhiskerRight (mixedBaseChangeNatIso α.hom G.val)
+          (Stacks.moduleSheafification O₂))
 
 end Stacks.MixedTensor
 

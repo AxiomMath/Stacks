@@ -144,7 +144,7 @@ theorem sheafTensorRight_obj_eq_sheafification
       (_root_.PresheafOfModules.sheafification
         (R := Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O) (𝟙 _)).obj
         (_root_.Stacks.tensorObj G.val F.val) :=
-  rfl
+  Stacks.SheafOfModules.Tensor.sheafTensor_obj_obj O G F
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- `AlgebraicGeometry.SheafOfModules.sheafTensorRight` — the endofunctor whose exactness

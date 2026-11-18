@@ -25,7 +25,8 @@ not trivial to prove"; Stacks gives no argument (see `errata.md`, entry of 2026-
 proves the statement for uncountable `k`. For countable `k` (for example `ℚ̄`, or the algebraic
 closure of `𝔽_p(t)`) the statement is proved by specialization to finite fields, in
 `StacksFrontier/AlgebraicGeometry/GroupScheme/OverField/AbelianVarietyNonTorsionPointCharZero.lean`
-and `StacksFrontier/AlgebraicGeometry/GroupScheme/OverField/AbelianVarietyNonTorsionPointGeneral.lean`
+and
+`StacksFrontier/AlgebraicGeometry/GroupScheme/OverField/AbelianVarietyNonTorsionPointGeneral.lean`
 (`Stacks.Groupoids.exists_not_isOfFinAddOrder`).
 
 ## Main results

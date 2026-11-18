@@ -15,7 +15,8 @@ import StacksCore.Tactic.StacksAttribute
 Let `k` be a field, `k̄` an algebraic closure, `k'` the perfect closure of `k` in `k̄`,
 `X` a geometrically connected smooth curve over `k` and `X' = X ×_k k'`. This file shows that the
 group-theoretic objects of the derived versions of [Stacks, Tag 03VM], computed on `X'` in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/DerivedVersionsAlgClosure.lean`, are the ones
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/DerivedVersionsAlgClosure.lean`, are the
+ones
 defined directly from `X` over `k`:
 
 * `π₁(X', η̄') ⟶ π₁(X, η̄)` is an isomorphism of topological groups (topological invariance of

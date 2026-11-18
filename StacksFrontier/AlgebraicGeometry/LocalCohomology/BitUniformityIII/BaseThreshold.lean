@@ -141,8 +141,7 @@ theorem exists_baseThreshold [IsNoetherianRing A] :
       (shortExact_ambientTwistMap I q) (hvanish 1 (q + 1) le_rfl (by omega)) y
     obtain ⟨z, hz⟩ := (hN₂ q (le_trans (le_max_right _ _) hq)).2 w
     refine ⟨z, ?_⟩
-    change blowupΓMap I (thickeningTwistProj I 1 q) (ambientSections I q z) = y
-    rw [hz]
+    rw [thickeningSections_apply, hz]
     exact hw
   · obtain ⟨y, hy⟩ := (exact_blowupΓMap I (shortExact_ambientTwistMap I q)
       (ambientSections I q x)).1 hx

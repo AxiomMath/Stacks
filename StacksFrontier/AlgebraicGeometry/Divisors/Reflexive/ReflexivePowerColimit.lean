@@ -278,9 +278,10 @@ theorem exists_step_app_eq_smul (n : ℕ) (Y : X.Opens) (e : Γ(F.obj.obj, Y)) (
       (TensorProduct.smul_tmul' g e c).symm
     refine (congrArg (toTensorSheafSection X.toRingedSpace F.obj.obj (reflexivePower F n).obj.obj
       (op Y)) h3).trans ?_
-    exact ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (F.obj.obj.val)
-        ((reflexivePower F n).obj.obj.val)))).app (op Y)).hom.map_smul g _
+    exact (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) F.obj.obj.val
+          (reflexivePower F n).obj.obj.val)).app (op Y)).hom.map_smul g _
   refine (congrArg (Scheme.Modules.Hom.app
     (toDoubleDual (ordinaryTensor F (reflexivePower F n)).obj) Y) (h1.trans h2)).trans ?_
   exact Scheme.Modules.Hom.app_smul _ g _

@@ -37,7 +37,8 @@ hypothesis at all.
 
 * `FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`:
   the first sense of Stacks 0AN7, on condition (1) of Stacks 0AN5 and with no hypothesis
-  whatever: the formal spectrum of the inclusion of constants `k → k⟦t⟧` is not representable by algebraic
+  whatever: the formal spectrum of the inclusion of constants `k → k⟦t⟧` is not representable by
+  algebraic
   spaces, over any base and any quotient systems presenting the two formal spectra.
 * `AlgebraicGeometry.FormalSpace.not_relativelyRepresentable_formalSpectrumMap_constants`:
   the first sense of Stacks 0AN7, on condition (2) of Stacks 0AN5 and with no hypothesis

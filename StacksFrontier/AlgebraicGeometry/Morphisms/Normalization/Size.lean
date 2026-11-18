@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Size.Pullback
 /-!
 # The size of a relative normalization
 
-The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Stacks Section 000H) is the maximum of `ℵ₀`, the
+The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Stacks Section 000H) is the maximum of
+`ℵ₀`, the
 number of its affine opens, and the cardinalities of its rings of sections over affine opens.
 Tag 000R lists the constructions under which a size bound is preserved; the relative
 normalization of Tag 035H is not among them, and this file supplies the missing clause: for a

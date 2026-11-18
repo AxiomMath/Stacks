@@ -35,8 +35,14 @@ equation it satisfies on the presheaf level, from which its naturality follows.
   presheaf-level morphism.
 * `AlgebraicGeometry.RingedSite.isoOfUnits`: the isomorphism between two sheaves of modules
   receiving locally bijective morphisms from isomorphic presheaves of modules.
-* `AlgebraicGeometry.RingedSite.overTensorPresheaf`: the objectwise tensor product, formed on
-  the site over `U`, of the restrictions of two presheaves of `O`-modules.
+* `AlgebraicGeometry.RingedSite.overSheafificationUnit`: the restriction to the site over `U`
+  of the unit of the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification`.
+* `AlgebraicGeometry.RingedSite.globalTensorPresheaf` and
+  `AlgebraicGeometry.RingedSite.overTensorPresheaf`: the objectwise tensor product of the
+  underlying presheaves of two sheaves of `O`-modules, and the one formed on the site over `U`
+  from their restrictions.
+* `AlgebraicGeometry.RingedSite.overTensorUnit`: the unit of the sealed sheafification on the
+  site over `U`, out of `overTensorPresheaf`.
 * `AlgebraicGeometry.RingedSite.overPresheafTensorIso`: restriction commutes with the
   objectwise tensor product of presheaves of modules.
 * `AlgebraicGeometry.RingedSite.sheafTensorOverIso`: **restriction commutes with the tensor
@@ -60,8 +66,8 @@ equation it satisfies on the presheaf level, from which its naturality follows.
 * `AlgebraicGeometry.RingedSite.isoOfUnits_naturality`: `isoOfUnits` carries a morphism induced
   by a morphism of the presheaves to the morphism induced by its counterpart, as soon as the
   two comparisons of presheaves agree on it.
-* `AlgebraicGeometry.RingedSite.overSheafifyUnit_naturality` and
-  `AlgebraicGeometry.RingedSite.sheafifyUnit_over_naturality`: the two sheafification units
+* `AlgebraicGeometry.RingedSite.overSheafificationUnit_naturality` and
+  `AlgebraicGeometry.RingedSite.overTensorUnit_naturality`: the two sheafification units
   entering `sheafTensorOverIso` are natural.
 * `AlgebraicGeometry.RingedSite.sheafTensorOverIso_naturality_left` and
   `AlgebraicGeometry.RingedSite.sheafTensorOverIso_naturality_right`: `sheafTensorOverIso` is
@@ -72,9 +78,11 @@ equation it satisfies on the presheaf level, from which its naturality follows.
 The tensor product used throughout is `Stacks.SheafOfModules.Tensor.sheafTensor`, the one of
 Stacks 06YM entering the derived tensor product, and the restriction of a sheaf of modules to a
 slice is Mathlib's `SheafOfModules.overFunctor`; no second notion of either is introduced. The
-universal property of sheafification on a slice is
-`AlgebraicGeometry.RingedSite.overSheafifyHomEquiv`: the restriction of the sheafification unit
-is still locally bijective, because the forgetful functor of the site over `U` is cocontinuous.
+units entering the comparison are those of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` in terms of which `sheafTensor` is defined, taken
+with the plain forgetful functor as right adjoint. The restriction of such a unit to the site
+over `U` is still locally bijective, because the forgetful functor of the site over `U` is
+cocontinuous, exactly as for Mathlib's unit in `AlgebraicGeometry.RingedSite.overSheafifyHomEquiv`.
 
 Comparing the two sheaves directly — by unfolding the restriction of a tensor product into the
 tensor product of restrictions as whole structures — is expensive, because the restriction maps
@@ -88,9 +96,13 @@ The restricted sheaf of rings has two spellings, the one produced by
 `X`, `(Tensor.ringSheaf X.O).over U`. They are the same term, but
 only after unfolding definitions that instance search does not unfold, so a statement reaching
 for the slice machinery at the first spelling finds no instances. One spelling is therefore
-fixed once, by the ascribed type of `overTensorPresheaf`, and `sheafTensorOverIso` names the
-sheafification of that presheaf in an intermediate step and lets the ambient definitional
-equality carry it to the tensor product. No weakening of the unifier is needed anywhere.
+fixed once, by the ascribed type of `overTensorPresheaf`. In the same way the objectwise tensor
+product of `X` is built over `X.O.obj ⋙ forget₂ CommRingCat RingCat`, which is
+`(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj` only after unfolding, and
+`globalTensorPresheaf` ascribes it the second spelling, at which the restricted unit and its
+instances are stated. `sheafTensorOverIso` names the sealed sheafification of that presheaf in
+an intermediate step and lets the definition of `sheafTensor`, whose last step is that sealed
+sheafification, carry it to the tensor product. No weakening of the unifier is needed anywhere.
 
 The passage from the degreewise identification to the total complexes is
 `HomologicalComplex₂.TotalMap.totalIso`, which says that an additive functor preserving the
@@ -219,80 +231,145 @@ lemma isoOfUnits_naturality
 
 end LocallyBijective
 
-section SliceUnit
+section SealedUnit
 
-open Stacks.SheafOfModules.UliftTensor
+open Stacks.SheafOfModules.Tensor
 
-variable (X : RingedSite.{u, v, w}) (U : X.C)
-  [HasWeakSheafify (X.J.over U) AddCommGrpCat.{w}]
-  [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
-/-- The sheafification unit of a presheaf of `O|_U`-modules is natural. -/
-lemma sheafifyUnit_over_naturality
-    {Q Q' : PresheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj}
-    (q : Q ⟶ Q') :
-    sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) Q ≫
-        ((PresheafOfModules.sheafification
-          (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-          (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj)).map q).val =
-      q ≫ sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) Q' :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj)).unit.naturality q).symm
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally injective. -/
+lemma isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallyInjective J ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallyInjective,
+    Functor.map_comp]
+  infer_instance
 
-end SliceUnit
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally surjective. -/
+lemma isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+end SealedUnit
 
 section GlobalUnit
+
+open Stacks.SheafOfModules.Tensor
 
 variable (X : RingedSite.{u, v, w}) (U : X.C)
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
-/-- The restriction to the site over `U` of the sheafification unit is natural: it is the
+/-- The restriction to the site over `U` of the unit of the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of a presheaf of `O`-modules. -/
+def overSheafificationUnit (P : PresheafOfModules.{w} (ringSheaf X.O).obj) :
+    overPresheaf X U P ⟶ (((sheafification X.O).obj P).over U).val :=
+  overPresheafMap X U ((sheafificationForgetAdjunction X.O).unit.app P)
+
+/-- On underlying presheaves of abelian groups, the restricted sealed sheafification unit is the
+sealed sheafification unit whiskered with `(Over.forget U).op`. -/
+lemma toPresheaf_map_overSheafificationUnit (P : PresheafOfModules.{w} (ringSheaf X.O).obj) :
+    (PresheafOfModules.toPresheaf _).map (overSheafificationUnit X U P) =
+      (Over.forget U).op.whiskerLeft
+        ((PresheafOfModules.toPresheaf _).map ((sheafificationForgetAdjunction X.O).unit.app P)) :=
+  rfl
+
+/-- The restriction to the site over `U` of the sealed sheafification unit is locally injective,
+because the forgetful functor of the site over `U` is cocontinuous. -/
+instance isLocallyInjective_overSheafificationUnit
+    (P : PresheafOfModules.{w} (ringSheaf X.O).obj) :
+    PresheafOfModules.IsLocallyInjective (X.J.over U) (overSheafificationUnit X U P) := by
+  have := isLocallyInjective_sheafificationForgetAdjunction_unit_app X.O P
+  rw [PresheafOfModules.IsLocallyInjective, toPresheaf_map_overSheafificationUnit]
+  exact Presheaf.isLocallyInjective_whisker (X.J.over U) X.J (Over.forget U) _
+
+/-- The restriction to the site over `U` of the sealed sheafification unit is locally
+surjective, because the forgetful functor of the site over `U` is cocontinuous. -/
+instance isLocallySurjective_overSheafificationUnit
+    (P : PresheafOfModules.{w} (ringSheaf X.O).obj) :
+    PresheafOfModules.IsLocallySurjective (X.J.over U) (overSheafificationUnit X U P) := by
+  have := isLocallySurjective_sheafificationForgetAdjunction_unit_app X.O P
+  rw [PresheafOfModules.IsLocallySurjective, toPresheaf_map_overSheafificationUnit]
+  exact Presheaf.isLocallySurjective_whisker (X.J.over U) X.J (Over.forget U) _
+
+/-- The restriction to the site over `U` of the sealed sheafification unit is natural: it is the
 restriction of a natural transformation. -/
-lemma overSheafifyUnit_naturality
-    {P P' : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj}
+lemma overSheafificationUnit_naturality {P P' : PresheafOfModules.{w} (ringSheaf X.O).obj}
     (p : P ⟶ P') :
-    overSheafifyUnit X U P ≫
-        ((SheafOfModules.overFunctor.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
-          ((PresheafOfModules.sheafification
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map p)).val =
-      overPresheafMap X U p ≫ overSheafifyUnit X U P' := by
-  have h := congrArg (fun m => (PresheafOfModules.pushforward
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-      (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj)).map m)
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.naturality p).symm
-  rwa [Functor.map_comp, Functor.map_comp] at h
+    overSheafificationUnit X U P ≫ (((sheafification X.O).map p).over U).val =
+      overPresheafMap X U p ≫ overSheafificationUnit X U P' :=
+  ((PresheafOfModules.pushforward _).map_comp _ _).symm.trans
+    ((congrArg (PresheafOfModules.pushforward _).map
+      ((sheafificationForgetAdjunction X.O).unit.naturality p).symm).trans
+      ((PresheafOfModules.pushforward _).map_comp _ _))
 
 end GlobalUnit
 
 section Tensor
 
-open Stacks.SheafOfModules.Tensor Stacks.SheafOfModules.UliftTensor
+open Stacks.SheafOfModules.Tensor
 
-attribute [local implicit_reducible] overSheafifyUnit
-  PresheafOfModules.tensorBifunctor PresheafOfModules.tensorObj
+attribute [local implicit_reducible] PresheafOfModules.tensorBifunctor PresheafOfModules.tensorObj
 
 variable (X : RingedSite.{u, v, w}) (U : X.C)
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify (X.J.over U) AddCommGrpCat.{w}]
   [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
 
+/-- The objectwise tensor product of the underlying presheaves of two sheaves of `O`-modules.
+The ascribed type names the sheaf of rings in the spelling
+`Stacks.SheafOfModules.Tensor.ringSheaf X.O` at which the sealed sheafification and the
+restriction to the site over `U` are indexed. -/
+abbrev globalTensorPresheaf (M N : SheafOfModules.{w} (ringSheaf X.O)) :
+    PresheafOfModules.{w} (ringSheaf X.O).obj :=
+  ((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val
+
 /-- The objectwise tensor product, formed on the site over `U`, of the restrictions of the
 underlying presheaves of two sheaves of `O`-modules. The ascribed type names the restricted
 sheaf of rings in the spelling `(Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U` at which
 the slice machinery is indexed. -/
-abbrev overTensorPresheaf (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
-    PresheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj :=
+abbrev overTensorPresheaf (M N : SheafOfModules.{w} (ringSheaf X.O)) :
+    PresheafOfModules.{w} ((ringSheaf X.O).over U).obj :=
   ((PresheafOfModules.tensorBifunctor (X.O.over U).obj).obj (M.over U).val).obj (N.over U).val
 
 /-- The objectwise tensor product of the underlying presheaves of two sheaves of `O`-modules,
 restricted to the site over `U`, is the objectwise tensor product formed over `U`: over each
 object of the site over `U` both sides are the same tensor product of sections. -/
-def overPresheafTensorIso (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
-    overPresheaf X U (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val) ≅
+def overPresheafTensorIso (M N : SheafOfModules.{w} (ringSheaf X.O)) :
+    overPresheaf X U (globalTensorPresheaf X M N) ≅
       overTensorPresheaf X U M N :=
   PresheafOfModules.isoMk (fun _ => Iso.refl _)
+
+/-- The unit of the sealed sheafification on the site over `U`, from the objectwise tensor
+product of the restrictions of two sheaves of `O`-modules to their sheaf tensor product formed
+over `U`. Its type is read over the restricted sheaf of rings in the spelling
+`(Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U` of `overTensorPresheaf`. -/
+def overTensorUnit (M N : SheafOfModules.{w} (ringSheaf X.O)) :
+    overTensorPresheaf X U M N ⟶ SheafOfModules.val (R := (ringSheaf X.O).over U)
+      (((sheafTensor.{max u v, v, w, w, w} (X.O.over U)).obj (M.over U)).obj (N.over U)) :=
+  (sheafificationForgetAdjunction (X.O.over U)).unit.app (overTensorPresheaf X U M N)
+
+instance isLocallyInjective_overTensorUnit (M N : SheafOfModules.{w} (ringSheaf X.O)) :
+    PresheafOfModules.IsLocallyInjective (X.J.over U) (overTensorUnit X U M N) :=
+  isLocallyInjective_sheafificationForgetAdjunction_unit_app (X.O.over U) _
+
+instance isLocallySurjective_overTensorUnit (M N : SheafOfModules.{w} (ringSheaf X.O)) :
+    PresheafOfModules.IsLocallySurjective (X.J.over U) (overTensorUnit X U M N) :=
+  isLocallySurjective_sheafificationForgetAdjunction_unit_app (X.O.over U) _
+
+omit [HasWeakSheafify X.J AddCommGrpCat] [X.J.WEqualsLocallyBijective AddCommGrpCat] in
+/-- `overTensorUnit` is natural: it is a component of the unit of the sealed sheafification on
+the site over `U`. -/
+lemma overTensorUnit_naturality {M N M' N' : SheafOfModules.{w} (ringSheaf X.O)}
+    (q : overTensorPresheaf X U M N ⟶ overTensorPresheaf X U M' N') :
+    overTensorUnit X U M N ≫ ((sheafification (X.O.over U)).map q).val =
+      q ≫ overTensorUnit X U M' N' :=
+  ((sheafificationForgetAdjunction (X.O.over U)).unit.naturality q).symm
 
 /-- The restriction to the site over `U` of the sheaf tensor product of two sheaves of
 `O`-modules is the sheaf tensor product formed over `U`. Both sides receive a locally bijective
@@ -300,87 +377,36 @@ morphism from the restricted objectwise tensor product of the underlying preshea
 left-hand one the restriction of the sheafification unit, which is locally bijective because
 the forgetful functor of the site over `U` is cocontinuous, and the right-hand one its own
 sheafification unit. -/
-def sheafTensorOverIso (M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+def sheafTensorOverIso (M N : SheafOfModules.{w} (ringSheaf X.O)) :
     (((sheafTensor.{u, v, w, w, w} X.O).obj M).obj N).over U ≅
       ((sheafTensor.{max u v, v, w, w, w} (X.O.over U)).obj (M.over U)).obj (N.over U) :=
-  haveI := isLocallyInjective_overSheafifyUnit X U
-    (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val)
-  haveI := isLocallySurjective_overSheafifyUnit X U
-    (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val)
-  haveI := isLocallyInjective_sheafifyUnit
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U M N)
-  haveI := isLocallySurjective_sheafifyUnit
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U M N)
-  let e : (sheafifyModules X
-      (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val)).over U ≅
-      (PresheafOfModules.sheafification (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-        (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj)).obj
-          (overTensorPresheaf X U M N) :=
-    isoOfUnits (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-      (M := (sheafifyModules X
-        (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val)).over U)
-      (N := (PresheafOfModules.sheafification.{w}
-        (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-        (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj)).obj
-          (overTensorPresheaf X U M N))
-      (overSheafifyUnit X U (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val))
-      (sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-        (overTensorPresheaf X U M N))
-      (overPresheafTensorIso X U M N)
-  e
+  isoOfUnits (R := (ringSheaf X.O).over U)
+    (M := ((sheafification X.O).obj (globalTensorPresheaf X M N)).over U)
+    (overSheafificationUnit X U (globalTensorPresheaf X M N))
+    (overTensorUnit X U M N) (overPresheafTensorIso X U M N)
 
 /-- Naturality of `sheafTensorOverIso` for a morphism induced by a morphism of the presheaves,
 given the corresponding square on the restricted objectwise tensor products. -/
 private theorem sheafTensorOverIso_naturality_aux
-    {M N M' N' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
-    (p : ((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val ⟶
-      ((PresheafOfModules.tensorBifunctor X.O.obj).obj M'.val).obj N'.val)
+    {M N M' N' : SheafOfModules.{w} (ringSheaf X.O)}
+    (p : globalTensorPresheaf X M N ⟶ globalTensorPresheaf X M' N')
     (q : overTensorPresheaf X U M N ⟶ overTensorPresheaf X U M' N')
     (hpq : overPresheafMap X U p ≫ (overPresheafTensorIso X U M' N').hom =
       (overPresheafTensorIso X U M N).hom ≫ q) :
-    ((PresheafOfModules.sheafification
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map p).over U ≫
-        (sheafTensorOverIso X U M' N').hom =
-      (sheafTensorOverIso X U M N).hom ≫
-        (PresheafOfModules.sheafification
-          (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-          (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj)).map q := by
-  have := isLocallyInjective_overSheafifyUnit X U
-    (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val)
-  have := isLocallySurjective_overSheafifyUnit X U
-    (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val)
-  have := isLocallyInjective_overSheafifyUnit X U
-    (((PresheafOfModules.tensorBifunctor X.O.obj).obj M'.val).obj N'.val)
-  have := isLocallySurjective_overSheafifyUnit X U
-    (((PresheafOfModules.tensorBifunctor X.O.obj).obj M'.val).obj N'.val)
-  have := isLocallyInjective_sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U M N)
-  have := isLocallySurjective_sheafifyUnit
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U M N)
-  have := isLocallyInjective_sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U M' N')
-  have := isLocallySurjective_sheafifyUnit
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U M' N')
-  exact isoOfUnits_naturality (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overSheafifyUnit X U (((PresheafOfModules.tensorBifunctor X.O.obj).obj M.val).obj N.val))
-    (sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-      (overTensorPresheaf X U M N))
-    (overSheafifyUnit X U (((PresheafOfModules.tensorBifunctor X.O.obj).obj M'.val).obj N'.val))
-    (sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-      (overTensorPresheaf X U M' N'))
-    (overPresheafTensorIso X U M N) (overPresheafTensorIso X U M' N') (p := overPresheafMap X U p)
-    (q := q) (overSheafifyUnit_naturality X U _) (sheafifyUnit_over_naturality X U _) hpq
+    ((sheafification X.O).map p).over U ≫ (sheafTensorOverIso X U M' N').hom =
+      (sheafTensorOverIso X U M N).hom ≫ (sheafification (X.O.over U)).map q :=
+  isoOfUnits_naturality (R := (ringSheaf X.O).over U)
+    (overSheafificationUnit X U (globalTensorPresheaf X M N)) (overTensorUnit X U M N)
+    (overSheafificationUnit X U (globalTensorPresheaf X M' N')) (overTensorUnit X U M' N')
+    (overPresheafTensorIso X U M N) (overPresheafTensorIso X U M' N')
+    (overSheafificationUnit_naturality X U p) (overTensorUnit_naturality X U q) hpq
 
 attribute [local instance] ringSheafOverSectionsCommRing
 
 /-- **`sheafTensorOverIso` is natural in the first variable.** -/
 lemma sheafTensorOverIso_naturality_left
-    {M M' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (f : M ⟶ M')
-    (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+    {M M' : SheafOfModules.{w} (ringSheaf X.O)} (f : M ⟶ M')
+    (N : SheafOfModules.{w} (ringSheaf X.O)) :
     (((sheafTensor.{u, v, w, w, w} X.O).map f).app N).over U ≫ (sheafTensorOverIso X U M' N).hom =
       (sheafTensorOverIso X U M N).hom ≫
         ((sheafTensor.{max u v, v, w, w, w} (X.O.over U)).map (f.over U)).app (N.over U) :=
@@ -392,8 +418,8 @@ lemma sheafTensorOverIso_naturality_left
 
 /-- **`sheafTensorOverIso` is natural in the second variable.** -/
 lemma sheafTensorOverIso_naturality_right
-    (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-    {N N' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (g : N ⟶ N') :
+    (M : SheafOfModules.{w} (ringSheaf X.O))
+    {N N' : SheafOfModules.{w} (ringSheaf X.O)} (g : N ⟶ N') :
     (((sheafTensor.{u, v, w, w, w} X.O).obj M).map g).over U ≫ (sheafTensorOverIso X U M N').hom =
       (sheafTensorOverIso X U M N).hom ≫
         ((sheafTensor.{max u v, v, w, w, w} (X.O.over U)).obj (M.over U)).map (g.over U) :=
@@ -407,10 +433,9 @@ end Tensor
 
 section TensorComplex
 
-open Stacks.SheafOfModules.Tensor Stacks.SheafOfModules.UliftTensor
+open Stacks.SheafOfModules.Tensor
 
-attribute [local implicit_reducible] overSheafifyUnit
-  PresheafOfModules.tensorBifunctor PresheafOfModules.tensorObj
+attribute [local implicit_reducible] PresheafOfModules.tensorBifunctor PresheafOfModules.tensorObj
 
 variable (X : RingedSite.{u, v, w}) (U : X.C)
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]

@@ -215,7 +215,8 @@ restriction is bijective on morphisms out of `O_𝒳`, that is, for which the st
 modules of `𝒳` is the left Kan extension along the inclusion of its own restriction.
 
 This reduces the assertion of **Stacks 078A** to that bijectivity, once for an arbitrary
-continuous and cocontinuous full subsite. Postcomposition with the canonical map is, by the adjunction
+continuous and cocontinuous full subsite. Postcomposition with the canonical map is, by the
+adjunction
 `g_! ⊣ g^*` and the identification `O_{𝒳'} = g^{-1}O_𝒳`, exactly that restriction. -/
 theorem isIso_subsiteUnitLowerShriekMap
     (hres : ∀ T : SheafOfModules.{u}

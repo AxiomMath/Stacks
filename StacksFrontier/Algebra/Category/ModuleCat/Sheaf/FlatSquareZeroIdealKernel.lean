@@ -34,7 +34,8 @@ multiplication map given by the pure-tensor formula
 scalars along the locally surjective `f` is Mathlib's
 `PresheafOfModules.restrictHomEquivOfIsLocallySurjective`. The cokernel of multiplication is taken
 from the public `Stacks.SheafOfModules.FlatSquareZero.exists_reduction_and_multiplicationMaps`
-and compared with `q` through the two universal properties.
+(through `exists_isColimit_multiplicationMap`) and compared with `q` through the two universal
+properties.
 
 ## References
 
@@ -72,9 +73,7 @@ lemma comp_restrictScalars_eq_zero_of_tmul
         ((SheafOfModules.restrictScalars (ringMap f)).obj I) ⟶ G)
     (hnu : ∀ (U : Cᵒᵖ) (a : I.val.obj U) (x : G.val.obj U),
       nu.val.app U
-          (((PresheafOfModules.sheafificationAdjunction.{w, v, w, u} (R :=
-              Stacks.SheafOfModules.Tensor.ringSheaf O')
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O').obj)).unit.app
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O').unit.app
           (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars (ringMap f)).obj I).val
             G.val)).app U (a ⊗ₜ[O'.obj.obj U] x)) =
         (show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from
@@ -82,8 +81,7 @@ lemma comp_restrictScalars_eq_zero_of_tmul
     (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
     (g : G ⟶ (SheafOfModules.restrictScalars (ringMap f)).obj N) :
     nu ≫ g = 0 := by
-  apply (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O').obj)).injective
+  apply ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O').homEquiv _ _).injective
   apply PresheafOfModules.hom_ext
   intro U
   apply ModuleCat.MonoidalCategory.tensor_ext
@@ -97,6 +95,29 @@ lemma comp_restrictScalars_eq_zero_of_tmul
     (f.hom.app U (show O'.obj.obj U from i.val.app U a)) (g.val.app U x) = 0
   exact (congrArg (fun scalar : O.obj.obj U =>
     scalar • (show N.val.obj U from g.val.app U x)) (hi_zero U a)).trans (zero_smul _ _)
+
+/-- **Multiplication by the ideal has a cokernel of the form `G ⟶ F₁|_{O'}`**: the reduction of
+`exists_reduction_and_multiplicationMaps`, whose multiplication map is `multiplicationMap` by
+`multiplicationMap_unique`. -/
+lemma exists_isColimit_multiplicationMap
+    {O' O : Sheaf J CommRingCat.{w}} (f : O' ⟶ O)
+    (hf : Presheaf.IsLocallySurjective J f.hom)
+    (I : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
+    (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O'))
+    (i : (SheafOfModules.restrictScalars (ringMap f)).obj I ⟶
+      SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O'))
+    (hi_zero : ∀ (U : Cᵒᵖ) (a : I.val.obj U),
+      f.hom.app U (show O'.obj.obj U from i.val.app U a) = 0)
+    (hi_univ : ∀ (U : Cᵒᵖ) (x : O'.obj.obj U), f.hom.app U x = 0 →
+      ∃! a : I.val.obj U, (show O'.obj.obj U from i.val.app U a) = x) :
+    ∃ (F₁ : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
+      (q₁ : G ⟶ (SheafOfModules.restrictScalars (ringMap f)).obj F₁)
+      (hz : multiplicationMap f I G i ≫ q₁ = 0),
+      Nonempty (IsColimit (CokernelCofork.ofπ q₁ hz)) := by
+  obtain ⟨F₁, nu, q₁, hz, hq₁, -, hnu, -⟩ :=
+    exists_reduction_and_multiplicationMaps f hf I G i hi_zero hi_univ
+  obtain rfl := multiplicationMap_unique f I G i nu _ hnu (multiplicationMap_tmul f I G i)
+  exact ⟨F₁, q₁, hz, ⟨hq₁⟩⟩
 
 section IdealTensorKernel
 
@@ -120,8 +141,7 @@ variable {O' O : Sheaf J CommRingCat.{w}} (f : O' ⟶ O)
 include hf hi_zero hi_univ hq
 
 /-- **A morphism with the universal property of extension of scalars is a cokernel of
-multiplication by the ideal.** The public
-`Stacks.SheafOfModules.FlatSquareZero.exists_reduction_and_multiplicationMaps` provides a
+multiplication by the ideal.** `exists_isColimit_multiplicationMap` provides a
 cokernel `q₁ : G ⟶ F₁|_{O'}` of multiplication; every morphism into a restriction of scalars
 kills multiplication and restriction of scalars is fully faithful, so `q₁` has the universal
 property of extension of scalars too, and the two universal properties identify `F` with `F₁`
@@ -132,26 +152,19 @@ noncomputable def isColimit_of_isExtension :
         F q)) := by
   let R := SheafOfModules.restrictScalars (ringMap f)
   letI : Presheaf.IsLocallySurjective J (ringMap f).hom := ⟨hf.imageSieve_mem⟩
-  let h := exists_reduction_and_multiplicationMaps f hf I G i hi_zero hi_univ
+  let h := exists_isColimit_multiplicationMap f hf I G i hi_zero hi_univ
   let F₁ := h.choose
-  let nu := h.choose_spec.choose
-  let q₁ := h.choose_spec.choose_spec.choose
-  let hnuq₁ := h.choose_spec.choose_spec.choose_spec.choose
-  let hq₁ : IsColimit (CokernelCofork.ofπ q₁ hnuq₁) :=
-    h.choose_spec.choose_spec.choose_spec.choose_spec.choose
-  have hnu : nu = multiplicationMap f I G i :=
-    multiplicationMap_unique f I G i nu _
-      h.choose_spec.choose_spec.choose_spec.choose_spec.choose_spec.choose_spec.1
-      (multiplicationMap_tmul f I G i)
+  let q₁ := h.choose_spec.choose
+  let hq₁ : IsColimit (CokernelCofork.ofπ q₁ h.choose_spec.choose_spec.choose) :=
+    h.choose_spec.choose_spec.choose_spec.some
   have hz : multiplicationMap f I G i ≫ q = 0 :=
     comp_restrictScalars_eq_zero_of_tmul f I G i hi_zero _ (multiplicationMap_tmul f I G i) F q
   -- `a : F ⟶ F₁` from the universal property of `q`.
   let a : F ⟶ F₁ := ((hq F₁).surjective q₁).choose
   have ha : q ≫ R.map a = q₁ := ((hq F₁).surjective q₁).choose_spec
   -- `b : F₁ ⟶ F` from the cokernel property of `q₁` and fullness.
-  have hz' : nu ≫ q = 0 := by rw [hnu]; exact hz
-  let b' : R.obj F₁ ⟶ R.obj F := hq₁.desc (CokernelCofork.ofπ q hz')
-  have hb' : q₁ ≫ b' = q := hq₁.fac (CokernelCofork.ofπ q hz') WalkingParallelPair.one
+  let b' : R.obj F₁ ⟶ R.obj F := hq₁.desc (CokernelCofork.ofπ q hz)
+  have hb' : q₁ ≫ b' = q := hq₁.fac (CokernelCofork.ofπ q hz) WalkingParallelPair.one
   let b : F₁ ⟶ F := ⟨(PresheafOfModules.restrictHomEquivOfIsLocallySurjective
     (ringMap f).hom F.isSheaf).symm b'.val⟩
   have hRb : R.map b = b' := SheafOfModules.hom_ext
@@ -159,8 +172,7 @@ noncomputable def isColimit_of_isExtension :
       F.isSheaf).apply_symm_apply b'.val)
   have hb : q₁ ≫ R.map b = q := by rw [hRb]; exact hb'
   have hab : a ≫ b = 𝟙 F := by
-    apply (hq F).injective
-    change q ≫ R.map (a ≫ b) = q ≫ R.map (𝟙 F)
+    refine (hq F).injective ?_
     rw [R.map_comp, ← Category.assoc, ha, hb, R.map_id, Category.comp_id]
   have : Epi q₁ := Cofork.IsColimit.epi hq₁
   have hba : b ≫ a = 𝟙 F₁ := by
@@ -172,12 +184,7 @@ noncomputable def isColimit_of_isExtension :
     exact congrArg (fun k => k.val.app U m) hR
   haveI : IsIso (R.map b) := ⟨R.map a, by rw [← R.map_comp, hba, R.map_id],
     by rw [← R.map_comp, hab, R.map_id]⟩
-  haveI : Epi q := by rw [← hb]; exact epi_comp _ _
-  refine CokernelCofork.IsColimit.ofπ' q hz fun {Y} k hk => ?_
-  obtain ⟨l, hl⟩ := CokernelCofork.IsColimit.desc' hq₁ k (show nu ≫ k = 0 by rw [hnu]; exact hk)
-  refine ⟨R.map a ≫ l, ?_⟩
-  rw [← Category.assoc, ha]
-  exact hl
+  exact IsCokernel.cokernelIso _ q hq₁ (asIso (R.map b)) hb
 
 /-- The comparison `I ⊗_{O'} G ⟶ (I ⊗_O F)|_{O'}` is invertible when `q : G ⟶ F|_{O'}` presents
 `F` as the extension of scalars of `G`: that presentation is a cokernel of multiplication by
@@ -210,9 +217,7 @@ lemma reductionTensorMap_comp_idealTensorKernelι :
 /-- `idealTensorKernelι` sends a local pure tensor `a ⊗ x̄` to `a · x`. -/
 lemma idealTensorKernelι_tmul (U : Cᵒᵖ) (a : I.val.obj U) (x : G.val.obj U) :
     (idealTensorKernelι f hf I G F i hi_zero hi_univ q hq).val.app U
-        (((PresheafOfModules.sheafificationAdjunction.{w, v, w, u} (R :=
-            Stacks.SheafOfModules.Tensor.ringSheaf O)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
           (PresheafOfModules.tensorObj I.val F.val)).app U
           (a ⊗ₜ[O.obj.obj U] q.val.app U x)) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from
@@ -297,9 +302,7 @@ theorem exists_isKernel_idealTensor
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj F)).obj I) ⟶ G,
       (∀ (U : Cᵒᵖ) (a : I.val.obj U) (x : G.val.obj U),
         mu.val.app U
-            (((PresheafOfModules.sheafificationAdjunction.{w, v, w, u} (R :=
-                Stacks.SheafOfModules.Tensor.ringSheaf O)
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
               (PresheafOfModules.tensorObj I.val F.val)).app U
               (a ⊗ₜ[O.obj.obj U] q.val.app U x)) =
           (show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from

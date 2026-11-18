@@ -42,13 +42,27 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 attribute [local instance] monoidalUnderlyingRingSheaf
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- The counit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` is the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` after the identification
+`Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso` of the two right adjoints. -/
+private lemma sheafificationAdjunction_counit_app
+    (F : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).counit.app F =
+      (Stacks.SheafOfModules.Tensor.sheafification O).map
+          ((Stacks.SheafOfModules.Tensor.forgetCompRestrictScalarsIdIso O).hom.app F) ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).counit.app F := by
+  simp [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction, Adjunction.ofNatIsoRight]
+
 /-- **The right unitor of the strict monoidal structure is the unit law of `⊗_O`**, at a free
 universe of the sections: `ρ_F` is `Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections O F`. -/
 theorem rightUnitor_hom_eq_sheafTensorUnitIsoFreeSections
     (F : _root_.SheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf O))) :
-    (ρ_ F).hom = (Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections O F).hom :=
-  (congrArg Iso.hom (Stacks.SheafOfModules.rightUnitor_eq_tensorSheafRightUnitor O.obj
-    (TensorEncodings.isSheaf_structureRingPresheaf O) F)).trans rfl
+    (ρ_ F).hom = (Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections O F).hom := by
+  refine (congrArg Iso.hom (Stacks.SheafOfModules.rightUnitor_eq_tensorSheafRightUnitor O.obj
+    (TensorEncodings.isSheaf_structureRingPresheaf O) F)).trans ?_
+  refine (congrArg (_ ≫ ·) (sheafificationAdjunction_counit_app O F)).trans ?_
+  exact ((Stacks.SheafOfModules.Tensor.sheafification O).map_comp_assoc _ _ _).symm
 
 end Stacks.SheafOfModules.Strict
 

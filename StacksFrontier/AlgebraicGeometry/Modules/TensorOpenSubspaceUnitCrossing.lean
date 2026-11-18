@@ -227,20 +227,13 @@ theorem sheafTensorMap_openSubspaceComparison_inv_eq :
           ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩).obj
           ((openSubspaceRestriction U).obj M)).map
         ((openSubspaceRestrictionIsoModuleRestriction U).inv.app L) =
-      (PresheafOfModules.sheafification
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-            ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩).obj)).map
+      (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩).map
         (PresheafOfModules.tensorHom (O := (restrictToOpen X U).presheaf)
           ((openSubspaceRestrictionIsoModuleRestriction U).inv.app M).val
           ((openSubspaceRestrictionIsoModuleRestriction U).inv.app L).val) :=
-  ((PresheafOfModules.sheafification
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf
-        ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
-        ⟨(restrictToOpen X U).presheaf, (restrictToOpen X
-            U).IsSheaf⟩).obj)).map_comp _ _).symm.trans
+  ((Stacks.SheafOfModules.Tensor.sheafification
+      ⟨(restrictToOpen X U).presheaf, (restrictToOpen X U).IsSheaf⟩).map_comp _ _).symm.trans
     (congrArg _ ((PresheafOfModules.tensorHom_comp _ _ _ _).trans
       (congrArg₂ PresheafOfModules.tensorHom (Category.comp_id _) (Category.id_comp _))))
 

@@ -45,10 +45,10 @@ corresponding morphisms the same morphism, by `rfl`:
 `Stacks.TensorSheafDedup.tensorSheaf_eq` and `…tensorSheafMap_eq_sheafifyMap`. So the statements
 below are written at the `TensorStalkRingedSpace` spelling, which is the one both the braiding
 and `twistSheafScalarMap` are stated at, and the definitional equalities are crossed by `exact`
-inside the proofs. The only comparison that is not `rfl` is the one of
-`tensorFactorMap_app_eq_tensorSheafMap`, between `f ⊗ₘ 𝟙 M` and `f ▷ M` at the level of
-presheaves of modules, and it is `MonoidalCategory.tensorHom_id` sheafified by `congrArg` — the
-device of `TopDegreeBaseChange/GeometricFactorBaseScalar.lean`.
+inside the proofs. In `tensorFactorMap_app_eq_tensorSheafMap` both sides are the sealed
+sheafification `Stacks.SheafOfModules.Tensor.sheafification` of `f ⊗ₘ 𝟙 M`: `tensorFactorMap` is
+the action of `Stacks.SheafOfModules.Tensor.sheafTensor` on its first argument, and the uncurried
+map is `Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map`.
 
 **The bijectivity is transported as a statement about functions, not about morphisms.** The
 known invertibility is `Function.Bijective` of a map on sections, so the conjugation by the
@@ -225,15 +225,8 @@ theorem tensorFactorMap_app_eq_tensorSheafMap {F F' : V.left.Modules} (f : F ⟶
     (tensorFactorMap R V f).app M =
       (Functor.uncurry.obj
         (Stacks.SheafOfModules.Tensor.sheafTensor V.left.toRingedSpace.sheaf)).map
-        ((f, 𝟙 M) : ((F, M) : _ × _) ⟶ (F', M)) := by
-  let : MonoidalCategory (PresheafOfModules.{u} V.left.ringCatSheaf.obj) :=
-    Stacks.SheafOfModules.monoidalCategoryPresheafOfModules V.left.presheaf
-      (_root_.AlgebraicGeometry.ringSheafCond V.left)
-  refine Eq.trans (congrArg
-    (Stacks.SheafOfModules.TensorSheafification.sheafify V.left.presheaf
-      (_root_.AlgebraicGeometry.ringSheafCond V.left)).map
-    (MonoidalCategory.tensorHom_id f.val M.val).symm) ?_
-  exact (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map _ f (𝟙 M)).symm
+        ((f, 𝟙 M) : ((F, M) : _ × _) ⟶ (F', M)) :=
+  (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map _ f (𝟙 M)).symm
 
 /-- **A morphism of the fixed factor of the geometric factor `N ↦ F ⊗ (f')^* Ñ` is bijective on
 the sections over an object as soon as the left-slot tensor map is**, at every `R`-module `N`.

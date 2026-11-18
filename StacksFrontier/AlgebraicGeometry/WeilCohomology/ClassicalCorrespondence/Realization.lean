@@ -48,7 +48,7 @@ universe u v
 
 namespace Stacks.WeilCohomology
 
-variable {k : Type u} [Field k] [IsAlgClosed k] {F : Type v} [Field F] [CharZero F]
+variable {k : Type u} [Field k] {F : Type v} [Field F] [CharZero F]
 
 local notation "𝐎" =>
   (GradedCompositionData.Obj.mk :

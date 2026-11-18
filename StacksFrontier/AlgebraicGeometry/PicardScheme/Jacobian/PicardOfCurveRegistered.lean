@@ -15,7 +15,8 @@ with the smoothness of the Abel morphisms of degree `d ≥ 2g - 1`
 * `Stacks.RigidifiedPicard.exists_picardScheme` — **[Stacks, Tag 0BA0]**, all six clauses. This
   is the complete registration of the tag. The clause-wise registrations of
   `StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurve.lean` and
-  `StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurvePoints.lean` state the clauses on the big
+  `StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurvePoints.lean` state the clauses on the
+  big
   fppf site; there clause (2) is `Stacks.AbelMap.picardScheme_clause_two_bijOn`, the natural map
   on `k`-points being a bijection, which supersedes the equipotence
   `Stacks.AbelMap.picardScheme_clause_two`.

@@ -208,7 +208,7 @@ public def differential : monomials p →ₗ[ℤ_[p]] monomials p where
   map_smul' c f := by
     ext m
     simp only [Finsupp.onFinset_apply, Finsupp.smul_apply, smul_eq_mul, RingHom.id_apply]
-    ring
+    ring_nf
 
 /-- The `m`-th coefficient of `differential p f` is `(m + 1)` times the `(m + 1)`-st coefficient of
 `f`. -/

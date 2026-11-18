@@ -81,6 +81,18 @@ which do not:
   `Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso` are available for sheaves of
   modules over the second spelling without any comparison map.
 
+The sheafification inside `Stacks.SheafOfModules.Tensor.sheafTensor` is the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, whereas
+`Stacks.Sheaves.RingedToposModules.extendScalars`,
+`Stacks.Sheaves.RingedToposModules.extendScalarsSheafifyIso` and
+`Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso` are built from Mathlib's
+`PresheafOfModules.sheafification`, so the two meet at both ends of
+`Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso`. There the crossing is an isomorphism,
+not a coercion: the component at the objectwise tensor product of the functor isomorphism
+`eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def _)` over `A₁`, and of
+`eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def _).symm` over `A₂`, which is the
+isomorphism along which `Stacks.SheafOfModules.Tensor.sheafificationAdjunction` is transported.
+
 The tensor product of sheaves of modules used here is `Stacks.SheafOfModules.Tensor.sheafTensor`,
 the sheafification of the objectwise tensor product.
 
@@ -234,6 +246,12 @@ morphism `θ : A₁ ⟶ A₂` of presheaves of commutative rings whose underlyin
 are sheaves carries the tensor product sheaf over `A₁` to the tensor product sheaf over `A₂`:
 `A₂ ⊗_{A₁} (F ⊗_{A₁} G) ≅ (A₂ ⊗_{A₁} F) ⊗_{A₂} (A₂ ⊗_{A₁} G)`.
 
+It is `extendScalarsSheafifyIso` inverted, followed by the sheafification of
+`Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsTensorObjIso` and by
+`Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso`, entered and left through the
+defining equation `Stacks.SheafOfModules.Tensor.sheafification_def` of the sealed sheafification
+inside `Stacks.SheafOfModules.Tensor.sheafTensor`, over `A₁` and over `A₂`.
+
 This is step 4 of the chain of Tag 03EL at the level of sheaves of modules. -/
 def extendScalarsTensorIso (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)) :
     (extendScalars J θ h₁ h₂).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨A₁,
@@ -243,11 +261,19 @@ def extendScalarsTensorIso (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁)
       (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂
         (forget₂ CommRingCat RingCat) h₂⟩).obj ((extendScalars J θ h₁ h₂).obj F)).obj
             ((extendScalars J θ h₁ h₂).obj G)) :=
-  (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).symm ≪≫
+  (extendScalars J θ h₁ h₂).mapIso
+      ((eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def
+        ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩)).app
+          (PresheafOfModules.tensorObj F.val G.val)) ≪≫
+    (extendScalarsSheafifyIso θ h₁ h₂ (F.val ⊗ G.val)).symm ≪≫
     (PresheafOfModules.sheafification (R := commRingSheaf J A₂ h₂) (𝟙 _)).mapIso
       (changeOfRingsTensorObjIso θ F.val G.val) ≪≫
     Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso A₂ h₂ ((changeOfRings θ).obj F.val)
-      ((changeOfRings θ).obj G.val)
+      ((changeOfRings θ).obj G.val) ≪≫
+    (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def
+      ⟨A₂, Presheaf.isSheaf_of_isSheaf_comp _ A₂ (forget₂ CommRingCat RingCat) h₂⟩).symm).app
+        (PresheafOfModules.tensorObj ((extendScalars J θ h₁ h₂).obj F).val
+          ((extendScalars J θ h₁ h₂).obj G).val)
 
 end ExtendScalars
 

@@ -236,8 +236,7 @@ public theorem exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8
 With `𝓘 = I · 𝒪_X`, the `I`-adic completion of `Hᵖ(X, ℱ)` is the limit of the tower
 `n ↦ Hᵖ(X, ℱ / 𝓘ⁿℱ)`, by *the* comparison map: the projection normalisation says that the
 `n`-th component of the equivalence carries the image of a class `x ∈ Hᵖ(X, ℱ)` to the image of
-`x` in `Hᵖ(X, ℱ / 𝓘ⁿℱ)`. The constant `c` is existentially bound because
-`Stacks.Cohomology.FormalFunctions.formalFunctionsEquiv` is indexed by it.
+`x` in `Hᵖ(X, ℱ / 𝓘ⁿℱ)`.
 
 [Stacks, Tag 02OC] further asserts that the comparison is a homeomorphism for the limit
 topologies; this statement does not claim it. The complete statement of [Stacks, Tag 02OC],
@@ -253,7 +252,7 @@ public theorem exists_formalFunctionsEquiv_of_02O8
       (X' : Over (Spec (.of A'))) (_ : AlgebraicGeometry.IsProper X'.hom)
       (F' : X'.left.Modules) (_ : SheafOfModules.IsCoherent F') (p' : ℕ),
       (cohomologyIdealPowerSystem I' X' F' p').IsReesFinite) :
-    ∃ (_c : ℕ) (e : AdicCompletion I (cohomologyOverBase A f p F) ≃ₗ[A]
+    ∃ (e : AdicCompletion I (cohomologyOverBase A f p F) ≃ₗ[A]
         towerLimit (adicCohomologyTower A f I F p) (adicCohomologyTowerMap A f I F p)),
       ∀ (n : ℕ) (x : cohomologyOverBase A f p F),
         towerLimit.proj n (e (AdicCompletion.of I (cohomologyOverBase A f p F) x)) =
@@ -262,7 +261,7 @@ public theorem exists_formalFunctionsEquiv_of_02O8
   have : F.IsQuasicoherent := isQuasicoherent_of_isCoherent F
   obtain ⟨c, hker, -, hrange⟩ :=
     exists_uniform_bound_cohomology_idealPowerQuotient_of_02O8 A f hX I F hF p hReesFinite
-  exact ⟨c, formalFunctionsEquiv A f I F p c hker hrange,
+  exact ⟨formalFunctionsEquiv A f I F p c hker hrange,
     formalFunctionsEquiv_proj_of A f I F p c hker hrange⟩
 
 end Stacks.Cohomology.FormalFunctions

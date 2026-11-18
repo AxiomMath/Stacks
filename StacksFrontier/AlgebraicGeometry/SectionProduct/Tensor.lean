@@ -200,8 +200,8 @@ theorem tensorSectionsAt_smul_smul {U : X.Opens} (a b : Γ(X, U)) (s : Γ(M, U))
   unfold Stacks.SheafOfModules.tensorSectionsAt
   exact (congrArg _ (TensorProduct.smul_tmul_smul a b s t)).trans
     (LinearMap.map_smul (PresheafOfModules.Hom.app
-      (Stacks.SheafOfModules.TensorSheafification.toSheafify X.sheaf.obj X.ringCatSheaf.property
-        _) (op U)).hom (a * b) _)
+      ((Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction X.sheaf.obj
+        X.ringCatSheaf.property).unit.app _) (op U)).hom (a * b) _)
 
 /-- **The product of sections commutes with restriction.** -/
 theorem map_tensorSectionsAt {U V : X.Opens} (i : V ⟶ U) (s : Γ(M, U)) (t : Γ(N, U)) :
@@ -211,8 +211,9 @@ theorem map_tensorSectionsAt {U V : X.Opens} (i : V ⟶ U) (s : Γ(M, U)) (t : �
       Stacks.SheafOfModules.tensorSectionsAt X.sheaf.obj X.ringCatSheaf.property (op V) M N
         (M.presheaf.map i.op s) (N.presheaf.map i.op t) := by
   unfold Stacks.SheafOfModules.tensorSectionsAt
-  exact (PresheafOfModules.naturality_apply (Stacks.SheafOfModules.TensorSheafification.toSheafify
-    X.sheaf.obj X.ringCatSheaf.property (PresheafOfModules.tensorObj M.val N.val)) i.op _).symm
+  exact (PresheafOfModules.naturality_apply
+    ((Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction X.sheaf.obj
+      X.ringCatSheaf.property).unit.app (PresheafOfModules.tensorObj M.val N.val)) i.op _).symm
 
 /-! ### Pullback -/
 

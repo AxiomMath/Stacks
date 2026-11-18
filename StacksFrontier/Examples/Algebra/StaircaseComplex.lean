@@ -390,8 +390,7 @@ lemma extendRestrictAdj_unit_surjective (hf : Function.Surjective f) (M : Module
 lemma lid_rTensor_mulLeft (M : Type*) [AddCommGroup M] [Module R M] (w : R) (z : R ⊗[R] M) :
     TensorProduct.lid R M (LinearMap.rTensor M (LinearMap.mulLeft R w) z) =
       w • TensorProduct.lid R M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul r m => simp [mul_smul]
   | add x y hx hy => simp only [map_add, hx, hy, smul_add]
 

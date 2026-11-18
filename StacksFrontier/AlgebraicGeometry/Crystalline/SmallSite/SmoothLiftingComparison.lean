@@ -20,7 +20,8 @@ three things about a crystal `ℱ` in quasi-coherent `𝒪_{X/S}`-modules:
 
 Part (1) is formalized, as
 `Crystalline.GlobalCrystallineSituation.smoothLiftingCrystallineThickening` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmoothLifting.lean`.  **This file states part (3)**, as
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmoothLifting.lean`.  **This file states part (3)**,
+as
 the proposition `DeRhamComparison07MW`, and reduces the perfectness remark [Stacks, Tag 07MX] to
 it together with one further named proposition.  Part (2) is
 `Situation07MW.moduleWithConnection` of `SmallSite/SmoothLiftingConnection.lean`, and part (3) is

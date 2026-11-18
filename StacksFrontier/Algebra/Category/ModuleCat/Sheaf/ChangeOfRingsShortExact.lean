@@ -18,17 +18,18 @@ of `O₁`-modules whose third term is flat to a short exact sequence of sheaves 
 
 This is the tensor-exactness statement of Stacks 03EX, read at the particular tensor factor
 `O₂`.  The two identifications it needs are recorded separately: the underlying abelian sheaf
-of the extension of scalars *is* the tensor product with `O₂` placed on the left
-(`changeOfRings_comp_toSheaf`, which holds by `rfl`), and tensoring with a fixed sheaf of
+of the extension of scalars is the tensor product with `O₂` placed on the left
+(`changeOfRingsCompToSheafIso`), and tensoring with a fixed sheaf of
 modules on the left is tensoring with it on the right, by the braiding of the tensor product
 (`shortExact_map_sheafTensorObj`).
 
 ## Main results
 
-* `Stacks.Sheaves.ChangeOfRings.changeOfRings_comp_toSheaf`: extension of scalars along `α`,
-  read on underlying abelian sheaves, is the tensor product with `O₂` on the left.  Both sides
-  sheafify the presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)`, with the tensor factors in the same order,
-  so no comparison of tensor products intervenes.
+* `Stacks.Sheaves.ChangeOfRings.changeOfRingsCompToSheafIso`: extension of scalars along `α`,
+  read on underlying abelian sheaves, is isomorphic to the tensor product with `O₂` on the left.
+  Both sides sheafify the presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)`, with the tensor factors in the
+  same order, so no comparison of tensor products intervenes; the isomorphism only compares the
+  two sheafifications.
 * `Stacks.Sheaves.ChangeOfRings.shortExact_map_sheafTensorObj`: Stacks 03EX with the fixed
   tensor factor on the **left**.
 * `Stacks.Sheaves.ChangeOfRings.shortExact_map_changeOfRings`: **Stacks 03EX for extension of
@@ -47,7 +48,7 @@ with `forget₂ CommRingCat RingCat` from `Stacks.hasSheafCompose_forget₂_comm
 `Stacks.Sheaves.Differentials.ringSheaf`, which takes it as an instance binder.  Making
 `Stacks.hasSheafCompose_forget₂_commRingCat` the ambient instance, rather than adding the
 binder, makes the two spellings the same term and is what lets
-`changeOfRings_comp_toSheaf` be `rfl`.
+`changeOfRingsCompToPresheafIso` be the identity.
 
 The module universe equals the universe of the ring sections.  That is forced twice over: the
 tensor factor is `SheafOfModules.unit` of the structure sheaf, whose carrier is the sections of
@@ -140,15 +141,39 @@ abbrev restrictUnit : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
       ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).map α)).obj
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂))
 
+/-- On underlying abelian presheaves, the sectionwise extension of scalars along `α` is the
+sectionwise tensor product with `restrictUnit α`, on the nose: both are the presheaf
+`U ↦ O₂(U) ⊗_{O₁(U)} G(U)`, with the tensor factors in the same order. -/
+def changeOfRingsCompToPresheafIso :
+    Stacks.PresheafOfModules.ChangeOfRings.changeOfRings α.hom ⋙
+        PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂).obj ≅
+      (PresheafOfModules.tensorBifunctor O₁.obj).obj (restrictUnit α).val ⋙
+        PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₁).obj :=
+  Iso.refl _
+
 /-- **Extension of scalars is the tensor product with `O₂` on the left**, on underlying abelian
-sheaves, on the nose.  Both sides sheafify the presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)`, and the
-tensor factors are in the same order on the two sides, so this is `rfl`. -/
-theorem changeOfRings_comp_toSheaf :
+sheaves.  Both sides sheafify the presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)`
+(`changeOfRingsCompToPresheafIso`), and both sheafifications of presheaves of modules commute
+with passing to underlying abelian sheaves: Mathlib's for extension of scalars
+(`PresheafOfModules.sheafificationCompToSheaf`), the sealed
+`Stacks.SheafOfModules.Tensor.sheafification` for the tensor product
+(`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`). -/
+def changeOfRingsCompToSheafIso :
     changeOfRings.{u, v, u} J α ⋙
-        SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂) =
+        SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂) ≅
       (sheafTensor.{u, v, u, u, u} O₁).obj (restrictUnit α) ⋙
         SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₁) :=
-  rfl
+  Functor.isoWhiskerLeft
+    (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₁))
+    (Functor.isoWhiskerLeft (Stacks.PresheafOfModules.ChangeOfRings.changeOfRings α.hom)
+        (PresheafOfModules.sheafificationCompToSheaf
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂).obj)) ≪≫
+      (Functor.associator _ _ _).symm ≪≫
+      Functor.isoWhiskerRight (changeOfRingsCompToPresheafIso α)
+        (presheafToSheaf J AddCommGrpCat) ≪≫
+      Functor.associator _ _ _ ≪≫
+      (Functor.isoWhiskerLeft ((PresheafOfModules.tensorBifunctor O₁.obj).obj (restrictUnit α).val)
+        (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₁)).symm)
 
 /-- Extension of scalars is additive.  Its composite with the underlying-abelian-sheaf functor
 is the tensor product with `O₂`, which is additive, and that functor is faithful. -/
@@ -162,7 +187,7 @@ instance changeOfRings_additive : @Functor.Additive
     infer_instance
   have compositeAdditive : (changeOfRings.{u, v, u} J α ⋙
       SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂)).Additive :=
-    (changeOfRings_comp_toSheaf α).symm ▸ tensorAdditive
+    @Functor.additive_of_iso _ _ _ _ _ _ _ tensorAdditive _ (changeOfRingsCompToSheafIso α).symm
   exact @Functor.additive_of_comp_faithful _ _ _ _ _ _ _ _ _
     (changeOfRings.{u, v, u} J α)
     (SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂))
@@ -179,7 +204,7 @@ instance changeOfRings_additive : @Functor.Additive
 `α : O₁ ⟶ O₂` carries a short exact sequence of sheaves of `O₁`-modules whose third term is
 flat to a short exact sequence of sheaves of `O₂`-modules.
 
-Short exactness is read on underlying abelian sheaves, where `changeOfRings_comp_toSheaf` turns
+Short exactness is read on underlying abelian sheaves, where `changeOfRingsCompToSheafIso` turns
 the statement into Stacks 03EX for the tensor product (`shortExact_map_sheafTensorObj`);
 `SheafOfModules.toSheaf` is exact and faithful, so it both carries and reflects short
 exactness. -/
@@ -193,19 +218,20 @@ theorem shortExact_map_changeOfRings
       inferInstance inferInstance inferInstance inferInstance S (changeOfRings.{u, v, u} J α)
       (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _
         (changeOfRings.{u, v, u} J α) (changeOfRings_additive α))).ShortExact := by
-  let compositeZero : (changeOfRings.{u, v, u} J α ⋙
+  have tensorZero : ((sheafTensor.{u, v, u, u, u} O₁).obj (restrictUnit α) ⋙
+      SheafOfModules.toSheaf.{u}
+        (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₁)).PreservesZeroMorphisms :=
+    inferInstance
+  have compositeZero : (changeOfRings.{u, v, u} J α ⋙
       SheafOfModules.toSheaf.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂)).PreservesZeroMorphisms :=
-    (changeOfRings_comp_toSheaf α).symm ▸
-      (show ((sheafTensor.{u, v, u, u, u} O₁).obj (restrictUnit α) ⋙
-        SheafOfModules.toSheaf.{u}
-          (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₁)).PreservesZeroMorphisms
-        from inferInstance)
+    @Functor.preservesZeroMorphisms_of_iso _ _ _ _ _ _ _ _ tensorZero
+      (changeOfRingsCompToSheafIso α).symm
   refine CategoryTheory.ShortExact.reflects_shortExact_of_faithful
     (SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₂)) ?_
   refine ShortComplex.shortExact_of_iso
-    (@ShortComplex.mapNatIso _ _ _ _ _ _ S _ _ inferInstance compositeZero
-      (eqToIso (changeOfRings_comp_toSheaf α)).symm) ?_
+    (@ShortComplex.mapNatIso _ _ _ _ _ _ S _ _ tensorZero compositeZero
+      (changeOfRingsCompToSheafIso α).symm) ?_
   exact (shortExact_map_sheafTensorObj O₁ (restrictUnit α) S hS hflat).map_of_exact
     (SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, u} O₁))
 

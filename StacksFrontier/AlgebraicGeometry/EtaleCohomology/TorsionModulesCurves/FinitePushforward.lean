@@ -45,7 +45,8 @@ algebraically closed, that `X` and `Y` are separated of finite type over `k` of 
 most one — is used, and none of it is used here either.
 
 Tag 03QP for sheaves of `Λ`-modules is proved in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/TorsionModulesCurves/FinitePushforwardAcyclic.lean`
+`FinitePushforwardAcyclic.lean` of
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/TorsionModulesCurves/`
 (`isZero_rightDerived_modulePushforward_of_isIntegralHom`, at the coefficient universe
 `max (u + 1) w r`), and the unconditional Tag 0GJD is
 `module_finite_cohomology_pushforward_of_isFinite` there. This file does not import it, so the

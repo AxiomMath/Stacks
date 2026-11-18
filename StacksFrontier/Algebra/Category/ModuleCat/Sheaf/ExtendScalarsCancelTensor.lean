@@ -45,6 +45,12 @@ pure tensors. Sectionwise it is `TensorProduct.AlgebraTensorModule.cancelBaseCha
 The two sides of the identity are sheaves of modules over different rings, `O₂` and `O₁`, so
 the isomorphism is stated for the underlying sheaves of abelian groups.
 
+`Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies through the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so the sheaf of abelian groups underlying a tensor
+product sheaf is not definitionally the sheafification of the underlying presheaf of abelian
+groups; the `_hom` lemmas below pass between the two through
+`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`.
+
 ## References
 
 * [Stacks Project, Tag 05V4](https://stacks.math.columbia.edu/tag/05V4)
@@ -82,7 +88,8 @@ def cancelExtendScalarsTensorSheafIso
         (((sheafTensor O₂).flip.obj ((extendScalars f).obj G)).obj H) :=
   (tensorBaseChangeSheafIso f G).app H ≪≫
     (SheafOfModules.toSheaf (ringSheaf O₂)).mapIso
-      ((tensorRightExtendScalarsIso f G).app H.val)
+      ((tensorRightExtendScalarsIso f G).app H.val ≪≫
+        ((sheafTensorFlipObjIso O₂ ((extendScalars f).obj G)).app H).symm)
 
 /-! ## The symmetry of the tensor product sheaf -/
 
@@ -98,18 +105,22 @@ symmetry of the objectwise tensor product. -/
 def sheafTensorSymmIso (O : Sheaf J CommRingCat.{w})
     (A B : SheafOfModules.{w} (ringSheaf O)) :
     ((sheafTensor O).flip.obj A).obj B ≅ ((sheafTensor O).flip.obj B).obj A :=
-  (PresheafOfModules.sheafification (R := ringSheaf O)
-    (𝟙 (ringSheaf O).obj)).mapIso (tensorObjCommOf O B.val A.val)
+  (Stacks.SheafOfModules.Tensor.sheafification O).mapIso (tensorObjCommOf O B.val A.val)
 
 /-- On underlying sheaves of abelian groups, the symmetry of the tensor product sheaf is the
-sheafification of the symmetry of the objectwise tensor product. -/
+sheafification of the symmetry of the objectwise tensor product, up to the comparisons
+`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`. -/
 lemma toSheaf_map_sheafTensorSymmIso_hom (O : Sheaf J CommRingCat.{w})
     (A B : SheafOfModules.{w} (ringSheaf O)) :
     (SheafOfModules.toSheaf (ringSheaf O)).map
         (sheafTensorSymmIso O A B).hom =
-      (presheafToSheaf J AddCommGrpCat.{w}).map
-        ((PresheafOfModules.toPresheaf (ringSheaf O).obj).map
-          (tensorObjCommOf O B.val A.val).hom) := rfl
+      ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O).app _).hom ≫
+        (presheafToSheaf J AddCommGrpCat.{w}).map
+          ((PresheafOfModules.toPresheaf (ringSheaf O).obj).map
+            (tensorObjCommOf O B.val A.val).hom) ≫
+        ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O).app _).inv :=
+  (NatIso.naturality_2 (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O)
+    (tensorObjCommOf O B.val A.val).hom).symm
 
 /-! ## The comparison before sheafification, and its formula on pure tensors -/
 
@@ -149,18 +160,33 @@ lemma presheafCancelComparison_apply
             ((1 : O₂.obj.obj X) ⊗ₜ[O₁.obj.obj X] x)) :=
   fun _ _ => rfl
 
-/-- `cancelExtendScalarsTensorSheafIso` is the sheafification of `presheafCancelComparison`. -/
+/-- `cancelExtendScalarsTensorSheafIso` is the sheafification of `presheafCancelComparison`, up
+to the comparisons `Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`. -/
 lemma cancelExtendScalarsTensorSheafIso_hom
     (G : SheafOfModules.{w} (ringSheaf O₁))
     (H : SheafOfModules.{w} (ringSheaf O₂)) :
     (cancelExtendScalarsTensorSheafIso f G H).hom =
-      (presheafToSheaf J AddCommGrpCat.{w}).map
-        ((PresheafOfModules.toPresheaf (ringSheaf O₁).obj).map
-          (presheafCancelComparison f G H)) := by
-  rw [presheafCancelComparison, Functor.map_comp, Functor.map_comp]
+      ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₁).app _).hom ≫
+        (presheafToSheaf J AddCommGrpCat.{w}).map
+          ((PresheafOfModules.toPresheaf (ringSheaf O₁).obj).map
+            (presheafCancelComparison f G H)) ≫
+        ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₂).app _).inv := by
+  simp only [cancelExtendScalarsTensorSheafIso, tensorBaseChangeSheafIso, sheafTensorFlipObjIso,
+    tensorRightExtendScalarsIso, Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf,
+    PresheafOfModules.sheafificationCompToSheaf, presheafCancelComparison, Iso.trans_hom,
+    Iso.app_hom, Iso.app_inv, Functor.mapIso_hom, Functor.map_comp]
   rfl
 
 /-! ## The identity with the extended factor on the left -/
+
+/-- Composing two morphisms of the form `e₁.hom ≫ F.map φ ≫ e₂.inv` and `e₂.hom ≫ F.map ψ ≫ e₃.inv`
+gives `e₁.hom ≫ F.map (φ ≫ ψ) ≫ e₃.inv`. -/
+private lemma comp_eq_hom_map_inv {𝒜 ℬ : Type*} [Category 𝒜] [Category ℬ] (F : 𝒜 ⥤ ℬ)
+    {X₁ X₂ X₃ : ℬ} {Y₁ Y₂ Y₃ : 𝒜} {e₁ : X₁ ≅ F.obj Y₁} {e₂ : X₂ ≅ F.obj Y₂} {e₃ : X₃ ≅ F.obj Y₃}
+    {φ : Y₁ ⟶ Y₂} {ψ : Y₂ ⟶ Y₃} {x : X₁ ⟶ X₂} {y : X₂ ⟶ X₃}
+    (hx : x = e₁.hom ≫ F.map φ ≫ e₂.inv) (hy : y = e₂.hom ≫ F.map ψ ≫ e₃.inv) :
+    x ≫ y = e₁.hom ≫ F.map (φ ≫ ψ) ≫ e₃.inv := by
+  simp [hx, hy]
 
 /-- The identity `G ⊗_{O₁} H|_{O₁} = (O₂ ⊗_{O₁} G) ⊗_{O₂} H`, as an isomorphism of sheaves of
 abelian groups: `cancelExtendScalarsTensorSheafIso` with the extended factor moved to the left of
@@ -215,17 +241,27 @@ lemma presheafCancelComparison'_apply
             ((1 : O₂.obj.obj X) ⊗ₜ[O₁.obj.obj X] x)) ⊗ₜ[O₂.obj.obj X] a :=
   fun _ _ => rfl
 
-/-- `cancelExtendScalarsTensorSheafIso'` is the sheafification of `presheafCancelComparison'`. -/
+/-- `cancelExtendScalarsTensorSheafIso'` is the sheafification of `presheafCancelComparison'`, up
+to the comparisons `Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`. -/
 lemma cancelExtendScalarsTensorSheafIso'_hom
     (G : SheafOfModules.{w} (ringSheaf O₁))
     (H : SheafOfModules.{w} (ringSheaf O₂)) :
     (cancelExtendScalarsTensorSheafIso' f G H).hom =
-      (presheafToSheaf J AddCommGrpCat.{w}).map
-        ((PresheafOfModules.toPresheaf (ringSheaf O₁).obj).map
-          (presheafCancelComparison' f G H)) := by
-  rw [presheafCancelComparison', Functor.map_comp, Functor.map_comp, Functor.map_comp,
-    Functor.map_comp, ← cancelExtendScalarsTensorSheafIso_hom]
-  rfl
+      ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₁).app _).hom ≫
+        (presheafToSheaf J AddCommGrpCat.{w}).map
+          ((PresheafOfModules.toPresheaf (ringSheaf O₁).obj).map
+            (presheafCancelComparison' f G H)) ≫
+        ((Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₂).app _).inv := by
+  rw [cancelExtendScalarsTensorSheafIso', Iso.trans_hom, Iso.trans_hom, Functor.mapIso_hom,
+    Functor.mapIso_hom]
+  -- elaborated without the goal as expected type, which would send unification down a slow path
+  have h := comp_eq_hom_map_inv (presheafToSheaf J AddCommGrpCat.{w})
+    (toSheaf_map_sheafTensorSymmIso_hom O₁
+      ((SheafOfModules.restrictScalars.{w} (ringSheafMap f)).obj H) G)
+    (comp_eq_hom_map_inv (presheafToSheaf J AddCommGrpCat.{w})
+      (cancelExtendScalarsTensorSheafIso_hom f G H)
+      (toSheaf_map_sheafTensorSymmIso_hom O₂ ((extendScalars f).obj G) H))
+  exact h
 
 end Stacks.FlatChangeOfRings
 

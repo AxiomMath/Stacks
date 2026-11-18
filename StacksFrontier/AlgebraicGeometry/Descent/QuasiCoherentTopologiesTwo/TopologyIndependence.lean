@@ -143,9 +143,10 @@ equal by `rfl`.
 
 The tensor product used is `Stacks.SheafOfModules.TensorColimits.tensorLeft`, the
 sheafification of the objectwise tensor product of the underlying presheaves of modules
-(Stacks 05NB).  Its value at a pair is by construction the sheafification of one presheaf of
-modules that does not depend on the topology, so the tensor comparison is literally one
-component of the sheafification comparison.
+(Stacks 05NB).  Its value at a pair is the (sealed) sheafification of one presheaf of modules
+that does not depend on the topology, identified with Mathlib's sheafification by
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`, so the tensor comparison is one component of
+the sheafification comparison, conjugated by these identifications.
 
 ## Coverage limits
 
@@ -419,7 +420,8 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 finer topology is the sheafification, for the finer topology, of their tensor product taken for
 the coarser one.  Both are sheafifications of the objectwise tensor product of the two
 underlying presheaves of modules, which does not mention a topology, so this is one component
-of `Stacks.SheafOfModules.sheafificationFactorization`. -/
+of `Stacks.SheafOfModules.sheafificationFactorization`, read through
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` on both sides. -/
 @[stacks 0GNE "part (2), the tensor product for the finer topology is the sheafification of \
 the one for the coarser topology, for an arbitrary pair of topologies on one category"]
 noncomputable def tensorLeftFactorization :
@@ -430,7 +432,15 @@ noncomputable def tensorLeftFactorization :
               ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
           ((comparisonPushforward.{u, v, w, m} h
             ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G)) :=
-  (sheafificationFactorization h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).app _
+  Stacks.SheafOfModules.Tensor.sheafTensorObjIso R F G ≪≫
+    (sheafificationFactorization h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).app _ ≪≫
+      (comparisonPullback.{u, v, w, m} h
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).mapIso
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso (commRingOfLe h R)
+          ((comparisonPushforward.{u, v, w, m} h
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)
+          ((comparisonPushforward.{u, v, w, m} h
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G)).symm
 
 /-- **Towards Stacks 0GNE (2), the agreement.**  The tensor product computed for the finer
 topology, read for the coarser one, is the tensor product computed for the coarser topology, as

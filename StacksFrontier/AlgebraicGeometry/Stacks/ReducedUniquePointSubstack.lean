@@ -225,7 +225,8 @@ reduced with a singleton space of points, that is, which satisfies condition (1)
 satisfying condition (2) of **Stacks 06MP**.
 
 Existence is
-`exists_isReducedLocallyNoetherianUniquePointSubstack_of_isReducedWithUniquePoint`, and the full statement of Stacks 06MR is
+`exists_isReducedLocallyNoetherianUniquePointSubstack_of_isReducedWithUniquePoint`, and the full
+statement of Stacks 06MR is
 `AlgebraicGeometry.Stack.existsUnique_reducedLocallyNoetherianUniquePointSubstack_isMonomorphism`,
 both in `StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackLocalImage`. -/
 theorem eq_of_isReducedLocallyNoetherianUniquePointSubstack

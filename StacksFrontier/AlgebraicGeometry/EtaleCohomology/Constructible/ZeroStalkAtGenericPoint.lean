@@ -36,7 +36,7 @@ with both inputs proved, is in
 * `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem` —
   the reduction behind Stacks 0F0M (1), taking two inputs of the proof as arguments, see below.
   Stacks 0F0M (1) is
-  `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem_of_torsion`.
+  `exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem_of_torsion`.
 
 ## Implementation notes
 
@@ -168,7 +168,8 @@ public theorem isConstructibleAbelianSheaf_image
     (Abelian.imageIsoImage f)
     (ObjectProperty.prop_kernel _ (cokernel.π f) hG (ObjectProperty.prop_cokernel _ f hF hG))
 
-/-- **The reduction behind Stacks 0F0M (1), with the support condition before taking closures.** Let `X` be a scheme,
+/-- **The reduction behind Stacks 0F0M (1), with the support condition before taking closures.** Let
+`X` be a scheme,
 let `η` be a point of `X` and let `η̄` be a geometric point above it. An abelian sheaf `ℱ` on the
 small étale site of `X` whose stalk at `η̄` is zero is a filtered colimit of constructible abelian
 sheaves whose supports do not contain `η`.

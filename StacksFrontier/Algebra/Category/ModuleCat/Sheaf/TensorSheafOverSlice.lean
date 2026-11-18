@@ -67,7 +67,9 @@ reproved:
   bijective. Then
   `Stacks.SheafOfModules.TensorLocalProperties.iso_of_locallyBijective` says two sheaves
   receiving locally bijective maps from isomorphic presheaves are isomorphic. That is the whole
-  proof.
+  proof. The tensor product sheaf is computed with the sealed sheafification
+  `Stacks.SheafOfModules.Tensor.sheafification`, so the units used are those of
+  `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, not Mathlib's.
 
 **This corrects a measurement.** The reduction of `tensorPower` to this comparison was dispatched
 on the premise that nothing in the repository relates the tensor product of sheaves of modules to
@@ -143,6 +145,33 @@ end Functoriality
 
 end Stacks.SheafOfModules.TensorSheafification
 
+section SealedUnit
+
+open Stacks.SheafOfModules.Tensor
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally injective. -/
+private theorem isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallyInjective J ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallyInjective,
+    Functor.map_comp]
+  infer_instance
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally surjective. -/
+private theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{w} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+end SealedUnit
+
 namespace Stacks.SheafOfModules.TensorPower
 
 section Whisker
@@ -213,10 +242,11 @@ noncomputable abbrev whiskerPresheafTensorIso
       hO)) :=
   (Functor.Monoidal.μIso (whiskerPresheafRestriction O H) F.val G.val).symm
 
-/-- **The restriction along `H` of the sheafification unit of the objectwise tensor product.**
-It is locally bijective for the topology of the smaller site because `H` is cocontinuous, which
-is what exhibits the restriction of a tensor product of sheaves of modules as a sheafification
-of the restricted objectwise tensor product. -/
+/-- **The restriction along `H` of the sheafification unit of the objectwise tensor product**,
+the unit of the sealed `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` in which the
+tensor product sheaf is computed. It is locally bijective for the topology of the smaller site
+because `H` is cocontinuous, which is what exhibits the restriction of a tensor product of sheaves
+of modules as a sheafification of the restricted objectwise tensor product. -/
 noncomputable abbrev whiskerTensorUnit
     (F G : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)) :
@@ -229,21 +259,33 @@ noncomputable abbrev whiskerTensorUnit
           ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O
             (forget₂ CommRingCat RingCat) hO⟩).obj F).obj G)).val :=
   (whiskerPresheafRestriction O H).map
-    ((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-      (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).unit.app
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
       (PresheafOfModules.tensorObj (O := O) F.val G.val))
 
 /-- **The sheafification unit of the objectwise tensor product formed on the smaller site**, the
-second locally bijective morphism entering `whiskerTensorSheafIso`. -/
+second locally bijective morphism entering `whiskerTensorSheafIso`: the unit of the sealed
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction` there. Its target is spelled over
+`structureSheaf (H.op ⋙ O) _`, the ring of `whiskerRestriction`, as is that of
+`whiskerTensorUnit`; with the `ringSheaf` spelling of the tensor product development, building
+`whiskerTensorSheafIso_eq` exhausts the heartbeat budget. -/
 noncomputable abbrev whiskerTensorUnit'
     (F G : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
-      hO)) :=
-  (PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-      (whiskerStructureIsSheaf (J' := J') O hO H))
-    (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
-      (whiskerStructureIsSheaf (J' := J') O hO H)).obj)).unit.app
+      hO)) :
+    PresheafOfModules.tensorObj (O := H.op ⋙ O)
+        ((whiskerRestriction (J' := J') O hO H).obj F).val
+        ((whiskerRestriction (J' := J') O hO H).obj G).val ⟶
+      _root_.SheafOfModules.val
+        (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
+          (whiskerStructureIsSheaf (J' := J') O hO H))
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', w, w, w} (J := J')
+          ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
+            (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩).obj
+          ((whiskerRestriction (J' := J') O hO H).obj F)).obj
+          ((whiskerRestriction (J' := J') O hO H).obj G)) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
+      (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩).unit.app
     (PresheafOfModules.tensorObj (O := H.op ⋙ O)
       ((whiskerRestriction (J' := J') O hO H).obj F).val
       ((whiskerRestriction (J' := J') O hO H).obj G).val)
@@ -262,15 +304,13 @@ instance isLocallyInjective_whiskerTensorUnit
   let P : PresheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj :=
     PresheafOfModules.tensorObj (O := O) F.val G.val
-  let η := (PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-    (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).unit.app
-    P
+  let R : Sheaf J CommRingCat.{w} :=
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩
+  let η := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P
   have hPi : PresheafOfModules.IsLocallyInjective J η :=
-    inferInstanceAs (Presheaf.IsLocallyInjective J (CategoryTheory.toSheafify J P.presheaf))
+    isLocallyInjective_sheafificationForgetAdjunction_unit_app R P
   exact Presheaf.isLocallyInjective_whisker J' J H
-    ((PresheafOfModules.toPresheaf
-      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj).map η)
+    ((PresheafOfModules.toPresheaf _).map η)
 
 /-- The restricted sheafification unit of the objectwise tensor product is locally surjective
 for the topology of the smaller site. See
@@ -283,15 +323,13 @@ instance isLocallySurjective_whiskerTensorUnit
   let P : PresheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj :=
     PresheafOfModules.tensorObj (O := O) F.val G.val
-  let η := (PresheafOfModules.sheafificationAdjunction
-    (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
-    (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)).unit.app
-    P
+  let R : Sheaf J CommRingCat.{w} :=
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩
+  let η := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P
   have hPs : PresheafOfModules.IsLocallySurjective J η :=
-    inferInstanceAs (Presheaf.IsLocallySurjective J (CategoryTheory.toSheafify J P.presheaf))
+    isLocallySurjective_sheafificationForgetAdjunction_unit_app R P
   exact Presheaf.isLocallySurjective_whisker J' J H
-    ((PresheafOfModules.toPresheaf
-      (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj).map η)
+    ((PresheafOfModules.toPresheaf _).map η)
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   [H.IsCocontinuous J' J] in
@@ -306,7 +344,9 @@ instance isLocallyInjective_whiskerTensorUnit'
     PresheafOfModules.tensorObj (O := H.op ⋙ O)
       ((whiskerRestriction (J' := J') O hO H).obj F).val
       ((whiskerRestriction (J' := J') O hO H).obj G).val
-  exact inferInstanceAs (Presheaf.IsLocallyInjective J' (CategoryTheory.toSheafify J' Q.presheaf))
+  exact isLocallyInjective_sheafificationForgetAdjunction_unit_app
+    ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
+      (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩ Q
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   [H.IsCocontinuous J' J] in
@@ -321,7 +361,9 @@ instance isLocallySurjective_whiskerTensorUnit'
     PresheafOfModules.tensorObj (O := H.op ⋙ O)
       ((whiskerRestriction (J' := J') O hO H).obj F).val
       ((whiskerRestriction (J' := J') O hO H).obj G).val
-  exact inferInstanceAs (Presheaf.IsLocallySurjective J' (CategoryTheory.toSheafify J' Q.presheaf))
+  exact isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
+      (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩ Q
 
 /-- **Restriction along a continuous, cocontinuous functor of sites commutes with the tensor
 product of sheaves of modules**: `(F ⊗ G)|_{C'} ≅ F|_{C'} ⊗ G|_{C'}`. -/
@@ -354,7 +396,9 @@ theorem whiskerTensorSheafIso_eq
     (F G : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)) :
     whiskerTensorSheafIso (J' := J') O hO H F G =
-      isoOfLocallyBijective (whiskerTensorUnit (J' := J') O hO H F G)
+      isoOfLocallyBijective (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf
+          (H.op ⋙ O) (whiskerStructureIsSheaf (J' := J') O hO H))
+        (whiskerTensorUnit (J' := J') O hO H F G)
         (whiskerTensorUnit' (J' := J') O hO H F G)
         (isLocallyInjective_whiskerTensorUnit (J' := J') O hO H F G)
         (isLocallySurjective_whiskerTensorUnit (J' := J') O hO H F G)
@@ -416,8 +460,10 @@ theorem whiskerTensorUnit_naturality (f : F ⟶ F') (g : G ⟶ G') :
       (Y := G') g))
   have naturality := ((whiskerPresheafRestriction O H).map_comp _ _).symm.trans
     ((congrArg (fun morphism => (whiskerPresheafRestriction O H).map morphism)
-        (Stacks.SheafOfModules.TensorSheafification.sheafificationUnit_naturality_structureSheaf
-          O hO (PresheafOfModules.tensorHom (O := O) f.val g.val))).trans
+        ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O
+            (forget₂ CommRingCat RingCat) hO⟩).unit.naturality
+          (PresheafOfModules.tensorHom (O := O) f.val g.val)).symm).trans
       ((whiskerPresheafRestriction O H).map_comp _ _))
   exact (congrArg (fun morphism => whiskerTensorUnit (J' := J') O hO H F G ≫ morphism)
     restriction).trans
@@ -452,11 +498,9 @@ theorem tensorSheafMap_whiskerRestriction_val (f : F ⟶ F') (g : G ⟶ G') :
           ((whiskerRestriction (J' := J') O hO H).obj G')))
         (((whiskerRestriction (J' := J') O hO H).map f),
           ((whiskerRestriction (J' := J') O hO H).map g))).val =
-      ((PresheafOfModules.sheafification
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf
-            ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
-              (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩)
-          (𝟙 _)).map
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
+            (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩).map
         (PresheafOfModules.tensorHom
           ((whiskerPresheafRestriction O H).map f.val)
           ((whiskerPresheafRestriction O H).map g.val))).val := by
@@ -498,11 +542,12 @@ theorem whiskerTensorUnit'_naturality (f : F ⟶ F') (g : G ⟶ G') :
     ((whiskerRestriction (J' := J') O hO H).map f)
     ((whiskerRestriction (J' := J') O hO H).map g)
   have naturality :=
-    Stacks.SheafOfModules.TensorSheafification.sheafificationUnit_naturality_structureSheaf
-      (H.op ⋙ O) (whiskerStructureIsSheaf (J' := J') O hO H)
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+      ⟨H.op ⋙ O, Presheaf.isSheaf_of_isSheaf_comp J' (H.op ⋙ O)
+        (forget₂ CommRingCat RingCat) (whiskerStructureIsSheaf (J' := J') O hO H)⟩).unit.naturality
       (PresheafOfModules.tensorHom (O := H.op ⋙ O)
         ((whiskerRestriction (J' := J') O hO H).map f).val
-        ((whiskerRestriction (J' := J') O hO H).map g).val)
+        ((whiskerRestriction (J' := J') O hO H).map g).val)).symm
   have tensorMapEquality := congrArg₂ (PresheafOfModules.tensorHom (O := H.op ⋙ O))
     (whiskerRestriction_map_val (J' := J') O hO H f)
     (whiskerRestriction_map_val (J' := J') O hO H g)

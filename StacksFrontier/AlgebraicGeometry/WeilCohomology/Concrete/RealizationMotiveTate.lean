@@ -102,8 +102,7 @@ private lemma not_isZero_tensorObj_apply (V W : GradedObject ℤ (ModuleCat.{w} 
     rw [Module.finrank_tensorProduct, ha, hb]
   have : Nontrivial (V a ⊗[F] W b) := Module.nontrivial_of_finrank_eq_succ h₁
   have := (GradedObject.Monoidal.ιTensorObj_injective V W a b (a + b) rfl).nontrivial
-  rw [ModuleCat.isZero_iff_subsingleton, ← not_nontrivial_iff_subsingleton, not_not]
-  assumption
+  rwa [ModuleCat.isZero_iff_subsingleton, ← not_nontrivial_iff_subsingleton, not_not]
 
 section Braided
 

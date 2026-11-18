@@ -164,9 +164,7 @@ theorem yonedaExtension_f_comp_eq_of_fixedActionIdentity
   have hgx : E.g.val.app U x = E'.g.val.app U (u.val.app U x) :=
     (congrArg (fun m ↦ m.val.app U x) hu).symm
   have hact : E'.f.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)) (𝟙
-              (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
         (a ⊗ₜ[(baseRing i).obj.obj U] (E'.g.val.app U (u.val.app U x)))) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj.obj U from hi.incl.val.app U a) •
@@ -179,9 +177,7 @@ theorem yonedaExtension_f_comp_eq_of_fixedActionIdentity
   refine (map_smul (ConcreteCategory.hom (u.val.app U)) _ x).trans ?_
   refine hact.symm.trans ?_
   refine (congrArg (fun y ↦ E'.f.val.app U
-    (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)) (𝟙
-              (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
           (PresheafOfModules.tensorObj hi.I.val F.val)).app U
       (a ⊗ₜ[(baseRing i).obj.obj U] y))) hgx).symm.trans ?_
   refine (congrArg (fun y ↦ E'.f.val.app U y) hr).symm.trans ?_

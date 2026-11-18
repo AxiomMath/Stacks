@@ -126,15 +126,8 @@ def tensorLeftFunctorSchemeIsoOfIso (P : Scheme.{u}) {K K' : P.Modules} (e : K �
           (forget₂ CommRingCat RingCat) (P.ringCatSheaf.2)⟩).obj (K)) ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
         ⟨P.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (P.presheaf)
-          (forget₂ CommRingCat RingCat) (P.ringCatSheaf.2)⟩).obj (K')) := by
-  let : MonoidalCategory (PresheafOfModules.{u} P.ringCatSheaf.obj) := by
-    change MonoidalCategory (PresheafOfModules.{u}
-      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf P.presheaf))
-    infer_instance
-  exact Functor.isoWhiskerLeft (SheafOfModules.forget _)
-    (Functor.isoWhiskerRight
-      ((MonoidalCategory.curriedTensor _).mapIso ((SheafOfModules.forget _).mapIso e))
-      (Stacks.SheafOfModules.TensorSheafification.sheafify P.presheaf P.ringCatSheaf.2))
+          (forget₂ CommRingCat RingCat) (P.ringCatSheaf.2)⟩).obj (K')) :=
+  (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} _).mapIso e
 
 end TensorCongr
 

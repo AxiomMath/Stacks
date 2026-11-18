@@ -186,8 +186,7 @@ lemma pushforwardCommRingFunctor_isEquivalence (hf : f.pushforward.IsEquivalence
       inferInstance
     have : IsIso ((sheafCompose K (forget CommRingCat.{ww'})).map
         ((commRingImageAdjunction f).unit.app R)) := by
-      rw [commRingImageAdjunction_unit_forget]
-      assumption
+      rwa [commRingImageAdjunction_unit_forget]
     isIso_of_reflects_iso _ (sheafCompose K (forget CommRingCat.{ww'}))
   have : ∀ R : Sheaf J CommRingCat.{ww},
       IsIso ((commRingImageAdjunction f).counit.app R) := fun R ↦
@@ -195,8 +194,7 @@ lemma pushforwardCommRingFunctor_isEquivalence (hf : f.pushforward.IsEquivalence
       inferInstance
     have : IsIso ((sheafCompose J (forget CommRingCat.{ww})).map
         ((commRingImageAdjunction f).counit.app R)) := by
-      rw [commRingImageAdjunction_counit_forget]
-      assumption
+      rwa [commRingImageAdjunction_counit_forget]
     isIso_of_reflects_iso _ (sheafCompose J (forget CommRingCat.{ww}))
   exact (commRingImageAdjunction f).toEquivalence.isEquivalence_inverse
 

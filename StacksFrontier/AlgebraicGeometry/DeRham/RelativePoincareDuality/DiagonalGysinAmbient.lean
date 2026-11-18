@@ -402,16 +402,13 @@ order**, on local sections, at the multiplication of `hodgeCupStructureSheaf`. -
 theorem mulSheaf_relativeDifferentialForms_swap (d : ℕ) (U : (Opens X.carrier)ᵒᵖ)
     (x y : (relativeDifferentialForms π (d : ℤ)).val.obj U) :
     (SheafOfModules.GradedAlgebra.mulSheaf (relativeDifferentialFormsAlgebra π) (d : ℤ)
-        (d : ℤ)).val.app U ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+        (d : ℤ)).val.app U
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (relativeDifferentialForms π (d : ℤ)).val
             (relativeDifferentialForms π (d : ℤ)).val) |>.app U (x ⊗ₜ y)) =
       ((-1 : ℤ) ^ (d * d) • SheafOfModules.GradedAlgebra.mulSheaf
         (relativeDifferentialFormsAlgebra π) (d : ℤ) (d : ℤ)).val.app U
-        ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).unit.app
+        ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf).unit.app
           (PresheafOfModules.tensorObj (relativeDifferentialForms π (d : ℤ)).val
             (relativeDifferentialForms π (d : ℤ)).val) |>.app U (y ⊗ₜ x)) := by
   refine (SheafOfModules.GradedAlgebra.mulSheaf_unit (relativeDifferentialFormsAlgebra π)

@@ -164,6 +164,17 @@ private theorem coherentMul_tensorTrivialIso_inv_app {V : S.Opens} (a b : ℤ)
   congrArg ((TensorPower.coherentMulIso S.sheaf.obj S.ringCatSheaf.property L a b).hom.val.app
     (op V)) (tensorTrivialIso_inv_app S.sheaf.obj S.ringCatSheaf.property V (tp L a) (tp L b) eb t)
 
+/-- A trivialization sends its generator to `1`. -/
+private theorem hom_app_generator {V : S.Opens} (n : ℤ)
+    (e : (tp L n).over V ≅ SheafOfModules.unit
+      (Stacks.SheafOfModules.SliceRestriction.sliceStructureSheaf
+        S.sheaf.obj S.ringCatSheaf.property V)) :
+    e.hom.val.app (op (Over.mk (𝟙 V)))
+        (generator S.sheaf.obj S.ringCatSheaf.property V (tp L n) e) =
+      (1 : (Stacks.SheafOfModules.SliceRestriction.sliceRingPresheaf S.sheaf.obj V).obj
+        (op (Over.mk (𝟙 V)))) :=
+  TwistRigidity.iso_hom_app_inv_app e _ _
+
 /-- The product of `invSec` and `x` in the graded monoid is `1`. -/
 theorem mk_invSec_mul :
     (GradedMonoid.mk (-1) (invSec L hx) * GradedMonoid.mk 1 x : GradedMonoid (LaurentSec L V)) =
@@ -171,7 +182,7 @@ theorem mk_invSec_mul :
   have hg : (negOneTriv L hx).hom.val.app (op (Over.mk (𝟙 V)))
       (invSec L hx) = (1 : (Stacks.SheafOfModules.SliceRestriction.sliceRingPresheaf
         S.sheaf.obj V).obj (op (Over.mk (𝟙 V)))) :=
-    TwistRigidity.iso_hom_app_inv_app (negOneTriv L hx) (op (Over.mk (𝟙 V))) _
+    hom_app_generator L (-1) (negOneTriv L hx)
   have he : generator S.sheaf.obj S.ringCatSheaf.property V (tp L ((1 : ℕ) : ℤ)) hx.choose = x :=
     hx.choose_spec.trans (powSecAt_one_eq L (op V) x)
   have h1 : (negOneTriv L hx).hom.val.app (op (Over.mk (𝟙 V))) (invSec L hx) =

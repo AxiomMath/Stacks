@@ -25,7 +25,8 @@ On a ringed space the left unit constraint of `Stacks.SheafOfModules.OnSpace.mon
 ## Main results
 
 * `Stacks.SheafOfModules.tensorProductLeftUnitor_hom_val_app_tmul`: the displayed identity for
-  `Invertible.tensorProductLeftUnitor`, over an arbitrary site, in the `toSheafify` spelling.
+  `Invertible.tensorProductLeftUnitor`, over an arbitrary site, with local pure tensors spelled
+  through the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`.
 * `Stacks.SheafOfModules.monoidal_leftUnitor`: on a ringed space, `λ_` of
   `Stacks.SheafOfModules.OnSpace.monoidal` is `Invertible.tensorProductLeftUnitor`.
 * `Stacks.SheafOfModules.tensorProductLeftUnitor_hom_val_app_toTensorSheafSection`: the same
@@ -76,11 +77,27 @@ theorem tensorProductLeftUnitor_hom_val_app_tmul
     (r : (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj.obj V)
     (m : M.val.obj V) :
     (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor O hO M).hom.val.app V
-        ((Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
-          (𝟙_ (PresheafOfModules.{w}
-            (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) ⊗
-              M.val)).app V (r ⊗ₜ m)) = r • m :=
-  Stacks.SheafOfModules.tensorSheafLeftUnitor_hom_val_app_tmul O hO M V r m
+        (((Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+            (𝟙_ (PresheafOfModules.{w}
+              (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) ⊗
+                M.val)).app V (r ⊗ₜ m)) = r • m :=
+  (congrArg (fun z ↦ (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor O hO M).hom.val.app
+      V z) (Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩
+        (𝟙_ (PresheafOfModules.{w}
+          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) ⊗ M.val)
+        V (r ⊗ₜ m)).symm).trans <|
+  (congrArg (fun z ↦ ((Tensor.sheafificationForgetAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).counit.app
+          M).val.app V z)
+      (PresheafOfModules.hom_congr_apply' ((Tensor.sheafificationForgetAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).unit.naturality
+          (λ_ M.val).hom).symm V (r ⊗ₜ m))).trans
+    ((congrArg (fun φ ↦ φ.app V ((λ_ M.val).hom.app V (r ⊗ₜ m)))
+      (Adjunction.right_triangle_components (Tensor.sheafificationForgetAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) M)).trans
+      (ModuleCat.MonoidalCategory.leftUnitor_hom_apply r m))
 
 /-! ### The monoidal structure on a ringed space -/
 
@@ -123,10 +140,7 @@ theorem tensorProductLeftUnitor_hom_val_app_toTensorSheafSection
           (structureSheafRing X).property A).hom.val.app U).hom
         (toTensorSheafSection X (SheafOfModules.unit (structureSheafRing X)) A U
           (r ⊗ₜ[X.presheaf.obj U] a)) = r • a :=
-  (congrArg (fun f => (f.val.app U).hom
-      (toTensorSheafSection X (SheafOfModules.unit (structureSheafRing X)) A U
-        (r ⊗ₜ[X.presheaf.obj U] a))) (monoidal_leftUnitor X A)).symm.trans
-    (leftUnitor_tmul X A U r a)
+  tensorProductLeftUnitor_hom_val_app_tmul X.presheaf (structureSheafRing X).property A U r a
 
 /-- **The canonical action of the ideal of denominators of [Stacks, Tag 02P2] on a local pure
 tensor** is scalar multiplication through the ideal inclusion `ι`: `η (d ⊗ₜ n) = ι(d) • n`. -/

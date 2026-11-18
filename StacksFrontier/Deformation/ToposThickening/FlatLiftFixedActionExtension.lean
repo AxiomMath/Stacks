@@ -117,9 +117,7 @@ theorem extensionActionMap_shortExactYonedaExtension_canonicalSecondFactor
   have h2 := reductionTensorMap_tmul i.fSharp hi.I F' F q U a (show F'.val.obj U from x)
   have h3 := multiplicationMap_tmul i.fSharp hi.I F' hi.incl U a (show F'.val.obj U from x)
   have h4 := congrArg (fun m ↦ m.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.O) (𝟙
-              (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X'.O).unit.app
           (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj
               hi.I).val F'.val)).app U
           (a ⊗ₜ[X'.O.obj.obj U] (show F'.val.obj U from x))))

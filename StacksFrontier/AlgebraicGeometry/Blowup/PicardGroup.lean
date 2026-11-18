@@ -111,7 +111,8 @@ private theorem schemePullbackClass_picardClass (hE : D.IsExceptionalCurveOfFirs
         ⟨AlgebraicGeometry.Scheme.IdealSheafData.pullbackInvertibleSheafIsoTwist D k e hE⟩))
 
 /-- **The class of an exceptional curve of the first kind has infinite order.** Let `D` be an
-exceptional curve of the first kind on a scheme `X` over a field `k`. Then the class of `𝒪_X(D)` has infinite order
+exceptional curve of the first kind on a scheme `X` over a field `k`. Then the class of `𝒪_X(D)` has
+infinite order
 in `Pic(X)`: no nonzero multiple of it vanishes.
 
 Pulling the class back along the closed immersion `D ⟶ X` gives the class of the normal sheaf of

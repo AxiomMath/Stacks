@@ -25,7 +25,8 @@ set of pro-étale coverings of `Sch_α` as in Stacks 000X containing `Cov₀`.
   topology `SetBigProetaleSite.topology`.
 
 The cardinal-cutoff model `AlgebraicGeometry.ProEtale.BigProetaleSite`, on which the pro-étale
-sheaf theory of this library is developed, is in `StacksFrontier.AlgebraicGeometry.ProEtale.Site.Big`.
+sheaf theory of this library is developed, is in
+`StacksFrontier.AlgebraicGeometry.ProEtale.Site.Big`.
 
 ## References
 

@@ -137,6 +137,18 @@ noncomputable def presheafModuleOverRestriction :
   PresheafOfModules.pushforward (F := CategoryTheory.Over.forget V)
     (𝟙 (structureRingPresheaf (overStructurePresheaf 𝒪 V)))
 
+/-- The unit of the sealed sheafification adjunction with the plain forgetful functor is a local
+isomorphism of the underlying presheaves of abelian groups. -/
+lemma W_sheafificationForgetAdjunction_unit_app
+    [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+    (R : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    J.W ((PresheafOfModules.toPresheaf _).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction R).unit.app P)) := by
+  rw [Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app, Functor.map_comp]
+  exact J.W.comp_mem _ _ ((J.W_iff_isLocallyBijective _).2 ⟨inferInstance, inferInstance⟩)
+    (ObjectProperty.isLocal_of_isIso _ _)
+
 section Restriction
 
 variable (h𝒪 : Presheaf.IsSheaf J (structureRingPresheaf 𝒪))
@@ -202,16 +214,19 @@ noncomputable def tensorSheafificationOverIso
   let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat)
         (h𝒪)⟩).obj (F)).obj (G))).over V
-  let mid := (presheafModuleOverRestriction 𝒪 V).map (toSheafify 𝒪 h𝒪 T)
+  let unitT := (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat)
+        (h𝒪)⟩).unit.app T
+  let mid := (presheafModuleOverRestriction 𝒪 V).map unitT
   let γ : P ⟶ M.val := (tensorPresheafOverRestrictionIso 𝒪 V h𝒪 F G).hom ≫ mid ≫
     (tensorSheafOverRestrictionValIso 𝒪 V h𝒪 F G).hom
-  let adj := sheafifyAdjunction 𝒪V h𝒪V
-  let η := toSheafify 𝒪V h𝒪V P
-  let e : (sheafify 𝒪V h𝒪V).obj P ⟶ M := (adj.homEquiv P M).symm γ
-  let forgetMap := (SheafOfModules.forget (structureSheaf 𝒪V h𝒪V) ⋙
-    PresheafOfModules.restrictScalars (𝟙 (structureSheaf 𝒪V h𝒪V).obj))
-  have hecomp : η ≫ forgetMap.map e = γ :=
-    (adj.homEquiv_unit (f := e)).symm.trans ((adj.homEquiv P M).apply_symm_apply γ)
+  let RV : Sheaf JV CommRingCat.{w} :=
+    ⟨𝒪V, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪V (forget₂ CommRingCat RingCat) h𝒪V⟩
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction RV
+  let η := adj.unit.app P
+  let e := (adj.homEquiv P M).symm γ
+  have hecomp : η ≫ e.val = γ :=
+    (adj.homEquiv_unit P M e).symm.trans ((adj.homEquiv P M).apply_symm_apply γ)
   let toAbV := PresheafOfModules.toPresheaf (structureSheaf 𝒪V h𝒪V).obj
   -- `Functor.mapIso` in term position rather than `inferInstance`: searching for
   -- `IsIso (toAbV.map _)` has to unify against `Iso.hom ?e`, which needs `Functor.mapIso`
@@ -223,20 +238,20 @@ noncomputable def tensorSheafificationOverIso
   have hmidI : Presheaf.IsLocallyInjective JV (toAbV.map mid) := by
     change Presheaf.IsLocallyInjective JV (Functor.whiskerLeft
       (CategoryTheory.Over.forget V).op
-      ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map (toSheafify 𝒪 h𝒪 T)))
+      ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map unitT))
     have : Presheaf.IsLocallyInjective J
-        ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map (toSheafify 𝒪 h𝒪 T)) := by
-      change Presheaf.IsLocallyInjective J (CategoryTheory.toSheafify J T.presheaf)
-      infer_instance
+        ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map unitT) :=
+      Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩ T
     exact Presheaf.isLocallyInjective_whisker JV J (CategoryTheory.Over.forget V) _
   have hmidS : Presheaf.IsLocallySurjective JV (toAbV.map mid) := by
     change Presheaf.IsLocallySurjective JV (Functor.whiskerLeft
       (CategoryTheory.Over.forget V).op
-      ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map (toSheafify 𝒪 h𝒪 T)))
+      ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map unitT))
     have : Presheaf.IsLocallySurjective J
-        ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map (toSheafify 𝒪 h𝒪 T)) := by
-      change Presheaf.IsLocallySurjective J (CategoryTheory.toSheafify J T.presheaf)
-      infer_instance
+        ((PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj).map unitT) :=
+      Stacks.SheafOfModules.Tensor.isLocallySurjective_sheafificationAdjunction_unit_app
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩ T
     exact Presheaf.isLocallySurjective_whisker JV J (CategoryTheory.Over.forget V) _
   -- Term mode with an explicitly applied `congrArg`: `rw [Functor.map_comp]` reports the
   -- pattern as absent here, the two `Category` instances on the index presheaf being reached
@@ -249,7 +264,7 @@ noncomputable def tensorSheafificationOverIso
         (toAbV.map_comp mid (tensorSheafOverRestrictionValIso 𝒪 V h𝒪 F G).hom))
   have hmidW : JV.W (toAbV.map mid) :=
     (JV.W_iff_isLocallyBijective (toAbV.map mid)).2 ⟨hmidI, hmidS⟩
-  have hηW : JV.W (toAbV.map η) := JV.W_toSheafify P.presheaf
+  have hηW : JV.W (toAbV.map η) := W_sheafificationForgetAdjunction_unit_app RV P
   -- The two isomorphisms are fed to `ObjectProperty.isLocal_of_isIso` through a `have` of their
   -- own: two anonymous `have`s of `IsIso` in one tactic block leave only the last one visible to
   -- instance search, so the second application fails to find its hypothesis.
@@ -263,7 +278,7 @@ noncomputable def tensorSheafificationOverIso
     rw [hsplit]
     exact JV.W.comp_mem _ _ hWsrc (JV.W.comp_mem _ _ hmidW hWtgt)
   have hcompAb : toAbV.map η ≫ toAbV.map e.val = toAbV.map γ :=
-    (toAbV.map_comp η (forgetMap.map e)).symm.trans (congrArg toAbV.map hecomp)
+    (toAbV.map_comp η e.val).symm.trans (congrArg toAbV.map hecomp)
   -- `cast` rather than `rw [hcompAb]`: the composite in the goal and the one in `hcompAb` are
   -- the same term up to the route by which the functor category instance is reached, which
   -- `rw` reports as a missing pattern.
@@ -271,7 +286,8 @@ noncomputable def tensorSheafificationOverIso
     JV.W.of_precomp (W' := JV.W) (toAbV.map η) (toAbV.map e.val) hηW
       (cast (congrArg (fun k => JV.W k) hcompAb).symm hγW)
   have heIso : IsIso e :=
-    (isIso_iff_of_reflects_iso e (SheafOfModules.toSheaf (structureSheaf 𝒪V h𝒪V))).mp
+    (isIso_iff_of_reflects_iso e
+      (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf RV))).mp
       ((JV.W_sheafToPresheaf_map_iff_isIso _).1 heW)
   exact (asIso e).symm
 

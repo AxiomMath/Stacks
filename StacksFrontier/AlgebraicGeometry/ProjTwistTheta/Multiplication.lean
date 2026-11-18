@@ -62,11 +62,10 @@ the comparison on sections is multiplicativity of the fibre comparison, which is
 
 ## Implementation notes
 
-The uniqueness principle is the sheafification adjunction with
-`CategoryTheory.Adjunction.homEquiv_unit` applied as a *term* on each side rather than by
-`rw`: after `refine ... .injective ?_` the goal mentions the tensor product through its own
-definition, and a rewrite fails its motive check because the category instance on the
-sheafification is reached by a different route than the one on the tensor product.
+The uniqueness principle is `Stacks.SheafOfModules.Tensor.sheafification_hom_ext`, the
+injectivity of the adjoint transpose for the sealed sheafification through which the tensor
+product is defined, combined with `PresheafOfModules.tensorObj_hom_ext` on the objectwise
+tensor product.
 
 ## What is not done
 
@@ -140,7 +139,7 @@ public theorem tensorSheaf_hom_ext {X : RingedSpace.{u, u}}
         (β.val.app U).hom
           (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X F G U (x ⊗ₜ y))) :
     α = β := by
-  refine PresheafOfModules.sheafification_hom_ext
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext
     (PresheafOfModules.tensorObj_hom_ext fun U x y => ?_)
   exact h U x y
 

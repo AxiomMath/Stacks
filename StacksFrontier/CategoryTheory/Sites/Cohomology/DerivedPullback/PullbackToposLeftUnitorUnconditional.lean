@@ -78,7 +78,8 @@ theorem Strict.unitTensorIso_eq
     [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}] (L : Strict.Mod R) :
     Strict.unitTensorIso R L =
       tensorSheafUnitLeftIso R.obj (Stacks.SheafOfModules.Tensor.ringSheaf R).property L :=
-  leftUnitor_eq_tensorSheafLeftUnitor R.obj (Strict.isSheaf_ringSheaf R) L
+  (leftUnitor_eq_tensorSheafLeftUnitor R.obj (Strict.isSheaf_ringSheaf R) L).trans
+    (Iso.ext (congrArg (_ ≫ ·) (sheafificationForgetAdjunction_counit_app R L).symm))
 
 end BraidingSpelling
 

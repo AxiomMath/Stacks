@@ -436,11 +436,33 @@ def kernelLogWedge (p : ℕ) :
         ((TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj S.sheaf)).obj
         (kernelFormsBase f I p)).obj (logPolesFormsBase f I 1) ⟶
       AlgebraicGeometry.SheafOfModules.deRhamTerm (formsAlgebras f) (p + 1) :=
-  (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u}
-      ((TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj S.sheaf)).obj)).symm
-    (kernelLogWedgePresheafMap hI hlog p)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    ((TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj S.sheaf)).homEquiv
+    (PresheafOfModules.tensorObj (kernelFormsBase f I p).val (logPolesFormsBase f I 1).val)
+    _).symm (kernelLogWedgePresheafMap hI hlog p)
 
+section TensorSheafUnit
+
+variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {Osharp : Sheaf J CommRingCat.{u}}
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+  {F G Q : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)}
+
+/-- A morphism `g` out of the tensor product of two sheaves of modules, given as the morphism
+attached to a morphism `φ` out of the objectwise tensor product, takes the class of a local
+section `z` to `φ z`. -/
+private theorem val_app_tensorSheafUnit_of_eq_homEquiv_symm
+    {g : ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G ⟶ Q}
+    {φ : PresheafOfModules.tensorObj F.val G.val ⟶
+      (_root_.SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).obj Q}
+    (h : g = ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).homEquiv _ Q).symm φ)
+    (U : Cᵒᵖ) (z : (PresheafOfModules.tensorObj F.val G.val).obj U) :
+    g.val.app U ((PresheafOfModules.tensorSheafUnit F G).app U z) = φ.app U z := by
+  subst h
+  exact (PresheafOfModules.tensorSheafificationHomEquiv_app_apply _ U z).symm.trans
+    (congrArg (fun h => PresheafOfModules.Hom.app h U z) (Equiv.apply_symm_apply _ φ))
+
+end TensorSheafUnit
 
 /-- The value of `kernelLogWedge` on the class of a local pure tensor is `k ∧ ψ`. -/
 theorem kernelLogWedge_val_app_tensorSheafUnit (p : ℕ) (U : (X.Opens)ᵒᵖ)
@@ -449,17 +471,8 @@ theorem kernelLogWedge_val_app_tensorSheafUnit (p : ℕ) (U : (X.Opens)ᵒᵖ)
         ((PresheafOfModules.tensorSheafUnit (kernelFormsBase f I p)
           (logPolesFormsBase f I 1)).app U (k ⊗ₜ ψ)) =
       kernelLogWedgeSection hI hlog (W := U.unop) ((formRestrictionKernel f I p).ι.val.app U k)
-        (formRestriction_formRestrictionKernelSheaf k) ψ := by
-  have e := (PresheafOfModules.sheafificationHomEquiv
-      (P := PresheafOfModules.tensorObj (kernelFormsBase f I p).val (logPolesFormsBase f I 1).val)
-      (F := AlgebraicGeometry.SheafOfModules.deRhamTerm (formsAlgebras f) (p + 1))
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u}
-        ((TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj S.sheaf)).obj)).apply_symm_apply
-      (kernelLogWedgePresheafMap hI hlog p)
-  exact (PresheafOfModules.tensorSheafificationHomEquiv_app_apply
-    (Osharp := (TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj S.sheaf)
-    (kernelLogWedge hI hlog p) U (k ⊗ₜ ψ)).symm.trans
-    (congrArg (fun φ => PresheafOfModules.Hom.app φ U (k ⊗ₜ ψ)) e)
+        (formRestriction_formRestrictionKernelSheaf k) ψ :=
+  val_app_tensorSheafUnit_of_eq_homEquiv_symm rfl U (k ⊗ₜ ψ)
 
 /-- **The pairing extends the wedge product**: on `𝒦^p ⊗ Ω¹_{X/S}`, the wedge product
 `Ω^p ⊗ Ω¹ ⟶ Ω^{p+1}` restricted along `𝒦^p ⟶ Ω^p` is `kernelLogWedge` restricted along

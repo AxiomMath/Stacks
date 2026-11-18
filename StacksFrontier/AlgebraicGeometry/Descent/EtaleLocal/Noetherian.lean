@@ -285,7 +285,7 @@ private theorem isLocallyNoetherian_of_etale_of_isAffine {Z : Scheme.{u}} [IsAff
     refine ⟨fun z ↦ ?_⟩
     obtain ⟨z', hz', w, hw⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ z))
     exact ⟨(Sigma.ι (fun z : t ↦ W z.1) ⟨z', hz'⟩) w, by
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc, hw]⟩
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, hw]⟩
   have : IsLocallyNoetherian (∐ fun z : t ↦ W z.1) :=
     (isLocallyNoetherian_iff_openCover (sigmaOpenCover fun z : t ↦ W z.1)).mpr
       fun z ↦ by

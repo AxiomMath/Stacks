@@ -425,6 +425,7 @@ public theorem pullbackPreservesLocallyFiniteTorDimension
         y)
     K
 
+omit [IsNoetherianRing Λ] in
 /-- **Stacks 0963.** Let `Λ` be a Noetherian ring and `f : X ⟶ Y` a morphism of schemes. Then
 `Lf^*` maps `D_{ctf}(Y_étale, Λ)` into `D_{ctf}(X_étale, Λ)`: if an object `K` of the derived
 category of étale sheaves of `Λ`-modules on `Y` has constructible cohomology sheaves and its image
@@ -494,6 +495,7 @@ public def constructibleFiniteTorDerivedCategoryPullback_unconditional
   ⟨constructibleDerivedCategoryPullback B Λ f K.obj,
     pullbackPreservesLocallyFiniteTorDimension.{u, w, r, d} B f Λ T T' K.obj.obj K.property⟩
 
+omit [IsNoetherianRing Λ] in
 /-- The underlying object of
 `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryPullback_unconditional` at `K` is
 the derived inverse image `Lf^*K` of the underlying object of `K`. -/

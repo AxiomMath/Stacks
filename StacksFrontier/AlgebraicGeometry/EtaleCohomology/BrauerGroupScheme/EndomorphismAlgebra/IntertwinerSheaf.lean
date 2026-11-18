@@ -346,8 +346,8 @@ private noncomputable def sheafHomEvaluation
     (H : SheafHom X.sheaf F G) (ι : L ⟶ H.obj) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
       (L)) ⟶ G :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (structureSheafRing X).obj)).homEquiv _ _).symm
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).homEquiv _ _).symm
       (sheafHomEvaluationPresheaf X H ι)
 
 /-- Evaluation sends the image of a local tensor `f ⊗ l` to the value at `f` of the map that `l`
@@ -358,20 +358,11 @@ private lemma sheafHomEvaluation_tmul
     (U : Opens X) (f : F.val.obj (op U)) (l : L.val.obj (op U)) :
     (sheafHomEvaluation X H ι).val.app (op U)
         (toTensorSheafSection X F L (op U) (f ⊗ₜ[X.presheaf.obj (op U)] l)) =
-      sheafHomApp H U U le_rfl (ι.val.app (op U) l) f := by
-  have h : ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 (structureSheafRing X).obj)).homEquiv
-          ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (L.val))) G)
-      (sheafHomEvaluation X H ι) = sheafHomEvaluationPresheaf X H ι :=
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (structureSheafRing X).obj)).homEquiv _ G).apply_symm_apply
-        (sheafHomEvaluationPresheaf X H ι)
-  rw [Adjunction.homEquiv_unit
-    (PresheafOfModules.sheafificationAdjunction (𝟙 (structureSheafRing X).obj))
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (L.val))) G
-    (sheafHomEvaluation X H ι)] at h
-  exact congrArg (fun q => (q.app (op U)).hom
-    (f ⊗ₜ[X.presheaf.obj (op U)] l)) h
+      sheafHomApp H U U le_rfl (ι.val.app (op U) l) f :=
+  PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+      (R := (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))
+      (sheafHomEvaluationPresheaf X H ι)) (op U) (f ⊗ₜ[X.presheaf.obj (op U)] l)
 
 /-- Evaluation of the intertwiner sheaf transports the action of an endomorphism of `F` to the
 action of its image under `α` on `G`. -/
@@ -399,8 +390,8 @@ private lemma sheafify_isIso_of_locally_bijective
     {G : SheafOfModules.{u} (structureSheafRing X)} (f : P ⟶ G.val)
     (hf : ∀ (U : Opens X) (x : X), x ∈ U →
       ∃ (V : Opens X) (_ : V ⟶ U), x ∈ V ∧ Function.Bijective (f.app (op V))) :
-    IsIso (((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (structureSheafRing X).obj)).homEquiv P G).symm f) := by
+    IsIso (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).homEquiv P G).symm f) := by
   let φ := (PresheafOfModules.toPresheaf (O X)).map f
   have hinj : Presheaf.IsLocallyInjective (JX X) φ := by
     constructor
@@ -426,19 +417,14 @@ private lemma sheafify_isIso_of_locally_bijective
       (R := structureSheafRing X) (𝟙 (structureSheafRing X).obj)).map f) := by
     rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf (structureSheafRing X))]
     exact ((JX X).W_iff _).mp ((JX X).W_of_isLocallyBijective φ)
-  have hcounit : ((PresheafOfModules.sheafificationAdjunction
-        (𝟙 (structureSheafRing X).obj)).homEquiv P G).symm f =
-      (PresheafOfModules.sheafification (R := structureSheafRing X)
-        (𝟙 (structureSheafRing X).obj)).map f ≫
-        (PresheafOfModules.sheafificationAdjunction
-          (𝟙 (structureSheafRing X).obj)).counit.app G :=
-    Adjunction.homEquiv_counit
-      (PresheafOfModules.sheafificationAdjunction (𝟙 (structureSheafRing X).obj)) P G f
-  have hc : IsIso ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (structureSheafRing X).obj)).counit.app G) :=
-    NatIso.isIso_app_of_isIso _ G
-  rw [hcounit]
-  exact IsIso.comp_isIso' this hc
+  have := (Stacks.SheafOfModules.Tensor.isIso_sheafification_map_iff
+    (R := (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})) f).mpr this
+  exact (congrArg IsIso (Adjunction.homEquiv_counit
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})) P G f)).mpr
+    (IsIso.comp_isIso' this (NatIso.isIso_app_of_isIso
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).counit G))
 
 /-- The restriction of a section of `L` over `U` to an object `V` of the slice site, in the
 spelling `L|_U` carries. Naming it fixes the `ModuleCat` index: the restricted section and a

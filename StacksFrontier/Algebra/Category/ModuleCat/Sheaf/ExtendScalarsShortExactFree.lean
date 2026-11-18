@@ -27,10 +27,11 @@ the form Stacks 0G6R consumes.
 
 ## Main results
 
-* `Stacks.FlatChangeOfRings.extendScalars_comp_toSheaf`: extension of scalars along `α`, read on
-  underlying abelian sheaves, is the tensor product with `O₂` on the left.  As for
-  `Stacks.Sheaves.ChangeOfRings.changeOfRings_comp_toSheaf`, both sides sheafify the presheaf
-  `U ↦ O₂(U) ⊗_{O₁(U)} G(U)` with the factors in the same order, so this is `rfl`.
+* `Stacks.FlatChangeOfRings.extendScalarsCompToSheafIso`: extension of scalars along `α`, read
+  on underlying abelian sheaves, is isomorphic to the tensor product with `O₂` on the left.  As
+  for `Stacks.Sheaves.ChangeOfRings.changeOfRingsCompToSheafIso`, both sides sheafify the
+  presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)` with the factors in the same order, so the isomorphism
+  only compares the two sheafifications.
 * `Stacks.FlatChangeOfRings.extendScalars_additive`: extension of scalars is additive.
 * `Stacks.FlatChangeOfRings.shortExact_map_extendScalars`: **Stacks 03EX for extension of
   scalars**, at free universes.
@@ -47,8 +48,8 @@ tensoring in either variable is `Stacks.SheafOfModules.preservesFiniteColimits_s
 
 `Stacks.hasSheafCompose_forget₂_commRingCat` is made an ambient local instance, as it is in
 `ChangeOfRingsShortExact`: that is what makes `Stacks.SheafOfModules.Tensor.ringSheaf` and
-`Stacks.commRingSheafToRingSheaf` the same term, and hence `extendScalars_comp_toSheaf` an
-`rfl`.
+`Stacks.commRingSheafToRingSheaf` the same term, and hence
+`presheafExtendScalarsCompToPresheafIso` the identity.
 
 ## References
 
@@ -132,14 +133,38 @@ abbrev restrictUnit' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringShea
   (SheafOfModules.restrictScalars (ringSheafMap α)).obj
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
 
+/-- On underlying abelian presheaves, the sectionwise extension of scalars along `α` is the
+sectionwise tensor product with `restrictUnit' α`, on the nose: both are the presheaf
+`U ↦ O₂(U) ⊗_{O₁(U)} G(U)`, with the tensor factors in the same order. -/
+def presheafExtendScalarsCompToPresheafIso :
+    presheafExtendScalars α ⋙
+        PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj ≅
+      (PresheafOfModules.tensorBifunctor O₁.obj).obj (restrictUnit' α).val ⋙
+        PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj :=
+  Iso.refl _
+
 /-- **Extension of scalars is the tensor product with `O₂` on the left**, on underlying abelian
-sheaves, on the nose.  Both sides sheafify the presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)`, and the
-tensor factors are in the same order on the two sides, so this is `rfl`. -/
-theorem extendScalars_comp_toSheaf :
-    extendScalars α ⋙ SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) =
+sheaves.  Both sides sheafify the presheaf `U ↦ O₂(U) ⊗_{O₁(U)} G(U)`
+(`presheafExtendScalarsCompToPresheafIso`), and both sheafifications of presheaves of modules
+commute with passing to underlying abelian sheaves: Mathlib's for extension of scalars
+(`PresheafOfModules.sheafificationCompToSheaf`), the sealed
+`Stacks.SheafOfModules.Tensor.sheafification` for the tensor product
+(`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`). -/
+def extendScalarsCompToSheafIso :
+    extendScalars α ⋙ SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ≅
       (sheafTensor.{u, v, w, w, w} O₁).obj (restrictUnit' α) ⋙
         SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁) :=
-  rfl
+  Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
+    (Functor.isoWhiskerLeft (presheafExtendScalars α)
+        (PresheafOfModules.sheafificationCompToSheaf
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)) ≪≫
+      (Functor.associator _ _ _).symm ≪≫
+      Functor.isoWhiskerRight (presheafExtendScalarsCompToPresheafIso α)
+        (presheafToSheaf J AddCommGrpCat) ≪≫
+      Functor.associator _ _ _ ≪≫
+      (Functor.isoWhiskerLeft
+        ((PresheafOfModules.tensorBifunctor O₁.obj).obj (restrictUnit' α).val)
+        (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf O₁)).symm)
 
 /-- Extension of scalars is additive.  Its composite with the underlying-abelian-sheaf functor
 is the tensor product with `O₂`, which is additive, and that functor is faithful. -/
@@ -152,7 +177,7 @@ instance extendScalars_additive : @Functor.Additive
     infer_instance
   have compositeAdditive : (extendScalars α ⋙
       SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).Additive :=
-    (extendScalars_comp_toSheaf α).symm ▸ tensorAdditive
+    @Functor.additive_of_iso _ _ _ _ _ _ _ tensorAdditive _ (extendScalarsCompToSheafIso α).symm
   exact @Functor.additive_of_comp_faithful _ _ _ _ _ _ _ _ _
     (extendScalars α) (SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
     (show (SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) :
@@ -169,7 +194,7 @@ the two universes of the site.  Extension of scalars along `α : O₁ ⟶ O₂` 
 sequence of sheaves of `O₁`-modules whose third term is flat to a short exact sequence of
 sheaves of `O₂`-modules.
 
-Short exactness is read on underlying abelian sheaves, where `extendScalars_comp_toSheaf` turns
+Short exactness is read on underlying abelian sheaves, where `extendScalarsCompToSheafIso` turns
 the statement into Stacks 03EX for the tensor product (`shortExact_map_sheafTensorObj'`);
 `SheafOfModules.toSheaf` is exact and faithful, so it both carries and reflects short
 exactness. -/
@@ -192,7 +217,7 @@ theorem shortExact_map_extendScalars
     (SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) ?_
   refine ShortComplex.shortExact_of_iso
     (@ShortComplex.mapNatIso _ _ _ _ _ _ S _ _ inferInstance inferInstance
-      (eqToIso (extendScalars_comp_toSheaf α)).symm) ?_
+      (extendScalarsCompToSheafIso α).symm) ?_
   exact (shortExact_map_sheafTensorObj' O₁ (restrictUnit' α) S hS hflat).map_of_exact
     (SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁))
 

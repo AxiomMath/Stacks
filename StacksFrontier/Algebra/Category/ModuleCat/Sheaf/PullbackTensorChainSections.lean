@@ -128,12 +128,14 @@ lemma tensorSheaf_hom_ext
       ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).obj F).obj G) ⟶ N}
     (hyp : ∀ (U : Cᵒᵖ) (a : F.val.obj U) (b : G.val.obj U),
       m.val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf J A hA) (𝟙 _)).unit.app (F.val ⊗ G.val)).app U
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+                (F.val ⊗ G.val)).app U
             (a ⊗ₜ[(ringPresheaf A).obj U] b)) =
         m'.val.app U
-          (((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf J A hA) (𝟙 _)).unit.app (F.val ⊗ G.val)).app U
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+                (F.val ⊗ G.val)).app U
             (a ⊗ₜ[(ringPresheaf A).obj U] b))) :
     m = m' := by
   apply (tensorSheafHomEquivPresheafTensorHom (F := F) (G := G) (N := N)).injective
@@ -362,9 +364,9 @@ lemma pairingApp_pullbackTensorStep4_symm (V : X.Cᵒᵖ)
         ((pullbackTensorStep4 f F G (pullbackTensorTarget f F G)).symm
           (pullbackTensorBottomHom f F G)).1 V x s =
       (pullbackTensorBottomHom f F G).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf X.J (inverseImageStructureCommRing f)
-              (isSheaf_inverseImageStructureCommRing f)) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨inverseImageStructureCommRing f, Presheaf.isSheaf_of_isSheaf_comp _ _
+              (forget₂ CommRingCat RingCat) (isSheaf_inverseImageStructureCommRing f)⟩).unit.app
             (((inverseImageModules f.toToposHom
                 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj F).val ⊗
               ((inverseImageModules f.toToposHom
@@ -396,9 +398,7 @@ lemma pairingApp_pullbackTensorBottom (V : X.Cᵒᵖ)
     pairingApp (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
         ((pullbackTensorStep4 f F G (pullbackTensorTarget f F G)).symm
           (pullbackTensorBottomHom f F G)).1 V x s =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf X.J X.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property)
-            (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((extendScalarsFSharp f).obj
               ((inverseImageModules f.toToposHom
                 (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj F)).val ⊗
@@ -489,9 +489,7 @@ lemma pullbackTensorStep2_symm_step3_symm_val_app_unit_tmul
         (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) q })
     (U : Y.Cᵒᵖ) (a : F.val.obj U) (r : G.val.obj U) :
     ((pullbackTensorStep2 f F G N).symm ((pullbackTensorStep3 f F G N).symm q)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf Y.J Y.O.obj (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property)
-              (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
             (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
           (f.toToposHom.pushforward.map

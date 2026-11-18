@@ -255,27 +255,30 @@ theorem singleIntMultiplication_val_app
     (x : ((singleInt F).X 0).val.obj U) (y : ((singleInt G).X 0).val.obj U) :
     (HomologicalComplex.ιMapBifunctor (singleInt F) (singleInt G) (sheafTensor.{u, u, u, u, u} A)
         (up ℤ) 0 0 0 (add_zero 0) ≫ (singleIntMultiplication m).f 0).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj ((singleInt F).X 0).val ((singleInt G).X 0).val)).app U
             (x ⊗ₜ[A.obj.obj U] y)) =
       (HomologicalComplex.singleObjXSelf (up ℤ) 0 H).inv.val.app U
-        (m.val.app U (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (m.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj F.val G.val)).app U
             ((HomologicalComplex.singleObjXSelf (up ℤ) 0 F).hom.val.app U x ⊗ₜ[A.obj.obj U]
               (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom.val.app U y))) := by
   rw [ι_singleIntMultiplication_f]
   refine congrArg (fun t => (HomologicalComplex.singleObjXSelf (up ℤ) 0 H).inv.val.app U
     (m.val.app U t)) ?_
+  refine (congrArg (fun t => ((((sheafTensor.{u, u, u, u, u} A).map
+      (HomologicalComplex.singleObjXSelf (up ℤ) 0 F).hom).app _ ≫
+        ((sheafTensor.{u, u, u, u, u} A).obj F).map
+          (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom).val.app U) t)
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply
+      A _ U _).symm).trans ?_
   refine (congrArg (fun t => ((((sheafTensor.{u, u, u, u, u} A).obj F).map
       (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom).val.app U) t)
     (Stacks.SheafOfModules.FlatSquareZero.tensorRight_map_tmul A ((singleInt G).X 0)
       (HomologicalComplex.singleObjXSelf (up ℤ) 0 F).hom U x y)).trans ?_
-  exact Stacks.SheafOfModules.FlatSquareZero.tensorLeft_map_tmul A F
-    (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom U _ y
+  exact (Stacks.SheafOfModules.FlatSquareZero.tensorLeft_map_tmul A F
+    (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom U _ y).trans
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply A _ U _)
 
 variable {φ : A ⟶ X.sheaf}
   (B : _root_.SheafOfModules.TensorExteriorSymmetricAlgebras
@@ -465,9 +468,8 @@ theorem formsSingleWedge_val_app (f : X ⟶ S) (p p' : ℕ) (U : (Opens X.carrie
     (HomologicalComplex.ιMapBifunctor (formsSingleModules f p) (formsSingleModules f p')
         (sheafTensor.{u, u, u, u, u} (inverseImageBase f).sheaf) (up ℤ) 0 0 0 (add_zero 0) ≫
         (formsSingleWedge f p p').f 0).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageBase f).sheaf)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageBase f).sheaf).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          (inverseImageBase f).sheaf).unit.app
           (PresheafOfModules.tensorObj ((formsSingleModules f p).X 0).val
             ((formsSingleModules f p').X 0).val)).app U
             (x ⊗ₜ[(inverseImageBase f).sheaf.obj.obj U] y)) =
@@ -487,8 +489,7 @@ abbrev tensorSectionClass (Z : RingedSpace.{u, u})
     {F G : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z}
     (U : (Opens Z.carrier)ᵒᵖ) (x : F.val.obj U) (y : G.val.obj U) :
     (((sheafTensor.{u, u, u, u, u} Z.sheaf).obj F).obj G).val.obj U :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Z.sheaf).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Z.sheaf).unit.app
       (F.val.tensorObj G.val)).app U (x ⊗ₜ[Z.sheaf.obj.obj U] y)
 
 /-- The total tensor complex of two canonical maps of forms, on a local pure tensor in degree

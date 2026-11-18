@@ -79,14 +79,10 @@ lemma tensorSheaf_restrict_hom_ext_of_locallySurjective_left {R : Sheaf J RingCa
     {f g : (SheafOfModules.restrictScalars α).obj
       ((((Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj N)).obj M) ⟶ P}
     (h : ∀ (U : Cᵒᵖ) (x : Q.obj U) (y : N.val.obj U),
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+      f.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj M.val N.val)).app U
         (p.app U x ⊗ₜ[O.obj.obj U] y)) =
-      g.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+      g.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj M.val N.val)).app U
         (p.app U x ⊗ₜ[O.obj.obj U] y))) :
     f = g := by
@@ -97,14 +93,11 @@ lemma tensorSheaf_restrict_hom_ext_of_locallySurjective_left {R : Sheaf J RingCa
   rintro V a ⟨z, hz⟩
   have key (k : (SheafOfModules.restrictScalars α).obj
       ((((Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj N)).obj M) ⟶ P) :
-      P.val.map a.op (k.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+      P.val.map a.op (k.val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj M.val N.val)).app U
           (x ⊗ₜ[O.obj.obj U] y))) =
-        k.val.app (op V) (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app
+        k.val.app (op V) (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O).unit.app
         (PresheafOfModules.tensorObj M.val N.val)).app (op V)
           (M.val.map a.op x ⊗ₜ[O.obj.obj (op V)] N.val.map a.op y)) :=
     (PresheafOfModules.naturality_apply k.val a.op _).symm.trans
@@ -152,26 +145,18 @@ theorem emb_natural (hf : Sheaf.IsLocallySurjective f) (h : FlatLiftHom L M φ)
     (congrArg (fun k : L.F.X n ⟶ _ => k.val.app U x) (h.unit_red n)).symm
   change (TM.emb n).val.app U
       (((restrict f).map (((idealTensorFunctor O₀ I).map h.red).f n)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a))) =
     (h.hom n).val.app U ((TL.emb n).val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
         ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)))
   have hmap : ((restrict f).map (((idealTensorFunctor O₀ I).map h.red).f n)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (L.baseChange.complex.X n).val I.val)).app U
           ((L.baseChange.unit n).val.app U x ⊗ₜ[O₀.obj.obj U] a)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O₀).unit.app
         (PresheafOfModules.tensorObj (M.baseChange.complex.X n).val I.val)).app U
         ((M.baseChange.unit n).val.app U ((h.hom n).val.app U x) ⊗ₜ[O₀.obj.obj U] a) := by
     rw [← hred]

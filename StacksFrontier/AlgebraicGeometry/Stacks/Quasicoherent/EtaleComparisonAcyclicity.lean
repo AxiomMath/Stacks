@@ -47,7 +47,8 @@ category fibred in groupoids whose morphisms lie in the universe of the schemes:
   `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcFbcModuleFppfEtaleCohomology.lean`
   (`AlgebraicGeometry.Stack.nonempty_fppfCohomologyIso_etaleCohomology_lqcFbcModule`);
 * clause (3) in
-  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LqcFbcModuleFppfEtaleHigherDirectImage.lean`
+  `LqcFbcModuleFppfEtaleHigherDirectImage.lean` of
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`
   (`AlgebraicGeometry.Stack.nonempty_higherDirectImageIso_sheafify_etale_lqcFbcModule`).
 
 ## Main definitions

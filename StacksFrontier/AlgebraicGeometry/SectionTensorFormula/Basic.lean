@@ -13,6 +13,8 @@ sectionwise tensor product of the underlying presheaves into the sections of `F 
 
 ## Main definitions
 
+* `Stacks.SectionTensorFormula.sheafifyIsoTensorObj`: the isomorphism between the sheafification
+  of the sectionwise tensor product and `F ⊗ G`.
 * `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj`: the isomorphism between the native sheaf
   tensor `Stacks.SheafOfModules.Tensor.sheafTensor` and `F ⊗ G`.
 * `Stacks.SectionTensorFormula.toTensorSection`: the comparison morphism of presheaves of modules
@@ -21,7 +23,7 @@ sectionwise tensor product of the underlying presheaves into the sections of `F 
 ## Main results
 
 * `Stacks.SectionTensorFormula.toTensorSection_app_apply`: the comparison is the sheafification
-  unit followed by `tensorSheafIsoTensorObj`.
+  unit followed by `sheafifyIsoTensorObj`.
 * `Stacks.SectionTensorFormula.isLocallySurjective_toSheafify_tensor` and
   `Stacks.SectionTensorFormula.isLocallyInjective_toSheafify_tensor`: the sheafification unit of
   the sectionwise tensor product is locally surjective and locally injective.
@@ -30,8 +32,11 @@ sectionwise tensor product of the underlying presheaves into the sections of `F 
 
 The tensor product of `CategoryTheory.LocalizedMonoidal` is defined through `Localization.lift₂`,
 so it is not definitionally equal to the native sheaf tensor; the two are identified by an
-isomorphism. That isomorphism is built from `CategoryTheory.Functor.Monoidal.μIso` for the monoidal
-functor `Stacks.SheafOfModules.TensorSheafification.sheafify` and from
+isomorphism. The native sheaf tensor seals its sheafification, so it is first identified with
+`sheafify` of the sectionwise tensor product by `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`;
+the remaining isomorphism `sheafifyIsoTensorObj` is built from
+`CategoryTheory.Functor.Monoidal.μIso` for the monoidal functor
+`Stacks.SheafOfModules.TensorSheafification.sheafify` and from
 `Stacks.SheafInternalHom.sheafifyCounitIso`, which identifies `sheafify F.val` with `F`.
 
 ## References
@@ -66,18 +71,30 @@ section Identification
 
 variable (F G : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
 
-/-- The isomorphism between the native sheaf tensor `Stacks.SheafOfModules.Tensor.sheafTensor`,
-the sheafification of the sectionwise tensor product of the underlying presheaves, and the
-monoidal product `F ⊗ G` of `Stacks.SheafInternalHom.monoidalCategory`. -/
-def tensorSheafIsoTensorObj :
-    ((Stacks.SheafOfModules.Tensor.sheafTensor
-      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G ≅
+/-- The isomorphism between the sheafification
+`Stacks.SheafOfModules.TensorSheafification.sheafify` of the sectionwise tensor product
+`F.val ⊗ G.val` and the monoidal product `F ⊗ G` of `Stacks.SheafInternalHom.monoidalCategory`. -/
+def sheafifyIsoTensorObj :
+    (sheafify 𝒪 h𝒪).obj (F.val ⊗ G.val) ≅
       @MonoidalCategoryStruct.tensorObj _ _
         (Stacks.SheafInternalHom.monoidalCategory 𝒪 h𝒪).toMonoidalCategoryStruct F G :=
   (Functor.Monoidal.μIso (sheafify 𝒪 h𝒪) F.val G.val).symm ≪≫
     @tensorIso _ _ (Stacks.SheafInternalHom.monoidalCategory 𝒪 h𝒪) _ _ _ _
       ((Stacks.SheafInternalHom.sheafifyCounitIso 𝒪 h𝒪).app F)
       ((Stacks.SheafInternalHom.sheafifyCounitIso 𝒪 h𝒪).app G)
+
+/-- The isomorphism between the native sheaf tensor `Stacks.SheafOfModules.Tensor.sheafTensor`,
+the sheafification of the sectionwise tensor product of the underlying presheaves, and the
+monoidal product `F ⊗ G` of `Stacks.SheafInternalHom.monoidalCategory`: the isomorphism
+`Stacks.SheafOfModules.Tensor.sheafTensorObjIso` followed by `sheafifyIsoTensorObj`. -/
+def tensorSheafIsoTensorObj :
+    ((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G ≅
+      @MonoidalCategoryStruct.tensorObj _ _
+        (Stacks.SheafInternalHom.monoidalCategory 𝒪 h𝒪).toMonoidalCategoryStruct F G :=
+  Stacks.SheafOfModules.Tensor.sheafTensorObjIso
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ F G ≪≫
+    sheafifyIsoTensorObj 𝒪 h𝒪 F G
 
 /-- `tensorSheafIsoTensorObj` on underlying presheaves of modules. -/
 def tensorPresheafIsoTensorObj :
@@ -98,23 +115,23 @@ lemma tensorPresheafIsoTensorObj_hom :
 
 /-- The comparison morphism from the sectionwise tensor product of the underlying presheaves of
 `F` and `G` to the underlying presheaf of `F ⊗ G`: the sheafification unit followed by
-`tensorSheafIsoTensorObj`. Over an object `U` it is a map
+`sheafifyIsoTensorObj`. Over an object `U` it is a map
 `F.val.obj U ⊗ G.val.obj U ⟶ (F ⊗ G).val.obj U`. -/
 def toTensorSection : F.val ⊗ G.val ⟶ (F ⊗ G).val :=
-  toSheafify 𝒪 h𝒪 (F.val ⊗ G.val) ≫ (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom.val
+  toSheafify 𝒪 h𝒪 (F.val ⊗ G.val) ≫ (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom.val
 
 /-- `toTensorSection` sends a section of the sectionwise tensor product to the image under
-`tensorSheafIsoTensorObj` of its image under the sheafification unit. -/
+`sheafifyIsoTensorObj` of its image under the sheafification unit. -/
 lemma toTensorSection_app_apply (U : Cᵒᵖ) (t : (F.val ⊗ G.val).obj U) :
     (toTensorSection 𝒪 h𝒪 F G).app U t =
-      (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom.val.app U
+      (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom.val.app U
         ((toSheafify 𝒪 h𝒪 (F.val ⊗ G.val)).app U t) :=
   rfl
 
-/-- The sheafification unit of `F.val ⊗ G.val` composed with `tensorSheafIsoTensorObj` is
+/-- The sheafification unit of `F.val ⊗ G.val` composed with `sheafifyIsoTensorObj` is
 `toTensorSection`. -/
 lemma toSheafify_comp_eq_toTensorSection :
-    toSheafify 𝒪 h𝒪 (F.val ⊗ G.val) ≫ (tensorSheafIsoTensorObj 𝒪 h𝒪 F G).hom.val =
+    toSheafify 𝒪 h𝒪 (F.val ⊗ G.val) ≫ (sheafifyIsoTensorObj 𝒪 h𝒪 F G).hom.val =
       toTensorSection 𝒪 h𝒪 F G :=
   rfl
 

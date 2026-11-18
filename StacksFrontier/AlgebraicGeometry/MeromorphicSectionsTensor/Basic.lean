@@ -31,8 +31,11 @@ only the order of sheafification and restriction of scalars, and those commute
 ## Implementation notes
 
 The identification is by construction, not by a computation on sections: the two presheaf-level
-tensor products are equal, so the comparison is the identity of the underlying presheaf and the
-isomorphism comes from the commutation of sheafification with restriction of scalars.
+tensor products are equal, so the comparison is the identity of the underlying presheaf. The tensor
+product of sheaves sheafifies through a sealed functor, so its object is first identified with
+Mathlib's sheafification of the sectionwise tensor product
+(`Stacks.SheafOfModules.Tensor.sheafTensorObjIso`); the rest of the isomorphism comes from the
+commutation of sheafification with restriction of scalars.
 
 Quasi-coherence of the tensor product is Stacks Tag 01CE, formalized as
 `AlgebraicGeometry.tensor_isQC`. It is stated for a ringed space over
@@ -83,8 +86,9 @@ def meromorphicSectionsIsoTensor :
     ((Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf).obj
       (meromorphicFunctions X)).obj F ≅
       meromorphicSections X F :=
-  Stacks.SheafOfModules.RestrictScalarsSheafification.sheafificationRestrictScalarsIso
-    (toTotalQuotientRingCatSheaf X) (sectionwiseTensor X F)
+  Stacks.SheafOfModules.Tensor.sheafTensorObjIso X.sheaf _ _ ≪≫
+    Stacks.SheafOfModules.RestrictScalarsSheafification.sheafificationRestrictScalarsIso
+      (toTotalQuotientRingCatSheaf X) (sectionwiseTensor X F)
 
 /-- **Quasi-coherence of the sheaf of meromorphic sections, from quasi-coherence of the sheaf of
 meromorphic functions.** This is the source's own reduction: `𝒦_X(F)` is the tensor product of

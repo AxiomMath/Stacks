@@ -667,9 +667,7 @@ def associatedModuleSheafTensorMap :
   let P := (PresheafOfModules.tensorObj (O := (X).presheaf)
     ((ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 𝒨).val)
     ((ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 𝒩).val))
-  let adj := PresheafOfModules.sheafificationAdjunction
-    (R := structureSheafRing X) (𝟙
-      (structureSheafRing X).obj)
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.sheaf
   (adj.homEquiv P (ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮
     (tensorGrading (S := S) 𝒨 𝒩))).symm
     (tensorModuleSectionsPresheafMap (S := S) (𝒮 := 𝒮) (𝒨 := 𝒨) (𝒩 := 𝒩))
@@ -695,17 +693,10 @@ theorem associatedModuleSheafTensorMap_app_toTensorSheafSection
     ((ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 𝒨).val)
     ((ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 𝒩).val))
   let T := ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 (tensorGrading (S := S) 𝒨 𝒩)
-  let adj := PresheafOfModules.sheafificationAdjunction
-    (R := structureSheafRing X) (𝟙
-      (structureSheafRing X).obj)
-  let G := SheafOfModules.forget (structureSheafRing X)
-    ⋙
-    PresheafOfModules.restrictScalars (𝟙
-      (structureSheafRing X).obj)
-  let φ := tensorModuleSectionsPresheafMap (S := S) (𝒮 := 𝒮) (𝒨 := 𝒨) (𝒩 := 𝒩)
-  have hcomp : adj.unit.app P ≫ G.map ((adj.homEquiv P T).symm φ) = φ :=
-    (adj.homEquiv P T).apply_symm_apply φ
-  exact congrArg (fun ψ => (ψ.app U).hom z) hcomp
+  exact congrArg (fun ψ => (ψ.app U).hom z)
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+      (R := X.sheaf) (M := P) (N := T)
+      (tensorModuleSectionsPresheafMap (S := S) (𝒮 := 𝒮) (𝒨 := 𝒨) (𝒩 := 𝒩)))
 
 /-- The inverse standard-open identification sends a homogeneous fraction to the section
 with that same fraction in every fiber. -/

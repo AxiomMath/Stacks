@@ -12,7 +12,8 @@ case of the coherator, `AlgebraicGeometry.Space.FlatSheafExistenceSituation.Affi
 exactly as `…FlatSheafExistenceSituation.derivedLimit_bounded_of_affineCase` proves
 [Stacks, Tag 0CX5]. The affine case is proved as `AlgebraicGeometry.Space.affineCoheratorCase`,
 and `…DerivedExistenceSystem.derivedLimit_isBoundedAbove` (in
-`StacksFrontier.AlgebraicGeometry.Spaces.Deformations.DerivedExistenceBoundedLimit`) is the statement
+`StacksFrontier.AlgebraicGeometry.Spaces.Deformations.DerivedExistenceBoundedLimit`) is the
+statement
 with it discharged.
 
 ## Main definitions

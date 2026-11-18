@@ -75,7 +75,7 @@ theorem ker_eq_range_and_flat_quotient_of_exact_mod_maximalIdeal
     exact (Module.Finite.fg_top).map d
   have : Module.FinitePresentation S (Q ⧸ LinearMap.range d) :=
     Module.finitePresentation_of_surjective _ (LinearMap.range d).mkQ_surjective
-      (by rw [Submodule.ker_mkQ]; assumption)
+      (by rwa [Submodule.ker_mkQ])
   let u : (Q ⧸ LinearMap.range d) →ₗ[S] N := (LinearMap.range d).liftQ e hle
   have hu : Function.Injective
       (Submodule.mapQ (maximalIdeal R • (⊤ : Submodule R (Q ⧸ LinearMap.range d)))

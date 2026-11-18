@@ -95,6 +95,46 @@ attribute [local instance] ringSheafSectionsCommRing presheafOfModulesMonoidalCa
   curriedTensorPreservesZeroMorphisms curriedTensorObjPreservesZeroMorphisms
   ringSheafOverSectionsCommRing
 
+section ForgetUnit
+
+variable (Y : RingedSite.{u, u, u})
+  [HasWeakSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ (K₁ K₂ : CochainComplex
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  {K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
+
+/-- The local pure tensor is the inclusion of the summand applied to the image of the pure tensor
+under the unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`: this is its
+definition. -/
+private lemma tensorComplexSection_eq_unit (t r c : ℤ) (htr : t + r = c) {W : Y.C}
+    (k : (K.X t).val.obj (op W)) (l : (L.X r).val.obj (op W)) :
+    tensorComplexSection Y t r c htr k l =
+      (HomologicalComplex.ιMapBifunctor K L (sheafTensor Y.O) (ComplexShape.up ℤ) t r c
+          (by simpa using htr)).val.app (op W)
+        (((sheafificationAdjunction Y.O).unit.app ((K.X t).val ⊗ (L.X r).val)).app (op W)
+          (k ⊗ₜ[(ringSheaf Y.O).obj.obj (op W)] l)) := rfl
+
+/-- The local pure tensor is the inclusion of the summand applied to the image of the pure tensor
+under the unit of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the form in
+which the unit of the restriction comparison is phrased. -/
+private lemma tensorComplexSection_eq_forgetUnit (t r c : ℤ) (htr : t + r = c) {W : Y.C}
+    (k : (K.X t).val.obj (op W)) (l : (L.X r).val.obj (op W)) :
+    tensorComplexSection Y t r c htr k l =
+      (HomologicalComplex.ιMapBifunctor K L (sheafTensor Y.O) (ComplexShape.up ℤ) t r c
+          (by simpa using htr)).val.app (op W)
+        (((sheafificationForgetAdjunction Y.O).unit.app ((K.X t).val ⊗ (L.X r).val)).app (op W)
+          (k ⊗ₜ[(ringSheaf Y.O).obj.obj (op W)] l)) :=
+  (tensorComplexSection_eq_unit Y t r c htr k l).trans
+    (congrArg ((HomologicalComplex.ιMapBifunctor K L (sheafTensor Y.O) (ComplexShape.up ℤ)
+      t r c (by simpa using htr)).val.app (op W))
+      (sheafificationForgetAdjunction_unit_app_app_apply Y.O ((K.X t).val ⊗ (L.X r).val) (op W)
+        (k ⊗ₜ[(ringSheaf Y.O).obj.obj (op W)] l))).symm
+
+end ForgetUnit
+
 variable (X : RingedSite.{u, u, u}) (U : X.C)
   [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [sliceSheafify : HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
@@ -180,26 +220,21 @@ lemma tensorComplexOverIso_inv_tensorComplexSection
           sliceTensorAdditive sliceTensorObjAdditive sliceTensorHasMap
           (restrictComplex X A U) (restrictComplex X B U) t r c h W a b) =
       tensorComplexSection X t r c h a b := by
-  have := isLocallyInjective_sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U (A.X t) (B.X r))
-  have := isLocallySurjective_sheafifyUnit
-    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-    (overTensorPresheaf X U (A.X t) (B.X r))
-  refine Eq.trans (congrArg (fun z => z.val.app (op W)
-    ((sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-      (overTensorPresheaf X U (A.X t) (B.X r))).app (op W)
-        (a ⊗ₜ[((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj.obj (op W)] b)))
-    (ι_tensorComplexOverIso_inv X U A B t r c (by simpa using h))) ?_
-  exact congrArg (fun z => ((SheafOfModules.overFunctor.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
+  refine (congrArg (((tensorComplexOverIso X U A B).inv.f c).val.app (op W))
+    (@tensorComplexSection_eq_forgetUnit (X.over U) sliceSheafify sliceLocallyBijective
+      sliceTensorAdditive sliceTensorObjAdditive sliceTensorHasMap
+      (restrictComplex X A U) (restrictComplex X B U) t r c h W a b)).trans ?_
+  refine (congrArg (fun z => z.val.app (op W) ((overTensorUnit X U (A.X t) (B.X r)).app (op W)
+      (a ⊗ₜ[((ringSheaf X.O).over U).obj.obj (op W)] b)))
+    (ι_tensorComplexOverIso_inv X U A B t r c (by simpa using h))).trans ?_
+  refine (congrArg (((SheafOfModules.overFunctor.{u} (ringSheaf X.O) U).map
       ((sheafTensorBicomplex X A B).ιTotal (ComplexShape.up ℤ) t r c
-        (by simpa using h))).val.app (op W) z)
-    (congrArg (fun z => z.app (op W)
-        (a ⊗ₜ[((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj.obj (op W)] b))
-      (comp_liftOfUnit (sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
-          (overTensorPresheaf X U (A.X t) (B.X r)))
+        (by simpa using h))).val.app (op W))
+    (congrArg (fun z => z.app (op W) (a ⊗ₜ[((ringSheaf X.O).over U).obj.obj (op W)] b))
+      (comp_liftOfUnit (overTensorUnit X U (A.X t) (B.X r))
         ((overPresheafTensorIso X U (A.X t) (B.X r)).inv ≫
-          overSheafifyUnit X U (PresheafOfModules.tensorObj (A.X t).val (B.X r).val))))
+          overSheafificationUnit X U (globalTensorPresheaf X (A.X t) (B.X r)))))).trans ?_
+  exact (tensorComplexSection_eq_forgetUnit X t r c h a b).symm
 
 /-! ### The comparison in the `tensorTotal` spelling -/
 

@@ -409,7 +409,7 @@ lemma colimitSectionsEquiv_ι {V : Opens space} (hV : ∀ m, Point.ξ m ∈ V) (
       colimit.ι tailProducts n (sectionsEquiv n hV σ) := by
   have h1 := ConcreteCategory.congr_hom
     (colimitObjIsoColimitCompEvaluation_ι_app_hom (presheafSystem sheafSystem) n (op V)) σ
-  have h2 := ConcreteCategory.congr_hom (HasColimit.isoOfNatIso_ι_hom (evalSystemIso hV) n) σ
+  have h2 := ConcreteCategory.congr_hom (HasColimit.ι_isoOfNatIso_hom (evalSystemIso hV) n) σ
   simp only [ConcreteCategory.comp_apply] at h1 h2
   exact (congrArg (fun y => (HasColimit.isoOfNatIso (evalSystemIso hV)).hom y) h1).trans h2
 

@@ -98,10 +98,13 @@ therefore written with `Stacks.RelativeVeryAmple.tensorModules`,
 applied to `Scheme.Modules` arguments, and the definitional equality is crossed once, inside a
 proof given by `:=` or `exact`.
 
-`Stacks.SheafOfModules.Strict.associator_eq` is stated with `Stacks.SheafOfModules.tensorObjIso`
-rather than with `Stacks.AmplePullbackPart1.tensorIsoTensorModules`. The two are the same
-isomorphism, but the equality is too expensive to re-check at every occurrence, so it is crossed
-once, in `tensorIsoTensorModules_eq`, and rewritten with afterwards.
+`Stacks.SheafOfModules.Strict.associator_eq`, `Stacks.SheafOfModules.leftUnitor_hom_eq` and
+`Stacks.SheafOfModules.rightUnitor_hom_eq` are stated with the sealed
+`Stacks.SheafOfModules.tensorObjIso` rather than with
+`Stacks.AmplePullbackPart1.tensorIsoTensorModules`. The two are the same isomorphism,
+`tensorIsoTensorModules_eq`, which is `Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso`
+at the scheme spelling. Every proof below in which the two meet goes through that equation, and
+none unfolds `tensorObjIso`.
 
 In the unitor coherences the two whiskered unit comparisons meet inside one composite, and a goal
 naming both unit objects at once is not type-correct at that transparency either, so the
@@ -226,12 +229,23 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 
 variable (Y : Scheme.{u})
 
+/-- The comparison of the monoidal tensor product with the tensor product sheaf is
+`Stacks.SheafOfModules.tensorObjIso`, the spelling in which the structural morphisms of the tensor
+product sheaf are compared with the monoidal ones. -/
+theorem tensorIsoTensorModules_eq (A B : Y.Modules) :
+    tensorIsoTensorModules Y A B
+      = Stacks.SheafOfModules.tensorObjIso Y.presheaf
+          (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Y) A B :=
+  Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso Y.presheaf
+    (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Y) A B
+
 /-- The comparison of the monoidal tensor product with the tensor product sheaf is natural in each
 of its two variables. -/
 theorem tensorIsoTensorModules_naturality {A A' B B' : Y.Modules} (f : A ⟶ A') (g : B ⟶ B') :
     (f ⊗ₘ g) ≫ (tensorIsoTensorModules Y A' B').hom
-      = (tensorIsoTensorModules Y A B).hom ≫ tensorModulesMap Y f g :=
-  monoidalTensorIso_naturality Y f g
+      = (tensorIsoTensorModules Y A B).hom ≫ tensorModulesMap Y f g := by
+  rw [tensorIsoTensorModules_eq, tensorIsoTensorModules_eq]
+  exact monoidalTensorIso_naturality Y f g
 
 /-- The same naturality read along the inverse comparison. -/
 theorem tensorIsoTensorModules_inv_naturality {A A' B B' : Y.Modules} (f : A ⟶ A') (g : B ⟶ B') :
@@ -422,15 +436,6 @@ def tensorModulesAssociator (Z : Scheme.{u}) (A B C : Z.Modules) :
   @MonoidalCategoryStruct.associator _ _
     (Stacks.PullbackGradedAlgebra.monoidalCategory Z.toRingedSpace).toMonoidalCategoryStruct
     A B C
-
-/-- The comparison of the monoidal tensor product with the tensor product sheaf is
-`Stacks.SheafOfModules.tensorObjIso`, the spelling in which the structural morphisms of the tensor
-product sheaf are compared with the monoidal ones. -/
-theorem tensorIsoTensorModules_eq (A B : Y.Modules) :
-    tensorIsoTensorModules Y A B
-      = Stacks.SheafOfModules.tensorObjIso Y.presheaf
-          (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Y) A B :=
-  Iso.ext rfl
 
 /-- The associator of the tensor product sheaf is the monoidal associator conjugated by the
 comparison of the two tensor products. -/
@@ -632,7 +637,7 @@ private theorem leftUnitor_two_hom_eq (Z : Scheme.{u}) (A : Z.Modules) :
       = (tensorIsoTensorModules Z (unitModule Z) A).hom ≫ (tensorModulesLeftUnitor Z A).hom :=
   (Stacks.SheafOfModules.leftUnitor_hom_eq Z.presheaf
       (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Z) A).trans
-    (congrArg (fun z => (tensorIsoTensorModules Z (unitModule Z) A).hom ≫ z)
+    (congrArg₂ (· ≫ ·) (congrArg Iso.hom (tensorIsoTensorModules_eq Z (unitModule Z) A)).symm
       (congrArg Iso.hom (Stacks.SheafOfModules.Strict_leftUnitor_eq Z.presheaf
         (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Z) A)).symm)
 
@@ -780,7 +785,7 @@ private theorem rightUnitor_two_hom_eq (Z : Scheme.{u}) (A : Z.Modules) :
       = (tensorIsoTensorModules Z A (unitModule Z)).hom ≫ (tensorModulesRightUnitor Z A).hom :=
   (Stacks.SheafOfModules.rightUnitor_hom_eq Z.presheaf
       (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Z) A).trans
-    (congrArg (fun z => (tensorIsoTensorModules Z A (unitModule Z)).hom ≫ z)
+    (congrArg₂ (· ≫ ·) (congrArg Iso.hom (tensorIsoTensorModules_eq Z A (unitModule Z))).symm
       (congrArg Iso.hom (Stacks.SheafOfModules.Strict_rightUnitor_eq Z.presheaf
         (Stacks.SheafInternalHom.isSheaf_structureRingPresheaf Z) A)).symm)
 

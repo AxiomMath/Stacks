@@ -199,7 +199,8 @@ private theorem hasStrictlyPerfectModel_of_hom
       (X.restrictComplex K' V) ≪≫ DerivedCategory.Q.mapIso hcmp
 
 omit hXlim hYlim hulim
-  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
+  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **The pullback of a strictly perfect model is a strictly perfect model over the image
 object.** If `K` carries a strictly perfect derived model over `W`, then a complex
 representative `K'` of `Lf^* E` carries one over `u(W)`.
@@ -252,7 +253,8 @@ private theorem hasStrictlyPerfectModel_image
         (α ≪≫ restrictComplexIsoOfIso Y e W) ≪≫ eTot⟩⟩
 
 omit hXlim hYlim hulim
-  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
+  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **Stacks 08H6.** Let `f : (C, O_C) ⟶ (D, O_D)` be a morphism of ringed sites and let `E` be
 an object of `D(O_D)`. If `E` is perfect, then `Lf^* E` is perfect in `D(O_C)`.
 
@@ -303,6 +305,7 @@ theorem Hom.isPerfect_derivedPullback_of_isPerfect
     (hasStrictlyPerfectModel_image f E K e K' e' W hW)
   exact ⟨P, hP, ⟨γ ≪≫ restrictComplexIsoOfIso X e' V⟩⟩
 
+omit [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- The derived pullback along a morphism of ringed sites of a perfect object of `D(O')` is
 perfect, for sites with finite limits and a functor `u` preserving them. This special case of
 Stacks 08H6 is `AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback_of_isPerfect`, which

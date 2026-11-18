@@ -33,7 +33,7 @@ unitor.
 factor is not the image of anything under a functor the library has a naturality statement for;
 the two sides have to be compared where they are defined, which for a sheafified tensor product
 means on pure tensors of local sections, after
-`CategoryTheory.PresheafOfModules.sheafification_hom_ext` and
+`Stacks.SheafOfModules.Tensor.sheafification_hom_ext` and
 `CategoryTheory.PresheafOfModules.tensorObj_hom_ext`.
 
 *Why multiplication is not written `c • 𝟙`.* The `Γ(X, ⊤)`-linear structure on module sheaves is
@@ -73,7 +73,7 @@ theorem tensorSheafUnitLeftIso_sectionScalar (X : Scheme.{u}) (c : Γ(X, ⊤)) (
             ((Scheme.unitModule X, M) : _ × _) ⟶ (Scheme.unitModule X, M))) ≫
         (tensorSheafUnitLeftIso X.toRingedSpace M).hom =
       (tensorSheafUnitLeftIso X.toRingedSpace M).hom ≫ sectionScalar X c M := by
-  refine sheafification_hom_ext (tensorObj_hom_ext fun U r x => ?_)
+  refine Stacks.SheafOfModules.Tensor.sheafification_hom_ext (tensorObj_hom_ext fun U r x => ?_)
   have l1 := tensorSheaf_map_unit_tmul X.toRingedSpace
     (sectionScalar X c (Scheme.unitModule X)) (𝟙 M) U r x
   have l2 := tensorSheafUnitLeftIso_hom_tensorSheafUnit_tmul X.toRingedSpace M U

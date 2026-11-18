@@ -362,7 +362,7 @@ theorem isEffective_iff_exists_iso (D : QuasicoherentDescentData f) :
       rw [hφ, hφ]
       exact e.hom.hom.comm q f₁ f₂ hf₁ hf₂
     rw [← h]
-    exact (Iso.map_inv_hom_id_assoc (φ i₁) _ _).symm
+    exact (Iso.inv_hom_id_map_assoc (φ i₁) _ _).symm
   · rintro ⟨M, φ, hφ⟩
     refine ⟨M, ⟨ObjectProperty.isoMk _
       (Pseudofunctor.DescentData.isoMk φ fun Y q i₁ i₂ f₁ f₂ hf₁ hf₂ ↦ ?_)⟩⟩

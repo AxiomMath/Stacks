@@ -69,11 +69,8 @@ lemma extensionActionMap_unique
     (hc : ∀ (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (x : E.Z.left.val.obj U),
       E.f.val.app U
           (c.val.app U
-            (((PresheafOfModules.sheafificationAdjunction
-              (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-                i.toToposHom).obj X.O))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor
-                i.toToposHom).obj X.O)).obj)).unit.app
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+              ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).unit.app
               (PresheafOfModules.tensorObj hi.I.val F.val)).app U
               (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U]
                 E.g.val.app U x))) =

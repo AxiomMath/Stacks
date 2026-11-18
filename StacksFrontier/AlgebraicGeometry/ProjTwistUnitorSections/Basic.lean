@@ -141,19 +141,8 @@ the sections over `⊤`. -/
 public def unitTwistSectionsEquiv (n : ℤ) :
     twistedSectionsComponent 𝒮
         (SheafOfModules.unit (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) n ≃+
-      (twistingSheaf 𝒮 n).val.obj (op ⊤) where
-  toFun s := ((λ_ (twistingSheaf 𝒮 n)).hom.val.app (op ⊤)).hom s
-  invFun u := ((λ_ (twistingSheaf 𝒮 n)).inv.val.app (op ⊤)).hom u
-  left_inv s :=
-    congrArg (fun α : twistSheafOfModules 𝒮
-          (SheafOfModules.unit (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) n ⟶
-        twistSheafOfModules 𝒮
-          (SheafOfModules.unit (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) n =>
-      (α.val.app (op ⊤)).hom s) (λ_ (twistingSheaf 𝒮 n)).hom_inv_id
-  right_inv u :=
-    congrArg (fun α : twistingSheaf 𝒮 n ⟶ twistingSheaf 𝒮 n => (α.val.app (op ⊤)).hom u)
-      (λ_ (twistingSheaf 𝒮 n)).inv_hom_id
-  map_add' s t := map_add ((λ_ (twistingSheaf 𝒮 n)).hom.val.app (op ⊤)).hom s t
+      (twistingSheaf 𝒮 n).val.obj (op ⊤) :=
+  ((SheafOfModules.evaluation _ (op ⊤)).mapIso (λ_ (twistingSheaf 𝒮 n))).toLinearEquiv.toAddEquiv
 
 /-- The `n`-th twisting sheaf, as a sheaf of modules over
 `Stacks.RingedSpace.structureSheafRing (Proj 𝒮).toRingedSpace`. -/

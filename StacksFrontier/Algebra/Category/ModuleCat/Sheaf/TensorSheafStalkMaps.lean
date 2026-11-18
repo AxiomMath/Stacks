@@ -246,11 +246,20 @@ theorem tensorSheafStalkEquiv_stalkMapL_tensorHom (f : A ⟶ A') (g : B ⟶ B') 
   exact (congrArg₂ (fun p q => p ⊗ₜ q) (PresheafOfModules.stalkMapL_germ x f.val W hx s)
     (PresheafOfModules.stalkMapL_germ x g.val W hx t)).symm
 
+/-- A morphism of sheaves of modules whose stalk maps are all surjective is an epimorphism,
+with the stalk maps taken of `φ.val`. Stated for arbitrary sheaves, so that applying it to a
+morphism between tensor product sheaves never compares their sections with the
+`restrictScalars` spelling of `SheafOfModules.SymPresentation.valHom`. -/
+private theorem epi_of_surjective_stalkMapL {M N : SheafOfModules.{u}
+      (toRingCat (Opens.grothendieckTopology ↥X) Osharp)} (φ : M ⟶ N)
+    (h : ∀ x : ↥X, Function.Surjective (PresheafOfModules.stalkMapL x φ.val)) : Epi φ :=
+  (SheafOfModules.SymPresentation.epi_iff_surjective_stalkMapL φ).2 h
+
 /-- The tensor product of two epimorphisms of sheaves of modules is an epimorphism. -/
 theorem epi_tensorHom (f : A ⟶ A') (g : B ⟶ B') [Epi f] [Epi g] : Epi (tensorHom f g) := by
   have hf := (SheafOfModules.SymPresentation.epi_iff_surjective_stalkMapL f).1 inferInstance
   have hg := (SheafOfModules.SymPresentation.epi_iff_surjective_stalkMapL g).1 inferInstance
-  refine (SheafOfModules.SymPresentation.epi_iff_surjective_stalkMapL _).2 fun x t => ?_
+  refine epi_of_surjective_stalkMapL (tensorHom f g) fun x t => ?_
   obtain ⟨w, hw⟩ := TensorProduct.map_surjective (hf x) (hg x)
     (PresheafOfModules.tensorSheafStalkEquiv Osharp A' B' x t)
   refine ⟨(PresheafOfModules.tensorSheafStalkEquiv Osharp A B x).symm w,

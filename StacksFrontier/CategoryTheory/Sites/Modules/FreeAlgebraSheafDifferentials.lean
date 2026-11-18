@@ -150,7 +150,8 @@ theorem isFlat_moduleSheafification
   exact preservesFiniteLimits_of_natIso
     (Functor.isoWhiskerLeft
       (_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O))
-      (tensorRightSheafificationIso O P))
+      (tensorRightSheafificationIso O P ≪≫
+        Functor.isoWhiskerLeft _ (Stacks.SheafOfModules.Tensor.sheafificationIso O)))
 
 end Flat
 

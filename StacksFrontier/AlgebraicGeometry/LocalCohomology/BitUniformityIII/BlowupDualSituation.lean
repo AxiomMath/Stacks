@@ -87,14 +87,65 @@ theorem tensorSheafCommIso_hom_tmul (Y : RingedSpace.{u, u})
     (a : F.val.obj U) (b : G.val.obj U) :
     (((RingedSpaceThickening.tensorSheafCommIso Y F G).hom.val.app U).hom
       (toTensorSheafSection Y F G U (a ⊗ₜ b))) = toTensorSheafSection Y G F U (b ⊗ₜ a) :=
-  congrArg (fun φ => (φ.app U).hom (a ⊗ₜ b))
-    ((PresheafOfModules.sheafificationAdjunction (R := structureSheafRing Y)
-      (𝟙 (structureSheafRing Y).obj)).unit.naturality
-        (RingedSpaceThickening.presheafTensorCommHom F.val G.val)).symm
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply
+    (R := (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))
+    (RingedSpaceThickening.presheafTensorCommHom F.val G.val) U (a ⊗ₜ b)
 
 end Comm
 
 section QuotientIso
+
+/-- A composite of morphisms of `𝒪_X`-modules, on a local section, with the two one-step
+evaluations supplied as hypotheses. Stated for variables, so that instantiating it never unfolds
+the sealed sheafification inside a tensor product sheaf. -/
+private theorem comp_val_app_apply_of {X : Scheme.{u}} {M N K : X.Modules}
+    (f : M ⟶ N) (g : N ⟶ K) (U : X.Opensᵒᵖ) {s : M.val.obj U} {t : N.val.obj U}
+    {t' : K.val.obj U} (hf : (f.val.app U).hom s = t) (hg : (g.val.app U).hom t = t') :
+    ((f ≫ g).val.app U).hom s = t' := by
+  subst hf hg
+  rfl
+
+/-- A composite `Iso.refl M ≪≫ c ≪≫ w` of isomorphisms of `𝒪_X`-modules, on a local section,
+with the two nontrivial one-step evaluations supplied as hypotheses. -/
+private theorem refl_trans_trans_hom_val_app_apply {X : Scheme.{u}} {M K L : X.Modules}
+    (c : M ≅ K) (w : K ≅ L) (U : X.Opensᵒᵖ) {s : M.val.obj U} {t : K.val.obj U}
+    {t' : L.val.obj U} (hc : (c.hom.val.app U).hom s = t) (hw : (w.hom.val.app U).hom t = t') :
+    ((Iso.refl M ≪≫ c ≪≫ w).hom.val.app U).hom s = t' := by
+  subst hc hw
+  rfl
+
+open Stacks.SheafOfModules.TensorStalkRingedSpace in
+/-- `Stacks.SheafOfModules.OnSpace.whiskerRight_tmul` with the pure tensor written as
+`toTensorSheafSection`, the spelling of `Stacks.SheafOfModules.OnSpace.tensor_hom_ext`. -/
+private theorem whiskerRight_toTensorSheafSection (X : Scheme.{u}) {M M' : X.Modules}
+    (f : M ⟶ M') (N : X.Modules) (U : X.Opensᵒᵖ) (a : M.val.obj U) (b : N.val.obj U) :
+    ((f ▷ N).val.app U).hom (toTensorSheafSection X.toRingedSpace M N U (a ⊗ₜ b)) =
+      toTensorSheafSection X.toRingedSpace M' N U ((f.val.app U).hom a ⊗ₜ b) :=
+  Stacks.SheafOfModules.OnSpace.whiskerRight_tmul X.toRingedSpace f N U a b
+
+open Stacks.SheafOfModules.TensorStalkRingedSpace in
+/-- `Stacks.SheafOfModules.OnSpace.whiskerLeft_tmul` with the pure tensor written as
+`toTensorSheafSection`. -/
+private theorem whiskerLeft_toTensorSheafSection (X : Scheme.{u}) (M : X.Modules)
+    {N N' : X.Modules} (g : N ⟶ N') (U : X.Opensᵒᵖ) (a : M.val.obj U) (b : N.val.obj U) :
+    ((M ◁ g).val.app U).hom (toTensorSheafSection X.toRingedSpace M N U (a ⊗ₜ b)) =
+      toTensorSheafSection X.toRingedSpace M N' U (a ⊗ₜ (g.val.app U).hom b) :=
+  Stacks.SheafOfModules.OnSpace.whiskerLeft_tmul X.toRingedSpace M g U a b
+
+open Stacks.SheafOfModules.TensorStalkRingedSpace in
+/-- `twistedPullbackQuotientIsoThickeningTwist` on a local pure tensor: it swaps the two factors
+and applies `pullbackTildeQuotientIsoThickeningSheaf` to the second one. -/
+private theorem twistedPullbackQuotientIsoThickeningTwist_hom_apply (n q : ℕ)
+    (U : (blowupScheme I).Opensᵒᵖ) (a : (blowupTwist I q).val.obj U)
+    (b : ((AlgebraicGeometry.TopDegreeBaseChange.pullbackFactor A
+      (Stacks.Blowup.blowUpOver I)).obj ((AlgebraicGeometry.TopDegreeBaseChange.tildeFactor A).obj
+        (ModuleCat.of A (A ⧸ I ^ n)))).val.obj U) :
+    ((twistedPullbackQuotientIsoThickeningTwist I n q).hom.val.app U).hom
+        (toTensorSheafSection (blowupScheme I).toRingedSpace (blowupTwist I q) _ U (a ⊗ₜ b)) =
+      toTensorSheafSection (blowupScheme I).toRingedSpace (thickeningSheaf I n) (blowupTwist I q)
+        U (((pullbackTildeQuotientIsoThickeningSheaf I n).hom.val.app U).hom b ⊗ₜ a) :=
+  refl_trans_trans_hom_val_app_apply _ _ U (tensorSheafCommIso_hom_tmul _ _ _ U a b)
+    (whiskerRight_toTensorSheafSection _ _ _ U b a)
 
 /-- **The twisting-down map `𝒪_{Yₙ}(r) ⟶ 𝒪_{Yₙ}(r')`**: `Stacks.Blowup.twistDownMap` whiskered
 into `𝒪_{Yₙ}`. -/
@@ -102,6 +153,19 @@ def thickeningTwistDown (n : ℕ) {r' r : ℕ} (hz : (r' : ℤ) ≤ (r : ℤ)) :
     thickeningTwist I n r ⟶ thickeningTwist I n r' :=
   thickeningSheaf I n ◁ (Stacks.Blowup.twistDownMap I (r : ℤ) (r' : ℤ) hz :
     blowupTwist I r ⟶ blowupTwist I r')
+
+open Stacks.SheafOfModules.TensorStalkRingedSpace in
+/-- `thickeningTwistDown` on a local pure tensor: it twists down the second factor. -/
+private theorem thickeningTwistDown_apply (n : ℕ) {r' r : ℕ} (hz : (r' : ℤ) ≤ (r : ℤ))
+    (U : (blowupScheme I).Opensᵒᵖ) (c : (thickeningSheaf I n).val.obj U)
+    (a : (blowupTwist I r).val.obj U) :
+    ((thickeningTwistDown I n hz).val.app U).hom
+        (toTensorSheafSection (blowupScheme I).toRingedSpace (thickeningSheaf I n)
+          (blowupTwist I r) U (c ⊗ₜ a)) =
+      toTensorSheafSection (blowupScheme I).toRingedSpace (thickeningSheaf I n)
+        (blowupTwist I r') U (c ⊗ₜ ((Stacks.Blowup.twistDownMap I (r : ℤ) (r' : ℤ) hz :
+          blowupTwist I r ⟶ blowupTwist I r').val.app U).hom a) :=
+  whiskerLeft_toTensorSheafSection _ _ _ U c a
 
 /-- The canonical maps `𝒪_X(r) ⟶ 𝒪_{Yₙ}(r)` commute with twisting down. -/
 theorem thickeningTwistProj_comp_thickeningTwistDown (n : ℕ) {r' r : ℕ}
@@ -136,24 +200,14 @@ theorem twistDownFactorMap_app_comp_quotientIso (n : ℕ) {r' r : ℕ}
     change 𝟙 _ ≫ (f ⊗ₘ 𝟙 P) ≫ 𝟙 _ = _
     rw [Category.id_comp, Category.comp_id]
     exact tensorHom_id f P
-  let X := (blowupScheme I).toRingedSpace
-  let ψ := (pullbackTildeQuotientIsoThickeningSheaf I n).hom
-  refine Stacks.SheafOfModules.OnSpace.tensor_hom_ext X (fun U a b => ?_)
+  refine Stacks.SheafOfModules.OnSpace.tensor_hom_ext (blowupScheme I).toRingedSpace
+    (A := blowupTwist I r) (B := P) (fun U a b => ?_)
   rw [hL]
-  have e1 := Stacks.SheafOfModules.OnSpace.whiskerRight_tmul X f P U a b
-  have e2 := tensorSheafCommIso_hom_tmul X (blowupTwist I r') P U ((f.val.app U).hom a) b
-  have e3 := Stacks.SheafOfModules.OnSpace.whiskerRight_tmul X ψ (blowupTwist I r') U b
-    ((f.val.app U).hom a)
-  have e4 := tensorSheafCommIso_hom_tmul X (blowupTwist I r) P U a b
-  have e5 := Stacks.SheafOfModules.OnSpace.whiskerRight_tmul X ψ (blowupTwist I r) U b a
-  have e6 := Stacks.SheafOfModules.OnSpace.whiskerLeft_tmul X (thickeningSheaf I n) f U
-    ((ψ.val.app U).hom b) a
-  refine (congrArg ((twistedPullbackQuotientIsoThickeningTwist I n r').hom.val.app U).hom
-    e1).trans ?_
-  refine ((congrArg ((ψ ▷ blowupTwist I r').val.app U).hom e2).trans e3).trans ?_
-  refine Eq.trans ?_ (congrArg ((thickeningTwistDown I n hz).val.app U).hom
-    ((congrArg ((ψ ▷ blowupTwist I r).val.app U).hom e4).trans e5)).symm
-  exact e6.symm
+  refine (comp_val_app_apply_of _ _ U (whiskerRight_toTensorSheafSection _ f P U a b)
+    (twistedPullbackQuotientIsoThickeningTwist_hom_apply I n r' U _ b)).trans (Eq.symm ?_)
+  exact comp_val_app_apply_of _ _ U
+    (twistedPullbackQuotientIsoThickeningTwist_hom_apply I n r U a b)
+    (thickeningTwistDown_apply I n hz U _ a)
 
 /-- **The twisting-down map on `Hⁱ(X, 𝒪_X(r) ⊗ p^*((A/Iⁿ)~))`, read on `Hⁱ(X, 𝒪_{Yₙ}(r))`**, is
 `Hⁱ` of `thickeningTwistDown`: `twistDownFactorMap_app_comp_quotientIso` pushed through the

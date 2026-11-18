@@ -263,6 +263,21 @@ namespace Stacks.ProjectiveBundleConormal
 
 attribute [local instance] monoidalSheafTensor
 
+/-- The comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` of Mathlib's sheafification
+with the sealed one is, componentwise, the transport along the seal's defining equation
+`Stacks.SheafOfModules.Tensor.sheafification_def`: the sealed adjunction is Mathlib's, transported
+along that equation. -/
+private theorem sheafificationIso_hom_app {C : Type u} [Category.{v} C]
+    {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{w})
+    [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+    (M : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :
+    (Stacks.SheafOfModules.Tensor.sheafificationIso R).hom.app M =
+      (eqToHom (Stacks.SheafOfModules.Tensor.sheafification_def R).symm).app M := by
+  apply ((PresheafOfModules.sheafificationAdjunction _).homEquiv _ _).injective
+  rw [Stacks.SheafOfModules.Tensor.sheafificationIso_def,
+    Adjunction.homEquiv_leftAdjointUniq_hom_app]
+  simp [Stacks.SheafOfModules.Tensor.sheafificationAdjunction, Adjunction.homEquiv_unit]
+
 /-- **The conormal construction's comparison of the two tensor products is the re-seating's own.**
 `AlgebraicGeometry.SheafOfModules.tensorIso`, the factor that
 `Stacks.ProjBundleInverseBaseChange.pullbackTensorIso` and
@@ -274,15 +289,18 @@ re-seating `SheafOfModules.monoidalCategorySheafTensor_eq_reseat` exhibits.
 So the conjugation those definitions carry is exactly the re-seating's, and
 `CategoryTheory.MonoidalCategory.reseat_pin` cancels it; and
 `SheafOfModules.sheafTensorIso_naturality_left` and `..._naturality_right` apply to `tensorIso`
-directly.
+up to that comparison.
 
-The `CategoryTheory.Iso.ext` is not avoidable: the forward maps are definitionally equal and
-`rfl` on the isomorphisms is not, `CategoryTheory.Iso.inv` not being exposed across the module
-boundary. -/
+`tensorIso` lands in the sealed tensor sheaf `Stacks.SheafOfModules.Tensor.sheafTensor` and
+`sheafTensorIso` in Mathlib's sheafification of the presheaf tensor product, so the two are
+compared through `Stacks.SheafOfModules.Tensor.sheafTensorObjIso`. The forward maps then agree
+by `sheafificationIso_hom_app`, the seal being opened only at the functor level. -/
 theorem tensorIso_eq_sheafTensorIso (X : Scheme.{u}) (F G : X.Modules) :
     AlgebraicGeometry.SheafOfModules.tensorIso X.presheaf (isSheaf_structureRingPresheaf X) F G =
-      SheafOfModules.sheafTensorIso X.toRingedSpace.sheaf F G :=
-  Iso.ext rfl
+      SheafOfModules.sheafTensorIso X.toRingedSpace.sheaf F G ≪≫
+        (Stacks.SheafOfModules.Tensor.sheafTensorObjIso _ F G).symm :=
+  Iso.ext (congrArg ((SheafOfModules.sheafTensorIso X.toRingedSpace.sheaf F G).hom ≫ ·)
+    (sheafificationIso_hom_app X.sheaf _)).symm
 
 /-- **The conormal construction's comparison of the two units is the re-seating's own.**
 `AlgebraicGeometry.SheafOfModules.unitIso`, the factor that

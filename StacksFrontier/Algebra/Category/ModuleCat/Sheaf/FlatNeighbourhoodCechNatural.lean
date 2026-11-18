@@ -87,8 +87,7 @@ theorem tensorUnitMap_comp_sheafTensorRightUnitIso_hom :
       structureMap O φ := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun X => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  let adj := PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
+  let adj := Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction O
   let lam := ((PresheafOfModulesOfCommRing.monoidalCategoryStruct (R := O.obj)).leftUnitor
     (RestrictedRingModule φ).val).hom
   have hτ := (tensorUnitMap φ (RingModule O)).property X x

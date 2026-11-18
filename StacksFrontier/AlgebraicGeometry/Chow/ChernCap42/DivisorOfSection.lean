@@ -126,9 +126,10 @@ theorem tensorPairing_zero_left
     tensorPairing ψ W (0 : L.val.obj (op W)) b = 0 := by
   have hz : Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace L N
     (op W) 0 = 0 :=
-    ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (X.toRingedSpace).presheaf) (L.val) (N.val)))).app
-        (op W)).hom.map_zero
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj (O := X.toRingedSpace.presheaf) L.val N.val)).app
+          (op W)).hom.map_zero
   unfold tensorPairing
   rw [TensorProduct.zero_tmul, hz]
   exact (ψ.hom.val.app (op W)).hom.map_zero

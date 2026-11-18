@@ -200,10 +200,10 @@ theorem idealTensor_sum_tmul_locally_eq_zero (hi : FirstOrderThickening i)
       (PresheafOfModules.tensorObj hi.I.val M.val).map g.op
         (∑ j, ε j ⊗ₜ[(baseRing i).obj.obj (op W)] (q.val.app _ (s j) : M.val.obj (op W))) = 0 := by
   classical
-  let ηP := (PresheafOfModules.sheafificationAdjunction (R := ringSheaf (baseRing i))
-    (𝟙 (ringSheaf (baseRing i)).obj)).unit.app (PresheafOfModules.tensorObj hi.I.val M.val)
-  let η'P := (PresheafOfModules.sheafificationAdjunction (R := ringSheaf Y.O)
-    (𝟙 (ringSheaf Y.O).obj)).unit.app (PresheafOfModules.tensorObj
+  let ηP := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
+    (PresheafOfModules.tensorObj hi.I.val M.val)
+  let η'P := (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
+    (PresheafOfModules.tensorObj
       ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj hi.I).val F'.val)
   let x' : (PresheafOfModules.tensorObj
       ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj hi.I).val F'.val).obj (op W) :=
@@ -234,9 +234,13 @@ theorem idealTensor_sum_tmul_locally_eq_zero (hi : FirstOrderThickening i)
       (op W)).hom _ _).symm.trans h)
     refine (map_sum (ηP.app (op W)).hom _ _).trans (Finset.sum_congr rfl fun j _ => ?_)
     exact (reductionTensorMap_tmul i.fSharp hi.I F' M q (op W) (ε j) (s j)).symm
-  have hmem := Presheaf.equalizerSieve_mem Y.J
-    (CategoryTheory.toSheafify Y.J (PresheafOfModules.tensorObj hi.I.val M.val).presheaf) x 0
-    (h3.trans (map_zero (ηP.app (op W)).hom).symm)
+  have := Stacks.SheafOfModules.Tensor.isLocallyInjective_sheafificationAdjunction_unit_app
+    (baseRing i) (PresheafOfModules.tensorObj hi.I.val M.val)
+  have hmem := Presheaf.equalizerSieve_mem Y.J ((PresheafOfModules.toPresheaf _).map
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (baseRing i)).unit.app
+      (PresheafOfModules.tensorObj hi.I.val M.val))) x 0
+    (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction_unit_app_app_apply _ _ _
+      x).symm.trans h3).trans (map_zero _).symm)
   refine ⟨_, hmem, fun W' g hg => ?_⟩
   have h : (PresheafOfModules.tensorObj hi.I.val M.val).presheaf.map g.op x =
       (PresheafOfModules.tensorObj hi.I.val M.val).presheaf.map g.op 0 := hg

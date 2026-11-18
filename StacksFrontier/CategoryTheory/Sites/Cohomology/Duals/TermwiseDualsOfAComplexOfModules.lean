@@ -83,7 +83,8 @@ it is `Stacks.SheafOfModules.Strict.dualComplex` in
 identities for a complex vanishing outside a finite set of degrees. The full assertion of
 [Stacks, Tag 0FPR], under the tag's local hypothesis, where `η = ∑ ηₙ` is a locally finite sum,
 is `Stacks.SheafOfModules.Strict.isLeftDual_dualComplexOfLocallyStrictlyPerfect` in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/LeftDualOfALocallyStrictlyPerfectComplex.lean`.
+`LeftDualOfALocallyStrictlyPerfectComplex.lean` of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Duals/`.
 
 **Universes.** The module universe is forced equal to the ring universe `max u v`, as it is
 throughout the [Stacks, Tag 0FNY] cluster: the internal hom of [Stacks, Tag 03EM] makes a

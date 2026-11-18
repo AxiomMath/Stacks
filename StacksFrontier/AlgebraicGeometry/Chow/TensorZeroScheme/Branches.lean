@@ -79,7 +79,7 @@ object: without the ascription the `Module Γ(X, U) Γ(-, U)` instance, which is
 -/
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits MonoidalCategory Opposite
-open Stacks.SheafOfModules.TensorSheafification (toSheafify)
+open Stacks.SheafOfModules.Invertible (structureSheafificationAdjunction)
 open Stacks.SheafOfModules (tensorSectionsAt)
 open Stacks.PullbackTensorIso (pullbackTensorSection)
 open scoped TensorProduct
@@ -107,23 +107,23 @@ abbrev tensorSection (M N : X.Modules) (U : X.Opens) (m : Γ(M, U)) (n : Γ(N, U
 theorem tensorSection_restrict (M N : X.Modules) {V W : X.Opens} (f : W ⟶ V)
     (m : Γ(M, V)) (n : Γ(N, V)) :
     (tensorModules M N).presheaf.map f.op (tensorSection M N V m n) =
-      tensorSection M N W (M.presheaf.map f.op m) (N.presheaf.map f.op n) := by
-  have h := (toSheafify X.sheaf.obj X.ringCatSheaf.property (M.val ⊗ N.val)).naturality f.op
-  have hh := congrArg (fun k => k.hom (m ⊗ₜ[X.sheaf.obj.obj (op V)] n)) h
-  change ((toSheafify X.sheaf.obj X.ringCatSheaf.property (M.val ⊗ N.val)).app (op W)).hom
-    ((M.val.map f.op).hom m ⊗ₜ[X.sheaf.obj.obj (op W)] (N.val.map f.op).hom n) = _ at hh
-  exact hh.symm
+      tensorSection M N W (M.presheaf.map f.op m) (N.presheaf.map f.op n) :=
+  (PresheafOfModules.naturality_apply
+    ((structureSheafificationAdjunction X.sheaf.obj X.ringCatSheaf.property).unit.app
+      (PresheafOfModules.tensorObj (O := X.sheaf.obj) M.val N.val)) f.op (m ⊗ₜ n)).symm
 
 /-- Pairing with a fixed section of `N` is linear in the section of `M`. -/
 def tensorSectionRight (M N : X.Modules) (U : X.Opens) (n : Γ(N, U)) :
     Γ(M, U) →ₗ[Γ(X, U)] Γ(tensorModules M N, U) :=
-  ((toSheafify X.sheaf.obj X.ringCatSheaf.property (M.val ⊗ N.val)).app (op U)).hom ∘ₗ
+  (((structureSheafificationAdjunction X.sheaf.obj X.ringCatSheaf.property).unit.app
+    (PresheafOfModules.tensorObj (O := X.sheaf.obj) M.val N.val)).app (op U)).hom ∘ₗ
     (TensorProduct.mk Γ(X, U) Γ(M, U) Γ(N, U)).flip n
 
 /-- Pairing with a fixed section of `M` is linear in the section of `N`. -/
 def tensorSectionLeft (M N : X.Modules) (U : X.Opens) (m : Γ(M, U)) :
     Γ(N, U) →ₗ[Γ(X, U)] Γ(tensorModules M N, U) :=
-  ((toSheafify X.sheaf.obj X.ringCatSheaf.property (M.val ⊗ N.val)).app (op U)).hom ∘ₗ
+  (((structureSheafificationAdjunction X.sheaf.obj X.ringCatSheaf.property).unit.app
+    (PresheafOfModules.tensorObj (O := X.sheaf.obj) M.val N.val)).app (op U)).hom ∘ₗ
     TensorProduct.mk Γ(X, U) Γ(M, U) Γ(N, U) m
 
 /-- Pairing on the right, evaluated. -/

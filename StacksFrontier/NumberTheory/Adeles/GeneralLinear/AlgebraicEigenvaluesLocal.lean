@@ -123,11 +123,13 @@ public theorem index_span_singleton (hv : v.IsDiscrete) {a : v.integers} (ha : a
 
 /-- **Index and determinant over `O_v`**: for an injective `O_v`-linear endomorphism `φ` of
 `O_v^ι`, the image `φ O_v^ι` has index `q_v ^ {ord_v (det φ)}` in `O_v^ι`. -/
-public theorem index_range_eq (hv : v.IsDiscrete) {ι : Type*} [Fintype ι] [DecidableEq ι]
+public theorem index_range_eq (hv : v.IsDiscrete) {ι : Type*} [Finite ι]
     (φ : (ι → v.integers) →ₗ[v.integers] (ι → v.integers)) (hφ : Function.Injective φ) :
     (LinearMap.range φ).toAddSubgroup.index =
       v.residueCard ^ (v.ordC ((LinearMap.det φ : v.integers) : v.completion)).toNat := by
-  haveI := isDiscreteValuationRing_integers hv
+  classical
+  have := Fintype.ofFinite ι
+  have := isDiscreteValuationRing_integers hv
   let N := LinearMap.range φ
   let e : (ι → v.integers) ≃ₗ[v.integers] N := LinearEquiv.ofInjective φ hφ
   have h : Module.finrank v.integers N = Module.finrank v.integers (ι → v.integers) :=
@@ -165,7 +167,7 @@ public theorem index_range_eq (hv : v.IsDiscrete) {ι : Type*} [Fintype ι] [Dec
   have hkey : ((LinearMap.det φ : v.integers) : v.completion) * ((w : v.integers) : v.completion) =
       ∏ i, ((a i : v.integers) : v.completion) := by
     have := congrArg (fun x : v.integers => (x : v.completion)) hw
-    simpa only [MulMemClass.coe_mul, hdetf, SubmonoidClass.coe_finset_prod] using this
+    simpa only [MulMemClass.coe_mul, hdetf, SubmonoidClass.coe_finsetProd] using this
   have hP0 : ∏ i, ((a i : v.integers) : v.completion) ≠ 0 :=
     Finset.prod_ne_zero_iff.2 fun i _ => ha0 i
   rw [← hkey] at hP0
@@ -213,7 +215,7 @@ private theorem compLeft_mulVec (g : GL (Fin n) v.completion)
   funext i
   change (((integralMatrix g hg *ᵥ y) i : v.integers) : v.completion) =
     ∑ j, g.val i j * (y j : v.completion)
-  simp only [Matrix.mulVec, dotProduct, AddSubmonoidClass.coe_finset_sum, MulMemClass.coe_mul]
+  simp only [Matrix.mulVec, dotProduct, AddSubmonoidClass.coe_finsetSum, MulMemClass.coe_mul]
   rfl
 
 /-- **Index of a translate of the standard lattice**: for `g ∈ GL_n(K_v)` with entries in `O_v`

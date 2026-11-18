@@ -52,7 +52,8 @@ of `𝔟` and `Q'` the henselization of `(P', 𝔭')`.
 The henselization of `(B, 𝔟)` is described by the henselian-pair condition together with the
 universal property, as in `StacksFrontier.Deformation.FlatAlgebraLiftHenselization`, whose
 equivalence `Deformation.hasFlatAlgebraLift_henselization_iff` assumes the refuted `h0DZ2` and is
-therefore vacuous; this file replaces it as the formalization of Stacks 0DZB. The comparison ring `Q'` is the canonical `henselization P' 𝔭'`. Only `A'` needs to
+therefore vacuous; this file replaces it as the formalization of Stacks 0DZB. The comparison ring
+`Q'` is the canonical `henselization P' 𝔭'`. Only `A'` needs to
 be Noetherian for the proof; the source's Noetherian hypothesis on `A` is kept.
 
 ## References

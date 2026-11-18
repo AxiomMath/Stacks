@@ -49,7 +49,8 @@ proved by another route, through derivations:
 ## Main definitions
 
 * `AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`: the one statement this reduction of
-  Stacks 05ZC takes — invertibility of the comparison map of Stacks 04CX for a cartesian square of schemes of
+  Stacks 05ZC takes — invertibility of the comparison map of Stacks 04CX for a cartesian square of
+  schemes of
   the site, read as a square of represented algebraic spaces.
 
 ## Main results

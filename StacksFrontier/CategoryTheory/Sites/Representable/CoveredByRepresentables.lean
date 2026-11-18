@@ -46,7 +46,8 @@ Applying this to `F` and to the kernel pair `F₀ ×_F F₀` of `F₀ ⟶ F`, an
 epimorphism of sheaves of sets is the coequalizer of its kernel pair
 (`CategoryTheory.Sheaf.isColimitCoforkOfEpiOfEpi`), gives the full statement
 `exists_isColimit_cofork_sigma_sheafifiedYoneda` (in
-`StacksFrontier.CategoryTheory.Sites.Representable.CoequalizerPresentation`): `F` is a coequalizer `F₁ ⇉ F₀ → F` where
+`StacksFrontier.CategoryTheory.Sites.Representable.CoequalizerPresentation`): `F` is a coequalizer
+`F₁ ⇉ F₀ → F` where
 `F₀` and `F₁` are coproducts, in the category of sheaves, of sheaves `h_U^♯` with `U ∈ E`.
 -/
 

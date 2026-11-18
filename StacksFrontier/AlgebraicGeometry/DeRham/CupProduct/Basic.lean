@@ -314,25 +314,20 @@ that defines the tensor product of sheaves of modules. -/
 noncomputable def exteriorProductComponent (p q : ℕ) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A).obj (deRhamTerm B p)).obj
       (deRhamTerm B q) ⟶ deRhamTerm B (p + q) :=
-  (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)).symm
-      (exteriorProductPresheafMap B p q)
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv _ _).symm
+    (exteriorProductPresheafMap B p q)
 
 /-- The component computes the wedge product on a local pure tensor. -/
 theorem exteriorProductComponent_unit_apply (p q : ℕ) (U : (Opens X.carrier)ᵒᵖ)
     (x : (B.exteriorPower p).val.obj U) (y : (B.exteriorPower q).val.obj U) :
     (exteriorProductComponent B p q).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj (deRhamTerm B p).val (deRhamTerm B q).val)).app U (x
             ⊗ₜ[A.obj.obj U] y)) =
       formProduct B p q U x y :=
-  lift_unit_apply (Opens.grothendieckTopology X.carrier)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)
-    (PresheafOfModules.tensorObj (O := A.obj) (deRhamTerm B p).val (deRhamTerm B q).val)
-    (deRhamTerm B (p + q))
-    (exteriorProductPresheafMap B p q) U (x ⊗ₜ[A.obj.obj U] y)
+  PresheafOfModules.hom_congr_apply'
+    (Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm (R := A)
+      (N := deRhamTerm B (p + q)) (exteriorProductPresheafMap B p q)) U _
 
 /-! ### The Leibniz rule for the components -/
 
@@ -345,19 +340,13 @@ theorem tensorFunctor_map_unit_apply
     (f : M ⟶ M') (U : (Opens X.carrier)ᵒᵖ) (x : M.val.obj U) (y : N.val.obj U) :
     Eq
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A).map f).app N).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj M.val N.val)).app U
           (x ⊗ₜ[A.obj.obj U] y)))
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj M'.val N.val)).app U
         (f.val.app U x ⊗ₜ[A.obj.obj U] y)) :=
-  PresheafOfModules.unit_naturality_apply
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-    (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply
     (PresheafOfModules.tensorHom f.val (𝟙 N.val)) U (x ⊗ₜ[A.obj.obj U] y)
 
 /-- The tensor product of sheaves of modules, read on the sheafification unit of a pure tensor, in
@@ -368,19 +357,13 @@ theorem tensorFunctor_obj_map_unit_apply
     (U : (Opens X.carrier)ᵒᵖ) (x : M.val.obj U) (y : N.val.obj U) :
     Eq
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A).obj M).map f).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj M.val N.val)).app U
           (x ⊗ₜ[A.obj.obj U] y)))
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj M.val N'.val)).app U
         (x ⊗ₜ[A.obj.obj U] f.val.app U y)) :=
-  PresheafOfModules.unit_naturality_apply
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-    (α := 𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply
     (PresheafOfModules.tensorHom (𝟙 M.val) f.val) U (x ⊗ₜ[A.obj.obj U] y)
 
 /-- Reindexing a term of the de Rham complex does not change the image of a local section in the
@@ -392,19 +375,18 @@ theorem ofGradedForm_XIsoOfEq {p q : ℕ} (h : p = q) (U : (Opens X.carrier)ᵒ�
   subst q
   rfl
 
-/-- The sheafification homomorphism equivalence, read on the unit image of a local section. -/
+/-- The homomorphism equivalence of the sealed sheafification adjunction, read on the unit image
+of a local section. -/
 theorem sheafificationHomEquiv_apply
     {M : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj}
     {N : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A)}
-    (f : (PresheafOfModules.sheafification
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)).obj M ⟶ N)
+    (f : (Stacks.SheafOfModules.Tensor.sheafification A).obj M ⟶ N)
     (U : (Opens X.carrier)ᵒᵖ) (x : M.obj U) :
-    (PresheafOfModules.sheafificationHomEquiv
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj) f).app U x =
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv M N) f).app U x =
       f.val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)).unit.app M).app U x) :=
-  rfl
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app M).app U x) :=
+  PresheafOfModules.hom_congr_apply'
+    ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv_unit M N f) U x
 
 /-- Evaluating a morphism of sheaves of modules on a fixed local section is additive in the
 morphism. -/
@@ -430,8 +412,7 @@ theorem exteriorProductComponent_d (p q : ℕ) :
                 (show p + (q + 1) = p + q + 1 by omega)).hom) := by
   have hp₁ : p + 1 + q = p + q + 1 := by omega
   have hp₂ : p + (q + 1) = p + q + 1 := by omega
-  refine (PresheafOfModules.sheafificationHomEquiv
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj)).injective ?_
+  refine ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).homEquiv _ _).injective ?_
   refine tensorForms_hom_ext B p q ((deRhamComplex B D).X (p + q + 1)) _ _ ?_
   intro U a b ω η hω hη
   refine (sheafificationHomEquiv_apply _ U _).trans

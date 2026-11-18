@@ -8,8 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Duality.NormalizedModelOnAffineLo
 public import StacksFrontier.AlgebraicGeometry.Duality.SurfaceDualizingDegree.NormalizedUpperShriek
 public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekBounded
 public import StacksFrontier.AlgebraicGeometry.NormalizationBaseChange.Normal
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.GorensteinBlowupSequence
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.GorensteinBlowupSequence
 public import StacksFrontier.RingTheory.Dualizing.QuotientExtConcentration
 public import StacksFrontier.RingTheory.LocalCohomology.TopLocalCohomology
 public import StacksCore.Tactic.StacksAttribute

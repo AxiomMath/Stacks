@@ -20,7 +20,8 @@ monomorphisms and epimorphisms.
 * `injective_app_of_injective_sheafPushforwardContinuous_map`,
   `isLocallySurjective_of_isLocallySurjective_sheafPushforwardContinuous_map`: for sheaves of
   sets, the pushforward reflects injections and surjections in the sense of Stacks 00WM
-  (Stacks 04D9); these are in `StacksFrontier.CategoryTheory.Sites.Topos.PushforwardReflectsInjSurj`.
+  (Stacks 04D9); these are in
+  `StacksFrontier.CategoryTheory.Sites.Topos.PushforwardReflectsInjSurj`.
 
 Tags covered: 04D9.
 -/

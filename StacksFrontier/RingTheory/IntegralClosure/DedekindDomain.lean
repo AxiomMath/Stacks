@@ -219,8 +219,7 @@ public theorem solution
     fun m _ => Module.Finite.trans (A ⧸ m) _
   have : IsNoetherianRing C := isNoetherianRing_of_cofg_maximal_smul_top fun m hm => by
     have := hfin m
-    rw [Ideal.smul_top_eq_map]
-    assumption
+    rwa [Ideal.smul_top_eq_map]
   have : Ring.DimensionLEOne C := Ring.DimensionLEOne.of_isIntegral A C
   have : IsIntegrallyClosed C := (isIntegrallyClosed_iff L).mpr fun {x} hx =>
     ⟨IsIntegralClosure.mk' C x (isIntegral_trans (R := A) _ hx),

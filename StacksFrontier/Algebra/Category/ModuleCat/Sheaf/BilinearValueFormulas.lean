@@ -120,10 +120,11 @@ lemma tensorSheafHomEquivPresheafTensorHom_apply
       ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).obj F).obj G ⟶
         N) :
     tensorSheafHomEquivPresheafTensorHom (hA := hA) t =
-      (PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
-          (_root_.PresheafOfModules.tensorObj F.val G.val) ≫ t.val :=
-  (PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA)
-    (𝟙 _)).homEquiv_unit _ _ t
+      (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+            (_root_.PresheafOfModules.tensorObj F.val G.val) ≫ t.val :=
+  (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+    ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).homEquiv_unit _ _ t
 
 /-- **The morphism out of the tensor product sheaf determined by a bilinear pairing, read on the
 objectwise tensor product.** Restricted along the sheafification unit it is the morphism out of
@@ -135,8 +136,9 @@ lemma unit_comp_bilinearEquivTensorSheafHom_val
     (q : { q : moduleSheaf (commRingSheaf J A hA) F ⨯ moduleSheaf (commRingSheaf J A hA) G ⟶
         moduleSheaf (commRingSheaf J A hA) N //
       IsBilinearPairing (commRingSheaf J A hA) q }) :
-    (PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
-          (_root_.PresheafOfModules.tensorObj F.val G.val) ≫
+    (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
+            (_root_.PresheafOfModules.tensorObj F.val G.val) ≫
         (bilinearEquivTensorSheafHom (hA := hA) q).val =
       tensorHomOfPairing (hO := hA) q.2 :=
   (tensorSheafHomEquivPresheafTensorHom_apply (hA := hA) (bilinearEquivTensorSheafHom (hA := hA)
@@ -165,7 +167,8 @@ lemma bilinearEquivTensorSheafHom_val_app_unit_tmul
       IsBilinearPairing (commRingSheaf J A hA) q }) (U : Cᵒᵖ)
     (a : F.val.obj U) (b : G.val.obj U) :
     (bilinearEquivTensorSheafHom (hA := hA) q).val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
             (_root_.PresheafOfModules.tensorObj F.val G.val)).app U
           (a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b)) =
       pairingApp (commRingSheaf J A hA) q.1 U a b :=
@@ -186,7 +189,8 @@ lemma pairingApp_bilinearEquivTensorSheafHom_symm
     pairingApp (commRingSheaf J A hA)
         ((bilinearEquivTensorSheafHom (hA := hA) (F := F) (G := G) (N := N)).symm t).1 U a b =
       t.val.app U
-        (((PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A hA) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨A, Presheaf.isSheaf_of_isSheaf_comp _ A (forget₂ CommRingCat RingCat) hA⟩).unit.app
             (_root_.PresheafOfModules.tensorObj F.val G.val)).app U
           (a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b)) :=
   (pairingApp_pairingOfTensorHom (hO := hA)

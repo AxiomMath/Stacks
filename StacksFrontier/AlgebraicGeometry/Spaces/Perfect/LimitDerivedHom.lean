@@ -57,8 +57,8 @@ than the tag's "is an isomorphism" is stated.
 
 * `AlgebraicGeometry.Space.DescentSituation.isHomColimit_of_ringModel`: the conclusion of
   Stacks 09RI from a ring-level model of the system of homomorphism groups.  Stacks 09RI itself,
-  both clauses with no such input, is
-  `AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`
+  both clauses with no such input, is `AlgebraicGeometry.Space.DescentSituation`'s
+  `isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`
   of `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`.
 
 ## The ring-level model
@@ -70,7 +70,8 @@ site (Stacks 071Q, 08HE, 08HF, 08HG).  That route is carried out in
 `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomPerfectQcohLeaf.lean`.
 
 The theorem of this file instead starts from the *dictionary* that the affine case of the
-source's proof produces, `AlgebraicGeometry.Space.DescentSituation.RingModel`: a ring `R`, a bounded complex
+source's proof produces, `AlgebraicGeometry.Space.DescentSituation.RingModel`: a ring `R`, a bounded
+complex
 `cx` of finitely presented projective `R`-modules, a directed system `N` of complexes of
 `R`-modules whose degreewise filtered colimit is a complex `P`, and bijections
 
@@ -82,7 +83,8 @@ hypothesis as `AlgebraicGeometry.RelativeDescentSituation.AffineRingTranslation`
 theorem of `StacksFrontier/AlgebraicGeometry/Perfect/RelativeDescentCapstone.lean` for Stacks 0DI7,
 the relative scheme-level analogue of this tag.
 
-Starting from it does not turn the statement into a restatement of its own conclusion.  A `RingModel`
+Starting from it does not turn the statement into a restatement of its own conclusion.  A
+`RingModel`
 asserts no colimit property of any system of homomorphism groups.  Its colimit clauses, `hsurj`
 and `hzero`, are assertions about the *modules* in each single degree — every element of `P.X n`
 comes from some `N i` and an element of `N i` dying in `P` dies at a later stage — which is the
@@ -396,7 +398,7 @@ groups (see "The ring-level model" in this file's module documentation),
 `colim_{i ≥ 0} Hom_{D(𝒪_{X_i})}(E_i, K_i) ⟶ Hom_{D(𝒪_X)}(E, K)`
 
 is an isomorphism.  Stacks 09RI itself, with no such model, is
-`AlgebraicGeometry.Space.DescentSituation.isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`.
+`isHomColimit_canonicalDerivedPullbackSystem_of_isPerfect_or_isPseudoCoherent_of_mk_lt_cof_ord`.
 
 The three clauses are read off the ring-level colimit computation of Stacks 09RE, which this
 library proves: surjectivity is

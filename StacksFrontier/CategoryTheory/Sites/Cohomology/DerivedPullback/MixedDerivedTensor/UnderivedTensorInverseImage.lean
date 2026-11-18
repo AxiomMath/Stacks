@@ -165,7 +165,9 @@ restriction of `H` with `G` over `O₁`, naturally in `H`.
 
 This is `Stacks.FlatChangeOfRings.tensorBaseChangeSheafIso` followed by
 `Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso`, which replaces the sectionwise
-extension of scalars by its sheafification. -/
+extension of scalars by its sheafification, and by `Stacks.FlatChangeOfRings.sheafTensorFlipObjIso`,
+which passes from Mathlib's sheafification of the objectwise tensor product to the sealed one
+that `Stacks.SheafOfModules.Tensor.sheafTensor` ends with. -/
 def tensorBaseChangeIso (α : O₁ ⟶ O₂)
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₁)) :
     SheafOfModules.restrictScalars.{w} (Stacks.FlatChangeOfRings.ringSheafMap α) ⋙
@@ -177,7 +179,9 @@ def tensorBaseChangeIso (α : O₁ ⟶ O₂)
   Stacks.FlatChangeOfRings.tensorBaseChangeSheafIso α G ≪≫
     Functor.isoWhiskerRight
       (Functor.isoWhiskerLeft (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-        (Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso α G))
+          (Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso α G) ≪≫
+        (Stacks.FlatChangeOfRings.sheafTensorFlipObjIso O₂
+          ((Stacks.FlatChangeOfRings.extendScalars α).obj G)).symm)
       (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
 
 omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
@@ -237,6 +241,13 @@ def tensorBaseChangeModuleIso (α : O₁ ⟶ O₂) (h : SheafifyCommutesRestrict
       ≅ (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O₂).flip.obj
             ((Stacks.FlatChangeOfRings.extendScalars α).obj G) ⋙
           SheafOfModules.restrictScalars.{w} (Stacks.FlatChangeOfRings.ringSheafMap α) := by
+  refine Functor.isoWhiskerLeft
+      (SheafOfModules.restrictScalars.{w} (Stacks.FlatChangeOfRings.ringSheafMap α))
+      (Stacks.FlatChangeOfRings.sheafTensorFlipObjIso O₁ G) ≪≫ ?_ ≪≫
+    Functor.isoWhiskerRight
+      (Stacks.FlatChangeOfRings.sheafTensorFlipObjIso O₂
+        ((Stacks.FlatChangeOfRings.extendScalars α).obj G)).symm
+      (SheafOfModules.restrictScalars.{w} (Stacks.FlatChangeOfRings.ringSheafMap α))
   refine Iso.trans ?_ (Functor.isoWhiskerLeft
     (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
     (Functor.isoWhiskerRight (Stacks.FlatChangeOfRings.tensorRightExtendScalarsIso α G)

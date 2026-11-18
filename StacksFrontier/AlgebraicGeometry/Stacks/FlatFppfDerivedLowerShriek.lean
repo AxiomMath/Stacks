@@ -86,8 +86,9 @@ tag.
 The coefficient category is `AbCat.{u, u + 1} = Ab.{u + 1}`, as in `FlatFppfInclusion.lean`:
 the two sites live in `Type (u + 1)` with morphisms in `Type u`, and that is the universe in
 which sheafification of abelian presheaves on them is available. In the language of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is the instance `w = u + 1` of its coefficient convention
-`AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the morphism universe of the flat-fppf site.
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is
+the instance `w = u + 1` of its coefficient convention `AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the
+morphism universe of the flat-fppf site.
 
 Each statement opens with the same block of local instances: continuity and cocontinuity of the
 inclusion from the closure property, sheafification on the two sites and Grothendieck

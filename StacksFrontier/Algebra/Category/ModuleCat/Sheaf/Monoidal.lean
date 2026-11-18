@@ -371,13 +371,20 @@ noncomputable def sheafifyTensorIso
   Monoidal.μ (sheafifyFunctor 𝒪 h𝒪) (localIso (J := J) 𝒪) (sheafifyUnitIso 𝒪 h𝒪) P Q
 
 /-- The tensor product of two sheaves of modules is the tensor product sheaf of Tag 01CA: the
-sheafification of their objectwise tensor product. -/
-noncomputable def tensorObjIso
+sheafification of their objectwise tensor product.
+
+It is sealed with `irreducible_def`: the strict monoidal structure conjugates its structure maps by
+this isomorphism, and a transparent body makes the elaborator unfold every such conjugate down to
+the localized structure maps whenever two spellings of a section meet under one of them. The body
+is `tensorObjIso_def`; `tensorObjIso_hom_eq` and `tensorObjIso_inv_eq` characterise it. -/
+noncomputable irreducible_def tensorObjIso
     (F G : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)) :
     F ⊗ G ≅ ((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G :=
   ((sheafifyValIso 𝒪 h𝒪 F).symm ⊗ᵢ (sheafifyValIso 𝒪 h𝒪 G).symm) ≪≫
-    sheafifyTensorIso 𝒪 h𝒪 F.val G.val
+    sheafifyTensorIso 𝒪 h𝒪 F.val G.val ≪≫
+      (Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).app _
 
 /-- The braiding on sheaves of modules, transported from the braiding of presheaves of
 modules. -/

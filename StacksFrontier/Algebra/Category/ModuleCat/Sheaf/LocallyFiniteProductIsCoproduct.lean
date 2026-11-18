@@ -105,7 +105,7 @@ def presToProd : presCoprod R M ⟶ P.val :=
 `i`-th canonical injection. -/
 theorem ι_presToProd (i : I) :
     Sigma.ι (fun k => (M k).val) i ≫ presToProd R M π hP = (deltaInj R M π hP i).val :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- If all but finitely many members of the family have no nonzero sections over `W`, then the
 comparison morphism is an isomorphism over `W`: a direct sum and a product of a family of
@@ -187,13 +187,13 @@ def isColimitCofanDeltaInj (h : IsLocallyFinitelyNonzero R M) :
     change (deltaInj R M π hP j).val ≫ (e t.pt).symm (Sigma.desc fun i => (t.inj i).val) = _
     rw [← ι_presToProd, Category.assoc]
     change Sigma.ι (fun k => (M k).val) j ≫ (e t.pt) ((e t.pt).symm _) = _
-    rw [Equiv.apply_symm_apply, Sigma.ι_desc]
+    rw [Equiv.apply_symm_apply, Sigma.ι_comp_desc]
   · apply SheafOfModules.hom_ext
     change m.val = (e t.pt).symm (Sigma.desc fun i => (t.inj i).val)
     rw [Equiv.eq_symm_apply]
     refine Sigma.hom_ext _ _ fun i => ?_
     change Sigma.ι (fun k => (M k).val) i ≫ presToProd R M π hP ≫ m.val = _
-    rw [← Category.assoc, ι_presToProd, Sigma.ι_desc, ← SheafOfModules.comp_val]
+    rw [← Category.assoc, ι_presToProd, Sigma.ι_comp_desc, ← SheafOfModules.comp_val]
     exact congrArg SheafOfModules.Hom.val (hm i)
 
 end Stacks.SheafOfModules.LocallyFiniteProduct

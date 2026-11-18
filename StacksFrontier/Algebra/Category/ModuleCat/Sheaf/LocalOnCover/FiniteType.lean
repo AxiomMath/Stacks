@@ -48,7 +48,8 @@ generating sections on its members.  The finite type of Stacks 03DL(5) asks for 
 a covering of every object; the two agree by
 `Stacks.SheafOfModules.isFiniteType_of_isFiniteTypeOnSite` and
 `Stacks.SheafOfModules.isFiniteTypeOnSite_of_isFiniteType`, and the registered statements of
-Stacks 03DN(5) are in `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LocalOnCover.FiniteTypeOnSite`.
+Stacks 03DN(5) are in
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LocalOnCover.FiniteTypeOnSite`.
 
 `Stacks.SheafOfModules.bindLocalGeneratorsData` in
 `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.Coherent` is the same gluing construction as the

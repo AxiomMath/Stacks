@@ -153,7 +153,8 @@ theorem weaklyAssociatedPoints_tensorPullback_eq_of_formula
   weaklyAssociatedPoints_tensorPullback_eq_of_localFormula
     (localWeaklyAssociatedTensorFormula_of_formula hformula) f F G hF
 
-/-- The inclusion `⊆` of tag 05IJ under finitely generated maximal ideals on `S`. Let `f : X ⟶ S` be locally of finite type,
+/-- The inclusion `⊆` of tag 05IJ under finitely generated maximal ideals on `S`. Let `f : X ⟶ S` be
+locally of finite type,
 let `F` be a quasi-coherent `𝒪_X`-module of finite type which is flat over `S`, and let `G` be
 an `𝒪_S`-module. If the maximal ideals of the local rings of `S` are finitely generated, then
 every weakly associated point of `F ⊗_{𝒪_X} f^*G` lies on the fibre over a weakly associated

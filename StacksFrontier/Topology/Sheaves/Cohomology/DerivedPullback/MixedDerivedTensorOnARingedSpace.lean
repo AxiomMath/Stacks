@@ -88,7 +88,8 @@ whiskering of Stacks 0G6R — `Lf^* ≅ Lg^* ⋙ Lh^*` — into the second varia
 of that bifunctor with the derived mixed tensor product over `f⁻¹O_Y` is proved here.
 
 `derivedLinearMixedTensorIso` builds the right-hand side as the derived bifunctor of the
-sectionwise mixed tensor product `(H, N) ↦ (H ⊗_{f⁻¹O_Y} N)^#`, computed by K-flat resolutions with flat terms of `N`; the
+sectionwise mixed tensor product `(H, N) ↦ (H ⊗_{f⁻¹O_Y} N)^#`, computed by K-flat resolutions with
+flat terms of `N`; the
 isomorphism is, on a K-flat complex `G` with flat terms, the underived identity
 `F ⊗_{O_X} f^*G ≅ F ⊗_{f⁻¹O_Y} f⁻¹G` of sheaves of `O_X`-modules in each bidegree, as in the
 source's proof.

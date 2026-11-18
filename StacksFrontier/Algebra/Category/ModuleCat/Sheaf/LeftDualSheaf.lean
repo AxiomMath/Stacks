@@ -35,6 +35,15 @@ module universes equal the ring universe, by structure eta and proof irrelevance
   is the tensor product sheaf, and whose tensor product of morphisms is the sheafified objectwise
   one.
 
+## Implementation notes
+
+The tensor product sheaf `Stacks.SheafOfModules.Tensor.sheafTensor` sheafifies through the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, whereas the localized monoidal structure is built
+from Mathlib's sheafification `Stacks.SheafOfModules.sheafifyFunctor`. The two functors are
+compared by the sealed isomorphism `Stacks.SheafOfModules.Tensor.sheafificationIso`, through which
+`Stacks.SheafOfModules.tensorObjIso` lands in the tensor product sheaf, so the statements that
+compare with the tensor product sheaf are made with the sealed functor.
+
 ## References
 
 * [The Stacks Project, Tag 0FNV](https://stacks.math.columbia.edu/tag/0FNV)
@@ -128,13 +137,23 @@ theorem tensorHom_comp_tensorObjIso_hom
     Category.assoc, Category.assoc, sheafifyTensorIso_naturality]
 
 /-- Naturality of the identification `tensorObjIso` of the monoidal product of sheaves of
-modules with the sheafified objectwise tensor product. -/
+modules with the tensor product sheaf, the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the objectwise tensor product. -/
 theorem tensorHom_comp_tensorObjIso (f : A ⟶ A') (g : B ⟶ B') :
     (f ⊗ₘ g) ≫ (tensorObjIso 𝒪 h𝒪 A' B').hom =
-      (tensorObjIso 𝒪 h𝒪 A B).hom ≫ (sheafifyFunctor 𝒪 h𝒪).map (f.val ⊗ₘ g.val) :=
-  tensorHom_comp_tensorObjIso_hom 𝒪 h𝒪 (sheafifyValIso 𝒪 h𝒪 A) (sheafifyValIso 𝒪 h𝒪 A')
-    (sheafifyValIso 𝒪 h𝒪 B) (sheafifyValIso 𝒪 h𝒪 B') f.val g.val f g
-    (comp_sheafifyValIso_inv 𝒪 h𝒪 f) (comp_sheafifyValIso_inv 𝒪 h𝒪 g)
+      (tensorObjIso 𝒪 h𝒪 A B).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).map
+            (f.val ⊗ₘ g.val) := by
+  rw [tensorObjIso_def, tensorObjIso_def]
+  exact (CommSq.vert_comp
+    ⟨(tensorHom_comp_tensorHom _ _ _ _).trans
+      ((congrArg₂ (· ⊗ₘ ·) (comp_sheafifyValIso_inv 𝒪 h𝒪 f) (comp_sheafifyValIso_inv 𝒪 h𝒪 g)).trans
+        (tensorHom_comp_tensorHom _ _ _ _).symm)⟩
+    (CommSq.vert_comp ⟨sheafifyTensorIso_naturality 𝒪 h𝒪 f.val g.val⟩
+      ⟨(Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).hom.naturality
+          _⟩)).w
 
 end Tensorator
 
@@ -144,10 +163,13 @@ variable {A A' B B' : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafifica
   𝒪 h𝒪)}
 
 /-- In the strict monoidal structure, the tensor product of two morphisms is the sheafification
-of the objectwise tensor product of their underlying morphisms of presheaves of modules. -/
+`Stacks.SheafOfModules.Tensor.sheafification` of the objectwise tensor product of their underlying
+morphisms of presheaves of modules. -/
 theorem tensorHom_eq_sheafifyMap (f : A ⟶ A') (g : B ⟶ B') :
     MonoidalCategoryStruct.tensorHom (self := monoidalCategoryStruct 𝒪 h𝒪) f g =
-      (sheafifyFunctor 𝒪 h𝒪).map (f.val ⊗ₘ g.val) :=
+      (Stacks.SheafOfModules.Tensor.sheafification
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).map
+          (f.val ⊗ₘ g.val) :=
   (tensorHom_eq 𝒪 h𝒪 f g).trans
     ((Iso.inv_comp_eq _).2 (tensorHom_comp_tensorObjIso 𝒪 h𝒪 f g))
 
@@ -170,12 +192,11 @@ theorem exists_monoidalCategory_tensorSheaf :
           𝒪 h𝒪)}
           (f : A ⟶ A') (g : B ⟶ B'),
           eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
-            (sheafifyFunctor 𝒪 h𝒪).map (f.val ⊗ₘ g.val) :=
-  ⟨monoidalCategory 𝒪 h𝒪, rfl, fun _ _ ↦ rfl, fun f g ↦ by
-    let := monoidalCategory 𝒪 h𝒪
-    change 𝟙 _ ≫ (f ⊗ₘ g) ≫ 𝟙 _ = _
-    exact (Category.id_comp _).trans
-      ((Category.comp_id _).trans (tensorHom_eq_sheafifyMap 𝒪 h𝒪 f g))⟩
+            (Stacks.SheafOfModules.Tensor.sheafification
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).map
+                (f.val ⊗ₘ g.val) :=
+  ⟨monoidalCategory 𝒪 h𝒪, rfl, fun _ _ ↦ rfl, fun f g ↦
+    (Category.id_comp _).trans ((Category.comp_id _).trans (tensorHom_eq_sheafifyMap 𝒪 h𝒪 f g))⟩
 
 end Strict
 

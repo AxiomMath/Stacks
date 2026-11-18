@@ -46,13 +46,19 @@ All the work is done by `HomologicalComplex₂.TotalMap.totalIso`, which says th
 functor preserving the relevant coproducts commutes with the total complex of a bicomplex,
 with no finiteness hypothesis on the bicomplex. What this file has to supply is that the two
 constructions really are "total then sheafify" and "sheafify then total" *of one and the same
-presheaf-level bicomplex*, and that is a definitional identity: the sheaf-level double complex
+presheaf-level bicomplex*. The sheaf-level double complex
 `((SheafOfModules.Tensor.sheafTensor X.O).mapBifunctorHomologicalComplex _ _).obj A |>.obj B`
-is literally `HomologicalComplex₂.TotalMap.mapBicomplex` of the presheaf-level one, because
+is literally `HomologicalComplex₂.TotalMap.mapBicomplex` of the presheaf-level one along
+`Stacks.SheafOfModules.Tensor.sheafification`, because
 `Stacks.SheafOfModules.Tensor.sheafTensor` is by definition the presheaf tensor product of the
-underlying presheaves followed by sheafification. So the comparison is
-`HomologicalComplex₂.TotalMap.totalIso` transported by nothing at all, and the naturality
-statement is `HomologicalComplex₂.TotalMap.totalIso_naturality`.
+underlying presheaves followed by that sheafification. That sheafification is Mathlib's
+`PresheafOfModules.sheafification` sealed with `irreducible_def`, whereas
+`AlgebraicGeometry.RingedSite.tensorTotal` sheafifies with Mathlib's functor itself. So the
+comparison is `HomologicalComplex₂.TotalMap.totalIso` for the sealed sheafification, followed
+by the comparison of the two sheafifications that the defining equation
+`Stacks.SheafOfModules.Tensor.sheafification_def` provides, and the naturality statement is
+`HomologicalComplex₂.TotalMap.totalIso_naturality` together with the naturality of that
+comparison.
 
 The map comparison with Section 34's monoidal encoding is checked on the linear maps of
 presheaf sections, rather than by normalizing entire bicomplex records. The constructions in
@@ -99,6 +105,37 @@ private lemma naturality_of_map_eq
   (congrArg (fun morphism => comparison ≫ morphism) left_eq).trans
     (naturality.trans (congrArg (fun morphism => morphism ≫ comparison') right_eq).symm)
 
+/-- Equal additive functors, applied termwise to a bicomplex, give equal bicomplexes. -/
+private lemma congr_mapBicomplex
+    {C D : Type*} [Category C] [Category D] [Preadditive C] [Preadditive D]
+    {I₁ I₂ : Type*} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂}
+    {G G' : C ⥤ D} [G.Additive] [G'.Additive] (h : G = G') (K : HomologicalComplex₂ C c₁ c₂) :
+    HomologicalComplex₂.TotalMap.mapBicomplex G K =
+      HomologicalComplex₂.TotalMap.mapBicomplex G' K := by
+  subst h
+  rfl
+
+/-- The totalization comparison `Tot(G(K)) ≅ G(Tot(K))` followed by the comparison
+`G(Tot(K)) ≅ G'(Tot(K))` induced by a natural isomorphism `G ≅ G'` is natural in the
+bicomplex `K`. -/
+private lemma totalIso_trans_mapHomologicalComplex_naturality
+    {C D : Type*} [Category C] [Category D] [Preadditive C] [Preadditive D]
+    {I₁ I₂ I₁₂ : Type*} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂} {c₁₂ : ComplexShape I₁₂}
+    [TotalComplexShape c₁ c₂ c₁₂] [DecidableEq I₁₂] {G G' : C ⥤ D} [G.Additive] [G'.Additive]
+    [∀ n : I₁₂, PreservesColimitsOfShape (Discrete ↥(ComplexShape.π c₁ c₂ c₁₂ ⁻¹' {n})) G]
+    (α : G ≅ G') {K L : HomologicalComplex₂ C c₁ c₂} [K.HasTotal c₁₂] [L.HasTotal c₁₂]
+    [(HomologicalComplex₂.TotalMap.mapBicomplex G K).HasTotal c₁₂]
+    [(HomologicalComplex₂.TotalMap.mapBicomplex G L).HasTotal c₁₂] (φ : K ⟶ L) :
+    (HomologicalComplex₂.TotalMap.totalIso G K ≪≫
+        (NatIso.mapHomologicalComplex α c₁₂).app (K.total c₁₂)).hom ≫
+      (G'.mapHomologicalComplex c₁₂).map (HomologicalComplex₂.total.map φ c₁₂) =
+    HomologicalComplex₂.total.map
+        (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c₁₂ ≫
+      (HomologicalComplex₂.TotalMap.totalIso G L ≪≫
+        (NatIso.mapHomologicalComplex α c₁₂).app (L.total c₁₂)).hom := by
+  simp only [Iso.trans_hom, Iso.app_hom, Category.assoc]
+  rw [← NatTrans.naturality, reassoc_of% (HomologicalComplex₂.TotalMap.totalIso_naturality G K φ)]
+
 variable (X : RingedSite.{u, u, u})
   [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
@@ -112,17 +149,12 @@ local instance :
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).PreservesZeroMorphisms where
   map_zero _ _ := rfl
 
-/-- Sheafification of presheaves of modules preserves coproducts, being a left adjoint. -/
+/-- `Stacks.SheafOfModules.Tensor.sheafification`, the sheafification inside the tensor product
+of sheaves of modules, preserves coproducts, being a left adjoint. -/
 local instance tensorComparisonSheafifyPreservesCoproducts {T : Type} :
     PreservesColimitsOfShape (Discrete T)
-      (PresheafOfModules.sheafification.{u, u, u, u}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)) :=
-  (PresheafOfModules.sheafificationAdjunction
-    (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-    (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).leftAdjoint_preservesColimits
+      (Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} X.O) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationAdjunction X.O).leftAdjoint_preservesColimits
     |>.preservesColimitsOfShape
 
 omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
@@ -161,8 +193,10 @@ omit [∀ (K L : CochainComplex
     (ComplexShape.up ℤ)] in
 /-- The sheaf-level double complex of Section 17 is the presheaf-level double complex with
 sheafification applied to every term, because `Stacks.SheafOfModules.Tensor.sheafTensor` is by
-  definition
-the presheaf tensor product of the underlying presheaves followed by sheafification. -/
+definition the presheaf tensor product of the underlying presheaves followed by
+`Stacks.SheafOfModules.Tensor.sheafification`, whose defining equation
+`Stacks.SheafOfModules.Tensor.sheafification_def` identifies it with Mathlib's
+`PresheafOfModules.sheafification`. -/
 theorem mapBicomplex_presheafTensorBicomplex
     (A B : CochainComplex
       (SheafOfModules.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) :
@@ -173,35 +207,41 @@ theorem mapBicomplex_presheafTensorBicomplex
         (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
         (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
-        (presheafTensorBicomplex X A B) := rfl
+        (presheafTensorBicomplex X A B) :=
+  congr_mapBicomplex (Stacks.SheafOfModules.Tensor.sheafification_def X.O)
+    (presheafTensorBicomplex X A B)
 
 /-- **The two total tensor-product complexes agree.** Sheafifying the total complex of the
 double complex of presheaf tensor products gives the same complex as taking the total complex
 of the sheafified double complex: `tensorTotal X A B ≅ Tot(A ⊗_O B)`. Degreewise this is the
 statement that sheafification, being a left adjoint, commutes with the coproduct
-`⨁_{p + q = n} A_p ⊗ B_q`. -/
+`⨁_{p + q = n} A_p ⊗ B_q`.
+
+It is `HomologicalComplex₂.TotalMap.totalIso` for `Stacks.SheafOfModules.Tensor.sheafification`,
+the sheafification inside `Stacks.SheafOfModules.Tensor.sheafTensor`, followed by the comparison
+of that sheafification with Mathlib's `PresheafOfModules.sheafification`, the one `tensorTotal`
+uses, which the defining equation `Stacks.SheafOfModules.Tensor.sheafification_def` provides. -/
 def tensorTotalIsoTensorComplex
     (A B : CochainComplex
       (SheafOfModules.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) :
     tensorTotal X A B ≅ ((Stacks.SheafOfModules.Tensor.tensorComplex.{u, u, u} X.O).obj A).obj B :=
-  (HomologicalComplex₂.TotalMap.totalIso
-    (PresheafOfModules.sheafification.{u, u, u, u}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
-    (presheafTensorBicomplex X A B)).symm
+  (HomologicalComplex₂.TotalMap.totalIso (c₁₂ := ComplexShape.up ℤ)
+      (Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} X.O)
+      (presheafTensorBicomplex X A B) ≪≫
+    (NatIso.mapHomologicalComplex (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def X.O))
+      (ComplexShape.up ℤ)).app
+        ((presheafTensorBicomplex X A B).total (ComplexShape.up ℤ))).symm
 
-/-- Sheafification applied degreewise to a bicomplex of presheaves of modules. -/
+/-- Sheafification applied degreewise to a bicomplex of presheaves of modules, along
+`Stacks.SheafOfModules.Tensor.sheafification`, the sheafification inside
+`Stacks.SheafOfModules.Tensor.sheafTensor`. -/
 abbrev sheafifyBicomplex :
     HomologicalComplex₂
         (PresheafOfModules.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
         (ComplexShape.up ℤ) (ComplexShape.up ℤ) ⥤
       HomologicalComplex₂ (SheafOfModules.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
         (ComplexShape.up ℤ) (ComplexShape.up ℤ) :=
-  ((PresheafOfModules.sheafification.{u, u, u, u}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).mapHomologicalComplex
+  ((Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} X.O).mapHomologicalComplex
     (ComplexShape.up ℤ)).mapHomologicalComplex (ComplexShape.up ℤ)
 
 variable {A A' B B' : CochainComplex
@@ -273,28 +313,18 @@ theorem mapBifunctorMap_eq_totalMapSheafify (f : A ⟶ A') (g : B ⟶ B') :
   unfold HomologicalComplex.mapBifunctorMap
   apply congrArg (fun morphism => HomologicalComplex₂.total.map morphism (ComplexShape.up ℤ))
   refine HomologicalComplex.hom_ext _ _ fun _ => HomologicalComplex.hom_ext _ _ fun _ => ?_
-  exact ((PresheafOfModules.sheafification.{u, u, u, u}
-      (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map_comp _ _).symm
+  exact ((Stacks.SheafOfModules.Tensor.sheafification.{u, u, u, u} X.O).map_comp _ _).symm
 
-set_option maxHeartbeats 400000 in
--- `exact h` unifies large sheafified total complexes of the presheaf tensor bicomplex
 /-- The comparison of the two total tensor-product complexes is natural in both arguments. -/
 theorem tensorTotalIsoTensorComplex_naturality (f : A ⟶ A') (g : B ⟶ B') :
     (tensorTotalIsoTensorComplex X A B).inv ≫ tensorTotalMap X f g =
       HomologicalComplex.mapBifunctorMap f g
           (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
           (ComplexShape.up ℤ) ≫ (tensorTotalIsoTensorComplex X A' B').inv := by
-  have h := HomologicalComplex₂.TotalMap.totalIso_naturality (c₁₂ := ComplexShape.up ℤ)
-    (PresheafOfModules.sheafification.{u, u, u, u}
-      (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
-    (presheafTensorBicomplex X A B) (presheafTensorBicomplexMap X f g)
-  rw [tensorTotalMap_eq_sheafifyTotalMap X f g, mapBifunctorMap_eq_totalMapSheafify X f g]
-  dsimp only [tensorTotalIsoTensorComplex, Iso.symm_inv]
-  exact h
+  have h := totalIso_trans_mapHomologicalComplex_naturality (c₁₂ := ComplexShape.up ℤ)
+    (eqToIso (Stacks.SheafOfModules.Tensor.sheafification_def X.O))
+    (presheafTensorBicomplexMap X f g)
+  rwa [tensorTotalMap_eq_sheafifyTotalMap X f g, mapBifunctorMap_eq_totalMapSheafify X f g]
 
 end AlgebraicGeometry.RingedSite
 

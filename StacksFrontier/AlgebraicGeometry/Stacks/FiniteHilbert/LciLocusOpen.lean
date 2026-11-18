@@ -140,7 +140,7 @@ private theorem full_twoFibreProductFst (p : A ⥤ C) (q : D ⥤ C) (r : E ⥤ C
       have hXinv : r.IsHomLift (𝟙 X.base) X.iso.inv := inferInstance
       have hXm := IsHomLift.fac' r (𝟙 X.base) X.iso.inv
       have hYm := IsHomLift.fac' r (𝟙 Y.base) Y.iso.hom
-      show eqToHom X.hy.symm ≫ r.map (G₂.map b) ≫ eqToHom Y.hy = _
+      change eqToHom X.hy.symm ≫ r.map (G₂.map b) ≫ eqToHom Y.hy = _
       dsimp [b]
       rw [G₂.map_preimage, r.map_comp, r.map_comp, hXm, hYm]
       simp
@@ -162,7 +162,7 @@ private theorem nonempty_morphismOver_of_image_subset (p : A ⥤ C) (q : D ⥤ C
       map_comp := by intro a b c f g; apply q.map_injective; simp }
   refine ⟨G, CategoryTheory.Functor.ext ho ?_⟩
   intro a b f
-  show q.map (q.preimage _) = _
+  change q.map (q.preimage _) = _
   simp
 
 /-- Two fully faithful functors over the base with the same image are equivalent over the
@@ -248,7 +248,7 @@ private theorem image_equivalenceOver {p : A ⥤ C} {q : D ⥤ C}
 private theorem full_of_equivalenceOver {p : A ⥤ C} {q : D ⥤ C}
     (e : StacksRepresentableCFG.EquivalenceOver p q) [p.Full] : q.Full := by
   have : e.inv.functor.Full := by
-    show e.toEquivalence.inverse.Full
+    change e.toEquivalence.inverse.Full
     infer_instance
   rw [← e.inv.w]
   infer_instance

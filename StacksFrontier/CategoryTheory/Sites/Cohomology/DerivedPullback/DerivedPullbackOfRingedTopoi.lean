@@ -106,7 +106,7 @@ tree, and Tag 0G7E is in the tree only as
 route through 0G7C and 0G6R therefore closes, and condition (2) follows — but only downstream of
 this file, so condition (2) is still the parameter `hinv` here, in the spelling Chapter 21,
 Section 19 already uses for it.  Note that 0G7E states K-flatness with
-`Stacks.SheafOfModules.KFlat.KFlat`, which `Stacks.SheafOfModules.KFlat.kFlat_iff_kFlatBifunctor`
+`Stacks.SheafOfModules.KFlat`, which `Stacks.SheafOfModules.KFlat.kFlat_iff_kFlatBifunctor`
   identifies with the
 spelling `Stacks.Cohomology.DerivedPullbackPushforwardAdjunction.IsKFlat` uses here.
 

@@ -93,7 +93,8 @@ algebraic spaces take values in `Type (u + 1)`.
 Of the implications among the four conditions of Stacks 0AJB only (2) ⇒ (3) is formalized
 in this file; (3) ⇒ (2) is
 `AlgebraicGeometry.FormalSpace.IsQuasiCompact.isQuasiCompactOnSchemeBaseChanges` of
-`StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphismDecomposition`. It needs a finite covering of a quasi-compact scheme over `S` by affine
+`StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphismDecomposition`. It needs a finite
+covering of a quasi-compact scheme over `S` by affine
 schemes inside the site and the assembly of the resulting finitely many quasi-compact fibre
 products into one, which rests on the equivalence of the three conditions of Stacks 0AJ9; the
 implications relating condition (1) to the others need in addition that the reduction of a
@@ -379,7 +380,8 @@ private theorem isQuasiCompactSpace_iff_isQuasiCompactSpaceULift
   · exact Space.isQuasiCompactSpaceULift_of_iso B S hS hsq.isoPullback.symm h
 
 /-- A form of Stacks 0AM2 taking its two inputs as hypotheses. Let `f : X ⟶ Y` be a morphism
-of fppf sheaves over `S` which is representable by algebraic spaces. Then `f` is quasi-compact in the sense of Stacks 0AJC —
+of fppf sheaves over `S` which is representable by algebraic spaces. Then `f` is quasi-compact in
+the sense of Stacks 0AJC —
 every fibre product of it with an affine scheme over `S` in the site is a quasi-compact formal
 algebraic space — exactly when it is quasi-compact in the sense of Bootstrap, Definition
 03XZ: every fibre product of it with a scheme over `S` in the site is quasi-compact over that

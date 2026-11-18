@@ -99,23 +99,17 @@ theorem extensionActionMap_comp_of_hom (hi : FirstOrderThickening i)
   change (extensionActionMap hi E).1 ≫ k =
     idealTensorHom hi (𝟙 F) ≫ (extensionActionMap hi E').1 at hn
   have hid : idealTensorHom hi (𝟙 F) = 𝟙 _ := by
-    let R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)
-    have hval : (SheafOfModules.forget R).map (𝟙 F) = 𝟙 F.val :=
-      CategoryTheory.Functor.map_id (SheafOfModules.forget R) F
-    have h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
-          ((SheafOfModules.forget R).map (𝟙 F)) =
+    have h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) (𝟙 F : F ⟶ F).val =
         𝟙 (PresheafOfModulesOfCommRing.Monoidal.tensorObj hi.I.val F.val) := by
-      rw [hval]
+      rw [SheafOfModules.id_val]
       apply PresheafOfModules.hom_ext
       intro U
       apply ModuleCat.MonoidalCategory.tensor_ext
       intro a x
       rfl
-    change (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
-      (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
-        ((SheafOfModules.forget R).map (𝟙 F))) = 𝟙 _
-    rw [h]
-    exact CategoryTheory.Functor.map_id _ _
+    rw [idealTensorHom]
+    exact (congrArg (Stacks.SheafOfModules.Tensor.sheafification _).map h).trans
+      (CategoryTheory.Functor.map_id _ _)
   rwa [hid, Category.id_comp] at hn
 
 variable [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]

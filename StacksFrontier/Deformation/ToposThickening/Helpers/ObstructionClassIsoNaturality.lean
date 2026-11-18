@@ -42,24 +42,20 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
 
 omit [HasSheafify Y.J AddCommGrpCat.{w'}] in
 /-- Tensoring a morphism on the left with the square-zero ideal acts on the image of a pure
-tensor by applying the morphism to the second factor. -/
+tensor under the unit of the sealed sheafification by applying the morphism to the second
+factor. -/
 theorem idealTensor_map_unit_tmul
     {M N : SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))} (f : M ⟶ N)
     (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) (y : M.val.obj U) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor (baseRing i)).obj hi.I).map f).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
           (PresheafOfModules.tensorObj hi.I.val M.val)).app U (a ⊗ₜ[(baseRing i).obj.obj U] y)) =
-      ((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
         (PresheafOfModules.tensorObj hi.I.val N.val)).app U
           (a ⊗ₜ[(baseRing i).obj.obj U] f.val.app U y) :=
   (congrArg (fun φ => φ.app U (a ⊗ₜ[(baseRing i).obj.obj U] y))
-    ((PresheafOfModules.sheafificationAdjunction
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.naturality
-        (PresheafOfModules.tensorHom (𝟙 hi.I.val) f.val))).symm
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.naturality
+      (PresheafOfModules.tensorHom (𝟙 hi.I.val) f.val))).symm
 
 variable [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))]
   [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
@@ -98,9 +94,7 @@ theorem existenceObstructionClass_of_iso
       (idealTensor_map_unit_tmul hi α.hom U a _)).trans ?_
     refine Eq.trans ?_ ((extensionActionMap hi E').2 U a x)
     exact congrArg (fun t => E'.f.val.app U ((extensionActionMap hi E').1.val.app U
-      (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i))
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)).obj)).unit.app
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction (baseRing i)).unit.app
         (PresheafOfModules.tensorObj hi.I.val F'.val)).app U
           (a ⊗ₜ[(baseRing i).obj.obj U] t))))
       (congrArg (fun φ => φ.val.app U (E'.g.val.app U x))

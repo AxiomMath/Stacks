@@ -79,6 +79,24 @@ theorem map_comp_eq_zero_of_fac {C₀ D₀ : Type*} [Category C₀] [Preadditive
 
 end Generic
 
+section SealedUnit
+
+open Stacks.SheafOfModules.Tensor
+
+variable {C : Type*} [Category C] {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
+
+/-- The unit of the sealed sheafification, with the plain forgetful functor as right adjoint, is
+locally surjective. -/
+private theorem isLocallySurjective_sheafificationForgetAdjunction_unit_app
+    (P : PresheafOfModules.{u} (ringSheaf R).obj) :
+    PresheafOfModules.IsLocallySurjective J ((sheafificationForgetAdjunction R).unit.app P) := by
+  rw [sheafificationForgetAdjunction_unit_app, PresheafOfModules.IsLocallySurjective,
+    Functor.map_comp]
+  infer_instance
+
+end SealedUnit
+
 section WedgeAssoc
 
 open _root_.SheafOfModules in
@@ -475,11 +493,15 @@ theorem stepι_comp_restrictedLeftMulCochain_comp_cokernelπ (p : ℕ)
     (stepWedgeFactor f g k q n hn) this _ _
     (stepWedgeFactor_comp_stepι f g k q n hn) _ ?_
   refine @restricted_hom_eq_zero_of_isLocallySurjective _ (pulledBackOpen f g U) _ _ _ _
-    (CategoryTheory.toSheafify (Opens.grothendieckTopology X)
-      (PresheafOfModules.tensorObj
-        ((pulledBackDifferentialsAlgebras f g).exteriorPower k).val
-        ((Scheme.Hom.deRhamAlgebras (f ≫ g)).exteriorPower q).val).presheaf)
-    (Presheaf.isLocallySurjective_toSheafify' (Opens.grothendieckTopology X) _) ?_
+    ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf
+        ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj).map
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).unit.app
+        (PresheafOfModules.tensorObj
+          ((pulledBackDifferentialsAlgebras f g).exteriorPower k).val
+          ((Scheme.Hom.deRhamAlgebras (f ≫ g)).exteriorPower q).val)))
+    (isLocallySurjective_sheafificationForgetAdjunction_unit_app
+      ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩ _) ?_
   intro W r
   induction r using TensorProduct.inductionOn with
   | add a b ha hb => exact (congrArg _ (map_add _ a b)).trans ((map_add _ _ _).trans

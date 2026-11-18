@@ -180,17 +180,17 @@ piece of `F ⊗ 𝓟(-d)` is the sheafification of the sectionwise tensor produc
 open the sheafification unit is *surjective* on sections when both factors are quasi-coherent:
 the comparison `Γ(F, U) ⊗ Γ(𝓟_{n-d}, U) → Γ(F ⊗ 𝓟_{n-d}, U)` is bijective by
 `Stacks.SectionTensorFormula.bijective_tensorSectionLinear`, and it factors as the unit followed
-by the identification `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj` of the sheafified
+by the identification `Stacks.SectionTensorFormula.sheafifyIsoTensorObj` of the sheafified
 sectionwise tensor product with the localized monoidal product. -/
 public theorem surjective_freeGradedMk (F : X.Modules) [F.IsQuasicoherent] (d n : ℤ)
     (hP : (P.piece (n + -d)).IsQuasicoherent) {U : X.Opens} (hU : IsAffineOpen U) :
     Function.Surjective (freeGradedMk (P := P) F d n (op U)) := by
   have := hP
   intro y
-  set e := Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
+  set e := Stacks.SectionTensorFormula.sheafifyIsoTensorObj X.presheaf
     (isSheaf_structureRingPresheaf X) F (P.piece (n + -d))
   have hinv : ∀ a, e.inv.val.app (op U) (e.hom.val.app (op U) a) = a := fun a =>
-    congrArg (fun φ : tensorModules X F (P.piece (n + -d)) ⟶ _ => φ.val.app (op U) a)
+    congrArg (fun φ : (freeGradedModuleOn F P d).piece n ⟶ _ => φ.val.app (op U) a)
       e.hom_inv_id
   obtain ⟨t, ht⟩ := (Stacks.SectionTensorFormula.bijective_tensorSectionLinear F
     (P.piece (n + -d)) hU).2 (e.hom.val.app (op U) y)

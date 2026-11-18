@@ -99,24 +99,18 @@ theorem evaluation_toSheafify
       (U : Cᵒᵖ)
     (lam : (dualSheaf 𝒪 h𝒪 F).val.obj U) (x : F.val.obj U) :
     PresheafOfModules.Hom.app (evaluation 𝒪 h𝒪 F).val U
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
-            ((dualSheaf 𝒪 h𝒪 F).val ⊗ F.val)) U
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+          ((dualSheaf 𝒪 h𝒪 F).val ⊗ F.val)) U
           (lam ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] x)) =
       evalSection 𝒪 F.val (SheafOfModules.unit
-        (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)).val U lam x := by
-  have key : Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
-        ((dualSheaf 𝒪 h𝒪 F).val ⊗ F.val) ≫
-        (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪) ⋙
-          PresheafOfModules.restrictScalars
-            (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj)).map
-              (evaluation 𝒪 h𝒪 F) =
-      evaluationPresheaf 𝒪 h𝒪 F :=
-    PresheafOfModules.sheafificationAdjunction_unit_comp_homEquiv_symm
-      (M := (dualSheaf 𝒪 h𝒪 F).val ⊗ F.val)
-      (N := SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))
-      (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj)
-      (evaluationPresheaf 𝒪 h𝒪 F)
-  exact (PresheafOfModules.hom_congr_apply key U _).trans (evaluationPresheaf_tmul 𝒪 h𝒪 F U lam x)
+        (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)).val U lam x :=
+  congrArg (fun φ => φ.app U (lam ⊗ₜ x))
+    (((Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).homEquiv
+      (PresheafOfModules.tensorObj (O := 𝒪) (dualSheaf 𝒪 h𝒪 F).val F.val)
+      (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
+        h𝒪))).apply_symm_apply (evaluationPresheaf 𝒪 h𝒪 F))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{max u v} RingCat.{max u v})] in
 /-- The braiding of the tensor product sheaf, on the sheafification-unit image of a pure
@@ -126,14 +120,16 @@ theorem tensorSheafBraiding_hom_toSheafify
       h𝒪)) (U : Cᵒᵖ)
     (m : M.val.obj U) (n : N.val.obj U) :
     PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 M N).hom.val U
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
           (M.val ⊗ N.val)) U
           (m ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] n)) =
-      PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (N.val ⊗
-        M.val)) U
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+        (N.val ⊗ M.val)) U
         (n ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] m) :=
-  (PresheafOfModules.unit_naturality_apply (α := 𝟙
-    (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj)
+  (Tensor.unit_naturality_apply
+    (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
     (β_ M.val N.val).hom U
     (m ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] n)).trans rfl
 
@@ -147,15 +143,17 @@ theorem toSheafify_tensorLeftFunctor_map
     PresheafOfModules.Hom.app
         (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪)
           (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (L)).map g).val U
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
           (L.val ⊗ A.val)) U
           (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] a)) =
-      PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (L.val ⊗
-        B.val)) U
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+        (L.val ⊗ B.val)) U
         (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U]
           PresheafOfModules.Hom.app g.val U a) :=
-  (PresheafOfModules.unit_naturality_apply (α := 𝟙
-    (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj)
+  (Tensor.unit_naturality_apply
+    (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
     (L.val ◁ (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
       h𝒪)).map g) U
     (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] a)).trans rfl
@@ -208,27 +206,32 @@ theorem tensorIsoUnit_hom_toSheafify_isoOfTensorIsoUnit_inv
       SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪))
     (U : Cᵒᵖ) (b : B.val.obj U) (l : L.val.obj U) :
     PresheafOfModules.Hom.app hB.hom.val U
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
           (B.val ⊗ L.val)) U
           (b ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] l)) =
       PresheafOfModules.Hom.app hA.hom.val U
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
           (A.val ⊗ L.val)) U
           (PresheafOfModules.Hom.app (isoOfTensorIsoUnit 𝒪 h𝒪 L A B hA hB).inv.val U b
             ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] l)) := by
   have h := hom_val_app_congr
     (tensorLeftFunctor_map_isoOfTensorIsoUnit_inv 𝒪 h𝒪 L A B hA hB) U
-    (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (L.val ⊗
-      B.val)) U
+    (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+      (L.val ⊗ B.val)) U
       (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] b))
   rw [toSheafify_tensorLeftFunctor_map] at h
-  have h' : PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
-    (L.val ⊗ A.val)) U
+  have h' : PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+          (L.val ⊗ A.val)) U
         (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U]
           PresheafOfModules.Hom.app (isoOfTensorIsoUnit 𝒪 h𝒪 L A B hA hB).inv.val U b) =
       PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 L A ≪≫ hA).inv.val U
         (PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 L B ≪≫ hB).hom.val U
-          (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+          (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
             (L.val ⊗ B.val)) U
             (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] b)))
               := h
@@ -236,19 +239,22 @@ theorem tensorIsoUnit_hom_toSheafify_isoOfTensorIsoUnit_inv
     (PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 L A ≪≫ hA).hom.val U) h').trans
       (app_hom_app_inv 𝒪 h𝒪 (tensorSheafBraiding 𝒪 h𝒪 L A ≪≫ hA) U
         (PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 L B ≪≫ hB).hom.val U
-          (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+          (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
             (L.val ⊗ B.val)) U
             (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] b))))
   have h3 : PresheafOfModules.Hom.app hA.hom.val U
         (PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 L A).hom.val U
-          (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+          (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
             (L.val ⊗ A.val)) U
             (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U]
               PresheafOfModules.Hom.app
                 (isoOfTensorIsoUnit 𝒪 h𝒪 L A B hA hB).inv.val U b))) =
       PresheafOfModules.Hom.app hB.hom.val U
         (PresheafOfModules.Hom.app (tensorSheafBraiding 𝒪 h𝒪 L B).hom.val U
-          (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪
+          (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
             (L.val ⊗ B.val)) U
             (l ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj U] b)))
               := h2
@@ -279,14 +285,16 @@ theorem comparison_val_app_pullbackUnit
           ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨Y.sheaf.obj,
             Presheaf.isSheaf_of_isSheaf_comp _ (Y.sheaf.obj) (forget₂ CommRingCat RingCat)
             ((structureSheafRing Y).property)⟩).obj (A)).obj (B)))).val.app U
-            (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify
-              Y.sheaf.obj
-              (structureSheafRing Y).property (A.val ⊗ B.val)) U
+            (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+              ⟨Y.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ Y.sheaf.obj
+                (forget₂ CommRingCat RingCat) (structureSheafRing Y).property⟩).unit.app
+              (A.val ⊗ B.val)) U
               (a ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf
                 Y.sheaf.obj).obj U] b))) =
-      PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify X.sheaf.obj
-        (structureSheafRing X).property
-          (((modulePullback f).obj A).val ⊗ ((modulePullback f).obj B).val))
+      PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ X.sheaf.obj (forget₂ CommRingCat RingCat)
+          (structureSheafRing X).property⟩).unit.app
+        (((modulePullback f).obj A).val ⊗ ((modulePullback f).obj B).val))
           ((opensMap f).op.obj U)
         ((((modulePullbackPushforwardAdjunction f).unit.app A).val.app U a)
           ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.sheaf.obj).obj
@@ -323,9 +331,10 @@ theorem tensorIsoUnitPullback_hom_toSheafify
     (U : (Opens Y.carrier)ᵒᵖ) (a : A.val.obj U) (b : B.val.obj U) :
     PresheafOfModules.Hom.app (tensorIsoUnitPullback f A B hAB hcomp).hom.val
         ((opensMap f).op.obj U)
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify
-          X.sheaf.obj (structureSheafRing X).property
-            (((modulePullback f).obj A).val ⊗ ((modulePullback f).obj B).val))
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ X.sheaf.obj (forget₂ CommRingCat RingCat)
+            (structureSheafRing X).property⟩).unit.app
+          (((modulePullback f).obj A).val ⊗ ((modulePullback f).obj B).val))
             ((opensMap f).op.obj U)
           ((((modulePullbackPushforwardAdjunction f).unit.app A).val.app U a)
             ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.sheaf.obj).obj
@@ -333,9 +342,10 @@ theorem tensorIsoUnitPullback_hom_toSheafify
             (((modulePullbackPushforwardAdjunction f).unit.app B).val.app U b))) =
       ((structureSheafHom f).hom.app U)
         (PresheafOfModules.Hom.app hAB.hom.val U
-          (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify
-            Y.sheaf.obj
-            (structureSheafRing Y).property (A.val ⊗ B.val)) U
+          (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+            ⟨Y.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ Y.sheaf.obj
+              (forget₂ CommRingCat RingCat) (structureSheafRing Y).property⟩).unit.app
+            (A.val ⊗ B.val)) U
             (a ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf Y.sheaf.obj).obj
               U] b))) := by
   let _i₁ : (_root_.SheafOfModules.pushforward.{u} (structureSheafHom f)).IsRightAdjoint :=
@@ -382,8 +392,10 @@ theorem tensorIsoUnitPullback_hom_toSheafify
       (_root_.SheafOfModules.pullbackObjUnitToUnit (structureSheafHom f)).val
       ((opensMap f).op.obj U))
     (pullbackUnit_naturality f hAB.hom U
-      (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify Y.sheaf.obj
-        (structureSheafRing Y).property (A.val ⊗ B.val)) U
+      (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+        ⟨Y.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ Y.sheaf.obj (forget₂ CommRingCat RingCat)
+          (structureSheafRing Y).property⟩).unit.app
+        (A.val ⊗ B.val)) U
         (a ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf Y.sheaf.obj).obj U]
           b)))) ?_
   exact pullbackObjUnitToUnit_val_app_pullbackUnit f U _
@@ -417,9 +429,10 @@ theorem evalSection_dualPullbackIso_inv
       (dualSheaf Y.sheaf.obj (structureSheafRing Y).property L)).val.obj V)
     (l : ((modulePullback f).obj L).val.obj V) :
     PresheafOfModules.Hom.app hpp.hom.val V
-        (PresheafOfModules.Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify
-          X.sheaf.obj (structureSheafRing X).property
-            (((modulePullback f).obj
+        (PresheafOfModules.Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction
+          ⟨X.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ X.sheaf.obj (forget₂ CommRingCat RingCat)
+            (structureSheafRing X).property⟩).unit.app
+          (((modulePullback f).obj
               (dualSheaf Y.sheaf.obj (structureSheafRing Y).property L)).val ⊗
               ((modulePullback f).obj L).val)) V
           (b ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.sheaf.obj).obj

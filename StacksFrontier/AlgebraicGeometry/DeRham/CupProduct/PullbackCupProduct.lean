@@ -261,8 +261,7 @@ abbrev unitTensor (p : X ⟶ S)
     (U : (Opens X.carrier)ᵒᵖ) (x : F.val.obj U) (y : G.val.obj U) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (inverseImageBase p).sheaf).obj
       F).obj G).val.obj U :=
-  ((PresheafOfModules.sheafificationAdjunction
-    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageBase p).sheaf).obj)).unit.app
+  ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction (inverseImageBase p).sheaf).unit.app
       (F.val.tensorObj G.val)).app U (x ⊗ₜ[(inverseImageBase p).sheaf.obj.obj U] y)
 
 /-- The wedge product on the `(a, b)` summand, on a local pure tensor. -/

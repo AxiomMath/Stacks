@@ -215,9 +215,7 @@ private lemma sectionsFunctor_map_prodMap_comp_pullbackTensorBottomPairing (V : 
           ((pullbackTensorStep4 f F G (pullbackTensorTarget f F G)).symm
             (pullbackTensorBottomHom f F G)).1)
         (Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} X.J V) x s) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf X.J X.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((f.pullbackModules).obj F).val ⊗ ((f.pullbackModules).obj G).val)).app V
         ((((extendRestrictScalarsAdjunction X.J (fSharpCommRing f)
                 (inverseImageRingSheaf f.toToposHom
@@ -276,9 +274,7 @@ private lemma sectionsFunctor_map_pullbackTensorBottomPairing_comp_mateTensorShe
             (pullbackTensorBottomHom g F G)).1 ≫
           mateTensorSheafHom f g τ F G)
         (Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} X.J V) x s) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf X.J X.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((f.pullbackModules).obj F).val ⊗ ((f.pullbackModules).obj G).val)).app V
         ((((conjugateEquiv (pullbackAdjPushforwardModules f)
                   (pullbackAdjPushforwardModules g)).symm τ).app F).val.app V
@@ -329,9 +325,8 @@ lemma prodMap_mate_comp_pullbackTensorBottomPairing
       mateTensorSheafHom f g τ F G :=
   hom_ext_prod' fun V x s ↦
     (sectionsFunctor_map_prodMap_comp_pullbackTensorBottomPairing f g tt F G V x s).trans
-      ((congrArg (fun z ↦ ((PresheafOfModules.sheafificationAdjunction
-              (R := commRingSheaf X.J X.O.obj
-                  (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property) (𝟙 _)).unit.app
+      ((congrArg (fun z ↦
+            ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (((f.pullbackModules).obj F).val ⊗ ((f.pullbackModules).obj G).val)).app V z)
           (tmul_congr (mate_val_app_extendScalarsUnit f g tt τ F V hτ x).symm
             (mate_val_app_extendScalarsUnit f g tt τ G V hτ s).symm)).trans
@@ -404,9 +399,7 @@ private lemma transposedComparison_comp_mate_val_app_unit_tmul (U : Y.Cᵒᵖ) (
                   ((f.pullbackModules).obj F, (f.pullbackModules).obj G)))))))) ≫
           τ.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor X.O))).obj
         ((f.pullbackModules).obj F, (f.pullbackModules).obj G))).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf Y.J Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (τ.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor X.O))).obj
         ((f.pullbackModules).obj F, (f.pullbackModules).obj G))).val.app U
@@ -684,9 +677,7 @@ private lemma transposedComparison_mateTensorHom_val_app_unit_tmul (U : Y.Cᵒ�
                   (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor X.O))).obj
         ((f.pullbackModules).obj F, (f.pullbackModules).obj G))).symm
           (mateTensorHom f g τ F G))))))).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf Y.J Y.O.obj
-              (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property) (𝟙 _)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (F.val ⊗ G.val)).app U (a ⊗ₜ[(ringPresheaf Y.O.obj).obj U] r)) =
       (Sheaf.sectionsFunctor Y.J U).map
         (g.toToposHom.pushforward.map

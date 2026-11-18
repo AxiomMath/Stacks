@@ -230,14 +230,16 @@ theorem interchange_pure (U : Cᵒᵖ) (A B D E : SheafOfModules.{w} (structureS
     (tensorProductIso O hO (tensorProductBraiding O hO B D) (Iso.refl E))
   let rightAssociate := tensorProductIso O hO (Iso.refl A) (tensorProductAssociator O hO D B E)
   let lastAssociate := tensorProductAssociator O hO A D
-    ((sheafify O hO).obj (B.val ⊗ E.val))
+    ((Invertible.structureSheafification O hO).obj (B.val ⊗ E.val))
   change lastAssociate.inv.val.app U (rightAssociate.hom.val.app U
     (middleSwap.hom.val.app U (leftAssociate.hom.val.app U
-      ((tensorProductAssociator O hO A B ((sheafify O hO).obj (D.val ⊗ E.val))).hom.val.app U
+      ((tensorProductAssociator O hO A B
+          ((Invertible.structureSheafification O hO).obj (D.val ⊗ E.val))).hom.val.app U
           _)))) = _
   refine (congrArg (lastAssociate.inv.val.app U) ?_).trans
-    (tensorSections_associatorInvAt O hO U A D ((sheafify O hO).obj (B.val ⊗ E.val))
-      a d (tensorSectionsAt O hO U B E b e))
+    (tensorSections_associatorInvAt O hO U A D
+      ((Invertible.structureSheafification O hO).obj (B.val ⊗ E.val)) a d
+      (tensorSectionsAt O hO U B E b e))
   refine (congrArg (rightAssociate.hom.val.app U) ?_).trans
     ((tensorSections_tensorProductIsoAt O hO U A A _ _ (Iso.refl A)
       (tensorProductAssociator O hO D B E) a _).trans
@@ -253,8 +255,9 @@ theorem interchange_pure (U : Cᵒᵖ) (A B D E : SheafOfModules.{w} (structureS
               (congrArg (fun sectionValue => tensorSectionsAt O hO U _ E sectionValue e)
                 (tensorSections_braidingAt O hO U B D b d)))))
   refine (congrArg (leftAssociate.hom.val.app U)
-    (tensorSections_associatorAt O hO U A B ((sheafify O hO).obj (D.val ⊗ E.val))
-      a b (tensorSectionsAt O hO U D E d e))).trans ?_
+    (tensorSections_associatorAt O hO U A B
+      ((Invertible.structureSheafification O hO).obj (D.val ⊗ E.val)) a b
+      (tensorSectionsAt O hO U D E d e))).trans ?_
   exact (tensorSections_tensorProductIsoAt O hO U A A _ _ (Iso.refl A)
     (tensorProductAssociator O hO B D E).symm a _).trans
       (congrArg (tensorSectionsAt O hO U A _ a)
@@ -322,13 +325,15 @@ theorem tensorHom_app_ptmul {A B A' B' : PresheafOfModules.{w} (structureSheaf O
     (f ⊗ₘ g).app U (ptmul O hO A B U a b) = ptmul O hO A' B' U (f.app U a) (g.app U b) :=
   ModuleCat.MonoidalCategory.tensorHom_tmul _ _ _ _
 
-/-- The sheafification unit of an objectwise tensor product of two sheaves of modules. -/
+/-- The sheafification unit of an objectwise tensor product of two sheaves of modules: the unit
+of the sealed sheafification adjunction
+`Stacks.SheafOfModules.Invertible.structureSheafificationAdjunction`. -/
 def flatUnit (F G : SheafOfModules.{w} (structureSheaf O hO)) :
     (F.val ⊗ G.val) ⟶
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (F)).obj
         (G))).val := by
-  exact toSheafify O hO (F.val ⊗ G.val)
+  exact (Invertible.structureSheafificationAdjunction O hO).unit.app (F.val ⊗ G.val)
 
 /-- The sheafification unit sends a pure tensor of local sections to the section of the tensor
 product sheaf they determine. -/
@@ -340,7 +345,10 @@ theorem flatUnit_app (F G : SheafOfModules.{w} (structureSheaf O hO)) (U : Cᵒ�
 /-- Sheafification inverts the sheafification unit of an objectwise tensor product. -/
 theorem isIso_sheafify_map_flatUnit (F G : SheafOfModules.{w} (structureSheaf O hO)) :
     IsIso ((sheafify O hO).map (flatUnit O hO F G)) :=
-  TensorSheafification.isIso_sheafify_map_toSheafify O hO (F.val ⊗ G.val)
+  (Tensor.isIso_sheafification_map_iff
+    (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩) _).1
+    (inferInstanceAs (IsIso ((Invertible.structureSheafification O hO).map
+      ((Invertible.structureSheafificationAdjunction O hO).unit.app (F.val ⊗ G.val)))))
 
 /-- The flat presentation of a twofold iterated tensor product sheaf. -/
 def flat2 (A B D E : SheafOfModules.{w} (structureSheaf O hO)) :
@@ -948,7 +956,7 @@ theorem tensorSectionsAt_add_left (U : Cᵒᵖ) (F G : SheafOfModules.{w} (struc
     (s s' : F.val.obj U) (t : G.val.obj U) :
     tensorSectionsAt O hO U F G (s + s') t =
       tensorSectionsAt O hO U F G s t + tensorSectionsAt O hO U F G s' t := by
-  exact (congrArg ((toSheafify O hO (F.val ⊗ G.val)).app U) (TensorProduct.add_tmul s s' t)).trans
+  exact (congrArg ((flatUnit O hO F G).app U) (TensorProduct.add_tmul s s' t)).trans
     (map_add _ _ _)
 
 /-- The section of a tensor product determined by a pair of local sections is additive in its
@@ -957,7 +965,7 @@ theorem tensorSectionsAt_add_right (U : Cᵒᵖ) (F G : SheafOfModules.{w} (stru
     (s : F.val.obj U) (t t' : G.val.obj U) :
     tensorSectionsAt O hO U F G s (t + t') =
       tensorSectionsAt O hO U F G s t + tensorSectionsAt O hO U F G s t' := by
-  exact (congrArg ((toSheafify O hO (F.val ⊗ G.val)).app U) (TensorProduct.tmul_add s t t')).trans
+  exact (congrArg ((flatUnit O hO F G).app U) (TensorProduct.tmul_add s t t')).trans
     (map_add _ _ _)
 
 /-- The section of a tensor product determined by a pair of local sections is linear in its
@@ -965,20 +973,20 @@ first argument. -/
 theorem tensorSectionsAt_smul_left (U : Cᵒᵖ) (F G : SheafOfModules.{w} (structureSheaf O hO))
     (r : (structureSheaf O hO).obj.obj U) (s : F.val.obj U) (t : G.val.obj U) :
     tensorSectionsAt O hO U F G (r • s) t =
-      r • (show ((sheafify O hO).obj (F.val ⊗ G.val)).val.obj U from
+      r • (show ((Invertible.structureSheafification O hO).obj (F.val ⊗ G.val)).val.obj U from
         tensorSectionsAt O hO U F G s t) :=
-  ((toSheafify O hO (F.val ⊗ G.val)).app U).hom.map_smul r (ptmul O hO F.val G.val U s t)
+  ((flatUnit O hO F G).app U).hom.map_smul r (ptmul O hO F.val G.val U s t)
 
 /-- The section of a tensor product determined by a pair of local sections is linear in its
 second argument. -/
 theorem tensorSectionsAt_smul_right (U : Cᵒᵖ) (F G : SheafOfModules.{w} (structureSheaf O hO))
     (r : (structureSheaf O hO).obj.obj U) (s : F.val.obj U) (t : G.val.obj U) :
     tensorSectionsAt O hO U F G s (r • t) =
-      r • (show ((sheafify O hO).obj (F.val ⊗ G.val)).val.obj U from
+      r • (show ((Invertible.structureSheafification O hO).obj (F.val ⊗ G.val)).val.obj U from
         tensorSectionsAt O hO U F G s t) :=
-  (congrArg ((toSheafify O hO (F.val ⊗ G.val)).app U)
+  (congrArg ((flatUnit O hO F G).app U)
     (TensorProduct.tmul_smul (show ↑(O.obj U) from r) s t)).trans
-      (((toSheafify O hO (F.val ⊗ G.val)).app U).hom.map_smul r _)
+      (((flatUnit O hO F G).app U).hom.map_smul r _)
 
 /-- The section of a tensor product determined by a pair of local sections is compatible with
 restriction. -/
@@ -988,7 +996,7 @@ theorem tensorSectionsAt_naturality (F G : SheafOfModules.{w} (structureSheaf O 
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (F)).obj
         (G))).val.map f (tensorSectionsAt O hO U F G s t) =
       tensorSectionsAt O hO V F G (F.val.map f s) (G.val.map f t) :=
-  (PresheafOfModules.naturality_apply (toSheafify O hO (F.val ⊗ G.val)) f
+  (PresheafOfModules.naturality_apply (flatUnit O hO F G) f
     (ptmul O hO F.val G.val U s t)).symm
 
 /-! ### The algebra laws on local sections -/
@@ -1173,7 +1181,7 @@ def mulHom (i j : ℤ) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor
         ⟨S.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (S.sheaf.obj) (forget₂ CommRingCat RingCat)
         (S.ringCatSheaf.property)⟩).obj ((𝒜.piece i))).obj ((𝒜.piece j))) ⟶ 𝒜.piece (i + j) :=
-  ((sheafifyAdjunction S.sheaf.obj S.ringCatSheaf.property).homEquiv
+  ((Invertible.structureSheafificationAdjunction S.sheaf.obj S.ringCatSheaf.property).homEquiv
     ((PresheafOfModules.tensorObj (O := S.sheaf.obj) ((𝒜.piece i).val) ((𝒜.piece j).val)))
       (𝒜.piece (i + j))).symm
       (PresheafOfModules.ofBilinear (toBilinear (𝒜.mul i j)))
@@ -1188,7 +1196,7 @@ theorem mulHom_app (i j : ℤ) (U : S.Opensᵒᵖ) (x : (𝒜.piece i).val.obj U
   (congrArg
       (fun φ => φ.app U (ptmul S.sheaf.obj S.ringCatSheaf.property (𝒜.piece i).val
         (𝒜.piece j).val U x y))
-      (((sheafifyAdjunction S.sheaf.obj S.ringCatSheaf.property).homEquiv
+      (((Invertible.structureSheafificationAdjunction S.sheaf.obj S.ringCatSheaf.property).homEquiv
         ((PresheafOfModules.tensorObj (O := S.sheaf.obj) ((𝒜.piece i).val) ((𝒜.piece j).val)))
           (𝒜.piece (i + j))).apply_symm_apply
           (PresheafOfModules.ofBilinear (toBilinear (𝒜.mul i j))))).trans

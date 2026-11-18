@@ -251,17 +251,13 @@ theorem wedgeProduct_summand_unit_apply (p q : ℕ) (U : (Opens X.carrier)ᵒᵖ
             (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ) p q
               (p + q) rfl ≫
           (wedgeProduct B D).f (p + q)).val.app U
-        (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+        (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
           (PresheafOfModules.tensorObj ((deRhamTerm B p)).val ((deRhamTerm B q)).val)).app U
             (ω ⊗ₜ[A.obj.obj U] η)))
       ((B.exterior.mul (p : ℤ) (q : ℤ)).app U ω η) := by
   refine heq_of_eq (Eq.trans ?_ (exteriorProductComponent_unit_apply B p q U ω η))
   exact congrArg (fun k => k.val.app U
-    (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+    (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
       (PresheafOfModules.tensorObj ((deRhamTerm B p)).val ((deRhamTerm B q)).val)).app U
         (ω ⊗ₜ[A.obj.obj U] η))) (ι_wedgeProductDesc_add B D p q)
 

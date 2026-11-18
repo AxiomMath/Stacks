@@ -188,10 +188,8 @@ lemma tensorSheafifyMixedIso_inv_unit_tmul (X : Cᵒᵖ) (x : F.val.obj X) (y : 
     Hom.app (tensorSheafifyMixedIso.{v, u, w, z, z₁} J a F G).inv.val X
         (Hom.app (moduleSheafificationUnit.{v, u, w, max z z₁} J a
             (tensorObj ((restrictSheafFunctor.{v, u, w, z} J a).obj F) G)) X (x ⊗ₜ y)) =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-          Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj F.val ((moduleSheafification.{v, u, w, z₁} J a).obj G).val)) X
+      Hom.app ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+          (tensorObj F.val ((moduleSheafification.{v, u, w, z₁} J a).obj G).val)) X
         (x ⊗ₜ Hom.app (moduleSheafificationUnit.{v, u, w, z₁} J a G) X y) := by
   set φ : tensorObj ((moduleSheafification.{v, u, w, z} J a).obj
           ((restrictSheafFunctor.{v, u, w, z} J a).obj F)).val
@@ -199,19 +197,17 @@ lemma tensorSheafifyMixedIso_inv_unit_tmul (X : Cᵒᵖ) (x : F.val.obj X) (y : 
       tensorObj F.val ((moduleSheafification.{v, u, w, z₁} J a).obj G).val :=
     tensorHom (sheafifyRestrictSheafIso.{v, u, w, z} J a F).hom.val
       (𝟙 ((moduleSheafification.{v, u, w, z₁} J a).obj G).val) with hφ
-  refine Eq.trans (congrArg (fun t ↦ Hom.app ((sheafification
-      (𝟙 (toRingCat J Osharp).obj)).map φ).val X t)
+  refine Eq.trans (congrArg (fun t ↦ Hom.app
+      ((Stacks.SheafOfModules.Tensor.sheafification Osharp).map φ).val X t)
     (tensorSheafifyComparison_unit_tmul J a
       ((restrictSheafFunctor.{v, u, w, z} J a).obj F) G X x y)) ?_
-  refine Eq.trans (unit_naturality_apply (α := 𝟙 (toRingCat J Osharp).obj) φ X
+  refine Eq.trans (Stacks.SheafOfModules.Tensor.unit_naturality_apply φ X
     (Hom.app (moduleSheafificationUnit.{v, u, w, z} J a
         ((restrictSheafFunctor.{v, u, w, z} J a).obj F)) X x ⊗ₜ
       Hom.app (moduleSheafificationUnit.{v, u, w, z₁} J a G) X y)) ?_
-  refine congrArg (fun t ↦ Hom.app ((PresheafOfModules.sheafificationAdjunction (R :=
-      Stacks.SheafOfModules.Tensor.ringSheaf Osharp)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj)).unit.app
-      (PresheafOfModules.tensorObj F.val ((moduleSheafification.{v, u, w, z₁} J a).obj G).val)) X t)
-          ?_
+  refine congrArg (fun t ↦ Hom.app
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction Osharp).unit.app
+        (tensorObj F.val ((moduleSheafification.{v, u, w, z₁} J a).obj G).val)) X t) ?_
   rw [hφ]
   refine Eq.trans (tensorHom_tmul _ _ X _ _) ?_
   exact congrArg₂ (fun p q ↦ p ⊗ₜ[(Osharp.obj ⋙ forget₂ CommRingCat RingCat).obj X] q)

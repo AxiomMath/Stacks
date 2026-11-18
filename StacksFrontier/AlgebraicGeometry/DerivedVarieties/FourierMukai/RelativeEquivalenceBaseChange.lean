@@ -20,7 +20,7 @@ of [Stacks, Tag 0G0I]. Let `s : S₁ ⟶ S` be an arbitrary morphism of schemes 
 is the Fourier-Mukai kernel of a relative equivalence from `X₁` to `Y₁` over `S₁`. This is
 [Stacks, Tag 0G0K], proved here from derived base change [Stacks, Tag 08IB] taken as an argument;
 `AlgebraicGeometry.isRelativeEquivalenceKernel_baseChange` (in
-`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceBaseChangeDischarged.lean`)
+`RelativeEquivalenceBaseChangeDischarged.lean`, in this directory)
 supplies that argument, `AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`, and carries
 the registration of [Stacks, Tag 0G0K].
 
@@ -411,8 +411,9 @@ is the Fourier-Mukai kernel of a relative equivalence from `X₁` to `Y₁` over
 The proof is the source's. Take the partner `K'` of `K` and pull it back to `K'₁` along
 `Y₁ ×_{S₁} X₁ ⟶ Y ×_S X`. The square carrying `pr₁₃` on `X₁ ×_{S₁} Y₁ ×_{S₁} X₁` to `pr₁₃` on
 `X ×_S Y ×_S X` is cartesian, and `pr₁₃` is flat because `g` is, so derived base change
-([Stacks, Tag 08IB], the argument `h08IB`) identifies `L^*` of the convolution with the convolution of the
-pulled back kernels — the monoidality of derived pullback ([Stacks, Tag 079U]) and the
+([Stacks, Tag 08IB], the argument `h08IB`) identifies `L^*` of the convolution with the
+convolution of the pulled back kernels — the monoidality of derived pullback ([Stacks, Tag 079U])
+and the
 composition isomorphism ([Stacks, Tag 0D5S]) being what turn the pullback of
 `L pr_{12}^*K ⊗^𝐋 L pr_{23}^*K'` into `L pr_{12}^*K₁ ⊗^𝐋 L pr_{23}^*K'₁`. On the other side the
 square carrying `Δ_{X₁/S₁}` to `Δ_{X/S}` is cartesian, `X₁ ×_{S₁} X₁` and `X` are Tor

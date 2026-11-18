@@ -456,11 +456,8 @@ theorem blowupΓMap_divα_thickeningSections (n q : ℕ) (x : (I ^ (q + 1) : Ide
     blowupΓMap I (divα I n q) (thickeningSections I n (q + 1) x) =
       thickeningSections I (n + 1) q
         ⟨(x : A), Ideal.pow_le_pow_right (Nat.le_succ q) x.2⟩ := by
-  change blowupΓMap I (divα I n q)
-    (blowupΓMap I (thickeningTwistProj I n (q + 1)) (ambientSections I (q + 1) x)) = _
-  rw [← blowupΓMap_comp, thickeningTwistProj_comp_divα, blowupΓMap_comp,
-    blowupΓMap_ambientTwistMap_ambientSections]
-  rfl
+  rw [thickeningSections_apply, thickeningSections_apply, ← blowupΓMap_comp,
+    thickeningTwistProj_comp_divα, blowupΓMap_comp, blowupΓMap_ambientTwistMap_ambientSections]
 
 /-! ### Sections of the kernel, and the generators of the image -/
 
@@ -555,6 +552,21 @@ theorem twistedThickeningIdealMap_comp_ambientTwistMap_comp_eq_zero (n q : ℕ) 
 
 /-! ### The image is the whole kernel -/
 
+/-- `Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection` in `X.Modules`:
+a section of `M ⊗ N` is, on a covering sieve, a finite sum of local pure tensors. That lemma is
+stated for the `sheafTensor` object over `structureSheafRing X.toRingedSpace`; the tensor product
+being built on the sealed sheafification, identifying the two spellings at the concrete twists
+exhausts the recursion depth, so they meet here, for variables. -/
+private theorem modules_exists_sieve_sum_tensorObjTmul {X : Scheme.{u}} (M N : X.Modules)
+    (U : X.Opens) (t : (M ⊗ N).val.obj (op U)) :
+    ∃ S : Sieve U, S ∈ Stacks.SheafOfModules.TensorStalkRingedSpace.JX X.toRingedSpace U ∧
+      ∀ ⦃V : X.Opens⦄ (k : V ⟶ U), S.arrows k →
+        ∃ (n : ℕ) (a : Fin n → Γ(M, V)) (b : Fin n → Γ(N, V)),
+          (M ⊗ N).val.map k.op t =
+            ∑ j, tensorObjTmul X.toRingedSpace M N (op V) (a j) (b j) :=
+  Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection
+    (X := X.toRingedSpace) (F := M) N U t
+
 /-- **Every section of the kernel of `𝒪_X(q) ⟶ 𝒪_{Y_{n+1}}(q)` is locally in the image of
 `ℐ_{Yₙ} ⊗ 𝒪_X(q+1) → 𝒪_X(q)`.**
 
@@ -594,13 +606,13 @@ theorem exists_restrict_eq_app_twistedDiv (n q : ℕ) (U : (blowupScheme I).Open
       (IsIso.inv_hom_id (kernel.lift (thickeningTwistProj I (n + 1) q)
         (twistedThickeningIdealMap I (n + 1) q)
         (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I (n + 1) q)))
-  obtain ⟨S, hSmem, hS⟩ := Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection
-    (X := (blowupScheme I).toRingedSpace) (F := thickeningIdealSheaf I (n + 1))
-    (blowupTwist I q) U z
+  obtain ⟨S, hSmem, hS⟩ :=
+    modules_exists_sieve_sum_tensorObjTmul (thickeningIdealSheaf I (n + 1)) (blowupTwist I q) U z
   obtain ⟨W, k, hSk, hxW⟩ := (Opens.mem_grothendieckTopology _).mp hSmem x hxU
   obtain ⟨V, hVaff, hxV, hVW⟩ :=
     TopologicalSpace.Opens.isBasis_iff_nbhd.mp (blowupScheme I).isBasis_affineOpens hxW
-  have hVU : V ≤ U := hVW.trans (leOfHom k)
+  lift V to (blowupScheme I).affineOpens using hVaff
+  have hVU : V.1 ≤ U := hVW.trans (leOfHom k)
   obtain ⟨m, a, b, hab⟩ := hS (homOfLE hVW ≫ k) (S.downward_closed hSk _)
   rw [show (homOfLE hVW ≫ k) = homOfLE hVU from by rw [← homOfLE_leOfHom k, homOfLE_comp]]
     at hab
@@ -613,19 +625,15 @@ theorem exists_restrict_eq_app_twistedDiv (n q : ℕ) (U : (blowupScheme I).Open
       ((kernel.ι (thickeningTwistProj I (n + 1) q)).val.app (op U) t) =
       ∑ j : Fin m,
         sectionOfUnit I V ((thickeningIdealι I (n + 1)).val.app (op V) (a j)) • b j := by
-    have hab' : (thickeningIdealSheaf I (n + 1) ⊗ blowupTwist I q :
-          (blowupScheme I).Modules).val.map (homOfLE hVU).op z =
-        ∑ j : Fin m, tensorObjTmul (blowupScheme I).toRingedSpace
-          (thickeningIdealSheaf I (n + 1)) (blowupTwist I q) (op V) (a j) (b j) := hab
-    rw [hU', ← PresheafOfModules.naturality_apply, hab', map_sum]
-    exact Finset.sum_congr rfl fun j _ =>
-      app_twistedThickeningIdealMap_tmul I (n + 1) q V (a j) (b j)
+    rw [hU', ← PresheafOfModules.naturality_apply, hab, map_sum]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    rw [app_twistedThickeningIdealMap_tmul I (n + 1) q V (a j) (b j)]
   refine ⟨V, hVU, hxV, ?_⟩
   obtain ⟨s, hs⟩ := exists_eq_sum_of_forall_mem_range (twistedDivSections I n q V)
     (Finset.univ : Finset (Fin m))
     (fun j => sectionOfUnit I V ((thickeningIdealι I (n + 1)).val.app (op V) (a j)) • b j)
-    (fun j _ => exists_app_twistedDiv_eq_smul I n q ⟨V, hVaff⟩ _
-      (mem_pow_of_app_thickeningProj_eq_zero I (n + 1) ⟨V, hVaff⟩ _
+    (fun j _ => exists_app_twistedDiv_eq_smul I n q V _
+      (mem_pow_of_app_thickeningProj_eq_zero I (n + 1) V _
         (app_thickeningProj_app_thickeningIdealι_eq_zero I (n + 1) (op V) (a j))) (b j))
   exact ⟨s, hs.trans hVsum.symm⟩
 

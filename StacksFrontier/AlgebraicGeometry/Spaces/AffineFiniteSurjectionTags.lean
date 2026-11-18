@@ -11,7 +11,8 @@ This module declares nothing; it imports the three modules that prove Stacks 07V
 Each tag is registered by a `@[stacks]` attribute on its declaration:
 
 * `AlgebraicGeometry.Space.exists_integralFiniteSystem_of_isFinite` (Stacks 07VR), in
-  `StacksFrontier.AlgebraicGeometry.Spaces.FiniteMorphismLimitSystem`: a finite morphism of algebraic
+  `StacksFrontier.AlgebraicGeometry.Spaces.FiniteMorphismLimitSystem`: a finite morphism of
+  algebraic
   spaces `X ⟶ Y`, with `Y` quasi-compact and quasi-separated, is a limit of finite morphisms of
   finite presentation `X_i ⟶ Y` with closed immersions as transition morphisms.
 * `AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective` (Stacks 07VS), in

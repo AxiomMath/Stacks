@@ -78,6 +78,16 @@ objectwise from identities. Comparing the two directly instead, by definitional 
 the nested functors, is possible but costs about twenty times the default heartbeat budget;
 going through the monoidal structure makes the comparison immediate.
 
+The tensor product sheaf is computed with `Stacks.SheafOfModules.Tensor.sheafification`, an
+`irreducible_def`, so it is not definitionally Mathlib's `PresheafOfModules.sheafification` and
+`sheafificationUnit` does not land in it. `tensor_over_congr` uses the unit of that sheafification
+instead, `tensorSheafificationUnit`, whose local bijectivity comes from that of Mathlib's unit
+through the isomorphism `Adjunction.leftAdjointUniq` between the two sheafifications. Restriction
+to a slice carries local injectivity and surjectivity along by
+`isLocallyInjective_presheafRestriction_map` and `isLocallySurjective_presheafRestriction_map`,
+which are stated for an arbitrary morphism: checking the same identification in place, for a
+concrete sheafification unit, makes the unifier unfold the sheafified objects.
+
 ## References
 
 * [Stacks Project, Tag 03L6](https://stacks.math.columbia.edu/tag/03L6)
@@ -238,6 +248,24 @@ noncomputable abbrev presheafRestriction
     {C : Type u} [Category.{v} C] (R : Cᵒᵖ ⥤ RingCat.{w}) (U : C) :=
   PresheafOfModules.pushforward.{w} (F := Over.forget U) (𝟙 ((Over.forget U).op ⋙ R))
 
+/-- Restriction of presheaves of modules to a slice preserves local injectivity. -/
+theorem isLocallyInjective_presheafRestriction_map
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    {R : Cᵒᵖ ⥤ RingCat.{w}} (U : C) {A B : PresheafOfModules.{w} R} (x : A ⟶ B)
+    [PresheafOfModules.IsLocallyInjective J x] :
+    PresheafOfModules.IsLocallyInjective (J.over U) ((presheafRestriction R U).map x) :=
+  Presheaf.isLocallyInjective_whisker (J.over U) J (Over.forget U)
+    ((PresheafOfModules.toPresheaf R).map x)
+
+/-- Restriction of presheaves of modules to a slice preserves local surjectivity. -/
+theorem isLocallySurjective_presheafRestriction_map
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    {R : Cᵒᵖ ⥤ RingCat.{w}} (U : C) {A B : PresheafOfModules.{w} R} (x : A ⟶ B)
+    [PresheafOfModules.IsLocallySurjective J x] :
+    PresheafOfModules.IsLocallySurjective (J.over U) ((presheafRestriction R U).map x) :=
+  Presheaf.isLocallySurjective_whisker (J.over U) J (Over.forget U)
+    ((PresheafOfModules.toPresheaf R).map x)
+
 /-- Restriction to a slice site preserves the property of being a coproduct of copies of the
 unit presheaf of modules, since it is computed objectwise. -/
 noncomputable def restriction_isColimit
@@ -290,11 +318,9 @@ theorem freeModel_over_isFree
   have : PresheafOfModules.IsLocallySurjective J η :=
     inferInstanceAs (Presheaf.IsLocallySurjective J (CategoryTheory.toSheafify J P.presheaf))
   have hi : PresheafOfModules.IsLocallyInjective (J.over U) (L.map η) :=
-    Presheaf.isLocallyInjective_whisker (J.over U) J (Over.forget U)
-      ((PresheafOfModules.toPresheaf R.obj).map η)
+    isLocallyInjective_presheafRestriction_map U η
   have hs : PresheafOfModules.IsLocallySurjective (J.over U) (L.map η) :=
-    Presheaf.isLocallySurjective_whisker (J.over U) J (Over.forget U)
-      ((PresheafOfModules.toPresheaf R.obj).map η)
+    isLocallySurjective_presheafRestriction_map U η
   exact ⟨_, ⟨isColimit_of_locallyBijective (hinj := hi) (hsurj := hs)
     (R := R.over U) (M := (freeModel R B).over U)
     (fun b => L.map (Sigma.ι (fun _ : B => PresheafOfModules.unit R.obj) b))
@@ -395,6 +421,77 @@ noncomputable def freeModel_tensorIso
   exact (_root_.PresheafOfModules.sheafificationTensorIso J (𝟙 O.obj)).app (P, Q) ≪≫
     (PresheafOfModules.sheafification (𝟙 R.obj)).mapIso (tensor_coproduct_units (hT := hT) I K)
 
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the sheafification in
+which the tensor product sheaf is computed, is locally injective: it is Mathlib's sheafification
+unit followed by the image under the right adjoint of the isomorphism `Adjunction.leftAdjointUniq`
+between the two sheafifications. -/
+theorem isLocallyInjective_sheafificationAdjunction_unit_app
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+    (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallyInjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P) := by
+  rw [← Adjunction.unit_leftAdjointUniq_hom_app
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj))
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O) P,
+    PresheafOfModules.IsLocallyInjective, Functor.map_comp]
+  infer_instance
+
+/-- The unit of `Stacks.SheafOfModules.Tensor.sheafificationAdjunction`, the sheafification in
+which the tensor product sheaf is computed, is locally surjective: it is Mathlib's sheafification
+unit followed by the image under the right adjoint of the isomorphism `Adjunction.leftAdjointUniq`
+between the two sheafifications. -/
+theorem isLocallySurjective_sheafificationAdjunction_unit_app
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+    (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallySurjective J
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P) := by
+  rw [← Adjunction.unit_leftAdjointUniq_hom_app
+      (PresheafOfModules.sheafificationAdjunction
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj))
+      (Stacks.SheafOfModules.Tensor.sheafificationAdjunction O) P,
+    PresheafOfModules.IsLocallySurjective, Functor.map_comp]
+  infer_instance
+
+/-- The unit of the sheafification `Stacks.SheafOfModules.Tensor.sheafification O`, in which the
+tensor product sheaf is computed, as a morphism of presheaves of modules over the same presheaf of
+rings: the counterpart of `sheafificationUnit` for that sheafification. -/
+noncomputable def tensorSheafificationUnit
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+    (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    P ⟶ ((Stacks.SheafOfModules.Tensor.sheafification O).obj P).val where
+  app U := ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P).app U
+  naturality {U V} f := by
+    ext x
+    exact PresheafOfModules.naturality_apply
+      ((Stacks.SheafOfModules.Tensor.sheafificationAdjunction O).unit.app P) f x
+
+/-- `tensorSheafificationUnit` is locally injective, as the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` is. -/
+theorem isLocallyInjective_tensorSheafificationUnit
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+    (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallyInjective J (tensorSheafificationUnit O P) :=
+  isLocallyInjective_sheafificationAdjunction_unit_app O P
+
+/-- `tensorSheafificationUnit` is locally surjective, as the unit of
+`Stacks.SheafOfModules.Tensor.sheafificationAdjunction` is. -/
+theorem isLocallySurjective_tensorSheafificationUnit
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+    (O : Sheaf J CommRingCat.{w})
+    (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :
+    PresheafOfModules.IsLocallySurjective J (tensorSheafificationUnit O P) :=
+  isLocallySurjective_sheafificationAdjunction_unit_app O P
+
 /-- The tensor product of two sheaves of modules, restricted to a slice, only depends on the
 restrictions of the two factors. -/
 noncomputable def tensor_over_congr
@@ -411,18 +508,16 @@ noncomputable def tensor_over_congr
   let L := presheafRestriction R.obj U
   let P := F.val ⊗ G.val
   let Q := F'.val ⊗ G'.val
-  let f := L.map (sheafificationUnit (R := R) P)
-  let g := L.map (sheafificationUnit (R := R) Q)
+  let f := L.map (tensorSheafificationUnit O P)
+  let g := L.map (tensorSheafificationUnit O Q)
   have inj (A : PresheafOfModules.{w} R.obj) :
-      PresheafOfModules.IsLocallyInjective (J.over U)
-        (L.map (sheafificationUnit (R := R) A)) :=
-    Presheaf.isLocallyInjective_whisker (J.over U) J (Over.forget U)
-      (CategoryTheory.toSheafify J A.presheaf)
+      PresheafOfModules.IsLocallyInjective (J.over U) (L.map (tensorSheafificationUnit O A)) :=
+    have := isLocallyInjective_tensorSheafificationUnit O A
+    isLocallyInjective_presheafRestriction_map U (tensorSheafificationUnit O A)
   have surj (A : PresheafOfModules.{w} R.obj) :
-      PresheafOfModules.IsLocallySurjective (J.over U)
-        (L.map (sheafificationUnit (R := R) A)) :=
-    Presheaf.isLocallySurjective_whisker (J.over U) J (Over.forget U)
-      (CategoryTheory.toSheafify J A.presheaf)
+      PresheafOfModules.IsLocallySurjective (J.over U) (L.map (tensorSheafificationUnit O A)) :=
+    have := isLocallySurjective_tensorSheafificationUnit O A
+    isLocallySurjective_presheafRestriction_map U (tensorSheafificationUnit O A)
   letI := inj P
   letI := inj Q
   letI := surj P

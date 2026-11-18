@@ -41,7 +41,8 @@ which is available as
   argument for Stacks 07UW, from those four inputs together with `hqcqs`.
 
 Each of the five inputs is proved in
-`StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentationColimitAffineOverNoetherianUnconditional`,
+`FinitePresentationColimitAffineOverNoetherianUnconditional` of
+`StacksFrontier.AlgebraicGeometry.Spaces`,
 which applies the second theorem to them and registers Stacks 07UW unconditionally, as
 `Space.exists_isFiltered_isColimit_isFinitePresentation_of_isAffineHom_of_isNoetherian`.
 

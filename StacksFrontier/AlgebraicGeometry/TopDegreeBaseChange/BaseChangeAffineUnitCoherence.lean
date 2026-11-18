@@ -203,10 +203,12 @@ lemma tensorSheafRingedSpaceCommIso_naturality
     (congrArg (fun z => z ≫ (tensorSheafRingedSpaceCommIso Z A B').hom)
       (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map ⟨Z.presheaf, Z.IsSheaf⟩ (𝟙 A) g))
     (Eq.trans
-      (((PresheafOfModules.sheafification (𝟙 (structureRingSheaf Z).obj)).map_comp _ _).symm.trans
-        ((congrArg (PresheafOfModules.sheafification (𝟙 (structureRingSheaf Z).obj)).map
+      (((Stacks.SheafOfModules.Tensor.sheafification
+            ⟨Z.presheaf, Z.IsSheaf⟩).map_comp _ _).symm.trans
+        ((congrArg (Stacks.SheafOfModules.Tensor.sheafification ⟨Z.presheaf, Z.IsSheaf⟩).map
             (PresheafOfModules.tensorHom_tensorCommHom (𝟙 A.val) g.val)).trans
-          ((PresheafOfModules.sheafification (𝟙 (structureRingSheaf Z).obj)).map_comp _ _)))
+          ((Stacks.SheafOfModules.Tensor.sheafification
+            ⟨Z.presheaf, Z.IsSheaf⟩).map_comp _ _)))
       (congrArg (fun z => (tensorSheafRingedSpaceCommIso Z A B).hom ≫ z)
         (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map
           ⟨Z.presheaf, Z.IsSheaf⟩ g (𝟙 A)).symm))
@@ -224,9 +226,8 @@ lemma tensorSheafRingedSpaceCommIso_hom_tmul
     (tensorSheafRingedSpaceCommIso Z A B).hom.val.app U
         (Stacks.PullbackTensorCoherence.tmul Z A B U a b) =
       Stacks.PullbackTensorCoherence.tmul Z B A U b a :=
-  Stacks.SheafOfModules.sheafify_map_toSheafify_apply Z.sheaf.obj
-    (structureRingSheaf Z).property (Stacks.tensorCommHom (O := Z.sheaf.obj) A.val B.val) U
-    (a ⊗ₜ b)
+  Stacks.SheafOfModules.Tensor.unit_naturality_apply (R := ⟨Z.presheaf, Z.IsSheaf⟩)
+    (Stacks.tensorCommHom (O := Z.sheaf.obj) A.val B.val) U (a ⊗ₜ b)
 
 /-- **The symmetry of the tensor product of sheaves of modules on a ringed space is the braiding
 of the symmetric structure of [Stacks, Tag 01CA].** Both exchange the two factors of a local pure

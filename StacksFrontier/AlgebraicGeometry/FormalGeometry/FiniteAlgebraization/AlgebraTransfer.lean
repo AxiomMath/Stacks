@@ -533,10 +533,9 @@ public theorem m_assoc :
     (L.m ▷ L.F) ≫ L.m = (α_ L.F L.F L.F).hom ≫ (L.F ◁ L.m) ≫ L.m := by
   refine L.huniq _ (coh_tensor (coh_tensor L.hF L.hF) L.hF) _ _ fun n => ?_
   refine Stacks.PullbackTensorCoherence.tensor_hom_ext₂ fun U x y z => ?_
-  change (L.p n).val.app U (L.m.val.app U ((L.m ▷ L.F).val.app U (tm U (tm U x y) z))) =
-    (L.p n).val.app U (L.m.val.app U ((L.F ◁ L.m).val.app U
-      ((α_ L.F L.F L.F).hom.val.app U (tm U (tm U x y) z))))
-  rw [Stacks.PullbackTensorCoherence.whiskerRight_tmul,
+  rw [SheafOfModules.comp_val_app_apply, SheafOfModules.comp_val_app_apply,
+    SheafOfModules.comp_val_app_apply, SheafOfModules.comp_val_app_apply,
+    SheafOfModules.comp_val_app_apply, Stacks.PullbackTensorCoherence.whiskerRight_tmul,
     Stacks.PullbackTensorCoherence.associator_hom_tmul,
     Stacks.PullbackTensorCoherence.whiskerLeft_tmul, L.p_m, L.p_m, L.p_m, L.p_m]
   exact congrArg ofR (mul_assoc _ _ _)

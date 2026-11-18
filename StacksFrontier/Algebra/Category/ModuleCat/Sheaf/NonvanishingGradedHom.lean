@@ -178,14 +178,14 @@ private abbrev tp
       Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
       ((sectionSiteSheaf X))⟩).obj (M)).obj (N))
 
-/-- The tensor product of two morphisms of sheaves of modules, spelled through the
-Tag 01CU tensor bifunctor so that source and target are the same tensor product as `tp`. -/
+/-- The tensor product of two morphisms of sheaves of modules: the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of their presheaf tensor product, so that source
+and target are the same tensor product as `tp`. -/
 private abbrev tmap {M M' N N' : SheafOfModules.{u}
     (structureSheafRing X.toRingedSpace)} (f : M ⟶ M') (g : N ⟶ N') :
     tp X M N ⟶ tp X M' N' :=
-  (PresheafOfModules.sheafification (R := Tensor.ringSheaf X.sheaf)
-    (𝟙 (Tensor.ringSheaf X.sheaf).obj)).map
-      (PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val)
+  (Tensor.sheafification X.sheaf).map
+    (PresheafOfModules.tensorHom (O := X.presheaf) f.val g.val)
 
 private abbrev pure
     (M N : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
@@ -236,10 +236,9 @@ private lemma restrict_pure (M N : SheafOfModules.{u}
     (tp X M N).val.map i.op (pure X M N U m n) =
       pure X M N V (M.val.map i.op m) (N.val.map i.op n) :=
   (congrArg (fun f => f.hom (m ⊗ₜ[X.presheaf.obj (op U)] n))
-    ((TensorSheafification.toSheafify (sectionSiteRing X)
-      (sectionSiteSheaf X)
-      ((PresheafOfModules.tensorObj (O := (sectionSiteRing X)) (M.val)
-          (N.val)))).naturality i.op)).symm
+    (((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
+      (sectionSiteSheaf X)).unit.app
+      (PresheafOfModules.tensorObj (O := sectionSiteRing X) M.val N.val)).naturality i.op)).symm
 
 private lemma internalHom_restrict_apply (M N : SheafOfModules.{u}
     (structureSheafRing X.toRingedSpace))
@@ -347,7 +346,7 @@ private lemma tensor_hom_ext {M N P : SheafOfModules.{u}
     (structureSheafRing X.toRingedSpace)} {f g : tp X M N ⟶ P}
     (h : ∀ (U : Opens X.toRingedSpace) (m : M.val.obj (op U)) (n : N.val.obj (op U)),
       f.val.app (op U) (pure X M N U m n) = g.val.app (op U) (pure X M N U m n)) : f = g := by
-  apply ((TensorSheafification.sheafifyAdjunction (sectionSiteRing X)
+  apply ((Invertible.structureSheafificationAdjunction (sectionSiteRing X)
     (sectionSiteSheaf X)).homEquiv _ P).injective
   apply PresheafOfModules.hom_ext
   intro U
@@ -545,22 +544,14 @@ public theorem tensorHomEvaluation_tmul_apply (n : ℤ)
       (sectionSiteSheaf X) L n).val.obj (op U))
     (V : (Over U)ᵒᵖ) (g : ((restrFun X.toRingedSpace.presheaf U).obj F.val).obj V) :
     (((((tensorHomEvaluation X L F G n).val.app (op U)).hom
-      (((TensorSheafification.toSheafify (sectionSiteRing X)
-        (sectionSiteSheaf X)
-        ((PresheafOfModules.tensorObj (O := (sectionSiteRing X))
-            ((sheafHomSpace X.toRingedSpace F G).val) ((TensorPower.tensorPower (sectionSiteRing X)
-            (sectionSiteSheaf X) L n).val)))).app (op U)).hom
-        (a ⊗ₜ[(sectionSiteRing X).obj (op U)] q))).app V).hom g =
-      (((TensorSheafification.toSheafify (sectionSiteRing X)
-        (sectionSiteSheaf X)
-        ((PresheafOfModules.tensorObj (O := (sectionSiteRing X)) (G.val)
-            ((TensorPower.tensorPower (sectionSiteRing X)
-            (sectionSiteSheaf X) L n).val)))).app
-              (op V.unop.left)).hom
-        (((a.app V).hom g) ⊗ₜ[(sectionSiteRing X).obj (op V.unop.left)]
-          ((TensorPower.tensorPower (sectionSiteRing X)
-            (sectionSiteSheaf X) L n).val.map
-              V.unop.hom.op).hom q))) :=
+      (tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) (op U)
+        (sheafHomSpace X.toRingedSpace F G)
+        (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L n) a q))).app V).hom g =
+      tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) (op V.unop.left) G
+        (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L n)
+        ((a.app V).hom g)
+        (((TensorPower.tensorPower (sectionSiteRing X)
+          (sectionSiteSheaf X) L n).val.map V.unop.hom.op).hom q) :=
   by
     let P := TensorPower.tensorPower (sectionSiteRing X)
       (sectionSiteSheaf X) L n

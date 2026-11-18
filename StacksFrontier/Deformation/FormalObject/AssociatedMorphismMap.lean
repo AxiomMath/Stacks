@@ -67,7 +67,6 @@ variable {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
 /-- The point inclusion of an associated morphism at `α` lies over the map from the selected
 adic truncation to the Artinian base of `α`. -/
 public lemma associatedPointInclusion_lift
-    (_hp : IsCofiberedInGroupoids p)
     {ξ : FormalObject p} (pushforwards : ChosenPushforwards p)
     (X : AssociatedMorphism ξ pushforwards)
     (α : (restrictedCoyoneda ξ.base).Elements) :
@@ -92,7 +91,7 @@ public lemma associatedPointInclusion_stronglyCocartesian
     (α : (restrictedCoyoneda ξ.base).Elements) :
     p.IsStronglyCocartesian (X.factor α) (X.pointInclusion α) := by
   exact isStronglyCocartesian_of_isCofiberedInGroupoids hp (X.factor α)
-    (X.pointInclusion α) (associatedPointInclusion_lift hp pushforwards X α)
+    (X.pointInclusion α) (associatedPointInclusion_lift pushforwards X α)
 
 private lemma vertical_isIso
     (hp : IsCofiberedInGroupoids p)
@@ -251,7 +250,7 @@ public theorem associatedMorphism_map
         ((a.app (X.level (f.obj α)) ≫ eqToHom (congrArg η.level (hlevel α))) ≫
           Y.pointInclusion α) := by
       let := hfirst
-      let := associatedPointInclusion_lift hp pushforwards Y α
+      let := associatedPointInclusion_lift pushforwards Y α
       exact IsHomLift.comp p
         (AdicTruncation.map a.base (X.level (f.obj α)) ≫
           eqToHom (congrArg (AdicTruncation.obj η.base) (hlevel α)))

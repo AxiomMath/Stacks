@@ -434,10 +434,7 @@ theorem unit_comp_map_projectionTotalIso
   rw [hηf] at hR
   exact cl_chase hu hPi hpi he (Iso.hom_inv_id_app _ _) h03 hmm hT
     ((Category.assoc _ _ _).trans hpair) hR
-    ((congrArg (PresheafOfModules.sheafification
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
-      (PresheafOfModules.tensorHom_id (O := X.O.obj) _ _)).trans
-        (CategoryTheory.Functor.map_id _ _))
+    ((congrArg _ (HomologicalComplex.id_f _ _)).trans (CategoryTheory.Functor.map_id _ _))
 
 end Projection
 

@@ -16,7 +16,8 @@ topological rings need not have `Spf (φ) : Spf B → Spf A` representable. Seco
 a representable morphism of affine formal algebraic spaces whose target is a McQuillan formal
 spectrum need not be McQuillan.
 
-This file supplies the ring-theoretic half of the example the source gives for the first sense: `A = k` is a field
+This file supplies the ring-theoretic half of the example the source gives for the first sense:
+`A = k` is a field
 with the discrete topology and `B = k⟦t⟧` carries the `t`-adic topology. Both rings are weakly
 admissible, the inclusion of constants is continuous because the source is discrete, and it is
 *not taut*: the zero ideal is a weak ideal of definition of `k`, its extension to `k⟦t⟧` is
@@ -49,7 +50,8 @@ complete remark, both senses and with no hypothesis, is
   the formal spectrum of the homomorphism of the example is not representable by algebraic
   spaces, from the implication (1) ⟹ (3) of Stacks 0AN5 in the form
   `IsTautOfRepresentableFormalSpectrumMap`. The unconditional statement, which uses the proved
-  implication `AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`
+  implication
+  `FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`
   instead, is
   `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`.
 
@@ -210,7 +212,7 @@ The library proves this implication when both quotient systems satisfy the set-t
 condition of Stacks 0AIS,
 `AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap`,
 and when both formal spectra are affine formal algebraic spaces,
-`AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isAffine`.
+`FormalSpace.isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isAffine`.
 -/
 abbrev IsTautOfRepresentableFormalSpectrumMap : Prop :=
   ∀ (A C : Type u) (_ : CommRing A) (_ : TopologicalSpace A) (_ : IsTopologicalRing A)

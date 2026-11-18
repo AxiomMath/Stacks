@@ -297,6 +297,7 @@ abbrev trivialTorOneMk :
     (ker_trivialProjection π X n₀ hn₀ hX)
 
 include hn₀ in
+omit [CompactSpace G] in
 /-- The sequence `0 → K → Λ[Q] → X → 0`, restricted to `G`, is short exact. -/
 theorem shortExact_map_freeAugmentationShortComplex :
     ((freeAugmentationShortComplex X n₀).map (resCompleted π)).ShortExact :=
@@ -319,6 +320,7 @@ def augmentationShortComplexHom :
     comm₁₂ := ShortComplex.Exact.lift_f _ _ _
     comm₂₃ := by rw [Category.comp_id]; rfl }
 
+omit [CompactSpace G] in
 /-- The map `I → K` of `augmentationShortComplexHom` is `x ↦ x e`. -/
 theorem augmentationShortComplexHom_τ₁_apply (x : augmentationIdealModule (ULift.{w} Λ) G) :
     ((freeAugmentationShortComplex X n₀).map (resCompleted π)).f.hom
@@ -328,6 +330,7 @@ theorem augmentationShortComplexHom_τ₁_apply (x : augmentationIdealModule (UL
   LinearMap.congr_fun
     (congrArg ModuleCat.Hom.hom (augmentationShortComplexHom π X n₀ hn₀ hX).comm₁₂) x
 
+omit [CompactSpace G] in
 /-- **The connecting map of the restricted sequence on `I → Tor₁^{Λ[[G]]}(res_π X, Λ)`**: it
 sends `x ∈ I` to the class of `x e ∈ K` in `Tor₀^{Λ[[G]]}(res_π K, Λ)`. -/
 theorem leftDerivedδ_trivialTorOneMk (x : augmentationIdealModule (ULift.{w} Λ) G) :
@@ -369,6 +372,7 @@ theorem coe_augmentationIdealMap (x : augmentationIdealModule (ULift.{w} Λ) G) 
       map (π : G →* Q) π.continuous x :=
   rfl
 
+omit [CompactSpace G] in
 /-- `x e` computed over `G` is `π(x) e` computed over `Q`, in the kernel `K` of `Λ[Q] → X`. -/
 theorem augmentationShortComplexHom_τ₁_augmentationIdealMap
     (x : augmentationIdealModule (ULift.{w} Λ) G) :
@@ -409,6 +413,7 @@ def IsCoinvariantsProjection
         ((resCompleted (ContinuousMonoidHom.id Q)).obj Y)).hom
           (coinvariantsMk _ _ (show (resCompleted (ContinuousMonoidHom.id Q)).obj Y from k))
 
+omit [CompactSpace G] in
 /-- **Change of rings on `Tor₁` of the trivial module is `I/I² → I_Q/I_Q²`.** A morphism of
 δ-functors `Tor_•^{Λ[[G]]}(res_π -, Λ) ⟶ Tor_•^{Λ[Q]}(-, Λ)` which is the projection of
 coinvariants in degree zero sends the class of `x ∈ I_G` in `Tor₁^{Λ[[G]]}(X, Λ)` to the class of
@@ -458,6 +463,7 @@ local instance : PreservesFiniteColimits (finiteTypeContinuousModuleRes.{0, w, w
   preservesFiniteColimits_finiteTypeContinuousModuleRes π
 
 omit [DiscreteTopology Q] [DiscreteTopology Q'] in
+omit [IsTopologicalGroup Q] [CompactSpace Q] [CompactSpace Q'] in
 /-- The source of `torChangeOfRings` is `Tor_•^{Λ[Q']}(res_π -, Λ)` in the form of
 `finiteTypeGroupHomology`. -/
 theorem torChangeOfRingsSource_eq :

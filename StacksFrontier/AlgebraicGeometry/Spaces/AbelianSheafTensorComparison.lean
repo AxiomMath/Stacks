@@ -18,6 +18,8 @@ quasi-isomorphism from a K-flat one**.
   presheaves, as a tensor product over `ℤ`.
 * `Stacks.Cohomology.modTensorComparison`: `τ`, the comparison of the two objectwise tensor
   products.
+* `Stacks.Cohomology.modSheafTensorIso`: the abelian sheaf underlying the tensor product over the
+  constant sheaf `ℤ` is the sheafification of the objectwise tensor product.
 * `Stacks.Cohomology.abelianSheafTensorComparison`: **`ε`, the comparison of the two tensor
   products across the equivalence.**
 * `Stacks.Cohomology.derivedMonoidalAbelianSheavesOfKFlat`: **the derived category of abelian
@@ -530,15 +532,56 @@ theorem modSheafTensorComparisonIso_hom :
           (modAbelianPresheaf J B) ≫
         (presheafToSheaf J AddCommGrpCat.{u}).map (modTensorComparison J A B) := rfl
 
+/-- **The abelian sheaf underlying the tensor product over the constant sheaf of commutative rings
+`ℤ` is the sheafification of the objectwise tensor product over `ℤ`**: the sealed sheafification
+commutes with passing to abelian sheaves,
+`Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf`. -/
+def modSheafTensorIso :
+    (intModulesEquivAbelianSheaves J).functor.obj
+        (((Stacks.SheafOfModules.Tensor.sheafTensor (constIntCommSheaf J)).obj A).obj B) ≅
+      (presheafToSheaf J AddCommGrpCat.{u}).obj (modPresheafTensor J A B) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf (constIntCommSheaf J)).app
+    (((constIntPresheafTensor J).obj A.val).obj B.val)
+
 /-- **`ε`: the tensor product of abelian sheaves is the tensor product over the constant sheaf of
-commutative rings `ℤ`, across `Stacks.Cohomology.intModulesEquivAbelianSheaves`.** -/
+commutative rings `ℤ`, across `Stacks.Cohomology.intModulesEquivAbelianSheaves`.** It is
+`Stacks.Cohomology.modSheafTensorIso` followed by the inverse of `σ` and the counits. -/
 def abelianSheafTensorComparison :
     (intModulesEquivAbelianSheaves J).functor.obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor (constIntCommSheaf J)).obj A).obj B) ≅
       ((intModulesEquivAbelianSheaves J).functor.obj A) ⊗
         ((intModulesEquivAbelianSheaves J).functor.obj B) :=
-  (modSheafTensorComparisonIso J A B).symm ≪≫
+  modSheafTensorIso J A B ≪≫ (modSheafTensorComparisonIso J A B).symm ≪≫
     MonoidalCategory.tensorIso (modSheafifyCounitIso J A) (modSheafifyCounitIso J B)
+
+omit [HasSheafify J AddCommGrpCat.{u}] in
+/-- `Stacks.Cohomology.modSheafTensorIso` is natural in the first variable. -/
+theorem modSheafTensorIso_naturality_left
+    {A₁ A₂ : Stacks.SheafOfModules.DerivedMonoidal.Mod.{u} (constIntCommSheaf J)} (f : A₁ ⟶ A₂)
+    (B₁ : Stacks.SheafOfModules.DerivedMonoidal.Mod.{u} (constIntCommSheaf J)) :
+    (intModulesEquivAbelianSheaves J).functor.map
+        (((Stacks.SheafOfModules.Tensor.sheafTensor (constIntCommSheaf J)).map f).app B₁) ≫
+        (modSheafTensorIso J A₂ B₁).hom =
+      (modSheafTensorIso J A₁ B₁).hom ≫
+        (presheafToSheaf J AddCommGrpCat.{u}).map ((PresheafOfModules.toPresheaf _).map
+          (((constIntPresheafTensor J).map f.val).app B₁.val)) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf (constIntCommSheaf J)).hom.naturality
+    (((constIntPresheafTensor J).map f.val).app B₁.val)
+
+omit [HasSheafify J AddCommGrpCat.{u}] in
+/-- `Stacks.Cohomology.modSheafTensorIso` is natural in the second variable. -/
+theorem modSheafTensorIso_naturality_right
+    (A₁ : Stacks.SheafOfModules.DerivedMonoidal.Mod.{u} (constIntCommSheaf J))
+    {B₁ B₂ : Stacks.SheafOfModules.DerivedMonoidal.Mod.{u} (constIntCommSheaf J)}
+    (g : B₁ ⟶ B₂) :
+    (intModulesEquivAbelianSheaves J).functor.map
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor (constIntCommSheaf J)).obj A₁)).map g) ≫
+        (modSheafTensorIso J A₁ B₂).hom =
+      (modSheafTensorIso J A₁ B₁).hom ≫
+        (presheafToSheaf J AddCommGrpCat.{u}).map ((PresheafOfModules.toPresheaf _).map
+          ((((constIntPresheafTensor J).obj A₁.val)).map g.val)) :=
+  (Stacks.SheafOfModules.Tensor.sheafificationCompToSheaf (constIntCommSheaf J)).hom.naturality
+    ((((constIntPresheafTensor J).obj A₁.val)).map g.val)
 
 omit [HasSheafify J RingCat.{u}] [J.WEqualsLocallyBijective RingCat.{u}]
   [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
@@ -623,14 +666,15 @@ theorem modSheafifyCounitIso_tensor_naturality_right
     MonoidalCategory.whiskerLeft_comp_tensorHom, MonoidalCategory.tensorHom_comp_whiskerLeft,
     hc]
 
-/-- Naturality of `σ.inv ≫ τ` from the naturality of `σ.hom` and of `τ`. -/
-private theorem map_comp_inv_comp_eq {D : Type*} [Category D] {X₁ X₂ Y₁ Y₂ Z₁ Z₂ : D}
-    (σ₁ : X₁ ≅ Y₁) (σ₂ : X₂ ≅ Y₂) (τ₁ : X₁ ⟶ Z₁) (τ₂ : X₂ ⟶ Z₂)
-    {a : X₁ ⟶ X₂} {b : Y₁ ⟶ Y₂} {d : Z₁ ⟶ Z₂} (h₁ : a ≫ σ₂.hom = σ₁.hom ≫ b)
-    (h₂ : a ≫ τ₂ = τ₁ ≫ d) : b ≫ σ₂.inv ≫ τ₂ = σ₁.inv ≫ τ₁ ≫ d := by
+/-- Naturality of `α ≫ σ.inv ≫ τ` from the naturality of `α`, of `σ.hom` and of `τ`. -/
+private theorem map_comp_hom_comp_inv_comp_eq {D : Type*} [Category D]
+    {W₁ W₂ X₁ X₂ Y₁ Y₂ Z₁ Z₂ : D} (α₁ : W₁ ≅ Y₁) (α₂ : W₂ ≅ Y₂) (σ₁ : X₁ ≅ Y₁) (σ₂ : X₂ ≅ Y₂)
+    (τ₁ : X₁ ⟶ Z₁) (τ₂ : X₂ ⟶ Z₂) {c : W₁ ⟶ W₂} {a : X₁ ⟶ X₂} {b : Y₁ ⟶ Y₂} {d : Z₁ ⟶ Z₂}
+    (h₀ : c ≫ α₂.hom = α₁.hom ≫ b) (h₁ : a ≫ σ₂.hom = σ₁.hom ≫ b) (h₂ : a ≫ τ₂ = τ₁ ≫ d) :
+    c ≫ α₂.hom ≫ σ₂.inv ≫ τ₂ = α₁.hom ≫ σ₁.inv ≫ τ₁ ≫ d := by
   have h : b ≫ σ₂.inv = σ₁.inv ≫ a := by
     rw [Iso.comp_inv_eq, Category.assoc, h₁, Iso.inv_hom_id_assoc]
-  rw [← Category.assoc, h, Category.assoc, h₂]
+  rw [reassoc_of% h₀, reassoc_of% h, h₂]
 
 omit [HasSheafify J AddCommGrpCat.{u}] in
 /-- **`ε` is natural in the first variable.** -/
@@ -644,7 +688,8 @@ theorem abelianSheafTensorComparison_naturality_left
         (((curriedTensor (Sheaf J AddCommGrpCat.{u})).map
             ((intModulesEquivAbelianSheaves J).functor.map f)).app
           ((intModulesEquivAbelianSheaves J).functor.obj B₁)) := by
-  exact map_comp_inv_comp_eq _ _ _ _ (modSheafTensorComparisonIso_naturality_left J f B₁)
+  exact map_comp_hom_comp_inv_comp_eq _ _ _ _ _ _ (modSheafTensorIso_naturality_left J f B₁)
+    (modSheafTensorComparisonIso_naturality_left J f B₁)
     (modSheafifyCounitIso_tensor_naturality_left J f B₁)
 
 omit [HasSheafify J AddCommGrpCat.{u}] in
@@ -660,7 +705,8 @@ theorem abelianSheafTensorComparison_naturality_right
         (((curriedTensor (Sheaf J AddCommGrpCat.{u})).obj
             ((intModulesEquivAbelianSheaves J).functor.obj A₁)).map
           ((intModulesEquivAbelianSheaves J).functor.map g)) := by
-  exact map_comp_inv_comp_eq _ _ _ _ (modSheafTensorComparisonIso_naturality_right J A₁ g)
+  exact map_comp_hom_comp_inv_comp_eq _ _ _ _ _ _ (modSheafTensorIso_naturality_right J A₁ g)
+    (modSheafTensorComparisonIso_naturality_right J A₁ g)
     (modSheafifyCounitIso_tensor_naturality_right J A₁ g)
 
 /-! ### K-flat resolutions of complexes of abelian sheaves -/

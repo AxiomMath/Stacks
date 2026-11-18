@@ -320,16 +320,18 @@ def extendRestrictNatIsoFactorisation (π : Y ⟶ X) :
         ((Stacks.NoncommChangeOfRings.Presheaf.extendScalars.{u}
           (structureSharp B S hS π).hom).map g.val))
 
-/-- The naturality square of `AlgebraicGeometry.Space.tensorNatIsoFactorisation`, kept as a
-declaration of its own and stated for the free rank-one `π_*𝒪_Y`-module read over `𝒪_X` rather
-than for `AlgebraicGeometry.Space.pushforwardStructureModule`: the two agree by
+/-- The naturality square of `AlgebraicGeometry.Space.tensorNatIsoFactorisation` before the
+comparison `Stacks.SheafOfModules.Tensor.sheafificationIso` with Mathlib's sheafification, kept
+as a declaration of its own and stated for the free rank-one `π_*𝒪_Y`-module read over `𝒪_X`
+rather than for `AlgebraicGeometry.Space.pushforwardStructureModule`: the two agree by
 `AlgebraicGeometry.Space.restrictScalars_unit_structureRingSheafDirectImage`, but only by an
 expensive definitional unfolding, while the underlying presheaf of the former is visibly the
 restriction of scalars of the free presheaf of modules that
 `Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend` starts from.  The tensor
-product sheaf on a morphism is first read as the sheafified objectwise tensor product by
-`Stacks.SheafOfModules.Tensor.sheafTensor_obj_map`, and the square is then the image under
-sheafification of
+product sheaf on a morphism is the sealed sheafification
+`Stacks.SheafOfModules.Tensor.sheafification` of the objectwise tensor product
+(`Stacks.SheafOfModules.Tensor.sheafTensor_obj_map`), and the square is then the image under
+that sheafification of
 `Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend_hom_naturality`. -/
 theorem tensorNatIsoFactorisation_naturality (π : Y ⟶ X)
     {G G' : Modules.{u, u} B S hS X.1 X.2} (g : G ⟶ G') :
@@ -337,36 +339,42 @@ theorem tensorNatIsoFactorisation_naturality (π : Y ⟶ X)
           (structureSheaf B S hS X.1 X.2)).obj
           ((directImageAlgebraRestrictScalars B S hS π).obj
             (SheafOfModules.unit (structureRingSheafDirectImage B S hS π)))).map g ≫
-        ((PresheafOfModules.sheafification.{u} (R := structureRingSheaf B S hS X)
-          (𝟙 (structureRingSheaf B S hS X).obj)).mapIso
+        (Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+          (structureSheaf B S hS X.1 X.2)).map
           (Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend
             (R₁ := (smallEtaleRingedSite B S hS X.1 X.2).O.obj)
             (structureSharp B S hS π).hom
-            (mul_comm_structureRingSheafDirectImage B S hS π) G'.val)).hom =
-      ((PresheafOfModules.sheafification.{u} (R := structureRingSheaf B S hS X)
-          (𝟙 (structureRingSheaf B S hS X).obj)).mapIso
+            (mul_comm_structureRingSheafDirectImage B S hS π) G'.val).hom =
+      (Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+          (structureSheaf B S hS X.1 X.2)).map
           (Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend
             (R₁ := (smallEtaleRingedSite B S hS X.1 X.2).O.obj)
             (structureSharp B S hS π).hom
-            (mul_comm_structureRingSheafDirectImage B S hS π) G.val)).hom ≫
-        (extendRestrictPresheafFactorisation B S hS π).map g := by
+            (mul_comm_structureRingSheafDirectImage B S hS π) G.val).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+          (structureSheaf B S hS X.1 X.2)).map
+          ((PresheafOfModules.restrictScalars (structureSharp B S hS π).hom).map
+            ((Stacks.NoncommChangeOfRings.Presheaf.extendScalars.{u}
+              (structureSharp B S hS π).hom).map g.val)) := by
   refine (congrArg (· ≫ _)
     (Stacks.SheafOfModules.Tensor.sheafTensor_obj_map _ _ g)).trans ?_
-  exact (((PresheafOfModules.sheafification.{u} (R := structureRingSheaf B S hS X)
-        (𝟙 (structureRingSheaf B S hS X).obj)).map_comp _ _).symm.trans
-    (congrArg (PresheafOfModules.sheafification.{u} (R := structureRingSheaf B S hS X)
-        (𝟙 (structureRingSheaf B S hS X).obj)).map
+  exact (((Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+        (structureSheaf B S hS X.1 X.2)).map_comp _ _).symm.trans
+    (congrArg (Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+        (structureSheaf B S hS X.1 X.2)).map
       (Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend_hom_naturality
         (R₁ := (smallEtaleRingedSite B S hS X.1 X.2).O.obj)
         (structureSharp B S hS π).hom
         (mul_comm_structureRingSheafDirectImage B S hS π) g.val))).trans
-    ((PresheafOfModules.sheafification.{u} (R := structureRingSheaf B S hS X)
-        (𝟙 (structureRingSheaf B S hS X).obj)).map_comp _ _)
+    ((Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+        (structureSheaf B S hS X.1 X.2)).map_comp _ _)
 
 /-- The tensor product by `π_*𝒪_Y` factors through
 `AlgebraicGeometry.Space.extendRestrictPresheafFactorisation`: before sheafifying, the
 objectwise tensor product with `𝒜` is the objectwise extension of scalars read back over
-`𝒪_X`.  The module `π_*𝒪_Y` is first replaced by the free rank-one `𝒜`-module read over `𝒪_X`
+`𝒪_X`; the sealed sheafification `Stacks.SheafOfModules.Tensor.sheafification` of the tensor
+product is then compared with Mathlib's by `Stacks.SheafOfModules.Tensor.sheafificationIso`.
+The module `π_*𝒪_Y` is first replaced by the free rank-one `𝒜`-module read over `𝒪_X`
 along the equation `AlgebraicGeometry.Space.restrictScalars_unit_structureRingSheafDirectImage`,
 so that no definitional unfolding of `AlgebraicGeometry.Space.pushforwardStructureModule` is
 needed. -/
@@ -379,13 +387,24 @@ def tensorNatIsoFactorisation (π : Y ⟶ X) :
       (eqToIso (restrictScalars_unit_structureRingSheafDirectImage B S hS π).symm) ≪≫
     NatIso.ofComponents
       (fun G =>
-        (PresheafOfModules.sheafification.{u} (R := structureRingSheaf B S hS X)
-            (𝟙 (structureRingSheaf B S hS X).obj)).mapIso
+        (Stacks.SheafOfModules.Tensor.sheafification.{u + 1, u, u, u}
+            (structureSheaf B S hS X.1 X.2)).mapIso
           (Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend
             (R₁ := (smallEtaleRingedSite B S hS X.1 X.2).O.obj)
             (structureSharp B S hS π).hom
-            (mul_comm_structureRingSheafDirectImage B S hS π) G.val))
-      (fun {_ _} g => tensorNatIsoFactorisation_naturality B S hS π g)
+            (mul_comm_structureRingSheafDirectImage B S hS π) G.val) ≪≫
+          (Stacks.SheafOfModules.Tensor.sheafificationIso.{u + 1, u, u, u}
+            (structureSheaf B S hS X.1 X.2)).symm.app
+            ((PresheafOfModules.restrictScalars (structureSharp B S hS π).hom).obj
+              (Stacks.NoncommChangeOfRings.Presheaf.extendScalarsObj
+                (structureSharp B S hS π).hom G.val)))
+      (fun {_ _} g => (Category.assoc _ _ _).symm.trans
+        ((congrArg (· ≫ _) (tensorNatIsoFactorisation_naturality B S hS π g)).trans
+          ((Category.assoc _ _ _).trans
+            ((congrArg (_ ≫ ·)
+              ((Stacks.SheafOfModules.Tensor.sheafificationIso.{u + 1, u, u, u}
+                (structureSheaf B S hS X.1 X.2)).inv.naturality _)).trans
+              (Category.assoc _ _ _).symm))))
 
 /-- **Naturality of `AlgebraicGeometry.Space.restrictScalarsExtendScalarsIsoTensorModule`.**
 Extension of scalars along `π♯ : 𝒪_X ⟶ 𝒜`, read back as a functor to `𝒪_X`-modules, is the

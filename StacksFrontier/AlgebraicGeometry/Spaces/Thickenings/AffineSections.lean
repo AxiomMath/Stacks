@@ -310,7 +310,8 @@ theorem isAffineSpace_of_isThickening_of_isAffineSpace_baseChange
 /-- **Stacks 05ZQ, granted the hypotheses of Stacks 07VS.** Let `G ⊂ X` be a thickening of
 algebraic spaces over `S` and let `U` be an object of the spaces-étale site of `X` whose base
 change `G ×_X U` along the inclusion is affine. Then restriction of global regular functions
-along the cartesian projection `G ×_X U ⟶ U`, that is `Γ(U, 𝒪_U) → Γ(G ×_X U, 𝒪_{G ×_X U})`, is surjective.
+along the cartesian projection `G ×_X U ⟶ U`, that is `Γ(U, 𝒪_U) → Γ(G ×_X U, 𝒪_{G ×_X U})`, is
+surjective.
 
 The ambient object `U` is affine by
 `AlgebraicGeometry.Space.isAffineSpace_of_isThickening_of_isAffineSpace_baseChange`, which is

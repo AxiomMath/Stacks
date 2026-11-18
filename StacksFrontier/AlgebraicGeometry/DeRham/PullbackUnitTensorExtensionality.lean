@@ -58,15 +58,17 @@ section Eval
 variable {Z : RingedSpace.{u, u}} {M N C : SheafOfModules.{u} (structureSheafRing Z)}
 
 /-- A morphism out of the tensor product sheaf, read as a linear map on the presheaf tensor
-product of local sections: the sheafification unit followed by the morphism. -/
+product of local sections: the unit of the sheafification adjunction behind `sheafTensor`
+(`Stacks.SheafOfModules.Tensor.sheafificationAdjunction`) followed by the morphism. -/
 def tensorEvalMap
     (u : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Z)).presheaf,
       ((Z)).IsSheaf⟩).obj (M)).obj (N)) ⟶ C)
     (U : (Opens Z.carrier)ᵒᵖ) :
     TensorProduct (Z.presheaf.obj U) (M.val.obj U) (N.val.obj U) →ₗ[Z.presheaf.obj U]
       C.val.obj U :=
-  ((sheafifyUnit Z (PresheafOfModules.tensorObj (O := Z.presheaf) M.val N.val)).app U ≫
-    u.val.app U).hom
+  (((Tensor.sheafificationAdjunction
+      (⟨Z.presheaf, Z.IsSheaf⟩ : Sheaf (JX Z) CommRingCat.{u})).unit.app
+        (PresheafOfModules.tensorObj (O := Z.presheaf) M.val N.val)).app U ≫ u.val.app U).hom
 
 /-- On the image of a pure tensor the linear map is the value of the morphism, which is the
 shape `Stacks.SheafOfModules.OnSpace.tensor_hom_ext` consumes. -/
@@ -93,7 +95,9 @@ theorem tensorEvalMap_restrict
       (toTensorSheafSection Z M N U (x ⊗ₜ[Z.presheaf.obj U] y))).symm
     (congrArg (fun t => u.val.app V t)
       (PresheafOfModules.naturality_apply
-        (sheafifyUnit Z ((PresheafOfModules.tensorObj (O := (Z).presheaf) (M.val) (N.val)))) i
+        ((Tensor.sheafificationAdjunction
+          (⟨Z.presheaf, Z.IsSheaf⟩ : Sheaf (JX Z) CommRingCat.{u})).unit.app
+            (PresheafOfModules.tensorObj (O := Z.presheaf) M.val N.val)) i
         (x ⊗ₜ[Z.presheaf.obj U] y)).symm)
 
 variable (u v : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Z)).presheaf,

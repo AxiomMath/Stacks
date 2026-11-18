@@ -352,6 +352,15 @@ theorem detCoev_whiskerRight_val_app
   exact congrArg (fun z => (PresheafOfModules.tensorSheafUnit _ (AF.exteriorPower r)).app (op V)
     (z ⊗ₜ y)) (detCoev_app_one A₁ A₁d r₁ fr)
 
+/-- The isomorphism through which the canonical map factors is the composite of the inverse
+left unitor, the coevaluation tensored with `⋀^{r} F`, and the associator. -/
+theorem detSourcePrefixIso_hom
+    [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E₁ r₁] :
+    (detSourcePrefixIso A₁ AF A₁d r₁ r).hom = (λ_ (AF.exteriorPower r)).inv ≫
+      detCoev A₁ A₁d r₁ ▷ AF.exteriorPower r ≫
+        (α_ (A₁d.exteriorPower r₁) (A₁.exteriorPower r₁) (AF.exteriorPower r)).hom :=
+  rfl
+
 /-- The isomorphism through which the canonical map factors, on a local section. -/
 theorem detSourcePrefixIso_hom_wedge
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E₁ r₁]
@@ -365,11 +374,23 @@ theorem detSourcePrefixIso_hom_wedge
     (toRingCat (Opens.grothendieckTopology ↥X) Osharp).property
     (A₁d.exteriorPower r₁) (A₁.exteriorPower r₁) (AF.exteriorPower r) (op V)
     (wedgeSec A₁d (op V) r₁ fr.b.lam) (wedgeSec A₁ (op V) r₁ fr.b.e) y
-  change (α_ (A₁d.exteriorPower r₁) (A₁.exteriorPower r₁) (AF.exteriorPower r)).hom.val.app
-      (op V) ((detCoev A₁ A₁d r₁ ▷ AF.exteriorPower r).val.app (op V)
-        ((λ_ (AF.exteriorPower r)).inv.val.app (op V) y)) = _
-  rw [leftUnitor_inv_val_app, detCoev_whiskerRight_val_app A₁ AF A₁d r₁ r fr y]
-  exact h3
+  rw [detSourcePrefixIso_hom]
+  exact (congrArg ((α_ (A₁d.exteriorPower r₁) (A₁.exteriorPower r₁)
+    (AF.exteriorPower r)).hom.val.app (op V)) ((congrArg
+      ((detCoev A₁ A₁d r₁ ▷ AF.exteriorPower r).val.app (op V))
+        (leftUnitor_inv_val_app _ V y)).trans
+      (detCoev_whiskerRight_val_app A₁ AF A₁d r₁ r fr y))).trans h3
+
+/-- The canonical map of [Stacks, Tag 0E9Y] on local sections: the isomorphism
+`detSourcePrefixIso` followed by `⋀^{r₁}(E₁^∨)` tensored with the determinant pairing. -/
+theorem detSourceMap_val_app [Epi π]
+    [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E₁ r₁]
+    (V : Opens ↥X) (y : (AF.exteriorPower r).val.obj (op V)) :
+    (detSourceMap A₁ A₀ AF A₁d α π hαπ hS r₁ r).val.app (op V) y =
+      (tensorLeftHom (A₁d.exteriorPower r₁)
+        (detSheafPairing A₁ A₀ AF α π hαπ hS r₁ r)).val.app (op V)
+          ((detSourcePrefixIso A₁ AF A₁d r₁ r).hom.val.app (op V) y) :=
+  rfl
 
 /-- **The local formula of [Stacks, Tag 0E9Y] for the canonical map.** On an open `V` on which
 `E₁` has a local basis `t₁, …, t_{r₁}` with dual basis `t₁^∨, …, t_{r₁}^∨`, for local sections
@@ -386,10 +407,7 @@ theorem detSourceMap_wedge [Epi π]
       (PresheafOfModules.tensorSheafUnit (A₁d.exteriorPower r₁) (A₀.exteriorPower (r₁ + r))).app
         (op V) (wedgeSec A₁d (op V) r₁ fr.b.lam ⊗ₜ
           wedgeSec A₀ (op V) (r₁ + r) (Fin.append (fun i => α.val.app (op V) (fr.b.e i)) l)) := by
-  change (tensorLeftHom (A₁d.exteriorPower r₁)
-    (detSheafPairing A₁ A₀ AF α π hαπ hS r₁ r)).val.app (op V)
-      ((detSourcePrefixIso A₁ AF A₁d r₁ r).hom.val.app (op V) (wedgeSec AF (op V) r s)) = _
-  rw [detSourcePrefixIso_hom_wedge A₁ AF A₁d r₁ r fr]
+  rw [detSourceMap_val_app, detSourcePrefixIso_hom_wedge A₁ AF A₁d r₁ r fr]
   refine (tensorLeftHom_unit _ _ V _ _).trans ?_
   exact congrArg (fun z => (PresheafOfModules.tensorSheafUnit (A₁d.exteriorPower r₁)
     (A₀.exteriorPower (r₁ + r))).app (op V) (wedgeSec A₁d (op V) r₁ fr.b.lam ⊗ₜ z))

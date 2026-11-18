@@ -64,8 +64,9 @@ The unit law itself does **not** need the localization, and
 `- ⊗_O O` at `F` is the sheafification of `F.val ⊗_{pre} O`, the right unitor of *presheaves* of
 modules identifies `F.val ⊗_{pre} O` with `F.val`, and the counit of the sheafification
 adjunction identifies the sheafification of `F.val` with `F`. Both of those are available at a
-free `w` (`Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory` and
-`SheafOfModules.sheafifyCounitIso`), and so are
+free `w` (`Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory` and the counit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, the sealed sheafification that
+`Stacks.SheafOfModules.Tensor.sheafTensor` ends with), and so are
 `Stacks.SheafOfModules.Tensor.sheafTensor` and the K-flatness predicate. The free-universe forms
 are what the Tor-amplitude development consumes; `isKFlat_single_unit` is stated at the free
 universe outright, there being no monoidal-structure form of it to keep.
@@ -173,10 +174,22 @@ def sheafTensorUnitIsoFreeSections
     (F : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf S)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor S).flip.obj
         (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf S))).obj F ≅ F :=
-  (PresheafOfModules.sheafification.{w}
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf S).obj)).mapIso
+  (Stacks.SheafOfModules.Tensor.sheafification S).mapIso
       (ρ_ ((_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf S)).obj F)) ≪≫
-    _root_.SheafOfModules.sheafifyCounitIso (Stacks.SheafOfModules.Tensor.ringSheaf S) F
+    (asIso (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S).counit).app F
+
+omit [HasWeakSheafify J AddCommGrpCat.{max u v}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}] in
+/-- The underlying morphism of `Stacks.SheafOfModules.sheafTensorUnitIsoFreeSections`: the
+sheafified presheaf right unitor followed by the counit of the sheafification adjunction. -/
+lemma sheafTensorUnitIsoFreeSections_hom
+    (F : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf S)) :
+    (sheafTensorUnitIsoFreeSections S F).hom =
+      (Stacks.SheafOfModules.Tensor.sheafification S).map
+          (ρ_ ((_root_.SheafOfModules.forget
+            (Stacks.SheafOfModules.Tensor.ringSheaf S)).obj F)).hom ≫
+        (Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S).counit.app F :=
+  rfl
 
 omit [HasWeakSheafify J AddCommGrpCat.{max u v}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max u v}] in
@@ -189,27 +202,15 @@ theorem sheafTensorUnitIsoFreeSections_naturality
           (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf S))).map f ≫
         (sheafTensorUnitIsoFreeSections S G).hom =
       (sheafTensorUnitIsoFreeSections S F).hom ≫ f := by
-  have key :
-      (PresheafOfModules.sheafification.{w}
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf S).obj)).map
-          ((_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf S)).map f ▷
-            𝟙_ (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf S).obj)) ≫
-          ((PresheafOfModules.sheafification.{w}
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf S).obj)).map
-            (ρ_ ((_root_.SheafOfModules.forget
-              (Stacks.SheafOfModules.Tensor.ringSheaf S)).obj G)).hom ≫
-            (_root_.SheafOfModules.sheafifyCounitIso
-              (Stacks.SheafOfModules.Tensor.ringSheaf S) G).hom) =
-        ((PresheafOfModules.sheafification.{w}
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf S).obj)).map
-            (ρ_ ((_root_.SheafOfModules.forget
-              (Stacks.SheafOfModules.Tensor.ringSheaf S)).obj F)).hom ≫
-          (_root_.SheafOfModules.sheafifyCounitIso
-            (Stacks.SheafOfModules.Tensor.ringSheaf S) F).hom) ≫ f := by
-    rw [← Functor.map_comp_assoc, MonoidalCategory.rightUnitor_naturality,
-      Functor.map_comp_assoc, _root_.SheafOfModules.sheafifyCounitIso_naturality]
-    exact (Category.assoc _ _ _).symm
-  exact key
+  refine ((Stacks.SheafOfModules.Tensor.sheafification S).map_comp_assoc
+    ((_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf S)).map f ▷
+      𝟙_ (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf S).obj))
+    (ρ_ ((_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf S)).obj G)).hom
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S).counit.app G)).symm.trans ?_
+  rw [MonoidalCategory.rightUnitor_naturality, Functor.map_comp_assoc]
+  exact (congrArg _
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction S).counit_naturality f)).trans
+      (Category.assoc _ _ _).symm
 
 /-- **The structure sheaf is the unit of `⊗_O`, with the universe of the sections free:**
 `F ⊗_O O ≅ F`, naturally in the sheaf of modules `F`.

@@ -67,8 +67,7 @@ theorem pullbackTensorIso_inv_val_app_toSheafify_unit
       (inverseImageRingSheaf f.toToposHom ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
       ((inverseImageModules f.toToposHom ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).obj G))) :
     ((Stacks.SheafOfModules.pullbackTensorIso f).inv.app (F, G)).val.app U
-      ((TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((RingedToposHom.pullbackModules f).obj F).val ⊗
               ((RingedToposHom.pullbackModules f).obj G).val)).app U
         (((structureAdjunction f).unit.app
@@ -88,21 +87,19 @@ theorem pullbackTensorIso_inv_val_app_toSheafify_unit
     (inv_val_app_hom_val_app ((Stacks.SheafOfModules.pullbackTensorIso f).app (F, G)) U _)
 
 
-/-- Sheafification of a morphism of presheaves commutes with the units, on local sections. -/
+/-- The sealed sheafification of a morphism of presheaves commutes with the units, on local
+sections. -/
 private theorem sheafification_map_app_toSheafify
     {X : RingedTopos.{v, u, w}} [HasWeakSheafify X.J AddCommGrpCat.{w}]
     [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
     {P Q : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj}
     (g : P ⟶ Q) (U : X.Cᵒᵖ) (z : P.obj U) :
-    ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map g).val.app U
-        ((TensorSheafification.toSheafify X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property P).app U z) =
-      (TensorSheafification.toSheafify X.O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property Q).app U (g.app U z) :=
+    ((Stacks.SheafOfModules.Tensor.sheafification X.O).map g).val.app U
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app P).app U z) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app Q).app U
+        (g.app U z) :=
   (congrArg (fun w ↦ w.app U z)
-    ((PresheafOfModules.sheafificationAdjunction (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.naturality g)).symm
+    ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.naturality g)).symm
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [X.J.HasSheafCompose (forget RingCat.{w})] [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
@@ -112,11 +109,9 @@ theorem sheafTensor_map_app_val_app_toSheafify
     (N : _root_.SheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) (U : X.Cᵒᵖ)
     (x : A.val.obj U) (y : N.val.obj U) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).map φ).app N).val.app U
-        ((TensorSheafification.toSheafify X.O.obj
-            ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
-          (A.val ⊗ N.val)).app U (x ⊗ₜ y)) =
-      (TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+            (A.val ⊗ N.val)).app U (x ⊗ₜ y)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (A'.val ⊗ N.val)).app U (φ.val.app U x ⊗ₜ y) :=
   sheafification_map_app_toSheafify (MonoidalCategory.whiskerRight φ.val N.val) U (x ⊗ₜ y)
 
@@ -129,11 +124,9 @@ theorem sheafTensor_obj_map_val_app_toSheafify
     (ψ : N ⟶ N') (U : X.Cᵒᵖ)
     (x : A.val.obj U) (y : N.val.obj U) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj A).map ψ).val.app U
-        ((TensorSheafification.toSheafify X.O.obj
-            ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
-          (A.val ⊗ N.val)).app U (x ⊗ₜ y)) =
-      (TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+            (A.val ⊗ N.val)).app U (x ⊗ₜ y)) =
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (A.val ⊗ N'.val)).app U (x ⊗ₜ ψ.val.app U y) :=
   sheafification_map_app_toSheafify (MonoidalCategory.whiskerLeft A.val ψ.val) U (x ⊗ₜ y)
 
@@ -185,15 +178,13 @@ theorem tensorIsoOfNatIsoRight_pullbackTensorIso_inv_val_app_toSheafify
           (fun AB ↦ (Stacks.SheafOfModules.pullbackTensorIso f).app AB)
           (Stacks.SheafOfModules.pullbackTensorIso_hom_naturality_uncurry f))).inv.app
           (A, M)).val.app U
-      ((TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           ((Fe.obj A).val ⊗ (Fe.obj M).val)).app U (x ⊗ₜ y)) =
       (e.hom.app
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w', w'} Y.O).obj A).obj
             M)).val.app U
         (((Stacks.SheafOfModules.pullbackTensorIso f).inv.app (A, M)).val.app U
-          ((TensorSheafification.toSheafify X.O.obj
-              ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (((RingedToposHom.pullbackModules f).obj A).val ⊗
                   ((RingedToposHom.pullbackModules f).obj M).val)).app U
             ((e.inv.app A).val.app U x ⊗ₜ (e.inv.app M).val.app U y))) := by
@@ -288,15 +279,13 @@ theorem tensorIsoOfNatIsoRight_trans_eqToIso_pullbackTensorIso_inv_val_app_toShe
         (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w', w'} Y.O)
         (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} X.O) (e₁ ≪≫ e).symm μ).inv.app
           (A, M)).val.app U
-      ((TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           ((Fe.obj A).val ⊗ (Fe.obj M).val)).app U (x ⊗ₜ y)) =
       (e.hom.app
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w', w'} Y.O).obj A).obj
             M)).val.app U
         (((Stacks.SheafOfModules.pullbackTensorIso g₂).inv.app (A, M)).val.app U
-          ((TensorSheafification.toSheafify X.O.obj
-              ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (((RingedToposHom.pullbackModules g₂).obj A).val ⊗
                   ((RingedToposHom.pullbackModules g₂).obj M).val)).app U
             ((e.inv.app A).val.app U x ⊗ₜ (e.inv.app M).val.app U y))) := by
@@ -345,13 +334,11 @@ theorem pullbackTensorIso_inv_val_app_toSheafify_pushforward
     (e.hom.app
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} Y.O).obj A).obj M)).val.app U
         (((Stacks.SheafOfModules.pullbackTensorIso f).inv.app (A, M)).val.app U
-          ((TensorSheafification.toSheafify X.O.obj
-              ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+          (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
               (((RingedToposHom.pullbackModules f).obj A).val ⊗
                   ((RingedToposHom.pullbackModules f).obj M).val)).app U
             ((e.inv.app A).val.app U x ⊗ₜ (e.inv.app M).val.app U y))) =
-      (TensorSheafification.toSheafify Y.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (A.val ⊗ M.val)).app (F.op.obj U) (x ⊗ₜ y) := by
   have hε : ∀ (P : Sheaf Y.J (Type w))
       (z : ((F.sheafPushforwardContinuous (Type w) X.J Y.J).obj P).obj.obj U),
@@ -375,9 +362,8 @@ theorem pullbackTensorIso_inv_val_app_toSheafify_pushforward
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} Y.O).obj A).obj
             M)).val.app U z)
     ((congrArg (fun z ↦ ((Stacks.SheafOfModules.pullbackTensorIso f).inv.app (A, M)).val.app U
-      ((TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
-              (((RingedToposHom.pullbackModules f).obj A).val ⊗
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
+          (((RingedToposHom.pullbackModules f).obj A).val ⊗
                   ((RingedToposHom.pullbackModules f).obj M).val)).app U z))
       (congrArg₂ (fun p q ↦ p ⊗ₜ q) (h1 A x) (h1 M y))).trans
       (pullbackTensorIso_inv_val_app_toSheafify_unit f A M U _ _))).trans ?_
@@ -429,12 +415,10 @@ theorem tensorIsoOfNatIsoRight_trans_eqToIso_pullbackTensorIso_inv_val_app_toShe
         (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} Y.O)
         (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} X.O) (e₁ ≪≫ e).symm μ).inv.app
           (A, M)).val.app U
-      ((TensorSheafification.toSheafify X.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).property
+      (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction X.O).unit.app
           (((_root_.SheafOfModules.pushforward.{w} φ).obj A).val ⊗
             ((_root_.SheafOfModules.pushforward.{w} φ).obj M).val)).app U (x ⊗ₜ y)) =
-      (TensorSheafification.toSheafify Y.O.obj
-          ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction Y.O).unit.app
           (A.val ⊗ M.val)).app (F.op.obj U) (x ⊗ₜ y) :=
   (tensorIsoOfNatIsoRight_trans_eqToIso_pullbackTensorIso_inv_val_app_toSheafify hg e₁ he₁ e μ hμ
     A M U x y).trans

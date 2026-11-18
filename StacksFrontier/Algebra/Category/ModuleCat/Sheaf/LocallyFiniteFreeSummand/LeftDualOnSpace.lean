@@ -99,12 +99,9 @@ theorem evaluation_tmul (F : SheafOfModules.{u} (structureSheafRing X))
     ((evaluationTensor X F).val.app (op U)).hom
       (tensorObjTmul X (dualSheaf X F) F (op U) l f) =
       unitSection X (op U) (dualEval X F l f) := by
-  have h := ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
-    (structureSheafRing X).property).homEquiv
-      ((PresheafOfModules.tensorObj (O := X.presheaf) ((dualSheaf X F).val) (F.val)))
-      (SheafOfModules.unit (structureSheafRing X))).apply_symm_apply
-        (_root_.Stacks.SheafOfModules.evaluationPresheaf X.presheaf
-          (structureSheafRing X).property F)
+  have h := Stacks.SheafOfModules.Tensor.sheafificationAdjunction_unit_comp_homEquiv_symm
+    (N := SheafOfModules.unit (structureSheafRing X))
+    (_root_.Stacks.SheafOfModules.evaluationPresheaf X.presheaf (structureSheafRing X).property F)
   exact congrArg (fun q => (q.app (op U)).hom (l ⊗ₜ[X.presheaf.obj (op U)] f)) h
 
 /-- Restriction along the identity does nothing. -/

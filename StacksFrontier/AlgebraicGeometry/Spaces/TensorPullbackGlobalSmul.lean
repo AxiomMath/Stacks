@@ -114,14 +114,10 @@ theorem sheafTensorObj_map_globalSectionToEnd
     ((SheafOfModules.Tensor.sheafTensor O).obj F).map
         ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G) =
       (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app
-        (((SheafOfModules.Tensor.sheafTensor O).obj F).obj G) := by
-  have h1 : PresheafOfModules.tensorHom (O := O.obj) (𝟙 F.val)
-        (((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G).val) =
-      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).asHom.app
-        (PresheafOfModules.tensorObj (O := O.obj) F.val G.val) :=
-    tensorLeft_map_presheafSmul (O := O.obj) F.val f G.val
-  exact (congrArg (PresheafOfModules.sheafification (𝟙 (commRingSheafToRingSheaf O).obj)).map
-    h1).trans (sheafification_map_presheafSmul (commRingSheafToRingSheaf O) f _)
+        (((SheafOfModules.Tensor.sheafTensor O).obj F).obj G) :=
+  (congrArg (SheafOfModules.Tensor.sheafification O).map
+    (tensorLeft_map_presheafSmul (O := O.obj) F.val f G.val)).trans
+      (SheafOfModules.Tensor.sheafification_map_presheafSmul f _)
 
 end Sheaf
 

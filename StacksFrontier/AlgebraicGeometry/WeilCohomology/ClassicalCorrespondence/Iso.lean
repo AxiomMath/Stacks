@@ -72,6 +72,7 @@ namespace Iso
 
 variable {T T' T'' : ClassicalWeilCohomologyTheory.{u, v, w, t} k F Ch}
 
+omit [CharZero F] in
 /-- A degree cast commutes with linear maps defined in every degree. -/
 theorem degreeCast_naturality {A B : ℤ → Type*} [∀ n, AddCommGroup (A n)] [∀ n, Module F (A n)]
     [∀ n, AddCommGroup (B n)] [∀ n, Module F (B n)] (φ : ∀ n, A n →ₗ[F] B n) {i j : ℤ}
@@ -81,6 +82,7 @@ theorem degreeCast_naturality {A B : ℤ → Type*} [∀ n, AddCommGroup (A n)] 
   subst h
   rfl
 
+omit [CharZero F] in
 /-- A degree cast commutes with linear equivalences defined in every degree. -/
 theorem degreeCast_linearEquiv {A B : ℤ → Type*} [∀ n, AddCommGroup (A n)]
     [∀ n, Module F (A n)] [∀ n, AddCommGroup (B n)] [∀ n, Module F (B n)]
@@ -90,6 +92,7 @@ theorem degreeCast_linearEquiv {A B : ℤ → Type*} [∀ n, AddCommGroup (A n)]
   subst hij
   rfl
 
+omit [CharZero F] in
 /-- Two degree casts compose to a degree cast. -/
 theorem degreeCast_degreeCast {A : ℤ → Type*} [∀ n, AddCommGroup (A n)] [∀ n, Module F (A n)]
     {i j l : ℤ} (h : i = j) (h' : j = l) (a : A i) :
@@ -99,6 +102,7 @@ theorem degreeCast_degreeCast {A : ℤ → Type*} [∀ n, AddCommGroup (A n)] [�
   subst h h'
   rfl
 
+omit [CharZero F] in
 /-- A degree cast along `rfl` is the identity. -/
 theorem degreeCast_rfl {A : ℤ → Type*} [∀ n, AddCommGroup (A n)] [∀ n, Module F (A n)] {i : ℤ}
     (h : i = i) (a : A i) : ExternallyGraded.degreeCast (R := F) (X := A) h a = a :=

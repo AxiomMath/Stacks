@@ -258,7 +258,8 @@ Nothing here picks `P` out. Uniqueness of the object property, and with it the d
 in "*the* residual gerbe", is the final assertion of Stacks 06MT; the library proves it as
 `AlgebraicGeometry.Stack.eq_of_isResidualGerbeAt_of_bootstrap`, and existence together
 with uniqueness under the equivalent conditions as
-`AlgebraicGeometry.Stack.existsUnique_isResidualGerbeAt` of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeExistsUnique`. -/
+`AlgebraicGeometry.Stack.existsUnique_isResidualGerbeAt` of
+`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeExistsUnique`. -/
 @[stacks 06MU "part (2), the residual gerbe as an algebraic stack: the strictly full subcategory \
 of X cut out by an object property meeting the specification IsResidualGerbeAt of Stacks 06MT"]
 abbrev residualGerbe

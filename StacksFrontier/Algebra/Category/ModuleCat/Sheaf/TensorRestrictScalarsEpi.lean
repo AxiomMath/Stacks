@@ -94,24 +94,19 @@ variable (F G : SheafOfModules.{u} (structureSheafRing (ringedSpaceOfSheaf B)))
 
 theorem isLocallySurjective_laxLeg :
     PresheafOfModules.IsLocallySurjective (Opens.grothendieckTopology ↥Y)
-      (laxLeg A B ρ F G) := by
-  have h1 := isLocallySurjective_presheafComparison A B ρ F.val G.val
-  have h2 : PresheafOfModules.IsLocallySurjective (Opens.grothendieckTopology ↥Y)
-      (sheafifyUnit (ringedSpaceOfSheaf B)
-        (PresheafOfModules.tensorObj (O := (ringedSpaceOfSheaf B).presheaf) F.val G.val)) :=
-    PresheafOfModules.isLocallySurjective_sheafificationAdjunction_unit_app
-      (𝟙 (structureSheafRing (ringedSpaceOfSheaf B)).obj)
-      (PresheafOfModules.tensorObj (O := (ringedSpaceOfSheaf B).presheaf) F.val G.val)
-  exact Stacks.SheafOfModules.isLocallySurjective_comp h1
-    (isLocallySurjective_restrictScalarsPresheaf_map A B ρ _ h2)
+      (laxLeg A B ρ F G) :=
+  Stacks.SheafOfModules.isLocallySurjective_comp
+    (isLocallySurjective_presheafComparison A B ρ F.val G.val)
+    (isLocallySurjective_restrictScalarsPresheaf_map A B ρ _
+      (Tensor.isLocallySurjective_sheafificationAdjunction_unit_app B _))
 
 theorem sheafifyUnit_comp_laxComparison :
-    sheafifyUnit (ringedSpaceOfSheaf A)
+    (Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj (O := (ringedSpaceOfSheaf A).presheaf)
           ((restrictScalarsSheaf A B ρ).obj F).val
           ((restrictScalarsSheaf A B ρ).obj G).val) ≫ (laxComparison A B ρ F G).val =
       laxLeg A B ρ F G :=
-  homEquiv_laxComparison A B ρ F G
+  (Adjunction.homEquiv_unit _ _ _ _).symm.trans (homEquiv_laxComparison A B ρ F G)
 
 theorem epi_laxComparison : Epi (laxComparison A B ρ F G) :=
   Stacks.SheafOfModules.epi_of_isLocallySurjective_fac (laxComparison A B ρ F G)

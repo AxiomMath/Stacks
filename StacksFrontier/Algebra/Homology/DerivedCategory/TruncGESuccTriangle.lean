@@ -80,7 +80,8 @@ private theorem nonempty_iso_singleFunctor_obj_of_iso_homology
     (((homologyFunctor C a).mapIso eM ≪≫
       (singleFunctorCompHomologyFunctorIso C a).app M).symm ≪≫ e)⟩
 
-/-- The t-structure form of the second triangle of Stacks 08J5. Two successive truncations from above of an
+/-- The t-structure form of the second triangle of Stacks 08J5. Two successive truncations from
+above of an
 object of the derived category differ by its cohomology in the newly retained degree, placed in
 that degree: there is a distinguished triangle
 `τ^{≤a} E ⟶ τ^{≤a+1} E ⟶ H^{a+1}(E)[-a-1] ⟶ (τ^{≤a} E)[1]` whose first map is the canonical
@@ -148,7 +149,8 @@ public theorem exists_truncLESucc_triangle (E : DerivedCategory C) (a : ℤ) :
   · exact (Category.id_comp _).symm
   · exact (eZ.hom_inv_id_assoc _).symm
 
-/-- The t-structure form of the third triangle of Stacks 08J5.  Two successive truncations from below of an
+/-- The t-structure form of the third triangle of Stacks 08J5.  Two successive truncations from
+below of an
 object of the derived category differ by its cohomology in the lower degree, placed in that
 degree: there is a distinguished triangle
 `H^a(E)[-a] ⟶ τ^{≥a} E ⟶ τ^{≥a+1} E ⟶ (H^a(E)[-a])[1]` whose second map is the canonical

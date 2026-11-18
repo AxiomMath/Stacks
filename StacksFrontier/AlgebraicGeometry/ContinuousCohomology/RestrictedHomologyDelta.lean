@@ -19,7 +19,8 @@ the character dual of the continuous cohomology of `G` with coefficients in the 
 `H^i(G, M)^∧ = H_i(G, M^∧)` of the source (Section 03VI): for finite `M` the continuous homology
 `L_i H_0(G, M)` of `G`, computed on compact modules, is the dual of the cohomology of the discrete
 module `M^∨`, and it agrees with the continuous homology `lim_U Tor^{Λ[G/U]}_i(M, Λ)` over the
-open normal subgroups `U` of `G` (`Stacks.GroupHomology.homologyIsoLimitTor`). The source's identification with the abstract
+open normal subgroups `U` of `G` (`Stacks.GroupHomology.homologyIsoLimitTor`). The source's
+identification with the abstract
 `Tor^{Λ[[G]]}_i(M, Λ)` (the notes on homology, `trace.tex`, lines 3163–3169) is not used here: it
 fails in degree one for `G = (ℤ/p)^ℕ`
 (`Stacks.GroupHomology.exists_forall_eval_mem_and_not_mem_augmentationIdealSq`), and holds in

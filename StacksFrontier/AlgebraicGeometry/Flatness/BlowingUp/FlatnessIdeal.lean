@@ -233,17 +233,26 @@ private lemma finite_basicOpen_cover {A : Type u} [CommRing A]
   change p ∉ PrimeSpectrum.zeroLocus (s : Set A) ↔ _
   simp [PrimeSpectrum.mem_zeroLocus, Set.not_subset, PrimeSpectrum.mem_basicOpen]
 
+/-- Tensoring on the right by `F` with `sheafTensor` is the endofunctor `OXModule.tensorBy F`
+of the underlying ringed space: the two differ only in the sheafification functor. -/
+private noncomputable def sheafTensorFlipObjIsoTensorBy {X : Scheme.{u}} (F : X.Modules) :
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj F ≅
+      OXModule.tensorBy (show OXModule X.toLocallyRingedSpace.toRingedSpace from F) :=
+  Functor.isoWhiskerLeft
+    (SheafOfModules.forget _ ⋙ MonoidalCategory.tensorRight ((SheafOfModules.forget _).obj
+      (show OXModule X.toLocallyRingedSpace.toRingedSpace from F)))
+    (Stacks.SheafOfModules.Tensor.sheafificationIso X.sheaf).symm
+
 /-- A flat sheaf of modules on a scheme is flat as a module over the structure sheaf of the
 underlying ringed space. -/
 private lemma oxModuleFlat_of_isFlat {X : Scheme.{u}} (F : X.Modules)
     (hF : SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F) :
     OXModule.Flat (show OXModule X.toLocallyRingedSpace.toRingedSpace from F) := by
-  change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj
-    F).PreservesMonomorphisms
-  let _ : Limits.PreservesLimitsOfShape Limits.WalkingCospan
+  have : Limits.PreservesLimitsOfShape Limits.WalkingCospan
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj F) :=
     hF.1.preservesFiniteLimits Limits.WalkingCospan
-  infer_instance
+  exact (Functor.PreservesMonomorphisms.iso_iff (sheafTensorFlipObjIsoTensorBy F)).mp
+    inferInstance
 
 /-- A flat sheaf of modules has flat stalks. -/
 private lemma flat_stalk_of_isFlat {X : Scheme.{u}} (F : X.Modules)

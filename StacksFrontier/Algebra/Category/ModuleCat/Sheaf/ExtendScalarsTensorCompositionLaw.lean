@@ -57,6 +57,11 @@ would both have to cross the seam between `commRingSheaf J A₃ h₃` and the in
 `Stacks.SheafOfModules.TensorSheafification.tensorSheaf`, and that seam makes the rewrite fail
 here.
 
+The sheafification inside `Stacks.SheafOfModules.Tensor.sheafTensor` is the sealed
+`Stacks.SheafOfModules.Tensor.sheafification`, so the units into tensor product sheaves are those
+of `Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`, and the tensor of two morphisms
+on the right-hand side of the law is sheafified by the sealed functor.
+
 ## References
 
 * [Stacks Project, Tag 03CU](https://stacks.math.columbia.edu/tag/03CU)
@@ -75,6 +80,8 @@ universe w v u
 namespace Stacks.Sheaves.RingedToposModules
 
 open Stacks.SheafOfModules.TensorSheafification
+open Stacks.SheafOfModules.Tensor (sheafificationForgetAdjunction_unit_app_app_apply
+  unit_naturality_apply)
 
 section Ext
 
@@ -115,16 +122,20 @@ lemma extendScalars_tensorSheaf_hom_ext {F G : SheafOfModules.{w} (commRingSheaf
               ((((Stacks.SheafOfModules.Tensor.sheafTensor
                   ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
                     (forget₂ CommRingCat RingCat) h₁⟩).obj F).obj G))).val.app V
-            (((PresheafOfModules.sheafificationAdjunction
-                (R := commRingSheaf J A₁ h₁) (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
+                  (forget₂ CommRingCat RingCat) h₁⟩).unit.app
+                    (F.val ⊗ G.val)).app V
               (x ⊗ₜ[(ringPresheaf A₁).obj V] y))) =
         m'.val.app V
           (((extendRestrictScalarsAdjunction J θ h₁ h₂).unit.app
               ((((Stacks.SheafOfModules.Tensor.sheafTensor
                   ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
                     (forget₂ CommRingCat RingCat) h₁⟩).obj F).obj G))).val.app V
-            (((PresheafOfModules.sheafificationAdjunction
-                (R := commRingSheaf J A₁ h₁) (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
+                  (forget₂ CommRingCat RingCat) h₁⟩).unit.app
+                    (F.val ⊗ G.val)).app V
               (x ⊗ₜ[(ringPresheaf A₁).obj V] y)))) :
     m = m' :=
   hom_ext_of_unit_comp (extendRestrictScalarsAdjunction J θ h₁ h₂)
@@ -175,26 +186,36 @@ private lemma value_chain_right {S₀ U₁ U₂ X X' Y Y' Z Z' : Type*}
     s (t e) = sU' (tm' a b) := by
   rw [hcomp, htmul, hfst, hsnd]
 
-/-- The sheafification of a tensor product of two morphisms of presheaves of modules, on the
-sheafification-unit image of a pure tensor: it is the unit image of the pure tensor of the two
-values. This is
-`Stacks.SheafOfModules.TensorSheafification.sheafification_map_val_app_unit` followed by
-`ModuleCat.MonoidalCategory.tensorHom_tmul`. -/
+/-- The sealed sheafification of a tensor product of two morphisms of presheaves of modules, on
+the sheafification-unit image of a pure tensor: it is the unit image of the pure tensor of the two
+values. This is `Stacks.SheafOfModules.Tensor.unit_naturality_apply` followed by
+`ModuleCat.MonoidalCategory.tensorHom_tmul`, read through the plain-forget unit of
+`Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction`. -/
 private lemma sheafification_map_tensorHom_val_app_unit_tmul
     (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w}) (h𝒪 : Presheaf.IsSheaf J (ringPresheaf 𝒪))
     {P P' Q Q' : PresheafOfModules.{w} (ringPresheaf 𝒪)} (φ : P ⟶ P') (ψ : Q ⟶ Q')
     (V : Cᵒᵖ) (x : P.obj V) (y : Q.obj V) :
-    ((PresheafOfModules.sheafification (R := commRingSheaf J 𝒪 h𝒪) (𝟙 _)).map
+    ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).map
           (φ ⊗ₘ ψ)).val.app V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf J 𝒪 h𝒪) (𝟙 _)).unit.app (P ⊗ Q)).app V
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+              (P ⊗ Q)).app V
           (x ⊗ₜ[(ringPresheaf 𝒪).obj V] y)) =
-      ((PresheafOfModules.sheafificationAdjunction
-          (R := commRingSheaf J 𝒪 h𝒪) (𝟙 _)).unit.app (P' ⊗ Q')).app V
+      ((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).unit.app
+            (P' ⊗ Q')).app V
         (φ.app V x ⊗ₜ[(ringPresheaf 𝒪).obj V] ψ.app V y) :=
-  (sheafification_map_val_app_unit 𝒪 h𝒪 (φ ⊗ₘ ψ) V
-      (x ⊗ₜ[(ringPresheaf 𝒪).obj V] y)).trans
-    (congrArg _ (ModuleCat.MonoidalCategory.tensorHom_tmul (φ.app V) (ψ.app V) x y))
+  (congrArg _ (sheafificationForgetAdjunction_unit_app_app_apply
+      ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ (P ⊗ Q) V
+      (x ⊗ₜ[(ringPresheaf 𝒪).obj V] y))).trans <|
+    (unit_naturality_apply
+      (R := ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)
+      (φ ⊗ₘ ψ) V (x ⊗ₜ[(ringPresheaf 𝒪).obj V] y)).trans <|
+      (congrArg _ (ModuleCat.MonoidalCategory.tensorHom_tmul (φ.app V) (ψ.app V) x y)).trans
+        (sheafificationForgetAdjunction_unit_app_app_apply
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ (P' ⊗ Q') V
+          _).symm
 
 /-- **The two sides of the composition law for base change of a tensor product, on a pure tensor
 of local sections.**
@@ -224,10 +245,13 @@ lemma extendScalarsTensorIso_comp_val_app_unit_tmul
                 ((((Stacks.SheafOfModules.Tensor.sheafTensor
                     ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
                       (forget₂ CommRingCat RingCat) h₁⟩).obj F).obj G))).val.app V
-              (((PresheafOfModules.sheafificationAdjunction
-                  (R := commRingSheaf J A₁ h₁) (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+              (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                  ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
+                  (forget₂ CommRingCat RingCat) h₁⟩).unit.app
+                    (F.val ⊗ G.val)).app V
                 (x ⊗ₜ[(ringPresheaf A₁).obj V] y))))) =
-      ((PresheafOfModules.sheafification (R := commRingSheaf J A₃ h₃) (𝟙 _)).map
+      ((Stacks.SheafOfModules.Tensor.sheafification
+          ⟨A₃, Presheaf.isSheaf_of_isSheaf_comp _ A₃ (forget₂ CommRingCat RingCat) h₃⟩).map
             (((extendScalarsCompIso J θ₁ θ₂ h₁ h₂ h₃).hom.app F).val ⊗ₘ
               ((extendScalarsCompIso J θ₁ θ₂ h₁ h₂ h₃).hom.app G).val)).val.app V
         ((extendScalarsTensorIso (θ₁ ≫ θ₂) h₁ h₃ F G).hom.val.app V
@@ -235,8 +259,10 @@ lemma extendScalarsTensorIso_comp_val_app_unit_tmul
               ((((Stacks.SheafOfModules.Tensor.sheafTensor
                   ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
                     (forget₂ CommRingCat RingCat) h₁⟩).obj F).obj G))).val.app V
-            (((PresheafOfModules.sheafificationAdjunction
-                (R := commRingSheaf J A₁ h₁) (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+            (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+                ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
+                  (forget₂ CommRingCat RingCat) h₁⟩).unit.app
+                    (F.val ⊗ G.val)).app V
               (x ⊗ₜ[(ringPresheaf A₁).obj V] y)))) :=
   (value_chain_left
       (extendScalars_map_val_app_unit J θ₂ h₂ h₃
@@ -245,8 +271,9 @@ lemma extendScalarsTensorIso_comp_val_app_unit_tmul
         ((((Stacks.SheafOfModules.Tensor.sheafTensor
             ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
               (forget₂ CommRingCat RingCat) h₁⟩).obj F).obj G)) V
-        (((PresheafOfModules.sheafificationAdjunction
-            (R := commRingSheaf J A₁ h₁) (𝟙 _)).unit.app (F.val ⊗ G.val)).app V
+        (((Stacks.SheafOfModules.Tensor.sheafificationForgetAdjunction
+            ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁ (forget₂ CommRingCat RingCat) h₁⟩).unit.app
+              (F.val ⊗ G.val)).app V
           (x ⊗ₜ[(ringPresheaf A₁).obj V] y)))
       (extendScalarsTensorIso_hom_val_app_extendScalarsUnit_tmul θ₁ h₁ h₂ F G V x y)
       (extendScalarsTensorIso_hom_val_app_extendScalarsUnit_tmul θ₂ h₂ h₃
@@ -283,7 +310,8 @@ lemma extendScalarsCompIso_hom_app_comp_extendScalarsTensorIso
           (extendScalarsTensorIso θ₂ h₂ h₃ ((extendScalars J θ₁ h₁ h₂).obj F)
             ((extendScalars J θ₁ h₁ h₂).obj G)).hom =
       (extendScalarsTensorIso (θ₁ ≫ θ₂) h₁ h₃ F G).hom ≫
-        (PresheafOfModules.sheafification (R := commRingSheaf J A₃ h₃) (𝟙 _)).map
+        (Stacks.SheafOfModules.Tensor.sheafification
+          ⟨A₃, Presheaf.isSheaf_of_isSheaf_comp _ A₃ (forget₂ CommRingCat RingCat) h₃⟩).map
           (((extendScalarsCompIso J θ₁ θ₂ h₁ h₂ h₃).hom.app F).val ⊗ₘ
             ((extendScalarsCompIso J θ₁ θ₂ h₁ h₂ h₃).hom.app G).val) :=
   extendScalars_tensorSheaf_hom_ext (θ₁ ≫ θ₂) h₁ h₃
@@ -330,7 +358,8 @@ lemma extendScalarsTensorIso_hom_eq_comp
         (extendScalars J θ₂ h₂ h₃).map (extendScalarsTensorIso θ₁ h₁ h₂ F G).hom ≫
           (extendScalarsTensorIso θ₂ h₂ h₃ ((extendScalars J θ₁ h₁ h₂).obj F)
               ((extendScalars J θ₁ h₁ h₂).obj G)).hom ≫
-            (PresheafOfModules.sheafification (R := commRingSheaf J A₃ h₃) (𝟙 _)).map
+            (Stacks.SheafOfModules.Tensor.sheafification
+              ⟨A₃, Presheaf.isSheaf_of_isSheaf_comp _ A₃ (forget₂ CommRingCat RingCat) h₃⟩).map
               (((extendScalarsCompIso J θ₁ θ₂ h₁ h₂ h₃).inv.app F).val ⊗ₘ
                 ((extendScalarsCompIso J θ₁ θ₂ h₁ h₂ h₃).inv.app G).val) :=
   (eq_comp_of_comp_eq_comp

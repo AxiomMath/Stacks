@@ -101,13 +101,37 @@ public theorem whiskerRight_comp_tensorHom_of_comp {C : Type*} [Category* C] [Mo
     ← MonoidalCategory.comp_whiskerRight, h, MonoidalCategory.comp_whiskerRight, Category.assoc,
     Category.assoc, MonoidalCategory.whisker_exchange]
 
-public theorem assocTensorIso_naturality_left {M M' : ModuleCat.{u} R}
+/-- The comparison `associatedSheafTensorIso` without its last factor `sheafTensorObjIso`: it lands
+in Mathlib's sheafification of the tensor presheaf of `ℱ_M` and `ℱ_N`. -/
+private def sheafifyTensorIso (M N : ModuleCat.{u} R) :
+    associatedSheaf X α (M ⊗ N) ≅
+      (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
+        (structureSheafRing X).property).obj
+        (PresheafOfModules.tensorObj (O := X.presheaf)
+          (associatedSheaf X α M).val (associatedSheaf X α N).val) :=
+  (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
+      (structureSheafRing X).property).mapIso (associatedPresheafTensorIso X α M N) ≪≫
+    Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso X.presheaf
+      (structureSheafRing X).property (associatedPresheaf X α M) (associatedPresheaf X α N)
+
+/-- `associatedSheafTensorIso` is `sheafifyTensorIso` followed by the sealed comparison
+`sheafificationIso`. -/
+private theorem associatedSheafTensorIso_hom (M N : ModuleCat.{u} R) :
+    (associatedSheafTensorIso X α M N).hom = (sheafifyTensorIso X α M N).hom ≫
+      (Stacks.SheafOfModules.Tensor.sheafificationIso ⟨X.presheaf, X.IsSheaf⟩).hom.app
+        (PresheafOfModules.tensorObj (O := X.presheaf)
+          (associatedSheaf X α M).val (associatedSheaf X α N).val) :=
+  rfl
+
+/-- Naturality in the first variable of the comparison `associatedSheafTensorIso` before its last
+factor `sheafTensorObjIso`: the square of Mathlib's sheafifications of tensor presheaves. -/
+private theorem sheafifyTensorIso_naturality_left {M M' : ModuleCat.{u} R}
     (f : M ⟶ M') (N : ModuleCat.{u} R) :
     letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
       PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
     (associatedSheafFunctor.{u, u} X α).map (X := M ⊗ N) (Y := M' ⊗ N) (f ▷ N) ≫
-        (associatedSheafTensorIso X α M' N).hom =
-      (associatedSheafTensorIso X α M N).hom ≫
+        (sheafifyTensorIso X α M' N).hom =
+      (sheafifyTensorIso X α M N).hom ≫
         (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
           (structureSheafRing X).property).map
           (X := PresheafOfModules.tensorObj (O := X.presheaf)
@@ -168,6 +192,20 @@ public theorem assocTensorIso_naturality_left {M M' : ModuleCat.{u} R}
     (hT.map (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
       (structureSheafRing X).property))).w
 
+/-- **Naturality of `associatedSheafTensorIso` in the first variable**, with the tensor product
+bifunctor of sheaves of modules on the right. -/
+public theorem assocTensorIso_naturality_left {M M' : ModuleCat.{u} R}
+    (f : M ⟶ M') (N : ModuleCat.{u} R) :
+    (associatedSheafFunctor.{u, u} X α).map (f ▷ N) ≫ (associatedSheafTensorIso X α M' N).hom =
+      (associatedSheafTensorIso X α M N).hom ≫
+        ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).map
+          ((associatedSheafFunctor.{u, u} X α).map f)).app (associatedSheaf X α N) := by
+  rw [associatedSheafTensorIso_hom, associatedSheafTensorIso_hom]
+  exact (Category.assoc _ _ _).symm.trans <|
+    (sheafifyTensorIso_naturality_left X α f N =≫ _).trans <| (Category.assoc _ _ _).trans <|
+      (congrArg (_ ≫ ·) ((Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨X.presheaf, X.IsSheaf⟩).hom.naturality _)).trans (Category.assoc _ _ _).symm
+
 /-- In a monoidal category, whiskering on the left commutes with a tensor product of maps
 compatible with a morphism. -/
 public theorem whiskerLeft_comp_tensorHom_of_comp {C : Type*} [Category* C] [MonoidalCategory C]
@@ -178,13 +216,15 @@ public theorem whiskerLeft_comp_tensorHom_of_comp {C : Type*} [Category* C] [Mon
     ← MonoidalCategory.whiskerLeft_comp, h, MonoidalCategory.whiskerLeft_comp, Category.assoc,
     Category.assoc, ← MonoidalCategory.whisker_exchange]
 
-public theorem assocTensorIso_naturality_right (M : ModuleCat.{u} R) {N N' : ModuleCat.{u} R}
+/-- Naturality in the second variable of the comparison `associatedSheafTensorIso` before its last
+factor `sheafTensorObjIso`: the square of Mathlib's sheafifications of tensor presheaves. -/
+private theorem sheafifyTensorIso_naturality_right (M : ModuleCat.{u} R) {N N' : ModuleCat.{u} R}
     (g : N ⟶ N') :
     letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
       PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
     (associatedSheafFunctor.{u, u} X α).map (X := M ⊗ N) (Y := M ⊗ N') (M ◁ g) ≫
-        (associatedSheafTensorIso X α M N').hom =
-      (associatedSheafTensorIso X α M N).hom ≫
+        (sheafifyTensorIso X α M N').hom =
+      (sheafifyTensorIso X α M N).hom ≫
         (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
           (structureSheafRing X).property).map
           (X := PresheafOfModules.tensorObj (O := X.presheaf)
@@ -245,6 +285,20 @@ public theorem assocTensorIso_naturality_right (M : ModuleCat.{u} R) {N N' : Mod
       (structureSheafRing X).property)).vert_comp
     (hT.map (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf
       (structureSheafRing X).property))).w
+
+/-- **Naturality of `associatedSheafTensorIso` in the second variable**, with the tensor product
+bifunctor of sheaves of modules on the right. -/
+public theorem assocTensorIso_naturality_right (M : ModuleCat.{u} R) {N N' : ModuleCat.{u} R}
+    (g : N ⟶ N') :
+    (associatedSheafFunctor.{u, u} X α).map (M ◁ g) ≫ (associatedSheafTensorIso X α M N').hom =
+      (associatedSheafTensorIso X α M N).hom ≫
+        ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj
+          (associatedSheaf X α M)).map ((associatedSheafFunctor.{u, u} X α).map g) := by
+  rw [associatedSheafTensorIso_hom, associatedSheafTensorIso_hom]
+  exact (Category.assoc _ _ _).symm.trans <|
+    (sheafifyTensorIso_naturality_right X α M g =≫ _).trans <| (Category.assoc _ _ _).trans <|
+      (congrArg (_ ≫ ·) ((Stacks.SheafOfModules.Tensor.sheafificationIso
+        ⟨X.presheaf, X.IsSheaf⟩).hom.naturality _)).trans (Category.assoc _ _ _).symm
 
 end Stacks.AssociatedSheaf
 

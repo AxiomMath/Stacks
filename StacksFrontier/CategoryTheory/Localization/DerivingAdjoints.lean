@@ -600,7 +600,8 @@ satisfies `φ(ψ) ≫ Q(s) = (projection at t) ≫ Q(f^♯)`, where `f^♯ : G(P
 to `f`.
 
 The source's further assertion that this bijection is functorial in both variables is proved in
-`StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`, where the bijection is named
+`StacksFrontier.CategoryTheory.Localization.DerivingAdjointsNaturality`, where the bijection is
+named
 `CategoryTheory.Adjunction.derivedHomEquiv`: `derivedHomEquiv_naturality` for morphisms of `𝒟`
 and `𝒟'`, and `derivedHomEquiv_comp_eq_comp`, `derivedHomEquiv_comp_eq_comp_left` for morphisms
 of `S⁻¹𝒟` and `(S')⁻¹𝒟'`. -/

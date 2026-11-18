@@ -177,14 +177,10 @@ theorem isLocallyBounded_of_exactPairing (K L : CochainComplex (Mod R) ℤ)
   have h2 : (Stacks.SheafOfModules.SliceRestriction.overFunctor R.obj
       (isSheaf_ringSheaf R) W).map
       (@ExactPairing.coevaluation _ _ instSrc (K.X n) (L.X (-n)) instPair) = 0 := by
+    refine (congrArg (Stacks.SheafOfModules.SliceRestriction.overFunctor R.obj
+      (isSheaf_ringSheaf R) W).map (CochainComplex.exactPairingXApply_coevaluation K L n)).trans ?_
     ext X
-    refine Eq.trans ?_ rfl
-    refine Eq.trans ?_ (hres X.unop.left X.unop.hom)
-    exact congrArg (fun f : SheafOfModules.unit
-        (Stacks.SheafOfModules.Tensor.ringSheaf R) ⟶ _ =>
-      (f.val.app (op X.unop.left)).hom
-        (1 : (Stacks.SheafOfModules.Tensor.ringSheaf R).obj.obj (op X.unop.left)))
-      (CochainComplex.exactPairingXApply_coevaluation K L n)
+    exact hres X.unop.left X.unop.hom
   have h3 : @ExactPairing.coevaluation _ _ instTgt
       ((Stacks.SheafOfModules.SliceRestriction.overFunctor R.obj
         (isSheaf_ringSheaf R) W).obj (K.X n))

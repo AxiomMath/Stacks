@@ -359,6 +359,13 @@ global sections of the canonical `𝒪_X(q) ⟶ 𝒪_{Yₙ}(q)`. -/
 def thickeningSections (n q : ℕ) : (I ^ q : Ideal A) →+ blowupΓ I (thickeningTwist I n q) :=
   (blowupΓMap I (thickeningTwistProj I n q)).comp (ambientSections I q)
 
+/-- `thickeningSections` evaluated: the section of `𝒪_X(q)` attached to `x`, restricted to
+`Yₙ`. -/
+theorem thickeningSections_apply (n q : ℕ) (x : (I ^ q : Ideal A)) :
+    thickeningSections I n q x =
+      blowupΓMap I (thickeningTwistProj I n q) (ambientSections I q x) := by
+  rw [thickeningSections, AddMonoidHom.comp_apply]
+
 /-- **The right-hand square of the diagram in the proof of Tag 0GA7, clause (4).** The composite
 `Iᑫ → H⁰(X, 𝒪_X(q)) → H⁰(X, 𝒪_Y(q))` is the canonical map `Iᑫ → H⁰(X, 𝒪_Y(q))`.
 
@@ -368,7 +375,7 @@ to the exceptional divisor, and `thickeningSections` is defined by composing wit
 theorem blowupΓMap_thickeningTwistProj_ambientSections (q : ℕ) (x : (I ^ q : Ideal A)) :
     blowupΓMap I (thickeningTwistProj I 1 q) (ambientSections I q x) =
       thickeningSections I 1 q x :=
-  rfl
+  (thickeningSections_apply I 1 q x).symm
 
 /-- **The right-hand square of the diagram in the proof of Tag 0GA7, clause (2).** The composite
 `Iᑫ → H⁰(X, 𝒪_{Yₘ}(q)) → H⁰(X, 𝒪_{Yₙ}(q))` is the canonical map `Iᑫ → H⁰(X, 𝒪_{Yₙ}(q))`.
@@ -380,10 +387,8 @@ theorem blowupΓMap_thickeningTwistRestrict_thickeningSections {n m : ℕ} (h : 
     (x : (I ^ q : Ideal A)) :
     blowupΓMap I (thickeningTwistRestrict I h q) (thickeningSections I m q x) =
       thickeningSections I n q x := by
-  change blowupΓMap I (thickeningTwistRestrict I h q)
-    (blowupΓMap I (thickeningTwistProj I m q) (ambientSections I q x)) = _
-  rw [← blowupΓMap_comp, thickeningTwistProj_comp_thickeningTwistRestrict]
-  rfl
+  rw [thickeningSections_apply, thickeningSections_apply, ← blowupΓMap_comp,
+    thickeningTwistProj_comp_thickeningTwistRestrict]
 
 /-- **The Situation of [Stacks, Tag 0GA6], read on the blowup `X` itself.**
 
@@ -509,9 +514,8 @@ theorem thickeningSections_one_eq_zero_of_mem (q : ℕ) (x : (I ^ q : Ideal A))
   have h : ambientSections I q x
       = blowupΓMap I (ambientTwistMap I q) (ambientSections I (q + 1) ⟨(x : A), hx⟩) :=
     (blowupΓMap_ambientTwistMap_ambientSections I q ⟨(x : A), hx⟩).symm
-  change blowupΓMap I (thickeningTwistProj I 1 q) (ambientSections I q x) = 0
-  rw [h, ← blowupΓMap_comp, ambientTwistMap_comp_thickeningTwistProj_eq_zero I q,
-    blowupΓMap_zero]
+  rw [thickeningSections_apply, h, ← blowupΓMap_comp,
+    ambientTwistMap_comp_thickeningTwistProj_eq_zero I q, blowupΓMap_zero]
 
 /-- **The definition of `q(S)` at `n = 1`, kernel half**: for `q ≥ q(S)` the canonical map
 `Iᑫ → H⁰(X, 𝒪_Y(q))` kills exactly `I^{q+1}`. Only the forward implication is a field of

@@ -195,9 +195,7 @@ theorem d_formProduct (p q : ℕ) (U : (Opens X.carrier)ᵒᵖ)
     (fun f : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A).obj (deRhamTerm B p)).obj
       (deRhamTerm B q) ⟶
         (deRhamComplex B D).X (p + q + 1) =>
-      f.val.app U (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf A)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf A).obj)).unit.app
+      f.val.app U (((Stacks.SheafOfModules.Tensor.sheafificationAdjunction A).unit.app
         (PresheafOfModules.tensorObj ((deRhamTerm B p)).val ((deRhamTerm B q)).val)).app U
           (ω ⊗ₜ[A.obj.obj U] η)))
     (exteriorProductComponent_d B D p q)

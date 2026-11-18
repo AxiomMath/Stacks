@@ -148,12 +148,8 @@ public theorem tensorSheafMap_id_zero {X : RingedSpace.{u, u}}
   obtain ⟨U⟩ := U
   rw [tensorSheafMap_app_toTensorSheafSection X A B A B' (𝟙 A) (0 : B ⟶ B') U x y]
   change toTensorSheafSection X A B' (op U) (x ⊗ₜ (0 : B'.val.obj (op U))) = _
-  rw [TensorProduct.tmul_zero]
-  change ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
-    ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B'.val)))).app
-      (op U)).hom 0 = _
-  rw [map_zero]
-  rfl
+  simp only [TensorProduct.tmul_zero, toTensorSheafSection]
+  exact (map_zero _).trans rfl
 
 /-- Tensoring an identity with a sum of morphisms gives the sum of the tensors. -/
 public theorem tensorSheafMap_id_add {X : RingedSpace.{u, u}}

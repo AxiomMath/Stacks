@@ -224,7 +224,8 @@ the conclusion of [Stacks, Tag 0A9X], and the preservation of quasi-coherent coh
 
 What remains a parameter is `i^!` itself, the functor `a` together with the adjunction `adj`
 characterising it, exactly as in `Stacks.Duality.isDerivedSheafHomRightAdjoint_of_pseudoCoherent`
-([Stacks, Tag 0A9X]) and in `Stacks.Duality.sheafyTrace`. Its existence is [Stacks, Tag 0A9E]; a right adjoint being unique up to canonical isomorphism,
+([Stacks, Tag 0A9X]) and in `Stacks.Duality.sheafyTrace`. Its existence is [Stacks, Tag 0A9E]; a
+right adjoint being unique up to canonical isomorphism,
 the statement about an arbitrary one says the same thing as the statement about the one that tag
 produces.
 

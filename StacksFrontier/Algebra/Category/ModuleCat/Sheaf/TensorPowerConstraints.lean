@@ -155,13 +155,14 @@ noncomputable def tensorLeftFunctorObjUnitIso
     (P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj P).obj
-      (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) ≅ P := by
-  letI : IsIso (TensorSheafification.sheafifyAdjunction O hO).counit := by
-    change IsIso (PresheafOfModules.sheafificationAdjunction
-      (𝟙 (TensorSheafification.structureSheaf O hO).obj)).counit
-    infer_instance
-  exact (TensorSheafification.sheafify O hO).mapIso (ρ_ P.val) ≪≫
-    (asIso (TensorSheafification.sheafifyAdjunction O hO).counit).app P
+      (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) ≅ P :=
+  (Tensor.sheafification
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).mapIso
+      (ρ_ P.val :
+        P.val ⊗ 𝟙_ (PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj) ≅
+          P.val) ≪≫
+    (asIso (Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).counit).app P
 
 /-- The value of `tensorLeftFunctorObjUnitIso` on the image of a pure tensor `s ⊗ r` under the
 sheafification unit is the scalar multiple `r • s`. -/
@@ -169,12 +170,20 @@ theorem tensorLeftFunctorObjUnitIso_hom_app
     (P : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) (X : Cᵒᵖ) (s : P.val.obj X)
     (r : (TensorSheafification.structureSheaf O hO).obj.obj X) :
     (tensorLeftFunctorObjUnitIso O hO P).hom.val.app X
-        ((TensorSheafification.toSheafify O hO
+        (((Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
           (P.val ⊗ 𝟙_ (PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj))).app X
             (s ⊗ₜ r)) = r • s :=
-  (congrArg (fun z ↦ ((TensorSheafification.sheafifyAdjunction O hO).counit.app P).val.app X z)
-      (sheafify_map_toSheafify_app O hO (ρ_ P.val).hom X (s ⊗ₜ r))).trans
-    ((counit_toSheafify_app O hO P X ((ρ_ P.val).hom.app X (s ⊗ₜ r))).trans
+  (congrArg (fun z ↦ ((Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).counit.app
+        P).val.app X z)
+      (Tensor.unit_naturality_apply
+        (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩)
+        (ρ_ P.val).hom X (s ⊗ₜ r))).trans
+    ((congrArg (fun φ ↦ φ.app X ((ρ_ P.val).hom.app X (s ⊗ₜ r)))
+      (Adjunction.right_triangle_components
+        (Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩) P)).trans
       (ModuleCat.MonoidalCategory.rightUnitor_hom_apply s r))
 
 /-- The braiding of an invertible sheaf of modules with itself acts on sections as
@@ -216,7 +225,8 @@ theorem exists_braiding_smul (M : SheafOfModules.{w} (TensorSheafification.struc
       (1 : (TensorSheafification.structureSheaf O hO).obj.obj X)).symm.trans
         (congrArg (e.val.app Y) (PresheafOfModules.unit_map_one _ f))
   · have hRHS : (κ.hom ≫ (tensorSheafBraiding O hO M M).hom).val.app X
-        ((TensorSheafification.toSheafify O hO
+        (((Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
           (P.val ⊗ 𝟙_ (PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj))).app X
             (s ⊗ₜ (1 : (TensorSheafification.structureSheaf O hO).obj.obj X))) =
         (tensorSheafBraiding O hO M M).hom.val.app X s :=
@@ -224,11 +234,14 @@ theorem exists_braiding_smul (M : SheafOfModules.{w} (TensorSheafification.struc
         ((tensorLeftFunctorObjUnitIso_hom_app O hO P X s 1).trans
           ((P.val.obj X).isModule.one_smul s))
     refine hRHS.symm.trans ((congrArg (fun φ ↦ φ.val.app X
-      ((TensorSheafification.toSheafify O hO
+      (((Tensor.sheafificationAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
         (P.val ⊗ 𝟙_ (PresheafOfModules.{w} (TensorSheafification.structureSheaf O hO).obj))).app X
           (s ⊗ₜ (1 : (TensorSheafification.structureSheaf O hO).obj.obj X)))) key).symm.trans ?_)
     exact (congrArg (fun z ↦ κ.hom.val.app X z)
-        (sheafify_map_toSheafify_app O hO (P.val ◁ e.val) X
+        (Tensor.unit_naturality_apply
+          (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩)
+          (P.val ◁ e.val) X
           (s ⊗ₜ (1 : (TensorSheafification.structureSheaf O hO).obj.obj X)))).trans
       (tensorLeftFunctorObjUnitIso_hom_app O hO P X s _)
 
@@ -261,23 +274,27 @@ theorem tensorSheafBraiding_self_eq_refl
         M = (⟨Mp, hMp⟩ : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :=
     ⟨M.val, M.isSheaf, rfl⟩
   obtain ⟨Np, ψ, hsurj, hinj⟩ := exists_locallyBijective_pairing (hO := hO) hMp inferInstance
-  have hli : PresheafOfModules.IsLocallyInjective J
-      (TensorSheafification.toSheafify O hO (Mp ⊗ Mp)) :=
-    inferInstanceAs (Presheaf.IsLocallyInjective J
-      (CategoryTheory.toSheafify J (Mp ⊗ Mp).presheaf))
   obtain ⟨c, hcnat, hc⟩ :=
     exists_braiding_smul O hO
       (⟨Mp, hMp⟩ : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))
   have hfix : ∀ (X : Cᵒᵖ) (a : Mp.obj X),
-      (TensorSheafification.toSheafify O hO (Mp ⊗ Mp)).app X
-          (c X • (a ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj X] a)) =
-        (TensorSheafification.toSheafify O hO (Mp ⊗ Mp)).app X
-          (a ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj X] a) := by
+      ((Tensor.sheafificationAdjunction
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+          (Mp ⊗ Mp)).app X (c X • (a ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj X] a)) =
+        ((Tensor.sheafificationAdjunction
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+            (Mp ⊗ Mp)).app X (a ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj X] a) := by
     intro X a
-    refine (((TensorSheafification.toSheafify O hO (Mp ⊗ Mp)).app X).hom.map_smul (c X)
+    refine ((((Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+        (Mp ⊗ Mp)).app X).hom.map_smul (c X)
       (a ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj X] a)).trans ?_
-    exact (hc X ((TensorSheafification.toSheafify O hO (Mp ⊗ Mp)).app X (a ⊗ₜ a))).symm.trans
-      (sheafify_map_toSheafify_app O hO (β_ Mp Mp).hom X (a ⊗ₜ a))
+    exact (hc X (((Tensor.sheafificationAdjunction
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+        (Mp ⊗ Mp)).app X (a ⊗ₜ a))).symm.trans
+      (Tensor.unit_naturality_apply
+        (R := ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩)
+        (β_ Mp Mp).hom X (a ⊗ₜ a))
   have hone : ∀ X : Cᵒᵖ, c X = 1 := by
     have hdown : ∀ {Y Z : C} (g : Z ⟶ Y), c (op Y) = 1 → c (op Z) = 1 := fun {Y Z} g h ↦ by
       rw [← hcnat g.op, h]
@@ -295,10 +312,11 @@ theorem tensorSheafBraiding_self_eq_refl
           (c (op V) • (x k ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj (op V)] x k))
           (x k ⊗ₜ[(TensorSheafification.structureSheaf O hO).obj.obj (op V)] x k))
         (fun k ↦ Presheaf.equalizerSieve_mem J
-          ((PresheafOfModules.toPresheaf _).map (TensorSheafification.toSheafify O hO (Mp ⊗ Mp)))
+          ((PresheafOfModules.toPresheaf _).map ((Tensor.sheafificationAdjunction
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).unit.app
+              (Mp ⊗ Mp)))
           _ _ (hfix (op V) (x k)))
       refine J.superset_covering (fun W g' hg' ↦ ?_) hS₂
-      change c (op W) = 1
       refine eq_one_of_dualBasis_smul_tmul_self (ψ.app (op W)).hom
         (fun k ↦ Mp.map g'.op (x k)) (fun k ↦ Np.map g'.op (y k)) ?_ fun k ↦ ?_
       · have h3 : ∀ k, ψ.app (op W) (Mp.map g'.op (x k) ⊗ₜ Np.map g'.op (y k))

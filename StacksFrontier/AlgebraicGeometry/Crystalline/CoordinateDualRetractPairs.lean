@@ -237,8 +237,7 @@ theorem exists_tensor_approx (t : M ⊗[(D : Type u)] C.forms) (n : ℕ) :
         ((pAdicIdeal (A := (D : Type u)) p) ^ n • ⊤ :
           Submodule (D : Type u) (M ⊗[(D : Type u)] C.forms)) := by
   classical
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨∅, fun S _ ↦ by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul m ω =>
     obtain ⟨T, hT, happrox⟩ := C.approx ω n
     refine ⟨T, fun S hS ↦ ?_⟩
@@ -833,12 +832,14 @@ def taylorCompareAdd : M →+ N :=
   AddMonoidHom.mk' (completeTaylorSum p D thetaPow incl.toAddMonoidHom xi hfin hN)
     (taylorSum_add p D incl.toAddMonoidHom xi hfin hN hfamM hadd)
 
+omit [DecidableEq ι] in
 /-- The value of `Crystalline.CoordinateDual.taylorCompareAdd`. -/
 theorem taylorCompareAdd_apply (m : M) :
     taylorCompareAdd p D hfamM hfin hadd hN ρ incl xi m =
       completeTaylorSum p D thetaPow incl.toAddMonoidHom xi hfin hN m := rfl
 
 include hxi hfamD hleib htay in
+omit [DecidableEq ι] in
 /-- **The comparison is `D`-linear.** -/
 theorem taylorCompareAdd_smul (a : (D : Type u)) (m : M) :
     taylorCompareAdd p D hfamM hfin hadd hN ρ incl xi (a • m) =
@@ -858,6 +859,7 @@ def taylorBack : M →+ M :=
     (taylorSum_add p D (AddMonoidHom.id M) (-xi) hfin hM hfamM hadd)
 
 include hxi hfamD hleib htay' in
+omit [DecidableEq ι] in
 /-- **The reverse Taylor sum is `ρ`-semilinear.** -/
 theorem taylorBack_smul (a : (D : Type u)) (m : M) :
     taylorBack p D hM hfamM hfin hadd xi (a • m) =
@@ -874,6 +876,7 @@ def taylorCompareInv : N →ₗ[(D : Type u)] M :=
   (huniv (taylorBack p D hM hfamM hfin hadd xi)
     (taylorBack_smul p D hM hfamM hfin hadd ρ xi hxi hfamD hleib htay')).choose
 
+omit [DecidableEq ι] in
 /-- The inverse comparison extends the reverse Taylor sum. -/
 theorem taylorCompareInv_incl (m : M) :
     taylorCompareInv p D hM hfamM hfin hadd ρ incl xi hxi hfamD hleib htay' huniv (incl m) =
@@ -899,6 +902,7 @@ def taylorCompareEquiv : M ≃ₗ[(D : Type u)] N :=
       incl.toAddMonoidHom (AddMonoidHom.id M) hxi (neg_mem_ideal_family hxi) (add_neg_cancel xi) _
       (taylorCompareInv_incl p D hM hfamM hfin hadd ρ incl xi hxi hfamD hleib htay' huniv) m)
 
+omit [DecidableEq ι] in
 /-- The equivalence `Crystalline.CoordinateDual.taylorCompareEquiv` is the comparison. -/
 @[simp] theorem taylorCompareEquiv_apply (m : M) :
     taylorCompareEquiv p D hM hfamM hfin hadd hN ρ incl xi hxi hfamD hleib htay htay' huniv hext
@@ -933,6 +937,7 @@ variable (p : ℕ) (D : DividedPowerRing.{u}) {ι : Type u} [DecidableEq ι]
         pPowSmul p (D : Type u) N n)
 
 include hc hsupp hθN hdxi hdmono hF1 in
+omit [DecidableEq ι] in
 /-- **The comparison commutes with the coordinate operators**: `θ^N_j (Φ m) = Φ (θ_j m)`, the
 compatibility with connections whose proof [Stacks, Lemma 60.17.5, Tag 07L5] omits, here for an
 arbitrary family of coordinates: every infinite sum is truncated modulo `p^n` to a finset of

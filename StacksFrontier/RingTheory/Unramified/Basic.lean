@@ -60,8 +60,6 @@ add_to_ega "0 21.7.4" "b) ⇔ d)" Algebra.formallyUnramified_iff
 add_to_ega "IV 17.4.1" "(c) <=> (e)" Algebra.formallyUnramified_iff
 add_to_ega "0 20.7.4" "discrete case"
   Algebra.formallyUnramified_iff
-add_to_ega "0 21.7.4" "b) <=> d)" Algebra.formallyUnramified_iff
-add_to_ega "IV 17.2.1" "affine/ring case" Algebra.formallyUnramified_iff
 
 -- The former @[stacks 04E9] declarations are now the Mathlib theorems.
 add_to_stacks 04E9 "(1)" Algebra.FormallyUnramified.localization_map

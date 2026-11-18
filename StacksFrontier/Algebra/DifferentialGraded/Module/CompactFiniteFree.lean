@@ -317,7 +317,7 @@ private theorem coproductInl_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂
         (Sum.inl j)).toFun x := by
   have hdesc : Sigma.ι (fun j => shift (regularModule A) (k₁ j)) j ≫ coproductInl k₁ k₂ =
       Sigma.ι (fun t : J₁ ⊕ J₂ => shift (regularModule A) (Sum.elim k₁ k₂ t)) (Sum.inl j) :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   rw [← Hom.comp_toFun_apply, hdesc]
 
 private theorem coproductInr_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂ : J₂ → ℤ) (j : J₂)
@@ -328,7 +328,7 @@ private theorem coproductInr_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂
         (Sum.inr j)).toFun x := by
   have hdesc : Sigma.ι (fun j => shift (regularModule A) (k₂ j)) j ≫ coproductInr k₁ k₂ =
       Sigma.ι (fun t : J₁ ⊕ J₂ => shift (regularModule A) (Sum.elim k₁ k₂ t)) (Sum.inr j) :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   rw [← Hom.comp_toFun_apply, hdesc]
 
 /-- The map into a direct sum indexed by a sum type attached to a pair of maps of graded modules

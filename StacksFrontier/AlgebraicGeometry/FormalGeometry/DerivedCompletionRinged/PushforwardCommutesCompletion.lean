@@ -360,8 +360,8 @@ sheaves of ideals subject only to `hI`, which is where the construction already 
 @[stacks 0A0G "the canonical map `(Rf_*K)^∧ ⟶ Rf_*(K^∧)` whose invertibility the tag asserts,
   constructed as a mate and hence natural in `K`, at an arbitrary pair of sheaves of ideals
   subject only to the relation of [Stacks, Tag 099J] between them. Its invertibility at every
-  object of `D(𝒪')`, which is the tag's assertion, is
-  `AlgebraicGeometry.RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`
+  object of `D(𝒪')`, which is the tag's assertion, is `AlgebraicGeometry.RingedSite.\
+isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`
   of `PushforwardCommutesCompletionLocalToGlobal.lean`, at the tag's own data: `ℐ` of finite
   type and `ℐ' = f^{-1}ℐ · 𝒪_X`"]
 def derivedCompletionPushforwardComparison :
