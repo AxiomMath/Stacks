@@ -1,4 +1,10 @@
-[![](logo.svg)](https://axiommath.ai/)
+<a href="https://axiommath.ai/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="logo.svg">
+    <img alt="Axiom — The starting point for reasoning" src="logo.svg" width="381" height="64">
+  </picture>
+</a>
 
 # The Stacks Project in Lean
 
